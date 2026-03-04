@@ -68,11 +68,24 @@ function writeJSON(filename: string, data: unknown): void {
 }
 
 function extractJSON(text: string): string {
+  // Extract from code fences or bare JSON
   const codeBlock = text.match(/```(?:json)?\s*\n?([\s\S]*?)\n?\s*```/);
-  if (codeBlock) return codeBlock[1].trim();
-  const jsonMatch = text.match(/(\[[\s\S]*\]|\{[\s\S]*\})/);
-  if (jsonMatch) return jsonMatch[1];
-  return text.trim();
+  let json = codeBlock ? codeBlock[1].trim() : text.trim();
+
+  if (!codeBlock) {
+    const jsonMatch = json.match(/(\[[\s\S]*\]|\{[\s\S]*\})/);
+    if (jsonMatch) json = jsonMatch[1];
+  }
+
+  // Sanitize common LLM JSON issues:
+  // 1. Remove single-line comments (// ...)
+  json = json.replace(/\/\/[^\n]*/g, '');
+  // 2. Remove multi-line comments (/* ... */)
+  json = json.replace(/\/\*[\s\S]*?\*\//g, '');
+  // 3. Remove trailing commas before ] or }
+  json = json.replace(/,\s*([\]}])/g, '$1');
+
+  return json;
 }
 
 // ─── Anthropic Provider ───
@@ -209,7 +222,8 @@ async function updateMapPoints(): Promise<SectionResult> {
     const text = await callAI(SYSTEM_PROMPT, `Search for new military locations, strike targets, or asset deployments in the Iran-US/Israel conflict as of ${today}.
 Return an updated map points array as JSON.
 
-Each object must have: { "id": string (lowercase_snake_case), "lon": number (25-65 range), "lat": number (20-42 range), "cat": "strike"|"retaliation"|"asset"|"front", "label": string, "sub": string (description), "tier": 1|2|3|4, "date": string (ISO date YYYY-MM-DD when event occurred or asset was deployed) }
+Each object must have exactly these fields: { "id": string (lowercase_snake_case), "lon": number (25-65 range), "lat": number (20-42 range), "cat": "strike"|"retaliation"|"asset"|"front", "label": string, "sub": string (description), "tier": 1|2|3|4 }
+Do NOT include any extra fields.
 
 Current map points:
 ${JSON.stringify(current, null, 2)}
@@ -240,7 +254,8 @@ async function updateMapLines(): Promise<SectionResult> {
     const text = await callAI(SYSTEM_PROMPT, `Search for new military strike routes, retaliation vectors, or front lines in the Iran-US/Israel conflict as of ${today}.
 Return an updated map lines array as JSON.
 
-Each object must have: { "from": [lon, lat], "to": [lon, lat], "cat": "strike"|"retaliation"|"asset"|"front", "label": string (e.g. "Ford → Tehran"), "date": string (ISO date YYYY-MM-DD) }
+Each object must have exactly these fields: { "from": [lon, lat], "to": [lon, lat], "cat": "strike"|"retaliation"|"asset"|"front", "label": string (e.g. "Ford → Tehran") }
+Do NOT include any extra fields.
 
 Current map lines:
 ${JSON.stringify(current, null, 2)}
