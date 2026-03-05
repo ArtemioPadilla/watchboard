@@ -1340,16 +1340,19 @@ body::before {
 .theater-scroll {
   min-height: 100vh;
   padding-left: 1.5rem;
-  overflow-x: hidden;
+  overflow: hidden;
   min-width: 0;
+  max-width: 100%;
+  width: 100%;
 }
 
 .theater-scroll .section {
-  max-width: none;
+  max-width: 100%;
   margin: 0;
   padding: 2.5rem 0 2.5rem 1rem;
   position: relative;
   overflow: hidden;
+  box-sizing: border-box;
 }
 
 /* Subtle divider between scroll sections */
@@ -1486,7 +1489,8 @@ body::before {
 /* ── Mobile breakpoint ── */
 @media (max-width: 1024px) {
   .theater-layout {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
     padding: 0;
   }
 
@@ -1495,27 +1499,36 @@ body::before {
   }
 
   .theater-map {
-    position: relative;
-    top: auto;
-    height: auto;
-    padding: 1rem 2rem;
+    position: sticky;
+    top: 56px;
+    height: 40vh;
+    min-height: 280px;
+    max-height: 400px;
+    padding: 0.5rem;
+    z-index: 10;
+    background: var(--bg-primary);
+    border-bottom: 1px solid var(--border);
+    align-self: auto;
   }
 
   .theater-map .map-container {
-    height: 450px !important;
+    height: 100% !important;
+    border-radius: 6px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
   }
 
   .theater-scroll {
     padding-left: 0;
+    overflow: visible;
   }
 
   .theater-scroll .section {
-    padding: 2rem;
+    padding: 1.5rem 1rem;
+    overflow-x: auto;
   }
 
   .theater-scroll .econ-grid {
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   }
 
   .theater-scroll .claim-card {
@@ -1523,17 +1536,43 @@ body::before {
   }
 
   .theater-scroll .pol-grid {
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   }
 
   .theater-scroll .timeline-container::after {
     display: none;
   }
+
+  .theater-scroll .strike-name {
+    white-space: normal;
+  }
 }
 
 @media (max-width: 768px) {
+  .theater-map {
+    height: 35vh;
+    min-height: 240px;
+    max-height: 320px;
+  }
+
+  .theater-scroll .section {
+    padding: 1.25rem 0.75rem;
+  }
+
   .theater-scroll .claim-card {
     grid-template-columns: 1fr;
+  }
+
+  .theater-scroll .econ-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .theater-scroll .pol-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .theater-scroll .strike-meta {
+    max-width: 60px;
   }
 }
 
