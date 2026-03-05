@@ -1,10 +1,159 @@
 [
-  { "id": "brent_crude", "label": "Brent Crude", "value": "$148/bbl", "change": "+104%", "direction": "up", "sparkData": [72.87, 79.33, 82, 96, 118, 138, 148], "color": "#e74c3c", "source": "FactSet/CME" },
-  { "id": "wti_crude", "label": "WTI Crude", "value": "$141/bbl", "change": "+106%", "direction": "up", "sparkData": [67, 72.79, 78, 91, 112, 132, 141], "color": "#e67e22", "source": "FactSet/CME" },
-  { "id": "gold_spot", "label": "Gold Spot", "value": "$5,820/oz", "change": "+10.7%", "direction": "up", "sparkData": [5260, 5394, 5480, 5560, 5650, 5740, 5820], "color": "#f1c40f", "source": "Bloomberg" },
-  { "id": "sp500", "label": "S&P 500", "value": "6,180", "change": "-10.7%", "direction": "down", "sparkData": [6920, 6860, 6640, 6420, 6310, 6240, 6180], "color": "#3498db", "source": "CNBC" },
-  { "id": "vix", "label": "VIX", "value": "42.8", "change": "+140%", "direction": "up", "sparkData": [17.8, 21.17, 28, 34, 38, 41, 42.8], "color": "#9b59b6", "source": "CBOE" },
-  { "id": "iranian_rial", "label": "Iranian Rial", "value": "3.2M/$1", "change": "Record low", "direction": "up", "sparkData": [800, 1500, 1800, 2200, 2600, 2900, 3200], "color": "#e74c3c", "source": "Iran Intl" },
-  { "id": "gas_price_us", "label": "US Gas Price", "value": "$6.20/gal", "change": "+82%", "direction": "up", "sparkData": [3.40, 3.55, 3.80, 4.30, 5.10, 5.80, 6.20], "color": "#e74c3c", "source": "AAA" },
-  { "id": "shipping_rates", "label": "Shipping Rates", "value": "+340%", "change": "Hormuz premium", "direction": "up", "sparkData": [100, 120, 180, 240, 310, 380, 440], "color": "#e67e22", "source": "Freightos" }
+  {
+    "id": "brent_crude",
+    "label": "Brent Crude",
+    "value": "$81.40/bbl",
+    "change": "+4.7%",
+    "direction": "up",
+    "sparkData": [
+      72.87,
+      79.33,
+      82,
+      96,
+      118,
+      138,
+      148,
+      81.4
+    ],
+    "color": "#e74c3c",
+    "source": "Reuters",
+    "lastUpdated": "2026-03-05T06:23:29.664Z"
+  },
+  {
+    "id": "wti_crude",
+    "label": "WTI Crude",
+    "value": "$74.56/bbl",
+    "change": "+4.7%",
+    "direction": "up",
+    "sparkData": [
+      67,
+      72.79,
+      78,
+      91,
+      112,
+      132,
+      141,
+      74.56
+    ],
+    "color": "#e67e22",
+    "source": "Reuters",
+    "lastUpdated": "2026-03-05T06:23:29.664Z"
+  },
+  {
+    "id": "gold_spot",
+    "label": "Gold Spot",
+    "value": "$5,015.10/oz",
+    "change": "+7.68%",
+    "direction": "up",
+    "sparkData": [
+      5260,
+      5394,
+      5480,
+      5560,
+      5650,
+      5740,
+      5820,
+      5015.1
+    ],
+    "color": "#f1c40f",
+    "source": "Hellenic Shipping News",
+    "lastUpdated": "2026-03-05T06:23:29.664Z"
+  },
+  {
+    "id": "sp500",
+    "label": "S&P 500",
+    "value": "6,932",
+    "change": "-0.1%",
+    "direction": "down",
+    "sparkData": [
+      6920,
+      6860,
+      6640,
+      6420,
+      6310,
+      6240,
+      6180,
+      6932
+    ],
+    "color": "#3498db",
+    "source": "Hellenic Shipping News",
+    "lastUpdated": "2026-03-05T06:23:29.664Z"
+  },
+  {
+    "id": "vix",
+    "label": "VIX",
+    "value": "42.8",
+    "change": "+140%",
+    "direction": "up",
+    "sparkData": [
+      17.8,
+      21.17,
+      28,
+      34,
+      38,
+      41,
+      42.8
+    ],
+    "color": "#9b59b6",
+    "source": "CBOE",
+    "lastUpdated": "2026-03-05T06:23:29.664Z"
+  },
+  {
+    "id": "iranian_rial",
+    "label": "Iranian Rial",
+    "value": "3.2M/$1",
+    "change": "Record low",
+    "direction": "up",
+    "sparkData": [
+      800,
+      1500,
+      1800,
+      2200,
+      2600,
+      2900,
+      3200
+    ],
+    "color": "#e74c3c",
+    "source": "Iran Intl",
+    "lastUpdated": "2026-03-05T06:23:29.664Z"
+  },
+  {
+    "id": "gas_price_us",
+    "label": "US Gas Price",
+    "value": "$3.00/gal",
+    "change": "+9%",
+    "direction": "up",
+    "sparkData": [
+      3.4,
+      3.55,
+      3.8,
+      4.3,
+      5.1,
+      5.8,
+      6.2,
+      3
+    ],
+    "color": "#e74c3c",
+    "source": "Kiplinger",
+    "lastUpdated": "2026-03-05T06:23:29.664Z"
+  },
+  {
+    "id": "shipping_rates",
+    "label": "Shipping Rates",
+    "value": "+340%",
+    "change": "Hormuz premium",
+    "direction": "up",
+    "sparkData": [
+      100,
+      120,
+      180,
+      240,
+      310,
+      380,
+      440
+    ],
+    "color": "#e67e22",
+    "source": "Freightos",
+    "lastUpdated": "2026-03-05T06:23:29.664Z"
+  }
 ]

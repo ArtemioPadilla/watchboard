@@ -1,14 +1,134 @@
 [
-  { "id": "iran_strikes", "category": "Iran (strikes)", "killed": "2,800+", "injured": "4,500+", "source": "ICRC preliminary", "tier": 1, "contested": "yes", "note": "Hengaw: 5,000+; Iran MoH: 1,200" },
-  { "id": "iran_minab_school", "category": "Iran — Minab school", "killed": "148–180", "injured": "95", "source": "WaPo, TIME", "tier": 2, "contested": "yes", "note": "Range 108–180" },
-  { "id": "iran_isfahan_uni", "category": "Iran — Isfahan University", "killed": "12", "injured": "34", "source": "IRNA", "tier": 2, "contested": "evolving", "note": "Pentagon denies civilian site" },
-  { "id": "iran_officials", "category": "Iran officials", "killed": "40–48", "injured": "—", "source": "Pentagon", "tier": 1, "contested": "partial", "note": "Iran confirms Khamenei death" },
-  { "id": "us_service_members", "category": "US service members", "killed": "6", "injured": "16 serious", "source": "CENTCOM", "tier": 1, "contested": "no", "note": "+2 contractors at Al Asad" },
-  { "id": "israel_retaliation", "category": "Israel (retaliation)", "killed": "13+", "injured": "800+ hosp.", "source": "Times of Israel", "tier": 2, "contested": "evolving", "note": "Haifa port: 3 killed Mar 4" },
-  { "id": "uae", "category": "UAE", "killed": "5", "injured": "92+", "source": "UAE MoD", "tier": 1, "contested": "no", "note": "Airport terminal hit Mar 4" },
-  { "id": "kuwait", "category": "Kuwait", "killed": "1", "injured": "32", "source": "Kuwait MoH", "tier": 1, "contested": "no", "note": "" },
-  { "id": "lebanon", "category": "Lebanon", "killed": "55", "injured": "178", "source": "Lebanese MoPH", "tier": 1, "contested": "no", "note": "Haifa port retaliation escalation" },
-  { "id": "qatar", "category": "Qatar", "killed": "0", "injured": "16", "source": "Qatar MoI", "tier": 1, "contested": "no", "note": "" },
-  { "id": "iraq", "category": "Iraq (Erbil + Al Asad)", "killed": "4+", "injured": "13+", "source": "Al Jazeera, CENTCOM", "tier": 2, "contested": "evolving", "note": "PMF barrage at Al Asad Mar 3" },
-  { "id": "prewar_protests", "category": "Pre-war protests", "killed": "3,117–43,000", "injured": "26,541 det.", "source": "Multiple", "tier": "all", "contested": "heavily", "note": "Wide range" }
+  {
+    "id": "iran_strikes",
+    "category": "Iran (strikes)",
+    "killed": "1,045–1,114",
+    "injured": "747+",
+    "source": "Iranian Red Crescent, HRANA",
+    "tier": 1,
+    "contested": "yes",
+    "note": "HRANA reports 1,114 civilian deaths, including 183 children; Iranian Red Crescent reports 1,045 total deaths.",
+    "lastUpdated": "2026-03-05T06:23:29.664Z"
+  },
+  {
+    "id": "iran_minab_school",
+    "category": "Iran — Minab school",
+    "killed": "148–180",
+    "injured": "95",
+    "source": "HRANA, CNN",
+    "tier": 2,
+    "contested": "yes",
+    "note": "HRANA reports 148 deaths; CNN reports 180 deaths.",
+    "lastUpdated": "2026-03-05T06:23:29.664Z"
+  },
+  {
+    "id": "iran_isfahan_uni",
+    "category": "Iran — Isfahan University",
+    "killed": "12",
+    "injured": "34",
+    "source": "IRNA",
+    "tier": 2,
+    "contested": "evolving",
+    "note": "Pentagon denies civilian site.",
+    "lastUpdated": "2026-03-05T06:23:29.664Z"
+  },
+  {
+    "id": "iran_officials",
+    "category": "Iran officials",
+    "killed": "40–48",
+    "injured": "—",
+    "source": "Pentagon",
+    "tier": 1,
+    "contested": "partial",
+    "note": "Iran confirms Khamenei death.",
+    "lastUpdated": "2026-03-05T06:23:29.664Z"
+  },
+  {
+    "id": "us_service_members",
+    "category": "US service members",
+    "killed": "6",
+    "injured": "18",
+    "source": "CENTCOM",
+    "tier": 1,
+    "contested": "no",
+    "note": "All fatalities from a single Iranian airstrike on a base in Kuwait.",
+    "lastUpdated": "2026-03-05T06:23:29.664Z"
+  },
+  {
+    "id": "israel_retaliation",
+    "category": "Israel (retaliation)",
+    "killed": "12",
+    "injured": "777",
+    "source": "Magen David Adom, hospitals",
+    "tier": 1,
+    "contested": "evolving",
+    "note": "Includes 9 killed at Beit Shemesh synagogue; missile strikes on Tel Aviv & Jerusalem.",
+    "lastUpdated": "2026-03-05T06:23:29.664Z"
+  },
+  {
+    "id": "uae",
+    "category": "UAE",
+    "killed": "3",
+    "injured": "58",
+    "source": "UAE MoD",
+    "tier": 1,
+    "contested": "no",
+    "note": "Casualties include foreign nationals; injuries from debris and shrapnel.",
+    "lastUpdated": "2026-03-05T06:23:29.664Z"
+  },
+  {
+    "id": "kuwait",
+    "category": "Kuwait",
+    "killed": "4",
+    "injured": "35",
+    "source": "Kuwait MoH",
+    "tier": 1,
+    "contested": "no",
+    "note": "",
+    "lastUpdated": "2026-03-05T06:23:29.664Z"
+  },
+  {
+    "id": "lebanon",
+    "category": "Lebanon",
+    "killed": "72",
+    "injured": "437",
+    "source": "Lebanese MoPH",
+    "tier": 1,
+    "contested": "no",
+    "note": "Includes civilians and militants; Israeli strikes on Hezbollah positions.",
+    "lastUpdated": "2026-03-05T06:23:29.664Z"
+  },
+  {
+    "id": "qatar",
+    "category": "Qatar",
+    "killed": "0",
+    "injured": "16",
+    "source": "Qatar MoI",
+    "tier": 1,
+    "contested": "no",
+    "note": "",
+    "lastUpdated": "2026-03-05T06:23:29.664Z"
+  },
+  {
+    "id": "iraq",
+    "category": "Iraq (Erbil + Al Asad)",
+    "killed": "4",
+    "injured": "3",
+    "source": "Al Jazeera, CENTCOM",
+    "tier": 2,
+    "contested": "evolving",
+    "note": "Includes 4 Popular Mobilization Forces fighters killed; 3 injured.",
+    "lastUpdated": "2026-03-05T06:23:29.664Z"
+  },
+  {
+    "id": "prewar_protests",
+    "category": "Pre-war protests",
+    "killed": "3,117–43,000",
+    "injured": "26,541 det.",
+    "source": "Multiple",
+    "tier": "all",
+    "contested": "heavily",
+    "note": "Wide range.",
+    "lastUpdated": "2026-03-05T06:23:29.664Z"
+  }
 ]
