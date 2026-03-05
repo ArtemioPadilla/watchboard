@@ -1314,15 +1314,16 @@ body::before {
   flex-direction: column;
 }
 
+/* Hide the section header inside the theater map — the map speaks for itself */
 .theater-map .section-header {
-  margin-bottom: 0.75rem;
-  padding-bottom: 0.5rem;
+  display: none;
 }
 
 .theater-map .map-container {
   flex: 1;
   height: auto !important;
   margin-bottom: 0;
+  border-radius: 8px;
   border-color: var(--border);
   box-shadow:
     0 0 0 1px rgba(42, 45, 58, 0.5),
@@ -1330,10 +1331,17 @@ body::before {
     inset 0 1px 0 rgba(255, 255, 255, 0.02);
 }
 
+/* Ensure Leaflet fills when section header is hidden */
+.theater-map .section {
+  height: 100%;
+}
+
 /* ── Scrolling intel panel ── */
 .theater-scroll {
   min-height: 100vh;
   padding-left: 1.5rem;
+  overflow-x: hidden;
+  min-width: 0;
 }
 
 .theater-scroll .section {
@@ -1399,7 +1407,7 @@ body::before {
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
 }
 
-/* Timeline: horizontal scroll hint */
+/* Timeline: compact nodes + scroll hint for narrow column */
 .theater-scroll .timeline-container {
   position: relative;
 }
@@ -1413,6 +1421,36 @@ body::before {
   width: 48px;
   background: linear-gradient(90deg, transparent, var(--bg-primary));
   pointer-events: none;
+  z-index: 2;
+}
+
+/* Tighter timeline nodes in the scroll panel */
+.theater-scroll .tl-node {
+  width: 90px;
+  padding: 0.35rem 0.15rem;
+}
+
+.theater-scroll .tl-title {
+  font-size: 0.58rem;
+  max-width: 85px;
+}
+
+.theater-scroll .tl-year {
+  font-size: 0.52rem;
+}
+
+.theater-scroll .tl-dot {
+  width: 10px;
+  height: 10px;
+}
+
+.theater-scroll .era-label {
+  font-size: 0.5rem;
+  padding: 0.15rem 0.35rem;
+}
+
+.theater-scroll .era-group {
+  min-width: 95px;
 }
 
 /* ── Mobile breakpoint ── */
