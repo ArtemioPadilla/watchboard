@@ -1,8 +1,8 @@
 [
-  { "label": "Brent Crude", "value": "$82/bbl", "change": "+13%", "direction": "up", "sparkData": [72.87, 73.2, 74.1, 75.8, 77.5, 79.33, 82], "color": "#e74c3c", "source": "FactSet/CME" },
-  { "label": "WTI Crude", "value": "$73/bbl", "change": "+9%", "direction": "up", "sparkData": [67, 67.5, 68.2, 69.8, 70.9, 72, 72.79], "color": "#e67e22", "source": "FactSet/CME" },
-  { "label": "Gold Spot", "value": "$5,394/oz", "change": "+2.5%", "direction": "up", "sparkData": [5260, 5280, 5310, 5340, 5384, 5419, 5394], "color": "#f1c40f", "source": "Bloomberg" },
-  { "label": "S&P 500", "value": "6,860", "change": "-0.5%", "direction": "down", "sparkData": [6920, 6900, 6870, 6840, 6830, 6850, 6860], "color": "#3498db", "source": "CNBC" },
-  { "label": "VIX", "value": "21.17", "change": "+18%", "direction": "up", "sparkData": [17.8, 18.2, 19.1, 20.5, 21.5, 21.8, 21.17], "color": "#9b59b6", "source": "CBOE" },
-  { "label": "Iranian Rial", "value": "1.5M/$1", "change": "Record low", "direction": "up", "sparkData": [800, 900, 1050, 1200, 1350, 1440, 1500], "color": "#e74c3c", "source": "Iran Intl" }
+  { "id": "brent_crude", "label": "Brent Crude", "value": "$82/bbl", "change": "+13%", "direction": "up", "sparkData": [72.87, 73.2, 74.1, 75.8, 77.5, 79.33, 82], "color": "#e74c3c", "source": "FactSet/CME" },
+  { "id": "wti_crude", "label": "WTI Crude", "value": "$73/bbl", "change": "+9%", "direction": "up", "sparkData": [67, 67.5, 68.2, 69.8, 70.9, 72, 72.79], "color": "#e67e22", "source": "FactSet/CME" },
+  { "id": "gold_spot", "label": "Gold Spot", "value": "$5,394/oz", "change": "+2.5%", "direction": "up", "sparkData": [5260, 5280, 5310, 5340, 5384, 5419, 5394], "color": "#f1c40f", "source": "Bloomberg" },
+  { "id": "sp500", "label": "S&P 500", "value": "6,860", "change": "-0.5%", "direction": "down", "sparkData": [6920, 6900, 6870, 6840, 6830, 6850, 6860], "color": "#3498db", "source": "CNBC" },
+  { "id": "vix", "label": "VIX", "value": "21.17", "change": "+18%", "direction": "up", "sparkData": [17.8, 18.2, 19.1, 20.5, 21.5, 21.8, 21.17], "color": "#9b59b6", "source": "CBOE" },
+  { "id": "iranian_rial", "label": "Iranian Rial", "value": "1.5M/$1", "change": "Record low", "direction": "up", "sparkData": [800, 900, 1050, 1200, 1350, 1440, 1500], "color": "#e74c3c", "source": "Iran Intl" }
 ]

@@ -1221,6 +1221,210 @@ body::before {
   line-height: 1.4;
 }
 
+/* ─── THEATER LAYOUT (sticky map + scrolling intel) ─── */
+.theater-layout {
+  display: grid;
+  grid-template-columns: 55fr 45fr;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  position: relative;
+}
+
+/* Vertical separator — gradient line between map and scroll panels */
+.theater-layout::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 55%;
+  width: 1px;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    var(--border) 5%,
+    var(--border-light) 30%,
+    var(--border) 70%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+/* ── Sticky map panel ── */
+.theater-map {
+  position: sticky;
+  top: 56px;
+  height: calc(100vh - 56px);
+  align-self: start;
+  padding: 1.5rem 1.5rem 1.5rem 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.theater-map .section {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.theater-map .section-header {
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+}
+
+.theater-map .map-container {
+  flex: 1;
+  height: auto !important;
+  margin-bottom: 0;
+  border-color: var(--border);
+  box-shadow:
+    0 0 0 1px rgba(42, 45, 58, 0.5),
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.02);
+}
+
+/* ── Scrolling intel panel ── */
+.theater-scroll {
+  min-height: 100vh;
+  padding-left: 1.5rem;
+}
+
+.theater-scroll .section {
+  max-width: none;
+  margin: 0;
+  padding: 2.5rem 0 2.5rem 1rem;
+  position: relative;
+}
+
+/* Subtle divider between scroll sections */
+.theater-scroll .section + .section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 1rem;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    var(--accent-red) 0%,
+    var(--border) 20%,
+    transparent 80%
+  );
+  opacity: 0.4;
+}
+
+/* Override the default section::after separator inside theater */
+.theater-scroll .section + .section::after {
+  display: none;
+}
+
+/* ── Adaptations for narrower scroll column ── */
+
+/* Econ grid: tighter min-width */
+.theater-scroll .econ-grid {
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 0.75rem;
+}
+
+/* Claims: stack on the narrower panel */
+.theater-scroll .claim-card {
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.theater-scroll .claim-card::before {
+  display: none;
+}
+
+/* Political grid: tighter fit */
+.theater-scroll .pol-grid {
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 0.75rem;
+}
+
+/* Casualty table: ensure horizontal scroll works */
+.theater-scroll .cas-table-wrap {
+  margin-bottom: 1rem;
+}
+
+/* Asset grid: adapt for narrow column */
+.theater-scroll .asset-grid {
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+}
+
+/* Timeline: horizontal scroll hint */
+.theater-scroll .timeline-container {
+  position: relative;
+}
+
+.theater-scroll .timeline-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 48px;
+  background: linear-gradient(90deg, transparent, var(--bg-primary));
+  pointer-events: none;
+}
+
+/* ── Mobile breakpoint ── */
+@media (max-width: 1024px) {
+  .theater-layout {
+    grid-template-columns: 1fr;
+    padding: 0;
+  }
+
+  .theater-layout::after {
+    display: none;
+  }
+
+  .theater-map {
+    position: relative;
+    top: auto;
+    height: auto;
+    padding: 1rem 2rem;
+  }
+
+  .theater-map .map-container {
+    height: 450px !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  .theater-scroll {
+    padding-left: 0;
+  }
+
+  .theater-scroll .section {
+    padding: 2rem;
+  }
+
+  .theater-scroll .econ-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+
+  .theater-scroll .claim-card {
+    grid-template-columns: 1fr 1fr auto;
+  }
+
+  .theater-scroll .pol-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+
+  .theater-scroll .timeline-container::after {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .theater-scroll .claim-card {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ─── INTEL MAP ─── */
 .map-container {
   position: relative;

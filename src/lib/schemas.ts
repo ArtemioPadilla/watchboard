@@ -1,30 +1,40 @@
 import { z } from 'zod';
 
-// ── Source tier (used in multiple places) ──
+// ── Shared ──
+
+export const TierSchema = z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)]);
+
+export const PoleSchema = z.enum(['western', 'middle_eastern', 'eastern', 'international']);
+
 export const SourceSchema = z.object({
   name: z.string(),
-  tier: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+  tier: TierSchema,
   url: z.string().optional(),
+  pole: PoleSchema.optional(),
 });
 
 // ── KPI items ──
 export const KpiSchema = z.object({
+  id: z.string(),
   label: z.string(),
   value: z.string(),
   color: z.enum(['red', 'amber', 'blue', 'green']),
   source: z.string(),
   contested: z.boolean(),
   contestNote: z.string().optional(),
+  lastUpdated: z.string().optional(),
 });
 
 // ── Timeline ──
 export const TimelineEventSchema = z.object({
+  id: z.string(),
   year: z.string(),
   title: z.string(),
   type: z.enum(['military', 'diplomatic', 'humanitarian', 'economic']),
   active: z.boolean().optional(),
   detail: z.string(),
   sources: z.array(SourceSchema),
+  lastUpdated: z.string().optional(),
 });
 
 export const TimelineEraSchema = z.object({
@@ -40,47 +50,57 @@ export const MapPointSchema = z.object({
   cat: z.enum(['strike', 'retaliation', 'asset', 'front']),
   label: z.string(),
   sub: z.string(),
-  tier: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+  tier: TierSchema,
   date: z.string(),
+  lastUpdated: z.string().optional(),
 });
 
 export const MapLineSchema = z.object({
+  id: z.string(),
   from: z.tuple([z.number(), z.number()]),
   to: z.tuple([z.number(), z.number()]),
   cat: z.enum(['strike', 'retaliation', 'asset', 'front']),
   label: z.string(),
   date: z.string(),
+  lastUpdated: z.string().optional(),
 });
 
 // ── Military strike items ──
 export const StrikeItemSchema = z.object({
+  id: z.string(),
   name: z.string(),
   detail: z.string(),
   icon: z.enum(['target', 'retaliation', 'asset', 'casualty']),
   time: z.string(),
-  tier: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+  tier: TierSchema,
+  lastUpdated: z.string().optional(),
 });
 
-// ── Assets (no tier field) ──
+// ── Assets ──
 export const AssetSchema = z.object({
+  id: z.string(),
   type: z.string(),
   name: z.string(),
   detail: z.string(),
+  lastUpdated: z.string().optional(),
 });
 
 // ── Casualties ──
 export const CasualtyRowSchema = z.object({
+  id: z.string(),
   category: z.string(),
   killed: z.string(),
   injured: z.string(),
   source: z.string(),
-  tier: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal('all')]),
+  tier: z.union([TierSchema, z.literal('all')]),
   contested: z.enum(['yes', 'no', 'evolving', 'heavily', 'partial']),
   note: z.string(),
+  lastUpdated: z.string().optional(),
 });
 
 // ── Economic ──
 export const EconItemSchema = z.object({
+  id: z.string(),
   label: z.string(),
   value: z.string(),
   change: z.string(),
@@ -88,23 +108,28 @@ export const EconItemSchema = z.object({
   sparkData: z.array(z.number()),
   color: z.string(),
   source: z.string(),
+  lastUpdated: z.string().optional(),
 });
 
 // ── Claims ──
 export const ClaimSchema = z.object({
+  id: z.string(),
   question: z.string(),
   sideA: z.object({ label: z.string(), text: z.string() }),
   sideB: z.object({ label: z.string(), text: z.string() }),
   resolution: z.string(),
+  lastUpdated: z.string().optional(),
 });
 
 // ── Political ──
 export const PolItemSchema = z.object({
+  id: z.string(),
   name: z.string(),
   role: z.string(),
   avatar: z.enum(['us', 'ir', 'il', 'un', 'other']),
   initial: z.string(),
   quote: z.string(),
+  lastUpdated: z.string().optional(),
 });
 
 // ── Meta ──

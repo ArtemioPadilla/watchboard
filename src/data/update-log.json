@@ -1,18 +1,46 @@
 {
-  "lastRun": "2026-03-04T07:53:47.999Z",
-  "provider": "openai",
-  "model": "gpt-4o",
+  "lastRun": "2026-03-05T04:59:57.771Z",
+  "provider": "anthropic",
+  "model": "claude-sonnet-4-6",
   "sections": {
     "meta": {
       "status": "updated"
     },
+    "kpis": {
+      "status": "error",
+      "reason": "Error: ANTHROPIC_API_KEY is required when AI_PROVIDER=anthropic"
+    },
+    "timeline": {
+      "status": "error",
+      "reason": "Error: ANTHROPIC_API_KEY is required when AI_PROVIDER=anthropic"
+    },
     "map": {
-      "status": "skipped",
-      "reason": "validation_failed"
+      "status": "error",
+      "reason": "Error: ANTHROPIC_API_KEY is required when AI_PROVIDER=anthropic"
     },
     "map-lines": {
-      "status": "skipped",
-      "reason": "validation_failed"
+      "status": "error",
+      "reason": "Error: ANTHROPIC_API_KEY is required when AI_PROVIDER=anthropic"
+    },
+    "casualties": {
+      "status": "error",
+      "reason": "Error: ANTHROPIC_API_KEY is required when AI_PROVIDER=anthropic"
+    },
+    "econ": {
+      "status": "error",
+      "reason": "Error: ANTHROPIC_API_KEY is required when AI_PROVIDER=anthropic"
+    },
+    "claims": {
+      "status": "error",
+      "reason": "Error: ANTHROPIC_API_KEY is required when AI_PROVIDER=anthropic"
+    },
+    "political": {
+      "status": "error",
+      "reason": "Error: ANTHROPIC_API_KEY is required when AI_PROVIDER=anthropic"
+    },
+    "military": {
+      "status": "error",
+      "reason": "Error: ANTHROPIC_API_KEY is required when AI_PROVIDER=anthropic"
     }
   }
 }

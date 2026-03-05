@@ -1,11 +1,10 @@
 import Anthropic from '@anthropic-ai/sdk';
 import OpenAI from 'openai';
-import { readFileSync, writeFileSync } from 'fs';
+import { readFileSync, writeFileSync, readdirSync, existsSync, mkdirSync } from 'fs';
 import { join } from 'path';
 import { z } from 'zod';
 import {
   KpiSchema,
-  TimelineEraSchema,
   TimelineEventSchema,
   MapPointSchema,
   MapLineSchema,
@@ -22,12 +21,13 @@ import {
 type Provider = 'anthropic' | 'openai';
 
 const PROVIDER: Provider = (process.env.AI_PROVIDER as Provider) || 'anthropic';
-
 const ANTHROPIC_MODEL = process.env.ANTHROPIC_MODEL || 'claude-sonnet-4-6';
 const OPENAI_MODEL = process.env.OPENAI_MODEL || 'gpt-4o';
 
 const DATA_DIR = join(process.cwd(), 'src', 'data');
+const EVENTS_DIR = join(DATA_DIR, 'events');
 const today = new Date().toISOString().split('T')[0];
+const now = new Date().toISOString();
 
 // ─── Provider Clients ───
 
@@ -50,7 +50,7 @@ function getOpenAIClient(): OpenAI {
   return openaiClient;
 }
 
-// ─── Shared Utilities ───
+// ─── JSON Utilities ───
 
 interface SectionResult {
   status: 'updated' | 'skipped' | 'error';
@@ -72,7 +72,7 @@ function extractJSON(text: string): string {
   const codeBlock = text.match(/```(?:json)?\s*\n?([\s\S]*?)\n?\s*```/);
   let json = codeBlock ? codeBlock[1].trim() : text.trim();
 
-  // 2. If no code fence, extract JSON by matching brackets (string-aware)
+  // 2. If no code fence, extract by matching brackets (string-aware)
   if (!codeBlock) {
     const start = json.search(/[\[{]/);
     if (start === -1) return json;
@@ -98,7 +98,7 @@ function extractJSON(text: string): string {
     }
   }
 
-  // 3. Remove trailing commas before ] or } (only outside strings)
+  // 3. Remove trailing commas before ] or }
   let result = '';
   let inStr = false;
   let esc = false;
@@ -108,10 +108,9 @@ function extractJSON(text: string): string {
     if (ch === '\\' && inStr) { esc = true; result += ch; continue; }
     if (ch === '"') { inStr = !inStr; result += ch; continue; }
     if (inStr) { result += ch; continue; }
-    // Skip comma if next non-whitespace is ] or }
     if (ch === ',') {
       const rest = json.substring(i + 1).match(/^\s*([\]}])/);
-      if (rest) continue; // skip this comma
+      if (rest) continue;
     }
     result += ch;
   }
@@ -119,7 +118,81 @@ function extractJSON(text: string): string {
   return result;
 }
 
-// ─── Anthropic Provider ───
+// ─── Schema-Driven Prompt Generation ───
+
+function describeType(type: z.ZodType): string {
+  if (type instanceof z.ZodString) return 'string';
+  if (type instanceof z.ZodNumber) return 'number';
+  if (type instanceof z.ZodBoolean) return 'boolean';
+  if (type instanceof z.ZodEnum) return (type as z.ZodEnum<[string, ...string[]]>).options.map((o: string) => `"${o}"`).join(' | ');
+  if (type instanceof z.ZodOptional) return describeType((type as z.ZodOptional<z.ZodType>).unwrap()) + ' (optional)';
+  if (type instanceof z.ZodArray) return describeType((type as z.ZodArray<z.ZodType>).element) + '[]';
+  if (type instanceof z.ZodUnion) return (type as z.ZodUnion<[z.ZodType, ...z.ZodType[]]>).options.map((o: z.ZodType) => describeType(o)).join(' | ');
+  if (type instanceof z.ZodLiteral) return JSON.stringify((type as z.ZodLiteral<unknown>).value);
+  if (type instanceof z.ZodTuple) {
+    const items = (type as z.ZodTuple<[z.ZodType, ...z.ZodType[]]>).items.map((i: z.ZodType) => describeType(i));
+    return `[${items.join(', ')}]`;
+  }
+  if (type instanceof z.ZodObject) {
+    const shape = (type as z.ZodObject<z.ZodRawShape>).shape;
+    const fields = Object.entries(shape).map(([k, v]) => `"${k}": ${describeType(v as z.ZodType)}`);
+    return `{ ${fields.join(', ')} }`;
+  }
+  return 'any';
+}
+
+/** Generate a JSON field description from a Zod object schema, excluding lastUpdated */
+function describeFields(schema: z.ZodObject<z.ZodRawShape>): string {
+  const lines: string[] = [];
+  for (const [key, type] of Object.entries(schema.shape)) {
+    if (key === 'lastUpdated') continue;
+    lines.push(`  "${key}": ${describeType(type as z.ZodType)}`);
+  }
+  return `{\n${lines.join(',\n')}\n}`;
+}
+
+// ─── Merge by ID ───
+
+function mergeById<T extends { id: string }>(
+  existing: T[],
+  incoming: T[],
+): { merged: T[]; newCount: number; updatedCount: number } {
+  const map = new Map(existing.map(item => [item.id, { ...item }]));
+  let newCount = 0;
+  let updatedCount = 0;
+
+  for (const item of incoming) {
+    if (!item.id) continue;
+    const prev = map.get(item.id);
+    if (prev) {
+      // Only stamp lastUpdated if something changed
+      const prevJSON = JSON.stringify(prev);
+      const merged = { ...prev, ...item, lastUpdated: now };
+      if (JSON.stringify({ ...prev, lastUpdated: now }) !== JSON.stringify(merged)) {
+        updatedCount++;
+      }
+      map.set(item.id, merged as T);
+    } else {
+      map.set(item.id, { ...item, lastUpdated: now } as T);
+      newCount++;
+    }
+  }
+
+  // Preserve original order, append new items at end
+  const result: T[] = [];
+  const seen = new Set<string>();
+  for (const item of existing) {
+    result.push(map.get(item.id)!);
+    seen.add(item.id);
+  }
+  for (const [id, item] of map) {
+    if (!seen.has(id)) result.push(item);
+  }
+
+  return { merged: result, newCount, updatedCount };
+}
+
+// ─── AI Providers ───
 
 async function callAnthropic(systemPrompt: string, userPrompt: string): Promise<string> {
   const client = getAnthropicClient();
@@ -130,14 +203,11 @@ async function callAnthropic(systemPrompt: string, userPrompt: string): Promise<
     tools: [{ type: 'web_search_20250305' as const, name: 'web_search', max_uses: 5 }],
     messages: [{ role: 'user', content: userPrompt }],
   });
-
-  const textBlocks = response.content.filter(
-    (b): b is Anthropic.TextBlock => b.type === 'text'
-  );
-  return textBlocks.map(b => b.text).join('');
+  return response.content
+    .filter((b): b is Anthropic.TextBlock => b.type === 'text')
+    .map(b => b.text)
+    .join('');
 }
-
-// ─── OpenAI Provider ───
 
 async function callOpenAI(systemPrompt: string, userPrompt: string): Promise<string> {
   const client = getOpenAIClient();
@@ -147,19 +217,13 @@ async function callOpenAI(systemPrompt: string, userPrompt: string): Promise<str
     tools: [{ type: 'web_search_preview' as const }],
     input: userPrompt,
   });
-
-  // Extract text from the response output items
-  const textItems = response.output.filter(
-    (item): item is OpenAI.Responses.ResponseOutputMessage => item.type === 'message'
-  );
-  return textItems
+  return response.output
+    .filter((item): item is OpenAI.Responses.ResponseOutputMessage => item.type === 'message')
     .flatMap(item => item.content)
     .filter((c): c is OpenAI.Responses.ResponseOutputText => c.type === 'output_text')
     .map(c => c.text)
     .join('');
 }
-
-// ─── Unified Call ───
 
 async function callAI(systemPrompt: string, userPrompt: string): Promise<string> {
   if (PROVIDER === 'openai') return callOpenAI(systemPrompt, userPrompt);
@@ -172,36 +236,55 @@ const SYSTEM_PROMPT = `You are an intelligence analyst updating a conflict track
 Today's date is ${today}. You have access to web search to find the latest information.
 You must respond with ONLY valid JSON matching the exact schema provided.
 Do not include any commentary, markdown fences, or explanation outside the JSON.
-Source every claim with its tier:
-- Tier 1: Official/primary (CENTCOM, IDF, White House, UN, IAEA, government statements)
-- Tier 2: Major outlet (Reuters, AP, CNN, BBC, Al Jazeera, Bloomberg, WaPo, NYT)
-- Tier 3: Institutional (CSIS, HRW, HRANA, Hengaw, Oxford Economics, NetBlocks)
-- Tier 4: Unverified (social media, IRGC military claims, unattributed video)
-Only include information you can verify through search results. Do not fabricate data.`;
+Every item must have an "id" field (lowercase_snake_case, e.g. "brent_crude", "tehran_strike").
+
+MULTI-POLE SOURCING — gather information from all four media poles:
+1. WESTERN: White House, CENTCOM, IDF, State Dept, Pentagon, Reuters, AP, BBC, CNN, NYT, WaPo, Bloomberg
+2. MIDDLE EASTERN: Al Jazeera, IRNA, Press TV, Tehran Times, Al Arabiya, Al Mayadeen, Fars News
+3. EASTERN: Xinhua, CGTN, Global Times, TASS, RT (note bias), Kyodo News, Yonhap
+4. INTERNATIONAL: UN, IAEA, ICRC, HRW, Amnesty, WHO, OPCW, CSIS, ICG, Oxford Economics
+
+When providing sources (especially in the "sources" array), tag each with a "pole" field:
+- "western" for US/European/allied sources
+- "middle_eastern" for Middle Eastern/Iranian sources
+- "eastern" for Chinese/Russian/Asian sources
+- "international" for UN/NGO/multilateral sources
+
+Source tier classification:
+- Tier 1: Official/primary (CENTCOM, IDF, White House, UN, IAEA, IRNA, Xinhua official)
+- Tier 2: Major outlet (Reuters, AP, CNN, BBC, Al Jazeera, Xinhua, CGTN, Bloomberg, WaPo, NYT)
+- Tier 3: Institutional (CSIS, HRW, HRANA, Hengaw, Oxford Economics, NetBlocks, ICG)
+- Tier 4: Unverified (social media, unattributed military claims, unattributed video)
+
+Only include information you can verify through search results. Do not fabricate data.
+Actively seek CONTRASTING perspectives from different poles when events are contested.`;
 
 // ─── Section Updaters ───
 
 async function updateKPIs(): Promise<SectionResult> {
   try {
     const current = readJSON<z.infer<typeof KpiSchema>[]>('kpis.json');
+    const fields = describeFields(KpiSchema);
     const text = await callAI(SYSTEM_PROMPT, `Search for the latest data on the Iran-US/Israel conflict as of ${today}.
 Return updated KPI metrics as a JSON array.
 
-Each object must have: { "label": string, "value": string, "color": "red"|"amber"|"blue"|"green", "source": string, "contested": boolean, "contestNote"?: string }
+Each object must have these fields:
+${fields}
 
 Current data for reference:
 ${JSON.stringify(current, null, 2)}
 
-Update the values and sources with the latest available data. Preserve the same metric labels unless a metric is no longer relevant. Return the complete updated array.`);
+Update the values and sources with the latest available data. Preserve existing IDs. Return the complete updated array.`);
 
     const parsed = JSON.parse(extractJSON(text));
-    const result = z.array(KpiSchema).safeParse(parsed);
+    const result = z.array(KpiSchema.omit({ lastUpdated: true }).extend({ lastUpdated: z.string().optional() })).safeParse(parsed);
     if (!result.success) {
       console.error('[kpis] Validation failed:', result.error.format());
       return { status: 'skipped', reason: 'validation_failed' };
     }
-    writeJSON('kpis.json', result.data);
-    return { status: 'updated', itemCount: result.data.length };
+    const { merged, newCount, updatedCount } = mergeById(current, result.data);
+    writeJSON('kpis.json', merged);
+    return { status: 'updated', itemCount: merged.length };
   } catch (err) {
     console.error('[kpis] Error:', err);
     return { status: 'error', reason: String(err) };
@@ -210,35 +293,57 @@ Update the values and sources with the latest available data. Preserve the same 
 
 async function updateTimeline(): Promise<SectionResult> {
   try {
-    const current = readJSON<z.infer<typeof TimelineEraSchema>[]>('timeline.json');
-    const crisis2026 = current.find(e => e.era === 'Crisis & War 2026');
-    if (!crisis2026) return { status: 'skipped', reason: 'no_crisis_era_found' };
+    // Read all existing event files to get known event IDs
+    if (!existsSync(EVENTS_DIR)) mkdirSync(EVENTS_DIR, { recursive: true });
+    const eventFiles = readdirSync(EVENTS_DIR).filter(f => f.endsWith('.json')).sort();
+    const existingEvents: z.infer<typeof TimelineEventSchema>[] = [];
+    for (const file of eventFiles) {
+      const data = JSON.parse(readFileSync(join(EVENTS_DIR, file), 'utf8'));
+      existingEvents.push(...data);
+    }
 
+    const existingTitles = existingEvents.map(e => `${e.id}: "${e.title}"`).join(', ');
     const lastUpdated = readJSON<{ lastRun: string | null }>('update-log.json').lastRun || '2026-03-02';
+    const fields = describeFields(TimelineEventSchema);
 
     const text = await callAI(SYSTEM_PROMPT, `Search for new significant events in the Iran-US/Israel conflict since ${lastUpdated}.
+Search across ALL media poles: Western (Reuters, AP, CNN), Middle Eastern (Al Jazeera, IRNA, Press TV), Eastern (Xinhua, CGTN), and International (UN, HRW, IAEA).
 Return any new timeline entries as a JSON array. Return an empty array [] if nothing significant happened.
 
-Each object must have: { "year": string, "title": string, "type": "military"|"diplomatic"|"humanitarian"|"economic", "active"?: boolean, "detail": string, "sources": [{ "name": string, "tier": 1|2|3|4, "url"?: string }] }
+Each object must have these fields:
+${fields}
 
-Current "Crisis & War 2026" events for reference (do NOT include these again):
-${JSON.stringify(crisis2026.events, null, 2)}
+IMPORTANT: Each event's "sources" array must include sources from MULTIPLE poles where available.
+Each source object needs: { "name": string, "tier": 1|2|3|4, "url": string (optional), "pole": "western"|"middle_eastern"|"eastern"|"international" }
+
+Existing event IDs (do NOT include these again): ${existingTitles}
 
 Return ONLY genuinely new events as a JSON array.`);
 
     const parsed = JSON.parse(extractJSON(text));
-    const result = z.array(TimelineEventSchema).safeParse(parsed);
+    const result = z.array(TimelineEventSchema.omit({ lastUpdated: true }).extend({ lastUpdated: z.string().optional() })).safeParse(parsed);
     if (!result.success) {
       console.error('[timeline] Validation failed:', result.error.format());
       return { status: 'skipped', reason: 'validation_failed' };
     }
 
-    const existingTitles = new Set(crisis2026.events.map(e => e.title.toLowerCase()));
-    const newEvents = result.data.filter(e => !existingTitles.has(e.title.toLowerCase()));
+    const existingIds = new Set(existingEvents.map(e => e.id));
+    const newEvents = result.data.filter(e => !existingIds.has(e.id));
 
     if (newEvents.length > 0) {
-      crisis2026.events.push(...newEvents);
-      writeJSON('timeline.json', current);
+      // Append to today's event file
+      const todayFile = join(EVENTS_DIR, `${today}.json`);
+      let todayEvents: z.infer<typeof TimelineEventSchema>[] = [];
+      if (existsSync(todayFile)) {
+        todayEvents = JSON.parse(readFileSync(todayFile, 'utf8'));
+      }
+      const todayIds = new Set(todayEvents.map(e => e.id));
+      for (const event of newEvents) {
+        if (!todayIds.has(event.id)) {
+          todayEvents.push({ ...event, lastUpdated: now });
+        }
+      }
+      writeFileSync(todayFile, JSON.stringify(todayEvents, null, 2) + '\n');
     }
     return { status: 'updated', newEvents: newEvents.length };
   } catch (err) {
@@ -250,11 +355,14 @@ Return ONLY genuinely new events as a JSON array.`);
 async function updateMapPoints(): Promise<SectionResult> {
   try {
     const current = readJSON<z.infer<typeof MapPointSchema>[]>('map-points.json');
+    const fields = describeFields(MapPointSchema);
     const text = await callAI(SYSTEM_PROMPT, `Search for new military locations, strike targets, or asset deployments in the Iran-US/Israel conflict as of ${today}.
 Return an updated map points array as JSON.
 
-Each object must have exactly these fields: { "id": string (lowercase_snake_case), "lon": number (25-65 range), "lat": number (20-42 range), "cat": "strike"|"retaliation"|"asset"|"front", "label": string, "sub": string (description), "tier": 1|2|3|4 }
-Do NOT include any extra fields.
+Each object must have exactly these fields:
+${fields}
+
+Coordinate constraints: lon must be 25–65, lat must be 20–42.
 
 Current map points:
 ${JSON.stringify(current, null, 2)}
@@ -262,7 +370,7 @@ ${JSON.stringify(current, null, 2)}
 Update existing points if their details have changed. Add new points for newly reported locations. Remove nothing. Return the complete updated array.`);
 
     const parsed = JSON.parse(extractJSON(text));
-    const result = z.array(MapPointSchema).safeParse(parsed);
+    const result = z.array(MapPointSchema.omit({ lastUpdated: true }).extend({ lastUpdated: z.string().optional() })).safeParse(parsed);
     if (!result.success) {
       console.error('[map-points] Validation failed:', result.error.format());
       return { status: 'skipped', reason: 'validation_failed' };
@@ -271,8 +379,9 @@ Update existing points if their details have changed. Add new points for newly r
     if (valid.length !== result.data.length) {
       console.warn(`[map-points] Filtered ${result.data.length - valid.length} out-of-bounds points`);
     }
-    writeJSON('map-points.json', valid);
-    return { status: 'updated', itemCount: valid.length };
+    const { merged } = mergeById(current, valid);
+    writeJSON('map-points.json', merged);
+    return { status: 'updated', itemCount: merged.length };
   } catch (err) {
     console.error('[map-points] Error:', err);
     return { status: 'error', reason: String(err) };
@@ -282,11 +391,12 @@ Update existing points if their details have changed. Add new points for newly r
 async function updateMapLines(): Promise<SectionResult> {
   try {
     const current = readJSON<z.infer<typeof MapLineSchema>[]>('map-lines.json');
+    const fields = describeFields(MapLineSchema);
     const text = await callAI(SYSTEM_PROMPT, `Search for new military strike routes, retaliation vectors, or front lines in the Iran-US/Israel conflict as of ${today}.
 Return an updated map lines array as JSON.
 
-Each object must have exactly these fields: { "from": [lon, lat], "to": [lon, lat], "cat": "strike"|"retaliation"|"asset"|"front", "label": string (e.g. "Ford → Tehran") }
-Do NOT include any extra fields.
+Each object must have exactly these fields:
+${fields}
 
 Current map lines:
 ${JSON.stringify(current, null, 2)}
@@ -294,13 +404,14 @@ ${JSON.stringify(current, null, 2)}
 Update existing lines if their details have changed. Add new lines for newly reported attack vectors. Remove nothing. Return the complete updated array.`);
 
     const parsed = JSON.parse(extractJSON(text));
-    const result = z.array(MapLineSchema).safeParse(parsed);
+    const result = z.array(MapLineSchema.omit({ lastUpdated: true }).extend({ lastUpdated: z.string().optional() })).safeParse(parsed);
     if (!result.success) {
       console.error('[map-lines] Validation failed:', result.error.format());
       return { status: 'skipped', reason: 'validation_failed' };
     }
-    writeJSON('map-lines.json', result.data);
-    return { status: 'updated', itemCount: result.data.length };
+    const { merged } = mergeById(current, result.data);
+    writeJSON('map-lines.json', merged);
+    return { status: 'updated', itemCount: merged.length };
   } catch (err) {
     console.error('[map-lines] Error:', err);
     return { status: 'error', reason: String(err) };
@@ -310,10 +421,12 @@ Update existing lines if their details have changed. Add new lines for newly rep
 async function updateCasualties(): Promise<SectionResult> {
   try {
     const current = readJSON<z.infer<typeof CasualtyRowSchema>[]>('casualties.json');
+    const fields = describeFields(CasualtyRowSchema);
     const text = await callAI(SYSTEM_PROMPT, `Search for the latest casualty figures from the Iran-US/Israel conflict as of ${today}.
 Return the updated casualty table as a JSON array.
 
-Each object must have: { "category": string, "killed": string, "injured": string, "source": string, "tier": 1|2|3|4|"all", "contested": "yes"|"no"|"evolving"|"heavily"|"partial", "note": string }
+Each object must have these fields:
+${fields}
 
 Current data:
 ${JSON.stringify(current, null, 2)}
@@ -321,13 +434,14 @@ ${JSON.stringify(current, null, 2)}
 Update figures that have changed. Add new rows if needed. Mark contested figures accurately. Return complete updated array.`);
 
     const parsed = JSON.parse(extractJSON(text));
-    const result = z.array(CasualtyRowSchema).safeParse(parsed);
+    const result = z.array(CasualtyRowSchema.omit({ lastUpdated: true }).extend({ lastUpdated: z.string().optional() })).safeParse(parsed);
     if (!result.success) {
       console.error('[casualties] Validation failed:', result.error.format());
       return { status: 'skipped', reason: 'validation_failed' };
     }
-    writeJSON('casualties.json', result.data);
-    return { status: 'updated', itemCount: result.data.length };
+    const { merged } = mergeById(current, result.data);
+    writeJSON('casualties.json', merged);
+    return { status: 'updated', itemCount: merged.length };
   } catch (err) {
     console.error('[casualties] Error:', err);
     return { status: 'error', reason: String(err) };
@@ -337,10 +451,12 @@ Update figures that have changed. Add new rows if needed. Mark contested figures
 async function updateEcon(): Promise<SectionResult> {
   try {
     const current = readJSON<z.infer<typeof EconItemSchema>[]>('econ.json');
+    const fields = describeFields(EconItemSchema);
     const text = await callAI(SYSTEM_PROMPT, `Search for current market prices related to the Iran conflict: crude oil (Brent, WTI), gold, S&P 500, VIX, Iranian rial.
 Return updated economic indicators as a JSON array.
 
-Each object must have: { "label": string, "value": string, "change": string, "direction": "up"|"down", "sparkData": number[] (7 recent data points), "color": string (hex like "#e74c3c"), "source": string }
+Each object must have these fields:
+${fields}
 
 Current data:
 ${JSON.stringify(current, null, 2)}
@@ -348,13 +464,14 @@ ${JSON.stringify(current, null, 2)}
 Update with the latest available market data. Return complete updated array.`);
 
     const parsed = JSON.parse(extractJSON(text));
-    const result = z.array(EconItemSchema).safeParse(parsed);
+    const result = z.array(EconItemSchema.omit({ lastUpdated: true }).extend({ lastUpdated: z.string().optional() })).safeParse(parsed);
     if (!result.success) {
       console.error('[econ] Validation failed:', result.error.format());
       return { status: 'skipped', reason: 'validation_failed' };
     }
-    writeJSON('econ.json', result.data);
-    return { status: 'updated', itemCount: result.data.length };
+    const { merged } = mergeById(current, result.data);
+    writeJSON('econ.json', merged);
+    return { status: 'updated', itemCount: merged.length };
   } catch (err) {
     console.error('[econ] Error:', err);
     return { status: 'error', reason: String(err) };
@@ -364,10 +481,15 @@ Update with the latest available market data. Return complete updated array.`);
 async function updateClaims(): Promise<SectionResult> {
   try {
     const current = readJSON<z.infer<typeof ClaimSchema>[]>('claims.json');
+    const fields = describeFields(ClaimSchema);
     const text = await callAI(SYSTEM_PROMPT, `Search for the latest contested claims and information disputes in the Iran-US/Israel conflict as of ${today}.
+Search across ALL media poles to find contrasting narratives: Western vs Middle Eastern vs Eastern vs International perspectives.
 Return updated contested claims as a JSON array.
 
-Each object must have: { "question": string, "sideA": { "label": string, "text": string }, "sideB": { "label": string, "text": string }, "resolution": string }
+Each object must have these fields:
+${fields}
+
+For sideA and sideB, actively present the CONTRASTING viewpoints from different media poles.
 
 Current claims:
 ${JSON.stringify(current, null, 2)}
@@ -375,13 +497,14 @@ ${JSON.stringify(current, null, 2)}
 Update existing claims if their resolution status has changed. Add new major contested claims if any. Return complete updated array.`);
 
     const parsed = JSON.parse(extractJSON(text));
-    const result = z.array(ClaimSchema).safeParse(parsed);
+    const result = z.array(ClaimSchema.omit({ lastUpdated: true }).extend({ lastUpdated: z.string().optional() })).safeParse(parsed);
     if (!result.success) {
       console.error('[claims] Validation failed:', result.error.format());
       return { status: 'skipped', reason: 'validation_failed' };
     }
-    writeJSON('claims.json', result.data);
-    return { status: 'updated', itemCount: result.data.length };
+    const { merged } = mergeById(current, result.data);
+    writeJSON('claims.json', merged);
+    return { status: 'updated', itemCount: merged.length };
   } catch (err) {
     console.error('[claims] Error:', err);
     return { status: 'error', reason: String(err) };
@@ -391,10 +514,12 @@ Update existing claims if their resolution status has changed. Add new major con
 async function updatePolitical(): Promise<SectionResult> {
   try {
     const current = readJSON<z.infer<typeof PolItemSchema>[]>('political.json');
+    const fields = describeFields(PolItemSchema);
     const text = await callAI(SYSTEM_PROMPT, `Search for the latest political statements and diplomatic developments in the Iran-US/Israel conflict as of ${today}.
 Return updated political statements as a JSON array.
 
-Each object must have: { "name": string, "role": string, "avatar": "us"|"ir"|"il"|"un"|"other", "initial": string (2-letter), "quote": string }
+Each object must have these fields:
+${fields}
 
 Current data:
 ${JSON.stringify(current, null, 2)}
@@ -402,13 +527,14 @@ ${JSON.stringify(current, null, 2)}
 Update existing quotes if newer statements exist. Add new notable statements. Return complete updated array.`);
 
     const parsed = JSON.parse(extractJSON(text));
-    const result = z.array(PolItemSchema).safeParse(parsed);
+    const result = z.array(PolItemSchema.omit({ lastUpdated: true }).extend({ lastUpdated: z.string().optional() })).safeParse(parsed);
     if (!result.success) {
       console.error('[political] Validation failed:', result.error.format());
       return { status: 'skipped', reason: 'validation_failed' };
     }
-    writeJSON('political.json', result.data);
-    return { status: 'updated', itemCount: result.data.length };
+    const { merged } = mergeById(current, result.data);
+    writeJSON('political.json', merged);
+    return { status: 'updated', itemCount: merged.length };
   } catch (err) {
     console.error('[political] Error:', err);
     return { status: 'error', reason: String(err) };
@@ -420,14 +546,16 @@ async function updateMilitary(): Promise<SectionResult> {
     const strikes = readJSON<z.infer<typeof StrikeItemSchema>[]>('strike-targets.json');
     const retaliation = readJSON<z.infer<typeof StrikeItemSchema>[]>('retaliation.json');
     const assets = readJSON<z.infer<typeof AssetSchema>[]>('assets.json');
+    const strikeFields = describeFields(StrikeItemSchema);
+    const assetFields = describeFields(AssetSchema);
 
     const text = await callAI(SYSTEM_PROMPT, `Search for the latest military operations in the Iran-US/Israel conflict as of ${today}.
 Return a JSON object with three arrays:
 
 {
-  "strikes": [{ "name": string, "detail": string, "icon": "target"|"retaliation"|"asset"|"casualty", "time": string, "tier": 1|2|3|4 }],
-  "retaliation": [{ "name": string, "detail": string, "icon": "target"|"retaliation"|"asset"|"casualty", "time": string, "tier": 1|2|3|4 }],
-  "assets": [{ "type": string, "name": string, "detail": string }]
+  "strikes": [ ${strikeFields} ],
+  "retaliation": [ ${strikeFields} ],
+  "assets": [ ${assetFields} ]
 }
 
 Current data:
@@ -438,20 +566,25 @@ Assets: ${JSON.stringify(assets, null, 2)}
 Update with the latest information. Return the complete object with all three arrays.`);
 
     const parsed = JSON.parse(extractJSON(text));
+    const StrikeLoose = StrikeItemSchema.omit({ lastUpdated: true }).extend({ lastUpdated: z.string().optional() });
+    const AssetLoose = AssetSchema.omit({ lastUpdated: true }).extend({ lastUpdated: z.string().optional() });
     const schema = z.object({
-      strikes: z.array(StrikeItemSchema),
-      retaliation: z.array(StrikeItemSchema),
-      assets: z.array(AssetSchema),
+      strikes: z.array(StrikeLoose),
+      retaliation: z.array(StrikeLoose),
+      assets: z.array(AssetLoose),
     });
     const result = schema.safeParse(parsed);
     if (!result.success) {
       console.error('[military] Validation failed:', result.error.format());
       return { status: 'skipped', reason: 'validation_failed' };
     }
-    writeJSON('strike-targets.json', result.data.strikes);
-    writeJSON('retaliation.json', result.data.retaliation);
-    writeJSON('assets.json', result.data.assets);
-    return { status: 'updated', itemCount: result.data.strikes.length + result.data.retaliation.length + result.data.assets.length };
+    const s = mergeById(strikes, result.data.strikes);
+    const r = mergeById(retaliation, result.data.retaliation);
+    const a = mergeById(assets, result.data.assets);
+    writeJSON('strike-targets.json', s.merged);
+    writeJSON('retaliation.json', r.merged);
+    writeJSON('assets.json', a.merged);
+    return { status: 'updated', itemCount: s.merged.length + r.merged.length + a.merged.length };
   } catch (err) {
     console.error('[military] Error:', err);
     return { status: 'error', reason: String(err) };
@@ -462,11 +595,10 @@ async function updateMeta(): Promise<SectionResult> {
   try {
     const current = readJSON<{ dayCount: number; lastUpdated: string; [key: string]: unknown }>('meta.json');
     const start = new Date('2026-02-28T00:00:00Z');
-    const now = new Date();
-    const days = Math.ceil((now.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
+    const days = Math.ceil((Date.now() - start.getTime()) / (1000 * 60 * 60 * 24));
     current.dayCount = days;
-    current.dateline = `DAY ${days} \u2014 ${now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).toUpperCase()} \u2014 SITUATION REPORT`;
-    current.lastUpdated = now.toISOString();
+    current.dateline = `DAY ${days} \u2014 ${new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).toUpperCase()} \u2014 SITUATION REPORT`;
+    current.lastUpdated = now;
     writeJSON('meta.json', current);
     return { status: 'updated' };
   } catch (err) {
@@ -481,9 +613,12 @@ async function main() {
   const sections = (process.env.UPDATE_SECTIONS || 'all').split(',').map(s => s.trim());
   const runAll = sections.includes('all');
 
-  console.log(`[update-data] Starting update at ${new Date().toISOString()}`);
+  console.log(`[update-data] Starting update at ${now}`);
   console.log(`[update-data] Provider: ${PROVIDER} (${PROVIDER === 'openai' ? OPENAI_MODEL : ANTHROPIC_MODEL})`);
   console.log(`[update-data] Sections: ${runAll ? 'all' : sections.join(', ')}`);
+
+  // Ensure events directory exists
+  if (!existsSync(EVENTS_DIR)) mkdirSync(EVENTS_DIR, { recursive: true });
 
   const results: Record<string, SectionResult> = {};
 
@@ -503,7 +638,7 @@ async function main() {
 
   // Write update log
   const log = {
-    lastRun: new Date().toISOString(),
+    lastRun: now,
     provider: PROVIDER,
     model: PROVIDER === 'openai' ? OPENAI_MODEL : ANTHROPIC_MODEL,
     sections: results,
@@ -512,18 +647,32 @@ async function main() {
 
   // Summary
   console.log('\n[update-data] Results:');
+  let hasUpdates = false;
+  let hasErrors = false;
   for (const [section, result] of Object.entries(results)) {
-    const emoji = result.status === 'updated' ? '✓' : result.status === 'skipped' ? '⊘' : '✗';
-    console.log(`  ${emoji} ${section}: ${result.status}${result.reason ? ` (${result.reason})` : ''}${result.itemCount ? ` — ${result.itemCount} items` : ''}${result.newEvents !== undefined ? ` — ${result.newEvents} new events` : ''}`);
+    const icon = result.status === 'updated' ? '\u2713' : result.status === 'skipped' ? '\u2298' : '\u2717';
+    const details = [
+      result.reason ? `(${result.reason})` : '',
+      result.itemCount ? `${result.itemCount} items` : '',
+      result.newEvents !== undefined ? `${result.newEvents} new events` : '',
+    ].filter(Boolean).join(' \u2014 ');
+    console.log(`  ${icon} ${section}: ${result.status}${details ? ` \u2014 ${details}` : ''}`);
+    if (result.status === 'updated') hasUpdates = true;
+    if (result.status === 'error') hasErrors = true;
   }
 
-  const hasErrors = Object.values(results).some(r => r.status === 'error');
-  if (hasErrors) {
-    console.error('\n[update-data] Some sections had errors. See log above.');
+  // Exit 0 if any section succeeded (partial success is OK)
+  if (hasUpdates) {
+    console.log('\n[update-data] Done. Some sections updated successfully.');
+    if (hasErrors) {
+      console.warn('[update-data] Warning: some sections had errors (see above).');
+    }
+  } else if (hasErrors) {
+    console.error('\n[update-data] All sections failed.');
     process.exit(1);
+  } else {
+    console.log('\n[update-data] Done. No changes needed.');
   }
-
-  console.log('\n[update-data] Done.');
 }
 
 main();

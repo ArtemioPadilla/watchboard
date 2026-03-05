@@ -6,7 +6,8 @@
     "dev": "astro dev",
     "build": "astro check && astro build",
     "preview": "astro preview",
-    "update-data": "tsx scripts/update-data.ts"
+    "update-data": "tsx scripts/update-data.ts",
+    "backfill": "tsx scripts/backfill.ts"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.6",

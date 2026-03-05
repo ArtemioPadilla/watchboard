@@ -3,6 +3,7 @@
     "era": "Cold War Era",
     "events": [
       {
+        "id": "allied_invasion_1941",
         "year": "1941",
         "title": "Allied Invasion of Iran",
         "type": "military",
@@ -10,6 +11,7 @@
         "sources": [{ "name": "US State Dept", "tier": 1, "url": "https://history.state.gov" }]
       },
       {
+        "id": "cia_coup_1953",
         "year": "1953",
         "title": "CIA Coup (Op. Ajax)",
         "type": "diplomatic",
@@ -20,6 +22,7 @@
         ]
       },
       {
+        "id": "islamic_revolution_1979",
         "year": "1979",
         "title": "Islamic Revolution",
         "type": "military",
@@ -35,13 +38,15 @@
     "era": "Iran-Iraq War",
     "events": [
       {
-        "year": "1980–88",
+        "id": "iran_iraq_war",
+        "year": "1980\u201388",
         "title": "Iran-Iraq War",
         "type": "military",
         "detail": "Iraq invades Iran; US provides intelligence to Iraq. ~1 million killed total. Chemical weapons used extensively by Iraq.",
         "sources": [{ "name": "Britannica", "tier": 3 }]
       },
       {
+        "id": "iran_air_655",
         "year": "1988",
         "title": "Iran Air 655",
         "type": "humanitarian",
@@ -57,6 +62,7 @@
     "era": "Nuclear Standoff",
     "events": [
       {
+        "id": "axis_of_evil_2002",
         "year": "2002",
         "title": "Axis of Evil / Facilities Revealed",
         "type": "diplomatic",
@@ -64,6 +70,7 @@
         "sources": [{ "name": "White House Archives", "tier": 1 }]
       },
       {
+        "id": "jcpoa_2015",
         "year": "2015",
         "title": "JCPOA Nuclear Deal",
         "type": "diplomatic",
@@ -74,6 +81,7 @@
         ]
       },
       {
+        "id": "trump_exits_jcpoa_2018",
         "year": "2018",
         "title": "Trump Exits JCPOA",
         "type": "diplomatic",
@@ -84,6 +92,7 @@
         ]
       },
       {
+        "id": "soleimani_killed_2020",
         "year": "2020",
         "title": "Soleimani Killed",
         "type": "military",
@@ -96,9 +105,10 @@
     ]
   },
   {
-    "era": "Escalation 2023–25",
+    "era": "Escalation 2023\u201325",
     "events": [
       {
+        "id": "oct7_gaza_war",
         "year": "Oct 2023",
         "title": "Oct 7 Attack & Gaza War",
         "type": "military",
@@ -106,6 +116,7 @@
         "sources": [{ "name": "AP/Reuters", "tier": 2 }]
       },
       {
+        "id": "first_iran_israel_exchange",
         "year": "Apr 2024",
         "title": "First Iran-Israel Exchange",
         "type": "military",
@@ -113,6 +124,7 @@
         "sources": [{ "name": "UK House of Commons", "tier": 3 }]
       },
       {
+        "id": "second_exchange_2024",
         "year": "Oct 2024",
         "title": "Second Exchange",
         "type": "military",
@@ -120,6 +132,7 @@
         "sources": [{ "name": "UK House of Commons", "tier": 3 }]
       },
       {
+        "id": "twelve_day_war_2025",
         "year": "Jun 2025",
         "title": "Twelve-Day War",
         "type": "military",
@@ -127,65 +140,6 @@
         "sources": [
           { "name": "Al Jazeera", "tier": 2 },
           { "name": "CRS Report", "tier": 1 }
-        ]
-      }
-    ]
-  },
-  {
-    "era": "Crisis & War 2026",
-    "events": [
-      {
-        "year": "Dec 2025",
-        "title": "Protests Erupt",
-        "type": "humanitarian",
-        "detail": "Grand Bazaar shuts over rial collapse (1.44M/$1). Protests spread to 17 provinces. Inflation at 42–52%, food prices up 72%.",
-        "sources": [
-          { "name": "CNN", "tier": 2 },
-          { "name": "Foreign Policy", "tier": 2 }
-        ]
-      },
-      {
-        "year": "Jan 8–10",
-        "title": "Protest Massacres",
-        "type": "humanitarian",
-        "active": true,
-        "detail": "Regime kills thousands. Death toll estimates range from 3,117 (govt) to 43,000 (ICHR). 26,541 detained. Internet blackout imposed.",
-        "sources": [
-          { "name": "HRANA", "tier": 3 },
-          { "name": "HRW", "tier": 3 },
-          { "name": "TIME", "tier": 2 }
-        ]
-      },
-      {
-        "year": "Jan 23",
-        "title": "Trump: \"Armada\"",
-        "type": "diplomatic",
-        "detail": "Trump announces USS Abraham Lincoln and destroyers heading to region. Largest buildup since 2003 Iraq invasion by Feb 19.",
-        "sources": [
-          { "name": "CBS News", "tier": 2 },
-          { "name": "CNN", "tier": 2 }
-        ]
-      },
-      {
-        "year": "Feb 24",
-        "title": "State of the Union",
-        "type": "diplomatic",
-        "detail": "Trump accuses Iran of nuclear weapons pursuit and developing missiles that can reach the US. Pentagon and intelligence community later contradict both claims.",
-        "sources": [
-          { "name": "Stars & Stripes", "tier": 2 },
-          { "name": "PBS Fact Check", "tier": 2 }
-        ]
-      },
-      {
-        "year": "Feb 28",
-        "title": "STRIKES BEGIN",
-        "type": "military",
-        "active": true,
-        "detail": "Operation Epic Fury / Roaring Lion launches at 1:15 AM EST. 2,000+ strikes across Iran. Khamenei killed. 40+ senior officials eliminated. War expands to Gulf states, Lebanon, Iraq.",
-        "sources": [
-          { "name": "CENTCOM", "tier": 1 },
-          { "name": "CNN", "tier": 2 },
-          { "name": "Al Jazeera", "tier": 2 }
         ]
       }
     ]

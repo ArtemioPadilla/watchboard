@@ -14,48 +14,33 @@ import TimelineSection from '../components/islands/TimelineSection';
 import IntelMap from '../components/islands/IntelMap';
 import MilitaryTabs from '../components/islands/MilitaryTabs';
 
-import { z } from 'zod';
-import { KpiSchema, TimelineEraSchema, MapPointSchema, MapLineSchema, StrikeItemSchema, AssetSchema, CasualtyRowSchema, EconItemSchema, ClaimSchema, PolItemSchema, MetaSchema } from '../lib/schemas';
-
-import kpisRaw from '../data/kpis.json';
-import timelineRaw from '../data/timeline.json';
-import mapPointsRaw from '../data/map-points.json';
-import mapLinesRaw from '../data/map-lines.json';
-import strikeTargetsRaw from '../data/strike-targets.json';
-import retaliationRaw from '../data/retaliation.json';
-import assetsRaw from '../data/assets.json';
-import casualtiesRaw from '../data/casualties.json';
-import econRaw from '../data/econ.json';
-import claimsRaw from '../data/claims.json';
-import politicalRaw from '../data/political.json';
-import metaRaw from '../data/meta.json';
-
-// Runtime validation — build fails if any JSON file drifts from its schema
-const kpis = z.array(KpiSchema).parse(kpisRaw);
-const timeline = z.array(TimelineEraSchema).parse(timelineRaw);
-const mapPoints = z.array(MapPointSchema).parse(mapPointsRaw);
-const mapLines = z.array(MapLineSchema).parse(mapLinesRaw);
-const strikeTargets = z.array(StrikeItemSchema).parse(strikeTargetsRaw);
-const retaliationData = z.array(StrikeItemSchema).parse(retaliationRaw);
-const assetsData = z.array(AssetSchema).parse(assetsRaw);
-const casualties = z.array(CasualtyRowSchema).parse(casualtiesRaw);
-const econ = z.array(EconItemSchema).parse(econRaw);
-const claims = z.array(ClaimSchema).parse(claimsRaw);
-const political = z.array(PolItemSchema).parse(politicalRaw);
-const meta = MetaSchema.parse(metaRaw);
+import {
+  kpis, timeline, mapPoints, mapLines,
+  strikeTargets, retaliationData, assetsData,
+  casualties, econ, claims, political, meta,
+} from '../lib/data';
 ---
 <BaseLayout title="2026 Iran Conflict — Live Intelligence Dashboard">
   <Header meta={meta} />
   <main id="main-content">
     <Hero meta={meta} />
     <KpiStrip kpis={kpis} />
-    <TimelineSection client:visible timeline={timeline} />
-    <IntelMap client:only="react" points={mapPoints} lines={mapLines} />
-    <MilitaryTabs client:visible strikeTargets={strikeTargets} retaliationData={retaliationData} assetsData={assetsData} />
-    <CasualtyTable casualties={casualties} />
-    <EconGrid econ={econ} />
-    <ClaimsMatrix claims={claims} />
-    <PoliticalGrid political={political} />
+
+    <!-- Theater: sticky map + scrolling intel -->
+    <div class="theater-layout">
+      <div class="theater-map">
+        <IntelMap client:only="react" points={mapPoints} lines={mapLines} />
+      </div>
+      <div class="theater-scroll">
+        <TimelineSection client:visible timeline={timeline} />
+        <MilitaryTabs client:visible strikeTargets={strikeTargets} retaliationData={retaliationData} assetsData={assetsData} />
+        <CasualtyTable casualties={casualties} />
+        <EconGrid econ={econ} />
+        <ClaimsMatrix claims={claims} />
+        <PoliticalGrid political={political} />
+      </div>
+    </div>
+
     <SourceLegend />
   </main>
   <Footer meta={meta} />
