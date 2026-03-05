@@ -6,9 +6,27 @@ interface Props {
 }
 
 const { meta } = Astro.props;
+
+const updatedDate = new Date(meta.lastUpdated);
+const timeAgo = (() => {
+  const now = new Date();
+  const diffMs = now.getTime() - updatedDate.getTime();
+  const diffMins = Math.floor(diffMs / 60000);
+  if (diffMins < 60) return `${diffMins}m ago`;
+  const diffHrs = Math.floor(diffMins / 60);
+  if (diffHrs < 24) return `${diffHrs}h ago`;
+  return `${Math.floor(diffHrs / 24)}d ago`;
+})();
+const formattedDate = updatedDate.toISOString().split('T')[0];
 ---
 <section class="hero fade-in">
-  <div class="hero-dateline">{meta.dateline}</div>
+  <div class="hero-dateline">
+    {meta.dateline}
+    <span class="freshness-badge" title={`Last data update: ${meta.lastUpdated}`}>
+      <span class="freshness-dot"></span>
+      UPDATED {timeAgo} &middot; {formattedDate}
+    </span>
+  </div>
   <h1 set:html={meta.heroHeadline} />
   <p class="hero-subtitle">{meta.heroSubtitle}</p>
 </section>

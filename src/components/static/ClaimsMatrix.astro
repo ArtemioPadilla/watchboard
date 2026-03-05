@@ -11,21 +11,29 @@ const { claims } = Astro.props;
   <div class="section-header">
     <span class="section-num">06</span>
     <h2 class="section-title">Contested Claims Matrix</h2>
+    <span class="section-count">{claims.length} claims &middot; click to expand</span>
   </div>
   <div class="claims-list">
-    {claims.map(c => (
-      <div class="claim-card">
-        <div class="claim-question">{c.question}</div>
-        <div class="claim-side">
-          <div class="claim-side-label a">Source A: {c.sideA.label}</div>
-          <div class="claim-side-text">{c.sideA.text}</div>
+    {claims.map((c, i) => (
+      <details class="claim-card-collapsible" open={i === 0}>
+        <summary class="claim-summary">
+          <span class="claim-question-text">{c.question}</span>
+          <span class="claim-expand-icon"></span>
+        </summary>
+        <div class="claim-body">
+          <div class="claim-sides">
+            <div class="claim-side">
+              <div class="claim-side-label a">Source A: {c.sideA.label}</div>
+              <div class="claim-side-text">{c.sideA.text}</div>
+            </div>
+            <div class="claim-side">
+              <div class="claim-side-label b">Source B: {c.sideB.label}</div>
+              <div class="claim-side-text">{c.sideB.text}</div>
+            </div>
+          </div>
+          <div class="claim-resolution">&#9878; RESOLUTION: {c.resolution}</div>
         </div>
-        <div class="claim-side">
-          <div class="claim-side-label b">Source B: {c.sideB.label}</div>
-          <div class="claim-side-text">{c.sideB.text}</div>
-        </div>
-        <div class="claim-resolution">&#9878; RESOLUTION: {c.resolution}</div>
-      </div>
+      </details>
     ))}
   </div>
 </section>

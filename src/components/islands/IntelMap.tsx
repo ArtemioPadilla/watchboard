@@ -87,6 +87,14 @@ export default function IntelMap({ points, lines }: Props) {
     [lines, activeFilters, currentDate],
   );
 
+  // Count points per category (for filter badges)
+  const pointCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    for (const c of MAP_CATEGORIES) counts[c.id] = 0;
+    for (const p of filteredPoints) counts[p.cat] = (counts[p.cat] || 0) + 1;
+    return counts;
+  }, [filteredPoints]);
+
   const selectedCategory = selectedPoint
     ? MAP_CATEGORIES.find(c => c.id === selectedPoint.cat)
     : null;
@@ -119,6 +127,9 @@ export default function IntelMap({ points, lines }: Props) {
             >
               <span className="fdot" style={{ background: c.color }} />
               {c.label}
+              {activeFilters.has(c.id) && pointCounts[c.id] > 0 && (
+                <span className="filter-count">{pointCounts[c.id]}</span>
+              )}
             </button>
           ))}
         </div>

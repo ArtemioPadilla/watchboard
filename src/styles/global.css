@@ -883,45 +883,6 @@ body::before {
   gap: 0.75rem;
 }
 
-.claim-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 1.25rem;
-  display: grid;
-  grid-template-columns: 1fr 1fr auto;
-  gap: 1.5rem;
-  transition: border-color 0.2s;
-  position: relative;
-}
-
-@media (min-width: 769px) {
-  .claim-card::before {
-    content: '';
-    position: absolute;
-    top: 3.5rem;
-    bottom: 3.5rem;
-    left: calc(50% - 20px);
-    width: 1px;
-    background: var(--border);
-  }
-}
-
-.claim-card:hover { border-color: var(--border-light); }
-
-@media (max-width: 768px) {
-  .claim-card { grid-template-columns: 1fr; }
-}
-
-.claim-question {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 0.5rem;
-  grid-column: 1 / -1;
-}
-
 .claim-side {
   display: flex;
   flex-direction: column;
@@ -1385,14 +1346,13 @@ body::before {
   gap: 0.75rem;
 }
 
-/* Claims: stack on the narrower panel */
-.theater-scroll .claim-card {
-  grid-template-columns: 1fr;
-  gap: 1rem;
+/* Claims: compact in narrow panel */
+.theater-scroll .claim-summary {
+  padding: 0.75rem 1rem;
 }
 
-.theater-scroll .claim-card::before {
-  display: none;
+.theater-scroll .claim-body {
+  padding: 0 1rem 1rem;
 }
 
 /* Political grid: tighter fit */
@@ -1531,8 +1491,8 @@ body::before {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   }
 
-  .theater-scroll .claim-card {
-    grid-template-columns: 1fr 1fr auto;
+  .theater-scroll .claim-sides {
+    grid-template-columns: 1fr 1fr;
   }
 
   .theater-scroll .pol-grid {
@@ -1559,7 +1519,7 @@ body::before {
     padding: 1.25rem 0.75rem;
   }
 
-  .theater-scroll .claim-card {
+  .theater-scroll .claim-sides {
     grid-template-columns: 1fr;
   }
 
@@ -1573,6 +1533,22 @@ body::before {
 
   .theater-scroll .strike-meta {
     max-width: 60px;
+  }
+
+  .freshness-badge {
+    display: none;
+  }
+
+  .hero-dateline {
+    flex-wrap: wrap;
+  }
+
+  .tl-legend {
+    gap: 0.5rem;
+  }
+
+  .pol-affiliation {
+    display: none;
   }
 }
 
@@ -1942,6 +1918,258 @@ body::before {
 
 .front-zone-pulse {
   animation: frontZonePulse 3s ease-in-out infinite;
+}
+
+/* ─── FRESHNESS BADGE ─── */
+.freshness-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.55rem;
+  color: var(--accent-green);
+  background: var(--accent-green-dim);
+  padding: 0.2rem 0.6rem;
+  border-radius: 3px;
+  border: 1px solid rgba(46, 204, 113, 0.2);
+  letter-spacing: 0.06em;
+  margin-left: 1rem;
+  white-space: nowrap;
+}
+
+.freshness-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-green);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* ─── KPI TREND ARROWS ─── */
+.kpi-trend {
+  font-size: 0.7rem;
+  margin-left: 0.3rem;
+  vertical-align: middle;
+}
+
+.kpi-trend.up { color: var(--accent-red); }
+.kpi-trend.down { color: var(--accent-green); }
+
+.kpi-delta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.55rem;
+  padding: 0.1rem 0.35rem;
+  border-radius: 3px;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+.kpi-delta.up {
+  color: var(--accent-red);
+  background: var(--accent-red-dim);
+}
+
+.kpi-delta.down {
+  color: var(--accent-green);
+  background: var(--accent-green-dim);
+}
+
+.kpi-delta.stable {
+  color: var(--text-muted);
+  background: rgba(148, 152, 168, 0.1);
+}
+
+/* ─── TIMELINE LEGEND ─── */
+.tl-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  width: fit-content;
+}
+
+.tl-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.55rem;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.tl-legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid;
+  background: var(--bg-primary);
+  flex-shrink: 0;
+}
+
+.tl-legend-dot.active-dot {
+  background: var(--accent-red);
+  border-color: var(--accent-red);
+  box-shadow: 0 0 6px rgba(231, 76, 60, 0.4);
+}
+
+/* ─── POLITICAL AFFILIATION CHIPS ─── */
+.pol-affiliation {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.5rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.15rem 0.45rem;
+  border-radius: 3px;
+  white-space: nowrap;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.pol-affiliation.us {
+  color: var(--accent-blue);
+  background: var(--accent-blue-dim);
+  border: 1px solid rgba(52, 152, 219, 0.2);
+}
+
+.pol-affiliation.ir {
+  color: var(--accent-red);
+  background: var(--accent-red-dim);
+  border: 1px solid rgba(231, 76, 60, 0.2);
+}
+
+.pol-affiliation.il {
+  color: var(--accent-cyan);
+  background: rgba(26, 188, 156, 0.12);
+  border: 1px solid rgba(26, 188, 156, 0.2);
+}
+
+.pol-affiliation.un {
+  color: var(--accent-green);
+  background: var(--accent-green-dim);
+  border: 1px solid rgba(46, 204, 113, 0.2);
+}
+
+.pol-affiliation.other {
+  color: var(--accent-purple);
+  background: var(--accent-purple-dim);
+  border: 1px solid rgba(155, 89, 182, 0.2);
+}
+
+/* ─── CLAIMS COLLAPSE ─── */
+.claim-card-collapsible {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  transition: border-color 0.2s;
+}
+
+.claim-card-collapsible:hover { border-color: var(--border-light); }
+
+.claim-card-collapsible[open] { border-color: var(--border-light); }
+
+.claim-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+
+.claim-summary::-webkit-details-marker { display: none; }
+
+.claim-question-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.claim-expand-icon {
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  transition: all 0.2s;
+}
+
+.claim-expand-icon::before {
+  content: '+';
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  line-height: 1;
+}
+
+.claim-card-collapsible[open] .claim-expand-icon {
+  border-color: var(--accent-red);
+  background: var(--accent-red-dim);
+}
+
+.claim-card-collapsible[open] .claim-expand-icon::before {
+  content: '\2212';
+  color: var(--accent-red);
+}
+
+.claim-body {
+  padding: 0 1.25rem 1.25rem;
+  animation: fadeSlideIn 0.25s ease;
+}
+
+.claim-sides {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+@media (min-width: 769px) {
+  .claim-sides::before {
+    content: '';
+    position: absolute;
+    top: 1.5rem;
+    bottom: 1rem;
+    left: 50%;
+    width: 1px;
+    background: var(--border);
+  }
+}
+
+@media (max-width: 768px) {
+  .claim-sides { grid-template-columns: 1fr; gap: 1rem; }
+}
+
+.theater-scroll .claim-sides {
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.theater-scroll .claim-sides::before { display: none; }
+
+/* ─── MAP FILTER COUNT BADGE ─── */
+.filter-count {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.45rem;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 0.1rem 0.3rem;
+  border-radius: 3px;
+  min-width: 16px;
+  text-align: center;
+  font-weight: 600;
 }
 
 /* ─── ANIMATIONS ─── */

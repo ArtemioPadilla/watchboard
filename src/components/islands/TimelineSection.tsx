@@ -31,12 +31,31 @@ export default function TimelineSection({ timeline }: Props) {
     setSelected(prev => prev === ev ? null : ev);
   };
 
+  const EVENT_TYPES = [
+    { type: 'military', color: 'var(--accent-red)', label: 'Military' },
+    { type: 'diplomatic', color: 'var(--accent-blue)', label: 'Diplomatic' },
+    { type: 'humanitarian', color: 'var(--accent-amber)', label: 'Humanitarian' },
+    { type: 'economic', color: 'var(--accent-green)', label: 'Economic' },
+  ];
+
   return (
     <section className="section fade-in" id="sec-timeline">
       <div className="section-header">
         <span className="section-num">01</span>
         <h2 className="section-title">Historical Timeline</h2>
         <span className="section-count">1941 &ndash; Present</span>
+      </div>
+      <div className="tl-legend">
+        {EVENT_TYPES.map(et => (
+          <span key={et.type} className="tl-legend-item">
+            <span className="tl-legend-dot" style={{ borderColor: et.color }} />
+            {et.label}
+          </span>
+        ))}
+        <span className="tl-legend-item">
+          <span className="tl-legend-dot active-dot" />
+          Active
+        </span>
       </div>
       <div className="timeline-container">
         <div className="timeline-track">

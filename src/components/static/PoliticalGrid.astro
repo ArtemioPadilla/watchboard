@@ -6,6 +6,14 @@ interface Props {
 }
 
 const { political } = Astro.props;
+
+const affiliationLabel: Record<string, string> = {
+  us: 'US Official',
+  ir: 'Iran Official',
+  il: 'Israel Official',
+  un: 'UN / Intl',
+  other: 'World Leader',
+};
 ---
 <section class="section fade-in" id="sec-political">
   <div class="section-header">
@@ -21,6 +29,7 @@ const { political } = Astro.props;
             <div class="pol-name">{p.name}</div>
             <div class="pol-role">{p.role}</div>
           </div>
+          <span class={`pol-affiliation ${p.avatar}`}>{affiliationLabel[p.avatar] || p.avatar}</span>
         </div>
         <div class="pol-quote">{p.quote}</div>
       </div>

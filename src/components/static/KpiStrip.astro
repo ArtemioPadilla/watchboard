@@ -12,8 +12,18 @@ const { kpis } = Astro.props;
     {kpis.map(k => (
       <div class="kpi-card">
         <div class="kpi-label">{k.label}</div>
-        <div class={`kpi-value ${k.color}`}>{k.value}</div>
+        <div class={`kpi-value ${k.color}`}>
+          {k.value}
+          {k.trend && k.trend !== 'stable' && (
+            <span class={`kpi-trend ${k.trend}`}>
+              {k.trend === 'up' ? '\u25B2' : '\u25BC'}
+            </span>
+          )}
+        </div>
         <div class="kpi-source">
+          {k.delta && (
+            <span class={`kpi-delta ${k.trend || ''}`}>{k.delta}</span>
+          )}
           {k.source}
           {k.contested && <span class="kpi-contested">{k.contestNote || 'CONTESTED'}</span>}
         </div>
