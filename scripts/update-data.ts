@@ -505,20 +505,40 @@ Return ONLY genuinely new events as a JSON array.`);
 async function updateMapPoints(): Promise<SectionResult> {
   try {
     const current = readJSON<z.infer<typeof MapPointSchema>[]>('map-points.json');
+    const strikes = readJSON<unknown[]>('strike-targets.json');
+    const retaliation = readJSON<unknown[]>('retaliation.json');
     const fields = describeFields(MapPointSchema);
+
+    // Find dates already covered by map points
+    const existingDates = new Set(current.map(p => p.date));
+    const maxDate = [...existingDates].sort().pop() || '';
+
     const text = await callAI(SYSTEM_PROMPT, `Search for new military locations, strike targets, or asset deployments in the Iran-US/Israel conflict as of ${today}.
 Return an updated map points array as JSON.
 
 Each object must have exactly these fields:
 ${fields}
 
-IMPORTANT: "date" must be a string in YYYY-MM-DD format (e.g. "2026-03-04"). "tier" must be a number (1, 2, 3, or 4). "lat" and "lon" must be numbers, not strings.
+IMPORTANT: "date" must be a string in YYYY-MM-DD format (e.g. "${today}"). "tier" must be a number (1, 2, 3, or 4). "lat" and "lon" must be numbers, not strings.
 Coordinate constraints: lon must be 25–65, lat must be 20–42.
 
-Current map points:
+Current map points (latest date is ${maxDate}):
 ${JSON.stringify(current, null, 2)}
 
-Update existing points if their details have changed. Add new points for newly reported locations. Remove nothing. Return the complete updated array.`);
+CROSS-REFERENCE — these are the latest strike targets and retaliation events. Every location mentioned here MUST have a corresponding map point. If a strike or retaliation location is missing from the map, ADD it with accurate lat/lon coordinates:
+
+Strike targets:
+${JSON.stringify(strikes, null, 2)}
+
+Retaliation events:
+${JSON.stringify(retaliation, null, 2)}
+
+RULES:
+1. Keep ALL existing points unchanged (update details only if new info exists)
+2. ADD new points for any strike/retaliation location not yet on the map
+3. ADD new points for any newly reported events since ${maxDate}
+4. Every new point MUST have a date of when the event occurred in YYYY-MM-DD format
+5. Return the complete updated array`);
 
     const parsed = normalizeItems(JSON.parse(extractJSON(text)));
     const PointSchema = MapPointSchema.omit({ lastUpdated: true }).extend({ lastUpdated: z.string().optional() });
@@ -542,19 +562,33 @@ Update existing points if their details have changed. Add new points for newly r
 async function updateMapLines(): Promise<SectionResult> {
   try {
     const current = readJSON<z.infer<typeof MapLineSchema>[]>('map-lines.json');
+    const mapPoints = readJSON<z.infer<typeof MapPointSchema>[]>('map-points.json');
     const fields = describeFields(MapLineSchema);
+
+    // Build a lookup of map point coordinates for GPT to reference
+    const pointCoords = mapPoints.map(p => ({ id: p.id, label: p.label, cat: p.cat, lon: p.lon, lat: p.lat }));
+    const maxDate = [...current.map(l => l.date)].sort().pop() || '';
+
     const text = await callAI(SYSTEM_PROMPT, `Search for new military strike routes, retaliation vectors, or front lines in the Iran-US/Israel conflict as of ${today}.
 Return an updated map lines array as JSON.
 
 Each object must have exactly these fields:
 ${fields}
 
-IMPORTANT: "date" must be a string in YYYY-MM-DD format (e.g. "2026-03-04"). "from" and "to" must be [lon, lat] tuples of numbers.
+IMPORTANT: "date" must be a string in YYYY-MM-DD format (e.g. "${today}"). "from" and "to" must be [lon, lat] tuples of numbers.
 
-Current map lines:
+Current map lines (latest date is ${maxDate}):
 ${JSON.stringify(current, null, 2)}
 
-Update existing lines if their details have changed. Add new lines for newly reported attack vectors. Remove nothing. Return the complete updated array.`);
+Available map point coordinates (use these for "from" and "to" values):
+${JSON.stringify(pointCoords, null, 2)}
+
+RULES:
+1. Keep ALL existing lines unchanged
+2. ADD new arc lines for any new strike routes, retaliation vectors, or front movements since ${maxDate}
+3. "from" and "to" are [lon, lat] — use coordinates from the map points above
+4. Each new line needs a date in YYYY-MM-DD format for when the event occurred
+5. Return the complete updated array`);
 
     const parsed = normalizeItems(JSON.parse(extractJSON(text)));
     const LineSchema = MapLineSchema.omit({ lastUpdated: true }).extend({ lastUpdated: z.string().optional() });
@@ -783,15 +817,16 @@ async function main() {
   results.meta = await updateMeta();
 
   // Run API-dependent sections sequentially to avoid rate limits
+  // Order matters: military → map-points → map-lines (each feeds into the next)
   if (runAll || sections.includes('kpis')) results.kpis = await updateKPIs();
   if (runAll || sections.includes('timeline')) results.timeline = await updateTimeline();
-  if (runAll || sections.includes('map')) results.map = await updateMapPoints();
-  if (runAll || sections.includes('map-lines')) results['map-lines'] = await updateMapLines();
   if (runAll || sections.includes('casualties')) results.casualties = await updateCasualties();
   if (runAll || sections.includes('econ')) results.econ = await updateEcon();
   if (runAll || sections.includes('claims')) results.claims = await updateClaims();
   if (runAll || sections.includes('political')) results.political = await updatePolitical();
   if (runAll || sections.includes('military')) results.military = await updateMilitary();
+  if (runAll || sections.includes('map')) results.map = await updateMapPoints();
+  if (runAll || sections.includes('map-lines')) results['map-lines'] = await updateMapLines();
 
   // Write update log
   const log = {
