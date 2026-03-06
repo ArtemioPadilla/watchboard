@@ -132,7 +132,6 @@ function repairTruncatedJSON(json: string): string {
     if (ch === '[' || ch === '{') stack.push(ch === '[' ? ']' : '}');
     if (ch === ']' || ch === '}') {
       stack.pop();
-      lastValidEnd = i;
     }
   }
 
