@@ -1,5 +1,5 @@
 {
-  "lastRun": "2026-03-06T04:24:50.651Z",
+  "lastRun": "2026-03-06T04:38:18.553Z",
   "provider": "openai",
   "model": "gpt-4o",
   "sections": {
@@ -12,19 +12,19 @@
     },
     "timeline": {
       "status": "updated",
-      "newEvents": 6
+      "newEvents": 4
     },
     "map": {
-      "status": "error",
-      "reason": "SyntaxError: Unexpected token 'B', \"Based on t\"... is not valid JSON"
+      "status": "skipped",
+      "reason": "validation_failed"
     },
     "map-lines": {
-      "status": "error",
-      "reason": "SyntaxError: Unterminated string in JSON at position 5702 (line 378 column 21)"
+      "status": "skipped",
+      "reason": "validation_failed"
     },
     "casualties": {
       "status": "updated",
-      "itemCount": 13
+      "itemCount": 14
     },
     "econ": {
       "status": "updated",
@@ -32,15 +32,15 @@
     },
     "claims": {
       "status": "updated",
-      "itemCount": 13
+      "itemCount": 17
     },
     "political": {
-      "status": "error",
-      "reason": "SyntaxError: Unterminated string in JSON at position 8714 (line 224 column 6)"
+      "status": "updated",
+      "itemCount": 29
     },
     "military": {
       "status": "updated",
-      "itemCount": 52
+      "itemCount": 56
     }
   }
 }
