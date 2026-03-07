@@ -47,12 +47,33 @@ function loadTimeline() {
   const eras = z.array(TimelineEraSchema).parse(timelineRaw);
 
   // Collect all partitioned daily events, sorted by filename (date order)
+  const MONTH_NAMES: Record<string, string> = {
+    '01': 'Jan', '02': 'Feb', '03': 'Mar', '04': 'Apr', '05': 'May', '06': 'Jun',
+    '07': 'Jul', '08': 'Aug', '09': 'Sep', '10': 'Oct', '11': 'Nov', '12': 'Dec',
+  };
   const dailyEvents = Object.keys(eventModules)
     .sort()
     .flatMap((path) => {
       const mod = eventModules[path];
       const raw = 'default' in mod ? mod.default : mod;
-      return z.array(TimelineEventSchema).parse(raw);
+      const events = z.array(TimelineEventSchema).parse(raw);
+
+      // Derive date from filename (e.g. "../data/events/2026-03-05.json" → "Mar 5")
+      const match = path.match(/(\d{4})-(\d{2})-(\d{2})\.json$/);
+      if (match) {
+        const monLabel = MONTH_NAMES[match[2]];
+        const day = String(Number(match[3])); // strip leading zero
+        if (monLabel) {
+          for (const ev of events) {
+            // Fix bare-year entries the AI updater sometimes produces
+            if (/^\d{4}$/.test(ev.year)) {
+              ev.year = `${monLabel} ${day}`;
+            }
+          }
+        }
+      }
+
+      return events;
     });
 
   if (dailyEvents.length > 0) {

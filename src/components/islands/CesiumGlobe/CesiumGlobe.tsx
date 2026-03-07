@@ -301,7 +301,7 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [] }: 
   useConflictData(cesiumViewer, filteredPoints, pastLines, setSelectedPoint);
 
   // ── Current-date arcs + animated missiles ──
-  useMissiles(cesiumViewer, currentLines, currentDate, isPlaying, simTimeRef);
+  useMissiles(cesiumViewer, currentLines, currentDate, isPlaying, simTimeRef, playbackSpeed);
 
   // ── External data layers (synced to timeline) ──
   const { count: satCount } = useSatellites(cesiumViewer, layers.satellites, simTimeRef);

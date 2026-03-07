@@ -8,27 +8,26 @@ import {
   type Entity,
 } from 'cesium';
 import type { MapLine } from '../../../lib/schemas';
-import { arc3D, catToCesiumColor, lineWidth, arcMaterial } from './cesium-helpers';
+import { arc3D, catToCesiumColor, lineWidth, arcMaterial, simFlightDuration } from './cesium-helpers';
 
 interface MissileAnimation {
   lineId: string;
-  realStart: number;        // performance.now() when spawned
-  realDuration: number;     // ms of real wall-clock time
+  startSimTime: number;
+  simDuration: number;
   arcPositions: Cartesian3[];
   trailEntity: Entity | null;
   projectileEntity: Entity | null;
   completed: boolean;
 }
 
-/** Minimum real-time duration so animations are always visible */
-const MIN_REAL_MS = 2500;
 const MAX_CONCURRENT = 10;
-/** Stagger between successive missile launches (real ms) */
-const STAGGER_MS = 300;
+/** Minimum real-time visibility in seconds */
+const MIN_REAL_SECONDS = 2.0;
 
 /**
  * Renders arcs for the current date's lines.
- * - When playing: animates strike/retaliation with real-time-synced trails + projectiles.
+ * - When playing: animates strike/retaliation synced to sim-time velocity.
+ *   Duration is scaled so animations always take at least ~2 real seconds.
  * - When not playing: shows all lines as static arcs.
  * - On date/lines change: cleans up all entities and rebuilds.
  */
@@ -38,6 +37,7 @@ export function useMissiles(
   currentDate: string,
   isPlaying: boolean,
   simTimeRef: React.RefObject<number>,
+  playbackSpeed: number,
 ): void {
   const animationsRef = useRef<MissileAnimation[]>([]);
   const staticEntitiesRef = useRef<Entity[]>([]);
@@ -98,30 +98,36 @@ export function useMissiles(
 
     if (animatable.length === 0) return;
 
-    const baseTime = performance.now();
+    const baseSimTime = simTimeRef.current;
+    // Minimum sim-time duration that guarantees ~2 real seconds at current speed
+    const minSimDuration = MIN_REAL_SECONDS * playbackSpeed * 1000;
+    // Stagger: 0.3 real seconds between launches, in sim-time units
+    const staggerSim = 0.3 * playbackSpeed * 1000;
 
     for (let i = 0; i < animatable.length; i++) {
       const line = animatable[i];
       const arcPositions = arc3D(line.from, line.to, 60, 150_000);
+      const physicalDuration = simFlightDuration(line.from, line.to);
+      const simDuration = Math.max(physicalDuration, minSimDuration);
       const color = catToCesiumColor(line.cat);
 
       const anim: MissileAnimation = {
         lineId: line.id,
-        realStart: baseTime + i * STAGGER_MS,
-        realDuration: MIN_REAL_MS,
+        startSimTime: baseSimTime + i * staggerSim,
+        simDuration,
         arcPositions,
         trailEntity: null,
         projectileEntity: null,
         completed: false,
       };
 
-      // Trail entity — polyline that grows as missile advances (real-time based)
+      // Trail entity — polyline that grows as missile advances
       anim.trailEntity = viewer.entities.add({
         polyline: {
           positions: new CallbackProperty(() => {
             if (anim.completed) return anim.arcPositions;
-            const elapsed = performance.now() - anim.realStart;
-            const progress = Math.min(Math.max(elapsed / anim.realDuration, 0), 1);
+            const simElapsed = simTimeRef.current - anim.startSimTime;
+            const progress = Math.min(Math.max(simElapsed / anim.simDuration, 0), 1);
             const segCount = Math.max(1, Math.floor(progress * anim.arcPositions.length));
             return anim.arcPositions.slice(0, segCount);
           }, false) as any,
@@ -137,8 +143,8 @@ export function useMissiles(
       anim.projectileEntity = viewer.entities.add({
         position: new CallbackProperty(() => {
           if (anim.completed) return anim.arcPositions[anim.arcPositions.length - 1];
-          const elapsed = performance.now() - anim.realStart;
-          const progress = Math.min(Math.max(elapsed / anim.realDuration, 0), 1);
+          const simElapsed = simTimeRef.current - anim.startSimTime;
+          const progress = Math.min(Math.max(simElapsed / anim.simDuration, 0), 1);
           const idx = Math.min(
             Math.floor(progress * (anim.arcPositions.length - 1)),
             anim.arcPositions.length - 1,
@@ -168,8 +174,8 @@ export function useMissiles(
       for (const anim of animationsRef.current) {
         if (anim.completed) continue;
 
-        const elapsed = performance.now() - anim.realStart;
-        if (elapsed >= anim.realDuration) {
+        const simElapsed = simTimeRef.current - anim.startSimTime;
+        if (simElapsed >= anim.simDuration) {
           // Animation complete — remove projectile, freeze trail
           if (anim.projectileEntity) {
             try { viewer.entities.remove(anim.projectileEntity); } catch { /* ok */ }
@@ -202,7 +208,7 @@ export function useMissiles(
       animationsRef.current = [];
       staticEntitiesRef.current = [];
     };
-  }, [viewer, currentDate, isPlaying, lines]);
+  }, [viewer, currentDate, isPlaying, lines, playbackSpeed]);
 }
 
 function cleanup(
