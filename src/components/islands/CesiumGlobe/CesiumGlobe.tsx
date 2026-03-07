@@ -45,6 +45,9 @@ const KPI_COLORS: Record<string, string> = {
   green: '#2ecc71',
 };
 
+// Stable DOM element for Cesium credit container (must not change between renders)
+const creditDiv = document.createElement('div');
+
 export default function CesiumGlobe({ points, lines, kpis, meta }: Props) {
   const viewerRef = useRef<CesiumComponentRef<CesiumViewer> | null>(null);
   const [cesiumViewer, setCesiumViewer] = useState<CesiumViewer | null>(null);
@@ -210,7 +213,8 @@ export default function CesiumGlobe({ points, lines, kpis, meta }: Props) {
       <Viewer
         ref={(e: any) => {
           viewerRef.current = e;
-          if (e?.cesiumElement && !cesiumViewer) handleViewerReady(e.cesiumElement);
+          const v = e?.cesiumElement;
+          if (v && v !== cesiumViewer) handleViewerReady(v);
         }}
         full
         sceneMode={SceneMode.SCENE3D}
@@ -225,7 +229,7 @@ export default function CesiumGlobe({ points, lines, kpis, meta }: Props) {
         selectionIndicator={false}
         timeline={false}
         vrButton={false}
-        creditContainer={document.createElement('div')}
+        creditContainer={creditDiv}
       >
         {cesiumViewer && (
           <>
