@@ -3,6 +3,7 @@ import { Viewer } from 'resium';
 import {
   Camera,
   Cartesian3,
+  JulianDate,
   Math as CesiumMath,
   Color,
   Ion,
@@ -28,6 +29,8 @@ import CesiumEventsPanel from './CesiumEventsPanel';
 import { useSatellites } from './useSatellites';
 import { useFlights } from './useFlights';
 import { useEarthquakes } from './useEarthquakes';
+import { useWeather } from './useWeather';
+import { useNoFlyZones } from './useNoFlyZones';
 
 interface Props {
   points: MapPoint[];
@@ -79,7 +82,7 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [] }: 
   const [visualMode, setVisualMode] = useState<VisualMode>('normal');
 
   // ── Live data layer toggles ──
-  const [layers, setLayers] = useState({ satellites: true, flights: true, quakes: false });
+  const [layers, setLayers] = useState({ satellites: true, flights: true, quakes: false, weather: false, nfz: true });
 
   // ── Events panel ──
   const [eventsOpen, setEventsOpen] = useState(true);
@@ -202,7 +205,7 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [] }: 
     });
   };
 
-  const toggleLayer = (layer: 'satellites' | 'flights' | 'quakes') => {
+  const toggleLayer = (layer: 'satellites' | 'flights' | 'quakes' | 'weather' | 'nfz') => {
     setLayers(prev => ({ ...prev, [layer]: !prev[layer] }));
   };
 
@@ -300,10 +303,19 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [] }: 
   // ── Current-date arcs + animated missiles ──
   useMissiles(cesiumViewer, currentLines, currentDate, isPlaying, simTimeRef);
 
-  // ── Real-time data feeds (pass mode for sync) ──
-  const { count: satCount } = useSatellites(cesiumViewer, layers.satellites);
+  // ── External data layers (synced to timeline) ──
+  const { count: satCount } = useSatellites(cesiumViewer, layers.satellites, simTimeRef);
   const { count: flightCount } = useFlights(cesiumViewer, layers.flights && mode === 'live');
-  const { count: quakeCount } = useEarthquakes(cesiumViewer, layers.quakes);
+  const { count: quakeCount } = useEarthquakes(cesiumViewer, layers.quakes, currentDate);
+  const { count: weatherCount } = useWeather(cesiumViewer, layers.weather, currentDate);
+  const { count: nfzCount } = useNoFlyZones(cesiumViewer, layers.nfz, currentDate);
+
+  // ── Sync Cesium clock for day/night terminator ──
+  useEffect(() => {
+    if (!cesiumViewer || cesiumViewer.isDestroyed()) return;
+    const julianDate = JulianDate.fromDate(new Date(simTimeRef.current));
+    cesiumViewer.clock.currentTime = julianDate;
+  }, [cesiumViewer, currentDate]);
 
   const totalLines = pastLines.length + currentLines.length;
 
@@ -416,6 +428,18 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [] }: 
           <>
             <span className="globe-stats-sep">&middot;</span>
             <span style={{ color: '#ff6644' }}>{quakeCount} quakes</span>
+          </>
+        )}
+        {layers.weather && weatherCount > 0 && (
+          <>
+            <span className="globe-stats-sep">&middot;</span>
+            <span style={{ color: '#88ccff' }}>{weatherCount} wx</span>
+          </>
+        )}
+        {layers.nfz && nfzCount > 0 && (
+          <>
+            <span className="globe-stats-sep">&middot;</span>
+            <span style={{ color: '#e74c3c' }}>{nfzCount} NFZ</span>
           </>
         )}
         {mode === 'historical' && (

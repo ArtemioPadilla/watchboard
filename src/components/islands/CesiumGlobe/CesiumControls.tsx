@@ -9,8 +9,8 @@ interface Props {
   onCameraPreset: (key: CameraPresetKey) => void;
   visualMode: VisualMode;
   onVisualMode: (mode: VisualMode) => void;
-  layers: { satellites: boolean; flights: boolean; quakes: boolean };
-  onToggleLayer: (layer: 'satellites' | 'flights' | 'quakes') => void;
+  layers: { satellites: boolean; flights: boolean; quakes: boolean; weather: boolean; nfz: boolean };
+  onToggleLayer: (layer: 'satellites' | 'flights' | 'quakes' | 'weather' | 'nfz') => void;
   persistLines: boolean;
   onTogglePersist: () => void;
 }
@@ -104,7 +104,7 @@ export default function CesiumControls({
 
       {/* Real-time data layers */}
       <div className="globe-control-group">
-        <div className="globe-control-label">Live Intel Feeds</div>
+        <div className="globe-control-label">Intel Layers</div>
         <button
           className={`globe-filter${layers.satellites ? ' active' : ''}`}
           onClick={() => onToggleLayer('satellites')}
@@ -138,6 +138,26 @@ export default function CesiumControls({
         >
           <span className="globe-fdot" style={{ background: '#ff6644' }} />
           Seismic
+        </button>
+        <button
+          className={`globe-filter${layers.weather ? ' active' : ''}`}
+          onClick={() => onToggleLayer('weather')}
+        >
+          <span className="globe-fdot" style={{ background: '#88ccff' }} />
+          Weather
+        </button>
+        {layers.weather && (
+          <div className="globe-sublabel">
+            <span style={{ color: '#ffffff' }}>&#9679; Cloud</span>{' '}
+            <span style={{ color: '#88ccff' }}>&#9679; Wind</span>
+          </div>
+        )}
+        <button
+          className={`globe-filter${layers.nfz ? ' active' : ''}`}
+          onClick={() => onToggleLayer('nfz')}
+        >
+          <span className="globe-fdot" style={{ background: '#e74c3c' }} />
+          No-Fly Zones
         </button>
       </div>
     </div>

@@ -66,7 +66,11 @@ function parseTLE(text: string, group: SatGroup): SatRecord[] {
 }
 
 /** Fetch military-relevant satellite TLEs and propagate orbits */
-export function useSatellites(viewer: CesiumViewer | null, enabled: boolean) {
+export function useSatellites(
+  viewer: CesiumViewer | null,
+  enabled: boolean,
+  simTimeRef?: React.RefObject<number>,
+) {
   const [count, setCount] = useState(0);
   const satsRef = useRef<SatRecord[]>([]);
   const entitiesRef = useRef<Entity[]>([]);
@@ -159,7 +163,7 @@ export function useSatellites(viewer: CesiumViewer | null, enabled: boolean) {
     });
 
     const updatePositions = () => {
-      const now = new Date();
+      const now = simTimeRef ? new Date(simTimeRef.current) : new Date();
       const gmst = satellite.gstime(now);
 
       satsRef.current.forEach((sat, i) => {
