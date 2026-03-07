@@ -204,6 +204,87 @@ function removeTrailingCommas(json: string): string {
   return result;
 }
 
+// ─── Diff Guards ───
+
+interface DiffGuardResult {
+  ok: boolean;
+  reason?: string;
+}
+
+/**
+ * Reject updates that would catastrophically shrink or inflate the dataset.
+ * - Shrink guard: incoming must be >= 50% of existing (prevents data loss)
+ * - Growth guard: incoming must be <= 200% of existing (prevents hallucination floods)
+ * - Minimum: always allow if existing is < 3 items (bootstrapping)
+ */
+function diffGuard(existingCount: number, incomingCount: number, label: string): DiffGuardResult {
+  if (existingCount < 3) return { ok: true }; // bootstrapping
+  const ratio = incomingCount / existingCount;
+  if (ratio < 0.5) {
+    return { ok: false, reason: `${label}: incoming (${incomingCount}) is <50% of existing (${existingCount}) — blocked to prevent data loss` };
+  }
+  if (ratio > 2.0) {
+    return { ok: false, reason: `${label}: incoming (${incomingCount}) is >200% of existing (${existingCount}) — blocked to prevent hallucination flood` };
+  }
+  return { ok: true };
+}
+
+// ─── Semantic Validators ───
+
+const VALID_YEAR_RE = /^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+\d{1,2}$/i;
+const VALID_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+const MONTH_ABBRS: Record<string, string> = {
+  '01': 'Jan', '02': 'Feb', '03': 'Mar', '04': 'Apr', '05': 'May', '06': 'Jun',
+  '07': 'Jul', '08': 'Aug', '09': 'Sep', '10': 'Oct', '11': 'Nov', '12': 'Dec',
+};
+
+/** Fix common AI mistakes in the year field for daily events */
+function normalizeEventYear(event: Record<string, unknown>): void {
+  const year = event.year;
+  if (typeof year !== 'string') return;
+
+  // Already valid format
+  if (VALID_YEAR_RE.test(year) || VALID_DATE_RE.test(year)) return;
+
+  // Bare year like "2026" — use today's date
+  if (/^\d{4}$/.test(year)) {
+    const m = MONTH_ABBRS[today.slice(5, 7)];
+    const d = String(Number(today.slice(8, 10)));
+    event.year = `${m} ${d}`;
+    console.warn(`[timeline] Fixed bare year "${year}" → "${event.year}"`);
+    return;
+  }
+
+  // Full date like "March 5, 2026" or "March 5" → "Mar 5"
+  const fullMonth = year.match(/^(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2})/i);
+  if (fullMonth) {
+    const abbr = fullMonth[1].slice(0, 3);
+    event.year = `${abbr.charAt(0).toUpperCase() + abbr.slice(1).toLowerCase()} ${fullMonth[2]}`;
+    console.warn(`[timeline] Fixed full month "${year}" → "${event.year}"`);
+    return;
+  }
+
+  // ISO timestamp "2026-03-07T..." → "Mar 7"
+  const isoMatch = year.match(/^(\d{4})-(\d{2})-(\d{2})T/);
+  if (isoMatch) {
+    const m = MONTH_ABBRS[isoMatch[2]];
+    const d = String(Number(isoMatch[3]));
+    if (m) {
+      event.year = `${m} ${d}`;
+      console.warn(`[timeline] Fixed ISO timestamp "${year}" → "${event.year}"`);
+    }
+    return;
+  }
+
+  console.warn(`[timeline] Unrecognized year format: "${year}" — leaving as-is`);
+}
+
+/** Validate map line coordinates are within theater bounds */
+function validateLineCoords(line: { from: [number, number]; to: [number, number] }): boolean {
+  const inBounds = (lon: number, lat: number) => lon >= 20 && lon <= 70 && lat >= 10 && lat <= 50;
+  return inBounds(line.from[0], line.from[1]) && inBounds(line.to[0], line.to[1]);
+}
+
 /** Normalize parsed JSON arrays — coerce dates, fill missing fields */
 function normalizeItems(items: unknown[]): unknown[] {
   return items.map(item => {
@@ -432,6 +513,11 @@ Update the values and sources with the latest available data. Preserve existing 
       console.error('[kpis] Validation failed:', result.error.format());
       return { status: 'skipped', reason: 'validation_failed' };
     }
+    const guard = diffGuard(current.length, result.data.length, 'kpis');
+    if (!guard.ok) {
+      console.warn(`[kpis] ${guard.reason}`);
+      return { status: 'skipped', reason: 'diff_guard' };
+    }
     const { merged } = mergeById(current, result.data);
     writeJSON('kpis.json', merged);
     return { status: 'updated', itemCount: merged.length };
@@ -463,6 +549,11 @@ Return any new timeline entries as a JSON array. Return an empty array [] if not
 Each object must have these fields:
 ${fields}
 
+CRITICAL FORMAT RULES:
+- "year" MUST be in "Mon DD" format, e.g. "Mar 7", "Feb 28", "Jan 13". NOT "2026", NOT "March 7", NOT "2026-03-07".
+- "type" MUST be one of: "military", "diplomatic", "humanitarian", "economic"
+- "id" must be lowercase_snake_case, unique, descriptive (e.g. "iran_strikes_us_base_qatar_mar7")
+
 IMPORTANT: Each event's "sources" array must include sources from MULTIPLE poles where available.
 Each source object needs: { "name": string, "tier": 1|2|3|4, "url": string (optional), "pole": "western"|"middle_eastern"|"eastern"|"international" }
 
@@ -477,8 +568,20 @@ Return ONLY genuinely new events as a JSON array.`);
       return { status: 'skipped', reason: 'validation_failed' };
     }
 
+    // Normalize year field for all incoming events
+    for (const event of result.data) {
+      normalizeEventYear(event as unknown as Record<string, unknown>);
+    }
+
     const existingIds = new Set(existingEvents.map(e => e.id));
     const newEvents = result.data.filter(e => !existingIds.has(e.id));
+
+    // Cap new events per day to prevent hallucination floods
+    const MAX_NEW_PER_DAY = 50;
+    if (newEvents.length > MAX_NEW_PER_DAY) {
+      console.warn(`[timeline] ${newEvents.length} new events exceeds cap of ${MAX_NEW_PER_DAY} — keeping first ${MAX_NEW_PER_DAY}`);
+      newEvents.splice(MAX_NEW_PER_DAY);
+    }
 
     if (newEvents.length > 0) {
       // Append to today's event file
@@ -551,6 +654,11 @@ RULES:
     if (valid.length !== validItems.length) {
       console.warn(`[map-points] Filtered ${validItems.length - valid.length} out-of-bounds points`);
     }
+    const guard = diffGuard(current.length, valid.length, 'map-points');
+    if (!guard.ok) {
+      console.warn(`[map-points] ${guard.reason}`);
+      return { status: 'skipped', reason: 'diff_guard' };
+    }
     const { merged } = mergeById(current, valid);
     writeJSON('map-points.json', merged);
     return { status: 'updated', itemCount: merged.length };
@@ -598,7 +706,20 @@ RULES:
     if (validItems.length === 0) {
       return { status: 'skipped', reason: 'all_items_invalid' };
     }
-    const { merged } = mergeById(current, validItems);
+    // Filter out-of-bounds coordinates
+    const valid = validItems.filter(l => {
+      if (!validateLineCoords(l)) {
+        console.warn(`[map-lines] Out-of-bounds line: ${l.id} from=[${l.from}] to=[${l.to}]`);
+        return false;
+      }
+      return true;
+    });
+    const guard = diffGuard(current.length, valid.length, 'map-lines');
+    if (!guard.ok) {
+      console.warn(`[map-lines] ${guard.reason}`);
+      return { status: 'skipped', reason: 'diff_guard' };
+    }
+    const { merged } = mergeById(current, valid);
     writeJSON('map-lines.json', merged);
     return { status: 'updated', itemCount: merged.length };
   } catch (err) {
@@ -627,6 +748,11 @@ Update figures that have changed. Add new rows if needed. Mark contested figures
     if (!result.success) {
       console.error('[casualties] Validation failed:', result.error.format());
       return { status: 'skipped', reason: 'validation_failed' };
+    }
+    const guard = diffGuard(current.length, result.data.length, 'casualties');
+    if (!guard.ok) {
+      console.warn(`[casualties] ${guard.reason}`);
+      return { status: 'skipped', reason: 'diff_guard' };
     }
     const { merged } = mergeById(current, result.data);
     writeJSON('casualties.json', merged);
@@ -657,6 +783,11 @@ Update with the latest available market data. Return complete updated array.`);
     if (!result.success) {
       console.error('[econ] Validation failed:', result.error.format());
       return { status: 'skipped', reason: 'validation_failed' };
+    }
+    const guard = diffGuard(current.length, result.data.length, 'econ');
+    if (!guard.ok) {
+      console.warn(`[econ] ${guard.reason}`);
+      return { status: 'skipped', reason: 'diff_guard' };
     }
     const { merged } = mergeById(current, result.data);
     writeJSON('econ.json', merged);
@@ -691,6 +822,11 @@ Update existing claims if their resolution status has changed. Add new major con
     if (validItems.length === 0) {
       return { status: 'skipped', reason: 'all_items_invalid' };
     }
+    const guard = diffGuard(current.length, validItems.length, 'claims');
+    if (!guard.ok) {
+      console.warn(`[claims] ${guard.reason}`);
+      return { status: 'skipped', reason: 'diff_guard' };
+    }
     const { merged } = mergeById(current, validItems);
     writeJSON('claims.json', merged);
     return { status: 'updated', itemCount: merged.length };
@@ -720,6 +856,11 @@ Update existing quotes if newer statements exist. Add new notable statements. Re
     const validItems = validateItemwise(parsed, PolLoose, 'political');
     if (validItems.length === 0) {
       return { status: 'skipped', reason: 'all_items_invalid' };
+    }
+    const guard = diffGuard(current.length, validItems.length, 'political');
+    if (!guard.ok) {
+      console.warn(`[political] ${guard.reason}`);
+      return { status: 'skipped', reason: 'diff_guard' };
     }
     const { merged } = mergeById(current, validItems);
     writeJSON('political.json', merged);
