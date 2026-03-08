@@ -148,6 +148,11 @@ body:has(.globe-wrapper) .tooltip {
   opacity: 0.8;
 }
 
+.globe-sublabel-wrap {
+  flex-wrap: wrap;
+  row-gap: 2px;
+}
+
 /* Camera presets */
 .globe-preset-grid {
   display: grid;
@@ -932,6 +937,32 @@ body:has(.globe-wrapper) .tooltip {
   color: rgba(232, 233, 237, 0.3);
   font-size: 0.8rem;
   margin-top: 1px;
+}
+
+.globe-event-confidence-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.globe-event-weapon-badges {
+  display: flex;
+  gap: 3px;
+  flex-wrap: wrap;
+}
+
+.globe-event-weapon-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.4rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 1px 4px;
+  border: 1px solid;
+  border-radius: 2px;
+  white-space: nowrap;
 }
 
 .globe-event-detail {

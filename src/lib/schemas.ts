@@ -37,6 +37,14 @@ export const MediaItemSchema = z.object({
   thumbnail: z.string().optional(),
 });
 
+// ── OSINT Enums ──
+
+export const WeaponTypeSchema = z.enum([
+  'ballistic', 'cruise', 'drone', 'rocket', 'mixed', 'unknown'
+]);
+export const ConfidenceSchema = z.enum(['high', 'medium', 'low']);
+export const StrikeStatusSchema = z.enum(['hit', 'intercepted', 'partial', 'unknown']);
+
 // ── Timeline ──
 export const TimelineEventSchema = z.object({
   id: z.string(),
@@ -47,6 +55,8 @@ export const TimelineEventSchema = z.object({
   detail: z.string(),
   sources: z.array(SourceSchema),
   media: z.array(MediaItemSchema).optional(),
+  weaponTypes: z.array(WeaponTypeSchema).optional(),
+  confidence: ConfidenceSchema.optional(),
   lastUpdated: z.string().optional(),
 });
 
@@ -76,6 +86,16 @@ export const MapLineSchema = z.object({
   cat: z.enum(['strike', 'retaliation', 'asset', 'front']),
   label: z.string(),
   date: z.string(),
+  weaponType: WeaponTypeSchema.optional(),
+  launched: z.number().optional(),
+  intercepted: z.number().optional(),
+  confidence: ConfidenceSchema.optional(),
+  time: z.string().optional(),
+  damage: z.string().optional(),
+  casualties: z.string().optional(),
+  notes: z.string().optional(),
+  platform: z.string().optional(),
+  status: StrikeStatusSchema.optional(),
   lastUpdated: z.string().optional(),
 });
 
@@ -172,3 +192,6 @@ export type EconItem = z.infer<typeof EconItemSchema>;
 export type Claim = z.infer<typeof ClaimSchema>;
 export type PolItem = z.infer<typeof PolItemSchema>;
 export type Meta = z.infer<typeof MetaSchema>;
+export type WeaponType = z.infer<typeof WeaponTypeSchema>;
+export type Confidence = z.infer<typeof ConfidenceSchema>;
+export type StrikeStatus = z.infer<typeof StrikeStatusSchema>;

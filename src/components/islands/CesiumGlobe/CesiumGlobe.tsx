@@ -304,7 +304,7 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [] }: 
   useMissiles(cesiumViewer, currentLines, currentDate, isPlaying, simTimeRef, playbackSpeed);
 
   // ── External data layers (synced to timeline) ──
-  const { count: satCount } = useSatellites(cesiumViewer, layers.satellites, simTimeRef);
+  const { count: satCount, groupCounts: satGroupCounts } = useSatellites(cesiumViewer, layers.satellites, simTimeRef);
   const { count: flightCount } = useFlights(cesiumViewer, layers.flights && mode === 'live');
   const { count: quakeCount } = useEarthquakes(cesiumViewer, layers.quakes, currentDate);
   const { count: weatherCount } = useWeather(cesiumViewer, layers.weather, currentDate);
@@ -376,6 +376,7 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [] }: 
         onToggleLayer={toggleLayer}
         persistLines={persistLines}
         onTogglePersist={() => setPersistLines(prev => !prev)}
+        satGroupCounts={satGroupCounts}
       />
 
       {/* Info panel */}

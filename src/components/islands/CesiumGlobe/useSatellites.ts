@@ -17,9 +17,16 @@ interface SatRecord {
   group: SatGroup;
 }
 
-type SatGroup = 'gps' | 'military' | 'recon' | 'comms';
+export type SatGroup = 'gps' | 'military' | 'recon' | 'starlink' | 'geo' | 'gnss';
 
-const SAT_GROUPS: { group: SatGroup; url: string; color: string; label: string }[] = [
+export interface SatGroupInfo {
+  group: SatGroup;
+  url: string;
+  color: string;
+  label: string;
+}
+
+export const SAT_GROUPS: SatGroupInfo[] = [
   {
     group: 'gps',
     url: 'https://celestrak.org/NORAD/elements/gp.php?GROUP=gps-ops&FORMAT=tle',
@@ -38,14 +45,43 @@ const SAT_GROUPS: { group: SatGroup; url: string; color: string; label: string }
     color: '#ff8844',
     label: 'Recon/EO',
   },
+  {
+    group: 'starlink',
+    url: 'https://celestrak.org/NORAD/elements/gp.php?GROUP=starlink&FORMAT=tle',
+    color: '#ffffff',
+    label: 'Starlink',
+  },
+  {
+    group: 'geo',
+    url: 'https://celestrak.org/NORAD/elements/gp.php?GROUP=geo&FORMAT=tle',
+    color: '#ff44ff',
+    label: 'GEO/Defense',
+  },
+  {
+    group: 'gnss',
+    url: 'https://celestrak.org/NORAD/elements/gp.php?GROUP=gnss&FORMAT=tle',
+    color: '#44ff44',
+    label: 'GNSS',
+  },
 ];
 
-const GROUP_COLORS: Record<SatGroup, Color> = {
+export const GROUP_COLORS: Record<SatGroup, Color> = {
   gps: Color.fromCssColorString('#00ffcc').withAlpha(0.9),
   military: Color.fromCssColorString('#ffcc00').withAlpha(0.9),
   recon: Color.fromCssColorString('#ff8844').withAlpha(0.8),
-  comms: Color.fromCssColorString('#00ff88').withAlpha(0.7),
+  starlink: Color.fromCssColorString('#ffffff').withAlpha(0.5),
+  geo: Color.fromCssColorString('#ff44ff').withAlpha(0.85),
+  gnss: Color.fromCssColorString('#44ff44').withAlpha(0.8),
 };
+
+export type SatGroupCounts = Record<SatGroup, number>;
+
+// Theater bounding box for Starlink filtering (lat 12-42N, lon 24-65E)
+const THEATER_LAT_MIN = 12;
+const THEATER_LAT_MAX = 42;
+const THEATER_LON_MIN = 24;
+const THEATER_LON_MAX = 65;
+const STARLINK_CAP = 200;
 
 function parseTLE(text: string, group: SatGroup): SatRecord[] {
   const lines = text.trim().split('\n');
@@ -65,6 +101,68 @@ function parseTLE(text: string, group: SatGroup): SatRecord[] {
   return records;
 }
 
+/** Filter Starlink satellites to those currently over the theater bounding box */
+function filterToTheater(sats: SatRecord[]): SatRecord[] {
+  const now = new Date();
+  const gmst = satellite.gstime(now);
+  const inTheater: SatRecord[] = [];
+
+  for (const sat of sats) {
+    try {
+      const posVel = satellite.propagate(sat.satrec, now);
+      if (!posVel || typeof posVel.position === 'boolean' || !posVel.position) continue;
+
+      const geodetic = satellite.eciToGeodetic(posVel.position as satellite.EciVec3<number>, gmst);
+      const lon = satellite.degreesLong(geodetic.longitude);
+      const lat = satellite.degreesLat(geodetic.latitude);
+
+      if (
+        lat >= THEATER_LAT_MIN &&
+        lat <= THEATER_LAT_MAX &&
+        lon >= THEATER_LON_MIN &&
+        lon <= THEATER_LON_MAX
+      ) {
+        inTheater.push(sat);
+        if (inTheater.length >= STARLINK_CAP) break;
+      }
+    } catch {
+      // Propagation failed, skip
+    }
+  }
+
+  return inTheater;
+}
+
+function pixelSizeForGroup(group: SatGroup): number {
+  switch (group) {
+    case 'gps': return 5;
+    case 'military': return 4;
+    case 'recon': return 3;
+    case 'starlink': return 2;
+    case 'geo': return 5;
+    case 'gnss': return 4;
+  }
+}
+
+function showLabelForGroup(group: SatGroup): boolean {
+  return group === 'gps' || group === 'geo';
+}
+
+function formatLabelText(sat: SatRecord): string {
+  if (sat.group === 'gps') return sat.name.replace('NAVSTAR ', 'GPS ');
+  if (sat.group === 'geo') return sat.name.substring(0, 20);
+  return '';
+}
+
+const EMPTY_COUNTS: SatGroupCounts = {
+  gps: 0,
+  military: 0,
+  recon: 0,
+  starlink: 0,
+  geo: 0,
+  gnss: 0,
+};
+
 /** Fetch military-relevant satellite TLEs and propagate orbits */
 export function useSatellites(
   viewer: CesiumViewer | null,
@@ -72,12 +170,13 @@ export function useSatellites(
   simTimeRef?: React.RefObject<number>,
 ) {
   const [count, setCount] = useState(0);
+  const [groupCounts, setGroupCounts] = useState<SatGroupCounts>({ ...EMPTY_COUNTS });
   const satsRef = useRef<SatRecord[]>([]);
   const entitiesRef = useRef<Entity[]>([]);
   const animRef = useRef<number>(0);
   const fetchedRef = useRef(false);
 
-  // Fetch TLE data from multiple military-relevant groups
+  // Fetch TLE data from all satellite groups
   useEffect(() => {
     if (!enabled) {
       fetchedRef.current = false;
@@ -102,13 +201,33 @@ export function useSatellites(
           if (r.status === 'fulfilled') allSats.push(...r.value);
         }
 
-        // GPS: keep all (~31 operational). Military + Recon: cap at 50 each for performance.
+        // GPS: keep all (~31 operational)
         const gps = allSats.filter(s => s.group === 'gps');
-        const mil = allSats.filter(s => s.group === 'military').slice(0, 50);
-        const recon = allSats.filter(s => s.group === 'recon').slice(0, 50);
+        // Military: keep all (no cap)
+        const mil = allSats.filter(s => s.group === 'military');
+        // Recon/EO: keep all (no cap)
+        const recon = allSats.filter(s => s.group === 'recon');
+        // Starlink: filter to theater bbox, cap at 200
+        const starlinkAll = allSats.filter(s => s.group === 'starlink');
+        const starlinkFiltered = filterToTheater(starlinkAll);
+        // GEO: keep all (~400 total, many defense-relevant)
+        const geo = allSats.filter(s => s.group === 'geo');
+        // GNSS: keep all (GPS + GLONASS + Galileo + BeiDou)
+        const gnss = allSats.filter(s => s.group === 'gnss');
 
-        satsRef.current = [...gps, ...mil, ...recon];
-        setCount(satsRef.current.length);
+        const combined = [...gps, ...mil, ...recon, ...starlinkFiltered, ...geo, ...gnss];
+        satsRef.current = combined;
+        setCount(combined.length);
+
+        const counts: SatGroupCounts = {
+          gps: gps.length,
+          military: mil.length,
+          recon: recon.length,
+          starlink: starlinkFiltered.length,
+          geo: geo.length,
+          gnss: gnss.length,
+        };
+        setGroupCounts(counts);
       } catch (err) {
         console.warn('Failed to fetch TLE data:', err);
       }
@@ -134,20 +253,20 @@ export function useSatellites(
     // Create entities for each satellite
     satsRef.current.forEach(sat => {
       const color = GROUP_COLORS[sat.group];
-      const isGPS = sat.group === 'gps';
+      const showLabel = showLabelForGroup(sat.group);
 
       const entity = viewer.entities.add({
         name: `${sat.name} [${sat.group.toUpperCase()}]`,
         point: {
-          pixelSize: isGPS ? 5 : sat.group === 'military' ? 4 : 3,
+          pixelSize: pixelSizeForGroup(sat.group),
           color,
           outlineColor: color.withAlpha(0.3),
-          outlineWidth: isGPS ? 2 : 1,
+          outlineWidth: sat.group === 'gps' || sat.group === 'geo' ? 2 : 1,
           scaleByDistance: new NearFarScalar(1e5, 1.2, 5e7, 0.4),
         },
         label: {
-          text: isGPS ? sat.name.replace('NAVSTAR ', 'GPS ') : '',
-          show: isGPS,
+          text: showLabel ? formatLabelText(sat) : '',
+          show: showLabel,
           font: "9px 'JetBrains Mono', monospace",
           fillColor: color,
           outlineColor: Color.BLACK,
@@ -203,5 +322,5 @@ export function useSatellites(
     };
   }, [enabled, viewer, count]);
 
-  return { count };
+  return { count, groupCounts };
 }

@@ -1,7 +1,9 @@
 import { useEffect, useRef } from 'react';
 import {
   Cartesian3,
+  CallbackProperty,
   Color,
+  HeightReference,
   NearFarScalar,
   DistanceDisplayCondition,
   VerticalOrigin,
@@ -78,7 +80,7 @@ export function useConflictData(
       const showLabel = isAsset || isFront || pt.tier === 1;
 
       let pixelSize = markerPixelSize(pt.cat, pt.tier);
-      if (isShip) pixelSize = 14;
+      if (isShip) pixelSize = 20;
       else if (isBase) pixelSize = 10;
 
       let markerColor = color;
@@ -89,19 +91,33 @@ export function useConflictData(
       if (isShip) labelPrefix = '\u2693 ';
       else if (isBase) labelPrefix = '\u2B1F ';
 
+      // Ships get a small altitude to float above ocean surface with terrain
+      const altitude = isShip ? 500 : 0;
+
+      // Pulsing outline for naval vessels using CallbackProperty
+      const shipOutlineColor = isShip
+        ? new CallbackProperty(() => {
+            const t = performance.now() / 1000;
+            const pulse = 0.4 + 0.4 * Math.sin(t * 2.5);
+            return markerColor.withAlpha(pulse);
+          }, false) as any
+        : markerColor.withAlpha(0.4);
+
       const entity = viewer.entities.add({
-        position: Cartesian3.fromDegrees(pt.lon, pt.lat, 0),
+        position: Cartesian3.fromDegrees(pt.lon, pt.lat, altitude),
         name: pt.label,
         point: {
           pixelSize,
           color: markerColor,
-          outlineColor: markerColor.withAlpha(isShip ? 0.6 : 0.4),
-          outlineWidth: isShip ? 4 : pt.tier === 1 ? 3 : 1,
-          scaleByDistance: new NearFarScalar(1e4, 1.5, 5e6, 0.5),
+          outlineColor: shipOutlineColor,
+          outlineWidth: isShip ? 6 : pt.tier === 1 ? 3 : 1,
+          scaleByDistance: new NearFarScalar(1e4, 1.5, 5e6, isShip ? 0.7 : 0.5),
+          heightReference: isShip ? HeightReference.RELATIVE_TO_GROUND : HeightReference.NONE,
+          distanceDisplayCondition: isShip ? new DistanceDisplayCondition(0, 20e6) : undefined,
         },
         label: showLabel ? {
           text: `${labelPrefix}${pt.label}`,
-          font: isShip ? "bold 12px 'DM Sans', sans-serif" : "11px 'DM Sans', sans-serif",
+          font: isShip ? "bold 13px 'DM Sans', sans-serif" : "11px 'DM Sans', sans-serif",
           fillColor: isShip ? Color.fromCssColorString('#00eeff') : Color.fromCssColorString('#e8e9ed'),
           outlineColor: Color.fromCssColorString('#0a0b0e'),
           outlineWidth: 2,
@@ -110,19 +126,20 @@ export function useConflictData(
           horizontalOrigin: HorizontalOrigin.CENTER,
           pixelOffset: new Cartesian3(0, -14, 0) as any,
           scaleByDistance: new NearFarScalar(1e4, 1.0, 5e6, 0.4),
-          distanceDisplayCondition: new DistanceDisplayCondition(0, isAsset ? 8e6 : 5e6),
+          distanceDisplayCondition: new DistanceDisplayCondition(0, isShip ? 15e6 : isAsset ? 8e6 : 5e6),
+          heightReference: isShip ? HeightReference.RELATIVE_TO_GROUND : HeightReference.NONE,
         } : undefined,
         ellipse: (isFront || isShip || isBase) ? {
           semiMajorAxis: isFront ? frontZoneRadius(pt.id) : isShip ? navalZoneRadius(pt) : 50_000,
           semiMinorAxis: isFront ? frontZoneRadius(pt.id) : isShip ? navalZoneRadius(pt) : 50_000,
           material: (isShip ? markerColor : isFront ? color : markerColor).withAlpha(
-            isFront ? 0.08 : isShip ? 0.05 : 0.03,
+            isFront ? 0.08 : isShip ? 0.12 : 0.03,
           ),
           outline: true,
           outlineColor: (isShip ? markerColor : isFront ? color : markerColor).withAlpha(
-            isFront ? 0.25 : isShip ? 0.3 : 0.15,
+            isFront ? 0.25 : isShip ? 0.4 : 0.15,
           ),
-          outlineWidth: isShip ? 2 : 1,
+          outlineWidth: isShip ? 2.5 : 1,
         } : undefined,
       });
 

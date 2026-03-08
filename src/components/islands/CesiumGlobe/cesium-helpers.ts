@@ -97,6 +97,63 @@ export function simFlightDuration(from: [number, number], to: [number, number]):
   return Math.max(60_000, (dist / 2000) * 1000); // min 1 minute simulated
 }
 
+/** Weapon-type-aware flight speed in m/s */
+export function weaponSpeed(weaponType?: string): number {
+  switch (weaponType) {
+    case 'ballistic': return 4000;
+    case 'cruise': return 900;
+    case 'drone': return 200;
+    case 'rocket': return 1200;
+    case 'mixed': return 2000;
+    default: return 2000;
+  }
+}
+
+/** Weapon-type-aware peak altitude in meters */
+export function weaponPeakAlt(weaponType?: string): number {
+  switch (weaponType) {
+    case 'ballistic': return 300_000;
+    case 'cruise': return 50_000;
+    case 'drone': return 30_000;
+    case 'rocket': return 80_000;
+    case 'mixed': return 150_000;
+    default: return 150_000;
+  }
+}
+
+/** Flight duration based on weapon type speed */
+export function simFlightDurationTyped(
+  from: [number, number],
+  to: [number, number],
+  weaponType?: string,
+): number {
+  const dist = haversineDistance(from, to);
+  const speed = weaponSpeed(weaponType);
+  return Math.max(60_000, (dist / speed) * 1000);
+}
+
+/** Projectile pixel size by weapon type */
+export function weaponProjectileSize(weaponType?: string): number {
+  switch (weaponType) {
+    case 'ballistic': return 8;
+    case 'cruise': return 6;
+    case 'drone': return 4;
+    case 'rocket': return 5;
+    default: return 6;
+  }
+}
+
+/** Glow power by weapon type */
+export function weaponGlowPower(weaponType?: string): number {
+  switch (weaponType) {
+    case 'ballistic': return 0.4;
+    case 'cruise': return 0.25;
+    case 'drone': return 0.15;
+    case 'rocket': return 0.3;
+    default: return 0.25;
+  }
+}
+
 /** Tier label for info panel */
 export function tierLabelFull(t: number): string {
   return t === 1

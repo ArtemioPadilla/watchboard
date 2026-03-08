@@ -36,6 +36,21 @@ const POLE_LABELS: Record<string, string> = {
   international: 'I',
 };
 
+const WEAPON_COLORS: Record<string, string> = {
+  ballistic: '#ff4444',
+  cruise: '#ff8800',
+  drone: '#aa66ff',
+  rocket: '#ffcc00',
+  mixed: '#ff6688',
+  unknown: '#888',
+};
+
+const CONFIDENCE_COLORS: Record<string, string> = {
+  high: '#2ecc71',
+  medium: '#f39c12',
+  low: '#e74c3c',
+};
+
 export default function CesiumEventsPanel({ events, currentDate, isOpen, onToggle }: Props) {
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
@@ -83,6 +98,7 @@ export default function CesiumEventsPanel({ events, currentDate, isOpen, onToggl
                 <div
                   className="globe-event-card-header"
                   onClick={() => setExpandedId(isExpanded ? null : ev.id)}
+                  style={(ev as any).confidence === 'low' ? { opacity: 0.6 } : undefined}
                 >
                   <span
                     className="globe-event-type-badge"
@@ -90,7 +106,27 @@ export default function CesiumEventsPanel({ events, currentDate, isOpen, onToggl
                   >
                     {TYPE_LABELS[ev.type] || ev.type.toUpperCase()}
                   </span>
+                  {(ev as any).confidence && (
+                    <span
+                      className="globe-event-confidence-dot"
+                      style={{ background: CONFIDENCE_COLORS[(ev as any).confidence] || '#888' }}
+                      title={`Confidence: ${(ev as any).confidence}`}
+                    />
+                  )}
                   <h4 className="globe-event-title">{ev.title}</h4>
+                  {(ev as any).weaponTypes?.length > 0 && (
+                    <span className="globe-event-weapon-badges">
+                      {(ev as any).weaponTypes.map((wt: string) => (
+                        <span
+                          key={wt}
+                          className="globe-event-weapon-badge"
+                          style={{ color: WEAPON_COLORS[wt] || '#888', borderColor: WEAPON_COLORS[wt] || '#888' }}
+                        >
+                          {wt.toUpperCase()}
+                        </span>
+                      ))}
+                    </span>
+                  )}
                   <span className="globe-event-expand">{isExpanded ? '\u2212' : '+'}</span>
                 </div>
 

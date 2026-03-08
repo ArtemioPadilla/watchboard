@@ -8,7 +8,16 @@ import {
   type Entity,
 } from 'cesium';
 import type { MapLine } from '../../../lib/schemas';
-import { arc3D, catToCesiumColor, lineWidth, arcMaterial, simFlightDuration } from './cesium-helpers';
+import {
+  arc3D,
+  catToCesiumColor,
+  lineWidth,
+  arcMaterial,
+  simFlightDurationTyped,
+  weaponPeakAlt,
+  weaponProjectileSize,
+  weaponGlowPower,
+} from './cesium-helpers';
 
 interface MissileAnimation {
   lineId: string;
@@ -106,14 +115,29 @@ export function useMissiles(
 
     for (let i = 0; i < animatable.length; i++) {
       const line = animatable[i];
-      const arcPositions = arc3D(line.from, line.to, 60, 150_000);
-      const physicalDuration = simFlightDuration(line.from, line.to);
+      const peakAlt = weaponPeakAlt(line.weaponType);
+      const arcPositions = arc3D(line.from, line.to, 60, peakAlt);
+      const physicalDuration = simFlightDurationTyped(line.from, line.to, line.weaponType);
       const simDuration = Math.max(physicalDuration, minSimDuration);
       const color = catToCesiumColor(line.cat);
+      const projSize = weaponProjectileSize(line.weaponType);
+      const glowPwr = weaponGlowPower(line.weaponType);
+
+      // Sub-day timing: offset by actual hour if time field is present
+      let timeOffset = 0;
+      if (line.time) {
+        const match = line.time.match(/^(\d{1,2}):(\d{2})$/);
+        if (match) {
+          const hours = parseInt(match[1], 10);
+          const mins = parseInt(match[2], 10);
+          // Offset from noon (43200000ms) which is the default simTime anchor
+          timeOffset = ((hours * 3600 + mins * 60) - 43200) * 1000;
+        }
+      }
 
       const anim: MissileAnimation = {
         lineId: line.id,
-        startSimTime: baseSimTime + i * staggerSim,
+        startSimTime: baseSimTime + i * staggerSim + timeOffset,
         simDuration,
         arcPositions,
         trailEntity: null,
@@ -133,8 +157,8 @@ export function useMissiles(
           }, false) as any,
           width: lineWidth(line.cat) + 1,
           material: new PolylineGlowMaterialProperty({
-            glowPower: 0.3,
-            color: color.withAlpha(0.9),
+            glowPower: glowPwr,
+            color: color.withAlpha(line.confidence === 'low' ? 0.4 : 0.9),
           }),
         },
       });
@@ -152,14 +176,48 @@ export function useMissiles(
           return anim.arcPositions[idx];
         }, false) as any,
         point: {
-          pixelSize: 6,
+          pixelSize: projSize,
           color: Color.WHITE,
           outlineColor: color.withAlpha(0.8),
-          outlineWidth: 4,
+          outlineWidth: projSize > 6 ? 5 : 4,
         },
       });
 
       animationsRef.current.push(anim);
+
+      // Multi-projectile: render extra staggered projectiles for salvos
+      const salvoCount = line.launched ? Math.min(line.launched, 3) : 1;
+      if (salvoCount > 1) {
+        for (let s = 1; s < salvoCount; s++) {
+          const salvoOffset = s * 0.1 * staggerSim;
+          const salvoAnim: MissileAnimation = {
+            lineId: `${line.id}_salvo_${s}`,
+            startSimTime: anim.startSimTime + salvoOffset,
+            simDuration,
+            arcPositions,
+            trailEntity: null, // salvo projectiles share the main trail
+            projectileEntity: viewer.entities.add({
+              position: new CallbackProperty(() => {
+                const simElapsed = simTimeRef.current - (anim.startSimTime + salvoOffset);
+                const progress = Math.min(Math.max(simElapsed / simDuration, 0), 1);
+                const idx = Math.min(
+                  Math.floor(progress * (arcPositions.length - 1)),
+                  arcPositions.length - 1,
+                );
+                return arcPositions[idx];
+              }, false) as any,
+              point: {
+                pixelSize: projSize - 1,
+                color: Color.WHITE.withAlpha(0.7),
+                outlineColor: color.withAlpha(0.6),
+                outlineWidth: 3,
+              },
+            }),
+            completed: false,
+          };
+          animationsRef.current.push(salvoAnim);
+        }
+      }
     }
 
     // Animation tick loop — check for completion

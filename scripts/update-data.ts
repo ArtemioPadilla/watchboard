@@ -327,6 +327,15 @@ function normalizeItems(items: unknown[]): unknown[] {
       obj.base = obj.base === 'true' || obj.base === true;
     }
 
+    // Coerce launched/intercepted from string to number
+    for (const key of ['launched', 'intercepted']) {
+      if (key in obj && typeof obj[key] === 'string') {
+        const match = (obj[key] as string).match(/(\d+)/);
+        if (match) obj[key] = parseInt(match[1], 10);
+        else delete obj[key];
+      }
+    }
+
     return obj;
   });
 }
@@ -511,7 +520,15 @@ Source tier classification:
 - Tier 4: Unverified (social media, unattributed military claims, unattributed video)
 
 Only include information you can verify through search results. Do not fabricate data.
-Actively seek CONTRASTING perspectives from different poles when events are contested.`;
+Actively seek CONTRASTING perspectives from different poles when events are contested.
+
+CONFIRMATION RULES:
+- Only report a military event as confirmed if it has at least 1 Tier 1 source OR 2 Tier 2+ sources from different poles.
+- Single-source Tier 3/4 reports should use confidence: "low".
+
+DEDUPLICATION:
+- Same target within ±2 hours = same event — merge, do not create duplicates.
+- When attacker and defender report different numbers: use defender counts for interceptions, attacker counts for launches. Note discrepancies.`;
 
 // ─── Section Updaters ───
 
@@ -577,6 +594,10 @@ CRITICAL FORMAT RULES:
 - "year" MUST be in "Mon DD" format, e.g. "Mar 7", "Feb 28", "Jan 13". NOT "2026", NOT "March 7", NOT "2026-03-07".
 - "type" MUST be one of: "military", "diplomatic", "humanitarian", "economic"
 - "id" must be lowercase_snake_case, unique, descriptive (e.g. "iran_strikes_us_base_qatar_mar7")
+
+For military events, optionally include:
+- "weaponTypes": array of weapon types involved, e.g. ["ballistic", "cruise"]
+- "confidence": "high"|"medium"|"low" based on source verification
 
 IMPORTANT: Each event's "sources" array must include sources from MULTIPLE poles where available.
 Each source object needs: { "name": string, "tier": 1|2|3|4, "url": string (optional), "pole": "western"|"middle_eastern"|"eastern"|"international" }
@@ -752,6 +773,16 @@ async function updateMapLines(): Promise<SectionResult> {
       cat: 'strike',
       label: 'Ford CSG → Tehran',
       date: today,
+      weaponType: 'cruise',
+      launched: 12,
+      intercepted: 3,
+      confidence: 'high',
+      time: '08:30',
+      platform: 'USS Gerald R. Ford CSG',
+      status: 'partial',
+      damage: 'Multiple impacts on military compound',
+      casualties: '~15 IRGC personnel killed',
+      notes: 'CENTCOM reports 12 Tomahawks; IRNA claims only 4 reached target',
     }, null, 2);
 
     const text = await callAIWithRetry(SYSTEM_PROMPT, `Search for NEW military strike routes, retaliation vectors, or front lines in the Iran-US/Israel conflict since ${maxDate}.
@@ -768,6 +799,16 @@ Field rules:
 - "cat": one of "strike", "retaliation", "asset", "front"
 - "label": "Origin → Target" description
 - "date": YYYY-MM-DD string
+- "weaponType": (optional) "ballistic"|"cruise"|"drone"|"rocket"|"mixed"|"unknown"
+- "launched": (optional) integer — munitions launched
+- "intercepted": (optional) integer — munitions intercepted
+- "confidence": (optional) "high"|"medium"|"low"
+- "time": (optional) "HH:MM" UTC — when the strike occurred
+- "platform": (optional) launch platform name
+- "status": (optional) "hit"|"intercepted"|"partial"|"unknown"
+- "damage": (optional) brief damage description
+- "casualties": (optional) per-strike casualty summary
+- "notes": (optional) source discrepancies
 
 Available coordinates (use these for "from" and "to"):
 ${coordLookup}
@@ -782,6 +823,7 @@ Return ONLY new lines as a JSON array.`,
       // Retry prompt
       `Search for new military strikes or retaliations in the Iran-US/Israel conflict on ${today}.
 Return new arc lines as a JSON array. Each needs: id (string), from ([lon,lat]), to ([lon,lat]), cat ("strike"|"retaliation"|"asset"|"front"), label (string), date ("${today}").
+Optional OSINT fields: weaponType ("ballistic"|"cruise"|"drone"|"rocket"|"mixed"|"unknown"), launched (int), intercepted (int), confidence ("high"|"medium"|"low"), time ("HH:MM"), platform (string), status ("hit"|"intercepted"|"partial"|"unknown"), damage (string), casualties (string), notes (string).
 Example: ${example}
 Return [] if nothing new.`,
     );

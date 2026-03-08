@@ -1,6 +1,7 @@
 import { MAP_CATEGORIES } from '../../../lib/map-utils';
 import { type CameraPresetKey } from '../../../lib/cesium-config';
 import type { VisualMode } from './cesium-shaders';
+import { SAT_GROUPS, type SatGroupCounts } from './useSatellites';
 
 interface Props {
   activeFilters: Set<string>;
@@ -13,6 +14,7 @@ interface Props {
   onToggleLayer: (layer: 'satellites' | 'flights' | 'quakes' | 'weather' | 'nfz') => void;
   persistLines: boolean;
   onTogglePersist: () => void;
+  satGroupCounts?: SatGroupCounts;
 }
 
 const PRESET_LABELS: Record<CameraPresetKey, string> = {
@@ -43,6 +45,7 @@ export default function CesiumControls({
   onToggleLayer,
   persistLines,
   onTogglePersist,
+  satGroupCounts,
 }: Props) {
   return (
     <div className="globe-controls">
@@ -113,10 +116,15 @@ export default function CesiumControls({
           Satellites
         </button>
         {layers.satellites && (
-          <div className="globe-sublabel">
-            <span style={{ color: '#00ffcc' }}>&#9679; GPS</span>{' '}
-            <span style={{ color: '#ffcc00' }}>&#9679; Military</span>{' '}
-            <span style={{ color: '#ff8844' }}>&#9679; Recon</span>
+          <div className="globe-sublabel globe-sublabel-wrap">
+            {SAT_GROUPS.map(g => {
+              const cnt = satGroupCounts?.[g.group] ?? 0;
+              return (
+                <span key={g.group} style={{ color: g.color }}>
+                  &#9679; {g.label}{cnt > 0 ? ` (${cnt})` : ''}
+                </span>
+              );
+            })}
           </div>
         )}
         <button
