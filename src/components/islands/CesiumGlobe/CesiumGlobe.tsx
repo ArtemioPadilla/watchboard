@@ -26,6 +26,7 @@ import CesiumControls from './CesiumControls';
 import CesiumInfoPanel from './CesiumInfoPanel';
 import CesiumTimelineBar from './CesiumTimelineBar';
 import CesiumEventsPanel from './CesiumEventsPanel';
+import MobileBottomSheet from './MobileBottomSheet';
 import { useSatellites } from './useSatellites';
 import { useFlights } from './useFlights';
 import { useEarthquakes } from './useEarthquakes';
@@ -73,6 +74,17 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [] }: 
   const [cesiumViewer, setCesiumViewer] = useState<CesiumViewer | null>(null);
   const { flyTo } = useCesiumCamera(viewerRef);
 
+  // ── Mobile detection ──
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== 'undefined' ? window.matchMedia('(max-width: 768px)').matches : false,
+  );
+  useEffect(() => {
+    const mql = window.matchMedia('(max-width: 768px)');
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mql.addEventListener('change', handler);
+    return () => mql.removeEventListener('change', handler);
+  }, []);
+
   // ── Filters ──
   const [activeFilters, setActiveFilters] = useState<Set<string>>(
     new Set(['strike', 'retaliation', 'asset', 'front']),
@@ -85,8 +97,11 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [] }: 
   // ── Live data layer toggles ──
   const [layers, setLayers] = useState({ satellites: true, flights: true, quakes: false, weather: false, nfz: true, ships: true });
 
-  // ── Events panel ──
-  const [eventsOpen, setEventsOpen] = useState(true);
+  // ── Events panel (default collapsed) ──
+  const [eventsOpen, setEventsOpen] = useState(false);
+
+  // ── KPI strip compact ──
+  const [showAllKpis, setShowAllKpis] = useState(false);
 
   // ── Persist lines toggle (day-only by default) ──
   const [persistLines, setPersistLines] = useState(false);
@@ -338,27 +353,26 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [] }: 
 
   const totalLines = pastLines.length + currentLines.length;
 
+  // ── Stats data (for timeline bar + mobile sheet) ──
+  const stats = useMemo(() => ({
+    locations: filteredPoints.length,
+    vectors: totalLines,
+    sats: layers.satellites && satCount > 0 ? satCount : undefined,
+    fov: layers.satellites && showFov && satFovCount > 0 ? satFovCount : undefined,
+    flights: mode === 'live' && layers.flights && flightCount > 0 ? flightCount : undefined,
+    quakes: layers.quakes && quakeCount > 0 ? quakeCount : undefined,
+    wx: layers.weather && weatherCount > 0 ? weatherCount : undefined,
+    nfz: layers.nfz && nfzCount > 0 ? nfzCount : undefined,
+    ships: mode === 'live' && layers.ships && shipCount > 0 ? shipCount : undefined,
+    historical: mode === 'historical',
+  }), [filteredPoints.length, totalLines, layers, satCount, satFovCount, showFov, flightCount, quakeCount, weatherCount, nfzCount, shipCount, mode]);
+
   return (
     <div className="globe-wrapper">
       {/* Operation header */}
       <div className="globe-header">
         <div className="globe-header-dateline">{meta.dateline}</div>
         <div className="globe-header-op">{meta.operationName}</div>
-      </div>
-
-      {/* KPI strip */}
-      <div className="globe-kpi-strip">
-        {kpis.map(k => (
-          <div key={k.id} className="globe-kpi" style={{ borderColor: KPI_COLORS[k.color] || '#555' }}>
-            <span className="globe-kpi-value" style={{ color: KPI_COLORS[k.color] }}>{k.value}</span>
-            <span className="globe-kpi-label">{k.label}</span>
-            {k.delta && (
-              <span className={`globe-kpi-delta ${k.trend === 'up' ? 'up' : k.trend === 'down' ? 'down' : ''}`}>
-                {k.delta}
-              </span>
-            )}
-          </div>
-        ))}
       </div>
 
       <Viewer
@@ -383,40 +397,12 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [] }: 
         creditContainer={creditDivRef.current!}
       />
 
-      {/* Overlay controls */}
-      <CesiumControls
-        activeFilters={activeFilters}
-        onToggleFilter={toggleFilter}
-        pointCounts={pointCounts}
-        onCameraPreset={flyTo}
-        visualMode={visualMode}
-        onVisualMode={setVisualMode}
-        layers={layers}
-        onToggleLayer={toggleLayer}
-        persistLines={persistLines}
-        onTogglePersist={() => setPersistLines(prev => !prev)}
-        satGroupCounts={satGroupCounts}
-        showFov={showFov}
-        onToggleFov={() => setShowFov(prev => !prev)}
-        fovCount={satFovCount}
-        aisApiKey={aisApiKey}
-        onAisApiKeyChange={handleAisKeyChange}
-      />
-
       {/* Info panel */}
       {selectedPoint && (
         <CesiumInfoPanel point={selectedPoint} onClose={() => setSelectedPoint(null)} />
       )}
 
-      {/* Events / Intel feed panel */}
-      <CesiumEventsPanel
-        events={events}
-        currentDate={currentDate}
-        isOpen={eventsOpen}
-        onToggle={() => setEventsOpen(prev => !prev)}
-      />
-
-      {/* Enhanced Timeline */}
+      {/* Enhanced Timeline — always rendered */}
       <CesiumTimelineBar
         minDate={dateRange.min}
         maxDate={dateRange.max}
@@ -430,62 +416,83 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [] }: 
         onTogglePlay={togglePlay}
         onSpeedChange={setPlaybackSpeed}
         onGoLive={goLive}
+        stats={stats}
       />
 
-      {/* Stats overlay */}
-      <div className="globe-stats">
-        <span>{filteredPoints.length} locations</span>
-        <span className="globe-stats-sep">&middot;</span>
-        <span>{totalLines} vectors</span>
-        {layers.satellites && satCount > 0 && (
-          <>
-            <span className="globe-stats-sep">&middot;</span>
-            <span style={{ color: '#00ff88' }}>{satCount} sats</span>
-          </>
-        )}
-        {layers.satellites && showFov && satFovCount > 0 && (
-          <>
-            <span className="globe-stats-sep">&middot;</span>
-            <span style={{ color: '#ff8844' }}>{satFovCount} FOV</span>
-          </>
-        )}
-        {mode === 'live' && layers.flights && flightCount > 0 && (
-          <>
-            <span className="globe-stats-sep">&middot;</span>
-            <span style={{ color: '#00aaff' }}>{flightCount} flights</span>
-          </>
-        )}
-        {layers.quakes && quakeCount > 0 && (
-          <>
-            <span className="globe-stats-sep">&middot;</span>
-            <span style={{ color: '#ff6644' }}>{quakeCount} quakes</span>
-          </>
-        )}
-        {layers.weather && weatherCount > 0 && (
-          <>
-            <span className="globe-stats-sep">&middot;</span>
-            <span style={{ color: '#88ccff' }}>{weatherCount} wx</span>
-          </>
-        )}
-        {layers.nfz && nfzCount > 0 && (
-          <>
-            <span className="globe-stats-sep">&middot;</span>
-            <span style={{ color: '#e74c3c' }}>{nfzCount} NFZ</span>
-          </>
-        )}
-        {mode === 'live' && layers.ships && shipCount > 0 && (
-          <>
-            <span className="globe-stats-sep">&middot;</span>
-            <span style={{ color: '#00ddaa' }}>{shipCount} ships</span>
-          </>
-        )}
-        {mode === 'historical' && (
-          <>
-            <span className="globe-stats-sep">&middot;</span>
-            <span style={{ color: '#9498a8' }}>HISTORICAL</span>
-          </>
-        )}
-      </div>
+      {isMobile ? (
+        <MobileBottomSheet
+          activeFilters={activeFilters}
+          onToggleFilter={toggleFilter}
+          pointCounts={pointCounts}
+          onCameraPreset={flyTo}
+          visualMode={visualMode}
+          onVisualMode={setVisualMode}
+          layers={layers}
+          onToggleLayer={toggleLayer}
+          persistLines={persistLines}
+          onTogglePersist={() => setPersistLines(prev => !prev)}
+          satGroupCounts={satGroupCounts}
+          showFov={showFov}
+          onToggleFov={() => setShowFov(prev => !prev)}
+          fovCount={satFovCount}
+          aisApiKey={aisApiKey}
+          onAisApiKeyChange={handleAisKeyChange}
+          events={events}
+          currentDate={currentDate}
+          kpis={kpis}
+          stats={stats}
+        />
+      ) : (
+        <>
+          {/* KPI strip — compact by default */}
+          <div className={`globe-kpi-strip${showAllKpis ? ' expanded' : ''}`}>
+            {kpis.slice(0, showAllKpis ? kpis.length : 4).map(k => (
+              <div key={k.id} className="globe-kpi" style={{ borderColor: KPI_COLORS[k.color] || '#555' }}>
+                <span className="globe-kpi-value" style={{ color: KPI_COLORS[k.color] }}>{k.value}</span>
+                <span className="globe-kpi-label">{k.label}</span>
+                {k.delta && (
+                  <span className={`globe-kpi-delta ${k.trend === 'up' ? 'up' : k.trend === 'down' ? 'down' : ''}`}>
+                    {k.delta}
+                  </span>
+                )}
+              </div>
+            ))}
+            {kpis.length > 4 && (
+              <button className="globe-kpi-more" onClick={() => setShowAllKpis(p => !p)}>
+                {showAllKpis ? '\u2212' : `+${kpis.length - 4}`}
+              </button>
+            )}
+          </div>
+
+          {/* Overlay controls toolbar */}
+          <CesiumControls
+            activeFilters={activeFilters}
+            onToggleFilter={toggleFilter}
+            pointCounts={pointCounts}
+            onCameraPreset={flyTo}
+            visualMode={visualMode}
+            onVisualMode={setVisualMode}
+            layers={layers}
+            onToggleLayer={toggleLayer}
+            persistLines={persistLines}
+            onTogglePersist={() => setPersistLines(prev => !prev)}
+            satGroupCounts={satGroupCounts}
+            showFov={showFov}
+            onToggleFov={() => setShowFov(prev => !prev)}
+            fovCount={satFovCount}
+            aisApiKey={aisApiKey}
+            onAisApiKeyChange={handleAisKeyChange}
+          />
+
+          {/* Events / Intel feed panel */}
+          <CesiumEventsPanel
+            events={events}
+            currentDate={currentDate}
+            isOpen={eventsOpen}
+            onToggle={() => setEventsOpen(prev => !prev)}
+          />
+        </>
+      )}
     </div>
   );
 }

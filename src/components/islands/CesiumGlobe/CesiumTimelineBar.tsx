@@ -1,6 +1,19 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import type { FlatEvent } from '../../../lib/timeline-utils';
 import type { MapLine } from '../../../lib/schemas';
+
+export interface StatsData {
+  locations: number;
+  vectors: number;
+  sats?: number;
+  fov?: number;
+  flights?: number;
+  quakes?: number;
+  wx?: number;
+  nfz?: number;
+  ships?: number;
+  historical?: boolean;
+}
 
 interface Props {
   minDate: string;
@@ -15,6 +28,7 @@ interface Props {
   onTogglePlay: () => void;
   onSpeedChange: (speed: number) => void;
   onGoLive: () => void;
+  stats?: StatsData;
 }
 
 const SPEEDS = [
@@ -84,9 +98,13 @@ export default function CesiumTimelineBar({
   onTogglePlay,
   onSpeedChange,
   onGoLive,
+  stats,
 }: Props) {
+  const [showSpeeds, setShowSpeeds] = useState(false);
   const totalDays = dateToDay(maxDate, minDate);
   const currentDay = dateToDay(currentDate, minDate);
+
+  const currentSpeedLabel = SPEEDS.find(s => s.value === playbackSpeed)?.label || '1hr';
 
   // Sorted unique dates that have events or lines
   const eventDates = useMemo(() => {
@@ -150,18 +168,29 @@ export default function CesiumTimelineBar({
           &#9654;
         </button>
 
-        {/* Speed selector — scrollable row */}
-        <div className="globe-tl-speed">
-          {SPEEDS.map(s => (
-            <button
-              key={s.value}
-              className={`globe-tl-speed-btn ${playbackSpeed === s.value ? 'active' : ''}`}
-              onClick={() => onSpeedChange(s.value)}
-              title={`${s.label} per second`}
-            >
-              {s.label}
-            </button>
-          ))}
+        {/* Speed selector — gear icon with popup */}
+        <div className="globe-tl-settings">
+          <button
+            className="globe-tl-btn globe-tl-gear"
+            onClick={() => setShowSpeeds(prev => !prev)}
+            title="Playback speed"
+          >
+            &#9881; <span className="globe-tl-speed-badge">{currentSpeedLabel}</span>
+          </button>
+          {showSpeeds && (
+            <div className="globe-tl-speed-popup">
+              {SPEEDS.map(s => (
+                <button
+                  key={s.value}
+                  className={`globe-tl-speed-btn ${playbackSpeed === s.value ? 'active' : ''}`}
+                  onClick={() => { onSpeedChange(s.value); setShowSpeeds(false); }}
+                  title={`${s.label} per second`}
+                >
+                  {s.label}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* LIVE button */}
@@ -211,6 +240,63 @@ export default function CesiumTimelineBar({
         </div>
         <span className="globe-tl-date-edge">{formatDate(maxDate)}</span>
       </div>
+
+      {/* Stats row */}
+      {stats && (
+        <div className="globe-tl-stats">
+          <span>{stats.locations} locations</span>
+          <span className="globe-tl-stats-sep">&middot;</span>
+          <span>{stats.vectors} vectors</span>
+          {stats.sats != null && (
+            <>
+              <span className="globe-tl-stats-sep">&middot;</span>
+              <span style={{ color: '#00ff88' }}>{stats.sats} sats</span>
+            </>
+          )}
+          {stats.fov != null && (
+            <>
+              <span className="globe-tl-stats-sep">&middot;</span>
+              <span style={{ color: '#ff8844' }}>{stats.fov} FOV</span>
+            </>
+          )}
+          {stats.flights != null && (
+            <>
+              <span className="globe-tl-stats-sep">&middot;</span>
+              <span style={{ color: '#00aaff' }}>{stats.flights} flights</span>
+            </>
+          )}
+          {stats.quakes != null && (
+            <>
+              <span className="globe-tl-stats-sep">&middot;</span>
+              <span style={{ color: '#ff6644' }}>{stats.quakes} quakes</span>
+            </>
+          )}
+          {stats.wx != null && (
+            <>
+              <span className="globe-tl-stats-sep">&middot;</span>
+              <span style={{ color: '#88ccff' }}>{stats.wx} wx</span>
+            </>
+          )}
+          {stats.nfz != null && (
+            <>
+              <span className="globe-tl-stats-sep">&middot;</span>
+              <span style={{ color: '#e74c3c' }}>{stats.nfz} NFZ</span>
+            </>
+          )}
+          {stats.ships != null && (
+            <>
+              <span className="globe-tl-stats-sep">&middot;</span>
+              <span style={{ color: '#00ddaa' }}>{stats.ships} ships</span>
+            </>
+          )}
+          {stats.historical && (
+            <>
+              <span className="globe-tl-stats-sep">&middot;</span>
+              <span style={{ color: '#9498a8' }}>HISTORICAL</span>
+            </>
+          )}
+        </div>
+      )}
     </div>
   );
 }

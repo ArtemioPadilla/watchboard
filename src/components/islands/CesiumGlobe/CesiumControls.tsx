@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { MAP_CATEGORIES } from '../../../lib/map-utils';
 import { type CameraPresetKey } from '../../../lib/cesium-config';
 import type { VisualMode } from './cesium-shaders';
@@ -22,6 +22,8 @@ interface Props {
   aisApiKey?: string;
   onAisApiKeyChange?: (key: string) => void;
 }
+
+type ToolbarSection = 'filters' | 'camera' | 'visual' | 'layers';
 
 const PRESET_LABELS: Record<CameraPresetKey, string> = {
   theater: 'Full Theater',
@@ -58,199 +60,257 @@ export default function CesiumControls({
   aisApiKey,
   onAisApiKeyChange,
 }: Props) {
+  const [activeSection, setActiveSection] = useState<ToolbarSection | null>(null);
   const [aisKeyDraft, setAisKeyDraft] = useState('');
   const hasAisKey = !!aisApiKey;
+  const toolbarRef = useRef<HTMLDivElement>(null);
 
-  return (
-    <div className="globe-controls">
-      {/* Category filters */}
-      <div className="globe-control-group">
-        <div className="globe-control-label">Filters</div>
-        {MAP_CATEGORIES.map(c => (
-          <button
-            key={c.id}
-            className={`globe-filter${activeFilters.has(c.id) ? ' active' : ''}`}
-            onClick={() => onToggleFilter(c.id)}
-            aria-pressed={activeFilters.has(c.id)}
-          >
-            <span className="globe-fdot" style={{ background: c.color }} />
-            {c.label}
-            {activeFilters.has(c.id) && pointCounts[c.id] > 0 && (
-              <span className="globe-filter-count">{pointCounts[c.id]}</span>
-            )}
+  useEffect(() => {
+    if (!activeSection) return;
+    const handler = (e: MouseEvent) => {
+      if (toolbarRef.current && !toolbarRef.current.contains(e.target as Node)) {
+        setActiveSection(null);
+      }
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [activeSection]);
+
+  const toggle = (s: ToolbarSection) => setActiveSection(prev => prev === s ? null : s);
+
+  const renderFilters = () => (
+    <div className="globe-toolbar-flyout">
+      <div className="globe-control-label">Filters</div>
+      {MAP_CATEGORIES.map(c => (
+        <button
+          key={c.id}
+          className={`globe-filter${activeFilters.has(c.id) ? ' active' : ''}`}
+          onClick={() => onToggleFilter(c.id)}
+          aria-pressed={activeFilters.has(c.id)}
+        >
+          <span className="globe-fdot" style={{ background: c.color }} />
+          {c.label}
+          {activeFilters.has(c.id) && pointCounts[c.id] > 0 && (
+            <span className="globe-filter-count">{pointCounts[c.id]}</span>
+          )}
+        </button>
+      ))}
+      <button
+        className={`globe-filter globe-persist-toggle${persistLines ? ' active' : ''}`}
+        onClick={onTogglePersist}
+        aria-pressed={persistLines}
+        title={persistLines ? 'Showing all past arcs' : 'Showing current day arcs only'}
+      >
+        <span className="globe-fdot" style={{ background: persistLines ? '#00ff88' : '#555' }} />
+        {persistLines ? 'All Days' : 'Day Only'}
+      </button>
+    </div>
+  );
+
+  const renderCamera = () => (
+    <div className="globe-toolbar-flyout">
+      <div className="globe-control-label">Camera</div>
+      <div className="globe-preset-grid">
+        {(Object.keys(PRESET_LABELS) as CameraPresetKey[]).map(key => (
+          <button key={key} className="globe-preset-btn" onClick={() => { onCameraPreset(key); setActiveSection(null); }}>
+            {PRESET_LABELS[key]}
           </button>
         ))}
-        <button
-          className={`globe-filter globe-persist-toggle${persistLines ? ' active' : ''}`}
-          onClick={onTogglePersist}
-          aria-pressed={persistLines}
-          title={persistLines ? 'Showing all past arcs' : 'Showing current day arcs only'}
-        >
-          <span className="globe-fdot" style={{ background: persistLines ? '#00ff88' : '#555' }} />
-          {persistLines ? 'All Days' : 'Day Only'}
-        </button>
       </div>
+    </div>
+  );
 
-      {/* Camera presets */}
-      <div className="globe-control-group">
-        <div className="globe-control-label">Camera</div>
-        <div className="globe-preset-grid">
-          {(Object.keys(PRESET_LABELS) as CameraPresetKey[]).map(key => (
-            <button key={key} className="globe-preset-btn" onClick={() => onCameraPreset(key)}>
-              {PRESET_LABELS[key]}
-            </button>
-          ))}
-        </div>
+  const renderVisual = () => (
+    <div className="globe-toolbar-flyout">
+      <div className="globe-control-label">Visual Mode</div>
+      <div className="globe-mode-row">
+        {VISUAL_MODES.map(m => (
+          <button
+            key={m.id}
+            className={`globe-mode-btn${visualMode === m.id ? ' active' : ''}`}
+            onClick={() => onVisualMode(m.id)}
+          >
+            {m.label}
+          </button>
+        ))}
       </div>
+    </div>
+  );
 
-      {/* Visual modes */}
-      <div className="globe-control-group">
-        <div className="globe-control-label">Visual Mode</div>
-        <div className="globe-mode-row">
-          {VISUAL_MODES.map(m => (
+  const renderLayers = () => (
+    <div className="globe-toolbar-flyout">
+      <div className="globe-control-label">Intel Layers</div>
+      <button
+        className={`globe-filter${layers.satellites ? ' active' : ''}`}
+        onClick={() => onToggleLayer('satellites')}
+      >
+        <span className="globe-fdot" style={{ background: '#00ffcc' }} />
+        Satellites
+      </button>
+      {layers.satellites && (
+        <>
+          <div className="globe-sublabel globe-sublabel-wrap">
+            {SAT_GROUPS.map(g => {
+              const cnt = satGroupCounts?.[g.group] ?? 0;
+              return (
+                <span key={g.group} style={{ color: g.color }}>
+                  &#9679; {g.label}{cnt > 0 ? ` (${cnt})` : ''}
+                </span>
+              );
+            })}
+          </div>
+          {onToggleFov && (
             <button
-              key={m.id}
-              className={`globe-mode-btn${visualMode === m.id ? ' active' : ''}`}
-              onClick={() => onVisualMode(m.id)}
+              className={`globe-filter globe-fov-toggle${showFov ? ' active' : ''}`}
+              onClick={onToggleFov}
+              aria-pressed={showFov}
+              title={showFov ? 'Hide sensor FOV footprints' : 'Show sensor FOV footprints'}
             >
-              {m.label}
+              <span className="globe-fdot" style={{ background: showFov ? '#ff8844' : '#555' }} />
+              Sensor FOV
+              {showFov && fovCount != null && fovCount > 0 && (
+                <span className="globe-filter-count">{fovCount}</span>
+              )}
             </button>
-          ))}
+          )}
+        </>
+      )}
+      <button
+        className={`globe-filter${layers.flights ? ' active' : ''}`}
+        onClick={() => onToggleLayer('flights')}
+      >
+        <span className="globe-fdot" style={{ background: '#00aaff' }} />
+        Flights
+      </button>
+      {layers.flights && (
+        <div className="globe-sublabel">
+          <span style={{ color: '#00aaff' }}>&#9679; Civilian</span>{' '}
+          <span style={{ color: '#ffdd00' }}>&#9679; Military</span>
         </div>
-      </div>
-
-      {/* Real-time data layers */}
-      <div className="globe-control-group">
-        <div className="globe-control-label">Intel Layers</div>
-        <button
-          className={`globe-filter${layers.satellites ? ' active' : ''}`}
-          onClick={() => onToggleLayer('satellites')}
-        >
-          <span className="globe-fdot" style={{ background: '#00ffcc' }} />
-          Satellites
-        </button>
-        {layers.satellites && (
-          <>
-            <div className="globe-sublabel globe-sublabel-wrap">
-              {SAT_GROUPS.map(g => {
-                const cnt = satGroupCounts?.[g.group] ?? 0;
-                return (
-                  <span key={g.group} style={{ color: g.color }}>
-                    &#9679; {g.label}{cnt > 0 ? ` (${cnt})` : ''}
-                  </span>
-                );
-              })}
-            </div>
-            {onToggleFov && (
+      )}
+      <button
+        className={`globe-filter${layers.ships ? ' active' : ''}`}
+        onClick={() => onToggleLayer('ships')}
+      >
+        <span className="globe-fdot" style={{ background: '#00ddaa' }} />
+        Ships (AIS)
+      </button>
+      {layers.ships && (
+        <>
+          <div className="globe-sublabel">
+            <span style={{ color: '#00ddaa' }}>&#9679; Underway</span>{' '}
+            <span style={{ color: '#888888' }}>&#9679; Anchored</span>
+          </div>
+          {!hasAisKey ? (
+            <div className="globe-ais-key-input">
+              <input
+                type="password"
+                placeholder="AISStream.io API key"
+                value={aisKeyDraft}
+                onChange={e => setAisKeyDraft(e.target.value)}
+                onKeyDown={e => {
+                  if (e.key === 'Enter' && aisKeyDraft.trim()) {
+                    onAisApiKeyChange?.(aisKeyDraft.trim());
+                  }
+                }}
+              />
               <button
-                className={`globe-filter globe-fov-toggle${showFov ? ' active' : ''}`}
-                onClick={onToggleFov}
-                aria-pressed={showFov}
-                title={showFov ? 'Hide sensor FOV footprints' : 'Show sensor FOV footprints'}
+                className="globe-ais-key-save"
+                onClick={() => {
+                  if (aisKeyDraft.trim()) onAisApiKeyChange?.(aisKeyDraft.trim());
+                }}
+                disabled={!aisKeyDraft.trim()}
               >
-                <span className="globe-fdot" style={{ background: showFov ? '#ff8844' : '#555' }} />
-                Sensor FOV
-                {showFov && fovCount != null && fovCount > 0 && (
-                  <span className="globe-filter-count">{fovCount}</span>
-                )}
+                Connect
               </button>
-            )}
-          </>
-        )}
-        <button
-          className={`globe-filter${layers.flights ? ' active' : ''}`}
-          onClick={() => onToggleLayer('flights')}
-        >
-          <span className="globe-fdot" style={{ background: '#00aaff' }} />
-          Flights
-        </button>
-        {layers.flights && (
-          <div className="globe-sublabel">
-            <span style={{ color: '#00aaff' }}>&#9679; Civilian</span>{' '}
-            <span style={{ color: '#ffdd00' }}>&#9679; Military</span>
-          </div>
-        )}
-        <button
-          className={`globe-filter${layers.ships ? ' active' : ''}`}
-          onClick={() => onToggleLayer('ships')}
-        >
-          <span className="globe-fdot" style={{ background: '#00ddaa' }} />
-          Ships (AIS)
-        </button>
-        {layers.ships && (
-          <>
-            <div className="globe-sublabel">
-              <span style={{ color: '#00ddaa' }}>&#9679; Underway</span>{' '}
-              <span style={{ color: '#888888' }}>&#9679; Anchored</span>
+              <div className="globe-ais-key-hint">
+                Free key from <a href="https://aisstream.io" target="_blank" rel="noopener noreferrer">aisstream.io</a>
+              </div>
             </div>
-            {!hasAisKey ? (
-              <div className="globe-ais-key-input">
-                <input
-                  type="password"
-                  placeholder="AISStream.io API key"
-                  value={aisKeyDraft}
-                  onChange={e => setAisKeyDraft(e.target.value)}
-                  onKeyDown={e => {
-                    if (e.key === 'Enter' && aisKeyDraft.trim()) {
-                      onAisApiKeyChange?.(aisKeyDraft.trim());
-                    }
-                  }}
-                />
-                <button
-                  className="globe-ais-key-save"
-                  onClick={() => {
-                    if (aisKeyDraft.trim()) onAisApiKeyChange?.(aisKeyDraft.trim());
-                  }}
-                  disabled={!aisKeyDraft.trim()}
-                >
-                  Connect
-                </button>
-                <div className="globe-ais-key-hint">
-                  Free key from <a href="https://aisstream.io" target="_blank" rel="noopener noreferrer">aisstream.io</a>
-                </div>
-              </div>
-            ) : (
-              <div className="globe-sublabel" style={{ gap: '6px' }}>
-                <span style={{ color: '#00ddaa' }}>AIS connected</span>
-                <button
-                  className="globe-ais-key-clear"
-                  onClick={() => onAisApiKeyChange?.('')}
-                  title="Disconnect and clear API key"
-                >
-                  &#x2715;
-                </button>
-              </div>
-            )}
-          </>
-        )}
+          ) : (
+            <div className="globe-sublabel" style={{ gap: '6px' }}>
+              <span style={{ color: '#00ddaa' }}>AIS connected</span>
+              <button
+                className="globe-ais-key-clear"
+                onClick={() => onAisApiKeyChange?.('')}
+                title="Disconnect and clear API key"
+              >
+                &#x2715;
+              </button>
+            </div>
+          )}
+        </>
+      )}
+      <button
+        className={`globe-filter${layers.quakes ? ' active' : ''}`}
+        onClick={() => onToggleLayer('quakes')}
+      >
+        <span className="globe-fdot" style={{ background: '#ff6644' }} />
+        Seismic
+      </button>
+      <button
+        className={`globe-filter${layers.weather ? ' active' : ''}`}
+        onClick={() => onToggleLayer('weather')}
+      >
+        <span className="globe-fdot" style={{ background: '#88ccff' }} />
+        Weather
+      </button>
+      {layers.weather && (
+        <div className="globe-sublabel">
+          <span style={{ color: '#ffffff' }}>&#9679; Cloud</span>{' '}
+          <span style={{ color: '#88ccff' }}>&#9679; Wind</span>
+        </div>
+      )}
+      <button
+        className={`globe-filter${layers.nfz ? ' active' : ''}`}
+        onClick={() => onToggleLayer('nfz')}
+      >
+        <span className="globe-fdot" style={{ background: '#e74c3c' }} />
+        No-Fly Zones
+      </button>
+    </div>
+  );
+
+  const sections = {
+    filters: renderFilters,
+    camera: renderCamera,
+    visual: renderVisual,
+    layers: renderLayers,
+  } as const;
+
+  return (
+    <div className="globe-toolbar" ref={toolbarRef}>
+      <div className="globe-toolbar-icons">
         <button
-          className={`globe-filter${layers.quakes ? ' active' : ''}`}
-          onClick={() => onToggleLayer('quakes')}
+          className={`globe-toolbar-icon${activeSection === 'filters' ? ' active' : ''}`}
+          onClick={() => toggle('filters')}
+          title="Filters"
         >
-          <span className="globe-fdot" style={{ background: '#ff6644' }} />
-          Seismic
+          <svg viewBox="0 0 16 16" width="16" height="16"><path d="M1 2h14l-5 6v5l-4 2V8z" fill="currentColor"/></svg>
         </button>
         <button
-          className={`globe-filter${layers.weather ? ' active' : ''}`}
-          onClick={() => onToggleLayer('weather')}
+          className={`globe-toolbar-icon${activeSection === 'camera' ? ' active' : ''}`}
+          onClick={() => toggle('camera')}
+          title="Camera Presets"
         >
-          <span className="globe-fdot" style={{ background: '#88ccff' }} />
-          Weather
+          <svg viewBox="0 0 16 16" width="16" height="16"><path d="M2 4h3l1-2h4l1 2h3v9H2zm6 2a3 3 0 100 6 3 3 0 000-6z" fill="currentColor"/></svg>
         </button>
-        {layers.weather && (
-          <div className="globe-sublabel">
-            <span style={{ color: '#ffffff' }}>&#9679; Cloud</span>{' '}
-            <span style={{ color: '#88ccff' }}>&#9679; Wind</span>
-          </div>
-        )}
         <button
-          className={`globe-filter${layers.nfz ? ' active' : ''}`}
-          onClick={() => onToggleLayer('nfz')}
+          className={`globe-toolbar-icon${activeSection === 'visual' ? ' active' : ''}`}
+          onClick={() => toggle('visual')}
+          title="Visual Mode"
         >
-          <span className="globe-fdot" style={{ background: '#e74c3c' }} />
-          No-Fly Zones
+          <svg viewBox="0 0 16 16" width="16" height="16"><path d="M8 3C4 3 1 8 1 8s3 5 7 5 7-5 7-5-3-5-7-5zm0 8a3 3 0 110-6 3 3 0 010 6z" fill="currentColor"/></svg>
+        </button>
+        <button
+          className={`globe-toolbar-icon${activeSection === 'layers' ? ' active' : ''}`}
+          onClick={() => toggle('layers')}
+          title="Intel Layers"
+        >
+          <svg viewBox="0 0 16 16" width="16" height="16"><path d="M8 1L1 5l7 4 7-4zM1 8l7 4 7-4M1 11l7 4 7-4" fill="none" stroke="currentColor" strokeWidth="1.5"/></svg>
         </button>
       </div>
+      {activeSection && sections[activeSection]()}
     </div>
   );
 }

@@ -68,6 +68,7 @@ export default function CesiumEventsPanel({ events, currentDate, isOpen, onToggl
     return (
       <button className="globe-events-toggle" onClick={onToggle}>
         <span className="globe-events-toggle-icon">&#9776;</span>
+        <span className="globe-events-toggle-label">INTEL</span>
         {dateEvents.length > 0 && (
           <span className="globe-events-toggle-badge">{dateEvents.length}</span>
         )}
