@@ -1,46 +1,46 @@
 {
-  "lastRun": "2026-03-07T07:23:00.893Z",
-  "provider": "anthropic",
-  "model": "claude-sonnet-4-6",
+  "lastRun": "2026-03-08T21:56:37.543Z",
+  "provider": "openai",
+  "model": "gpt-4o",
   "sections": {
     "meta": {
       "status": "updated"
     },
     "kpis": {
-      "status": "error",
-      "reason": "Error: ANTHROPIC_API_KEY is required when AI_PROVIDER=anthropic"
+      "status": "updated",
+      "itemCount": 8
     },
     "timeline": {
-      "status": "error",
-      "reason": "Error: ANTHROPIC_API_KEY is required when AI_PROVIDER=anthropic"
+      "status": "updated",
+      "newEvents": 7
     },
     "casualties": {
-      "status": "error",
-      "reason": "Error: ANTHROPIC_API_KEY is required when AI_PROVIDER=anthropic"
+      "status": "updated",
+      "itemCount": 15
     },
     "econ": {
-      "status": "error",
-      "reason": "Error: ANTHROPIC_API_KEY is required when AI_PROVIDER=anthropic"
+      "status": "updated",
+      "itemCount": 8
     },
     "claims": {
-      "status": "error",
-      "reason": "Error: ANTHROPIC_API_KEY is required when AI_PROVIDER=anthropic"
+      "status": "updated",
+      "itemCount": 23
     },
     "political": {
-      "status": "error",
-      "reason": "Error: ANTHROPIC_API_KEY is required when AI_PROVIDER=anthropic"
+      "status": "updated",
+      "itemCount": 29
     },
     "military": {
-      "status": "error",
-      "reason": "Error: ANTHROPIC_API_KEY is required when AI_PROVIDER=anthropic"
+      "status": "updated",
+      "itemCount": 87
     },
     "map": {
       "status": "error",
-      "reason": "Error: ANTHROPIC_API_KEY is required when AI_PROVIDER=anthropic"
+      "reason": "Error: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors."
     },
     "map-lines": {
       "status": "error",
-      "reason": "Error: ANTHROPIC_API_KEY is required when AI_PROVIDER=anthropic"
+      "reason": "Error: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors."
     }
   }
 }
