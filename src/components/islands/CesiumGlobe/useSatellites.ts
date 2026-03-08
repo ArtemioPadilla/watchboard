@@ -5,10 +5,12 @@ import {
   NearFarScalar,
   DistanceDisplayCondition,
   VerticalOrigin,
+  HorizontalOrigin,
   LabelStyle,
   type Viewer as CesiumViewer,
   type Entity,
 } from 'cesium';
+import { getIconDataUri } from './cesium-icons';
 import * as satellite from 'satellite.js';
 
 interface SatRecord {
@@ -163,14 +165,14 @@ function filterToTheater(sats: SatRecord[]): SatRecord[] {
   return inTheater;
 }
 
-function pixelSizeForGroup(group: SatGroup): number {
+function billboardSizeForGroup(group: SatGroup): number {
   switch (group) {
-    case 'gps': return 5;
-    case 'military': return 4;
-    case 'recon': return 3;
-    case 'starlink': return 2;
-    case 'geo': return 5;
-    case 'gnss': return 4;
+    case 'gps': return 15;
+    case 'military': return 12;
+    case 'recon': return 12;
+    case 'starlink': return 8;
+    case 'geo': return 15;
+    case 'gnss': return 12;
   }
 }
 
@@ -291,19 +293,23 @@ export function useSatellites(
 
     if (viewer.isDestroyed()) return;
 
-    // Create entities for each satellite
+    // Create entities for each satellite with billboard icons
     satsRef.current.forEach(sat => {
       const color = GROUP_COLORS[sat.group];
       const showLabel = showLabelForGroup(sat.group);
+      const groupInfo = SAT_GROUPS.find(g => g.group === sat.group);
+      const iconUri = getIconDataUri('satellite', groupInfo?.color || '#00ffcc');
+      const bbSize = billboardSizeForGroup(sat.group);
 
       const entity = viewer.entities.add({
         name: `${sat.name} [${sat.group.toUpperCase()}]`,
-        point: {
-          pixelSize: pixelSizeForGroup(sat.group),
-          color,
-          outlineColor: color.withAlpha(0.3),
-          outlineWidth: sat.group === 'gps' || sat.group === 'geo' ? 2 : 1,
+        billboard: {
+          image: iconUri,
+          width: bbSize,
+          height: bbSize,
           scaleByDistance: new NearFarScalar(1e5, 1.2, 5e7, 0.4),
+          verticalOrigin: VerticalOrigin.CENTER,
+          horizontalOrigin: HorizontalOrigin.CENTER,
         },
         label: {
           text: showLabel ? formatLabelText(sat) : '',
@@ -314,7 +320,7 @@ export function useSatellites(
           outlineWidth: 2,
           style: LabelStyle.FILL_AND_OUTLINE,
           verticalOrigin: VerticalOrigin.BOTTOM,
-          pixelOffset: new Cartesian3(0, -8, 0) as any,
+          pixelOffset: new Cartesian3(0, -(bbSize / 2 + 4), 0) as any,
           scaleByDistance: new NearFarScalar(1e5, 0.8, 5e7, 0.2),
           distanceDisplayCondition: new DistanceDisplayCondition(0, 2e7),
         },

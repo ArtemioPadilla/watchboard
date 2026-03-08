@@ -18,12 +18,14 @@ import {
 import type { MapPoint, MapLine } from '../../../lib/schemas';
 import {
   catToCesiumColor,
-  markerPixelSize,
   frontZoneRadius,
+  billboardSize,
   arc3D,
   lineWidth,
   arcMaterial,
 } from './cesium-helpers';
+import { getIconDataUri } from './cesium-icons';
+import type { IconType } from './cesium-icons';
 
 // ── Point helpers ──
 
@@ -70,7 +72,7 @@ export function useConflictData(
     pointEntitiesRef.current = [];
     pointMapRef.current.clear();
 
-    // Create new point entities
+    // Create new point entities with billboard icons
     for (const pt of points) {
       const color = catToCesiumColor(pt.cat);
       const isFront = pt.cat === 'front';
@@ -79,44 +81,47 @@ export function useConflictData(
       const isAsset = pt.cat === 'asset';
       const showLabel = isAsset || isFront || pt.tier === 1;
 
-      let pixelSize = markerPixelSize(pt.cat, pt.tier);
-      if (isShip) pixelSize = 20;
-      else if (isBase) pixelSize = 10;
-
       let markerColor = color;
       if (isShip) markerColor = Color.fromCssColorString('#00ccff');
       else if (isBase) markerColor = Color.fromCssColorString('#4aa3df');
 
-      let labelPrefix = '';
-      if (isShip) labelPrefix = '\u2693 ';
-      else if (isBase) labelPrefix = '\u2B1F ';
-
       // Ships get a small altitude to float above ocean surface with terrain
       const altitude = isShip ? 500 : 0;
 
-      // Pulsing outline for naval vessels using CallbackProperty
-      const shipOutlineColor = isShip
+      // Determine icon type
+      const iconType: IconType = isShip ? 'naval'
+        : isBase ? 'airbase'
+        : isFront ? 'front'
+        : (pt.cat as IconType);
+      const iconUri = getIconDataUri(iconType);
+      const size = isShip ? { width: 28, height: 28 }
+        : isBase ? { width: 22, height: 18 }
+        : billboardSize(pt.cat);
+
+      // Pulsing ellipse outline for naval vessels
+      const shipEllipseOutline = isShip
         ? new CallbackProperty(() => {
             const t = performance.now() / 1000;
             const pulse = 0.4 + 0.4 * Math.sin(t * 2.5);
             return markerColor.withAlpha(pulse);
           }, false) as any
-        : markerColor.withAlpha(0.4);
+        : undefined;
 
       const entity = viewer.entities.add({
         position: Cartesian3.fromDegrees(pt.lon, pt.lat, altitude),
         name: pt.label,
-        point: {
-          pixelSize,
-          color: markerColor,
-          outlineColor: shipOutlineColor,
-          outlineWidth: isShip ? 6 : pt.tier === 1 ? 3 : 1,
+        billboard: {
+          image: iconUri,
+          width: size.width,
+          height: size.height,
           scaleByDistance: new NearFarScalar(1e4, 1.5, 5e6, isShip ? 0.7 : 0.5),
+          verticalOrigin: VerticalOrigin.CENTER,
+          horizontalOrigin: HorizontalOrigin.CENTER,
           heightReference: isShip ? HeightReference.RELATIVE_TO_GROUND : HeightReference.NONE,
           distanceDisplayCondition: isShip ? new DistanceDisplayCondition(0, 20e6) : undefined,
         },
         label: showLabel ? {
-          text: `${labelPrefix}${pt.label}`,
+          text: pt.label,
           font: isShip ? "bold 13px 'DM Sans', sans-serif" : "11px 'DM Sans', sans-serif",
           fillColor: isShip ? Color.fromCssColorString('#00eeff') : Color.fromCssColorString('#e8e9ed'),
           outlineColor: Color.fromCssColorString('#0a0b0e'),
@@ -124,7 +129,7 @@ export function useConflictData(
           style: LabelStyle.FILL_AND_OUTLINE,
           verticalOrigin: VerticalOrigin.BOTTOM,
           horizontalOrigin: HorizontalOrigin.CENTER,
-          pixelOffset: new Cartesian3(0, -14, 0) as any,
+          pixelOffset: new Cartesian3(0, -(size.height / 2 + 4), 0) as any,
           scaleByDistance: new NearFarScalar(1e4, 1.0, 5e6, 0.4),
           distanceDisplayCondition: new DistanceDisplayCondition(0, isShip ? 15e6 : isAsset ? 8e6 : 5e6),
           heightReference: isShip ? HeightReference.RELATIVE_TO_GROUND : HeightReference.NONE,
@@ -136,8 +141,8 @@ export function useConflictData(
             isFront ? 0.08 : isShip ? 0.12 : 0.03,
           ),
           outline: true,
-          outlineColor: (isShip ? markerColor : isFront ? color : markerColor).withAlpha(
-            isFront ? 0.25 : isShip ? 0.4 : 0.15,
+          outlineColor: isShip ? shipEllipseOutline : (isFront ? color : markerColor).withAlpha(
+            isFront ? 0.25 : 0.15,
           ),
           outlineWidth: isShip ? 2.5 : 1,
         } : undefined,

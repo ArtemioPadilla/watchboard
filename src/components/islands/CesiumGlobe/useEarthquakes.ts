@@ -2,9 +2,12 @@ import { useState, useEffect, useRef } from 'react';
 import {
   Cartesian3,
   Color,
+  VerticalOrigin,
+  HorizontalOrigin,
   type Viewer as CesiumViewer,
   type Entity,
 } from 'cesium';
+import { getIconDataUri } from './cesium-icons';
 
 interface Earthquake {
   id: string;
@@ -71,20 +74,23 @@ export function useEarthquakes(
         });
         entitiesRef.current = [];
 
-        // Add new entities
+        // Add new entities with earthquake billboard icons
         quakes.forEach(q => {
-          const size = Math.max(4, q.mag * 3);
+          const bbSize = Math.max(12, q.mag * 6);
           const depthNorm = Math.min(q.depth / 300, 1);
           const color = Color.fromHsl(0.08 * depthNorm, 0.9, 0.5, 0.8);
+          const iconUri = getIconDataUri('earthquake');
 
           const entity = viewer.entities.add({
             name: `M${q.mag.toFixed(1)} - ${q.place}`,
             position: Cartesian3.fromDegrees(q.lon, q.lat, 0),
-            point: {
-              pixelSize: size,
+            billboard: {
+              image: iconUri,
+              width: bbSize,
+              height: bbSize,
               color,
-              outlineColor: color.withAlpha(0.3),
-              outlineWidth: 2,
+              verticalOrigin: VerticalOrigin.CENTER,
+              horizontalOrigin: HorizontalOrigin.CENTER,
             },
           });
           entitiesRef.current.push(entity);

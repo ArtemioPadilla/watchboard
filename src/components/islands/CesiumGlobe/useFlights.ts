@@ -2,10 +2,14 @@ import { useState, useEffect, useRef } from 'react';
 import {
   Cartesian3,
   Color,
+  Math as CesiumMath,
   NearFarScalar,
+  VerticalOrigin,
+  HorizontalOrigin,
   type Viewer as CesiumViewer,
   type Entity,
 } from 'cesium';
+import { getIconDataUri } from './cesium-icons';
 
 interface FlightState {
   icao24: string;
@@ -91,23 +95,29 @@ export function useFlights(viewer: CesiumViewer | null, enabled: boolean) {
           const pos = Cartesian3.fromDegrees(f.longitude!, f.latitude!, alt);
           const isMil = isMilitaryFlight(f);
 
+          const rotation = f.true_track != null
+            ? CesiumMath.toRadians(-(f.true_track)) : 0;
           const existing = entitiesRef.current.get(f.icao24);
           if (existing) {
             existing.position = pos as any;
+            if (existing.billboard && f.true_track != null) {
+              (existing.billboard.rotation as any) = rotation;
+            }
           } else {
-            const color = isMil
-              ? Color.fromCssColorString('#ffdd00').withAlpha(0.9)  // Yellow for military
-              : Color.fromCssColorString('#00aaff').withAlpha(0.5); // Blue for civilian
+            const iconUri = getIconDataUri(isMil ? 'aircraft_mil' : 'aircraft_civ');
 
             const entity = viewer.entities.add({
               name: `${f.callsign || f.icao24} (${f.origin_country})${isMil ? ' [MIL]' : ''}`,
               position: pos,
-              point: {
-                pixelSize: isMil ? 6 : 3,
-                color,
-                outlineColor: isMil ? Color.fromCssColorString('#ffdd00').withAlpha(0.4) : color.withAlpha(0.2),
-                outlineWidth: isMil ? 2 : 1,
+              billboard: {
+                image: iconUri,
+                width: isMil ? 18 : 12,
+                height: isMil ? 18 : 12,
+                rotation,
+                alignedAxis: Cartesian3.UNIT_Z,
                 scaleByDistance: new NearFarScalar(1e4, 1.5, 5e6, 0.4),
+                verticalOrigin: VerticalOrigin.CENTER,
+                horizontalOrigin: HorizontalOrigin.CENTER,
               },
             });
             entitiesRef.current.set(f.icao24, entity);

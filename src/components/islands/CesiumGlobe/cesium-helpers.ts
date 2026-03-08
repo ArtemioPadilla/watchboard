@@ -154,6 +154,15 @@ export function weaponGlowPower(weaponType?: string): number {
   }
 }
 
+/** Billboard size for icon entities */
+export function billboardSize(cat: string, subType?: string): { width: number; height: number } {
+  if (subType === 'naval') return { width: 28, height: 28 };
+  if (subType === 'airbase') return { width: 22, height: 18 };
+  if (cat === 'front') return { width: 22, height: 22 };
+  if (cat === 'strike' || cat === 'retaliation') return { width: 24, height: 24 };
+  return { width: 18, height: 18 };
+}
+
 /** Tier label for info panel */
 export function tierLabelFull(t: number): string {
   return t === 1
