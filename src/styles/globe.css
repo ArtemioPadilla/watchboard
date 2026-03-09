@@ -1252,23 +1252,7 @@ body:has(.globe-wrapper) .tooltip {
   font-family: 'JetBrains Mono', monospace;
 }
 
-/* Classification banner — top center */
-.hud-classification {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  text-align: center;
-  padding: 2px 0;
-  font-size: 0.5rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  color: #ffaa00;
-  background: rgba(255, 170, 0, 0.08);
-  border-bottom: 1px solid rgba(255, 170, 0, 0.2);
-}
-
-/* Top-left — designation + mode */
+/* Top-left — mode */
 .hud-top-left {
   position: absolute;
   top: 60px;
@@ -1278,16 +1262,10 @@ body:has(.globe-wrapper) .tooltip {
   line-height: 1.6;
 }
 
-.hud-designation {
-  font-weight: 700;
-  letter-spacing: 0.06em;
-}
-
 .hud-mode-label {
   font-size: 0.7rem;
   font-weight: 700;
-  color: rgba(232, 233, 237, 0.8);
-  margin-top: 2px;
+  color: rgba(232, 233, 237, 0.6);
 }
 
 /* Top-right — REC + orbital */
@@ -1321,23 +1299,7 @@ body:has(.globe-wrapper) .tooltip {
   50% { opacity: 0.2; }
 }
 
-.hud-orbital {
-  font-size: 0.5rem;
-  color: rgba(0, 255, 170, 0.5);
-}
-
-/* Active mode badge — far top right */
-.hud-active-mode {
-  position: absolute;
-  top: 42px;
-  right: 16px;
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: rgba(232, 233, 237, 0.6);
-  letter-spacing: 0.1em;
-}
-
-/* Bottom-left — MGRS + coords */
+/* Bottom-left — coords */
 .hud-bottom-left {
   position: absolute;
   bottom: 100px;
@@ -1357,24 +1319,15 @@ body:has(.globe-wrapper) .tooltip {
   color: rgba(0, 255, 170, 0.5);
 }
 
-/* Bottom-right — GSD, NIIRS, ALT, SUN */
+/* Bottom-right — altitude + sun */
 .hud-bottom-right {
   position: absolute;
   bottom: 100px;
   right: 16px;
   text-align: right;
-  color: rgba(0, 255, 170, 0.7);
-  font-size: 0.55rem;
-  line-height: 1.6;
-}
-
-.hud-gsd {
-  font-weight: 700;
-}
-
-.hud-alt {
-  font-size: 0.5rem;
   color: rgba(0, 255, 170, 0.5);
+  font-size: 0.5rem;
+  line-height: 1.6;
 }
 
 /* Scale bar — bottom center */

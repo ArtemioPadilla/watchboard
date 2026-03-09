@@ -207,40 +207,29 @@ export default function CesiumHud({ viewer, visible, visualMode, simTimeRef, cur
 
   return (
     <div className="hud-overlay">
-      {/* Classification banner */}
-      <div className="hud-classification">
-        OSINT // OPEN SOURCE // UNCLASSIFIED
-      </div>
-
-      {/* Top-left — designation + mode */}
+      {/* Top-left — mode */}
       <div className="hud-top-left">
-        <div className="hud-designation">OSINT-TRACKER OPS-001</div>
         <div className="hud-mode-label">{VISUAL_MODE_LABELS[visualMode]}</div>
       </div>
 
-      {/* Top-right — REC timestamp + orbital params */}
+      {/* Top-right — timestamp */}
       <div className="hud-top-right">
         <div className="hud-rec">
           <span className="hud-rec-dot" />
-          REC {hudData.recTime}
+          {hudData.recTime}
         </div>
-        <div className="hud-orbital">ORB: 47951 PASS: DESC-193</div>
       </div>
 
-      {/* Bottom-left — MGRS + coordinates */}
+      {/* Bottom-left — coordinates */}
       <div className="hud-bottom-left">
-        <div className="hud-mgrs">MGRS: {hudData.mgrs}</div>
+        <div className="hud-mgrs">{hudData.mgrs}</div>
         <div className="hud-coords">{hudData.latDms} {hudData.lonDms}</div>
       </div>
 
-      {/* Bottom-right — GSD, NIIRS, ALT, SUN */}
+      {/* Bottom-right — altitude + sun */}
       <div className="hud-bottom-right">
-        <div className="hud-gsd">GSD: {gsdStr}M NIIRS: {hudData.niirs.toFixed(1)}</div>
-        <div className="hud-alt">ALT: {altStr} SUN: {hudData.sunElevation.toFixed(1)}° EL</div>
+        <div className="hud-alt">ALT: {altStr} SUN: {hudData.sunElevation.toFixed(1)}°</div>
       </div>
-
-      {/* Active visual mode badge — top right corner */}
-      <div className="hud-active-mode">{VISUAL_MODE_LABELS[visualMode]}</div>
 
       {/* Scale bar — bottom center */}
       {hudData.scaleDistance && (
