@@ -75,7 +75,7 @@ jobs:
             - Update meta.json with current timestamp
 
             After updating, verify the changes by reading back modified files to confirm valid JSON.
-          claude_args: "--max-turns 50 --model claude-sonnet-4-6 --allowedTools WebSearch,WebFetch,Read,Edit,Write,Glob,Grep,Bash"
+          claude_args: "--max-turns 50"
 
       - name: Check for changes
         id: changes
