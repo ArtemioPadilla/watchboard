@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent Triforce Dashboard</title>
+<style>
+:root {
+  --bg: #0f172a;
+  --surface: #1e293b;
+  --border: #334155;
+  --text: #e2e8f0;
+  --text-dim: #94a3b8;
+  --prometeo: #F59E0B;
+  --forja: #3B82F6;
+  --centinela: #10B981;
+  --critical: #EF4444;
+  --warning: #F59E0B;
+  --suggestion: #3B82F6;
+  --low: #94a3b8;
+  --healthy: #10B981;
+  --radius: 8px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 56px; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: "SF Mono", "Fira Code", "JetBrains Mono", "Cascadia Code", "Consolas", monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+h1 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+h2 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+h3 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 24px;
+}
+.health-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  color: var(--bg);
+  background: #F59E0B;
+}
+.section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-bottom: 20px;
+}
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.agent-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  border-top: 3px solid var(--border);
+}
+.agent-card.prometeo { border-top-color: var(--prometeo); }
+.agent-card.forja { border-top-color: var(--forja); }
+.agent-card.centinela { border-top-color: var(--centinela); }
+.agent-card h3 { margin-bottom: 12px; }
+.agent-card .label { color: var(--text-dim); font-size: 12px; }
+.agent-card .value { margin-bottom: 6px; }
+.kanban {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+}
+.kanban-col {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px;
+  min-height: 80px;
+}
+.kanban-col h4 {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+  text-align: center;
+}
+.kanban-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 8px;
+  margin-bottom: 6px;
+  font-size: 12px;
+}
+.kanban-item .priority {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 3px;
+  display: inline-block;
+  margin-bottom: 4px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+th {
+  text-align: left;
+  padding: 8px 12px;
+  border-bottom: 2px solid var(--border);
+  color: var(--text-dim);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+}
+tr:last-child td { border-bottom: none; }
+.sev-critical { color: var(--critical); font-weight: 700; }
+.sev-high { color: var(--warning); }
+.sev-medium { color: var(--suggestion); }
+.sev-low { color: var(--low); }
+.verdict-approved { color: var(--healthy); font-weight: 600; }
+.verdict-conditions { color: var(--warning); font-weight: 600; }
+.verdict-changes { color: var(--critical); font-weight: 600; }
+.empty { color: var(--text-dim); font-style: italic; padding: 20px 0; text-align: center; }
+.workflow {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.workflow-row {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+.workflow-label {
+  font-weight: 600;
+  font-size: 12px;
+  min-width: 50px;
+  padding-right: 8px;
+}
+.workflow-step {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+.workflow-arrow {
+  color: var(--text-dim);
+  padding: 0 4px;
+  font-size: 14px;
+}
+.commit-line {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 4px 0;
+  font-size: 13px;
+}
+.commit-hash {
+  color: var(--text-dim);
+  font-size: 12px;
+  min-width: 60px;
+}
+.commit-badge {
+  display: inline-block;
+  padding: 1px 8px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: 600;
+  min-width: 65px;
+  text-align: center;
+  color: var(--bg);
+}
+.commit-msg { flex: 1; }
+.commit-date { color: var(--text-dim); font-size: 12px; min-width: 90px; text-align: right; }
+.memory-block {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 12px;
+  margin-bottom: 8px;
+  font-size: 12px;
+  white-space: pre-wrap;
+  max-height: 120px;
+  overflow-y: auto;
+}
+.subtitle { color: var(--text-dim); font-size: 12px; margin-bottom: 12px; }
+.totals-row { font-weight: 700; }
+.cl-breakdown {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.cl-agent-block {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px;
+}
+.cl-agent-block h4 {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.cl-item {
+  font-size: 12px;
+  color: var(--text-dim);
+  padding: 2px 0;
+}
+.cl-type {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 1px 6px;
+  border-radius: 3px;
+  display: inline-block;
+}
+.cl-do { background: rgba(59,130,246,0.2); color: var(--forja); }
+.cl-rd { background: rgba(245,158,11,0.2); color: var(--prometeo); }
+.changelog-cats {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+.changelog-cat {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 4px 10px;
+  font-size: 12px;
+}
+.flow-title {
+  font-weight: 600;
+  font-size: 13px;
+  margin-bottom: 8px;
+  margin-top: 16px;
+}
+.flow-title:first-child { margin-top: 0; }
+.priority-p0 { background: var(--critical); color: white; }
+.priority-p1 { background: var(--warning); color: var(--bg); }
+.priority-p2 { background: var(--suggestion); color: white; }
+.priority-p3 { background: var(--low); color: var(--bg); }
+.gen-time {
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 11px;
+  padding: 16px 0 8px;
+}
+.nav {
+  display: flex;
+  gap: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 20px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  overflow-x: auto;
+}
+.nav a {
+  color: var(--text-dim);
+  text-decoration: none;
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  border-right: 1px solid var(--border);
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
+.nav a:last-child { border-right: none; }
+.nav a:hover { background: rgba(255,255,255,0.05); color: var(--text); }
+.quick-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+.quick-action {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.03);
+  cursor: default;
+}
+.quick-action.pm { color: var(--prometeo); border-color: rgba(245,158,11,0.3); }
+.quick-action.dev { color: var(--forja); border-color: rgba(59,130,246,0.3); }
+.quick-action.qa { color: var(--centinela); border-color: rgba(16,185,129,0.3); }
+.next-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid #06b6d4;
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-bottom: 20px;
+}
+.next-action {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+.next-action:last-child { border-bottom: none; }
+.next-agent {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  min-width: 36px;
+  text-align: center;
+  color: var(--bg);
+  flex-shrink: 0;
+}
+.next-agent.pm { background: var(--prometeo); }
+.next-agent.dev { background: var(--forja); }
+.next-agent.qa { background: var(--centinela); }
+.next-desc { font-size: 13px; }
+.next-detail { font-size: 12px; color: var(--text-dim); margin-top: 2px; }
+.next-cmd { font-weight: 700; }
+.empty-guide {
+  color: var(--text-dim);
+  text-align: center;
+  padding: 16px 0;
+  font-size: 13px;
+  line-height: 1.8;
+}
+.empty-guide code {
+  background: rgba(255,255,255,0.08);
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-weight: 600;
+  color: var(--text);
+}
+.stats-bar {
+  display: flex;
+  gap: 0;
+  flex-wrap: wrap;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 20px;
+}
+.stat-item {
+  padding: 10px 20px;
+  border-right: 1px solid var(--border);
+  text-align: center;
+  flex: 1;
+  min-width: 100px;
+}
+.stat-item:last-child { border-right: none; }
+.stat-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.2;
+}
+.stat-label {
+  font-size: 11px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.comm-from { font-weight: 600; }
+.comm-arrow { color: var(--text-dim); padding: 0 8px; }
+.comm-to { font-weight: 600; }
+.adr-status-accepted { color: var(--healthy); font-weight: 600; }
+.adr-status-proposed { color: var(--warning); font-weight: 600; }
+.adr-status-deprecated { color: var(--text-dim); font-weight: 600; }
+.workflow-step.active {
+  background: rgba(6,182,212,0.15);
+  border-color: #06b6d4 !important;
+  color: #06b6d4;
+  font-weight: 700;
+  box-shadow: 0 0 8px rgba(6,182,212,0.3);
+}
+@media (max-width: 900px) {
+  .grid-3 { grid-template-columns: 1fr; }
+  .kanban { grid-template-columns: repeat(2, 1fr); }
+  .cl-breakdown { grid-template-columns: 1fr; }
+  .stats-bar { flex-wrap: wrap; }
+  .stat-item { min-width: 33%; border-bottom: 1px solid var(--border); }
+  .workflow-row { flex-wrap: wrap; gap: 4px; }
+  .nav { flex-wrap: wrap; }
+}
+@media (max-width: 600px) {
+  body { padding: 12px; }
+  .kanban { grid-template-columns: 1fr; }
+  .header { flex-direction: column; gap: 12px; }
+  .stat-item { min-width: 50%; }
+}
+</style>
+</head>
+<body>
+<div class="header">
+  <div>
+    <h1>Agent Triforce Dashboard</h1>
+    <div class="quick-actions">
+      <span class="quick-action pm" title="Define a feature spec (Prometeo)">/feature-spec</span>
+      <span class="quick-action dev" title="Implement from spec (Forja)">/implement-feature</span>
+      <span class="quick-action dev" title="Fix QA findings (Forja)">/review-findings</span>
+      <span class="quick-action qa" title="OWASP security audit (Centinela)">/security-audit</span>
+      <span class="quick-action qa" title="Dead code and hygiene scan (Centinela)">/code-health</span>
+      <span class="quick-action qa" title="Pre-release verification (Centinela)">/release-check</span>
+    </div>
+  </div>
+  <span class="health-badge">WARNING</span>
+</div>
+<div class="stats-bar">
+  <div class="stat-item"><div class="stat-value">2</div><div class="stat-label">Specs</div></div>
+  <div class="stat-item"><div class="stat-value">6</div><div class="stat-label">Reviews</div></div>
+  <div class="stat-item"><div class="stat-value">0</div><div class="stat-label">Active Debt</div></div>
+  <div class="stat-item"><div class="stat-value">0</div><div class="stat-label">ADRs</div></div>
+  <div class="stat-item"><div class="stat-value">0<span style="font-size:12px;font-weight:400;color:var(--text-dim)"> (0)</span></div><div class="stat-label">Checklists (items)</div></div>
+  <div class="stat-item"><div class="stat-value">10</div><div class="stat-label">Commits</div></div>
+</div>
+<nav class="nav">
+  <a href="#whats-next">What's Next</a>
+  <a href="#overview">Overview</a>
+  <a href="#pipeline">Pipeline</a>
+  <a href="#quality">Quality</a>
+  <a href="#debt">Debt</a>
+  <a href="#workflow">Workflow</a>
+  <a href="#comms">Comms</a>
+  <a href="#adrs">ADRs</a>
+  <a href="#activity">Activity</a>
+  <a href="#checklists">Checklists</a>
+</nav>
+<div class="next-section" id="whats-next"><h2>What's Next</h2>
+<div class="next-action">
+  <span class="next-agent qa">QA</span>
+  <div><div class="next-desc">Verify review conditions are met <span class="next-cmd">/release-check</span></div><div class="next-detail">Reviews with conditions: cesium-timeline-missile-2026-03-06.md, code-health-2026-03-04.md, security-audit-2026-03-04.md</div></div>
+</div>
+<div class="next-action">
+  <span class="next-agent dev">Dev</span>
+  <div><div class="next-desc">Implement approved features <span class="next-cmd">/implement-feature</span></div><div class="next-detail">Ready to build: Data Freshness Indicators</div></div>
+</div>
+</div>
+<div class="section" id="overview"><h2>System Overview</h2><div class="grid-3">
+</div></div>
+<div class="section" id="pipeline"><h2>Feature Pipeline</h2>
+<div class="kanban">
+<div class="kanban-col"><h4>Draft</h4>
+<div style="color:var(--text-dim);font-size:12px;text-align:center">--</div>
+</div>
+<div class="kanban-col"><h4>In Review</h4>
+<div style="color:var(--text-dim);font-size:12px;text-align:center">--</div>
+</div>
+<div class="kanban-col"><h4>Approved</h4>
+<div class="kanban-item"><span class="priority priority-p0">P0-Critical</span> <span style="color:#94a3b8;font-size:10px;font-weight:bold">(M)</span><br>Data Freshness Indicators</div>
+</div>
+<div class="kanban-col"><h4>In Development</h4>
+<div style="color:var(--text-dim);font-size:12px;text-align:center">--</div>
+</div>
+<div class="kanban-col"><h4>Done</h4>
+<div style="color:var(--text-dim);font-size:12px;text-align:center">--</div>
+</div>
+</div>
+</div>
+<div class="section" id="quality"><h2>Quality Gate</h2>
+<table><tr><th>Review</th><th>Type</th><th>Verdict</th><th>Critical</th><th>Warning</th><th>Suggestion</th></tr>
+<tr>
+  <td>business-review-production-hardening-2026-03-04.md</td>
+  <td>feature</td>
+  <td class="verdict-approved">Approved</td>
+  <td class="sev-critical">0</td>
+  <td class="sev-high">0</td>
+  <td class="sev-medium">0</td>
+</tr>
+<tr>
+  <td>cesium-timeline-missile-2026-03-06.md</td>
+  <td>feature</td>
+  <td class="verdict-conditions">Approved With Conditions</td>
+  <td class="sev-critical">0</td>
+  <td class="sev-high">6</td>
+  <td class="sev-medium">5</td>
+</tr>
+<tr>
+  <td>code-health-2026-03-04.md</td>
+  <td>code-health</td>
+  <td class="verdict-conditions">Approved With Conditions</td>
+  <td class="sev-critical">0</td>
+  <td class="sev-high">0</td>
+  <td class="sev-medium">0</td>
+</tr>
+<tr>
+  <td>release-check-1.0.0-2026-03-04.md</td>
+  <td>release-check</td>
+  <td class="verdict-approved">Unknown</td>
+  <td class="sev-critical">0</td>
+  <td class="sev-high">0</td>
+  <td class="sev-medium">0</td>
+</tr>
+<tr>
+  <td>release-check-1.0.0-2026-03-07.md</td>
+  <td>release-check</td>
+  <td class="verdict-approved">Approved</td>
+  <td class="sev-critical">0</td>
+  <td class="sev-high">0</td>
+  <td class="sev-medium">0</td>
+</tr>
+<tr>
+  <td>security-audit-2026-03-04.md</td>
+  <td>security-audit</td>
+  <td class="verdict-conditions">Approved With Conditions</td>
+  <td class="sev-critical">0</td>
+  <td class="sev-high">0</td>
+  <td class="sev-medium">0</td>
+</tr>
+</table>
+</div>
+<div class="section" id="debt"><h2>Tech Debt Register</h2>
+<div class="empty-guide">No active technical debt.<br>Items appear here when Dev (Forja) or QA (Centinela) discover debt during implementation or review.</div>
+</div>
+<div class="section" id="workflow"><h2>Workflow Status</h2>
+<div class="flow-title">Standard Feature Flow</div>
+<div class="workflow">
+<div class="workflow-row"><span class="workflow-label" style="color:#F59E0B">PM</span>
+<span class="workflow-step" style="border-color:#F59E0B">SIGN IN</span>
+<span class="workflow-arrow">&rarr;</span>
+<span class="workflow-step" style="border-color:var(--border)">spec</span>
+<span class="workflow-arrow">&rarr;</span>
+<span class="workflow-step" style="border-color:#F59E0B">TIME OUT</span>
+<span class="workflow-arrow">&rarr;</span>
+<span class="workflow-step" style="border-color:#F59E0B">SIGN OUT</span>
+</div>
+<div class="workflow-row"><span class="workflow-label" style="color:#3B82F6">Dev</span>
+<span class="workflow-step" style="border-color:#3B82F6">SIGN IN</span>
+<span class="workflow-arrow">&rarr;</span>
+<span class="workflow-step" style="border-color:var(--border)">implement</span>
+<span class="workflow-arrow">&rarr;</span>
+<span class="workflow-step" style="border-color:#3B82F6">TIME OUT x2</span>
+<span class="workflow-arrow">&rarr;</span>
+<span class="workflow-step" style="border-color:#3B82F6">SIGN OUT</span>
+</div>
+<div class="workflow-row"><span class="workflow-label" style="color:#10B981">QA</span>
+<span class="workflow-step" style="border-color:#10B981">SIGN IN</span>
+<span class="workflow-arrow">&rarr;</span>
+<span class="workflow-step active" style="border-color:var(--border)">audit</span>
+<span class="workflow-arrow">&rarr;</span>
+<span class="workflow-step active" style="border-color:#10B981">TIME OUT</span>
+<span class="workflow-arrow">&rarr;</span>
+<span class="workflow-step" style="border-color:#10B981">SIGN OUT</span>
+</div>
+<div class="workflow-row"><span class="workflow-label" style="color:#3B82F6">Dev</span>
+<span class="workflow-step" style="border-color:#3B82F6">SIGN IN</span>
+<span class="workflow-arrow">&rarr;</span>
+<span class="workflow-step" style="border-color:var(--border)">fix</span>
+<span class="workflow-arrow">&rarr;</span>
+<span class="workflow-step" style="border-color:#3B82F6">TIME OUT x2</span>
+<span class="workflow-arrow">&rarr;</span>
+<span class="workflow-step" style="border-color:#3B82F6">SIGN OUT</span>
+</div>
+<div class="workflow-row"><span class="workflow-label" style="color:#10B981">QA</span>
+<span class="workflow-step" style="border-color:#10B981">SIGN IN</span>
+<span class="workflow-arrow">&rarr;</span>
+<span class="workflow-step" style="border-color:var(--border)">re-verify</span>
+<span class="workflow-arrow">&rarr;</span>
+<span class="workflow-step" style="border-color:#10B981">SIGN OUT</span>
+</div>
+</div>
+<div class="flow-title">Code Health Flow</div>
+<div class="workflow">
+<div class="workflow-row"><span class="workflow-label" style="color:#10B981">QA</span>
+<span class="workflow-step" style="border-color:#10B981">SIGN IN</span>
+<span class="workflow-arrow">&rarr;</span>
+<span class="workflow-step" style="border-color:var(--border)">scan</span>
+<span class="workflow-arrow">&rarr;</span>
+<span class="workflow-step" style="border-color:#10B981">TIME OUT</span>
+<span class="workflow-arrow">&rarr;</span>
+<span class="workflow-step" style="border-color:#10B981">SIGN OUT</span>
+</div>
+<div class="workflow-row"><span class="workflow-label" style="color:#3B82F6">Dev</span>
+<span class="workflow-step" style="border-color:#3B82F6">SIGN IN</span>
+<span class="workflow-arrow">&rarr;</span>
+<span class="workflow-step" style="border-color:var(--border)">cleanup</span>
+<span class="workflow-arrow">&rarr;</span>
+<span class="workflow-step" style="border-color:#3B82F6">TIME OUT</span>
+<span class="workflow-arrow">&rarr;</span>
+<span class="workflow-step" style="border-color:#3B82F6">SIGN OUT</span>
+</div>
+<div class="workflow-row"><span class="workflow-label" style="color:#10B981">QA</span>
+<span class="workflow-step" style="border-color:#10B981">SIGN IN</span>
+<span class="workflow-arrow">&rarr;</span>
+<span class="workflow-step" style="border-color:var(--border)">verify</span>
+<span class="workflow-arrow">&rarr;</span>
+<span class="workflow-step" style="border-color:#10B981">SIGN OUT</span>
+</div>
+</div>
+</div>
+<div class="section" id="comms"><h2>Communication Schedule</h2>
+<div class="empty-guide">No communication schedule found in CLAUDE.md.</div>
+</div>
+<div class="section" id="adrs"><h2>Architecture Decisions</h2>
+<div class="empty-guide">No ADRs yet.<br>Create decisions in <code>docs/adr/ADR-NNN-title.md</code> when making architectural choices.</div>
+</div>
+<div class="section" id="activity"><h2>Recent Activity</h2>
+<h3>Git Log</h3>
+<div class="commit-line">
+  <span class="commit-hash">7a5d961</span>
+  <span class="commit-badge" style="background:#10B981">feat</span>
+  <span class="commit-msg">feat(globe): user-provided AIS API key via UI instead of env var</span>
+  <span class="commit-date">2026-03-08</span>
+</div>
+<div class="commit-line">
+  <span class="commit-hash">f331348</span>
+  <span class="commit-badge" style="background:#EF4444">fix</span>
+  <span class="commit-msg">fix(globe): remove alignedAxis on flight billboards to prevent edge-on</span>
+  <span class="commit-date">2026-03-08</span>
+</div>
+<div class="commit-line">
+  <span class="commit-hash">82965a0</span>
+  <span class="commit-badge" style="background:#10B981">feat</span>
+  <span class="commit-msg">feat(globe): add live ship tracking via AISStream.io WebSocket</span>
+  <span class="commit-date">2026-03-08</span>
+</div>
+<div class="commit-line">
+  <span class="commit-hash">ac68fdd</span>
+  <span class="commit-badge" style="background:#10B981">feat</span>
+  <span class="commit-msg">feat(globe): custom SVG billboard icons for all entity types</span>
+  <span class="commit-date">2026-03-08</span>
+</div>
+<div class="commit-line">
+  <span class="commit-hash">16a0252</span>
+  <span class="commit-badge" style="background:#10B981">feat</span>
+  <span class="commit-msg">feat(map): upgrade 2D intel map — enhanced timeline, events panel, OSI</span>
+  <span class="commit-date">2026-03-08</span>
+</div>
+<div class="commit-line">
+  <span class="commit-hash">255987c</span>
+  <span class="commit-badge" style="background:#94a3b8">chore</span>
+  <span class="commit-msg">chore(data): nightly AI update 2026-03-08T22:00:23Z</span>
+  <span class="commit-date">2026-03-08</span>
+</div>
+<div class="commit-line">
+  <span class="commit-hash">32004cb</span>
+  <span class="commit-badge" style="background:#10B981">feat</span>
+  <span class="commit-msg">feat(globe): sync daylight with timeline + add satellite FOV footprint</span>
+  <span class="commit-date">2026-03-08</span>
+</div>
+<div class="commit-line">
+  <span class="commit-hash">c910874</span>
+  <span class="commit-badge" style="background:#10B981">feat</span>
+  <span class="commit-msg">feat(globe): fix ship visibility + expand satellite tracking to 6 grou</span>
+  <span class="commit-date">2026-03-08</span>
+</div>
+<div class="commit-line">
+  <span class="commit-hash">1b46b2a</span>
+  <span class="commit-badge" style="background:#94a3b8">chore</span>
+  <span class="commit-msg">chore(data): nightly AI update 2026-03-08T06:22:50Z</span>
+  <span class="commit-date">2026-03-08</span>
+</div>
+<div class="commit-line">
+  <span class="commit-hash">90d7b14</span>
+  <span class="commit-badge" style="background:#94a3b8">chore</span>
+  <span class="commit-msg">chore(data): nightly AI update 2026-03-08T00:32:10Z</span>
+  <span class="commit-date">2026-03-08</span>
+</div>
+<h3 style='margin-top:16px'>Changelog (Unreleased)</h3>
+<div class="changelog-cats">
+<span class="changelog-cat">Added: 10 items</span>
+</div>
+<h3 style='margin-top:16px'>Agent Memory Snippets</h3>
+<div style="margin-bottom:4px"><span style="color:#fff;font-weight:600">agent-triforce-centinela-qa</span></div>
+<div class="memory-block"># Centinela QA Memory — Iran Conflict Tracker
+
+## Project Snapshot (as of 2026-03-04)
+
+- Stack: Astro 5 + React islands (TSX) + Leaflet + Zod schemas + dual AI update script
+- Build: `npm run build` (astro check + astro build) — builds cleanly as of last review
+- No test framework configured; zero test files anywhere
+- No CHANGELOG.md; no TECH_DEBT.md (created by Centinela)
+
+## Recurring Patterns Found
+
+### DRY Violations (confirmed)
+- `tierClass()` defined in 4 places: `TimelineSection.tsx`, `M</div>
+<div style="margin-bottom:4px"><span style="color:#fff;font-weight:600">agent-triforce-forja-dev</span></div>
+<div class="memory-block"># FORJA Memory — Iran Conflict Tracker
+
+## Project Architecture
+- **Stack**: Astro 5 + React 19 + TypeScript 5 + Zod 3
+- **Source data**: Original vanilla JS in `data/dashboard-data.js` and `js/app.js`
+- **Migration target**: Astro with typed JSON data files in `src/data/` and TypeScript utilities in `src/lib/`
+
+## Key File Locations
+- `src/lib/schemas.ts` — Zod schemas for all data types (13 schemas, 13 inferred types)
+- `src/lib/tier-utils.ts` — tierClass, tierLabel, contestedBadge functions
+-</div>
+<div style="margin-bottom:4px"><span style="color:#fff;font-weight:600">agent-triforce-prometeo-pm</span></div>
+<div class="memory-block"># PROMETEO Memory — Iran Conflict Tracker
+
+## Project Context
+- **Product**: Static intelligence dashboard tracking 2026 Iran-US/Israel conflict (Operation Epic Fury / Roaring Lion)
+- **Tech**: Astro 5, React islands, TypeScript, Zod, GitHub Pages
+- **Data**: 12 JSON files in `src/data/`, AI-updated nightly at 6 AM UTC via `scripts/update-data.ts`
+- **Conflict start**: Feb 28, 2026 | Dashboard date: Mar 4, 2026 (Day 6)
+
+## Key Product Decisions (2026-03-04)
+
+### Product Assessment Completed
+- Fu</div>
+</div>
+<div class="section" id="checklists"><h2>Checklist Inventory</h2>
+<table><tr><th>Agent</th><th>DO-CONFIRM</th><th>READ-DO</th><th>Total Items</th></tr>
+<tr class="totals-row"><td>Total</td><td>0</td><td>0</td><td>0</td></tr>
+</table>
+<div class="cl-breakdown">
+</div>
+</div>
+<div class="gen-time">Generated 2026-03-08 16:43:48 by tools/dashboard.py</div>
+</body>
+</html>

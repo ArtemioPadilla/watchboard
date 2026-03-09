@@ -8,6 +8,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Enhanced 2D IntelMap timeline with multi-speed playback (1x/2x/5x/10x/Auto), prev/next event navigation, event tick marks, LIVE button, and event count badge
+- MapEventsPanel: right-side intel feed panel for the 2D map with expandable event cards, weapon-type badges, confidence indicators, source chips with tier and pole labels
+- OSINT-enhanced line rendering in LeafletMap: weapon-type-aware line weights, low-confidence opacity, intercepted dash pattern, and rich multi-line tooltips
+- Map stats overlay showing filtered location and vector counts
+- WEAPON_TYPE_WEIGHTS, WEAPON_TYPE_LABELS, STATUS_LABELS exports in map-helpers.ts
+- Timeline events passed from index.astro to IntelMap via flattenTimelineEvents
 - OSINT weapon-type schemas: `WeaponTypeSchema`, `ConfidenceSchema`, `StrikeStatusSchema` with inferred types
 - 10 optional OSINT fields on `MapLineSchema`: weaponType, launched, intercepted, confidence, time, damage, casualties, notes, platform, status
 - 2 optional OSINT fields on `TimelineEventSchema`: weaponTypes, confidence
