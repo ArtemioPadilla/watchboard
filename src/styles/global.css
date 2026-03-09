@@ -3073,6 +3073,82 @@ body::before {
   }
 }
 
+/* ─── ANIMATED ARC PROJECTILE ─── */
+.arc-projectile {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  box-shadow: 0 0 8px currentColor, 0 0 16px currentColor;
+}
+
+.arc-projectile-strike {
+  background: #e74c3c;
+  color: #e74c3c;
+}
+
+.arc-projectile-retaliation {
+  background: #f39c12;
+  color: #f39c12;
+}
+
+/* ─── PERSIST TOGGLE ─── */
+.map-tl-persist {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.48rem;
+  letter-spacing: 0.06em;
+  padding: 3px 8px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  border-radius: 4px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.12s;
+  flex-shrink: 0;
+  font-weight: 600;
+}
+
+.map-tl-persist:hover {
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--border-light);
+}
+
+.map-tl-persist.active {
+  background: var(--accent-blue-dim);
+  border-color: var(--accent-blue);
+  color: var(--accent-blue);
+}
+
+/* ─── FLIGHT MARKERS ─── */
+.flight-marker-military {
+  animation: flightMilPulse 2s ease-in-out infinite;
+}
+
+@keyframes flightMilPulse {
+  0%, 100% {
+    opacity: 1;
+    filter: drop-shadow(0 0 3px rgba(255, 221, 0, 0.6));
+  }
+  50% {
+    opacity: 0.8;
+    filter: drop-shadow(0 0 8px rgba(255, 221, 0, 0.9));
+  }
+}
+
+.flight-tooltip.leaflet-tooltip {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.52rem;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  max-width: 300px;
+}
+
+/* ─── FLIGHT STATS ─── */
+.map-stats-flights {
+  color: var(--accent-blue, #3498db);
+}
+
 /* ─── REDUCED MOTION ─── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

@@ -1,10 +1,12 @@
-import { MapContainer, TileLayer, CircleMarker, Polyline, Tooltip, ZoomControl, Circle, Marker, Polygon } from 'react-leaflet';
+import { MapContainer, TileLayer, CircleMarker, Polyline, Tooltip, ZoomControl, Circle, Marker, Polygon, Pane } from 'react-leaflet';
 import type { LatLngExpression } from 'leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import type { MapPoint, MapLine } from '../../lib/schemas';
 import { catColor, lineColor, WEAPON_TYPE_WEIGHTS, WEAPON_TYPE_LABELS, STATUS_LABELS } from './map-helpers';
 import type { OverlayData } from './useMapOverlays';
+import type { FlightData } from './useMapFlights';
+import MapArcAnimator from './MapArcAnimator';
 
 // ────────────────────────────────────────────
 //  Types
@@ -16,6 +18,10 @@ interface Props {
   onSelectPoint: (pt: MapPoint) => void;
   onSelectLine?: (line: MapLine) => void;
   overlays?: OverlayData;
+  flights?: FlightData[];
+  terminatorPolygon?: [number, number][] | null;
+  currentDate?: string;
+  isPlaying?: boolean;
 }
 
 // ────────────────────────────────────────────
@@ -166,7 +172,10 @@ function quakeColor(depth: number): string {
 //  Component
 // ────────────────────────────────────────────
 
-export default function LeafletMap({ points, lines, onSelectPoint, onSelectLine, overlays }: Props) {
+export default function LeafletMap({
+  points, lines, onSelectPoint, onSelectLine, overlays,
+  flights, terminatorPolygon, currentDate, isPlaying,
+}: Props) {
   const center: LatLngExpression = [29, 49];
 
   const basePoints = points.filter(p => p.base);
@@ -189,6 +198,22 @@ export default function LeafletMap({ points, lines, onSelectPoint, onSelectLine,
         subdomains="abcd"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
       />
+
+      {/* ── Day/night terminator (behind everything) ── */}
+      {terminatorPolygon && (
+        <Pane name="terminator-pane" style={{ zIndex: 200 }}>
+          <Polygon
+            positions={terminatorPolygon}
+            pathOptions={{
+              fillColor: '#000',
+              fillOpacity: 0.15,
+              weight: 0,
+              stroke: false,
+            }}
+            interactive={false}
+          />
+        </Pane>
+      )}
 
       {/* ── Overlay: No-fly zones ── */}
       {overlays?.noFlyZones.map(zone => (
@@ -422,6 +447,40 @@ export default function LeafletMap({ points, lines, onSelectPoint, onSelectLine,
             </CircleMarker>
           );
         })}
+
+      {/* ── Live flights ── */}
+      {flights?.map(f => (
+        <CircleMarker
+          key={f.icao24}
+          center={[f.lat, f.lon]}
+          radius={f.isMilitary ? 5 : 3}
+          pathOptions={{
+            color: f.isMilitary ? '#ffdd00' : '#00aaff',
+            fillColor: f.isMilitary ? '#ffdd00' : '#00aaff',
+            fillOpacity: 0.8,
+            weight: f.isMilitary ? 2 : 1,
+          }}
+          className={f.isMilitary ? 'flight-marker-military' : undefined}
+        >
+          <Tooltip className="dark-tooltip flight-tooltip" sticky>
+            <span>
+              {f.callsign || f.icao24}
+              {f.isMilitary && <b> [MIL]</b>}
+              <br />
+              {f.country} | {f.altitude.toLocaleString()} ft | {f.velocity} kts
+            </span>
+          </Tooltip>
+        </CircleMarker>
+      ))}
+
+      {/* ── Animated strike arcs ── */}
+      {currentDate && (
+        <MapArcAnimator
+          lines={lines}
+          currentDate={currentDate}
+          isPlaying={isPlaying ?? false}
+        />
+      )}
     </MapContainer>
   );
 }

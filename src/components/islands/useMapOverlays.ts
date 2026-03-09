@@ -22,6 +22,8 @@ export interface LayerState {
   internetBlackout: boolean;
   earthquakes: boolean;
   weather: boolean;
+  flights: boolean;
+  terminator: boolean;
 }
 
 export interface NoFlyOverlay {
@@ -228,12 +230,16 @@ export function useMapOverlays(layers: LayerState, currentDate: string) {
   }, [layers.weather, currentDate]);
 
   // ── Counts for layer toggles ──
+  // Flights and terminator counts are managed externally (useMapFlights / useTerminator)
+  // so we pass 0 here; IntelMap overrides them before passing to MapLayerToggles.
   const counts: Record<keyof LayerState, number> = {
     noFlyZones: noFlyZones.length,
     gpsJamming: gpsJamming.length,
     internetBlackout: internetBlackout.length,
     earthquakes: earthquakes.length,
     weather: weather.length,
+    flights: 0,
+    terminator: 0,
   };
 
   return {

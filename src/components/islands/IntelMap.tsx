@@ -9,6 +9,8 @@ import MapEventsPanel from './MapEventsPanel';
 import MapLayerToggles from './MapLayerToggles';
 import { useMapOverlays } from './useMapOverlays';
 import type { LayerState } from './useMapOverlays';
+import { useMapFlights } from './useMapFlights';
+import { useTerminator } from './useTerminator';
 
 interface Props {
   points: MapPoint[];
@@ -39,6 +41,7 @@ export default function IntelMap({ points, lines, events }: Props) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [playbackSpeed, setPlaybackSpeed] = useState(200);
   const [eventsOpen, setEventsOpen] = useState(false);
+  const [persistLines, setPersistLines] = useState(false);
 
   // ── Overlay layers ──
   const [layers, setLayers] = useState<LayerState>({
@@ -47,6 +50,8 @@ export default function IntelMap({ points, lines, events }: Props) {
     internetBlackout: false,
     earthquakes: false,
     weather: false,
+    flights: false,
+    terminator: false,
   });
 
   const toggleLayer = useCallback((layer: keyof LayerState) => {
@@ -54,6 +59,20 @@ export default function IntelMap({ points, lines, events }: Props) {
   }, []);
 
   const { overlays, counts } = useMapOverlays(layers, currentDate);
+
+  // ── Live flights ──
+  const isLatestDate = currentDate === dateRange.max;
+  const { flights, flightCount } = useMapFlights(layers.flights, isLatestDate);
+
+  // ── Day/night terminator ──
+  const terminatorPolygon = useTerminator(layers.terminator, currentDate);
+
+  // ── Merged counts (overlay counts + external counts) ──
+  const mergedCounts = useMemo(() => ({
+    ...counts,
+    flights: flightCount,
+    terminator: terminatorPolygon ? 1 : 0,
+  }), [counts, flightCount, terminatorPolygon]);
 
   // Play/pause auto-advance using playbackSpeed
   useEffect(() => {
@@ -92,6 +111,10 @@ export default function IntelMap({ points, lines, events }: Props) {
     setEventsOpen(prev => !prev);
   }, []);
 
+  const togglePersist = useCallback(() => {
+    setPersistLines(prev => !prev);
+  }, []);
+
   // ── Filtering ──
   const toggleFilter = (cat: string) => {
     setActiveFilters(prev => {
@@ -112,10 +135,14 @@ export default function IntelMap({ points, lines, events }: Props) {
 
   const filteredLines = useMemo(
     () =>
-      lines.filter(
-        l => activeFilters.has(l.cat) && l.date <= currentDate,
-      ),
-    [lines, activeFilters, currentDate],
+      lines.filter(l => {
+        if (!activeFilters.has(l.cat)) return false;
+        if (persistLines) {
+          return l.date <= currentDate;
+        }
+        return l.date === currentDate;
+      }),
+    [lines, activeFilters, currentDate, persistLines],
   );
 
   // Count points per category (for filter badges)
@@ -132,8 +159,8 @@ export default function IntelMap({ points, lines, events }: Props) {
 
   // ── Active overlay count for stats ──
   const activeOverlayCount =
-    counts.noFlyZones + counts.gpsJamming + counts.internetBlackout +
-    counts.earthquakes + counts.weather;
+    mergedCounts.noFlyZones + mergedCounts.gpsJamming + mergedCounts.internetBlackout +
+    mergedCounts.earthquakes + mergedCounts.weather;
 
   return (
     <section className="section" id="sec-map">
@@ -149,6 +176,10 @@ export default function IntelMap({ points, lines, events }: Props) {
           lines={filteredLines}
           onSelectPoint={setSelectedPoint}
           overlays={overlays}
+          flights={layers.flights ? flights : undefined}
+          terminatorPolygon={layers.terminator ? terminatorPolygon : undefined}
+          currentDate={currentDate}
+          isPlaying={isPlaying}
         />
 
         {/* Overlay: filter controls (top-left) */}
@@ -174,7 +205,7 @@ export default function IntelMap({ points, lines, events }: Props) {
         <MapLayerToggles
           layers={layers}
           onToggle={toggleLayer}
-          counts={counts}
+          counts={mergedCounts}
         />
 
         {/* Overlay: legend (bottom-left) */}
@@ -196,6 +227,12 @@ export default function IntelMap({ points, lines, events }: Props) {
             <>
               <span className="map-stats-sep">&middot;</span>
               <span className="map-stats-overlays">{activeOverlayCount} overlays</span>
+            </>
+          )}
+          {flightCount > 0 && layers.flights && (
+            <>
+              <span className="map-stats-sep">&middot;</span>
+              <span className="map-stats-flights">{flightCount} flights</span>
             </>
           )}
         </div>
@@ -247,9 +284,11 @@ export default function IntelMap({ points, lines, events }: Props) {
           playbackSpeed={playbackSpeed}
           events={events}
           lines={lines}
+          persistLines={persistLines}
           onDateChange={setCurrentDate}
           onTogglePlay={togglePlay}
           onSpeedChange={handleSpeedChange}
+          onTogglePersist={togglePersist}
         />
       </div>
     </section>

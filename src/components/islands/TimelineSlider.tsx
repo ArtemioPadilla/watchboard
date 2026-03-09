@@ -10,9 +10,11 @@ interface Props {
   playbackSpeed: number;
   events: FlatEvent[];
   lines: MapLine[];
+  persistLines: boolean;
   onDateChange: (date: string) => void;
   onTogglePlay: () => void;
   onSpeedChange: (speed: number) => void;
+  onTogglePersist: () => void;
 }
 
 const SPEEDS = [
@@ -74,9 +76,11 @@ export default function TimelineSlider({
   playbackSpeed,
   events,
   lines,
+  persistLines,
   onDateChange,
   onTogglePlay,
   onSpeedChange,
+  onTogglePersist,
 }: Props) {
   const totalDays = dateToDay(maxDate, minDate);
   const currentDay = dateToDay(currentDate, minDate);
@@ -157,6 +161,14 @@ export default function TimelineSlider({
             </button>
           ))}
         </div>
+
+        <button
+          className={`map-tl-persist${persistLines ? ' active' : ''}`}
+          onClick={onTogglePersist}
+          title={persistLines ? 'Showing all lines up to date' : 'Showing only current day'}
+        >
+          {persistLines ? 'ALL' : 'DAY'}
+        </button>
 
         <button
           className={`map-tl-live${isLive ? ' active' : ''}`}

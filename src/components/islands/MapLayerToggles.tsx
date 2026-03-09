@@ -19,6 +19,8 @@ const LAYER_DEFS: LayerDef[] = [
   { key: 'internetBlackout', label: 'Internet Blackout', shortLabel: 'NET', color: '#ff6644', icon: '\u25A0' },
   { key: 'earthquakes', label: 'Earthquakes', shortLabel: 'EQ', color: '#ff9900', icon: '\u25B2' },
   { key: 'weather', label: 'Weather', shortLabel: 'WX', color: '#88ccff', icon: '\u2601' },
+  { key: 'flights', label: 'Live Flights', shortLabel: 'FLT', color: '#00aaff', icon: '\u2708' },
+  { key: 'terminator', label: 'Day/Night', shortLabel: 'D/N', color: '#4488aa', icon: '\u25D1' },
 ];
 
 // ────────────────────────────────────────────
