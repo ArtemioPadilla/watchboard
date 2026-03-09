@@ -794,6 +794,25 @@ body:has(.globe-wrapper) .tooltip {
   opacity: 0.3;
 }
 
+/* Event type legend row */
+.globe-tl-legend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 3px;
+  flex-wrap: wrap;
+}
+
+.globe-tl-legend-item {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.45rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  opacity: 0.8;
+}
+
 /* ══════════════════════════════════════════════
    Events / Intel Feed Panel
    ══════════════════════════════════════════════ */
@@ -1221,12 +1240,181 @@ body:has(.globe-wrapper) .tooltip {
    Mobile Responsive
    ══════════════════════════════════════════════ */
 
+/* ══════════════════════════════════════════════
+   Military HUD Overlay
+   ══════════════════════════════════════════════ */
+
+.hud-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 85;
+  pointer-events: none;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Classification banner — top center */
+.hud-classification {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  padding: 2px 0;
+  font-size: 0.5rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #ffaa00;
+  background: rgba(255, 170, 0, 0.08);
+  border-bottom: 1px solid rgba(255, 170, 0, 0.2);
+}
+
+/* Top-left — designation + mode */
+.hud-top-left {
+  position: absolute;
+  top: 60px;
+  left: 60px;
+  color: rgba(0, 255, 170, 0.7);
+  font-size: 0.55rem;
+  line-height: 1.6;
+}
+
+.hud-designation {
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.hud-mode-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: rgba(232, 233, 237, 0.8);
+  margin-top: 2px;
+}
+
+/* Top-right — REC + orbital */
+.hud-top-right {
+  position: absolute;
+  top: 60px;
+  right: 16px;
+  text-align: right;
+  color: rgba(0, 255, 170, 0.7);
+  font-size: 0.55rem;
+  line-height: 1.6;
+}
+
+.hud-rec {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 5px;
+}
+
+.hud-rec-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #e74c3c;
+  animation: recPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes recPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}
+
+.hud-orbital {
+  font-size: 0.5rem;
+  color: rgba(0, 255, 170, 0.5);
+}
+
+/* Active mode badge — far top right */
+.hud-active-mode {
+  position: absolute;
+  top: 42px;
+  right: 16px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: rgba(232, 233, 237, 0.6);
+  letter-spacing: 0.1em;
+}
+
+/* Bottom-left — MGRS + coords */
+.hud-bottom-left {
+  position: absolute;
+  bottom: 100px;
+  left: 16px;
+  color: rgba(0, 255, 170, 0.7);
+  font-size: 0.55rem;
+  line-height: 1.6;
+}
+
+.hud-mgrs {
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.hud-coords {
+  font-size: 0.5rem;
+  color: rgba(0, 255, 170, 0.5);
+}
+
+/* Bottom-right — GSD, NIIRS, ALT, SUN */
+.hud-bottom-right {
+  position: absolute;
+  bottom: 100px;
+  right: 16px;
+  text-align: right;
+  color: rgba(0, 255, 170, 0.7);
+  font-size: 0.55rem;
+  line-height: 1.6;
+}
+
+.hud-gsd {
+  font-weight: 700;
+}
+
+.hud-alt {
+  font-size: 0.5rem;
+  color: rgba(0, 255, 170, 0.5);
+}
+
+/* Scale bar — bottom center */
+.hud-scale-bar {
+  position: absolute;
+  bottom: 95px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.hud-scale-line {
+  height: 2px;
+  background: rgba(0, 255, 170, 0.6);
+  border-left: 2px solid rgba(0, 255, 170, 0.8);
+  border-right: 2px solid rgba(0, 255, 170, 0.8);
+  min-width: 30px;
+  max-width: 200px;
+}
+
+.hud-scale-label {
+  font-size: 0.45rem;
+  color: rgba(0, 255, 170, 0.5);
+  letter-spacing: 0.04em;
+}
+
+/* ══════════════════════════════════════════════
+   Mobile Responsive
+   ══════════════════════════════════════════════ */
+
 @media (max-width: 768px) {
   /* Hide desktop overlays — replaced by bottom sheet */
   .globe-toolbar,
   .globe-events-panel,
   .globe-events-toggle,
-  .globe-kpi-strip {
+  .globe-kpi-strip,
+  .hud-overlay {
     display: none !important;
   }
 

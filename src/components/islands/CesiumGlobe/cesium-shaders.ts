@@ -1,6 +1,6 @@
 import { PostProcessStage } from 'cesium';
 
-export type VisualMode = 'normal' | 'crt' | 'nvg' | 'thermal';
+export type VisualMode = 'normal' | 'crt' | 'nvg' | 'thermal' | 'panoptic';
 
 /** CRT scan lines + vignette + phosphor glow */
 export function createCRTStage(): PostProcessStage {
@@ -128,6 +128,89 @@ export function createBloomStage(): PostProcessStage {
         float bloom = smoothstep(0.3, 0.8, lum) * 0.12;
 
         out_FragColor = vec4(color.rgb + bloom * sum.rgb, 1.0);
+      }
+    `,
+  });
+}
+
+/** Sharpen post-processing stage — 3x3 unsharp mask */
+export function createSharpenStage(): PostProcessStage {
+  return new PostProcessStage({
+    name: 'sharpen',
+    fragmentShader: `
+      uniform sampler2D colorTexture;
+      in vec2 v_textureCoordinates;
+
+      void main() {
+        float texelX = 1.0 / 1280.0;
+        float texelY = 1.0 / 720.0;
+
+        vec4 center = texture(colorTexture, v_textureCoordinates);
+        vec4 top    = texture(colorTexture, v_textureCoordinates + vec2(0.0, texelY));
+        vec4 bottom = texture(colorTexture, v_textureCoordinates - vec2(0.0, texelY));
+        vec4 left   = texture(colorTexture, v_textureCoordinates - vec2(texelX, 0.0));
+        vec4 right  = texture(colorTexture, v_textureCoordinates + vec2(texelX, 0.0));
+
+        // Sharpen kernel: center * 5 - neighbors
+        vec4 sharpened = center * 5.0 - top - bottom - left - right;
+
+        // Mix with original (0.7 = moderate sharpen)
+        out_FragColor = vec4(mix(center.rgb, sharpened.rgb, 0.7), 1.0);
+      }
+    `,
+  });
+}
+
+/** PANOPTIC mode — enhanced night surveillance with bloom, pixelation control, and light amplification */
+export function createPanopticStage(): PostProcessStage {
+  return new PostProcessStage({
+    name: 'panoptic',
+    fragmentShader: `
+      uniform sampler2D colorTexture;
+      in vec2 v_textureCoordinates;
+
+      void main() {
+        // Slight pixelation (simulates sensor resolution)
+        float pixelSize = 2.0;
+        vec2 resolution = vec2(1280.0, 720.0);
+        vec2 pixelatedUV = floor(v_textureCoordinates * resolution / pixelSize) * pixelSize / resolution;
+
+        vec4 color = texture(colorTexture, pixelatedUV);
+
+        // Light amplification — boost dim areas
+        float lum = dot(color.rgb, vec3(0.299, 0.587, 0.114));
+        float boost = smoothstep(0.0, 0.4, lum) * 1.8;
+
+        // Green-tinted surveillance look (less saturated than NVG)
+        vec3 tinted = vec3(
+          color.r * 0.6 + lum * 0.3,
+          color.g * 0.8 + lum * 0.4,
+          color.b * 0.5 + lum * 0.2
+        ) * boost;
+
+        // Bloom on bright spots
+        vec4 sum = vec4(0.0);
+        float texelX = 1.0 / 1280.0;
+        float texelY = 1.0 / 720.0;
+        for (int x = -1; x <= 1; x++) {
+          for (int y = -1; y <= 1; y++) {
+            sum += texture(colorTexture, pixelatedUV + vec2(float(x) * texelX * 2.0, float(y) * texelY * 2.0));
+          }
+        }
+        sum /= 9.0;
+        float bloomLum = dot(sum.rgb, vec3(0.299, 0.587, 0.114));
+        float bloomStrength = smoothstep(0.5, 0.9, bloomLum) * 0.2;
+
+        // Subtle scan lines
+        float scanline = sin(v_textureCoordinates.y * 600.0) * 0.03;
+
+        // Vignette
+        vec2 uv = v_textureCoordinates - 0.5;
+        float vignette = smoothstep(0.85, 0.4, length(uv));
+
+        vec3 result = (tinted + bloomStrength * sum.rgb) * (1.0 - scanline) * vignette;
+
+        out_FragColor = vec4(result, 1.0);
       }
     `,
   });

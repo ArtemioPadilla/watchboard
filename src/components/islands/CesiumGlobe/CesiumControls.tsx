@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { MAP_CATEGORIES } from '../../../lib/map-utils';
 import { type CameraPresetKey } from '../../../lib/cesium-config';
 import type { VisualMode } from './cesium-shaders';
+import type { OrbitMode } from './useCesiumCamera';
 import { SAT_GROUPS, type SatGroupCounts } from './useSatellites';
 
 interface Props {
@@ -11,8 +12,11 @@ interface Props {
   onCameraPreset: (key: CameraPresetKey) => void;
   visualMode: VisualMode;
   onVisualMode: (mode: VisualMode) => void;
-  layers: { satellites: boolean; flights: boolean; quakes: boolean; weather: boolean; nfz: boolean; ships: boolean };
-  onToggleLayer: (layer: 'satellites' | 'flights' | 'quakes' | 'weather' | 'nfz' | 'ships') => void;
+  layers: {
+    satellites: boolean; flights: boolean; quakes: boolean; weather: boolean;
+    nfz: boolean; ships: boolean; gpsJam: boolean; internetBlackout: boolean; groundTruth: boolean;
+  };
+  onToggleLayer: (layer: 'satellites' | 'flights' | 'quakes' | 'weather' | 'nfz' | 'ships' | 'gpsJam' | 'internetBlackout' | 'groundTruth') => void;
   persistLines: boolean;
   onTogglePersist: () => void;
   satGroupCounts?: SatGroupCounts;
@@ -21,6 +25,10 @@ interface Props {
   fovCount?: number;
   aisApiKey?: string;
   onAisApiKeyChange?: (key: string) => void;
+  showHud?: boolean;
+  onToggleHud?: () => void;
+  orbitMode?: OrbitMode;
+  onOrbitMode?: (mode: OrbitMode) => void;
 }
 
 type ToolbarSection = 'filters' | 'camera' | 'visual' | 'layers';
@@ -39,7 +47,15 @@ const VISUAL_MODES: { id: VisualMode; label: string }[] = [
   { id: 'normal', label: 'Standard' },
   { id: 'crt', label: 'CRT' },
   { id: 'nvg', label: 'Night Vision' },
-  { id: 'thermal', label: 'Thermal' },
+  { id: 'thermal', label: 'FLIR' },
+  { id: 'panoptic', label: 'Panoptic' },
+];
+
+const ORBIT_MODES: { id: OrbitMode; label: string }[] = [
+  { id: 'off', label: 'OFF' },
+  { id: 'flat', label: 'FLAT' },
+  { id: 'spiral_in', label: 'SPIRAL IN' },
+  { id: 'spiral_out', label: 'SPIRAL OUT' },
 ];
 
 export default function CesiumControls({
@@ -59,6 +75,10 @@ export default function CesiumControls({
   fovCount,
   aisApiKey,
   onAisApiKeyChange,
+  showHud,
+  onToggleHud,
+  orbitMode,
+  onOrbitMode,
 }: Props) {
   const [activeSection, setActiveSection] = useState<ToolbarSection | null>(null);
   const [aisKeyDraft, setAisKeyDraft] = useState('');
@@ -109,7 +129,7 @@ export default function CesiumControls({
 
   const renderCamera = () => (
     <div className="globe-toolbar-flyout">
-      <div className="globe-control-label">Camera</div>
+      <div className="globe-control-label">Camera Presets</div>
       <div className="globe-preset-grid">
         {(Object.keys(PRESET_LABELS) as CameraPresetKey[]).map(key => (
           <button key={key} className="globe-preset-btn" onClick={() => { onCameraPreset(key); setActiveSection(null); }}>
@@ -117,6 +137,35 @@ export default function CesiumControls({
           </button>
         ))}
       </div>
+      {onOrbitMode && (
+        <>
+          <div className="globe-control-label" style={{ marginTop: '8px' }}>Orbit Mode</div>
+          <div className="globe-mode-row">
+            {ORBIT_MODES.map(m => (
+              <button
+                key={m.id}
+                className={`globe-mode-btn${orbitMode === m.id ? ' active' : ''}`}
+                onClick={() => onOrbitMode(m.id)}
+              >
+                {m.label}
+              </button>
+            ))}
+          </div>
+        </>
+      )}
+      {onToggleHud && (
+        <>
+          <div className="globe-control-label" style={{ marginTop: '8px' }}>HUD</div>
+          <button
+            className={`globe-filter${showHud ? ' active' : ''}`}
+            onClick={onToggleHud}
+            aria-pressed={showHud}
+          >
+            <span className="globe-fdot" style={{ background: showHud ? '#00ff88' : '#555' }} />
+            {showHud ? 'HUD Visible' : 'HUD Hidden'}
+          </button>
+        </>
+      )}
     </div>
   );
 
@@ -164,10 +213,10 @@ export default function CesiumControls({
               className={`globe-filter globe-fov-toggle${showFov ? ' active' : ''}`}
               onClick={onToggleFov}
               aria-pressed={showFov}
-              title={showFov ? 'Hide sensor FOV footprints' : 'Show sensor FOV footprints'}
+              title={showFov ? 'Hide sensor FOV + targeting lines' : 'Show sensor FOV + targeting lines'}
             >
               <span className="globe-fdot" style={{ background: showFov ? '#ff8844' : '#555' }} />
-              Sensor FOV
+              Sensor FOV + Targeting
               {showFov && fovCount != null && fovCount > 0 && (
                 <span className="globe-filter-count">{fovCount}</span>
               )}
@@ -241,6 +290,36 @@ export default function CesiumControls({
           )}
         </>
       )}
+
+      {/* SIGINT / EW Layers */}
+      <div className="globe-control-label" style={{ marginTop: '6px' }}>SIGINT / EW</div>
+      <button
+        className={`globe-filter${layers.gpsJam ? ' active' : ''}`}
+        onClick={() => onToggleLayer('gpsJam')}
+      >
+        <span className="globe-fdot" style={{ background: '#ff2244' }} />
+        GPS Jamming
+      </button>
+      <button
+        className={`globe-filter${layers.internetBlackout ? ' active' : ''}`}
+        onClick={() => onToggleLayer('internetBlackout')}
+      >
+        <span className="globe-fdot" style={{ background: '#ff6644' }} />
+        Internet Blackout
+      </button>
+
+      {/* Ground Truth */}
+      <div className="globe-control-label" style={{ marginTop: '6px' }}>Ground Truth</div>
+      <button
+        className={`globe-filter${layers.groundTruth ? ' active' : ''}`}
+        onClick={() => onToggleLayer('groundTruth')}
+      >
+        <span className="globe-fdot" style={{ background: '#ffaa00' }} />
+        Ground Truth Cards
+      </button>
+
+      {/* Existing environmental layers */}
+      <div className="globe-control-label" style={{ marginTop: '6px' }}>Environment</div>
       <button
         className={`globe-filter${layers.quakes ? ' active' : ''}`}
         onClick={() => onToggleLayer('quakes')}
@@ -266,7 +345,7 @@ export default function CesiumControls({
         onClick={() => onToggleLayer('nfz')}
       >
         <span className="globe-fdot" style={{ background: '#e74c3c' }} />
-        No-Fly Zones
+        Airspace Closures
       </button>
     </div>
   );
@@ -291,7 +370,7 @@ export default function CesiumControls({
         <button
           className={`globe-toolbar-icon${activeSection === 'camera' ? ' active' : ''}`}
           onClick={() => toggle('camera')}
-          title="Camera Presets"
+          title="Camera & HUD"
         >
           <svg viewBox="0 0 16 16" width="16" height="16"><path d="M2 4h3l1-2h4l1 2h3v9H2zm6 2a3 3 0 100 6 3 3 0 000-6z" fill="currentColor"/></svg>
         </button>

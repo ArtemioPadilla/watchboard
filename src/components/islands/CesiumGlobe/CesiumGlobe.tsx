@@ -18,14 +18,16 @@ import type { MapPoint, MapLine, KpiItem, Meta } from '../../../lib/schemas';
 import type { FlatEvent } from '../../../lib/timeline-utils';
 import { MAP_CATEGORIES } from '../../../lib/map-utils';
 import { configureCesium } from '../../../lib/cesium-config';
-import { createCRTStage, createNVGStage, createThermalStage, createBloomStage, type VisualMode } from './cesium-shaders';
+import { createCRTStage, createNVGStage, createThermalStage, createBloomStage, createSharpenStage, createPanopticStage, type VisualMode } from './cesium-shaders';
 import { useCesiumCamera } from './useCesiumCamera';
+import type { OrbitMode } from './useCesiumCamera';
 import { useConflictData } from './useConflictData';
 import { useMissiles } from './useMissiles';
 import CesiumControls from './CesiumControls';
 import CesiumInfoPanel from './CesiumInfoPanel';
 import CesiumTimelineBar from './CesiumTimelineBar';
 import CesiumEventsPanel from './CesiumEventsPanel';
+import CesiumHud from './CesiumHud';
 import MobileBottomSheet from './MobileBottomSheet';
 import { useSatellites } from './useSatellites';
 import { useFlights } from './useFlights';
@@ -33,6 +35,9 @@ import { useEarthquakes } from './useEarthquakes';
 import { useWeather } from './useWeather';
 import { useNoFlyZones } from './useNoFlyZones';
 import { useShips, getStoredAisKey, setStoredAisKey } from './useShips';
+import { useGpsJamming } from './useGpsJamming';
+import { useInternetBlackout } from './useInternetBlackout';
+import { useGroundTruth } from './useGroundTruth';
 
 interface Props {
   points: MapPoint[];
@@ -72,7 +77,7 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [] }: 
     creditDivRef.current = document.createElement('div');
   }
   const [cesiumViewer, setCesiumViewer] = useState<CesiumViewer | null>(null);
-  const { flyTo } = useCesiumCamera(viewerRef);
+  const { flyTo, startOrbit, stopOrbit, orbitModeRef } = useCesiumCamera(viewerRef);
 
   // ── Mobile detection ──
   const [isMobile, setIsMobile] = useState(() =>
@@ -95,7 +100,10 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [] }: 
   const [visualMode, setVisualMode] = useState<VisualMode>('normal');
 
   // ── Live data layer toggles ──
-  const [layers, setLayers] = useState({ satellites: true, flights: true, quakes: false, weather: false, nfz: true, ships: true });
+  const [layers, setLayers] = useState({
+    satellites: true, flights: true, quakes: false, weather: false, nfz: true, ships: true,
+    gpsJam: true, internetBlackout: true, groundTruth: true,
+  });
 
   // ── Events panel (default collapsed) ──
   const [eventsOpen, setEventsOpen] = useState(false);
@@ -108,6 +116,12 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [] }: 
 
   // ── Satellite FOV footprints ──
   const [showFov, setShowFov] = useState(false);
+
+  // ── HUD visibility ──
+  const [showHud, setShowHud] = useState(true);
+
+  // ── Orbit mode ──
+  const [orbitMode, setOrbitMode] = useState<OrbitMode>('off');
 
   // ── AIS API key (user-provided, stored in localStorage) ──
   const [aisApiKey, setAisApiKey] = useState(() => getStoredAisKey());
@@ -238,9 +252,18 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [] }: 
     });
   };
 
-  const toggleLayer = (layer: 'satellites' | 'flights' | 'quakes' | 'weather' | 'nfz' | 'ships') => {
+  const toggleLayer = (layer: 'satellites' | 'flights' | 'quakes' | 'weather' | 'nfz' | 'ships' | 'gpsJam' | 'internetBlackout' | 'groundTruth') => {
     setLayers(prev => ({ ...prev, [layer]: !prev[layer] }));
   };
+
+  const handleOrbitMode = useCallback((mode: OrbitMode) => {
+    setOrbitMode(mode);
+    if (mode === 'off') {
+      stopOrbit();
+    } else {
+      startOrbit(mode, 3);
+    }
+  }, [startOrbit, stopOrbit]);
 
   const filteredPoints = useMemo(
     () => points.filter(p => activeFilters.has(p.cat) && (p.base || p.date <= currentDate)),
@@ -284,6 +307,8 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [] }: 
       stages.add(createNVGStage());
     } else if (visualMode === 'thermal') {
       stages.add(createThermalStage());
+    } else if (visualMode === 'panoptic') {
+      stages.add(createPanopticStage());
     }
   }, [visualMode]);
 
@@ -336,13 +361,24 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [] }: 
   // ── Current-date arcs + animated missiles ──
   useMissiles(cesiumViewer, currentLines, currentDate, isPlaying, simTimeRef, playbackSpeed);
 
+  // ── Satellite targets — strike/retaliation points for targeting lines ──
+  const satTargets = useMemo(
+    () => filteredPoints
+      .filter(p => p.cat === 'strike' || p.cat === 'retaliation')
+      .map(p => ({ lon: p.lon, lat: p.lat })),
+    [filteredPoints],
+  );
+
   // ── External data layers (synced to timeline) ──
-  const { count: satCount, groupCounts: satGroupCounts, fovCount: satFovCount } = useSatellites(cesiumViewer, layers.satellites, simTimeRef, showFov);
+  const { count: satCount, groupCounts: satGroupCounts, fovCount: satFovCount } = useSatellites(cesiumViewer, layers.satellites, simTimeRef, showFov, satTargets);
   const { count: flightCount } = useFlights(cesiumViewer, layers.flights && mode === 'live');
   const { count: quakeCount } = useEarthquakes(cesiumViewer, layers.quakes, currentDate);
   const { count: weatherCount } = useWeather(cesiumViewer, layers.weather, currentDate);
   const { count: nfzCount } = useNoFlyZones(cesiumViewer, layers.nfz, currentDate);
   const { count: shipCount } = useShips(cesiumViewer, layers.ships && mode === 'live', aisApiKey);
+  const { count: gpsJamCount } = useGpsJamming(cesiumViewer, layers.gpsJam, currentDate);
+  const { count: internetBlackoutCount } = useInternetBlackout(cesiumViewer, layers.internetBlackout, currentDate);
+  const { count: groundTruthCount } = useGroundTruth(cesiumViewer, layers.groundTruth, points, events, currentDate);
 
   // ── Sync Cesium clock for day/night terminator ──
   useEffect(() => {
@@ -364,8 +400,11 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [] }: 
     wx: layers.weather && weatherCount > 0 ? weatherCount : undefined,
     nfz: layers.nfz && nfzCount > 0 ? nfzCount : undefined,
     ships: mode === 'live' && layers.ships && shipCount > 0 ? shipCount : undefined,
+    gpsJam: layers.gpsJam && gpsJamCount > 0 ? gpsJamCount : undefined,
+    internetBlackout: layers.internetBlackout && internetBlackoutCount > 0 ? internetBlackoutCount : undefined,
+    groundTruth: layers.groundTruth && groundTruthCount > 0 ? groundTruthCount : undefined,
     historical: mode === 'historical',
-  }), [filteredPoints.length, totalLines, layers, satCount, satFovCount, showFov, flightCount, quakeCount, weatherCount, nfzCount, shipCount, mode]);
+  }), [filteredPoints.length, totalLines, layers, satCount, satFovCount, showFov, flightCount, quakeCount, weatherCount, nfzCount, shipCount, gpsJamCount, internetBlackoutCount, groundTruthCount, mode]);
 
   return (
     <div className="globe-wrapper">
@@ -395,6 +434,15 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [] }: 
         timeline={false}
         vrButton={false}
         creditContainer={creditDivRef.current!}
+      />
+
+      {/* Military HUD overlay */}
+      <CesiumHud
+        viewer={cesiumViewer}
+        visible={showHud}
+        visualMode={visualMode}
+        simTimeRef={simTimeRef}
+        currentDate={currentDate}
       />
 
       {/* Info panel */}
@@ -482,6 +530,10 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [] }: 
             fovCount={satFovCount}
             aisApiKey={aisApiKey}
             onAisApiKeyChange={handleAisKeyChange}
+            showHud={showHud}
+            onToggleHud={() => setShowHud(prev => !prev)}
+            orbitMode={orbitMode}
+            onOrbitMode={handleOrbitMode}
           />
 
           {/* Events / Intel feed panel */}

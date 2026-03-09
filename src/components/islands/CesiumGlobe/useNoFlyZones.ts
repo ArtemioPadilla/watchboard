@@ -147,19 +147,19 @@ export function useNoFlyZones(
       });
       entitiesRef.current.push(borderEntity);
 
-      // Label
+      // Large bold label (WORLDVIEW style)
       const labelEntity = viewer.entities.add({
-        position: Cartesian3.fromDegrees(nfz.center[0], nfz.center[1], 1000),
+        position: Cartesian3.fromDegrees(nfz.center[0], nfz.center[1], 2000),
         label: {
           text: nfz.label,
-          font: "bold 11px 'JetBrains Mono', monospace",
-          fillColor: color.withAlpha(0.8),
+          font: "bold 13px 'JetBrains Mono', monospace",
+          fillColor: color.withAlpha(0.9),
           outlineColor: Color.BLACK,
-          outlineWidth: 3,
+          outlineWidth: 4,
           style: LabelStyle.FILL_AND_OUTLINE,
           verticalOrigin: VerticalOrigin.CENTER,
           horizontalOrigin: HorizontalOrigin.CENTER,
-          scaleByDistance: new NearFarScalar(1e5, 1.0, 5e6, 0.3),
+          scaleByDistance: new NearFarScalar(1e5, 1.2, 6e6, 0.25),
         },
       });
       entitiesRef.current.push(labelEntity);

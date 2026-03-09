@@ -12,6 +12,9 @@ export interface StatsData {
   wx?: number;
   nfz?: number;
   ships?: number;
+  gpsJam?: number;
+  internetBlackout?: number;
+  groundTruth?: number;
   historical?: boolean;
 }
 
@@ -289,6 +292,24 @@ export default function CesiumTimelineBar({
               <span style={{ color: '#00ddaa' }}>{stats.ships} ships</span>
             </>
           )}
+          {stats.gpsJam != null && (
+            <>
+              <span className="globe-tl-stats-sep">&middot;</span>
+              <span style={{ color: '#ff2244' }}>{stats.gpsJam} GPS JAM</span>
+            </>
+          )}
+          {stats.internetBlackout != null && (
+            <>
+              <span className="globe-tl-stats-sep">&middot;</span>
+              <span style={{ color: '#ff6644' }}>{stats.internetBlackout} BLACKOUT</span>
+            </>
+          )}
+          {stats.groundTruth != null && (
+            <>
+              <span className="globe-tl-stats-sep">&middot;</span>
+              <span style={{ color: '#ffaa00' }}>{stats.groundTruth} GT</span>
+            </>
+          )}
           {stats.historical && (
             <>
               <span className="globe-tl-stats-sep">&middot;</span>
@@ -297,6 +318,17 @@ export default function CesiumTimelineBar({
           )}
         </div>
       )}
+
+      {/* Event type legend (WORLDVIEW style) */}
+      <div className="globe-tl-legend">
+        <span className="globe-tl-legend-item" style={{ color: '#e74c3c' }}>&#9679; Kinetic</span>
+        <span className="globe-tl-legend-item" style={{ color: '#f39c12' }}>&#9679; Retaliation</span>
+        <span className="globe-tl-legend-item" style={{ color: '#ffaa00' }}>&#9679; Civilian Impact</span>
+        <span className="globe-tl-legend-item" style={{ color: '#00aaff' }}>&#9679; Maritime</span>
+        <span className="globe-tl-legend-item" style={{ color: '#ff6644' }}>&#9679; Infrastructure</span>
+        <span className="globe-tl-legend-item" style={{ color: '#ff44ff' }}>&#9679; Escalation</span>
+        <span className="globe-tl-legend-item" style={{ color: '#e74c3c' }}>&#9679; Airspace Closure</span>
+      </div>
     </div>
   );
 }

@@ -180,12 +180,33 @@ function billboardSizeForGroup(group: SatGroup): number {
 }
 
 function showLabelForGroup(group: SatGroup): boolean {
-  return group === 'gps' || group === 'geo';
+  // Show labels for all groups except starlink (too many)
+  return group !== 'starlink';
 }
 
+/** Known military/intel satellite designations for display */
+const KNOWN_SAT_NAMES: Record<string, string> = {
+  'USA 224': 'USA-224 (KH-11)',
+  'USA 245': 'USA-245 (KH-11)',
+  'USA 256': 'USA-256 (TOPAZ)',
+  'USA 290': 'USA-290 (KH-11)',
+  'USA 314': 'USA-314 (MISTY)',
+  'LACROSSE 5': 'LACROSSE-5 (SAR)',
+  'NROL-82': 'NROL-82',
+  'NROL-85': 'NROL-85',
+};
+
 function formatLabelText(sat: SatRecord): string {
+  // Check for known designation
+  const upper = sat.name.toUpperCase();
+  for (const [key, val] of Object.entries(KNOWN_SAT_NAMES)) {
+    if (upper.includes(key)) return val;
+  }
   if (sat.group === 'gps') return sat.name.replace('NAVSTAR ', 'GPS ');
   if (sat.group === 'geo') return sat.name.substring(0, 20);
+  if (sat.group === 'military') return sat.name.substring(0, 18);
+  if (sat.group === 'recon') return sat.name.substring(0, 18);
+  if (sat.group === 'gnss') return sat.name.substring(0, 16);
   return '';
 }
 
@@ -203,12 +224,19 @@ function computeFootprintRadius(altitudeKm: number, halfAngleRad: number): numbe
   return altitudeKm * 1000 * Math.tan(halfAngleRad);
 }
 
+/** Target positions for satellite targeting lines (strike locations) */
+export interface SatTarget {
+  lon: number;
+  lat: number;
+}
+
 /** Fetch military-relevant satellite TLEs and propagate orbits */
 export function useSatellites(
   viewer: CesiumViewer | null,
   enabled: boolean,
   simTimeRef?: React.RefObject<number>,
   showFov: boolean = false,
+  targets: SatTarget[] = [],
 ) {
   const [count, setCount] = useState(0);
   const [groupCounts, setGroupCounts] = useState<SatGroupCounts>({ ...EMPTY_COUNTS });
@@ -492,6 +520,24 @@ export function useSatellites(
           },
         });
         fovEntitiesRef.current.push(coneEntity);
+
+        // Targeting lines: satellite → nearby ground targets (strike locations)
+        const footprintRadiusDeg = radiusKm / 111;
+        for (const target of targets) {
+          const dLatTarget = Math.abs(target.lat - c.lat);
+          const dLonTarget = Math.abs(target.lon - c.lon);
+          if (dLatTarget < footprintRadiusDeg && dLonTarget < footprintRadiusDeg) {
+            const targetPos = Cartesian3.fromDegrees(target.lon, target.lat, 0);
+            const targetLineEntity = viewer.entities.add({
+              polyline: {
+                positions: [satPos, targetPos],
+                width: 1.5,
+                material: Color.fromCssColorString('#ff2244').withAlpha(0.35),
+              },
+            });
+            fovEntitiesRef.current.push(targetLineEntity);
+          }
+        }
       }
 
       setFovCount(candidates.length);
@@ -507,7 +553,7 @@ export function useSatellites(
       cancelAnimationFrame(fovAnimRef);
       cleanupFov();
     };
-  }, [showFov, enabled, viewer, count]);
+  }, [showFov, enabled, viewer, count, targets]);
 
   return { count, groupCounts, fovCount };
 }
