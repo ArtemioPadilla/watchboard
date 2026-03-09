@@ -372,7 +372,11 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [] }: 
   }, []);
 
   // ── Conflict data (imperative entities) — points + past arcs ──
-  useConflictData(cesiumViewer, filteredPoints, pastLines, setSelectedPoint);
+  const handlePointSelect = useCallback((point: MapPoint | null) => {
+    setSelectedPoint(point);
+    if (point) setEventsOpen(false); // Close intel feed when info panel opens
+  }, []);
+  useConflictData(cesiumViewer, filteredPoints, pastLines, handlePointSelect);
 
   // ── Current-date arcs + animated missiles ──
   useMissiles(cesiumViewer, currentLines, currentDate, isPlaying, simTimeRef, playbackSpeed);
@@ -463,7 +467,7 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [] }: 
         currentDate={currentDate}
       />
 
-      {/* Info panel */}
+      {/* Info panel — close events panel when a point is selected */}
       {selectedPoint && (
         <CesiumInfoPanel point={selectedPoint} onClose={() => setSelectedPoint(null)} />
       )}
@@ -561,7 +565,12 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [] }: 
             events={events}
             currentDate={currentDate}
             isOpen={eventsOpen}
-            onToggle={() => setEventsOpen(prev => !prev)}
+            onToggle={() => {
+              setEventsOpen(prev => {
+                if (!prev) setSelectedPoint(null); // Close info panel when opening intel feed
+                return !prev;
+              });
+            }}
           />
         </>
       )}
