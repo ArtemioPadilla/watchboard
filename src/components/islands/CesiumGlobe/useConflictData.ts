@@ -202,9 +202,34 @@ export function useConflictData(
     });
     arcEntitiesRef.current = [];
 
+    // Compute lateral offsets so overlapping arcs fan out
+    const groups = new Map<string, string[]>();
+    for (const line of lines) {
+      const key = [
+        Math.round(line.from[0] * 2) / 2,
+        Math.round(line.from[1] * 2) / 2,
+        Math.round(line.to[0] * 2) / 2,
+        Math.round(line.to[1] * 2) / 2,
+      ].join(',');
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key)!.push(line.id);
+    }
+    const offsets = new Map<string, number>();
+    for (const [, ids] of groups) {
+      if (ids.length <= 1) {
+        offsets.set(ids[0], 0);
+      } else {
+        const totalSpread = Math.min(0.3 * ids.length, 1.5);
+        for (let i = 0; i < ids.length; i++) {
+          offsets.set(ids[i], (i / (ids.length - 1) - 0.5) * totalSpread);
+        }
+      }
+    }
+
     // Create new arc entities
     for (const line of lines) {
-      const positions = arc3D(line.from, line.to);
+      const offset = offsets.get(line.id) ?? 0;
+      const positions = arc3D(line.from, line.to, 60, 150_000, offset);
 
       const entity = viewer.entities.add({
         name: line.label,

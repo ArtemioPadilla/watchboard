@@ -16,20 +16,37 @@ export function lineToCesiumColor(cat: string): Color {
   return Color.fromCssColorString('#3498db').withAlpha(0.7);
 }
 
-/** Generate a 3D arc between two lon/lat points with altitude peak */
+/** Generate a 3D arc between two lon/lat points with altitude peak.
+ *  `lateralOffset` (degrees) fans the arc perpendicular to the path —
+ *  use it to visually separate overlapping arcs that share endpoints. */
 export function arc3D(
   from: [number, number],
   to: [number, number],
   segments = 60,
   peakAltitude = 150_000,
+  lateralOffset = 0,
 ): Cartesian3[] {
+  // Perpendicular unit vector (in lon/lat space)
+  const dx = to[0] - from[0];
+  const dy = to[1] - from[1];
+  const len = Math.sqrt(dx * dx + dy * dy) || 1;
+  const perpLon = -dy / len;
+  const perpLat = dx / len;
+
   const positions: Cartesian3[] = [];
   for (let i = 0; i <= segments; i++) {
     const t = i / segments;
-    const lon = from[0] + (to[0] - from[0]) * t;
-    const lat = from[1] + (to[1] - from[1]) * t;
+    const baseLon = from[0] + dx * t;
+    const baseLat = from[1] + dy * t;
     const alt = Math.sin(t * Math.PI) * peakAltitude;
-    positions.push(Cartesian3.fromDegrees(lon, lat, alt));
+
+    // Fan: 0 at endpoints, max at midpoint
+    const fan = Math.sin(t * Math.PI) * lateralOffset;
+    positions.push(Cartesian3.fromDegrees(
+      baseLon + perpLon * fan,
+      baseLat + perpLat * fan,
+      alt,
+    ));
   }
   return positions;
 }

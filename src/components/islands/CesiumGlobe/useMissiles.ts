@@ -56,6 +56,42 @@ function hashString(str: string): number {
 }
 
 /**
+ * Compute lateral offsets (degrees) for lines that share similar from/to
+ * coordinates, so overlapping arcs fan out and are all visible.
+ */
+function computeLateralOffsets(lines: MapLine[]): Map<string, number> {
+  const offsets = new Map<string, number>();
+  const groups = new Map<string, string[]>();
+
+  // Group by rounded endpoints (0.5° grid) to detect overlaps
+  for (const line of lines) {
+    const key = [
+      Math.round(line.from[0] * 2) / 2,
+      Math.round(line.from[1] * 2) / 2,
+      Math.round(line.to[0] * 2) / 2,
+      Math.round(line.to[1] * 2) / 2,
+    ].join(',');
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key)!.push(line.id);
+  }
+
+  for (const [, ids] of groups) {
+    if (ids.length <= 1) {
+      offsets.set(ids[0], 0);
+    } else {
+      // Spread increases with group size, capped at 1.5°
+      const totalSpread = Math.min(0.3 * ids.length, 1.5);
+      for (let i = 0; i < ids.length; i++) {
+        const offset = (i / (ids.length - 1) - 0.5) * totalSpread;
+        offsets.set(ids[i], offset);
+      }
+    }
+  }
+
+  return offsets;
+}
+
+/**
  * Renders arcs for the current date's lines.
  * - When playing: animates strike/retaliation synced to sim-time velocity.
  *   Each arc spawns up to PER_ARC_CAP projectiles along randomized parallel
@@ -86,6 +122,9 @@ export function useMissiles(
     rafRef.current = 0;
     if (lines.length === 0) return;
 
+    // Compute lateral offsets so overlapping arcs fan out
+    const lateralOffsets = computeLateralOffsets(lines);
+
     // Determine which lines to animate vs show static
     const toAnimate: MapLine[] = [];
     const toStatic: MapLine[] = [];
@@ -100,7 +139,8 @@ export function useMissiles(
 
     // Render static arcs immediately
     for (const line of toStatic) {
-      const positions = arc3D(line.from, line.to);
+      const offset = lateralOffsets.get(line.id) ?? 0;
+      const positions = arc3D(line.from, line.to, 60, 150_000, offset);
       const entity = viewer.entities.add({
         name: line.label,
         polyline: {
@@ -115,7 +155,8 @@ export function useMissiles(
     // Cap animated arcs — overflow goes to static
     const animatable = toAnimate.slice(0, MAX_ARCS);
     for (const line of toAnimate.slice(MAX_ARCS)) {
-      const positions = arc3D(line.from, line.to);
+      const offset = lateralOffsets.get(line.id) ?? 0;
+      const positions = arc3D(line.from, line.to, 60, 150_000, offset);
       const entity = viewer.entities.add({
         name: line.label,
         polyline: {
@@ -137,7 +178,8 @@ export function useMissiles(
     for (let i = 0; i < animatable.length; i++) {
       const line = animatable[i];
       const peakAlt = weaponPeakAlt(line.weaponType);
-      const mainArc = arc3D(line.from, line.to, 60, peakAlt);
+      const arcOffset = lateralOffsets.get(line.id) ?? 0;
+      const mainArc = arc3D(line.from, line.to, 60, peakAlt, arcOffset);
       const physicalDuration = simFlightDurationTyped(line.from, line.to, line.weaponType);
       const simDuration = Math.max(physicalDuration, minSimDuration);
       const color = catToCesiumColor(line.cat);
@@ -223,7 +265,7 @@ export function useMissiles(
             line.to[0] + offsetLon * 0.15,
             line.to[1] + offsetLat * 0.15,
           ];
-          projArc = arc3D(projFrom, projTo, 60, peakAlt * altFactor);
+          projArc = arc3D(projFrom, projTo, 60, peakAlt * altFactor, arcOffset);
         } else {
           projArc = mainArc;
         }
