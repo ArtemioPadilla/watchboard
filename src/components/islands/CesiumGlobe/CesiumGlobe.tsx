@@ -135,10 +135,11 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [] }: 
     const allDates = [
       ...points.map(p => p.date),
       ...lines.map(l => l.date),
+      TODAY, // Always include today so live mode can reach it
     ].sort();
     return {
       min: allDates[0] || '2025-12-01',
-      max: allDates[allDates.length - 1] || '2026-03-04',
+      max: allDates[allDates.length - 1] || TODAY,
     };
   }, [points, lines]);
 
@@ -185,15 +186,23 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [] }: 
         viewer.clock.currentTime = JulianDate.fromDate(new Date(simTimeRef.current));
       }
 
-      const newDate = msToDateStr(simTimeRef.current);
-      const maxMs = dateToMs(dateRange.max) + 86400000; // end of max date
+      // In live mode (1x), clamp to real time; otherwise clamp to end of timeline
+      const now = Date.now();
+      const maxMs = dateToMs(dateRange.max) + 86400000;
+      const clampMs = playbackSpeed <= 1 ? Math.min(now, maxMs) : maxMs;
 
-      if (simTimeRef.current >= maxMs) {
-        simTimeRef.current = maxMs;
-        setIsPlaying(false);
-        setCurrentDate(dateRange.max);
-        return;
+      if (simTimeRef.current >= clampMs) {
+        simTimeRef.current = clampMs;
+        if (playbackSpeed <= 1) {
+          // Live mode — stay at current time, keep ticking
+        } else {
+          setIsPlaying(false);
+          setCurrentDate(dateRange.max);
+          return;
+        }
       }
+
+      const newDate = msToDateStr(simTimeRef.current);
 
       // Throttle state updates to max 5Hz to avoid entity churn at high speeds
       if (newDate !== currentDateRef.current) {
@@ -218,8 +227,9 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [] }: 
   const togglePlay = useCallback(() => {
     setIsPlaying(prev => {
       if (!prev) {
-        // If at the end, restart from the beginning
-        if (currentDateRef.current >= dateRange.max) {
+        // Only restart from beginning if sim time is past end of timeline
+        const maxMs = dateToMs(dateRange.max) + 86400000;
+        if (simTimeRef.current >= maxMs) {
           const startMs = dateToMs(dateRange.min);
           simTimeRef.current = startMs;
           setCurrentDate(dateRange.min);
@@ -230,16 +240,22 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [] }: 
   }, [dateRange]);
 
   const goLive = useCallback(() => {
-    setIsPlaying(false);
-    const targetDate = dateRange.max >= TODAY ? TODAY : dateRange.max;
-    simTimeRef.current = dateToMs(targetDate) + 43200000;
-    setCurrentDate(targetDate);
-  }, [dateRange]);
+    simTimeRef.current = Date.now(); // Real current time
+    setCurrentDate(TODAY);
+    setPlaybackSpeed(1); // Real-time 1x speed
+    setIsPlaying(true);  // Start playing in real-time
+  }, []);
 
   // When user manually changes date (scrub, step), sync simTimeRef
   const handleDateChange = useCallback((date: string) => {
     simTimeRef.current = dateToMs(date) + 43200000; // noon of that day
     setCurrentDate(date);
+  }, []);
+
+  // Intra-day time scrub — sets simTimeRef to exact ms within the day
+  const handleTimeChange = useCallback((ms: number) => {
+    simTimeRef.current = ms;
+    setCurrentDate(msToDateStr(ms));
   }, []);
 
   // ── Filtering ──
@@ -465,6 +481,8 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [] }: 
         onSpeedChange={setPlaybackSpeed}
         onGoLive={goLive}
         stats={stats}
+        simTimeRef={simTimeRef}
+        onTimeChange={handleTimeChange}
       />
 
       {isMobile ? (
@@ -492,8 +510,8 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [] }: 
         />
       ) : (
         <>
-          {/* KPI strip — compact by default */}
-          <div className={`globe-kpi-strip${showAllKpis ? ' expanded' : ''}`}>
+          {/* KPI strip — hidden when info panel is open */}
+          {!selectedPoint && <div className={`globe-kpi-strip${showAllKpis ? ' expanded' : ''}`}>
             {kpis.slice(0, showAllKpis ? kpis.length : 4).map(k => (
               <div key={k.id} className="globe-kpi" style={{ borderColor: KPI_COLORS[k.color] || '#555' }}>
                 <span className="globe-kpi-value" style={{ color: KPI_COLORS[k.color] }}>{k.value}</span>
@@ -510,7 +528,7 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [] }: 
                 {showAllKpis ? '\u2212' : `+${kpis.length - 4}`}
               </button>
             )}
-          </div>
+          </div>}
 
           {/* Overlay controls toolbar */}
           <CesiumControls

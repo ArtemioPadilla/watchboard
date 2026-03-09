@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import type { FlatEvent } from '../../../lib/timeline-utils';
 import type { MapLine } from '../../../lib/schemas';
 
@@ -28,11 +28,36 @@ interface Props {
   events: FlatEvent[];
   lines?: MapLine[];
   onDateChange: (date: string) => void;
+  onTimeChange?: (ms: number) => void;
   onTogglePlay: () => void;
   onSpeedChange: (speed: number) => void;
   onGoLive: () => void;
   stats?: StatsData;
+  simTimeRef?: React.RefObject<number>;
 }
+
+/** Format time in a specific timezone offset (hours from UTC) */
+function formatTZ(ms: number, offsetHours: number): string {
+  const d = new Date(ms + offsetHours * 3600000);
+  const h = d.getUTCHours().toString().padStart(2, '0');
+  const m = d.getUTCMinutes().toString().padStart(2, '0');
+  return `${h}:${m}`;
+}
+
+/** Format minutes since midnight to HH:MM */
+function formatHHMM(minutes: number): string {
+  const h = Math.floor(minutes / 60).toString().padStart(2, '0');
+  const m = (minutes % 60).toString().padStart(2, '0');
+  return `${h}:${m}`;
+}
+
+/** Color for line categories */
+const LINE_CAT_COLORS: Record<string, string> = {
+  strike: '#e74c3c',
+  retaliation: '#f39c12',
+  asset: '#3498db',
+  front: '#ff44ff',
+};
 
 const SPEEDS = [
   { label: '1x',   value: 1 },
@@ -102,10 +127,48 @@ export default function CesiumTimelineBar({
   onSpeedChange,
   onGoLive,
   stats,
+  simTimeRef,
+  onTimeChange,
 }: Props) {
   const [showSpeeds, setShowSpeeds] = useState(false);
+  const [clockTick, setClockTick] = useState(0);
+
+  // Tick clocks every second
+  useEffect(() => {
+    const id = setInterval(() => setClockTick(t => t + 1), 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  const simMs = simTimeRef?.current ?? Date.now();
+  // clockTick drives re-render for clocks + intra-day thumb
+  void clockTick;
+
   const totalDays = dateToDay(maxDate, minDate);
   const currentDay = dateToDay(currentDate, minDate);
+
+  // Current time within the day (minutes since midnight UTC)
+  const simDate = new Date(simMs);
+  const currentMinute = simDate.getUTCHours() * 60 + simDate.getUTCMinutes();
+
+  // Intra-day timed events for the current date
+  const intradayTicks = useMemo(() => {
+    const ticked: { minute: number; label: string; cat: string; color: string }[] = [];
+    for (const line of lines) {
+      if (line.date !== currentDate || !line.time) continue;
+      const match = line.time.match(/^(\d{1,2}):(\d{2})$/);
+      if (!match) continue;
+      const min = parseInt(match[1], 10) * 60 + parseInt(match[2], 10);
+      ticked.push({
+        minute: min,
+        label: `${line.time} — ${line.label}`,
+        cat: line.cat,
+        color: LINE_CAT_COLORS[line.cat] || '#888',
+      });
+    }
+    return ticked.sort((a, b) => a.minute - b.minute);
+  }, [lines, currentDate]);
+
+  const hasIntradayEvents = intradayTicks.length > 0;
 
   const currentSpeedLabel = SPEEDS.find(s => s.value === playbackSpeed)?.label || '1hr';
 
@@ -212,6 +275,14 @@ export default function CesiumTimelineBar({
             <span className="globe-tl-event-badge">{currentEventCount}</span>
           )}
         </span>
+
+        {/* Timezone clocks */}
+        <div className="globe-tl-clocks">
+          <span className="globe-tl-clock"><span className="globe-tl-clock-label">TEHRAN</span> {formatTZ(simMs, 3.5)}</span>
+          <span className="globe-tl-clock"><span className="globe-tl-clock-label">TLV</span> {formatTZ(simMs, 3)}</span>
+          <span className="globe-tl-clock"><span className="globe-tl-clock-label">UTC</span> {formatTZ(simMs, 0)}</span>
+          <span className="globe-tl-clock"><span className="globe-tl-clock-label">EST</span> {formatTZ(simMs, -5)}</span>
+        </div>
       </div>
 
       {/* Timeline track with event ticks */}
@@ -243,6 +314,56 @@ export default function CesiumTimelineBar({
         </div>
         <span className="globe-tl-date-edge">{formatDate(maxDate)}</span>
       </div>
+
+      {/* Intra-day timeline — shows when current day has timed events */}
+      {hasIntradayEvents && (
+        <div className="globe-tl-intraday">
+          <span className="globe-tl-intraday-label">
+            {formatHHMM(currentMinute)} UTC
+          </span>
+          <div className="globe-tl-intraday-track">
+            {/* Hour markers */}
+            {[0, 6, 12, 18].map(h => (
+              <span
+                key={h}
+                className="globe-tl-intraday-hour"
+                style={{ left: `${(h / 24) * 100}%` }}
+              >
+                {h.toString().padStart(2, '0')}
+              </span>
+            ))}
+            {/* Event ticks */}
+            {intradayTicks.map((t, i) => (
+              <div
+                key={i}
+                className="globe-tl-intraday-tick"
+                style={{
+                  left: `${(t.minute / 1440) * 100}%`,
+                  backgroundColor: t.color,
+                }}
+                title={t.label}
+              />
+            ))}
+            <input
+              type="range"
+              className="globe-tl-slider globe-tl-intraday-slider"
+              min={0}
+              max={1440}
+              value={currentMinute}
+              aria-label="Intra-day time selector"
+              aria-valuetext={formatHHMM(currentMinute)}
+              onChange={e => {
+                if (!onTimeChange) return;
+                const min = Number(e.target.value);
+                // Compute ms: start of current day + minutes
+                const dayStart = new Date(currentDate + 'T00:00:00Z').getTime();
+                onTimeChange(dayStart + min * 60000);
+              }}
+            />
+          </div>
+          <span className="globe-tl-intraday-label">24:00</span>
+        </div>
+      )}
 
       {/* Stats row */}
       {stats && (
