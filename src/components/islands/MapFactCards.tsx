@@ -22,21 +22,30 @@ interface Props {
 //  HTML builder
 // ────────────────────────────────────────────
 
+function esc(s: string): string {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
 function cardHtml(card: FactCard): string {
   const thumbHtml = card.thumbnail
-    ? `<img class="fact-card-thumb" src="${card.thumbnail}" alt="" loading="lazy" />`
+    ? `<img class="fact-card-thumb" src="${esc(card.thumbnail)}" alt="" loading="lazy" />`
     : '';
 
   return `<div class="fact-card">
   <div class="fact-card-header">
-    <span class="fact-card-category" style="color:${card.categoryColor}">${card.category}</span>
-    ${card.utcTime ? `<span class="fact-card-time">${card.utcTime}</span>` : ''}
+    <span class="fact-card-category" style="color:${esc(card.categoryColor)}">${esc(card.category)}</span>
+    ${card.utcTime ? `<span class="fact-card-time">${esc(card.utcTime)}</span>` : ''}
   </div>
-  <div class="fact-card-title">${card.title}</div>
+  <div class="fact-card-title">${esc(card.title)}</div>
   ${thumbHtml}
   <div class="fact-card-connector"></div>
 </div>`;
 }
+
+const CARD_H_NO_THUMB = 52;
+const CARD_H_THUMB = 118;
+const CONNECTOR_H = 20;
 
 // ────────────────────────────────────────────
 //  Component (renders nothing — imperative)
@@ -55,11 +64,12 @@ export default function MapFactCards({ points, events, lines, currentDate, maxCa
     markersRef.current = [];
 
     for (const card of cards) {
+      const anchorY = (card.thumbnail ? CARD_H_THUMB : CARD_H_NO_THUMB) + CONNECTOR_H;
       const icon = L.divIcon({
         className: 'fact-card-wrapper',
         html: cardHtml(card),
         iconSize: [220, 0],
-        iconAnchor: [110, 140], // bottom-center: card floats above the point
+        iconAnchor: [110, anchorY],
       });
 
       const marker = L.marker([card.lat, card.lon], {

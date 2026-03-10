@@ -111,18 +111,6 @@ export function buildFactCards(
     });
   }
 
-  // ── From timeline events with matching map points ──
-  for (const ev of events) {
-    if (ev.resolvedDate !== currentDate) continue;
-    const evCategory = classifyEvent(ev);
-    const title = (ev.title || '').toUpperCase();
-    const titleKey = title.substring(0, 20);
-    if (seen.has(titleKey)) continue;
-
-    // Skip events without geographic context — they have no lon/lat
-    // Future: could geocode based on title keywords
-  }
-
   // Sort: lower tier first (higher priority), then by category weight
   const catWeight: Record<FactCardCategory, number> = {
     KINETIC: 0,

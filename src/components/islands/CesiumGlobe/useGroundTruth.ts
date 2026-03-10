@@ -34,6 +34,21 @@ const CATEGORY_COLORS: Record<FactCardCategory, string> = {
   ESCALATION: '#ff44ff',
 };
 
+/** Draw a rounded rectangle path (compatible with older browsers) */
+function roundRectPath(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.arcTo(x + w, y, x + w, y + r, r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.arcTo(x + w, y + h, x + w - r, y + h, r);
+  ctx.lineTo(x + r, y + h);
+  ctx.arcTo(x, y + h, x, y + h - r, r);
+  ctx.lineTo(x, y + r);
+  ctx.arcTo(x, y, x + r, y, r);
+  ctx.closePath();
+}
+
 function renderFactCardCanvas(card: FactCard): HTMLCanvasElement {
   const dpr = 2; // retina
   const canvas = document.createElement('canvas');
@@ -44,15 +59,13 @@ function renderFactCardCanvas(card: FactCard): HTMLCanvasElement {
 
   // Background
   ctx.fillStyle = 'rgba(12, 14, 18, 0.92)';
-  ctx.beginPath();
-  ctx.roundRect(0, 0, CARD_WIDTH, CARD_HEIGHT, 6);
+  roundRectPath(ctx, 0, 0, CARD_WIDTH, CARD_HEIGHT, 6);
   ctx.fill();
 
   // Border
   ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
   ctx.lineWidth = 1;
-  ctx.beginPath();
-  ctx.roundRect(0.5, 0.5, CARD_WIDTH - 1, CARD_HEIGHT - 1, 6);
+  roundRectPath(ctx, 0.5, 0.5, CARD_WIDTH - 1, CARD_HEIGHT - 1, 6);
   ctx.stroke();
 
   // Category accent line (top)
@@ -99,7 +112,6 @@ export function useGroundTruth(
   points: MapPoint[],
   events: FlatEvent[],
   currentDate: string,
-  onSelectCard?: (card: FactCard) => void,
 ) {
   const [count, setCount] = useState(0);
   const [cards, setCards] = useState<FactCard[]>([]);
