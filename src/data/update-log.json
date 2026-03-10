@@ -1,7 +1,7 @@
 {
-  "lastRun": "2026-03-08T21:56:37.543Z",
-  "provider": "openai",
-  "model": "gpt-4o",
+  "lastRun": "2026-03-10T06:00:00.000Z",
+  "provider": "anthropic",
+  "model": "claude-sonnet-4-6",
   "sections": {
     "meta": {
       "status": "updated"
@@ -10,9 +10,10 @@
       "status": "updated",
       "itemCount": 8
     },
-    "timeline": {
+    "events": {
       "status": "updated",
-      "newEvents": 7
+      "newFiles": ["2026-03-09.json", "2026-03-10.json"],
+      "newEvents": 16
     },
     "casualties": {
       "status": "updated",
@@ -22,25 +23,20 @@
       "status": "updated",
       "itemCount": 8
     },
-    "claims": {
-      "status": "updated",
-      "itemCount": 23
-    },
     "political": {
       "status": "updated",
-      "itemCount": 29
-    },
-    "military": {
-      "status": "updated",
-      "itemCount": 87
+      "itemCount": 30
     },
     "map": {
-      "status": "error",
-      "reason": "Error: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors."
+      "status": "updated",
+      "newPoints": 7
+    },
+    "claims": {
+      "status": "unchanged",
+      "itemCount": 23
     },
     "map-lines": {
-      "status": "error",
-      "reason": "Error: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors."
+      "status": "unchanged"
     }
   }
 }
