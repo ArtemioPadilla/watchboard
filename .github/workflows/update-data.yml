@@ -9,10 +9,6 @@ on:
         description: 'Sections to update (comma-separated, or "all")'
         required: false
         default: 'all'
-      tracker:
-        description: 'Tracker slug to update (or "all" for every tracker)'
-        required: false
-        default: 'all'
 
 permissions:
   contents: write
@@ -24,8 +20,6 @@ jobs:
   update:
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    env:
-      TRACKER_SLUG: ${{ github.event.inputs.tracker || 'all' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -44,39 +38,37 @@ jobs:
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           prompt: |
-            You are the nightly data updater for the Intel Dashboard platform.
+            You are the nightly data updater for the Iran Conflict Tracker dashboard.
 
-            Your job: search the web for the latest developments for each configured tracker
-            and update the JSON data files in their respective trackers/*/data/ directories.
+            Your job: search the web for the latest Iran-US/Israel conflict developments
+            and update the JSON data files in src/data/.
 
             INSTRUCTIONS:
             1. Read src/lib/schemas.ts to understand all data schemas
-            2. Read scripts/update-data.ts to understand the update pipeline and merge-by-ID pattern
-            3. List trackers/ to find all configured trackers
-            4. For each tracker, read trackers/<slug>/tracker.json for its AI config (systemPrompt, searchContext, enabledSections)
-            5. Read the current data files in trackers/<slug>/data/ to see existing entries
-            6. Search the web for the latest developments (today and recent days)
-            7. Update each enabled section following the exact schema shapes:
-               - data/kpis.json (key metrics)
-               - data/timeline.json (historical eras/phases)
-               - data/events/*.json (daily event files, named YYYY-MM-DD.json)
-               - data/map-points.json (geographic points of interest)
-               - data/map-lines.json (strike/retaliation arcs with weapon data)
-               - data/strike-targets.json (strike target details)
-               - data/retaliation.json (retaliation actions)
-               - data/assets.json (military assets)
-               - data/casualties.json (casualty figures)
-               - data/econ.json (economic indicators)
-               - data/claims.json (claims from different parties)
-               - data/political.json (political developments)
-               - data/meta.json (last updated timestamp)
+            2. Read scripts/update-data.ts to understand the SYSTEM_PROMPT, section structure, and merge-by-ID pattern
+            3. Read the current data files in src/data/ to see existing entries
+            4. Search the web for the latest developments (today and recent days)
+            5. Update each section following the exact schema shapes:
+               - src/data/kpis.json (key metrics)
+               - src/data/timeline.json (historical eras/phases)
+               - src/data/events/*.json (daily event files, named YYYY-MM-DD.json)
+               - src/data/map-points.json (geographic points of interest)
+               - src/data/map-lines.json (strike/retaliation arcs with weapon data)
+               - src/data/strike-targets.json (strike target details)
+               - src/data/retaliation.json (retaliation actions)
+               - src/data/assets.json (military assets)
+               - src/data/casualties.json (casualty figures)
+               - src/data/econ.json (economic indicators)
+               - src/data/claims.json (claims from different parties)
+               - src/data/political.json (political developments)
+               - src/data/meta.json (last updated timestamp)
 
             RULES:
             - Use merge-by-ID: never remove existing entries, only add new or update existing
             - Every entry needs an `id` field (kebab-case, descriptive)
             - Tag sources with tier (1-4) and pole (western/middle_eastern/eastern/international)
             - Use OSINT confirmation: 1 Tier-1 or 2+ Tier-2 sources = confirmed
-            - Validate coordinates are within theater bounds (see tracker.json ai.coordValidation)
+            - Validate coordinates are within theater bounds (lon 25-65°E, lat 20-42°N)
             - Set `lastUpdated` on modified entries
             - Create new daily event file if today's doesn't exist
             - Casualty `contested` field: yes/no/evolving/heavily/partial
@@ -91,11 +83,11 @@ jobs:
         id: changes
         run: |
           echo "=== Git status ==="
-          git status --short trackers/
-          git add trackers/
+          git status --short src/data/
+          git add src/data/
           echo "=== Staged changes ==="
-          git diff --cached --name-only trackers/
-          if git diff --cached --quiet trackers/; then
+          git diff --cached --name-only src/data/
+          if git diff --cached --quiet src/data/; then
             echo "changed=false" >> $GITHUB_OUTPUT
             echo "No changes detected"
           else
@@ -109,7 +101,7 @@ jobs:
         run: |
           echo "=== Validating JSON syntax ==="
           invalid=0
-          for f in $(find trackers -name '*.json' -type f); do
+          for f in $(find src/data -name '*.json' -type f); do
             if ! node -e "JSON.parse(require('fs').readFileSync('$f','utf8'))" 2>/dev/null; then
               echo "INVALID JSON: $f"
               invalid=$((invalid + 1))
@@ -151,48 +143,40 @@ jobs:
           const eventSchema = z.array(S.TimelineEventSchema);
 
           let failures = 0;
+          const dataDir = 'src/data';
 
-          // Find all tracker data directories
-          const trackerDirs = fs.readdirSync('trackers', { withFileTypes: true })
-            .filter(d => d.isDirectory())
-            .map(d => path.join('trackers', d.name, 'data'));
+          console.log('--- Checking', dataDir, '---');
+          for (const [file, schema] of Object.entries(schemaMap)) {
+            const fp = path.join(dataDir, file);
+            if (!fs.existsSync(fp)) continue;
+            const raw = JSON.parse(fs.readFileSync(fp, 'utf8'));
+            const result = schema.safeParse(raw);
+            if (result.success) {
+              console.log('  ✓', file);
+            } else {
+              console.error('  ✗', file);
+              for (const err of result.error.errors.slice(0, 3)) {
+                console.error('    ', err.path.join('.'), ':', err.message);
+              }
+              failures++;
+            }
+          }
 
-          for (const dataDir of trackerDirs) {
-            if (!fs.existsSync(dataDir)) continue;
-            console.log('--- Checking', dataDir, '---');
-
-            for (const [file, schema] of Object.entries(schemaMap)) {
-              const fp = path.join(dataDir, file);
-              if (!fs.existsSync(fp)) continue;
+          // Validate event partition files
+          const eventsDir = path.join(dataDir, 'events');
+          if (fs.existsSync(eventsDir)) {
+            for (const ef of fs.readdirSync(eventsDir).filter(f => f.endsWith('.json'))) {
+              const fp = path.join(eventsDir, ef);
               const raw = JSON.parse(fs.readFileSync(fp, 'utf8'));
-              const result = schema.safeParse(raw);
+              const result = eventSchema.safeParse(raw);
               if (result.success) {
-                console.log('  ✓', file);
+                console.log('  ✓ events/' + ef);
               } else {
-                console.error('  ✗', file);
+                console.error('  ✗ events/' + ef);
                 for (const err of result.error.errors.slice(0, 3)) {
                   console.error('    ', err.path.join('.'), ':', err.message);
                 }
                 failures++;
-              }
-            }
-
-            // Validate event partition files
-            const eventsDir = path.join(dataDir, 'events');
-            if (fs.existsSync(eventsDir)) {
-              for (const ef of fs.readdirSync(eventsDir).filter(f => f.endsWith('.json'))) {
-                const fp = path.join(eventsDir, ef);
-                const raw = JSON.parse(fs.readFileSync(fp, 'utf8'));
-                const result = eventSchema.safeParse(raw);
-                if (result.success) {
-                  console.log('  ✓ events/' + ef);
-                } else {
-                  console.error('  ✗ events/' + ef);
-                  for (const err of result.error.errors.slice(0, 3)) {
-                    console.error('    ', err.path.join('.'), ':', err.message);
-                  }
-                  failures++;
-                }
               }
             }
           }
@@ -210,9 +194,8 @@ jobs:
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add trackers/
-          SLUG="${TRACKER_SLUG:-all}"
-          git commit -m "chore(data): nightly AI update ${SLUG} $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          git add src/data/
+          git commit -m "chore(data): nightly AI update $(date -u +%Y-%m-%dT%H:%M:%SZ)"
           # Retry up to 3 times in case remote has new commits
           for i in 1 2 3; do
             git pull --rebase origin main && git push && break
