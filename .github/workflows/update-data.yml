@@ -5,8 +5,8 @@ on:
     - cron: '0 6 * * *'  # 6 AM UTC daily
   workflow_dispatch:
     inputs:
-      sections:
-        description: 'Sections to update (comma-separated, or "all")'
+      tracker_slug:
+        description: 'Tracker to update (slug or "all")'
         required: false
         default: 'all'
 
@@ -38,37 +38,60 @@ jobs:
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           prompt: |
-            You are the nightly data updater for the Iran Conflict Tracker dashboard.
+            You are the nightly data updater for the Intel Dashboard platform.
+            This is a multi-tracker intelligence dashboard. Each tracker lives in trackers/{slug}/.
 
-            Your job: search the web for the latest Iran-US/Israel conflict developments
-            and update the JSON data files in src/data/.
+            Your job: search the web for the latest developments for each active tracker
+            and update their JSON data files in trackers/{slug}/data/.
 
-            INSTRUCTIONS:
-            1. Read src/lib/schemas.ts to understand all data schemas
-            2. Read scripts/update-data.ts to understand the SYSTEM_PROMPT, section structure, and merge-by-ID pattern
-            3. Read the current data files in src/data/ to see existing entries
-            4. Search the web for the latest developments (today and recent days)
-            5. Update each section following the exact schema shapes:
-               - src/data/kpis.json (key metrics)
-               - src/data/timeline.json (historical eras/phases)
-               - src/data/events/*.json (daily event files, named YYYY-MM-DD.json)
-               - src/data/map-points.json (geographic points of interest)
-               - src/data/map-lines.json (strike/retaliation arcs with weapon data)
-               - src/data/strike-targets.json (strike target details)
-               - src/data/retaliation.json (retaliation actions)
-               - src/data/assets.json (military assets)
-               - src/data/casualties.json (casualty figures)
-               - src/data/econ.json (economic indicators)
-               - src/data/claims.json (claims from different parties)
-               - src/data/political.json (political developments)
-               - src/data/meta.json (last updated timestamp)
+            STEP 1 — DISCOVER TRACKERS:
+            Read each trackers/*/tracker.json to find active trackers.
+            If TRACKER_SLUG is set to a specific slug, only update that tracker.
+            Current trackers: iran-conflict, ayotzinapa.
+
+            STEP 2 — UNDERSTAND SCHEMAS:
+            Read src/lib/schemas.ts to understand all data schemas.
+            Read scripts/update-data.ts to understand the merge-by-ID pattern.
+
+            STEP 3 — FOR EACH ACTIVE TRACKER:
+            Read the tracker's config (trackers/{slug}/tracker.json) for:
+            - ai.systemPrompt: the system prompt with search context
+            - ai.searchContext: what to search for
+            - ai.enabledSections: which sections to update
+            - ai.coordValidation: geographic bounds for map data
+            - startDate: when the tracked event began
+
+            Read current data files in trackers/{slug}/data/ to see existing entries.
+            Search the web for the latest developments.
+            Update each data file following the exact schema shapes:
+              - trackers/{slug}/data/kpis.json (key metrics)
+              - trackers/{slug}/data/timeline.json (historical eras/phases)
+              - trackers/{slug}/data/events/*.json (daily event files, YYYY-MM-DD.json)
+              - trackers/{slug}/data/map-points.json (geographic points of interest)
+              - trackers/{slug}/data/map-lines.json (strike/retaliation arcs with weapon data)
+              - trackers/{slug}/data/strike-targets.json (strike target details)
+              - trackers/{slug}/data/retaliation.json (retaliation actions)
+              - trackers/{slug}/data/assets.json (military assets)
+              - trackers/{slug}/data/casualties.json (casualty figures)
+              - trackers/{slug}/data/econ.json (economic indicators)
+              - trackers/{slug}/data/claims.json (claims from different parties)
+              - trackers/{slug}/data/political.json (political developments)
+              - trackers/{slug}/data/meta.json (last updated timestamp)
+
+            HIGH PRIORITY — MAP DATA (map-lines.json & map-points.json):
+            These files power the 2D map AND 3D globe missile trajectory animations.
+            For each new military strike or retaliation event found:
+            - Add an entry to map-lines.json with: from/to coordinates, cat (strike/retaliation),
+              weaponType, launched, intercepted, confidence, time (HH:MM), platform, status
+            - Add corresponding map-points.json entries for new locations
+            - Ensure coordinates are within the tracker's coordValidation bounds
+            DO NOT skip map-lines even if other sections take many turns.
 
             RULES:
             - Use merge-by-ID: never remove existing entries, only add new or update existing
             - Every entry needs an `id` field (kebab-case, descriptive)
             - Tag sources with tier (1-4) and pole (western/middle_eastern/eastern/international)
             - Use OSINT confirmation: 1 Tier-1 or 2+ Tier-2 sources = confirmed
-            - Validate coordinates are within theater bounds (lon 25-65°E, lat 20-42°N)
             - Set `lastUpdated` on modified entries
             - Create new daily event file if today's doesn't exist
             - Casualty `contested` field: yes/no/evolving/heavily/partial
@@ -78,16 +101,18 @@ jobs:
 
             IMPORTANT: Do NOT commit or push changes. The workflow will handle validation, commit, and push after you finish.
           claude_args: "--max-turns 50 --dangerously-skip-permissions"
+        env:
+          TRACKER_SLUG: ${{ github.event.inputs.tracker_slug || 'all' }}
 
       - name: Check for changes
         id: changes
         run: |
           echo "=== Git status ==="
-          git status --short src/data/
-          git add src/data/
+          git status --short trackers/
+          git add trackers/
           echo "=== Staged changes ==="
-          git diff --cached --name-only src/data/
-          if git diff --cached --quiet src/data/; then
+          git diff --cached --name-only trackers/
+          if git diff --cached --quiet trackers/; then
             echo "changed=false" >> $GITHUB_OUTPUT
             echo "No changes detected"
           else
@@ -101,7 +126,7 @@ jobs:
         run: |
           echo "=== Validating JSON syntax ==="
           invalid=0
-          for f in $(find src/data -name '*.json' -type f); do
+          for f in $(find trackers -name '*.json' -path '*/data/*' -type f); do
             if ! node -e "JSON.parse(require('fs').readFileSync('$f','utf8'))" 2>/dev/null; then
               echo "INVALID JSON: $f"
               invalid=$((invalid + 1))
@@ -143,40 +168,46 @@ jobs:
           const eventSchema = z.array(S.TimelineEventSchema);
 
           let failures = 0;
-          const dataDir = 'src/data';
 
-          console.log('--- Checking', dataDir, '---');
-          for (const [file, schema] of Object.entries(schemaMap)) {
-            const fp = path.join(dataDir, file);
-            if (!fs.existsSync(fp)) continue;
-            const raw = JSON.parse(fs.readFileSync(fp, 'utf8'));
-            const result = schema.safeParse(raw);
-            if (result.success) {
-              console.log('  ✓', file);
-            } else {
-              console.error('  ✗', file);
-              for (const err of result.error.errors.slice(0, 3)) {
-                console.error('    ', err.path.join('.'), ':', err.message);
-              }
-              failures++;
-            }
-          }
+          // Iterate over all tracker data directories
+          const trackersDir = 'trackers';
+          for (const slug of fs.readdirSync(trackersDir)) {
+            const dataDir = path.join(trackersDir, slug, 'data');
+            if (!fs.existsSync(dataDir) || !fs.statSync(dataDir).isDirectory()) continue;
 
-          // Validate event partition files
-          const eventsDir = path.join(dataDir, 'events');
-          if (fs.existsSync(eventsDir)) {
-            for (const ef of fs.readdirSync(eventsDir).filter(f => f.endsWith('.json'))) {
-              const fp = path.join(eventsDir, ef);
+            console.log('--- Checking', slug, '---');
+            for (const [file, schema] of Object.entries(schemaMap)) {
+              const fp = path.join(dataDir, file);
+              if (!fs.existsSync(fp)) continue;
               const raw = JSON.parse(fs.readFileSync(fp, 'utf8'));
-              const result = eventSchema.safeParse(raw);
+              const result = schema.safeParse(raw);
               if (result.success) {
-                console.log('  ✓ events/' + ef);
+                console.log('  ✓', file);
               } else {
-                console.error('  ✗ events/' + ef);
+                console.error('  ✗', file);
                 for (const err of result.error.errors.slice(0, 3)) {
                   console.error('    ', err.path.join('.'), ':', err.message);
                 }
                 failures++;
+              }
+            }
+
+            // Validate event partition files
+            const eventsDir = path.join(dataDir, 'events');
+            if (fs.existsSync(eventsDir)) {
+              for (const ef of fs.readdirSync(eventsDir).filter(f => f.endsWith('.json'))) {
+                const fp = path.join(eventsDir, ef);
+                const raw = JSON.parse(fs.readFileSync(fp, 'utf8'));
+                const result = eventSchema.safeParse(raw);
+                if (result.success) {
+                  console.log('  ✓ events/' + ef);
+                } else {
+                  console.error('  ✗ events/' + ef);
+                  for (const err of result.error.errors.slice(0, 3)) {
+                    console.error('    ', err.path.join('.'), ':', err.message);
+                  }
+                  failures++;
+                }
               }
             }
           }
@@ -194,7 +225,7 @@ jobs:
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add src/data/
+          git add trackers/
           git commit -m "chore(data): nightly AI update $(date -u +%Y-%m-%dT%H:%M:%SZ)"
           # Retry up to 3 times in case remote has new commits
           for i in 1 2 3; do

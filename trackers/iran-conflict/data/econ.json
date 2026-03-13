@@ -2,8 +2,8 @@
   {
     "id": "brent_crude",
     "label": "Brent Crude",
-    "value": "$112.98/bbl",
-    "change": "+45.3%",
+    "value": "~$90/bbl",
+    "change": "+15.7% (volatile)",
     "direction": "up",
     "sparkData": [
       77.74,
@@ -12,17 +12,19 @@
       88,
       94,
       108,
-      112.98
+      112.98,
+      79.5,
+      90.2
     ],
     "color": "#e74c3c",
-    "source": "Reuters / Al Jazeera",
-    "lastUpdated": "2026-03-10T06:00:00.000Z"
+    "source": "Reuters / Al Jazeera / CNBC",
+    "lastUpdated": "2026-03-11T06:00:00.000Z"
   },
   {
     "id": "wti_crude",
     "label": "WTI Crude",
-    "value": "$109.50/bbl",
-    "change": "+43.7%",
+    "value": "~$87/bbl",
+    "change": "+12.1% (volatile)",
     "direction": "up",
     "sparkData": [
       71.23,
@@ -31,11 +33,13 @@
       84,
       91,
       103,
-      109.5
+      109.5,
+      76.8,
+      87.1
     ],
     "color": "#e67e22",
     "source": "Reuters / Al Jazeera",
-    "lastUpdated": "2026-03-10T06:00:00.000Z"
+    "lastUpdated": "2026-03-11T06:00:00.000Z"
   },
   {
     "id": "gold_spot",
@@ -123,8 +127,8 @@
   {
     "id": "gas_price_us",
     "label": "US Gas Price",
-    "value": "$3.45/gal",
-    "change": "+50¢ in 1 week",
+    "value": "$3.54/gal",
+    "change": "+17% since Feb 28",
     "direction": "up",
     "sparkData": [
       2.95,
@@ -133,11 +137,12 @@
       3.3,
       3.35,
       3.4,
-      3.45
+      3.45,
+      3.54
     ],
     "color": "#e74c3c",
     "source": "NPR / AAA",
-    "lastUpdated": "2026-03-10T06:00:00.000Z"
+    "lastUpdated": "2026-03-11T06:00:00.000Z"
   },
   {
     "id": "shipping_rates",
