@@ -22,7 +22,8 @@ import {
 
 interface MissileAnimation {
   lineId: string;
-  startSimTime: number;
+  arcStartTime: number;
+  launchFraction: number;
   simDuration: number;
   arcPositions: Cartesian3[];
   trailEntity: Entity | null;
@@ -36,6 +37,21 @@ const PER_ARC_CAP = 50;
 const MAX_TOTAL_PROJECTILES = 400;
 /** Max animated arcs (lines with trails) */
 const MAX_ARCS = 30;
+
+/** Animation duration bounds in real (wall-clock) seconds */
+const MIN_REAL_SEC = 2;
+const MAX_REAL_SEC = 12;
+
+/**
+ * Cap sim duration so animation takes MIN_REAL_SEC–MAX_REAL_SEC wall-clock
+ * seconds regardless of playback speed.
+ */
+function effectiveDuration(simDuration: number, clockMultiplier: number): number {
+  const m = Math.abs(clockMultiplier) || 1;
+  const minSim = MIN_REAL_SEC * m * 1000;
+  const maxSim = MAX_REAL_SEC * m * 1000;
+  return Math.max(minSim, Math.min(simDuration, maxSim));
+}
 
 // Seeded random for deterministic spread per line
 function seededRandom(seed: number): () => number {
@@ -95,6 +111,8 @@ function computeLateralOffsets(lines: MapLine[]): Map<string, number> {
  * - When playing: animates strike/retaliation synced to sim-time velocity.
  *   Each arc spawns up to PER_ARC_CAP projectiles along randomized parallel
  *   paths with staggered launch times — creating a realistic missile swarm.
+ *   Animation duration is dynamically capped to 2–12 real seconds at any
+ *   clock speed via viewer.clock.multiplier.
  * - When not playing: shows all lines as static arcs.
  * - On date/lines change: cleans up all entities and rebuilds.
  */
@@ -182,7 +200,6 @@ export function useMissiles(
     }
 
     const baseSimTime = new Date(currentDate + 'T00:00:00Z').getTime();
-    // Note: no inter-arc stagger — line.time offsets handle temporal spacing
     let totalProjectiles = 0;
 
     for (let i = 0; i < animatable.length; i++) {
@@ -190,7 +207,7 @@ export function useMissiles(
       const peakAlt = weaponPeakAlt(line.weaponType);
       const arcOffset = lateralOffsets.get(line.id) ?? 0;
       const mainArc = arc3D(line.from, line.to, 60, peakAlt, arcOffset);
-      // Physics-based sim duration — animation speed follows the Cesium clock
+      // Physics-based sim duration — dynamically capped per clock speed in callbacks
       const simDuration = simFlightDurationTyped(line.from, line.to, line.weaponType);
       const color = catToCesiumColor(line.cat);
       const baseSize = weaponProjectileSize(line.weaponType);
@@ -227,16 +244,19 @@ export function useMissiles(
       // ── Trail entity (single growing polyline per arc) ──
       const trailAnim: MissileAnimation = {
         lineId: line.id,
-        startSimTime: arcStartTime,
+        arcStartTime,
+        launchFraction: 0,
         simDuration,
         arcPositions: mainArc,
         trailEntity: viewer.entities.add({
           polyline: {
             positions: new CallbackProperty((_time?: JulianDate) => {
               if (trailAnim.completed) return mainArc;
+              const mult = viewer.isDestroyed() ? 1 : viewer.clock.multiplier;
+              const effDur = effectiveDuration(simDuration, mult);
               const nowMs = viewer.isDestroyed() ? arcStartTime : viewerNowMs(viewer);
               const simElapsed = nowMs - arcStartTime;
-              const progress = Math.min(Math.max(simElapsed / simDuration, 0), 1);
+              const progress = Math.min(Math.max(simElapsed / effDur, 0), 1);
               const segCount = Math.max(1, Math.floor(progress * mainArc.length));
               return mainArc.slice(0, segCount);
             }, false) as any,
@@ -254,8 +274,6 @@ export function useMissiles(
 
       // ── Projectile swarm ──
       const rng = seededRandom(hashString(line.id));
-      // Spread launches over first 40% of flight duration
-      const launchSpread = simDuration * 0.4;
       // Lateral spread in degrees — scales with distance
       const baseLateralSpread = projCount > 1 ? 0.4 : 0;
 
@@ -281,21 +299,25 @@ export function useMissiles(
           projArc = mainArc;
         }
 
-        // Stagger launch time
-        const projStart = arcStartTime + (projCount > 1 ? rng() * launchSpread : 0);
+        // Stagger: fraction of flight time (0–0.4), computed dynamically
+        const launchFrac = projCount > 1 ? rng() * 0.4 : 0;
 
         const projAnim: MissileAnimation = {
           lineId: `${line.id}_p${p}`,
-          startSimTime: projStart,
+          arcStartTime,
+          launchFraction: launchFrac,
           simDuration,
           arcPositions: projArc,
           trailEntity: null,
           projectileEntity: viewer.entities.add({
             position: new CallbackProperty((_time?: JulianDate) => {
               if (projAnim.completed) return projArc[projArc.length - 1];
-              const nowMs = viewer.isDestroyed() ? projStart : viewerNowMs(viewer);
-              const simElapsed = nowMs - projStart;
-              const progress = Math.min(Math.max(simElapsed / simDuration, 0), 1);
+              const mult = viewer.isDestroyed() ? 1 : viewer.clock.multiplier;
+              const effDur = effectiveDuration(simDuration, mult);
+              const myStart = arcStartTime + launchFrac * effDur;
+              const nowMs = viewer.isDestroyed() ? arcStartTime : viewerNowMs(viewer);
+              const simElapsed = nowMs - myStart;
+              const progress = Math.min(Math.max(simElapsed / effDur, 0), 1);
               const idx = Math.min(
                 Math.floor(progress * (projArc.length - 1)),
                 projArc.length - 1,
@@ -325,12 +347,15 @@ export function useMissiles(
 
       let anyActive = false;
       const nowMs = viewer.isDestroyed() ? 0 : viewerNowMs(viewer);
+      const mult = viewer.clock.multiplier;
 
       for (const anim of animationsRef.current) {
         if (anim.completed) continue;
 
-        const simElapsed = nowMs - anim.startSimTime;
-        if (simElapsed >= anim.simDuration) {
+        const effDur = effectiveDuration(anim.simDuration, mult);
+        const myStart = anim.arcStartTime + anim.launchFraction * effDur;
+        const simElapsed = nowMs - myStart;
+        if (simElapsed >= effDur) {
           if (anim.projectileEntity) {
             try { viewer.entities.remove(anim.projectileEntity); } catch { /* ok */ }
             anim.projectileEntity = null;

@@ -63,6 +63,8 @@ const LINE_CAT_COLORS: Record<string, string> = {
 
 const SPEEDS = [
   { label: '1x',   value: 1 },
+  { label: '2x',   value: 2 },
+  { label: '5x',   value: 5 },
   { label: '10m',  value: 600 },
   { label: '30m',  value: 1800 },
   { label: '1hr',  value: 3600 },

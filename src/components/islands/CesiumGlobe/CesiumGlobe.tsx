@@ -184,6 +184,7 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [] }: 
       const viewer = viewerRef.current?.cesiumElement;
       if (viewer && !viewer.isDestroyed()) {
         viewer.clock.currentTime = JulianDate.fromDate(new Date(simTimeRef.current));
+        viewer.clock.multiplier = playbackSpeed;
       }
 
       // In live mode (1x), clamp to real time; otherwise clamp to end of timeline
