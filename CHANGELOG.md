@@ -8,6 +8,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Map data backfill Mar 9-13**: 33 new map-lines and 15 new map-points for Iran conflict tracker
+  - March 9: IDF airfield strikes (6 bases), IRGC Space Command, Ahvaz Drone HQ, Bandar Abbas naval ship, Isfahan IRGC leaders, NATO Turkey intercept, Iran northern Israel waves, Shaybah interception
+  - March 10: Tehran south refinery, Iran Haifa oil refineries retaliation, Tel Aviv cluster warhead barrages
+  - March 11: IRGC most intense operation (advanced missiles), Hormuz mine field front, commercial ship struck, Bahrain/Saudi continued strikes
+  - March 12: Beirut diplomats killed, Lebanon Hezbollah response, Oman Salalah fuel depot, Bahrain Muharraq, Jerusalem near Old City, container ship UAE, US tanker Iraq waters, UAE/Saudi continued
+  - March 13: 3 ships in Gulf, Israel barrages, Gulf states continued, US-Israel 6000+ targets, Hormuz mine clearance, French soldier killed Iraq Kurdistan, KC-135 crash, Hezbollah rockets
 - **Ayotzinapa tracker** (Phase 8): Second tracker (`trackers/ayotzinapa/`) to validate multi-tracker system
   - `tracker.json` config with map categories (disappearance, search, investigation, protest), custom AI prompt, and Ayotzinapa-specific event types
   - 14 seed data files: meta, kpis (6 items), timeline (2 eras, 4 events), map-points (4 locations), claims (2 contested narratives), political (3 figures), plus empty arrays for unused sections
