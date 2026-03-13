@@ -6,9 +6,9 @@ on:
   workflow_dispatch:
     inputs:
       tracker_slug:
-        description: 'Tracker to update (slug or "all")'
+        description: 'Tracker slug to update (e.g. iran-conflict, ayotzinapa)'
         required: false
-        default: 'all'
+        default: 'iran-conflict'
 
 permissions:
   contents: write
@@ -35,74 +35,60 @@ jobs:
 
       - name: Update data with Claude Code
         uses: anthropics/claude-code-action@v1
+        continue-on-error: true
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           prompt: |
             You are the nightly data updater for the Intel Dashboard platform.
-            This is a multi-tracker intelligence dashboard. Each tracker lives in trackers/{slug}/.
+            Update ONLY the tracker: ${{ github.event.inputs.tracker_slug || 'iran-conflict' }}
 
-            Your job: search the web for the latest developments for each active tracker
-            and update their JSON data files in trackers/{slug}/data/.
+            Data directory: trackers/${{ github.event.inputs.tracker_slug || 'iran-conflict' }}/data/
 
-            STEP 1 — DISCOVER TRACKERS:
-            Read each trackers/*/tracker.json to find active trackers.
-            If TRACKER_SLUG is set to a specific slug, only update that tracker.
-            Current trackers: iran-conflict, ayotzinapa.
-
-            STEP 2 — UNDERSTAND SCHEMAS:
+            STEP 1 — UNDERSTAND SCHEMAS:
             Read src/lib/schemas.ts to understand all data schemas.
-            Read scripts/update-data.ts to understand the merge-by-ID pattern.
 
-            STEP 3 — FOR EACH ACTIVE TRACKER:
-            Read the tracker's config (trackers/{slug}/tracker.json) for:
-            - ai.systemPrompt: the system prompt with search context
+            STEP 2 — READ TRACKER CONFIG:
+            Read trackers/${{ github.event.inputs.tracker_slug || 'iran-conflict' }}/tracker.json for:
             - ai.searchContext: what to search for
             - ai.enabledSections: which sections to update
             - ai.coordValidation: geographic bounds for map data
-            - startDate: when the tracked event began
 
-            Read current data files in trackers/{slug}/data/ to see existing entries.
-            Search the web for the latest developments.
-            Update each data file following the exact schema shapes:
-              - trackers/{slug}/data/kpis.json (key metrics)
-              - trackers/{slug}/data/timeline.json (historical eras/phases)
-              - trackers/{slug}/data/events/*.json (daily event files, YYYY-MM-DD.json)
-              - trackers/{slug}/data/map-points.json (geographic points of interest)
-              - trackers/{slug}/data/map-lines.json (strike/retaliation arcs with weapon data)
-              - trackers/{slug}/data/strike-targets.json (strike target details)
-              - trackers/{slug}/data/retaliation.json (retaliation actions)
-              - trackers/{slug}/data/assets.json (military assets)
-              - trackers/{slug}/data/casualties.json (casualty figures)
-              - trackers/{slug}/data/econ.json (economic indicators)
-              - trackers/{slug}/data/claims.json (claims from different parties)
-              - trackers/{slug}/data/political.json (political developments)
-              - trackers/{slug}/data/meta.json (last updated timestamp)
+            STEP 3 — UPDATE DATA:
+            Read current data files, search the web for latest developments, update files:
+              - trackers/${{ github.event.inputs.tracker_slug || 'iran-conflict' }}/data/map-lines.json (HIGH PRIORITY — missile trajectories for 2D map + 3D globe)
+              - trackers/${{ github.event.inputs.tracker_slug || 'iran-conflict' }}/data/map-points.json (HIGH PRIORITY — geographic points)
+              - trackers/${{ github.event.inputs.tracker_slug || 'iran-conflict' }}/data/events/*.json (daily event files, YYYY-MM-DD.json)
+              - trackers/${{ github.event.inputs.tracker_slug || 'iran-conflict' }}/data/kpis.json
+              - trackers/${{ github.event.inputs.tracker_slug || 'iran-conflict' }}/data/casualties.json
+              - trackers/${{ github.event.inputs.tracker_slug || 'iran-conflict' }}/data/econ.json
+              - trackers/${{ github.event.inputs.tracker_slug || 'iran-conflict' }}/data/claims.json
+              - trackers/${{ github.event.inputs.tracker_slug || 'iran-conflict' }}/data/political.json
+              - trackers/${{ github.event.inputs.tracker_slug || 'iran-conflict' }}/data/strike-targets.json
+              - trackers/${{ github.event.inputs.tracker_slug || 'iran-conflict' }}/data/retaliation.json
+              - trackers/${{ github.event.inputs.tracker_slug || 'iran-conflict' }}/data/assets.json
+              - trackers/${{ github.event.inputs.tracker_slug || 'iran-conflict' }}/data/timeline.json
+              - trackers/${{ github.event.inputs.tracker_slug || 'iran-conflict' }}/data/meta.json
 
-            HIGH PRIORITY — MAP DATA (map-lines.json & map-points.json):
-            These files power the 2D map AND 3D globe missile trajectory animations.
-            For each new military strike or retaliation event found:
-            - Add an entry to map-lines.json with: from/to coordinates, cat (strike/retaliation),
-              weaponType, launched, intercepted, confidence, time (HH:MM), platform, status
-            - Add corresponding map-points.json entries for new locations
-            - Ensure coordinates are within the tracker's coordValidation bounds
-            DO NOT skip map-lines even if other sections take many turns.
+            MAP DATA IS HIGHEST PRIORITY — update map-lines.json FIRST:
+            For each new military strike or retaliation event:
+            - Add to map-lines.json: from/to coords, cat (strike/retaliation), weaponType, launched, intercepted, confidence, time (HH:MM), platform, status
+            - Add map-points.json entries for new locations
+            - Validate coordinates within tracker's coordValidation bounds
 
             RULES:
-            - Use merge-by-ID: never remove existing entries, only add new or update existing
+            - Merge-by-ID: never remove existing entries, only add new or update existing
             - Every entry needs an `id` field (kebab-case, descriptive)
             - Tag sources with tier (1-4) and pole (western/middle_eastern/eastern/international)
-            - Use OSINT confirmation: 1 Tier-1 or 2+ Tier-2 sources = confirmed
-            - Set `lastUpdated` on modified entries
+            - OSINT confirmation: 1 Tier-1 or 2+ Tier-2 sources = confirmed
             - Create new daily event file if today's doesn't exist
-            - Casualty `contested` field: yes/no/evolving/heavily/partial
             - Update meta.json with current timestamp
 
-            After updating, verify the changes by reading back modified files to confirm valid JSON.
+            After updating, verify changes by reading back modified files to confirm valid JSON.
 
-            IMPORTANT: Do NOT commit or push changes. The workflow will handle validation, commit, and push after you finish.
+            IMPORTANT: Do NOT commit or push. The workflow handles that.
           claude_args: "--max-turns 50 --dangerously-skip-permissions"
         env:
-          TRACKER_SLUG: ${{ github.event.inputs.tracker_slug || 'all' }}
+          TRACKER_SLUG: ${{ github.event.inputs.tracker_slug || 'iran-conflict' }}
 
       - name: Check for changes
         id: changes
