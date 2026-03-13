@@ -38,9 +38,25 @@ const MAX_TOTAL_PROJECTILES = 400;
 /** Max animated arcs (lines with trails) */
 const MAX_ARCS = 30;
 
+/** Arc segments — higher = smoother projectile movement */
+const ARC_SEGMENTS = 200;
+
 /** Animation duration bounds in real (wall-clock) seconds */
 const MIN_REAL_SEC = 2;
 const MAX_REAL_SEC = 12;
+
+/** Scratch Cartesian3 for interpolation (avoids GC pressure) */
+const scratchLerp = new Cartesian3();
+
+/** Linearly interpolate along a polyline arc at fractional position t ∈ [0,1] */
+function lerpArc(arc: Cartesian3[], t: number): Cartesian3 {
+  const maxIdx = arc.length - 1;
+  const fIdx = t * maxIdx;
+  const lo = Math.floor(fIdx);
+  const hi = Math.min(lo + 1, maxIdx);
+  const frac = fIdx - lo;
+  return Cartesian3.lerp(arc[lo], arc[hi], frac, scratchLerp);
+}
 
 /**
  * Cap sim duration so animation takes MIN_REAL_SEC–MAX_REAL_SEC wall-clock
@@ -206,7 +222,7 @@ export function useMissiles(
       const line = animatable[i];
       const peakAlt = weaponPeakAlt(line.weaponType);
       const arcOffset = lateralOffsets.get(line.id) ?? 0;
-      const mainArc = arc3D(line.from, line.to, 60, peakAlt, arcOffset);
+      const mainArc = arc3D(line.from, line.to, ARC_SEGMENTS, peakAlt, arcOffset);
       // Physics-based sim duration — dynamically capped per clock speed in callbacks
       const simDuration = simFlightDurationTyped(line.from, line.to, line.weaponType);
       const color = catToCesiumColor(line.cat);
@@ -294,7 +310,7 @@ export function useMissiles(
             line.to[0] + offsetLon * 0.15,
             line.to[1] + offsetLat * 0.15,
           ];
-          projArc = arc3D(projFrom, projTo, 60, peakAlt * altFactor, arcOffset);
+          projArc = arc3D(projFrom, projTo, ARC_SEGMENTS, peakAlt * altFactor, arcOffset);
         } else {
           projArc = mainArc;
         }
@@ -318,11 +334,7 @@ export function useMissiles(
               const nowMs = viewer.isDestroyed() ? arcStartTime : viewerNowMs(viewer);
               const simElapsed = nowMs - myStart;
               const progress = Math.min(Math.max(simElapsed / effDur, 0), 1);
-              const idx = Math.min(
-                Math.floor(progress * (projArc.length - 1)),
-                projArc.length - 1,
-              );
-              return projArc[idx];
+              return lerpArc(projArc, progress);
             }, false) as any,
             point: {
               pixelSize: p === 0 ? baseSize : projSize,
