@@ -2,25 +2,25 @@
   {
     "id": "days_of_conflict",
     "label": "Days of Conflict",
-    "value": "12",
+    "value": "14",
     "color": "red",
     "source": "Al Jazeera",
     "contested": false,
-    "delta": "+1",
+    "delta": "+2",
     "trend": "up",
-    "lastUpdated": "2026-03-11T06:00:00.000Z"
+    "lastUpdated": "2026-03-13T06:00:00.000Z"
   },
   {
     "id": "iran_killed",
     "label": "Iran Killed",
-    "value": "2,600+",
+    "value": "2,800+",
     "color": "red",
-    "source": "Al Jazeera / HRANA / Hengaw",
+    "source": "Al Jazeera / HRANA / Hengaw / Iranian Red Crescent",
     "contested": true,
-    "contestNote": "Iran claims 1,300+ civilians killed and ~10,000 civilian sites struck; Hengaw estimates 4,300+ total (incl. ~390 civilians) in first 10 days; HRANA estimates exceed 2,400 including 181+ children; internet blackout (~1% connectivity / 240hrs) severely limits verification. 5,000+ targets struck by US/Israel per CENTCOM.",
+    "contestNote": "Iranian Red Crescent: 1,348+ civilians killed, 17,000+ injured. HRANA estimates exceed 2,400 including 181+ children. Hengaw: 4,300+ total in first 10 days. Iran UN ambassador: ~10,000 civilian sites hit. Pentagon denies targeting civilian infrastructure. 3.2M Iranians displaced per UNHCR. Internet blackout (~1% connectivity / 290+ hrs) severely limits verification.",
     "delta": "+200+",
     "trend": "up",
-    "lastUpdated": "2026-03-11T06:00:00.000Z"
+    "lastUpdated": "2026-03-13T06:00:00.000Z"
   },
   {
     "id": "us_killed",
@@ -29,21 +29,21 @@
     "color": "amber",
     "source": "Pentagon",
     "contested": false,
-    "delta": "+1",
-    "trend": "up",
-    "lastUpdated": "2026-03-10T12:00:00.000Z"
+    "delta": "0",
+    "trend": "stable",
+    "lastUpdated": "2026-03-13T06:00:00.000Z"
   },
   {
     "id": "israel_killed",
     "label": "Israel Killed",
-    "value": "14+",
+    "value": "13+",
     "color": "amber",
     "source": "Israeli health authorities / Al Jazeera",
     "contested": false,
-    "delta": "+2",
-    "deltaNote": "2 civilians killed by Iranian cluster warhead missile in Yehud on March 10. Over 2,142 Israelis wounded in Iranian missile and drone attacks.",
-    "trend": "up",
-    "lastUpdated": "2026-03-10T12:00:00.000Z"
+    "delta": "0",
+    "deltaNote": "13 killed in Israel. 2,142+ Israelis wounded. Hezbollah launched its largest rocket barrage of the war on March 12, targeting northern Israel.",
+    "trend": "stable",
+    "lastUpdated": "2026-03-13T06:00:00.000Z"
   },
   {
     "id": "gulf_killed",
@@ -52,34 +52,34 @@
     "color": "red",
     "source": "Multiple Gulf defense ministries",
     "contested": false,
-    "delta": "+7+",
-    "trend": "up",
-    "lastUpdated": "2026-03-10",
-    "deltaNote": "Includes UAE (5, inc. 2 military), Bahrain (1), Kuwait (2), Saudi Arabia (2 foreign nationals), Oman (1). Gulf states reporting first direct civilian fatalities from Iranian strikes."
+    "delta": "0",
+    "trend": "stable",
+    "lastUpdated": "2026-03-13T06:00:00.000Z",
+    "deltaNote": "6 vessels struck in Persian Gulf in 48 hours (March 11-12). UAE, Bahrain, Kuwait, Saudi Arabia, Oman all struck. Oman fuel depot fire. Bahrain fuel tanks targeted March 12."
   },
   {
     "id": "lebanon_killed",
     "label": "Lebanon Killed",
-    "value": "570+",
+    "value": "634+",
     "color": "amber",
     "source": "Lebanese health authorities / Lebanese gov disaster office",
     "contested": false,
-    "delta": "+84+",
-    "deltaNote": "Death toll includes 83+ children. 750,000 displaced. French emergency UN Security Council meeting called re: Lebanon.",
+    "delta": "+64+",
+    "deltaNote": "Deaths include 91 children and 47 women. 800,000+ displaced (up from 750,000). Hezbollah launched largest rocket barrage yet on March 12. Lebanese PM Nawaf Salam: Lebanon 'did not want' this war.",
     "trend": "up",
-    "lastUpdated": "2026-03-11T06:00:00.000Z"
+    "lastUpdated": "2026-03-13T06:00:00.000Z"
   },
   {
     "id": "brent_crude",
     "label": "Brent Crude",
-    "value": "~$90",
+    "value": "~$100",
     "color": "red",
-    "source": "Al Jazeera / Reuters / CNBC",
+    "source": "Reuters / Al Jazeera / CNBC / Euronews",
     "contested": false,
-    "delta": "-$23",
-    "trend": "down",
-    "lastUpdated": "2026-03-11T06:00:00.000Z",
-    "deltaNote": "Wild swings March 11: plunged 17% to below $80 on ceasefire speculation and IEA reserve release reports, then rebounded to ~$90 after US Energy Secretary Chris Wright briefly posted (then deleted) a claim of Navy tanker escort through Hormuz. IEA considering largest-ever strategic reserve release."
+    "delta": "+$10",
+    "trend": "up",
+    "lastUpdated": "2026-03-13T06:00:00.000Z",
+    "deltaNote": "Spiked past $100/bbl overnight Mar 12-13 after Mojtaba Khamenei vowed Hormuz stays closed. IEA releases record 400M barrels (US: 172M from SPR). Iran warns '$200/bbl.' Despite reserve release, prices remain above $100. Largest supply disruption in IEA history."
   },
   {
     "id": "flights_cancelled",
@@ -88,10 +88,10 @@
     "color": "blue",
     "source": "FlightAware / Al Jazeera",
     "contested": false,
-    "delta": "+8,000",
-    "deltaNote": "Dubai International Airport attacked by Iranian drones. Israel suspended all civilian air travel. UAE extended flight disruptions.",
-    "trend": "up",
-    "lastUpdated": "2026-03-10"
+    "delta": "0",
+    "deltaNote": "~500 oil tankers stranded in Persian Gulf. Hormuz traffic near-zero. IEA: largest supply disruption in history of global oil market.",
+    "trend": "stable",
+    "lastUpdated": "2026-03-13T06:00:00.000Z"
   },
   {
     "id": "countries_affected",
@@ -100,9 +100,9 @@
     "color": "blue",
     "source": "Al Jazeera / Reuters",
     "contested": false,
-    "trend": "up",
-    "lastUpdated": "2026-03-10",
-    "delta": "+2",
-    "deltaNote": "Iran, Israel, Lebanon, UAE, Bahrain, Kuwait, Qatar, Saudi Arabia, Oman, Iraq, Jordan, Azerbaijan, Turkey, Cyprus (UK RAF base). Pakistan also affected (consulate attack)."
+    "trend": "stable",
+    "lastUpdated": "2026-03-13T06:00:00.000Z",
+    "delta": "0",
+    "deltaNote": "Iran, Israel, Lebanon, UAE, Bahrain, Kuwait, Qatar, Saudi Arabia, Oman, Iraq, Jordan, Azerbaijan, Turkey, Cyprus. 6 vessels struck in Persian Gulf. Iraqi waters struck for first time (Mar 12)."
   }
 ]

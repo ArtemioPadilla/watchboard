@@ -2,8 +2,8 @@
   {
     "id": "brent_crude",
     "label": "Brent Crude",
-    "value": "~$90/bbl",
-    "change": "+15.7% (volatile)",
+    "value": "~$100/bbl",
+    "change": "+28.7% (crisis)",
     "direction": "up",
     "sparkData": [
       77.74,
@@ -14,17 +14,18 @@
       108,
       112.98,
       79.5,
-      90.2
+      90.2,
+      100.5
     ],
     "color": "#e74c3c",
-    "source": "Reuters / Al Jazeera / CNBC",
-    "lastUpdated": "2026-03-11T06:00:00.000Z"
+    "source": "Reuters / Al Jazeera / CNBC / Euronews",
+    "lastUpdated": "2026-03-13T06:00:00.000Z"
   },
   {
     "id": "wti_crude",
     "label": "WTI Crude",
-    "value": "~$87/bbl",
-    "change": "+12.1% (volatile)",
+    "value": "~$97/bbl",
+    "change": "+25.3% (crisis)",
     "direction": "up",
     "sparkData": [
       71.23,
@@ -35,11 +36,12 @@
       103,
       109.5,
       76.8,
-      87.1
+      87.1,
+      97.0
     ],
     "color": "#e67e22",
     "source": "Reuters / Al Jazeera",
-    "lastUpdated": "2026-03-11T06:00:00.000Z"
+    "lastUpdated": "2026-03-13T06:00:00.000Z"
   },
   {
     "id": "gold_spot",
@@ -145,10 +147,21 @@
     "lastUpdated": "2026-03-11T06:00:00.000Z"
   },
   {
+    "id": "iea_reserve_release",
+    "label": "IEA Reserve Release",
+    "value": "400M bbl",
+    "change": "Largest in history",
+    "direction": "down",
+    "sparkData": [0, 0, 0, 0, 0, 50, 172, 400],
+    "color": "#3498db",
+    "source": "IEA / WaPo / NPR / CNBC",
+    "lastUpdated": "2026-03-13T06:00:00.000Z"
+  },
+  {
     "id": "shipping_rates",
     "label": "Shipping Rates",
     "value": "Near Zero",
-    "change": "Hormuz effectively closed",
+    "change": "Hormuz blockade; 500+ tankers stranded",
     "direction": "up",
     "sparkData": [
       100,
@@ -162,13 +175,13 @@
     ],
     "color": "#e67e22",
     "source": "Freightos / Bloomberg / Kpler",
-    "lastUpdated": "2026-03-10T12:00:00.000Z"
+    "lastUpdated": "2026-03-13T06:00:00.000Z"
   },
   {
     "id": "hormuz_traffic",
     "label": "Hormuz Traffic",
     "value": "~0%",
-    "change": "IRGC drone closure",
+    "change": "IRGC blockade; only 5 tankers left in 24hrs",
     "direction": "down",
     "sparkData": [
       100,
@@ -177,10 +190,11 @@
       30,
       10,
       3,
-      1
+      1,
+      0
     ],
     "color": "#e74c3c",
     "source": "Kpler / NPR / CNBC",
-    "lastUpdated": "2026-03-10T12:00:00.000Z"
+    "lastUpdated": "2026-03-13T06:00:00.000Z"
   }
 ]

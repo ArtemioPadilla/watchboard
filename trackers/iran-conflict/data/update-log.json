@@ -1,19 +1,19 @@
 {
-  "lastRun": "2026-03-10T12:00:00.000Z",
+  "lastRun": "2026-03-13T06:00:00.000Z",
   "provider": "anthropic",
-  "model": "claude-opus-4-6",
+  "model": "claude-sonnet-4-6",
   "sections": {
     "meta": {
       "status": "updated"
     },
     "kpis": {
       "status": "updated",
-      "itemCount": 8
+      "itemCount": 9
     },
     "events": {
-      "status": "unchanged",
-      "newFiles": [],
-      "newEvents": 0
+      "status": "updated",
+      "newFiles": ["2026-03-12.json", "2026-03-13.json"],
+      "newEvents": 10
     },
     "casualties": {
       "status": "updated",
@@ -21,11 +21,11 @@
     },
     "econ": {
       "status": "updated",
-      "itemCount": 8
+      "itemCount": 10
     },
     "political": {
       "status": "updated",
-      "itemCount": 31
+      "itemCount": 33
     },
     "map": {
       "status": "updated",
@@ -33,11 +33,19 @@
     },
     "claims": {
       "status": "updated",
-      "itemCount": 26
+      "itemCount": 31
     },
     "map-lines": {
       "status": "updated",
-      "newLines": 8
+      "newLines": 3
+    },
+    "strike-targets": {
+      "status": "updated",
+      "itemCount": 44
+    },
+    "retaliation": {
+      "status": "updated",
+      "itemCount": 36
     }
   }
 }
