@@ -13,6 +13,7 @@ A config-driven intelligence dashboard platform for tracking events of interest.
 | **[Iran Conflict](https://artemiopadilla.github.io/watchboard/iran-conflict/)** | 2026 Iran-US/Israel conflict (Operation Epic Fury / Roaring Lion) | 9 | Middle East theater | 3D |
 | **[September 11](https://artemiopadilla.github.io/watchboard/september-11/)** | 2001 terrorist attacks on the US, War on Terror, 9/11 Commission, and long-term consequences | 8 | US (NYC, DC, PA) | 3D |
 | **[Ayotzinapa](https://artemiopadilla.github.io/watchboard/ayotzinapa/)** | 2014 forced disappearance of 43 students in Iguala, Guerrero, Mexico | 6 | Guerrero, Mexico | 3D |
+| **[Chernobyl Disaster Tracker](https://artemiopadilla.github.io/watchboard/chernobyl-disaster/)** | Intelligence dashboard tracking the 1986 Chernobyl nuclear disaster — reactor ex... | 8 | Ukraine / Belarus / Soviet Union / Northern Europe | 3D |
 
 ---
 
