@@ -159,7 +159,8 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [], ca
     };
   }, [points, lines, isHistorical, endDate]);
 
-  const [currentDate, setCurrentDate] = useState(dateRange.max);
+  const initialDate = isHistorical ? dateRange.min : dateRange.max;
+  const [currentDate, setCurrentDate] = useState(initialDate);
   const currentDateRef = useRef(currentDate);
   currentDateRef.current = currentDate;
 
@@ -167,7 +168,7 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [], ca
   const [playbackSpeed, setPlaybackSpeed] = useState(3600); // default: 1hr per real second
 
   // Continuous simulation time (ms since epoch)
-  const simTimeRef = useRef<number>(dateToMs(dateRange.max)); // midnight of max date
+  const simTimeRef = useRef<number>(dateToMs(initialDate));
   const rafIdRef = useRef<number>(0);
   const lastFrameRef = useRef<number>(0);
   const lastDateUpdateRef = useRef<number>(0); // throttle setCurrentDate at high speeds
@@ -557,6 +558,7 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [], ca
         onTimeChange={handleTimeChange}
         zoomLevel={zoomLevel}
         onZoomChange={setZoomLevel}
+        isHistorical={isHistorical}
       />
 
       {isMobile ? (

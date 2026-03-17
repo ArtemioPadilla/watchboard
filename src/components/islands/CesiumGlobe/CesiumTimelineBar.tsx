@@ -121,6 +121,7 @@ interface Props {
   simTimeRef?: React.RefObject<number>;
   zoomLevel?: TimelineZoomLevel;
   onZoomChange?: (level: TimelineZoomLevel) => void;
+  isHistorical?: boolean;
 }
 
 /** Format time in a specific timezone offset (hours from UTC) */
@@ -225,6 +226,7 @@ export default function CesiumTimelineBar({
   onTimeChange,
   zoomLevel = 'all',
   onZoomChange,
+  isHistorical = false,
 }: Props) {
   const [showSpeeds, setShowSpeeds] = useState(false);
   const [clockTick, setClockTick] = useState(0);
@@ -366,14 +368,16 @@ export default function CesiumTimelineBar({
           )}
         </div>
 
-        {/* LIVE button */}
-        <button
-          className={`globe-tl-live ${mode === 'live' ? 'active' : ''}`}
-          onClick={onGoLive}
-        >
-          <span className="globe-tl-live-dot" />
-          LIVE
-        </button>
+        {/* LIVE button — only for live trackers */}
+        {!isHistorical && (
+          <button
+            className={`globe-tl-live ${mode === 'live' ? 'active' : ''}`}
+            onClick={onGoLive}
+          >
+            <span className="globe-tl-live-dot" />
+            LIVE
+          </button>
+        )}
 
         {/* Current date */}
         <span className="globe-tl-current-date">
@@ -383,13 +387,19 @@ export default function CesiumTimelineBar({
           )}
         </span>
 
-        {/* Timezone clocks */}
-        <div className="globe-tl-clocks">
-          <span className="globe-tl-clock"><span className="globe-tl-clock-label">TEHRAN</span> {formatTZ(simMs, 3.5)}</span>
-          <span className="globe-tl-clock"><span className="globe-tl-clock-label">TLV</span> {formatTZ(simMs, 3)}</span>
-          <span className="globe-tl-clock"><span className="globe-tl-clock-label">UTC</span> {formatTZ(simMs, 0)}</span>
-          <span className="globe-tl-clock"><span className="globe-tl-clock-label">CST</span> {formatTZ(simMs, -6)}</span>
-        </div>
+        {/* Clocks — sim-time UTC for historical, multi-zone real-time for live */}
+        {isHistorical ? (
+          <div className="globe-tl-clocks">
+            <span className="globe-tl-clock"><span className="globe-tl-clock-label">SIM</span> {formatTZ(simMs, 0)}</span>
+          </div>
+        ) : (
+          <div className="globe-tl-clocks">
+            <span className="globe-tl-clock"><span className="globe-tl-clock-label">TEHRAN</span> {formatTZ(simMs, 3.5)}</span>
+            <span className="globe-tl-clock"><span className="globe-tl-clock-label">TLV</span> {formatTZ(simMs, 3)}</span>
+            <span className="globe-tl-clock"><span className="globe-tl-clock-label">UTC</span> {formatTZ(simMs, 0)}</span>
+            <span className="globe-tl-clock"><span className="globe-tl-clock-label">CST</span> {formatTZ(simMs, -6)}</span>
+          </div>
+        )}
       </div>
 
       {/* Zoom controls row */}
