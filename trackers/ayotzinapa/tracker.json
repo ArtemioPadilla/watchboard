@@ -21,7 +21,14 @@
     ]
   },
   "globe": {
-    "enabled": false
+    "enabled": true,
+    "cameraPresets": {
+      "overview": { "lon": -99.5, "lat": 17.5, "alt": 1500000, "pitch": -90, "heading": 0, "label": "Guerrero Overview" },
+      "iguala": { "lon": -99.5, "lat": 18.35, "alt": 30000, "pitch": -90, "heading": 0, "label": "Iguala" },
+      "cocula": { "lon": -99.65, "lat": 18.25, "alt": 20000, "pitch": -90, "heading": 0, "label": "Cocula" },
+      "ayotzinapa": { "lon": -99.19, "lat": 17.60, "alt": 25000, "pitch": -90, "heading": 0, "label": "Ayotzinapa School" },
+      "mexico_city": { "lon": -99.13, "lat": 19.43, "alt": 80000, "pitch": -90, "heading": 0, "label": "Mexico City" }
+    }
   },
   "navSections": [
     { "id": "sec-timeline", "label": "Timeline" },

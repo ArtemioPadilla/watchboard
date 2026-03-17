@@ -2,11 +2,11 @@ import { useCallback, useRef, useEffect } from 'react';
 import { Cartesian3, Math as CesiumMath, HeadingPitchRange } from 'cesium';
 import type { CesiumComponentRef } from 'resium';
 import type { Viewer as CesiumViewer } from 'cesium';
-import { CAMERA_PRESETS, type CameraPresetKey } from '../../../lib/cesium-config';
+import type { CameraPresetKey, CameraPresetsMap } from '../../../lib/cesium-config';
 
 export type OrbitMode = 'off' | 'flat' | 'spiral_in' | 'spiral_out';
 
-export function useCesiumCamera(viewerRef: React.RefObject<CesiumComponentRef<CesiumViewer> | null>) {
+export function useCesiumCamera(viewerRef: React.RefObject<CesiumComponentRef<CesiumViewer> | null>, cameraPresets: CameraPresetsMap = {}) {
   const orbitModeRef = useRef<OrbitMode>('off');
   const orbitRafRef = useRef<number>(0);
   const orbitAngleRef = useRef(0);
@@ -18,7 +18,8 @@ export function useCesiumCamera(viewerRef: React.RefObject<CesiumComponentRef<Ce
     const viewer = viewerRef.current?.cesiumElement;
     if (!viewer) return;
 
-    const preset = CAMERA_PRESETS[presetKey];
+    const preset = cameraPresets[presetKey];
+    if (!preset) return;
     viewer.camera.flyTo({
       destination: Cartesian3.fromDegrees(preset.lon, preset.lat, preset.alt),
       orientation: {
@@ -28,7 +29,7 @@ export function useCesiumCamera(viewerRef: React.RefObject<CesiumComponentRef<Ce
       },
       duration: 2.0,
     });
-  }, [viewerRef]);
+  }, [viewerRef, cameraPresets]);
 
   const startOrbit = useCallback((mode: OrbitMode, speedDegPerSec: number = 3) => {
     const viewer = viewerRef.current?.cesiumElement;

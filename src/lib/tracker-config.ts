@@ -7,6 +7,7 @@ const CameraPresetSchema = z.object({
   alt: z.number(),
   pitch: z.number(),
   heading: z.number(),
+  label: z.string().optional(),
 });
 
 // ── Map category ──

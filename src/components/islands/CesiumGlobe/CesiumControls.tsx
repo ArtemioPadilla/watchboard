@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
 import { MAP_CATEGORIES } from '../../../lib/map-utils';
-import { type CameraPresetKey } from '../../../lib/cesium-config';
 import type { VisualMode } from './cesium-shaders';
 import type { OrbitMode } from './useCesiumCamera';
 import { SAT_GROUPS, type SatGroupCounts } from './useSatellites';
@@ -9,7 +8,7 @@ interface Props {
   activeFilters: Set<string>;
   onToggleFilter: (cat: string) => void;
   pointCounts: Record<string, number>;
-  onCameraPreset: (key: CameraPresetKey) => void;
+  onCameraPreset: (key: string) => void;
   visualMode: VisualMode;
   onVisualMode: (mode: VisualMode) => void;
   layers: {
@@ -29,19 +28,11 @@ interface Props {
   onToggleHud?: () => void;
   orbitMode?: OrbitMode;
   onOrbitMode?: (mode: OrbitMode) => void;
+  cameraPresets?: Record<string, { lon: number; lat: number; alt: number; pitch: number; heading: number; label?: string }>;
+  categories?: { id: string; label: string; color: string }[];
 }
 
 type ToolbarSection = 'filters' | 'camera' | 'visual' | 'layers';
-
-const PRESET_LABELS: Record<CameraPresetKey, string> = {
-  theater: 'Full Theater',
-  tehran: 'Tehran',
-  natanz: 'Natanz',
-  hormuz: 'Strait of Hormuz',
-  ford_csg: 'USS Ford CSG',
-  lincoln: 'USS Lincoln CSG',
-  red_sea: 'Red Sea',
-};
 
 const VISUAL_MODES: { id: VisualMode; label: string }[] = [
   { id: 'normal', label: 'Standard' },
@@ -79,6 +70,8 @@ export default function CesiumControls({
   onToggleHud,
   orbitMode,
   onOrbitMode,
+  cameraPresets = {},
+  categories = [],
 }: Props) {
   const [activeSection, setActiveSection] = useState<ToolbarSection | null>(null);
   const [aisKeyDraft, setAisKeyDraft] = useState('');
@@ -98,10 +91,12 @@ export default function CesiumControls({
 
   const toggle = (s: ToolbarSection) => setActiveSection(prev => prev === s ? null : s);
 
+  const filterCats = categories.length > 0 ? categories : MAP_CATEGORIES;
+
   const renderFilters = () => (
     <div className="globe-toolbar-flyout">
       <div className="globe-control-label">Filters</div>
-      {MAP_CATEGORIES.map(c => (
+      {filterCats.map(c => (
         <button
           key={c.id}
           className={`globe-filter${activeFilters.has(c.id) ? ' active' : ''}`}
@@ -131,9 +126,9 @@ export default function CesiumControls({
     <div className="globe-toolbar-flyout">
       <div className="globe-control-label">Camera Presets</div>
       <div className="globe-preset-grid">
-        {(Object.keys(PRESET_LABELS) as CameraPresetKey[]).map(key => (
+        {Object.entries(cameraPresets).map(([key, preset]) => (
           <button key={key} className="globe-preset-btn" onClick={() => { onCameraPreset(key); setActiveSection(null); }}>
-            {PRESET_LABELS[key]}
+            {preset.label || key.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
           </button>
         ))}
       </div>

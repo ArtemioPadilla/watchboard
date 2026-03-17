@@ -45,6 +45,9 @@ interface Props {
   kpis: KpiItem[];
   meta: Meta;
   events?: FlatEvent[];
+  cameraPresets?: Record<string, { lon: number; lat: number; alt: number; pitch: number; heading: number; label?: string }>;
+  categories?: { id: string; label: string; color: string }[];
+  mapCenter?: { lon: number; lat: number };
 }
 
 // Configure Cesium Ion on module load
@@ -70,14 +73,14 @@ function msToDateStr(ms: number): string {
   return new Date(ms).toISOString().split('T')[0];
 }
 
-export default function CesiumGlobe({ points, lines, kpis, meta, events = [] }: Props) {
+export default function CesiumGlobe({ points, lines, kpis, meta, events = [], cameraPresets = {}, categories = [], mapCenter }: Props) {
   const viewerRef = useRef<CesiumComponentRef<CesiumViewer> | null>(null);
   const creditDivRef = useRef<HTMLDivElement | null>(null);
   if (!creditDivRef.current && typeof document !== 'undefined') {
     creditDivRef.current = document.createElement('div');
   }
   const [cesiumViewer, setCesiumViewer] = useState<CesiumViewer | null>(null);
-  const { flyTo, startOrbit, stopOrbit, orbitModeRef } = useCesiumCamera(viewerRef);
+  const { flyTo, startOrbit, stopOrbit, orbitModeRef } = useCesiumCamera(viewerRef, cameraPresets);
 
   // ── Mobile detection ──
   const [isMobile, setIsMobile] = useState(() =>
@@ -92,7 +95,7 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [] }: 
 
   // ── Filters ──
   const [activeFilters, setActiveFilters] = useState<Set<string>>(
-    new Set(['strike', 'retaliation', 'asset', 'front']),
+    () => new Set(categories.map(c => c.id)),
   );
   const [selectedPoint, setSelectedPoint] = useState<MapPoint | null>(null);
 
@@ -100,9 +103,12 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [] }: 
   const [visualMode, setVisualMode] = useState<VisualMode>('normal');
 
   // ── Live data layer toggles ──
-  const [layers, setLayers] = useState({
-    satellites: true, flights: true, quakes: false, weather: false, nfz: true, ships: true,
-    gpsJam: true, internetBlackout: true, groundTruth: true,
+  const [layers, setLayers] = useState(() => {
+    const mil = categories.some(c => c.id === 'strike' || c.id === 'retaliation');
+    return {
+      satellites: true, flights: true, quakes: false, weather: false, nfz: mil, ships: mil,
+      gpsJam: mil, internetBlackout: mil, groundTruth: true,
+    };
   });
 
   // ── Events panel (default collapsed) ──
@@ -303,11 +309,12 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [] }: 
   );
 
   const pointCounts = useMemo(() => {
+    const cats = categories.length > 0 ? categories : MAP_CATEGORIES;
     const counts: Record<string, number> = {};
-    for (const c of MAP_CATEGORIES) counts[c.id] = 0;
+    for (const c of cats) counts[c.id] = 0;
     for (const p of filteredPoints) counts[p.cat] = (counts[p.cat] || 0) + 1;
     return counts;
-  }, [filteredPoints]);
+  }, [filteredPoints, categories]);
 
   // ── Post-processing shader management ──
   useEffect(() => {
@@ -332,7 +339,15 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [] }: 
 
   // Initial camera position + store viewer in state for hooks
   const handleViewerReady = useCallback((viewer: CesiumViewer) => {
-    Camera.DEFAULT_VIEW_RECTANGLE = Rectangle.fromDegrees(25, 12, 65, 42);
+    const center = mapCenter || { lon: 0, lat: 0 };
+    const firstPreset = Object.values(cameraPresets)[0];
+    const initLon = firstPreset?.lon ?? center.lon;
+    const initLat = firstPreset?.lat ?? center.lat;
+    const initAlt = firstPreset?.alt ?? 3_000_000;
+
+    Camera.DEFAULT_VIEW_RECTANGLE = Rectangle.fromDegrees(
+      initLon - 20, initLat - 15, initLon + 20, initLat + 15,
+    );
     viewer.scene.backgroundColor = Color.fromCssColorString('#0a0b0e');
     viewer.scene.globe.baseColor = Color.fromCssColorString('#0d0f14');
 
@@ -360,18 +375,18 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [] }: 
     viewer.scene.fog.enabled = true;
     viewer.scene.fog.density = 0.0002;
 
-    // Fly to theater
+    // Fly to initial position
     viewer.camera.setView({
-      destination: Cartesian3.fromDegrees(49, 29, 3_000_000),
+      destination: Cartesian3.fromDegrees(initLon, initLat, initAlt),
       orientation: {
-        heading: CesiumMath.toRadians(0),
-        pitch: CesiumMath.toRadians(-90),
+        heading: CesiumMath.toRadians(firstPreset?.heading ?? 0),
+        pitch: CesiumMath.toRadians(firstPreset?.pitch ?? -90),
         roll: 0,
       },
     });
 
     setCesiumViewer(viewer);
-  }, []);
+  }, [cameraPresets, mapCenter]);
 
   // ── Conflict data (imperative entities) — points + past arcs ──
   const handlePointSelect = useCallback((point: MapPoint | null) => {
@@ -515,6 +530,8 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [] }: 
           currentDate={currentDate}
           kpis={kpis}
           stats={stats}
+          cameraPresets={cameraPresets}
+          categories={categories}
         />
       ) : (
         <>
@@ -560,6 +577,8 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [] }: 
             onToggleHud={() => setShowHud(prev => !prev)}
             orbitMode={orbitMode}
             onOrbitMode={handleOrbitMode}
+            cameraPresets={cameraPresets}
+            categories={categories}
           />
 
           {/* Events / Intel feed panel */}

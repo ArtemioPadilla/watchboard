@@ -30,5 +30,15 @@ const basePath = base.endsWith('/') ? base : `${base}/`;
 <BaseLayout title={`3D Intelligence Globe — ${config.shortName}`} trackerSlug={config.slug}>
   <a href={`${basePath}${config.slug}/`} class="globe-back-link">&larr; Dashboard</a>
   <a href={`${basePath}${config.slug}/about/`} class="globe-about-link">About</a>
-  <CesiumGlobe client:only="react" points={data.mapPoints} lines={data.mapLines} kpis={data.kpis} meta={data.meta} events={events} />
+  <CesiumGlobe
+    client:only="react"
+    points={data.mapPoints}
+    lines={data.mapLines}
+    kpis={data.kpis}
+    meta={data.meta}
+    events={events}
+    cameraPresets={config.globe?.cameraPresets ?? {}}
+    categories={config.map?.categories ?? []}
+    mapCenter={config.map?.center ?? { lon: 0, lat: 0 }}
+  />
 </BaseLayout>
