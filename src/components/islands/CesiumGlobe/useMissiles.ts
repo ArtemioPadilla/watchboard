@@ -125,10 +125,9 @@ function computeLateralOffsets(lines: MapLine[]): Map<string, number> {
 
 /**
  * Renders arcs for the current date's lines.
- * - When playing: missiles launch at their designated sim-time (line.time),
- *   then animate using wall-clock duration scaled by clock speed.
- *   Speed changes mid-flight adjust remaining duration smoothly.
- * - When not playing: shows all lines as static arcs.
+ * - Strike/retaliation lines always get animated projectiles with weapon-type
+ *   icons. When paused, animations freeze in place (entities stay visible).
+ * - Other lines render as static arcs.
  * - On date/lines change: cleans up all entities and rebuilds.
  */
 export function useMissiles(
@@ -140,6 +139,24 @@ export function useMissiles(
   const animationsRef = useRef<MissileAnimation[]>([]);
   const staticEntitiesRef = useRef<Entity[]>([]);
   const rafRef = useRef<number>(0);
+  const isPlayingRef = useRef(isPlaying);
+  const lastTickRef = useRef(Date.now());
+
+  // Keep isPlayingRef in sync without triggering entity rebuild
+  useEffect(() => {
+    isPlayingRef.current = isPlaying;
+  }, [isPlaying]);
+
+  // Restart the tick loop when unpausing (in case it stopped)
+  useEffect(() => {
+    if (isPlaying && rafRef.current === 0 && animationsRef.current.some(a => !a.completed)) {
+      const viewer_ = viewer;
+      if (!viewer_ || viewer_.isDestroyed()) return;
+      lastTickRef.current = Date.now();
+      const tick = makeTick(viewer_, animationsRef, rafRef, isPlayingRef, lastTickRef);
+      rafRef.current = requestAnimationFrame(tick);
+    }
+  }, [isPlaying, viewer]);
 
   useEffect(() => {
     if (!viewer || viewer.isDestroyed()) return;
@@ -158,49 +175,29 @@ export function useMissiles(
     const toStatic: MapLine[] = [];
 
     for (const line of lines) {
-      if (isPlaying && (line.cat === 'strike' || line.cat === 'retaliation')) {
+      if (line.cat === 'strike' || line.cat === 'retaliation') {
         toAnimate.push(line);
       } else {
         toStatic.push(line);
       }
     }
 
-    // Render static arcs immediately
+    // Render static arcs immediately (non-weapon lines)
     for (const line of toStatic) {
       const offset = lateralOffsets.get(line.id) ?? 0;
-      const isWeaponLine = line.cat === 'strike' || line.cat === 'retaliation';
       const positions = arc3D(line.from, line.to, 60, weaponPeakAlt(line.weaponType), offset);
       const entity = viewer.entities.add({
         name: line.label,
         polyline: {
           positions,
-          width: isWeaponLine ? weaponTrailWidth(line.weaponType) : lineWidth(line.cat),
-          material: isWeaponLine ? weaponTrailMaterial(line.weaponType) : arcMaterial(line.cat),
+          width: lineWidth(line.cat),
+          material: arcMaterial(line.cat),
         },
       });
       staticEntitiesRef.current.push(entity);
-
-      // Show weapon billboard at destination when paused
-      if (isWeaponLine && line.weaponType) {
-        const color = weaponColor(line.weaponType);
-        const iconType = weaponIconType(line.weaponType);
-        const size = weaponBillboardSize(line.weaponType, true);
-        const endpointEntity = viewer.entities.add({
-          position: Cartesian3.fromDegrees(line.to[0], line.to[1], 0),
-          billboard: {
-            image: getIconDataUri(iconType, color.toCssColorString()),
-            width: size.width,
-            height: size.height,
-            verticalOrigin: VerticalOrigin.CENTER,
-            horizontalOrigin: HorizontalOrigin.CENTER,
-            scaleByDistance: new NearFarScalar(1e5, 1.0, 1e7, 0.3),
-          },
-        });
-        staticEntitiesRef.current.push(endpointEntity);
-      }
     }
 
-    // Cap animated arcs — overflow goes to static
+    // Cap animated arcs — overflow goes to static with weapon styling
     const animatable = toAnimate.slice(0, MAX_ARCS);
     for (const line of toAnimate.slice(MAX_ARCS)) {
       const offset = lateralOffsets.get(line.id) ?? 0;
@@ -214,25 +211,6 @@ export function useMissiles(
         },
       });
       staticEntitiesRef.current.push(entity);
-
-      // Endpoint billboard for overflow arcs
-      if (line.weaponType) {
-        const color = weaponColor(line.weaponType);
-        const iconType = weaponIconType(line.weaponType);
-        const size = weaponBillboardSize(line.weaponType, false);
-        const endpointEntity = viewer.entities.add({
-          position: Cartesian3.fromDegrees(line.to[0], line.to[1], 0),
-          billboard: {
-            image: getIconDataUri(iconType, color.toCssColorString()),
-            width: size.width,
-            height: size.height,
-            verticalOrigin: VerticalOrigin.CENTER,
-            horizontalOrigin: HorizontalOrigin.CENTER,
-            scaleByDistance: new NearFarScalar(1e5, 1.0, 1e7, 0.3),
-          },
-        });
-        staticEntitiesRef.current.push(endpointEntity);
-      }
     }
 
     if (animatable.length === 0) {
@@ -369,55 +347,9 @@ export function useMissiles(
       }
     }
 
-    // Animation tick loop — start pending animations, complete finished ones
-    const tick = () => {
-      if (!viewer || viewer.isDestroyed()) {
-        rafRef.current = 0;
-        return;
-      }
-
-      let anyActive = false;
-      const now = Date.now();
-      const simNowTick = viewerNowMs(viewer);
-      const dur = realAnimMs(viewer.clock.multiplier);
-
-      for (const anim of animationsRef.current) {
-        if (anim.completed) continue;
-
-        // Check if sim clock has reached launch time
-        if (!anim.started) {
-          if (simNowTick >= anim.simLaunchTime) {
-            anim.started = true;
-            anim.wallStartMs = now;
-          } else {
-            anyActive = true;
-            continue;
-          }
-        }
-
-        const myDelay = anim.launchFraction * dur;
-        const elapsed = now - anim.wallStartMs - myDelay;
-        if (elapsed >= dur) {
-          if (anim.projectileEntity) {
-            try { viewer.entities.remove(anim.projectileEntity); } catch { /* ok */ }
-            anim.projectileEntity = null;
-          }
-          if (anim.trailEntity?.polyline) {
-            anim.trailEntity.polyline.positions = anim.arcPositions as any;
-          }
-          anim.completed = true;
-        } else {
-          anyActive = true;
-        }
-      }
-
-      if (anyActive) {
-        rafRef.current = requestAnimationFrame(tick);
-      } else {
-        rafRef.current = 0;
-      }
-    };
-
+    // Start the animation tick loop
+    lastTickRef.current = Date.now();
+    const tick = makeTick(viewer, animationsRef, rafRef, isPlayingRef, lastTickRef);
     rafRef.current = requestAnimationFrame(tick);
 
     return () => {
@@ -429,7 +361,86 @@ export function useMissiles(
       animationsRef.current = [];
       staticEntitiesRef.current = [];
     };
-  }, [viewer, currentDate, isPlaying, lines]);
+    // isPlaying deliberately excluded — handled via ref to avoid entity teardown
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [viewer, currentDate, lines]);
+}
+
+/**
+ * Creates the animation tick function. When paused, shifts wallStartMs
+ * forward by the frame delta so elapsed time freezes and entities stay
+ * visible at their current positions.
+ */
+function makeTick(
+  viewer: CesiumViewer,
+  animationsRef: React.MutableRefObject<MissileAnimation[]>,
+  rafRef: React.MutableRefObject<number>,
+  isPlayingRef: React.MutableRefObject<boolean>,
+  lastTickRef: React.MutableRefObject<number>,
+): () => void {
+  const tick = () => {
+    if (viewer.isDestroyed()) {
+      rafRef.current = 0;
+      return;
+    }
+
+    const now = Date.now();
+    const dt = now - lastTickRef.current;
+    lastTickRef.current = now;
+
+    // When paused, shift wallStartMs forward so elapsed stays constant
+    if (!isPlayingRef.current) {
+      for (const anim of animationsRef.current) {
+        if (anim.started && !anim.completed) {
+          anim.wallStartMs += dt;
+        }
+      }
+      // Keep the loop alive so we can resume
+      rafRef.current = requestAnimationFrame(tick);
+      return;
+    }
+
+    let anyActive = false;
+    const simNowTick = viewerNowMs(viewer);
+    const dur = realAnimMs(viewer.clock.multiplier);
+
+    for (const anim of animationsRef.current) {
+      if (anim.completed) continue;
+
+      // Check if sim clock has reached launch time
+      if (!anim.started) {
+        if (simNowTick >= anim.simLaunchTime) {
+          anim.started = true;
+          anim.wallStartMs = now;
+        } else {
+          anyActive = true;
+          continue;
+        }
+      }
+
+      const myDelay = anim.launchFraction * dur;
+      const elapsed = now - anim.wallStartMs - myDelay;
+      if (elapsed >= dur) {
+        if (anim.projectileEntity) {
+          try { viewer.entities.remove(anim.projectileEntity); } catch { /* ok */ }
+          anim.projectileEntity = null;
+        }
+        if (anim.trailEntity?.polyline) {
+          anim.trailEntity.polyline.positions = anim.arcPositions as any;
+        }
+        anim.completed = true;
+      } else {
+        anyActive = true;
+      }
+    }
+
+    if (anyActive) {
+      rafRef.current = requestAnimationFrame(tick);
+    } else {
+      rafRef.current = 0;
+    }
+  };
+  return tick;
 }
 
 function cleanup(
