@@ -186,6 +186,11 @@ const utcStr = now.toISOString().replace('T', ' ').slice(0, 19) + 'Z';
           <span>MIT</span>
         </div>
       </div>
+      <div class="footer-about-links">
+        {trackerData.map(({ config: t }) => (
+          <a href={`${basePath}${t.slug}/about/`}>{t.shortName} — About &amp; Credits</a>
+        ))}
+      </div>
       <div class="footer-disclaimer">
         This platform aggregates publicly available information. It does not endorse any political position or narrative.
       </div>
@@ -653,6 +658,28 @@ const utcStr = now.toISOString().replace('T', ' ').slice(0, 19) + 'Z';
 
   .footer-col a:hover {
     text-decoration: underline;
+  }
+
+  .footer-about-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+  }
+
+  .footer-about-links a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    opacity: 0.7;
+    transition: opacity 0.2s, color 0.2s;
+  }
+
+  .footer-about-links a:hover {
+    color: var(--accent-blue);
+    opacity: 1;
   }
 
   .footer-disclaimer {
