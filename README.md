@@ -16,6 +16,7 @@ A config-driven intelligence dashboard platform for tracking events of interest.
 | **[Chernobyl Disaster Tracker](https://artemiopadilla.github.io/watchboard/chernobyl-disaster/)** | Intelligence dashboard tracking the 1986 Chernobyl nuclear disaster — reactor ex... | 8 | Ukraine / Belarus / Soviet Union / Northern Europe | 3D |
 | **[MH17 Shootdown Tracker](https://artemiopadilla.github.io/watchboard/mh17-shootdown/)** | Intelligence dashboard tracking the 2014 downing of Malaysia Airlines Flight 17 ... | 7 | Eastern Ukraine / Netherlands / Russia / Malaysia | 3D |
 | **[El Mencho / CJNG Tracker](https://artemiopadilla.github.io/watchboard/mencho-cjng/)** | Intelligence dashboard tracking the February 2026 killing of El Mencho (Nemesio ... | 7 | Jalisco / Michoacán / Colima / Guadalajara / Mexico | 3D |
+| **[Culiacanazo Tracker](https://artemiopadilla.github.io/watchboard/culiacanazo/)** | Intelligence dashboard tracking the October 2019 Culiacán Crisis and January 202... | 7 | Culiacán / Sinaloa / Northwestern Mexico | 3D |
 
 ---
 
