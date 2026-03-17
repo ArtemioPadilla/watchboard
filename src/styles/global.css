@@ -158,7 +158,27 @@ body::before {
 .header-left {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.6rem;
+}
+
+.home-link {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-decoration: none;
+  letter-spacing: 0.08em;
+  transition: color 0.2s;
+}
+
+.home-link:hover {
+  color: var(--accent-blue);
+}
+
+.header-sep {
+  color: var(--text-muted);
+  opacity: 0.3;
+  font-size: 0.7rem;
 }
 
 .live-dot {

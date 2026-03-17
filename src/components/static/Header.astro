@@ -22,6 +22,8 @@ const aboutHref = trackerSlug ? `${basePath}${trackerSlug}/about/` : `${basePath
   <a class="skip-link" href="#main-content">Skip to main content</a>
   <div class="header-inner">
     <div class="header-left">
+      <a class="home-link" href={basePath} title="Watchboard Home">WB</a>
+      <span class="header-sep">&middot;</span>
       <span class="live-dot"></span>
       <span class="header-title"><strong>ACTIVE CONFLICT</strong> &mdash; {meta.operationName}</span>
       <span class="freshness-indicator" data-updated={meta.lastUpdated} aria-live="polite">
