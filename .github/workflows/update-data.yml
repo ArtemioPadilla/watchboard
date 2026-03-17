@@ -6,9 +6,9 @@ on:
   workflow_dispatch:
     inputs:
       tracker_slug:
-        description: 'Tracker slug to update (e.g. iran-conflict, ayotzinapa)'
+        description: 'Tracker slug to update, or "all" to check all eligible trackers'
         required: false
-        default: 'iran-conflict'
+        default: 'all'
 
 permissions:
   contents: write
@@ -33,47 +33,112 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Resolve eligible trackers
+        id: resolve
+        run: |
+          MANUAL_SLUG="${{ github.event.inputs.tracker_slug || 'all' }}"
+
+          # Manual trigger for a specific tracker — always run it regardless of interval
+          if [ "$MANUAL_SLUG" != "all" ]; then
+            echo "slugs=$MANUAL_SLUG" >> $GITHUB_OUTPUT
+            echo "Manual trigger: $MANUAL_SLUG"
+            exit 0
+          fi
+
+          # Check each tracker's updateIntervalDays vs lastRun in update-log.json
+          SLUGS=""
+          NOW_EPOCH=$(date +%s)
+          for config in trackers/*/tracker.json; do
+            DIR=$(dirname "$config")
+            SLUG=$(basename "$DIR")
+            LOG="$DIR/data/update-log.json"
+
+            STATUS=$(node -e "console.log(JSON.parse(require('fs').readFileSync('$config','utf8')).status)")
+            INTERVAL=$(node -e "
+              const c = JSON.parse(require('fs').readFileSync('$config','utf8'));
+              console.log(c.ai?.updateIntervalDays ?? 1);
+            ")
+
+            # Skip drafts
+            [ "$STATUS" = "draft" ] && continue
+
+            # Check last run time against interval
+            if [ -f "$LOG" ]; then
+              LAST_RUN=$(node -e "
+                const log = JSON.parse(require('fs').readFileSync('$LOG','utf8'));
+                console.log(log.lastRun || '');
+              ")
+              if [ -n "$LAST_RUN" ]; then
+                LAST_EPOCH=$(date -d "$LAST_RUN" +%s 2>/dev/null || echo 0)
+                ELAPSED_DAYS=$(( (NOW_EPOCH - LAST_EPOCH) / 86400 ))
+                if [ "$ELAPSED_DAYS" -lt "$INTERVAL" ]; then
+                  echo "Skipping $SLUG: updated ${ELAPSED_DAYS}d ago, interval is ${INTERVAL}d"
+                  continue
+                fi
+              fi
+            fi
+
+            SLUGS="$SLUGS $SLUG"
+            echo "Eligible: $SLUG (interval: ${INTERVAL}d)"
+          done
+
+          SLUGS=$(echo "$SLUGS" | xargs)
+          echo "slugs=$SLUGS" >> $GITHUB_OUTPUT
+          if [ -z "$SLUGS" ]; then
+            echo "No trackers due for update"
+          else
+            echo "Trackers to update: $SLUGS"
+          fi
+
       - name: Update data with Claude Code
+        if: steps.resolve.outputs.slugs != ''
         uses: anthropics/claude-code-action@v1
         continue-on-error: true
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           prompt: |
-            You are the nightly data updater for the Intel Dashboard platform.
-            Update ONLY the tracker: ${{ github.event.inputs.tracker_slug || 'iran-conflict' }}
+            You are the nightly data updater for the Watchboard platform.
+            Update these trackers IN ORDER: ${{ steps.resolve.outputs.slugs }}
 
-            Data directory: trackers/${{ github.event.inputs.tracker_slug || 'iran-conflict' }}/data/
+            For EACH tracker slug in the list above, perform these steps:
 
             STEP 1 — UNDERSTAND SCHEMAS:
             Read src/lib/schemas.ts to understand all data schemas.
 
             STEP 2 — READ TRACKER CONFIG:
-            Read trackers/${{ github.event.inputs.tracker_slug || 'iran-conflict' }}/tracker.json for:
+            Read trackers/{slug}/tracker.json for:
             - ai.searchContext: what to search for
             - ai.enabledSections: which sections to update
             - ai.coordValidation: geographic bounds for map data
 
             STEP 3 — UPDATE DATA:
-            Read current data files, search the web for latest developments, update files:
-              - trackers/${{ github.event.inputs.tracker_slug || 'iran-conflict' }}/data/map-lines.json (HIGH PRIORITY — missile trajectories for 2D map + 3D globe)
-              - trackers/${{ github.event.inputs.tracker_slug || 'iran-conflict' }}/data/map-points.json (HIGH PRIORITY — geographic points)
-              - trackers/${{ github.event.inputs.tracker_slug || 'iran-conflict' }}/data/events/*.json (daily event files, YYYY-MM-DD.json)
-              - trackers/${{ github.event.inputs.tracker_slug || 'iran-conflict' }}/data/kpis.json
-              - trackers/${{ github.event.inputs.tracker_slug || 'iran-conflict' }}/data/casualties.json
-              - trackers/${{ github.event.inputs.tracker_slug || 'iran-conflict' }}/data/econ.json
-              - trackers/${{ github.event.inputs.tracker_slug || 'iran-conflict' }}/data/claims.json
-              - trackers/${{ github.event.inputs.tracker_slug || 'iran-conflict' }}/data/political.json
-              - trackers/${{ github.event.inputs.tracker_slug || 'iran-conflict' }}/data/strike-targets.json
-              - trackers/${{ github.event.inputs.tracker_slug || 'iran-conflict' }}/data/retaliation.json
-              - trackers/${{ github.event.inputs.tracker_slug || 'iran-conflict' }}/data/assets.json
-              - trackers/${{ github.event.inputs.tracker_slug || 'iran-conflict' }}/data/timeline.json
-              - trackers/${{ github.event.inputs.tracker_slug || 'iran-conflict' }}/data/meta.json
+            Read current data files, search the web for latest developments, update files
+            in trackers/{slug}/data/:
+              - map-lines.json (HIGH PRIORITY — missile trajectories for 2D map + 3D globe)
+              - map-points.json (HIGH PRIORITY — geographic points)
+              - events/*.json (daily event files, YYYY-MM-DD.json)
+              - kpis.json
+              - casualties.json
+              - econ.json
+              - claims.json
+              - political.json
+              - strike-targets.json
+              - retaliation.json
+              - assets.json
+              - timeline.json
+              - meta.json
+            Only update sections listed in the tracker's ai.enabledSections.
 
             MAP DATA IS HIGHEST PRIORITY — update map-lines.json FIRST:
             For each new military strike or retaliation event:
             - Add to map-lines.json: from/to coords, cat (strike/retaliation), weaponType, launched, intercepted, confidence, time (HH:MM), platform, status
             - Add map-points.json entries for new locations
             - Validate coordinates within tracker's coordValidation bounds
+
+            STEP 4 — UPDATE LOG:
+            After updating each tracker, write trackers/{slug}/data/update-log.json with:
+            { "lastRun": "<current ISO timestamp>", "tracker": "{slug}", "sections": { ... } }
+            This timestamp is used to determine when the next update is due.
 
             RULES:
             - Merge-by-ID: never remove existing entries, only add new or update existing
@@ -87,8 +152,6 @@ jobs:
 
             IMPORTANT: Do NOT commit or push. The workflow handles that.
           claude_args: "--max-turns 50 --dangerously-skip-permissions"
-        env:
-          TRACKER_SLUG: ${{ github.event.inputs.tracker_slug || 'iran-conflict' }}
 
       - name: Check for changes
         id: changes

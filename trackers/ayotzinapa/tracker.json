@@ -35,7 +35,8 @@
     "systemPrompt": "You are a human rights researcher updating a tracker for the Ayotzinapa case.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object \u2014 no markdown, no code fences, no prose.\nEvery item must have an \"id\" field (lowercase_snake_case).\n\nSource tier classification:\n- Tier 1: Official (Mexican government, Attorney General, GIEI, IACHR, UN OHCHR)\n- Tier 2: Major outlet (Reuters, AP, El Universal, La Jornada, Proceso, Animal Pol\u00edtico, BBC)\n- Tier 3: Institutional (CNDH, Centro Prodh, Tlachinollan, WOLA, HRW, Amnesty International)\n- Tier 4: Unverified (social media, unattributed testimony)\n\nOnly include information you can verify through search results. Do not fabricate data.",
     "searchContext": "Ayotzinapa 43 students disappearance case",
     "enabledSections": ["kpis", "timeline", "claims", "political"],
-    "coordValidation": { "lonMin": -120, "lonMax": -85, "latMin": 10, "latMax": 35 }
+    "coordValidation": { "lonMin": -120, "lonMax": -85, "latMin": 10, "latMax": 35 },
+    "updateIntervalDays": 180
   },
   "githubRepo": "ArtemioPadilla/intel-dashboard"
 }
