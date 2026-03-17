@@ -1,0 +1,63 @@
+{
+  "slug": "september-11",
+  "name": "September 11 Attacks Tracker",
+  "shortName": "9/11",
+  "description": "Intelligence dashboard tracking the September 11, 2001 al-Qaeda attacks on the United States — the hijackings, the collapse of the World Trade Center, the Pentagon attack, Flight 93, and the long-term consequences including the War on Terror, intelligence failures, and ongoing investigations.",
+  "icon": "🗽",
+  "color": "#1a3a5c",
+  "status": "active",
+  "startDate": "2001-09-11",
+  "eraLabel": "Attack & Aftermath 2001–Present",
+  "sections": ["hero", "kpis", "timeline", "map", "casualties", "economic", "claims", "political"],
+  "map": {
+    "enabled": true,
+    "bounds": { "lonMin": -82, "lonMax": -70, "latMin": 37, "latMax": 43 },
+    "center": { "lon": -76, "lat": 40 },
+    "categories": [
+      { "id": "attack-site", "label": "Attack Sites", "color": "#e74c3c" },
+      { "id": "crash-site", "label": "Crash Sites", "color": "#c0392b" },
+      { "id": "investigation", "label": "Investigation Locations", "color": "#3498db" },
+      { "id": "memorial", "label": "Memorials", "color": "#27ae60" },
+      { "id": "response", "label": "Emergency Response", "color": "#f39c12" }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "east_coast": { "lon": -76, "lat": 40, "alt": 1200000, "pitch": -90, "heading": 0, "label": "East Coast Overview" },
+      "world_trade_center": { "lon": -74.0134, "lat": 40.7115, "alt": 15000, "pitch": -90, "heading": 0, "label": "World Trade Center" },
+      "pentagon": { "lon": -77.0562, "lat": 38.8719, "alt": 15000, "pitch": -90, "heading": 0, "label": "The Pentagon" },
+      "flight_93": { "lon": -78.9042, "lat": 40.0310, "alt": 20000, "pitch": -90, "heading": 0, "label": "Flight 93 Crash Site" },
+      "lower_manhattan": { "lon": -74.006, "lat": 40.713, "alt": 80000, "pitch": -90, "heading": 0, "label": "Lower Manhattan" },
+      "washington_dc": { "lon": -77.037, "lat": 38.897, "alt": 80000, "pitch": -90, "heading": 0, "label": "Washington D.C." }
+    }
+  },
+  "navSections": [
+    { "id": "sec-timeline", "label": "Timeline" },
+    { "id": "sec-map", "label": "Map" },
+    { "id": "sec-humanitarian", "label": "Casualties" },
+    { "id": "sec-economic", "label": "Economic" },
+    { "id": "sec-contested", "label": "Contested" },
+    { "id": "sec-political", "label": "Political" }
+  ],
+  "politicalAvatars": ["us-gov", "al-qaeda", "victims", "intl", "commission", "other"],
+  "eventTypes": ["attack", "investigation", "legal", "political", "memorial"],
+  "ai": {
+    "systemPrompt": "You are an intelligence and counterterrorism analyst updating a tracker for the September 11, 2001 attacks and their aftermath.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"wtc_collapse\", \"bin_laden_killed\").\n\nThis tracker covers: the 9/11 attacks (2001-09-11), the 9/11 Commission investigation (2002–2004), the War on Terror (Afghanistan, Iraq), ongoing victim compensation, declassified documents (Saudi links, FBI files), first responder health programs, and long-term geopolitical consequences.\n\nSource tier classification:\n- Tier 1: Official/primary (9/11 Commission Report, NIST, FBI, CIA, NSA declassified documents, Congressional records, NYPD/FDNY official reports, White House statements)\n- Tier 2: Major outlet (Reuters, AP, BBC, CNN, NYT, Washington Post, Wall Street Journal, CBS, NBC, ABC)\n- Tier 3: Institutional (CSIS, Brookings, CFR, HRW, Amnesty International, academic peer-reviewed research, Victims' Compensation Fund reports)\n- Tier 4: Unverified (social media, unattributed claims, conspiracy theories without documentary evidence)\n\nOnly include information you can verify through search results. Do not fabricate data.\nFocus on factual, documented events. For contested claims (e.g., Saudi government involvement, Building 7 collapse), present what official investigations concluded AND what declassified documents show.\n\nCONFIRMATION RULES:\n- Only report findings as confirmed if sourced from Tier 1 official documents OR 2+ Tier 2 major outlets.\n- Declassified documents should be cited precisely (document name, release date).\n- Distinguish between original events (2001), investigation findings, and current ongoing matters.",
+    "searchContext": "September 11 2001 attacks 9/11 commission investigation War on Terror",
+    "enabledSections": ["kpis", "timeline", "mapPoints", "casualties", "econ", "claims", "political"],
+    "coordValidation": { "lonMin": -90, "lonMax": -65, "latMin": 25, "latMax": 50 },
+    "updateIntervalDays": 30,
+    "backfillTargets": {
+      "timeline": 40,
+      "mapPoints": 20,
+      "claims": 20,
+      "political": 15,
+      "kpis": 8,
+      "casualties": 10,
+      "econ": 8
+    }
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard"
+}
