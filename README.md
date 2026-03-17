@@ -11,7 +11,8 @@ A config-driven intelligence dashboard platform for tracking events of interest.
 | Tracker | Description | Sections | Map | Globe |
 |---------|-------------|----------|-----|-------|
 | **[Iran Conflict](https://artemiopadilla.github.io/watchboard/iran-conflict/)** | 2026 Iran-US/Israel conflict (Operation Epic Fury / Roaring Lion) | 9 | Middle East theater | 3D |
-| **[Ayotzinapa](https://artemiopadilla.github.io/watchboard/ayotzinapa/)** | 2014 forced disappearance of 43 students in Iguala, Guerrero, Mexico | 6 | Mexico | — |
+| **[September 11](https://artemiopadilla.github.io/watchboard/september-11/)** | 2001 terrorist attacks on the US, War on Terror, 9/11 Commission, and long-term consequences | 8 | US (NYC, DC, PA) | 3D |
+| **[Ayotzinapa](https://artemiopadilla.github.io/watchboard/ayotzinapa/)** | 2014 forced disappearance of 43 students in Iguala, Guerrero, Mexico | 6 | Guerrero, Mexico | 3D |
 
 ---
 
@@ -29,6 +30,9 @@ trackers/
   ayotzinapa/
     tracker.json
     data/...
+  september-11/
+    tracker.json
+    data/...
 ```
 
 The platform auto-discovers all trackers at build time and generates:
@@ -39,10 +43,21 @@ The platform auto-discovers all trackers at build time and generates:
 
 ### Adding a New Tracker
 
+**One-command via GitHub Actions (recommended):**
+
+1. Go to **Actions > Initialize New Tracker**
+2. Enter: slug, topic description, start date, geographic region
+3. Claude Code generates the full config + empty data files
+4. Auto-triggers **Seed Tracker Data** to backfill historical data
+5. Result: fully populated tracker in ~20 minutes
+
+**Manual:**
+
 1. Create `trackers/{slug}/tracker.json` (copy from an existing tracker as template)
 2. Configure: name, sections, map bounds/categories, AI prompts
 3. Add seed data files in `trackers/{slug}/data/`
 4. Run `npm run build` — done
+5. Trigger **Seed Tracker Data** workflow to populate data
 
 ### Source Tier System
 
@@ -77,7 +92,10 @@ watchboard/
 │   │   └── data/                      # JSON data files
 │   │       ├── meta.json, kpis.json, timeline.json, ...
 │   │       └── events/                # Daily event partitions
-│   └── ayotzinapa/
+│   ├── ayotzinapa/
+│   │   ├── tracker.json
+│   │   └── data/...
+│   └── september-11/
 │       ├── tracker.json
 │       └── data/...
 ├── src/
@@ -102,7 +120,9 @@ watchboard/
 │   └── update-data.ts                 # AI nightly updater (multi-tracker)
 ├── .github/workflows/
 │   ├── deploy.yml                     # Build + deploy to GitHub Pages
-│   └── update-data.yml                # Nightly AI data refresh
+│   ├── update-data.yml                # Nightly AI data refresh (interval-gated per tracker)
+│   ├── init-tracker.yml               # One-command new tracker creation via Claude Code
+│   └── seed-tracker.yml               # Comprehensive historical data backfill
 └── package.json
 ```
 
@@ -128,35 +148,34 @@ npm run preview
 
 ## Nightly AI Updates
 
-Data is automatically refreshed daily at 6 AM UTC via GitHub Actions. The update script iterates over all trackers with AI sections configured, using each tracker's custom system prompt and search context.
+Data is automatically refreshed daily at 6 AM UTC via GitHub Actions. Each tracker has a configurable `updateIntervalDays` (e.g., daily for active conflicts, every 180 days for cold cases). The workflow resolves which trackers are due, then uses Claude Code with web search to update each one.
 
-### Supported Providers
+### GitHub Actions Workflows
 
-| Provider | API Key Env Var | Model Env Var | Default Model |
-|----------|----------------|---------------|---------------|
-| **Anthropic** (default) | `ANTHROPIC_API_KEY` | `ANTHROPIC_MODEL` | `claude-sonnet-4-6` |
-| **OpenAI** | `OPENAI_API_KEY` | `OPENAI_MODEL` | `gpt-4o` |
+| Workflow | Trigger | Purpose |
+|----------|---------|---------|
+| **Nightly Data Update** | Daily 6 AM UTC + manual | Updates eligible trackers (interval-gated) via Claude Code web search |
+| **Initialize New Tracker** | Manual | Generates tracker.json + empty data files from a topic description |
+| **Seed Tracker Data** | Manual (or chained from init) | Deep historical backfill — populates all sections with research data |
+| **Deploy** | Push to main | Builds Astro site + deploys to GitHub Pages |
 
-### Run locally
-
-```bash
-# Update all trackers
-ANTHROPIC_API_KEY=sk-ant-... npm run update-data
-
-# Update a specific tracker
-TRACKER_SLUG=iran-conflict ANTHROPIC_API_KEY=sk-ant-... npm run update-data
-
-# Using OpenAI
-AI_PROVIDER=openai OPENAI_API_KEY=sk-... npm run update-data
-```
+All data workflows use `claude-code-action` with a Claude Max subscription OAuth token (`CLAUDE_CODE_OAUTH_TOKEN`) — no per-token API costs. Each run produces a job summary with data inventory tables visible in the Actions UI.
 
 ### GitHub Actions setup
 
 1. Go to repo **Settings > Secrets and variables > Actions**
-2. Add `ANTHROPIC_API_KEY` (and/or `OPENAI_API_KEY`)
-3. Optionally add `AI_PROVIDER` if using OpenAI
+2. Add `CLAUDE_CODE_OAUTH_TOKEN` (generate via `claude setup-token` with a Max subscription)
+3. The workflows commit data changes to `trackers/*/data/` and push to `main`, triggering deploy
 
-The workflow commits changes to `trackers/*/data/` and pushes to `main`, triggering the deploy workflow.
+### Run locally (legacy script)
+
+```bash
+# Update all trackers via direct API
+ANTHROPIC_API_KEY=sk-ant-... npm run update-data
+
+# Update a specific tracker
+TRACKER_SLUG=iran-conflict ANTHROPIC_API_KEY=sk-ant-... npm run update-data
+```
 
 ---
 
@@ -197,7 +216,7 @@ Each `tracker.json` supports these fields:
 | `militaryTabs` | No | Custom tab labels for military section |
 | `politicalAvatars` | No | Avatar IDs for political figures |
 | `eventTypes` | No | Custom event type strings |
-| `ai` | No | AI update config: systemPrompt, searchContext, enabledSections |
+| `ai` | No | AI update config: systemPrompt, searchContext, enabledSections, updateIntervalDays, backfillTargets |
 | `icon` | No | Emoji for index card |
 | `color` | No | Accent color (hex) |
 
