@@ -36,7 +36,14 @@
     "searchContext": "Ayotzinapa 43 students disappearance case",
     "enabledSections": ["kpis", "timeline", "claims", "political"],
     "coordValidation": { "lonMin": -120, "lonMax": -85, "latMin": 10, "latMax": 35 },
-    "updateIntervalDays": 180
+    "updateIntervalDays": 180,
+    "backfillTargets": {
+      "timeline": 30,
+      "mapPoints": 15,
+      "claims": 15,
+      "political": 15,
+      "kpis": 8
+    }
   },
   "githubRepo": "ArtemioPadilla/intel-dashboard"
 }

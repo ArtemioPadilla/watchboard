@@ -59,6 +59,7 @@ const AiConfigSchema = z.object({
     latMax: z.number(),
   }).optional(),
   updateIntervalDays: z.number().int().positive().default(1),
+  backfillTargets: z.record(z.string(), z.number().int().positive()).optional(),
 });
 
 // ── Section IDs ──

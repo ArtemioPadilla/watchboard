@@ -53,7 +53,17 @@
     "searchContext": "Iran-US/Israel conflict",
     "enabledSections": ["kpis", "timeline", "mapPoints", "mapLines", "casualties", "econ", "claims", "political", "assets"],
     "coordValidation": { "lonMin": 20, "lonMax": 75, "latMin": 5, "latMax": 50 },
-    "updateIntervalDays": 1
+    "updateIntervalDays": 1,
+    "backfillTargets": {
+      "timeline": 40,
+      "mapPoints": 50,
+      "mapLines": 50,
+      "claims": 30,
+      "political": 30,
+      "casualties": 15,
+      "econ": 10,
+      "assets": 12
+    }
   },
   "ogImage": "/og-card.png",
   "githubRepo": "ArtemioPadilla/watchboard"

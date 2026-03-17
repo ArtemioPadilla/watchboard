@@ -1,0 +1,320 @@
+name: Seed Tracker Data
+
+on:
+  workflow_dispatch:
+    inputs:
+      tracker_slug:
+        description: 'Tracker slug to seed (e.g., ayotzinapa)'
+        required: true
+      sections:
+        description: 'Comma-separated sections to backfill, or "all"'
+        required: false
+        default: 'all'
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  id-token: write
+
+jobs:
+  seed:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate tracker exists
+        id: validate
+        run: |
+          SLUG="${{ github.event.inputs.tracker_slug }}"
+          CONFIG="trackers/${SLUG}/tracker.json"
+          if [ ! -f "$CONFIG" ]; then
+            echo "ERROR: tracker config not found: $CONFIG"
+            exit 1
+          fi
+          echo "slug=$SLUG" >> $GITHUB_OUTPUT
+          echo "Tracker config found: $CONFIG"
+
+      - name: Seed tracker with Claude Code
+        uses: anthropics/claude-code-action@v1
+        continue-on-error: true
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          prompt: |
+            You are performing a COMPREHENSIVE HISTORICAL BACKFILL for the Watchboard intelligence tracker: ${{ steps.validate.outputs.slug }}
+
+            This is NOT a nightly "latest news" update. You are populating a tracker with DEEP HISTORICAL DATA spanning its entire timeline. Research thoroughly and extensively.
+
+            SECTIONS TO BACKFILL: ${{ github.event.inputs.sections }}
+
+            ═══════════════════════════════════════════════════════════
+            STEP 1 — READ SCHEMAS AND CONFIG
+            ═══════════════════════════════════════════════════════════
+
+            First, read these files to understand the data structures:
+
+            1. Read src/lib/schemas.ts — this defines ALL data schemas (KpiSchema, TimelineEventSchema, TimelineEraSchema, MapPointSchema, MapLineSchema, ClaimSchema, PolItemSchema, CasualtyRowSchema, EconItemSchema, AssetSchema, StrikeItemSchema, MetaSchema). Every item you create MUST conform to these schemas.
+
+            2. Read trackers/${{ steps.validate.outputs.slug }}/tracker.json — this defines:
+               - startDate: when this tracker's timeline begins
+               - description: what this tracker covers
+               - ai.searchContext: what to search for
+               - ai.systemPrompt: your role and sourcing rules (follow these strictly)
+               - ai.enabledSections: which sections have data
+               - ai.coordValidation: geographic bounds for map data
+               - ai.backfillTargets: MINIMUM item counts per section — aim for these or higher
+               - sections: which dashboard sections are active
+               - map.categories: what map point categories exist (use these for the "cat" field)
+               - politicalAvatars: what avatar categories exist (use these for the "avatar" field)
+               - eventTypes: what event type categories exist (use these for the "type" field)
+
+            3. Read ALL existing data files in trackers/${{ steps.validate.outputs.slug }}/data/ to understand what already exists. Count items in each file. Calculate the gap: backfillTarget minus current count = items you need to add.
+
+            ═══════════════════════════════════════════════════════════
+            STEP 2 — PLAN YOUR RESEARCH
+            ═══════════════════════════════════════════════════════════
+
+            Based on the tracker config, plan what you need to research:
+            - The tracker's full timeline (from startDate to today)
+            - Key phases, eras, and turning points
+            - Major events and milestones in each era
+            - Key actors, institutions, and their positions over time
+            - Contested claims and competing narratives from different sides
+            - Geographic locations relevant to the topic
+            - Quantitative data (statistics, figures, metrics)
+
+            For EACH enabled section, determine:
+            - Current item count vs. backfill target
+            - What specific web searches you need to run
+            - How to structure the data for this specific topic
+
+            IMPORTANT: Not every tracker is a military conflict. Adapt your approach to the topic. A human rights investigation needs legal milestones, court rulings, and witness testimony. A humanitarian crisis needs aid statistics and displacement data. Read the tracker description and systemPrompt to understand the topic.
+
+            ═══════════════════════════════════════════════════════════
+            STEP 3 — RESEARCH AND POPULATE EACH SECTION
+            ═══════════════════════════════════════════════════════════
+
+            For each section in the tracker's enabledSections (filtered by the "sections" input if not "all"), perform DEEP web searches and populate the data. Work section by section.
+
+            CRITICAL RULES FOR ALL SECTIONS:
+            - Every item MUST have a unique "id" field (lowercase-kebab-case, descriptive, e.g., "iguala-attack-site", "amlo-truth-commission")
+            - MERGE-BY-ID: Read existing data first, then APPEND new items. NEVER remove or overwrite existing items.
+            - Follow the source tier rules from the tracker's ai.systemPrompt
+            - Set "lastUpdated" to today's ISO timestamp on every NEW item you add
+            - Validate coordinates are within the tracker's ai.coordValidation bounds
+            - Write valid JSON using JSON.stringify with 2-space indent
+            - After writing each file, read it back to verify it's valid JSON
+            - Only include information you can verify through web search results. Do NOT fabricate data.
+
+            SECTION-SPECIFIC GUIDANCE:
+
+            **timeline.json** (array of TimelineEra objects — see TimelineEraSchema):
+            - Each era: { id, label, range, events: [...] }
+            - Organize into chronological eras covering the FULL timeline from startDate to present
+            - Each event in an era: { id, year (display label like "Sep 26, 2014" or "Mar 2015"), title, type (from tracker's eventTypes), detail (2-3 sentences with specifics), sources: [{name, url, tier}] }
+            - Aim for backfillTargets.timeline TOTAL events distributed across eras
+            - Cover ALL major milestones — legal decisions, investigations, discoveries, political changes
+
+            **map-points.json** (array of MapPoint objects — see MapPointSchema):
+            - Each point: { id, lon, lat, cat (from tracker's map.categories IDs), label, sub (1-2 sentence description), tier, date }
+            - Use REAL coordinates — search for exact locations
+            - All coordinates MUST be within the tracker's coordValidation bounds
+            - Cover ALL geographically significant locations in the tracker's history
+
+            **map-lines.json** (array of MapLine objects — see MapLineSchema):
+            - Only populate if the tracker topic involves movement, trajectories, or routes
+            - For investigation/human-rights trackers: skip unless there are documented transit routes
+            - For military trackers: missile trajectories, troop movements, etc.
+
+            **claims.json** (array of Claim objects — see ClaimSchema):
+            - Each claim: { id, question, sideA: {label, text}, sideB: {label, text}, resolution, sources: [{name, url, tier}] }
+            - Cover ALL major contested narratives — every claim where two sides disagree
+            - Both sides must be substantive with specific claims, evidence, and sources
+            - resolution: current status (e.g., "Under investigation", "Debunked by GIEI", "Pending trial")
+
+            **political.json** (array of PolItem objects — see PolItemSchema):
+            - Each item: { id, name, role, avatar (from tracker's politicalAvatars), initial, quote, source, tier }
+            - Cover key political actors across ALL sides and factions
+            - Use real, verified quotes with attribution
+            - initial: first letter of the person's name
+
+            **kpis.json** (array of Kpi objects — see KpiSchema):
+            - Each KPI: { id, label, value, color (red/amber/blue/green), source, contested }
+            - Cover the most important quantitative metrics for the topic
+            - Use up-to-date figures from reliable sources
+
+            **casualties.json** (array of CasualtyRow objects — see CasualtyRowSchema):
+            - Only populate if relevant to the tracker topic
+            - Each row: { id, category, killed, injured, source, tier, contested, note }
+
+            **econ.json** (array of EconItem objects — see EconItemSchema):
+            - Only populate if relevant to the tracker topic
+            - Each item: { id, label, value, change, direction, sparkData, color, source }
+
+            **events/*.json** (daily event partition files):
+            - For trackers with distinct daily events, create YYYY-MM-DD.json files in trackers/{slug}/data/events/
+            - Each file is an array of TimelineEvent objects for that specific date
+            - Use for granular day-by-day tracking (particularly important for active conflicts)
+            - Ensure the events/ directory exists before writing files
+
+            **meta.json** (single MetaSchema object):
+            - Update dayCount (days since startDate), dateline, heroHeadline, and lastUpdated
+
+            ═══════════════════════════════════════════════════════════
+            STEP 4 — VERIFY AND REPORT
+            ═══════════════════════════════════════════════════════════
+
+            After populating all sections:
+            1. Read back every modified file and verify it's valid JSON that parses without error
+            2. Count items in each file and compare against backfillTargets
+            3. Print a summary table showing: Section | Before | After | Target | Status
+            4. Update trackers/${{ steps.validate.outputs.slug }}/data/update-log.json:
+               { "lastRun": "<current ISO timestamp>", "tracker": "${{ steps.validate.outputs.slug }}", "sections": { "<section>": { "status": "seeded", "itemCount": <n> }, ... } }
+
+            IMPORTANT: Do NOT commit or push. The workflow handles that.
+          claude_args: "--max-turns 80 --dangerously-skip-permissions"
+
+      - name: Check for changes
+        id: changes
+        run: |
+          SLUG="${{ steps.validate.outputs.slug }}"
+          echo "=== Git status ==="
+          git status --short "trackers/${SLUG}/"
+          git add "trackers/${SLUG}/"
+          echo "=== Staged changes ==="
+          git diff --cached --name-only "trackers/${SLUG}/"
+          if git diff --cached --quiet "trackers/${SLUG}/"; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "No changes detected"
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "Changes detected, will commit"
+          fi
+
+      - name: Validate JSON syntax
+        id: json_check
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          SLUG="${{ steps.validate.outputs.slug }}"
+          echo "=== Validating JSON syntax ==="
+          invalid=0
+          for f in $(find "trackers/${SLUG}" -name '*.json' -path '*/data/*' -type f); do
+            if ! node -e "JSON.parse(require('fs').readFileSync('$f','utf8'))" 2>/dev/null; then
+              echo "INVALID JSON: $f"
+              invalid=$((invalid + 1))
+            fi
+          done
+          if [ "$invalid" -gt 0 ]; then
+            echo "valid=false" >> $GITHUB_OUTPUT
+            echo "$invalid JSON file(s) failed syntax validation — skipping commit"
+          else
+            echo "valid=true" >> $GITHUB_OUTPUT
+            echo "All JSON files have valid syntax"
+          fi
+
+      - name: Validate Zod schemas
+        id: validate_schemas
+        if: steps.changes.outputs.changed == 'true' && steps.json_check.outputs.valid == 'true'
+        run: |
+          echo "=== Validating data against Zod schemas ==="
+          npx tsx -e "
+          import { z } from 'zod';
+          import * as S from './src/lib/schemas.js';
+          import fs from 'fs';
+          import path from 'path';
+
+          const schemaMap: Record<string, z.ZodTypeAny> = {
+            'kpis.json': z.array(S.KpiSchema),
+            'timeline.json': z.array(S.TimelineEraSchema),
+            'map-points.json': z.array(S.MapPointSchema),
+            'map-lines.json': z.array(S.MapLineSchema),
+            'strike-targets.json': z.array(S.StrikeItemSchema),
+            'retaliation.json': z.array(S.StrikeItemSchema),
+            'assets.json': z.array(S.AssetSchema),
+            'casualties.json': z.array(S.CasualtyRowSchema),
+            'econ.json': z.array(S.EconItemSchema),
+            'claims.json': z.array(S.ClaimSchema),
+            'political.json': z.array(S.PolItemSchema),
+            'meta.json': S.MetaSchema,
+          };
+          const eventSchema = z.array(S.TimelineEventSchema);
+
+          let failures = 0;
+
+          const trackersDir = 'trackers';
+          for (const slug of fs.readdirSync(trackersDir)) {
+            const dataDir = path.join(trackersDir, slug, 'data');
+            if (!fs.existsSync(dataDir) || !fs.statSync(dataDir).isDirectory()) continue;
+
+            console.log('--- Checking', slug, '---');
+            for (const [file, schema] of Object.entries(schemaMap)) {
+              const fp = path.join(dataDir, file);
+              if (!fs.existsSync(fp)) continue;
+              const raw = JSON.parse(fs.readFileSync(fp, 'utf8'));
+              const result = schema.safeParse(raw);
+              if (result.success) {
+                console.log('  ✓', file);
+              } else {
+                console.error('  ✗', file);
+                for (const err of result.error.errors.slice(0, 3)) {
+                  console.error('    ', err.path.join('.'), ':', err.message);
+                }
+                failures++;
+              }
+            }
+
+            // Validate event partition files
+            const eventsDir = path.join(dataDir, 'events');
+            if (fs.existsSync(eventsDir)) {
+              for (const ef of fs.readdirSync(eventsDir).filter(f => f.endsWith('.json'))) {
+                const fp = path.join(eventsDir, ef);
+                const raw = JSON.parse(fs.readFileSync(fp, 'utf8'));
+                const result = eventSchema.safeParse(raw);
+                if (result.success) {
+                  console.log('  ✓ events/' + ef);
+                } else {
+                  console.error('  ✗ events/' + ef);
+                  for (const err of result.error.errors.slice(0, 3)) {
+                    console.error('    ', err.path.join('.'), ':', err.message);
+                  }
+                  failures++;
+                }
+              }
+            }
+          }
+
+          if (failures > 0) {
+            console.error(failures + ' file(s) failed Zod schema validation');
+            process.exit(1);
+          }
+          console.log('All files pass Zod schema validation');
+          "
+          echo "valid=true" >> $GITHUB_OUTPUT
+
+      - name: Commit and push
+        if: steps.changes.outputs.changed == 'true' && steps.json_check.outputs.valid == 'true' && steps.validate_schemas.outputs.valid == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          SLUG="${{ steps.validate.outputs.slug }}"
+          git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add "trackers/${SLUG}/"
+          git commit -m "chore(data): seed ${SLUG} tracker data $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          for i in 1 2 3; do
+            git pull --rebase origin main && git push && break
+            echo "Push attempt $i failed, retrying..."
+            sleep 2
+          done
