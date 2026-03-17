@@ -191,15 +191,15 @@ export default function GlobeBackground({ events = [] }: GlobeBackgroundProps) {
 
       /* Atmosphere glow */
       const atmosGrad = ctx.createRadialGradient(cx, cy, radius * 0.85, cx, cy, radius * 1.25);
-      atmosGrad.addColorStop(0, 'rgba(46, 204, 113, 0.06)');
-      atmosGrad.addColorStop(1, 'rgba(46, 204, 113, 0)');
+      atmosGrad.addColorStop(0, 'rgba(50, 160, 110, 0.06)');
+      atmosGrad.addColorStop(1, 'rgba(50, 160, 110, 0)');
       ctx.fillStyle = atmosGrad;
       ctx.beginPath();
       ctx.arc(cx, cy, radius * 1.25, 0, Math.PI * 2);
       ctx.fill();
 
       /* Globe outline */
-      ctx.strokeStyle = 'rgba(46, 204, 113, 0.08)';
+      ctx.strokeStyle = 'rgba(50, 160, 110, 0.08)';
       ctx.lineWidth = 0.8;
       ctx.beginPath();
       ctx.arc(cx, cy, radius, 0, Math.PI * 2);
@@ -211,7 +211,7 @@ export default function GlobeBackground({ events = [] }: GlobeBackgroundProps) {
       const scanY = (cy - radius) + scanPhase * radius * 2;
 
       /* Draw scan beam line */
-      ctx.strokeStyle = 'rgba(46, 204, 113, 0.12)';
+      ctx.strokeStyle = 'rgba(50, 160, 110, 0.12)';
       ctx.lineWidth = 1;
       ctx.beginPath();
       ctx.moveTo(cx - radius, scanY);
@@ -220,9 +220,9 @@ export default function GlobeBackground({ events = [] }: GlobeBackgroundProps) {
 
       /* Scan beam glow band */
       const beamGrad = ctx.createLinearGradient(0, scanY - SCAN_BAND_PX / 2, 0, scanY + SCAN_BAND_PX / 2);
-      beamGrad.addColorStop(0, 'rgba(46, 204, 113, 0)');
-      beamGrad.addColorStop(0.5, 'rgba(46, 204, 113, 0.04)');
-      beamGrad.addColorStop(1, 'rgba(46, 204, 113, 0)');
+      beamGrad.addColorStop(0, 'rgba(50, 160, 110, 0)');
+      beamGrad.addColorStop(0.5, 'rgba(50, 160, 110, 0.04)');
+      beamGrad.addColorStop(1, 'rgba(50, 160, 110, 0)');
       ctx.fillStyle = beamGrad;
       ctx.fillRect(cx - radius, scanY - SCAN_BAND_PX / 2, radius * 2, SCAN_BAND_PX);
 
@@ -260,7 +260,7 @@ export default function GlobeBackground({ events = [] }: GlobeBackgroundProps) {
 
         const dotSize = 1.0 + proj.z * 0.8 + sizeBoost;
 
-        ctx.fillStyle = `rgba(46, 204, 113, ${alpha})`;
+        ctx.fillStyle = `rgba(50, 160, 110, ${alpha})`;
         ctx.beginPath();
         ctx.arc(proj.x, proj.y, dotSize, 0, Math.PI * 2);
         ctx.fill();

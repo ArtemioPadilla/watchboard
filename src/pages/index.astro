@@ -31,9 +31,6 @@ const utcStr = now.toISOString().replace('T', ' ').slice(0, 19) + 'Z';
 ---
 <BaseLayout title="Watchboard — Intelligence Dashboard Platform">
   <main class="ix">
-    <!-- Scan line overlay -->
-    <div class="scan-line" aria-hidden="true"></div>
-
     <!-- Classification banner -->
     <div class="classification-bar">
       <span>UNCLASSIFIED</span>
@@ -202,66 +199,6 @@ const utcStr = now.toISOString().replace('T', ' ').slice(0, 19) + 'Z';
     min-height: 100vh;
     position: relative;
     overflow: hidden;
-  }
-
-  /* ─── Scan line effect ─── */
-  .scan-line {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 180px;
-    z-index: 100;
-    animation: scanDown 10s linear infinite;
-    pointer-events: none;
-  }
-
-  /* Leading edge — bright thin line with glow */
-  .scan-line::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg,
-      transparent 5%,
-      rgba(46, 204, 113, 0.15) 15%,
-      rgba(46, 204, 113, 0.35) 40%,
-      rgba(46, 204, 113, 0.4) 50%,
-      rgba(46, 204, 113, 0.35) 60%,
-      rgba(46, 204, 113, 0.15) 85%,
-      transparent 95%
-    );
-    box-shadow:
-      0 0 12px rgba(46, 204, 113, 0.08),
-      0 0 40px rgba(46, 204, 113, 0.03);
-  }
-
-  /* Trailing interference — horizontal scan lines that fade out */
-  .scan-line::after {
-    content: '';
-    position: absolute;
-    top: 1px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background:
-      repeating-linear-gradient(180deg,
-        rgba(46, 204, 113, 0.025) 0px,
-        transparent 1px,
-        transparent 3px,
-        rgba(46, 204, 113, 0.015) 4px,
-        transparent 5px,
-        transparent 8px
-      );
-    mask-image: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.15) 30%, transparent 100%);
-    -webkit-mask-image: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.15) 30%, transparent 100%);
-  }
-
-  @keyframes scanDown {
-    0% { transform: translateY(-180px); }
-    100% { transform: translateY(100vh); }
   }
 
   /* ─── Classification bar ─── */
