@@ -4,7 +4,7 @@ import type { MapLine } from '../../../lib/schemas';
 
 // ── Zoom types & helpers ──
 
-export type TimelineZoomLevel = 'all' | 'year' | 'quarter' | 'month' | 'week';
+export type TimelineZoomLevel = 'all' | 'year' | 'quarter' | 'month' | 'week' | 'day';
 
 const ZOOM_DAYS: Record<TimelineZoomLevel, number> = {
   all: Infinity,
@@ -12,6 +12,7 @@ const ZOOM_DAYS: Record<TimelineZoomLevel, number> = {
   quarter: 90,
   month: 30,
   week: 7,
+  day: 1,
 };
 
 const ZOOM_LABELS: Record<TimelineZoomLevel, string> = {
@@ -20,6 +21,7 @@ const ZOOM_LABELS: Record<TimelineZoomLevel, string> = {
   quarter: 'QTR',
   month: 'MO',
   week: 'WK',
+  day: 'DAY',
 };
 
 function computeZoomWindow(
@@ -57,12 +59,13 @@ function computeZoomWindow(
 }
 
 function availableZoomLevels(totalDays: number): TimelineZoomLevel[] {
-  if (totalDays <= 10) return [];
+  if (totalDays <= 1) return [];
   const levels: TimelineZoomLevel[] = ['all'];
   if (totalDays > 365) levels.push('year');
   if (totalDays > 90) levels.push('quarter');
   if (totalDays > 30) levels.push('month');
   if (totalDays > 7) levels.push('week');
+  if (totalDays > 1) levels.push('day');
   return levels;
 }
 
@@ -438,38 +441,86 @@ export default function CesiumTimelineBar({
         </div>
       )}
 
-      {/* Timeline track with event ticks */}
-      <div className="globe-tl-track-container">
-        <span className="globe-tl-date-edge">{formatDate(viewMin)}</span>
-        <div className="globe-tl-track">
-          {/* Event tick marks */}
-          {ticks.map((tick, i) => (
-            <div
-              key={i}
-              className="globe-tl-tick"
-              style={{
-                left: `${tick.pct}%`,
-                backgroundColor: EVENT_TYPE_COLORS[tick.type] || '#888',
+      {/* Timeline track with event ticks — or intra-day slider at DAY zoom */}
+      {zoomLevel === 'day' ? (
+        <div className="globe-tl-intraday">
+          <span className="globe-tl-intraday-label">
+            {formatHHMM(currentMinute)} UTC
+          </span>
+          <div className="globe-tl-intraday-track">
+            {/* Hour markers */}
+            {[0, 3, 6, 9, 12, 15, 18, 21].map(h => (
+              <span
+                key={h}
+                className="globe-tl-intraday-hour"
+                style={{ left: `${(h / 24) * 100}%` }}
+              >
+                {h.toString().padStart(2, '0')}
+              </span>
+            ))}
+            {/* Intra-day event ticks */}
+            {intradayTicks.map((t, i) => (
+              <div
+                key={i}
+                className="globe-tl-intraday-tick"
+                style={{
+                  left: `${(t.minute / 1440) * 100}%`,
+                  backgroundColor: t.color,
+                }}
+                title={t.label}
+              />
+            ))}
+            <input
+              type="range"
+              className="globe-tl-slider globe-tl-intraday-slider"
+              min={0}
+              max={1440}
+              value={currentMinute}
+              aria-label="Intra-day time selector"
+              aria-valuetext={formatHHMM(currentMinute)}
+              onChange={e => {
+                if (!onTimeChange) return;
+                const min = Number(e.target.value);
+                const dayStart = new Date(currentDate + 'T00:00:00Z').getTime();
+                onTimeChange(dayStart + min * 60000);
               }}
-              title={`${tick.title} (${tick.date})`}
             />
-          ))}
-          <input
-            type="range"
-            className="globe-tl-slider"
-            min={0}
-            max={viewTotalDays}
-            value={clampedViewDay}
-            aria-label="Timeline date selector"
-            aria-valuetext={formatDate(currentDate)}
-            onChange={e => onDateChange(dayToDate(Number(e.target.value), viewMin))}
-          />
+          </div>
+          <span className="globe-tl-intraday-label">24:00</span>
         </div>
-        <span className="globe-tl-date-edge">{formatDate(viewMax)}</span>
-      </div>
+      ) : (
+        <div className="globe-tl-track-container">
+          <span className="globe-tl-date-edge">{formatDate(viewMin)}</span>
+          <div className="globe-tl-track">
+            {/* Event tick marks */}
+            {ticks.map((tick, i) => (
+              <div
+                key={i}
+                className="globe-tl-tick"
+                style={{
+                  left: `${tick.pct}%`,
+                  backgroundColor: EVENT_TYPE_COLORS[tick.type] || '#888',
+                }}
+                title={`${tick.title} (${tick.date})`}
+              />
+            ))}
+            <input
+              type="range"
+              className="globe-tl-slider"
+              min={0}
+              max={viewTotalDays}
+              value={clampedViewDay}
+              aria-label="Timeline date selector"
+              aria-valuetext={formatDate(currentDate)}
+              onChange={e => onDateChange(dayToDate(Number(e.target.value), viewMin))}
+            />
+          </div>
+          <span className="globe-tl-date-edge">{formatDate(viewMax)}</span>
+        </div>
+      )}
 
-      {/* Intra-day timeline — shows when current day has timed events */}
-      {hasIntradayEvents && (
+      {/* Intra-day timeline — shows below date slider when current day has timed events (non-DAY zoom) */}
+      {zoomLevel !== 'day' && hasIntradayEvents && (
         <div className="globe-tl-intraday">
           <span className="globe-tl-intraday-label">
             {formatHHMM(currentMinute)} UTC
@@ -508,7 +559,6 @@ export default function CesiumTimelineBar({
               onChange={e => {
                 if (!onTimeChange) return;
                 const min = Number(e.target.value);
-                // Compute ms: start of current day + minutes
                 const dayStart = new Date(currentDate + 'T00:00:00Z').getTime();
                 onTimeChange(dayStart + min * 60000);
               }}
