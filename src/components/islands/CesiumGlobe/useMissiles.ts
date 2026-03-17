@@ -168,16 +168,36 @@ export function useMissiles(
     // Render static arcs immediately
     for (const line of toStatic) {
       const offset = lateralOffsets.get(line.id) ?? 0;
+      const isWeaponLine = line.cat === 'strike' || line.cat === 'retaliation';
       const positions = arc3D(line.from, line.to, 60, weaponPeakAlt(line.weaponType), offset);
       const entity = viewer.entities.add({
         name: line.label,
         polyline: {
           positions,
-          width: lineWidth(line.cat),
-          material: arcMaterial(line.cat),
+          width: isWeaponLine ? weaponTrailWidth(line.weaponType) : lineWidth(line.cat),
+          material: isWeaponLine ? weaponTrailMaterial(line.weaponType) : arcMaterial(line.cat),
         },
       });
       staticEntitiesRef.current.push(entity);
+
+      // Show weapon billboard at destination when paused
+      if (isWeaponLine && line.weaponType) {
+        const color = weaponColor(line.weaponType);
+        const iconType = weaponIconType(line.weaponType);
+        const size = weaponBillboardSize(line.weaponType, true);
+        const endpointEntity = viewer.entities.add({
+          position: Cartesian3.fromDegrees(line.to[0], line.to[1], 0),
+          billboard: {
+            image: getIconDataUri(iconType, color.toCssColorString()),
+            width: size.width,
+            height: size.height,
+            verticalOrigin: VerticalOrigin.CENTER,
+            horizontalOrigin: HorizontalOrigin.CENTER,
+            scaleByDistance: new NearFarScalar(1e5, 1.0, 1e7, 0.3),
+          },
+        });
+        staticEntitiesRef.current.push(endpointEntity);
+      }
     }
 
     // Cap animated arcs — overflow goes to static
@@ -189,11 +209,30 @@ export function useMissiles(
         name: line.label,
         polyline: {
           positions,
-          width: lineWidth(line.cat),
-          material: arcMaterial(line.cat),
+          width: weaponTrailWidth(line.weaponType),
+          material: weaponTrailMaterial(line.weaponType),
         },
       });
       staticEntitiesRef.current.push(entity);
+
+      // Endpoint billboard for overflow arcs
+      if (line.weaponType) {
+        const color = weaponColor(line.weaponType);
+        const iconType = weaponIconType(line.weaponType);
+        const size = weaponBillboardSize(line.weaponType, false);
+        const endpointEntity = viewer.entities.add({
+          position: Cartesian3.fromDegrees(line.to[0], line.to[1], 0),
+          billboard: {
+            image: getIconDataUri(iconType, color.toCssColorString()),
+            width: size.width,
+            height: size.height,
+            verticalOrigin: VerticalOrigin.CENTER,
+            horizontalOrigin: HorizontalOrigin.CENTER,
+            scaleByDistance: new NearFarScalar(1e5, 1.0, 1e7, 0.3),
+          },
+        });
+        staticEntitiesRef.current.push(endpointEntity);
+      }
     }
 
     if (animatable.length === 0) {
