@@ -264,6 +264,36 @@ jobs:
           npm run build 2>&1 | tail -20
           echo "build=true" >> $GITHUB_OUTPUT
 
+      - name: Update README tracker index
+        if: steps.changes.outputs.changed == 'true' && steps.build_test.outputs.build == 'true'
+        run: |
+          SLUG="${{ github.event.inputs.slug }}"
+          REGION="${{ github.event.inputs.region }}"
+          node -e "
+          const fs = require('fs');
+          const config = JSON.parse(fs.readFileSync('trackers/${SLUG}/tracker.json', 'utf8'));
+          const name = config.name;
+          let desc = config.description;
+          if (desc.length > 80) desc = desc.slice(0, 80) + '...';
+          const sections = config.sections.length;
+          const globe = config.globe?.enabled ? '3D' : '—';
+          const base = 'https://artemiopadilla.github.io/watchboard';
+          const row = '| **[' + name + '](' + base + '/${SLUG}/)** | ' + desc + ' | ' + sections + ' | ' + '${REGION}' + ' | ' + globe + ' |';
+          const readme = fs.readFileSync('README.md', 'utf8');
+          const lines = readme.split('\n');
+          let lastRowIdx = -1;
+          for (let i = 0; i < lines.length; i++) {
+            if (lines[i].startsWith('| **[')) lastRowIdx = i;
+          }
+          if (lastRowIdx >= 0) {
+            lines.splice(lastRowIdx + 1, 0, row);
+            fs.writeFileSync('README.md', lines.join('\n'));
+            console.log('Added ' + name + ' to README after line ' + (lastRowIdx + 1));
+          } else {
+            console.log('WARNING: Could not find tracker table in README.md');
+          }
+          "
+
       - name: Commit and push
         if: steps.changes.outputs.changed == 'true' && steps.build_test.outputs.build == 'true'
         env:
@@ -273,7 +303,7 @@ jobs:
           git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git"
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add "trackers/${SLUG}/"
+          git add "trackers/${SLUG}/" README.md
           git commit -m "feat(tracker): initialize ${SLUG} tracker $(date -u +%Y-%m-%dT%H:%M:%SZ)"
           for i in 1 2 3; do
             git pull --rebase origin main && git push && break
