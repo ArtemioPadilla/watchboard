@@ -11,7 +11,7 @@ const { meta, trackerSlug, githubRepo } = Astro.props;
 const base = import.meta.env.BASE_URL;
 const basePath = base.endsWith('/') ? base : `${base}/`;
 const aboutHref = trackerSlug ? `${basePath}${trackerSlug}/about/` : `${basePath}about/`;
-const githubUrl = githubRepo ? `https://github.com/${githubRepo}` : 'https://github.com/ArtemioPadilla/iran-conflict-tracker';
+const githubUrl = githubRepo ? `https://github.com/${githubRepo}` : 'https://github.com/ArtemioPadilla/watchboard';
 ---
 <footer class="site-footer">
   <div class="footer-inner">

@@ -5,10 +5,10 @@ export default defineConfig({
   integrations: [react()],
   output: 'static',
   site: 'https://artemiopadilla.github.io',
-  base: '/iran-conflict-tracker',
+  base: '/watchboard',
   vite: {
     define: {
-      CESIUM_BASE_URL: JSON.stringify('/iran-conflict-tracker/cesium/'),
+      CESIUM_BASE_URL: JSON.stringify('/watchboard/cesium/'),
     },
   },
 });

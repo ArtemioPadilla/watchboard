@@ -10,11 +10,11 @@ interface Props {
 
 const { title, description, trackerSlug, githubRepo } = Astro.props;
 const siteUrl = import.meta.env.SITE || 'https://artemiopadilla.github.io';
-const base = import.meta.env.BASE_URL || '/iran-conflict-tracker';
+const base = import.meta.env.BASE_URL || '/watchboard';
 const basePath = base.endsWith('/') ? base : `${base}/`;
 const pageUrl = trackerSlug ? `${siteUrl}${basePath}${trackerSlug}/` : `${siteUrl}${basePath}`;
 const desc = description || 'Multi-topic intelligence dashboard with sourced data, interactive maps, and contested claims tracking.';
-const githubUrl = githubRepo ? `https://github.com/${githubRepo}` : 'https://github.com/ArtemioPadilla/iran-conflict-tracker';
+const githubUrl = githubRepo ? `https://github.com/${githubRepo}` : 'https://github.com/ArtemioPadilla/watchboard';
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -38,8 +38,8 @@ const githubUrl = githubRepo ? `https://github.com/${githubRepo}` : 'https://git
     "description": desc,
     "url": pageUrl,
   })} />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="/iran-conflict-tracker/fonts/dm-sans-latin.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="/iran-conflict-tracker/fonts/jetbrains-mono-latin.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="/watchboard/fonts/dm-sans-latin.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="/watchboard/fonts/jetbrains-mono-latin.woff2">
 </head>
 <body>
   <div class="tooltip" id="tooltip"></div>

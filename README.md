@@ -1,8 +1,8 @@
-# Intel Dashboard — Multi-Topic Intelligence Platform
+# Watchboard — Multi-Topic Intelligence Platform
 
 A config-driven intelligence dashboard platform for tracking events of interest. Each tracker is a self-contained dashboard with its own data, map region, sections, and AI update prompts. Built with Astro 5, TypeScript, and React — auto-updated nightly via AI web search.
 
-**[Live Dashboard](https://artemiopadilla.github.io/intel-dashboard/)**
+**[Live Dashboard](https://artemiopadilla.github.io/watchboard/)**
 
 ---
 
@@ -10,8 +10,8 @@ A config-driven intelligence dashboard platform for tracking events of interest.
 
 | Tracker | Description | Sections | Map | Globe |
 |---------|-------------|----------|-----|-------|
-| **[Iran Conflict](https://artemiopadilla.github.io/intel-dashboard/iran-conflict/)** | 2026 Iran-US/Israel conflict (Operation Epic Fury / Roaring Lion) | 9 | Middle East theater | 3D |
-| **[Ayotzinapa](https://artemiopadilla.github.io/intel-dashboard/ayotzinapa/)** | 2014 forced disappearance of 43 students in Iguala, Guerrero, Mexico | 6 | Mexico | — |
+| **[Iran Conflict](https://artemiopadilla.github.io/watchboard/iran-conflict/)** | 2026 Iran-US/Israel conflict (Operation Epic Fury / Roaring Lion) | 9 | Middle East theater | 3D |
+| **[Ayotzinapa](https://artemiopadilla.github.io/watchboard/ayotzinapa/)** | 2014 forced disappearance of 43 students in Iguala, Guerrero, Mexico | 6 | Mexico | — |
 
 ---
 
@@ -70,7 +70,7 @@ Every data point is classified:
 ## Project Structure
 
 ```
-intel-dashboard/
+watchboard/
 ├── trackers/                          # Tracker configs + data
 │   ├── iran-conflict/
 │   │   ├── tracker.json               # Tracker config
@@ -167,7 +167,7 @@ The workflow commits changes to `trackers/*/data/` and pushes to `main`, trigger
 1. Go to repo **Settings > Pages**
 2. Set source to **GitHub Actions**
 3. The included workflow auto-deploys on every push to `main`
-4. Site available at: `https://<username>.github.io/intel-dashboard/`
+4. Site available at: `https://<username>.github.io/watchboard/`
 
 ### Other hosts
 
