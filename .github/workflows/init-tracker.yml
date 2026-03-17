@@ -1,0 +1,295 @@
+name: Initialize New Tracker
+
+on:
+  workflow_dispatch:
+    inputs:
+      slug:
+        description: 'Tracker slug (kebab-case, e.g., myanmar-coup)'
+        required: true
+      topic:
+        description: 'What this tracker covers (natural language description)'
+        required: true
+      start_date:
+        description: 'Timeline start date (YYYY-MM-DD)'
+        required: true
+      region:
+        description: 'Geographic focus (e.g., Myanmar/Southeast Asia)'
+        required: true
+      auto_seed:
+        description: 'Automatically trigger seed-tracker.yml after init'
+        required: false
+        default: 'true'
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  id-token: write
+  actions: write
+
+jobs:
+  init:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify tracker does not already exist
+        run: |
+          SLUG="${{ github.event.inputs.slug }}"
+          if [ -d "trackers/${SLUG}" ]; then
+            echo "ERROR: trackers/${SLUG}/ already exists. Use seed-tracker.yml to populate existing trackers."
+            exit 1
+          fi
+          # Validate slug format
+          if ! echo "$SLUG" | grep -qE '^[a-z0-9-]+$'; then
+            echo "ERROR: slug must be kebab-case (lowercase letters, numbers, hyphens only)"
+            exit 1
+          fi
+          echo "Tracker slug '${SLUG}' is available"
+
+      - name: Initialize tracker with Claude Code
+        uses: anthropics/claude-code-action@v1
+        continue-on-error: true
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          prompt: |
+            You are initializing a NEW tracker for the Watchboard intelligence dashboard platform.
+
+            TRACKER DETAILS:
+            - Slug: ${{ github.event.inputs.slug }}
+            - Topic: ${{ github.event.inputs.topic }}
+            - Start date: ${{ github.event.inputs.start_date }}
+            - Geographic region: ${{ github.event.inputs.region }}
+
+            ══════════════════════════════════════════════
+            STEP 1 — STUDY EXISTING TRACKERS AS EXAMPLES
+            ══════════════════════════════════════════════
+
+            Read these files to understand the patterns and ALL required fields:
+            1. src/lib/tracker-config.ts — TrackerConfigSchema (every required and optional field)
+            2. src/lib/schemas.ts — data schemas for every section (MetaSchema is critical)
+            3. trackers/iran-conflict/tracker.json — example: military conflict tracker (all 9 sections)
+            4. trackers/ayotzinapa/tracker.json — example: human rights investigation (6 sections)
+
+            Understand the FULL TrackerConfigSchema before generating anything.
+
+            ══════════════════════════════════════════════
+            STEP 2 — GENERATE tracker.json
+            ══════════════════════════════════════════════
+
+            Create trackers/${{ github.event.inputs.slug }}/tracker.json with ALL required fields.
+
+            CRITICAL DECISIONS (based on the topic — do NOT copy-paste from Iran):
+
+            - slug: "${{ github.event.inputs.slug }}"
+            - name: A descriptive tracker name
+            - shortName: Short version for page titles
+            - description: 1-2 sentence description
+            - icon: An appropriate emoji
+            - color: A hex color fitting the topic
+            - status: "active"
+            - startDate: "${{ github.event.inputs.start_date }}"
+
+            - sections: Choose ONLY sections that make sense for this topic.
+              Military conflict → all 9. Investigation → skip military/casualties/economic.
+              Humanitarian crisis → include casualties, skip military. Always include hero, kpis, timeline.
+
+            - map.enabled: true
+            - map.bounds: Research the correct geographic bounds for "${{ github.event.inputs.region }}".
+              Use real coordinates (lonMin, lonMax, latMin, latMax).
+            - map.center: Center point of the region (lon, lat).
+            - map.categories: Create 3-5 categories SPECIFIC to this topic. Use meaningful IDs and labels.
+              For a coup: regime-action, protest, arrest, humanitarian.
+              For a disaster: impact-zone, shelter, aid-distribution, infrastructure.
+
+            - globe.enabled: true
+            - globe.cameraPresets: Create 4-6 presets with REAL coordinates for key locations.
+              Include a wide overview preset and specific site presets.
+              Each needs: lon, lat, alt, pitch (-90), heading (0), label.
+              Search the web for exact coordinates of important locations.
+
+            - navSections: Match enabled sections with appropriate nav labels.
+
+            - politicalAvatars: 4-6 avatar categories for this topic's factions/actors.
+            - eventTypes: 3-5 event type categories relevant to this topic.
+
+            - ai.systemPrompt: Write a CUSTOM prompt tailored to this topic.
+              Define the role (conflict analyst, human rights researcher, etc.).
+              Define source tiers specific to this domain:
+                Tier 1: Official/primary sources for this topic
+                Tier 2: Major outlets covering this topic
+                Tier 3: Institutional/analytical sources
+                Tier 4: Unverified/social media
+              Include these rules (required):
+                - "Your entire response must be ONLY a raw JSON array or object"
+                - "Every item must have an \"id\" field (lowercase_snake_case)"
+                - "Only include information you can verify through search results"
+              Use template variable {{today}} for today's date.
+
+            - ai.searchContext: Concise search query for this topic.
+            - ai.enabledSections: Match sections that should be auto-updated.
+            - ai.coordValidation: Match or slightly expand the map.bounds.
+            - ai.updateIntervalDays: 1 for active events, 7 for slow-moving, 30+ for cold cases.
+            - ai.backfillTargets: Appropriate minimum counts per section (timeline: 20-40, mapPoints: 10-30, claims: 10-20, political: 10-20, kpis: 6-10).
+
+            ══════════════════════════════════════════════
+            STEP 3 — CREATE DATA DIRECTORY AND FILES
+            ══════════════════════════════════════════════
+
+            Create the data directory and ALL required files:
+
+            1. Create directory: trackers/${{ github.event.inputs.slug }}/data/events/
+               (use mkdir -p)
+
+            2. Create trackers/${{ github.event.inputs.slug }}/data/meta.json:
+               {
+                 "operationName": "<short operation name>",
+                 "dayCount": <days from start_date to today>,
+                 "dateline": "<today's date, e.g., 17 MAR 2026>",
+                 "heroHeadline": "<initial headline about this topic>",
+                 "heroSubtitle": "<brief current status>",
+                 "footerNote": "Data sourced from official reports, major outlets, and institutional analyses.",
+                 "lastUpdated": "<current ISO timestamp>"
+               }
+
+            3. Create trackers/${{ github.event.inputs.slug }}/data/update-log.json:
+               { "lastRun": "<current ISO timestamp>", "tracker": "${{ github.event.inputs.slug }}", "sections": {} }
+
+            4. Create ALL these files with empty arrays []:
+               - kpis.json
+               - timeline.json
+               - map-points.json
+               - map-lines.json
+               - claims.json
+               - political.json
+               - casualties.json
+               - econ.json
+               - strike-targets.json
+               - retaliation.json
+               - assets.json
+
+            ══════════════════════════════════════════════
+            STEP 4 — VALIDATE
+            ══════════════════════════════════════════════
+
+            1. Read back tracker.json and verify valid JSON with all required fields
+            2. Verify all data files exist and contain valid JSON
+            3. Print a summary:
+               - Tracker name and slug
+               - Enabled sections
+               - Map categories
+               - Globe presets
+               - Update interval
+               - Number of data files created
+
+            IMPORTANT: Do NOT commit or push. The workflow handles that.
+            IMPORTANT: Do NOT seed/populate data. The seed-tracker workflow handles that separately.
+          claude_args: "--max-turns 40 --dangerously-skip-permissions"
+
+      - name: Check for changes
+        id: changes
+        run: |
+          SLUG="${{ github.event.inputs.slug }}"
+          if [ ! -d "trackers/${SLUG}" ]; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "ERROR: tracker directory was not created"
+            exit 1
+          fi
+          git add "trackers/${SLUG}/"
+          if git diff --cached --quiet "trackers/${SLUG}/"; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "=== Files created ==="
+            git diff --cached --name-only "trackers/${SLUG}/"
+          fi
+
+      - name: Validate JSON syntax
+        id: json_check
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          SLUG="${{ github.event.inputs.slug }}"
+          invalid=0
+          for f in $(find "trackers/${SLUG}" -name '*.json' -type f); do
+            if ! node -e "JSON.parse(require('fs').readFileSync('$f','utf8'))" 2>/dev/null; then
+              echo "INVALID JSON: $f"
+              invalid=$((invalid + 1))
+            fi
+          done
+          if [ "$invalid" -gt 0 ]; then
+            echo "valid=false" >> $GITHUB_OUTPUT
+            echo "$invalid file(s) failed JSON validation"
+          else
+            echo "valid=true" >> $GITHUB_OUTPUT
+            echo "All JSON files valid"
+          fi
+
+      - name: Validate tracker config schema
+        id: config_check
+        if: steps.changes.outputs.changed == 'true' && steps.json_check.outputs.valid == 'true'
+        run: |
+          SLUG="${{ github.event.inputs.slug }}"
+          npx tsx -e "
+          import { TrackerConfigSchema } from './src/lib/tracker-config.js';
+          import fs from 'fs';
+          const raw = JSON.parse(fs.readFileSync('trackers/${SLUG}/tracker.json', 'utf8'));
+          const result = TrackerConfigSchema.safeParse(raw);
+          if (result.success) {
+            console.log('✓ tracker.json passes TrackerConfigSchema');
+          } else {
+            console.error('✗ tracker.json failed validation:');
+            for (const err of result.error.errors) {
+              console.error('  ', err.path.join('.'), ':', err.message);
+            }
+            process.exit(1);
+          }
+          "
+          echo "valid=true" >> $GITHUB_OUTPUT
+
+      - name: Build test
+        id: build_test
+        if: steps.changes.outputs.changed == 'true' && steps.config_check.outputs.valid == 'true'
+        run: |
+          npm run build 2>&1 | tail -20
+          echo "build=true" >> $GITHUB_OUTPUT
+
+      - name: Commit and push
+        if: steps.changes.outputs.changed == 'true' && steps.build_test.outputs.build == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          SLUG="${{ github.event.inputs.slug }}"
+          git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add "trackers/${SLUG}/"
+          git commit -m "feat(tracker): initialize ${SLUG} tracker $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          for i in 1 2 3; do
+            git pull --rebase origin main && git push && break
+            echo "Push attempt $i failed, retrying..."
+            sleep 2
+          done
+
+      - name: Trigger seed workflow
+        if: github.event.inputs.auto_seed == 'true' && steps.changes.outputs.changed == 'true' && steps.build_test.outputs.build == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          SLUG="${{ github.event.inputs.slug }}"
+          # Wait for push to be available
+          sleep 5
+          gh workflow run seed-tracker.yml \
+            -f tracker_slug="${SLUG}" \
+            -f sections=all
+          echo "Seed workflow triggered for ${SLUG}"
