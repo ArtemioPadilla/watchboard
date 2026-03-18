@@ -17,9 +17,11 @@ interface Props {
   lines: MapLine[];
   events: FlatEvent[];
   categories?: MapCategory[];
+  mapCenter?: { lon: number; lat: number };
+  mapBounds?: { lonMin: number; lonMax: number; latMin: number; latMax: number };
 }
 
-export default function IntelMap({ points, lines, events, categories }: Props) {
+export default function IntelMap({ points, lines, events, categories, mapCenter, mapBounds }: Props) {
   // Use prop categories with fallback to hardcoded defaults
   const mapCategories = categories && categories.length > 0 ? categories : MAP_CATEGORIES;
   // ── Filters ──
@@ -186,6 +188,8 @@ export default function IntelMap({ points, lines, events, categories }: Props) {
           isPlaying={isPlaying}
           events={events}
           showFactCards={layers.factCards}
+          mapCenter={mapCenter}
+          mapBounds={mapBounds}
         />
 
         {/* Overlay: filter controls (top-left) */}

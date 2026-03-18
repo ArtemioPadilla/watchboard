@@ -52,7 +52,7 @@ const categories = config.map?.categories ?? [];
     <div class="theater-layout">
       {config.sections.includes('map') && (
         <div class="theater-map">
-          <IntelMap client:only="react" points={data.mapPoints} lines={data.mapLines} events={flatEvents} categories={categories} />
+          <IntelMap client:only="react" points={data.mapPoints} lines={data.mapLines} events={flatEvents} categories={categories} mapCenter={config.map?.center} mapBounds={config.map?.bounds} />
         </div>
       )}
       <div class={config.sections.includes('map') ? 'theater-scroll' : 'theater-scroll full-width'}>

@@ -26,6 +26,8 @@ interface Props {
   isPlaying?: boolean;
   events?: FlatEvent[];
   showFactCards?: boolean;
+  mapCenter?: { lon: number; lat: number };
+  mapBounds?: { lonMin: number; lonMax: number; latMin: number; latMax: number };
 }
 
 // ────────────────────────────────────────────
@@ -145,20 +147,26 @@ function quakeColor(depth: number): string {
 export default function LeafletMap({
   points, lines, onSelectPoint, onSelectLine, overlays,
   flights, terminatorPolygon, currentDate, isPlaying,
-  events, showFactCards,
+  events, showFactCards, mapCenter, mapBounds,
 }: Props) {
-  const center: LatLngExpression = [29, 49];
+  const center: LatLngExpression = mapCenter ? [mapCenter.lat, mapCenter.lon] : [29, 49];
 
   const basePoints = points.filter(p => p.base);
   const frontPoints = points.filter(p => p.cat === 'front');
   const regularPoints = points.filter(p => p.cat !== 'front' && !p.base);
 
+  const bounds = mapBounds
+    ? L.latLngBounds(
+        [mapBounds.latMin, mapBounds.lonMin],
+        [mapBounds.latMax, mapBounds.lonMax],
+      )
+    : undefined;
+
   return (
     <MapContainer
-      center={center}
-      zoom={5}
-      minZoom={4}
-      maxZoom={8}
+      {...(bounds ? { bounds } : { center, zoom: 5 })}
+      minZoom={3}
+      maxZoom={12}
       style={{ width: '100%', height: '100%', background: '#0d0f14' }}
       scrollWheelZoom={true}
       zoomControl={false}
