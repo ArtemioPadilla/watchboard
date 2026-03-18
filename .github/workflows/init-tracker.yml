@@ -104,9 +104,11 @@ jobs:
             - status: "active"
             - startDate: "${{ github.event.inputs.start_date }}"
 
-            - sections: Choose ONLY sections that make sense for this topic.
+            - sections: Choose ONLY from these EXACT valid section IDs (case-sensitive):
+              "hero", "kpis", "timeline", "map", "military", "casualties", "economic", "claims", "political"
               Military conflict → all 9. Investigation → skip military/casualties/economic.
               Humanitarian crisis → include casualties, skip military. Always include hero, kpis, timeline.
+              DO NOT use any other strings — "economy", "mil", "casualty" etc. will fail validation.
 
             - map.enabled: true
             - map.bounds: Research the correct geographic bounds for "${{ github.event.inputs.region }}".
