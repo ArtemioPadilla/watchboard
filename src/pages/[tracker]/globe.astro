@@ -42,5 +42,6 @@ const basePath = base.endsWith('/') ? base : `${base}/`;
     mapCenter={config.map?.center ?? { lon: 0, lat: 0 }}
     isHistorical={config.temporal === 'historical'}
     endDate={config.endDate}
+    clocks={config.globe?.clocks}
   />
 </BaseLayout>

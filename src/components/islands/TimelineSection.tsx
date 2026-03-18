@@ -32,7 +32,7 @@ export default function TimelineSection({ timeline }: Props) {
   ];
 
   return (
-    <section className="section fade-in" id="sec-timeline">
+    <section className="section" id="sec-timeline">
       <div className="section-header">
         <span className="section-num">01</span>
         <h2 className="section-title">Historical Timeline</h2>

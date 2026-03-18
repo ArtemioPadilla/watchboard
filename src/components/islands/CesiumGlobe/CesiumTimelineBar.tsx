@@ -122,6 +122,7 @@ interface Props {
   zoomLevel?: TimelineZoomLevel;
   onZoomChange?: (level: TimelineZoomLevel) => void;
   isHistorical?: boolean;
+  clocks?: { label: string; offsetHours: number }[];
 }
 
 /** Format time in a specific timezone offset (hours from UTC) */
@@ -227,6 +228,7 @@ export default function CesiumTimelineBar({
   zoomLevel = 'all',
   onZoomChange,
   isHistorical = false,
+  clocks,
 }: Props) {
   const [showSpeeds, setShowSpeeds] = useState(false);
   const [clockTick, setClockTick] = useState(0);
@@ -387,19 +389,18 @@ export default function CesiumTimelineBar({
           )}
         </span>
 
-        {/* Clocks — sim-time UTC for historical, multi-zone real-time for live */}
-        {isHistorical ? (
-          <div className="globe-tl-clocks">
+        {/* Clocks — sim-time UTC for historical, configurable zones for live */}
+        <div className="globe-tl-clocks">
+          {isHistorical ? (
             <span className="globe-tl-clock"><span className="globe-tl-clock-label">SIM</span> {formatTZ(simMs, 0)}</span>
-          </div>
-        ) : (
-          <div className="globe-tl-clocks">
-            <span className="globe-tl-clock"><span className="globe-tl-clock-label">TEHRAN</span> {formatTZ(simMs, 3.5)}</span>
-            <span className="globe-tl-clock"><span className="globe-tl-clock-label">TLV</span> {formatTZ(simMs, 3)}</span>
-            <span className="globe-tl-clock"><span className="globe-tl-clock-label">UTC</span> {formatTZ(simMs, 0)}</span>
-            <span className="globe-tl-clock"><span className="globe-tl-clock-label">CST</span> {formatTZ(simMs, -6)}</span>
-          </div>
-        )}
+          ) : (
+            (clocks || [{ label: 'UTC', offsetHours: 0 }]).map(c => (
+              <span key={c.label} className="globe-tl-clock">
+                <span className="globe-tl-clock-label">{c.label}</span> {formatTZ(simMs, c.offsetHours)}
+              </span>
+            ))
+          )}
+        </div>
       </div>
 
       {/* Zoom controls row */}

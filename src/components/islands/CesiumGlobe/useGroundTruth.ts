@@ -140,13 +140,14 @@ export function useGroundTruth(
       const cssColor = CATEGORY_COLORS[card.category] || '#ff4444';
       const color = Color.fromCssColorString(cssColor);
 
-      // Canvas-rendered card billboard
+      // Canvas-rendered card billboard (convert to data URI to avoid Cesium loading errors)
       const canvas = renderFactCardCanvas(card);
+      const imageUri = canvas.toDataURL('image/png');
       const billboardEntity = viewer.entities.add({
         name: `FC: ${card.title}`,
         position: Cartesian3.fromDegrees(card.lon, card.lat, 5000),
         billboard: {
-          image: canvas as any,
+          image: imageUri,
           width: CARD_WIDTH,
           height: CARD_HEIGHT,
           verticalOrigin: VerticalOrigin.BOTTOM,

@@ -42,10 +42,17 @@ const MapConfigSchema = z.object({
   categories: z.array(MapCategorySchema),
 });
 
+// ── Clock definition ──
+const ClockSchema = z.object({
+  label: z.string(),
+  offsetHours: z.number(),
+});
+
 // ── Globe config ──
 const GlobeConfigSchema = z.object({
   enabled: z.boolean(),
   cameraPresets: z.record(z.string(), CameraPresetSchema).optional(),
+  clocks: z.array(ClockSchema).optional(),
 });
 
 // ── AI update config ──

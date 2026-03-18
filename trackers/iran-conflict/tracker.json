@@ -31,7 +31,13 @@
       "ford_csg": { "lon": 33.5, "lat": 34.5, "alt": 150000, "pitch": -90, "heading": 0, "label": "USS Ford CSG" },
       "lincoln": { "lon": 60, "lat": 23, "alt": 150000, "pitch": -90, "heading": 0, "label": "USS Lincoln CSG" },
       "red_sea": { "lon": 42.5, "lat": 14.5, "alt": 300000, "pitch": -90, "heading": 0, "label": "Red Sea" }
-    }
+    },
+    "clocks": [
+      { "label": "TEHRAN", "offsetHours": 3.5 },
+      { "label": "TLV", "offsetHours": 3 },
+      { "label": "UTC", "offsetHours": 0 },
+      { "label": "EST", "offsetHours": -5 }
+    ]
   },
   "navSections": [
     { "id": "sec-timeline", "label": "Timeline" },

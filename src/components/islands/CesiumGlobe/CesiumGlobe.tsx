@@ -51,6 +51,7 @@ interface Props {
   mapCenter?: { lon: number; lat: number };
   isHistorical?: boolean;
   endDate?: string;
+  clocks?: { label: string; offsetHours: number }[];
 }
 
 // Configure Cesium Ion on module load
@@ -76,7 +77,7 @@ function msToDateStr(ms: number): string {
   return new Date(ms).toISOString().split('T')[0];
 }
 
-export default function CesiumGlobe({ points, lines, kpis, meta, events = [], cameraPresets = {}, categories = [], mapCenter, isHistorical = false, endDate }: Props) {
+export default function CesiumGlobe({ points, lines, kpis, meta, events = [], cameraPresets = {}, categories = [], mapCenter, isHistorical = false, endDate, clocks }: Props) {
   const viewerRef = useRef<CesiumComponentRef<CesiumViewer> | null>(null);
   const creditDivRef = useRef<HTMLDivElement | null>(null);
   if (!creditDivRef.current && typeof document !== 'undefined') {
@@ -155,7 +156,7 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [], ca
     const maxFromData = allDates[allDates.length - 1] || TODAY;
     return {
       min: allDates[0] || '2025-12-01',
-      max: isHistorical && endDate ? (endDate < maxFromData ? maxFromData : endDate) : maxFromData,
+      max: isHistorical && endDate ? endDate : maxFromData,
     };
   }, [points, lines, isHistorical, endDate]);
 
@@ -559,6 +560,7 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [], ca
         zoomLevel={zoomLevel}
         onZoomChange={setZoomLevel}
         isHistorical={isHistorical}
+        clocks={clocks}
       />
 
       {isMobile ? (

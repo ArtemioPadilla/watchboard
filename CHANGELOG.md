@@ -8,6 +8,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Cinematic Event Mode** for 3D globe: auto-flies camera to event locations as timeline plays
+  - New `useCinematicMode.ts` hook: computes shot queue from map lines/points per date, orchestrates camera via separate RAF loop
+  - Shot types: overview, arc (strike midpoint), target (impact point), point (standalone locations)
+  - Subtle heading drift during dwell for cinematic feel; transition speed adapts to distance
+  - Toggle button in CesiumControls toolbar (play icon with pulsing green glow when active)
+  - Cinematic overlay shows shot counter and label at top-center
+  - Events panel auto-scrolls and highlights active event with green border glow
+  - `flyToPosition` function added to `useCesiumCamera` for arbitrary coordinate camera flights
+
+### Changed
+- **3D Globe tracker-agnostic refactor**: CesiumGlobe component now fully driven by tracker config props instead of hardcoded Iran-specific data
+  - Removed hardcoded `CAMERA_PRESETS` from `cesium-config.ts` and `PRESET_LABELS` from CesiumControls/MobileBottomSheet
+  - Camera presets, map categories, and initial camera position now flow from `tracker.json` through `globe.astro` as props
+  - `useCesiumCamera` accepts presets as parameter instead of importing hardcoded constant
+  - Active filters initialize from tracker categories; military-specific layers default OFF for non-military trackers
+  - `CameraPresetSchema` in tracker-config now supports optional `label` field
+  - Iran conflict tracker presets enriched with human-readable labels
+  - Ayotzinapa tracker globe enabled with 5 camera presets (Guerrero, Iguala, Cocula, Ayotzinapa School, Mexico City)
+  - Build now generates 7 pages (was 6) -- Ayotzinapa gains `/ayotzinapa/globe/`
+
+### Added
 - **Map data backfill Mar 9-13**: 33 new map-lines and 15 new map-points for Iran conflict tracker
   - March 9: IDF airfield strikes (6 bases), IRGC Space Command, Ahvaz Drone HQ, Bandar Abbas naval ship, Isfahan IRGC leaders, NATO Turkey intercept, Iran northern Israel waves, Shaybah interception
   - March 10: Tehran south refinery, Iran Haifa oil refineries retaliation, Tel Aviv cluster warhead barrages
