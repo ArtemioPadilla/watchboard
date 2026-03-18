@@ -2,14 +2,14 @@
   {
     "id": "days-since-mencho-killed",
     "label": "Days Since El Mencho Killed",
-    "value": "23",
+    "value": "24",
     "color": "red",
     "source": "SEDENA / SSPC — Feb 22, 2026",
     "contested": false,
     "delta": "Feb 22, 2026",
     "deltaNote": "Date of Tapalpa operation",
     "trend": "up",
-    "lastUpdated": "2026-03-17T00:00:00.000Z"
+    "lastUpdated": "2026-03-18T06:00:00.000Z"
   },
   {
     "id": "us-bounty-mencho",
@@ -19,9 +19,9 @@
     "source": "U.S. State Dept Narcotics Rewards Program — Dec 2024",
     "contested": false,
     "delta": "↑ from $10M in 2018",
-    "deltaNote": "Largest bounty ever for a drug trafficker at time of increase",
-    "trend": "up",
-    "lastUpdated": "2026-03-17T00:00:00.000Z"
+    "deltaNote": "Largest bounty ever for a drug trafficker at time of increase; contributed to Feb 22 operation",
+    "trend": "stable",
+    "lastUpdated": "2026-03-18T06:00:00.000Z"
   },
   {
     "id": "cjng-states-presence",
@@ -30,9 +30,9 @@
     "color": "red",
     "source": "InSight Crime / ACLED — 2025",
     "contested": true,
-    "contestNote": "Estimates range 25–29 states depending on methodology",
+    "contestNote": "Estimates range 25–29 states depending on methodology; post-Mencho fragmentation may alter count",
     "trend": "stable",
-    "lastUpdated": "2026-03-17T00:00:00.000Z"
+    "lastUpdated": "2026-03-18T06:00:00.000Z"
   },
   {
     "id": "colima-homicide-rate",
@@ -42,9 +42,9 @@
     "source": "SESNSP / Mexico Peace Index — 2024",
     "contested": false,
     "delta": "↓ from 111 in 2023",
-    "deltaNote": "Still highest of any Mexican state; 5× national average",
-    "trend": "down",
-    "lastUpdated": "2026-03-17T00:00:00.000Z"
+    "deltaNote": "Still highest of any Mexican state; 5× national average. Post-Mencho succession violence expected to push rate higher in 2026.",
+    "trend": "up",
+    "lastUpdated": "2026-03-18T06:00:00.000Z"
   },
   {
     "id": "el-menchito-forfeiture",
@@ -55,31 +55,32 @@
     "contested": true,
     "contestNote": "Order targets Rubén Oseguera González; actual recovery expected to be far lower",
     "trend": "stable",
-    "lastUpdated": "2026-03-17T00:00:00.000Z"
+    "lastUpdated": "2026-03-18T06:00:00.000Z"
   },
   {
     "id": "mexico-national-homicide-rate",
-    "label": "Mexico National Homicide Rate (per 100k)",
-    "value": "19.3",
-    "color": "amber",
-    "source": "SESNSP / Vision of Humanity Mexico Peace Index — 2024",
-    "contested": false,
-    "delta": "↓ from 23.3 in 2023",
-    "deltaNote": "Fourth consecutive year of decline nationally",
+    "label": "Mexico Homicides Declined in 2025",
+    "value": "−30%",
+    "color": "green",
+    "source": "SESNSP / Mexico News Daily — Jan 2026",
+    "contested": true,
+    "contestNote": "23,374 total homicides in 2025 (17.5/100k — lowest since 2016). Analysts caution decline may reflect criminal consolidation, not genuine peace. Post-Mencho fragmentation expected to reverse gains.",
+    "delta": "23,374 total in 2025",
+    "deltaNote": "Fourth consecutive year of decline nationally; analysts warn of reversal in 2026",
     "trend": "down",
-    "lastUpdated": "2026-03-17T00:00:00.000Z"
+    "lastUpdated": "2026-03-18T06:00:00.000Z"
   },
   {
     "id": "cjng-high-value-extraditions",
-    "label": "CJNG HVTs Extradited to U.S.",
-    "value": "29+",
+    "label": "CJNG HVTs Extradited/Captured",
+    "value": "33+",
     "color": "green",
-    "source": "U.S. DOJ / FGR — Feb 27, 2025 batch extradition",
+    "source": "U.S. DOJ / FGR / La Silla Rota — Mar 2026",
     "contested": false,
-    "delta": "29 in single batch, Feb 2025",
-    "deltaNote": "Largest single-batch cartel extradition in Mexican history",
+    "delta": "+4 since Feb 22",
+    "deltaNote": "El Tuli killed Feb 22; El Doble R arrested Mar 11; 2 personal security detail members arrested Feb 22. Largest post-leadership takedown in CJNG history.",
     "trend": "up",
-    "lastUpdated": "2026-03-17T00:00:00.000Z"
+    "lastUpdated": "2026-03-18T06:00:00.000Z"
   },
   {
     "id": "violence-cost-mexico",
@@ -88,9 +89,9 @@
     "color": "amber",
     "source": "Vision of Humanity Mexico Peace Index — 2024",
     "contested": true,
-    "contestNote": "Estimate equals ~18% of Mexican GDP; methodology disputed by some economists",
+    "contestNote": "Estimate equals ~18% of Mexican GDP; rose for first time since 2019 despite national homicide decline. CJNG fragmentation expected to increase cost in 2026.",
     "delta": "4.5 trillion pesos",
-    "trend": "stable",
-    "lastUpdated": "2026-03-17T00:00:00.000Z"
+    "trend": "up",
+    "lastUpdated": "2026-03-18T06:00:00.000Z"
   }
 ]

@@ -2,9 +2,9 @@
   {
     "id": "brent_crude",
     "label": "Brent Crude",
-    "value": "~$107/bbl",
-    "change": "+37.7% (crisis)",
-    "direction": "up",
+    "value": "~$101/bbl",
+    "change": "-5.6% from Day 18 peak",
+    "direction": "down",
     "sparkData": [
       77.74,
       79.37,
@@ -17,19 +17,19 @@
       90.2,
       100.5,
       103.0,
-      106.0,
-      107.0
+      107.0,
+      101.0
     ],
     "color": "#e74c3c",
-    "source": "Reuters / Al Jazeera / CNBC / Euronews",
-    "lastUpdated": "2026-03-17T06:00:00.000Z"
+    "source": "Reuters / OilPrice.com / Al Jazeera",
+    "lastUpdated": "2026-03-18T06:00:00.000Z"
   },
   {
     "id": "wti_crude",
     "label": "WTI Crude",
-    "value": "~$97/bbl",
-    "change": "+25.3% (crisis)",
-    "direction": "up",
+    "value": "~$92/bbl",
+    "change": "-5.5% from Day 18",
+    "direction": "down",
     "sparkData": [
       71.23,
       72.4,
@@ -40,11 +40,12 @@
       109.5,
       76.8,
       87.1,
-      97.0
+      97.0,
+      92.5
     ],
     "color": "#e67e22",
-    "source": "Reuters / Al Jazeera",
-    "lastUpdated": "2026-03-13T06:00:00.000Z"
+    "source": "Reuters / OilPrice.com",
+    "lastUpdated": "2026-03-18T06:00:00.000Z"
   },
   {
     "id": "gold_spot",
@@ -131,9 +132,9 @@
   },
   {
     "id": "gas_price_us",
-    "label": "US Gas Price",
-    "value": "$4.28+/gal",
-    "change": "+45% since Feb 28",
+    "label": "US Diesel Price",
+    "value": "$5.00+/gal",
+    "change": "+69% since Feb 28",
     "direction": "up",
     "sparkData": [
       2.95,
@@ -146,12 +147,12 @@
       3.54,
       3.75,
       4.10,
-      4.15,
-      4.28
+      4.28,
+      5.00
     ],
     "color": "#e74c3c",
-    "source": "NPR / AAA / Reuters / GPB",
-    "lastUpdated": "2026-03-17T06:00:00.000Z"
+    "source": "NPR / AAA / Reuters / OilPrice.com",
+    "lastUpdated": "2026-03-18T06:00:00.000Z"
   },
   {
     "id": "iea_reserve_release",
@@ -187,9 +188,9 @@
   {
     "id": "hormuz_traffic",
     "label": "Hormuz Traffic",
-    "value": "~0%",
-    "change": "IRGC blockade; only 5 tankers left in 24hrs",
-    "direction": "down",
+    "value": "~25% (recovering)",
+    "change": "Nearly doubled Day 19 — Iran allowing more ships",
+    "direction": "up",
     "sparkData": [
       100,
       90,
@@ -198,10 +199,12 @@
       10,
       3,
       1,
-      0
+      0,
+      12,
+      25
     ],
-    "color": "#e74c3c",
-    "source": "Kpler / NPR / CNBC",
-    "lastUpdated": "2026-03-13T06:00:00.000Z"
+    "color": "#27ae60",
+    "source": "Al Jazeera / OilPrice.com / Kpler",
+    "lastUpdated": "2026-03-18T06:00:00.000Z"
   }
 ]
