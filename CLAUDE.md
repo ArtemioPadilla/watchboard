@@ -4,9 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-**Watchboard** — a multi-topic intelligence dashboard platform. Each "tracker" is a self-contained dashboard with its own data, sections, map region, and AI update prompts. Built with Astro 5, TypeScript, and React islands. Data stored as JSON files per tracker, auto-updated nightly via Claude API.
+**Watchboard** — a multi-topic intelligence dashboard platform. Each "tracker" is a self-contained dashboard with its own data, sections, map region, 3D globe, and AI update prompts. Built with Astro 5, TypeScript, and React islands. Data stored as JSON files per tracker, auto-updated via Claude Code Action (Max subscription OAuth).
 
-Currently active trackers: **Iran Conflict** (2026 war), **Ayotzinapa** (2014 disappearance).
+Active trackers: **Iran Conflict**, **September 11**, **Chernobyl**, **Fukushima**, **Ayotzinapa**, **MH17 Shootdown**, **Mencho/CJNG**, **Culiacanazo**, and more. New trackers can be created in ~25 min via the `init-tracker.yml` GitHub Actions workflow.
 
 ## Commands
 
@@ -18,12 +18,15 @@ npm run update-data  # Run AI data update for all trackers (requires ANTHROPIC_A
 TRACKER_SLUG=iran-conflict npm run update-data  # Update a single tracker
 ```
 
-## Deployment
+## Deployment & Workflows
 
 - **Build + deploy**: `.github/workflows/deploy.yml` — triggers on push to `main`, builds Astro, deploys `dist/` to GitHub Pages
-- **Nightly data update**: `.github/workflows/update-data.yml` — runs at 6 AM UTC, iterates over all tracker configs, calls AI with web search to update each tracker's JSON data files, commits changes
-- Supports dual providers: Anthropic (default) or OpenAI
-- Env vars: `AI_PROVIDER` (`anthropic`|`openai`), `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, `ANTHROPIC_MODEL`, `OPENAI_MODEL`, `TRACKER_SLUG` (optional, defaults to `all`)
+- **Nightly data update**: `.github/workflows/update-data.yml` — runs at 6 AM UTC, resolves eligible trackers by comparing `updateIntervalDays` vs `update-log.json` lastRun, uses `claude-code-action` with OAuth token
+- **Init new tracker**: `.github/workflows/init-tracker.yml` — manual dispatch with slug, topic, start_date, region. Claude Code generates `tracker.json` + empty data files. Auto-chains into seed job.
+- **Seed tracker data**: `.github/workflows/seed-tracker.yml` — manual dispatch for comprehensive historical backfill. Claude Code does deep web research and populates all sections.
+- All data workflows use `claude-code-action` with `CLAUDE_CODE_OAUTH_TOKEN` (Max subscription) — no per-token API costs
+- Each workflow produces a `$GITHUB_STEP_SUMMARY` with data inventory tables
+- Legacy: `scripts/update-data.ts` still works with direct API keys (`ANTHROPIC_API_KEY` / `OPENAI_API_KEY`)
 
 ## Architecture
 
@@ -40,7 +43,7 @@ src/lib/schemas.ts         →  scripts/update-data.ts
 ### Tracker System
 
 Each tracker is a directory under `trackers/` containing:
-- `tracker.json` — config (slug, name, sections, map bounds/categories, globe presets, nav, AI prompts, political avatars)
+- `tracker.json` — config (slug, name, sections, map bounds/categories, globe presets, nav, AI prompts, political avatars, `updateIntervalDays`, `backfillTargets`)
 - `data/` — JSON data files (kpis, timeline, map-points, map-lines, etc.)
 - `data/events/` — partitioned daily event files (`YYYY-MM-DD.json`)
 
@@ -79,7 +82,7 @@ Client-hydrated interactive components:
 - **`TimelineSection.tsx`** — click-to-expand event detail panel
 - **`IntelMap.tsx`** — Leaflet map with filter toggles, accepts `categories` prop
 - **`MilitaryTabs.tsx`** — tabbed view, accepts `tabs` prop
-- **`CesiumGlobe/`** — 3D globe with missile animations, satellites, earthquakes
+- **`CesiumGlobe/`** — 3D globe with missile animations, satellites, earthquakes, cinematic event mode (`useCinematicMode.ts`). Globe is fully parameterized — camera presets, categories, and initial view come from `tracker.json` props, not hardcoded.
 
 ### Utilities (`src/lib/`)
 
@@ -89,14 +92,19 @@ Client-hydrated interactive components:
 - `map-utils.ts` — `geoToSVG()`, `MAP_CATEGORIES`, `generateSparkline()`
 - `tier-utils.ts` — `tierClass()`, `tierLabel()`, `contestedBadge()`
 - `constants.ts` — `NAV_SECTIONS`, `MIL_TABS` (loaded from default tracker config)
-- `timeline-utils.ts` — `flattenTimelineEvents()`, `resolveEventDate()`
+- `timeline-utils.ts` — `flattenTimelineEvents()`, `resolveEventDate()` (supports "Mon DD, YYYY" and "Mon DD" formats)
+- `cesium-config.ts` — `configureCesium()`, `CameraPreset` type, `CameraPresetsMap` type (presets come from tracker.json, not hardcoded)
 
 ### Adding a new tracker
 
-1. Create `trackers/{slug}/tracker.json` (copy from `trackers/iran-conflict/tracker.json` as template)
-2. Define sections, map config, globe config, nav, AI prompts in the config
+**Automated (recommended):** Dispatch `init-tracker.yml` from GitHub Actions with slug, topic description, start date, and region. Claude Code generates the full config + empty data files, validates schema, builds, commits, then auto-seeds historical data via a second job. Total ~25 min.
+
+**Manual:**
+1. Create `trackers/{slug}/tracker.json` (copy from an existing tracker as template)
+2. Define sections (valid IDs: `hero`, `kpis`, `timeline`, `map`, `military`, `casualties`, `economic`, `claims`, `political`)
 3. Create `trackers/{slug}/data/` with seed JSON files (at minimum: `meta.json`, empty arrays for unused sections)
 4. Run `npm run build` — the tracker auto-discovers and generates pages
+5. Dispatch `seed-tracker.yml` to backfill historical data
 
 ### Adding a new dashboard section
 
