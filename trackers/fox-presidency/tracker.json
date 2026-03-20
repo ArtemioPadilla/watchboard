@@ -1,0 +1,63 @@
+{
+  "slug": "fox-presidency",
+  "name": "Vicente Fox Presidency",
+  "shortName": "Fox (2000–2006)",
+  "description": "Intelligence dashboard covering Vicente Fox's presidency: Mexico's first PAN president, democratic transition from PRI, migration policy, US-Mexico relations post-9/11, and Fox's legacy.",
+  "icon": "🦊",
+  "color": "#3498db",
+  "status": "active",
+  "temporal": "historical",
+  "domain": "governance",
+  "region": "north-america",
+  "country": "MX",
+  "startDate": "2000-12-01",
+  "endDate": "2006-11-30",
+  "eraLabel": "Vicente Fox 2000–2006",
+  "series": { "id": "mx-presidencies", "name": "Mexican Presidencies", "order": 1 },
+  "tags": ["Fox", "PAN", "democratic transition", "NAFTA", "migration", "post-9/11"],
+  "sections": ["hero", "kpis", "timeline", "map", "economic", "claims", "political"],
+  "map": {
+    "enabled": true,
+    "bounds": { "lonMin": -118.0, "lonMax": -86.0, "latMin": 14.0, "latMax": 33.0 },
+    "center": { "lon": -102.0, "lat": 24.0 },
+    "categories": [
+      { "id": "economic", "label": "Economic Policy Events", "color": "#27ae60" },
+      { "id": "migration", "label": "Migration Events", "color": "#3498db" },
+      { "id": "political", "label": "Political Events", "color": "#9b59b6" },
+      { "id": "us-relation", "label": "US-Mexico Relations", "color": "#f39c12" }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "theater": { "lon": -102.0, "lat": 24.0, "alt": 3000000, "pitch": -90, "heading": 0, "label": "Mexico Overview" },
+      "mexico_city": { "lon": -99.13, "lat": 19.43, "alt": 80000, "pitch": -90, "heading": 0, "label": "Mexico City" },
+      "guanajuato": { "lon": -101.26, "lat": 21.02, "alt": 80000, "pitch": -90, "heading": 0, "label": "Guanajuato (Fox home state)" },
+      "washington": { "lon": -77.04, "lat": 38.90, "alt": 80000, "pitch": -90, "heading": 0, "label": "Washington D.C." }
+    }
+  },
+  "navSections": [
+    { "id": "sec-timeline", "label": "Timeline" },
+    { "id": "sec-map", "label": "Map" },
+    { "id": "sec-economic", "label": "Economic" },
+    { "id": "sec-contested", "label": "Contested" },
+    { "id": "sec-political", "label": "Political" }
+  ],
+  "politicalAvatars": ["fox", "pri", "prd", "us", "other"],
+  "eventTypes": ["political", "economic", "diplomatic", "social", "election"],
+  "ai": {
+    "systemPrompt": "You are a political analyst updating the Vicente Fox Presidency tracker.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose.\nEvery item must have an \"id\" field (lowercase_snake_case).\n\nSource tier classification:\n- Tier 1: Official (Diario Oficial, presidential decrees, INE records, Congressional records)\n- Tier 2: Major outlet (Reuters, AP, El Universal, Reforma, La Jornada, Proceso, El País)\n- Tier 3: Institutional (CIDE, UNAM, Wilson Center, Brookings, COLMEX)\n- Tier 4: Unverified (social media, unattributed political claims)\n\nOnly include information verifiable through search. Do not fabricate data.",
+    "searchContext": "Vicente Fox Mexico presidency 2000-2006 PAN democratic transition",
+    "enabledSections": ["kpis", "timeline", "mapPoints", "econ", "claims", "political"],
+    "coordValidation": { "lonMin": -119.0, "lonMax": -85.0, "latMin": 13.0, "latMax": 34.0 },
+    "updateIntervalDays": 180,
+    "backfillTargets": {
+      "timeline": 40,
+      "mapPoints": 20,
+      "claims": 15,
+      "political": 20,
+      "econ": 10
+    }
+  },
+  "githubRepo": "ArtemioPadilla/watchboard"
+}
