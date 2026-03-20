@@ -1,0 +1,72 @@
+{
+  "slug": "calderon-presidency",
+  "name": "Felipe Calderón Presidency",
+  "shortName": "Calderón (2006–2012)",
+  "description": "Intelligence dashboard covering Felipe Calderón's presidency: declaration of war on drug cartels, military deployment, escalating cartel violence, the Mérida Initiative with the US, and 60,000+ deaths.",
+  "icon": "⚔️",
+  "color": "#e74c3c",
+  "status": "active",
+  "temporal": "historical",
+  "domain": "governance",
+  "region": "north-america",
+  "country": "MX",
+  "startDate": "2006-12-01",
+  "endDate": "2012-11-30",
+  "eraLabel": "Felipe Calderón 2006–2012",
+  "series": { "id": "mx-presidencies", "name": "Mexican Presidencies", "order": 2 },
+  "tags": ["Calderón", "war on drugs", "Mérida Initiative", "cartel violence", "PAN", "SEDENA"],
+  "sections": ["hero", "kpis", "timeline", "map", "military", "casualties", "economic", "claims", "political"],
+  "map": {
+    "enabled": true,
+    "bounds": { "lonMin": -118.0, "lonMax": -86.0, "latMin": 14.0, "latMax": 33.0 },
+    "center": { "lon": -102.0, "lat": 24.0 },
+    "categories": [
+      { "id": "military-op", "label": "Military Operations", "color": "#3498db" },
+      { "id": "cartel-violence", "label": "Cartel Violence", "color": "#e74c3c" },
+      { "id": "political", "label": "Political Events", "color": "#9b59b6" },
+      { "id": "economic", "label": "Economic Events", "color": "#27ae60" }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "theater": { "lon": -102.0, "lat": 24.0, "alt": 3000000, "pitch": -90, "heading": 0, "label": "Mexico Overview" },
+      "mexico_city": { "lon": -99.13, "lat": 19.43, "alt": 80000, "pitch": -90, "heading": 0, "label": "Mexico City" },
+      "ciudad_juarez": { "lon": -106.48, "lat": 31.74, "alt": 60000, "pitch": -90, "heading": 0, "label": "Ciudad Juárez" },
+      "michoacan": { "lon": -101.76, "lat": 19.57, "alt": 150000, "pitch": -90, "heading": 0, "label": "Michoacán" },
+      "sinaloa": { "lon": -107.39, "lat": 24.80, "alt": 150000, "pitch": -90, "heading": 0, "label": "Sinaloa" }
+    }
+  },
+  "navSections": [
+    { "id": "sec-timeline", "label": "Timeline" },
+    { "id": "sec-map", "label": "Map" },
+    { "id": "sec-military", "label": "Military" },
+    { "id": "sec-humanitarian", "label": "Casualties" },
+    { "id": "sec-economic", "label": "Economic" },
+    { "id": "sec-contested", "label": "Contested" },
+    { "id": "sec-political", "label": "Political" }
+  ],
+  "militaryTabs": [
+    { "id": "strikes", "label": "Military Operations" },
+    { "id": "retaliation", "label": "Cartel Responses" },
+    { "id": "assets", "label": "Forces Deployed" }
+  ],
+  "politicalAvatars": ["calderon", "cartels", "us", "opposition", "other"],
+  "eventTypes": ["military", "cartel-violence", "political", "economic", "diplomatic"],
+  "ai": {
+    "systemPrompt": "You are a political analyst updating the Felipe Calderón Presidency tracker.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose.\nEvery item must have an \"id\" field (lowercase_snake_case).\n\nSource tier classification:\n- Tier 1: Official (SEDENA, PGR, Diario Oficial, DEA official reports, US Embassy cables)\n- Tier 2: Major outlet (Reuters, AP, El Universal, Reforma, Proceso, La Jornada, Excélsior)\n- Tier 3: Institutional (INEGI, CIDE, InSight Crime, Wilson Center, WOLA, Human Rights Watch)\n- Tier 4: Unverified (social media, narco-blogs, unattributed cartel claims)\n\nOnly include information verifiable through search. Do not fabricate data.",
+    "searchContext": "Felipe Calderon Mexico drug war cartels 2006-2012 violence Merida Initiative",
+    "enabledSections": ["kpis", "timeline", "mapPoints", "mapLines", "casualties", "econ", "claims", "political"],
+    "coordValidation": { "lonMin": -119.0, "lonMax": -85.0, "latMin": 13.0, "latMax": 34.0 },
+    "updateIntervalDays": 180,
+    "backfillTargets": {
+      "timeline": 50,
+      "mapPoints": 40,
+      "claims": 20,
+      "political": 20,
+      "casualties": 12,
+      "econ": 8
+    }
+  },
+  "githubRepo": "ArtemioPadilla/watchboard"
+}
