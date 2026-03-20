@@ -1,1 +1,131 @@
-[]
+[
+  {
+    "id": "total-palestinians-killed",
+    "label": "Palestinians Killed (Gaza)",
+    "value": "61,700+",
+    "color": "red",
+    "source": "Gaza Ministry of Health / UN OCHA",
+    "contested": true,
+    "contestNote": "Israel disputes figures, argues Hamas fighters counted as civilians. Plus ~14,200 missing/presumed dead = ~76,000 total",
+    "delta": "+500 (est.)",
+    "trend": "up",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "palestinians-wounded",
+    "label": "Palestinians Wounded (Gaza)",
+    "value": "111,600+",
+    "color": "red",
+    "source": "Gaza Ministry of Health / UNRWA",
+    "contested": true,
+    "contestNote": "Figures may undercount due to overwhelmed health system",
+    "trend": "up",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "displaced-palestinians",
+    "label": "Displaced Palestinians",
+    "value": "1.9M",
+    "color": "amber",
+    "source": "UNRWA / UN OCHA",
+    "contested": false,
+    "contestNote": "~90% of Gaza's 2.1M population displaced at peak",
+    "trend": "stable",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "israelis-killed-oct7",
+    "label": "Israelis Killed (Oct 7 Attack)",
+    "value": "1,139",
+    "color": "red",
+    "source": "IDF / Israeli PM Office",
+    "contested": false,
+    "trend": "stable",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "hostages-taken",
+    "label": "Hostages Taken Oct 7",
+    "value": "251",
+    "color": "amber",
+    "source": "IDF / Israeli PM Office",
+    "contested": false,
+    "trend": "stable",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "hostages-remaining",
+    "label": "Hostages Remaining in Gaza",
+    "value": "0",
+    "color": "green",
+    "source": "Hostages and Missing Families Forum / IDF",
+    "contested": false,
+    "contestNote": "All 251 hostages accounted for by Jan 26, 2026: ~105 released Nov 2023 truce, 33 in Phase 1 (Jan 2025), 20 alive + 28 bodies in Oct 2025 deal, remainder died in captivity or rescued",
+    "trend": "down",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "idf-soldiers-killed",
+    "label": "IDF Soldiers Killed (War Total)",
+    "value": "400+",
+    "color": "amber",
+    "source": "IDF Spokesperson",
+    "contested": false,
+    "trend": "up",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "buildings-destroyed-gaza",
+    "label": "Structures Destroyed/Damaged in Gaza",
+    "value": "~60%",
+    "color": "red",
+    "source": "UNOSAT / UN Satellite Centre",
+    "contested": false,
+    "contestNote": "By late 2024, est. 60% of all structures damaged or destroyed",
+    "trend": "stable",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "aid-trucks-per-day",
+    "label": "Aid Trucks Entering Gaza (daily avg)",
+    "value": "0",
+    "color": "red",
+    "source": "UNRWA / UN OCHA",
+    "contested": false,
+    "contestNote": "Zero as of March 2025 due to Israeli blockade; was ~100–150/day during ceasefire",
+    "trend": "down",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "healthcare-facilities-damaged",
+    "label": "Healthcare Facilities Damaged/Destroyed",
+    "value": "36 of 36",
+    "color": "red",
+    "source": "WHO",
+    "contested": false,
+    "contestNote": "All 36 hospitals in Gaza damaged or destroyed; ~16 partially functional at peak",
+    "trend": "stable",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "famine-risk-ipc",
+    "label": "Population at IPC Phase 5 (Catastrophe) Risk",
+    "value": "500,000+",
+    "color": "red",
+    "source": "IPC / FEWS NET",
+    "contested": true,
+    "contestNote": "Israel disputes famine characterization, cites aid let in",
+    "trend": "up",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "reconstruction-cost-estimate",
+    "label": "Gaza Reconstruction Cost Estimate",
+    "value": "$80–$90B",
+    "color": "amber",
+    "source": "World Bank / UNDP",
+    "contested": false,
+    "trend": "stable",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  }
+]
