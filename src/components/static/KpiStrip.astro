@@ -25,7 +25,7 @@ const { kpis } = Astro.props;
             <span class={`kpi-delta ${k.trend || ''}`} title={k.deltaNote || undefined}>{k.delta}</span>
           )}
           {k.source}
-          {k.contested && <span class="kpi-contested">{k.contestNote || 'CONTESTED'}</span>}
+          {k.contested && <span class="kpi-contested" title={k.contestNote || undefined}>CONTESTED</span>}
         </div>
       </div>
     ))}

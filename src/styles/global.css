@@ -460,6 +460,10 @@ body::before {
   display: flex;
   align-items: center;
   gap: 0.35rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
 }
 
 .kpi-contested {
