@@ -1,1 +1,167 @@
-[]
+[
+  {
+    "id": "global-confirmed-deaths",
+    "category": "Global Confirmed COVID-19 Deaths",
+    "killed": "7,112,000+",
+    "injured": "N/A",
+    "source": "WHO COVID-19 Dashboard (as of May 2023)",
+    "tier": 1,
+    "contested": "heavily",
+    "note": "Confirmed deaths severely undercount true toll due to limited testing capacity and inconsistent death certification, especially in low-income countries.",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "global-excess-mortality-2020-2021",
+    "category": "Global Excess Mortality (2020–2021)",
+    "killed": "14,900,000",
+    "injured": "N/A",
+    "source": "WHO Global Excess Mortality Report, May 2022 / Nature",
+    "tier": 1,
+    "contested": "partial",
+    "note": "WHO estimate (13.3–16.6 million range). Lancet independently estimated 18.2 million. IHME estimates up to 36 million through 2023. Methodology disputes exist but scale of undercounting is scientifically accepted.",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "united-states",
+    "category": "United States",
+    "killed": "~1,100,000",
+    "injured": "N/A",
+    "source": "CDC / Johns Hopkins CSSE",
+    "tier": 1,
+    "contested": "partial",
+    "note": "The U.S. recorded the highest confirmed COVID-19 death count of any country. Excess mortality suggests the true toll may be somewhat higher due to deaths among the undiagnosed.",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "brazil",
+    "category": "Brazil",
+    "killed": "~703,000",
+    "injured": "N/A",
+    "source": "Brazilian Ministry of Health / Johns Hopkins CSSE",
+    "tier": 1,
+    "contested": "partial",
+    "note": "Brazil had the world's second-highest confirmed COVID death count. President Bolsonaro's dismissal of the virus and opposition to vaccines and masking are linked to Brazil's severe outcomes.",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "india-official",
+    "category": "India (Official Count)",
+    "killed": "~531,000",
+    "injured": "N/A",
+    "source": "Indian Ministry of Health & Family Welfare",
+    "tier": 1,
+    "contested": "heavily",
+    "note": "India's official count is widely disputed. WHO estimated India suffered approximately 4.7 million excess deaths in 2020–2021 alone — nearly 9x the official figure. Mass burials along the Ganges during the 2021 wave documented the scale of the crisis.",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "russia",
+    "category": "Russia",
+    "killed": "~385,000 (official)",
+    "injured": "N/A",
+    "source": "Russian Federal Statistics Service (Rosstat)",
+    "tier": 2,
+    "contested": "heavily",
+    "note": "Russia's official confirmed COVID deaths (~385K) are widely seen as severe undercounts. Excess mortality analysis by The Economist and Rosstat's own all-cause mortality data suggest true death toll exceeds 1 million — one of the highest in the world per capita.",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "uk",
+    "category": "United Kingdom",
+    "killed": "~230,000",
+    "injured": "N/A",
+    "source": "UK Office for National Statistics / NHS",
+    "tier": 1,
+    "contested": "no",
+    "note": "The UK had Western Europe's highest confirmed COVID death count, driven partly by care home outbreaks in early 2020 and delayed lockdown decisions. The UK later achieved one of the world's fastest vaccine rollouts.",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "peru-highest-per-capita",
+    "category": "Peru — Highest Per-Capita Mortality",
+    "killed": "~217,000",
+    "injured": "N/A",
+    "source": "Peruvian Ministry of Health / WHO",
+    "tier": 1,
+    "contested": "partial",
+    "note": "Peru reported the world's highest COVID death rate per capita — exceeding 6,400 deaths per million. Contributing factors: hospital oxygen shortages, healthcare system collapse, institutional distrust, and high rates of multi-generational households.",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "italy",
+    "category": "Italy",
+    "killed": "~190,000",
+    "injured": "N/A",
+    "source": "Italian National Institute of Statistics (ISTAT)",
+    "tier": 1,
+    "contested": "no",
+    "note": "Italy was the first Western country devastated by COVID-19. Bergamo's death toll in March 2020 overwhelmed crematoria. Italy's outbreak exposed vulnerabilities in even well-funded European health systems.",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "global-long-covid",
+    "category": "Long COVID (Global Estimate)",
+    "killed": "N/A",
+    "injured": "65,000,000+",
+    "source": "Nature Reviews / WHO Long COVID Definition, 2021",
+    "tier": 2,
+    "contested": "evolving",
+    "note": "WHO estimates at least 65 million people globally experience Long COVID — persistent symptoms lasting 12+ weeks after infection. Symptoms include fatigue, brain fog, breathlessness, and post-exertional malaise. Exact prevalence depends heavily on case definition.",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "healthcare-workers",
+    "category": "Healthcare Workers Killed Globally",
+    "killed": "~115,500",
+    "injured": "N/A",
+    "source": "Amnesty International (Sep 2021) / The Lancet",
+    "tier": 2,
+    "contested": "partial",
+    "note": "Amnesty International documented at least 115,500 healthcare worker deaths from COVID-19 globally — calling it a 'preventable tragedy.' PPE shortages in early 2020 were a major contributing factor in high-income countries.",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "china-official",
+    "category": "China (Official Count)",
+    "killed": "~121,000",
+    "injured": "N/A",
+    "source": "National Health Commission of China",
+    "tier": 2,
+    "contested": "heavily",
+    "note": "China's official COVID-19 death count is widely doubted. After Zero-COVID's abrupt end in December 2022, epidemiologists estimated hundreds of thousands of deaths in a single month. China did not publicly report death data during the exit wave. True cumulative toll is unknown.",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "africa-continent",
+    "category": "Africa (Continent-Wide)",
+    "killed": "~260,000 (official)",
+    "injured": "N/A",
+    "source": "Africa CDC / WHO",
+    "tier": 1,
+    "contested": "heavily",
+    "note": "Africa's official COVID-19 death count is almost certainly a major undercount due to extremely limited testing and civil registration systems. Excess mortality analysis suggests the true toll may be several times higher, particularly in South Africa, Egypt, and Ethiopia.",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "extreme-poverty-increase",
+    "category": "People Pushed into Extreme Poverty",
+    "killed": "N/A",
+    "injured": "97,000,000",
+    "source": "World Bank, IMF (2021 estimates)",
+    "tier": 1,
+    "contested": "no",
+    "note": "The pandemic reversed years of global poverty reduction. An estimated 97 million additional people fell into extreme poverty in 2020, primarily in South Asia and Sub-Saharan Africa. This is the largest single-year increase in global poverty in at least 20 years.",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "child-vaccination-setback",
+    "category": "Children Missing Routine Vaccinations (2020)",
+    "killed": "N/A",
+    "injured": "23,000,000",
+    "source": "WHO / UNICEF Immunization Coverage Estimates, 2021",
+    "tier": 1,
+    "contested": "no",
+    "note": "The pandemic disrupted routine childhood immunization programs globally. In 2020, about 23 million children missed routine vaccinations — the largest drop in 30 years — raising risks of measles, polio, and other preventable disease outbreaks in subsequent years.",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  }
+]

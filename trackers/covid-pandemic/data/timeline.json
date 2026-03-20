@@ -1,1 +1,968 @@
-[]
+[
+  {
+    "era": "Emergence & Early Warning (Dec 2019 – Jan 2020)",
+    "events": [
+      {
+        "id": "wuhan-pneumonia-cluster",
+        "year": "Dec 1, 2019",
+        "title": "First Known COVID-19 Cases in Wuhan",
+        "type": "outbreak",
+        "detail": "Retrospective studies place the earliest SARS-CoV-2 cases as far back as November–December 2019 in Wuhan, Hubei Province, China. Many cases are linked to the Huanan Seafood Wholesale Market. The precise index case remains unconfirmed.",
+        "sources": [
+          { "name": "WHO Timeline – COVID-19", "url": "https://www.who.int/news/item/27-04-2020-who-timeline---covid-19", "tier": 1 },
+          { "name": "The Lancet (early case review)", "url": "https://www.thelancet.com", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "wuhan-health-commission-report",
+        "year": "Dec 31, 2019",
+        "title": "Wuhan Health Commission Reports Mysterious Pneumonia",
+        "type": "outbreak",
+        "detail": "The Wuhan Municipal Health Commission publicly reports a cluster of 27 pneumonia cases of unknown etiology. WHO is notified and sets up an Incident Management Support Team. The Huanan Seafood Market is identified as a common exposure point.",
+        "sources": [
+          { "name": "WHO Disease Outbreak News", "url": "https://www.who.int", "tier": 1 },
+          { "name": "CDC Museum COVID-19 Timeline", "url": "https://www.cdc.gov/museum/timeline/covid19.html", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "huanan-market-closed",
+        "year": "Jan 1, 2020",
+        "title": "Huanan Seafood Market Closed for Disinfection",
+        "type": "outbreak",
+        "detail": "Chinese authorities shut down the Huanan Seafood Wholesale Market in Wuhan following the pneumonia cluster. Environmental sampling later reveals widespread SARS-CoV-2 contamination at the market, especially in the wildlife trading section.",
+        "sources": [
+          { "name": "WHO Timeline – COVID-19", "url": "https://www.who.int", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "genome-published",
+        "year": "Jan 10, 2020",
+        "title": "SARS-CoV-2 Genome Publicly Shared",
+        "type": "outbreak",
+        "detail": "Chinese scientists, led by Prof. Zhang Yongzhen, publicly share the complete genetic sequence of the novel coronavirus via GISAID. This single act enables vaccine design to begin immediately worldwide, compressing a decades-long process into months.",
+        "sources": [
+          { "name": "GISAID Repository", "url": "https://www.gisaid.org", "tier": 1 },
+          { "name": "AJMC COVID-19 Timeline 2020", "url": "https://www.ajmc.com/view/a-timeline-of-covid19-developments-in-2020", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "china-confirms-human-transmission",
+        "year": "Jan 20, 2020",
+        "title": "China Confirms Human-to-Human Transmission",
+        "type": "outbreak",
+        "detail": "Zhong Nanshan, the respected epidemiologist who helped contain SARS in 2003, confirms on national television that the novel coronavirus spreads from person to person. This revelation dramatically heightens global alarm. By this date, 4 people have died and ~200 are confirmed infected in China.",
+        "sources": [
+          { "name": "WHO Situation Report 1", "url": "https://www.who.int", "tier": 1 },
+          { "name": "Reuters", "url": "https://www.reuters.com", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "first-us-case",
+        "year": "Jan 21, 2020",
+        "title": "First Confirmed COVID-19 Case in the United States",
+        "type": "outbreak",
+        "detail": "The CDC confirms the first U.S. case of COVID-19 in a 35-year-old man in Snohomish County, Washington, who had recently returned from Wuhan. The case is detected through CDC's emerging pathogen surveillance system.",
+        "sources": [
+          { "name": "CDC Museum COVID-19 Timeline", "url": "https://www.cdc.gov/museum/timeline/covid19.html", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "wuhan-lockdown",
+        "year": "Jan 23, 2020",
+        "title": "Wuhan Placed Under Unprecedented Lockdown",
+        "type": "lockdown",
+        "detail": "Chinese authorities impose a cordon sanitaire on Wuhan — a city of 11 million — suspending air travel, railways, and restricting road exits. Within days, the lockdown expands to cover all of Hubei Province (~56 million people). It is the largest quarantine in human history to date.",
+        "sources": [
+          { "name": "WHO Timeline – COVID-19", "url": "https://www.who.int", "tier": 1 },
+          { "name": "BBC News", "url": "https://www.bbc.com", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "li-wenliang-silenced",
+        "year": "Jan 25, 2020",
+        "title": "Dr. Li Wenliang Forced to Sign 'Rumor-Spreading' Statement",
+        "type": "political",
+        "detail": "Wuhan ophthalmologist Dr. Li Wenliang had warned colleagues on Dec 30, 2019 about a possible SARS-like outbreak. On Jan 3, police summoned him and forced him to sign a statement that he was 'making false comments.' He later contracted COVID-19 from a patient and died on Feb 7, 2020, becoming a symbol of official suppression of early warnings.",
+        "sources": [
+          { "name": "BBC News", "url": "https://www.bbc.com", "tier": 2 },
+          { "name": "The Lancet", "url": "https://www.thelancet.com", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "who-pheic-declaration",
+        "year": "Jan 30, 2020",
+        "title": "WHO Declares COVID-19 a Public Health Emergency of International Concern",
+        "type": "political",
+        "detail": "WHO Director-General Tedros Adhanom Ghebreyesus declares the sixth-ever PHEIC. At the time, 7,818 confirmed cases and 170 deaths have been recorded globally, with 82 cases in 18 countries outside China. WHO does not recommend travel or trade restrictions.",
+        "sources": [
+          { "name": "WHO Statement on PHEIC", "url": "https://www.who.int", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "us-china-travel-ban",
+        "year": "Jan 31, 2020",
+        "title": "U.S. Imposes Travel Restrictions on China",
+        "type": "political",
+        "detail": "President Trump restricts entry of foreign nationals who had been in China in the past 14 days. WHO Director-General Tedros criticizes travel bans as unnecessary and counterproductive, warning they could hamper information sharing and the global response.",
+        "sources": [
+          { "name": "CDC Museum COVID-19 Timeline", "url": "https://www.cdc.gov/museum/timeline/covid19.html", "tier": 1 },
+          { "name": "Reuters", "url": "https://www.reuters.com", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      }
+    ]
+  },
+  {
+    "era": "Pandemic Declaration & Global Spread (Feb – Mar 2020)",
+    "events": [
+      {
+        "id": "li-wenliang-death",
+        "year": "Feb 7, 2020",
+        "title": "Dr. Li Wenliang Dies; Outrage in China",
+        "type": "outbreak",
+        "detail": "Dr. Li Wenliang dies from COVID-19 at age 33, triggering an outpouring of public grief and anger on Chinese social media. Millions call him a hero. His case becomes central to debates about censorship, transparency, and the Chinese government's early response.",
+        "sources": [
+          { "name": "BBC News", "url": "https://www.bbc.com", "tier": 2 },
+          { "name": "The New York Times", "url": "https://www.nytimes.com", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "covid19-name-announced",
+        "year": "Feb 11, 2020",
+        "title": "WHO Names Disease 'COVID-19'; Virus Named SARS-CoV-2",
+        "type": "outbreak",
+        "detail": "WHO officially names the disease COVID-19 (coronavirus disease 2019) and the International Committee on Taxonomy of Viruses names the pathogen SARS-CoV-2. The naming avoids geographic or animal references to prevent stigma.",
+        "sources": [
+          { "name": "WHO Director-General Address", "url": "https://www.who.int", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "diamond-princess-crisis",
+        "year": "Feb 13, 2020",
+        "title": "Diamond Princess Cruise Ship Becomes Major Outbreak Cluster",
+        "type": "outbreak",
+        "detail": "The Diamond Princess cruise ship, quarantined off Yokohama, Japan, reports 218 confirmed cases aboard — the largest cluster outside mainland China at the time. Eventually 712 of ~3,711 passengers and crew test positive; 13 die. The ship becomes an early model for studying COVID transmission dynamics.",
+        "sources": [
+          { "name": "WHO Situation Reports", "url": "https://www.who.int", "tier": 1 },
+          { "name": "BBC News", "url": "https://www.bbc.com", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "iran-outbreak-emerges",
+        "year": "Feb 19, 2020",
+        "title": "Iran Announces First COVID-19 Deaths; Middle East Epicenter",
+        "type": "outbreak",
+        "detail": "Iran confirms two deaths from COVID-19 in Qom, becoming the first country in the Middle East to confirm fatalities. Iran's outbreak quickly becomes one of the deadliest early national crises; senior government officials are among early confirmed cases, raising credibility concerns about death reporting.",
+        "sources": [
+          { "name": "Reuters", "url": "https://www.reuters.com", "tier": 2 },
+          { "name": "WHO Situation Reports", "url": "https://www.who.int", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "italy-outbreak-explodes",
+        "year": "Feb 21, 2020",
+        "title": "Italy Confirms Cluster in Codogno; Europe's First Major Outbreak",
+        "type": "outbreak",
+        "detail": "Italy detects a cluster of cases in Codogno, Lombardy — the first sustained community transmission in Europe. Italy becomes the Western world's first major epicenter. Towns are quarantined and Italy's healthcare system, particularly in Bergamo, faces catastrophic strain within weeks.",
+        "sources": [
+          { "name": "Reuters", "url": "https://www.reuters.com", "tier": 2 },
+          { "name": "Nature", "url": "https://www.nature.com", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "south-korea-daegu-outbreak",
+        "year": "Feb 22, 2020",
+        "title": "South Korea's Daegu Cluster Sparks Mass Testing Response",
+        "type": "outbreak",
+        "detail": "South Korea links a major cluster in Daegu to the Shincheonji Church. Within days, South Korea is running 10,000+ tests per day through drive-through stations, pioneering an aggressive test-trace-isolate approach that becomes a global model for outbreak management.",
+        "sources": [
+          { "name": "Reuters", "url": "https://www.reuters.com", "tier": 2 },
+          { "name": "The Lancet", "url": "https://www.thelancet.com", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "who-pandemic-declaration",
+        "year": "Mar 11, 2020",
+        "title": "WHO Declares COVID-19 a Global Pandemic",
+        "type": "political",
+        "detail": "WHO Director-General Tedros declares COVID-19 a pandemic — the first pandemic caused by a coronavirus. At this point, over 118,000 cases have been confirmed in 114 countries and 4,291 people have died. Tedros states: 'We are deeply concerned both by the alarming levels of spread and severity, and by the alarming levels of inaction.'",
+        "sources": [
+          { "name": "WHO Pandemic Declaration Press Conference", "url": "https://www.who.int", "tier": 1 },
+          { "name": "PMC – WHO Declares COVID-19 Pandemic", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7569573/", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "nba-suspended-sports-halt",
+        "year": "Mar 11, 2020",
+        "title": "NBA Suspends Season; Global Sports Events Cancelled",
+        "type": "lockdown",
+        "detail": "The NBA suspends its season after Utah Jazz player Rudy Gobert tests positive, the first major sports organization to halt operations. The same day, Tom Hanks announces his diagnosis. Over the following weeks, the Tokyo Olympics are postponed, Wimbledon cancelled, and the Euro 2020 football tournament delayed — signaling COVID's cultural reach.",
+        "sources": [
+          { "name": "ESPN / Reuters", "url": "https://www.reuters.com", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "us-national-emergency",
+        "year": "Mar 13, 2020",
+        "title": "Trump Declares National Emergency in the U.S.",
+        "type": "political",
+        "detail": "President Trump declares a national emergency, unlocking up to $50 billion in federal resources. The declaration comes two weeks after the WHO's PHEIC announcement. White House COVID-19 Task Force, established January 27, is restructured with Vice President Pence as chair.",
+        "sources": [
+          { "name": "CDC Museum COVID-19 Timeline", "url": "https://www.cdc.gov/museum/timeline/covid19.html", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "italy-national-lockdown",
+        "year": "Mar 9, 2020",
+        "title": "Italy Imposes Full National Lockdown",
+        "type": "lockdown",
+        "detail": "Italian Prime Minister Giuseppe Conte announces a national quarantine, the first in Europe's modern history. All non-essential movement is banned; non-essential businesses close. By mid-March, northern Italy's ICUs are overwhelmed, with doctors forced to make life-and-death triage decisions. Over 800 Italians die in a single day at the peak.",
+        "sources": [
+          { "name": "Reuters", "url": "https://www.reuters.com", "tier": 2 },
+          { "name": "The Guardian", "url": "https://www.theguardian.com", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "europe-travel-ban",
+        "year": "Mar 17, 2020",
+        "title": "EU Imposes 30-Day Travel Ban on Non-Essential Arrivals",
+        "type": "lockdown",
+        "detail": "The European Union closes its external borders to most non-EU travelers for 30 days — an unprecedented move in modern European history. France, Germany, Spain, and most EU member states implement national lockdowns within days.",
+        "sources": [
+          { "name": "European Commission", "url": "https://ec.europa.eu", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "uk-lockdown-johnson",
+        "year": "Mar 23, 2020",
+        "title": "UK Prime Minister Johnson Orders National Lockdown",
+        "type": "lockdown",
+        "detail": "Boris Johnson announces 'Stay at Home' orders for the UK, closing schools, pubs, restaurants, and non-essential shops. Only four essential reasons to leave home are permitted. The UK had initially pursued a 'herd immunity' strategy before reversing course after an Imperial College London model predicted up to 510,000 UK deaths without intervention.",
+        "sources": [
+          { "name": "UK Government", "url": "https://www.gov.uk", "tier": 1 },
+          { "name": "Imperial College London Report 9", "url": "https://www.imperial.ac.uk", "tier": 3 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "india-lockdown",
+        "year": "Mar 24, 2020",
+        "title": "India Announces World's Largest Lockdown",
+        "type": "lockdown",
+        "detail": "Prime Minister Narendra Modi announces a 21-day nationwide lockdown with just 4 hours notice, affecting 1.3 billion people — the world's largest lockdown in absolute terms. Millions of migrant workers begin dangerous journeys home on foot as transportation halts. The lockdown severely strains India's informal economy.",
+        "sources": [
+          { "name": "Reuters", "url": "https://www.reuters.com", "tier": 2 },
+          { "name": "BBC News", "url": "https://www.bbc.com", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "new-zealand-lockdown-level4",
+        "year": "Mar 25, 2020",
+        "title": "New Zealand Enters Alert Level 4 Lockdown",
+        "type": "lockdown",
+        "detail": "Prime Minister Jacinda Ardern raises New Zealand to Level 4 — a strict nationwide lockdown aiming for COVID elimination. New Zealand's early decisive action, clear communication, and 'go hard and early' strategy becomes an international model. By June 2020, NZ achieves zero community transmission.",
+        "sources": [
+          { "name": "New Zealand Government", "url": "https://www.govt.nz", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "cares-act-passed",
+        "year": "Mar 27, 2020",
+        "title": "U.S. CARES Act Signed: $2.2 Trillion Economic Relief",
+        "type": "political",
+        "detail": "The largest economic stimulus package in U.S. history is signed into law, providing $1,200 direct payments to most Americans, $600/week supplemental unemployment benefits, $349 billion in small business loans (PPP), and $500 billion for major industries. It passes the Senate 96–0.",
+        "sources": [
+          { "name": "U.S. Congress / White House", "url": "https://www.congress.gov", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      }
+    ]
+  },
+  {
+    "era": "Great Lockdown & First Wave Peaks (Apr – Jun 2020)",
+    "events": [
+      {
+        "id": "us-cases-highest-globally",
+        "year": "Apr 1, 2020",
+        "title": "U.S. Surpasses All Nations in Confirmed COVID Cases",
+        "type": "outbreak",
+        "detail": "The United States becomes the country with the highest number of confirmed COVID-19 cases globally, surpassing China and Italy. New York City is the hardest-hit area, with bodies being stored in refrigerated trucks outside hospitals. Governor Cuomo calls for urgent federal assistance.",
+        "sources": [
+          { "name": "Johns Hopkins CSSE", "url": "https://coronavirus.jhu.edu", "tier": 3 },
+          { "name": "The New York Times", "url": "https://www.nytimes.com", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "trump-threatens-who-funding",
+        "year": "Apr 7, 2020",
+        "title": "Trump Threatens to Cut U.S. Funding to WHO",
+        "type": "political",
+        "detail": "President Trump announces intention to halt U.S. funding to WHO, accusing the organization of being China-centric and mismanaging the pandemic. The U.S. was WHO's largest single donor, contributing ~$400–500 million annually. The move is widely condemned by global health officials.",
+        "sources": [
+          { "name": "Reuters", "url": "https://www.reuters.com", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "sweden-no-lockdown",
+        "year": "Apr 10, 2020",
+        "title": "Sweden Pursues Controversial 'Herd Immunity Without Lockdown' Strategy",
+        "type": "political",
+        "detail": "Unlike most European nations, Sweden's Public Health Agency, led by state epidemiologist Anders Tegnell, keeps schools, bars, restaurants, and most businesses open, relying on voluntary behavioral changes rather than enforced lockdowns. Sweden's per-capita death rate in spring 2020 is dramatically higher than neighboring Nordic countries, sparking intense debate.",
+        "sources": [
+          { "name": "The Lancet", "url": "https://www.thelancet.com", "tier": 2 },
+          { "name": "Reuters", "url": "https://www.reuters.com", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "remdesivir-eua",
+        "year": "May 1, 2020",
+        "title": "FDA Grants Emergency Use Authorization for Remdesivir",
+        "type": "vaccine",
+        "detail": "The FDA grants Emergency Use Authorization for remdesivir — an antiviral initially developed against Ebola — as the first treatment specifically authorized for COVID-19. Clinical trials showed it shortened hospitalization time by approximately 4 days, though early mortality benefits remained uncertain.",
+        "sources": [
+          { "name": "FDA EUA Announcement", "url": "https://www.fda.gov", "tier": 1 },
+          { "name": "NEJM Clinical Trial", "url": "https://www.nejm.org", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "warp-speed-launched",
+        "year": "May 15, 2020",
+        "title": "U.S. Launches Operation Warp Speed Vaccine Initiative",
+        "type": "vaccine",
+        "detail": "The Trump administration announces Operation Warp Speed, a $10 billion public-private partnership aiming to deliver 300 million doses of a safe, effective COVID-19 vaccine by January 2021. The initiative funds multiple vaccine candidates simultaneously, accepting upfront risk to compress development timelines.",
+        "sources": [
+          { "name": "U.S. Department of Health and Human Services", "url": "https://www.hhs.gov", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "floyd-protests-covid-context",
+        "year": "May 26, 2020",
+        "title": "George Floyd Protests Raise COVID Transmission Questions",
+        "type": "political",
+        "detail": "Massive protests erupt across the U.S. following George Floyd's killing on May 25. Public health experts express concern about outdoor mass gatherings during the pandemic. Later studies yield mixed results on whether the protests caused measurable increases in COVID transmission.",
+        "sources": [
+          { "name": "Reuters", "url": "https://www.reuters.com", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "us-100k-deaths",
+        "year": "May 28, 2020",
+        "title": "U.S. Passes 100,000 COVID-19 Deaths",
+        "type": "outbreak",
+        "detail": "The United States records its 100,000th confirmed COVID-19 death. The New York Times publishes a front page with 1,000 names of victims, titled 'U.S. Deaths Near 100,000, An Incalculable Loss.' President Trump tweets about his poll numbers the same day.",
+        "sources": [
+          { "name": "Johns Hopkins CSSE", "url": "https://coronavirus.jhu.edu", "tier": 3 },
+          { "name": "The New York Times", "url": "https://www.nytimes.com", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "dexamethasone-breakthrough",
+        "year": "Jun 16, 2020",
+        "title": "Dexamethasone Found to Reduce COVID Deaths — First Life-Saving Treatment",
+        "type": "vaccine",
+        "detail": "The RECOVERY trial in the UK finds that the cheap, widely available steroid dexamethasone reduces deaths by one-third in ventilated patients and by one-fifth in those on oxygen. Chief investigator Peter Horby calls it 'a major breakthrough.' It becomes the first drug proven to reduce COVID-19 mortality.",
+        "sources": [
+          { "name": "NEJM – RECOVERY Trial", "url": "https://www.nejm.org", "tier": 2 },
+          { "name": "University of Oxford", "url": "https://www.ox.ac.uk", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "who-us-withdrawal",
+        "year": "Jul 7, 2020",
+        "title": "Trump Formally Notifies UN of U.S. Withdrawal from WHO",
+        "type": "political",
+        "detail": "The Trump administration formally notifies the United Nations of its intention to withdraw the United States from the World Health Organization, effective July 2021. The withdrawal was the first by any member state. President-elect Biden pledges to reverse the decision on his first day in office.",
+        "sources": [
+          { "name": "Reuters", "url": "https://www.reuters.com", "tier": 2 },
+          { "name": "United Nations", "url": "https://www.un.org", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "global-ppe-shortage-crisis",
+        "year": "Apr 6, 2020",
+        "title": "Global PPE Shortage Endangers Health Workers Worldwide",
+        "type": "outbreak",
+        "detail": "WHO warns of a 'chronic shortage' of personal protective equipment globally as governments compete for limited supplies of masks, gowns, and gloves. Over 90 countries implement export bans. Frontline healthcare workers ration single-use equipment for days. Nurses in New York use garbage bags as gowns. The shortage is linked to over 100,000 healthcare worker deaths.",
+        "sources": [
+          { "name": "WHO PPE Alert", "url": "https://www.who.int", "tier": 1 },
+          { "name": "The Lancet", "url": "https://www.thelancet.com", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "covax-initiative-launched",
+        "year": "Apr 24, 2020",
+        "title": "WHO Launches ACT-Accelerator for Equitable COVID Tools",
+        "type": "vaccine",
+        "detail": "WHO, Gavi, CEPI, and partners launch the Access to COVID-19 Tools (ACT) Accelerator — a global collaboration to accelerate development and equitable access to COVID diagnostics, therapeutics, and vaccines. The COVAX pillar would later deliver nearly 2 billion doses to lower-income nations. By end of 2020, ACT-Accelerator raises $18.6 billion.",
+        "sources": [
+          { "name": "WHO ACT-Accelerator Launch", "url": "https://www.who.int", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "brazil-1000-deaths-per-day",
+        "year": "May 20, 2020",
+        "title": "Brazil Hits 1,000+ Daily Deaths — Bolsonaro Remains Defiant",
+        "type": "outbreak",
+        "detail": "Brazil records over 1,000 COVID-19 deaths in a single day for the first time. President Bolsonaro dismisses the virus as 'a little flu,' opposes lockdowns, and attends anti-lockdown rallies maskless. Brazil becomes the second country after the U.S. to reach 1,000 daily deaths. The crisis fuels impeachment calls.",
+        "sources": [
+          { "name": "Reuters", "url": "https://www.reuters.com", "tier": 2 },
+          { "name": "BBC News", "url": "https://www.bbc.com", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "solidarity-trial-launched",
+        "year": "Mar 18, 2020",
+        "title": "WHO Launches Solidarity Trial — Largest Ever COVID Drug Trial",
+        "type": "vaccine",
+        "detail": "WHO launches the Solidarity Trial — an international mega-trial across multiple countries simultaneously testing multiple COVID-19 treatments (remdesivir, hydroxychloroquine, lopinavir, interferon). The adaptive platform design allows drugs to be added or dropped efficiently. Final results, published in NEJM, provide definitive evidence on treatment effectiveness.",
+        "sources": [
+          { "name": "WHO Solidarity Trial", "url": "https://www.who.int", "tier": 1 },
+          { "name": "NEJM – Solidarity Trial Results", "url": "https://www.nejm.org", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      }
+    ]
+  },
+  {
+    "era": "Vaccine Race & Second Waves (Jul – Dec 2020)",
+    "events": [
+      {
+        "id": "us-summer-second-wave-sunbelt",
+        "year": "Jun 24, 2020",
+        "title": "U.S. Sunbelt Second Wave Surges as States Reopen",
+        "type": "outbreak",
+        "detail": "A massive second wave of COVID-19 hits U.S. Sunbelt states — Florida, Texas, Arizona, and California — as they reopen prematurely. Florida reports 9,000+ new cases in a single day. The surge, driven by indoor gatherings and reduced precautions, forces states to pause or reverse reopening plans. The U.S. reaches 50,000 new daily cases in late June.",
+        "sources": [
+          { "name": "Johns Hopkins CSSE", "url": "https://coronavirus.jhu.edu", "tier": 3 },
+          { "name": "The New York Times", "url": "https://www.nytimes.com", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "moderna-phase3-starts",
+        "year": "Jul 27, 2020",
+        "title": "Moderna and Pfizer/BioNTech Begin Phase 3 Trials",
+        "type": "vaccine",
+        "detail": "Both Moderna (mRNA-1273) and Pfizer/BioNTech (BNT162b2) launch massive Phase 3 trials enrolling ~30,000 participants each. These trials use a novel randomized placebo-controlled design compressed into months rather than years. AstraZeneca begins Phase 3 testing the same week.",
+        "sources": [
+          { "name": "FDA / NIH", "url": "https://www.fda.gov", "tier": 1 },
+          { "name": "AJMC COVID-19 Vaccine Timeline", "url": "https://www.ajmc.com", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "russia-sputnik-v-approved",
+        "year": "Aug 11, 2020",
+        "title": "Russia Approves Sputnik V — World's First Registered COVID Vaccine",
+        "type": "vaccine",
+        "detail": "Russia becomes the first country to approve a COVID-19 vaccine, registering Sputnik V before Phase 3 trials complete. International health officials express concern about safety and efficacy data. Russia defends the move, citing emergency conditions. Later analysis in The Lancet shows ~91.6% efficacy.",
+        "sources": [
+          { "name": "Reuters", "url": "https://www.reuters.com", "tier": 2 },
+          { "name": "The Lancet (Sputnik V efficacy)", "url": "https://www.thelancet.com", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "pfizer-efficacy-95-announced",
+        "year": "Nov 9, 2020",
+        "title": "Pfizer/BioNTech Announces 95% Vaccine Efficacy",
+        "type": "vaccine",
+        "detail": "Pfizer and BioNTech announce Phase 3 trial results showing 95% efficacy against symptomatic COVID-19. The result far exceeds the FDA's minimum 50% threshold. Global stock markets surge. Moderna follows four days later with results showing 94.1% efficacy.",
+        "sources": [
+          { "name": "Pfizer Press Release", "url": "https://www.pfizer.com", "tier": 1 },
+          { "name": "NEJM – Pfizer Trial Results", "url": "https://www.nejm.org", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "us-election-2020-covid",
+        "year": "Nov 3, 2020",
+        "title": "U.S. Presidential Election: COVID Is Top Voter Issue",
+        "type": "political",
+        "detail": "Joe Biden defeats Donald Trump in the 2020 presidential election. Exit polling shows COVID-19 is the top issue for most voters, with 200,000 Americans already dead. Trump's handling of the pandemic is a central campaign theme. Biden wins 306 electoral votes.",
+        "sources": [
+          { "name": "AP VoteCast Survey", "url": "https://apnews.com", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "uk-first-vaccine-margaret-keenan",
+        "year": "Dec 8, 2020",
+        "title": "UK Begins World's First Mass Pfizer Vaccination Campaign",
+        "type": "vaccine",
+        "detail": "The United Kingdom becomes the first country to begin mass vaccination with an approved COVID-19 vaccine. Margaret Keenan, a 90-year-old grandmother in Coventry, becomes the first person in the world to receive the Pfizer/BioNTech vaccine outside a clinical trial. The moment is broadcast globally.",
+        "sources": [
+          { "name": "UK MHRA / NHS", "url": "https://www.gov.uk", "tier": 1 },
+          { "name": "BBC News", "url": "https://www.bbc.com", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "pfizer-fda-eua",
+        "year": "Dec 11, 2020",
+        "title": "FDA Grants Emergency Use Authorization for Pfizer/BioNTech Vaccine",
+        "type": "vaccine",
+        "detail": "The U.S. FDA grants Emergency Use Authorization for the Pfizer/BioNTech mRNA vaccine — the first COVID vaccine authorized in the U.S. On December 14, nurse Sandra Lindsay becomes the first American vaccinated outside a trial. Moderna's EUA follows on December 18.",
+        "sources": [
+          { "name": "FDA EUA Decision", "url": "https://www.fda.gov", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "alpha-variant-detected-uk",
+        "year": "Dec 14, 2020",
+        "title": "UK Reports Alpha Variant (B.1.1.7) — 50–70% More Transmissible",
+        "type": "variant",
+        "detail": "UK health officials announce detection of a new 'Variant of Concern,' B.1.1.7 (later named Alpha by WHO), which had been circulating since September in southeast England. Early estimates suggest it is 50–70% more transmissible than the original strain. The UK imposes Tier 4 restrictions in London and the southeast.",
+        "sources": [
+          { "name": "Public Health England / UK Government", "url": "https://www.gov.uk", "tier": 1 },
+          { "name": "Nature", "url": "https://www.nature.com", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "south-africa-beta-variant",
+        "year": "Dec 18, 2020",
+        "title": "South Africa Reports Beta Variant (B.1.351)",
+        "type": "variant",
+        "detail": "South African scientists report detection of B.1.351 (later named Beta), a variant with mutations in the spike protein's receptor-binding domain that partially reduce vaccine effectiveness. Countries quickly impose travel bans on South Africa. Preliminary data shows AstraZeneca vaccine has only ~10% efficacy against mild-moderate Beta disease.",
+        "sources": [
+          { "name": "South African Department of Health", "url": "https://www.health.gov.za", "tier": 1 },
+          { "name": "Reuters", "url": "https://www.reuters.com", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      }
+    ]
+  },
+  {
+    "era": "Vaccine Rollout & Alpha/Beta Waves (Jan – Jun 2021)",
+    "events": [
+      {
+        "id": "biden-rejoins-who",
+        "year": "Jan 20, 2021",
+        "title": "Biden Rejoins WHO on First Day; Issues Federal Mask Mandate",
+        "type": "political",
+        "detail": "President Joe Biden signs executive orders in his first hours in office to rejoin the WHO and implement federal mask mandates in all federal buildings. He also creates the White House COVID-19 Response Team and releases a 200-page National Strategy for pandemic response.",
+        "sources": [
+          { "name": "White House Executive Orders", "url": "https://www.whitehouse.gov", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "global-1b-doses-milestone",
+        "year": "Apr 24, 2021",
+        "title": "World Reaches 1 Billion COVID Vaccine Doses Administered",
+        "type": "vaccine",
+        "detail": "Global vaccine administrations pass 1 billion doses, just four months after vaccines began rolling out. However, distribution is deeply unequal — high-income countries have administered 87% of doses while low-income countries account for less than 0.3%. COVAX, the global vaccine equity initiative, struggles with supply shortages.",
+        "sources": [
+          { "name": "Our World in Data", "url": "https://ourworldindata.org", "tier": 1 },
+          { "name": "WHO COVAX", "url": "https://www.who.int", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "india-delta-second-wave",
+        "year": "Apr 5, 2021",
+        "title": "India's Catastrophic Second Wave Driven by Delta Variant",
+        "type": "outbreak",
+        "detail": "India experiences a catastrophic second wave, setting world records for daily cases and deaths. At its peak in May 2021, India records over 400,000 cases and 4,000 official deaths per day. Oxygen shortages cause preventable deaths; crematoria work around the clock. The actual death toll is estimated to be 8–10 times higher than official figures.",
+        "sources": [
+          { "name": "WHO India Situation Reports", "url": "https://www.who.int", "tier": 1 },
+          { "name": "The Lancet", "url": "https://www.thelancet.com", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "astrazeneca-blood-clot-pause",
+        "year": "Mar 15, 2021",
+        "title": "Several European Countries Pause AstraZeneca over Rare Blood Clot Concerns",
+        "type": "vaccine",
+        "detail": "Germany, France, Italy, Spain, and other EU nations temporarily suspend the AstraZeneca vaccine after reports of rare thrombosis cases (VITT — Vaccine-Induced Immune Thrombocytopenia and Thrombosis). The EMA concludes the benefits outweigh risks, but the episode damages vaccine confidence. Many countries restrict the vaccine to older age groups.",
+        "sources": [
+          { "name": "European Medicines Agency", "url": "https://www.ema.europa.eu", "tier": 1 },
+          { "name": "Reuters", "url": "https://www.reuters.com", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "us-cdc-mask-guidance-vaccinated",
+        "year": "May 13, 2021",
+        "title": "CDC Says Vaccinated Americans No Longer Need Masks Indoors",
+        "type": "political",
+        "detail": "The CDC announces that fully vaccinated Americans can stop wearing masks in most indoor and outdoor settings, citing high vaccine efficacy against infection and transmission. The announcement is praised by some as overdue but criticized by others as premature. Many businesses and states keep mask requirements amid low vaccination rates.",
+        "sources": [
+          { "name": "CDC Guidance Update", "url": "https://www.cdc.gov", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "g7-covax-vaccine-donation",
+        "year": "Jun 11, 2021",
+        "title": "G7 Leaders Pledge 1 Billion COVID Vaccine Doses to Developing World",
+        "type": "vaccine",
+        "detail": "G7 nations meeting in Cornwall, UK, pledge to donate at least 1 billion vaccine doses to lower-income countries through the COVAX facility by end of 2022. Critics note the pledge falls far short of the 11 billion doses WHO says are needed to vaccinate 70% of the world.",
+        "sources": [
+          { "name": "G7 Cornwall Summit Communiqué", "url": "https://www.g7uk.org", "tier": 1 },
+          { "name": "Reuters", "url": "https://www.reuters.com", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "jj-single-dose-eua",
+        "year": "Feb 27, 2021",
+        "title": "FDA Authorizes Johnson & Johnson Single-Dose COVID Vaccine",
+        "type": "vaccine",
+        "detail": "FDA grants Emergency Use Authorization for the Johnson & Johnson (Janssen) vaccine — the first single-dose COVID vaccine in the U.S. and the first using a human adenovirus vector. With ~66% efficacy against moderate disease and ~85% against severe disease, J&J becomes critical for hard-to-reach populations who cannot make two appointments.",
+        "sources": [
+          { "name": "FDA EUA – Janssen", "url": "https://www.fda.gov", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "covax-first-deliveries",
+        "year": "Feb 24, 2021",
+        "title": "COVAX Delivers First Vaccines to Ivory Coast — Global Equity Effort Begins",
+        "type": "vaccine",
+        "detail": "The COVAX facility makes its first deliveries to Ivory Coast, marking the start of the global vaccine equity initiative. Ghana received the first COVAX shipment on February 24. However, COVAX faces severe supply shortfalls — India's Serum Institute export ban in March 2021 critically disrupts the program just as it begins.",
+        "sources": [
+          { "name": "WHO / GAVI COVAX", "url": "https://www.who.int", "tier": 1 },
+          { "name": "Reuters", "url": "https://www.reuters.com", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "india-covax-export-ban",
+        "year": "Mar 25, 2021",
+        "title": "India Halts Vaccine Exports as Second Wave Overwhelms Country",
+        "type": "political",
+        "detail": "India — the world's primary vaccine manufacturer — suspends all COVID-19 vaccine exports to prioritize its domestic crisis. The Serum Institute of India had been COVAX's primary supplier. The export ban devastates COVAX deliveries to Africa and lower-income nations, with deliveries falling short by hundreds of millions of doses.",
+        "sources": [
+          { "name": "Reuters", "url": "https://www.reuters.com", "tier": 2 },
+          { "name": "GAVI / WHO COVAX Update", "url": "https://www.who.int", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      }
+    ]
+  },
+  {
+    "era": "Delta Wave & Breakthrough Infections (Jul – Dec 2021)",
+    "events": [
+      {
+        "id": "delta-becomes-dominant-globally",
+        "year": "Jul 1, 2021",
+        "title": "Delta Variant Becomes Dominant Strain Worldwide",
+        "type": "variant",
+        "detail": "The Delta variant (B.1.617.2), first identified in India in late 2020, becomes the dominant circulating strain globally by July 2021. Delta is estimated to be 40–60% more transmissible than Alpha, causing a reversal of declining case trends in vaccinated countries and overwhelming hospitals in many regions.",
+        "sources": [
+          { "name": "WHO Variant Tracking", "url": "https://www.who.int", "tier": 1 },
+          { "name": "Yale Medicine", "url": "https://www.yalemedicine.org", "tier": 3 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "pfizer-full-fda-approval",
+        "year": "Aug 23, 2021",
+        "title": "FDA Fully Approves Pfizer/BioNTech Vaccine (Comirnaty)",
+        "type": "vaccine",
+        "detail": "The FDA grants full approval (beyond Emergency Use Authorization) to the Pfizer/BioNTech COVID-19 vaccine for individuals 16 and older under the brand name Comirnaty — the first COVID-19 vaccine to receive full FDA approval. This accelerates vaccine mandates by employers and institutions.",
+        "sources": [
+          { "name": "FDA Press Release", "url": "https://www.fda.gov", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "booster-doses-recommended",
+        "year": "Sep 18, 2021",
+        "title": "U.S. and Israel Authorize Booster Doses; WHO Calls for Moratorium",
+        "type": "vaccine",
+        "detail": "The U.S. and Israel authorize booster shots for adults who received Pfizer vaccines, citing waning immunity against Delta. WHO Director-General Tedros condemns the move, calling for a moratorium on boosters until 40% of people in every country are vaccinated. The episode highlights the deep global vaccine equity divide.",
+        "sources": [
+          { "name": "CDC Advisory Committee", "url": "https://www.cdc.gov", "tier": 1 },
+          { "name": "WHO Statement", "url": "https://www.who.int", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "vaccine-mandate-controversies",
+        "year": "Sep 9, 2021",
+        "title": "Biden Announces Sweeping Vaccine Mandates for U.S. Workers",
+        "type": "political",
+        "detail": "President Biden announces mandates requiring federal workers and contractors to be vaccinated, and OSHA to issue emergency rules requiring vaccination or weekly testing for companies with 100+ employees — affecting ~100 million Americans. The mandate is contested in courts; the Supreme Court blocks the OSHA rule in January 2022.",
+        "sources": [
+          { "name": "White House Announcement", "url": "https://www.whitehouse.gov", "tier": 1 },
+          { "name": "Reuters", "url": "https://www.reuters.com", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "omicron-detected-south-africa",
+        "year": "Nov 24, 2021",
+        "title": "Scientists Detect Omicron Variant in South Africa",
+        "type": "variant",
+        "detail": "South African scientists identify B.1.1.529, a variant with an unprecedented number of mutations in its spike protein — over 30. The variant is found in specimens from November 9 onward in Gauteng Province. WHO designates it a Variant of Concern on November 26, naming it Omicron — the 15th letter of the Greek alphabet.",
+        "sources": [
+          { "name": "South Africa National Institute for Communicable Diseases", "url": "https://www.nicd.ac.za", "tier": 1 },
+          { "name": "WHO Variant Tracking", "url": "https://www.who.int", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "omicron-global-panic",
+        "year": "Nov 26, 2021",
+        "title": "WHO Designates Omicron Variant of Concern; Global Travel Bans Imposed",
+        "type": "variant",
+        "detail": "Within 48 hours of South Africa's announcement, dozens of countries ban travel from southern Africa. Financial markets plunge. Initial concerns center on the variant's ability to escape vaccine-induced immunity. Later data confirms Omicron causes less severe disease than Delta but spreads far more rapidly, causing record case counts globally.",
+        "sources": [
+          { "name": "WHO Press Release", "url": "https://www.who.int", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "global-5m-deaths",
+        "year": "Nov 1, 2021",
+        "title": "Global Confirmed COVID-19 Deaths Pass 5 Million",
+        "type": "outbreak",
+        "detail": "The global confirmed COVID-19 death toll surpasses 5 million, approximately 22 months into the pandemic. WHO notes that excess mortality estimates suggest the true toll is 2–3 times higher. The milestone receives significant media coverage as the world processes the scale of loss.",
+        "sources": [
+          { "name": "Johns Hopkins CSSE", "url": "https://coronavirus.jhu.edu", "tier": 3 },
+          { "name": "WHO COVID-19 Dashboard", "url": "https://covid19.who.int", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "oral-antivirals-approved",
+        "year": "Dec 22, 2021",
+        "title": "FDA Authorizes Paxlovid — First Oral Antiviral Pill for COVID-19",
+        "type": "vaccine",
+        "detail": "The FDA grants Emergency Use Authorization for Paxlovid (nirmatrelvir/ritonavir), Pfizer's oral antiviral pill. Clinical trials show ~89% reduction in hospitalization or death when taken within 5 days of symptom onset. Merck's molnupiravir receives EUA on December 23, though with lower efficacy at ~30%.",
+        "sources": [
+          { "name": "FDA EUA – Paxlovid", "url": "https://www.fda.gov", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "uk-freedom-day",
+        "year": "Jul 19, 2021",
+        "title": "UK 'Freedom Day' — England Lifts Almost All COVID Restrictions",
+        "type": "lockdown",
+        "detail": "England removes almost all legally enforced COVID-19 restrictions — ending mandatory mask wearing, social distancing rules, and work-from-home guidance. Prime Minister Johnson calls it 'Freedom Day.' Many scientists and medical experts publicly criticize the move as reckless, given the Delta variant's spread and unvaccinated under-18 population.",
+        "sources": [
+          { "name": "UK Government", "url": "https://www.gov.uk", "tier": 1 },
+          { "name": "BBC News", "url": "https://www.bbc.com", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "australia-reopens-november-2021",
+        "year": "Nov 1, 2021",
+        "title": "Australia Abandons Zero-COVID; Borders Reopen After Vaccination Milestone",
+        "type": "political",
+        "detail": "Australia transitions from its Zero-COVID elimination strategy to a 'living with COVID' approach after reaching 80% double-vaccination rates in priority groups. International borders reopen after 20 months. The transition had been planned around vaccination thresholds rather than case numbers — a model for managed COVID transition.",
+        "sources": [
+          { "name": "Australian Government / Department of Health", "url": "https://www.health.gov.au", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      }
+    ]
+  },
+  {
+    "era": "Omicron & Endemic Transition (Jan 2022 – May 2023)",
+    "events": [
+      {
+        "id": "omicron-peak-cases",
+        "year": "Jan 13, 2022",
+        "title": "World Sets Single-Day Case Record: 3.8 Million",
+        "type": "outbreak",
+        "detail": "The Omicron wave drives daily global confirmed cases to over 3.8 million — a record that far eclipses any previous peak. Healthcare systems strain under the case load despite lower per-infection severity. Many countries shift to living-with-COVID strategies, dropping isolation requirements.",
+        "sources": [
+          { "name": "Our World in Data", "url": "https://ourworldindata.org", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "ba2-subvariant",
+        "year": "Mar 1, 2022",
+        "title": "Omicron BA.2 Subvariant Drives Third Omicron Wave in Europe",
+        "type": "variant",
+        "detail": "Omicron's BA.2 subvariant, slightly more transmissible than BA.1, drives renewed waves in Europe and Asia in early 2022. China's Zero-COVID policy leads to strict lockdowns in Shanghai and other cities as BA.2 outbreaks strain the policy's viability.",
+        "sources": [
+          { "name": "ECDC Variant Report", "url": "https://www.ecdc.europa.eu", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "shanghai-lockdown-2022",
+        "year": "Mar 28, 2022",
+        "title": "Shanghai Locked Down — 25 Million Residents; Zero-COVID Collapses",
+        "type": "lockdown",
+        "detail": "Shanghai, China's largest city and financial hub with 25 million residents, is placed under strict lockdown as part of China's Zero-COVID policy. The lockdown triggers international supply chain disruptions and intense domestic anger. Video footage of authorities removing pets and food shortages goes viral. The policy begins visibly unraveling.",
+        "sources": [
+          { "name": "Reuters", "url": "https://www.reuters.com", "tier": 2 },
+          { "name": "BBC News", "url": "https://www.bbc.com", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "who-excess-mortality-report",
+        "year": "May 5, 2022",
+        "title": "WHO Reports 14.9 Million Excess Deaths in 2020–2021",
+        "type": "outbreak",
+        "detail": "WHO publishes its first comprehensive global excess mortality estimates, finding that the pandemic caused approximately 14.9 million excess deaths in 2020 and 2021 alone — nearly 2.74 times the officially reported COVID death toll. The study, published in Nature, uses statistical models for countries lacking complete data.",
+        "sources": [
+          { "name": "WHO Excess Mortality Report", "url": "https://www.who.int", "tier": 1 },
+          { "name": "Nature – WHO excess mortality estimates", "url": "https://www.nature.com/articles/s41586-022-05522-2", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "ba5-wave-summer-2022",
+        "year": "Jun 15, 2022",
+        "title": "Omicron BA.4/BA.5 Subvariants Drive Summer 2022 Wave",
+        "type": "variant",
+        "detail": "Omicron subvariants BA.4 and BA.5 become dominant globally in summer 2022, demonstrating enhanced immune escape relative to earlier Omicron subvariants. Several countries see renewed hospitalizations despite high population immunity. Bivalent boosters targeting both ancestral and Omicron variants are developed.",
+        "sources": [
+          { "name": "WHO Variant Tracking", "url": "https://www.who.int", "tier": 1 },
+          { "name": "ECDC", "url": "https://www.ecdc.europa.eu", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "china-ends-zero-covid",
+        "year": "Dec 7, 2022",
+        "title": "China Abruptly Ends Zero-COVID Policy After Protests",
+        "type": "political",
+        "detail": "Following unprecedented public protests — including blank-sheet demonstrations symbolizing censorship — China's government abruptly dismantles its Zero-COVID policy. Within weeks, China experiences a massive wave of infections. Epidemiologists estimate hundreds of thousands of deaths occur in December 2022 and January 2023.",
+        "sources": [
+          { "name": "Reuters", "url": "https://www.reuters.com", "tier": 2 },
+          { "name": "The Lancet", "url": "https://www.thelancet.com", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "bivalent-boosters-fda",
+        "year": "Sep 1, 2022",
+        "title": "FDA Authorizes Bivalent COVID-19 Boosters Targeting Omicron",
+        "type": "vaccine",
+        "detail": "FDA authorizes updated bivalent boosters from Pfizer/BioNTech and Moderna that target both the ancestral SARS-CoV-2 strain and Omicron BA.4/BA.5 subvariants. These become the recommended booster dose for eligible Americans. The annual update model mirrors influenza vaccine strategy.",
+        "sources": [
+          { "name": "FDA Authorization", "url": "https://www.fda.gov", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "who-pheic-ends",
+        "year": "May 5, 2023",
+        "title": "WHO Ends COVID-19 Public Health Emergency of International Concern",
+        "type": "political",
+        "detail": "WHO Director-General Tedros declares the end of COVID-19 as a PHEIC, 1,191 days after the emergency was first declared on January 30, 2020. At this point, 755 million cases and 6.8 million deaths have been reported. Tedros states: 'For more than three years, we have lived alongside this virus. It has changed our world.' COVID-19 transitions to management as an endemic disease.",
+        "sources": [
+          { "name": "WHO Press Release", "url": "https://www.who.int", "tier": 1 },
+          { "name": "Reuters", "url": "https://www.reuters.com", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "supreme-court-blocks-osha",
+        "year": "Jan 13, 2022",
+        "title": "U.S. Supreme Court Blocks Biden OSHA Vaccine-or-Test Mandate",
+        "type": "political",
+        "detail": "The Supreme Court rules 6-3 to block OSHA's emergency rule requiring companies with 100+ employees to mandate vaccination or weekly testing. The Court allows a separate mandate for federal healthcare workers to proceed. The ruling marks a major limit on executive authority in pandemic response and affects approximately 84 million workers.",
+        "sources": [
+          { "name": "U.S. Supreme Court — NFIB v. OSHA", "url": "https://www.supremecourt.gov", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "canada-freedom-convoy",
+        "year": "Jan 29, 2022",
+        "title": "Canada's 'Freedom Convoy' Occupies Ottawa Against Vaccine Mandates",
+        "type": "political",
+        "detail": "Truckers and anti-mandate protesters occupy Ottawa's downtown core and blockade U.S.-Canada border crossings in protest of COVID-19 vaccine mandates. Prime Minister Trudeau invokes the Emergencies Act on February 14 — the first use of the Act since its 1988 creation — to clear the blockades. The protest becomes a global symbol of anti-mandate movements.",
+        "sources": [
+          { "name": "CBC News", "url": "https://www.cbc.ca", "tier": 2 },
+          { "name": "Reuters", "url": "https://www.reuters.com", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "uk-restrictions-end-all",
+        "year": "Feb 24, 2022",
+        "title": "UK Ends All Remaining COVID Legal Restrictions in England",
+        "type": "lockdown",
+        "detail": "England removes its last remaining COVID-19 legal restrictions — including the requirement to self-isolate after a positive test — becoming one of the first countries to fully end all COVID legal mandates. Scotland, Wales, and Northern Ireland follow at different paces. The move is controversial given ongoing Omicron transmission.",
+        "sources": [
+          { "name": "UK Government", "url": "https://www.gov.uk", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "who-sago-origins-report",
+        "year": "Jun 9, 2022",
+        "title": "WHO's SAGO Committee Releases COVID Origins Report — Inconclusive",
+        "type": "political",
+        "detail": "WHO's Scientific Advisory Group for the Origins of Novel Pathogens (SAGO) releases its report, finding both zoonotic spillover and laboratory incident remain hypotheses requiring further investigation. The report calls for expanded data sharing by China. China rejects calls for a new Phase 2 investigation, effectively ending WHO's formal inquiry.",
+        "sources": [
+          { "name": "WHO SAGO Report", "url": "https://www.who.int", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "xbb-15-wave-2023",
+        "year": "Jan 11, 2023",
+        "title": "XBB.1.5 'Kraken' Omicron Subvariant Drives New U.S. Wave",
+        "type": "variant",
+        "detail": "The XBB.1.5 Omicron subvariant — nicknamed 'Kraken' by some scientists — becomes dominant in the U.S. by January 2023, demonstrating enhanced immune escape capabilities. WHO designates it the most transmissible Omicron subvariant detected to date. It drives renewed winter waves in the U.S. and Europe.",
+        "sources": [
+          { "name": "CDC Variant Proportions", "url": "https://www.cdc.gov", "tier": 1 },
+          { "name": "WHO Variant Tracking", "url": "https://www.who.int", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "us-public-health-emergency-ends",
+        "year": "May 11, 2023",
+        "title": "U.S. COVID-19 Public Health Emergency Expires",
+        "type": "political",
+        "detail": "The U.S. federal COVID-19 Public Health Emergency, declared January 31, 2020, officially expires. This ends free COVID tests, treatments, and vaccines for many Americans. Medicaid coverage expansions implemented during the emergency begin unwinding, causing millions to lose health insurance coverage in subsequent months.",
+        "sources": [
+          { "name": "U.S. Department of Health and Human Services", "url": "https://www.hhs.gov", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      }
+    ]
+  }
+]
