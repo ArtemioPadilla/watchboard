@@ -1,0 +1,70 @@
+{
+  "slug": "usa-latam-interventions",
+  "name": "US Interventions in Latin America",
+  "shortName": "US-LatAm Interventions",
+  "description": "Historical intelligence dashboard tracking US interventions in Latin America: coups, CIA operations, Operation Condor, Panama invasion, Guatemala 1954, Nicaragua Contras, and the Monroe Doctrine legacy.",
+  "icon": "🌎",
+  "color": "#2980b9",
+  "status": "active",
+  "temporal": "historical",
+  "domain": "human-rights",
+  "region": "south-america",
+  "country": "US",
+  "startDate": "1898-04-25",
+  "eraLabel": "US-LatAm Interventions 1898–Present",
+  "tags": ["CIA", "coups", "Operation Condor", "Monroe Doctrine", "Nicaragua Contras", "Guatemala"],
+  "sections": ["hero", "kpis", "timeline", "map", "military", "casualties", "claims", "political"],
+  "map": {
+    "enabled": true,
+    "bounds": { "lonMin": -120.0, "lonMax": -34.0, "latMin": -55.0, "latMax": 30.0 },
+    "center": { "lon": -80.0, "lat": 5.0 },
+    "categories": [
+      { "id": "coup", "label": "US-Backed Coups", "color": "#e74c3c" },
+      { "id": "cia-op", "label": "CIA Operations", "color": "#9b59b6" },
+      { "id": "military", "label": "US Military Interventions", "color": "#3498db" },
+      { "id": "condor", "label": "Operation Condor", "color": "#c0392b" },
+      { "id": "contras", "label": "Contra/Proxy Operations", "color": "#f39c12" }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "theater": { "lon": -80.0, "lat": 5.0, "alt": 10000000, "pitch": -90, "heading": 0, "label": "Latin America" },
+      "guatemala": { "lon": -90.52, "lat": 14.64, "alt": 80000, "pitch": -90, "heading": 0, "label": "Guatemala City (1954 coup)" },
+      "havana": { "lon": -82.35, "lat": 23.13, "alt": 80000, "pitch": -90, "heading": 0, "label": "Havana (Bay of Pigs)" },
+      "panama": { "lon": -79.52, "lat": 8.99, "alt": 80000, "pitch": -90, "heading": 0, "label": "Panama City (1989)" },
+      "managua": { "lon": -86.29, "lat": 12.13, "alt": 80000, "pitch": -90, "heading": 0, "label": "Managua (Contras)" },
+      "santiago": { "lon": -70.65, "lat": -33.46, "alt": 80000, "pitch": -90, "heading": 0, "label": "Santiago (Condor)" }
+    }
+  },
+  "navSections": [
+    { "id": "sec-timeline", "label": "Timeline" },
+    { "id": "sec-map", "label": "Map" },
+    { "id": "sec-military", "label": "Operations" },
+    { "id": "sec-humanitarian", "label": "Human Rights" },
+    { "id": "sec-contested", "label": "Contested" },
+    { "id": "sec-political", "label": "Political" }
+  ],
+  "militaryTabs": [
+    { "id": "strikes", "label": "Interventions" },
+    { "id": "retaliation", "label": "Resistance" },
+    { "id": "assets", "label": "CIA/Military Assets" }
+  ],
+  "politicalAvatars": ["us", "cia", "victim-gov", "opposition", "other"],
+  "eventTypes": ["coup", "invasion", "cia-op", "diplomatic", "human-rights"],
+  "ai": {
+    "systemPrompt": "You are a political historian updating the US Interventions in Latin America tracker.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose.\nEvery item must have an \"id\" field (lowercase_snake_case).\n\nSource tier classification:\n- Tier 1: Primary (CIA CREST declassified, US State Dept declassified FOIA, national archives, truth commission reports)\n- Tier 2: Major historical works (Foreign Affairs, NYT, AP, Reuters, Latin American academic press)\n- Tier 3: Research (National Security Archive, HRW, Amnesty, NACLA, LASA)\n- Tier 4: Secondary/unverified (Wikipedia without citations)\n\nOnly include information verifiable through search. Do not fabricate data.",
+    "searchContext": "US intervention Latin America CIA coups Guatemala Nicaragua Panama Operation Condor history",
+    "enabledSections": ["kpis", "timeline", "mapPoints", "casualties", "claims", "political"],
+    "coordValidation": { "lonMin": -121.0, "lonMax": -33.0, "latMin": -56.0, "latMax": 31.0 },
+    "updateIntervalDays": 180,
+    "backfillTargets": {
+      "timeline": 80,
+      "mapPoints": 70,
+      "claims": 30,
+      "political": 25,
+      "casualties": 15
+    }
+  },
+  "githubRepo": "ArtemioPadilla/watchboard"
+}
