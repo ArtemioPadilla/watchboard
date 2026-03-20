@@ -1,0 +1,60 @@
+{
+  "slug": "global-recession-risk",
+  "name": "Global Recession Risk Tracker",
+  "shortName": "Recession Risk",
+  "description": "Intelligence dashboard tracking global recession risk 2024–2026: tariff escalation, bond market stress, China slowdown, stubborn inflation, central bank policy tightening, and early warning indicators.",
+  "icon": "📉",
+  "color": "#e67e22",
+  "status": "active",
+  "temporal": "live",
+  "domain": "economy",
+  "region": "global",
+  "startDate": "2024-01-01",
+  "eraLabel": "Macro Stress 2024–",
+  "tags": ["recession", "tariffs", "inflation", "Fed", "China slowdown", "bond market"],
+  "sections": ["hero", "kpis", "timeline", "map", "economic", "claims", "political"],
+  "map": {
+    "enabled": true,
+    "bounds": { "lonMin": -180.0, "lonMax": 180.0, "latMin": -60.0, "latMax": 80.0 },
+    "center": { "lon": 20.0, "lat": 20.0 },
+    "categories": [
+      { "id": "recession", "label": "Recession Risk Countries", "color": "#e74c3c" },
+      { "id": "tariff", "label": "Tariff Flashpoints", "color": "#f39c12" },
+      { "id": "central-bank", "label": "Central Bank Events", "color": "#3498db" },
+      { "id": "debt", "label": "Debt Stress Events", "color": "#9b59b6" }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "global": { "lon": 20.0, "lat": 20.0, "alt": 20000000, "pitch": -90, "heading": 0, "label": "Global View" },
+      "us": { "lon": -95.0, "lat": 38.0, "alt": 5000000, "pitch": -90, "heading": 0, "label": "United States" },
+      "china": { "lon": 105.0, "lat": 35.0, "alt": 4000000, "pitch": -90, "heading": 0, "label": "China" },
+      "europe": { "lon": 15.0, "lat": 50.0, "alt": 3000000, "pitch": -90, "heading": 0, "label": "Europe" },
+      "emerging_markets": { "lon": 45.0, "lat": 0.0, "alt": 8000000, "pitch": -90, "heading": 0, "label": "Emerging Markets" }
+    }
+  },
+  "navSections": [
+    { "id": "sec-timeline", "label": "Timeline" },
+    { "id": "sec-map", "label": "Map" },
+    { "id": "sec-economic", "label": "Economic" },
+    { "id": "sec-contested", "label": "Contested" },
+    { "id": "sec-political", "label": "Political" }
+  ],
+  "politicalAvatars": ["fed", "ecb", "china", "imf", "other"],
+  "eventTypes": ["economic", "policy", "market", "trade", "political"],
+  "ai": {
+    "systemPrompt": "You are a macroeconomic analyst updating the Global Recession Risk tracker.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose.\nEvery item must have an \"id\" field (lowercase_snake_case).\n\nSource tier classification:\n- Tier 1: Official (Fed, ECB, BIS, IMF, World Bank, BLS, BEA, Eurostat, PBOC)\n- Tier 2: Major outlet (Reuters, AP, Bloomberg, FT, WSJ, Economist, Nikkei)\n- Tier 3: Institutional (Oxford Economics, Goldman Sachs Research, JPMorgan, Brookings, PIIE)\n- Tier 4: Unverified (social media, anonymous market sources)\n\nOnly include information verifiable through search. Do not fabricate data.",
+    "searchContext": "global recession risk 2024 2025 tariffs inflation Fed rates China slowdown bond market",
+    "enabledSections": ["kpis", "timeline", "mapPoints", "econ", "claims", "political"],
+    "updateIntervalDays": 3,
+    "backfillTargets": {
+      "timeline": 40,
+      "mapPoints": 30,
+      "claims": 20,
+      "political": 15,
+      "econ": 15
+    }
+  },
+  "githubRepo": "ArtemioPadilla/watchboard"
+}
