@@ -1,1 +1,167 @@
-[]
+[
+  {
+    "id": "china-tariff-rate-trend",
+    "label": "US Tariff Rate on Chinese Imports",
+    "value": "145%",
+    "change": "+120pp since Jan 2025",
+    "direction": "up",
+    "sparkData": [7, 7, 25, 25, 25, 30, 35, 55, 145],
+    "color": "#c0392b",
+    "source": "Office of the US Trade Representative",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "us-gdp-growth",
+    "label": "US GDP Growth Rate (Annual)",
+    "value": "2.8% (2025 est.)",
+    "change": "Below 2024 pace",
+    "direction": "down",
+    "sparkData": [2.3, 2.9, 2.3, -3.4, 5.9, 1.9, 2.5, 2.9, 2.8],
+    "color": "#e67e22",
+    "source": "Bureau of Economic Analysis",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "us-unemployment-rate",
+    "label": "US Unemployment Rate",
+    "value": "4.1%",
+    "change": "+0.3pp from 3.8% low",
+    "direction": "up",
+    "sparkData": [4.8, 4.1, 3.5, 14.8, 5.4, 3.9, 3.6, 3.8, 4.1],
+    "color": "#27ae60",
+    "source": "Bureau of Labor Statistics",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "us-national-debt",
+    "label": "US National Debt",
+    "value": "$36.6 Trillion",
+    "change": "+$16.6T since 2017",
+    "direction": "up",
+    "sparkData": [20.0, 21.5, 22.7, 27.7, 29.6, 31.4, 33.2, 34.6, 36.6],
+    "color": "#c0392b",
+    "source": "US Treasury Department",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "annual-federal-deficit",
+    "label": "Annual Federal Budget Deficit",
+    "value": "$1.9T (FY2025 est.)",
+    "change": "+$0.4T from FY2024",
+    "direction": "up",
+    "sparkData": [0.67, 0.78, 0.98, 3.13, 2.78, 1.38, 1.70, 1.83, 1.90],
+    "color": "#c0392b",
+    "source": "Congressional Budget Office",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "dow-jones-index",
+    "label": "Dow Jones Industrial Average",
+    "value": "~41,000",
+    "change": "-8% from inauguration 2025 peak",
+    "direction": "down",
+    "sparkData": [19800, 26500, 28600, 29500, 36000, 33000, 37700, 44000, 41000],
+    "color": "#e67e22",
+    "source": "NYSE / Bloomberg",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "us-trade-deficit",
+    "label": "US Goods Trade Deficit (Annual)",
+    "value": "$1.2T (2024)",
+    "change": "+$400B since 2017",
+    "direction": "up",
+    "sparkData": [0.79, 0.87, 0.89, 0.92, 1.08, 1.19, 1.06, 1.07, 1.20],
+    "color": "#c0392b",
+    "source": "US Census Bureau / BEA",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "us-china-trade-volume",
+    "label": "US-China Trade Volume (Annual)",
+    "value": "~$575B (2024)",
+    "change": "-$120B from 2018 peak",
+    "direction": "down",
+    "sparkData": [636, 659, 560, 559, 657, 690, 575, 579, 575],
+    "color": "#8e44ad",
+    "source": "US Census Bureau",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "consumer-price-index-cpi",
+    "label": "CPI Inflation Rate (Year-over-Year)",
+    "value": "3.1% (early 2026)",
+    "change": "Down from 9.1% peak (2022)",
+    "direction": "down",
+    "sparkData": [2.1, 1.9, 2.3, 1.2, 7.0, 9.1, 3.4, 2.9, 3.1],
+    "color": "#e67e22",
+    "source": "Bureau of Labor Statistics",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "manufacturing-jobs",
+    "label": "US Manufacturing Employment",
+    "value": "12.9M jobs (2025)",
+    "change": "+400K from 2017 low",
+    "direction": "up",
+    "sparkData": [12.4, 12.5, 12.8, 11.5, 12.3, 12.8, 12.9, 12.9, 12.9],
+    "color": "#27ae60",
+    "source": "Bureau of Labor Statistics",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "us-steel-production",
+    "label": "US Raw Steel Production",
+    "value": "80.4M metric tons (2024)",
+    "change": "+3.5M tons since 2018 tariffs",
+    "direction": "up",
+    "sparkData": [78.5, 86.7, 87.9, 72.7, 86.0, 80.5, 81.5, 80.4, 80.4],
+    "color": "#3498db",
+    "source": "American Iron and Steel Institute",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "farm-aid-payments",
+    "label": "Farm Aid (Trade Adjustment Payments)",
+    "value": "$28B (2018–2019 total)",
+    "change": "Emergency program for tariff losses",
+    "direction": "up",
+    "sparkData": [0, 0, 12, 16, 0, 0, 0, 0, 0],
+    "color": "#e67e22",
+    "source": "USDA / Congressional Budget Office",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "us-energy-production",
+    "label": "US Crude Oil Production",
+    "value": "13.5M bbl/day (2025)",
+    "change": "+4.5M bbl/day since 2017",
+    "direction": "up",
+    "sparkData": [9.0, 9.9, 12.9, 11.3, 11.2, 12.0, 12.9, 13.2, 13.5],
+    "color": "#27ae60",
+    "source": "US Energy Information Administration",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "tariff-revenue-collected",
+    "label": "Annual US Tariff Revenue",
+    "value": "~$300B (2025 est.)",
+    "change": "+$280B from pre-trade-war level",
+    "direction": "up",
+    "sparkData": [35, 42, 73, 72, 87, 92, 88, 80, 300],
+    "color": "#3498db",
+    "source": "US Customs and Border Protection / Treasury",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "doge-federal-spending-cuts",
+    "label": "DOGE Claimed Federal Spending Cuts",
+    "value": "$140B+ (claimed)",
+    "change": "Claimed vs. ~$30B independently verified",
+    "direction": "down",
+    "sparkData": [0, 0, 0, 0, 0, 0, 0, 30, 140],
+    "color": "#e67e22",
+    "source": "DOGE (doge.gov) / CBO",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  }
+]
