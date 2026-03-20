@@ -65,6 +65,16 @@ const githubUrl = githubRepo ? `https://github.com/${githubRepo}` : 'https://git
       { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
     );
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Unregister any foreign service worker (e.g. from artemiop.com main site)
+    // that may be caching /watchboard/ routes incorrectly
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(regs => {
+        for (const reg of regs) {
+          if (reg.scope && !reg.scope.includes('/watchboard')) reg.unregister();
+        }
+      });
+    }
   </script>
 </body>
 </html>
