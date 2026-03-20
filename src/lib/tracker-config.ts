@@ -76,6 +76,46 @@ export const SectionId = z.enum([
   'casualties', 'economic', 'claims', 'political',
 ]);
 
+// ── Domain (primary topic classification) ──
+export const DomainSchema = z.enum([
+  'conflict',
+  'security',
+  'governance',
+  'disaster',
+  'human-rights',
+  'science',
+  'space',
+  'economy',
+  'culture',
+  'history',
+]);
+
+// ── Geographic region ──
+export const RegionSchema = z.enum([
+  'north-america', 'central-america', 'south-america',
+  'europe', 'middle-east', 'africa',
+  'central-asia', 'south-asia', 'east-asia',
+  'southeast-asia', 'oceania', 'global',
+]);
+
+// ── Series (groups related trackers, optional hub) ──
+const SeriesSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  order: z.number().optional(),
+  isHub: z.boolean().optional(),
+});
+
+// ── Cross-tracker relationship ──
+const RelatedTrackerSchema = z.object({
+  slug: z.string(),
+  relation: z.enum([
+    'predecessor', 'successor', 'context',
+    'parallel', 'component', 'continuation',
+  ]),
+  label: z.string().optional(),
+});
+
 // ── Full tracker config schema ──
 export const TrackerConfigSchema = z.object({
   slug: z.string().regex(/^[a-z0-9-]+$/),
@@ -86,6 +126,14 @@ export const TrackerConfigSchema = z.object({
   color: z.string().optional(),
   status: z.enum(['active', 'archived', 'draft']),
   temporal: z.enum(['live', 'historical']).default('live'),
+
+  // Taxonomy
+  domain: DomainSchema.optional(),
+  region: RegionSchema.optional(),
+  tags: z.array(z.string()).optional(),
+  series: SeriesSchema.optional(),
+  related: z.array(RelatedTrackerSchema).optional(),
+  country: z.string().optional(),
 
   startDate: z.string(),
   endDate: z.string().optional(),
@@ -112,3 +160,7 @@ export type MapCategory = z.infer<typeof MapCategorySchema>;
 export type CameraPreset = z.infer<typeof CameraPresetSchema>;
 export type NavSection = z.infer<typeof NavSectionSchema>;
 export type Tab = z.infer<typeof TabSchema>;
+export type Domain = z.infer<typeof DomainSchema>;
+export type Region = z.infer<typeof RegionSchema>;
+export type Series = z.infer<typeof SeriesSchema>;
+export type RelatedTracker = z.infer<typeof RelatedTrackerSchema>;
