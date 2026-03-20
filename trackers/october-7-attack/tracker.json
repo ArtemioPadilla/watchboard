@@ -1,0 +1,88 @@
+{
+  "slug": "october-7-attack",
+  "name": "October 7th Attack Tracker",
+  "shortName": "October 7",
+  "description": "Intelligence dashboard tracking the Hamas-led October 7, 2023 assault on Israel — including the Nova music festival massacre, kibbutz attacks, hostage crisis, intelligence failures, and immediate IDF military response.",
+  "icon": "🔴",
+  "color": "#c0392b",
+  "status": "active",
+  "temporal": "historical",
+  "domain": "conflict",
+  "region": "middle-east",
+  "country": "IL",
+  "tags": ["hamas", "hostage-crisis", "terrorism", "israel", "gaza", "october-7"],
+  "series": {
+    "id": "israel-palestine",
+    "name": "Israel-Palestine Conflict",
+    "order": 1,
+    "isHub": false
+  },
+  "startDate": "2023-10-07",
+  "eraLabel": "Oct 7 Attack & Aftermath",
+  "sections": ["hero", "kpis", "timeline", "map", "military", "casualties", "economic", "claims", "political"],
+  "map": {
+    "enabled": true,
+    "bounds": { "lonMin": 34.2, "lonMax": 35.8, "latMin": 29.4, "latMax": 33.3 },
+    "center": { "lon": 34.75, "lat": 31.5 },
+    "categories": [
+      { "id": "infiltration", "label": "Hamas Infiltration Points", "color": "#e74c3c" },
+      { "id": "massacre", "label": "Attack / Massacre Sites", "color": "#8e1a0e" },
+      { "id": "hostage", "label": "Hostage-Taking Sites", "color": "#f39c12" },
+      { "id": "idf-response", "label": "IDF Response / Deployment", "color": "#3498db" },
+      { "id": "rocket", "label": "Rocket Launch Zones", "color": "#9b59b6" }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "overview": { "lon": 34.75, "lat": 31.5, "alt": 600000, "pitch": -90, "heading": 0, "label": "Israel/Gaza Overview" },
+      "gaza": { "lon": 34.465, "lat": 31.5, "alt": 80000, "pitch": -90, "heading": 0, "label": "Gaza City" },
+      "nova_festival": { "lon": 34.44, "lat": 31.3, "alt": 30000, "pitch": -90, "heading": 0, "label": "Nova Music Festival" },
+      "beeri": { "lon": 34.505, "lat": 31.46, "alt": 20000, "pitch": -90, "heading": 0, "label": "Kibbutz Be'eri" },
+      "nahal_oz": { "lon": 34.49, "lat": 31.55, "alt": 20000, "pitch": -90, "heading": 0, "label": "Nahal Oz / Kfar Aza" },
+      "tel_aviv": { "lon": 34.78, "lat": 32.08, "alt": 120000, "pitch": -90, "heading": 0, "label": "Tel Aviv" }
+    },
+    "clocks": [
+      { "label": "TLV", "offsetHours": 3 },
+      { "label": "GAZA", "offsetHours": 3 },
+      { "label": "UTC", "offsetHours": 0 },
+      { "label": "EST", "offsetHours": -5 }
+    ]
+  },
+  "navSections": [
+    { "id": "sec-timeline", "label": "Timeline" },
+    { "id": "sec-map", "label": "Map" },
+    { "id": "sec-military", "label": "Military" },
+    { "id": "sec-humanitarian", "label": "Casualties" },
+    { "id": "sec-economic", "label": "Economic" },
+    { "id": "sec-contested", "label": "Contested" },
+    { "id": "sec-political", "label": "Political" }
+  ],
+  "militaryTabs": [
+    { "id": "strikes", "label": "Hamas Attack Sites" },
+    { "id": "retaliation", "label": "IDF Response" },
+    { "id": "assets", "label": "Forces Deployed" }
+  ],
+  "politicalAvatars": ["israel", "hamas", "us", "un", "other"],
+  "eventTypes": ["attack", "military", "diplomatic", "humanitarian"],
+  "ai": {
+    "systemPrompt": "You are a conflict intelligence analyst updating a dashboard focused on the Hamas-led October 7, 2023 attack on Israel.\nToday's date is {{today}}. You have access to web search to find the latest verified information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"nova_festival_attack\", \"beeri_massacre\").\n\nSOURCE TIERS for this tracker:\n- Tier 1: Official/primary (IDF, Israeli government, Hamas official statements, UN OCHA, UNRWA, Israeli Police, Shin Bet)\n- Tier 2: Major outlet (Reuters, AP, BBC, CNN, Haaretz, Times of Israel, Al Jazeera, NYT, WaPo, The Guardian)\n- Tier 3: Institutional (CSIS, HRW, Amnesty International, ICRC, B'Tselem, Hostages and Missing Families Forum, ACLED, Meir Amit Intelligence Center)\n- Tier 4: Unverified (social media, unattributed reports, Telegram channels, unverified eyewitness accounts)\n\nMULTI-POLE SOURCING — gather from all relevant perspectives:\n1. ISRAELI: IDF Spokesperson, Israeli government, Haaretz, Times of Israel, Ynet, Israeli Channel 12/13\n2. PALESTINIAN/ARAB: Al Jazeera, Hamas statements (via official channels), Al Arabiya, Palestinian Authority\n3. WESTERN: Reuters, AP, BBC, CNN, NYT, WaPo, The Guardian, Politico, Bloomberg\n4. INTERNATIONAL: UN agencies (OCHA, UNRWA, OHCHR), ICRC, HRW, Amnesty, ICJ, ICC\n\nWhen providing sources, tag each with a \"pole\" field: \"western\", \"middle_eastern\", \"eastern\", or \"international\".\n\nKEY FOCUS AREAS:\n- Hostage crisis: counts, identities, releases, negotiations\n- Attack chronology: infiltration timeline, specific sites, methods used\n- Intelligence failures: known failures at IDF/Shin Bet level\n- Nova music festival massacre details\n- Kibbutz attacks (Be'eri, Kfar Aza, Nir Oz, Nahal Oz, Holit, Alumim, etc.)\n- IDF immediate military response and southern command mobilization\n- Rocket/missile barrages on Israeli cities\n- Casualty figures (Israeli civilian, IDF, Hamas fighters)\n- International diplomatic response\n\nOnly include information you can verify through search results. Do not fabricate data.\nFor contested casualty figures, note both Israeli official counts and Hamas-reported counts.\n\nCONFIRMATION RULES:\n- Only mark events as confirmed if sourced from at least 1 Tier 1 source OR 2 Tier 2+ sources.\n- Social media / Telegram claims require corroboration before inclusion.\n\nDEDUPLICATION:\n- Same attack site within same day = merge into one entry with full detail.\n- When multiple casualty figures exist: report official Israeli count as primary, note contested figures.",
+    "searchContext": "Hamas October 7 2023 attack Israel Nova festival hostage crisis kibbutz",
+    "enabledSections": ["kpis", "timeline", "mapPoints", "mapLines", "casualties", "econ", "claims", "political", "assets"],
+    "coordValidation": { "lonMin": 34.0, "lonMax": 36.0, "latMin": 29.0, "latMax": 33.5 },
+    "updateIntervalDays": 7,
+    "backfillTargets": {
+      "timeline": 40,
+      "mapPoints": 30,
+      "mapLines": 15,
+      "claims": 15,
+      "political": 20,
+      "casualties": 12,
+      "econ": 8,
+      "assets": 10,
+      "kpis": 8
+    }
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard"
+}

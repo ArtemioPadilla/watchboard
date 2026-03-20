@@ -24,6 +24,7 @@ A config-driven intelligence dashboard platform for tracking events of interest.
 | **[Taiwan Strait Tensions Tracker](https://artemiopadilla.github.io/watchboard/taiwan-conflict/)** | Intelligence dashboard tracking Taiwan Strait tensions: PLA military exercises, ... | 9 | Taiwan/East Asia/Pacific | 3D |
 | **[Israel-Palestine Conflict Tracker](https://artemiopadilla.github.io/watchboard/israel-palestine/)** | Intelligence dashboard covering the Israel-Palestine conflict from the 1948 foun... | 9 | Israel/Palestine/Middle East | 3D |
 | **[Somalia Conflict Tracker](https://artemiopadilla.github.io/watchboard/somalia-conflict/)** | Intelligence dashboard tracking Somalia's ongoing insurgency: Al-Shabaab operati... | 9 | Somalia/Horn of Africa | 3D |
+| **[October 7th Attack Tracker](https://artemiopadilla.github.io/watchboard/october-7-attack/)** | Intelligence dashboard tracking the Hamas-led October 7, 2023 assault on Israel ... | 9 | Israel/Gaza | 3D |
 
 ---
 
