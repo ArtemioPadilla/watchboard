@@ -3,33 +3,68 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { loadAllTrackers } from '../lib/tracker-registry';
 import { loadTrackerData } from '../lib/data';
 import GlobeBackground from '../components/islands/GlobeBackground';
+import TrackerDirectory from '../components/islands/TrackerDirectory';
 
 const trackers = loadAllTrackers();
+const nonDraft = trackers.filter(t => t.status !== 'draft');
 const active = trackers.filter(t => t.status === 'active');
 const liveTrackers = active.filter(t => t.temporal !== 'historical');
 const historicalTrackers = active.filter(t => t.temporal === 'historical');
-const archived = trackers.filter(t => t.status === 'archived');
 const base = import.meta.env.BASE_URL;
 const basePath = base.endsWith('/') ? base : `${base}/`;
 
-// Load meta + kpis + map points for each active tracker
-const trackerData = active.map(t => {
-  const data = loadTrackerData(t.slug, t.eraLabel);
-  const topKpis = data.kpis.slice(0, 3);
-  const dayCount = data.meta.dayCount;
-  const lastUpdated = data.meta.lastUpdated;
-  const headline = data.meta.heroHeadline?.replace(/<[^>]+>/g, ' ').replace(/\s{2,}/g, ' ').trim();
-  const mapPoints = data.mapPoints || [];
-  return { config: t, meta: data.meta, topKpis, dayCount, lastUpdated, headline, mapPoints };
+// Serialize tracker data for the TrackerDirectory island
+const serializedTrackers = nonDraft.map(t => {
+  let topKpis: Array<{ value: string; label: string }> = [];
+  let dayCount = 0;
+  let lastUpdated = t.startDate;
+  let headline: string | undefined;
+
+  try {
+    const data = loadTrackerData(t.slug, t.eraLabel);
+    topKpis = data.kpis.slice(0, 3);
+    dayCount = data.meta.dayCount;
+    lastUpdated = data.meta.lastUpdated;
+    headline = data.meta.heroHeadline?.replace(/<[^>]+>/g, ' ').replace(/\s{2,}/g, ' ').trim();
+  } catch {
+    // Tracker may not have data yet — use config defaults
+  }
+
+  return {
+    slug: t.slug,
+    shortName: t.shortName,
+    name: t.name,
+    description: t.description,
+    icon: t.icon,
+    color: t.color,
+    status: t.status,
+    temporal: t.temporal,
+    domain: t.domain,
+    region: t.region,
+    country: t.country,
+    startDate: t.startDate,
+    endDate: t.endDate,
+    sections: t.sections,
+    seriesId: t.series?.id,
+    seriesName: t.series?.name,
+    seriesOrder: t.series?.order,
+    isHub: t.series?.isHub,
+    mapEnabled: t.map?.enabled,
+    globeEnabled: t.globe?.enabled,
+    dayCount,
+    lastUpdated,
+    headline,
+    topKpis,
+  };
 });
 
 // Collect event locations for the globe background
-const globeEvents = trackerData.flatMap(({ mapPoints }) =>
-  mapPoints.slice(0, 30).map(p => ({ lat: p.lat, lon: p.lon }))
-);
-
-const now = new Date();
-const utcStr = now.toISOString().replace('T', ' ').slice(0, 19) + 'Z';
+const globeEvents = serializedTrackers.flatMap(t => {
+  try {
+    const data = loadTrackerData(t.slug);
+    return (data.mapPoints || []).slice(0, 30).map((p: any) => ({ lat: p.lat, lon: p.lon }));
+  } catch { return []; }
+});
 ---
 <BaseLayout title="Watchboard — Intelligence Dashboard Platform">
   <main class="ix">
@@ -77,167 +112,10 @@ const utcStr = now.toISOString().replace('T', ' ').slice(0, 19) + 'Z';
       </div>
     </header>
 
-    <!-- Live operations -->
-    {liveTrackers.length > 0 && (
-      <section class="ix-section">
-        <div class="section-header">
-          <h2 class="section-label">
-            <span class="label-icon live-icon">&#9673;</span>
-            Live Operations
-          </h2>
-          <span class="section-timestamp">{utcStr}</span>
-        </div>
-
-        <div class="tracker-grid">
-          {trackerData.filter(d => d.config.temporal !== 'historical').map(({ config: t, meta, topKpis, dayCount, lastUpdated, headline }) => {
-            const updated = new Date(lastUpdated);
-            const ageHrs = Math.floor((now.getTime() - updated.getTime()) / 3600000);
-            const freshness = ageHrs < 24 ? 'fresh' : ageHrs < 48 ? 'recent' : 'stale';
-            return (
-              <a href={`${basePath}${t.slug}/`} class="tracker-card" style={`--card-accent: ${t.color || '#3498db'}`}>
-                <div class="card-top">
-                  <div class="card-ident">
-                    <span class="card-icon">{t.icon || ''}</span>
-                    <div class="card-titles">
-                      <h3 class="card-name">{t.shortName}</h3>
-                      <span class="card-dateline">DAY {dayCount}</span>
-                    </div>
-                  </div>
-                  <div class={`card-status ${freshness}`}>
-                    <span class="status-dot"></span>
-                    <span>{freshness === 'fresh' ? 'LIVE' : freshness === 'recent' ? 'RECENT' : 'STALE'}</span>
-                  </div>
-                </div>
-
-                {headline && (
-                  <div class="card-headline">
-                    <span class="headline-marker">&rsaquo;</span>
-                    <span>{headline.length > 100 ? headline.slice(0, 100) + '...' : headline}</span>
-                  </div>
-                )}
-
-                <p class="card-desc">{t.description}</p>
-
-                {topKpis.length > 0 && (
-                  <div class="card-kpis">
-                    {topKpis.map(k => (
-                      <div class="kpi-chip">
-                        <span class="kpi-value">{k.value}</span>
-                        <span class="kpi-label">{k.label}</span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                <div class="card-footer">
-                  <div class="card-features">
-                    <span>{t.sections.length} sections</span>
-                    {t.map?.enabled && <span>Map</span>}
-                    {t.globe?.enabled && <span>3D Globe</span>}
-                  </div>
-                  <span class="card-updated">
-                    {ageHrs < 1 ? 'Just now' : ageHrs < 24 ? `${ageHrs}h ago` : `${Math.floor(ageHrs / 24)}d ago`}
-                  </span>
-                </div>
-              </a>
-            );
-          })}
-        </div>
-      </section>
-    )}
-
-    <!-- Historical trackers -->
-    {historicalTrackers.length > 0 && (
-      <section class="ix-section">
-        <div class="section-header">
-          <h2 class="section-label">
-            <span class="label-icon hist-icon">&#9202;</span>
-            Historical Analysis
-          </h2>
-        </div>
-
-        <div class="tracker-grid">
-          {trackerData.filter(d => d.config.temporal === 'historical').map(({ config: t, meta, topKpis, dayCount, lastUpdated, headline }) => {
-            const updated = new Date(lastUpdated);
-            const ageHrs = Math.floor((now.getTime() - updated.getTime()) / 3600000);
-            return (
-              <a href={`${basePath}${t.slug}/`} class="tracker-card historical" style={`--card-accent: ${t.color || '#3498db'}`}>
-                <div class="card-top">
-                  <div class="card-ident">
-                    <span class="card-icon">{t.icon || ''}</span>
-                    <div class="card-titles">
-                      <h3 class="card-name">{t.shortName}</h3>
-                      <span class="card-dateline">{t.startDate.slice(0, 4)}{t.endDate ? `\u2013${t.endDate.slice(0, 4)}` : '\u2013Present'}</span>
-                    </div>
-                  </div>
-                  <div class="card-status historical-badge">
-                    <span>HISTORICAL</span>
-                  </div>
-                </div>
-
-                {headline && (
-                  <div class="card-headline">
-                    <span class="headline-marker">&rsaquo;</span>
-                    <span>{headline.length > 100 ? headline.slice(0, 100) + '...' : headline}</span>
-                  </div>
-                )}
-
-                <p class="card-desc">{t.description}</p>
-
-                {topKpis.length > 0 && (
-                  <div class="card-kpis">
-                    {topKpis.map(k => (
-                      <div class="kpi-chip">
-                        <span class="kpi-value">{k.value}</span>
-                        <span class="kpi-label">{k.label}</span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                <div class="card-footer">
-                  <div class="card-features">
-                    <span>{t.sections.length} sections</span>
-                    {t.map?.enabled && <span>Map</span>}
-                    {t.globe?.enabled && <span>3D Globe</span>}
-                  </div>
-                  <span class="card-updated">
-                    {ageHrs < 1 ? 'Just now' : ageHrs < 24 ? `${ageHrs}h ago` : `${Math.floor(ageHrs / 24)}d ago`}
-                  </span>
-                </div>
-              </a>
-            );
-          })}
-        </div>
-      </section>
-    )}
-
-    {archived.length > 0 && (
-      <section class="ix-section">
-        <div class="section-header">
-          <h2 class="section-label">
-            <span class="label-icon">&#9723;</span>
-            Archived
-          </h2>
-        </div>
-        <div class="tracker-grid">
-          {archived.map(t => (
-            <a href={`${basePath}${t.slug}/`} class="tracker-card archived" style={`--card-accent: ${t.color || '#6b7280'}`}>
-              <div class="card-top">
-                <div class="card-ident">
-                  <span class="card-icon">{t.icon || ''}</span>
-                  <h3 class="card-name">{t.shortName}</h3>
-                </div>
-                <div class="card-status stale">
-                  <span>ARCHIVED</span>
-                </div>
-              </div>
-              <p class="card-desc">{t.description}</p>
-            </a>
-          ))}
-        </div>
-      </section>
-    )}
+    <!-- Tracker directory (search + domain tabs + grouped cards) -->
+    <section class="ix-directory">
+      <TrackerDirectory trackers={serializedTrackers} basePath={basePath} client:load />
+    </section>
 
     <!-- Footer -->
     <footer class="ix-footer">
@@ -260,7 +138,7 @@ const utcStr = now.toISOString().replace('T', ' ').slice(0, 19) + 'Z';
         </div>
       </div>
       <div class="footer-about-links">
-        {trackerData.map(({ config: t }) => (
+        {serializedTrackers.filter(t => t.status === 'active').map(t => (
           <a href={`${basePath}${t.slug}/about/`}>{t.shortName} — About &amp; Credits</a>
         ))}
       </div>
@@ -419,290 +297,10 @@ const utcStr = now.toISOString().replace('T', ' ').slice(0, 19) + 'Z';
     background: var(--border);
   }
 
-  /* ─── Sections ─── */
-  .ix-section {
-    max-width: 960px;
+  /* ─── Directory section ─── */
+  .ix-directory {
     margin: 0 auto 3rem;
-    padding: 0 1.5rem;
-  }
-
-  .section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: 1.25rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .section-label {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.68rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--text-muted);
-    margin: 0;
-  }
-
-  .label-icon {
-    font-size: 0.7rem;
-  }
-
-  .label-icon.live-icon {
-    color: var(--accent-green);
-  }
-
-  .label-icon.hist-icon {
-    color: var(--accent-amber);
-  }
-
-  .section-timestamp {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.58rem;
-    color: var(--text-muted);
-    opacity: 0.6;
-  }
-
-  /* ─── Tracker cards ─── */
-  .tracker-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-    gap: 1rem;
-  }
-
-  .tracker-card {
-    position: relative;
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 1.5rem;
-    text-decoration: none;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    transition: all 0.25s ease;
-    overflow: hidden;
-  }
-
-  .tracker-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: var(--card-accent);
-    opacity: 0.7;
-    transition: opacity 0.25s;
-  }
-
-  .tracker-card:hover {
-    border-color: color-mix(in srgb, var(--card-accent) 40%, var(--border));
-    background: var(--bg-card-hover);
-    transform: translateY(-3px);
-    box-shadow:
-      0 8px 24px rgba(0, 0, 0, 0.3),
-      0 0 0 1px color-mix(in srgb, var(--card-accent) 15%, transparent);
-  }
-
-  .tracker-card:hover::before {
-    opacity: 1;
-  }
-
-  .tracker-card.archived {
-    opacity: 0.6;
-  }
-
-  /* Card top row */
-  .card-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-  }
-
-  .card-ident {
-    display: flex;
-    align-items: center;
-    gap: 0.65rem;
-  }
-
-  .card-icon {
-    font-size: 1.6rem;
-    line-height: 1;
-  }
-
-  .card-titles {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .card-name {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 1.15rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin: 0;
-    line-height: 1.2;
-  }
-
-  .card-dateline {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.58rem;
-    font-weight: 500;
-    color: var(--card-accent);
-    letter-spacing: 0.1em;
-    margin-top: 0.15rem;
-  }
-
-  /* Status badge */
-  .card-status {
-    display: flex;
-    align-items: center;
-    gap: 0.35rem;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.56rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    padding: 0.25rem 0.55rem;
-    border-radius: 4px;
-    white-space: nowrap;
-  }
-
-  .card-status.fresh {
-    background: rgba(46, 204, 113, 0.1);
-    color: var(--accent-green);
-    border: 1px solid rgba(46, 204, 113, 0.25);
-  }
-
-  .card-status.fresh .status-dot {
-    width: 5px;
-    height: 5px;
-    background: var(--accent-green);
-    border-radius: 50%;
-    animation: pulse 2s ease-in-out infinite;
-  }
-
-  .card-status.recent {
-    background: rgba(243, 156, 18, 0.1);
-    color: var(--accent-amber);
-    border: 1px solid rgba(243, 156, 18, 0.25);
-  }
-
-  .card-status.stale {
-    background: rgba(148, 152, 168, 0.1);
-    color: var(--text-muted);
-    border: 1px solid var(--border);
-  }
-
-  .card-status.historical-badge {
-    background: rgba(243, 156, 18, 0.1);
-    color: var(--accent-amber);
-    border: 1px solid rgba(243, 156, 18, 0.25);
-  }
-
-  /* Headline flash */
-  .card-headline {
-    display: flex;
-    gap: 0.4rem;
-    padding: 0.5rem 0.65rem;
-    background: rgba(231, 76, 60, 0.04);
-    border-left: 2px solid var(--card-accent);
-    border-radius: 0 4px 4px 0;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.78rem;
-    color: var(--text-secondary);
-    line-height: 1.45;
-  }
-
-  .headline-marker {
-    color: var(--card-accent);
-    font-weight: 700;
-    flex-shrink: 0;
-  }
-
-  /* Description */
-  .card-desc {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.78rem;
-    color: var(--text-muted);
-    line-height: 1.55;
-    margin: 0;
-  }
-
-  /* KPI chips */
-  .card-kpis {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-  }
-
-  .kpi-chip {
-    display: flex;
-    flex-direction: column;
-    gap: 0.1rem;
-    padding: 0.4rem 0.6rem;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border);
-    border-radius: 5px;
-    min-width: 0;
-  }
-
-  .kpi-value {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    white-space: nowrap;
-  }
-
-  .kpi-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.5rem;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 100px;
-  }
-
-  /* Card footer */
-  .card-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: auto;
-    padding-top: 0.5rem;
-    border-top: 1px solid var(--border);
-  }
-
-  .card-features {
-    display: flex;
-    gap: 0.4rem;
-    flex-wrap: wrap;
-  }
-
-  .card-features span {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.56rem;
-    color: var(--text-muted);
-    background: var(--bg-secondary);
-    padding: 0.15rem 0.4rem;
-    border-radius: 3px;
-    border: 1px solid var(--border);
-  }
-
-  .card-updated {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.56rem;
-    color: var(--text-muted);
-    opacity: 0.7;
+    max-width: 100%;
   }
 
   /* ─── Footer ─── */
@@ -797,10 +395,6 @@ const utcStr = now.toISOString().replace('T', ' ').slice(0, 19) + 'Z';
       height: 1px;
     }
 
-    .tracker-grid {
-      grid-template-columns: 1fr;
-    }
-
     .classification-bar {
       font-size: 0.48rem;
       gap: 0.3rem;
@@ -815,14 +409,9 @@ const utcStr = now.toISOString().replace('T', ' ').slice(0, 19) + 'Z';
       padding: 3rem 1rem 2rem;
     }
 
-    .card-kpis {
-      overflow-x: auto;
-      flex-wrap: nowrap;
-    }
   }
 
   @media (max-width: 420px) {
     .hero-title { font-size: 2.4rem; }
-    .ix-section { padding: 0 1rem; }
   }
 </style>
