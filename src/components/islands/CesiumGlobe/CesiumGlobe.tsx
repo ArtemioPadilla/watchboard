@@ -25,7 +25,8 @@ import { useConflictData } from './useConflictData';
 import { useMissiles } from './useMissiles';
 import CesiumControls from './CesiumControls';
 import CesiumInfoPanel from './CesiumInfoPanel';
-import CesiumTimelineBar, { type TimelineZoomLevel } from './CesiumTimelineBar';
+import UnifiedTimelineBar from '../UnifiedTimelineBar';
+import type { TimelineZoomLevel } from '../../../lib/timeline-bar-utils';
 import CesiumEventsPanel from './CesiumEventsPanel';
 import CesiumHud from './CesiumHud';
 import MobileBottomSheet from './MobileBottomSheet';
@@ -541,22 +542,22 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [], ca
       )}
 
       {/* Enhanced Timeline — always rendered */}
-      <CesiumTimelineBar
+      <UnifiedTimelineBar
+        context="3d"
         minDate={dateRange.min}
         maxDate={dateRange.max}
         currentDate={currentDate}
         isPlaying={isPlaying}
         playbackSpeed={playbackSpeed}
-        mode={mode}
         events={events}
         lines={lines}
         onDateChange={handleDateChange}
         onTogglePlay={togglePlay}
         onSpeedChange={setPlaybackSpeed}
         onGoLive={goLive}
-        stats={stats}
-        simTimeRef={simTimeRef}
         onTimeChange={handleTimeChange}
+        simTimeRef={simTimeRef}
+        stats={stats}
         zoomLevel={zoomLevel}
         onZoomChange={setZoomLevel}
         isHistorical={isHistorical}

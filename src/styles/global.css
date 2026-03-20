@@ -1,3 +1,5 @@
+@import './unified-timeline.css';
+
 /* ─── SELF-HOSTED FONTS ─── */
 @font-face {
   font-family: 'Cormorant Garamond';
@@ -2300,251 +2302,6 @@ body::before {
 .stagger-6 { transition-delay: 0.3s; }
 .stagger-7 { transition-delay: 0.35s; }
 
-/* ─── ENHANCED MAP TIMELINE ─── */
-.map-tl-enhanced {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  background: rgba(18, 20, 26, 0.92);
-  backdrop-filter: blur(8px);
-  border-top: 1px solid var(--border);
-  padding: 8px 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.map-tl-controls {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-
-.map-tl-controls::-webkit-scrollbar {
-  display: none;
-}
-
-.map-tl-btn {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
-  color: var(--text-secondary);
-  font-size: 0.6rem;
-  width: 26px;
-  height: 26px;
-  border-radius: 4px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: all 0.15s;
-  padding: 0;
-}
-
-.map-tl-btn:hover {
-  background: var(--bg-card-hover);
-  border-color: var(--border-light);
-  color: var(--text-primary);
-}
-
-.map-tl-btn:disabled {
-  opacity: 0.3;
-  cursor: default;
-}
-
-.map-tl-play {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: var(--accent-red-dim);
-  border-color: var(--accent-red);
-  color: var(--accent-red);
-  font-size: 0.65rem;
-}
-
-.map-tl-play:hover {
-  background: rgba(231, 76, 60, 0.3);
-  border-color: var(--accent-red);
-  color: var(--accent-red);
-}
-
-.map-tl-speed {
-  display: flex;
-  gap: 2px;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: 2px;
-  flex-shrink: 0;
-}
-
-.map-tl-speed-btn {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.48rem;
-  letter-spacing: 0.04em;
-  padding: 3px 6px;
-  background: none;
-  border: none;
-  color: var(--text-muted);
-  border-radius: 3px;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: all 0.12s;
-}
-
-.map-tl-speed-btn:hover {
-  color: var(--text-secondary);
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.map-tl-speed-btn.active {
-  background: var(--accent-red-dim);
-  color: var(--accent-red);
-  font-weight: 500;
-}
-
-.map-tl-live {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.52rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 4px 10px;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  color: var(--text-muted);
-  cursor: pointer;
-  flex-shrink: 0;
-  transition: all 0.15s;
-}
-
-.map-tl-live:hover {
-  border-color: var(--accent-red);
-  color: var(--accent-red);
-}
-
-.map-tl-live.active {
-  background: var(--accent-red-dim);
-  border-color: var(--accent-red);
-  color: var(--accent-red);
-}
-
-.map-tl-live-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--accent-red);
-  animation: mapTlLivePulse 1.5s ease-in-out infinite;
-}
-
-@keyframes mapTlLivePulse {
-  0%, 100% { opacity: 1; box-shadow: 0 0 4px var(--accent-red); }
-  50% { opacity: 0.4; box-shadow: none; }
-}
-
-.map-tl-current-date {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.58rem;
-  color: var(--accent-red);
-  letter-spacing: 0.06em;
-  white-space: nowrap;
-  flex-shrink: 0;
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.map-tl-event-badge {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.45rem;
-  background: var(--accent-red);
-  color: #fff;
-  padding: 1px 5px;
-  border-radius: 8px;
-  font-weight: 600;
-  min-width: 16px;
-  text-align: center;
-  line-height: 1.4;
-}
-
-.map-tl-track-container {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.map-tl-date-edge {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.48rem;
-  color: var(--text-muted);
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.map-tl-track {
-  flex: 1;
-  position: relative;
-  height: 20px;
-  display: flex;
-  align-items: center;
-}
-
-.map-tl-tick {
-  position: absolute;
-  top: 2px;
-  width: 3px;
-  height: 6px;
-  border-radius: 1px;
-  opacity: 0.7;
-  pointer-events: none;
-  transform: translateX(-50%);
-  z-index: 1;
-}
-
-.map-tl-slider {
-  width: 100%;
-  -webkit-appearance: none;
-  appearance: none;
-  height: 4px;
-  background: var(--border);
-  border-radius: 2px;
-  outline: none;
-  cursor: pointer;
-  position: relative;
-  z-index: 2;
-}
-
-.map-tl-slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: var(--accent-red);
-  border: 2px solid var(--bg-card);
-  cursor: pointer;
-  box-shadow: 0 0 6px rgba(231, 76, 60, 0.4);
-}
-
-.map-tl-slider::-moz-range-thumb {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: var(--accent-red);
-  border: 2px solid var(--bg-card);
-  cursor: pointer;
-  box-shadow: 0 0 6px rgba(231, 76, 60, 0.4);
-}
-
 /* ─── MAP EVENTS PANEL ─── */
 .map-events-toggle {
   position: absolute;
@@ -2842,41 +2599,12 @@ body::before {
   border: 1px solid var(--border);
 }
 
-/* ─── MAP STATS OVERLAY ─── */
-.map-stats-overlay {
-  position: absolute;
-  bottom: 72px;
-  right: 12px;
-  z-index: 999;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.5rem;
-  color: var(--text-muted);
-  background: rgba(18, 20, 26, 0.85);
-  backdrop-filter: blur(6px);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: 4px 10px;
-  letter-spacing: 0.04em;
-}
-
-.map-stats-sep {
-  opacity: 0.4;
-}
-
 /* ─── OSINT line tooltips ─── */
 .osint-tooltip.leaflet-tooltip {
   max-width: 280px;
   white-space: normal;
   line-height: 1.5;
   font-size: 0.55rem;
-}
-
-/* ─── MAP OVERLAY STATS ─── */
-.map-stats-overlays {
-  color: var(--accent-amber, #f39c12);
 }
 
 /* ─── MAP LAYER TOGGLES ─── */
@@ -3092,23 +2820,6 @@ body::before {
     right: 4px;
   }
 
-  .map-tl-enhanced {
-    padding: 6px 8px;
-  }
-
-  .map-tl-speed {
-    display: none;
-  }
-
-  .map-tl-controls {
-    gap: 4px;
-  }
-
-  .map-stats-overlay {
-    bottom: 66px;
-    right: 8px;
-  }
-
   /* Layer panel: compact mode on mobile */
   .map-layers-toggle {
     top: 180px;
@@ -3153,35 +2864,6 @@ body::before {
   color: #f39c12;
 }
 
-/* ─── PERSIST TOGGLE ─── */
-.map-tl-persist {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.48rem;
-  letter-spacing: 0.06em;
-  padding: 3px 8px;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
-  color: var(--text-muted);
-  border-radius: 4px;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: all 0.12s;
-  flex-shrink: 0;
-  font-weight: 600;
-}
-
-.map-tl-persist:hover {
-  color: var(--text-secondary);
-  background: rgba(255, 255, 255, 0.05);
-  border-color: var(--border-light);
-}
-
-.map-tl-persist.active {
-  background: var(--accent-blue-dim);
-  border-color: var(--accent-blue);
-  color: var(--accent-blue);
-}
-
 /* ─── FLIGHT MARKERS ─── */
 .flight-marker-military {
   animation: flightMilPulse 2s ease-in-out infinite;
@@ -3204,11 +2886,6 @@ body::before {
   letter-spacing: 0.04em;
   white-space: nowrap;
   max-width: 300px;
-}
-
-/* ─── FLIGHT STATS ─── */
-.map-stats-flights {
-  color: var(--accent-blue, #3498db);
 }
 
 /* ─── FACT CARDS (map overlay) ─── */

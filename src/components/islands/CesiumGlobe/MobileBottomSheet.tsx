@@ -4,7 +4,7 @@ import type { KpiItem } from '../../../lib/schemas';
 import { MAP_CATEGORIES } from '../../../lib/map-utils';
 import type { VisualMode } from './cesium-shaders';
 import { SAT_GROUPS, type SatGroupCounts } from './useSatellites';
-import type { StatsData } from './CesiumTimelineBar';
+import type { StatsData } from '../../../lib/timeline-bar-utils';
 
 type SheetState = 'minimized' | 'peeked' | 'expanded';
 type Tab = 'map' | 'intel' | 'stats';
@@ -312,13 +312,13 @@ export default function MobileBottomSheet({
       </div>
       <div className="mobile-sheet-counts">
         <span>{stats.locations} locations</span>
-        <span className="globe-tl-stats-sep">&middot;</span>
+        <span style={{ opacity: 0.3 }}>&middot;</span>
         <span>{stats.vectors} vectors</span>
-        {stats.sats != null && <><span className="globe-tl-stats-sep">&middot;</span><span style={{ color: '#00ff88' }}>{stats.sats} sats</span></>}
-        {stats.flights != null && <><span className="globe-tl-stats-sep">&middot;</span><span style={{ color: '#00aaff' }}>{stats.flights} flights</span></>}
-        {stats.quakes != null && <><span className="globe-tl-stats-sep">&middot;</span><span style={{ color: '#ff6644' }}>{stats.quakes} quakes</span></>}
-        {stats.ships != null && <><span className="globe-tl-stats-sep">&middot;</span><span style={{ color: '#00ddaa' }}>{stats.ships} ships</span></>}
-        {stats.historical && <><span className="globe-tl-stats-sep">&middot;</span><span style={{ color: '#9498a8' }}>HISTORICAL</span></>}
+        {stats.sats != null && <><span style={{ opacity: 0.3 }}>&middot;</span><span style={{ color: '#00ff88' }}>{stats.sats} sats</span></>}
+        {stats.flights != null && <><span style={{ opacity: 0.3 }}>&middot;</span><span style={{ color: '#00aaff' }}>{stats.flights} flights</span></>}
+        {stats.quakes != null && <><span style={{ opacity: 0.3 }}>&middot;</span><span style={{ color: '#ff6644' }}>{stats.quakes} quakes</span></>}
+        {stats.ships != null && <><span style={{ opacity: 0.3 }}>&middot;</span><span style={{ color: '#00ddaa' }}>{stats.ships} ships</span></>}
+        {stats.historical && <><span style={{ opacity: 0.3 }}>&middot;</span><span style={{ color: '#9498a8' }}>HISTORICAL</span></>}
       </div>
     </div>
   );
