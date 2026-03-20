@@ -19,6 +19,25 @@ on:
         description: 'Automatically trigger seed-tracker.yml after init'
         required: false
         default: 'true'
+      domain:
+        description: 'Domain category (conflict, security, governance, disaster, human-rights, science, space, economy, culture, history)'
+        required: false
+      country:
+        description: 'ISO 3166-1 alpha-2 country code (e.g., MX, US, UA)'
+        required: false
+      series_id:
+        description: 'Series ID to group related trackers (e.g., mx-presidencies, bts)'
+        required: false
+      series_name:
+        description: 'Series display name (e.g., Mexican Presidencies)'
+        required: false
+      series_order:
+        description: 'Position within series (integer, chronological order)'
+        required: false
+      is_hub:
+        description: 'Is this the hub/overview tracker for its series? (true/false)'
+        required: false
+        default: 'false'
 
 permissions:
   contents: write
@@ -74,6 +93,12 @@ jobs:
             - Topic: ${{ github.event.inputs.topic }}
             - Start date: ${{ github.event.inputs.start_date }}
             - Geographic region: ${{ github.event.inputs.region }}
+            - Domain: ${{ github.event.inputs.domain || 'auto-detect from topic' }}
+            - Country: ${{ github.event.inputs.country || 'auto-detect from region' }}
+            - Series ID: ${{ github.event.inputs.series_id || 'none' }}
+            - Series Name: ${{ github.event.inputs.series_name || 'none' }}
+            - Series Order: ${{ github.event.inputs.series_order || 'none' }}
+            - Is Hub: ${{ github.event.inputs.is_hub || 'false' }}
 
             ══════════════════════════════════════════════
             STEP 1 — STUDY EXISTING TRACKERS AS EXAMPLES
@@ -103,6 +128,15 @@ jobs:
             - color: A hex color fitting the topic
             - status: "active"
             - startDate: "${{ github.event.inputs.start_date }}"
+
+            TAXONOMY FIELDS (new — read DomainSchema, RegionSchema, SeriesSchema in tracker-config.ts):
+            - domain: Use the provided value, or infer from the topic. Must be one of the DomainSchema enum values.
+            - region: Infer from the geographic region. Must be one of the RegionSchema enum values (e.g., "north-america", "middle-east", "global").
+            - country: Use the provided ISO code, or infer from the region (e.g., "MX", "US", "UA").
+            - tags: Optional array of freeform strings for cross-cutting classification.
+            - series: If a Series ID was provided, include: { "id": "<series_id>", "name": "<series_name>", "order": <series_order or omit>, "isHub": <true if is_hub> }.
+              If no series was provided, omit this field.
+            - related: Omit for now (will be wired after all trackers are created).
 
             - sections: Choose ONLY from these EXACT valid section IDs (case-sensitive):
               "hero", "kpis", "timeline", "map", "military", "casualties", "economic", "claims", "political"
@@ -327,6 +361,8 @@ jobs:
           echo "**Start date**: ${{ github.event.inputs.start_date }}" >> $GITHUB_STEP_SUMMARY
           echo "**Region**: ${{ github.event.inputs.region }}" >> $GITHUB_STEP_SUMMARY
           echo "**Auto-seed**: ${{ github.event.inputs.auto_seed }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Domain**: ${{ github.event.inputs.domain || 'auto-detected' }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Series**: ${{ github.event.inputs.series_id || 'none' }}" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
 
           CONFIG="trackers/${SLUG}/tracker.json"
