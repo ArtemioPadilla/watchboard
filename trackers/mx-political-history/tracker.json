@@ -1,0 +1,61 @@
+{
+  "slug": "mx-political-history",
+  "name": "Mexican Political History",
+  "shortName": "MX Politics",
+  "description": "Hub tracker covering Mexican political history from PRI hegemony through the democratic transition and the evolution of parties: PRI, PAN, PRD, and Morena.",
+  "icon": "🇲🇽",
+  "color": "#27ae60",
+  "status": "active",
+  "temporal": "live",
+  "domain": "governance",
+  "region": "north-america",
+  "country": "MX",
+  "startDate": "1929-03-04",
+  "eraLabel": "PRI to Morena 1929–",
+  "series": { "id": "mx-presidencies", "name": "Mexican Presidencies", "isHub": true },
+  "tags": ["PRI", "PAN", "PRD", "Morena", "democratic transition", "Mexico"],
+  "sections": ["hero", "kpis", "timeline", "map", "claims", "political"],
+  "map": {
+    "enabled": true,
+    "bounds": { "lonMin": -118.0, "lonMax": -86.0, "latMin": 14.0, "latMax": 33.0 },
+    "center": { "lon": -102.0, "lat": 24.0 },
+    "categories": [
+      { "id": "pri", "label": "PRI Strongholds", "color": "#27ae60" },
+      { "id": "pan", "label": "PAN Strongholds", "color": "#3498db" },
+      { "id": "morena", "label": "Morena Strongholds", "color": "#c0392b" },
+      { "id": "election", "label": "Key Election Events", "color": "#f39c12" }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "theater": { "lon": -102.0, "lat": 24.0, "alt": 3000000, "pitch": -90, "heading": 0, "label": "Mexico Overview" },
+      "mexico_city": { "lon": -99.13, "lat": 19.43, "alt": 80000, "pitch": -90, "heading": 0, "label": "Mexico City" },
+      "guadalajara": { "lon": -103.35, "lat": 20.66, "alt": 80000, "pitch": -90, "heading": 0, "label": "Guadalajara" },
+      "monterrey": { "lon": -100.31, "lat": 25.67, "alt": 80000, "pitch": -90, "heading": 0, "label": "Monterrey" },
+      "oaxaca": { "lon": -96.72, "lat": 17.06, "alt": 80000, "pitch": -90, "heading": 0, "label": "Oaxaca" }
+    }
+  },
+  "navSections": [
+    { "id": "sec-timeline", "label": "Timeline" },
+    { "id": "sec-map", "label": "Map" },
+    { "id": "sec-contested", "label": "Contested" },
+    { "id": "sec-political", "label": "Political" }
+  ],
+  "politicalAvatars": ["pri", "pan", "morena", "prd", "other"],
+  "eventTypes": ["election", "political", "reform", "protest", "diplomatic"],
+  "ai": {
+    "systemPrompt": "You are a political analyst updating the Mexican Political History tracker.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose.\nEvery item must have an \"id\" field (lowercase_snake_case).\n\nSource tier classification:\n- Tier 1: Official (INE/IFE electoral results, Diario Oficial, SCJN rulings, presidential decrees)\n- Tier 2: Major outlet (Reuters, AP, El Universal, Reforma, La Jornada, Proceso, Animal Político)\n- Tier 3: Institutional (CIDE, UNAM, Nexos, Letras Libres, Friedrich Ebert Stiftung)\n- Tier 4: Unverified (social media, unattributed party claims)\n\nOnly include information verifiable through search. Do not fabricate data.",
+    "searchContext": "Mexico PRI PAN PRD Morena political history election parties democracy",
+    "enabledSections": ["kpis", "timeline", "mapPoints", "claims", "political"],
+    "coordValidation": { "lonMin": -119.0, "lonMax": -85.0, "latMin": 13.0, "latMax": 34.0 },
+    "updateIntervalDays": 14,
+    "backfillTargets": {
+      "timeline": 60,
+      "mapPoints": 30,
+      "claims": 20,
+      "political": 25
+    }
+  },
+  "githubRepo": "ArtemioPadilla/watchboard"
+}
