@@ -1,0 +1,79 @@
+{
+  "slug": "sahel-insurgency",
+  "name": "Sahel Insurgency Tracker",
+  "shortName": "Sahel Insurgency",
+  "description": "Intelligence dashboard tracking the Sahel and Maghreb jihadist insurgency: JNIM/ISGS expansion, military coups in Mali, Burkina Faso, and Niger, Wagner Group presence, and French withdrawal.",
+  "icon": "🌍",
+  "color": "#e67e22",
+  "status": "active",
+  "temporal": "live",
+  "domain": "security",
+  "region": "africa",
+  "country": "ML",
+  "startDate": "2012-01-17",
+  "eraLabel": "Sahel Crisis 2012–",
+  "tags": ["JNIM", "ISGS", "Wagner", "AES", "Mali", "Burkina Faso", "Niger"],
+  "sections": ["hero", "kpis", "timeline", "map", "military", "casualties", "economic", "claims", "political"],
+  "map": {
+    "enabled": true,
+    "bounds": { "lonMin": -18.0, "lonMax": 25.0, "latMin": 8.0, "latMax": 25.0 },
+    "center": { "lon": 2.0, "lat": 15.0 },
+    "categories": [
+      { "id": "jnim", "label": "JNIM Activity", "color": "#e74c3c" },
+      { "id": "isgs", "label": "ISGS/IS-Sahel Activity", "color": "#c0392b" },
+      { "id": "coup", "label": "Coup Events", "color": "#9b59b6" },
+      { "id": "wagner", "label": "Wagner/Russia Presence", "color": "#f39c12" },
+      { "id": "un-peacekeeping", "label": "UN/Int'l Forces", "color": "#3498db" }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "theater": { "lon": 2.0, "lat": 15.0, "alt": 4500000, "pitch": -90, "heading": 0, "label": "Sahel Theater" },
+      "bamako": { "lon": -7.99, "lat": 12.65, "alt": 80000, "pitch": -90, "heading": 0, "label": "Bamako" },
+      "ouagadougou": { "lon": -1.53, "lat": 12.37, "alt": 80000, "pitch": -90, "heading": 0, "label": "Ouagadougou" },
+      "niamey": { "lon": 2.11, "lat": 13.51, "alt": 80000, "pitch": -90, "heading": 0, "label": "Niamey" },
+      "gao": { "lon": -0.04, "lat": 16.27, "alt": 100000, "pitch": -90, "heading": 0, "label": "Gao" },
+      "timbuktu": { "lon": -3.01, "lat": 16.77, "alt": 80000, "pitch": -90, "heading": 0, "label": "Timbuktu" }
+    },
+    "clocks": [
+      { "label": "BAMAKO", "offsetHours": 0 },
+      { "label": "UTC", "offsetHours": 0 },
+      { "label": "EST", "offsetHours": -5 }
+    ]
+  },
+  "navSections": [
+    { "id": "sec-timeline", "label": "Timeline" },
+    { "id": "sec-map", "label": "Map" },
+    { "id": "sec-military", "label": "Military" },
+    { "id": "sec-humanitarian", "label": "Humanitarian" },
+    { "id": "sec-economic", "label": "Economic" },
+    { "id": "sec-contested", "label": "Contested" },
+    { "id": "sec-political", "label": "Political" }
+  ],
+  "militaryTabs": [
+    { "id": "strikes", "label": "Militant Attacks" },
+    { "id": "retaliation", "label": "Military Operations" },
+    { "id": "assets", "label": "Foreign Forces" }
+  ],
+  "politicalAvatars": ["jnim", "aes", "france", "un", "other"],
+  "eventTypes": ["attack", "coup", "military-op", "diplomatic", "humanitarian"],
+  "ai": {
+    "systemPrompt": "You are an intelligence analyst updating the Sahel Insurgency tracker.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose.\nEvery item must have an \"id\" field (lowercase_snake_case).\n\nSource tier classification:\n- Tier 1: Official (AES junta statements, UN MINUSMA, French DGSE, ECOWAS)\n- Tier 2: Major outlet (Reuters, AFP, BBC, RFI, Al Jazeera, Le Monde)\n- Tier 3: Institutional (ACLED, Crisis Group, SIPRI, HRW, Amnesty, Africa Center)\n- Tier 4: Unverified (social media, unattributed militant claims)\n\nOnly include information verifiable through search. Do not fabricate data.",
+    "searchContext": "Sahel insurgency JNIM Mali Burkina Faso Niger coup Wagner France",
+    "enabledSections": ["kpis", "timeline", "mapPoints", "mapLines", "casualties", "econ", "claims", "political", "assets"],
+    "coordValidation": { "lonMin": -20.0, "lonMax": 26.0, "latMin": 7.0, "latMax": 26.0 },
+    "updateIntervalDays": 3,
+    "backfillTargets": {
+      "timeline": 60,
+      "mapPoints": 70,
+      "mapLines": 30,
+      "claims": 25,
+      "political": 20,
+      "casualties": 15,
+      "econ": 8,
+      "assets": 12
+    }
+  },
+  "githubRepo": "ArtemioPadilla/watchboard"
+}
