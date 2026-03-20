@@ -4,7 +4,7 @@ import type { FlatEvent } from '../../lib/timeline-utils';
 import { MAP_CATEGORIES, type MapCategory } from '../../lib/map-utils';
 import { tierLabelFull, tierClass } from './map-helpers';
 import LeafletMap from './LeafletMap';
-import TimelineSlider from './TimelineSlider';
+import UnifiedTimelineBar from './UnifiedTimelineBar';
 import MapEventsPanel from './MapEventsPanel';
 import MapLayerToggles from './MapLayerToggles';
 import { useMapOverlays } from './useMapOverlays';
@@ -163,11 +163,6 @@ export default function IntelMap({ points, lines, events, categories, mapCenter,
     ? mapCategories.find(c => c.id === selectedPoint.cat)
     : null;
 
-  // ── Active overlay count for stats ──
-  const activeOverlayCount =
-    mergedCounts.noFlyZones + mergedCounts.gpsJamming + mergedCounts.internetBlackout +
-    mergedCounts.earthquakes + mergedCounts.weather;
-
   return (
     <section className="section" id="sec-map">
       <div className="section-header">
@@ -228,25 +223,6 @@ export default function IntelMap({ points, lines, events, categories, mapCenter,
           ))}
         </div>
 
-        {/* Overlay: stats (bottom-right, above timeline) */}
-        <div className="map-stats-overlay">
-          <span>{filteredPoints.length} locations</span>
-          <span className="map-stats-sep">&middot;</span>
-          <span>{filteredLines.length} vectors</span>
-          {activeOverlayCount > 0 && (
-            <>
-              <span className="map-stats-sep">&middot;</span>
-              <span className="map-stats-overlays">{activeOverlayCount} overlays</span>
-            </>
-          )}
-          {flightCount > 0 && layers.flights && (
-            <>
-              <span className="map-stats-sep">&middot;</span>
-              <span className="map-stats-flights">{flightCount} flights</span>
-            </>
-          )}
-        </div>
-
         {/* Overlay: info panel (right side) */}
         {selectedPoint && selectedCategory && (
           <div className="map-info-panel visible">
@@ -285,8 +261,9 @@ export default function IntelMap({ points, lines, events, categories, mapCenter,
           onToggle={toggleEventsPanel}
         />
 
-        {/* Enhanced timeline slider (bottom bar) */}
-        <TimelineSlider
+        {/* Enhanced timeline bar (bottom bar) */}
+        <UnifiedTimelineBar
+          context="2d"
           minDate={dateRange.min}
           maxDate={dateRange.max}
           currentDate={currentDate}
@@ -299,6 +276,8 @@ export default function IntelMap({ points, lines, events, categories, mapCenter,
           onTogglePlay={togglePlay}
           onSpeedChange={handleSpeedChange}
           onTogglePersist={togglePersist}
+          onGoLive={() => setCurrentDate(dateRange.max)}
+          stats={{ locations: filteredPoints.length, vectors: filteredLines.length }}
         />
       </div>
     </section>
