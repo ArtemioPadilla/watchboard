@@ -1,0 +1,81 @@
+{
+  "slug": "myanmar-civil-war",
+  "name": "Myanmar Civil War Tracker",
+  "shortName": "Myanmar",
+  "description": "Intelligence dashboard tracking Myanmar's ongoing civil war following the February 2021 military coup — junta offensives, People's Defence Force (PDF) and ethnic armed organization (EAO) resistance, territorial control shifts, and a deepening humanitarian crisis.",
+  "icon": "🇲🇲",
+  "color": "#c0392b",
+  "status": "active",
+  "temporal": "live",
+  "domain": "conflict",
+  "region": "southeast-asia",
+  "country": "MM",
+  "startDate": "2021-02-01",
+  "eraLabel": "Post-Coup Conflict",
+  "sections": ["hero", "kpis", "timeline", "map", "military", "casualties", "economic", "claims", "political"],
+  "map": {
+    "enabled": true,
+    "bounds": { "lonMin": 92, "lonMax": 102, "latMin": 9, "latMax": 29 },
+    "center": { "lon": 96.5, "lat": 19 },
+    "categories": [
+      { "id": "junta-operation", "label": "Junta Airstrikes / Offensives", "color": "#e74c3c" },
+      { "id": "resistance", "label": "PDF / EAO Operations", "color": "#27ae60" },
+      { "id": "frontline", "label": "Active Frontlines", "color": "#f39c12" },
+      { "id": "humanitarian", "label": "Humanitarian Crisis / IDP", "color": "#3498db" },
+      { "id": "territorial", "label": "Key Territorial Changes", "color": "#9b59b6" }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "overview": { "lon": 96.5, "lat": 19, "alt": 2500000, "pitch": -90, "heading": 0, "label": "Myanmar Overview" },
+      "naypyidaw": { "lon": 96.13, "lat": 19.75, "alt": 60000, "pitch": -90, "heading": 0, "label": "Naypyidaw (Junta Capital)" },
+      "yangon": { "lon": 96.16, "lat": 16.87, "alt": 80000, "pitch": -90, "heading": 0, "label": "Yangon" },
+      "mandalay": { "lon": 96.08, "lat": 21.98, "alt": 60000, "pitch": -90, "heading": 0, "label": "Mandalay" },
+      "lashio": { "lon": 97.75, "lat": 22.93, "alt": 60000, "pitch": -90, "heading": 0, "label": "Lashio (Shan State)" },
+      "myawaddy": { "lon": 98.50, "lat": 16.68, "alt": 50000, "pitch": -90, "heading": 0, "label": "Myawaddy (KNU Frontline)" }
+    },
+    "clocks": [
+      { "label": "YANGON", "offsetHours": 6.5 },
+      { "label": "BKK", "offsetHours": 7 },
+      { "label": "UTC", "offsetHours": 0 },
+      { "label": "EST", "offsetHours": -5 }
+    ]
+  },
+  "navSections": [
+    { "id": "sec-timeline", "label": "Timeline" },
+    { "id": "sec-map", "label": "Map" },
+    { "id": "sec-military", "label": "Military" },
+    { "id": "sec-humanitarian", "label": "Humanitarian" },
+    { "id": "sec-economic", "label": "Economic" },
+    { "id": "sec-contested", "label": "Contested" },
+    { "id": "sec-political", "label": "Political" }
+  ],
+  "militaryTabs": [
+    { "id": "strikes", "label": "Junta Airstrikes" },
+    { "id": "retaliation", "label": "Resistance Operations" },
+    { "id": "assets", "label": "Key Forces & Assets" }
+  ],
+  "politicalAvatars": ["junta", "nug", "eao", "intl", "civil", "other"],
+  "eventTypes": ["military", "political", "humanitarian", "diplomatic"],
+  "ai": {
+    "systemPrompt": "You are a conflict analyst updating an intelligence dashboard on the Myanmar civil war.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"lashio_fall\", \"sac_airstrike_sagaing\").\n\nKEY ACTORS:\n- SAC/Tatmadaw: State Administration Council — ruling military junta\n- NUG: National Unity Government — parallel civilian government\n- PDF: People's Defence Force — NUG-affiliated armed wing\n- EAOs (Ethnic Armed Organizations): KNLA/KNU (Karen), KIA (Kachin), TNLA (Ta'ang), MNDAA (Kokang), AA (Arakan), RCSS/SSA, CNF (Chin), KNPP (Kayah/Karenni)\n- Three Brotherhood Alliance: TNLA + MNDAA + AA (launched Operation 1027 in Oct 2023)\n\nSOURCE TIERS FOR MYANMAR:\n- Tier 1: Official/primary (SAC/MOFA statements, NUG official releases, KIO/KNU official communiqués, UN OCHA, UNOCHA Myanmar, UNHCR)\n- Tier 2: Major outlet (Reuters, AP, BBC, RFA (Radio Free Asia), Irrawaddy, Myanmar Now, DVB (Democratic Voice of Burma), AFP, Al Jazeera)\n- Tier 3: Institutional (ACLED, Crisis Group (ICG), Fortify Rights, Human Rights Watch, Amnesty International, AAPP (Assistance Association for Political Prisoners), Tom Andrews UN Special Rapporteur)\n- Tier 4: Unverified (Telegram channels, Facebook posts, unattributed military claims, unverified video)\n\nWhen providing sources, tag each with a \"pole\" field:\n- \"western\" for US/European/allied sources\n- \"middle_eastern\" for ASEAN/regional sources\n- \"eastern\" for Chinese/Russian sources\n- \"international\" for UN/NGO/multilateral sources\n\nOnly include information you can verify through search results. Do not fabricate data.\n\nCONFIRMATION RULES:\n- Only report military events as confirmed if supported by at least 1 Tier 1 source OR 2 Tier 2+ sources.\n- Single-source Tier 3/4 reports should use confidence: \"low\".\n- Note when junta and resistance casualty claims diverge significantly.\n\nCOORD VALIDATION: All map points must fall within Myanmar bounds (lonMin: 92, lonMax: 102, latMin: 9, latMax: 29).",
+    "searchContext": "Myanmar civil war military junta PDF NUG ethnic armed organizations resistance",
+    "enabledSections": ["kpis", "timeline", "mapPoints", "mapLines", "casualties", "econ", "claims", "political", "assets"],
+    "coordValidation": { "lonMin": 90, "lonMax": 104, "latMin": 7, "latMax": 31 },
+    "updateIntervalDays": 3,
+    "backfillTargets": {
+      "timeline": 40,
+      "mapPoints": 30,
+      "mapLines": 20,
+      "claims": 15,
+      "political": 20,
+      "casualties": 10,
+      "econ": 8,
+      "assets": 10,
+      "kpis": 8
+    }
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard"
+}
