@@ -1,1 +1,212 @@
-[]
+[
+  {
+    "id": "sls-vs-commercial-rockets",
+    "question": "Is SLS necessary, or should NASA use commercial rockets like Starship instead?",
+    "sideA": {
+      "label": "SLS is Essential",
+      "text": "SLS is a NASA-owned, human-rated heavy-lift rocket providing assured access to deep space independent of commercial schedules. Its heritage RS-25 engines have millions of test hours; its Block 1 configuration has flown successfully (Artemis I). SLS provides ~95 tonnes to LEO and 27 tonnes to trans-lunar injection — proven performance critical for crew safety. Abandoning it would waste decades of investment and leave the U.S. without a dedicated government deep-space launcher."
+    },
+    "sideB": {
+      "label": "Commercial Alternatives Are Superior",
+      "text": "SpaceX's Starship offers far greater payload capacity (~150 tonnes to LEO), full reusability, and projected costs orders of magnitude lower than SLS's ~$4.1 billion per flight. A reusable Starship can carry cargo and crews directly to the lunar surface without SLS, Orion, or Gateway. Bloomberg Opinion argued 'no SLS, Orion, Gateway, Block 1B or ML-2 required — at a small fraction of the cost.' New Glenn and other vehicles are also closing the capability gap."
+    },
+    "resolution": "Actively debated; NASA Administrator Isaacman cancelled SLS Block 1B (EUS) in Feb 2026 but retained Block 1 through Artemis III+ amid Congressional pressure",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "moon-2024-deadline-realism",
+    "question": "Was the 2024 Moon landing deadline politically motivated or technically feasible?",
+    "sideA": {
+      "label": "Feasible with Funding",
+      "text": "NASA Administrator Bridenstine publicly maintained the 2024 goal was achievable with adequate congressional appropriations. VP Pence's mandate created accountability and forced the development of commercial lander contracts years ahead of previous timelines. Without aggressive deadlines, programs risk budget drift and scope creep. The commercial HLS contracts emerged directly from the 2024 pressure."
+    },
+    "sideB": {
+      "label": "Politically Motivated, Not Technically Grounded",
+      "text": "NASA's acting administrator stated in February 2021 that the 2024 goal 'may no longer be a realistic target due to the last two years of appropriations.' The NASA OIG concluded NASA 'would be hard-pressed to land astronauts on the Moon by the end of 2024.' Bridenstine himself acknowledged the Exploration Upper Stage 'just not going to be ready' by 2024. The target moved: 2024 → 2025 → 2026 → 2027 → 2028, suggesting the original date was political rather than engineering-driven."
+    },
+    "resolution": "The 2024 deadline was missed; crewed lunar landing now targeting 2028 under the February 2026 architecture overhaul",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "hls-sole-source-fairness",
+    "question": "Was NASA's sole-source award of the HLS contract to SpaceX fair to other bidders?",
+    "sideA": {
+      "label": "NASA Followed Proper Procedures",
+      "text": "The GAO reviewed Blue Origin's protest in July 2021 and denied it, finding NASA's source selection process was sound. The U.S. Court of Federal Claims dismissed Blue Origin's lawsuit in November 2021, ruling in NASA's favor. Congress had appropriated only sufficient funds for one contractor, and NASA selected the technically superior and lowest-cost proposal. The process was consistent with the Federal Acquisition Regulation."
+    },
+    "sideB": {
+      "label": "The Award Process Was Flawed",
+      "text": "Jeff Bezos stated: 'Only one HLS bidder, SpaceX, was offered the opportunity to revise their price and funding profile, leading to their selection. Blue Origin was not offered the same opportunity. That was a mistake, it was unusual, and it was a missed opportunity.' Blue Origin argued NASA changed evaluation criteria and failed to conduct meaningful discussions with all offerors. Bezos offered over $3 billion in concessions in an attempt to secure a dual-award outcome."
+    },
+    "resolution": "Legally resolved in NASA's favor (2021); NASA subsequently awarded Blue Origin a separate $3.4B Option B HLS contract for Artemis V in May 2023",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "gateway-necessity",
+    "question": "Is the Lunar Gateway necessary for sustainable lunar exploration, or does it add cost and delay?",
+    "sideA": {
+      "label": "Gateway is Essential Long-Term Infrastructure",
+      "text": "Gateway would provide a reusable staging point in lunar orbit, enabling access to any point on the Moon's surface (unlike Apollo's equatorial limitation). International partners — ESA, JAXA, CSA — have committed billions in hardware. ESA is building ESPRIT and I-HAB; Canada is contributing the Canadarm3 in exchange for crew seats. Gateway provides logistics, communications, and scientific research capabilities far beyond what a direct landing architecture can offer."
+    },
+    "sideB": {
+      "label": "Gateway Adds Unnecessary Complexity and Cost",
+      "text": "Gateway adds mass, complexity, cost, and schedule risk to crewed lunar landings. It was decoupled from the mandatory landing timeline in March 2020 and explicitly cancelled in the FY2026 budget proposal. NASA Administrator Isaacman excluded it from the revised early Artemis architecture in February 2026. Starship HLS can land directly from Earth orbit; Gateway is not required for initial surface access. Direct landing reduces crew risk by eliminating an orbital rendezvous step."
+    },
+    "resolution": "Gateway cancelled from early Artemis architecture per NASA's February 2026 overhaul; international partner commitments and hardware investments remain in limbo",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "sls-cost-overruns",
+    "question": "Are SLS cost overruns evidence of systemic program mismanagement?",
+    "sideA": {
+      "label": "Overruns Reflect Technical Complexity, Not Mismanagement",
+      "text": "SLS is developing entirely new space infrastructure — the most powerful rocket ever flown — while reusing Apollo-era facilities and refurbishing legacy RS-25 engines. Cost growth reflects evolving requirements, congressional-mandated design changes, and the inherent difficulty of crewed deep-space systems. The rocket successfully flew and exceeded performance specifications on Artemis I, validating the investment."
+    },
+    "sideB": {
+      "label": "Overruns Reflect Systemic Cost-Plus Contract Failures",
+      "text": "GAO found three Artemis projects account for nearly $7 billion in overruns, representing almost half of all overruns across 53 major NASA projects. The SLS Exploration Upper Stage grew from $962M (2017) to nearly $2.8B before cancellation. NASA OIG stated 'a lack of comprehensive cost estimate for the Artemis campaign means Congress lacks transparency.' Administrator Isaacman noted: 'Is it a surprise to anyone that we're a hundred billion deep into this, years behind schedule?'"
+    },
+    "resolution": "EUS cancelled Feb 2026 after ~$2.8B spend; NASA still lacks a comprehensive Artemis lifecycle cost estimate per OIG",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "heat-shield-crew-risk",
+    "question": "Do the Orion heat shield anomalies discovered after Artemis I pose an unacceptable risk to Artemis II crew?",
+    "sideA": {
+      "label": "Risk Has Been Mitigated Through Redesign",
+      "text": "NASA conducted 121 arc jet tests to characterize the Avcoat heat shield anomaly and determined its root cause: slower-than-expected heating rates during skip reentry allowed gas pressure buildup. The mitigation — modifying the reentry trajectory rather than replacing the heat shield material — has been validated through testing. Battery issues were resolved through physical replacement. NASA declared Artemis II ready to proceed with these mitigations in place."
+    },
+    "sideB": {
+      "label": "OIG Flagged Unresolved Safety Risks",
+      "text": "NASA OIG's May 2024 report classified the heat shield anomalies, separation bolt issues, and power distribution failures as 'among the most significant factors impacting NASA's readiness for Artemis II' and stated they 'pose significant risks to the safety of the crew.' The 2026 Artemis II campaign encountered additional anomalies — a helium supply blockage and additional valve issues — suggesting systemic technical challenges remain unresolved."
+    },
+    "resolution": "NASA cleared Artemis II to proceed with modified reentry trajectory; February 2026 tanking test revealed additional helium supply anomaly requiring VAB rollback",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "china-moon-race-urgency",
+    "question": "Does China's lunar program make Artemis delays an existential threat to U.S. space leadership?",
+    "sideA": {
+      "label": "The Space Race with China is Real and Urgent",
+      "text": "NASA Administrator Nelson stated: 'It is a fact: we're in a space race. And it is true that we better watch out that they don't get to a place on the Moon under the guise of scientific research.' China's Chang'e program successfully landed on the far side; the ILRS (International Lunar Research Station) is under development with Russia. If China establishes bases at the lunar south pole before the U.S., they could claim strategically valuable water ice resources and orbital positions."
+    },
+    "sideB": {
+      "label": "China Race Narrative Exaggerates the Threat to Justify Costs",
+      "text": "Critics note the contradiction: while Congress emphasizes beating China in space, the administration simultaneously proposed the largest NASA budget cut in history and restructured Artemis to push the first landing from 2027 to 2028. China's lunar crewed landing is not expected before 2030. The 'race' framing justifies expensive government programs while masking poor program management. International partnerships (61-nation Artemis Accords) are a more effective strategy than a binary race."
+    },
+    "resolution": "Actively debated; U.S. maintains significant lead in near-term crewed capabilities but Artemis delays narrow the window",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "starship-hls-refueling-feasibility",
+    "question": "Can SpaceX realistically demonstrate Starship HLS orbital refueling in time for a crewed lunar landing?",
+    "sideA": {
+      "label": "SpaceX Is Making Rapid Technical Progress",
+      "text": "Starship achieved orbital trajectory on IFT-3 (March 2024) and demonstrated internal propellant transfer — a critical precursor to orbital refueling. SpaceX has an aggressive flight cadence with continuous system improvements. Orbital refueling is a known engineering challenge, not a fundamental physics barrier. SpaceX's track record with Falcon 9 and Dragon demonstrates the company's ability to solve complex technical problems at commercial pace."
+    },
+    "sideB": {
+      "label": "Ship-to-Ship Refueling Remains Undemonstrated at Scale",
+      "text": "NASA OIG stated SpaceX's Starship HLS 'will not be ready for a June 2027 lunar landing.' Starship HLS requires approximately 14+ tanker flights to fully fuel a lunar mission — a capability that has never been demonstrated ship-to-ship in orbit. Each tanker flight must succeed flawlessly; propellant boiloff rates in space are uncertain. The full orbital refueling demonstration has been repeatedly delayed and was expected no earlier than 2026."
+    },
+    "resolution": "Internal propellant transfer demonstrated on IFT-3 (Mar 2024); ship-to-ship orbital refueling demo still pending as of March 2026",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "science-vs-politics-artemis",
+    "question": "Has Artemis prioritized political and prestige goals over scientific objectives?",
+    "sideA": {
+      "label": "Artemis Has Strong Scientific Objectives",
+      "text": "Artemis targets the lunar south pole specifically for scientific value — permanent shadow craters containing water ice that could reveal solar system history and support in-situ resource utilization. Artemis III and beyond include trained scientist-astronauts. NASA's science programs (VIPER, LunaH-MAP, other CubeSats) have complemented the crewed program. The presence of human crews enables sample collection and geological science impossible with robots."
+    },
+    "sideB": {
+      "label": "Science Has Been Subordinated to Political Goals",
+      "text": "Artemis was framed primarily as 'first woman, first person of color' and geopolitical competition with China — not specific science objectives. NASA cancelled the VIPER rover in 2024 despite near-completion, eliminating critical south pole ice prospecting. The 47% proposed science cut in FY2026 confirmed science is the budget backstop. The planetary science community organized opposition to VIPER cancellation as evidence of science being subordinated to programmatic priorities."
+    },
+    "resolution": "Ongoing debate; VIPER cancellation (2024) widely cited as emblematic of science subordination",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "sls-cancellation-post-artemis3",
+    "question": "Should SLS be cancelled after Artemis III in favor of commercial alternatives?",
+    "sideA": {
+      "label": "Retire SLS and Pivot to Commercial",
+      "text": "At $4+ billion per flight with no reusability and only one launch every 2-3 years, SLS is economically unsustainable for building a lunar presence. The FY2026 budget proposed cancelling SLS after Artemis III and replacing it with commercial services. Boeing informed 800 employees in February 2025 that 'NASA may cancel SLS contracts.' A commercial transition would free billions annually for science, technology development, and Mars preparation."
+    },
+    "sideB": {
+      "label": "SLS Provides Irreplaceable Assured Access",
+      "text": "SLS is the only human-rated heavy-lift vehicle with a flight-proven record. Cancellation would strand Orion (also a $20B+ investment) without a launch vehicle and leave NASA dependent on SpaceX for all deep-space access — creating a dangerous single-point-of-failure in U.S. space strategy. Congressional champions in Alabama, Mississippi, Louisiana, and Florida have protected SLS funding as a jobs program with bipartisan support, making cancellation politically unlikely."
+    },
+    "resolution": "SLS retained at Block 1 configuration through at least Artemis III; Block 1B/EUS cancelled Feb 2026; long-term SLS future beyond Artemis III remains uncertain",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "international-crew-lunar-landing",
+    "question": "Should the first crewed lunar landing include international (non-U.S.) astronauts?",
+    "sideA": {
+      "label": "International Crew Reflects Artemis Partnership Model",
+      "text": "Artemis Accords partners — Canada, Japan, ESA nations, Australia, and 57 others — have invested billions in Gateway, communication systems, and scientific instruments. Canada's contribution of Canadarm3 earned a crew seat (Jeremy Hansen on Artemis II). Including international crew on the landing reflects the multilateral nature of the program, strengthens diplomatic relationships, and provides a model for cooperative lunar governance distinct from Cold War-era space competition."
+    },
+    "sideB": {
+      "label": "First Lunar Landing Should Feature U.S. Crew Only",
+      "text": "The first crewed lunar landing is a historic milestone that fulfills the specific promise made in SPD-1 and VP Pence's mandate: American astronauts. Including non-U.S. crew dilutes the national achievement and complicates crew selection politics. Some argue the first landing crew should optimize for mission capability (trained geologists, test pilots) rather than diplomatic symbolism. Artemis II's international crew member demonstrates partnership without allocating a landing seat to a non-U.S. astronaut."
+    },
+    "resolution": "Artemis II includes Canadian Jeremy Hansen on lunar flyby; Artemis IV (first landing) crew composition TBD as of March 2026",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "nasa-rescue-capability-gap",
+    "question": "Does NASA's lack of lunar crew rescue capability represent an unacceptable safety gap?",
+    "sideA": {
+      "label": "Rescue Capability Must Be Developed Before Landing",
+      "text": "NASA OIG identified that 'NASA does not have the capability to rescue stranded crew' in deep space or on the lunar surface as a 'critical safety gap.' Apollo had no rescue capability either, but modern safety culture requires credible contingency plans. Before committing crews to a lunar surface, NASA must define rescue scenarios and develop the infrastructure to execute them — including alternative lander configurations or rapid-launch backup vehicles."
+    },
+    "sideB": {
+      "label": "Rescue Capability Will Emerge from Program Maturity",
+      "text": "Apollo never had dedicated rescue capability but successfully landed 12 astronauts on the Moon. As the Artemis program matures with two HLS providers (SpaceX and Blue Origin), multiple lander assets could serve as mutual rescue vehicles. The dual-provider architecture and increased launch cadence will naturally develop rescue capability. Requiring rescue infrastructure before any crewed landing would postpone the program indefinitely and represents an impossible standard."
+    },
+    "resolution": "Open OIG finding; NASA has not published a dedicated lunar crew rescue capability development plan as of March 2026",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "artemis-spacesuit-supply-chain",
+    "question": "Is NASA's sole-source dependency on Axiom Space for Artemis lunar spacesuits a critical vulnerability?",
+    "sideA": {
+      "label": "Single-Source Spacesuit Risk is Unacceptable",
+      "text": "After Collins Aerospace discontinued its xEVAS development, Axiom Space became the only supplier for new Artemis lunar surface suits. ISS suits are ~50 years old and have caused multiple EVA cancellations due to malfunctions. If Axiom experiences delays, cost growth, or technical failures, the entire lunar surface operations program has no fallback. Critics note that 'if Axiom is delayed then that becomes a big pacing item for the whole Artemis thing.'"
+    },
+    "sideB": {
+      "label": "Axiom's xEMU Progress Mitigates the Risk",
+      "text": "Axiom Space has made steady progress on the Axiom Extravehicular Mobility Unit (AxEMU), with NASA oversight and milestone payments providing accountability. The AxEMU is designed for lunar south pole operations with improved thermal performance and enhanced mobility over Apollo-era suits. Commercial competition previously failed (Collins exit), but Axiom has demonstrated commitment and technical progress. NASA maintains close oversight through the Commercial Low Earth Orbit Destinations and spacesuit contracts."
+    },
+    "resolution": "Single-source spacesuit dependency remains as of March 2026; Axiom's AxEMU development continues under NASA contract",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "artemis3-mission-redefinition",
+    "question": "Was redefining Artemis III as a docking test rather than a Moon landing the right decision?",
+    "sideA": {
+      "label": "Redefining Artemis III Was the Right Safety and Engineering Decision",
+      "text": "Starship HLS has never flown, let alone demonstrated lunar landing capability. Requiring a crewed Orion mission to depend on an unproven lander for a lunar landing — with no rescue capability — would be premature. The Artemis III redefinition as an Earth-orbit docking demonstration allows Orion and Starship HLS to verify compatibility and crew interfaces in a much safer environment before committing to a lunar landing. This mirrors proven step-by-step Apollo-era test philosophy."
+    },
+    "sideB": {
+      "label": "Redefining Artemis III Was a Retreat That Undermines Program Credibility",
+      "text": "Artemis III was publicly committed as a crewed lunar landing since 2021, with specific crew assignments expected. Redefining it as an Earth-orbit test after spending hundreds of billions of dollars represents a significant retreat. Each schedule slip erodes public confidence, weakens international partner trust, and provides political opponents with ammunition to cut the program further. The redesignation effectively means no crewed lunar landing until at minimum 2028 — 59 years after Apollo 11."
+    },
+    "resolution": "Artemis III officially redesignated as Earth-orbit rendezvous/docking test per Feb 2026 NASA overhaul; Artemis IV (2028) now designated as first crewed landing",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "mobile-launcher-2-overruns",
+    "question": "Are Mobile Launcher 2 cost overruns evidence of unsustainable Artemis infrastructure spending?",
+    "sideA": {
+      "label": "ML-2 Overruns Are Acceptable Given Complexity",
+      "text": "Mobile Launcher 2 is a one-of-a-kind, 355-foot umbilical tower specifically engineered for SLS Block 1B's different stack configuration and environmental protection requirements. Cost growth reflects the complexity of first-article custom infrastructure with tight schedule constraints. ML-2 will serve multiple Artemis missions once complete, amortizing costs over a long service life. Significant infrastructure investments were necessary to avoid single-failure risks if ML-1 becomes unavailable."
+    },
+    "sideB": {
+      "label": "ML-2 Overruns at 3x Original Cost Are Unacceptable",
+      "text": "NASA's Mobile Launcher 2 will cost three times its original projection — a symbol of broader Artemis infrastructure cost control failures. GAO has repeatedly documented this overrun. With SLS Block 1B now cancelled (Feb 2026), ML-2 may not be needed in its current configuration at all — meaning billions spent on infrastructure for a rocket variant that will never fly. This represents a fundamental failure of program planning and contract oversight."
+    },
+    "resolution": "ML-2 overrun documented by GAO at ~3x original cost; with EUS/Block 1B cancellation (Feb 2026), ML-2's long-term utility is uncertain",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  }
+]
