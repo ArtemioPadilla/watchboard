@@ -1,0 +1,81 @@
+{
+  "slug": "somalia-conflict",
+  "name": "Somalia Conflict Tracker",
+  "shortName": "Somalia",
+  "description": "Intelligence dashboard tracking Somalia's ongoing insurgency: Al-Shabaab operations, government counter-offensives, AMISOM/ATMIS transition, clan dynamics, drought-famine nexus, and maritime piracy resurgence.",
+  "icon": "🦁",
+  "color": "#4a90d9",
+  "status": "active",
+  "temporal": "live",
+  "domain": "conflict",
+  "region": "africa",
+  "country": "SO",
+  "tags": ["al-shabaab", "insurgency", "amisom", "atmis", "piracy", "horn-of-africa", "humanitarian-crisis", "clan-conflict"],
+  "startDate": "2006-12-20",
+  "eraLabel": "Al-Shabaab Insurgency",
+  "sections": ["hero", "kpis", "timeline", "map", "military", "casualties", "economic", "claims", "political"],
+  "map": {
+    "enabled": true,
+    "bounds": { "lonMin": 38, "lonMax": 52, "latMin": -2, "latMax": 15 },
+    "center": { "lon": 45.5, "lat": 6.5 },
+    "categories": [
+      { "id": "shabaab", "label": "Al-Shabaab Activity", "color": "#e74c3c" },
+      { "id": "government", "label": "Gov/SNA Operations", "color": "#3498db" },
+      { "id": "amisom", "label": "ATMIS/AU Forces", "color": "#27ae60" },
+      { "id": "humanitarian", "label": "Humanitarian Crisis", "color": "#f39c12" },
+      { "id": "piracy", "label": "Maritime Piracy", "color": "#9b59b6" }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "overview": { "lon": 45.5, "lat": 5.0, "alt": 2500000, "pitch": -90, "heading": 0, "label": "Somalia Overview" },
+      "mogadishu": { "lon": 45.34, "lat": 2.05, "alt": 80000, "pitch": -90, "heading": 0, "label": "Mogadishu" },
+      "kismayo": { "lon": 42.55, "lat": -0.36, "alt": 60000, "pitch": -90, "heading": 0, "label": "Kismayo" },
+      "baidoa": { "lon": 43.65, "lat": 3.12, "alt": 60000, "pitch": -90, "heading": 0, "label": "Baidoa" },
+      "bosaso": { "lon": 49.18, "lat": 11.28, "alt": 70000, "pitch": -90, "heading": 0, "label": "Bosaso (Puntland)" },
+      "hargeisa": { "lon": 44.07, "lat": 9.56, "alt": 70000, "pitch": -90, "heading": 0, "label": "Hargeisa (Somaliland)" }
+    },
+    "clocks": [
+      { "label": "MOGADISHU", "offsetHours": 3 },
+      { "label": "NAIROBI", "offsetHours": 3 },
+      { "label": "UTC", "offsetHours": 0 }
+    ]
+  },
+  "navSections": [
+    { "id": "sec-timeline", "label": "Timeline" },
+    { "id": "sec-map", "label": "Map" },
+    { "id": "sec-military", "label": "Military" },
+    { "id": "sec-humanitarian", "label": "Humanitarian" },
+    { "id": "sec-economic", "label": "Economic" },
+    { "id": "sec-contested", "label": "Contested" },
+    { "id": "sec-political", "label": "Political" }
+  ],
+  "militaryTabs": [
+    { "id": "strikes", "label": "Strike Targets" },
+    { "id": "retaliation", "label": "Al-Shabaab Attacks" },
+    { "id": "assets", "label": "AU/Intl Forces" }
+  ],
+  "politicalAvatars": ["fgs", "al-shabaab", "atmis", "clan", "un", "other"],
+  "eventTypes": ["military", "humanitarian", "political", "maritime", "diplomatic"],
+  "ai": {
+    "systemPrompt": "You are a conflict intelligence analyst specializing in the Horn of Africa, updating a Somalia conflict tracking dashboard.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"mogadishu_bombing\", \"sna_offensive\").\n\nCOVERAGE SCOPE — monitor all dimensions of the Somalia conflict:\n1. AL-SHABAAB: Attacks (VBIEDs, assassinations, ambushes), territorial control, revenue streams, recruitment\n2. GOVERNMENT/SNA: Federal Government of Somalia operations, SNA offensives, clan militia coordination\n3. ATMIS/AU FORCES: ATMIS drawdown status, AU troop movements, capacity transfer to SNA\n4. HUMANITARIAN: Drought, famine, IDP displacement, aid access, cholera outbreaks\n5. MARITIME: Piracy incidents off the Horn, coast guard operations, international naval presence\n6. CLAN DYNAMICS: Inter-clan conflict, clan alliances, political power struggles\n7. INTERNATIONAL: US airstrikes, Turkey/Qatar/UAE influence, Ethiopian presence, Kenya/Jubaland tensions\n\nSource tier classification:\n- Tier 1: Official/primary (FGS statements, AFRICOM, ATMIS/AU communiqués, UN Security Council, OCHA, UNSOM)\n- Tier 2: Major outlet (Reuters, AP, BBC, Al Jazeera, The East African, VOA Somali, Radio Dalsan, Garowe Online)\n- Tier 3: Institutional (ACLED, SIPRI, HRW, Amnesty International, ICG, Heritage Institute for Policy Studies, CGPCS)\n- Tier 4: Unverified (social media, unattributed Somali sources, unverified clan reports)\n\nOnly include information you can verify through search results. Do not fabricate data.\nFor contested casualty figures, prefer SNA/government counts for their own losses; use ACLED or UN where available.",
+    "searchContext": "Somalia Al-Shabaab conflict ATMIS SNA insurgency piracy",
+    "enabledSections": ["kpis", "timeline", "mapPoints", "mapLines", "casualties", "econ", "claims", "political", "assets"],
+    "coordValidation": { "lonMin": 36, "lonMax": 55, "latMin": -5, "latMax": 18 },
+    "updateIntervalDays": 3,
+    "backfillTargets": {
+      "timeline": 35,
+      "mapPoints": 30,
+      "mapLines": 15,
+      "claims": 20,
+      "political": 20,
+      "casualties": 12,
+      "econ": 8,
+      "assets": 10,
+      "kpis": 8
+    }
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard"
+}
