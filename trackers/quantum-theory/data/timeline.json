@@ -1,1 +1,974 @@
-[]
+[
+  {
+    "era": "Origins of Quantum Theory (1900–1913)",
+    "events": [
+      {
+        "id": "planck-quantum-hypothesis",
+        "year": "Dec 14, 1900",
+        "title": "Planck Presents Quantum Hypothesis",
+        "type": "discovery",
+        "detail": "Max Planck presents his blackbody radiation formula to the German Physical Society (DPG) in Berlin, postulating that energy is emitted in discrete packets — quanta — of size E=hν. This 'act of desperation,' as Planck called it, marks the birth of quantum theory. His constant h = 6.626×10⁻³⁴ J·s becomes a fundamental constant of nature.",
+        "sources": [
+          { "name": "APS — Planck Radiation Formula Historical Note", "tier": 1 },
+          { "name": "Nobel Prize Archive — Planck 1918 Lecture", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "planck-blackbody-paper",
+        "year": "1900",
+        "title": "Planck Derives Blackbody Radiation Law",
+        "type": "publication",
+        "detail": "Planck publishes his derivation of the blackbody radiation spectrum in Annalen der Physik, reconciling classical thermodynamics with experimental observations by introducing energy quantization. The paper introduces Planck's constant h and Boltzmann's constant k in a unified framework.",
+        "sources": [
+          { "name": "Planck, M. (1901). Annalen der Physik, 4, 553", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "einstein-photoelectric-effect",
+        "year": "Mar 17, 1905",
+        "title": "Einstein Explains Photoelectric Effect",
+        "type": "publication",
+        "detail": "Albert Einstein publishes 'On a Heuristic Point of View Concerning the Production and Transformation of Light' in Annalen der Physik, proposing that light consists of discrete quanta (later called photons) with energy E=hν. This paper extends Planck's quantization to radiation itself and explains why the photoelectric effect depends on frequency, not intensity — work for which Einstein receives the 1921 Nobel Prize.",
+        "sources": [
+          { "name": "Einstein, A. (1905). Annalen der Physik, 17, 132", "tier": 1 },
+          { "name": "Nobel Prize Committee — Einstein 1921 Prize Statement", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "einstein-special-relativity",
+        "year": "Jun 1905",
+        "title": "Einstein Publishes Special Relativity",
+        "type": "publication",
+        "detail": "Einstein's annus mirabilis paper on special relativity, 'On the Electrodynamics of Moving Bodies,' introduces the principles of relativity and the constancy of light speed. Though distinct from quantum theory, relativity shapes the later development of relativistic quantum mechanics and quantum field theory.",
+        "sources": [
+          { "name": "Einstein, A. (1905). Annalen der Physik, 17, 891", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "rutherford-nuclear-model",
+        "year": "1911",
+        "title": "Rutherford Proposes Nuclear Atomic Model",
+        "type": "discovery",
+        "detail": "Ernest Rutherford, interpreting the results of the Geiger-Marsden gold foil experiment (1909–1910), proposes that the atom consists of a tiny, dense, positively charged nucleus surrounded by orbiting electrons. This model contradicts classical electrodynamics — accelerating electrons should radiate and spiral inward — setting the stage for quantum atomic theory.",
+        "sources": [
+          { "name": "Rutherford, E. (1911). Philosophical Magazine, 21, 669", "tier": 1 },
+          { "name": "Cavendish Laboratory Historical Records", "tier": 3 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "first-solvay-conference",
+        "year": "Oct 1911",
+        "title": "First Solvay Conference on Radiation Theory",
+        "type": "discovery",
+        "detail": "The first Solvay International Conference, convened by Belgian industrialist Ernest Solvay, brings together Europe's leading physicists — including Planck, Einstein, Lorentz, Rutherford, and Madame Curie — to discuss 'Radiation and the Quanta.' The conference formalizes the crisis in classical physics and accelerates the search for a consistent quantum theory.",
+        "sources": [
+          { "name": "Mehra, J. (1975). The Solvay Conferences on Physics. Reidel", "tier": 3 },
+          { "name": "International Solvay Institutes — Historical Records", "tier": 3 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "bohr-atomic-model",
+        "year": "1913",
+        "title": "Bohr Publishes Quantum Atomic Model",
+        "type": "publication",
+        "detail": "Niels Bohr publishes his trilogy of papers 'On the Constitution of Atoms and Molecules' in Philosophical Magazine, combining Rutherford's nuclear model with Planck's quantum hypothesis. Bohr postulates that electrons occupy discrete energy levels and that radiation is emitted or absorbed only during transitions between levels, successfully predicting the hydrogen spectrum with unprecedented precision.",
+        "sources": [
+          { "name": "Bohr, N. (1913). Philosophical Magazine, 26, 1–25", "tier": 1 },
+          { "name": "Nobel Prize Archive — Bohr 1922 Lecture", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "bohr-nobel-1922",
+        "year": "1922",
+        "title": "Bohr Awarded Nobel Prize in Physics",
+        "type": "award",
+        "detail": "Niels Bohr receives the Nobel Prize in Physics 'for his services in the investigation of the structure of atoms and of the radiation emanating from them.' His Nobel lecture further develops the correspondence principle, linking quantum and classical descriptions of atomic phenomena.",
+        "sources": [
+          { "name": "NobelPrize.org — Physics 1922", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "franck-hertz-experiment",
+        "year": "1914",
+        "title": "Franck-Hertz Experiment Confirms Quantization",
+        "type": "experiment",
+        "detail": "James Franck and Gustav Hertz bombard mercury vapor with electrons and measure discrete energy transfers at 4.9 eV intervals — the first direct experimental confirmation that atoms absorb energy only in quantized amounts. This landmark experiment provides independent evidence for Bohr's atomic model and earns Franck and Hertz the 1925 Nobel Prize.",
+        "sources": [
+          { "name": "Franck, J. & Hertz, G. (1914). Deutsche Physikalische Gesellschaft, 16, 457", "tier": 1 },
+          { "name": "APS — Franck-Hertz Experiment", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "einstein-stimulated-emission",
+        "year": "1916",
+        "title": "Einstein Predicts Stimulated Emission",
+        "type": "publication",
+        "detail": "Einstein publishes 'On the Quantum Theory of Radiation,' introducing the concepts of spontaneous emission, stimulated emission, and absorption using statistical mechanics (A and B coefficients). The paper provides a quantum derivation of Planck's law and lays the theoretical foundation for the laser, not realized experimentally until 1960.",
+        "sources": [
+          { "name": "Einstein, A. (1917). Physikalische Zeitschrift, 18, 121", "tier": 1 },
+          { "name": "Physical Review Letters — Laser Anniversary Historical Note", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "compton-scattering",
+        "year": "1923",
+        "title": "Compton Scattering Confirms Photon Momentum",
+        "type": "experiment",
+        "detail": "Arthur Compton discovers that X-rays scattered off electrons shift in wavelength according to the angle of scattering, consistent with treating X-ray photons as particles with momentum p=h/λ. The Compton effect provides decisive experimental proof of Einstein's photon concept, overcoming skepticism about light quanta that had persisted since 1905.",
+        "sources": [
+          { "name": "Compton, A.H. (1923). Physical Review, 21, 483", "tier": 1 },
+          { "name": "APS — Historical Milestones: Compton Effect", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "geiger-marsden-gold-foil",
+        "year": "1909–1911",
+        "title": "Geiger-Marsden Experiment: Nucleus Revealed",
+        "type": "experiment",
+        "detail": "Hans Geiger and Ernest Marsden, under Rutherford's direction at the University of Manchester, bombard gold foil with alpha particles and observe that a small fraction scatter at large angles — some even bouncing backward. This unexpected result, described by Rutherford as 'quite the most incredible event that has ever happened to me in my life,' proves that the atom is mostly empty space with a tiny, dense, positively charged nucleus.",
+        "sources": [
+          { "name": "Geiger, H. & Marsden, E. (1909). Proceedings of the Royal Society A, 82, 495", "tier": 1 },
+          { "name": "Rutherford, E. (1911). Philosophical Magazine, 21, 669", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      }
+    ]
+  },
+  {
+    "era": "Old Quantum Theory (1913–1925)",
+    "events": [
+      {
+        "id": "stern-gerlach-experiment",
+        "year": "1922",
+        "title": "Stern-Gerlach Experiment: Space Quantization",
+        "type": "experiment",
+        "detail": "Otto Stern and Walther Gerlach pass a beam of silver atoms through an inhomogeneous magnetic field in Frankfurt, observing that the beam splits into two discrete components. This demonstrates space quantization — the angular momentum of atoms takes only discrete values — and provides experimental evidence for electron spin, though spin was not yet theoretically understood at the time.",
+        "sources": [
+          { "name": "Gerlach, W. & Stern, O. (1922). Zeitschrift für Physik, 9, 349", "tier": 1 },
+          { "name": "APS — Stern-Gerlach Experiment Historical Note", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "de-broglie-matter-waves",
+        "year": "1924",
+        "title": "De Broglie Proposes Matter Waves",
+        "type": "publication",
+        "detail": "Louis de Broglie submits his doctoral thesis at the University of Paris, proposing that all matter has an associated wavelength λ=h/p — a wave-particle duality symmetric with Einstein's photon concept. Initially met with skepticism, the hypothesis receives crucial support from Einstein and is experimentally confirmed by electron diffraction in 1927. De Broglie receives the Nobel Prize in 1929.",
+        "sources": [
+          { "name": "de Broglie, L. (1925). Annales de Physique, 3, 22 (thesis submitted 1924)", "tier": 1 },
+          { "name": "Nobel Prize Archive — de Broglie 1929 Lecture", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "bose-einstein-statistics",
+        "year": "1924",
+        "title": "Bose-Einstein Statistics Developed",
+        "type": "publication",
+        "detail": "Satyendra Nath Bose derives Planck's radiation law using a new quantum statistical framework treating photons as indistinguishable particles, sending his paper directly to Einstein. Einstein extends Bose's statistics to matter (now called Bose-Einstein statistics) and predicts that bosons should condense into the ground state at very low temperatures — a phenomenon experimentally realized as Bose-Einstein condensate in 1995.",
+        "sources": [
+          { "name": "Bose, S.N. (1924). Zeitschrift für Physik, 26, 178", "tier": 1 },
+          { "name": "Physical Review Letters — BEC Nobel Prize Review 1995", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "pauli-exclusion-principle",
+        "year": "1925",
+        "title": "Pauli Formulates the Exclusion Principle",
+        "type": "discovery",
+        "detail": "Wolfgang Pauli proposes that no two electrons in an atom can occupy the same quantum state simultaneously — the Pauli Exclusion Principle. Published in Zeitschrift für Physik, this principle explains the periodic table of elements, the stability of matter, and the structure of white dwarfs and neutron stars. Pauli receives the 1945 Nobel Prize for this discovery.",
+        "sources": [
+          { "name": "Pauli, W. (1925). Zeitschrift für Physik, 31, 765", "tier": 1 },
+          { "name": "NobelPrize.org — Physics 1945", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "sommerfeld-model",
+        "year": "1916",
+        "title": "Sommerfeld Extends Bohr Model with Elliptical Orbits",
+        "type": "publication",
+        "detail": "Arnold Sommerfeld extends Bohr's circular orbit model to include elliptical orbits and relativistic corrections, adding azimuthal and magnetic quantum numbers. The Bohr-Sommerfeld model successfully explains the fine structure of hydrogen spectral lines and introduces a third quantum number (magnetic), anticipating the full quantum mechanical treatment. Munich becomes a center of quantum physics training.",
+        "sources": [
+          { "name": "Sommerfeld, A. (1916). Annalen der Physik, 51, 1", "tier": 1 },
+          { "name": "Eckert, M. (2013). Arnold Sommerfeld. Springer", "tier": 3 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "planck-nobel-prize",
+        "year": "1918",
+        "title": "Planck Awarded Nobel Prize in Physics",
+        "type": "award",
+        "detail": "Max Planck receives the 1918 Nobel Prize in Physics (awarded 1919) 'in recognition of the services he rendered to the advancement of Physics by his discovery of energy quanta.' His acceptance speech reflects on the reluctance with which he introduced discontinuity into physics, calling the quantum 'a foreign body' he tried to avoid.",
+        "sources": [
+          { "name": "NobelPrize.org — Physics 1918", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "einstein-nobel-1921",
+        "year": "1921",
+        "title": "Einstein Awarded Nobel Prize for Photoelectric Effect",
+        "type": "award",
+        "detail": "Albert Einstein receives the 1921 Nobel Prize in Physics (awarded 1922) 'for his services to Theoretical Physics, and especially for his discovery of the law of the photoelectric effect.' Notably, the prize cites the photoelectric effect rather than relativity, highlighting the foundational role of photon quantization in establishing quantum theory.",
+        "sources": [
+          { "name": "NobelPrize.org — Physics 1921", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "bks-theory-refuted",
+        "year": "1924–1925",
+        "title": "Bohr-Kramers-Slater Theory Proposed and Refuted",
+        "type": "experiment",
+        "detail": "Bohr, Hendrik Kramers, and John Slater propose the BKS theory, abandoning photons and allowing energy to be conserved only statistically rather than in individual events. Within a year, the Bothe-Geiger coincidence experiment and Compton-Simon experiment definitively prove that energy and momentum are conserved exactly in individual quantum events, forcing Bohr to finally accept Einstein's photon concept.",
+        "sources": [
+          { "name": "Bohr, N., Kramers, H.A. & Slater, J.C. (1924). Philosophical Magazine, 47, 785", "tier": 1 },
+          { "name": "Bothe, W. & Geiger, H. (1925). Zeitschrift für Physik, 32, 639", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      }
+    ]
+  },
+  {
+    "era": "Quantum Mechanics Revolution (1925–1932)",
+    "events": [
+      {
+        "id": "heisenberg-matrix-mechanics",
+        "year": "Jul 29, 1925",
+        "title": "Heisenberg Submits Matrix Mechanics Paper",
+        "type": "publication",
+        "detail": "Working in isolation on the North Sea island of Helgoland to escape hay fever, Werner Heisenberg develops a new quantum mechanics based purely on observable quantities (transition frequencies and intensities), abandoning unobservable electron orbits. His paper 'Über quantentheoretische Umdeutung kinematischer und mechanischer Beziehungen' — submitted July 29, 1925 — marks the birth of modern quantum mechanics.",
+        "sources": [
+          { "name": "Heisenberg, W. (1925). Zeitschrift für Physik, 33, 879", "tier": 1 },
+          { "name": "APS — Heisenberg 1925 paper historical note", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "born-jordan-matrix-mechanics",
+        "year": "Sep 1925",
+        "title": "Born and Jordan Formalize Matrix Mechanics",
+        "type": "publication",
+        "detail": "Max Born and Pascual Jordan recognize that Heisenberg's arrays of observables are matrices and reformulate his theory using matrix algebra, establishing the canonical commutation relation [q, p] = iħ. The Göttingen group completes the mathematical framework for quantum mechanics in what becomes known as the 'three-man paper' (Drei-Männer-Arbeit) when Heisenberg contributes.",
+        "sources": [
+          { "name": "Born, M. & Jordan, P. (1925). Zeitschrift für Physik, 34, 858", "tier": 1 },
+          { "name": "Jammer, M. (1966). The Conceptual Development of Quantum Mechanics. McGraw-Hill", "tier": 3 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "schrodinger-wave-equation",
+        "year": "Jan 27, 1926",
+        "title": "Schrödinger Submits Wave Equation",
+        "type": "publication",
+        "detail": "Erwin Schrödinger, inspired by de Broglie's matter-wave hypothesis, submits the first of four papers on 'Quantisierung als Eigenwertproblem' (Quantization as an Eigenvalue Problem) to Annalen der Physik on January 27, 1926. The Schrödinger equation iħ∂ψ/∂t = Ĥψ describes the time evolution of the quantum wave function and reproduces hydrogen energy levels exactly. Wave mechanics provides an intuitive alternative to Heisenberg's matrix mechanics.",
+        "sources": [
+          { "name": "Schrödinger, E. (1926). Annalen der Physik, 79, 361", "tier": 1 },
+          { "name": "Nobel Prize Archive — Schrödinger 1933 Lecture", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "born-probability-interpretation",
+        "year": "Jun 1926",
+        "title": "Born Proposes Probabilistic Interpretation of Wave Function",
+        "type": "publication",
+        "detail": "Max Born proposes that |ψ|² gives the probability density of finding a particle at a given location — not a physical wave in space. This probabilistic interpretation, published in Zeitschrift für Physik, fundamentally challenges determinism in physics. Born writes that 'the motion of particles conforms to the laws of probability.' Einstein famously rejects this view, declaring 'God does not play dice.'",
+        "sources": [
+          { "name": "Born, M. (1926). Zeitschrift für Physik, 37, 863", "tier": 1 },
+          { "name": "Nobel Prize Archive — Born 1954 Lecture", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "schrodinger-proves-equivalence",
+        "year": "1926",
+        "title": "Schrödinger Proves Wave-Matrix Equivalence",
+        "type": "publication",
+        "detail": "Schrödinger publishes a proof that wave mechanics and Heisenberg's matrix mechanics are mathematically equivalent formulations of the same theory, despite their very different appearances. This unification establishes quantum mechanics as a single, consistent framework. Dirac later provides a more general formulation unifying both approaches in his 'transformation theory.'",
+        "sources": [
+          { "name": "Schrödinger, E. (1926). Annalen der Physik, 79, 734", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "heisenberg-uncertainty-principle",
+        "year": "1927",
+        "title": "Heisenberg Formulates Uncertainty Principle",
+        "type": "discovery",
+        "detail": "Werner Heisenberg derives the uncertainty principle: the product of uncertainties in position and momentum must satisfy Δx·Δp ≥ ħ/2. Published as 'Über den anschaulichen Inhalt der quantentheoretischen Kinematik und Mechanik,' the principle states that certain pairs of physical properties cannot both be precisely known simultaneously — a fundamental feature of quantum reality, not merely a measurement limitation.",
+        "sources": [
+          { "name": "Heisenberg, W. (1927). Zeitschrift für Physik, 43, 172", "tier": 1 },
+          { "name": "Physical Review — Heisenberg anniversary retrospective", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "davisson-germer-experiment",
+        "year": "1927",
+        "title": "Davisson-Germer Confirms Electron Wave Nature",
+        "type": "experiment",
+        "detail": "Clinton Davisson and Lester Germer at Bell Labs observe electron diffraction from a nickel crystal — directly confirming de Broglie's hypothesis that electrons behave as waves. Published in Physical Review and Nature, this experiment, alongside G.P. Thomson's independent confirmation in Scotland, provides the first direct experimental proof of matter wave duality and earns Davisson and Thomson the 1937 Nobel Prize.",
+        "sources": [
+          { "name": "Davisson, C.J. & Germer, L.H. (1927). Physical Review, 30, 705", "tier": 1 },
+          { "name": "Bell Labs Historical Archives", "tier": 3 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "fifth-solvay-conference",
+        "year": "Oct 1927",
+        "title": "Fifth Solvay Conference: Electrons and Photons",
+        "type": "discovery",
+        "detail": "The Fifth Solvay Conference in Brussels, 'Electrons and Photons,' marks the climax of the old debates and the triumph of quantum mechanics. The famous group photograph shows Bohr, Einstein, Planck, Heisenberg, Schrödinger, Dirac, Pauli, de Broglie, Curie, and others. Einstein begins his sustained challenge to quantum completeness, presenting thought experiments that Bohr successfully refutes.",
+        "sources": [
+          { "name": "Bacciagaluppi, G. & Valentini, A. (2009). Quantum Theory at the Crossroads. Cambridge", "tier": 3 },
+          { "name": "International Solvay Institutes — 5th Conference Proceedings", "tier": 3 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "copenhagen-interpretation",
+        "year": "1927",
+        "title": "Copenhagen Interpretation Formulated",
+        "type": "discovery",
+        "detail": "Niels Bohr and Werner Heisenberg articulate the Copenhagen interpretation of quantum mechanics at the Como and Solvay conferences. Key tenets include: wave function collapse upon measurement, complementarity (wave and particle are mutually exclusive but equally necessary descriptions), and the inherent role of the observer. This becomes the dominant interpretation among working physicists for much of the 20th century.",
+        "sources": [
+          { "name": "Bohr, N. (1928). Nature, 121, 580 — Como lecture", "tier": 1 },
+          { "name": "Heisenberg, W. (1930). The Physical Principles of the Quantum Theory. University of Chicago Press", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "dirac-equation",
+        "year": "1928",
+        "title": "Dirac Publishes Relativistic Quantum Equation",
+        "type": "publication",
+        "detail": "Paul Dirac derives a relativistic wave equation for the electron that naturally incorporates both quantum mechanics and special relativity. The Dirac equation, published in Proceedings of the Royal Society, predicts electron spin as a mathematical necessity, explains the magnetic moment of the electron, and implies the existence of a positively charged partner to the electron — the positron — which is discovered in 1932.",
+        "sources": [
+          { "name": "Dirac, P.A.M. (1928). Proceedings of the Royal Society, 117, 610", "tier": 1 },
+          { "name": "Nobel Prize Archive — Dirac 1933 Lecture", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "anderson-discovers-positron",
+        "year": "1932",
+        "title": "Anderson Discovers the Positron",
+        "type": "experiment",
+        "detail": "Carl Anderson at Caltech observes tracks in a cloud chamber consistent with a positively charged particle having the same mass as an electron — the positron, directly confirming Dirac's prediction of antimatter. Published in Physical Review in 1933, this discovery earns Anderson the 1936 Nobel Prize and establishes antimatter as a fundamental feature of quantum field theory.",
+        "sources": [
+          { "name": "Anderson, C.D. (1933). Physical Review, 43, 491", "tier": 1 },
+          { "name": "NobelPrize.org — Physics 1936", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "chadwick-neutron",
+        "year": "1932",
+        "title": "Chadwick Discovers the Neutron",
+        "type": "discovery",
+        "detail": "James Chadwick at the Cavendish Laboratory identifies a neutral particle with approximately the same mass as the proton — the neutron — by bombarding beryllium with alpha particles. This discovery completes the basic picture of atomic nuclei and enables the later development of nuclear fission. Chadwick receives the 1935 Nobel Prize.",
+        "sources": [
+          { "name": "Chadwick, J. (1932). Nature, 129, 312", "tier": 1 },
+          { "name": "Cavendish Laboratory Historical Archives", "tier": 3 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "vonneumann-mathematical-foundations",
+        "year": "1932",
+        "title": "Von Neumann Establishes Mathematical Foundations",
+        "type": "publication",
+        "detail": "John von Neumann publishes 'Mathematische Grundlagen der Quantenmechanik' (Mathematical Foundations of Quantum Mechanics), establishing quantum mechanics on a rigorous Hilbert space formalism. The book introduces the density matrix, proves the equivalence of Schrödinger and Heisenberg pictures, and presents the first proof that hidden variable theories (of a certain type) cannot reproduce quantum predictions — a proof later refined by Bell.",
+        "sources": [
+          { "name": "von Neumann, J. (1932). Mathematische Grundlagen der Quantenmechanik. Springer", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "heisenberg-schrodinger-dirac-nobel",
+        "year": "1932–1933",
+        "title": "Nobel Prizes for Matrix Mechanics and Wave Mechanics",
+        "type": "award",
+        "detail": "Werner Heisenberg receives the 1932 Nobel Prize in Physics (awarded 1933) 'for the creation of quantum mechanics.' Erwin Schrödinger and Paul Dirac share the 1933 Nobel Prize 'for the discovery of new productive forms of atomic theory.' The simultaneous recognition marks the maturation of quantum mechanics as an established physical theory.",
+        "sources": [
+          { "name": "NobelPrize.org — Physics 1932, 1933", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "dirac-bra-ket-notation",
+        "year": "1930",
+        "title": "Dirac Introduces Bra-Ket Notation and Transformation Theory",
+        "type": "publication",
+        "detail": "Paul Dirac publishes 'The Principles of Quantum Mechanics,' introducing the elegant bra-ket (Dirac) notation that unifies Heisenberg's matrix mechanics and Schrödinger's wave mechanics into a single abstract framework using Hilbert space operators. Dirac also introduces the delta function and transformation theory, providing the most general and concise formulation of quantum mechanics — the notation still universally used today.",
+        "sources": [
+          { "name": "Dirac, P.A.M. (1930). The Principles of Quantum Mechanics. Oxford University Press", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      }
+    ]
+  },
+  {
+    "era": "Copenhagen Debates & Foundations (1930–1945)",
+    "events": [
+      {
+        "id": "einstein-clock-box",
+        "year": "1930",
+        "title": "Einstein's Clock-in-the-Box Thought Experiment",
+        "type": "discovery",
+        "detail": "At the Sixth Solvay Conference, Einstein presents his 'clock-in-the-box' thought experiment, claiming to violate the energy-time uncertainty relation by weighing a box after emitting a photon. Bohr spends the night pondering the challenge and famously refutes it the next morning by invoking Einstein's own general relativity — gravitational redshift affects the clock reading. Einstein concedes but remains convinced quantum mechanics is incomplete.",
+        "sources": [
+          { "name": "Bohr, N. (1949). In Schilpp (ed.), Albert Einstein: Philosopher-Scientist. Open Court", "tier": 1 },
+          { "name": "International Solvay Institutes — 6th Conference 1930", "tier": 3 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "epr-paradox",
+        "year": "1935",
+        "title": "Einstein-Podolsky-Rosen (EPR) Paper Published",
+        "type": "publication",
+        "detail": "Einstein, Boris Podolsky, and Nathan Rosen publish 'Can Quantum-Mechanical Description of Physical Reality Be Considered Complete?' in Physical Review. The EPR paper argues that quantum mechanics must be incomplete because it allows instantaneous correlations between distant particles ('spooky action at a distance') — either violating locality or suggesting hidden variables. The paper triggers decades of foundational debate and eventually leads to Bell's theorem.",
+        "sources": [
+          { "name": "Einstein, A., Podolsky, B. & Rosen, N. (1935). Physical Review, 47, 777", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "bohr-reply-epr",
+        "year": "1935",
+        "title": "Bohr Publishes Reply to EPR",
+        "type": "publication",
+        "detail": "Niels Bohr responds to the EPR paper in Physical Review with an article bearing the same title, arguing that EPR's criterion of physical reality is ambiguous because the experimental apparatus and the measured system form an inseparable whole. Bohr's reply is widely regarded as philosophically dense and is interpreted differently by different physicists — the debate remains unresolved until Bell's theorem in 1964.",
+        "sources": [
+          { "name": "Bohr, N. (1935). Physical Review, 48, 696", "tier": 1 },
+          { "name": "Niels Bohr Archive — Copenhagen", "tier": 3 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "schrodinger-cat",
+        "year": "1935",
+        "title": "Schrödinger Introduces His Famous Cat",
+        "type": "publication",
+        "detail": "Erwin Schrödinger publishes 'Die gegenwärtige Situation in der Quantenmechanik' (The Present Situation in Quantum Mechanics) in Naturwissenschaften, coining the term 'Verschränkung' (entanglement) and presenting the cat thought experiment. A cat in a box with a radioactive atom and poison should be in a superposition of alive and dead — a paradox highlighting the measurement problem and the tension between quantum superposition and classical observation.",
+        "sources": [
+          { "name": "Schrödinger, E. (1935). Naturwissenschaften, 23, 807–812, 823–828, 844–849", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "bohr-heisenberg-copenhagen-1941",
+        "year": "Sep 1941",
+        "title": "Bohr-Heisenberg Meeting in Occupied Copenhagen",
+        "type": "discovery",
+        "detail": "Werner Heisenberg, now leading Germany's nuclear weapons program, visits Niels Bohr in Nazi-occupied Copenhagen. The exact content of their conversation remains disputed and has been the subject of Michael Frayn's play 'Copenhagen' (1998). Heisenberg later claimed he wanted to discuss the moral implications of physicists building weapons of mass destruction; Bohr believed Heisenberg sought information about Allied nuclear progress. The meeting ends their friendship.",
+        "sources": [
+          { "name": "Powers, T. (1993). Heisenberg's War. Knopf", "tier": 3 },
+          { "name": "Niels Bohr Archive — Copenhagen Letters Collection", "tier": 3 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "manhattan-project",
+        "year": "1942–1945",
+        "title": "Manhattan Project Applies Quantum Nuclear Physics",
+        "type": "experiment",
+        "detail": "The Manhattan Project, headquartered at Los Alamos under J. Robert Oppenheimer, applies quantum mechanical understanding of nuclear fission (chain reactions, critical mass) to build the first atomic bombs. Theoretical physicists including Fermi, Bethe, Teller, and Feynman work on quantum calculations of implosion dynamics, neutron diffusion, and critical mass. The project demonstrates both the power and the responsibility of quantum physics.",
+        "sources": [
+          { "name": "Rhodes, R. (1986). The Making of the Atomic Bomb. Simon & Schuster", "tier": 2 },
+          { "name": "Los Alamos National Laboratory — Historical Archives", "tier": 3 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "pauli-nobel-1945",
+        "year": "1945",
+        "title": "Pauli Receives Nobel Prize for Exclusion Principle",
+        "type": "award",
+        "detail": "Wolfgang Pauli receives the 1945 Nobel Prize in Physics 'for the discovery of the Exclusion Principle, also called the Pauli principle.' The prize acknowledges the foundational role of the exclusion principle in explaining atomic structure, the periodic table, the stability of white dwarf stars, and the behavior of electrons in metals.",
+        "sources": [
+          { "name": "NobelPrize.org — Physics 1945", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      }
+    ]
+  },
+  {
+    "era": "Quantum Electrodynamics & Postwar Physics (1945–1965)",
+    "events": [
+      {
+        "id": "lamb-shift-measurement",
+        "year": "1947",
+        "title": "Lamb Measures Hydrogen Fine Structure Shift",
+        "type": "experiment",
+        "detail": "Willis Lamb and Robert Retherford measure a small energy difference (the 'Lamb shift') between the 2S₁/₂ and 2P₁/₂ hydrogen levels using microwave spectroscopy at Columbia University. Dirac's equation predicts these levels are degenerate, but quantum fluctuations of the electromagnetic field cause a shift of ~1058 MHz. This precision measurement motivates the development of renormalized QED.",
+        "sources": [
+          { "name": "Lamb, W.E. & Retherford, R.C. (1947). Physical Review, 72, 241", "tier": 1 },
+          { "name": "NobelPrize.org — Physics 1955", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "qed-development",
+        "year": "1948",
+        "title": "Feynman, Schwinger, and Tomonaga Develop QED",
+        "type": "discovery",
+        "detail": "Independently, Julian Schwinger, Richard Feynman (using his path integral and diagram approach), and Sin-Itiro Tomonaga in Japan develop covariant, renormalized quantum electrodynamics — the quantum theory of light-matter interaction. Freeman Dyson proves the three approaches are equivalent. QED predicts the electron magnetic moment to extraordinary precision (agreement to 1 part in 10¹²) and becomes the template for all quantum field theories.",
+        "sources": [
+          { "name": "Schwinger, J. (1948). Physical Review, 73, 416", "tier": 1 },
+          { "name": "Feynman, R.P. (1949). Physical Review, 76, 769", "tier": 1 },
+          { "name": "NobelPrize.org — Physics 1965", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "feynman-diagrams",
+        "year": "1949",
+        "title": "Feynman Introduces Feynman Diagrams",
+        "type": "publication",
+        "detail": "Richard Feynman publishes his space-time approach to QED in Physical Review, introducing the iconic Feynman diagrams as a calculational and visualization tool for perturbative quantum field theory. Each diagram represents a term in a perturbation expansion; straight lines represent fermions, wavy lines photons. Feynman diagrams revolutionize particle physics calculations and become a universal language in theoretical physics.",
+        "sources": [
+          { "name": "Feynman, R.P. (1949). Physical Review, 76, 749", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "bohm-hidden-variables",
+        "year": "1952",
+        "title": "Bohm Proposes Pilot Wave Theory",
+        "type": "publication",
+        "detail": "David Bohm publishes 'A Suggested Interpretation of the Quantum Theory in Terms of Hidden Variables' in Physical Review, reviving de Broglie's 1927 pilot wave idea and demonstrating that a deterministic, local hidden variable theory can reproduce all quantum predictions for a single particle. While initially dismissed, Bohm's interpretation (de Broglie-Bohm or Bohmian mechanics) later stimulates Bell's theorem and remains a serious alternative interpretation.",
+        "sources": [
+          { "name": "Bohm, D. (1952). Physical Review, 85, 166 & 180", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "everett-many-worlds",
+        "year": "1957",
+        "title": "Everett Proposes Many-Worlds Interpretation",
+        "type": "publication",
+        "detail": "Hugh Everett III submits his Princeton PhD thesis (supervised by John Wheeler) proposing the 'relative state' or 'many-worlds' interpretation: the wave function never collapses; instead, every quantum measurement causes the universe to branch into multiple worlds, each realizing a different outcome. Initially ignored, the many-worlds interpretation is rediscovered in the 1970s and becomes increasingly popular among theoretical physicists and cosmologists.",
+        "sources": [
+          { "name": "Everett III, H. (1957). Reviews of Modern Physics, 29, 454", "tier": 1 },
+          { "name": "Dewitt, B.S. & Graham, N. (eds.) (1973). The Many-Worlds Interpretation. Princeton", "tier": 3 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "first-laser",
+        "year": "1960",
+        "title": "Maiman Operates First Laser",
+        "type": "experiment",
+        "detail": "Theodore Maiman at Hughes Research Laboratories in Malibu operates the first working laser, using a synthetic ruby crystal pumped by a flash lamp to produce coherent light at 694.3 nm. Based on Einstein's 1916 prediction of stimulated emission and subsequent theoretical work on masers, the laser becomes the quintessential quantum technology — enabling everything from optical communications to quantum computers.",
+        "sources": [
+          { "name": "Maiman, T.H. (1960). Nature, 187, 493", "tier": 1 },
+          { "name": "APS — Laser 50th Anniversary", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "bcs-superconductivity-theory",
+        "year": "1957",
+        "title": "BCS Theory Explains Superconductivity Quantum Mechanically",
+        "type": "publication",
+        "detail": "John Bardeen, Leon Cooper, and John Robert Schrieffer publish the BCS theory of superconductivity, explaining how electron pairs (Cooper pairs) form a macroscopic quantum ground state at low temperatures, producing zero electrical resistance. The BCS theory is one of the most successful applications of many-body quantum mechanics and directly underpins superconducting qubit technology used in today's quantum computers. Bardeen, Cooper, and Schrieffer share the 1972 Nobel Prize.",
+        "sources": [
+          { "name": "Bardeen, J., Cooper, L.N. & Schrieffer, J.R. (1957). Physical Review, 108, 1175", "tier": 1 },
+          { "name": "NobelPrize.org — Physics 1972", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "feynman-schwinger-tomonaga-nobel",
+        "year": "1965",
+        "title": "Nobel Prize for QED: Feynman, Schwinger, Tomonaga",
+        "type": "award",
+        "detail": "Richard Feynman, Julian Schwinger, and Sin-Itiro Tomonaga share the 1965 Nobel Prize in Physics 'for their fundamental work in quantum electrodynamics, with deep-ploughing consequences for the physics of elementary particles.' QED is described as the most precisely tested theory in the history of science, with predictions matching experiment to more than 12 significant figures.",
+        "sources": [
+          { "name": "NobelPrize.org — Physics 1965", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      }
+    ]
+  },
+  {
+    "era": "Bell's Theorem & Quantum Foundations (1964–1982)",
+    "events": [
+      {
+        "id": "bell-theorem",
+        "year": "Nov 4, 1964",
+        "title": "Bell Publishes Theorem Testing Hidden Variables",
+        "type": "publication",
+        "detail": "John Bell, working at CERN, publishes 'On the Einstein Podolsky Rosen Paradox' in the journal Physics, deriving a mathematical inequality that any local hidden variable theory must satisfy. If quantum mechanics predicts correlations that violate Bell inequalities, no local realistic theory can be correct. This theorem transforms the philosophical EPR debate into an experimentally testable question.",
+        "sources": [
+          { "name": "Bell, J.S. (1964). Physics, 1, 195", "tier": 1 },
+          { "name": "CERN — Bell Archive", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "chsh-inequality",
+        "year": "1969",
+        "title": "CHSH Inequality Enables Practical Bell Tests",
+        "type": "publication",
+        "detail": "John Clauser, Michael Horne, Abner Shimony, and Richard Holt (CHSH) reformulate Bell's theorem into a form practical for real experiments with imperfect detectors and photon sources, publishing the CHSH inequality in Physical Review Letters. The CHSH inequality becomes the standard form used in virtually all subsequent Bell tests.",
+        "sources": [
+          { "name": "Clauser, J.F. et al. (1969). Physical Review Letters, 23, 880", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "freedman-clauser-bell-test",
+        "year": "1972",
+        "title": "Freedman-Clauser: First Experimental Bell Test",
+        "type": "experiment",
+        "detail": "Stuart Freedman and John Clauser at UC Berkeley perform the first experimental test of Bell inequalities using polarization-entangled photons from calcium atomic cascades, finding results consistent with quantum mechanics and violating Bell inequalities. This landmark experiment rules out a large class of local hidden variable theories, though detector loopholes remain.",
+        "sources": [
+          { "name": "Freedman, S.J. & Clauser, J.F. (1972). Physical Review Letters, 28, 938", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "aspect-bell-test-1982",
+        "year": "1982",
+        "title": "Aspect's Definitive Bell Test Closes Locality Loophole",
+        "type": "experiment",
+        "detail": "Alain Aspect and colleagues at the Institut d'Optique in Orsay perform a series of Bell tests using time-varying polarizers switched during photon flight, closing the locality loophole for the first time. Their results — violating Bell inequalities by more than 5 standard deviations — are reported in Physical Review Letters. Aspect, Clauser, and Zeilinger receive the 2022 Nobel Prize for this body of work.",
+        "sources": [
+          { "name": "Aspect, A. et al. (1982). Physical Review Letters, 49, 1804", "tier": 1 },
+          { "name": "NobelPrize.org — Physics 2022", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "weinberg-salam-glashow-electroweak",
+        "year": "1979",
+        "title": "Nobel for Electroweak Unification",
+        "type": "award",
+        "detail": "Sheldon Glashow, Abdus Salam, and Steven Weinberg share the 1979 Nobel Prize for developing the electroweak theory, which unifies the electromagnetic and weak nuclear forces within a quantum field theory framework using spontaneous symmetry breaking (the Higgs mechanism). This represents the second major unification in fundamental physics after Maxwell's electromagnetism.",
+        "sources": [
+          { "name": "NobelPrize.org — Physics 1979", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "gell-mann-quarks",
+        "year": "1964",
+        "title": "Gell-Mann Proposes Quarks as Fundamental Constituents",
+        "type": "discovery",
+        "detail": "Murray Gell-Mann (and independently George Zweig) proposes that hadrons are composed of fractionally-charged fundamental particles called quarks, applying quantum field theory symmetry principles (SU(3) group theory) to explain the particle zoo. The quark model leads to quantum chromodynamics (QCD) — the quantum field theory of the strong force — and the completion of the Standard Model. Gell-Mann receives the 1969 Nobel Prize.",
+        "sources": [
+          { "name": "Gell-Mann, M. (1964). Physics Letters, 8, 214", "tier": 1 },
+          { "name": "NobelPrize.org — Physics 1969", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "josephson-effect",
+        "year": "1962",
+        "title": "Josephson Predicts Superconducting Tunneling Effect",
+        "type": "discovery",
+        "detail": "Brian Josephson, a graduate student at Cambridge, predicts that Cooper pairs can tunnel through a thin insulating barrier between two superconductors, producing a DC current (DC Josephson effect) and AC oscillations (AC Josephson effect). Confirmed experimentally the same year, Josephson junctions become foundational in SQUIDs (ultrasensitive magnetometers), voltage standards, and superconducting qubits used in quantum computers.",
+        "sources": [
+          { "name": "Josephson, B.D. (1962). Physics Letters, 1, 251", "tier": 1 },
+          { "name": "NobelPrize.org — Physics 1973", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      }
+    ]
+  },
+  {
+    "era": "Quantum Information Revolution (1980–2000)",
+    "events": [
+      {
+        "id": "feynman-quantum-computer-proposal",
+        "year": "May 1981",
+        "title": "Feynman Proposes Quantum Computers for Physics Simulation",
+        "type": "discovery",
+        "detail": "Richard Feynman delivers his landmark keynote 'Simulating Physics with Computers' at the MIT Endicott House conference, arguing that classical computers cannot efficiently simulate quantum systems and proposing a quantum computer built of quantum mechanical elements to simulate nature. Published in International Journal of Theoretical Physics (1982), this paper launches the field of quantum simulation and quantum computation.",
+        "sources": [
+          { "name": "Feynman, R.P. (1982). International Journal of Theoretical Physics, 21, 467", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "bb84-quantum-cryptography",
+        "year": "1984",
+        "title": "BB84 Quantum Key Distribution Protocol Invented",
+        "type": "publication",
+        "detail": "Charles Bennett and Gilles Brassard publish the BB84 protocol — the first quantum key distribution scheme — using the quantum no-cloning theorem to guarantee unconditional security against eavesdropping. Any interception of the quantum channel unavoidably disturbs the photon states, alerting the communicating parties. BB84 becomes the basis for commercial quantum cryptography systems deployed in banking and government communications.",
+        "sources": [
+          { "name": "Bennett, C.H. & Brassard, G. (1984). Proceedings of IEEE International Conference on Computers, Systems, and Signal Processing, 175", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "deutsch-algorithm",
+        "year": "1985",
+        "title": "Deutsch Publishes First Quantum Algorithm",
+        "type": "publication",
+        "detail": "David Deutsch at Oxford publishes 'Quantum Theory, the Church-Turing Principle and the Universal Quantum Computer' in Proceedings of the Royal Society, introducing the first quantum algorithm (Deutsch's algorithm) that solves a problem faster than any classical algorithm. This paper establishes quantum computing as a field with genuine computational advantages and introduces the quantum circuit model.",
+        "sources": [
+          { "name": "Deutsch, D. (1985). Proceedings of the Royal Society A, 400, 97", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "shor-algorithm",
+        "year": "1994",
+        "title": "Shor's Algorithm Threatens Public-Key Cryptography",
+        "type": "publication",
+        "detail": "Peter Shor at Bell Labs presents an efficient quantum algorithm for integer factorization at the IEEE Symposium on Foundations of Computer Science (FOCS), demonstrating that a quantum computer could break RSA encryption exponentially faster than classical methods. The result sends shockwaves through the cryptography community and triggers large-scale government and industry investment in both quantum computing and post-quantum cryptography.",
+        "sources": [
+          { "name": "Shor, P.W. (1994). Proceedings of the 35th Annual Symposium on Foundations of Computer Science, 124–134", "tier": 1 },
+          { "name": "SIAM Journal on Computing, 26, 1484 (1997)", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "grover-algorithm",
+        "year": "1996",
+        "title": "Grover's Algorithm Provides Quantum Search Speedup",
+        "type": "publication",
+        "detail": "Lov Grover at Bell Labs publishes a quantum algorithm for searching an unsorted database of N items in O(√N) time, compared to O(N) classically — a quadratic speedup. While more modest than Shor's exponential speedup, Grover's algorithm is broadly applicable and its O(√N) scaling is proven optimal. It also provides a concrete quadratic advantage for cryptographic brute-force attacks.",
+        "sources": [
+          { "name": "Grover, L.K. (1996). Proceedings of the 28th Annual ACM STOC, 212–219", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "first-quantum-teleportation",
+        "year": "1997",
+        "title": "First Experimental Quantum Teleportation",
+        "type": "experiment",
+        "detail": "Dik Bouwmeester, Jian-Wei Pan, and Anton Zeilinger's team at Innsbruck University perform the first experimental quantum teleportation, transferring the quantum state of a photon to another photon over a meter-scale distance using entanglement and classical communication. Published in Nature, the experiment demonstrates that quantum information can be transferred without physically moving the carrier particle.",
+        "sources": [
+          { "name": "Bouwmeester, D. et al. (1997). Nature, 390, 575", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "bose-einstein-condensate",
+        "year": "1995",
+        "title": "Bose-Einstein Condensate Realized Experimentally",
+        "type": "experiment",
+        "detail": "Cornell, Wieman, and their team at JILA/NIST (Boulder) create the first true Bose-Einstein Condensate in rubidium-87 at 170 nanokelvin — 70 years after Einstein's prediction. In a BEC, thousands of atoms condense into the same quantum ground state, behaving as a single macroscopic quantum entity. This new state of matter enables precision measurements, quantum simulation, and atom lasers.",
+        "sources": [
+          { "name": "Anderson, M.H. et al. (1995). Science, 269, 198", "tier": 1 },
+          { "name": "NobelPrize.org — Physics 2001 (Cornell, Ketterle, Wieman)", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "cirac-zoller-trapped-ion",
+        "year": "1995",
+        "title": "Cirac-Zoller Proposal for Trapped-Ion Quantum Computer",
+        "type": "publication",
+        "detail": "Ignacio Cirac and Peter Zoller publish a seminal Physical Review Letters paper proposing how to build a quantum computer using strings of trapped ions, with laser pulses implementing quantum gates via shared phonon modes. The Cirac-Zoller gate is immediately implemented experimentally by David Wineland's group at NIST Boulder. Trapped-ion quantum computing remains one of the leading hardware platforms for fault-tolerant quantum computing. Wineland shares the 2012 Nobel Prize.",
+        "sources": [
+          { "name": "Cirac, J.I. & Zoller, P. (1995). Physical Review Letters, 74, 4091", "tier": 1 },
+          { "name": "NobelPrize.org — Physics 2012 (Wineland)", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "quantum-error-correction",
+        "year": "1995",
+        "title": "Quantum Error Correction Theory Established",
+        "type": "publication",
+        "detail": "Peter Shor (1995) and Andrew Steane (1996) independently develop the first quantum error-correcting codes, demonstrating that quantum information can be protected from decoherence and operational errors without violating the no-cloning theorem by encoding one logical qubit into multiple physical qubits. The threshold theorem later proves that fault-tolerant quantum computing is possible if physical error rates are below ~1%.",
+        "sources": [
+          { "name": "Shor, P.W. (1995). Physical Review A, 52, R2493", "tier": 1 },
+          { "name": "Steane, A.M. (1996). Physical Review Letters, 77, 793", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      }
+    ]
+  },
+  {
+    "era": "Quantum Computing Race (2000–2018)",
+    "events": [
+      {
+        "id": "shor-algorithm-nmr-demo",
+        "year": "2001",
+        "title": "First NMR Demonstration of Shor's Algorithm",
+        "type": "experiment",
+        "detail": "IBM and Stanford researchers demonstrate Shor's algorithm on a 7-qubit NMR (nuclear magnetic resonance) quantum computer, factoring 15 into 3×5. While the system cannot scale to cryptographically relevant sizes, this proof-of-concept experiment establishes that quantum algorithms can run on physical hardware and receives worldwide media attention.",
+        "sources": [
+          { "name": "Vandersypen, L.M.K. et al. (2001). Nature, 414, 883", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "dwave-one-commercial",
+        "year": "May 2011",
+        "title": "D-Wave One: First Commercial Quantum Computer",
+        "type": "computing",
+        "detail": "D-Wave Systems announces and delivers the D-Wave One to Lockheed Martin — the first commercially available quantum computer — using a 128-qubit superconducting processor based on quantum annealing. While critics debate whether the system achieves genuine quantum speedup over classical optimization, the announcement sparks a commercial quantum computing race. Lockheed installs the system at USC's Institute for Creative Technologies.",
+        "sources": [
+          { "name": "D-Wave Systems press release, May 11, 2011", "tier": 2 },
+          { "name": "Scientific American — D-Wave review 2013", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "micius-quantum-satellite",
+        "year": "Jun 2017",
+        "title": "Micius Quantum Satellite Demonstrates Space-Based Entanglement",
+        "type": "experiment",
+        "detail": "China's Micius satellite (launched August 2016) enables the distribution of entangled photon pairs between two ground stations over 1,200 km — the largest-scale test of quantum entanglement to date. Jian-Wei Pan's team reports quantum key distribution over 7,600 km between Beijing and Vienna via satellite in 2017. The experiment demonstrates feasibility of a global quantum communication network based on satellite relay.",
+        "sources": [
+          { "name": "Yin, J. et al. (2017). Science, 356, 1140 — Micius satellite experiment", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "loophole-free-bell-test-2015",
+        "year": "Oct 21, 2015",
+        "title": "Loophole-Free Bell Test Achieved at Delft",
+        "type": "experiment",
+        "detail": "Hensen et al. at Delft University of Technology perform the first loophole-free Bell test using electron spins in nitrogen-vacancy centers in diamond separated by 1.3 km, detecting a Bell parameter S = 2.42 ± 0.20. The experiment simultaneously closes both the detection loophole and the locality loophole, definitively ruling out local hidden variable theories and earning Nature's 2015 breakthrough of the year.",
+        "sources": [
+          { "name": "Hensen, B. et al. (2015). Nature, 526, 682", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "ibm-q-experience-launch",
+        "year": "May 4, 2016",
+        "title": "IBM Q Experience Launches Quantum Cloud Access",
+        "type": "computing",
+        "detail": "IBM launches the IBM Q Experience, making a 5-qubit superconducting quantum processor publicly accessible via cloud, with 7,000 users registering in the first week. This democratizes access to real quantum hardware for researchers, students, and developers worldwide, accelerating algorithm testing and quantum education. By 2020 the platform hosts over 100 quantum circuits run over 700 billion times.",
+        "sources": [
+          { "name": "IBM Quantum — Q Experience launch blog, May 4, 2016", "tier": 2 },
+          { "name": "TechCrunch — IBM Quantum Cloud, May 2016", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "aspect-clauser-zeilinger-nobel-2022",
+        "year": "Oct 4, 2022",
+        "title": "Nobel Prize for Bell Test Experiments",
+        "type": "award",
+        "detail": "Alain Aspect, John Clauser, and Anton Zeilinger share the 2022 Nobel Prize in Physics 'for experiments with entangled photons, establishing the violation of Bell inequalities and pioneering quantum information science.' The Nobel Committee recognizes that their work resolves the EPR paradox experimentally and has laid the foundation for quantum cryptography, quantum teleportation, and quantum computing.",
+        "sources": [
+          { "name": "NobelPrize.org — Physics 2022 press release, Oct 4, 2022", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "higgs-boson-discovery",
+        "year": "Jul 4, 2012",
+        "title": "Higgs Boson Discovered at CERN",
+        "type": "discovery",
+        "detail": "ATLAS and CMS experiments at CERN's Large Hadron Collider announce the discovery of a particle consistent with the Higgs boson at ~125 GeV — the last missing piece of the Standard Model of particle physics. The Higgs field, predicted by Peter Higgs and others in 1964 using spontaneous symmetry breaking in quantum field theory, gives mass to W and Z bosons and fermions. Higgs and Englert receive the 2013 Nobel Prize.",
+        "sources": [
+          { "name": "ATLAS Collaboration (2012). Physics Letters B, 716, 1", "tier": 1 },
+          { "name": "CMS Collaboration (2012). Physics Letters B, 716, 30", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      }
+    ]
+  },
+  {
+    "era": "Quantum Supremacy & NISQ Era (2019–Present)",
+    "events": [
+      {
+        "id": "google-quantum-supremacy",
+        "year": "Oct 23, 2019",
+        "title": "Google Claims Quantum Supremacy with Sycamore",
+        "type": "computing",
+        "detail": "Google AI announces in Nature that its 53-qubit Sycamore processor performed a specific random circuit sampling task in 200 seconds that would take the world's best classical supercomputer approximately 10,000 years. This is the first claimed demonstration of quantum supremacy (quantum computational advantage). IBM immediately contests the claim, arguing classical simulation is possible with sufficient disk resources (~10,000 years becomes ~2.5 days).",
+        "sources": [
+          { "name": "Arute, F. et al. (2019). Nature, 574, 505 — Google AI Quantum", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "honeywell-trapped-ion-quantum-volume",
+        "year": "Jun 2020",
+        "title": "Honeywell Claims Record Quantum Volume with Trapped Ions",
+        "type": "computing",
+        "detail": "Honeywell Quantum Solutions claims a quantum volume of 64 — double that of any competing system — with its H0 trapped-ion quantum computer, demonstrating the advantages of all-to-all qubit connectivity and long coherence times in ion traps. The quantum volume metric (IBM's benchmark measuring system-level performance including connectivity and error rates) becomes an industry standard for comparing different quantum hardware modalities.",
+        "sources": [
+          { "name": "Honeywell Quantum Solutions press release and Nature paper, June 2020", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "ibm-eagle-127-qubit",
+        "year": "Nov 16, 2021",
+        "title": "IBM Unveils 127-Qubit Eagle Processor",
+        "type": "computing",
+        "detail": "IBM reveals its Eagle quantum processor with 127 qubits — the first quantum processor to exceed 100 qubits — using a new 3D multi-layer chip design that reduces cross-talk between qubits. IBM announces its quantum roadmap targeting 1,000+ qubits by 2023, establishing a clear benchmark race between quantum hardware manufacturers.",
+        "sources": [
+          { "name": "IBM Newsroom — IBM Eagle announcement, Nov 16, 2021", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "nist-post-quantum-standards",
+        "year": "Jul 2022",
+        "title": "NIST Announces Post-Quantum Cryptography Standards",
+        "type": "computing",
+        "detail": "The US National Institute of Standards and Technology (NIST) announces its selection of four post-quantum cryptographic algorithms — CRYSTALS-Kyber, CRYSTALS-Dilithium, FALCON, and SPHINCS+ — to replace RSA and elliptic curve cryptography before quantum computers become capable of running Shor's algorithm at scale. This represents the largest coordinated transition in cryptographic infrastructure in history.",
+        "sources": [
+          { "name": "NIST press release — Post-Quantum Cryptography Standards, July 5, 2022", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "ibm-osprey-433-qubit",
+        "year": "Nov 9, 2022",
+        "title": "IBM Osprey: 433-Qubit Processor Announced",
+        "type": "computing",
+        "detail": "IBM announces its 433-qubit Osprey quantum processor at the IBM Quantum Summit, more than tripling the qubit count of Eagle. The company also previews the Heron modular architecture for linking processors, pointing toward fault-tolerant systems. IBM's accelerated roadmap establishes it as the hardware leader in superconducting quantum computing.",
+        "sources": [
+          { "name": "IBM Newsroom — IBM Osprey announcement, Nov 9, 2022", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "ibm-condor-1121-qubit",
+        "year": "Dec 2023",
+        "title": "IBM Condor: 1,121-Qubit Processor Unveiled",
+        "type": "computing",
+        "detail": "IBM reveals the IBM Condor processor with 1,121 qubits — the first quantum chip to exceed 1,000 qubits — alongside the 133-qubit Heron processor optimized for lower error rates. IBM simultaneously releases quantum-centric supercomputing roadmaps targeting fault-tolerant systems with logical qubits, marking the transition from NISQ (Noisy Intermediate-Scale Quantum) to early error-corrected quantum computing.",
+        "sources": [
+          { "name": "IBM Quantum Summit — Condor announcement, December 2023", "tier": 2 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "willow-quantum-chip-2024",
+        "year": "Dec 2024",
+        "title": "Google Willow: Quantum Error Correction Breakthrough",
+        "type": "computing",
+        "detail": "Google announces the Willow quantum chip, demonstrating that increasing the number of qubits used for error correction actually reduces the error rate — a key threshold for fault-tolerant quantum computing. The chip performs a random circuit sampling benchmark in under 5 minutes that would take classical supercomputers 10²⁵ years. This represents a major step toward practical quantum advantage beyond synthetic benchmarks.",
+        "sources": [
+          { "name": "Google DeepMind / Nature — Willow announcement, December 2024", "tier": 1 }
+        ],
+        "lastUpdated": "2026-03-20T00:00:00Z"
+      }
+    ]
+  }
+]

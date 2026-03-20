@@ -1,1 +1,283 @@
-[]
+[
+  {
+    "id": "copenhagen-vs-many-worlds",
+    "question": "Is the Copenhagen interpretation or Many-Worlds the correct description of quantum measurement?",
+    "sideA": {
+      "label": "Copenhagen Interpretation",
+      "text": "The wave function collapses upon measurement, yielding a definite outcome. Quantum mechanics describes laboratory procedures and their results, not a mind-independent reality. Asking what happens 'between' measurements is metaphysically meaningless. Championed by Bohr, Heisenberg, and Pauli, Copenhagen has been the working physicist's framework since 1927 and avoids the bizarre ontological commitment to infinitely branching universes."
+    },
+    "sideB": {
+      "label": "Many-Worlds Interpretation (Everett)",
+      "text": "The wave function never collapses; quantum measurement causes the universe to split into multiple branches, each realizing a different outcome. There is no collapse and no privileged role for the observer. Proposed by Hugh Everett III (1957) and championed by David Deutsch and Sean Carroll, Many-Worlds is deterministic, relativistically covariant, and avoids the measurement problem — at the cost of accepting an enormous multiplicity of parallel realities."
+    },
+    "resolution": "No experimental test can currently distinguish the two interpretations, as they make identical empirical predictions. The debate remains open and is one of the deepest unresolved questions in the foundations of physics.",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "local-realism-vs-quantum-nonlocality",
+    "question": "Was Einstein right that quantum mechanics must be incomplete and supplemented with hidden variables?",
+    "sideA": {
+      "label": "Einstein (Local Realism)",
+      "text": "The EPR paper (1935) argued that quantum mechanics is incomplete: two particles separated by any distance cannot instantaneously influence each other (locality), and physical quantities must have definite values independent of measurement (realism). Einstein maintained that quantum mechanics is a statistical approximation of an underlying deterministic theory with hidden variables, famously declaring 'God does not play dice.'"
+    },
+    "sideB": {
+      "label": "Bohr / Quantum Mechanics (Nonlocality Accepted)",
+      "text": "Bohr argued that EPR's 'element of physical reality' criterion is inapplicable in quantum mechanics because the measurement apparatus and system form a whole. Bell's theorem (1964) and subsequent experiments (Aspect 1982, Hensen 2015) demonstrate that no local hidden variable theory can reproduce quantum predictions. Quantum entanglement is real and nonlocal correlations — while not enabling faster-than-light communication — cannot be explained by any local realistic model."
+    },
+    "resolution": "Experimentally resolved in favor of quantum mechanics. The 2015 loophole-free Bell test (Delft) and the 2022 Nobel Prize awarded to Aspect, Clauser, and Zeilinger definitively rule out local hidden variable theories. Einstein's intuition about completeness was incorrect.",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "wave-particle-duality-nature",
+    "question": "Are wave-particle duality and complementarity fundamental, or are they artifacts of an incomplete theory?",
+    "sideA": {
+      "label": "Bohr's Complementarity",
+      "text": "Wave and particle are two complementary, mutually exclusive, but equally necessary descriptions of quantum objects. Which description applies depends on the experimental context. This is not a limitation of our knowledge but a fundamental feature of nature — quantum objects have no single classical description that covers all situations. Bohr elevated complementarity to a general philosophical principle extending beyond physics."
+    },
+    "sideB": {
+      "label": "Pilot Wave / dBB Theory",
+      "text": "The de Broglie-Bohm (pilot wave) interpretation resolves wave-particle duality by having both: particles always have definite positions, guided by a real pilot wave (the wave function). There is no complementarity paradox — particles take definite paths, but the wave determines their statistics. All quantum predictions are reproduced deterministically, though the theory is nonlocal and introduces a preferred reference frame in relativistic extensions."
+    },
+    "resolution": "Unresolved. Complementarity remains the dominant textbook view. Pilot wave theory is a minority but rigorously consistent alternative. No experiment can distinguish them.",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "schrodinger-cat-superposition",
+    "question": "Does Schrödinger's cat illustrate a genuine paradox, or is the superposition resolved by decoherence?",
+    "sideA": {
+      "label": "Genuine Measurement Problem",
+      "text": "Schrödinger's cat thought experiment exposes a real paradox: if quantum mechanics applies universally, macroscopic objects can be in superpositions of macroscopically distinct states (alive and dead). This is physically absurd. The measurement problem — when and how the wave function collapses — remains unsolved. Any complete theory of nature must explain why we never observe such macroscopic superpositions."
+    },
+    "sideB": {
+      "label": "Decoherence Resolves the Paradox",
+      "text": "Modern decoherence theory (Zeh, Zurek, 1970s–1990s) shows that macroscopic objects inevitably interact with their environment on timescales far too short to observe superpositions. Quantum coherence is destroyed by entanglement with environmental degrees of freedom, producing effectively classical statistics. While decoherence does not by itself solve the measurement problem (it does not select a unique outcome), it explains why we never observe macroscopic superpositions in practice."
+    },
+    "resolution": "Decoherence is experimentally confirmed and explains the absence of macroscopic superpositions, but it does not fully resolve the measurement problem or explain the appearance of a unique measurement outcome. The debate continues.",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "heisenberg-uncertainty-ontological-vs-epistemic",
+    "question": "Does the uncertainty principle reflect limits on knowledge, or fundamental indeterminacy in nature?",
+    "sideA": {
+      "label": "Epistemic / Measurement Disturbance",
+      "text": "Heisenberg's original 1927 paper framed the uncertainty principle as arising from the disturbance caused by measurement — measuring position with a high-energy photon gives the electron a random kick, disturbing its momentum. On this view, position and momentum may have definite values, but we cannot measure both simultaneously without disturbing the system."
+    },
+    "sideB": {
+      "label": "Ontological / Fundamental Indeterminacy",
+      "text": "Modern understanding holds that the uncertainty principle is ontological: quantum particles simply do not have simultaneously definite position and momentum, regardless of measurement. Ozawa's 2003 reformulation and subsequent experiments distinguish measurement uncertainty from intrinsic quantum uncertainty, showing that Heisenberg's original disturbance interpretation was incomplete. The standard deviation form ΔxΔp ≥ ħ/2 reflects the fundamental nature of the quantum state."
+    },
+    "resolution": "The modern consensus, supported by Ozawa's inequality (2003) and experimental tests, is that the uncertainty principle is primarily ontological — quantum states do not possess simultaneous sharp values of conjugate observables. The measurement disturbance interpretation is a special case.",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "heisenberg-nazi-bomb-sabotage",
+    "question": "Did Heisenberg deliberately sabotage the Nazi atomic bomb program, or did Germany simply lack the resources?",
+    "sideA": {
+      "label": "Deliberate Sabotage (Heisenberg's Claim)",
+      "text": "Heisenberg claimed after the war that German physicists did not want to build a bomb for Hitler and that he personally guided the program away from a bomb toward a 'peaceful' reactor. The 1941 Copenhagen meeting with Bohr, he suggested, was an attempt to warn the Allies or establish mutual non-development of atomic weapons. This narrative was promoted by his memoir and has defenders among historians."
+    },
+    "sideB": {
+      "label": "Failure Due to Errors and Resources",
+      "text": "The Farm Hall transcripts — recordings of interned German physicists after Hiroshima — reveal that Heisenberg made a fundamental error in critical mass calculation (off by a factor of ~100), believing a bomb required tons rather than kilograms of uranium-235. Germany lacked industrial resources and faced Allied bombing. Most historians (Powers dissents) conclude the failure was technical and logistical, not a deliberate moral choice by Heisenberg."
+    },
+    "resolution": "Contested. Most historians favor the resource/error explanation based on Farm Hall transcripts (declassified 1992) and technical analysis. Heisenberg's post-war narrative of deliberate restraint is viewed skeptically, though Michael Frayn's play 'Copenhagen' (1998) has sustained public interest in the ambiguity.",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "quantum-information-vs-reality",
+    "question": "Is the quantum wave function a real physical entity (ψ-ontic) or merely a representation of knowledge (ψ-epistemic)?",
+    "sideA": {
+      "label": "ψ-Ontic: Wave Function Is Real",
+      "text": "On the ψ-ontic view (Many-Worlds, pilot wave, GRW collapse theories), the wave function is a real physical field existing in configuration space. The PBR theorem (Pusey, Barrett, Rudolph 2012) argues that models in which the wave function represents only knowledge cannot reproduce quantum predictions, providing a formal argument for wave function realism."
+    },
+    "sideB": {
+      "label": "ψ-Epistemic: Wave Function Represents Knowledge",
+      "text": "On the ψ-epistemic view (QBism, Copenhagen, relational QM), the wave function encodes an agent's information or degrees of belief about future measurement outcomes, not a physical object. QBism (Fuchs, Mermin) treats quantum theory as a user's manual for agents navigating experience. This view avoids the measurement problem and wave function collapse, but raises questions about intersubjective agreement."
+    },
+    "resolution": "The PBR theorem (2012) constrains ψ-epistemic models, but assumptions in the theorem are contested. The debate continues and no experiment can yet resolve it conclusively. It is one of the most active areas in quantum foundations.",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "quantum-computing-supremacy-dispute",
+    "question": "Did Google achieve genuine quantum supremacy with Sycamore in 2019, or can classical computers match its performance?",
+    "sideA": {
+      "label": "Google: Genuine Quantum Supremacy",
+      "text": "Google's 53-qubit Sycamore processor performed a random circuit sampling task in 200 seconds that Google calculated would take the Summit supercomputer approximately 10,000 years. Published in Nature (October 2019), the team argued this constituted quantum supremacy — a computation that no classical computer can perform in a reasonable time, marking a historical milestone."
+    },
+    "sideB": {
+      "label": "IBM and Others: Classical Simulation Possible",
+      "text": "IBM researchers immediately challenged Google's claim, arguing that using a different classical simulation algorithm and terabytes of disk space, the same computation could be performed in 2.5 days — a far cry from 10,000 years. Subsequent classical simulation improvements by Chinese teams further narrowed the gap. Critics argue the specific benchmark was chosen to favor quantum hardware and has no practical utility."
+    },
+    "resolution": "Disputed. The specific benchmark is narrow and was designed to show quantum advantage in one task. Subsequent work has reduced the classical simulation time significantly. The broader question of practical quantum advantage for useful problems remains open as of 2026.",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "quantum-gravity-approach",
+    "question": "Is string theory or loop quantum gravity the more promising path to quantum gravity?",
+    "sideA": {
+      "label": "String Theory",
+      "text": "String theory replaces point particles with one-dimensional vibrating strings, naturally incorporating gravity and all Standard Model forces in a unified framework. It predicts supersymmetry, extra dimensions, and the AdS/CFT correspondence linking gravity to quantum field theory on its boundary. String theory has produced profound mathematical insights and dominates the theoretical high-energy community, though it has not yet produced testable predictions distinct from general relativity."
+    },
+    "sideB": {
+      "label": "Loop Quantum Gravity (LQG)",
+      "text": "Loop quantum gravity quantizes spacetime geometry directly, finding that space is discrete at the Planck scale (~10⁻³⁵ m) without requiring extra dimensions or supersymmetry. LQG avoids the landscape problem of string theory but has not yet reproduced the Standard Model of particle physics. Spin foam models and related approaches (causal dynamical triangulations) offer background-independent alternatives to string theory."
+    },
+    "resolution": "Unresolved. Neither approach has made experimentally testable predictions that can be tested with current technology. The quantum gravity problem remains one of the deepest unsolved problems in fundamental physics.",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "consciousness-quantum-mechanics",
+    "question": "Does consciousness play a special role in quantum measurement (Penrose-Hameroff), or is it irrelevant?",
+    "sideA": {
+      "label": "Penrose-Hameroff: Consciousness Collapses Wave Function",
+      "text": "Roger Penrose and Stuart Hameroff propose that quantum gravity effects in neural microtubules cause an 'objective reduction' of the wave function, and that conscious experience is associated with this process. Penrose (in 'The Emperor's New Mind' and 'Shadows of the Mind') argues that human mathematical intuition exceeds what any algorithmic system can compute, requiring non-computable quantum gravity processes in the brain."
+    },
+    "sideB": {
+      "label": "Mainstream Physics: Consciousness Is Irrelevant",
+      "text": "The overwhelming majority of physicists hold that consciousness plays no special physical role in quantum measurement. Decoherence — the entanglement of quantum systems with their thermal environment — explains the appearance of classical measurement outcomes without any reference to conscious observers. Quantum measurements occur in particle detectors with no observers present; any consistent notion of 'observer' in QM includes any physical recording device."
+    },
+    "resolution": "Mainstream consensus strongly rejects a special role for consciousness. The Penrose-Hameroff Orch-OR hypothesis is not widely accepted and faces serious objections from both physicists and neuroscientists. However, the hard problem of consciousness remains philosophically unresolved.",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "quantum-teleportation-faster-than-light",
+    "question": "Does quantum teleportation transmit information faster than light?",
+    "sideA": {
+      "label": "Teleportation Enables FTL Communication",
+      "text": "In quantum teleportation, the quantum state of a particle is transferred instantaneously to a distant partner particle via entanglement. If this could be used to send information, it would violate special relativity and enable faster-than-light communication. Some popular accounts suggest teleportation transfers the 'original' quantum state, implying instantaneous transfer of information.",
+      "text2": "Proponents of this view argue that the nonlocal correlations of entanglement should in principle allow instantaneous signaling."
+    },
+    "sideB": {
+      "label": "No-Communication Theorem Forbids FTL",
+      "text": "Quantum teleportation requires a classical communication channel (operating at or below light speed) to complete the state transfer — the receiver cannot reconstruct the teleported state without receiving classical information from the sender. The no-communication theorem proves that quantum entanglement cannot be used to transmit information faster than light. Teleportation is a resource for quantum computing and cryptography, not a FTL communication channel."
+    },
+    "resolution": "Definitively resolved: quantum teleportation does not transmit information faster than light. The no-communication theorem is a rigorous mathematical result accepted universally in physics. Classical communication is always required to complete teleportation.",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "relational-vs-absolute-quantum-state",
+    "question": "Is the quantum state absolute (same for all observers) or relational (observer-dependent)?",
+    "sideA": {
+      "label": "Absolute Wave Function",
+      "text": "In Many-Worlds and pilot wave theories, the quantum state (wave function) is a single, absolute, objective physical object that evolves according to the Schrödinger equation for all time. All observers, regardless of their position in a branching universe, share the same universal wave function. Observer-dependence arises only from which branch an observer is in, not from the wave function itself."
+    },
+    "sideB": {
+      "label": "Relational Quantum Mechanics (Rovelli)",
+      "text": "Carlo Rovelli's relational quantum mechanics (1996) holds that quantum states are always relative to an observer — there is no observer-independent quantum state. Different observers can assign different wave functions to the same system, and both assignments are equally valid. The Wigner's Friend thought experiment (and its recent extensions by Brukner and Frauchiger-Renner) challenges the consistency of assigning a single objective quantum state when observers become entangled."
+    },
+    "resolution": "Unresolved. The Frauchiger-Renner thought experiment (2018) has intensified the debate, suggesting that standard quantum mechanics leads to contradictions when applied to observers themselves. Multiple interpretations handle the paradox differently.",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "quantum-zeno-effect-reality",
+    "question": "Does the quantum Zeno effect — that frequent measurement can freeze quantum evolution — reflect a real physical mechanism?",
+    "sideA": {
+      "label": "Zeno Effect Is Real and Experimentally Confirmed",
+      "text": "The quantum Zeno effect, first named by Misra and Sudarshan (1977), predicts that frequent measurements of an unstable quantum system can inhibit its decay by projecting it back onto its initial state before it can evolve. Experimental confirmations in trapped ions (NIST, 1990) and ultracold atoms demonstrate that the effect is real and can be used to control quantum dynamics."
+    },
+    "sideB": {
+      "label": "Effect Depends on Interpretation; Not a Universal Freezing",
+      "text": "The Zeno effect depends critically on what counts as a 'measurement' and the timescale of the measurement interaction. In many physical systems, continuous coupling to an environment produces an anti-Zeno effect (accelerating decay), not freezing. Critics argue the Zeno effect is a mathematical artifact of idealized instantaneous projective measurements and does not correspond to a universal mechanism in realistic quantum systems."
+    },
+    "resolution": "The quantum Zeno effect is experimentally confirmed for specific systems and time regimes. The anti-Zeno effect is also confirmed. The broader interpretation remains dependent on how 'measurement' is defined within a given quantum framework.",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "born-rule-derivation",
+    "question": "Can the Born rule (probability = |ψ|²) be derived from other quantum principles, or must it be postulated?",
+    "sideA": {
+      "label": "Born Rule Must Be Postulated",
+      "text": "In standard formulations of quantum mechanics, the Born rule — that the probability of a measurement outcome is proportional to the squared modulus of the wave function amplitude — is an independent postulate that cannot be derived from the Schrödinger equation alone. Attempts to derive it from decision theory (Deutsch, Wallace) or symmetry arguments are circular, as they implicitly assume probability frameworks that presuppose the Born rule."
+    },
+    "sideB": {
+      "label": "Born Rule Can Be Derived (Gleason, Deutsch-Wallace)",
+      "text": "Gleason's theorem (1957) shows that the Born rule is the unique probability measure consistent with quantum mechanics for Hilbert spaces of dimension ≥ 3, assuming certain continuity conditions. In the Many-Worlds framework, David Deutsch (1999) and David Wallace (2012) claim to derive the Born rule from decision-theoretic axioms applied to rational agents in a branching universe, though critics dispute the derivation's circularity."
+    },
+    "resolution": "Contested. Gleason's theorem is mathematically rigorous but requires hidden assumptions (non-contextuality). The decision-theoretic derivations remain disputed. Most physicists treat the Born rule as a fundamental postulate.",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "quantum-computing-vs-classical-simulation",
+    "question": "Will quantum computers achieve practical computational advantage over classical supercomputers for real-world problems?",
+    "sideA": {
+      "label": "Quantum Advantage Is Coming",
+      "text": "Quantum computers will achieve practical advantage for specific, important problem classes: simulating quantum chemistry (drug design, materials science), optimization (logistics, finance), and cryptanalysis (Shor's algorithm). Google's 2019 Sycamore demonstration and the 2024 Willow chip's error-correction breakthrough show a clear trajectory. IBM projects fault-tolerant quantum computing for chemistry simulation within the decade."
+    },
+    "sideB": {
+      "label": "Classical Computers Will Stay Competitive",
+      "text": "Classical simulation of quantum systems is advancing rapidly, with tensor network methods, GPU-accelerated simulation, and novel algorithms continuously shrinking the quantum advantage. For near-term NISQ devices, noise limits circuit depth and problem size. Many claimed quantum speedups apply only to narrow benchmark problems. Practical quantum advantage for industrially relevant problems may be decades away and may never arrive for many application domains."
+    },
+    "resolution": "Ongoing. As of 2026, no quantum computer has demonstrated practical advantage for a commercially valuable problem. The race between quantum hardware improvement and classical simulation advancement continues. Most experts expect domain-specific quantum advantage (e.g., quantum chemistry) within 5–15 years.",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "standard-model-completeness",
+    "question": "Is the Standard Model of particle physics a complete description of fundamental physics, or must it be extended?",
+    "sideA": {
+      "label": "Standard Model Is Essentially Complete",
+      "text": "The Standard Model of particle physics, built on quantum field theory, has been confirmed to extraordinary precision across decades of experiments, from QED to the 2012 Higgs boson discovery. Its predictions have not failed in any laboratory test. Some physicists argue that with supersymmetric or minimal extensions, the Standard Model can describe all observed phenomena, and that new physics may only appear at energies far beyond current accelerators."
+    },
+    "sideB": {
+      "label": "Standard Model Is Fundamentally Incomplete",
+      "text": "The Standard Model fails to explain dark matter, dark energy, the matter-antimatter asymmetry of the universe, neutrino masses, or to incorporate gravity. The gauge hierarchy problem (why is the Higgs mass so much lighter than the Planck scale?) and the strong CP problem suggest new physics. LHC measurements of the muon anomalous magnetic moment show persistent tension with Standard Model predictions."
+    },
+    "resolution": "Broadly acknowledged as incomplete. The Standard Model is an extremely accurate effective theory, but the absence of gravity and unexplained cosmological phenomena (dark matter, dark energy) guarantee that physics beyond the Standard Model must exist. The form of this extension remains unknown.",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "bohr-heisenberg-priority",
+    "question": "Who deserves primary credit for quantum mechanics: Heisenberg's matrix mechanics or Schrödinger's wave mechanics?",
+    "sideA": {
+      "label": "Heisenberg's Matrix Mechanics (Priority)",
+      "text": "Werner Heisenberg's July 1925 paper is recognized as the first correct formulation of quantum mechanics. Heisenberg's approach, which abandoned visualizable electron orbits in favor of observable transition amplitudes, was the first to place quantum theory on a fully consistent mathematical footing. Born, Jordan, and Heisenberg's subsequent three-man paper completed the framework. The Nobel Committee awarded Heisenberg the prize specifically 'for the creation of quantum mechanics.'"
+    },
+    "sideB": {
+      "label": "Schrödinger's Wave Mechanics (Equally Foundational)",
+      "text": "Schrödinger's wave equation (January 1926), derived from de Broglie's matter-wave hypothesis, is the formulation actually used in nearly all quantum mechanics textbooks and practical applications. Schrödinger proved the mathematical equivalence of the two approaches. Many physicists found wave mechanics more intuitive and physically interpretable than Heisenberg's algebraic matrices. Schrödinger received an equal Nobel Prize in 1933."
+    },
+    "resolution": "Both contributions are recognized as foundational. Heisenberg has chronological priority (July 1925 vs. January 1926), and the Nobel Committee distinguished his creation of quantum mechanics. In practice, Schrödinger's wave equation is far more widely used. Dirac's later bra-ket formalism unified both.",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "bks-theory-energy-conservation",
+    "question": "Was energy conserved in individual quantum events, or only statistically? (Bohr-Kramers-Slater vs. experiment)",
+    "sideA": {
+      "label": "BKS: Energy Conserved Only Statistically",
+      "text": "In 1924, Bohr, Hendrik Kramers, and John Slater proposed the BKS theory, which abandoned the photon concept and allowed energy and momentum to be conserved only on average over many events. This theory attempted to preserve a wave picture of radiation without photons and was motivated by Bohr's deep resistance to Einstein's light quanta."
+    },
+    "sideB": {
+      "label": "Compton-Simon Experiment: Exact Conservation",
+      "text": "The Compton-Simon experiment (1925) and independent work by Bothe and Geiger demonstrated that energy and momentum are conserved exactly in individual Compton scattering events — not merely statistically. This definitively refuted the BKS theory and forced even Bohr to accept Einstein's photon. The episode illustrates how experimental results can override deeply held theoretical prejudices."
+    },
+    "resolution": "Experimentally resolved in 1925: energy and momentum are conserved exactly in individual quantum events. The BKS theory was abandoned within months of its proposal. Bohr subsequently accepted the photon concept.",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "pilot-wave-lorentz-covariance",
+    "question": "Can the de Broglie-Bohm pilot wave theory be made fully compatible with special relativity?",
+    "sideA": {
+      "label": "Pilot Wave Is Incompatible with Relativity",
+      "text": "The de Broglie-Bohm theory requires a preferred foliation of spacetime (a 'preferred frame') to define the instantaneous wave function guidance equation for relativistic particles and quantum field theory. This preferred frame violates the spirit of Lorentz covariance. While the theory can be formulated in ways that hide this preferred frame in its predictions, the theoretical structure is not covariant and cannot be straightforwardly extended to the Standard Model."
+    },
+    "sideB": {
+      "label": "Bohmian Field Theory Is Being Developed",
+      "text": "Several researchers (Dürr, Goldstein, Tumulka, Zanghì) have developed Bohmian versions of quantum field theory, including Bohmian Bell-type quantum field theories and the 'Bell-type QFT' approach. While challenges remain, these formulations reproduce quantum field theory predictions without requiring a detectable preferred frame. The preferred foliation is empirically hidden, preserving observational compatibility with special relativity."
+    },
+    "resolution": "Unresolved. Bohmian quantum field theory remains technically challenging and is not yet a complete formulation of the Standard Model. Most physicists view the preferred frame requirement as a significant theoretical cost of the pilot wave approach.",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "quantum-darwinism-classical-world",
+    "question": "Does quantum Darwinism explain why the classical world appears definite despite quantum superpositions?",
+    "sideA": {
+      "label": "Quantum Darwinism Explains Classicality",
+      "text": "Wojciech Zurek's quantum Darwinism (2003–2009) proposes that the objective, classical appearance of macroscopic objects arises because environmental decoherence selects certain 'pointer states' (the eigenstates of environmental monitoring interactions), and information about these states proliferates into the environment. Multiple observers can access the same classical facts because they all see redundant copies of this environmental record. This provides a physical explanation for objectivity emerging from quantum mechanics."
+    },
+    "sideB": {
+      "label": "Decoherence Alone Does Not Solve the Problem",
+      "text": "Critics (including some advocates of Bohr's complementarity and relational QM) argue that quantum Darwinism does not solve the measurement problem because it still relies on the Born rule without deriving it, and because decoherence only explains apparent collapse within a single branch of a Many-Worlds universe. The selection of a unique classical outcome — why we see one result and not a superposition — is not explained by decoherence alone."
+    },
+    "resolution": "Ongoing. Quantum Darwinism is an active research program with experimental support for environmental redundancy in certain systems. Whether it constitutes a full solution to the measurement problem is disputed.",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  }
+]
