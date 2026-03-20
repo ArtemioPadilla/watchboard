@@ -1,0 +1,64 @@
+{
+  "slug": "artemis-program",
+  "name": "NASA Artemis Program Tracker",
+  "shortName": "Artemis",
+  "description": "Intelligence dashboard tracking NASA's Artemis program: return to the Moon, SLS rocket development, Orion capsule, Artemis I–IV missions, Lunar Gateway station, SpaceX and Blue Origin landers, and the roadmap to Mars.",
+  "icon": "🌙",
+  "color": "#2c3e50",
+  "status": "active",
+  "temporal": "live",
+  "domain": "space",
+  "region": "north-america",
+  "country": "US",
+  "startDate": "2017-12-11",
+  "eraLabel": "Artemis Era 2017–",
+  "tags": ["Artemis", "SLS", "Orion", "lunar Gateway", "Moon", "SpaceX HLS", "Mars"],
+  "sections": ["hero", "kpis", "timeline", "map", "claims", "political"],
+  "map": {
+    "enabled": true,
+    "bounds": { "lonMin": -130.0, "lonMax": -65.0, "latMin": 24.0, "latMax": 50.0 },
+    "center": { "lon": -90.0, "lat": 35.0 },
+    "categories": [
+      { "id": "launch", "label": "Launch Sites", "color": "#3498db" },
+      { "id": "mission-control", "label": "Mission Control", "color": "#27ae60" },
+      { "id": "contractor", "label": "Contractor Facilities", "color": "#9b59b6" },
+      { "id": "recovery", "label": "Recovery Sites", "color": "#f39c12" }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "earth": { "lon": -90.0, "lat": 35.0, "alt": 10000000, "pitch": -90, "heading": 0, "label": "Earth Overview" },
+      "kennedy": { "lon": -80.65, "lat": 28.59, "alt": 60000, "pitch": -90, "heading": 0, "label": "Kennedy Space Center" },
+      "houston": { "lon": -95.10, "lat": 29.55, "alt": 60000, "pitch": -90, "heading": 0, "label": "Johnson Space Center" },
+      "lunar_south_pole": { "lon": 0.0, "lat": -90.0, "alt": 500000, "pitch": -90, "heading": 0, "label": "Lunar South Pole" },
+      "boca_chica": { "lon": -97.16, "lat": 25.99, "alt": 50000, "pitch": -90, "heading": 0, "label": "Starbase (SpaceX)" }
+    },
+    "clocks": [
+      { "label": "EST/EDT", "offsetHours": -5 },
+      { "label": "CST/CDT", "offsetHours": -6 },
+      { "label": "UTC", "offsetHours": 0 }
+    ]
+  },
+  "navSections": [
+    { "id": "sec-timeline", "label": "Timeline" },
+    { "id": "sec-map", "label": "Map" },
+    { "id": "sec-contested", "label": "Contested" },
+    { "id": "sec-political", "label": "Political" }
+  ],
+  "politicalAvatars": ["nasa", "spacex", "blue-origin", "esa", "other"],
+  "eventTypes": ["launch", "milestone", "contract", "political", "technical"],
+  "ai": {
+    "systemPrompt": "You are a space program analyst updating the NASA Artemis Program tracker.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose.\nEvery item must have an \"id\" field (lowercase_snake_case).\n\nSource tier classification:\n- Tier 1: Official (NASA.gov, ESA, SpaceX official, Blue Origin official, US Congress NASA records)\n- Tier 2: Major media (Reuters, AP, SpaceNews, Ars Technica, Aviation Week, Nature, Science)\n- Tier 3: Institutional (Planetary Society, AIAA, Space Policy Institute)\n- Tier 4: Unverified (social media, unofficial leaks, unattributed sources)\n\nOnly include information verifiable through search. Do not fabricate data.",
+    "searchContext": "NASA Artemis Moon SLS Orion lunar Gateway SpaceX Blue Origin 2024 2025",
+    "enabledSections": ["kpis", "timeline", "mapPoints", "claims", "political"],
+    "updateIntervalDays": 7,
+    "backfillTargets": {
+      "timeline": 40,
+      "mapPoints": 20,
+      "claims": 15,
+      "political": 15
+    }
+  },
+  "githubRepo": "ArtemioPadilla/watchboard"
+}
