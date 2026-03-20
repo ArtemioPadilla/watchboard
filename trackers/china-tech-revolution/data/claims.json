@@ -1,1 +1,353 @@
-[]
+[
+  {
+    "id": "huawei-backdoor-claim",
+    "question": "Does Huawei build backdoors into its network equipment for Chinese intelligence?",
+    "sideA": {
+      "label": "US / Five Eyes",
+      "text": "US, UK, Australia, and Germany have alleged that Huawei's telecom equipment contains hidden backdoors exploitable by Chinese intelligence services, citing China's National Intelligence Law (2017) which compels companies to cooperate with state intelligence. The NSA found evidence of unauthorized access capabilities in Huawei equipment used near US military bases. Multiple governments have banned Huawei from 5G core networks on these grounds."
+    },
+    "sideB": {
+      "label": "Huawei / China",
+      "text": "Huawei strenuously denies any backdoors and has offered to sign 'no-spy' agreements with governments, submit source code to independent review, and establish government-monitored 5G labs in multiple countries. Huawei argues that US mobile carriers routinely install lawful intercept mechanisms, and that the accusations are economically motivated to hamper a global competitor. Multiple independent security audits have found implementation flaws but not deliberate backdoors."
+    },
+    "resolution": "Unresolved — no confirmed backdoor publicly demonstrated; several countries maintain bans based on risk assessment",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "deepseek-security-threat",
+    "question": "Is DeepSeek a national security threat requiring a ban?",
+    "sideA": {
+      "label": "US Regulators / Congress",
+      "text": "US lawmakers introduced the 'No DeepSeek on Government Devices Act' citing risks that DeepSeek sends user data to servers in China, subject to the National Intelligence Law. Naval Air Warfare Center and NASA prohibited DeepSeek on government devices. Italy, Taiwan, and Australia banned DeepSeek from government systems. Concerns focus on training data provenance, content moderation aligned with CCP censorship, and potential extraction of American intellectual property."
+    },
+    "sideB": {
+      "label": "Open Source Community / China",
+      "text": "DeepSeek's R1 model is fully open-source under MIT license, meaning the weights and architecture are available for anyone to run locally without sending any data to China. The security risk applies to the DeepSeek app and API, not the underlying model itself. Critics argue that similar concerns about Microsoft, Google, or OpenAI's data practices receive no such scrutiny, suggesting discriminatory treatment based on national origin."
+    },
+    "resolution": "Several countries ban DeepSeek from government devices; open-source model weights widely deployed by Western researchers without restriction",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "smic-7nm-euv-alternative",
+    "question": "Has SMIC truly achieved 7nm chips, and can they scale production without EUV?",
+    "sideA": {
+      "label": "China / SMIC",
+      "text": "TechInsights teardowns confirm the Kirin 9000S uses a 7nm-equivalent FinFET process manufactured by SMIC without EUV lithography, using multi-patterning ArF immersion techniques. China has demonstrated that EUV is not strictly necessary for 7nm — challenging the assumption that ASML's EUV monopoly constitutes an absolute chokepoint. SMIC is expanding capacity at multiple facilities and has announced ambitions for 5nm production."
+    },
+    "sideB": {
+      "label": "Western Analysts / Industry",
+      "text": "While SMIC's 7nm achievement is real, production yields are estimated at 40-50% versus TSMC's 80-90%+, making it significantly more expensive per working chip. Multi-patterning without EUV requires 3-4x more manufacturing steps, limiting throughput and increasing cost by 40-60%. SMIC cannot economically compete with TSMC for high-volume advanced chips. The Kirin 9000S performance also trails TSMC-made chips by roughly one generation (Snapdragon 888 equivalent vs Snapdragon 8 Gen 2)."
+    },
+    "resolution": "7nm achievement confirmed; economic and volume scalability debated — likely limited to strategically important products",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "tiktok-national-security",
+    "question": "Does TikTok pose a genuine national security threat to the United States?",
+    "sideA": {
+      "label": "US Government / Congress",
+      "text": "TikTok's parent ByteDance is subject to China's National Intelligence Law, creating potential for the CCP to access data on 170 million American users — including location data, biometrics, and behavioral patterns useful for intelligence targeting. FBI Director Wray testified that China could use TikTok's algorithm to 'manipulate content for influence operations' and use user data to 'build dossiers on people for blackmail'. A classified briefing convinced even previously skeptical lawmakers to support a ban."
+    },
+    "sideB": {
+      "label": "ByteDance / Civil Liberties Groups",
+      "text": "ByteDance has spent $1.5 billion on 'Project Texas' to store all US user data on Oracle servers in the US, with US engineers controlling access. TikTok has never provided US user data to the Chinese government, according to court testimony. The ACLU and EFF argue the TikTok ban violates the First Amendment by restricting a platform used by 170 million Americans for political speech, news, and creative expression — without proof of actual harm."
+    },
+    "resolution": "US Supreme Court unanimously upheld divest-or-ban law January 2025; enforcement paused under Trump; litigation ongoing",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "mic2025-wto-violation",
+    "question": "Does Made in China 2025 constitute illegal industrial policy under WTO rules?",
+    "sideA": {
+      "label": "US / EU Trade Representatives",
+      "text": "Made in China 2025 provides market-distorting state subsidies, forced technology transfer requirements, preferential government procurement for domestic firms, and de facto market access restrictions for foreign companies — all potentially violating WTO rules on subsidies (ASCM), intellectual property (TRIPS), and national treatment (GATT). The US Section 301 investigation concluded China's tech policies 'burden or restrict US commerce' and provided legal basis for tariffs."
+    },
+    "sideB": {
+      "label": "China / Developing Nations",
+      "text": "Industrial policy is practiced by every major economy — the US CHIPS Act, IRA green subsidies, and Buy American provisions are directly analogous to Made in China 2025. China argues its policy complies with WTO rules on permitted subsidies for R&D and regional development. Moreover, China notes that Western countries used extensive industrial policy during their own industrialization phases and are imposing rules-based constraints that they themselves never followed."
+    },
+    "resolution": "Multiple WTO dispute panels pending; US and EU maintain tariffs; no binding WTO ruling against MIC2025 to date",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "chip-controls-effectiveness",
+    "question": "Are US chip export controls actually slowing China's semiconductor progress?",
+    "sideA": {
+      "label": "US Commerce / National Security Hawks",
+      "text": "The October 2022 export controls have denied China access to the most advanced chip manufacturing equipment, including EUV lithography. China's AI chip development is constrained by inability to train models on clusters of thousands of H100s. China's leading-edge semiconductor progress has slowed relative to TSMC's roadmap. The controls also successfully pressured Japan and Netherlands to align their export controls, creating a multilateral technology blockade."
+    },
+    "sideB": {
+      "label": "CSET / Industry Analysts",
+      "text": "The Huawei Mate 60 Pro and SMIC's 7nm breakthrough demonstrate that China is making semiconductor progress despite restrictions. China stockpiled Nvidia chips before controls took effect and has developed domestic alternatives including Huawei Ascend 910C. Export controls may accelerate Chinese domestic chipmaking investment by eliminating the economic argument for buying foreign equipment. China now imports advanced chipmaking equipment from domestic sources at record levels, suggesting controls have catalyzed domestic alternatives."
+    },
+    "resolution": "Mixed evidence — controls clearly impose costs but debate continues on whether they slow or accelerate China's self-sufficiency drive",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "china-ai-parity",
+    "question": "How close is China to AI parity with the United States?",
+    "sideA": {
+      "label": "Optimistic Assessment (China/Some Analysts)",
+      "text": "DeepSeek R1 and V3 achieve performance comparable to or exceeding GPT-4o and Claude 3.5 Sonnet on key benchmarks. China filed 38,210 generative AI patent applications from 2014-2023 — 6x more than the US. Chinese AI applications in surveillance, autonomous vehicles, and industrial automation are world-leading. Baidu's ERNIE Bot 4.0, Alibaba's Qwen, and Tencent's Hunyuan are competitive with Western models for Chinese-language tasks."
+    },
+    "sideB": {
+      "label": "US National Security / CSET Assessment",
+      "text": "China lags in frontier AI model capabilities, AI hardware (chip design and manufacturing), and AI talent. US private AI investment was $109.1B in 2024 vs $9.3B for China. China's AI ecosystems are fragmented, with limited high-quality English training data and regulatory barriers to building global products. The semiconductor restrictions constrain China's ability to train frontier models — DeepSeek's efficiency achievements are remarkable but US labs are widening absolute performance gaps through pure compute scaling."
+    },
+    "resolution": "China at or near parity in specific domains (NLP in Chinese, CV, robotics); trailing in frontier training capabilities and AI chip hardware",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "china-ip-theft",
+    "question": "Is China systematically stealing US semiconductor and AI intellectual property?",
+    "sideA": {
+      "label": "US DOJ / FBI",
+      "text": "The FBI and DOJ have charged hundreds of individuals and Chinese companies with trade secret theft, corporate espionage, and export control violations. Specific cases include Huawei's alleged theft of T-Mobile robot 'Tappy', YMTC-related IP transfer cases, and multiple semiconductor engineers convicted of stealing chip designs for Chinese state companies. FBI Director Wray stated China runs the 'biggest hacking program in the world' with more cyberattackers than all other nations combined."
+    },
+    "sideB": {
+      "label": "China / Academic Skeptics",
+      "text": "China attributes its rapid tech progress to massive legitimate investment in STEM education, R&D funding, and domestic innovation — not primarily theft. Many IP cases involve Chinese-American nationals exercising normal professional mobility. China notes that the US systematically engaged in economic espionage during its industrialization. WIPO data showing China's patent generation exceeds the US suggests genuine domestic innovation at scale, inconsistent with a theft-dependent model."
+    },
+    "resolution": "Multiple criminal convictions confirm IP theft occurs; scale and strategic impact contested; both theft and genuine innovation are documented",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "bytedance-ccp-independence",
+    "question": "Is ByteDance genuinely independent of Chinese Communist Party control?",
+    "sideA": {
+      "label": "US Government / Intelligence Community",
+      "text": "ByteDance has CCP party committees embedded within the company (as required for large Chinese companies), and top executives have faced direct CCP intervention — including founder Zhang Yiming's forced resignation after publicly praising values inconsistent with Xi Jinping's ideology. Former ByteDance CEO Mike Zhang testified that CCP officials regularly accessed Douyin (TikTok's Chinese version) user data. The National Intelligence Law creates legal compulsion to cooperate with intelligence services."
+    },
+    "sideB": {
+      "label": "ByteDance / Free Speech Advocates",
+      "text": "ByteDance restructured after 2021 to separate its Chinese and international operations, with TikTok data stored in the US and Singapore. The company hired former US national security officials to its board and spent $1.5B on 'Project Texas' data localization. ByteDance argues that the presence of a CCP committee is a legal requirement for Chinese companies, not evidence of control, similar to requiring a board of directors in US companies. No evidence of actual CCP interference in TikTok content has been publicly demonstrated."
+    },
+    "resolution": "Structural CCP party committee presence confirmed; extent of operational influence over TikTok content and US data disputed",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "tech-decoupling-feasibility",
+    "question": "Is complete US-China technology decoupling achievable or desirable?",
+    "sideA": {
+      "label": "Hawks / National Security Analysts",
+      "text": "China's access to US technology has directly enabled military modernization — AI recognition systems, quantum computing for code-breaking, advanced chip-based guidance systems. The US must accept economic costs of decoupling to prevent enabling a strategic competitor. Australia, UK, and EU are aligning with US controls. Small yard, high fence — restricting only the most critical technologies is both feasible and necessary. The CHIPS Act, IRA, and export controls are creating alternative supply chains."
+    },
+    "sideB": {
+      "label": "Business Community / Some Economists",
+      "text": "US-China trade in technology goods exceeds $200B annually. Apple's supply chain depends on China for 90%+ of iPhone assembly. Nvidia, Qualcomm, and Intel derive 20-30% of revenue from China. Decoupling would raise prices for US consumers, eliminate technology economies of scale, and impoverish both countries. China will develop its own technology regardless of US controls — the question is whether the US can stay ahead while maintaining the economic advantages of an open trading system."
+    },
+    "resolution": "Partial decoupling in strategic sectors underway; full decoupling widely considered economically prohibitive; 'de-risking' replacing 'decoupling' in policy discourse",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "china-5g-security",
+    "question": "Does Chinese-built 5G infrastructure create unacceptable security vulnerabilities?",
+    "sideA": {
+      "label": "Western Governments / NATO",
+      "text": "The US FCC designated Huawei and ZTE as national security threats in 2021, requiring US carriers to rip out $1.9 billion in existing equipment. The UK's NCSC, Australia's intelligence services, and NATO alliance partners have found that Chinese vendors' network management software could enable remote access or traffic monitoring. Once Chinese 5G infrastructure is embedded in critical systems, replacement becomes extremely difficult, creating permanent vulnerability.",
+      "sources": []
+    },
+    "sideB": {
+      "label": "Developing Nations / Telecom Industry",
+      "text": "Many countries in Africa, Asia, and Latin America cannot afford to reject Chinese 5G infrastructure, which costs 30-40% less than Western alternatives from Ericsson and Nokia. Even US security agencies have not publicly demonstrated an actual Chinese-conducted attack through Huawei infrastructure. The security risk is theoretical while the economic benefit of affordable, high-quality 5G is concrete. Countries argue they should make sovereign decisions about their own infrastructure without US dictation."
+    },
+    "resolution": "Western allies implementing bans/removal; developing world majority continuing Huawei deployments; no publicly confirmed attacks via Huawei infrastructure",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "deepseek-cost-claim-accuracy",
+    "question": "Is DeepSeek's claimed $5.6M training cost accurate and comparable to US frontier models?",
+    "sideA": {
+      "label": "DeepSeek / Chinese Tech Community",
+      "text": "DeepSeek's technical report transparently documents 2.788 million H800 GPU hours for training V3, at approximately $2 per GPU hour yielding ~$5.6M. The report details architectural innovations — mixture-of-experts routing, multi-head latent attention, FP8 mixed-precision training — that dramatically improved training efficiency. These techniques, now published open-source, represent genuine Chinese innovation in AI training methodology that Western researchers are adopting."
+    },
+    "sideB": {
+      "label": "CNBC / Western AI Researchers",
+      "text": "The $5.6M figure covers only the compute cost for the final training run, excluding the R&D investment to develop the architecture, preliminary experiments, data curation, and the cost of the enormous Nvidia GPU cluster itself. Estimates of DeepSeek's total hardware spend range from $500M to over $1B. GPT-4's $100M estimate also covers only compute, not OpenAI's total R&D investment. The comparison is between comparable metrics but the framing of '20x cheaper' obscures the actual development cost."
+    },
+    "resolution": "Compute cost figures plausibly accurate; total development cost comparison more complex; architectural efficiency gains are genuine and widely acknowledged",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "china-ev-dumping",
+    "question": "Are Chinese EV exports unfairly subsidized, justifying EU and US tariffs?",
+    "sideA": {
+      "label": "EU / US Trade Officials",
+      "text": "The EU's anti-subsidy investigation found that Chinese EVs benefit from direct subsidies, cheap state bank loans, below-market land and electricity, preferential government procurement, and suppressed input costs through vertical integration with state-backed battery and raw material suppliers. EU investigators calculated subsidy rates of 17-35% above market rates, justifying countervailing tariffs. The US maintained 100% tariffs on Chinese EVs, citing similar concerns."
+    },
+    "sideB": {
+      "label": "China / BYD / CATL",
+      "text": "Chinese EVs are cheaper primarily because China has achieved genuine economies of scale across the entire EV supply chain — battery materials, cells, packs, motors, and vehicles — through years of domestic market development and intense competition. BYD's vertical integration includes battery, semiconductor, and vehicle manufacturing that any company could replicate. EU tariffs protect incumbent automakers from competition, raising prices for European consumers and slowing the clean energy transition."
+    },
+    "resolution": "EU tariffs of 17-35% imposed October 2024; WTO challenges filed; China retaliating with restrictions on EU brandy and dairy",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "taiwan-tsmc-silicon-shield",
+    "question": "Does Taiwan's semiconductor industry serve as a deterrent to Chinese military action ('Silicon Shield')?",
+    "sideA": {
+      "label": "Taiwan / Strategic Optimists",
+      "text": "TSMC's fabrication of 90%+ of the world's advanced chips creates a 'Silicon Shield' — China cannot occupy Taiwan without risking the destruction of or shutdown of the fabs that power global electronics, AI, and military systems including China's own. A semiconductor apocalypse scenario would trigger the global recession that Xi Jinping cannot afford. The strategic value of intact Taiwanese fabs far exceeds any military or political prize from invasion, creating rational deterrence."
+    },
+    "sideB": {
+      "label": "Strategic Skeptics / Chinese State Media",
+      "text": "Economic interdependence has not prevented military conflicts throughout history. China's semiconductor self-sufficiency drive, if successful, will erode Taiwan's deterrent value over time. Furthermore, China could seize intact fabs through surgical military action, gaining TSMC's capabilities rather than destroying them. Chinese state media has explicitly argued that reunification will happen regardless of economic costs, and that the 'Silicon Shield' is a Western fantasy that gives Taiwan false confidence."
+    },
+    "resolution": "Active strategic debate; TSMC accelerating overseas fab construction in US, Japan, Germany as partial hedge; Taiwan's deterrence value considered real but diminishing",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "china-ai-censorship-stifling",
+    "question": "Is Chinese AI regulation primarily about safety or political censorship?",
+    "sideA": {
+      "label": "Western AI Policy / Human Rights",
+      "text": "China's AI regulations require models to embody 'core socialist values', prohibit content that 'undermines state power', and mandate providers to 'guide users' toward politically acceptable views. Chinese LLMs systematically refuse to discuss Tiananmen Square, Tibet, Taiwan independence, or criticism of CCP leadership. These political constraints on AI development will handicap Chinese models in global markets and produce AI systems that cannot engage with facts about Chinese history."
+    },
+    "sideB": {
+      "label": "Chinese Regulators / Techno-Optimists",
+      "text": "Every nation's AI development reflects its political and social values — US models have their own prohibited content around violence, copyright, and harmful instructions. China's AI governance framework addressing hallucinations, data privacy, algorithm transparency, and AI labeling requirements is substantively ahead of most Western regulatory approaches. China deployed generative AI regulation in August 2023 while the EU AI Act was not fully operative until 2025 and the US had no equivalent national framework."
+    },
+    "resolution": "Political content filtering confirmed and operational; debate on whether this constitutes 'censorship' vs. 'value alignment' and long-term competitive impact",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "critical-minerals-leverage",
+    "question": "Can China's dominance in critical minerals be used as effective leverage against Western technology sanctions?",
+    "sideA": {
+      "label": "Beijing / Resource Nationalists",
+      "text": "China controls 80%+ of gallium, 60%+ of germanium, 70%+ of cobalt refining, 90%+ of synthetic graphite, and dominates rare earth processing globally. These materials are essential for semiconductors, EV batteries, magnets, and defense systems. China's 2023 gallium and germanium restrictions and 2025 rare earth export controls demonstrate willingness to weaponize this dominance. Western supply chain diversification will take years — creating real leverage in the interim."
+    },
+    "sideB": {
+      "label": "Western Mining Industry / Analysts",
+      "text": "China's mineral export controls have so far been less devastating than feared — prices spiked temporarily, but Western companies accelerated diversification and found alternative sources in Africa, Australia, and Canada. Pushing too hard on mineral restrictions risks accelerating Western investment in alternatives that will permanently reduce China's market share. Moreover, mineral exports are significant income for Chinese companies, creating domestic costs from restrictions that limit Beijing's willingness to escalate."
+    },
+    "resolution": "Controls imposed on gallium, germanium, graphite, rare earths; Western diversification accelerating; effective leverage demonstrated but long-term impact uncertain",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "asml-euv-monopoly",
+    "question": "Is ASML's EUV monopoly the ultimate chokepoint in China's semiconductor ambitions?",
+    "sideA": {
+      "label": "Export Control Hawks / Industry",
+      "text": "ASML's EUV lithography machines are the single most concentrated technology chokepoint in global semiconductor manufacturing. Each EUV system costs $200M+ and contains 100,000+ precision components from dozens of countries. China cannot produce EUV due to the extraordinary precision required for 13.5nm wavelength extreme ultraviolet optics, laser systems, and vacuum chambers. Without EUV, China is structurally limited to non-EUV multi-patterning approaches with inherent yield and cost disadvantages."
+    },
+    "sideB": {
+      "label": "Chinese Semiconductor Researchers",
+      "text": "SMIC's 7nm achievement without EUV proves that alternative approaches exist. China is investing billions in domestic lithography through Shanghai Micro Electronics Equipment (SMEE) and the national research system. DUV immersion lithography with multi-patterning can reach 5nm-equivalent with sufficient investment. Additionally, China is pursuing heterogeneous integration and advanced packaging approaches (like chiplets) that can achieve system-level performance without leading-edge monolithic chip fabrication, potentially leapfrogging the EUV chokepoint."
+    },
+    "resolution": "EUV remains critical bottleneck; China developing workarounds through multi-patterning and advanced packaging; domestic EUV R&D at early stage",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "jack-ma-disappearance",
+    "question": "Did Jack Ma's disappearance and Ant Group's blocked IPO represent legitimate regulation or political targeting?",
+    "sideA": {
+      "label": "Western Business / Analysts",
+      "text": "Jack Ma disappeared from public view for three months after an October 2020 speech in Shanghai criticizing Chinese financial regulators as 'pawnshops'. The Ant Group IPO — which would have been the world's largest ever at $37B — was blocked 48 hours before launch following an extraordinary meeting between regulators and Ma. The timing and circumstances suggest political retaliation for public criticism of state policy, sending a chilling message to China's private tech sector about the limits of executive autonomy."
+    },
+    "sideB": {
+      "label": "Chinese Government / Regulators",
+      "text": "Ant Group's model created systemic financial risk by offering high-yield wealth management products and consumer loans outside traditional banking regulation. The intervention was necessary prudential regulation — similar to how Western regulators broke up or regulated systemically important financial institutions after the 2008 crisis. Ma's reappearance and continued business activities demonstrate the action was regulatory, not political. China has since clarified fintech regulations and approved Ant Group's revised business model."
+    },
+    "resolution": "Ant Group IPO blocked; Ma moved to Japan; regulatory crackdown resulted in $100B+ loss in Chinese tech valuations; Xi declared 'common prosperity' tech rebalancing complete 2023",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "huawei-5g-vs-ericsson-nokia",
+    "question": "Is Huawei's 5G technology genuinely superior to Western alternatives, or does it win through subsidized pricing?",
+    "sideA": {
+      "label": "Telecom Engineers / Global Network Operators",
+      "text": "Multiple independent network performance studies and telecom operator assessments rate Huawei's 5G radio access network (RAN) equipment as technically competitive with or superior to Ericsson and Nokia on key metrics including energy efficiency, spectral efficiency, and total cost of ownership. Operators in non-ban countries consistently choose Huawei for mixed-vendor environments where performance, not politics, drives selection. Huawei spends 23% of revenue on R&D, exceeding Ericsson's 18%."
+    },
+    "sideB": {
+      "label": "US / EU Policy Makers",
+      "text": "Huawei's aggressive pricing — often 30-40% below Western competitors — reflects cross-subsidies from Chinese state banks, home market dominance, and export financing through China Development Bank. These subsidies constitute unfair competition that allows Huawei to undercut market pricing and establish installed bases that are expensive to replace. Once Huawei achieves network lock-in, switching costs create dependency that compromises sovereign control over critical infrastructure."
+    },
+    "resolution": "Technical performance contested; pricing advantage confirmed; 40+ countries have banned or restricted Huawei in 5G core on security grounds",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "china-ai-chip-stockpiling",
+    "question": "Did Chinese companies stockpile Nvidia chips before export controls, undermining the controls' effectiveness?",
+    "sideA": {
+      "label": "US Congressional Critics / Export Control Skeptics",
+      "text": "Chinese companies including Alibaba, Tencent, ByteDance, and Baidu dramatically accelerated Nvidia GPU purchases in 2022-2023 ahead of tightening controls, importing an estimated $5B+ in Nvidia chips in the 12 months before the October 2022 controls. Continued imports of H20 chips (the downgraded compliant model) added billions more. This stockpiling means Chinese AI companies have sufficient compute to train competitive models for 2-3 years, significantly blunting the intended impact of the controls."
+    },
+    "sideB": {
+      "label": "US Commerce Department",
+      "text": "Stockpiling was inevitable in any graduated export control regime and cannot be fully prevented without prohibiting all chip exports — a move that would severely damage US semiconductor companies and diplomatic relationships. The controls are designed to constrain the future trajectory of Chinese AI capabilities, not immediately halt existing capabilities. Each year without access to leading-edge chips compounds China's disadvantage in the long run, and the stockpile will eventually be depleted or become obsolete."
+    },
+    "resolution": "Stockpiling confirmed and significant; long-term impact of controls actively debated; H20 chip restriction added April 2025 to close loophole",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "china-us-talent-competition",
+    "question": "Is the US winning or losing the AI talent war with China?",
+    "sideA": {
+      "label": "US National Security / RAND",
+      "text": "The US captures a disproportionate share of top global AI talent through immigration, elite universities, and superior compensation. Nearly 60% of top AI researchers at US companies are foreign-born, many from China. US visa restrictions have actually backfired — Chinese students unable to obtain US visas or facing harassment are returning to China in record numbers, boosting Chinese AI labs. The US is at risk of a brain drain reversal as Chinese AI salaries approach US levels and geopolitical tensions reduce cross-border mobility."
+    },
+    "sideB": {
+      "label": "Chinese Government / AI Labs",
+      "text": "China produces the most computer science and engineering graduates globally and has built world-class AI research institutions at Tsinghua, Peking University, and Zhejiang University. Top Chinese AI talent increasingly returns from the US to work at DeepSeek, Zhipu AI, and Moonshot AI for competitive salaries. China's AI research publication output exceeds the US in volume, and DeepSeek's technical achievements demonstrate that Chinese researchers are at the global frontier of AI efficiency research."
+    },
+    "resolution": "US maintains advantage in total frontier AI talent; China closing gap through domestic training and return migration; talent flows increasingly politicized",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "zte-rehabilitation-precedent",
+    "question": "Did Trump's 2018 deal to spare ZTE set a dangerous precedent for sanctions enforcement?",
+    "sideA": {
+      "label": "Congressional Critics / Export Control Hawks",
+      "text": "When Trump overruled the Commerce Department to restore ZTE after Sen. Marco Rubio and others warned the deal created a 'dangerous precedent', it showed that US export control enforcement could be compromised by political deal-making. Critics argue that allowing ZTE to survive intact after flagrantly violating sanctions terms sent the message that US penalties are negotiable. The Biden administration subsequently took a much harder line on Chinese tech firms, partly to restore credibility undermined by the ZTE deal."
+    },
+    "sideB": {
+      "label": "Trump Administration / Trade Negotiators",
+      "text": "The ZTE deal extracted a genuine $1.4B penalty, the largest ever under export control law at the time, plus embedded compliance monitors and management replacement. Using ZTE as a bargaining chip in broader US-China trade negotiations leveraged maximum value from a single enforcement action. Complete corporate death of ZTE would have immediately pushed its market share to Huawei in developing countries, potentially making the broader Huawei ban more difficult politically."
+    },
+    "resolution": "ZTE survives and complies with terms; precedent debated; subsequent administrations notably stricter on SMIC, Huawei, and Hikvision",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "made-in-china-self-sufficiency-achievable",
+    "question": "Can China achieve 70% semiconductor self-sufficiency by 2025 as targeted by Made in China 2025?",
+    "sideA": {
+      "label": "Chinese Government / Optimists",
+      "text": "China has dramatically expanded domestic chip production capacity, with SMIC, CXMT, YMTC, and dozens of smaller fabs increasing output. Legacy-node self-sufficiency for automotive and industrial chips is achievable. The Big Fund's $95B+ investment is producing results — China's domestic semiconductor equipment industry is growing 30%+ annually. For specific strategic sectors (5G chips, AI accelerators, automotive), domestic alternatives are operational and increasingly competitive."
+    },
+    "sideB": {
+      "label": "CSET / Industry Analysts",
+      "text": "China's 70% self-sufficiency target was always aspirational and refers to domestic value-add within supply chains, not chip-for-chip replacement of imports. China still imports $350B in chips annually — a figure that has barely declined despite enormous domestic investment. For leading-edge chips (below 10nm) critical for AI and smartphones, China remains near-entirely import dependent. China's chipmaking equipment industry produces roughly 10% of what Chinese fabs need domestically; the rest still comes from ASML, Applied Materials, and Tokyo Electron."
+    },
+    "resolution": "2025 deadline passed without achieving target; partial progress in legacy nodes; advanced node self-sufficiency remains a distant goal",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "china-tech-crackdown-over",
+    "question": "Is Xi Jinping's tech sector crackdown over, and have Chinese tech firms recovered?",
+    "sideA": {
+      "label": "Chinese Government / Xi Jinping",
+      "text": "Xi declared in 2023 that the 'normalization phase' of the tech platform crackdown was complete, and that the government would now 'support the healthy development' of the platform economy. Gaming approvals resumed, Ant Group received regulatory approval for its revised business model, and Alibaba's restructuring was approved. Didi returned to Chinese app stores, and several major tech companies saw regulatory pressure ease. The crackdown achieved its goals of establishing party oversight of powerful tech platforms."
+    },
+    "sideB": {
+      "label": "Analysts / Tech Investors",
+      "text": "Chinese tech firms have never fully recovered from the 2021 crackdown — combined market capitalization losses exceeded $1 trillion and have not been fully recovered. Top AI talent who left China during the crackdown have not returned. Jack Ma's continued semi-exile signals ongoing caution among tech entrepreneurs about political risk. The institutional CCP party committee requirements and security review regulations remain in place, creating permanent regulatory overhang that depresses innovation incentives compared to pre-2021."
+    },
+    "resolution": "Formal crackdown phase declared over 2023; structural regulatory changes permanent; market cap partially recovered; long-term innovation effects debated",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "rare-earth-export-controls-impact",
+    "question": "Will China's 2025 rare earth export controls materially damage Western defense and tech industries?",
+    "sideA": {
+      "label": "Western Defense / Industry Analysts",
+      "text": "Rare earth elements are irreplaceable in F-35 fighter jet magnets (417kg per aircraft), Tomahawk missile guidance systems, submarine sonar, EV motors, and wind turbine generators. China's 2025 controls on samarium, terbium, dysprosium, and other critical elements could disrupt production of both military systems and clean energy equipment at a particularly sensitive geopolitical moment. US defense industrial base inventory of some rare earth elements is measured in months, not years."
+    },
+    "sideB": {
+      "label": "Mining Industry / Long-term Optimists",
+      "text": "Western rare earth alternatives are being developed rapidly — MP Materials is producing neodymium in Mountain Pass, California; Lynas in Australia has greatly expanded capacity; and US DoD is funding domestic rare earth processing. Strong prices caused by Chinese export controls make alternative sources economically viable that were previously uncompetitive. China's 80%+ market share in rare earth processing will erode over 5-10 years as Western investment responds to strategic concerns."
+    },
+    "resolution": "Export controls imposed February 2025; short-term supply disruption confirmed; long-term diversification accelerating; military stockpile adequacy classified",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  }
+]
