@@ -750,6 +750,56 @@
   /* Hide the timeline bar's legend and stats on mobile — they overlap and clutter the small screen */
   .utl-legend { display: none !important; }
   .utl-stats { display: none !important; }
+
+  /* Globe controls: reposition for mobile tab shell (below the mtab-header at 44px) */
+  .globe-toolbar {
+    position: absolute !important;
+    top: 4px !important;
+    left: 4px !important;
+    padding-top: 0 !important;
+    z-index: 50 !important;
+  }
+
+  .globe-toolbar-icons {
+    width: 30px;
+    gap: 2px;
+  }
+
+  .globe-toolbar-icon {
+    width: 30px !important;
+    height: 30px !important;
+    font-size: 0.65rem !important;
+  }
+
+  /* Globe flyout panels: constrain width on mobile */
+  .globe-flyout {
+    max-width: calc(100vw - 60px) !important;
+    max-height: 50vh !important;
+    overflow-y: auto !important;
+  }
+
+  /* Globe header: hide on mobile (we have mtab-header) */
+  .globe-header { display: none !important; }
+
+  /* Globe KPI strip: hide on mobile (we have mtab-kpi-row) */
+  .globe-kpi-strip { display: none !important; }
+
+  /* Globe events panel/toggle: hide on mobile (we have FEED tab) */
+  .globe-events-panel { display: none !important; }
+  .globe-events-toggle { display: none !important; }
+
+  /* Globe info panel: reposition for mobile */
+  .globe-info-panel {
+    top: auto !important;
+    bottom: 80px !important;
+    right: 8px !important;
+    left: 8px !important;
+    width: auto !important;
+    max-height: 40vh !important;
+  }
+
+  /* HUD overlay: hide on mobile */
+  .hud-overlay { display: none !important; }
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {

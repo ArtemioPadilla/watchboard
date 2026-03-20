@@ -215,16 +215,6 @@ export default function IntelMap({ points, lines, events, categories, mapCenter,
           counts={mergedCounts}
         />
 
-        {/* Overlay: legend (bottom-left) */}
-        <div className="map-legend-overlay">
-          {mapCategories.map(c => (
-            <span key={c.id} className="map-legend-item">
-              <span className="map-legend-dot" style={{ background: c.color }} />
-              {c.label}
-            </span>
-          ))}
-        </div>
-
         {/* Overlay: info panel (right side) */}
         {selectedPoint && selectedCategory && (
           <div className="map-info-panel visible">
