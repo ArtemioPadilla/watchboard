@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Mobile shell components**: `MobileHeader`, `MobileTabBar`, `MobileTabShell` in `src/components/islands/mobile/`
+  - `MobileHeader`: fixed top bar with live pulse dot, operation name (truncated), and 2D/3D segmented toggle (when globe enabled)
+  - `MobileTabBar`: fixed bottom tab bar with MAP/FEED/DATA/INTEL tabs, ARIA roles, and feed badge counter
+  - `MobileTabShell`: orchestrator managing tab/map-mode state, feed badge computation; MAP tab stays mounted (display:none) to preserve Leaflet state; other tabs unmount when inactive
 - **Cinematic Event Mode** for 3D globe: auto-flies camera to event locations as timeline plays
   - New `useCinematicMode.ts` hook: computes shot queue from map lines/points per date, orchestrates camera via separate RAF loop
   - Shot types: overview, arc (strike midpoint), target (impact point), point (standalone locations)

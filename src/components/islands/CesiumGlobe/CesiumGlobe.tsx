@@ -29,7 +29,6 @@ import UnifiedTimelineBar from '../UnifiedTimelineBar';
 import type { TimelineZoomLevel } from '../../../lib/timeline-bar-utils';
 import CesiumEventsPanel from './CesiumEventsPanel';
 import CesiumHud from './CesiumHud';
-import MobileBottomSheet from './MobileBottomSheet';
 import { useSatellites } from './useSatellites';
 import { useFlights } from './useFlights';
 import { useEarthquakes } from './useEarthquakes';
@@ -86,17 +85,6 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [], ca
   }
   const [cesiumViewer, setCesiumViewer] = useState<CesiumViewer | null>(null);
   const { flyTo, flyToPosition, startOrbit, stopOrbit, orbitModeRef } = useCesiumCamera(viewerRef, cameraPresets);
-
-  // ── Mobile detection ──
-  const [isMobile, setIsMobile] = useState(() =>
-    typeof window !== 'undefined' ? window.matchMedia('(max-width: 768px)').matches : false,
-  );
-  useEffect(() => {
-    const mql = window.matchMedia('(max-width: 768px)');
-    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
-    mql.addEventListener('change', handler);
-    return () => mql.removeEventListener('change', handler);
-  }, []);
 
   // ── Filters ──
   const [activeFilters, setActiveFilters] = useState<Set<string>>(
@@ -564,96 +552,67 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [], ca
         clocks={clocks}
       />
 
-      {isMobile ? (
-        <MobileBottomSheet
-          activeFilters={activeFilters}
-          onToggleFilter={toggleFilter}
-          pointCounts={pointCounts}
-          onCameraPreset={flyTo}
-          visualMode={visualMode}
-          onVisualMode={setVisualMode}
-          layers={layers}
-          onToggleLayer={toggleLayer}
-          persistLines={persistLines}
-          onTogglePersist={() => setPersistLines(prev => !prev)}
-          satGroupCounts={satGroupCounts}
-          showFov={showFov}
-          onToggleFov={() => setShowFov(prev => !prev)}
-          fovCount={satFovCount}
-          aisApiKey={aisApiKey}
-          onAisApiKeyChange={handleAisKeyChange}
-          events={events}
-          currentDate={currentDate}
-          kpis={kpis}
-          stats={stats}
-          cameraPresets={cameraPresets}
-          categories={categories}
-        />
-      ) : (
-        <>
-          {/* KPI strip — hidden when info panel is open */}
-          {!selectedPoint && <div className={`globe-kpi-strip${showAllKpis ? ' expanded' : ''}`}>
-            {kpis.slice(0, showAllKpis ? kpis.length : 4).map(k => (
-              <div key={k.id} className="globe-kpi" style={{ borderColor: KPI_COLORS[k.color] || '#555' }}>
-                <span className="globe-kpi-value" style={{ color: KPI_COLORS[k.color] }}>{k.value}</span>
-                <span className="globe-kpi-label">{k.label}</span>
-                {k.delta && (
-                  <span className={`globe-kpi-delta ${k.trend === 'up' ? 'up' : k.trend === 'down' ? 'down' : ''}`}>
-                    {k.delta}
-                  </span>
-                )}
-              </div>
-            ))}
-            {kpis.length > 4 && (
-              <button className="globe-kpi-more" onClick={() => setShowAllKpis(p => !p)}>
-                {showAllKpis ? '\u2212' : `+${kpis.length - 4}`}
-              </button>
+      {/* KPI strip — hidden when info panel is open */}
+      {!selectedPoint && <div className={`globe-kpi-strip${showAllKpis ? ' expanded' : ''}`}>
+        {kpis.slice(0, showAllKpis ? kpis.length : 4).map(k => (
+          <div key={k.id} className="globe-kpi" style={{ borderColor: KPI_COLORS[k.color] || '#555' }}>
+            <span className="globe-kpi-value" style={{ color: KPI_COLORS[k.color] }}>{k.value}</span>
+            <span className="globe-kpi-label">{k.label}</span>
+            {k.delta && (
+              <span className={`globe-kpi-delta ${k.trend === 'up' ? 'up' : k.trend === 'down' ? 'down' : ''}`}>
+                {k.delta}
+              </span>
             )}
-          </div>}
+          </div>
+        ))}
+        {kpis.length > 4 && (
+          <button className="globe-kpi-more" onClick={() => setShowAllKpis(p => !p)}>
+            {showAllKpis ? '\u2212' : `+${kpis.length - 4}`}
+          </button>
+        )}
+      </div>}
 
-          {/* Overlay controls toolbar */}
-          <CesiumControls
-            activeFilters={activeFilters}
-            onToggleFilter={toggleFilter}
-            pointCounts={pointCounts}
-            onCameraPreset={flyTo}
-            visualMode={visualMode}
-            onVisualMode={setVisualMode}
-            layers={layers}
-            onToggleLayer={toggleLayer}
-            persistLines={persistLines}
-            onTogglePersist={() => setPersistLines(prev => !prev)}
-            satGroupCounts={satGroupCounts}
-            showFov={showFov}
-            onToggleFov={() => setShowFov(prev => !prev)}
-            fovCount={satFovCount}
-            aisApiKey={aisApiKey}
-            onAisApiKeyChange={handleAisKeyChange}
-            showHud={showHud}
-            onToggleHud={() => setShowHud(prev => !prev)}
-            orbitMode={orbitMode}
-            onOrbitMode={handleOrbitMode}
-            cameraPresets={cameraPresets}
-            categories={categories}
-            cinematicMode={cinematicMode}
-            onToggleCinematic={handleToggleCinematic}
-          />
+      {/* Overlay controls toolbar */}
+      <CesiumControls
+        activeFilters={activeFilters}
+        onToggleFilter={toggleFilter}
+        pointCounts={pointCounts}
+        onCameraPreset={flyTo}
+        visualMode={visualMode}
+        onVisualMode={setVisualMode}
+        layers={layers}
+        onToggleLayer={toggleLayer}
+        persistLines={persistLines}
+        onTogglePersist={() => setPersistLines(prev => !prev)}
+        satGroupCounts={satGroupCounts}
+        showFov={showFov}
+        onToggleFov={() => setShowFov(prev => !prev)}
+        fovCount={satFovCount}
+        aisApiKey={aisApiKey}
+        onAisApiKeyChange={handleAisKeyChange}
+        showHud={showHud}
+        onToggleHud={() => setShowHud(prev => !prev)}
+        orbitMode={orbitMode}
+        onOrbitMode={handleOrbitMode}
+        cameraPresets={cameraPresets}
+        categories={categories}
+        cinematicMode={cinematicMode}
+        onToggleCinematic={handleToggleCinematic}
+      />
 
-          {/* Events / Intel feed panel */}
-          <CesiumEventsPanel
-            events={events}
-            currentDate={currentDate}
-            isOpen={eventsOpen}
-            onToggle={() => {
-              setEventsOpen(prev => {
-                if (!prev) setSelectedPoint(null); // Close info panel when opening intel feed
-                return !prev;
-              });
-            }}
-            activeEventId={cinematicMode ? cinematicEventId : undefined}
-          />
-        </>
-      )}
+      {/* Events / Intel feed panel */}
+      <CesiumEventsPanel
+        events={events}
+        currentDate={currentDate}
+        isOpen={eventsOpen}
+        onToggle={() => {
+          setEventsOpen(prev => {
+            if (!prev) setSelectedPoint(null); // Close info panel when opening intel feed
+            return !prev;
+          });
+        }}
+        activeEventId={cinematicMode ? cinematicEventId : undefined}
+      />
     </div>
   );
 }

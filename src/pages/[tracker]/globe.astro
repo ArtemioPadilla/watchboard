@@ -44,4 +44,11 @@ const basePath = base.endsWith('/') ? base : `${base}/`;
     endDate={config.endDate}
     clocks={config.globe?.clocks}
   />
+  <script>
+    if (window.innerWidth <= 768) {
+      const pathParts = window.location.pathname.replace(/\/+$/, '').split('/');
+      pathParts.pop();
+      window.location.replace(pathParts.join('/') + '/?mode=3d');
+    }
+  </script>
 </BaseLayout>
