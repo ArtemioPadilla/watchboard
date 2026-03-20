@@ -1,0 +1,56 @@
+---
+import type { KpiItem } from '../../lib/schemas';
+
+interface Props {
+  meta: {
+    dateline: string;
+    heroHeadline: string;
+    heroSubtitle: string;
+    lastUpdated?: string;
+    operationName?: string;
+    dayCount?: string | number;
+  };
+  kpis: KpiItem[];
+}
+
+const { meta, kpis } = Astro.props;
+
+/** Strip HTML tags and decode common entities for safe text display */
+const cleanText = (s: string) =>
+  s.replace(/<[^>]+>/g, ' ')
+   .replace(/&amp;/g, '&')
+   .replace(/&lt;/g, '<')
+   .replace(/&gt;/g, '>')
+   .replace(/&quot;/g, '"')
+   .replace(/&#39;/g, "'")
+   .replace(/&middot;/g, '\u00B7')
+   .replace(/\s{2,}/g, ' ')
+   .trim();
+---
+<div class="hero-kpi-combo">
+  <div class="hero-kpi-left">
+    <div class="hero-kpi-dateline">
+      <span class="hero-kpi-dateline-dash">&mdash;&mdash;</span>
+      {meta.dateline} &mdash; SITUATION REPORT
+    </div>
+    <div class="hero-kpi-headline" title={cleanText(meta.heroHeadline)}>
+      {cleanText(meta.heroHeadline)}
+    </div>
+  </div>
+  <div class="hero-kpi-divider"></div>
+  <div class="hero-kpi-right">
+    {kpis.slice(0, 7).map(k => (
+      <div class="hero-kpi-item">
+        <span class="hero-kpi-label">{k.label}</span>
+        <span class={`hero-kpi-value ${k.color}`}>
+          {k.value}
+          {k.trend && k.trend !== 'stable' && (
+            <span class={`hero-kpi-trend ${k.trend}`}>
+              {k.trend === 'up' ? '\u25B2' : '\u25BC'}
+            </span>
+          )}
+        </span>
+      </div>
+    ))}
+  </div>
+</div>

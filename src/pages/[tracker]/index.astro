@@ -1,8 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Header from '../../components/static/Header.astro';
-import Hero from '../../components/static/Hero.astro';
-import KpiStrip from '../../components/static/KpiStrip.astro';
+import HeroKpiCombo from '../../components/static/HeroKpiCombo.astro';
 import CasualtyTable from '../../components/static/CasualtyTable.astro';
 import EconGrid from '../../components/static/EconGrid.astro';
 import ClaimsMatrix from '../../components/static/ClaimsMatrix.astro';
@@ -13,6 +12,7 @@ import Footer from '../../components/static/Footer.astro';
 import TimelineSection from '../../components/islands/TimelineSection';
 import IntelMap from '../../components/islands/IntelMap';
 import MilitaryTabs from '../../components/islands/MilitaryTabs';
+import LatestEvents from '../../components/islands/LatestEvents';
 import MobileTabShell from '../../components/islands/mobile/MobileTabShell';
 
 import { loadTrackerData } from '../../lib/data';
@@ -49,8 +49,7 @@ const categories = config.map?.categories ?? [];
   <div class="desktop-layout">
     <Header meta={data.meta} navSections={config.navSections} trackerSlug={config.slug} globeEnabled={config.globe?.enabled} />
     <main id="main-content">
-      {config.sections.includes('hero') && <Hero meta={data.meta} />}
-      {config.sections.includes('kpis') && <KpiStrip kpis={data.kpis} />}
+      <HeroKpiCombo meta={data.meta} kpis={data.kpis} />
 
       <div class="theater-layout">
         {config.sections.includes('map') && (
@@ -59,12 +58,13 @@ const categories = config.map?.categories ?? [];
           </div>
         )}
         <div class={config.sections.includes('map') ? 'theater-scroll' : 'theater-scroll full-width'}>
-          {config.sections.includes('timeline') && <TimelineSection client:visible timeline={data.timeline} />}
+          <LatestEvents client:visible events={flatEvents} />
           {config.sections.includes('military') && <MilitaryTabs client:visible strikeTargets={data.strikeTargets} retaliationData={data.retaliationData} assetsData={data.assetsData} tabs={config.militaryTabs} />}
           {config.sections.includes('casualties') && <CasualtyTable casualties={data.casualties} />}
           {config.sections.includes('economic') && <EconGrid econ={data.econ} />}
           {config.sections.includes('claims') && <ClaimsMatrix claims={data.claims} />}
           {config.sections.includes('political') && <PoliticalGrid political={data.political} avatarLabels={config.politicalAvatars} />}
+          {config.sections.includes('timeline') && <TimelineSection client:visible timeline={data.timeline} />}
         </div>
       </div>
 
