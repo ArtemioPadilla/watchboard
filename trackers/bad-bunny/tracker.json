@@ -1,0 +1,55 @@
+{
+  "slug": "bad-bunny",
+  "name": "Bad Bunny Tracker",
+  "shortName": "Bad Bunny",
+  "description": "Hub tracker for Bad Bunny: from SoundCloud uploads to reggaeton global stardom, YHLQMDLG, Un Verano Sin Ti, world tour records, Spotify records, and the Latin music revolution.",
+  "icon": "🐰",
+  "color": "#f39c12",
+  "status": "active",
+  "temporal": "live",
+  "domain": "culture",
+  "region": "central-america",
+  "country": "PR",
+  "startDate": "2016-03-22",
+  "eraLabel": "El Conejo Malo 2016–",
+  "series": { "id": "bad-bunny", "name": "Bad Bunny", "isHub": true },
+  "tags": ["Bad Bunny", "reggaeton", "trap", "Puerto Rico", "Spotify", "Latin music"],
+  "sections": ["hero", "kpis", "timeline", "political"],
+  "map": {
+    "enabled": true,
+    "bounds": { "lonMin": -130.0, "lonMax": 10.0, "latMin": -60.0, "latMax": 55.0 },
+    "center": { "lon": -66.1, "lat": 18.2 },
+    "categories": [
+      { "id": "concert", "label": "World Tour Venues", "color": "#f39c12" },
+      { "id": "award", "label": "Major Award Shows", "color": "#9b59b6" },
+      { "id": "milestone", "label": "Career Milestones", "color": "#e74c3c" }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "global": { "lon": -66.1, "lat": 18.2, "alt": 15000000, "pitch": -90, "heading": 0, "label": "Global View" },
+      "san_juan": { "lon": -66.09, "lat": 18.47, "alt": 60000, "pitch": -90, "heading": 0, "label": "San Juan, Puerto Rico" },
+      "san_juan_stadium": { "lon": -66.10, "lat": 18.39, "alt": 40000, "pitch": -90, "heading": 0, "label": "Estadio Hiram Bithorn" },
+      "miami": { "lon": -80.19, "lat": 25.76, "alt": 80000, "pitch": -90, "heading": 0, "label": "Miami (Latin music hub)" },
+      "new_york": { "lon": -74.00, "lat": 40.71, "alt": 80000, "pitch": -90, "heading": 0, "label": "New York" }
+    }
+  },
+  "navSections": [
+    { "id": "sec-timeline", "label": "Timeline" },
+    { "id": "sec-political", "label": "Discography" }
+  ],
+  "politicalAvatars": ["bad-bunny", "rimas", "collaborators", "pr", "other"],
+  "eventTypes": ["album", "concert", "award", "milestone", "collab"],
+  "ai": {
+    "systemPrompt": "You are an entertainment analyst updating the Bad Bunny tracker.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose.\nEvery item must have an \"id\" field (lowercase_snake_case).\n\nSource tier classification:\n- Tier 1: Official (Rimas Entertainment, Spotify official charts, Billboard chart data, Guinness World Records)\n- Tier 2: Major media (Reuters, AP, Rolling Stone, Billboard, Variety, Pitchfork, El Nuevo Día)\n- Tier 3: Institutional (RIAA, IFPI, Latin Recording Academy, Spotify for Artists)\n- Tier 4: Unverified (social media fan accounts, unattributed entertainment blogs)\n\nOnly include information verifiable through search. Do not fabricate data.",
+    "searchContext": "Bad Bunny music career discography tours Spotify records Latin music 2024 2025",
+    "enabledSections": ["kpis", "timeline", "political"],
+    "updateIntervalDays": 7,
+    "backfillTargets": {
+      "timeline": 50,
+      "political": 10
+    }
+  },
+  "githubRepo": "ArtemioPadilla/watchboard"
+}
