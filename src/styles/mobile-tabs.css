@@ -743,6 +743,13 @@
 @media (max-width: 768px) {
   .desktop-layout { display: none !important; }
   .mobile-layout { display: block !important; }
+
+  /* Hide the map's built-in legend on mobile — the filter chips at top already show categories */
+  .map-legend-overlay { display: none !important; }
+
+  /* Hide the timeline bar's legend and stats on mobile — they overlap and clutter the small screen */
+  .utl-legend { display: none !important; }
+  .utl-stats { display: none !important; }
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {

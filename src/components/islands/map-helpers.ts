@@ -1,13 +1,25 @@
-import { MAP_CATEGORIES } from '../../lib/map-utils';
+import { MAP_CATEGORIES, type MapCategory } from '../../lib/map-utils';
 
 // Re-export tier helpers for backward compatibility — canonical source is tier-utils
 export { tierClass, tierLabelFull } from '../../lib/tier-utils';
 
-export function catColor(cat: string): string {
-  return MAP_CATEGORIES.find(c => c.id === cat)?.color || '#888';
+// Look up category color — uses tracker-specific categories if provided, falls back to hardcoded defaults
+let _trackerCategories: MapCategory[] | null = null;
+
+export function setTrackerCategories(cats: MapCategory[]) {
+  _trackerCategories = cats;
 }
 
-export function lineColor(cat: string): string {
+export function catColor(cat: string): string {
+  const cats = _trackerCategories ?? MAP_CATEGORIES;
+  return cats.find(c => c.id === cat)?.color || '#888';
+}
+
+export function lineColor(cat: string, categories?: MapCategory[]): string {
+  if (categories) {
+    const found = categories.find(c => c.id === cat);
+    if (found) return found.color;
+  }
   if (cat === 'strike') return '#e74c3c';
   if (cat === 'retaliation') return '#f39c12';
   if (cat === 'front') return '#9b59b6';

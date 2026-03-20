@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo, useCallback } from 'react';
 import type { MapPoint, MapLine } from '../../lib/schemas';
 import type { FlatEvent } from '../../lib/timeline-utils';
 import { MAP_CATEGORIES, type MapCategory } from '../../lib/map-utils';
-import { tierLabelFull, tierClass } from './map-helpers';
+import { tierLabelFull, tierClass, setTrackerCategories } from './map-helpers';
 import LeafletMap from './LeafletMap';
 import UnifiedTimelineBar from './UnifiedTimelineBar';
 import MapEventsPanel from './MapEventsPanel';
@@ -24,6 +24,8 @@ interface Props {
 export default function IntelMap({ points, lines, events, categories, mapCenter, mapBounds }: Props) {
   // Use prop categories with fallback to hardcoded defaults
   const mapCategories = categories && categories.length > 0 ? categories : MAP_CATEGORIES;
+  // Set tracker categories so catColor() uses them for dot colors
+  setTrackerCategories(mapCategories);
   // ── Filters ──
   const [activeFilters, setActiveFilters] = useState<Set<string>>(
     new Set(mapCategories.map(c => c.id)),
