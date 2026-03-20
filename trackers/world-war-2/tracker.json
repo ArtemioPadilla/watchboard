@@ -1,0 +1,74 @@
+{
+  "slug": "world-war-2",
+  "name": "World War II Tracker",
+  "shortName": "World War II",
+  "description": "Historical intelligence dashboard covering World War II: Nazi expansion, the Pacific theater, Holocaust, Battle of Stalingrad, D-Day Normandy, atomic bombs, and the post-war international order.",
+  "icon": "⚔️",
+  "color": "#2c3e50",
+  "status": "active",
+  "temporal": "historical",
+  "domain": "conflict",
+  "region": "global",
+  "country": "DE",
+  "startDate": "1939-09-01",
+  "endDate": "1945-09-02",
+  "eraLabel": "WWII 1939–1945",
+  "tags": ["Holocaust", "D-Day", "Stalingrad", "Pacific theater", "atomic bomb", "Normandy"],
+  "sections": ["hero", "kpis", "timeline", "map", "military", "casualties", "economic", "claims", "political"],
+  "map": {
+    "enabled": true,
+    "bounds": { "lonMin": -30.0, "lonMax": 180.0, "latMin": -40.0, "latMax": 75.0 },
+    "center": { "lon": 20.0, "lat": 50.0 },
+    "categories": [
+      { "id": "allies", "label": "Allied Operations", "color": "#3498db" },
+      { "id": "axis", "label": "Axis Operations", "color": "#e74c3c" },
+      { "id": "battle", "label": "Major Battles", "color": "#c0392b" },
+      { "id": "holocaust", "label": "Holocaust Sites", "color": "#9b59b6" },
+      { "id": "pacific", "label": "Pacific Theater", "color": "#f39c12" }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "europe": { "lon": 20.0, "lat": 50.0, "alt": 5000000, "pitch": -90, "heading": 0, "label": "European Theater" },
+      "pacific": { "lon": 150.0, "lat": 15.0, "alt": 5000000, "pitch": -90, "heading": 0, "label": "Pacific Theater" },
+      "normandy": { "lon": -0.8, "lat": 49.3, "alt": 80000, "pitch": -90, "heading": 0, "label": "Normandy (D-Day)" },
+      "stalingrad": { "lon": 44.52, "lat": 48.71, "alt": 80000, "pitch": -90, "heading": 0, "label": "Stalingrad" },
+      "hiroshima": { "lon": 132.45, "lat": 34.39, "alt": 60000, "pitch": -90, "heading": 0, "label": "Hiroshima" },
+      "berlin": { "lon": 13.40, "lat": 52.52, "alt": 80000, "pitch": -90, "heading": 0, "label": "Berlin" }
+    }
+  },
+  "navSections": [
+    { "id": "sec-timeline", "label": "Timeline" },
+    { "id": "sec-map", "label": "Map" },
+    { "id": "sec-military", "label": "Military" },
+    { "id": "sec-humanitarian", "label": "Casualties" },
+    { "id": "sec-economic", "label": "Economic" },
+    { "id": "sec-contested", "label": "Contested" },
+    { "id": "sec-political", "label": "Political" }
+  ],
+  "militaryTabs": [
+    { "id": "strikes", "label": "Major Campaigns" },
+    { "id": "retaliation", "label": "Allied Offensives" },
+    { "id": "assets", "label": "Military Forces" }
+  ],
+  "politicalAvatars": ["us", "uk", "ussr", "de", "other"],
+  "eventTypes": ["battle", "diplomatic", "holocaust", "strategic-bombing", "surrender"],
+  "ai": {
+    "systemPrompt": "You are a military historian updating the World War II tracker.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose.\nEvery item must have an \"id\" field (lowercase_snake_case).\n\nSource tier classification:\n- Tier 1: Primary sources (national archives, official military records, treaty texts, Nuremberg records)\n- Tier 2: Major historical works (Oxford histories, NARA, IWM, Yad Vashem, US Holocaust Memorial Museum)\n- Tier 3: Academic institutions (university history departments, major war museums)\n- Tier 4: Secondary/unverified (Wikipedia without citations)\n\nFocus on historically accurate, well-sourced information. Note commemorations, new research, and declassified documents.",
+    "searchContext": "World War II WWII 1939-1945 battles Holocaust Pacific theater history",
+    "enabledSections": ["kpis", "timeline", "mapPoints", "mapLines", "casualties", "econ", "claims", "political"],
+    "coordValidation": { "lonMin": -31.0, "lonMax": 181.0, "latMin": -41.0, "latMax": 76.0 },
+    "updateIntervalDays": 90,
+    "backfillTargets": {
+      "timeline": 100,
+      "mapPoints": 100,
+      "mapLines": 60,
+      "claims": 30,
+      "political": 25,
+      "casualties": 20,
+      "econ": 12
+    }
+  },
+  "githubRepo": "ArtemioPadilla/watchboard"
+}
