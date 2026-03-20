@@ -1,1 +1,167 @@
-[]
+[
+  {
+    "id": "shabaab-recruitment-route-south",
+    "from": [43.08, 1.35],
+    "to": [43.65, 3.12],
+    "cat": "shabaab",
+    "label": "Al-Shabaab South-Central Corridor",
+    "date": "2013-01-01",
+    "confidence": "medium",
+    "notes": "Principal Al-Shabaab movement corridor from Middle Jubba through Bay region to central Somalia; used for logistics, reinforcement, and tax collection",
+    "lastUpdated": "2026-03-20T00:00:00.000Z"
+  },
+  {
+    "id": "sna-supply-route-mogadishu-baidoa",
+    "from": [45.34, 2.05],
+    "to": [43.65, 3.12],
+    "cat": "government",
+    "label": "SNA Main Supply Route: Mogadishu–Baidoa",
+    "date": "2012-01-01",
+    "confidence": "high",
+    "notes": "Primary SNA logistics axis between capital and Southwest State; frequently targeted by Al-Shabaab IEDs and ambushes",
+    "lastUpdated": "2026-03-20T00:00:00.000Z"
+  },
+  {
+    "id": "sna-offensive-axis-hiiraan",
+    "from": [45.34, 2.05],
+    "to": [45.20, 4.73],
+    "cat": "government",
+    "label": "SNA 2022 Offensive Axis: Mogadishu–Beledweyne",
+    "date": "2022-08-01",
+    "confidence": "high",
+    "notes": "Primary axis of advance for 2022 SNA/Macawisley Hiiraan offensive; route up Shabelle River valley",
+    "lastUpdated": "2026-03-20T00:00:00.000Z"
+  },
+  {
+    "id": "kdf-supply-route-kismayo",
+    "from": [41.80, 3.60],
+    "to": [42.55, -0.36],
+    "cat": "amisom",
+    "label": "KDF Supply Corridor: Kenya Border–Kismayo",
+    "date": "2011-10-01",
+    "confidence": "high",
+    "notes": "Kenya Defence Forces logistics route from Kenyan border to Kismayo; critical for KDF ATMIS operations in Jubbaland",
+    "lastUpdated": "2026-03-20T00:00:00.000Z"
+  },
+  {
+    "id": "piracy-mother-ship-route-2023",
+    "from": [49.18, 11.28],
+    "to": [51.50, 8.00],
+    "cat": "piracy",
+    "label": "MV Ruen Mother-Ship Patrol Area (2023–24)",
+    "date": "2023-11-14",
+    "confidence": "medium",
+    "notes": "Area of operations for pirate mother ship MV Ruen after hijacking Nov 2023; used for further attacks before Indian Navy retook vessel Mar 2024",
+    "lastUpdated": "2026-03-20T00:00:00.000Z"
+  },
+  {
+    "id": "gulf-aden-shipping-lane",
+    "from": [43.00, 12.00],
+    "to": [50.50, 12.50],
+    "cat": "piracy",
+    "label": "Gulf of Aden International Shipping Lane",
+    "date": "2008-01-01",
+    "confidence": "high",
+    "notes": "Critical global shipping corridor; ~20,000 vessels/year; primary target of Somali piracy 2008-2012 and resurgence 2023-24",
+    "lastUpdated": "2026-03-20T00:00:00.000Z"
+  },
+  {
+    "id": "aid-corridor-mogadishu-baidoa",
+    "from": [45.34, 2.05],
+    "to": [43.65, 3.12],
+    "cat": "humanitarian",
+    "label": "WFP Aid Corridor: Mogadishu–Bay Region",
+    "date": "2012-01-01",
+    "confidence": "high",
+    "notes": "World Food Programme and NGO aid supply route to drought-affected Bay and Bakool regions; negotiated access with armed actors required",
+    "lastUpdated": "2026-03-20T00:00:00.000Z"
+  },
+  {
+    "id": "shabaab-arms-smuggling-coast",
+    "from": [44.05, 1.09],
+    "to": [45.34, 2.05],
+    "cat": "shabaab",
+    "label": "Al-Shabaab Coastal Arms Smuggling Route",
+    "date": "2009-01-01",
+    "confidence": "low",
+    "notes": "Suspected arms smuggling route from Barawe coastal area toward Mogadishu hinterland; documented by UN Monitoring Group",
+    "lastUpdated": "2026-03-20T00:00:00.000Z"
+  },
+  {
+    "id": "sna-kismayo-baidoa-axis",
+    "from": [42.55, -0.36],
+    "to": [43.65, 3.12],
+    "cat": "government",
+    "label": "SNA Axis: Kismayo–Baidoa",
+    "date": "2012-01-01",
+    "confidence": "medium",
+    "notes": "SNA and KDF ATMIS operational axis connecting Jubbaland coast to Bay Region; key for coordinating southwest operations",
+    "lastUpdated": "2026-03-20T00:00:00.000Z"
+  },
+  {
+    "id": "displacement-corridor-south",
+    "from": [44.05, 1.09],
+    "to": [45.34, 2.05],
+    "cat": "humanitarian",
+    "label": "IDP Displacement Flow: South Somalia–Mogadishu",
+    "date": "2011-01-01",
+    "confidence": "high",
+    "notes": "Primary displacement corridor; hundreds of thousands of IDPs fled conflict and drought in Lower Shabelle and Bay/Bakool toward Mogadishu settlements",
+    "lastUpdated": "2026-03-20T00:00:00.000Z"
+  },
+  {
+    "id": "ethiopia-entry-corridor",
+    "from": [45.20, 4.73],
+    "to": [47.50, 8.00],
+    "cat": "amisom",
+    "label": "ENDF Logistics: Ethiopia–Beledweyne Corridor",
+    "date": "2014-01-01",
+    "confidence": "medium",
+    "notes": "Ethiopian military supply route from Ethiopia border through Hiiraan to Beledweyne; used by ENDF AMISOM/ATMIS contingent",
+    "lastUpdated": "2026-03-20T00:00:00.000Z"
+  },
+  {
+    "id": "shabaab-charcoal-route",
+    "from": [44.05, 1.09],
+    "to": [43.00, 10.00],
+    "cat": "shabaab",
+    "label": "Charcoal Export Route (UN Banned)",
+    "date": "2012-01-01",
+    "confidence": "medium",
+    "notes": "Al-Shabaab charcoal export route via coastal dhows to Gulf states (UAE, Oman); banned under UNSC Resolution 2036 but documented violation by UN Monitoring Group",
+    "lastUpdated": "2026-03-20T00:00:00.000Z"
+  },
+  {
+    "id": "mogadishu-kismayo-sea-supply",
+    "from": [45.34, 2.05],
+    "to": [42.55, -0.36],
+    "cat": "government",
+    "label": "Maritime Supply: Mogadishu–Kismayo",
+    "date": "2012-10-05",
+    "confidence": "high",
+    "notes": "Maritime logistics route between Mogadishu and Kismayo; supplementary to overland routes and critical when roads are threatened by Al-Shabaab",
+    "lastUpdated": "2026-03-20T00:00:00.000Z"
+  },
+  {
+    "id": "eu-navfor-patrol-zone",
+    "from": [44.00, 12.00],
+    "to": [52.00, 9.00],
+    "cat": "amisom",
+    "label": "EU NAVFOR Atalanta Patrol Zone",
+    "date": "2008-12-08",
+    "confidence": "high",
+    "notes": "EU NAVFOR counter-piracy patrol area covering Gulf of Aden and western Indian Ocean; WFP convoy escort missions also conducted within this zone",
+    "lastUpdated": "2026-03-20T00:00:00.000Z"
+  },
+  {
+    "id": "shabaab-kenya-border-corridor",
+    "from": [40.50, 1.50],
+    "to": [43.65, 3.12],
+    "cat": "shabaab",
+    "label": "Al-Shabaab Kenya Border Infiltration",
+    "date": "2013-01-01",
+    "confidence": "medium",
+    "notes": "Al-Shabaab cross-border movement corridor; used for attacks in Kenya's Northeast Province and to recruit Kenyan fighters (including for Westgate and Garissa attacks)",
+    "lastUpdated": "2026-03-20T00:00:00.000Z"
+  }
+]

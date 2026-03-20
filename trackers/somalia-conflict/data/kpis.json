@@ -1,1 +1,99 @@
-[]
+[
+  {
+    "id": "territorial-control",
+    "label": "Al-Shabaab Territorial Control",
+    "value": "~20% of Somalia",
+    "color": "red",
+    "source": "ACLED / SIPRI 2024",
+    "contested": true,
+    "contestNote": "Al-Shabaab claims broader rural influence; SNA disputes any meaningful control figures",
+    "delta": "Down from ~40% in 2011",
+    "deltaNote": "Despite losses, group maintains shadow governance in rural south/central",
+    "trend": "down",
+    "lastUpdated": "2026-03-20T00:00:00.000Z"
+  },
+  {
+    "id": "conflict-events-annual",
+    "label": "Annual Conflict Events (ACLED)",
+    "value": "3,400+",
+    "color": "red",
+    "source": "ACLED 2024 Annual Data",
+    "contested": false,
+    "delta": "+12% vs 2022",
+    "deltaNote": "Increase driven by SNA/clan militia offensives and Al-Shabaab counter-attacks",
+    "trend": "up",
+    "lastUpdated": "2026-03-20T00:00:00.000Z"
+  },
+  {
+    "id": "idp-population",
+    "label": "Internally Displaced Persons",
+    "value": "3.8 million",
+    "color": "amber",
+    "source": "UNHCR / OCHA 2024",
+    "contested": false,
+    "contestNote": "Figures fluctuate with seasonal displacement and returns",
+    "delta": "Persistent crisis",
+    "deltaNote": "One of Africa's largest IDP crises",
+    "trend": "stable",
+    "lastUpdated": "2026-03-20T00:00:00.000Z"
+  },
+  {
+    "id": "food-insecure",
+    "label": "Food Insecure Population",
+    "value": "6.5 million",
+    "color": "amber",
+    "source": "UN / OCHA Feb 2026",
+    "contested": false,
+    "contestNote": "WFP cut food assistance from 2.2M to 600,000 recipients by Dec 2025 due to funding collapse; potential complete halt by Apr 2026",
+    "delta": "Down from 8.3M peak (2022)",
+    "deltaNote": "Funding crisis may reverse gains: 1.85M children under 5 face acute malnutrition risk",
+    "trend": "down",
+    "lastUpdated": "2026-03-20T00:00:00.000Z"
+  },
+  {
+    "id": "shabaab-revenue",
+    "label": "Al-Shabaab Annual Revenue",
+    "value": "~$200M+",
+    "color": "red",
+    "source": "UN Monitoring Group 2024 / Africa Center for Strategic Studies",
+    "contested": true,
+    "contestNote": "Includes Houthi-linked revenue sharing since 2024; FGS claims lower; charcoal, taxation, piracy, and extortion documented",
+    "trend": "up",
+    "lastUpdated": "2026-03-20T00:00:00.000Z"
+  },
+  {
+    "id": "aussom-troops",
+    "label": "AUSSOM Authorized Strength",
+    "value": "~12,626",
+    "color": "blue",
+    "source": "UNSC Resolution (Nov 2024) / AU",
+    "contested": false,
+    "delta": "ATMIS ended Dec 31, 2024",
+    "deltaNote": "AUSSOM (AU Support and Stabilization Mission) operational Jan 1, 2025; underfunded; Ethiopia excluded by FGS; Uganda threatened withdrawal after 20 Ugandan peacekeepers killed",
+    "trend": "down",
+    "lastUpdated": "2026-03-20T00:00:00.000Z"
+  },
+  {
+    "id": "us-airstrikes-total",
+    "label": "Confirmed US Airstrikes (2007–2025)",
+    "value": "300+",
+    "color": "blue",
+    "source": "AFRICOM / Airwars.org",
+    "contested": true,
+    "contestNote": "Civilian casualties disputed; AFRICOM claims minimal collateral, Airwars documents credible civilian harm in multiple strikes",
+    "trend": "stable",
+    "lastUpdated": "2026-03-20T00:00:00.000Z"
+  },
+  {
+    "id": "sna-strength",
+    "label": "SNA Estimated Strength",
+    "value": "~24,000",
+    "color": "green",
+    "source": "IISS Military Balance 2024",
+    "contested": true,
+    "contestNote": "Ghost soldier problem; actual combat-ready forces significantly lower; payroll fraud endemic",
+    "delta": "Growing with clan militia integration",
+    "trend": "up",
+    "lastUpdated": "2026-03-20T00:00:00.000Z"
+  }
+]
