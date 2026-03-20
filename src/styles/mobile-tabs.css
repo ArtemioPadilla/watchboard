@@ -1,0 +1,696 @@
+/* ══════════════════════════════════════════════
+   Mobile Tab Navigation — mtab-* namespace
+   ══════════════════════════════════════════════ */
+
+/* ─── Keyframe ─── */
+@keyframes mtabLivePulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.4); }
+  50% { opacity: 0.7; box-shadow: 0 0 0 4px rgba(231, 76, 60, 0); }
+}
+
+/* ─── Layout Shell ─── */
+.mtab-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
+}
+
+.mtab-content {
+  flex: 1;
+  overflow-y: auto;
+  padding-top: 44px;
+  padding-bottom: 56px;
+}
+
+.mtab-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--text-muted);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+}
+
+/* ─── Header (fixed top, 44px) ─── */
+.mtab-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 44px;
+  z-index: 100;
+  background: rgba(10, 11, 14, 0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  gap: 8px;
+}
+
+.mtab-header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow: hidden;
+  flex: 1;
+  min-width: 0;
+}
+
+.mtab-live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent-red);
+  flex-shrink: 0;
+  animation: mtabLivePulse 2s ease-in-out infinite;
+}
+
+.mtab-op-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.mtab-toggle {
+  display: flex;
+  flex-shrink: 0;
+  background: var(--bg-secondary);
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.mtab-toggle-btn {
+  padding: 4px 12px;
+  font-size: 0.7rem;
+  font-family: 'JetBrains Mono', monospace;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.mtab-toggle-btn.active {
+  background: var(--accent-red);
+  color: #fff;
+}
+
+/* ─── Tab Bar (fixed bottom, 52px + safe area) ─── */
+.mtab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  background: rgba(10, 11, 14, 0.95);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid var(--border);
+  display: flex;
+}
+
+.mtab-tab {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 8px 0;
+  min-height: 48px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  position: relative;
+  transition: color 0.15s;
+}
+
+.mtab-tab.active {
+  color: var(--accent-red);
+}
+
+.mtab-tab-icon {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.mtab-tab-label {
+  font-size: 9px;
+  font-family: 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: 1;
+}
+
+.mtab-badge {
+  position: absolute;
+  top: 4px;
+  right: calc(50% - 18px);
+  background: var(--accent-red);
+  color: #fff;
+  border-radius: 50%;
+  min-width: 14px;
+  height: 14px;
+  font-size: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 2px;
+  line-height: 1;
+}
+
+/* ─── Sub-tabs (DATA and INTEL sections) ─── */
+.mtab-subtabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-secondary);
+}
+
+.mtab-subtab {
+  flex: 1;
+  text-align: center;
+  padding: 10px;
+  font-size: 0.7rem;
+  font-family: 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: color 0.15s, border-bottom-color 0.15s;
+  letter-spacing: 0.5px;
+}
+
+.mtab-subtab.active {
+  color: var(--accent-red);
+  border-bottom-color: var(--accent-red);
+}
+
+/* ─── MAP tab ─── */
+.mtab-map-tab {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.mtab-kpi-row {
+  display: flex;
+  gap: 8px;
+  padding: 4px 12px;
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.mtab-kpi {
+  font-size: 0.75rem;
+  font-family: 'Cormorant Garamond', serif;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.mtab-kpi.red   { color: var(--accent-red); }
+.mtab-kpi.amber { color: var(--accent-amber); }
+.mtab-kpi.blue  { color: var(--accent-blue); }
+.mtab-kpi.green { color: var(--accent-green); }
+
+.mtab-kpi-val {
+  font-weight: 700;
+}
+
+.mtab-map-container {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+}
+
+.mtab-map-container .section {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.mtab-map-container .map-container {
+  height: 100% !important;
+}
+
+.mtab-3d-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+  color: var(--text-muted);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+}
+
+.mtab-3d-link {
+  color: var(--accent-red);
+  text-decoration: underline;
+}
+
+/* ─── FEED tab ─── */
+.mtab-feed {
+  padding: 12px;
+}
+
+.mtab-brief {
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.mtab-brief-label {
+  font-size: 0.6rem;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent-red);
+  margin-bottom: 6px;
+}
+
+.mtab-brief-text {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.mtab-feed-day {
+  margin-bottom: 16px;
+}
+
+.mtab-feed-date {
+  font-size: 0.7rem;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-transform: uppercase;
+}
+
+.mtab-feed-count {
+  font-size: 0.6rem;
+  color: var(--text-muted);
+}
+
+.mtab-event-card {
+  display: block;
+  width: 100%;
+  text-align: left;
+  margin-bottom: 8px;
+  padding: 10px 12px;
+  background: var(--bg-card);
+  border-left: 3px solid;
+  border-radius: 0 6px 6px 0;
+  border-top: none;
+  border-right: none;
+  border-bottom: none;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.mtab-event-card:active {
+  background: var(--bg-card-hover);
+}
+
+.mtab-event-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.mtab-event-type {
+  font-size: 0.6rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.mtab-event-expand {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.mtab-event-title {
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.mtab-event-body {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-top: 6px;
+  line-height: 1.4;
+}
+
+.mtab-event-sources {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 8px;
+}
+
+/* ─── DATA tab ─── */
+.mtab-data {
+  padding-bottom: 8px;
+}
+
+.mtab-data-panel {
+  padding: 12px;
+}
+
+.mtab-section-label {
+  font-size: 0.6rem;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--accent-red);
+  margin: 16px 0 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--border);
+}
+
+.mtab-kpi-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.mtab-kpi-card {
+  background: var(--bg-card);
+  padding: 10px;
+  border-radius: 6px;
+  border-left: 3px solid var(--border);
+}
+
+.mtab-kpi-card.red   { border-left-color: var(--accent-red); }
+.mtab-kpi-card.amber { border-left-color: var(--accent-amber); }
+.mtab-kpi-card.blue  { border-left-color: var(--accent-blue); }
+.mtab-kpi-card.green { border-left-color: var(--accent-green); }
+
+.mtab-kpi-card-label {
+  font-size: 0.55rem;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.mtab-kpi-card-value {
+  font-size: 1.5rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--text-primary);
+}
+
+.mtab-kpi-card-source {
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-top: 2px;
+}
+
+.mtab-data-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 10px;
+  background: var(--bg-card);
+  border-radius: 4px;
+  margin-bottom: 3px;
+}
+
+.mtab-data-row-label {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.mtab-data-row-value {
+  font-size: 0.8rem;
+  color: var(--accent-red);
+  font-weight: 600;
+}
+
+.mtab-econ-card {
+  background: var(--bg-card);
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 6px;
+}
+
+.mtab-econ-label {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  font-family: 'JetBrains Mono', monospace;
+  margin-bottom: 2px;
+}
+
+.mtab-econ-value {
+  font-size: 1.2rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+
+.mtab-econ-change {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+}
+
+.mtab-econ-change.up   { color: var(--accent-red); }
+.mtab-econ-change.down { color: var(--accent-green); }
+
+.mtab-econ-source {
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.mtab-strike-row {
+  padding: 8px 10px;
+  background: var(--bg-card);
+  border-radius: 4px;
+  margin-bottom: 3px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: baseline;
+}
+
+.mtab-strike-name {
+  font-size: 0.8rem;
+  color: var(--text-primary);
+  font-weight: 500;
+  flex: 1;
+}
+
+.mtab-strike-detail {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  width: 100%;
+}
+
+/* ─── INTEL tab ─── */
+.mtab-intel {
+  padding-bottom: 8px;
+}
+
+.mtab-claim-card {
+  background: var(--bg-card);
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 8px;
+}
+
+.mtab-claim-question {
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.mtab-claim-sides {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mtab-claim-side {
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 4px;
+}
+
+.mtab-claim-side-label {
+  font-size: 0.6rem;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--accent-red);
+  margin-bottom: 4px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.mtab-claim-side p {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.mtab-claim-resolution {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-top: 8px;
+  font-style: italic;
+}
+
+.mtab-political-card {
+  background: var(--bg-card);
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 8px;
+}
+
+.mtab-political-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.mtab-political-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--bg-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.mtab-political-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.mtab-political-name {
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.mtab-political-role {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+}
+
+.mtab-political-badge {
+  font-size: 0.55rem;
+  font-family: 'JetBrains Mono', monospace;
+  padding: 2px 6px;
+  background: var(--accent-red-dim);
+  border-radius: 3px;
+  color: var(--accent-red);
+  flex-shrink: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.mtab-political-quote {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  font-style: italic;
+  font-family: 'Cormorant Garamond', serif;
+  border-left: 2px solid var(--border-light);
+  padding-left: 10px;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.mtab-era {
+  margin-bottom: 12px;
+}
+
+.mtab-era-label {
+  font-size: 0.7rem;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--accent-red);
+  margin-bottom: 6px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.mtab-era-event {
+  display: flex;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(42, 45, 58, 0.5);
+}
+
+.mtab-era-date {
+  font-size: 0.65rem;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text-muted);
+  min-width: 50px;
+  flex-shrink: 0;
+}
+
+.mtab-era-title {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+/* ─── Responsive layout switches ─── */
+
+@media (max-width: 768px) {
+  .desktop-layout { display: none !important; }
+  .mobile-layout { display: block !important; }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  body[data-mobile-mode="reader"] .desktop-layout { display: block !important; }
+  body[data-mobile-mode="reader"] .mobile-layout { display: none !important; }
+  body[data-mobile-mode="app"] .desktop-layout { display: none !important; }
+  body[data-mobile-mode="app"] .mobile-layout { display: block !important; }
+}
+
+@media (min-width: 1025px) {
+  .mobile-layout { display: none !important; }
+}
