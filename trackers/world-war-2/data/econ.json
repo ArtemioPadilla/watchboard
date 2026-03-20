@@ -1,1 +1,134 @@
-[]
+[
+  {
+    "id": "us-war-expenditure",
+    "label": "US War Expenditure (1941–1945)",
+    "value": "$304 billion",
+    "change": "+10,000% vs. 1940 defense budget",
+    "direction": "up",
+    "sparkData": [1, 4, 18, 55, 120, 200, 304],
+    "color": "blue",
+    "source": "US Office of Management and Budget; Harrison, M., 'The Economics of World War II'",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "us-lend-lease-total",
+    "label": "US Lend-Lease Aid (Total)",
+    "value": "$50.1 billion",
+    "change": "Equivalent to ~$650 billion today",
+    "direction": "up",
+    "sparkData": [0.1, 1, 4, 8, 13, 20, 50],
+    "color": "green",
+    "source": "NARA – Lend-Lease records RG 169; Herring, G., 'Aid to Russia 1941–1946'",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "us-aircraft-production",
+    "label": "US Aircraft Production (1942–1945)",
+    "value": "300,317 aircraft",
+    "change": "+1,500% vs. pre-war capacity",
+    "direction": "up",
+    "sparkData": [12, 48, 86, 96, 74, 304],
+    "color": "blue",
+    "source": "US War Production Board; Murray, W. & Millett, A., 'A War To Be Won'",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "german-war-production-peak",
+    "label": "German Arms Production Peak (1944)",
+    "value": "Speer Index: 322",
+    "change": "+3x over 1941 levels despite bombing",
+    "direction": "up",
+    "sparkData": [100, 130, 155, 200, 240, 322, 280, 180],
+    "color": "red",
+    "source": "Speer, A., 'Inside the Third Reich'; Overy, R., 'The Air War 1939–1945'",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "soviet-war-production",
+    "label": "Soviet Tank Production (1942–1945)",
+    "value": "~57,000 T-34 tanks",
+    "change": "+800% vs. 1941 output",
+    "direction": "up",
+    "sparkData": [4, 12, 24, 29, 35, 40, 57],
+    "color": "green",
+    "source": "Harrison, M., 'The Soviet Economy and the War'; RGVA – production records",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "global-gdp-collapse",
+    "label": "European GDP Collapse (1938–1945)",
+    "value": "-25% to -60% (occupied nations)",
+    "change": "France –50%, Poland –60%, Netherlands –40%",
+    "direction": "down",
+    "sparkData": [100, 95, 82, 68, 55, 48, 44, 60],
+    "color": "red",
+    "source": "Maddison Project Database; Harrison, M., 'The Economics of World War II'",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "us-gdp-growth",
+    "label": "US GDP Growth During War",
+    "value": "+75% (1940–1945)",
+    "change": "Unemployment from 14.6% to 1.2%",
+    "direction": "up",
+    "sparkData": [100, 120, 140, 160, 170, 175],
+    "color": "green",
+    "source": "US Bureau of Economic Analysis; Gordon, R., 'The Rise and Fall of American Growth'",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "uk-national-debt",
+    "label": "UK National Debt (1945)",
+    "value": "250% of GDP",
+    "change": "+150% of GDP from 1939",
+    "direction": "up",
+    "sparkData": [100, 115, 135, 165, 200, 230, 250],
+    "color": "amber",
+    "source": "UK National Archives – Treasury records; Broadberry, S. & Harrison, M., 'The Economics of World War I'",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "merchant-shipping-losses",
+    "label": "Allied Merchant Shipping Lost (Battle of Atlantic)",
+    "value": "~14.5 million gross tons",
+    "change": "3,500+ ships sunk by U-boats",
+    "direction": "down",
+    "sparkData": [100, 150, 300, 400, 380, 280, 120, 50],
+    "color": "red",
+    "source": "Wynn, K., 'U-boat Operations of the Second World War'; Lloyd's Register of Shipping",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "manhattan-project-cost",
+    "label": "Manhattan Project Cost",
+    "value": "$2 billion (1945)",
+    "change": "~$26 billion in 2024 dollars",
+    "direction": "up",
+    "sparkData": [1, 5, 15, 40, 80, 150, 200],
+    "color": "amber",
+    "source": "US Department of Energy – Manhattan Project Historical Overview; NARA",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "german-occupied-europe-looting",
+    "label": "Nazi Looting of Occupied Europe",
+    "value": "~$600 billion (2024 dollars)",
+    "change": "Includes art, gold, forced labor, industrial equipment",
+    "direction": "down",
+    "sparkData": [0, 50, 150, 300, 450, 550, 600],
+    "color": "red",
+    "source": "US State Department – Washington Conference on Holocaust-Era Assets 1998; European Jewish Congress",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "marshall-plan-post-war",
+    "label": "US Marshall Plan (Post-War)",
+    "value": "$13.3 billion (1948–1952)",
+    "change": "~$140 billion in 2024 dollars",
+    "direction": "up",
+    "sparkData": [0, 1, 3, 7, 10, 12, 13],
+    "color": "green",
+    "source": "US Economic Cooperation Administration; NARA – Marshall Plan records",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  }
+]
