@@ -2,7 +2,11 @@
 import { useState, useMemo, useCallback } from 'react';
 import MobileHeader from './MobileHeader';
 import MobileTabBar, { type MobileTab } from './MobileTabBar';
-import type { MapPoint, MapLine, KpiItem, CasualtyRow, EconItem, Claim, PolItem, TimelineEra } from '../../../lib/schemas';
+import MobileMapTab from './MobileMapTab';
+import MobileFeedTab from './MobileFeedTab';
+import MobileDataTab from './MobileDataTab';
+import MobileIntelTab from './MobileIntelTab';
+import type { MapPoint, MapLine, KpiItem, CasualtyRow, EconItem, Claim, PolItem, TimelineEra, StrikeItem, Asset } from '../../../lib/schemas';
 import type { FlatEvent } from '../../../lib/timeline-utils';
 import type { MapCategory } from '../../../lib/map-utils';
 
@@ -28,9 +32,9 @@ interface Props {
   claims: Claim[];
   political: PolItem[];
   timeline: TimelineEra[];
-  strikeTargets: any[];
-  retaliationData: any[];
-  assetsData: any[];
+  strikeTargets: StrikeItem[];
+  retaliationData: StrikeItem[];
+  assetsData: Asset[];
   militaryTabs?: any[];
   politicalAvatars?: Record<string, string>;
   // Initial state
@@ -74,41 +78,49 @@ export default function MobileTabShell(props: Props) {
             height: '100%',
           }}
         >
-          <div
-            className="mtab-map-placeholder"
-            style={{
-              flex: 1,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: '#555',
-            }}
-          >
-            MAP TAB (placeholder — replaced in Task 4)
-          </div>
+          <MobileMapTab
+            mode={mapMode}
+            points={props.mapPoints}
+            lines={props.mapLines}
+            events={props.events}
+            categories={props.categories}
+            kpis={props.kpis}
+            mapCenter={props.mapCenter}
+            mapBounds={props.mapBounds}
+            trackerSlug={props.trackerSlug}
+          />
         </div>
 
         {activeTab === 'feed' && (
           <div id="tabpanel-feed" role="tabpanel">
-            <div style={{ padding: 16, color: '#888' }}>
-              FEED TAB (placeholder — replaced in Task 5)
-            </div>
+            <MobileFeedTab
+              heroSubtitle={props.heroSubtitle}
+              events={props.events}
+            />
           </div>
         )}
 
         {activeTab === 'data' && (
           <div id="tabpanel-data" role="tabpanel">
-            <div style={{ padding: 16, color: '#888' }}>
-              DATA TAB (placeholder — replaced in Task 6)
-            </div>
+            <MobileDataTab
+              kpis={props.kpis}
+              casualties={props.casualties}
+              econ={props.econ}
+              strikeTargets={props.strikeTargets}
+              retaliationData={props.retaliationData}
+              assetsData={props.assetsData}
+            />
           </div>
         )}
 
         {activeTab === 'intel' && (
           <div id="tabpanel-intel" role="tabpanel">
-            <div style={{ padding: 16, color: '#888' }}>
-              INTEL TAB (placeholder — replaced in Task 7)
-            </div>
+            <MobileIntelTab
+              claims={props.claims}
+              political={props.political}
+              timeline={props.timeline}
+              avatarLabels={props.politicalAvatars}
+            />
           </div>
         )}
       </div>
