@@ -1,1 +1,126 @@
-[]
+[
+  {
+    "id": "current-detention-population",
+    "label": "Current Detention Population",
+    "value": "68,289",
+    "color": "red",
+    "source": "TRAC / DHS (Feb 2026)",
+    "contested": false,
+    "delta": "+460%",
+    "deltaNote": "vs. Biden-era monthly average of ~12,000 booked/month",
+    "trend": "up",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "detainees-no-criminal-record",
+    "label": "Detainees w/ No Criminal Conviction",
+    "value": "73.6%",
+    "color": "red",
+    "source": "TRAC Reports (Feb 2026)",
+    "contested": true,
+    "contestNote": "ICE counts misdemeanors and traffic violations as 'criminal'; advocates dispute the framing",
+    "trend": "up",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "peak-annual-removals",
+    "label": "Peak Annual Removals (FY2013)",
+    "value": "432,201",
+    "color": "amber",
+    "source": "DHS OHSS Yearbook Table 39",
+    "contested": false,
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "fy2025-deaths-custody",
+    "label": "Deaths in ICE Custody (FY2025)",
+    "value": "24",
+    "color": "red",
+    "source": "ICE.gov / Detention Watch Network",
+    "contested": true,
+    "contestNote": "DWN counts 31 for calendar year 2025 — all-time high; ICE uses fiscal year; both are records",
+    "trend": "up",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "ice-annual-budget",
+    "label": "ICE FY2024 Budget",
+    "value": "$9.1 billion",
+    "color": "amber",
+    "source": "Ballotpedia / Congressional appropriations",
+    "contested": false,
+    "delta": "+$1.3B",
+    "deltaNote": "vs. FY2021 baseline of $7.8B",
+    "trend": "up",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "ice-total-personnel",
+    "label": "ICE Total Personnel",
+    "value": "20,000+",
+    "color": "blue",
+    "source": "ICE.gov (2024)",
+    "contested": false,
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "total-287g-agreements",
+    "label": "287(g) MOAs Active",
+    "value": "1,544",
+    "color": "amber",
+    "source": "ICE.gov (Mar 2026)",
+    "contested": true,
+    "contestNote": "ACLU contends 287(g) leads to racial profiling and use on non-violent immigrants",
+    "trend": "up",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "private-prison-share",
+    "label": "Detainees in Private Prisons",
+    "value": "91%",
+    "color": "red",
+    "source": "Freedom for Immigrants (2023)",
+    "contested": false,
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "alternatives-to-detention",
+    "label": "Alternatives to Detention (ATD)",
+    "value": "179,991",
+    "color": "blue",
+    "source": "TRAC Reports (Feb 2026)",
+    "contested": false,
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "fy2026-partial-deaths",
+    "label": "Deaths in Custody (FY2026, partial)",
+    "value": "14",
+    "color": "red",
+    "source": "ICE.gov (as of Feb 27, 2026)",
+    "contested": false,
+    "trend": "up",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "fy2024-admin-arrests",
+    "label": "FY2024 Administrative Arrests",
+    "value": "113,431",
+    "color": "amber",
+    "source": "ICE.gov / Ballotpedia (FY2024)",
+    "contested": false,
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "fy2021-removals",
+    "label": "FY2021 Removals (Biden low)",
+    "value": "89,191",
+    "color": "green",
+    "source": "DHS OHSS Yearbook Table 39",
+    "contested": false,
+    "delta": "-79%",
+    "deltaNote": "vs. FY2013 peak of 432,201",
+    "trend": "down",
+    "lastUpdated": "2026-03-20T00:00:00Z"
+  }
+]
