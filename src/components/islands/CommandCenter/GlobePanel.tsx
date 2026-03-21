@@ -1,7 +1,8 @@
-import { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef } from 'react';
 import type { TrackerCardData } from '../../../lib/tracker-directory-utils';
 
-interface GlobeMarker {
+interface GlobePoint {
+  type: 'hub' | 'event';
   slug: string;
   lat: number;
   lng: number;
@@ -20,6 +21,40 @@ interface Props {
 const DARK_EARTH_URL = '//unpkg.com/three-globe/example/img/earth-night.jpg';
 const BUMP_URL = '//unpkg.com/three-globe/example/img/earth-topology.png';
 
+function buildPoints(trackers: TrackerCardData[]): GlobePoint[] {
+  const points: GlobePoint[] = [];
+
+  for (const t of trackers) {
+    // Event dots (smaller ambient markers)
+    if (t.eventPoints) {
+      for (const ep of t.eventPoints) {
+        points.push({
+          type: 'event',
+          slug: t.slug,
+          lat: ep.lat,
+          lng: ep.lon,
+          color: ep.color,
+          name: t.shortName,
+        });
+      }
+    }
+
+    // Hub marker (bigger, interactive, at tracker center)
+    if (t.mapCenter) {
+      points.push({
+        type: 'hub',
+        slug: t.slug,
+        lat: t.mapCenter.lat,
+        lng: t.mapCenter.lon,
+        color: t.color || '#3498db',
+        name: t.shortName,
+      });
+    }
+  }
+
+  return points;
+}
+
 export default function GlobePanel({
   trackers,
   activeTracker,
@@ -35,23 +70,50 @@ export default function GlobePanel({
   activeRef.current = activeTracker;
   hoveredRef.current = hoveredTracker;
 
-  const markers: GlobeMarker[] = trackers
-    .filter(t => t.mapCenter)
-    .map(t => ({
-      slug: t.slug,
-      lat: t.mapCenter!.lat,
-      lng: t.mapCenter!.lon,
-      color: t.color || '#3498db',
-      name: t.shortName,
-    }));
-
-  const markersRef = useRef(markers);
-  markersRef.current = markers;
+  const points = buildPoints(trackers);
+  const pointsRef = useRef(points);
+  pointsRef.current = points;
 
   const onSelectRef = useRef(onSelectTracker);
   onSelectRef.current = onSelectTracker;
   const onHoverRef = useRef(onHoverTracker);
   onHoverRef.current = onHoverTracker;
+
+  // Point accessors — handle both hub and event types
+  function getPointColor(d: any): string {
+    const active = activeRef.current;
+    const hovered = hoveredRef.current;
+    if (d.type === 'event') {
+      // Event dots: dimmed when a tracker is selected and this isn't it
+      if (active && d.slug !== active) return d.color + '20';
+      if (active && d.slug === active) return d.color + 'cc';
+      return d.color + '60';
+    }
+    // Hub markers
+    if (active && d.slug !== active && d.slug !== hovered) return d.color + '40';
+    return d.color;
+  }
+
+  function getPointRadius(d: any): number {
+    if (d.type === 'event') {
+      const active = activeRef.current;
+      if (active && d.slug === active) return 0.12;
+      return 0.08;
+    }
+    if (d.slug === activeRef.current) return 0.55;
+    if (d.slug === hoveredRef.current) return 0.4;
+    return 0.28;
+  }
+
+  function getPointAltitude(d: any): number {
+    if (d.type === 'event') {
+      if (activeRef.current === d.slug) return 0.02;
+      return 0.005;
+    }
+    if (d.slug === activeRef.current) return 0.06;
+    if (d.slug === hoveredRef.current) return 0.03;
+    return 0.012;
+  }
 
   // Initialize globe
   useEffect(() => {
@@ -68,51 +130,45 @@ export default function GlobePanel({
         .showAtmosphere(true)
         .atmosphereColor('#3498db')
         .atmosphereAltitude(0.18)
-        .pointsData(markersRef.current)
+        .pointsData(pointsRef.current)
         .pointLat('lat')
         .pointLng('lng')
-        .pointColor((d: any) => {
-          const active = activeRef.current;
-          const hovered = hoveredRef.current;
-          if (active && d.slug !== active && d.slug !== hovered) {
-            return d.color + '50';
-          }
-          return d.color;
-        })
-        .pointAltitude((d: any) => {
-          if (d.slug === activeRef.current) return 0.06;
-          if (d.slug === hoveredRef.current) return 0.03;
-          return 0.01;
-        })
-        .pointRadius((d: any) => {
-          if (d.slug === activeRef.current) return 0.55;
-          if (d.slug === hoveredRef.current) return 0.4;
-          return 0.25;
-        })
+        .pointColor(getPointColor)
+        .pointAltitude(getPointAltitude)
+        .pointRadius(getPointRadius)
         .pointsMerge(false)
-        .pointLabel((d: any) => `
-          <div style="
-            background: rgba(13,17,23,0.95);
-            border: 1px solid ${d.color}50;
-            border-radius: 6px;
-            padding: 6px 10px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-            color: #e6edf3;
-            backdrop-filter: blur(8px);
-            pointer-events: none;
-          ">
-            <div style="font-weight: 600;">${d.name}</div>
-          </div>
-        `)
+        .pointLabel((d: any) => {
+          if (d.type === 'event') return '';
+          return `
+            <div style="
+              background: rgba(13,17,23,0.95);
+              border: 1px solid ${d.color}50;
+              border-radius: 6px;
+              padding: 6px 10px;
+              font-family: 'JetBrains Mono', monospace;
+              font-size: 11px;
+              color: #e6edf3;
+              backdrop-filter: blur(8px);
+              pointer-events: none;
+            ">
+              <div style="font-weight: 600;">${d.name}</div>
+            </div>
+          `;
+        })
         .onPointClick((point: any) => {
           const slug = point.slug;
           onSelectRef.current(activeRef.current === slug ? null : slug);
         })
         .onPointHover((point: any) => {
-          onHoverRef.current(point?.slug ?? null);
-          if (containerRef.current) {
-            containerRef.current.style.cursor = point ? 'pointer' : 'grab';
+          if (point?.type === 'hub') {
+            onHoverRef.current(point.slug);
+            if (containerRef.current) containerRef.current.style.cursor = 'pointer';
+          } else if (point?.type === 'event') {
+            onHoverRef.current(point.slug);
+            if (containerRef.current) containerRef.current.style.cursor = 'pointer';
+          } else {
+            onHoverRef.current(null);
+            if (containerRef.current) containerRef.current.style.cursor = 'grab';
           }
         })
         .onGlobeClick(() => {
@@ -163,7 +219,7 @@ export default function GlobePanel({
   // Update points when trackers change
   useEffect(() => {
     if (globeRef.current) {
-      globeRef.current.pointsData(markers);
+      globeRef.current.pointsData(points);
     }
   }, [trackers]);
 
@@ -172,24 +228,10 @@ export default function GlobePanel({
     const globe = globeRef.current;
     if (!globe) return;
 
-    // Re-trigger point accessors by resetting data
     globe
-      .pointColor((d: any) => {
-        if (activeTracker && d.slug !== activeTracker && d.slug !== hoveredTracker) {
-          return d.color + '50';
-        }
-        return d.color;
-      })
-      .pointRadius((d: any) => {
-        if (d.slug === activeTracker) return 0.55;
-        if (d.slug === hoveredTracker) return 0.4;
-        return 0.25;
-      })
-      .pointAltitude((d: any) => {
-        if (d.slug === activeTracker) return 0.06;
-        if (d.slug === hoveredTracker) return 0.03;
-        return 0.01;
-      });
+      .pointColor(getPointColor)
+      .pointRadius(getPointRadius)
+      .pointAltitude(getPointAltitude);
   }, [activeTracker, hoveredTracker]);
 
   // Fly-to on selection
@@ -197,10 +239,9 @@ export default function GlobePanel({
     const globe = globeRef.current;
     if (!globe || !activeTracker) return;
 
-    const marker = markers.find(m => m.slug === activeTracker);
-    if (marker) {
-      globe.pointOfView({ lat: marker.lat, lng: marker.lng, altitude: 1.8 }, 1000);
-      // Stop auto-rotate while focused
+    const hub = points.find(p => p.type === 'hub' && p.slug === activeTracker);
+    if (hub) {
+      globe.pointOfView({ lat: hub.lat, lng: hub.lng, altitude: 1.8 }, 1000);
       const controls = globe.controls();
       if (controls) controls.autoRotate = false;
     }

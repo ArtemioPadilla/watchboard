@@ -29,6 +29,18 @@ const serializedTrackers = nonDraft.map(t => {
     // Tracker may not have data yet — use config defaults
   }
 
+  // Collect event points for the globe (up to 20 per tracker)
+  let eventPoints: Array<{ lat: number; lon: number; color: string; slug: string }> = [];
+  try {
+    const data = loadTrackerData(t.slug);
+    eventPoints = (data.mapPoints || []).slice(0, 20).map((p: any) => ({
+      lat: p.lat,
+      lon: p.lon,
+      color: t.color || '#3498db',
+      slug: t.slug,
+    }));
+  } catch { /* no map data */ }
+
   return {
     slug: t.slug,
     shortName: t.shortName,
@@ -55,6 +67,7 @@ const serializedTrackers = nonDraft.map(t => {
     lastUpdated,
     headline,
     topKpis,
+    eventPoints,
   };
 });
 ---

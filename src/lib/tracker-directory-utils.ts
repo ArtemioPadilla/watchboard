@@ -27,6 +27,7 @@ export interface TrackerCardData {
   mapEnabled?: boolean;
   globeEnabled?: boolean;
   mapCenter?: { lon: number; lat: number };
+  eventPoints?: Array<{ lat: number; lon: number; color: string; slug: string }>;
   dayCount: number;
   lastUpdated: string;
   headline?: string;
