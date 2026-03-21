@@ -449,6 +449,7 @@ jobs:
             For each enabled section: deep web searches, generate items conforming to schemas, merge with existing data, write files, verify JSON.
 
             RULES:
+            - CRITICAL DATE RULE: Today is $(date -u +%Y-%m-%d). Do NOT create events, match results, or outcomes for dates after today. For trackers covering future events (e.g., World Cup 2026), only populate verifiable past data (qualification results, venue announcements, draw results). Scheduled future events should be noted as "SCHEDULED" or "PLANNED", never as completed.
             - Every item MUST have a unique "id" field (lowercase-kebab-case)
             - MERGE-BY-ID: read existing data first, APPEND new items, never remove existing
             - Follow source tier rules from the tracker's ai.systemPrompt

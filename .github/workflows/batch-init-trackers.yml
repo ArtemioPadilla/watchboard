@@ -106,6 +106,7 @@ jobs:
             - ai config: custom systemPrompt, searchContext, enabledSections, coordValidation, updateIntervalDays, backfillTargets
 
             STEP 3 — CREATE DATA FILES
+            CRITICAL DATE RULE: Today is $(date -u +%Y-%m-%d). Do NOT create events, match results, or outcomes for dates after today. For trackers covering future events (e.g., World Cup 2026), only populate verifiable past data (qualification results, venue announcements, draw results). Scheduled future events should be noted as "SCHEDULED" or "PLANNED", never as completed.
             Create trackers/{slug}/data/events/ directory (mkdir -p).
             Create meta.json with operationName, dayCount, dateline, heroHeadline, heroSubtitle, footerNote, lastUpdated.
             Create update-log.json with lastRun timestamp.

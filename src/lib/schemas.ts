@@ -76,6 +76,12 @@ const TimeFieldSchema = z.string().regex(
 /** ISO date format YYYY-MM-DD */
 const DateFieldSchema = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Date must be YYYY-MM-DD');
 
+/** Check if a YYYY-MM-DD date string is in the future relative to today. */
+export function isFutureDate(dateStr: string): boolean {
+  const today = new Date().toISOString().slice(0, 10);
+  return dateStr > today;
+}
+
 /** Theater coordinate: [lon, lat] — bounds are tracker-specific, validated at config level */
 const TheaterCoordSchema = z.tuple([z.number(), z.number()]);
 

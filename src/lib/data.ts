@@ -16,6 +16,7 @@ import {
   ClaimSchema,
   PolItemSchema,
   MetaSchema,
+  isFutureDate,
 } from './schemas';
 
 // ── Eagerly load all tracker data at build time ──
@@ -100,6 +101,18 @@ export function loadTrackerData(slug: string, eraLabel?: string): TrackerData {
   const timeline = loadTimeline(slug, eraLabel);
   const mapPoints = z.array(MapPointSchema).parse(getTrackerData(slug, 'map-points.json') ?? []);
   const mapLines = z.array(MapLineSchema).parse(getTrackerData(slug, 'map-lines.json') ?? []);
+
+  // Warn on future-dated map data (soft guard — does not throw)
+  for (const point of mapPoints) {
+    if (isFutureDate(point.date)) {
+      console.warn(`[${slug}] MapPoint "${point.id}" has future date: ${point.date}`);
+    }
+  }
+  for (const line of mapLines) {
+    if (isFutureDate(line.date)) {
+      console.warn(`[${slug}] MapLine "${line.id}" has future date: ${line.date}`);
+    }
+  }
 
   // Cross-field validation: strike/retaliation lines must have weaponType + time
   for (const line of mapLines) {

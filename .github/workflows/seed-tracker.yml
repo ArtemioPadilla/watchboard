@@ -109,6 +109,7 @@ jobs:
             For each section in the tracker's enabledSections (filtered by the "sections" input if not "all"), perform DEEP web searches and populate the data. Work section by section.
 
             CRITICAL RULES FOR ALL SECTIONS:
+            - CRITICAL DATE RULE: Today is $(date -u +%Y-%m-%d). Do NOT create events, match results, or outcomes for dates after today. For trackers covering future events (e.g., World Cup 2026), only populate verifiable past data (qualification results, venue announcements, draw results). Scheduled future events should be noted as "SCHEDULED" or "PLANNED", never as completed.
             - Every item MUST have a unique "id" field (lowercase-kebab-case, descriptive, e.g., "iguala-attack-site", "amlo-truth-commission")
             - MERGE-BY-ID: Read existing data first, then APPEND new items. NEVER remove or overwrite existing items.
             - Follow the source tier rules from the tracker's ai.systemPrompt
