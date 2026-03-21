@@ -1,40 +1,40 @@
 [
   {
     "id": "china-tariff-rate",
-    "label": "Tariff Rate on China (2025)",
+    "label": "Tariff Rate on China (2025–2026)",
     "value": "145%",
     "color": "red",
     "source": "Office of the US Trade Representative",
     "contested": false,
     "delta": "+120pp",
-    "deltaNote": "From 25% baseline under Trump 1st term",
+    "deltaNote": "From 25% baseline; SCOTUS struck down IEEPA tariffs Feb 2026; China rate remains via Section 301",
     "trend": "up",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "lastUpdated": "2026-03-21T06:00:00.000Z"
   },
   {
     "id": "avg-tariff-rate",
-    "label": "Average US Tariff Rate (2025)",
-    "value": "~22%",
+    "label": "Average US Tariff Rate (Feb 2026)",
+    "value": "~13.7%",
     "color": "amber",
     "source": "Peterson Institute for International Economics",
     "contested": true,
-    "contestNote": "Effective rate depends on trade composition and exemptions",
-    "delta": "+18pp",
-    "deltaNote": "Highest level since Smoot-Hawley era (1930s)",
-    "trend": "up",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "contestNote": "Down from 27% peak after Supreme Court struck IEEPA tariffs; 10% universal tariff now in place via Section 122 for 150 days",
+    "delta": "+11pp",
+    "deltaNote": "Highest level in modern era; SCOTUS ruling forced restructuring of tariff regime",
+    "trend": "down",
+    "lastUpdated": "2026-03-21T06:00:00.000Z"
   },
   {
     "id": "border-crossings-2025",
-    "label": "SW Border Encounters (Feb 2025)",
+    "label": "SW Border Encounters (2025)",
     "value": "~8,300/mo",
     "color": "green",
     "source": "US Customs and Border Protection",
     "contested": false,
     "delta": "-95%",
-    "deltaNote": "Compared to Dec 2023 peak of ~302,000/month",
+    "deltaNote": "Compared to Dec 2023 peak of ~302,000/month; 605,000+ deported, 1.9M self-deported since Jan 2025",
     "trend": "down",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "lastUpdated": "2026-03-21T06:00:00.000Z"
   },
   {
     "id": "jan6-pardons",
@@ -44,29 +44,29 @@
     "source": "White House / DOJ",
     "contested": true,
     "contestNote": "Critics say blanket pardons include violent rioters; supporters call it correcting prosecutorial overreach",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "lastUpdated": "2026-03-21T06:00:00.000Z"
   },
   {
     "id": "executive-orders-term2",
-    "label": "Executive Orders (2nd Term, First 60 Days)",
-    "value": "100+",
+    "label": "Executive Orders (2nd Term)",
+    "value": "249",
     "color": "amber",
-    "source": "Federal Register / White House",
+    "source": "Federal Register / Ballotpedia",
     "contested": false,
-    "delta": "+3x",
-    "deltaNote": "Most prolific early-term EO pace in modern history",
+    "delta": "249 EOs + 58 memoranda + 133 proclamations",
+    "deltaNote": "Most prolific early-term EO pace in modern history; as of March 16, 2026",
     "trend": "up",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "lastUpdated": "2026-03-21T06:00:00.000Z"
   },
   {
     "id": "federal-employees-buyout",
-    "label": "Federal Employees Took DOGE Buyout",
-    "value": "~75,000",
+    "label": "Federal Workforce Reduction (2025)",
+    "value": "~278,000",
     "color": "amber",
-    "source": "Office of Personnel Management / Reuters",
+    "source": "Pew Research Center / OPM",
     "contested": true,
-    "contestNote": "Actual workforce reduction disputed; many still employed pending legal challenges",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "contestNote": "Federal workforce fell ~12% from Sept 2024 to Jan 2026 (2.31M to 2.04M); OPM now signaling some rehiring needed; costs ~$135B per Partnership for Public Service",
+    "lastUpdated": "2026-03-21T06:00:00.000Z"
   },
   {
     "id": "national-debt",
@@ -76,9 +76,9 @@
     "source": "US Treasury Department",
     "contested": false,
     "delta": "+$16T",
-    "deltaNote": "Grew from ~$20T when Trump first took office in 2017",
+    "deltaNote": "Grew from ~$20T when Trump first took office in 2017; OBBBA adds est. $4.1T more over 10 years (CBO)",
     "trend": "up",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "lastUpdated": "2026-03-21T06:00:00.000Z"
   },
   {
     "id": "doge-savings-claimed",
@@ -87,28 +87,65 @@
     "color": "blue",
     "source": "DOGE (doge.gov) / White House",
     "contested": true,
-    "contestNote": "Independent analysts put verifiable savings far lower; many figures include cancelled contracts not yet paid",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "contestNote": "DOGE staffer deposition (Mar 2026) admitted agency was unable to lower the federal deficit; independent analysts put verifiable savings far lower",
+    "lastUpdated": "2026-03-21T06:00:00.000Z"
   },
   {
     "id": "unemployment-rate-2025",
-    "label": "US Unemployment Rate (early 2025)",
+    "label": "US Unemployment Rate (early 2026)",
     "value": "4.1%",
-    "color": "green",
+    "color": "amber",
     "source": "Bureau of Labor Statistics",
     "contested": false,
+    "delta": "-98,000 mfg jobs in 2025",
+    "deltaNote": "Manufacturing lost 98,000 jobs in Trump's first full year; tariffs cited as squashing factories",
     "trend": "stable",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "lastUpdated": "2026-03-21T06:00:00.000Z"
   },
   {
     "id": "trump-approval-rating",
     "label": "Trump Approval Rating (Mar 2026)",
-    "value": "~43%",
-    "color": "amber",
-    "source": "RealClearPolitics average",
+    "value": "~40.9%",
+    "color": "red",
+    "source": "RealClearPolling average / Silver Bulletin",
     "contested": true,
-    "contestNote": "Varies 38–52% depending on poll methodology and sample",
+    "contestNote": "Net approval -13.9 to -15.3 (new 2nd-term low); Quinnipiac shows 37% approve / 57% disapprove; Iran war and fuel prices driving decline",
     "trend": "down",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "lastUpdated": "2026-03-21T06:00:00.000Z"
+  },
+  {
+    "id": "iran-war-casualties",
+    "label": "Iran War Casualties (Day 21)",
+    "value": "1,200+ killed",
+    "color": "red",
+    "source": "Pentagon / Iranian & Lebanese health officials / Israeli authorities",
+    "contested": true,
+    "contestNote": "1,200+ killed in Iran, 570 in Lebanon, 12 in Israel; 7 US soldiers killed, 8 seriously wounded; Iranian casualty figures disputed",
+    "delta": "War began Feb 28, 2026",
+    "deltaNote": "US-Israel joint strikes began after nuclear talks collapsed; 15,000+ targets hit across Iran per Hegseth",
+    "trend": "up",
+    "lastUpdated": "2026-03-21T06:00:00.000Z"
+  },
+  {
+    "id": "oil-price-iran-war",
+    "label": "Brent Crude Oil Price (Mar 20, 2026)",
+    "value": "$112/barrel",
+    "color": "red",
+    "source": "Goldman Sachs / CNBC / Al Jazeera",
+    "contested": false,
+    "delta": "+40%",
+    "deltaNote": "Strait of Hormuz effectively closed; largest oil supply disruption in history per IEA; ~8M bbl/day cut from global supply",
+    "trend": "up",
+    "lastUpdated": "2026-03-21T06:00:00.000Z"
+  },
+  {
+    "id": "obbba-deficit-impact",
+    "label": "\"Big Beautiful Bill\" Deficit Impact",
+    "value": "+$4.1T (10yr)",
+    "color": "red",
+    "source": "Congressional Budget Office",
+    "contested": true,
+    "contestNote": "CBO projects $4.1T added deficit over 10 years; White House claims growth offsets costs; signed into law July 4, 2025",
+    "lastUpdated": "2026-03-21T06:00:00.000Z"
   }
 ]

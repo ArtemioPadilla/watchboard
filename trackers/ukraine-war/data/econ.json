@@ -15,7 +15,7 @@
     ],
     "color": "red",
     "source": "World Bank / IMF (2022)",
-    "lastUpdated": "2026-03-20"
+    "lastUpdated": "2026-03-21T06:00:00.000Z"
   },
   {
     "id": "ukraine-gdp-recovery-2023",
@@ -33,13 +33,13 @@
     ],
     "color": "green",
     "source": "IMF / National Bank of Ukraine (2023)",
-    "lastUpdated": "2026-03-20"
+    "lastUpdated": "2026-03-21T06:00:00.000Z"
   },
   {
     "id": "ukraine-reconstruction-cost",
     "label": "Ukraine Reconstruction Cost Estimate",
     "value": "$524B",
-    "change": "Needed over 10 years; equivalent to 3\u00d7 pre-war Ukrainian GDP",
+    "change": "Needed over 10 years; equivalent to 3× pre-war Ukrainian GDP",
     "direction": "up",
     "sparkData": [
       100,
@@ -51,13 +51,13 @@
     ],
     "color": "red",
     "source": "World Bank Joint Damage Assessment (2024)",
-    "lastUpdated": "2026-03-20"
+    "lastUpdated": "2026-03-21T06:00:00.000Z"
   },
   {
     "id": "frozen-russian-assets",
     "label": "Frozen Russian State Assets",
     "value": "~$300B",
-    "change": "Primarily \u20ac210B at Euroclear Belgium; generating ~$3B/year interest",
+    "change": "Primarily €210B at Euroclear Belgium; generating ~$3B/year interest",
     "direction": "up",
     "sparkData": [
       295,
@@ -69,13 +69,13 @@
     ],
     "color": "blue",
     "source": "G7 Finance Ministers / EU Council (2025)",
-    "lastUpdated": "2026-03-20"
+    "lastUpdated": "2026-03-21T06:00:00.000Z"
   },
   {
     "id": "us-total-ukraine-aid",
     "label": "US Military Aid to Ukraine (total)",
     "value": "$113B+",
-    "change": "Includes Biden-era packages + $61B April 2024 package",
+    "change": "Includes Biden-era packages + $61B April 2024 package; minerals deal (Apr 2025) counts future US military aid as fund contributions",
     "direction": "up",
     "sparkData": [
       20,
@@ -87,13 +87,13 @@
     ],
     "color": "green",
     "source": "US DoD / USAID (through 2025)",
-    "lastUpdated": "2026-03-20"
+    "lastUpdated": "2026-03-21T06:00:00.000Z"
   },
   {
     "id": "eu-total-ukraine-aid",
     "label": "EU Total Aid to Ukraine (all types)",
-    "value": "\u20ac118B+",
-    "change": "EU surpassed US as largest single aid provider in 2024; includes \u20ac50B 4-year facility",
+    "value": "€118B+",
+    "change": "EU surpassed US as largest single aid provider in 2024; includes €50B 4-year facility. NATO targeting additional $15B for Ukraine in 2026.",
     "direction": "up",
     "sparkData": [
       15,
@@ -105,7 +105,7 @@
     ],
     "color": "green",
     "source": "Kiel Institute for the World Economy (Feb 2026)",
-    "lastUpdated": "2026-03-20"
+    "lastUpdated": "2026-03-21T06:00:00.000Z"
   },
   {
     "id": "russia-defense-spending-gdp",
@@ -123,31 +123,31 @@
     ],
     "color": "red",
     "source": "Russian Finance Ministry / IISS (2025)",
-    "lastUpdated": "2026-03-20"
+    "lastUpdated": "2026-03-21T06:00:00.000Z"
   },
   {
     "id": "russia-interest-rate",
     "label": "Russian Central Bank Interest Rate",
-    "value": "21%",
-    "change": "Record high to combat war inflation; stifling private investment",
-    "direction": "up",
+    "value": "15%",
+    "change": "Cut from 21% peak; Bank of Russia in easing cycle — cut to 15.5% Feb 2026, then 15% Mar 20, 2026 as economy slows and inflation moderates to ~5.9%",
+    "direction": "down",
     "sparkData": [
       8,
-      11,
       13,
       16,
-      19,
-      21
+      21,
+      15.5,
+      15
     ],
-    "color": "red",
-    "source": "Russian Central Bank (2025)",
-    "lastUpdated": "2026-03-20"
+    "color": "amber",
+    "source": "Bank of Russia (March 20, 2026)",
+    "lastUpdated": "2026-03-21T06:00:00.000Z"
   },
   {
     "id": "ukraine-war-cost-per-day",
     "label": "Ukraine War Cost per Day (Russia)",
-    "value": "$500M\u2013$1B",
-    "change": "Estimated daily Russian war expenditure; driving budget deficit",
+    "value": "$500M–$1B",
+    "change": "Estimated daily Russian war expenditure; driving budget deficit and depleting National Wealth Fund",
     "direction": "up",
     "sparkData": [
       200,
@@ -159,25 +159,25 @@
     ],
     "color": "amber",
     "source": "Various Western economists / KSE Institute (2025)",
-    "lastUpdated": "2026-03-20"
+    "lastUpdated": "2026-03-21T06:00:00.000Z"
   },
   {
     "id": "russia-wealth-fund-depletion",
     "label": "Russian National Wealth Fund",
-    "value": "~60% depleted",
-    "change": "Fund draining to cover war budget deficits; liquid reserves nearly exhausted",
+    "value": "~near exhaustion",
+    "change": "Kremlin acknowledged fund running dry; at record withdrawal pace in early 2026 — could be spent by year-end without sustained oil price uptick",
     "direction": "down",
     "sparkData": [
       100,
       90,
-      80,
-      70,
+      75,
       60,
-      40
+      40,
+      15
     ],
     "color": "red",
-    "source": "Russian Finance Ministry / Reuters (2025)",
-    "lastUpdated": "2026-03-20"
+    "source": "Russian Finance Ministry / Bloomberg (Mar 2026)",
+    "lastUpdated": "2026-03-21T06:00:00.000Z"
   },
   {
     "id": "ukraine-poverty-rate",
@@ -195,13 +195,13 @@
     ],
     "color": "red",
     "source": "World Bank (2024)",
-    "lastUpdated": "2026-03-20"
+    "lastUpdated": "2026-03-21T06:00:00.000Z"
   },
   {
     "id": "g7-ukraine-loan",
     "label": "G7 Loan to Ukraine (backed by frozen assets)",
     "value": "$50B",
-    "change": "Finalized Oct 2024; US contributed $20B; secured by Russian asset interest",
+    "change": "Finalized Oct 2024; US contributed $20B; secured by Russian asset interest (~$3B/year)",
     "direction": "up",
     "sparkData": [
       0,
@@ -213,6 +213,42 @@
     ],
     "color": "green",
     "source": "G7 Finance Ministers (Oct 2024)",
-    "lastUpdated": "2026-03-20"
+    "lastUpdated": "2026-03-21T06:00:00.000Z"
+  },
+  {
+    "id": "russia-oil-price-brent",
+    "label": "Brent Crude Oil Price",
+    "value": "$103/bbl",
+    "change": "Surged above $100 for first time since 2022 invasion; driven by Iran-US conflict closing Strait of Hormuz. US Treasury issued 30-day waiver on Russian seaborne crude Mar 13, 2026.",
+    "direction": "up",
+    "sparkData": [
+      70,
+      72,
+      75,
+      80,
+      95,
+      103
+    ],
+    "color": "red",
+    "source": "Market data / CNN / PBS (March 2026)",
+    "lastUpdated": "2026-03-21T06:00:00.000Z"
+  },
+  {
+    "id": "us-ukraine-minerals-deal",
+    "label": "US–Ukraine Critical Minerals Investment Fund",
+    "value": "Signed Apr 30, 2025",
+    "change": "Joint fund for Ukraine reconstruction backed by future mineral revenues. Future US military aid counts as US contribution. Ukraine not required to repay past aid. Minerals wealth estimated at $14.8T total.",
+    "direction": "up",
+    "sparkData": [
+      0,
+      0,
+      0,
+      10,
+      50,
+      100
+    ],
+    "color": "blue",
+    "source": "US Treasury / CSIS / Fortune (Apr–May 2025)",
+    "lastUpdated": "2026-03-21T06:00:00.000Z"
   }
 ]
