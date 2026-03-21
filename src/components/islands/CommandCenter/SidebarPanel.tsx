@@ -16,10 +16,12 @@ interface Props {
   basePath: string;
   activeTracker: string | null;
   hoveredTracker: string | null;
+  followedSlugs: string[];
   liveCount: number;
   historicalCount: number;
   onSelectTracker: (slug: string | null) => void;
   onHoverTracker: (slug: string | null) => void;
+  onToggleFollow: (slug: string) => void;
 }
 
 // ── TrackerRow ──
@@ -29,15 +31,19 @@ const TrackerRow = memo(function TrackerRow({
   basePath,
   isActive,
   isHovered,
+  isFollowed,
   onSelect,
   onHover,
+  onToggleFollow,
 }: {
   tracker: TrackerCardData;
   basePath: string;
   isActive: boolean;
   isHovered: boolean;
+  isFollowed: boolean;
   onSelect: (slug: string | null) => void;
   onHover: (slug: string | null) => void;
+  onToggleFollow: (slug: string) => void;
 }) {
   const color = tracker.color || '#3498db';
   const dateline = buildDateline(tracker);
@@ -101,12 +107,21 @@ const TrackerRow = memo(function TrackerRow({
         )}
 
         <div style={S.expandedActions}>
-          <span
-            style={S.deselectBtn}
-            onClick={e => { e.stopPropagation(); onSelect(null); }}
-          >
-            ✕ DESELECT
-          </span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span
+              style={S.deselectBtn}
+              onClick={e => { e.stopPropagation(); onSelect(null); }}
+            >
+              ✕ DESELECT
+            </span>
+            <span
+              style={{ ...S.followBtn, color: isFollowed ? '#f39c12' : 'var(--text-muted)' }}
+              onClick={e => { e.stopPropagation(); onToggleFollow(tracker.slug); }}
+              title={isFollowed ? 'Unfollow' : 'Follow'}
+            >
+              {isFollowed ? '★' : '☆'} {isFollowed ? 'FOLLOWING' : 'FOLLOW'}
+            </span>
+          </div>
           <a
             href={href}
             style={S.openLink}
@@ -136,6 +151,7 @@ const TrackerRow = memo(function TrackerRow({
       <div style={S.collapsedLeft}>
         <span style={S.icon}>{tracker.icon || ''}</span>
         <span style={S.collapsedName}>{tracker.shortName}</span>
+        {isFollowed && <span style={S.followStar}>★</span>}
       </div>
       <div style={S.collapsedRight}>
         {freshness.className === 'fresh' && <span style={S.freshDot} />}
@@ -224,45 +240,75 @@ const SeriesStrip = memo(function SeriesStrip({
 
 const RecentEventsFeed = memo(function RecentEventsFeed({
   trackers,
+  followedSlugs,
   onSelect,
 }: {
   trackers: TrackerCardData[];
+  followedSlugs: string[];
   onSelect: (slug: string | null) => void;
 }) {
-  // Collect the 5 most recently updated trackers and show their headlines
-  const recentTrackers = useMemo(() => {
-    return [...trackers]
-      .filter(t => t.headline && t.status === 'active')
-      .sort((a, b) => new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime())
-      .slice(0, 5);
-  }, [trackers]);
+  const withHeadlines = useMemo(
+    () => trackers.filter(t => t.headline && t.status === 'active'),
+    [trackers],
+  );
 
-  if (recentTrackers.length === 0) return null;
+  const followedTrackers = useMemo(
+    () => withHeadlines
+      .filter(t => followedSlugs.includes(t.slug))
+      .sort((a, b) => new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime()),
+    [withHeadlines, followedSlugs],
+  );
+
+  const recentTrackers = useMemo(
+    () => withHeadlines
+      .filter(t => !followedSlugs.includes(t.slug))
+      .sort((a, b) => new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime())
+      .slice(0, followedTrackers.length > 0 ? 3 : 5),
+    [withHeadlines, followedSlugs, followedTrackers.length],
+  );
+
+  if (followedTrackers.length === 0 && recentTrackers.length === 0) return null;
+
+  const renderItem = (t: TrackerCardData, isFollowed: boolean) => (
+    <div
+      key={t.slug}
+      style={S.feedItem}
+      onClick={() => onSelect(t.slug)}
+    >
+      <div style={S.feedItemHeader}>
+        <span style={{ fontSize: '0.7rem' }}>{t.icon || ''}</span>
+        <span style={S.feedItemName}>{t.shortName}</span>
+        {isFollowed && <span style={S.followStar}>★</span>}
+        <span style={{ ...S.feedItemAge, color: t.color || '#3498db' }}>
+          {computeFreshness(t.lastUpdated).ageText}
+        </span>
+      </div>
+      <div style={S.feedItemText}>
+        {t.headline && t.headline.length > 80 ? t.headline.slice(0, 80) + '…' : t.headline}
+      </div>
+    </div>
+  );
 
   return (
     <div style={S.feedWrap}>
-      <div style={S.feedHeader}>
-        <span style={S.feedDot} />
-        <span>LATEST INTEL</span>
-      </div>
-      {recentTrackers.map(t => (
-        <div
-          key={t.slug}
-          style={S.feedItem}
-          onClick={() => onSelect(t.slug)}
-        >
-          <div style={S.feedItemHeader}>
-            <span style={{ fontSize: '0.7rem' }}>{t.icon || ''}</span>
-            <span style={S.feedItemName}>{t.shortName}</span>
-            <span style={{ ...S.feedItemAge, color: t.color || '#3498db' }}>
-              {computeFreshness(t.lastUpdated).ageText}
-            </span>
+      {followedTrackers.length > 0 && (
+        <>
+          <div style={S.feedHeader}>
+            <span style={{ color: '#f39c12', fontSize: '0.6rem' }}>★</span>
+            <span>FOLLOWING</span>
           </div>
-          <div style={S.feedItemText}>
-            {t.headline && t.headline.length > 80 ? t.headline.slice(0, 80) + '…' : t.headline}
+          {followedTrackers.map(t => renderItem(t, true))}
+        </>
+      )}
+      {recentTrackers.length > 0 && (
+        <>
+          <div style={{ ...S.feedHeader, marginTop: followedTrackers.length > 0 ? 6 : 0 }}>
+            <span style={S.feedDot} />
+            <span>LATEST INTEL</span>
           </div>
-        </div>
-      ))}
+          {recentTrackers.map(t => renderItem(t, false))}
+        </>
+      )}
     </div>
   );
 });
@@ -274,10 +320,12 @@ export default function SidebarPanel({
   basePath,
   activeTracker,
   hoveredTracker,
+  followedSlugs,
   liveCount,
   historicalCount,
   onSelectTracker,
   onHoverTracker,
+  onToggleFollow,
 }: Props) {
   const [activeDomain, setActiveDomain] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
@@ -373,7 +421,7 @@ export default function SidebarPanel({
       {/* Tracker list */}
       <div style={S.list}>
         {/* Recent events feed (only when not searching) */}
-        {!isSearching && <RecentEventsFeed trackers={trackers} onSelect={onSelectTracker} />}
+        {!isSearching && <RecentEventsFeed trackers={trackers} followedSlugs={followedSlugs} onSelect={onSelectTracker} />}
 
         {filtered.length === 0 ? (
           <div style={S.noResults}>No trackers match your search.</div>
@@ -406,8 +454,10 @@ export default function SidebarPanel({
                     basePath={basePath}
                     isActive={activeTracker === t.slug}
                     isHovered={hoveredTracker === t.slug}
+                    isFollowed={followedSlugs.includes(t.slug)}
                     onSelect={onSelectTracker}
                     onHover={onHoverTracker}
+                    onToggleFollow={onToggleFollow}
                   />
                 ))}
               </div>
@@ -743,6 +793,22 @@ const S = {
     opacity: 0.6,
     transition: 'opacity 0.2s',
     letterSpacing: '0.04em',
+  } as CSSProperties,
+
+  followBtn: {
+    fontFamily: "'JetBrains Mono', monospace",
+    fontSize: '0.52rem',
+    cursor: 'pointer',
+    opacity: 0.8,
+    transition: 'color 0.2s',
+    letterSpacing: '0.04em',
+    userSelect: 'none' as const,
+  } as CSSProperties,
+
+  followStar: {
+    color: '#f39c12',
+    fontSize: '0.55rem',
+    flexShrink: 0,
   } as CSSProperties,
 
   openLink: {

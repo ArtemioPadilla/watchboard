@@ -31,6 +31,7 @@ interface Props {
   trackers: TrackerCardData[];
   activeTracker: string | null;
   hoveredTracker: string | null;
+  followedSlugs: string[];
   onSelectTracker: (slug: string | null) => void;
   onHoverTracker: (slug: string | null) => void;
 }
@@ -172,6 +173,7 @@ export default function GlobePanel({
   trackers,
   activeTracker,
   hoveredTracker,
+  followedSlugs,
   onSelectTracker,
   onHoverTracker,
 }: Props) {
@@ -181,8 +183,10 @@ export default function GlobePanel({
   const activeRef = useRef(activeTracker);
   const hoveredRef = useRef(hoveredTracker);
 
+  const followedRef = useRef(followedSlugs);
   activeRef.current = activeTracker;
   hoveredRef.current = hoveredTracker;
+  followedRef.current = followedSlugs;
 
   const hubPoints = buildHubPoints(trackers);
   const pointsRef = useRef<GlobePoint[]>(hubPoints);
@@ -204,35 +208,41 @@ export default function GlobePanel({
   function getPointColor(d: any): string {
     const active = activeRef.current;
     const hovered = hoveredRef.current;
+    const followed = followedRef.current;
     if (d.type === 'event') {
-      // Event dots: dimmed when a tracker is selected and this isn't it
       if (active && d.slug !== active) return d.color + '20';
       if (active && d.slug === active) return d.color + 'cc';
       return d.color + '60';
     }
-    // Hub markers
-    if (active && d.slug !== active && d.slug !== hovered) return d.color + '40';
+    // Hub markers: followed trackers stay bright even when another is selected
+    if (active && d.slug !== active && d.slug !== hovered) {
+      if (followed.includes(d.slug)) return d.color + '90';
+      return d.color + '40';
+    }
     return d.color;
   }
 
   function getPointRadius(d: any): number {
+    const followed = followedRef.current;
     if (d.type === 'event') {
-      const active = activeRef.current;
-      if (active && d.slug === active) return 0.12;
+      if (activeRef.current === d.slug) return 0.12;
       return 0.08;
     }
     if (d.slug === activeRef.current) return 0.55;
     if (d.slug === hoveredRef.current) return 0.4;
+    if (followed.includes(d.slug)) return 0.35;
     return 0.28;
   }
 
   function getPointAltitude(d: any): number {
+    const followed = followedRef.current;
     if (d.type === 'event') {
       if (activeRef.current === d.slug) return 0.02;
       return 0.005;
     }
     if (d.slug === activeRef.current) return 0.06;
     if (d.slug === hoveredRef.current) return 0.03;
+    if (followed.includes(d.slug)) return 0.02;
     return 0.012;
   }
 
@@ -393,7 +403,7 @@ export default function GlobePanel({
         if (activeTracker && d.slug !== activeTracker) return `${d.color}15`;
         return (t: number) => `rgba(${hexToRgb(d.color)}, ${1 - t})`;
       });
-  }, [activeTracker, hoveredTracker]);
+  }, [activeTracker, hoveredTracker, followedSlugs]);
 
   // Fly-to on selection
   useEffect(() => {
