@@ -26,6 +26,7 @@ export interface TrackerCardData {
   isHub?: boolean;
   mapEnabled?: boolean;
   globeEnabled?: boolean;
+  mapCenter?: { lon: number; lat: number };
   dayCount: number;
   lastUpdated: string;
   headline?: string;
