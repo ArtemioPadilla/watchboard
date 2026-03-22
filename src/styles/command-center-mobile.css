@@ -1,0 +1,144 @@
+/* ══════════════════════════════════════════════
+   Command Center — Mobile UX Improvements
+   
+   Targets class names added to SidebarPanel.tsx:
+     .cc-tracker-row       — collapsed tracker row
+     .cc-tracker-name      — tracker name text
+     .cc-tracker-status    — freshness/status label
+     .cc-tracker-expanded  — expanded tracker card
+     .cc-kpi-row           — KPI chips container
+     .cc-kpi-value         — KPI value text
+     .cc-kpi-label         — KPI label text
+     .cc-open-link         — "Open Dashboard" link
+     .cc-domain-tab        — domain filter button
+     .cc-search-input      — search input field
+     .cc-feed-item         — recent events feed item
+     .cc-series-strip      — series horizontal strip
+     .cc-footer            — sidebar footer
+   ══════════════════════════════════════════════ */
+
+/* ─── Safe area handling for notched phones ─── */
+@supports (padding: env(safe-area-inset-top)) {
+  @media (max-width: 767px) {
+    .command-center-root > div:last-child {
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+  }
+}
+
+@media (max-width: 767px) {
+
+  /* ─── Touch targets: minimum 44px for all interactive elements ─── */
+
+  /* Domain filter tabs — larger touch area */
+  .cc-domain-tab {
+    min-height: 32px !important;
+    padding: 6px 10px !important;
+    font-size: 0.55rem !important;
+  }
+
+  /* Feed items — larger touch area */
+  .cc-feed-item {
+    padding: 8px 10px !important;
+    margin-bottom: 4px !important;
+  }
+
+  /* Tracker rows — ensure touch target */
+  .cc-tracker-row {
+    min-height: 44px !important;
+    padding: 8px 12px !important;
+  }
+
+  /* ─── KPI chips: wrap instead of overflow ─── */
+  .cc-kpi-row {
+    flex-wrap: wrap !important;
+  }
+
+  /* ─── Search input: larger for easy tapping ─── */
+  .cc-search-input {
+    padding: 10px 10px 10px 32px !important;
+    font-size: 0.75rem !important;
+    border-radius: 8px !important;
+  }
+
+  /* ─── Better text legibility ─── */
+
+  /* Tracker names in collapsed rows */
+  .cc-tracker-name {
+    font-size: max(0.78rem, 14px) !important;
+  }
+
+  /* Status / freshness labels */
+  .cc-tracker-status {
+    font-size: 0.55rem !important;
+  }
+
+  /* KPI values — ensure readable */
+  .cc-kpi-value {
+    font-size: 0.75rem !important;
+  }
+
+  /* KPI labels — slightly larger */
+  .cc-kpi-label {
+    font-size: 0.5rem !important;
+  }
+
+  /* ─── Series strip: scroll improvements ─── */
+  .cc-series-strip {
+    scroll-snap-type: x proximity;
+    padding-right: 24px !important;
+  }
+
+  .cc-series-strip > div {
+    scroll-snap-align: start;
+  }
+
+  /* ─── Expanded tracker card: better mobile layout ─── */
+  .cc-tracker-expanded {
+    margin: 4px 6px !important;
+    padding: 12px !important;
+  }
+
+  /* Open Dashboard link: make it a proper button-like target */
+  .cc-open-link {
+    font-size: 0.65rem !important;
+    padding: 6px 12px !important;
+    background: rgba(52, 152, 219, 0.1) !important;
+    border: 1px solid rgba(52, 152, 219, 0.25) !important;
+    border-radius: 4px !important;
+    display: inline-block !important;
+  }
+
+  /* ─── Footer: more breathing room ─── */
+  .cc-footer {
+    padding: 10px 12px !important;
+  }
+}
+
+/* ─── Tablet tweaks (768-1024) ─── */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .command-center-root > div:last-child {
+    max-width: 380px !important;
+    min-width: 320px !important;
+  }
+}
+
+/* ─── Landscape phone: give globe more room ─── */
+@media (max-width: 767px) and (orientation: landscape) {
+  .command-center-root {
+    flex-direction: row !important;
+  }
+  .command-center-root > div:first-child {
+    flex: 1 !important;
+    height: 100% !important;
+    min-height: unset !important;
+  }
+  .command-center-root > div:last-child {
+    flex: none !important;
+    width: 55% !important;
+    max-width: none !important;
+    height: 100% !important;
+    border-top: none !important;
+    border-left: 1px solid var(--border) !important;
+  }
+}

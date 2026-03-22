@@ -118,3 +118,5 @@ const styles = {
     overflow: 'hidden',
   } as React.CSSProperties,
 };
+
+/* Note: mobile layout overrides are in index.astro <style is:global> block */

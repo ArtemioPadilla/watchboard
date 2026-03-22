@@ -21,6 +21,7 @@
   overflow-y: auto;
   padding-top: 44px;
   padding-bottom: 56px;
+  padding-bottom: calc(56px + env(safe-area-inset-bottom, 0px));
 }
 
 .mtab-loading {
@@ -99,14 +100,16 @@
 }
 
 .mtab-toggle-btn {
-  padding: 4px 12px;
-  font-size: 0.7rem;
+  padding: 6px 14px;
+  font-size: 0.75rem;
   font-family: 'JetBrains Mono', monospace;
   background: none;
   border: none;
   color: var(--text-muted);
   cursor: pointer;
   transition: background 0.15s, color 0.15s;
+  min-height: 32px;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .mtab-toggle-btn.active {
@@ -136,13 +139,14 @@
   justify-content: center;
   gap: 2px;
   padding: 8px 0;
-  min-height: 48px;
+  min-height: 52px;
   background: none;
   border: none;
   cursor: pointer;
   color: var(--text-muted);
   position: relative;
   transition: color 0.15s;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .mtab-tab.active {
@@ -190,8 +194,8 @@
 .mtab-subtab {
   flex: 1;
   text-align: center;
-  padding: 10px;
-  font-size: 0.7rem;
+  padding: 12px 10px;
+  font-size: 0.75rem;
   font-family: 'JetBrains Mono', monospace;
   text-transform: uppercase;
   background: none;
@@ -201,6 +205,8 @@
   cursor: pointer;
   transition: color 0.15s, border-bottom-color 0.15s;
   letter-spacing: 0.5px;
+  min-height: 44px;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .mtab-subtab.active {
@@ -218,13 +224,17 @@
 .mtab-kpi-row {
   display: flex;
   gap: 8px;
-  padding: 4px 12px;
+  padding: 6px 12px;
   background: var(--bg-primary);
   border-bottom: 1px solid var(--border);
   overflow-x: auto;
   white-space: nowrap;
   flex-shrink: 0;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
 }
+.mtab-kpi-row::-webkit-scrollbar { display: none; }
+.mtab-kpi-row > * { scroll-snap-align: start; }
 
 .mtab-kpi {
   font-size: 0.75rem;
@@ -378,19 +388,21 @@
   width: 100%;
   text-align: left;
   margin-bottom: 8px;
-  padding: 10px 12px;
+  padding: 12px 14px;
   background: var(--bg-card);
   border-left: 3px solid;
-  border-radius: 0 6px 6px 0;
+  border-radius: 0 8px 8px 0;
   border-top: none;
   border-right: none;
   border-bottom: none;
   cursor: pointer;
-  transition: background 0.15s;
+  transition: background 0.15s, transform 0.1s;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .mtab-event-card:active {
   background: var(--bg-card-hover);
+  transform: scale(0.99);
 }
 
 .mtab-event-header {
@@ -459,8 +471,14 @@
 .mtab-kpi-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 6px;
+  gap: 8px;
   margin-bottom: 12px;
+}
+
+@media (max-width: 360px) {
+  .mtab-kpi-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .mtab-kpi-card {
@@ -811,4 +829,34 @@
 
 @media (min-width: 1025px) {
   .mobile-layout { display: none !important; }
+}
+
+/* ─── Landscape phones: optimize map height ─── */
+@media (max-width: 768px) and (orientation: landscape) {
+  .mtab-header {
+    height: 36px;
+    padding: 0 8px;
+  }
+
+  .mtab-content {
+    padding-top: 36px;
+    padding-bottom: 44px;
+  }
+
+  .mtab-tab {
+    min-height: 40px;
+    padding: 4px 0;
+  }
+
+  .mtab-tab-label {
+    font-size: 8px;
+  }
+
+  .mtab-tab-icon {
+    font-size: 14px;
+  }
+
+  .mtab-kpi-row {
+    padding: 3px 8px;
+  }
 }

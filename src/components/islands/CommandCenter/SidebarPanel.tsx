@@ -68,6 +68,7 @@ const TrackerRow = memo(function TrackerRow({
     return (
       <div
         ref={rowRef}
+        className="cc-tracker-expanded"
         style={{
           ...S.expandedRow,
           borderColor: `${color}50`,
@@ -96,11 +97,11 @@ const TrackerRow = memo(function TrackerRow({
         )}
 
         {tracker.topKpis.length > 0 && (
-          <div style={S.kpiRow}>
+          <div className="cc-kpi-row" style={S.kpiRow}>
             {tracker.topKpis.map((k, i) => (
               <div key={i} style={S.kpiChip}>
-                <span style={S.kpiValue}>{k.value}</span>
-                <span style={S.kpiLabel}>{k.label}</span>
+                <span className="cc-kpi-value" style={S.kpiValue}>{k.value}</span>
+                <span className="cc-kpi-label" style={S.kpiLabel}>{k.label}</span>
               </div>
             ))}
           </div>
@@ -124,6 +125,7 @@ const TrackerRow = memo(function TrackerRow({
           </div>
           <a
             href={href}
+            className="cc-open-link"
             style={S.openLink}
             onClick={e => e.stopPropagation()}
           >
@@ -138,6 +140,7 @@ const TrackerRow = memo(function TrackerRow({
   return (
     <div
       ref={rowRef}
+      className="cc-tracker-row"
       style={{
         ...S.collapsedRow,
         borderLeftColor: color,
@@ -150,12 +153,12 @@ const TrackerRow = memo(function TrackerRow({
     >
       <div style={S.collapsedLeft}>
         <span style={S.icon}>{tracker.icon || ''}</span>
-        <span style={S.collapsedName}>{tracker.shortName}</span>
+        <span className="cc-tracker-name" style={S.collapsedName}>{tracker.shortName}</span>
         {isFollowed && <span style={S.followStar}>★</span>}
       </div>
       <div style={S.collapsedRight}>
         {freshness.className === 'fresh' && <span style={S.freshDot} />}
-        <span style={{ ...S.collapsedStatus, color: freshness.className === 'fresh' ? 'var(--accent-green)' : freshness.className === 'recent' ? 'var(--accent-amber)' : 'var(--text-muted)' }}>
+        <span className="cc-tracker-status" style={{ ...S.collapsedStatus, color: freshness.className === 'fresh' ? 'var(--accent-green)' : freshness.className === 'recent' ? 'var(--accent-amber)' : 'var(--text-muted)' }}>
           {freshness.label}
         </span>
         <span style={S.collapsedDay}>{dateline}</span>
@@ -206,7 +209,7 @@ const SeriesStrip = memo(function SeriesStrip({
         <span style={S.seriesLabel}>{group.label}</span>
         <div style={S.seriesLine} />
       </div>
-      <div style={S.seriesStrip}>
+      <div className="cc-series-strip" style={S.seriesStrip}>
         {group.trackers.map((t, i) => (
           <div key={t.slug} style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
             {i > 0 && <span style={S.seriesArrow}>→</span>}
@@ -272,6 +275,7 @@ const RecentEventsFeed = memo(function RecentEventsFeed({
   const renderItem = (t: TrackerCardData, isFollowed: boolean) => (
     <div
       key={t.slug}
+      className="cc-feed-item"
       style={S.feedItem}
       onClick={() => onSelect(t.slug)}
     >
@@ -387,6 +391,7 @@ export default function SidebarPanel({
         <span style={S.searchIcon}>&gt;_</span>
         <input
           type="text"
+          className="cc-search-input"
           placeholder="Search trackers..."
           value={searchQuery}
           onChange={e => setSearchQuery(e.target.value)}
@@ -401,6 +406,7 @@ export default function SidebarPanel({
       <div style={S.tabs}>
         <button
           type="button"
+          className="cc-domain-tab"
           style={S.tab(!activeDomain)}
           onClick={() => setActiveDomain(null)}
         >
@@ -410,6 +416,7 @@ export default function SidebarPanel({
           <button
             key={d}
             type="button"
+            className="cc-domain-tab"
             style={S.tab(activeDomain === d, DOMAIN_COLORS[d])}
             onClick={() => setActiveDomain(activeDomain === d ? null : d)}
           >
@@ -467,7 +474,7 @@ export default function SidebarPanel({
       </div>
 
       {/* Footer */}
-      <div style={S.footer}>
+      <div className="cc-footer" style={S.footer}>
         <span>Watchboard v1.0 · MIT</span>
         <a href="https://github.com/ArtemioPadilla/watchboard" target="_blank" rel="noopener noreferrer" style={S.footerLink}>GitHub</a>
       </div>
@@ -632,11 +639,12 @@ const S = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: '6px 12px',
+    padding: '8px 12px',
     borderLeft: '2px solid transparent',
     cursor: 'pointer',
     transition: 'background 0.15s',
     userSelect: 'none' as const,
+    minHeight: 44, // ensure minimum touch target
   } as CSSProperties,
 
   collapsedLeft: {

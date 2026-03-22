@@ -83,16 +83,30 @@ const serializedTrackers = nonDraft.map(t => {
     .command-center-root {
       flex-direction: column !important;
       height: 100vh !important;
+      height: 100dvh !important;
     }
     .command-center-root > div:first-child {
       flex: none !important;
-      height: 35vh !important;
+      height: 30vh !important;
+      height: 30dvh !important;
+      min-height: 180px !important;
     }
     .command-center-root > div:last-child {
       flex: 1 !important;
       max-width: none !important;
+      min-width: 0 !important;
+      width: 100% !important;
       border-left: none !important;
       border-top: 1px solid var(--border) !important;
+    }
+  }
+
+  /* Small phones */
+  @media (max-width: 380px) {
+    .command-center-root > div:first-child {
+      height: 25vh !important;
+      height: 25dvh !important;
+      min-height: 150px !important;
     }
   }
 </style>
