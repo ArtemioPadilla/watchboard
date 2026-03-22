@@ -31,6 +31,9 @@ export interface TrackerCardData {
   lastUpdated: string;
   headline?: string;
   topKpis: Array<{ value: string; label: string }>;
+  headlineEs?: string;
+  descriptionEs?: string;
+  topKpisEs?: Array<{ value: string; label: string }>;
 }
 
 export interface TrackerGroup {

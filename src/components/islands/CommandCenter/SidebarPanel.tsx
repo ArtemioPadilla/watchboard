@@ -70,10 +70,11 @@ const TrackerRow = memo(function TrackerRow({
     }
   }, [isActive]);
 
-  const truncatedHeadline = tracker.headline
-    ? tracker.headline.length > 120
-      ? tracker.headline.slice(0, 120) + '…'
-      : tracker.headline
+  const rawHeadline = locale === 'es' && tracker.headlineEs ? tracker.headlineEs : tracker.headline;
+  const truncatedHeadline = rawHeadline
+    ? rawHeadline.length > 120
+      ? rawHeadline.slice(0, 120) + '…'
+      : rawHeadline
     : null;
 
   if (isActive) {
@@ -317,7 +318,10 @@ const RecentEventsFeed = memo(function RecentEventsFeed({
         </span>
       </div>
       <div style={S.feedItemText}>
-        {t.headline && t.headline.length > 80 ? t.headline.slice(0, 80) + '…' : t.headline}
+        {(() => {
+          const h = locale === 'es' && t.headlineEs ? t.headlineEs : t.headline;
+          return h && h.length > 80 ? h.slice(0, 80) + '…' : h;
+        })()}
       </div>
     </div>
   );

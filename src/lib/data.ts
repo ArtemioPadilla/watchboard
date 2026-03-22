@@ -1,6 +1,7 @@
 /**
  * Centralized data loader — reads tracker data files, merges partitioned events,
  * validates everything through Zod schemas, and returns typed data object.
+ * Supports locale parameter for i18n (tries data-{locale}/ first, falls back to data/).
  */
 import { z } from 'zod';
 import {
@@ -19,6 +20,7 @@ import {
   DigestEntrySchema,
   isFutureDate,
 } from './schemas';
+import type { Locale } from '../i18n/translations';
 
 // ── Eagerly load all tracker data at build time ──
 const dataModules = import.meta.glob<{ default: unknown }>(
@@ -31,8 +33,28 @@ const eventModules = import.meta.glob<{ default: unknown }>(
   { eager: true },
 );
 
-// ── Helper: get a data file for a specific tracker ──
-function getTrackerData(slug: string, filename: string): unknown {
+// ── Locale-specific data (Spanish translations) ──
+const esDataModules = import.meta.glob<{ default: unknown }>(
+  '../../trackers/*/data-es/*.json',
+  { eager: true },
+);
+
+const esEventModules = import.meta.glob<{ default: unknown }>(
+  '../../trackers/*/data-es/events/*.json',
+  { eager: true },
+);
+
+// ── Helper: get a data file for a specific tracker, with locale fallback ──
+function getTrackerData(slug: string, filename: string, locale?: Locale): unknown {
+  // Try locale-specific file first
+  if (locale && locale !== 'en') {
+    const localeKey = `../../trackers/${slug}/data-${locale}/${filename}`;
+    const localeMod = esDataModules[localeKey];
+    if (localeMod) {
+      return 'default' in localeMod ? localeMod.default : localeMod;
+    }
+  }
+  // Fall back to English
   const key = `../../trackers/${slug}/data/${filename}`;
   const mod = dataModules[key];
   if (!mod) return undefined;
@@ -45,17 +67,45 @@ const MONTH_NAMES: Record<string, string> = {
   '07': 'Jul', '08': 'Aug', '09': 'Sep', '10': 'Oct', '11': 'Nov', '12': 'Dec',
 };
 
-function loadTimeline(slug: string, eraLabel?: string) {
-  const timelineRaw = getTrackerData(slug, 'timeline.json');
+function loadTimeline(slug: string, eraLabel?: string, locale?: Locale) {
+  const timelineRaw = getTrackerData(slug, 'timeline.json', locale);
   const eras = z.array(TimelineEraSchema).parse(timelineRaw ?? []);
 
   // Collect partitioned daily events for this tracker
-  const prefix = `../../trackers/${slug}/data/events/`;
-  const dailyEvents = Object.keys(eventModules)
-    .filter(p => p.startsWith(prefix))
-    .sort()
-    .flatMap((path) => {
-      const mod = eventModules[path];
+  // Use locale-specific events if available, otherwise English
+  const useEsEvents = locale && locale !== 'en';
+  const evtModules = useEsEvents ? esEventModules : eventModules;
+  const prefix = useEsEvents
+    ? `../../trackers/${slug}/data-${locale}/events/`
+    : `../../trackers/${slug}/data/events/`;
+
+  // Also check English events as fallback
+  const enPrefix = `../../trackers/${slug}/data/events/`;
+
+  // Collect event file paths (prefer locale, fall back to English)
+  const enPaths = Object.keys(eventModules).filter(p => p.startsWith(enPrefix));
+  const localePaths = useEsEvents
+    ? Object.keys(esEventModules).filter(p => p.startsWith(prefix))
+    : [];
+
+  // Build a map of date → module (locale overrides English)
+  const dateModuleMap = new Map<string, { path: string; mod: any }>();
+  for (const path of enPaths) {
+    const dateMatch = path.match(/(\d{4}-\d{2}-\d{2})\.json$/);
+    if (dateMatch) {
+      dateModuleMap.set(dateMatch[1], { path, mod: eventModules[path] });
+    }
+  }
+  for (const path of localePaths) {
+    const dateMatch = path.match(/(\d{4}-\d{2}-\d{2})\.json$/);
+    if (dateMatch) {
+      dateModuleMap.set(dateMatch[1], { path, mod: esEventModules[path] });
+    }
+  }
+
+  const dailyEvents = [...dateModuleMap.entries()]
+    .sort(([a], [b]) => a.localeCompare(b))
+    .flatMap(([, { path, mod }]) => {
       const raw = 'default' in mod ? mod.default : mod;
       const events = z.array(TimelineEventSchema).parse(raw);
 
@@ -67,10 +117,8 @@ function loadTimeline(slug: string, eraLabel?: string) {
         if (monLabel) {
           for (const ev of events) {
             if (/^\d{4}$/.test(ev.year)) {
-              // Year-only → stamp full date from filename
               ev.year = `${monLabel} ${day}, ${fileYear}`;
             } else if (/^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+\d{1,2}$/i.test(ev.year)) {
-              // "Mon DD" without year → append year from filename
               ev.year = `${ev.year}, ${fileYear}`;
             }
           }
@@ -103,11 +151,11 @@ export interface TrackerData {
   digests: z.infer<typeof DigestEntrySchema>[];
 }
 
-export function loadTrackerData(slug: string, eraLabel?: string): TrackerData {
-  const kpis = z.array(KpiSchema).parse(getTrackerData(slug, 'kpis.json') ?? []);
-  const timeline = loadTimeline(slug, eraLabel);
-  const mapPoints = z.array(MapPointSchema).parse(getTrackerData(slug, 'map-points.json') ?? []);
-  const mapLines = z.array(MapLineSchema).parse(getTrackerData(slug, 'map-lines.json') ?? []);
+export function loadTrackerData(slug: string, eraLabel?: string, locale?: Locale): TrackerData {
+  const kpis = z.array(KpiSchema).parse(getTrackerData(slug, 'kpis.json', locale) ?? []);
+  const timeline = loadTimeline(slug, eraLabel, locale);
+  const mapPoints = z.array(MapPointSchema).parse(getTrackerData(slug, 'map-points.json', locale) ?? []);
+  const mapLines = z.array(MapLineSchema).parse(getTrackerData(slug, 'map-lines.json', locale) ?? []);
 
   // Warn on future-dated map data (soft guard — does not throw)
   for (const point of mapPoints) {
@@ -131,17 +179,16 @@ export function loadTrackerData(slug: string, eraLabel?: string): TrackerData {
     }
   }
 
-  const strikeTargets = z.array(StrikeItemSchema).parse(getTrackerData(slug, 'strike-targets.json') ?? []);
-  const retaliationData = z.array(StrikeItemSchema).parse(getTrackerData(slug, 'retaliation.json') ?? []);
-  const assetsData = z.array(AssetSchema).parse(getTrackerData(slug, 'assets.json') ?? []);
-  const casualties = z.array(CasualtyRowSchema).parse(getTrackerData(slug, 'casualties.json') ?? []);
-  const econ = z.array(EconItemSchema).parse(getTrackerData(slug, 'econ.json') ?? []);
-  const claims = z.array(ClaimSchema).parse(getTrackerData(slug, 'claims.json') ?? []);
-  const political = z.array(PolItemSchema).parse(getTrackerData(slug, 'political.json') ?? []);
-  const meta = MetaSchema.parse(getTrackerData(slug, 'meta.json'));
+  const strikeTargets = z.array(StrikeItemSchema).parse(getTrackerData(slug, 'strike-targets.json', locale) ?? []);
+  const retaliationData = z.array(StrikeItemSchema).parse(getTrackerData(slug, 'retaliation.json', locale) ?? []);
+  const assetsData = z.array(AssetSchema).parse(getTrackerData(slug, 'assets.json', locale) ?? []);
+  const casualties = z.array(CasualtyRowSchema).parse(getTrackerData(slug, 'casualties.json', locale) ?? []);
+  const econ = z.array(EconItemSchema).parse(getTrackerData(slug, 'econ.json', locale) ?? []);
+  const claims = z.array(ClaimSchema).parse(getTrackerData(slug, 'claims.json', locale) ?? []);
+  const political = z.array(PolItemSchema).parse(getTrackerData(slug, 'political.json', locale) ?? []);
+  const meta = MetaSchema.parse(getTrackerData(slug, 'meta.json', locale));
 
-  const digests = z.array(DigestEntrySchema).parse(getTrackerData(slug, 'digests.json') ?? []);
+  const digests = z.array(DigestEntrySchema).parse(getTrackerData(slug, 'digests.json', locale) ?? []);
 
   return { kpis, timeline, mapPoints, mapLines, strikeTargets, retaliationData, assetsData, casualties, econ, claims, political, meta, digests };
 }
-

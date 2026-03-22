@@ -11,9 +11,15 @@ interface Props {
     dayCount?: string | number;
   };
   kpis: KpiItem[];
+  metaEs?: {
+    heroHeadline: string;
+    heroSubtitle: string;
+    dateline: string;
+  };
+  kpisEs?: KpiItem[];
 }
 
-const { meta, kpis } = Astro.props;
+const { meta, kpis, metaEs, kpisEs } = Astro.props;
 
 /** Strip HTML tags and decode common entities for safe text display */
 const cleanText = (s: string) =>
@@ -31,26 +37,29 @@ const cleanText = (s: string) =>
   <div class="hero-kpi-left">
     <div class="hero-kpi-dateline">
       <span class="hero-kpi-dateline-dash">&mdash;&mdash;</span>
-      {meta.dateline} &mdash; SITUATION REPORT
+      <span data-i18n data-es={metaEs?.dateline}>{meta.dateline}</span> &mdash; <span data-i18n data-es="REPORTE DE SITUACION">SITUATION REPORT</span>
     </div>
-    <h1 class="hero-kpi-headline" title={cleanText(meta.heroHeadline)}>
+    <h1 class="hero-kpi-headline" data-i18n data-es={metaEs ? cleanText(metaEs.heroHeadline) : undefined} title={cleanText(meta.heroHeadline)}>
       {cleanText(meta.heroHeadline)}
     </h1>
   </div>
   <div class="hero-kpi-divider"></div>
   <div class="hero-kpi-right">
-    {kpis.slice(0, 7).map(k => (
-      <div class="hero-kpi-item">
-        <span class="hero-kpi-label">{k.label}</span>
-        <span class={`hero-kpi-value ${k.color}`}>
-          {k.value}
-          {k.trend && k.trend !== 'stable' && (
-            <span class={`hero-kpi-trend ${k.trend}`}>
-              {k.trend === 'up' ? '\u25B2' : '\u25BC'}
-            </span>
-          )}
-        </span>
-      </div>
-    ))}
+    {kpis.slice(0, 7).map((k, i) => {
+      const esLabel = kpisEs?.[i]?.label;
+      return (
+        <div class="hero-kpi-item">
+          <span class="hero-kpi-label" data-i18n data-es={esLabel}>{k.label}</span>
+          <span class={`hero-kpi-value ${k.color}`}>
+            {k.value}
+            {k.trend && k.trend !== 'stable' && (
+              <span class={`hero-kpi-trend ${k.trend}`}>
+                {k.trend === 'up' ? '\u25B2' : '\u25BC'}
+              </span>
+            )}
+          </span>
+        </div>
+      );
+    })}
   </div>
 </div>

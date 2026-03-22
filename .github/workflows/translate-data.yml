@@ -1,0 +1,333 @@
+name: Translate Tracker Data
+
+on:
+  workflow_run:
+    workflows: ["Nightly Data Update"]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      tracker_slug:
+        description: 'Tracker slug to translate, or "all" for every tracker'
+        required: false
+        default: 'all'
+      locale:
+        description: 'Target locale code (e.g., es, fr, pt)'
+        required: false
+        default: 'es'
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  id-token: write
+
+jobs:
+  translate:
+    runs-on: ubuntu-latest
+    # Only run on workflow_run if the upstream succeeded, always run on manual dispatch
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      github.event.workflow_run.conclusion == 'success'
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Resolve target trackers
+        id: resolve
+        run: |
+          SLUG="${{ github.event.inputs.tracker_slug || 'all' }}"
+          LOCALE="${{ github.event.inputs.locale || 'es' }}"
+
+          if [ "$SLUG" != "all" ]; then
+            # Manual trigger for a specific tracker
+            CONFIG="trackers/${SLUG}/tracker.json"
+            if [ ! -f "$CONFIG" ]; then
+              echo "ERROR: tracker config not found: $CONFIG"
+              exit 1
+            fi
+            echo "slugs=$SLUG" >> $GITHUB_OUTPUT
+            echo "locale=$LOCALE" >> $GITHUB_OUTPUT
+            echo "Translating tracker: $SLUG -> $LOCALE"
+            exit 0
+          fi
+
+          # Enumerate all non-draft trackers
+          SLUGS=""
+          for config in trackers/*/tracker.json; do
+            DIR=$(dirname "$config")
+            S=$(basename "$DIR")
+            STATUS=$(node -e "console.log(JSON.parse(require('fs').readFileSync('$config','utf8')).status || 'active')")
+            [ "$STATUS" = "draft" ] && continue
+            SLUGS="$SLUGS $S"
+          done
+          SLUGS=$(echo "$SLUGS" | xargs)
+
+          echo "slugs=$SLUGS" >> $GITHUB_OUTPUT
+          echo "locale=$LOCALE" >> $GITHUB_OUTPUT
+
+          if [ -z "$SLUGS" ]; then
+            echo "No eligible trackers found"
+          else
+            echo "Trackers to translate: $SLUGS"
+          fi
+
+      - name: Translate data with Claude Code
+        if: steps.resolve.outputs.slugs != ''
+        uses: anthropics/claude-code-action@v1
+        env:
+          TRANSLATOR_LOCALE: ${{ steps.resolve.outputs.locale }}
+          TRACKER_SLUG: ${{ steps.resolve.outputs.slugs }}
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          prompt: |
+            You are the data translator for the Watchboard platform.
+            Your task: translate tracker data files into ${{ steps.resolve.outputs.locale }}.
+
+            Target locale: ${{ steps.resolve.outputs.locale }}
+            Trackers to process: ${{ steps.resolve.outputs.slugs }}
+
+            STEP 1 — UNDERSTAND TRANSLATABLE FIELDS:
+            Read src/lib/translation-fields.ts to understand which fields are translatable.
+            For Phase 1, you only translate files listed in PHASE1_FILES: meta.json and kpis.json.
+
+            STEP 2 — FOR EACH TRACKER SLUG listed above, perform these steps:
+
+            a) Read the source data files:
+               - trackers/{slug}/data/meta.json
+               - trackers/{slug}/data/kpis.json
+               If either file does not exist, skip it.
+
+            b) Check if trackers/{slug}/translation-hashes.json exists.
+               If yes, read it. It has this shape:
+               {
+                 "locale": "es",
+                 "hashes": {
+                   "meta.json": "<sha256 hex of source file content>",
+                   "kpis.json": "<sha256 hex of source file content>"
+                 }
+               }
+               For each file, compute the SHA256 hash of the current English source file content.
+               If the hash matches the stored hash, skip that file (no changes since last translation).
+               If the hash differs, or translation-hashes.json does not exist, translate the file.
+
+            c) For each file that needs translation, create the translated version.
+               The output path is: trackers/{slug}/data-${{ steps.resolve.outputs.locale }}/{filename}
+               For example: trackers/{slug}/data-es/meta.json
+
+               Translation rules for meta.json — translate these fields:
+               - heroHeadline
+               - heroSubtitle
+               - dateline
+               - footerNote
+               - operationName
+               Copy ALL other fields (lastUpdated, dayCount, etc.) exactly as-is.
+
+               Translation rules for kpis.json — for each item in the array, translate:
+               - label
+               - contestNote (if present)
+               - deltaNote (if present)
+               Copy ALL other fields (id, value, color, source, contested, delta, trend, lastUpdated, tier) exactly as-is.
+
+               Translation quality guidelines:
+               - Use professional Latin American Spanish (not Spain/Castilian)
+               - Keep proper nouns in original form (names of people, operations, places)
+               - Keep organization names and acronyms untranslated (Reuters, AP, BBC, IAEA, UN, NATO, HRANA, IDF, IRGC, etc.)
+               - Keep source names untranslated (they appear in 'source' field which you are NOT translating)
+               - Preserve HTML tags (like <br>) exactly as-is
+               - Maintain the exact same JSON structure and field order
+               - Output valid, pretty-printed JSON (2-space indent)
+
+            d) After translating, update trackers/{slug}/translation-hashes.json with:
+               {
+                 "locale": "${{ steps.resolve.outputs.locale }}",
+                 "lastTranslated": "<current ISO timestamp>",
+                 "hashes": {
+                   "meta.json": "<sha256 of current English meta.json>",
+                   "kpis.json": "<sha256 of current English kpis.json>"
+                 }
+               }
+
+            STEP 3 — VERIFY:
+            After processing all trackers, read back each translated file to confirm valid JSON.
+
+            IMPORTANT RULES:
+            - Do NOT translate source names, organization names, or acronyms
+            - Do NOT modify any source (English) data files
+            - Do NOT commit or push — the workflow handles that
+            - If a tracker has no data files (meta.json/kpis.json), skip it silently
+            - Create the data-{locale}/ directory if it does not exist
+          claude_args: "--max-turns 50 --dangerously-skip-permissions"
+
+      - name: Check for changes
+        id: changes
+        run: |
+          echo "=== Git status ==="
+          git status --short trackers/
+          git add trackers/
+          echo "=== Staged changes ==="
+          git diff --cached --name-only trackers/
+          if git diff --cached --quiet trackers/; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "No translation changes detected"
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "Translation changes detected, will commit"
+          fi
+
+      - name: Validate translated JSON syntax
+        id: json_check
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          echo "=== Validating translated JSON syntax ==="
+          LOCALE="${{ steps.resolve.outputs.locale }}"
+          invalid=0
+          for f in $(find trackers -path "*/data-${LOCALE}/*.json" -type f); do
+            if ! node -e "JSON.parse(require('fs').readFileSync('$f','utf8'))" 2>/dev/null; then
+              echo "INVALID JSON: $f"
+              invalid=$((invalid + 1))
+            fi
+          done
+          # Also validate translation-hashes.json files
+          for f in $(find trackers -name 'translation-hashes.json' -type f); do
+            if ! node -e "JSON.parse(require('fs').readFileSync('$f','utf8'))" 2>/dev/null; then
+              echo "INVALID JSON: $f"
+              invalid=$((invalid + 1))
+            fi
+          done
+          if [ "$invalid" -gt 0 ]; then
+            echo "valid=false" >> $GITHUB_OUTPUT
+            echo "$invalid JSON file(s) failed syntax validation — skipping commit"
+          else
+            echo "valid=true" >> $GITHUB_OUTPUT
+            echo "All translated JSON files have valid syntax"
+          fi
+
+      - name: Validate translated data structure
+        id: validate
+        if: steps.changes.outputs.changed == 'true' && steps.json_check.outputs.valid == 'true'
+        run: |
+          echo "=== Validating translated data matches source structure ==="
+          LOCALE="${{ steps.resolve.outputs.locale }}"
+          failures=0
+          for dir in trackers/*/data-${LOCALE}; do
+            SLUG=$(basename $(dirname "$dir"))
+            SRC_DIR="trackers/${SLUG}/data"
+            echo "--- Checking ${SLUG} (${LOCALE}) ---"
+
+            # Validate meta.json structure matches source
+            if [ -f "$dir/meta.json" ] && [ -f "$SRC_DIR/meta.json" ]; then
+              node -e "
+                const src = JSON.parse(require('fs').readFileSync('$SRC_DIR/meta.json','utf8'));
+                const tr = JSON.parse(require('fs').readFileSync('$dir/meta.json','utf8'));
+                const srcKeys = Object.keys(src).sort().join(',');
+                const trKeys = Object.keys(tr).sort().join(',');
+                if (srcKeys !== trKeys) {
+                  console.error('  MISMATCH meta.json keys: source=[' + srcKeys + '] translated=[' + trKeys + ']');
+                  process.exit(1);
+                }
+                // Non-translatable fields must be identical
+                const preserve = ['dayCount', 'lastUpdated'];
+                for (const k of preserve) {
+                  if (src[k] !== undefined && JSON.stringify(src[k]) !== JSON.stringify(tr[k])) {
+                    console.error('  MISMATCH meta.json preserved field: ' + k);
+                    process.exit(1);
+                  }
+                }
+                console.log('  OK meta.json');
+              " || failures=$((failures + 1))
+            fi
+
+            # Validate kpis.json structure matches source
+            if [ -f "$dir/kpis.json" ] && [ -f "$SRC_DIR/kpis.json" ]; then
+              node -e "
+                const src = JSON.parse(require('fs').readFileSync('$SRC_DIR/kpis.json','utf8'));
+                const tr = JSON.parse(require('fs').readFileSync('$dir/kpis.json','utf8'));
+                if (src.length !== tr.length) {
+                  console.error('  MISMATCH kpis.json array length: source=' + src.length + ' translated=' + tr.length);
+                  process.exit(1);
+                }
+                // Verify preserved fields for each KPI
+                const preserve = ['id', 'value', 'color', 'source', 'contested', 'delta', 'trend', 'lastUpdated', 'tier'];
+                for (let i = 0; i < src.length; i++) {
+                  for (const k of preserve) {
+                    if (src[i][k] !== undefined && JSON.stringify(src[i][k]) !== JSON.stringify(tr[i][k])) {
+                      console.error('  MISMATCH kpis.json[' + i + '].' + k + ': source=' + JSON.stringify(src[i][k]) + ' translated=' + JSON.stringify(tr[i][k]));
+                      process.exit(1);
+                    }
+                  }
+                }
+                console.log('  OK kpis.json (' + tr.length + ' items)');
+              " || failures=$((failures + 1))
+            fi
+          done
+
+          if [ "$failures" -gt 0 ]; then
+            echo "valid=false" >> $GITHUB_OUTPUT
+            echo "$failures file(s) failed structure validation — skipping commit"
+          else
+            echo "valid=true" >> $GITHUB_OUTPUT
+            echo "All translated files match source structure"
+          fi
+
+      - name: Commit and push
+        if: steps.changes.outputs.changed == 'true' && steps.json_check.outputs.valid == 'true' && steps.validate.outputs.valid == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          LOCALE="${{ steps.resolve.outputs.locale }}"
+          # Restore remote URL with GITHUB_TOKEN (claude-code-action may have changed it)
+          git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add trackers/
+          git commit -m "chore(i18n): translate tracker data to ${LOCALE} $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          # Retry up to 3 times in case remote has new commits
+          for i in 1 2 3; do
+            git pull --rebase origin main && git push && break
+            echo "Push attempt $i failed, retrying..."
+            sleep 2
+          done
+
+      - name: Job summary
+        if: always()
+        run: |
+          LOCALE="${{ steps.resolve.outputs.locale || 'es' }}"
+          echo "## Translation Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Date**: $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> $GITHUB_STEP_SUMMARY
+          echo "**Locale**: ${LOCALE}" >> $GITHUB_STEP_SUMMARY
+          echo "**Trackers**: ${{ steps.resolve.outputs.slugs || 'none' }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Changes detected**: ${{ steps.changes.outputs.changed || 'false' }}" >> $GITHUB_STEP_SUMMARY
+          echo "**JSON valid**: ${{ steps.json_check.outputs.valid || 'skipped' }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Structure valid**: ${{ steps.validate.outputs.valid || 'skipped' }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # Translation inventory
+          echo "### Translation Inventory (${LOCALE})" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Tracker | meta.json | kpis.json | Hashes |" >> $GITHUB_STEP_SUMMARY
+          echo "|---------|-----------|-----------|--------|" >> $GITHUB_STEP_SUMMARY
+          for dir in trackers/*/; do
+            SLUG=$(basename "$dir")
+            [ ! -d "$dir/data" ] && continue
+            META="--"
+            KPIS="--"
+            HASH="--"
+            [ -f "$dir/data-${LOCALE}/meta.json" ] && META="Yes"
+            [ -f "$dir/data-${LOCALE}/kpis.json" ] && KPIS="Yes"
+            [ -f "$dir/translation-hashes.json" ] && HASH="Yes"
+            # Only show trackers that have translations
+            if [ "$META" = "Yes" ] || [ "$KPIS" = "Yes" ]; then
+              echo "| $SLUG | $META | $KPIS | $HASH |" >> $GITHUB_STEP_SUMMARY
+            fi
+          done

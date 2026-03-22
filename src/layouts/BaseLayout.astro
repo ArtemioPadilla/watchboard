@@ -72,6 +72,29 @@ const ogImageUrl = trackerSlug
   <slot />
 
   <script>
+    // ── i18n: swap content for locale-specific data attributes ──
+    (function() {
+      const locale = localStorage.getItem('watchboard-locale') || 'en';
+      if (locale !== 'en') {
+        document.querySelectorAll('[data-i18n][data-' + locale + ']').forEach(el => {
+          const translated = el.getAttribute('data-' + locale);
+          if (translated) el.textContent = translated;
+        });
+      }
+      // Listen for locale changes from the toggle
+      window.addEventListener('locale-change', (e) => {
+        const newLocale = (e as CustomEvent).detail;
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+          const translated = el.getAttribute('data-' + newLocale);
+          const original = el.getAttribute('data-en') || el.textContent;
+          if (!el.getAttribute('data-en')) el.setAttribute('data-en', el.textContent || '');
+          el.textContent = newLocale === 'en' ? (el.getAttribute('data-en') || '') : (translated || el.getAttribute('data-en') || '');
+        });
+      });
+    })();
+  </script>
+
+  <script>
     const observer = new IntersectionObserver(
       entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
       { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }

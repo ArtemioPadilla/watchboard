@@ -18,6 +18,9 @@ const serializedTrackers = nonDraft.map(t => {
   let dayCount = 0;
   let lastUpdated = t.startDate;
   let headline: string | undefined;
+  let headlineEs: string | undefined;
+  let descriptionEs: string | undefined;
+  let topKpisEs: Array<{ value: string; label: string }> = [];
 
   try {
     const data = loadTrackerData(t.slug, t.eraLabel);
@@ -27,6 +30,16 @@ const serializedTrackers = nonDraft.map(t => {
     headline = data.meta.heroHeadline?.replace(/<[^>]+>/g, ' ').replace(/\s{2,}/g, ' ').trim();
   } catch {
     // Tracker may not have data yet — use config defaults
+  }
+
+  // Load Spanish translations if available
+  try {
+    const esData = loadTrackerData(t.slug, t.eraLabel, 'es');
+    headlineEs = esData.meta.heroHeadline?.replace(/<[^>]+>/g, ' ').replace(/\s{2,}/g, ' ').trim();
+    topKpisEs = esData.kpis.slice(0, 3);
+    descriptionEs = esData.meta.heroSubtitle || undefined;
+  } catch {
+    // No Spanish data available — will fall back to English
   }
 
   return {
@@ -55,6 +68,9 @@ const serializedTrackers = nonDraft.map(t => {
     lastUpdated,
     headline,
     topKpis,
+    headlineEs,
+    descriptionEs,
+    topKpisEs,
   };
 });
 ---
