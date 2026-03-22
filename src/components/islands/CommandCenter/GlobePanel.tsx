@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, forwardRef, useImperativeHandle } from 'react';
+import { t, getPreferredLocale } from '../../../i18n/translations';
 import type { TrackerCardData } from '../../../lib/tracker-directory-utils';
 
 interface GlobePoint {
@@ -449,12 +450,12 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
           <div style={styles.loadingGlobe}>
             <div style={styles.loadingRing} />
           </div>
-          <div style={styles.loadingText}>INITIALIZING GLOBE</div>
+          <div style={styles.loadingText}>{t('cc.initGlobe', getPreferredLocale())}</div>
         </div>
       )}
       <div ref={containerRef} style={styles.globeWrap} />
       <div style={styles.statusBar}>
-        <span>Drag to rotate · Scroll to zoom · Click marker to select</span>
+        <span>{t('cc.globeHint', getPreferredLocale())}</span>
       </div>
     </div>
   );

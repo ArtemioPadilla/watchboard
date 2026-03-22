@@ -10,6 +10,7 @@ import {
   computeDomainCounts,
   getVisibleDomains,
 } from '../../../lib/tracker-directory-utils';
+import { t, type Locale } from '../../../i18n/translations';
 
 interface Props {
   trackers: TrackerCardData[];
@@ -42,6 +43,7 @@ const TrackerRow = memo(function TrackerRow({
   onHover,
   onToggleFollow,
   onToggleCompare,
+  locale = 'en',
 }: {
   tracker: TrackerCardData;
   basePath: string;
@@ -53,6 +55,7 @@ const TrackerRow = memo(function TrackerRow({
   onHover: (slug: string | null) => void;
   onToggleFollow: (slug: string) => void;
   onToggleCompare: (slug: string) => void;
+  locale?: Locale;
 }) {
   const color = tracker.color || '#3498db';
   const dateline = buildDateline(tracker);
@@ -122,21 +125,21 @@ const TrackerRow = memo(function TrackerRow({
               style={S.deselectBtn}
               onClick={e => { e.stopPropagation(); onSelect(null); }}
             >
-              ✕ DESELECT
+              ✕ {t('cc.deselect', locale)}
             </span>
             <span
               style={{ ...S.followBtn, color: isFollowed ? '#f39c12' : 'var(--text-muted)' }}
               onClick={e => { e.stopPropagation(); onToggleFollow(tracker.slug); }}
               title={isFollowed ? 'Unfollow' : 'Follow'}
             >
-              {isFollowed ? '★' : '☆'} {isFollowed ? 'FOLLOWING' : 'FOLLOW'}
+              {isFollowed ? '★' : '☆'} {isFollowed ? t('status.following', locale) : t('status.follow', locale)}
             </span>
             <span
               style={{ ...S.compareBtn, color: isCompared ? 'var(--accent-blue, #58a6ff)' : 'var(--text-muted)' }}
               onClick={e => { e.stopPropagation(); onToggleCompare(tracker.slug); }}
               title={isCompared ? 'Remove from comparison' : 'Add to comparison'}
             >
-              {isCompared ? '◆' : '◇'} {isCompared ? 'COMPARING' : 'COMPARE'}
+              {isCompared ? '◆' : '◇'} {isCompared ? t('cc.compare', locale) : t('cc.compare', locale)}
             </span>
           </div>
           <a
@@ -145,7 +148,7 @@ const TrackerRow = memo(function TrackerRow({
             style={S.openLink}
             onClick={e => e.stopPropagation()}
           >
-            OPEN DASHBOARD →
+            {t('cc.openDashboard', locale)} →
           </a>
         </div>
       </div>
@@ -182,7 +185,7 @@ const TrackerRow = memo(function TrackerRow({
       <div style={S.collapsedRight}>
         {freshness.className === 'fresh' && <span style={S.freshDot} />}
         <span className="cc-tracker-status" style={{ ...S.collapsedStatus, color: freshness.className === 'fresh' ? 'var(--accent-green)' : freshness.className === 'recent' ? 'var(--accent-amber)' : 'var(--text-muted)' }}>
-          {freshness.label}
+          {t(freshness.className === 'fresh' ? 'status.fresh' : freshness.className === 'recent' ? 'status.recent' : 'status.stale' as any, locale)}
         </span>
         <span style={S.collapsedDay}>{dateline}</span>
       </div>
@@ -192,18 +195,19 @@ const TrackerRow = memo(function TrackerRow({
 
 // ── StatusBadge ──
 
-const StatusBadge = memo(function StatusBadge({ tracker }: { tracker: TrackerCardData }) {
+const StatusBadge = memo(function StatusBadge({ tracker, locale = 'en' }: { tracker: TrackerCardData; locale?: Locale }) {
   if (tracker.status === 'archived') {
-    return <span style={S.badge('stale')}>ARCHIVED</span>;
+    return <span style={S.badge('stale')}>{t('status.archived', locale)}</span>;
   }
   if (tracker.temporal === 'historical') {
-    return <span style={S.badge('stale')}>HISTORICAL</span>;
+    return <span style={S.badge('stale')}>{t('status.historical', locale)}</span>;
   }
-  const { label, className } = computeFreshness(tracker.lastUpdated);
+  const { className } = computeFreshness(tracker.lastUpdated);
+  const statusKey = className === 'fresh' ? 'status.fresh' : className === 'recent' ? 'status.recent' : 'status.stale';
   return (
     <span style={S.badge(className)}>
       {className === 'fresh' && <span style={S.freshDot} />}
-      {label}
+      {t(statusKey as any, locale)}
     </span>
   );
 });
@@ -268,10 +272,12 @@ const RecentEventsFeed = memo(function RecentEventsFeed({
   trackers,
   followedSlugs,
   onSelect,
+  locale = 'en',
 }: {
   trackers: TrackerCardData[];
   followedSlugs: string[];
   onSelect: (slug: string | null) => void;
+  locale?: Locale;
 }) {
   const withHeadlines = useMemo(
     () => trackers.filter(t => t.headline && t.status === 'active'),
@@ -322,7 +328,7 @@ const RecentEventsFeed = memo(function RecentEventsFeed({
         <>
           <div style={S.feedHeader}>
             <span style={{ color: '#f39c12', fontSize: '0.6rem' }}>★</span>
-            <span>FOLLOWING</span>
+            <span>{t('status.following', locale)}</span>
           </div>
           {followedTrackers.map(t => renderItem(t, true))}
         </>
@@ -331,7 +337,7 @@ const RecentEventsFeed = memo(function RecentEventsFeed({
         <>
           <div style={{ ...S.feedHeader, marginTop: followedTrackers.length > 0 ? 6 : 0 }}>
             <span style={S.feedDot} />
-            <span>LATEST INTEL</span>
+            <span>{t('cc.latestIntel', locale)}</span>
           </div>
           {recentTrackers.map(t => renderItem(t, false))}
         </>
@@ -407,6 +413,27 @@ export default function SidebarPanel({
         <div style={S.headerLeft}>
           <span style={S.brand}>WATCHBOARD</span>
           <span style={S.classification}>OSINT</span>
+          <a
+            href="https://github.com/ArtemioPadilla/watchboard"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={S.headerIconBtn}
+            title="View on GitHub"
+            aria-label="View on GitHub"
+          >
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          </a>
+          <a
+            href="https://github.com/sponsors/ArtemioPadilla"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={S.supportBtn}
+            title="Support this project"
+            aria-label="Support this project"
+          >
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M4.25 2.5c-1.336 0-2.75 1.164-2.75 3 0 2.15 1.58 4.144 3.365 5.682A20.565 20.565 0 008 13.393a20.561 20.561 0 003.135-2.211C12.92 9.644 14.5 7.65 14.5 5.5c0-1.836-1.414-3-2.75-3-1.373 0-2.609.986-3.029 2.456a.749.749 0 01-1.442 0C6.859 3.486 5.623 2.5 4.25 2.5zM8 14.25l-.345.666-.002-.001-.006-.003-.018-.01a7.643 7.643 0 01-.31-.17 22.075 22.075 0 01-3.434-2.414C2.045 10.731 0 8.35 0 5.5 0 2.836 2.086 1 4.25 1 5.797 1 7.153 1.802 8 3.02 8.847 1.802 10.203 1 11.75 1 13.914 1 16 2.836 16 5.5c0 2.85-2.045 5.231-3.885 6.818a22.08 22.08 0 01-3.744 2.584l-.018.01-.006.003h-.002L8 14.25z"/></svg>
+            <span>Support</span>
+          </a>
         </div>
         <div style={S.headerRight}>
           {compareSlugs.length > 0 && (
@@ -414,8 +441,8 @@ export default function SidebarPanel({
               {compareSlugs.length} CMP
             </span>
           )}
-          <span style={S.liveIndicator}>● {liveCount} LIVE</span>
-          <span style={S.histCount}>{historicalCount} HIST</span>
+          <span style={S.liveIndicator}>● {liveCount} {t('cc.live', locale)}</span>
+          <span style={S.histCount}>{historicalCount} {t('cc.hist', locale)}</span>
           {onToggleLocale && (
             <button
               type="button"
@@ -438,7 +465,7 @@ export default function SidebarPanel({
           ref={searchRef}
           type="text"
           className="cc-search-input"
-          placeholder="Search trackers... (press /)"
+          placeholder={t('cc.search', locale)}
           value={searchQuery}
           onChange={e => setSearchQuery(e.target.value)}
           style={S.searchInput}
@@ -474,10 +501,10 @@ export default function SidebarPanel({
       {/* Tracker list */}
       <div style={S.list}>
         {/* Recent events feed (only when not searching) */}
-        {!isSearching && <RecentEventsFeed trackers={trackers} followedSlugs={followedSlugs} onSelect={onSelectTracker} />}
+        {!isSearching && <RecentEventsFeed trackers={trackers} followedSlugs={followedSlugs} onSelect={onSelectTracker} locale={locale} />}
 
         {filtered.length === 0 ? (
-          <div style={S.noResults}>No trackers match your search.</div>
+          <div style={S.noResults}>{t('cc.noResults', locale)}</div>
         ) : (
           groups.map(group => {
             // Render series groups as horizontal strips
@@ -513,6 +540,7 @@ export default function SidebarPanel({
                     onHover={onHoverTracker}
                     onToggleFollow={onToggleFollow}
                     onToggleCompare={onToggleCompare}
+                    locale={locale}
                   />
                 ))}
               </div>
@@ -574,6 +602,34 @@ const S = {
     borderRadius: 3,
     border: '1px solid rgba(46,204,113,0.15)',
     letterSpacing: '0.08em',
+  } as CSSProperties,
+
+  headerIconBtn: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: 'var(--text-muted)',
+    opacity: 0.7,
+    transition: 'opacity 0.15s, color 0.15s',
+    textDecoration: 'none',
+  } as CSSProperties,
+
+  supportBtn: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: 3,
+    padding: '2px 6px',
+    borderRadius: 3,
+    border: '1px solid rgba(219,39,119,0.25)',
+    background: 'rgba(219,39,119,0.06)',
+    color: '#db2777',
+    fontFamily: "'JetBrains Mono', monospace",
+    fontSize: '0.46rem',
+    fontWeight: 600,
+    letterSpacing: '0.04em',
+    textDecoration: 'none',
+    cursor: 'pointer',
+    transition: 'background 0.15s, border-color 0.15s',
   } as CSSProperties,
 
   headerRight: {

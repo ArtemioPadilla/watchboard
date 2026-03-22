@@ -20,16 +20,16 @@ function saveFollows(slugs: string[]) {
 }
 
 const SHORTCUTS = [
-  { key: '/', label: 'Focus search' },
-  { key: '↑ ↓', label: 'Navigate trackers' },
-  { key: 'Enter', label: 'Open dashboard' },
-  { key: 'F', label: 'Follow / unfollow' },
-  { key: 'C', label: 'Add / remove from compare' },
-  { key: 'G', label: 'Toggle globe rotation' },
-  { key: 'O', label: 'Open selected tracker' },
-  { key: 'Esc', label: 'Deselect / close' },
-  { key: '?', label: 'Show this help' },
-];
+  { key: '/', tKey: 'shortcuts.search' },
+  { key: '↑ ↓', tKey: 'shortcuts.navigate' },
+  { key: 'Enter', tKey: 'shortcuts.open' },
+  { key: 'F', tKey: 'shortcuts.follow' },
+  { key: 'C', tKey: 'cc.compare' },
+  { key: 'G', tKey: 'shortcuts.rotate' },
+  { key: 'O', tKey: 'shortcuts.openSelected' },
+  { key: 'Esc', tKey: 'shortcuts.deselect' },
+  { key: '?', tKey: 'shortcuts.help' },
+] as const;
 
 interface Props {
   trackers: TrackerCardData[];
@@ -204,16 +204,16 @@ export default function CommandCenter({
       {showHelp && (
         <div style={styles.helpOverlay} onClick={() => setShowHelp(false)}>
           <div style={styles.helpPanel} onClick={e => e.stopPropagation()}>
-            <div style={styles.helpTitle}>KEYBOARD SHORTCUTS</div>
+            <div style={styles.helpTitle}>{t('shortcuts.title', locale)}</div>
             <div style={styles.helpGrid}>
               {SHORTCUTS.map(s => (
                 <div key={s.key} style={styles.helpRow}>
                   <kbd style={styles.helpKey}>{s.key}</kbd>
-                  <span style={styles.helpLabel}>{s.label}</span>
+                  <span style={styles.helpLabel}>{t(s.tKey as any, locale)}</span>
                 </div>
               ))}
             </div>
-            <div style={styles.helpClose}>Press <kbd style={styles.helpKeyInline}>?</kbd> or <kbd style={styles.helpKeyInline}>Esc</kbd> to close</div>
+            <div style={styles.helpClose}><kbd style={styles.helpKeyInline}>?</kbd> / <kbd style={styles.helpKeyInline}>Esc</kbd> {t('shortcuts.close', locale)}</div>
           </div>
         </div>
       )}
