@@ -155,9 +155,10 @@ export default function CommandCenter({
   }, [activeTracker, showHelp, compareSlugs.length, handleToggleFollow, handleToggleCompare, basePath]);
 
   return (
-    <div className="command-center-root" style={styles.container}>
+    <div className="command-center-root" role="application" aria-label="Watchboard Command Center" style={styles.container}>
+      <h1 className="sr-only">Watchboard — Intelligence Dashboard Platform</h1>
       <NotificationManager trackers={trackers} followedSlugs={followedSlugs} />
-      <div style={styles.globe}>
+      <div style={styles.globe} role="region" aria-label="Globe visualization">
         <GlobePanel
           ref={globeRef}
           trackers={trackers}
@@ -168,7 +169,7 @@ export default function CommandCenter({
           onHoverTracker={handleHover}
         />
       </div>
-      <div style={styles.sidebar}>
+      <nav style={styles.sidebar} aria-label="Tracker directory">
         <SidebarPanel
           trackers={trackers}
           basePath={basePath}
@@ -186,7 +187,7 @@ export default function CommandCenter({
           onToggleLocale={handleToggleLocale}
           searchRef={searchRef}
         />
-      </div>
+      </nav>
 
       {/* Tracker comparison panel */}
       {compareSlugs.length >= 2 && (

@@ -46,8 +46,8 @@ function hexToRgb(hex: string): string {
 
 const base = import.meta.env.BASE_URL || '/watchboard';
 const basePath = base.endsWith('/') ? base : `${base}/`;
-const DARK_EARTH_URL = `${basePath}textures/earth-night.jpg`;
-const BUMP_URL = `${basePath}textures/earth-topology.png`;
+const DARK_EARTH_URL = `${basePath}textures/earth-night.webp`;
+const BUMP_URL = `${basePath}textures/earth-topology.webp`;
 
 function computeFreshnessClass(lastUpdated: string): 'fresh' | 'recent' | 'stale' {
   const ageHrs = (Date.now() - new Date(lastUpdated).getTime()) / 3600000;
@@ -262,7 +262,8 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
     if (!containerRef.current) return;
     let destroyed = false;
 
-    import('globe.gl').then(({ default: Globe }) => {
+    // Defer globe init to avoid blocking main thread (TBT improvement)
+    const initGlobe = () => import('globe.gl').then(({ default: Globe }) => {
       if (destroyed || !containerRef.current) return;
 
       const globe = Globe()(containerRef.current)
@@ -383,6 +384,10 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
         window.removeEventListener('resize', handleResize);
       };
     });
+
+    const idle = typeof requestIdleCallback === 'function'
+      ? requestIdleCallback : (cb: () => void) => setTimeout(cb, 100);
+    idle(initGlobe);
 
     return () => {
       destroyed = true;

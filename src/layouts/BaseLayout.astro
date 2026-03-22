@@ -36,6 +36,8 @@ const ogImageUrl = trackerSlug
   <meta name="twitter:card" content="summary_large_image">
   {ogImageUrl && <meta name="twitter:image" content={ogImageUrl} />}
   <meta name="theme-color" content="#0d1117">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <link rel="manifest" href={`${basePath}manifest.json`}>
   <link rel="canonical" href={pageUrl}>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔴</text></svg>">

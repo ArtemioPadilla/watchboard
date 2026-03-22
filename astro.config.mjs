@@ -4,7 +4,7 @@ import react from '@astrojs/react';
 export default defineConfig({
   integrations: [react()],
   output: 'static',
-  site: 'https://artemiopadilla.github.io',
+  site: 'https://artemiop.com',
   base: '/watchboard',
   vite: {
     define: {
