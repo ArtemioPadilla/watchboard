@@ -115,19 +115,21 @@ const serializedTrackers = nonDraft.map(t => {
       height: 100vh !important;
       height: 100dvh !important;
     }
-    .command-center-root > div:first-child {
+    .cc-globe {
       flex: none !important;
       height: 30vh !important;
       height: 30dvh !important;
       min-height: 180px !important;
+      max-height: 35vh !important;
     }
-    .command-center-root > div:last-child {
+    .cc-sidebar {
       flex: 1 !important;
       max-width: none !important;
       min-width: 0 !important;
       width: 100% !important;
       border-left: none !important;
       border-top: 1px solid var(--border) !important;
+      overflow-y: auto !important;
     }
   }
 

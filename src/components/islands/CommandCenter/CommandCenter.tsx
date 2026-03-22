@@ -158,7 +158,7 @@ export default function CommandCenter({
     <div className="command-center-root" role="application" aria-label="Watchboard Command Center" style={styles.container}>
       <h1 className="sr-only">Watchboard — Intelligence Dashboard Platform</h1>
       <NotificationManager trackers={trackers} followedSlugs={followedSlugs} />
-      <div style={styles.globe} role="region" aria-label="Globe visualization">
+      <div className="cc-globe" style={styles.globe} role="region" aria-label="Globe visualization">
         <GlobePanel
           ref={globeRef}
           trackers={trackers}
@@ -169,7 +169,7 @@ export default function CommandCenter({
           onHoverTracker={handleHover}
         />
       </div>
-      <nav style={styles.sidebar} aria-label="Tracker directory">
+      <nav className="cc-sidebar" style={styles.sidebar} aria-label="Tracker directory">
         <SidebarPanel
           trackers={trackers}
           basePath={basePath}
