@@ -17,11 +17,15 @@ interface Props {
   activeTracker: string | null;
   hoveredTracker: string | null;
   followedSlugs: string[];
+  compareSlugs: string[];
   liveCount: number;
   historicalCount: number;
   onSelectTracker: (slug: string | null) => void;
   onHoverTracker: (slug: string | null) => void;
   onToggleFollow: (slug: string) => void;
+  onToggleCompare: (slug: string) => void;
+  locale?: import('../../../i18n/translations').Locale;
+  onToggleLocale?: () => void;
   searchRef?: React.RefObject<HTMLInputElement | null>;
 }
 
@@ -33,18 +37,22 @@ const TrackerRow = memo(function TrackerRow({
   isActive,
   isHovered,
   isFollowed,
+  isCompared,
   onSelect,
   onHover,
   onToggleFollow,
+  onToggleCompare,
 }: {
   tracker: TrackerCardData;
   basePath: string;
   isActive: boolean;
   isHovered: boolean;
   isFollowed: boolean;
+  isCompared: boolean;
   onSelect: (slug: string | null) => void;
   onHover: (slug: string | null) => void;
   onToggleFollow: (slug: string) => void;
+  onToggleCompare: (slug: string) => void;
 }) {
   const color = tracker.color || '#3498db';
   const dateline = buildDateline(tracker);
@@ -123,6 +131,13 @@ const TrackerRow = memo(function TrackerRow({
             >
               {isFollowed ? '★' : '☆'} {isFollowed ? 'FOLLOWING' : 'FOLLOW'}
             </span>
+            <span
+              style={{ ...S.compareBtn, color: isCompared ? 'var(--accent-blue, #58a6ff)' : 'var(--text-muted)' }}
+              onClick={e => { e.stopPropagation(); onToggleCompare(tracker.slug); }}
+              title={isCompared ? 'Remove from comparison' : 'Add to comparison'}
+            >
+              {isCompared ? '◆' : '◇'} {isCompared ? 'COMPARING' : 'COMPARE'}
+            </span>
           </div>
           <a
             href={href}
@@ -147,7 +162,13 @@ const TrackerRow = memo(function TrackerRow({
         borderLeftColor: color,
         background: isHovered ? `${color}08` : 'transparent',
       }}
-      onClick={() => onSelect(tracker.slug)}
+      onClick={e => {
+        if (e.shiftKey) {
+          onToggleCompare(tracker.slug);
+        } else {
+          onSelect(tracker.slug);
+        }
+      }}
       onMouseEnter={() => onHover(tracker.slug)}
       onMouseLeave={() => onHover(null)}
       onDoubleClick={() => { window.location.href = href; }}
@@ -156,6 +177,7 @@ const TrackerRow = memo(function TrackerRow({
         <span style={S.icon}>{tracker.icon || ''}</span>
         <span className="cc-tracker-name" style={S.collapsedName}>{tracker.shortName}</span>
         {isFollowed && <span style={S.followStar}>★</span>}
+        {isCompared && <span style={S.compareDot} />}
       </div>
       <div style={S.collapsedRight}>
         {freshness.className === 'fresh' && <span style={S.freshDot} />}
@@ -326,11 +348,15 @@ export default function SidebarPanel({
   activeTracker,
   hoveredTracker,
   followedSlugs,
+  compareSlugs,
   liveCount,
   historicalCount,
   onSelectTracker,
   onHoverTracker,
   onToggleFollow,
+  onToggleCompare,
+  locale = 'en',
+  onToggleLocale,
   searchRef,
 }: Props) {
   const [activeDomain, setActiveDomain] = useState<string | null>(null);
@@ -383,8 +409,25 @@ export default function SidebarPanel({
           <span style={S.classification}>OSINT</span>
         </div>
         <div style={S.headerRight}>
+          {compareSlugs.length > 0 && (
+            <span style={S.compareBadge}>
+              {compareSlugs.length} CMP
+            </span>
+          )}
           <span style={S.liveIndicator}>● {liveCount} LIVE</span>
           <span style={S.histCount}>{historicalCount} HIST</span>
+          {onToggleLocale && (
+            <button
+              type="button"
+              onClick={onToggleLocale}
+              style={S.langBtn}
+              title={locale === 'en' ? 'Cambiar a Espanol' : 'Switch to English'}
+            >
+              <span style={{ opacity: locale === 'en' ? 1 : 0.4 }}>EN</span>
+              <span style={{ opacity: 0.3 }}>/</span>
+              <span style={{ opacity: locale === 'es' ? 1 : 0.4 }}>ES</span>
+            </button>
+          )}
         </div>
       </div>
 
@@ -465,9 +508,11 @@ export default function SidebarPanel({
                     isActive={activeTracker === t.slug}
                     isHovered={hoveredTracker === t.slug}
                     isFollowed={followedSlugs.includes(t.slug)}
+                    isCompared={compareSlugs.includes(t.slug)}
                     onSelect={onSelectTracker}
                     onHover={onHoverTracker}
                     onToggleFollow={onToggleFollow}
+                    onToggleCompare={onToggleCompare}
                   />
                 ))}
               </div>
@@ -545,6 +590,22 @@ const S = {
 
   histCount: {
     color: 'var(--text-muted)',
+  } as CSSProperties,
+
+  langBtn: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: 2,
+    padding: '2px 5px',
+    border: '1px solid var(--border)',
+    borderRadius: 3,
+    background: 'transparent',
+    cursor: 'pointer',
+    fontFamily: "'JetBrains Mono', monospace",
+    fontSize: '0.48rem',
+    fontWeight: 600,
+    color: 'var(--text-primary)',
+    letterSpacing: '0.04em',
   } as CSSProperties,
 
   searchWrap: {
@@ -820,6 +881,36 @@ const S = {
     color: '#f39c12',
     fontSize: '0.55rem',
     flexShrink: 0,
+  } as CSSProperties,
+
+  compareBtn: {
+    fontFamily: "'JetBrains Mono', monospace",
+    fontSize: '0.52rem',
+    cursor: 'pointer',
+    opacity: 0.8,
+    transition: 'color 0.2s',
+    letterSpacing: '0.04em',
+    userSelect: 'none' as const,
+  } as CSSProperties,
+
+  compareDot: {
+    width: 5,
+    height: 5,
+    background: 'var(--accent-blue, #58a6ff)',
+    borderRadius: 2,
+    flexShrink: 0,
+  } as CSSProperties,
+
+  compareBadge: {
+    fontFamily: "'JetBrains Mono', monospace",
+    fontSize: '0.5rem',
+    fontWeight: 600,
+    color: 'var(--accent-blue, #58a6ff)',
+    background: 'rgba(88,166,255,0.1)',
+    border: '1px solid rgba(88,166,255,0.25)',
+    borderRadius: 3,
+    padding: '1px 5px',
+    letterSpacing: '0.06em',
   } as CSSProperties,
 
   openLink: {

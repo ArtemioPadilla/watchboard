@@ -1,0 +1,184 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const base = import.meta.env.BASE_URL;
+const basePath = base.endsWith('/') ? base : `${base}/`;
+const pagefindBase = `${basePath}pagefind/`;
+---
+<BaseLayout title="Search — Watchboard">
+  <main id="main-content" class="search-page" data-pagefind-ignore>
+    <header class="search-header">
+      <a class="search-home-link" href={basePath} title="Back to Watchboard">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+        Watchboard
+      </a>
+      <h1 class="search-title">Search All Trackers</h1>
+      <p class="search-subtitle">Full-text search across all tracker events, timelines, and data.</p>
+    </header>
+    <div id="search"></div>
+  </main>
+
+  <script is:inline define:vars={{ pagefindBase }}>
+    // Load pagefind CSS
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = pagefindBase + 'pagefind-ui.css';
+    document.head.appendChild(link);
+
+    // Load pagefind JS and initialize
+    const script = document.createElement('script');
+    script.src = pagefindBase + 'pagefind-ui.js';
+    script.onload = function() {
+      new PagefindUI({
+        element: '#search',
+        showSubResults: true,
+        showImages: false,
+        excerptLength: 30,
+        baseUrl: pagefindBase.replace('pagefind/', ''),
+      });
+      // Auto-focus the search input for immediate typing
+      var input = document.querySelector('.pagefind-ui__search-input');
+      if (input) input.focus();
+    };
+    document.head.appendChild(script);
+  </script>
+</BaseLayout>
+
+<style is:global>
+  /* ── Pagefind dark theme overrides ── */
+  :root {
+    --pagefind-ui-scale: 0.9;
+    --pagefind-ui-primary: #58a6ff;
+    --pagefind-ui-text: #e6edf3;
+    --pagefind-ui-background: #0d1117;
+    --pagefind-ui-border: #30363d;
+    --pagefind-ui-tag: #161b22;
+    --pagefind-ui-border-width: 1px;
+    --pagefind-ui-border-radius: 6px;
+    --pagefind-ui-font: 'DM Sans', sans-serif;
+  }
+
+  .search-page {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+    min-height: 100vh;
+  }
+
+  .search-header {
+    margin-bottom: 32px;
+  }
+
+  .search-home-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-family: 'DM Sans', sans-serif;
+    margin-bottom: 16px;
+    transition: color 0.2s;
+  }
+
+  .search-home-link:hover {
+    color: var(--accent-blue);
+  }
+
+  .search-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 8px;
+  }
+
+  .search-subtitle {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin: 0;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  /* ── Pagefind UI component refinements ── */
+  .pagefind-ui .pagefind-ui__search-input {
+    background: var(--bg-card) !important;
+    border-color: var(--border) !important;
+    color: var(--text-primary) !important;
+    font-family: 'DM Sans', sans-serif !important;
+  }
+
+  .pagefind-ui .pagefind-ui__search-input::placeholder {
+    color: var(--text-muted) !important;
+  }
+
+  .pagefind-ui .pagefind-ui__search-input:focus {
+    border-color: var(--accent-blue) !important;
+    outline: none !important;
+    box-shadow: 0 0 0 2px rgba(88, 166, 255, 0.15) !important;
+  }
+
+  .pagefind-ui .pagefind-ui__search-clear {
+    color: var(--text-muted) !important;
+    background: transparent !important;
+  }
+
+  .pagefind-ui .pagefind-ui__result-link {
+    color: var(--accent-blue) !important;
+    font-family: 'DM Sans', sans-serif !important;
+  }
+
+  .pagefind-ui .pagefind-ui__result-link:hover {
+    text-decoration: underline;
+  }
+
+  .pagefind-ui .pagefind-ui__result-excerpt {
+    color: var(--text-secondary) !important;
+    font-family: 'DM Sans', sans-serif !important;
+  }
+
+  .pagefind-ui .pagefind-ui__result-title {
+    font-weight: 600;
+  }
+
+  .pagefind-ui .pagefind-ui__result {
+    border-top-color: var(--border) !important;
+    padding: 16px 0 !important;
+  }
+
+  .pagefind-ui .pagefind-ui__message {
+    color: var(--text-secondary) !important;
+    font-family: 'DM Sans', sans-serif !important;
+  }
+
+  .pagefind-ui .pagefind-ui__button {
+    background: var(--bg-card) !important;
+    border-color: var(--border) !important;
+    color: var(--text-primary) !important;
+    font-family: 'DM Sans', sans-serif !important;
+  }
+
+  .pagefind-ui .pagefind-ui__button:hover {
+    border-color: var(--accent-blue) !important;
+  }
+
+  .pagefind-ui mark {
+    background-color: rgba(88, 166, 255, 0.2) !important;
+    color: #58a6ff !important;
+  }
+
+  .pagefind-ui .pagefind-ui__suppressed {
+    color: var(--text-muted) !important;
+  }
+
+  .pagefind-ui .pagefind-ui__filter-panel {
+    border-color: var(--border) !important;
+  }
+
+  .pagefind-ui .pagefind-ui__filter-name,
+  .pagefind-ui .pagefind-ui__filter-label {
+    color: var(--text-secondary) !important;
+  }
+</style>

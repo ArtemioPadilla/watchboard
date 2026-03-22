@@ -35,7 +35,8 @@ const ogImageUrl = trackerSlug
   {ogImageUrl && <meta property="og:image:height" content="630" />}
   <meta name="twitter:card" content="summary_large_image">
   {ogImageUrl && <meta name="twitter:image" content={ogImageUrl} />}
-  <meta name="theme-color" content="#0a0b0e">
+  <meta name="theme-color" content="#0d1117">
+  <link rel="manifest" href={`${basePath}manifest.json`}>
   <link rel="canonical" href={pageUrl}>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔴</text></svg>">
   <script is:inline type="application/ld+json" set:html={JSON.stringify({
@@ -75,14 +76,16 @@ const ogImageUrl = trackerSlug
     );
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-    // Unregister any foreign service worker (e.g. from artemiop.com main site)
-    // that may be caching /watchboard/ routes incorrectly
     if ('serviceWorker' in navigator) {
+      // Unregister any foreign service worker (e.g. from main site)
+      // that may be caching /watchboard/ routes incorrectly
       navigator.serviceWorker.getRegistrations().then(regs => {
         for (const reg of regs) {
           if (reg.scope && !reg.scope.includes('/watchboard')) reg.unregister();
         }
       });
+      // Register Watchboard service worker
+      navigator.serviceWorker.register('/watchboard/sw.js');
     }
   </script>
 </body>

@@ -1,7 +1,10 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import type { TrackerCardData } from '../../../lib/tracker-directory-utils';
+import { type Locale, getPreferredLocale, setPreferredLocale, t } from '../../../i18n/translations';
 import GlobePanel from './GlobePanel';
 import SidebarPanel from './SidebarPanel';
+import ComparePanel from './ComparePanel';
+import NotificationManager from './NotificationManager';
 
 const FOLLOWS_KEY = 'watchboard-follows';
 
@@ -21,6 +24,7 @@ const SHORTCUTS = [
   { key: '↑ ↓', label: 'Navigate trackers' },
   { key: 'Enter', label: 'Open dashboard' },
   { key: 'F', label: 'Follow / unfollow' },
+  { key: 'C', label: 'Add / remove from compare' },
   { key: 'G', label: 'Toggle globe rotation' },
   { key: 'O', label: 'Open selected tracker' },
   { key: 'Esc', label: 'Deselect / close' },
@@ -43,12 +47,23 @@ export default function CommandCenter({
   const [activeTracker, setActiveTracker] = useState<string | null>(null);
   const [hoveredTracker, setHoveredTracker] = useState<string | null>(null);
   const [followedSlugs, setFollowedSlugs] = useState<string[]>([]);
+  const [compareSlugs, setCompareSlugs] = useState<string[]>([]);
+  const [locale, setLocale] = useState<Locale>('en');
   const [showHelp, setShowHelp] = useState(false);
   const searchRef = useRef<HTMLInputElement>(null);
   const globeRef = useRef<{ toggleRotation?: () => void }>(null);
 
   useEffect(() => {
     setFollowedSlugs(loadFollows());
+    setLocale(getPreferredLocale());
+  }, []);
+
+  const handleToggleLocale = useCallback(() => {
+    setLocale(prev => {
+      const next: Locale = prev === 'en' ? 'es' : 'en';
+      setPreferredLocale(next);
+      return next;
+    });
   }, []);
 
   const handleSelect = useCallback((slug: string | null) => {
@@ -69,6 +84,18 @@ export default function CommandCenter({
     });
   }, []);
 
+  const handleToggleCompare = useCallback((slug: string) => {
+    setCompareSlugs(prev =>
+      prev.includes(slug)
+        ? prev.filter(s => s !== slug)
+        : [...prev, slug],
+    );
+  }, []);
+
+  const handleClearCompare = useCallback(() => {
+    setCompareSlugs([]);
+  }, []);
+
   // Global keyboard shortcuts
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -77,6 +104,7 @@ export default function CommandCenter({
 
       if (e.key === 'Escape') {
         if (showHelp) { setShowHelp(false); return; }
+        if (compareSlugs.length > 0) { setCompareSlugs([]); return; }
         if (isInput) { (target as HTMLInputElement).blur(); return; }
         setActiveTracker(null);
         return;
@@ -106,6 +134,13 @@ export default function CommandCenter({
           e.preventDefault();
           globeRef.current?.toggleRotation?.();
           break;
+        case 'c':
+        case 'C':
+          if (activeTracker) {
+            e.preventDefault();
+            handleToggleCompare(activeTracker);
+          }
+          break;
         case 'o':
         case 'O':
           if (activeTracker) {
@@ -117,10 +152,11 @@ export default function CommandCenter({
     };
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
-  }, [activeTracker, showHelp, handleToggleFollow, basePath]);
+  }, [activeTracker, showHelp, compareSlugs.length, handleToggleFollow, handleToggleCompare, basePath]);
 
   return (
     <div className="command-center-root" style={styles.container}>
+      <NotificationManager trackers={trackers} followedSlugs={followedSlugs} />
       <div style={styles.globe}>
         <GlobePanel
           ref={globeRef}
@@ -144,9 +180,24 @@ export default function CommandCenter({
           onSelectTracker={handleSelect}
           onHoverTracker={handleHover}
           onToggleFollow={handleToggleFollow}
+          compareSlugs={compareSlugs}
+          onToggleCompare={handleToggleCompare}
+          locale={locale}
+          onToggleLocale={handleToggleLocale}
           searchRef={searchRef}
         />
       </div>
+
+      {/* Tracker comparison panel */}
+      {compareSlugs.length >= 2 && (
+        <ComparePanel
+          trackers={trackers}
+          compareSlugs={compareSlugs}
+          onClose={handleClearCompare}
+          onRemove={handleToggleCompare}
+          basePath={basePath}
+        />
+      )}
 
       {/* Keyboard shortcuts help overlay */}
       {showHelp && (

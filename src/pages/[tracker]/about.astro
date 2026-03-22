@@ -23,6 +23,7 @@ const base = import.meta.env.BASE_URL;
 const basePath = base.endsWith('/') ? base : `${base}/`;
 ---
 <BaseLayout title={`About — ${config.shortName}`} trackerSlug={config.slug} githubRepo={config.githubRepo}>
+  <main id="main-content">
   <div class="about-page">
     <a class="about-back" href={`${basePath}${config.slug}/`}>&larr; Dashboard</a>
 
@@ -73,6 +74,7 @@ const basePath = base.endsWith('/') ? base : `${base}/`;
       </section>
     </article>
   </div>
+  </main>
 </BaseLayout>
 
 <style>

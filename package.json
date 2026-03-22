@@ -7,6 +7,7 @@
     "dev": "npm run copy-cesium && astro dev",
     "check": "astro check",
     "build": "npm run copy-cesium && astro build",
+    "postbuild": "npx pagefind --site dist --glob '**/*.html'",
     "preview": "astro preview",
     "update-data": "tsx scripts/update-data.ts",
     "backfill": "tsx scripts/backfill.ts",
@@ -36,6 +37,7 @@
     "@types/leaflet": "^1.9.21",
     "@types/node": "^25.3.3",
     "openai": "^6.25.0",
+    "pagefind": "^1.4.0",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "zod": "^3.25.76"

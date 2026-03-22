@@ -28,6 +28,7 @@ const base = import.meta.env.BASE_URL;
 const basePath = base.endsWith('/') ? base : `${base}/`;
 ---
 <BaseLayout title={`3D Intelligence Globe — ${config.shortName}`} trackerSlug={config.slug}>
+  <main id="main-content">
   <a href={`${basePath}${config.slug}/`} class="globe-back-link">&larr; Dashboard</a>
   <a href={`${basePath}${config.slug}/about/`} class="globe-about-link">About</a>
   <CesiumGlobe
@@ -51,4 +52,5 @@ const basePath = base.endsWith('/') ? base : `${base}/`;
       window.location.replace(pathParts.join('/') + '/?mode=3d');
     }
   </script>
+  </main>
 </BaseLayout>
