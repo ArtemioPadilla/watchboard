@@ -22,7 +22,6 @@
   padding-top: 44px;
   padding-bottom: 56px;
   padding-bottom: calc(56px + env(safe-area-inset-bottom, 0px));
-  -webkit-overflow-scrolling: touch;
 }
 
 .mtab-loading {
@@ -102,7 +101,7 @@
 
 .mtab-toggle-btn {
   padding: 6px 14px;
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-family: 'JetBrains Mono', monospace;
   background: none;
   border: none;
@@ -196,7 +195,7 @@
   flex: 1;
   text-align: center;
   padding: 12px 10px;
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-family: 'JetBrains Mono', monospace;
   text-transform: uppercase;
   background: none;
@@ -231,7 +230,6 @@
   overflow-x: auto;
   white-space: nowrap;
   flex-shrink: 0;
-  -webkit-overflow-scrolling: touch;
   scroll-snap-type: x proximity;
   scrollbar-width: none;
 }
@@ -845,10 +843,6 @@
     padding-bottom: 44px;
   }
 
-  .mtab-bar {
-    /* Compact tab bar in landscape */
-  }
-
   .mtab-tab {
     min-height: 40px;
     padding: 4px 0;
@@ -865,17 +859,4 @@
   .mtab-kpi-row {
     padding: 3px 8px;
   }
-}
-
-/* ─── Improved scroll behavior ─── */
-.mtab-feed {
-  -webkit-overflow-scrolling: touch;
-}
-
-.mtab-data {
-  -webkit-overflow-scrolling: touch;
-}
-
-.mtab-intel {
-  -webkit-overflow-scrolling: touch;
 }
