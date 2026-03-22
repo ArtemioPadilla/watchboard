@@ -1,0 +1,94 @@
+[
+  {
+    "id": "peak-evacuees",
+    "label": "Pico de Evacuados (2011)",
+    "value": "154,000",
+    "color": "red",
+    "source": "Cabinet Office of Japan / Reconstruction Agency",
+    "contested": false,
+    "delta": "~28,000 still displaced (2024)",
+    "deltaNote": "Primarily elderly; return rates low across most municipalities",
+    "trend": "down",
+    "lastUpdated": "2026-03-17"
+  },
+  {
+    "id": "restricted-area-km2",
+    "label": "Área Restringida Actual",
+    "value": "~309 km²",
+    "color": "amber",
+    "source": "Fukushima Prefectural Government / Japan NRA (as of Dec 2025)",
+    "contested": false,
+    "delta": "↓ from ~1,150 km² in 2012; reduced from ~600 km² original 20 km zone",
+    "deltaNote": "Difficult-to-return zones in Okuma, Futaba still closed; represents ~2.2% of Fukushima Prefecture",
+    "trend": "down",
+    "lastUpdated": "2026-03-17"
+  },
+  {
+    "id": "decommission-timeline",
+    "label": "Meta de Desmantelamiento",
+    "value": "2041–2051",
+    "color": "blue",
+    "source": "TEPCO / METI Decommissioning Roadmap (revised 2019)",
+    "contested": true,
+    "contestNote": "Fuel debris retrieval has not meaningfully begun as of 2025; most independent experts consider 2051 completion highly optimistic",
+    "trend": "stable",
+    "lastUpdated": "2026-03-17"
+  },
+  {
+    "id": "alps-water-released",
+    "label": "Agua Tratada por ALPS Descargada",
+    "value": "~87,600 m³",
+    "color": "amber",
+    "source": "TEPCO (cumulative as of Feb 2024)",
+    "contested": true,
+    "contestNote": "China lifted its near-total ban June 30, 2025 (partial restrictions on 10 prefectures including Fukushima remain); JFUA fisheries union continues to oppose; Hong Kong/Macau retain partial restrictions",
+    "delta": "↑ ongoing since Aug 24, 2023",
+    "trend": "up",
+    "lastUpdated": "2026-03-17"
+  },
+  {
+    "id": "thyroid-cancer-detected",
+    "label": "Casos de Cáncer de Tiroides (Cohorte Fukushima)",
+    "value": "295+",
+    "color": "red",
+    "source": "Fukushima Health Management Survey (FHMS), 2024 round",
+    "contested": true,
+    "contestNote": "UNSCEAR and most epidemiologists attribute cases predominantly to ultrasensitive ultrasound screening effect; minority of studies find statistically significant radiation association",
+    "delta": "↑ cumulative since 2012 screening began",
+    "trend": "up",
+    "lastUpdated": "2026-03-17"
+  },
+  {
+    "id": "decommission-cost-estimate",
+    "label": "Costo Total Est. de Desmantelamiento",
+    "value": "¥21.5 trillion (~$195B)",
+    "color": "blue",
+    "source": "METI Nuclear Damage Liability Facilitation Fund (2016 revised estimate)",
+    "contested": true,
+    "contestNote": "Some independent analyses estimate total societal costs including compensation, reconstruction, and foregone energy at ¥50–70 trillion ($450–630B)",
+    "trend": "up",
+    "lastUpdated": "2026-03-17"
+  },
+  {
+    "id": "fuel-debris-estimated",
+    "label": "Escombros de Combustible Fundido Estimados (Unidades 1–3)",
+    "value": "~880 tonnes",
+    "color": "red",
+    "source": "TEPCO / International Research Institute for Nuclear Decommissioning (IRID)",
+    "contested": true,
+    "contestNote": "Actual location and physical state of corium in three reactor vessels is largely unconfirmed; estimates based on reactor physics models",
+    "trend": "stable",
+    "lastUpdated": "2026-03-17"
+  },
+  {
+    "id": "disaster-related-deaths",
+    "label": "Muertes Relacionadas con el Desastre (Pref. Fukushima)",
+    "value": "2,337",
+    "color": "red",
+    "source": "Fukushima Prefectural Government (as of 2024)",
+    "contested": false,
+    "deltaNote": "Deaths caused by evacuation stress, inadequate medical care, suicide; exceeds direct tsunami/earthquake deaths in Fukushima. No direct radiation deaths confirmed.",
+    "trend": "stable",
+    "lastUpdated": "2026-03-17"
+  }
+]

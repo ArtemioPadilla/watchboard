@@ -1,0 +1,90 @@
+[
+  {
+    "id": "confirmed-dead",
+    "label": "Muertos Confirmados (Oficial)",
+    "value": "30",
+    "color": "red",
+    "source": "DFS / Interior Ministry 1968",
+    "contested": true,
+    "contestNote": "Official figure of 30 is widely rejected. Estimates from journalists, survivors, and researchers range from 200 to 400 dead. The 1993 National Security Archive documents cite at least 200–300 killed.",
+    "trend": "stable",
+    "lastUpdated": "2026-03-19"
+  },
+  {
+    "id": "estimated-dead",
+    "label": "Muertos Estimados (Investigadores)",
+    "value": "200–400",
+    "color": "red",
+    "source": "Elena Poniatowska / NSA Declassified Docs",
+    "contested": true,
+    "contestNote": "Journalist Elena Poniatowska's landmark 1971 book \"La Noche de Tlatelolco\" and declassified NSA cables from 1968 suggest death tolls far exceeding official figures. Some witnesses report bodies removed by army trucks overnight.",
+    "trend": "stable",
+    "lastUpdated": "2026-03-19"
+  },
+  {
+    "id": "detained",
+    "label": "Detenidos Después de la Masacre",
+    "value": "~2,000",
+    "color": "amber",
+    "source": "CNDH / Amnesty International",
+    "contested": true,
+    "contestNote": "Estimates of those detained range from 1,500 to 2,500. Many were held at Campo Militar No. 1 (Military Camp 1) without charge. Exact numbers remain unknown.",
+    "trend": "stable",
+    "lastUpdated": "2026-03-19"
+  },
+  {
+    "id": "days-since-massacre",
+    "label": "Días Desde la Masacre",
+    "value": "20,987",
+    "color": "amber",
+    "source": "Calculated from 1968-10-02",
+    "contested": false,
+    "trend": "up",
+    "delta": "+365/yr",
+    "lastUpdated": "2026-03-19"
+  },
+  {
+    "id": "prosecutions",
+    "label": "Procesos Judiciales Exitosos",
+    "value": "0",
+    "color": "red",
+    "source": "FEMOSPP / CNDH",
+    "contested": false,
+    "contestNote": "Despite the 2006 FEMOSPP report naming Díaz Ordaz, Echeverría, and senior military officers as responsible for genocide and crimes against humanity, all charges were ultimately dropped or dismissed. No perpetrator has served prison time.",
+    "trend": "stable",
+    "lastUpdated": "2026-03-19"
+  },
+  {
+    "id": "declassified-docs",
+    "label": "Documentos Desclasificados de EE.UU.",
+    "value": "~500+",
+    "color": "blue",
+    "source": "NSA / CIA / State Dept via National Security Archive",
+    "contested": false,
+    "contestNote": "Hundreds of US government documents released since 1997 through Freedom of Information Act requests by the National Security Archive reveal CIA and NSA surveillance of Mexican student movement and knowledge of the massacre.",
+    "trend": "stable",
+    "lastUpdated": "2026-03-19"
+  },
+  {
+    "id": "student-strike-duration",
+    "label": "Duración de la Huelga Estudiantil (1968)",
+    "value": "79 days",
+    "color": "blue",
+    "source": "CNH historical record / UNAM Archives",
+    "contested": false,
+    "contestNote": "The CNH (Consejo Nacional de Huelga) strike ran from approximately July 22 to October 2, 1968 — ended by the massacre. It involved UNAM, IPN, and dozens of other Mexican institutions.",
+    "trend": "stable",
+    "lastUpdated": "2026-03-19"
+  },
+  {
+    "id": "olympics-days-away",
+    "label": "Días para los Olímpicos al Momento de la Masacre",
+    "value": "10",
+    "color": "amber",
+    "source": "IOC / Historical record",
+    "contested": false,
+    "contestNote": "The 1968 Mexico City Summer Olympics opened October 12, 1968 — just 10 days after the massacre. The government's desire to project stability before the world stage is considered a key factor in the decision to use lethal force.",
+    "trend": "stable",
+    "lastUpdated": "2026-03-19"
+  }
+]

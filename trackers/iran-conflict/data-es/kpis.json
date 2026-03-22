@@ -1,0 +1,109 @@
+[
+  {
+    "id": "days_of_conflict",
+    "label": "Días de Conflicto",
+    "value": "22",
+    "color": "red",
+    "source": "Al Jazeera",
+    "contested": false,
+    "delta": "+1",
+    "trend": "up",
+    "lastUpdated": "2026-03-21T06:00:00.000Z"
+  },
+  {
+    "id": "iran_killed",
+    "label": "Muertos en Irán",
+    "value": "2,900+",
+    "color": "red",
+    "source": "Al Jazeera / HRANA / Hengaw / Iran Health Ministry",
+    "contested": true,
+    "contestNote": "Iran Health Ministry (official floor): 1,500+ killed, 19,000+ injured. HRANA NGO: 2,900+ incl. 185+ children. Hengaw: 4,300+ total in first 10 days. Iran UN ambassador: ~10,000 civilian sites hit. Pentagon denies targeting civilian infrastructure. 3.2M Iranians displaced per UNHCR. Internet blackout (~1% connectivity / 310+ hrs) severely limits verification. Mojtaba Khamenei reportedly wounded. Day 22: Anti-war protests suppressed in Tehran, Isfahan, Tabriz — at least 14 arrests on Nowruz.",
+    "delta": "+100",
+    "trend": "up",
+    "lastUpdated": "2026-03-21T06:00:00.000Z"
+  },
+  {
+    "id": "us_killed",
+    "label": "Estadounidenses Muertos",
+    "value": "13",
+    "color": "amber",
+    "source": "Pentagon / Time / NPR",
+    "contested": false,
+    "delta": "0",
+    "trend": "stable",
+    "deltaNote": "13 KIA confirmed: 6 Army Reserve killed in Kuwait drone strike (Feb 28), Sgt. Benjamin N. Pennington (died Mar 8 from wounds), 6 KC-135 crew (names released by Pentagon — crash Mar 13 western Iraq, cause under investigation). ~140 wounded total. USS Gerald Ford fire (Mar 18) — no sailor deaths confirmed. Joe Kent (NCTC) resigned Day 19.",
+    "lastUpdated": "2026-03-18T06:00:00.000Z"
+  },
+  {
+    "id": "israel_killed",
+    "label": "Muertos en Israel",
+    "value": "17+",
+    "color": "amber",
+    "source": "Israeli health authorities / Haaretz / Times of Israel",
+    "contested": false,
+    "delta": "0",
+    "deltaNote": "17+ killed in Israel total. Day 22 (67th wave): 6 civilians wounded near Rishon LeZion — no new Israeli fatalities confirmed. Mar 18: Elderly couple (70s) killed in Ramat Gan — first confirmed cluster munition fatalities. Savidor Central Station damaged. IRGC stated barrage was 'in revenge for killing of Larijani.' 2,000+ Israelis wounded total.",
+    "trend": "stable",
+    "lastUpdated": "2026-03-21T06:00:00.000Z"
+  },
+  {
+    "id": "gulf_killed",
+    "label": "Muertos en la Región del Golfo",
+    "value": "11+",
+    "color": "red",
+    "source": "Multiple Gulf defense ministries",
+    "contested": false,
+    "delta": "0",
+    "trend": "stable",
+    "deltaNote": "Mar 17: Abu Dhabi missile killed 1 Palestinian civilian. Dubai airport fuel tank drone strike (no direct casualties). UAE Shah Gas Field attacked Mar 18 (no direct casualties confirmed). Kuwait US Embassy closed (Rubio order). Saudi Arabia intercepted 37 drones. 16+ vessels struck in Persian Gulf total. Qatar intercepted Iranian missile; blasts heard in Doha Mar 17. Qatar LNG remains halted Day 22.",
+    "lastUpdated": "2026-03-21T06:00:00.000Z"
+  },
+  {
+    "id": "lebanon_killed",
+    "label": "Muertos en Líbano",
+    "value": "870+",
+    "color": "amber",
+    "source": "Lebanese health authorities / Lebanon Information Ministry",
+    "contested": false,
+    "delta": "+20",
+    "deltaNote": "870+ killed including 110+ children and 68 women; 33 health workers killed. 2,150+ injured. 820,000+ displaced. Day 22: IDF continued strikes on Bekaa Valley arms depots and Tyre-area positions. Separate Israel-Lebanon ceasefire track remains active (France mediating; Hezbollah has not responded). IDF ground forces pressing deeper into southern Lebanon.",
+    "trend": "up",
+    "lastUpdated": "2026-03-21T06:00:00.000Z"
+  },
+  {
+    "id": "brent_crude",
+    "label": "Petróleo Brent",
+    "value": "~$112",
+    "color": "red",
+    "source": "Reuters / Al Jazeera / OilPrice.com / CNN",
+    "contested": false,
+    "delta": "-$3",
+    "trend": "stable",
+    "lastUpdated": "2026-03-21T06:00:00.000Z",
+    "deltaNote": "Brent settled near $112/bbl Day 22 — slightly down from $115 peak (Day 21) as markets partially priced in Qatar LNG halt. Qatar LNG production remains fully offline (Day 2). Asian LNG spot prices surged 18% overnight. European TTF gas futures jumped 22%. FAO issued emergency food price alert. IEA SPR release cushioning oil market. Japan, South Korea, Taiwan activated national energy emergency protocols. Gulf Arab oil production down 10M bbl/day from pre-war levels."
+  },
+  {
+    "id": "flights_cancelled",
+    "label": "Vuelos Cancelados",
+    "value": "36,000+",
+    "color": "blue",
+    "source": "FlightAware / Emirates / Al Jazeera / CNN",
+    "contested": false,
+    "delta": "0",
+    "deltaNote": "~500+ tankers stranded in Persian Gulf. Qatar LNG offline (Day 2) — global LNG and fertilizer supply chains disrupted. Hormuz selective blockade: Iran permitting China/India-flagged vessels. UN FAO emergency alert on food price spike. US LNG export authorizations accelerated. European natural gas TTF +22% Day 22. Switzerland halted US arms export authorizations and closed airspace to US military flights linked to Iran campaign — citing neutrality.",
+    "trend": "stable",
+    "lastUpdated": "2026-03-21T06:00:00.000Z"
+  },
+  {
+    "id": "countries_affected",
+    "label": "Países Afectados",
+    "value": "18+",
+    "color": "blue",
+    "source": "Al Jazeera / Reuters / France 24 / CNN / NewsNation",
+    "contested": false,
+    "trend": "up",
+    "lastUpdated": "2026-03-21T06:00:00.000Z",
+    "delta": "+1",
+    "deltaNote": "Iran, Israel, Lebanon, UAE, Bahrain, Kuwait, Qatar, Saudi Arabia, Oman, Iraq, Jordan, Azerbaijan, Turkey, Cyprus, France, Switzerland (new: arms halt / airspace closure), Pakistan. Day 22: Switzerland halts US arms exports and closes airspace to US military flights — citing neutrality. Trump calls NATO allies 'cowards' for not deploying Hormuz warships. Khamenei claims Iran delivered 'dizzying blow.' 67th wave: 6 wounded in Rishon LeZion. 7,200+ targets struck by US-Israel. Iran missile rate ~20–25/day (down 93% from Day 1 peak)."
+  }
+]
