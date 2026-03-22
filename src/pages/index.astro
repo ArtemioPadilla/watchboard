@@ -133,13 +133,12 @@ const serializedTrackers = nonDraft.map(t => {
     }
   }
 
-  /* Phones: hide globe, full-height sidebar */
+  /* Phones: smaller globe */
   @media (max-width: 480px) {
     .cc-globe {
-      display: none !important;
-    }
-    .cc-sidebar {
-      border-top: none !important;
+      flex: 0 0 25vh !important;
+      height: 25vh !important;
+      max-height: 25vh !important;
     }
     .cc-sidebar .cc-search-input {
       font-size: 0.7rem !important;
