@@ -59,6 +59,7 @@ const serializedTrackers = nonDraft.map(t => {
 });
 ---
 <BaseLayout title="Watchboard — Intelligence Dashboard Platform">
+  <main id="main-content">
   <CommandCenter
     trackers={serializedTrackers}
     basePath={basePath}
@@ -66,6 +67,7 @@ const serializedTrackers = nonDraft.map(t => {
     historicalCount={historicalTrackers.length}
     client:load
   />
+  </main>
 </BaseLayout>
 
 <style is:global>

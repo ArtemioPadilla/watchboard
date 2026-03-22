@@ -1,0 +1,307 @@
+---
+/**
+ * Embeddable tracker widget — compact card for iframes.
+ *
+ * URL: /watchboard/embed/{slug}/
+ * Query params: ?theme=light (dark by default)
+ * Target viewport: ~350x200px
+ * Budget: ~5KB, zero JS required (theme detection uses ~60 bytes inline)
+ */
+import { loadAllTrackers } from '../../lib/tracker-registry';
+import { loadTrackerData } from '../../lib/data';
+import type { TrackerConfig } from '../../lib/tracker-config';
+
+export function getStaticPaths() {
+  const trackers = loadAllTrackers();
+  return trackers
+    .filter(t => t.status !== 'draft')
+    .map(t => ({
+      params: { tracker: t.slug },
+      props: { config: t },
+    }));
+}
+
+interface Props {
+  config: TrackerConfig;
+}
+
+const { config } = Astro.props;
+
+// Load tracker data — graceful fallback if data is missing
+let dayCount = 0;
+let lastUpdated = config.startDate;
+let topKpis: Array<{ label: string; value: string; color: string }> = [];
+
+try {
+  const data = loadTrackerData(config.slug, config.eraLabel);
+  dayCount = data.meta.dayCount;
+  lastUpdated = data.meta.lastUpdated;
+  topKpis = data.kpis.slice(0, 3).map(k => ({
+    label: k.label,
+    value: k.value,
+    color: k.color,
+  }));
+} catch {
+  // Tracker may not have data yet — use config defaults
+}
+
+// Compute data freshness status
+function computeFreshness(updatedAt: string): { label: string; cssClass: string } {
+  const now = new Date();
+  const updated = new Date(updatedAt);
+  const hoursAgo = (now.getTime() - updated.getTime()) / (1000 * 60 * 60);
+
+  if (hoursAgo <= 24) return { label: 'FRESH', cssClass: 'badge-fresh' };
+  if (hoursAgo <= 168) return { label: 'RECENT', cssClass: 'badge-recent' };
+  return { label: 'STALE', cssClass: 'badge-stale' };
+}
+
+const freshness = computeFreshness(lastUpdated);
+
+// Resolve accent color — fallback to neutral blue
+const accentColor = config.color || '#3498db';
+
+// Build the full dashboard URL
+const base = import.meta.env.BASE_URL;
+const basePath = base.endsWith('/') ? base : `${base}/`;
+const dashboardUrl = `${basePath}${config.slug}/`;
+
+// KPI color map (matches Watchboard theme)
+const kpiColors: Record<string, string> = {
+  red: '#e74c3c',
+  amber: '#f39c12',
+  blue: '#3498db',
+  green: '#2ecc71',
+};
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex" />
+  <title>{config.shortName} — Watchboard Embed</title>
+  <style set:html={`:root{--accent:${accentColor}}`}></style>
+  <style is:inline>
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── Dark theme (default) ── */
+    :root {
+      --bg: #0a0a0f;
+      --card-bg: #12121a;
+      --border: #1e1e2e;
+      --text-primary: #e0e0e6;
+      --text-secondary: #8888a0;
+      --text-muted: #555566;
+    }
+
+    /* ── Light theme ── */
+    .theme-light {
+      --bg: #f0f0f4;
+      --card-bg: #ffffff;
+      --border: #d0d0d8;
+      --text-primary: #1a1a2e;
+      --text-secondary: #555566;
+      --text-muted: #8888a0;
+    }
+
+    body {
+      font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      background: var(--bg);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px;
+    }
+
+    /* ── Card ── */
+    .embed-card {
+      width: 100%;
+      max-width: 350px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .embed-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--accent);
+    }
+
+    /* ── Header row ── */
+    .embed-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .embed-icon {
+      font-size: 22px;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .embed-title-group {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .embed-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      letter-spacing: 0.02em;
+    }
+
+    .embed-day-count {
+      font-size: 10px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-top: 2px;
+    }
+
+    /* ── Freshness badge ── */
+    .embed-badge {
+      font-size: 9px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 3px;
+      letter-spacing: 0.08em;
+      flex-shrink: 0;
+    }
+
+    .badge-fresh {
+      background: rgba(46, 204, 113, 0.15);
+      color: #2ecc71;
+      border: 1px solid rgba(46, 204, 113, 0.3);
+    }
+
+    .badge-recent {
+      background: rgba(243, 156, 18, 0.15);
+      color: #f39c12;
+      border: 1px solid rgba(243, 156, 18, 0.3);
+    }
+
+    .badge-stale {
+      background: rgba(136, 136, 160, 0.15);
+      color: #8888a0;
+      border: 1px solid rgba(136, 136, 160, 0.3);
+    }
+
+    /* ── KPI strip ── */
+    .embed-kpis {
+      display: flex;
+      gap: 8px;
+    }
+
+    .embed-kpi {
+      flex: 1;
+      min-width: 0;
+      background: var(--bg);
+      border-radius: 4px;
+      padding: 8px 6px;
+      text-align: center;
+    }
+
+    .embed-kpi-value {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .embed-kpi-label {
+      font-size: 8px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-top: 3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* ── Footer link ── */
+    .embed-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .embed-link {
+      font-size: 10px;
+      color: var(--accent);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      font-weight: 600;
+      transition: opacity 0.15s;
+    }
+
+    .embed-link:hover {
+      opacity: 0.8;
+    }
+
+    .embed-wb-mark {
+      font-size: 8px;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+  </style>
+  <script is:inline>
+    if(/[?&]theme=light/.test(location.search))document.documentElement.classList.add('theme-light');
+  </script>
+</head>
+<body>
+  <div class="embed-card">
+    <div class="embed-header">
+      {config.icon && <span class="embed-icon">{config.icon}</span>}
+      <div class="embed-title-group">
+        <div class="embed-name">{config.shortName}</div>
+        <div class="embed-day-count">Day {dayCount}</div>
+      </div>
+      <span class={`embed-badge ${freshness.cssClass}`}>{freshness.label}</span>
+    </div>
+
+    {topKpis.length > 0 && (
+      <div class="embed-kpis">
+        {topKpis.map(kpi => (
+          <div class="embed-kpi">
+            <div class="embed-kpi-value" style={`color: ${kpiColors[kpi.color] || kpiColors.blue}`}>
+              {kpi.value}
+            </div>
+            <div class="embed-kpi-label">{kpi.label}</div>
+          </div>
+        ))}
+      </div>
+    )}
+
+    <div class="embed-footer">
+      <a class="embed-link" href={dashboardUrl} target="_blank" rel="noopener">
+        Open on Watchboard &#8594;
+      </a>
+      <span class="embed-wb-mark">WB</span>
+    </div>
+  </div>
+</body>
+</html>

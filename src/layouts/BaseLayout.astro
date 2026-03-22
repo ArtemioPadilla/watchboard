@@ -15,6 +15,9 @@ const basePath = base.endsWith('/') ? base : `${base}/`;
 const pageUrl = trackerSlug ? `${siteUrl}${basePath}${trackerSlug}/` : `${siteUrl}${basePath}`;
 const desc = description || 'Multi-topic intelligence dashboard with sourced data, interactive maps, and contested claims tracking.';
 const githubUrl = githubRepo ? `https://github.com/${githubRepo}` : 'https://github.com/ArtemioPadilla/watchboard';
+const ogImageUrl = trackerSlug
+  ? `${siteUrl}${basePath}og/${trackerSlug}.png`
+  : undefined;
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -27,7 +30,11 @@ const githubUrl = githubRepo ? `https://github.com/${githubRepo}` : 'https://git
   <meta property="og:description" content={desc}>
   <meta property="og:type" content="website">
   <meta property="og:url" content={pageUrl}>
+  {ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
+  {ogImageUrl && <meta property="og:image:width" content="1200" />}
+  {ogImageUrl && <meta property="og:image:height" content="630" />}
   <meta name="twitter:card" content="summary_large_image">
+  {ogImageUrl && <meta name="twitter:image" content={ogImageUrl} />}
   <meta name="theme-color" content="#0a0b0e">
   <link rel="canonical" href={pageUrl}>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔴</text></svg>">
@@ -43,6 +50,7 @@ const githubUrl = githubRepo ? `https://github.com/${githubRepo}` : 'https://git
   <link rel="preload" as="font" type="font/woff2" crossorigin href="/watchboard/fonts/jetbrains-mono-latin.woff2">
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
   <div class="tooltip" id="tooltip"></div>
   <a
     class="feedback-fab"

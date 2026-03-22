@@ -22,6 +22,7 @@ interface Props {
   onSelectTracker: (slug: string | null) => void;
   onHoverTracker: (slug: string | null) => void;
   onToggleFollow: (slug: string) => void;
+  searchRef?: React.RefObject<HTMLInputElement | null>;
 }
 
 // ── TrackerRow ──
@@ -330,6 +331,7 @@ export default function SidebarPanel({
   onSelectTracker,
   onHoverTracker,
   onToggleFollow,
+  searchRef,
 }: Props) {
   const [activeDomain, setActiveDomain] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
@@ -390,9 +392,10 @@ export default function SidebarPanel({
       <div style={S.searchWrap}>
         <span style={S.searchIcon}>&gt;_</span>
         <input
+          ref={searchRef}
           type="text"
           className="cc-search-input"
-          placeholder="Search trackers..."
+          placeholder="Search trackers... (press /)"
           value={searchQuery}
           onChange={e => setSearchQuery(e.target.value)}
           style={S.searchInput}

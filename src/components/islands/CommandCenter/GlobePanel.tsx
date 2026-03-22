@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, forwardRef, useImperativeHandle } from 'react';
 import type { TrackerCardData } from '../../../lib/tracker-directory-utils';
 
 interface GlobePoint {
@@ -169,14 +169,18 @@ function mergeEventPoints(
   return [...eventPoints, ...hubs];
 }
 
-export default function GlobePanel({
+export interface GlobePanelHandle {
+  toggleRotation?: () => void;
+}
+
+const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
   trackers,
   activeTracker,
   hoveredTracker,
   followedSlugs,
   onSelectTracker,
   onHoverTracker,
-}: Props) {
+}, ref) {
   const [loading, setLoading] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
   const globeRef = useRef<any>(null);
@@ -203,6 +207,13 @@ export default function GlobePanel({
   onSelectRef.current = onSelectTracker;
   const onHoverRef = useRef(onHoverTracker);
   onHoverRef.current = onHoverTracker;
+
+  useImperativeHandle(ref, () => ({
+    toggleRotation: () => {
+      const controls = globeRef.current?.controls();
+      if (controls) controls.autoRotate = !controls.autoRotate;
+    },
+  }));
 
   // Point accessors — handle both hub and event types
   function getPointColor(d: any): string {
@@ -442,7 +453,9 @@ export default function GlobePanel({
       </div>
     </div>
   );
-}
+});
+
+export default GlobePanel;
 
 const styles = {
   container: {
