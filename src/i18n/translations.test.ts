@@ -49,6 +49,60 @@ describe('t', () => {
     expect(t('section.timeline', 'en')).toBe('Timeline');
     expect(t('section.timeline', 'es')).toBe('Linea de Tiempo');
   });
+
+  it('returns French translation for locale "fr"', () => {
+    /** TC-i18n-017: t() returns French. Verifies: AC-t-fr */
+    expect(t('header.unclassified', 'fr')).toBe('NON CLASSIFIE');
+    expect(t('footer.about', 'fr')).toBe('A propos et Credits');
+    expect(t('status.active', 'fr')).toBe('ACTIF');
+    expect(t('status.fresh', 'fr')).toBe('EN DIRECT');
+    expect(t('status.follow', 'fr')).toBe('SUIVRE');
+    expect(t('status.following', 'fr')).toBe('SUIVI');
+    expect(t('domain.conflict', 'fr')).toBe('CONFLIT');
+    expect(t('domain.security', 'fr')).toBe('SECURITE');
+    expect(t('domain.governance', 'fr')).toBe('GOUVERNANCE');
+    expect(t('cc.search', 'fr')).toBe('Rechercher des trackers... (appuyez /)');
+  });
+
+  it('returns Portuguese translation for locale "pt"', () => {
+    /** TC-i18n-018: t() returns Portuguese. Verifies: AC-t-pt */
+    expect(t('header.unclassified', 'pt')).toBe('NAO CLASSIFICADO');
+    expect(t('footer.about', 'pt')).toBe('Sobre e Creditos');
+    expect(t('status.active', 'pt')).toBe('ATIVO');
+    expect(t('status.fresh', 'pt')).toBe('AO VIVO');
+    expect(t('status.follow', 'pt')).toBe('SEGUIR');
+    expect(t('status.following', 'pt')).toBe('SEGUINDO');
+    expect(t('domain.conflict', 'pt')).toBe('CONFLITO');
+    expect(t('domain.security', 'pt')).toBe('SEGURANCA');
+    expect(t('domain.governance', 'pt')).toBe('GOVERNANCA');
+    expect(t('cc.search', 'pt')).toBe('Buscar trackers... (pressione /)');
+  });
+
+  it('covers all domain keys in French', () => {
+    /** TC-i18n-019: t() French domain translations. Verifies: AC-t-fr-domains */
+    expect(t('domain.disaster', 'fr')).toBe('CATASTROPHE');
+    expect(t('domain.human-rights', 'fr')).toBe('DROITS HUMAINS');
+    expect(t('domain.science', 'fr')).toBe('SCIENCE');
+    expect(t('domain.economy', 'fr')).toBe('ECONOMIE');
+  });
+
+  it('covers all domain keys in Portuguese', () => {
+    /** TC-i18n-020: t() Portuguese domain translations. Verifies: AC-t-pt-domains */
+    expect(t('domain.disaster', 'pt')).toBe('DESASTRE');
+    expect(t('domain.human-rights', 'pt')).toBe('DIREITOS HUMANOS');
+    expect(t('domain.science', 'pt')).toBe('CIENCIA');
+    expect(t('domain.economy', 'pt')).toBe('ECONOMIA');
+  });
+
+  it('covers time keys in French and Portuguese', () => {
+    /** TC-i18n-021: t() time translations across all locales. Verifies: AC-t-time */
+    expect(t('time.justNow', 'fr')).toBe('A l\'instant');
+    expect(t('time.day', 'fr')).toBe('JOUR');
+    expect(t('time.days', 'fr')).toBe('JOURS');
+    expect(t('time.justNow', 'pt')).toBe('Agora mesmo');
+    expect(t('time.day', 'pt')).toBe('DIA');
+    expect(t('time.days', 'pt')).toBe('DIAS');
+  });
 });
 
 // ── getLocaleFromUrl ──
@@ -78,9 +132,33 @@ describe('getLocaleFromUrl', () => {
     expect(getLocaleFromUrl(url)).toBe(DEFAULT_LOCALE);
   });
 
-  it('does not match unsupported locales', () => {
-    /** TC-i18n-011: getLocaleFromUrl rejects unsupported locale. Verifies: AC-locale-url */
+  it('returns "fr" when path starts with /fr/', () => {
+    /** TC-i18n-011a: getLocaleFromUrl detects /fr/. Verifies: AC-locale-url-fr */
     const url = new URL('https://example.com/fr/some-page');
+    expect(getLocaleFromUrl(url)).toBe('fr');
+  });
+
+  it('returns "pt" when path starts with /pt/', () => {
+    /** TC-i18n-011b: getLocaleFromUrl detects /pt/. Verifies: AC-locale-url-pt */
+    const url = new URL('https://example.com/pt/some-page');
+    expect(getLocaleFromUrl(url)).toBe('pt');
+  });
+
+  it('returns "fr" when locale is after base path (/watchboard/fr/)', () => {
+    /** TC-i18n-011c: getLocaleFromUrl detects fr after base. Verifies: AC-locale-url-fr */
+    const url = new URL('https://example.com/watchboard/fr/tracker');
+    expect(getLocaleFromUrl(url)).toBe('fr');
+  });
+
+  it('returns "pt" when locale is after base path (/watchboard/pt/)', () => {
+    /** TC-i18n-011d: getLocaleFromUrl detects pt after base. Verifies: AC-locale-url-pt */
+    const url = new URL('https://example.com/watchboard/pt/tracker');
+    expect(getLocaleFromUrl(url)).toBe('pt');
+  });
+
+  it('does not match unsupported locales', () => {
+    /** TC-i18n-011e: getLocaleFromUrl rejects unsupported locale. Verifies: AC-locale-url */
+    const url = new URL('https://example.com/de/some-page');
     expect(getLocaleFromUrl(url)).toBe(DEFAULT_LOCALE);
   });
 });
@@ -135,11 +213,29 @@ describe('getPreferredLocale', () => {
     expect(getPreferredLocale()).toBe('es');
   });
 
-  it('returns default locale when browser language is unsupported', () => {
-    /** TC-i18n-015: getPreferredLocale unsupported browser lang. Verifies: AC-locale-preferred */
+  it('returns French when browser language is fr-FR', () => {
+    /** TC-i18n-015a: getPreferredLocale detects French browser language. Verifies: AC-locale-preferred-fr */
     vi.stubGlobal('window', {});
     vi.stubGlobal('localStorage', { getItem: () => null, setItem: () => {} });
     vi.stubGlobal('navigator', { language: 'fr-FR' });
+
+    expect(getPreferredLocale()).toBe('fr');
+  });
+
+  it('returns Portuguese when browser language is pt-BR', () => {
+    /** TC-i18n-015b: getPreferredLocale detects Portuguese browser language. Verifies: AC-locale-preferred-pt */
+    vi.stubGlobal('window', {});
+    vi.stubGlobal('localStorage', { getItem: () => null, setItem: () => {} });
+    vi.stubGlobal('navigator', { language: 'pt-BR' });
+
+    expect(getPreferredLocale()).toBe('pt');
+  });
+
+  it('returns default locale when browser language is unsupported', () => {
+    /** TC-i18n-015c: getPreferredLocale unsupported browser lang. Verifies: AC-locale-preferred */
+    vi.stubGlobal('window', {});
+    vi.stubGlobal('localStorage', { getItem: () => null, setItem: () => {} });
+    vi.stubGlobal('navigator', { language: 'de-DE' });
 
     expect(getPreferredLocale()).toBe(DEFAULT_LOCALE);
   });

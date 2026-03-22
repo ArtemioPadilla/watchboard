@@ -8,7 +8,7 @@ export default defineConfig({
   base: '/watchboard',
   i18n: {
     defaultLocale: 'en',
-    locales: ['en', 'es'],
+    locales: ['en', 'es', 'fr', 'pt'],
     routing: {
       prefixDefaultLocale: false,
     },

@@ -1,9 +1,9 @@
-export type Locale = 'en' | 'es';
+export type Locale = 'en' | 'es' | 'fr' | 'pt';
 
 export const DEFAULT_LOCALE: Locale = 'en';
-export const SUPPORTED_LOCALES: Locale[] = ['en', 'es'];
+export const SUPPORTED_LOCALES: Locale[] = ['en', 'es', 'fr', 'pt'];
 
-type TranslationKeys = typeof en;
+type TranslationKeys = Record<keyof typeof en, string>;
 
 const en = {
   // Header
@@ -155,7 +155,149 @@ const es: TranslationKeys = {
   'time.updated': 'Actualizado',
 };
 
-const translations: Record<Locale, TranslationKeys> = { en, es };
+const fr: TranslationKeys = {
+  'header.unclassified': 'NON CLASSIFIE',
+  'header.osint': 'RENSEIGNEMENT DE SOURCES OUVERTES',
+  'header.fouo': 'USAGE OFFICIEL',
+  'header.home': 'Accueil Watchboard',
+
+  'status.active': 'ACTIF',
+  'status.historical': 'HISTORIQUE',
+  'status.fresh': 'EN DIRECT',
+  'status.recent': 'RECENT',
+  'status.stale': 'OBSOLETE',
+  'status.archived': 'ARCHIVE',
+  'status.following': 'SUIVI',
+  'status.follow': 'SUIVRE',
+
+  'domain.conflict': 'CONFLIT',
+  'domain.security': 'SECURITE',
+  'domain.governance': 'GOUVERNANCE',
+  'domain.disaster': 'CATASTROPHE',
+  'domain.human-rights': 'DROITS HUMAINS',
+  'domain.science': 'SCIENCE',
+  'domain.space': 'ESPACE',
+  'domain.economy': 'ECONOMIE',
+  'domain.culture': 'CULTURE',
+  'domain.history': 'HISTOIRE',
+  'domain.tracker': 'TRACKER',
+
+  'cc.search': 'Rechercher des trackers... (appuyez /)',
+  'cc.liveOps': 'OPERATIONS EN DIRECT',
+  'cc.historical': 'ANALYSE HISTORIQUE',
+  'cc.latestIntel': 'DERNIER RENSEIGNEMENT',
+  'cc.openDashboard': 'OUVRIR LE TABLEAU',
+  'cc.deselect': 'DESELECTIONNER',
+  'cc.compare': 'COMPARER',
+  'cc.initGlobe': 'INITIALISATION DU GLOBE',
+  'cc.globeHint': 'Glisser pour pivoter · Defiler pour zoomer · Cliquer pour selectionner',
+  'cc.noResults': 'Aucun tracker ne correspond a votre recherche.',
+  'cc.live': 'DIRECT',
+  'cc.hist': 'HIST',
+
+  'section.timeline': 'Chronologie',
+  'section.map': 'Carte du Theatre',
+  'section.military': 'Militaire',
+  'section.casualties': 'Victimes',
+  'section.economic': 'Economique',
+  'section.claims': 'Revendications',
+  'section.political': 'Politique',
+
+  'footer.about': 'A propos et Credits',
+  'footer.disclaimer': 'Ne soutient aucun recit en particulier.',
+
+  'shortcuts.title': 'RACCOURCIS CLAVIER',
+  'shortcuts.search': 'Recherche',
+  'shortcuts.navigate': 'Naviguer les trackers',
+  'shortcuts.open': 'Ouvrir le tableau',
+  'shortcuts.follow': 'Suivre / ne plus suivre',
+  'shortcuts.rotate': 'Alterner la rotation du globe',
+  'shortcuts.openSelected': 'Ouvrir le tracker selectionne',
+  'shortcuts.deselect': 'Deselectionner / fermer',
+  'shortcuts.help': 'Afficher cette aide',
+  'shortcuts.close': 'pour fermer',
+
+  'time.justNow': 'A l\'instant',
+  'time.minAgo': 'min',
+  'time.hAgo': 'h',
+  'time.dAgo': 'j',
+  'time.day': 'JOUR',
+  'time.days': 'JOURS',
+  'time.updated': 'Mis a jour',
+};
+
+const pt: TranslationKeys = {
+  'header.unclassified': 'NAO CLASSIFICADO',
+  'header.osint': 'INTELIGENCIA DE FONTES ABERTAS',
+  'header.fouo': 'USO OFICIAL',
+  'header.home': 'Inicio Watchboard',
+
+  'status.active': 'ATIVO',
+  'status.historical': 'HISTORICO',
+  'status.fresh': 'AO VIVO',
+  'status.recent': 'RECENTE',
+  'status.stale': 'DESATUALIZADO',
+  'status.archived': 'ARQUIVADO',
+  'status.following': 'SEGUINDO',
+  'status.follow': 'SEGUIR',
+
+  'domain.conflict': 'CONFLITO',
+  'domain.security': 'SEGURANCA',
+  'domain.governance': 'GOVERNANCA',
+  'domain.disaster': 'DESASTRE',
+  'domain.human-rights': 'DIREITOS HUMANOS',
+  'domain.science': 'CIENCIA',
+  'domain.space': 'ESPACO',
+  'domain.economy': 'ECONOMIA',
+  'domain.culture': 'CULTURA',
+  'domain.history': 'HISTORIA',
+  'domain.tracker': 'RASTREADOR',
+
+  'cc.search': 'Buscar trackers... (pressione /)',
+  'cc.liveOps': 'OPERACOES AO VIVO',
+  'cc.historical': 'ANALISE HISTORICA',
+  'cc.latestIntel': 'ULTIMA INTELIGENCIA',
+  'cc.openDashboard': 'ABRIR PAINEL',
+  'cc.deselect': 'DESSELECIONAR',
+  'cc.compare': 'COMPARAR',
+  'cc.initGlobe': 'INICIALIZANDO GLOBO',
+  'cc.globeHint': 'Arraste para girar · Role para zoom · Clique para selecionar',
+  'cc.noResults': 'Nenhum tracker corresponde a sua busca.',
+  'cc.live': 'AO VIVO',
+  'cc.hist': 'HIST',
+
+  'section.timeline': 'Linha do Tempo',
+  'section.map': 'Mapa do Teatro',
+  'section.military': 'Militar',
+  'section.casualties': 'Vitimas',
+  'section.economic': 'Economico',
+  'section.claims': 'Declaracoes',
+  'section.political': 'Politico',
+
+  'footer.about': 'Sobre e Creditos',
+  'footer.disclaimer': 'Nao endossa nenhuma narrativa em particular.',
+
+  'shortcuts.title': 'ATALHOS DE TECLADO',
+  'shortcuts.search': 'Focar busca',
+  'shortcuts.navigate': 'Navegar trackers',
+  'shortcuts.open': 'Abrir painel',
+  'shortcuts.follow': 'Seguir / deixar de seguir',
+  'shortcuts.rotate': 'Alternar rotacao do globo',
+  'shortcuts.openSelected': 'Abrir tracker selecionado',
+  'shortcuts.deselect': 'Desselecionar / fechar',
+  'shortcuts.help': 'Mostrar esta ajuda',
+  'shortcuts.close': 'para fechar',
+
+  'time.justNow': 'Agora mesmo',
+  'time.minAgo': 'min',
+  'time.hAgo': 'h',
+  'time.dAgo': 'd',
+  'time.day': 'DIA',
+  'time.days': 'DIAS',
+  'time.updated': 'Atualizado',
+};
+
+const translations: Record<Locale, TranslationKeys> = { en, es, fr, pt };
 
 export function t(key: keyof TranslationKeys, locale: Locale = DEFAULT_LOCALE): string {
   return translations[locale]?.[key] || translations.en[key] || key;

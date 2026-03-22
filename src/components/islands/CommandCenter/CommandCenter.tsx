@@ -1,7 +1,7 @@
-import { useState, useCallback, useEffect, useRef } from 'react';
+import { useState, useCallback, useEffect, useRef, lazy, Suspense } from 'react';
 import type { TrackerCardData } from '../../../lib/tracker-directory-utils';
-import { type Locale, getPreferredLocale, setPreferredLocale, t } from '../../../i18n/translations';
-import GlobePanel from './GlobePanel';
+import { type Locale, SUPPORTED_LOCALES, getPreferredLocale, setPreferredLocale, t } from '../../../i18n/translations';
+const GlobePanel = lazy(() => import('./GlobePanel'));
 import SidebarPanel from './SidebarPanel';
 import ComparePanel from './ComparePanel';
 import NotificationManager from './NotificationManager';
@@ -60,7 +60,8 @@ export default function CommandCenter({
 
   const handleToggleLocale = useCallback(() => {
     setLocale(prev => {
-      const next: Locale = prev === 'en' ? 'es' : 'en';
+      const idx = SUPPORTED_LOCALES.indexOf(prev);
+      const next = SUPPORTED_LOCALES[(idx + 1) % SUPPORTED_LOCALES.length];
       setPreferredLocale(next);
       return next;
     });
@@ -160,15 +161,24 @@ export default function CommandCenter({
       <h1 className="sr-only">Watchboard — Intelligence Dashboard Platform</h1>
       <NotificationManager trackers={trackers} followedSlugs={followedSlugs} />
       <div className="cc-globe" style={styles.globe} role="region" aria-label="Globe visualization">
-        <GlobePanel
-          ref={globeRef}
-          trackers={trackers}
-          activeTracker={activeTracker}
-          hoveredTracker={hoveredTracker}
-          followedSlugs={followedSlugs}
-          onSelectTracker={handleSelect}
-          onHoverTracker={handleHover}
-        />
+        <Suspense fallback={
+          <div style={styles.globeLoading}>
+            <div style={styles.globePlaceholder}>
+              <div style={styles.globeSpinner} />
+            </div>
+            <div style={styles.globeLoadingText}>{t('cc.initGlobe', locale)}</div>
+          </div>
+        }>
+          <GlobePanel
+            ref={globeRef}
+            trackers={trackers}
+            activeTracker={activeTracker}
+            hoveredTracker={hoveredTracker}
+            followedSlugs={followedSlugs}
+            onSelectTracker={handleSelect}
+            onHoverTracker={handleHover}
+          />
+        </Suspense>
       </div>
       <nav className="cc-sidebar" style={styles.sidebar} aria-label="Tracker directory">
         <SidebarPanel
@@ -236,6 +246,42 @@ const styles = {
     flex: '6 1 0%',
     position: 'relative' as const,
     minWidth: 0,
+  } as React.CSSProperties,
+
+  globeLoading: {
+    display: 'flex',
+    flexDirection: 'column' as const,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    height: '100%',
+    background: '#000',
+  } as React.CSSProperties,
+
+  globePlaceholder: {
+    width: 100,
+    height: 100,
+    borderRadius: '50%',
+    background: 'radial-gradient(circle at 35% 30%, #1e3a5f 0%, #0e1f35 50%, #060a10 100%)',
+    position: 'relative' as const,
+  } as React.CSSProperties,
+
+  globeSpinner: {
+    position: 'absolute' as const,
+    inset: -6,
+    borderRadius: '50%',
+    border: '2px solid transparent',
+    borderTopColor: 'rgba(52,152,219,0.5)',
+    animation: 'spin 1.5s linear infinite',
+  } as React.CSSProperties,
+
+  globeLoadingText: {
+    marginTop: 16,
+    fontFamily: "'JetBrains Mono', monospace",
+    fontSize: '0.55rem',
+    color: 'var(--text-muted)',
+    letterSpacing: '0.12em',
+    opacity: 0.5,
   } as React.CSSProperties,
 
   sidebar: {

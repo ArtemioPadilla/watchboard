@@ -10,7 +10,7 @@ import {
   computeDomainCounts,
   getVisibleDomains,
 } from '../../../lib/tracker-directory-utils';
-import { t, type Locale } from '../../../i18n/translations';
+import { t, SUPPORTED_LOCALES, type Locale } from '../../../i18n/translations';
 
 interface Props {
   trackers: TrackerCardData[];
@@ -60,7 +60,7 @@ const TrackerRow = memo(function TrackerRow({
   const color = tracker.color || '#3498db';
   const dateline = buildDateline(tracker);
   const freshness = computeFreshness(tracker.lastUpdated);
-  const localePrefix = locale === 'es' ? 'es/' : '';
+  const localePrefix = locale !== 'en' ? `${locale}/` : '';
   const href = `${basePath}${localePrefix}${tracker.slug}/`;
   const rowRef = useRef<HTMLDivElement>(null);
 
@@ -453,11 +453,14 @@ export default function SidebarPanel({
               type="button"
               onClick={onToggleLocale}
               style={S.langBtn}
-              title={locale === 'en' ? 'Cambiar a Espanol' : 'Switch to English'}
+              title="Change language"
             >
-              <span style={{ opacity: locale === 'en' ? 1 : 0.4 }}>EN</span>
-              <span style={{ opacity: 0.3 }}>/</span>
-              <span style={{ opacity: locale === 'es' ? 1 : 0.4 }}>ES</span>
+              {SUPPORTED_LOCALES.map((loc, i) => (
+                <span key={loc}>
+                  {i > 0 && <span style={{ opacity: 0.3 }}>/</span>}
+                  <span style={{ opacity: locale === loc ? 1 : 0.4 }}>{loc.toUpperCase()}</span>
+                </span>
+              ))}
             </button>
           )}
         </div>

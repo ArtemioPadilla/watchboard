@@ -98,14 +98,14 @@ jobs:
 
             STEP 1 — UNDERSTAND TRANSLATABLE FIELDS:
             Read src/lib/translation-fields.ts to understand which fields are translatable.
-            For Phase 1, you only translate files listed in PHASE1_FILES: meta.json and kpis.json.
+            Translate ALL files listed in TRANSLATABLE_FIELDS, not just Phase 1.
+            This includes: meta.json, kpis.json, timeline.json, casualties.json, econ.json, claims.json, political.json, map-points.json, strike-targets.json, retaliation.json, assets.json.
+            Also translate partitioned event files in data/events/*.json.
 
             STEP 2 — FOR EACH TRACKER SLUG listed above, perform these steps:
 
-            a) Read the source data files:
-               - trackers/{slug}/data/meta.json
-               - trackers/{slug}/data/kpis.json
-               If either file does not exist, skip it.
+            a) Read all translatable source data files from trackers/{slug}/data/.
+               If a file does not exist, skip it.
 
             b) Check if trackers/{slug}/translation-hashes.json exists.
                If yes, read it. It has this shape:

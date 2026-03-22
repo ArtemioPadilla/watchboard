@@ -12,7 +12,7 @@ Active trackers: **Iran Conflict**, **September 11**, **Chernobyl**, **Fukushima
 
 ```bash
 npm run dev          # Start dev server
-npm run build        # Type-check + build static site to dist/
+npm run build        # Type-check + build static site to dist/ (postbuild runs pagefind indexing)
 npm run preview      # Preview built site
 npm run update-data  # Run AI data update for all trackers (requires ANTHROPIC_API_KEY or OPENAI_API_KEY)
 TRACKER_SLUG=iran-conflict npm run update-data  # Update a single tracker
@@ -71,6 +71,7 @@ Single source of truth for all data types. Zod schemas are used both by Astro co
 - `src/pages/[tracker]/index.astro` — dynamic dashboard per tracker (uses `getStaticPaths()`)
 - `src/pages/[tracker]/globe.astro` — 3D globe (only for trackers with `globe.enabled`)
 - `src/pages/[tracker]/about.astro` — about page per tracker
+- `src/pages/search.astro` — full-text search page (Pagefind UI, dark themed)
 - `src/pages/rss.xml.ts` — global RSS feed (all tracker digests)
 - `src/pages/[tracker]/rss.xml.ts` — per-tracker RSS feed
 

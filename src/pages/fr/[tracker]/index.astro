@@ -1,0 +1,117 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Header from '../../../components/static/Header.astro';
+import HeroKpiCombo from '../../../components/static/HeroKpiCombo.astro';
+import CasualtyTable from '../../../components/static/CasualtyTable.astro';
+import EconGrid from '../../../components/static/EconGrid.astro';
+import ClaimsMatrix from '../../../components/static/ClaimsMatrix.astro';
+import PoliticalGrid from '../../../components/static/PoliticalGrid.astro';
+import SourceLegend from '../../../components/static/SourceLegend.astro';
+import Footer from '../../../components/static/Footer.astro';
+
+import TimelineSection from '../../../components/islands/TimelineSection';
+import IntelMap from '../../../components/islands/IntelMap';
+import MilitaryTabs from '../../../components/islands/MilitaryTabs';
+import LatestEvents from '../../../components/islands/LatestEvents';
+import MobileTabShell from '../../../components/islands/mobile/MobileTabShell';
+
+import { loadTrackerData } from '../../../lib/data';
+import { loadAllTrackers } from '../../../lib/tracker-registry';
+import type { TrackerConfig } from '../../../lib/tracker-config';
+import { flattenTimelineEvents } from '../../../lib/timeline-utils';
+
+export function getStaticPaths() {
+  const trackers = loadAllTrackers();
+  return trackers
+    .filter(t => t.status !== 'draft')
+    .map(t => ({
+      params: { tracker: t.slug },
+      props: { config: t },
+    }));
+}
+
+interface Props {
+  config: TrackerConfig;
+}
+
+const { config } = Astro.props;
+const data = loadTrackerData(config.slug, config.eraLabel, 'fr');
+const flatEvents = flattenTimelineEvents(data.timeline);
+const categories = config.map?.categories ?? [];
+
+// French status labels
+const temporalLabel = config.temporal === 'historical' ? 'HISTORIQUE' : 'ACTIF';
+const domainLabels: Record<string, string> = {
+  conflict: 'CONFLIT', security: 'SECURITE', governance: 'GOUVERNANCE',
+  disaster: 'CATASTROPHE', 'human-rights': 'DROITS HUMAINS', science: 'SCIENCE',
+  space: 'ESPACE', economy: 'ECONOMIE', culture: 'CULTURE', history: 'HISTOIRE',
+};
+const domainLabel = domainLabels[config.domain || ''] || 'TRACKER';
+const statusLabel = `${temporalLabel} ${domainLabel}`;
+---
+<BaseLayout
+  title={`${config.shortName} — Tableau de Renseignement`}
+  description={config.description}
+  trackerSlug={config.slug}
+  githubRepo={config.githubRepo}
+>
+  <!-- Desktop layout -->
+  <div class="desktop-layout">
+    <Header meta={data.meta} navSections={config.navSections} trackerSlug={config.slug} globeEnabled={config.globe?.enabled} statusLabel={statusLabel} />
+    <main id="main-content">
+      <HeroKpiCombo meta={data.meta} kpis={data.kpis} />
+
+      <div class="theater-layout">
+        {config.sections.includes('map') && (
+          <div class="theater-map">
+            <IntelMap client:only="react" points={data.mapPoints} lines={data.mapLines} events={flatEvents} categories={categories} mapCenter={config.map?.center} mapBounds={config.map?.bounds} />
+          </div>
+        )}
+        <div class={config.sections.includes('map') ? 'theater-scroll' : 'theater-scroll full-width'}>
+          <LatestEvents client:visible events={flatEvents} />
+          {config.sections.includes('military') && <MilitaryTabs client:visible strikeTargets={data.strikeTargets} retaliationData={data.retaliationData} assetsData={data.assetsData} tabs={config.militaryTabs} />}
+          {config.sections.includes('casualties') && <CasualtyTable casualties={data.casualties} />}
+          {config.sections.includes('economic') && <EconGrid econ={data.econ} />}
+          {config.sections.includes('claims') && <ClaimsMatrix claims={data.claims} />}
+          {config.sections.includes('political') && <PoliticalGrid political={data.political} avatarLabels={config.politicalAvatars} />}
+          {config.sections.includes('timeline') && <TimelineSection client:visible timeline={data.timeline} />}
+        </div>
+      </div>
+
+      <SourceLegend />
+    </main>
+    <Footer meta={data.meta} trackerSlug={config.slug} githubRepo={config.githubRepo} />
+  </div>
+
+  <!-- Mobile layout -->
+  <div class="mobile-layout">
+    <MobileTabShell
+      client:only="react"
+      operationName={data.meta.operationName}
+      trackerSlug={config.slug}
+      globeEnabled={config.globe?.enabled ?? false}
+      isHistorical={config.temporal === 'historical'}
+      mapPoints={data.mapPoints}
+      mapLines={data.mapLines}
+      events={flatEvents}
+      categories={categories}
+      mapCenter={config.map?.center}
+      mapBounds={config.map?.bounds}
+      kpis={data.kpis}
+      meta={data.meta}
+      cameraPresets={config.globe?.cameraPresets}
+      endDate={config.endDate}
+      clocks={config.globe?.clocks}
+      heroSubtitle={data.meta.heroSubtitle}
+      casualties={data.casualties}
+      econ={data.econ}
+      claims={data.claims}
+      political={data.political}
+      timeline={data.timeline}
+      strikeTargets={data.strikeTargets}
+      retaliationData={data.retaliationData}
+      assetsData={data.assetsData}
+      militaryTabs={config.militaryTabs}
+    />
+  </div>
+</BaseLayout>

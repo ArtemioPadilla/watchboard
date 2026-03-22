@@ -208,7 +208,7 @@ function buildCardMarkup(config: TrackerConfig, kpis: KpiData[]): SatoriNode {
         [],
       ),
 
-      // Header: title + date badge
+      // Header: initial badge + title + date badge
       el(
         {
           alignItems: 'center',
@@ -218,13 +218,39 @@ function buildCardMarkup(config: TrackerConfig, kpis: KpiData[]): SatoriNode {
         [
           el(
             {
-              fontSize: '42px',
-              fontWeight: 700,
-              color: TEXT_PRIMARY,
-              lineHeight: 1.15,
+              alignItems: 'center',
+              gap: '16px',
               flex: '1',
             },
-            titleText,
+            [
+              // Colored circle with first initial (replaces emoji icon
+              // which satori cannot render without an emoji font)
+              el(
+                {
+                  width: '52px',
+                  height: '52px',
+                  borderRadius: '50%',
+                  backgroundColor: accentColor,
+                  color: '#ffffff',
+                  fontSize: '24px',
+                  fontWeight: 700,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0,
+                },
+                titleText.charAt(0).toUpperCase(),
+              ),
+              el(
+                {
+                  fontSize: '42px',
+                  fontWeight: 700,
+                  color: TEXT_PRIMARY,
+                  lineHeight: 1.15,
+                  flex: '1',
+                },
+                titleText,
+              ),
+            ],
           ),
           el(
             {
@@ -235,6 +261,7 @@ function buildCardMarkup(config: TrackerConfig, kpis: KpiData[]): SatoriNode {
               fontSize: '22px',
               fontWeight: 700,
               letterSpacing: '1px',
+              flexShrink: 0,
             },
             dateLabel,
           ),

@@ -1,0 +1,476 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - link "Skip to main content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - link "Report issue or suggest a feature" [ref=e3] [cursor=pointer]:
+    - /url: https://github.com/ArtemioPadilla/watchboard/issues/new/choose
+    - img [ref=e4]
+  - main [ref=e6]:
+    - application "Watchboard Command Center" [ref=e8]:
+      - heading "Watchboard — Intelligence Dashboard Platform" [level=1] [ref=e9]
+      - region "Globe visualization" [ref=e10]:
+        - generic [ref=e11]:
+          - generic [ref=e15]: INITIALIZING GLOBE
+          - generic: Drag to rotate · Scroll to zoom · Click marker to select
+      - navigation "Tracker directory" [ref=e17]:
+        - generic [active] [ref=e18]:
+          - generic [ref=e19]:
+            - generic [ref=e20]:
+              - generic [ref=e21]: WATCHBOARD
+              - generic [ref=e22]: OSINT
+              - link "View on GitHub" [ref=e23] [cursor=pointer]:
+                - /url: https://github.com/ArtemioPadilla/watchboard
+                - img [ref=e24]
+              - link "Support this project" [ref=e26] [cursor=pointer]:
+                - /url: https://github.com/sponsors/ArtemioPadilla
+                - img [ref=e27]
+                - generic [ref=e29]: Support
+            - generic [ref=e30]:
+              - generic [ref=e31]: ● 28 LIVE
+              - generic [ref=e32]: 20 HIST
+              - button "EN /ES /FR /PT" [ref=e33] [cursor=pointer]:
+                - generic [ref=e34]: EN
+                - generic [ref=e35]: /ES
+                - generic [ref=e36]: /FR
+                - generic [ref=e37]: /PT
+          - generic [ref=e38]:
+            - generic: ">_"
+            - textbox "Search trackers" [ref=e39]:
+              - /placeholder: Search trackers... (press /)
+          - generic [ref=e40]:
+            - button "ALL 48" [ref=e41] [cursor=pointer]:
+              - text: ALL
+              - generic [ref=e42]: "48"
+            - button "CONFLICT 18" [ref=e43] [cursor=pointer]:
+              - text: CONFLICT
+              - generic [ref=e44]: "18"
+            - button "SECURITY 5" [ref=e45] [cursor=pointer]:
+              - text: SECURITY
+              - generic [ref=e46]: "5"
+            - button "GOVERNANCE 7" [ref=e47] [cursor=pointer]:
+              - text: GOVERNANCE
+              - generic [ref=e48]: "7"
+            - button "DISASTER 4" [ref=e49] [cursor=pointer]:
+              - text: DISASTER
+              - generic [ref=e50]: "4"
+            - button "HUMAN-RIGHTS 4" [ref=e51] [cursor=pointer]:
+              - text: HUMAN-RIGHTS
+              - generic [ref=e52]: "4"
+            - button "SCIENCE 2" [ref=e53] [cursor=pointer]:
+              - text: SCIENCE
+              - generic [ref=e54]: "2"
+            - button "SPACE 2" [ref=e55] [cursor=pointer]:
+              - text: SPACE
+              - generic [ref=e56]: "2"
+            - button "ECONOMY 1" [ref=e57] [cursor=pointer]:
+              - text: ECONOMY
+              - generic [ref=e58]: "1"
+            - button "CULTURE 3" [ref=e59] [cursor=pointer]:
+              - text: CULTURE
+              - generic [ref=e60]: "3"
+            - button "HISTORY 2" [ref=e61] [cursor=pointer]:
+              - text: HISTORY
+              - generic [ref=e62]: "2"
+          - generic [ref=e63]:
+            - generic [ref=e64]:
+              - generic [ref=e67]: LATEST INTEL
+              - generic [ref=e68] [cursor=pointer]:
+                - generic [ref=e69]:
+                  - generic [ref=e70]: 🎯
+                  - generic [ref=e71]: CJNG Crisis
+                  - generic [ref=e72]: 1h ago
+                - generic [ref=e73]: "Day 28: CJNG Succession Vacuum Deepens; Carteles Unidos Advances in Michoacán"
+              - generic [ref=e74] [cursor=pointer]:
+                - generic [ref=e75]:
+                  - generic [ref=e76]: ⚽
+                  - generic [ref=e77]: World Cup 2026
+                  - generic [ref=e78]: 1h ago
+                - generic [ref=e79]: 81 Days to Kickoff — Final Qualification Playoffs Start March 26
+              - generic [ref=e80] [cursor=pointer]:
+                - generic [ref=e81]:
+                  - generic [ref=e82]: 🕊️
+                  - generic [ref=e83]: Gaza War
+                  - generic [ref=e84]: 1h ago
+                - generic [ref=e85]: Ceasefire Holds; Humanitarian Crisis Deepens
+              - generic [ref=e86] [cursor=pointer]:
+                - generic [ref=e87]:
+                  - generic [ref=e88]: ⚔️
+                  - generic [ref=e89]: Iran Conflict
+                  - generic [ref=e90]: 1h ago
+                - generic [ref=e91]: Iran Rejects Ceasefire; Strait of Hormuz Crisis Deepens
+              - generic [ref=e92] [cursor=pointer]:
+                - generic [ref=e93]:
+                  - generic [ref=e94]: 🕊️
+                  - generic [ref=e95]: Israel-Palestine
+                  - generic [ref=e96]: 1h ago
+                - generic [ref=e97]: Gaza Ceasefire Holds; ICC Warrants Outstanding Against Netanyahu
+            - generic [ref=e98]:
+              - generic [ref=e99]:
+                - generic [ref=e100]: ◉
+                - generic [ref=e101]: LIVE OPERATIONS
+              - generic [ref=e102] [cursor=pointer]:
+                - generic [ref=e103]:
+                  - generic [ref=e104]: 🏔️
+                  - generic [ref=e105]: Afghanistan War
+                - generic [ref=e106]:
+                  - generic [ref=e107]: STALE
+                  - generic [ref=e108]: DAY 8931
+              - generic [ref=e109] [cursor=pointer]:
+                - generic [ref=e110]:
+                  - generic [ref=e111]: 🤖
+                  - generic [ref=e112]: China Tech
+                - generic [ref=e113]:
+                  - generic [ref=e114]: STALE
+                  - generic [ref=e115]: DAY 3958
+              - generic [ref=e116] [cursor=pointer]:
+                - generic [ref=e117]:
+                  - generic [ref=e118]: 🇨🇺
+                  - generic [ref=e119]: Cuba
+                - generic [ref=e120]:
+                  - generic [ref=e121]: STALE
+                  - generic [ref=e122]: DAY 24550
+              - generic [ref=e123] [cursor=pointer]:
+                - generic [ref=e124]:
+                  - generic [ref=e125]: 🎯
+                  - generic [ref=e126]: CJNG Crisis
+                - generic [ref=e127]:
+                  - generic [ref=e129]: LIVE
+                  - generic [ref=e130]: DAY 28
+              - generic [ref=e131] [cursor=pointer]:
+                - generic [ref=e132]:
+                  - generic [ref=e133]: ⚽
+                  - generic [ref=e134]: World Cup 2026
+                - generic [ref=e135]:
+                  - generic [ref=e137]: LIVE
+                  - generic [ref=e138]: DAY 81
+              - generic [ref=e139] [cursor=pointer]:
+                - generic [ref=e140]:
+                  - generic [ref=e141]: 📉
+                  - generic [ref=e142]: Recession Risk
+                - generic [ref=e143]:
+                  - generic [ref=e144]: STALE
+                  - generic [ref=e145]: DAY 809
+              - generic [ref=e146] [cursor=pointer]:
+                - generic [ref=e147]:
+                  - generic [ref=e148]: 🇭🇹
+                  - generic [ref=e149]: Haiti
+                - generic [ref=e150]:
+                  - generic [ref=e151]: STALE
+                  - generic [ref=e152]: DAY 1717
+              - generic [ref=e153] [cursor=pointer]:
+                - generic [ref=e154]:
+                  - generic [ref=e155]: 🛂
+                  - generic [ref=e156]: ICE
+                - generic [ref=e157]:
+                  - generic [ref=e158]: STALE
+                  - generic [ref=e159]: DAY 8420
+              - generic [ref=e160] [cursor=pointer]:
+                - generic [ref=e161]:
+                  - generic [ref=e162]: 🇮🇳
+                  - generic [ref=e163]: India-Pakistan
+                - generic [ref=e164]:
+                  - generic [ref=e165]: STALE
+                  - generic [ref=e166]: DAY 28708
+              - generic [ref=e167] [cursor=pointer]:
+                - generic [ref=e168]:
+                  - generic [ref=e169]: ⚔️
+                  - generic [ref=e170]: Iran Conflict
+                - generic [ref=e171]:
+                  - generic [ref=e173]: LIVE
+                  - generic [ref=e174]: DAY 23
+              - generic [ref=e175] [cursor=pointer]:
+                - generic [ref=e176]:
+                  - generic [ref=e177]: 🇲🇲
+                  - generic [ref=e178]: Myanmar
+                - generic [ref=e179]:
+                  - generic [ref=e180]: STALE
+                  - generic [ref=e181]: DAY 1873
+              - generic [ref=e182] [cursor=pointer]:
+                - generic [ref=e183]:
+                  - generic [ref=e184]: 🌙
+                  - generic [ref=e185]: Artemis
+                - generic [ref=e186]:
+                  - generic [ref=e187]: STALE
+                  - generic [ref=e188]: DAY 3021
+              - generic [ref=e189] [cursor=pointer]:
+                - generic [ref=e190]:
+                  - generic [ref=e191]: 🛡️
+                  - generic [ref=e192]: NATO-US Tensions
+                - generic [ref=e193]:
+                  - generic [ref=e194]: STALE
+                  - generic [ref=e195]: DAY 3346
+              - generic [ref=e196] [cursor=pointer]:
+                - generic [ref=e197]:
+                  - generic [ref=e198]: 🌍
+                  - generic [ref=e199]: Sahel Insurgency
+                - generic [ref=e200]:
+                  - generic [ref=e201]: STALE
+                  - generic [ref=e202]: DAY 5176
+              - generic [ref=e203] [cursor=pointer]:
+                - generic [ref=e204]:
+                  - generic [ref=e205]: 💊
+                  - generic [ref=e206]: Sinaloa Split
+                - generic [ref=e207]:
+                  - generic [ref=e209]: LIVE
+                  - generic [ref=e210]: DAY 605
+              - generic [ref=e211] [cursor=pointer]:
+                - generic [ref=e212]:
+                  - generic [ref=e213]: 🦁
+                  - generic [ref=e214]: Somalia
+                - generic [ref=e215]:
+                  - generic [ref=e216]: STALE
+                  - generic [ref=e217]: DAY 7031
+              - generic [ref=e218] [cursor=pointer]:
+                - generic [ref=e219]:
+                  - generic [ref=e220]: 🌊
+                  - generic [ref=e221]: SE Asia Escalation
+                - generic [ref=e222]:
+                  - generic [ref=e223]: STALE
+                  - generic [ref=e224]: DAY 2271
+              - generic [ref=e225] [cursor=pointer]:
+                - generic [ref=e226]:
+                  - generic [ref=e227]: 🚀
+                  - generic [ref=e228]: SpaceX
+                - generic [ref=e229]:
+                  - generic [ref=e230]: STALE
+                  - generic [ref=e231]: DAY 8719
+              - generic [ref=e232] [cursor=pointer]:
+                - generic [ref=e233]:
+                  - generic [ref=e234]: ⚔️
+                  - generic [ref=e235]: Sudan Conflict
+                - generic [ref=e236]:
+                  - generic [ref=e238]: LIVE
+                  - generic [ref=e239]: DAY 1072
+              - generic [ref=e240] [cursor=pointer]:
+                - generic [ref=e241]:
+                  - generic [ref=e242]: 🗺️
+                  - generic [ref=e243]: Taiwan Strait
+                - generic [ref=e244]:
+                  - generic [ref=e246]: LIVE
+                  - generic [ref=e247]: DAY 1327
+              - generic [ref=e248] [cursor=pointer]:
+                - generic [ref=e249]:
+                  - generic [ref=e250]: 🦅
+                  - generic [ref=e251]: Trump 45 & 47
+                - generic [ref=e252]:
+                  - generic [ref=e254]: LIVE
+                  - generic [ref=e255]: DAY 426
+              - generic [ref=e256] [cursor=pointer]:
+                - generic [ref=e257]:
+                  - generic [ref=e258]: 🇺🇦
+                  - generic [ref=e259]: Ukraine War
+                - generic [ref=e260]:
+                  - generic [ref=e262]: LIVE
+                  - generic [ref=e263]: DAY 1487
+            - generic [ref=e264]:
+              - generic [ref=e267]: Mexican Presidencies
+              - generic [ref=e269]:
+                - generic [ref=e271] [cursor=pointer]:
+                  - generic [ref=e272]: 🇲🇽
+                  - generic [ref=e273]:
+                    - generic [ref=e274]: MX Politics
+                    - generic [ref=e275]: "1929"
+                  - generic [ref=e276]: HUB
+                - generic [ref=e277]:
+                  - generic [ref=e278]: →
+                  - generic [ref=e279] [cursor=pointer]:
+                    - generic [ref=e280]: 🦊
+                    - generic [ref=e281]:
+                      - generic [ref=e282]: Fox (2000–2006)
+                      - generic [ref=e283]: 2000–2006
+                - generic [ref=e284]:
+                  - generic [ref=e285]: →
+                  - generic [ref=e286] [cursor=pointer]:
+                    - generic [ref=e287]: ⚔️
+                    - generic [ref=e288]:
+                      - generic [ref=e289]: Calderón (2006–2012)
+                      - generic [ref=e290]: 2006–2012
+                - generic [ref=e291]:
+                  - generic [ref=e292]: →
+                  - generic [ref=e293] [cursor=pointer]:
+                    - generic [ref=e294]: 🏛️
+                    - generic [ref=e295]:
+                      - generic [ref=e296]: Peña Nieto (2012–2018)
+                      - generic [ref=e297]: 2012–2018
+                - generic [ref=e298]:
+                  - generic [ref=e299]: →
+                  - generic [ref=e300] [cursor=pointer]:
+                    - generic [ref=e301]: 🌹
+                    - generic [ref=e302]:
+                      - generic [ref=e303]: AMLO (2018–2024)
+                      - generic [ref=e304]: 2018–2024
+                - generic [ref=e305]:
+                  - generic [ref=e306]: →
+                  - generic [ref=e307] [cursor=pointer]:
+                    - generic [ref=e308]: 🔬
+                    - generic [ref=e309]:
+                      - generic [ref=e310]: Sheinbaum (2024–)
+                      - generic [ref=e311]: "2024"
+            - generic [ref=e312]:
+              - generic [ref=e315]: Bad Bunny
+              - generic [ref=e319] [cursor=pointer]:
+                - generic [ref=e320]: 🐰
+                - generic [ref=e321]:
+                  - generic [ref=e322]: Bad Bunny
+                  - generic [ref=e323]: "2016"
+                - generic [ref=e324]: HUB
+            - generic [ref=e325]:
+              - generic [ref=e328]: BTS
+              - generic [ref=e332] [cursor=pointer]:
+                - generic [ref=e333]: 🎤
+                - generic [ref=e334]:
+                  - generic [ref=e335]: BTS
+                  - generic [ref=e336]: "2013"
+                - generic [ref=e337]: HUB
+            - generic [ref=e338]:
+              - generic [ref=e341]: Israel-Palestine Conflict
+              - generic [ref=e343]:
+                - generic [ref=e345] [cursor=pointer]:
+                  - generic [ref=e346]: 🕊️
+                  - generic [ref=e347]:
+                    - generic [ref=e348]: Israel-Palestine
+                    - generic [ref=e349]: "1948"
+                  - generic [ref=e350]: HUB
+                - generic [ref=e351]:
+                  - generic [ref=e352]: →
+                  - generic [ref=e353] [cursor=pointer]:
+                    - generic [ref=e354]: 🔴
+                    - generic [ref=e355]:
+                      - generic [ref=e356]: October 7
+                      - generic [ref=e357]: "2023"
+                - generic [ref=e358]:
+                  - generic [ref=e359]: →
+                  - generic [ref=e360] [cursor=pointer]:
+                    - generic [ref=e361]: 🕊️
+                    - generic [ref=e362]:
+                      - generic [ref=e363]: Gaza War
+                      - generic [ref=e364]: "2023"
+            - generic [ref=e365]:
+              - generic [ref=e366]:
+                - generic [ref=e367]: ⏰
+                - generic [ref=e368]: HISTORICAL ANALYSIS
+              - generic [ref=e369] [cursor=pointer]:
+                - generic [ref=e370]:
+                  - generic [ref=e371]: 🕯️
+                  - generic [ref=e372]: Ayotzinapa
+                - generic [ref=e373]:
+                  - generic [ref=e374]: STALE
+                  - generic [ref=e375]: 2014–Present
+              - generic [ref=e376] [cursor=pointer]:
+                - generic [ref=e377]:
+                  - generic [ref=e378]: ☢️
+                  - generic [ref=e379]: Chernobyl
+                - generic [ref=e380]:
+                  - generic [ref=e381]: STALE
+                  - generic [ref=e382]: 1986–Present
+              - generic [ref=e383] [cursor=pointer]:
+                - generic [ref=e384]:
+                  - generic [ref=e385]: 🇨🇱
+                  - generic [ref=e386]: Chile 1970–1990
+                - generic [ref=e387]:
+                  - generic [ref=e388]: STALE
+                  - generic [ref=e389]: 1970–1990
+              - generic [ref=e390] [cursor=pointer]:
+                - generic [ref=e391]:
+                  - generic [ref=e392]: 🦠
+                  - generic [ref=e393]: COVID-19
+                - generic [ref=e394]:
+                  - generic [ref=e395]: STALE
+                  - generic [ref=e396]: 2019–2023
+              - generic [ref=e397] [cursor=pointer]:
+                - generic [ref=e398]:
+                  - generic [ref=e399]: 🔫
+                  - generic [ref=e400]: Culiacanazo
+                - generic [ref=e401]:
+                  - generic [ref=e402]: STALE
+                  - generic [ref=e403]: 2019–Present
+              - generic [ref=e404] [cursor=pointer]:
+                - generic [ref=e405]:
+                  - generic [ref=e406]: ⛵
+                  - generic [ref=e407]: Conquest of Americas
+                - generic [ref=e408]:
+                  - generic [ref=e409]: STALE
+                  - generic [ref=e410]: 1492–1898
+              - generic [ref=e411] [cursor=pointer]:
+                - generic [ref=e412]:
+                  - generic [ref=e413]: ☢️
+                  - generic [ref=e414]: Fukushima
+                - generic [ref=e415]:
+                  - generic [ref=e416]: STALE
+                  - generic [ref=e417]: 2011–Present
+              - generic [ref=e418] [cursor=pointer]:
+                - generic [ref=e419]:
+                  - generic [ref=e420]: 🗺️
+                  - generic [ref=e421]: Mexico-US Wars
+                - generic [ref=e422]:
+                  - generic [ref=e423]: STALE
+                  - generic [ref=e424]: 1835–1848
+              - generic [ref=e425] [cursor=pointer]:
+                - generic [ref=e426]:
+                  - generic [ref=e427]: ✈️
+                  - generic [ref=e428]: MH17
+                - generic [ref=e429]:
+                  - generic [ref=e430]: STALE
+                  - generic [ref=e431]: 2014–Present
+              - generic [ref=e432] [cursor=pointer]:
+                - generic [ref=e433]:
+                  - generic [ref=e434]: ⚛️
+                  - generic [ref=e435]: Quantum Theory
+                - generic [ref=e436]:
+                  - generic [ref=e437]: STALE
+                  - generic [ref=e438]: 1900–Present
+              - generic [ref=e439] [cursor=pointer]:
+                - generic [ref=e440]:
+                  - generic [ref=e441]: 🗽
+                  - generic [ref=e442]: 9/11
+                - generic [ref=e443]:
+                  - generic [ref=e444]: STALE
+                  - generic [ref=e445]: "2001"
+              - generic [ref=e446] [cursor=pointer]:
+                - generic [ref=e447]:
+                  - generic [ref=e448]: 🕯️
+                  - generic [ref=e449]: Tlatelolco 1968
+                - generic [ref=e450]:
+                  - generic [ref=e451]: STALE
+                  - generic [ref=e452]: 1968–Present
+              - generic [ref=e453] [cursor=pointer]:
+                - generic [ref=e454]:
+                  - generic [ref=e455]: 🌎
+                  - generic [ref=e456]: US-LatAm Interventions
+                - generic [ref=e457]:
+                  - generic [ref=e458]: STALE
+                  - generic [ref=e459]: 1898–Present
+              - generic [ref=e460] [cursor=pointer]:
+                - generic [ref=e461]:
+                  - generic [ref=e462]: 🪖
+                  - generic [ref=e463]: World War I
+                - generic [ref=e464]:
+                  - generic [ref=e465]: STALE
+                  - generic [ref=e466]: 1914–1918
+              - generic [ref=e467] [cursor=pointer]:
+                - generic [ref=e468]:
+                  - generic [ref=e469]: ⚔️
+                  - generic [ref=e470]: World War II
+                - generic [ref=e471]:
+                  - generic [ref=e472]: STALE
+                  - generic [ref=e473]: 1939–1945
+          - generic [ref=e474]:
+            - generic [ref=e475]: Watchboard v1.0 · MIT
+            - link "GitHub" [ref=e476] [cursor=pointer]:
+              - /url: https://github.com/ArtemioPadilla/watchboard
+  - generic [ref=e479]:
+    - button "Menu" [ref=e480]:
+      - img [ref=e482]
+      - generic: Menu
+    - button "Inspect" [ref=e486]:
+      - img [ref=e488]
+      - generic: Inspect
+    - button "Audit" [ref=e490]:
+      - img [ref=e492]
+      - generic: Audit
+    - button "Settings" [ref=e495]:
+      - img [ref=e497]
+      - generic: Settings
+```
