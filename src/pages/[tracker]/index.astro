@@ -36,7 +36,6 @@ interface Props {
 
 const { config } = Astro.props;
 const data = loadTrackerData(config.slug, config.eraLabel);
-const dataEs = loadTrackerData(config.slug, config.eraLabel, 'es');
 const flatEvents = flattenTimelineEvents(data.timeline);
 const categories = config.map?.categories ?? [];
 
@@ -60,7 +59,7 @@ const statusLabel = `${temporalLabel} ${domainLabel}`;
   <div class="desktop-layout">
     <Header meta={data.meta} navSections={config.navSections} trackerSlug={config.slug} globeEnabled={config.globe?.enabled} statusLabel={statusLabel} />
     <main id="main-content">
-      <HeroKpiCombo meta={data.meta} kpis={data.kpis} metaEs={dataEs.meta} kpisEs={dataEs.kpis} />
+      <HeroKpiCombo meta={data.meta} kpis={data.kpis} />
 
       <div class="theater-layout">
         {config.sections.includes('map') && (

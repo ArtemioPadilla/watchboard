@@ -37,34 +37,11 @@ const aboutHref = trackerSlug ? `${basePath}${trackerSlug}/about/` : `${basePath
       ))}
       {globeEnabled && <a class="nav-btn globe-nav-btn" href={globeHref}>3D Globe</a>}
       <a class="nav-btn about-nav-btn" href={aboutHref}>About</a>
-      <button class="nav-btn locale-toggle-btn" type="button" aria-label="Toggle language">
-        <span class="locale-en">EN</span><span class="locale-sep">/</span><span class="locale-es">ES</span>
-      </button>
     </nav>
   </div>
 </header>
 
 <script>
-  // ── Locale toggle ──
-  const localeBtn = document.querySelector('.locale-toggle-btn');
-  if (localeBtn) {
-    const updateLocaleUI = (locale: string) => {
-      const enSpan = localeBtn.querySelector('.locale-en') as HTMLElement;
-      const esSpan = localeBtn.querySelector('.locale-es') as HTMLElement;
-      if (enSpan) enSpan.style.opacity = locale === 'en' ? '1' : '0.4';
-      if (esSpan) esSpan.style.opacity = locale === 'es' ? '1' : '0.4';
-    };
-    updateLocaleUI(localStorage.getItem('watchboard-locale') || 'en');
-    localeBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const current = localStorage.getItem('watchboard-locale') || 'en';
-      const next = current === 'en' ? 'es' : 'en';
-      localStorage.setItem('watchboard-locale', next);
-      updateLocaleUI(next);
-      window.dispatchEvent(new CustomEvent('locale-change', { detail: next }));
-    });
-  }
-
   // ── Mobile menu toggle ──
   const menuBtn = document.querySelector('.mobile-menu-btn');
   const nav = document.querySelector('.header-nav');
