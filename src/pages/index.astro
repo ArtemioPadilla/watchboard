@@ -116,20 +116,37 @@ const serializedTrackers = nonDraft.map(t => {
       height: 100dvh !important;
     }
     .cc-globe {
-      flex: none !important;
+      flex: 0 0 30vh !important;
+      flex: 0 0 30dvh !important;
       height: 30vh !important;
       height: 30dvh !important;
-      min-height: 180px !important;
-      max-height: 35vh !important;
+      min-height: 0 !important;
+      max-height: 30vh !important;
+      max-height: 30dvh !important;
+      overflow: hidden !important;
+    }
+    .cc-globe canvas {
+      max-height: 30vh !important;
+      max-height: 30dvh !important;
     }
     .cc-sidebar {
-      flex: 1 !important;
+      flex: 1 1 0% !important;
       max-width: none !important;
       min-width: 0 !important;
       width: 100% !important;
       border-left: none !important;
       border-top: 1px solid var(--border) !important;
       overflow-y: auto !important;
+      min-height: 0 !important;
+    }
+    /* Hide globe status bar on mobile — wastes space */
+    .cc-globe > div:last-child {
+      display: none !important;
+    }
+    /* Compact sidebar header on mobile */
+    .cc-sidebar .cc-search-input {
+      font-size: 0.7rem !important;
+      padding: 5px 8px 5px 28px !important;
     }
   }
 

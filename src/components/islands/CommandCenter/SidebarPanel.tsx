@@ -60,7 +60,8 @@ const TrackerRow = memo(function TrackerRow({
   const color = tracker.color || '#3498db';
   const dateline = buildDateline(tracker);
   const freshness = computeFreshness(tracker.lastUpdated);
-  const href = `${basePath}${tracker.slug}/`;
+  const localePrefix = locale === 'es' ? 'es/' : '';
+  const href = `${basePath}${localePrefix}${tracker.slug}/`;
   const rowRef = useRef<HTMLDivElement>(null);
 
   // Auto-scroll into view when selected from globe

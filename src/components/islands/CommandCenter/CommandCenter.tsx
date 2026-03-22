@@ -145,7 +145,8 @@ export default function CommandCenter({
         case 'O':
           if (activeTracker) {
             e.preventDefault();
-            window.location.href = `${basePath}${activeTracker}/`;
+            const lp = locale === 'es' ? 'es/' : '';
+            window.location.href = `${basePath}${lp}${activeTracker}/`;
           }
           break;
       }

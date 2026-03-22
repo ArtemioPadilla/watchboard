@@ -93,8 +93,9 @@ export function filterTrackers(
   if (domain) {
     result = result.filter(t => t.domain === domain);
   }
-  if (query.trim()) {
-    result = result.filter(t => matchesSearch(t, query));
+  const trimmed = query.trim();
+  if (trimmed) {
+    result = result.filter(t => matchesSearch(t, trimmed));
   }
   return result;
 }
