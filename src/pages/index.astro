@@ -108,7 +108,7 @@ const serializedTrackers = nonDraft.map(t => {
     border: 0;
   }
 
-  /* Mobile: hide globe, full-height sidebar */
+  /* Tablets/narrow desktops: stack globe + sidebar */
   @media (max-width: 767px) {
     .command-center-root {
       flex-direction: column !important;
@@ -116,7 +116,10 @@ const serializedTrackers = nonDraft.map(t => {
       height: 100dvh !important;
     }
     .cc-globe {
-      display: none !important;
+      flex: 0 0 35vh !important;
+      height: 35vh !important;
+      max-height: 35vh !important;
+      overflow: hidden !important;
     }
     .cc-sidebar {
       flex: 1 1 0% !important;
@@ -124,10 +127,20 @@ const serializedTrackers = nonDraft.map(t => {
       min-width: 0 !important;
       width: 100% !important;
       border-left: none !important;
+      border-top: 1px solid var(--border) !important;
       overflow-y: auto !important;
       min-height: 0 !important;
     }
-    /* Compact sidebar header on mobile */
+  }
+
+  /* Phones: hide globe, full-height sidebar */
+  @media (max-width: 480px) {
+    .cc-globe {
+      display: none !important;
+    }
+    .cc-sidebar {
+      border-top: none !important;
+    }
     .cc-sidebar .cc-search-input {
       font-size: 0.7rem !important;
       padding: 5px 8px 5px 28px !important;
