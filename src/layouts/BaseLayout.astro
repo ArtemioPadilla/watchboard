@@ -38,6 +38,7 @@ const githubUrl = githubRepo ? `https://github.com/${githubRepo}` : 'https://git
     "description": desc,
     "url": pageUrl,
   })} />
+  <link rel="alternate" type="application/rss+xml" title={trackerSlug ? `${title} RSS` : 'Watchboard RSS'} href={trackerSlug ? `${basePath}${trackerSlug}/rss.xml` : `${basePath}rss.xml`} />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="/watchboard/fonts/dm-sans-latin.woff2">
   <link rel="preload" as="font" type="font/woff2" crossorigin href="/watchboard/fonts/jetbrains-mono-latin.woff2">
 </head>

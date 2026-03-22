@@ -53,9 +53,11 @@ Key files:
 
 ### Data Layer (`trackers/{slug}/data/`)
 
-Each tracker has its own data files: `kpis.json`, `timeline.json`, `map-points.json`, `map-lines.json`, `strike-targets.json`, `retaliation.json`, `assets.json`, `casualties.json`, `econ.json`, `claims.json`, `political.json`, `meta.json`. The nightly update script modifies these files directly.
+Each tracker has its own data files: `kpis.json`, `timeline.json`, `map-points.json`, `map-lines.json`, `strike-targets.json`, `retaliation.json`, `assets.json`, `casualties.json`, `econ.json`, `claims.json`, `political.json`, `meta.json`, `digests.json`. The nightly update script modifies these files directly.
 
 `update-log.json` tracks the last run time and per-section status.
+
+`digests.json` stores RSS digest entries (date, title, summary, sectionsUpdated). The nightly updater prepends a new entry after each data update. These feed the site's RSS endpoints.
 
 Data loader: `src/lib/data.ts` — `loadTrackerData(slug, eraLabel?)` uses `import.meta.glob` to load all tracker data at build time, validates via Zod, merges partitioned events.
 
@@ -69,6 +71,8 @@ Single source of truth for all data types. Zod schemas are used both by Astro co
 - `src/pages/[tracker]/index.astro` — dynamic dashboard per tracker (uses `getStaticPaths()`)
 - `src/pages/[tracker]/globe.astro` — 3D globe (only for trackers with `globe.enabled`)
 - `src/pages/[tracker]/about.astro` — about page per tracker
+- `src/pages/rss.xml.ts` — global RSS feed (all tracker digests)
+- `src/pages/[tracker]/rss.xml.ts` — per-tracker RSS feed
 
 ### Static Components (`src/components/static/`)
 

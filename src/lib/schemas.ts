@@ -199,6 +199,14 @@ export const MetaSchema = z.object({
   lastUpdated: z.string(),
 });
 
+// ── Digest (RSS feed items) ──
+export const DigestEntrySchema = z.object({
+  date: z.string(),
+  title: z.string(),
+  summary: z.string(),
+  sectionsUpdated: z.array(z.string()).optional(),
+});
+
 // ── Inferred types ──
 export type MediaItem = z.infer<typeof MediaItemSchema>;
 export type Source = z.infer<typeof SourceSchema>;
@@ -217,3 +225,4 @@ export type Meta = z.infer<typeof MetaSchema>;
 export type WeaponType = z.infer<typeof WeaponTypeSchema>;
 export type Confidence = z.infer<typeof ConfidenceSchema>;
 export type StrikeStatus = z.infer<typeof StrikeStatusSchema>;
+export type DigestEntry = z.infer<typeof DigestEntrySchema>;

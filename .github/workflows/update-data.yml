@@ -141,6 +141,18 @@ jobs:
             { "lastRun": "<current ISO timestamp>", "tracker": "{slug}", "sections": { ... } }
             This timestamp is used to determine when the next update is due.
 
+            STEP 5 — GENERATE DIGEST (RSS feed):
+            After updating each tracker, prepend a digest entry to trackers/{slug}/data/digests.json.
+            The file is a JSON array. Each entry has this shape:
+            {
+              "date": "YYYY-MM-DD",
+              "title": "{Tracker Name} Update — Mon DD, YYYY",
+              "summary": "3-5 sentence summary of what changed in this update. Mention key new events, KPI shifts, map data additions, and notable developments. Write for a general audience.",
+              "sectionsUpdated": ["list", "of", "section", "ids", "that", "changed"]
+            }
+            If digests.json doesn't exist, create it as a new array. Keep only the latest 50 entries.
+            This feeds the site's RSS feed so subscribers get notified of updates.
+
             RULES:
             - Merge-by-ID: never remove existing entries, only add new or update existing
             - Every entry needs an `id` field (kebab-case, descriptive)
@@ -214,6 +226,7 @@ jobs:
             'claims.json': z.array(S.ClaimSchema),
             'political.json': z.array(S.PolItemSchema),
             'meta.json': S.MetaSchema,
+            'digests.json': z.array(S.DigestEntrySchema),
           };
           const eventSchema = z.array(S.TimelineEventSchema);
 

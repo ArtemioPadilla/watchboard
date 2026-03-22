@@ -16,6 +16,7 @@ import {
   ClaimSchema,
   PolItemSchema,
   MetaSchema,
+  DigestEntrySchema,
   isFutureDate,
 } from './schemas';
 
@@ -99,6 +100,7 @@ export interface TrackerData {
   claims: z.infer<typeof ClaimSchema>[];
   political: z.infer<typeof PolItemSchema>[];
   meta: z.infer<typeof MetaSchema>;
+  digests: z.infer<typeof DigestEntrySchema>[];
 }
 
 export function loadTrackerData(slug: string, eraLabel?: string): TrackerData {
@@ -138,6 +140,8 @@ export function loadTrackerData(slug: string, eraLabel?: string): TrackerData {
   const political = z.array(PolItemSchema).parse(getTrackerData(slug, 'political.json') ?? []);
   const meta = MetaSchema.parse(getTrackerData(slug, 'meta.json'));
 
-  return { kpis, timeline, mapPoints, mapLines, strikeTargets, retaliationData, assetsData, casualties, econ, claims, political, meta };
+  const digests = z.array(DigestEntrySchema).parse(getTrackerData(slug, 'digests.json') ?? []);
+
+  return { kpis, timeline, mapPoints, mapLines, strikeTargets, retaliationData, assetsData, casualties, econ, claims, political, meta, digests };
 }
 
