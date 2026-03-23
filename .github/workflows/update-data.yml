@@ -2,7 +2,7 @@ name: Nightly Data Update
 
 on:
   schedule:
-    - cron: '0 6 * * *'  # 6 AM UTC daily
+    - cron: '0 14 * * *'  # 14:00 UTC daily
   workflow_dispatch:
     inputs:
       tracker_slug:
@@ -160,6 +160,12 @@ jobs:
             - OSINT confirmation: 1 Tier-1 or 2+ Tier-2 sources = confirmed
             - Create new daily event file if today's doesn't exist
             - Update meta.json with current timestamp
+
+            SCHEMA ENFORCEMENT (validation failures block the commit):
+            - Every event MUST have a `year` field (number, e.g. 2026). This is REQUIRED.
+            - source `pole` MUST be one of: "western", "middle_eastern", "eastern", "international". No other values (not "neutral", not country codes, not org names).
+            - map-lines: `launched` and `intercepted` MUST be numbers (count of projectiles), NOT booleans.
+            - map-lines: `status` MUST be one of: "hit", "intercepted", "partial", "unknown". No free-text descriptions.
 
             After updating, verify changes by reading back modified files to confirm valid JSON.
 
