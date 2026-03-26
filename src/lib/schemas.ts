@@ -207,6 +207,50 @@ export const DigestEntrySchema = z.object({
   sectionsUpdated: z.array(z.string()).optional(),
 });
 
+// ── Ingestion Metrics ──
+export const MetricsValidationErrorSchema = z.object({
+  tracker: z.string(),
+  file: z.string(),
+  field: z.string(),
+  message: z.string(),
+});
+
+export const MetricsInventorySchema = z.object({
+  kpis: z.number(),
+  timeline: z.number(),
+  mapPoints: z.number(),
+  mapLines: z.number(),
+  claims: z.number(),
+  political: z.number(),
+  casualties: z.number(),
+  events: z.number(),
+});
+
+export const MetricsRunSchema = z.object({
+  timestamp: z.string(),
+  status: z.enum(['success', 'failure']),
+  trigger: z.enum(['schedule', 'workflow_dispatch']),
+  trackersResolved: z.array(z.string()),
+  validation: z.object({
+    jsonValid: z.boolean(),
+    schemaValid: z.boolean(),
+    errors: z.array(MetricsValidationErrorSchema),
+    fixAgentInvoked: z.boolean().optional(),
+    fixAgentResult: z.enum(['success', 'failure']).optional(),
+    errorsBeforeFix: z.number().optional(),
+    errorsAfterFix: z.number().optional(),
+  }),
+  inventory: z.record(z.string(), MetricsInventorySchema),
+});
+
+export const MetricsIndexEntrySchema = z.object({
+  file: z.string(),
+  timestamp: z.string(),
+  status: z.enum(['success', 'failure']),
+  trackerCount: z.number(),
+  errorCount: z.number(),
+});
+
 // ── Inferred types ──
 export type MediaItem = z.infer<typeof MediaItemSchema>;
 export type Source = z.infer<typeof SourceSchema>;
@@ -226,3 +270,7 @@ export type WeaponType = z.infer<typeof WeaponTypeSchema>;
 export type Confidence = z.infer<typeof ConfidenceSchema>;
 export type StrikeStatus = z.infer<typeof StrikeStatusSchema>;
 export type DigestEntry = z.infer<typeof DigestEntrySchema>;
+export type MetricsValidationError = z.infer<typeof MetricsValidationErrorSchema>;
+export type MetricsInventory = z.infer<typeof MetricsInventorySchema>;
+export type MetricsRun = z.infer<typeof MetricsRunSchema>;
+export type MetricsIndexEntry = z.infer<typeof MetricsIndexEntrySchema>;

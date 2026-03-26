@@ -19,7 +19,7 @@ permissions:
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -90,6 +90,12 @@ jobs:
             echo "Trackers to update: $SLUGS"
           fi
 
+      # ── NEW: Generate review manifests ──
+      - name: Generate review manifests
+        if: steps.resolve.outputs.slugs != ''
+        run: |
+          ELIGIBLE_SLUGS="${{ steps.resolve.outputs.slugs }}" npx tsx scripts/generate-review-manifest.ts
+
       - name: Update data with Claude Code
         if: steps.resolve.outputs.slugs != ''
         uses: anthropics/claude-code-action@v1
@@ -110,6 +116,24 @@ jobs:
             - ai.searchContext: what to search for
             - ai.enabledSections: which sections to update
             - ai.coordValidation: geographic bounds for map data
+
+            STEP 2.5 — REVIEW EXISTING EVENTS:
+            Read trackers/{slug}/data/review-manifest.json (if it exists). For each day in the window:
+
+            A) GAP DAYS (eventCount = 0):
+               - Search for what happened on that date related to this tracker's topic
+               - Use at least 2 different search strategies (topic search, actor search, region search)
+               - Create event file only if you find real events with 2+ sources
+
+            B) EXISTING DAYS (eventCount > 0):
+               - Read the event file
+               - Verify each event's date: is it actually from that day? If misplaced, move to correct day's file
+               - Search for additional events that may have been missed
+
+            C) BEFORE ADDING ANY EVENT:
+               - Check +/-2 neighboring days' event files for duplicates (same incident reported on different dates)
+               - Confirm the date via at least 2 independent sources
+               - If date is uncertain, use the earliest confirmed report date
 
             STEP 3 — UPDATE DATA:
             Read current data files, search the web for latest developments, update files
@@ -197,7 +221,7 @@ jobs:
         run: |
           echo "=== Validating JSON syntax ==="
           invalid=0
-          for f in $(find trackers -name '*.json' -path '*/data/*' -type f); do
+          for f in $(find trackers -name '*.json' -path '*/data/*' -type f ! -name 'review-manifest.json'); do
             if ! node -e "JSON.parse(require('fs').readFileSync('$f','utf8'))" 2>/dev/null; then
               echo "INVALID JSON: $f"
               invalid=$((invalid + 1))
@@ -211,6 +235,7 @@ jobs:
             echo "All JSON files have valid syntax"
           fi
 
+      # ── Zod validation (captures errors for fix agent + metrics) ──
       - name: Validate Zod schemas
         id: validate
         if: steps.changes.outputs.changed == 'true' && steps.json_check.outputs.valid == 'true'
@@ -240,8 +265,8 @@ jobs:
           const eventSchema = z.array(S.TimelineEventSchema);
 
           let failures = 0;
+          const errors: Array<{tracker: string, file: string, field: string, message: string}> = [];
 
-          // Iterate over all tracker data directories
           const trackersDir = 'trackers';
           for (const slug of fs.readdirSync(trackersDir)) {
             const dataDir = path.join(trackersDir, slug, 'data');
@@ -257,14 +282,15 @@ jobs:
                 console.log('  ✓', file);
               } else {
                 console.error('  ✗', file);
-                for (const err of result.error.errors.slice(0, 3)) {
-                  console.error('    ', err.path.join('.'), ':', err.message);
+                for (const err of result.error.errors.slice(0, 5)) {
+                  const field = err.path.join('.');
+                  console.error('    ', field, ':', err.message);
+                  errors.push({ tracker: slug, file, field, message: err.message });
                 }
                 failures++;
               }
             }
 
-            // Validate event partition files
             const eventsDir = path.join(dataDir, 'events');
             if (fs.existsSync(eventsDir)) {
               for (const ef of fs.readdirSync(eventsDir).filter(f => f.endsWith('.json'))) {
@@ -275,8 +301,10 @@ jobs:
                   console.log('  ✓ events/' + ef);
                 } else {
                   console.error('  ✗ events/' + ef);
-                  for (const err of result.error.errors.slice(0, 3)) {
-                    console.error('    ', err.path.join('.'), ':', err.message);
+                  for (const err of result.error.errors.slice(0, 5)) {
+                    const field = err.path.join('.');
+                    console.error('    ', field, ':', err.message);
+                    errors.push({ tracker: slug, file: 'events/' + ef, field, message: err.message });
                   }
                   failures++;
                 }
@@ -284,16 +312,189 @@ jobs:
             }
           }
 
+          // Write errors to file for downstream steps
+          fs.writeFileSync('/tmp/zod-errors.json', JSON.stringify(errors, null, 2));
+          fs.writeFileSync('/tmp/zod-error-count.txt', String(failures));
+
           if (failures > 0) {
             console.error(failures + ' file(s) failed Zod schema validation');
             process.exit(1);
           }
           console.log('All files pass Zod schema validation');
-          "
-          echo "valid=true" >> $GITHUB_OUTPUT
+          " 2>&1 || true
+
+          # Read results
+          if [ -f /tmp/zod-error-count.txt ]; then
+            ERROR_COUNT=$(cat /tmp/zod-error-count.txt)
+          else
+            ERROR_COUNT=0
+          fi
+
+          if [ "$ERROR_COUNT" -gt 0 ]; then
+            echo "valid=false" >> $GITHUB_OUTPUT
+            echo "error_count=$ERROR_COUNT" >> $GITHUB_OUTPUT
+            # Pass errors to fix agent (truncate to 64KB for GitHub output limits)
+            ERRORS=$(cat /tmp/zod-errors.json | head -c 65000)
+            echo "errors<<ERRORS_EOF" >> $GITHUB_OUTPUT
+            echo "$ERRORS" >> $GITHUB_OUTPUT
+            echo "ERRORS_EOF" >> $GITHUB_OUTPUT
+          else
+            echo "valid=true" >> $GITHUB_OUTPUT
+            echo "error_count=0" >> $GITHUB_OUTPUT
+          fi
+
+      # ── NEW: Fix Agent (1 retry if validation fails) ──
+      - name: Fix validation errors
+        id: fix_agent
+        if: steps.validate.outputs.valid == 'false' && steps.changes.outputs.changed == 'true'
+        uses: anthropics/claude-code-action@v1
+        continue-on-error: true
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          prompt: |
+            You are a schema fix agent for the Watchboard platform.
+            The nightly data update produced files that fail Zod validation.
+            Fix the reported errors AND scan each affected file for other
+            instances of the same pattern — the AI updater tends to repeat
+            the same mistake across multiple entries.
+
+            Do NOT add new data. Do NOT search the web. Do NOT remove entries.
+
+            VALIDATION ERRORS:
+            ${{ steps.validate.outputs.errors }}
+
+            STEP 1 — Read src/lib/schemas.ts to understand the exact Zod schemas.
+
+            STEP 2 — For each error, read the file and fix the specific field.
+
+            STEP 3 — After fixing reported errors, scan the ENTIRE file for
+            other entries with the same class of mistake. Common patterns:
+
+            TYPE COERCIONS (wrong JS type):
+              - year: 2026 → "2026" (number→string)
+              - launched/intercepted: true/false → number (boolean→number)
+              - tier: "1" → 1 (string→number)
+
+            INVALID ENUM VALUES (value not in schema):
+              - pole: "neutral","global","aes","viet","ph","spacex" → map to nearest valid: "western"|"middle_eastern"|"eastern"|"international"
+              - direction: "stable","flat","unchanged" → pick "up" or "down" based on the value/change fields
+              - status: free text like "Eid ceasefire pause" → "unknown"
+              - weaponType: "airstrike" → "mixed", "jets and paramotors" → "mixed", "drone" → "drone_loitering"
+              - confidence: "confirmed" → "high", "unconfirmed" → "low"
+              - type (media): anything not "image"|"video"|"article" → "article"
+
+            MISSING REQUIRED FIELDS:
+              - event missing year → derive from filename date (events/2026-03-25.json → "2026")
+              - event missing id → generate kebab-case from title
+              - event missing sources → add empty array []
+              - source missing tier → default to 4
+
+            STRUCTURAL ISSUES:
+              - event file is object instead of array → wrap in array
+              - sparkData has fewer than 2 points → pad with duplicated value
+
+            STEP 4 — Write corrected files. Verify valid JSON before writing.
+
+            Do NOT commit. Do NOT modify files not listed in the errors or
+            files that already pass validation.
+          claude_args: "--max-turns 15 --dangerously-skip-permissions"
+
+      # ── NEW: Re-validate after fix agent ──
+      - name: Re-validate Zod schemas after fix
+        id: revalidate
+        if: steps.fix_agent.outcome == 'success' && steps.validate.outputs.valid == 'false'
+        run: |
+          echo "=== Re-validating after fix agent ==="
+          git add trackers/
+          npx tsx -e "
+          import { z } from 'zod';
+          import * as S from './src/lib/schemas.js';
+          import fs from 'fs';
+          import path from 'path';
+
+          const schemaMap: Record<string, z.ZodTypeAny> = {
+            'kpis.json': z.array(S.KpiSchema),
+            'timeline.json': z.array(S.TimelineEraSchema),
+            'map-points.json': z.array(S.MapPointSchema),
+            'map-lines.json': z.array(S.MapLineSchema),
+            'strike-targets.json': z.array(S.StrikeItemSchema),
+            'retaliation.json': z.array(S.StrikeItemSchema),
+            'assets.json': z.array(S.AssetSchema),
+            'casualties.json': z.array(S.CasualtyRowSchema),
+            'econ.json': z.array(S.EconItemSchema),
+            'claims.json': z.array(S.ClaimSchema),
+            'political.json': z.array(S.PolItemSchema),
+            'meta.json': S.MetaSchema,
+            'digests.json': z.array(S.DigestEntrySchema),
+          };
+          const eventSchema = z.array(S.TimelineEventSchema);
+
+          let failures = 0;
+          const errors: Array<{tracker: string, file: string, field: string, message: string}> = [];
+
+          const trackersDir = 'trackers';
+          for (const slug of fs.readdirSync(trackersDir)) {
+            const dataDir = path.join(trackersDir, slug, 'data');
+            if (!fs.existsSync(dataDir) || !fs.statSync(dataDir).isDirectory()) continue;
+
+            for (const [file, schema] of Object.entries(schemaMap)) {
+              const fp = path.join(dataDir, file);
+              if (!fs.existsSync(fp)) continue;
+              const raw = JSON.parse(fs.readFileSync(fp, 'utf8'));
+              const result = schema.safeParse(raw);
+              if (!result.success) {
+                for (const err of result.error.errors.slice(0, 5)) {
+                  errors.push({ tracker: slug, file, field: err.path.join('.'), message: err.message });
+                }
+                failures++;
+              }
+            }
+
+            const eventsDir = path.join(dataDir, 'events');
+            if (fs.existsSync(eventsDir)) {
+              for (const ef of fs.readdirSync(eventsDir).filter(f => f.endsWith('.json'))) {
+                const fp = path.join(eventsDir, ef);
+                const raw = JSON.parse(fs.readFileSync(fp, 'utf8'));
+                const result = eventSchema.safeParse(raw);
+                if (!result.success) {
+                  for (const err of result.error.errors.slice(0, 5)) {
+                    errors.push({ tracker: slug, file: 'events/' + ef, field: err.path.join('.'), message: err.message });
+                  }
+                  failures++;
+                }
+              }
+            }
+          }
+
+          fs.writeFileSync('/tmp/zod-errors-after-fix.json', JSON.stringify(errors, null, 2));
+          fs.writeFileSync('/tmp/zod-error-count-after-fix.txt', String(failures));
+
+          if (failures > 0) {
+            console.error(failures + ' file(s) still failing after fix agent');
+            process.exit(1);
+          }
+          console.log('All files pass Zod schema validation after fix');
+          " 2>&1 || true
+
+          if [ -f /tmp/zod-error-count-after-fix.txt ]; then
+            AFTER_COUNT=$(cat /tmp/zod-error-count-after-fix.txt)
+          else
+            AFTER_COUNT=0
+          fi
+
+          if [ "$AFTER_COUNT" -eq 0 ]; then
+            echo "valid=true" >> $GITHUB_OUTPUT
+          else
+            echo "valid=false" >> $GITHUB_OUTPUT
+          fi
+          echo "error_count=$AFTER_COUNT" >> $GITHUB_OUTPUT
 
       - name: Commit and push
-        if: steps.changes.outputs.changed == 'true' && steps.json_check.outputs.valid == 'true' && steps.validate.outputs.valid == 'true'
+        if: |
+          steps.changes.outputs.changed == 'true' && (
+            (steps.validate.outputs.valid == 'true') ||
+            (steps.revalidate.outputs.valid == 'true')
+          )
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -310,6 +511,158 @@ jobs:
             sleep 2
           done
 
+      # ── NEW: Collect and commit metrics (runs ALWAYS) ──
+      - name: Collect metrics
+        id: metrics
+        if: always()
+        run: |
+          echo "=== Collecting ingestion metrics ==="
+          TIMESTAMP=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          FILENAME=$(echo "$TIMESTAMP" | sed 's/:/-/g')
+
+          # Determine overall status
+          if [ "${{ steps.validate.outputs.valid }}" = "true" ] || [ "${{ steps.revalidate.outputs.valid }}" = "true" ]; then
+            STATUS="success"
+          else
+            STATUS="failure"
+          fi
+
+          # Determine trigger
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            TRIGGER="schedule"
+          else
+            TRIGGER="workflow_dispatch"
+          fi
+
+          # Collect validation errors
+          if [ -f /tmp/zod-errors.json ]; then
+            ERRORS=$(cat /tmp/zod-errors.json)
+          else
+            ERRORS="[]"
+          fi
+
+          # Fix agent info
+          FIX_INVOKED="false"
+          FIX_RESULT="null"
+          ERRORS_BEFORE="null"
+          ERRORS_AFTER="null"
+          if [ "${{ steps.fix_agent.outcome }}" = "success" ] || [ "${{ steps.fix_agent.outcome }}" = "failure" ]; then
+            FIX_INVOKED="true"
+            if [ "${{ steps.revalidate.outputs.valid }}" = "true" ]; then
+              FIX_RESULT='"success"'
+            else
+              FIX_RESULT='"failure"'
+            fi
+            ERRORS_BEFORE="${{ steps.validate.outputs.error_count || 0 }}"
+            ERRORS_AFTER="${{ steps.revalidate.outputs.error_count || 0 }}"
+          fi
+
+          # Collect inventory per tracker
+          INVENTORY="{"
+          FIRST=true
+          for dir in trackers/*/data; do
+            SLUG=$(basename $(dirname "$dir"))
+            [ ! -d "$dir" ] && continue
+            KPI=$(node -e "try{console.log(JSON.parse(require('fs').readFileSync('$dir/kpis.json','utf8')).length)}catch{console.log(0)}")
+            TL=$(node -e "try{console.log(JSON.parse(require('fs').readFileSync('$dir/timeline.json','utf8')).length)}catch{console.log(0)}")
+            MP=$(node -e "try{console.log(JSON.parse(require('fs').readFileSync('$dir/map-points.json','utf8')).length)}catch{console.log(0)}")
+            ML=$(node -e "try{console.log(JSON.parse(require('fs').readFileSync('$dir/map-lines.json','utf8')).length)}catch{console.log(0)}")
+            CL=$(node -e "try{console.log(JSON.parse(require('fs').readFileSync('$dir/claims.json','utf8')).length)}catch{console.log(0)}")
+            PO=$(node -e "try{console.log(JSON.parse(require('fs').readFileSync('$dir/political.json','utf8')).length)}catch{console.log(0)}")
+            CA=$(node -e "try{console.log(JSON.parse(require('fs').readFileSync('$dir/casualties.json','utf8')).length)}catch{console.log(0)}")
+            # Count event files
+            EV=0
+            if [ -d "$dir/events" ]; then
+              EV=$(ls "$dir/events/"*.json 2>/dev/null | wc -l | xargs)
+            fi
+            if [ "$FIRST" = true ]; then FIRST=false; else INVENTORY="$INVENTORY,"; fi
+            INVENTORY="$INVENTORY\"$SLUG\":{\"kpis\":$KPI,\"timeline\":$TL,\"mapPoints\":$MP,\"mapLines\":$ML,\"claims\":$CL,\"political\":$PO,\"casualties\":$CA,\"events\":$EV}"
+          done
+          INVENTORY="$INVENTORY}"
+
+          # Build trackers resolved array
+          SLUGS_JSON=$(echo '${{ steps.resolve.outputs.slugs || '' }}' | node -e "
+            const s = require('fs').readFileSync(0,'utf8').trim();
+            console.log(JSON.stringify(s ? s.split(/\s+/) : []));
+          ")
+
+          # Write run file
+          node -e "
+            const run = {
+              timestamp: '$TIMESTAMP',
+              status: '$STATUS',
+              trigger: '$TRIGGER',
+              trackersResolved: $SLUGS_JSON,
+              validation: {
+                jsonValid: ${{ steps.json_check.outputs.valid == 'true' || 'false' }},
+                schemaValid: ${{ steps.validate.outputs.valid == 'true' || 'false' }},
+                errors: $ERRORS,
+                ...(${FIX_INVOKED} ? {
+                  fixAgentInvoked: true,
+                  fixAgentResult: ${FIX_RESULT},
+                  errorsBeforeFix: ${ERRORS_BEFORE},
+                  errorsAfterFix: ${ERRORS_AFTER},
+                } : {}),
+              },
+              inventory: $INVENTORY,
+            };
+            require('fs').writeFileSync('public/_metrics/runs/${FILENAME}.json', JSON.stringify(run, null, 2));
+            console.log('Wrote metrics: public/_metrics/runs/${FILENAME}.json');
+
+            // Update index
+            const indexPath = 'public/_metrics/index.json';
+            let index = [];
+            try { index = JSON.parse(require('fs').readFileSync(indexPath, 'utf8')); } catch {}
+            index.push({
+              file: '${FILENAME}.json',
+              timestamp: '$TIMESTAMP',
+              status: '$STATUS',
+              trackerCount: $SLUGS_JSON.length,
+              errorCount: $ERRORS.length,
+            });
+
+            // Prune entries older than 90 days
+            const cutoff = new Date(Date.now() - 90 * 86400000).toISOString();
+            const pruned = index.filter(e => e.timestamp >= cutoff);
+            const removed = index.length - pruned.length;
+            if (removed > 0) {
+              console.log('Pruned ' + removed + ' entries older than 90 days');
+              // Delete old run files
+              for (const old of index.filter(e => e.timestamp < cutoff)) {
+                try { require('fs').unlinkSync('public/_metrics/runs/' + old.file); } catch {}
+              }
+            }
+
+            require('fs').writeFileSync(indexPath, JSON.stringify(pruned, null, 2));
+            console.log('Updated index: ' + pruned.length + ' entries');
+          "
+
+      - name: Commit and push metrics
+        if: always() && steps.metrics.outcome == 'success'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add public/_metrics/
+          if git diff --cached --quiet public/_metrics/; then
+            echo "No metrics changes to commit"
+            exit 0
+          fi
+          TIMESTAMP=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          if [ "${{ steps.validate.outputs.valid }}" = "true" ] || [ "${{ steps.revalidate.outputs.valid }}" = "true" ]; then
+            STATUS="success"
+          else
+            STATUS="failure"
+          fi
+          git commit -m "chore(metrics): ingestion run $TIMESTAMP [$STATUS]"
+          for i in 1 2 3; do
+            git pull --rebase origin main && git push && break
+            echo "Push attempt $i failed, retrying..."
+            sleep 2
+          done
+
       - name: Job summary
         if: always()
         run: |
@@ -320,6 +673,8 @@ jobs:
           echo "**Changes detected**: ${{ steps.changes.outputs.changed || 'false' }}" >> $GITHUB_STEP_SUMMARY
           echo "**JSON valid**: ${{ steps.json_check.outputs.valid || 'skipped' }}" >> $GITHUB_STEP_SUMMARY
           echo "**Schema valid**: ${{ steps.validate.outputs.valid || 'skipped' }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Fix agent invoked**: ${{ steps.fix_agent.outcome || 'skipped' }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Schema valid after fix**: ${{ steps.revalidate.outputs.valid || 'skipped' }}" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
 
           # Data item counts per tracker

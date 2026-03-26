@@ -23,3 +23,10 @@ firebase-debug.log
 
 # Atomic write temp files
 *.json.tmp
+
+# Playwright
+test-results/
+playwright-report/
+
+# Review manifests (temp artifacts from nightly update)
+**/review-manifest.json
