@@ -2,8 +2,8 @@
   {
     "id": "brent_crude",
     "label": "Brent Crude",
-    "value": "~$112/bbl",
-    "change": "Settled near $112; Qatar LNG offline Day 2",
+    "value": "~$111/bbl",
+    "change": "Day 27: ~$111 Brent; dipped on Hormuz selective opening signal",
     "direction": "up",
     "sparkData": [
       77.74,
@@ -21,17 +21,18 @@
       101.0,
       109.0,
       115.0,
-      112.0
+      112.0,
+      111.0
     ],
     "color": "#e74c3c",
-    "source": "Reuters / OilPrice.com / Al Jazeera / Fortune",
-    "lastUpdated": "2026-03-21T06:00:00.000Z"
+    "source": "Reuters / OilPrice.com / Al Jazeera / CNBC",
+    "lastUpdated": "2026-03-26T06:00:00.000Z"
   },
   {
     "id": "wti_crude",
     "label": "WTI Crude",
-    "value": "~$100/bbl",
-    "change": "+2% Day 22; Qatar LNG shock",
+    "value": "~$99/bbl",
+    "change": "Day 27: ~$99 WTI; dipped on Iran Hormuz selective passage signal",
     "direction": "up",
     "sparkData": [
       71.23,
@@ -47,11 +48,12 @@
       92.5,
       98.0,
       103.0,
-      100.0
+      100.0,
+      99.0
     ],
     "color": "#e67e22",
-    "source": "Reuters / OilPrice.com",
-    "lastUpdated": "2026-03-21T06:00:00.000Z"
+    "source": "Reuters / OilPrice.com / CNBC",
+    "lastUpdated": "2026-03-26T06:00:00.000Z"
   },
   {
     "id": "gold_spot",
@@ -195,8 +197,8 @@
     "id": "hormuz_traffic",
     "label": "Hormuz Traffic",
     "value": "~5% (selective)",
-    "change": "Selective blockade — Iran permitting China/India-flagged vessels only",
-    "direction": "down",
+    "change": "Day 27: Iran signals non-hostile vessels may transit with coordination — China/India/Pakistan vessels allowed",
+    "direction": "up",
     "sparkData": [
       100,
       90,
@@ -208,10 +210,11 @@
       0,
       12,
       25,
-      5
+      5,
+      10
     ],
     "color": "#27ae60",
-    "source": "Al Jazeera / OilPrice.com / Kpler / Windward / Euronews",
-    "lastUpdated": "2026-03-19T06:00:00.000Z"
+    "source": "Al Jazeera / OilPrice.com / Kpler / Reuters / AP",
+    "lastUpdated": "2026-03-26T06:00:00.000Z"
   }
 ]
