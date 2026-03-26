@@ -161,11 +161,13 @@ jobs:
             - Create new daily event file if today's doesn't exist
             - Update meta.json with current timestamp
 
-            SCHEMA ENFORCEMENT (validation failures block the commit):
-            - Every event MUST have a `year` field (number, e.g. 2026). This is REQUIRED.
-            - source `pole` MUST be one of: "western", "middle_eastern", "eastern", "international". No other values (not "neutral", not country codes, not org names).
-            - map-lines: `launched` and `intercepted` MUST be numbers (count of projectiles), NOT booleans.
-            - map-lines: `status` MUST be one of: "hit", "intercepted", "partial", "unknown". No free-text descriptions.
+            SCHEMA ENFORCEMENT (validation failures block the commit — follow these EXACTLY):
+            - Every event MUST have a `year` field as a STRING (e.g. "2026", NOT 2026). This is the #1 failure cause.
+            - source `pole` MUST be one of: "western", "middle_eastern", "eastern", "international". No other values.
+            - econ.json `direction` MUST be "up" or "down" only. NEVER "stable".
+            - map-lines `weaponType` MUST be one of: "ballistic", "cruise", "drone", "drone_loitering", "drone_ucav", "drone_recon", "drone_fpv", "rocket", "mixed", "unknown". NEVER free-text like "airstrike".
+            - map-lines `launched` and `intercepted` MUST be numbers (count), NOT booleans.
+            - map-lines `status` MUST be one of: "hit", "intercepted", "partial", "unknown".
 
             After updating, verify changes by reading back modified files to confirm valid JSON.
 
