@@ -159,6 +159,7 @@ jobs:
             - Tag sources with tier (1-4) and pole (western/middle_eastern/eastern/international)
             - OSINT confirmation: 1 Tier-1 or 2+ Tier-2 sources = confirmed
             - Create new daily event file if today's doesn't exist
+            - BACKFILL: Check the most recent event file date in events/. If there are missing days between that date and today, create event files for each missing day too (search for what happened on those dates).
             - Update meta.json with current timestamp
 
             SCHEMA ENFORCEMENT (validation failures block the commit — follow these EXACTLY):
