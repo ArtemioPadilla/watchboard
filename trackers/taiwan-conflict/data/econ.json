@@ -57,13 +57,13 @@
   {
     "id": "tsmc-quarterly-revenue",
     "label": "TSMC Quarterly Revenue (USD Billions)",
-    "value": "$30B+",
-    "change": "+40% YoY (AI demand surge)",
+    "value": "$33.7B",
+    "change": "Q1 2026 guidance: $34.6–35.8B (+38% YoY); 2026 capex $52–56B",
     "direction": "up",
-    "sparkData": [15.0, 16.8, 18.0, 20.0, 22.0, 25.0, 28.0, 30.5],
+    "sparkData": [15.0, 16.8, 18.0, 20.0, 22.0, 25.0, 28.0, 33.7],
     "color": "#2ecc71",
-    "source": "TSMC financial reports Q3 2025",
-    "lastUpdated": "2026-03-21T06:00:00.000Z"
+    "source": "TSMC Q4 FY2025 results; TrendForce Q1 2026 guidance",
+    "lastUpdated": "2026-03-27T00:00:00Z"
   },
   {
     "id": "japan-defense-budget-gdp",
@@ -119,5 +119,16 @@
     "color": "#f39c12",
     "source": "Focus Taiwan analysts / Taipei Times Mar 2026",
     "lastUpdated": "2026-03-21T06:00:00.000Z"
+  },
+  {
+    "id": "us-taiwan-trade-deal-jan2026",
+    "label": "US-Taiwan Tariff Rate (Post-Jan 2026 Deal)",
+    "value": "15%",
+    "change": "Down from 20%; $500B semiconductor manufacturing commitment",
+    "direction": "down",
+    "sparkData": [20, 20, 20, 20, 20, 15],
+    "color": "#3498db",
+    "source": "US Department of Commerce / US-Taiwan Trade and Investment Agreement Jan 15, 2026",
+    "lastUpdated": "2026-03-27T00:00:00Z"
   }
 ]

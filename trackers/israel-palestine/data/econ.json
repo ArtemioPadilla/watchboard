@@ -102,12 +102,23 @@
     "id": "palestine-aid-dependency",
     "label": "Palestinian Territory Aid Dependency",
     "value": "50%+",
-    "change": "Gaza 100% aid-dependent; only ~200 trucks/day entering vs 600 needed",
+    "change": "Gaza 100% aid-dependent; only ~200 trucks/day vs 600 needed; down 80% since Iran war (Feb 28) per COGAT",
     "direction": "up",
     "sparkData": [30, 35, 38, 42, 45, 48, 55],
     "color": "#e74c3c",
-    "source": "World Bank / OECD DAC / WHO Mar 2026",
-    "lastUpdated": "2026-03-21T06:00:00.000Z"
+    "source": "World Bank / OECD DAC / WHO / COGAT Mar 2026",
+    "lastUpdated": "2026-03-27T06:00:00.000Z"
+  },
+  {
+    "id": "gaza-food-price-inflation",
+    "label": "Gaza Food Price Inflation (March 2026)",
+    "value": "305%",
+    "change": "Up from 153% in February; orange prices +84% week-over-week; driven by 80% collapse in aid trucks since Feb 28",
+    "direction": "up",
+    "sparkData": [108, 112, 120, 135, 153, 220, 305],
+    "color": "#e74c3c",
+    "source": "UN OCHA — Humanitarian Situation Report, March 2026",
+    "lastUpdated": "2026-03-27T06:00:00.000Z"
   },
   {
     "id": "israel-credit-rating",

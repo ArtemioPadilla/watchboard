@@ -1,14 +1,14 @@
 [
   {
     "id": "israel-gdp-q4-2023",
-    "label": "Israel GDP Growth (Q4 2023)",
-    "value": "-19.4%",
-    "change": "-19.4% annualized",
-    "direction": "down",
-    "sparkData": [2.1, 1.8, 2.3, 2.0, 1.9, -19.4],
-    "color": "red",
+    "label": "Israel GDP Growth (2024–2025)",
+    "value": "+2.9% (2025)",
+    "change": "+2.9% in 2025 vs. +1.0% in 2024",
+    "direction": "up",
+    "sparkData": [-19.4, 0.5, 1.0, 1.8, 2.3, 2.9],
+    "color": "blue",
     "source": "Israel Central Bureau of Statistics",
-    "lastUpdated": "2026-03-20"
+    "lastUpdated": "2026-03-27"
   },
   {
     "id": "israel-defense-spending-2024",
@@ -57,34 +57,45 @@
   {
     "id": "us-military-aid-israel-2024",
     "label": "US Emergency Military Aid to Israel",
-    "value": "$17.9B",
-    "change": "Emergency package + standard FMF",
+    "value": "$17.9B+",
+    "change": "Emergency package + standard FMF (2024); further transfers 2025",
     "direction": "up",
-    "sparkData": [3800, 3800, 3800, 14300, 17900, 17900],
+    "sparkData": [3800, 3800, 3800, 14300, 17900, 19000],
     "color": "blue",
     "source": "US Department of State / Congressional Research Service",
-    "lastUpdated": "2026-03-20"
+    "lastUpdated": "2026-03-27"
   },
   {
     "id": "gaza-economic-collapse",
-    "label": "Gaza GDP Contraction (2023–24)",
-    "value": "-83%",
-    "change": "-83% of pre-war GDP",
+    "label": "Gaza GDP Contraction (2023–2025)",
+    "value": "-83%+",
+    "change": "GDP effectively destroyed; $50B+ reconstruction needed",
     "direction": "down",
     "sparkData": [8500, 8200, 7900, 5000, 2000, 1400],
     "color": "red",
-    "source": "World Bank / UNCTAD estimates (USD millions)",
-    "lastUpdated": "2026-03-20"
+    "source": "World Bank / UNCTAD / UN estimates (USD millions)",
+    "lastUpdated": "2026-03-27"
   },
   {
     "id": "israel-displaced-persons",
     "label": "Israelis Displaced (Evacuees)",
     "value": "~200,000",
-    "change": "Peak internal displacement",
-    "direction": "up",
+    "change": "Peak displacement; many still unable to return to border communities",
+    "direction": "down",
     "sparkData": [0, 50000, 120000, 180000, 200000, 160000],
     "color": "amber",
     "source": "Israeli Government / OCHA",
     "lastUpdated": "2026-03-20"
+  },
+  {
+    "id": "israel-total-war-cost-two-years",
+    "label": "Israel Total War Cost (2-Year Economic Loss)",
+    "value": "$57B",
+    "change": "-8.6% of annual GDP over 2 years (Oct 2023–Dec 2025)",
+    "direction": "down",
+    "sparkData": [0, 8000, 18000, 32000, 47000, 57000],
+    "color": "red",
+    "source": "Bloomberg / Israel Central Bureau of Statistics (Mar 2026)",
+    "lastUpdated": "2026-03-27"
   }
 ]
