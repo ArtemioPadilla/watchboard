@@ -73,8 +73,10 @@ const TimeFieldSchema = z.string().regex(
   'Invalid time format, expected HH:MM (0:00–23:59)',
 );
 
-/** ISO date format YYYY-MM-DD */
-const DateFieldSchema = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Date must be YYYY-MM-DD');
+/** ISO date format YYYY-MM-DD — rejects future dates */
+const DateFieldSchema = z.string()
+  .regex(/^\d{4}-\d{2}-\d{2}$/, 'Date must be YYYY-MM-DD')
+  .refine((d) => d <= new Date().toISOString().slice(0, 10), 'Date must not be in the future');
 
 /** Check if a YYYY-MM-DD date string is in the future relative to today. */
 export function isFutureDate(dateStr: string): boolean {
@@ -119,6 +121,16 @@ export const MapLineSchema = z.object({
   platform: z.string().optional(),
   status: StrikeStatusSchema.optional(),
   lastUpdated: z.string().optional(),
+}).superRefine((line, ctx) => {
+  // strike/retaliation lines require weaponType + time for build compatibility
+  if (line.cat === 'strike' || line.cat === 'retaliation') {
+    if (!line.weaponType) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['weaponType'], message: 'weaponType is required for strike/retaliation lines' });
+    }
+    if (!line.time) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['time'], message: 'time is required for strike/retaliation lines' });
+    }
+  }
 });
 
 // ── Military strike items ──

@@ -260,6 +260,8 @@ jobs:
             - Every event MUST have a `year` field as a STRING (e.g. "2026", NOT 2026). This is the #1 failure cause.
             - source `pole` MUST be one of: "western", "middle_eastern", "eastern", "international". No other values.
             - econ.json `direction` MUST be "up" or "down" only. NEVER "stable".
+            - ALL dates MUST NOT be in the future. Never use a date after today.
+            - map-lines with cat "strike" or "retaliation" MUST have BOTH `weaponType` AND `time` fields. These are REQUIRED for strike/retaliation lines.
             - map-lines `weaponType` MUST be one of: "ballistic", "cruise", "drone", "drone_loitering", "drone_ucav", "drone_recon", "drone_fpv", "rocket", "mixed", "unknown". NEVER free-text like "airstrike".
             - map-lines `launched` and `intercepted` MUST be numbers (count), NOT booleans.
             - map-lines `status` MUST be one of: "hit", "intercepted", "partial", "unknown".
@@ -538,12 +540,21 @@ jobs:
           echo "valid=$( [ \"$AFTER\" -eq 0 ] && echo true || echo false )" >> $GITHUB_OUTPUT
           echo "error_count=$AFTER" >> $GITHUB_OUTPUT
 
-      - name: Commit and push data
+      - name: Build gate (catch runtime errors Zod misses)
+        id: build_check
         if: |
           steps.changes.outputs.changed == 'true' && (
             steps.validate.outputs.valid == 'true' ||
             steps.revalidate.outputs.valid == 'true'
           )
+        run: |
+          npm run build 2>&1 | tail -20
+          echo "build_ok=true" >> $GITHUB_OUTPUT
+        continue-on-error: true
+
+      - name: Commit and push data
+        if: |
+          steps.build_check.outputs.build_ok == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
