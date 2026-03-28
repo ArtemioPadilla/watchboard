@@ -283,7 +283,7 @@ jobs:
   # ── Phase 3: Validate, fix, commit, and collect metrics ──
   finalize:
     needs: [resolve, update]
-    if: always() && needs.resolve.outputs.has_trackers == 'true'
+    if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -300,12 +300,14 @@ jobs:
         run: npm ci
 
       - name: Download all tracker artifacts
+        if: needs.resolve.outputs.has_trackers == 'true'
         uses: actions/download-artifact@v4
         with:
           pattern: tracker-*
           path: /tmp/artifacts/
 
       - name: Apply tracker changes
+        if: needs.resolve.outputs.has_trackers == 'true'
         id: apply
         run: |
           CHANGED=false
