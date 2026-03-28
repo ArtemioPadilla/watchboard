@@ -560,7 +560,11 @@ export default function SidebarPanel({
       {/* Footer */}
       <div className="cc-footer" style={S.footer}>
         <span>Watchboard v1.0 · MIT</span>
-        <a href="https://github.com/ArtemioPadilla/watchboard" target="_blank" rel="noopener noreferrer" style={S.footerLink}>GitHub</a>
+        <div style={S.footerLinks}>
+          <a href={`${basePath}metrics/`} style={S.footerLink}>Status</a>
+          <span style={S.footerSep}>·</span>
+          <a href="https://github.com/ArtemioPadilla/watchboard" target="_blank" rel="noopener noreferrer" style={S.footerLink}>GitHub</a>
+        </div>
       </div>
     </div>
   );
@@ -1183,8 +1187,19 @@ const S = {
     flexShrink: 0,
   } as CSSProperties,
 
+  footerLinks: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '6px',
+  } as CSSProperties,
+
   footerLink: {
     color: 'var(--accent-blue)',
     textDecoration: 'none',
+  } as CSSProperties,
+
+  footerSep: {
+    color: 'var(--text-muted)',
+    opacity: 0.4,
   } as CSSProperties,
 };
