@@ -254,7 +254,7 @@ jobs:
             - Tag sources with tier (1-4) and pole (western/middle_eastern/eastern/international)
             - OSINT confirmation: 1 Tier-1 or 2+ Tier-2 sources = confirmed
             - BACKFILL: Check for missing days between latest event file and today, create event files for each gap day
-            - Update meta.json with current timestamp
+            - Update meta.json lastUpdated with the EXACT current UTC time (use new Date().toISOString()), NOT a rounded or hardcoded time like "06:00:00Z"
 
             SCHEMA ENFORCEMENT (validation failures block the commit — follow these EXACTLY):
             - Every event MUST have a `year` field as a STRING (e.g. "2026", NOT 2026). This is the #1 failure cause.
