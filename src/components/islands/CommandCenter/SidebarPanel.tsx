@@ -678,6 +678,8 @@ export default function SidebarPanel({
         <div style={S.footerLinks}>
           <a href={`${basePath}metrics/`} style={S.footerLink}>Status</a>
           <span style={S.footerSep}>·</span>
+          <a href={`${basePath}about/`} style={S.footerLink}>About</a>
+          <span style={S.footerSep}>·</span>
           <a href="https://github.com/ArtemioPadilla/watchboard" target="_blank" rel="noopener noreferrer" style={S.footerLink}>GitHub</a>
         </div>
       </div>

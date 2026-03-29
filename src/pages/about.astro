@@ -1,0 +1,399 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const base = import.meta.env.BASE_URL;
+const basePath = base.endsWith('/') ? base : `${base}/`;
+---
+<BaseLayout title="How Watchboard Works" description="How the automated intelligence pipeline collects, validates, and publishes data across all trackers">
+  <main id="main-content">
+  <div class="about-page">
+    <a class="about-back" href={`${basePath}`}>&larr; Watchboard</a>
+
+    <article class="about-content">
+      <h1>How Watchboard Works</h1>
+
+      <section>
+        <h2>What is Watchboard?</h2>
+        <p>
+          Watchboard is an open-source intelligence dashboard that tracks world events across multiple topics&mdash;from active military conflicts to political developments, economic crises, and cultural events. Each tracker is an independent dashboard with its own data, maps, 3D globe, and analysis.
+        </p>
+        <p>
+          The platform is designed for anyone who wants structured, sourced, and transparent reporting on complex ongoing situations. Rather than presenting a single narrative, Watchboard surfaces data from multiple perspectives and lets readers evaluate credibility through explicit source tier classifications.
+        </p>
+      </section>
+
+      <section>
+        <h2>Automated Data Pipeline</h2>
+        <p>
+          Every day at 14:00 UTC, an AI-powered pipeline updates all active trackers. The process runs through six stages, each with built-in safeguards to prevent bad data from reaching the published site.
+        </p>
+        <div class="pipeline-steps">
+          <div class="pipeline-step">
+            <span class="step-number">1</span>
+            <div class="step-body">
+              <strong>Resolve</strong>
+              <p>Determines which trackers are due for update based on their configured interval. A tracker set to update every 3 days will not run again until its window opens.</p>
+            </div>
+          </div>
+          <div class="pipeline-step">
+            <span class="step-number">2</span>
+            <div class="step-body">
+              <strong>Review</strong>
+              <p>Generates a manifest of event gaps&mdash;missing days in the timeline&mdash;and cross-references related trackers to avoid duplication across overlapping topics.</p>
+            </div>
+          </div>
+          <div class="pipeline-step">
+            <span class="step-number">3</span>
+            <div class="step-body">
+              <strong>Update</strong>
+              <p>Each tracker runs in parallel with its own AI agent that searches the web, verifies sources against known outlets, and updates the data files with new events, KPIs, and analysis.</p>
+            </div>
+          </div>
+          <div class="pipeline-step">
+            <span class="step-number">4</span>
+            <div class="step-body">
+              <strong>Validate</strong>
+              <p>All data passes through Zod schema validation. If structural errors are found, a fix agent automatically corrects them before the data is accepted.</p>
+            </div>
+          </div>
+          <div class="pipeline-step">
+            <span class="step-number">5</span>
+            <div class="step-body">
+              <strong>Build Gate</strong>
+              <p>The entire site is built from scratch to catch any runtime errors before committing. If the build fails, the update is rejected and no data reaches production.</p>
+            </div>
+          </div>
+          <div class="pipeline-step">
+            <span class="step-number">6</span>
+            <div class="step-body">
+              <strong>Metrics</strong>
+              <p>Every run&mdash;pass or fail&mdash;is recorded to the ingestion metrics dashboard, providing full auditability of the pipeline&rsquo;s health over time.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Data Quality &amp; Source Tiers</h2>
+        <p>
+          Every data point in Watchboard carries a source tier classification. This system is the backbone of the platform&rsquo;s commitment to transparency: readers should always know where information comes from and how reliable it is likely to be.
+        </p>
+        <div class="tier-grid">
+          <div class="tier-item tier-1">
+            <div class="tier-label">Tier 1</div>
+            <strong>Official / Primary</strong>
+            <span>Government statements, UN reports, IAEA assessments, court filings, official military communications</span>
+          </div>
+          <div class="tier-item tier-2">
+            <div class="tier-label">Tier 2</div>
+            <strong>Major Outlets</strong>
+            <span>Reuters, AP, BBC, CNN, Al Jazeera, AFP&mdash;wire services and major international news organizations</span>
+          </div>
+          <div class="tier-item tier-3">
+            <div class="tier-label">Tier 3</div>
+            <strong>Institutional</strong>
+            <span>Think tanks (CSIS, Brookings), NGOs (HRW, MSF), academic institutions, research organizations</span>
+          </div>
+          <div class="tier-item tier-4">
+            <div class="tier-label">Tier 4</div>
+            <strong>Unverified</strong>
+            <span>Social media posts, anonymous sources, unattributed claims, Telegram channels, unverified imagery</span>
+          </div>
+        </div>
+        <p>
+          <strong>OSINT confirmation rule:</strong> an event is marked &ldquo;confirmed&rdquo; when it has at least 1 Tier-1 source or 2 or more independent Tier-2 sources. Single-source Tier-3 or Tier-4 reports remain flagged as unconfirmed.
+        </p>
+        <p>
+          Casualty figures include a <strong>contested</strong> classification&mdash;<em>yes</em>, <em>no</em>, <em>evolving</em>, or <em>heavily</em>&mdash;to explicitly flag disputed numbers rather than presenting any single estimate as authoritative.
+        </p>
+      </section>
+
+      <section>
+        <h2>Cross-Tracker Intelligence</h2>
+        <p>
+          Related trackers are aware of each other. Before updating, each tracker receives a &ldquo;sibling brief&rdquo;&mdash;a summary of what related trackers already cover. This prevents event duplication across overlapping topics. For example, a drone strike reported in both the Iran Conflict and a regional theater tracker will only appear in whichever topic it most directly belongs to, with a cross-reference in the other.
+        </p>
+        <p>
+          This sibling awareness system also enables richer context: when a political development in one tracker has downstream effects on another, the pipeline can surface that connection without duplicating the underlying data.
+        </p>
+      </section>
+
+      <section>
+        <h2>Schema Enforcement</h2>
+        <p>
+          All data is validated against strict Zod schemas before it enters the system. These schemas enforce structural and semantic constraints that prevent common data quality issues:
+        </p>
+        <ul>
+          <li>No future dates allowed&mdash;events cannot be dated ahead of the current day</li>
+          <li>Strike and retaliation map entries require weapon type and timestamp</li>
+          <li>Source poles must be one of: <code>western</code>, <code>middle_eastern</code>, <code>eastern</code>, or <code>international</code></li>
+          <li>Economic indicators must include directional trends (up or down)</li>
+          <li>Every event must have an ID, year, title, detail text, and at least one source</li>
+          <li>Map coordinates are validated against the tracker&rsquo;s configured geographic bounds</li>
+        </ul>
+        <p>
+          When the AI updater produces data that fails validation, a dedicated fix agent reads the error messages, identifies the root cause, and corrects the data automatically. If the fix agent also fails, the entire update is rejected.
+        </p>
+      </section>
+
+      <section>
+        <h2>Transparency</h2>
+        <p>
+          Watchboard is built on the principle that intelligence tools are only useful if you can verify how they work. Everything about this platform is open and auditable.
+        </p>
+        <ul>
+          <li><strong>Ingestion metrics</strong>&mdash;View run history, success rates, and validation errors on the <a href={`${basePath}metrics/`}>Status</a> dashboard</li>
+          <li><strong>Open source</strong>&mdash;Full source code, data files, and update history available on <a href="https://github.com/ArtemioPadilla/watchboard" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+          <li><strong>RSS feeds</strong>&mdash;Subscribe to per-tracker or <a href={`${basePath}rss.xml`}>global feeds</a> for update notifications</li>
+          <li><strong>Changelog</strong>&mdash;Every data update is committed to git with a full diff, so you can see exactly what changed and when</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Built With</h2>
+        <div class="credits-grid">
+          <div class="credit-item"><strong>Astro 5</strong><span>Static site generator</span></div>
+          <div class="credit-item"><strong>React</strong><span>Interactive islands</span></div>
+          <div class="credit-item"><strong>CesiumJS</strong><span>3D globe visualization</span></div>
+          <div class="credit-item"><strong>Leaflet</strong><span>2D interactive maps</span></div>
+          <div class="credit-item"><strong>Zod</strong><span>Schema validation</span></div>
+          <div class="credit-item"><strong>Claude Code Action</strong><span>AI data pipeline</span></div>
+          <div class="credit-item"><strong>GitHub Actions</strong><span>CI/CD orchestration</span></div>
+          <div class="credit-item"><strong>GitHub Pages</strong><span>Static hosting</span></div>
+        </div>
+      </section>
+
+    </article>
+
+    <div class="about-cta">
+      <a class="about-back" href={`${basePath}`}>&larr; Back to Watchboard</a>
+    </div>
+  </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .about-page {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  .about-back {
+    display: inline-block;
+    margin-bottom: 2rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-family: 'DM Sans', sans-serif;
+    border: 1px solid var(--border);
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    transition: all 0.2s;
+  }
+  .about-back:hover {
+    color: var(--text-primary);
+    border-color: var(--border-light);
+    background: var(--bg-card);
+  }
+
+  .about-content h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 2rem;
+    letter-spacing: -0.02em;
+  }
+
+  .about-content h2 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 2rem 0 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .about-content p {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.75;
+    margin-bottom: 0.75rem;
+  }
+
+  .about-content ul {
+    list-style: none;
+    padding: 0;
+    margin: 0.75rem 0;
+  }
+  .about-content ul li {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    padding: 0.3rem 0 0.3rem 1.2rem;
+    position: relative;
+  }
+  .about-content ul li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.75rem;
+    width: 5px;
+    height: 5px;
+    background: var(--accent-red);
+    border-radius: 50%;
+  }
+
+  .about-content code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 0.15rem 0.4rem;
+    border-radius: 3px;
+    color: var(--accent-amber);
+  }
+
+  .about-content a {
+    color: var(--accent-blue);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+  }
+  .about-content a:hover {
+    border-bottom-color: var(--accent-blue);
+  }
+
+  /* ── Pipeline Steps ── */
+  .pipeline-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin: 1rem 0 1.25rem;
+  }
+  .pipeline-step {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+  }
+  .step-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 24px;
+    height: 24px;
+    background: var(--accent-blue);
+    color: #fff;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    border-radius: 50%;
+    margin-top: 0.1rem;
+  }
+  .step-body strong {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    display: block;
+    margin-bottom: 0.2rem;
+  }
+  .step-body p {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* ── Tier Grid ── */
+  .tier-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 0.75rem;
+    margin: 1rem 0 1.25rem;
+  }
+  .tier-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    border-left: 3px solid var(--border);
+  }
+  .tier-item.tier-1 { border-left-color: var(--tier-1, #4caf50); }
+  .tier-item.tier-2 { border-left-color: var(--tier-2, #2196f3); }
+  .tier-item.tier-3 { border-left-color: var(--tier-3, #ff9800); }
+  .tier-item.tier-4 { border-left-color: var(--tier-4, #f44336); }
+
+  .tier-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+  }
+  .tier-item strong {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    color: var(--text-primary);
+  }
+  .tier-item span {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  /* ── Credits Grid (matches tracker about page) ── */
+  .credits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+  }
+  .credit-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+  .credit-item strong {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--text-primary);
+  }
+  .credit-item span {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+  }
+
+  /* ── Footer CTA ── */
+  .about-cta {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  @media (max-width: 640px) {
+    .about-page { padding: 1.5rem 1rem 3rem; }
+    .about-content h1 { font-size: 1.6rem; }
+    .credits-grid { grid-template-columns: 1fr; }
+    .tier-grid { grid-template-columns: 1fr; }
+    .pipeline-step { padding: 0.6rem 0.75rem; }
+  }
+</style>
