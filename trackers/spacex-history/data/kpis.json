@@ -1,56 +1,58 @@
 [
   {
     "id": "total-orbital-launches",
-    "label": "Total Orbital Launches",
-    "value": "350+",
+    "label": "2026 Orbital Launches",
+    "value": "38",
     "color": "blue",
-    "source": "SpaceX.com / Wikipedia",
+    "source": "Spaceflight Now / NASASpaceFlight.com",
     "contested": false,
-    "delta": "+60 in 2023",
+    "delta": "~1 launch per 2.2 days",
     "trend": "up",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "lastUpdated": "2026-03-26T23:03:00Z"
   },
   {
     "id": "booster-landings",
-    "label": "Successful Booster Landings",
-    "value": "300+",
+    "label": "Total Booster Recoveries (All-Time)",
+    "value": "591",
     "color": "green",
     "source": "SpaceX.com / NASASpaceFlight.com",
     "contested": false,
-    "delta": "~90% landing success rate",
+    "delta": "186 on OCISLY alone",
     "trend": "up",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "lastUpdated": "2026-03-26T23:03:00Z"
   },
   {
     "id": "active-starlink-sats",
-    "label": "Active Starlink Satellites",
-    "value": "~10,000+",
+    "label": "Starlink Satellites in Orbit",
+    "value": "10,000+",
     "color": "blue",
     "source": "Starlink.com / FCC filings",
     "contested": false,
-    "delta": "+4,000 since 2023",
+    "delta": "Milestone crossed March 16, 2026",
     "trend": "up",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "lastUpdated": "2026-03-26T23:03:00Z"
   },
   {
     "id": "starlink-subscribers",
     "label": "Starlink Subscribers",
-    "value": "~10M+",
+    "value": "10M+",
     "color": "green",
-    "source": "SpaceX reports / Reuters",
+    "source": "TIME / Gwynne Shotwell (Mar 26, 2026)",
     "contested": false,
+    "delta": "160 countries served",
     "trend": "up",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "lastUpdated": "2026-03-26T23:03:00Z"
   },
   {
     "id": "max-booster-reflights",
     "label": "Max Single Booster Reflights",
-    "value": "25+",
+    "value": "34 (pending)",
     "color": "green",
-    "source": "SpaceX / NASASpaceFlight.com",
+    "source": "Spaceflight Now",
     "contested": false,
+    "delta": "B1067 targeting record 34th flight",
     "trend": "up",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "lastUpdated": "2026-03-29T00:00:00Z"
   },
   {
     "id": "astronauts-launched",
@@ -73,23 +75,23 @@
   {
     "id": "starship-ift-tests",
     "label": "Starship Integrated Flight Tests",
-    "value": "7",
+    "value": "11",
     "color": "amber",
     "source": "SpaceX.com",
     "contested": false,
-    "delta": "IFT-7 completed Jan 2025",
+    "delta": "IFT-12 (V3) targeting April 2026",
     "trend": "up",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "lastUpdated": "2026-03-26T00:00:00Z"
   },
   {
     "id": "company-valuation",
-    "label": "SpaceX Valuation (Private)",
-    "value": "~$350B",
+    "label": "SpaceX + xAI Combined Valuation",
+    "value": "~$1.25–1.75T",
     "color": "green",
-    "source": "Reuters / Bloomberg",
+    "source": "Bloomberg / TIME (Mar 26, 2026)",
     "contested": true,
-    "contestNote": "Private valuation from funding rounds; not public market verified",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "contestNote": "Post-merger estimate; IPO S-1 not yet filed; private valuation",
+    "lastUpdated": "2026-03-26T00:00:00Z"
   },
   {
     "id": "launch-cost-per-kg",

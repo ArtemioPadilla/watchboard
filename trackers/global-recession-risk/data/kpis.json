@@ -73,14 +73,14 @@
   {
     "id": "us-10y-treasury-yield",
     "label": "US 10Y Treasury Yield",
-    "value": "4.26%",
-    "color": "amber",
-    "source": "Federal Reserve H.15, Mar 18 2026",
+    "value": "4.46%",
+    "color": "red",
+    "source": "Federal Reserve H.15, Mar 28 2026",
     "contested": false,
-    "delta": "+0.50pp",
-    "deltaNote": "10Y-2Y spread (normalized from -108 bps inversion)",
-    "trend": "stable",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "delta": "+0.20pp",
+    "deltaNote": "vs Mar 18 FOMC meeting (4.26%); highest since Jul 2025 on oil-inflation fears",
+    "trend": "up",
+    "lastUpdated": "2026-03-29T14:05:00Z"
   },
   {
     "id": "us-consumer-confidence",
@@ -93,6 +93,18 @@
     "deltaNote": "vs Nov 2024 peak (112.8); Expectations index 72.0 below recession-watch threshold of 80",
     "trend": "down",
     "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "michigan-consumer-sentiment",
+    "label": "Michigan Consumer Sentiment (Final)",
+    "value": "53.3",
+    "color": "red",
+    "source": "University of Michigan, Mar 27 2026",
+    "contested": false,
+    "delta": "-3.3",
+    "deltaNote": "vs Feb 2026 (56.6); year-ahead inflation expectations at 3.8% (largest monthly jump since Apr 2025)",
+    "trend": "down",
+    "lastUpdated": "2026-03-29T14:05:00Z"
   },
   {
     "id": "vix-fear-gauge",

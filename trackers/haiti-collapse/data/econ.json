@@ -58,12 +58,12 @@
     "id": "usaid-disbursements",
     "label": "US Aid Disbursements (2024)",
     "value": "$340M",
-    "change": "Haiti in top 15 USAID recipients",
+    "change": "Cuts deepened in 2026",
     "direction": "down",
     "sparkData": [400, 350, 500, 420, 380, 360, 340],
-    "color": "amber",
-    "source": "USAID, FY2024",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "color": "red",
+    "source": "USAID, FY2024; OCHA 2026",
+    "lastUpdated": "2026-03-29T00:00:00Z"
   },
   {
     "id": "gdp-per-capita",
@@ -79,13 +79,13 @@
   {
     "id": "food-insecurity-pct",
     "label": "Population in Acute Food Insecurity",
-    "value": "48%",
-    "change": "+8pp vs 2022",
+    "value": "52%",
+    "change": "+4pp vs Q3 2025",
     "direction": "up",
-    "sparkData": [32, 35, 40, 42, 45, 46, 48],
+    "sparkData": [32, 35, 40, 42, 45, 48, 52],
     "color": "red",
-    "source": "WFP / IPC, 2025",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "source": "WFP / IPC / OCHA, Q1 2026",
+    "lastUpdated": "2026-03-29T00:00:00Z"
   },
   {
     "id": "gang-extortion-estimated",
@@ -97,5 +97,16 @@
     "color": "red",
     "source": "ACLED / ICG, 2024 estimate",
     "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "hrp-funding-gap",
+    "label": "2026 Humanitarian Response Plan Funding",
+    "value": "24%",
+    "change": "$880M needed; only 24% secured",
+    "direction": "down",
+    "sparkData": [62, 55, 48, 40, 35, 28, 24],
+    "color": "red",
+    "source": "OCHA, 2026 HRP",
+    "lastUpdated": "2026-03-29T00:00:00Z"
   }
 ]
