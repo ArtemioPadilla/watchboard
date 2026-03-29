@@ -1,0 +1,58 @@
+name: Tracker Request
+description: Suggest a new topic for Watchboard to track
+title: "[Tracker Request] "
+labels: ["tracker-request"]
+body:
+  - type: input
+    id: topic
+    attributes:
+      label: Topic
+      description: What event, conflict, or subject should we track?
+      placeholder: e.g., "Syrian Civil War"
+    validations:
+      required: true
+  - type: input
+    id: region
+    attributes:
+      label: Geographic Region
+      description: Primary region for the map/globe view
+      placeholder: e.g., "Middle East", "South America"
+    validations:
+      required: true
+  - type: input
+    id: start-date
+    attributes:
+      label: Start Date
+      description: When did this event begin? (approximate is fine)
+      placeholder: e.g., "2011-03-15"
+    validations:
+      required: true
+  - type: dropdown
+    id: domain
+    attributes:
+      label: Domain
+      options:
+        - conflict
+        - security
+        - disaster
+        - human-rights
+        - governance
+        - history
+        - science
+        - space
+        - economy
+        - culture
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why should we track this?
+      description: Brief explanation of why this topic is important or interesting
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: Key Sources
+      description: Any primary sources, news outlets, or references (optional)

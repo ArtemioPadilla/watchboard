@@ -1,0 +1,43 @@
+name: Data Correction
+description: Report incorrect or missing data in a tracker
+title: "[Data] "
+labels: ["data-quality"]
+body:
+  - type: input
+    id: tracker
+    attributes:
+      label: Tracker
+      description: Which tracker has the error?
+      placeholder: e.g., "iran-conflict"
+    validations:
+      required: true
+  - type: dropdown
+    id: section
+    attributes:
+      label: Section
+      options:
+        - KPIs
+        - Timeline / Events
+        - Map Points
+        - Map Lines (Strike Trajectories)
+        - Casualties
+        - Economic
+        - Claims
+        - Political
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What's wrong?
+      description: Describe the error — what's currently shown vs. what it should be
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: Correct Source
+      description: Link to a source with the correct information
+    validations:
+      required: true
