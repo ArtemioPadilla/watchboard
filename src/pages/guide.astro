@@ -1,0 +1,634 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const base = import.meta.env.BASE_URL;
+const basePath = base.endsWith('/') ? base : `${base}/`;
+---
+<BaseLayout
+  title="Build Your Own Tracker — Watchboard"
+  description="Create a fully automated, AI-powered intelligence tracker in 25 minutes. Step-by-step guide to launching your own Watchboard topic dashboard."
+>
+  <main id="main-content">
+    <div class="guide-page">
+      <a class="guide-back" href={`${basePath}`}>&larr; Watchboard</a>
+
+      <article class="guide-content">
+        <div class="guide-header">
+          <div class="guide-badge">25 MIN SETUP</div>
+          <h1>Build Your Own Tracker</h1>
+          <p class="guide-subtitle">
+            Any ongoing topic — a conflict, a political crisis, an environmental event, a historical case —
+            can become a fully automated Watchboard tracker. The platform handles data updates, maps,
+            3D globe, and RSS feeds. You provide the topic.
+          </p>
+        </div>
+
+        <section>
+          <h2>How It Works</h2>
+          <p>
+            Each tracker is a directory under <code>trackers/{'{slug}'}/</code> containing a
+            <code>tracker.json</code> configuration file and a <code>data/</code> folder with JSON
+            data files. The site auto-discovers every tracker at build time — no routing code to
+            write, no imports to add.
+          </p>
+          <p>
+            The <code>tracker.json</code> defines everything: the topic title, geographic map region,
+            dashboard sections, AI search prompts, 3D globe camera presets, and how frequently the
+            nightly pipeline should run updates. Once the config exists and the initial seed data is
+            populated, the tracker publishes itself.
+          </p>
+          <div class="info-box">
+            <span class="info-label">AUTO-DISCOVERY</span>
+            Any directory added to <code>trackers/</code> is automatically picked up by
+            <code>getStaticPaths()</code> in the dynamic routes. No manual registration needed.
+          </div>
+        </section>
+
+        <section>
+          <h2>Step 1: Dispatch the Workflow</h2>
+          <p>
+            The recommended path is a single GitHub Actions dispatch. Go to the repository's
+            <strong>Actions</strong> tab and run <strong>Init New Tracker</strong> with four inputs:
+          </p>
+          <div class="steps-list">
+            <div class="step-item">
+              <span class="step-num">1</span>
+              <div class="step-body">
+                <strong>slug</strong>
+                <p>
+                  A short, URL-safe identifier. Use kebab-case: <code>ukraine-war</code>,
+                  <code>amazon-deforestation</code>, <code>taiwan-strait</code>.
+                </p>
+              </div>
+            </div>
+            <div class="step-item">
+              <span class="step-num">2</span>
+              <div class="step-body">
+                <strong>topic</strong>
+                <p>
+                  A one-sentence description of what this tracker covers. Be specific —
+                  the AI uses this to generate the initial config and seed search queries.
+                </p>
+              </div>
+            </div>
+            <div class="step-item">
+              <span class="step-num">3</span>
+              <div class="step-body">
+                <strong>start_date</strong>
+                <p>
+                  The earliest date relevant to this tracker, in <code>YYYY-MM-DD</code> format.
+                  The seed job will backfill events from this date forward.
+                </p>
+              </div>
+            </div>
+            <div class="step-item">
+              <span class="step-num">4</span>
+              <div class="step-body">
+                <strong>region</strong>
+                <p>
+                  A natural-language description of the geographic area —
+                  <code>Middle East</code>, <code>South America</code>, <code>Pacific Rim</code>.
+                  Used to configure the 2D map bounds and 3D globe camera starting position.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>Step 2: Wait ~25 Minutes</h2>
+          <p>
+            Two jobs run automatically after the dispatch. You do not need to do anything during this time.
+          </p>
+          <div class="steps-list">
+            <div class="step-item">
+              <span class="step-num">A</span>
+              <div class="step-body">
+                <strong>Init Job (~5 min)</strong>
+                <p>
+                  Claude Code generates <code>tracker.json</code> with full configuration,
+                  creates empty data files for all sections, validates the Zod schema,
+                  runs a build gate, and commits the scaffolding to <code>main</code>.
+                </p>
+              </div>
+            </div>
+            <div class="step-item">
+              <span class="step-num">B</span>
+              <div class="step-body">
+                <strong>Seed Job (~20 min)</strong>
+                <p>
+                  Claude Code performs deep web research from <code>start_date</code> to today,
+                  populating the timeline, map points, KPIs, claims matrix, and all other sections
+                  with sourced historical data. Validates and commits on completion.
+                </p>
+              </div>
+            </div>
+          </div>
+          <p>
+            The deploy workflow triggers automatically on each commit. By the time the seed job
+            finishes, your tracker is already live on GitHub Pages.
+          </p>
+        </section>
+
+        <section>
+          <h2>Step 3: Your Tracker Is Live</h2>
+          <p>
+            After the seed commit, your tracker is accessible at
+            <code>{'{basePath}'}{'{slug}'}/ </code> with the full dashboard: interactive map,
+            3D globe, timeline, and all configured sections. The nightly AI pipeline will
+            begin updating it on the configured interval — typically every 1 to 3 days,
+            depending on how active the topic is.
+          </p>
+          <p>
+            An RSS feed is generated automatically at <code>{'{slug}'}/rss.xml</code>,
+            and an embeddable widget is available at <code>embed/{'{slug}'}/</code> for
+            use on external sites.
+          </p>
+        </section>
+
+        <section>
+          <h2>What You Get</h2>
+          <div class="feature-grid">
+            <div class="feature-card">
+              <div class="feature-icon">D</div>
+              <strong>Dashboard</strong>
+              <span>
+                Interactive 2D map, KPI strip, sourced timeline, claims matrix,
+                political grid, and economic indicators — all auto-updated nightly.
+              </span>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">G</div>
+              <strong>3D Globe</strong>
+              <span>
+                CesiumJS globe with animated missile arcs, satellite tracking,
+                live flight data, ship AIS, seismic overlays, and cinematic event mode.
+              </span>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">AI</div>
+              <strong>AI Updates</strong>
+              <span>
+                Nightly Claude Code agent searches the web, validates sources,
+                and updates all data files. Schema-enforced, build-gated, fully auditable.
+              </span>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">R</div>
+              <strong>RSS Feed</strong>
+              <span>
+                Per-tracker and global RSS feeds generated at build time.
+                Subscribers receive update digests with section summaries after each run.
+              </span>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>Tracker Ideas</h2>
+          <p>
+            Watchboard works for any structured, ongoing topic with a geographic dimension.
+            Some categories that fit well:
+          </p>
+          <ul>
+            <li><strong>Active conflicts</strong> — armed conflicts, border disputes, military operations</li>
+            <li><strong>Political crises</strong> — elections, coups, constitutional disputes, sanctions</li>
+            <li><strong>Disasters</strong> — nuclear incidents, industrial accidents, hurricanes, earthquakes</li>
+            <li><strong>Environmental</strong> — deforestation, pollution events, climate anomalies</li>
+            <li><strong>Criminal cases</strong> — organized crime, high-profile investigations, trials</li>
+            <li><strong>Historical events</strong> — ongoing investigations into past incidents with new developments</li>
+            <li><strong>Economic crises</strong> — currency collapses, sanctions regimes, debt restructurings</li>
+            <li><strong>Public health</strong> — outbreaks, epidemic responses, institutional failures</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Manual Setup (Advanced)</h2>
+          <p>
+            If you prefer full control, you can create a tracker manually in five steps.
+            This is the same process the init workflow automates.
+          </p>
+          <div class="steps-list">
+            <div class="step-item">
+              <span class="step-num">1</span>
+              <div class="step-body">
+                <strong>Copy an existing tracker config</strong>
+                <p>
+                  Use any <code>trackers/{'{slug}'}/tracker.json</code> as a template.
+                  Update the slug, name, shortName, description, mapBounds, and sections array.
+                </p>
+              </div>
+            </div>
+            <div class="step-item">
+              <span class="step-num">2</span>
+              <div class="step-body">
+                <strong>Create the data directory</strong>
+                <p>
+                  Create <code>trackers/{'{slug}'}/data/</code> with at minimum: <code>meta.json</code>
+                  and empty arrays for each section you have enabled in the config.
+                </p>
+              </div>
+            </div>
+            <div class="step-item">
+              <span class="step-num">3</span>
+              <div class="step-body">
+                <strong>Configure AI prompts</strong>
+                <p>
+                  Set the <code>ai.systemPrompt</code> and <code>ai.searchQueries</code> fields
+                  in <code>tracker.json</code>. These drive the nightly update agent's research strategy.
+                </p>
+              </div>
+            </div>
+            <div class="step-item">
+              <span class="step-num">4</span>
+              <div class="step-body">
+                <strong>Verify the build</strong>
+                <p>
+                  Run <code>npm run build</code>. The tracker auto-discovers and generates pages.
+                  Fix any schema validation errors before committing.
+                </p>
+              </div>
+            </div>
+            <div class="step-item">
+              <span class="step-num">5</span>
+              <div class="step-body">
+                <strong>Seed historical data</strong>
+                <p>
+                  Dispatch the <strong>Seed Tracker Data</strong> workflow for your new slug,
+                  or run the update script locally:
+                  <code>TRACKER_SLUG={'{slug}'} npm run update-data</code>
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </article>
+
+      <div class="guide-cta">
+        <p class="cta-text">Have a topic in mind? Open a tracker request on GitHub.</p>
+        <a
+          class="cta-button"
+          href="https://github.com/ArtemioPadilla/watchboard/issues/new?template=tracker-request.yml"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Request a Tracker
+        </a>
+        <a class="guide-back" href={`${basePath}`}>&larr; Back to Watchboard</a>
+      </div>
+
+      <footer class="platform-footer">
+        <a href={`${basePath}about/`}>About</a>
+        <span>&middot;</span>
+        <a href={`${basePath}metrics/`}>Status</a>
+        <span>&middot;</span>
+        <a href={`${basePath}guide/`}>Build a Tracker</a>
+        <span>&middot;</span>
+        <a href={`${basePath}rss.xml`}>RSS</a>
+        <span>&middot;</span>
+        <a href="https://github.com/ArtemioPadilla/watchboard" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </footer>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .guide-page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  /* ── Back link ── */
+  .guide-back {
+    display: inline-block;
+    margin-bottom: 2rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-family: 'DM Sans', sans-serif;
+    border: 1px solid var(--border);
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    transition: all 0.2s;
+  }
+  .guide-back:hover {
+    color: var(--text-primary);
+    border-color: var(--border-light);
+    background: var(--bg-card);
+  }
+
+  /* ── Page header ── */
+  .guide-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .guide-badge {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--accent-green);
+    background: var(--accent-green-dim);
+    border: 1px solid rgba(46, 204, 113, 0.25);
+    padding: 0.25rem 0.6rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+  }
+
+  .guide-content h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.02em;
+  }
+
+  .guide-subtitle {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.92rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    max-width: 640px;
+    margin: 0;
+  }
+
+  /* ── Section headings and body text ── */
+  .guide-content h2 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 2rem 0 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .guide-content p {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.75;
+    margin-bottom: 0.75rem;
+  }
+
+  .guide-content code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 0.15rem 0.4rem;
+    border-radius: 3px;
+    color: var(--accent-amber);
+  }
+
+  /* ── Info box ── */
+  .info-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent-blue);
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+    margin: 1rem 0 1.25rem;
+  }
+  .info-box code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.76rem;
+    background: rgba(52, 152, 219, 0.1);
+    border: 1px solid rgba(52, 152, 219, 0.2);
+    padding: 0.1rem 0.35rem;
+    border-radius: 3px;
+    color: var(--accent-blue);
+  }
+  .info-label {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--accent-blue);
+    margin-bottom: 0.4rem;
+  }
+
+  /* ── Numbered steps ── */
+  .steps-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin: 1rem 0 1.25rem;
+  }
+
+  .step-item {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+  }
+
+  .step-num {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 26px;
+    height: 26px;
+    background: var(--accent-blue);
+    color: #fff;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 700;
+    border-radius: 50%;
+    margin-top: 0.05rem;
+    flex-shrink: 0;
+  }
+
+  .step-body strong {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    display: block;
+    margin-bottom: 0.2rem;
+  }
+
+  .step-body p {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .step-body code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.74rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    padding: 0.1rem 0.35rem;
+    border-radius: 3px;
+    color: var(--accent-amber);
+  }
+
+  /* ── Feature grid ── */
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 0.75rem;
+    margin: 1rem 0 1.25rem;
+  }
+
+  .feature-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    transition: border-color 0.2s;
+  }
+  .feature-card:hover {
+    border-color: var(--border-light);
+  }
+
+  .feature-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: var(--accent-blue-dim);
+    border: 1px solid rgba(52, 152, 219, 0.2);
+    border-radius: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--accent-blue);
+    margin-bottom: 0.25rem;
+  }
+
+  .feature-card strong {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    color: var(--text-primary);
+  }
+
+  .feature-card span {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    line-height: 1.55;
+  }
+
+  /* ── Ideas list ── */
+  .guide-content ul {
+    list-style: none;
+    padding: 0;
+    margin: 0.75rem 0 1rem;
+  }
+
+  .guide-content ul li {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    padding: 0.3rem 0 0.3rem 1.2rem;
+    position: relative;
+  }
+
+  .guide-content ul li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.72rem;
+    width: 5px;
+    height: 5px;
+    background: var(--accent-green);
+    border-radius: 50%;
+  }
+
+  .guide-content ul li strong {
+    color: var(--text-primary);
+  }
+
+  /* ── CTA footer ── */
+  .guide-cta {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .cta-text {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  .cta-button {
+    display: inline-block;
+    background: var(--accent-blue);
+    color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0.55rem 1.2rem;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .cta-button:hover {
+    background: #2980b9;
+    transform: translateY(-1px);
+  }
+  .cta-button:active {
+    transform: translateY(0);
+  }
+
+  /* ── Platform footer ── */
+  .platform-footer {
+    margin-top: 3rem;
+    padding: 1.5rem 0;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .platform-footer a {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .platform-footer a:hover {
+    color: var(--accent-blue);
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 640px) {
+    .guide-page { padding: 1.5rem 1rem 3rem; }
+    .guide-content h1 { font-size: 1.6rem; }
+    .feature-grid { grid-template-columns: 1fr 1fr; }
+    .step-item { padding: 0.6rem 0.75rem; }
+  }
+
+  @media (max-width: 400px) {
+    .feature-grid { grid-template-columns: 1fr; }
+  }
+</style>
