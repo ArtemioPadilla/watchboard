@@ -3,18 +3,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { loadAllTrackers } from '../lib/tracker-registry';
 import { loadTrackerData } from '../lib/data';
 import CommandCenter from '../components/islands/CommandCenter/CommandCenter';
-import WorldBriefing from '../components/static/WorldBriefing.astro';
-
-interface BriefingItem {
-  slug: string;
-  name: string;
-  emoji: string;
-  date: string;
-  title: string;
-  summary: string;
-  sectionsUpdated: string[];
-  lastUpdated: string;
-}
 
 const trackers = loadAllTrackers();
 const nonDraft = trackers.filter(t => t.status !== 'draft');
@@ -33,6 +21,8 @@ const serializedTrackers = nonDraft.map(t => {
   let headlineEs: string | undefined;
   let descriptionEs: string | undefined;
   let topKpisEs: Array<{ value: string; label: string }> = [];
+  let digestSummary: string | undefined;
+  let digestSectionsUpdated: string[] | undefined;
 
   try {
     const data = loadTrackerData(t.slug, t.eraLabel);
@@ -40,6 +30,11 @@ const serializedTrackers = nonDraft.map(t => {
     dayCount = data.meta.dayCount;
     lastUpdated = data.meta.lastUpdated;
     headline = data.meta.heroHeadline?.replace(/<[^>]+>/g, ' ').replace(/\s{2,}/g, ' ').trim();
+    const latestDigest = data.digests[0];
+    if (latestDigest) {
+      digestSummary = latestDigest.summary;
+      digestSectionsUpdated = latestDigest.sectionsUpdated;
+    }
   } catch {
     // Tracker may not have data yet — use config defaults
   }
@@ -83,37 +78,11 @@ const serializedTrackers = nonDraft.map(t => {
     headlineEs,
     descriptionEs,
     topKpisEs,
+    digestSummary,
+    digestSectionsUpdated,
   };
 });
 
-// ── World Briefing: collect latest digest from each non-draft tracker ──
-const SEVEN_DAYS_MS = 7 * 24 * 3600_000;
-const now = Date.now();
-
-const briefingItems: BriefingItem[] = nonDraft
-  .map(t => {
-    try {
-      const data = loadTrackerData(t.slug, t.eraLabel);
-      const latest = data.digests[0]; // digests are sorted newest-first
-      if (!latest) return null;
-      const age = now - new Date(latest.date).getTime();
-      if (age > SEVEN_DAYS_MS) return null;
-      return {
-        slug: t.slug,
-        name: t.shortName,
-        emoji: t.icon ?? '📊',
-        date: latest.date,
-        title: latest.title,
-        summary: latest.summary,
-        sectionsUpdated: latest.sectionsUpdated ?? [],
-        lastUpdated: data.meta.lastUpdated,
-      } satisfies BriefingItem;
-    } catch {
-      return null;
-    }
-  })
-  .filter((item): item is BriefingItem => item !== null)
-  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 ---
 <BaseLayout title="Watchboard — Intelligence Dashboard Platform">
   <main id="main-content">
@@ -124,12 +93,11 @@ const briefingItems: BriefingItem[] = nonDraft
     historicalCount={historicalTrackers.length}
     client:load
   />
-  <WorldBriefing items={briefingItems} basePath={basePath} />
   </main>
 </BaseLayout>
 
 <style is:global>
-  /* Command center takes full viewport — allow scrolling to World Briefing below */
+  /* Command center takes full viewport */
   body:has(.command-center-root) {
     overflow-x: hidden;
   }

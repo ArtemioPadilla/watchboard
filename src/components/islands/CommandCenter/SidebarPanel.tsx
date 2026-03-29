@@ -268,19 +268,73 @@ const SeriesStrip = memo(function SeriesStrip({
   );
 });
 
+// ── Section badge color mapping ──
+
+const SECTION_BADGE_COLORS: Record<string, { bg: string; fg: string }> = {
+  events: { bg: 'rgba(88,166,255,0.12)', fg: '#58a6ff' },
+  timeline: { bg: 'rgba(88,166,255,0.12)', fg: '#58a6ff' },
+  mapLines: { bg: 'rgba(46,204,113,0.12)', fg: '#2ecc71' },
+  mapPoints: { bg: 'rgba(46,204,113,0.12)', fg: '#2ecc71' },
+  'map-lines': { bg: 'rgba(46,204,113,0.12)', fg: '#2ecc71' },
+  'map-points': { bg: 'rgba(46,204,113,0.12)', fg: '#2ecc71' },
+  kpis: { bg: 'rgba(243,156,18,0.12)', fg: '#f39c12' },
+  casualties: { bg: 'rgba(231,76,60,0.12)', fg: '#e74c3c' },
+  econ: { bg: 'rgba(168,108,193,0.12)', fg: '#a86cc1' },
+};
+
+const DEFAULT_BADGE_COLOR = { bg: 'rgba(148,152,168,0.12)', fg: '#9498a8' };
+
+function sectionBadgeLabel(section: string): string {
+  const labelMap: Record<string, string> = {
+    events: 'EVENTS',
+    timeline: 'TIMELINE',
+    mapLines: 'MAP',
+    mapPoints: 'MAP',
+    'map-lines': 'MAP',
+    'map-points': 'MAP',
+    kpis: 'KPIs',
+    casualties: 'CASUALTIES',
+    econ: 'ECON',
+    political: 'POLITICAL',
+    claims: 'CLAIMS',
+    assets: 'ASSETS',
+    meta: 'META',
+    'strike-targets': 'STRIKES',
+    military: 'MILITARY',
+  };
+  return labelMap[section] ?? section.toUpperCase();
+}
+
+function deduplicateBadges(sections: string[]): string[] {
+  const seen = new Set<string>();
+  const result: string[] = [];
+  for (const s of sections) {
+    const label = sectionBadgeLabel(s);
+    if (!seen.has(label)) {
+      seen.add(label);
+      result.push(s);
+    }
+  }
+  return result;
+}
+
 // ── Recent Events Feed ──
 
 const RecentEventsFeed = memo(function RecentEventsFeed({
   trackers,
+  basePath,
   followedSlugs,
   onSelect,
   locale = 'en',
 }: {
   trackers: TrackerCardData[];
+  basePath: string;
   followedSlugs: string[];
   onSelect: (slug: string | null) => void;
   locale?: Locale;
 }) {
+  const [expandedSlug, setExpandedSlug] = useState<string | null>(null);
+
   const withHeadlines = useMemo(
     () => trackers.filter(t => t.headline && t.status === 'active'),
     [trackers],
@@ -296,46 +350,107 @@ const RecentEventsFeed = memo(function RecentEventsFeed({
   const recentTrackers = useMemo(
     () => withHeadlines
       .filter(t => !followedSlugs.includes(t.slug))
-      .sort((a, b) => new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime())
-      .slice(0, followedTrackers.length > 0 ? 3 : 5),
-    [withHeadlines, followedSlugs, followedTrackers.length],
+      .sort((a, b) => new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime()),
+    [withHeadlines, followedSlugs],
   );
+
+  const toggleExpand = useCallback((slug: string) => {
+    setExpandedSlug(prev => prev === slug ? null : slug);
+  }, []);
 
   if (followedTrackers.length === 0 && recentTrackers.length === 0) return null;
 
-  const renderItem = (t: TrackerCardData, isFollowed: boolean) => (
-    <div
-      key={t.slug}
-      className="cc-feed-item"
-      style={S.feedItem}
-      onClick={() => onSelect(t.slug)}
-    >
-      <div style={S.feedItemHeader}>
-        <span style={{ fontSize: '0.7rem' }}>{t.icon || ''}</span>
-        <span style={S.feedItemName}>{t.shortName}</span>
-        {isFollowed && <span style={S.followStar}>★</span>}
-        <span style={{ ...S.feedItemAge, color: t.color || '#3498db' }}>
-          {computeFreshness(t.lastUpdated).ageText}
-        </span>
+  const localePrefix = locale !== 'en' ? `${locale}/` : '';
+
+  const renderItem = (tracker: TrackerCardData, isFollowed: boolean) => {
+    const isExpanded = expandedSlug === tracker.slug;
+    const rawHeadline = locale === 'es' && tracker.headlineEs ? tracker.headlineEs : tracker.headline;
+    const truncatedHeadline = rawHeadline && rawHeadline.length > 80
+      ? rawHeadline.slice(0, 80) + '\u2026'
+      : rawHeadline;
+    const href = `${basePath}${localePrefix}${tracker.slug}/`;
+    const badges = deduplicateBadges(tracker.digestSectionsUpdated ?? []);
+
+    return (
+      <div
+        key={tracker.slug}
+        className="cc-feed-item"
+        style={{
+          ...S.feedItem,
+          borderBottom: '1px solid var(--border)',
+        }}
+      >
+        <div
+          style={{ cursor: 'pointer' }}
+          onClick={() => toggleExpand(tracker.slug)}
+        >
+          <div style={S.feedItemHeader}>
+            <span style={{ fontSize: '0.7rem' }}>{tracker.icon || ''}</span>
+            <span style={S.feedItemName}>{tracker.shortName}</span>
+            {isFollowed && <span style={S.followStar}>\u2605</span>}
+            <span style={{ ...S.feedItemAge, color: tracker.color || '#3498db' }}>
+              {computeFreshness(tracker.lastUpdated).ageText}
+            </span>
+          </div>
+          <div style={S.feedItemText}>{truncatedHeadline}</div>
+        </div>
+
+        {/* Expandable digest detail */}
+        <div
+          style={{
+            maxHeight: isExpanded ? 300 : 0,
+            opacity: isExpanded ? 1 : 0,
+            overflow: 'hidden',
+            transition: 'max-height 0.3s ease, opacity 0.2s ease',
+          }}
+        >
+          <div style={S.feedExpandedContent}>
+            {tracker.digestSummary && (
+              <div style={S.feedDigestSummary}>
+                {tracker.digestSummary}
+              </div>
+            )}
+            {badges.length > 0 && (
+              <div style={S.feedBadgeRow}>
+                {badges.map(section => {
+                  const colors = SECTION_BADGE_COLORS[section] ?? DEFAULT_BADGE_COLOR;
+                  return (
+                    <span
+                      key={section}
+                      style={{
+                        ...S.feedSectionBadge,
+                        background: colors.bg,
+                        color: colors.fg,
+                      }}
+                    >
+                      {sectionBadgeLabel(section)}
+                    </span>
+                  );
+                })}
+              </div>
+            )}
+            <a
+              href={href}
+              style={S.feedOpenLink}
+              onClick={e => e.stopPropagation()}
+            >
+              Open dashboard \u2192
+            </a>
+          </div>
+        </div>
       </div>
-      <div style={S.feedItemText}>
-        {(() => {
-          const h = locale === 'es' && t.headlineEs ? t.headlineEs : t.headline;
-          return h && h.length > 80 ? h.slice(0, 80) + '…' : h;
-        })()}
-      </div>
-    </div>
-  );
+    );
+  };
 
   return (
     <div style={S.feedWrap}>
       {followedTrackers.length > 0 && (
         <>
           <div style={S.feedHeader}>
-            <span style={{ color: '#f39c12', fontSize: '0.6rem' }}>★</span>
+            <span style={{ color: '#f39c12', fontSize: '0.6rem' }}>{'\u2605'}</span>
             <span>{t('status.following', locale)}</span>
           </div>
-          {followedTrackers.map(t => renderItem(t, true))}
+          {followedTrackers.map(tracker => renderItem(tracker, true))}
         </>
       )}
       {recentTrackers.length > 0 && (
@@ -344,7 +459,7 @@ const RecentEventsFeed = memo(function RecentEventsFeed({
             <span style={S.feedDot} />
             <span>{t('cc.latestIntel', locale)}</span>
           </div>
-          {recentTrackers.map(t => renderItem(t, false))}
+          {recentTrackers.map(tracker => renderItem(tracker, false))}
         </>
       )}
     </div>
@@ -509,7 +624,7 @@ export default function SidebarPanel({
       {/* Tracker list */}
       <div style={S.list}>
         {/* Recent events feed (only when not searching) */}
-        {!isSearching && <RecentEventsFeed trackers={trackers} followedSlugs={followedSlugs} onSelect={onSelectTracker} locale={locale} />}
+        {!isSearching && <RecentEventsFeed trackers={trackers} basePath={basePath} followedSlugs={followedSlugs} onSelect={onSelectTracker} locale={locale} />}
 
         {filtered.length === 0 ? (
           <div style={S.noResults}>{t('cc.noResults', locale)}</div>
@@ -1163,6 +1278,49 @@ const S = {
     lineHeight: 1.4,
     marginTop: 2,
     paddingLeft: 18,
+  } as CSSProperties,
+
+  feedExpandedContent: {
+    paddingLeft: 18,
+    paddingTop: 6,
+    paddingBottom: 4,
+  } as CSSProperties,
+
+  feedDigestSummary: {
+    fontFamily: "'DM Sans', sans-serif",
+    fontSize: '0.6rem',
+    color: 'var(--text-secondary)',
+    lineHeight: 1.5,
+    marginBottom: 6,
+  } as CSSProperties,
+
+  feedBadgeRow: {
+    display: 'flex',
+    flexWrap: 'wrap' as const,
+    gap: '3px',
+    marginBottom: 6,
+  } as CSSProperties,
+
+  feedSectionBadge: {
+    fontFamily: "'JetBrains Mono', monospace",
+    fontSize: '0.45rem',
+    fontWeight: 600,
+    textTransform: 'uppercase' as const,
+    letterSpacing: '0.04em',
+    padding: '1px 5px',
+    borderRadius: 3,
+    whiteSpace: 'nowrap' as const,
+  } as CSSProperties,
+
+  feedOpenLink: {
+    fontFamily: "'JetBrains Mono', monospace",
+    fontSize: '0.5rem',
+    color: 'var(--accent-blue)',
+    textDecoration: 'none',
+    fontWeight: 600,
+    letterSpacing: '0.04em',
+    display: 'inline-block',
+    marginTop: 2,
   } as CSSProperties,
 
   noResults: {
