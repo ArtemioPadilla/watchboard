@@ -25,6 +25,17 @@ const basePath = base.endsWith('/') ? base : `${base}/`;
       <p class="metrics-subtitle">Nightly data update run history, validation status, and data inventory trends.</p>
     </header>
     <MetricsDashboard client:load />
+    <footer class="platform-footer">
+      <a href={`${basePath}about/`}>About</a>
+      <span>&middot;</span>
+      <a href={`${basePath}metrics/`}>Status</a>
+      <span>&middot;</span>
+      <a href={`${basePath}rss.xml`}>RSS</a>
+      <span>&middot;</span>
+      <a href="https://github.com/ArtemioPadilla/watchboard" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <span>&middot;</span>
+      <a href="https://artemiop.com/">artemiop.com</a>
+    </footer>
   </main>
 </BaseLayout>
 
@@ -91,5 +102,27 @@ const basePath = base.endsWith('/') ? base : `${base}/`;
     font-size: 0.95rem;
     margin: 0;
     font-family: 'DM Sans', sans-serif;
+  }
+
+  .platform-footer {
+    margin-top: 3rem;
+    padding: 1.5rem 0;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .platform-footer a {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .platform-footer a:hover {
+    color: var(--accent-blue);
   }
 </style>

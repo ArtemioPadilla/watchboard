@@ -168,6 +168,18 @@ const basePath = base.endsWith('/') ? base : `${base}/`;
     <div class="about-cta">
       <a class="about-back" href={`${basePath}`}>&larr; Back to Watchboard</a>
     </div>
+
+    <footer class="platform-footer">
+      <a href={`${basePath}about/`}>About</a>
+      <span>&middot;</span>
+      <a href={`${basePath}metrics/`}>Status</a>
+      <span>&middot;</span>
+      <a href={`${basePath}rss.xml`}>RSS</a>
+      <span>&middot;</span>
+      <a href="https://github.com/ArtemioPadilla/watchboard" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <span>&middot;</span>
+      <a href="https://artemiop.com/">artemiop.com</a>
+    </footer>
   </div>
   </main>
 </BaseLayout>
@@ -395,5 +407,27 @@ const basePath = base.endsWith('/') ? base : `${base}/`;
     .credits-grid { grid-template-columns: 1fr; }
     .tier-grid { grid-template-columns: 1fr; }
     .pipeline-step { padding: 0.6rem 0.75rem; }
+  }
+
+  .platform-footer {
+    margin-top: 3rem;
+    padding: 1.5rem 0;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .platform-footer a {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .platform-footer a:hover {
+    color: var(--accent-blue);
   }
 </style>
