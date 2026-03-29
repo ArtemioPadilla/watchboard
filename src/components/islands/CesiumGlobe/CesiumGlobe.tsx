@@ -409,11 +409,11 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [], ca
 
   // ── External data layers (synced to timeline) ──
   const { count: satCount, groupCounts: satGroupCounts, fovCount: satFovCount } = useSatellites(cesiumViewer, layers.satellites, simTimeRef, showFov, satTargets);
-  const { count: flightCount, status: flightStatus } = useFlights(cesiumViewer, layers.flights && mode === 'live');
+  const { count: flightCount, status: flightStatus } = useFlights(cesiumViewer, layers.flights && mode === 'live' && playbackSpeed <= 1);
   const { count: quakeCount } = useEarthquakes(cesiumViewer, layers.quakes, currentDate);
   const { count: weatherCount } = useWeather(cesiumViewer, layers.weather, currentDate);
   const { count: nfzCount } = useNoFlyZones(cesiumViewer, layers.nfz, currentDate);
-  const { count: shipCount } = useShips(cesiumViewer, layers.ships && mode === 'live', aisApiKey);
+  const { count: shipCount } = useShips(cesiumViewer, layers.ships && mode === 'live' && playbackSpeed <= 1, aisApiKey);
   const { count: gpsJamCount } = useGpsJamming(cesiumViewer, layers.gpsJam, currentDate);
   const { count: internetBlackoutCount } = useInternetBlackout(cesiumViewer, layers.internetBlackout, currentDate);
   const { count: groundTruthCount } = useGroundTruth(cesiumViewer, layers.groundTruth, points, events, currentDate);
