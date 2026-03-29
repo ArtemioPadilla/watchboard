@@ -1,0 +1,143 @@
+name: Weekly Digest
+
+on:
+  schedule:
+    - cron: '0 16 * * 0'  # Sundays at 16:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  digest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Generate weekly digest
+        run: |
+          node -e "
+            const fs = require('fs');
+            const path = require('path');
+
+            const trackersDir = 'trackers';
+            const now = new Date();
+            const weekAgo = new Date(now - 7 * 86400000);
+            const weekAgoStr = weekAgo.toISOString().split('T')[0];
+            const todayStr = now.toISOString().split('T')[0];
+
+            const slugs = fs.readdirSync(trackersDir).filter(name => {
+              const configPath = path.join(trackersDir, name, 'tracker.json');
+              return fs.existsSync(configPath);
+            });
+
+            const weeklyUpdates = [];
+
+            for (const slug of slugs) {
+              const configPath = path.join(trackersDir, slug, 'tracker.json');
+              const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+              if (config.status === 'draft') continue;
+
+              const digestPath = path.join(trackersDir, slug, 'data', 'digests.json');
+              if (!fs.existsSync(digestPath)) continue;
+
+              const digests = JSON.parse(fs.readFileSync(digestPath, 'utf8'));
+              const thisWeek = digests.filter(d => d.date >= weekAgoStr && d.date <= todayStr);
+
+              if (thisWeek.length > 0) {
+                weeklyUpdates.push({
+                  slug,
+                  name: config.shortName,
+                  domain: config.domain || 'general',
+                  updateCount: thisWeek.length,
+                  latestSummary: thisWeek[0].summary,
+                  sectionsUpdated: [...new Set(thisWeek.flatMap(d => d.sectionsUpdated))],
+                });
+              }
+            }
+
+            if (weeklyUpdates.length === 0) {
+              console.log('No updates this week.');
+              process.exit(0);
+            }
+
+            weeklyUpdates.sort((a, b) => b.updateCount - a.updateCount);
+
+            const baseUrl = 'https://artemiop.com/watchboard';
+            const header = 'Watchboard Weekly — ' + weekAgoStr + ' to ' + todayStr;
+
+            const twitterThread = [
+              header + '\n\n' + weeklyUpdates.length + ' trackers updated this week. Thread:\n\n#Watchboard #OSINT',
+            ];
+
+            for (const u of weeklyUpdates.slice(0, 10)) {
+              twitterThread.push(
+                u.name + ' (' + u.updateCount + ' update' + (u.updateCount > 1 ? 's' : '') + ')\n' +
+                u.latestSummary.slice(0, 200) + '\n' +
+                baseUrl + '/' + u.slug + '/'
+              );
+            }
+
+            if (weeklyUpdates.length > 10) {
+              twitterThread.push('...and ' + (weeklyUpdates.length - 10) + ' more trackers. See all at ' + baseUrl);
+            }
+
+            const linkedIn = [
+              header,
+              '',
+              weeklyUpdates.length + ' intelligence dashboards were updated this week:',
+              '',
+              ...weeklyUpdates.map(u =>
+                '- ' + u.name + ': ' + u.updateCount + ' update(s) — ' + u.latestSummary.slice(0, 100)
+              ),
+              '',
+              'Explore all trackers: ' + baseUrl,
+              '',
+              '#Watchboard #OSINT #Intelligence #OpenSource',
+            ].join('\n');
+
+            const output = {
+              type: 'weekly',
+              dateRange: { from: weekAgoStr, to: todayStr },
+              trackerCount: weeklyUpdates.length,
+              twitterThread,
+              linkedIn,
+              trackers: weeklyUpdates,
+            };
+
+            const outDir = 'public/_social';
+            fs.mkdirSync(outDir, { recursive: true });
+            const outPath = path.join(outDir, 'weekly-' + todayStr + '.json');
+            fs.writeFileSync(outPath, JSON.stringify(output, null, 2));
+            console.log('Weekly digest written to ' + outPath);
+            console.log('Trackers updated: ' + weeklyUpdates.length);
+
+            console.log('\n--- Twitter Thread Preview ---');
+            twitterThread.forEach((t, i) => console.log('Tweet ' + (i+1) + ': ' + t.slice(0, 100) + '...'));
+          "
+
+      - name: Commit and push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add public/_social/
+          if git diff --cached --quiet public/_social/; then
+            echo "No weekly digest changes"
+            exit 0
+          fi
+          git commit -m "chore(social): weekly digest $(date -u +%Y-%m-%d)"
+          for i in 1 2 3; do
+            git pull --rebase origin main && git push && break
+            echo "Push attempt $i failed, retrying..."
+            sleep 2
+          done
