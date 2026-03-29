@@ -662,6 +662,16 @@ jobs:
             console.log('Index: ' + pruned.length + ' entries');
           "
 
+      - name: Generate social drafts
+        id: social
+        if: steps.validate.outputs.valid == 'true' || steps.revalidate.outputs.valid == 'true'
+        run: |
+          npx tsx scripts/generate-social-drafts.ts
+          if [ -d "public/_social" ]; then
+            echo "Social drafts generated"
+            ls -la public/_social/
+          fi
+
       - name: Commit and push metrics
         if: always() && steps.metrics.outcome == 'success'
         env:
@@ -670,8 +680,8 @@ jobs:
           git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git"
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add public/_metrics/
-          if git diff --cached --quiet public/_metrics/; then
+          git add public/_metrics/ public/_social/
+          if git diff --cached --quiet public/_metrics/ public/_social/; then
             echo "No metrics changes"
             exit 0
           fi
