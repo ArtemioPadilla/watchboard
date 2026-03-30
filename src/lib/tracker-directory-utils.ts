@@ -36,6 +36,7 @@ export interface TrackerCardData {
   topKpisEs?: Array<{ value: string; label: string }>;
   digestSummary?: string;
   digestSectionsUpdated?: string[];
+  latestEventMedia?: { url: string; source: string; tier: number };
 }
 
 export interface TrackerGroup {
