@@ -673,7 +673,7 @@ jobs:
           fi
 
       - name: Post to social media
-        if: steps.social.outcome == 'success'
+        if: always() && hashFiles('public/_social/*.json') != ''
         env:
           X_API_KEY: ${{ secrets.X_API_KEY }}
           X_API_SECRET: ${{ secrets.X_API_SECRET }}
