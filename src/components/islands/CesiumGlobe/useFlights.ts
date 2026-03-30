@@ -149,7 +149,7 @@ export function useFlights(viewer: CesiumViewer | null, enabled: boolean) {
           const cs = f.callsign?.trim() || '';
 
           const rotation = f.true_track != null
-            ? CesiumMath.toRadians(-(f.true_track)) : 0;
+            ? CesiumMath.toRadians(f.true_track) : 0;
           // Compute aligned axis from position for geographic heading
           const alignedAxis = Cartesian3.normalize(pos, new Cartesian3());
 
@@ -167,6 +167,7 @@ export function useFlights(viewer: CesiumViewer | null, enabled: boolean) {
 
             const entity = viewer.entities.add({
               name: `${cs || f.icao24} (${f.origin_country})${isMil ? ' [MIL]' : ''}`,
+              description: `Callsign: ${cs || 'N/A'}\nOrigin: ${f.origin_country}\nAltitude: ${f.baro_altitude != null ? Math.round(f.baro_altitude) + 'm' : 'N/A'}\nSpeed: ${f.velocity != null ? Math.round(f.velocity) + ' m/s' : 'N/A'}\nHeading: ${f.true_track != null ? Math.round(f.true_track) + '\u00b0' : 'N/A'}${isMil ? '\nType: MILITARY' : ''}`,
               position: pos,
               billboard: {
                 image: iconUri,
@@ -194,9 +195,10 @@ export function useFlights(viewer: CesiumViewer | null, enabled: boolean) {
             entitiesRef.current.set(f.icao24, entity);
           }
 
-          // Heading trail line for all flights
-          if (f.true_track != null) {
-            const headingRad = CesiumMath.toRadians(f.true_track);
+          // Heading trail line for all flights (fallback to 0 if no true_track)
+          {
+            const headingRad = f.true_track != null
+              ? CesiumMath.toRadians(f.true_track) : 0;
             const trailM = isMil ? 40000 : 20000;
             const behindLat = f.latitude! - (trailM / 111000) * Math.cos(headingRad);
             const behindLon = f.longitude! - (trailM / (111000 * Math.cos(f.latitude! * Math.PI / 180))) * Math.sin(headingRad);

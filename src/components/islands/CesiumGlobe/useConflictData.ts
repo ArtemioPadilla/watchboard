@@ -51,6 +51,7 @@ function navalZoneRadius(pt: MapPoint): number {
 
 export interface GenericEntityInfo {
   name: string;
+  description?: string;
 }
 
 export function useConflictData(
@@ -192,7 +193,8 @@ export function useConflictData(
         if (pt) {
           onSelectRef.current(pt);
         } else if (entity.name && onEntitySelectRef.current) {
-          onEntitySelectRef.current({ name: entity.name });
+          const desc = entity.description?.getValue(viewer.clock.currentTime);
+          onEntitySelectRef.current({ name: entity.name, description: typeof desc === 'string' ? desc : undefined });
         }
       }
     }, ScreenSpaceEventType.LEFT_CLICK);

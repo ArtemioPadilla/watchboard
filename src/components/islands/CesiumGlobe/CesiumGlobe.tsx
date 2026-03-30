@@ -543,6 +543,11 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [], ca
             &times;
           </button>
           <div className="globe-info-title">{selectedEntity.name}</div>
+          {selectedEntity.description && (
+            <pre className="globe-info-body" style={{ whiteSpace: 'pre-wrap', margin: '0.5rem 0 0', fontSize: '0.75rem', opacity: 0.85 }}>
+              {selectedEntity.description}
+            </pre>
+          )}
         </div>
       )}
 

@@ -139,8 +139,15 @@ export function useShips(viewer: CesiumViewer | null, enabled: boolean, apiKey: 
             }
           } else {
             const shipName = (meta.ShipName || '').trim();
+            const navLabel = msg.NavigationStatus === 0 ? 'Underway'
+              : msg.NavigationStatus === 1 ? 'At Anchor'
+              : msg.NavigationStatus === 5 ? 'Moored'
+              : msg.NavigationStatus === 7 ? 'Fishing'
+              : msg.NavigationStatus === 8 ? 'Sailing'
+              : `Status ${msg.NavigationStatus}`;
             const entity = viewer.entities.add({
               name: `${shipName || mmsi} (MMSI: ${mmsi})`,
+              description: `MMSI: ${mmsi}\nName: ${shipName || 'N/A'}\nHeading: ${msg.Heading != null ? msg.Heading + '\u00b0' : 'N/A'}\nSpeed: ${msg.Sog != null ? msg.Sog.toFixed(1) + ' kn' : 'N/A'}\nCourse: ${msg.Cog != null ? msg.Cog.toFixed(1) + '\u00b0' : 'N/A'}\nStatus: ${navLabel}`,
               position: pos,
               point: {
                 pixelSize: size,

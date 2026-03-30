@@ -329,6 +329,7 @@ export function useSatellites(
 
       const entity = viewer.entities.add({
         name: `${sat.name} [${sat.group.toUpperCase()}]`,
+        description: `Name: ${sat.name}\nGroup: ${groupInfo?.label || sat.group.toUpperCase()}\nType: ${sat.group.toUpperCase()}`,
         billboard: {
           image: iconUri,
           width: bbSize,
