@@ -15,8 +15,8 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
-import * as crypto from 'crypto';
 import * as https from 'https';
+import { TwitterApi } from 'twitter-api-v2';
 
 // ── Types ──
 
@@ -36,103 +36,38 @@ interface WeeklyDigest {
   linkedIn: string;
 }
 
-// ── X/Twitter OAuth 1.0a ──
+// ── X/Twitter via twitter-api-v2 ──
 
-function percentEncode(str: string): string {
-  return encodeURIComponent(str).replace(/[!'()*]/g, c => '%' + c.charCodeAt(0).toString(16).toUpperCase());
-}
-
-function generateOAuthSignature(
-  method: string,
-  url: string,
-  params: Record<string, string>,
-  consumerSecret: string,
-  tokenSecret: string,
-): string {
-  const sortedKeys = Object.keys(params).sort();
-  const paramString = sortedKeys.map(k => `${percentEncode(k)}=${percentEncode(params[k])}`).join('&');
-  const baseString = `${method}&${percentEncode(url)}&${percentEncode(paramString)}`;
-  const signingKey = `${percentEncode(consumerSecret)}&${percentEncode(tokenSecret)}`;
-  return crypto.createHmac('sha1', signingKey).update(baseString).digest('base64');
-}
-
-function buildOAuthHeader(
-  method: string,
-  url: string,
-  body: Record<string, string>,
-  apiKey: string,
-  apiSecret: string,
-  accessToken: string,
-  accessTokenSecret: string,
-): string {
-  const oauthParams: Record<string, string> = {
-    oauth_consumer_key: apiKey,
-    oauth_nonce: crypto.randomBytes(16).toString('hex'),
-    oauth_signature_method: 'HMAC-SHA1',
-    oauth_timestamp: Math.floor(Date.now() / 1000).toString(),
-    oauth_token: accessToken,
-    oauth_version: '1.0',
-  };
-
-  const allParams = { ...oauthParams, ...body };
-  const signature = generateOAuthSignature(method, url, allParams, apiSecret, accessTokenSecret);
-  oauthParams.oauth_signature = signature;
-
-  const header = Object.keys(oauthParams)
-    .sort()
-    .map(k => `${percentEncode(k)}="${percentEncode(oauthParams[k])}"`)
-    .join(', ');
-
-  return `OAuth ${header}`;
-}
-
-async function postTweet(text: string, replyToId?: string): Promise<{ id: string } | null> {
-  const apiKey = process.env.X_API_KEY;
-  const apiSecret = process.env.X_API_SECRET;
+function getTwitterClient(): TwitterApi | null {
+  const appKey = process.env.X_API_KEY;
+  const appSecret = process.env.X_API_SECRET;
   const accessToken = process.env.X_ACCESS_TOKEN;
-  const accessTokenSecret = process.env.X_ACCESS_TOKEN_SECRET;
+  const accessSecret = process.env.X_ACCESS_TOKEN_SECRET;
 
-  if (!apiKey || !apiSecret || !accessToken || !accessTokenSecret) {
+  if (!appKey || !appSecret || !accessToken || !accessSecret) {
     console.log('[X] Missing API credentials — skipping');
     return null;
   }
 
-  const url = 'https://api.twitter.com/2/tweets';
-  const payload: Record<string, unknown> = { text };
+  return new TwitterApi({ appKey, appSecret, accessToken, accessSecret });
+}
+
+async function postTweet(
+  client: TwitterApi,
+  text: string,
+  replyToId?: string,
+): Promise<string | null> {
+  const payload: { text: string; reply?: { in_reply_to_tweet_id: string } } = { text };
   if (replyToId) {
     payload.reply = { in_reply_to_tweet_id: replyToId };
   }
 
-  const bodyJson = JSON.stringify(payload);
-  const authHeader = buildOAuthHeader('POST', url, {}, apiKey, apiSecret, accessToken, accessTokenSecret);
-
-  return new Promise((resolve, reject) => {
-    const req = https.request(url, {
-      method: 'POST',
-      headers: {
-        'Authorization': authHeader,
-        'Content-Type': 'application/json',
-        'Content-Length': Buffer.byteLength(bodyJson),
-      },
-    }, (res) => {
-      let data = '';
-      res.on('data', chunk => data += chunk);
-      res.on('end', () => {
-        if (res.statusCode && res.statusCode >= 200 && res.statusCode < 300) {
-          const parsed = JSON.parse(data);
-          console.log(`[X] Posted tweet: ${parsed.data?.id}`);
-          resolve({ id: parsed.data?.id });
-        } else {
-          console.error(`[X] Error ${res.statusCode}: ${data}`);
-          reject(new Error(`X API error: ${res.statusCode}`));
-        }
-      });
-    });
-    req.on('error', reject);
-    req.write(bodyJson);
-    req.end();
-  });
+  const result = await client.v2.tweet(payload);
+  console.log(`[X] Posted tweet: ${result.data.id}`);
+  return result.data.id;
 }
+
+// ── LinkedIn ──
 
 async function postToLinkedIn(text: string): Promise<void> {
   const accessToken = process.env.LINKEDIN_ACCESS_TOKEN;
@@ -173,7 +108,7 @@ async function postToLinkedIn(text: string): Promise<void> {
       res.on('data', chunk => data += chunk);
       res.on('end', () => {
         if (res.statusCode && res.statusCode >= 200 && res.statusCode < 300) {
-          console.log(`[LinkedIn] Posted successfully`);
+          console.log('[LinkedIn] Posted successfully');
           resolve();
         } else {
           console.error(`[LinkedIn] Error ${res.statusCode}: ${data}`);
@@ -199,7 +134,6 @@ async function main() {
   if (fileIdx !== -1 && args[fileIdx + 1]) {
     draftPath = path.resolve(args[fileIdx + 1]);
   } else {
-    // Find the latest draft file
     const socialDir = path.resolve('public/_social');
     if (!fs.existsSync(socialDir)) {
       console.log('No public/_social/ directory — nothing to post.');
@@ -220,7 +154,8 @@ async function main() {
   console.log(`Reading drafts from: ${draftPath}`);
   const content = JSON.parse(fs.readFileSync(draftPath, 'utf8'));
 
-  // Detect format: daily (SocialPost[]) or weekly (WeeklyDigest)
+  const twitterClient = getTwitterClient();
+
   if (Array.isArray(content)) {
     // Daily drafts
     const posts: SocialPost[] = content;
@@ -237,16 +172,18 @@ async function main() {
     }
 
     // Post top 3 Twitter updates (avoid flooding)
-    for (const post of twitterPosts.slice(0, 3)) {
-      try {
-        await postTweet(post.text);
-        await sleep(2000); // rate limit buffer
-      } catch (e) {
-        console.error(`[X] Failed for ${post.trackerName}:`, e);
+    if (twitterClient) {
+      for (const post of twitterPosts.slice(0, 3)) {
+        try {
+          await postTweet(twitterClient, post.text);
+          await sleep(2000);
+        } catch (e) {
+          console.error(`[X] Failed for ${post.trackerName}:`, e);
+        }
       }
     }
 
-    // Post top LinkedIn update (one per day is ideal)
+    // Post top LinkedIn update
     if (linkedInPosts.length > 0) {
       try {
         await postToLinkedIn(linkedInPosts[0].text);
@@ -267,15 +204,17 @@ async function main() {
     }
 
     // Post Twitter thread
-    let lastTweetId: string | undefined;
-    for (const tweet of digest.twitterThread) {
-      try {
-        const result = await postTweet(tweet, lastTweetId);
-        if (result) lastTweetId = result.id;
-        await sleep(2000);
-      } catch (e) {
-        console.error('[X] Thread error:', e);
-        break;
+    if (twitterClient) {
+      let lastTweetId: string | undefined;
+      for (const tweet of digest.twitterThread) {
+        try {
+          const id = await postTweet(twitterClient, tweet, lastTweetId);
+          if (id) lastTweetId = id;
+          await sleep(2000);
+        } catch (e) {
+          console.error('[X] Thread error:', e);
+          break;
+        }
       }
     }
 
