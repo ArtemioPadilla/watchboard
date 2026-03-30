@@ -102,6 +102,8 @@ Client-hydrated interactive components:
 - **`MilitaryTabs.tsx`** — tabbed view, accepts `tabs` prop
 - **`MetricsDashboard.tsx`** — Salesforce-style ingestion status page with uptime calendar, KPI cards, per-tracker health table, expandable run log, error trend chart
 - **`CesiumGlobe/`** — 3D globe with missile animations, satellites, earthquakes, cinematic event mode (`useCinematicMode.ts`). Globe is fully parameterized — camera presets, categories, and initial view come from `tracker.json` props, not hardcoded.
+- **`BroadcastOverlay.tsx`** — TV news broadcast mode for homepage globe. Lower-third headlines, scrolling ticker, LIVE badge. Auto-cycles through trackers with smooth globe fly-tos. Uses `useBroadcastMode.ts` hook (state machine: idle → transitioning → dwelling). Toggle with `B` key.
+- **`MobileStoryCarousel.tsx`** — Instagram Stories-style carousel on mobile homepage. Circle avatar row, auto-advancing story cards (10s), 3-tier image fallback (verified event media → OSM map tile → domain gradient), swipe-up to open tracker.
 
 ### Nightly Update Pipeline
 
@@ -186,3 +188,5 @@ Casualty figures use a `contested` field (`'yes'`/`'no'`/`'evolving'`/`'heavily'
 ## CSS
 
 Global stylesheet at `src/styles/global.css`. Dark theme via CSS custom properties on `:root`. Key color semantics: `--accent-red`, `--accent-amber`, `--accent-blue`, `--accent-green`, `--accent-purple`. Tier colors: `--tier-1` through `--tier-4`. Font paths use `/watchboard/fonts/`.
+
+Broadcast styles in `src/styles/broadcast.css`. Mobile story carousel in `src/styles/mobile-stories.css`.
