@@ -3,6 +3,7 @@ import type { TrackerCardData } from '../../../lib/tracker-directory-utils';
 import { type Locale, SUPPORTED_LOCALES, getPreferredLocale, setPreferredLocale, t } from '../../../i18n/translations';
 const GlobePanel = lazy(() => import('./GlobePanel'));
 import SidebarPanel from './SidebarPanel';
+import MobileStoryCarousel from './MobileStoryCarousel';
 import ComparePanel from './ComparePanel';
 import NotificationManager from './NotificationManager';
 import { useBroadcastMode } from './useBroadcastMode';
@@ -54,6 +55,7 @@ export default function CommandCenter({
   const [broadcastOff, setBroadcastOff] = useState(false);
   const [locale, setLocale] = useState<Locale>('en');
   const [showHelp, setShowHelp] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const searchRef = useRef<HTMLInputElement>(null);
   const globeRef = useRef<{
     toggleRotation?: () => void;
@@ -73,6 +75,13 @@ export default function CommandCenter({
   useEffect(() => {
     setFollowedSlugs(loadFollows());
     setLocale(getPreferredLocale());
+  }, []);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
   }, []);
 
   const handleToggleLocale = useCallback(() => {
@@ -214,6 +223,9 @@ export default function CommandCenter({
               broadcast.jumpTo(slug);
             }}
           />
+        )}
+        {isMobile && (
+          <MobileStoryCarousel trackers={trackers} basePath={basePath} />
         )}
       </div>
       <nav className="cc-sidebar" style={styles.sidebar} aria-label="Tracker directory">
