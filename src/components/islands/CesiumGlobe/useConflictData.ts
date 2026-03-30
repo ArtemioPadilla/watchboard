@@ -49,11 +49,16 @@ function navalZoneRadius(pt: MapPoint): number {
 
 // ── Hook ──
 
+export interface GenericEntityInfo {
+  name: string;
+}
+
 export function useConflictData(
   viewer: CesiumViewer | null,
   points: MapPoint[],
   lines: MapLine[],
   onSelect: (pt: MapPoint) => void,
+  onEntitySelect?: (info: GenericEntityInfo) => void,
 ): void {
   const pointEntitiesRef = useRef<Entity[]>([]);
   const arcEntitiesRef = useRef<Entity[]>([]);
@@ -61,6 +66,8 @@ export function useConflictData(
   const pointMapRef = useRef<Map<Entity, MapPoint>>(new Map());
   const onSelectRef = useRef(onSelect);
   onSelectRef.current = onSelect;
+  const onEntitySelectRef = useRef(onEntitySelect);
+  onEntitySelectRef.current = onEntitySelect;
 
   // ── Points ──
   useEffect(() => {
@@ -180,8 +187,13 @@ export function useConflictData(
     handler.setInputAction((click: any) => {
       const picked = viewer.scene.pick(click.position);
       if (defined(picked) && picked.id instanceof Object) {
-        const pt = pointMapRef.current.get(picked.id as Entity);
-        if (pt) onSelectRef.current(pt);
+        const entity = picked.id as Entity;
+        const pt = pointMapRef.current.get(entity);
+        if (pt) {
+          onSelectRef.current(pt);
+        } else if (entity.name && onEntitySelectRef.current) {
+          onEntitySelectRef.current({ name: entity.name });
+        }
       }
     }, ScreenSpaceEventType.LEFT_CLICK);
 

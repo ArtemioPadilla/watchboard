@@ -21,7 +21,7 @@ import { configureCesium } from '../../../lib/cesium-config';
 import { createCRTStage, createNVGStage, createThermalStage, createBloomStage, createSharpenStage, createPanopticStage, type VisualMode } from './cesium-shaders';
 import { useCesiumCamera } from './useCesiumCamera';
 import type { OrbitMode } from './useCesiumCamera';
-import { useConflictData } from './useConflictData';
+import { useConflictData, type GenericEntityInfo } from './useConflictData';
 import { useMissiles } from './useMissiles';
 import CesiumControls from './CesiumControls';
 import CesiumInfoPanel from './CesiumInfoPanel';
@@ -91,6 +91,7 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [], ca
     () => new Set(categories.map(c => c.id)),
   );
   const [selectedPoint, setSelectedPoint] = useState<MapPoint | null>(null);
+  const [selectedEntity, setSelectedEntity] = useState<GenericEntityInfo | null>(null);
 
   // ── Visual mode ──
   const [visualMode, setVisualMode] = useState<VisualMode>('normal');
@@ -392,9 +393,15 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [], ca
   // ── Conflict data (imperative entities) — points + past arcs ──
   const handlePointSelect = useCallback((point: MapPoint | null) => {
     setSelectedPoint(point);
-    if (point) setEventsOpen(false); // Close intel feed when info panel opens
+    setSelectedEntity(null);
+    if (point) setEventsOpen(false);
   }, []);
-  useConflictData(cesiumViewer, filteredPoints, pastLines, handlePointSelect);
+  const handleEntitySelect = useCallback((info: GenericEntityInfo) => {
+    setSelectedPoint(null);
+    setSelectedEntity(info);
+    setEventsOpen(false);
+  }, []);
+  useConflictData(cesiumViewer, filteredPoints, pastLines, handlePointSelect, handleEntitySelect);
 
   // ── Current-date arcs + animated missiles ──
   useMissiles(cesiumViewer, currentLines, currentDate, isPlaying);
@@ -529,6 +536,16 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [], ca
         <CesiumInfoPanel point={selectedPoint} onClose={() => setSelectedPoint(null)} />
       )}
 
+      {/* Generic entity info panel (flights, ships, satellites) */}
+      {selectedEntity && !selectedPoint && (
+        <div className="globe-info-panel">
+          <button className="globe-info-close" onClick={() => setSelectedEntity(null)} aria-label="Close info panel">
+            &times;
+          </button>
+          <div className="globe-info-title">{selectedEntity.name}</div>
+        </div>
+      )}
+
       {/* Enhanced Timeline — always rendered */}
       <UnifiedTimelineBar
         context="3d"
@@ -553,7 +570,7 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [], ca
       />
 
       {/* KPI strip — hidden when info panel is open */}
-      {!selectedPoint && <div className={`globe-kpi-strip${showAllKpis ? ' expanded' : ''}`}>
+      {!selectedPoint && !selectedEntity && <div className={`globe-kpi-strip${showAllKpis ? ' expanded' : ''}`}>
         {kpis.slice(0, showAllKpis ? kpis.length : 4).map(k => (
           <div key={k.id} className="globe-kpi" style={{ borderColor: KPI_COLORS[k.color] || '#555' }}>
             <span className="globe-kpi-value" style={{ color: KPI_COLORS[k.color] }}>{k.value}</span>

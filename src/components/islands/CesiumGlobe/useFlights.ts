@@ -150,11 +150,17 @@ export function useFlights(viewer: CesiumViewer | null, enabled: boolean) {
 
           const rotation = f.true_track != null
             ? CesiumMath.toRadians(-(f.true_track)) : 0;
+          // Compute aligned axis from position for geographic heading
+          const alignedAxis = Cartesian3.normalize(pos, new Cartesian3());
+
           const existing = entitiesRef.current.get(f.icao24);
           if (existing) {
             existing.position = pos as any;
-            if (existing.billboard && f.true_track != null) {
-              (existing.billboard.rotation as any) = rotation;
+            if (existing.billboard) {
+              if (f.true_track != null) {
+                (existing.billboard.rotation as any) = rotation;
+              }
+              (existing.billboard.alignedAxis as any) = alignedAxis;
             }
           } else {
             const iconUri = getIconDataUri(isMil ? 'aircraft_mil' : 'aircraft_civ');
@@ -167,6 +173,7 @@ export function useFlights(viewer: CesiumViewer | null, enabled: boolean) {
                 width: isMil ? 26 : 18,
                 height: isMil ? 26 : 18,
                 rotation,
+                alignedAxis,
                 scaleByDistance: new NearFarScalar(1e4, 2.0, 5e6, 0.7),
                 verticalOrigin: VerticalOrigin.CENTER,
                 horizontalOrigin: HorizontalOrigin.CENTER,
@@ -187,19 +194,23 @@ export function useFlights(viewer: CesiumViewer | null, enabled: boolean) {
             entitiesRef.current.set(f.icao24, entity);
           }
 
-          // Heading trail line for military flights (40km behind)
-          if (isMil && f.true_track != null) {
+          // Heading trail line for all flights
+          if (f.true_track != null) {
             const headingRad = CesiumMath.toRadians(f.true_track);
-            const trailM = 40000;
+            const trailM = isMil ? 40000 : 20000;
             const behindLat = f.latitude! - (trailM / 111000) * Math.cos(headingRad);
             const behindLon = f.longitude! - (trailM / (111000 * Math.cos(f.latitude! * Math.PI / 180))) * Math.sin(headingRad);
             const trailStart = Cartesian3.fromDegrees(behindLon, behindLat, alt);
 
+            const trailColor = isMil
+              ? Color.fromCssColorString('#ffdd00').withAlpha(0.35)
+              : Color.fromCssColorString('#00aaff').withAlpha(0.18);
+
             const trailEntity = viewer.entities.add({
               polyline: {
                 positions: [trailStart, pos],
-                width: 1.5,
-                material: Color.fromCssColorString('#ffdd00').withAlpha(0.35),
+                width: isMil ? 1.5 : 1.0,
+                material: trailColor,
               },
             });
             trailEntitiesRef.current.set(f.icao24, trailEntity);

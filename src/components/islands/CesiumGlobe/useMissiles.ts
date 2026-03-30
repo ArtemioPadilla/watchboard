@@ -20,6 +20,8 @@ import {
   weaponTrailWidth,
   weaponBillboardSize,
   weaponIconType,
+  precomputeArcBearings,
+  weaponSvgHeadingOffset,
 } from './cesium-helpers';
 import { getIconDataUri } from './cesium-icons';
 
@@ -313,6 +315,12 @@ export function useMissiles(
 
         const launchFrac = projCount > 1 ? rng() * 0.4 : 0;
 
+        // Precompute bearings + aligned axis for heading-aligned rotation
+        const projBearings = precomputeArcBearings(projArc);
+        const svgOffset = weaponSvgHeadingOffset(line.weaponType);
+        const midpoint = projArc[Math.floor(projArc.length / 2)];
+        const projAlignedAxis = Cartesian3.normalize(midpoint, new Cartesian3());
+
         const projAnim: MissileAnimation = {
           lineId: `${line.id}_p${p}`,
           simLaunchTime,
@@ -338,6 +346,18 @@ export function useMissiles(
               verticalOrigin: VerticalOrigin.CENTER,
               horizontalOrigin: HorizontalOrigin.CENTER,
               scaleByDistance: new NearFarScalar(1e5, 1.0, 1e7, 0.3),
+              rotation: new CallbackProperty((_time?: JulianDate) => {
+                if (!projAnim.started) return -(projBearings[0] - svgOffset);
+                if (projAnim.completed) return -(projBearings[projBearings.length - 1] - svgOffset);
+                const dur = realAnimMs(viewer.isDestroyed() ? 1 : viewer.clock.multiplier);
+                const myDelay = launchFrac * dur;
+                const elapsed = Date.now() - projAnim.wallStartMs - myDelay;
+                const progress = Math.min(Math.max(elapsed / dur, 0), 1);
+                const maxIdx = projArc.length - 1;
+                const lo = Math.floor(progress * maxIdx);
+                return -(projBearings[lo] - svgOffset);
+              }, false) as any,
+              alignedAxis: projAlignedAxis,
             },
           }),
           completed: false,

@@ -1,4 +1,4 @@
-import { Cartesian3, Color, PolylineGlowMaterialProperty, PolylineDashMaterialProperty } from 'cesium';
+import { Cartesian3, Cartographic, Color, PolylineGlowMaterialProperty, PolylineDashMaterialProperty } from 'cesium';
 import type { MaterialProperty } from 'cesium';
 import type { IconType } from './cesium-icons';
 import { MAP_CATEGORIES } from '../../../lib/map-utils';
@@ -282,6 +282,43 @@ export function weaponIconType(weaponType?: string): IconType {
     case 'unknown': return 'weapon_unknown';
     default: return 'weapon_unknown';
   }
+}
+
+/** Compute initial bearing (radians, clockwise from north) between two Cartesian3 positions */
+export function bearingBetween(from: Cartesian3, to: Cartesian3): number {
+  const fromCarto = Cartographic.fromCartesian(from);
+  const toCarto = Cartographic.fromCartesian(to);
+  const lat1 = fromCarto.latitude;
+  const lon1 = fromCarto.longitude;
+  const lat2 = toCarto.latitude;
+  const lon2 = toCarto.longitude;
+  const dLon = lon2 - lon1;
+  const y = Math.sin(dLon) * Math.cos(lat2);
+  const x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
+  return Math.atan2(y, x);
+}
+
+/** Precompute bearing (radians, CW from north) for each segment of an arc */
+export function precomputeArcBearings(arc: Cartesian3[]): number[] {
+  const bearings = new Array<number>(arc.length);
+  let last = 0;
+  for (let i = 0; i < arc.length - 1; i++) {
+    const b = bearingBetween(arc[i], arc[i + 1]);
+    if (isNaN(b)) {
+      bearings[i] = last;
+    } else {
+      bearings[i] = b;
+      last = b;
+    }
+  }
+  bearings[arc.length - 1] = last;
+  return bearings;
+}
+
+/** SVG default heading offset — most weapon icons point up (0), cruise points right (π/2) */
+export function weaponSvgHeadingOffset(weaponType?: string): number {
+  if (weaponType === 'cruise') return Math.PI / 2;
+  return 0;
 }
 
 // Re-export tier helpers for backward compatibility — canonical source is tier-utils
