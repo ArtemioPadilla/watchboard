@@ -75,6 +75,11 @@ const en = {
   'shortcuts.close': 'to close',
 
   // Time
+  // Broadcast mode
+  'broadcast.live': 'LIVE',
+  'broadcast.paused': 'PAUSED',
+  'shortcuts.broadcast': 'Toggle broadcast mode',
+
   'time.justNow': 'Just now',
   'time.minAgo': 'min ago',
   'time.hAgo': 'h ago',
@@ -145,6 +150,10 @@ const es: TranslationKeys = {
   'shortcuts.deselect': 'Deseleccionar / cerrar',
   'shortcuts.help': 'Mostrar esta ayuda',
   'shortcuts.close': 'para cerrar',
+
+  'broadcast.live': 'EN VIVO',
+  'broadcast.paused': 'PAUSADO',
+  'shortcuts.broadcast': 'Alternar modo transmision',
 
   'time.justNow': 'Ahora mismo',
   'time.minAgo': 'min',
@@ -217,6 +226,10 @@ const fr: TranslationKeys = {
   'shortcuts.help': 'Afficher cette aide',
   'shortcuts.close': 'pour fermer',
 
+  'broadcast.live': 'EN DIRECT',
+  'broadcast.paused': 'EN PAUSE',
+  'shortcuts.broadcast': 'Alterner le mode diffusion',
+
   'time.justNow': 'A l\'instant',
   'time.minAgo': 'min',
   'time.hAgo': 'h',
@@ -287,6 +300,10 @@ const pt: TranslationKeys = {
   'shortcuts.deselect': 'Desselecionar / fechar',
   'shortcuts.help': 'Mostrar esta ajuda',
   'shortcuts.close': 'para fechar',
+
+  'broadcast.live': 'AO VIVO',
+  'broadcast.paused': 'PAUSADO',
+  'shortcuts.broadcast': 'Alternar modo transmissao',
 
   'time.justNow': 'Agora mesmo',
   'time.minAgo': 'min',

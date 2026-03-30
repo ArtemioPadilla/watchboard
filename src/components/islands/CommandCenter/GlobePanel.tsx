@@ -33,6 +33,8 @@ interface Props {
   activeTracker: string | null;
   hoveredTracker: string | null;
   followedSlugs: string[];
+  broadcastMode?: boolean;
+  featuredSlug?: string | null;
   onSelectTracker: (slug: string | null) => void;
   onHoverTracker: (slug: string | null) => void;
 }
@@ -172,6 +174,8 @@ function mergeEventPoints(
 
 export interface GlobePanelHandle {
   toggleRotation?: () => void;
+  flyTo?: (lat: number, lng: number, altitude: number, durationMs: number) => void;
+  setAutoRotate?: (enabled: boolean, speed?: number) => void;
 }
 
 const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
@@ -179,6 +183,8 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
   activeTracker,
   hoveredTracker,
   followedSlugs,
+  broadcastMode = false,
+  featuredSlug = null,
   onSelectTracker,
   onHoverTracker,
 }, ref) {
@@ -213,6 +219,20 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
     toggleRotation: () => {
       const controls = globeRef.current?.controls();
       if (controls) controls.autoRotate = !controls.autoRotate;
+    },
+    flyTo: (lat: number, lng: number, altitude: number, durationMs: number) => {
+      if (globeRef.current) {
+        globeRef.current.pointOfView({ lat, lng, altitude }, durationMs);
+      }
+    },
+    setAutoRotate: (enabled: boolean, speed = 0.3) => {
+      if (globeRef.current) {
+        const controls = globeRef.current.controls();
+        if (controls) {
+          controls.autoRotate = enabled;
+          controls.autoRotateSpeed = speed;
+        }
+      }
     },
   }));
 
@@ -407,7 +427,7 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
     }
   }, [trackers]);
 
-  // Update visuals when selection/hover changes
+  // Update visuals when selection/hover/broadcast changes
   useEffect(() => {
     const globe = globeRef.current;
     if (!globe) return;
@@ -419,8 +439,16 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
       .ringColor((d: any) => {
         if (activeTracker && d.slug !== activeTracker) return `${d.color}15`;
         return (t: number) => `rgba(${hexToRgb(d.color)}, ${1 - t})`;
+      })
+      .ringMaxRadius((d: any) => {
+        if (featuredSlug && d.slug === featuredSlug) return 5;
+        return d.freshness === 'fresh' ? 3 : 2;
+      })
+      .ringPropagationSpeed((d: any) => {
+        if (featuredSlug && d.slug === featuredSlug) return 4;
+        return d.freshness === 'fresh' ? 2 : 1;
       });
-  }, [activeTracker, hoveredTracker, followedSlugs]);
+  }, [activeTracker, hoveredTracker, followedSlugs, featuredSlug]);
 
   // Fly-to on selection
   useEffect(() => {
@@ -435,13 +463,13 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
     }
   }, [activeTracker]);
 
-  // Resume auto-rotate on deselect
+  // Resume auto-rotate on deselect (skip during broadcast — hook controls camera)
   useEffect(() => {
-    if (!activeTracker && globeRef.current) {
+    if (!activeTracker && globeRef.current && !broadcastMode) {
       const controls = globeRef.current.controls();
       if (controls) controls.autoRotate = true;
     }
-  }, [activeTracker]);
+  }, [activeTracker, broadcastMode]);
 
   return (
     <div style={styles.container}>
@@ -454,9 +482,11 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
         </div>
       )}
       <div ref={containerRef} style={styles.globeWrap} />
-      <div style={styles.statusBar}>
-        <span>{t('cc.globeHint', getPreferredLocale())}</span>
-      </div>
+      {!broadcastMode && (
+        <div style={styles.statusBar}>
+          <span>{t('cc.globeHint', getPreferredLocale())}</span>
+        </div>
+      )}
     </div>
   );
 });

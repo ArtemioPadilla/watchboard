@@ -5,6 +5,8 @@ const GlobePanel = lazy(() => import('./GlobePanel'));
 import SidebarPanel from './SidebarPanel';
 import ComparePanel from './ComparePanel';
 import NotificationManager from './NotificationManager';
+import { useBroadcastMode } from './useBroadcastMode';
+import BroadcastOverlay from './BroadcastOverlay';
 
 const FOLLOWS_KEY = 'watchboard-follows';
 
@@ -25,6 +27,7 @@ const SHORTCUTS = [
   { key: 'Enter', tKey: 'shortcuts.open' },
   { key: 'F', tKey: 'shortcuts.follow' },
   { key: 'C', tKey: 'cc.compare' },
+  { key: 'B', tKey: 'shortcuts.broadcast' },
   { key: 'G', tKey: 'shortcuts.rotate' },
   { key: 'O', tKey: 'shortcuts.openSelected' },
   { key: 'Esc', tKey: 'shortcuts.deselect' },
@@ -48,10 +51,24 @@ export default function CommandCenter({
   const [hoveredTracker, setHoveredTracker] = useState<string | null>(null);
   const [followedSlugs, setFollowedSlugs] = useState<string[]>([]);
   const [compareSlugs, setCompareSlugs] = useState<string[]>([]);
+  const [broadcastOff, setBroadcastOff] = useState(false);
   const [locale, setLocale] = useState<Locale>('en');
   const [showHelp, setShowHelp] = useState(false);
   const searchRef = useRef<HTMLInputElement>(null);
-  const globeRef = useRef<{ toggleRotation?: () => void }>(null);
+  const globeRef = useRef<{
+    toggleRotation?: () => void;
+    flyTo?: (lat: number, lng: number, altitude: number, durationMs: number) => void;
+    setAutoRotate?: (enabled: boolean, speed?: number) => void;
+  }>(null);
+
+  const broadcastEnabled = !activeTracker && !broadcastOff;
+
+  const broadcast = useBroadcastMode(
+    trackers,
+    globeRef,
+    broadcastEnabled,
+    (slug) => setHoveredTracker(slug),
+  );
 
   useEffect(() => {
     setFollowedSlugs(loadFollows());
@@ -130,6 +147,11 @@ export default function CommandCenter({
             handleToggleFollow(activeTracker);
           }
           break;
+        case 'b':
+        case 'B':
+          e.preventDefault();
+          setBroadcastOff(prev => !prev);
+          break;
         case 'g':
         case 'G':
           e.preventDefault();
@@ -154,7 +176,7 @@ export default function CommandCenter({
     };
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
-  }, [activeTracker, showHelp, compareSlugs.length, handleToggleFollow, handleToggleCompare, basePath]);
+  }, [activeTracker, showHelp, compareSlugs.length, handleToggleFollow, handleToggleCompare, basePath, locale]);
 
   return (
     <div className="command-center-root" role="application" aria-label="Watchboard Command Center" style={styles.container}>
@@ -175,10 +197,24 @@ export default function CommandCenter({
             activeTracker={activeTracker}
             hoveredTracker={hoveredTracker}
             followedSlugs={followedSlugs}
+            broadcastMode={broadcastEnabled}
+            featuredSlug={broadcast.featuredTracker?.slug || null}
             onSelectTracker={handleSelect}
             onHoverTracker={handleHover}
           />
         </Suspense>
+        {broadcastEnabled && (
+          <BroadcastOverlay
+            featuredTracker={broadcast.featuredTracker}
+            phase={broadcast.phase}
+            progress={broadcast.progress}
+            trackerQueue={broadcast.trackerQueue}
+            currentIndex={broadcast.currentIndex}
+            onJumpTo={(slug) => {
+              broadcast.jumpTo(slug);
+            }}
+          />
+        )}
       </div>
       <nav className="cc-sidebar" style={styles.sidebar} aria-label="Tracker directory">
         <SidebarPanel
