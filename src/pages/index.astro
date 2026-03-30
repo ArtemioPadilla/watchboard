@@ -23,6 +23,7 @@ const serializedTrackers = nonDraft.map(t => {
   let topKpisEs: Array<{ value: string; label: string }> = [];
   let digestSummary: string | undefined;
   let digestSectionsUpdated: string[] | undefined;
+  let latestEventMedia: { url: string; source: string; tier: number } | undefined;
 
   try {
     const data = loadTrackerData(t.slug, t.eraLabel);
@@ -34,6 +35,21 @@ const serializedTrackers = nonDraft.map(t => {
     if (latestDigest) {
       digestSummary = latestDigest.summary;
       digestSectionsUpdated = latestDigest.sectionsUpdated;
+    }
+
+    // Extract latest event image from a Tier 1-2 source (most recent first)
+    const allEvents = data.timeline.flatMap(era => era.events).reverse();
+    for (const evt of allEvents) {
+      if (!evt.media?.length) continue;
+      const bestSource = evt.sources
+        .filter(s => s.tier <= 2)
+        .sort((a, b) => a.tier - b.tier)[0];
+      if (!bestSource) continue;
+      const image = evt.media.find(m => m.type === 'image');
+      if (image) {
+        latestEventMedia = { url: image.url, source: image.source || bestSource.name, tier: bestSource.tier };
+        break;
+      }
     }
   } catch {
     // Tracker may not have data yet — use config defaults
@@ -80,6 +96,7 @@ const serializedTrackers = nonDraft.map(t => {
     topKpisEs,
     digestSummary,
     digestSectionsUpdated,
+    latestEventMedia,
   };
 });
 
