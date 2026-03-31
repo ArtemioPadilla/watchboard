@@ -2,9 +2,9 @@
   {
     "id": "brent_crude",
     "label": "Brent Crude",
-    "value": "~$115/bbl",
-    "change": "Day 31: ~$115; spiked on Tabriz Petrochemical strike (Mar 29); 'April oil cliff' warning — SPR buffer ending mid-April",
-    "direction": "up",
+    "value": "~$107/bbl",
+    "change": "Day 32: ~$107 (-$8 from Day 31); back-channel diplomacy optimism; Fesharaki: '$150–$200 if Hormuz stays shut 6–8 weeks'",
+    "direction": "down",
     "sparkData": [
       77.74,
       79.37,
@@ -25,17 +25,18 @@
       111.0,
       109.0,
       113.0,
-      115.0
+      115.0,
+      107.0
     ],
     "color": "#e74c3c",
-    "source": "Reuters / OilPrice.com / Al Jazeera / CNBC / Goldman Sachs / Rystad Energy",
-    "lastUpdated": "2026-03-30T14:00:00.000Z"
+    "source": "Reuters / OilPrice.com / Al Jazeera / CNBC / Goldman Sachs / Bloomberg",
+    "lastUpdated": "2026-03-31T14:49:00.000Z"
   },
   {
     "id": "wti_crude",
     "label": "WTI Crude",
     "value": "~$104/bbl",
-    "change": "Day 31: ~$104 WTI; up on Tabriz Petrochemical strike; peak $109.50 on Day 1; Goldman: 'largest shock in decades'",
+    "change": "Day 32: ~$104 WTI; briefly spiked ~4% on VLCC Al Salmi strike in Dubai port; US gas avg $4.02/gal milestone",
     "direction": "up",
     "sparkData": [
       71.23,
@@ -59,7 +60,7 @@
     ],
     "color": "#e67e22",
     "source": "Reuters / OilPrice.com / CNBC / Goldman Sachs",
-    "lastUpdated": "2026-03-30T14:00:00.000Z"
+    "lastUpdated": "2026-03-31T14:49:00.000Z"
   },
   {
     "id": "gold_spot",
@@ -146,9 +147,9 @@
   },
   {
     "id": "gas_price_us",
-    "label": "US Diesel Price",
-    "value": "$5.00+/gal",
-    "change": "+69% since Feb 28",
+    "label": "US Gas Price (National Avg)",
+    "value": "$4.02/gal",
+    "change": "Above $4 for first time since 2022; California $5.87/gal",
     "direction": "up",
     "sparkData": [
       2.95,
@@ -160,13 +161,11 @@
       3.45,
       3.54,
       3.75,
-      4.10,
-      4.28,
-      5.00
+      4.02
     ],
     "color": "#e74c3c",
-    "source": "NPR / AAA / Reuters / OilPrice.com",
-    "lastUpdated": "2026-03-18T06:00:00.000Z"
+    "source": "CNN / Time / AAA / Reuters",
+    "lastUpdated": "2026-03-31T14:49:00.000Z"
   },
   {
     "id": "iea_reserve_release",
