@@ -37,14 +37,14 @@
   {
     "id": "us-core-pce",
     "label": "US Core PCE Inflation",
-    "value": "2.8%",
-    "color": "amber",
-    "source": "Federal Reserve, cited Jan 2026 FOMC",
+    "value": "3.06%",
+    "color": "red",
+    "source": "BEA PCE Release, Jan 2026 (released Mar 13, 2026)",
     "contested": false,
-    "delta": "-6.2pp",
-    "deltaNote": "vs Jun 2022 peak (9.0% CPI)",
-    "trend": "stable",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "delta": "+0.26pp",
+    "deltaNote": "Jan 2026 BEA data; 3-month annualized rate 3.66% — re-acceleration above Fed 2% target on tariff pass-through",
+    "trend": "up",
+    "lastUpdated": "2026-04-01T14:00:00Z"
   },
   {
     "id": "fed-funds-rate",
@@ -73,26 +73,26 @@
   {
     "id": "us-10y-treasury-yield",
     "label": "US 10Y Treasury Yield",
-    "value": "4.46%",
-    "color": "red",
-    "source": "Federal Reserve H.15, Mar 28 2026",
+    "value": "~4.30%",
+    "color": "amber",
+    "source": "Federal Reserve H.15 / FRED DGS10, Apr 1 2026",
     "contested": false,
-    "delta": "+0.20pp",
-    "deltaNote": "vs Mar 18 FOMC meeting (4.26%); highest since Jul 2025 on oil-inflation fears",
-    "trend": "up",
-    "lastUpdated": "2026-03-29T14:05:00Z"
+    "delta": "-0.16pp",
+    "deltaNote": "Retreating from 4.46% Mar 28 peak as Iran ceasefire signals reduce oil-inflation fears; still +0.04pp vs Mar 18 FOMC",
+    "trend": "down",
+    "lastUpdated": "2026-04-01T14:00:00Z"
   },
   {
     "id": "us-consumer-confidence",
     "label": "US Consumer Confidence",
-    "value": "91.2",
+    "value": "91.8",
     "color": "red",
-    "source": "Conference Board, Feb 2026",
+    "source": "Conference Board, Mar 2026 (released Mar 31)",
     "contested": false,
-    "delta": "-21.6",
-    "deltaNote": "vs Nov 2024 peak (112.8); Expectations index 72.0 below recession-watch threshold of 80",
+    "delta": "+0.6",
+    "deltaNote": "Marginal improvement from Feb (91.0); Expectations Index 70.9 — 14th consecutive month below 80 recession-warning threshold",
     "trend": "down",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "lastUpdated": "2026-04-01T14:00:00Z"
   },
   {
     "id": "michigan-consumer-sentiment",
@@ -148,8 +148,8 @@
     "source": "Baker-Bloom-Davis / FRED, Mar 2026",
     "contested": false,
     "delta": "Elevated",
-    "deltaNote": "Near record highs driven by US trade policy reversals",
+    "deltaNote": "Near record highs; JPMorgan recession probability 60% (Mar 2026), highest of major banks; EY-Parthenon 40%, Moody's 48.6%",
     "trend": "up",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "lastUpdated": "2026-04-01T14:00:00Z"
   }
 ]

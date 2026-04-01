@@ -24,13 +24,13 @@
   {
     "id": "us-core-pce",
     "label": "US Core PCE Inflation",
-    "value": "2.8%",
-    "change": "Above 2% target",
-    "direction": "down",
-    "sparkData": [5.6, 4.9, 4.0, 3.2, 2.9, 2.6, 2.7, 2.8, 2.8],
-    "color": "amber",
-    "source": "BEA / Federal Reserve (cited Jan 2026 FOMC)",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "value": "3.06%",
+    "change": "+0.26pp — re-acceleration on tariff pass-through",
+    "direction": "up",
+    "sparkData": [5.6, 4.9, 4.0, 3.2, 2.9, 2.6, 2.7, 2.8, 3.06],
+    "color": "red",
+    "source": "BEA PCE Release, Jan 2026 (released Mar 13, 2026)",
+    "lastUpdated": "2026-04-01T14:00:00Z"
   },
   {
     "id": "fed-funds-rate-history",
@@ -90,13 +90,13 @@
   {
     "id": "us-10y-treasury-yield",
     "label": "US 10Y Treasury Yield",
-    "value": "4.46%",
-    "change": "+0.20pp from Mar 18 — highest since Jul 2025",
-    "direction": "up",
-    "sparkData": [2.8, 4.0, 4.7, 4.4, 4.3, 4.2, 4.0, 4.26, 4.46],
-    "color": "red",
-    "source": "Federal Reserve H.15 / FRED DGS10, Mar 28 2026",
-    "lastUpdated": "2026-03-29T14:05:00Z"
+    "value": "~4.30%",
+    "change": "Pulling back from 4.46% Mar 28 peak on Iran ceasefire signals",
+    "direction": "down",
+    "sparkData": [2.8, 4.0, 4.7, 4.4, 4.3, 4.2, 4.0, 4.46, 4.30],
+    "color": "amber",
+    "source": "Federal Reserve H.15 / FRED DGS10, Apr 1 2026",
+    "lastUpdated": "2026-04-01T14:00:00Z"
   },
   {
     "id": "wti-crude-oil",
@@ -123,13 +123,13 @@
   {
     "id": "us-consumer-confidence",
     "label": "US Consumer Confidence (CB Index)",
-    "value": "91.2",
-    "change": "-21.6 from Nov 2024 peak",
+    "value": "91.8",
+    "change": "+0.6 from Feb; Expectations Index 70.9 — 14th month below 80",
     "direction": "down",
-    "sparkData": [107, 104, 99, 105, 110, 112.8, 95, 89, 91.2],
+    "sparkData": [107, 104, 99, 105, 110, 112.8, 95, 91.0, 91.8],
     "color": "red",
-    "source": "Conference Board",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "source": "Conference Board, Mar 2026 (released Mar 31)",
+    "lastUpdated": "2026-04-01T14:00:00Z"
   },
   {
     "id": "global-debt-to-gdp",
