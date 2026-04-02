@@ -243,8 +243,26 @@ async function main() {
       let fileModified = false;
 
       for (const event of events) {
-        // Skip events that already have media
+        // Try to fill missing thumbnails on existing media entries
         if (event.media && Array.isArray(event.media) && event.media.length > 0) {
+          const needsThumb = event.media.filter((m: MediaItem) => m.url && !m.thumbnail && isArticleUrl(m.url));
+          if (needsThumb.length > 0) {
+            for (const m of needsThumb) {
+              await sleep(RATE_LIMIT_MS);
+              const ogImage = await fetchOgImage(m.url);
+              if (ogImage && isNewsImage(ogImage)) {
+                if (dryRun) {
+                  console.log(`  [${slug}/${file}] Would add thumbnail for "${event.id}" from ${m.url.substring(0, 60)}`);
+                  console.log(`    og:image: ${ogImage}`);
+                } else {
+                  m.thumbnail = ogImage;
+                  console.log(`  [${slug}/${file}] Filled thumbnail for "${event.id}"`);
+                }
+                totalEnriched++;
+                fileModified = true;
+              }
+            }
+          }
           totalSkipped++;
           continue;
         }
