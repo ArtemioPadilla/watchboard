@@ -344,6 +344,7 @@ function StoryImage({ tracker }: { tracker: TrackerCardData }) {
           alt={tracker.headline ?? tracker.shortName}
           className="story-image-map"
           loading="lazy"
+          referrerPolicy="no-referrer"
         />
         <div className="story-image-gradient" />
         <span className="story-image-attribution">

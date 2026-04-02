@@ -186,7 +186,7 @@ export default function CesiumEventsPanel({ events, currentDate, isOpen, onToggl
                             className="globe-event-media-link"
                           >
                             {m.type === 'image' && m.thumbnail ? (
-                              <img src={m.thumbnail} alt={m.caption || ''} className="globe-event-thumb" />
+                              <img src={m.thumbnail} alt={m.caption || ''} className="globe-event-thumb" referrerPolicy="no-referrer" />
                             ) : m.type === 'video' ? (
                               <span className="globe-event-video-icon">&#9654; Video</span>
                             ) : (

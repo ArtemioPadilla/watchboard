@@ -29,7 +29,7 @@ function esc(s: string): string {
 
 function cardHtml(card: FactCard): string {
   const thumbHtml = card.thumbnail
-    ? `<img class="fact-card-thumb" src="${esc(card.thumbnail)}" alt="" loading="lazy" />`
+    ? `<img class="fact-card-thumb" src="${esc(card.thumbnail)}" alt="" loading="lazy" referrerpolicy="no-referrer" />`
     : '';
 
   return `<div class="fact-card">

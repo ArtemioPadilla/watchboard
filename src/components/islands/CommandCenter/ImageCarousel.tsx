@@ -62,6 +62,7 @@ export default function ImageCarousel({ images, autoAdvance = false, fallbackIco
           alt=""
           style={styles.image}
           loading="lazy"
+          referrerPolicy="no-referrer"
         />
       </div>
       {/* Attribution */}

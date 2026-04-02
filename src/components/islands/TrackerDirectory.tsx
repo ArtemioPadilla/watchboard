@@ -546,6 +546,7 @@ function CardImage({ tracker }: { tracker: TrackerCardData }) {
         alt=""
         style={{ ...S.cardImageImg, opacity: loaded ? 1 : 0 }}
         loading="lazy"
+        referrerPolicy="no-referrer"
         onLoad={() => setLoaded(true)}
         onError={() => setFailed(true)}
       />

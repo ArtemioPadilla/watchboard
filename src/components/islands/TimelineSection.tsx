@@ -89,6 +89,7 @@ export default function TimelineSection({ timeline }: Props) {
                     alt={m.caption || ''}
                     className="tl-detail-thumb"
                     loading="lazy"
+                    referrerPolicy="no-referrer"
                   />
                   {(m.source || m.caption) && (
                     <span className="tl-detail-media-attr">

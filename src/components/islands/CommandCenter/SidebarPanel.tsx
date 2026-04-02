@@ -117,6 +117,7 @@ const TrackerRow = memo(function TrackerRow({
               alt=""
               style={S.mediaThumbnailImg}
               loading="lazy"
+              referrerPolicy="no-referrer"
               onError={(e) => { (e.target as HTMLImageElement).parentElement!.style.display = 'none'; }}
             />
             <span style={S.mediaThumbnailAttr}>
