@@ -258,6 +258,16 @@ jobs:
             { "lastRun": "<current ISO timestamp>", "tracker": "${{ matrix.slug }}", "sections": { ... } }
             Mark sections as "updated" ONLY if you actually changed data in them.
 
+            STEP 4.5 — ASSESS BREAKING STATUS:
+            After updating data, evaluate whether this tracker is currently breaking news.
+            Set "breaking": true in meta.json if the situation represents an ACUTE escalation,
+            crisis, or major development — e.g. active military operations, humanitarian emergency,
+            political crisis, or a significant new development that changes the story materially.
+            Set "breaking": false (or remove the field) when activity has returned to the tracker's
+            baseline level or the acute phase has passed. Use editorial judgment: not every update
+            is breaking. A tracker with routine daily updates is NOT breaking. A tracker with a
+            dramatic escalation, new front opening, or crisis-level event IS breaking.
+
             STEP 5 — GENERATE DIGEST (RSS feed):
             Prepend a digest entry to trackers/${{ matrix.slug }}/data/digests.json.
             Only list sections in sectionsUpdated that you ACTUALLY modified.
