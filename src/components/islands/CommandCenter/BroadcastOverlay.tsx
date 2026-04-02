@@ -65,10 +65,11 @@ export default function BroadcastOverlay({
   const scrollRafRef = useRef<number>(0);
   const scrollPosRef = useRef(0);
 
-  const tickerDuration = Math.max(trackerQueue.length * 5, 30);
+  const tickerDuration = Math.max(trackerQueue.length * 8, 45);
+  // Gentle crawl: ~0.3-0.5 px/frame at 60fps ≈ 18-30 px/s
   const scrollSpeed = tickerTrackRef.current
-    ? (tickerTrackRef.current.scrollWidth - tickerTrackRef.current.clientWidth) / (tickerDuration * 60)
-    : 1;
+    ? Math.max(0.3, (tickerTrackRef.current.scrollWidth - tickerTrackRef.current.clientWidth) / (tickerDuration * 60))
+    : 0.4;
 
   // Auto-scroll ticker when not paused
   useEffect(() => {

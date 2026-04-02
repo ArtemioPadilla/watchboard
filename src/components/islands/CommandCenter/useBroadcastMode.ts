@@ -181,10 +181,11 @@ export function useBroadcastMode(
       setIsUserPaused(false);
       setPauseCountdown(0);
     }
-    if (queue.current.length > 0) {
-      advanceToNext();
-    }
-  }, [advanceToNext, clearPauseTimer]);
+    // Resume dwelling on the current tracker (restart dwell timer)
+    // instead of advancing to the next one
+    setPhaseState('dwelling');
+    globeRef.current?.setAutoRotate?.(true, 0.08);
+  }, [clearPauseTimer, setPhaseState, globeRef]);
 
   const userPause = useCallback(() => {
     setPhaseState('paused');
