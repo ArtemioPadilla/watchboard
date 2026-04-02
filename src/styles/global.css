@@ -918,6 +918,49 @@ body::before {
   max-width: 800px;
 }
 
+/* Timeline media strip */
+.tl-detail-media {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.tl-detail-media-link {
+  position: relative;
+  display: block;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  transition: border-color 0.2s;
+}
+
+.tl-detail-media-link:hover {
+  border-color: var(--accent-blue);
+}
+
+.tl-detail-thumb {
+  display: block;
+  width: 120px;
+  height: 80px;
+  object-fit: cover;
+}
+
+.tl-detail-media-attr {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.45rem;
+  color: rgba(255, 255, 255, 0.85);
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.75));
+  padding: 8px 6px 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .tl-detail-sources {
   margin-top: 1rem;
   padding-top: 0.75rem;

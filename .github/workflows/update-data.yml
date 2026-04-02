@@ -232,6 +232,15 @@ jobs:
             - Add map-points.json entries for new locations
             - Validate coordinates within tracker's coordValidation bounds
 
+            STEP 3.5 — EVENT MEDIA (for each new or updated event):
+            For significant events, add a `media` array with 1-2 items:
+            - Search for news article URLs with photos covering the event
+            - Add media items: { "type": "image", "url": "<article-url>", "caption": "<brief description>", "source": "<outlet-name>", "thumbnail": "<direct-image-url-if-available>" }
+            - Prefer Tier 1-2 sources (Reuters, AP, BBC, CNN, Al Jazeera) for image reliability
+            - The `url` field can be the article URL; `thumbnail` should be the direct og:image URL if findable
+            - If no good image source exists, omit the media array entirely (don't add empty arrays)
+            - NEVER fabricate or guess image URLs — only use URLs you verified exist
+
             STEP 4 — UPDATE LOG:
             After updating, write trackers/${{ matrix.slug }}/data/update-log.json with:
             { "lastRun": "<current ISO timestamp>", "tracker": "${{ matrix.slug }}", "sections": { ... } }
@@ -265,6 +274,7 @@ jobs:
             - map-lines `weaponType` MUST be one of: "ballistic", "cruise", "drone", "drone_loitering", "drone_ucav", "drone_recon", "drone_fpv", "rocket", "mixed", "unknown". NEVER free-text like "airstrike".
             - map-lines `launched` and `intercepted` MUST be numbers (count), NOT booleans.
             - map-lines `status` MUST be one of: "hit", "intercepted", "partial", "unknown".
+            - event `media` items MUST have `type` ("image", "video", or "article") and `url` (string). `caption`, `source`, `thumbnail` are optional strings.
 
             After updating, verify changes by reading back modified files to confirm valid JSON.
 

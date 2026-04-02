@@ -11,6 +11,7 @@ interface TrackerForBroadcast {
   mapCenter?: { lon: number; lat: number };
   lastUpdated: string;
   topKpis: Array<{ value: string; label: string }>;
+  latestEventMedia?: { url: string; source: string; tier: number };
 }
 
 export type BroadcastPhase = 'idle' | 'transitioning' | 'dwelling' | 'paused';

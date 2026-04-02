@@ -110,6 +110,21 @@ const TrackerRow = memo(function TrackerRow({
           </div>
         )}
 
+        {tracker.latestEventMedia && (
+          <div style={S.mediaThumbnail}>
+            <img
+              src={tracker.latestEventMedia.url}
+              alt=""
+              style={S.mediaThumbnailImg}
+              loading="lazy"
+              onError={(e) => { (e.target as HTMLImageElement).parentElement!.style.display = 'none'; }}
+            />
+            <span style={S.mediaThumbnailAttr}>
+              {tracker.latestEventMedia.source} · T{tracker.latestEventMedia.tier}
+            </span>
+          </div>
+        )}
+
         {tracker.topKpis.length > 0 && (
           <div className="cc-kpi-row" style={S.kpiRow}>
             {tracker.topKpis.map((k, i) => (
@@ -998,6 +1013,37 @@ const S = {
     color: 'var(--text-secondary)',
     lineHeight: 1.4,
     marginTop: 8,
+  } as CSSProperties,
+
+  mediaThumbnail: {
+    position: 'relative' as const,
+    width: '100%',
+    height: 52,
+    overflow: 'hidden',
+    borderRadius: 4,
+    marginTop: 8,
+    background: 'var(--bg-secondary)',
+    border: '1px solid var(--border)',
+  } as CSSProperties,
+
+  mediaThumbnailImg: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover' as const,
+    display: 'block',
+  } as CSSProperties,
+
+  mediaThumbnailAttr: {
+    position: 'absolute' as const,
+    bottom: 3,
+    right: 3,
+    fontFamily: "'JetBrains Mono', monospace",
+    fontSize: '0.4rem',
+    color: 'rgba(255, 255, 255, 0.8)',
+    background: 'rgba(0, 0, 0, 0.6)',
+    padding: '1px 5px',
+    borderRadius: 2,
+    letterSpacing: '0.05em',
   } as CSSProperties,
 
   kpiRow: {

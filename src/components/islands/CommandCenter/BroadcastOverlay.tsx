@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { t, getPreferredLocale } from '../../../i18n/translations';
 import type { BroadcastPhase } from './useBroadcastMode';
 
@@ -9,6 +10,53 @@ interface TrackerForOverlay {
   domain?: string;
   color?: string;
   topKpis: Array<{ value: string; label: string }>;
+  latestEventMedia?: { url: string; source: string; tier: number };
+  mapCenter?: { lon: number; lat: number };
+}
+
+function thumbnailUrl(tracker: TrackerForOverlay): string | null {
+  if (tracker.latestEventMedia) return tracker.latestEventMedia.url;
+  if (tracker.mapCenter) {
+    const { lat, lon } = tracker.mapCenter;
+    const z = 5;
+    const n = Math.pow(2, z);
+    const x = Math.floor(((lon + 180) / 360) * n);
+    const y = Math.floor(
+      ((1 - Math.log(Math.tan((lat * Math.PI) / 180) + 1 / Math.cos((lat * Math.PI) / 180)) / Math.PI) / 2) * n,
+    );
+    return `https://tile.openstreetmap.org/${z}/${x}/${y}.png`;
+  }
+  return null;
+}
+
+function BroadcastThumbnail({ tracker }: { tracker: TrackerForOverlay }) {
+  const [loaded, setLoaded] = useState(false);
+  const [failed, setFailed] = useState(false);
+  const url = thumbnailUrl(tracker);
+
+  useEffect(() => { setFailed(false); setLoaded(false); }, [tracker.slug]);
+
+  if (!url || failed) return null;
+
+  const isEventMedia = !!tracker.latestEventMedia;
+
+  return (
+    <div className="broadcast-lt-thumb">
+      <img
+        src={url}
+        alt=""
+        className={`broadcast-lt-thumb-img${loaded ? ' loaded' : ''}`}
+        loading="lazy"
+        onLoad={() => setLoaded(true)}
+        onError={() => setFailed(true)}
+      />
+      {isEventMedia && tracker.latestEventMedia && (
+        <span className="broadcast-lt-thumb-attr">
+          {tracker.latestEventMedia.source} · T{tracker.latestEventMedia.tier}
+        </span>
+      )}
+    </div>
+  );
 }
 
 interface BroadcastOverlayProps {
@@ -50,6 +98,7 @@ export default function BroadcastOverlay({
             className="broadcast-lt-accent"
             style={{ background: featuredTracker.color || 'var(--accent-blue)' }}
           />
+          <BroadcastThumbnail tracker={featuredTracker} />
           <div className="broadcast-lt-body">
             {featuredTracker.domain && (
               <div className="broadcast-lt-category">{featuredTracker.domain.toUpperCase()}</div>
