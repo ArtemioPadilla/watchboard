@@ -54,6 +54,7 @@ const basePath = base.endsWith('/') ? base : `${base}/`;
   </script>
   <script define:vars={{ trackerSlug: config.slug }}>
     if (window.posthog) {
+      window.posthog.register({ tracker_slug: trackerSlug });
       window.posthog.capture('globe_opened', { tracker_slug: trackerSlug });
     }
   </script>
