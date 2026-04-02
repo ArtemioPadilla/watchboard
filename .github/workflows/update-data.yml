@@ -564,6 +564,65 @@ jobs:
           echo "build_ok=true" >> $GITHUB_OUTPUT
         continue-on-error: true
 
+      - name: Validate media URLs
+        id: media_check
+        if: steps.build_check.outputs.build_ok == 'true'
+        continue-on-error: true
+        run: |
+          node -e "
+          const fs = require('fs');
+          const path = require('path');
+          const https = require('https');
+          const http = require('http');
+
+          async function headCheck(url, timeout = 5000) {
+            return new Promise((resolve) => {
+              const mod = url.startsWith('https') ? https : http;
+              const req = mod.request(url, { method: 'HEAD', timeout }, (res) => {
+                resolve({ url, status: res.statusCode, ok: res.statusCode < 400 });
+              });
+              req.on('error', () => resolve({ url, status: 0, ok: false }));
+              req.on('timeout', () => { req.destroy(); resolve({ url, status: 0, ok: false }); });
+              req.end();
+            });
+          }
+
+          async function main() {
+            const urls = [];
+            for (const slug of fs.readdirSync('trackers')) {
+              const evDir = path.join('trackers', slug, 'data', 'events');
+              if (!fs.existsSync(evDir)) continue;
+              for (const f of fs.readdirSync(evDir).filter(f => f.endsWith('.json'))) {
+                const events = JSON.parse(fs.readFileSync(path.join(evDir, f), 'utf8'));
+                for (const ev of events) {
+                  if (!ev.media) continue;
+                  for (const m of ev.media) {
+                    if (m.thumbnail) urls.push({ slug, event: ev.id, url: m.thumbnail, field: 'thumbnail' });
+                    else if (m.url && m.type === 'image') urls.push({ slug, event: ev.id, url: m.url, field: 'url' });
+                  }
+                }
+              }
+            }
+
+            if (urls.length === 0) { console.log('No media URLs to validate'); return; }
+            console.log('Checking ' + urls.length + ' media URLs...');
+
+            let ok = 0, broken = 0;
+            const failures = [];
+            for (const entry of urls) {
+              const result = await headCheck(entry.url);
+              if (result.ok) { ok++; }
+              else { broken++; failures.push(entry.slug + '/' + entry.event + ': ' + entry.url + ' (' + result.status + ')'); }
+            }
+            console.log('Media URL check: ' + ok + ' ok, ' + broken + ' broken');
+            if (failures.length > 0) {
+              console.warn('Broken media URLs (non-blocking):');
+              failures.forEach(f => console.warn('  ' + f));
+            }
+          }
+          main();
+          "
+
       - name: Commit and push data
         if: |
           steps.build_check.outputs.build_ok == 'true'

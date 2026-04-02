@@ -464,6 +464,37 @@ const S = {
     flexShrink: 0,
   } as CSSProperties,
 
+  cardImage: {
+    position: 'relative' as const,
+    width: '100%',
+    height: 80,
+    overflow: 'hidden',
+    borderRadius: '6px',
+    marginTop: 10,
+    background: 'var(--bg-secondary)',
+  } as CSSProperties,
+
+  cardImageImg: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover' as const,
+    display: 'block',
+    transition: 'opacity 0.3s ease-in',
+  } as CSSProperties,
+
+  cardImageAttr: {
+    position: 'absolute' as const,
+    bottom: 4,
+    right: 4,
+    fontFamily: "'JetBrains Mono', monospace",
+    fontSize: '0.42rem',
+    color: 'rgba(255, 255, 255, 0.85)',
+    background: 'rgba(0, 0, 0, 0.6)',
+    padding: '1px 5px',
+    borderRadius: 2,
+    letterSpacing: '0.05em',
+  } as CSSProperties,
+
   noResults: {
     textAlign: 'center' as const,
     padding: '3rem 1rem',
@@ -481,6 +512,51 @@ const S = {
     marginBottom: '0.5rem',
   } as CSSProperties,
 } as const;
+
+// ── Thumbnail helpers ──
+
+function cardImageUrl(tracker: TrackerCardData): string | null {
+  if (tracker.latestEventMedia) return tracker.latestEventMedia.url;
+  if (tracker.mapCenter) {
+    const { lat, lon } = tracker.mapCenter;
+    const z = 5;
+    const n = Math.pow(2, z);
+    const x = Math.floor(((lon + 180) / 360) * n);
+    const y = Math.floor(
+      ((1 - Math.log(Math.tan((lat * Math.PI) / 180) + 1 / Math.cos((lat * Math.PI) / 180)) / Math.PI) / 2) * n,
+    );
+    return `https://tile.openstreetmap.org/${z}/${x}/${y}.png`;
+  }
+  return null;
+}
+
+function CardImage({ tracker }: { tracker: TrackerCardData }) {
+  const [loaded, setLoaded] = useState(false);
+  const [failed, setFailed] = useState(false);
+  const url = cardImageUrl(tracker);
+
+  if (!url || failed) return null;
+
+  const isEventMedia = !!tracker.latestEventMedia;
+
+  return (
+    <div style={S.cardImage}>
+      <img
+        src={url}
+        alt=""
+        style={{ ...S.cardImageImg, opacity: loaded ? 1 : 0 }}
+        loading="lazy"
+        onLoad={() => setLoaded(true)}
+        onError={() => setFailed(true)}
+      />
+      {isEventMedia && tracker.latestEventMedia && (
+        <span style={S.cardImageAttr}>
+          {tracker.latestEventMedia.source} · T{tracker.latestEventMedia.tier}
+        </span>
+      )}
+    </div>
+  );
+}
 
 // ── Subcomponents ──
 
@@ -578,6 +654,8 @@ const TrackerCard = memo(function TrackerCard({
           <span>{truncatedHeadline}</span>
         </div>
       )}
+
+      <CardImage tracker={tracker} />
 
       <p style={S.desc}>{tracker.description}</p>
       <KpiChips kpis={tracker.topKpis} />
