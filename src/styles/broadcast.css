@@ -41,6 +41,8 @@
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
   cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .broadcast-ticker-track::-webkit-scrollbar {
