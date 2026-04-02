@@ -16,6 +16,9 @@ npm run build        # Type-check + build static site to dist/ (postbuild runs p
 npm run preview      # Preview built site
 npm run update-data  # Run AI data update for all trackers (requires ANTHROPIC_API_KEY or OPENAI_API_KEY)
 TRACKER_SLUG=iran-conflict npm run update-data  # Update a single tracker
+npm run backfill-media              # Enrich all events with og:image from source URLs
+npm run backfill-media -- --dry-run # Preview what would change without writing
+npm run backfill-media -- --tracker iran-conflict  # Single tracker only
 ```
 
 ## Deployment & Workflows
@@ -63,6 +66,26 @@ Each tracker has its own data files: `kpis.json`, `timeline.json`, `map-points.j
 `digests.json` stores RSS digest entries (date, title, summary, sectionsUpdated). The nightly updater prepends a new entry after each data update. These feed the site's RSS endpoints.
 
 Data loader: `src/lib/data.ts` — `loadTrackerData(slug, eraLabel?)` uses `import.meta.glob` to load all tracker data at build time, validates via Zod, merges partitioned events. Cross-field validation: strike/retaliation map-lines must have `weaponType` + `time`.
+
+### Event Media
+
+Events can include a `media` array of `MediaItemSchema` objects: `{ type: "image"|"video"|"article", url, caption?, source?, thumbnail? }`. Media is displayed across multiple surfaces:
+
+**Data supply:**
+- Nightly pipeline (STEP 3.5 in `update-data.yml`) instructs Claude to populate `media` on significant events with article URLs and og:image thumbnails from Tier 1-2 sources
+- `scripts/backfill-media.ts` enriches existing events by fetching `og:image` meta tags from source URLs
+- `latestEventMedia` is extracted at build time in `index.astro` (Tier 1-2 sources only) and passed to homepage components via `TrackerCardData`
+
+**Display surfaces (with source attributions):**
+- `MapFactCards.tsx` — thumbnail on map overlay cards (auto from event media)
+- `MapEventsPanel.tsx` / `CesiumEventsPanel.tsx` — media gallery in expanded event detail
+- `MobileStoryCarousel.tsx` — 3-tier image fallback (event media → OSM tile → gradient)
+- `BroadcastOverlay.tsx` — 72px thumbnail in lower-third (event media → OSM tile)
+- `TimelineSection.tsx` — image strip in expanded timeline detail
+- `SidebarPanel.tsx` — thumbnail in expanded tracker row
+- `TrackerDirectory.tsx` — card image (event media → OSM tile)
+
+**Validation:** Nightly finalize step runs HEAD requests against media URLs (non-blocking, logs broken URLs as warnings).
 
 ### Schemas (`src/lib/schemas.ts`)
 
@@ -183,6 +206,7 @@ AI-curated social media posting system. Replaces the old `generate-social-drafts
 - `update-data.ts` — legacy AI data updater (direct API keys)
 - `generate-review-manifest.ts` — event gap detection per tracker (used by nightly workflow)
 - `generate-sibling-brief.ts` — cross-tracker context generation (used by nightly workflow)
+- `backfill-media.ts` — enriches existing events with `media` arrays by fetching `og:image` from source URLs. Flags: `--dry-run` (preview only), `--tracker <slug>` (single tracker). Run: `npx tsx scripts/backfill-media.ts`
 
 ### Adding a new tracker
 
