@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { trackEvent } from '../../lib/analytics';
 import type { TimelineEra, TimelineEvent } from '../../lib/schemas';
 import { tierClass, tierLabel } from '../../lib/tier-utils';
 
@@ -21,6 +22,7 @@ export default function TimelineSection({ timeline }: Props) {
   const [selected, setSelected] = useState<TimelineEvent | null>(null);
 
   const handleClick = (ev: TimelineEvent) => {
+    trackEvent('timeline_event_expanded', { event_title: ev.title, year: ev.year });
     setSelected(prev => prev === ev ? null : ev);
   };
 

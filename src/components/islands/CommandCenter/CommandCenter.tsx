@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect, useRef, lazy, Suspense } from 'react';
+import { trackEvent } from '../../../lib/analytics';
 import type { TrackerCardData } from '../../../lib/tracker-directory-utils';
 import { type Locale, SUPPORTED_LOCALES, getPreferredLocale, setPreferredLocale, t } from '../../../i18n/translations';
 const GlobePanel = lazy(() => import('./GlobePanel'));
@@ -159,6 +160,7 @@ export default function CommandCenter({
         case 'b':
         case 'B':
           e.preventDefault();
+          trackEvent('broadcast_mode_toggled', { enabled: broadcastOff });
           setBroadcastOff(prev => !prev);
           break;
         case 'g':

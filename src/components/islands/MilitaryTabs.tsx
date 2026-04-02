@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { trackEvent } from '../../lib/analytics';
 import type { StrikeItem, Asset } from '../../lib/schemas';
 import { tierClass, tierLabelShort } from '../../lib/tier-utils';
 import { MIL_TABS } from '../../lib/constants';
@@ -98,7 +99,10 @@ export default function MilitaryTabs({ strikeTargets, retaliationData, assetsDat
             aria-controls={`tabpanel-${t.id}`}
             id={`tab-${t.id}`}
             className={`tab-btn ${activeTab === t.id ? 'active' : ''}`}
-            onClick={() => setActiveTab(t.id)}
+            onClick={() => {
+              trackEvent('military_tab_switched', { tab_id: t.id });
+              setActiveTab(t.id);
+            }}
           >
             {t.label}
           </button>

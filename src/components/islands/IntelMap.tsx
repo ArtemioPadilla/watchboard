@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
+import { trackEvent } from '../../lib/analytics';
 import type { MapPoint, MapLine } from '../../lib/schemas';
 import type { FlatEvent } from '../../lib/timeline-utils';
 import { MAP_CATEGORIES, type MapCategory } from '../../lib/map-utils';
@@ -125,6 +126,7 @@ export default function IntelMap({ points, lines, events, categories, mapCenter,
 
   // ── Filtering ──
   const toggleFilter = (cat: string) => {
+    trackEvent('map_filter_toggled', { category: cat });
     setActiveFilters(prev => {
       const next = new Set(prev);
       if (next.has(cat)) next.delete(cat);
