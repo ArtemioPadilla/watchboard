@@ -213,10 +213,10 @@ const TrackerRow = memo(function TrackerRow({
           {isFollowed ? '★' : '☆'}
         </span>
         {freshness.className === 'fresh' && <span style={S.freshDot} />}
-        <span className="cc-tracker-status" style={{ ...S.collapsedStatus, color: freshness.className === 'fresh' ? 'var(--accent-green)' : freshness.className === 'recent' ? 'var(--accent-amber)' : 'var(--text-muted)' }}>
+        <span className="cc-tracker-status" suppressHydrationWarning style={{ ...S.collapsedStatus, color: freshness.className === 'fresh' ? 'var(--accent-green)' : freshness.className === 'recent' ? 'var(--accent-amber)' : 'var(--text-muted)' }}>
           {t(freshness.className === 'fresh' ? 'status.fresh' : freshness.className === 'recent' ? 'status.recent' : 'status.stale' as any, locale)}
         </span>
-        <span style={S.collapsedDay}>{dateline}</span>
+        <span style={S.collapsedDay} suppressHydrationWarning>{dateline}</span>
       </div>
     </div>
   );
@@ -234,7 +234,7 @@ const StatusBadge = memo(function StatusBadge({ tracker, locale = 'en' }: { trac
   const { className } = computeFreshness(tracker.lastUpdated);
   const statusKey = className === 'fresh' ? 'status.fresh' : className === 'recent' ? 'status.recent' : 'status.stale';
   return (
-    <span style={S.badge(className)}>
+    <span style={S.badge(className)} suppressHydrationWarning>
       {className === 'fresh' && <span style={S.freshDot} />}
       {t(statusKey as any, locale)}
     </span>
@@ -416,7 +416,7 @@ const RecentEventsFeed = memo(function RecentEventsFeed({
             <span style={S.feedItemName}>{tracker.shortName}</span>
             {isFollowed && <span style={S.followStar}>\u2605</span>}
             <span style={{ ...S.feedItemAge, color: tracker.color || '#3498db' }}>
-              {computeFreshness(tracker.lastUpdated).ageText}
+              <span suppressHydrationWarning>{computeFreshness(tracker.lastUpdated).ageText}</span>
             </span>
           </div>
           <div style={S.feedItemText}>{truncatedHeadline}</div>

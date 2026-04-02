@@ -574,9 +574,9 @@ const StatusBadge = memo(function StatusBadge({
   }
   const { label, className } = computeFreshness(tracker.lastUpdated);
   return (
-    <span style={S.statusBadge(className)}>
+    <span style={S.statusBadge(className)} suppressHydrationWarning>
       {className === 'fresh' && <span style={S.statusDot} />}
-      <span>{label}</span>
+      <span suppressHydrationWarning>{label}</span>
     </span>
   );
 });
@@ -667,7 +667,7 @@ const TrackerCard = memo(function TrackerCard({
           {tracker.mapEnabled && <span style={S.featureBadge}>Map</span>}
           {tracker.globeEnabled && <span style={S.featureBadge}>3D Globe</span>}
         </div>
-        <span style={S.updatedText}>{freshness.ageText}</span>
+        <span style={S.updatedText} suppressHydrationWarning>{freshness.ageText}</span>
       </div>
     </a>
   );
