@@ -51,7 +51,7 @@ export default function NotificationManager({ trackers, followedSlugs }: Props) 
         try {
           new Notification(title, {
             body,
-            icon: '/watchboard/textures/earth-night.jpg',
+            icon: '/textures/earth-night.jpg',
             tag: `wb-${t.slug}`,
             silent: true,
           });

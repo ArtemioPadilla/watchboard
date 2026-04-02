@@ -114,15 +114,15 @@ describe('getLocaleFromUrl', () => {
     expect(getLocaleFromUrl(url)).toBe('es');
   });
 
-  it('returns "es" when locale is after base path (/watchboard/es/)', () => {
-    /** TC-i18n-008: getLocaleFromUrl detects locale after base. Verifies: AC-locale-url */
-    const url = new URL('https://example.com/watchboard/es/tracker');
+  it('returns "es" when locale is the first path segment', () => {
+    /** TC-i18n-008: getLocaleFromUrl detects locale as first segment. Verifies: AC-locale-url */
+    const url = new URL('https://watchboard.dev/es/tracker');
     expect(getLocaleFromUrl(url)).toBe('es');
   });
 
   it('returns default locale for paths without a locale prefix', () => {
     /** TC-i18n-009: getLocaleFromUrl defaults to en. Verifies: AC-locale-url */
-    const url = new URL('https://example.com/watchboard/iran-conflict');
+    const url = new URL('https://watchboard.dev/iran-conflict');
     expect(getLocaleFromUrl(url)).toBe(DEFAULT_LOCALE);
   });
 
@@ -144,15 +144,15 @@ describe('getLocaleFromUrl', () => {
     expect(getLocaleFromUrl(url)).toBe('pt');
   });
 
-  it('returns "fr" when locale is after base path (/watchboard/fr/)', () => {
-    /** TC-i18n-011c: getLocaleFromUrl detects fr after base. Verifies: AC-locale-url-fr */
-    const url = new URL('https://example.com/watchboard/fr/tracker');
+  it('returns "fr" when locale is the first path segment', () => {
+    /** TC-i18n-011c: getLocaleFromUrl detects fr as first segment. Verifies: AC-locale-url-fr */
+    const url = new URL('https://watchboard.dev/fr/tracker');
     expect(getLocaleFromUrl(url)).toBe('fr');
   });
 
-  it('returns "pt" when locale is after base path (/watchboard/pt/)', () => {
-    /** TC-i18n-011d: getLocaleFromUrl detects pt after base. Verifies: AC-locale-url-pt */
-    const url = new URL('https://example.com/watchboard/pt/tracker');
+  it('returns "pt" when locale is the first path segment', () => {
+    /** TC-i18n-011d: getLocaleFromUrl detects pt as first segment. Verifies: AC-locale-url-pt */
+    const url = new URL('https://watchboard.dev/pt/tracker');
     expect(getLocaleFromUrl(url)).toBe('pt');
   });
 

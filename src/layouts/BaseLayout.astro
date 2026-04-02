@@ -56,8 +56,8 @@ const ogImageUrl = trackerSlug
     "url": pageUrl,
   })} />
   <link rel="alternate" type="application/rss+xml" title={trackerSlug ? `${title} RSS` : 'Watchboard RSS'} href={trackerSlug ? `${basePath}${trackerSlug}/rss.xml` : `${basePath}rss.xml`} />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="/watchboard/fonts/dm-sans-latin.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="/watchboard/fonts/jetbrains-mono-latin.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/dm-sans-latin.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/jetbrains-mono-latin.woff2">
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -110,14 +110,14 @@ const ogImageUrl = trackerSlug
 
     if ('serviceWorker' in navigator) {
       // Unregister any foreign service worker (e.g. from main site)
-      // that may be caching /watchboard/ routes incorrectly
+      // that may be caching routes incorrectly
       navigator.serviceWorker.getRegistrations().then(regs => {
         for (const reg of regs) {
-          if (reg.scope && !reg.scope.includes('/watchboard')) reg.unregister();
+          if (reg.scope && !reg.scope.includes('watchboard.dev')) reg.unregister();
         }
       });
       // Register Watchboard service worker
-      navigator.serviceWorker.register('/watchboard/sw.js');
+      navigator.serviceWorker.register('/sw.js');
     }
   </script>
 </body>

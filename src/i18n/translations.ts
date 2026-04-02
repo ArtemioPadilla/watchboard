@@ -322,7 +322,7 @@ export function t(key: keyof TranslationKeys, locale: Locale = DEFAULT_LOCALE): 
 
 export function getLocaleFromUrl(url: URL): Locale {
   const parts = url.pathname.split('/');
-  const lang = parts[1]; // e.g., /es/... or /watchboard/es/...
+  const lang = parts[1]; // e.g., /es/... (first segment after root)
   if (SUPPORTED_LOCALES.includes(lang as Locale)) return lang as Locale;
   // Check after base path
   const base = parts[2];

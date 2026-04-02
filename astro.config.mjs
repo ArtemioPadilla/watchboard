@@ -5,8 +5,8 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   integrations: [react(), sitemap()],
   output: 'static',
-  site: 'https://artemiop.com',
-  base: '/watchboard',
+  site: 'https://watchboard.dev',
+  base: '/',
   i18n: {
     defaultLocale: 'en',
     locales: ['en', 'es', 'fr', 'pt'],
@@ -16,7 +16,7 @@ export default defineConfig({
   },
   vite: {
     define: {
-      CESIUM_BASE_URL: JSON.stringify('/watchboard/cesium/'),
+      CESIUM_BASE_URL: JSON.stringify('/cesium/'),
     },
   },
 });
