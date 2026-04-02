@@ -46,11 +46,13 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     gap: 8,
-    background: 'rgba(31, 111, 235, 0.08)',
-    border: '1px solid rgba(31, 111, 235, 0.25)',
+    background: 'rgba(13, 17, 23, 0.95)',
+    border: '1px solid rgba(88, 166, 255, 0.4)',
     borderRadius: 8,
-    padding: '8px 12px',
+    padding: '10px 14px',
     maxWidth: 280,
+    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.5)',
+    backdropFilter: 'blur(8px)',
   } as React.CSSProperties,
   icon: {
     fontSize: '0.75rem',
@@ -58,8 +60,8 @@ const styles = {
   } as React.CSSProperties,
   text: {
     fontFamily: "'DM Sans', sans-serif",
-    fontSize: '0.6rem',
-    color: 'var(--accent-blue, #58a6ff)',
+    fontSize: '0.65rem',
+    color: 'var(--text-primary, #e6edf3)',
     lineHeight: 1.4,
   } as React.CSSProperties,
   close: {
