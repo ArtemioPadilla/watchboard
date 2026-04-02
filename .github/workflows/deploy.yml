@@ -40,6 +40,9 @@ jobs:
         run: npm ci
 
       - name: Build Astro site
+        env:
+          PUBLIC_POSTHOG_KEY: phc_CtJ5gPA3KykaauRYyqjkjq3ELJrBeJWxeKFoZkFNHwuw
+          PUBLIC_POSTHOG_HOST: https://us.i.posthog.com
         run: npm run build
 
       - name: Upload artifact
