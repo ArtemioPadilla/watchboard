@@ -10,10 +10,10 @@ import SourceLegend from '../../components/static/SourceLegend.astro';
 import Footer from '../../components/static/Footer.astro';
 
 import TimelineSection from '../../components/islands/TimelineSection';
-import IntelMap from '../../components/islands/IntelMap';
+import IntelMapLoader from '../../components/islands/IntelMapLoader';
 import MilitaryTabs from '../../components/islands/MilitaryTabs';
 import LatestEvents from '../../components/islands/LatestEvents';
-import MobileTabShell from '../../components/islands/mobile/MobileTabShell';
+import MobileTabShellLoader from '../../components/islands/mobile/MobileTabShellLoader';
 
 import { loadTrackerData } from '../../lib/data';
 import { loadAllTrackers } from '../../lib/tracker-registry';
@@ -64,7 +64,7 @@ const statusLabel = `${temporalLabel} ${domainLabel}`;
       <div class="theater-layout">
         {config.sections.includes('map') && (
           <div class="theater-map">
-            <IntelMap client:only="react" points={data.mapPoints} lines={data.mapLines} events={flatEvents} categories={categories} mapCenter={config.map?.center} mapBounds={config.map?.bounds} />
+            <IntelMapLoader client:only="react" trackerSlug={config.slug} categories={categories} mapCenter={config.map?.center} mapBounds={config.map?.bounds} />
           </div>
         )}
         <div class={config.sections.includes('map') ? 'theater-scroll' : 'theater-scroll full-width'}>
@@ -85,32 +85,18 @@ const statusLabel = `${temporalLabel} ${domainLabel}`;
 
   <!-- Mobile layout -->
   <div class="mobile-layout">
-    <MobileTabShell
+    <MobileTabShellLoader
       client:only="react"
       operationName={data.meta.operationName}
       trackerSlug={config.slug}
       globeEnabled={config.globe?.enabled ?? false}
       isHistorical={config.temporal === 'historical'}
-      mapPoints={data.mapPoints}
-      mapLines={data.mapLines}
-      events={flatEvents}
       categories={categories}
       mapCenter={config.map?.center}
       mapBounds={config.map?.bounds}
-      kpis={data.kpis}
-      meta={data.meta}
       cameraPresets={config.globe?.cameraPresets}
       endDate={config.endDate}
       clocks={config.globe?.clocks}
-      heroSubtitle={data.meta.heroSubtitle}
-      casualties={data.casualties}
-      econ={data.econ}
-      claims={data.claims}
-      political={data.political}
-      timeline={data.timeline}
-      strikeTargets={data.strikeTargets}
-      retaliationData={data.retaliationData}
-      assetsData={data.assetsData}
       militaryTabs={config.militaryTabs}
     />
   </div>

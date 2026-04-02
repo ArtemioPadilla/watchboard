@@ -4,5 +4,17 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
 
-/watchboard/embed/*
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/api/data/*
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
+
+/cesium/*
+  Cache-Control: public, max-age=604800
+
+/embed/*
   X-Frame-Options: ALLOWALL
