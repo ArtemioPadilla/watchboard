@@ -194,12 +194,14 @@ export default function CommandCenter({
           setShowHelp(prev => !prev);
           break;
         case 'f':
-        case 'F':
-          if (activeTracker) {
+        case 'F': {
+          const targetSlug = activeTracker || hoveredTracker;
+          if (targetSlug) {
             e.preventDefault();
-            handleToggleFollow(activeTracker);
+            handleToggleFollow(targetSlug);
           }
           break;
+        }
         case 'b':
         case 'B':
           e.preventDefault();

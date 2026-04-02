@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { createPortal } from 'react-dom';
 
 interface WelcomeOverlayProps {
   onDismiss: (permanent: boolean) => void;
@@ -7,7 +8,7 @@ interface WelcomeOverlayProps {
 export default function WelcomeOverlay({ onDismiss }: WelcomeOverlayProps) {
   const [dontShowAgain, setDontShowAgain] = useState(false);
 
-  return (
+  return createPortal(
     <div style={styles.backdrop} onClick={() => onDismiss(dontShowAgain)}>
       <div style={styles.panel} onClick={(e) => e.stopPropagation()}>
         <div style={styles.icon}>🌐</div>
@@ -38,7 +39,8 @@ export default function WelcomeOverlay({ onDismiss }: WelcomeOverlayProps) {
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
 
