@@ -52,5 +52,10 @@ const basePath = base.endsWith('/') ? base : `${base}/`;
       window.location.replace(pathParts.join('/') + '/?mode=3d');
     }
   </script>
+  <script define:vars={{ trackerSlug: config.slug }}>
+    if (window.posthog) {
+      window.posthog.capture('globe_opened', { tracker_slug: trackerSlug });
+    }
+  </script>
   </main>
 </BaseLayout>
