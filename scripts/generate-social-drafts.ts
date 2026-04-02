@@ -42,7 +42,7 @@ interface TrackerConfig {
 // Constants
 // ---------------------------------------------------------------------------
 
-const BASE_URL = 'https://artemiop.com/watchboard';
+const BASE_URL = 'https://watchboard.dev';
 const TRACKERS_DIR = path.join(process.cwd(), 'trackers');
 const TCO_LINK_LENGTH = 23;
 

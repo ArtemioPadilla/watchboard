@@ -70,7 +70,7 @@ jobs:
 
             weeklyUpdates.sort((a, b) => b.updateCount - a.updateCount);
 
-            const baseUrl = 'https://artemiop.com/watchboard';
+            const baseUrl = 'https://watchboard.dev';
             const header = 'Watchboard Weekly — ' + weekAgoStr + ' to ' + todayStr;
 
             const twitterThread = [

@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - **SEO: Sitemap generation**: `@astrojs/sitemap` integration auto-generates `sitemap-index.xml` and `sitemap-0.xml` at build time with all page URLs
-- **SEO: robots.txt**: allows all crawlers and points to the sitemap index at `https://artemiop.com/watchboard/sitemap-index.xml`
+- **SEO: robots.txt**: allows all crawlers and points to the sitemap index at `https://watchboard.dev/sitemap-index.xml`
 - **Enhanced LATEST INTEL feed**: expandable accordion items in homepage sidebar with digest summaries, section update badges, and dashboard links
   - `TrackerCardData` extended with `digestSummary` and `digestSectionsUpdated` fields populated from latest digest entry at build time
   - Feed items click-to-expand with full digest summary, colored section badges (events=blue, map=green, KPIs=amber, casualties=red, econ=purple), and "Open dashboard" link

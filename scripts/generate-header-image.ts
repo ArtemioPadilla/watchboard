@@ -243,7 +243,7 @@ async function main() {
                 fontSize: 12,
                 color: '#484f58',
               },
-              children: 'artemiop.com/watchboard',
+              children: 'watchboard.dev',
             },
           },
         ],

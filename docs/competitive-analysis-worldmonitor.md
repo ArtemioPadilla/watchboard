@@ -27,7 +27,7 @@ fundamentally different architectural approaches.
 | **Releases** | 43 | 0 |
 | **Created** | January 8, 2026 | March 4, 2026 |
 | **License** | AGPL-3.0 | None specified |
-| **Live URL** | worldmonitor.app | artemiop.com/watchboard |
+| **Live URL** | worldmonitor.app | watchboard.dev |
 
 ---
 

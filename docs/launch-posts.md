@@ -20,9 +20,9 @@ There are 48 trackers live right now covering Iran, Ukraine, Gaza, Chernobyl, Fu
 
 Tech: Astro 5, React islands, CesiumJS, Leaflet, Zod validation, Claude Code Action for AI updates.
 
-Live: https://artemiop.com/watchboard/
+Live: https://watchboard.dev/
 Source: https://github.com/ArtemioPadilla/watchboard
-Guide: https://artemiop.com/watchboard/guide/
+Guide: https://watchboard.dev/guide/
 ```
 
 **When to post:** Tuesday–Thursday, 9–11 AM ET
@@ -52,7 +52,7 @@ Each dashboard tracks a topic with:
 • Source tier system (Tier 1 = official, Tier 4 = unverified)
 • KPIs, casualty tables, economic indicators
 
-https://artemiop.com/watchboard/iran-conflict/
+https://watchboard.dev/iran-conflict/
 ```
 
 **Tweet 3 (automation):**
@@ -73,7 +73,7 @@ Want to track something? One GitHub Actions dispatch:
 3. Historical data gets backfilled automatically
 4. Dashboard is live in ~25 minutes
 
-Guide: https://artemiop.com/watchboard/guide/
+Guide: https://watchboard.dev/guide/
 ```
 
 **Tweet 5 (CTA):**
@@ -81,7 +81,7 @@ Guide: https://artemiop.com/watchboard/guide/
 It's open source. MIT licensed.
 
 ⭐ Star it: https://github.com/ArtemioPadilla/watchboard
-🌐 Live: https://artemiop.com/watchboard/
+🌐 Live: https://watchboard.dev/
 📡 RSS feeds for every tracker
 
 Built with Astro 5, React, CesiumJS, Leaflet, and Claude Code.
@@ -111,9 +111,9 @@ And anyone can create a new tracker in ~25 minutes using a single GitHub Actions
 
 Tech stack: Astro 5, React (islands architecture), CesiumJS, Leaflet, TypeScript, Zod, Claude Code Action.
 
-Live site: https://artemiop.com/watchboard/
+Live site: https://watchboard.dev/
 GitHub: https://github.com/ArtemioPadilla/watchboard
-How to create a tracker: https://artemiop.com/watchboard/guide/
+How to create a tracker: https://watchboard.dev/guide/
 
 Open source, MIT licensed. Feedback and tracker suggestions welcome.
 
@@ -145,7 +145,7 @@ The nightly update pipeline uses AI web search to update all 48 trackers in para
 
 Currently tracking: Iran conflict, Ukraine, Gaza, Sudan, Myanmar, Taiwan Strait tensions, historical events (Chernobyl, 9/11, MH17), political governance (Mexican/US presidencies), space (Artemis, SpaceX), and more.
 
-Live: https://artemiop.com/watchboard/
+Live: https://watchboard.dev/
 Source: https://github.com/ArtemioPadilla/watchboard
 
 Open source, MIT licensed. Interested in feedback from the OSINT community on the methodology and sourcing approach.
@@ -165,7 +165,7 @@ Currently tracking active conflicts (Iran, Ukraine, Gaza, Sudan, Myanmar, Somali
 
 Interactive features include Leaflet maps with strike trajectories, a 3D CesiumJS globe, and daily event timelines.
 
-Live: https://artemiop.com/watchboard/
+Live: https://watchboard.dev/
 Source: https://github.com/ArtemioPadilla/watchboard
 
 Would love feedback on which topics to add or improve.
@@ -191,7 +191,7 @@ The fun part: a GitHub Actions pipeline runs nightly, uses AI to search the web 
 
 Creating a new tracker takes ~25 minutes via a single Actions workflow dispatch — no code changes needed.
 
-Live: https://artemiop.com/watchboard/
+Live: https://watchboard.dev/
 Source: https://github.com/ArtemioPadilla/watchboard
 
 Happy to answer questions about the architecture.
@@ -216,8 +216,8 @@ Data is updated nightly by an AI pipeline that searches 4 media poles and valida
 Tools: Astro 5, CesiumJS, Leaflet, React
 Source: https://github.com/ArtemioPadilla/watchboard
 
-Iran conflict dashboard: https://artemiop.com/watchboard/iran-conflict/
-3D globe: https://artemiop.com/watchboard/iran-conflict/globe/
+Iran conflict dashboard: https://watchboard.dev/iran-conflict/
+3D globe: https://watchboard.dev/iran-conflict/globe/
 ```
 
 ### r/artificial
@@ -245,7 +245,7 @@ Key design decisions:
 
 The same approach creates new trackers: describe a topic, and Claude Code generates the full config + historical data in ~25 minutes.
 
-48 trackers live: https://artemiop.com/watchboard/
+48 trackers live: https://watchboard.dev/
 Source: https://github.com/ArtemioPadilla/watchboard
 
 AMA about the pipeline architecture.
@@ -263,9 +263,9 @@ It includes timeline events, map points for launch/landing sites, a 3D CesiumJS 
 
 There's also a SpaceX History tracker covering milestones from the Falcon 1 era to present.
 
-Artemis tracker: https://artemiop.com/watchboard/artemis-program/
-SpaceX tracker: https://artemiop.com/watchboard/spacex-history/
-All trackers: https://artemiop.com/watchboard/
+Artemis tracker: https://watchboard.dev/artemis-program/
+SpaceX tracker: https://watchboard.dev/spacex-history/
+All trackers: https://watchboard.dev/
 
 Open source: https://github.com/ArtemioPadilla/watchboard
 ```

@@ -12,7 +12,7 @@ Track conflicts, disasters, political histories, and more — with AI-powered ni
 [![Build Status](https://img.shields.io/github/actions/workflow/status/ArtemioPadilla/watchboard/deploy.yml?style=flat-square&logo=githubactions&label=build)](https://github.com/ArtemioPadilla/watchboard/actions/workflows/deploy.yml)
 [![Powered by Claude Code](https://img.shields.io/badge/Powered%20by-Claude%20Code-7C3AED?style=flat-square&logo=anthropic)](https://claude.ai/code)
 
-**[Live Dashboard](https://artemiop.com/watchboard/)** — **[How to Add a Tracker](#adding-a-new-tracker)** — **[Request a Topic](https://github.com/ArtemioPadilla/watchboard/issues/new?template=tracker-request.md)**
+**[Live Dashboard](https://watchboard.dev/)** — **[How to Add a Tracker](#adding-a-new-tracker)** — **[Request a Topic](https://github.com/ArtemioPadilla/watchboard/issues/new?template=tracker-request.md)**
 
 </div>
 
@@ -38,65 +38,65 @@ Track conflicts, disasters, political histories, and more — with AI-powered ni
 
 | Icon | Tracker | Topic | Region | Live |
 |------|---------|-------|--------|------|
-| ⚔️ | **Iran Conflict** | 2026 Iran-US/Israel conflict — Operation Epic Fury / Roaring Lion | Middle East | [Dashboard](https://artemiop.com/watchboard/iran-conflict/) |
-| 🇺🇦 | **Ukraine War** | Russia's full-scale invasion — frontlines, casualties, diplomacy | Eastern Europe | [Dashboard](https://artemiop.com/watchboard/ukraine-war/) |
-| 🕊️ | **Gaza War** | Israel-Gaza war — ground ops, humanitarian crisis, ICJ proceedings | Israel/Gaza | [Dashboard](https://artemiop.com/watchboard/gaza-war/) |
-| 🕊️ | **Israel-Palestine** | The full arc from 1948 founding to present | Middle East | [Dashboard](https://artemiop.com/watchboard/israel-palestine/) |
-| 🗽 | **September 11** | 2001 attacks, War on Terror, 9/11 Commission | USA | [Dashboard](https://artemiop.com/watchboard/september-11/) |
+| ⚔️ | **Iran Conflict** | 2026 Iran-US/Israel conflict — Operation Epic Fury / Roaring Lion | Middle East | [Dashboard](https://watchboard.dev/iran-conflict/) |
+| 🇺🇦 | **Ukraine War** | Russia's full-scale invasion — frontlines, casualties, diplomacy | Eastern Europe | [Dashboard](https://watchboard.dev/ukraine-war/) |
+| 🕊️ | **Gaza War** | Israel-Gaza war — ground ops, humanitarian crisis, ICJ proceedings | Israel/Gaza | [Dashboard](https://watchboard.dev/gaza-war/) |
+| 🕊️ | **Israel-Palestine** | The full arc from 1948 founding to present | Middle East | [Dashboard](https://watchboard.dev/israel-palestine/) |
+| 🗽 | **September 11** | 2001 attacks, War on Terror, 9/11 Commission | USA | [Dashboard](https://watchboard.dev/september-11/) |
 
 <details>
 <summary><strong>All 48 trackers</strong></summary>
 
 | Icon | Tracker | Topic | Region | Link |
 |------|---------|-------|--------|------|
-| 🏔️ | Afghanistan-Pakistan War | US invasion, Taliban insurgency, ISIS-K, TTP attacks | Afghanistan/Pakistan | [Dashboard](https://artemiop.com/watchboard/afghanistan-pakistan-war/) |
-| 🌹 | AMLO Presidency | Fourth Transformation, Tren Maya, AIFA, constitutional reforms (2018–2024) | Mexico | [Dashboard](https://artemiop.com/watchboard/amlo-presidency/) |
-| 🌙 | NASA Artemis Program | Return to Moon, SLS, Orion, Gateway station, SpaceX/Blue Origin | USA/Global | [Dashboard](https://artemiop.com/watchboard/artemis-program/) |
-| 🕯️ | Ayotzinapa | Forced disappearance of 43 students in Iguala, Guerrero (2014) | Mexico | [Dashboard](https://artemiop.com/watchboard/ayotzinapa/) |
-| 🐰 | Bad Bunny | SoundCloud to reggaeton star, YHLQMDLG, Un Verano Sin Ti, world tours | Puerto Rico/Global | [Dashboard](https://artemiop.com/watchboard/bad-bunny/) |
-| 🎤 | BTS | K-pop global rise, UN speeches, military service, ARMY fandom | South Korea/Global | [Dashboard](https://artemiop.com/watchboard/bts/) |
-| ⚔️ | Felipe Calderón Presidency | War on drugs, military vs cartels, Mérida Initiative (2006–2012) | Mexico | [Dashboard](https://artemiop.com/watchboard/calderon-presidency/) |
-| ☢️ | Chernobyl Disaster | 1986 nuclear disaster — reactor explosion, liquidators, fallout | Ukraine/USSR | [Dashboard](https://artemiop.com/watchboard/chernobyl-disaster/) |
-| 🇨🇱 | Chile: Allende to Pinochet | Socialist government, CIA intervention, 1973 coup, Operation Condor | Chile | [Dashboard](https://artemiop.com/watchboard/chile-allende-pinochet/) |
-| 🤖 | China Tech Revolution | Made in China 2025, AI race, Huawei, TikTok, DeepSeek, US decoupling | China/Global | [Dashboard](https://artemiop.com/watchboard/china-tech-revolution/) |
-| 🦠 | COVID-19 Pandemic | Wuhan origin, lockdowns, vaccines, variant waves, WHO response | Global | [Dashboard](https://artemiop.com/watchboard/covid-pandemic/) |
-| 🇨🇺 | Cuba Crises | Revolution, Bay of Pigs, Missile Crisis, embargo, 2021 protests | Cuba/Caribbean | [Dashboard](https://artemiop.com/watchboard/cuba-crises/) |
-| 🔫 | Culiacanazo | October 2019 Culiacán Crisis and January 2023 Chapo Jr. capture | Sinaloa, Mexico | [Dashboard](https://artemiop.com/watchboard/culiacanazo/) |
-| ⛵ | European Conquest of the Americas | Columbus, conquistadors, Aztec/Inca fall, colonization, Columbian Exchange | Americas | [Dashboard](https://artemiop.com/watchboard/european-conquest-americas/) |
-| 🦊 | Vicente Fox Presidency | Mexico's first opposition president, democratic transition (2000–2006) | Mexico | [Dashboard](https://artemiop.com/watchboard/fox-presidency/) |
-| ☢️ | Fukushima Daiichi | 2011 nuclear disaster — tsunami, meltdowns, TEPCO, decommission | Japan | [Dashboard](https://artemiop.com/watchboard/fukushima-disaster/) |
-| 🕊️ | Gaza War | Ground operations, ceasefire talks, humanitarian crisis, displacement | Israel/Gaza | [Dashboard](https://artemiop.com/watchboard/gaza-war/) |
-| 📉 | Global Recession Risk | Tariff escalation, bond stress, China slowdown, central bank policy | Global | [Dashboard](https://artemiop.com/watchboard/global-recession-risk/) |
-| 🇭🇹 | Haiti Collapse | Moïse assassination, gang control, transitional council, UN intervention | Haiti/Caribbean | [Dashboard](https://artemiop.com/watchboard/haiti-collapse/) |
-| 🛂 | ICE History | ICE creation post-9/11, family separations, mass deportation campaign | USA/Mexico | [Dashboard](https://artemiop.com/watchboard/ice-history/) |
-| 🇮🇳 | India-Pakistan Conflict | Partition, Kashmir dispute, four wars, nuclear tests, Kargil, Mumbai | South Asia | [Dashboard](https://artemiop.com/watchboard/india-pakistan-conflict/) |
-| ⚔️ | Iran Conflict | 2026 Iran-US/Israel conflict — Operation Epic Fury | Middle East | [Dashboard](https://artemiop.com/watchboard/iran-conflict/) |
-| 🕊️ | Israel-Palestine Conflict | 1948 to present — wars, Oslo Accords, intifadas, settlements | Middle East | [Dashboard](https://artemiop.com/watchboard/israel-palestine/) |
-| 🎯 | El Mencho / CJNG | February 2026 killing of El Mencho, CJNG territorial control | Mexico | [Dashboard](https://artemiop.com/watchboard/mencho-cjng/) |
-| 🗺️ | Mexico-US Wars | Texas Revolution, Alamo, Mexican-American War, Treaty of Guadalupe Hidalgo | Mexico/USA | [Dashboard](https://artemiop.com/watchboard/mexico-us-conflict/) |
-| ✈️ | MH17 Shootdown | 2014 downing of Malaysia Airlines Flight 17 over eastern Ukraine | Eastern Ukraine | [Dashboard](https://artemiop.com/watchboard/mh17-shootdown/) |
-| 🇲🇽 | Mexican Political History | PRI hegemony, democratic transition, PRI/PAN/PRD/Morena evolution | Mexico | [Dashboard](https://artemiop.com/watchboard/mx-political-history/) |
-| 🇲🇲 | Myanmar Civil War | Post-coup civil war following February 2021 military takeover | Myanmar/SE Asia | [Dashboard](https://artemiop.com/watchboard/myanmar-civil-war/) |
-| 🛡️ | NATO-US Tensions | Burden-sharing disputes, Article 5 questions, European autonomy | Europe/N. America | [Dashboard](https://artemiop.com/watchboard/nato-us-tensions/) |
-| 🔴 | October 7th Attack | Hamas-led assault on Israel — kibbutz raids, hostages, IDF response | Israel/Gaza | [Dashboard](https://artemiop.com/watchboard/october-7-attack/) |
-| 🏛️ | Enrique Peña Nieto Presidency | Structural reforms, Ayotzinapa crisis, Casa Blanca scandal (2012–2018) | Mexico | [Dashboard](https://artemiop.com/watchboard/pena-nieto-presidency/) |
-| ⚛️ | Quantum Theory | Planck, Einstein, Bohr, Heisenberg, Copenhagen, Bell theorem, quantum computing | Global | [Dashboard](https://artemiop.com/watchboard/quantum-theory/) |
-| 🌍 | Sahel Insurgency | JNIM/ISGS expansion, military coups, Wagner Group, French withdrawal | Sahel/North Africa | [Dashboard](https://artemiop.com/watchboard/sahel-insurgency/) |
-| 🗽 | September 11 Attacks | 2001 al-Qaeda attacks, War on Terror, 9/11 Commission | USA | [Dashboard](https://artemiop.com/watchboard/september-11/) |
-| 🔬 | Claudia Sheinbaum Presidency | First female president of Mexico, judicial reform, US-Mexico relations | Mexico | [Dashboard](https://artemiop.com/watchboard/sheinbaum-presidency/) |
-| 💊 | Sinaloa Cartel Fragmentation | Mayo Zambada capture, Chapitos vs Mayos faction war, fentanyl (2024–) | Mexico/Sinaloa | [Dashboard](https://artemiop.com/watchboard/sinaloa-fragmentation/) |
-| 🦁 | Somalia Conflict | Al-Shabaab insurgency, AMISOM, US drone strikes, state fragility | Somalia/Horn of Africa | [Dashboard](https://artemiop.com/watchboard/somalia-conflict/) |
-| 🌊 | SE Asia Escalation | South China Sea militarization, AUKUS, Philippines-China clashes | SE Asia/Pacific | [Dashboard](https://artemiop.com/watchboard/southeast-asia-escalation/) |
-| 🚀 | SpaceX History | Falcon 1, Falcon 9 reusability, Dragon, Starlink, Starship, Mars | USA/Global | [Dashboard](https://artemiop.com/watchboard/spacex-history/) |
-| ⚔️ | Sudan Civil War | SAF vs RSF, Khartoum battle, Darfur ethnic violence, displacement | Sudan/East Africa | [Dashboard](https://artemiop.com/watchboard/sudan-conflict/) |
-| 🗺️ | Taiwan Strait Tensions | PLA exercises, TSMC, US arms sales, Taiwan Strait incidents | Taiwan/East Asia | [Dashboard](https://artemiop.com/watchboard/taiwan-conflict/) |
-| 🕯️ | Tlatelolco Massacre | October 2, 1968 massacre at Plaza de las Tres Culturas, Mexico City | Mexico City | [Dashboard](https://artemiop.com/watchboard/tlatelolco-1968/) |
-| 🦅 | Trump Presidencies | 45th and 47th president — immigration, trade wars, Jan 6, tariffs | USA/Global | [Dashboard](https://artemiop.com/watchboard/trump-presidencies/) |
-| 🇺🇦 | Ukraine War | Russia's full-scale invasion — frontlines, casualties, diplomacy | Eastern Europe | [Dashboard](https://artemiop.com/watchboard/ukraine-war/) |
-| 🌎 | US Interventions in Latin America | CIA coups, Operation Condor, Panama, Guatemala 1954, Nicaragua Contras | Latin America | [Dashboard](https://artemiop.com/watchboard/usa-latam-interventions/) |
-| ⚽ | FIFA World Cup 2026 | First 48-team tournament, tri-host USA/Mexico/Canada, venues, schedule | USA/Mexico/Canada | [Dashboard](https://artemiop.com/watchboard/world-cup-2026/) |
-| 🪖 | World War I | The Great War 1914–1918 — Somme, Verdun, Gallipoli, Versailles | Europe/Global | [Dashboard](https://artemiop.com/watchboard/world-war-1/) |
-| ⚔️ | World War II | WWII 1939–1945 — Holocaust, Stalingrad, Normandy, atomic bombs | Europe/Pacific | [Dashboard](https://artemiop.com/watchboard/world-war-2/) |
+| 🏔️ | Afghanistan-Pakistan War | US invasion, Taliban insurgency, ISIS-K, TTP attacks | Afghanistan/Pakistan | [Dashboard](https://watchboard.dev/afghanistan-pakistan-war/) |
+| 🌹 | AMLO Presidency | Fourth Transformation, Tren Maya, AIFA, constitutional reforms (2018–2024) | Mexico | [Dashboard](https://watchboard.dev/amlo-presidency/) |
+| 🌙 | NASA Artemis Program | Return to Moon, SLS, Orion, Gateway station, SpaceX/Blue Origin | USA/Global | [Dashboard](https://watchboard.dev/artemis-program/) |
+| 🕯️ | Ayotzinapa | Forced disappearance of 43 students in Iguala, Guerrero (2014) | Mexico | [Dashboard](https://watchboard.dev/ayotzinapa/) |
+| 🐰 | Bad Bunny | SoundCloud to reggaeton star, YHLQMDLG, Un Verano Sin Ti, world tours | Puerto Rico/Global | [Dashboard](https://watchboard.dev/bad-bunny/) |
+| 🎤 | BTS | K-pop global rise, UN speeches, military service, ARMY fandom | South Korea/Global | [Dashboard](https://watchboard.dev/bts/) |
+| ⚔️ | Felipe Calderón Presidency | War on drugs, military vs cartels, Mérida Initiative (2006–2012) | Mexico | [Dashboard](https://watchboard.dev/calderon-presidency/) |
+| ☢️ | Chernobyl Disaster | 1986 nuclear disaster — reactor explosion, liquidators, fallout | Ukraine/USSR | [Dashboard](https://watchboard.dev/chernobyl-disaster/) |
+| 🇨🇱 | Chile: Allende to Pinochet | Socialist government, CIA intervention, 1973 coup, Operation Condor | Chile | [Dashboard](https://watchboard.dev/chile-allende-pinochet/) |
+| 🤖 | China Tech Revolution | Made in China 2025, AI race, Huawei, TikTok, DeepSeek, US decoupling | China/Global | [Dashboard](https://watchboard.dev/china-tech-revolution/) |
+| 🦠 | COVID-19 Pandemic | Wuhan origin, lockdowns, vaccines, variant waves, WHO response | Global | [Dashboard](https://watchboard.dev/covid-pandemic/) |
+| 🇨🇺 | Cuba Crises | Revolution, Bay of Pigs, Missile Crisis, embargo, 2021 protests | Cuba/Caribbean | [Dashboard](https://watchboard.dev/cuba-crises/) |
+| 🔫 | Culiacanazo | October 2019 Culiacán Crisis and January 2023 Chapo Jr. capture | Sinaloa, Mexico | [Dashboard](https://watchboard.dev/culiacanazo/) |
+| ⛵ | European Conquest of the Americas | Columbus, conquistadors, Aztec/Inca fall, colonization, Columbian Exchange | Americas | [Dashboard](https://watchboard.dev/european-conquest-americas/) |
+| 🦊 | Vicente Fox Presidency | Mexico's first opposition president, democratic transition (2000–2006) | Mexico | [Dashboard](https://watchboard.dev/fox-presidency/) |
+| ☢️ | Fukushima Daiichi | 2011 nuclear disaster — tsunami, meltdowns, TEPCO, decommission | Japan | [Dashboard](https://watchboard.dev/fukushima-disaster/) |
+| 🕊️ | Gaza War | Ground operations, ceasefire talks, humanitarian crisis, displacement | Israel/Gaza | [Dashboard](https://watchboard.dev/gaza-war/) |
+| 📉 | Global Recession Risk | Tariff escalation, bond stress, China slowdown, central bank policy | Global | [Dashboard](https://watchboard.dev/global-recession-risk/) |
+| 🇭🇹 | Haiti Collapse | Moïse assassination, gang control, transitional council, UN intervention | Haiti/Caribbean | [Dashboard](https://watchboard.dev/haiti-collapse/) |
+| 🛂 | ICE History | ICE creation post-9/11, family separations, mass deportation campaign | USA/Mexico | [Dashboard](https://watchboard.dev/ice-history/) |
+| 🇮🇳 | India-Pakistan Conflict | Partition, Kashmir dispute, four wars, nuclear tests, Kargil, Mumbai | South Asia | [Dashboard](https://watchboard.dev/india-pakistan-conflict/) |
+| ⚔️ | Iran Conflict | 2026 Iran-US/Israel conflict — Operation Epic Fury | Middle East | [Dashboard](https://watchboard.dev/iran-conflict/) |
+| 🕊️ | Israel-Palestine Conflict | 1948 to present — wars, Oslo Accords, intifadas, settlements | Middle East | [Dashboard](https://watchboard.dev/israel-palestine/) |
+| 🎯 | El Mencho / CJNG | February 2026 killing of El Mencho, CJNG territorial control | Mexico | [Dashboard](https://watchboard.dev/mencho-cjng/) |
+| 🗺️ | Mexico-US Wars | Texas Revolution, Alamo, Mexican-American War, Treaty of Guadalupe Hidalgo | Mexico/USA | [Dashboard](https://watchboard.dev/mexico-us-conflict/) |
+| ✈️ | MH17 Shootdown | 2014 downing of Malaysia Airlines Flight 17 over eastern Ukraine | Eastern Ukraine | [Dashboard](https://watchboard.dev/mh17-shootdown/) |
+| 🇲🇽 | Mexican Political History | PRI hegemony, democratic transition, PRI/PAN/PRD/Morena evolution | Mexico | [Dashboard](https://watchboard.dev/mx-political-history/) |
+| 🇲🇲 | Myanmar Civil War | Post-coup civil war following February 2021 military takeover | Myanmar/SE Asia | [Dashboard](https://watchboard.dev/myanmar-civil-war/) |
+| 🛡️ | NATO-US Tensions | Burden-sharing disputes, Article 5 questions, European autonomy | Europe/N. America | [Dashboard](https://watchboard.dev/nato-us-tensions/) |
+| 🔴 | October 7th Attack | Hamas-led assault on Israel — kibbutz raids, hostages, IDF response | Israel/Gaza | [Dashboard](https://watchboard.dev/october-7-attack/) |
+| 🏛️ | Enrique Peña Nieto Presidency | Structural reforms, Ayotzinapa crisis, Casa Blanca scandal (2012–2018) | Mexico | [Dashboard](https://watchboard.dev/pena-nieto-presidency/) |
+| ⚛️ | Quantum Theory | Planck, Einstein, Bohr, Heisenberg, Copenhagen, Bell theorem, quantum computing | Global | [Dashboard](https://watchboard.dev/quantum-theory/) |
+| 🌍 | Sahel Insurgency | JNIM/ISGS expansion, military coups, Wagner Group, French withdrawal | Sahel/North Africa | [Dashboard](https://watchboard.dev/sahel-insurgency/) |
+| 🗽 | September 11 Attacks | 2001 al-Qaeda attacks, War on Terror, 9/11 Commission | USA | [Dashboard](https://watchboard.dev/september-11/) |
+| 🔬 | Claudia Sheinbaum Presidency | First female president of Mexico, judicial reform, US-Mexico relations | Mexico | [Dashboard](https://watchboard.dev/sheinbaum-presidency/) |
+| 💊 | Sinaloa Cartel Fragmentation | Mayo Zambada capture, Chapitos vs Mayos faction war, fentanyl (2024–) | Mexico/Sinaloa | [Dashboard](https://watchboard.dev/sinaloa-fragmentation/) |
+| 🦁 | Somalia Conflict | Al-Shabaab insurgency, AMISOM, US drone strikes, state fragility | Somalia/Horn of Africa | [Dashboard](https://watchboard.dev/somalia-conflict/) |
+| 🌊 | SE Asia Escalation | South China Sea militarization, AUKUS, Philippines-China clashes | SE Asia/Pacific | [Dashboard](https://watchboard.dev/southeast-asia-escalation/) |
+| 🚀 | SpaceX History | Falcon 1, Falcon 9 reusability, Dragon, Starlink, Starship, Mars | USA/Global | [Dashboard](https://watchboard.dev/spacex-history/) |
+| ⚔️ | Sudan Civil War | SAF vs RSF, Khartoum battle, Darfur ethnic violence, displacement | Sudan/East Africa | [Dashboard](https://watchboard.dev/sudan-conflict/) |
+| 🗺️ | Taiwan Strait Tensions | PLA exercises, TSMC, US arms sales, Taiwan Strait incidents | Taiwan/East Asia | [Dashboard](https://watchboard.dev/taiwan-conflict/) |
+| 🕯️ | Tlatelolco Massacre | October 2, 1968 massacre at Plaza de las Tres Culturas, Mexico City | Mexico City | [Dashboard](https://watchboard.dev/tlatelolco-1968/) |
+| 🦅 | Trump Presidencies | 45th and 47th president — immigration, trade wars, Jan 6, tariffs | USA/Global | [Dashboard](https://watchboard.dev/trump-presidencies/) |
+| 🇺🇦 | Ukraine War | Russia's full-scale invasion — frontlines, casualties, diplomacy | Eastern Europe | [Dashboard](https://watchboard.dev/ukraine-war/) |
+| 🌎 | US Interventions in Latin America | CIA coups, Operation Condor, Panama, Guatemala 1954, Nicaragua Contras | Latin America | [Dashboard](https://watchboard.dev/usa-latam-interventions/) |
+| ⚽ | FIFA World Cup 2026 | First 48-team tournament, tri-host USA/Mexico/Canada, venues, schedule | USA/Mexico/Canada | [Dashboard](https://watchboard.dev/world-cup-2026/) |
+| 🪖 | World War I | The Great War 1914–1918 — Somme, Verdun, Gallipoli, Versailles | Europe/Global | [Dashboard](https://watchboard.dev/world-war-1/) |
+| ⚔️ | World War II | WWII 1939–1945 — Holocaust, Stalingrad, Normandy, atomic bombs | Europe/Pacific | [Dashboard](https://watchboard.dev/world-war-2/) |
 
 </details>
 
@@ -178,7 +178,7 @@ Contested figures are explicitly flagged with `'yes'`, `'evolving'`, `'heavily'`
 | Search | [Pagefind](https://pagefind.app) | Build-time full-text index, zero runtime JS |
 | AI | [Claude Code](https://claude.ai/code) (Max OAuth) | Nightly data updates via web search |
 | CI/CD | GitHub Actions | Build + deploy + nightly data refresh |
-| Hosting | GitHub Pages | Static deployment at `artemiop.com/watchboard/` |
+| Hosting | GitHub Pages | Static deployment at `watchboard.dev/` |
 
 ---
 

@@ -57,7 +57,7 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   integrations: [react(), sitemap()],
   output: 'static',
-  site: 'https://artemiop.com',
+  site: 'https://watchboard.dev',
   base: '/watchboard',
   i18n: {
     defaultLocale: 'en',
@@ -82,7 +82,7 @@ Create `public/robots.txt`:
 User-agent: *
 Allow: /
 
-Sitemap: https://artemiop.com/watchboard/sitemap-index.xml
+Sitemap: https://watchboard.dev/sitemap-index.xml
 ```
 
 - [ ] **Step 4: Verify build succeeds**
@@ -166,7 +166,7 @@ The enhanced README adds:
 
 A config-driven platform for building intelligence dashboards. Each tracker is self-contained with its own data, map region, 3D globe, and AI update prompts. Create a new tracker in 25 minutes.
 
-**[Live Dashboard](https://artemiop.com/watchboard/)** · **[Guide](https://artemiop.com/watchboard/guide/)** · **[Request a Tracker](https://github.com/ArtemioPadilla/watchboard/issues/new?template=tracker-request.yml)**
+**[Live Dashboard](https://watchboard.dev/)** · **[Guide](https://watchboard.dev/guide/)** · **[Request a Tracker](https://github.com/ArtemioPadilla/watchboard/issues/new?template=tracker-request.yml)**
 
 </div>
 
@@ -190,60 +190,60 @@ A config-driven platform for building intelligence dashboards. Each tracker is s
 
 | Tracker | Description | Sections | Map | Globe |
 |---------|-------------|----------|-----|-------|
-| **[Iran Conflict](https://artemiop.com/watchboard/iran-conflict/)** | 2026 Iran-US/Israel conflict (Operation Epic Fury / Roaring Lion) | 9 | Middle East theater | 3D |
-| **[Ukraine War](https://artemiop.com/watchboard/ukraine-war/)** | Russia's full-scale invasion of Ukraine: frontlines, sanctions, NATO response | 9 | Ukraine/Eastern Europe | 3D |
-| **[September 11](https://artemiop.com/watchboard/september-11/)** | 2001 terrorist attacks, War on Terror, 9/11 Commission | 8 | US (NYC, DC, PA) | 3D |
-| **[Gaza War](https://artemiop.com/watchboard/gaza-war/)** | Israel-Gaza war: ground ops, ceasefire negotiations, humanitarian crisis | 9 | Gaza/Israel/Middle East | 3D |
-| **[Chernobyl](https://artemiop.com/watchboard/chernobyl-disaster/)** | 1986 nuclear disaster — reactor explosion, fallout, exclusion zone | 8 | Ukraine/Belarus | 3D |
+| **[Iran Conflict](https://watchboard.dev/iran-conflict/)** | 2026 Iran-US/Israel conflict (Operation Epic Fury / Roaring Lion) | 9 | Middle East theater | 3D |
+| **[Ukraine War](https://watchboard.dev/ukraine-war/)** | Russia's full-scale invasion of Ukraine: frontlines, sanctions, NATO response | 9 | Ukraine/Eastern Europe | 3D |
+| **[September 11](https://watchboard.dev/september-11/)** | 2001 terrorist attacks, War on Terror, 9/11 Commission | 8 | US (NYC, DC, PA) | 3D |
+| **[Gaza War](https://watchboard.dev/gaza-war/)** | Israel-Gaza war: ground ops, ceasefire negotiations, humanitarian crisis | 9 | Gaza/Israel/Middle East | 3D |
+| **[Chernobyl](https://watchboard.dev/chernobyl-disaster/)** | 1986 nuclear disaster — reactor explosion, fallout, exclusion zone | 8 | Ukraine/Belarus | 3D |
 
 <details>
 <summary><strong>See all 48 trackers</strong></summary>
 
 | Tracker | Domain | Region |
 |---------|--------|--------|
-| [Ayotzinapa](https://artemiop.com/watchboard/ayotzinapa/) | Human Rights | Mexico |
-| [MH17 Shootdown](https://artemiop.com/watchboard/mh17-shootdown/) | Disaster | Ukraine/Netherlands |
-| [El Mencho / CJNG](https://artemiop.com/watchboard/mencho-cjng/) | Security | Mexico |
-| [Culiacanazo](https://artemiop.com/watchboard/culiacanazo/) | Security | Mexico |
-| [Fukushima Daiichi](https://artemiop.com/watchboard/fukushima-disaster/) | Disaster | Japan |
-| [Tlatelolco 1968](https://artemiop.com/watchboard/tlatelolco-1968/) | Human Rights | Mexico |
-| [Myanmar Civil War](https://artemiop.com/watchboard/myanmar-civil-war/) | Conflict | Southeast Asia |
-| [Taiwan Strait Tensions](https://artemiop.com/watchboard/taiwan-conflict/) | Conflict | East Asia |
-| [Israel-Palestine](https://artemiop.com/watchboard/israel-palestine/) | Conflict | Middle East |
-| [Somalia Conflict](https://artemiop.com/watchboard/somalia-conflict/) | Conflict | East Africa |
-| [October 7th Attack](https://artemiop.com/watchboard/october-7-attack/) | Conflict | Israel/Gaza |
-| [Sudan Civil War](https://artemiop.com/watchboard/sudan-conflict/) | Conflict | East Africa |
-| [Sahel Insurgency](https://artemiop.com/watchboard/sahel-insurgency/) | Conflict | West Africa |
-| [Afghanistan-Pakistan War](https://artemiop.com/watchboard/afghanistan-pakistan-war/) | Conflict | Central/South Asia |
-| [India-Pakistan Conflict](https://artemiop.com/watchboard/india-pakistan-conflict/) | Conflict | South Asia |
-| [SE Asia Escalation](https://artemiop.com/watchboard/southeast-asia-escalation/) | Conflict | Southeast Asia |
-| [NATO-US Tensions](https://artemiop.com/watchboard/nato-us-tensions/) | Governance | Europe/North America |
-| [World War I](https://artemiop.com/watchboard/world-war-1/) | History | Europe/Global |
-| [World War II](https://artemiop.com/watchboard/world-war-2/) | History | Europe/Pacific/Global |
-| [Mexico-US Wars](https://artemiop.com/watchboard/mexico-us-conflict/) | History | Mexico/USA |
-| [Sinaloa Fragmentation](https://artemiop.com/watchboard/sinaloa-fragmentation/) | Security | Mexico |
-| [ICE History](https://artemiop.com/watchboard/ice-history/) | Governance | USA |
-| [Haiti Collapse](https://artemiop.com/watchboard/haiti-collapse/) | Conflict | Caribbean |
-| [Chile: Allende to Pinochet](https://artemiop.com/watchboard/chile-allende-pinochet/) | History | South America |
-| [US-LatAm Interventions](https://artemiop.com/watchboard/usa-latam-interventions/) | History | Latin America |
-| [Cuba Crises](https://artemiop.com/watchboard/cuba-crises/) | History | Caribbean |
-| [Mexican Political History](https://artemiop.com/watchboard/mx-political-history/) | Governance | Mexico |
-| [Fox Presidency](https://artemiop.com/watchboard/fox-presidency/) | Governance | Mexico |
-| [Calderon Presidency](https://artemiop.com/watchboard/calderon-presidency/) | Governance | Mexico |
-| [Pena Nieto Presidency](https://artemiop.com/watchboard/pena-nieto-presidency/) | Governance | Mexico |
-| [AMLO Presidency](https://artemiop.com/watchboard/amlo-presidency/) | Governance | Mexico |
-| [Sheinbaum Presidency](https://artemiop.com/watchboard/sheinbaum-presidency/) | Governance | Mexico |
-| [Trump Presidencies](https://artemiop.com/watchboard/trump-presidencies/) | Governance | USA/Global |
-| [COVID-19 Pandemic](https://artemiop.com/watchboard/covid-pandemic/) | Disaster | Global |
-| [Global Recession Risk](https://artemiop.com/watchboard/global-recession-risk/) | Economy | Global |
-| [Quantum Theory](https://artemiop.com/watchboard/quantum-theory/) | Science | Global |
-| [China Tech Revolution](https://artemiop.com/watchboard/china-tech-revolution/) | Economy | China/Global |
-| [NASA Artemis](https://artemiop.com/watchboard/artemis-program/) | Space | USA/Global |
-| [SpaceX History](https://artemiop.com/watchboard/spacex-history/) | Space | USA/Global |
-| [European Conquest of Americas](https://artemiop.com/watchboard/european-conquest-americas/) | History | Americas |
-| [FIFA World Cup 2026](https://artemiop.com/watchboard/world-cup-2026/) | Culture | USA/Mexico/Canada |
-| [BTS](https://artemiop.com/watchboard/bts/) | Culture | South Korea/Global |
-| [Bad Bunny](https://artemiop.com/watchboard/bad-bunny/) | Culture | Puerto Rico/Global |
+| [Ayotzinapa](https://watchboard.dev/ayotzinapa/) | Human Rights | Mexico |
+| [MH17 Shootdown](https://watchboard.dev/mh17-shootdown/) | Disaster | Ukraine/Netherlands |
+| [El Mencho / CJNG](https://watchboard.dev/mencho-cjng/) | Security | Mexico |
+| [Culiacanazo](https://watchboard.dev/culiacanazo/) | Security | Mexico |
+| [Fukushima Daiichi](https://watchboard.dev/fukushima-disaster/) | Disaster | Japan |
+| [Tlatelolco 1968](https://watchboard.dev/tlatelolco-1968/) | Human Rights | Mexico |
+| [Myanmar Civil War](https://watchboard.dev/myanmar-civil-war/) | Conflict | Southeast Asia |
+| [Taiwan Strait Tensions](https://watchboard.dev/taiwan-conflict/) | Conflict | East Asia |
+| [Israel-Palestine](https://watchboard.dev/israel-palestine/) | Conflict | Middle East |
+| [Somalia Conflict](https://watchboard.dev/somalia-conflict/) | Conflict | East Africa |
+| [October 7th Attack](https://watchboard.dev/october-7-attack/) | Conflict | Israel/Gaza |
+| [Sudan Civil War](https://watchboard.dev/sudan-conflict/) | Conflict | East Africa |
+| [Sahel Insurgency](https://watchboard.dev/sahel-insurgency/) | Conflict | West Africa |
+| [Afghanistan-Pakistan War](https://watchboard.dev/afghanistan-pakistan-war/) | Conflict | Central/South Asia |
+| [India-Pakistan Conflict](https://watchboard.dev/india-pakistan-conflict/) | Conflict | South Asia |
+| [SE Asia Escalation](https://watchboard.dev/southeast-asia-escalation/) | Conflict | Southeast Asia |
+| [NATO-US Tensions](https://watchboard.dev/nato-us-tensions/) | Governance | Europe/North America |
+| [World War I](https://watchboard.dev/world-war-1/) | History | Europe/Global |
+| [World War II](https://watchboard.dev/world-war-2/) | History | Europe/Pacific/Global |
+| [Mexico-US Wars](https://watchboard.dev/mexico-us-conflict/) | History | Mexico/USA |
+| [Sinaloa Fragmentation](https://watchboard.dev/sinaloa-fragmentation/) | Security | Mexico |
+| [ICE History](https://watchboard.dev/ice-history/) | Governance | USA |
+| [Haiti Collapse](https://watchboard.dev/haiti-collapse/) | Conflict | Caribbean |
+| [Chile: Allende to Pinochet](https://watchboard.dev/chile-allende-pinochet/) | History | South America |
+| [US-LatAm Interventions](https://watchboard.dev/usa-latam-interventions/) | History | Latin America |
+| [Cuba Crises](https://watchboard.dev/cuba-crises/) | History | Caribbean |
+| [Mexican Political History](https://watchboard.dev/mx-political-history/) | Governance | Mexico |
+| [Fox Presidency](https://watchboard.dev/fox-presidency/) | Governance | Mexico |
+| [Calderon Presidency](https://watchboard.dev/calderon-presidency/) | Governance | Mexico |
+| [Pena Nieto Presidency](https://watchboard.dev/pena-nieto-presidency/) | Governance | Mexico |
+| [AMLO Presidency](https://watchboard.dev/amlo-presidency/) | Governance | Mexico |
+| [Sheinbaum Presidency](https://watchboard.dev/sheinbaum-presidency/) | Governance | Mexico |
+| [Trump Presidencies](https://watchboard.dev/trump-presidencies/) | Governance | USA/Global |
+| [COVID-19 Pandemic](https://watchboard.dev/covid-pandemic/) | Disaster | Global |
+| [Global Recession Risk](https://watchboard.dev/global-recession-risk/) | Economy | Global |
+| [Quantum Theory](https://watchboard.dev/quantum-theory/) | Science | Global |
+| [China Tech Revolution](https://watchboard.dev/china-tech-revolution/) | Economy | China/Global |
+| [NASA Artemis](https://watchboard.dev/artemis-program/) | Space | USA/Global |
+| [SpaceX History](https://watchboard.dev/spacex-history/) | Space | USA/Global |
+| [European Conquest of Americas](https://watchboard.dev/european-conquest-americas/) | History | Americas |
+| [FIFA World Cup 2026](https://watchboard.dev/world-cup-2026/) | Culture | USA/Mexico/Canada |
+| [BTS](https://watchboard.dev/bts/) | Culture | South Korea/Global |
+| [Bad Bunny](https://watchboard.dev/bad-bunny/) | Culture | Puerto Rico/Global |
 
 </details>
 
@@ -397,7 +397,7 @@ MIT — use freely, attribute if you'd like.
 
 - [ ] **Step 2: Verify links are correct**
 
-Check that the base URL in the README links (`artemiop.com/watchboard/`) matches the live site. The old README used `artemiopadilla.github.io/watchboard/` — the new one uses the custom domain.
+Check that the base URL in the README links (`watchboard.dev/`) matches the live site. The old README used `artemiopadilla.github.io/watchboard/` — the new one uses the custom domain.
 
 - [ ] **Step 3: Commit**
 
@@ -650,7 +650,7 @@ body:
     attributes:
       label: Page URL
       description: Which page were you on?
-      placeholder: e.g., "https://artemiop.com/watchboard/iran-conflict/"
+      placeholder: e.g., "https://watchboard.dev/iran-conflict/"
   - type: dropdown
     id: browser
     attributes:
@@ -734,7 +734,7 @@ interface SocialPost {
   date: string;
 }
 
-const BASE_URL = 'https://artemiop.com/watchboard';
+const BASE_URL = 'https://watchboard.dev';
 const TRACKERS_DIR = path.resolve('trackers');
 const OUTPUT_DIR = path.resolve('public/_social');
 
@@ -1027,7 +1027,7 @@ jobs:
             weeklyUpdates.sort((a, b) => b.updateCount - a.updateCount);
 
             // Generate thread-style text
-            const baseUrl = 'https://artemiop.com/watchboard';
+            const baseUrl = 'https://watchboard.dev';
             const header = 'Watchboard Weekly — ' + weekAgoStr + ' to ' + todayStr;
 
             const twitterThread = [
@@ -1396,7 +1396,7 @@ Expected: Sitemap includes all tracker pages, guide page, home page.
 cat dist/robots.txt
 ```
 
-Expected: Contains `Sitemap: https://artemiop.com/watchboard/sitemap-index.xml`
+Expected: Contains `Sitemap: https://watchboard.dev/sitemap-index.xml`
 
 - [ ] **Step 4: Test social draft script**
 

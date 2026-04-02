@@ -25,7 +25,7 @@ Watchboard is an open-source intelligence dashboard platform featuring:
 - Nightly AI-powered data updates via GitHub Actions
 - Config-driven: create a new tracker in ~25 minutes
 
-Live: https://artemiop.com/watchboard/
+Live: https://watchboard.dev/
 ```
 
 ---
@@ -48,7 +48,7 @@ Live: https://artemiop.com/watchboard/
 **Submission URL:** https://astro.build/showcase/submit/
 
 **Fields:**
-- Site URL: https://artemiop.com/watchboard/
+- Site URL: https://watchboard.dev/
 - Source URL: https://github.com/ArtemioPadilla/watchboard
 - Description: AI-powered intelligence dashboard platform with 48 trackers covering conflicts, disasters, political events, and more. Features CesiumJS 3D globe, Leaflet maps, source tier classification, and nightly automated data updates via Claude Code.
 
@@ -64,7 +64,7 @@ Live: https://artemiop.com/watchboard/
 
 **Entry:** Add a node under the appropriate category with:
 - Name: Watchboard
-- URL: https://artemiop.com/watchboard/
+- URL: https://watchboard.dev/
 
 ---
 
