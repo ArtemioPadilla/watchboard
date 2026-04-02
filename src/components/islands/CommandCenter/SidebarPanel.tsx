@@ -64,12 +64,12 @@ const TrackerRow = memo(function TrackerRow({
   const href = `${basePath}${localePrefix}${tracker.slug}/`;
   const rowRef = useRef<HTMLDivElement>(null);
 
-  // Auto-scroll into view when selected from globe
+  // Auto-scroll into view when selected or featured by broadcast
   useEffect(() => {
-    if (isActive && rowRef.current) {
+    if ((isActive || isHovered) && rowRef.current) {
       rowRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
-  }, [isActive]);
+  }, [isActive, isHovered]);
 
   const rawHeadline = locale === 'es' && tracker.headlineEs ? tracker.headlineEs : tracker.headline;
   const truncatedHeadline = rawHeadline
@@ -181,7 +181,7 @@ const TrackerRow = memo(function TrackerRow({
       style={{
         ...S.collapsedRow,
         borderLeftColor: color,
-        background: isHovered ? `${color}08` : 'transparent',
+        background: isHovered ? `${color}15` : 'transparent',
       }}
       onClick={e => {
         if (e.shiftKey) {
