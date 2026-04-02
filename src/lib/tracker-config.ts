@@ -55,6 +55,12 @@ const GlobeConfigSchema = z.object({
   clocks: z.array(ClockSchema).optional(),
 });
 
+// ── Adaptive update policy ──
+const UpdatePolicySchema = z.object({
+  escalation: z.array(z.number().int().positive()).min(1),
+  quietThreshold: z.number().int().min(0).default(0),
+});
+
 // ── AI update config ──
 const AiConfigSchema = z.object({
   systemPrompt: z.string(),
@@ -67,6 +73,7 @@ const AiConfigSchema = z.object({
     latMax: z.number(),
   }).optional(),
   updateIntervalDays: z.number().int().positive().default(1),
+  updatePolicy: UpdatePolicySchema.optional(),
   backfillTargets: z.record(z.string(), z.number().int().positive()).optional(),
 });
 
@@ -164,3 +171,4 @@ export type Domain = z.infer<typeof DomainSchema>;
 export type Region = z.infer<typeof RegionSchema>;
 export type Series = z.infer<typeof SeriesSchema>;
 export type RelatedTracker = z.infer<typeof RelatedTrackerSchema>;
+export type UpdatePolicy = z.infer<typeof UpdatePolicySchema>;
