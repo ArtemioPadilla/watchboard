@@ -40,17 +40,14 @@
   white-space: nowrap;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
-  cursor: grab;
   user-select: none;
   -webkit-user-select: none;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
 }
 
 .broadcast-ticker-track::-webkit-scrollbar {
   display: none;
-}
-
-.broadcast-ticker-track.dragging {
-  cursor: grabbing;
 }
 
 .broadcast-ticker-item {
@@ -63,6 +60,7 @@
   color: var(--text-secondary);
   cursor: pointer;
   transition: color 0.2s;
+  scroll-snap-align: center;
 }
 
 .broadcast-ticker-item:hover {

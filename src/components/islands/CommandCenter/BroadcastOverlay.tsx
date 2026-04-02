@@ -100,13 +100,46 @@ export default function BroadcastOverlay({
     };
   }, []);
 
-  // Drag scrub for ticker and card
-  const tickerDrag = useDragScrub({
-    onPrev: () => { onGoToPrev(); onResetPauseTimer(); },
-    onNext: () => { onGoToNext(); onResetPauseTimer(); },
-    onDragStart: () => { if (!isUserPaused) onUserPause(); },
-  });
+  // Ticker: detect which item is centered after user scrolls, update card to match
+  const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const userScrollingRef = useRef(false);
 
+  const handleTickerScroll = useCallback(() => {
+    // Mark as user-initiated scroll
+    if (!userScrollingRef.current) {
+      userScrollingRef.current = true;
+      if (!isUserPaused) onUserPause();
+    }
+    // Debounce: detect centered item after scroll stops
+    if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+    scrollTimeoutRef.current = setTimeout(() => {
+      userScrollingRef.current = false;
+      const track = tickerTrackRef.current;
+      if (!track) return;
+      const trackCenter = track.scrollLeft + track.clientWidth / 2;
+      let closestIdx = 0;
+      let closestDist = Infinity;
+      activeItemRefs.current.forEach((el, idx) => {
+        const itemCenter = el.offsetLeft + el.offsetWidth / 2;
+        const dist = Math.abs(itemCenter - trackCenter);
+        if (dist < closestDist) {
+          closestDist = dist;
+          closestIdx = idx;
+        }
+      });
+      if (closestIdx !== currentIndex) {
+        onJumpTo(trackerQueue[closestIdx]?.slug);
+        onResetPauseTimer();
+      }
+    }, 200);
+  }, [isUserPaused, onUserPause, currentIndex, onJumpTo, trackerQueue, onResetPauseTimer]);
+
+  // Cleanup scroll timeout
+  useEffect(() => {
+    return () => { if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current); };
+  }, []);
+
+  // Card drag (swipe left/right on the lower-third)
   const cardDrag = useDragScrub({
     onPrev: () => { onGoToPrev(); onResetPauseTimer(); },
     onNext: () => { onGoToNext(); onResetPauseTimer(); },
@@ -253,9 +286,9 @@ export default function BroadcastOverlay({
         >
           <div className="broadcast-ticker-label">WATCHBOARD</div>
           <div
-            className={`broadcast-ticker-track ${tickerDrag.isDragging ? 'dragging' : ''}`}
+            className="broadcast-ticker-track"
             ref={tickerTrackRef}
-            {...tickerDrag.handlers}
+            onScroll={handleTickerScroll}
           >
             {trackerQueue.map((tr, i) => (
               <span
