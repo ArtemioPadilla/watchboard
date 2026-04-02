@@ -198,6 +198,16 @@ const TrackerRow = memo(function TrackerRow({
         <span style={S.icon}>{tracker.icon || ''}</span>
         <span className="cc-tracker-name" style={S.collapsedName}>{tracker.shortName}</span>
         {isCompared && <span style={S.compareDot} />}
+        {tracker.latestEventMedia && (
+          <img
+            src={tracker.latestEventMedia.url}
+            alt=""
+            style={S.collapsedThumb}
+            loading="lazy"
+            referrerPolicy="no-referrer"
+            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+          />
+        )}
       </div>
       <div style={S.collapsedRight}>
         <span
@@ -943,6 +953,16 @@ const S = {
     whiteSpace: 'nowrap' as const,
     overflow: 'hidden',
     textOverflow: 'ellipsis',
+  } as CSSProperties,
+
+  collapsedThumb: {
+    width: 24,
+    height: 24,
+    borderRadius: 4,
+    objectFit: 'cover' as const,
+    flexShrink: 0,
+    border: '1px solid var(--border)',
+    opacity: 0.85,
   } as CSSProperties,
 
   collapsedRight: {
