@@ -139,6 +139,36 @@ export default function BroadcastOverlay({
     return () => { if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current); };
   }, []);
 
+  // Mouse drag-to-scroll (desktop doesn't natively support drag scrolling)
+  const dragStartXRef = useRef<number | null>(null);
+  const dragScrollStartRef = useRef(0);
+  const [isDragging, setIsDragging] = useState(false);
+
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    dragStartXRef.current = e.clientX;
+    dragScrollStartRef.current = tickerTrackRef.current?.scrollLeft ?? 0;
+    setIsDragging(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isDragging) return;
+    const onMouseMove = (e: MouseEvent) => {
+      if (dragStartXRef.current === null || !tickerTrackRef.current) return;
+      const dx = dragStartXRef.current - e.clientX;
+      tickerTrackRef.current.scrollLeft = dragScrollStartRef.current + dx;
+    };
+    const onMouseUp = () => {
+      dragStartXRef.current = null;
+      setIsDragging(false);
+    };
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mouseup', onMouseUp);
+    return () => {
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mouseup', onMouseUp);
+    };
+  }, [isDragging]);
+
   // Card drag (swipe left/right on the lower-third)
   const cardDrag = useDragScrub({
     onPrev: () => { onGoToPrev(); onResetPauseTimer(); },
@@ -289,6 +319,8 @@ export default function BroadcastOverlay({
             className="broadcast-ticker-track"
             ref={tickerTrackRef}
             onScroll={handleTickerScroll}
+            onMouseDown={handleMouseDown}
+            style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
           >
             {trackerQueue.map((tr, i) => (
               <span
