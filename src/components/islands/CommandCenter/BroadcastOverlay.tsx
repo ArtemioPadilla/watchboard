@@ -61,43 +61,17 @@ export default function BroadcastOverlay({
   const tickerTrackRef = useRef<HTMLDivElement>(null);
   const activeItemRefs = useRef<Map<number, HTMLSpanElement>>(new Map());
 
-  // Ticker animation via JS
-  const scrollRafRef = useRef<number>(0);
-  const scrollPosRef = useRef(0);
-
-  const tickerDuration = Math.max(trackerQueue.length * 8, 45);
-  // Gentle crawl: ~0.3-0.5 px/frame at 60fps ≈ 18-30 px/s
-  const scrollSpeed = tickerTrackRef.current
-    ? Math.max(0.3, (tickerTrackRef.current.scrollWidth - tickerTrackRef.current.clientWidth) / (tickerDuration * 60))
-    : 0.4;
-
-  // Auto-scroll ticker when not paused
-  useEffect(() => {
-    if (isPaused || isUserPaused || !tickerTrackRef.current) {
-      cancelAnimationFrame(scrollRafRef.current);
-      return;
-    }
-
-    const track = tickerTrackRef.current;
-    const tick = () => {
-      scrollPosRef.current += scrollSpeed;
-      const maxScroll = track.scrollWidth - track.clientWidth;
-      if (maxScroll > 0 && scrollPosRef.current > maxScroll) {
-        scrollPosRef.current = 0;
-      }
-      track.scrollLeft = scrollPosRef.current;
-      scrollRafRef.current = requestAnimationFrame(tick);
-    };
-    scrollRafRef.current = requestAnimationFrame(tick);
-
-    return () => cancelAnimationFrame(scrollRafRef.current);
-  }, [isPaused, isUserPaused, scrollSpeed]);
-
-  // Scroll active ticker item into view when currentIndex changes
+  // Ticker: scroll to center the active item whenever currentIndex changes
+  // The broadcast cycle drives the ticker position, keeping card + ticker in sync
   useEffect(() => {
     const el = activeItemRefs.current.get(currentIndex);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    if (el && tickerTrackRef.current) {
+      const track = tickerTrackRef.current;
+      const itemLeft = el.offsetLeft;
+      const itemWidth = el.offsetWidth;
+      const trackWidth = track.clientWidth;
+      const targetScroll = itemLeft - (trackWidth / 2) + (itemWidth / 2);
+      track.scrollTo({ left: Math.max(0, targetScroll), behavior: 'smooth' });
     }
   }, [currentIndex]);
 
@@ -291,18 +265,7 @@ export default function BroadcastOverlay({
                 onClick={(e) => { e.stopPropagation(); handleTickerItemClick(tr.slug); }}
               >
                 {tr.icon} {tr.shortName} — {tr.headline || 'Tracking...'}
-                <span className="broadcast-ticker-separator">|</span>
-              </span>
-            ))}
-            {/* Duplicate for seamless scroll */}
-            {trackerQueue.map((tr, i) => (
-              <span
-                key={`dup-${tr.slug}`}
-                className={`broadcast-ticker-item ${i === currentIndex ? 'active' : ''}`}
-                onClick={(e) => { e.stopPropagation(); handleTickerItemClick(tr.slug); }}
-              >
-                {tr.icon} {tr.shortName} — {tr.headline || 'Tracking...'}
-                <span className="broadcast-ticker-separator">|</span>
+                {i < trackerQueue.length - 1 && <span className="broadcast-ticker-separator">|</span>}
               </span>
             ))}
           </div>
