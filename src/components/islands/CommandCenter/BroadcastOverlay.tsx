@@ -145,8 +145,14 @@ export default function BroadcastOverlay({
   const [isDragging, setIsDragging] = useState(false);
 
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
     dragStartXRef.current = e.clientX;
     dragScrollStartRef.current = tickerTrackRef.current?.scrollLeft ?? 0;
+    // Disable snap and smooth during drag for instant response
+    if (tickerTrackRef.current) {
+      tickerTrackRef.current.style.scrollSnapType = 'none';
+      tickerTrackRef.current.style.scrollBehavior = 'auto';
+    }
     setIsDragging(true);
   }, []);
 
@@ -159,6 +165,11 @@ export default function BroadcastOverlay({
     };
     const onMouseUp = () => {
       dragStartXRef.current = null;
+      // Re-enable snap after drag ends — will snap to nearest item
+      if (tickerTrackRef.current) {
+        tickerTrackRef.current.style.scrollSnapType = '';
+        tickerTrackRef.current.style.scrollBehavior = '';
+      }
       setIsDragging(false);
     };
     window.addEventListener('mousemove', onMouseMove);
@@ -278,30 +289,41 @@ export default function BroadcastOverlay({
                 </div>
               </div>
             ) : (
-              /* ── Compact layout (existing) ── */
-              <>
-                {featuredTracker.domain && (
-                  <div className="broadcast-lt-category">{featuredTracker.domain.toUpperCase()}</div>
-                )}
-                <div className="broadcast-lt-name">
-                  {featuredTracker.icon} {featuredTracker.shortName}
-                </div>
-                {featuredTracker.headline && (
-                  <div className="broadcast-lt-headline">{featuredTracker.headline}</div>
-                )}
-                {featuredTracker.topKpis?.[0] && (
-                  <div className="broadcast-lt-kpi">
-                    <span className="broadcast-lt-kpi-value">{featuredTracker.topKpis[0].value}</span>
-                    <span className="broadcast-lt-kpi-label">{featuredTracker.topKpis[0].label}</span>
-                  </div>
-                )}
-                <div className="broadcast-lt-progress">
-                  <div
-                    className="broadcast-lt-progress-fill"
-                    style={{ width: `${progress * 100}%` }}
+              /* ── Compact layout with optional thumbnail ── */
+              <div className="broadcast-lt-compact">
+                {featuredTracker.latestEventMedia && (
+                  <img
+                    className="broadcast-lt-compact-thumb"
+                    src={featuredTracker.latestEventMedia.url}
+                    alt=""
+                    referrerPolicy="no-referrer"
+                    onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
                   />
+                )}
+                <div className="broadcast-lt-compact-text">
+                  {featuredTracker.domain && (
+                    <div className="broadcast-lt-category">{featuredTracker.domain.toUpperCase()}</div>
+                  )}
+                  <div className="broadcast-lt-name">
+                    {featuredTracker.icon} {featuredTracker.shortName}
+                  </div>
+                  {featuredTracker.headline && (
+                    <div className="broadcast-lt-headline">{featuredTracker.headline}</div>
+                  )}
+                  {featuredTracker.topKpis?.[0] && (
+                    <div className="broadcast-lt-kpi">
+                      <span className="broadcast-lt-kpi-value">{featuredTracker.topKpis[0].value}</span>
+                      <span className="broadcast-lt-kpi-label">{featuredTracker.topKpis[0].label}</span>
+                    </div>
+                  )}
+                  <div className="broadcast-lt-progress">
+                    <div
+                      className="broadcast-lt-progress-fill"
+                      style={{ width: `${progress * 100}%` }}
+                    />
+                  </div>
                 </div>
-              </>
+              </div>
             )}
           </div>
         </div>
