@@ -1,14 +1,15 @@
 /* ── Broadcast Mode: TV News-style overlay ── */
 
-/* News Ticker (bottom bar) */
+/* News Ticker (sits above globe status bar at bottom: 28px) */
 .broadcast-ticker {
   position: absolute;
-  bottom: 0;
+  bottom: 28px;
   left: 0;
   right: 0;
   height: 32px;
-  background: rgba(10, 11, 14, 0.92);
+  background: rgba(10, 11, 14, 0.95);
   border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
   z-index: 20;
@@ -84,7 +85,7 @@
 /* Lower-Third (CNN-style info card) */
 .broadcast-lower-third {
   position: absolute;
-  bottom: 44px;
+  bottom: 72px;
   left: 0;
   max-width: 480px;
   display: flex;
