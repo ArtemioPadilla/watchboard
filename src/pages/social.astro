@@ -1,0 +1,45 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SocialCommandCenter from '../components/islands/SocialCommandCenter';
+
+const base = import.meta.env.BASE_URL;
+const basePath = base.endsWith('/') ? base : `${base}/`;
+---
+
+<BaseLayout
+  title="Social Command Center — Watchboard"
+  description="AI-curated social media queue with LLM judge, budget tracking, and batch approval"
+>
+  <main id="main-content" class="social-page">
+    <SocialCommandCenter client:load basePath={basePath} />
+    <footer class="platform-footer">
+      <a href={basePath}>Watchboard</a>
+      <span>&middot;</span>
+      <a href={`${basePath}metrics/`}>Metrics</a>
+      <span>&middot;</span>
+      <a href={`${basePath}rss.xml`}>RSS</a>
+      <span>&middot;</span>
+      <a href="https://github.com/ArtemioPadilla/watchboard" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </footer>
+  </main>
+</BaseLayout>
+
+<style>
+  .social-page {
+    min-height: 100vh;
+    background: var(--bg-primary, #0d1117);
+  }
+  .platform-footer {
+    text-align: center;
+    padding: 24px;
+    font-size: 12px;
+    color: var(--text-muted, #484f58);
+  }
+  .platform-footer a {
+    color: var(--text-muted, #484f58);
+    text-decoration: none;
+  }
+  .platform-footer a:hover {
+    color: var(--accent-blue, #58a6ff);
+  }
+</style>
