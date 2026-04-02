@@ -161,6 +161,14 @@ const serializedTrackers = nonDraft.map(t => {
     to { transform: rotate(360deg); }
   }
 
+  /* Show follow star on tracker row hover */
+  .cc-tracker-row:hover .cc-follow-toggle {
+    opacity: 0.6 !important;
+  }
+  .cc-tracker-row .cc-follow-toggle:hover {
+    opacity: 1 !important;
+  }
+
   @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }

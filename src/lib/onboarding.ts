@@ -16,7 +16,7 @@ const COACH_HINTS: CoachHint[] = [
   { featureKey: 'broadcast-pause', text: 'Hover the ticker or card to pause and explore', anchor: 'ticker' },
   { featureKey: 'ticker-click', text: 'Click any headline in the ticker to jump there', anchor: 'ticker' },
   { featureKey: 'search', text: 'Press / to search across all trackers', anchor: 'search' },
-  { featureKey: 'follow', text: 'Press F on a tracker to follow it for priority updates', anchor: 'sidebar' },
+  { featureKey: 'follow', text: 'Select a tracker in the sidebar, then press F or tap ☆ to follow it', anchor: 'sidebar' },
   { featureKey: 'drag-scrub', text: 'Drag the ticker left/right to scrub through stories', anchor: 'ticker' },
 ];
 

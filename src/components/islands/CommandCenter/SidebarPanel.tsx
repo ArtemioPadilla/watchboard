@@ -196,10 +196,21 @@ const TrackerRow = memo(function TrackerRow({
       <div style={S.collapsedLeft}>
         <span style={S.icon}>{tracker.icon || ''}</span>
         <span className="cc-tracker-name" style={S.collapsedName}>{tracker.shortName}</span>
-        {isFollowed && <span style={S.followStar}>★</span>}
         {isCompared && <span style={S.compareDot} />}
       </div>
       <div style={S.collapsedRight}>
+        <span
+          className="cc-follow-toggle"
+          style={{
+            ...S.collapsedFollowBtn,
+            color: isFollowed ? '#f39c12' : 'var(--text-muted)',
+            opacity: isFollowed ? 1 : undefined,
+          }}
+          onClick={e => { e.stopPropagation(); onToggleFollow(tracker.slug); }}
+          title={isFollowed ? 'Unfollow' : 'Follow'}
+        >
+          {isFollowed ? '★' : '☆'}
+        </span>
         {freshness.className === 'fresh' && <span style={S.freshDot} />}
         <span className="cc-tracker-status" style={{ ...S.collapsedStatus, color: freshness.className === 'fresh' ? 'var(--accent-green)' : freshness.className === 'recent' ? 'var(--accent-amber)' : 'var(--text-muted)' }}>
           {t(freshness.className === 'fresh' ? 'status.fresh' : freshness.className === 'recent' ? 'status.recent' : 'status.stale' as any, locale)}
@@ -1112,6 +1123,17 @@ const S = {
     color: '#f39c12',
     fontSize: '0.55rem',
     flexShrink: 0,
+  } as CSSProperties,
+
+  collapsedFollowBtn: {
+    fontSize: '0.7rem',
+    cursor: 'pointer',
+    flexShrink: 0,
+    opacity: 0,
+    transition: 'opacity 0.2s, color 0.2s',
+    userSelect: 'none' as const,
+    padding: '0 2px',
+    lineHeight: 1,
   } as CSSProperties,
 
   compareBtn: {
