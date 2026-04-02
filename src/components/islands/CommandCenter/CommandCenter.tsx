@@ -31,6 +31,7 @@ const SHORTCUTS = [
   { key: 'C', tKey: 'cc.compare' },
   { key: 'B', tKey: 'shortcuts.broadcast' },
   { key: 'G', tKey: 'shortcuts.rotate' },
+  { key: 'L', tKey: 'shortcuts.cityLights' },
   { key: 'O', tKey: 'shortcuts.openSelected' },
   { key: 'Esc', tKey: 'shortcuts.deselect' },
   { key: '?', tKey: 'shortcuts.help' },
@@ -62,6 +63,7 @@ export default function CommandCenter({
     toggleRotation?: () => void;
     flyTo?: (lat: number, lng: number, altitude: number, durationMs: number) => void;
     setAutoRotate?: (enabled: boolean, speed?: number) => void;
+    toggleCityLights?: () => void;
   }>(null);
 
   const broadcastEnabled = !activeTracker && !broadcastOff;
@@ -167,6 +169,11 @@ export default function CommandCenter({
         case 'G':
           e.preventDefault();
           globeRef.current?.toggleRotation?.();
+          break;
+        case 'l':
+        case 'L':
+          e.preventDefault();
+          globeRef.current?.toggleCityLights?.();
           break;
         case 'c':
         case 'C':

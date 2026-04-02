@@ -35,6 +35,7 @@ interface Props {
   followedSlugs: string[];
   broadcastMode?: boolean;
   featuredSlug?: string | null;
+  cityLights?: boolean;
   onSelectTracker: (slug: string | null) => void;
   onHoverTracker: (slug: string | null) => void;
 }
@@ -49,7 +50,8 @@ function hexToRgb(hex: string): string {
 
 const base = import.meta.env.BASE_URL || '/watchboard';
 const basePath = base.endsWith('/') ? base : `${base}/`;
-const DARK_EARTH_URL = `${basePath}textures/earth-night.webp`;
+const EARTH_LIGHTS_URL = `${basePath}textures/earth-dark-blend-4k.webp`;
+const EARTH_DARK_URL = `${basePath}textures/earth-dark-threejs.jpg`;
 const BUMP_URL = `${basePath}textures/earth-topology.webp`;
 
 function computeFreshnessClass(lastUpdated: string): 'fresh' | 'recent' | 'stale' {
@@ -176,6 +178,7 @@ export interface GlobePanelHandle {
   toggleRotation?: () => void;
   flyTo?: (lat: number, lng: number, altitude: number, durationMs: number) => void;
   setAutoRotate?: (enabled: boolean, speed?: number) => void;
+  toggleCityLights?: () => void;
 }
 
 const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
@@ -185,14 +188,17 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
   followedSlugs,
   broadcastMode = false,
   featuredSlug = null,
+  cityLights: cityLightsProp = true,
   onSelectTracker,
   onHoverTracker,
 }, ref) {
   const [loading, setLoading] = useState(true);
+  const [cityLights, setCityLights] = useState(cityLightsProp);
   const containerRef = useRef<HTMLDivElement>(null);
   const globeRef = useRef<any>(null);
   const activeRef = useRef(activeTracker);
   const hoveredRef = useRef(hoveredTracker);
+  const darkTexRef = useRef<any>(null);
 
   const followedRef = useRef(followedSlugs);
   activeRef.current = activeTracker;
@@ -233,6 +239,9 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
           controls.autoRotateSpeed = speed;
         }
       }
+    },
+    toggleCityLights: () => {
+      setCityLights(prev => !prev);
     },
   }));
 
@@ -287,8 +296,13 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
     const initGlobe = () => import('globe.gl').then(({ default: Globe }) => {
       if (destroyed || !containerRef.current) return;
 
+      // Preload the dark (no-lights) texture for toggle
+      const darkImg = new Image();
+      darkImg.crossOrigin = 'anonymous';
+      darkImg.src = EARTH_DARK_URL;
+
       const globe = Globe()(containerRef.current)
-        .globeImageUrl(DARK_EARTH_URL)
+        .globeImageUrl(EARTH_LIGHTS_URL)
         .bumpImageUrl(BUMP_URL)
         .backgroundColor('rgba(0,0,0,0)')
         .showAtmosphere(true)
@@ -471,6 +485,13 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
     }
   }, [activeTracker, broadcastMode]);
 
+  // Toggle city lights texture
+  useEffect(() => {
+    const globe = globeRef.current;
+    if (!globe) return;
+    globe.globeImageUrl(cityLights ? EARTH_LIGHTS_URL : EARTH_DARK_URL);
+  }, [cityLights]);
+
   return (
     <div style={styles.container}>
       {loading && (
@@ -485,6 +506,21 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
       {!broadcastMode && (
         <div style={styles.statusBar}>
           <span>{t('cc.globeHint', getPreferredLocale())}</span>
+          <button
+            onClick={() => setCityLights(prev => !prev)}
+            title={`City lights: ${cityLights ? 'ON' : 'OFF'} (L)`}
+            style={{
+              ...styles.lightsToggle,
+              opacity: cityLights ? 0.9 : 0.4,
+            }}
+            aria-label={`Toggle city lights (currently ${cityLights ? 'on' : 'off'})`}
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M9 18h6"/><path d="M10 22h4"/>
+              <path d="M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/>
+            </svg>
+            <span style={{ marginLeft: 4 }}>L</span>
+          </button>
         </div>
       )}
     </div>
@@ -555,6 +591,23 @@ const styles = {
     color: 'var(--text-muted)',
     opacity: 0.6,
     backdropFilter: 'blur(4px)',
-    pointerEvents: 'none' as const,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  lightsToggle: {
+    background: 'none',
+    border: '1px solid rgba(255,255,255,0.15)',
+    borderRadius: 4,
+    color: '#e6edf3',
+    cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    padding: '2px 6px',
+    fontFamily: "'JetBrains Mono', monospace",
+    fontSize: '0.52rem',
+    letterSpacing: '0.04em',
+    transition: 'opacity 0.2s',
+    pointerEvents: 'auto' as const,
   },
 };

@@ -51,7 +51,7 @@ export default function NotificationManager({ trackers, followedSlugs }: Props) 
         try {
           new Notification(title, {
             body,
-            icon: '/textures/earth-night.jpg',
+            icon: '/textures/earth-dark-blend-4k.webp',
             tag: `wb-${t.slug}`,
             silent: true,
           });
