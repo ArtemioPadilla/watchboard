@@ -1429,7 +1429,7 @@ body::before {
 
 .footer-note {
   font-size: 0.65rem;
-  color: var(--text-muted);
+  color: var(--text-secondary);
   max-width: 900px;
   line-height: 1.5;
 }
@@ -1441,17 +1441,17 @@ body::before {
   font-size: 0.72rem;
 }
 .footer-links a {
-  color: var(--text-muted);
+  color: var(--text-secondary);
   text-decoration: none;
   transition: color 0.2s;
 }
 .footer-links a:hover { color: var(--text-primary); }
-.footer-sep { color: var(--border-light); }
+.footer-sep { color: var(--text-muted); }
 
 .footer-updated {
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.65rem;
-  color: var(--text-muted);
+  color: var(--text-secondary);
   letter-spacing: 0.08em;
 }
 
