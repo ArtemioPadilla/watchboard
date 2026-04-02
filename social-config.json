@@ -1,0 +1,29 @@
+{
+  "baseUrl": "https://watchboard.dev",
+  "handle": "@watchboard",
+  "budget": {
+    "monthlyTarget": 1.00,
+    "currency": "USD"
+  },
+  "apiCosts": {
+    "contentCreate": 0.01,
+    "mediaCreate": 0.01
+  },
+  "scheduling": {
+    "slots": ["08:00", "13:00", "18:00", "22:00"],
+    "timezone": "UTC"
+  },
+  "judge": {
+    "autoApproveThreshold": 0.85,
+    "reviewThreshold": 0.50,
+    "memesAlwaysReview": true
+  },
+  "hashtags": {
+    "brandTag": "#Watchboard",
+    "maxPerTweet": 2,
+    "threadsLastOnly": true,
+    "memesNone": true
+  },
+  "languages": ["en", "es", "fr", "pt"],
+  "tweetTypes": ["digest", "breaking", "hot_take", "thread", "data_viz", "meme"]
+}

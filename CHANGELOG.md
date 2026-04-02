@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Social Command Center — config and seed files**: `social-config.json` at project root (base URL, handle, budget, API costs, scheduling slots, judge thresholds, hashtag rules, languages, tweet types); `public/_social/budget.json` (monthly budget tracker, seeded at $0 spent for 2026-04); `public/_social/history.json` (empty array, seed for posted tweet log)
 - **SEO: Sitemap generation**: `@astrojs/sitemap` integration auto-generates `sitemap-index.xml` and `sitemap-0.xml` at build time with all page URLs
 - **SEO: robots.txt**: allows all crawlers and points to the sitemap index at `https://watchboard.dev/sitemap-index.xml`
 - **Enhanced LATEST INTEL feed**: expandable accordion items in homepage sidebar with digest summaries, section update badges, and dashboard links

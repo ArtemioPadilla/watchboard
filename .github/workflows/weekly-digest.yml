@@ -103,18 +103,29 @@ jobs:
               '#Watchboard #OSINT #Intelligence #OpenSource',
             ].join('\n');
 
-            const output = {
-              type: 'weekly',
-              dateRange: { from: weekAgoStr, to: todayStr },
-              trackerCount: weeklyUpdates.length,
-              twitterThread,
-              linkedIn,
-              trackers: weeklyUpdates,
-            };
+            const output = [{
+              id: require('crypto').randomUUID(),
+              type: 'thread',
+              voice: 'journalist',
+              tracker: 'watchboard',
+              lang: 'en',
+              text: header,
+              hashtags: ['#OSINT', '#Watchboard'],
+              link: baseUrl,
+              image: null,
+              memegenUrl: null,
+              publishAt: new Date().toISOString(),
+              status: 'pending_review',
+              estimatedCost: twitterThread.length * 0.01,
+              judge: { score: 0.75, verdict: 'REVIEW', comment: 'Weekly digest thread — auto-generated, needs review.', factChecks: [] },
+              threadTweets: twitterThread,
+              tweetId: null,
+              postedAt: null,
+            }];
 
             const outDir = 'public/_social';
             fs.mkdirSync(outDir, { recursive: true });
-            const outPath = path.join(outDir, 'weekly-' + todayStr + '.json');
+            const outPath = path.join(outDir, 'queue-' + todayStr + '.json');
             fs.writeFileSync(outPath, JSON.stringify(output, null, 2));
             console.log('Weekly digest written to ' + outPath);
             console.log('Trackers updated: ' + weeklyUpdates.length);
@@ -131,7 +142,7 @@ jobs:
           X_ACCESS_TOKEN_SECRET: ${{ secrets.X_ACCESS_TOKEN_SECRET }}
           LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
           LINKEDIN_ORG_ID: ${{ secrets.LINKEDIN_ORG_ID }}
-        run: npx tsx scripts/post-social.ts
+        run: npx tsx scripts/post-social-queue.ts
 
       - name: Commit and push
         env:
