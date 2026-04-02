@@ -147,6 +147,27 @@
   text-overflow: ellipsis;
 }
 
+/* Compact layout (unexpanded lower-third with inline thumbnail) */
+.broadcast-lt-compact {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.broadcast-lt-compact-thumb {
+  width: 64px;
+  height: 64px;
+  border-radius: 6px;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+}
+
+.broadcast-lt-compact-text {
+  flex: 1;
+  min-width: 0;
+}
+
 .broadcast-lt-body {
   background: rgba(10, 11, 14, 0.92);
   border: 1px solid var(--border);
