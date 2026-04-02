@@ -114,4 +114,10 @@ const statusLabel = `${temporalLabel} ${domainLabel}`;
       militaryTabs={config.militaryTabs}
     />
   </div>
+
+  <script define:vars={{ trackerSlug: config.slug }}>
+    if (window.posthog) {
+      window.posthog.capture('tracker_viewed', { tracker_slug: trackerSlug });
+    }
+  </script>
 </BaseLayout>
