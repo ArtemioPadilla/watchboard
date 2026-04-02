@@ -24,6 +24,11 @@ const serializedTrackers = nonDraft.map(t => {
   let digestSummary: string | undefined;
   let digestSectionsUpdated: string[] | undefined;
   let latestEventMedia: { url: string; source: string; tier: number } | undefined;
+  let eventImages: Array<{ url: string; source: string; tier: number }> = [];
+  let isBreaking = false;
+  let recentEventCount = 0;
+  let avgSourceTier = 0;
+  let sectionsUpdatedCount = 0;
 
   try {
     const data = loadTrackerData(t.slug, t.eraLabel);
@@ -35,11 +40,13 @@ const serializedTrackers = nonDraft.map(t => {
     if (latestDigest) {
       digestSummary = latestDigest.summary;
       digestSectionsUpdated = latestDigest.sectionsUpdated;
+      sectionsUpdatedCount = latestDigest.sectionsUpdated?.length ?? 0;
     }
 
-    // Extract latest event image from a Tier 1-2 source (most recent first)
+    // Collect up to 5 recent event images from T1-T2 sources (most recent first)
     const allEvents = data.timeline.flatMap(era => era.events).reverse();
     for (const evt of allEvents) {
+      if (eventImages.length >= 5) break;
       if (!evt.media?.length) continue;
       const bestSource = evt.sources
         .filter(s => s.tier <= 2)
@@ -47,10 +54,35 @@ const serializedTrackers = nonDraft.map(t => {
       if (!bestSource) continue;
       const image = evt.media.find(m => m.type === 'image');
       if (image) {
-        latestEventMedia = { url: image.url, source: image.source || bestSource.name, tier: bestSource.tier };
-        break;
+        eventImages.push({ url: image.url, source: image.source || bestSource.name, tier: bestSource.tier });
       }
     }
+    latestEventMedia = eventImages[0];
+
+    // Compute relevance scoring inputs
+    const now = Date.now();
+    const sevenDaysAgo = now - 7 * 24 * 3600_000;
+    const oneDayAgo = now - 24 * 3600_000;
+    let recentTierSum = 0;
+    let recentTierCount = 0;
+    let last24hCount = 0;
+    let hasT1InLast24h = false;
+    for (const evt of allEvents) {
+      const evtDate = new Date(evt.date).getTime();
+      if (evtDate >= sevenDaysAgo) {
+        recentEventCount++;
+        for (const s of evt.sources) {
+          recentTierSum += s.tier;
+          recentTierCount++;
+        }
+      }
+      if (evtDate >= oneDayAgo) {
+        last24hCount++;
+        if (evt.sources.some(s => s.tier === 1)) hasT1InLast24h = true;
+      }
+    }
+    avgSourceTier = recentTierCount > 0 ? recentTierSum / recentTierCount : 4;
+    isBreaking = last24hCount >= 3 && hasT1InLast24h;
   } catch {
     // Tracker may not have data yet — use config defaults
   }
@@ -97,6 +129,11 @@ const serializedTrackers = nonDraft.map(t => {
     digestSummary,
     digestSectionsUpdated,
     latestEventMedia,
+    eventImages,
+    isBreaking,
+    recentEventCount,
+    avgSourceTier,
+    sectionsUpdatedCount,
   };
 });
 
@@ -121,6 +158,16 @@ const serializedTrackers = nonDraft.map(t => {
 
   @keyframes spin {
     to { transform: rotate(360deg); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
   }
 
   .sr-only {

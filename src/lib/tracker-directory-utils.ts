@@ -37,6 +37,11 @@ export interface TrackerCardData {
   digestSummary?: string;
   digestSectionsUpdated?: string[];
   latestEventMedia?: { url: string; source: string; tier: number };
+  eventImages?: Array<{ url: string; source: string; tier: number }>;
+  isBreaking?: boolean;
+  recentEventCount?: number;
+  avgSourceTier?: number;
+  sectionsUpdatedCount?: number;
 }
 
 export interface TrackerGroup {

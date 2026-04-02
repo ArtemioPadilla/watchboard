@@ -9,6 +9,9 @@ import ComparePanel from './ComparePanel';
 import NotificationManager from './NotificationManager';
 import { useBroadcastMode } from './useBroadcastMode';
 import BroadcastOverlay from './BroadcastOverlay';
+import WelcomeOverlay from './WelcomeOverlay';
+import CoachMark from './CoachMark';
+import { isWelcomeDismissed, dismissWelcome, getDiscoveredFeatures, markFeatureDiscovered, getNextCoachHint } from '../../../lib/onboarding';
 
 const FOLLOWS_KEY = 'watchboard-follows';
 
@@ -58,6 +61,9 @@ export default function CommandCenter({
   const [locale, setLocale] = useState<Locale>('en');
   const [showHelp, setShowHelp] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [showWelcome, setShowWelcome] = useState(false);
+  const [coachHint, setCoachHint] = useState<ReturnType<typeof getNextCoachHint>>(null);
+  const [discoveredFeatures, setDiscoveredFeatures] = useState<Set<string>>(new Set());
   const searchRef = useRef<HTMLInputElement>(null);
   const globeRef = useRef<{
     toggleRotation?: () => void;
@@ -73,12 +79,45 @@ export default function CommandCenter({
     globeRef,
     broadcastEnabled,
     (slug) => setHoveredTracker(slug),
+    followedSlugs,
   );
 
   useEffect(() => {
     setFollowedSlugs(loadFollows());
     setLocale(getPreferredLocale());
+    // Welcome / onboarding
+    if (!isWelcomeDismissed()) {
+      setShowWelcome(true);
+    } else {
+      const discovered = getDiscoveredFeatures();
+      setDiscoveredFeatures(discovered);
+      setCoachHint(getNextCoachHint(discovered));
+    }
   }, []);
+
+  const handleDismissWelcome = useCallback((permanent: boolean) => {
+    dismissWelcome(permanent);
+    setShowWelcome(false);
+    const discovered = getDiscoveredFeatures();
+    setDiscoveredFeatures(discovered);
+    setCoachHint(getNextCoachHint(discovered));
+  }, []);
+
+  const handleDiscoverFeature = useCallback((feature: string) => {
+    markFeatureDiscovered(feature);
+    setDiscoveredFeatures(prev => {
+      const next = new Set(prev);
+      next.add(feature);
+      setCoachHint(getNextCoachHint(next));
+      return next;
+    });
+  }, []);
+
+  const handleDismissCoachHint = useCallback(() => {
+    if (coachHint) {
+      handleDiscoverFeature(coachHint.featureKey);
+    }
+  }, [coachHint, handleDiscoverFeature]);
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
@@ -105,6 +144,7 @@ export default function CommandCenter({
   }, []);
 
   const handleToggleFollow = useCallback((slug: string) => {
+    handleDiscoverFeature('follow');
     setFollowedSlugs(prev => {
       const next = prev.includes(slug)
         ? prev.filter(s => s !== slug)
@@ -147,6 +187,7 @@ export default function CommandCenter({
         case '/':
           e.preventDefault();
           searchRef.current?.focus();
+          handleDiscoverFeature('search');
           break;
         case '?':
           e.preventDefault();
@@ -230,11 +271,23 @@ export default function CommandCenter({
             currentIndex={broadcast.currentIndex}
             onJumpTo={(slug) => {
               broadcast.jumpTo(slug);
+              handleDiscoverFeature('ticker-click');
             }}
+            isUserPaused={broadcast.isUserPaused}
+            pauseCountdown={broadcast.pauseCountdown}
+            onUserPause={() => {
+              broadcast.userPause();
+              handleDiscoverFeature('broadcast-pause');
+            }}
+            onUserResume={broadcast.userResume}
+            onResetPauseTimer={broadcast.resetPauseTimer}
+            onGoToNext={broadcast.goToNext}
+            onGoToPrev={broadcast.goToPrev}
+            basePath={basePath}
           />
         )}
         {isMobile && (
-          <MobileStoryCarousel trackers={trackers} basePath={basePath} />
+          <MobileStoryCarousel trackers={trackers} basePath={basePath} followedSlugs={followedSlugs} />
         )}
       </div>
       <nav className="cc-sidebar" style={styles.sidebar} aria-label="Tracker directory">
@@ -284,6 +337,14 @@ export default function CommandCenter({
             <div style={styles.helpClose}><kbd style={styles.helpKeyInline}>?</kbd> / <kbd style={styles.helpKeyInline}>Esc</kbd> {t('shortcuts.close', locale)}</div>
           </div>
         </div>
+      )}
+
+      {/* Welcome overlay (first visit) */}
+      {showWelcome && <WelcomeOverlay onDismiss={handleDismissWelcome} />}
+
+      {/* Coach marks (return visits) */}
+      {!showWelcome && coachHint && (
+        <CoachMark hint={coachHint} onDismiss={handleDismissCoachHint} />
       )}
     </div>
   );

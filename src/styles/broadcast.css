@@ -32,20 +32,23 @@
 
 .broadcast-ticker-track {
   flex: 1;
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
   height: 100%;
   display: flex;
   align-items: center;
-}
-
-.broadcast-ticker-content {
-  display: flex;
   white-space: nowrap;
-  animation: ticker-scroll var(--ticker-duration, 60s) linear infinite;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  cursor: grab;
 }
 
-.broadcast-ticker-content.paused {
-  animation-play-state: paused;
+.broadcast-ticker-track::-webkit-scrollbar {
+  display: none;
+}
+
+.broadcast-ticker-track.dragging {
+  cursor: grabbing;
 }
 
 .broadcast-ticker-item {
@@ -66,6 +69,10 @@
 
 .broadcast-ticker-item.active {
   color: var(--accent-blue);
+  background: rgba(88, 166, 255, 0.08);
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid rgba(88, 166, 255, 0.2);
 }
 
 .broadcast-ticker-separator {
@@ -265,12 +272,167 @@
   50% { opacity: 0.6; box-shadow: 0 0 0 6px rgba(231, 76, 60, 0); }
 }
 
+/* ── Dim Overlay (user-paused state) ── */
+.broadcast-dim-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 15;
+  pointer-events: none;
+  animation: dimFadeIn 0.3s ease-out;
+}
+
+@keyframes dimFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ── Countdown Badge (top-right) ── */
+.broadcast-countdown-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 25;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.45rem;
+  color: var(--text-muted);
+  background: rgba(10, 11, 14, 0.85);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 4px 8px;
+  letter-spacing: 0.05em;
+}
+
+/* ── Expanded card (paused state) ── */
+.broadcast-lower-third.visible {
+  pointer-events: auto;
+}
+
+.broadcast-lower-third.expanded {
+  max-width: 520px;
+  transition: max-width 0.3s ease-out, transform 0.4s ease-out, opacity 0.3s ease-out;
+}
+
+.broadcast-lower-third.expanded .broadcast-lt-body {
+  background: rgba(10, 11, 14, 0.96);
+  border-color: rgba(231, 76, 60, 0.2);
+  backdrop-filter: blur(12px);
+  padding: 16px 20px;
+}
+
+.broadcast-lt-expanded {
+  display: flex;
+  gap: 16px;
+}
+
+.broadcast-lt-expanded-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.broadcast-lt-expanded-image {
+  flex-shrink: 0;
+}
+
+.broadcast-lt-digest {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.65rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 12px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.broadcast-lt-kpis-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 12px;
+  align-items: baseline;
+}
+
+.broadcast-lt-kpi-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  position: relative;
+}
+
+.broadcast-lt-kpi-item .broadcast-lt-kpi-value {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.broadcast-lt-kpi-item .broadcast-lt-kpi-value.kpi-color-0 {
+  color: var(--accent-red);
+}
+
+.broadcast-lt-kpi-item .broadcast-lt-kpi-value.kpi-color-1 {
+  color: var(--accent-amber, #f39c12);
+}
+
+.broadcast-lt-kpi-item .broadcast-lt-kpi-value.kpi-color-2 {
+  color: var(--accent-blue);
+}
+
+.broadcast-lt-kpi-item .broadcast-lt-kpi-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.4rem;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.broadcast-lt-kpi-divider {
+  position: absolute;
+  right: -9px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--border);
+}
+
+.broadcast-lt-open-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  color: var(--accent-blue);
+  text-decoration: none;
+  padding: 5px 12px;
+  border: 1px solid rgba(88, 166, 255, 0.25);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.broadcast-lt-open-link:hover {
+  background: rgba(88, 166, 255, 0.08);
+}
+
 /* Mobile: hide broadcast overlay */
 @media (max-width: 767px) {
   .broadcast-ticker,
   .broadcast-lower-third,
-  .broadcast-live-badge {
+  .broadcast-live-badge,
+  .broadcast-dim-overlay,
+  .broadcast-countdown-badge {
     display: none;
+  }
+}
+
+/* Responsive expanded card on small screens */
+@media (max-width: 480px) {
+  .broadcast-lt-expanded {
+    flex-direction: column-reverse;
+  }
+  .broadcast-lower-third.expanded {
+    max-width: 100%;
+    right: 12px;
   }
 }
 

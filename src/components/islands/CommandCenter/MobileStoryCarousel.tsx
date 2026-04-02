@@ -1,11 +1,13 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import type { TrackerCardData } from '../../../lib/tracker-directory-utils';
+import { sortByRelevance } from '../../../lib/relevance';
 
 // ── Types ──
 
 interface Props {
   trackers: TrackerCardData[];
   basePath: string;
+  followedSlugs?: string[];
 }
 
 // ── Constants ──
@@ -61,16 +63,15 @@ function domainGradient(domain?: string): string {
   return DOMAIN_GRADIENTS[domain] ?? DOMAIN_GRADIENTS.default;
 }
 
-function filterAndSort(trackers: TrackerCardData[]): TrackerCardData[] {
-  return trackers
-    .filter((t) => t.status === 'active' && t.headline)
-    .sort((a, b) => new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime());
+function filterAndSort(trackers: TrackerCardData[], followedSlugs: string[] = []): TrackerCardData[] {
+  const eligible = trackers.filter((t) => t.status === 'active' && t.headline);
+  return sortByRelevance(eligible, followedSlugs);
 }
 
 // ── Component ──
 
-export default function MobileStoryCarousel({ trackers, basePath }: Props) {
-  const eligible = filterAndSort(trackers);
+export default function MobileStoryCarousel({ trackers, basePath, followedSlugs = [] }: Props) {
+  const eligible = filterAndSort(trackers, followedSlugs);
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [paused, setPaused] = useState(false);
