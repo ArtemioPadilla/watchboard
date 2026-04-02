@@ -533,6 +533,45 @@ export default function SocialCommandCenter({ basePath }: Props) {
     }
   }, [ghToken, selected, queue, updateQueueViaGitHub]);
 
+  /* ── Publish Now: trigger GitHub Actions workflow ── */
+
+  const [publishing, setPublishing] = useState(false);
+
+  const handlePublishNow = useCallback(async () => {
+    if (!ghToken) return;
+    const approvedCount = queue.filter(
+      (e) => e.status === 'approved' || e.status === 'auto_approved',
+    ).length;
+    if (approvedCount === 0) {
+      alert('No approved tweets to publish. Approve some tweets first.');
+      return;
+    }
+    if (!confirm(`Trigger posting workflow? ${approvedCount} approved tweet(s) will be published to X.`)) return;
+    setPublishing(true);
+    try {
+      const res = await fetch(
+        'https://api.github.com/repos/ArtemioPadilla/watchboard/actions/workflows/post-social-queue.yml/dispatches',
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${ghToken}`,
+            Accept: 'application/vnd.github.v3+json',
+          },
+          body: JSON.stringify({ ref: 'main' }),
+        },
+      );
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        throw new Error(`GitHub API error (${res.status}): ${(errData as Record<string, string>).message ?? 'Failed to trigger workflow'}`);
+      }
+      alert(`Workflow triggered! ${approvedCount} tweet(s) will be posted in ~30 seconds. Refresh the page after a minute to see results.`);
+    } catch (err) {
+      alert(err instanceof Error ? err.message : 'Failed to trigger publish workflow');
+    } finally {
+      setPublishing(false);
+    }
+  }, [ghToken, queue]);
+
   /* ── Render helpers ── */
 
   const budgetPercent = budget ? Math.min((budget.spent / budget.monthlyTarget) * 100, 100) : 0;
@@ -683,6 +722,14 @@ export default function SocialCommandCenter({ basePath }: Props) {
             onClick={handleBatchApprove}
           >
             {batchSaving ? 'Saving...' : `BATCH APPROVE (${selected.size})`}
+          </button>
+          <button
+            className="scc-batch-btn scc-publish-btn"
+            disabled={!ghToken || publishing || queue.filter(e => e.status === 'approved' || e.status === 'auto_approved').length === 0}
+            title={!ghToken ? 'Authenticate to enable' : 'Trigger GitHub Actions to post approved tweets to X'}
+            onClick={handlePublishNow}
+          >
+            {publishing ? 'TRIGGERING...' : `PUBLISH NOW (${queue.filter(e => e.status === 'approved' || e.status === 'auto_approved').length})`}
           </button>
         </div>
       </div>

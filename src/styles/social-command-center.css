@@ -517,6 +517,14 @@
   opacity: 0.4;
   cursor: not-allowed;
 }
+.scc-publish-btn {
+  border-color: rgba(88, 166, 255, 0.3);
+  background: rgba(88, 166, 255, 0.1);
+  color: #58a6ff;
+}
+.scc-publish-btn:hover {
+  background: rgba(88, 166, 255, 0.2);
+}
 
 /* Loading + error states */
 .scc-loading {
