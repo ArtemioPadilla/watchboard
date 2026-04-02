@@ -150,6 +150,46 @@ const basePath = base.endsWith('/') ? base : `${base}/`;
       </section>
 
       <section>
+        <h2>Social Media</h2>
+        <p>
+          Watchboard publishes curated updates to X/Twitter through an AI-powered content strategy system. Rather than auto-posting every update, an AI content strategist reviews all tracker data each day and decides what is worth posting&mdash;optimizing for impact within a configurable monthly budget.
+        </p>
+        <div class="pipeline-steps">
+          <div class="pipeline-step">
+            <span class="step-number">1</span>
+            <div class="step-body">
+              <strong>Curate</strong>
+              <p>The AI receives all tracker digests, KPIs, and events for the day along with the remaining monthly budget and historic tweet performance. It selects the most newsworthy items and chooses the best format: digest, breaking news, thread, hot take, data visualization, or meme.</p>
+            </div>
+          </div>
+          <div class="pipeline-step">
+            <span class="step-number">2</span>
+            <div class="step-body">
+              <strong>Judge</strong>
+              <p>Every draft tweet is scored and fact-checked against tracker data. Numbers, claims, and quotes are verified. Each tweet receives a verdict: PUBLISH (auto-approve), REVIEW (needs human approval), HOLD (defer), or KILL (reject). Tweets with failed fact checks are automatically rejected.</p>
+            </div>
+          </div>
+          <div class="pipeline-step">
+            <span class="step-number">3</span>
+            <div class="step-body">
+              <strong>Review</strong>
+              <p>The <a href={`${basePath}social/`}>Social Command Center</a> dashboard shows all queued tweets with pixel-accurate X previews, judge assessments, and fact-check results. Tweets can be approved, edited, or rejected individually or in batch.</p>
+            </div>
+          </div>
+          <div class="pipeline-step">
+            <span class="step-number">4</span>
+            <div class="step-body">
+              <strong>Schedule</strong>
+              <p>Approved tweets are distributed across four daily time slots (08:00, 13:00, 18:00, 22:00 UTC) to reach audiences across time zones. A cron workflow posts them automatically at their scheduled time.</p>
+            </div>
+          </div>
+        </div>
+        <p>
+          Tweets are published in up to four languages (English, Spanish, French, Portuguese) and use a mixed persona system&mdash;analyst voice for data-driven updates, journalist voice for breaking news, and witty voice for memes. The system targets a monthly budget of $1.00 using X&rsquo;s pay-per-use API pricing.
+        </p>
+      </section>
+
+      <section>
         <h2>Built With</h2>
         <div class="credits-grid">
           <div class="credit-item"><strong>Astro 5</strong><span>Static site generator</span></div>
@@ -173,6 +213,8 @@ const basePath = base.endsWith('/') ? base : `${base}/`;
       <a href={`${basePath}about/`}>About</a>
       <span>&middot;</span>
       <a href={`${basePath}metrics/`}>Status</a>
+      <span>&middot;</span>
+      <a href={`${basePath}social/`}>Social</a>
       <span>&middot;</span>
       <a href={`${basePath}rss.xml`}>RSS</a>
       <span>&middot;</span>
