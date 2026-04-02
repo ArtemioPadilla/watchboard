@@ -71,8 +71,8 @@ These must be fixed before the next public data update.
 
 These are legitimate but should be reviewed for clarity.
 
-**[B-1] artemis-program — KPI shows future mission date**
-- File: `artemis-program/data/kpis.json`, item `artemis2-target-date`, `value: "Apr 2026"`
+**[B-1] artemis-2 — KPI shows future mission date**
+- File: `artemis-2/data/kpis.json`, item `artemis2-target-date`, `value: "Apr 2026"`
 - Context: Artemis II launch target of April 2026 is a real NASA-announced schedule (Dec 2024 announcement). This is a known future target, not fabricated.
 - Assessment: Acceptable. This is what the KPI is designed to show. No fix required, but consider adding `contestNote: "Subject to schedule changes"` given NASA's history of delays.
 
@@ -85,7 +85,7 @@ These are legitimate but should be reviewed for clarity.
 
 ### Category C — LEGITIMATE (appropriate forward references in analytical text)
 
-**7 instances** across artemis-program (claims.json forward quote from NASA OIG), culiacanazo (political.json legal description), global-recession-risk (Powell term expiration), haiti-collapse (events[9] detail referencing scheduled elections), sheinbaum-presidency (DHS wall projected completion), somalia-conflict (WFP funding halt projection), world-cup-2026 (era label in timeline that predates the fabricated matches).
+**7 instances** across artemis-2 (claims.json forward quote from NASA OIG), culiacanazo (political.json legal description), global-recession-risk (Powell term expiration), haiti-collapse (events[9] detail referencing scheduled elections), sheinbaum-presidency (DHS wall projected completion), somalia-conflict (WFP funding halt projection), world-cup-2026 (era label in timeline that predates the fabricated matches).
 
 All are appropriate use of forward-looking language in analytical context. No action required.
 
@@ -131,10 +131,10 @@ The seed prompt does say "Only include information you can verify through web se
 | world-cup-2026 | timeline.json | Era[4], 4 events | Jun 11–12, 2026 | A-1 | Delete Era[4] |
 | chernobyl-disaster | kpis.json | [7].deltaNote | "As of 26 April 2026" | A-2 | Fix wording + value |
 | haiti-collapse | timeline.json | [5].events[10].title | "August 2026" | A-3 | Rephrase title |
-| artemis-program | kpis.json | [2].value | Apr 2026 | B-1 | OK (real date) |
+| artemis-2 | kpis.json | [2].value | Apr 2026 | B-1 | OK (real date) |
 | culiacanazo | claims.json | [9].resolution | July 2026 | B-2 | OK (real court date) |
-| artemis-program | timeline.json | events[2].title | April 2026 | C | OK |
-| artemis-program | claims.json | [7].sideB.text | June 2027 | C | OK |
+| artemis-2 | timeline.json | events[2].title | April 2026 | C | OK |
+| artemis-2 | claims.json | [7].sideB.text | June 2027 | C | OK |
 | culiacanazo | political.json | [0].quote | July 2026 | C | OK |
 | global-recession-risk | political.json | [0].role | Jan 2028 | C | OK |
 | haiti-collapse | timeline.json | [5].events[9].detail | Aug 2026 | C | OK |
@@ -184,7 +184,7 @@ const DateFieldSchema = z.string()
 
 Note: This would reject world-cup-2026 event dates at Zod validation time, catching the issue in CI.
 
-Caveat: Some trackers (world-cup-2026, artemis-program) legitimately need to reference future scheduled dates. Consider a two-tier approach:
+Caveat: Some trackers (world-cup-2026, artemis-2) legitimately need to reference future scheduled dates. Consider a two-tier approach:
 - `DateFieldSchema`: past-only (for `date` and `lastUpdated` fields on events that have occurred)
 - `ScheduledDateFieldSchema`: allows future (for `targetDate`, `scheduledFor` fields)
 

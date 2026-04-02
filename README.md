@@ -51,7 +51,7 @@ Track conflicts, disasters, political histories, and more — with AI-powered ni
 |------|---------|-------|--------|------|
 | 🏔️ | Afghanistan-Pakistan War | US invasion, Taliban insurgency, ISIS-K, TTP attacks | Afghanistan/Pakistan | [Dashboard](https://watchboard.dev/afghanistan-pakistan-war/) |
 | 🌹 | AMLO Presidency | Fourth Transformation, Tren Maya, AIFA, constitutional reforms (2018–2024) | Mexico | [Dashboard](https://watchboard.dev/amlo-presidency/) |
-| 🌙 | NASA Artemis Program | Return to Moon, SLS, Orion, Gateway station, SpaceX/Blue Origin | USA/Global | [Dashboard](https://watchboard.dev/artemis-program/) |
+| 🌙 | Artemis II Mission | Crewed lunar flyby, SLS, Orion capsule, journey to the Moon | USA/Global | [Dashboard](https://watchboard.dev/artemis-2/) |
 | 🕯️ | Ayotzinapa | Forced disappearance of 43 students in Iguala, Guerrero (2014) | Mexico | [Dashboard](https://watchboard.dev/ayotzinapa/) |
 | 🐰 | Bad Bunny | SoundCloud to reggaeton star, YHLQMDLG, Un Verano Sin Ti, world tours | Puerto Rico/Global | [Dashboard](https://watchboard.dev/bad-bunny/) |
 | 🎤 | BTS | K-pop global rise, UN speeches, military service, ARMY fandom | South Korea/Global | [Dashboard](https://watchboard.dev/bts/) |

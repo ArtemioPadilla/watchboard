@@ -594,7 +594,7 @@ META_TRANSLATIONS: dict[str, dict[str, str]] = {
         "dateline": "DÍA {dayCount} — MARZO 2026 — REPORTE DE SITUACIÓN",
         "footerNote": "Datos compilados de INEGI, Coneval, Banxico, SHCP, Amnistía Internacional y medios mexicanos. Todas las cifras disputadas están marcadas.",
     },
-    "artemis-program": {
+    "artemis-2": {
         "operationName": "Artemis",
         "heroHeadline": "Artemis: El Regreso de Estados Unidos a la Luna Enfrenta Retrasos y Disputas Presupuestarias",
         "heroSubtitle": "Seguimiento de SLS, Orion, Starship HLS, Gateway lunar y el camino a Marte — desde la SPD-1 en 2017 hasta la revisión de arquitectura de febrero de 2026.",

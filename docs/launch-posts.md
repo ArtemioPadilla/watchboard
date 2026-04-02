@@ -263,7 +263,7 @@ It includes timeline events, map points for launch/landing sites, a 3D CesiumJS 
 
 There's also a SpaceX History tracker covering milestones from the Falcon 1 era to present.
 
-Artemis tracker: https://watchboard.dev/artemis-program/
+Artemis tracker: https://watchboard.dev/artemis-2/
 SpaceX tracker: https://watchboard.dev/spacex-history/
 All trackers: https://watchboard.dev/
 

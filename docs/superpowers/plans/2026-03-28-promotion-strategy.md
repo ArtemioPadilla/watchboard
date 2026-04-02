@@ -238,7 +238,7 @@ A config-driven platform for building intelligence dashboards. Each tracker is s
 | [Global Recession Risk](https://watchboard.dev/global-recession-risk/) | Economy | Global |
 | [Quantum Theory](https://watchboard.dev/quantum-theory/) | Science | Global |
 | [China Tech Revolution](https://watchboard.dev/china-tech-revolution/) | Economy | China/Global |
-| [NASA Artemis](https://watchboard.dev/artemis-program/) | Space | USA/Global |
+| [Artemis II](https://watchboard.dev/artemis-2/) | Space | USA/Global |
 | [SpaceX History](https://watchboard.dev/spacex-history/) | Space | USA/Global |
 | [European Conquest of Americas](https://watchboard.dev/european-conquest-americas/) | History | Americas |
 | [FIFA World Cup 2026](https://watchboard.dev/world-cup-2026/) | Culture | USA/Mexico/Canada |
