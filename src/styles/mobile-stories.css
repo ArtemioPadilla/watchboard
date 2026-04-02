@@ -324,6 +324,64 @@
     cursor: e-resize;
   }
 
+  /* ── Paused state ── */
+  .story-card-paused {
+    border-color: rgba(88, 166, 255, 0.2);
+  }
+
+  .story-paused-badge {
+    text-align: center;
+    padding: 4px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    background: rgba(88, 166, 255, 0.06);
+  }
+
+  /* Expanded headline/summary when paused */
+  .story-headline-expanded {
+    -webkit-line-clamp: unset !important;
+  }
+  .story-summary-expanded {
+    -webkit-line-clamp: 6 !important;
+  }
+
+  /* Open Dashboard link */
+  .story-open-link {
+    display: block;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent-blue);
+    text-decoration: none;
+    padding: 8px 16px;
+    margin: 0 16px 8px;
+    border: 1px solid rgba(88, 166, 255, 0.25);
+    border-radius: 6px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .story-open-link:active {
+    background: rgba(88, 166, 255, 0.1);
+  }
+
+  /* Image carousel wrapper in paused mode */
+  .story-image-carousel-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding: 8px;
+  }
+  .story-image-carousel-wrap .img-carousel {
+    width: 100% !important;
+  }
+  .story-image-carousel-wrap .img-carousel > div:first-child {
+    aspect-ratio: 16 / 9 !important;
+  }
+
   /* ── Card enter animation ── */
   .story-card-enter {
     animation: storyFadeIn 0.3s ease-out;

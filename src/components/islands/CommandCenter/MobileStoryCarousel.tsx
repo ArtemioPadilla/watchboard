@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import type { TrackerCardData } from '../../../lib/tracker-directory-utils';
 import { sortByRelevance } from '../../../lib/relevance';
+import ImageCarousel from './ImageCarousel';
 
 // ── Types ──
 
@@ -15,6 +16,7 @@ interface Props {
 const AUTO_ADVANCE_DURATION_MS = 10_000;
 const TICK_INTERVAL_MS = 100;
 const SWIPE_THRESHOLD_PX = 50;
+const PAUSE_DURATION_S = 15;
 
 const KPI_COLORS = [
   'var(--accent-red)',
@@ -77,9 +79,11 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
   const [paused, setPaused] = useState(false);
   const [seenSlugs, setSeenSlugs] = useState<Set<string>>(() => new Set());
   const [progress, setProgress] = useState(0);
+  const [pauseCountdown, setPauseCountdown] = useState(0);
 
   const touchStartY = useRef<number | null>(null);
   const circlesRef = useRef<HTMLDivElement>(null);
+  const pauseTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   // Mark current tracker as seen when index changes
   useEffect(() => {
@@ -141,6 +145,49 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
     goTo((currentIndex - 1 + eligible.length) % eligible.length);
   }, [currentIndex, eligible.length, goTo]);
 
+  // Pause/resume with auto-resume timer
+  const clearPauseTimer = useCallback(() => {
+    if (pauseTimerRef.current) {
+      clearInterval(pauseTimerRef.current);
+      pauseTimerRef.current = null;
+    }
+  }, []);
+
+  const handlePause = useCallback(() => {
+    setPaused(true);
+    setPauseCountdown(PAUSE_DURATION_S);
+    clearPauseTimer();
+    let remaining = PAUSE_DURATION_S;
+    pauseTimerRef.current = setInterval(() => {
+      remaining--;
+      setPauseCountdown(remaining);
+      if (remaining <= 0) {
+        clearPauseTimer();
+        setPaused(false);
+        setPauseCountdown(0);
+      }
+    }, 1000);
+  }, [clearPauseTimer]);
+
+  const handleResume = useCallback(() => {
+    clearPauseTimer();
+    setPaused(false);
+    setPauseCountdown(0);
+  }, [clearPauseTimer]);
+
+  const handleCardTap = useCallback(() => {
+    if (paused) {
+      handleResume();
+    } else {
+      handlePause();
+    }
+  }, [paused, handlePause, handleResume]);
+
+  // Cleanup
+  useEffect(() => {
+    return () => clearPauseTimer();
+  }, [clearPauseTimer]);
+
   // Swipe up detection
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
     touchStartY.current = e.touches[0].clientY;
@@ -167,7 +214,7 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
       {/* Circle row */}
       <div className="story-circles" ref={circlesRef}>
         {eligible.map((t, i) => (
-          <div key={t.slug} className="story-circle" onClick={() => goTo(i)}>
+          <div key={t.slug} className="story-circle" onClick={() => { goTo(i); if (paused) handleResume(); }}>
             <div
               className={`story-circle-ring${i === currentIndex ? ' active' : ''}${seenSlugs.has(t.slug) && i !== currentIndex ? ' seen' : ''}`}
             >
@@ -181,9 +228,10 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
       {/* Story card */}
       <div
         key={tracker.slug}
-        className="story-card story-card-enter"
+        className={`story-card story-card-enter ${paused ? 'story-card-paused' : ''}`}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
+        onClick={handleCardTap}
       >
         {/* Progress bars */}
         <div className="story-progress">
@@ -197,6 +245,13 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
           ))}
         </div>
 
+        {/* Paused indicator */}
+        {paused && (
+          <div className="story-paused-badge">
+            PAUSED · Resuming in {pauseCountdown}s
+          </div>
+        )}
+
         {/* Header */}
         <div className="story-header">
           <div className="story-avatar">{tracker.icon ?? '?'}</div>
@@ -207,21 +262,32 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
             </div>
           </div>
           {isLive(tracker.lastUpdated) ? (
-            <span className="story-live-badge">LIVE</span>
+            <span className="story-live-badge">{paused ? 'PAUSED' : 'LIVE'}</span>
           ) : (
             <span className="story-date">{relativeTime(tracker.lastUpdated)}</span>
           )}
         </div>
 
-        {/* Image area */}
-        <div className="story-image">
-          <StoryImage tracker={tracker} />
+        {/* Image area — carousel when paused, single image otherwise */}
+        <div className="story-image" onClick={(e) => e.stopPropagation()}>
+          {paused && tracker.eventImages && tracker.eventImages.length > 1 ? (
+            <div className="story-image-carousel-wrap">
+              <ImageCarousel
+                images={tracker.eventImages}
+                autoAdvance={true}
+                fallbackIcon={tracker.icon}
+                fallbackDomain={tracker.domain}
+              />
+            </div>
+          ) : (
+            <StoryImage tracker={tracker} />
+          )}
         </div>
 
-        {/* Content */}
+        {/* Content — expanded when paused */}
         <div className="story-content">
-          {tracker.headline && <p className="story-headline">{tracker.headline}</p>}
-          {tracker.digestSummary && <p className="story-summary">{tracker.digestSummary}</p>}
+          {tracker.headline && <p className={`story-headline ${paused ? 'story-headline-expanded' : ''}`}>{tracker.headline}</p>}
+          {tracker.digestSummary && <p className={`story-summary ${paused ? 'story-summary-expanded' : ''}`}>{tracker.digestSummary}</p>}
         </div>
 
         {/* KPI strip */}
@@ -238,12 +304,29 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
           </div>
         )}
 
-        {/* Swipe hint */}
-        <div className="story-swipe-hint">SWIPE UP TO OPEN &uarr;</div>
+        {/* Open Dashboard link (only when paused) */}
+        {paused && (
+          <a
+            className="story-open-link"
+            href={`${basePath}${tracker.slug}/`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            Open Dashboard →
+          </a>
+        )}
 
-        {/* Touch zones */}
-        <div className="story-touch-left" onClick={goPrev} />
-        <div className="story-touch-right" onClick={goNext} />
+        {/* Swipe hint */}
+        <div className="story-swipe-hint">
+          {paused ? 'TAP TO RESUME · SWIPE UP TO OPEN ↑' : 'TAP TO PAUSE · SWIPE UP TO OPEN ↑'}
+        </div>
+
+        {/* Touch zones (hidden when paused to allow full card tap) */}
+        {!paused && (
+          <>
+            <div className="story-touch-left" onClick={(e) => { e.stopPropagation(); goPrev(); }} />
+            <div className="story-touch-right" onClick={(e) => { e.stopPropagation(); goNext(); }} />
+          </>
+        )}
       </div>
     </div>
   );
