@@ -506,23 +506,22 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
       {!broadcastMode && (
         <div style={styles.statusBar}>
           <span>{t('cc.globeHint', getPreferredLocale())}</span>
-          <button
-            onClick={() => setCityLights(prev => !prev)}
-            title={`City lights: ${cityLights ? 'ON' : 'OFF'} (L)`}
-            style={{
-              ...styles.lightsToggle,
-              opacity: cityLights ? 0.9 : 0.4,
-            }}
-            aria-label={`Toggle city lights (currently ${cityLights ? 'on' : 'off'})`}
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M9 18h6"/><path d="M10 22h4"/>
-              <path d="M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/>
-            </svg>
-            <span style={{ marginLeft: 4 }}>L</span>
-          </button>
         </div>
       )}
+      <button
+        onClick={() => setCityLights(prev => !prev)}
+        title={`City lights: ${cityLights ? 'ON' : 'OFF'} (L)`}
+        style={{
+          ...styles.lightsToggle,
+          opacity: cityLights ? 0.9 : 0.4,
+        }}
+        aria-label={`Toggle city lights (currently ${cityLights ? 'on' : 'off'})`}
+      >
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M9 18h6"/><path d="M10 22h4"/>
+          <path d="M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/>
+        </svg>
+      </button>
     </div>
   );
 });
@@ -588,26 +587,28 @@ const styles = {
     borderTop: '1px solid var(--border)',
     fontFamily: "'JetBrains Mono', monospace",
     fontSize: '0.56rem',
-    color: 'var(--text-secondary)',
-    opacity: 0.85,
+    color: 'var(--text-muted)',
+    opacity: 0.6,
     backdropFilter: 'blur(4px)',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    pointerEvents: 'none' as const,
   },
   lightsToggle: {
-    background: 'none',
-    border: '1px solid rgba(255,255,255,0.15)',
-    borderRadius: 4,
+    position: 'absolute' as const,
+    top: 10,
+    right: 10,
+    zIndex: 15,
+    background: 'rgba(13,17,23,0.7)',
+    border: '1px solid rgba(255,255,255,0.12)',
+    borderRadius: 6,
     color: '#e6edf3',
     cursor: 'pointer',
     display: 'flex',
     alignItems: 'center',
-    padding: '2px 6px',
-    fontFamily: "'JetBrains Mono', monospace",
-    fontSize: '0.52rem',
-    letterSpacing: '0.04em',
+    justifyContent: 'center',
+    width: 28,
+    height: 28,
+    padding: 0,
     transition: 'opacity 0.2s',
-    pointerEvents: 'auto' as const,
+    backdropFilter: 'blur(4px)',
   },
 };
