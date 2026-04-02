@@ -1,4 +1,5 @@
 import { useRef, useState, useCallback, useEffect } from 'react';
+import { sortByRelevance } from '../../../lib/relevance';
 
 interface TrackerForBroadcast {
   slug: string;
@@ -12,6 +13,12 @@ interface TrackerForBroadcast {
   lastUpdated: string;
   topKpis: Array<{ value: string; label: string }>;
   latestEventMedia?: { url: string; source: string; tier: number };
+  eventImages?: Array<{ url: string; source: string; tier: number }>;
+  dayCount?: number;
+  isBreaking?: boolean;
+  recentEventCount?: number;
+  avgSourceTier?: number;
+  sectionsUpdatedCount?: number;
 }
 
 export type BroadcastPhase = 'idle' | 'transitioning' | 'dwelling' | 'paused';
@@ -30,6 +37,13 @@ interface BroadcastState {
   pause: () => void;
   resume: () => void;
   jumpTo: (slug: string) => void;
+  goToNext: () => void;
+  goToPrev: () => void;
+  userPause: () => void;
+  userResume: () => void;
+  resetPauseTimer: () => void;
+  isUserPaused: boolean;
+  pauseCountdown: number;
 }
 
 const DWELL_MS = 8000;
@@ -48,11 +62,14 @@ function altitudeForDistance(dist: number): number {
   return 1.4 + Math.random() * 0.4;
 }
 
+const USER_PAUSE_DURATION_S = 15;
+
 export function useBroadcastMode(
   trackers: TrackerForBroadcast[],
   globeRef: React.RefObject<GlobeHandle | null>,
   enabled: boolean,
   onFeatureTracker?: (slug: string | null) => void,
+  followedSlugs: string[] = [],
 ): BroadcastState {
   const queue = useRef<TrackerForBroadcast[]>([]);
   const indexRef = useRef(0);
@@ -61,19 +78,21 @@ export function useBroadcastMode(
   const transitionDurationRef = useRef(TRANSITION_BASE_MS);
   const rafRef = useRef<number>(0);
   const mountedRef = useRef(true);
+  const userPausedRef = useRef(false);
+  const pauseTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const [featuredTracker, setFeaturedTracker] = useState<TrackerForBroadcast | null>(null);
   const [phase, setPhase] = useState<BroadcastPhase>('idle');
   const [progress, setProgress] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isUserPaused, setIsUserPaused] = useState(false);
+  const [pauseCountdown, setPauseCountdown] = useState(0);
 
-  // Build queue: active trackers with mapCenter, sorted by lastUpdated desc
+  // Build queue: active trackers with mapCenter, sorted by relevance
   useEffect(() => {
-    const eligible = trackers
-      .filter(t => t.mapCenter && t.headline)
-      .sort((a, b) => new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime());
-    queue.current = eligible;
-  }, [trackers]);
+    const eligible = trackers.filter(t => t.mapCenter && t.headline);
+    queue.current = sortByRelevance(eligible, followedSlugs);
+  }, [trackers, followedSlugs]);
 
   const setPhaseState = useCallback((p: BroadcastPhase) => {
     phaseRef.current = p;
@@ -120,7 +139,6 @@ export function useBroadcastMode(
 
   const resume = useCallback(() => {
     if (queue.current.length === 0) return;
-    // Resume by advancing to next tracker
     advanceToNext();
   }, [advanceToNext]);
 
@@ -132,6 +150,74 @@ export function useBroadcastMode(
     const prev = idx > 0 ? q[idx - 1] : q[q.length - 1];
     flyToTracker(q[idx], prev);
   }, [flyToTracker]);
+
+  const goToNext = useCallback(() => {
+    const q = queue.current;
+    if (q.length === 0) return;
+    const prevIndex = indexRef.current;
+    indexRef.current = (prevIndex + 1) % q.length;
+    flyToTracker(q[indexRef.current], q[prevIndex]);
+  }, [flyToTracker]);
+
+  const goToPrev = useCallback(() => {
+    const q = queue.current;
+    if (q.length === 0) return;
+    const prevIndex = indexRef.current;
+    indexRef.current = (prevIndex - 1 + q.length) % q.length;
+    flyToTracker(q[indexRef.current], q[prevIndex]);
+  }, [flyToTracker]);
+
+  const clearPauseTimer = useCallback(() => {
+    if (pauseTimerRef.current) {
+      clearInterval(pauseTimerRef.current);
+      pauseTimerRef.current = null;
+    }
+  }, []);
+
+  const userResume = useCallback(() => {
+    clearPauseTimer();
+    userPausedRef.current = false;
+    if (mountedRef.current) {
+      setIsUserPaused(false);
+      setPauseCountdown(0);
+    }
+    if (queue.current.length > 0) {
+      advanceToNext();
+    }
+  }, [advanceToNext, clearPauseTimer]);
+
+  const userPause = useCallback(() => {
+    setPhaseState('paused');
+    globeRef.current?.setAutoRotate?.(false);
+    userPausedRef.current = true;
+    if (mountedRef.current) {
+      setIsUserPaused(true);
+      setPauseCountdown(USER_PAUSE_DURATION_S);
+    }
+    clearPauseTimer();
+    let remaining = USER_PAUSE_DURATION_S;
+    pauseTimerRef.current = setInterval(() => {
+      remaining--;
+      if (mountedRef.current) setPauseCountdown(remaining);
+      if (remaining <= 0) {
+        userResume();
+      }
+    }, 1000);
+  }, [setPhaseState, globeRef, clearPauseTimer, userResume]);
+
+  const resetPauseTimer = useCallback(() => {
+    if (!userPausedRef.current) return;
+    clearPauseTimer();
+    if (mountedRef.current) setPauseCountdown(USER_PAUSE_DURATION_S);
+    let remaining = USER_PAUSE_DURATION_S;
+    pauseTimerRef.current = setInterval(() => {
+      remaining--;
+      if (mountedRef.current) setPauseCountdown(remaining);
+      if (remaining <= 0) {
+        userResume();
+      }
+    }, 1000);
+  }, [clearPauseTimer, userResume]);
 
   // Main RAF loop
   useEffect(() => {
@@ -197,6 +283,11 @@ export function useBroadcastMode(
     return () => { mountedRef.current = false; };
   }, []);
 
+  // Cleanup pause timer on unmount
+  useEffect(() => {
+    return () => { clearPauseTimer(); };
+  }, [clearPauseTimer]);
+
   return {
     featuredTracker,
     phase,
@@ -206,5 +297,12 @@ export function useBroadcastMode(
     pause,
     resume,
     jumpTo,
+    goToNext,
+    goToPrev,
+    userPause,
+    userResume,
+    resetPauseTimer,
+    isUserPaused,
+    pauseCountdown,
   };
 }
