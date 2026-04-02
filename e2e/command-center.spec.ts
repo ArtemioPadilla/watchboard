@@ -2,9 +2,13 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Command Center', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('./');
-    // Wait for React hydration — sidebar search input appears after hydration
-    await page.locator('.cc-search-input').waitFor({ state: 'visible' });
+    await page.goto('./', { waitUntil: 'networkidle' });
+    // Wait for React hydration — the search input is interactive after hydration
+    const searchInput = page.locator('.cc-search-input');
+    await expect(searchInput).toBeVisible();
+    // Extra wait to ensure React event handlers are fully attached
+    await searchInput.focus();
+    await searchInput.blur();
   });
 
   test('page loads with globe and sidebar visible', async ({ page }) => {
@@ -21,7 +25,6 @@ test.describe('Command Center', () => {
 
   test('search input filters tracker list', async ({ page }) => {
     const searchInput = page.locator('.cc-search-input');
-    await expect(searchInput).toBeVisible();
 
     // Count initial tracker rows
     const initialRows = page.locator('.cc-tracker-row');
@@ -83,17 +86,16 @@ test.describe('Command Center', () => {
   });
 
   test('keyboard shortcut ? opens help overlay', async ({ page }) => {
-    // Click on the page heading to ensure focus is on the page, not an input
-    await page.locator('h1').click();
-
     // Ensure help overlay is not visible initially
     const helpTitle = page.getByText('KEYBOARD SHORTCUTS');
     await expect(helpTitle).not.toBeVisible();
 
-    // Press ? using dispatchEvent to bypass keyboard layout issues
-    await page.evaluate(() => {
-      window.dispatchEvent(new KeyboardEvent('keydown', { key: '?', bubbles: true }));
-    });
+    // Click a tracker row to set focus on a non-input element
+    await page.locator('.cc-tracker-row').first().click();
+    await page.locator('.cc-tracker-expanded').waitFor({ state: 'visible' });
+
+    // Press ? to toggle help overlay
+    await page.keyboard.press('?');
     await expect(helpTitle).toBeVisible();
 
     // Verify shortcut keys are listed
@@ -101,13 +103,12 @@ test.describe('Command Center', () => {
   });
 
   test('keyboard shortcut Escape closes help overlay', async ({ page }) => {
-    // Click on the page heading to ensure focus is on the page, not an input
-    await page.locator('h1').click();
+    // Click a tracker row to set focus
+    await page.locator('.cc-tracker-row').first().click();
+    await page.locator('.cc-tracker-expanded').waitFor({ state: 'visible' });
 
-    // Open help overlay first
-    await page.evaluate(() => {
-      window.dispatchEvent(new KeyboardEvent('keydown', { key: '?', bubbles: true }));
-    });
+    // Open help overlay via ? shortcut
+    await page.keyboard.press('?');
 
     const helpTitle = page.getByText('KEYBOARD SHORTCUTS');
     await expect(helpTitle).toBeVisible();

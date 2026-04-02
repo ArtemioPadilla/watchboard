@@ -453,12 +453,12 @@ tr:last-child td { border-bottom: none; }
 </div>
 <div class="stats-bar">
   <div class="stat-item"><div class="stat-value">2</div><div class="stat-label">Specs</div></div>
-  <div class="stat-item"><div class="stat-value">6</div><div class="stat-label">Reviews</div></div>
+  <div class="stat-item"><div class="stat-value">9</div><div class="stat-label">Reviews</div></div>
   <div class="stat-item"><div class="stat-value">0</div><div class="stat-label">Active Debt</div></div>
   <div class="stat-item"><div class="stat-value">0</div><div class="stat-label">ADRs</div></div>
   <div class="stat-item"><div class="stat-value">0<span style="font-size:12px;font-weight:400;color:var(--text-dim)"> (0)</span></div><div class="stat-label">Checklists (items)</div></div>
   <div class="stat-item"><div class="stat-value">10</div><div class="stat-label">Commits</div></div>
-  <div class="stat-item" style="border-left:2px solid #60a5fa;padding-left:12px"><div class="stat-value" style="font-size:13px;color:#60a5fa">QA /release-check</div><div class="stat-label">Next Step</div></div>
+  <div class="stat-item" style="border-left:2px solid #60a5fa;padding-left:12px"><div class="stat-value" style="font-size:13px;color:#60a5fa">Dev /review-findings</div><div class="stat-label">Next Step</div></div>
 </div>
 <nav class="nav">
   <a href="#whats-next">Recommended Next Steps</a>
@@ -474,8 +474,12 @@ tr:last-child td { border-bottom: none; }
 </nav>
 <div class="next-section" id="whats-next"><h2>Recommended Next Steps</h2>
 <div class="next-action">
+  <span class="next-agent dev">Dev</span>
+  <div><div class="next-desc">Fix review findings <span class="next-cmd">/review-findings</span></div><div class="next-detail">Reviews requiring changes: data-integrity-audit-2026-03-20.md, release-check-1.1.0-2026-03-20.md</div></div>
+</div>
+<div class="next-action">
   <span class="next-agent qa">QA</span>
-  <div><div class="next-desc">Verify review conditions are met <span class="next-cmd">/release-check</span></div><div class="next-detail">Reviews with conditions: cesium-timeline-missile-2026-03-06.md, code-health-2026-03-04.md, security-audit-2026-03-04.md</div></div>
+  <div><div class="next-desc">Verify review conditions are met <span class="next-cmd">/release-check</span></div><div class="next-detail">Reviews with conditions: cesium-timeline-missile-2026-03-06.md, code-health-2026-03-04.md, code-health-2026-03-20.md, security-audit-2026-03-04.md</div></div>
 </div>
 <div class="next-action">
   <span class="next-agent dev">Dev</span>
@@ -530,6 +534,22 @@ tr:last-child td { border-bottom: none; }
   <td class="sev-medium">0</td>
 </tr>
 <tr>
+  <td>code-health-2026-03-20.md</td>
+  <td>code-health</td>
+  <td class="verdict-conditions">Approved With Conditions</td>
+  <td class="sev-critical">0</td>
+  <td class="sev-high">0</td>
+  <td class="sev-medium">0</td>
+</tr>
+<tr>
+  <td>data-integrity-audit-2026-03-20.md</td>
+  <td>feature</td>
+  <td class="verdict-changes">Changes Required</td>
+  <td class="sev-critical">0</td>
+  <td class="sev-high">0</td>
+  <td class="sev-medium">0</td>
+</tr>
+<tr>
   <td>release-check-1.0.0-2026-03-04.md</td>
   <td>release-check</td>
   <td class="verdict-approved">Unknown</td>
@@ -541,6 +561,14 @@ tr:last-child td { border-bottom: none; }
   <td>release-check-1.0.0-2026-03-07.md</td>
   <td>release-check</td>
   <td class="verdict-approved">Approved</td>
+  <td class="sev-critical">0</td>
+  <td class="sev-high">0</td>
+  <td class="sev-medium">0</td>
+</tr>
+<tr>
+  <td>release-check-1.1.0-2026-03-20.md</td>
+  <td>release-check</td>
+  <td class="verdict-changes">Changes Required</td>
   <td class="sev-critical">0</td>
   <td class="sev-high">0</td>
   <td class="sev-medium">0</td>
@@ -573,18 +601,18 @@ tr:last-child td { border-bottom: none; }
 <div class="workflow-row"><span class="workflow-label" style="color:#3B82F6">Dev</span>
 <span class="workflow-step" style="border-color:#3B82F6">SIGN IN</span>
 <span class="workflow-arrow">&rarr;</span>
-<span class="workflow-step" style="border-color:var(--border)">implement</span>
+<span class="workflow-step active" style="border-color:var(--border)">implement</span>
 <span class="workflow-arrow">&rarr;</span>
-<span class="workflow-step" style="border-color:#3B82F6">TIME OUT x2</span>
+<span class="workflow-step active" style="border-color:#3B82F6">TIME OUT x2</span>
 <span class="workflow-arrow">&rarr;</span>
 <span class="workflow-step" style="border-color:#3B82F6">SIGN OUT</span>
 </div>
 <div class="workflow-row"><span class="workflow-label" style="color:#10B981">QA</span>
 <span class="workflow-step" style="border-color:#10B981">SIGN IN</span>
 <span class="workflow-arrow">&rarr;</span>
-<span class="workflow-step active" style="border-color:var(--border)">audit</span>
+<span class="workflow-step" style="border-color:var(--border)">audit</span>
 <span class="workflow-arrow">&rarr;</span>
-<span class="workflow-step active" style="border-color:#10B981">TIME OUT</span>
+<span class="workflow-step" style="border-color:#10B981">TIME OUT</span>
 <span class="workflow-arrow">&rarr;</span>
 <span class="workflow-step" style="border-color:#10B981">SIGN OUT</span>
 </div>
@@ -643,98 +671,96 @@ tr:last-child td { border-bottom: none; }
 <div class="section" id="activity"><h2>Recent Activity</h2>
 <h3>Git Log</h3>
 <div class="commit-line">
-  <span class="commit-hash">b8eff4f</span>
+  <span class="commit-hash">d5b2aa5</span>
+  <span class="commit-badge" style="background:#94a3b8">chore</span>
+  <span class="commit-msg">chore: migrate to watchboard.dev custom domain</span>
+  <span class="commit-date">2026-04-01</span>
+</div>
+<div class="commit-line">
+  <span class="commit-hash">f1da723</span>
+  <span class="commit-badge" style="background:#94a3b8">chore</span>
+  <span class="commit-msg">chore(metrics): ingestion run 2026-04-01T15:10:07Z [success]</span>
+  <span class="commit-date">2026-04-01</span>
+</div>
+<div class="commit-line">
+  <span class="commit-hash">9715c01</span>
+  <span class="commit-badge" style="background:#94a3b8">chore</span>
+  <span class="commit-msg">chore(data): nightly AI update 2026-04-01T15:09:54Z</span>
+  <span class="commit-date">2026-04-01</span>
+</div>
+<div class="commit-line">
+  <span class="commit-hash">ca1906b</span>
+  <span class="commit-badge" style="background:#94a3b8">chore</span>
+  <span class="commit-msg">chore: remove test social draft</span>
+  <span class="commit-date">2026-03-31</span>
+</div>
+<div class="commit-line">
+  <span class="commit-hash">b6c4dce</span>
+  <span class="commit-badge" style="background:#94a3b8">chore</span>
+  <span class="commit-msg">chore(metrics): ingestion run 2026-03-31T15:20:46Z [success]</span>
+  <span class="commit-date">2026-03-31</span>
+</div>
+<div class="commit-line">
+  <span class="commit-hash">3230fa8</span>
+  <span class="commit-badge" style="background:#94a3b8">chore</span>
+  <span class="commit-msg">chore(data): nightly AI update 2026-03-31T15:20:35Z</span>
+  <span class="commit-date">2026-03-31</span>
+</div>
+<div class="commit-line">
+  <span class="commit-hash">c79d980</span>
+  <span class="commit-badge" style="background:#94a3b8">chore</span>
+  <span class="commit-msg">chore(metrics): ingestion run 2026-03-30T14:49:36Z [success]</span>
+  <span class="commit-date">2026-03-30</span>
+</div>
+<div class="commit-line">
+  <span class="commit-hash">34c848c</span>
+  <span class="commit-badge" style="background:#94a3b8">chore</span>
+  <span class="commit-msg">chore(data): nightly AI update 2026-03-30T14:49:25Z</span>
+  <span class="commit-date">2026-03-30</span>
+</div>
+<div class="commit-line">
+  <span class="commit-hash">7d4d6bf</span>
+  <span class="commit-badge" style="background:#94a3b8">chore</span>
+  <span class="commit-msg">chore(metrics): ingestion run 2026-03-30T03:27:23Z [failure]</span>
+  <span class="commit-date">2026-03-30</span>
+</div>
+<div class="commit-line">
+  <span class="commit-hash">e896462</span>
   <span class="commit-badge" style="background:#EF4444">fix</span>
-  <span class="commit-msg">fix(ci): list exact valid section IDs in init-tracker prompt</span>
-  <span class="commit-date">2026-03-17</span>
-</div>
-<div class="commit-line">
-  <span class="commit-hash">72282de</span>
-  <span class="commit-badge" style="background:#EF4444">fix</span>
-  <span class="commit-msg">fix(map): use tracker-specific center and bounds for 2D maps</span>
-  <span class="commit-date">2026-03-17</span>
-</div>
-<div class="commit-line">
-  <span class="commit-hash">7054561</span>
-  <span class="commit-badge" style="background:#94a3b8">chore</span>
-  <span class="commit-msg">chore(data): nightly AI update 2026-03-17T06:41:24Z</span>
-  <span class="commit-date">2026-03-17</span>
-</div>
-<div class="commit-line">
-  <span class="commit-hash">dfa5f00</span>
-  <span class="commit-badge" style="background:#94a3b8">chore</span>
-  <span class="commit-msg">chore(data): seed fukushima-disaster tracker data 2026-03-17T03:19:56Z</span>
-  <span class="commit-date">2026-03-17</span>
-</div>
-<div class="commit-line">
-  <span class="commit-hash">5d7ba91</span>
-  <span class="commit-badge" style="background:#94a3b8">chore</span>
-  <span class="commit-msg">chore(data): seed culiacanazo tracker data 2026-03-17T03:12:47Z</span>
-  <span class="commit-date">2026-03-17</span>
-</div>
-<div class="commit-line">
-  <span class="commit-hash">2f5a9bf</span>
-  <span class="commit-badge" style="background:#94a3b8">chore</span>
-  <span class="commit-msg">chore(data): seed mencho-cjng tracker data 2026-03-17T03:06:51Z</span>
-  <span class="commit-date">2026-03-17</span>
-</div>
-<div class="commit-line">
-  <span class="commit-hash">9b0e52e</span>
-  <span class="commit-badge" style="background:#10B981">feat</span>
-  <span class="commit-msg">feat(tracker): initialize fukushima-disaster tracker 2026-03-17T03:05:</span>
-  <span class="commit-date">2026-03-17</span>
-</div>
-<div class="commit-line">
-  <span class="commit-hash">660d871</span>
-  <span class="commit-badge" style="background:#94a3b8">chore</span>
-  <span class="commit-msg">chore(data): seed mh17-shootdown tracker data 2026-03-17T03:03:33Z</span>
-  <span class="commit-date">2026-03-17</span>
-</div>
-<div class="commit-line">
-  <span class="commit-hash">46dec3a</span>
-  <span class="commit-badge" style="background:#EF4444">fix</span>
-  <span class="commit-msg">fix(ci): replace seed chain with second job to eliminate race conditio</span>
-  <span class="commit-date">2026-03-16</span>
-</div>
-<div class="commit-line">
-  <span class="commit-hash">c07a247</span>
-  <span class="commit-badge" style="background:#EF4444">fix</span>
-  <span class="commit-msg">fix(globe): adapt timeline controls for historical trackers</span>
-  <span class="commit-date">2026-03-16</span>
+  <span class="commit-msg">fix: use twitter-api-v2 package for reliable OAuth 1.0a auth</span>
+  <span class="commit-date">2026-03-29</span>
 </div>
 <h3 style='margin-top:16px'>Changelog (Unreleased)</h3>
 <div class="changelog-cats">
-<span class="changelog-cat">Added: 1 item</span>
+<span class="changelog-cat">Added: 3 items</span>
+<span class="changelog-cat">Removed: 1 item</span>
 <span class="changelog-cat">Changed: 1 item</span>
-<span class="changelog-cat">Removed: 2 items</span>
 <span class="changelog-cat">Fixed: 5 items</span>
 </div>
 <h3 style='margin-top:16px'>Agent Memory Snippets</h3>
 <div style="margin-bottom:4px"><span style="color:#fff;font-weight:600">agent-triforce-centinela-qa</span></div>
-<div class="memory-block"># Centinela QA Memory — Iran Conflict Tracker
+<div class="memory-block"># Centinela QA Memory — Watchboard (multi-tracker platform)
 
-## Project Snapshot (as of 2026-03-04)
+## Project Snapshot (as of 2026-03-20)
 
-- Stack: Astro 5 + React islands (TSX) + Leaflet + Zod schemas + dual AI update script
-- Build: `npm run build` (astro check + astro build) — builds cleanly as of last review
-- No test framework configured; zero test files anywhere
-- No CHANGELOG.md; no TECH_DEBT.md (created by Centinela)
-
-## Recurring Patterns Found
-
-### DRY Violations (confirmed)
-- `tierClass()` defined in 4 places: `TimelineSection.tsx`, `M</div>
+- Stack: Astro 5 + React islands (TSX) + Leaflet + CesiumJS (Resium) + Zod schemas + dual AI update script
+- 48 active trackers across `trackers/*/` — 784 JSON files
+- Build: `npm run build` (astro check + astro build)
+- No test framework configured; zero test files anywhere (TD-014, open)
+- CHANGELOG.md: exists, `[Unreleased]` section populated
+- TECH_DEBT.md: exists, 5 truly open items: TD-014,</div>
 <div style="margin-bottom:4px"><span style="color:#fff;font-weight:600">agent-triforce-forja-dev</span></div>
-<div class="memory-block"># FORJA Memory — Iran Conflict Tracker
+<div class="memory-block"># FORJA Memory — Watchboard
 
 ## Project Architecture
 - **Stack**: Astro 5 + React 19 + TypeScript 5 + Zod 3
-- **Source data**: Original vanilla JS in `data/dashboard-data.js` and `js/app.js`
-- **Migration target**: Astro with typed JSON data files in `src/data/` and TypeScript utilities in `src/lib/`
+- **Name**: Watchboard (package name `watchboard`, base URL `/watchboard/`)
+- **Trackers**: 48 directories under `trackers/`, config-driven
 
 ## Key File Locations
-- `src/lib/schemas.ts` — Zod schemas (16 schemas, 17 types); `cat`, `avatar` now `z.string()` (extensible)
-- `src/lib/data.ts` — `loadTrackerData(slug)` loads from</div>
+- `src/lib/schemas.ts` — Zod schemas (16 data + 4 metrics schemas, 21 types); `cat`, `avatar` now `z.string()` (extensible)
+- `src/lib/data.ts` — `loadTrackerData(slug)` loads from `trackers/{slug}/data/`
+- `src/lib/tracker-confi</div>
 <div style="margin-bottom:4px"><span style="color:#fff;font-weight:600">agent-triforce-prometeo-pm</span></div>
 <div class="memory-block"># PROMETEO Memory — Iran Conflict Tracker
 
@@ -756,6 +782,6 @@ tr:last-child td { border-bottom: none; }
 <div class="cl-breakdown">
 </div>
 </div>
-<div class="gen-time">Generated 2026-03-17 22:52:39 by tools/dashboard.py</div>
+<div class="gen-time">Generated 2026-04-01 21:56:51 by tools/dashboard.py</div>
 </body>
 </html>
