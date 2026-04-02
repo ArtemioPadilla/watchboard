@@ -61,10 +61,22 @@ jobs:
             STATUS=$(node -e "console.log(JSON.parse(require('fs').readFileSync('$config','utf8')).status)")
             INTERVAL=$(node -e "
               const c = JSON.parse(require('fs').readFileSync('$config','utf8'));
-              console.log(c.ai?.updateIntervalDays ?? 1);
+              const policy = c.ai?.updatePolicy;
+              if (policy) {
+                let quietRuns = 0;
+                try {
+                  const log = JSON.parse(require('fs').readFileSync('$LOG','utf8'));
+                  quietRuns = log.consecutiveQuietRuns || 0;
+                } catch {}
+                const esc = policy.escalation;
+                const idx = Math.min(quietRuns, esc.length - 1);
+                console.log(esc[idx]);
+              } else {
+                console.log(c.ai?.updateIntervalDays ?? 1);
+              }
             ")
 
-            [ "$STATUS" = "draft" ] && continue
+            [ "$STATUS" != "active" ] && continue
 
             if [ -f "$LOG" ]; then
               LAST_RUN=$(node -e "
