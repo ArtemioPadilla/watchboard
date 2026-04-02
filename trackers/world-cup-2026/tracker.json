@@ -13,53 +13,185 @@
   "startDate": "2026-06-11",
   "endDate": "2026-07-19",
   "eraLabel": "World Cup 2026",
-  "tags": ["FIFA", "48 teams", "USA", "Mexico", "Canada", "soccer"],
-  "sections": ["hero", "kpis", "timeline", "map", "claims", "political"],
+  "tags": [
+    "FIFA",
+    "48 teams",
+    "USA",
+    "Mexico",
+    "Canada",
+    "soccer"
+  ],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "claims",
+    "political"
+  ],
   "map": {
     "enabled": true,
-    "bounds": { "lonMin": -130.0, "lonMax": -65.0, "latMin": 14.0, "latMax": 55.0 },
-    "center": { "lon": -100.0, "lat": 38.0 },
+    "bounds": {
+      "lonMin": -130,
+      "lonMax": -65,
+      "latMin": 14,
+      "latMax": 55
+    },
+    "center": {
+      "lon": -100,
+      "lat": 38
+    },
     "categories": [
-      { "id": "us-venue", "label": "US Host Venues", "color": "#3498db" },
-      { "id": "mx-venue", "label": "Mexico Host Venues", "color": "#27ae60" },
-      { "id": "ca-venue", "label": "Canada Host Venues", "color": "#e74c3c" },
-      { "id": "final", "label": "Final Venue", "color": "#f39c12" }
+      {
+        "id": "us-venue",
+        "label": "US Host Venues",
+        "color": "#3498db"
+      },
+      {
+        "id": "mx-venue",
+        "label": "Mexico Host Venues",
+        "color": "#27ae60"
+      },
+      {
+        "id": "ca-venue",
+        "label": "Canada Host Venues",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "final",
+        "label": "Final Venue",
+        "color": "#f39c12"
+      }
     ]
   },
   "globe": {
     "enabled": true,
     "cameraPresets": {
-      "theater": { "lon": -100.0, "lat": 38.0, "alt": 8000000, "pitch": -90, "heading": 0, "label": "Host Region" },
-      "new_york": { "lon": -73.93, "lat": 40.81, "alt": 80000, "pitch": -90, "heading": 0, "label": "MetLife Stadium (NJ)" },
-      "los_angeles": { "lon": -118.29, "lat": 34.01, "alt": 80000, "pitch": -90, "heading": 0, "label": "SoFi Stadium (LA)" },
-      "dallas": { "lon": -97.09, "lat": 32.75, "alt": 80000, "pitch": -90, "heading": 0, "label": "AT&T Stadium (Dallas)" },
-      "mexico_city": { "lon": -99.15, "lat": 19.30, "alt": 80000, "pitch": -90, "heading": 0, "label": "Estadio Azteca" },
-      "toronto": { "lon": -79.57, "lat": 43.63, "alt": 80000, "pitch": -90, "heading": 0, "label": "BMO Field (Toronto)" }
+      "theater": {
+        "lon": -100,
+        "lat": 38,
+        "alt": 8000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Host Region"
+      },
+      "new_york": {
+        "lon": -73.93,
+        "lat": 40.81,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "MetLife Stadium (NJ)"
+      },
+      "los_angeles": {
+        "lon": -118.29,
+        "lat": 34.01,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "SoFi Stadium (LA)"
+      },
+      "dallas": {
+        "lon": -97.09,
+        "lat": 32.75,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "AT&T Stadium (Dallas)"
+      },
+      "mexico_city": {
+        "lon": -99.15,
+        "lat": 19.3,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Estadio Azteca"
+      },
+      "toronto": {
+        "lon": -79.57,
+        "lat": 43.63,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "BMO Field (Toronto)"
+      }
     },
     "clocks": [
-      { "label": "EST/EDT", "offsetHours": -4 },
-      { "label": "CST/CDT", "offsetHours": -5 },
-      { "label": "UTC", "offsetHours": 0 }
+      {
+        "label": "EST/EDT",
+        "offsetHours": -4
+      },
+      {
+        "label": "CST/CDT",
+        "offsetHours": -5
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      }
     ]
   },
   "navSections": [
-    { "id": "sec-timeline", "label": "Timeline" },
-    { "id": "sec-map", "label": "Venues Map" },
-    { "id": "sec-contested", "label": "Contested" },
-    { "id": "sec-political", "label": "Teams & Politics" }
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Venues Map"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Teams & Politics"
+    }
   ],
-  "politicalAvatars": ["fifa", "us", "mx", "ca", "other"],
-  "eventTypes": ["match", "qualification", "draw", "venue", "controversy"],
+  "politicalAvatars": [
+    "fifa",
+    "us",
+    "mx",
+    "ca",
+    "other"
+  ],
+  "eventTypes": [
+    "match",
+    "qualification",
+    "draw",
+    "venue",
+    "controversy"
+  ],
   "ai": {
     "systemPrompt": "You are a sports analyst updating the FIFA World Cup 2026 tracker.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose.\nEvery item must have an \"id\" field (lowercase_snake_case).\n\nSource tier classification:\n- Tier 1: Official (FIFA.com, US Soccer, CONCACAF, MexFUT, Canadian Soccer Association)\n- Tier 2: Major sports media (Reuters, AP, ESPN, BBC Sport, Goal.com, The Athletic, Sky Sports)\n- Tier 3: Institutional (IFFHS, Opta, StatsBomb, major sports analytics)\n- Tier 4: Unverified (social media, transfer rumor sites)\n\nOnly include information verifiable through search. Do not fabricate data.",
     "searchContext": "FIFA World Cup 2026 USA Mexico Canada venues teams qualification results",
-    "enabledSections": ["kpis", "timeline", "mapPoints", "claims", "political"],
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "claims",
+      "political"
+    ],
     "updateIntervalDays": 1,
     "backfillTargets": {
       "timeline": 30,
       "mapPoints": 20,
       "claims": 10,
       "political": 15
+    },
+    "updatePolicy": {
+      "escalation": [
+        1,
+        1,
+        1,
+        7,
+        7,
+        30,
+        60,
+        90
+      ],
+      "quietThreshold": 0
     }
   },
   "githubRepo": "ArtemioPadilla/watchboard"

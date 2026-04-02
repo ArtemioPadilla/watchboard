@@ -12,44 +12,162 @@
   "country": "UA",
   "startDate": "1986-04-26",
   "eraLabel": "1986 Nuclear Catastrophe & Legacy",
-  "sections": ["hero", "kpis", "timeline", "map", "casualties", "economic", "claims", "political"],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
   "map": {
     "enabled": true,
-    "bounds": { "lonMin": 10, "lonMax": 45, "latMin": 44, "latMax": 65 },
-    "center": { "lon": 30.1, "lat": 51.4 },
+    "bounds": {
+      "lonMin": 10,
+      "lonMax": 45,
+      "latMin": 44,
+      "latMax": 65
+    },
+    "center": {
+      "lon": 30.1,
+      "lat": 51.4
+    },
     "categories": [
-      { "id": "impact-zone", "label": "Radiation Impact Zones", "color": "#e74c3c" },
-      { "id": "evacuation", "label": "Evacuation Sites", "color": "#f39c12" },
-      { "id": "monitoring", "label": "Monitoring Stations", "color": "#3498db" },
-      { "id": "memorial", "label": "Memorials & Sites", "color": "#9b59b6" }
+      {
+        "id": "impact-zone",
+        "label": "Radiation Impact Zones",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "evacuation",
+        "label": "Evacuation Sites",
+        "color": "#f39c12"
+      },
+      {
+        "id": "monitoring",
+        "label": "Monitoring Stations",
+        "color": "#3498db"
+      },
+      {
+        "id": "memorial",
+        "label": "Memorials & Sites",
+        "color": "#9b59b6"
+      }
     ]
   },
   "globe": {
     "enabled": true,
     "cameraPresets": {
-      "europe_overview": { "lon": 22, "lat": 54, "alt": 5000000, "pitch": -90, "heading": 0, "label": "European Fallout" },
-      "exclusion_zone": { "lon": 30.1, "lat": 51.35, "alt": 120000, "pitch": -90, "heading": 0, "label": "Exclusion Zone" },
-      "reactor_4": { "lon": 30.0928, "lat": 51.3890, "alt": 8000, "pitch": -90, "heading": 0, "label": "Reactor No. 4" },
-      "pripyat": { "lon": 30.0543, "lat": 51.4066, "alt": 15000, "pitch": -90, "heading": 0, "label": "Pripyat Ghost City" },
-      "kyiv": { "lon": 30.5234, "lat": 50.4501, "alt": 80000, "pitch": -90, "heading": 0, "label": "Kyiv" },
-      "minsk": { "lon": 27.5615, "lat": 53.9045, "alt": 80000, "pitch": -90, "heading": 0, "label": "Minsk (Belarus)" }
+      "europe_overview": {
+        "lon": 22,
+        "lat": 54,
+        "alt": 5000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "European Fallout"
+      },
+      "exclusion_zone": {
+        "lon": 30.1,
+        "lat": 51.35,
+        "alt": 120000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Exclusion Zone"
+      },
+      "reactor_4": {
+        "lon": 30.0928,
+        "lat": 51.389,
+        "alt": 8000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Reactor No. 4"
+      },
+      "pripyat": {
+        "lon": 30.0543,
+        "lat": 51.4066,
+        "alt": 15000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Pripyat Ghost City"
+      },
+      "kyiv": {
+        "lon": 30.5234,
+        "lat": 50.4501,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Kyiv"
+      },
+      "minsk": {
+        "lon": 27.5615,
+        "lat": 53.9045,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Minsk (Belarus)"
+      }
     }
   },
   "navSections": [
-    { "id": "sec-timeline", "label": "Timeline" },
-    { "id": "sec-map", "label": "Map" },
-    { "id": "sec-humanitarian", "label": "Casualties" },
-    { "id": "sec-economic", "label": "Economic" },
-    { "id": "sec-contested", "label": "Contested" },
-    { "id": "sec-political", "label": "Political" }
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Casualties"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
   ],
-  "politicalAvatars": ["soviet-gov", "ukraine-gov", "liquidator", "international", "victims"],
-  "eventTypes": ["explosion", "evacuation", "coverup", "investigation", "memorial"],
+  "politicalAvatars": [
+    "soviet-gov",
+    "ukraine-gov",
+    "liquidator",
+    "international",
+    "victims"
+  ],
+  "eventTypes": [
+    "explosion",
+    "evacuation",
+    "coverup",
+    "investigation",
+    "memorial"
+  ],
   "ai": {
     "systemPrompt": "You are a nuclear history researcher and investigative analyst updating a tracker for the 1986 Chernobyl nuclear disaster.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"reactor_explosion\", \"pripyat_evacuation\").\n\nSOURCE TIERS for Chernobyl research:\n- Tier 1: Official/primary (IAEA, WHO, UNSCEAR, Ukrainian government archives, Soviet/Russian state archives, Chernobyl NPP administration, UN)\n- Tier 2: Major outlet (Reuters, AP, BBC, CNN, NYT, WaPo, The Guardian, Kyiv Post, RFE/RL, TASS historical)\n- Tier 3: Institutional (CSIS, Greenpeace, Chernobyl Forum, TORCH Report, Green Cross, Memorial International, academic peer-reviewed studies)\n- Tier 4: Unverified (social media, unattributed testimony, blogs, uncorroborated claims)\n\nWhen providing sources, include the most authoritative source available. Clearly note when official Soviet/Russian sources are known to have understated the disaster's scale.\n\nKEY RESEARCH AREAS:\n- Immediate explosion and fire (April 26, 1986 at 01:23 local time)\n- Soviet government cover-up and delayed evacuation (Pripyat evacuated ~36 hours later)\n- Liquidators: 600,000+ emergency workers deployed 1986-1990\n- Radioactive fallout across Europe (detected in Sweden first on April 28)\n- Long-term health consequences: thyroid cancer, disputed cancer mortality\n- Exclusion Zone: 30km zone, ghost city of Pripyat\n- Chernobyl's role in Soviet glasnost and collapse\n- New Safe Confinement (sarcophagus) construction and current status\n- Ongoing Ukrainian management of the site since 1991\n\nCONTESTED FACTS:\n- Total death toll: official Soviet count (31) vs estimates (4,000–985,000)\n- Long-term cancer deaths: disputed between UNSCEAR/WHO and Greenpeace/TORCH estimates\n- Whether the 1979 safety test that triggered the explosion was intentional or negligent\n\nOnly include information you can verify through search results. Do not fabricate data.",
     "searchContext": "Chernobyl nuclear disaster 1986 liquidators fallout exclusion zone legacy",
-    "enabledSections": ["kpis", "timeline", "mapPoints", "casualties", "econ", "claims", "political"],
-    "coordValidation": { "lonMin": 5, "lonMax": 50, "latMin": 40, "latMax": 72 },
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "casualties",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": 5,
+      "lonMax": 50,
+      "latMin": 40,
+      "latMax": 72
+    },
     "updateIntervalDays": 30,
     "backfillTargets": {
       "timeline": 40,
@@ -59,6 +177,15 @@
       "casualties": 10,
       "econ": 8,
       "kpis": 8
+    },
+    "updatePolicy": {
+      "escalation": [
+        30,
+        60,
+        90,
+        180
+      ],
+      "quietThreshold": 0
     }
   },
   "ogImage": "/og-card.png",

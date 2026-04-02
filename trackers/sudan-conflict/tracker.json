@@ -12,57 +12,209 @@
   "country": "SD",
   "startDate": "2023-04-15",
   "eraLabel": "SAF-RSF War 2023–",
-  "tags": ["SAF", "RSF", "Darfur", "Khartoum", "famine", "displacement"],
-  "sections": ["hero", "kpis", "timeline", "map", "military", "casualties", "economic", "claims", "political"],
+  "tags": [
+    "SAF",
+    "RSF",
+    "Darfur",
+    "Khartoum",
+    "famine",
+    "displacement"
+  ],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "military",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
   "map": {
     "enabled": true,
-    "bounds": { "lonMin": 21.8, "lonMax": 38.6, "latMin": 8.7, "latMax": 23.1 },
-    "center": { "lon": 30.0, "lat": 15.0 },
+    "bounds": {
+      "lonMin": 21.8,
+      "lonMax": 38.6,
+      "latMin": 8.7,
+      "latMax": 23.1
+    },
+    "center": {
+      "lon": 30,
+      "lat": 15
+    },
     "categories": [
-      { "id": "saf-control", "label": "SAF Territory", "color": "#27ae60" },
-      { "id": "rsf-control", "label": "RSF Territory", "color": "#e74c3c" },
-      { "id": "contested", "label": "Contested Zones", "color": "#f39c12" },
-      { "id": "humanitarian", "label": "Humanitarian Crisis", "color": "#9b59b6" },
-      { "id": "displacement", "label": "Displacement Sites", "color": "#3498db" }
+      {
+        "id": "saf-control",
+        "label": "SAF Territory",
+        "color": "#27ae60"
+      },
+      {
+        "id": "rsf-control",
+        "label": "RSF Territory",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "contested",
+        "label": "Contested Zones",
+        "color": "#f39c12"
+      },
+      {
+        "id": "humanitarian",
+        "label": "Humanitarian Crisis",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "displacement",
+        "label": "Displacement Sites",
+        "color": "#3498db"
+      }
     ]
   },
   "globe": {
     "enabled": true,
     "cameraPresets": {
-      "theater": { "lon": 30.0, "lat": 15.0, "alt": 3000000, "pitch": -90, "heading": 0, "label": "Sudan Theater" },
-      "khartoum": { "lon": 32.53, "lat": 15.55, "alt": 80000, "pitch": -90, "heading": 0, "label": "Khartoum" },
-      "omdurman": { "lon": 32.48, "lat": 15.64, "alt": 50000, "pitch": -90, "heading": 0, "label": "Omdurman" },
-      "darfur": { "lon": 24.8, "lat": 13.5, "alt": 600000, "pitch": -90, "heading": 0, "label": "Darfur Region" },
-      "el_fasher": { "lon": 25.36, "lat": 13.63, "alt": 80000, "pitch": -90, "heading": 0, "label": "El Fasher" },
-      "port_sudan": { "lon": 37.22, "lat": 19.62, "alt": 80000, "pitch": -90, "heading": 0, "label": "Port Sudan" }
+      "theater": {
+        "lon": 30,
+        "lat": 15,
+        "alt": 3000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Sudan Theater"
+      },
+      "khartoum": {
+        "lon": 32.53,
+        "lat": 15.55,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Khartoum"
+      },
+      "omdurman": {
+        "lon": 32.48,
+        "lat": 15.64,
+        "alt": 50000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Omdurman"
+      },
+      "darfur": {
+        "lon": 24.8,
+        "lat": 13.5,
+        "alt": 600000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Darfur Region"
+      },
+      "el_fasher": {
+        "lon": 25.36,
+        "lat": 13.63,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "El Fasher"
+      },
+      "port_sudan": {
+        "lon": 37.22,
+        "lat": 19.62,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Port Sudan"
+      }
     },
     "clocks": [
-      { "label": "KHARTOUM", "offsetHours": 3 },
-      { "label": "UTC", "offsetHours": 0 },
-      { "label": "EST", "offsetHours": -5 }
+      {
+        "label": "KHARTOUM",
+        "offsetHours": 3
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      },
+      {
+        "label": "EST",
+        "offsetHours": -5
+      }
     ]
   },
   "navSections": [
-    { "id": "sec-timeline", "label": "Timeline" },
-    { "id": "sec-map", "label": "Map" },
-    { "id": "sec-military", "label": "Military" },
-    { "id": "sec-humanitarian", "label": "Humanitarian" },
-    { "id": "sec-economic", "label": "Economic" },
-    { "id": "sec-contested", "label": "Contested" },
-    { "id": "sec-political", "label": "Political" }
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-military",
+      "label": "Military"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Humanitarian"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
   ],
   "militaryTabs": [
-    { "id": "strikes", "label": "Strike Targets" },
-    { "id": "retaliation", "label": "RSF Advances" },
-    { "id": "assets", "label": "Forces Deployed" }
+    {
+      "id": "strikes",
+      "label": "Strike Targets"
+    },
+    {
+      "id": "retaliation",
+      "label": "RSF Advances"
+    },
+    {
+      "id": "assets",
+      "label": "Forces Deployed"
+    }
   ],
-  "politicalAvatars": ["saf", "rsf", "darfur", "un", "other"],
-  "eventTypes": ["military", "humanitarian", "diplomatic", "atrocity"],
+  "politicalAvatars": [
+    "saf",
+    "rsf",
+    "darfur",
+    "un",
+    "other"
+  ],
+  "eventTypes": [
+    "military",
+    "humanitarian",
+    "diplomatic",
+    "atrocity"
+  ],
   "ai": {
     "systemPrompt": "You are an intelligence analyst updating the Sudan Civil War tracker.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose.\nEvery item must have an \"id\" field (lowercase_snake_case).\n\nSource tier classification:\n- Tier 1: Official (SAF statements, UN OCHA, AU, IGAD, UNHCR)\n- Tier 2: Major outlet (Reuters, AP, BBC, Al Jazeera, Sudan Tribune, Radio Dabanga)\n- Tier 3: Institutional (HRW, Amnesty, MSF, ACLED, Crisis Group)\n- Tier 4: Unverified (social media, unattributed reports)\n\nOnly include information verifiable through search. Do not fabricate data.",
     "searchContext": "Sudan civil war SAF RSF Darfur Khartoum humanitarian crisis",
-    "enabledSections": ["kpis", "timeline", "mapPoints", "mapLines", "casualties", "econ", "claims", "political", "assets"],
-    "coordValidation": { "lonMin": 21.0, "lonMax": 39.0, "latMin": 8.0, "latMax": 24.0 },
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "mapLines",
+      "casualties",
+      "econ",
+      "claims",
+      "political",
+      "assets"
+    ],
+    "coordValidation": {
+      "lonMin": 21,
+      "lonMax": 39,
+      "latMin": 8,
+      "latMax": 24
+    },
     "updateIntervalDays": 2,
     "backfillTargets": {
       "timeline": 50,
@@ -73,6 +225,19 @@
       "casualties": 12,
       "econ": 8,
       "assets": 10
+    },
+    "updatePolicy": {
+      "escalation": [
+        1,
+        1,
+        1,
+        7,
+        7,
+        30,
+        60,
+        90
+      ],
+      "quietThreshold": 0
     }
   },
   "githubRepo": "ArtemioPadilla/watchboard"

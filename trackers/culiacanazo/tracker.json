@@ -12,43 +12,155 @@
   "country": "MX",
   "startDate": "2019-10-17",
   "eraLabel": "2019 & 2023 Operations",
-  "sections": ["hero", "kpis", "timeline", "map", "casualties", "claims", "political"],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "casualties",
+    "claims",
+    "political"
+  ],
   "map": {
     "enabled": true,
-    "bounds": { "lonMin": -109, "lonMax": -105, "latMin": 22, "latMax": 27 },
-    "center": { "lon": -107.39, "lat": 24.81 },
+    "bounds": {
+      "lonMin": -109,
+      "lonMax": -105,
+      "latMin": 22,
+      "latMax": 27
+    },
+    "center": {
+      "lon": -107.39,
+      "lat": 24.81
+    },
     "categories": [
-      { "id": "cartel-action", "label": "Cartel Operations", "color": "#e74c3c" },
-      { "id": "military-op", "label": "Military/Security", "color": "#2980b9" },
-      { "id": "incident", "label": "Armed Incidents", "color": "#f39c12" },
-      { "id": "civilian", "label": "Civilian Impact", "color": "#8e44ad" }
+      {
+        "id": "cartel-action",
+        "label": "Cartel Operations",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "military-op",
+        "label": "Military/Security",
+        "color": "#2980b9"
+      },
+      {
+        "id": "incident",
+        "label": "Armed Incidents",
+        "color": "#f39c12"
+      },
+      {
+        "id": "civilian",
+        "label": "Civilian Impact",
+        "color": "#8e44ad"
+      }
     ]
   },
   "globe": {
     "enabled": true,
     "cameraPresets": {
-      "sinaloa": { "lon": -107.5, "lat": 24.8, "alt": 400000, "pitch": -90, "heading": 0, "label": "Sinaloa Overview" },
-      "culiacan": { "lon": -107.394, "lat": 24.809, "alt": 60000, "pitch": -90, "heading": 0, "label": "Culiacán City" },
-      "las_quintas": { "lon": -107.42, "lat": 24.82, "alt": 15000, "pitch": -90, "heading": 0, "label": "Las Quintas (2019 Capture)" },
-      "culiacan_airport": { "lon": -107.475, "lat": 24.764, "alt": 20000, "pitch": -90, "heading": 0, "label": "Culiacán Airport" },
-      "mazatlan": { "lon": -106.41, "lat": 23.24, "alt": 60000, "pitch": -90, "heading": 0, "label": "Mazatlán" },
-      "mexico_city": { "lon": -99.13, "lat": 19.43, "alt": 200000, "pitch": -90, "heading": 0, "label": "Mexico City" }
+      "sinaloa": {
+        "lon": -107.5,
+        "lat": 24.8,
+        "alt": 400000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Sinaloa Overview"
+      },
+      "culiacan": {
+        "lon": -107.394,
+        "lat": 24.809,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Culiacán City"
+      },
+      "las_quintas": {
+        "lon": -107.42,
+        "lat": 24.82,
+        "alt": 15000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Las Quintas (2019 Capture)"
+      },
+      "culiacan_airport": {
+        "lon": -107.475,
+        "lat": 24.764,
+        "alt": 20000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Culiacán Airport"
+      },
+      "mazatlan": {
+        "lon": -106.41,
+        "lat": 23.24,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Mazatlán"
+      },
+      "mexico_city": {
+        "lon": -99.13,
+        "lat": 19.43,
+        "alt": 200000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Mexico City"
+      }
     }
   },
   "navSections": [
-    { "id": "sec-timeline", "label": "Timeline" },
-    { "id": "sec-map", "label": "Map" },
-    { "id": "sec-humanitarian", "label": "Casualties" },
-    { "id": "sec-contested", "label": "Contested" },
-    { "id": "sec-political", "label": "Political" }
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Casualties"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
   ],
-  "politicalAvatars": ["mx-gov", "mil", "cartel", "civilian", "intl"],
-  "eventTypes": ["military-op", "cartel-action", "civilian-incident", "legal-political"],
+  "politicalAvatars": [
+    "mx-gov",
+    "mil",
+    "cartel",
+    "civilian",
+    "intl"
+  ],
+  "eventTypes": [
+    "military-op",
+    "cartel-action",
+    "civilian-incident",
+    "legal-political"
+  ],
   "ai": {
     "systemPrompt": "You are a security and organized crime analyst updating an intelligence dashboard on the Culiacanazo events in Mexico.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case).\n\nYou are tracking two pivotal events:\n1. October 17, 2019 — El Culiacanazo: Mexican military briefly detained Ovidio Guzmán López but released him after the Sinaloa Cartel overwhelmed Culiacán with armed convoys, blockades, and hostage-taking of soldiers' relatives.\n2. January 5–6, 2023 — Operation Ovidio: Mass urban firefight across Culiacán, cartel road blockades across Sinaloa, attack on Culiacán airport, civilian casualties, and Ovidio's arrest and subsequent extradition to the US.\n\nSource tier classification:\n- Tier 1: Official/primary (Mexican Secretaría de Seguridad y Protección Ciudadana, Secretaría de la Defensa Nacional SEDENA, Fiscalía General de la República FGR, US Department of Justice, DEA official statements)\n- Tier 2: Major outlet (Reuters, AP, BBC, El Universal, Reforma, Milenio, La Jornada, El País México, CNN en Español, Animal Político, Aristegui Noticias)\n- Tier 3: Institutional (InSight Crime, WOLA, Wilson Center Mexico Institute, Trans-Border Institute, CNDH, Proceso, Zeta Tijuana)\n- Tier 4: Unverified (social media, narco blogs, anonymous military sources, unverified video)\n\nOnly include information you can verify through search results. Do not fabricate data.\nPrioritize Mexican investigative journalism and official statements for this domestic security topic.",
     "searchContext": "Culiacanazo Ovidio Guzmán Culiacán Sinaloa Cartel 2019 2023 operation",
-    "enabledSections": ["kpis", "timeline", "mapPoints", "casualties", "claims", "political"],
-    "coordValidation": { "lonMin": -112, "lonMax": -103, "latMin": 20, "latMax": 30 },
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "casualties",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": -112,
+      "lonMax": -103,
+      "latMin": 20,
+      "latMax": 30
+    },
     "updateIntervalDays": 30,
     "backfillTargets": {
       "timeline": 25,
@@ -57,6 +169,15 @@
       "political": 12,
       "kpis": 8,
       "casualties": 8
+    },
+    "updatePolicy": {
+      "escalation": [
+        30,
+        60,
+        90,
+        180
+      ],
+      "quietThreshold": 0
     }
   },
   "githubRepo": "ArtemioPadilla/watchboard"

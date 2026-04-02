@@ -12,59 +12,219 @@
   "country": "PS",
   "startDate": "2023-10-27",
   "eraLabel": "October 7 War",
-  "series": { "id": "israel-palestine", "name": "Israel-Palestine Conflict", "order": 2 },
-  "tags": ["Gaza", "Hamas", "IDF", "ceasefire", "ICJ", "humanitarian"],
-  "sections": ["hero", "kpis", "timeline", "map", "military", "casualties", "economic", "claims", "political"],
+  "series": {
+    "id": "israel-palestine",
+    "name": "Israel-Palestine Conflict",
+    "order": 2
+  },
+  "tags": [
+    "Gaza",
+    "Hamas",
+    "IDF",
+    "ceasefire",
+    "ICJ",
+    "humanitarian"
+  ],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "military",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
   "map": {
     "enabled": true,
-    "bounds": { "lonMin": 33.8, "lonMax": 36.2, "latMin": 28.8, "latMax": 33.5 },
-    "center": { "lon": 34.8, "lat": 31.5 },
+    "bounds": {
+      "lonMin": 33.8,
+      "lonMax": 36.2,
+      "latMin": 28.8,
+      "latMax": 33.5
+    },
+    "center": {
+      "lon": 34.8,
+      "lat": 31.5
+    },
     "categories": [
-      { "id": "airstrike", "label": "Israeli Airstrikes", "color": "#e74c3c" },
-      { "id": "ground-op", "label": "Ground Operations", "color": "#c0392b" },
-      { "id": "humanitarian", "label": "Humanitarian Sites", "color": "#27ae60" },
-      { "id": "ceasefire", "label": "Ceasefire Points", "color": "#3498db" },
-      { "id": "displacement", "label": "Displacement Zones", "color": "#f39c12" }
+      {
+        "id": "airstrike",
+        "label": "Israeli Airstrikes",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "ground-op",
+        "label": "Ground Operations",
+        "color": "#c0392b"
+      },
+      {
+        "id": "humanitarian",
+        "label": "Humanitarian Sites",
+        "color": "#27ae60"
+      },
+      {
+        "id": "ceasefire",
+        "label": "Ceasefire Points",
+        "color": "#3498db"
+      },
+      {
+        "id": "displacement",
+        "label": "Displacement Zones",
+        "color": "#f39c12"
+      }
     ]
   },
   "globe": {
     "enabled": true,
     "cameraPresets": {
-      "theater": { "lon": 34.8, "lat": 31.5, "alt": 800000, "pitch": -90, "heading": 0, "label": "Theater Overview" },
-      "gaza_city": { "lon": 34.465, "lat": 31.525, "alt": 40000, "pitch": -90, "heading": 0, "label": "Gaza City" },
-      "rafah": { "lon": 34.265, "lat": 31.30, "alt": 30000, "pitch": -90, "heading": 0, "label": "Rafah" },
-      "west_bank": { "lon": 35.25, "lat": 32.0, "alt": 150000, "pitch": -90, "heading": 0, "label": "West Bank" },
-      "jerusalem": { "lon": 35.22, "lat": 31.77, "alt": 25000, "pitch": -90, "heading": 0, "label": "Jerusalem" },
-      "tel_aviv": { "lon": 34.78, "lat": 32.08, "alt": 25000, "pitch": -90, "heading": 0, "label": "Tel Aviv" }
+      "theater": {
+        "lon": 34.8,
+        "lat": 31.5,
+        "alt": 800000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Theater Overview"
+      },
+      "gaza_city": {
+        "lon": 34.465,
+        "lat": 31.525,
+        "alt": 40000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Gaza City"
+      },
+      "rafah": {
+        "lon": 34.265,
+        "lat": 31.3,
+        "alt": 30000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Rafah"
+      },
+      "west_bank": {
+        "lon": 35.25,
+        "lat": 32,
+        "alt": 150000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "West Bank"
+      },
+      "jerusalem": {
+        "lon": 35.22,
+        "lat": 31.77,
+        "alt": 25000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Jerusalem"
+      },
+      "tel_aviv": {
+        "lon": 34.78,
+        "lat": 32.08,
+        "alt": 25000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Tel Aviv"
+      }
     },
     "clocks": [
-      { "label": "GAZA", "offsetHours": 3 },
-      { "label": "TLV", "offsetHours": 3 },
-      { "label": "UTC", "offsetHours": 0 },
-      { "label": "EST", "offsetHours": -5 }
+      {
+        "label": "GAZA",
+        "offsetHours": 3
+      },
+      {
+        "label": "TLV",
+        "offsetHours": 3
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      },
+      {
+        "label": "EST",
+        "offsetHours": -5
+      }
     ]
   },
   "navSections": [
-    { "id": "sec-timeline", "label": "Timeline" },
-    { "id": "sec-map", "label": "Map" },
-    { "id": "sec-military", "label": "Military" },
-    { "id": "sec-humanitarian", "label": "Humanitarian" },
-    { "id": "sec-economic", "label": "Economic" },
-    { "id": "sec-contested", "label": "Contested" },
-    { "id": "sec-political", "label": "Political" }
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-military",
+      "label": "Military"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Humanitarian"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
   ],
   "militaryTabs": [
-    { "id": "strikes", "label": "Strike Targets" },
-    { "id": "retaliation", "label": "Hamas/PIJ Rockets" },
-    { "id": "assets", "label": "IDF Assets Deployed" }
+    {
+      "id": "strikes",
+      "label": "Strike Targets"
+    },
+    {
+      "id": "retaliation",
+      "label": "Hamas/PIJ Rockets"
+    },
+    {
+      "id": "assets",
+      "label": "IDF Assets Deployed"
+    }
   ],
-  "politicalAvatars": ["il", "ps", "us", "un", "other"],
-  "eventTypes": ["military", "diplomatic", "humanitarian", "ceasefire", "legal"],
+  "politicalAvatars": [
+    "il",
+    "ps",
+    "us",
+    "un",
+    "other"
+  ],
+  "eventTypes": [
+    "military",
+    "diplomatic",
+    "humanitarian",
+    "ceasefire",
+    "legal"
+  ],
   "ai": {
     "systemPrompt": "You are an intelligence analyst updating the Gaza War tracker.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose.\nEvery item must have an \"id\" field (lowercase_snake_case).\n\nSource tier classification:\n- Tier 1: Official (IDF, Hamas official statements, UN OCHA, Israeli PM office, Palestinian Authority, ICJ)\n- Tier 2: Major outlet (Reuters, AP, Al Jazeera, BBC, NYT, Haaretz, Times of Israel, CNN)\n- Tier 3: Institutional (HRW, Amnesty, UNRWA, MSF, Oxfam, ICG)\n- Tier 4: Unverified (social media, unattributed reports)\n\nMULTI-POLE SOURCING: Gather from Israeli/Western sources AND Palestinian/Arab/international sources.\nTag sources with pole: western, middle_eastern, eastern, international.\nOnly include information verifiable through search. Do not fabricate data.",
     "searchContext": "Israel-Gaza war ceasefire humanitarian crisis ICJ",
-    "enabledSections": ["kpis", "timeline", "mapPoints", "mapLines", "casualties", "econ", "claims", "political", "assets"],
-    "coordValidation": { "lonMin": 33.0, "lonMax": 36.5, "latMin": 28.5, "latMax": 34.0 },
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "mapLines",
+      "casualties",
+      "econ",
+      "claims",
+      "political",
+      "assets"
+    ],
+    "coordValidation": {
+      "lonMin": 33,
+      "lonMax": 36.5,
+      "latMin": 28.5,
+      "latMax": 34
+    },
     "updateIntervalDays": 1,
     "backfillTargets": {
       "timeline": 60,
@@ -75,6 +235,19 @@
       "casualties": 15,
       "econ": 10,
       "assets": 15
+    },
+    "updatePolicy": {
+      "escalation": [
+        1,
+        1,
+        1,
+        7,
+        7,
+        30,
+        60,
+        90
+      ],
+      "quietThreshold": 0
     }
   },
   "githubRepo": "ArtemioPadilla/watchboard"

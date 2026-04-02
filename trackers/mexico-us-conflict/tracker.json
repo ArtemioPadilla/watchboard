@@ -13,51 +13,187 @@
   "startDate": "1835-10-02",
   "endDate": "1848-02-02",
   "eraLabel": "Texas & Mexican-American War 1835–1848",
-  "tags": ["Texas Revolution", "Alamo", "Mexican-American War", "Guadalupe Hidalgo", "manifest destiny"],
-  "sections": ["hero", "kpis", "timeline", "map", "military", "casualties", "claims", "political"],
+  "tags": [
+    "Texas Revolution",
+    "Alamo",
+    "Mexican-American War",
+    "Guadalupe Hidalgo",
+    "manifest destiny"
+  ],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "military",
+    "casualties",
+    "claims",
+    "political"
+  ],
   "map": {
     "enabled": true,
-    "bounds": { "lonMin": -120.0, "lonMax": -86.0, "latMin": 14.0, "latMax": 42.0 },
-    "center": { "lon": -102.0, "lat": 27.0 },
+    "bounds": {
+      "lonMin": -120,
+      "lonMax": -86,
+      "latMin": 14,
+      "latMax": 42
+    },
+    "center": {
+      "lon": -102,
+      "lat": 27
+    },
     "categories": [
-      { "id": "us-advance", "label": "US Military Advance", "color": "#3498db" },
-      { "id": "mx-defense", "label": "Mexican Defense", "color": "#27ae60" },
-      { "id": "battle", "label": "Major Battles", "color": "#e74c3c" },
-      { "id": "treaty", "label": "Treaty Sites", "color": "#f39c12" },
-      { "id": "occupation", "label": "US Occupation Zones", "color": "#9b59b6" }
+      {
+        "id": "us-advance",
+        "label": "US Military Advance",
+        "color": "#3498db"
+      },
+      {
+        "id": "mx-defense",
+        "label": "Mexican Defense",
+        "color": "#27ae60"
+      },
+      {
+        "id": "battle",
+        "label": "Major Battles",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "treaty",
+        "label": "Treaty Sites",
+        "color": "#f39c12"
+      },
+      {
+        "id": "occupation",
+        "label": "US Occupation Zones",
+        "color": "#9b59b6"
+      }
     ]
   },
   "globe": {
     "enabled": true,
     "cameraPresets": {
-      "theater": { "lon": -102.0, "lat": 27.0, "alt": 4000000, "pitch": -90, "heading": 0, "label": "War Theater" },
-      "alamo": { "lon": -98.49, "lat": 29.43, "alt": 30000, "pitch": -90, "heading": 0, "label": "The Alamo (San Antonio)" },
-      "mexico_city": { "lon": -99.13, "lat": 19.43, "alt": 80000, "pitch": -90, "heading": 0, "label": "Mexico City" },
-      "guadalupe_hidalgo": { "lon": -99.12, "lat": 19.48, "alt": 25000, "pitch": -90, "heading": 0, "label": "Guadalupe Hidalgo" },
-      "veracruz": { "lon": -96.13, "lat": 19.18, "alt": 60000, "pitch": -90, "heading": 0, "label": "Veracruz" },
-      "rio_grande": { "lon": -99.5, "lat": 26.5, "alt": 300000, "pitch": -90, "heading": 0, "label": "Rio Grande" }
+      "theater": {
+        "lon": -102,
+        "lat": 27,
+        "alt": 4000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "War Theater"
+      },
+      "alamo": {
+        "lon": -98.49,
+        "lat": 29.43,
+        "alt": 30000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "The Alamo (San Antonio)"
+      },
+      "mexico_city": {
+        "lon": -99.13,
+        "lat": 19.43,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Mexico City"
+      },
+      "guadalupe_hidalgo": {
+        "lon": -99.12,
+        "lat": 19.48,
+        "alt": 25000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Guadalupe Hidalgo"
+      },
+      "veracruz": {
+        "lon": -96.13,
+        "lat": 19.18,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Veracruz"
+      },
+      "rio_grande": {
+        "lon": -99.5,
+        "lat": 26.5,
+        "alt": 300000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Rio Grande"
+      }
     }
   },
   "navSections": [
-    { "id": "sec-timeline", "label": "Timeline" },
-    { "id": "sec-map", "label": "Map" },
-    { "id": "sec-military", "label": "Military" },
-    { "id": "sec-humanitarian", "label": "Casualties" },
-    { "id": "sec-contested", "label": "Contested" },
-    { "id": "sec-political", "label": "Political" }
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-military",
+      "label": "Military"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Casualties"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
   ],
   "militaryTabs": [
-    { "id": "strikes", "label": "Battles" },
-    { "id": "retaliation", "label": "Mexican Operations" },
-    { "id": "assets", "label": "Forces Deployed" }
+    {
+      "id": "strikes",
+      "label": "Battles"
+    },
+    {
+      "id": "retaliation",
+      "label": "Mexican Operations"
+    },
+    {
+      "id": "assets",
+      "label": "Forces Deployed"
+    }
   ],
-  "politicalAvatars": ["us", "mx", "texas", "other"],
-  "eventTypes": ["battle", "siege", "diplomatic", "treaty", "occupation"],
+  "politicalAvatars": [
+    "us",
+    "mx",
+    "texas",
+    "other"
+  ],
+  "eventTypes": [
+    "battle",
+    "siege",
+    "diplomatic",
+    "treaty",
+    "occupation"
+  ],
   "ai": {
     "systemPrompt": "You are a military historian updating the Mexico-US Wars tracker.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose.\nEvery item must have an \"id\" field (lowercase_snake_case).\n\nSource tier classification:\n- Tier 1: Primary sources (national archives US/Mexico, treaty texts, official military records)\n- Tier 2: Major historical works (academic presses, national histories, university publications)\n- Tier 3: Research institutions (Smithsonian, university history departments, Mexican national archive)\n- Tier 4: Secondary/unverified (Wikipedia without citations)\n\nOnly include information verifiable through search. Do not fabricate data.",
     "searchContext": "Mexican-American War Texas Revolution 1835-1848 history Alamo Guadalupe Hidalgo",
-    "enabledSections": ["kpis", "timeline", "mapPoints", "mapLines", "casualties", "claims", "political"],
-    "coordValidation": { "lonMin": -121.0, "lonMax": -85.0, "latMin": 13.0, "latMax": 43.0 },
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "mapLines",
+      "casualties",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": -121,
+      "lonMax": -85,
+      "latMin": 13,
+      "latMax": 43
+    },
     "updateIntervalDays": 180,
     "backfillTargets": {
       "timeline": 60,
@@ -66,6 +202,15 @@
       "claims": 20,
       "political": 15,
       "casualties": 10
+    },
+    "updatePolicy": {
+      "escalation": [
+        30,
+        60,
+        90,
+        180
+      ],
+      "quietThreshold": 0
     }
   },
   "githubRepo": "ArtemioPadilla/watchboard"

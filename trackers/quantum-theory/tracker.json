@@ -11,47 +11,159 @@
   "region": "global",
   "startDate": "1900-12-14",
   "eraLabel": "Quantum Era 1900–Present",
-  "tags": ["Planck", "Heisenberg", "Schrödinger", "Copenhagen", "quantum computing", "Bell theorem"],
-  "sections": ["hero", "kpis", "timeline", "map", "claims", "political"],
+  "tags": [
+    "Planck",
+    "Heisenberg",
+    "Schrödinger",
+    "Copenhagen",
+    "quantum computing",
+    "Bell theorem"
+  ],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "claims",
+    "political"
+  ],
   "map": {
     "enabled": true,
-    "bounds": { "lonMin": -130.0, "lonMax": 180.0, "latMin": -40.0, "latMax": 75.0 },
-    "center": { "lon": 10.0, "lat": 50.0 },
+    "bounds": {
+      "lonMin": -130,
+      "lonMax": 180,
+      "latMin": -40,
+      "latMax": 75
+    },
+    "center": {
+      "lon": 10,
+      "lat": 50
+    },
     "categories": [
-      { "id": "discovery", "label": "Key Discoveries", "color": "#2980b9" },
-      { "id": "institute", "label": "Research Institutes", "color": "#27ae60" },
-      { "id": "experiment", "label": "Landmark Experiments", "color": "#e74c3c" },
-      { "id": "qcomputing", "label": "Quantum Computing", "color": "#9b59b6" }
+      {
+        "id": "discovery",
+        "label": "Key Discoveries",
+        "color": "#2980b9"
+      },
+      {
+        "id": "institute",
+        "label": "Research Institutes",
+        "color": "#27ae60"
+      },
+      {
+        "id": "experiment",
+        "label": "Landmark Experiments",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "qcomputing",
+        "label": "Quantum Computing",
+        "color": "#9b59b6"
+      }
     ]
   },
   "globe": {
     "enabled": true,
     "cameraPresets": {
-      "global": { "lon": 10.0, "lat": 50.0, "alt": 15000000, "pitch": -90, "heading": 0, "label": "Global View" },
-      "europe": { "lon": 10.0, "lat": 50.0, "alt": 5000000, "pitch": -90, "heading": 0, "label": "Europe (birthplace)" },
-      "copenhagen": { "lon": 12.57, "lat": 55.68, "alt": 80000, "pitch": -90, "heading": 0, "label": "Copenhagen (Bohr Institute)" },
-      "berlin": { "lon": 13.40, "lat": 52.52, "alt": 80000, "pitch": -90, "heading": 0, "label": "Berlin (Planck)" },
-      "cern": { "lon": 6.05, "lat": 46.23, "alt": 60000, "pitch": -90, "heading": 0, "label": "CERN (Geneva)" }
+      "global": {
+        "lon": 10,
+        "lat": 50,
+        "alt": 15000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Global View"
+      },
+      "europe": {
+        "lon": 10,
+        "lat": 50,
+        "alt": 5000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Europe (birthplace)"
+      },
+      "copenhagen": {
+        "lon": 12.57,
+        "lat": 55.68,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Copenhagen (Bohr Institute)"
+      },
+      "berlin": {
+        "lon": 13.4,
+        "lat": 52.52,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Berlin (Planck)"
+      },
+      "cern": {
+        "lon": 6.05,
+        "lat": 46.23,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "CERN (Geneva)"
+      }
     }
   },
   "navSections": [
-    { "id": "sec-timeline", "label": "Timeline" },
-    { "id": "sec-map", "label": "Discoveries Map" },
-    { "id": "sec-contested", "label": "Interpretations" },
-    { "id": "sec-political", "label": "Key Figures" }
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Discoveries Map"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Interpretations"
+    },
+    {
+      "id": "sec-political",
+      "label": "Key Figures"
+    }
   ],
-  "politicalAvatars": ["planck", "einstein", "bohr", "heisenberg", "other"],
-  "eventTypes": ["discovery", "publication", "experiment", "award", "computing"],
+  "politicalAvatars": [
+    "planck",
+    "einstein",
+    "bohr",
+    "heisenberg",
+    "other"
+  ],
+  "eventTypes": [
+    "discovery",
+    "publication",
+    "experiment",
+    "award",
+    "computing"
+  ],
   "ai": {
     "systemPrompt": "You are a science historian updating the Quantum Theory tracker.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose.\nEvery item must have an \"id\" field (lowercase_snake_case).\n\nSource tier classification:\n- Tier 1: Primary (original published papers, Nobel Prize archives, APS, AIP)\n- Tier 2: Major science media (Nature, Science, Physical Review, Scientific American, Physics Today)\n- Tier 3: Institutional (university history of science departments, Niels Bohr Archive, Einstein Papers)\n- Tier 4: Secondary/unverified (Wikipedia without citations, popular science without sources)\n\nFocus on historically accurate milestones, recent quantum computing breakthroughs, and commemorations.",
     "searchContext": "quantum theory history Planck Heisenberg Schrodinger quantum computing breakthroughs",
-    "enabledSections": ["kpis", "timeline", "mapPoints", "claims", "political"],
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "claims",
+      "political"
+    ],
     "updateIntervalDays": 30,
     "backfillTargets": {
       "timeline": 80,
       "mapPoints": 40,
       "claims": 20,
       "political": 20
+    },
+    "updatePolicy": {
+      "escalation": [
+        30,
+        60,
+        90,
+        180
+      ],
+      "quietThreshold": 0
     }
   },
   "githubRepo": "ArtemioPadilla/watchboard"

@@ -13,43 +13,153 @@
   "startDate": "2012-12-01",
   "endDate": "2018-11-30",
   "eraLabel": "Enrique Peña Nieto 2012–2018",
-  "series": { "id": "mx-presidencies", "name": "Mexican Presidencies", "order": 3 },
-  "tags": ["Peña Nieto", "PRI", "Ayotzinapa", "structural reforms", "Casa Blanca", "El Chapo"],
-  "sections": ["hero", "kpis", "timeline", "map", "economic", "claims", "political"],
+  "series": {
+    "id": "mx-presidencies",
+    "name": "Mexican Presidencies",
+    "order": 3
+  },
+  "tags": [
+    "Peña Nieto",
+    "PRI",
+    "Ayotzinapa",
+    "structural reforms",
+    "Casa Blanca",
+    "El Chapo"
+  ],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "economic",
+    "claims",
+    "political"
+  ],
   "map": {
     "enabled": true,
-    "bounds": { "lonMin": -118.0, "lonMax": -86.0, "latMin": 14.0, "latMax": 33.0 },
-    "center": { "lon": -102.0, "lat": 24.0 },
+    "bounds": {
+      "lonMin": -118,
+      "lonMax": -86,
+      "latMin": 14,
+      "latMax": 33
+    },
+    "center": {
+      "lon": -102,
+      "lat": 24
+    },
     "categories": [
-      { "id": "reform", "label": "Reform Milestones", "color": "#27ae60" },
-      { "id": "corruption", "label": "Corruption Scandals", "color": "#e74c3c" },
-      { "id": "ayotzinapa", "label": "Ayotzinapa Events", "color": "#9b59b6" },
-      { "id": "economic", "label": "Economic Events", "color": "#3498db" }
+      {
+        "id": "reform",
+        "label": "Reform Milestones",
+        "color": "#27ae60"
+      },
+      {
+        "id": "corruption",
+        "label": "Corruption Scandals",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "ayotzinapa",
+        "label": "Ayotzinapa Events",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "economic",
+        "label": "Economic Events",
+        "color": "#3498db"
+      }
     ]
   },
   "globe": {
     "enabled": true,
     "cameraPresets": {
-      "theater": { "lon": -102.0, "lat": 24.0, "alt": 3000000, "pitch": -90, "heading": 0, "label": "Mexico Overview" },
-      "mexico_city": { "lon": -99.13, "lat": 19.43, "alt": 80000, "pitch": -90, "heading": 0, "label": "Mexico City" },
-      "iguala": { "lon": -99.54, "lat": 18.34, "alt": 40000, "pitch": -90, "heading": 0, "label": "Iguala (Ayotzinapa)" },
-      "toluca": { "lon": -99.65, "lat": 19.29, "alt": 80000, "pitch": -90, "heading": 0, "label": "Toluca (State of Mexico)" }
+      "theater": {
+        "lon": -102,
+        "lat": 24,
+        "alt": 3000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Mexico Overview"
+      },
+      "mexico_city": {
+        "lon": -99.13,
+        "lat": 19.43,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Mexico City"
+      },
+      "iguala": {
+        "lon": -99.54,
+        "lat": 18.34,
+        "alt": 40000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Iguala (Ayotzinapa)"
+      },
+      "toluca": {
+        "lon": -99.65,
+        "lat": 19.29,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Toluca (State of Mexico)"
+      }
     }
   },
   "navSections": [
-    { "id": "sec-timeline", "label": "Timeline" },
-    { "id": "sec-map", "label": "Map" },
-    { "id": "sec-economic", "label": "Economic" },
-    { "id": "sec-contested", "label": "Contested" },
-    { "id": "sec-political", "label": "Political" }
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
   ],
-  "politicalAvatars": ["pena-nieto", "pri", "pan", "prd", "other"],
-  "eventTypes": ["political", "economic", "corruption", "protest", "reform"],
+  "politicalAvatars": [
+    "pena-nieto",
+    "pri",
+    "pan",
+    "prd",
+    "other"
+  ],
+  "eventTypes": [
+    "political",
+    "economic",
+    "corruption",
+    "protest",
+    "reform"
+  ],
   "ai": {
     "systemPrompt": "You are a political analyst updating the Enrique Peña Nieto Presidency tracker.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose.\nEvery item must have an \"id\" field (lowercase_snake_case).\n\nSource tier classification:\n- Tier 1: Official (Diario Oficial, presidential decrees, INEGI, Congressional records)\n- Tier 2: Major outlet (Reuters, AP, El Universal, Reforma, Proceso, Animal Político, Aristegui Noticias)\n- Tier 3: Institutional (CIDE, UNAM, IMCO, Wilson Center, WOLA, Mexicanos Contra la Corrupción)\n- Tier 4: Unverified (social media, anonymous sources)\n\nOnly include information verifiable through search. Do not fabricate data.",
     "searchContext": "Pena Nieto Mexico presidency reforms Ayotzinapa corruption Casa Blanca 2012-2018",
-    "enabledSections": ["kpis", "timeline", "mapPoints", "econ", "claims", "political"],
-    "coordValidation": { "lonMin": -119.0, "lonMax": -85.0, "latMin": 13.0, "latMax": 34.0 },
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": -119,
+      "lonMax": -85,
+      "latMin": 13,
+      "latMax": 34
+    },
     "updateIntervalDays": 180,
     "backfillTargets": {
       "timeline": 50,
@@ -57,6 +167,15 @@
       "claims": 20,
       "political": 20,
       "econ": 10
+    },
+    "updatePolicy": {
+      "escalation": [
+        30,
+        60,
+        90,
+        180
+      ],
+      "quietThreshold": 0
     }
   },
   "githubRepo": "ArtemioPadilla/watchboard"

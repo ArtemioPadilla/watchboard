@@ -12,57 +12,210 @@
   "country": "IN",
   "startDate": "1947-08-14",
   "eraLabel": "India-Pakistan Rivalry 1947–",
-  "tags": ["Kashmir", "LOC", "nuclear", "Kargil", "partition", "Pakistan"],
-  "sections": ["hero", "kpis", "timeline", "map", "military", "casualties", "economic", "claims", "political"],
+  "tags": [
+    "Kashmir",
+    "LOC",
+    "nuclear",
+    "Kargil",
+    "partition",
+    "Pakistan"
+  ],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "military",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
   "map": {
     "enabled": true,
-    "bounds": { "lonMin": 60.0, "lonMax": 100.0, "latMin": 8.0, "latMax": 38.0 },
-    "center": { "lon": 77.0, "lat": 28.0 },
+    "bounds": {
+      "lonMin": 60,
+      "lonMax": 100,
+      "latMin": 8,
+      "latMax": 38
+    },
+    "center": {
+      "lon": 77,
+      "lat": 28
+    },
     "categories": [
-      { "id": "loc", "label": "Line of Control", "color": "#e74c3c" },
-      { "id": "indian-op", "label": "Indian Operations", "color": "#f39c12" },
-      { "id": "pakistan-op", "label": "Pakistani Operations", "color": "#27ae60" },
-      { "id": "nuclear", "label": "Nuclear Sites", "color": "#9b59b6" },
-      { "id": "terror-attack", "label": "Terror Attacks", "color": "#c0392b" }
+      {
+        "id": "loc",
+        "label": "Line of Control",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "indian-op",
+        "label": "Indian Operations",
+        "color": "#f39c12"
+      },
+      {
+        "id": "pakistan-op",
+        "label": "Pakistani Operations",
+        "color": "#27ae60"
+      },
+      {
+        "id": "nuclear",
+        "label": "Nuclear Sites",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "terror-attack",
+        "label": "Terror Attacks",
+        "color": "#c0392b"
+      }
     ]
   },
   "globe": {
     "enabled": true,
     "cameraPresets": {
-      "theater": { "lon": 77.0, "lat": 28.0, "alt": 4000000, "pitch": -90, "heading": 0, "label": "South Asia Theater" },
-      "kashmir": { "lon": 74.8, "lat": 34.5, "alt": 250000, "pitch": -90, "heading": 0, "label": "Kashmir" },
-      "new_delhi": { "lon": 77.21, "lat": 28.61, "alt": 80000, "pitch": -90, "heading": 0, "label": "New Delhi" },
-      "islamabad": { "lon": 73.07, "lat": 33.69, "alt": 80000, "pitch": -90, "heading": 0, "label": "Islamabad" },
-      "lahore": { "lon": 74.34, "lat": 31.55, "alt": 80000, "pitch": -90, "heading": 0, "label": "Lahore" },
-      "siachen": { "lon": 77.1, "lat": 35.4, "alt": 80000, "pitch": -90, "heading": 0, "label": "Siachen Glacier" }
+      "theater": {
+        "lon": 77,
+        "lat": 28,
+        "alt": 4000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "South Asia Theater"
+      },
+      "kashmir": {
+        "lon": 74.8,
+        "lat": 34.5,
+        "alt": 250000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Kashmir"
+      },
+      "new_delhi": {
+        "lon": 77.21,
+        "lat": 28.61,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "New Delhi"
+      },
+      "islamabad": {
+        "lon": 73.07,
+        "lat": 33.69,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Islamabad"
+      },
+      "lahore": {
+        "lon": 74.34,
+        "lat": 31.55,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Lahore"
+      },
+      "siachen": {
+        "lon": 77.1,
+        "lat": 35.4,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Siachen Glacier"
+      }
     },
     "clocks": [
-      { "label": "NEW DELHI", "offsetHours": 5.5 },
-      { "label": "ISLAMABAD", "offsetHours": 5 },
-      { "label": "UTC", "offsetHours": 0 }
+      {
+        "label": "NEW DELHI",
+        "offsetHours": 5.5
+      },
+      {
+        "label": "ISLAMABAD",
+        "offsetHours": 5
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      }
     ]
   },
   "navSections": [
-    { "id": "sec-timeline", "label": "Timeline" },
-    { "id": "sec-map", "label": "Map" },
-    { "id": "sec-military", "label": "Military" },
-    { "id": "sec-humanitarian", "label": "Humanitarian" },
-    { "id": "sec-economic", "label": "Economic" },
-    { "id": "sec-contested", "label": "Contested" },
-    { "id": "sec-political", "label": "Political" }
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-military",
+      "label": "Military"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Humanitarian"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
   ],
   "militaryTabs": [
-    { "id": "strikes", "label": "Incidents" },
-    { "id": "retaliation", "label": "Responses" },
-    { "id": "assets", "label": "Military Assets" }
+    {
+      "id": "strikes",
+      "label": "Incidents"
+    },
+    {
+      "id": "retaliation",
+      "label": "Responses"
+    },
+    {
+      "id": "assets",
+      "label": "Military Assets"
+    }
   ],
-  "politicalAvatars": ["india", "pakistan", "kashmir", "un", "other"],
-  "eventTypes": ["military", "diplomatic", "terror-attack", "nuclear", "political"],
+  "politicalAvatars": [
+    "india",
+    "pakistan",
+    "kashmir",
+    "un",
+    "other"
+  ],
+  "eventTypes": [
+    "military",
+    "diplomatic",
+    "terror-attack",
+    "nuclear",
+    "political"
+  ],
   "ai": {
     "systemPrompt": "You are an intelligence analyst updating the India-Pakistan Conflict tracker.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose.\nEvery item must have an \"id\" field (lowercase_snake_case).\n\nSource tier classification:\n- Tier 1: Official (Indian MEA/MOD, Pakistani ISPR/MFA, UN, IAEA)\n- Tier 2: Major outlet (Reuters, AP, BBC, The Hindu, Dawn, Geo News, NDTV)\n- Tier 3: Institutional (ICG, SIPRI, HRW, CSIS, Stimson Center)\n- Tier 4: Unverified (social media, unattributed military claims)\n\nOnly include information verifiable through search. Do not fabricate data.",
     "searchContext": "India Pakistan Kashmir LOC conflict nuclear tensions 2024 2025",
-    "enabledSections": ["kpis", "timeline", "mapPoints", "mapLines", "casualties", "econ", "claims", "political", "assets"],
-    "coordValidation": { "lonMin": 59.0, "lonMax": 101.0, "latMin": 7.0, "latMax": 39.0 },
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "mapLines",
+      "casualties",
+      "econ",
+      "claims",
+      "political",
+      "assets"
+    ],
+    "coordValidation": {
+      "lonMin": 59,
+      "lonMax": 101,
+      "latMin": 7,
+      "latMax": 39
+    },
     "updateIntervalDays": 7,
     "backfillTargets": {
       "timeline": 80,
@@ -73,6 +226,17 @@
       "casualties": 15,
       "econ": 10,
       "assets": 12
+    },
+    "updatePolicy": {
+      "escalation": [
+        3,
+        3,
+        7,
+        14,
+        30,
+        60
+      ],
+      "quietThreshold": 0
     }
   },
   "githubRepo": "ArtemioPadilla/watchboard"

@@ -12,58 +12,214 @@
   "country": "AF",
   "startDate": "2001-10-07",
   "eraLabel": "Forever War 2001–",
-  "tags": ["Taliban", "NATO", "ISIS-K", "TTP", "Kabul", "GWOT"],
-  "sections": ["hero", "kpis", "timeline", "map", "military", "casualties", "economic", "claims", "political"],
+  "tags": [
+    "Taliban",
+    "NATO",
+    "ISIS-K",
+    "TTP",
+    "Kabul",
+    "GWOT"
+  ],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "military",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
   "map": {
     "enabled": true,
-    "bounds": { "lonMin": 60.5, "lonMax": 77.8, "latMin": 23.6, "latMax": 38.5 },
-    "center": { "lon": 68.0, "lat": 33.0 },
+    "bounds": {
+      "lonMin": 60.5,
+      "lonMax": 77.8,
+      "latMin": 23.6,
+      "latMax": 38.5
+    },
+    "center": {
+      "lon": 68,
+      "lat": 33
+    },
     "categories": [
-      { "id": "taliban", "label": "Taliban Control", "color": "#27ae60" },
-      { "id": "isis-k", "label": "ISIS-K Activity", "color": "#e74c3c" },
-      { "id": "ttp", "label": "TTP Operations", "color": "#c0392b" },
-      { "id": "nato", "label": "NATO/US Bases", "color": "#3498db" },
-      { "id": "border", "label": "Af-Pak Border Events", "color": "#f39c12" }
+      {
+        "id": "taliban",
+        "label": "Taliban Control",
+        "color": "#27ae60"
+      },
+      {
+        "id": "isis-k",
+        "label": "ISIS-K Activity",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "ttp",
+        "label": "TTP Operations",
+        "color": "#c0392b"
+      },
+      {
+        "id": "nato",
+        "label": "NATO/US Bases",
+        "color": "#3498db"
+      },
+      {
+        "id": "border",
+        "label": "Af-Pak Border Events",
+        "color": "#f39c12"
+      }
     ]
   },
   "globe": {
     "enabled": true,
     "cameraPresets": {
-      "theater": { "lon": 68.0, "lat": 33.0, "alt": 3000000, "pitch": -90, "heading": 0, "label": "Af-Pak Theater" },
-      "kabul": { "lon": 69.17, "lat": 34.53, "alt": 80000, "pitch": -90, "heading": 0, "label": "Kabul" },
-      "kandahar": { "lon": 65.70, "lat": 31.61, "alt": 80000, "pitch": -90, "heading": 0, "label": "Kandahar" },
-      "islamabad": { "lon": 73.07, "lat": 33.69, "alt": 80000, "pitch": -90, "heading": 0, "label": "Islamabad" },
-      "helmand": { "lon": 64.5, "lat": 31.3, "alt": 200000, "pitch": -90, "heading": 0, "label": "Helmand" },
-      "tora_bora": { "lon": 70.15, "lat": 34.02, "alt": 60000, "pitch": -90, "heading": 0, "label": "Tora Bora" }
+      "theater": {
+        "lon": 68,
+        "lat": 33,
+        "alt": 3000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Af-Pak Theater"
+      },
+      "kabul": {
+        "lon": 69.17,
+        "lat": 34.53,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Kabul"
+      },
+      "kandahar": {
+        "lon": 65.7,
+        "lat": 31.61,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Kandahar"
+      },
+      "islamabad": {
+        "lon": 73.07,
+        "lat": 33.69,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Islamabad"
+      },
+      "helmand": {
+        "lon": 64.5,
+        "lat": 31.3,
+        "alt": 200000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Helmand"
+      },
+      "tora_bora": {
+        "lon": 70.15,
+        "lat": 34.02,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Tora Bora"
+      }
     },
     "clocks": [
-      { "label": "KABUL", "offsetHours": 4.5 },
-      { "label": "ISLAMABAD", "offsetHours": 5 },
-      { "label": "UTC", "offsetHours": 0 },
-      { "label": "EST", "offsetHours": -5 }
+      {
+        "label": "KABUL",
+        "offsetHours": 4.5
+      },
+      {
+        "label": "ISLAMABAD",
+        "offsetHours": 5
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      },
+      {
+        "label": "EST",
+        "offsetHours": -5
+      }
     ]
   },
   "navSections": [
-    { "id": "sec-timeline", "label": "Timeline" },
-    { "id": "sec-map", "label": "Map" },
-    { "id": "sec-military", "label": "Military" },
-    { "id": "sec-humanitarian", "label": "Humanitarian" },
-    { "id": "sec-economic", "label": "Economic" },
-    { "id": "sec-contested", "label": "Contested" },
-    { "id": "sec-political", "label": "Political" }
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-military",
+      "label": "Military"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Humanitarian"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
   ],
   "militaryTabs": [
-    { "id": "strikes", "label": "Attack Events" },
-    { "id": "retaliation", "label": "Military Operations" },
-    { "id": "assets", "label": "Forces & Assets" }
+    {
+      "id": "strikes",
+      "label": "Attack Events"
+    },
+    {
+      "id": "retaliation",
+      "label": "Military Operations"
+    },
+    {
+      "id": "assets",
+      "label": "Forces & Assets"
+    }
   ],
-  "politicalAvatars": ["taliban", "us", "nato", "pak", "other"],
-  "eventTypes": ["military", "diplomatic", "humanitarian", "political", "attack"],
+  "politicalAvatars": [
+    "taliban",
+    "us",
+    "nato",
+    "pak",
+    "other"
+  ],
+  "eventTypes": [
+    "military",
+    "diplomatic",
+    "humanitarian",
+    "political",
+    "attack"
+  ],
   "ai": {
     "systemPrompt": "You are an intelligence analyst updating the Afghanistan-Pakistan War tracker.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose.\nEvery item must have an \"id\" field (lowercase_snake_case).\n\nSource tier classification:\n- Tier 1: Official (Taliban IEA, CENTCOM, Pentagon, Pakistani military ISPR, UN)\n- Tier 2: Major outlet (Reuters, AP, BBC, Tolo News, Dawn, Geo News, Al Jazeera)\n- Tier 3: Institutional (ACLED, SIGAR, Crisis Group, HRW, UNAMA, Wilson Center)\n- Tier 4: Unverified (social media, unattributed claims)\n\nOnly include information verifiable through search. Do not fabricate data.",
     "searchContext": "Afghanistan Taliban ISIS-K Pakistan TTP conflict 2024 2025",
-    "enabledSections": ["kpis", "timeline", "mapPoints", "mapLines", "casualties", "econ", "claims", "political", "assets"],
-    "coordValidation": { "lonMin": 59.0, "lonMax": 78.0, "latMin": 23.0, "latMax": 39.0 },
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "mapLines",
+      "casualties",
+      "econ",
+      "claims",
+      "political",
+      "assets"
+    ],
+    "coordValidation": {
+      "lonMin": 59,
+      "lonMax": 78,
+      "latMin": 23,
+      "latMax": 39
+    },
     "updateIntervalDays": 3,
     "backfillTargets": {
       "timeline": 80,
@@ -74,6 +230,17 @@
       "casualties": 15,
       "econ": 10,
       "assets": 15
+    },
+    "updatePolicy": {
+      "escalation": [
+        3,
+        3,
+        7,
+        14,
+        30,
+        60
+      ],
+      "quietThreshold": 0
     }
   },
   "githubRepo": "ArtemioPadilla/watchboard"

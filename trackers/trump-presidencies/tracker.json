@@ -12,48 +12,170 @@
   "country": "US",
   "startDate": "2017-01-20",
   "eraLabel": "Trump Era 2017–2021, 2025–",
-  "tags": ["Trump", "MAGA", "tariffs", "immigration", "Jan 6", "trade war"],
-  "sections": ["hero", "kpis", "timeline", "map", "economic", "claims", "political"],
+  "tags": [
+    "Trump",
+    "MAGA",
+    "tariffs",
+    "immigration",
+    "Jan 6",
+    "trade war"
+  ],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "economic",
+    "claims",
+    "political"
+  ],
   "map": {
     "enabled": true,
-    "bounds": { "lonMin": -130.0, "lonMax": -65.0, "latMin": 24.0, "latMax": 50.0 },
-    "center": { "lon": -95.0, "lat": 38.0 },
+    "bounds": {
+      "lonMin": -130,
+      "lonMax": -65,
+      "latMin": 24,
+      "latMax": 50
+    },
+    "center": {
+      "lon": -95,
+      "lat": 38
+    },
     "categories": [
-      { "id": "policy", "label": "Policy Events", "color": "#c0392b" },
-      { "id": "trade", "label": "Trade/Tariff Events", "color": "#e67e22" },
-      { "id": "immigration", "label": "Immigration Events", "color": "#8e44ad" },
-      { "id": "legal", "label": "Legal/Jan 6 Events", "color": "#3498db" }
+      {
+        "id": "policy",
+        "label": "Policy Events",
+        "color": "#c0392b"
+      },
+      {
+        "id": "trade",
+        "label": "Trade/Tariff Events",
+        "color": "#e67e22"
+      },
+      {
+        "id": "immigration",
+        "label": "Immigration Events",
+        "color": "#8e44ad"
+      },
+      {
+        "id": "legal",
+        "label": "Legal/Jan 6 Events",
+        "color": "#3498db"
+      }
     ]
   },
   "globe": {
     "enabled": true,
     "cameraPresets": {
-      "theater": { "lon": -95.0, "lat": 38.0, "alt": 6000000, "pitch": -90, "heading": 0, "label": "US Overview" },
-      "washington": { "lon": -77.04, "lat": 38.90, "alt": 80000, "pitch": -90, "heading": 0, "label": "Washington D.C." },
-      "mar_a_lago": { "lon": -80.03, "lat": 26.68, "alt": 30000, "pitch": -90, "heading": 0, "label": "Mar-a-Lago" },
-      "us_mexico_border": { "lon": -105.0, "lat": 31.0, "alt": 1000000, "pitch": -90, "heading": 0, "label": "US-Mexico Border" },
-      "new_york": { "lon": -74.00, "lat": 40.71, "alt": 80000, "pitch": -90, "heading": 0, "label": "New York (courts)" }
+      "theater": {
+        "lon": -95,
+        "lat": 38,
+        "alt": 6000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "US Overview"
+      },
+      "washington": {
+        "lon": -77.04,
+        "lat": 38.9,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Washington D.C."
+      },
+      "mar_a_lago": {
+        "lon": -80.03,
+        "lat": 26.68,
+        "alt": 30000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Mar-a-Lago"
+      },
+      "us_mexico_border": {
+        "lon": -105,
+        "lat": 31,
+        "alt": 1000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "US-Mexico Border"
+      },
+      "new_york": {
+        "lon": -74,
+        "lat": 40.71,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "New York (courts)"
+      }
     },
     "clocks": [
-      { "label": "EST", "offsetHours": -5 },
-      { "label": "CST", "offsetHours": -6 },
-      { "label": "UTC", "offsetHours": 0 }
+      {
+        "label": "EST",
+        "offsetHours": -5
+      },
+      {
+        "label": "CST",
+        "offsetHours": -6
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      }
     ]
   },
   "navSections": [
-    { "id": "sec-timeline", "label": "Timeline" },
-    { "id": "sec-map", "label": "Map" },
-    { "id": "sec-economic", "label": "Economic" },
-    { "id": "sec-contested", "label": "Contested" },
-    { "id": "sec-political", "label": "Political" }
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
   ],
-  "politicalAvatars": ["trump", "democrats", "republicans", "courts", "other"],
-  "eventTypes": ["political", "economic", "legal", "diplomatic", "social"],
+  "politicalAvatars": [
+    "trump",
+    "democrats",
+    "republicans",
+    "courts",
+    "other"
+  ],
+  "eventTypes": [
+    "political",
+    "economic",
+    "legal",
+    "diplomatic",
+    "social"
+  ],
   "ai": {
     "systemPrompt": "You are a political analyst updating the Trump Presidencies tracker.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose.\nEvery item must have an \"id\" field (lowercase_snake_case).\n\nSource tier classification:\n- Tier 1: Official (White House, executive orders, Congressional records, federal court rulings, OMB)\n- Tier 2: Major outlet (Reuters, AP, NYT, WaPo, Fox News, Politico, The Hill, Bloomberg)\n- Tier 3: Institutional (Brookings, CSIS, Atlantic Council, Cato, Heritage Foundation)\n- Tier 4: Unverified (social media, Truth Social posts without follow-up, anonymous leaks)\n\nOnly include information verifiable through search. Do not fabricate data.",
     "searchContext": "Trump presidency 2025 tariffs immigration MAGA executive orders policy",
-    "enabledSections": ["kpis", "timeline", "mapPoints", "econ", "claims", "political"],
-    "coordValidation": { "lonMin": -131.0, "lonMax": -64.0, "latMin": 23.0, "latMax": 51.0 },
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": -131,
+      "lonMax": -64,
+      "latMin": 23,
+      "latMax": 51
+    },
     "updateIntervalDays": 1,
     "backfillTargets": {
       "timeline": 80,
@@ -61,6 +183,19 @@
       "claims": 30,
       "political": 25,
       "econ": 15
+    },
+    "updatePolicy": {
+      "escalation": [
+        1,
+        1,
+        1,
+        7,
+        7,
+        30,
+        60,
+        90
+      ],
+      "quietThreshold": 0
     }
   },
   "githubRepo": "ArtemioPadilla/watchboard"

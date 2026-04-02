@@ -10,61 +10,223 @@
   "domain": "conflict",
   "region": "europe",
   "country": "UA",
-  "tags": ["russia", "nato", "sanctions", "frontline", "humanitarian"],
+  "tags": [
+    "russia",
+    "nato",
+    "sanctions",
+    "frontline",
+    "humanitarian"
+  ],
   "startDate": "2022-02-24",
   "eraLabel": "Full-Scale Invasion 2022–",
-  "sections": ["hero", "kpis", "timeline", "map", "military", "casualties", "economic", "claims", "political"],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "military",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
   "map": {
     "enabled": true,
-    "bounds": { "lonMin": 22, "lonMax": 40, "latMin": 44, "latMax": 53 },
-    "center": { "lon": 31, "lat": 48.5 },
+    "bounds": {
+      "lonMin": 22,
+      "lonMax": 40,
+      "latMin": 44,
+      "latMax": 53
+    },
+    "center": {
+      "lon": 31,
+      "lat": 48.5
+    },
     "categories": [
-      { "id": "frontline", "label": "Active Frontline", "color": "#e74c3c" },
-      { "id": "strike", "label": "Russian Strikes", "color": "#c0392b" },
-      { "id": "ua-strike", "label": "Ukrainian Strikes", "color": "#3498db" },
-      { "id": "advance", "label": "Territorial Change", "color": "#f39c12" },
-      { "id": "aid", "label": "Aid & Weapons Delivery", "color": "#2ecc71" }
+      {
+        "id": "frontline",
+        "label": "Active Frontline",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "strike",
+        "label": "Russian Strikes",
+        "color": "#c0392b"
+      },
+      {
+        "id": "ua-strike",
+        "label": "Ukrainian Strikes",
+        "color": "#3498db"
+      },
+      {
+        "id": "advance",
+        "label": "Territorial Change",
+        "color": "#f39c12"
+      },
+      {
+        "id": "aid",
+        "label": "Aid & Weapons Delivery",
+        "color": "#2ecc71"
+      }
     ]
   },
   "globe": {
     "enabled": true,
     "cameraPresets": {
-      "overview": { "lon": 31, "lat": 48.5, "alt": 2500000, "pitch": -90, "heading": 0, "label": "Ukraine Overview" },
-      "kyiv": { "lon": 30.52, "lat": 50.45, "alt": 80000, "pitch": -90, "heading": 0, "label": "Kyiv" },
-      "kharkiv": { "lon": 36.25, "lat": 50.00, "alt": 80000, "pitch": -90, "heading": 0, "label": "Kharkiv" },
-      "donbas": { "lon": 38.00, "lat": 48.40, "alt": 250000, "pitch": -90, "heading": 0, "label": "Donbas Frontline" },
-      "crimea": { "lon": 34.10, "lat": 45.00, "alt": 200000, "pitch": -90, "heading": 0, "label": "Crimea" },
-      "odesa": { "lon": 30.72, "lat": 46.48, "alt": 100000, "pitch": -90, "heading": 0, "label": "Odesa" },
-      "zaporizhzhia": { "lon": 35.14, "lat": 47.83, "alt": 100000, "pitch": -90, "heading": 0, "label": "Zaporizhzhia" }
+      "overview": {
+        "lon": 31,
+        "lat": 48.5,
+        "alt": 2500000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Ukraine Overview"
+      },
+      "kyiv": {
+        "lon": 30.52,
+        "lat": 50.45,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Kyiv"
+      },
+      "kharkiv": {
+        "lon": 36.25,
+        "lat": 50,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Kharkiv"
+      },
+      "donbas": {
+        "lon": 38,
+        "lat": 48.4,
+        "alt": 250000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Donbas Frontline"
+      },
+      "crimea": {
+        "lon": 34.1,
+        "lat": 45,
+        "alt": 200000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Crimea"
+      },
+      "odesa": {
+        "lon": 30.72,
+        "lat": 46.48,
+        "alt": 100000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Odesa"
+      },
+      "zaporizhzhia": {
+        "lon": 35.14,
+        "lat": 47.83,
+        "alt": 100000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Zaporizhzhia"
+      }
     },
     "clocks": [
-      { "label": "KYIV", "offsetHours": 3 },
-      { "label": "MOSCOW", "offsetHours": 3 },
-      { "label": "UTC", "offsetHours": 0 },
-      { "label": "EST", "offsetHours": -5 }
+      {
+        "label": "KYIV",
+        "offsetHours": 3
+      },
+      {
+        "label": "MOSCOW",
+        "offsetHours": 3
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      },
+      {
+        "label": "EST",
+        "offsetHours": -5
+      }
     ]
   },
   "navSections": [
-    { "id": "sec-timeline", "label": "Timeline" },
-    { "id": "sec-map", "label": "Map" },
-    { "id": "sec-military", "label": "Military" },
-    { "id": "sec-humanitarian", "label": "Humanitarian" },
-    { "id": "sec-economic", "label": "Economic" },
-    { "id": "sec-contested", "label": "Contested" },
-    { "id": "sec-political", "label": "Political" }
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-military",
+      "label": "Military"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Humanitarian"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
   ],
   "militaryTabs": [
-    { "id": "strikes", "label": "Strike Targets" },
-    { "id": "retaliation", "label": "Ukrainian Strikes" },
-    { "id": "assets", "label": "Weapons Deployed" }
+    {
+      "id": "strikes",
+      "label": "Strike Targets"
+    },
+    {
+      "id": "retaliation",
+      "label": "Ukrainian Strikes"
+    },
+    {
+      "id": "assets",
+      "label": "Weapons Deployed"
+    }
   ],
-  "politicalAvatars": ["ua", "ru", "nato", "un", "eu", "other"],
-  "eventTypes": ["military", "diplomatic", "humanitarian", "sanctions"],
+  "politicalAvatars": [
+    "ua",
+    "ru",
+    "nato",
+    "un",
+    "eu",
+    "other"
+  ],
+  "eventTypes": [
+    "military",
+    "diplomatic",
+    "humanitarian",
+    "sanctions"
+  ],
   "ai": {
     "systemPrompt": "You are a conflict analyst updating a live intelligence dashboard on Russia's full-scale war against Ukraine.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"kyiv_strike\", \"kharkiv_advance\").\n\nMULTI-POLE SOURCING — gather information from all relevant media poles:\n1. WESTERN: White House, Pentagon, State Dept, NATO, EU, Ukrainian MoD, Reuters, AP, BBC, CNN, NYT, WaPo, Bloomberg, The Guardian\n2. EASTERN: TASS, RIA Novosti, RT (note bias), Xinhua, CGTN, Global Times, Russian MoD\n3. UKRAINIAN: Ukrinform, Kyiv Independent, Ukrainian Pravda, Ukrainian MoD, President Zelenskyy's office\n4. INTERNATIONAL: UN, ICRC, UNHCR, OSCE, HRW, Amnesty, Bellingcat, ISW, ACLED\n\nWhen providing sources (especially in the \"sources\" array), tag each with a \"pole\" field:\n- \"western\" for US/European/allied sources\n- \"eastern\" for Russian/Chinese/pro-Kremlin sources\n- \"international\" for UN/NGO/multilateral/OSINT sources\n\nSource tier classification:\n- Tier 1: Official/primary (Ukrainian MoD, Russian MoD, White House, NATO, UN, OSCE, EU Council)\n- Tier 2: Major outlet (Reuters, AP, BBC, CNN, NYT, Kyiv Independent, Ukrinform, TASS, Bloomberg)\n- Tier 3: Institutional/analytical (ISW, ACLED, Bellingcat, HRW, Amnesty, CSIS, IISS, RUSI, ICG)\n- Tier 4: Unverified (social media, Telegram channels, unattributed military claims, geolocated but unconfirmed footage)\n\nOnly include information you can verify through search results. Do not fabricate data.\nActively seek CONTRASTING perspectives when events are contested (especially casualty figures and territorial claims).\n\nCONFIRMATION RULES:\n- Only report a military event as confirmed if it has at least 1 Tier 1 source OR 2 Tier 2+ sources.\n- Single-source Tier 3/4 reports should use confidence: \"low\".\n- For frontline movements: cross-reference ISW daily updates with satellite imagery sources.\n\nDEDUPLICATION:\n- Same target within ±2 hours = same event — merge, do not create duplicates.\n- When attacker and defender report different casualty numbers: record both with source attribution.\n- Distinguish between Russian strikes ON Ukraine vs Ukrainian strikes INTO Russian territory.",
     "searchContext": "Russia Ukraine war frontline weapons sanctions diplomacy 2022 2025",
-    "enabledSections": ["kpis", "timeline", "mapPoints", "mapLines", "casualties", "econ", "claims", "political", "assets"],
-    "coordValidation": { "lonMin": 20, "lonMax": 42, "latMin": 43, "latMax": 54 },
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "mapLines",
+      "casualties",
+      "econ",
+      "claims",
+      "political",
+      "assets"
+    ],
+    "coordValidation": {
+      "lonMin": 20,
+      "lonMax": 42,
+      "latMin": 43,
+      "latMax": 54
+    },
     "updateIntervalDays": 1,
     "backfillTargets": {
       "timeline": 40,
@@ -76,6 +238,19 @@
       "econ": 12,
       "assets": 15,
       "kpis": 8
+    },
+    "updatePolicy": {
+      "escalation": [
+        1,
+        1,
+        1,
+        7,
+        7,
+        30,
+        60,
+        90
+      ],
+      "quietThreshold": 0
     }
   },
   "ogImage": "/og-card.png",

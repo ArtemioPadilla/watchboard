@@ -10,7 +10,17 @@
   "domain": "conflict",
   "region": "middle-east",
   "country": "IL",
-  "tags": ["israel", "palestine", "gaza", "west-bank", "icc", "icj", "hamas", "idf", "occupation"],
+  "tags": [
+    "israel",
+    "palestine",
+    "gaza",
+    "west-bank",
+    "icc",
+    "icj",
+    "hamas",
+    "idf",
+    "occupation"
+  ],
   "series": {
     "id": "israel-palestine",
     "name": "Israel-Palestine Conflict",
@@ -18,57 +28,207 @@
   },
   "startDate": "1948-05-14",
   "eraLabel": "1948 – Present",
-  "sections": ["hero", "kpis", "timeline", "map", "military", "casualties", "economic", "claims", "political"],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "military",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
   "map": {
     "enabled": true,
-    "bounds": { "lonMin": 33.5, "lonMax": 36.5, "latMin": 29.0, "latMax": 34.0 },
-    "center": { "lon": 35.0, "lat": 31.5 },
+    "bounds": {
+      "lonMin": 33.5,
+      "lonMax": 36.5,
+      "latMin": 29,
+      "latMax": 34
+    },
+    "center": {
+      "lon": 35,
+      "lat": 31.5
+    },
     "categories": [
-      { "id": "conflict", "label": "Active Conflict Zones", "color": "#e74c3c" },
-      { "id": "settlement", "label": "Israeli Settlements", "color": "#e67e22" },
-      { "id": "checkpoint", "label": "Checkpoints / Crossings", "color": "#f1c40f" },
-      { "id": "humanitarian", "label": "Humanitarian / Medical", "color": "#27ae60" },
-      { "id": "legal", "label": "Key Sites / Legal", "color": "#8e44ad" }
+      {
+        "id": "conflict",
+        "label": "Active Conflict Zones",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "settlement",
+        "label": "Israeli Settlements",
+        "color": "#e67e22"
+      },
+      {
+        "id": "checkpoint",
+        "label": "Checkpoints / Crossings",
+        "color": "#f1c40f"
+      },
+      {
+        "id": "humanitarian",
+        "label": "Humanitarian / Medical",
+        "color": "#27ae60"
+      },
+      {
+        "id": "legal",
+        "label": "Key Sites / Legal",
+        "color": "#8e44ad"
+      }
     ]
   },
   "globe": {
     "enabled": true,
     "cameraPresets": {
-      "overview": { "lon": 35.0, "lat": 31.5, "alt": 800000, "pitch": -90, "heading": 0, "label": "Israel / Palestine Overview" },
-      "jerusalem": { "lon": 35.22, "lat": 31.78, "alt": 30000, "pitch": -90, "heading": 0, "label": "Jerusalem" },
-      "gaza_city": { "lon": 34.47, "lat": 31.52, "alt": 25000, "pitch": -90, "heading": 0, "label": "Gaza City" },
-      "tel_aviv": { "lon": 34.78, "lat": 32.08, "alt": 40000, "pitch": -90, "heading": 0, "label": "Tel Aviv" },
-      "west_bank": { "lon": 35.20, "lat": 32.00, "alt": 80000, "pitch": -90, "heading": 0, "label": "West Bank" },
-      "regional": { "lon": 37.0, "lat": 29.0, "alt": 3000000, "pitch": -90, "heading": 0, "label": "Middle East Region" }
+      "overview": {
+        "lon": 35,
+        "lat": 31.5,
+        "alt": 800000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Israel / Palestine Overview"
+      },
+      "jerusalem": {
+        "lon": 35.22,
+        "lat": 31.78,
+        "alt": 30000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Jerusalem"
+      },
+      "gaza_city": {
+        "lon": 34.47,
+        "lat": 31.52,
+        "alt": 25000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Gaza City"
+      },
+      "tel_aviv": {
+        "lon": 34.78,
+        "lat": 32.08,
+        "alt": 40000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Tel Aviv"
+      },
+      "west_bank": {
+        "lon": 35.2,
+        "lat": 32,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "West Bank"
+      },
+      "regional": {
+        "lon": 37,
+        "lat": 29,
+        "alt": 3000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Middle East Region"
+      }
     },
     "clocks": [
-      { "label": "GAZA", "offsetHours": 3 },
-      { "label": "TLV", "offsetHours": 3 },
-      { "label": "UTC", "offsetHours": 0 },
-      { "label": "EST", "offsetHours": -5 }
+      {
+        "label": "GAZA",
+        "offsetHours": 3
+      },
+      {
+        "label": "TLV",
+        "offsetHours": 3
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      },
+      {
+        "label": "EST",
+        "offsetHours": -5
+      }
     ]
   },
   "navSections": [
-    { "id": "sec-timeline", "label": "Timeline" },
-    { "id": "sec-map", "label": "Map" },
-    { "id": "sec-military", "label": "Military" },
-    { "id": "sec-humanitarian", "label": "Humanitarian" },
-    { "id": "sec-economic", "label": "Economic" },
-    { "id": "sec-contested", "label": "Contested" },
-    { "id": "sec-political", "label": "Political" }
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-military",
+      "label": "Military"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Humanitarian"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
   ],
   "militaryTabs": [
-    { "id": "strikes", "label": "Israeli Operations" },
-    { "id": "retaliation", "label": "Palestinian/Militant Attacks" },
-    { "id": "assets", "label": "Forces Deployed" }
+    {
+      "id": "strikes",
+      "label": "Israeli Operations"
+    },
+    {
+      "id": "retaliation",
+      "label": "Palestinian/Militant Attacks"
+    },
+    {
+      "id": "assets",
+      "label": "Forces Deployed"
+    }
   ],
-  "politicalAvatars": ["il-gov", "pa", "hamas", "intl", "un", "other"],
-  "eventTypes": ["military", "political", "legal", "humanitarian", "settlement"],
+  "politicalAvatars": [
+    "il-gov",
+    "pa",
+    "hamas",
+    "intl",
+    "un",
+    "other"
+  ],
+  "eventTypes": [
+    "military",
+    "political",
+    "legal",
+    "humanitarian",
+    "settlement"
+  ],
   "ai": {
     "systemPrompt": "You are a conflict analyst and international law researcher updating an intelligence dashboard on the Israel-Palestine conflict.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"gaza_ceasefire\", \"icj_ruling\").\n\nThis tracker covers the full arc of the conflict from 1948 to the present:\n- 1948 founding war and Nakba\n- 1967 Six-Day War and occupation\n- Oslo Accords and peace process (1990s)\n- Second Intifada (2000–2005)\n- Hamas governance of Gaza and blockade (2007–present)\n- October 7, 2023 Hamas attack and Israeli military response\n- ICJ genocide proceedings and ICC arrest warrants\n\nMULTI-POLE SOURCING — gather information from all four media poles:\n1. WESTERN: US State Dept, IDF, Israeli Foreign Ministry, Reuters, AP, BBC, CNN, NYT, WaPo, Haaretz, Times of Israel\n2. MIDDLE EASTERN: Al Jazeera, Al Arabiya, Hamas statements, Palestinian Authority, Ma'an News, WAFA\n3. EASTERN: Xinhua, CGTN, TASS, Al Mayadeen, Press TV\n4. INTERNATIONAL: UN, OCHA, UNRWA, ICC, ICJ, ICRC, HRW, Amnesty, B'Tselem, OHCHR\n\nWhen providing sources (especially in the \"sources\" array), tag each with a \"pole\" field:\n- \"western\" for US/European/Israeli sources\n- \"middle_eastern\" for Arab/Palestinian sources\n- \"eastern\" for Chinese/Russian/Iranian sources\n- \"international\" for UN/NGO/multilateral sources\n\nSource tier classification:\n- Tier 1: Official/primary (IDF, Israeli government, Palestinian Authority, Hamas official, UN, ICC, ICJ, UNRWA, OCHA)\n- Tier 2: Major outlet (Reuters, AP, BBC, Al Jazeera, CNN, NYT, Haaretz, Times of Israel, Al Arabiya, WAFA)\n- Tier 3: Institutional (B'Tselem, HRW, Amnesty International, ICG, CSIS, ACLED, Middle East Eye, Médecins Sans Frontières)\n- Tier 4: Unverified (social media, unattributed claims, unverified footage)\n\nOnly include information you can verify through search results. Do not fabricate data.\nActively seek CONTRASTING perspectives — Israeli/Palestinian narratives often diverge significantly on casualty counts, responsibility, and historical context.\n\nCONFIRMATION RULES:\n- Only report military events as confirmed if they have at least 1 Tier 1 source OR 2 Tier 2+ sources from different poles.\n- Single-source Tier 3/4 reports should use confidence: \"low\".\n- Casualty figures from Gaza Ministry of Health are Tier 1 for Palestinian casualties; IDF figures are Tier 1 for Israeli casualties.\n\nDEDUPLICATION:\n- Same event reported by multiple sides = one entry. Note discrepancies in figures.",
     "searchContext": "Israel-Palestine conflict Gaza West Bank occupation settlements",
-    "enabledSections": ["kpis", "timeline", "mapPoints", "mapLines", "casualties", "econ", "claims", "political", "assets"],
-    "coordValidation": { "lonMin": 32.0, "lonMax": 37.5, "latMin": 27.5, "latMax": 35.5 },
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "mapLines",
+      "casualties",
+      "econ",
+      "claims",
+      "political",
+      "assets"
+    ],
+    "coordValidation": {
+      "lonMin": 32,
+      "lonMax": 37.5,
+      "latMin": 27.5,
+      "latMax": 35.5
+    },
     "updateIntervalDays": 1,
     "backfillTargets": {
       "timeline": 40,
@@ -80,6 +240,19 @@
       "econ": 10,
       "assets": 12,
       "kpis": 8
+    },
+    "updatePolicy": {
+      "escalation": [
+        1,
+        1,
+        1,
+        7,
+        7,
+        30,
+        60,
+        90
+      ],
+      "quietThreshold": 0
     }
   },
   "ogImage": "/og-card.png",

@@ -12,44 +12,161 @@
   "country": "CU",
   "startDate": "1959-01-01",
   "eraLabel": "Cuban Revolution & Cold War 1959–",
-  "tags": ["Cuban Missile Crisis", "Bay of Pigs", "embargo", "Castro", "Special Period", "2021 protests"],
-  "sections": ["hero", "kpis", "timeline", "map", "economic", "claims", "political"],
+  "tags": [
+    "Cuban Missile Crisis",
+    "Bay of Pigs",
+    "embargo",
+    "Castro",
+    "Special Period",
+    "2021 protests"
+  ],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "economic",
+    "claims",
+    "political"
+  ],
   "map": {
     "enabled": true,
-    "bounds": { "lonMin": -87.0, "lonMax": -73.0, "latMin": 19.0, "latMax": 25.0 },
-    "center": { "lon": -80.0, "lat": 22.0 },
+    "bounds": {
+      "lonMin": -87,
+      "lonMax": -73,
+      "latMin": 19,
+      "latMax": 25
+    },
+    "center": {
+      "lon": -80,
+      "lat": 22
+    },
     "categories": [
-      { "id": "military", "label": "Military Sites", "color": "#e74c3c" },
-      { "id": "bay-of-pigs", "label": "Bay of Pigs Sites", "color": "#c0392b" },
-      { "id": "missile", "label": "Missile Crisis Sites", "color": "#9b59b6" },
-      { "id": "protest", "label": "Protest Sites", "color": "#f39c12" },
-      { "id": "embargo", "label": "Embargo Impact", "color": "#3498db" }
+      {
+        "id": "military",
+        "label": "Military Sites",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "bay-of-pigs",
+        "label": "Bay of Pigs Sites",
+        "color": "#c0392b"
+      },
+      {
+        "id": "missile",
+        "label": "Missile Crisis Sites",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "protest",
+        "label": "Protest Sites",
+        "color": "#f39c12"
+      },
+      {
+        "id": "embargo",
+        "label": "Embargo Impact",
+        "color": "#3498db"
+      }
     ]
   },
   "globe": {
     "enabled": true,
     "cameraPresets": {
-      "theater": { "lon": -80.0, "lat": 22.0, "alt": 1000000, "pitch": -90, "heading": 0, "label": "Cuba Overview" },
-      "havana": { "lon": -82.35, "lat": 23.13, "alt": 60000, "pitch": -90, "heading": 0, "label": "Havana" },
-      "bay_of_pigs": { "lon": -81.16, "lat": 22.07, "alt": 80000, "pitch": -90, "heading": 0, "label": "Bay of Pigs" },
-      "santiago": { "lon": -75.82, "lat": 20.02, "alt": 60000, "pitch": -90, "heading": 0, "label": "Santiago de Cuba" },
-      "guantanamo": { "lon": -75.21, "lat": 19.91, "alt": 40000, "pitch": -90, "heading": 0, "label": "Guantánamo" }
+      "theater": {
+        "lon": -80,
+        "lat": 22,
+        "alt": 1000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Cuba Overview"
+      },
+      "havana": {
+        "lon": -82.35,
+        "lat": 23.13,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Havana"
+      },
+      "bay_of_pigs": {
+        "lon": -81.16,
+        "lat": 22.07,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Bay of Pigs"
+      },
+      "santiago": {
+        "lon": -75.82,
+        "lat": 20.02,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Santiago de Cuba"
+      },
+      "guantanamo": {
+        "lon": -75.21,
+        "lat": 19.91,
+        "alt": 40000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Guantánamo"
+      }
     }
   },
   "navSections": [
-    { "id": "sec-timeline", "label": "Timeline" },
-    { "id": "sec-map", "label": "Map" },
-    { "id": "sec-economic", "label": "Economic" },
-    { "id": "sec-contested", "label": "Contested" },
-    { "id": "sec-political", "label": "Political" }
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
   ],
-  "politicalAvatars": ["castro", "us", "ussr", "opposition", "other"],
-  "eventTypes": ["revolution", "diplomatic", "economic", "political", "protest"],
+  "politicalAvatars": [
+    "castro",
+    "us",
+    "ussr",
+    "opposition",
+    "other"
+  ],
+  "eventTypes": [
+    "revolution",
+    "diplomatic",
+    "economic",
+    "political",
+    "protest"
+  ],
   "ai": {
     "systemPrompt": "You are a political historian updating the Cuba Crises tracker.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose.\nEvery item must have an \"id\" field (lowercase_snake_case).\n\nSource tier classification:\n- Tier 1: Official (Cuban government, US State Dept, Soviet/Russian archives, UN)\n- Tier 2: Major outlet (Reuters, AP, BBC, Miami Herald, El País, Granma, 14ymedio)\n- Tier 3: Institutional (Cuban Research Institute, Wilson Center, USIP, Brookings)\n- Tier 4: Unverified (social media, unattributed diplomatic claims)\n\nOnly include information verifiable through search. Do not fabricate data.",
     "searchContext": "Cuba crisis revolution Bay of Pigs Missile Crisis embargo Castro history 2024",
-    "enabledSections": ["kpis", "timeline", "mapPoints", "econ", "claims", "political"],
-    "coordValidation": { "lonMin": -88.0, "lonMax": -73.5, "latMin": 19.5, "latMax": 24.0 },
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": -88,
+      "lonMax": -73.5,
+      "latMin": 19.5,
+      "latMax": 24
+    },
     "updateIntervalDays": 30,
     "backfillTargets": {
       "timeline": 60,
@@ -57,6 +174,15 @@
       "claims": 25,
       "political": 20,
       "econ": 10
+    },
+    "updatePolicy": {
+      "escalation": [
+        30,
+        60,
+        90,
+        180
+      ],
+      "quietThreshold": 0
     }
   },
   "githubRepo": "ArtemioPadilla/watchboard"

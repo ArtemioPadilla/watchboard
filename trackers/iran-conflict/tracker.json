@@ -12,57 +12,208 @@
   "country": "IR",
   "startDate": "2026-02-28",
   "eraLabel": "Crisis & War 2026",
-  "sections": ["hero", "kpis", "timeline", "map", "military", "casualties", "economic", "claims", "political"],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "military",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
   "map": {
     "enabled": true,
-    "bounds": { "lonMin": 25, "lonMax": 65, "latMin": 20, "latMax": 42 },
-    "center": { "lon": 49, "lat": 29 },
+    "bounds": {
+      "lonMin": 25,
+      "lonMax": 65,
+      "latMin": 20,
+      "latMax": 42
+    },
+    "center": {
+      "lon": 49,
+      "lat": 29
+    },
     "categories": [
-      { "id": "strike", "label": "US/Israel Strikes", "color": "#e74c3c" },
-      { "id": "retaliation", "label": "Iranian Retaliation", "color": "#f39c12" },
-      { "id": "asset", "label": "US Military Assets", "color": "#3498db" },
-      { "id": "front", "label": "Active Fronts", "color": "#9b59b6" }
+      {
+        "id": "strike",
+        "label": "US/Israel Strikes",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "retaliation",
+        "label": "Iranian Retaliation",
+        "color": "#f39c12"
+      },
+      {
+        "id": "asset",
+        "label": "US Military Assets",
+        "color": "#3498db"
+      },
+      {
+        "id": "front",
+        "label": "Active Fronts",
+        "color": "#9b59b6"
+      }
     ]
   },
   "globe": {
     "enabled": true,
     "cameraPresets": {
-      "theater": { "lon": 49, "lat": 29, "alt": 3000000, "pitch": -90, "heading": 0, "label": "Full Theater" },
-      "tehran": { "lon": 51.39, "lat": 35.69, "alt": 80000, "pitch": -90, "heading": 0, "label": "Tehran" },
-      "natanz": { "lon": 51.73, "lat": 33.51, "alt": 60000, "pitch": -90, "heading": 0, "label": "Natanz" },
-      "hormuz": { "lon": 56.5, "lat": 26.5, "alt": 200000, "pitch": -90, "heading": 0, "label": "Strait of Hormuz" },
-      "ford_csg": { "lon": 33.5, "lat": 34.5, "alt": 150000, "pitch": -90, "heading": 0, "label": "USS Ford CSG" },
-      "lincoln": { "lon": 60, "lat": 23, "alt": 150000, "pitch": -90, "heading": 0, "label": "USS Lincoln CSG" },
-      "red_sea": { "lon": 42.5, "lat": 14.5, "alt": 300000, "pitch": -90, "heading": 0, "label": "Red Sea" }
+      "theater": {
+        "lon": 49,
+        "lat": 29,
+        "alt": 3000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Full Theater"
+      },
+      "tehran": {
+        "lon": 51.39,
+        "lat": 35.69,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Tehran"
+      },
+      "natanz": {
+        "lon": 51.73,
+        "lat": 33.51,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Natanz"
+      },
+      "hormuz": {
+        "lon": 56.5,
+        "lat": 26.5,
+        "alt": 200000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Strait of Hormuz"
+      },
+      "ford_csg": {
+        "lon": 33.5,
+        "lat": 34.5,
+        "alt": 150000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "USS Ford CSG"
+      },
+      "lincoln": {
+        "lon": 60,
+        "lat": 23,
+        "alt": 150000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "USS Lincoln CSG"
+      },
+      "red_sea": {
+        "lon": 42.5,
+        "lat": 14.5,
+        "alt": 300000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Red Sea"
+      }
     },
     "clocks": [
-      { "label": "TEHRAN", "offsetHours": 3.5 },
-      { "label": "TLV", "offsetHours": 3 },
-      { "label": "UTC", "offsetHours": 0 },
-      { "label": "EST", "offsetHours": -5 }
+      {
+        "label": "TEHRAN",
+        "offsetHours": 3.5
+      },
+      {
+        "label": "TLV",
+        "offsetHours": 3
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      },
+      {
+        "label": "EST",
+        "offsetHours": -5
+      }
     ]
   },
   "navSections": [
-    { "id": "sec-timeline", "label": "Timeline" },
-    { "id": "sec-map", "label": "Map" },
-    { "id": "sec-military", "label": "Military" },
-    { "id": "sec-humanitarian", "label": "Humanitarian" },
-    { "id": "sec-economic", "label": "Economic" },
-    { "id": "sec-contested", "label": "Contested" },
-    { "id": "sec-political", "label": "Political" }
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-military",
+      "label": "Military"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Humanitarian"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
   ],
   "militaryTabs": [
-    { "id": "strikes", "label": "Strike Targets" },
-    { "id": "retaliation", "label": "Iranian Retaliation" },
-    { "id": "assets", "label": "US Assets Deployed" }
+    {
+      "id": "strikes",
+      "label": "Strike Targets"
+    },
+    {
+      "id": "retaliation",
+      "label": "Iranian Retaliation"
+    },
+    {
+      "id": "assets",
+      "label": "US Assets Deployed"
+    }
   ],
-  "politicalAvatars": ["us", "ir", "il", "un", "other"],
-  "eventTypes": ["military", "diplomatic", "humanitarian", "economic"],
+  "politicalAvatars": [
+    "us",
+    "ir",
+    "il",
+    "un",
+    "other"
+  ],
+  "eventTypes": [
+    "military",
+    "diplomatic",
+    "humanitarian",
+    "economic"
+  ],
   "ai": {
     "systemPrompt": "You are an intelligence analyst updating a conflict tracking dashboard.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"brent_crude\", \"tehran_strike\").\n\nMULTI-POLE SOURCING — gather information from all four media poles:\n1. WESTERN: White House, CENTCOM, IDF, State Dept, Pentagon, Reuters, AP, BBC, CNN, NYT, WaPo, Bloomberg\n2. MIDDLE EASTERN: Al Jazeera, IRNA, Press TV, Tehran Times, Al Arabiya, Al Mayadeen, Fars News\n3. EASTERN: Xinhua, CGTN, Global Times, TASS, RT (note bias), Kyodo News, Yonhap\n4. INTERNATIONAL: UN, IAEA, ICRC, HRW, Amnesty, WHO, OPCW, CSIS, ICG, Oxford Economics\n\nWhen providing sources (especially in the \"sources\" array), tag each with a \"pole\" field:\n- \"western\" for US/European/allied sources\n- \"middle_eastern\" for Middle Eastern/Iranian sources\n- \"eastern\" for Chinese/Russian/Asian sources\n- \"international\" for UN/NGO/multilateral sources\n\nSource tier classification:\n- Tier 1: Official/primary (CENTCOM, IDF, White House, UN, IAEA, IRNA, Xinhua official)\n- Tier 2: Major outlet (Reuters, AP, CNN, BBC, Al Jazeera, Xinhua, CGTN, Bloomberg, WaPo, NYT)\n- Tier 3: Institutional (CSIS, HRW, HRANA, Hengaw, Oxford Economics, NetBlocks, ICG)\n- Tier 4: Unverified (social media, unattributed military claims, unattributed video)\n\nOnly include information you can verify through search results. Do not fabricate data.\nActively seek CONTRASTING perspectives from different poles when events are contested.\n\nCONFIRMATION RULES:\n- Only report a military event as confirmed if it has at least 1 Tier 1 source OR 2 Tier 2+ sources from different poles.\n- Single-source Tier 3/4 reports should use confidence: \"low\".\n\nDEDUPLICATION:\n- Same target within ±2 hours = same event — merge, do not create duplicates.\n- When attacker and defender report different numbers: use defender counts for interceptions, attacker counts for launches. Note discrepancies.",
     "searchContext": "Iran-US/Israel conflict",
-    "enabledSections": ["kpis", "timeline", "mapPoints", "mapLines", "casualties", "econ", "claims", "political", "assets"],
-    "coordValidation": { "lonMin": 20, "lonMax": 75, "latMin": 5, "latMax": 50 },
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "mapLines",
+      "casualties",
+      "econ",
+      "claims",
+      "political",
+      "assets"
+    ],
+    "coordValidation": {
+      "lonMin": 20,
+      "lonMax": 75,
+      "latMin": 5,
+      "latMax": 50
+    },
     "updateIntervalDays": 1,
     "backfillTargets": {
       "timeline": 40,
@@ -73,6 +224,19 @@
       "casualties": 15,
       "econ": 10,
       "assets": 12
+    },
+    "updatePolicy": {
+      "escalation": [
+        1,
+        1,
+        1,
+        7,
+        7,
+        30,
+        60,
+        90
+      ],
+      "quietThreshold": 0
     }
   },
   "ogImage": "/og-card.png",

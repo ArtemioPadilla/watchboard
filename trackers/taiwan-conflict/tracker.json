@@ -12,57 +12,206 @@
   "country": "TW",
   "startDate": "2022-08-02",
   "eraLabel": "Cross-Strait Crisis 2022–Present",
-  "sections": ["hero", "kpis", "timeline", "map", "military", "casualties", "economic", "claims", "political"],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "military",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
   "map": {
     "enabled": true,
-    "bounds": { "lonMin": 100, "lonMax": 145, "latMin": 10, "latMax": 45 },
-    "center": { "lon": 122, "lat": 24 },
+    "bounds": {
+      "lonMin": 100,
+      "lonMax": 145,
+      "latMin": 10,
+      "latMax": 45
+    },
+    "center": {
+      "lon": 122,
+      "lat": 24
+    },
     "categories": [
-      { "id": "pla-activity", "label": "PLA Activity", "color": "#e74c3c" },
-      { "id": "us-assets", "label": "US Military Assets", "color": "#3498db" },
-      { "id": "adiz-incursion", "label": "ADIZ Incursions", "color": "#f39c12" },
-      { "id": "diplomatic", "label": "Diplomatic Events", "color": "#9b59b6" },
-      { "id": "semiconductor", "label": "Semiconductor / Economic", "color": "#2ecc71" }
+      {
+        "id": "pla-activity",
+        "label": "PLA Activity",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "us-assets",
+        "label": "US Military Assets",
+        "color": "#3498db"
+      },
+      {
+        "id": "adiz-incursion",
+        "label": "ADIZ Incursions",
+        "color": "#f39c12"
+      },
+      {
+        "id": "diplomatic",
+        "label": "Diplomatic Events",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "semiconductor",
+        "label": "Semiconductor / Economic",
+        "color": "#2ecc71"
+      }
     ]
   },
   "globe": {
     "enabled": true,
     "cameraPresets": {
-      "theater": { "lon": 122, "lat": 24, "alt": 3000000, "pitch": -90, "heading": 0, "label": "Full Theater" },
-      "taipei": { "lon": 121.56, "lat": 25.04, "alt": 80000, "pitch": -90, "heading": 0, "label": "Taipei" },
-      "strait": { "lon": 119.5, "lat": 24.5, "alt": 300000, "pitch": -90, "heading": 0, "label": "Taiwan Strait" },
-      "kadena": { "lon": 127.77, "lat": 26.35, "alt": 120000, "pitch": -90, "heading": 0, "label": "Kadena Air Base" },
-      "guam": { "lon": 144.93, "lat": 13.58, "alt": 150000, "pitch": -90, "heading": 0, "label": "Guam (Andersen AFB)" },
-      "south_china_sea": { "lon": 114, "lat": 15, "alt": 1500000, "pitch": -90, "heading": 0, "label": "South China Sea" }
+      "theater": {
+        "lon": 122,
+        "lat": 24,
+        "alt": 3000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Full Theater"
+      },
+      "taipei": {
+        "lon": 121.56,
+        "lat": 25.04,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Taipei"
+      },
+      "strait": {
+        "lon": 119.5,
+        "lat": 24.5,
+        "alt": 300000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Taiwan Strait"
+      },
+      "kadena": {
+        "lon": 127.77,
+        "lat": 26.35,
+        "alt": 120000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Kadena Air Base"
+      },
+      "guam": {
+        "lon": 144.93,
+        "lat": 13.58,
+        "alt": 150000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Guam (Andersen AFB)"
+      },
+      "south_china_sea": {
+        "lon": 114,
+        "lat": 15,
+        "alt": 1500000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "South China Sea"
+      }
     },
     "clocks": [
-      { "label": "TAIPEI", "offsetHours": 8 },
-      { "label": "BEIJING", "offsetHours": 8 },
-      { "label": "UTC", "offsetHours": 0 },
-      { "label": "EDT", "offsetHours": -4 }
+      {
+        "label": "TAIPEI",
+        "offsetHours": 8
+      },
+      {
+        "label": "BEIJING",
+        "offsetHours": 8
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      },
+      {
+        "label": "EDT",
+        "offsetHours": -4
+      }
     ]
   },
   "navSections": [
-    { "id": "sec-timeline", "label": "Timeline" },
-    { "id": "sec-map", "label": "Map" },
-    { "id": "sec-military", "label": "Military" },
-    { "id": "sec-humanitarian", "label": "Casualties" },
-    { "id": "sec-economic", "label": "Economic" },
-    { "id": "sec-contested", "label": "Contested" },
-    { "id": "sec-political", "label": "Political" }
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-military",
+      "label": "Military"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Casualties"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
   ],
   "militaryTabs": [
-    { "id": "strikes", "label": "PLA Exercises" },
-    { "id": "retaliation", "label": "Taiwan / US Response" },
-    { "id": "assets", "label": "US Assets Deployed" }
+    {
+      "id": "strikes",
+      "label": "PLA Exercises"
+    },
+    {
+      "id": "retaliation",
+      "label": "Taiwan / US Response"
+    },
+    {
+      "id": "assets",
+      "label": "US Assets Deployed"
+    }
   ],
-  "politicalAvatars": ["tw", "cn", "us", "jp", "un", "other"],
-  "eventTypes": ["military", "diplomatic", "economic", "cyber"],
+  "politicalAvatars": [
+    "tw",
+    "cn",
+    "us",
+    "jp",
+    "un",
+    "other"
+  ],
+  "eventTypes": [
+    "military",
+    "diplomatic",
+    "economic",
+    "cyber"
+  ],
   "ai": {
     "systemPrompt": "You are a Taiwan Strait conflict analyst updating an intelligence dashboard.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"pla_drill_east\", \"adiz_incursion_sep\").\n\nMULTI-POLE SOURCING — gather information from all four media poles:\n1. WESTERN: US DoD, White House, State Dept, US Indo-Pacific Command, Reuters, AP, BBC, CNN, NYT, WSJ, Financial Times\n2. EAST ASIAN: Taiwan MND, Taiwan Presidential Office, CNA (Central News Agency), Liberty Times, SCMP, Nikkei Asia, Yonhap\n3. PRC/EASTERN: PLA Daily, Xinhua, Global Times, People's Daily, CGTN, TASS (for context)\n4. INTERNATIONAL: UN, SIPRI, CSIS, RAND, CNAS, East-West Center, IISS, Chatham House\n\nWhen providing sources (especially in the \"sources\" array), tag each with a \"pole\" field:\n- \"western\" for US/European/allied sources\n- \"eastern\" for Chinese/PRC state sources\n- \"international\" for UN/NGO/think tank sources\n\nSource tier classification:\n- Tier 1: Official/primary (US DoD, Taiwan MND, Taiwan Presidential Office, PLA Daily, Xinhua official statements, US State Dept)\n- Tier 2: Major outlet (Reuters, AP, BBC, CNN, NYT, SCMP, Nikkei Asia, CNA, Yomiuri Shimbun, Global Times)\n- Tier 3: Institutional (CSIS, RAND, IISS, SIPRI, CNAS, East Asia Forum, Stimson Center, Taiwan-based think tanks)\n- Tier 4: Unverified (social media, unattributed military claims, flight tracker screenshots, anonymous sources)\n\nOnly include information you can verify through search results. Do not fabricate data.\nActively seek CONTRASTING perspectives from different poles when events are contested.\n\nCONFIRMATION RULES:\n- Only report a PLA military exercise or incursion as confirmed if it has at least 1 Tier 1 source OR 2 Tier 2+ sources from different poles.\n- Single-source Tier 3/4 reports should use confidence: \"low\".\n\nDEDUPLICATION:\n- Same ADIZ incursion or exercise event within ±6 hours = same event — merge, do not create duplicates.\n- When PRC and Taiwan/US report different numbers for aircraft sorties or ship movements: note both counts with respective sources.",
     "searchContext": "Taiwan Strait tensions PLA military exercises ADIZ incursions cross-strait relations",
-    "enabledSections": ["kpis", "timeline", "mapPoints", "mapLines", "casualties", "econ", "claims", "political", "assets"],
-    "coordValidation": { "lonMin": 95, "lonMax": 150, "latMin": 5, "latMax": 50 },
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "mapLines",
+      "casualties",
+      "econ",
+      "claims",
+      "political",
+      "assets"
+    ],
+    "coordValidation": {
+      "lonMin": 95,
+      "lonMax": 150,
+      "latMin": 5,
+      "latMax": 50
+    },
     "updateIntervalDays": 1,
     "backfillTargets": {
       "timeline": 40,
@@ -74,6 +223,19 @@
       "econ": 10,
       "assets": 12,
       "kpis": 8
+    },
+    "updatePolicy": {
+      "escalation": [
+        1,
+        1,
+        1,
+        7,
+        7,
+        30,
+        60,
+        90
+      ],
+      "quietThreshold": 0
     }
   },
   "ogImage": "/og-card.png",

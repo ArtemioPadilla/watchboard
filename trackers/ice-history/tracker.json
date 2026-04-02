@@ -12,49 +12,175 @@
   "country": "US",
   "startDate": "2003-03-01",
   "eraLabel": "ICE Era 2003–",
-  "tags": ["ICE", "DHS", "deportation", "detention", "immigration", "border"],
-  "sections": ["hero", "kpis", "timeline", "map", "casualties", "claims", "political"],
+  "tags": [
+    "ICE",
+    "DHS",
+    "deportation",
+    "detention",
+    "immigration",
+    "border"
+  ],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "casualties",
+    "claims",
+    "political"
+  ],
   "map": {
     "enabled": true,
-    "bounds": { "lonMin": -125.0, "lonMax": -65.0, "latMin": 15.0, "latMax": 50.0 },
-    "center": { "lon": -95.0, "lat": 35.0 },
+    "bounds": {
+      "lonMin": -125,
+      "lonMax": -65,
+      "latMin": 15,
+      "latMax": 50
+    },
+    "center": {
+      "lon": -95,
+      "lat": 35
+    },
     "categories": [
-      { "id": "detention", "label": "Detention Centers", "color": "#e74c3c" },
-      { "id": "raid", "label": "Major Raids/Operations", "color": "#c0392b" },
-      { "id": "border", "label": "Border Events", "color": "#f39c12" },
-      { "id": "court", "label": "Court Rulings", "color": "#3498db" },
-      { "id": "protest", "label": "Protests/Resistance", "color": "#9b59b6" }
+      {
+        "id": "detention",
+        "label": "Detention Centers",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "raid",
+        "label": "Major Raids/Operations",
+        "color": "#c0392b"
+      },
+      {
+        "id": "border",
+        "label": "Border Events",
+        "color": "#f39c12"
+      },
+      {
+        "id": "court",
+        "label": "Court Rulings",
+        "color": "#3498db"
+      },
+      {
+        "id": "protest",
+        "label": "Protests/Resistance",
+        "color": "#9b59b6"
+      }
     ]
   },
   "globe": {
     "enabled": true,
     "cameraPresets": {
-      "theater": { "lon": -95.0, "lat": 35.0, "alt": 5000000, "pitch": -90, "heading": 0, "label": "US Overview" },
-      "southwest_border": { "lon": -105.0, "lat": 31.5, "alt": 1500000, "pitch": -90, "heading": 0, "label": "Southwest Border" },
-      "el_paso": { "lon": -106.49, "lat": 31.76, "alt": 80000, "pitch": -90, "heading": 0, "label": "El Paso/Ciudad Juárez" },
-      "clint": { "lon": -106.23, "lat": 31.59, "alt": 30000, "pitch": -90, "heading": 0, "label": "Clint Detention Facility" },
-      "washington": { "lon": -77.04, "lat": 38.90, "alt": 80000, "pitch": -90, "heading": 0, "label": "Washington D.C." }
+      "theater": {
+        "lon": -95,
+        "lat": 35,
+        "alt": 5000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "US Overview"
+      },
+      "southwest_border": {
+        "lon": -105,
+        "lat": 31.5,
+        "alt": 1500000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Southwest Border"
+      },
+      "el_paso": {
+        "lon": -106.49,
+        "lat": 31.76,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "El Paso/Ciudad Juárez"
+      },
+      "clint": {
+        "lon": -106.23,
+        "lat": 31.59,
+        "alt": 30000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Clint Detention Facility"
+      },
+      "washington": {
+        "lon": -77.04,
+        "lat": 38.9,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Washington D.C."
+      }
     },
     "clocks": [
-      { "label": "EST", "offsetHours": -5 },
-      { "label": "CST", "offsetHours": -6 },
-      { "label": "UTC", "offsetHours": 0 }
+      {
+        "label": "EST",
+        "offsetHours": -5
+      },
+      {
+        "label": "CST",
+        "offsetHours": -6
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      }
     ]
   },
   "navSections": [
-    { "id": "sec-timeline", "label": "Timeline" },
-    { "id": "sec-map", "label": "Map" },
-    { "id": "sec-humanitarian", "label": "Humanitarian" },
-    { "id": "sec-contested", "label": "Contested" },
-    { "id": "sec-political", "label": "Political" }
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Humanitarian"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
   ],
-  "politicalAvatars": ["dhs", "us-gov", "advocates", "court", "other"],
-  "eventTypes": ["enforcement", "legal", "policy", "protest", "humanitarian"],
+  "politicalAvatars": [
+    "dhs",
+    "us-gov",
+    "advocates",
+    "court",
+    "other"
+  ],
+  "eventTypes": [
+    "enforcement",
+    "legal",
+    "policy",
+    "protest",
+    "humanitarian"
+  ],
   "ai": {
     "systemPrompt": "You are a policy researcher updating the ICE History tracker.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose.\nEvery item must have an \"id\" field (lowercase_snake_case).\n\nSource tier classification:\n- Tier 1: Official (DHS, ICE official statements, court rulings, Congressional records)\n- Tier 2: Major outlet (Reuters, AP, NYT, WaPo, LA Times, NPR, Axios)\n- Tier 3: Institutional (ACLU, HRW, National Immigration Law Center, MPI, Vera Institute)\n- Tier 4: Unverified (social media, unattributed government leaks)\n\nOnly include information verifiable through search. Do not fabricate data.",
     "searchContext": "ICE immigration enforcement deportation detention DHS 2024 2025",
-    "enabledSections": ["kpis", "timeline", "mapPoints", "casualties", "claims", "political"],
-    "coordValidation": { "lonMin": -126.0, "lonMax": -64.0, "latMin": 14.0, "latMax": 51.0 },
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "casualties",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": -126,
+      "lonMax": -64,
+      "latMin": 14,
+      "latMax": 51
+    },
     "updateIntervalDays": 3,
     "backfillTargets": {
       "timeline": 60,
@@ -62,6 +188,17 @@
       "claims": 25,
       "political": 20,
       "casualties": 10
+    },
+    "updatePolicy": {
+      "escalation": [
+        3,
+        3,
+        7,
+        14,
+        30,
+        60
+      ],
+      "quietThreshold": 0
     }
   },
   "githubRepo": "ArtemioPadilla/watchboard"

@@ -12,44 +12,161 @@
   "country": "UA",
   "startDate": "2014-07-17",
   "eraLabel": "Crash & Investigation",
-  "sections": ["hero", "kpis", "timeline", "map", "casualties", "claims", "political"],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "casualties",
+    "claims",
+    "political"
+  ],
   "map": {
     "enabled": true,
-    "bounds": { "lonMin": 2, "lonMax": 45, "latMin": 44, "latMax": 57 },
-    "center": { "lon": 24, "lat": 50 },
+    "bounds": {
+      "lonMin": 2,
+      "lonMax": 45,
+      "latMin": 44,
+      "latMax": 57
+    },
+    "center": {
+      "lon": 24,
+      "lat": 50
+    },
     "categories": [
-      { "id": "crash", "label": "Crash Site & Debris", "color": "#e74c3c" },
-      { "id": "buk_route", "label": "Buk Missile Route", "color": "#f39c12" },
-      { "id": "investigation", "label": "Investigation Sites", "color": "#3498db" },
-      { "id": "legal", "label": "Legal Proceedings", "color": "#9b59b6" },
-      { "id": "memorial", "label": "Memorials", "color": "#2ecc71" }
+      {
+        "id": "crash",
+        "label": "Crash Site & Debris",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "buk_route",
+        "label": "Buk Missile Route",
+        "color": "#f39c12"
+      },
+      {
+        "id": "investigation",
+        "label": "Investigation Sites",
+        "color": "#3498db"
+      },
+      {
+        "id": "legal",
+        "label": "Legal Proceedings",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "memorial",
+        "label": "Memorials",
+        "color": "#2ecc71"
+      }
     ]
   },
   "globe": {
     "enabled": true,
     "cameraPresets": {
-      "overview": { "lon": 24, "lat": 50, "alt": 5000000, "pitch": -90, "heading": 0, "label": "Europe / Theater Overview" },
-      "crash_site": { "lon": 38.63, "lat": 48.13, "alt": 60000, "pitch": -90, "heading": 0, "label": "Hrabove Crash Site" },
-      "donetsk": { "lon": 37.8, "lat": 47.95, "alt": 250000, "pitch": -90, "heading": 0, "label": "Donetsk Region" },
-      "the_hague": { "lon": 4.30, "lat": 52.08, "alt": 80000, "pitch": -90, "heading": 0, "label": "The Hague — Trial" },
-      "amsterdam": { "lon": 4.90, "lat": 52.37, "alt": 60000, "pitch": -90, "heading": 0, "label": "Amsterdam (AMS Origin)" },
-      "kursk_buk": { "lon": 36.17, "lat": 51.73, "alt": 150000, "pitch": -90, "heading": 0, "label": "Kursk — 53rd Brigade Base" }
+      "overview": {
+        "lon": 24,
+        "lat": 50,
+        "alt": 5000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Europe / Theater Overview"
+      },
+      "crash_site": {
+        "lon": 38.63,
+        "lat": 48.13,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Hrabove Crash Site"
+      },
+      "donetsk": {
+        "lon": 37.8,
+        "lat": 47.95,
+        "alt": 250000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Donetsk Region"
+      },
+      "the_hague": {
+        "lon": 4.3,
+        "lat": 52.08,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "The Hague — Trial"
+      },
+      "amsterdam": {
+        "lon": 4.9,
+        "lat": 52.37,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Amsterdam (AMS Origin)"
+      },
+      "kursk_buk": {
+        "lon": 36.17,
+        "lat": 51.73,
+        "alt": 150000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Kursk — 53rd Brigade Base"
+      }
     }
   },
   "navSections": [
-    { "id": "sec-timeline", "label": "Timeline" },
-    { "id": "sec-map", "label": "Map" },
-    { "id": "sec-humanitarian", "label": "Casualties" },
-    { "id": "sec-contested", "label": "Contested" },
-    { "id": "sec-political", "label": "Political" }
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Casualties"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
   ],
-  "politicalAvatars": ["netherlands", "russia", "jit", "malaysia", "ukraine", "other"],
-  "eventTypes": ["legal", "investigation", "diplomatic", "memorial"],
+  "politicalAvatars": [
+    "netherlands",
+    "russia",
+    "jit",
+    "malaysia",
+    "ukraine",
+    "other"
+  ],
+  "eventTypes": [
+    "legal",
+    "investigation",
+    "diplomatic",
+    "memorial"
+  ],
   "ai": {
     "systemPrompt": "You are an investigative journalist and legal analyst updating a tracker for the MH17 shootdown case.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"jit_verdict\", \"crash_site_hrabove\").\n\nThis tracker covers: the July 17, 2014 downing of Malaysia Airlines MH17 over eastern Ukraine by a Buk surface-to-air missile, killing all 298 aboard; the Dutch Safety Board (DSB) safety investigation; the Dutch-led Joint Investigation Team (JIT) criminal investigation (Netherlands, Australia, Belgium, Malaysia, Ukraine); Bellingcat and open-source intelligence findings; the November 2022 Hague trial convictions in absentia of Igor Girkin, Sergei Dubinskiy, and Leonid Hartsenko; Russia's continued denials; and ongoing geopolitical and legal proceedings.\n\nSource tier classification:\n- Tier 1: Official/primary (Dutch Safety Board, JIT, Dutch Prosecutor's Office, Netherlands District Court, ICAO, Malaysian Ministry of Transport, UN Security Council)\n- Tier 2: Major outlet (Reuters, AP, BBC, NRC Handelsblad, NOS, The Guardian, NYT, WaPo, Bloomberg, Al Jazeera)\n- Tier 3: Institutional (Bellingcat, Forensic Architecture, HRW, Amnesty International, ECHR, Atlantic Council, International Crisis Group)\n- Tier 4: Unverified (social media, pro-Russian blogs, unattributed claims)\n\nOnly include information you can verify through search results. Do not fabricate data.\nWhen events are disputed between Russia and the JIT/Western sources, note both positions with appropriate sourcing.\n\nCONFIRMATION RULES:\n- Only report findings as confirmed if supported by at least 1 Tier 1 source OR 2 Tier 2+ sources.\n- Bellingcat OSINT counts as Tier 3 unless corroborated by JIT (which elevates to Tier 1).\n- Russian government denials should be recorded with source tier and noted as unconfirmed or disputed.",
     "searchContext": "MH17 Malaysia Airlines Flight 17 shootdown investigation JIT Hague trial Buk missile",
-    "enabledSections": ["kpis", "timeline", "mapPoints", "claims", "political", "casualties"],
-    "coordValidation": { "lonMin": 0, "lonMax": 50, "latMin": 40, "latMax": 60 },
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "claims",
+      "political",
+      "casualties"
+    ],
+    "coordValidation": {
+      "lonMin": 0,
+      "lonMax": 50,
+      "latMin": 40,
+      "latMax": 60
+    },
     "updateIntervalDays": 30,
     "backfillTargets": {
       "timeline": 30,
@@ -58,6 +175,15 @@
       "political": 15,
       "casualties": 8,
       "kpis": 8
+    },
+    "updatePolicy": {
+      "escalation": [
+        30,
+        60,
+        90,
+        180
+      ],
+      "quietThreshold": 0
     }
   },
   "ogImage": "/og-card.png",

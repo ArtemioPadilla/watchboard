@@ -12,43 +12,148 @@
   "country": "KR",
   "startDate": "2013-06-13",
   "eraLabel": "BTS Era 2013–",
-  "series": { "id": "bts", "name": "BTS", "isHub": true },
-  "tags": ["BTS", "K-pop", "ARMY", "BigHit", "HYBE", "Billboard", "UN speech"],
-  "sections": ["hero", "kpis", "timeline", "political"],
+  "series": {
+    "id": "bts",
+    "name": "BTS",
+    "isHub": true
+  },
+  "tags": [
+    "BTS",
+    "K-pop",
+    "ARMY",
+    "BigHit",
+    "HYBE",
+    "Billboard",
+    "UN speech"
+  ],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "political"
+  ],
   "map": {
     "enabled": true,
-    "bounds": { "lonMin": -130.0, "lonMax": 180.0, "latMin": -40.0, "latMax": 70.0 },
-    "center": { "lon": 127.0, "lat": 37.5 },
+    "bounds": {
+      "lonMin": -130,
+      "lonMax": 180,
+      "latMin": -40,
+      "latMax": 70
+    },
+    "center": {
+      "lon": 127,
+      "lat": 37.5
+    },
     "categories": [
-      { "id": "concert", "label": "World Tour Venues", "color": "#9b59b6" },
-      { "id": "award", "label": "Major Award Shows", "color": "#f39c12" },
-      { "id": "milestone", "label": "Career Milestones", "color": "#3498db" }
+      {
+        "id": "concert",
+        "label": "World Tour Venues",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "award",
+        "label": "Major Award Shows",
+        "color": "#f39c12"
+      },
+      {
+        "id": "milestone",
+        "label": "Career Milestones",
+        "color": "#3498db"
+      }
     ]
   },
   "globe": {
     "enabled": true,
     "cameraPresets": {
-      "global": { "lon": 127.0, "lat": 37.5, "alt": 15000000, "pitch": -90, "heading": 0, "label": "Global View" },
-      "seoul": { "lon": 126.98, "lat": 37.56, "alt": 80000, "pitch": -90, "heading": 0, "label": "Seoul (HYBE HQ)" },
-      "olympic_stadium": { "lon": 127.07, "lat": 37.52, "alt": 30000, "pitch": -90, "heading": 0, "label": "Olympic Main Stadium" },
-      "las_vegas": { "lon": -115.17, "lat": 36.11, "alt": 80000, "pitch": -90, "heading": 0, "label": "Las Vegas (PTD On Stage)" },
-      "new_york": { "lon": -74.00, "lat": 40.71, "alt": 80000, "pitch": -90, "heading": 0, "label": "New York (UN / Central Park)" }
+      "global": {
+        "lon": 127,
+        "lat": 37.5,
+        "alt": 15000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Global View"
+      },
+      "seoul": {
+        "lon": 126.98,
+        "lat": 37.56,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Seoul (HYBE HQ)"
+      },
+      "olympic_stadium": {
+        "lon": 127.07,
+        "lat": 37.52,
+        "alt": 30000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Olympic Main Stadium"
+      },
+      "las_vegas": {
+        "lon": -115.17,
+        "lat": 36.11,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Las Vegas (PTD On Stage)"
+      },
+      "new_york": {
+        "lon": -74,
+        "lat": 40.71,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "New York (UN / Central Park)"
+      }
     }
   },
   "navSections": [
-    { "id": "sec-timeline", "label": "Timeline" },
-    { "id": "sec-political", "label": "Members" }
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-political",
+      "label": "Members"
+    }
   ],
-  "politicalAvatars": ["rm", "jin", "suga", "jhope", "other"],
-  "eventTypes": ["album", "concert", "award", "milestone", "military"],
+  "politicalAvatars": [
+    "rm",
+    "jin",
+    "suga",
+    "jhope",
+    "other"
+  ],
+  "eventTypes": [
+    "album",
+    "concert",
+    "award",
+    "milestone",
+    "military"
+  ],
   "ai": {
     "systemPrompt": "You are an entertainment analyst updating the BTS tracker.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose.\nEvery item must have an \"id\" field (lowercase_snake_case).\n\nSource tier classification:\n- Tier 1: Official (HYBE/BigHit official announcements, Billboard chart data, Guinness World Records)\n- Tier 2: Major media (Reuters, AP, Rolling Stone, Billboard, Variety, Pitchfork, Yonhap)\n- Tier 3: Institutional (Gaon Chart, Hanteo, Melon, RIAA, IFPI)\n- Tier 4: Unverified (social media fan accounts, unattributed entertainment blogs)\n\nOnly include information verifiable through search. Do not fabricate data.",
     "searchContext": "BTS K-pop HYBE military service reunion 2024 2025 discography Billboard",
-    "enabledSections": ["kpis", "timeline", "political"],
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "political"
+    ],
     "updateIntervalDays": 7,
     "backfillTargets": {
       "timeline": 60,
       "political": 7
+    },
+    "updatePolicy": {
+      "escalation": [
+        3,
+        3,
+        7,
+        14,
+        30,
+        60
+      ],
+      "quietThreshold": 0
     }
   },
   "githubRepo": "ArtemioPadilla/watchboard"

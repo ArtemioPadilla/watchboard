@@ -3,7 +3,7 @@
   "name": "Ayotzinapa Tracker",
   "shortName": "Ayotzinapa",
   "description": "Intelligence dashboard tracking the forced disappearance of 43 Ayotzinapa students in Iguala, Guerrero (2014) and the ongoing investigation.",
-  "icon": "\ud83d\udd6f\ufe0f",
+  "icon": "🕯️",
   "color": "#f39c12",
   "status": "active",
   "temporal": "historical",
@@ -12,41 +12,140 @@
   "country": "MX",
   "startDate": "2014-09-26",
   "eraLabel": "Investigation & Search",
-  "sections": ["hero", "kpis", "timeline", "map", "claims", "political"],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "claims",
+    "political"
+  ],
   "map": {
     "enabled": true,
-    "bounds": { "lonMin": -106, "lonMax": -96, "latMin": 14, "latMax": 22 },
-    "center": { "lon": -99.5, "lat": 17.5 },
+    "bounds": {
+      "lonMin": -106,
+      "lonMax": -96,
+      "latMin": 14,
+      "latMax": 22
+    },
+    "center": {
+      "lon": -99.5,
+      "lat": 17.5
+    },
     "categories": [
-      { "id": "disappearance", "label": "Disappearance Sites", "color": "#e74c3c" },
-      { "id": "search", "label": "Search Locations", "color": "#f39c12" },
-      { "id": "investigation", "label": "Investigation Sites", "color": "#3498db" },
-      { "id": "protest", "label": "Major Protests", "color": "#9b59b6" }
+      {
+        "id": "disappearance",
+        "label": "Disappearance Sites",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "search",
+        "label": "Search Locations",
+        "color": "#f39c12"
+      },
+      {
+        "id": "investigation",
+        "label": "Investigation Sites",
+        "color": "#3498db"
+      },
+      {
+        "id": "protest",
+        "label": "Major Protests",
+        "color": "#9b59b6"
+      }
     ]
   },
   "globe": {
     "enabled": true,
     "cameraPresets": {
-      "overview": { "lon": -99.5, "lat": 17.5, "alt": 1500000, "pitch": -90, "heading": 0, "label": "Guerrero Overview" },
-      "iguala": { "lon": -99.5, "lat": 18.35, "alt": 30000, "pitch": -90, "heading": 0, "label": "Iguala" },
-      "cocula": { "lon": -99.65, "lat": 18.25, "alt": 20000, "pitch": -90, "heading": 0, "label": "Cocula" },
-      "ayotzinapa": { "lon": -99.19, "lat": 17.60, "alt": 25000, "pitch": -90, "heading": 0, "label": "Ayotzinapa School" },
-      "mexico_city": { "lon": -99.13, "lat": 19.43, "alt": 80000, "pitch": -90, "heading": 0, "label": "Mexico City" }
+      "overview": {
+        "lon": -99.5,
+        "lat": 17.5,
+        "alt": 1500000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Guerrero Overview"
+      },
+      "iguala": {
+        "lon": -99.5,
+        "lat": 18.35,
+        "alt": 30000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Iguala"
+      },
+      "cocula": {
+        "lon": -99.65,
+        "lat": 18.25,
+        "alt": 20000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Cocula"
+      },
+      "ayotzinapa": {
+        "lon": -99.19,
+        "lat": 17.6,
+        "alt": 25000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Ayotzinapa School"
+      },
+      "mexico_city": {
+        "lon": -99.13,
+        "lat": 19.43,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Mexico City"
+      }
     }
   },
   "navSections": [
-    { "id": "sec-timeline", "label": "Timeline" },
-    { "id": "sec-map", "label": "Map" },
-    { "id": "sec-contested", "label": "Contested" },
-    { "id": "sec-political", "label": "Political" }
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
   ],
-  "politicalAvatars": ["mx-gov", "mx-mil", "victims", "intl", "other"],
-  "eventTypes": ["investigation", "legal", "political", "humanitarian"],
+  "politicalAvatars": [
+    "mx-gov",
+    "mx-mil",
+    "victims",
+    "intl",
+    "other"
+  ],
+  "eventTypes": [
+    "investigation",
+    "legal",
+    "political",
+    "humanitarian"
+  ],
   "ai": {
-    "systemPrompt": "You are a human rights researcher updating a tracker for the Ayotzinapa case.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object \u2014 no markdown, no code fences, no prose.\nEvery item must have an \"id\" field (lowercase_snake_case).\n\nSource tier classification:\n- Tier 1: Official (Mexican government, Attorney General, GIEI, IACHR, UN OHCHR)\n- Tier 2: Major outlet (Reuters, AP, El Universal, La Jornada, Proceso, Animal Pol\u00edtico, BBC)\n- Tier 3: Institutional (CNDH, Centro Prodh, Tlachinollan, WOLA, HRW, Amnesty International)\n- Tier 4: Unverified (social media, unattributed testimony)\n\nOnly include information you can verify through search results. Do not fabricate data.",
+    "systemPrompt": "You are a human rights researcher updating a tracker for the Ayotzinapa case.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose.\nEvery item must have an \"id\" field (lowercase_snake_case).\n\nSource tier classification:\n- Tier 1: Official (Mexican government, Attorney General, GIEI, IACHR, UN OHCHR)\n- Tier 2: Major outlet (Reuters, AP, El Universal, La Jornada, Proceso, Animal Político, BBC)\n- Tier 3: Institutional (CNDH, Centro Prodh, Tlachinollan, WOLA, HRW, Amnesty International)\n- Tier 4: Unverified (social media, unattributed testimony)\n\nOnly include information you can verify through search results. Do not fabricate data.",
     "searchContext": "Ayotzinapa 43 students disappearance case",
-    "enabledSections": ["kpis", "timeline", "claims", "political"],
-    "coordValidation": { "lonMin": -120, "lonMax": -85, "latMin": 10, "latMax": 35 },
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": -120,
+      "lonMax": -85,
+      "latMin": 10,
+      "latMax": 35
+    },
     "updateIntervalDays": 180,
     "backfillTargets": {
       "timeline": 30,
@@ -54,6 +153,15 @@
       "claims": 15,
       "political": 15,
       "kpis": 8
+    },
+    "updatePolicy": {
+      "escalation": [
+        30,
+        60,
+        90,
+        180
+      ],
+      "quietThreshold": 0
     }
   },
   "githubRepo": "ArtemioPadilla/intel-dashboard"

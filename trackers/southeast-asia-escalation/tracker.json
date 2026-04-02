@@ -12,58 +12,214 @@
   "country": "PH",
   "startDate": "2020-01-01",
   "eraLabel": "Indo-Pacific Competition",
-  "tags": ["South China Sea", "AUKUS", "Philippines", "China", "ASEAN", "Second Thomas Shoal"],
-  "sections": ["hero", "kpis", "timeline", "map", "military", "casualties", "economic", "claims", "political"],
+  "tags": [
+    "South China Sea",
+    "AUKUS",
+    "Philippines",
+    "China",
+    "ASEAN",
+    "Second Thomas Shoal"
+  ],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "military",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
   "map": {
     "enabled": true,
-    "bounds": { "lonMin": 95.0, "lonMax": 145.0, "latMin": -10.0, "latMax": 25.0 },
-    "center": { "lon": 115.0, "lat": 12.0 },
+    "bounds": {
+      "lonMin": 95,
+      "lonMax": 145,
+      "latMin": -10,
+      "latMax": 25
+    },
+    "center": {
+      "lon": 115,
+      "lat": 12
+    },
     "categories": [
-      { "id": "china-base", "label": "China Military Bases", "color": "#e74c3c" },
-      { "id": "ph-incident", "label": "Philippines Incidents", "color": "#f39c12" },
-      { "id": "us-presence", "label": "US Military Presence", "color": "#3498db" },
-      { "id": "disputed", "label": "Disputed Features", "color": "#9b59b6" },
-      { "id": "aukus", "label": "AUKUS Activity", "color": "#27ae60" }
+      {
+        "id": "china-base",
+        "label": "China Military Bases",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "ph-incident",
+        "label": "Philippines Incidents",
+        "color": "#f39c12"
+      },
+      {
+        "id": "us-presence",
+        "label": "US Military Presence",
+        "color": "#3498db"
+      },
+      {
+        "id": "disputed",
+        "label": "Disputed Features",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "aukus",
+        "label": "AUKUS Activity",
+        "color": "#27ae60"
+      }
     ]
   },
   "globe": {
     "enabled": true,
     "cameraPresets": {
-      "theater": { "lon": 115.0, "lat": 12.0, "alt": 5000000, "pitch": -90, "heading": 0, "label": "SCS Theater" },
-      "south_china_sea": { "lon": 113.0, "lat": 14.0, "alt": 2000000, "pitch": -90, "heading": 0, "label": "South China Sea" },
-      "scarborough": { "lon": 117.75, "lat": 15.14, "alt": 200000, "pitch": -90, "heading": 0, "label": "Scarborough Shoal" },
-      "second_thomas": { "lon": 117.83, "lat": 9.37, "alt": 150000, "pitch": -90, "heading": 0, "label": "Second Thomas Shoal" },
-      "manila": { "lon": 120.98, "lat": 14.60, "alt": 80000, "pitch": -90, "heading": 0, "label": "Manila" },
-      "spratlys": { "lon": 113.5, "lat": 10.5, "alt": 800000, "pitch": -90, "heading": 0, "label": "Spratly Islands" }
+      "theater": {
+        "lon": 115,
+        "lat": 12,
+        "alt": 5000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "SCS Theater"
+      },
+      "south_china_sea": {
+        "lon": 113,
+        "lat": 14,
+        "alt": 2000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "South China Sea"
+      },
+      "scarborough": {
+        "lon": 117.75,
+        "lat": 15.14,
+        "alt": 200000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Scarborough Shoal"
+      },
+      "second_thomas": {
+        "lon": 117.83,
+        "lat": 9.37,
+        "alt": 150000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Second Thomas Shoal"
+      },
+      "manila": {
+        "lon": 120.98,
+        "lat": 14.6,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Manila"
+      },
+      "spratlys": {
+        "lon": 113.5,
+        "lat": 10.5,
+        "alt": 800000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Spratly Islands"
+      }
     },
     "clocks": [
-      { "label": "MANILA", "offsetHours": 8 },
-      { "label": "BEIJING", "offsetHours": 8 },
-      { "label": "UTC", "offsetHours": 0 },
-      { "label": "EST", "offsetHours": -5 }
+      {
+        "label": "MANILA",
+        "offsetHours": 8
+      },
+      {
+        "label": "BEIJING",
+        "offsetHours": 8
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      },
+      {
+        "label": "EST",
+        "offsetHours": -5
+      }
     ]
   },
   "navSections": [
-    { "id": "sec-timeline", "label": "Timeline" },
-    { "id": "sec-map", "label": "Map" },
-    { "id": "sec-military", "label": "Military" },
-    { "id": "sec-humanitarian", "label": "Incidents" },
-    { "id": "sec-economic", "label": "Economic" },
-    { "id": "sec-contested", "label": "Contested" },
-    { "id": "sec-political", "label": "Political" }
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-military",
+      "label": "Military"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Incidents"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
   ],
   "militaryTabs": [
-    { "id": "strikes", "label": "China Incidents" },
-    { "id": "retaliation", "label": "AUKUS/US Response" },
-    { "id": "assets", "label": "Naval Assets" }
+    {
+      "id": "strikes",
+      "label": "China Incidents"
+    },
+    {
+      "id": "retaliation",
+      "label": "AUKUS/US Response"
+    },
+    {
+      "id": "assets",
+      "label": "Naval Assets"
+    }
   ],
-  "politicalAvatars": ["china", "ph", "us", "asean", "other"],
-  "eventTypes": ["military", "diplomatic", "maritime-incident", "economic", "alliance"],
+  "politicalAvatars": [
+    "china",
+    "ph",
+    "us",
+    "asean",
+    "other"
+  ],
+  "eventTypes": [
+    "military",
+    "diplomatic",
+    "maritime-incident",
+    "economic",
+    "alliance"
+  ],
   "ai": {
     "systemPrompt": "You are an intelligence analyst updating the Southeast Asia Escalation tracker.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose.\nEvery item must have an \"id\" field (lowercase_snake_case).\n\nSource tier classification:\n- Tier 1: Official (PLA, Philippine DFA/AFP, Pentagon, CSIS AMTI, ASEAN official)\n- Tier 2: Major outlet (Reuters, AP, BBC, South China Morning Post, Philippine Inquirer, Nikkei)\n- Tier 3: Institutional (CSIS, IISS, SIPRI, Asia Maritime Transparency Initiative)\n- Tier 4: Unverified (social media, ship-tracking apps without confirmation)\n\nOnly include information verifiable through search. Do not fabricate data.",
     "searchContext": "South China Sea Philippines China AUKUS maritime incident 2024 2025",
-    "enabledSections": ["kpis", "timeline", "mapPoints", "mapLines", "casualties", "econ", "claims", "political", "assets"],
-    "coordValidation": { "lonMin": 94.0, "lonMax": 146.0, "latMin": -11.0, "latMax": 26.0 },
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "mapLines",
+      "casualties",
+      "econ",
+      "claims",
+      "political",
+      "assets"
+    ],
+    "coordValidation": {
+      "lonMin": 94,
+      "lonMax": 146,
+      "latMin": -11,
+      "latMax": 26
+    },
     "updateIntervalDays": 3,
     "backfillTargets": {
       "timeline": 60,
@@ -74,6 +230,17 @@
       "casualties": 10,
       "econ": 10,
       "assets": 20
+    },
+    "updatePolicy": {
+      "escalation": [
+        3,
+        3,
+        7,
+        14,
+        30,
+        60
+      ],
+      "quietThreshold": 0
     }
   },
   "githubRepo": "ArtemioPadilla/watchboard"

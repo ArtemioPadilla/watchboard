@@ -12,55 +12,195 @@
   "country": "MX",
   "startDate": "2024-07-25",
   "eraLabel": "Cartel Civil War 2024–",
-  "tags": ["Sinaloa Cartel", "Chapitos", "Mayos", "fentanyl", "Mayo Zambada", "narco-violence"],
-  "sections": ["hero", "kpis", "timeline", "map", "military", "casualties", "claims", "political"],
+  "tags": [
+    "Sinaloa Cartel",
+    "Chapitos",
+    "Mayos",
+    "fentanyl",
+    "Mayo Zambada",
+    "narco-violence"
+  ],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "military",
+    "casualties",
+    "claims",
+    "political"
+  ],
   "map": {
     "enabled": true,
-    "bounds": { "lonMin": -115.0, "lonMax": -102.0, "latMin": 22.0, "latMax": 30.0 },
-    "center": { "lon": -107.4, "lat": 25.5 },
+    "bounds": {
+      "lonMin": -115,
+      "lonMax": -102,
+      "latMin": 22,
+      "latMax": 30
+    },
+    "center": {
+      "lon": -107.4,
+      "lat": 25.5
+    },
     "categories": [
-      { "id": "chapitos", "label": "Chapitos Territory", "color": "#e74c3c" },
-      { "id": "mayos", "label": "Mayos Territory", "color": "#9b59b6" },
-      { "id": "clash", "label": "Armed Clashes", "color": "#c0392b" },
-      { "id": "checkpoint", "label": "Cartel Checkpoints", "color": "#f39c12" },
-      { "id": "lab", "label": "Drug Lab Seizures", "color": "#27ae60" }
+      {
+        "id": "chapitos",
+        "label": "Chapitos Territory",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "mayos",
+        "label": "Mayos Territory",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "clash",
+        "label": "Armed Clashes",
+        "color": "#c0392b"
+      },
+      {
+        "id": "checkpoint",
+        "label": "Cartel Checkpoints",
+        "color": "#f39c12"
+      },
+      {
+        "id": "lab",
+        "label": "Drug Lab Seizures",
+        "color": "#27ae60"
+      }
     ]
   },
   "globe": {
     "enabled": true,
     "cameraPresets": {
-      "theater": { "lon": -107.4, "lat": 25.5, "alt": 1500000, "pitch": -90, "heading": 0, "label": "Sinaloa Theater" },
-      "culiacan": { "lon": -107.39, "lat": 24.80, "alt": 50000, "pitch": -90, "heading": 0, "label": "Culiacán" },
-      "los_mochis": { "lon": -108.99, "lat": 25.79, "alt": 50000, "pitch": -90, "heading": 0, "label": "Los Mochis" },
-      "mazatlan": { "lon": -106.42, "lat": 23.23, "alt": 50000, "pitch": -90, "heading": 0, "label": "Mazatlán" },
-      "durango": { "lon": -104.66, "lat": 24.02, "alt": 80000, "pitch": -90, "heading": 0, "label": "Durango" }
+      "theater": {
+        "lon": -107.4,
+        "lat": 25.5,
+        "alt": 1500000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Sinaloa Theater"
+      },
+      "culiacan": {
+        "lon": -107.39,
+        "lat": 24.8,
+        "alt": 50000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Culiacán"
+      },
+      "los_mochis": {
+        "lon": -108.99,
+        "lat": 25.79,
+        "alt": 50000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Los Mochis"
+      },
+      "mazatlan": {
+        "lon": -106.42,
+        "lat": 23.23,
+        "alt": 50000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Mazatlán"
+      },
+      "durango": {
+        "lon": -104.66,
+        "lat": 24.02,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Durango"
+      }
     },
     "clocks": [
-      { "label": "CULIACÁN", "offsetHours": -7 },
-      { "label": "CDMX", "offsetHours": -6 },
-      { "label": "UTC", "offsetHours": 0 }
+      {
+        "label": "CULIACÁN",
+        "offsetHours": -7
+      },
+      {
+        "label": "CDMX",
+        "offsetHours": -6
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      }
     ]
   },
   "navSections": [
-    { "id": "sec-timeline", "label": "Timeline" },
-    { "id": "sec-map", "label": "Map" },
-    { "id": "sec-military", "label": "Operations" },
-    { "id": "sec-humanitarian", "label": "Casualties" },
-    { "id": "sec-contested", "label": "Contested" },
-    { "id": "sec-political", "label": "Political" }
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-military",
+      "label": "Operations"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Casualties"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
   ],
   "militaryTabs": [
-    { "id": "strikes", "label": "Chapitos Attacks" },
-    { "id": "retaliation", "label": "Mayos Responses" },
-    { "id": "assets", "label": "Cartel Assets" }
+    {
+      "id": "strikes",
+      "label": "Chapitos Attacks"
+    },
+    {
+      "id": "retaliation",
+      "label": "Mayos Responses"
+    },
+    {
+      "id": "assets",
+      "label": "Cartel Assets"
+    }
   ],
-  "politicalAvatars": ["chapitos", "mayos", "mx-gov", "us", "other"],
-  "eventTypes": ["clash", "assassination", "seizure", "arrest", "displacement"],
+  "politicalAvatars": [
+    "chapitos",
+    "mayos",
+    "mx-gov",
+    "us",
+    "other"
+  ],
+  "eventTypes": [
+    "clash",
+    "assassination",
+    "seizure",
+    "arrest",
+    "displacement"
+  ],
   "ai": {
     "systemPrompt": "You are an intelligence analyst updating the Sinaloa Cartel Fragmentation tracker.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose.\nEvery item must have an \"id\" field (lowercase_snake_case).\n\nSource tier classification:\n- Tier 1: Official (Mexican Secretaría de Seguridad, SEDENA, DEA official statements)\n- Tier 2: Major outlet (Reuters, AP, El Universal, Proceso, Animal Político, Riodoce, Reforma)\n- Tier 3: Institutional (InSight Crime, CIDE, Mexican think tanks, Human Rights Watch)\n- Tier 4: Unverified (narco social media, unattributed cartel communiqués)\n\nOnly include information verifiable through search. Do not fabricate data.",
     "searchContext": "Sinaloa cartel Chapitos Mayos Mayo Zambada faction war fentanyl 2024 2025",
-    "enabledSections": ["kpis", "timeline", "mapPoints", "mapLines", "casualties", "claims", "political"],
-    "coordValidation": { "lonMin": -116.0, "lonMax": -101.0, "latMin": 21.0, "latMax": 31.0 },
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "mapLines",
+      "casualties",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": -116,
+      "lonMax": -101,
+      "latMin": 21,
+      "latMax": 31
+    },
     "updateIntervalDays": 2,
     "backfillTargets": {
       "timeline": 40,
@@ -69,6 +209,19 @@
       "claims": 15,
       "political": 15,
       "casualties": 12
+    },
+    "updatePolicy": {
+      "escalation": [
+        1,
+        1,
+        1,
+        7,
+        7,
+        30,
+        60,
+        90
+      ],
+      "quietThreshold": 0
     }
   },
   "githubRepo": "ArtemioPadilla/watchboard"

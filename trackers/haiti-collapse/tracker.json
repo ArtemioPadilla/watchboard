@@ -12,50 +12,181 @@
   "country": "HT",
   "startDate": "2021-07-07",
   "eraLabel": "State Collapse 2021–",
-  "tags": ["G9", "BSAP", "gang violence", "transitional council", "Kenya MSS", "humanitarian"],
-  "sections": ["hero", "kpis", "timeline", "map", "casualties", "economic", "claims", "political"],
+  "tags": [
+    "G9",
+    "BSAP",
+    "gang violence",
+    "transitional council",
+    "Kenya MSS",
+    "humanitarian"
+  ],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
   "map": {
     "enabled": true,
-    "bounds": { "lonMin": -75.0, "lonMax": -71.5, "latMin": 17.5, "latMax": 20.5 },
-    "center": { "lon": -72.5, "lat": 18.9 },
+    "bounds": {
+      "lonMin": -75,
+      "lonMax": -71.5,
+      "latMin": 17.5,
+      "latMax": 20.5
+    },
+    "center": {
+      "lon": -72.5,
+      "lat": 18.9
+    },
     "categories": [
-      { "id": "gang", "label": "Gang-Controlled Zones", "color": "#e74c3c" },
-      { "id": "humanitarian", "label": "Humanitarian Sites", "color": "#27ae60" },
-      { "id": "mss", "label": "MSS Operations", "color": "#3498db" },
-      { "id": "displacement", "label": "IDP Camps", "color": "#f39c12" },
-      { "id": "incident", "label": "Security Incidents", "color": "#9b59b6" }
+      {
+        "id": "gang",
+        "label": "Gang-Controlled Zones",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "humanitarian",
+        "label": "Humanitarian Sites",
+        "color": "#27ae60"
+      },
+      {
+        "id": "mss",
+        "label": "MSS Operations",
+        "color": "#3498db"
+      },
+      {
+        "id": "displacement",
+        "label": "IDP Camps",
+        "color": "#f39c12"
+      },
+      {
+        "id": "incident",
+        "label": "Security Incidents",
+        "color": "#9b59b6"
+      }
     ]
   },
   "globe": {
     "enabled": true,
     "cameraPresets": {
-      "theater": { "lon": -72.5, "lat": 18.9, "alt": 500000, "pitch": -90, "heading": 0, "label": "Haiti Overview" },
-      "port_au_prince": { "lon": -72.34, "lat": 18.55, "alt": 50000, "pitch": -90, "heading": 0, "label": "Port-au-Prince" },
-      "cite_soleil": { "lon": -72.34, "lat": 18.58, "alt": 20000, "pitch": -90, "heading": 0, "label": "Cité Soleil" },
-      "jacmel": { "lon": -72.53, "lat": 18.23, "alt": 50000, "pitch": -90, "heading": 0, "label": "Jacmel" },
-      "cap_haitien": { "lon": -72.20, "lat": 19.76, "alt": 50000, "pitch": -90, "heading": 0, "label": "Cap-Haïtien" }
+      "theater": {
+        "lon": -72.5,
+        "lat": 18.9,
+        "alt": 500000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Haiti Overview"
+      },
+      "port_au_prince": {
+        "lon": -72.34,
+        "lat": 18.55,
+        "alt": 50000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Port-au-Prince"
+      },
+      "cite_soleil": {
+        "lon": -72.34,
+        "lat": 18.58,
+        "alt": 20000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Cité Soleil"
+      },
+      "jacmel": {
+        "lon": -72.53,
+        "lat": 18.23,
+        "alt": 50000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Jacmel"
+      },
+      "cap_haitien": {
+        "lon": -72.2,
+        "lat": 19.76,
+        "alt": 50000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Cap-Haïtien"
+      }
     },
     "clocks": [
-      { "label": "PORT-AU-PRINCE", "offsetHours": -5 },
-      { "label": "UTC", "offsetHours": 0 },
-      { "label": "EST", "offsetHours": -5 }
+      {
+        "label": "PORT-AU-PRINCE",
+        "offsetHours": -5
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      },
+      {
+        "label": "EST",
+        "offsetHours": -5
+      }
     ]
   },
   "navSections": [
-    { "id": "sec-timeline", "label": "Timeline" },
-    { "id": "sec-map", "label": "Map" },
-    { "id": "sec-humanitarian", "label": "Humanitarian" },
-    { "id": "sec-economic", "label": "Economic" },
-    { "id": "sec-contested", "label": "Contested" },
-    { "id": "sec-political", "label": "Political" }
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Humanitarian"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
   ],
-  "politicalAvatars": ["gangs", "haitigov", "un", "kenya", "other"],
-  "eventTypes": ["gang-attack", "humanitarian", "political", "diplomatic", "displacement"],
+  "politicalAvatars": [
+    "gangs",
+    "haitigov",
+    "un",
+    "kenya",
+    "other"
+  ],
+  "eventTypes": [
+    "gang-attack",
+    "humanitarian",
+    "political",
+    "diplomatic",
+    "displacement"
+  ],
   "ai": {
     "systemPrompt": "You are an intelligence analyst updating the Haiti Collapse tracker.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose.\nEvery item must have an \"id\" field (lowercase_snake_case).\n\nSource tier classification:\n- Tier 1: Official (Haiti transitional council, UN BINUH, UN Security Council, Kenyan government)\n- Tier 2: Major outlet (Reuters, AP, Al Jazeera, Miami Herald, Le Nouvelliste, BBC)\n- Tier 3: Institutional (HRW, Amnesty, MSF, OCHA, ACLED, ICG)\n- Tier 4: Unverified (social media, unattributed gang communiqués)\n\nOnly include information verifiable through search. Do not fabricate data.",
     "searchContext": "Haiti gang violence Port-au-Prince government collapse MSS Kenya 2024 2025",
-    "enabledSections": ["kpis", "timeline", "mapPoints", "casualties", "econ", "claims", "political"],
-    "coordValidation": { "lonMin": -75.2, "lonMax": -71.3, "latMin": 17.4, "latMax": 20.6 },
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "casualties",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": -75.2,
+      "lonMax": -71.3,
+      "latMin": 17.4,
+      "latMax": 20.6
+    },
     "updateIntervalDays": 3,
     "backfillTargets": {
       "timeline": 50,
@@ -64,6 +195,17 @@
       "political": 15,
       "casualties": 12,
       "econ": 8
+    },
+    "updatePolicy": {
+      "escalation": [
+        3,
+        3,
+        7,
+        14,
+        30,
+        60
+      ],
+      "quietThreshold": 0
     }
   },
   "githubRepo": "ArtemioPadilla/watchboard"

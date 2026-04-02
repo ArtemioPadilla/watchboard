@@ -12,49 +12,178 @@
   "country": "CN",
   "startDate": "2015-05-19",
   "eraLabel": "Made in China 2025 Era",
-  "tags": ["Huawei", "DeepSeek", "semiconductors", "TikTok", "AI", "tech war"],
-  "sections": ["hero", "kpis", "timeline", "map", "economic", "claims", "political"],
+  "tags": [
+    "Huawei",
+    "DeepSeek",
+    "semiconductors",
+    "TikTok",
+    "AI",
+    "tech war"
+  ],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "economic",
+    "claims",
+    "political"
+  ],
   "map": {
     "enabled": true,
-    "bounds": { "lonMin": 70.0, "lonMax": 145.0, "latMin": 15.0, "latMax": 55.0 },
-    "center": { "lon": 105.0, "lat": 35.0 },
+    "bounds": {
+      "lonMin": 70,
+      "lonMax": 145,
+      "latMin": 15,
+      "latMax": 55
+    },
+    "center": {
+      "lon": 105,
+      "lat": 35
+    },
     "categories": [
-      { "id": "tech-hub", "label": "China Tech Hubs", "color": "#e74c3c" },
-      { "id": "us-restriction", "label": "US Restrictions/Sanctions", "color": "#3498db" },
-      { "id": "fab", "label": "Semiconductor Fabs", "color": "#9b59b6" },
-      { "id": "partnership", "label": "Tech Partnerships", "color": "#27ae60" }
+      {
+        "id": "tech-hub",
+        "label": "China Tech Hubs",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "us-restriction",
+        "label": "US Restrictions/Sanctions",
+        "color": "#3498db"
+      },
+      {
+        "id": "fab",
+        "label": "Semiconductor Fabs",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "partnership",
+        "label": "Tech Partnerships",
+        "color": "#27ae60"
+      }
     ]
   },
   "globe": {
     "enabled": true,
     "cameraPresets": {
-      "theater": { "lon": 105.0, "lat": 35.0, "alt": 4000000, "pitch": -90, "heading": 0, "label": "China Overview" },
-      "beijing": { "lon": 116.40, "lat": 39.90, "alt": 80000, "pitch": -90, "heading": 0, "label": "Beijing (Zhongguancun)" },
-      "shenzhen": { "lon": 114.06, "lat": 22.54, "alt": 80000, "pitch": -90, "heading": 0, "label": "Shenzhen (Huawei/BYD)" },
-      "shanghai": { "lon": 121.47, "lat": 31.23, "alt": 80000, "pitch": -90, "heading": 0, "label": "Shanghai" },
-      "taiwan": { "lon": 120.96, "lat": 23.70, "alt": 200000, "pitch": -90, "heading": 0, "label": "Taiwan (TSMC)" },
-      "silicon_valley": { "lon": -122.03, "lat": 37.39, "alt": 150000, "pitch": -90, "heading": 0, "label": "Silicon Valley" }
+      "theater": {
+        "lon": 105,
+        "lat": 35,
+        "alt": 4000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "China Overview"
+      },
+      "beijing": {
+        "lon": 116.4,
+        "lat": 39.9,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Beijing (Zhongguancun)"
+      },
+      "shenzhen": {
+        "lon": 114.06,
+        "lat": 22.54,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Shenzhen (Huawei/BYD)"
+      },
+      "shanghai": {
+        "lon": 121.47,
+        "lat": 31.23,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Shanghai"
+      },
+      "taiwan": {
+        "lon": 120.96,
+        "lat": 23.7,
+        "alt": 200000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Taiwan (TSMC)"
+      },
+      "silicon_valley": {
+        "lon": -122.03,
+        "lat": 37.39,
+        "alt": 150000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Silicon Valley"
+      }
     },
     "clocks": [
-      { "label": "BEIJING", "offsetHours": 8 },
-      { "label": "UTC", "offsetHours": 0 },
-      { "label": "EST", "offsetHours": -5 }
+      {
+        "label": "BEIJING",
+        "offsetHours": 8
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      },
+      {
+        "label": "EST",
+        "offsetHours": -5
+      }
     ]
   },
   "navSections": [
-    { "id": "sec-timeline", "label": "Timeline" },
-    { "id": "sec-map", "label": "Map" },
-    { "id": "sec-economic", "label": "Economic" },
-    { "id": "sec-contested", "label": "Contested" },
-    { "id": "sec-political", "label": "Political" }
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
   ],
-  "politicalAvatars": ["china", "us", "eu", "taiwan", "other"],
-  "eventTypes": ["policy", "sanction", "breakthrough", "trade", "regulatory"],
+  "politicalAvatars": [
+    "china",
+    "us",
+    "eu",
+    "taiwan",
+    "other"
+  ],
+  "eventTypes": [
+    "policy",
+    "sanction",
+    "breakthrough",
+    "trade",
+    "regulatory"
+  ],
   "ai": {
     "systemPrompt": "You are a technology policy analyst updating the China Tech Revolution tracker.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose.\nEvery item must have an \"id\" field (lowercase_snake_case).\n\nSource tier classification:\n- Tier 1: Official (Chinese State Council, MIIT, US BIS/Commerce, White House, European Commission)\n- Tier 2: Major outlet (Reuters, AP, Bloomberg, FT, SCMP, Nikkei Asia, MIT Technology Review, Wired)\n- Tier 3: Institutional (CSET, CSIS, Brookings, ITIF, Gartner, IDC)\n- Tier 4: Unverified (social media, anonymous industry sources)\n\nOnly include information verifiable through search. Do not fabricate data.",
     "searchContext": "China tech AI semiconductor Huawei DeepSeek TikTok US decoupling 2024 2025",
-    "enabledSections": ["kpis", "timeline", "mapPoints", "econ", "claims", "political"],
-    "coordValidation": { "lonMin": 69.0, "lonMax": 146.0, "latMin": 14.0, "latMax": 56.0 },
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": 69,
+      "lonMax": 146,
+      "latMin": 14,
+      "latMax": 56
+    },
     "updateIntervalDays": 3,
     "backfillTargets": {
       "timeline": 50,
@@ -62,6 +191,17 @@
       "claims": 25,
       "political": 20,
       "econ": 12
+    },
+    "updatePolicy": {
+      "escalation": [
+        3,
+        3,
+        7,
+        14,
+        30,
+        60
+      ],
+      "quietThreshold": 0
     }
   },
   "githubRepo": "ArtemioPadilla/watchboard"

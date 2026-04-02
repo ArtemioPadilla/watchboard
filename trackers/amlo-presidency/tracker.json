@@ -13,44 +13,161 @@
   "startDate": "2018-12-01",
   "endDate": "2024-09-30",
   "eraLabel": "AMLO / Cuarta Transformación 2018–2024",
-  "series": { "id": "mx-presidencies", "name": "Mexican Presidencies", "order": 4 },
-  "tags": ["AMLO", "Morena", "Fourth Transformation", "Tren Maya", "AIFA", "abrazos no balazos"],
-  "sections": ["hero", "kpis", "timeline", "map", "economic", "claims", "political"],
+  "series": {
+    "id": "mx-presidencies",
+    "name": "Mexican Presidencies",
+    "order": 4
+  },
+  "tags": [
+    "AMLO",
+    "Morena",
+    "Fourth Transformation",
+    "Tren Maya",
+    "AIFA",
+    "abrazos no balazos"
+  ],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "economic",
+    "claims",
+    "political"
+  ],
   "map": {
     "enabled": true,
-    "bounds": { "lonMin": -118.0, "lonMax": -86.0, "latMin": 14.0, "latMax": 33.0 },
-    "center": { "lon": -102.0, "lat": 24.0 },
+    "bounds": {
+      "lonMin": -118,
+      "lonMax": -86,
+      "latMin": 14,
+      "latMax": 33
+    },
+    "center": {
+      "lon": -102,
+      "lat": 24
+    },
     "categories": [
-      { "id": "project", "label": "AMLO Megaprojects", "color": "#c0392b" },
-      { "id": "security", "label": "Security Events", "color": "#e74c3c" },
-      { "id": "political", "label": "Political Events", "color": "#9b59b6" },
-      { "id": "economic", "label": "Economic Events", "color": "#27ae60" }
+      {
+        "id": "project",
+        "label": "AMLO Megaprojects",
+        "color": "#c0392b"
+      },
+      {
+        "id": "security",
+        "label": "Security Events",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "political",
+        "label": "Political Events",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "economic",
+        "label": "Economic Events",
+        "color": "#27ae60"
+      }
     ]
   },
   "globe": {
     "enabled": true,
     "cameraPresets": {
-      "theater": { "lon": -102.0, "lat": 24.0, "alt": 3000000, "pitch": -90, "heading": 0, "label": "Mexico Overview" },
-      "mexico_city": { "lon": -99.13, "lat": 19.43, "alt": 80000, "pitch": -90, "heading": 0, "label": "Mexico City (AIFA)" },
-      "tren_maya": { "lon": -89.62, "lat": 20.97, "alt": 400000, "pitch": -90, "heading": 0, "label": "Tren Maya Corridor" },
-      "culiacan": { "lon": -107.39, "lat": 24.80, "alt": 60000, "pitch": -90, "heading": 0, "label": "Culiacán (Culiacanazo)" },
-      "oaxaca": { "lon": -96.72, "lat": 17.06, "alt": 80000, "pitch": -90, "heading": 0, "label": "Oaxaca" }
+      "theater": {
+        "lon": -102,
+        "lat": 24,
+        "alt": 3000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Mexico Overview"
+      },
+      "mexico_city": {
+        "lon": -99.13,
+        "lat": 19.43,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Mexico City (AIFA)"
+      },
+      "tren_maya": {
+        "lon": -89.62,
+        "lat": 20.97,
+        "alt": 400000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Tren Maya Corridor"
+      },
+      "culiacan": {
+        "lon": -107.39,
+        "lat": 24.8,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Culiacán (Culiacanazo)"
+      },
+      "oaxaca": {
+        "lon": -96.72,
+        "lat": 17.06,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Oaxaca"
+      }
     }
   },
   "navSections": [
-    { "id": "sec-timeline", "label": "Timeline" },
-    { "id": "sec-map", "label": "Map" },
-    { "id": "sec-economic", "label": "Economic" },
-    { "id": "sec-contested", "label": "Contested" },
-    { "id": "sec-political", "label": "Political" }
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
   ],
-  "politicalAvatars": ["amlo", "morena", "pan", "business", "other"],
-  "eventTypes": ["political", "economic", "social", "security", "reform"],
+  "politicalAvatars": [
+    "amlo",
+    "morena",
+    "pan",
+    "business",
+    "other"
+  ],
+  "eventTypes": [
+    "political",
+    "economic",
+    "social",
+    "security",
+    "reform"
+  ],
   "ai": {
     "systemPrompt": "You are a political analyst updating the AMLO Presidency tracker.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose.\nEvery item must have an \"id\" field (lowercase_snake_case).\n\nSource tier classification:\n- Tier 1: Official (Diario Oficial, presidential decrees, INEGI, Banco de México, Congressional records)\n- Tier 2: Major outlet (Reuters, AP, El Universal, Reforma, La Jornada, Proceso, Animal Político, Aristegui Noticias)\n- Tier 3: Institutional (CIDE, UNAM, IMCO, Mexicanos Contra la Corrupción, Wilson Center)\n- Tier 4: Unverified (social media, mañanera claims without documentation)\n\nOnly include information verifiable through search. Do not fabricate data.",
     "searchContext": "AMLO Lopez Obrador Mexico presidency Fourth Transformation 2018-2024 Morena",
-    "enabledSections": ["kpis", "timeline", "mapPoints", "econ", "claims", "political"],
-    "coordValidation": { "lonMin": -119.0, "lonMax": -85.0, "latMin": 13.0, "latMax": 34.0 },
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": -119,
+      "lonMax": -85,
+      "latMin": 13,
+      "latMax": 34
+    },
     "updateIntervalDays": 90,
     "backfillTargets": {
       "timeline": 60,
@@ -58,6 +175,15 @@
       "claims": 25,
       "political": 25,
       "econ": 12
+    },
+    "updatePolicy": {
+      "escalation": [
+        30,
+        60,
+        90,
+        180
+      ],
+      "quietThreshold": 0
     }
   },
   "githubRepo": "ArtemioPadilla/watchboard"

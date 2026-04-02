@@ -12,45 +12,167 @@
   "country": "JP",
   "startDate": "2011-03-11",
   "eraLabel": "Disaster & Decommissioning",
-  "sections": ["hero", "kpis", "timeline", "map", "casualties", "economic", "claims", "political"],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
   "map": {
     "enabled": true,
-    "bounds": { "lonMin": 138, "lonMax": 142, "latMin": 36, "latMax": 42 },
-    "center": { "lon": 140.5, "lat": 38.5 },
+    "bounds": {
+      "lonMin": 138,
+      "lonMax": 142,
+      "latMin": 36,
+      "latMax": 42
+    },
+    "center": {
+      "lon": 140.5,
+      "lat": 38.5
+    },
     "categories": [
-      { "id": "exclusion-zone", "label": "Exclusion / Evacuation Zones", "color": "#e74c3c" },
-      { "id": "contamination", "label": "Radiation Contamination", "color": "#f39c12" },
-      { "id": "monitoring", "label": "Radiation Monitoring", "color": "#3498db" },
-      { "id": "infrastructure", "label": "Critical Infrastructure", "color": "#9b59b6" },
-      { "id": "evacuation", "label": "Evacuation / Shelter Sites", "color": "#27ae60" }
+      {
+        "id": "exclusion-zone",
+        "label": "Exclusion / Evacuation Zones",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "contamination",
+        "label": "Radiation Contamination",
+        "color": "#f39c12"
+      },
+      {
+        "id": "monitoring",
+        "label": "Radiation Monitoring",
+        "color": "#3498db"
+      },
+      {
+        "id": "infrastructure",
+        "label": "Critical Infrastructure",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "evacuation",
+        "label": "Evacuation / Shelter Sites",
+        "color": "#27ae60"
+      }
     ]
   },
   "globe": {
     "enabled": true,
     "cameraPresets": {
-      "overview": { "lon": 140.5, "lat": 38.5, "alt": 600000, "pitch": -90, "heading": 0, "label": "Tohoku Overview" },
-      "daiichi": { "lon": 141.034, "lat": 37.422, "alt": 15000, "pitch": -90, "heading": 0, "label": "Fukushima Daiichi NPP" },
-      "exclusion_zone": { "lon": 141.03, "lat": 37.42, "alt": 60000, "pitch": -90, "heading": 0, "label": "20km Exclusion Zone" },
-      "fukushima_city": { "lon": 140.47, "lat": 37.75, "alt": 60000, "pitch": -90, "heading": 0, "label": "Fukushima City" },
-      "sendai": { "lon": 140.87, "lat": 38.27, "alt": 80000, "pitch": -90, "heading": 0, "label": "Sendai" },
-      "epicenter": { "lon": 142.37, "lat": 38.32, "alt": 300000, "pitch": -90, "heading": 0, "label": "Earthquake Epicenter" }
+      "overview": {
+        "lon": 140.5,
+        "lat": 38.5,
+        "alt": 600000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Tohoku Overview"
+      },
+      "daiichi": {
+        "lon": 141.034,
+        "lat": 37.422,
+        "alt": 15000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Fukushima Daiichi NPP"
+      },
+      "exclusion_zone": {
+        "lon": 141.03,
+        "lat": 37.42,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "20km Exclusion Zone"
+      },
+      "fukushima_city": {
+        "lon": 140.47,
+        "lat": 37.75,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Fukushima City"
+      },
+      "sendai": {
+        "lon": 140.87,
+        "lat": 38.27,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Sendai"
+      },
+      "epicenter": {
+        "lon": 142.37,
+        "lat": 38.32,
+        "alt": 300000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Earthquake Epicenter"
+      }
     }
   },
   "navSections": [
-    { "id": "sec-timeline", "label": "Timeline" },
-    { "id": "sec-map", "label": "Map" },
-    { "id": "sec-humanitarian", "label": "Humanitarian" },
-    { "id": "sec-economic", "label": "Economic" },
-    { "id": "sec-contested", "label": "Contested" },
-    { "id": "sec-political", "label": "Political" }
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Humanitarian"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
   ],
-  "politicalAvatars": ["tepco", "jp-gov", "regulator", "intl", "victims", "other"],
-  "eventTypes": ["nuclear", "seismic", "regulatory", "political", "humanitarian"],
+  "politicalAvatars": [
+    "tepco",
+    "jp-gov",
+    "regulator",
+    "intl",
+    "victims",
+    "other"
+  ],
+  "eventTypes": [
+    "nuclear",
+    "seismic",
+    "regulatory",
+    "political",
+    "humanitarian"
+  ],
   "ai": {
     "systemPrompt": "You are a nuclear safety and environmental researcher updating a tracker for the 2011 Fukushima Daiichi nuclear disaster.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"unit1_decommission\", \"tritium_release_2023\").\n\nSource tier classification:\n- Tier 1: Official/primary (TEPCO, Japanese NRA, Cabinet Office, Ministry of Economy Trade and Industry, IAEA, WHO)\n- Tier 2: Major outlet (NHK, Reuters, AP, BBC, Kyodo News, The Japan Times, Mainichi Shimbun, Asahi Shimbun, CNN)\n- Tier 3: Institutional (UNSCEAR, Greenpeace, CNIC, OECD/NEA, Stanford researchers, peer-reviewed studies, HRW, IPPNW)\n- Tier 4: Unverified (social media, unattributed testimony, activist blogs, uncorroborated claims)\n\nKey topics to monitor:\n- Decommissioning progress (fuel debris removal, water management, unit status)\n- ALPS-treated water ocean release program (started Aug 2023)\n- Radiation monitoring data and exclusion zone return policies\n- Health monitoring studies (thyroid cancer surveillance, Fukushima children cohort)\n- Contaminated soil storage and disposal progress\n- Economic recovery and evacuee return rates\n- Ongoing regulatory proceedings and TEPCO accountability\n\nOnly include information you can verify through search results. Do not fabricate data.",
     "searchContext": "Fukushima Daiichi nuclear disaster decommissioning TEPCO contamination 2011",
-    "enabledSections": ["kpis", "timeline", "mapPoints", "claims", "political", "econ"],
-    "coordValidation": { "lonMin": 135, "lonMax": 145, "latMin": 34, "latMax": 44 },
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "claims",
+      "political",
+      "econ"
+    ],
+    "coordValidation": {
+      "lonMin": 135,
+      "lonMax": 145,
+      "latMin": 34,
+      "latMax": 44
+    },
     "updateIntervalDays": 30,
     "backfillTargets": {
       "timeline": 30,
@@ -59,6 +181,15 @@
       "political": 15,
       "kpis": 8,
       "econ": 8
+    },
+    "updatePolicy": {
+      "escalation": [
+        30,
+        60,
+        90,
+        180
+      ],
+      "quietThreshold": 0
     }
   },
   "ogImage": "/og-card.png",

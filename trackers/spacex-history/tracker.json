@@ -12,53 +12,183 @@
   "country": "US",
   "startDate": "2002-05-06",
   "eraLabel": "SpaceX 2002–Present",
-  "tags": ["Falcon 9", "Starship", "Starlink", "Dragon", "reusability", "Elon Musk"],
-  "sections": ["hero", "kpis", "timeline", "map", "claims", "political"],
+  "tags": [
+    "Falcon 9",
+    "Starship",
+    "Starlink",
+    "Dragon",
+    "reusability",
+    "Elon Musk"
+  ],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "claims",
+    "political"
+  ],
   "map": {
     "enabled": true,
-    "bounds": { "lonMin": -130.0, "lonMax": -65.0, "latMin": 24.0, "latMax": 50.0 },
-    "center": { "lon": -97.0, "lat": 30.0 },
+    "bounds": {
+      "lonMin": -130,
+      "lonMax": -65,
+      "latMin": 24,
+      "latMax": 50
+    },
+    "center": {
+      "lon": -97,
+      "lat": 30
+    },
     "categories": [
-      { "id": "launch-site", "label": "Launch Sites", "color": "#2c3e50" },
-      { "id": "landing", "label": "Landing Sites", "color": "#27ae60" },
-      { "id": "facility", "label": "Manufacturing/HQ", "color": "#3498db" },
-      { "id": "recovery", "label": "Recovery Zones", "color": "#f39c12" }
+      {
+        "id": "launch-site",
+        "label": "Launch Sites",
+        "color": "#2c3e50"
+      },
+      {
+        "id": "landing",
+        "label": "Landing Sites",
+        "color": "#27ae60"
+      },
+      {
+        "id": "facility",
+        "label": "Manufacturing/HQ",
+        "color": "#3498db"
+      },
+      {
+        "id": "recovery",
+        "label": "Recovery Zones",
+        "color": "#f39c12"
+      }
     ]
   },
   "globe": {
     "enabled": true,
     "cameraPresets": {
-      "earth": { "lon": -97.0, "lat": 30.0, "alt": 8000000, "pitch": -90, "heading": 0, "label": "Earth Overview" },
-      "boca_chica": { "lon": -97.16, "lat": 25.99, "alt": 50000, "pitch": -90, "heading": 0, "label": "Starbase (Boca Chica)" },
-      "kennedy": { "lon": -80.65, "lat": 28.59, "alt": 60000, "pitch": -90, "heading": 0, "label": "Launch Complex 39A" },
-      "vandenberg": { "lon": -120.59, "lat": 34.76, "alt": 60000, "pitch": -90, "heading": 0, "label": "Vandenberg SLC-4E" },
-      "hawthorne": { "lon": -118.33, "lat": 33.89, "alt": 40000, "pitch": -90, "heading": 0, "label": "SpaceX HQ (Hawthorne)" },
-      "lz1": { "lon": -80.62, "lat": 28.49, "alt": 30000, "pitch": -90, "heading": 0, "label": "Landing Zone 1" }
+      "earth": {
+        "lon": -97,
+        "lat": 30,
+        "alt": 8000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Earth Overview"
+      },
+      "boca_chica": {
+        "lon": -97.16,
+        "lat": 25.99,
+        "alt": 50000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Starbase (Boca Chica)"
+      },
+      "kennedy": {
+        "lon": -80.65,
+        "lat": 28.59,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Launch Complex 39A"
+      },
+      "vandenberg": {
+        "lon": -120.59,
+        "lat": 34.76,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Vandenberg SLC-4E"
+      },
+      "hawthorne": {
+        "lon": -118.33,
+        "lat": 33.89,
+        "alt": 40000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "SpaceX HQ (Hawthorne)"
+      },
+      "lz1": {
+        "lon": -80.62,
+        "lat": 28.49,
+        "alt": 30000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Landing Zone 1"
+      }
     },
     "clocks": [
-      { "label": "EST/EDT", "offsetHours": -5 },
-      { "label": "CST/CDT", "offsetHours": -6 },
-      { "label": "UTC", "offsetHours": 0 }
+      {
+        "label": "EST/EDT",
+        "offsetHours": -5
+      },
+      {
+        "label": "CST/CDT",
+        "offsetHours": -6
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      }
     ]
   },
   "navSections": [
-    { "id": "sec-timeline", "label": "Timeline" },
-    { "id": "sec-map", "label": "Map" },
-    { "id": "sec-contested", "label": "Contested" },
-    { "id": "sec-political", "label": "Political" }
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
   ],
-  "politicalAvatars": ["spacex", "nasa", "ula", "bezos", "other"],
-  "eventTypes": ["launch", "landing", "milestone", "failure", "contract"],
+  "politicalAvatars": [
+    "spacex",
+    "nasa",
+    "ula",
+    "bezos",
+    "other"
+  ],
+  "eventTypes": [
+    "launch",
+    "landing",
+    "milestone",
+    "failure",
+    "contract"
+  ],
   "ai": {
     "systemPrompt": "You are a space industry analyst updating the SpaceX History tracker.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose.\nEvery item must have an \"id\" field (lowercase_snake_case).\n\nSource tier classification:\n- Tier 1: Official (SpaceX.com, FAA launch licenses, NASA contract records, FCC Starlink filings)\n- Tier 2: Major media (Reuters, AP, SpaceNews, Ars Technica, NASASpaceflight, Aviation Week)\n- Tier 3: Institutional (Planetary Society, AIAA, MIT Technology Review, Space Policy Institute)\n- Tier 4: Unverified (social media, unconfirmed launch reports)\n\nOnly include information verifiable through search. Do not fabricate data.",
     "searchContext": "SpaceX Starship Falcon 9 Starlink Dragon launch 2024 2025",
-    "enabledSections": ["kpis", "timeline", "mapPoints", "claims", "political"],
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "claims",
+      "political"
+    ],
     "updateIntervalDays": 3,
     "backfillTargets": {
       "timeline": 80,
       "mapPoints": 30,
       "claims": 20,
       "political": 15
+    },
+    "updatePolicy": {
+      "escalation": [
+        3,
+        3,
+        7,
+        14,
+        30,
+        60
+      ],
+      "quietThreshold": 0
     }
   },
   "githubRepo": "ArtemioPadilla/watchboard"

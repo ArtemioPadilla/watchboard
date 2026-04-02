@@ -12,44 +12,162 @@
   "country": "MX",
   "startDate": "2026-02-01",
   "eraLabel": "Post-Mencho Era 2026",
-  "sections": ["hero", "kpis", "timeline", "map", "casualties", "claims", "political"],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "casualties",
+    "claims",
+    "political"
+  ],
   "map": {
     "enabled": true,
-    "bounds": { "lonMin": -106, "lonMax": -98, "latMin": 17, "latMax": 24 },
-    "center": { "lon": -102.5, "lat": 20.5 },
+    "bounds": {
+      "lonMin": -106,
+      "lonMax": -98,
+      "latMin": 17,
+      "latMax": 24
+    },
+    "center": {
+      "lon": -102.5,
+      "lat": 20.5
+    },
     "categories": [
-      { "id": "operation", "label": "Security Operations", "color": "#3498db" },
-      { "id": "cjng", "label": "CJNG Activity", "color": "#8e44ad" },
-      { "id": "violence", "label": "Cartel Violence", "color": "#e74c3c" },
-      { "id": "rival", "label": "Rival Cartel Activity", "color": "#f39c12" },
-      { "id": "trafficking", "label": "Trafficking Routes", "color": "#27ae60" }
+      {
+        "id": "operation",
+        "label": "Security Operations",
+        "color": "#3498db"
+      },
+      {
+        "id": "cjng",
+        "label": "CJNG Activity",
+        "color": "#8e44ad"
+      },
+      {
+        "id": "violence",
+        "label": "Cartel Violence",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "rival",
+        "label": "Rival Cartel Activity",
+        "color": "#f39c12"
+      },
+      {
+        "id": "trafficking",
+        "label": "Trafficking Routes",
+        "color": "#27ae60"
+      }
     ]
   },
   "globe": {
     "enabled": true,
     "cameraPresets": {
-      "overview": { "lon": -102.5, "lat": 20.5, "alt": 1800000, "pitch": -90, "heading": 0, "label": "Western Mexico Overview" },
-      "guadalajara": { "lon": -103.35, "lat": 20.66, "alt": 60000, "pitch": -90, "heading": 0, "label": "Guadalajara (CJNG HQ)" },
-      "jalisco": { "lon": -103.0, "lat": 20.5, "alt": 250000, "pitch": -90, "heading": 0, "label": "Jalisco" },
-      "michoacan": { "lon": -101.7, "lat": 19.3, "alt": 250000, "pitch": -90, "heading": 0, "label": "Michoacán" },
-      "colima": { "lon": -103.72, "lat": 19.24, "alt": 80000, "pitch": -90, "heading": 0, "label": "Colima" },
-      "mexico_city": { "lon": -99.13, "lat": 19.43, "alt": 120000, "pitch": -90, "heading": 0, "label": "Mexico City" }
+      "overview": {
+        "lon": -102.5,
+        "lat": 20.5,
+        "alt": 1800000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Western Mexico Overview"
+      },
+      "guadalajara": {
+        "lon": -103.35,
+        "lat": 20.66,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Guadalajara (CJNG HQ)"
+      },
+      "jalisco": {
+        "lon": -103,
+        "lat": 20.5,
+        "alt": 250000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Jalisco"
+      },
+      "michoacan": {
+        "lon": -101.7,
+        "lat": 19.3,
+        "alt": 250000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Michoacán"
+      },
+      "colima": {
+        "lon": -103.72,
+        "lat": 19.24,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Colima"
+      },
+      "mexico_city": {
+        "lon": -99.13,
+        "lat": 19.43,
+        "alt": 120000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Mexico City"
+      }
     }
   },
   "navSections": [
-    { "id": "sec-timeline", "label": "Timeline" },
-    { "id": "sec-map", "label": "Map" },
-    { "id": "sec-humanitarian", "label": "Casualties" },
-    { "id": "sec-contested", "label": "Contested" },
-    { "id": "sec-political", "label": "Political" }
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Casualties"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
   ],
-  "politicalAvatars": ["cjng", "mx-gov", "us-dea", "rivals", "victims", "other"],
-  "eventTypes": ["operation", "violence", "arrest", "political", "diplomatic"],
+  "politicalAvatars": [
+    "cjng",
+    "mx-gov",
+    "us-dea",
+    "rivals",
+    "victims",
+    "other"
+  ],
+  "eventTypes": [
+    "operation",
+    "violence",
+    "arrest",
+    "political",
+    "diplomatic"
+  ],
   "ai": {
     "systemPrompt": "You are a Mexico security and organized crime analyst updating a cartel intelligence dashboard.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case).\n\nFOCUS AREAS:\n- El Mencho (Nemesio Oseguera Cervantes) killing and the operation that led to it\n- CJNG succession crisis and internal power struggle\n- Cartel territorial fragmentation and realignment across Jalisco, Michoacán, Colima, and beyond\n- US-Mexico security cooperation (DEA, HSI, NORTHCOM, FGR, SEDENA)\n- Drug trafficking route disruption and adaptation\n- Rival cartel responses (Sinaloa Cartel, CJNG splinters, regional cartels)\n- Violence trends and civilian impact\n\nSource tier classification:\n- Tier 1: Official/primary (FGR, SEDENA, SSPC, DEA, DoJ, White House, Mexican presidency)\n- Tier 2: Major outlet (Reuters, AP, El Universal, Milenio, Reforma, La Jornada, Animal Político, Proceso, BBC, NYT, InSight Crime)\n- Tier 3: Institutional (WOLA, Mexico Violence Resource Project, IGARAPÉ, HRW, Amnesty, Wilson Center, CSIS, Crisis Group)\n- Tier 4: Unverified (social media, narco banners, unattributed testimony, cartel communiqués)\n\nOnly include information you can verify through search results. Do not fabricate data.\nWhen reporting contested figures (casualty counts, territorial control), note the source and any discrepancies.\n\nCONFIRMATION RULES:\n- Only report operations/kills as confirmed if at least 1 Tier 1 source OR 2 independent Tier 2+ sources.\n- Cartel claims without official confirmation should use confidence: \"low\".\n- Territorial control assessments should be marked as evolving unless confirmed by multiple sources.",
     "searchContext": "El Mencho CJNG cartel Jalisco 2026",
-    "enabledSections": ["kpis", "timeline", "mapPoints", "claims", "political", "casualties"],
-    "coordValidation": { "lonMin": -118, "lonMax": -86, "latMin": 14, "latMax": 33 },
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "claims",
+      "political",
+      "casualties"
+    ],
+    "coordValidation": {
+      "lonMin": -118,
+      "lonMax": -86,
+      "latMin": 14,
+      "latMax": 33
+    },
     "updateIntervalDays": 1,
     "backfillTargets": {
       "timeline": 30,
@@ -58,6 +176,19 @@
       "political": 15,
       "kpis": 8,
       "casualties": 8
+    },
+    "updatePolicy": {
+      "escalation": [
+        1,
+        1,
+        1,
+        7,
+        7,
+        30,
+        60,
+        90
+      ],
+      "quietThreshold": 0
     }
   },
   "githubRepo": "ArtemioPadilla/watchboard"

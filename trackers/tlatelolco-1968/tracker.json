@@ -12,49 +12,175 @@
   "country": "MX",
   "startDate": "1968-10-02",
   "eraLabel": "Massacre & Coverup",
-  "sections": ["hero", "kpis", "timeline", "map", "casualties", "claims", "political"],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "casualties",
+    "claims",
+    "political"
+  ],
   "map": {
     "enabled": true,
-    "bounds": { "lonMin": -99.45, "lonMax": -98.95, "latMin": 19.15, "latMax": 19.65 },
-    "center": { "lon": -99.14, "lat": 19.43 },
+    "bounds": {
+      "lonMin": -99.45,
+      "lonMax": -98.95,
+      "latMin": 19.15,
+      "latMax": 19.65
+    },
+    "center": {
+      "lon": -99.14,
+      "lat": 19.43
+    },
     "categories": [
-      { "id": "massacre", "label": "Massacre Site", "color": "#e74c3c" },
-      { "id": "protest", "label": "Student Movement Sites", "color": "#9b59b6" },
-      { "id": "detention", "label": "Arrest & Detention Sites", "color": "#e67e22" },
-      { "id": "government", "label": "Government Locations", "color": "#2c3e50" },
-      { "id": "investigation", "label": "Investigation & Archives", "color": "#3498db" }
+      {
+        "id": "massacre",
+        "label": "Massacre Site",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "protest",
+        "label": "Student Movement Sites",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "detention",
+        "label": "Arrest & Detention Sites",
+        "color": "#e67e22"
+      },
+      {
+        "id": "government",
+        "label": "Government Locations",
+        "color": "#2c3e50"
+      },
+      {
+        "id": "investigation",
+        "label": "Investigation & Archives",
+        "color": "#3498db"
+      }
     ]
   },
   "globe": {
     "enabled": true,
     "cameraPresets": {
-      "overview": { "lon": -99.14, "lat": 19.43, "alt": 200000, "pitch": -90, "heading": 0, "label": "Mexico City Overview" },
-      "tlatelolco": { "lon": -99.137, "lat": 19.452, "alt": 3000, "pitch": -90, "heading": 0, "label": "Plaza de las Tres Culturas" },
-      "ciudad_universitaria": { "lon": -99.187, "lat": 19.332, "alt": 8000, "pitch": -90, "heading": 0, "label": "Ciudad Universitaria (UNAM)" },
-      "zocalo": { "lon": -99.133, "lat": 19.433, "alt": 5000, "pitch": -90, "heading": 0, "label": "Zócalo / Centro Histórico" },
-      "lecumberri": { "lon": -99.120, "lat": 19.434, "alt": 3000, "pitch": -90, "heading": 0, "label": "Lecumberri Prison (Archivo General)" },
-      "los_pinos": { "lon": -99.198, "lat": 19.414, "alt": 4000, "pitch": -90, "heading": 0, "label": "Los Pinos (Presidential Residence)" }
+      "overview": {
+        "lon": -99.14,
+        "lat": 19.43,
+        "alt": 200000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Mexico City Overview"
+      },
+      "tlatelolco": {
+        "lon": -99.137,
+        "lat": 19.452,
+        "alt": 3000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Plaza de las Tres Culturas"
+      },
+      "ciudad_universitaria": {
+        "lon": -99.187,
+        "lat": 19.332,
+        "alt": 8000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Ciudad Universitaria (UNAM)"
+      },
+      "zocalo": {
+        "lon": -99.133,
+        "lat": 19.433,
+        "alt": 5000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Zócalo / Centro Histórico"
+      },
+      "lecumberri": {
+        "lon": -99.12,
+        "lat": 19.434,
+        "alt": 3000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Lecumberri Prison (Archivo General)"
+      },
+      "los_pinos": {
+        "lon": -99.198,
+        "lat": 19.414,
+        "alt": 4000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Los Pinos (Presidential Residence)"
+      }
     },
     "clocks": [
-      { "label": "CDMX", "offsetHours": -6 },
-      { "label": "UTC", "offsetHours": 0 },
-      { "label": "EST", "offsetHours": -5 }
+      {
+        "label": "CDMX",
+        "offsetHours": -6
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      },
+      {
+        "label": "EST",
+        "offsetHours": -5
+      }
     ]
   },
   "navSections": [
-    { "id": "sec-timeline", "label": "Timeline" },
-    { "id": "sec-map", "label": "Map" },
-    { "id": "sec-humanitarian", "label": "Casualties" },
-    { "id": "sec-contested", "label": "Disputed Facts" },
-    { "id": "sec-political", "label": "Key Figures" }
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Casualties"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Disputed Facts"
+    },
+    {
+      "id": "sec-political",
+      "label": "Key Figures"
+    }
   ],
-  "politicalAvatars": ["mx-gov", "mx-mil", "students", "intl", "other"],
-  "eventTypes": ["massacre", "protest", "investigation", "legal", "political"],
+  "politicalAvatars": [
+    "mx-gov",
+    "mx-mil",
+    "students",
+    "intl",
+    "other"
+  ],
+  "eventTypes": [
+    "massacre",
+    "protest",
+    "investigation",
+    "legal",
+    "political"
+  ],
   "ai": {
     "systemPrompt": "You are a historian and human rights researcher updating a tracker for the 1968 Tlatelolco Massacre in Mexico City.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"plaza_massacre\", \"diaz_ordaz_order\").\n\nThis tracker covers: the October 2, 1968 student massacre at Plaza de las Tres Culturas (Tlatelolco), the student movement of 1968, the role of President Gustavo Díaz Ordaz and Interior Secretary Luis Echeverría, the Olympia Battalion's role, the decades-long government coverup, and the ongoing truth, justice, and memory efforts. Include developments surfaced by declassified CIA, NSA, and Mexican government documents.\n\nSource tier classification:\n- Tier 1: Official/primary (Mexican government declarations, AGN — Archivo General de la Nación, CNDH, IACHR, UN OHCHR, declassified US government documents via NSA/CIA/State Dept)\n- Tier 2: Major outlet (Reuters, AP, El Universal, La Jornada, Proceso, Animal Político, BBC, NYT, The Guardian, Reforma)\n- Tier 3: Institutional (CIDE, FLACSO, Tlatelolco Memorial, UNAM, HRW, Amnesty International, Centro Prodh, National Security Archive)\n- Tier 4: Unverified (social media, unattributed testimony, anonymous sources)\n\nOnly include information you can verify through search results. Do not fabricate data.\nWhen casualty figures are disputed (e.g., official 30 vs. estimated 300–400), use the \"contested\" field and include a note explaining the discrepancy.\nFor historical events, use the exact date in the \"year\" field when known (e.g., \"1968-10-02\").",
     "searchContext": "Tlatelolco 1968 massacre Mexico City student movement Plaza de las Tres Culturas Díaz Ordaz Echeverría",
-    "enabledSections": ["kpis", "timeline", "mapPoints", "casualties", "claims", "political"],
-    "coordValidation": { "lonMin": -100.5, "lonMax": -98.5, "latMin": 18.5, "latMax": 20.5 },
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "casualties",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": -100.5,
+      "lonMax": -98.5,
+      "latMin": 18.5,
+      "latMax": 20.5
+    },
     "updateIntervalDays": 30,
     "backfillTargets": {
       "timeline": 30,
@@ -63,6 +189,15 @@
       "political": 12,
       "casualties": 8,
       "kpis": 8
+    },
+    "updatePolicy": {
+      "escalation": [
+        30,
+        60,
+        90,
+        180
+      ],
+      "quietThreshold": 0
     }
   },
   "ogImage": "/og-card.png",

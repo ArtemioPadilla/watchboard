@@ -13,51 +13,189 @@
   "startDate": "1492-10-12",
   "endDate": "1898-01-01",
   "eraLabel": "Age of Conquest 1492–c.1900",
-  "tags": ["Columbus", "Conquistadors", "Aztec", "Inca", "colonization", "Columbian Exchange"],
-  "sections": ["hero", "kpis", "timeline", "map", "military", "casualties", "claims", "political"],
+  "tags": [
+    "Columbus",
+    "Conquistadors",
+    "Aztec",
+    "Inca",
+    "colonization",
+    "Columbian Exchange"
+  ],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "military",
+    "casualties",
+    "claims",
+    "political"
+  ],
   "map": {
     "enabled": true,
-    "bounds": { "lonMin": -130.0, "lonMax": 10.0, "latMin": -60.0, "latMax": 65.0 },
-    "center": { "lon": -70.0, "lat": 15.0 },
+    "bounds": {
+      "lonMin": -130,
+      "lonMax": 10,
+      "latMin": -60,
+      "latMax": 65
+    },
+    "center": {
+      "lon": -70,
+      "lat": 15
+    },
     "categories": [
-      { "id": "spanish", "label": "Spanish Conquest Routes", "color": "#e74c3c" },
-      { "id": "portuguese", "label": "Portuguese Routes", "color": "#27ae60" },
-      { "id": "indigenous", "label": "Indigenous Civilizations", "color": "#f39c12" },
-      { "id": "colony", "label": "Colonial Capitals", "color": "#9b59b6" },
-      { "id": "battle", "label": "Battles/Resistance", "color": "#c0392b" }
+      {
+        "id": "spanish",
+        "label": "Spanish Conquest Routes",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "portuguese",
+        "label": "Portuguese Routes",
+        "color": "#27ae60"
+      },
+      {
+        "id": "indigenous",
+        "label": "Indigenous Civilizations",
+        "color": "#f39c12"
+      },
+      {
+        "id": "colony",
+        "label": "Colonial Capitals",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "battle",
+        "label": "Battles/Resistance",
+        "color": "#c0392b"
+      }
     ]
   },
   "globe": {
     "enabled": true,
     "cameraPresets": {
-      "global": { "lon": -40.0, "lat": 20.0, "alt": 18000000, "pitch": -90, "heading": 0, "label": "Atlantic World" },
-      "tenochtitlan": { "lon": -99.13, "lat": 19.43, "alt": 80000, "pitch": -90, "heading": 0, "label": "Tenochtitlán (Mexico City)" },
-      "cusco": { "lon": -71.98, "lat": -13.52, "alt": 80000, "pitch": -90, "heading": 0, "label": "Cusco (Inca capital)" },
-      "hispaniola": { "lon": -70.7, "lat": 19.0, "alt": 200000, "pitch": -90, "heading": 0, "label": "Hispaniola" },
-      "seville": { "lon": -5.99, "lat": 37.39, "alt": 80000, "pitch": -90, "heading": 0, "label": "Seville (House of Trade)" },
-      "panama": { "lon": -79.52, "lat": 8.99, "alt": 80000, "pitch": -90, "heading": 0, "label": "Panama (Pacific gateway)" }
+      "global": {
+        "lon": -40,
+        "lat": 20,
+        "alt": 18000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Atlantic World"
+      },
+      "tenochtitlan": {
+        "lon": -99.13,
+        "lat": 19.43,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Tenochtitlán (Mexico City)"
+      },
+      "cusco": {
+        "lon": -71.98,
+        "lat": -13.52,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Cusco (Inca capital)"
+      },
+      "hispaniola": {
+        "lon": -70.7,
+        "lat": 19,
+        "alt": 200000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Hispaniola"
+      },
+      "seville": {
+        "lon": -5.99,
+        "lat": 37.39,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Seville (House of Trade)"
+      },
+      "panama": {
+        "lon": -79.52,
+        "lat": 8.99,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Panama (Pacific gateway)"
+      }
     }
   },
   "navSections": [
-    { "id": "sec-timeline", "label": "Timeline" },
-    { "id": "sec-map", "label": "Map" },
-    { "id": "sec-military", "label": "Campaigns" },
-    { "id": "sec-humanitarian", "label": "Human Cost" },
-    { "id": "sec-contested", "label": "Contested" },
-    { "id": "sec-political", "label": "Political" }
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-military",
+      "label": "Campaigns"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Human Cost"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
   ],
   "militaryTabs": [
-    { "id": "strikes", "label": "Conquests" },
-    { "id": "retaliation", "label": "Indigenous Resistance" },
-    { "id": "assets", "label": "Colonial Forces" }
+    {
+      "id": "strikes",
+      "label": "Conquests"
+    },
+    {
+      "id": "retaliation",
+      "label": "Indigenous Resistance"
+    },
+    {
+      "id": "assets",
+      "label": "Colonial Forces"
+    }
   ],
-  "politicalAvatars": ["spain", "portugal", "aztec", "inca", "other"],
-  "eventTypes": ["conquest", "battle", "diplomatic", "colonization", "resistance"],
+  "politicalAvatars": [
+    "spain",
+    "portugal",
+    "aztec",
+    "inca",
+    "other"
+  ],
+  "eventTypes": [
+    "conquest",
+    "battle",
+    "diplomatic",
+    "colonization",
+    "resistance"
+  ],
   "ai": {
     "systemPrompt": "You are a colonial historian updating the European Conquest of the Americas tracker.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose.\nEvery item must have an \"id\" field (lowercase_snake_case).\n\nSource tier classification:\n- Tier 1: Primary (Archivo General de Indias, Bernal Díaz, Las Casas, royal decrees, colonial chronicles)\n- Tier 2: Major historical works (Oxford, Cambridge, academic histories, Smithsonian, national museums)\n- Tier 3: Research institutions (LASA, Colonial Latin American Review, indigenous studies centers)\n- Tier 4: Secondary/unverified (Wikipedia without citations)\n\nOnly include information verifiable through search. Do not fabricate data.",
     "searchContext": "European conquest Americas Columbus Aztec Inca conquistadors colonization indigenous history",
-    "enabledSections": ["kpis", "timeline", "mapPoints", "mapLines", "casualties", "claims", "political"],
-    "coordValidation": { "lonMin": -131.0, "lonMax": 11.0, "latMin": -61.0, "latMax": 66.0 },
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "mapLines",
+      "casualties",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": -131,
+      "lonMax": 11,
+      "latMin": -61,
+      "latMax": 66
+    },
     "updateIntervalDays": 180,
     "backfillTargets": {
       "timeline": 80,
@@ -66,6 +204,15 @@
       "claims": 25,
       "political": 20,
       "casualties": 12
+    },
+    "updatePolicy": {
+      "escalation": [
+        30,
+        60,
+        90,
+        180
+      ],
+      "quietThreshold": 0
     }
   },
   "githubRepo": "ArtemioPadilla/watchboard"

@@ -12,44 +12,161 @@
   "startDate": "2019-12-01",
   "endDate": "2023-05-05",
   "eraLabel": "COVID-19 Pandemic 2019–2023",
-  "tags": ["COVID-19", "vaccines", "lockdowns", "WHO", "variants", "excess mortality"],
-  "sections": ["hero", "kpis", "timeline", "map", "casualties", "economic", "claims", "political"],
+  "tags": [
+    "COVID-19",
+    "vaccines",
+    "lockdowns",
+    "WHO",
+    "variants",
+    "excess mortality"
+  ],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
   "map": {
     "enabled": true,
-    "bounds": { "lonMin": -180.0, "lonMax": 180.0, "latMin": -60.0, "latMax": 80.0 },
-    "center": { "lon": 20.0, "lat": 20.0 },
+    "bounds": {
+      "lonMin": -180,
+      "lonMax": 180,
+      "latMin": -60,
+      "latMax": 80
+    },
+    "center": {
+      "lon": 20,
+      "lat": 20
+    },
     "categories": [
-      { "id": "outbreak", "label": "Outbreak Origins", "color": "#e74c3c" },
-      { "id": "vaccine", "label": "Vaccine Programs", "color": "#27ae60" },
-      { "id": "lockdown", "label": "Major Lockdowns", "color": "#f39c12" },
-      { "id": "variant", "label": "Variant Emergence", "color": "#9b59b6" },
-      { "id": "research", "label": "Research Centers", "color": "#3498db" }
+      {
+        "id": "outbreak",
+        "label": "Outbreak Origins",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "vaccine",
+        "label": "Vaccine Programs",
+        "color": "#27ae60"
+      },
+      {
+        "id": "lockdown",
+        "label": "Major Lockdowns",
+        "color": "#f39c12"
+      },
+      {
+        "id": "variant",
+        "label": "Variant Emergence",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "research",
+        "label": "Research Centers",
+        "color": "#3498db"
+      }
     ]
   },
   "globe": {
     "enabled": true,
     "cameraPresets": {
-      "global": { "lon": 20.0, "lat": 20.0, "alt": 20000000, "pitch": -90, "heading": 0, "label": "Global View" },
-      "wuhan": { "lon": 114.31, "lat": 30.59, "alt": 80000, "pitch": -90, "heading": 0, "label": "Wuhan (origin)" },
-      "europe": { "lon": 15.0, "lat": 50.0, "alt": 5000000, "pitch": -90, "heading": 0, "label": "Europe Epicenter" },
-      "new_york": { "lon": -74.00, "lat": 40.71, "alt": 200000, "pitch": -90, "heading": 0, "label": "New York" },
-      "india": { "lon": 78.96, "lat": 20.59, "alt": 3000000, "pitch": -90, "heading": 0, "label": "India (Delta wave)" }
+      "global": {
+        "lon": 20,
+        "lat": 20,
+        "alt": 20000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Global View"
+      },
+      "wuhan": {
+        "lon": 114.31,
+        "lat": 30.59,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Wuhan (origin)"
+      },
+      "europe": {
+        "lon": 15,
+        "lat": 50,
+        "alt": 5000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Europe Epicenter"
+      },
+      "new_york": {
+        "lon": -74,
+        "lat": 40.71,
+        "alt": 200000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "New York"
+      },
+      "india": {
+        "lon": 78.96,
+        "lat": 20.59,
+        "alt": 3000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "India (Delta wave)"
+      }
     }
   },
   "navSections": [
-    { "id": "sec-timeline", "label": "Timeline" },
-    { "id": "sec-map", "label": "Map" },
-    { "id": "sec-humanitarian", "label": "Casualties" },
-    { "id": "sec-economic", "label": "Economic" },
-    { "id": "sec-contested", "label": "Contested" },
-    { "id": "sec-political", "label": "Political" }
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Casualties"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
   ],
-  "politicalAvatars": ["who", "china", "us", "eu", "other"],
-  "eventTypes": ["outbreak", "lockdown", "vaccine", "variant", "political"],
+  "politicalAvatars": [
+    "who",
+    "china",
+    "us",
+    "eu",
+    "other"
+  ],
+  "eventTypes": [
+    "outbreak",
+    "lockdown",
+    "vaccine",
+    "variant",
+    "political"
+  ],
   "ai": {
     "systemPrompt": "You are a public health analyst updating the COVID-19 Pandemic tracker.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose.\nEvery item must have an \"id\" field (lowercase_snake_case).\n\nSource tier classification:\n- Tier 1: Official (WHO, CDC, ECDC, national health ministries, peer-reviewed journals, Our World in Data)\n- Tier 2: Major outlet (Reuters, AP, Nature, Science, The Lancet, NYT, BBC, STAT News)\n- Tier 3: Institutional (Johns Hopkins CSSE, Imperial College London, IHME, Brookings)\n- Tier 4: Unverified (social media, preprints without peer review)\n\nOnly include information verifiable through search. Do not fabricate data.",
     "searchContext": "COVID-19 pandemic origins variants vaccines lockdowns excess mortality WHO 2020 2021 2022 2023",
-    "enabledSections": ["kpis", "timeline", "mapPoints", "casualties", "econ", "claims", "political"],
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "casualties",
+      "econ",
+      "claims",
+      "political"
+    ],
     "updateIntervalDays": 90,
     "backfillTargets": {
       "timeline": 80,
@@ -58,6 +175,15 @@
       "political": 20,
       "casualties": 15,
       "econ": 12
+    },
+    "updatePolicy": {
+      "escalation": [
+        30,
+        60,
+        90,
+        180
+      ],
+      "quietThreshold": 0
     }
   },
   "githubRepo": "ArtemioPadilla/watchboard"

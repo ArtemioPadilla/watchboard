@@ -12,48 +12,170 @@
   "country": "US",
   "startDate": "2017-01-20",
   "eraLabel": "Alliance Under Stress",
-  "tags": ["NATO", "Article 5", "burden-sharing", "European autonomy", "Trump", "transatlantic"],
-  "sections": ["hero", "kpis", "timeline", "map", "economic", "claims", "political"],
+  "tags": [
+    "NATO",
+    "Article 5",
+    "burden-sharing",
+    "European autonomy",
+    "Trump",
+    "transatlantic"
+  ],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "economic",
+    "claims",
+    "political"
+  ],
   "map": {
     "enabled": true,
-    "bounds": { "lonMin": -90.0, "lonMax": 45.0, "latMin": 30.0, "latMax": 72.0 },
-    "center": { "lon": -20.0, "lat": 50.0 },
+    "bounds": {
+      "lonMin": -90,
+      "lonMax": 45,
+      "latMin": 30,
+      "latMax": 72
+    },
+    "center": {
+      "lon": -20,
+      "lat": 50
+    },
     "categories": [
-      { "id": "nato-base", "label": "NATO Bases", "color": "#3498db" },
-      { "id": "dispute", "label": "Dispute Flashpoints", "color": "#e74c3c" },
-      { "id": "eu-defense", "label": "EU Defense Initiatives", "color": "#f39c12" },
-      { "id": "spending", "label": "Defense Spending Events", "color": "#27ae60" }
+      {
+        "id": "nato-base",
+        "label": "NATO Bases",
+        "color": "#3498db"
+      },
+      {
+        "id": "dispute",
+        "label": "Dispute Flashpoints",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "eu-defense",
+        "label": "EU Defense Initiatives",
+        "color": "#f39c12"
+      },
+      {
+        "id": "spending",
+        "label": "Defense Spending Events",
+        "color": "#27ae60"
+      }
     ]
   },
   "globe": {
     "enabled": true,
     "cameraPresets": {
-      "theater": { "lon": -20.0, "lat": 50.0, "alt": 8000000, "pitch": -90, "heading": 0, "label": "North Atlantic" },
-      "brussels": { "lon": 4.35, "lat": 50.85, "alt": 80000, "pitch": -90, "heading": 0, "label": "Brussels (NATO HQ)" },
-      "washington": { "lon": -77.04, "lat": 38.90, "alt": 80000, "pitch": -90, "heading": 0, "label": "Washington D.C." },
-      "eastern_flank": { "lon": 23.0, "lat": 54.0, "alt": 1500000, "pitch": -90, "heading": 0, "label": "NATO Eastern Flank" },
-      "berlin": { "lon": 13.40, "lat": 52.52, "alt": 80000, "pitch": -90, "heading": 0, "label": "Berlin" }
+      "theater": {
+        "lon": -20,
+        "lat": 50,
+        "alt": 8000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "North Atlantic"
+      },
+      "brussels": {
+        "lon": 4.35,
+        "lat": 50.85,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Brussels (NATO HQ)"
+      },
+      "washington": {
+        "lon": -77.04,
+        "lat": 38.9,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Washington D.C."
+      },
+      "eastern_flank": {
+        "lon": 23,
+        "lat": 54,
+        "alt": 1500000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "NATO Eastern Flank"
+      },
+      "berlin": {
+        "lon": 13.4,
+        "lat": 52.52,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Berlin"
+      }
     },
     "clocks": [
-      { "label": "BRUSSELS", "offsetHours": 2 },
-      { "label": "EST", "offsetHours": -5 },
-      { "label": "UTC", "offsetHours": 0 }
+      {
+        "label": "BRUSSELS",
+        "offsetHours": 2
+      },
+      {
+        "label": "EST",
+        "offsetHours": -5
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      }
     ]
   },
   "navSections": [
-    { "id": "sec-timeline", "label": "Timeline" },
-    { "id": "sec-map", "label": "Map" },
-    { "id": "sec-economic", "label": "Defense Spending" },
-    { "id": "sec-contested", "label": "Contested" },
-    { "id": "sec-political", "label": "Political" }
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Defense Spending"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
   ],
-  "politicalAvatars": ["us", "nato", "eu", "uk", "other"],
-  "eventTypes": ["diplomatic", "summit", "spending", "statement", "crisis"],
+  "politicalAvatars": [
+    "us",
+    "nato",
+    "eu",
+    "uk",
+    "other"
+  ],
+  "eventTypes": [
+    "diplomatic",
+    "summit",
+    "spending",
+    "statement",
+    "crisis"
+  ],
   "ai": {
     "systemPrompt": "You are an intelligence analyst updating the NATO-US Tensions tracker.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose.\nEvery item must have an \"id\" field (lowercase_snake_case).\n\nSource tier classification:\n- Tier 1: Official (White House, State Dept, NATO HQ, European Commission, EU Council)\n- Tier 2: Major outlet (Reuters, AP, BBC, Politico, NYT, WaPo, Der Spiegel, Le Monde)\n- Tier 3: Institutional (CSIS, IISS, Brookings, ECFR, Atlantic Council)\n- Tier 4: Unverified (social media, anonymous diplomatic leaks)\n\nOnly include information verifiable through search. Do not fabricate data.",
     "searchContext": "NATO US tensions burden sharing Article 5 European defense autonomy Trump 2025",
-    "enabledSections": ["kpis", "timeline", "mapPoints", "econ", "claims", "political"],
-    "coordValidation": { "lonMin": -95.0, "lonMax": 46.0, "latMin": 29.0, "latMax": 73.0 },
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": -95,
+      "lonMax": 46,
+      "latMin": 29,
+      "latMax": 73
+    },
     "updateIntervalDays": 3,
     "backfillTargets": {
       "timeline": 50,
@@ -61,6 +183,17 @@
       "claims": 25,
       "political": 20,
       "econ": 12
+    },
+    "updatePolicy": {
+      "escalation": [
+        3,
+        3,
+        7,
+        14,
+        30,
+        60
+      ],
+      "quietThreshold": 0
     }
   },
   "githubRepo": "ArtemioPadilla/watchboard"

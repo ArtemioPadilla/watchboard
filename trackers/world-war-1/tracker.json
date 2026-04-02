@@ -13,52 +13,195 @@
   "startDate": "1914-07-28",
   "endDate": "1918-11-11",
   "eraLabel": "The Great War 1914–1918",
-  "tags": ["trench warfare", "Somme", "Verdun", "Gallipoli", "Versailles", "Entente"],
-  "sections": ["hero", "kpis", "timeline", "map", "military", "casualties", "economic", "claims", "political"],
+  "tags": [
+    "trench warfare",
+    "Somme",
+    "Verdun",
+    "Gallipoli",
+    "Versailles",
+    "Entente"
+  ],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "military",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
   "map": {
     "enabled": true,
-    "bounds": { "lonMin": -10.0, "lonMax": 42.0, "latMin": 35.0, "latMax": 62.0 },
-    "center": { "lon": 15.0, "lat": 50.0 },
+    "bounds": {
+      "lonMin": -10,
+      "lonMax": 42,
+      "latMin": 35,
+      "latMax": 62
+    },
+    "center": {
+      "lon": 15,
+      "lat": 50
+    },
     "categories": [
-      { "id": "entente", "label": "Entente/Allied Front", "color": "#3498db" },
-      { "id": "central-powers", "label": "Central Powers Front", "color": "#e74c3c" },
-      { "id": "battle", "label": "Major Battles", "color": "#c0392b" },
-      { "id": "front-line", "label": "Front Lines", "color": "#f39c12" },
-      { "id": "naval", "label": "Naval Operations", "color": "#2c3e50" }
+      {
+        "id": "entente",
+        "label": "Entente/Allied Front",
+        "color": "#3498db"
+      },
+      {
+        "id": "central-powers",
+        "label": "Central Powers Front",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "battle",
+        "label": "Major Battles",
+        "color": "#c0392b"
+      },
+      {
+        "id": "front-line",
+        "label": "Front Lines",
+        "color": "#f39c12"
+      },
+      {
+        "id": "naval",
+        "label": "Naval Operations",
+        "color": "#2c3e50"
+      }
     ]
   },
   "globe": {
     "enabled": true,
     "cameraPresets": {
-      "theater": { "lon": 15.0, "lat": 50.0, "alt": 5000000, "pitch": -90, "heading": 0, "label": "European Theater" },
-      "western_front": { "lon": 4.0, "lat": 50.5, "alt": 500000, "pitch": -90, "heading": 0, "label": "Western Front" },
-      "eastern_front": { "lon": 24.0, "lat": 52.0, "alt": 1500000, "pitch": -90, "heading": 0, "label": "Eastern Front" },
-      "somme": { "lon": 2.72, "lat": 50.00, "alt": 80000, "pitch": -90, "heading": 0, "label": "Battle of the Somme" },
-      "verdun": { "lon": 5.38, "lat": 49.16, "alt": 60000, "pitch": -90, "heading": 0, "label": "Verdun" },
-      "gallipoli": { "lon": 26.4, "lat": 40.3, "alt": 150000, "pitch": -90, "heading": 0, "label": "Gallipoli" }
+      "theater": {
+        "lon": 15,
+        "lat": 50,
+        "alt": 5000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "European Theater"
+      },
+      "western_front": {
+        "lon": 4,
+        "lat": 50.5,
+        "alt": 500000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Western Front"
+      },
+      "eastern_front": {
+        "lon": 24,
+        "lat": 52,
+        "alt": 1500000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Eastern Front"
+      },
+      "somme": {
+        "lon": 2.72,
+        "lat": 50,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Battle of the Somme"
+      },
+      "verdun": {
+        "lon": 5.38,
+        "lat": 49.16,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Verdun"
+      },
+      "gallipoli": {
+        "lon": 26.4,
+        "lat": 40.3,
+        "alt": 150000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Gallipoli"
+      }
     }
   },
   "navSections": [
-    { "id": "sec-timeline", "label": "Timeline" },
-    { "id": "sec-map", "label": "Map" },
-    { "id": "sec-military", "label": "Military" },
-    { "id": "sec-humanitarian", "label": "Casualties" },
-    { "id": "sec-economic", "label": "Economic" },
-    { "id": "sec-contested", "label": "Contested" },
-    { "id": "sec-political", "label": "Political" }
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-military",
+      "label": "Military"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Casualties"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
   ],
   "militaryTabs": [
-    { "id": "strikes", "label": "Major Battles" },
-    { "id": "retaliation", "label": "Offensives" },
-    { "id": "assets", "label": "Forces & Weapons" }
+    {
+      "id": "strikes",
+      "label": "Major Battles"
+    },
+    {
+      "id": "retaliation",
+      "label": "Offensives"
+    },
+    {
+      "id": "assets",
+      "label": "Forces & Weapons"
+    }
   ],
-  "politicalAvatars": ["uk", "fr", "de", "us", "other"],
-  "eventTypes": ["battle", "diplomatic", "political", "naval", "chemical-weapons"],
+  "politicalAvatars": [
+    "uk",
+    "fr",
+    "de",
+    "us",
+    "other"
+  ],
+  "eventTypes": [
+    "battle",
+    "diplomatic",
+    "political",
+    "naval",
+    "chemical-weapons"
+  ],
   "ai": {
     "systemPrompt": "You are a military historian updating the World War I tracker.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose.\nEvery item must have an \"id\" field (lowercase_snake_case).\n\nSource tier classification:\n- Tier 1: Primary sources (official archives, government records, treaty texts)\n- Tier 2: Major historical works (Oxford, Cambridge histories, national war memorials)\n- Tier 3: Academic institutions (university history departments, war museums, IWM)\n- Tier 4: Secondary/unverified (Wikipedia without citations, popular press)\n\nFocus on historically accurate, well-sourced information. Prioritize new research and commemorations.",
     "searchContext": "World War I Great War 1914-1918 Western Front battles history",
-    "enabledSections": ["kpis", "timeline", "mapPoints", "mapLines", "casualties", "econ", "claims", "political"],
-    "coordValidation": { "lonMin": -12.0, "lonMax": 43.0, "latMin": 34.0, "latMax": 63.0 },
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "mapLines",
+      "casualties",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": -12,
+      "lonMax": 43,
+      "latMin": 34,
+      "latMax": 63
+    },
     "updateIntervalDays": 90,
     "backfillTargets": {
       "timeline": 80,
@@ -68,6 +211,15 @@
       "political": 20,
       "casualties": 15,
       "econ": 10
+    },
+    "updatePolicy": {
+      "escalation": [
+        30,
+        60,
+        90,
+        180
+      ],
+      "quietThreshold": 0
     }
   },
   "githubRepo": "ArtemioPadilla/watchboard"
