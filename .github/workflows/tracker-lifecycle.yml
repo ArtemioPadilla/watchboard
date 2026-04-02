@@ -1,0 +1,240 @@
+name: Tracker Lifecycle (Scout + Prune)
+
+on:
+  schedule:
+    - cron: '0 10 * * 0'  # Sundays 10:00 UTC
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Which jobs to run'
+        type: choice
+        options:
+          - both
+          - scout
+          - prune
+        default: both
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  # ── Scout: discover new tracker candidates ──
+  scout:
+    if: inputs.mode != 'prune'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Extract existing tracker coverage
+        id: coverage
+        run: |
+          COVERAGE=$(node -e "
+            const fs = require('fs');
+            const trackers = [];
+            for (const slug of fs.readdirSync('trackers')) {
+              const configPath = 'trackers/' + slug + '/tracker.json';
+              if (!fs.existsSync(configPath)) continue;
+              const c = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+              trackers.push({
+                slug: c.slug,
+                name: c.name,
+                domain: c.domain || 'unknown',
+                searchContext: c.ai?.searchContext || '',
+                status: c.status,
+              });
+            }
+            console.log(JSON.stringify(trackers));
+          ")
+          echo "coverage=$COVERAGE" >> $GITHUB_OUTPUT
+
+      - name: Scout for new tracker candidates
+        id: scout
+        uses: anthropics/claude-code-action@main
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          allowed_tools: "WebSearch"
+          timeout_minutes: 10
+          prompt: |
+            You are a news intelligence analyst for Watchboard, a multi-topic intelligence dashboard.
+
+            EXISTING TRACKER COVERAGE (do NOT propose topics already covered):
+            ${{ steps.coverage.outputs.coverage }}
+
+            WATCHBOARD DOMAINS: conflict, security, governance, disaster, human-rights, science, space, economy, culture, history
+
+            TASK: Search the web for 3-5 major developing stories that are NOT already covered by existing trackers. Focus on stories with:
+            - High source density (5+ Tier 1-2 sources in recent 48h)
+            - Expected duration of at least 1 week
+            - Clear geographic scope
+            - Identifiable KPIs, political actors, map-plottable locations
+
+            Output ONLY a JSON array (no markdown, no explanation) with this structure per candidate:
+            [
+              {
+                "slug": "kebab-case-slug",
+                "name": "Human Readable Name",
+                "topic": "One-sentence description",
+                "domain": "one of the domains above",
+                "region": "north-america|central-america|south-america|europe|middle-east|africa|central-asia|south-asia|east-asia|southeast-asia|oceania|global",
+                "country": "ISO 2-letter code",
+                "startDate": "YYYY-MM-DD",
+                "rationale": "Why this merits tracking — source density, impact, duration",
+                "confidence": 0.0-1.0,
+                "suggestedProfile": "crisis|steady|historical",
+                "overlappingTrackers": ["slug-of-any-partial-overlap"]
+              }
+            ]
+
+            Max 5 candidates. Only include candidates with confidence >= 0.6.
+
+      - name: Create GitHub Issues for candidates
+        if: steps.scout.outputs.result != ''
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo '${{ steps.scout.outputs.result }}' | node -e "
+            const readline = require('readline');
+            let input = '';
+            process.stdin.on('data', d => input += d);
+            process.stdin.on('end', async () => {
+              const match = input.match(/\[[\s\S]*\]/);
+              if (!match) { console.log('No JSON array found in scout output'); process.exit(0); }
+              let candidates;
+              try { candidates = JSON.parse(match[0]); } catch(e) { console.error('Failed to parse:', e); process.exit(0); }
+
+              const { execSync } = require('child_process');
+              for (const c of candidates) {
+                if (c.confidence < 0.6) continue;
+
+                // Check for existing open issue
+                try {
+                  const existing = execSync(
+                    'gh issue list --search \"[Scout] Proposed tracker: ' + c.slug + '\" --state open --json number --jq length',
+                    { encoding: 'utf8' }
+                  ).trim();
+                  if (parseInt(existing) > 0) {
+                    console.log('Skipping ' + c.slug + ': open issue already exists');
+                    continue;
+                  }
+                } catch {}
+
+                const labels = ['scout', 'auto-triage', 'domain:' + c.domain];
+                if (c.confidence >= 0.9) labels.push('auto-approve');
+
+                const body = [
+                  '## Proposed Tracker: ' + c.name,
+                  '',
+                  '| Field | Value |',
+                  '|-------|-------|',
+                  '| Slug | \`' + c.slug + '\` |',
+                  '| Domain | ' + c.domain + ' |',
+                  '| Region | ' + (c.region || 'unknown') + ' |',
+                  '| Country | ' + (c.country || 'unknown') + ' |',
+                  '| Start Date | ' + c.startDate + ' |',
+                  '| Confidence | ' + c.confidence + ' |',
+                  '| Suggested Profile | ' + c.suggestedProfile + ' |',
+                  '| Overlapping Trackers | ' + (c.overlappingTrackers?.join(', ') || 'none') + ' |',
+                  '',
+                  '### Topic',
+                  c.topic,
+                  '',
+                  '### Rationale',
+                  c.rationale,
+                  '',
+                  '---',
+                  'To create this tracker, dispatch \`init-tracker.yml\` with slug \`' + c.slug + '\`.',
+                ].join('\n');
+
+                try {
+                  execSync(
+                    'gh issue create' +
+                    ' --title \"[Scout] Proposed tracker: ' + c.slug + '\"' +
+                    ' --label \"' + labels.join(',') + '\"' +
+                    ' --body \"' + body.replace(/"/g, '\\\\"').replace(/\n/g, '\\n') + '\"',
+                    { stdio: 'inherit' }
+                  );
+                  console.log('Created issue for: ' + c.slug);
+                } catch(e) {
+                  console.error('Failed to create issue for ' + c.slug + ':', e.message);
+                }
+              }
+            });
+          "
+
+  # ── Prune: detect dormant trackers ──
+  prune:
+    if: inputs.mode != 'scout'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Detect archive candidates
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          CANDIDATES=0
+          for config in trackers/*/tracker.json; do
+            DIR=$(dirname "$config")
+            SLUG=$(basename "$DIR")
+            LOG="$DIR/data/update-log.json"
+
+            # Only check active trackers with updatePolicy
+            STATUS=$(node -e "console.log(JSON.parse(require('fs').readFileSync('$config','utf8')).status)")
+            [ "$STATUS" != "active" ] && continue
+
+            ESC_LENGTH=$(node -e "
+              const c = JSON.parse(require('fs').readFileSync('$config','utf8'));
+              const esc = c.ai?.updatePolicy?.escalation;
+              console.log(esc ? esc.length : 0);
+            ")
+            [ "$ESC_LENGTH" -eq 0 ] && continue
+
+            QUIET_RUNS=$(node -e "
+              try {
+                const log = JSON.parse(require('fs').readFileSync('$LOG','utf8'));
+                console.log(log.consecutiveQuietRuns || 0);
+              } catch { console.log(0); }
+            ")
+
+            THRESHOLD=$((ESC_LENGTH + 4))
+            if [ "$QUIET_RUNS" -ge "$THRESHOLD" ]; then
+              # Check for existing open issue
+              EXISTING=$(gh issue list --search "[Prune] Archive candidate: $SLUG" --state open --json number --jq 'length' 2>/dev/null || echo 0)
+              [ "$EXISTING" -gt 0 ] && { echo "Skipping $SLUG: open issue exists"; continue; }
+
+              LAST_RUN=$(node -e "try{console.log(JSON.parse(require('fs').readFileSync('$LOG','utf8')).lastRun||'unknown')}catch{console.log('unknown')}")
+              NAME=$(node -e "console.log(JSON.parse(require('fs').readFileSync('$config','utf8')).name)")
+
+              gh issue create \
+                --title "[Prune] Archive candidate: $SLUG" \
+                --label "prune,auto-triage" \
+                --body "$(cat <<EOFBODY
+## Archive Candidate: $NAME
+
+| Field | Value |
+|-------|-------|
+| Slug | \`$SLUG\` |
+| Consecutive quiet runs | $QUIET_RUNS |
+| Escalation length | $ESC_LENGTH |
+| Threshold | $THRESHOLD |
+| Last run | $LAST_RUN |
+
+**Recommendation:** Set \`\"status\": \"archived\"\` in \`tracker.json\`. Dashboard remains accessible (read-only). No further data updates.
+
+To archive, update \`trackers/$SLUG/tracker.json\` and set \`\"status\": \"archived\"\`.
+EOFBODY
+)"
+
+              echo "Created archive issue for: $SLUG"
+              CANDIDATES=$((CANDIDATES + 1))
+            else
+              echo "OK $SLUG: quietRuns=$QUIET_RUNS, threshold=$THRESHOLD"
+            fi
+          done
+
+          echo "Prune complete: $CANDIDATES archive candidates found"
