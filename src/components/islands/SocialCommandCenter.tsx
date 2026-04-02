@@ -255,6 +255,11 @@ export default function SocialCommandCenter({ basePath }: Props) {
   const [expandedThreads, setExpandedThreads] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [ghToken, setGhToken] = useState<string>(
+    typeof window !== 'undefined' ? localStorage.getItem('wb_gh_token') ?? '' : '',
+  );
+  const [savingIds, setSavingIds] = useState<Set<string>>(new Set());
+  const [batchSaving, setBatchSaving] = useState(false);
 
   /* ── Data fetching ── */
 
@@ -361,6 +366,173 @@ export default function SocialCommandCenter({ basePath }: Props) {
     });
   }, [filteredQueue]);
 
+  /* ── Auth handlers ── */
+
+  const handleAuthenticate = useCallback(() => {
+    const token = prompt('Enter your GitHub Personal Access Token (PAT):');
+    if (token) {
+      setGhToken(token);
+      localStorage.setItem('wb_gh_token', token);
+    }
+  }, []);
+
+  const handleLogout = useCallback(() => {
+    setGhToken('');
+    localStorage.removeItem('wb_gh_token');
+  }, []);
+
+  /* ── GitHub API helper ── */
+
+  const updateQueueViaGitHub = useCallback(
+    async (updatedQueue: QueueEntry[]): Promise<boolean> => {
+      const repo = 'ArtemioPadilla/watchboard';
+      const date = todayStr();
+      const filePath = `public/_social/queue-${date}.json`;
+
+      const getRes = await fetch(
+        `https://api.github.com/repos/${repo}/contents/${filePath}`,
+        {
+          headers: {
+            Authorization: `Bearer ${ghToken}`,
+            Accept: 'application/vnd.github.v3+json',
+          },
+        },
+      );
+
+      if (!getRes.ok) {
+        const errData = await getRes.json().catch(() => ({}));
+        throw new Error(
+          `GitHub API error (${getRes.status}): ${(errData as Record<string, string>).message ?? 'Failed to fetch file'}`,
+        );
+      }
+
+      const { sha } = (await getRes.json()) as { sha: string };
+
+      const content = btoa(
+        unescape(encodeURIComponent(JSON.stringify(updatedQueue, null, 2))),
+      );
+      const putRes = await fetch(
+        `https://api.github.com/repos/${repo}/contents/${filePath}`,
+        {
+          method: 'PUT',
+          headers: {
+            Authorization: `Bearer ${ghToken}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            message: `chore(social): update queue ${date} via dashboard`,
+            content,
+            sha,
+          }),
+        },
+      );
+
+      if (!putRes.ok) {
+        const errData = await putRes.json().catch(() => ({}));
+        throw new Error(
+          `GitHub API error (${putRes.status}): ${(errData as Record<string, string>).message ?? 'Failed to update file'}`,
+        );
+      }
+
+      return true;
+    },
+    [ghToken],
+  );
+
+  /* ── Action handlers ── */
+
+  const handleApprove = useCallback(
+    async (id: string) => {
+      if (!ghToken) return;
+      setSavingIds((prev) => new Set(prev).add(id));
+      try {
+        const updatedQueue = queue.map((e) =>
+          e.id === id ? { ...e, status: 'approved' as QueueStatus } : e,
+        );
+        await updateQueueViaGitHub(updatedQueue);
+        setQueue(updatedQueue);
+      } catch (err) {
+        alert(err instanceof Error ? err.message : 'Failed to approve');
+      } finally {
+        setSavingIds((prev) => {
+          const next = new Set(prev);
+          next.delete(id);
+          return next;
+        });
+      }
+    },
+    [ghToken, queue, updateQueueViaGitHub],
+  );
+
+  const handleReject = useCallback(
+    async (id: string) => {
+      if (!ghToken) return;
+      setSavingIds((prev) => new Set(prev).add(id));
+      try {
+        const updatedQueue = queue.map((e) =>
+          e.id === id ? { ...e, status: 'rejected' as QueueStatus } : e,
+        );
+        await updateQueueViaGitHub(updatedQueue);
+        setQueue(updatedQueue);
+      } catch (err) {
+        alert(err instanceof Error ? err.message : 'Failed to reject');
+      } finally {
+        setSavingIds((prev) => {
+          const next = new Set(prev);
+          next.delete(id);
+          return next;
+        });
+      }
+    },
+    [ghToken, queue, updateQueueViaGitHub],
+  );
+
+  const handleEdit = useCallback(
+    async (id: string) => {
+      if (!ghToken) return;
+      const entry = queue.find((e) => e.id === id);
+      if (!entry) return;
+
+      const newText = prompt('Edit tweet text:', entry.text);
+      if (newText === null || newText === entry.text) return;
+
+      setSavingIds((prev) => new Set(prev).add(id));
+      try {
+        const updatedQueue = queue.map((e) =>
+          e.id === id ? { ...e, text: newText } : e,
+        );
+        await updateQueueViaGitHub(updatedQueue);
+        setQueue(updatedQueue);
+      } catch (err) {
+        alert(err instanceof Error ? err.message : 'Failed to edit');
+      } finally {
+        setSavingIds((prev) => {
+          const next = new Set(prev);
+          next.delete(id);
+          return next;
+        });
+      }
+    },
+    [ghToken, queue, updateQueueViaGitHub],
+  );
+
+  const handleBatchApprove = useCallback(async () => {
+    if (!ghToken || selected.size === 0) return;
+    setBatchSaving(true);
+    try {
+      const updatedQueue = queue.map((e) =>
+        selected.has(e.id) ? { ...e, status: 'approved' as QueueStatus } : e,
+      );
+      await updateQueueViaGitHub(updatedQueue);
+      setQueue(updatedQueue);
+      setSelected(new Set());
+    } catch (err) {
+      alert(err instanceof Error ? err.message : 'Failed to batch approve');
+    } finally {
+      setBatchSaving(false);
+    }
+  }, [ghToken, selected, queue, updateQueueViaGitHub]);
+
   /* ── Render helpers ── */
 
   const budgetPercent = budget ? Math.min((budget.spent / budget.monthlyTarget) * 100, 100) : 0;
@@ -368,49 +540,17 @@ export default function SocialCommandCenter({ basePath }: Props) {
   /* ── Loading / Error states ── */
 
   if (loading) {
-    return (
-      <>
-        <div className="scc-bar" />
-        <div className="scc-loading">Loading queue...</div>
-      </>
-    );
+    return <div className="scc-loading">Loading queue...</div>;
   }
 
   if (error) {
-    return (
-      <>
-        <div className="scc-bar" />
-        <div className="scc-error">Error: {error}</div>
-      </>
-    );
+    return <div className="scc-error">Error: {error}</div>;
   }
 
   /* ── Main render ── */
 
   return (
     <>
-      {/* Accent bar */}
-      <div className="scc-bar" />
-
-      {/* Header */}
-      <header className="scc-header">
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <h1>SOCIAL COMMAND CENTER</h1>
-          <span className="scc-badge">QUEUE</span>
-        </div>
-        <div className="scc-header-stats">
-          <span className="scc-stat-pill">
-            <b>{queue.length}</b> drafts
-          </span>
-          <span className="scc-stat-pill">
-            <b>{queue.filter((e) => e.status === 'auto_approved' || e.status === 'approved').length}</b> approved
-          </span>
-          <span className="scc-stat-pill">
-            <b>{history.length}</b> posted
-          </span>
-        </div>
-      </header>
-
       {/* Cost bar */}
       <div className="scc-cost-bar">
         <span>
@@ -428,6 +568,20 @@ export default function SocialCommandCenter({ basePath }: Props) {
         <span>
           QUEUE COST <b>${totalQueueCost.toFixed(3)}</b>
         </span>
+        <div className="scc-auth-area">
+          {ghToken ? (
+            <>
+              <span className="scc-auth-badge authenticated">AUTHENTICATED</span>
+              <button className="scc-auth-btn logout" onClick={handleLogout}>
+                Log out
+              </button>
+            </>
+          ) : (
+            <button className="scc-auth-btn login" onClick={handleAuthenticate}>
+              Authenticate
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Filters */}
@@ -489,8 +643,13 @@ export default function SocialCommandCenter({ basePath }: Props) {
               entry={entry}
               isSelected={selected.has(entry.id)}
               isThreadExpanded={expandedThreads.has(entry.id)}
+              isSaving={savingIds.has(entry.id)}
+              isAuthenticated={ghToken !== ''}
               onToggleSelect={() => toggleSelect(entry.id)}
               onToggleThread={() => toggleThread(entry.id)}
+              onApprove={() => handleApprove(entry.id)}
+              onEdit={() => handleEdit(entry.id)}
+              onReject={() => handleReject(entry.id)}
             />
           ))
         )}
@@ -517,8 +676,13 @@ export default function SocialCommandCenter({ basePath }: Props) {
           )}
         </div>
         <div className="scc-bottom-right">
-          <button className="scc-batch-btn" disabled={selected.size === 0}>
-            BATCH APPROVE ({selected.size})
+          <button
+            className="scc-batch-btn"
+            disabled={selected.size === 0 || !ghToken || batchSaving}
+            title={!ghToken ? 'Authenticate to enable' : undefined}
+            onClick={handleBatchApprove}
+          >
+            {batchSaving ? 'Saving...' : `BATCH APPROVE (${selected.size})`}
           </button>
         </div>
       </div>
@@ -532,11 +696,27 @@ interface QueueCardProps {
   entry: QueueEntry;
   isSelected: boolean;
   isThreadExpanded: boolean;
+  isSaving: boolean;
+  isAuthenticated: boolean;
   onToggleSelect: () => void;
   onToggleThread: () => void;
+  onApprove: () => void;
+  onEdit: () => void;
+  onReject: () => void;
 }
 
-function QueueCard({ entry, isSelected, isThreadExpanded, onToggleSelect, onToggleThread }: QueueCardProps) {
+function QueueCard({
+  entry,
+  isSelected,
+  isThreadExpanded,
+  isSaving,
+  isAuthenticated,
+  onToggleSelect,
+  onToggleThread,
+  onApprove,
+  onEdit,
+  onReject,
+}: QueueCardProps) {
   const verdict = entry.judge.verdict;
   const typeColor = TYPE_COLORS[entry.type] ?? '#8b949e';
   const verdictColor = VERDICT_COLORS[verdict] ?? '#8b949e';
@@ -614,11 +794,32 @@ function QueueCard({ entry, isSelected, isThreadExpanded, onToggleSelect, onTogg
           EST. <b>${entry.estimatedCost.toFixed(3)}</b>
         </div>
 
-        {/* Action buttons (UI-only, no-op for now) */}
+        {/* Action buttons */}
         <div className="scc-actions">
-          <button className="scc-action-btn approve">APPROVE</button>
-          <button className="scc-action-btn edit">EDIT</button>
-          <button className="scc-action-btn reject">REJECT</button>
+          <button
+            className="scc-action-btn approve"
+            disabled={!isAuthenticated || isSaving}
+            title={!isAuthenticated ? 'Authenticate to enable' : undefined}
+            onClick={onApprove}
+          >
+            {isSaving ? 'Saving...' : 'APPROVE'}
+          </button>
+          <button
+            className="scc-action-btn edit"
+            disabled={!isAuthenticated || isSaving}
+            title={!isAuthenticated ? 'Authenticate to enable' : undefined}
+            onClick={onEdit}
+          >
+            EDIT
+          </button>
+          <button
+            className="scc-action-btn reject"
+            disabled={!isAuthenticated || isSaving}
+            title={!isAuthenticated ? 'Authenticate to enable' : undefined}
+            onClick={onReject}
+          >
+            REJECT
+          </button>
         </div>
       </div>
 

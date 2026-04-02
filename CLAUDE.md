@@ -138,6 +138,35 @@ Per-run JSON files with datetime filenames, served as static assets from GitHub 
 
 Metrics page at `/metrics/` (`src/components/islands/MetricsDashboard.tsx`) fetches these at runtime — no build dependency, so metrics from runs after the last deploy are still visible.
 
+### Social Command Center (`/social/`)
+
+AI-curated social media posting system. Replaces the old `generate-social-drafts.ts` + `post-social.ts` pipeline.
+
+**Architecture:**
+- `social-config.json` — all config (budget, scheduling, judge thresholds, hashtags, languages)
+- `scripts/generate-social-queue.ts` — reads tracker digests + budget + history, builds LLM prompt, produces curated tweet queue
+- `scripts/post-social-queue.ts` — reads queue, posts due tweets via X API, updates budget + history
+- `scripts/generate-stat-card.ts` — branded stat card PNGs for breaking/data-viz tweets (satori + resvg)
+- `scripts/social-types.ts` — shared types and utilities
+- `public/_social/queue-YYYY-MM-DD.json` — daily tweet queue with judge assessments
+- `public/_social/budget.json` — monthly spend tracking ($1/month target)
+- `public/_social/history.json` — posted tweet archive with IDs and UTM click data
+- `src/components/islands/SocialCommandCenter.tsx` — React island dashboard at `/social/` (queue viewer, X preview, judge panel, batch approve, GitHub PAT auth)
+
+**Tweet types:** digest, breaking, hot_take, thread, data_viz, meme
+**Voices:** analyst, journalist, edgy, witty (mixed persona per tweet)
+**Languages:** en, es, fr, pt (synced with website i18n)
+**Judge:** score (0-1) + verdict (PUBLISH/REVIEW/HOLD/KILL) + fact checks against tracker data
+**Budget:** $1/month target, $0.01/tweet (text), $0.02/tweet (with image). AI is budget-aware.
+**Hashtags:** 2 max per tweet (1 topic + #Watchboard), threads last tweet only, memes none
+**Scheduling:** 4 slots/day (08:00, 13:00, 18:00, 22:00 UTC) via `.github/workflows/post-social-queue.yml`
+**Images:** stat cards via satori, memes via memegen.link (free API, no upload needed)
+
+**Workflows:**
+- `update-data.yml` finalize phase calls `generate-social-queue.ts` to produce the daily queue
+- `post-social-queue.yml` runs 4x/day to post due tweets from the queue
+- `weekly-digest.yml` writes a thread entry into the queue format
+
 ### Utilities (`src/lib/`)
 
 - `tracker-config.ts` — TrackerConfigSchema + types

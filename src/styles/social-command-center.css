@@ -69,6 +69,53 @@
   transition: width 0.3s;
 }
 
+/* Auth area (inside cost bar) */
+.scc-auth-area {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+.scc-auth-badge {
+  font-size: 9px;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+.scc-auth-badge.authenticated {
+  background: rgba(63, 185, 80, 0.15);
+  color: #3fb950;
+}
+.scc-auth-btn {
+  font-size: 10px;
+  padding: 3px 10px;
+  border-radius: 4px;
+  border: 1px solid rgba(139, 148, 158, 0.25);
+  background: transparent;
+  cursor: pointer;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  transition: all 0.2s;
+}
+.scc-auth-btn.login {
+  color: #58a6ff;
+  border-color: rgba(88, 166, 255, 0.3);
+}
+.scc-auth-btn.login:hover {
+  background: rgba(88, 166, 255, 0.15);
+}
+.scc-auth-btn.logout {
+  color: #8b949e;
+  border-color: rgba(139, 148, 158, 0.2);
+}
+.scc-auth-btn.logout:hover {
+  color: #f85149;
+  border-color: rgba(248, 81, 73, 0.3);
+  background: rgba(248, 81, 73, 0.1);
+}
+
 /* Filters */
 .scc-filters {
   display: flex;
@@ -295,6 +342,13 @@
 }
 .scc-action-btn.reject:hover {
   background: rgba(248, 81, 73, 0.15);
+}
+.scc-action-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+.scc-action-btn:disabled:hover {
+  background: transparent;
 }
 
 /* Right: X preview - use ACTUAL X/Twitter CSS values */
