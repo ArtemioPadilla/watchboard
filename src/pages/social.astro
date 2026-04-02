@@ -11,6 +11,19 @@ const basePath = base.endsWith('/') ? base : `${base}/`;
   description="AI-curated social media queue with LLM judge, budget tracking, and batch approval"
 >
   <main id="main-content" class="social-page">
+    <header class="social-header">
+      <a class="social-home-link" href={basePath} title="Back to Watchboard">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+        Watchboard
+      </a>
+      <div class="social-title-row">
+        <span class="section-num">S</span>
+        <h1 class="social-title">Social Command Center</h1>
+      </div>
+      <p class="social-subtitle">AI-curated social media queue with LLM judge, budget tracking, and batch approval.</p>
+    </header>
     <SocialCommandCenter client:load basePath={basePath} />
     <footer class="platform-footer">
       <a href={basePath}>Watchboard</a>
@@ -30,6 +43,66 @@ const basePath = base.endsWith('/') ? base : `${base}/`;
   .social-page {
     min-height: 100vh;
     background: var(--bg-primary, #0d1117);
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+  }
+
+  .social-header {
+    margin-bottom: 24px;
+  }
+
+  .social-home-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-family: 'DM Sans', sans-serif;
+    margin-bottom: 16px;
+    transition: color 0.2s;
+  }
+
+  .social-home-link:hover {
+    color: var(--accent-blue);
+  }
+
+  .social-title-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+
+  .section-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    background: var(--accent-blue);
+    color: #000;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .social-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+  }
+
+  .social-subtitle {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin: 0;
+    font-family: 'DM Sans', sans-serif;
   }
   .platform-footer {
     text-align: center;
