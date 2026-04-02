@@ -209,6 +209,7 @@ export const MetaSchema = z.object({
   heroSubtitle: z.string(),
   footerNote: z.string(),
   lastUpdated: z.string(),
+  breaking: z.boolean().optional(),
 });
 
 // ── Digest (RSS feed items) ──

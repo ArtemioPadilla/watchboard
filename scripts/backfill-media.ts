@@ -105,6 +105,40 @@ async function fetchOgImage(url: string): Promise<string | null> {
   }
 }
 
+// ── Image Quality Filtering ──
+
+/** Reject brand logos, generic social cards, and non-news images. */
+function isNewsImage(imageUrl: string): boolean {
+  const lower = imageUrl.toLowerCase();
+
+  // Reject generic brand/logo patterns
+  const brandPatterns = [
+    /\/logo[s]?[\-_\.\/]/,
+    /\/favicon/,
+    /\/brand[\-_\.\/]/,
+    /\/icon[\-_\.\/]/,
+    /\/default[\-_]?(share|social|og|image|thumb)/,
+    /\/placeholder/,
+    /\/generic[\-_]/,
+    /\/site[\-_]?(logo|image|default|og)/,
+    /\/avatar[\-_\.\/]/,
+    /\/badge[\-_\.\/]/,
+    /social[\-_]?(card|preview|share|default)/,
+    /\/fallback[\-_]?(image|og)/,
+    /apple[\-_]touch[\-_]icon/,
+  ];
+  if (brandPatterns.some((p) => p.test(lower))) return false;
+
+  // Reject tiny images (common URL dimension patterns)
+  const dimMatch = lower.match(/[\?&\/](width|w|size)=(\d+)/);
+  if (dimMatch && parseInt(dimMatch[2]) < 200) return false;
+
+  // Reject common non-news file types in the URL
+  if (/\.(ico|svg)(\?|$)/.test(lower)) return false;
+
+  return true;
+}
+
 // ── Source URL Filtering ──
 
 /** Skip non-article URLs (APIs, data feeds, PDFs, images). */
@@ -233,7 +267,7 @@ async function main() {
 
           const ogImage = await fetchOgImage(source.url!);
 
-          if (ogImage) {
+          if (ogImage && isNewsImage(ogImage)) {
             const mediaEntry: MediaItem = {
               type: 'image',
               url: source.url!,

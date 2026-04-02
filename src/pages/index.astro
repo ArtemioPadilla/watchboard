@@ -82,7 +82,8 @@ const serializedTrackers = nonDraft.map(t => {
       }
     }
     avgSourceTier = recentTierCount > 0 ? recentTierSum / recentTierCount : 4;
-    isBreaking = last24hCount >= 3 && hasT1InLast24h;
+    // Explicit breaking flag from meta takes precedence; fall back to heuristic
+    isBreaking = data.meta.breaking ?? (last24hCount >= 3 && hasT1InLast24h);
   } catch {
     // Tracker may not have data yet — use config defaults
   }
