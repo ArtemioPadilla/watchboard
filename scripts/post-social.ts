@@ -18,6 +18,8 @@ import * as path from 'path';
 import * as https from 'https';
 import { TwitterApi } from 'twitter-api-v2';
 
+console.warn('[DEPRECATED] This script is replaced by generate-social-queue.ts / post-social-queue.ts. See docs/superpowers/specs/2026-04-01-social-command-center-design.md');
+
 // ── Types ──
 
 interface SocialPost {

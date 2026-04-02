@@ -9,6 +9,8 @@
 import fs from 'fs';
 import path from 'path';
 
+console.warn('[DEPRECATED] This script is replaced by generate-social-queue.ts / post-social-queue.ts. See docs/superpowers/specs/2026-04-01-social-command-center-design.md');
+
 // ---------------------------------------------------------------------------
 // Types
 // ---------------------------------------------------------------------------
