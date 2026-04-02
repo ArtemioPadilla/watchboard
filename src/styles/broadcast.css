@@ -43,8 +43,6 @@
   -webkit-overflow-scrolling: touch;
   user-select: none;
   -webkit-user-select: none;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
 }
 
 .broadcast-ticker-track::-webkit-scrollbar {
@@ -61,7 +59,6 @@
   color: var(--text-secondary);
   cursor: pointer;
   transition: color 0.2s;
-  scroll-snap-align: center;
 }
 
 .broadcast-ticker-item:hover {

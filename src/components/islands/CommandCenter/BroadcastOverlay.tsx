@@ -139,20 +139,21 @@ export default function BroadcastOverlay({
     return () => { if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current); };
   }, []);
 
-  // Mouse drag-to-scroll (desktop doesn't natively support drag scrolling)
+  // Mouse drag-to-scroll with inertia
   const dragStartXRef = useRef<number | null>(null);
   const dragScrollStartRef = useRef(0);
+  const dragLastXRef = useRef(0);
+  const dragVelocityRef = useRef(0);
+  const inertiaRafRef = useRef<number>(0);
   const [isDragging, setIsDragging] = useState(false);
 
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
+    cancelAnimationFrame(inertiaRafRef.current);
     dragStartXRef.current = e.clientX;
+    dragLastXRef.current = e.clientX;
+    dragVelocityRef.current = 0;
     dragScrollStartRef.current = tickerTrackRef.current?.scrollLeft ?? 0;
-    // Disable snap and smooth during drag for instant response
-    if (tickerTrackRef.current) {
-      tickerTrackRef.current.style.scrollSnapType = 'none';
-      tickerTrackRef.current.style.scrollBehavior = 'auto';
-    }
     setIsDragging(true);
   }, []);
 
@@ -162,15 +163,23 @@ export default function BroadcastOverlay({
       if (dragStartXRef.current === null || !tickerTrackRef.current) return;
       const dx = dragStartXRef.current - e.clientX;
       tickerTrackRef.current.scrollLeft = dragScrollStartRef.current + dx;
+      // Track velocity for inertia
+      dragVelocityRef.current = dragLastXRef.current - e.clientX;
+      dragLastXRef.current = e.clientX;
     };
     const onMouseUp = () => {
       dragStartXRef.current = null;
-      // Re-enable snap after drag ends — will snap to nearest item
-      if (tickerTrackRef.current) {
-        tickerTrackRef.current.style.scrollSnapType = '';
-        tickerTrackRef.current.style.scrollBehavior = '';
-      }
       setIsDragging(false);
+      // Apply inertia
+      let velocity = dragVelocityRef.current;
+      const friction = 0.95;
+      const tick = () => {
+        if (Math.abs(velocity) < 0.5 || !tickerTrackRef.current) return;
+        tickerTrackRef.current.scrollLeft += velocity;
+        velocity *= friction;
+        inertiaRafRef.current = requestAnimationFrame(tick);
+      };
+      inertiaRafRef.current = requestAnimationFrame(tick);
     };
     window.addEventListener('mousemove', onMouseMove);
     window.addEventListener('mouseup', onMouseUp);
@@ -179,6 +188,11 @@ export default function BroadcastOverlay({
       window.removeEventListener('mouseup', onMouseUp);
     };
   }, [isDragging]);
+
+  // Cleanup inertia on unmount
+  useEffect(() => {
+    return () => cancelAnimationFrame(inertiaRafRef.current);
+  }, []);
 
   // Card drag (swipe left/right on the lower-third)
   const cardDrag = useDragScrub({
