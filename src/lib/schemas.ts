@@ -287,3 +287,37 @@ export type MetricsValidationError = z.infer<typeof MetricsValidationErrorSchema
 export type MetricsInventory = z.infer<typeof MetricsInventorySchema>;
 export type MetricsRun = z.infer<typeof MetricsRunSchema>;
 export type MetricsIndexEntry = z.infer<typeof MetricsIndexEntrySchema>;
+
+// ── Mission Trajectory ──
+
+export const MissionPhaseSchema = z.object({
+  id: z.string(),
+  label: z.string(),
+  start: z.string(),
+  end: z.string(),
+});
+
+export const MissionCrewSchema = z.object({
+  name: z.string(),
+  role: z.string(),
+});
+
+export const MissionWaypointSchema = z.object({
+  t: z.string(),
+  x: z.number(), y: z.number(), z: z.number(),
+  vx: z.number(), vy: z.number(), vz: z.number(),
+});
+
+export const MissionTrajectorySchema = z.object({
+  vehicle: z.string(),
+  crew: z.array(MissionCrewSchema),
+  launchTime: z.string(),
+  splashdownTime: z.string(),
+  phases: z.array(MissionPhaseSchema).min(1),
+  waypoints: z.array(MissionWaypointSchema).min(2),
+});
+
+export type MissionPhase = z.infer<typeof MissionPhaseSchema>;
+export type MissionCrew = z.infer<typeof MissionCrewSchema>;
+export type MissionWaypoint = z.infer<typeof MissionWaypointSchema>;
+export type MissionTrajectory = z.infer<typeof MissionTrajectorySchema>;
