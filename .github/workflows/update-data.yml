@@ -352,6 +352,47 @@ jobs:
           done
           echo "changed=$CHANGED" >> $GITHUB_OUTPUT
 
+      - name: Update adaptive frequency state
+        if: needs.resolve.outputs.has_trackers == 'true'
+        run: |
+          for dir in /tmp/artifacts/tracker-*; do
+            [ ! -d "$dir" ] && continue
+            SLUG=${dir##*/tracker-}
+            LOG="trackers/$SLUG/data/update-log.json"
+            CONFIG="trackers/$SLUG/tracker.json"
+            [ ! -f "$LOG" ] || [ ! -f "$CONFIG" ] && continue
+
+            node -e "
+              const fs = require('fs');
+              const config = JSON.parse(fs.readFileSync('$CONFIG', 'utf8'));
+              const log = JSON.parse(fs.readFileSync('$LOG', 'utf8'));
+              const threshold = config.ai?.updatePolicy?.quietThreshold ?? 0;
+
+              const EXCLUDED = new Set(['meta']);
+              const updatedCount = Object.entries(log.sections || {}).filter(([key, v]) => {
+                if (EXCLUDED.has(key)) return false;
+                const status = typeof v === 'string' ? v : v?.status;
+                return status === 'updated';
+              }).length;
+
+              if (updatedCount > threshold) {
+                log.consecutiveQuietRuns = 0;
+              } else {
+                log.consecutiveQuietRuns = (log.consecutiveQuietRuns || 0) + 1;
+              }
+
+              fs.writeFileSync('$LOG', JSON.stringify(log, null, 2) + '\n');
+              const esc = config.ai?.updatePolicy?.escalation;
+              const idx = esc ? Math.min(log.consecutiveQuietRuns, esc.length - 1) : -1;
+              const nextInterval = esc ? esc[idx] : (config.ai?.updateIntervalDays ?? 1);
+              console.log(
+                '$SLUG: updatedSections=' + updatedCount +
+                ', quietRuns=' + log.consecutiveQuietRuns +
+                ', nextInterval=' + nextInterval + 'd'
+              );
+            "
+          done
+
       - name: Check for changes
         id: changes
         if: steps.apply.outputs.changed == 'true'
