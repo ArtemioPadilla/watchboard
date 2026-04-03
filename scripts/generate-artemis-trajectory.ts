@@ -183,12 +183,14 @@ async function main() {
   console.log('[artemis] Fetching real Artemis II trajectory from JPL Horizons (target -1024)...\n');
 
   const segments = [
-    // Full mission from ICPS separation through return
-    { start: '2026-Apr-02 02:00', stop: '2026-Apr-02 23:50', step: '30m' },
-    { start: '2026-Apr-02 23:50', stop: '2026-Apr-03 12:00', step: '30m' },
-    { start: '2026-Apr-03 12:00', stop: '2026-Apr-06 04:00', step: '2h' },
+    // Start post-TLI (skip jagged Earth orbits — 30min sampling too coarse)
+    // TLI burn ends ~Apr 2 23:55. Start from Apr 3 00:00 for clean outbound arc.
+    { start: '2026-Apr-03 00:00', stop: '2026-Apr-03 12:00', step: '30m' },
+    { start: '2026-Apr-03 12:00', stop: '2026-Apr-06 04:00', step: '1h' },
+    // Lunar flyby — high resolution
     { start: '2026-Apr-06 04:00', stop: '2026-Apr-07 18:00', step: '10m' },
-    { start: '2026-Apr-07 18:00', stop: '2026-Apr-10 20:00', step: '2h' },
+    // Return coast
+    { start: '2026-Apr-07 18:00', stop: '2026-Apr-10 20:00', step: '1h' },
     { start: '2026-Apr-10 20:00', stop: '2026-Apr-10 23:55', step: '30m' },
   ];
 
@@ -219,8 +221,35 @@ async function main() {
   console.log('[artemis] Converting Ecliptic → Equatorial J2000 (inertial)...');
   allWaypoints = allWaypoints.map(eclipticToEquatorialWp);
 
-  // No surface anchors — Horizons data starts in orbit and ends in orbit.
-  // At deep-space scale (400,000 km) the gap is imperceptible.
+  // Connect trajectory endpoints to Earth surface
+  // Project first/last waypoint direction down to Earth radius
+  if (allWaypoints.length > 0) {
+    const first = allWaypoints[0];
+    const last = allWaypoints[allWaypoints.length - 1];
+    const earthR = 6371; // km
+
+    // Launch anchor: project first waypoint direction to Earth surface
+    const firstDist = Math.sqrt(first.x ** 2 + first.y ** 2 + first.z ** 2);
+    const launchPt: HorizonsWaypoint = {
+      t: MISSION.launchTime,
+      x: first.x / firstDist * earthR,
+      y: first.y / firstDist * earthR,
+      z: first.z / firstDist * earthR,
+      vx: 0, vy: 0, vz: 0,
+    };
+
+    // Splashdown anchor: project last waypoint direction to Earth surface
+    const lastDist = Math.sqrt(last.x ** 2 + last.y ** 2 + last.z ** 2);
+    const splashPt: HorizonsWaypoint = {
+      t: MISSION.splashdownTime,
+      x: last.x / lastDist * earthR,
+      y: last.y / lastDist * earthR,
+      z: last.z / lastDist * earthR,
+      vx: 0, vy: 0, vz: 0,
+    };
+
+    allWaypoints = [launchPt, ...allWaypoints, splashPt];
+  }
 
   // Round for file size
   for (const wp of allWaypoints) {
