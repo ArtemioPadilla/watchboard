@@ -32,5 +32,86 @@
     "status": "expired",
     "estimatedCost": 0.01,
     "tracker": "artemis-2"
+  },
+  {
+    "id": "249589e1-6852-4d85-a2b7-83c7711bbaf5",
+    "type": "breaking",
+    "voice": "journalist",
+    "tracker": "gaza-war",
+    "lang": "en",
+    "text": "Trump warns US will strike Iran \"extremely hard over the next two to three weeks\" — the most explicit military timeline yet as Day 35 of the war enters a new escalation phase.",
+    "hashtags": [
+      "#Iran",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/watchboard/gaza-war/?utm_source=x&utm_medium=breaking&utm_campaign=2026-04-03",
+    "image": null,
+    "memegenUrl": null,
+    "publishAt": "2026-04-03T22:38:17.248Z",
+    "status": "auto_approved",
+    "estimatedCost": 0.01,
+    "judge": {
+      "score": 0.92,
+      "verdict": "PUBLISH",
+      "comment": "High-impact breaking news with verified quote.",
+      "factChecks": [
+        {
+          "claim": "Trump warned strike Iran extremely hard next 2-3 weeks",
+          "status": "verified",
+          "source": "gaza-war digest 2026-04-03"
+        },
+        {
+          "claim": "Day 35 of the war",
+          "status": "verified",
+          "source": "israel-palestine digest 2026-04-03"
+        }
+      ]
+    },
+    "threadTweets": null,
+    "tweetId": null,
+    "postedAt": null
+  },
+  {
+    "id": "43a60eaa-8cf1-4808-aae1-8dea4501661e",
+    "type": "data_viz",
+    "voice": "analyst",
+    "tracker": "ukraine-war",
+    "lang": "en",
+    "text": "Russia: zero net territorial gains in March 2026 — first time in 2.5 years.\n\nDay 1,499: 213 engagements. ~1.3M Russian losses. Ukraine recaptured ~9 sq km.\n\nBritish intel: most favorable month for Kyiv in 10 months.",
+    "hashtags": [
+      "#Ukraine",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/watchboard/ukraine-war/?utm_source=x&utm_medium=data_viz&utm_campaign=2026-04-03",
+    "image": null,
+    "memegenUrl": null,
+    "publishAt": "2026-04-03T22:38:17.248Z",
+    "status": "auto_approved",
+    "estimatedCost": 0.01,
+    "judge": {
+      "score": 0.95,
+      "verdict": "PUBLISH",
+      "comment": "Data-driven, strong engagement potential.",
+      "factChecks": [
+        {
+          "claim": "Zero net gains in March — first in 2.5 years",
+          "status": "verified",
+          "source": "ukraine-war digest 2026-04-03"
+        },
+        {
+          "claim": "213 engagements Day 1,499",
+          "status": "verified",
+          "source": "ukraine-war digest 2026-04-03"
+        },
+        {
+          "claim": "~1,301,260 cumulative losses",
+          "status": "verified",
+          "source": "ukraine-war digest 2026-04-03"
+        }
+      ]
+    },
+    "threadTweets": null,
+    "tweetId": null,
+    "postedAt": null
   }
 ]
