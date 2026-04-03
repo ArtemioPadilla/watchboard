@@ -310,6 +310,7 @@ export default function BroadcastOverlay({
                     className="broadcast-lt-compact-thumb"
                     src={featuredTracker.latestEventMedia.url}
                     alt=""
+                    loading="lazy"
                     referrerPolicy="no-referrer"
                     onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
                   />

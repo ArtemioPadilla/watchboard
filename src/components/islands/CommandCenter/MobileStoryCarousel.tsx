@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import type { TrackerCardData } from '../../../lib/tracker-directory-utils';
 import { sortByRelevance } from '../../../lib/relevance';
 import ImageCarousel from './ImageCarousel';
@@ -73,7 +73,7 @@ function filterAndSort(trackers: TrackerCardData[], followedSlugs: string[] = []
 // ── Component ──
 
 export default function MobileStoryCarousel({ trackers, basePath, followedSlugs = [] }: Props) {
-  const eligible = filterAndSort(trackers, followedSlugs);
+  const eligible = useMemo(() => filterAndSort(trackers, followedSlugs), [trackers, followedSlugs]);
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [paused, setPaused] = useState(false);

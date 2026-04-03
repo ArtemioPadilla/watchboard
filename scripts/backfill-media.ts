@@ -323,7 +323,8 @@ async function main() {
   // Summary
   console.log('');
   console.log('─'.repeat(60));
-  console.log(`Enriched ${totalEnriched} events across ${trackersProcessed} trackers (${totalSkipped} skipped, ${totalFailed} failed)`);
+  const verb = dryRun ? 'Would enrich' : 'Enriched';
+  console.log(`${verb} ${totalEnriched} events across ${trackersProcessed} trackers (${totalSkipped} skipped, ${totalFailed} failed)`);
   if (dryRun) {
     console.log('(dry run — no files were modified)');
   }
