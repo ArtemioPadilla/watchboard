@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 
 interface ImageData {
   url: string;
@@ -21,20 +21,35 @@ const DOMAIN_GRADIENTS: Record<string, string> = {
   default: 'linear-gradient(135deg, #12141a, #181b23, #0d1117)',
 };
 
+const AUTO_ADVANCE_MS = 4000;
+
 export default function ImageCarousel({ images, autoAdvance = false, fallbackIcon, fallbackDomain }: ImageCarouselProps) {
   const [currentIdx, setCurrentIdx] = useState(0);
+  const [progress, setProgress] = useState(0);
+  const rafRef = useRef(0);
+  const startRef = useRef(0);
 
   // Reset index when images change
-  useEffect(() => { setCurrentIdx(0); }, [images]);
+  useEffect(() => { setCurrentIdx(0); setProgress(0); }, [images]);
 
-  // Auto-advance every 4s
+  // Auto-advance every 4s with progress tracking
   useEffect(() => {
     if (!autoAdvance || images.length <= 1) return;
-    const timer = setInterval(() => {
-      setCurrentIdx(prev => (prev + 1) % images.length);
-    }, 4000);
-    return () => clearInterval(timer);
-  }, [autoAdvance, images.length]);
+    startRef.current = performance.now();
+    const tick = () => {
+      const elapsed = performance.now() - startRef.current;
+      const pct = Math.min(elapsed / AUTO_ADVANCE_MS, 1);
+      setProgress(pct);
+      if (pct >= 1) {
+        setCurrentIdx(prev => (prev + 1) % images.length);
+        startRef.current = performance.now();
+        setProgress(0);
+      }
+      rafRef.current = requestAnimationFrame(tick);
+    };
+    rafRef.current = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafRef.current);
+  }, [autoAdvance, images.length, currentIdx]);
 
   const goTo = useCallback((idx: number) => {
     setCurrentIdx(Math.max(0, Math.min(idx, images.length - 1)));
@@ -56,6 +71,20 @@ export default function ImageCarousel({ images, autoAdvance = false, fallbackIco
 
   return (
     <div className="img-carousel" style={styles.container}>
+      {autoAdvance && images.length > 1 && (
+        <div style={styles.progressRow}>
+          {images.map((_, i) => (
+            <div key={i} style={styles.progressTrack}>
+              <div
+                style={{
+                  ...styles.progressFill,
+                  width: i < currentIdx ? '100%' : i === currentIdx ? `${progress * 100}%` : '0%',
+                }}
+              />
+            </div>
+          ))}
+        </div>
+      )}
       <div style={styles.imageWrap}>
         <img
           src={current.url}
@@ -99,6 +128,24 @@ const styles = {
     display: 'flex',
     flexDirection: 'column' as const,
     gap: 4,
+  } as React.CSSProperties,
+  progressRow: {
+    display: 'flex',
+    gap: 3,
+    padding: '0 2px',
+  } as React.CSSProperties,
+  progressTrack: {
+    flex: 1,
+    height: 2,
+    borderRadius: 1,
+    background: 'rgba(255, 255, 255, 0.15)',
+    overflow: 'hidden',
+  } as React.CSSProperties,
+  progressFill: {
+    height: '100%',
+    background: 'var(--accent-blue, #58a6ff)',
+    borderRadius: 1,
+    transition: 'width 0.1s linear',
   } as React.CSSProperties,
   imageWrap: {
     width: '100%',
