@@ -7,13 +7,12 @@ import {
   LagrangePolynomialApproximation,
   PolylineGlowMaterialProperty,
   NearFarScalar,
-  CallbackProperty,
+  ReferenceFrame,
   type Viewer as CesiumViewer,
   type Entity,
 } from 'cesium';
 import {
   computeTelemetry,
-  getMoonPosition,
   EMPTY_TELEMETRY,
   type TelemetryState,
 } from './mission-helpers';
@@ -23,14 +22,6 @@ import { createSpacecraftIcon } from './cesium-icons';
 interface UseLunarMissionResult {
   telemetryRef: MutableRefObject<TelemetryState>;
   trackSpacecraft: () => void;
-}
-
-/**
- * Convert ECI km to ECEF meters (simplified — treats ECI as ECEF).
- * The rotation error is small for visualization purposes.
- */
-function eciKmToCartesian(wp: { x: number; y: number; z: number }): Cartesian3 {
-  return new Cartesian3(wp.x * 1000, wp.y * 1000, wp.z * 1000);
 }
 
 export function useLunarMission(
@@ -49,14 +40,16 @@ export function useLunarMission(
     try {
       const launchJd = JulianDate.fromIso8601(trajectory.launchTime);
       const splashdownJd = JulianDate.fromIso8601(trajectory.splashdownTime);
+      const totalMissionSec = JulianDate.secondsDifference(splashdownJd, launchJd);
 
       // Enable built-in Moon
       if (viewer.scene.moon) {
         viewer.scene.moon.show = true;
       }
 
-      // Build SampledPositionProperty from waypoints
-      const positionProperty = new SampledPositionProperty();
+      // Build SampledPositionProperty in INERTIAL frame
+      // Cesium handles inertial→ECEF conversion per frame (no spiral!)
+      const positionProperty = new SampledPositionProperty(ReferenceFrame.INERTIAL);
       positionProperty.setInterpolationOptions({
         interpolationDegree: 3,
         interpolationAlgorithm: LagrangePolynomialApproximation,
@@ -66,7 +59,8 @@ export function useLunarMission(
 
       for (const wp of trajectory.waypoints) {
         const jd = JulianDate.fromIso8601(wp.t);
-        const pos = eciKmToCartesian(wp);
+        // Waypoints are in Equatorial J2000 inertial (km) → convert to meters
+        const pos = new Cartesian3(wp.x * 1000, wp.y * 1000, wp.z * 1000);
         positionProperty.addSample(jd, pos);
         velocities.push({
           t: jd,
@@ -74,41 +68,10 @@ export function useLunarMission(
         });
       }
 
-      // Build static polyline positions from waypoints directly (skip interpolation sampling)
-      const polylinePositions: Cartesian3[] = [];
-      // Sample every Nth waypoint for the polyline (all 632 is fine)
-      for (const wp of trajectory.waypoints) {
-        polylinePositions.push(eciKmToCartesian(wp));
-      }
-
-      // Trajectory polyline
-      const trajectoryEntity = viewer.entities.add({
-        polyline: {
-          positions: polylinePositions,
-          width: 3,
-          material: new PolylineGlowMaterialProperty({
-            glowPower: 0.4,
-            color: Color.fromCssColorString('#60a5fa').withAlpha(0.8),
-          }),
-        },
-      });
-      entitiesRef.current.push(trajectoryEntity);
-
-      // Spacecraft entity
+      // Spacecraft entity with PathGraphics (draws the trajectory trail)
+      // PathGraphics uses the SampledPositionProperty and handles reference frame conversion
       const spacecraftEntity = viewer.entities.add({
-        position: new CallbackProperty(() => {
-          const simMs = simTimeRef.current;
-          if (!simMs) return eciKmToCartesian(trajectory.waypoints[0]);
-          const currentJd = JulianDate.fromDate(new Date(simMs));
-          const pos = positionProperty.getValue(currentJd);
-          // Fallback to first/last waypoint if outside range
-          if (!pos) {
-            const launchMs = new Date(trajectory.launchTime).getTime();
-            if (simMs < launchMs) return eciKmToCartesian(trajectory.waypoints[0]);
-            return eciKmToCartesian(trajectory.waypoints[trajectory.waypoints.length - 1]);
-          }
-          return pos;
-        }, false) as any,
+        position: positionProperty,
         billboard: {
           image: createSpacecraftIcon(),
           scale: 1.0,
@@ -125,11 +88,21 @@ export function useLunarMission(
           pixelOffset: { x: 0, y: -28 } as any,
           scaleByDistance: new NearFarScalar(1e5, 1.2, 5e8, 0.15),
         },
+        path: {
+          // Show full trajectory: trail behind + lead ahead
+          leadTime: totalMissionSec,
+          trailTime: totalMissionSec,
+          width: 3,
+          material: new PolylineGlowMaterialProperty({
+            glowPower: 0.4,
+            color: Color.fromCssColorString('#60a5fa').withAlpha(0.8),
+          }),
+        },
       });
       entitiesRef.current.push(spacecraftEntity);
       spacecraftEntityRef.current = spacecraftEntity;
 
-      console.log(`[lunar-mission] Loaded ${trajectory.waypoints.length} waypoints, ${polylinePositions.length} polyline points`);
+      console.log(`[lunar-mission] Loaded ${trajectory.waypoints.length} waypoints (inertial frame, PathGraphics trail)`);
 
       // Per-frame telemetry update
       const tick = () => {
@@ -137,7 +110,9 @@ export function useLunarMission(
           const simMs = simTimeRef.current;
           if (!simMs) { rafRef.current = requestAnimationFrame(tick); return; }
           const currentJd = JulianDate.fromDate(new Date(simMs));
-          const pos = positionProperty.getValue(currentJd);
+
+          // Get position in fixed (ECEF) frame for telemetry computation
+          const pos = positionProperty.getValue(currentJd, new Cartesian3());
           if (!pos) { rafRef.current = requestAnimationFrame(tick); return; }
 
           // Interpolate velocity
@@ -178,6 +153,7 @@ export function useLunarMission(
         try { viewer.entities.remove(entity); } catch {}
       }
       entitiesRef.current = [];
+      spacecraftEntityRef.current = null;
     };
   }, [viewer, trajectory]);
 
