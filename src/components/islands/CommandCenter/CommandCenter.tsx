@@ -288,10 +288,10 @@ export default function CommandCenter({
             basePath={basePath}
           />
         )}
-        {isMobile && (
-          <MobileStoryCarousel trackers={trackers} basePath={basePath} followedSlugs={followedSlugs} />
-        )}
       </div>
+      {isMobile && (
+        <MobileStoryCarousel trackers={trackers} basePath={basePath} followedSlugs={followedSlugs} />
+      )}
       <nav className="cc-sidebar" style={styles.sidebar} aria-label="Tracker directory">
         <SidebarPanel
           trackers={trackers}
