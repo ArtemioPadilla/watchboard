@@ -178,7 +178,7 @@ export default function MapEventsPanel({ events, currentDate, isOpen, onToggle }
                             rel="noopener noreferrer"
                             className="map-event-media-link"
                           >
-                            {m.type === 'image' && m.thumbnail ? (
+                            {(m.type === 'image' || m.thumbnail) && m.thumbnail ? (
                               <img src={m.thumbnail} alt={m.caption || ''} className="map-event-thumb" referrerPolicy="no-referrer" />
                             ) : m.type === 'video' ? (
                               <span className="map-event-video-icon">&#9654; Video</span>

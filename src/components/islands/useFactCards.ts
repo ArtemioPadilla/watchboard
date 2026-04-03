@@ -92,8 +92,8 @@ export function buildFactCards(
       ? `${matchingLine.time} UTC`
       : '';
 
-    const thumbnail = matchingEvent?.media?.find(m => m.type === 'image')?.thumbnail
-      || matchingEvent?.media?.find(m => m.type === 'image')?.url;
+    const mediaWithImage = matchingEvent?.media?.find(m => m.type === 'image' || m.thumbnail);
+    const thumbnail = mediaWithImage?.thumbnail || (mediaWithImage?.type === 'image' ? mediaWithImage?.url : undefined);
 
     const category = catToCategory(pt.cat);
 
