@@ -26,14 +26,35 @@ function getTwitterClient(): TwitterApi | null {
   return new TwitterApi({ appKey, appSecret, accessToken, accessSecret });
 }
 
+async function uploadImageFromUrl(client: TwitterApi, imageUrl: string): Promise<string | null> {
+  try {
+    const res = await fetch(imageUrl);
+    if (!res.ok) {
+      console.warn(`[poster] Image fetch failed (${res.status}): ${imageUrl}`);
+      return null;
+    }
+    const buffer = Buffer.from(await res.arrayBuffer());
+    const contentType = res.headers.get('content-type') ?? 'image/png';
+    const mediaId = await client.v1.uploadMedia(buffer, { mimeType: contentType });
+    console.log(`[poster] Image uploaded: ${mediaId}`);
+    return mediaId;
+  } catch (err) {
+    console.warn(`[poster] Image upload failed:`, err);
+    return null;
+  }
+}
+
 async function postTweet(
   client: TwitterApi,
   text: string,
-  replyToId?: string,
+  options?: { replyToId?: string; mediaId?: string },
 ): Promise<string | null> {
-  const payload: { text: string; reply?: { in_reply_to_tweet_id: string } } = { text };
-  if (replyToId) {
-    payload.reply = { in_reply_to_tweet_id: replyToId };
+  const payload: Record<string, unknown> = { text };
+  if (options?.replyToId) {
+    payload.reply = { in_reply_to_tweet_id: options.replyToId };
+  }
+  if (options?.mediaId) {
+    payload.media = { media_ids: [options.mediaId] };
   }
   const result = await client.v2.tweet(payload);
   return result.data.id;
@@ -101,8 +122,15 @@ async function main(): Promise<void> {
       // Normalize hashtags — ensure # prefix
       const tags = entry.hashtags.map(t => t.startsWith('#') ? t : `#${t}`).join(' ');
 
+      // Upload image if present (image URL or memegen URL)
+      const imageUrl = entry.image || entry.memegenUrl;
+      let mediaId: string | null = null;
+      if (imageUrl) {
+        mediaId = await uploadImageFromUrl(client, imageUrl);
+      }
+
       if (entry.threadTweets && entry.threadTweets.length > 0) {
-        // Post thread — append link to last tweet, save state after each to prevent duplicates
+        // Post thread — append link to last tweet, attach image to first tweet
         let lastId: string | undefined;
         let threadPosted = 0;
         for (let i = 0; i < entry.threadTweets.length; i++) {
@@ -110,9 +138,12 @@ async function main(): Promise<void> {
           const tweetText = isLast
             ? `${entry.threadTweets[i]}\n\n${entry.link}`
             : entry.threadTweets[i];
-          const id = await postTweet(client, tweetText, lastId);
+          const id = await postTweet(client, tweetText, {
+            replyToId: lastId,
+            mediaId: i === 0 ? (mediaId ?? undefined) : undefined,
+          });
           if (id) {
-            if (!lastId) entry.tweetId = id; // store first tweet ID
+            if (!lastId) entry.tweetId = id;
             lastId = id;
             threadPosted++;
           }
@@ -126,9 +157,9 @@ async function main(): Promise<void> {
       } else {
         // Post single tweet
         const fullText = `${entry.text}\n\n${entry.link}\n\n${tags}`;
-        const id = await postTweet(client, fullText);
+        const id = await postTweet(client, fullText, { mediaId: mediaId ?? undefined });
         entry.tweetId = id;
-        console.log(`[poster] Posted: ${entry.tracker}/${entry.type}/${entry.lang} → ${id}`);
+        console.log(`[poster] Posted: ${entry.tracker}/${entry.type}/${entry.lang} → ${id}${mediaId ? ' (with image)' : ''}`);
       }
 
       entry.status = 'posted';
