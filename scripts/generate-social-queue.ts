@@ -115,7 +115,7 @@ function buildPrompt(
   const trackersWithDigests = contexts.filter(c => c.digest);
   const recentHistory = history.slice(-50);
   const recentByTracker: Record<string, number> = {};
-  for (const h of recentHistory.filter(h => h.date >= today.slice(0, 8))) {
+  for (const h of recentHistory.filter(h => h.date >= today)) {
     recentByTracker[h.tracker] = (recentByTracker[h.tracker] ?? 0) + 1;
   }
 
@@ -310,7 +310,7 @@ async function main(): Promise<void> {
       'anthropic-version': '2023-06-01',
     },
     body: JSON.stringify({
-      model: 'claude-sonnet-4-20250514',
+      model: 'claude-sonnet-4-6',
       max_tokens: 8192,
       messages: [{ role: 'user', content: prompt }],
     }),
@@ -346,15 +346,26 @@ async function main(): Promise<void> {
     entry.tweetId = null;
     entry.postedAt = null;
 
-    const fullText = entry.threadTweets
-      ? entry.threadTweets[0]
-      : `${entry.text}\n\n${entry.link}\n\n${entry.hashtags.join(' ')}`;
-    const weighted = twitterWeightedLength(fullText);
-    if (weighted > 280) {
-      console.warn(`[social-queue] OVER LIMIT (${weighted}/280): ${entry.tracker}/${entry.type} — rejecting`);
-      entry.status = 'rejected';
-      entry.judge.comment += ` [AUTO-REJECTED: ${weighted}/280 chars]`;
-      rejected++;
+    if (entry.threadTweets && entry.threadTweets.length > 0) {
+      for (let i = 0; i < entry.threadTweets.length; i++) {
+        const weighted = twitterWeightedLength(entry.threadTweets[i]);
+        if (weighted > 280) {
+          console.warn(`[social-queue] OVER LIMIT thread[${i}] (${weighted}/280): ${entry.tracker}/${entry.type} — rejecting`);
+          entry.status = 'rejected';
+          entry.judge.comment += ` [AUTO-REJECTED: thread tweet ${i} is ${weighted}/280 chars]`;
+          rejected++;
+          break;
+        }
+      }
+    } else {
+      const fullText = `${entry.text}\n\n${entry.link}\n\n${entry.hashtags.join(' ')}`;
+      const weighted = twitterWeightedLength(fullText);
+      if (weighted > 280) {
+        console.warn(`[social-queue] OVER LIMIT (${weighted}/280): ${entry.tracker}/${entry.type} — rejecting`);
+        entry.status = 'rejected';
+        entry.judge.comment += ` [AUTO-REJECTED: ${weighted}/280 chars]`;
+        rejected++;
+      }
     }
 
     entry.estimatedCost = estimateCost(entry, config);

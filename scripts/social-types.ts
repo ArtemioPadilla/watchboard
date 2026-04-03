@@ -10,7 +10,7 @@ export type TweetType = 'digest' | 'breaking' | 'hot_take' | 'thread' | 'data_vi
 export type Voice = 'analyst' | 'journalist' | 'edgy' | 'witty';
 export type Verdict = 'PUBLISH' | 'REVIEW' | 'HOLD' | 'KILL';
 export type FactCheckStatus = 'verified' | 'warning' | 'unverifiable' | 'failed';
-export type QueueStatus = 'auto_approved' | 'pending_review' | 'held' | 'approved' | 'rejected' | 'posted';
+export type QueueStatus = 'auto_approved' | 'pending_review' | 'held' | 'approved' | 'rejected' | 'posted' | 'expired';
 
 export interface FactCheck {
   claim: string;

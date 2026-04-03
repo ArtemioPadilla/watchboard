@@ -116,6 +116,7 @@ const STATUS_FILTERS: Array<{ key: string; label: string }> = [
   { key: 'all', label: 'ALL' },
   { key: 'auto_approved', label: 'AUTO' },
   { key: 'pending_review', label: 'REVIEW' },
+  { key: 'expired', label: 'EXPIRED' },
   { key: 'held', label: 'HELD' },
   { key: 'approved', label: 'APPROVED' },
   { key: 'rejected', label: 'REJECTED' },
@@ -164,7 +165,7 @@ function normalizeLegacyEntry(entry: LegacyQueueEntry, index: number): QueueEntr
     status: 'pending_review',
     estimatedCost: 0.002,
     judge: {
-      score: 70,
+      score: 0.70,
       verdict: 'REVIEW',
       comment: 'Legacy format — not yet processed by LLM judge.',
       factChecks: [],
@@ -216,8 +217,10 @@ function highlightTweetText(text: string): JSX.Element[] {
 }
 
 function scoreColor(score: number): string {
-  if (score >= 80) return '#3fb950';
-  if (score >= 60) return '#d29922';
+  // Normalize: scores from the pipeline are 0.0–1.0, legacy entries may be 0–100
+  const s = score <= 1 ? score * 100 : score;
+  if (s >= 80) return '#3fb950';
+  if (s >= 60) return '#d29922';
   return '#f85149';
 }
 
@@ -803,7 +806,7 @@ function QueueCard({
             <div
               className="scc-score-fill"
               style={{
-                width: `${entry.judge.score}%`,
+                width: `${entry.judge.score <= 1 ? entry.judge.score * 100 : entry.judge.score}%`,
                 background: scoreColor(entry.judge.score),
               }}
             />

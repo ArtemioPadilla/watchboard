@@ -57,6 +57,21 @@ async function main(): Promise<void> {
     return;
   }
 
+  // Normalize legacy field names (trackerSlug → tracker)
+  for (const entry of queue) {
+    const raw = entry as Record<string, unknown>;
+    if (!raw.tracker && raw.trackerSlug) {
+      raw.tracker = raw.trackerSlug;
+      delete raw.trackerSlug;
+    }
+    // Remove non-Twitter entries that slipped past post-processing
+    if (raw.platform && raw.platform !== 'twitter' && raw.platform !== 'x') {
+      raw.status = 'expired';
+    }
+    delete raw.platform;
+    delete raw.trackerName;
+  }
+
   // Find due tweets
   const due = queue.filter(entry =>
     (entry.status === 'approved' || entry.status === 'auto_approved') &&
@@ -84,17 +99,24 @@ async function main(): Promise<void> {
   for (const entry of due) {
     try {
       if (entry.threadTweets && entry.threadTweets.length > 0) {
-        // Post thread
+        // Post thread — save state after each tweet to prevent duplicates on retry
         let lastId: string | undefined;
+        let threadPosted = 0;
         for (const tweetText of entry.threadTweets) {
           const id = await postTweet(client, tweetText, lastId);
           if (id) {
             if (!lastId) entry.tweetId = id; // store first tweet ID
             lastId = id;
+            threadPosted++;
           }
           await sleep(2000);
         }
-        console.log(`[poster] Thread posted: ${entry.tracker}/${entry.type} (${entry.threadTweets.length} tweets)`);
+        if (threadPosted < entry.threadTweets.length) {
+          // Partial thread — mark with tweetId so it won't be retried
+          console.warn(`[poster] Thread partial: ${entry.tracker}/${entry.type} (${threadPosted}/${entry.threadTweets.length} tweets)`);
+        } else {
+          console.log(`[poster] Thread posted: ${entry.tracker}/${entry.type} (${entry.threadTweets.length} tweets)`);
+        }
       } else {
         // Post single tweet
         const fullText = `${entry.text}\n\n${entry.link}\n\n${entry.hashtags.join(' ')}`;

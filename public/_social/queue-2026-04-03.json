@@ -1,8 +1,5 @@
 [
   {
-    "platform": "twitter",
-    "trackerSlug": "artemis-2",
-    "trackerName": "Artemis II",
     "text": "NEW: Watchboard now visualizes Artemis II's journey to the Moon in 3D.\n\nReal-time spacecraft tracking, mission telemetry HUD (altitude, velocity, distance to Moon), and a 632-waypoint trajectory from launch to splashdown.",
     "hashtags": [
       "Artemis",
@@ -16,12 +13,10 @@
     "postedAt": null,
     "status": "auto_approved",
     "estimatedCost": 0.02,
-    "publishAt": "2026-04-03T22:00:00Z"
+    "publishAt": "2026-04-03T22:00:00Z",
+    "tracker": "artemis-2"
   },
   {
-    "platform": "linkedin",
-    "trackerSlug": "artemis-2",
-    "trackerName": "Artemis II",
     "text": "Watchboard now features a full 3D visualization of NASA's Artemis II lunar flyby mission.\n\nBuilt on CesiumJS with 632 pre-computed trajectory waypoints covering the 10-day mission from launch at Kennedy Space Center to Pacific splashdown. The globe renders Earth, the Moon, and an animated Orion spacecraft tracking its position in real-time.\n\nA Mission Control-style HUD overlay displays live telemetry: altitude from Earth, velocity, distance to Moon, mission elapsed time, and current mission phase with a progress timeline.\n\nThe visualization activates automatically when trajectory data exists for a tracker — the same architecture can support future space missions.\n\nExplore: https://watchboard.dev/artemis-2/globe/\n\n#Artemis #NASA #SpaceExploration #Watchboard",
     "hashtags": [
       "Artemis",
@@ -35,6 +30,7 @@
     "tweetId": null,
     "postedAt": null,
     "status": "expired",
-    "estimatedCost": 0.01
+    "estimatedCost": 0.01,
+    "tracker": "artemis-2"
   }
 ]

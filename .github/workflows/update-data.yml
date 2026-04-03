@@ -868,7 +868,12 @@ jobs:
 
             let slotIdx = 0;
             for (const entry of queue) {
-              // Remove platform field — poster doesn't use it
+              // Normalize legacy field names
+              if (!entry.tracker && entry.trackerSlug) {
+                entry.tracker = entry.trackerSlug;
+              }
+              delete entry.trackerSlug;
+              delete entry.trackerName;
               delete entry.platform;
 
               // Required fields
