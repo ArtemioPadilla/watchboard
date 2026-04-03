@@ -52,10 +52,9 @@ const serializedTrackers = nonDraft.map(t => {
         .filter(s => s.tier <= 2)
         .sort((a, b) => a.tier - b.tier)[0];
       if (!bestSource) continue;
-      const image = evt.media.find(m => m.type === 'image' || m.thumbnail);
+      const image = evt.media.find(m => m.thumbnail);
       if (image) {
-        const displayUrl = image.thumbnail || image.url;
-        eventImages.push({ url: displayUrl, source: image.source || bestSource.name, tier: bestSource.tier });
+        eventImages.push({ url: image.thumbnail!, source: image.source || bestSource.name, tier: bestSource.tier });
       }
     }
     latestEventMedia = eventImages[0];

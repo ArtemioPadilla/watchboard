@@ -345,6 +345,7 @@ function StoryImage({ tracker }: { tracker: TrackerCardData }) {
           className="story-image-map"
           loading="lazy"
           referrerPolicy="no-referrer"
+          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
         />
         <div className="story-image-gradient" />
         <span className="story-image-attribution">

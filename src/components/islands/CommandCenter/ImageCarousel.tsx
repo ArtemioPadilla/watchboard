@@ -49,7 +49,7 @@ export default function ImageCarousel({ images, autoAdvance = false, fallbackIco
     };
     rafRef.current = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(rafRef.current);
-  }, [autoAdvance, images.length]);
+  }, [autoAdvance, images]);
 
   const goTo = useCallback((idx: number) => {
     setCurrentIdx(Math.max(0, Math.min(idx, images.length - 1)));

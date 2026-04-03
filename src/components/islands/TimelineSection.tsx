@@ -82,14 +82,15 @@ export default function TimelineSection({ timeline }: Props) {
           <div className="tl-detail-body">{selected.detail}</div>
           {selected.media && selected.media.length > 0 && (
             <div className="tl-detail-media">
-              {selected.media.filter(m => m.type === 'image' || m.thumbnail).map((m, i) => (
+              {selected.media.filter(m => m.thumbnail).map((m, i) => (
                 <a key={i} href={m.url} target="_blank" rel="noopener noreferrer" className="tl-detail-media-link">
                   <img
-                    src={m.thumbnail || m.url}
+                    src={m.thumbnail!}
                     alt={m.caption || ''}
                     className="tl-detail-thumb"
                     loading="lazy"
                     referrerPolicy="no-referrer"
+                    onError={(e) => { (e.target as HTMLImageElement).parentElement!.style.display = 'none'; }}
                   />
                   {(m.source || m.caption) && (
                     <span className="tl-detail-media-attr">
