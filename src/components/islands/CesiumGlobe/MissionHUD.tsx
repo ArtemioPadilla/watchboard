@@ -7,9 +7,10 @@ interface Props {
   telemetryRef: MutableRefObject<TelemetryState>;
   vehicle: string;
   phases: MissionPhase[];
+  onTrackSpacecraft?: () => void;
 }
 
-export default function MissionHUD({ telemetryRef, vehicle, phases }: Props) {
+export default function MissionHUD({ telemetryRef, vehicle, phases, onTrackSpacecraft }: Props) {
   const rafRef = useRef<number>(0);
   const phaseRef = useRef<HTMLDivElement>(null);
   const metRef = useRef<HTMLDivElement>(null);
@@ -55,6 +56,19 @@ export default function MissionHUD({ telemetryRef, vehicle, phases }: Props) {
           <div ref={phaseRef} style={{ color: '#ccc', fontSize: 12 }}>Pre-Launch</div>
         </div>
         <div ref={metRef} style={{ color: '#888', fontSize: 11, marginTop: 4 }}>MET 00:00:00:00</div>
+        {onTrackSpacecraft && (
+          <button
+            onClick={onTrackSpacecraft}
+            style={{
+              marginTop: 6, padding: '4px 10px', fontSize: 10,
+              background: 'rgba(74, 222, 128, 0.15)', border: '1px solid #4ade80',
+              borderRadius: 4, color: '#4ade80', cursor: 'pointer',
+              fontFamily: "'JetBrains Mono', monospace", pointerEvents: 'auto',
+            }}
+          >
+            TRACK ORION
+          </button>
+        )}
       </div>
 
       {/* Top-right: Telemetry */}

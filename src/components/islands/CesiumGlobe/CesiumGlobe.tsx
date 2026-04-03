@@ -39,6 +39,9 @@ import { useGpsJamming } from './useGpsJamming';
 import { useInternetBlackout } from './useInternetBlackout';
 import { useGroundTruth } from './useGroundTruth';
 import { useCinematicMode } from './useCinematicMode';
+import { useLunarMission } from './useLunarMission';
+import MissionHUD from './MissionHUD';
+import type { MissionTrajectory } from '../../../lib/schemas';
 
 interface Props {
   points: MapPoint[];
@@ -52,6 +55,7 @@ interface Props {
   isHistorical?: boolean;
   endDate?: string;
   clocks?: { label: string; offsetHours: number }[];
+  missionTrajectory?: MissionTrajectory | null;
 }
 
 // Configure Cesium Ion on module load
@@ -77,7 +81,7 @@ function msToDateStr(ms: number): string {
   return new Date(ms).toISOString().split('T')[0];
 }
 
-export default function CesiumGlobe({ points, lines, kpis, meta, events = [], cameraPresets = {}, categories = [], mapCenter, isHistorical = false, endDate, clocks }: Props) {
+export default function CesiumGlobe({ points, lines, kpis, meta, events = [], cameraPresets = {}, categories = [], mapCenter, isHistorical = false, endDate, clocks, missionTrajectory }: Props) {
   const viewerRef = useRef<CesiumComponentRef<CesiumViewer> | null>(null);
   const creditDivRef = useRef<HTMLDivElement | null>(null);
   if (!creditDivRef.current && typeof document !== 'undefined') {
@@ -444,6 +448,9 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [], ca
     cameraPresets,
   );
 
+  // ── Lunar mission trajectory ──
+  const { telemetryRef, trackSpacecraft } = useLunarMission(cesiumViewer, missionTrajectory ?? null, simTimeRef);
+
   const handleToggleCinematic = useCallback(() => {
     setCinematicMode(prev => {
       if (!prev) {
@@ -520,6 +527,16 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [], ca
         simTimeRef={simTimeRef}
         currentDate={currentDate}
       />
+
+      {/* Mission telemetry HUD */}
+      {missionTrajectory && (
+        <MissionHUD
+          telemetryRef={telemetryRef}
+          vehicle={missionTrajectory.vehicle}
+          phases={missionTrajectory.phases}
+          onTrackSpacecraft={trackSpacecraft}
+        />
+      )}
 
       {/* Cinematic mode overlay */}
       {cinematicMode && currentShot && (

@@ -22,6 +22,7 @@ import { createSpacecraftIcon } from './cesium-icons';
 
 interface UseLunarMissionResult {
   telemetryRef: MutableRefObject<TelemetryState>;
+  trackSpacecraft: () => void;
 }
 
 /**
@@ -40,6 +41,7 @@ export function useLunarMission(
   const telemetryRef = useRef<TelemetryState>(EMPTY_TELEMETRY);
   const entitiesRef = useRef<Entity[]>([]);
   const rafRef = useRef<number>(0);
+  const spacecraftEntityRef = useRef<Entity | null>(null);
 
   useEffect(() => {
     if (!viewer || !trajectory || trajectory.waypoints.length < 2) return;
@@ -125,6 +127,7 @@ export function useLunarMission(
         },
       });
       entitiesRef.current.push(spacecraftEntity);
+      spacecraftEntityRef.current = spacecraftEntity;
 
       console.log(`[lunar-mission] Loaded ${trajectory.waypoints.length} waypoints, ${polylinePositions.length} polyline points`);
 
@@ -178,5 +181,10 @@ export function useLunarMission(
     };
   }, [viewer, trajectory]);
 
-  return { telemetryRef };
+  const trackSpacecraft = () => {
+    if (!viewer || !spacecraftEntityRef.current) return;
+    viewer.trackedEntity = spacecraftEntityRef.current;
+  };
+
+  return { telemetryRef, trackSpacecraft };
 }
