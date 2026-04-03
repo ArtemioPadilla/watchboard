@@ -184,8 +184,8 @@ async function main() {
   console.log('[artemis] Fetching real Artemis II trajectory from JPL Horizons (target -1024)...\n');
 
   const segments = [
-    { start: '2026-Apr-02 02:00', stop: '2026-Apr-02 23:50', step: '30m' },
-    { start: '2026-Apr-02 23:50', stop: '2026-Apr-03 12:00', step: '30m' },
+    // Start from TLI burn (skip pre-TLI Earth orbits — they're real but look messy)
+    { start: '2026-Apr-02 23:30', stop: '2026-Apr-03 12:00', step: '30m' },
     { start: '2026-Apr-03 12:00', stop: '2026-Apr-06 04:00', step: '2h' },
     { start: '2026-Apr-06 04:00', stop: '2026-Apr-07 18:00', step: '10m' },
     { start: '2026-Apr-07 18:00', stop: '2026-Apr-10 20:00', step: '2h' },
