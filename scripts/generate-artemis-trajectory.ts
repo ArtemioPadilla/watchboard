@@ -123,6 +123,77 @@ function round(n: number, decimals = 1): number {
   return Math.round(n * f) / f;
 }
 
+/**
+ * Compute GMST (Greenwich Mean Sidereal Time) in radians for a given UTC date.
+ * This is the rotation angle of Earth relative to the J2000 equatorial frame.
+ */
+function gmstRad(date: Date): number {
+  const jd = date.getTime() / 86400000 + 2440587.5;
+  const t = (jd - 2451545.0) / 36525.0;
+  // IAU formula for GMST in seconds
+  let gmstSec = 67310.54841 + (876600 * 3600 + 8640184.812866) * t + 0.093104 * t * t - 6.2e-6 * t * t * t;
+  // Convert to radians (86400 seconds = 2π radians)
+  return ((gmstSec % 86400) / 86400) * 2 * Math.PI;
+}
+
+/**
+ * Rotate from Ecliptic J2000 to Equatorial J2000.
+ * Obliquity of the ecliptic: ε ≈ 23.4393°
+ */
+const OBLIQUITY = 23.4393 * Math.PI / 180;
+const COS_E = Math.cos(OBLIQUITY);
+const SIN_E = Math.sin(OBLIQUITY);
+
+function eclipticToEquatorial(x: number, y: number, z: number): { x: number; y: number; z: number } {
+  return {
+    x: x,
+    y: COS_E * y - SIN_E * z,
+    z: SIN_E * y + COS_E * z,
+  };
+}
+
+/**
+ * Convert Ecliptic J2000 position to ECEF:
+ * 1. Ecliptic → Equatorial J2000 (rotate by obliquity)
+ * 2. Equatorial J2000 → ECEF (rotate by GMST)
+ */
+function eciToEcef(wp: HorizonsWaypoint): HorizonsWaypoint {
+  // Step 1: Ecliptic → Equatorial
+  const eq = eclipticToEquatorial(wp.x, wp.y, wp.z);
+  const eqV = eclipticToEquatorial(wp.vx, wp.vy, wp.vz);
+
+  // Step 2: Equatorial → ECEF via GMST
+  const date = new Date(wp.t);
+  const theta = gmstRad(date);
+  const cosT = Math.cos(theta);
+  const sinT = Math.sin(theta);
+  return {
+    t: wp.t,
+    x: cosT * eq.x + sinT * eq.y,
+    y: -sinT * eq.x + cosT * eq.y,
+    z: eq.z,
+    vx: cosT * eqV.x + sinT * eqV.y,
+    vy: -sinT * eqV.x + cosT * eqV.y,
+    vz: eqV.z,
+  };
+}
+
+/**
+ * Create a waypoint at a geodetic position (for launch/splashdown anchors).
+ */
+function geoToEcef(lat: number, lon: number, altKm: number, time: string): HorizonsWaypoint {
+  const r = 6371 + altKm;
+  const latR = lat * Math.PI / 180;
+  const lonR = lon * Math.PI / 180;
+  return {
+    t: time,
+    x: r * Math.cos(latR) * Math.cos(lonR),
+    y: r * Math.cos(latR) * Math.sin(lonR),
+    z: r * Math.sin(latR),
+    vx: 0, vy: 0, vz: 0,
+  };
+}
+
 async function main() {
   console.log('[artemis] Fetching real Artemis II trajectory from JPL Horizons (target -1024)...\n');
 
@@ -157,19 +228,38 @@ async function main() {
   // Sort by time
   allWaypoints.sort((a, b) => new Date(a.t).getTime() - new Date(b.t).getTime());
 
+  // Convert from equatorial J2000 (inertial) to ECEF (Earth-fixed)
+  console.log('[artemis] Converting ECI → ECEF...');
+  allWaypoints = allWaypoints.map(eciToEcef);
+
+  // Add launch and splashdown anchor points at Earth's surface
+  // KSC LC-39B: 28.6°N, 80.6°W
+  const launchAnchor = geoToEcef(28.6, -80.6, 0, MISSION.launchTime);
+  const launchLeo = geoToEcef(28.6, -80.6, 185, '2026-04-02T00:00:00Z');
+  // Splashdown: Pacific off San Diego ~32°N, 117.5°W
+  const splashAnchor = geoToEcef(32.0, -117.5, 0, MISSION.splashdownTime);
+  const reentryStart = geoToEcef(32.0, -130.0, 122, '2026-04-11T00:04:00Z');
+
+  // Prepend launch anchors, append splashdown anchors
+  allWaypoints = [launchAnchor, launchLeo, ...allWaypoints, reentryStart, splashAnchor];
+
   // Round for file size
   for (const wp of allWaypoints) {
     wp.x = round(wp.x); wp.y = round(wp.y); wp.z = round(wp.z);
     wp.vx = round(wp.vx, 4); wp.vy = round(wp.vy, 4); wp.vz = round(wp.vz, 4);
   }
 
-  console.log(`\n[artemis] Total: ${allWaypoints.length} unique waypoints`);
+  console.log(`\n[artemis] Total: ${allWaypoints.length} unique waypoints (ECEF)`);
   if (allWaypoints.length > 0) {
     const first = allWaypoints[0];
     const last = allWaypoints[allWaypoints.length - 1];
     console.log(`[artemis] Range: ${first.t} → ${last.t}`);
     const maxDist = Math.max(...allWaypoints.map(w => Math.sqrt(w.x ** 2 + w.y ** 2 + w.z ** 2)));
-    console.log(`[artemis] Max distance from Earth: ${Math.round(maxDist)} km`);
+    const firstDist = Math.sqrt(first.x ** 2 + first.y ** 2 + first.z ** 2);
+    const lastDist = Math.sqrt(last.x ** 2 + last.y ** 2 + last.z ** 2);
+    console.log(`[artemis] Max distance from Earth center: ${Math.round(maxDist)} km`);
+    console.log(`[artemis] First waypoint distance: ${Math.round(firstDist)} km (should be ~6371)`);
+    console.log(`[artemis] Last waypoint distance: ${Math.round(lastDist)} km (should be ~6371)`);
   }
 
   if (allWaypoints.length === 0) {
@@ -179,9 +269,9 @@ async function main() {
 
   const trajectory = {
     ...MISSION,
-    coordinateFrame: 'Ecliptic J2000 (Earth-centered)',
+    coordinateFrame: 'ECEF (Earth-Centered Earth-Fixed)',
     units: { position: 'km', velocity: 'km/s' },
-    source: 'JPL Horizons API, target -1024 (Artemis II / Orion EM-2)',
+    source: 'JPL Horizons API, target -1024 (Artemis II / Orion EM-2), converted ECI→ECEF via GMST',
     waypoints: allWaypoints,
   };
 
