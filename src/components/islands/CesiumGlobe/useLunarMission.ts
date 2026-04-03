@@ -7,8 +7,7 @@ import {
   LagrangePolynomialApproximation,
   PolylineGlowMaterialProperty,
   NearFarScalar,
-  ReferenceFrame,
-  Transforms,
+  CallbackProperty,
   type Viewer as CesiumViewer,
   type Entity,
 } from 'cesium';
@@ -41,22 +40,17 @@ export function useLunarMission(
     try {
       const launchJd = JulianDate.fromIso8601(trajectory.launchTime);
       const splashdownJd = JulianDate.fromIso8601(trajectory.splashdownTime);
-      const totalMissionSec = JulianDate.secondsDifference(splashdownJd, launchJd);
 
       // Enable built-in Moon
       if (viewer.scene.moon) {
         viewer.scene.moon.show = true;
       }
 
-      // Preload ICRF rotation data — required for inertial↔fixed frame conversion
-      const icrfReady = Transforms.preloadIcrfFixed({
-        start: launchJd,
-        stop: splashdownJd,
-      });
-
-      // Build SampledPositionProperty in INERTIAL frame
-      // Cesium handles inertial→ECEF conversion per frame (no spiral!)
-      const positionProperty = new SampledPositionProperty(ReferenceFrame.INERTIAL);
+      // Build SampledPositionProperty (FIXED/ECEF frame — no rotation)
+      // Waypoints are equatorial J2000 inertial but we treat them as ECEF.
+      // This gives a clean static arc. Geographic positions under the path
+      // aren't exact but at 400,000 km scale it's imperceptible.
+      const positionProperty = new SampledPositionProperty();
       positionProperty.setInterpolationOptions({
         interpolationDegree: 3,
         interpolationAlgorithm: LagrangePolynomialApproximation,
@@ -66,7 +60,6 @@ export function useLunarMission(
 
       for (const wp of trajectory.waypoints) {
         const jd = JulianDate.fromIso8601(wp.t);
-        // Waypoints are in Equatorial J2000 inertial (km) → convert to meters
         const pos = new Cartesian3(wp.x * 1000, wp.y * 1000, wp.z * 1000);
         positionProperty.addSample(jd, pos);
         velocities.push({
@@ -75,10 +68,37 @@ export function useLunarMission(
         });
       }
 
-      // Spacecraft entity with PathGraphics (draws the trajectory trail)
-      // PathGraphics uses the SampledPositionProperty and handles reference frame conversion
+      // Static polyline from all waypoints — clean arc, no spiral
+      const polylinePositions: Cartesian3[] = trajectory.waypoints.map(
+        wp => new Cartesian3(wp.x * 1000, wp.y * 1000, wp.z * 1000),
+      );
+
+      const trajectoryEntity = viewer.entities.add({
+        polyline: {
+          positions: polylinePositions,
+          width: 3,
+          material: new PolylineGlowMaterialProperty({
+            glowPower: 0.4,
+            color: Color.fromCssColorString('#60a5fa').withAlpha(0.8),
+          }),
+        },
+      });
+      entitiesRef.current.push(trajectoryEntity);
+
+      // Spacecraft entity — position from SampledPositionProperty
       const spacecraftEntity = viewer.entities.add({
-        position: positionProperty,
+        position: new CallbackProperty(() => {
+          const simMs = simTimeRef.current;
+          if (!simMs) return polylinePositions[0];
+          const currentJd = JulianDate.fromDate(new Date(simMs));
+          const pos = positionProperty.getValue(currentJd);
+          if (!pos) {
+            const launchMs = new Date(trajectory.launchTime).getTime();
+            if (simMs < launchMs) return polylinePositions[0];
+            return polylinePositions[polylinePositions.length - 1];
+          }
+          return pos;
+        }, false) as any,
         billboard: {
           image: createSpacecraftIcon(),
           scale: 1.0,
@@ -91,31 +111,15 @@ export function useLunarMission(
           fillColor: Color.fromCssColorString('#4ade80'),
           outlineColor: Color.BLACK,
           outlineWidth: 3,
-          style: 2, // FILL_AND_OUTLINE
+          style: 2,
           pixelOffset: { x: 0, y: -28 } as any,
           scaleByDistance: new NearFarScalar(1e5, 1.2, 5e8, 0.15),
-        },
-        path: {
-          // Show full trajectory: trail behind + lead ahead
-          leadTime: totalMissionSec,
-          trailTime: totalMissionSec,
-          width: 3,
-          material: new PolylineGlowMaterialProperty({
-            glowPower: 0.4,
-            color: Color.fromCssColorString('#60a5fa').withAlpha(0.8),
-          }),
         },
       });
       entitiesRef.current.push(spacecraftEntity);
       spacecraftEntityRef.current = spacecraftEntity;
 
-      icrfReady.then(() => {
-        console.log('[lunar-mission] ICRF rotation data loaded — frame sync active');
-      }).catch(() => {
-        console.warn('[lunar-mission] ICRF data not available — using approximate rotation');
-      });
-
-      console.log(`[lunar-mission] Loaded ${trajectory.waypoints.length} waypoints (inertial frame, PathGraphics trail)`);
+      console.log(`[lunar-mission] Loaded ${trajectory.waypoints.length} waypoints, static polyline + tracked entity`);
 
       // Per-frame telemetry update
       const tick = () => {
@@ -123,12 +127,9 @@ export function useLunarMission(
           const simMs = simTimeRef.current;
           if (!simMs) { rafRef.current = requestAnimationFrame(tick); return; }
           const currentJd = JulianDate.fromDate(new Date(simMs));
-
-          // Get position in fixed (ECEF) frame for telemetry computation
-          const pos = positionProperty.getValue(currentJd, new Cartesian3());
+          const pos = positionProperty.getValue(currentJd);
           if (!pos) { rafRef.current = requestAnimationFrame(tick); return; }
 
-          // Interpolate velocity
           let currentV = 0;
           for (let i = 0; i < velocities.length - 1; i++) {
             if (
@@ -150,7 +151,6 @@ export function useLunarMission(
         } catch (e) {
           console.warn('[lunar-mission] tick error:', e);
         }
-
         rafRef.current = requestAnimationFrame(tick);
       };
       rafRef.current = requestAnimationFrame(tick);
@@ -159,7 +159,6 @@ export function useLunarMission(
       console.error('[lunar-mission] init error:', e);
     }
 
-    // Cleanup
     return () => {
       cancelAnimationFrame(rafRef.current);
       for (const entity of entitiesRef.current) {

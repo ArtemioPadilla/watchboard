@@ -219,29 +219,8 @@ async function main() {
   console.log('[artemis] Converting Ecliptic → Equatorial J2000 (inertial)...');
   allWaypoints = allWaypoints.map(eclipticToEquatorialWp);
 
-  // Add launch anchor (KSC) and splashdown anchor (San Diego) in inertial frame
-  // Convert geographic → ECEF → ECI at the specific time
-  const launchEcef = geoToEcef(28.573, -80.649, 0, MISSION.launchTime);
-  const splashEcef = geoToEcef(32.0, -117.5, 0, MISSION.splashdownTime);
-
-  // ECEF → ECI: rotate by +GMST
-  function ecefToEci(wp: HorizonsWaypoint): HorizonsWaypoint {
-    const theta = gmstRad(new Date(wp.t));
-    const cosT = Math.cos(theta);
-    const sinT = Math.sin(theta);
-    return {
-      t: wp.t,
-      x: cosT * wp.x - sinT * wp.y,
-      y: sinT * wp.x + cosT * wp.y,
-      z: wp.z,
-      vx: 0, vy: 0, vz: 0,
-    };
-  }
-  const launchAnchor = ecefToEci(launchEcef);
-  const splashAnchor = ecefToEci(splashEcef);
-
-  // Prepend launch anchor, append splashdown anchor
-  allWaypoints = [launchAnchor, ...allWaypoints, splashAnchor];
+  // No surface anchors — Horizons data starts in orbit and ends in orbit.
+  // At deep-space scale (400,000 km) the gap is imperceptible.
 
   // Round for file size
   for (const wp of allWaypoints) {
