@@ -257,9 +257,9 @@ async function main() {
                 } else {
                   m.thumbnail = ogImage;
                   console.log(`  [${slug}/${file}] Filled thumbnail for "${event.id}"`);
+                  fileModified = true;
                 }
                 totalEnriched++;
-                fileModified = true;
               }
             }
           }
@@ -299,11 +299,11 @@ async function main() {
             } else {
               event.media = [mediaEntry];
               console.log(`  [${slug}/${file}] Fetched og:image from ${source.url} for event "${event.id}"`);
+              fileModified = true;
             }
 
             totalEnriched++;
             foundMedia = true;
-            fileModified = true;
             break; // Use the first successful source
           }
         }

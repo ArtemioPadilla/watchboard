@@ -94,6 +94,7 @@ export default function ImageCarousel({ images, autoAdvance = false, fallbackIco
           style={styles.image}
           loading="lazy"
           referrerPolicy="no-referrer"
+          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
         />
       </div>
       {/* Attribution */}
