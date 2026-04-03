@@ -165,17 +165,26 @@ function eclipticToInertial(wp: HorizonsWaypoint): HorizonsWaypoint {
 }
 
 /**
- * Create a waypoint at a geodetic position (for launch/splashdown anchors).
+ * Create a waypoint at a geodetic position, converted to Equatorial J2000 inertial frame.
+ * ECEF → ECI rotation uses GMST at the given time.
  */
-function geoToEcef(lat: number, lon: number, altKm: number, time: string): HorizonsWaypoint {
+function geoToInertial(lat: number, lon: number, altKm: number, time: string): HorizonsWaypoint {
   const r = 6371 + altKm;
   const latR = lat * Math.PI / 180;
   const lonR = lon * Math.PI / 180;
+  // Geographic → ECEF
+  const xEcef = r * Math.cos(latR) * Math.cos(lonR);
+  const yEcef = r * Math.cos(latR) * Math.sin(lonR);
+  const zEcef = r * Math.sin(latR);
+  // ECEF → ECI (rotate by +GMST, inverse of ECI→ECEF)
+  const theta = gmstRad(new Date(time));
+  const cosT = Math.cos(theta);
+  const sinT = Math.sin(theta);
   return {
     t: time,
-    x: r * Math.cos(latR) * Math.cos(lonR),
-    y: r * Math.cos(latR) * Math.sin(lonR),
-    z: r * Math.sin(latR),
+    x: cosT * xEcef - sinT * yEcef,
+    y: sinT * xEcef + cosT * yEcef,
+    z: zEcef,
     vx: 0, vy: 0, vz: 0,
   };
 }
@@ -219,22 +228,11 @@ async function main() {
   console.log('[artemis] Converting Ecliptic → Equatorial J2000...');
   allWaypoints = allWaypoints.map(eclipticToInertial);
 
-  // Add launch and splashdown anchors
-  // Use the first/last Horizons waypoint direction but at Earth surface radius
-  const firstHorizon = allWaypoints[0];
-  const lastHorizon = allWaypoints[allWaypoints.length - 1];
-  const firstDist = Math.sqrt(firstHorizon.x ** 2 + firstHorizon.y ** 2 + firstHorizon.z ** 2);
-  const lastDist = Math.sqrt(lastHorizon.x ** 2 + lastHorizon.y ** 2 + lastHorizon.z ** 2);
-  const launchAnchor: HorizonsWaypoint = {
-    t: MISSION.launchTime,
-    x: round(firstHorizon.x / firstDist * 6371), y: round(firstHorizon.y / firstDist * 6371), z: round(firstHorizon.z / firstDist * 6371),
-    vx: 0, vy: 0, vz: 0,
-  };
-  const splashAnchor: HorizonsWaypoint = {
-    t: MISSION.splashdownTime,
-    x: round(lastHorizon.x / lastDist * 6371), y: round(lastHorizon.y / lastDist * 6371), z: round(lastHorizon.z / lastDist * 6371),
-    vx: 0, vy: 0, vz: 0,
-  };
+  // Add launch and splashdown anchors at real geographic positions
+  // KSC LC-39B: 28.573°N, 80.649°W — converted to inertial frame at launch time
+  const launchAnchor = geoToInertial(28.573, -80.649, 0, MISSION.launchTime);
+  // Splashdown: Pacific off San Diego ~32.0°N, 117.5°W — converted at splashdown time
+  const splashAnchor = geoToInertial(32.0, -117.5, 0, MISSION.splashdownTime);
 
   // Prepend launch anchor, append splashdown anchor
   allWaypoints = [launchAnchor, ...allWaypoints, splashAnchor];
