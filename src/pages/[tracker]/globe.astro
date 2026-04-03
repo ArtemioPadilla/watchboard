@@ -24,6 +24,10 @@ interface Props {
 const { config } = Astro.props;
 const data = loadTrackerData(config.slug, config.eraLabel);
 const events = flattenTimelineEvents(data.timeline);
+
+// Load mission trajectory if present — reuse data.ts loader
+const missionTrajectory = data.missionTrajectory ?? null;
+
 const base = import.meta.env.BASE_URL;
 const basePath = base.endsWith('/') ? base : `${base}/`;
 ---
@@ -44,6 +48,7 @@ const basePath = base.endsWith('/') ? base : `${base}/`;
     isHistorical={config.temporal === 'historical'}
     endDate={config.endDate}
     clocks={config.globe?.clocks}
+    missionTrajectory={missionTrajectory}
   />
   <script>
     if (window.innerWidth <= 768) {

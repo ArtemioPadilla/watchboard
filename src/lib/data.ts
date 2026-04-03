@@ -18,6 +18,7 @@ import {
   PolItemSchema,
   MetaSchema,
   DigestEntrySchema,
+  MissionTrajectorySchema,
   isFutureDate,
 } from './schemas';
 import type { Locale } from '../i18n/translations';
@@ -149,6 +150,7 @@ export interface TrackerData {
   political: z.infer<typeof PolItemSchema>[];
   meta: z.infer<typeof MetaSchema>;
   digests: z.infer<typeof DigestEntrySchema>[];
+  missionTrajectory: z.infer<typeof MissionTrajectorySchema> | null;
 }
 
 export function loadTrackerData(slug: string, eraLabel?: string, locale?: Locale): TrackerData {
@@ -190,5 +192,18 @@ export function loadTrackerData(slug: string, eraLabel?: string, locale?: Locale
 
   const digests = z.array(DigestEntrySchema).parse(getTrackerData(slug, 'digests.json', locale) ?? []);
 
-  return { kpis, timeline, mapPoints, mapLines, strikeTargets, retaliationData, assetsData, casualties, econ, claims, political, meta, digests };
+  // Optional mission trajectory (only for space trackers)
+  let missionTrajectory: z.infer<typeof MissionTrajectorySchema> | null = null;
+  const trajRaw = getTrackerData(slug, 'mission-trajectory.json', locale) as any;
+  if (trajRaw && trajRaw.waypoints) {
+    // Normalize: generated file may use "name" instead of "label" for phases
+    if (trajRaw.phases) {
+      for (const p of trajRaw.phases) {
+        if (!p.label && p.name) p.label = p.name;
+      }
+    }
+    try { missionTrajectory = MissionTrajectorySchema.parse(trajRaw); } catch {}
+  }
+
+  return { kpis, timeline, mapPoints, mapLines, strikeTargets, retaliationData, assetsData, casualties, econ, claims, political, meta, digests, missionTrajectory };
 }
