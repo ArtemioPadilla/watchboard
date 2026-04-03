@@ -8,6 +8,7 @@ import {
   PolylineGlowMaterialProperty,
   NearFarScalar,
   ReferenceFrame,
+  Transforms,
   type Viewer as CesiumViewer,
   type Entity,
 } from 'cesium';
@@ -46,6 +47,12 @@ export function useLunarMission(
       if (viewer.scene.moon) {
         viewer.scene.moon.show = true;
       }
+
+      // Preload ICRF rotation data — required for inertial↔fixed frame conversion
+      const icrfReady = Transforms.preloadIcrfFixed({
+        start: launchJd,
+        stop: splashdownJd,
+      });
 
       // Build SampledPositionProperty in INERTIAL frame
       // Cesium handles inertial→ECEF conversion per frame (no spiral!)
@@ -101,6 +108,12 @@ export function useLunarMission(
       });
       entitiesRef.current.push(spacecraftEntity);
       spacecraftEntityRef.current = spacecraftEntity;
+
+      icrfReady.then(() => {
+        console.log('[lunar-mission] ICRF rotation data loaded — frame sync active');
+      }).catch(() => {
+        console.warn('[lunar-mission] ICRF data not available — using approximate rotation');
+      });
 
       console.log(`[lunar-mission] Loaded ${trajectory.waypoints.length} waypoints (inertial frame, PathGraphics trail)`);
 
