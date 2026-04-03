@@ -137,6 +137,9 @@ TODAY: ${today}
 ## YOUR TASK
 Review all tracker updates below and decide what is WORTH tweeting today. You are a curator, not a factory. Quality over volume. Every tweet costs real money.
 
+## PLATFORM
+You are generating content for X/Twitter ONLY. Do NOT generate posts for LinkedIn, Facebook, Instagram, or any other platform. Every entry must be a tweet.
+
 ## BUDGET
 - Monthly target: $${budget.monthlyTarget.toFixed(2)}
 - Spent this month: $${budget.spent.toFixed(2)}
@@ -213,18 +216,18 @@ ${c.recentEvents || 'none'}
 `).join('\n')}
 
 ## OUTPUT FORMAT
-Respond with a JSON array of tweet objects. Each object:
+Respond with a JSON array of tweet objects. Each object MUST have ALL these fields:
 {
   "type": "digest|breaking|hot_take|thread|data_viz|meme",
   "voice": "analyst|journalist|edgy|witty",
   "tracker": "tracker-slug",
   "lang": "en|es|fr|pt",
-  "text": "the tweet text (MUST be ≤280 chars with link+hashtags counted)",
+  "text": "the tweet body text ONLY — do NOT include the link or hashtags in this field, they are appended automatically by the poster",
   "hashtags": ["#TopicTag", "#Watchboard"],
   "link": "https://watchboard.dev/{tracker}/?utm_source=x&utm_medium={type}&utm_campaign=${today}",
   "image": null,
   "memegenUrl": "https://api.memegen.link/images/..." or null,
-  "publishAt": "2026-04-01T08:00:00Z",
+  "publishAt": "${today}T08:00:00Z",
   "estimatedCost": 0.01,
   "threadTweets": ["tweet 1", "tweet 2", ...] or null,
   "judge": {
@@ -236,6 +239,12 @@ Respond with a JSON array of tweet objects. Each object:
     ]
   }
 }
+
+CRITICAL RULES:
+- "text" must NOT contain the link URL or hashtags — the poster appends those automatically. Including them causes duplication.
+- "publishAt" is REQUIRED and MUST be a full ISO 8601 datetime using one of today's time slots (${config.scheduling.slots.map(s => today + 'T' + s + ':00Z').join(', ')}).
+- "judge" is REQUIRED with score, verdict, comment, and factChecks.
+- Do NOT include a "platform" field. All entries are Twitter/X tweets.
 
 Only output the JSON array. No markdown, no explanation, no code fences.`;
 }

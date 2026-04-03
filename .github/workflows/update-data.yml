@@ -853,25 +853,76 @@ jobs:
             exit 0
           fi
 
-          # Post-process: add IDs, statuses, costs, and write to correct filename
+          # Post-process: filter, fix fields, assign statuses, write correct filename
           node -e "
             const fs = require('fs');
             const crypto = require('crypto');
-            const queue = JSON.parse(fs.readFileSync('$RAW', 'utf8'));
+            const today = '${TODAY}';
+            const slots = ['08:00','13:00','18:00','22:00'];
+            let queue = JSON.parse(fs.readFileSync('$RAW', 'utf8'));
+
+            // Filter out non-Twitter entries (LinkedIn, etc.)
+            const before = queue.length;
+            queue = queue.filter(e => !e.platform || e.platform === 'twitter' || e.platform === 'x');
+            if (queue.length < before) console.log('Filtered out ' + (before - queue.length) + ' non-Twitter entries');
+
+            let slotIdx = 0;
             for (const entry of queue) {
+              // Remove platform field — poster doesn't use it
+              delete entry.platform;
+
+              // Required fields
               if (!entry.id) entry.id = crypto.randomUUID();
               if (entry.tweetId === undefined) entry.tweetId = null;
               if (entry.postedAt === undefined) entry.postedAt = null;
-              if (!entry.status) {
-                entry.status = (entry.judge?.score >= 0.85 && entry.judge?.verdict === 'PUBLISH') ? 'auto_approved' : 'pending_review';
+
+              // Fix missing publishAt — assign to next available slot
+              if (!entry.publishAt || isNaN(new Date(entry.publishAt).getTime())) {
+                entry.publishAt = today + 'T' + slots[slotIdx % slots.length] + ':00Z';
+                slotIdx++;
               }
+
+              // Strip link and hashtags from text if agent included them (poster appends these)
+              if (entry.link && entry.text.includes(entry.link)) {
+                entry.text = entry.text.replace(entry.link, '').replace(/\n{2,}/g, '\n\n').trim();
+              }
+              if (entry.hashtags && Array.isArray(entry.hashtags)) {
+                for (const tag of entry.hashtags) {
+                  const hashTag = tag.startsWith('#') ? tag : '#' + tag;
+                  entry.text = entry.text.replace(new RegExp('\\\\s*' + hashTag.replace(/[.*+?^\${}()|[\\]\\\\]/g, '\\\\\\$&') + '\\\\s*', 'g'), ' ').trim();
+                }
+              }
+
+              // Status from judge, or default
+              if (!entry.status) {
+                const j = entry.judge;
+                if (j && j.score >= 0.85 && j.verdict === 'PUBLISH') {
+                  entry.status = 'auto_approved';
+                } else if (j && j.verdict === 'KILL') {
+                  entry.status = 'rejected';
+                } else if (j && j.verdict === 'HOLD') {
+                  entry.status = 'held';
+                } else if (j && j.verdict === 'REVIEW') {
+                  entry.status = 'pending_review';
+                } else if (j && j.score >= 0.5) {
+                  entry.status = 'pending_review';
+                } else if (!j) {
+                  // No judge at all — auto-approve non-meme, review memes
+                  entry.status = entry.type === 'meme' ? 'pending_review' : 'auto_approved';
+                } else {
+                  entry.status = 'rejected';
+                }
+              }
+
               if (!entry.estimatedCost) {
                 entry.estimatedCost = entry.image || entry.memegenUrl ? 0.02 : 0.01;
               }
             }
-            const outPath = 'public/_social/queue-${TODAY}.json';
+            const outPath = 'public/_social/queue-' + today + '.json';
             fs.writeFileSync(outPath, JSON.stringify(queue, null, 2));
-            console.log('Wrote ' + queue.length + ' entries to ' + outPath);
+            const approved = queue.filter(e => e.status === 'auto_approved').length;
+            const review = queue.filter(e => e.status === 'pending_review').length;
+            console.log('Wrote ' + queue.length + ' entries (' + approved + ' auto_approved, ' + review + ' pending_review) to ' + outPath);
           "
 
           # Clean up raw file
