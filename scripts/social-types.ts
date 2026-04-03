@@ -95,7 +95,7 @@ export function loadConfig(): SocialConfig {
   return JSON.parse(fs.readFileSync(PATHS.config, 'utf8'));
 }
 
-export function loadBudget(): BudgetData {
+export function loadBudget({ autoSave = true } = {}): BudgetData {
   const budget: BudgetData = JSON.parse(fs.readFileSync(PATHS.budget, 'utf8'));
   const currentMonth = new Date().toISOString().slice(0, 7);
   if (budget.currentMonth !== currentMonth) {
@@ -103,7 +103,7 @@ export function loadBudget(): BudgetData {
     budget.spent = 0;
     budget.tweetsPosted = 0;
     budget.remaining = budget.monthlyTarget;
-    saveBudget(budget);
+    if (autoSave) saveBudget(budget);
   }
   return budget;
 }

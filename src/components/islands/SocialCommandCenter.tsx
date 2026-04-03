@@ -78,6 +78,7 @@ interface LegacyQueueEntry {
 
 interface Props {
   basePath: string;
+  githubRepo: string;
 }
 
 /* ── Constants ── */
@@ -247,7 +248,7 @@ function VerifiedBadgeSvg() {
 
 /* ── Component ── */
 
-export default function SocialCommandCenter({ basePath }: Props) {
+export default function SocialCommandCenter({ basePath, githubRepo }: Props) {
   const [queue, setQueue] = useState<QueueEntry[]>([]);
   const [budget, setBudget] = useState<BudgetData | null>(null);
   const [history, setHistory] = useState<HistoryEntry[]>([]);
@@ -388,7 +389,7 @@ export default function SocialCommandCenter({ basePath }: Props) {
 
   const updateQueueViaGitHub = useCallback(
     async (updatedQueue: QueueEntry[]): Promise<boolean> => {
-      const repo = 'ArtemioPadilla/watchboard';
+      const repo = githubRepo;
       const date = todayStr();
       const filePath = `public/_social/queue-${date}.json`;
 
@@ -439,7 +440,7 @@ export default function SocialCommandCenter({ basePath }: Props) {
 
       return true;
     },
-    [ghToken],
+    [ghToken, githubRepo],
   );
 
   /* ── Action handlers ── */
@@ -542,18 +543,24 @@ export default function SocialCommandCenter({ basePath }: Props) {
 
   const handlePublishNow = useCallback(async () => {
     if (!ghToken) return;
-    const approvedCount = queue.filter(
-      (e) => e.status === 'approved' || e.status === 'auto_approved',
+    const now = new Date();
+    const dueCount = queue.filter(
+      (e) =>
+        (e.status === 'approved' || e.status === 'auto_approved') &&
+        new Date(e.publishAt) <= now &&
+        !e.tweetId,
     ).length;
-    if (approvedCount === 0) {
-      alert('No approved tweets to publish. Approve some tweets first.');
+    if (dueCount === 0) {
+      alert('No tweets are due for posting right now. Approve tweets and check their publishAt times.');
       return;
     }
-    if (!confirm(`Trigger posting workflow? ${approvedCount} approved tweet(s) will be published to X.`)) return;
+    if (!confirm(`Trigger posting workflow? ${dueCount} due tweet(s) will be published to X.`)) return;
     setPublishing(true);
     try {
+      // Brief delay to ensure any recent approval commits have landed on the remote
+      await new Promise(r => setTimeout(r, 3000));
       const res = await fetch(
-        'https://api.github.com/repos/ArtemioPadilla/watchboard/actions/workflows/post-social-queue.yml/dispatches',
+        `https://api.github.com/repos/${githubRepo}/actions/workflows/post-social-queue.yml/dispatches`,
         {
           method: 'POST',
           headers: {
@@ -567,13 +574,13 @@ export default function SocialCommandCenter({ basePath }: Props) {
         const errData = await res.json().catch(() => ({}));
         throw new Error(`GitHub API error (${res.status}): ${(errData as Record<string, string>).message ?? 'Failed to trigger workflow'}`);
       }
-      alert(`Workflow triggered! ${approvedCount} tweet(s) will be posted in ~30 seconds. Refresh the page after a minute to see results.`);
+      alert(`Workflow triggered! ${dueCount} tweet(s) will be posted in ~30 seconds. Refresh the page after a minute to see results.`);
     } catch (err) {
       alert(err instanceof Error ? err.message : 'Failed to trigger publish workflow');
     } finally {
       setPublishing(false);
     }
-  }, [ghToken, queue]);
+  }, [ghToken, queue, githubRepo]);
 
   /* ── Render helpers ── */
 

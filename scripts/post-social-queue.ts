@@ -134,9 +134,9 @@ async function main(): Promise<void> {
       entry.status = 'posted';
       entry.postedAt = new Date().toISOString();
 
-      // Update budget
-      budget.spent += entry.estimatedCost;
-      budget.remaining = budget.monthlyTarget - budget.spent;
+      // Update budget (round to avoid IEEE 754 float drift)
+      budget.spent = Math.round((budget.spent + entry.estimatedCost) * 100) / 100;
+      budget.remaining = Math.round((budget.monthlyTarget - budget.spent) * 100) / 100;
       budget.tweetsPosted++;
 
       // Add to history
