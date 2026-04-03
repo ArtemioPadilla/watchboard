@@ -257,94 +257,133 @@ function keplerianToEquatorial(
 }
 
 /**
+ * Extract orbital elements (RAAN, inclination, argument of perigee) from
+ * a position+velocity state vector.
+ */
+function stateToOrbitalPlane(pos: { x: number; y: number; z: number }, vel: { x: number; y: number; z: number }) {
+  // Angular momentum h = r × v
+  const hx = pos.y * vel.z - pos.z * vel.y;
+  const hy = pos.z * vel.x - pos.x * vel.z;
+  const hz = pos.x * vel.y - pos.y * vel.x;
+  const hMag = Math.sqrt(hx * hx + hy * hy + hz * hz);
+
+  // Inclination: cos(i) = hz / |h|
+  const incl = Math.acos(hz / hMag);
+
+  // Node vector n = k × h (k = [0,0,1])
+  const nx = -hy;
+  const ny = hx;
+  const nMag = Math.sqrt(nx * nx + ny * ny);
+
+  // RAAN: Ω = atan2(ny, nx)
+  const raan = nMag > 1e-10 ? Math.atan2(ny, nx) : 0;
+
+  return { incl, raan };
+}
+
+/**
  * Generate pre-Horizons waypoints from launch to ICPS separation.
- * Uses real orbital parameters from NASA press kit.
+ * Derives orbital plane from the first Horizons waypoint for seamless junction.
  */
 function generatePreHorizonsPhase(firstHorizonsWp: HorizonsWaypoint): HorizonsWaypoint[] {
   const waypoints: HorizonsWaypoint[] = [];
   const launchMs = new Date(MISSION.launchTime).getTime();
   const firstHorizonsMs = new Date(firstHorizonsWp.t).getTime();
 
-  // Convert KSC position to equatorial J2000 at launch time
-  const kscEcef = geoToEcef(KSC_LAT, KSC_LON, 0, MISSION.launchTime);
-  const theta = gmstRad(new Date(MISSION.launchTime));
-  const cosT = Math.cos(theta), sinT = Math.sin(theta);
-  // ECEF → ECI
-  const kscEci = {
-    x: cosT * kscEcef.x - sinT * kscEcef.y,
-    y: sinT * kscEcef.x + cosT * kscEcef.y,
-    z: kscEcef.z,
-  };
+  // Derive orbital plane from first Horizons point (ensures smooth junction)
+  const { incl, raan } = stateToOrbitalPlane(
+    firstHorizonsWp,
+    { x: firstHorizonsWp.vx, y: firstHorizonsWp.vy, z: firstHorizonsWp.vz },
+  );
+  console.log(`[artemis] Derived orbital plane: incl=${(incl * 180 / Math.PI).toFixed(1)}° RAAN=${(raan * 180 / Math.PI).toFixed(1)}°`);
 
-  // Launch point
-  waypoints.push({ t: MISSION.launchTime, ...kscEci, vx: 0, vy: 0, vz: 0 });
+  // Compute mean anomaly offset so the high elliptical orbit arrives at
+  // the first Horizons position at the junction time
+  const firstR = Math.sqrt(firstHorizonsWp.x ** 2 + firstHorizonsWp.y ** 2 + firstHorizonsWp.z ** 2);
+  const orbit2Perigee = EARTH_R + 185;
+  const orbit2Apogee = EARTH_R + 70377;
+  const orbit2A = (orbit2Perigee + orbit2Apogee) / 2;
+  const orbit2E = (orbit2Apogee - orbit2Perigee) / (orbit2Apogee + orbit2Perigee);
 
-  // Compute RAAN from KSC position at launch
-  const raan = Math.atan2(kscEci.y, kscEci.x);
+  // True anomaly from radius: r = a(1-e²)/(1+e·cos(ν))
+  const p = orbit2A * (1 - orbit2E * orbit2E);
+  let cosNu = (p / firstR - 1) / orbit2E;
+  cosNu = Math.max(-1, Math.min(1, cosNu)); // clamp
+  const nuAtJunction = Math.acos(cosNu);
+
+  // Eccentric anomaly from true anomaly
+  const EAtJunction = 2 * Math.atan(Math.sqrt((1 - orbit2E) / (1 + orbit2E)) * Math.tan(nuAtJunction / 2));
+  const MAtJunction = EAtJunction - orbit2E * Math.sin(EAtJunction);
+
+  // Argument of perigee: align orbit so spacecraft is at correct position
+  // Project first Horizons point into orbital plane to find argp
+  const cosR = Math.cos(raan), sinR = Math.sin(raan);
+  const cosI = Math.cos(incl), sinI = Math.sin(incl);
+  // Transform to orbital plane
+  const xRot = cosR * firstHorizonsWp.x + sinR * firstHorizonsWp.y;
+  const yRot = -sinR * cosI * firstHorizonsWp.x + cosR * cosI * firstHorizonsWp.y + sinI * firstHorizonsWp.z;
+  const argLatitude = Math.atan2(yRot, xRot); // argument of latitude = argp + nu
+  const argp = argLatitude - nuAtJunction;
+
+  function isoTime(ms: number): string {
+    return new Date(ms).toISOString().replace(/\.\d{3}Z$/, 'Z');
+  }
+
+  // Launch surface point (project along orbit normal to Earth surface)
+  const launchAngle = -0.1; // slightly before the ascending node
+  const lx = EARTH_R * (Math.cos(raan) * Math.cos(argp + launchAngle) - Math.sin(raan) * Math.sin(argp + launchAngle) * Math.cos(incl));
+  const ly = EARTH_R * (Math.sin(raan) * Math.cos(argp + launchAngle) + Math.cos(raan) * Math.sin(argp + launchAngle) * Math.cos(incl));
+  const lz = EARTH_R * Math.sin(argp + launchAngle) * Math.sin(incl);
+  waypoints.push({ t: MISSION.launchTime, x: lx, y: ly, z: lz, vx: 0, vy: 0, vz: 0 });
 
   // Phase 1: Ascent to parking orbit (T+0 to T+8min)
-  // Linear interpolation from surface to 185 km
   const ascentEnd = launchMs + 8 * 60 * 1000;
-  const parkingR = EARTH_R + 185;
-  for (let t = launchMs + 60000; t <= ascentEnd; t += 60000) {
+  for (let t = launchMs + 30000; t <= ascentEnd; t += 30000) {
     const frac = (t - launchMs) / (ascentEnd - launchMs);
     const alt = frac * 185;
     const r = EARTH_R + alt;
-    // Ascend along the orbital plane, gaining velocity
-    const angle = frac * 0.15; // partial orbit during ascent
-    const x = r * (Math.cos(raan) * Math.cos(angle) - Math.sin(raan) * Math.sin(angle) * Math.cos(INCLINATION));
-    const y = r * (Math.sin(raan) * Math.cos(angle) + Math.cos(raan) * Math.sin(angle) * Math.cos(INCLINATION));
-    const z = r * Math.sin(angle) * Math.sin(INCLINATION);
-    const v = frac * Math.sqrt(MU / parkingR); // ramp to orbital velocity
-    waypoints.push({
-      t: new Date(t).toISOString().replace(/\.\d{3}Z$/, 'Z'),
-      x, y, z, vx: 0, vy: v, vz: 0,
-    });
-  }
-
-  // Phase 2: Parking orbit at 185 km (T+8min to T+50min)
-  // Circular orbit, period ~88 min
-  const parkingA = parkingR;
-  const parkingPeriod = 2 * Math.PI * Math.sqrt(parkingA ** 3 / MU); // seconds
-  const parkingStart = ascentEnd;
-  const perigeeRaiseTime = launchMs + 50 * 60 * 1000;
-
-  for (let t = parkingStart; t <= perigeeRaiseTime; t += 60000) { // 1-min steps
-    const elapsed = (t - parkingStart) / 1000;
-    const M = (elapsed / parkingPeriod) * 2 * Math.PI;
-    const wp = keplerianToEquatorial(parkingA, 0.001, INCLINATION, raan, 0, M,
-      new Date(t).toISOString().replace(/\.\d{3}Z$/, 'Z'));
+    const angle = argp + launchAngle + frac * 0.12;
+    const wp = keplerianToEquatorial(r, 0, incl, raan, 0, angle, isoTime(t));
+    // Override position with correct radius
+    const dist = Math.sqrt(wp.x ** 2 + wp.y ** 2 + wp.z ** 2);
+    wp.x *= r / dist; wp.y *= r / dist; wp.z *= r / dist;
     waypoints.push(wp);
   }
 
-  // Phase 3: First elliptical orbit 185 x 2,223 km (T+50min to T+1h48m)
+  // Phase 2: Parking orbit 185 km (T+8min to T+50min)
+  const parkingA = EARTH_R + 185;
+  const parkingPeriod = 2 * Math.PI * Math.sqrt(parkingA ** 3 / MU);
+  const perigeeRaiseMs = launchMs + 50 * 60 * 1000;
+  const ascentEndAngle = argp + launchAngle + 0.12;
+  for (let t = ascentEnd; t <= perigeeRaiseMs; t += 60000) {
+    const elapsed = (t - ascentEnd) / 1000;
+    const M = ascentEndAngle + (elapsed / parkingPeriod) * 2 * Math.PI;
+    const wp = keplerianToEquatorial(parkingA, 0.001, incl, raan, 0, M, isoTime(t));
+    waypoints.push(wp);
+  }
+
+  // Phase 3: First elliptical 185 x 2,223 km (T+50min to T+1h48m)
   const orbit1Perigee = EARTH_R + 185;
   const orbit1Apogee = EARTH_R + 2223;
   const orbit1A = (orbit1Perigee + orbit1Apogee) / 2;
   const orbit1E = (orbit1Apogee - orbit1Perigee) / (orbit1Apogee + orbit1Perigee);
   const orbit1Period = 2 * Math.PI * Math.sqrt(orbit1A ** 3 / MU);
-  const apogeeRaiseTime = launchMs + 108 * 60 * 1000; // T+1h48m
-
-  for (let t = perigeeRaiseTime; t <= apogeeRaiseTime; t += 60000) {
-    const elapsed = (t - perigeeRaiseTime) / 1000;
+  const apogeeRaiseMs = launchMs + 108 * 60 * 1000;
+  for (let t = perigeeRaiseMs; t <= apogeeRaiseMs; t += 60000) {
+    const elapsed = (t - perigeeRaiseMs) / 1000;
     const M = (elapsed / orbit1Period) * 2 * Math.PI;
-    const wp = keplerianToEquatorial(orbit1A, orbit1E, INCLINATION, raan, 0, M,
-      new Date(t).toISOString().replace(/\.\d{3}Z$/, 'Z'));
+    const wp = keplerianToEquatorial(orbit1A, orbit1E, incl, raan, argp, M, isoTime(t));
     waypoints.push(wp);
   }
 
-  // Phase 4: High elliptical orbit 185 x 70,377 km (T+1h48m to Horizons start)
-  const orbit2Perigee = EARTH_R + 185;
-  const orbit2Apogee = EARTH_R + 70377;
-  const orbit2A = (orbit2Perigee + orbit2Apogee) / 2;
-  const orbit2E = (orbit2Apogee - orbit2Perigee) / (orbit2Apogee + orbit2Perigee);
+  // Phase 4: High elliptical 185 x 70,377 km (T+1h48m to Horizons start)
   const orbit2Period = 2 * Math.PI * Math.sqrt(orbit2A ** 3 / MU);
-
-  for (let t = apogeeRaiseTime; t < firstHorizonsMs; t += 120000) { // 2-min steps
-    const elapsed = (t - apogeeRaiseTime) / 1000;
-    const M = (elapsed / orbit2Period) * 2 * Math.PI;
-    const wp = keplerianToEquatorial(orbit2A, orbit2E, INCLINATION, raan, 0, M,
-      new Date(t).toISOString().replace(/\.\d{3}Z$/, 'Z'));
+  const junctionElapsed = (firstHorizonsMs - apogeeRaiseMs) / 1000;
+  const MStart = MAtJunction - (junctionElapsed / orbit2Period) * 2 * Math.PI;
+  for (let t = apogeeRaiseMs; t < firstHorizonsMs; t += 120000) {
+    const elapsed = (t - apogeeRaiseMs) / 1000;
+    const M = MStart + (elapsed / orbit2Period) * 2 * Math.PI;
+    const wp = keplerianToEquatorial(orbit2A, orbit2E, incl, raan, argp, M, isoTime(t));
     waypoints.push(wp);
   }
 
