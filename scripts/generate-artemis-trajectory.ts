@@ -222,35 +222,8 @@ async function main() {
   console.log('[artemis] Converting Ecliptic → Equatorial J2000 (inertial)...');
   allWaypoints = allWaypoints.map(eclipticToEquatorialWp);
 
-  // Connect trajectory endpoints to Earth surface
-  // Project first/last waypoint direction down to Earth radius
-  if (allWaypoints.length > 0) {
-    const first = allWaypoints[0];
-    const last = allWaypoints[allWaypoints.length - 1];
-    const earthR = 6371; // km
-
-    // Launch anchor: project first waypoint direction to Earth surface
-    const firstDist = Math.sqrt(first.x ** 2 + first.y ** 2 + first.z ** 2);
-    const launchPt: HorizonsWaypoint = {
-      t: MISSION.launchTime,
-      x: first.x / firstDist * earthR,
-      y: first.y / firstDist * earthR,
-      z: first.z / firstDist * earthR,
-      vx: 0, vy: 0, vz: 0,
-    };
-
-    // Splashdown anchor: project last waypoint direction to Earth surface
-    const lastDist = Math.sqrt(last.x ** 2 + last.y ** 2 + last.z ** 2);
-    const splashPt: HorizonsWaypoint = {
-      t: MISSION.splashdownTime,
-      x: last.x / lastDist * earthR,
-      y: last.y / lastDist * earthR,
-      z: last.z / lastDist * earthR,
-      vx: 0, vy: 0, vz: 0,
-    };
-
-    allWaypoints = [launchPt, ...allWaypoints, splashPt];
-  }
+  // No surface anchors — the radial line from surface to orbit looks worse
+  // than a small gap. Trajectory starts/ends in orbit naturally.
 
   // Round for file size
   for (const wp of allWaypoints) {
