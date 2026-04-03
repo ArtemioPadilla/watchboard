@@ -250,13 +250,11 @@ function svgWeaponUnknown(c: string): string {
   `);
 }
 
-// ── Spacecraft: Orion-style capsule + service module silhouette ──
+// ── Spacecraft: Orion-style capsule silhouette ──
+let _spacecraftIcon: string | null = null;
 export function createSpacecraftIcon(): string {
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-    <defs><filter id="g"><feGaussianBlur stdDeviation="0.5"/></filter></defs>
-    <path d="M16 2 L20 12 L20 24 L24 28 L24 30 L20 27 L20 30 L16 28 L12 30 L12 27 L8 30 L8 28 L12 24 L12 12 Z"
-      fill="#e0e0e0" stroke="#4ade80" stroke-width="0.5" filter="url(#g)"/>
-    <circle cx="16" cy="10" r="2" fill="#60a5fa" opacity="0.8"/>
-  </svg>`;
-  return 'data:image/svg+xml,' + encodeURIComponent(svg);
+  if (_spacecraftIcon) return _spacecraftIcon;
+  const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path d="M16 2L20 12L20 24L24 28L24 30L20 27L20 30L16 28L12 30L12 27L8 30L8 28L12 24L12 12Z" fill="#e0e0e0" stroke="#4ade80" stroke-width="1"/><circle cx="16" cy="10" r="2" fill="#60a5fa"/></svg>';
+  _spacecraftIcon = 'data:image/svg+xml;base64,' + btoa(svg);
+  return _spacecraftIcon;
 }
