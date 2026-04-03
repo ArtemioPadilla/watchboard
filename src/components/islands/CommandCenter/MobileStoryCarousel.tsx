@@ -257,14 +257,14 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
           <div className="story-avatar">{tracker.icon ?? '?'}</div>
           <div className="story-meta">
             <div className="story-name">{tracker.shortName}</div>
-            <div className="story-date">
+            <div className="story-date" suppressHydrationWarning>
               DAY {tracker.dayCount} &middot; {relativeTime(tracker.lastUpdated)}
             </div>
           </div>
           {isLive(tracker.lastUpdated) ? (
-            <span className="story-live-badge">{paused ? 'PAUSED' : 'LIVE'}</span>
+            <span className="story-live-badge" suppressHydrationWarning>{paused ? 'PAUSED' : 'LIVE'}</span>
           ) : (
-            <span className="story-date">{relativeTime(tracker.lastUpdated)}</span>
+            <span className="story-date" suppressHydrationWarning>{relativeTime(tracker.lastUpdated)}</span>
           )}
         </div>
 

@@ -263,7 +263,6 @@ async function main() {
               }
             }
           }
-          totalSkipped++;
           continue;
         }
 
