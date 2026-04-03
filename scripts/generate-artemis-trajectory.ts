@@ -183,8 +183,9 @@ async function main() {
   console.log('[artemis] Fetching real Artemis II trajectory from JPL Horizons (target -1024)...\n');
 
   const segments = [
-    // Start post-TLI (skip jagged Earth orbits — 30min sampling too coarse)
-    // TLI burn ends ~Apr 2 23:55. Start from Apr 3 00:00 for clean outbound arc.
+    // Earth orbit phase — fine sampling (5min) for smooth elliptical orbits
+    { start: '2026-Apr-02 02:00', stop: '2026-Apr-03 00:00', step: '5m' },
+    // Post-TLI early outbound
     { start: '2026-Apr-03 00:00', stop: '2026-Apr-03 12:00', step: '30m' },
     { start: '2026-Apr-03 12:00', stop: '2026-Apr-06 04:00', step: '1h' },
     // Lunar flyby — high resolution
