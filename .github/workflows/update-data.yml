@@ -817,34 +817,65 @@ jobs:
 
             Execute the instructions in that prompt. It will ask you to output a JSON array of tweet entries.
 
-            After generating the JSON array, write it to the correct queue file by running:
+            Write ONLY the JSON array (no markdown fences, no explanation) to the file:
+              public/_social/raw-queue.json
 
-            ```
-            node -e "
-              const fs = require('fs');
-              const today = new Date().toISOString().slice(0, 10);
-              const queue = YOUR_JSON_ARRAY_HERE;
-              // Post-process: assign IDs and statuses
-              const crypto = require('crypto');
-              for (const entry of queue) {
-                entry.id = crypto.randomUUID();
-                entry.tweetId = null;
-                entry.postedAt = null;
-                if (!entry.status) {
-                  entry.status = (entry.judge?.score >= 0.85 && entry.judge?.verdict === 'PUBLISH') ? 'auto_approved' : 'pending_review';
-                }
-                if (!entry.estimatedCost) {
-                  entry.estimatedCost = entry.image || entry.memegenUrl ? 0.02 : 0.01;
-                }
+            The file must contain a valid JSON array of objects. Nothing else.
+
+      - name: Post-process social queue
+        if: steps.social.outcome == 'success'
+        run: |
+          TODAY=$(date -u +%Y-%m-%d)
+          RAW="public/_social/raw-queue.json"
+
+          # Claude agent might write to raw-queue.json, or YYYY-MM-DD.json, or queue-YYYY-MM-DD.json
+          # Find whichever file it actually wrote
+          if [ ! -f "$RAW" ]; then
+            # Check for date-named file without queue- prefix
+            for f in public/_social/${TODAY}.json public/_social/queue-${TODAY}.json; do
+              if [ -f "$f" ]; then
+                echo "Found queue at $f, moving to $RAW"
+                mv "$f" "$RAW"
+                break
+              fi
+            done
+          fi
+
+          if [ ! -f "$RAW" ]; then
+            echo "No raw queue file found — skipping post-processing"
+            exit 0
+          fi
+
+          # Validate JSON
+          if ! node -e "JSON.parse(require('fs').readFileSync('$RAW','utf8'))"; then
+            echo "Invalid JSON in $RAW — skipping"
+            rm -f "$RAW"
+            exit 0
+          fi
+
+          # Post-process: add IDs, statuses, costs, and write to correct filename
+          node -e "
+            const fs = require('fs');
+            const crypto = require('crypto');
+            const queue = JSON.parse(fs.readFileSync('$RAW', 'utf8'));
+            for (const entry of queue) {
+              if (!entry.id) entry.id = crypto.randomUUID();
+              if (entry.tweetId === undefined) entry.tweetId = null;
+              if (entry.postedAt === undefined) entry.postedAt = null;
+              if (!entry.status) {
+                entry.status = (entry.judge?.score >= 0.85 && entry.judge?.verdict === 'PUBLISH') ? 'auto_approved' : 'pending_review';
               }
-              fs.mkdirSync('public/_social', { recursive: true });
-              fs.writeFileSync('public/_social/queue-' + today + '.json', JSON.stringify(queue, null, 2));
-              console.log('Wrote ' + queue.length + ' entries to public/_social/queue-' + today + '.json');
-            "
-            ```
+              if (!entry.estimatedCost) {
+                entry.estimatedCost = entry.image || entry.memegenUrl ? 0.02 : 0.01;
+              }
+            }
+            const outPath = 'public/_social/queue-${TODAY}.json';
+            fs.writeFileSync(outPath, JSON.stringify(queue, null, 2));
+            console.log('Wrote ' + queue.length + ' entries to ' + outPath);
+          "
 
-            IMPORTANT: Replace YOUR_JSON_ARRAY_HERE with the actual array you generated. Make sure it's valid JSON.
-            Verify the file was written by reading it back.
+          # Clean up raw file
+          rm -f "$RAW"
 
       - name: Commit and push metrics
         if: always() && steps.metrics.outcome == 'success'
