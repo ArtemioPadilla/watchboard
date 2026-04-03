@@ -796,7 +796,7 @@ jobs:
 
       - name: Build social queue prompt
         id: social_prompt
-        if: steps.validate.outputs.valid == 'true' || steps.revalidate.outputs.valid == 'true'
+        if: steps.build_check.outputs.build_ok == 'true'
         run: |
           npx tsx scripts/generate-social-queue.ts --dry-run
           if [ -f "public/_social/prompt-latest.txt" ]; then
@@ -892,8 +892,10 @@ jobs:
                 entry.text = entry.text.replace(entry.link, '').replace(/\n{2,}/g, '\n\n').trim();
               }
               if (entry.hashtags && Array.isArray(entry.hashtags)) {
-                for (const tag of entry.hashtags) {
-                  const hashTag = tag.startsWith('#') ? tag : '#' + tag;
+                // Normalize: ensure all hashtags have # prefix
+                entry.hashtags = entry.hashtags.map(tag => tag.startsWith('#') ? tag : '#' + tag);
+                // Strip hashtags from text if agent included them (poster appends these)
+                for (const hashTag of entry.hashtags) {
                   entry.text = entry.text.replace(new RegExp('\\\\s*' + hashTag.replace(/[.*+?^\${}()|[\\]\\\\]/g, '\\\\\\$&') + '\\\\s*', 'g'), ' ').trim();
                 }
               }
@@ -901,19 +903,25 @@ jobs:
               // Status from judge, or default
               if (!entry.status) {
                 const j = entry.judge;
-                if (j && j.score >= 0.85 && j.verdict === 'PUBLISH') {
-                  entry.status = 'auto_approved';
+                // Reject if any fact check failed
+                if (j && j.factChecks && j.factChecks.some(fc => fc.status === 'failed')) {
+                  entry.status = 'rejected';
                 } else if (j && j.verdict === 'KILL') {
                   entry.status = 'rejected';
                 } else if (j && j.verdict === 'HOLD') {
                   entry.status = 'held';
                 } else if (j && j.verdict === 'REVIEW') {
                   entry.status = 'pending_review';
+                } else if (entry.type === 'meme') {
+                  // Memes always require review
+                  entry.status = 'pending_review';
+                } else if (j && j.score >= 0.85 && j.verdict === 'PUBLISH') {
+                  entry.status = 'auto_approved';
                 } else if (j && j.score >= 0.5) {
                   entry.status = 'pending_review';
                 } else if (!j) {
-                  // No judge at all — auto-approve non-meme, review memes
-                  entry.status = entry.type === 'meme' ? 'pending_review' : 'auto_approved';
+                  // No judge at all — auto-approve non-meme
+                  entry.status = 'auto_approved';
                 } else {
                   entry.status = 'rejected';
                 }

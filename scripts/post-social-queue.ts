@@ -98,11 +98,18 @@ async function main(): Promise<void> {
 
   for (const entry of due) {
     try {
+      // Normalize hashtags — ensure # prefix
+      const tags = entry.hashtags.map(t => t.startsWith('#') ? t : `#${t}`).join(' ');
+
       if (entry.threadTweets && entry.threadTweets.length > 0) {
-        // Post thread — save state after each tweet to prevent duplicates on retry
+        // Post thread — append link to last tweet, save state after each to prevent duplicates
         let lastId: string | undefined;
         let threadPosted = 0;
-        for (const tweetText of entry.threadTweets) {
+        for (let i = 0; i < entry.threadTweets.length; i++) {
+          const isLast = i === entry.threadTweets.length - 1;
+          const tweetText = isLast
+            ? `${entry.threadTweets[i]}\n\n${entry.link}`
+            : entry.threadTweets[i];
           const id = await postTweet(client, tweetText, lastId);
           if (id) {
             if (!lastId) entry.tweetId = id; // store first tweet ID
@@ -112,14 +119,13 @@ async function main(): Promise<void> {
           await sleep(2000);
         }
         if (threadPosted < entry.threadTweets.length) {
-          // Partial thread — mark with tweetId so it won't be retried
           console.warn(`[poster] Thread partial: ${entry.tracker}/${entry.type} (${threadPosted}/${entry.threadTweets.length} tweets)`);
         } else {
           console.log(`[poster] Thread posted: ${entry.tracker}/${entry.type} (${entry.threadTweets.length} tweets)`);
         }
       } else {
         // Post single tweet
-        const fullText = `${entry.text}\n\n${entry.link}\n\n${entry.hashtags.join(' ')}`;
+        const fullText = `${entry.text}\n\n${entry.link}\n\n${tags}`;
         const id = await postTweet(client, fullText);
         entry.tweetId = id;
         console.log(`[poster] Posted: ${entry.tracker}/${entry.type}/${entry.lang} → ${id}`);
