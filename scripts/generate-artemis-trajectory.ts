@@ -153,29 +153,15 @@ function eclipticToEquatorial(x: number, y: number, z: number): { x: number; y: 
 }
 
 /**
- * Convert Ecliptic J2000 position to ECEF:
- * 1. Ecliptic → Equatorial J2000 (rotate by obliquity)
- * 2. Equatorial J2000 → ECEF (rotate by GMST)
+ * Convert Ecliptic J2000 to Equatorial J2000 (inertial).
+ * We intentionally skip the GMST rotation to ECEF — in ECEF the trajectory
+ * spirals around Earth (correct but visually terrible). Keeping it in the
+ * inertial frame shows a clean arc while Earth rotates underneath.
  */
-function eciToEcef(wp: HorizonsWaypoint): HorizonsWaypoint {
-  // Step 1: Ecliptic → Equatorial
+function eclipticToInertial(wp: HorizonsWaypoint): HorizonsWaypoint {
   const eq = eclipticToEquatorial(wp.x, wp.y, wp.z);
   const eqV = eclipticToEquatorial(wp.vx, wp.vy, wp.vz);
-
-  // Step 2: Equatorial → ECEF via GMST
-  const date = new Date(wp.t);
-  const theta = gmstRad(date);
-  const cosT = Math.cos(theta);
-  const sinT = Math.sin(theta);
-  return {
-    t: wp.t,
-    x: cosT * eq.x + sinT * eq.y,
-    y: -sinT * eq.x + cosT * eq.y,
-    z: eq.z,
-    vx: cosT * eqV.x + sinT * eqV.y,
-    vy: -sinT * eqV.x + cosT * eqV.y,
-    vz: eqV.z,
-  };
+  return { t: wp.t, x: eq.x, y: eq.y, z: eq.z, vx: eqV.x, vy: eqV.y, vz: eqV.z };
 }
 
 /**
@@ -228,20 +214,29 @@ async function main() {
   // Sort by time
   allWaypoints.sort((a, b) => new Date(a.t).getTime() - new Date(b.t).getTime());
 
-  // Convert from equatorial J2000 (inertial) to ECEF (Earth-fixed)
-  console.log('[artemis] Converting ECI → ECEF...');
-  allWaypoints = allWaypoints.map(eciToEcef);
+  // Convert from Ecliptic J2000 to Equatorial J2000 (inertial)
+  console.log('[artemis] Converting Ecliptic → Equatorial J2000...');
+  allWaypoints = allWaypoints.map(eclipticToInertial);
 
-  // Add launch and splashdown anchor points at Earth's surface
-  // KSC LC-39B: 28.6°N, 80.6°W
-  const launchAnchor = geoToEcef(28.6, -80.6, 0, MISSION.launchTime);
-  const launchLeo = geoToEcef(28.6, -80.6, 185, '2026-04-02T00:00:00Z');
-  // Splashdown: Pacific off San Diego ~32°N, 117.5°W
-  const splashAnchor = geoToEcef(32.0, -117.5, 0, MISSION.splashdownTime);
-  const reentryStart = geoToEcef(32.0, -130.0, 122, '2026-04-11T00:04:00Z');
+  // Add launch and splashdown anchors
+  // Use the first/last Horizons waypoint direction but at Earth surface radius
+  const firstHorizon = allWaypoints[0];
+  const lastHorizon = allWaypoints[allWaypoints.length - 1];
+  const firstDist = Math.sqrt(firstHorizon.x ** 2 + firstHorizon.y ** 2 + firstHorizon.z ** 2);
+  const lastDist = Math.sqrt(lastHorizon.x ** 2 + lastHorizon.y ** 2 + lastHorizon.z ** 2);
+  const launchAnchor: HorizonsWaypoint = {
+    t: MISSION.launchTime,
+    x: round(firstHorizon.x / firstDist * 6371), y: round(firstHorizon.y / firstDist * 6371), z: round(firstHorizon.z / firstDist * 6371),
+    vx: 0, vy: 0, vz: 0,
+  };
+  const splashAnchor: HorizonsWaypoint = {
+    t: MISSION.splashdownTime,
+    x: round(lastHorizon.x / lastDist * 6371), y: round(lastHorizon.y / lastDist * 6371), z: round(lastHorizon.z / lastDist * 6371),
+    vx: 0, vy: 0, vz: 0,
+  };
 
-  // Prepend launch anchors, append splashdown anchors
-  allWaypoints = [launchAnchor, launchLeo, ...allWaypoints, reentryStart, splashAnchor];
+  // Prepend launch anchor, append splashdown anchor
+  allWaypoints = [launchAnchor, ...allWaypoints, splashAnchor];
 
   // Round for file size
   for (const wp of allWaypoints) {
@@ -269,9 +264,9 @@ async function main() {
 
   const trajectory = {
     ...MISSION,
-    coordinateFrame: 'ECEF (Earth-Centered Earth-Fixed)',
+    coordinateFrame: 'Equatorial J2000 (Earth-centered inertial)',
     units: { position: 'km', velocity: 'km/s' },
-    source: 'JPL Horizons API, target -1024 (Artemis II / Orion EM-2), converted ECI→ECEF via GMST',
+    source: 'JPL Horizons API, target -1024 (Artemis II / Orion EM-2), Ecliptic→Equatorial conversion',
     waypoints: allWaypoints,
   };
 
