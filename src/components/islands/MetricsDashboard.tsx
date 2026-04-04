@@ -53,7 +53,7 @@ interface DayBucket {
 
 /* ── Constants ── */
 
-const BASE = '/watchboard';
+const BASE = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
 const FONT_MONO = "'JetBrains Mono', monospace";
 const FONT_SERIF = "'Cormorant Garamond', serif";
 const FONT_SANS = "'DM Sans', sans-serif";
