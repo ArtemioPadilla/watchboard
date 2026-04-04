@@ -554,21 +554,25 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [], ca
 
       {/* Info panel — close events panel when a point is selected */}
       {selectedPoint && (
-        <CesiumInfoPanel point={selectedPoint} onClose={() => setSelectedPoint(null)} />
+        <div className="globe-slot globe-slot--right">
+          <CesiumInfoPanel point={selectedPoint} onClose={() => setSelectedPoint(null)} />
+        </div>
       )}
 
       {/* Generic entity info panel (flights, ships, satellites) */}
       {selectedEntity && !selectedPoint && (
-        <div className="globe-info-panel">
-          <button className="globe-info-close" onClick={() => setSelectedEntity(null)} aria-label="Close info panel">
-            &times;
-          </button>
-          <div className="globe-info-title">{selectedEntity.name}</div>
-          {selectedEntity.description && (
-            <pre className="globe-info-body" style={{ whiteSpace: 'pre-wrap', margin: '0.5rem 0 0', fontSize: '0.75rem', opacity: 0.85 }}>
-              {selectedEntity.description}
-            </pre>
-          )}
+        <div className="globe-slot globe-slot--right">
+          <div className="globe-info-panel">
+            <button className="globe-info-close" onClick={() => setSelectedEntity(null)} aria-label="Close info panel">
+              &times;
+            </button>
+            <div className="globe-info-title">{selectedEntity.name}</div>
+            {selectedEntity.description && (
+              <pre className="globe-info-body" style={{ whiteSpace: 'pre-wrap', margin: '0.5rem 0 0', fontSize: '0.75rem', opacity: 0.85 }}>
+                {selectedEntity.description}
+              </pre>
+            )}
+          </div>
         </div>
       )}
 
@@ -650,18 +654,20 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [], ca
       </div>
 
       {/* Events / Intel feed panel */}
-      <CesiumEventsPanel
-        events={events}
-        currentDate={currentDate}
-        isOpen={eventsOpen}
-        onToggle={() => {
-          setEventsOpen(prev => {
-            if (!prev) setSelectedPoint(null); // Close info panel when opening intel feed
-            return !prev;
-          });
-        }}
-        activeEventId={cinematicMode ? cinematicEventId : undefined}
-      />
+      <div className="globe-slot globe-slot--right">
+        <CesiumEventsPanel
+          events={events}
+          currentDate={currentDate}
+          isOpen={eventsOpen}
+          onToggle={() => {
+            setEventsOpen(prev => {
+              if (!prev) setSelectedPoint(null); // Close info panel when opening intel feed
+              return !prev;
+            });
+          }}
+          activeEventId={cinematicMode ? cinematicEventId : undefined}
+        />
+      </div>
     </div>
   );
 }
