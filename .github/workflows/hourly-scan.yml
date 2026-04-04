@@ -87,9 +87,8 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          allowed_tools: "Read,Write"
-          timeout_minutes: 5
-          claude_args: "--max-turns 5"
+          claude_args: "--max-turns 5 --dangerously-skip-permissions"
+          show_full_output: true
           prompt: |
             You are a news triage AI for Watchboard. You have TWO files to read, then write ONE output file. Be efficient — do all reads in your first turn, then write the output.
 
