@@ -4,6 +4,7 @@ import type { TrackerCardData } from '../../../lib/tracker-directory-utils';
 import { type Locale, SUPPORTED_LOCALES, getPreferredLocale, setPreferredLocale, t } from '../../../i18n/translations';
 const GlobePanel = lazy(() => import('./GlobePanel'));
 import SidebarPanel from './SidebarPanel';
+import type { ViewMode } from './ViewModeToggle';
 import MobileStoryCarousel from './MobileStoryCarousel';
 import ComparePanel from './ComparePanel';
 import NotificationManager from './NotificationManager';
@@ -58,6 +59,14 @@ export default function CommandCenter({
   const [followedSlugs, setFollowedSlugs] = useState<string[]>([]);
   const [compareSlugs, setCompareSlugs] = useState<string[]>([]);
   const [broadcastOff, setBroadcastOff] = useState(false);
+  const [viewMode, setViewMode] = useState<ViewMode>(() => {
+    if (typeof window !== 'undefined') {
+      const hash = window.location.hash.replace('#', '');
+      if (hash === 'geo') return 'geographic';
+      if (hash === 'domain') return 'domain';
+    }
+    return 'operations';
+  });
   const [locale, setLocale] = useState<Locale>('en');
   const [showHelp, setShowHelp] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -81,6 +90,15 @@ export default function CommandCenter({
     (slug) => setHoveredTracker(slug),
     followedSlugs,
   );
+
+  useEffect(() => {
+    const hash = viewMode === 'operations' ? '' : viewMode === 'geographic' ? '#geo' : '#domain';
+    if (hash) {
+      window.history.replaceState(null, '', hash);
+    } else if (window.location.hash) {
+      window.history.replaceState(null, '', window.location.pathname);
+    }
+  }, [viewMode]);
 
   useEffect(() => {
     setFollowedSlugs(loadFollows());
@@ -309,6 +327,8 @@ export default function CommandCenter({
           locale={locale}
           onToggleLocale={handleToggleLocale}
           searchRef={searchRef}
+          viewMode={viewMode}
+          onChangeViewMode={setViewMode}
         />
       </nav>
 

@@ -11,6 +11,9 @@ import {
   getVisibleDomains,
 } from '../../../lib/tracker-directory-utils';
 import { t, SUPPORTED_LOCALES, type Locale } from '../../../i18n/translations';
+import ViewModeToggle from './ViewModeToggle';
+import type { ViewMode } from './ViewModeToggle';
+import GeoAccordion from './GeoAccordion';
 
 interface Props {
   trackers: TrackerCardData[];
@@ -28,6 +31,8 @@ interface Props {
   locale?: import('../../../i18n/translations').Locale;
   onToggleLocale?: () => void;
   searchRef?: React.RefObject<HTMLInputElement | null>;
+  viewMode?: ViewMode;
+  onChangeViewMode?: (mode: ViewMode) => void;
 }
 
 // ── TrackerRow ──
@@ -521,6 +526,8 @@ export default function SidebarPanel({
   locale = 'en',
   onToggleLocale,
   searchRef,
+  viewMode,
+  onChangeViewMode,
 }: Props) {
   const [activeDomain, setActiveDomain] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
@@ -635,77 +642,96 @@ export default function SidebarPanel({
         />
       </div>
 
-      {/* Domain tabs */}
-      <div style={S.tabs}>
-        <button
-          type="button"
-          className="cc-domain-tab"
-          style={S.tab(!activeDomain)}
-          onClick={() => setActiveDomain(null)}
-        >
-          ALL <span style={S.tabCount}>{trackers.length}</span>
-        </button>
-        {visibleDomains.map(d => (
+      {/* View mode toggle */}
+      {onChangeViewMode && (
+        <ViewModeToggle mode={viewMode || 'operations'} onChange={onChangeViewMode} />
+      )}
+
+      {/* Domain tabs — only in domain mode */}
+      {(viewMode || 'operations') === 'domain' && (
+        <div style={S.tabs}>
           <button
-            key={d}
             type="button"
             className="cc-domain-tab"
-            style={S.tab(activeDomain === d, DOMAIN_COLORS[d])}
-            onClick={() => setActiveDomain(activeDomain === d ? null : d)}
+            style={S.tab(!activeDomain)}
+            onClick={() => setActiveDomain(null)}
           >
-            {d.toUpperCase()} <span style={S.tabCount}>{domainCounts[d]}</span>
+            ALL <span style={S.tabCount}>{trackers.length}</span>
           </button>
-        ))}
-      </div>
+          {visibleDomains.map(d => (
+            <button
+              key={d}
+              type="button"
+              className="cc-domain-tab"
+              style={S.tab(activeDomain === d, DOMAIN_COLORS[d])}
+              onClick={() => setActiveDomain(activeDomain === d ? null : d)}
+            >
+              {d.toUpperCase()} <span style={S.tabCount}>{domainCounts[d]}</span>
+            </button>
+          ))}
+        </div>
+      )}
 
       {/* Tracker list */}
       <div style={S.list}>
-        {/* Recent events feed (only when not searching) */}
-        {!isSearching && <RecentEventsFeed trackers={trackers} basePath={basePath} followedSlugs={followedSlugs} onSelect={onSelectTracker} locale={locale} />}
-
-        {filtered.length === 0 ? (
-          <div style={S.noResults}>{t('cc.noResults', locale)}</div>
+        {(viewMode || 'operations') === 'geographic' ? (
+          <GeoAccordion
+            trackers={filtered}
+            basePath={basePath}
+            activeTracker={activeTracker}
+            onSelectTracker={onSelectTracker}
+            onHoverTracker={onHoverTracker}
+          />
         ) : (
-          groups.map(group => {
-            // Render series groups as horizontal strips
-            if (group.type === 'series') {
-              return (
-                <SeriesStrip
-                  key={`series-${group.label}`}
-                  group={group}
-                  basePath={basePath}
-                  activeTracker={activeTracker}
-                  hoveredTracker={hoveredTracker}
-                  onSelect={onSelectTracker}
-                  onHover={onHoverTracker}
-                />
-              );
-            }
-            return (
-              <div key={`${group.type}-${group.label}`}>
-                <div style={S.groupHeader(group.type)}>
-                  {group.labelIcon && <span style={S.groupIcon(group.type)}>{group.labelIcon}</span>}
-                  <span>{group.label.toUpperCase()}</span>
-                </div>
-                {group.trackers.map(t => (
-                  <TrackerRow
-                    key={t.slug}
-                    tracker={t}
-                    basePath={basePath}
-                    isActive={activeTracker === t.slug}
-                    isHovered={hoveredTracker === t.slug}
-                    isFollowed={followedSlugs.includes(t.slug)}
-                    isCompared={compareSlugs.includes(t.slug)}
-                    onSelect={onSelectTracker}
-                    onHover={onHoverTracker}
-                    onToggleFollow={onToggleFollow}
-                    onToggleCompare={onToggleCompare}
-                    locale={locale}
-                  />
-                ))}
-              </div>
-            );
-          })
+          <>
+            {/* Recent events feed (only when not searching) */}
+            {!isSearching && <RecentEventsFeed trackers={trackers} basePath={basePath} followedSlugs={followedSlugs} onSelect={onSelectTracker} locale={locale} />}
+
+            {filtered.length === 0 ? (
+              <div style={S.noResults}>{t('cc.noResults', locale)}</div>
+            ) : (
+              groups.map(group => {
+                // Render series groups as horizontal strips
+                if (group.type === 'series') {
+                  return (
+                    <SeriesStrip
+                      key={`series-${group.label}`}
+                      group={group}
+                      basePath={basePath}
+                      activeTracker={activeTracker}
+                      hoveredTracker={hoveredTracker}
+                      onSelect={onSelectTracker}
+                      onHover={onHoverTracker}
+                    />
+                  );
+                }
+                return (
+                  <div key={`${group.type}-${group.label}`}>
+                    <div style={S.groupHeader(group.type)}>
+                      {group.labelIcon && <span style={S.groupIcon(group.type)}>{group.labelIcon}</span>}
+                      <span>{group.label.toUpperCase()}</span>
+                    </div>
+                    {group.trackers.map(t => (
+                      <TrackerRow
+                        key={t.slug}
+                        tracker={t}
+                        basePath={basePath}
+                        isActive={activeTracker === t.slug}
+                        isHovered={hoveredTracker === t.slug}
+                        isFollowed={followedSlugs.includes(t.slug)}
+                        isCompared={compareSlugs.includes(t.slug)}
+                        onSelect={onSelectTracker}
+                        onHover={onHoverTracker}
+                        onToggleFollow={onToggleFollow}
+                        onToggleCompare={onToggleCompare}
+                        locale={locale}
+                      />
+                    ))}
+                  </div>
+                );
+              })
+            )}
+          </>
         )}
       </div>
 
