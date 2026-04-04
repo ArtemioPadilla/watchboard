@@ -51,7 +51,7 @@ export const StrikeStatusSchema = z.enum(['hit', 'intercepted', 'partial', 'unkn
 // ── Timeline ──
 export const TimelineEventSchema = z.object({
   id: z.string(),
-  year: z.string(),
+  year: z.coerce.string(),
   title: z.string(),
   type: z.string(),
   active: z.boolean().optional(),

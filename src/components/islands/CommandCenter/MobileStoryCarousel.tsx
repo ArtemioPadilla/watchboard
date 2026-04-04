@@ -177,6 +177,7 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
     [eligible.length, resetProgress],
   );
 
+  // S7 fix: use functional setCurrentIndex to avoid stale currentIndex
   const goNext = useCallback(() => {
     setCurrentIndex(idx => (idx + 1) % eligible.length);
     resetProgress();
