@@ -191,7 +191,7 @@ jobs:
         with:
           allowed_bots: "github-actions[bot]"
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          claude_args: "--max-turns 15 --dangerously-skip-permissions"
+          claude_args: "--max-turns 25 --dangerously-skip-permissions"
           prompt: |
             You are updating the Watchboard tracker "${{ matrix.entry.tracker }}" with a breaking news event.
 
