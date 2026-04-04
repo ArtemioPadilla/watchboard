@@ -50,6 +50,20 @@ const ogImageUrl = trackerSlug
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔴</text></svg>">
   <script is:inline type="application/ld+json" set:html={JSON.stringify({
     "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Watchboard",
+    "url": `${siteUrl}${basePath}`,
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": `${siteUrl}${basePath}search/?q={search_term_string}`,
+      },
+      "query-input": "required name=search_term_string",
+    },
+  })} />
+  <script is:inline type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
     "@type": "WebPage",
     "name": title,
     "description": desc,
