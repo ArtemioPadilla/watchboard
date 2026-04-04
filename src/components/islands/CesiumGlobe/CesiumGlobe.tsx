@@ -620,32 +620,34 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [], ca
       )}
 
       {/* Overlay controls toolbar */}
-      <CesiumControls
-        activeFilters={activeFilters}
-        onToggleFilter={toggleFilter}
-        pointCounts={pointCounts}
-        onCameraPreset={flyTo}
-        visualMode={visualMode}
-        onVisualMode={setVisualMode}
-        layers={layers}
-        onToggleLayer={toggleLayer}
-        persistLines={persistLines}
-        onTogglePersist={() => setPersistLines(prev => !prev)}
-        satGroupCounts={satGroupCounts}
-        showFov={showFov}
-        onToggleFov={() => setShowFov(prev => !prev)}
-        fovCount={satFovCount}
-        aisApiKey={aisApiKey}
-        onAisApiKeyChange={handleAisKeyChange}
-        showHud={showHud}
-        onToggleHud={() => setShowHud(prev => !prev)}
-        orbitMode={orbitMode}
-        onOrbitMode={handleOrbitMode}
-        cameraPresets={cameraPresets}
-        categories={categories}
-        cinematicMode={cinematicMode}
-        onToggleCinematic={handleToggleCinematic}
-      />
+      <div className="globe-slot globe-slot--left">
+        <CesiumControls
+          activeFilters={activeFilters}
+          onToggleFilter={toggleFilter}
+          pointCounts={pointCounts}
+          onCameraPreset={flyTo}
+          visualMode={visualMode}
+          onVisualMode={setVisualMode}
+          layers={layers}
+          onToggleLayer={toggleLayer}
+          persistLines={persistLines}
+          onTogglePersist={() => setPersistLines(prev => !prev)}
+          satGroupCounts={satGroupCounts}
+          showFov={showFov}
+          onToggleFov={() => setShowFov(prev => !prev)}
+          fovCount={satFovCount}
+          aisApiKey={aisApiKey}
+          onAisApiKeyChange={handleAisKeyChange}
+          showHud={showHud}
+          onToggleHud={() => setShowHud(prev => !prev)}
+          orbitMode={orbitMode}
+          onOrbitMode={handleOrbitMode}
+          cameraPresets={cameraPresets}
+          categories={categories}
+          cinematicMode={cinematicMode}
+          onToggleCinematic={handleToggleCinematic}
+        />
+      </div>
 
       {/* Events / Intel feed panel */}
       <CesiumEventsPanel
