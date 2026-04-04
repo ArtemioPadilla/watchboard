@@ -341,10 +341,6 @@ body:has(.globe-wrapper) .tooltip {
 
 /* ── Info panel (right side) ── */
 .globe-info-panel {
-  position: fixed;
-  top: 60px;
-  right: 12px;
-  z-index: 100;
   width: 280px;
   background: rgba(10, 11, 14, 0.92);
   backdrop-filter: blur(12px);
@@ -537,10 +533,6 @@ body:has(.globe-wrapper) .tooltip {
    ══════════════════════════════════════════════ */
 
 .globe-events-toggle {
-  position: fixed;
-  top: 60px;
-  right: 12px;
-  z-index: 100;
   background: rgba(10, 11, 14, 0.85);
   backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -582,16 +574,12 @@ body:has(.globe-wrapper) .tooltip {
 }
 
 .globe-events-panel {
-  position: fixed;
-  top: 60px;
-  right: 12px;
   width: 340px;
   max-height: calc(100vh - 200px);
   background: rgba(10, 11, 14, 0.92);
   backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 8px;
-  z-index: 100;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -933,10 +921,6 @@ body:has(.globe-wrapper) .tooltip {
 
 @media (max-width: 768px) {
   /* Hide desktop overlays — replaced by bottom sheet */
-  .globe-toolbar,
-  .globe-events-panel,
-  .globe-events-toggle,
-  .globe-kpi-strip,
   .hud-overlay {
     display: none !important;
   }
@@ -954,14 +938,9 @@ body:has(.globe-wrapper) .tooltip {
     font-size: 0.45rem;
   }
 
-  /* Info panel — full width at bottom, above timeline */
+  /* Info panel — auto width inside hidden right slot */
   .globe-info-panel {
-    top: auto;
-    bottom: 100px;
-    right: 8px;
-    left: 8px;
     width: auto;
-    z-index: 95;
   }
 
   /* Ensure touch-friendly filter buttons */
