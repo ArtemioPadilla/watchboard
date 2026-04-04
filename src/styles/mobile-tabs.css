@@ -995,14 +995,7 @@
   .utl-legend { display: none !important; }
   .utl-stats { display: none !important; }
 
-  /* Globe controls: reposition for mobile tab shell (below the mtab-header at 44px) */
-  .globe-toolbar {
-    position: absolute !important;
-    top: 4px !important;
-    left: 4px !important;
-    padding-top: 0 !important;
-    z-index: 50 !important;
-  }
+  /* Globe controls: compact sizing for mobile tab shell */
 
   .globe-toolbar-icons {
     width: 30px;
@@ -1032,15 +1025,7 @@
   .globe-events-panel { display: none !important; }
   .globe-events-toggle { display: none !important; }
 
-  /* Globe info panel: reposition for mobile */
-  .globe-info-panel {
-    top: auto !important;
-    bottom: 80px !important;
-    right: 8px !important;
-    left: 8px !important;
-    width: auto !important;
-    max-height: 40vh !important;
-  }
+  /* Globe info panel: right slot is hidden on mobile; no sizing override needed */
 
   /* HUD overlay: hide on mobile */
   .hud-overlay { display: none !important; }
