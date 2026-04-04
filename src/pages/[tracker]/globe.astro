@@ -33,23 +33,27 @@ const basePath = base.endsWith('/') ? base : `${base}/`;
 ---
 <BaseLayout title={`3D Intelligence Globe — ${config.shortName}`} trackerSlug={config.slug}>
   <main id="main-content">
-  <a href={`${basePath}${config.slug}/`} class="globe-back-link">&larr; Dashboard</a>
-  <a href={`${basePath}${config.slug}/about/`} class="globe-about-link">About</a>
-  <CesiumGlobe
-    client:only="react"
-    points={data.mapPoints}
-    lines={data.mapLines}
-    kpis={data.kpis}
-    meta={data.meta}
-    events={events}
-    cameraPresets={config.globe?.cameraPresets ?? {}}
-    categories={config.map?.categories ?? []}
-    mapCenter={config.map?.center ?? { lon: 0, lat: 0 }}
-    isHistorical={config.temporal === 'historical'}
-    endDate={config.endDate}
-    clocks={config.globe?.clocks}
-    missionTrajectory={missionTrajectory}
-  />
+  <div class="globe-layout">
+    <div class="globe-slot globe-slot--top-left">
+      <a href={`${basePath}${config.slug}/`} class="globe-back-link">&larr; Dashboard</a>
+      <a href={`${basePath}${config.slug}/about/`} class="globe-about-link">About</a>
+    </div>
+    <CesiumGlobe
+      client:only="react"
+      points={data.mapPoints}
+      lines={data.mapLines}
+      kpis={data.kpis}
+      meta={data.meta}
+      events={events}
+      cameraPresets={config.globe?.cameraPresets ?? {}}
+      categories={config.map?.categories ?? []}
+      mapCenter={config.map?.center ?? { lon: 0, lat: 0 }}
+      isHistorical={config.temporal === 'historical'}
+      endDate={config.endDate}
+      clocks={config.globe?.clocks}
+      missionTrajectory={missionTrajectory}
+      />
+  </div>
   <script>
     if (window.innerWidth <= 768) {
       const pathParts = window.location.pathname.replace(/\/+$/, '').split('/');
