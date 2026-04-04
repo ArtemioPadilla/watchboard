@@ -492,32 +492,36 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [], ca
   return (
     <div className="globe-wrapper">
       {/* Operation header */}
-      <div className="globe-header">
-        <div className="globe-header-dateline">{meta.dateline}</div>
-        <div className="globe-header-op">{meta.operationName}</div>
+      <div className="globe-slot globe-slot--top-center">
+        <div className="globe-header">
+          <div className="globe-header-dateline">{meta.dateline}</div>
+          <div className="globe-header-op">{meta.operationName}</div>
+        </div>
       </div>
 
-      <Viewer
-        ref={(e: any) => {
-          viewerRef.current = e;
-          const v = e?.cesiumElement;
-          if (v && v !== cesiumViewer) handleViewerReady(v);
-        }}
-        full
-        sceneMode={SceneMode.SCENE3D}
-        animation={false}
-        baseLayerPicker={false}
-        fullscreenButton={false}
-        geocoder={false}
-        homeButton={false}
-        infoBox={false}
-        navigationHelpButton={false}
-        sceneModePicker={false}
-        selectionIndicator={false}
-        timeline={false}
-        vrButton={false}
-        creditContainer={creditDivRef.current!}
-      />
+      <div className="globe-canvas">
+        <Viewer
+          ref={(e: any) => {
+            viewerRef.current = e;
+            const v = e?.cesiumElement;
+            if (v && v !== cesiumViewer) handleViewerReady(v);
+          }}
+          full
+          sceneMode={SceneMode.SCENE3D}
+          animation={false}
+          baseLayerPicker={false}
+          fullscreenButton={false}
+          geocoder={false}
+          homeButton={false}
+          infoBox={false}
+          navigationHelpButton={false}
+          sceneModePicker={false}
+          selectionIndicator={false}
+          timeline={false}
+          vrButton={false}
+          creditContainer={creditDivRef.current!}
+        />
+      </div>
 
       {/* Military HUD overlay */}
       <CesiumHud

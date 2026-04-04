@@ -8,6 +8,7 @@ body:has(.globe-wrapper) {
   overflow: hidden;
   margin: 0;
   padding: 0;
+  background: #000;
 }
 
 body:has(.globe-wrapper) .site-header {
@@ -53,14 +54,9 @@ body:has(.globe-wrapper) .tooltip {
   color: var(--text-primary, #e8e9ed);
 }
 
-/* Globe wrapper */
-.globe-wrapper {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  background: #000;
-}
+/* .globe-wrapper uses display:contents (see globe-layout.css)
+   to promote its children into .globe-layout grid participants.
+   Background is on body:has(.globe-wrapper). */
 
 /* Hide Cesium default chrome */
 .cesium-viewer-toolbar,
@@ -427,11 +423,6 @@ body:has(.globe-wrapper) .tooltip {
 
 /* ── Operation header (top-center) ── */
 .globe-header {
-  position: fixed;
-  top: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 95;
   text-align: center;
   pointer-events: none;
 }
