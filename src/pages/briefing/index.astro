@@ -1,0 +1,364 @@
+---
+/**
+ * Briefing calendar/index — lists all available daily briefings (last 90 days).
+ * URL: /briefing/
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { loadAllTrackers } from '../../lib/tracker-registry';
+import { loadTrackerData } from '../../lib/data';
+import { flattenTimelineEvents } from '../../lib/timeline-utils';
+
+const base = import.meta.env.BASE_URL;
+const basePath = base.endsWith('/') ? base : `${base}/`;
+const siteUrl = import.meta.env.SITE || 'https://watchboard.dev';
+const pageUrl = `${siteUrl}${basePath}briefing/`;
+
+// Build per-date summary: event count + tracker count + date string
+interface BriefingEntry {
+  date: string;        // "YYYY-MM-DD"
+  eventCount: number;
+  trackerCount: number;
+}
+
+function buildBriefingIndex(): BriefingEntry[] {
+  const trackers = loadAllTrackers().filter(t => t.status !== 'draft');
+  const dayMap = new Map<string, { events: number; trackers: Set<string> }>();
+
+  for (const config of trackers) {
+    let data;
+    try {
+      data = loadTrackerData(config.slug, config.eraLabel);
+    } catch {
+      continue;
+    }
+    const flatEvents = flattenTimelineEvents(data.timeline);
+    for (const ev of flatEvents) {
+      const entry = dayMap.get(ev.resolvedDate) ?? { events: 0, trackers: new Set() };
+      entry.events += 1;
+      entry.trackers.add(config.slug);
+      dayMap.set(ev.resolvedDate, entry);
+    }
+  }
+
+  // Sort newest-first, cap at 90 entries
+  return Array.from(dayMap.entries())
+    .sort(([a], [b]) => b.localeCompare(a))
+    .slice(0, 90)
+    .map(([date, info]) => ({
+      date,
+      eventCount: info.events,
+      trackerCount: info.trackers.size,
+    }));
+}
+
+const briefings = buildBriefingIndex();
+const totalDates = briefings.length;
+
+function formatDateDisplay(dateStr: string): string {
+  const [year, month, day] = dateStr.split('-').map(Number);
+  const d = new Date(year, month - 1, day);
+  return d.toLocaleDateString('en-US', {
+    weekday: 'short',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+}
+
+// JSON-LD breadcrumb
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Watchboard", "item": `${siteUrl}${basePath}` },
+    { "@type": "ListItem", "position": 2, "name": "Briefings", "item": pageUrl },
+  ],
+};
+
+const collectionPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Daily Briefings — Watchboard",
+  "description": `Cross-tracker daily intelligence summaries. ${totalDates} briefings available.`,
+  "url": pageUrl,
+};
+---
+<BaseLayout
+  title="Daily Briefings | Watchboard"
+  description={`Cross-tracker daily intelligence summaries from Watchboard. ${totalDates} briefings available — each date aggregates events across all active trackers.`}
+>
+  <Fragment slot="head">
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(collectionPageSchema)} />
+    <link rel="canonical" href={pageUrl} />
+  </Fragment>
+
+  <main id="main-content">
+    <div class="briefing-index">
+
+      <!-- Back nav -->
+      <a href={`${basePath}`} class="back-link">&larr; Watchboard</a>
+
+      <!-- Header -->
+      <header class="index-header">
+        <div class="index-label">INTELLIGENCE ARCHIVE</div>
+        <h1 class="index-title">Daily Briefings</h1>
+        <p class="index-desc">
+          Cross-tracker summaries aggregated each day across all active Watchboard trackers.
+          Each briefing links to individual event permalinks with full source attribution.
+        </p>
+        <p class="index-count">
+          <span class="count-num">{totalDates}</span> briefings available
+        </p>
+      </header>
+
+      <!-- Briefing list -->
+      {briefings.length === 0 ? (
+        <div class="empty-state">
+          <p>No briefings available yet. Events will appear here once trackers have day-level dated events.</p>
+        </div>
+      ) : (
+        <ol class="briefing-list" reversed>
+          {briefings.map((entry) => (
+            <li class="briefing-entry">
+              <a href={`${basePath}briefing/${entry.date}/`} class="entry-link">
+                <div class="entry-left">
+                  <span class="entry-date-mono">{entry.date}</span>
+                  <span class="entry-date-human">{formatDateDisplay(entry.date)}</span>
+                </div>
+                <div class="entry-right">
+                  <span class="entry-stat">
+                    <span class="stat-val">{entry.eventCount}</span>
+                    <span class="stat-lbl">event{entry.eventCount !== 1 ? 's' : ''}</span>
+                  </span>
+                  <span class="entry-sep">&middot;</span>
+                  <span class="entry-stat">
+                    <span class="stat-val">{entry.trackerCount}</span>
+                    <span class="stat-lbl">tracker{entry.trackerCount !== 1 ? 's' : ''}</span>
+                  </span>
+                  <span class="entry-arrow">&rarr;</span>
+                </div>
+              </a>
+            </li>
+          ))}
+        </ol>
+      )}
+
+      <!-- Footer -->
+      <footer class="index-footer">
+        <a href={`${basePath}`} class="footer-link">&larr; Back to Watchboard</a>
+        <a href={`${basePath}rss.xml`} class="footer-link">RSS Feed</a>
+      </footer>
+
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .briefing-index {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  /* ── Back link ── */
+  .back-link {
+    display: inline-block;
+    margin-bottom: 2rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    border: 1px solid var(--border);
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    transition: all 0.15s;
+  }
+  .back-link:hover {
+    color: var(--text-primary);
+    border-color: var(--border-light);
+    background: var(--bg-card);
+  }
+
+  /* ── Header ── */
+  .index-header {
+    margin-bottom: 2rem;
+  }
+  .index-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--accent-red);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .index-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.6rem, 5vw, 2.2rem);
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 0.75rem;
+  }
+  .index-desc {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    max-width: 540px;
+    margin-bottom: 0.5rem;
+  }
+  .index-count {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+  .count-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  /* ── Briefing list ── */
+  .briefing-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .briefing-entry {
+    border-bottom: 1px solid var(--border);
+  }
+  .briefing-entry:last-child {
+    border-bottom: none;
+  }
+  .entry-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.8rem 1.1rem;
+    text-decoration: none;
+    color: var(--text-secondary);
+    transition: background 0.12s, color 0.12s;
+  }
+  .entry-link:hover {
+    background: var(--bg-card-hover);
+    color: var(--text-primary);
+  }
+  .entry-left {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    flex: 1;
+    min-width: 0;
+  }
+  .entry-date-mono {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+  }
+  .entry-date-human {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .entry-link:hover .entry-date-human {
+    color: var(--text-primary);
+  }
+  .entry-right {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+  .entry-stat {
+    display: flex;
+    align-items: baseline;
+    gap: 0.25rem;
+  }
+  .stat-val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+  .stat-lbl {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+  }
+  .entry-sep {
+    color: var(--border-light);
+    font-size: 0.7rem;
+  }
+  .entry-arrow {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-left: 0.25rem;
+    transition: transform 0.12s;
+  }
+  .entry-link:hover .entry-arrow {
+    transform: translateX(3px);
+    color: var(--accent-blue);
+  }
+
+  /* ── Empty state ── */
+  .empty-state {
+    padding: 2rem;
+    text-align: center;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg-card);
+  }
+  .empty-state p {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+
+  /* ── Footer ── */
+  .index-footer {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+  .footer-link {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    border: 1px solid var(--border);
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    transition: all 0.15s;
+  }
+  .footer-link:hover {
+    color: var(--text-primary);
+    border-color: var(--border-light);
+    background: var(--bg-card);
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 640px) {
+    .briefing-index { padding: 1.25rem 1rem 3rem; }
+    .index-title { font-size: 1.5rem; }
+    .entry-link { padding: 0.65rem 0.85rem; flex-wrap: wrap; gap: 0.4rem; }
+    .entry-right { flex-wrap: wrap; gap: 0.35rem; }
+    .entry-arrow { display: none; }
+  }
+</style>

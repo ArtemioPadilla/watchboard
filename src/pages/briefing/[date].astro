@@ -1,0 +1,541 @@
+---
+/**
+ * Daily Briefing page — cross-tracker summary for a single date.
+ * URL: /briefing/YYYY-MM-DD
+ *
+ * Generates one page per unique date that has events across any tracker.
+ * Includes NewsArticle + BreadcrumbList JSON-LD for SEO.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { loadAllTrackers } from '../../lib/tracker-registry';
+import { loadTrackerData } from '../../lib/data';
+import { flattenTimelineEvents } from '../../lib/timeline-utils';
+import { eventPermalink } from '../../lib/event-slug';
+import type { TrackerConfig } from '../../lib/tracker-config';
+import type { FlatEvent } from '../../lib/timeline-utils';
+
+interface DayTrackerGroup {
+  config: TrackerConfig;
+  events: FlatEvent[];
+  digestSummary?: string;
+}
+
+export function getStaticPaths() {
+  const trackers = loadAllTrackers().filter(t => t.status !== 'draft');
+
+  // Build Map<date, DayTrackerGroup[]>
+  const dayMap = new Map<string, DayTrackerGroup[]>();
+
+  for (const config of trackers) {
+    let data;
+    try {
+      data = loadTrackerData(config.slug, config.eraLabel);
+    } catch {
+      continue;
+    }
+
+    const flatEvents = flattenTimelineEvents(data.timeline)
+      .sort((a, b) => a.resolvedDate.localeCompare(b.resolvedDate));
+
+    // Group events by date
+    const byDate = new Map<string, FlatEvent[]>();
+    for (const ev of flatEvents) {
+      const existing = byDate.get(ev.resolvedDate) ?? [];
+      existing.push(ev);
+      byDate.set(ev.resolvedDate, existing);
+    }
+
+    for (const [date, events] of byDate) {
+      // Find digest for this date (digests are newest-first)
+      const digestEntry = data.digests.find(d => d.date === date);
+      const group: DayTrackerGroup = {
+        config,
+        events,
+        digestSummary: digestEntry?.summary,
+      };
+      const existing = dayMap.get(date) ?? [];
+      existing.push(group);
+      dayMap.set(date, existing);
+    }
+  }
+
+  // Sort all dates and build adjacent date index
+  const allDates = Array.from(dayMap.keys()).sort();
+
+  return allDates.map((date, idx) => {
+    const groups = dayMap.get(date)!;
+    const prevDate = idx > 0 ? allDates[idx - 1] : null;
+    const nextDate = idx < allDates.length - 1 ? allDates[idx + 1] : null;
+    return {
+      params: { date },
+      props: { date, groups, prevDate, nextDate },
+    };
+  });
+}
+
+interface Props {
+  date: string;
+  groups: DayTrackerGroup[];
+  prevDate: string | null;
+  nextDate: string | null;
+}
+
+const { date, groups, prevDate, nextDate } = Astro.props;
+
+const base = import.meta.env.BASE_URL;
+const basePath = base.endsWith('/') ? base : `${base}/`;
+const siteUrl = import.meta.env.SITE || 'https://watchboard.dev';
+const pageUrl = `${siteUrl}${basePath}briefing/${date}/`;
+
+// Format date for display
+function formatDateFull(dateStr: string): string {
+  const [year, month, day] = dateStr.split('-').map(Number);
+  const d = new Date(year, month - 1, day);
+  return d.toLocaleDateString('en-US', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+}
+
+function formatDateShort(dateStr: string): string {
+  const [year, month, day] = dateStr.split('-').map(Number);
+  const d = new Date(year, month - 1, day);
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+const displayDate = formatDateFull(date);
+const totalEvents = groups.reduce((sum, g) => sum + g.events.length, 0);
+const trackerCount = groups.length;
+
+// Sort groups by event count descending so most-active tracker leads
+const sortedGroups = [...groups].sort((a, b) => b.events.length - a.events.length);
+
+// JSON-LD
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Watchboard", "item": `${siteUrl}${basePath}` },
+    { "@type": "ListItem", "position": 2, "name": "Briefings", "item": `${siteUrl}${basePath}briefing/` },
+    { "@type": "ListItem", "position": 3, "name": displayDate, "item": pageUrl },
+  ],
+};
+
+const newsArticleSchema = {
+  "@context": "https://schema.org",
+  "@type": "NewsArticle",
+  "headline": `Daily Briefing — ${displayDate}`,
+  "description": `${totalEvents} events across ${trackerCount} tracker${trackerCount !== 1 ? 's' : ''} on ${displayDate}.`,
+  "url": pageUrl,
+  "datePublished": date,
+  "publisher": {
+    "@type": "Organization",
+    "name": "Watchboard",
+    "url": `${siteUrl}${basePath}`,
+  },
+};
+---
+<BaseLayout
+  title={`Daily Briefing — ${displayDate} | Watchboard`}
+  description={`${totalEvents} events across ${trackerCount} tracker${trackerCount !== 1 ? 's' : ''} on ${displayDate}. Cross-tracker intelligence summary.`}
+>
+  <Fragment slot="head">
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(newsArticleSchema)} />
+    <link rel="canonical" href={pageUrl} />
+    {prevDate && <link rel="prev" href={`${basePath}briefing/${prevDate}/`} />}
+    {nextDate && <link rel="next" href={`${basePath}briefing/${nextDate}/`} />}
+  </Fragment>
+
+  <main id="main-content">
+    <div class="briefing-page">
+
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href={`${basePath}`}>Watchboard</a>
+        <span class="sep">/</span>
+        <a href={`${basePath}briefing/`}>Briefings</a>
+        <span class="sep">/</span>
+        <span class="current">{date}</span>
+      </nav>
+
+      <!-- Header -->
+      <header class="briefing-header">
+        <div class="briefing-label">DAILY BRIEFING</div>
+        <h1 class="briefing-date">{displayDate}</h1>
+        <p class="briefing-stats">
+          <span class="stat-num">{totalEvents}</span> event{totalEvents !== 1 ? 's' : ''} across
+          <span class="stat-num">{trackerCount}</span> tracker{trackerCount !== 1 ? 's' : ''}
+        </p>
+      </header>
+
+      <!-- Day navigation -->
+      <nav class="day-nav" aria-label="Day navigation">
+        {prevDate ? (
+          <a href={`${basePath}briefing/${prevDate}/`} class="day-nav-btn prev" rel="prev">
+            <span class="nav-arrow">&larr;</span>
+            <span class="nav-label">
+              <span class="nav-hint">Previous</span>
+              <span class="nav-date">{formatDateShort(prevDate)}</span>
+            </span>
+          </a>
+        ) : (
+          <span class="day-nav-btn prev disabled" aria-disabled="true">
+            <span class="nav-arrow">&larr;</span>
+            <span class="nav-label">
+              <span class="nav-hint">Previous</span>
+            </span>
+          </span>
+        )}
+
+        <a href={`${basePath}briefing/`} class="day-nav-index">All Briefings</a>
+
+        {nextDate ? (
+          <a href={`${basePath}briefing/${nextDate}/`} class="day-nav-btn next" rel="next">
+            <span class="nav-label">
+              <span class="nav-hint">Next</span>
+              <span class="nav-date">{formatDateShort(nextDate)}</span>
+            </span>
+            <span class="nav-arrow">&rarr;</span>
+          </a>
+        ) : (
+          <span class="day-nav-btn next disabled" aria-disabled="true">
+            <span class="nav-label">
+              <span class="nav-hint">Next</span>
+            </span>
+            <span class="nav-arrow">&rarr;</span>
+          </span>
+        )}
+      </nav>
+
+      <!-- Tracker groups -->
+      <section class="tracker-groups">
+        {sortedGroups.map((group) => (
+          <article class="tracker-group">
+            <header class="group-header">
+              <div class="group-meta">
+                <a href={`${basePath}${group.config.slug}/`} class="group-name">
+                  {group.config.name}
+                </a>
+                <span class="group-count">
+                  {group.events.length} event{group.events.length !== 1 ? 's' : ''}
+                </span>
+              </div>
+              {group.digestSummary && (
+                <p class="group-digest">{group.digestSummary}</p>
+              )}
+            </header>
+
+            <ul class="event-list" role="list">
+              {group.events.map((ev) => (
+                <li class="event-item">
+                  <a
+                    href={eventPermalink(group.config.slug, ev.resolvedDate, ev.id, basePath)}
+                    class="event-link"
+                  >
+                    <span class="event-title">{ev.title}</span>
+                    {ev.tier && (
+                      <span class={`event-tier tier-${ev.tier}`} title={`Tier ${ev.tier} source`}>
+                        T{ev.tier}
+                      </span>
+                    )}
+                  </a>
+                  {ev.detail && (
+                    <p class="event-detail">{ev.detail}</p>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </article>
+        ))}
+      </section>
+
+      <!-- Footer nav -->
+      <footer class="briefing-footer">
+        <a href={`${basePath}briefing/`} class="footer-link">&larr; All Briefings</a>
+        <a href={`${basePath}`} class="footer-link">Watchboard Home</a>
+      </footer>
+
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .briefing-page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  /* ── Breadcrumb ── */
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--text-muted);
+    margin-bottom: 1.75rem;
+    flex-wrap: wrap;
+  }
+  .breadcrumb a {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .breadcrumb a:hover { color: var(--accent-blue); }
+  .breadcrumb .sep { opacity: 0.4; }
+  .breadcrumb .current { color: var(--text-secondary); }
+
+  /* ── Header ── */
+  .briefing-header {
+    margin-bottom: 1.5rem;
+  }
+  .briefing-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--accent-red);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .briefing-date {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.6rem, 5vw, 2.4rem);
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+  }
+  .briefing-stats {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+  .briefing-stats .stat-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  /* ── Day nav ── */
+  .day-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+    padding: 0.75rem 1rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+  .day-nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: 5px;
+    transition: all 0.15s;
+    min-width: 120px;
+  }
+  .day-nav-btn.next { justify-content: flex-end; }
+  .day-nav-btn:not(.disabled):hover {
+    color: var(--text-primary);
+    background: var(--bg-card-hover);
+  }
+  .day-nav-btn.disabled {
+    opacity: 0.3;
+    cursor: default;
+  }
+  .nav-arrow {
+    font-size: 1rem;
+    color: var(--text-muted);
+    flex-shrink: 0;
+  }
+  .nav-label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+  .nav-hint {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .nav-date {
+    font-size: 0.78rem;
+    color: var(--text-primary);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .day-nav-index {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: 0.3rem 0.6rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .day-nav-index:hover {
+    color: var(--text-primary);
+    border-color: var(--border-light);
+  }
+
+  /* ── Tracker groups ── */
+  .tracker-groups {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .tracker-group {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .group-header {
+    padding: 1rem 1.25rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .group-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0;
+  }
+  .group-name {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .group-name:hover { color: var(--accent-blue); }
+  .group-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    padding: 0.2rem 0.5rem;
+    border-radius: 999px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .group-digest {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-top: 0.6rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* ── Event list ── */
+  .event-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .event-item {
+    border-bottom: 1px solid var(--border);
+    padding: 0.75rem 1.25rem;
+  }
+  .event-item:last-child { border-bottom: none; }
+  .event-link {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+    text-decoration: none;
+    color: var(--text-secondary);
+    transition: color 0.15s;
+  }
+  .event-link:hover { color: var(--text-primary); }
+  .event-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.83rem;
+    line-height: 1.5;
+    flex: 1;
+  }
+  .event-tier {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    font-weight: 700;
+    padding: 0.15rem 0.4rem;
+    border-radius: 3px;
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+    border: 1px solid transparent;
+  }
+  .event-tier.tier-1 { color: var(--tier-1); border-color: var(--tier-1); }
+  .event-tier.tier-2 { color: var(--tier-2); border-color: var(--tier-2); }
+  .event-tier.tier-3 { color: var(--tier-3); border-color: var(--tier-3); }
+  .event-tier.tier-4 { color: var(--tier-4); border-color: var(--tier-4); }
+  .event-detail {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.74rem;
+    color: var(--text-muted);
+    line-height: 1.55;
+    margin-top: 0.3rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* ── Footer ── */
+  .briefing-footer {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+  .footer-link {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    border: 1px solid var(--border);
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    transition: all 0.15s;
+  }
+  .footer-link:hover {
+    color: var(--text-primary);
+    border-color: var(--border-light);
+    background: var(--bg-card);
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 640px) {
+    .briefing-page { padding: 1.25rem 1rem 3rem; }
+    .briefing-date { font-size: 1.5rem; }
+    .day-nav { flex-wrap: wrap; gap: 0.5rem; }
+    .day-nav-btn { min-width: unset; }
+    .group-header { padding: 0.75rem 1rem 0.6rem; }
+    .event-item { padding: 0.65rem 1rem; }
+  }
+</style>
