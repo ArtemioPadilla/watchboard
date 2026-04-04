@@ -9,16 +9,21 @@
 }
 
 /* ─── Layout Shell ─── */
+/* I7 fix: iOS Safari -webkit-fill-available fallback; I3 fix: prevent native overscroll */
 .mtab-shell {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  height: -webkit-fill-available;
   height: 100dvh;
+  overscroll-behavior: none;
 }
 
+/* I3 fix: contain overscroll to prevent native pull-to-refresh competing */
 .mtab-content {
   flex: 1;
   overflow-y: auto;
+  overscroll-behavior-y: contain;
   padding-top: 44px;
   padding-bottom: 56px;
   padding-bottom: calc(56px + env(safe-area-inset-bottom, 0px));
@@ -215,10 +220,12 @@
 }
 
 /* ─── MAP tab ─── */
+/* I6 fix: establish containing block for floating event card */
 .mtab-map-tab {
   display: flex;
   flex-direction: column;
   height: 100%;
+  position: relative;
 }
 
 .mtab-kpi-row {
@@ -338,8 +345,10 @@
 }
 
 /* ─── FEED tab ─── */
+/* I3 fix: prevent browser native pull-to-refresh on feed */
 .mtab-feed {
   padding: 12px;
+  touch-action: pan-y;
 }
 
 .mtab-brief {
@@ -923,7 +932,7 @@
   backdrop-filter: blur(8px);
   border: 1px solid var(--border);
   border-radius: 8px;
-  z-index: 20;
+  z-index: 450; /* I6 fix: above Leaflet controls (z-index ~400) */
   animation: mtabSlideUp 0.3s ease-out;
 }
 

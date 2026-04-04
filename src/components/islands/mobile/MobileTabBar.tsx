@@ -27,6 +27,7 @@ export default function MobileTabBar({ activeTab, onTabChange, feedBadge }: Prop
       {TABS.map(tab => (
         <button
           key={tab.id}
+          id={`tab-${tab.id}`}
           className={`mtab-tab${activeTab === tab.id ? ' active' : ''}`}
           onClick={() => onTabChange(tab.id)}
           role="tab"

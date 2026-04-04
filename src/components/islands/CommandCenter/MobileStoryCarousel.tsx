@@ -139,13 +139,16 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
     [eligible.length],
   );
 
+  // S7 fix: use functional setCurrentIndex to avoid stale currentIndex
   const goNext = useCallback(() => {
-    goTo((currentIndex + 1) % eligible.length);
-  }, [currentIndex, eligible.length, goTo]);
+    setCurrentIndex(idx => (idx + 1) % eligible.length);
+    setProgress(0);
+  }, [eligible.length]);
 
   const goPrev = useCallback(() => {
-    goTo((currentIndex - 1 + eligible.length) % eligible.length);
-  }, [currentIndex, eligible.length, goTo]);
+    setCurrentIndex(idx => (idx - 1 + eligible.length) % eligible.length);
+    setProgress(0);
+  }, [eligible.length]);
 
   // Pause/resume with auto-resume timer
   const clearPauseTimer = useCallback(() => {
