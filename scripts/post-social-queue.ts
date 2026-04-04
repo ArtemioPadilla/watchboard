@@ -80,7 +80,7 @@ async function main(): Promise<void> {
 
   // Normalize legacy field names (trackerSlug → tracker)
   for (const entry of queue) {
-    const raw = entry as Record<string, unknown>;
+    const raw = entry as unknown as Record<string, unknown>;
     if (!raw.tracker && raw.trackerSlug) {
       raw.tracker = raw.trackerSlug;
       delete raw.trackerSlug;
