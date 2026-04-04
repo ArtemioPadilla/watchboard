@@ -1,0 +1,28 @@
+{
+  "slug": "mexico",
+  "name": "Mexico Intelligence Hub",
+  "shortName": "Mexico",
+  "description": "Geographic hub aggregating intelligence from all Mexico-based trackers — cartel operations, political developments, and historical events.",
+  "icon": "🇲🇽",
+  "color": "#006847",
+  "status": "active",
+  "temporal": "live",
+  "domain": "security",
+  "region": "north-america",
+  "country": "MX",
+  "geoPath": ["MX"],
+  "aggregate": true,
+  "startDate": "2019-10-17",
+  "sections": ["hero", "kpis", "timeline", "map"],
+  "navSections": [
+    {"id": "kpis", "label": "Overview"},
+    {"id": "timeline", "label": "Timeline"},
+    {"id": "map", "label": "Map"}
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {"lonMin": -118.4, "lonMax": -86.7, "latMin": 14.5, "latMax": 32.7},
+    "center": {"lon": -102, "lat": 23.5},
+    "categories": []
+  }
+}
