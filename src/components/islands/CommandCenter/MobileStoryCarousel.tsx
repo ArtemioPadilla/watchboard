@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import type { TrackerCardData } from '../../../lib/tracker-directory-utils';
 import { sortByRelevance } from '../../../lib/relevance';
+import { haptic } from '../../../lib/haptic';
 import ImageCarousel from './ImageCarousel';
 
 // ── Types ──
@@ -82,6 +83,7 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
   const [pauseCountdown, setPauseCountdown] = useState(0);
 
   const touchStartY = useRef<number | null>(null);
+  const touchStartX = useRef<number | null>(null);
   const circlesRef = useRef<HTMLDivElement>(null);
   const pauseTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -188,21 +190,33 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
     return () => clearPauseTimer();
   }, [clearPauseTimer]);
 
-  // Swipe up detection
+  // Swipe detection: horizontal (#5) + vertical (existing)
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
     touchStartY.current = e.touches[0].clientY;
+    touchStartX.current = e.touches[0].clientX;
   }, []);
 
   const handleTouchEnd = useCallback(
     (e: React.TouchEvent) => {
-      if (touchStartY.current === null) return;
+      if (touchStartY.current === null || touchStartX.current === null) return;
       const deltaY = touchStartY.current - e.changedTouches[0].clientY;
+      const deltaX = touchStartX.current - e.changedTouches[0].clientX;
       touchStartY.current = null;
+      touchStartX.current = null;
+
+      // Horizontal swipe takes priority when it dominates
+      if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > SWIPE_THRESHOLD_PX) {
+        if (deltaX > 0) { goNext(); haptic(); } // swipe left = next
+        else { goPrev(); haptic(); }             // swipe right = prev
+        return;
+      }
+
+      // Vertical swipe up = open tracker dashboard
       if (deltaY > SWIPE_THRESHOLD_PX && eligible[currentIndex]) {
         window.location.href = basePath + eligible[currentIndex].slug + '/';
       }
     },
-    [basePath, currentIndex, eligible],
+    [basePath, currentIndex, eligible, goNext, goPrev],
   );
 
   if (eligible.length === 0) return null;
@@ -287,8 +301,25 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
         {/* Content — expanded when paused */}
         <div className="story-content">
           {tracker.headline && <p className={`story-headline ${paused ? 'story-headline-expanded' : ''}`}>{tracker.headline}</p>}
-          {tracker.digestSummary && <p className={`story-summary ${paused ? 'story-summary-expanded' : ''}`}>{tracker.digestSummary}</p>}
         </div>
+
+        {/* Briefing */}
+        {(tracker.digestSummary || tracker.description) && (
+          <div className={`story-briefing ${paused ? 'story-briefing-expanded' : ''}`}>
+            <div className="story-briefing-label">
+              <span className="story-briefing-dot" />
+              BRIEFING
+              {tracker.digestSectionsUpdated && tracker.digestSectionsUpdated.length > 0 && (
+                <span className="story-briefing-sections">
+                  {tracker.digestSectionsUpdated.length} sections updated
+                </span>
+              )}
+            </div>
+            <p className="story-briefing-text">
+              {tracker.digestSummary ?? tracker.description}
+            </p>
+          </div>
+        )}
 
         {/* KPI strip */}
         {tracker.topKpis.length > 0 && (
@@ -317,7 +348,7 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
 
         {/* Swipe hint */}
         <div className="story-swipe-hint">
-          {paused ? 'TAP TO RESUME · SWIPE UP TO OPEN ↑' : 'TAP TO PAUSE · SWIPE UP TO OPEN ↑'}
+          {paused ? 'TAP TO RESUME · SWIPE UP TO OPEN ↑' : '← SWIPE → · TAP TO PAUSE · SWIPE UP ↑'}
         </div>
 
         {/* Touch zones (hidden when paused to allow full card tap) */}

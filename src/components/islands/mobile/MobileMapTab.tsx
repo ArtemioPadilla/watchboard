@@ -1,5 +1,5 @@
 // src/components/islands/mobile/MobileMapTab.tsx
-import { useState, lazy, Suspense } from 'react';
+import { useState, useMemo, lazy, Suspense } from 'react';
 import IntelMap from '../IntelMap';
 import type { MapPoint, MapLine, KpiItem, Meta } from '../../../lib/schemas';
 import type { FlatEvent } from '../../../lib/timeline-utils';
@@ -28,6 +28,14 @@ interface Props {
 
 type GlobeState = 'prompt' | 'loading' | 'loaded' | 'error';
 
+function eventTypeColor(type: string): string {
+  if (type === 'strike' || type === 'attack') return 'var(--accent-red)';
+  if (type === 'retaliation' || type === 'response') return 'var(--accent-amber)';
+  if (type === 'diplomatic' || type === 'politics') return 'var(--accent-blue)';
+  if (type === 'ceasefire' || type === 'peace') return 'var(--accent-green)';
+  return 'var(--text-muted)';
+}
+
 export default function MobileMapTab({
   mode, points, lines, events, categories, kpis,
   mapCenter, mapBounds, trackerSlug,
@@ -35,6 +43,13 @@ export default function MobileMapTab({
 }: Props) {
   const topKpis = kpis.slice(0, 5);
   const [globeState, setGlobeState] = useState<GlobeState>('prompt');
+  const [cardDismissed, setCardDismissed] = useState(false);
+
+  // Latest event for floating card (#6)
+  const latestEvent = useMemo(() => {
+    if (!events.length) return null;
+    return events.slice().sort((a, b) => b.resolvedDate.localeCompare(a.resolvedDate))[0];
+  }, [events]);
 
   const handleLoadGlobe = () => {
     setGlobeState('loading');
@@ -120,6 +135,24 @@ export default function MobileMapTab({
               </button>
             </div>
           )}
+        </div>
+      )}
+
+      {/* Floating latest event card (#6) */}
+      {latestEvent && !cardDismissed && (
+        <div className="mtab-map-event-card">
+          <div className="mtab-map-event-dot" style={{ background: eventTypeColor(latestEvent.type) }} />
+          <div className="mtab-map-event-body">
+            <div className="mtab-map-event-type">{latestEvent.type}</div>
+            <div className="mtab-map-event-title">{latestEvent.title}</div>
+          </div>
+          <button
+            className="mtab-map-event-dismiss"
+            onClick={() => setCardDismissed(true)}
+            aria-label="Dismiss"
+          >
+            ✕
+          </button>
         </div>
       )}
     </div>

@@ -756,6 +756,223 @@
   line-height: 1.4;
 }
 
+/* ─── Pull-to-refresh (#2) ─── */
+.mtab-pull-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  overflow: hidden;
+  transition: height 0.2s ease;
+}
+
+.mtab-pull-refreshing {
+  height: 40px !important;
+}
+
+.mtab-pull-arrow {
+  font-size: 1rem;
+  color: var(--text-muted);
+  transition: transform 0.2s ease;
+}
+
+.mtab-pull-text {
+  font-size: 0.65rem;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.mtab-pull-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--border);
+  border-top-color: var(--accent-red);
+  border-radius: 50%;
+  animation: mtabSpin 0.8s linear infinite;
+}
+
+/* ─── Event time label ─── */
+.mtab-event-time {
+  font-size: 0.55rem;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+}
+
+/* ─── Bottom sheet (#3) ─── */
+.mtab-sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(0, 0, 0, 0.5);
+  animation: mtabFadeIn 0.2s ease;
+}
+
+@keyframes mtabFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.mtab-sheet {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  max-height: 65vh;
+  background: var(--bg-card);
+  border-radius: 16px 16px 0 0;
+  padding: 12px 16px calc(16px + env(safe-area-inset-bottom, 0px));
+  overflow-y: auto;
+  animation: mtabSlideUp 0.25s ease-out;
+}
+
+@keyframes mtabSlideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.mtab-sheet-handle {
+  width: 36px;
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  margin: 0 auto 12px;
+}
+
+.mtab-sheet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.mtab-sheet-type {
+  font-size: 0.6rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.mtab-sheet-close {
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: var(--bg-secondary);
+  color: var(--text-muted);
+  border-radius: 50%;
+  font-size: 0.75rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mtab-sheet-title {
+  font-size: 1.1rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.3;
+  margin: 0 0 6px;
+}
+
+.mtab-sheet-date {
+  font-size: 0.65rem;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+
+.mtab-sheet-body {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0 0 12px;
+}
+
+.mtab-sheet-sources {
+  border-top: 1px solid var(--border);
+  padding-top: 10px;
+}
+
+.mtab-sheet-sources-label {
+  font-size: 0.55rem;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+
+/* ─── Floating map event card (#6) ─── */
+.mtab-map-event-card {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  right: 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  background: rgba(10, 11, 14, 0.92);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  z-index: 20;
+  animation: mtabSlideUp 0.3s ease-out;
+}
+
+.mtab-map-event-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.mtab-map-event-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.mtab-map-event-type {
+  font-size: 0.55rem;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+}
+
+.mtab-map-event-title {
+  font-size: 0.8rem;
+  color: var(--text-primary);
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 600;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.mtab-map-event-dismiss {
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: none;
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
 /* ─── Responsive layout switches ─── */
 
 @media (max-width: 768px) {
@@ -831,21 +1048,31 @@
   .mobile-layout { display: none !important; }
 }
 
-/* ─── Landscape phones: optimize map height ─── */
+/* ─── Landscape phones (#4): compact chrome, maximize content ─── */
 @media (max-width: 768px) and (orientation: landscape) {
   .mtab-header {
-    height: 36px;
+    height: 32px;
     padding: 0 8px;
   }
 
+  .mtab-op-name {
+    font-size: 0.55rem;
+  }
+
   .mtab-content {
-    padding-top: 36px;
-    padding-bottom: 44px;
+    padding-top: 32px;
+    padding-bottom: 40px;
+  }
+
+  .mtab-bar {
+    flex-direction: row;
   }
 
   .mtab-tab {
-    min-height: 40px;
-    padding: 4px 0;
+    min-height: 36px;
+    padding: 2px 0;
+    flex-direction: row;
+    gap: 4px;
   }
 
   .mtab-tab-label {
@@ -853,10 +1080,70 @@
   }
 
   .mtab-tab-icon {
-    font-size: 14px;
+    font-size: 12px;
   }
 
   .mtab-kpi-row {
-    padding: 3px 8px;
+    padding: 2px 8px;
+  }
+
+  .mtab-kpi {
+    font-size: 0.65rem;
+  }
+
+  /* Feed tab: compact in landscape */
+  .mtab-brief {
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+  }
+
+  .mtab-brief-text {
+    font-size: 0.75rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .mtab-event-card {
+    padding: 8px 10px;
+    margin-bottom: 4px;
+  }
+
+  .mtab-event-title {
+    font-size: 0.8rem;
+  }
+
+  /* Data tab: wider grid in landscape */
+  .mtab-kpi-grid {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .mtab-kpi-card-value {
+    font-size: 1.2rem;
+  }
+
+  /* Intel tab: two-column claims in landscape */
+  .mtab-claim-sides {
+    flex-direction: row;
+  }
+
+  .mtab-claim-side {
+    flex: 1;
+  }
+
+  /* Bottom sheet: narrower in landscape */
+  .mtab-sheet {
+    max-height: 80vh;
+    left: 10%;
+    right: 10%;
+    border-radius: 12px 12px 0 0;
+  }
+
+  /* Map event card: wider in landscape */
+  .mtab-map-event-card {
+    left: 20%;
+    right: 20%;
+    bottom: 8px;
   }
 }
