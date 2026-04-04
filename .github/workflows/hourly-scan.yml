@@ -52,45 +52,66 @@ jobs:
           echo "has_actions=false" >> "$GITHUB_OUTPUT"
           echo "plan_json=[]" >> "$GITHUB_OUTPUT"
 
+      - name: Collect recent events context
+        if: steps.poll.outputs.has_candidates == 'true'
+        run: |
+          node -e "
+            const fs = require('fs');
+            const path = require('path');
+            const cutoff = new Date(Date.now() - 3 * 24 * 60 * 60 * 1000);
+            const result = {};
+            for (const slug of fs.readdirSync('trackers')) {
+              const evDir = path.join('trackers', slug, 'data', 'events');
+              if (!fs.existsSync(evDir)) continue;
+              const titles = [];
+              const files = fs.readdirSync(evDir)
+                .filter(f => f.endsWith('.json') && new Date(f.replace('.json','')) >= cutoff)
+                .sort().reverse();
+              for (const f of files) {
+                try {
+                  const events = JSON.parse(fs.readFileSync(path.join(evDir, f), 'utf8'));
+                  if (!Array.isArray(events)) continue;
+                  for (const e of events) { if (e.title) titles.push(e.title); }
+                  if (titles.length >= 10) break;
+                } catch {}
+              }
+              if (titles.length > 0) result[slug] = titles.slice(0, 10);
+            }
+            fs.writeFileSync('/tmp/hourly-context.json', JSON.stringify(result, null, 2));
+            console.log('Collected context for ' + Object.keys(result).length + ' trackers');
+          "
+
       - name: AI triage
         id: triage-agent
         if: steps.poll.outputs.has_candidates == 'true'
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          allowed_tools: "Read,Write,Glob,Bash(ls:*),Bash(node:*)"
+          allowed_tools: "Read,Write"
           timeout_minutes: 5
-          claude_args: "--max-turns 10"
+          claude_args: "--max-turns 5"
           prompt: |
-            You are a news triage AI for Watchboard. Classify candidate headlines and produce an action plan.
+            You are a news triage AI for Watchboard. You have TWO files to read, then write ONE output file. Be efficient — do all reads in your first turn, then write the output.
 
-            STEP 1: Read /tmp/hourly-candidates.json — an array of candidate objects with fields: title, source, matchedTracker, feedOrigin, url, timestamp.
+            STEP 1: Read these two files:
+            - /tmp/hourly-candidates.json — array of {title, source, matchedTracker, feedOrigin, url, timestamp}
+            - /tmp/hourly-context.json — object of {trackerSlug: [recent event titles]} for dedup
 
-            STEP 2: For dedup context, find recent event files (last 3 days) from trackers/*/data/events/*.json. Collect up to 10 event titles per tracker. Use Glob to find files and Read to inspect them.
+            STEP 2: Classify each candidate:
+            - "update" (confidence >= 0.6): Significant new info for an existing tracker.
+            - "new_tracker" (confidence >= 0.8): Major breaking event needing a new tracker. Must include suggestedSlug, suggestedDomain, suggestedRegion, suggestedName.
+            - "discard": Duplicate, opinion, minor, already covered.
 
-            STEP 3: Classify EACH candidate as one of:
-            - "update" (confidence >= 0.6): Significant new info for an existing tracker. Set tracker to the matched slug.
-            - "new_tracker" (confidence >= 0.8): Major breaking event warranting a new tracker. Must include suggestedSlug, suggestedDomain, suggestedRegion, suggestedName.
-            - "discard": Duplicate, opinion, minor, already covered, or low confidence.
-
-            STEP 4: Build and write /tmp/hourly-action-plan.json with this EXACT schema:
+            STEP 3: Write /tmp/hourly-action-plan.json with this EXACT schema:
             {
-              "updates": [
-                { "tracker": "slug", "events": [{ "summary": "one-sentence", "sources": ["url"], "timestamp": "ISO" }] }
-              ],
-              "newTrackers": [
-                { "suggestedSlug": "...", "suggestedDomain": "...", "suggestedRegion": "...", "suggestedName": "...", "triggerEvent": { "summary": "...", "sources": ["url"], "timestamp": "ISO" } }
-              ],
+              "updates": [{"tracker": "slug", "events": [{"summary": "...", "sources": ["url"], "timestamp": "ISO"}]}],
+              "newTrackers": [{"suggestedSlug": "...", "suggestedDomain": "...", "suggestedRegion": "...", "suggestedName": "...", "triggerEvent": {"summary": "...", "sources": ["url"], "timestamp": "ISO"}}],
               "scannedAt": "ISO timestamp now",
               "candidateCount": N,
               "discardedCount": N
             }
 
-            Rules:
-            - Group multiple update events for the same tracker into one updates entry
-            - Only include updates with confidence >= 0.6, new trackers with confidence >= 0.8
-            - Discard anything already covered by recent event titles
-            - The file MUST be valid JSON
+            Rules: Group updates by tracker. Discard anything matching recent event titles. File MUST be valid JSON.
 
       - name: Parse triage results
         id: triage
