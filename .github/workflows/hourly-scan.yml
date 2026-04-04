@@ -1,0 +1,351 @@
+name: Hourly Breaking News Scan
+
+on:
+  schedule:
+    - cron: '0 * * * *'
+  workflow_dispatch: {}
+
+concurrency:
+  group: hourly-scan
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      has_actions: ${{ steps.triage.outputs.has_actions }}
+      plan_json: ${{ steps.triage.outputs.plan_json }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+
+      - name: Poll news sources
+        id: poll
+        run: |
+          npx tsx scripts/hourly-scan.ts
+          if [ -f /tmp/hourly-candidates.json ]; then
+            count=$(node -e "console.log(JSON.parse(require('fs').readFileSync('/tmp/hourly-candidates.json','utf8')).length)")
+            echo "candidates=$count" >> "$GITHUB_OUTPUT"
+            echo "has_candidates=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "candidates=0" >> "$GITHUB_OUTPUT"
+            echo "has_candidates=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: AI triage
+        id: triage
+        if: steps.poll.outputs.has_candidates == 'true'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          npx tsx scripts/hourly-triage.ts /tmp/hourly-candidates.json
+
+          if [ -f /tmp/hourly-action-plan.json ]; then
+            node -e "
+              const plan = JSON.parse(require('fs').readFileSync('/tmp/hourly-action-plan.json','utf8'));
+              const hasActions = plan.updates.length > 0 || plan.newTrackers.length > 0;
+              console.log('has_actions=' + hasActions);
+
+              const entries = [];
+              for (const u of plan.updates) {
+                entries.push({ type: 'update', tracker: u.tracker, data: JSON.stringify(u) });
+              }
+              for (const nt of plan.newTrackers) {
+                entries.push({ type: 'new_tracker', tracker: nt.suggestedSlug, data: JSON.stringify(nt) });
+              }
+              console.log('plan_json=' + JSON.stringify(entries));
+            " >> "$GITHUB_OUTPUT"
+          else
+            echo "has_actions=false" >> "$GITHUB_OUTPUT"
+            echo "plan_json=[]" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Commit state
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/_hourly/state.json || true
+          if git diff --cached --quiet; then
+            echo "No state changes"
+          else
+            git commit -m "chore(hourly): update scan state $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            for i in 1 2 3; do
+              git pull --rebase origin main && git push && break
+              sleep $((RANDOM % 5 + 2))
+            done
+          fi
+
+      - name: Upload action plan
+        if: steps.triage.outputs.has_actions == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: hourly-action-plan
+          path: /tmp/hourly-action-plan.json
+          retention-days: 1
+
+  act:
+    needs: scan
+    if: needs.scan.outputs.has_actions == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        entry: ${{ fromJSON(needs.scan.outputs.plan_json) }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: hourly-action-plan
+          path: /tmp/
+
+      - name: Update tracker data
+        if: matrix.entry.type == 'update'
+        uses: anthropics/claude-code-action@v1
+        with:
+          allowed_bots: "github-actions[bot]"
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          claude_args: "--max-turns 15 --dangerously-skip-permissions"
+          prompt: |
+            You are updating the Watchboard tracker "${{ matrix.entry.tracker }}" with a breaking news event.
+
+            STEP 1: Read the schemas and tracker config:
+            - Read src/lib/schemas.ts (focus on TimelineEventSchema, MapPointSchema, MapLineSchema, SourceSchema)
+            - Read trackers/${{ matrix.entry.tracker }}/tracker.json
+
+            STEP 2: Here is the triage data for this update:
+            ${{ matrix.entry.data }}
+
+            STEP 3: Update the tracker data files:
+            - Create or append to trackers/${{ matrix.entry.tracker }}/data/events/$(date -u +%Y-%m-%d).json
+            - Update trackers/${{ matrix.entry.tracker }}/data/map-points.json if event has a location
+            - Update trackers/${{ matrix.entry.tracker }}/data/map-lines.json if event involves movement/strike
+            - Update trackers/${{ matrix.entry.tracker }}/data/kpis.json if metrics changed
+            - Update trackers/${{ matrix.entry.tracker }}/data/meta.json: set heroHeadline and lastUpdated
+
+            VALIDATION RULES (MUST follow):
+            - year field MUST be a string like "Apr 3, 2026" (NOT a number)
+            - source.pole MUST be one of: "western", "middle_eastern", "eastern", "international"
+            - All IDs must be unique kebab-case strings
+            - NO future dates (today is $(date -u +%Y-%m-%d))
+            - If adding map-lines with cat "strike" or "retaliation": weaponType AND time are REQUIRED
+            - Map coordinates must be within tracker's coordValidation bounds
+            - Merge by ID — never remove existing items, only append
+
+            STEP 4: Generate a tweet for this event:
+            - Write the tweet text to /tmp/tweet-text.txt
+            - Max 280 characters (URLs count as 23 chars via t.co)
+            - Include the tracker link: https://watchboard.dev/${{ matrix.entry.tracker }}/?utm_source=x&utm_medium=breaking_hourly&utm_campaign=$(date -u +%Y-%m-%d)
+            - Add 1 topic hashtag + #Watchboard (2 max)
+            - Tone: breaking news journalist, factual, concise
+
+            STEP 5: Write the list of new event IDs (one per line) to /tmp/event-ids.txt
+            Write the list of sections you modified (one per line) to /tmp/sections.txt
+
+      - name: Post breaking tweet
+        if: matrix.entry.type == 'update'
+        env:
+          X_API_KEY: ${{ secrets.X_API_KEY }}
+          X_API_SECRET: ${{ secrets.X_API_SECRET }}
+          X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
+          X_ACCESS_TOKEN_SECRET: ${{ secrets.X_ACCESS_TOKEN_SECRET }}
+          TWEET_TEXT_FILE: /tmp/tweet-text.txt
+        run: |
+          if [ -f /tmp/tweet-text.txt ]; then
+            export TWEET_TEXT=$(cat /tmp/tweet-text.txt)
+            EVENT_IDS=$(cat /tmp/event-ids.txt 2>/dev/null | tr '\n' ',' | sed 's/,$//')
+            SECTIONS=$(cat /tmp/sections.txt 2>/dev/null | tr '\n' ',' | sed 's/,$//')
+            export EVENT_IDS SECTIONS
+
+            npx tsx -e "
+              import { postBreaking } from './scripts/hourly-post.js';
+              postBreaking(
+                '${{ matrix.entry.tracker }}',
+                process.env.TWEET_TEXT!,
+                process.env.EVENT_IDS!.split(',').filter(Boolean),
+                process.env.SECTIONS!.split(',').filter(Boolean),
+              ).then(u => console.log('[act] Posted:', JSON.stringify(u)))
+               .catch(e => console.error('[act] Post failed:', e));
+            "
+          fi
+
+      - name: Create new tracker
+        if: matrix.entry.type == 'new_tracker'
+        uses: anthropics/claude-code-action@v1
+        with:
+          allowed_bots: "github-actions[bot]"
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          claude_args: "--max-turns 25 --dangerously-skip-permissions"
+          prompt: |
+            You are creating a new Watchboard tracker based on a breaking news event.
+
+            STEP 1: Study the system:
+            - Read src/lib/tracker-config.ts for TrackerConfigSchema
+            - Read src/lib/schemas.ts for data schemas
+            - Read one existing tracker as a template (pick one matching the domain below)
+
+            STEP 2: Here is the new tracker specification:
+            ${{ matrix.entry.data }}
+
+            STEP 3: Create trackers/${{ matrix.entry.tracker }}/tracker.json with:
+            - slug: "${{ matrix.entry.tracker }}"
+            - status: "active", temporal: "live"
+            - Appropriate domain, region, country from the spec
+            - startDate: today $(date -u +%Y-%m-%d)
+            - sections: [hero, kpis, timeline, map, claims, political]
+            - Map bounds derived from the event's geographic region (use real coordinates)
+            - 3-4 map categories relevant to the topic
+            - Globe: enabled with 4-5 camera presets at real locations
+            - AI config with searchContext from the trigger event
+            - updateIntervalDays: 1
+            - backfillTargets: {timeline: 10, mapPoints: 5, claims: 5, political: 5}
+
+            STEP 4: Create trackers/${{ matrix.entry.tracker }}/data/ with:
+            - meta.json: populated with trigger event info
+            - events/$(date -u +%Y-%m-%d).json: the trigger event as first entry
+            - map-points.json: event location (if known)
+            - Empty arrays: kpis.json, timeline.json, map-lines.json, claims.json, political.json,
+              casualties.json, econ.json, strike-targets.json, retaliation.json, assets.json, digests.json
+            - update-log.json: {lastRun: "$(date -u +%Y-%m-%dT%H:%M:%SZ)", sections: {}}
+
+            STEP 5: Validate:
+            - Read back tracker.json and verify it's valid JSON
+            - Run: npx tsx -e "import {TrackerConfigSchema} from './src/lib/tracker-config.js'; import {readFileSync} from 'fs'; const c = JSON.parse(readFileSync('trackers/${{ matrix.entry.tracker }}/tracker.json','utf8')); TrackerConfigSchema.parse(c); console.log('Config valid')"
+
+            STEP 6: Decide if historical seeding is needed:
+            - If this is a sudden event (earthquake, attack, etc.) write "false" to /tmp/should-seed.txt
+            - If this is an ongoing situation with history write "true" to /tmp/should-seed.txt
+
+      - name: Post new tracker tweet
+        if: matrix.entry.type == 'new_tracker'
+        env:
+          X_API_KEY: ${{ secrets.X_API_KEY }}
+          X_API_SECRET: ${{ secrets.X_API_SECRET }}
+          X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
+          X_ACCESS_TOKEN_SECRET: ${{ secrets.X_ACCESS_TOKEN_SECRET }}
+        run: |
+          TRACKER="${{ matrix.entry.tracker }}"
+          SHOULD_SEED=$(cat /tmp/should-seed.txt 2>/dev/null || echo "false")
+          DATA='${{ matrix.entry.data }}'
+
+          export TRACKER SHOULD_SEED DATA
+          npx tsx -e "
+            const data = JSON.parse(process.env.DATA!);
+            import { postNewTracker } from './scripts/hourly-post.js';
+            postNewTracker(
+              process.env.TRACKER!,
+              data.suggestedName,
+              data.triggerEvent.summary,
+              process.env.SHOULD_SEED === 'true',
+            ).then(u => console.log('[act] Posted new tracker:', JSON.stringify(u)))
+             .catch(e => console.error('[act] Post failed:', e));
+          "
+
+      - name: Trigger seed job
+        if: matrix.entry.type == 'new_tracker'
+        run: |
+          SHOULD_SEED=$(cat /tmp/should-seed.txt 2>/dev/null || echo "false")
+          if [ "$SHOULD_SEED" = "true" ]; then
+            gh workflow run seed-tracker.yml \
+              -f tracker_slug="${{ matrix.entry.tracker }}" \
+              -f sections="all"
+            echo "Seed job triggered for ${{ matrix.entry.tracker }}"
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Validate modified JSON
+        run: |
+          TRACKER="${{ matrix.entry.tracker }}"
+          VALID=true
+          for f in trackers/$TRACKER/data/*.json trackers/$TRACKER/data/events/*.json; do
+            [ -f "$f" ] || continue
+            node -e "JSON.parse(require('fs').readFileSync('$f','utf8'))" 2>/dev/null || {
+              echo "INVALID JSON: $f"
+              VALID=false
+            }
+          done
+          if [ "$VALID" = "false" ]; then
+            echo "::error::JSON validation failed for $TRACKER"
+            exit 1
+          fi
+
+          npx tsx -e "
+            import {TimelineEventSchema} from './src/lib/schemas.js';
+            import {readdirSync, readFileSync} from 'fs';
+            const dir = 'trackers/$TRACKER/data/events';
+            try {
+              for (const f of readdirSync(dir)) {
+                if (!f.endsWith('.json')) continue;
+                const events = JSON.parse(readFileSync(dir+'/'+f,'utf8'));
+                for (const e of Array.isArray(events) ? events : [events]) {
+                  TimelineEventSchema.parse(e);
+                }
+              }
+              console.log('Zod validation passed');
+            } catch(e: any) { console.error('Zod error:', e.message); process.exit(1); }
+          "
+
+      - name: Update update-log
+        run: |
+          TRACKER="${{ matrix.entry.tracker }}"
+          LOG_FILE="trackers/$TRACKER/data/update-log.json"
+          node -e "
+            const fs = require('fs');
+            const log = fs.existsSync('$LOG_FILE')
+              ? JSON.parse(fs.readFileSync('$LOG_FILE','utf8'))
+              : {lastRun:'',sections:{}};
+            log.lastRun = new Date().toISOString();
+            const sections = (process.env.SECTIONS || '').split(',').filter(Boolean);
+            for (const s of sections) log.sections[s] = {lastRun: log.lastRun, status: 'updated'};
+            fs.writeFileSync('$LOG_FILE', JSON.stringify(log, null, 2));
+          "
+        env:
+          SECTIONS: ${{ matrix.entry.type == 'update' && 'events,map-points,kpis,meta' || 'events,map-points,meta' }}
+
+      - name: Commit and push
+        run: |
+          TRACKER="${{ matrix.entry.tracker }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add "trackers/$TRACKER/" public/_hourly/ public/_social/ || true
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          TYPE="${{ matrix.entry.type }}"
+          if [ "$TYPE" = "new_tracker" ]; then
+            MSG="feat(hourly): create tracker $TRACKER $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          else
+            MSG="chore(hourly): update $TRACKER $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          fi
+          git commit -m "$MSG"
+          for i in 1 2 3; do
+            git pull --rebase origin main && git push && break
+            sleep $((RANDOM % 8 + 2))
+          done
+
+      - name: Job summary
+        if: always()
+        run: |
+          echo "## Hourly Pipeline — ${{ matrix.entry.tracker }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- **Type:** ${{ matrix.entry.type }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- **Timestamp:** $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_STEP_SUMMARY"
+          if [ -f /tmp/tweet-text.txt ]; then
+            echo "- **Tweet:** $(cat /tmp/tweet-text.txt)" >> "$GITHUB_STEP_SUMMARY"
+          fi
