@@ -20,6 +20,7 @@ import { loadTrackerData } from '../../lib/data';
 import { loadAllTrackers } from '../../lib/tracker-registry';
 import type { TrackerConfig } from '../../lib/tracker-config';
 import { flattenTimelineEvents } from '../../lib/timeline-utils';
+import { eventPermalink } from '../../lib/event-slug';
 
 export function getStaticPaths() {
   const trackers = loadAllTrackers();
@@ -49,6 +50,35 @@ const domainLabels: Record<string, string> = {
 };
 const domainLabel = domainLabels[config.domain || ''] || 'TRACKER';
 const statusLabel = `${temporalLabel} ${domainLabel}`;
+
+const base = import.meta.env.BASE_URL || '/';
+const basePath = base.endsWith('/') ? base : `${base}/`;
+const siteUrl = import.meta.env.SITE || 'https://watchboard.dev';
+const pageUrl = `${siteUrl}${basePath}${config.slug}/`;
+const eventCount = flatEvents.length;
+const latestDigest = data.digests[0];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": `What is the ${config.name}?`,
+      "acceptedAnswer": { "@type": "Answer", "text": config.description },
+    },
+    {
+      "@type": "Question",
+      "name": "How often is this tracker updated?",
+      "acceptedAnswer": { "@type": "Answer", "text": `This tracker is updated every ${config.updateIntervalDays || 1} day(s) via automated AI research across Tier 1-4 sources.` },
+    },
+    {
+      "@type": "Question",
+      "name": "How many events are tracked?",
+      "acceptedAnswer": { "@type": "Answer", "text": `${eventCount} events have been tracked since ${config.startDate}, with daily updates adding new developments.` },
+    },
+  ],
+};
 ---
 <BaseLayout
   title={`${config.shortName} — Intel Dashboard`}
@@ -56,6 +86,10 @@ const statusLabel = `${temporalLabel} ${domainLabel}`;
   trackerSlug={config.slug}
   githubRepo={config.githubRepo}
 >
+  <Fragment slot="head">
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  </Fragment>
+
   <!-- Desktop layout -->
   <div class="desktop-layout">
     <Header meta={data.meta} navSections={config.navSections} trackerSlug={config.slug} globeEnabled={config.globe?.enabled} statusLabel={statusLabel} />
@@ -67,7 +101,36 @@ const statusLabel = `${temporalLabel} ${domainLabel}`;
         city={config.city}
         neighborhood={config.neighborhood}
       />
+
+      <!-- SEO intro section -->
+      <div class="tracker-intro">
+        <p>{config.description}</p>
+        {latestDigest && (
+          <p class="tracker-latest-update">Latest: {latestDigest.summary?.slice(0, 150)}{(latestDigest.summary?.length ?? 0) > 150 ? '...' : ''}</p>
+        )}
+        <span class="tracker-meta-line">
+          Last updated {data.meta.lastUpdated ? new Date(data.meta.lastUpdated).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'recently'}
+          &middot; {eventCount} events tracked since {config.startDate}
+        </span>
+      </div>
+
       <HeroKpiCombo meta={data.meta} kpis={data.kpis} />
+
+      <!-- Server-rendered event previews for SEO crawlability -->
+      <div class="seo-event-previews">
+        <h2 class="seo-events-heading">Latest Events</h2>
+        {flatEvents.slice(-5).reverse().map(ev => (
+          <a href={eventPermalink(config.slug, ev.resolvedDate, ev.id, basePath)} class="seo-event-link">
+            <time datetime={ev.resolvedDate}>
+              {new Date(ev.resolvedDate + 'T00:00:00Z').toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' })}
+            </time>
+            <span class="seo-event-title">{ev.title}</span>
+            <span class="seo-event-tier">
+              {ev.sources[0] && `Tier ${ev.sources[0].tier}`}
+            </span>
+          </a>
+        ))}
+      </div>
 
       <div class="theater-layout">
         {config.sections.includes('map') && (
@@ -116,3 +179,74 @@ const statusLabel = `${temporalLabel} ${domainLabel}`;
     }
   </script>
 </BaseLayout>
+
+<style>
+  .tracker-intro {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0.75rem 1rem;
+  }
+  .tracker-intro p {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0 0 0.3rem;
+  }
+  .tracker-latest-update {
+    font-style: italic;
+    opacity: 0.8;
+  }
+  .tracker-meta-line {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+  }
+
+  .seo-event-previews {
+    max-width: 900px;
+    margin: 0 auto 1.5rem;
+    padding: 0 1rem;
+  }
+  .seo-events-heading {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+  }
+  .seo-event-link {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    padding: 0.4rem 0;
+    border-bottom: 1px solid var(--border);
+    text-decoration: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    transition: background 0.15s;
+  }
+  .seo-event-link:hover { background: var(--bg-card); }
+  .seo-event-link time {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    flex-shrink: 0;
+    min-width: 50px;
+  }
+  .seo-event-title {
+    color: var(--text-secondary);
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .seo-event-tier {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    flex-shrink: 0;
+  }
+</style>
