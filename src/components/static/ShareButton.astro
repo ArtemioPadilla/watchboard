@@ -1,0 +1,89 @@
+---
+/**
+ * Share/copy-link button — uses native share on mobile, clipboard on desktop.
+ * Zero-dependency, inline script. No React island needed.
+ */
+interface Props {
+  url: string;
+  title: string;
+}
+const { url, title } = Astro.props;
+---
+
+<button
+  class="share-btn"
+  data-share-url={url}
+  data-share-title={title}
+  aria-label="Share this event"
+  type="button"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+    <polyline points="16 6 12 2 8 6"/>
+    <line x1="12" y1="2" x2="12" y2="15"/>
+  </svg>
+  <span class="share-label">Share</span>
+  <span class="share-toast" aria-live="polite"></span>
+</button>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.share-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const url = btn.dataset.shareUrl!;
+      const title = btn.dataset.shareTitle!;
+      const toast = btn.querySelector('.share-toast')!;
+
+      if (navigator.share) {
+        try {
+          await navigator.share({ title, url });
+          return;
+        } catch { /* user cancelled — fall through to clipboard */ }
+      }
+
+      try {
+        await navigator.clipboard.writeText(url);
+        toast.textContent = 'Link copied!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          toast.textContent = '';
+          btn.classList.remove('copied');
+        }, 2000);
+      } catch {
+        // Clipboard API failed — show URL in prompt as last resort
+        prompt('Copy this link:', url);
+      }
+    });
+  });
+</script>
+
+<style>
+  .share-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 0.35rem 0.7rem;
+    color: var(--text-muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .share-btn:hover {
+    border-color: var(--border-light);
+    color: var(--text-secondary);
+  }
+  .share-btn.copied {
+    border-color: var(--accent-green);
+    color: var(--accent-green);
+  }
+  .share-toast {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--accent-green);
+    margin-left: 0.3rem;
+  }
+</style>
