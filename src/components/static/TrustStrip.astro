@@ -1,0 +1,75 @@
+---
+interface Props {
+  trackerCount: number;
+  totalEvents: number;
+  githubUrl: string;
+  basePath: string;
+}
+
+const { trackerCount, totalEvents, githubUrl, basePath } = Astro.props;
+---
+
+<div class="trust-strip" role="note" aria-label="Platform trust indicators">
+  <a class="trust-item trust-item--link" href={githubUrl} target="_blank" rel="noopener noreferrer">
+    Open Source
+  </a>
+  <span class="trust-sep" aria-hidden="true">&middot;</span>
+  <a class="trust-item trust-item--link" href={`${basePath}about/`}>
+    Source-Tiered (Tier 1&#8211;4)
+  </a>
+  <span class="trust-sep" aria-hidden="true">&middot;</span>
+  <span class="trust-item">{trackerCount} Trackers</span>
+  <span class="trust-sep" aria-hidden="true">&middot;</span>
+  <span class="trust-item">{totalEvents.toLocaleString()}+ Events</span>
+  <span class="trust-sep" aria-hidden="true">&middot;</span>
+  <span class="trust-item">EN ES FR PT</span>
+</div>
+
+<style>
+  .trust-strip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.1rem 0;
+    padding: 0.4rem 1rem;
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    text-align: center;
+    line-height: 1.8;
+  }
+
+  .trust-item {
+    white-space: nowrap;
+  }
+
+  .trust-item--link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .trust-item--link:hover {
+    color: var(--text-primary);
+  }
+
+  .trust-sep {
+    margin: 0 0.6rem;
+    opacity: 0.4;
+  }
+
+  @media (max-width: 480px) {
+    .trust-sep {
+      margin: 0 0.4rem;
+    }
+
+    .trust-strip {
+      font-size: 0.6rem;
+    }
+  }
+</style>

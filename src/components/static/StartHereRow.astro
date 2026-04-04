@@ -1,0 +1,220 @@
+---
+interface TrackerCard {
+  slug: string;
+  shortName: string;
+  icon: string;
+  color: string;
+  headline?: string;
+  lastUpdated: string;
+  isBreaking: boolean;
+}
+
+interface Props {
+  trackers: TrackerCard[];
+  basePath: string;
+}
+
+const { trackers, basePath } = Astro.props;
+
+function freshnessBadge(lastUpdated: string): string {
+  const now = Date.now();
+  const updated = new Date(lastUpdated).getTime();
+  if (isNaN(updated)) return '';
+  const ageMs = now - updated;
+  const ageHr = Math.floor(ageMs / 3600_000);
+  const ageDays = Math.floor(ageMs / 86_400_000);
+  if (ageHr < 1) return 'Just now';
+  if (ageHr < 24) return `${ageHr}h ago`;
+  if (ageDays === 1) return 'Yesterday';
+  return `${ageDays}d ago`;
+}
+---
+
+{trackers.length > 0 && (
+  <section class="start-here" aria-label="Trending trackers">
+    <div class="start-here-label" aria-hidden="true">
+      <span class="start-here-icon">&#8679;</span>
+      START HERE
+    </div>
+    <div class="start-here-scroll" role="list">
+      {trackers.map(t => (
+        <a
+          class="shc"
+          href={`${basePath}${t.slug}/`}
+          role="listitem"
+          aria-label={`${t.shortName}${t.isBreaking ? ' — BREAKING' : ''}: ${t.headline ?? ''}`}
+          style={`border-left-color: ${t.color || 'var(--accent-blue)'}`}
+        >
+          {t.isBreaking && (
+            <span class="shc-live" aria-label="Breaking">
+              <span class="shc-live-dot" aria-hidden="true"></span>
+              LIVE
+            </span>
+          )}
+          <span class="shc-icon" aria-hidden="true">{t.icon}</span>
+          <span class="shc-name">{t.shortName}</span>
+          {t.headline && (
+            <span class="shc-headline">{t.headline}</span>
+          )}
+          <span class="shc-freshness">{freshnessBadge(t.lastUpdated)}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+)}
+
+<style>
+  .start-here {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 1rem;
+    background: var(--bg-primary);
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  .start-here-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+  }
+
+  .start-here-icon {
+    font-size: 0.75rem;
+    line-height: 1;
+  }
+
+  /* Scrollable row */
+  .start-here-scroll {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    flex: 1;
+    min-width: 0;
+    padding-bottom: 2px; /* prevent clipping box-shadows */
+  }
+
+  .start-here-scroll::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Individual card */
+  .shc {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    flex-shrink: 0;
+    min-width: 130px;
+    max-width: 180px;
+    padding: 0.45rem 0.6rem 0.45rem 0.75rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left-width: 3px;
+    border-radius: 4px;
+    text-decoration: none;
+    color: var(--text-primary);
+    transition: background 0.15s, transform 0.15s;
+    overflow: hidden;
+  }
+
+  .shc:hover {
+    background: var(--bg-card-hover);
+    transform: translateY(-1px);
+  }
+
+  /* LIVE badge */
+  .shc-live {
+    position: absolute;
+    top: 0.3rem;
+    right: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.55rem;
+    font-weight: 700;
+    color: var(--accent-red);
+    letter-spacing: 0.06em;
+  }
+
+  .shc-live-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--accent-red);
+    animation: pulse-red 1.4s ease-in-out infinite;
+  }
+
+  .shc-icon {
+    font-size: 1rem;
+    line-height: 1;
+  }
+
+  .shc-name {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .shc-headline {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.65rem;
+    color: var(--text-secondary);
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .shc-freshness {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    color: var(--text-muted);
+    margin-top: 0.1rem;
+  }
+
+  @keyframes pulse-red {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.85); }
+  }
+
+  @media (max-width: 480px) {
+    .start-here {
+      padding: 0.4rem 0.75rem;
+      gap: 0.5rem;
+    }
+
+    .start-here-label {
+      font-size: 0.55rem;
+    }
+
+    .shc {
+      min-width: 110px;
+      max-width: 155px;
+    }
+
+    .shc-name {
+      font-size: 0.67rem;
+    }
+
+    .shc-headline {
+      font-size: 0.6rem;
+    }
+  }
+</style>

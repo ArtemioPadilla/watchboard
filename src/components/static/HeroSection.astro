@@ -1,0 +1,220 @@
+---
+interface Props {
+  trackerCount: number;
+  updatedTodayCount: number;
+  weeklyEventCount: number;
+  breakingHeadline?: string;
+  breakingSlug?: string;
+  basePath: string;
+}
+
+const {
+  trackerCount,
+  updatedTodayCount,
+  weeklyEventCount,
+  breakingHeadline,
+  breakingSlug,
+  basePath,
+} = Astro.props;
+---
+
+<section class="hero-section" aria-label="Watchboard introduction">
+  {breakingHeadline && breakingSlug && (
+    <a
+      class="breaking-banner"
+      href={`${basePath}${breakingSlug}/`}
+      aria-label={`Breaking news: ${breakingHeadline}`}
+    >
+      <span class="breaking-dot" aria-hidden="true"></span>
+      <span class="breaking-label">BREAKING</span>
+      <span class="breaking-headline">{breakingHeadline}</span>
+      <span class="breaking-arrow" aria-hidden="true">&#8594;</span>
+    </a>
+  )}
+
+  <h1 class="hero-tagline">
+    {trackerCount} global trackers. Source-verified. Updated daily by AI.
+  </h1>
+
+  <p class="hero-stats">
+    {updatedTodayCount} updated today
+    <span class="stat-sep" aria-hidden="true">&middot;</span>
+    {weeklyEventCount} events this week
+    <span class="stat-sep" aria-hidden="true">&middot;</span>
+    4 languages
+  </p>
+
+  <div class="hero-ctas">
+    <a class="hero-cta hero-cta--primary" href="#command-center">
+      Explore Trackers
+    </a>
+    <a class="hero-cta hero-cta--secondary" href={`${basePath}about/`}>
+      How It Works
+    </a>
+  </div>
+</section>
+
+<style>
+  .hero-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    max-height: 200px;
+    padding: 1.25rem 1rem 0.75rem;
+    text-align: center;
+    background: var(--bg-primary);
+    overflow: hidden;
+  }
+
+  /* Breaking banner */
+  .breaking-banner {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0.75rem;
+    background: var(--accent-red-dim);
+    border: 1px solid var(--accent-red);
+    border-radius: 3px;
+    color: var(--accent-red);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    max-width: 700px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: background 0.2s;
+  }
+
+  .breaking-banner:hover {
+    background: rgba(231, 76, 60, 0.25);
+  }
+
+  .breaking-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent-red);
+    flex-shrink: 0;
+    animation: pulse-red 1.4s ease-in-out infinite;
+  }
+
+  .breaking-label {
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .breaking-headline {
+    color: var(--text-primary);
+    font-family: 'DM Sans', sans-serif;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .breaking-arrow {
+    flex-shrink: 0;
+    opacity: 0.7;
+  }
+
+  /* Tagline */
+  .hero-tagline {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(1.2rem, 2.5vw, 1.75rem);
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    max-width: 640px;
+    margin: 0;
+  }
+
+  /* Stats */
+  .hero-stats {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+    line-height: 1;
+  }
+
+  .stat-sep {
+    margin: 0 0.35rem;
+    opacity: 0.5;
+  }
+
+  /* CTAs */
+  .hero-ctas {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .hero-cta {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 0.4rem 1rem;
+    border-radius: 4px;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: opacity 0.15s, transform 0.15s;
+  }
+
+  .hero-cta:hover {
+    opacity: 0.85;
+    transform: translateY(-1px);
+  }
+
+  .hero-cta--primary {
+    background: var(--accent-blue);
+    color: #fff;
+  }
+
+  .hero-cta--secondary {
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid var(--border-light);
+  }
+
+  .hero-cta--secondary:hover {
+    color: var(--text-primary);
+    border-color: var(--text-muted);
+  }
+
+  @keyframes pulse-red {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.85); }
+  }
+
+  @media (max-width: 480px) {
+    .hero-section {
+      max-height: none;
+      padding: 1rem 0.75rem 0.5rem;
+      gap: 0.6rem;
+    }
+
+    .breaking-banner {
+      font-size: 0.65rem;
+      max-width: 100%;
+    }
+
+    .hero-tagline {
+      font-size: 1.1rem;
+    }
+
+    .hero-stats {
+      font-size: 0.65rem;
+    }
+
+    .hero-cta {
+      font-size: 0.75rem;
+      padding: 0.35rem 0.85rem;
+    }
+  }
+</style>
