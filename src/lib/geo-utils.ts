@@ -4,6 +4,7 @@
  */
 
 import type { TrackerCardData } from './tracker-directory-utils';
+import type { TrackerData } from './data';
 
 // ── Types ──
 
@@ -247,4 +248,81 @@ export function resolveGeoNode(
 
   if (rest.length === 0) return child;
   return resolveGeoNode(child, rest);
+}
+
+// ── Aggregate data merging ──
+
+/**
+ * Merge parent tracker data with children tracker data for aggregate trackers.
+ *
+ * Precedence rules:
+ * - KPIs: parent's own KPIs take precedence. If parent has none, use children's.
+ * - Timeline/events: if parent has no events, merge all children's events (union),
+ *   deduplicate by date+title similarity, sort newest first.
+ * - Map points: parent's own take precedence. If none, union of children's.
+ * - Map lines: same as map points.
+ * - Casualties: parent's own take precedence. If none, union of children's.
+ * - Meta: use latest lastUpdated from parent or children.
+ * - All other fields (econ, claims, political, etc.): parent's data stays as-is.
+ */
+export function aggregateTrackerData(
+  parentData: TrackerData,
+  childrenData: TrackerData[],
+): TrackerData {
+  const hasOwnKpis = parentData.kpis.length > 0;
+  const hasOwnTimeline = parentData.timeline.some(e => e.events.length > 0);
+  const hasOwnMapPoints = parentData.mapPoints.length > 0;
+
+  // KPIs: parent first, else children
+  const kpis = hasOwnKpis ? parentData.kpis : childrenData.flatMap(c => c.kpis);
+
+  // Timeline: parent first, else merged children events
+  let timeline = parentData.timeline;
+  if (!hasOwnTimeline) {
+    const allEvents = childrenData
+      .flatMap(c => c.timeline.flatMap(era => era.events))
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+    const seen = new Set<string>();
+    const deduped = allEvents.filter(evt => {
+      const key = `${evt.date}::${evt.title.toLowerCase().slice(0, 40)}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+
+    if (deduped.length > 0) {
+      timeline = [{ era: 'Aggregated Events', events: deduped }];
+    }
+  }
+
+  // Map data: parent takes precedence
+  const mapPoints = hasOwnMapPoints ? parentData.mapPoints : childrenData.flatMap(c => c.mapPoints);
+  const mapLines = parentData.mapLines.length > 0 ? parentData.mapLines : childrenData.flatMap(c => c.mapLines);
+
+  // Casualties: parent takes precedence
+  const casualties = parentData.casualties.length > 0 ? parentData.casualties : childrenData.flatMap(c => c.casualties);
+
+  // Latest meta
+  const latestChild = childrenData
+    .map(c => c.meta)
+    .sort((a, b) => new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime())[0];
+
+  const meta = {
+    ...parentData.meta,
+    dayCount: parentData.meta.dayCount || latestChild?.dayCount || 0,
+    lastUpdated: parentData.meta.lastUpdated > (latestChild?.lastUpdated || '')
+      ? parentData.meta.lastUpdated
+      : (latestChild?.lastUpdated || parentData.meta.lastUpdated),
+  };
+
+  return {
+    ...parentData,
+    kpis,
+    timeline,
+    mapPoints,
+    mapLines,
+    casualties,
+    meta,
+  };
 }
