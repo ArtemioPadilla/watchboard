@@ -82,6 +82,11 @@ describe('matchesSearch', () => {
     expect(matchesSearch(tracker, 'japan')).toBe(false);
   });
 
+  it('matches by state', () => {
+    const t = makeTracker({ state: 'Sinaloa', geoPath: ['MX', 'Sinaloa'] });
+    expect(matchesSearch(t, 'sinaloa')).toBe(true);
+  });
+
   it('handles tracker with no optional fields', () => {
     /** TC-test-008: matchesSearch handles missing domain/region/country. Verifies: AC-search */
     const minimal = makeTracker({ domain: undefined, region: undefined, country: undefined });

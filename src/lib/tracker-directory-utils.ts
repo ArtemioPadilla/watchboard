@@ -94,7 +94,11 @@ export function matchesSearch(tracker: TrackerCardData, query: string): boolean 
     tracker.description.toLowerCase().includes(q) ||
     (tracker.domain?.toLowerCase().includes(q) ?? false) ||
     (tracker.region?.toLowerCase().includes(q) ?? false) ||
-    (tracker.country?.toLowerCase().includes(q) ?? false)
+    (tracker.country?.toLowerCase().includes(q) ?? false) ||
+    (tracker.state?.toLowerCase().includes(q) ?? false) ||
+    (tracker.city?.toLowerCase().includes(q) ?? false) ||
+    (tracker.neighborhood?.toLowerCase().includes(q) ?? false) ||
+    (tracker.geoPath?.some(seg => seg.toLowerCase().includes(q)) ?? false)
   );
 }
 
