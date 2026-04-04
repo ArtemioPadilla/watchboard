@@ -1,0 +1,80 @@
+/* ══════════════════════════════════════════════
+   Globe Layout System — CSS Grid overlay
+   Slot-based positioning for all globe UI panels.
+   ══════════════════════════════════════════════ */
+
+/* ── Layout grid (desktop) ── */
+.globe-layout {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-rows: auto 1fr auto auto;
+  grid-template-areas:
+    "top-left    top-center   top-right"
+    "left        .            right"
+    "left-aux    bottom-aux   right-aux"
+    "bottom-left bottom       bottom-right";
+  padding: 12px;
+  gap: 8px;
+  align-items: start;
+}
+
+/* ── Slot base ── */
+.globe-slot {
+  pointer-events: auto;
+  min-width: 0;
+  min-height: 0;
+}
+
+/* ── Named slot areas ── */
+.globe-slot--top-left     { grid-area: top-left;     display: flex; gap: 8px; align-items: center; }
+.globe-slot--top-center   { grid-area: top-center;   justify-self: center; text-align: center; pointer-events: none; }
+.globe-slot--top-right    { grid-area: top-right;    justify-self: end; }
+.globe-slot--left         { grid-area: left;         align-self: start; }
+.globe-slot--right        { grid-area: right;        align-self: start; justify-self: end; }
+.globe-slot--bottom       { grid-area: bottom;       justify-self: center; align-self: end; width: 90%; max-width: 900px; }
+.globe-slot--left-aux     { grid-area: left-aux;     align-self: end; }
+.globe-slot--right-aux    { grid-area: right-aux;    align-self: end; justify-self: end; }
+.globe-slot--bottom-aux   { grid-area: bottom-aux;   justify-self: center; align-self: end; width: 90%; max-width: 900px; }
+
+/* ── Hydration boundary: promote React island children to grid participants ──
+   Astro wraps client:only components in <astro-island>. The React component
+   returns <div class="globe-wrapper">. Both sit between .globe-layout and
+   the .globe-slot elements. display:contents makes them transparent to grid. ── */
+.globe-layout > astro-island { display: contents; }
+.globe-wrapper { display: contents; }
+
+/* ── Cesium canvas — fills viewport behind the grid ── */
+.globe-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+/* ── Mobile layout (<=768px) ── */
+@media (max-width: 768px) {
+  .globe-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto auto;
+    grid-template-areas:
+      "top-center"
+      "."
+      "bottom-aux"
+      "bottom";
+    padding: 8px;
+    gap: 4px;
+  }
+
+  .globe-slot--top-left,
+  .globe-slot--top-right,
+  .globe-slot--left,
+  .globe-slot--right,
+  .globe-slot--left-aux,
+  .globe-slot--right-aux {
+    display: none !important;
+  }
+}
