@@ -18,8 +18,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     outputs:
-      has_actions: ${{ steps.triage.outputs.has_actions }}
-      plan_json: ${{ steps.triage.outputs.plan_json }}
+      has_actions: ${{ steps.triage.outputs.has_actions || steps.triage-defaults.outputs.has_actions || 'false' }}
+      plan_json: ${{ steps.triage.outputs.plan_json || steps.triage-defaults.outputs.plan_json || '[]' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -34,11 +34,22 @@ jobs:
           if [ -f /tmp/hourly-candidates.json ]; then
             count=$(node -e "console.log(JSON.parse(require('fs').readFileSync('/tmp/hourly-candidates.json','utf8')).length)")
             echo "candidates=$count" >> "$GITHUB_OUTPUT"
-            echo "has_candidates=true" >> "$GITHUB_OUTPUT"
+            if [ "$count" -gt 0 ]; then
+              echo "has_candidates=true" >> "$GITHUB_OUTPUT"
+            else
+              echo "has_candidates=false" >> "$GITHUB_OUTPUT"
+            fi
           else
             echo "candidates=0" >> "$GITHUB_OUTPUT"
             echo "has_candidates=false" >> "$GITHUB_OUTPUT"
           fi
+
+      - name: Set triage defaults
+        id: triage-defaults
+        if: steps.poll.outputs.has_candidates != 'true'
+        run: |
+          echo "has_actions=false" >> "$GITHUB_OUTPUT"
+          echo "plan_json=[]" >> "$GITHUB_OUTPUT"
 
       - name: AI triage
         id: triage
@@ -164,7 +175,7 @@ jobs:
           X_API_SECRET: ${{ secrets.X_API_SECRET }}
           X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
           X_ACCESS_TOKEN_SECRET: ${{ secrets.X_ACCESS_TOKEN_SECRET }}
-          TWEET_TEXT_FILE: /tmp/tweet-text.txt
+          TRACKER_SLUG: ${{ matrix.entry.tracker }}
         run: |
           if [ -f /tmp/tweet-text.txt ]; then
             export TWEET_TEXT=$(cat /tmp/tweet-text.txt)
@@ -175,7 +186,7 @@ jobs:
             npx tsx -e "
               import { postBreaking } from './scripts/hourly-post.js';
               postBreaking(
-                '${{ matrix.entry.tracker }}',
+                process.env.TRACKER_SLUG!,
                 process.env.TWEET_TEXT!,
                 process.env.EVENT_IDS!.split(',').filter(Boolean),
                 process.env.SECTIONS!.split(',').filter(Boolean),
@@ -238,17 +249,17 @@ jobs:
           X_API_SECRET: ${{ secrets.X_API_SECRET }}
           X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
           X_ACCESS_TOKEN_SECRET: ${{ secrets.X_ACCESS_TOKEN_SECRET }}
+          TRACKER_SLUG: ${{ matrix.entry.tracker }}
+          ENTRY_DATA: ${{ matrix.entry.data }}
         run: |
-          TRACKER="${{ matrix.entry.tracker }}"
           SHOULD_SEED=$(cat /tmp/should-seed.txt 2>/dev/null || echo "false")
-          DATA='${{ matrix.entry.data }}'
+          export SHOULD_SEED
 
-          export TRACKER SHOULD_SEED DATA
           npx tsx -e "
-            const data = JSON.parse(process.env.DATA!);
+            const data = JSON.parse(process.env.ENTRY_DATA!);
             import { postNewTracker } from './scripts/hourly-post.js';
             postNewTracker(
-              process.env.TRACKER!,
+              process.env.TRACKER_SLUG!,
               data.suggestedName,
               data.triggerEvent.summary,
               process.env.SHOULD_SEED === 'true',
@@ -258,16 +269,17 @@ jobs:
 
       - name: Trigger seed job
         if: matrix.entry.type == 'new_tracker'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TRACKER_SLUG: ${{ matrix.entry.tracker }}
         run: |
           SHOULD_SEED=$(cat /tmp/should-seed.txt 2>/dev/null || echo "false")
           if [ "$SHOULD_SEED" = "true" ]; then
             gh workflow run seed-tracker.yml \
-              -f tracker_slug="${{ matrix.entry.tracker }}" \
+              -f tracker_slug="$TRACKER_SLUG" \
               -f sections="all"
-            echo "Seed job triggered for ${{ matrix.entry.tracker }}"
+            echo "Seed job triggered for $TRACKER_SLUG"
           fi
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Validate modified JSON
         run: |
