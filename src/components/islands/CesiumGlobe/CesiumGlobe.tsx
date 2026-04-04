@@ -40,7 +40,9 @@ import { useInternetBlackout } from './useInternetBlackout';
 import { useGroundTruth } from './useGroundTruth';
 import { useCinematicMode } from './useCinematicMode';
 import { useLunarMission } from './useLunarMission';
-import MissionHUD from './MissionHUD';
+import MissionIdentity from './MissionIdentity';
+import MissionTelemetry from './MissionTelemetry';
+import MissionPhaseBar from './MissionPhaseBar';
 import type { MissionTrajectory } from '../../../lib/schemas';
 
 interface Props {
@@ -532,14 +534,28 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [], ca
         currentDate={currentDate}
       />
 
-      {/* Mission telemetry HUD */}
+      {/* Mission telemetry — slotted into auxiliary grid areas */}
       {missionTrajectory && (
-        <MissionHUD
-          telemetryRef={telemetryRef}
-          vehicle={missionTrajectory.vehicle}
-          phases={missionTrajectory.phases}
-          onTrackSpacecraft={trackSpacecraft}
-        />
+        <>
+          <div className="globe-slot globe-slot--left-aux">
+            <MissionIdentity
+              telemetryRef={telemetryRef}
+              vehicle={missionTrajectory.vehicle}
+              onTrackSpacecraft={trackSpacecraft}
+            />
+          </div>
+          <div className="globe-slot globe-slot--right-aux">
+            <MissionTelemetry telemetryRef={telemetryRef} />
+          </div>
+          <div className="globe-slot globe-slot--bottom-aux">
+            <MissionPhaseBar
+              telemetryRef={telemetryRef}
+              vehicle={missionTrajectory.vehicle}
+              phases={missionTrajectory.phases}
+              onTrackSpacecraft={trackSpacecraft}
+            />
+          </div>
+        </>
       )}
 
       {/* Cinematic mode overlay */}
