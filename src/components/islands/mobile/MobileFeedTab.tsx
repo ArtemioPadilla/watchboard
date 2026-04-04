@@ -1,5 +1,5 @@
 // src/components/islands/mobile/MobileFeedTab.tsx
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import type { FlatEvent } from '../../../lib/timeline-utils';
 import { tierClass, tierLabelShort } from '../../../lib/tier-utils';
 import { haptic } from '../../../lib/haptic';
@@ -39,15 +39,24 @@ function relativeTime(iso: string): string {
 export default function MobileFeedTab({ heroSubtitle, events }: Props) {
   const [selectedEvent, setSelectedEvent] = useState<FlatEvent | null>(null);
 
-  // ── Pull-to-refresh (#2) ──
+  // ── Pull-to-refresh (#2) — C1 fix: use ref for pull distance ──
   const [pullY, setPullY] = useState(0);
   const [refreshing, setRefreshing] = useState(false);
   const pullStartRef = useRef<number | null>(null);
+  const pullYRef = useRef(0);
+  const reloadTimerRef = useRef<ReturnType<typeof setTimeout>>();
 
+  // I5 fix: clean up reload timer on unmount
+  useEffect(() => {
+    return () => { if (reloadTimerRef.current) clearTimeout(reloadTimerRef.current); };
+  }, []);
+
+  // I2 fix: stopPropagation when pull activates so parent swipe handler doesn't also fire
   const handlePullStart = useCallback((e: React.TouchEvent) => {
     const scrollParent = (e.currentTarget as HTMLElement).closest('.mtab-content');
     if (scrollParent && scrollParent.scrollTop <= 0) {
       pullStartRef.current = e.touches[0].clientY;
+      e.stopPropagation();
     }
   }, []);
 
@@ -55,20 +64,43 @@ export default function MobileFeedTab({ heroSubtitle, events }: Props) {
     if (pullStartRef.current === null || refreshing) return;
     const dy = e.touches[0].clientY - pullStartRef.current;
     if (dy > 0) {
-      setPullY(Math.min(dy * 0.5, 100)); // damped
+      const damped = Math.min(dy * 0.5, 100);
+      pullYRef.current = damped;
+      setPullY(damped);
+      e.stopPropagation();
     }
   }, [refreshing]);
 
+  // C1 fix: read pullYRef.current instead of stale pullY state
   const handlePullEnd = useCallback(() => {
-    if (pullY >= PULL_TRIGGER * 0.5 && !refreshing) {
+    if (pullYRef.current >= PULL_TRIGGER * 0.5 && !refreshing) {
       setRefreshing(true);
       haptic(20);
-      setTimeout(() => window.location.reload(), 600);
+      reloadTimerRef.current = setTimeout(() => window.location.reload(), 600);
     } else {
       setPullY(0);
     }
+    pullYRef.current = 0;
     pullStartRef.current = null;
-  }, [pullY, refreshing]);
+  }, [refreshing]);
+
+  // ── C2 fix: body scroll lock + Escape key for bottom sheet ──
+  const sheetRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!selectedEvent) return;
+    document.body.style.overflow = 'hidden';
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setSelectedEvent(null);
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    // Auto-focus the sheet for keyboard users
+    sheetRef.current?.focus();
+    return () => {
+      document.body.style.overflow = '';
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [selectedEvent]);
 
   // ── Group events by date ──
   const grouped = events
@@ -137,6 +169,7 @@ export default function MobileFeedTab({ heroSubtitle, events }: Props) {
                 className="mtab-event-card"
                 style={{ borderLeftColor: eventBorderColor(ev.type) }}
                 onClick={() => handleEventTap(ev)}
+                aria-label={ev.title}
               >
                 <div className="mtab-event-header">
                   <span className="mtab-event-type">{ev.type}</span>
@@ -157,10 +190,18 @@ export default function MobileFeedTab({ heroSubtitle, events }: Props) {
         </p>
       )}
 
-      {/* Bottom sheet overlay (#3) */}
+      {/* Bottom sheet overlay (#3) — C2 fix: dialog role, aria, focus, scroll lock */}
       {selectedEvent && (
         <div className="mtab-sheet-backdrop" onClick={() => setSelectedEvent(null)}>
-          <div className="mtab-sheet" onClick={e => e.stopPropagation()}>
+          <div
+            ref={sheetRef}
+            className="mtab-sheet"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="mtab-sheet-title"
+            tabIndex={-1}
+            onClick={e => e.stopPropagation()}
+          >
             <div className="mtab-sheet-handle" />
             <div className="mtab-sheet-header">
               <span
@@ -169,11 +210,15 @@ export default function MobileFeedTab({ heroSubtitle, events }: Props) {
               >
                 {selectedEvent.type}
               </span>
-              <button className="mtab-sheet-close" onClick={() => setSelectedEvent(null)}>
+              <button
+                className="mtab-sheet-close"
+                onClick={() => setSelectedEvent(null)}
+                aria-label="Close event details"
+              >
                 ✕
               </button>
             </div>
-            <h3 className="mtab-sheet-title">{selectedEvent.title}</h3>
+            <h3 id="mtab-sheet-title" className="mtab-sheet-title">{selectedEvent.title}</h3>
             <div className="mtab-sheet-date" suppressHydrationWarning>
               {formatDate(selectedEvent.resolvedDate)} · {relativeTime(selectedEvent.resolvedDate)}
             </div>

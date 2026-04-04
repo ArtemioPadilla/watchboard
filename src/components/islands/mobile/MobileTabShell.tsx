@@ -76,28 +76,33 @@ export default function MobileTabShell(props: Props) {
     };
   }, []);
 
+  // I1 fix: use functional setActiveTab to avoid stale closure on activeTab
   const handleSwipeEnd = useCallback((e: React.TouchEvent) => {
     if (!swipeRef.current) return;
-    // Skip swipe on map tab — map needs full touch control
-    if (activeTab === 'map') { swipeRef.current = null; return; }
-
-    const dx = e.changedTouches[0].clientX - swipeRef.current.x;
-    const dy = e.changedTouches[0].clientY - swipeRef.current.y;
-    const dt = Date.now() - swipeRef.current.t;
+    const startData = swipeRef.current;
     swipeRef.current = null;
+
+    const dx = e.changedTouches[0].clientX - startData.x;
+    const dy = e.changedTouches[0].clientY - startData.y;
+    const dt = Date.now() - startData.t;
 
     // Must be fast, mostly horizontal, and exceed threshold
     if (dt > 400 || Math.abs(dx) < SWIPE_THRESHOLD || Math.abs(dx) < Math.abs(dy) * 1.5) return;
 
-    const idx = TAB_ORDER.indexOf(activeTab);
-    if (dx < 0 && idx < TAB_ORDER.length - 1) {
-      setActiveTab(TAB_ORDER[idx + 1]);
-      haptic();
-    } else if (dx > 0 && idx > 0) {
-      setActiveTab(TAB_ORDER[idx - 1]);
-      haptic();
-    }
-  }, [activeTab]);
+    setActiveTab(currentTab => {
+      // Skip swipe on map tab — map needs full touch control
+      if (currentTab === 'map') return currentTab;
+      const idx = TAB_ORDER.indexOf(currentTab);
+      if (dx < 0 && idx < TAB_ORDER.length - 1) {
+        haptic();
+        return TAB_ORDER[idx + 1];
+      } else if (dx > 0 && idx > 0) {
+        haptic();
+        return TAB_ORDER[idx - 1];
+      }
+      return currentTab;
+    });
+  }, []);
 
   const handleTabChange = useCallback((tab: MobileTab) => {
     setActiveTab(tab);
@@ -123,6 +128,7 @@ export default function MobileTabShell(props: Props) {
         <div
           id="tabpanel-map"
           role="tabpanel"
+          aria-labelledby="tab-map"
           style={{
             display: activeTab === 'map' ? 'flex' : 'none',
             flexDirection: 'column',
@@ -148,7 +154,7 @@ export default function MobileTabShell(props: Props) {
         </div>
 
         {activeTab === 'feed' && (
-          <div id="tabpanel-feed" role="tabpanel">
+          <div id="tabpanel-feed" role="tabpanel" aria-labelledby="tab-feed">
             <MobileFeedTab
               heroSubtitle={props.heroSubtitle}
               events={props.events}
@@ -157,7 +163,7 @@ export default function MobileTabShell(props: Props) {
         )}
 
         {activeTab === 'data' && (
-          <div id="tabpanel-data" role="tabpanel">
+          <div id="tabpanel-data" role="tabpanel" aria-labelledby="tab-data">
             <MobileDataTab
               kpis={props.kpis}
               casualties={props.casualties}
@@ -170,7 +176,7 @@ export default function MobileTabShell(props: Props) {
         )}
 
         {activeTab === 'intel' && (
-          <div id="tabpanel-intel" role="tabpanel">
+          <div id="tabpanel-intel" role="tabpanel" aria-labelledby="tab-intel">
             <MobileIntelTab
               claims={props.claims}
               political={props.political}

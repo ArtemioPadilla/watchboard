@@ -86,12 +86,14 @@
   }
 
   /* ── Story card ── */
+  /* I3 fix: touch-action prevents native overscroll competing with swipe handlers */
   .story-card {
     position: relative;
     width: 100%;
     background: var(--bg-card);
     border-top: 1px solid var(--border);
     overflow: hidden;
+    touch-action: pan-y;
   }
 
   /* ── Progress bar ── */
