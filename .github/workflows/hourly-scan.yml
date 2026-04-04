@@ -16,7 +16,7 @@ permissions:
 jobs:
   scan:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 12
     outputs:
       has_actions: ${{ steps.triage.outputs.has_actions || steps.triage-defaults.outputs.has_actions || 'false' }}
       plan_json: ${{ steps.triage.outputs.plan_json || steps.triage-defaults.outputs.plan_json || '[]' }}
@@ -52,13 +52,49 @@ jobs:
           echo "plan_json=[]" >> "$GITHUB_OUTPUT"
 
       - name: AI triage
+        id: triage-agent
+        if: steps.poll.outputs.has_candidates == 'true'
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          allowed_tools: "Read,Write,Glob,Bash(ls:*),Bash(node:*)"
+          timeout_minutes: 5
+          claude_args: "--max-turns 10"
+          prompt: |
+            You are a news triage AI for Watchboard. Classify candidate headlines and produce an action plan.
+
+            STEP 1: Read /tmp/hourly-candidates.json — an array of candidate objects with fields: title, source, matchedTracker, feedOrigin, url, timestamp.
+
+            STEP 2: For dedup context, find recent event files (last 3 days) from trackers/*/data/events/*.json. Collect up to 10 event titles per tracker. Use Glob to find files and Read to inspect them.
+
+            STEP 3: Classify EACH candidate as one of:
+            - "update" (confidence >= 0.6): Significant new info for an existing tracker. Set tracker to the matched slug.
+            - "new_tracker" (confidence >= 0.8): Major breaking event warranting a new tracker. Must include suggestedSlug, suggestedDomain, suggestedRegion, suggestedName.
+            - "discard": Duplicate, opinion, minor, already covered, or low confidence.
+
+            STEP 4: Build and write /tmp/hourly-action-plan.json with this EXACT schema:
+            {
+              "updates": [
+                { "tracker": "slug", "events": [{ "summary": "one-sentence", "sources": ["url"], "timestamp": "ISO" }] }
+              ],
+              "newTrackers": [
+                { "suggestedSlug": "...", "suggestedDomain": "...", "suggestedRegion": "...", "suggestedName": "...", "triggerEvent": { "summary": "...", "sources": ["url"], "timestamp": "ISO" } }
+              ],
+              "scannedAt": "ISO timestamp now",
+              "candidateCount": N,
+              "discardedCount": N
+            }
+
+            Rules:
+            - Group multiple update events for the same tracker into one updates entry
+            - Only include updates with confidence >= 0.6, new trackers with confidence >= 0.8
+            - Discard anything already covered by recent event titles
+            - The file MUST be valid JSON
+
+      - name: Parse triage results
         id: triage
         if: steps.poll.outputs.has_candidates == 'true'
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
-          npx tsx scripts/hourly-triage.ts /tmp/hourly-candidates.json
-
           if [ -f /tmp/hourly-action-plan.json ]; then
             node -e "
               const plan = JSON.parse(require('fs').readFileSync('/tmp/hourly-action-plan.json','utf8'));
