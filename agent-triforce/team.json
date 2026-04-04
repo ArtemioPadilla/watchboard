@@ -1,0 +1,24 @@
+{
+  "name": "agent-triforce",
+  "description": "PM/Dev/QA agent team with checklist methodology. Three specialized agents coordinate via structured handoffs following the WHO Surgical Safety Checklist model (SIGN IN / TIME OUT / SIGN OUT).",
+  "lead": "prometeo-pm",
+  "teammates": ["forja-dev", "centinela-qa"],
+  "taskSharing": true,
+  "interAgentMessaging": true,
+  "workflow": {
+    "defaultPipeline": ["prometeo-pm", "forja-dev", "centinela-qa"],
+    "parallelCapable": true,
+    "handoffProtocol": {
+      "requiredFields": [
+        "whatWasDone",
+        "whatToWatchFor",
+        "whatsNeededNext",
+        "openQuestions"
+      ]
+    }
+  },
+  "fallback": {
+    "sequential": true,
+    "message": "Agent Teams not available. Running in sequential single-agent mode."
+  }
+}
