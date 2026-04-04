@@ -8,6 +8,7 @@ import ClaimsMatrix from '../../components/static/ClaimsMatrix.astro';
 import PoliticalGrid from '../../components/static/PoliticalGrid.astro';
 import SourceLegend from '../../components/static/SourceLegend.astro';
 import Footer from '../../components/static/Footer.astro';
+import GeoBreadcrumb from '../../components/static/GeoBreadcrumb.astro';
 
 import TimelineSection from '../../components/islands/TimelineSection';
 import IntelMapLoader from '../../components/islands/IntelMapLoader';
@@ -59,6 +60,13 @@ const statusLabel = `${temporalLabel} ${domainLabel}`;
   <div class="desktop-layout">
     <Header meta={data.meta} navSections={config.navSections} trackerSlug={config.slug} globeEnabled={config.globe?.enabled} statusLabel={statusLabel} />
     <main id="main-content">
+      <GeoBreadcrumb
+        geoPath={config.geoPath}
+        country={config.country}
+        state={config.state}
+        city={config.city}
+        neighborhood={config.neighborhood}
+      />
       <HeroKpiCombo meta={data.meta} kpis={data.kpis} />
 
       <div class="theater-layout">
