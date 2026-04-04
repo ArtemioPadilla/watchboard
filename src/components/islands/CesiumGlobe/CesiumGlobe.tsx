@@ -596,24 +596,28 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [], ca
       />
 
       {/* KPI strip — hidden when info panel is open */}
-      {!selectedPoint && !selectedEntity && <div className={`globe-kpi-strip${showAllKpis ? ' expanded' : ''}`}>
-        {kpis.slice(0, showAllKpis ? kpis.length : 4).map(k => (
-          <div key={k.id} className="globe-kpi" style={{ borderColor: KPI_COLORS[k.color] || '#555' }}>
-            <span className="globe-kpi-value" style={{ color: KPI_COLORS[k.color] }}>{k.value}</span>
-            <span className="globe-kpi-label">{k.label}</span>
-            {k.delta && (
-              <span className={`globe-kpi-delta ${k.trend === 'up' ? 'up' : k.trend === 'down' ? 'down' : ''}`}>
-                {k.delta}
-              </span>
+      {!selectedPoint && !selectedEntity && (
+        <div className="globe-slot globe-slot--top-right">
+          <div className={`globe-kpi-strip${showAllKpis ? ' expanded' : ''}`}>
+            {kpis.slice(0, showAllKpis ? kpis.length : 4).map(k => (
+              <div key={k.id} className="globe-kpi" style={{ borderColor: KPI_COLORS[k.color] || '#555' }}>
+                <span className="globe-kpi-value" style={{ color: KPI_COLORS[k.color] }}>{k.value}</span>
+                <span className="globe-kpi-label">{k.label}</span>
+                {k.delta && (
+                  <span className={`globe-kpi-delta ${k.trend === 'up' ? 'up' : k.trend === 'down' ? 'down' : ''}`}>
+                    {k.delta}
+                  </span>
+                )}
+              </div>
+            ))}
+            {kpis.length > 4 && (
+              <button className="globe-kpi-more" onClick={() => setShowAllKpis(p => !p)}>
+                {showAllKpis ? '\u2212' : `+${kpis.length - 4}`}
+              </button>
             )}
           </div>
-        ))}
-        {kpis.length > 4 && (
-          <button className="globe-kpi-more" onClick={() => setShowAllKpis(p => !p)}>
-            {showAllKpis ? '\u2212' : `+${kpis.length - 4}`}
-          </button>
-        )}
-      </div>}
+        </div>
+      )}
 
       {/* Overlay controls toolbar */}
       <CesiumControls
