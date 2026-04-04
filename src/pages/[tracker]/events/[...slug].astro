@@ -1,0 +1,798 @@
+---
+/**
+ * Event permalink page — one page per event across all non-draft trackers.
+ * URL: /{tracker}/events/{YYYY-MM-DD}-{kebab-id}
+ *
+ * Includes: NewsArticle + BreadcrumbList JSON-LD, OG meta, media gallery,
+ * adjacent events sidebar, breadcrumb nav, share button, and CTA.
+ */
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ShareButton from '../../../components/static/ShareButton.astro';
+import { loadAllTrackers } from '../../../lib/tracker-registry';
+import { loadTrackerData } from '../../../lib/data';
+import { flattenTimelineEvents } from '../../../lib/timeline-utils';
+import { eventToSlug, eventPermalink } from '../../../lib/event-slug';
+import { tierLabel, tierClass } from '../../../lib/tier-utils';
+import type { TrackerConfig } from '../../../lib/tracker-config';
+import type { FlatEvent } from '../../../lib/timeline-utils';
+
+export function getStaticPaths() {
+  const trackers = loadAllTrackers().filter(t => t.status !== 'draft');
+  const paths: {
+    params: { tracker: string; slug: string };
+    props: {
+      config: TrackerConfig;
+      event: FlatEvent;
+      adjacentEvents: { prev: FlatEvent[]; next: FlatEvent[] };
+      allEvents: FlatEvent[];
+    };
+  }[] = [];
+
+  for (const config of trackers) {
+    let data;
+    try {
+      data = loadTrackerData(config.slug, config.eraLabel);
+    } catch (err) {
+      console.warn(`[event-pages] Skipping tracker "${config.slug}": ${err}`);
+      continue;
+    }
+
+    const allEvents = flattenTimelineEvents(data.timeline)
+      .sort((a, b) => a.resolvedDate.localeCompare(b.resolvedDate));
+
+    for (let i = 0; i < allEvents.length; i++) {
+      const ev = allEvents[i];
+      const slug = eventToSlug(ev.resolvedDate, ev.id);
+      const prev = allEvents.slice(Math.max(0, i - 2), i);
+      const next = allEvents.slice(i + 1, i + 3);
+
+      paths.push({
+        params: { tracker: config.slug, slug },
+        props: {
+          config,
+          event: ev,
+          adjacentEvents: { prev, next },
+          allEvents,
+        },
+      });
+    }
+  }
+
+  return paths;
+}
+
+interface Props {
+  config: TrackerConfig;
+  event: FlatEvent;
+  adjacentEvents: { prev: FlatEvent[]; next: FlatEvent[] };
+  allEvents: FlatEvent[];
+}
+
+const { config, event, adjacentEvents } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const basePath = base.endsWith('/') ? base : `${base}/`;
+const siteUrl = import.meta.env.SITE || 'https://watchboard.dev';
+const slug = eventToSlug(event.resolvedDate, event.id);
+const pageUrl = `${siteUrl}${basePath}${config.slug}/events/${slug}`;
+const ogImageUrl = `${siteUrl}${basePath}og/${config.slug}/${slug}.png`;
+const dashboardUrl = `${basePath}${config.slug}/`;
+
+// Format display date from resolvedDate (YYYY-MM-DD -> readable)
+const dateParts = event.resolvedDate.split('-');
+const displayDate = new Date(`${dateParts[0]}-${dateParts[1]}-${dateParts[2]}T12:00:00Z`)
+  .toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+
+// Type badge color mapping
+const typeColors: Record<string, string> = {
+  military: 'var(--accent-red)',
+  diplomatic: 'var(--accent-blue)',
+  humanitarian: 'var(--accent-amber)',
+  political: 'var(--accent-purple, #a78bfa)',
+  economic: 'var(--accent-green)',
+  cyber: 'var(--accent-purple, #a78bfa)',
+  nuclear: 'var(--accent-red)',
+  infrastructure: 'var(--accent-amber)',
+  disaster: 'var(--accent-red)',
+  investigation: 'var(--accent-blue)',
+};
+const typeBadgeColor = typeColors[event.type] || 'var(--text-muted)';
+
+// Confidence badge
+const confidenceColors: Record<string, string> = {
+  high: 'var(--accent-green)',
+  medium: 'var(--accent-amber)',
+  low: 'var(--accent-red)',
+};
+const confidenceColor = event.confidence ? confidenceColors[event.confidence] || 'var(--text-muted)' : null;
+
+// JSON-LD: NewsArticle
+const newsArticleLD = {
+  "@context": "https://schema.org",
+  "@type": "NewsArticle",
+  "headline": event.title,
+  "description": event.detail,
+  "datePublished": event.resolvedDate,
+  "dateModified": event.lastUpdated || event.resolvedDate,
+  "url": pageUrl,
+  "image": event.media?.[0]?.thumbnail || event.media?.[0]?.url || ogImageUrl,
+  "author": {
+    "@type": "Organization",
+    "name": "Watchboard",
+    "url": siteUrl,
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Watchboard",
+    "url": siteUrl,
+    "logo": {
+      "@type": "ImageObject",
+      "url": `${siteUrl}${basePath}favicon.svg`,
+    },
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": pageUrl,
+  },
+  "isPartOf": {
+    "@type": "WebPage",
+    "@id": `${siteUrl}${dashboardUrl}`,
+    "name": config.name,
+  },
+};
+
+// JSON-LD: BreadcrumbList
+const breadcrumbLD = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Watchboard",
+      "item": `${siteUrl}${basePath}`,
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": config.shortName,
+      "item": `${siteUrl}${dashboardUrl}`,
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": event.title,
+      "item": pageUrl,
+    },
+  ],
+};
+
+// Page title
+const pageTitle = `${event.title} — ${config.shortName} — Watchboard`;
+---
+
+<BaseLayout title={pageTitle} description={event.detail} trackerSlug={config.slug} githubRepo={config.githubRepo}>
+  <Fragment slot="head">
+    {/* Override OG tags for article type */}
+    <meta property="og:type" content="article" />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="article:published_time" content={event.resolvedDate} />
+    {event.lastUpdated && <meta property="article:modified_time" content={event.lastUpdated} />}
+    <meta property="article:section" content={event.type} />
+    <meta property="article:tag" content={config.shortName} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    <link rel="canonical" href={pageUrl} />
+
+    {/* NewsArticle JSON-LD */}
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(newsArticleLD)} />
+
+    {/* BreadcrumbList JSON-LD */}
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbLD)} />
+  </Fragment>
+
+  <main id="main-content" class="event-page">
+    {/* Breadcrumb navigation */}
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <ol>
+        <li><a href={basePath}>Watchboard</a></li>
+        <li><a href={dashboardUrl}>{config.shortName}</a></li>
+        <li aria-current="page">{event.title}</li>
+      </ol>
+    </nav>
+
+    <div class="event-layout">
+      {/* Main article column */}
+      <article class="event-article">
+        {/* Header */}
+        <header class="event-header">
+          <div class="event-badges">
+            <span class="type-badge" style={`--badge-color: ${typeBadgeColor}`}>
+              {event.type}
+            </span>
+            {event.confidence && (
+              <span class="confidence-badge" style={`--badge-color: ${confidenceColor}`}>
+                {event.confidence} confidence
+              </span>
+            )}
+          </div>
+
+          <h1 class="event-title">{event.title}</h1>
+
+          <div class="event-meta">
+            <time datetime={event.resolvedDate} class="event-date">
+              {displayDate}
+            </time>
+            <span class="meta-separator">|</span>
+            <span class="event-tracker">{config.shortName}</span>
+            <ShareButton url={pageUrl} title={event.title} />
+          </div>
+        </header>
+
+        {/* Detail */}
+        <section class="event-detail">
+          <p>{event.detail}</p>
+        </section>
+
+        {/* Media gallery */}
+        {event.media && event.media.length > 0 && (
+          <section class="event-media" aria-label="Media">
+            <h2 class="section-label">Media</h2>
+            <div class="media-grid">
+              {event.media.map((item) => (
+                <figure class="media-item">
+                  {item.type === 'image' || item.thumbnail ? (
+                    <a href={item.url} target="_blank" rel="noopener noreferrer">
+                      <img
+                        src={item.thumbnail || item.url}
+                        alt={item.caption || event.title}
+                        loading="lazy"
+                        width="600"
+                        height="338"
+                      />
+                    </a>
+                  ) : item.type === 'video' ? (
+                    <a href={item.url} target="_blank" rel="noopener noreferrer" class="video-link">
+                      <span class="video-icon">&#9654;</span>
+                      <span>Watch video</span>
+                    </a>
+                  ) : (
+                    <a href={item.url} target="_blank" rel="noopener noreferrer" class="article-link">
+                      <span class="article-icon">&#128196;</span>
+                      <span>Read article</span>
+                    </a>
+                  )}
+                  {item.caption && (
+                    <figcaption>
+                      {item.caption}
+                      {item.source && <cite> — {item.source}</cite>}
+                    </figcaption>
+                  )}
+                </figure>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Sources */}
+        <section class="event-sources" aria-label="Sources">
+          <h2 class="section-label">Sources</h2>
+          <ul class="source-list">
+            {event.sources.map((src) => (
+              <li class="source-item">
+                <span class={`tier-badge ${tierClass(src.tier)}`}>
+                  T{src.tier}
+                </span>
+                {src.url ? (
+                  <a href={src.url} target="_blank" rel="noopener noreferrer">
+                    {src.name}
+                  </a>
+                ) : (
+                  <span>{src.name}</span>
+                )}
+                <span class="tier-label">{tierLabel(src.tier)}</span>
+                {src.pole && <span class="pole-label">{src.pole}</span>}
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        {/* CTA */}
+        <div class="event-cta">
+          <a href={dashboardUrl} class="cta-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"/>
+            </svg>
+            View full {config.shortName} dashboard
+          </a>
+        </div>
+      </article>
+
+      {/* Sidebar — adjacent events */}
+      <aside class="event-sidebar" aria-label="Related events">
+        <h2 class="sidebar-heading">Timeline</h2>
+
+        {adjacentEvents.prev.length > 0 && (
+          <div class="adjacent-group">
+            <span class="adjacent-label">Earlier</span>
+            {adjacentEvents.prev.map((adj) => {
+              const adjSlug = eventToSlug(adj.resolvedDate, adj.id);
+              const adjUrl = `${basePath}${config.slug}/events/${adjSlug}`;
+              const adjDateParts = adj.resolvedDate.split('-');
+              const adjDisplay = new Date(`${adjDateParts[0]}-${adjDateParts[1]}-${adjDateParts[2]}T12:00:00Z`)
+                .toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+              return (
+                <a href={adjUrl} class="adjacent-event">
+                  <time datetime={adj.resolvedDate}>{adjDisplay}</time>
+                  <span class="adjacent-title">{adj.title}</span>
+                  <span class={`adjacent-type`} style={`--badge-color: ${typeColors[adj.type] || 'var(--text-muted)'}`}>
+                    {adj.type}
+                  </span>
+                </a>
+              );
+            })}
+          </div>
+        )}
+
+        {/* Current event marker */}
+        <div class="current-marker">
+          <span class="current-dot"></span>
+          <span class="current-label">{event.title}</span>
+        </div>
+
+        {adjacentEvents.next.length > 0 && (
+          <div class="adjacent-group">
+            <span class="adjacent-label">Later</span>
+            {adjacentEvents.next.map((adj) => {
+              const adjSlug = eventToSlug(adj.resolvedDate, adj.id);
+              const adjUrl = `${basePath}${config.slug}/events/${adjSlug}`;
+              const adjDateParts = adj.resolvedDate.split('-');
+              const adjDisplay = new Date(`${adjDateParts[0]}-${adjDateParts[1]}-${adjDateParts[2]}T12:00:00Z`)
+                .toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+              return (
+                <a href={adjUrl} class="adjacent-event">
+                  <time datetime={adj.resolvedDate}>{adjDisplay}</time>
+                  <span class="adjacent-title">{adj.title}</span>
+                  <span class={`adjacent-type`} style={`--badge-color: ${typeColors[adj.type] || 'var(--text-muted)'}`}>
+                    {adj.type}
+                  </span>
+                </a>
+              );
+            })}
+          </div>
+        )}
+
+        <a href={dashboardUrl + '#timeline'} class="sidebar-all-link">
+          View all events &rarr;
+        </a>
+      </aside>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  /* ── Page layout ── */
+  .event-page {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 1.5rem 1.5rem 4rem;
+  }
+
+  /* ── Breadcrumbs ── */
+  .breadcrumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+  }
+  .breadcrumbs li:not(:last-child)::after {
+    content: '/';
+    margin-left: 0.4rem;
+    color: var(--border-light);
+  }
+  .breadcrumbs a {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .breadcrumbs a:hover {
+    color: var(--accent-blue);
+  }
+  .breadcrumbs [aria-current="page"] {
+    color: var(--text-secondary);
+  }
+
+  /* ── Two-column layout ── */
+  .event-layout {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 2.5rem;
+    align-items: start;
+  }
+
+  /* ── Article column ── */
+  .event-article {
+    min-width: 0;
+  }
+
+  .event-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .event-badges {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .type-badge,
+  .confidence-badge {
+    display: inline-flex;
+    align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 0.2rem 0.55rem;
+    border-radius: 3px;
+    border: 1px solid var(--badge-color);
+    color: var(--badge-color);
+    background: color-mix(in srgb, var(--badge-color) 8%, transparent);
+  }
+
+  .event-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    margin: 0 0 0.75rem;
+  }
+
+  .event-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+  }
+
+  .event-date {
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+
+  .meta-separator {
+    color: var(--border-light);
+  }
+
+  /* ── Detail ── */
+  .event-detail {
+    margin-bottom: 2rem;
+  }
+  .event-detail p {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: var(--text-secondary);
+  }
+
+  /* ── Section labels ── */
+  .section-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    margin: 0 0 0.75rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ── Media gallery ── */
+  .event-media {
+    margin-bottom: 2rem;
+  }
+  .media-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+  .media-item {
+    margin: 0;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .media-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+  .media-item figcaption {
+    padding: 0.5rem 0.75rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+  .media-item figcaption cite {
+    font-style: normal;
+    color: var(--text-muted);
+    opacity: 0.7;
+  }
+  .video-link,
+  .article-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1.5rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    transition: color 0.2s;
+  }
+  .video-link:hover,
+  .article-link:hover {
+    color: var(--accent-blue);
+  }
+  .video-icon,
+  .article-icon {
+    font-size: 1.4rem;
+  }
+
+  /* ── Sources ── */
+  .event-sources {
+    margin-bottom: 2rem;
+  }
+  .source-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .source-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.45rem 0.65rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+  }
+  .source-item a {
+    color: var(--accent-blue);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+  }
+  .source-item a:hover {
+    border-bottom-color: var(--accent-blue);
+  }
+  .source-item span {
+    color: var(--text-secondary);
+  }
+  .tier-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    font-weight: 700;
+    padding: 0.12rem 0.35rem;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+  .tier-badge.t1 {
+    background: color-mix(in srgb, var(--accent-red) 15%, transparent);
+    color: var(--accent-red);
+    border: 1px solid color-mix(in srgb, var(--accent-red) 30%, transparent);
+  }
+  .tier-badge.t2 {
+    background: color-mix(in srgb, var(--accent-blue) 15%, transparent);
+    color: var(--accent-blue);
+    border: 1px solid color-mix(in srgb, var(--accent-blue) 30%, transparent);
+  }
+  .tier-badge.t3 {
+    background: color-mix(in srgb, var(--accent-amber) 15%, transparent);
+    color: var(--accent-amber);
+    border: 1px solid color-mix(in srgb, var(--accent-amber) 30%, transparent);
+  }
+  .tier-badge.t4 {
+    background: color-mix(in srgb, var(--text-muted) 10%, transparent);
+    color: var(--text-muted);
+    border: 1px solid color-mix(in srgb, var(--text-muted) 20%, transparent);
+  }
+  .tier-label {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin-left: auto;
+  }
+  .pole-label {
+    font-size: 0.65rem;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text-muted);
+    text-transform: capitalize;
+    opacity: 0.7;
+  }
+
+  /* ── CTA ── */
+  .event-cta {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+  .cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.6rem 1.1rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+  .cta-button:hover {
+    border-color: var(--accent-blue);
+    color: var(--accent-blue);
+    background: color-mix(in srgb, var(--accent-blue) 5%, var(--bg-card));
+  }
+
+  /* ── Sidebar ── */
+  .event-sidebar {
+    position: sticky;
+    top: 1.5rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.25rem;
+  }
+
+  .sidebar-heading {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    margin: 0 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .adjacent-group {
+    margin-bottom: 0.75rem;
+  }
+
+  .adjacent-label {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    margin-bottom: 0.4rem;
+    opacity: 0.7;
+  }
+
+  .adjacent-event {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    padding: 0.5rem 0.6rem;
+    margin-bottom: 0.3rem;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background 0.2s;
+    border: 1px solid transparent;
+  }
+  .adjacent-event:hover {
+    background: var(--bg-secondary);
+    border-color: var(--border);
+  }
+  .adjacent-event time {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--text-muted);
+  }
+  .adjacent-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    line-height: 1.35;
+  }
+  .adjacent-type {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--badge-color);
+  }
+
+  /* Current event marker */
+  .current-marker {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.6rem;
+    margin: 0.3rem 0;
+    background: color-mix(in srgb, var(--accent-blue) 8%, transparent);
+    border: 1px solid color-mix(in srgb, var(--accent-blue) 25%, transparent);
+    border-radius: 5px;
+  }
+  .current-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent-blue);
+    flex-shrink: 0;
+  }
+  .current-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--accent-blue);
+    line-height: 1.3;
+  }
+
+  .sidebar-all-link {
+    display: block;
+    margin-top: 1rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--border);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    text-align: center;
+    transition: color 0.2s;
+  }
+  .sidebar-all-link:hover {
+    color: var(--accent-blue);
+  }
+
+  /* ── Responsive: single column on mobile ── */
+  @media (max-width: 768px) {
+    .event-page {
+      padding: 1rem 1rem 3rem;
+    }
+    .event-layout {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    .event-sidebar {
+      position: static;
+    }
+    .event-title {
+      font-size: 1.5rem;
+    }
+    .media-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
