@@ -210,25 +210,33 @@ jobs:
               LAST_RUN=$(node -e "try{console.log(JSON.parse(require('fs').readFileSync('$LOG','utf8')).lastRun||'unknown')}catch{console.log('unknown')}")
               NAME=$(node -e "console.log(JSON.parse(require('fs').readFileSync('$config','utf8')).name)")
 
+              PRUNE_NAME="$NAME" PRUNE_SLUG="$SLUG" PRUNE_QUIET="$QUIET_RUNS" \
+              PRUNE_ESC="$ESC_LENGTH" PRUNE_THRESH="$THRESHOLD" PRUNE_LAST="$LAST_RUN" \
+              node -e "
+                const fs = require('fs');
+                const {PRUNE_NAME,PRUNE_SLUG,PRUNE_QUIET,PRUNE_ESC,PRUNE_THRESH,PRUNE_LAST} = process.env;
+                const body = [
+                  '## Archive Candidate: ' + PRUNE_NAME,
+                  '',
+                  '| Field | Value |',
+                  '|-------|-------|',
+                  '| Slug | \`' + PRUNE_SLUG + '\` |',
+                  '| Consecutive quiet runs | ' + PRUNE_QUIET + ' |',
+                  '| Escalation length | ' + PRUNE_ESC + ' |',
+                  '| Threshold | ' + PRUNE_THRESH + ' |',
+                  '| Last run | ' + PRUNE_LAST + ' |',
+                  '',
+                  '**Recommendation:** Set \`\"status\": \"archived\"\` in \`tracker.json\`. Dashboard remains accessible (read-only). No further data updates.',
+                  '',
+                  'To archive, update \`trackers/' + PRUNE_SLUG + '/tracker.json\` and set \`\"status\": \"archived\"\`.',
+                ].join('\n');
+                fs.writeFileSync('/tmp/prune-body.md', body);
+              "
+
               gh issue create \
                 --title "[Prune] Archive candidate: $SLUG" \
                 --label "prune,auto-triage" \
-                --body "$(cat <<EOFBODY
-## Archive Candidate: $NAME
-
-| Field | Value |
-|-------|-------|
-| Slug | \`$SLUG\` |
-| Consecutive quiet runs | $QUIET_RUNS |
-| Escalation length | $ESC_LENGTH |
-| Threshold | $THRESHOLD |
-| Last run | $LAST_RUN |
-
-**Recommendation:** Set \`\"status\": \"archived\"\` in \`tracker.json\`. Dashboard remains accessible (read-only). No further data updates.
-
-To archive, update \`trackers/$SLUG/tracker.json\` and set \`\"status\": \"archived\"\`.
-EOFBODY
-)"
+                --body-file /tmp/prune-body.md
 
               echo "Created archive issue for: $SLUG"
               CANDIDATES=$((CANDIDATES + 1))
