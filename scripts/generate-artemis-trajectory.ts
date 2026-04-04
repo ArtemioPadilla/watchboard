@@ -2,17 +2,20 @@
 /**
  * generate-artemis-trajectory.ts
  *
- * Fetches REAL Artemis II trajectory from JPL Horizons API (target -1024)
- * and writes mission-trajectory.json with actual state vectors.
+ * Downloads NASA AROW OEM file for Artemis II, parses state vectors.
+ * Pure real data in EME2000 (equatorial J2000 inertial) frame.
+ * No computed phases, no frame conversions, no approximations.
  *
- * Usage: npx tsx scripts/generate-artemis-trajectory.ts
+ * Data: NASA/JSC/FOD/FDO (CCSDS OEM v2.0)
+ * Source: https://www.nasa.gov/missions/artemis/artemis-2/track-nasas-artemis-ii-mission-in-real-time/
  */
 import fs from 'fs';
+import { execSync } from 'child_process';
 
-const TARGET = '-1024'; // Artemis II / Orion EM-2
 const OUTPUT = 'trackers/artemis-2/data/mission-trajectory.json';
+const OEM_URL = 'https://www.nasa.gov/wp-content/uploads/2026/03/artemis-ii-oem-2026-04-03-to-ei.zip?emrc=69d0646de736c';
+const TMP = '/tmp/artemis-oem';
 
-// Mission timeline (from NASA press kit + JPL Horizons object data)
 const MISSION = {
   vehicle: 'Orion MPCV',
   crew: [
@@ -33,450 +36,64 @@ const MISSION = {
   ],
 };
 
-interface HorizonsWaypoint {
-  t: string;
-  x: number; y: number; z: number;
-  vx: number; vy: number; vz: number;
-}
+interface Waypoint { t: string; x: number; y: number; z: number; vx: number; vy: number; vz: number; }
 
-async function fetchHorizons(
-  startTime: string,
-  stopTime: string,
-  stepSize: string,
-  center = '500@399',
-): Promise<HorizonsWaypoint[]> {
-  const params = new URLSearchParams({
-    format: 'text',
-    COMMAND: `'${TARGET}'`,
-    OBJ_DATA: 'NO',
-    MAKE_EPHEM: 'YES',
-    EPHEM_TYPE: 'VECTORS',
-    CENTER: `'${center}'`,
-    START_TIME: `'${startTime}'`,
-    STOP_TIME: `'${stopTime}'`,
-    STEP_SIZE: `'${stepSize}'`,
-    VEC_TABLE: '2',
-    REF_PLANE: 'ECLIPTIC',
-    REF_SYSTEM: 'J2000',
-    OUT_UNITS: 'KM-S',
-  });
+function round(n: number, d = 2): number { const f = 10 ** d; return Math.round(n * f) / f; }
 
-  const url = `https://ssd.jpl.nasa.gov/api/horizons.api?${params}`;
-  console.log(`[horizons] Fetching ${startTime} → ${stopTime} step=${stepSize}`);
-
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`Horizons API error: ${res.status}`);
-  const text = await res.text();
-
-  const waypoints: HorizonsWaypoint[] = [];
-  const lines = text.split('\n');
+function parseOEM(content: string): Waypoint[] {
+  const wps: Waypoint[] = [];
   let inData = false;
-
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i].trim();
-    if (line === '$$SOE') { inData = true; continue; }
-    if (line === '$$EOE') { inData = false; continue; }
-    if (!inData) continue;
-
-    if (line.includes('= A.D.')) {
-      const dateMatch = line.match(/A\.D\.\s+(\d{4})-(\w{3})-(\d{2})\s+(\d{2}):(\d{2}):(\d{2})/);
-      if (!dateMatch) continue;
-
-      const months: Record<string, string> = {
-        Jan: '01', Feb: '02', Mar: '03', Apr: '04', May: '05', Jun: '06',
-        Jul: '07', Aug: '08', Sep: '09', Oct: '10', Nov: '11', Dec: '12',
-      };
-      const [, year, mon, day, hour, min, sec] = dateMatch;
-      const isoDate = `${year}-${months[mon]}-${day}T${hour}:${min}:${sec}Z`;
-
-      const posLine = lines[i + 1]?.trim();
-      const velLine = lines[i + 2]?.trim();
-      if (!posLine || !velLine) continue;
-
-      const xM = posLine.match(/X\s*=\s*([-+]?\d+\.\d+E[+-]\d+)/);
-      const yM = posLine.match(/Y\s*=\s*([-+]?\d+\.\d+E[+-]\d+)/);
-      const zM = posLine.match(/Z\s*=\s*([-+]?\d+\.\d+E[+-]\d+)/);
-      const vxM = velLine.match(/VX\s*=\s*([-+]?\d+\.\d+E[+-]\d+)/);
-      const vyM = velLine.match(/VY\s*=\s*([-+]?\d+\.\d+E[+-]\d+)/);
-      const vzM = velLine.match(/VZ\s*=\s*([-+]?\d+\.\d+E[+-]\d+)/);
-
-      if (xM && yM && zM && vxM && vyM && vzM) {
-        waypoints.push({
-          t: isoDate,
-          x: parseFloat(xM[1]),
-          y: parseFloat(yM[1]),
-          z: parseFloat(zM[1]),
-          vx: parseFloat(vxM[1]),
-          vy: parseFloat(vyM[1]),
-          vz: parseFloat(vzM[1]),
-        });
-      }
+  for (const line of content.split('\n')) {
+    const t = line.trim();
+    if (t === 'META_STOP') { inData = true; continue; }
+    if (t === 'META_START') { inData = false; continue; }
+    if (!inData || !t.startsWith('2026-') || t.startsWith('COMMENT')) continue;
+    const p = t.split(/\s+/);
+    if (p.length >= 7) {
+      wps.push({
+        t: p[0].replace(/\.\d+$/, 'Z'),
+        x: parseFloat(p[1]), y: parseFloat(p[2]), z: parseFloat(p[3]),
+        vx: parseFloat(p[4]), vy: parseFloat(p[5]), vz: parseFloat(p[6]),
+      });
     }
   }
-
-  console.log(`[horizons] Got ${waypoints.length} waypoints`);
-  return waypoints;
-}
-
-function round(n: number, decimals = 1): number {
-  const f = 10 ** decimals;
-  return Math.round(n * f) / f;
-}
-
-/**
- * Compute GMST (Greenwich Mean Sidereal Time) in radians for a given UTC date.
- * This is the rotation angle of Earth relative to the J2000 equatorial frame.
- */
-function gmstRad(date: Date): number {
-  const jd = date.getTime() / 86400000 + 2440587.5;
-  const t = (jd - 2451545.0) / 36525.0;
-  // IAU formula for GMST in seconds
-  let gmstSec = 67310.54841 + (876600 * 3600 + 8640184.812866) * t + 0.093104 * t * t - 6.2e-6 * t * t * t;
-  // Convert to radians (86400 seconds = 2π radians)
-  return ((gmstSec % 86400) / 86400) * 2 * Math.PI;
-}
-
-/**
- * Rotate from Ecliptic J2000 to Equatorial J2000.
- * Obliquity of the ecliptic: ε ≈ 23.4393°
- */
-const OBLIQUITY = 23.4393 * Math.PI / 180;
-const COS_E = Math.cos(OBLIQUITY);
-const SIN_E = Math.sin(OBLIQUITY);
-
-function eclipticToEquatorial(x: number, y: number, z: number): { x: number; y: number; z: number } {
-  return {
-    x: x,
-    y: COS_E * y - SIN_E * z,
-    z: SIN_E * y + COS_E * z,
-  };
-}
-
-/**
- * Convert Ecliptic J2000 → Equatorial J2000 (inertial only, no GMST).
- * Cesium's SampledPositionProperty with ReferenceFrame.INERTIAL handles
- * the inertial→ECEF rotation per frame, avoiding the spiral problem.
- */
-function eclipticToEquatorialWp(wp: HorizonsWaypoint): HorizonsWaypoint {
-  const eq = eclipticToEquatorial(wp.x, wp.y, wp.z);
-  const eqV = eclipticToEquatorial(wp.vx, wp.vy, wp.vz);
-  return { t: wp.t, x: eq.x, y: eq.y, z: eq.z, vx: eqV.x, vy: eqV.y, vz: eqV.z };
-}
-
-/**
- * Create a waypoint at a geodetic position (ECEF).
- */
-function geoToEcef(lat: number, lon: number, altKm: number, time: string): HorizonsWaypoint {
-  const r = 6371 + altKm;
-  const latR = lat * Math.PI / 180;
-  const lonR = lon * Math.PI / 180;
-  return {
-    t: time,
-    x: r * Math.cos(latR) * Math.cos(lonR),
-    y: r * Math.cos(latR) * Math.sin(lonR),
-    z: r * Math.sin(latR),
-    vx: 0, vy: 0, vz: 0,
-  };
-}
-
-// ── Pre-Horizons phase: launch → ICPS separation (Keplerian computation) ──
-
-const MU = 398600.4418; // Earth gravitational parameter km³/s²
-const EARTH_R = 6371;   // km
-const KSC_LAT = 28.573; // degrees
-const KSC_LON = -80.649;
-const LAUNCH_AZIMUTH = 44; // degrees (approximate east-northeast)
-const INCLINATION = 28.573 * Math.PI / 180; // matches launch latitude
-
-/**
- * Solve Kepler's equation M = E - e*sin(E) for eccentric anomaly E.
- */
-function solveKepler(M: number, e: number): number {
-  let E = M;
-  for (let i = 0; i < 50; i++) {
-    const dE = (M - E + e * Math.sin(E)) / (1 - e * Math.cos(E));
-    E += dE;
-    if (Math.abs(dE) < 1e-12) break;
-  }
-  return E;
-}
-
-/**
- * Compute position on a Keplerian orbit in the orbital plane,
- * then rotate to equatorial J2000 frame.
- *
- * @param a Semi-major axis (km)
- * @param e Eccentricity
- * @param incl Inclination (rad)
- * @param raan Right ascension of ascending node (rad)
- * @param argp Argument of perigee (rad)
- * @param M Mean anomaly (rad)
- * @param timeIso ISO timestamp
- */
-function keplerianToEquatorial(
-  a: number, e: number, incl: number, raan: number, argp: number,
-  M: number, timeIso: string,
-): HorizonsWaypoint {
-  const E = solveKepler(M, e);
-  const cosE = Math.cos(E);
-  const sinE = Math.sin(E);
-
-  // Position in orbital plane
-  const r = a * (1 - e * cosE);
-  const xOrb = a * (cosE - e);
-  const yOrb = a * Math.sqrt(1 - e * e) * sinE;
-
-  // Velocity in orbital plane
-  const n = Math.sqrt(MU / (a * a * a)); // mean motion
-  const factor = n * a / (1 - e * cosE);
-  const vxOrb = -factor * sinE;
-  const vyOrb = factor * Math.sqrt(1 - e * e) * cosE;
-
-  // Rotation matrices: orbital plane → equatorial
-  const cosR = Math.cos(raan), sinR = Math.sin(raan);
-  const cosI = Math.cos(incl), sinI = Math.sin(incl);
-  const cosW = Math.cos(argp), sinW = Math.sin(argp);
-
-  // Combined rotation
-  const Px = cosR * cosW - sinR * sinW * cosI;
-  const Py = -cosR * sinW - sinR * cosW * cosI;
-  const Qx = sinR * cosW + cosR * sinW * cosI;
-  const Qy = -sinR * sinW + cosR * cosW * cosI;
-  const Wx = sinW * sinI;
-  const Wy = cosW * sinI;
-
-  return {
-    t: timeIso,
-    x: Px * xOrb + Py * yOrb,
-    y: Qx * xOrb + Qy * yOrb,
-    z: Wx * xOrb + Wy * yOrb,
-    vx: Px * vxOrb + Py * vyOrb,
-    vy: Qx * vxOrb + Qy * vyOrb,
-    vz: Wx * vxOrb + Wy * vyOrb,
-  };
-}
-
-/**
- * Extract orbital elements (RAAN, inclination, argument of perigee) from
- * a position+velocity state vector.
- */
-function stateToOrbitalPlane(pos: { x: number; y: number; z: number }, vel: { x: number; y: number; z: number }) {
-  // Angular momentum h = r × v
-  const hx = pos.y * vel.z - pos.z * vel.y;
-  const hy = pos.z * vel.x - pos.x * vel.z;
-  const hz = pos.x * vel.y - pos.y * vel.x;
-  const hMag = Math.sqrt(hx * hx + hy * hy + hz * hz);
-
-  // Inclination: cos(i) = hz / |h|
-  const incl = Math.acos(hz / hMag);
-
-  // Node vector n = k × h (k = [0,0,1])
-  const nx = -hy;
-  const ny = hx;
-  const nMag = Math.sqrt(nx * nx + ny * ny);
-
-  // RAAN: Ω = atan2(ny, nx)
-  const raan = nMag > 1e-10 ? Math.atan2(ny, nx) : 0;
-
-  return { incl, raan };
-}
-
-/**
- * Generate pre-Horizons waypoints from launch to ICPS separation.
- * Derives orbital plane from the first Horizons waypoint for seamless junction.
- */
-function generatePreHorizonsPhase(firstHorizonsWp: HorizonsWaypoint): HorizonsWaypoint[] {
-  const waypoints: HorizonsWaypoint[] = [];
-  const launchMs = new Date(MISSION.launchTime).getTime();
-  const firstHorizonsMs = new Date(firstHorizonsWp.t).getTime();
-
-  // Derive orbital plane from first Horizons point (ensures smooth junction)
-  const { incl, raan } = stateToOrbitalPlane(
-    firstHorizonsWp,
-    { x: firstHorizonsWp.vx, y: firstHorizonsWp.vy, z: firstHorizonsWp.vz },
-  );
-  console.log(`[artemis] Derived orbital plane: incl=${(incl * 180 / Math.PI).toFixed(1)}° RAAN=${(raan * 180 / Math.PI).toFixed(1)}°`);
-
-  // Compute mean anomaly offset so the high elliptical orbit arrives at
-  // the first Horizons position at the junction time
-  const firstR = Math.sqrt(firstHorizonsWp.x ** 2 + firstHorizonsWp.y ** 2 + firstHorizonsWp.z ** 2);
-  const orbit2Perigee = EARTH_R + 185;
-  const orbit2Apogee = EARTH_R + 70377;
-  const orbit2A = (orbit2Perigee + orbit2Apogee) / 2;
-  const orbit2E = (orbit2Apogee - orbit2Perigee) / (orbit2Apogee + orbit2Perigee);
-
-  // True anomaly from radius: r = a(1-e²)/(1+e·cos(ν))
-  const p = orbit2A * (1 - orbit2E * orbit2E);
-  let cosNu = (p / firstR - 1) / orbit2E;
-  cosNu = Math.max(-1, Math.min(1, cosNu)); // clamp
-  const nuAtJunction = Math.acos(cosNu);
-
-  // Eccentric anomaly from true anomaly
-  const EAtJunction = 2 * Math.atan(Math.sqrt((1 - orbit2E) / (1 + orbit2E)) * Math.tan(nuAtJunction / 2));
-  const MAtJunction = EAtJunction - orbit2E * Math.sin(EAtJunction);
-
-  // Argument of perigee: align orbit so spacecraft is at correct position
-  // Project first Horizons point into orbital plane to find argp
-  const cosR = Math.cos(raan), sinR = Math.sin(raan);
-  const cosI = Math.cos(incl), sinI = Math.sin(incl);
-  // Transform to orbital plane
-  const xRot = cosR * firstHorizonsWp.x + sinR * firstHorizonsWp.y;
-  const yRot = -sinR * cosI * firstHorizonsWp.x + cosR * cosI * firstHorizonsWp.y + sinI * firstHorizonsWp.z;
-  const argLatitude = Math.atan2(yRot, xRot); // argument of latitude = argp + nu
-  const argp = argLatitude - nuAtJunction;
-
-  function isoTime(ms: number): string {
-    return new Date(ms).toISOString().replace(/\.\d{3}Z$/, 'Z');
-  }
-
-  // Launch surface point (project along orbit normal to Earth surface)
-  const launchAngle = -0.1; // slightly before the ascending node
-  const lx = EARTH_R * (Math.cos(raan) * Math.cos(argp + launchAngle) - Math.sin(raan) * Math.sin(argp + launchAngle) * Math.cos(incl));
-  const ly = EARTH_R * (Math.sin(raan) * Math.cos(argp + launchAngle) + Math.cos(raan) * Math.sin(argp + launchAngle) * Math.cos(incl));
-  const lz = EARTH_R * Math.sin(argp + launchAngle) * Math.sin(incl);
-  waypoints.push({ t: MISSION.launchTime, x: lx, y: ly, z: lz, vx: 0, vy: 0, vz: 0 });
-
-  // Phase 1: Ascent to parking orbit (T+0 to T+8min)
-  const ascentEnd = launchMs + 8 * 60 * 1000;
-  for (let t = launchMs + 30000; t <= ascentEnd; t += 30000) {
-    const frac = (t - launchMs) / (ascentEnd - launchMs);
-    const alt = frac * 185;
-    const r = EARTH_R + alt;
-    const angle = argp + launchAngle + frac * 0.12;
-    const wp = keplerianToEquatorial(r, 0, incl, raan, 0, angle, isoTime(t));
-    // Override position with correct radius
-    const dist = Math.sqrt(wp.x ** 2 + wp.y ** 2 + wp.z ** 2);
-    wp.x *= r / dist; wp.y *= r / dist; wp.z *= r / dist;
-    waypoints.push(wp);
-  }
-
-  // Phase 2: Parking orbit 185 km (T+8min to T+50min)
-  const parkingA = EARTH_R + 185;
-  const parkingPeriod = 2 * Math.PI * Math.sqrt(parkingA ** 3 / MU);
-  const perigeeRaiseMs = launchMs + 50 * 60 * 1000;
-  const ascentEndAngle = argp + launchAngle + 0.12;
-  for (let t = ascentEnd; t <= perigeeRaiseMs; t += 60000) {
-    const elapsed = (t - ascentEnd) / 1000;
-    const M = ascentEndAngle + (elapsed / parkingPeriod) * 2 * Math.PI;
-    const wp = keplerianToEquatorial(parkingA, 0.001, incl, raan, 0, M, isoTime(t));
-    waypoints.push(wp);
-  }
-
-  // Phase 3: First elliptical 185 x 2,223 km (T+50min to T+1h48m)
-  const orbit1Perigee = EARTH_R + 185;
-  const orbit1Apogee = EARTH_R + 2223;
-  const orbit1A = (orbit1Perigee + orbit1Apogee) / 2;
-  const orbit1E = (orbit1Apogee - orbit1Perigee) / (orbit1Apogee + orbit1Perigee);
-  const orbit1Period = 2 * Math.PI * Math.sqrt(orbit1A ** 3 / MU);
-  const apogeeRaiseMs = launchMs + 108 * 60 * 1000;
-  for (let t = perigeeRaiseMs; t <= apogeeRaiseMs; t += 60000) {
-    const elapsed = (t - perigeeRaiseMs) / 1000;
-    const M = (elapsed / orbit1Period) * 2 * Math.PI;
-    const wp = keplerianToEquatorial(orbit1A, orbit1E, incl, raan, argp, M, isoTime(t));
-    waypoints.push(wp);
-  }
-
-  // Phase 4: High elliptical 185 x 70,377 km (T+1h48m to Horizons start)
-  const orbit2Period = 2 * Math.PI * Math.sqrt(orbit2A ** 3 / MU);
-  const junctionElapsed = (firstHorizonsMs - apogeeRaiseMs) / 1000;
-  const MStart = MAtJunction - (junctionElapsed / orbit2Period) * 2 * Math.PI;
-  for (let t = apogeeRaiseMs; t < firstHorizonsMs; t += 120000) {
-    const elapsed = (t - apogeeRaiseMs) / 1000;
-    const M = MStart + (elapsed / orbit2Period) * 2 * Math.PI;
-    const wp = keplerianToEquatorial(orbit2A, orbit2E, incl, raan, argp, M, isoTime(t));
-    waypoints.push(wp);
-  }
-
-  console.log(`[artemis] Generated ${waypoints.length} pre-Horizons waypoints (launch → ICPS separation)`);
-  return waypoints;
+  return wps;
 }
 
 async function main() {
-  console.log('[artemis] Fetching real Artemis II trajectory from JPL Horizons (target -1024)...\n');
+  console.log('[artemis] Downloading NASA AROW OEM...');
+  execSync(`mkdir -p ${TMP}`);
+  execSync(`curl -sL "${OEM_URL}" -o ${TMP}/oem.zip`);
+  execSync(`unzip -o ${TMP}/oem.zip -d ${TMP}`);
 
-  const segments = [
-    // Earth orbit phase — fine sampling (5min) for smooth elliptical orbits
-    { start: '2026-Apr-02 02:00', stop: '2026-Apr-03 00:00', step: '5m' },
-    // Post-TLI early outbound
-    { start: '2026-Apr-03 00:00', stop: '2026-Apr-03 12:00', step: '30m' },
-    { start: '2026-Apr-03 12:00', stop: '2026-Apr-06 04:00', step: '1h' },
-    // Lunar flyby — high resolution
-    { start: '2026-Apr-06 04:00', stop: '2026-Apr-07 18:00', step: '10m' },
-    // Return coast
-    { start: '2026-Apr-07 18:00', stop: '2026-Apr-10 20:00', step: '1h' },
-    { start: '2026-Apr-10 20:00', stop: '2026-Apr-10 23:55', step: '30m' },
-  ];
+  const file = fs.readdirSync(TMP).find(f => f.endsWith('.asc'));
+  if (!file) { console.error('No .asc file'); process.exit(1); }
 
-  let allWaypoints: HorizonsWaypoint[] = [];
+  const waypoints = parseOEM(fs.readFileSync(`${TMP}/${file}`, 'utf8'));
+  console.log(`[artemis] ${waypoints.length} waypoints from ${file}`);
 
-  for (const seg of segments) {
-    try {
-      const wps = await fetchHorizons(seg.start, seg.stop, seg.step);
-      allWaypoints.push(...wps);
-    } catch (e) {
-      console.error(`[artemis] Failed segment ${seg.start}—${seg.stop}:`, e);
-    }
-  }
-
-  // Deduplicate by timestamp
-  const seen = new Set<string>();
-  allWaypoints = allWaypoints.filter(wp => {
-    if (seen.has(wp.t)) return false;
-    seen.add(wp.t);
-    return true;
-  });
-
-  // Sort by time
-  allWaypoints.sort((a, b) => new Date(a.t).getTime() - new Date(b.t).getTime());
-
-  // Convert Ecliptic J2000 → Equatorial J2000 (inertial)
-  // Cesium will handle inertial→ECEF per-frame via ReferenceFrame.INERTIAL
-  console.log('[artemis] Converting Ecliptic → Equatorial J2000 (inertial)...');
-  allWaypoints = allWaypoints.map(eclipticToEquatorialWp);
-
-  // Generate pre-Horizons phase (launch → ICPS separation) using Keplerian orbits
-  if (allWaypoints.length > 0) {
-    const prePhase = generatePreHorizonsPhase(allWaypoints[0]);
-    allWaypoints = [...prePhase, ...allWaypoints];
-  }
-
-  // Round for file size
-  for (const wp of allWaypoints) {
+  for (const wp of waypoints) {
     wp.x = round(wp.x); wp.y = round(wp.y); wp.z = round(wp.z);
-    wp.vx = round(wp.vx, 4); wp.vy = round(wp.vy, 4); wp.vz = round(wp.vz, 4);
+    wp.vx = round(wp.vx, 5); wp.vy = round(wp.vy, 5); wp.vz = round(wp.vz, 5);
   }
 
-  console.log(`\n[artemis] Total: ${allWaypoints.length} unique waypoints (ECEF)`);
-  if (allWaypoints.length > 0) {
-    const first = allWaypoints[0];
-    const last = allWaypoints[allWaypoints.length - 1];
-    console.log(`[artemis] Range: ${first.t} → ${last.t}`);
-    const maxDist = Math.max(...allWaypoints.map(w => Math.sqrt(w.x ** 2 + w.y ** 2 + w.z ** 2)));
-    const firstDist = Math.sqrt(first.x ** 2 + first.y ** 2 + first.z ** 2);
-    const lastDist = Math.sqrt(last.x ** 2 + last.y ** 2 + last.z ** 2);
-    console.log(`[artemis] Max distance from Earth center: ${Math.round(maxDist)} km`);
-    console.log(`[artemis] First waypoint distance: ${Math.round(firstDist)} km (should be ~6371)`);
-    console.log(`[artemis] Last waypoint distance: ${Math.round(lastDist)} km (should be ~6371)`);
-  }
+  const dist = (w: Waypoint) => Math.sqrt(w.x ** 2 + w.y ** 2 + w.z ** 2);
+  const f = waypoints[0], l = waypoints[waypoints.length - 1];
+  console.log(`[artemis] Start: ${f.t} alt ${Math.round(dist(f) - 6371)} km`);
+  console.log(`[artemis] End: ${l.t} alt ${Math.round(dist(l) - 6371)} km`);
+  console.log(`[artemis] Max: ${Math.round(Math.max(...waypoints.map(dist)))} km`);
 
-  if (allWaypoints.length === 0) {
-    console.error('[artemis] No waypoints fetched! Check JPL Horizons availability.');
-    process.exit(1);
-  }
-
-  const trajectory = {
+  fs.writeFileSync(OUTPUT, JSON.stringify({
     ...MISSION,
-    coordinateFrame: 'Equatorial J2000 Inertial (use ReferenceFrame.INERTIAL in Cesium)',
+    coordinateFrame: 'EME2000',
     units: { position: 'km', velocity: 'km/s' },
-    source: 'JPL Horizons API, target -1024 (Artemis II / Orion EM-2), Ecliptic→Equatorial J2000',
-    waypoints: allWaypoints,
-  };
+    source: 'NASA AROW OEM (CCSDS v2.0), NASA/JSC/FOD/FDO',
+    sourceUrl: 'https://www.nasa.gov/missions/artemis/artemis-2/track-nasas-artemis-ii-mission-in-real-time/',
+    oemFile: file,
+    waypoints,
+  }, null, 2) + '\n');
 
-  fs.writeFileSync(OUTPUT, JSON.stringify(trajectory, null, 2) + '\n');
-  console.log(`[artemis] Written to ${OUTPUT} (${Math.round(fs.statSync(OUTPUT).size / 1024)} KB)`);
+  console.log(`[artemis] Written ${waypoints.length} waypoints (${Math.round(fs.statSync(OUTPUT).size / 1024)} KB)`);
 }
 
-main().catch(e => {
-  console.error('[artemis] Fatal:', e);
-  process.exit(1);
-});
+main().catch(e => { console.error(e); process.exit(1); });
