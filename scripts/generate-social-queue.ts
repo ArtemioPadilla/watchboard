@@ -81,8 +81,12 @@ function collectTrackerContexts(today: string): TrackerContext[] {
       for (const file of eventFiles) {
         try {
           const dayEvents = JSON.parse(fs.readFileSync(path.join(eventsDir, file), 'utf8'));
+          const fileDate = file.replace('.json', '');
           for (const evt of dayEvents.slice(0, 3)) {
-            events.push(`[${file.replace('.json', '')}] ${evt.title || evt.headline || ''}`);
+            const evtId = evt.id || '';
+            const evtTitle = evt.title || evt.headline || '';
+            // Include event ID so LLM can construct permalink URLs for breaking tweets
+            events.push(`[${fileDate}] (id: ${evtId}) ${evtTitle}`);
           }
         } catch { /* skip */ }
       }
@@ -224,8 +228,8 @@ Respond with a JSON array of tweet objects. Each object MUST have ALL these fiel
   "lang": "en|es|fr|pt",
   "text": "the tweet body text ONLY — do NOT include the link or hashtags in this field, they are appended automatically by the poster",
   "hashtags": ["#TopicTag", "#Watchboard"],
-  "link": "https://watchboard.dev/{tracker}/?utm_source=x&utm_medium={type}&utm_campaign=${today}",
-  "image": null,
+  "link": "(see LINK RULES below)",
+  "image": "(see LINK RULES below — OG image URL for breaking tweets, null otherwise)",
   "memegenUrl": "https://api.memegen.link/images/..." or null,
   "publishAt": "${today}T08:00:00Z",
   "estimatedCost": 0.01,
@@ -239,6 +243,13 @@ Respond with a JSON array of tweet objects. Each object MUST have ALL these fiel
     ]
   }
 }
+
+LINK RULES:
+- For "breaking" tweets: link to the specific event permalink. Format the event ID as a slug (lowercase, replace non-alphanumeric with hyphens). URL: https://watchboard.dev/{tracker}/events/{date}-{event-id-slug}?utm_source=x&utm_medium=breaking&utm_campaign=${today}
+  Also set "image" to the per-event OG card: https://watchboard.dev/og/{tracker}/{date}-{event-id-slug}.png
+- For ALL other tweet types: link to the tracker dashboard: https://watchboard.dev/{tracker}/?utm_source=x&utm_medium={type}&utm_campaign=${today}
+  Set "image" to null (or a memegen URL for memes).
+- The event IDs are shown in the "Recent events" data as (id: ...) — use them to build slugs.
 
 CRITICAL RULES:
 - "text" must NOT contain the link URL or hashtags — the poster appends those automatically. Including them causes duplication.
