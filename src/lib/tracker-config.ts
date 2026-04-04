@@ -143,6 +143,18 @@ export const TrackerConfigSchema = z.object({
   related: z.array(RelatedTrackerSchema).optional(),
   country: z.string().optional(),
 
+  // Geographic hierarchy
+  state: z.string().optional(),
+  city: z.string().optional(),
+  neighborhood: z.string().optional(),
+  geoPath: z.array(z.string()).optional(),
+  geoSecondary: z.array(z.string()).optional(), // Secondary country codes for cross-border trackers
+
+  // Aggregation & community
+  aggregate: z.boolean().default(false),
+  author: z.string().optional(),
+  visibility: z.enum(['public', 'unlisted']).default('public'),
+
   startDate: z.string(),
   endDate: z.string().optional(),
   eraLabel: z.string().optional(),
@@ -161,6 +173,18 @@ export const TrackerConfigSchema = z.object({
 
   ogImage: z.string().optional(),
   githubRepo: z.string().optional(),
+})
+// Validate: geoPath[0] must be the ISO country code matching `country`.
+// This ensures geographic tree construction is consistent.
+// Aggregate trackers (geoPath: ["MX"]) must also follow this rule.
+.superRefine((data, ctx) => {
+  if (data.geoPath && data.country && data.geoPath[0] !== data.country) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: `geoPath[0] "${data.geoPath[0]}" must match country "${data.country}"`,
+      path: ['geoPath'],
+    });
+  }
 });
 
 export type TrackerConfig = z.infer<typeof TrackerConfigSchema>;
