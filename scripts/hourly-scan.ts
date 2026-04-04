@@ -214,7 +214,7 @@ function loadActiveTrackers(): TrackerInfo[] {
     if (!existsSync(configPath)) continue;
     try {
       const config = JSON.parse(readFileSync(configPath, 'utf8'));
-      if (config.status === 'draft') continue;
+      if (config.status !== 'active') continue;
       trackers.push({
         slug,
         searchContext: config.ai?.searchContext ?? config.name ?? slug,
@@ -291,6 +291,7 @@ async function queryGdelt(
     query,
     mode: 'ArtList',
     maxrecords: String(maxRecords),
+    timespan: '120',
     sort: 'DateDesc',
     format: 'json',
   });
@@ -333,6 +334,7 @@ async function fetchRssFeeds(
   feeds: { slug: string; url: string }[],
 ): Promise<{ item: RssItem; slug: string }[]> {
   const results: { item: RssItem; slug: string }[] = [];
+  const twoHoursAgo = new Date(Date.now() - 2 * 60 * 60 * 1000);
 
   await Promise.allSettled(
     feeds.map(async ({ slug, url }) => {
@@ -345,6 +347,11 @@ async function fetchRssFeeds(
         const xml = await resp.text();
         const items = parseRssFeed(xml);
         for (const item of items) {
+          // Filter out items older than 2 hours
+          if (item.timestamp) {
+            const itemDate = new Date(item.timestamp);
+            if (!isNaN(itemDate.getTime()) && itemDate < twoHoursAgo) continue;
+          }
           results.push({ item, slug });
         }
       } catch {
@@ -394,20 +401,36 @@ export async function scan(): Promise<{ candidates: Candidate[]; state: HourlySt
     }
   }
 
-  // 2. GDELT global sweep
+  // 2. Per-tracker GDELT queries (using searchContext)
+  for (const t of trackers) {
+    if (!t.searchContext) continue;
+    const items = await queryGdelt(t.searchContext, 10);
+    for (const item of items) {
+      if (!item.title || !item.url) continue;
+      candidates.push(normalizeCandidate(item, t.slug, 'gdelt'));
+    }
+  }
+
+  // 3. GDELT global sweep (catches out-of-scope events)
   const gdeltItems = await queryGdelt(GDELT_THEMES, 50);
   for (const item of gdeltItems) {
     if (!item.title || !item.url) continue;
     const matched = matchTrackerByKeywords(item.title, trackerKeywordMap);
-    const c = normalizeCandidate(item, matched, 'gdelt');
-    candidates.push(c);
+    candidates.push(normalizeCandidate(item, matched, 'gdelt'));
   }
 
-  // 3. Dedup
+  // 4. Dedup against seen URLs
   const fresh = dedup(candidates, seenUrls);
 
-  // 4. Update state with new URLs (use a placeholder tracker for unseen)
-  const newSeen = fresh.map((c) => ({
+  // 5. Intra-batch dedup (same URL from multiple sources → keep first)
+  const uniqueByUrl = new Map<string, Candidate>();
+  for (const c of fresh) {
+    if (!uniqueByUrl.has(c.url)) uniqueByUrl.set(c.url, c);
+  }
+  const dedupedFresh = [...uniqueByUrl.values()];
+
+  // 6. Update state with new URLs
+  const newSeen = dedupedFresh.map((c) => ({
     url: c.url,
     tracker: c.matchedTracker ?? 'unknown',
     eventId: '',
@@ -419,7 +442,7 @@ export async function scan(): Promise<{ candidates: Candidate[]; state: HourlySt
     seen: [...state.seen, ...newSeen],
   };
 
-  return { candidates: fresh, state: updatedState };
+  return { candidates: dedupedFresh, state: updatedState };
 }
 
 // --- CLI entry point ---
@@ -429,7 +452,11 @@ if (
   fileURLToPath(import.meta.url) === process.argv[1]
 ) {
   const { candidates, state } = await scan();
-  writeFileSync('/tmp/hourly-candidates.json', JSON.stringify(candidates, null, 2), 'utf8');
   saveState(state);
-  console.log(`Scan complete: ${candidates.length} fresh candidates written to /tmp/hourly-candidates.json`);
+  if (candidates.length === 0) {
+    console.log('[hourly-scan] No new candidates. Exiting.');
+  } else {
+    writeFileSync('/tmp/hourly-candidates.json', JSON.stringify(candidates, null, 2), 'utf8');
+    console.log(`[hourly-scan] ${candidates.length} candidate(s) written to /tmp/hourly-candidates.json`);
+  }
 }

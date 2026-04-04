@@ -11,6 +11,7 @@
  *   postNewTracker(slug, name, summary, seeded)          → ManifestUpdate
  */
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
+import { dirname } from 'path';
 import { TwitterApi } from 'twitter-api-v2';
 import {
   loadManifest,
@@ -80,7 +81,7 @@ function updateBudget(cost: number): void {
 // ── History helpers ───────────────────────────────────────────────────────────
 
 function appendHistory(entry: HistoryEntry): void {
-  mkdirSync(PATHS.socialBudget.replace('/budget.json', ''), { recursive: true });
+  mkdirSync(dirname(PATHS.socialBudget), { recursive: true });
 
   let history: HistoryEntry[] = [];
   if (existsSync(PATHS.socialHistory)) {
@@ -159,7 +160,7 @@ export async function postNewTracker(
   const timestamp = new Date().toISOString();
   let tweetId: string | null = null;
 
-  const link = `${BASE_URL}/${slug}/`;
+  const link = `${BASE_URL}/${slug}/?utm_source=x&utm_medium=breaking_hourly&utm_campaign=${timestamp.slice(0, 10)}`;
   const rawText = `BREAKING: New tracker launched — ${name}. ${summary}\n\nFollow live: ${link}\n\n#Watchboard`;
   const tweetText = rawText.length > MAX_TWEET_LENGTH
     ? rawText.slice(0, MAX_TWEET_LENGTH - 1) + '…'
