@@ -52,6 +52,16 @@ const {
       How It Works
     </a>
   </div>
+
+    <form
+      action="https://buttondown.com/api/emails/embed-subscribe/watchboard"
+      method="post"
+      target="popupwindow"
+      class="hero-email-form"
+    >
+      <input type="email" name="email" placeholder="Get the daily briefing — enter your email" required aria-label="Email address" class="email-input" />
+      <button type="submit" class="email-submit">Subscribe</button>
+    </form>
 </section>
 
 <style>
@@ -186,6 +196,42 @@ const {
     color: var(--text-primary);
     border-color: var(--text-muted);
   }
+
+  .hero-email-form {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-top: 1rem;
+    max-width: 420px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .email-input {
+    flex: 1;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.5rem 0.75rem;
+    color: var(--text-primary);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+  }
+  .email-input::placeholder { color: var(--text-muted); }
+  .email-input:focus { outline: none; border-color: var(--accent-blue); }
+  .email-submit {
+    background: var(--accent-green);
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 0.5rem 1rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    flex-shrink: 0;
+  }
+  .email-submit:hover { opacity: 0.9; }
 
   @keyframes pulse-red {
     0%, 100% { opacity: 1; transform: scale(1); }
