@@ -1,0 +1,136 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import GeoIndex from '../../components/static/GeoIndex.astro';
+import { loadAllTrackers } from '../../lib/tracker-registry';
+import { loadTrackerData } from '../../lib/data';
+import type { GetStaticPaths } from 'astro';
+
+const REGION_LABELS: Record<string, string> = {
+  'north-america': 'North America',
+  'central-america': 'Central America',
+  'south-america': 'South America',
+  'europe': 'Europe',
+  'middle-east': 'Middle East',
+  'africa': 'Africa',
+  'central-asia': 'Central Asia',
+  'south-asia': 'South Asia',
+  'east-asia': 'East Asia',
+  'southeast-asia': 'Southeast Asia',
+  'oceania': 'Oceania',
+  'global': 'Global',
+};
+
+export const getStaticPaths: GetStaticPaths = () => {
+  const allTrackers = loadAllTrackers().filter(t => t.status !== 'draft');
+  const paths = new Set<string>();
+
+  for (const t of allTrackers) {
+    const region = t.region || 'global';
+
+    // Region-level path: e.g. "north-america"
+    paths.add(region);
+
+    // geoPath prefix paths: e.g. "north-america/MX", "north-america/MX/Sinaloa"
+    if (t.geoPath && t.geoPath.length > 0) {
+      for (let i = 1; i <= t.geoPath.length; i++) {
+        const segments = [region, ...t.geoPath.slice(0, i)];
+        paths.add(segments.join('/'));
+      }
+    }
+  }
+
+  return [...paths].map(p => ({
+    params: { path: p },
+  }));
+};
+
+const base = import.meta.env.BASE_URL;
+const basePath = base.endsWith('/') ? base : `${base}/`;
+
+const { path: rawPath } = Astro.params;
+const pathSegments = (rawPath as string).split('/');
+
+// First segment is always the region
+const region = pathSegments[0];
+const geoSegments = pathSegments.slice(1); // remaining segments from geoPath
+
+const allTrackers = loadAllTrackers().filter(t => t.status !== 'draft');
+
+// Filter trackers matching this region + geoPath prefix
+const matchingTrackers = allTrackers.filter(t => {
+  const tRegion = t.region || 'global';
+  if (tRegion !== region) return false;
+
+  // If no geo segments, all trackers in this region match
+  if (geoSegments.length === 0) return true;
+
+  // Tracker must have a geoPath that starts with our geo segments
+  if (!t.geoPath || t.geoPath.length < geoSegments.length) return false;
+  return geoSegments.every((seg, i) => t.geoPath![i] === seg);
+});
+
+// "Direct" trackers: their geoPath length exactly matches our depth
+const directTrackers = matchingTrackers.filter(t => {
+  const gpLen = t.geoPath?.length || 0;
+  return gpLen === geoSegments.length;
+});
+
+// Build tracker entries with lastUpdated
+const trackerEntries = directTrackers.map(t => {
+  let lastUpdated = t.startDate;
+  try {
+    const data = loadTrackerData(t.slug, t.eraLabel);
+    lastUpdated = data.meta.lastUpdated;
+  } catch { /* use startDate fallback */ }
+
+  return {
+    slug: t.slug,
+    shortName: t.shortName,
+    icon: t.icon,
+    color: t.color,
+    description: t.description,
+    lastUpdated,
+    status: t.status,
+  };
+});
+
+// Build childNodes: next-level segments with counts
+const childMap = new Map<string, number>();
+for (const t of matchingTrackers) {
+  if (!t.geoPath || t.geoPath.length <= geoSegments.length) continue;
+  const nextSegment = t.geoPath[geoSegments.length];
+  childMap.set(nextSegment, (childMap.get(nextSegment) || 0) + 1);
+}
+
+const childNodes = [...childMap.entries()]
+  .sort((a, b) => b[1] - a[1])
+  .map(([segment, count]) => ({
+    id: segment,
+    label: segment,
+    trackerCount: count,
+    href: `${basePath}geo/${[...pathSegments, segment].join('/')}/`,
+  }));
+
+// Build breadcrumb from segments
+const breadcrumb = pathSegments.map((seg, i) => ({
+  label: i === 0 ? (REGION_LABELS[seg] || seg) : seg,
+  href: `${basePath}geo/${pathSegments.slice(0, i + 1).join('/')}/`,
+}));
+
+// Compute label for current level
+const currentLabel = pathSegments.length === 1
+  ? (REGION_LABELS[region] || region)
+  : pathSegments[pathSegments.length - 1];
+
+const pageTitle = `${currentLabel} | Geographic Index | Watchboard`;
+---
+
+<BaseLayout title={pageTitle}>
+  <GeoIndex
+    label={currentLabel}
+    path={pathSegments}
+    trackers={trackerEntries}
+    childNodes={childNodes}
+    breadcrumb={breadcrumb}
+  />
+</BaseLayout>
