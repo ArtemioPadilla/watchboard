@@ -72,14 +72,9 @@ body:has(.globe-wrapper) .tooltip {
    ══════════════════════════════════════════════ */
 
 .globe-toolbar {
-  position: fixed;
-  top: 12px;
-  left: 12px;
-  z-index: 90;
   display: flex;
   align-items: flex-start;
   gap: 0;
-  padding-top: 42px; /* space for back link */
 }
 
 .globe-toolbar-icons {
