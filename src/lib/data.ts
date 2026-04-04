@@ -22,6 +22,8 @@ import {
   isFutureDate,
 } from './schemas';
 import type { Locale } from '../i18n/translations';
+import { aggregateTrackerData } from './geo-utils';
+import { loadAllTrackers } from './tracker-registry';
 
 // ── Eagerly load all tracker data at build time ──
 const dataModules = import.meta.glob<{ default: unknown }>(
@@ -205,5 +207,30 @@ export function loadTrackerData(slug: string, eraLabel?: string, locale?: Locale
     try { missionTrajectory = MissionTrajectorySchema.parse(trajRaw); } catch {}
   }
 
-  return { kpis, timeline, mapPoints, mapLines, strikeTargets, retaliationData, assetsData, casualties, econ, claims, political, meta, digests, missionTrajectory };
+  const baseData: TrackerData = { kpis, timeline, mapPoints, mapLines, strikeTargets, retaliationData, assetsData, casualties, econ, claims, political, meta, digests, missionTrajectory };
+
+  // Check if this is an aggregate tracker — if so, merge child data
+  const allConfigs = loadAllTrackers().filter(t => t.status !== 'draft');
+  const thisConfig = allConfigs.find(t => t.slug === slug);
+  if (thisConfig?.aggregate && thisConfig.geoPath) {
+    const childConfigs = allConfigs.filter(t => {
+      if (!t.geoPath || t.geoPath.length <= thisConfig.geoPath!.length) return false;
+      if (t.slug === slug) return false;
+      return thisConfig.geoPath!.every((seg, i) => t.geoPath![i] === seg);
+    });
+
+    const childrenData = childConfigs.map(c => {
+      try {
+        return loadTrackerData(c.slug, c.eraLabel, locale);
+      } catch {
+        return null;
+      }
+    }).filter((d): d is TrackerData => d !== null);
+
+    if (childrenData.length > 0) {
+      return aggregateTrackerData(baseData, childrenData);
+    }
+  }
+
+  return baseData;
 }

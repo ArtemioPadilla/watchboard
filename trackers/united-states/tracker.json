@@ -1,0 +1,28 @@
+{
+  "slug": "united-states",
+  "name": "United States Intelligence Hub",
+  "shortName": "United States",
+  "description": "Geographic hub aggregating intelligence from all US-based trackers — security operations, political history, and space programs.",
+  "icon": "🇺🇸",
+  "color": "#3C3B6E",
+  "status": "active",
+  "temporal": "live",
+  "domain": "governance",
+  "region": "north-america",
+  "country": "US",
+  "geoPath": ["US"],
+  "aggregate": true,
+  "startDate": "2001-09-11",
+  "sections": ["hero", "kpis", "timeline", "map"],
+  "navSections": [
+    {"id": "kpis", "label": "Overview"},
+    {"id": "timeline", "label": "Timeline"},
+    {"id": "map", "label": "Map"}
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {"lonMin": -125, "lonMax": -66, "latMin": 24, "latMax": 50},
+    "center": {"lon": -98, "lat": 38},
+    "categories": []
+  }
+}

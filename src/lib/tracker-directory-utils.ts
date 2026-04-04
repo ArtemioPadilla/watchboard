@@ -17,6 +17,12 @@ export interface TrackerCardData {
   domain?: string;
   region?: string;
   country?: string;
+  state?: string;
+  city?: string;
+  neighborhood?: string;
+  geoPath?: string[];
+  geoSecondary?: string[];
+  aggregate?: boolean;
   startDate: string;
   endDate?: string;
   sections: string[];
@@ -88,7 +94,11 @@ export function matchesSearch(tracker: TrackerCardData, query: string): boolean 
     tracker.description.toLowerCase().includes(q) ||
     (tracker.domain?.toLowerCase().includes(q) ?? false) ||
     (tracker.region?.toLowerCase().includes(q) ?? false) ||
-    (tracker.country?.toLowerCase().includes(q) ?? false)
+    (tracker.country?.toLowerCase().includes(q) ?? false) ||
+    (tracker.state?.toLowerCase().includes(q) ?? false) ||
+    (tracker.city?.toLowerCase().includes(q) ?? false) ||
+    (tracker.neighborhood?.toLowerCase().includes(q) ?? false) ||
+    (tracker.geoPath?.some(seg => seg.toLowerCase().includes(q)) ?? false)
   );
 }
 
