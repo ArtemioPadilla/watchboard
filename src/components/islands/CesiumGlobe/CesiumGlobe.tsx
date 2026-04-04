@@ -577,27 +577,29 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [], ca
       )}
 
       {/* Enhanced Timeline — always rendered */}
-      <UnifiedTimelineBar
-        context="3d"
-        minDate={dateRange.min}
-        maxDate={dateRange.max}
-        currentDate={currentDate}
-        isPlaying={isPlaying}
-        playbackSpeed={playbackSpeed}
-        events={events}
-        lines={lines}
-        onDateChange={handleDateChange}
-        onTogglePlay={togglePlay}
-        onSpeedChange={setPlaybackSpeed}
-        onGoLive={goLive}
-        onTimeChange={handleTimeChange}
-        simTimeRef={simTimeRef}
-        stats={stats}
-        zoomLevel={zoomLevel}
-        onZoomChange={setZoomLevel}
-        isHistorical={isHistorical}
-        clocks={clocks}
-      />
+      <div className="globe-slot globe-slot--bottom">
+        <UnifiedTimelineBar
+          context="3d"
+          minDate={dateRange.min}
+          maxDate={dateRange.max}
+          currentDate={currentDate}
+          isPlaying={isPlaying}
+          playbackSpeed={playbackSpeed}
+          events={events}
+          lines={lines}
+          onDateChange={handleDateChange}
+          onTogglePlay={togglePlay}
+          onSpeedChange={setPlaybackSpeed}
+          onGoLive={goLive}
+          onTimeChange={handleTimeChange}
+          simTimeRef={simTimeRef}
+          stats={stats}
+          zoomLevel={zoomLevel}
+          onZoomChange={setZoomLevel}
+          isHistorical={isHistorical}
+          clocks={clocks}
+        />
+      </div>
 
       {/* KPI strip — hidden when info panel is open */}
       {!selectedPoint && !selectedEntity && (

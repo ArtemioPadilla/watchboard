@@ -15,15 +15,9 @@
   border-radius: 0;
 }
 
-/* ── Context: 3D (floating at viewport bottom, fixed) ── */
+/* ── Context: 3D (inside bottom grid slot) ── */
 .utl-bar[data-context="3d"] {
-  position: fixed;
-  bottom: 16px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 90%;
-  max-width: 900px;
-  z-index: 20;
+  width: 100%;
   border-radius: 10px;
 }
 
@@ -502,14 +496,9 @@
    ══════════════════════════════════════════════ */
 
 @media (max-width: 768px) {
-  /* Timeline sits above the bottom sheet on mobile */
+  /* Timeline inside grid slot — full width on mobile */
   .utl-bar[data-context="3d"] {
-    bottom: 40px;
-    left: 8px;
-    right: 8px;
-    transform: none;
-    width: auto;
-    max-width: none;
+    width: 100%;
   }
 
   /* Hide timeline stats on mobile (shown in bottom sheet STATS tab) */
