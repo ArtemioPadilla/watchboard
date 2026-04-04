@@ -17,6 +17,12 @@ export interface TrackerCardData {
   domain?: string;
   region?: string;
   country?: string;
+  state?: string;
+  city?: string;
+  neighborhood?: string;
+  geoPath?: string[];
+  geoSecondary?: string[];
+  aggregate?: boolean;
   startDate: string;
   endDate?: string;
   sections: string[];
