@@ -618,3 +618,21 @@
     padding: 8px 16px;
   }
 }
+
+/* ─── Mobile phones ─── */
+@media (max-width: 480px) {
+  .scc-list {
+    padding: 8px 10px 80px;
+  }
+  .scc-ctrl,
+  .scc-filters,
+  .scc-bottom,
+  .scc-header {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .scc-cost-bar {
+    padding: 6px 10px;
+    gap: 6px;
+  }
+}

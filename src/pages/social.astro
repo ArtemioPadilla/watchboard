@@ -64,6 +64,7 @@ const basePath = base.endsWith('/') ? base : `${base}/`;
     font-family: 'DM Sans', sans-serif;
     margin-bottom: 16px;
     transition: color 0.2s;
+    min-height: 44px;
   }
 
   .social-home-link:hover {
@@ -94,7 +95,7 @@ const basePath = base.endsWith('/') ? base : `${base}/`;
 
   .social-title {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 2rem;
+    font-size: clamp(1.5rem, 5vw, 2rem);
     font-weight: 700;
     color: var(--text-primary);
     margin: 0;

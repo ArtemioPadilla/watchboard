@@ -65,6 +65,7 @@ const basePath = base.endsWith('/') ? base : `${base}/`;
     font-family: 'DM Sans', sans-serif;
     margin-bottom: 16px;
     transition: color 0.2s;
+    min-height: 44px;
   }
 
   .metrics-home-link:hover {
@@ -95,7 +96,7 @@ const basePath = base.endsWith('/') ? base : `${base}/`;
 
   .metrics-title {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 2rem;
+    font-size: clamp(1.5rem, 5vw, 2rem);
     font-weight: 700;
     color: var(--text-primary);
     margin: 0;
@@ -128,5 +129,17 @@ const basePath = base.endsWith('/') ? base : `${base}/`;
   }
   .platform-footer a:hover {
     color: var(--accent-blue);
+  }
+
+  @media (max-width: 480px) {
+    .metrics-page {
+      padding: 24px 12px 60px;
+    }
+    .metrics-title-row {
+      flex-wrap: wrap;
+    }
+    .metrics-header {
+      margin-bottom: 20px;
+    }
   }
 </style>

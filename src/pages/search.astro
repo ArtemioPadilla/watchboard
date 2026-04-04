@@ -93,6 +93,7 @@ const pagefindBase = `${basePath}pagefind/`;
     font-family: 'DM Sans', sans-serif;
     margin-bottom: 16px;
     transition: color 0.2s;
+    min-height: 44px;
   }
 
   .search-home-link:hover {
@@ -101,10 +102,19 @@ const pagefindBase = `${basePath}pagefind/`;
 
   .search-title {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 2rem;
+    font-size: clamp(1.5rem, 5vw, 2rem);
     font-weight: 700;
     color: var(--text-primary);
     margin: 0 0 8px;
+  }
+
+  @media (max-width: 480px) {
+    :root {
+      --pagefind-ui-scale: 1.1;
+    }
+    .search-page {
+      padding: 24px 16px 60px;
+    }
   }
 
   .search-subtitle {

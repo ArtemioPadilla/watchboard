@@ -470,7 +470,7 @@ body::before {
 
 .kpi-value {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 2rem;
+  font-size: clamp(1.4rem, 4vw, 2rem);
   font-weight: 700;
   line-height: 1;
   margin-bottom: 0.35rem;
@@ -3319,6 +3319,37 @@ body::before {
 @media (max-width: 480px) {
   .fact-card-thumb {
     display: none;
+  }
+
+  /* ─── Small phone grid fixes — prevent forced horizontal scroll ─── */
+  .kpi-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .econ-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pol-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .legend-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* ─── Compact hero on small phones ─── */
+  .hero {
+    padding: 2rem 1rem 1.5rem;
+  }
+
+  /* ─── Footer spacing ─── */
+  .site-footer {
+    padding: 1rem 1rem;
+  }
+
+  .footer-note {
+    font-size: 0.6rem;
   }
 }
 

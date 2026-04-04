@@ -120,7 +120,7 @@ const kpiColors: Record<string, string> = {
     /* ── Card ── */
     .embed-card {
       width: 100%;
-      max-width: 350px;
+      max-width: min(350px, calc(100% - 32px));
       background: var(--card-bg);
       border: 1px solid var(--border);
       border-radius: 8px;
