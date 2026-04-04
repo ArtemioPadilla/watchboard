@@ -10,9 +10,8 @@ import ComparePanel from './ComparePanel';
 import NotificationManager from './NotificationManager';
 import { useBroadcastMode } from './useBroadcastMode';
 import BroadcastOverlay from './BroadcastOverlay';
-import WelcomeOverlay from './WelcomeOverlay';
 import CoachMark from './CoachMark';
-import { isWelcomeDismissed, dismissWelcome, getDiscoveredFeatures, markFeatureDiscovered, getNextCoachHint } from '../../../lib/onboarding';
+import { getDiscoveredFeatures, markFeatureDiscovered, getNextCoachHint } from '../../../lib/onboarding';
 
 const FOLLOWS_KEY = 'watchboard-follows';
 
@@ -70,7 +69,7 @@ export default function CommandCenter({
   const [locale, setLocale] = useState<Locale>('en');
   const [showHelp, setShowHelp] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [showWelcome, setShowWelcome] = useState(false);
+  const [showToast, setShowToast] = useState(false);
   const [coachHint, setCoachHint] = useState<ReturnType<typeof getNextCoachHint>>(null);
   const [discoveredFeatures, setDiscoveredFeatures] = useState<Set<string>>(new Set());
   const searchRef = useRef<HTMLInputElement>(null);
@@ -103,22 +102,19 @@ export default function CommandCenter({
   useEffect(() => {
     setFollowedSlugs(loadFollows());
     setLocale(getPreferredLocale());
-    // Welcome / onboarding
-    if (!isWelcomeDismissed()) {
-      setShowWelcome(true);
-    } else {
-      const discovered = getDiscoveredFeatures();
-      setDiscoveredFeatures(discovered);
-      setCoachHint(getNextCoachHint(discovered));
-    }
-  }, []);
-
-  const handleDismissWelcome = useCallback((permanent: boolean) => {
-    dismissWelcome(permanent);
-    setShowWelcome(false);
+    // Coach marks (return visits)
     const discovered = getDiscoveredFeatures();
     setDiscoveredFeatures(discovered);
     setCoachHint(getNextCoachHint(discovered));
+  }, []);
+
+  useEffect(() => {
+    if (!localStorage.getItem('watchboard-welcomed')) {
+      setShowToast(true);
+      localStorage.setItem('watchboard-welcomed', '1');
+      const timer = setTimeout(() => setShowToast(false), 8000);
+      return () => clearTimeout(timer);
+    }
   }, []);
 
   const handleDiscoverFeature = useCallback((feature: string) => {
@@ -361,12 +357,33 @@ export default function CommandCenter({
         </div>
       )}
 
-      {/* Welcome overlay (first visit) */}
-      {showWelcome && <WelcomeOverlay onDismiss={handleDismissWelcome} />}
-
-      {/* Coach marks (return visits) */}
-      {!showWelcome && coachHint && (
+      {/* Coach marks */}
+      {coachHint && (
         <CoachMark hint={coachHint} onDismiss={handleDismissCoachHint} />
+      )}
+
+      {/* First-visit toast */}
+      {showToast && (
+        <div
+          style={{
+            position: 'fixed', bottom: '1.5rem', left: '50%', transform: 'translateX(-50%)',
+            background: 'var(--bg-card)', border: '1px solid var(--border)',
+            borderRadius: '8px', padding: '0.6rem 1.2rem',
+            fontFamily: "'JetBrains Mono', monospace", fontSize: '0.72rem',
+            color: 'var(--text-secondary)', zIndex: 9999,
+            animation: 'fadeIn 0.3s ease-out',
+            cursor: 'pointer',
+          }}
+          onClick={() => setShowToast(false)}
+          role="status"
+          aria-live="polite"
+        >
+          Press <kbd style={{ background: 'var(--bg-secondary)', padding: '0.1rem 0.3rem', borderRadius: '3px', color: 'var(--text-primary)' }}>/</kbd> to search
+          &nbsp;&middot;&nbsp;
+          <kbd style={{ background: 'var(--bg-secondary)', padding: '0.1rem 0.3rem', borderRadius: '3px', color: 'var(--text-primary)' }}>B</kbd> for broadcast
+          &nbsp;&middot;&nbsp;
+          <kbd style={{ background: 'var(--bg-secondary)', padding: '0.1rem 0.3rem', borderRadius: '3px', color: 'var(--text-primary)' }}>?</kbd> for shortcuts
+        </div>
       )}
     </div>
   );
