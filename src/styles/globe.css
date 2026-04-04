@@ -1,4 +1,5 @@
 @import './unified-timeline.css';
+@import './globe-layout.css';
 
 /* ── Globe page — full viewport CesiumJS experience ── */
 
@@ -19,10 +20,6 @@ body:has(.globe-wrapper) .tooltip {
 
 /* Back link */
 .globe-back-link {
-  position: fixed;
-  top: calc(12px + env(safe-area-inset-top, 0px));
-  left: calc(12px + env(safe-area-inset-left, 0px));
-  z-index: 100;
   color: var(--text-primary, #e8e9ed);
   background: rgba(10, 11, 14, 0.85);
   backdrop-filter: blur(8px);
@@ -40,10 +37,6 @@ body:has(.globe-wrapper) .tooltip {
 }
 
 .globe-about-link {
-  position: fixed;
-  top: calc(12px + env(safe-area-inset-top, 0px));
-  left: calc(120px + env(safe-area-inset-left, 0px));
-  z-index: 100;
   color: var(--text-muted, #8b8fa2);
   background: rgba(10, 11, 14, 0.85);
   backdrop-filter: blur(8px);
