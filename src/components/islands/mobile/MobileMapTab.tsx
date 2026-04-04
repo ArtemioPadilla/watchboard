@@ -1,6 +1,7 @@
 // src/components/islands/mobile/MobileMapTab.tsx
-import { useState, useMemo, lazy, Suspense } from 'react';
+import { useState, useMemo, lazy, Suspense, Component, type ReactNode } from 'react';
 import IntelMap from '../IntelMap';
+import { eventTypeColor } from '../../../lib/event-utils';
 import type { MapPoint, MapLine, KpiItem, Meta } from '../../../lib/schemas';
 import type { FlatEvent } from '../../../lib/timeline-utils';
 import type { MapCategory } from '../../../lib/map-utils';
@@ -28,12 +29,15 @@ interface Props {
 
 type GlobeState = 'prompt' | 'loading' | 'loaded' | 'error';
 
-function eventTypeColor(type: string): string {
-  if (type === 'strike' || type === 'attack') return 'var(--accent-red)';
-  if (type === 'retaliation' || type === 'response') return 'var(--accent-amber)';
-  if (type === 'diplomatic' || type === 'politics') return 'var(--accent-blue)';
-  if (type === 'ceasefire' || type === 'peace') return 'var(--accent-green)';
-  return 'var(--text-muted)';
+// C3 fix: ErrorBoundary to catch lazy-load failures and transition to 'error' state
+class GlobeErrorBoundary extends Component<
+  { children: ReactNode; onError: () => void },
+  { hasError: boolean }
+> {
+  state = { hasError: false };
+  static getDerivedStateFromError() { return { hasError: true }; }
+  componentDidCatch() { this.props.onError(); }
+  render() { return this.state.hasError ? null : this.props.children; }
 }
 
 export default function MobileMapTab({
@@ -53,8 +57,10 @@ export default function MobileMapTab({
 
   const handleLoadGlobe = () => {
     setGlobeState('loading');
-    // The lazy import triggers on first render of CesiumGlobe
-    // Suspense handles the loading state
+  };
+
+  const handleGlobeError = () => {
+    setGlobeState('error');
   };
 
   return (
@@ -99,31 +105,33 @@ export default function MobileMapTab({
           )}
 
           {(globeState === 'loading' || globeState === 'loaded') && meta && (
-            <Suspense
-              fallback={
-                <div className="mtab-3d-placeholder">
-                  <div className="mtab-3d-spinner" />
-                  <p className="mtab-3d-title">Loading 3D Globe...</p>
-                  <p className="mtab-3d-hint">Downloading Cesium engine and map tiles</p>
+            <GlobeErrorBoundary onError={handleGlobeError}>
+              <Suspense
+                fallback={
+                  <div className="mtab-3d-placeholder">
+                    <div className="mtab-3d-spinner" />
+                    <p className="mtab-3d-title">Loading 3D Globe...</p>
+                    <p className="mtab-3d-hint">Downloading Cesium engine and map tiles</p>
+                  </div>
+                }
+              >
+                <div style={{ flex: 1, position: 'relative' }}>
+                  <CesiumGlobe
+                    points={points}
+                    lines={lines}
+                    kpis={kpis}
+                    meta={meta}
+                    events={events}
+                    cameraPresets={cameraPresets}
+                    categories={categories}
+                    mapCenter={mapCenter}
+                    isHistorical={isHistorical}
+                    endDate={endDate}
+                    clocks={clocks}
+                  />
                 </div>
-              }
-            >
-              <div style={{ flex: 1, position: 'relative' }}>
-                <CesiumGlobe
-                  points={points}
-                  lines={lines}
-                  kpis={kpis}
-                  meta={meta}
-                  events={events}
-                  cameraPresets={cameraPresets}
-                  categories={categories}
-                  mapCenter={mapCenter}
-                  isHistorical={isHistorical}
-                  endDate={endDate}
-                  clocks={clocks}
-                />
-              </div>
-            </Suspense>
+              </Suspense>
+            </GlobeErrorBoundary>
           )}
 
           {globeState === 'error' && (

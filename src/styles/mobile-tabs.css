@@ -1141,18 +1141,22 @@
     flex: 1;
   }
 
-  /* Bottom sheet: narrower in landscape */
+  /* S5 fix: bottom sheet centered with max-width instead of arbitrary % */
   .mtab-sheet {
     max-height: 80vh;
-    left: 10%;
-    right: 10%;
+    max-width: 480px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
     border-radius: 12px 12px 0 0;
   }
 
-  /* Map event card: wider in landscape */
+  /* Map event card: centered in landscape */
   .mtab-map-event-card {
-    left: 20%;
-    right: 20%;
+    max-width: 400px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
     bottom: 8px;
   }
 }

@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import type { TrackerCardData } from '../../../lib/tracker-directory-utils';
 import { sortByRelevance } from '../../../lib/relevance';
 import { haptic } from '../../../lib/haptic';
+import { relativeTime } from '../../../lib/event-utils';
 import ImageCarousel from './ImageCarousel';
 
 // ── Types ──
@@ -15,7 +16,6 @@ interface Props {
 // ── Constants ──
 
 const AUTO_ADVANCE_DURATION_MS = 10_000;
-const TICK_INTERVAL_MS = 100;
 const SWIPE_THRESHOLD_PX = 50;
 const PAUSE_DURATION_S = 15;
 
@@ -48,15 +48,6 @@ function mapTileUrl(lat: number, lon: number, zoom = 5): string {
   return `https://tile.openstreetmap.org/${zoom}/${x}/${y}.png`;
 }
 
-function relativeTime(dateStr: string): string {
-  const diff = Date.now() - new Date(dateStr).getTime();
-  const hours = Math.floor(diff / 3600_000);
-  if (hours < 1) return 'just now';
-  if (hours < 24) return `${hours}h ago`;
-  const days = Math.floor(hours / 24);
-  return `${days}d ago`;
-}
-
 function isLive(dateStr: string): boolean {
   return Date.now() - new Date(dateStr).getTime() < LIVE_THRESHOLD_MS;
 }
@@ -79,8 +70,11 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const [seenSlugs, setSeenSlugs] = useState<Set<string>>(() => new Set());
-  const [progress, setProgress] = useState(0);
   const [pauseCountdown, setPauseCountdown] = useState(0);
+
+  // I4 fix: drive progress via rAF + ref to avoid 10 re-renders/sec
+  const progressRef = useRef(0);
+  const progressBarRef = useRef<HTMLDivElement>(null);
 
   const touchStartY = useRef<number | null>(null);
   const touchStartX = useRef<number | null>(null);
@@ -111,44 +105,53 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
     }
   }, [currentIndex]);
 
-  // Auto-advance timer
+  // I4 fix: auto-advance via rAF — direct DOM update, no state re-renders
   useEffect(() => {
     if (paused || eligible.length === 0) return;
+    let start = performance.now();
+    let rafId: number;
 
-    const interval = setInterval(() => {
-      setProgress((prev) => {
-        const next = prev + TICK_INTERVAL_MS / AUTO_ADVANCE_DURATION_MS;
-        if (next >= 1) {
-          setCurrentIndex((idx) => (idx + 1) % eligible.length);
-          return 0;
-        }
-        return next;
-      });
-    }, TICK_INTERVAL_MS);
-
-    return () => clearInterval(interval);
+    const tick = (now: number) => {
+      const pct = Math.min((now - start) / AUTO_ADVANCE_DURATION_MS, 1);
+      progressRef.current = pct;
+      if (progressBarRef.current) {
+        progressBarRef.current.style.width = `${pct * 100}%`;
+      }
+      if (pct >= 1) {
+        setCurrentIndex(idx => (idx + 1) % eligible.length);
+        progressRef.current = 0;
+        start = now;
+      }
+      rafId = requestAnimationFrame(tick);
+    };
+    rafId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafId);
   }, [paused, eligible.length]);
 
-  // Reset progress when currentIndex changes externally (circle tap, touch zone tap)
+  // Reset rAF progress when navigating
+  const resetProgress = useCallback(() => {
+    progressRef.current = 0;
+    if (progressBarRef.current) progressBarRef.current.style.width = '0%';
+  }, []);
+
   const goTo = useCallback(
     (index: number) => {
       const clamped = Math.max(0, Math.min(index, eligible.length - 1));
       setCurrentIndex(clamped);
-      setProgress(0);
+      resetProgress();
     },
-    [eligible.length],
+    [eligible.length, resetProgress],
   );
 
-  // S7 fix: use functional setCurrentIndex to avoid stale currentIndex
   const goNext = useCallback(() => {
     setCurrentIndex(idx => (idx + 1) % eligible.length);
-    setProgress(0);
-  }, [eligible.length]);
+    resetProgress();
+  }, [eligible.length, resetProgress]);
 
   const goPrev = useCallback(() => {
     setCurrentIndex(idx => (idx - 1 + eligible.length) % eligible.length);
-    setProgress(0);
-  }, [eligible.length]);
+    resetProgress();
+  }, [eligible.length, resetProgress]);
 
   // Pause/resume with auto-resume timer
   const clearPauseTimer = useCallback(() => {
@@ -250,13 +253,14 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
         onTouchEnd={handleTouchEnd}
         onClick={handleCardTap}
       >
-        {/* Progress bars */}
+        {/* Progress bars — I4: current bar driven by rAF ref, no state re-renders */}
         <div className="story-progress">
           {eligible.map((_, i) => (
             <div key={i} className="story-progress-segment">
               <div
+                ref={i === currentIndex ? progressBarRef : undefined}
                 className={`story-progress-fill${i < currentIndex ? ' complete' : ''}${i > currentIndex ? ' upcoming' : ''}`}
-                style={i === currentIndex ? { width: `${progress * 100}%` } : undefined}
+                style={i === currentIndex ? { width: '0%' } : undefined}
               />
             </div>
           ))}

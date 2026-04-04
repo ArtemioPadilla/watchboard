@@ -3,6 +3,7 @@ import { useState, useRef, useCallback, useEffect } from 'react';
 import type { FlatEvent } from '../../../lib/timeline-utils';
 import { tierClass, tierLabelShort } from '../../../lib/tier-utils';
 import { haptic } from '../../../lib/haptic';
+import { eventTypeColor, relativeTime } from '../../../lib/event-utils';
 
 interface Props {
   heroSubtitle: string;
@@ -11,29 +12,12 @@ interface Props {
 
 const PULL_TRIGGER = 80;
 
-function eventBorderColor(type: string): string {
-  if (type === 'strike' || type === 'attack') return 'var(--accent-red)';
-  if (type === 'retaliation' || type === 'response') return 'var(--accent-amber)';
-  if (type === 'diplomatic' || type === 'politics') return 'var(--accent-blue)';
-  if (type === 'ceasefire' || type === 'peace') return 'var(--accent-green)';
-  return 'var(--border-light)';
-}
-
 function formatDate(iso: string): string {
   const [year, month, day] = iso.split('-');
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
                   'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   const m = months[parseInt(month, 10) - 1] ?? month;
   return `${m} ${parseInt(day, 10)}, ${year}`;
-}
-
-function relativeTime(iso: string): string {
-  const diff = Date.now() - new Date(iso).getTime();
-  const hours = Math.floor(diff / 3600_000);
-  if (hours < 1) return 'just now';
-  if (hours < 24) return `${hours}h ago`;
-  const days = Math.floor(hours / 24);
-  return `${days}d ago`;
 }
 
 export default function MobileFeedTab({ heroSubtitle, events }: Props) {
@@ -167,7 +151,7 @@ export default function MobileFeedTab({ heroSubtitle, events }: Props) {
               <button
                 key={ev.id}
                 className="mtab-event-card"
-                style={{ borderLeftColor: eventBorderColor(ev.type) }}
+                style={{ borderLeftColor: eventTypeColor(ev.type) }}
                 onClick={() => handleEventTap(ev)}
                 aria-label={ev.title}
               >
@@ -206,7 +190,7 @@ export default function MobileFeedTab({ heroSubtitle, events }: Props) {
             <div className="mtab-sheet-header">
               <span
                 className="mtab-sheet-type"
-                style={{ color: eventBorderColor(selectedEvent.type) }}
+                style={{ color: eventTypeColor(selectedEvent.type) }}
               >
                 {selectedEvent.type}
               </span>
