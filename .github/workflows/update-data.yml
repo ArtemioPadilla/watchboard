@@ -25,6 +25,7 @@ jobs:
       slugs: ${{ steps.resolve.outputs.slugs }}
       slugs_json: ${{ steps.resolve.outputs.slugs_json }}
       has_trackers: ${{ steps.resolve.outputs.has_trackers }}
+      hourly_updates: ${{ steps.hourly.outputs.hourly_updates }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -118,6 +119,32 @@ jobs:
         if: steps.resolve.outputs.has_trackers == 'true'
         run: npx tsx scripts/generate-sibling-brief.ts
 
+      - name: Read hourly manifest for dedup
+        id: hourly
+        run: |
+          MANIFEST="public/_hourly/today-updates.json"
+          if [ -f "$MANIFEST" ]; then
+            node -e "
+              const manifest = JSON.parse(require('fs').readFileSync('$MANIFEST','utf8'));
+              const today = new Date().toISOString().slice(0,10);
+              if (manifest.date !== today) {
+                console.log('hourly_updates={}');
+                return;
+              }
+              const byTracker = {};
+              for (const u of manifest.updates) {
+                if (!byTracker[u.tracker]) byTracker[u.tracker] = { eventIds: [], sections: [] };
+                byTracker[u.tracker].eventIds.push(...u.eventIds);
+                for (const s of u.sections) {
+                  if (!byTracker[u.tracker].sections.includes(s)) byTracker[u.tracker].sections.push(s);
+                }
+              }
+              console.log('hourly_updates=' + JSON.stringify(byTracker));
+            " >> "$GITHUB_OUTPUT"
+          else
+            echo "hourly_updates={}" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Upload sibling brief
         if: steps.resolve.outputs.has_trackers == 'true'
         uses: actions/upload-artifact@v4
@@ -187,6 +214,10 @@ jobs:
             Update ONLY this tracker: ${{ matrix.slug }}
 
             ${{ steps.siblings.outputs.context }}
+
+            HOURLY DEDUP — The following events were already ingested today by the hourly pipeline. Do NOT re-add them:
+            ${{ needs.resolve.outputs.hourly_updates || '{}' }}
+            If sections listed were already updated hourly, focus your effort on OTHER sections not listed.
 
             Perform these steps:
 
@@ -962,6 +993,14 @@ jobs:
             echo "Push attempt $i failed, retrying..."
             sleep 2
           done
+
+      - name: Clean up old hourly manifests
+        run: |
+          ARCHIVE_DIR="public/_hourly/archive"
+          if [ -d "$ARCHIVE_DIR" ]; then
+            find "$ARCHIVE_DIR" -name "*.json" -mtime +3 -delete 2>/dev/null || true
+            echo "Pruned hourly archives older than 3 days"
+          fi
 
       - name: Job summary
         if: always()
