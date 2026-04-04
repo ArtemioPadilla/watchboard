@@ -75,6 +75,7 @@ const AiConfigSchema = z.object({
   updateIntervalDays: z.number().int().positive().default(1),
   updatePolicy: UpdatePolicySchema.optional(),
   backfillTargets: z.record(z.string(), z.number().int().positive()).optional(),
+  rssFeeds: z.array(z.string().url()).optional(),
 });
 
 // ── Section IDs ──
