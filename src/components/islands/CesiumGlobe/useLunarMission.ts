@@ -81,6 +81,10 @@ export function useLunarMission(
             glowPower: 0.4,
             color: Color.fromCssColorString('#60a5fa').withAlpha(0.8),
           }),
+          depthFailMaterial: new PolylineGlowMaterialProperty({
+            glowPower: 0.2,
+            color: Color.fromCssColorString('#60a5fa').withAlpha(0.4),
+          }),
         },
       });
       entitiesRef.current.push(trajectoryEntity);
