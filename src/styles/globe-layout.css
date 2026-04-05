@@ -59,10 +59,11 @@
 @media (max-width: 768px) {
   .globe-layout {
     grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr auto auto;
+    grid-template-rows: auto 1fr auto auto auto;
     grid-template-areas:
       "top-center"
       "."
+      "left-aux"
       "bottom-aux"
       "bottom";
     padding: 8px;
@@ -73,9 +74,16 @@
   .globe-slot--top-right,
   .globe-slot--left,
   .globe-slot--right,
-  .globe-slot--left-aux,
   .globe-slot--right-aux {
     display: none !important;
+  }
+
+  /* Mission identity (left-aux) stays visible on mobile — has Track Spacecraft button */
+  .globe-slot--left-aux {
+    justify-self: center;
+    align-self: end;
+    width: 90%;
+    max-width: 400px;
   }
 }
 
