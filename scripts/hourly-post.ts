@@ -24,7 +24,7 @@ import type { BudgetData, HistoryEntry } from './social-types.js';
 // ── Constants ────────────────────────────────────────────────────────────────
 
 const COST_PER_TWEET = 0.01;
-const BASE_URL = 'https://watchboard.dev/watchboard';
+const BASE_URL = 'https://watchboard.dev';
 const MAX_TWEET_LENGTH = 280;
 
 // ── Twitter client ────────────────────────────────────────────────────────────
