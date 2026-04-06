@@ -21,7 +21,9 @@ concurrency:
 jobs:
   build:
     # When triggered by workflow_run (nightly update), only deploy if it succeeded.
-    # Push and workflow_dispatch triggers always run.
+    # Push events (including hourly-scan commits) and workflow_dispatch always pass
+    # this condition because event_name is 'push' or 'workflow_dispatch', not
+    # 'workflow_run', so the first clause is true and the || short-circuits.
     if: >-
       github.event_name != 'workflow_run' ||
       github.event.workflow_run.conclusion == 'success'
@@ -39,11 +41,22 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Backfill missing digests
+        run: npx tsx scripts/ensure-digests.ts
+
       - name: Build Astro site
         env:
           PUBLIC_POSTHOG_KEY: phc_CtJ5gPA3KykaauRYyqjkjq3ELJrBeJWxeKFoZkFNHwuw
           PUBLIC_POSTHOG_HOST: https://us.i.posthog.com
         run: npm run build
+
+      - name: Generate health status
+        run: npx tsx scripts/generate-health.ts
+
+      - name: Copy health status into build output
+        run: |
+          mkdir -p dist/_health
+          cp public/_health/status.json dist/_health/status.json
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
