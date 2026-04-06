@@ -135,6 +135,9 @@ export const TrackerConfigSchema = z.object({
   status: z.enum(['active', 'archived', 'draft']),
   temporal: z.enum(['live', 'historical']).default('live'),
 
+  // Tracker type classification
+  trackerType: z.enum(['factual', 'institutional', 'historical']).optional(),
+
   // Taxonomy
   domain: DomainSchema.optional(),
   region: RegionSchema.optional(),

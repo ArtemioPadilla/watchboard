@@ -43,6 +43,9 @@ export const WeaponTypeSchema = z.enum([
   'ballistic', 'cruise', 'drone', 'drone_loitering', 'drone_ucav', 'drone_recon', 'drone_fpv', 'rocket', 'mixed', 'unknown'
 ]);
 export const ConfidenceSchema = z.enum(['high', 'medium', 'low']);
+
+/** Event-level editorial confidence for disclosure/institutional trackers */
+export const EventConfidenceSchema = z.enum(['verified', 'official_claim', 'disputed', 'unverified']);
 export const StrikeStatusSchema = z.enum(['hit', 'intercepted', 'partial', 'unknown']);
 
 // ── Timeline ──
@@ -57,6 +60,8 @@ export const TimelineEventSchema = z.object({
   media: z.array(MediaItemSchema).optional(),
   weaponTypes: z.array(WeaponTypeSchema).optional(),
   confidence: ConfidenceSchema.optional(),
+  eventConfidence: EventConfidenceSchema.optional(),
+  confidenceReason: z.string().optional(),
   lastUpdated: z.string().optional(),
 });
 
@@ -281,6 +286,7 @@ export type PolItem = z.infer<typeof PolItemSchema>;
 export type Meta = z.infer<typeof MetaSchema>;
 export type WeaponType = z.infer<typeof WeaponTypeSchema>;
 export type Confidence = z.infer<typeof ConfidenceSchema>;
+export type EventConfidence = z.infer<typeof EventConfidenceSchema>;
 export type StrikeStatus = z.infer<typeof StrikeStatusSchema>;
 export type DigestEntry = z.infer<typeof DigestEntrySchema>;
 export type MetricsValidationError = z.infer<typeof MetricsValidationErrorSchema>;
