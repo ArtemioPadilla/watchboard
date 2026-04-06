@@ -49,7 +49,7 @@ const DAY_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 // ── Helpers ──
 
-/** Format a YYYY-MM-DD string as "Mon DD, YYYY" */
+/** Format a YYYY-MM-DD string as "Thu Apr 3, 2026" (weekday + abbreviated month + day, year) */
 function formatDate(dateStr: string): string {
   const [y, m, d] = dateStr.split('-').map(Number);
   const date = new Date(Date.UTC(y, m - 1, d));
@@ -131,7 +131,7 @@ function main(): void {
     const config = readJson<TrackerConfig>(configPath);
 
     if (!config) continue;
-    if (config.status === 'draft') continue;
+    if (config.status !== 'active' && config.status !== 'archived') continue;
 
     const dataDir = path.join(TRACKERS_DIR, slug, 'data');
     const eventsDir = path.join(dataDir, 'events');
@@ -140,8 +140,21 @@ function main(): void {
     // Skip if no events directory exists
     if (!fs.existsSync(eventsDir)) continue;
 
-    // Read existing digests (or empty array)
-    let digests: DigestEntry[] = readJson<DigestEntry[]>(digestsPath) ?? [];
+    // Read existing digests. If the file exists but cannot be parsed,
+    // abort to avoid treating corrupted history as empty and overwriting it.
+    let digests: DigestEntry[] = [];
+    if (fs.existsSync(digestsPath)) {
+      const parsedDigests = readJson<unknown>(digestsPath);
+      if (parsedDigests === null) {
+        console.error(`[ensure-digests] Failed to parse existing digests file: ${digestsPath}. Skipping tracker.`);
+        continue;
+      }
+      if (!Array.isArray(parsedDigests)) {
+        console.error(`[ensure-digests] Invalid digests file format: ${digestsPath}. Expected an array. Skipping tracker.`);
+        continue;
+      }
+      digests = parsedDigests as DigestEntry[];
+    }
 
     // Build set of existing digest dates
     const existingDates = new Set(digests.map((d) => d.date));

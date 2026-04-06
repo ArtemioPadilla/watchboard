@@ -1056,31 +1056,30 @@ jobs:
           RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
 
           # Check if an open issue with this prefix already exists
-          EXISTING=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
+          EXISTING=$(curl --fail-with-body -s -H "Authorization: token $GITHUB_TOKEN" \
             -H "Accept: application/vnd.github.v3+json" \
             "https://api.github.com/repos/${{ github.repository }}/issues?state=open&per_page=100" \
             | node -e "
               const data = JSON.parse(require('fs').readFileSync(0, 'utf8'));
-              const match = data.find(i => i.title.startsWith('⚠️ Nightly Data Update failed'));
+              const prefix = process.env.PREFIX;
+              const match = data.find(item => !item.pull_request && item.title.startsWith(prefix));
               console.log(match ? match.number : '');
             ")
 
           if [ -n "$EXISTING" ]; then
             echo "Open issue #$EXISTING already exists — adding comment instead"
-            curl -s -X POST -H "Authorization: token $GITHUB_TOKEN" \
+            curl --fail-with-body -s -X POST -H "Authorization: token $GITHUB_TOKEN" \
               -H "Accept: application/vnd.github.v3+json" \
               "https://api.github.com/repos/${{ github.repository }}/issues/$EXISTING/comments" \
-              -d "$(node -e "console.log(JSON.stringify({body: 'Failed again on $TODAY.\\n\\nRun: $RUN_URL'}))")" \
-              > /dev/null
+              -d "$(node -e "console.log(JSON.stringify({body: 'Failed again on $TODAY.\\n\\nRun: $RUN_URL'}))")"
           else
             echo "Creating new failure issue"
-            curl -s -X POST -H "Authorization: token $GITHUB_TOKEN" \
+            curl --fail-with-body -s -X POST -H "Authorization: token $GITHUB_TOKEN" \
               -H "Accept: application/vnd.github.v3+json" \
               "https://api.github.com/repos/${{ github.repository }}/issues" \
               -d "$(node -e "console.log(JSON.stringify({
                 title: '$TITLE',
                 body: 'The Nightly Data Update workflow failed on $TODAY.\\n\\n**Run:** $RUN_URL\\n\\nDigests may be stale. The deploy workflow will use \`ensure-digests.ts\` as a fallback, but the root cause should be investigated.',
                 labels: ['bug', 'automation']
-              }))")" \
-              > /dev/null
+              }))")"
           fi
