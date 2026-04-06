@@ -1,0 +1,62 @@
+{
+  "slug": "uap-disclosure",
+  "name": "UAP Disclosure Tracker",
+  "shortName": "UAP Disclosure",
+  "description": "Intelligence dashboard tracking the history of Unidentified Anomalous Phenomena (UAP) disclosure: government programs, congressional hearings, declassified documents, whistleblower testimony, and the institutional process of revealing what governments know about UAPs.",
+  "icon": "🛸",
+  "color": "#6c3483",
+  "status": "active",
+  "temporal": "historical",
+  "trackerType": "institutional",
+  "domain": "security",
+  "region": "north-america",
+  "country": "US",
+  "tags": [
+    "uap",
+    "ufo",
+    "disclosure",
+    "aaro",
+    "aatip",
+    "pentagon",
+    "congress",
+    "whistleblower",
+    "grusch",
+    "nimitz",
+    "roswell"
+  ],
+  "startDate": "1947-07-08",
+  "eraLabel": "UAP Disclosure 1947–Present",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "claims",
+    "political"
+  ],
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested Claims"
+    },
+    {
+      "id": "sec-political",
+      "label": "Key Figures"
+    }
+  ],
+  "eventTypes": [
+    "military",
+    "diplomatic",
+    "institutional",
+    "legislative",
+    "cultural"
+  ],
+  "geoPath": [
+    "US"
+  ],
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard"
+}
