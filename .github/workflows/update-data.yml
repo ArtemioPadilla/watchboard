@@ -129,7 +129,7 @@ jobs:
               const today = new Date().toISOString().slice(0,10);
               if (manifest.date !== today) {
                 console.log('hourly_updates={}');
-                return;
+                process.exit(0);
               }
               const byTracker = {};
               for (const u of manifest.updates) {
