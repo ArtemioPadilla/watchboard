@@ -25,14 +25,14 @@
   {
     "id": "us-unemployment",
     "label": "US Unemployment Rate",
-    "value": "4.4%",
+    "value": "4.3%",
     "color": "amber",
-    "source": "BLS, Feb 2026",
+    "source": "BLS, Mar 2026 (released Apr 3, 2026)",
     "contested": false,
-    "delta": "+1.0pp",
-    "deltaNote": "vs 2023 trough (3.4%)",
-    "trend": "up",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "delta": "+0.9pp",
+    "deltaNote": "vs 2023 trough (3.4%); Feb revised down 130K to net -92K — first monthly payroll loss since 2020",
+    "trend": "down",
+    "lastUpdated": "2026-04-06T00:00:00Z"
   },
   {
     "id": "us-core-pce",
@@ -109,25 +109,25 @@
   {
     "id": "vix-fear-gauge",
     "label": "VIX (Market Fear Index)",
-    "value": "24.1",
+    "value": "24.54",
     "color": "amber",
-    "source": "CBOE, Mar 19 2026",
+    "source": "CBOE, Apr 6 2026",
     "contested": false,
-    "delta": "+5.1",
-    "deltaNote": "vs historical avg (~19); elevated uncertainty",
-    "trend": "up",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "delta": "Spike to 30+ (Apr 3–4 crash); retreating post-Muscat Protocol",
+    "deltaNote": "Retreating from 30+ intraday panic highs during the $6.6T two-day crash (Apr 3–4); still ~40% above historical bull-market baseline (~18)",
+    "trend": "down",
+    "lastUpdated": "2026-04-06T00:00:00Z"
   },
   {
     "id": "us-effective-tariff-rate",
     "label": "US Avg Effective Tariff Rate",
-    "value": "~7.7%",
+    "value": "~10.3–12%",
     "color": "red",
-    "source": "Tax Foundation analysis, 2025",
+    "source": "Penn Wharton / Tax Foundation, Apr 2026",
     "contested": true,
-    "contestNote": "Supreme Court struck down IEEPA tariffs Feb 20 2026; Section 122 reimposition Feb 24 2026 continues dispute",
+    "contestNote": "Apr 2 metal tariff expansion (50% on steel/aluminum/copper articles) raised effective rate; pharmaceutical tariffs (100%) effective in 120-180 days; China's 34% retaliation effective Apr 10",
     "trend": "up",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "lastUpdated": "2026-04-06T00:00:00Z"
   },
   {
     "id": "china-gdp-2025",
@@ -143,13 +143,13 @@
   {
     "id": "global-policy-uncertainty",
     "label": "Global Policy Uncertainty Index",
-    "value": "~388",
+    "value": "~388+",
     "color": "red",
-    "source": "Baker-Bloom-Davis / FRED, Mar 2026",
+    "source": "Baker-Bloom-Davis / FRED; JPMorgan, Goldman Sachs, Apr 2026",
     "contested": false,
-    "delta": "Elevated",
-    "deltaNote": "Near record highs; JPMorgan recession probability 60% (Mar 2026), highest of major banks; EY-Parthenon 40%, Moody's 48.6%",
+    "delta": "Surging post-Apr 2 tariff expansion",
+    "deltaNote": "JPMorgan recession probability 60%, Goldman Sachs 35% (revised up Apr 4); $6.6T market crash in 2 days (Apr 3–4) — largest two-day loss in stock market history; S&P -10%, Nasdaq in bear market",
     "trend": "up",
-    "lastUpdated": "2026-04-01T14:00:00Z"
+    "lastUpdated": "2026-04-06T00:00:00Z"
   }
 ]

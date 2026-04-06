@@ -79,13 +79,13 @@
   {
     "id": "us-unemployment-rate",
     "label": "US Unemployment Rate",
-    "value": "4.4%",
-    "change": "+1.0pp from 2023 low",
-    "direction": "up",
-    "sparkData": [3.5, 3.6, 3.7, 3.4, 4.0, 4.1, 4.2, 4.4, 4.4],
+    "value": "4.3%",
+    "change": "-0.1pp; Feb revised to net -92K (first monthly loss since 2020)",
+    "direction": "down",
+    "sparkData": [3.5, 3.6, 3.7, 3.4, 4.0, 4.1, 4.2, 4.4, 4.3],
     "color": "amber",
-    "source": "BLS / FRED UNRATE",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "source": "BLS Employment Situation, Apr 3 2026 (March data)",
+    "lastUpdated": "2026-04-06T00:00:00Z"
   },
   {
     "id": "us-10y-treasury-yield",
@@ -101,13 +101,13 @@
   {
     "id": "wti-crude-oil",
     "label": "WTI Crude Oil (USD/bbl)",
-    "value": "$64.51 (Feb 2026 avg)",
-    "change": "Mid-Mar spike to $83–98",
+    "value": "~$100–110 (Apr 6 range)",
+    "change": "+55% from Feb 2026 avg ($64.51) on Hormuz crisis; peak $113 Apr 4",
     "direction": "up",
-    "sparkData": [77, 95, 70, 72, 78, 75, 60, 58, 64.51],
+    "sparkData": [77, 95, 70, 72, 78, 75, 60, 58, 64.51, 98.79, 113],
     "color": "red",
-    "source": "EIA / FRED WTISPLC (monthly avg)",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "source": "EIA / FRED WTISPLC; CNBC Apr 4–6 2026",
+    "lastUpdated": "2026-04-06T00:00:00Z"
   },
   {
     "id": "eurozone-cpi",
@@ -156,12 +156,12 @@
   {
     "id": "shiller-cape-ratio",
     "label": "S&P 500 Shiller CAPE Ratio",
-    "value": "~38",
-    "change": "+120% above hist. mean (17.35)",
-    "direction": "up",
-    "sparkData": [27, 30, 28, 32, 36, 38, 37, 38, 38],
+    "value": "~33–34",
+    "change": "Down sharply — S&P 500 -10% from peak in Apr 3–4 crash ($6.6T loss)",
+    "direction": "down",
+    "sparkData": [27, 30, 28, 32, 36, 38, 37, 38, 34],
     "color": "red",
-    "source": "Robert Shiller / Yale / multpl.com",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "source": "Robert Shiller / Yale / multpl.com; CBOE Apr 4 2026",
+    "lastUpdated": "2026-04-06T00:00:00Z"
   }
 ]

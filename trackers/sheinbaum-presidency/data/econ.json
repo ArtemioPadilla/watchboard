@@ -1,14 +1,14 @@
 [
   {
     "id": "gdp-growth-rate",
-    "label": "GDP Growth Rate (2025)",
-    "value": "~0.4%",
-    "change": "Down from 0.9% in 2024",
-    "direction": "down",
-    "sparkData": [4.6, 3.2, 2.4, 1.8, 0.9, 0.4],
+    "label": "GDP Growth (2025 actual / 2026 forecast)",
+    "value": "0.4% / 1.6%",
+    "change": "Banxico raised 2026 forecast to 1.6% (from 1.1%) in Feb 2026 quarterly report",
+    "direction": "up",
+    "sparkData": [4.6, 3.2, 2.4, 1.8, 0.9, 0.4, 1.6],
     "color": "#e67e22",
-    "source": "Citi Mexico Survey / Banxico 2025 estimate",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "source": "Banxico quarterly report Feb 2026; Citi Mexico Survey",
+    "lastUpdated": "2026-04-06T00:00:00Z"
   },
   {
     "id": "annual-inflation",
@@ -35,13 +35,13 @@
   {
     "id": "peso-usd-exchange",
     "label": "Peso / USD Rate (MXN)",
-    "value": "~18.12",
-    "change": "Weakened to 18.12 after surprise Banxico cut Mar 26; down from 17.72 low this week",
-    "direction": "up",
-    "sparkData": [17.2, 18.5, 19.8, 21.0, 20.2, 19.5, 18.5, 17.7, 18.12],
-    "color": "#e67e22",
-    "source": "Banxico/market data, March 29, 2026",
-    "lastUpdated": "2026-03-29T00:00:00Z"
+    "value": "~17.83",
+    "change": "Strengthened from 18.12 (Mar 29) to ~17.83 early April; year-end consensus 17.5–18.5",
+    "direction": "down",
+    "sparkData": [17.2, 18.5, 19.8, 21.0, 20.2, 19.5, 18.5, 17.7, 18.12, 17.83],
+    "color": "#27ae60",
+    "source": "Banxico/market data, early April 2026",
+    "lastUpdated": "2026-04-06T00:00:00Z"
   },
   {
     "id": "fdi-inflows",
