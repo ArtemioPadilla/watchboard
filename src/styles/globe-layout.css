@@ -35,10 +35,10 @@
 .globe-slot--top-right    { grid-area: top-right;    justify-self: end; }
 .globe-slot--left         { grid-area: left;         align-self: start; }
 .globe-slot--right        { grid-area: right;        align-self: start; justify-self: end; }
-.globe-slot--bottom       { grid-area: bottom;       justify-self: center; align-self: end; width: 90%; max-width: 900px; }
+.globe-slot--bottom       { grid-area: bottom;       justify-self: center; align-self: end; width: 90%; max-width: 900px; grid-column: 1 / -1; }
 .globe-slot--left-aux     { grid-area: left-aux;     align-self: end; }
 .globe-slot--right-aux    { grid-area: right-aux;    align-self: end; justify-self: end; }
-.globe-slot--bottom-aux   { grid-area: bottom-aux;   justify-self: center; align-self: end; width: 90%; max-width: 900px; }
+.globe-slot--bottom-aux   { grid-area: bottom-aux;   justify-self: center; align-self: end; width: 90%; max-width: 900px; grid-column: 1 / -1; }
 
 /* ── Hydration boundary: promote React island children to grid participants ──
    Astro wraps client:only components in <astro-island>. The React component
@@ -48,11 +48,17 @@
 .globe-wrapper { display: contents; }
 
 /* ── Cesium canvas — fills viewport behind the grid ── */
+/* z-index: -1 keeps it below sibling .globe-slot elements (auto/0)
+   within the .globe-layout stacking context.
+   pointer-events: auto re-enables drag/rotate since .globe-layout
+   sets pointer-events: none which children inherit. */
 .globe-canvas {
   position: fixed;
   inset: 0;
   width: 100vw;
   height: 100vh;
+  z-index: -1;
+  pointer-events: auto;
 }
 
 /* ── Mobile layout (<=768px) ── */

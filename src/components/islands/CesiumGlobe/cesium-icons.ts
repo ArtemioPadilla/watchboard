@@ -27,67 +27,187 @@ export type IconType =
   | 'weapon_mixed'
   | 'weapon_unknown';
 
-const iconCache = new Map<string, string>();
-const pendingRaster = new Map<string, Promise<string>>();
+const iconCache = new Map<string, HTMLCanvasElement>();
 
-/** Get a cached data URI for the given icon type and color.
- *  Returns an SVG data URI immediately (sync), but also kicks off a
- *  canvas rasterization so that subsequent calls return a PNG data URI
- *  which CesiumJS handles without billboard image-load errors. */
-export function getIconDataUri(type: IconType, color?: string): string {
+/** Get a cached Canvas element for the given icon type and color.
+ *  CesiumJS accepts Canvas elements directly as billboard images,
+ *  bypassing the Image loading pipeline that causes per-frame errors with data URIs. */
+export function getIconDataUri(type: IconType, color?: string): HTMLCanvasElement | string {
   const key = `${type}:${color || 'default'}`;
   const cached = iconCache.get(key);
   if (cached) return cached;
 
-  const svg = generateSvg(type, color);
-  const svgUri = 'data:image/svg+xml,' + encodeURIComponent(svg);
-
-  // Rasterize to PNG via canvas to avoid CesiumJS SVG billboard errors
-  if (typeof document !== 'undefined' && !pendingRaster.has(key)) {
-    const promise = rasterizeSvg(svgUri, 64).then(pngUri => {
-      iconCache.set(key, pngUri);
-      return pngUri;
-    }).catch(() => {
-      // Fallback: keep SVG URI if rasterization fails
-      iconCache.set(key, svgUri);
-      return svgUri;
-    });
-    pendingRaster.set(key, promise);
-  }
-
-  // Return SVG URI for first call; subsequent calls get the cached PNG
-  iconCache.set(key, svgUri);
-  return svgUri;
-}
-
-/** Pre-rasterize all icon types so they're ready as PNGs before Cesium uses them */
-export async function preloadIcons(types: IconType[], colors: string[]): Promise<void> {
-  const tasks: Promise<string>[] = [];
-  for (const type of types) {
-    for (const color of colors) {
-      getIconDataUri(type, color); // kicks off rasterization
-      const p = pendingRaster.get(`${type}:${color}`);
-      if (p) tasks.push(p);
+  // Render SVG to Canvas synchronously via offscreen drawing
+  if (typeof document !== 'undefined') {
+    const canvas = renderSvgToCanvas(generateSvg(type, color), 64);
+    if (canvas) {
+      iconCache.set(key, canvas);
+      return canvas;
     }
   }
-  await Promise.all(tasks);
+
+  // SSR fallback — return data URI (won't be used by CesiumJS in practice)
+  const svg = generateSvg(type, color);
+  return 'data:image/svg+xml;base64,' + btoa(svg);
 }
 
-function rasterizeSvg(svgUri: string, size: number): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    img.onload = () => {
-      const canvas = document.createElement('canvas');
-      canvas.width = size;
-      canvas.height = size;
-      const ctx = canvas.getContext('2d');
-      if (!ctx) { reject(new Error('no 2d ctx')); return; }
-      ctx.drawImage(img, 0, 0, size, size);
-      resolve(canvas.toDataURL('image/png'));
-    };
-    img.onerror = reject;
-    img.src = svgUri;
-  });
+/** Render SVG string to a Canvas element synchronously.
+ *  Uses DOMParser + manual canvas drawing of simple shapes. */
+function renderSvgToCanvas(svgString: string, size: number): HTMLCanvasElement | null {
+  try {
+    const canvas = document.createElement('canvas');
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return null;
+
+    // Parse SVG and draw shapes manually
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(svgString, 'image/svg+xml');
+    const svg = doc.documentElement;
+    const viewBox = svg.getAttribute('viewBox')?.split(' ').map(Number) || [0, 0, 32, 32];
+    const scale = size / (viewBox[2] || 32);
+
+    ctx.scale(scale, scale);
+
+    for (const el of Array.from(svg.children)) {
+      drawSvgElement(ctx, el as SVGElement);
+    }
+
+    return canvas;
+  } catch {
+    return null;
+  }
+}
+
+function drawSvgElement(ctx: CanvasRenderingContext2D, el: SVGElement): void {
+  const fill = el.getAttribute('fill') || 'none';
+  const stroke = el.getAttribute('stroke') || 'none';
+  const strokeWidth = parseFloat(el.getAttribute('stroke-width') || '1');
+  const opacity = parseFloat(el.getAttribute('opacity') || '1');
+
+  ctx.save();
+  ctx.globalAlpha = opacity;
+
+  switch (el.tagName) {
+    case 'circle': {
+      const cx = parseFloat(el.getAttribute('cx') || '0');
+      const cy = parseFloat(el.getAttribute('cy') || '0');
+      const r = parseFloat(el.getAttribute('r') || '0');
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, 0, Math.PI * 2);
+      if (fill !== 'none') { ctx.fillStyle = fill; ctx.fill(); }
+      if (stroke !== 'none') { ctx.strokeStyle = stroke; ctx.lineWidth = strokeWidth; ctx.stroke(); }
+      break;
+    }
+    case 'rect': {
+      const x = parseFloat(el.getAttribute('x') || '0');
+      const y = parseFloat(el.getAttribute('y') || '0');
+      const w = parseFloat(el.getAttribute('width') || '0');
+      const h = parseFloat(el.getAttribute('height') || '0');
+      const rx = parseFloat(el.getAttribute('rx') || '0');
+      if (rx > 0) {
+        roundRect(ctx, x, y, w, h, rx);
+        if (fill !== 'none') { ctx.fillStyle = fill; ctx.fill(); }
+        if (stroke !== 'none') { ctx.strokeStyle = stroke; ctx.lineWidth = strokeWidth; ctx.stroke(); }
+      } else {
+        if (fill !== 'none') { ctx.fillStyle = fill; ctx.fillRect(x, y, w, h); }
+        if (stroke !== 'none') { ctx.strokeStyle = stroke; ctx.lineWidth = strokeWidth; ctx.strokeRect(x, y, w, h); }
+      }
+      break;
+    }
+    case 'polygon': {
+      const points = (el.getAttribute('points') || '').trim().split(/\s+/).map(p => p.split(',').map(Number));
+      if (points.length < 2) break;
+      ctx.beginPath();
+      ctx.moveTo(points[0][0], points[0][1]);
+      for (let i = 1; i < points.length; i++) ctx.lineTo(points[i][0], points[i][1]);
+      ctx.closePath();
+      if (fill !== 'none') { ctx.fillStyle = fill; ctx.fill(); }
+      if (stroke !== 'none') {
+        ctx.strokeStyle = stroke; ctx.lineWidth = strokeWidth;
+        ctx.lineJoin = (el.getAttribute('stroke-linejoin') as CanvasLineJoin) || 'miter';
+        ctx.lineCap = (el.getAttribute('stroke-linecap') as CanvasLineCap) || 'butt';
+        ctx.stroke();
+      }
+      break;
+    }
+    case 'polyline': {
+      const points = (el.getAttribute('points') || '').trim().split(/\s+/).map(p => p.split(',').map(Number));
+      if (points.length < 2) break;
+      ctx.beginPath();
+      ctx.moveTo(points[0][0], points[0][1]);
+      for (let i = 1; i < points.length; i++) ctx.lineTo(points[i][0], points[i][1]);
+      if (fill !== 'none') { ctx.fillStyle = fill; ctx.fill(); }
+      if (stroke !== 'none') {
+        ctx.strokeStyle = stroke; ctx.lineWidth = strokeWidth;
+        ctx.lineJoin = (el.getAttribute('stroke-linejoin') as CanvasLineJoin) || 'miter';
+        ctx.lineCap = (el.getAttribute('stroke-linecap') as CanvasLineCap) || 'butt';
+        ctx.stroke();
+      }
+      break;
+    }
+    case 'line': {
+      const x1 = parseFloat(el.getAttribute('x1') || '0');
+      const y1 = parseFloat(el.getAttribute('y1') || '0');
+      const x2 = parseFloat(el.getAttribute('x2') || '0');
+      const y2 = parseFloat(el.getAttribute('y2') || '0');
+      if (stroke !== 'none') {
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.strokeStyle = stroke; ctx.lineWidth = strokeWidth;
+        ctx.stroke();
+      }
+      break;
+    }
+    case 'ellipse': {
+      const cx = parseFloat(el.getAttribute('cx') || '0');
+      const cy = parseFloat(el.getAttribute('cy') || '0');
+      const rx = parseFloat(el.getAttribute('rx') || '0');
+      const ry = parseFloat(el.getAttribute('ry') || '0');
+      ctx.beginPath();
+      ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2);
+      if (fill !== 'none') { ctx.fillStyle = fill; ctx.fill(); }
+      if (stroke !== 'none') { ctx.strokeStyle = stroke; ctx.lineWidth = strokeWidth; ctx.stroke(); }
+      break;
+    }
+    case 'path': {
+      const d = el.getAttribute('d');
+      if (d) {
+        const path = new Path2D(d);
+        if (fill !== 'none') { ctx.fillStyle = fill; ctx.fill(path); }
+        if (stroke !== 'none') { ctx.strokeStyle = stroke; ctx.lineWidth = strokeWidth; ctx.stroke(path); }
+      }
+      break;
+    }
+    case 'text': {
+      const x = parseFloat(el.getAttribute('x') || '0');
+      const y = parseFloat(el.getAttribute('y') || '0');
+      const fontSize = el.getAttribute('font-size') || '16';
+      const fontFamily = el.getAttribute('font-family') || 'sans-serif';
+      const fontWeight = el.getAttribute('font-weight') || 'normal';
+      ctx.font = `${fontWeight} ${fontSize}px ${fontFamily}`;
+      ctx.textAlign = (el.getAttribute('text-anchor') === 'middle' ? 'center' : 'start') as CanvasTextAlign;
+      if (fill !== 'none') { ctx.fillStyle = fill; ctx.fillText(el.textContent || '', x, y); }
+      break;
+    }
+  }
+  ctx.restore();
+}
+
+function roundRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number): void {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
 }
 
 function svgWrap(inner: string, size = 32): string {
@@ -299,15 +419,14 @@ function svgWeaponUnknown(c: string): string {
 }
 
 // ── Spacecraft: Orion-style capsule silhouette ──
-let _spacecraftIcon: string | null = null;
-export function createSpacecraftIcon(): string {
+let _spacecraftIcon: HTMLCanvasElement | string | null = null;
+export function createSpacecraftIcon(): HTMLCanvasElement | string {
   if (_spacecraftIcon) return _spacecraftIcon;
   const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path d="M16 2L20 12L20 24L24 28L24 30L20 27L20 30L16 28L12 30L12 27L8 30L8 28L12 24L12 12Z" fill="#e0e0e0" stroke="#4ade80" stroke-width="1"/><circle cx="16" cy="10" r="2" fill="#60a5fa"/></svg>';
-  const svgUri = 'data:image/svg+xml,' + encodeURIComponent(svg);
-  _spacecraftIcon = svgUri;
-  // Async rasterize to PNG for CesiumJS reliability
   if (typeof document !== 'undefined') {
-    rasterizeSvg(svgUri, 64).then(png => { _spacecraftIcon = png; }).catch(() => {});
+    const canvas = renderSvgToCanvas(svg, 64);
+    if (canvas) { _spacecraftIcon = canvas; return canvas; }
   }
+  _spacecraftIcon = 'data:image/svg+xml;base64,' + btoa(svg);
   return _spacecraftIcon;
 }
