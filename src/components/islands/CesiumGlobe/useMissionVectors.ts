@@ -72,9 +72,10 @@ export function useMissionVectors(
   useEffect(() => {
     if (!viewer || !trajectory || trajectory.waypoints.length < 3) return;
     const wps = trajectory.waypoints;
-    let rafId = 0;
 
-    const tick = () => {
+    // Use CesiumJS preRender event instead of RAF — fires exactly once per
+    // CesiumJS frame, synchronized with the render loop (no 1-frame lag)
+    const onPreRender = () => {
       const simMs = simTimeRef.current;
       const wpMs = waypointMsRef.current;
       const scPos = positionRef.current;
@@ -97,10 +98,9 @@ export function useMissionVectors(
           }
         }
       }
-      rafId = requestAnimationFrame(tick);
     };
-    rafId = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(rafId);
+    viewer.scene.preRender.addEventListener(onPreRender);
+    return () => viewer.scene.preRender.removeEventListener(onPreRender);
   }, [viewer, trajectory]);
 
   // Create/destroy arrow entities when toggles change
@@ -124,19 +124,18 @@ export function useMissionVectors(
               const mag = Cartesian3.magnitude(vec);
               if (mag < 1e-10) return [scPos, scPos];
 
-              // Arrow length as fraction of camera-to-spacecraft distance.
-              // This ensures arrows are always a visible percentage of the view,
-              // regardless of zoom level or minimumPixelSize on the model.
+              // Arrow length as fraction of camera distance, with absolute minimum.
               const cameraDist = Cartesian3.distance(viewer.camera.positionWC, scPos);
               const normalizedMag = Math.min(1, mag / config.maxMagnitude);
-              const minFrac = 0.02;  // 2% of view distance minimum
-              const maxFrac = 0.02 + 0.08 * config.lengthMultiplier / 12; // up to ~8% at max magnitude
+              const minFrac = 0.02;
+              const maxFrac = 0.02 + 0.08 * config.lengthMultiplier / 12;
               const arrowFrac = minFrac + normalizedMag * (maxFrac - minFrac);
-              const arrowLength = cameraDist * arrowFrac;
+              // At close zoom, enforce minimum 500km so arrows stay visible
+              const arrowLength = Math.max(cameraDist * arrowFrac, 500_000);
 
               const dir = Cartesian3.normalize(vec, new Cartesian3());
-              // Offset origin: 1.5% of camera distance so arrow clears the ship model
-              const originOffset = cameraDist * 0.015;
+              // Offset: fraction of camera dist, min 200km to clear model at close zoom
+              const originOffset = Math.max(cameraDist * 0.015, 200_000);
               const start = Cartesian3.add(
                 scPos,
                 Cartesian3.multiplyByScalar(dir, originOffset, new Cartesian3()),
