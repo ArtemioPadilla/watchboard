@@ -246,17 +246,69 @@ function VerifiedBadgeSvg() {
   );
 }
 
+/* ── Tabs ── */
+
+type TabId = 'overview' | 'queue' | 'activity';
+
+const TABS: Array<{ id: TabId; label: string }> = [
+  { id: 'overview', label: 'OVERVIEW' },
+  { id: 'activity', label: 'ACTIVITY FEED' },
+  { id: 'queue', label: 'QUEUE' },
+];
+
+/* ── Tracker colors ── */
+
+const TRACKER_COLORS: Record<string, string> = {
+  'iran-conflict': '#e74c3c',
+  'ukraine-war': '#f1c40f',
+  'gaza-war': '#e67e22',
+  'israel-palestine': '#e67e22',
+  'october-7-attack': '#e67e22',
+  'sudan-conflict': '#9b59b6',
+  'artemis-2': '#3498db',
+  'uap-disclosure': '#6c3483',
+  'ice-history': '#2980b9',
+  'sinaloa-cartel-war': '#c0392b',
+};
+
+function trackerColor(slug: string): string {
+  return TRACKER_COLORS[slug] ?? '#58a6ff';
+}
+
+function trackerLabel(slug: string): string {
+  return slug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+}
+
+/* ── Mini sparkline (inline SVG) ── */
+
+function MiniBar({ data, color = '#58a6ff', width = 120, height = 32 }: { data: number[]; color?: string; width?: number; height?: number }) {
+  if (data.length === 0) return null;
+  const max = Math.max(...data, 1);
+  const barW = Math.max(2, (width - (data.length - 1) * 2) / data.length);
+  return (
+    <svg width={width} height={height} style={{ display: 'block' }}>
+      {data.map((v, i) => {
+        const h = (v / max) * (height - 2);
+        return <rect key={i} x={i * (barW + 2)} y={height - h - 1} width={barW} height={h} rx={1} fill={color} opacity={0.8} />;
+      })}
+    </svg>
+  );
+}
+
 /* ── Component ── */
 
 export default function SocialCommandCenter({ basePath, githubRepo }: Props) {
   const [queue, setQueue] = useState<QueueEntry[]>([]);
   const [budget, setBudget] = useState<BudgetData | null>(null);
   const [history, setHistory] = useState<HistoryEntry[]>([]);
+  const [activeTab, setActiveTab] = useState<TabId>('overview');
   const [statusFilter, setStatusFilter] = useState('all');
   const [typeFilter, setTypeFilter] = useState('all');
   const [langFilter, setLangFilter] = useState('all');
+  const [queueDate, setQueueDate] = useState(todayStr());
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [expandedThreads, setExpandedThreads] = useState<Set<string>>(new Set());
+  const [expandedHistory, setExpandedHistory] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [ghToken, setGhToken] = useState<string>(
@@ -270,31 +322,12 @@ export default function SocialCommandCenter({ basePath, githubRepo }: Props) {
   useEffect(() => {
     async function fetchData() {
       try {
-        const today = todayStr();
         const base = basePath.endsWith('/') ? basePath.slice(0, -1) : basePath;
 
-        const [queueRes, budgetRes, historyRes] = await Promise.allSettled([
-          fetch(`${base}/_social/queue-${today}.json`),
+        const [budgetRes, historyRes] = await Promise.allSettled([
           fetch(`${base}/_social/budget.json`),
           fetch(`${base}/_social/history.json`),
         ]);
-
-        let queueData: QueueEntry[] = [];
-        if (queueRes.status === 'fulfilled' && queueRes.value.ok) {
-          const raw = await queueRes.value.json();
-          queueData = normalizeQueue(Array.isArray(raw) ? raw : []);
-        } else {
-          // Fallback: try without queue- prefix (legacy naming)
-          try {
-            const fallbackRes = await fetch(`${base}/_social/${today}.json`);
-            if (fallbackRes.ok) {
-              const raw = await fallbackRes.json();
-              queueData = normalizeQueue(Array.isArray(raw) ? raw : []);
-            }
-          } catch {
-            // No queue for today is not an error
-          }
-        }
 
         if (budgetRes.status === 'fulfilled' && budgetRes.value.ok) {
           setBudget(await budgetRes.value.json());
@@ -304,8 +337,6 @@ export default function SocialCommandCenter({ basePath, githubRepo }: Props) {
           const h = await historyRes.value.json();
           setHistory(Array.isArray(h) ? h : []);
         }
-
-        setQueue(queueData);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load data');
       } finally {
@@ -314,6 +345,33 @@ export default function SocialCommandCenter({ basePath, githubRepo }: Props) {
     }
     fetchData();
   }, [basePath]);
+
+  /* ── Queue fetching (separate, date-dependent) ── */
+
+  useEffect(() => {
+    async function fetchQueue() {
+      const base = basePath.endsWith('/') ? basePath.slice(0, -1) : basePath;
+      try {
+        const res = await fetch(`${base}/_social/queue-${queueDate}.json`);
+        if (res.ok) {
+          const raw = await res.json();
+          setQueue(normalizeQueue(Array.isArray(raw) ? raw : []));
+          return;
+        }
+      } catch {}
+      // Fallback legacy naming
+      try {
+        const res = await fetch(`${base}/_social/${queueDate}.json`);
+        if (res.ok) {
+          const raw = await res.json();
+          setQueue(normalizeQueue(Array.isArray(raw) ? raw : []));
+          return;
+        }
+      } catch {}
+      setQueue([]);
+    }
+    fetchQueue();
+  }, [basePath, queueDate]);
 
   /* ── Derived state ── */
 
@@ -340,6 +398,44 @@ export default function SocialCommandCenter({ basePath, githubRepo }: Props) {
   const totalQueueCost = useMemo(() => {
     return queue.reduce((sum, e) => sum + e.estimatedCost, 0);
   }, [queue]);
+
+  /* ── Stats derived from history ── */
+
+  const stats = useMemo(() => {
+    const today = todayStr();
+    const todayEntries = history.filter(e => e.date === today);
+    const todayBreaking = todayEntries.filter(e => e.type === 'breaking').length;
+
+    // By tracker
+    const byTracker: Record<string, number> = {};
+    for (const e of history) byTracker[e.tracker] = (byTracker[e.tracker] ?? 0) + 1;
+    const trackerRanked = Object.entries(byTracker).sort((a, b) => b[1] - a[1]);
+
+    // By type
+    const byType: Record<string, number> = {};
+    for (const e of history) byType[e.type] = (byType[e.type] ?? 0) + 1;
+
+    // Last 7 days
+    const last7: number[] = [];
+    const last7Labels: string[] = [];
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date();
+      d.setDate(d.getDate() - i);
+      const ds = d.toISOString().slice(0, 10);
+      last7Labels.push(ds.slice(5)); // MM-DD
+      last7.push(history.filter(e => e.date === ds).length);
+    }
+
+    // Days in month + projection
+    const dayOfMonth = new Date().getDate();
+    const daysInMonth = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
+    const daysLeft = daysInMonth - dayOfMonth;
+    const dailyAvg = dayOfMonth > 0 ? history.filter(e => e.date.startsWith(today.slice(0, 7))).length / dayOfMonth : 0;
+    const projectedMonthly = Math.round(dailyAvg * daysInMonth);
+    const projectedCost = projectedMonthly * 0.01;
+
+    return { todayBreaking, byTracker, trackerRanked, byType, last7, last7Labels, dayOfMonth, daysInMonth, daysLeft, dailyAvg, projectedMonthly, projectedCost };
+  }, [history]);
 
   /* ── Handlers ── */
 
@@ -600,150 +696,242 @@ export default function SocialCommandCenter({ basePath, githubRepo }: Props) {
 
   return (
     <>
-      {/* Cost bar */}
+      {/* Budget bar */}
       <div className="scc-cost-bar">
-        <span>
-          BUDGET <b>${budget?.monthlyTarget.toFixed(2) ?? '—'}</b>/mo
-        </span>
-        <span>
-          SPENT <b>${budget?.spent.toFixed(2) ?? '—'}</b>
-        </span>
+        <span>BUDGET <b>${budget?.monthlyTarget.toFixed(2) ?? '—'}</b>/mo</span>
+        <span>SPENT <b>${budget?.spent.toFixed(2) ?? '—'}</b></span>
         <div className="scc-cost-meter">
-          <div className="scc-cost-fill" style={{ width: `${budgetPercent}%` }} />
+          <div className="scc-cost-fill" style={{ width: `${budgetPercent}%`, background: budgetPercent > 90 ? '#f85149' : undefined }} />
         </div>
-        <span>
-          REMAINING <b>${budget?.remaining.toFixed(2) ?? '—'}</b>
-        </span>
-        <span>
-          QUEUE COST <b>${totalQueueCost.toFixed(3)}</b>
-        </span>
+        <span>REMAINING <b>${budget?.remaining.toFixed(2) ?? '—'}</b></span>
+        <span>TWEETS <b>{budget?.tweetsPosted ?? 0}</b></span>
         <div className="scc-auth-area">
           {ghToken ? (
             <>
               <span className="scc-auth-badge authenticated">AUTHENTICATED</span>
-              <button className="scc-auth-btn logout" onClick={handleLogout}>
-                Log out
-              </button>
+              <button className="scc-auth-btn logout" onClick={handleLogout}>Log out</button>
             </>
           ) : (
-            <button className="scc-auth-btn login" onClick={handleAuthenticate}>
-              Authenticate
-            </button>
+            <button className="scc-auth-btn login" onClick={handleAuthenticate}>Authenticate</button>
           )}
         </div>
       </div>
 
-      {/* Filters */}
-      <div className="scc-filters">
-        {STATUS_FILTERS.map((f) => (
-          <button
-            key={f.key}
-            className={`scc-fbtn${statusFilter === f.key ? ' active' : ''}`}
-            onClick={() => setStatusFilter(f.key)}
-          >
-            {f.label}
+      {/* Tabs */}
+      <div className="scc-tabs">
+        {TABS.map(t => (
+          <button key={t.id} className={`scc-tab${activeTab === t.id ? ' active' : ''}`} onClick={() => setActiveTab(t.id)}>
+            {t.label}
+            {t.id === 'activity' && <span className="scc-tab-count">{history.length}</span>}
+            {t.id === 'queue' && <span className="scc-tab-count">{queue.length}</span>}
           </button>
         ))}
-        <div className="scc-filter-sep" />
-        {TYPE_FILTERS.map((f) => (
-          <button
-            key={f.key}
-            className={`scc-fbtn${typeFilter === f.key ? ' active' : ''}`}
-            onClick={() => setTypeFilter(f.key)}
-          >
-            {f.label}
-          </button>
-        ))}
-        {languages.length > 1 && (
-          <>
-            <div className="scc-filter-sep" />
-            <button
-              className={`scc-fbtn${langFilter === 'all' ? ' active' : ''}`}
-              onClick={() => setLangFilter('all')}
-            >
-              ALL LANGS
-            </button>
-            {languages.map((lang) => (
-              <button
-                key={lang}
-                className={`scc-fbtn${langFilter === lang ? ' active' : ''}`}
-                onClick={() => setLangFilter(lang)}
-              >
-                {lang.toUpperCase()}
-              </button>
-            ))}
-          </>
-        )}
       </div>
 
-      {/* Card list */}
-      <div className="scc-list">
-        {filteredQueue.length === 0 ? (
-          <div className="scc-empty">
-            <span>No posts in queue</span>
-            <span className="scc-empty-sub">
-              {queue.length > 0 ? 'Try adjusting your filters' : `No queue file found for ${todayStr()}`}
-            </span>
+      {/* ──────────── OVERVIEW TAB ──────────── */}
+      {activeTab === 'overview' && (
+        <div className="scc-overview">
+          {/* Stats cards row */}
+          <div className="scc-stats-grid">
+            <div className="scc-stat-card">
+              <div className="scc-stat-label">TWEETS THIS MONTH</div>
+              <div className="scc-stat-value">{budget?.tweetsPosted ?? history.filter(e => e.date.startsWith(todayStr().slice(0, 7))).length}</div>
+              <div className="scc-stat-sub">{stats.dailyAvg.toFixed(1)} avg/day</div>
+            </div>
+            <div className="scc-stat-card">
+              <div className="scc-stat-label">PROJECTED MONTHLY</div>
+              <div className="scc-stat-value" style={{ color: stats.projectedCost > (budget?.monthlyTarget ?? 1) ? '#f85149' : '#3fb950' }}>{stats.projectedMonthly}</div>
+              <div className="scc-stat-sub">~${stats.projectedCost.toFixed(2)} cost</div>
+            </div>
+            <div className="scc-stat-card">
+              <div className="scc-stat-label">DAILY CAP TODAY</div>
+              <div className="scc-stat-value">{stats.todayBreaking}<span style={{ color: '#484f58', fontSize: '0.6em' }}>/4</span></div>
+              <div className="scc-stat-sub">breaking tweets</div>
+            </div>
+            <div className="scc-stat-card">
+              <div className="scc-stat-label">DAYS LEFT</div>
+              <div className="scc-stat-value">{stats.daysLeft}</div>
+              <div className="scc-stat-sub">${budget?.remaining.toFixed(2) ?? '0.00'} remaining</div>
+            </div>
           </div>
-        ) : (
-          filteredQueue.map((entry) => (
-            <QueueCard
-              key={entry.id}
-              entry={entry}
-              isSelected={selected.has(entry.id)}
-              isThreadExpanded={expandedThreads.has(entry.id)}
-              isSaving={savingIds.has(entry.id)}
-              isAuthenticated={ghToken !== ''}
-              onToggleSelect={() => toggleSelect(entry.id)}
-              onToggleThread={() => toggleThread(entry.id)}
-              onApprove={() => handleApprove(entry.id)}
-              onEdit={() => handleEdit(entry.id)}
-              onReject={() => handleReject(entry.id)}
-            />
-          ))
-        )}
-      </div>
 
-      {/* Bottom bar */}
-      <div className="scc-bottom">
-        <div className="scc-bottom-left">
-          <button className="scc-fbtn" onClick={selectAll} style={{ fontSize: '10px' }}>
-            {filteredQueue.length > 0 && filteredQueue.every((e) => selected.has(e.id))
-              ? 'DESELECT ALL'
-              : 'SELECT ALL'}
-          </button>
-          <span>
-            <b>{selected.size}</b> selected
-          </span>
-          <span>
-            EST. COST <b>${selectedCost.toFixed(3)}</b>
-          </span>
-          {budget && (
-            <span>
-              AFTER <b>${Math.max(0, budget.remaining - selectedCost).toFixed(3)}</b> remaining
-            </span>
-          )}
+          {/* Charts row */}
+          <div className="scc-charts-grid">
+            {/* Last 7 days */}
+            <div className="scc-chart-card">
+              <div className="scc-chart-title">LAST 7 DAYS</div>
+              <MiniBar data={stats.last7} width={200} height={40} />
+              <div className="scc-chart-labels">
+                {stats.last7Labels.map((l, i) => <span key={i}>{l}</span>)}
+              </div>
+            </div>
+
+            {/* By tracker */}
+            <div className="scc-chart-card">
+              <div className="scc-chart-title">BY TRACKER</div>
+              <div className="scc-breakdown-list">
+                {stats.trackerRanked.slice(0, 8).map(([slug, count]) => (
+                  <div key={slug} className="scc-breakdown-row">
+                    <span className="scc-breakdown-dot" style={{ background: trackerColor(slug) }} />
+                    <span className="scc-breakdown-label">{trackerLabel(slug)}</span>
+                    <span className="scc-breakdown-bar-wrap">
+                      <span className="scc-breakdown-bar" style={{ width: `${(count / Math.max(...stats.trackerRanked.map(r => r[1]), 1)) * 100}%`, background: trackerColor(slug) }} />
+                    </span>
+                    <span className="scc-breakdown-count">{count}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* By type */}
+            <div className="scc-chart-card">
+              <div className="scc-chart-title">BY TYPE</div>
+              <div className="scc-breakdown-list">
+                {Object.entries(stats.byType).sort((a, b) => b[1] - a[1]).map(([type, count]) => (
+                  <div key={type} className="scc-breakdown-row">
+                    <span className="scc-breakdown-dot" style={{ background: TYPE_COLORS[type as TweetType] ?? '#8b949e' }} />
+                    <span className="scc-breakdown-label">{type.replace('_', ' ')}</span>
+                    <span className="scc-breakdown-bar-wrap">
+                      <span className="scc-breakdown-bar" style={{ width: `${(count / Math.max(...Object.values(stats.byType), 1)) * 100}%`, background: TYPE_COLORS[type as TweetType] ?? '#8b949e' }} />
+                    </span>
+                    <span className="scc-breakdown-count">{count}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Recent activity preview */}
+          <div className="scc-section-header">
+            <span>RECENT POSTS</span>
+            <button className="scc-link-btn" onClick={() => setActiveTab('activity')}>View all →</button>
+          </div>
+          <div className="scc-activity-list">
+            {history.slice().reverse().slice(0, 5).map((entry, i) => (
+              <ActivityRow key={entry.tweetId || i} entry={entry} expanded={expandedHistory.has(entry.tweetId)} onToggle={() => setExpandedHistory(prev => { const n = new Set(prev); n.has(entry.tweetId) ? n.delete(entry.tweetId) : n.add(entry.tweetId); return n; })} />
+            ))}
+            {history.length === 0 && <div className="scc-empty"><span>No tweets posted yet</span></div>}
+          </div>
         </div>
-        <div className="scc-bottom-right">
-          <button
-            className="scc-batch-btn"
-            disabled={selected.size === 0 || !ghToken || batchSaving}
-            title={!ghToken ? 'Authenticate to enable' : undefined}
-            onClick={handleBatchApprove}
-          >
-            {batchSaving ? 'Saving...' : `BATCH APPROVE (${selected.size})`}
-          </button>
-          <button
-            className="scc-batch-btn scc-publish-btn"
-            disabled={!ghToken || publishing || queue.filter(e => e.status === 'approved' || e.status === 'auto_approved').length === 0}
-            title={!ghToken ? 'Authenticate to enable' : 'Trigger GitHub Actions to post approved tweets to X'}
-            onClick={handlePublishNow}
-          >
-            {publishing ? 'TRIGGERING...' : `PUBLISH NOW (${queue.filter(e => e.status === 'approved' || e.status === 'auto_approved').length})`}
-          </button>
+      )}
+
+      {/* ──────────── ACTIVITY FEED TAB ──────────── */}
+      {activeTab === 'activity' && (
+        <div className="scc-activity-tab">
+          <div className="scc-section-header">
+            <span>ALL POSTED TWEETS ({history.length})</span>
+          </div>
+          <div className="scc-activity-list">
+            {history.slice().reverse().map((entry, i) => (
+              <ActivityRow key={entry.tweetId || i} entry={entry} expanded={expandedHistory.has(entry.tweetId)} onToggle={() => setExpandedHistory(prev => { const n = new Set(prev); n.has(entry.tweetId) ? n.delete(entry.tweetId) : n.add(entry.tweetId); return n; })} />
+            ))}
+            {history.length === 0 && <div className="scc-empty"><span>No tweets posted yet</span></div>}
+          </div>
         </div>
-      </div>
+      )}
+
+      {/* ──────────── QUEUE TAB ──────────── */}
+      {activeTab === 'queue' && (
+        <>
+          {/* Date picker + filters */}
+          <div className="scc-queue-toolbar">
+            <label className="scc-date-picker">
+              <span>DATE</span>
+              <input type="date" value={queueDate} onChange={e => setQueueDate(e.target.value)} max={todayStr()} />
+            </label>
+            <div className="scc-filter-sep" />
+            {STATUS_FILTERS.map((f) => (
+              <button key={f.key} className={`scc-fbtn${statusFilter === f.key ? ' active' : ''}`} onClick={() => setStatusFilter(f.key)}>{f.label}</button>
+            ))}
+            <div className="scc-filter-sep" />
+            {TYPE_FILTERS.map((f) => (
+              <button key={f.key} className={`scc-fbtn${typeFilter === f.key ? ' active' : ''}`} onClick={() => setTypeFilter(f.key)}>{f.label}</button>
+            ))}
+            {languages.length > 1 && (
+              <>
+                <div className="scc-filter-sep" />
+                <button className={`scc-fbtn${langFilter === 'all' ? ' active' : ''}`} onClick={() => setLangFilter('all')}>ALL LANGS</button>
+                {languages.map((lang) => (
+                  <button key={lang} className={`scc-fbtn${langFilter === lang ? ' active' : ''}`} onClick={() => setLangFilter(lang)}>{lang.toUpperCase()}</button>
+                ))}
+              </>
+            )}
+          </div>
+
+          {/* Card list */}
+          <div className="scc-list">
+            {filteredQueue.length === 0 ? (
+              <div className="scc-empty">
+                <span>No posts in queue</span>
+                <span className="scc-empty-sub">
+                  {queue.length > 0 ? 'Try adjusting your filters' : queueDate === todayStr() ? 'No queue for today yet — next generation at 14:00 UTC' : `No queue file for ${queueDate}`}
+                </span>
+              </div>
+            ) : (
+              filteredQueue.map((entry) => (
+                <QueueCard
+                  key={entry.id}
+                  entry={entry}
+                  isSelected={selected.has(entry.id)}
+                  isThreadExpanded={expandedThreads.has(entry.id)}
+                  isSaving={savingIds.has(entry.id)}
+                  isAuthenticated={ghToken !== ''}
+                  onToggleSelect={() => toggleSelect(entry.id)}
+                  onToggleThread={() => toggleThread(entry.id)}
+                  onApprove={() => handleApprove(entry.id)}
+                  onEdit={() => handleEdit(entry.id)}
+                  onReject={() => handleReject(entry.id)}
+                />
+              ))
+            )}
+          </div>
+
+          {/* Bottom bar */}
+          <div className="scc-bottom">
+            <div className="scc-bottom-left">
+              <button className="scc-fbtn" onClick={selectAll} style={{ fontSize: '10px' }}>
+                {filteredQueue.length > 0 && filteredQueue.every((e) => selected.has(e.id)) ? 'DESELECT ALL' : 'SELECT ALL'}
+              </button>
+              <span><b>{selected.size}</b> selected</span>
+              <span>EST. COST <b>${selectedCost.toFixed(3)}</b></span>
+              {budget && <span>AFTER <b>${Math.max(0, budget.remaining - selectedCost).toFixed(3)}</b> remaining</span>}
+            </div>
+            <div className="scc-bottom-right">
+              <button className="scc-batch-btn" disabled={selected.size === 0 || !ghToken || batchSaving} title={!ghToken ? 'Authenticate to enable' : undefined} onClick={handleBatchApprove}>
+                {batchSaving ? 'Saving...' : `BATCH APPROVE (${selected.size})`}
+              </button>
+              <button className="scc-batch-btn scc-publish-btn" disabled={!ghToken || publishing || queue.filter(e => e.status === 'approved' || e.status === 'auto_approved').length === 0} title={!ghToken ? 'Authenticate to enable' : 'Trigger GitHub Actions to post approved tweets to X'} onClick={handlePublishNow}>
+                {publishing ? 'TRIGGERING...' : `PUBLISH NOW (${queue.filter(e => e.status === 'approved' || e.status === 'auto_approved').length})`}
+              </button>
+            </div>
+          </div>
+        </>
+      )}
     </>
+  );
+}
+
+/* ── Activity Row ── */
+
+function ActivityRow({ entry, expanded, onToggle }: { entry: HistoryEntry; expanded: boolean; onToggle: () => void }) {
+  const typeColor = TYPE_COLORS[entry.type] ?? '#8b949e';
+  const tColor = trackerColor(entry.tracker);
+  const time = entry.publishedAt ? new Date(entry.publishedAt).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) : entry.date;
+  const tweetUrl = entry.tweetId ? `https://x.com/watchboard_dev/status/${entry.tweetId}` : null;
+
+  return (
+    <div className="scc-activity-row" onClick={onToggle}>
+      <div className="scc-activity-meta">
+        <span className="scc-type-badge" style={{ background: `${typeColor}22`, color: typeColor }}>{entry.type.replace('_', ' ')}</span>
+        <span className="scc-tracker-badge" style={{ background: `${tColor}22`, color: tColor }}>{trackerLabel(entry.tracker)}</span>
+        <span className="scc-activity-time">{time}</span>
+        <span className="scc-activity-cost">${entry.cost.toFixed(3)}</span>
+        {tweetUrl && <a href={tweetUrl} target="_blank" rel="noopener noreferrer" className="scc-activity-link" onClick={e => e.stopPropagation()}>↗</a>}
+      </div>
+      <div className={`scc-activity-text${expanded ? ' expanded' : ''}`}>
+        {highlightTweetText(entry.text)}
+      </div>
+    </div>
   );
 }
 
