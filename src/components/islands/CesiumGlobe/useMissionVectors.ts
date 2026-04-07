@@ -14,7 +14,7 @@ import {
   interpolateVelocityAtOffset,
   type VectorSet,
 } from './mission-vectors';
-import { computeAdaptiveScale } from './spacecraft-scale';
+// Arrow scale is based on camera distance, not spacecraft model scale
 
 export interface VectorToggles {
   velocity: boolean;
@@ -124,17 +124,19 @@ export function useMissionVectors(
               const mag = Cartesian3.magnitude(vec);
               if (mag < 1e-10) return [scPos, scPos];
 
-              const shipScale = computeAdaptiveScale(viewer, scPos);
+              // Arrow length as fraction of camera-to-spacecraft distance.
+              // This ensures arrows are always a visible percentage of the view,
+              // regardless of zoom level or minimumPixelSize on the model.
+              const cameraDist = Cartesian3.distance(viewer.camera.positionWC, scPos);
               const normalizedMag = Math.min(1, mag / config.maxMagnitude);
-              const minLen = shipScale * 3;
-              const maxLen = shipScale * config.lengthMultiplier;
-              const arrowLength = minLen + normalizedMag * (maxLen - minLen);
+              const minFrac = 0.02;  // 2% of view distance minimum
+              const maxFrac = 0.02 + 0.08 * config.lengthMultiplier / 12; // up to ~8% at max magnitude
+              const arrowFrac = minFrac + normalizedMag * (maxFrac - minFrac);
+              const arrowLength = cameraDist * arrowFrac;
 
               const dir = Cartesian3.normalize(vec, new Cartesian3());
-              // Start arrow well outside the ship model.
-              // The Orion model is ~3.4m, scaled by shipScale → visual radius ~ shipScale * 2.
-              // Use 4× to ensure clearance at all zoom levels.
-              const originOffset = shipScale * 4;
+              // Offset origin: 1.5% of camera distance so arrow clears the ship model
+              const originOffset = cameraDist * 0.015;
               const start = Cartesian3.add(
                 scPos,
                 Cartesian3.multiplyByScalar(dir, originOffset, new Cartesian3()),
