@@ -857,10 +857,10 @@ body:has(.globe-wrapper) .tooltip {
   50% { opacity: 0.2; }
 }
 
-/* Bottom-left — coords */
+/* Bottom-left — coords (pushed up to avoid timeline + mission identity) */
 .hud-bottom-left {
   position: absolute;
-  bottom: 100px;
+  bottom: 220px;
   left: 16px;
   color: rgba(0, 255, 170, 0.7);
   font-size: 0.55rem;
@@ -877,10 +877,10 @@ body:has(.globe-wrapper) .tooltip {
   color: rgba(0, 255, 170, 0.5);
 }
 
-/* Bottom-right — altitude + sun */
+/* Bottom-right — altitude + sun (pushed up to avoid timeline) */
 .hud-bottom-right {
   position: absolute;
-  bottom: 100px;
+  bottom: 220px;
   right: 16px;
   text-align: right;
   color: rgba(0, 255, 170, 0.5);
@@ -888,10 +888,10 @@ body:has(.globe-wrapper) .tooltip {
   line-height: 1.6;
 }
 
-/* Scale bar — bottom center */
+/* Scale bar — bottom center (pushed up to avoid timeline) */
 .hud-scale-bar {
   position: absolute;
-  bottom: 95px;
+  bottom: 210px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
