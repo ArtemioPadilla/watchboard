@@ -106,7 +106,7 @@ const VISUAL_MODE_LABELS: Record<VisualMode, string> = {
 };
 
 /** Military-grade HUD overlay — MGRS, GSD, NIIRS, sun elevation, classification banner */
-export default function CesiumHud({ viewer, visible, visualMode, simTimeRef, currentDate }: Props) {
+export default function CesiumHud({ viewer, visible, visualMode, simTimeRef, currentDate, hudMode }: Props) {
   const [hudData, setHudData] = useState({
     mgrs: '',
     latDms: '',
@@ -208,10 +208,12 @@ export default function CesiumHud({ viewer, visible, visualMode, simTimeRef, cur
 
   return (
     <div className="hud-overlay">
-      {/* Top-left — mode */}
-      <div className="hud-top-left">
-        <div className="hud-mode-label">{VISUAL_MODE_LABELS[visualMode]}</div>
-      </div>
+      {/* Top-left — mode (military only) */}
+      {hudMode !== 'civilian' && (
+        <div className="hud-top-left">
+          <div className="hud-mode-label">{VISUAL_MODE_LABELS[visualMode]}</div>
+        </div>
+      )}
 
       {/* Top-right — timestamp */}
       <div className="hud-top-right">
@@ -221,11 +223,13 @@ export default function CesiumHud({ viewer, visible, visualMode, simTimeRef, cur
         </div>
       </div>
 
-      {/* Bottom-left — coordinates */}
-      <div className="hud-bottom-left">
-        <div className="hud-mgrs">{hudData.mgrs}</div>
-        <div className="hud-coords">{hudData.latDms} {hudData.lonDms}</div>
-      </div>
+      {/* Bottom-left — coordinates (military only) */}
+      {hudMode !== 'civilian' && (
+        <div className="hud-bottom-left">
+          <div className="hud-mgrs">{hudData.mgrs}</div>
+          <div className="hud-coords">{hudData.latDms} {hudData.lonDms}</div>
+        </div>
+      )}
 
       {/* Bottom-right — altitude + sun */}
       <div className="hud-bottom-right">
