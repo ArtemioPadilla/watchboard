@@ -44,6 +44,7 @@ import MissionIdentity from './MissionIdentity';
 import MissionTelemetry from './MissionTelemetry';
 import MissionPhaseBar from './MissionPhaseBar';
 import type { MissionTrajectory } from '../../../lib/schemas';
+import { resolveLayout, type PanelId } from './layout-presets';
 
 interface Props {
   points: MapPoint[];
@@ -58,6 +59,8 @@ interface Props {
   endDate?: string;
   clocks?: { label: string; offsetHours: number }[];
   missionTrajectory?: MissionTrajectory | null;
+  globeLayout?: 'default' | 'mission' | 'disaster';
+  layoutOverrides?: Record<string, string[]>;
 }
 
 // Configure Cesium Ion on module load
@@ -83,7 +86,11 @@ function msToDateStr(ms: number): string {
   return new Date(ms).toISOString().split('T')[0];
 }
 
-export default function CesiumGlobe({ points, lines, kpis, meta, events = [], cameraPresets = {}, categories = [], mapCenter, isHistorical = false, endDate, clocks, missionTrajectory }: Props) {
+export default function CesiumGlobe({ points, lines, kpis, meta, events = [], cameraPresets = {}, categories = [], mapCenter, isHistorical = false, endDate, clocks, missionTrajectory, globeLayout, layoutOverrides }: Props) {
+  const layout = resolveLayout(globeLayout, layoutOverrides);
+  const hasPanelInSlot = (slot: string, panel: PanelId) =>
+    (layout.slots[slot as keyof typeof layout.slots] ?? []).includes(panel);
+
   const viewerRef = useRef<CesiumComponentRef<CesiumViewer> | null>(null);
   const creditDivRef = useRef<HTMLDivElement | null>(null);
   if (!creditDivRef.current && typeof document !== 'undefined') {
@@ -532,30 +539,18 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [], ca
         visualMode={visualMode}
         simTimeRef={simTimeRef}
         currentDate={currentDate}
+        hudMode={layout.hudMode}
       />
 
-      {/* Mission telemetry — slotted into auxiliary grid areas */}
-      {missionTrajectory && (
-        <>
-          <div className="globe-slot globe-slot--left-aux">
-            <MissionIdentity
-              telemetryRef={telemetryRef}
-              vehicle={missionTrajectory.vehicle}
-              onTrackSpacecraft={trackSpacecraft}
-            />
-          </div>
-          <div className="globe-slot globe-slot--right-aux">
-            <MissionTelemetry telemetryRef={telemetryRef} />
-          </div>
-          <div className="globe-slot globe-slot--bottom-aux">
-            <MissionPhaseBar
-              telemetryRef={telemetryRef}
-              vehicle={missionTrajectory.vehicle}
-              phases={missionTrajectory.phases}
-              onTrackSpacecraft={trackSpacecraft}
-            />
-          </div>
-        </>
+      {/* Mission Identity — bottom-left (mission preset only) */}
+      {hasPanelInSlot('bottom-left', 'mission-identity') && missionTrajectory && (
+        <div className="globe-slot globe-slot--bottom-left">
+          <MissionIdentity
+            telemetryRef={telemetryRef}
+            vehicle={missionTrajectory.vehicle}
+            onTrackSpacecraft={trackSpacecraft}
+          />
+        </div>
       )}
 
       {/* Cinematic mode overlay */}
@@ -568,29 +563,47 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [], ca
         </div>
       )}
 
-      {/* Info panel — close events panel when a point is selected */}
-      {selectedPoint && (
-        <div className="globe-slot globe-slot--right">
+      {/* Right column — stacked panels */}
+      <div className="globe-slot globe-slot--right">
+        {/* Fact cards */}
+        {selectedPoint && (
           <CesiumInfoPanel point={selectedPoint} onClose={() => setSelectedPoint(null)} />
-        </div>
-      )}
-
-      {/* Generic entity info panel (flights, ships, satellites) */}
-      {selectedEntity && !selectedPoint && (
-        <div className="globe-slot globe-slot--right">
+        )}
+        {selectedEntity && !selectedPoint && (
           <div className="globe-info-panel">
             <button className="globe-info-close" onClick={() => setSelectedEntity(null)} aria-label="Close info panel">
               &times;
             </button>
             <div className="globe-info-title">{selectedEntity.name}</div>
             {selectedEntity.description && (
-              <pre className="globe-info-body" style={{ whiteSpace: 'pre-wrap', margin: '0.5rem 0 0', fontSize: '0.75rem', opacity: 0.85 }}>
+              <pre style={{ whiteSpace: 'pre-wrap', fontFamily: "'JetBrains Mono', monospace", fontSize: '0.65rem', color: 'rgba(232,233,237,0.6)', margin: '8px 0 0' }}>
                 {selectedEntity.description}
               </pre>
             )}
           </div>
-        </div>
-      )}
+        )}
+
+        {/* Intel feed */}
+        {hasPanelInSlot('right', 'intel') && (
+          <CesiumEventsPanel
+            events={events}
+            currentDate={currentDate}
+            isOpen={eventsOpen}
+            onToggle={() => {
+              setEventsOpen(prev => {
+                if (!prev) setSelectedPoint(null);
+                return !prev;
+              });
+            }}
+            activeEventId={cinematicMode ? cinematicEventId : undefined}
+          />
+        )}
+
+        {/* Telemetry (mission preset only) */}
+        {hasPanelInSlot('right', 'telemetry') && missionTrajectory && (
+          <MissionTelemetry telemetryRef={telemetryRef} />
+        )}
+      </div>
 
       {/* Enhanced Timeline — always rendered */}
       <div className="globe-slot globe-slot--bottom">
@@ -614,11 +627,14 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [], ca
           onZoomChange={setZoomLevel}
           isHistorical={isHistorical}
           clocks={clocks}
+          showMissionHeader={layout.missionTimelineHeader}
+          missionTrajectory={missionTrajectory}
+          telemetryRef={layout.missionTimelineHeader ? telemetryRef : undefined}
         />
       </div>
 
-      {/* KPI strip — hidden when info panel is open */}
-      {!selectedPoint && !selectedEntity && (
+      {/* KPI strip — top-right */}
+      {!selectedPoint && !selectedEntity && hasPanelInSlot('top-right', 'kpi-strip') && (
         <div className="globe-slot globe-slot--top-right">
           <div className={`globe-kpi-strip${showAllKpis ? ' expanded' : ''}`}>
             {kpis.slice(0, showAllKpis ? kpis.length : 4).map(k => (
@@ -671,21 +687,6 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [], ca
         />
       </div>
 
-      {/* Events / Intel feed panel */}
-      <div className="globe-slot globe-slot--right">
-        <CesiumEventsPanel
-          events={events}
-          currentDate={currentDate}
-          isOpen={eventsOpen}
-          onToggle={() => {
-            setEventsOpen(prev => {
-              if (!prev) setSelectedPoint(null); // Close info panel when opening intel feed
-              return !prev;
-            });
-          }}
-          activeEventId={cinematicMode ? cinematicEventId : undefined}
-        />
-      </div>
     </div>
   );
 }

@@ -52,6 +52,8 @@ const basePath = base.endsWith('/') ? base : `${base}/`;
       endDate={config.endDate}
       clocks={config.globe?.clocks}
       missionTrajectory={missionTrajectory}
+      globeLayout={config.globe?.layout ?? 'default'}
+      layoutOverrides={config.globe?.layoutOverrides}
       />
   </div>
   <script>

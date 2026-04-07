@@ -12,6 +12,7 @@ interface Props {
   visualMode: VisualMode;
   simTimeRef: React.RefObject<number>;
   currentDate: string;
+  hudMode?: 'military' | 'civilian';
 }
 
 /** Convert decimal degrees to DMS string */
