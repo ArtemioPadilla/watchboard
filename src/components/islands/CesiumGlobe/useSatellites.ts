@@ -50,7 +50,8 @@ export const SAT_GROUPS: SatGroupInfo[] = [
   },
   {
     group: 'starlink',
-    url: 'https://celestrak.org/NORAD/elements/gp.php?GROUP=starlink&FORMAT=tle',
+    // Supplemental endpoint — gp.php now requires auth for large groups like Starlink
+    url: 'https://celestrak.org/NORAD/elements/supplemental/sup-gp.php?FILE=starlink&FORMAT=tle',
     color: '#ffffff',
     label: 'Starlink',
   },

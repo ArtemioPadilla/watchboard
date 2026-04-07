@@ -28,18 +28,66 @@ export type IconType =
   | 'weapon_unknown';
 
 const iconCache = new Map<string, string>();
+const pendingRaster = new Map<string, Promise<string>>();
 
-/** Get a cached data URI for the given icon type and color */
+/** Get a cached data URI for the given icon type and color.
+ *  Returns an SVG data URI immediately (sync), but also kicks off a
+ *  canvas rasterization so that subsequent calls return a PNG data URI
+ *  which CesiumJS handles without billboard image-load errors. */
 export function getIconDataUri(type: IconType, color?: string): string {
   const key = `${type}:${color || 'default'}`;
   const cached = iconCache.get(key);
   if (cached) return cached;
 
   const svg = generateSvg(type, color);
-  // Use encodeURIComponent instead of btoa — more reliable for SVG in Cesium billboards
-  const uri = 'data:image/svg+xml,' + encodeURIComponent(svg);
-  iconCache.set(key, uri);
-  return uri;
+  const svgUri = 'data:image/svg+xml,' + encodeURIComponent(svg);
+
+  // Rasterize to PNG via canvas to avoid CesiumJS SVG billboard errors
+  if (typeof document !== 'undefined' && !pendingRaster.has(key)) {
+    const promise = rasterizeSvg(svgUri, 64).then(pngUri => {
+      iconCache.set(key, pngUri);
+      return pngUri;
+    }).catch(() => {
+      // Fallback: keep SVG URI if rasterization fails
+      iconCache.set(key, svgUri);
+      return svgUri;
+    });
+    pendingRaster.set(key, promise);
+  }
+
+  // Return SVG URI for first call; subsequent calls get the cached PNG
+  iconCache.set(key, svgUri);
+  return svgUri;
+}
+
+/** Pre-rasterize all icon types so they're ready as PNGs before Cesium uses them */
+export async function preloadIcons(types: IconType[], colors: string[]): Promise<void> {
+  const tasks: Promise<string>[] = [];
+  for (const type of types) {
+    for (const color of colors) {
+      getIconDataUri(type, color); // kicks off rasterization
+      const p = pendingRaster.get(`${type}:${color}`);
+      if (p) tasks.push(p);
+    }
+  }
+  await Promise.all(tasks);
+}
+
+function rasterizeSvg(svgUri: string, size: number): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = size;
+      canvas.height = size;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) { reject(new Error('no 2d ctx')); return; }
+      ctx.drawImage(img, 0, 0, size, size);
+      resolve(canvas.toDataURL('image/png'));
+    };
+    img.onerror = reject;
+    img.src = svgUri;
+  });
 }
 
 function svgWrap(inner: string, size = 32): string {
@@ -255,6 +303,11 @@ let _spacecraftIcon: string | null = null;
 export function createSpacecraftIcon(): string {
   if (_spacecraftIcon) return _spacecraftIcon;
   const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path d="M16 2L20 12L20 24L24 28L24 30L20 27L20 30L16 28L12 30L12 27L8 30L8 28L12 24L12 12Z" fill="#e0e0e0" stroke="#4ade80" stroke-width="1"/><circle cx="16" cy="10" r="2" fill="#60a5fa"/></svg>';
-  _spacecraftIcon = 'data:image/svg+xml;base64,' + btoa(svg);
+  const svgUri = 'data:image/svg+xml,' + encodeURIComponent(svg);
+  _spacecraftIcon = svgUri;
+  // Async rasterize to PNG for CesiumJS reliability
+  if (typeof document !== 'undefined') {
+    rasterizeSvg(svgUri, 64).then(png => { _spacecraftIcon = png; }).catch(() => {});
+  }
   return _spacecraftIcon;
 }
