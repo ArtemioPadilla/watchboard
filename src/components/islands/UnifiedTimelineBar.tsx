@@ -1,6 +1,7 @@
 import { useMemo, useState, useEffect } from 'react';
 import type { FlatEvent } from '../../lib/timeline-utils';
 import type { MapLine } from '../../lib/schemas';
+import MissionTimelineHeader from './CesiumGlobe/MissionTimelineHeader';
 import {
   type TimelineZoomLevel,
   type StatsData,
@@ -48,6 +49,9 @@ interface BaseProps {
   zoomLevel?: TimelineZoomLevel;
   onZoomChange?: (level: TimelineZoomLevel) => void;
   legendItems?: { label: string; color: string }[];
+  missionTrajectory?: { vehicle: string; phases: { label: string; startTime: string; endTime: string }[]; launchTime: string } | null;
+  telemetryRef?: React.MutableRefObject<any>;
+  showMissionHeader?: boolean;
 }
 
 interface MapContext extends BaseProps {
@@ -260,6 +264,13 @@ export default function UnifiedTimelineBar(props: Props) {
 
   return (
     <div className="utl-bar" data-context={context}>
+      {props.showMissionHeader && props.missionTrajectory && props.telemetryRef && (
+        <MissionTimelineHeader
+          telemetryRef={props.telemetryRef}
+          vehicle={props.missionTrajectory.vehicle}
+          phases={props.missionTrajectory.phases}
+        />
+      )}
       {/* ── Row 1: Controls ── */}
       <div className="utl-controls">
         {/* Prev event */}
