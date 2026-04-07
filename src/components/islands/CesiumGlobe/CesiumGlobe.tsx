@@ -40,6 +40,7 @@ import { useInternetBlackout } from './useInternetBlackout';
 import { useGroundTruth } from './useGroundTruth';
 import { useCinematicMode } from './useCinematicMode';
 import { useLunarMission } from './useLunarMission';
+import FloatingFactCard, { type CarouselEntity } from './FloatingFactCard';
 import MissionIdentity from './MissionIdentity';
 import MissionTelemetry from './MissionTelemetry';
 import MissionPhaseBar from './MissionPhaseBar';
@@ -103,8 +104,8 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [], ca
   const [activeFilters, setActiveFilters] = useState<Set<string>>(
     () => new Set(categories.map(c => c.id)),
   );
-  const [selectedPoint, setSelectedPoint] = useState<MapPoint | null>(null);
-  const [selectedEntity, setSelectedEntity] = useState<GenericEntityInfo | null>(null);
+  const [carouselEntities, setCarouselEntities] = useState<CarouselEntity[]>([]);
+  const [activeCardIndex, setActiveCardIndex] = useState(0);
 
   // ── Visual mode ──
   const [visualMode, setVisualMode] = useState<VisualMode>('normal');
@@ -405,13 +406,47 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [], ca
 
   // ── Conflict data (imperative entities) — points + past arcs ──
   const handlePointSelect = useCallback((point: MapPoint | null) => {
-    setSelectedPoint(point);
-    setSelectedEntity(null);
-    if (point) setEventsOpen(false);
+    if (!point) {
+      setCarouselEntities([]);
+      return;
+    }
+    const entity: CarouselEntity = {
+      id: `point-${point.id}`,
+      type: 'map-point',
+      position: Cartesian3.fromDegrees(point.lon, point.lat, 0),
+      point,
+    };
+    setCarouselEntities(prev => {
+      if (prev.some(e => e.id === entity.id)) {
+        setActiveCardIndex(prev.findIndex(e => e.id === entity.id));
+        return prev;
+      }
+      const next = [...prev, entity].slice(-5);
+      setActiveCardIndex(next.length - 1);
+      return next;
+    });
+    setEventsOpen(false);
   }, []);
+
   const handleEntitySelect = useCallback((info: GenericEntityInfo) => {
-    setSelectedPoint(null);
-    setSelectedEntity(info);
+    const entity: CarouselEntity = {
+      id: `entity-${info.name}`,
+      type: 'generic',
+      position: info.position
+        ? Cartesian3.fromDegrees(info.position.lon, info.position.lat, 0)
+        : Cartesian3.fromDegrees(0, 0, 0),
+      name: info.name,
+      description: info.description,
+    };
+    setCarouselEntities(prev => {
+      if (prev.some(e => e.id === entity.id)) {
+        setActiveCardIndex(prev.findIndex(e => e.id === entity.id));
+        return prev;
+      }
+      const next = [...prev, entity].slice(-5);
+      setActiveCardIndex(next.length - 1);
+      return next;
+    });
     setEventsOpen(false);
   }, []);
   useConflictData(cesiumViewer, filteredPoints, pastLines, handlePointSelect, handleEntitySelect);
@@ -469,6 +504,17 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [], ca
       return !prev;
     });
   }, [handleOrbitMode]);
+
+  // ── Escape key to dismiss floating card ──
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && carouselEntities.length > 0) {
+        setCarouselEntities([]);
+      }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [carouselEntities.length]);
 
   // ── Sync Cesium clock for day/night terminator ──
   useEffect(() => {
@@ -567,24 +613,6 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [], ca
 
       {/* Right column — stacked panels */}
       <div className="globe-slot globe-slot--right">
-        {/* Fact cards */}
-        {selectedPoint && (
-          <CesiumInfoPanel point={selectedPoint} onClose={() => setSelectedPoint(null)} />
-        )}
-        {selectedEntity && !selectedPoint && (
-          <div className="globe-info-panel">
-            <button className="globe-info-close" onClick={() => setSelectedEntity(null)} aria-label="Close info panel">
-              &times;
-            </button>
-            <div className="globe-info-title">{selectedEntity.name}</div>
-            {selectedEntity.description && (
-              <pre style={{ whiteSpace: 'pre-wrap', fontFamily: "'JetBrains Mono', monospace", fontSize: '0.65rem', color: 'rgba(232,233,237,0.6)', margin: '8px 0 0' }}>
-                {selectedEntity.description}
-              </pre>
-            )}
-          </div>
-        )}
-
         {/* Intel feed */}
         {hasPanelInSlot('right', 'intel') && (
           <CesiumEventsPanel
@@ -593,7 +621,7 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [], ca
             isOpen={eventsOpen}
             onToggle={() => {
               setEventsOpen(prev => {
-                if (!prev) setSelectedPoint(null);
+                if (!prev) setCarouselEntities([]);
                 return !prev;
               });
             }}
@@ -606,6 +634,17 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [], ca
           <MissionTelemetry telemetryRef={telemetryRef} />
         )}
       </div>
+
+      {/* Floating fact card — anchored to entity */}
+      {carouselEntities.length > 0 && cesiumViewer && (
+        <FloatingFactCard
+          viewer={cesiumViewer}
+          entities={carouselEntities}
+          activeIndex={activeCardIndex}
+          onClose={() => setCarouselEntities([])}
+          onNavigate={setActiveCardIndex}
+        />
+      )}
 
       {/* Enhanced Timeline — always rendered */}
       <div className="globe-slot globe-slot--bottom">
@@ -636,7 +675,7 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [], ca
       </div>
 
       {/* KPI strip — top-right */}
-      {!selectedPoint && !selectedEntity && hasPanelInSlot('top-right', 'kpi-strip') && (
+      {carouselEntities.length === 0 && hasPanelInSlot('top-right', 'kpi-strip') && (
         <div className="globe-slot globe-slot--top-right">
           <div className={`globe-kpi-strip${showAllKpis ? ' expanded' : ''}`}>
             {kpis.slice(0, showAllKpis ? kpis.length : 4).map(k => (
