@@ -100,24 +100,54 @@ export function useLunarMission(
       // The built-in CesiumJS Moon is in true ECEF, which diverges from J2000 due to
       // Earth rotation. At lunar distance this mismatch is tens of thousands of km.
       const MOON_RADIUS_M = 1_737_400;
+
+      // Pre-compute Moon positions for the mission duration (J2000 frame)
+      // Used for both the Moon entity position and its orbit trail
+      const MOON_TRAIL_STEPS = 200;
+      const missionStartMs = new Date(trajectory.launchTime).getTime();
+      const missionEndMs = new Date(trajectory.splashdownTime).getTime();
+      const moonTrailPositions: Cartesian3[] = [];
+      for (let i = 0; i <= MOON_TRAIL_STEPS; i++) {
+        const t = missionStartMs + (i / MOON_TRAIL_STEPS) * (missionEndMs - missionStartMs);
+        const jd = JulianDate.fromDate(new Date(t));
+        const moonEci = Simon1994PlanetaryPositions.computeMoonPositionInEarthInertialFrame(jd);
+        moonTrailPositions.push(new Cartesian3(moonEci.x, moonEci.y, moonEci.z));
+      }
+
+      // Moon orbit trail polyline
+      const moonTrailEntity = viewer.entities.add({
+        polyline: {
+          positions: moonTrailPositions,
+          width: 1.5,
+          material: new PolylineGlowMaterialProperty({
+            glowPower: 0.3,
+            color: Color.fromCssColorString('#94a3b8').withAlpha(0.4),
+          }),
+          depthFailMaterial: new PolylineGlowMaterialProperty({
+            glowPower: 0.15,
+            color: Color.fromCssColorString('#94a3b8').withAlpha(0.2),
+          }),
+        },
+      });
+      entitiesRef.current.push(moonTrailEntity);
+
+      // Moon sphere — no outline to avoid visible vertex wireframe
       const moonEntity = viewer.entities.add({
         position: new CallbackProperty(() => {
           const simMs = simTimeRef.current;
           const jd = simMs
             ? JulianDate.fromDate(new Date(simMs))
             : launchJd;
-          // Get Moon position in Earth inertial frame (J2000) — same frame as trajectory
-          // Do NOT apply ICRF→Fixed rotation — that would put it in ECEF
           const moonEci = Simon1994PlanetaryPositions.computeMoonPositionInEarthInertialFrame(jd);
           return new Cartesian3(moonEci.x, moonEci.y, moonEci.z);
         }, false) as any,
         ellipsoid: {
           radii: new Cartesian3(MOON_RADIUS_M, MOON_RADIUS_M, MOON_RADIUS_M) as any,
-          material: new ColorMaterialProperty(Color.fromCssColorString('#8a8a8a').withAlpha(0.9)),
-          outline: true,
-          outlineColor: new ColorMaterialProperty(Color.fromCssColorString('#555555')) as any,
-          slicePartitions: 36,
-          stackPartitions: 18,
+          material: new ColorMaterialProperty(Color.fromCssColorString('#b0b0b0')),
+          outline: false,
+          slicePartitions: 64,
+          stackPartitions: 32,
+          shadows: 0, // ShadowMode.DISABLED
         },
         label: {
           text: 'MOON',
