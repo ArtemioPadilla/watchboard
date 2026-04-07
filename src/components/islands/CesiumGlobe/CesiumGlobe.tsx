@@ -24,7 +24,6 @@ import type { OrbitMode } from './useCesiumCamera';
 import { useConflictData, type GenericEntityInfo } from './useConflictData';
 import { useMissiles } from './useMissiles';
 import CesiumControls from './CesiumControls';
-import CesiumInfoPanel from './CesiumInfoPanel';
 import UnifiedTimelineBar from '../UnifiedTimelineBar';
 import type { TimelineZoomLevel } from '../../../lib/timeline-bar-utils';
 import CesiumEventsPanel from './CesiumEventsPanel';
