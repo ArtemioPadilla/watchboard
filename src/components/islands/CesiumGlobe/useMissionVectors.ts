@@ -131,12 +131,19 @@ export function useMissionVectors(
               const arrowLength = minLen + normalizedMag * (maxLen - minLen);
 
               const dir = Cartesian3.normalize(vec, new Cartesian3());
-              const end = Cartesian3.add(
+              // Offset origin outside the ship model (~2× ship scale from center)
+              const originOffset = shipScale * 2;
+              const start = Cartesian3.add(
                 scPos,
+                Cartesian3.multiplyByScalar(dir, originOffset, new Cartesian3()),
+                new Cartesian3(),
+              );
+              const end = Cartesian3.add(
+                start,
                 Cartesian3.multiplyByScalar(dir, arrowLength, new Cartesian3()),
                 new Cartesian3(),
               );
-              return [scPos, end];
+              return [start, end];
             }, false),
             width: config.width,
             material: new PolylineArrowMaterialProperty(
