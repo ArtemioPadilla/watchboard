@@ -70,7 +70,7 @@ export function useMissionVectors(
 
   // Per-frame vector computation
   useEffect(() => {
-    if (!viewer || !trajectory || trajectory.waypoints.length < 3) return;
+    if (!viewer || !trajectory || trajectory.waypoints.length < 3) return undefined;
     const wps = trajectory.waypoints;
 
     // Use CesiumJS preRender event instead of RAF — fires exactly once per
@@ -100,25 +100,45 @@ export function useMissionVectors(
       }
     };
     viewer.scene.preRender.addEventListener(onPreRender);
-    return () => viewer.scene.preRender.removeEventListener(onPreRender);
+    return () => { viewer.scene.preRender.removeEventListener(onPreRender); };
   }, [viewer, trajectory]);
 
   // Create/destroy arrow entities when toggles change
   useEffect(() => {
     if (!viewer || !trajectory) return;
     const existing = entitiesRef.current;
+    const wps = trajectory.waypoints;
 
     for (const config of VECTOR_CONFIGS) {
       const isOn = toggles[config.key];
       const hasEntity = existing.has(config.key);
 
       if (isOn && !hasEntity) {
+        const wpMs = waypointMsRef.current;
         const entity = viewer.entities.add({
           polyline: {
             positions: new CallbackProperty(() => {
               const vecs = vectorsRef.current;
-              const scPos = positionRef.current;
-              if (!vecs || !scPos) return [Cartesian3.ZERO, Cartesian3.ZERO];
+              if (!vecs || !wpMs) return [Cartesian3.ZERO, Cartesian3.ZERO];
+
+              // Compute position directly from waypoints at render time
+              // (not from positionRef which may be 1 frame stale)
+              const simMs = simTimeRef.current;
+              if (!simMs) return [Cartesian3.ZERO, Cartesian3.ZERO];
+              let scPos: Cartesian3 | null = null;
+              for (let i = 0; i < wps.length - 1; i++) {
+                if (simMs >= wpMs[i] && simMs < wpMs[i + 1]) {
+                  const frac = (simMs - wpMs[i]) / (wpMs[i + 1] - wpMs[i]);
+                  const wp0 = wps[i], wp1 = wps[i + 1];
+                  scPos = new Cartesian3(
+                    (wp0.x + frac * (wp1.x - wp0.x)) * 1000,
+                    (wp0.y + frac * (wp1.y - wp0.y)) * 1000,
+                    (wp0.z + frac * (wp1.z - wp0.z)) * 1000,
+                  );
+                  break;
+                }
+              }
+              if (!scPos) return [Cartesian3.ZERO, Cartesian3.ZERO];
 
               const vec = vecs[config.key];
               const mag = Cartesian3.magnitude(vec);
