@@ -14,6 +14,7 @@ interface Props {
   currentDate: string;
   hudMode?: 'military' | 'civilian';
   hideBottomLeftHud?: boolean;
+  hideTopRightHud?: boolean;
 }
 
 /** Convert decimal degrees to DMS string */
@@ -107,7 +108,7 @@ const VISUAL_MODE_LABELS: Record<VisualMode, string> = {
 };
 
 /** Military-grade HUD overlay — MGRS, GSD, NIIRS, sun elevation, classification banner */
-export default function CesiumHud({ viewer, visible, visualMode, simTimeRef, currentDate, hudMode, hideBottomLeftHud }: Props) {
+export default function CesiumHud({ viewer, visible, visualMode, simTimeRef, currentDate, hudMode, hideBottomLeftHud, hideTopRightHud }: Props) {
   const [hudData, setHudData] = useState({
     mgrs: '',
     latDms: '',
@@ -216,13 +217,15 @@ export default function CesiumHud({ viewer, visible, visualMode, simTimeRef, cur
         </div>
       )}
 
-      {/* Top-right — timestamp */}
-      <div className="hud-top-right">
-        <div className="hud-rec">
-          <span className="hud-rec-dot" />
-          {hudData.recTime}
+      {/* Top-right — timestamp (hidden when KPI strip occupies that corner) */}
+      {!hideTopRightHud && (
+        <div className="hud-top-right">
+          <div className="hud-rec">
+            <span className="hud-rec-dot" />
+            {hudData.recTime}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Bottom-left — coordinates (hidden in civilian mode or when mission identity occupies that corner) */}
       {hudMode !== 'civilian' && !hideBottomLeftHud && (

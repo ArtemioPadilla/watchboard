@@ -541,6 +541,7 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [], ca
         currentDate={currentDate}
         hudMode={layout.hudMode}
         hideBottomLeftHud={(layout.slots['bottom-left'] ?? []).length > 0}
+        hideTopRightHud={(layout.slots['top-right'] ?? []).length > 0}
       />
 
       {/* Mission Identity — bottom-left (mission preset only) */}
