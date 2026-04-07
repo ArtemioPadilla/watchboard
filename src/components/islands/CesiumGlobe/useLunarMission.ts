@@ -8,6 +8,8 @@ import {
   PolylineGlowMaterialProperty,
   NearFarScalar,
   CallbackProperty,
+  ColorBlendMode,
+  Quaternion,
   type Viewer as CesiumViewer,
   type Entity,
 } from 'cesium';
@@ -18,6 +20,8 @@ import {
 } from './mission-helpers';
 import type { MissionTrajectory } from '../../../lib/schemas';
 import { createSpacecraftIcon } from './cesium-icons';
+import { computeSpacecraftOrientation } from './spacecraft-orientation';
+import { computeAdaptiveScale, MIN_PIXEL_SIZE } from './spacecraft-scale';
 
 interface UseLunarMissionResult {
   telemetryRef: MutableRefObject<TelemetryState>;
@@ -89,37 +93,90 @@ export function useLunarMission(
       });
       entitiesRef.current.push(trajectoryEntity);
 
-      // Spacecraft entity — position from SampledPositionProperty
-      const spacecraftEntity = viewer.entities.add({
-        position: new CallbackProperty(() => {
-          const simMs = simTimeRef.current;
-          if (!simMs) return polylinePositions[0];
-          const currentJd = JulianDate.fromDate(new Date(simMs));
-          const pos = positionProperty.getValue(currentJd);
-          if (!pos) {
-            const launchMs = new Date(trajectory.launchTime).getTime();
-            if (simMs < launchMs) return polylinePositions[0];
-            return polylinePositions[polylinePositions.length - 1];
-          }
-          return pos;
-        }, false) as any,
-        billboard: {
-          image: createSpacecraftIcon(),
-          scale: 1.0,
-          scaleByDistance: new NearFarScalar(1e5, 1.2, 5e8, 0.15),
-          color: Color.WHITE,
-        },
-        label: {
-          text: 'ORION',
-          font: '14px JetBrains Mono',
-          fillColor: Color.fromCssColorString('#4ade80'),
-          outlineColor: Color.BLACK,
-          outlineWidth: 3,
-          style: 2,
-          pixelOffset: { x: 0, y: -28 } as any,
-          scaleByDistance: new NearFarScalar(1e5, 1.2, 5e8, 0.15),
-        },
-      });
+      // Spacecraft entity — 3D model with velocity-aligned orientation
+      const modelUri = '/models/orion-spacecraft.glb';
+
+      // Shared position callback — reused by both model and scale
+      const positionCallback = new CallbackProperty(() => {
+        const simMs = simTimeRef.current;
+        if (!simMs) return polylinePositions[0];
+        const currentJd = JulianDate.fromDate(new Date(simMs));
+        const pos = positionProperty.getValue(currentJd);
+        if (!pos) {
+          const launchMs = new Date(trajectory.launchTime).getTime();
+          if (simMs < launchMs) return polylinePositions[0];
+          return polylinePositions[polylinePositions.length - 1];
+        }
+        return pos;
+      }, false);
+
+      // Orientation: velocity alignment + phase overrides
+      const orientationCallback = new CallbackProperty(() => {
+        const simMs = simTimeRef.current;
+        if (!simMs) return Quaternion.IDENTITY;
+        const currentJd = JulianDate.fromDate(new Date(simMs));
+        return computeSpacecraftOrientation(
+          positionProperty,
+          currentJd,
+          trajectory.phases,
+        ) ?? Quaternion.IDENTITY;
+      }, false);
+
+      // Attempt to load 3D model, fall back to billboard on error
+      let spacecraftEntity: Entity;
+      try {
+        spacecraftEntity = viewer.entities.add({
+          position: positionCallback as any,
+          orientation: orientationCallback as any,
+          model: {
+            uri: modelUri,
+            minimumPixelSize: MIN_PIXEL_SIZE,
+            scale: new CallbackProperty(() => {
+              const simMs = simTimeRef.current;
+              if (!simMs) return 100_000;
+              const currentJd = JulianDate.fromDate(new Date(simMs));
+              const pos = positionProperty.getValue(currentJd);
+              if (!pos) return 100_000;
+              return computeAdaptiveScale(viewer, pos);
+            }, false) as any,
+            silhouetteColor: Color.fromCssColorString('#4ade80'),
+            silhouetteSize: 1.0,
+            colorBlendMode: ColorBlendMode.HIGHLIGHT,
+            colorBlendAmount: 0.0,
+          },
+          label: {
+            text: 'ORION',
+            font: '14px JetBrains Mono',
+            fillColor: Color.fromCssColorString('#4ade80'),
+            outlineColor: Color.BLACK,
+            outlineWidth: 3,
+            style: 2,
+            pixelOffset: { x: 0, y: -28 } as any,
+            scaleByDistance: new NearFarScalar(1e5, 1.2, 5e8, 0.15),
+          },
+        });
+      } catch (e) {
+        console.warn('[lunar-mission] 3D model failed to load, falling back to billboard:', e);
+        spacecraftEntity = viewer.entities.add({
+          position: positionCallback as any,
+          billboard: {
+            image: createSpacecraftIcon(),
+            scale: 1.0,
+            scaleByDistance: new NearFarScalar(1e5, 1.2, 5e8, 0.15),
+            color: Color.WHITE,
+          },
+          label: {
+            text: 'ORION',
+            font: '14px JetBrains Mono',
+            fillColor: Color.fromCssColorString('#4ade80'),
+            outlineColor: Color.BLACK,
+            outlineWidth: 3,
+            style: 2,
+            pixelOffset: { x: 0, y: -28 } as any,
+            scaleByDistance: new NearFarScalar(1e5, 1.2, 5e8, 0.15),
+          },
+        });
+      }
       entitiesRef.current.push(spacecraftEntity);
       spacecraftEntityRef.current = spacecraftEntity;
 
