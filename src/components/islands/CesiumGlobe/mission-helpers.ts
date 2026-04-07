@@ -83,8 +83,10 @@ export function computeTelemetry(
   const distFromCenterM = Cartesian3.magnitude(positionEcef);
   const altitudeKm = (distFromCenterM / 1000) - EARTH_RADIUS_KM;
 
-  const moonPos = getMoonPosition(currentJd);
-  const distToMoonM = Cartesian3.distance(positionEcef, moonPos);
+  // Use Moon's J2000 inertial position (same frame as spacecraft waypoints).
+  // getMoonPosition() converts to ECEF which doesn't match our J2000 positions.
+  const moonPosJ2000 = Simon1994PlanetaryPositions.computeMoonPositionInEarthInertialFrame(currentJd);
+  const distToMoonM = Cartesian3.distance(positionEcef, moonPosJ2000);
   const distToMoonKm = distToMoonM / 1000;
 
   const metSeconds = JulianDate.secondsDifference(currentJd, launchJd);
