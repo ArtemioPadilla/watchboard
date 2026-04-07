@@ -26,9 +26,9 @@ export default function MissionTimelineHeader({ telemetryRef, vehicle, phases }:
       if (progressRef.current) {
         progressRef.current.style.width = `${(t.overallProgress ?? 0) * 100}%`;
       }
-      if (phaseRef.current) phaseRef.current.textContent = t.currentPhase ?? 'Pre-Launch';
-      if (altRef.current) altRef.current.textContent = formatDistance(t.altitude ?? 0);
-      if (velRef.current) velRef.current.textContent = formatVelocity(t.velocity ?? 0);
+      if (phaseRef.current) phaseRef.current.textContent = t.currentPhase?.label ?? 'Pre-Launch';
+      if (altRef.current) altRef.current.textContent = formatDistanceKm(t.altitudeKm ?? 0);
+      if (velRef.current) velRef.current.textContent = formatVelocityKmS(t.velocityKmS ?? 0);
       raf = requestAnimationFrame(update);
     };
     raf = requestAnimationFrame(update);
@@ -63,15 +63,15 @@ export default function MissionTimelineHeader({ telemetryRef, vehicle, phases }:
   );
 }
 
-function formatDistance(meters: number): string {
-  if (meters >= 1e6) return `${(meters / 1e3).toLocaleString(undefined, { maximumFractionDigits: 0 })} km`;
-  if (meters >= 1e3) return `${(meters / 1e3).toFixed(1)} km`;
-  return `${Math.round(meters)} m`;
+function formatDistanceKm(km: number): string {
+  if (km >= 1000) return `${Math.round(km).toLocaleString()} km`;
+  if (km >= 1) return `${km.toFixed(1)} km`;
+  return `${Math.round(km * 1000)} m`;
 }
 
-function formatVelocity(mps: number): string {
-  if (mps >= 1e3) return `${(mps / 1e3).toFixed(1)} km/s`;
-  return `${Math.round(mps)} m/s`;
+function formatVelocityKmS(kmS: number): string {
+  if (kmS >= 1) return `${kmS.toFixed(1)} km/s`;
+  return `${Math.round(kmS * 1000)} m/s`;
 }
 
 const S: Record<string, React.CSSProperties> = {

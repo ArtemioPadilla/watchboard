@@ -13,6 +13,7 @@ interface Props {
   simTimeRef: React.RefObject<number>;
   currentDate: string;
   hudMode?: 'military' | 'civilian';
+  hideBottomLeftHud?: boolean;
 }
 
 /** Convert decimal degrees to DMS string */
@@ -106,7 +107,7 @@ const VISUAL_MODE_LABELS: Record<VisualMode, string> = {
 };
 
 /** Military-grade HUD overlay — MGRS, GSD, NIIRS, sun elevation, classification banner */
-export default function CesiumHud({ viewer, visible, visualMode, simTimeRef, currentDate, hudMode }: Props) {
+export default function CesiumHud({ viewer, visible, visualMode, simTimeRef, currentDate, hudMode, hideBottomLeftHud }: Props) {
   const [hudData, setHudData] = useState({
     mgrs: '',
     latDms: '',
@@ -223,8 +224,8 @@ export default function CesiumHud({ viewer, visible, visualMode, simTimeRef, cur
         </div>
       </div>
 
-      {/* Bottom-left — coordinates (military only) */}
-      {hudMode !== 'civilian' && (
+      {/* Bottom-left — coordinates (hidden in civilian mode or when mission identity occupies that corner) */}
+      {hudMode !== 'civilian' && !hideBottomLeftHud && (
         <div className="hud-bottom-left">
           <div className="hud-mgrs">{hudData.mgrs}</div>
           <div className="hud-coords">{hudData.latDms} {hudData.lonDms}</div>
