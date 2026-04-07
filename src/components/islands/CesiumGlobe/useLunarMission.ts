@@ -9,7 +9,6 @@ import {
   NearFarScalar,
   CallbackProperty,
   ColorBlendMode,
-  ColorMaterialProperty,
   Quaternion,
   Simon1994PlanetaryPositions,
   type Viewer as CesiumViewer,
@@ -133,22 +132,24 @@ export function useLunarMission(
 
       // Moon sphere — entity with solid color (CesiumJS entity/primitive materials
       // are unlit; SunLight only affects globe terrain and Model entities.
-      // TODO: Replace with a glTF sphere model for proper texture + lighting)
+      // Moon — glTF model with texture (CesiumJS Model entities support lighting)
+      // Model is ~2 units across, Moon radius = 1,737,400 m → scale = 1,737,400
+      const moonModelUri = '/models/moon.glb';
+      const moonPositionCallback = new CallbackProperty(() => {
+        const simMs = simTimeRef.current;
+        const jd = simMs
+          ? JulianDate.fromDate(new Date(simMs))
+          : launchJd;
+        const moonEci = Simon1994PlanetaryPositions.computeMoonPositionInEarthInertialFrame(jd);
+        return new Cartesian3(moonEci.x, moonEci.y, moonEci.z);
+      }, false);
+
       const moonEntity = viewer.entities.add({
-        position: new CallbackProperty(() => {
-          const simMs = simTimeRef.current;
-          const jd = simMs
-            ? JulianDate.fromDate(new Date(simMs))
-            : launchJd;
-          const moonEci = Simon1994PlanetaryPositions.computeMoonPositionInEarthInertialFrame(jd);
-          return new Cartesian3(moonEci.x, moonEci.y, moonEci.z);
-        }, false) as any,
-        ellipsoid: {
-          radii: new Cartesian3(MOON_RADIUS_M, MOON_RADIUS_M, MOON_RADIUS_M) as any,
-          material: new ColorMaterialProperty(Color.fromCssColorString('#c0c0c0')),
-          outline: false,
-          slicePartitions: 64,
-          stackPartitions: 32,
+        position: moonPositionCallback as any,
+        model: {
+          uri: moonModelUri,
+          scale: MOON_RADIUS_M,
+          minimumPixelSize: 8,
         },
       });
       entitiesRef.current.push(moonEntity);
