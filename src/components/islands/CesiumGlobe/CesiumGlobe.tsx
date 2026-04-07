@@ -466,8 +466,8 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [], ca
   );
 
   // ── Lunar mission trajectory ──
-  const { telemetryRef, trackSpacecraft } = useLunarMission(cesiumViewer, missionTrajectory ?? null, simTimeRef);
-  useMissionVectors(cesiumViewer, missionTrajectory ?? null, simTimeRef, vectorToggles);
+  const { telemetryRef, positionRef, trackSpacecraft } = useLunarMission(cesiumViewer, missionTrajectory ?? null, simTimeRef);
+  useMissionVectors(cesiumViewer, missionTrajectory ?? null, simTimeRef, positionRef, vectorToggles);
 
   const handleToggleCinematic = useCallback(() => {
     setCinematicMode(prev => {

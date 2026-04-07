@@ -26,6 +26,8 @@ import { computeAdaptiveScale, MIN_PIXEL_SIZE } from './spacecraft-scale';
 
 interface UseLunarMissionResult {
   telemetryRef: MutableRefObject<TelemetryState>;
+  /** Current spacecraft position in meters (J2000 frame), updated per-frame */
+  positionRef: MutableRefObject<Cartesian3 | null>;
   trackSpacecraft: () => void;
 }
 
@@ -35,6 +37,7 @@ export function useLunarMission(
   simTimeRef: MutableRefObject<number>,
 ): UseLunarMissionResult {
   const telemetryRef = useRef<TelemetryState>(EMPTY_TELEMETRY);
+  const positionRef = useRef<Cartesian3 | null>(null);
   const entitiesRef = useRef<Entity[]>([]);
   const rafRef = useRef<number>(0);
   const spacecraftEntityRef = useRef<Entity | null>(null);
@@ -266,6 +269,7 @@ export function useLunarMission(
           const currentJd = JulianDate.fromDate(new Date(simMs));
           const pos = positionProperty.getValue(currentJd);
           if (!pos) { rafRef.current = requestAnimationFrame(tick); return; }
+          positionRef.current = pos;
 
           let currentV = 0;
           for (let i = 0; i < velocities.length - 1; i++) {
@@ -312,5 +316,5 @@ export function useLunarMission(
     viewer.trackedEntity = spacecraftEntityRef.current;
   };
 
-  return { telemetryRef, trackSpacecraft };
+  return { telemetryRef, positionRef, trackSpacecraft };
 }

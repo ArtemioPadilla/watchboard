@@ -35,68 +35,64 @@ interface VectorConfig {
   key: keyof VectorToggles;
   color: string;
   width: number;
-  /** Scale multiplier to convert physical units to visual arrow length */
-  unitScale: number;
+  /** Arrow length as multiple of spacecraft model scale */
+  lengthMultiplier: number;
+  /** Max expected magnitude for normalization (velocity in m/s, accel in m/s²) */
+  maxMagnitude: number;
 }
 
-// Arrow length = normalize(magnitude) * shipScale * lengthMultiplier
-// Uses the SAME computeAdaptiveScale as the spacecraft model, so arrows
-// scale proportionally with the ship at any zoom level.
-// lengthMultiplier controls how many "ship lengths" the arrow spans.
+// Arrow length = (magnitude / maxMagnitude) * shipScale * lengthMultiplier
+// This ties arrows to the ship's visual size at any zoom level.
 const VECTOR_CONFIGS: VectorConfig[] = [
-  { key: 'velocity', color: '#4ade80', width: 8, unitScale: 8 },       // 8x ship size at full magnitude
-  { key: 'gravityEarth', color: '#f59e0b', width: 6, unitScale: 6 },   // 6x ship size
-  { key: 'gravityMoon', color: '#a78bfa', width: 6, unitScale: 6 },    // 6x ship size
-  { key: 'thrust', color: '#ef4444', width: 10, unitScale: 10 },       // 10x ship size
+  { key: 'velocity', color: '#4ade80', width: 8, lengthMultiplier: 10, maxMagnitude: 11000 },    // max ~11 km/s during TLI
+  { key: 'gravityEarth', color: '#f59e0b', width: 6, lengthMultiplier: 8, maxMagnitude: 10 },     // max ~9.8 m/s² at surface
+  { key: 'gravityMoon', color: '#a78bfa', width: 6, lengthMultiplier: 8, maxMagnitude: 1.6 },     // max ~1.6 m/s² at Moon surface
+  { key: 'thrust', color: '#ef4444', width: 10, lengthMultiplier: 12, maxMagnitude: 10 },         // engine thrust
 ];
 
-const THRUST_DT = 30; // seconds for central difference
+const THRUST_DT = 30;
 
-/** Shared state updated per-frame by the tick loop, read by CallbackProperties */
-interface VectorState {
-  scPos: Cartesian3;
-  vectors: VectorSet;
-}
-
+/**
+ * Mission vector overlays — reads spacecraft position from useLunarMission's
+ * positionRef (same frame, same tick) so arrows track the ship exactly.
+ */
 export function useMissionVectors(
   viewer: CesiumViewer | null,
   trajectory: MissionTrajectory | null,
   simTimeRef: MutableRefObject<number>,
+  positionRef: MutableRefObject<Cartesian3 | null>,
   toggles: VectorToggles,
 ) {
   const entitiesRef = useRef<Map<string, Entity>>(new Map());
-  const stateRef = useRef<VectorState | null>(null);
+  const vectorsRef = useRef<VectorSet | null>(null);
 
-  // Pre-parse waypoint timestamps once (avoid per-frame Date parsing)
+  // Pre-parse waypoint timestamps once
   const waypointMsRef = useRef<number[] | null>(null);
   useEffect(() => {
     if (!trajectory) { waypointMsRef.current = null; return; }
     waypointMsRef.current = trajectory.waypoints.map(wp => new Date(wp.t).getTime());
   }, [trajectory]);
 
-  // Per-frame vector computation
+  // Per-frame vector computation — uses requestAnimationFrame but reads
+  // positionRef from useLunarMission (written in the same frame)
   useEffect(() => {
     if (!viewer || !trajectory || trajectory.waypoints.length < 3) return;
 
-    let rafId = 0;
     const wps = trajectory.waypoints;
+    let rafId = 0;
 
     const tick = () => {
       const simMs = simTimeRef.current;
       const wpMs = waypointMsRef.current;
-      if (simMs && wpMs && wpMs.length === wps.length) {
-        // Find current waypoint bracket using pre-parsed timestamps
+      const scPos = positionRef.current;
+
+      if (simMs && wpMs && scPos) {
+        // Find current waypoint bracket for velocity interpolation
         for (let i = 0; i < wps.length - 1; i++) {
           if (simMs >= wpMs[i] && simMs < wpMs[i + 1]) {
             const frac = (simMs - wpMs[i]) / (wpMs[i + 1] - wpMs[i]);
             const wp0 = wps[i];
             const wp1 = wps[i + 1];
-
-            const scPos = new Cartesian3(
-              (wp0.x + frac * (wp1.x - wp0.x)) * 1000,
-              (wp0.y + frac * (wp1.y - wp0.y)) * 1000,
-              (wp0.z + frac * (wp1.z - wp0.z)) * 1000,
-            );
 
             const vel = {
               x: wp0.vx + frac * (wp1.vx - wp0.vx),
@@ -108,10 +104,9 @@ export function useMissionVectors(
             const prevVel = interpolateVelocityAtOffset(wps, currentJd, -THRUST_DT);
             const nextVel = interpolateVelocityAtOffset(wps, currentJd, THRUST_DT);
 
-            stateRef.current = {
-              scPos,
-              vectors: computeVectorSet(scPos, vel, prevVel, nextVel, THRUST_DT, currentJd),
-            };
+            vectorsRef.current = computeVectorSet(
+              scPos, vel, prevVel, nextVel, THRUST_DT, currentJd,
+            );
             break;
           }
         }
@@ -137,23 +132,18 @@ export function useMissionVectors(
         const entity = viewer.entities.add({
           polyline: {
             positions: new CallbackProperty(() => {
-              const state = stateRef.current;
-              if (!state) return [Cartesian3.ZERO, Cartesian3.ZERO];
+              const vecs = vectorsRef.current;
+              const scPos = positionRef.current;
+              if (!vecs || !scPos) return [Cartesian3.ZERO, Cartesian3.ZERO];
 
-              const { scPos, vectors } = state;
-              const vec = vectors[config.key];
+              const vec = vecs[config.key];
               const mag = Cartesian3.magnitude(vec);
               if (mag < 1e-10) return [scPos, scPos];
 
-              // Arrow scales with the spacecraft model (same computeAdaptiveScale).
-              // Normalize magnitude so arrows show direction + relative strength,
-              // then multiply by ship scale × lengthMultiplier.
+              // Arrow length tied to spacecraft model scale
               const shipScale = computeAdaptiveScale(viewer, scPos);
-
-              // Normalize: velocity ~5000 m/s, gravity ~0.001-10 m/s²
-              // Use log scale to compress the huge range into visible differences
-              const normalizedMag = Math.min(1, Math.log10(mag + 1) / 4); // 0..1
-              const arrowLength = normalizedMag * shipScale * config.unitScale;
+              const normalizedMag = Math.min(1, mag / config.maxMagnitude);
+              const arrowLength = normalizedMag * shipScale * config.lengthMultiplier;
 
               const dir = Cartesian3.normalize(vec, new Cartesian3());
               const end = Cartesian3.add(
