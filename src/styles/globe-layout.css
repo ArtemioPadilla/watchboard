@@ -11,11 +11,10 @@
   pointer-events: none;
   display: grid;
   grid-template-columns: auto 1fr auto;
-  grid-template-rows: auto 1fr auto auto;
+  grid-template-rows: auto 1fr auto;
   grid-template-areas:
     "top-left    top-center   top-right"
     "left        .            right"
-    "left-aux    bottom-aux   right-aux"
     "bottom-left bottom       bottom-right";
   padding: 12px;
   gap: 8px;
@@ -34,11 +33,10 @@
 .globe-slot--top-center   { grid-area: top-center;   justify-self: center; text-align: center; pointer-events: none; }
 .globe-slot--top-right    { grid-area: top-right;    justify-self: end; }
 .globe-slot--left         { grid-area: left;         align-self: start; }
-.globe-slot--right        { grid-area: right;        align-self: start; justify-self: end; }
+.globe-slot--right        { grid-area: right;        align-self: start; justify-self: end; display: flex; flex-direction: column; gap: 8px; }
+.globe-slot--bottom-left  { grid-area: bottom-left;  align-self: end; }
 .globe-slot--bottom       { grid-area: bottom;       justify-self: center; align-self: end; width: 90%; max-width: 900px; grid-column: 1 / -1; }
-.globe-slot--left-aux     { grid-area: left-aux;     align-self: end; }
-.globe-slot--right-aux    { grid-area: right-aux;    align-self: end; justify-self: end; }
-.globe-slot--bottom-aux   { grid-area: bottom-aux;   justify-self: center; align-self: end; width: 90%; max-width: 900px; grid-column: 1 / -1; }
+.globe-slot--bottom-right { grid-area: bottom-right; align-self: end; justify-self: end; }
 
 /* ── Hydration boundary: promote React island children to grid participants ──
    Astro wraps client:only components in <astro-island>. The React component
@@ -65,12 +63,10 @@
 @media (max-width: 768px) {
   .globe-layout {
     grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr auto auto auto;
+    grid-template-rows: auto 1fr auto;
     grid-template-areas:
       "top-center"
       "."
-      "left-aux"
-      "bottom-aux"
       "bottom";
     padding: 8px;
     gap: 4px;
@@ -80,23 +76,8 @@
   .globe-slot--top-right,
   .globe-slot--left,
   .globe-slot--right,
-  .globe-slot--right-aux {
+  .globe-slot--bottom-left,
+  .globe-slot--bottom-right {
     display: none !important;
   }
-
-  /* Mission identity (left-aux) stays visible on mobile — has Track Spacecraft button */
-  .globe-slot--left-aux {
-    justify-self: center;
-    align-self: end;
-    width: 90%;
-    max-width: 400px;
-  }
-}
-
-/* ── Mission phase bar responsive ── */
-.mission-phase-bar--mobile { display: none; }
-
-@media (max-width: 768px) {
-  .mission-phase-bar--desktop { display: none; }
-  .mission-phase-bar--mobile  { display: flex; }
 }
