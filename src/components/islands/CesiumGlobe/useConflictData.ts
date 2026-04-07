@@ -1,9 +1,11 @@
 import { useEffect, useRef } from 'react';
 import {
   Cartesian3,
+  Cartographic,
   CallbackProperty,
   Color,
   HeightReference,
+  Math as CesiumMath,
   NearFarScalar,
   DistanceDisplayCondition,
   VerticalOrigin,
@@ -52,6 +54,7 @@ function navalZoneRadius(pt: MapPoint): number {
 export interface GenericEntityInfo {
   name: string;
   description?: string;
+  position?: { lat: number; lon: number };
 }
 
 export function useConflictData(
@@ -194,7 +197,18 @@ export function useConflictData(
           onSelectRef.current(pt);
         } else if (entity.name && onEntitySelectRef.current) {
           const desc = entity.description?.getValue(viewer.clock.currentTime);
-          onEntitySelectRef.current({ name: entity.name, description: typeof desc === 'string' ? desc : undefined });
+          let position: { lat: number; lon: number } | undefined;
+          try {
+            const pos = entity.position?.getValue(viewer.clock.currentTime);
+            if (pos) {
+              const carto = Cartographic.fromCartesian(pos);
+              position = {
+                lat: CesiumMath.toDegrees(carto.latitude),
+                lon: CesiumMath.toDegrees(carto.longitude),
+              };
+            }
+          } catch { /* position unavailable */ }
+          onEntitySelectRef.current({ name: entity.name, description: typeof desc === 'string' ? desc : undefined, position });
         }
       }
     }, ScreenSpaceEventType.LEFT_CLICK);
