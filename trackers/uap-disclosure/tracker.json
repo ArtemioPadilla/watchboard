@@ -30,6 +30,7 @@
     "hero",
     "kpis",
     "timeline",
+    "map",
     "claims",
     "political"
   ],
@@ -37,6 +38,10 @@
     {
       "id": "sec-timeline",
       "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Incident Map"
     },
     {
       "id": "sec-contested",
@@ -82,7 +87,7 @@
   "ai": {
     "systemPrompt": "You are an intelligence analyst updating a UAP/UFO disclosure tracking dashboard.\nToday's date is {{today}}. You have access to web search.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose.\nDo NOT wrap in ```json blocks. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case).\n\nThis is an institutional/historical tracker. Focus on:\n1. Official government actions (congressional hearings, legislation, executive orders)\n2. Declassified documents and official reports\n3. Whistleblower testimony under oath\n4. Pentagon/DoD/AARO official statements\n5. Scientific studies and institutional positions\n\nDo NOT include unverified sightings, social media claims, or conspiracy theories.\nEvery claim must note its official status and any opposing institutional positions.\n\nSource tier classification:\n- Tier 1: Official (Congress.gov, White House, Pentagon, AARO, ODNI, DoD IG)\n- Tier 2: Major outlet (NYT, WaPo, Reuters, AP, CNN, BBC, NewsNation, Politico)\n- Tier 3: Institutional (SCU, AIAA, Harvard Galileo Project, RAND)\n- Tier 4: Unverified (social media, anonymous claims)",
     "searchContext": "UAP UFO disclosure congressional hearings AARO Pentagon whistleblower",
-    "enabledSections": ["kpis", "timeline", "claims", "political"],
+    "enabledSections": ["kpis", "timeline", "map", "claims", "political"],
     "updateIntervalDays": 7,
     "backfillTargets": {
       "timeline": 30,
