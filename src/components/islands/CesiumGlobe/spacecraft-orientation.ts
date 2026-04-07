@@ -2,7 +2,6 @@ import {
   Cartesian3,
   Quaternion,
   Matrix3,
-  Transforms,
   type SampledPositionProperty,
   JulianDate,
 } from 'cesium';
