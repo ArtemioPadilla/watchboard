@@ -40,6 +40,7 @@ import { useInternetBlackout } from './useInternetBlackout';
 import { useGroundTruth } from './useGroundTruth';
 import { useCinematicMode } from './useCinematicMode';
 import { useLunarMission } from './useLunarMission';
+import { useMissionVectors, DEFAULT_VECTOR_TOGGLES, type VectorToggles } from './useMissionVectors';
 import MissionIdentity from './MissionIdentity';
 import MissionTelemetry from './MissionTelemetry';
 import MissionPhaseBar from './MissionPhaseBar';
@@ -132,6 +133,13 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [], ca
 
   // ── HUD visibility ──
   const [showHud, setShowHud] = useState(true);
+
+  // ── Vector overlays ──
+  const [vectorToggles, setVectorToggles] = useState<VectorToggles>(DEFAULT_VECTOR_TOGGLES);
+
+  const handleToggleVector = (key: keyof VectorToggles) => {
+    setVectorToggles(prev => ({ ...prev, [key]: !prev[key] }));
+  };
 
   // ── Timeline zoom ──
   const [zoomLevel, setZoomLevel] = useState<TimelineZoomLevel>('all');
@@ -459,6 +467,7 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [], ca
 
   // ── Lunar mission trajectory ──
   const { telemetryRef, trackSpacecraft } = useLunarMission(cesiumViewer, missionTrajectory ?? null, simTimeRef);
+  useMissionVectors(cesiumViewer, missionTrajectory ?? null, simTimeRef, vectorToggles);
 
   const handleToggleCinematic = useCallback(() => {
     setCinematicMode(prev => {
@@ -686,6 +695,8 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [], ca
           categories={categories}
           cinematicMode={cinematicMode}
           onToggleCinematic={handleToggleCinematic}
+          vectorToggles={missionTrajectory ? vectorToggles : undefined}
+          onToggleVector={handleToggleVector}
         />
       </div>
 
