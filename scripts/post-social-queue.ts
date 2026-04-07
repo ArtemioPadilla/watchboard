@@ -78,6 +78,12 @@ async function main(): Promise<void> {
     return;
   }
 
+  // Budget gate — stop posting if monthly budget is exhausted
+  if (budget.remaining <= 0) {
+    console.log(`[poster] Monthly budget exhausted ($${budget.spent.toFixed(2)}/$${budget.monthlyTarget.toFixed(2)}) — skipping all posts`);
+    return;
+  }
+
   // Normalize legacy field names (trackerSlug → tracker)
   for (const entry of queue) {
     const raw = entry as unknown as Record<string, unknown>;

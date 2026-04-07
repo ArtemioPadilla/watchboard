@@ -26,6 +26,7 @@ import type { BudgetData, HistoryEntry } from './social-types.js';
 const COST_PER_TWEET = 0.01;
 const BASE_URL = 'https://watchboard.dev';
 const MAX_TWEET_LENGTH = 280;
+const DAILY_TWEET_CAP = 4;  // Max breaking tweets per day to stay within ~100/month budget
 
 // ── Twitter client ────────────────────────────────────────────────────────────
 
@@ -55,13 +56,9 @@ async function postTweet(client: TwitterApi, text: string): Promise<string | nul
 
 // ── Budget helpers ────────────────────────────────────────────────────────────
 
-function updateBudget(cost: number): void {
-  if (!existsSync(PATHS.socialBudget)) {
-    console.warn('[hourly-post] budget.json not found — skipping budget update');
-    return;
-  }
+function loadBudgetData(): BudgetData | null {
+  if (!existsSync(PATHS.socialBudget)) return null;
   const budget: BudgetData = JSON.parse(readFileSync(PATHS.socialBudget, 'utf8'));
-
   // Month rollover
   const currentMonth = new Date().toISOString().slice(0, 7);
   if (budget.currentMonth !== currentMonth) {
@@ -69,6 +66,39 @@ function updateBudget(cost: number): void {
     budget.spent = 0;
     budget.tweetsPosted = 0;
     budget.remaining = budget.monthlyTarget;
+  }
+  return budget;
+}
+
+function isBudgetExhausted(): boolean {
+  const budget = loadBudgetData();
+  if (!budget) return false; // If no budget file, don't block
+  if (budget.remaining <= 0) {
+    console.log(`[hourly-post] Monthly budget exhausted ($${budget.spent.toFixed(2)}/$${budget.monthlyTarget.toFixed(2)}) — skipping`);
+    return true;
+  }
+  return false;
+}
+
+function isDailyCapReached(): boolean {
+  if (!existsSync(PATHS.socialHistory)) return false;
+  try {
+    const history: HistoryEntry[] = JSON.parse(readFileSync(PATHS.socialHistory, 'utf8'));
+    const today = new Date().toISOString().slice(0, 10);
+    const todayBreaking = history.filter(e => e.date === today && e.type === 'breaking').length;
+    if (todayBreaking >= DAILY_TWEET_CAP) {
+      console.log(`[hourly-post] Daily cap reached (${todayBreaking}/${DAILY_TWEET_CAP} breaking tweets today) — skipping`);
+      return true;
+    }
+  } catch {}
+  return false;
+}
+
+function updateBudget(cost: number): void {
+  const budget = loadBudgetData();
+  if (!budget) {
+    console.warn('[hourly-post] budget.json not found — skipping budget update');
+    return;
   }
 
   budget.spent = Math.round((budget.spent + cost) * 100) / 100;
@@ -109,6 +139,22 @@ export async function postBreaking(
 ): Promise<ManifestUpdate> {
   const timestamp = new Date().toISOString();
   let tweetId: string | null = null;
+
+  // Budget + daily cap gate
+  if (isBudgetExhausted() || isDailyCapReached()) {
+    const update: ManifestUpdate = {
+      tracker,
+      action: 'update',
+      eventIds,
+      sections,
+      tweetId: null,
+      timestamp,
+    };
+    const manifest = loadManifest();
+    manifest.updates.push(update);
+    saveManifest(manifest);
+    return update;
+  }
 
   const client = getTwitterClient();
   if (client) {
@@ -165,6 +211,23 @@ export async function postNewTracker(
   const tweetText = rawText.length > MAX_TWEET_LENGTH
     ? rawText.slice(0, MAX_TWEET_LENGTH - 1) + '…'
     : rawText;
+
+  // Budget + daily cap gate
+  if (isBudgetExhausted() || isDailyCapReached()) {
+    const update: ManifestUpdate = {
+      tracker: slug,
+      action: 'new_tracker',
+      eventIds: [],
+      sections: [],
+      tweetId: null,
+      timestamp,
+      seeded,
+    };
+    const manifest = loadManifest();
+    manifest.updates.push(update);
+    saveManifest(manifest);
+    return update;
+  }
 
   const client = getTwitterClient();
   if (client) {
