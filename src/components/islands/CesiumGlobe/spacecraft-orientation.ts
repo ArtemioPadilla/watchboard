@@ -19,6 +19,10 @@ const VELOCITY_DT = 1.0;
 // Phase IDs that require retrograde attitude (180° yaw from prograde)
 const RETROGRADE_PHASES = new Set(['tli', 'reentry']);
 
+// Model correction: Sketchfab Orion model faces +Z, not +X.
+// 90° yaw (around Y) rotates model +Z to align with base frame +X (velocity).
+const MODEL_CORRECTION = Quaternion.fromAxisAngle(Cartesian3.UNIT_Y, Math.PI / 2);
+
 /**
  * Compute the orientation quaternion for the spacecraft at the given time.
  *
@@ -46,8 +50,9 @@ export function computeSpacecraftOrientation(
   // Normalize velocity to get forward direction
   Cartesian3.normalize(scratchVelocity, scratchVelocity);
 
-  // Build quaternion from velocity direction
-  const orientationQuat = quaternionFromDirection(scratchVelocity, pos);
+  // Build quaternion from velocity direction, then apply model correction
+  const baseQuat = quaternionFromDirection(scratchVelocity, pos);
+  let orientationQuat = Quaternion.multiply(baseQuat, MODEL_CORRECTION, new Quaternion());
 
   // Layer 2: Phase-based attitude override
   const currentPhase = findCurrentPhase(currentJd, phases);
@@ -55,7 +60,7 @@ export function computeSpacecraftOrientation(
     // Rotate 180° around the local "up" axis (radial direction from Earth center)
     const up = Cartesian3.normalize(pos, new Cartesian3());
     const flipQuat = Quaternion.fromAxisAngle(up, Math.PI, scratchQuaternion);
-    return Quaternion.multiply(flipQuat, orientationQuat, new Quaternion());
+    orientationQuat = Quaternion.multiply(flipQuat, orientationQuat, new Quaternion());
   }
 
   return orientationQuat;
