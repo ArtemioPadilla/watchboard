@@ -14,7 +14,7 @@ import {
   interpolateVelocityAtOffset,
   type VectorSet,
 } from './mission-vectors';
-// Arrow scale is based on camera distance, not spacecraft model scale
+import { computeAdaptiveScale } from './spacecraft-scale';
 
 export interface VectorToggles {
   velocity: boolean;
@@ -124,18 +124,28 @@ export function useMissionVectors(
               const mag = Cartesian3.magnitude(vec);
               if (mag < 1e-10) return [scPos, scPos];
 
-              // Arrow length as fraction of camera distance, with absolute minimum.
+              // Dual scaling: use whichever is larger — camera fraction or ship scale.
+              // Far zoom: camera fraction dominates (arrows are % of view).
+              // Close zoom: ship scale dominates (arrows stay proportional to model).
               const cameraDist = Cartesian3.distance(viewer.camera.positionWC, scPos);
+              const shipScale = computeAdaptiveScale(viewer, scPos);
               const normalizedMag = Math.min(1, mag / config.maxMagnitude);
+
+              // Camera-based length (good for far zoom)
               const minFrac = 0.02;
               const maxFrac = 0.02 + 0.08 * config.lengthMultiplier / 12;
-              const arrowFrac = minFrac + normalizedMag * (maxFrac - minFrac);
-              // At close zoom, enforce minimum 500km so arrows stay visible
-              const arrowLength = Math.max(cameraDist * arrowFrac, 500_000);
+              const cameraLen = cameraDist * (minFrac + normalizedMag * (maxFrac - minFrac));
+
+              // Ship-based length (good for close zoom)
+              const shipMinLen = shipScale * 3;
+              const shipMaxLen = shipScale * config.lengthMultiplier;
+              const shipLen = shipMinLen + normalizedMag * (shipMaxLen - shipMinLen);
+
+              const arrowLength = Math.max(cameraLen, shipLen);
 
               const dir = Cartesian3.normalize(vec, new Cartesian3());
-              // Offset: fraction of camera dist, min 200km to clear model at close zoom
-              const originOffset = Math.max(cameraDist * 0.015, 200_000);
+              // Offset: max of camera fraction and ship-based clearance
+              const originOffset = Math.max(cameraDist * 0.015, shipScale * 4);
               const start = Cartesian3.add(
                 scPos,
                 Cartesian3.multiplyByScalar(dir, originOffset, new Cartesian3()),
