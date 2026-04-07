@@ -3,6 +3,7 @@ import { MAP_CATEGORIES } from '../../../lib/map-utils';
 import type { VisualMode } from './cesium-shaders';
 import type { OrbitMode } from './useCesiumCamera';
 import { SAT_GROUPS, type SatGroupCounts } from './useSatellites';
+import type { VectorToggles } from './useMissionVectors';
 
 interface Props {
   activeFilters: Set<string>;
@@ -32,9 +33,11 @@ interface Props {
   categories?: { id: string; label: string; color: string }[];
   cinematicMode?: boolean;
   onToggleCinematic?: () => void;
+  vectorToggles?: VectorToggles;
+  onToggleVector?: (key: keyof VectorToggles) => void;
 }
 
-type ToolbarSection = 'filters' | 'camera' | 'visual' | 'layers';
+type ToolbarSection = 'filters' | 'camera' | 'visual' | 'layers' | 'vectors';
 
 const VISUAL_MODES: { id: VisualMode; label: string }[] = [
   { id: 'normal', label: 'Standard' },
@@ -76,6 +79,8 @@ export default function CesiumControls({
   categories = [],
   cinematicMode,
   onToggleCinematic,
+  vectorToggles,
+  onToggleVector,
 }: Props) {
   const [activeSection, setActiveSection] = useState<ToolbarSection | null>(null);
   const [aisKeyDraft, setAisKeyDraft] = useState('');
@@ -400,7 +405,56 @@ export default function CesiumControls({
           </button>
         )}
       </div>
-      {activeSection && sections[activeSection]()}
+      {activeSection && activeSection in sections && sections[activeSection as keyof typeof sections]()}
+      {vectorToggles && onToggleVector && (
+        <div style={{ position: 'relative' }}>
+          <button
+            className={`globe-toolbar-btn ${activeSection === 'vectors' ? 'active' : ''}`}
+            onClick={() => toggle('vectors')}
+            title="Physics Vectors"
+            style={{ position: 'relative' }}
+          >
+            V&#x20d7;
+            {(vectorToggles.velocity || vectorToggles.gravityEarth || vectorToggles.gravityMoon || vectorToggles.thrust) && (
+              <span style={{
+                position: 'absolute', top: 2, right: 2, width: 6, height: 6,
+                borderRadius: '50%', background: '#4ade80',
+              }} />
+            )}
+          </button>
+          {activeSection === 'vectors' && (
+            <div className="globe-dropdown" style={{ minWidth: 180 }}>
+              <div style={{ padding: '8px 12px', fontSize: '10px', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>
+                Vectors
+              </div>
+              {([
+                { key: 'velocity' as const, label: 'Velocity', color: '#4ade80' },
+                { key: 'gravityEarth' as const, label: 'Earth Gravity', color: '#f59e0b' },
+                { key: 'gravityMoon' as const, label: 'Moon Gravity', color: '#a78bfa' },
+                { key: 'thrust' as const, label: 'Thrust', color: '#ef4444' },
+              ]).map(v => (
+                <label
+                  key={v.key}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: 8,
+                    padding: '4px 12px', cursor: 'pointer', fontSize: '12px',
+                    color: vectorToggles[v.key] ? v.color : '#94a3b8',
+                  }}
+                  onClick={() => onToggleVector(v.key)}
+                >
+                  <span style={{
+                    width: 14, height: 14, borderRadius: 3,
+                    border: `2px solid ${v.color}`,
+                    background: vectorToggles[v.key] ? v.color : 'transparent',
+                    display: 'inline-block',
+                  }} />
+                  {v.label}
+                </label>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
