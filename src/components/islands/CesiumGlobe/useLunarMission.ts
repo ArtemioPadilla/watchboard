@@ -10,7 +10,6 @@ import {
   CallbackProperty,
   ColorBlendMode,
   ColorMaterialProperty,
-  ImageMaterialProperty,
   Quaternion,
   Simon1994PlanetaryPositions,
   SunLight,
@@ -137,7 +136,8 @@ export function useLunarMission(
       viewer.scene.light = new SunLight();
       viewer.scene.globe.enableLighting = true;
 
-      // Moon sphere with NASA LROC texture (equirectangular from SVS CGI Moon Kit)
+      // Moon sphere — SunLight provides lit/dark side naturally
+      // (ImageMaterialProperty doesn't UV-map properly on CesiumJS ellipsoids)
       const moonEntity = viewer.entities.add({
         position: new CallbackProperty(() => {
           const simMs = simTimeRef.current;
@@ -149,9 +149,7 @@ export function useLunarMission(
         }, false) as any,
         ellipsoid: {
           radii: new Cartesian3(MOON_RADIUS_M, MOON_RADIUS_M, MOON_RADIUS_M) as any,
-          material: new ImageMaterialProperty({
-            image: '/textures/moon-color-2k.jpg',
-          }),
+          material: new ColorMaterialProperty(Color.fromCssColorString('#d4d4d4')),
           outline: false,
           slicePartitions: 64,
           stackPartitions: 32,
