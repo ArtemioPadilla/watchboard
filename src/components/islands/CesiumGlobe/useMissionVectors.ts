@@ -131,8 +131,10 @@ export function useMissionVectors(
               const arrowLength = minLen + normalizedMag * (maxLen - minLen);
 
               const dir = Cartesian3.normalize(vec, new Cartesian3());
-              // Offset origin outside the ship model (~2× ship scale from center)
-              const originOffset = shipScale * 2;
+              // Start arrow well outside the ship model.
+              // The Orion model is ~3.4m, scaled by shipScale → visual radius ~ shipScale * 2.
+              // Use 4× to ensure clearance at all zoom levels.
+              const originOffset = shipScale * 4;
               const start = Cartesian3.add(
                 scPos,
                 Cartesian3.multiplyByScalar(dir, originOffset, new Cartesian3()),
