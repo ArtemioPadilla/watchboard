@@ -49,8 +49,12 @@ const ClockSchema = z.object({
 });
 
 // ── Globe config ──
+const GlobeLayoutSchema = z.enum(['default', 'mission', 'disaster']);
+
 const GlobeConfigSchema = z.object({
   enabled: z.boolean(),
+  layout: GlobeLayoutSchema.optional().default('default'),
+  layoutOverrides: z.record(z.string(), z.array(z.string())).optional(),
   cameraPresets: z.record(z.string(), CameraPresetSchema).optional(),
   clocks: z.array(ClockSchema).optional(),
 });
@@ -200,3 +204,4 @@ export type Region = z.infer<typeof RegionSchema>;
 export type Series = z.infer<typeof SeriesSchema>;
 export type RelatedTracker = z.infer<typeof RelatedTrackerSchema>;
 export type UpdatePolicy = z.infer<typeof UpdatePolicySchema>;
+export type GlobeLayout = z.infer<typeof GlobeLayoutSchema>;
