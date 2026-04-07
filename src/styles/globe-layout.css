@@ -11,11 +11,12 @@
   pointer-events: none;
   display: grid;
   grid-template-columns: auto 1fr auto;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: auto 1fr auto auto;
   grid-template-areas:
     "top-left    top-center   top-right"
     "left        .            right"
-    "bottom-left bottom       bottom-right";
+    "bottom-left .            bottom-right"
+    "bottom      bottom       bottom";
   padding: 12px;
   gap: 8px;
   align-items: start;
@@ -35,7 +36,7 @@
 .globe-slot--left         { grid-area: left;         align-self: start; }
 .globe-slot--right        { grid-area: right;        align-self: start; justify-self: end; display: flex; flex-direction: column; gap: 8px; }
 .globe-slot--bottom-left  { grid-area: bottom-left;  align-self: end; }
-.globe-slot--bottom       { grid-area: bottom;       justify-self: center; align-self: end; width: 90%; max-width: 900px; grid-column: 1 / -1; }
+.globe-slot--bottom       { grid-area: bottom;       justify-self: center; align-self: end; width: 90%; max-width: 900px; }
 .globe-slot--bottom-right { grid-area: bottom-right; align-self: end; justify-self: end; }
 
 /* ── Hydration boundary: promote React island children to grid participants ──
@@ -63,9 +64,10 @@
 @media (max-width: 768px) {
   .globe-layout {
     grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr auto;
+    grid-template-rows: auto 1fr auto auto;
     grid-template-areas:
       "top-center"
+      "."
       "."
       "bottom";
     padding: 8px;
