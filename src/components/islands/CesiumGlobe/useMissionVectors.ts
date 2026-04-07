@@ -39,11 +39,15 @@ interface VectorConfig {
   unitScale: number;
 }
 
+// unitScale converts physical magnitude to meters for base arrow length.
+// Velocity is in m/s (~1000-10000), gravity in m/s² (~0.001-10).
+// At Earth-Moon scale (384,000 km), arrows need to be ~50,000+ km to be visible.
+// Arrow length = magnitude * unitScale * cameraScaleFactor
 const VECTOR_CONFIGS: VectorConfig[] = [
-  { key: 'velocity', color: '#4ade80', width: 8, unitScale: 0.5 },
-  { key: 'gravityEarth', color: '#f59e0b', width: 6, unitScale: 50000 },
-  { key: 'gravityMoon', color: '#a78bfa', width: 6, unitScale: 50000 },
-  { key: 'thrust', color: '#ef4444', width: 10, unitScale: 50000 },
+  { key: 'velocity', color: '#4ade80', width: 8, unitScale: 5000 },          // 5 km/s → 25,000 km base
+  { key: 'gravityEarth', color: '#f59e0b', width: 6, unitScale: 5e9 },       // 9.8 m/s² → 49,000 km base
+  { key: 'gravityMoon', color: '#a78bfa', width: 6, unitScale: 5e9 },        // 0.003 m/s² → 15,000 km base
+  { key: 'thrust', color: '#ef4444', width: 10, unitScale: 5e9 },            // same scale as gravity
 ];
 
 const THRUST_DT = 30; // seconds for central difference
@@ -141,9 +145,10 @@ export function useMissionVectors(
               const mag = Cartesian3.magnitude(vec);
               if (mag < 1e-10) return [scPos, scPos];
 
-              // Arrow length scales with magnitude and camera distance
+              // Arrow length = physical magnitude × unitScale (already in meters)
+              // Then scale with camera distance so arrows stay visible at all zooms
               const cameraScale = computeAdaptiveScale(viewer, scPos);
-              const arrowLength = mag * config.unitScale * (cameraScale / 50000);
+              const arrowLength = mag * config.unitScale * Math.sqrt(cameraScale / 1000);
 
               const dir = Cartesian3.normalize(vec, new Cartesian3());
               const end = Cartesian3.add(
