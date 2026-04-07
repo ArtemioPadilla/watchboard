@@ -43,10 +43,10 @@ interface VectorConfig {
 // Arrow length = minLen + normalized * (maxLen - minLen)
 // minLen = 3× ship scale (always visible), maxLen = multiplier × ship scale
 const VECTOR_CONFIGS: VectorConfig[] = [
-  { key: 'velocity', color: '#4ade80', width: 8, lengthMultiplier: 10, maxMagnitude: 11000 },
-  { key: 'gravityEarth', color: '#f59e0b', width: 6, lengthMultiplier: 8, maxMagnitude: 10 },
-  { key: 'gravityMoon', color: '#a78bfa', width: 6, lengthMultiplier: 8, maxMagnitude: 1.6 },
-  { key: 'thrust', color: '#ef4444', width: 10, lengthMultiplier: 12, maxMagnitude: 10 },
+  { key: 'velocity', color: '#00ffaa', width: 14, lengthMultiplier: 10, maxMagnitude: 11000 },    // cyan-green (distinct from trajectory blue)
+  { key: 'gravityEarth', color: '#ff9500', width: 12, lengthMultiplier: 8, maxMagnitude: 10 },    // bright orange
+  { key: 'gravityMoon', color: '#bf7fff', width: 12, lengthMultiplier: 8, maxMagnitude: 1.6 },    // bright purple
+  { key: 'thrust', color: '#ff3333', width: 16, lengthMultiplier: 12, maxMagnitude: 10 },          // bright red, thickest
 ];
 
 const THRUST_DT = 30;
@@ -163,20 +163,14 @@ export function useMissionVectors(
 
               const arrowLength = Math.max(cameraLen, shipLen);
 
+              // Arrow starts at spacecraft center (no offset — cleaner look)
               const dir = Cartesian3.normalize(vec, new Cartesian3());
-              // Offset: max of camera fraction and ship-based clearance
-              const originOffset = Math.max(cameraDist * 0.015, shipScale * 4);
-              const start = Cartesian3.add(
-                scPos,
-                Cartesian3.multiplyByScalar(dir, originOffset, new Cartesian3()),
-                new Cartesian3(),
-              );
               const end = Cartesian3.add(
-                start,
+                scPos,
                 Cartesian3.multiplyByScalar(dir, arrowLength, new Cartesian3()),
                 new Cartesian3(),
               );
-              return [start, end];
+              return [scPos, end];
             }, false),
             width: config.width,
             material: new PolylineArrowMaterialProperty(

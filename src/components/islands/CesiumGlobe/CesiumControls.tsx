@@ -428,10 +428,10 @@ export default function CesiumControls({
                 Vectors
               </div>
               {([
-                { key: 'velocity' as const, label: 'Velocity', color: '#4ade80' },
-                { key: 'gravityEarth' as const, label: 'Earth Gravity', color: '#f59e0b' },
-                { key: 'gravityMoon' as const, label: 'Moon Gravity', color: '#a78bfa' },
-                { key: 'thrust' as const, label: 'Thrust', color: '#ef4444' },
+                { key: 'velocity' as const, label: 'Velocity', color: '#00ffaa' },
+                { key: 'gravityEarth' as const, label: 'Earth Gravity', color: '#ff9500' },
+                { key: 'gravityMoon' as const, label: 'Moon Gravity', color: '#bf7fff' },
+                { key: 'thrust' as const, label: 'Thrust', color: '#ff3333' },
               ]).map(v => (
                 <label
                   key={v.key}
