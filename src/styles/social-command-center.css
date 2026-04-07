@@ -568,6 +568,282 @@
   background: rgba(139, 148, 158, 0.15);
 }
 
+/* ─── Tabs ─── */
+.scc-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid rgba(88, 166, 255, 0.12);
+  padding: 0 32px;
+}
+.scc-tab {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: #484f58;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.scc-tab:hover { color: #8b949e; }
+.scc-tab.active {
+  color: #58a6ff;
+  border-bottom-color: #58a6ff;
+}
+.scc-tab-count {
+  font-size: 9px;
+  padding: 1px 6px;
+  border-radius: 8px;
+  background: rgba(139, 148, 158, 0.12);
+  color: #8b949e;
+}
+.scc-tab.active .scc-tab-count {
+  background: rgba(88, 166, 255, 0.15);
+  color: #58a6ff;
+}
+
+/* ─── Overview ─── */
+.scc-overview {
+  padding: 20px 32px 40px;
+}
+.scc-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.scc-stat-card {
+  background: rgba(22, 27, 34, 0.6);
+  border: 1px solid rgba(88, 166, 255, 0.08);
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+}
+.scc-stat-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  color: #484f58;
+  margin-bottom: 6px;
+}
+.scc-stat-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 28px;
+  font-weight: 700;
+  color: #e6edf3;
+  line-height: 1.1;
+}
+.scc-stat-sub {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: #484f58;
+  margin-top: 4px;
+}
+
+.scc-charts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.scc-chart-card {
+  background: rgba(22, 27, 34, 0.6);
+  border: 1px solid rgba(88, 166, 255, 0.08);
+  border-radius: 10px;
+  padding: 16px;
+}
+.scc-chart-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  color: #484f58;
+  margin-bottom: 12px;
+}
+.scc-chart-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  color: #30363d;
+}
+
+/* Breakdown list (used in by-tracker, by-type) */
+.scc-breakdown-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.scc-breakdown-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+}
+.scc-breakdown-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.scc-breakdown-label {
+  color: #8b949e;
+  width: 90px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-transform: capitalize;
+}
+.scc-breakdown-bar-wrap {
+  flex: 1;
+  height: 4px;
+  background: rgba(139, 148, 158, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.scc-breakdown-bar {
+  display: block;
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.3s;
+}
+.scc-breakdown-count {
+  color: #e6edf3;
+  font-weight: 600;
+  min-width: 20px;
+  text-align: right;
+}
+
+/* Section header */
+.scc-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: #484f58;
+}
+.scc-link-btn {
+  background: none;
+  border: none;
+  color: #58a6ff;
+  cursor: pointer;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  padding: 4px 8px;
+}
+.scc-link-btn:hover { text-decoration: underline; }
+
+/* ─── Activity Feed ─── */
+.scc-activity-tab {
+  padding: 20px 32px 40px;
+}
+.scc-activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.scc-activity-row {
+  background: rgba(22, 27, 34, 0.4);
+  border: 1px solid rgba(88, 166, 255, 0.06);
+  border-radius: 8px;
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+.scc-activity-row:hover {
+  background: rgba(22, 27, 34, 0.7);
+  border-color: rgba(88, 166, 255, 0.15);
+}
+.scc-activity-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+  flex-wrap: wrap;
+}
+.scc-tracker-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  padding: 2px 7px;
+  border-radius: 3px;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+.scc-activity-time {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: #484f58;
+  margin-left: auto;
+}
+.scc-activity-cost {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: #30363d;
+}
+.scc-activity-link {
+  font-size: 12px;
+  color: #58a6ff;
+  text-decoration: none;
+  padding: 2px 4px;
+}
+.scc-activity-link:hover { text-decoration: underline; }
+.scc-activity-text {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #8b949e;
+  overflow: hidden;
+  max-height: 1.5em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: max-height 0.2s;
+}
+.scc-activity-text.expanded {
+  max-height: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* Queue toolbar (date picker + filters) */
+.scc-queue-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 32px;
+  border-bottom: 1px solid rgba(88, 166, 255, 0.08);
+  flex-wrap: wrap;
+  font-family: 'JetBrains Mono', monospace;
+}
+.scc-date-picker {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  color: #8b949e;
+}
+.scc-date-picker input {
+  background: rgba(22, 27, 34, 0.6);
+  border: 1px solid rgba(88, 166, 255, 0.15);
+  border-radius: 4px;
+  color: #e6edf3;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  padding: 4px 8px;
+}
+.scc-date-picker input::-webkit-calendar-picker-indicator {
+  filter: invert(0.7);
+}
+
 /* Stats pills in header */
 .scc-header-stats {
   display: flex;
@@ -591,6 +867,12 @@
   .scc-card {
     grid-template-columns: 1fr;
   }
+  .scc-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .scc-charts-grid {
+    grid-template-columns: 1fr;
+  }
   .scc-header {
     flex-direction: column;
     gap: 10px;
@@ -599,14 +881,17 @@
   .scc-cost-bar {
     flex-wrap: wrap;
   }
-  .scc-list {
+  .scc-list, .scc-overview, .scc-activity-tab {
     padding: 12px 16px 100px;
   }
   .scc-ctrl {
     padding: 14px 16px;
   }
-  .scc-filters {
+  .scc-filters, .scc-queue-toolbar {
     padding: 10px 16px;
+  }
+  .scc-tabs {
+    padding: 0 16px;
   }
   .scc-bottom {
     padding: 10px 16px;
