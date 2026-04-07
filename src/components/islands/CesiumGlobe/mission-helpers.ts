@@ -1,8 +1,6 @@
 import {
   Cartesian3,
   JulianDate,
-  Matrix3,
-  Transforms,
   Simon1994PlanetaryPositions,
 } from 'cesium';
 import type { MissionPhase } from '../../../lib/schemas';
@@ -30,45 +28,6 @@ export const EMPTY_TELEMETRY: TelemetryState = {
 };
 
 const EARTH_RADIUS_KM = 6371;
-
-// ── ECI → ECEF conversion ──
-
-const scratchMatrix = new Matrix3();
-const scratchEci = new Cartesian3();
-const scratchResult = new Cartesian3();
-
-/**
- * Convert ECI J2000 position (km) to ECEF Cartesian3 (meters).
- */
-export function eciToEcef(
-  eciKm: { x: number; y: number; z: number },
-  julianDate: JulianDate,
-): Cartesian3 {
-  const rotationMatrix = Transforms.computeIcrfToFixedMatrix(julianDate, scratchMatrix);
-  if (!rotationMatrix) {
-    return new Cartesian3(eciKm.x * 1000, eciKm.y * 1000, eciKm.z * 1000);
-  }
-  Cartesian3.fromElements(eciKm.x * 1000, eciKm.y * 1000, eciKm.z * 1000, scratchEci);
-  Matrix3.multiplyByVector(rotationMatrix, scratchEci, scratchResult);
-  return Cartesian3.clone(scratchResult);
-}
-
-// ── Moon position ──
-
-const scratchMoonPos = new Cartesian3();
-
-/**
- * Get Moon's ECEF position at a given time (meters).
- */
-export function getMoonPosition(julianDate: JulianDate): Cartesian3 {
-  const result = Simon1994PlanetaryPositions.computeMoonPositionInEarthInertialFrame(julianDate);
-  const rotationMatrix = Transforms.computeIcrfToFixedMatrix(julianDate, scratchMatrix);
-  if (rotationMatrix) {
-    Matrix3.multiplyByVector(rotationMatrix, result, scratchMoonPos);
-    return Cartesian3.clone(scratchMoonPos);
-  }
-  return Cartesian3.clone(result);
-}
 
 // ── Telemetry computation ──
 
