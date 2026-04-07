@@ -22,6 +22,7 @@ import { loadAllTrackers } from '../../lib/tracker-registry';
 import type { TrackerConfig } from '../../lib/tracker-config';
 import { flattenTimelineEvents } from '../../lib/timeline-utils';
 import { eventPermalink } from '../../lib/event-slug';
+import { countryName } from '../../lib/country-names';
 
 export function getStaticPaths() {
   const trackers = loadAllTrackers();
@@ -97,7 +98,7 @@ const faqSchema = {
     <main id="main-content">
       <GeoBreadcrumb
         geoPath={config.geoPath}
-        country={config.country}
+        country={config.country ? countryName(config.country) : undefined}
         state={config.state}
         city={config.city}
         neighborhood={config.neighborhood}

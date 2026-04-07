@@ -5,6 +5,7 @@
 
 import type { TrackerCardData } from './tracker-directory-utils';
 import type { TrackerData } from './data';
+import { countryName } from './country-names';
 
 // ── Types ──
 
@@ -184,7 +185,7 @@ function ensureChildNode(
   if (!parentNode.children.find(c => c.id === childId)) {
     parentNode.children.push({
       id: childId,
-      label: childId, // For countries, states, cities: use the segment ID as label
+      label: level === 'country' ? countryName(childId) : childId,
       level,
       trackers: [],
       secondaryTrackers: [],
