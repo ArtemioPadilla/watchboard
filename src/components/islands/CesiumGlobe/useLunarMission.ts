@@ -10,8 +10,10 @@ import {
   CallbackProperty,
   ColorBlendMode,
   ColorMaterialProperty,
+  ImageMaterialProperty,
   Quaternion,
   Simon1994PlanetaryPositions,
+  SunLight,
   type Viewer as CesiumViewer,
   type Entity,
 } from 'cesium';
@@ -131,7 +133,11 @@ export function useLunarMission(
       });
       entitiesRef.current.push(moonTrailEntity);
 
-      // Moon sphere — no outline to avoid visible vertex wireframe
+      // Enable Sun lighting so the Moon shows a lit/dark side
+      viewer.scene.light = new SunLight();
+      viewer.scene.globe.enableLighting = true;
+
+      // Moon sphere with NASA LROC texture (equirectangular from SVS CGI Moon Kit)
       const moonEntity = viewer.entities.add({
         position: new CallbackProperty(() => {
           const simMs = simTimeRef.current;
@@ -143,11 +149,12 @@ export function useLunarMission(
         }, false) as any,
         ellipsoid: {
           radii: new Cartesian3(MOON_RADIUS_M, MOON_RADIUS_M, MOON_RADIUS_M) as any,
-          material: new ColorMaterialProperty(Color.fromCssColorString('#b0b0b0')),
+          material: new ImageMaterialProperty({
+            image: '/textures/moon-color-2k.jpg',
+          }),
           outline: false,
           slicePartitions: 64,
           stackPartitions: 32,
-          shadows: 0, // ShadowMode.DISABLED
         },
         label: {
           text: 'MOON',
