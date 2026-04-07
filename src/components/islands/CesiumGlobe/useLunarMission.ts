@@ -12,14 +12,6 @@ import {
   ColorMaterialProperty,
   Quaternion,
   Simon1994PlanetaryPositions,
-  SunLight,
-  EllipsoidGeometry,
-  EllipsoidSurfaceAppearance,
-  Material,
-  GeometryInstance,
-  Primitive,
-  Matrix4,
-  Transforms as CesiumTransforms,
   type Viewer as CesiumViewer,
   type Entity,
 } from 'cesium';
@@ -47,7 +39,6 @@ export function useLunarMission(
   const entitiesRef = useRef<Entity[]>([]);
   const rafRef = useRef<number>(0);
   const spacecraftEntityRef = useRef<Entity | null>(null);
-  const moonPrimitiveRef = useRef<Primitive | null>(null);
 
   useEffect(() => {
     if (!viewer || !trajectory || trajectory.waypoints.length < 2) return;
@@ -140,33 +131,27 @@ export function useLunarMission(
       });
       entitiesRef.current.push(moonTrailEntity);
 
-      // Enable Sun lighting so the Moon shows a lit/dark side
-      viewer.scene.light = new SunLight();
-      viewer.scene.globe.enableLighting = true;
-
-      // Moon — textured sphere using Primitive API (Entity API can't UV-map images on ellipsoids)
-      // NASA LROC 2K equirectangular texture from SVS CGI Moon Kit
-      const moonGeometry = new EllipsoidGeometry({
-        radii: new Cartesian3(MOON_RADIUS_M, MOON_RADIUS_M, MOON_RADIUS_M),
-        slicePartitions: 64,
-        stackPartitions: 32,
-        vertexFormat: EllipsoidSurfaceAppearance.VERTEX_FORMAT,
+      // Moon sphere — entity with solid color (CesiumJS entity/primitive materials
+      // are unlit; SunLight only affects globe terrain and Model entities.
+      // TODO: Replace with a glTF sphere model for proper texture + lighting)
+      const moonEntity = viewer.entities.add({
+        position: new CallbackProperty(() => {
+          const simMs = simTimeRef.current;
+          const jd = simMs
+            ? JulianDate.fromDate(new Date(simMs))
+            : launchJd;
+          const moonEci = Simon1994PlanetaryPositions.computeMoonPositionInEarthInertialFrame(jd);
+          return new Cartesian3(moonEci.x, moonEci.y, moonEci.z);
+        }, false) as any,
+        ellipsoid: {
+          radii: new Cartesian3(MOON_RADIUS_M, MOON_RADIUS_M, MOON_RADIUS_M) as any,
+          material: new ColorMaterialProperty(Color.fromCssColorString('#c0c0c0')),
+          outline: false,
+          slicePartitions: 64,
+          stackPartitions: 32,
+        },
       });
-
-      const moonPrimitive = new Primitive({
-        geometryInstances: new GeometryInstance({
-          geometry: moonGeometry,
-          modelMatrix: Matrix4.IDENTITY,
-        }),
-        appearance: new EllipsoidSurfaceAppearance({
-          material: Material.fromType('Image', {
-            image: '/textures/moon-color-2k.jpg',
-          }),
-        }),
-        asynchronous: false,
-      });
-      viewer.scene.primitives.add(moonPrimitive);
-      moonPrimitiveRef.current = moonPrimitive;
+      entitiesRef.current.push(moonEntity);
 
       // Moon label entity (labels need Entity API)
       const moonLabelEntity = viewer.entities.add({
@@ -300,13 +285,6 @@ export function useLunarMission(
             pos, currentV, launchJd, currentJd, splashdownJd, trajectory.phases,
           );
 
-          // Update Moon primitive position (Primitive API uses modelMatrix, not CallbackProperty)
-          if (moonPrimitiveRef.current?.ready) {
-            const moonEci = Simon1994PlanetaryPositions.computeMoonPositionInEarthInertialFrame(currentJd);
-            moonPrimitiveRef.current.modelMatrix = Matrix4.fromTranslation(
-              new Cartesian3(moonEci.x, moonEci.y, moonEci.z),
-            );
-          }
         } catch (e) {
           console.warn('[lunar-mission] tick error:', e);
         }
@@ -322,10 +300,6 @@ export function useLunarMission(
       cancelAnimationFrame(rafRef.current);
       for (const entity of entitiesRef.current) {
         try { viewer.entities.remove(entity); } catch {}
-      }
-      if (moonPrimitiveRef.current) {
-        try { viewer.scene.primitives.remove(moonPrimitiveRef.current); } catch {}
-        moonPrimitiveRef.current = null;
       }
       entitiesRef.current = [];
       spacecraftEntityRef.current = null;

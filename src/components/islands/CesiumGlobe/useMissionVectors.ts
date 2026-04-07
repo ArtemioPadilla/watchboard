@@ -35,20 +35,24 @@ interface VectorConfig {
   key: keyof VectorToggles;
   color: string;
   width: number;
-  /** Scale multiplier to convert physical units to visual arrow length.
-   *  Velocity is in m/s, accelerations in m/s². Different scales needed. */
+  /** Scale multiplier to convert physical units to visual arrow length */
   unitScale: number;
 }
 
 const VECTOR_CONFIGS: VectorConfig[] = [
-  { key: 'velocity', color: '#4ade80', width: 8, unitScale: 0.5 },       // 1 km/s → 500m visual
-  { key: 'gravityEarth', color: '#f59e0b', width: 6, unitScale: 50000 }, // accel is tiny, scale up
+  { key: 'velocity', color: '#4ade80', width: 8, unitScale: 0.5 },
+  { key: 'gravityEarth', color: '#f59e0b', width: 6, unitScale: 50000 },
   { key: 'gravityMoon', color: '#a78bfa', width: 6, unitScale: 50000 },
   { key: 'thrust', color: '#ef4444', width: 10, unitScale: 50000 },
 ];
 
-// Central difference dt for thrust computation (seconds)
-const THRUST_DT = 30;
+const THRUST_DT = 30; // seconds for central difference
+
+/** Shared state updated per-frame by the tick loop, read by CallbackProperties */
+interface VectorState {
+  scPos: Cartesian3;
+  vectors: VectorSet;
+}
 
 export function useMissionVectors(
   viewer: CesiumViewer | null,
@@ -57,9 +61,65 @@ export function useMissionVectors(
   toggles: VectorToggles,
 ) {
   const entitiesRef = useRef<Map<string, Entity>>(new Map());
-  const vectorsRef = useRef<VectorSet | null>(null);
+  const stateRef = useRef<VectorState | null>(null);
 
-  // Create/destroy entities when toggles change
+  // Pre-parse waypoint timestamps once (avoid per-frame Date parsing)
+  const waypointMsRef = useRef<number[] | null>(null);
+  useEffect(() => {
+    if (!trajectory) { waypointMsRef.current = null; return; }
+    waypointMsRef.current = trajectory.waypoints.map(wp => new Date(wp.t).getTime());
+  }, [trajectory]);
+
+  // Per-frame vector computation
+  useEffect(() => {
+    if (!viewer || !trajectory || trajectory.waypoints.length < 3) return;
+
+    let rafId = 0;
+    const wps = trajectory.waypoints;
+
+    const tick = () => {
+      const simMs = simTimeRef.current;
+      const wpMs = waypointMsRef.current;
+      if (simMs && wpMs && wpMs.length === wps.length) {
+        // Find current waypoint bracket using pre-parsed timestamps
+        for (let i = 0; i < wps.length - 1; i++) {
+          if (simMs >= wpMs[i] && simMs < wpMs[i + 1]) {
+            const frac = (simMs - wpMs[i]) / (wpMs[i + 1] - wpMs[i]);
+            const wp0 = wps[i];
+            const wp1 = wps[i + 1];
+
+            const scPos = new Cartesian3(
+              (wp0.x + frac * (wp1.x - wp0.x)) * 1000,
+              (wp0.y + frac * (wp1.y - wp0.y)) * 1000,
+              (wp0.z + frac * (wp1.z - wp0.z)) * 1000,
+            );
+
+            const vel = {
+              x: wp0.vx + frac * (wp1.vx - wp0.vx),
+              y: wp0.vy + frac * (wp1.vy - wp0.vy),
+              z: wp0.vz + frac * (wp1.vz - wp0.vz),
+            };
+
+            const currentJd = JulianDate.fromDate(new Date(simMs));
+            const prevVel = interpolateVelocityAtOffset(wps, currentJd, -THRUST_DT);
+            const nextVel = interpolateVelocityAtOffset(wps, currentJd, THRUST_DT);
+
+            stateRef.current = {
+              scPos,
+              vectors: computeVectorSet(scPos, vel, prevVel, nextVel, THRUST_DT, currentJd),
+            };
+            break;
+          }
+        }
+      }
+      rafId = requestAnimationFrame(tick);
+    };
+    rafId = requestAnimationFrame(tick);
+
+    return () => cancelAnimationFrame(rafId);
+  }, [viewer, trajectory]);
+
+  // Create/destroy arrow entities when toggles change
   useEffect(() => {
     if (!viewer || !trajectory) return;
 
@@ -70,44 +130,18 @@ export function useMissionVectors(
       const hasEntity = existing.has(config.key);
 
       if (isOn && !hasEntity) {
-        // Create arrow entity
         const entity = viewer.entities.add({
           polyline: {
             positions: new CallbackProperty(() => {
-              const vecs = vectorsRef.current;
-              if (!vecs) return [Cartesian3.ZERO, Cartesian3.ZERO];
+              const state = stateRef.current;
+              if (!state) return [Cartesian3.ZERO, Cartesian3.ZERO];
 
-              const simMs = simTimeRef.current;
-              if (!simMs) return [Cartesian3.ZERO, Cartesian3.ZERO];
-
-              const launchMs = new Date(trajectory.launchTime).getTime();
-              const splashMs = new Date(trajectory.splashdownTime).getTime();
-              if (simMs < launchMs || simMs > splashMs) return [Cartesian3.ZERO, Cartesian3.ZERO];
-
-              // Find spacecraft position from waypoints
-              let scPos: Cartesian3 | null = null;
-              for (let i = 0; i < trajectory.waypoints.length - 1; i++) {
-                const t0 = new Date(trajectory.waypoints[i].t).getTime();
-                const t1 = new Date(trajectory.waypoints[i + 1].t).getTime();
-                if (simMs >= t0 && simMs < t1) {
-                  const frac = (simMs - t0) / (t1 - t0);
-                  const wp0 = trajectory.waypoints[i];
-                  const wp1 = trajectory.waypoints[i + 1];
-                  scPos = new Cartesian3(
-                    (wp0.x + frac * (wp1.x - wp0.x)) * 1000,
-                    (wp0.y + frac * (wp1.y - wp0.y)) * 1000,
-                    (wp0.z + frac * (wp1.z - wp0.z)) * 1000,
-                  );
-                  break;
-                }
-              }
-              if (!scPos) return [Cartesian3.ZERO, Cartesian3.ZERO];
-
-              const vec = vecs[config.key];
+              const { scPos, vectors } = state;
+              const vec = vectors[config.key];
               const mag = Cartesian3.magnitude(vec);
-              if (mag < 1e-10) return [scPos, scPos]; // zero vector — collapse arrow
+              if (mag < 1e-10) return [scPos, scPos];
 
-              // Scale arrow length: physical magnitude × unitScale × camera-adaptive scale
+              // Arrow length scales with magnitude and camera distance
               const cameraScale = computeAdaptiveScale(viewer, scPos);
               const arrowLength = mag * config.unitScale * (cameraScale / 50000);
 
@@ -127,7 +161,6 @@ export function useMissionVectors(
         });
         existing.set(config.key, entity);
       } else if (!isOn && hasEntity) {
-        // Remove arrow entity
         const entity = existing.get(config.key)!;
         viewer.entities.remove(entity);
         existing.delete(config.key);
@@ -141,51 +174,4 @@ export function useMissionVectors(
       existing.clear();
     };
   }, [viewer, trajectory, toggles.velocity, toggles.gravityEarth, toggles.gravityMoon, toggles.thrust]);
-
-  // Per-frame vector computation
-  useEffect(() => {
-    if (!viewer || !trajectory || trajectory.waypoints.length < 3) return;
-
-    let rafId = 0;
-    const tick = () => {
-      const simMs = simTimeRef.current;
-      if (simMs) {
-        const currentJd = JulianDate.fromDate(new Date(simMs));
-
-        // Interpolate current velocity
-        const vel = interpolateVelocity(trajectory.waypoints, currentJd);
-        if (vel) {
-          // Get prev/next velocity for thrust derivation
-          const prevVel = interpolateVelocityAtOffset(trajectory.waypoints, currentJd, -THRUST_DT);
-          const nextVel = interpolateVelocityAtOffset(trajectory.waypoints, currentJd, THRUST_DT);
-
-          // Spacecraft position (meters) — find from waypoints
-          let scPos = Cartesian3.ZERO;
-          for (let i = 0; i < trajectory.waypoints.length - 1; i++) {
-            const t0 = new Date(trajectory.waypoints[i].t).getTime();
-            const t1 = new Date(trajectory.waypoints[i + 1].t).getTime();
-            if (simMs >= t0 && simMs < t1) {
-              const frac = (simMs - t0) / (t1 - t0);
-              const wp0 = trajectory.waypoints[i];
-              const wp1 = trajectory.waypoints[i + 1];
-              scPos = new Cartesian3(
-                (wp0.x + frac * (wp1.x - wp0.x)) * 1000,
-                (wp0.y + frac * (wp1.y - wp0.y)) * 1000,
-                (wp0.z + frac * (wp1.z - wp0.z)) * 1000,
-              );
-              break;
-            }
-          }
-
-          vectorsRef.current = computeVectorSet(
-            scPos, vel, prevVel, nextVel, THRUST_DT, currentJd,
-          );
-        }
-      }
-      rafId = requestAnimationFrame(tick);
-    };
-    rafId = requestAnimationFrame(tick);
-
-    return () => cancelAnimationFrame(rafId);
-  }, [viewer, trajectory]);
 }
