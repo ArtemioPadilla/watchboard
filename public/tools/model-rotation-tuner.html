@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Orion Model Rotation Tuner</title>
+  <script src="https://cesium.com/downloads/cesiumjs/releases/1.119/Build/Cesium/Cesium.js"></script>
+  <link href="https://cesium.com/downloads/cesiumjs/releases/1.119/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #0a0a1a; color: #e2e8f0; font-family: 'JetBrains Mono', monospace; overflow: hidden; }
+    #cesiumContainer { width: 100%; height: 100vh; }
+
+    #controls {
+      position: absolute; top: 16px; right: 16px; z-index: 10;
+      background: rgba(10, 10, 26, 0.92); border: 1px solid #334155;
+      border-radius: 8px; padding: 16px; width: 340px;
+      backdrop-filter: blur(8px);
+    }
+    h2 { font-size: 14px; color: #4ade80; margin-bottom: 12px; letter-spacing: 0.05em; }
+    .slider-group { margin-bottom: 12px; }
+    .slider-group label {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 12px; color: #94a3b8; margin-bottom: 4px;
+    }
+    .slider-group label span.val { color: #60a5fa; font-weight: bold; min-width: 50px; text-align: right; }
+    input[type=range] {
+      width: 100%; height: 6px; -webkit-appearance: none; appearance: none;
+      background: #1e293b; border-radius: 3px; outline: none;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none; width: 16px; height: 16px;
+      background: #4ade80; border-radius: 50%; cursor: pointer;
+    }
+
+    #output {
+      margin-top: 16px; padding: 12px; background: #1e293b;
+      border-radius: 6px; font-size: 11px; line-height: 1.6;
+      border: 1px solid #334155; position: relative;
+    }
+    #output code { color: #f59e0b; }
+    #copy-btn {
+      position: absolute; top: 8px; right: 8px;
+      background: #334155; border: none; color: #94a3b8;
+      padding: 4px 10px; border-radius: 4px; font-size: 10px;
+      cursor: pointer; font-family: inherit;
+    }
+    #copy-btn:hover { background: #475569; color: #e2e8f0; }
+
+    .preset-row { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+    .preset-btn {
+      background: #1e293b; border: 1px solid #334155; color: #94a3b8;
+      padding: 4px 10px; border-radius: 4px; font-size: 11px;
+      cursor: pointer; font-family: inherit;
+    }
+    .preset-btn:hover { border-color: #4ade80; color: #4ade80; }
+    .preset-btn.active { background: #4ade80; color: #0a0a1a; border-color: #4ade80; }
+
+    #arrow-legend {
+      margin-top: 12px; font-size: 11px; color: #94a3b8; line-height: 1.6;
+    }
+    #arrow-legend span.red { color: #ef4444; }
+    #arrow-legend span.green { color: #4ade80; }
+    #arrow-legend span.blue { color: #60a5fa; }
+
+    .speed-row { display: flex; gap: 6px; align-items: center; margin-bottom: 12px; }
+    .speed-row label { font-size: 11px; color: #94a3b8; }
+    .speed-btn {
+      background: #1e293b; border: 1px solid #334155; color: #94a3b8;
+      padding: 2px 8px; border-radius: 4px; font-size: 11px;
+      cursor: pointer; font-family: inherit;
+    }
+    .speed-btn.active { background: #60a5fa; color: #0a0a1a; border-color: #60a5fa; }
+
+    #error-readout {
+      position: absolute; top: 16px; left: 16px; z-index: 10;
+      background: rgba(10, 10, 26, 0.92); border: 1px solid #334155;
+      border-radius: 8px; padding: 12px 20px;
+      backdrop-filter: blur(8px); text-align: center;
+    }
+    #error-readout .label { font-size: 10px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.1em; }
+    #error-readout .value { font-size: 32px; font-weight: bold; margin-top: 2px; }
+    #error-readout .value.good { color: #4ade80; }
+    #error-readout .value.ok { color: #f59e0b; }
+    #error-readout .value.bad { color: #ef4444; }
+    #error-readout .hint { font-size: 10px; color: #64748b; margin-top: 4px; }
+  </style>
+</head>
+<body>
+  <div id="cesiumContainer"></div>
+
+  <div id="error-readout">
+    <div class="label">Nose → Velocity Error</div>
+    <div class="value good" id="errorValue">0.0°</div>
+    <div class="hint">Keep this near 0° in both modes</div>
+  </div>
+
+  <div id="controls">
+    <h2>MODEL ROTATION TUNER</h2>
+
+    <div class="preset-row">
+      <button class="preset-btn" onclick="setPreset(0,0,0)">Reset</button>
+      <button class="preset-btn" onclick="setPreset(0,-90,0)">+Z fwd</button>
+      <button class="preset-btn" onclick="setPreset(0,90,0)">-Z fwd</button>
+      <button class="preset-btn" onclick="setPreset(0,0,90)">+Y fwd</button>
+      <button class="preset-btn" onclick="setPreset(90,0,0)">-Y fwd (up)</button>
+      <button class="preset-btn" onclick="setPreset(-90,0,0)">+Y fwd (down)</button>
+    </div>
+
+    <div class="slider-group">
+      <label>Pitch (X) <span class="val" id="xVal">0</span></label>
+      <input type="range" id="rotX" min="-180" max="180" value="0" step="1" oninput="updateRotation()">
+    </div>
+    <div class="slider-group">
+      <label>Yaw (Y) <span class="val" id="yVal">0</span></label>
+      <input type="range" id="rotY" min="-180" max="180" value="0" step="1" oninput="updateRotation()">
+    </div>
+    <div class="slider-group">
+      <label>Roll (Z) <span class="val" id="zVal">0</span></label>
+      <input type="range" id="rotZ" min="-180" max="180" value="0" step="1" oninput="updateRotation()">
+    </div>
+
+    <div class="speed-row">
+      <label>Orbit:</label>
+      <button class="speed-btn active" onclick="setOrbit(false, this)">Static</button>
+      <button class="speed-btn" onclick="setOrbit(true, this)">Orbiting</button>
+    </div>
+
+    <div id="output">
+      <button id="copy-btn" onclick="copyCode()">Copy</button>
+      <div>Paste into <code>spacecraft-orientation.ts</code>:</div>
+      <pre id="codeOutput" style="margin-top:6px;color:#e2e8f0;white-space:pre-wrap;"></pre>
+    </div>
+
+    <div id="arrow-legend">
+      <span class="red">Red arrow</span> = velocity direction (where model nose should point)<br>
+      <span class="green">Green arrow</span> = model's current +X axis<br>
+      <span class="blue">Blue arrow</span> = model's current +Z axis (up)
+    </div>
+  </div>
+
+  <script>
+    Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzMjE3OTcwMS04NzAxLTRjMGUtYjBjMi03ZTNiMjA3NjUzMjUiLCJpZCI6MjY1MTc4LCJpYXQiOjE3MzUzMjkxMDh9.LBSwSUOml5XMMq2JDLcbP2wMwD27wVMkuoA0xt6VFMU';
+
+    const viewer = new Cesium.Viewer('cesiumContainer', {
+      terrainProvider: undefined,
+      baseLayerPicker: false,
+      geocoder: false,
+      homeButton: false,
+      sceneModePicker: false,
+      navigationHelpButton: false,
+      animation: false,
+      timeline: false,
+      fullscreenButton: false,
+      infoBox: false,
+      selectionIndicator: false,
+      skyBox: false,
+      skyAtmosphere: false,
+      creditContainer: document.createElement('div'),
+    });
+    viewer.scene.backgroundColor = Cesium.Color.fromCssColorString('#0a0a1a');
+    viewer.scene.globe.show = false;
+
+    // Orbit radius and initial angle
+    const ORBIT_R = 8000000; // 8000 km
+    let correctionX = 0, correctionY = 0, correctionZ = 0;
+    let orbiting = false;
+    let orbitAngle = 0; // radians, used by both static and orbit modes
+
+    // Both modes use the same circular orbit geometry.
+    // Static mode just freezes the angle. This ensures the base frame
+    // is identical in both modes — corrections always transfer.
+    function getModelPosition() {
+      const angle = orbiting ? orbitAngle : 0;
+      return new Cesium.Cartesian3(
+        ORBIT_R * Math.cos(angle),
+        ORBIT_R * Math.sin(angle),
+        0
+      );
+    }
+
+    function getVelocityDir() {
+      const angle = orbiting ? orbitAngle : 0;
+      // Tangent to circular orbit (perpendicular to radial, in XY plane)
+      return Cesium.Cartesian3.normalize(
+        new Cesium.Cartesian3(
+          -Math.sin(angle),
+          Math.cos(angle),
+          0
+        ),
+        new Cesium.Cartesian3()
+      );
+    }
+
+    // Model entity
+    const modelEntity = viewer.entities.add({
+      position: new Cesium.CallbackProperty(() => getModelPosition(), false),
+      orientation: new Cesium.CallbackProperty(() => computeOrientation(), false),
+      model: {
+        uri: '/models/orion-spacecraft.glb',
+        minimumPixelSize: 128,
+        scale: 300000,
+        silhouetteColor: Cesium.Color.fromCssColorString('#4ade80'),
+        silhouetteSize: 1.5,
+      },
+    });
+
+    // Helper: create an arrow entity with arrowhead material
+    const ARROW_LEN = 3000000;
+    function addArrow(colorCss, dirCallback) {
+      viewer.entities.add({
+        polyline: {
+          positions: new Cesium.CallbackProperty(() => {
+            const p = getModelPosition();
+            const d = dirCallback();
+            const end = Cesium.Cartesian3.add(
+              p,
+              Cesium.Cartesian3.multiplyByScalar(d, ARROW_LEN, new Cesium.Cartesian3()),
+              new Cesium.Cartesian3()
+            );
+            return [p, end];
+          }, false),
+          width: 12,
+          material: new Cesium.PolylineArrowMaterialProperty(
+            Cesium.Color.fromCssColorString(colorCss)
+          ),
+        },
+      });
+    }
+
+    // RED arrow = velocity direction (where the model nose SHOULD point)
+    addArrow('#ef4444', () => getVelocityDir());
+
+    // GREEN arrow = model's current +X axis (where the nose IS pointing)
+    addArrow('#4ade80', () => {
+      const orient = computeOrientation();
+      const rotMat = Cesium.Matrix3.fromQuaternion(orient, new Cesium.Matrix3());
+      const xAxis = Cesium.Matrix3.getColumn(rotMat, 0, new Cesium.Cartesian3());
+      return Cesium.Cartesian3.normalize(xAxis, xAxis);
+    });
+
+    // BLUE arrow = model's current +Z axis (up direction)
+    addArrow('#60a5fa', () => {
+      const orient = computeOrientation();
+      const rotMat = Cesium.Matrix3.fromQuaternion(orient, new Cesium.Matrix3());
+      const zAxis = Cesium.Matrix3.getColumn(rotMat, 2, new Cesium.Cartesian3());
+      return Cesium.Cartesian3.normalize(zAxis, zAxis);
+    });
+
+    function computeOrientation() {
+      const pos = getModelPosition();
+      const vel = getVelocityDir();
+
+      // Same logic as spacecraft-orientation.ts: quaternionFromDirection
+      // Right-handed basis: right = up × vel, correctedUp = vel × right
+      const up = Cesium.Cartesian3.normalize(pos, new Cesium.Cartesian3());
+      const right = Cesium.Cartesian3.cross(up, vel, new Cesium.Cartesian3());
+      if (Cesium.Cartesian3.magnitude(right) < 1e-10) {
+        Cesium.Cartesian3.cross(up, Cesium.Cartesian3.UNIT_X, right);
+      }
+      Cesium.Cartesian3.normalize(right, right);
+      const correctedUp = Cesium.Cartesian3.cross(vel, right, new Cesium.Cartesian3());
+      Cesium.Cartesian3.normalize(correctedUp, correctedUp);
+
+      const rotMatrix = new Cesium.Matrix3();
+      Cesium.Matrix3.setColumn(rotMatrix, 0, vel, rotMatrix);
+      Cesium.Matrix3.setColumn(rotMatrix, 1, right, rotMatrix);
+      Cesium.Matrix3.setColumn(rotMatrix, 2, correctedUp, rotMatrix);
+
+      const baseQuat = Cesium.Quaternion.fromRotationMatrix(rotMatrix, new Cesium.Quaternion());
+
+      // Apply user correction as body-frame axis-angle rotations
+      // These rotate in the MODEL's local axes, so they stay consistent
+      // regardless of where in the orbit the model is
+      const xRad = Cesium.Math.toRadians(correctionX);
+      const yRad = Cesium.Math.toRadians(correctionY);
+      const zRad = Cesium.Math.toRadians(correctionZ);
+
+      const rotX = Cesium.Quaternion.fromAxisAngle(Cesium.Cartesian3.UNIT_X, xRad);
+      const rotY = Cesium.Quaternion.fromAxisAngle(Cesium.Cartesian3.UNIT_Y, yRad);
+      const rotZ = Cesium.Quaternion.fromAxisAngle(Cesium.Cartesian3.UNIT_Z, zRad);
+
+      // Compose: Z * Y * X (applied right-to-left: pitch first, then yaw, then roll)
+      let corrQuat = Cesium.Quaternion.multiply(rotZ, rotY, new Cesium.Quaternion());
+      corrQuat = Cesium.Quaternion.multiply(corrQuat, rotX, new Cesium.Quaternion());
+
+      // baseQuat * corrQuat = correction in model's body frame
+      return Cesium.Quaternion.multiply(baseQuat, corrQuat, new Cesium.Quaternion());
+    }
+
+    function updateRotation() {
+      correctionX = parseInt(document.getElementById('rotX').value);
+      correctionY = parseInt(document.getElementById('rotY').value);
+      correctionZ = parseInt(document.getElementById('rotZ').value);
+      document.getElementById('xVal').textContent = correctionX + '\u00B0';
+      document.getElementById('yVal').textContent = correctionY + '\u00B0';
+      document.getElementById('zVal').textContent = correctionZ + '\u00B0';
+      updateCodeOutput();
+    }
+
+    function setPreset(x, y, z) {
+      document.getElementById('rotX').value = x;
+      document.getElementById('rotY').value = y;
+      document.getElementById('rotZ').value = z;
+      updateRotation();
+    }
+
+    function setOrbit(on, btn) {
+      orbiting = on;
+      document.querySelectorAll('.speed-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      if (on) {
+        // Camera tracks the model — model stays centered while arrows
+        // rotate around it. If green stays on red, the correction works.
+        viewer.trackedEntity = modelEntity;
+      } else {
+        viewer.trackedEntity = undefined;
+        viewer.camera.flyTo({
+          destination: new Cesium.Cartesian3(ORBIT_R + 5000000, -5000000, 5000000),
+          orientation: {
+            heading: Cesium.Math.toRadians(30),
+            pitch: Cesium.Math.toRadians(-25),
+            roll: 0,
+          },
+          duration: 0.5,
+        });
+      }
+    }
+
+    function updateCodeOutput() {
+      const xRad = (correctionX * Math.PI / 180).toFixed(4);
+      const yRad = (correctionY * Math.PI / 180).toFixed(4);
+      const zRad = (correctionZ * Math.PI / 180).toFixed(4);
+
+      let code;
+      if (correctionX === 0 && correctionY === 0 && correctionZ === 0) {
+        code = '// No correction needed — model +X is forward';
+      } else {
+        code = `// Body-frame correction: pitch=${correctionX}\u00B0 yaw=${correctionY}\u00B0 roll=${correctionZ}\u00B0
+const corrX = Quaternion.fromAxisAngle(Cartesian3.UNIT_X, ${xRad});
+const corrY = Quaternion.fromAxisAngle(Cartesian3.UNIT_Y, ${yRad});
+const corrZ = Quaternion.fromAxisAngle(Cartesian3.UNIT_Z, ${zRad});
+let MODEL_CORRECTION = Quaternion.multiply(
+  corrZ, corrY, new Quaternion()
+);
+MODEL_CORRECTION = Quaternion.multiply(
+  MODEL_CORRECTION, corrX, new Quaternion()
+);
+// Apply: result = Quaternion.multiply(
+//   baseQuat, MODEL_CORRECTION, new Quaternion()
+// );`;
+      }
+      document.getElementById('codeOutput').textContent = code;
+    }
+
+    function copyCode() {
+      const text = document.getElementById('codeOutput').textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = document.getElementById('copy-btn');
+        btn.textContent = 'Copied!';
+        setTimeout(() => btn.textContent = 'Copy', 1500);
+      });
+    }
+
+    // Animation loop for orbit mode + error readout
+    function tick() {
+      if (orbiting) orbitAngle += 0.003;
+
+      // Compute angular error between model +X and velocity direction
+      const orient = computeOrientation();
+      const rotMat = Cesium.Matrix3.fromQuaternion(orient, new Cesium.Matrix3());
+      const modelForward = Cesium.Matrix3.getColumn(rotMat, 0, new Cesium.Cartesian3());
+      Cesium.Cartesian3.normalize(modelForward, modelForward);
+      const vel = getVelocityDir();
+      const dot = Cesium.Cartesian3.dot(modelForward, vel);
+      const angleErr = Math.acos(Math.min(1, Math.max(-1, dot))) * 180 / Math.PI;
+
+      const el = document.getElementById('errorValue');
+      el.textContent = angleErr.toFixed(1) + '\u00B0';
+      el.className = 'value ' + (angleErr < 2 ? 'good' : angleErr < 15 ? 'ok' : 'bad');
+
+      requestAnimationFrame(tick);
+    }
+    tick();
+
+    // Initial camera — looking at the static position from slightly above
+    viewer.camera.flyTo({
+      destination: new Cesium.Cartesian3(ORBIT_R + 5000000, -5000000, 5000000),
+      orientation: {
+        heading: Cesium.Math.toRadians(30),
+        pitch: Cesium.Math.toRadians(-25),
+        roll: 0,
+      },
+      duration: 0,
+    });
+
+    updateCodeOutput();
+  </script>
+</body>
+</html>

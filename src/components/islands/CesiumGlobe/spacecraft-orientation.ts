@@ -69,21 +69,22 @@ function quaternionFromDirection(direction: Cartesian3, position: Cartesian3): Q
   // Radial "up" from Earth center
   const up = Cartesian3.normalize(position, new Cartesian3());
 
-  // Right = direction × up (ensures orthogonality)
-  const right = Cartesian3.cross(direction, up, new Cartesian3());
+  // Right = up × direction (right-handed: X × Y = Z requires this order)
+  const right = Cartesian3.cross(up, direction, new Cartesian3());
   if (Cartesian3.magnitude(right) < 1e-10) {
     // direction is parallel to up — use arbitrary perpendicular
     const arbitrary = Math.abs(Cartesian3.dot(direction, Cartesian3.UNIT_X)) < 0.9
       ? Cartesian3.UNIT_X : Cartesian3.UNIT_Y;
-    Cartesian3.cross(direction, arbitrary, right);
+    Cartesian3.cross(up, arbitrary, right);
   }
   Cartesian3.normalize(right, right);
 
-  // Recompute up = right × direction (orthonormal)
-  const correctedUp = Cartesian3.cross(right, direction, new Cartesian3());
+  // Recompute up = direction × right (orthonormal, right-handed)
+  const correctedUp = Cartesian3.cross(direction, right, new Cartesian3());
   Cartesian3.normalize(correctedUp, correctedUp);
 
   // Build rotation matrix: columns = [direction, right, correctedUp]
+  // Right-handed: col0 × col1 = col2 (verified: det = +1)
   // CesiumJS glTF convention: model faces +X forward, +Z up
   const rotMatrix = new Matrix3();
   // Column 0: forward (+X of model) = direction
