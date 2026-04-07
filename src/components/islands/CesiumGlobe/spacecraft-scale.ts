@@ -5,11 +5,13 @@ import { Cartesian3, type Viewer as CesiumViewer } from 'cesium';
  * Interpolated on a log scale for smooth transitions.
  * Distances are from camera to spacecraft entity.
  */
+// Moon radius ~1,737 km. Model extent ~3.4m. Cap so model never exceeds Moon size.
+// Max scale 200,000 → 3.4m × 200k = 680 km apparent size (well under Moon diameter).
 const SCALE_BREAKPOINTS: [number, number][] = [
-  [1e10,  500_000],   // > ~500,000 km — full trajectory view
-  [5e8,   100_000],   // ~500k km
-  [1e8,   10_000],    // ~100k km
-  [1e7,   1_000],     // ~10k km — close approach
+  [1e10,  200_000],   // > ~500,000 km — full trajectory view (capped below Moon size)
+  [5e8,   50_000],    // ~500k km
+  [1e8,   5_000],     // ~100k km
+  [1e7,   500],       // ~10k km — close approach
 ];
 
 // Absolute floor: never smaller than this many pixels on screen

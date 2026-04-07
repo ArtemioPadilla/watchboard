@@ -10,6 +10,7 @@ import {
   CallbackProperty,
   ColorBlendMode,
   Quaternion,
+  Simon1994PlanetaryPositions,
   type Viewer as CesiumViewer,
   type Entity,
 } from 'cesium';
@@ -45,9 +46,10 @@ export function useLunarMission(
       const launchJd = JulianDate.fromIso8601(trajectory.launchTime);
       const splashdownJd = JulianDate.fromIso8601(trajectory.splashdownTime);
 
-      // Enable built-in Moon
+      // Hide built-in Moon — it's in true ECEF which doesn't match our J2000
+      // trajectory frame. We add a custom Moon entity below in the same frame.
       if (viewer.scene.moon) {
-        viewer.scene.moon.show = true;
+        viewer.scene.moon.show = false;
       }
 
       // Build SampledPositionProperty (FIXED/ECEF frame — no rotation)
@@ -92,6 +94,42 @@ export function useLunarMission(
         },
       });
       entitiesRef.current.push(trajectoryEntity);
+
+      // Custom Moon entity in J2000-as-ECEF frame (matches trajectory coordinates).
+      // The built-in CesiumJS Moon is in true ECEF, which diverges from J2000 due to
+      // Earth rotation. At lunar distance this mismatch is tens of thousands of km.
+      const MOON_RADIUS_M = 1_737_400;
+      const moonEntity = viewer.entities.add({
+        position: new CallbackProperty(() => {
+          const simMs = simTimeRef.current;
+          const jd = simMs
+            ? JulianDate.fromDate(new Date(simMs))
+            : launchJd;
+          // Get Moon position in Earth inertial frame (J2000) — same frame as trajectory
+          // Do NOT apply ICRF→Fixed rotation — that would put it in ECEF
+          const moonEci = Simon1994PlanetaryPositions.computeMoonPositionInEarthInertialFrame(jd);
+          return new Cartesian3(moonEci.x, moonEci.y, moonEci.z);
+        }, false) as any,
+        ellipsoid: {
+          radii: new Cartesian3(MOON_RADIUS_M, MOON_RADIUS_M, MOON_RADIUS_M) as any,
+          material: Color.fromCssColorString('#8a8a8a').withAlpha(0.9),
+          outline: true,
+          outlineColor: Color.fromCssColorString('#555555'),
+          slicePartitions: 36,
+          stackPartitions: 18,
+        },
+        label: {
+          text: 'MOON',
+          font: '12px JetBrains Mono',
+          fillColor: Color.fromCssColorString('#94a3b8'),
+          outlineColor: Color.BLACK,
+          outlineWidth: 2,
+          style: 2,
+          pixelOffset: { x: 0, y: -24 } as any,
+          scaleByDistance: new NearFarScalar(1e6, 1.0, 1e9, 0.1),
+        },
+      });
+      entitiesRef.current.push(moonEntity);
 
       // Spacecraft entity — 3D model with velocity-aligned orientation
       const modelUri = '/models/orion-spacecraft.glb';
