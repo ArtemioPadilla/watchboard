@@ -59,26 +59,39 @@
   },
   {
     "id": "market-selloff-tariff",
-    "label": "S&P 500 Drop (Apr Peak–Apr 7)",
-    "value": "~10%",
-    "color": "red",
-    "source": "Bloomberg / Tax Foundation (Apr 7, 2026)",
+    "label": "S&P 500 vs. Pre-Tariff Peak",
+    "value": "~-7%",
+    "color": "amber",
+    "source": "Yahoo Finance / Bloomberg (Apr 8, 2026)",
     "contested": false,
-    "delta": "Dow –9.5%, Nasdaq –11%",
-    "deltaNote": "Tariff-driven selloff; JPMorgan CEO warns of rising recession probability",
-    "trend": "down",
-    "lastUpdated": "2026-04-07T12:37:00Z"
+    "delta": "+2.76% Apr 8 rally",
+    "deltaNote": "Iran ceasefire + oil price drop triggered rebound; prior week loss was 9-11%",
+    "trend": "up",
+    "lastUpdated": "2026-04-08T14:05:00Z"
   },
   {
     "id": "artemis-ii-mission-status",
     "label": "Artemis II Mission Status",
-    "value": "Returning to Earth",
+    "value": "Splashdown Apr 10",
     "color": "blue",
-    "source": "NASA (Apr 7, 2026)",
+    "source": "NASA / Space.com (Apr 8, 2026)",
     "contested": false,
-    "delta": "Distance record: 252,760 mi",
-    "deltaNote": "Exited lunar sphere of influence Apr 7; splashdown ~Apr 11 off San Diego",
+    "delta": "Flight Day 8",
+    "deltaNote": "Crew conducting return correction burns; Pacific Ocean splashdown off San Diego now April 10",
     "trend": "up",
-    "lastUpdated": "2026-04-07T12:37:00Z"
+    "lastUpdated": "2026-04-08T14:05:00Z"
+  },
+  {
+    "id": "iran-ceasefire-us-diplomatic",
+    "label": "Iran Ceasefire Status",
+    "value": "2-Week Agreement",
+    "color": "green",
+    "source": "NPR / NBC News / CNN (Apr 8, 2026)",
+    "contested": true,
+    "contestNote": "Ceasefire violations reported in Gulf states within hours; Lebanon explicitly excluded by Israel",
+    "delta": "Hormuz to reopen",
+    "deltaNote": "Iran agreed to reopen Strait of Hormuz; Pakistan brokering continued talks Apr 10 in Islamabad",
+    "trend": "up",
+    "lastUpdated": "2026-04-08T14:05:00Z"
   }
 ]
