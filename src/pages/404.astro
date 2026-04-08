@@ -1,0 +1,93 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const base = import.meta.env.BASE_URL;
+const basePath = base.endsWith('/') ? base : `${base}/`;
+---
+<BaseLayout title="Page Not Found — Watchboard">
+  <main id="main-content">
+    <div class="not-found">
+      <div class="not-found-code">404</div>
+      <h1 class="not-found-title">Page Not Found</h1>
+      <p class="not-found-desc">The page you're looking for doesn't exist or has been moved.</p>
+      <div class="not-found-actions">
+        <a href={basePath} class="not-found-btn primary">← Back to Watchboard</a>
+        <a href={`${basePath}search/`} class="not-found-btn secondary">Search Trackers</a>
+      </div>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .not-found {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    text-align: center;
+    padding: 2rem 1rem;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .not-found-code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 6rem;
+    font-weight: 700;
+    color: var(--accent-red, #e74c3c);
+    line-height: 1;
+    opacity: 0.3;
+    margin-bottom: 0.5rem;
+  }
+
+  .not-found-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-primary, #e8e9ed);
+    margin: 0 0 0.75rem;
+  }
+
+  .not-found-desc {
+    font-size: 0.9rem;
+    color: var(--text-muted, #8b949e);
+    margin: 0 0 2rem;
+    max-width: 400px;
+  }
+
+  .not-found-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .not-found-btn {
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.15s;
+  }
+
+  .not-found-btn.primary {
+    background: var(--accent-red, #e74c3c);
+    color: white;
+  }
+
+  .not-found-btn.primary:hover {
+    opacity: 0.9;
+  }
+
+  .not-found-btn.secondary {
+    background: var(--bg-card, #161b22);
+    color: var(--text-primary, #e8e9ed);
+    border: 1px solid var(--border, #30363d);
+  }
+
+  .not-found-btn.secondary:hover {
+    border-color: var(--accent-blue, #58a6ff);
+  }
+</style>

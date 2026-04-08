@@ -1,19 +1,21 @@
 ---
 interface Props {
   geoPath?: string[];
+  region?: string;
   country?: string;
   state?: string;
   city?: string;
   neighborhood?: string;
 }
 
-const { geoPath, country, state, city, neighborhood } = Astro.props;
+const { geoPath, region, country, state, city, neighborhood } = Astro.props;
 const base = import.meta.env.BASE_URL;
 const basePath = base.endsWith('/') ? base : `${base}/`;
 
 if (!geoPath || geoPath.length === 0) return;
 
-// Build breadcrumb segments with display labels and links
+// Routes are /geo/{region}/{geoPath[0]}/{geoPath[1]}/...
+const regionPrefix = region || 'global';
 const segments: { label: string; href: string }[] = [];
 const labels = [country || geoPath[0], state, city, neighborhood].filter(Boolean) as string[];
 
@@ -21,7 +23,7 @@ for (let i = 0; i < geoPath.length; i++) {
   const pathSlice = geoPath.slice(0, i + 1).join('/');
   segments.push({
     label: labels[i] || geoPath[i],
-    href: `${basePath}geo/${pathSlice}/`,
+    href: `${basePath}geo/${regionPrefix}/${pathSlice}/`,
   });
 }
 ---
