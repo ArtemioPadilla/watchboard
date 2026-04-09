@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback, memo } from 'react';
+import { useState, useMemo, useCallback, useEffect, useRef, memo } from 'react';
 import type { CSSProperties } from 'react';
 import { buildGeoTree, type GeoNode, type GeoTree } from '../../../lib/geo-utils';
 import { computeFreshness } from '../../../lib/tracker-directory-utils';
@@ -12,6 +12,16 @@ interface Props {
   activeTracker: string | null;
   onSelectTracker: (slug: string | null) => void;
   onHoverTracker: (slug: string | null) => void;
+  // Controlled expansion (optional — falls back to internal state when absent)
+  expandedKeys?: Set<string>;
+  onExpandedKeysChange?: (keys: Set<string>) => void;
+  // Geo interaction callbacks
+  onHoverGeoNode?: (nodeId: string, level: GeoNode['level']) => void;
+  onLeaveGeoNode?: () => void;
+  // Click on a geo node header (not a tracker leaf)
+  onClickGeoNode?: (nodeId: string, level: GeoNode['level']) => void;
+  // Highlight path from globe click
+  activeGeoPath?: string[] | null;
 }
 
 // ── TrackerLeaf ──
@@ -110,6 +120,11 @@ const RegionNode = memo(function RegionNode({
   activeTracker,
   onSelect,
   onHover,
+  onHoverGeoNode,
+  onLeaveGeoNode,
+  onClickGeoNode,
+  activeGeoPath,
+  scrollTargetKey,
 }: {
   node: GeoNode;
   depth: number;
@@ -119,11 +134,19 @@ const RegionNode = memo(function RegionNode({
   activeTracker: string | null;
   onSelect: (slug: string | null) => void;
   onHover: (slug: string | null) => void;
+  onHoverGeoNode?: (nodeId: string, level: GeoNode['level']) => void;
+  onLeaveGeoNode?: () => void;
+  onClickGeoNode?: (nodeId: string, level: GeoNode['level']) => void;
+  activeGeoPath?: string[] | null;
+  scrollTargetKey?: string | null;
 }) {
   const nodeKey = `${depth}-${node.id}`;
   const isExpanded = expandedKeys.has(nodeKey);
+  const headerRef = useRef<HTMLDivElement>(null);
 
   const chevron = isExpanded ? '▾' : '▸';
+
+  const isActiveNode = activeGeoPath?.includes(node.id) ?? false;
 
   const levelColor =
     node.level === 'region'
@@ -138,16 +161,30 @@ const RegionNode = memo(function RegionNode({
     node.aggregateTracker !== undefined ||
     node.secondaryTrackers.length > 0;
 
+  // Auto-scroll when this node is the scroll target
+  useEffect(() => {
+    if (scrollTargetKey === nodeKey && headerRef.current) {
+      headerRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }, [scrollTargetKey, nodeKey, expandedKeys]);
+
   return (
     <div style={{ marginLeft: depth > 0 ? 12 : 0 }}>
       {/* Node header */}
       <div
+        ref={headerRef}
         style={{
           ...S.nodeHeader,
-          color: levelColor,
+          color: isActiveNode ? 'var(--accent-blue)' : levelColor,
+          borderLeft: isActiveNode ? '2px solid var(--accent-blue)' : '2px solid transparent',
           cursor: hasChildren ? 'pointer' : 'default',
         }}
-        onClick={() => hasChildren && onToggle(nodeKey)}
+        onClick={() => {
+          if (hasChildren) onToggle(nodeKey);
+          onClickGeoNode?.(node.id, node.level);
+        }}
+        onMouseEnter={() => onHoverGeoNode?.(node.id, node.level)}
+        onMouseLeave={() => onLeaveGeoNode?.()}
       >
         <div style={S.nodeHeaderLeft}>
           {hasChildren && (
@@ -200,6 +237,11 @@ const RegionNode = memo(function RegionNode({
               activeTracker={activeTracker}
               onSelect={onSelect}
               onHover={onHover}
+              onHoverGeoNode={onHoverGeoNode}
+              onLeaveGeoNode={onLeaveGeoNode}
+              onClickGeoNode={onClickGeoNode}
+              activeGeoPath={activeGeoPath}
+              scrollTargetKey={scrollTargetKey}
             />
           ))}
 
@@ -221,19 +263,37 @@ const RegionNode = memo(function RegionNode({
 
 // ── GeoAccordion (main) ──
 
-const GeoAccordion = memo(function GeoAccordion({
-  trackers,
-  basePath,
-  activeTracker,
-  onSelectTracker,
-  onHoverTracker,
-}: Props) {
-  const [expandedKeys, setExpandedKeys] = useState<Set<string>>(new Set());
+const GeoAccordion = memo(function GeoAccordion(props: Props) {
+  const {
+    trackers,
+    basePath,
+    activeTracker,
+    onSelectTracker,
+    onHoverTracker,
+    onHoverGeoNode,
+    onLeaveGeoNode,
+    onClickGeoNode,
+    activeGeoPath,
+  } = props;
+
+  const [internalExpandedKeys, setInternalExpandedKeys] = useState<Set<string>>(new Set());
+
+  // Controlled vs uncontrolled expansion
+  const isControlled = props.expandedKeys !== undefined;
+  const expandedKeys = isControlled ? props.expandedKeys! : internalExpandedKeys;
+  const updateExpandedKeys = useCallback((updater: Set<string> | ((prev: Set<string>) => Set<string>)) => {
+    if (isControlled) {
+      const next = typeof updater === 'function' ? updater(props.expandedKeys!) : updater;
+      props.onExpandedKeysChange?.(next);
+    } else {
+      setInternalExpandedKeys(prev => typeof updater === 'function' ? updater(prev) : updater);
+    }
+  }, [isControlled, props.expandedKeys, props.onExpandedKeysChange]);
 
   const tree = useMemo(() => buildGeoTree(trackers), [trackers]);
 
   const handleToggle = useCallback((key: string) => {
-    setExpandedKeys(prev => {
+    updateExpandedKeys((prev: Set<string>) => {
       const next = new Set(prev);
       if (next.has(key)) {
         next.delete(key);
@@ -242,7 +302,19 @@ const GeoAccordion = memo(function GeoAccordion({
       }
       return next;
     });
-  }, []);
+  }, [updateExpandedKeys]);
+
+  // Compute scroll target from activeGeoPath
+  const scrollTargetRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    if (!activeGeoPath || activeGeoPath.length === 0) {
+      scrollTargetRef.current = null;
+      return;
+    }
+    // The node key for the country level is "1-{ISO_A2}" (depth=1 for country under region)
+    scrollTargetRef.current = `1-${activeGeoPath[activeGeoPath.length - 1]}`;
+  }, [activeGeoPath]);
 
   return (
     <div style={S.container}>
@@ -279,6 +351,11 @@ const GeoAccordion = memo(function GeoAccordion({
           activeTracker={activeTracker}
           onSelect={onSelectTracker}
           onHover={onHoverTracker}
+          onHoverGeoNode={onHoverGeoNode}
+          onLeaveGeoNode={onLeaveGeoNode}
+          onClickGeoNode={onClickGeoNode}
+          activeGeoPath={activeGeoPath}
+          scrollTargetKey={scrollTargetRef.current}
         />
       ))}
 
