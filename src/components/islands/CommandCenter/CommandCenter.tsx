@@ -1,6 +1,7 @@
-import { useState, useCallback, useEffect, useRef, lazy, Suspense } from 'react';
+import { useState, useCallback, useEffect, useRef, useMemo, lazy, Suspense } from 'react';
 import { trackEvent } from '../../../lib/analytics';
 import type { TrackerCardData } from '../../../lib/tracker-directory-utils';
+import { computeCountryDensity } from '../../../lib/geo-utils';
 import { type Locale, SUPPORTED_LOCALES, getPreferredLocale, setPreferredLocale, t } from '../../../i18n/translations';
 const GlobePanel = lazy(() => import('./GlobePanel'));
 import SidebarPanel from './SidebarPanel';
@@ -40,6 +41,41 @@ const SHORTCUTS = [
   { key: '?', tKey: 'shortcuts.help' },
 ] as const;
 
+function computeFeatureCentroidAndAltitude(feature: any): {
+  centroid: { lat: number; lng: number };
+  altitude: number;
+} {
+  let minLat = 90, maxLat = -90, minLng = 180, maxLng = -180;
+
+  function visitCoords(coords: any) {
+    if (typeof coords[0] === 'number') {
+      const lng = coords[0], lat = coords[1];
+      if (lat < minLat) minLat = lat;
+      if (lat > maxLat) maxLat = lat;
+      if (lng < minLng) minLng = lng;
+      if (lng > maxLng) maxLng = lng;
+      return;
+    }
+    for (const c of coords) visitCoords(c);
+  }
+
+  if (feature.geometry?.coordinates) {
+    visitCoords(feature.geometry.coordinates);
+  }
+
+  const centroid = {
+    lat: (minLat + maxLat) / 2,
+    lng: (minLng + maxLng) / 2,
+  };
+
+  const area = (maxLat - minLat) * (maxLng - minLng);
+  let altitude = 1.6;
+  if (area < 25) altitude = 1.2;
+  else if (area > 2500) altitude = 2.0;
+
+  return { centroid, altitude };
+}
+
 interface Props {
   trackers: TrackerCardData[];
   basePath: string;
@@ -72,6 +108,16 @@ export default function CommandCenter({
   const [showToast, setShowToast] = useState(false);
   const [coachHint, setCoachHint] = useState<ReturnType<typeof getNextCoachHint>>(null);
   const [discoveredFeatures, setDiscoveredFeatures] = useState<Set<string>>(new Set());
+
+  // Globe <-> GeoAccordion bidirectional state (geographic mode only)
+  const [hoveredCountry, setHoveredCountry] = useState<string | null>(null);
+  const [activeGeoPath, setActiveGeoPath] = useState<string[] | null>(null);
+  const [countriesGeoJSON, setCountriesGeoJSON] = useState<any>(null);
+  const [geoExpandedKeys, setGeoExpandedKeys] = useState<Set<string>>(new Set());
+
+  const countryDensity = useMemo(() => computeCountryDensity(trackers), [trackers]);
+  const activeCountry = activeGeoPath && activeGeoPath.length >= 2 ? activeGeoPath[1] : null;
+
   const searchRef = useRef<HTMLInputElement>(null);
   const globeRef = useRef<{
     toggleRotation?: () => void;
@@ -99,10 +145,34 @@ export default function CommandCenter({
     }
   }, [viewMode]);
 
+  // Lazy-load country GeoJSON when entering geographic mode
+  useEffect(() => {
+    if (viewMode !== 'geographic') return;
+    if (countriesGeoJSON) return;
+
+    const geoBase = import.meta.env.BASE_URL || '/watchboard';
+    const geoBasePath = geoBase.endsWith('/') ? geoBase : `${geoBase}/`;
+    fetch(`${geoBasePath}geo/countries-110m.json`)
+      .then(r => r.ok ? r.json() : null)
+      .then(data => { if (data) setCountriesGeoJSON(data); })
+      .catch(() => { /* polygon layer simply won't appear */ });
+  }, [viewMode, countriesGeoJSON]);
+
+  // Reset geo state when leaving geographic mode
+  useEffect(() => {
+    if (viewMode !== 'geographic') {
+      setHoveredCountry(null);
+      setActiveGeoPath(null);
+      setGeoExpandedKeys(new Set());
+      if (!activeTracker) {
+        globeRef.current?.setAutoRotate?.(true, 0.3);
+      }
+    }
+  }, [viewMode]);
+
   useEffect(() => {
     setFollowedSlugs(loadFollows());
     setLocale(getPreferredLocale());
-    // Coach marks (return visits)
     const discovered = getDiscoveredFeatures();
     setDiscoveredFeatures(discovered);
     setCoachHint(getNextCoachHint(discovered));
@@ -151,11 +221,74 @@ export default function CommandCenter({
 
   const handleSelect = useCallback((slug: string | null) => {
     setActiveTracker(slug);
+    if (slug) setActiveGeoPath(null);
   }, []);
 
   const handleHover = useCallback((slug: string | null) => {
     setHoveredTracker(slug);
   }, []);
+
+  // Globe polygon click -> expand sidebar accordion + fly camera
+  const handleGeoClick = useCallback((isoA2: string) => {
+    const regionForCountry = trackers.find(
+      t => t.geoPath && t.geoPath[0] === isoA2 && t.region
+    )?.region ?? null;
+
+    if (regionForCountry) {
+      const path = [regionForCountry, isoA2];
+      setActiveGeoPath(path);
+      setActiveTracker(null);
+      setGeoExpandedKeys(prev => {
+        const next = new Set(prev);
+        next.add(`0-${regionForCountry}`);
+        next.add(`1-${isoA2}`);
+        return next;
+      });
+
+      if (countriesGeoJSON) {
+        const feature = countriesGeoJSON.features?.find(
+          (f: any) => f.properties?.ISO_A2 === isoA2
+        );
+        if (feature) {
+          const { centroid, altitude } = computeFeatureCentroidAndAltitude(feature);
+          globeRef.current?.flyTo?.(centroid.lat, centroid.lng, altitude, 1200);
+          globeRef.current?.setAutoRotate?.(false);
+        }
+      }
+    }
+  }, [trackers, countriesGeoJSON]);
+
+  // Sidebar hover -> globe highlight
+  const handleHoverGeoNode = useCallback((nodeId: string, level: string) => {
+    if (level === 'country') {
+      setHoveredCountry(nodeId);
+    } else if (level === 'region') {
+      setHoveredCountry(`region:${nodeId}`);
+    } else {
+      setHoveredCountry(null);
+    }
+  }, []);
+
+  const handleLeaveGeoNode = useCallback(() => {
+    setHoveredCountry(null);
+  }, []);
+
+  // Accordion node click -> fly camera
+  const handleClickGeoNode = useCallback((nodeId: string, level: string) => {
+    if (level === 'country') {
+      handleGeoClick(nodeId);
+    } else if (level === 'region') {
+      const regionTrackers = trackers.filter(t => t.region === nodeId && t.mapCenter);
+      if (regionTrackers.length > 0) {
+        const avgLat = regionTrackers.reduce((s, t) => s + t.mapCenter!.lat, 0) / regionTrackers.length;
+        const avgLng = regionTrackers.reduce((s, t) => s + t.mapCenter!.lon, 0) / regionTrackers.length;
+        globeRef.current?.flyTo?.(avgLat, avgLng, 2.0, 1200);
+        globeRef.current?.setAutoRotate?.(false);
+      }
+      setActiveGeoPath([nodeId]);
+      setActiveTracker(null);
+    }
+  }, [trackers, handleGeoClick]);
 
   const handleToggleFollow = useCallback((slug: string) => {
     handleDiscoverFeature('follow');
@@ -194,7 +327,6 @@ export default function CommandCenter({
         return;
       }
 
-      // Don't handle shortcuts when typing in an input
       if (isInput) return;
 
       switch (e.key) {
@@ -276,6 +408,13 @@ export default function CommandCenter({
             featuredSlug={broadcast.featuredTracker?.slug || null}
             onSelectTracker={handleSelect}
             onHoverTracker={handleHover}
+            viewMode={viewMode}
+            countriesGeoJSON={viewMode === 'geographic' ? countriesGeoJSON : null}
+            countryDensity={countryDensity}
+            hoveredCountry={hoveredCountry}
+            activeCountry={activeCountry}
+            onPolygonClick={handleGeoClick}
+            onPolygonHover={setHoveredCountry}
           />
         </Suspense>
         {broadcastEnabled && (
@@ -325,6 +464,12 @@ export default function CommandCenter({
           searchRef={searchRef}
           viewMode={viewMode}
           onChangeViewMode={setViewMode}
+          geoExpandedKeys={viewMode === 'geographic' ? geoExpandedKeys : undefined}
+          onGeoExpandedKeysChange={viewMode === 'geographic' ? setGeoExpandedKeys : undefined}
+          onHoverGeoNode={handleHoverGeoNode}
+          onLeaveGeoNode={handleLeaveGeoNode}
+          onClickGeoNode={handleClickGeoNode}
+          activeGeoPath={activeGeoPath}
         />
       </nav>
 

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, forwardRef, useImperativeHandle } from 'react';
+import { useEffect, useRef, useState, useMemo, forwardRef, useImperativeHandle } from 'react';
 import { t, getPreferredLocale } from '../../../i18n/translations';
 import type { TrackerCardData } from '../../../lib/tracker-directory-utils';
 
@@ -38,6 +38,14 @@ interface Props {
   cityLights?: boolean;
   onSelectTracker: (slug: string | null) => void;
   onHoverTracker: (slug: string | null) => void;
+  // Geographic mode polygon layer
+  viewMode?: 'operations' | 'geographic' | 'domain';
+  countriesGeoJSON?: any | null;
+  countryDensity?: Map<string, number>;
+  hoveredCountry?: string | null;
+  activeCountry?: string | null;
+  onPolygonClick?: (isoA2: string) => void;
+  onPolygonHover?: (isoA2: string | null) => void;
 }
 
 function hexToRgb(hex: string): string {
@@ -191,6 +199,13 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
   cityLights: cityLightsProp = true,
   onSelectTracker,
   onHoverTracker,
+  viewMode,
+  countriesGeoJSON,
+  countryDensity,
+  hoveredCountry,
+  activeCountry,
+  onPolygonClick,
+  onPolygonHover,
 }, ref) {
   const [loading, setLoading] = useState(true);
   const [cityLights, setCityLights] = useState(cityLightsProp);
@@ -204,6 +219,84 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
   activeRef.current = activeTracker;
   hoveredRef.current = hoveredTracker;
   followedRef.current = followedSlugs;
+
+  // Refs for polygon color accessors (read current values without re-configuring globe)
+  const hoveredCountryRef = useRef(hoveredCountry);
+  const activeCountryRef = useRef(activeCountry);
+  const countryDensityRef = useRef(countryDensity);
+  const onPolygonClickRef = useRef(onPolygonClick);
+  const onPolygonHoverRef = useRef(onPolygonHover);
+  const pointClickedRef = useRef(false);
+
+  hoveredCountryRef.current = hoveredCountry;
+  activeCountryRef.current = activeCountry;
+  countryDensityRef.current = countryDensity;
+  onPolygonClickRef.current = onPolygonClick;
+  onPolygonHoverRef.current = onPolygonHover;
+
+  // Compute maxDensity for polygon opacity formula
+  const maxDensity = useMemo(() => {
+    if (!countryDensity || countryDensity.size === 0) return 1;
+    return Math.max(1, ...countryDensity.values());
+  }, [countryDensity]);
+
+  const maxDensityRef = useRef(maxDensity);
+  maxDensityRef.current = maxDensity;
+
+  // Build ISO -> region lookup from trackers
+  const isoToRegionRef = useRef(new Map<string, string>());
+  useMemo(() => {
+    const map = new Map<string, string>();
+    for (const t of trackers) {
+      if (t.geoPath && t.geoPath[0] && t.region) {
+        map.set(t.geoPath[0], t.region);
+      }
+    }
+    isoToRegionRef.current = map;
+  }, [trackers]);
+
+  function isCountryInRegion(iso: string, hoveredRegion: string): boolean {
+    const regionId = hoveredRegion.replace('region:', '');
+    return isoToRegionRef.current.get(iso) === regionId;
+  }
+
+  function getPolygonCapColor(feature: any): string {
+    const iso = feature.properties?.ISO_A2;
+    const density = countryDensityRef.current;
+    const maxD = maxDensityRef.current;
+    const count = density?.get(iso) ?? 0;
+    const baseOpacity = 0.04 + 0.22 * (count / maxD);
+    const hovered = hoveredCountryRef.current;
+    const active = activeCountryRef.current;
+
+    if (iso === hovered || (hovered?.startsWith('region:') && isCountryInRegion(iso, hovered))) {
+      return 'rgba(52,152,219,0.35)';
+    }
+    if (iso === active) {
+      return 'rgba(52,152,219,0.28)';
+    }
+    if (count > 0) {
+      return `rgba(52,152,219,${baseOpacity.toFixed(3)})`;
+    }
+    return 'rgba(52,152,219,0.04)';
+  }
+
+  function getPolygonStrokeColor(feature: any): string {
+    const iso = feature.properties?.ISO_A2;
+    const density = countryDensityRef.current;
+    const count = density?.get(iso) ?? 0;
+    const hovered = hoveredCountryRef.current;
+    const active = activeCountryRef.current;
+
+    if (iso === hovered || iso === active ||
+        (hovered?.startsWith('region:') && isCountryInRegion(iso, hovered))) {
+      return 'rgba(52,152,219,0.6)';
+    }
+    if (count > 0) {
+      return 'rgba(52,152,219,0.18)';
+    }
+    return 'rgba(255,255,255,0.06)';
+  }
 
   const hubPoints = buildHubPoints(trackers);
   const pointsRef = useRef<GlobePoint[]>(hubPoints);
@@ -334,6 +427,8 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
           `;
         })
         .onPointClick((point: any) => {
+          pointClickedRef.current = true;
+          setTimeout(() => { pointClickedRef.current = false; }, 50);
           const slug = point.slug;
           onSelectRef.current(activeRef.current === slug ? null : slug);
         })
@@ -491,6 +586,47 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
     if (!globe) return;
     globe.globeImageUrl(cityLights ? EARTH_LIGHTS_URL : EARTH_DARK_URL);
   }, [cityLights]);
+
+  // Manage polygon layer when countriesGeoJSON changes (Task 6)
+  useEffect(() => {
+    const globe = globeRef.current;
+    if (!globe) return;
+
+    if (countriesGeoJSON && countriesGeoJSON.features) {
+      globe
+        .polygonsData(countriesGeoJSON.features)
+        .polygonGeoJsonGeometry((d: any) => d.geometry)
+        .polygonCapColor(getPolygonCapColor)
+        .polygonSideColor(() => 'rgba(0,0,0,0)')
+        .polygonStrokeColor(getPolygonStrokeColor)
+        .polygonAltitude(0.001)
+        .onPolygonClick((polygon: any) => {
+          if (pointClickedRef.current) return; // point click takes priority (Task 10)
+          const iso = polygon?.properties?.ISO_A2;
+          if (iso) onPolygonClickRef.current?.(iso);
+        })
+        .onPolygonHover((polygon: any) => {
+          const iso = polygon?.properties?.ISO_A2 ?? null;
+          onPolygonHoverRef.current?.(iso);
+          if (containerRef.current) {
+            containerRef.current.style.cursor = polygon ? 'pointer' : 'grab';
+          }
+        });
+    } else {
+      // Clear polygon layer when not in geographic mode
+      globe.polygonsData([]);
+    }
+  }, [countriesGeoJSON]);
+
+  // Refresh polygon colors when hover/active state changes (Task 9)
+  useEffect(() => {
+    const globe = globeRef.current;
+    if (!globe || !countriesGeoJSON) return;
+
+    globe
+      .polygonCapColor(getPolygonCapColor)
+      .polygonStrokeColor(getPolygonStrokeColor);
+  }, [hoveredCountry, activeCountry, countryDensity]);
 
   return (
     <div style={styles.container}>

@@ -33,6 +33,13 @@ interface Props {
   searchRef?: React.RefObject<HTMLInputElement | null>;
   viewMode?: ViewMode;
   onChangeViewMode?: (mode: ViewMode) => void;
+  // Geo interaction props (geographic mode)
+  geoExpandedKeys?: Set<string>;
+  onGeoExpandedKeysChange?: (keys: Set<string>) => void;
+  onHoverGeoNode?: (nodeId: string, level: string) => void;
+  onLeaveGeoNode?: () => void;
+  onClickGeoNode?: (nodeId: string, level: string) => void;
+  activeGeoPath?: string[] | null;
 }
 
 // ── TrackerRow ──
@@ -528,6 +535,12 @@ export default function SidebarPanel({
   searchRef,
   viewMode,
   onChangeViewMode,
+  geoExpandedKeys,
+  onGeoExpandedKeysChange,
+  onHoverGeoNode,
+  onLeaveGeoNode,
+  onClickGeoNode,
+  activeGeoPath,
 }: Props) {
   const [activeDomain, setActiveDomain] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
@@ -681,6 +694,12 @@ export default function SidebarPanel({
             activeTracker={activeTracker}
             onSelectTracker={onSelectTracker}
             onHoverTracker={onHoverTracker}
+            expandedKeys={geoExpandedKeys}
+            onExpandedKeysChange={onGeoExpandedKeysChange}
+            onHoverGeoNode={onHoverGeoNode}
+            onLeaveGeoNode={onLeaveGeoNode}
+            onClickGeoNode={onClickGeoNode}
+            activeGeoPath={activeGeoPath}
           />
         ) : (
           <>
