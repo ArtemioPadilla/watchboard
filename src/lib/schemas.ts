@@ -223,6 +223,7 @@ export const DigestEntrySchema = z.object({
   title: z.string(),
   summary: z.string(),
   sectionsUpdated: z.array(z.string()).optional(),
+  source: z.enum(['daily', 'breaking', 'seed']).optional().default('daily'),
 });
 
 // ── Ingestion Metrics ──
@@ -267,6 +268,7 @@ export const MetricsIndexEntrySchema = z.object({
   status: z.enum(['success', 'failure']),
   trackerCount: z.number(),
   errorCount: z.number(),
+  pipeline: z.enum(['nightly', 'hourly', 'seed', 'init']).optional().default('nightly'),
 });
 
 // ── Inferred types ──
