@@ -109,25 +109,25 @@
   {
     "id": "vix-fear-gauge",
     "label": "VIX (Market Fear Index)",
-    "value": "24.54",
-    "color": "amber",
-    "source": "CBOE, Apr 6 2026",
+    "value": "~29–31",
+    "color": "red",
+    "source": "CBOE, Apr 9 2026",
     "contested": false,
-    "delta": "Spike to 30+ (Apr 3–4 crash); retreating post-Muscat Protocol",
-    "deltaNote": "Retreating from 30+ intraday panic highs during the $6.6T two-day crash (Apr 3–4); still ~40% above historical bull-market baseline (~18)",
-    "trend": "down",
-    "lastUpdated": "2026-04-06T00:00:00Z"
+    "delta": "Brief dip to ~18–20 (Apr 7 Iran ceasefire rally); spiking again Apr 9 on China 104%/84% dual tariff shock",
+    "deltaNote": "US-Iran ceasefire (Apr 7) briefly pulled VIX toward 18–20; April 9 China tariff escalation to 104%/84% pushed fear index back above 29. Elevated uncertainty: Iran ceasefire fragile (Lebanon strikes continue), FOMC Apr 29–30 critical decision point",
+    "trend": "up",
+    "lastUpdated": "2026-04-09T14:00:00Z"
   },
   {
     "id": "us-effective-tariff-rate",
     "label": "US Avg Effective Tariff Rate",
-    "value": "~10.3–12%",
+    "value": "~16–18%",
     "color": "red",
-    "source": "Penn Wharton / Tax Foundation, Apr 2026",
+    "source": "Tax Foundation / Penn Wharton, Apr 9 2026",
     "contested": true,
-    "contestNote": "Apr 2 metal tariff expansion (50% on steel/aluminum/copper articles) raised effective rate; pharmaceutical tariffs (100%) effective in 120-180 days; China's 34% retaliation effective Apr 10",
+    "contestNote": "Apr 9: additional 50% tariff on China brings total US rate on Chinese goods to ~104% — highest since 1930s Smoot-Hawley era. Combined with Apr 2 metal expansion (50%) and pending pharma tariffs (100%), overall effective rate reaches highest since 1940s",
     "trend": "up",
-    "lastUpdated": "2026-04-06T00:00:00Z"
+    "lastUpdated": "2026-04-09T14:00:00Z"
   },
   {
     "id": "china-gdp-2025",
@@ -147,9 +147,9 @@
     "color": "red",
     "source": "Baker-Bloom-Davis / FRED; JPMorgan, Goldman Sachs, Apr 2026",
     "contested": false,
-    "delta": "Surging post-Apr 2 tariff expansion",
-    "deltaNote": "JPMorgan recession probability 60%, Goldman Sachs 35% (revised up Apr 4); $6.6T market crash in 2 days (Apr 3–4) — largest two-day loss in stock market history; S&P -10%, Nasdaq in bear market",
+    "delta": "Surging — Apr 9 dual tariff shock: US 104% on China, China 84% on US",
+    "deltaNote": "JPMorgan recession probability 65% (revised up Apr 9), Goldman Sachs 35%, Moody's Analytics ~50%; Iran ceasefire (Apr 7) briefly relieved oil shock (WTI -16.4% to $94.41) but China tariff escalation to 104%/84% on Apr 9 represents new acute escalation; FOMC Apr 29–30 critical",
     "trend": "up",
-    "lastUpdated": "2026-04-06T00:00:00Z"
+    "lastUpdated": "2026-04-09T14:00:00Z"
   }
 ]
