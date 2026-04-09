@@ -1,8 +1,9 @@
 name: Post Social Queue
 
 on:
-  schedule:
-    - cron: '0 8,13,18,22 * * *'
+  # schedule disabled — banned from automated activity on X
+  # schedule:
+  #   - cron: '0 8,13,18,22 * * *'
   workflow_dispatch:
 
 permissions:
