@@ -46,6 +46,7 @@ import MissionIdentity from './MissionIdentity';
 import MissionTelemetry from './MissionTelemetry';
 import MissionPhaseBar from './MissionPhaseBar';
 import CollapsiblePanel from './CollapsiblePanel';
+import GlobeMobileSheet from './GlobeMobileSheet';
 import type { MissionTrajectory } from '../../../lib/schemas';
 import { resolveLayout, type PanelId } from './layout-presets';
 
@@ -151,6 +152,15 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [], ca
 
   // ── Orbit mode ──
   const [orbitMode, setOrbitMode] = useState<OrbitMode>('off');
+
+  // ── Mobile detection ──
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth <= 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
 
   // ── AIS API key (user-provided, stored in localStorage) ──
   const [aisApiKey, setAisApiKey] = useState(() => getStoredAisKey());
@@ -661,33 +671,35 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [], ca
         />
       )}
 
-      {/* Enhanced Timeline — always rendered */}
-      <div className="globe-slot globe-slot--bottom">
-        <UnifiedTimelineBar
-          context="3d"
-          minDate={dateRange.min}
-          maxDate={dateRange.max}
-          currentDate={currentDate}
-          isPlaying={isPlaying}
-          playbackSpeed={playbackSpeed}
-          events={events}
-          lines={lines}
-          onDateChange={handleDateChange}
-          onTogglePlay={togglePlay}
-          onSpeedChange={setPlaybackSpeed}
-          onGoLive={goLive}
-          onTimeChange={handleTimeChange}
-          simTimeRef={simTimeRef}
-          stats={stats}
-          zoomLevel={zoomLevel}
-          onZoomChange={setZoomLevel}
-          isHistorical={isHistorical}
-          clocks={clocks}
-          showMissionHeader={layout.missionTimelineHeader}
-          missionTrajectory={missionTrajectory}
-          telemetryRef={layout.missionTimelineHeader ? telemetryRef : undefined}
-        />
-      </div>
+      {/* Enhanced Timeline — desktop only */}
+      {!isMobile && (
+        <div className="globe-slot globe-slot--bottom">
+          <UnifiedTimelineBar
+            context="3d"
+            minDate={dateRange.min}
+            maxDate={dateRange.max}
+            currentDate={currentDate}
+            isPlaying={isPlaying}
+            playbackSpeed={playbackSpeed}
+            events={events}
+            lines={lines}
+            onDateChange={handleDateChange}
+            onTogglePlay={togglePlay}
+            onSpeedChange={setPlaybackSpeed}
+            onGoLive={goLive}
+            onTimeChange={handleTimeChange}
+            simTimeRef={simTimeRef}
+            stats={stats}
+            zoomLevel={zoomLevel}
+            onZoomChange={setZoomLevel}
+            isHistorical={isHistorical}
+            clocks={clocks}
+            showMissionHeader={layout.missionTimelineHeader}
+            missionTrajectory={missionTrajectory}
+            telemetryRef={layout.missionTimelineHeader ? telemetryRef : undefined}
+          />
+        </div>
+      )}
 
       {/* KPI strip — top-right */}
       {carouselEntities.length === 0 && hasPanelInSlot('top-right', 'kpi-strip') && (
@@ -746,6 +758,79 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [], ca
           />
         </CollapsiblePanel>
       </div>
+
+      {/* Mobile bottom sheet — replaces all desktop panels on small screens */}
+      {isMobile && (
+        <GlobeMobileSheet
+          minDate={dateRange.min}
+          maxDate={dateRange.max}
+          currentDate={currentDate}
+          isPlaying={isPlaying}
+          playbackSpeed={playbackSpeed}
+          events={events}
+          lines={lines}
+          onDateChange={handleDateChange}
+          onTogglePlay={togglePlay}
+          onSpeedChange={setPlaybackSpeed}
+          onGoLive={goLive}
+          onTimeChange={handleTimeChange}
+          simTimeRef={simTimeRef}
+          stats={stats}
+          zoomLevel={zoomLevel}
+          onZoomChange={setZoomLevel}
+          isHistorical={isHistorical}
+          clocks={clocks}
+          missionTrajectory={missionTrajectory}
+          telemetryRef={layout.missionTimelineHeader ? telemetryRef : undefined}
+          showMissionHeader={layout.missionTimelineHeader}
+          vectorsRef={vectorsRef}
+          vectorToggles={missionTrajectory ? vectorToggles : undefined}
+          onToggleVector={handleToggleVector}
+          onTrackSpacecraft={trackSpacecraft}
+          eventsOpen={eventsOpen}
+          onToggleEvents={() => setEventsOpen(prev => !prev)}
+          activeEventId={cinematicMode ? cinematicEventId : undefined}
+          activeFilters={activeFilters}
+          onToggleFilter={toggleFilter}
+          pointCounts={pointCounts}
+          categories={categories}
+          visualMode={visualMode}
+          onVisualMode={setVisualMode}
+          layers={layers}
+          onToggleLayer={toggleLayer}
+          persistLines={persistLines}
+          onTogglePersist={() => setPersistLines(prev => !prev)}
+          carouselEntities={carouselEntities}
+          activeCardIndex={activeCardIndex}
+          onCloseCard={() => setCarouselEntities([])}
+          timelineBar={
+            <UnifiedTimelineBar
+              context="3d"
+              minDate={dateRange.min}
+              maxDate={dateRange.max}
+              currentDate={currentDate}
+              isPlaying={isPlaying}
+              playbackSpeed={playbackSpeed}
+              events={events}
+              lines={lines}
+              onDateChange={handleDateChange}
+              onTogglePlay={togglePlay}
+              onSpeedChange={setPlaybackSpeed}
+              onGoLive={goLive}
+              onTimeChange={handleTimeChange}
+              simTimeRef={simTimeRef}
+              stats={stats}
+              zoomLevel={zoomLevel}
+              onZoomChange={setZoomLevel}
+              isHistorical={isHistorical}
+              clocks={clocks}
+              showMissionHeader={layout.missionTimelineHeader}
+              missionTrajectory={missionTrajectory}
+              telemetryRef={layout.missionTimelineHeader ? telemetryRef : undefined}
+            />
+          }
+        />
+      )}
 
     </div>
   );
