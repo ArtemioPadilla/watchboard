@@ -45,6 +45,7 @@ import FloatingFactCard, { type CarouselEntity } from './FloatingFactCard';
 import MissionIdentity from './MissionIdentity';
 import MissionTelemetry from './MissionTelemetry';
 import MissionPhaseBar from './MissionPhaseBar';
+import CollapsiblePanel from './CollapsiblePanel';
 import type { MissionTrajectory } from '../../../lib/schemas';
 import { resolveLayout, type PanelId } from './layout-presets';
 
@@ -625,23 +626,27 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [], ca
       <div className="globe-slot globe-slot--right">
         {/* Intel feed */}
         {hasPanelInSlot('right', 'intel') && (
-          <CesiumEventsPanel
-            events={events}
-            currentDate={currentDate}
-            isOpen={eventsOpen}
-            onToggle={() => {
-              setEventsOpen(prev => {
-                if (!prev) setCarouselEntities([]);
-                return !prev;
-              });
-            }}
-            activeEventId={cinematicMode ? cinematicEventId : undefined}
-          />
+          <CollapsiblePanel id="intel" icon={'\u2630'} label="Intel" defaultExpanded={false}>
+            <CesiumEventsPanel
+              events={events}
+              currentDate={currentDate}
+              isOpen={eventsOpen}
+              onToggle={() => {
+                setEventsOpen(prev => {
+                  if (!prev) setCarouselEntities([]);
+                  return !prev;
+                });
+              }}
+              activeEventId={cinematicMode ? cinematicEventId : undefined}
+            />
+          </CollapsiblePanel>
         )}
 
         {/* Telemetry (mission preset only) */}
         {hasPanelInSlot('right', 'telemetry') && missionTrajectory && (
-          <MissionTelemetry telemetryRef={telemetryRef} vectorsRef={vectorsRef} vectorToggles={vectorToggles} />
+          <CollapsiblePanel id="telemetry" icon={'\uD83D\uDCE1'} label="Telemetry" defaultExpanded={true}>
+            <MissionTelemetry telemetryRef={telemetryRef} vectorsRef={vectorsRef} vectorToggles={vectorToggles} />
+          </CollapsiblePanel>
         )}
       </div>
 
@@ -710,34 +715,36 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [], ca
 
       {/* Overlay controls toolbar */}
       <div className="globe-slot globe-slot--left">
-        <CesiumControls
-          activeFilters={activeFilters}
-          onToggleFilter={toggleFilter}
-          pointCounts={pointCounts}
-          onCameraPreset={flyTo}
-          visualMode={visualMode}
-          onVisualMode={setVisualMode}
-          layers={layers}
-          onToggleLayer={toggleLayer}
-          persistLines={persistLines}
-          onTogglePersist={() => setPersistLines(prev => !prev)}
-          satGroupCounts={satGroupCounts}
-          showFov={showFov}
-          onToggleFov={() => setShowFov(prev => !prev)}
-          fovCount={satFovCount}
-          aisApiKey={aisApiKey}
-          onAisApiKeyChange={handleAisKeyChange}
-          showHud={showHud}
-          onToggleHud={() => setShowHud(prev => !prev)}
-          orbitMode={orbitMode}
-          onOrbitMode={handleOrbitMode}
-          cameraPresets={cameraPresets}
-          categories={categories}
-          cinematicMode={cinematicMode}
-          onToggleCinematic={handleToggleCinematic}
-          vectorToggles={missionTrajectory ? vectorToggles : undefined}
-          onToggleVector={handleToggleVector}
-        />
+        <CollapsiblePanel id="controls" icon={'\u2699'} label="Controls" defaultExpanded={true}>
+          <CesiumControls
+            activeFilters={activeFilters}
+            onToggleFilter={toggleFilter}
+            pointCounts={pointCounts}
+            onCameraPreset={flyTo}
+            visualMode={visualMode}
+            onVisualMode={setVisualMode}
+            layers={layers}
+            onToggleLayer={toggleLayer}
+            persistLines={persistLines}
+            onTogglePersist={() => setPersistLines(prev => !prev)}
+            satGroupCounts={satGroupCounts}
+            showFov={showFov}
+            onToggleFov={() => setShowFov(prev => !prev)}
+            fovCount={satFovCount}
+            aisApiKey={aisApiKey}
+            onAisApiKeyChange={handleAisKeyChange}
+            showHud={showHud}
+            onToggleHud={() => setShowHud(prev => !prev)}
+            orbitMode={orbitMode}
+            onOrbitMode={handleOrbitMode}
+            cameraPresets={cameraPresets}
+            categories={categories}
+            cinematicMode={cinematicMode}
+            onToggleCinematic={handleToggleCinematic}
+            vectorToggles={missionTrajectory ? vectorToggles : undefined}
+            onToggleVector={handleToggleVector}
+          />
+        </CollapsiblePanel>
       </div>
 
     </div>
