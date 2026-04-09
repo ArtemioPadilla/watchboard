@@ -11,7 +11,7 @@ import {
   ColorBlendMode,
   Quaternion,
   Simon1994PlanetaryPositions,
-  SunLight,
+  DirectionalLight,
   type Viewer as CesiumViewer,
   type Entity,
 } from 'cesium';
@@ -134,9 +134,14 @@ export function useLunarMission(
       });
       entitiesRef.current.push(moonTrailEntity);
 
-      // Enable Sun-based lighting — Model entities (Moon + Orion) respond to this,
-      // creating realistic lit/dark side effects
-      viewer.scene.light = new SunLight();
+      // Directional light from the Sun's J2000 position (same frame as our scene).
+      // CesiumJS's built-in SunLight uses ECEF which doesn't match our J2000 trajectory.
+      // We compute Sun direction in J2000 and update it per-frame in the tick loop.
+      const sunJ2000 = Simon1994PlanetaryPositions.computeSunPositionInEarthInertialFrame(launchJd);
+      const sunDir = Cartesian3.normalize(
+        Cartesian3.negate(sunJ2000, new Cartesian3()), new Cartesian3(),
+      );
+      viewer.scene.light = new DirectionalLight({ direction: sunDir });
       viewer.scene.globe.enableLighting = true;
 
       // Moon — glTF model with texture + normals (supports PBR lighting)
@@ -293,6 +298,14 @@ export function useLunarMission(
           telemetryRef.current = computeTelemetry(
             pos, currentV, launchJd, currentJd, splashdownJd, trajectory.phases,
           );
+
+          // Update Sun light direction in J2000 frame
+          const sunJ2k = Simon1994PlanetaryPositions.computeSunPositionInEarthInertialFrame(currentJd);
+          const light = viewer.scene.light as DirectionalLight;
+          if (light?.direction) {
+            Cartesian3.negate(sunJ2k, light.direction);
+            Cartesian3.normalize(light.direction, light.direction);
+          }
 
         } catch (e) {
           console.warn('[lunar-mission] tick error:', e);
