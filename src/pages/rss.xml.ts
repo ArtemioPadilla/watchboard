@@ -9,7 +9,7 @@ export async function GET(context: APIContext) {
   const basePath = base.endsWith('/') ? base : `${base}/`;
 
   // Collect digest entries from all trackers
-  const items: { title: string; pubDate: Date; description: string; link: string }[] = [];
+  const items: { title: string; pubDate: Date; description: string; link: string; customData: string }[] = [];
 
   for (const tracker of trackers) {
     try {
@@ -20,6 +20,7 @@ export async function GET(context: APIContext) {
           pubDate: new Date(digest.date),
           description: digest.summary,
           link: `${basePath}${tracker.slug}/#digest-${digest.date}`,
+          customData: `<category>${digest.source || 'daily'}</category>`,
         });
       }
     } catch {
