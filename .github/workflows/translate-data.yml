@@ -1,9 +1,10 @@
 name: Translate Tracker Data
 
 on:
-  workflow_run:
-    workflows: ["Nightly Data Update"]
-    types: [completed]
+  schedule:
+    - cron: '0 22 * * *'  # 22:00 UTC — 8 hours after nightly, avoids rate limit clash
+  # Previously triggered by workflow_run on Nightly Data Update,
+  # but that ran immediately after nightly and hit Claude Code rate limits.
   workflow_dispatch:
     inputs:
       tracker_slug:

@@ -332,7 +332,7 @@ jobs:
             After updating, verify changes by reading back modified files to confirm valid JSON.
 
             IMPORTANT: Do NOT commit or push. The workflow handles that.
-          claude_args: "--max-turns 50 --dangerously-skip-permissions"
+          claude_args: "--max-turns 30 --dangerously-skip-permissions"  # Reduced from 50 to save Claude Code budget
 
       - name: Upload tracker changes
         if: always()
