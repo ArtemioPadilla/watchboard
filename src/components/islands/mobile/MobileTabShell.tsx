@@ -113,6 +113,7 @@ export default function MobileTabShell(props: Props) {
     <div className="mtab-shell">
       <MobileHeader
         operationName={props.operationName}
+        trackerSlug={props.trackerSlug}
         mapMode={mapMode}
         onToggleMapMode={toggleMapMode}
         globeEnabled={props.globeEnabled}

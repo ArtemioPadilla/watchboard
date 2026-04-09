@@ -2,6 +2,7 @@
 
 interface Props {
   operationName: string;
+  trackerSlug: string;
   mapMode: '2d' | '3d';
   onToggleMapMode: () => void;
   globeEnabled?: boolean;
@@ -10,6 +11,7 @@ interface Props {
 
 export default function MobileHeader({
   operationName,
+  trackerSlug,
   mapMode,
   onToggleMapMode,
   globeEnabled,
@@ -32,14 +34,14 @@ export default function MobileHeader({
           >
             2D
           </button>
-          <button
+          <a
             className={`mtab-toggle-btn${mapMode === '3d' ? ' active' : ''}`}
-            onClick={() => mapMode !== '3d' && onToggleMapMode()}
+            href={`/${trackerSlug}/globe/`}
             role="radio"
             aria-checked={mapMode === '3d'}
           >
             3D
-          </button>
+          </a>
         </div>
       )}
     </header>
