@@ -23,6 +23,7 @@ export async function GET(context: APIContext) {
       pubDate: new Date(digest.date),
       description: digest.summary,
       link: `${basePath}${config.slug}/#digest-${digest.date}`,
+      customData: `<category>${digest.source || 'daily'}</category>`,
     }))
     .sort((a, b) => b.pubDate.getTime() - a.pubDate.getTime())
     .slice(0, 50);
