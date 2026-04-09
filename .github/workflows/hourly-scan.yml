@@ -225,7 +225,21 @@ jobs:
             - Add 1 topic hashtag + #Watchboard (2 max)
             - Tone: breaking news journalist, factual, concise
 
-            STEP 5: Write the list of new event IDs (one per line) to /tmp/event-ids.txt
+            STEP 5 — WRITE DIGEST ENTRY FOR RSS:
+            After writing event data, read trackers/${{ matrix.entry.tracker }}/data/digests.json (create as [] if missing).
+            Check if a "breaking" digest already exists for today (source === "breaking" AND date === today YYYY-MM-DD).
+            If YES: update the existing entry — merge sectionsUpdated, update summary to reflect latest event.
+            If NO: prepend a new entry to the array:
+            {
+              "date": "YYYY-MM-DD",
+              "title": "Breaking: {event title}",
+              "summary": "{first 200 chars of event description}",
+              "sectionsUpdated": [{sections you modified}],
+              "source": "breaking"
+            }
+            Write the updated array back to digests.json.
+
+            STEP 6: Write the list of new event IDs (one per line) to /tmp/event-ids.txt
             Write the list of sections you modified (one per line) to /tmp/sections.txt
 
       - name: Post breaking tweet
