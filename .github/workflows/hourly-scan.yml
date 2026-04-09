@@ -225,7 +225,21 @@ jobs:
             - Add 1 topic hashtag + #Watchboard (2 max)
             - Tone: breaking news journalist, factual, concise
 
-            STEP 5: Write the list of new event IDs (one per line) to /tmp/event-ids.txt
+            STEP 5 — WRITE DIGEST ENTRY FOR RSS:
+            After writing event data, read trackers/${{ matrix.entry.tracker }}/data/digests.json (create as [] if missing).
+            Check if a "breaking" digest already exists for today (source === "breaking" AND date === today YYYY-MM-DD).
+            If YES: update the existing entry — merge sectionsUpdated, update summary to reflect latest event.
+            If NO: prepend a new entry to the array:
+            {
+              "date": "YYYY-MM-DD",
+              "title": "Breaking: {event title}",
+              "summary": "{first 200 chars of event description}",
+              "sectionsUpdated": [{sections you modified}],
+              "source": "breaking"
+            }
+            Write the updated array back to digests.json.
+
+            STEP 6: Write the list of new event IDs (one per line) to /tmp/event-ids.txt
             Write the list of sections you modified (one per line) to /tmp/sections.txt
 
       - name: Post breaking tweet
@@ -342,6 +356,7 @@ jobs:
           fi
 
       - name: Validate modified JSON
+        id: validate-json
         run: |
           TRACKER="${{ matrix.entry.tracker }}"
           VALID=true
@@ -390,6 +405,62 @@ jobs:
         env:
           SECTIONS: ${{ matrix.entry.type == 'update' && 'events,map-points,kpis,meta' || 'events,map-points,meta' }}
 
+      - name: Collect metrics
+        id: metrics
+        if: always()
+        run: |
+          TIMESTAMP=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          FILENAME=$(echo "$TIMESTAMP" | sed 's/:/-/g')
+          TRACKER="${{ matrix.entry.tracker }}"
+          TYPE="${{ matrix.entry.type }}"
+
+          # Determine status from validation step
+          if [ "${{ steps.validate-json.outcome || 'success' }}" = "failure" ]; then
+            STATUS="failure"
+          else
+            STATUS="success"
+          fi
+
+          # Count trackers: 1 for this matrix entry
+          TRACKER_COUNT=1
+
+          mkdir -p public/_metrics/runs
+
+          node -e "
+            const fs = require('fs');
+            const run = {
+              timestamp: '$TIMESTAMP',
+              status: '$STATUS',
+              trigger: 'schedule',
+              pipeline: 'hourly',
+              trackersResolved: ['$TRACKER'],
+              validation: {
+                jsonValid: ${{ steps.validate-json.outcome != 'failure' || 'false' }},
+                schemaValid: ${{ steps.validate-json.outcome != 'failure' || 'false' }},
+                errors: [],
+              },
+              inventory: {},
+            };
+            fs.writeFileSync('public/_metrics/runs/${FILENAME}.json', JSON.stringify(run, null, 2));
+            console.log('Wrote hourly metrics run file');
+
+            const indexPath = 'public/_metrics/index.json';
+            let index = [];
+            try { index = JSON.parse(fs.readFileSync(indexPath, 'utf8')); } catch {}
+            index.push({
+              file: '${FILENAME}.json',
+              timestamp: '$TIMESTAMP',
+              status: '$STATUS',
+              trackerCount: ${TRACKER_COUNT},
+              errorCount: 0,
+              pipeline: 'hourly',
+            });
+            const cutoff = new Date(Date.now() - 90 * 86400000).toISOString();
+            const pruned = index.filter(e => e.timestamp >= cutoff);
+            fs.writeFileSync(indexPath, JSON.stringify(pruned, null, 2));
+            console.log('Index: ' + pruned.length + ' entries');
+          "
+
       - name: Commit and push
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -398,7 +469,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git"
-          git add "trackers/$TRACKER/" public/_hourly/ public/_social/ || true
+          git add "trackers/$TRACKER/" public/_hourly/ public/_social/ public/_metrics/ || true
           if git diff --cached --quiet; then
             echo "No changes to commit"
             exit 0

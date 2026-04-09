@@ -70,6 +70,7 @@ const ogImageUrl = trackerSlug
     "url": pageUrl,
   })} />
   <link rel="alternate" type="application/rss+xml" title={trackerSlug ? `${title} RSS` : 'Watchboard RSS'} href={trackerSlug ? `${basePath}${trackerSlug}/rss.xml` : `${basePath}rss.xml`} />
+  <link rel="alternate" type="application/rss+xml" title="Watchboard Breaking News RSS" href={`${basePath}rss/breaking.xml`} />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/dm-sans-latin.woff2">
   <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/jetbrains-mono-latin.woff2">
   <!-- Cloudflare Web Analytics -->

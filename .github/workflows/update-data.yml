@@ -797,6 +797,7 @@ jobs:
               timestamp: '$TIMESTAMP',
               status: '$STATUS',
               trigger: '$TRIGGER',
+              pipeline: 'nightly',
               trackersResolved: $SLUGS_JSON,
               validation: {
                 jsonValid: ${{ steps.json_check.outputs.valid == 'true' || 'false' }},
@@ -823,6 +824,7 @@ jobs:
               status: '$STATUS',
               trackerCount: $SLUGS_JSON.length,
               errorCount: $ERRORS.length,
+              pipeline: 'nightly',
             });
             const cutoff = new Date(Date.now() - 90 * 86400000).toISOString();
             const pruned = index.filter(e => e.timestamp >= cutoff);
