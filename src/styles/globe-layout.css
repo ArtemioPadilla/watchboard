@@ -82,4 +82,430 @@
   .globe-slot--bottom-right {
     display: none !important;
   }
+
+  /* Hide desktop bottom timeline when mobile sheet is active */
+  .globe-slot--bottom {
+    display: none !important;
+  }
+
+  /* Mobile bottom sheet container */
+  .globe-mobile-sheet {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 200;
+    pointer-events: auto;
+  }
+}
+
+/* ══════════════════════════════════════════════
+   Mobile Bottom Sheet — Swipeable panel styles
+   ══════════════════════════════════════════════ */
+
+/* ── Drag area + handle ── */
+.mobile-sheet-drag-area {
+  display: flex;
+  justify-content: center;
+  padding: 8px 0 4px;
+  cursor: grab;
+  touch-action: none;
+}
+
+.mobile-sheet-drag-handle {
+  width: 32px;
+  height: 4px;
+  border-radius: 2px;
+  background: #333;
+}
+
+/* ── Tab bar ── */
+.mobile-sheet-tabs {
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0 4px;
+  flex-shrink: 0;
+}
+
+.mobile-sheet-tab {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  height: 44px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: #6b7280;
+  font-size: 10px;
+  font-family: 'DM Mono', 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  padding: 0 4px;
+  transition: color 0.2s, border-color 0.2s;
+  position: relative;
+}
+
+.mobile-sheet-tab.active {
+  color: var(--accent-blue, #3498db);
+  border-bottom-color: var(--accent-blue, #3498db);
+}
+
+.mobile-sheet-tab-label {
+  font-size: 9px;
+  line-height: 1;
+}
+
+.mobile-sheet-tab-badge {
+  position: absolute;
+  top: 4px;
+  right: calc(50% - 16px);
+  min-width: 14px;
+  height: 14px;
+  border-radius: 7px;
+  background: var(--accent-red, #e74c3c);
+  color: #fff;
+  font-size: 9px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 3px;
+  line-height: 1;
+}
+
+/* ── Content area ── */
+.mobile-sheet-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  padding: 8px 12px 24px;
+  min-height: 0;
+}
+
+/* ── Timeline tab ── */
+.mobile-sheet-timeline {
+  /* The UnifiedTimelineBar is rendered inside; give it room */
+  width: 100%;
+}
+
+/* ── Section titles ── */
+.mobile-sheet-section-title {
+  font-size: 10px;
+  font-weight: 600;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mobile-sheet-badge {
+  min-width: 16px;
+  height: 16px;
+  border-radius: 8px;
+  background: rgba(52, 152, 219, 0.2);
+  color: var(--accent-blue, #3498db);
+  font-size: 10px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+}
+
+.mobile-sheet-empty {
+  color: #4b5563;
+  font-size: 12px;
+  text-align: center;
+  padding: 24px 0;
+}
+
+/* ── Intel event list ── */
+.mobile-sheet-event-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* ── Event cards ── */
+.mobile-event-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.mobile-event-card.active {
+  border-color: var(--accent-blue, #3498db);
+  box-shadow: 0 0 8px rgba(52, 152, 219, 0.2);
+}
+
+.mobile-event-card-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+  background: none;
+  border: none;
+  color: #e2e8f0;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.mobile-event-type-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.mobile-event-title {
+  flex: 1;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mobile-event-expand {
+  color: #6b7280;
+  font-size: 14px;
+  flex-shrink: 0;
+  width: 20px;
+  text-align: center;
+}
+
+.mobile-event-detail {
+  padding: 4px 10px 10px;
+  font-size: 11px;
+  color: #94a3b8;
+  line-height: 1.5;
+}
+
+.mobile-event-detail p {
+  margin: 0 0 6px;
+}
+
+.mobile-event-sources {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.mobile-event-tier {
+  font-size: 9px;
+  opacity: 0.7;
+  margin-left: 3px;
+}
+
+/* ── Filter grid ── */
+.mobile-sheet-filter-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.mobile-sheet-filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  color: #94a3b8;
+  font-size: 11px;
+  font-family: 'DM Mono', 'JetBrains Mono', monospace;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.mobile-sheet-filter-btn.active {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #e2e8f0;
+}
+
+.mobile-sheet-fdot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.mobile-sheet-filter-count {
+  font-size: 9px;
+  color: #6b7280;
+  margin-left: 2px;
+}
+
+/* ── Visual mode row ── */
+.mobile-sheet-mode-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.mobile-sheet-mode-btn {
+  padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  color: #94a3b8;
+  font-size: 11px;
+  font-family: 'DM Mono', 'JetBrains Mono', monospace;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.mobile-sheet-mode-btn.active {
+  background: rgba(52, 152, 219, 0.15);
+  border-color: var(--accent-blue, #3498db);
+  color: var(--accent-blue, #3498db);
+}
+
+/* ── Detail panel ── */
+.mobile-sheet-detail {
+  padding: 4px 0;
+}
+
+.mobile-sheet-detail-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.mobile-sheet-detail-close {
+  background: none;
+  border: none;
+  color: #6b7280;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0 4px;
+  line-height: 1;
+}
+
+.mobile-sheet-detail-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mobile-sheet-detail-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #e2e8f0;
+  padding: 4px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.mobile-sheet-detail-label {
+  color: #6b7280;
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+}
+
+.mobile-sheet-detail-text {
+  font-size: 12px;
+  color: #94a3b8;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ── Mission compact panel ── */
+.mobile-mission-compact {
+  padding: 4px 0;
+}
+
+.mobile-mission-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.mobile-mission-vehicle {
+  font-size: 12px;
+  font-weight: 600;
+  color: #e2e8f0;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.mobile-mission-phase {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+.mobile-mission-phase-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #4ade80;
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.mobile-mission-track-btn {
+  margin-left: auto;
+  padding: 4px 10px;
+  background: rgba(52, 152, 219, 0.15);
+  border: 1px solid var(--accent-blue, #3498db);
+  border-radius: 4px;
+  color: var(--accent-blue, #3498db);
+  font-size: 10px;
+  font-weight: 600;
+  font-family: 'DM Mono', 'JetBrains Mono', monospace;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+}
+
+.mobile-mission-telemetry {
+  display: flex;
+  gap: 12px;
+}
+
+.mobile-mission-metric {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.mobile-mission-metric-label {
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.mobile-mission-metric-value {
+  font-size: 13px;
+  font-weight: 500;
+  color: #e2e8f0;
+  font-family: 'DM Mono', 'JetBrains Mono', monospace;
+}
+
+.mobile-mission-vectors {
+  margin-top: 4px;
 }
