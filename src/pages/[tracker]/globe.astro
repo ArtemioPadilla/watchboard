@@ -56,13 +56,7 @@ const basePath = base.endsWith('/') ? base : `${base}/`;
       layoutOverrides={config.globe?.layoutOverrides}
       />
   </div>
-  <script>
-    if (window.innerWidth <= 768) {
-      const pathParts = window.location.pathname.replace(/\/+$/, '').split('/');
-      pathParts.pop();
-      window.location.replace(pathParts.join('/') + '/?mode=3d');
-    }
-  </script>
+  <!-- Mobile users now see the 3D globe with GlobeMobileSheet for controls -->
   <script define:vars={{ trackerSlug: config.slug }}>
     if (window.posthog) {
       window.posthog.register({ tracker_slug: trackerSlug });
