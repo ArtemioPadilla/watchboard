@@ -11,6 +11,7 @@ import {
   ColorBlendMode,
   Quaternion,
   Simon1994PlanetaryPositions,
+  SunLight,
   type Viewer as CesiumViewer,
   type Entity,
 } from 'cesium';
@@ -133,9 +134,12 @@ export function useLunarMission(
       });
       entitiesRef.current.push(moonTrailEntity);
 
-      // Moon sphere — entity with solid color (CesiumJS entity/primitive materials
-      // are unlit; SunLight only affects globe terrain and Model entities.
-      // Moon — glTF model with texture (CesiumJS Model entities support lighting)
+      // Enable Sun-based lighting — Model entities (Moon + Orion) respond to this,
+      // creating realistic lit/dark side effects
+      viewer.scene.light = new SunLight();
+      viewer.scene.globe.enableLighting = true;
+
+      // Moon — glTF model with texture + normals (supports PBR lighting)
       // Model is ~2 units across, Moon radius = 1,737,400 m → scale = 1,737,400
       const moonModelUri = '/models/moon.glb';
       const moonPositionCallback = new CallbackProperty(() => {

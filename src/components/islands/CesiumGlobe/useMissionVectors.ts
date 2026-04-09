@@ -14,7 +14,7 @@ import {
   interpolateVelocityAtOffset,
   type VectorSet,
 } from './mission-vectors';
-import { computeAdaptiveScale } from './spacecraft-scale';
+// Arrow scaling uses camera distance directly (not spacecraft-scale)
 
 export interface VectorToggles {
   velocity: boolean;
@@ -144,24 +144,13 @@ export function useMissionVectors(
               const mag = Cartesian3.magnitude(vec);
               if (mag < 1e-10) return [scPos, scPos];
 
-              // Dual scaling: use whichever is larger — camera fraction or ship scale.
-              // Far zoom: camera fraction dominates (arrows are % of view).
-              // Close zoom: ship scale dominates (arrows stay proportional to model).
+              // Arrow length as fraction of camera distance — works at all zoom levels.
+              // Camera distance is the ground truth for "what's visible on screen".
               const cameraDist = Cartesian3.distance(viewer.camera.positionWC, scPos);
-              const shipScale = computeAdaptiveScale(viewer, scPos);
               const normalizedMag = Math.min(1, mag / config.maxMagnitude);
-
-              // Camera-based length (good for far zoom)
-              const minFrac = 0.02;
-              const maxFrac = 0.02 + 0.08 * config.lengthMultiplier / 12;
-              const cameraLen = cameraDist * (minFrac + normalizedMag * (maxFrac - minFrac));
-
-              // Ship-based length (good for close zoom)
-              const shipMinLen = shipScale * 3;
-              const shipMaxLen = shipScale * config.lengthMultiplier;
-              const shipLen = shipMinLen + normalizedMag * (shipMaxLen - shipMinLen);
-
-              const arrowLength = Math.max(cameraLen, shipLen);
+              const minFrac = 0.03;  // 3% of view = always visible
+              const maxFrac = 0.03 + 0.12 * config.lengthMultiplier / 12;
+              const arrowLength = cameraDist * (minFrac + normalizedMag * (maxFrac - minFrac));
 
               // Arrow starts at spacecraft center (no offset — cleaner look)
               const dir = Cartesian3.normalize(vec, new Cartesian3());
