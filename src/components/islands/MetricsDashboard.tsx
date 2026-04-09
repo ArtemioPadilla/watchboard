@@ -8,6 +8,7 @@ interface MetricsIndexEntry {
   status: 'success' | 'failure';
   trackerCount: number;
   errorCount: number;
+  pipeline?: 'nightly' | 'hourly' | 'seed' | 'init';
 }
 
 interface ValidationError {
@@ -770,6 +771,33 @@ function RunLogEntry({ entry, onExpand, isExpanded, run, loadingRun }: {
           {badgeLabel}
         </span>
 
+        {/* Pipeline badge */}
+        {(() => {
+          const pipeline = entry.pipeline ?? 'nightly';
+          const pipelineColors: Record<string, { bg: string; color: string }> = {
+            nightly: { bg: 'rgba(155, 89, 182, 0.15)', color: '#b98ce0' },
+            hourly: { bg: 'rgba(52, 152, 219, 0.15)', color: '#5dade2' },
+            seed: { bg: 'rgba(46, 204, 113, 0.15)', color: '#58d68d' },
+            init: { bg: 'rgba(243, 156, 18, 0.15)', color: '#f5b041' },
+          };
+          const style = pipelineColors[pipeline] ?? pipelineColors.nightly;
+          return (
+            <span style={{
+              fontFamily: FONT_MONO,
+              fontSize: '0.55rem',
+              fontWeight: 600,
+              letterSpacing: '0.06em',
+              textTransform: 'uppercase' as const,
+              padding: '2px 8px',
+              borderRadius: '3px',
+              background: style.bg,
+              color: style.color,
+            }}>
+              {pipeline}
+            </span>
+          );
+        })()}
+
         {/* Trigger badge */}
         <span style={{
           fontFamily: FONT_MONO,
@@ -1299,6 +1327,7 @@ export default function MetricsDashboard() {
   const [loadingTimestamp, setLoadingTimestamp] = useState<string | null>(null);
   const [loadedRuns, setLoadedRuns] = useState<Map<string, MetricsRun>>(new Map());
   const [latestRun, setLatestRun] = useState<MetricsRun | null>(null);
+  const [pipelineFilter, setPipelineFilter] = useState<'all' | 'nightly' | 'hourly'>('all');
   const mountedRef = useRef(true);
 
   useEffect(() => {
@@ -1337,14 +1366,21 @@ export default function MetricsDashboard() {
       .catch(() => setLoading(false));
   }, []);
 
-  const sortedEntries = useMemo(
-    () => [...index].sort((a, b) =>
-      new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime(),
-    ),
-    [index],
+  const filteredEntries = useMemo(
+    () => pipelineFilter === 'all'
+      ? index
+      : index.filter(e => (e.pipeline ?? 'nightly') === pipelineFilter),
+    [index, pipelineFilter],
   );
 
-  const summary = useMemo(() => computeSummary(index), [index]);
+  const sortedEntries = useMemo(
+    () => [...filteredEntries].sort((a, b) =>
+      new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime(),
+    ),
+    [filteredEntries],
+  );
+
+  const summary = useMemo(() => computeSummary(filteredEntries), [filteredEntries]);
 
   const handleToggle = useCallback(async (entry: MetricsIndexEntry) => {
     // Collapse if already expanded
@@ -1417,11 +1453,52 @@ export default function MetricsDashboard() {
       {/* Section 1: System Status Banner */}
       <SystemStatusBanner summary={summary} />
 
+      {/* Pipeline filter pills */}
+      <div style={{
+        display: 'flex',
+        gap: '4px',
+        marginBottom: '1.5rem',
+        background: 'var(--bg-card)',
+        border: '1px solid var(--border)',
+        borderRadius: '8px',
+        padding: '4px',
+        width: 'fit-content',
+      }}>
+        {([
+          { key: 'all' as const, label: 'ALL' },
+          { key: 'nightly' as const, label: 'NIGHTLY' },
+          { key: 'hourly' as const, label: 'HOURLY' },
+        ]).map(({ key, label }) => {
+          const isActive = pipelineFilter === key;
+          return (
+            <button
+              key={key}
+              onClick={() => setPipelineFilter(key)}
+              style={{
+                fontFamily: FONT_MONO,
+                fontSize: '0.6rem',
+                fontWeight: 600,
+                letterSpacing: '0.08em',
+                padding: '6px 14px',
+                borderRadius: '6px',
+                border: 'none',
+                cursor: 'pointer',
+                transition: 'all 0.15s',
+                background: isActive ? 'var(--accent-blue)' : 'transparent',
+                color: isActive ? '#fff' : 'var(--text-muted)',
+              }}
+            >
+              {label}
+            </button>
+          );
+        })}
+      </div>
+
       {/* Section 2: KPI Summary Row */}
       <KpiSummaryRow summary={summary} />
 
       {/* Section 3: Uptime Calendar */}
-      <UptimeCalendar entries={index} />
+      <UptimeCalendar entries={filteredEntries} />
 
       {/* Section 4: Per-Tracker Health Table */}
       <TrackerHealthTable latestRun={latestRun} />
@@ -1436,7 +1513,7 @@ export default function MetricsDashboard() {
       />
 
       {/* Section 6: Error Trend Chart (conditional) */}
-      <ErrorTrendChart entries={index} />
+      <ErrorTrendChart entries={filteredEntries} />
     </div>
   );
 }
