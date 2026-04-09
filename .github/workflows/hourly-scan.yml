@@ -356,6 +356,7 @@ jobs:
           fi
 
       - name: Validate modified JSON
+        id: validate-json
         run: |
           TRACKER="${{ matrix.entry.tracker }}"
           VALID=true
@@ -404,6 +405,62 @@ jobs:
         env:
           SECTIONS: ${{ matrix.entry.type == 'update' && 'events,map-points,kpis,meta' || 'events,map-points,meta' }}
 
+      - name: Collect metrics
+        id: metrics
+        if: always()
+        run: |
+          TIMESTAMP=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          FILENAME=$(echo "$TIMESTAMP" | sed 's/:/-/g')
+          TRACKER="${{ matrix.entry.tracker }}"
+          TYPE="${{ matrix.entry.type }}"
+
+          # Determine status from validation step
+          if [ "${{ steps.validate-json.outcome || 'success' }}" = "failure" ]; then
+            STATUS="failure"
+          else
+            STATUS="success"
+          fi
+
+          # Count trackers: 1 for this matrix entry
+          TRACKER_COUNT=1
+
+          mkdir -p public/_metrics/runs
+
+          node -e "
+            const fs = require('fs');
+            const run = {
+              timestamp: '$TIMESTAMP',
+              status: '$STATUS',
+              trigger: 'schedule',
+              pipeline: 'hourly',
+              trackersResolved: ['$TRACKER'],
+              validation: {
+                jsonValid: ${{ steps.validate-json.outcome != 'failure' || 'false' }},
+                schemaValid: ${{ steps.validate-json.outcome != 'failure' || 'false' }},
+                errors: [],
+              },
+              inventory: {},
+            };
+            fs.writeFileSync('public/_metrics/runs/${FILENAME}.json', JSON.stringify(run, null, 2));
+            console.log('Wrote hourly metrics run file');
+
+            const indexPath = 'public/_metrics/index.json';
+            let index = [];
+            try { index = JSON.parse(fs.readFileSync(indexPath, 'utf8')); } catch {}
+            index.push({
+              file: '${FILENAME}.json',
+              timestamp: '$TIMESTAMP',
+              status: '$STATUS',
+              trackerCount: ${TRACKER_COUNT},
+              errorCount: 0,
+              pipeline: 'hourly',
+            });
+            const cutoff = new Date(Date.now() - 90 * 86400000).toISOString();
+            const pruned = index.filter(e => e.timestamp >= cutoff);
+            fs.writeFileSync(indexPath, JSON.stringify(pruned, null, 2));
+            console.log('Index: ' + pruned.length + ' entries');
+          "
+
       - name: Commit and push
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -412,7 +469,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git"
-          git add "trackers/$TRACKER/" public/_hourly/ public/_social/ || true
+          git add "trackers/$TRACKER/" public/_hourly/ public/_social/ public/_metrics/ || true
           if git diff --cached --quiet; then
             echo "No changes to commit"
             exit 0
