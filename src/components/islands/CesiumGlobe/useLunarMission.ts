@@ -187,6 +187,35 @@ export function useLunarMission(
       });
       entitiesRef.current.push(moonLabelEntity);
 
+      // Sun entity — bright yellow point at J2000 position with label
+      // Sun is ~150M km away, so it's always a point. We use a large point
+      // with glow that stays visible at any zoom.
+      const sunEntity = viewer.entities.add({
+        position: new CallbackProperty(() => {
+          const simMs = simTimeRef.current;
+          const jd = simMs ? JulianDate.fromDate(new Date(simMs)) : launchJd;
+          return Simon1994PlanetaryPositions.computeSunPositionInEarthInertialFrame(jd);
+        }, false) as any,
+        point: {
+          pixelSize: 20,
+          color: Color.fromCssColorString('#fff4b8'),
+          outlineColor: Color.fromCssColorString('#ffdd00'),
+          outlineWidth: 4,
+          scaleByDistance: new NearFarScalar(1e9, 20, 1e12, 6),
+        },
+        label: {
+          text: 'SUN',
+          font: '12px JetBrains Mono',
+          fillColor: Color.fromCssColorString('#ffdd00'),
+          outlineColor: Color.BLACK,
+          outlineWidth: 2,
+          style: 2,
+          pixelOffset: { x: 0, y: -20 } as any,
+          scaleByDistance: new NearFarScalar(1e9, 1.0, 1e12, 0.2),
+        },
+      });
+      entitiesRef.current.push(sunEntity);
+
       // Spacecraft entity — 3D model with velocity-aligned orientation
       const modelUri = '/models/orion-spacecraft.glb';
 

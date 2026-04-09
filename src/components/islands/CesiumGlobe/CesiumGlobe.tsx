@@ -40,6 +40,7 @@ import { useGroundTruth } from './useGroundTruth';
 import { useCinematicMode } from './useCinematicMode';
 import { useLunarMission } from './useLunarMission';
 import { useMissionVectors, DEFAULT_VECTOR_TOGGLES, type VectorToggles } from './useMissionVectors';
+import { useEngineExhaust } from './useEngineExhaust';
 import FloatingFactCard, { type CarouselEntity } from './FloatingFactCard';
 import MissionIdentity from './MissionIdentity';
 import MissionTelemetry from './MissionTelemetry';
@@ -501,7 +502,8 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [], ca
 
   // ── Lunar mission trajectory ──
   const { telemetryRef, positionRef, trackSpacecraft } = useLunarMission(cesiumViewer, missionTrajectory ?? null, simTimeRef);
-  useMissionVectors(cesiumViewer, missionTrajectory ?? null, simTimeRef, positionRef, vectorToggles);
+  const { vectorsRef } = useMissionVectors(cesiumViewer, missionTrajectory ?? null, simTimeRef, positionRef, vectorToggles);
+  useEngineExhaust(cesiumViewer, positionRef, vectorsRef, simTimeRef);
 
   const handleToggleCinematic = useCallback(() => {
     setCinematicMode(prev => {
@@ -639,7 +641,7 @@ export default function CesiumGlobe({ points, lines, kpis, meta, events = [], ca
 
         {/* Telemetry (mission preset only) */}
         {hasPanelInSlot('right', 'telemetry') && missionTrajectory && (
-          <MissionTelemetry telemetryRef={telemetryRef} />
+          <MissionTelemetry telemetryRef={telemetryRef} vectorsRef={vectorsRef} vectorToggles={vectorToggles} />
         )}
       </div>
 

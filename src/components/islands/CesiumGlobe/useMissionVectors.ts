@@ -185,4 +185,6 @@ export function useMissionVectors(
       existing.clear();
     };
   }, [viewer, trajectory, toggles.velocity, toggles.gravityEarth, toggles.gravityMoon, toggles.thrust]);
+
+  return { vectorsRef };
 }
