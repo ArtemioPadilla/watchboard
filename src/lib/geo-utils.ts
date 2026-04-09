@@ -212,6 +212,21 @@ function computeTrackerCount(node: GeoNode): number {
 }
 
 /**
+ * Compute a density map: ISO A2 country code -> number of trackers
+ * whose geoPath[0] matches that code.
+ * Global trackers and those without geoPath are excluded.
+ */
+export function computeCountryDensity(trackers: TrackerCardData[]): Map<string, number> {
+  const density = new Map<string, number>();
+  for (const t of trackers) {
+    if (t.region === 'global' || !t.geoPath || t.geoPath.length === 0) continue;
+    const iso = t.geoPath[0];
+    density.set(iso, (density.get(iso) ?? 0) + 1);
+  }
+  return density;
+}
+
+/**
  * Find all trackers whose geoPath starts with `parentGeoPath` but is strictly longer.
  * Returns children only, not the parent itself.
  */
