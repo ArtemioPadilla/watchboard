@@ -131,3 +131,52 @@ async function staleWhileRevalidate(request, cacheName) {
   // Return cached immediately if available, otherwise wait for network
   return cached || fetchPromise;
 }
+
+// --- Push Notification handlers ---
+
+self.addEventListener('push', event => {
+  if (!event.data) return;
+
+  let payload;
+  try {
+    payload = event.data.json();
+  } catch {
+    payload = {
+      title: 'Watchboard Update',
+      body: event.data.text(),
+    };
+  }
+
+  const { title, body, icon, url, tag, tracker } = payload;
+
+  event.waitUntil(
+    self.registration.showNotification(title || 'Watchboard', {
+      body: body || '',
+      icon: icon || '/icons/icon-192.png',
+      badge: '/icons/icon-192.png',
+      tag: tag || `wb-${tracker || 'update'}-${Date.now()}`,
+      data: { url: url || '/' },
+      vibrate: [200, 100, 200],
+    })
+  );
+});
+
+self.addEventListener('notificationclick', event => {
+  event.notification.close();
+
+  const targetUrl = event.notification.data?.url || '/';
+
+  event.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then(windowClients => {
+      // Focus an existing tab if one is open on the site
+      for (const client of windowClients) {
+        if (client.url.includes(self.location.origin) && 'focus' in client) {
+          client.navigate(targetUrl);
+          return client.focus();
+        }
+      }
+      // Otherwise open a new tab
+      return clients.openWindow(targetUrl);
+    })
+  );
+});

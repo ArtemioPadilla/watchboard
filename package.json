@@ -15,7 +15,8 @@
     "backfill-osint": "tsx scripts/backfill-osint.ts",
     "backfill-media": "tsx scripts/backfill-media.ts",
     "test": "vitest run",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "generate-vapid-keys": "tsx scripts/generate-vapid-keys.ts"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.6",
@@ -38,6 +39,7 @@
   },
   "devDependencies": {
     "@anthropic-ai/sdk": "^0.78.0",
+    "@cloudflare/workers-types": "^4.20260410.1",
     "@playwright/test": "^1.58.2",
     "@types/leaflet": "^1.9.21",
     "@types/node": "^25.3.3",

@@ -1,0 +1,16 @@
+# Cloudflare Pages Functions configuration for push notifications.
+# The functions/ directory is auto-deployed with Cloudflare Pages.
+# Environment variables (VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY, VAPID_SUBJECT)
+# must be set in Cloudflare Pages > Settings > Environment Variables.
+
+name = "watchboard"
+compatibility_date = "2024-09-01"
+
+# KV namespace binding for push subscriptions
+[[kv_namespaces]]
+binding = "PUSH_SUBSCRIPTIONS"
+id = ""  # Fill in after creating: wrangler kv namespace create PUSH_SUBSCRIPTIONS
+
+# Cron trigger: poll RSS every 15 minutes for new items to push
+[triggers]
+crons = ["*/15 * * * *"]
