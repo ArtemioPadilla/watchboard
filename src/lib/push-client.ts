@@ -3,7 +3,7 @@
  * Handles subscription lifecycle with the service worker and backend API.
  */
 
-const API_BASE = '/api/push';
+const API_BASE = 'https://push.watchboard.dev';
 const PUSH_PREFS_KEY = 'watchboard-push-prefs';
 
 export interface PushPrefs {
