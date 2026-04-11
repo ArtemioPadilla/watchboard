@@ -92,8 +92,10 @@
     width: 100%;
     background: var(--bg-card);
     border-top: 1px solid var(--border);
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
     touch-action: pan-y;
+    padding-bottom: 50px;
   }
 
   /* ── Progress bar ── */
