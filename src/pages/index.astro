@@ -245,6 +245,14 @@ const breakingTrackers = [...serializedTrackers]
       height: 35vh !important;
       max-height: 35vh !important;
       overflow: hidden !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+    /* Lights toggle: push below overlay nav so it's not covered */
+    .cc-globe .globe-lights-toggle {
+      top: 48px !important;
+      z-index: 60 !important;
     }
     .cc-sidebar {
       flex: 1 1 0% !important;

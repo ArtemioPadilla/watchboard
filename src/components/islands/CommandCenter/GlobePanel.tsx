@@ -645,6 +645,7 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
         </div>
       )}
       <button
+        className="globe-lights-toggle"
         onClick={() => setCityLights(prev => !prev)}
         title={`City lights: ${cityLights ? 'ON' : 'OFF'} (L)`}
         style={{

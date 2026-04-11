@@ -417,7 +417,10 @@ export default function CommandCenter({
       <NotificationManager trackers={trackers} followedSlugs={followedSlugs} />
 
       {/* Overlay Nav */}
-      <div style={styles.overlayNav} role="banner" aria-label="Watchboard navigation">
+      <div style={{
+        ...styles.overlayNav,
+        ...(isMobile ? { position: 'absolute' as const } : {}),
+      }} role="banner" aria-label="Watchboard navigation">
         <div style={styles.overlayNavLogo}>WATCHBOARD</div>
         <div style={styles.overlayNavBadges}>
           <span style={styles.overlayNavBadge}>

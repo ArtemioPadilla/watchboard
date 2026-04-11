@@ -17,6 +17,12 @@
   cursor: pointer;
   transition: color 0.2s, border-color 0.2s;
 }
+@media (max-width: 767px) {
+  .push-bell-btn {
+    top: 48px;
+    right: 12px;
+  }
+}
 .push-bell-btn:hover {
   color: var(--text-primary);
   border-color: var(--accent-amber);
