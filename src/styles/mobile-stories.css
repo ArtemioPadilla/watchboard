@@ -55,8 +55,8 @@
     transition: opacity 0.2s ease, transform 0.2s ease;
   }
   .story-circle-ring.active {
-    background: linear-gradient(135deg, var(--accent-red), var(--accent-amber));
-    box-shadow: 0 0 0 2px var(--bg-primary), 0 0 12px var(--accent-red-dim);
+    background: linear-gradient(135deg, #58a6ff, #3fb950);
+    box-shadow: 0 0 0 2px var(--bg-primary), 0 0 10px rgba(88,166,255,0.4);
     opacity: 1;
     transform: scale(1.05);
   }
