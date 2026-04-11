@@ -632,7 +632,7 @@ export default function CommandCenter({
       )}
 
       {/* Coach marks */}
-      {coachHint && (
+      {coachHint && !isMobile && (
         <CoachMark hint={coachHint} onDismiss={handleDismissCoachHint} />
       )}
 
