@@ -3,9 +3,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { loadAllTrackers } from '../lib/tracker-registry';
 import { loadTrackerData } from '../lib/data';
 import CommandCenter from '../components/islands/CommandCenter/CommandCenter';
-import HeroSection from '../components/static/HeroSection.astro';
-import TrustStrip from '../components/static/TrustStrip.astro';
-import StartHereRow from '../components/static/StartHereRow.astro';
 
 const trackers = loadAllTrackers();
 const nonDraft = trackers.filter(t => t.status !== 'draft');
@@ -147,61 +144,44 @@ const serializedTrackers = nonDraft.map(t => {
   };
 });
 
-// Hero section data computation
+// Computed data for overlay nav and ticker
 const now = Date.now();
 const oneDayMs = 24 * 3600_000;
 const updatedTodayCount = serializedTrackers.filter(t => {
   const updated = new Date(t.lastUpdated).getTime();
   return now - updated < oneDayMs;
 }).length;
-const weeklyEventCount = serializedTrackers.reduce((sum, t) => sum + (t.recentEventCount || 0), 0);
-const breakingTracker = serializedTrackers.find(t => t.isBreaking);
-const totalEvents = serializedTrackers.reduce((sum, t) => sum + (t.recentEventCount || 0), 0) * 4;
 
-const trendingTrackers = [...serializedTrackers]
-  .filter(t => t.status === 'active')
+// Breaking/trending trackers for the bottom ticker
+const breakingTrackers = [...serializedTrackers]
+  .filter(t => t.status === 'active' && (t.isBreaking || (t.recentEventCount || 0) > 0))
   .sort((a, b) => {
     if (a.isBreaking && !b.isBreaking) return -1;
     if (!a.isBreaking && b.isBreaking) return 1;
     return (b.recentEventCount || 0) - (a.recentEventCount || 0);
   })
-  .slice(0, 5)
+  .slice(0, 12)
   .map(t => ({
     slug: t.slug,
     shortName: t.shortName,
+    headline: t.headline,
     icon: t.icon,
     color: t.color,
-    headline: t.headline,
-    lastUpdated: t.lastUpdated,
     isBreaking: t.isBreaking,
   }));
 ---
 <BaseLayout title="Watchboard — Intelligence Dashboard Platform">
   <main id="main-content">
-  <HeroSection
-    trackerCount={nonDraft.length}
-    updatedTodayCount={updatedTodayCount}
-    weeklyEventCount={weeklyEventCount}
-    breakingHeadline={breakingTracker?.headline}
-    breakingSlug={breakingTracker?.slug}
-    basePath={basePath}
-  />
-  <TrustStrip
-    trackerCount={nonDraft.length}
-    totalEvents={totalEvents}
-    githubUrl="https://github.com/ArtemioPadilla/watchboard"
-    basePath={basePath}
-  />
-  <StartHereRow trackers={trendingTrackers} basePath={basePath} />
-  <div id="command-center">
   <CommandCenter
     trackers={serializedTrackers}
     basePath={basePath}
     liveCount={liveTrackers.length}
     historicalCount={historicalTrackers.length}
+    trackerCount={nonDraft.length}
+    updatedTodayCount={updatedTodayCount}
+    breakingTrackers={breakingTrackers}
     client:idle
   />
-  </div>
   </main>
 </BaseLayout>
 
@@ -213,6 +193,11 @@ const trendingTrackers = [...serializedTrackers]
 
   @keyframes spin {
     to { transform: rotate(360deg); }
+  }
+
+  @keyframes tickerScroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
   }
 
   /* Show follow star on tracker row hover */
