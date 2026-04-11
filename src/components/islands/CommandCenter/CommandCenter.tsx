@@ -76,11 +76,23 @@ function computeFeatureCentroidAndAltitude(feature: any): {
   return { centroid, altitude };
 }
 
+interface BreakingTracker {
+  slug: string;
+  shortName: string;
+  headline?: string;
+  icon: string;
+  color: string;
+  isBreaking: boolean;
+}
+
 interface Props {
   trackers: TrackerCardData[];
   basePath: string;
   liveCount: number;
   historicalCount: number;
+  trackerCount: number;
+  updatedTodayCount: number;
+  breakingTrackers: BreakingTracker[];
 }
 
 export default function CommandCenter({
@@ -88,12 +100,16 @@ export default function CommandCenter({
   basePath,
   liveCount,
   historicalCount,
+  trackerCount,
+  updatedTodayCount,
+  breakingTrackers,
 }: Props) {
   const [activeTracker, setActiveTracker] = useState<string | null>(null);
   const [hoveredTracker, setHoveredTracker] = useState<string | null>(null);
   const [followedSlugs, setFollowedSlugs] = useState<string[]>([]);
   const [compareSlugs, setCompareSlugs] = useState<string[]>([]);
   const [broadcastOff, setBroadcastOff] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
   const [viewMode, setViewMode] = useState<ViewMode>(() => {
     if (typeof window !== 'undefined') {
       const hash = window.location.hash.replace('#', '');
@@ -105,6 +121,7 @@ export default function CommandCenter({
   const [locale, setLocale] = useState<Locale>('en');
   const [showHelp, setShowHelp] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [mobileTab, setMobileTab] = useState<'live' | 'trackers'>('live');
   const [showToast, setShowToast] = useState(false);
   const [coachHint, setCoachHint] = useState<ReturnType<typeof getNextCoachHint>>(null);
   const [discoveredFeatures, setDiscoveredFeatures] = useState<Set<string>>(new Set());
@@ -221,7 +238,10 @@ export default function CommandCenter({
 
   const handleSelect = useCallback((slug: string | null) => {
     setActiveTracker(slug);
-    if (slug) setActiveGeoPath(null);
+    if (slug) {
+      setActiveGeoPath(null);
+      setSidebarCollapsed(false);
+    }
   }, []);
 
   const handleHover = useCallback((slug: string | null) => {
@@ -313,6 +333,14 @@ export default function CommandCenter({
     setCompareSlugs([]);
   }, []);
 
+  const handleStoryTrackerChange = useCallback((slug: string) => {
+    const tracker = trackers.find(t => t.slug === slug);
+    if (tracker?.mapCenter) {
+      globeRef.current?.flyTo?.(tracker.mapCenter.lat, tracker.mapCenter.lon, 2.0, 1200);
+      globeRef.current?.setAutoRotate?.(false);
+    }
+  }, [trackers]);
+
   // Global keyboard shortcuts
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -385,11 +413,86 @@ export default function CommandCenter({
     return () => window.removeEventListener('keydown', handler);
   }, [activeTracker, showHelp, compareSlugs.length, handleToggleFollow, handleToggleCompare, basePath, locale]);
 
+  const sidebarStyle: React.CSSProperties = isMobile
+    ? mobileTab === 'trackers' ? styles.sidebar : { ...styles.sidebar, display: 'none' }
+    : sidebarCollapsed
+      ? { ...styles.sidebarCollapsed }
+      : { ...styles.sidebar, transition: 'all 0.3s ease' };
+
   return (
     <div className="command-center-root" role="application" aria-label="Watchboard Command Center" style={styles.container}>
       <h1 className="sr-only">Watchboard — Intelligence Dashboard Platform</h1>
       <NotificationManager trackers={trackers} followedSlugs={followedSlugs} />
-      <div className="cc-globe" style={styles.globe} role="region" aria-label="Globe visualization">
+
+      {/* Overlay Nav */}
+      <div style={{
+        ...styles.overlayNav,
+        ...(isMobile ? { position: 'absolute' as const } : {}),
+      }} role="banner" aria-label="Watchboard navigation">
+        <div style={styles.overlayNavLogo}>WATCHBOARD</div>
+        <div style={styles.overlayNavBadges}>
+          {isMobile ? (
+            <>
+              <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '0.55rem', color: 'var(--accent-green)' }}>
+                ● {liveCount} {t('cc.live', locale)}
+              </span>
+              <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '0.55rem', color: 'var(--text-muted, #8b949e)' }}>
+                {historicalCount} {t('cc.hist', locale)}
+              </span>
+              <a
+                href="https://github.com/ArtemioPadilla/watchboard"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: 'var(--text-muted, #8b949e)', opacity: 0.7, display: 'inline-flex', alignItems: 'center' }}
+                title="View on GitHub"
+                aria-label="View on GitHub"
+              >
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+              </a>
+              <a
+                href="https://github.com/sponsors/ArtemioPadilla"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: 'var(--accent-pink, #f778ba)', opacity: 0.8, display: 'inline-flex', alignItems: 'center', gap: '2px', fontFamily: "'JetBrains Mono', monospace", fontSize: '0.5rem', fontWeight: 600, textDecoration: 'none' }}
+                title="Support this project"
+                aria-label="Support this project"
+              >
+                ♥ Support
+              </a>
+              <button
+                type="button"
+                onClick={handleToggleLocale}
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 2,
+                  padding: '2px 5px', border: '1px solid rgba(255,255,255,0.15)', borderRadius: 3,
+                  background: 'transparent', cursor: 'pointer',
+                  fontFamily: "'JetBrains Mono', monospace", fontSize: '0.48rem',
+                  fontWeight: 600, color: '#e6edf3', letterSpacing: '0.04em',
+                }}
+                title="Change language"
+              >
+                {SUPPORTED_LOCALES.map((loc, i) => (
+                  <span key={loc}>
+                    {i > 0 && <span style={{ opacity: 0.3 }}>/</span>}
+                    <span style={{ opacity: locale === loc ? 1 : 0.4 }}>{loc.toUpperCase()}</span>
+                  </span>
+                ))}
+              </button>
+            </>
+          ) : (
+            <>
+              <span style={styles.overlayNavBadge}>
+                <span style={styles.badgeCount}>{trackerCount}</span> trackers
+              </span>
+              <span style={{ ...styles.overlayNavBadge, background: 'rgba(46,160,67,0.25)', borderColor: 'rgba(46,160,67,0.4)' }}>
+                <span style={{ ...styles.badgeCount, color: '#3fb950' }}>{updatedTodayCount}</span> updated today
+              </span>
+            </>
+          )}
+        </div>
+      </div>
+
+      <div className="cc-globe" style={sidebarCollapsed && !isMobile ? styles.globeExpanded : styles.globe} role="region" aria-label="Globe visualization">
         <Suspense fallback={
           <div style={styles.globeLoading}>
             <div style={styles.globePlaceholder}>
@@ -443,35 +546,130 @@ export default function CommandCenter({
         )}
       </div>
       {isMobile && (
-        <MobileStoryCarousel trackers={trackers} basePath={basePath} followedSlugs={followedSlugs} />
+        <div style={styles.mobileTabBar}>
+          <button
+            onClick={() => setMobileTab('live')}
+            style={mobileTab === 'live' ? styles.mobileTabActive : styles.mobileTab}
+          >
+            ⚡ LIVE
+          </button>
+          <button
+            onClick={() => setMobileTab('trackers')}
+            style={mobileTab === 'trackers' ? styles.mobileTabActive : styles.mobileTab}
+          >
+            📋 TRACKERS
+          </button>
+        </div>
       )}
-      <nav className="cc-sidebar" style={styles.sidebar} aria-label="Tracker directory">
-        <SidebarPanel
-          trackers={trackers}
-          basePath={basePath}
-          activeTracker={activeTracker}
-          hoveredTracker={hoveredTracker}
-          followedSlugs={followedSlugs}
-          liveCount={liveCount}
-          historicalCount={historicalCount}
-          onSelectTracker={handleSelect}
-          onHoverTracker={handleHover}
-          onToggleFollow={handleToggleFollow}
-          compareSlugs={compareSlugs}
-          onToggleCompare={handleToggleCompare}
-          locale={locale}
-          onToggleLocale={handleToggleLocale}
-          searchRef={searchRef}
-          viewMode={viewMode}
-          onChangeViewMode={setViewMode}
-          geoExpandedKeys={viewMode === 'geographic' ? geoExpandedKeys : undefined}
-          onGeoExpandedKeysChange={viewMode === 'geographic' ? setGeoExpandedKeys : undefined}
-          onHoverGeoNode={handleHoverGeoNode}
-          onLeaveGeoNode={handleLeaveGeoNode}
-          onClickGeoNode={handleClickGeoNode}
-          activeGeoPath={activeGeoPath}
-        />
+      {isMobile && mobileTab === 'live' && (
+        <div style={{ flex: '1 1 0%', overflow: 'hidden', position: 'relative' as const, minHeight: 0 }}>
+          <MobileStoryCarousel trackers={trackers} basePath={basePath} followedSlugs={followedSlugs} onTrackerChange={handleStoryTrackerChange} />
+        </div>
+      )}
+      <nav className="cc-sidebar" style={sidebarStyle} aria-label="Tracker directory">
+        {!isMobile && sidebarCollapsed ? (
+          <div style={styles.collapsedSidebarContent}>
+            <button
+              onClick={() => setSidebarCollapsed(false)}
+              style={styles.sidebarToggleBtn}
+              aria-label="Expand sidebar"
+              title="Expand sidebar"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="18" x2="21" y2="18" />
+              </svg>
+            </button>
+            <div style={styles.collapsedTrackerIcons}>
+              {trackers.filter(t => t.status === 'active').slice(0, 8).map(t => (
+                <button
+                  key={t.slug}
+                  onClick={() => { handleSelect(t.slug); setSidebarCollapsed(false); }}
+                  style={{
+                    ...styles.collapsedTrackerIcon,
+                    borderColor: activeTracker === t.slug ? t.color : 'transparent',
+                  }}
+                  title={t.shortName}
+                  aria-label={`Select ${t.shortName}`}
+                >
+                  <span style={{ fontSize: '1rem' }}>{t.icon}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <>
+            {!isMobile && (
+              <button
+                onClick={() => setSidebarCollapsed(true)}
+                style={styles.sidebarCollapseBtn}
+                aria-label="Collapse sidebar"
+                title="Collapse sidebar"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="15 18 9 12 15 6" />
+                </svg>
+              </button>
+            )}
+            <SidebarPanel
+              isMobile={isMobile}
+              trackers={trackers}
+              basePath={basePath}
+              activeTracker={activeTracker}
+              hoveredTracker={hoveredTracker}
+              followedSlugs={followedSlugs}
+              liveCount={liveCount}
+              historicalCount={historicalCount}
+              onSelectTracker={handleSelect}
+              onHoverTracker={handleHover}
+              onToggleFollow={handleToggleFollow}
+              compareSlugs={compareSlugs}
+              onToggleCompare={handleToggleCompare}
+              locale={locale}
+              onToggleLocale={handleToggleLocale}
+              searchRef={searchRef}
+              viewMode={viewMode}
+              onChangeViewMode={setViewMode}
+              geoExpandedKeys={viewMode === 'geographic' ? geoExpandedKeys : undefined}
+              onGeoExpandedKeysChange={viewMode === 'geographic' ? setGeoExpandedKeys : undefined}
+              onHoverGeoNode={handleHoverGeoNode}
+              onLeaveGeoNode={handleLeaveGeoNode}
+              onClickGeoNode={handleClickGeoNode}
+              activeGeoPath={activeGeoPath}
+            />
+          </>
+        )}
       </nav>
+
+      {/* Breaking News Ticker */}
+      {breakingTrackers.length > 0 && (
+        <div style={{
+          ...styles.ticker,
+          ...(isMobile ? { position: 'relative' as const, bottom: 'auto', flexShrink: 0 } : {})
+        }} role="marquee" aria-label="Breaking news ticker">
+          <div style={styles.tickerLabel}>
+            {breakingTrackers.some(t => t.isBreaking) ? 'BREAKING' : 'LATEST'}
+          </div>
+          <div style={styles.tickerTrack}>
+            <div style={styles.tickerContent}>
+              {[...breakingTrackers, ...breakingTrackers].map((t, i) => (
+                <a
+                  key={`${t.slug}-${i}`}
+                  href={`${basePath}${t.slug}/`}
+                  style={styles.tickerItem}
+                  title={`Go to ${t.shortName}`}
+                >
+                  <span style={{ marginRight: '0.35rem' }}>{t.icon}</span>
+                  <span style={{ color: t.color, fontWeight: 600, marginRight: '0.35rem' }}>{t.shortName}</span>
+                  {t.headline && (
+                    <span style={styles.tickerHeadline}>{t.headline}</span>
+                  )}
+                  <span style={styles.tickerDivider}>|</span>
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Tracker comparison panel */}
       {compareSlugs.length >= 2 && (
@@ -503,7 +701,7 @@ export default function CommandCenter({
       )}
 
       {/* Coach marks */}
-      {coachHint && (
+      {coachHint && !isMobile && (
         <CoachMark hint={coachHint} onDismiss={handleDismissCoachHint} />
       )}
 
@@ -548,6 +746,14 @@ const styles = {
     flex: '6 1 0%',
     position: 'relative' as const,
     minWidth: 0,
+    transition: 'flex 0.3s ease',
+  } as React.CSSProperties,
+
+  globeExpanded: {
+    flex: '1 1 0%',
+    position: 'relative' as const,
+    minWidth: 0,
+    transition: 'flex 0.3s ease',
   } as React.CSSProperties,
 
   globeLoading: {
@@ -592,6 +798,196 @@ const styles = {
     maxWidth: 440,
     borderLeft: '1px solid var(--border)',
     overflow: 'hidden',
+    transition: 'all 0.3s ease',
+    position: 'relative' as const,
+  } as React.CSSProperties,
+
+  sidebarCollapsed: {
+    flex: '0 0 48px',
+    minWidth: 48,
+    maxWidth: 48,
+    borderLeft: '1px solid var(--border)',
+    overflow: 'hidden',
+    transition: 'all 0.3s ease',
+  } as React.CSSProperties,
+
+  collapsedSidebarContent: {
+    display: 'flex',
+    flexDirection: 'column' as const,
+    alignItems: 'center',
+    paddingTop: '0.75rem',
+    gap: '0.5rem',
+    height: '100%',
+  } as React.CSSProperties,
+
+  sidebarToggleBtn: {
+    background: 'none',
+    border: 'none',
+    color: 'var(--text-secondary)',
+    cursor: 'pointer',
+    padding: '6px',
+    borderRadius: '6px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    transition: 'background 0.15s',
+  } as React.CSSProperties,
+
+  sidebarCollapseBtn: {
+    position: 'absolute' as const,
+    top: '0.5rem',
+    right: '0.5rem',
+    background: 'var(--bg-secondary)',
+    border: '1px solid var(--border)',
+    color: 'var(--text-secondary)',
+    cursor: 'pointer',
+    padding: '4px',
+    borderRadius: '4px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 10,
+    transition: 'background 0.15s',
+  } as React.CSSProperties,
+
+  collapsedTrackerIcons: {
+    display: 'flex',
+    flexDirection: 'column' as const,
+    alignItems: 'center',
+    gap: '0.25rem',
+    paddingTop: '0.5rem',
+  } as React.CSSProperties,
+
+  collapsedTrackerIcon: {
+    background: 'none',
+    border: '2px solid transparent',
+    borderRadius: '8px',
+    cursor: 'pointer',
+    padding: '4px',
+    width: '34px',
+    height: '34px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    transition: 'border-color 0.15s',
+  } as React.CSSProperties,
+
+  overlayNav: {
+    position: 'fixed' as const,
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 50,
+    background: 'rgba(0,0,0,0.3)',
+    backdropFilter: 'blur(8px)',
+    WebkitBackdropFilter: 'blur(8px)',
+    padding: '0.75rem 1.5rem',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    pointerEvents: 'auto',
+  } as React.CSSProperties,
+
+  overlayNavLogo: {
+    fontFamily: "'JetBrains Mono', monospace",
+    fontSize: '0.7rem',
+    fontWeight: 700,
+    letterSpacing: '0.2em',
+    color: '#e6edf3',
+    textTransform: 'uppercase' as const,
+  } as React.CSSProperties,
+
+  overlayNavBadges: {
+    display: 'flex',
+    gap: '0.5rem',
+    alignItems: 'center',
+    paddingRight: '36px',
+  } as React.CSSProperties,
+
+  overlayNavBadge: {
+    fontFamily: "'JetBrains Mono', monospace",
+    fontSize: '0.55rem',
+    color: 'var(--text-secondary, #8b949e)',
+    background: 'rgba(88,166,255,0.12)',
+    border: '1px solid rgba(88,166,255,0.25)',
+    borderRadius: '999px',
+    padding: '0.2rem 0.6rem',
+    letterSpacing: '0.04em',
+  } as React.CSSProperties,
+
+  badgeCount: {
+    fontWeight: 700,
+    color: 'var(--accent-blue, #58a6ff)',
+  } as React.CSSProperties,
+
+  ticker: {
+    position: 'fixed' as const,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: 50,
+    background: 'rgba(0,0,0,0.7)',
+    backdropFilter: 'blur(4px)',
+    WebkitBackdropFilter: 'blur(4px)',
+    height: '36px',
+    overflow: 'hidden',
+    display: 'flex',
+    alignItems: 'center',
+    borderTop: '1px solid rgba(255,255,255,0.06)',
+  } as React.CSSProperties,
+
+  tickerLabel: {
+    fontFamily: "'JetBrains Mono', monospace",
+    fontSize: '0.55rem',
+    fontWeight: 700,
+    letterSpacing: '0.1em',
+    color: '#f85149',
+    background: 'rgba(248,81,73,0.15)',
+    padding: '0.2rem 0.6rem',
+    flexShrink: 0,
+    borderRight: '1px solid rgba(255,255,255,0.08)',
+    height: '100%',
+    display: 'flex',
+    alignItems: 'center',
+  } as React.CSSProperties,
+
+  tickerTrack: {
+    flex: 1,
+    overflow: 'hidden',
+    position: 'relative' as const,
+  } as React.CSSProperties,
+
+  tickerContent: {
+    display: 'flex',
+    alignItems: 'center',
+    whiteSpace: 'nowrap' as const,
+    animation: 'tickerScroll 60s linear infinite',
+    width: 'max-content',
+  } as React.CSSProperties,
+
+  tickerItem: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    fontFamily: "'JetBrains Mono', monospace",
+    fontSize: '0.6rem',
+    color: 'var(--text-secondary, #8b949e)',
+    textDecoration: 'none',
+    padding: '0 0.75rem',
+    cursor: 'pointer',
+    transition: 'color 0.15s',
+  } as React.CSSProperties,
+
+  tickerHeadline: {
+    color: 'var(--text-primary, #e6edf3)',
+    fontWeight: 400,
+    maxWidth: '300px',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+  } as React.CSSProperties,
+
+  tickerDivider: {
+    color: 'rgba(255,255,255,0.15)',
+    margin: '0 0.5rem',
   } as React.CSSProperties,
 
   helpOverlay: {
@@ -672,6 +1068,42 @@ const styles = {
     fontSize: '0.55rem',
     color: 'var(--text-muted, #484f58)',
     textAlign: 'center' as const,
+  } as React.CSSProperties,
+
+  mobileTabBar: {
+    display: 'flex',
+    width: '100%',
+    borderBottom: '1px solid var(--border, #30363d)',
+    background: 'var(--bg-primary, #0d1117)',
+    flexShrink: 0,
+  } as React.CSSProperties,
+
+  mobileTab: {
+    flex: 1,
+    padding: '10px 0',
+    border: 'none',
+    background: 'transparent',
+    color: 'var(--text-muted, #8b949e)',
+    fontSize: '0.75rem',
+    fontFamily: "'JetBrains Mono', monospace",
+    fontWeight: 600,
+    letterSpacing: '0.05em',
+    cursor: 'pointer',
+    borderBottom: '2px solid transparent',
+  } as React.CSSProperties,
+
+  mobileTabActive: {
+    flex: 1,
+    padding: '10px 0',
+    border: 'none',
+    background: 'transparent',
+    color: 'var(--text-primary, #e8e9ed)',
+    fontSize: '0.75rem',
+    fontFamily: "'JetBrains Mono', monospace",
+    fontWeight: 600,
+    letterSpacing: '0.05em',
+    cursor: 'pointer',
+    borderBottom: '2px solid var(--accent-red, #e74c3c)',
   } as React.CSSProperties,
 };
 

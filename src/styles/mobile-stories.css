@@ -9,13 +9,15 @@
 
   /* ── Carousel wrapper ── */
   .story-carousel {
-    display: block;
+    display: flex;
+    flex-direction: column;
     width: 100%;
     padding: 12px 0 0;
     position: relative;
     overflow: hidden;
-    flex: 2 1 0%;
+    flex: 1 1 0%;
     min-height: 0;
+    height: 100%;
   }
 
   /* ── Circle row (horizontal scroll) ── */
@@ -49,15 +51,18 @@
     border-radius: 50%;
     padding: 2px;
     background: linear-gradient(135deg, var(--accent-red), var(--accent-amber));
-    transition: opacity 0.2s ease;
+    opacity: 0.7;
+    transition: opacity 0.2s ease, transform 0.2s ease;
   }
   .story-circle-ring.active {
-    background: linear-gradient(135deg, var(--accent-red), var(--accent-amber));
-    box-shadow: 0 0 0 2px var(--bg-primary), 0 0 12px var(--accent-red-dim);
+    background: linear-gradient(135deg, #58a6ff, #3fb950);
+    box-shadow: 0 0 0 2px var(--bg-primary), 0 0 10px rgba(88,166,255,0.4);
+    opacity: 1;
+    transform: none;
   }
   .story-circle-ring.seen {
     background: var(--border);
-    opacity: 0.6;
+    opacity: 0.4;
   }
 
   .story-circle-inner {
@@ -90,10 +95,15 @@
   .story-card {
     position: relative;
     width: 100%;
+    flex: 1 1 0%;
+    min-height: 0;
     background: var(--bg-card);
     border-top: 1px solid var(--border);
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
     touch-action: pan-y;
+    padding-bottom: 8px;
   }
 
   /* ── Progress bar ── */
@@ -183,7 +193,8 @@
   .story-image {
     position: relative;
     width: 100%;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 21 / 9;
+    max-height: 100px;
     overflow: hidden;
     background: var(--bg-secondary);
   }
@@ -244,7 +255,7 @@
     line-height: 1.35;
     margin: 0 0 6px;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 5;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
@@ -286,13 +297,6 @@
     color: var(--text-secondary);
     line-height: 1.5;
     margin: 0;
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  .story-briefing-expanded .story-briefing-text {
-    -webkit-line-clamp: unset;
   }
 
   /* ── KPI strip ── */

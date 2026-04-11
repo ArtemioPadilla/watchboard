@@ -1,7 +1,10 @@
 /* ─── Push Notification Manager ─── */
 
 .push-bell-btn {
-  position: relative;
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  z-index: 100;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -13,6 +16,18 @@
   color: var(--text-secondary);
   cursor: pointer;
   transition: color 0.2s, border-color 0.2s;
+}
+@media (max-width: 767px) {
+  .push-bell-btn {
+    position: fixed;
+    top: 10px;
+    right: 8px;
+    width: 28px;
+    height: 28px;
+    z-index: 100;
+    background: var(--bg-primary, #0d1117);
+    border-color: var(--border, #30363d);
+  }
 }
 .push-bell-btn:hover {
   color: var(--text-primary);
