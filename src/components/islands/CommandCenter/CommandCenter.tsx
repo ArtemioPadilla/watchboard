@@ -499,7 +499,9 @@ export default function CommandCenter({
         </div>
       )}
       {isMobile && mobileTab === 'live' && (
-        <MobileStoryCarousel trackers={trackers} basePath={basePath} followedSlugs={followedSlugs} />
+        <div style={{ flex: '1 1 0%', overflow: 'hidden', position: 'relative' as const, minHeight: 0 }}>
+          <MobileStoryCarousel trackers={trackers} basePath={basePath} followedSlugs={followedSlugs} />
+        </div>
       )}
       <nav className="cc-sidebar" style={sidebarStyle} aria-label="Tracker directory">
         {!isMobile && sidebarCollapsed ? (

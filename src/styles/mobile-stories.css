@@ -9,13 +9,15 @@
 
   /* ── Carousel wrapper ── */
   .story-carousel {
-    display: block;
+    display: flex;
+    flex-direction: column;
     width: 100%;
     padding: 12px 0 0;
     position: relative;
     overflow: hidden;
-    flex: 2 1 0%;
+    flex: 1 1 0%;
     min-height: 0;
+    height: 100%;
   }
 
   /* ── Circle row (horizontal scroll) ── */
@@ -90,10 +92,13 @@
   .story-card {
     position: relative;
     width: 100%;
+    flex: 1 1 0%;
+    min-height: 0;
     background: var(--bg-card);
     border-top: 1px solid var(--border);
     overflow-y: auto;
     overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
     touch-action: pan-y;
     padding-bottom: 50px;
   }
