@@ -50,16 +50,19 @@
     height: 56px;
     border-radius: 50%;
     padding: 2px;
-    background: linear-gradient(135deg, var(--accent-red), var(--accent-amber));
-    transition: opacity 0.2s ease;
+    background: var(--border);
+    opacity: 0.5;
+    transition: opacity 0.2s ease, transform 0.2s ease;
   }
   .story-circle-ring.active {
     background: linear-gradient(135deg, var(--accent-red), var(--accent-amber));
     box-shadow: 0 0 0 2px var(--bg-primary), 0 0 12px var(--accent-red-dim);
+    opacity: 1;
+    transform: scale(1.1);
   }
   .story-circle-ring.seen {
     background: var(--border);
-    opacity: 0.6;
+    opacity: 0.35;
   }
 
   .story-circle-inner {
