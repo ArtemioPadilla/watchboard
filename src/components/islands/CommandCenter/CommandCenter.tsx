@@ -840,6 +840,7 @@ const styles = {
     display: 'flex',
     gap: '0.5rem',
     alignItems: 'center',
+    paddingRight: '36px',
   } as React.CSSProperties,
 
   overlayNavBadge: {

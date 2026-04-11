@@ -19,10 +19,14 @@
 }
 @media (max-width: 767px) {
   .push-bell-btn {
-    top: 6px;
+    position: fixed;
+    top: 10px;
     right: 8px;
-    width: 30px;
-    height: 30px;
+    width: 28px;
+    height: 28px;
+    z-index: 100;
+    background: var(--bg-primary, #0d1117);
+    border-color: var(--border, #30363d);
   }
 }
 .push-bell-btn:hover {
