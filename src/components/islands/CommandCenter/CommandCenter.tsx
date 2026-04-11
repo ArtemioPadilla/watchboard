@@ -578,7 +578,10 @@ export default function CommandCenter({
 
       {/* Breaking News Ticker */}
       {breakingTrackers.length > 0 && (
-        <div style={styles.ticker} role="marquee" aria-label="Breaking news ticker">
+        <div style={{
+          ...styles.ticker,
+          ...(isMobile ? { position: 'relative' as const, bottom: 'auto', flexShrink: 0 } : {})
+        }} role="marquee" aria-label="Breaking news ticker">
           <div style={styles.tickerLabel}>
             {breakingTrackers.some(t => t.isBreaking) ? 'BREAKING' : 'LATEST'}
           </div>
