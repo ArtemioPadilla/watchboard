@@ -495,3 +495,22 @@ jobs:
           if [ -f /tmp/tweet-text.txt ]; then
             echo "- **Tweet:** $(cat /tmp/tweet-text.txt)" >> "$GITHUB_STEP_SUMMARY"
           fi
+
+
+  trigger-deploy:
+    needs: act
+    if: always() && needs.act.result != 'skipped'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger deploy if breaking news was published
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Check recent commits from this workflow (last 5 to handle matrix concurrency)
+          COMMITS=$(gh api repos/${{ github.repository }}/commits?per_page=5 --jq '.[].commit.message')
+          if echo "$COMMITS" | grep -qE "^(chore|feat)\(hourly\):"; then
+            echo "Hourly scan pushed changes — triggering deploy"
+            gh workflow run deploy.yml --repo ${{ github.repository }} --ref main
+          else
+            echo "No hourly changes detected — skipping deploy trigger"
+          fi
