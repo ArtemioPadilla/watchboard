@@ -57,9 +57,9 @@ const statusLabel = `${temporalLabel} ${domainLabel}`;
 >
   <!-- Desktop layout -->
   <div class="desktop-layout">
-    <Header meta={data.meta} navSections={config.navSections} trackerSlug={config.slug} globeEnabled={config.globe?.enabled} statusLabel={statusLabel} />
+    <Header meta={data.meta} navSections={config.navSections} trackerSlug={config.slug} globeEnabled={config.globe?.enabled} statusLabel={statusLabel} dayCount={data.meta.dayCount} headline={data.meta.heroHeadline} />
     <main id="main-content">
-      <HeroKpiCombo meta={data.meta} kpis={data.kpis} />
+      <HeroKpiCombo kpis={data.kpis} />
 
       <div class="theater-layout">
         {config.sections.includes('map') && (

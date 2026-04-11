@@ -1,11 +1,11 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Tracker Page', () => {
-  test('iran-conflict page loads with hero headline', async ({ page }) => {
+  test('iran-conflict page loads with header headline', async ({ page }) => {
     await page.goto('./iran-conflict/');
 
-    // The page should have a hero headline
-    const headline = page.locator('.hero-kpi-headline');
+    // The page should have a headline in the header bar
+    const headline = page.locator('.header-headline-text');
     await expect(headline).toBeVisible();
     await expect(headline).not.toBeEmpty();
 
@@ -14,18 +14,18 @@ test.describe('Tracker Page', () => {
     await expect(header).toBeVisible();
   });
 
-  test('KPI strip shows values', async ({ page }) => {
+  test('KPI ticker shows values', async ({ page }) => {
     await page.goto('./iran-conflict/');
 
-    // KPI items should be visible in the hero section
-    const kpiItems = page.locator('.hero-kpi-item');
+    // KPI items should be visible in the ticker strip
+    const kpiItems = page.locator('.kpi-ticker-item');
     const count = await kpiItems.count();
     expect(count).toBeGreaterThan(0);
 
     // Each KPI should have a label and a value
     const firstKpi = kpiItems.first();
-    const label = firstKpi.locator('.hero-kpi-label');
-    const value = firstKpi.locator('.hero-kpi-value');
+    const label = firstKpi.locator('.kpi-ticker-label');
+    const value = firstKpi.locator('.kpi-ticker-value');
     await expect(label).toBeVisible();
     await expect(value).toBeVisible();
     await expect(value).not.toBeEmpty();
@@ -54,8 +54,8 @@ test.describe('Tracker Page', () => {
   test('/es/iran-conflict/ loads Spanish version', async ({ page }) => {
     await page.goto('./es/iran-conflict/');
 
-    // The page should load successfully with a hero headline
-    const headline = page.locator('.hero-kpi-headline');
+    // The page should load successfully with a header headline
+    const headline = page.locator('.header-headline-text');
     await expect(headline).toBeVisible();
     await expect(headline).not.toBeEmpty();
 

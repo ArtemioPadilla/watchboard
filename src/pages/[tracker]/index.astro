@@ -9,7 +9,7 @@ import PoliticalGrid from '../../components/static/PoliticalGrid.astro';
 import SourceLegend from '../../components/static/SourceLegend.astro';
 import EmbedModal from '../../components/static/EmbedModal.astro';
 import Footer from '../../components/static/Footer.astro';
-import GeoBreadcrumb from '../../components/static/GeoBreadcrumb.astro';
+// GeoBreadcrumb is now integrated into the Header component
 
 import TimelineSection from '../../components/islands/TimelineSection';
 import IntelMapLoader from '../../components/islands/IntelMapLoader';
@@ -94,30 +94,15 @@ const faqSchema = {
 
   <!-- Desktop layout -->
   <div class="desktop-layout">
-    <Header meta={data.meta} navSections={config.navSections} trackerSlug={config.slug} globeEnabled={config.globe?.enabled} statusLabel={statusLabel} />
+    <Header meta={data.meta} navSections={config.navSections} trackerSlug={config.slug} globeEnabled={config.globe?.enabled} statusLabel={statusLabel} dayCount={data.meta.dayCount} headline={data.meta.heroHeadline} geoPath={config.geoPath} region={config.region} country={config.country ? countryName(config.country) : undefined} state={config.state} city={config.city} neighborhood={config.neighborhood} />
     <main id="main-content">
-      <GeoBreadcrumb
-        geoPath={config.geoPath}
-        region={config.region}
-        country={config.country ? countryName(config.country) : undefined}
-        state={config.state}
-        city={config.city}
-        neighborhood={config.neighborhood}
-      />
+      <HeroKpiCombo kpis={data.kpis} />
 
-      <!-- SEO intro section -->
-      <div class="tracker-intro">
+      <!-- SEO-only intro (visually hidden, crawlable) -->
+      <div class="sr-only">
         <p>{config.description}</p>
-        {latestDigest && (
-          <p class="tracker-latest-update">Latest: {latestDigest.summary?.slice(0, 150)}{(latestDigest.summary?.length ?? 0) > 150 ? '...' : ''}</p>
-        )}
-        <span class="tracker-meta-line">
-          Last updated {data.meta.lastUpdated ? new Date(data.meta.lastUpdated).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'recently'}
-          &middot; {eventCount} events tracked since {config.startDate}
-        </span>
+        <span>Last updated {data.meta.lastUpdated ? new Date(data.meta.lastUpdated).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'recently'} &middot; {eventCount} events tracked since {config.startDate}</span>
       </div>
-
-      <HeroKpiCombo meta={data.meta} kpis={data.kpis} />
 
       <!-- Server-rendered event previews for SEO crawlability -->
       <div class="seo-event-previews">
@@ -185,26 +170,16 @@ const faqSchema = {
 </BaseLayout>
 
 <style>
-  .tracker-intro {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 0.75rem 1rem;
-  }
-  .tracker-intro p {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.82rem;
-    color: var(--text-secondary);
-    line-height: 1.6;
-    margin: 0 0 0.3rem;
-  }
-  .tracker-latest-update {
-    font-style: italic;
-    opacity: 0.8;
-  }
-  .tracker-meta-line {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.65rem;
-    color: var(--text-muted);
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
   }
 
   .seo-event-previews {

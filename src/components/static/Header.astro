@@ -8,9 +8,17 @@ interface Props {
   trackerSlug?: string;
   globeEnabled?: boolean;
   statusLabel?: string;
+  dayCount?: string | number;
+  headline?: string;
+  geoPath?: string[];
+  region?: string;
+  country?: string;
+  state?: string;
+  city?: string;
+  neighborhood?: string;
 }
 
-const { meta, navSections, trackerSlug, globeEnabled = true, statusLabel = 'ACTIVE TRACKER' } = Astro.props;
+const { meta, navSections, trackerSlug, globeEnabled = true, statusLabel = 'ACTIVE TRACKER', dayCount, headline, geoPath, region, country, state, city, neighborhood } = Astro.props;
 
 // Fallback for backward compat
 const sections = navSections ?? (await import('../../lib/constants')).NAV_SECTIONS;
@@ -18,14 +26,48 @@ const base = import.meta.env.BASE_URL;
 const basePath = base.endsWith('/') ? base : `${base}/`;
 const globeHref = trackerSlug ? `${basePath}${trackerSlug}/globe/` : `${basePath}globe/`;
 const aboutHref = trackerSlug ? `${basePath}${trackerSlug}/about/` : `${basePath}about/`;
+
+// Build geo breadcrumb segments
+const regionPrefix = region || 'global';
+const geoSegments: { label: string; href: string }[] = [];
+if (geoPath && geoPath.length > 0) {
+  const labels = [country || geoPath[0], state, city, neighborhood].filter(Boolean) as string[];
+  for (let i = 0; i < geoPath.length; i++) {
+    const pathSlice = geoPath.slice(0, i + 1).join('/');
+    geoSegments.push({
+      label: labels[i] || geoPath[i],
+      href: `${basePath}geo/${regionPrefix}/${pathSlice}/`,
+    });
+  }
+}
+
+/** Strip HTML tags for safe display */
+const cleanText = (s: string) =>
+  s.replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').replace(/&middot;/g, '\u00B7').replace(/\s{2,}/g, ' ').trim();
+const cleanHeadline = headline ? cleanText(headline) : '';
 ---
-<header class="site-header">
+<header class="site-header compact-header">
   <div class="header-inner">
     <div class="header-left">
       <a class="home-link" href={basePath} title="Watchboard Home">WB</a>
       <span class="header-sep">&middot;</span>
       <span class="live-dot"></span>
-      <span class="header-title"><strong>{statusLabel}</strong> &mdash; {meta.operationName}</span>
+      <div class="header-identity">
+        <span class="header-title">
+          <strong>{meta.operationName}</strong>
+          {dayCount && <span class="header-daycount">Day {dayCount}</span>}
+        </span>
+        {geoSegments.length > 0 && (
+          <nav class="header-geo" aria-label="Geographic location">
+            {geoSegments.map((seg, i) => (
+              <>
+                {i > 0 && <span class="geo-sep">›</span>}
+                <a href={seg.href} class="geo-link">{seg.label}</a>
+              </>
+            ))}
+          </nav>
+        )}
+      </div>
       <span class="freshness-indicator" data-updated={meta.lastUpdated} aria-live="polite">
         <span class="freshness-text">{meta.lastUpdated ? `Updated ${new Date(meta.lastUpdated).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}` : 'Last update time unknown'}</span>
       </span>
@@ -39,6 +81,11 @@ const aboutHref = trackerSlug ? `${basePath}${trackerSlug}/about/` : `${basePath
       <a class="nav-btn about-nav-btn" href={aboutHref}>About</a>
     </nav>
   </div>
+  {cleanHeadline && (
+    <div class="header-headline-bar">
+      <span class="header-headline-text" title={cleanHeadline}>{cleanHeadline}</span>
+    </div>
+  )}
 </header>
 
 <script>
