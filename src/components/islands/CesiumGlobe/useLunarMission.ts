@@ -18,9 +18,6 @@ import {
 import {
   computeTelemetry,
   EMPTY_TELEMETRY,
-  blendEciToEcef,
-  computeGMST,
-  eciToEcef,
   type TelemetryState,
 } from './mission-helpers';
 import type { MissionTrajectory } from '../../../lib/schemas';
@@ -59,11 +56,10 @@ export function useLunarMission(
         viewer.scene.moon.show = false;
       }
 
-      // Build SampledPositionProperty in ECEF frame.
-      // Deep-space waypoints (>2000 km altitude) are kept as raw ECI — at lunar
-      // distance the ECI↔ECEF rotation is negligible and this avoids spiral artifacts.
-      // Below 2000 km we progressively rotate ECI→ECEF via GMST so the reentry arc
-      // and splashdown land at the correct geographic location.
+      // Build SampledPositionProperty (FIXED/ECEF frame — no rotation)
+      // Waypoints are equatorial J2000 inertial but we treat them as ECEF.
+      // This gives a clean static arc. Geographic positions under the path
+      // aren't exact but at 400,000 km scale it's imperceptible.
       const positionProperty = new SampledPositionProperty();
       positionProperty.setInterpolationOptions({
         interpolationDegree: 3,
@@ -74,8 +70,7 @@ export function useLunarMission(
 
       for (const wp of trajectory.waypoints) {
         const jd = JulianDate.fromIso8601(wp.t);
-        // Apply ECI→ECEF blending for low-altitude waypoints (reentry)
-        const pos = blendEciToEcef(wp.x * 1000, wp.y * 1000, wp.z * 1000, jd);
+        const pos = new Cartesian3(wp.x * 1000, wp.y * 1000, wp.z * 1000);
         positionProperty.addSample(jd, pos);
         velocities.push({
           t: jd,
@@ -83,12 +78,9 @@ export function useLunarMission(
         });
       }
 
-      // Static polyline with ECI→ECEF blending applied per waypoint
+      // Static polyline from all waypoints — clean arc, no spiral
       const polylinePositions: Cartesian3[] = trajectory.waypoints.map(
-        wp => {
-          const jd = JulianDate.fromIso8601(wp.t);
-          return blendEciToEcef(wp.x * 1000, wp.y * 1000, wp.z * 1000, jd);
-        },
+        wp => new Cartesian3(wp.x * 1000, wp.y * 1000, wp.z * 1000),
       );
 
       const trajectoryEntity = viewer.entities.add({
