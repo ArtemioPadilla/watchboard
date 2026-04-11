@@ -333,6 +333,14 @@ export default function CommandCenter({
     setCompareSlugs([]);
   }, []);
 
+  const handleStoryTrackerChange = useCallback((slug: string) => {
+    const tracker = trackers.find(t => t.slug === slug);
+    if (tracker?.mapCenter) {
+      globeRef.current?.flyTo?.(tracker.mapCenter.lat, tracker.mapCenter.lon, 2.0, 1200);
+      globeRef.current?.setAutoRotate?.(false);
+    }
+  }, [trackers]);
+
   // Global keyboard shortcuts
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -503,7 +511,7 @@ export default function CommandCenter({
       )}
       {isMobile && mobileTab === 'live' && (
         <div style={{ flex: '1 1 0%', overflow: 'hidden', position: 'relative' as const, minHeight: 0 }}>
-          <MobileStoryCarousel trackers={trackers} basePath={basePath} followedSlugs={followedSlugs} />
+          <MobileStoryCarousel trackers={trackers} basePath={basePath} followedSlugs={followedSlugs} onTrackerChange={handleStoryTrackerChange} />
         </div>
       )}
       <nav className="cc-sidebar" style={sidebarStyle} aria-label="Tracker directory">

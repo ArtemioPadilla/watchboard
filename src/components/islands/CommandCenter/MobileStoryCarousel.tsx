@@ -11,6 +11,7 @@ interface Props {
   trackers: TrackerCardData[];
   basePath: string;
   followedSlugs?: string[];
+  onTrackerChange?: (slug: string) => void;
 }
 
 // ── Constants ──
@@ -64,7 +65,7 @@ function filterAndSort(trackers: TrackerCardData[], followedSlugs: string[] = []
 
 // ── Component ──
 
-export default function MobileStoryCarousel({ trackers, basePath, followedSlugs = [] }: Props) {
+export default function MobileStoryCarousel({ trackers, basePath, followedSlugs = [], onTrackerChange }: Props) {
   const eligible = useMemo(() => filterAndSort(trackers, followedSlugs), [trackers, followedSlugs]);
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -92,8 +93,9 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
         next.add(slug);
         return next;
       });
+      onTrackerChange?.(slug);
     }
-  }, [currentIndex, eligible]);
+  }, [currentIndex, eligible, onTrackerChange]);
 
   // Auto-scroll circle row to keep active circle visible
   useEffect(() => {
@@ -210,19 +212,14 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
       touchStartY.current = null;
       touchStartX.current = null;
 
-      // Horizontal swipe takes priority when it dominates
+      // Horizontal swipe to navigate between stories
       if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > SWIPE_THRESHOLD_PX) {
         if (deltaX > 0) { goNext(); haptic(); } // swipe left = next
         else { goPrev(); haptic(); }             // swipe right = prev
         return;
       }
-
-      // Vertical swipe up = open tracker dashboard
-      if (deltaY > SWIPE_THRESHOLD_PX && eligible[currentIndex]) {
-        window.location.href = basePath + eligible[currentIndex].slug + '/';
-      }
     },
-    [basePath, currentIndex, eligible, goNext, goPrev],
+    [goNext, goPrev],
   );
 
   if (eligible.length === 0) return null;
@@ -342,20 +339,18 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
           </div>
         )}
 
-        {/* Open Dashboard link (only when paused) */}
-        {paused && (
-          <a
-            className="story-open-link"
-            href={`${basePath}${tracker.slug}/`}
-            onClick={(e) => e.stopPropagation()}
-          >
-            Open Dashboard →
-          </a>
-        )}
+        {/* Read more link (always visible) */}
+        <a
+          className="story-open-link"
+          href={`${basePath}${tracker.slug}/`}
+          onClick={(e) => e.stopPropagation()}
+        >
+          Read more →
+        </a>
 
         {/* Swipe hint */}
         <div className="story-swipe-hint">
-          {paused ? 'TAP TO RESUME · SWIPE UP TO OPEN ↑' : '← SWIPE → · TAP TO PAUSE · SWIPE UP ↑'}
+          {paused ? 'TAP TO RESUME' : '\u2190 SWIPE \u2192 \u00b7 TAP TO PAUSE'}
         </div>
 
         {/* Touch zones (hidden when paused to allow full card tap) */}
