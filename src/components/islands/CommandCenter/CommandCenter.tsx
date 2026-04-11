@@ -121,6 +121,7 @@ export default function CommandCenter({
   const [locale, setLocale] = useState<Locale>('en');
   const [showHelp, setShowHelp] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [mobileTab, setMobileTab] = useState<'live' | 'trackers'>('live');
   const [showToast, setShowToast] = useState(false);
   const [coachHint, setCoachHint] = useState<ReturnType<typeof getNextCoachHint>>(null);
   const [discoveredFeatures, setDiscoveredFeatures] = useState<Set<string>>(new Set());
@@ -405,7 +406,7 @@ export default function CommandCenter({
   }, [activeTracker, showHelp, compareSlugs.length, handleToggleFollow, handleToggleCompare, basePath, locale]);
 
   const sidebarStyle: React.CSSProperties = isMobile
-    ? styles.sidebar
+    ? mobileTab === 'trackers' ? styles.sidebar : { ...styles.sidebar, display: 'none' }
     : sidebarCollapsed
       ? { ...styles.sidebarCollapsed }
       : { ...styles.sidebar, transition: 'all 0.3s ease' };
@@ -482,6 +483,22 @@ export default function CommandCenter({
         )}
       </div>
       {isMobile && (
+        <div style={styles.mobileTabBar}>
+          <button
+            onClick={() => setMobileTab('live')}
+            style={mobileTab === 'live' ? styles.mobileTabActive : styles.mobileTab}
+          >
+            ⚡ LIVE
+          </button>
+          <button
+            onClick={() => setMobileTab('trackers')}
+            style={mobileTab === 'trackers' ? styles.mobileTabActive : styles.mobileTab}
+          >
+            📋 TRACKERS
+          </button>
+        </div>
+      )}
+      {isMobile && mobileTab === 'live' && (
         <MobileStoryCarousel trackers={trackers} basePath={basePath} followedSlugs={followedSlugs} />
       )}
       <nav className="cc-sidebar" style={sidebarStyle} aria-label="Tracker directory">
@@ -981,6 +998,42 @@ const styles = {
     fontSize: '0.55rem',
     color: 'var(--text-muted, #484f58)',
     textAlign: 'center' as const,
+  } as React.CSSProperties,
+
+  mobileTabBar: {
+    display: 'flex',
+    width: '100%',
+    borderBottom: '1px solid var(--border, #30363d)',
+    background: 'var(--bg-primary, #0d1117)',
+    flexShrink: 0,
+  } as React.CSSProperties,
+
+  mobileTab: {
+    flex: 1,
+    padding: '10px 0',
+    border: 'none',
+    background: 'transparent',
+    color: 'var(--text-muted, #8b949e)',
+    fontSize: '0.75rem',
+    fontFamily: "'JetBrains Mono', monospace",
+    fontWeight: 600,
+    letterSpacing: '0.05em',
+    cursor: 'pointer',
+    borderBottom: '2px solid transparent',
+  } as React.CSSProperties,
+
+  mobileTabActive: {
+    flex: 1,
+    padding: '10px 0',
+    border: 'none',
+    background: 'transparent',
+    color: 'var(--text-primary, #e8e9ed)',
+    fontSize: '0.75rem',
+    fontFamily: "'JetBrains Mono', monospace",
+    fontWeight: 600,
+    letterSpacing: '0.05em',
+    cursor: 'pointer',
+    borderBottom: '2px solid var(--accent-red, #e74c3c)',
   } as React.CSSProperties,
 };
 
