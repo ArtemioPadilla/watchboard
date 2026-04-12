@@ -4,6 +4,9 @@ on:
   schedule:
     - cron: '0 8,13,18,22 * * *'
   workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/post-social-queue.yml'
 
 permissions:
   contents: write
@@ -11,6 +14,7 @@ permissions:
 jobs:
   post:
     runs-on: ubuntu-latest
+    if: github.event_name != 'push'
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4

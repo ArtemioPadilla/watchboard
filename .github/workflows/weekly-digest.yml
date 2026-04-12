@@ -4,6 +4,9 @@ on:
   schedule:
     - cron: '0 16 * * 0'  # Sundays at 16:00 UTC
   workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/weekly-digest.yml'
 
 permissions:
   contents: write
@@ -11,6 +14,7 @@ permissions:
 jobs:
   digest:
     runs-on: ubuntu-latest
+    if: github.event_name != 'push'
     steps:
       - uses: actions/checkout@v4
 
