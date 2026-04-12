@@ -36,24 +36,33 @@ function parseRssItems(xml: string): RssItem[] {
   return items;
 }
 
+function decodeXmlEntities(url: string): string {
+  return url
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&apos;/g, "'");
+}
+
 function extractImageUrl(description: string, fullItemXml?: string): string | null {
   // 1. Check for media:content or media:thumbnail in the raw XML
   if (fullItemXml) {
     const mediaMatch = fullItemXml.match(/<media:(?:content|thumbnail)[^>]+url=["']([^"']+)["']/i);
-    if (mediaMatch) return mediaMatch[1];
+    if (mediaMatch) return decodeXmlEntities(mediaMatch[1]);
   }
 
   // 2. Check for <img> tag in description
   const imgMatch = description.match(/<img[^>]+src=["']([^"']+)["']/i);
-  if (imgMatch) return imgMatch[1];
+  if (imgMatch) return decodeXmlEntities(imgMatch[1]);
 
   // 3. Check for <enclosure> with image type in raw XML
   if (fullItemXml) {
     const enclosureMatch = fullItemXml.match(/<enclosure[^>]+type=["']image\/[^"']+["'][^>]+url=["']([^"']+)["']/i);
-    if (enclosureMatch) return enclosureMatch[1];
+    if (enclosureMatch) return decodeXmlEntities(enclosureMatch[1]);
     // Also try url before type
     const enclosureMatch2 = fullItemXml.match(/<enclosure[^>]+url=["']([^"']+)["'][^>]+type=["']image\/[^"']+["']/i);
-    if (enclosureMatch2) return enclosureMatch2[1];
+    if (enclosureMatch2) return decodeXmlEntities(enclosureMatch2[1]);
   }
 
   return null;

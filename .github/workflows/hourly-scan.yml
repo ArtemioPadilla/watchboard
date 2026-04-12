@@ -118,7 +118,8 @@ jobs:
         run: |
           if [ -f /tmp/hourly-action-plan.json ]; then
             node -e "
-              const plan = JSON.parse(require('fs').readFileSync('/tmp/hourly-action-plan.json','utf8'));
+              const fs = require('fs');
+              const plan = JSON.parse(fs.readFileSync('/tmp/hourly-action-plan.json','utf8'));
               const hasActions = plan.updates.length > 0 || plan.newTrackers.length > 0;
               console.log('has_actions=' + hasActions);
 
@@ -130,10 +131,12 @@ jobs:
                 entries.push({ type: 'new_tracker', tracker: nt.suggestedSlug, data: JSON.stringify(nt) });
               }
               console.log('plan_json=' + JSON.stringify(entries));
+              fs.writeFileSync('/tmp/triage-plan.json', JSON.stringify(entries));
             " >> "$GITHUB_OUTPUT"
           else
             echo "has_actions=false" >> "$GITHUB_OUTPUT"
             echo "plan_json=[]" >> "$GITHUB_OUTPUT"
+            echo "[]" > /tmp/triage-plan.json
           fi
 
       - name: Freshness check — inject stale trackers
@@ -187,7 +190,8 @@ jobs:
             let hasActions = '${{ steps.triage.outputs.has_actions }}' === 'true';
             let entries = [];
             try {
-              entries = JSON.parse('${{ steps.triage.outputs.plan_json }}');
+              const raw = fs.readFileSync('/tmp/triage-plan.json', 'utf8');
+              entries = JSON.parse(raw);
             } catch { entries = []; }
 
             for (const slug of staleAdded) {
@@ -222,8 +226,16 @@ jobs:
             done
           fi
 
+      - name: Ensure action plan artifact exists
+        if: steps.freshness.outputs.has_actions == 'true' || steps.triage.outputs.has_actions == 'true'
+        run: |
+          if [ ! -f /tmp/hourly-action-plan.json ]; then
+            echo '{"updates":[],"newTrackers":[],"scannedAt":"'$(date -u +%Y-%m-%dT%H:%M:%SZ)'","candidateCount":0,"discardedCount":0}' > /tmp/hourly-action-plan.json
+            echo "Created default hourly-action-plan.json for freshness-only run"
+          fi
+
       - name: Upload action plan
-        if: steps.triage.outputs.has_actions == 'true'
+        if: steps.freshness.outputs.has_actions == 'true' || steps.triage.outputs.has_actions == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: hourly-action-plan
