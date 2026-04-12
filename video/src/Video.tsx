@@ -11,7 +11,6 @@ import { Background } from './components/Background';
 import { CanvasGlobe } from './components/CanvasGlobe';
 import { Intro } from './components/Intro';
 import { TrackerSlide } from './components/TrackerSlide';
-import { TrackerSlideImage } from './components/TrackerSlideImage';
 import { Outro } from './components/Outro';
 import type { BreakingData, GeoFeature } from './data/types';
 import { SLIDE_ACCENTS, SAMPLE_DATA } from './data/types';
@@ -88,8 +87,8 @@ export const Video: React.FC<VideoProps> = ({ data, narrationSrc, geoFeatures = 
         }}
       >
         <CanvasGlobe
-          width={800}
-          height={800}
+          width={700}
+          height={700}
           geoFeatures={geoFeatures}
           trackers={trackers}
           activeTrackerIndex={activeTrackerIndex}
@@ -114,10 +113,9 @@ export const Video: React.FC<VideoProps> = ({ data, narrationSrc, geoFeatures = 
         <Intro date={breakingData.date} />
       </Sequence>
 
-      {/* Tracker slides — image background when thumbnail available, globe otherwise */}
+      {/* Tracker slides — always use TrackerSlide, pass thumbnail when available */}
       {trackers.map((tracker, i) => {
         const slideStart = INTRO_FRAMES + i * SLIDE_FRAMES;
-        const SlideComponent = tracker.thumbnailBase64 ? TrackerSlideImage : TrackerSlide;
         return (
           <Sequence
             key={tracker.slug}
@@ -125,9 +123,10 @@ export const Video: React.FC<VideoProps> = ({ data, narrationSrc, geoFeatures = 
             durationInFrames={SLIDE_FRAMES}
             name={`Tracker: ${tracker.name}`}
           >
-            <SlideComponent
+            <TrackerSlide
               tracker={tracker}
               accentColor={SLIDE_ACCENTS[i % SLIDE_ACCENTS.length]}
+              thumbnailBase64={tracker.thumbnailBase64}
             />
           </Sequence>
         );
