@@ -17,9 +17,10 @@ import {
   readdirSync,
   existsSync,
   mkdirSync,
+  rmSync,
   statSync,
 } from 'fs';
-import { join, basename } from 'path';
+import { join, basename, dirname } from 'path';
 
 const TRACKERS_DIR = join(process.cwd(), 'trackers');
 const OUTPUT_DIR = join(process.cwd(), 'public', 'api', 'v1');
@@ -32,7 +33,7 @@ function readJSON(path: string): any {
 
 function writeOut(relPath: string, data: unknown): void {
   const full = join(OUTPUT_DIR, relPath);
-  const dir = full.replace(/\/[^/]+$/, '');
+  const dir = dirname(full);
   mkdirSync(dir, { recursive: true });
   writeFileSync(full, JSON.stringify(data, null, 2) + '\n');
 }
@@ -218,6 +219,11 @@ function flattenEvents(timeline: TimelineEra[]): Array<{
 
 function generate(): void {
   console.log('Generating static JSON API...');
+
+  // Clean output directory to remove stale files from renamed/removed trackers
+  if (existsSync(OUTPUT_DIR)) {
+    rmSync(OUTPUT_DIR, { recursive: true });
+  }
   mkdirSync(OUTPUT_DIR, { recursive: true });
 
   const slugs = loadTrackerSlugs();
