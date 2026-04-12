@@ -56,22 +56,6 @@ export const Video: React.FC<VideoProps> = ({ data, narrationSrc, geoFeatures = 
 
   const activeTrackerIndex = getActiveTrackerIndex(frame);
 
-  // Compute a "frame since this tracker became active" for the globe spring
-  // This resets each time the active tracker changes
-  const getGlobeFrame = (f: number): number => {
-    if (f < INTRO_FRAMES) return f; // intro: use absolute frame
-    const afterIntro = f - INTRO_FRAMES;
-    const idx = Math.floor(afterIntro / SLIDE_FRAMES);
-    if (idx >= trackerCount) {
-      // outro: frames since outro started
-      return f - (INTRO_FRAMES + trackerCount * SLIDE_FRAMES);
-    }
-    // frames since this tracker slide started
-    return afterIntro - idx * SLIDE_FRAMES;
-  };
-
-  const globeFrame = getGlobeFrame(frame);
-
   // Current accent color for the globe dot
   const currentAccent =
     activeTrackerIndex >= 0
@@ -102,12 +86,12 @@ export const Video: React.FC<VideoProps> = ({ data, narrationSrc, geoFeatures = 
         }}
       >
         <CanvasGlobe
-          width={500}
-          height={500}
+          width={600}
+          height={600}
           geoFeatures={geoFeatures}
           trackers={trackers}
           activeTrackerIndex={activeTrackerIndex}
-          globalFrame={globeFrame}
+          globalFrame={frame}
           accentColor={currentAccent}
         />
       </div>

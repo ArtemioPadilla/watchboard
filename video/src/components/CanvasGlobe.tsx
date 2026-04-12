@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { interpolate, spring } from 'remotion';
+import { interpolate, Easing } from 'remotion';
 import type { GeoFeature } from '../data/types';
 
 interface CanvasGlobeProps {
@@ -17,7 +17,6 @@ interface CanvasGlobeProps {
 // ---------------------------------------------------------------------------
 
 const DEG_TO_RAD = Math.PI / 180;
-const FPS = 30;
 
 interface ProjectedPoint {
   x: number;
@@ -62,37 +61,59 @@ function projectOrthographic(
 
 function computeGlobeCenter(
   trackers: Array<{ mapCenter: [number, number] }>,
-  activeTrackerIndex: number,
+  _activeTrackerIndex: number,
   globalFrame: number,
 ): { lon: number; lat: number } {
-  const baseRotation = globalFrame * 0.3; // slow continuous rotation
+  // Frame layout (30fps):
+  // Intro:     0-89    (3s)
+  // Tracker 0: 90-239  (5s)
+  // Tracker 1: 240-389 (5s)
+  // Tracker 2: 390-539 (5s)
+  // Outro:     540-689 (5s)
 
-  if (activeTrackerIndex < 0 || trackers.length === 0) {
-    // Intro/outro: free rotation, slight tilt
-    return {
-      lon: baseRotation,
-      lat: interpolate(Math.sin(globalFrame * 0.02), [-1, 1], [-10, 10]),
-    };
-  }
+  const INTRO_END = 89;
+  const T0_START = 90;
+  const T0_END = 239;
+  const T1_START = 240;
+  const T1_END = 389;
+  const T2_START = 390;
+  const T2_END = 539;
+  const OUTRO_START = 540;
+  const OUTRO_END = 689;
 
-  const target = trackers[activeTrackerIndex];
-  const targetLat = target.mapCenter[0];
-  const targetLon = target.mapCenter[1];
+  // Extract tracker coordinates (lon, lat) with fallbacks
+  const t0Lon = trackers[0]?.mapCenter[1] ?? 30;
+  const t0Lat = trackers[0]?.mapCenter[0] ?? 25;
+  const t1Lon = trackers[1]?.mapCenter[1] ?? 60;
+  const t1Lat = trackers[1]?.mapCenter[0] ?? 20;
+  const t2Lon = trackers[2]?.mapCenter[1] ?? -100;
+  const t2Lat = trackers[2]?.mapCenter[0] ?? 20;
 
-  // Spring toward target position
-  // We use a manual spring approximation based on frames since tracker became active
-  const springVal = spring({
-    frame: globalFrame,
-    fps: FPS,
-    config: { damping: 22, stiffness: 40, mass: 1.5 },
-    durationInFrames: 60,
-  });
+  const easeOpts = { easing: Easing.bezier(0.25, 0.1, 0.25, 1), extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as const };
 
-  // Blend from base rotation toward target
-  const lon = interpolate(springVal, [0, 1], [baseRotation, targetLon]);
-  const lat = interpolate(springVal, [0, 1], [0, targetLat]);
+  // Continuous interpolation of target longitude across all phases
+  const targetLon = interpolate(
+    globalFrame,
+    [0, INTRO_END, T0_START + 20, T0_END, T1_START + 20, T1_END, T2_START + 20, T2_END, OUTRO_START + 20, OUTRO_END],
+    [0, 20,         t0Lon,          t0Lon,  t1Lon,          t1Lon,  t2Lon,          t2Lon,  40,               80],
+    easeOpts,
+  );
 
-  return { lon, lat };
+  // Continuous interpolation of target latitude across all phases
+  const targetLat = interpolate(
+    globalFrame,
+    [0, INTRO_END, T0_START + 20, T0_END, T1_START + 20, T1_END, T2_START + 20, T2_END, OUTRO_START + 20, OUTRO_END],
+    [20, 20,       t0Lat,          t0Lat,  t1Lat,          t1Lat,  t2Lat,          t2Lat,  10,               5],
+    easeOpts,
+  );
+
+  // Slow baseline rotation — keeps the globe always slightly moving
+  const baseRotation = globalFrame * 0.15;
+
+  return {
+    lon: targetLon + baseRotation,
+    lat: targetLat,
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -372,7 +393,7 @@ export const CanvasGlobe: React.FC<CanvasGlobeProps> = ({
 
     const cx = width / 2;
     const cy = height / 2;
-    const radius = Math.min(width, height) * 0.42;
+    const radius = Math.min(width, height) * 0.46;
 
     // Compute globe center via smooth interpolation
     const { lon: rawLon, lat: centerLat } = computeGlobeCenter(
