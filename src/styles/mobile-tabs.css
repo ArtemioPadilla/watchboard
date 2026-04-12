@@ -259,6 +259,23 @@
   font-weight: 700;
 }
 
+/* ─── Headline bar ─── */
+.mtab-headline-bar {
+  padding: 4px 12px;
+  background: rgba(10, 11, 14, 0.95);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 28px;
+  line-height: 20px;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--border);
+}
+
 .mtab-map-container {
   flex: 1;
   min-height: 0;
@@ -272,7 +289,7 @@
 }
 
 .mtab-map-container .map-container {
-  height: calc(100% - 120px) !important;
+  height: calc(100% - 150px) !important;
 }
 
 .mtab-3d-placeholder {
@@ -919,6 +936,11 @@
 }
 
 /* ─── Floating map event card (#6) ─── */
+@keyframes mtabCardPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.3); }
+  50% { box-shadow: 0 0 0 4px rgba(231, 76, 60, 0); }
+}
+
 .mtab-map-event-card {
   position: absolute;
   bottom: 12px;
@@ -927,18 +949,18 @@
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  padding: 10px 12px;
-  background: rgba(10, 11, 14, 0.92);
-  backdrop-filter: blur(8px);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  z-index: 450; /* I6 fix: above Leaflet controls (z-index ~400) */
-  animation: mtabSlideUp 0.3s ease-out;
+  padding: 14px 14px;
+  background: rgba(10, 11, 14, 0.95);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(231, 76, 60, 0.35);
+  border-radius: 10px;
+  z-index: 450;
+  animation: mtabSlideUp 0.3s ease-out, mtabCardPulse 2.5s ease-in-out 1s infinite;
 }
 
 .mtab-map-event-dot {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   flex-shrink: 0;
   margin-top: 4px;
@@ -950,16 +972,17 @@
 }
 
 .mtab-map-event-type {
-  font-size: 0.55rem;
+  font-size: 0.6rem;
   font-family: 'JetBrains Mono', monospace;
-  color: var(--text-muted);
+  color: var(--accent-amber);
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-bottom: 2px;
+  margin-bottom: 3px;
+  font-weight: 700;
 }
 
 .mtab-map-event-title {
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   color: var(--text-primary);
   font-family: 'Cormorant Garamond', serif;
   font-weight: 600;
@@ -980,6 +1003,45 @@
   cursor: pointer;
   flex-shrink: 0;
   -webkit-tap-highlight-color: transparent;
+}
+
+/* ─── Active tab indicator line ─── */
+.mtab-tab-indicator {
+  position: absolute;
+  top: 0;
+  left: 25%;
+  right: 25%;
+  height: 2px;
+  background: var(--accent-red);
+  border-radius: 0 0 2px 2px;
+}
+
+/* ─── Coach mark overlay ─── */
+.mtab-coach-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  animation: mtabFadeIn 0.3s ease;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mtab-coach-text {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1rem;
+  color: #fff;
+  text-align: center;
+  line-height: 1.6;
+  max-width: 300px;
+}
+
+.mtab-coach-text strong {
+  color: var(--accent-red);
 }
 
 /* ─── Responsive layout switches ─── */

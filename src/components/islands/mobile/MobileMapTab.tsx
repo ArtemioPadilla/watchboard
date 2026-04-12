@@ -77,6 +77,10 @@ export default function MobileMapTab({
         </div>
       )}
 
+      {meta?.heroHeadline && (
+        <div className="mtab-headline-bar">{meta.heroHeadline}</div>
+      )}
+
       {mode === '2d' ? (
         <div className="mtab-map-container">
           <IntelMap
