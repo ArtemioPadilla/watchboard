@@ -20,6 +20,30 @@ const ENTRY_POINT = resolve(ROOT_DIR, 'src/Root.tsx');
 const NARRATION_PATH = resolve(ROOT_DIR, 'src/assets/narration.mp3');
 const EARTH_TEXTURE_PATH = resolve(ROOT_DIR, '../public/textures/earth-night-lights-nasa.jpg');
 
+async function downloadThumbnail(url: string): Promise<Buffer | null> {
+  const headers = {
+    'User-Agent':
+      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    Accept: 'image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8',
+    'Accept-Language': 'en-US,en;q=0.9',
+    Referer: 'https://www.google.com/',
+  };
+
+  try {
+    const resp = await fetch(url, {
+      headers,
+      redirect: 'follow',
+      signal: AbortSignal.timeout(10000),
+    });
+    if (!resp.ok) return null;
+    const ct = resp.headers.get('content-type') ?? '';
+    if (!ct.startsWith('image/')) return null;
+    return Buffer.from(await resp.arrayBuffer());
+  } catch {
+    return null;
+  }
+}
+
 async function main(): Promise<void> {
   console.log('=== Watchboard Video Renderer ===\n');
 
@@ -40,40 +64,17 @@ async function main(): Promise<void> {
   // Download tracker thumbnails for Remotion (can't fetch external URLs during render)
   console.log('  Downloading tracker thumbnails...');
   for (const tracker of data.trackers) {
-    if (tracker.thumbnailUrl) {
-      try {
-        const resp = await fetch(tracker.thumbnailUrl, {
-          headers: { 'User-Agent': 'Mozilla/5.0 (compatible; Watchboard/1.0)' },
-          signal: AbortSignal.timeout(8000),
-        });
-        if (resp.ok) {
-          const ct = resp.headers.get('content-type') ?? '';
-          if (!ct.startsWith('image/')) {
-            console.warn(`    ${tracker.name}: not an image (${ct}), skipping`);
-            continue;
-          }
-          const buf = Buffer.from(await resp.arrayBuffer());
-          tracker.thumbnailBase64 = `data:${ct};base64,${buf.toString('base64')}`;
-          console.log(`    ${tracker.name}: thumbnail downloaded (${(buf.length / 1024).toFixed(0)} KB)`);
-        } else {
-          console.warn(`    ${tracker.name}: thumbnail fetch failed (${resp.status})`);
-        }
-      } catch (e) {
-        console.warn(`    ${tracker.name}: thumbnail fetch error — ${e}`);
+    for (const url of tracker.thumbnailUrls) {
+      const buf = await downloadThumbnail(url);
+      if (buf && buf.length > 5000) {
+        const ct = url.endsWith('.png') ? 'image/png' : url.endsWith('.webp') ? 'image/webp' : 'image/jpeg';
+        tracker.thumbnailBase64 = `data:${ct};base64,${buf.toString('base64')}`;
+        console.log(`    ${tracker.name}: thumbnail downloaded (${(buf.length / 1024).toFixed(0)} KB)`);
+        break;
       }
     }
-    // Fallback: use tracker OG image if no thumbnail
     if (!tracker.thumbnailBase64) {
-      try {
-        const ogUrl = `https://watchboard.dev/og/${tracker.slug}.png`;
-        const ogResp = await fetch(ogUrl, { signal: AbortSignal.timeout(8000) });
-        if (ogResp.ok) {
-          const ct = ogResp.headers.get('content-type') ?? 'image/png';
-          const buf = Buffer.from(await ogResp.arrayBuffer());
-          tracker.thumbnailBase64 = `data:${ct};base64,${buf.toString('base64')}`;
-          console.log(`    ${tracker.name}: OG fallback (${(buf.length / 1024).toFixed(0)} KB)`);
-        }
-      } catch {}
+      console.log(`    ${tracker.name}: no thumbnail found, will use globe`);
     }
   }
 
