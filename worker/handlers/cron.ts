@@ -162,9 +162,10 @@ export async function handleCron(env: Env): Promise<Response> {
       url: item.link,
       tag: `${slug}-${item.category}-${new Date().toISOString().slice(0, 10)}`,
     };
-    if (item.image) {
-      notificationPayload.image = item.image;
-    }
+    // Image fallback chain: event thumbnail → tracker OG image → site OG card
+    const imageUrl = item.image
+      || `https://watchboard.dev/og/${slug}.png`;
+    notificationPayload.image = imageUrl;
     const payload = JSON.stringify(notificationPayload);
 
     for (const subKey of subKeys) {
