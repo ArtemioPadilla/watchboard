@@ -501,10 +501,59 @@ export default function CommandCenter({
       }} role="region" aria-label="Globe visualization">
         <Suspense fallback={
           <div style={styles.globeLoading}>
+            <style>{`
+              @keyframes globeScan { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+              @keyframes globePulseRing { 0%,100% { opacity: 0.3; transform: scale(1); } 50% { opacity: 0.7; transform: scale(1.08); } }
+              @keyframes skeletonPulse { 0%,100% { opacity: 0.15; } 50% { opacity: 0.35; } }
+              @keyframes starTwinkle { 0%,100% { opacity: 0.2; } 50% { opacity: 0.8; } }
+            `}</style>
+            {/* Starfield dots */}
+            {[...Array(40)].map((_, i) => (
+              <div key={i} style={{
+                position: 'absolute',
+                width: i % 3 === 0 ? 2 : 1,
+                height: i % 3 === 0 ? 2 : 1,
+                borderRadius: '50%',
+                background: '#fff',
+                top: `${(i * 17 + 7) % 100}%`,
+                left: `${(i * 31 + 13) % 100}%`,
+                animation: `starTwinkle ${2 + (i % 3)}s ease-in-out ${(i * 0.3) % 2}s infinite`,
+              }} />
+            ))}
+            {/* Title */}
+            <div style={{
+              position: 'absolute', top: '12%',
+              fontFamily: "'JetBrains Mono', monospace", fontSize: '0.75rem',
+              fontWeight: 700, letterSpacing: '0.25em', color: '#e74c3c',
+            }}>WATCHBOARD</div>
+            {/* Globe */}
             <div style={styles.globePlaceholder}>
-              <div style={styles.globeSpinner} />
+              {/* Scanning line */}
+              <div style={{
+                position: 'absolute', inset: -10, borderRadius: '50%',
+                background: 'conic-gradient(from 0deg, transparent 0%, transparent 70%, rgba(52,152,219,0.4) 85%, transparent 100%)',
+                animation: 'globeScan 3s linear infinite',
+              }} />
+              {/* Pulse ring */}
+              <div style={{
+                position: 'absolute', inset: -16, borderRadius: '50%',
+                border: '1px solid rgba(52,152,219,0.3)',
+                animation: 'globePulseRing 2.5s ease-in-out infinite',
+              }} />
             </div>
+            {/* Status text */}
             <div style={styles.globeLoadingText}>{t('cc.initGlobe', locale)}</div>
+            {/* Skeleton KPI cards */}
+            <div style={{ display: 'flex', gap: 10, marginTop: 20 }}>
+              {[72, 56, 64].map((w, i) => (
+                <div key={i} style={{
+                  width: w, height: 28, borderRadius: 6,
+                  background: 'rgba(255,255,255,0.06)',
+                  border: '1px solid rgba(255,255,255,0.08)',
+                  animation: `skeletonPulse 1.8s ease-in-out ${i * 0.3}s infinite`,
+                }} />
+              ))}
+            </div>
           </div>
         }>
           <GlobePanel
@@ -785,33 +834,27 @@ const styles = {
     justifyContent: 'center',
     width: '100%',
     height: '100%',
-    background: '#000',
+    background: 'radial-gradient(ellipse at 50% 40%, #0f1923 0%, #0a0b0e 60%)',
+    position: 'relative' as const,
+    overflow: 'hidden',
   } as React.CSSProperties,
 
   globePlaceholder: {
-    width: 100,
-    height: 100,
+    width: 160,
+    height: 160,
     borderRadius: '50%',
-    background: 'radial-gradient(circle at 35% 30%, #1e3a5f 0%, #0e1f35 50%, #060a10 100%)',
+    background: 'radial-gradient(circle at 38% 32%, #1a4a7a 0%, #122a4a 30%, #0a1628 60%, #050a12 100%)',
     position: 'relative' as const,
-  } as React.CSSProperties,
-
-  globeSpinner: {
-    position: 'absolute' as const,
-    inset: -6,
-    borderRadius: '50%',
-    border: '2px solid transparent',
-    borderTopColor: 'rgba(52,152,219,0.5)',
-    animation: 'spin 1.5s linear infinite',
+    boxShadow: '0 0 60px rgba(52,152,219,0.15), inset 0 0 30px rgba(0,0,0,0.5)',
   } as React.CSSProperties,
 
   globeLoadingText: {
     marginTop: 16,
     fontFamily: "'JetBrains Mono', monospace",
-    fontSize: '0.55rem',
-    color: 'var(--text-muted)',
-    letterSpacing: '0.12em',
-    opacity: 0.5,
+    fontSize: '0.5rem',
+    color: 'rgba(139,148,158,0.6)',
+    letterSpacing: '0.15em',
+    textTransform: 'uppercase' as const,
   } as React.CSSProperties,
 
   sidebar: {
