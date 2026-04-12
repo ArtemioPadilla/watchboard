@@ -66,54 +66,92 @@ function computeGlobeCenter(
 ): { lon: number; lat: number } {
   // Frame layout (30fps):
   // Intro:     0-89    (3s)
-  // Tracker 0: 90-239  (5s)
-  // Tracker 1: 240-389 (5s)
-  // Tracker 2: 390-539 (5s)
+  // Tracker 0: 90-239  (150 frames, 5s)
+  // Tracker 1: 240-389 (150 frames, 5s)
+  // Tracker 2: 390-539 (150 frames, 5s)
   // Outro:     540-689 (5s)
+  //
+  // Within each tracker segment (150 frames):
+  //   0-14:   ease IN from previous position to tracker center
+  //   15-134: HOLD at exact tracker center (dot perfectly centered)
+  //   135-149: ease OUT toward next position
 
   const INTRO_END = 89;
+  const SLIDE = 150; // frames per tracker
+  const EASE = 15;   // transition frames
+
+  // Extract tracker coordinates (lon, lat) with fallbacks
+  const coords = trackers.map((t) => ({
+    lon: t.mapCenter[1] ?? 30,
+    lat: t.mapCenter[0] ?? 25,
+  }));
+  const t0 = coords[0] ?? { lon: 30, lat: 25 };
+  const t1 = coords[1] ?? { lon: 60, lat: 20 };
+  const t2 = coords[2] ?? { lon: -100, lat: 20 };
+
+  const snappyEase = Easing.bezier(0.33, 1, 0.68, 1); // fast-out ease
+
+  // Build keyframes: [frame, lon, lat] with snappy transitions and exact holds
+  // Each tracker segment: quick ease-in (15f), exact hold, quick ease-out (15f)
   const T0_START = 90;
-  const T0_END = 239;
   const T1_START = 240;
-  const T1_END = 389;
   const T2_START = 390;
-  const T2_END = 539;
   const OUTRO_START = 540;
   const OUTRO_END = 689;
 
-  // Extract tracker coordinates (lon, lat) with fallbacks
-  const t0Lon = trackers[0]?.mapCenter[1] ?? 30;
-  const t0Lat = trackers[0]?.mapCenter[0] ?? 25;
-  const t1Lon = trackers[1]?.mapCenter[1] ?? 60;
-  const t1Lat = trackers[1]?.mapCenter[0] ?? 20;
-  const t2Lon = trackers[2]?.mapCenter[1] ?? -100;
-  const t2Lat = trackers[2]?.mapCenter[0] ?? 20;
+  // Keyframe arrays: [frame] → [lon] and [frame] → [lat]
+  // Intro drifts slowly, then snaps to first tracker
+  const frames = [
+    0,                                 // intro start
+    INTRO_END,                         // intro end
+    T0_START + EASE,                   // T0 locked
+    T0_START + SLIDE - EASE,           // T0 unlock
+    T1_START + EASE,                   // T1 locked
+    T1_START + SLIDE - EASE,           // T1 unlock
+    T2_START + EASE,                   // T2 locked
+    T2_START + SLIDE - EASE,           // T2 unlock
+    OUTRO_START + EASE,                // outro drift start
+    OUTRO_END,                         // outro end
+  ];
 
-  const easeOpts = { easing: Easing.bezier(0.25, 0.1, 0.25, 1), extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as const };
+  const lons = [
+    20,        // intro: gentle starting lon
+    t0.lon * 0.5, // approach first tracker
+    t0.lon,    // locked on T0
+    t0.lon,    // still T0
+    t1.lon,    // locked on T1
+    t1.lon,    // still T1
+    t2.lon,    // locked on T2
+    t2.lon,    // still T2
+    t2.lon + 30, // outro drift
+    t2.lon + 60, // outro end
+  ];
 
-  // Continuous interpolation of target longitude across all phases
-  const targetLon = interpolate(
-    globalFrame,
-    [0, INTRO_END, T0_START + 20, T0_END, T1_START + 20, T1_END, T2_START + 20, T2_END, OUTRO_START + 20, OUTRO_END],
-    [0, 20,         t0Lon,          t0Lon,  t1Lon,          t1Lon,  t2Lon,          t2Lon,  40,               80],
-    easeOpts,
-  );
+  const lats = [
+    15,        // intro
+    t0.lat * 0.7,
+    t0.lat,    // locked on T0
+    t0.lat,    // still T0
+    t1.lat,    // locked on T1
+    t1.lat,    // still T1
+    t2.lat,    // locked on T2
+    t2.lat,    // still T2
+    t2.lat * 0.5,
+    10,
+  ];
 
-  // Continuous interpolation of target latitude across all phases
-  const targetLat = interpolate(
-    globalFrame,
-    [0, INTRO_END, T0_START + 20, T0_END, T1_START + 20, T1_END, T2_START + 20, T2_END, OUTRO_START + 20, OUTRO_END],
-    [20, 20,       t0Lat,          t0Lat,  t1Lat,          t1Lat,  t2Lat,          t2Lat,  10,               5],
-    easeOpts,
-  );
-
-  // Slow baseline rotation — keeps the globe always slightly moving
-  const baseRotation = globalFrame * 0.15;
-
-  return {
-    lon: targetLon + baseRotation,
-    lat: targetLat,
+  const easeOpts = {
+    easing: snappyEase,
+    extrapolateLeft: 'clamp' as const,
+    extrapolateRight: 'clamp' as const,
   };
+
+  const lon = interpolate(globalFrame, frames, lons, easeOpts);
+  const lat = interpolate(globalFrame, frames, lats, easeOpts);
+
+  // No baseRotation — during tracker holds, globe center == tracker coords exactly
+  // The transitions between trackers provide sufficient visual movement
+  return { lon, lat };
 }
 
 // ---------------------------------------------------------------------------
@@ -325,37 +363,41 @@ function drawPulsingDot(
   const p = projectOrthographic(targetLon, targetLat, centerLon, centerLat, radius, cx, cy);
   if (!p.visible) return;
 
+  // Pulsing rings — larger and more visible
   for (let i = 0; i < 3; i++) {
     const phase = ((frame * 0.06) + (i * 0.33)) % 1;
-    const ringRadius = 4 + phase * 28;
-    const ringOpacity = Math.max(0, (1 - phase) * 0.6);
+    const ringRadius = 8 + phase * 44;
+    const ringOpacity = Math.max(0, (1 - phase) * 0.7);
 
     ctx.beginPath();
     ctx.arc(p.x, p.y, ringRadius, 0, Math.PI * 2);
     ctx.strokeStyle = accentColor;
-    ctx.lineWidth = 1.5;
+    ctx.lineWidth = 2;
     ctx.globalAlpha = ringOpacity;
     ctx.stroke();
     ctx.globalAlpha = 1;
   }
 
-  const glowGradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, 10);
+  // Glow halo
+  const glowGradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, 18);
   glowGradient.addColorStop(0, accentColor);
   glowGradient.addColorStop(1, 'transparent');
   ctx.beginPath();
-  ctx.arc(p.x, p.y, 10, 0, Math.PI * 2);
+  ctx.arc(p.x, p.y, 18, 0, Math.PI * 2);
   ctx.fillStyle = glowGradient;
-  ctx.globalAlpha = 0.35;
+  ctx.globalAlpha = 0.4;
   ctx.fill();
   ctx.globalAlpha = 1;
 
+  // Core dot — bigger
   ctx.beginPath();
-  ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
+  ctx.arc(p.x, p.y, 7, 0, Math.PI * 2);
   ctx.fillStyle = accentColor;
   ctx.fill();
 
+  // White center highlight
   ctx.beginPath();
-  ctx.arc(p.x, p.y, 1.8, 0, Math.PI * 2);
+  ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
   ctx.fillStyle = '#ffffff';
   ctx.fill();
 }
