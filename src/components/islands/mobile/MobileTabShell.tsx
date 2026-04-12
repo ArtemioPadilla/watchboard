@@ -50,7 +50,7 @@ interface Props {
 }
 
 export default function MobileTabShell(props: Props) {
-  const [activeTab, setActiveTab] = useState<MobileTab>('map');
+  const [activeTab, setActiveTab] = useState<MobileTab>('feed');
   const [mapMode, setMapMode] = useState<'2d' | '3d'>(props.initialMapMode ?? '2d');
   const [showCoach, setShowCoach] = useState(false);
 
