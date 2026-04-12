@@ -164,7 +164,7 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
           style={{
             transform: `translateY(${nameY}px)`,
             fontFamily: "'JetBrains Mono', monospace",
-            fontSize: 28,
+            fontSize: 42,
             fontWeight: 700,
             color: accentColor,
             letterSpacing: '3px',
@@ -193,7 +193,7 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
             opacity: headlineOpacity,
             transform: `translateY(${headlineY}px)`,
             fontFamily: "'DM Sans', sans-serif",
-            fontSize: 34,
+            fontSize: 42,
             fontWeight: 700,
             color: '#e8e9ed',
             lineHeight: 1.25,
@@ -220,7 +220,7 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
           <div
             style={{
               fontFamily: "'JetBrains Mono', monospace",
-              fontSize: 18,
+              fontSize: 22,
               fontWeight: 500,
               color: '#9498a8',
               letterSpacing: '2px',
@@ -234,7 +234,7 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
           <div
             style={{
               fontFamily: "'DM Sans', sans-serif",
-              fontSize: 64,
+              fontSize: 80,
               fontWeight: 700,
               color: accentColor,
               lineHeight: 1,
@@ -271,7 +271,7 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
           <span
             style={{
               fontFamily: "'JetBrains Mono', monospace",
-              fontSize: 16,
+              fontSize: 20,
               color: '#9498a8',
             }}
           >

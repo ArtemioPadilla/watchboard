@@ -520,27 +520,25 @@ function drawTexturedSphere(
       let b = texData[texIdx + 2];
 
       // City lights vs dark areas — NASA "Earth at Night" style
+      // Texture: cities=bright(>100), ocean=blue-ish(25-56), unlit land=dark(20-28)
       const brightness = (r + g + b) / 3;
-      if (brightness > CITY_THRESHOLD) {
-        // City light — boost hard with warm orange tint
-        r = Math.min(255, Math.floor(r * 3.5));
-        g = Math.min(255, Math.floor(g * 2.8));
-        b = Math.min(255, Math.floor(b * 1.6));
-      } else if (brightness < DARK_THRESHOLD) {
-        // Dark area (ocean/unlit land) — near black, no blue tint
-        r = Math.floor(r * 0.3);
-        g = Math.floor(g * 0.3);
-        b = Math.floor(b * 0.3);
-        // Floor at #050508
-        r = Math.max(r, 5);
-        g = Math.max(g, 5);
-        b = Math.max(b, 8);
+      const blueRatio = b / (brightness + 1); // ocean has high blue ratio
+      
+      if (brightness > 80) {
+        // City light — boost with warm tint
+        r = Math.min(255, Math.floor(r * 2.0));
+        g = Math.min(255, Math.floor(g * 1.8));
+        b = Math.min(255, Math.floor(b * 1.2));
+      } else if (blueRatio > 1.3 && brightness < 60) {
+        // Ocean (blue-dominant dark) — make very dark blue
+        r = 3;
+        g = 4;
+        b = 12;
       } else {
-        // Transition zone — dim but visible
-        const factor = 0.5;
-        r = Math.floor(r * factor);
-        g = Math.floor(g * factor);
-        b = Math.floor(b * factor);
+        // Unlit land — slightly lighter than ocean so continents are visible
+        r = 8;
+        g = 10;
+        b = 14;
       }
 
       // Write pixel
