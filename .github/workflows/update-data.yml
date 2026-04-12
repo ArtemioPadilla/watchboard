@@ -330,7 +330,8 @@ jobs:
             - map-lines `weaponType` MUST be one of: "ballistic", "cruise", "drone", "drone_loitering", "drone_ucav", "drone_recon", "drone_fpv", "rocket", "mixed", "unknown". NEVER free-text like "airstrike".
             - map-lines `launched` and `intercepted` MUST be numbers (count), NOT booleans.
             - map-lines `status` MUST be one of: "hit", "intercepted", "partial", "unknown".
-            - event `media` items MUST have `type` ("image", "video", or "article") and `url` (string). `caption`, `source`, `thumbnail` are optional strings.
+            - event `media` items MUST have `type` ("image", "video", or "article"), `url` (string), and `thumbnail` (string — direct image URL, NOT an article URL). `caption` and `source` are optional strings.
+            - `thumbnail` is REQUIRED for type "image" — it must be a direct URL to an image file (containing .jpg, .jpeg, .png, .webp, or from a known image CDN like dims.apnews.com, d3i6fh83elv35t.cloudfront.net, etc.)
 
             After updating, verify changes by reading back modified files to confirm valid JSON.
 
@@ -672,6 +673,23 @@ jobs:
           const https = require('https');
           const http = require('http');
 
+          const IMAGE_EXTENSIONS = /\.(jpg|jpeg|png|webp|gif|svg|avif)(\?|$)/i;
+          const IMAGE_CDNS = [
+            'dims.apnews.com', 'd3i6fh83elv35t.cloudfront.net', 'ichef.bbci.co.uk',
+            'static01.nyt.com', 'cdn.cnn.com', 'img.reuters.com', 's.yimg.com',
+            'i.guim.co.uk', 'media.npr.org', 'image.cnbcfm.com',
+            'cloudfront-us-east-2.images.arcpublishing.com',
+          ];
+
+          function looksLikeImage(url) {
+            if (!url) return false;
+            if (IMAGE_EXTENSIONS.test(url)) return true;
+            try {
+              const host = new URL(url).hostname;
+              return IMAGE_CDNS.some(cdn => host.includes(cdn));
+            } catch { return false; }
+          }
+
           async function headCheck(url, timeout = 5000) {
             return new Promise((resolve) => {
               const mod = url.startsWith('https') ? https : http;
@@ -685,36 +703,81 @@ jobs:
           }
 
           async function main() {
-            const urls = [];
+            let totalEvents = 0;
+            let eventsWithMedia = 0;
+            let eventsWithoutMedia = 0;
+            let mediaWithThumb = 0;
+            let mediaWithoutThumb = 0;
+            let thumbLooksImage = 0;
+            let thumbLooksArticle = 0;
+
+            const urlsToCheck = [];
+
             for (const slug of fs.readdirSync('trackers')) {
               const evDir = path.join('trackers', slug, 'data', 'events');
               if (!fs.existsSync(evDir)) continue;
               for (const f of fs.readdirSync(evDir).filter(f => f.endsWith('.json'))) {
-                const events = JSON.parse(fs.readFileSync(path.join(evDir, f), 'utf8'));
+                let events;
+                try { events = JSON.parse(fs.readFileSync(path.join(evDir, f), 'utf8')); } catch { continue; }
+                if (!Array.isArray(events)) continue;
                 for (const ev of events) {
-                  if (!ev.media) continue;
+                  totalEvents++;
+                  if (!ev.media || !Array.isArray(ev.media) || ev.media.length === 0) {
+                    eventsWithoutMedia++;
+                    continue;
+                  }
+                  eventsWithMedia++;
                   for (const m of ev.media) {
-                    if (m.thumbnail) urls.push({ slug, event: ev.id, url: m.thumbnail, field: 'thumbnail' });
-                    else if (m.url && m.type === 'image') urls.push({ slug, event: ev.id, url: m.url, field: 'url' });
+                    if (m.thumbnail) {
+                      mediaWithThumb++;
+                      if (looksLikeImage(m.thumbnail)) {
+                        thumbLooksImage++;
+                      } else {
+                        thumbLooksArticle++;
+                      }
+                      urlsToCheck.push({ slug, event: ev.id, url: m.thumbnail, field: 'thumbnail' });
+                    } else {
+                      mediaWithoutThumb++;
+                      if (m.url && m.type === 'image') {
+                        urlsToCheck.push({ slug, event: ev.id, url: m.url, field: 'url' });
+                      }
+                    }
                   }
                 }
               }
             }
 
-            if (urls.length === 0) { console.log('No media URLs to validate'); return; }
-            console.log('Checking ' + urls.length + ' media URLs...');
+            // Print audit summary
+            const pctMedia = totalEvents > 0 ? Math.round(eventsWithMedia / totalEvents * 100) : 0;
+            console.log('');
+            console.log('Media audit:');
+            console.log('  Total events scanned: ' + totalEvents);
+            console.log('  Events with media: ' + eventsWithMedia + ' (' + pctMedia + '%)');
+            console.log('  Events WITHOUT media: ' + eventsWithoutMedia + (eventsWithoutMedia > 0 ? ' ⚠️' : ''));
+            console.log('  Media items with thumbnail: ' + mediaWithThumb);
+            console.log('  Media items WITHOUT thumbnail: ' + mediaWithoutThumb + (mediaWithoutThumb > 0 ? ' ⚠️' : ''));
+            console.log('  Thumbnails that look like images: ' + thumbLooksImage + ' ✓');
+            console.log('  Thumbnails that look like articles: ' + thumbLooksArticle + (thumbLooksArticle > 0 ? ' ⚠️' : ''));
+
+            // HEAD-check URLs
+            if (urlsToCheck.length === 0) { console.log('  No media URLs to HEAD-check'); return; }
+            console.log('');
+            console.log('HEAD-checking ' + urlsToCheck.length + ' media URLs...');
 
             let ok = 0, broken = 0;
             const failures = [];
-            for (const entry of urls) {
+            for (const entry of urlsToCheck) {
               const result = await headCheck(entry.url);
               if (result.ok) { ok++; }
               else { broken++; failures.push(entry.slug + '/' + entry.event + ': ' + entry.url + ' (' + result.status + ')'); }
             }
-            console.log('Media URL check: ' + ok + ' ok, ' + broken + ' broken');
+            console.log('  Reachable: ' + ok + ' ✓');
+            console.log('  Broken URLs: ' + broken + (broken > 0 ? ' ⚠️' : ''));
             if (failures.length > 0) {
+              console.warn('');
               console.warn('Broken media URLs (non-blocking):');
-              failures.forEach(f => console.warn('  ' + f));
+              failures.slice(0, 20).forEach(f => console.warn('  ' + f));
+              if (failures.length > 20) console.warn('  ... and ' + (failures.length - 20) + ' more');
             }
           }
           main();
