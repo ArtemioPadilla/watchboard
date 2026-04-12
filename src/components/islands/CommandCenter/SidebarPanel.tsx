@@ -219,10 +219,14 @@ const TrackerRow = memo(function TrackerRow({
           style={{
             ...S.freshnessDot,
             background: freshDotInfo.color,
-            boxShadow: `0 0 4px ${freshDotInfo.color}60`,
+            boxShadow: freshDotInfo.shadow,
           }}
           title={freshDotInfo.label}
-        />
+          aria-label={freshDotInfo.label}
+          role="img"
+        >
+          <span className="sr-only">{freshDotInfo.label}</span>
+        </span>
         <span style={S.icon}>{tracker.icon || ''}</span>
         <span className="cc-tracker-name" style={S.collapsedName}>{tracker.shortName}</span>
         {isCompared && <span style={S.compareDot} />}
@@ -557,13 +561,13 @@ function sortTrackers(trackers: TrackerCardData[], sortKey: SortKey): TrackerCar
 
 // ── Freshness dot helper ──
 
-function getFreshnessDot(lastUpdated: string): { color: string; label: string } {
+function getFreshnessDot(lastUpdated: string): { color: string; shadow: string; label: string } {
   const updated = new Date(lastUpdated);
   const now = new Date();
   const ageHrs = Math.floor((now.getTime() - updated.getTime()) / 3600000);
-  if (ageHrs < 24) return { color: 'var(--accent-green, #2ecc71)', label: 'Updated today' };
-  if (ageHrs < 72) return { color: 'var(--accent-amber, #f39c12)', label: 'Updated 1-3 days ago' };
-  return { color: 'var(--accent-red, #e74c3c)', label: 'Not updated in >3 days' };
+  if (ageHrs < 24) return { color: 'var(--accent-green, #2ecc71)', shadow: '0 0 4px rgba(46,160,67,0.37)', label: 'Updated today' };
+  if (ageHrs < 48) return { color: 'var(--accent-amber, #f39c12)', shadow: '0 0 4px rgba(210,153,34,0.37)', label: 'Updated 1-2 days ago' };
+  return { color: 'var(--accent-red, #e74c3c)', shadow: '0 0 4px rgba(231,76,60,0.37)', label: 'Not updated in >2 days' };
 }
 
 // ── Main SidebarPanel ──
@@ -609,7 +613,7 @@ export default function SidebarPanel({
     [filtered, sortKey],
   );
 
-  const groups = useMemo(() => groupTrackers(sortKey === 'name' ? filtered : sortedFiltered), [filtered, sortedFiltered, sortKey]);
+  const groups = useMemo(() => groupTrackers(sortedFiltered), [sortedFiltered]);
   const domainCounts = useMemo(() => computeDomainCounts(trackers), [trackers]);
   const visibleDomains = useMemo(() => getVisibleDomains(domainCounts), [domainCounts]);
 

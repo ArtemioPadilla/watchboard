@@ -245,7 +245,7 @@ function FeedEventCard({ event: ev, onTap }: { event: FlatEvent; onTap: (ev: Fla
           <img
             className="mtab-event-thumb"
             src={thumb}
-            alt=""
+            alt={`Event image for ${ev.title}`}
             loading="lazy"
             referrerPolicy="no-referrer"
             onError={() => setImgFailed(true)}

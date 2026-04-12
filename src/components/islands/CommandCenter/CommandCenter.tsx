@@ -588,6 +588,11 @@ export default function CommandCenter({
                   : freshness.className === 'recent'
                     ? 'var(--accent-amber, #f39c12)'
                     : 'var(--text-muted, #484f58)';
+                const freshnessShadow = freshness.className === 'fresh'
+                  ? 'rgba(46,160,67,0.37)'
+                  : freshness.className === 'recent'
+                    ? 'rgba(210,153,34,0.37)'
+                    : 'rgba(231,76,60,0.37)';
                 const isSelected = activeTracker === t.slug;
                 return (
                   <button
@@ -596,7 +601,7 @@ export default function CommandCenter({
                     style={{
                       ...styles.collapsedTrackerIcon,
                       borderColor: isSelected ? t.color || freshnessColor : freshnessColor,
-                      boxShadow: isSelected ? `0 0 6px ${t.color || freshnessColor}40` : 'none',
+                      boxShadow: isSelected ? `0 0 6px ${freshnessShadow}` : 'none',
                       opacity: freshness.className === 'stale' ? 0.5 : 1,
                     }}
                     title={`${t.shortName} — ${freshness.label}`}

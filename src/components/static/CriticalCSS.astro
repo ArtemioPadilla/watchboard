@@ -42,9 +42,12 @@
     font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    overflow: hidden;
     height: 100vh;
     height: 100dvh;
+  }
+
+  body:has(.command-center-root) {
+    overflow: hidden;
   }
 
   /* Command center root layout — prevents flash of unstyled layout */

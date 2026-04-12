@@ -19,7 +19,7 @@ const desc = description || 'Multi-topic intelligence dashboard with sourced dat
 const githubUrl = githubRepo ? `https://github.com/${githubRepo}` : 'https://github.com/ArtemioPadilla/watchboard';
 const ogImageUrl = trackerSlug
   ? `${siteUrl}${basePath}og/${trackerSlug}.png`
-  : `${siteUrl}${basePath}og/default.png`;
+  : `${siteUrl}${basePath}og-card.png`;
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -76,7 +76,8 @@ const ogImageUrl = trackerSlug
   })} />
   <link rel="alternate" type="application/rss+xml" title={trackerSlug ? `${title} RSS` : 'Watchboard RSS'} href={trackerSlug ? `${basePath}${trackerSlug}/rss.xml` : `${basePath}rss.xml`} />
   <link rel="alternate" type="application/rss+xml" title="Watchboard Breaking News RSS" href={`${basePath}rss/breaking.xml`} />
-  <!-- Resource hints for common image domains -->
+  {/* Resource hints for common image domains — only on pages that load event images */}
+  {(trackerSlug || Astro.url.pathname === '/' || Astro.url.pathname === basePath) && (<>
   <link rel="preconnect" href="https://www.aljazeera.com" crossorigin>
   <link rel="preconnect" href="https://dims.apnews.com" crossorigin>
   <link rel="preconnect" href="https://d3i6fh83elv35t.cloudfront.net" crossorigin>
@@ -88,6 +89,7 @@ const ogImageUrl = trackerSlug
   <link rel="dns-prefetch" href="https://images.jpost.com">
   <link rel="dns-prefetch" href="https://assets.kyivindependent.com">
   <link rel="dns-prefetch" href="https://upload.wikimedia.org">
+  </>)}
   <!-- Analytics preconnects -->
   <link rel="preconnect" href="https://static.cloudflareinsights.com" crossorigin>
   <!-- Cloudflare Web Analytics -->
