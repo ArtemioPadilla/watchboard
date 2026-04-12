@@ -1,0 +1,28 @@
+{
+  "name": "watchboard-mcp-server",
+  "version": "1.0.0",
+  "description": "MCP server for querying Watchboard intelligence data — 48+ trackers covering conflicts, politics, culture, and science",
+  "type": "module",
+  "main": "dist/server.js",
+  "bin": {
+    "watchboard-mcp": "./dist/server.js"
+  },
+  "scripts": {
+    "start": "node dist/server.js",
+    "dev": "tsx watch server.ts",
+    "build": "tsc",
+    "clean": "rm -rf dist"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.1",
+    "zod": "^3.24.4"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}

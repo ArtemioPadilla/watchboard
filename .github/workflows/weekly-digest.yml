@@ -145,6 +145,22 @@ jobs:
       #     LINKEDIN_ORG_ID: ${{ secrets.LINKEDIN_ORG_ID }}
       #   run: npx tsx scripts/post-social-queue.ts
 
+      - name: Generate newsletter HTML
+        run: npx tsx scripts/newsletter-generate.ts
+
+      - name: Trigger newsletter send
+        if: ${{ secrets.NEWSLETTER_SECRET != '' }}
+        env:
+          NEWSLETTER_SECRET: ${{ secrets.NEWSLETTER_SECRET }}
+        run: |
+          NEWSLETTER_HTML=$(cat dist/newsletter/latest.html)
+          SUBJECT="Watchboard Weekly Digest — $(date -u +%Y-%m-%d)"
+          curl -sf -X POST "https://push.watchboard.dev/newsletter/send" \
+            -H "Authorization: Bearer ${NEWSLETTER_SECRET}" \
+            -H "Content-Type: application/json" \
+            -d "$(jq -n --arg html "$NEWSLETTER_HTML" --arg subject "$SUBJECT" '{html: $html, subject: $subject}')" \
+            || echo "⚠️ Newsletter send failed (non-fatal)"
+
       - name: Commit and push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

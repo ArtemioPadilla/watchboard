@@ -6,7 +6,8 @@
     "copy-cesium": "node -e \"const{cpSync,existsSync}=require('fs');const s='node_modules/cesium/Build/Cesium/';['Workers','ThirdParty','Assets','Widgets'].forEach(d=>{if(!existsSync('public/cesium/'+d))cpSync(s+d,'public/cesium/'+d,{recursive:true})})\"",
     "dev": "npm run copy-cesium && astro dev",
     "check": "astro check",
-    "build": "npm run copy-cesium && astro build",
+    "generate-api": "tsx scripts/generate-api.ts",
+    "build": "npm run generate-api && npm run copy-cesium && astro build",
     "postbuild": "npx pagefind --site dist --glob '**/*.html'",
     "preview": "astro preview",
     "update-data": "tsx scripts/update-data.ts",
@@ -39,6 +40,7 @@
   },
   "devDependencies": {
     "@anthropic-ai/sdk": "^0.78.0",
+    "@atproto/api": "^0.15.0",
     "@cloudflare/workers-types": "^4.20260410.1",
     "@playwright/test": "^1.58.2",
     "@types/leaflet": "^1.9.21",

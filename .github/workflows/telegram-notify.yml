@@ -1,0 +1,95 @@
+name: Telegram Channel Notifications
+
+on:
+  workflow_run:
+    workflows: ["Hourly Breaking News Scan"]
+    types:
+      - completed
+
+concurrency:
+  group: telegram-notify
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    # Only run if the hourly scan succeeded (may have pushed new data)
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main  # Always read latest main (hourly-scan may have pushed)
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - run: npm ci
+
+      - name: Check for new updates
+        id: check
+        run: |
+          if [ ! -f public/_hourly/today-updates.json ]; then
+            echo "has_updates=false" >> "$GITHUB_OUTPUT"
+            echo "No manifest found"
+            exit 0
+          fi
+
+          # Check if there are updates not yet sent to Telegram
+          node -e "
+            const fs = require('fs');
+            const manifest = JSON.parse(fs.readFileSync('public/_hourly/today-updates.json', 'utf8'));
+            const updates = manifest.updates || [];
+
+            if (updates.length === 0) {
+              console.log('No updates in manifest');
+              process.exit(0);
+            }
+
+            // Load sent log
+            let sentKeys = new Set();
+            try {
+              const sent = JSON.parse(fs.readFileSync('public/_hourly/telegram-sent.json', 'utf8'));
+              sentKeys = new Set((sent.entries || []).map(e => e.key));
+            } catch {}
+
+            const newUpdates = updates.filter(u => !sentKeys.has(u.tracker + '::' + u.timestamp));
+
+            if (newUpdates.length > 0) {
+              console.log('Found ' + newUpdates.length + ' new update(s) to send');
+              fs.appendFileSync(process.env.GITHUB_OUTPUT, 'has_updates=true\n');
+            } else {
+              console.log('All updates already sent');
+              fs.appendFileSync(process.env.GITHUB_OUTPUT, 'has_updates=false\n');
+            }
+          "
+
+      - name: Send Telegram notifications
+        if: steps.check.outputs.has_updates == 'true'
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
+        run: npx tsx scripts/telegram-channel.ts
+
+      - name: Commit sent log
+        if: steps.check.outputs.has_updates == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git"
+          git add public/_hourly/telegram-sent.json || true
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore(telegram): update sent log $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            for i in 1 2 3; do
+              git pull --rebase origin main && git push && break
+              sleep $((RANDOM % 5 + 2))
+            done
+          fi
