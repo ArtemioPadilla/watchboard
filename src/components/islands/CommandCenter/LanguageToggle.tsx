@@ -1,24 +1,44 @@
 import { memo } from 'react';
 import type { CSSProperties } from 'react';
 import type { Locale } from '../../../i18n/translations';
+import { SUPPORTED_LOCALES } from '../../../i18n/translations';
 
 interface Props {
   locale: Locale;
   onToggle: () => void;
 }
 
+const LOCALE_LABELS: Record<string, string> = {
+  en: 'EN',
+  es: 'ES',
+  fr: 'FR',
+  pt: 'PT',
+};
+
 const LanguageToggle = memo(function LanguageToggle({ locale, onToggle }: Props) {
+  const labels: Record<string, string> = {
+    en: 'Switch language',
+    es: 'Cambiar idioma',
+    fr: 'Changer de langue',
+    pt: 'Mudar idioma',
+  };
+
   return (
     <button
       type="button"
       onClick={onToggle}
       style={styles.btn}
-      title={locale === 'en' ? 'Cambiar a Espanol' : 'Switch to English'}
-      aria-label={locale === 'en' ? 'Switch to Spanish' : 'Switch to English'}
+      title={labels[locale] || labels.en}
+      aria-label={labels[locale] || labels.en}
     >
-      <span style={{ ...styles.lang, opacity: locale === 'en' ? 1 : 0.4 }}>EN</span>
-      <span style={styles.sep}>/</span>
-      <span style={{ ...styles.lang, opacity: locale === 'es' ? 1 : 0.4 }}>ES</span>
+      {SUPPORTED_LOCALES.map((loc, i) => (
+        <span key={loc}>
+          {i > 0 && <span style={styles.sep}>/</span>}
+          <span style={{ ...styles.lang, opacity: locale === loc ? 1 : 0.4 }}>
+            {LOCALE_LABELS[loc] || loc.toUpperCase()}
+          </span>
+        </span>
+      ))}
     </button>
   );
 });
@@ -50,5 +70,6 @@ const styles = {
   sep: {
     color: 'var(--text-muted)',
     opacity: 0.3,
+    margin: '0 1px',
   } as CSSProperties,
 };
