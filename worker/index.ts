@@ -3,12 +3,16 @@
  * Standalone Cloudflare Worker at push.watchboard.dev
  * 
  * Routes:
- *   GET  /subscribe     → returns VAPID public key
- *   POST /subscribe     → register push subscription
- *   POST /unsubscribe   → remove push subscription
- *   GET  /preferences   → get subscription preferences
- *   PUT  /preferences   → update subscription preferences
- *   POST /cron          → manual trigger for RSS poll (also runs on cron)
+ *   GET  /subscribe              → returns VAPID public key
+ *   POST /subscribe              → register push subscription
+ *   POST /unsubscribe            → remove push subscription
+ *   GET  /preferences            → get subscription preferences
+ *   PUT  /preferences            → update subscription preferences
+ *   POST /cron                   → manual trigger for RSS poll (also runs on cron)
+ *   POST /newsletter/subscribe   → add email to newsletter list
+ *   POST /newsletter/unsubscribe → remove email from newsletter list
+ *   GET  /newsletter/unsubscribe → unsubscribe via email link
+ *   GET|POST /newsletter/send    → trigger newsletter send (authenticated)
  */
 
 export interface Env {
@@ -23,11 +27,12 @@ import { handleSubscribe } from './handlers/subscribe';
 import { handleUnsubscribe } from './handlers/unsubscribe';
 import { handlePreferences } from './handlers/preferences';
 import { handleCron } from './handlers/cron';
+import { handleNewsletter } from './handlers/newsletter';
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': 'https://watchboard.dev',
   'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
   'Access-Control-Max-Age': '86400',
 };
 
@@ -76,9 +81,13 @@ export default {
         case '/':
           return jsonResponse({
             service: 'Watchboard Push Notifications',
-            endpoints: ['/subscribe', '/unsubscribe', '/preferences', '/cron'],
+            endpoints: ['/subscribe', '/unsubscribe', '/preferences', '/cron', '/newsletter/subscribe', '/newsletter/unsubscribe', '/newsletter/send'],
           });
         default:
+          // Newsletter routes (all under /newsletter/*)
+          if (path.startsWith('/newsletter')) {
+            return corsResponse(await handleNewsletter(request, env, path));
+          }
           return jsonResponse({ error: 'Not found' }, 404);
       }
     } catch (err) {

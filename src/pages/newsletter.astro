@@ -1,0 +1,283 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const base = import.meta.env.BASE_URL;
+const basePath = base.endsWith('/') ? base : `${base}/`;
+const pushUrl = 'https://push.watchboard.dev';
+---
+<BaseLayout title="Newsletter — Watchboard" description="Subscribe to the Watchboard weekly intelligence digest delivered to your inbox every Sunday.">
+  <main id="main-content">
+  <div class="newsletter-page">
+    <a class="newsletter-back" href={`${basePath}`}>&larr; Watchboard</a>
+
+    <article class="newsletter-content">
+      <h1>📰 Weekly Intelligence Digest</h1>
+      <p class="newsletter-subtitle">
+        Get a curated summary of every active tracker — delivered to your inbox every Sunday.
+        Key events, updated KPIs, and headline analysis across all topics.
+      </p>
+
+      <div class="newsletter-form-wrapper" id="newsletter-form-wrapper">
+        <form id="newsletter-form" class="newsletter-form">
+          <div class="form-group">
+            <label for="email">Email address</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="you@example.com"
+              required
+              autocomplete="email"
+            />
+          </div>
+          <button type="submit" class="newsletter-submit" id="newsletter-submit">
+            Subscribe
+          </button>
+          <p class="newsletter-note">No spam. Unsubscribe anytime. One email per week.</p>
+        </form>
+
+        <div id="newsletter-success" class="newsletter-success" style="display:none;">
+          <span class="success-icon">✅</span>
+          <h2>You're subscribed!</h2>
+          <p>Look for the first digest in your inbox this Sunday.</p>
+        </div>
+
+        <div id="newsletter-error" class="newsletter-error" style="display:none;">
+          <span class="error-icon">⚠️</span>
+          <p id="newsletter-error-msg">Something went wrong. Please try again.</p>
+        </div>
+      </div>
+
+      <section class="newsletter-preview">
+        <h2>What you'll get</h2>
+        <ul>
+          <li><strong>Tracker summaries</strong> — headline + top KPIs for every active tracker</li>
+          <li><strong>Weekly digest</strong> — the most important events from the past 7 days</li>
+          <li><strong>Direct links</strong> — jump straight to any tracker for full analysis</li>
+          <li><strong>Dark-themed email</strong> — easy on the eyes, designed for readability</li>
+        </ul>
+      </section>
+    </article>
+  </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .newsletter-page {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+  }
+
+  .newsletter-back {
+    display: inline-block;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 14px;
+    margin-bottom: 24px;
+    transition: color 0.2s;
+  }
+
+  .newsletter-back:hover {
+    color: var(--text-primary);
+  }
+
+  .newsletter-content h1 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 12px;
+  }
+
+  .newsletter-subtitle {
+    color: var(--text-secondary);
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 32px;
+  }
+
+  .newsletter-form-wrapper {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 40px;
+  }
+
+  .newsletter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .form-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+
+  .form-group input {
+    padding: 10px 14px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-primary);
+    font-size: 15px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .form-group input:focus {
+    border-color: var(--accent-red);
+  }
+
+  .form-group input::placeholder {
+    color: var(--text-muted);
+  }
+
+  .newsletter-submit {
+    padding: 10px 24px;
+    background: var(--accent-red);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+
+  .newsletter-submit:hover {
+    opacity: 0.9;
+  }
+
+  .newsletter-submit:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .newsletter-note {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  .newsletter-success {
+    text-align: center;
+    padding: 20px 0;
+  }
+
+  .newsletter-success .success-icon {
+    font-size: 32px;
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .newsletter-success h2 {
+    font-size: 18px;
+    color: var(--accent-green);
+    margin: 0 0 8px;
+  }
+
+  .newsletter-success p {
+    color: var(--text-secondary);
+    font-size: 14px;
+    margin: 0;
+  }
+
+  .newsletter-error {
+    text-align: center;
+    padding: 12px 0;
+  }
+
+  .newsletter-error .error-icon {
+    font-size: 24px;
+  }
+
+  .newsletter-error p {
+    color: var(--accent-amber);
+    font-size: 13px;
+    margin: 4px 0 0;
+  }
+
+  .newsletter-preview {
+    margin-top: 32px;
+  }
+
+  .newsletter-preview h2 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 22px;
+    color: var(--text-primary);
+    margin: 0 0 16px;
+  }
+
+  .newsletter-preview ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .newsletter-preview li {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-secondary);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .newsletter-preview li:last-child {
+    border-bottom: none;
+  }
+
+  .newsletter-preview li strong {
+    color: var(--text-primary);
+  }
+</style>
+
+<script define:vars={{ pushUrl }}>
+  const form = document.getElementById('newsletter-form');
+  const submitBtn = document.getElementById('newsletter-submit');
+  const successEl = document.getElementById('newsletter-success');
+  const errorEl = document.getElementById('newsletter-error');
+  const errorMsg = document.getElementById('newsletter-error-msg');
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = new FormData(form).get('email');
+    if (!email) return;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Subscribing...';
+    errorEl.style.display = 'none';
+
+    try {
+      const res = await fetch(`${pushUrl}/newsletter/subscribe`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || `Failed (${res.status})`);
+      }
+
+      form.style.display = 'none';
+      successEl.style.display = 'block';
+    } catch (err) {
+      errorMsg.textContent = err.message || 'Something went wrong. Please try again.';
+      errorEl.style.display = 'block';
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Subscribe';
+    }
+  });
+</script>
