@@ -37,6 +37,8 @@ const DOMAIN_GRADIENTS: Record<string, string> = {
 };
 
 const LIVE_THRESHOLD_MS = 6 * 3600_000;
+const SEEN_STORAGE_KEY = 'watchboard:stories:seen';
+const SEEN_TTL_MS = 24 * 3600_000; // Expire seen status after 24h
 
 // ── Helpers ──
 
@@ -68,9 +70,27 @@ function filterAndSort(trackers: TrackerCardData[], followedSlugs: string[] = []
 export default function MobileStoryCarousel({ trackers, basePath, followedSlugs = [], onTrackerChange }: Props) {
   const eligible = useMemo(() => filterAndSort(trackers, followedSlugs), [trackers, followedSlugs]);
 
-  const [currentIndex, setCurrentIndex] = useState(0);
+  // Start at the first unseen story instead of always index 0
+  const [currentIndex, setCurrentIndex] = useState(() => {
+    const firstUnseen = eligible.findIndex((t) => !seenSlugs.has(t.slug));
+    return firstUnseen >= 0 ? firstUnseen : 0;
+  });
   const [paused, setPaused] = useState(false);
-  const [seenSlugs, setSeenSlugs] = useState<Set<string>>(() => new Set());
+  const [seenSlugs, setSeenSlugs] = useState<Set<string>>(() => {
+    try {
+      const stored = localStorage.getItem(SEEN_STORAGE_KEY);
+      if (!stored) return new Set();
+      const parsed: Record<string, number> = JSON.parse(stored);
+      const now = Date.now();
+      // Only restore entries that haven't expired
+      const valid = Object.entries(parsed)
+        .filter(([, ts]) => now - ts < SEEN_TTL_MS)
+        .map(([slug]) => slug);
+      return new Set(valid);
+    } catch {
+      return new Set();
+    }
+  });
   const [pauseCountdown, setPauseCountdown] = useState(0);
 
   // I4 fix: drive progress via rAF + ref to avoid 10 re-renders/sec
@@ -91,6 +111,18 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
         if (prev.has(slug)) return prev;
         const next = new Set(prev);
         next.add(slug);
+        // Persist to localStorage with timestamps
+        try {
+          const stored = localStorage.getItem(SEEN_STORAGE_KEY);
+          const data: Record<string, number> = stored ? JSON.parse(stored) : {};
+          data[slug] = Date.now();
+          // Prune expired entries while we're at it
+          const now = Date.now();
+          for (const key of Object.keys(data)) {
+            if (now - data[key] > SEEN_TTL_MS) delete data[key];
+          }
+          localStorage.setItem(SEEN_STORAGE_KEY, JSON.stringify(data));
+        } catch { /* localStorage unavailable */ }
         return next;
       });
       onTrackerChange?.(slug);
