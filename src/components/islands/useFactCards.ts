@@ -84,9 +84,23 @@ export function buildFactCards(
     );
 
     // Try to find a matching event for thumbnail
-    const matchingEvent = events.find(
-      e => e.resolvedDate === currentDate && e.title?.toUpperCase().includes(pt.label.toUpperCase().substring(0, 8)),
-    );
+    // Multi-strategy thumbnail matching: exact label → word overlap → any event with media
+    const labelUpper = pt.label.toUpperCase();
+    const labelWords = labelUpper.split(/\s+/).filter(w => w.length > 2);
+    const dayEvents = events.filter(e => e.resolvedDate === currentDate);
+
+    const matchingEvent =
+      // Strategy 1: label substring match (original)
+      dayEvents.find(e => e.title?.toUpperCase().includes(labelUpper.substring(0, 8))) ||
+      // Strategy 2: word overlap (>= 2 shared words)
+      dayEvents.find(e => {
+        if (!e.title) return false;
+        const titleWords = e.title.toUpperCase().split(/\s+/).filter(w => w.length > 2);
+        const overlap = labelWords.filter(w => titleWords.includes(w)).length;
+        return overlap >= 2;
+      }) ||
+      // Strategy 3: first event from that date with a thumbnail
+      dayEvents.find(e => e.media?.some(m => m.thumbnail));
 
     const utcTime = matchingLine?.time
       ? `${matchingLine.time} UTC`

@@ -317,6 +317,11 @@ jobs:
             - Merge-by-ID: never remove existing entries, only add new or update existing
             - Every entry needs an `id` field (kebab-case, descriptive)
             - Tag sources with tier (1-4) and pole (western/middle_eastern/eastern/international)
+            - EVERY source MUST include a `url` field with the direct article URL. This is MANDATORY, not optional.
+            - The URL should be the actual article you read, not a generic homepage (e.g., https://www.reuters.com/world/... not https://www.reuters.com/)
+            - If you cite 'Reuters' as a source, you MUST have the specific Reuters article URL
+            - If you cannot find a specific article URL for a source, search for it — do not leave url empty
+            - Sources without URLs are considered unverified and reduce tracker quality
             - OSINT confirmation: 1 Tier-1 or 2+ Tier-2 sources = confirmed
             - BACKFILL: Check for missing days between latest event file and today, create event files for each gap day
             - Update meta.json lastUpdated with the EXACT current UTC time (use new Date().toISOString()), NOT a rounded or hardcoded time like "06:00:00Z"
@@ -781,6 +786,38 @@ jobs:
             }
           }
           main();
+          "
+
+      - name: Audit source URLs
+        if: steps.build_check.outputs.build_ok == 'true'
+        continue-on-error: true
+        run: |
+          node -e "
+          const fs = require('fs');
+          const path = require('path');
+          let totalSources = 0;
+          let sourcesWithUrl = 0;
+          for (const slug of fs.readdirSync('trackers')) {
+            const evDir = path.join('trackers', slug, 'data', 'events');
+            if (!fs.existsSync(evDir)) continue;
+            for (const f of fs.readdirSync(evDir).filter(f => f.endsWith('.json'))) {
+              let events;
+              try { events = JSON.parse(fs.readFileSync(path.join(evDir, f), 'utf8')); } catch { continue; }
+              if (!Array.isArray(events)) continue;
+              for (const ev of events) {
+                for (const s of ev.sources || []) {
+                  totalSources++;
+                  if (s.url) sourcesWithUrl++;
+                }
+              }
+            }
+          }
+          const pct = totalSources > 0 ? Math.round(sourcesWithUrl * 100 / totalSources) : 0;
+          console.log('');
+          console.log('Source URL audit:');
+          console.log('  Sources with URL: ' + sourcesWithUrl + '/' + totalSources + ' (' + pct + '%)');
+          if (pct < 50) console.warn('  ⚠️ Source URL coverage below 50% — consider backfilling');
+          else console.log('  ✓ Coverage acceptable');
           "
 
       - name: Backfill missing digests
