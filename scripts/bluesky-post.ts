@@ -211,7 +211,8 @@ async function postSkeet(
   agent: BskyAgent,
   text: string,
   options?: {
-    replyTo?: { uri: string; cid: string };
+    root?: { uri: string; cid: string };
+    parent?: { uri: string; cid: string };
     embed?: any;
   },
 ): Promise<{ uri: string; cid: string } | null> {
@@ -222,10 +223,10 @@ async function postSkeet(
       facets: rt.facets,
       createdAt: new Date().toISOString(),
     };
-    if (options?.replyTo) {
+    if (options?.parent) {
       record.reply = {
-        root: options.replyTo,
-        parent: options.replyTo,
+        root: options.root ?? options.parent,
+        parent: options.parent,
       };
     }
     if (options?.embed) {
@@ -371,7 +372,8 @@ async function postFromQueue(dryRun: boolean): Promise<void> {
           }
 
           const result = await postSkeet(agent, postText, {
-            replyTo: parentRef ? { uri: parentRef.uri, cid: parentRef.cid } : undefined,
+            root: rootRef,
+            parent: parentRef,
             embed,
           });
 
@@ -386,10 +388,37 @@ async function postFromQueue(dryRun: boolean): Promise<void> {
           await sleep(THREAD_DELAY_MS);
         }
 
-        if (threadPosted < entry.threadTweets.length) {
+        if (threadPosted === 0) {
+          console.error(`[bluesky] Thread failed entirely: ${entry.tracker}/${entry.type}`);
+        } else if (threadPosted < entry.threadTweets.length) {
           console.warn(`[bluesky] Thread partial: ${entry.tracker}/${entry.type} (${threadPosted}/${entry.threadTweets.length})`);
         } else {
           console.log(`[bluesky] Thread posted: ${entry.tracker}/${entry.type} (${entry.threadTweets.length} posts)`);
+        }
+
+        // Only mark as posted if at least one thread post succeeded
+        if (threadPosted > 0) {
+          entry.status = 'posted';
+          entry.postedAt = new Date().toISOString();
+
+          budget.spent = Math.round((budget.spent + entry.estimatedCost) * 100) / 100;
+          budget.remaining = Math.round((budget.monthlyTarget - budget.spent) * 100) / 100;
+          budget.tweetsPosted++;
+
+          history.push({
+            tweetId: entry.tweetId ?? '',
+            date: today,
+            tracker: entry.tracker,
+            type: entry.type,
+            voice: entry.voice,
+            lang: entry.lang,
+            text: entry.text,
+            cost: entry.estimatedCost,
+            utmClicks: 0,
+            publishedAt: entry.postedAt,
+          });
+
+          posted++;
         }
       } else {
         // Single post
@@ -416,31 +445,32 @@ async function postFromQueue(dryRun: boolean): Promise<void> {
         const result = await postSkeet(agent, formatted, { embed });
         entry.tweetId = result?.uri ?? null;
         console.log(`[bluesky] Posted: ${entry.tracker}/${entry.type}/${entry.lang} → ${result?.uri ?? 'FAILED'}${imageUrl ? ' (with image)' : ''}`);
+
+        // Only mark as posted if the post succeeded
+        if (entry.tweetId) {
+          entry.status = 'posted';
+          entry.postedAt = new Date().toISOString();
+
+          budget.spent = Math.round((budget.spent + entry.estimatedCost) * 100) / 100;
+          budget.remaining = Math.round((budget.monthlyTarget - budget.spent) * 100) / 100;
+          budget.tweetsPosted++;
+
+          history.push({
+            tweetId: entry.tweetId,
+            date: today,
+            tracker: entry.tracker,
+            type: entry.type,
+            voice: entry.voice,
+            lang: entry.lang,
+            text: entry.text,
+            cost: entry.estimatedCost,
+            utmClicks: 0,
+            publishedAt: entry.postedAt,
+          });
+
+          posted++;
+        }
       }
-
-      entry.status = 'posted';
-      entry.postedAt = new Date().toISOString();
-
-      // Update budget
-      budget.spent = Math.round((budget.spent + entry.estimatedCost) * 100) / 100;
-      budget.remaining = Math.round((budget.monthlyTarget - budget.spent) * 100) / 100;
-      budget.tweetsPosted++;
-
-      // Add to history
-      history.push({
-        tweetId: entry.tweetId ?? '',
-        date: today,
-        tracker: entry.tracker,
-        type: entry.type,
-        voice: entry.voice,
-        lang: entry.lang,
-        text: entry.text,
-        cost: entry.estimatedCost,
-        utmClicks: 0,
-        publishedAt: entry.postedAt,
-      });
-
-      posted++;
       await sleep(POST_DELAY_MS);
     } catch (err) {
       console.error(`[bluesky] Failed: ${entry.tracker}/${entry.type}:`, err);
@@ -534,9 +564,11 @@ async function postFromRSS(dryRun: boolean): Promise<void> {
   if (daily.length > 0) {
     const headerText = `📊 Watchboard Daily Digest — ${today}\n\n${daily.length} tracker updates today.\n\n🔗 watchboard.dev`;
     let parentRef: { uri: string; cid: string } | undefined;
+    let rootRef: { uri: string; cid: string } | undefined;
 
     const headerResult = await postSkeet(agent, headerText);
     if (headerResult) {
+      rootRef = headerResult;
       parentRef = headerResult;
       console.log(`[bluesky] Digest thread header → ${headerResult.uri}`);
       posted++;
@@ -547,7 +579,7 @@ async function postFromRSS(dryRun: boolean): Promise<void> {
       const emoji = getTrackerEmoji(item.slug);
       const text = formatBlueskyPost(item.title, item.description, item.link, emoji);
 
-      const result = await postSkeet(agent, text, { replyTo: parentRef });
+      const result = await postSkeet(agent, text, { root: rootRef, parent: parentRef });
       if (result) {
         parentRef = result;
         posted++;
