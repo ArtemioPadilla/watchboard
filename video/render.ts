@@ -17,6 +17,7 @@ const ROOT_DIR = resolve(import.meta.dirname ?? '.');
 const DATA_PATH = resolve(ROOT_DIR, 'src/data/breaking.json');
 const OUTPUT_DIR = resolve(ROOT_DIR, 'output');
 const ENTRY_POINT = resolve(ROOT_DIR, 'src/Root.tsx');
+const NARRATION_PATH = resolve(ROOT_DIR, 'src/assets/narration.mp3');
 
 async function main(): Promise<void> {
   console.log('=== Watchboard Video Renderer ===\n');
@@ -70,6 +71,23 @@ async function main(): Promise<void> {
     outputLocation: outputPath,
     inputProps: { data },
   });
+
+  // Step 5 (optional): Merge narration audio via ffmpeg
+  if (existsSync(NARRATION_PATH)) {
+    console.log('[5/5] Merging narration audio...');
+    const finalPath = resolve(OUTPUT_DIR, `watchboard-${data.date}-final.mp4`);
+    try {
+      execSync(
+        `ffmpeg -y -i "${outputPath}" -i "${NARRATION_PATH}" ` +
+          `-filter_complex "[1:a]volume=0.9[narr];[0:a][narr]amix=inputs=2:duration=first" ` +
+          `-c:v copy "${finalPath}"`,
+        { cwd: ROOT_DIR, stdio: 'inherit' },
+      );
+      console.log(`Narration merged: ${finalPath}`);
+    } catch {
+      console.warn('ffmpeg narration merge failed — video without narration is still available');
+    }
+  }
 
   console.log(`\nDone! Video saved to: ${outputPath}`);
   console.log(`Duration: ${(durationInFrames / 30).toFixed(1)}s`);

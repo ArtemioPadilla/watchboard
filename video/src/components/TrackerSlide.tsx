@@ -8,7 +8,7 @@ import {
 } from 'remotion';
 import { Headline } from './Headline';
 import { KpiCounter } from './KpiCounter';
-import { MapDot } from './MapDot';
+import { GlobeFallback } from './GlobeFallback';
 import type { BreakingTracker } from '../data/types';
 
 interface TrackerSlideProps {
@@ -30,10 +30,11 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
   accentColor,
   slideStartFrame,
 }) => {
-  const frame = useCurrentFrame();
+  const frame = useCurrentFrame(); // Already local within Sequence (0 to ~150)
   const { fps } = useVideoConfig();
 
-  const localFrame = frame - slideStartFrame;
+  // frame is already local (Sequence handles offset)
+  const localFrame = frame;
 
   // Slide entry from right
   const entrySpring = spring({
@@ -45,8 +46,8 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
   const slideX = interpolate(entrySpring, [0, 1], [400, 0]);
   const slideOpacity = interpolate(entrySpring, [0, 1], [0, 1]);
 
-  // Exit fade (last 10 frames of the 150-frame slide)
-  const exitOpacity = interpolate(localFrame, [130, 148], [1, 0], {
+  // Exit fade (last 20 frames of the 150-frame slide)
+  const exitOpacity = interpolate(localFrame, [135, 149], [1, 0], {
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
   });
@@ -102,9 +103,8 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
             paddingTop: 60,
           }}
         >
-          <MapDot
-            center={tracker.mapCenter}
-            startFrame={slideStartFrame + 5}
+          <GlobeFallback
+            center={{ lat: tracker.mapCenter[0], lon: tracker.mapCenter[1] }}
             accentColor={accentColor}
           />
         </div>
@@ -161,7 +161,7 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
           {/* Headline */}
           <Headline
             text={tracker.headline}
-            startFrame={slideStartFrame + 15}
+            startFrame={15}
             fontSize={36}
             color="#e8e9ed"
             maxWidth={900}
@@ -175,7 +175,7 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
               value={tracker.kpiValue}
               prefix={tracker.kpiPrefix}
               suffix={tracker.kpiSuffix}
-              startFrame={slideStartFrame + 25}
+              startFrame={25}
               accentColor={accentColor}
             />
           </div>

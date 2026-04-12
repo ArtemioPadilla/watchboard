@@ -1,5 +1,12 @@
 import React from 'react';
-import { AbsoluteFill, Sequence, useCurrentFrame, interpolate } from 'remotion';
+import {
+  AbsoluteFill,
+  Sequence,
+  useCurrentFrame,
+  interpolate,
+  Audio,
+  staticFile,
+} from 'remotion';
 import { Background } from './components/Background';
 import { Intro } from './components/Intro';
 import { TrackerSlide } from './components/TrackerSlide';
@@ -26,9 +33,10 @@ const OUTRO_FRAMES = 150;
 
 interface VideoProps {
   data?: BreakingData;
+  narrationSrc?: string;
 }
 
-export const Video: React.FC<VideoProps> = ({ data }) => {
+export const Video: React.FC<VideoProps> = ({ data, narrationSrc }) => {
   const breakingData = data ?? SAMPLE_DATA;
   const frame = useCurrentFrame();
 
@@ -43,6 +51,16 @@ export const Video: React.FC<VideoProps> = ({ data }) => {
   return (
     <AbsoluteFill style={{ backgroundColor: '#0a0b0e', opacity: globalFadeIn }}>
       <Background />
+
+      {/* Background music — loops if video is longer than track */}
+      <Audio src={staticFile('bg-music.mp3')} volume={0.3} loop />
+
+      {/* Optional narration track */}
+      {narrationSrc && (
+        <Sequence from={INTRO_FRAMES} name="Narration">
+          <Audio src={narrationSrc} volume={0.85} />
+        </Sequence>
+      )}
 
       {/* Intro */}
       <Sequence from={0} durationInFrames={INTRO_FRAMES} name="Intro">
