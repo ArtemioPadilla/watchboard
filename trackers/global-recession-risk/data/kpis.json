@@ -73,14 +73,14 @@
   {
     "id": "us-10y-treasury-yield",
     "label": "US 10Y Treasury Yield",
-    "value": "~4.30%",
+    "value": "~4.31%",
     "color": "amber",
-    "source": "Federal Reserve H.15 / FRED DGS10, Apr 1 2026",
+    "source": "Federal Reserve H.15 / FRED DGS10, Apr 10 2026",
     "contested": false,
-    "delta": "-0.16pp",
-    "deltaNote": "Retreating from 4.46% Mar 28 peak as Iran ceasefire signals reduce oil-inflation fears; still +0.04pp vs Mar 18 FOMC",
+    "delta": "-0.15pp",
+    "deltaNote": "Apr 10 settle at 4.31% — down from 4.46% Apr 4 peak but elevated; core CPI miss (2.6% vs 2.7% forecast) provided mild bond relief; S&P +3% for week; inflation risk premium persists ahead of Apr 14 WEO and Apr 29–30 FOMC",
     "trend": "down",
-    "lastUpdated": "2026-04-01T14:00:00Z"
+    "lastUpdated": "2026-04-10T00:00:00Z"
   },
   {
     "id": "us-consumer-confidence",
@@ -96,27 +96,27 @@
   },
   {
     "id": "michigan-consumer-sentiment",
-    "label": "Michigan Consumer Sentiment (Final)",
-    "value": "53.3",
+    "label": "Michigan Consumer Sentiment (Apr Prelim.)",
+    "value": "47.6",
     "color": "red",
-    "source": "University of Michigan, Mar 27 2026",
+    "source": "University of Michigan, Apr 10 2026 (Preliminary)",
     "contested": false,
-    "delta": "-3.3",
-    "deltaNote": "vs Feb 2026 (56.6); year-ahead inflation expectations at 3.8% (largest monthly jump since Apr 2025)",
+    "delta": "-5.7",
+    "deltaNote": "ALL-TIME RECORD LOW — first below 50 since June 2022; below 1980 energy crisis low (51.7). Year-ahead inflation expectations 4.8% (from 3.8% — largest one-month jump in survey history). 98% of surveys conducted before Apr 7 Iran ceasefire.",
     "trend": "down",
-    "lastUpdated": "2026-03-29T14:05:00Z"
+    "lastUpdated": "2026-04-10T00:00:00Z"
   },
   {
     "id": "vix-fear-gauge",
     "label": "VIX (Market Fear Index)",
-    "value": "~29–31",
+    "value": "~24–27",
     "color": "red",
-    "source": "CBOE, Apr 9 2026",
+    "source": "CBOE, Apr 10 2026",
     "contested": false,
-    "delta": "Brief dip to ~18–20 (Apr 7 Iran ceasefire rally); spiking again Apr 9 on China 104%/84% dual tariff shock",
-    "deltaNote": "US-Iran ceasefire (Apr 7) briefly pulled VIX toward 18–20; April 9 China tariff escalation to 104%/84% pushed fear index back above 29. Elevated uncertainty: Iran ceasefire fragile (Lebanon strikes continue), FOMC Apr 29–30 critical decision point",
+    "delta": "Pulling back from Apr 9 spike (29–31) as markets process CPI core miss (2.6% — below forecast)",
+    "deltaNote": "Apr 10 stabilization: core CPI 0.1pp below forecast + Iran ceasefire holding partially eased fear. BUT Michigan sentiment 47.6 (all-time low) and year-ahead inflation expectations 4.8% (record monthly jump) keep elevated. S&P +3% for week. FOMC Apr 29–30 critical stagflation decision.",
     "trend": "up",
-    "lastUpdated": "2026-04-09T14:00:00Z"
+    "lastUpdated": "2026-04-10T00:00:00Z"
   },
   {
     "id": "us-effective-tariff-rate",
@@ -143,13 +143,13 @@
   {
     "id": "global-policy-uncertainty",
     "label": "Global Policy Uncertainty Index",
-    "value": "~388+",
+    "value": "~400+",
     "color": "red",
-    "source": "Baker-Bloom-Davis / FRED; JPMorgan, Goldman Sachs, Apr 2026",
+    "source": "Baker-Bloom-Davis / FRED; University of Michigan Apr 10 2026",
     "contested": false,
-    "delta": "Surging — Apr 9 dual tariff shock: US 104% on China, China 84% on US",
-    "deltaNote": "JPMorgan recession probability 65% (revised up Apr 9), Goldman Sachs 35%, Moody's Analytics ~50%; Iran ceasefire (Apr 7) briefly relieved oil shock (WTI -16.4% to $94.41) but China tariff escalation to 104%/84% on Apr 9 represents new acute escalation; FOMC Apr 29–30 critical",
+    "delta": "Surging — triple shock: Iran war energy, US-China 104%/84% tariff near-embargo, Michigan sentiment record low",
+    "deltaNote": "Apr 10: Michigan Consumer Sentiment 47.6 (all-time record low); year-ahead inflation expectations 4.8% (largest monthly jump in survey history). JPMorgan recession probability 65%, Moody's Analytics ~50%, Goldman 35%. IMF Spring Meetings Apr 13–18; WEO Apr 14 will show growth markdowns ~0.8pp. FOMC Apr 29–30 stagflation trap.",
     "trend": "up",
-    "lastUpdated": "2026-04-09T14:00:00Z"
+    "lastUpdated": "2026-04-10T00:00:00Z"
   }
 ]
