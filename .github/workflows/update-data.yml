@@ -88,7 +88,7 @@ jobs:
                 LAST_EPOCH=$(date -d "$LAST_RUN" +%s 2>/dev/null || echo 0)
                 ELAPSED_DAYS=$(( (NOW_EPOCH - LAST_EPOCH) / 86400 ))
                 if [ "$ELAPSED_DAYS" -lt "$INTERVAL" ]; then
-                  echo "Skipping $SLUG: updated ${ELAPSED_DAYS}d ago, interval is ${INTERVAL}d"
+                  echo "Skipping $SLUG: updated ${ELAPSED_DAYS}d ago, interval is ${INTERVAL}d (escalation policy, last run: $LAST_RUN)"
                   continue
                 fi
               fi
@@ -275,14 +275,17 @@ jobs:
             - Add map-points.json entries for new locations
             - Validate coordinates within tracker's coordValidation bounds
 
-            STEP 3.5 — EVENT MEDIA (for each new or updated event):
-            For significant events, add a `media` array with 1-2 items:
-            - Search for news article URLs with photos covering the event
-            - Add media items: { "type": "image", "url": "<article-url>", "caption": "<brief description>", "source": "<outlet-name>", "thumbnail": "<direct-image-url-if-available>" }
+            STEP 3.5 — EVENT MEDIA (MANDATORY for each new or updated event):
+            Every event MUST have a `media` array with at least 1 item containing a thumbnail URL.
+            For each event:
+            - Search for a news article or image URL covering the event
+            - Add media items: { "type": "image", "url": "<article-url>", "caption": "<brief description>", "source": "<outlet-name>", "thumbnail": "<direct-image-url>" }
+            - ALWAYS search for and include a `thumbnail` URL (the direct og:image or photo URL from the article)
             - Prefer Tier 1-2 sources (Reuters, AP, BBC, CNN, Al Jazeera) for image reliability
-            - The `url` field can be the article URL; `thumbnail` should be the direct og:image URL if findable
-            - If no good image source exists, omit the media array entirely (don't add empty arrays)
+            - The `url` field should be the article URL; `thumbnail` MUST be the direct image URL
+            - If you absolutely cannot find any image after searching multiple sources, use the article URL as thumbnail
             - NEVER fabricate or guess image URLs — only use URLs you verified exist
+            - Do NOT skip media — trackers without images look broken in the UI
 
             STEP 4 — UPDATE LOG:
             After updating, write trackers/${{ matrix.slug }}/data/update-log.json with:
