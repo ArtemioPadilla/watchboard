@@ -291,7 +291,7 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
                 borderRadius: 4,
                 padding: '4px 12px',
                 fontFamily: "'JetBrains Mono', monospace",
-                fontSize: 13,
+                fontSize: 20,
                 fontWeight: 600,
                 color: '#0a0b0e',
                 letterSpacing: '1px',
@@ -302,7 +302,7 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
             <span
               style={{
                 fontFamily: "'JetBrains Mono', monospace",
-                fontSize: 16,
+                fontSize: 20,
                 color: '#9498a8',
               }}
             >
@@ -313,12 +313,11 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
           <div
             style={{
               fontFamily: "'JetBrains Mono', monospace",
-              fontSize: 14,
+              fontSize: 20,
               color: '#5a5e6e',
               letterSpacing: '2px',
             }}
           >
-            WATCHBOARD.DEV
           </div>
         </div>
       </div>

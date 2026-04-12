@@ -140,25 +140,7 @@ export const Video: React.FC<VideoProps> = ({ data, narrationSrc, geoFeatures = 
         <Outro />
       </Sequence>
 
-      {/* Bottom-right persistent watermark */}
-      <div
-        style={{
-          position: 'absolute',
-          bottom: 40,
-          right: 40,
-          fontFamily: "'JetBrains Mono', monospace",
-          fontSize: 14,
-          color: '#5a5e6e',
-          letterSpacing: '2px',
-          opacity: interpolate(frame, [30, 50], [0, 0.6], {
-            extrapolateLeft: 'clamp',
-            extrapolateRight: 'clamp',
-          }),
-        }}
-      >
-        WATCHBOARD.DEV
-      </div>
-    </AbsoluteFill>
+          </AbsoluteFill>
   );
 };
 
