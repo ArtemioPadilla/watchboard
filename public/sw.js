@@ -1,6 +1,6 @@
 // Watchboard Service Worker
 // Strategy: cache-first for static assets, network-first for HTML, stale-while-revalidate for data JSON
-const CACHE_VERSION = 'wb-v1';
+const CACHE_VERSION = 'wb-v2';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const HTML_CACHE = `${CACHE_VERSION}-html`;
 const DATA_CACHE = `${CACHE_VERSION}-data`;
