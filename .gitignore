@@ -19,6 +19,9 @@ dist/
 # Cesium static assets (copied from node_modules at build time)
 public/cesium/
 
+# Generated API files (built by scripts/generate-api.ts)
+public/api/v1/
+
 # Firebase (leftover)
 firebase-debug.log
 

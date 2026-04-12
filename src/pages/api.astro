@@ -1,0 +1,349 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const base = import.meta.env.BASE_URL;
+const basePath = base.endsWith('/') ? base : `${base}/`;
+const apiBase = 'https://watchboard.dev/api/v1';
+---
+<BaseLayout
+  title="Public API — Watchboard"
+  description="Free, public JSON API for Watchboard intelligence data. Access trackers, events, KPIs, and breaking news. No API key required."
+>
+  <main id="main-content" data-pagefind-ignore>
+    <div class="api-page">
+      <a class="api-back" href={`${basePath}`}>&larr; Watchboard</a>
+
+      <article class="api-content">
+        <div class="api-header">
+          <div class="api-badge">PUBLIC API</div>
+          <h1>Watchboard JSON API</h1>
+          <p class="api-subtitle">
+            Free, static JSON API served from GitHub Pages. No API key required.
+            Data updates with every site build (typically within hours of new events).
+          </p>
+        </div>
+
+        <section class="api-section">
+          <h2>Base URL</h2>
+          <pre class="api-code"><code>{apiBase}</code></pre>
+          <p>
+            All endpoints return JSON with <code>Content-Type: application/json</code> and CORS enabled
+            (<code>Access-Control-Allow-Origin: *</code>). Responses are cached for 1 hour with
+            stale-while-revalidate for 24 hours.
+          </p>
+        </section>
+
+        <section class="api-section">
+          <h2>Endpoints</h2>
+
+          <div class="api-endpoint">
+            <h3>
+              <span class="api-method">GET</span>
+              <code>/trackers.json</code>
+            </h3>
+            <p>List all trackers with metadata, status, last updated time, and day count.</p>
+            <pre class="api-code"><code>curl -s {apiBase}/trackers.json | jq '.trackers[:2]'</code></pre>
+            <details>
+              <summary>Response fields</summary>
+              <ul>
+                <li><code>generated</code> — ISO timestamp of when the API was built</li>
+                <li><code>count</code> — total number of trackers</li>
+                <li><code>trackers[]</code> — array of tracker summaries</li>
+                <li><code>  .slug</code> — unique identifier (used in other endpoints)</li>
+                <li><code>  .name</code> — full display name</li>
+                <li><code>  .domain</code> — topic category (conflict, governance, science, etc.)</li>
+                <li><code>  .status</code> — active or archived</li>
+                <li><code>  .lastUpdated</code> — last data update timestamp</li>
+                <li><code>  .dayCount</code> — days since tracker start date</li>
+                <li><code>  .breaking</code> — true if tracker has breaking news</li>
+              </ul>
+            </details>
+          </div>
+
+          <div class="api-endpoint">
+            <h3>
+              <span class="api-method">GET</span>
+              <code>/trackers/{'{slug}'}.json</code>
+            </h3>
+            <p>Full data for a single tracker: config, meta, KPIs, latest digest, and recent events.</p>
+            <pre class="api-code"><code>curl -s {apiBase}/trackers/gaza-war.json | jq '.meta.heroHeadline'</code></pre>
+            <details>
+              <summary>Response fields</summary>
+              <ul>
+                <li><code>config</code> — tracker configuration (name, domain, region, tags, etc.)</li>
+                <li><code>meta</code> — current headline, subtitle, day count, breaking status</li>
+                <li><code>kpis[]</code> — key performance indicators with values, colors, trends</li>
+                <li><code>latestDigest</code> — most recent daily digest summary</li>
+                <li><code>recentEvents[]</code> — last 30 timeline events</li>
+                <li><code>eventCount</code> — total number of events in the tracker</li>
+              </ul>
+            </details>
+          </div>
+
+          <div class="api-endpoint">
+            <h3>
+              <span class="api-method">GET</span>
+              <code>/breaking.json</code>
+            </h3>
+            <p>All trackers currently flagged as having breaking news.</p>
+            <pre class="api-code"><code>curl -s {apiBase}/breaking.json | jq '.items[].headline'</code></pre>
+          </div>
+
+          <div class="api-endpoint">
+            <h3>
+              <span class="api-method">GET</span>
+              <code>/kpis/{'{slug}'}.json</code>
+            </h3>
+            <p>Just the KPIs for a specific tracker — lightweight endpoint for dashboards.</p>
+            <pre class="api-code"><code>curl -s {apiBase}/kpis/ukraine-war.json | jq '.kpis[] | .label + ": " + .value'</code></pre>
+          </div>
+
+          <div class="api-endpoint">
+            <h3>
+              <span class="api-method">GET</span>
+              <code>/events/{'{slug}'}.json</code>
+            </h3>
+            <p>Last 30 timeline events for a tracker, sorted newest first.</p>
+            <pre class="api-code"><code>curl -s {apiBase}/events/iran-conflict.json | jq '.events[:3]'</code></pre>
+          </div>
+
+          <div class="api-endpoint">
+            <h3>
+              <span class="api-method">GET</span>
+              <code>/search-index.json</code>
+            </h3>
+            <p>
+              Flattened index of all event titles across all trackers — designed for client-side search.
+              Each entry includes <code>slug</code>, <code>id</code>, <code>title</code>, <code>date</code>, and <code>type</code>.
+            </p>
+            <pre class="api-code"><code>curl -s {apiBase}/search-index.json | jq '.count'</code></pre>
+          </div>
+        </section>
+
+        <section class="api-section">
+          <h2>Usage Examples</h2>
+
+          <h3>JavaScript / Fetch</h3>
+          <pre class="api-code"><code>{`// Get all trackers with breaking news
+const res = await fetch('${apiBase}/breaking.json');
+const data = await res.json();
+data.items.forEach(item => {
+  console.log(\`🔴 \${item.name}: \${item.headline}\`);
+});`}</code></pre>
+
+          <h3>Python</h3>
+          <pre class="api-code"><code>{`import requests
+
+# Get KPIs for a specific tracker
+data = requests.get('${apiBase}/kpis/gaza-war.json').json()
+for kpi in data['kpis']:
+    print(f"{kpi['label']}: {kpi['value']} ({kpi['color']})")`}</code></pre>
+
+          <h3>Shell / jq</h3>
+          <pre class="api-code"><code>{`# List all active conflict trackers
+curl -s ${apiBase}/trackers.json | \\
+  jq '[.trackers[] | select(.domain=="conflict")] | length'`}</code></pre>
+        </section>
+
+        <section class="api-section">
+          <h2>For AI Agents</h2>
+          <p>
+            If you're building an AI integration, we also provide an
+            <a href="https://github.com/ArtemioPadilla/watchboard/tree/main/mcp">MCP server</a>
+            that wraps this API for seamless access from Claude, ChatGPT, and other LLM agents.
+          </p>
+          <pre class="api-code"><code>{`# Install the MCP server
+npx watchboard-mcp@latest`}</code></pre>
+        </section>
+
+        <section class="api-section">
+          <h2>Rate Limits & Caching</h2>
+          <ul>
+            <li>No rate limits — it's static files on a CDN</li>
+            <li>Data refreshes with every site deploy (usually 1–4 times daily)</li>
+            <li>Responses include <code>Cache-Control: public, max-age=3600</code></li>
+            <li>Use <code>generated</code> timestamp in responses to check freshness</li>
+          </ul>
+        </section>
+
+        <section class="api-section">
+          <h2>Terms</h2>
+          <p>
+            This API is free for any use — commercial, academic, personal, or AI training.
+            Attribution appreciated but not required. Data is sourced from public reporting
+            and may contain errors or contested claims — verify independently for critical applications.
+          </p>
+        </section>
+      </article>
+    </div>
+  </main>
+
+  <style>
+    .api-page {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    .api-back {
+      display: inline-block;
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 0.875rem;
+      margin-bottom: 1.5rem;
+    }
+    .api-back:hover {
+      color: #e2e8f0;
+    }
+
+    .api-header {
+      margin-bottom: 3rem;
+    }
+
+    .api-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      background: rgba(59, 130, 246, 0.15);
+      color: #60a5fa;
+      padding: 0.3rem 0.8rem;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+    }
+
+    .api-header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #f1f5f9;
+      margin: 0 0 0.75rem;
+      line-height: 1.2;
+    }
+
+    .api-subtitle {
+      color: #94a3b8;
+      font-size: 1.05rem;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .api-section {
+      margin-bottom: 2.5rem;
+    }
+
+    .api-section h2 {
+      font-size: 1.3rem;
+      color: #e2e8f0;
+      margin: 0 0 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+    }
+
+    .api-section h3 {
+      font-size: 1rem;
+      color: #cbd5e1;
+      margin: 1.5rem 0 0.5rem;
+    }
+
+    .api-section p {
+      color: #94a3b8;
+      line-height: 1.6;
+    }
+
+    .api-section ul {
+      color: #94a3b8;
+      padding-left: 1.5rem;
+      line-height: 1.8;
+    }
+
+    .api-section a {
+      color: #60a5fa;
+      text-decoration: none;
+    }
+    .api-section a:hover {
+      text-decoration: underline;
+    }
+
+    .api-endpoint {
+      background: rgba(15, 23, 42, 0.5);
+      border: 1px solid rgba(148, 163, 184, 0.1);
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .api-endpoint h3 {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin: 0 0 0.5rem;
+      font-size: 0.95rem;
+    }
+
+    .api-endpoint h3 code {
+      color: #e2e8f0;
+      font-size: 0.9rem;
+    }
+
+    .api-endpoint p {
+      margin: 0 0 0.75rem;
+      font-size: 0.9rem;
+    }
+
+    .api-endpoint details {
+      margin-top: 0.75rem;
+    }
+
+    .api-endpoint details summary {
+      color: #60a5fa;
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+
+    .api-endpoint details ul {
+      font-size: 0.85rem;
+      margin-top: 0.5rem;
+    }
+
+    .api-method {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      background: rgba(34, 197, 94, 0.15);
+      color: #4ade80;
+      padding: 0.2rem 0.5rem;
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+
+    .api-code {
+      background: #0f172a;
+      border: 1px solid rgba(148, 163, 184, 0.1);
+      border-radius: 6px;
+      padding: 0.75rem 1rem;
+      overflow-x: auto;
+      font-size: 0.85rem;
+      line-height: 1.5;
+    }
+
+    .api-code code {
+      color: #e2e8f0;
+      white-space: pre;
+    }
+
+    @media (max-width: 640px) {
+      .api-page {
+        padding: 1rem 1rem 3rem;
+      }
+      .api-header h1 {
+        font-size: 1.5rem;
+      }
+      .api-endpoint h3 {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.3rem;
+      }
+    }
+  </style>
+</BaseLayout>
