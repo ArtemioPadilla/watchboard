@@ -1,0 +1,33 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/tools/security-scanner.py --stdin --audit-trail docs/reviews/security-audit-trail.md 2>/dev/null || true"
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/tools/dashboard.py --html --no-open -o tools/dashboard.html 2>/dev/null || true"
+          },
+          {
+            "type": "command",
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/tools/handoff-generator.py --auto 2>/dev/null || true"
+          },
+          {
+            "type": "command",
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/tools/session-tracker.py log 2>/dev/null || true"
+          }
+        ]
+      }
+    ]
+  }
+}

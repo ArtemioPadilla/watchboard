@@ -243,3 +243,15 @@ Casualty figures use a `contested` field (`'yes'`/`'no'`/`'evolving'`/`'heavily'
 Global stylesheet at `src/styles/global.css`. Dark theme via CSS custom properties on `:root`. Key color semantics: `--accent-red`, `--accent-amber`, `--accent-blue`, `--accent-green`, `--accent-purple`. Tier colors: `--tier-1` through `--tier-4`. Font paths use `/watchboard/fonts/`.
 
 Broadcast styles in `src/styles/broadcast.css`. Mobile story carousel in `src/styles/mobile-stories.css`.
+
+## Development Methodology
+
+This project uses **Agent Triforce** (`ArtemioPadilla/agent-triforce`) for structured development:
+
+- **Prometeo (PM)** — Feature specs, prioritization, business logic
+- **Forja (Dev)** — Architecture, implementation, TDD workflow
+- **Centinela (QA)** — Security audits, code review, compliance
+
+Workflow: `/feature-spec` → `/implement-feature` → `/security-audit` → `/review-findings`
+
+All changes follow the checklist methodology (SIGN IN → TIME OUT → SIGN OUT) with mandatory pause points. Install the plugin: `/plugin install agent-triforce@agent-triforce`
