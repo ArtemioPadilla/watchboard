@@ -121,8 +121,6 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
 
   const touchStartY = useRef<number | null>(null);
   const touchStartX = useRef<number | null>(null);
-  const lastTapTime = useRef<number>(0);
-  const tapTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const circlesRef = useRef<HTMLDivElement>(null);
   const pauseTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -243,30 +241,16 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
   }, [clearPauseTimer]);
 
   const handleCardTap = useCallback(() => {
-    const now = Date.now();
-    const DOUBLE_TAP_MS = 300;
-
-    if (now - lastTapTime.current < DOUBLE_TAP_MS) {
-      // Double tap → open tracker
-      if (tapTimer.current) clearTimeout(tapTimer.current);
-      haptic();
-      window.location.href = `${basePath}${eligible[currentIndex]?.slug}/`;
-      return;
+    if (paused) {
+      handleResume();
+    } else {
+      handlePause();
     }
-
-    lastTapTime.current = now;
-
-    // Single tap → advance to next story (delayed to detect double tap)
-    if (tapTimer.current) clearTimeout(tapTimer.current);
-    tapTimer.current = setTimeout(() => {
-      goNext();
-      haptic();
-    }, DOUBLE_TAP_MS);
-  }, [basePath, eligible, currentIndex, goNext]);
+  }, [paused, handlePause, handleResume]);
 
   // Cleanup
   useEffect(() => {
-    return () => { clearPauseTimer(); if (tapTimer.current) clearTimeout(tapTimer.current); };
+    return () => { clearPauseTimer(); };
   }, [clearPauseTimer]);
 
   // Swipe detection: horizontal (#5) + vertical (existing)
@@ -421,10 +405,16 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
 
         {/* Swipe hint */}
         <div className="story-swipe-hint">
-          {t('story.tapNext', locale)}
+          {paused ? t('story.tapToResume', locale) : t('story.swipeHint', locale)}
         </div>
 
-        {/* Touch zones removed — single tap advances, double tap opens */}
+        {/* Touch zones (hidden when paused to allow full card tap) */}
+        {!paused && (
+          <>
+            <div className="story-touch-left" onClick={(e) => { e.stopPropagation(); goPrev(); }} />
+            <div className="story-touch-right" onClick={(e) => { e.stopPropagation(); goNext(); }} />
+          </>
+        )}
       </div>
     </div>
   );
