@@ -35,9 +35,10 @@ interface VideoProps {
   data?: BreakingData;
   narrationSrc?: string;
   geoFeatures?: GeoFeature[];
+  earthTexture?: string;
 }
 
-export const Video: React.FC<VideoProps> = ({ data, narrationSrc, geoFeatures = [] }) => {
+export const Video: React.FC<VideoProps> = ({ data, narrationSrc, geoFeatures = [], earthTexture = '' }) => {
   const breakingData = data ?? SAMPLE_DATA;
   const frame = useCurrentFrame();
 
@@ -93,6 +94,7 @@ export const Video: React.FC<VideoProps> = ({ data, narrationSrc, geoFeatures = 
           activeTrackerIndex={activeTrackerIndex}
           globalFrame={frame}
           accentColor={currentAccent}
+          earthTexture={earthTexture}
         />
       </div>
 

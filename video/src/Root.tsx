@@ -19,6 +19,7 @@ export const RemotionRoot: React.FC = () => {
         defaultProps={{
           data: SAMPLE_DATA,
           geoFeatures: [],
+          earthTexture: '',
         }}
       />
       {/* Preview compositions for individual sections */}

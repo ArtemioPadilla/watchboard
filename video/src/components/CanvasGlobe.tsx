@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useMemo } from 'react';
 import { interpolate, Easing } from 'remotion';
 import type { GeoFeature } from '../data/types';
 
@@ -10,6 +10,7 @@ interface CanvasGlobeProps {
   activeTrackerIndex: number; // -1 for intro/outro
   globalFrame: number; // absolute frame for continuous rotation
   accentColor?: string;
+  earthTexture?: string;
 }
 
 // ---------------------------------------------------------------------------
@@ -365,9 +366,9 @@ function drawPulsingDot(
 
   // Pulsing rings — larger and more visible
   for (let i = 0; i < 3; i++) {
-    const phase = ((frame * 0.06) + (i * 0.33)) % 1;
-    const ringRadius = 8 + phase * 44;
-    const ringOpacity = Math.max(0, (1 - phase) * 0.7);
+    const phase = ((frame * 0.013) + (i * 0.33)) % 1;
+    const ringRadius = 8 + phase * 52;
+    const ringOpacity = Math.max(0, (1 - phase) * 0.5);
 
     ctx.beginPath();
     ctx.arc(p.x, p.y, ringRadius, 0, Math.PI * 2);
@@ -406,6 +407,150 @@ function drawPulsingDot(
 // Component
 // ---------------------------------------------------------------------------
 
+// ---------------------------------------------------------------------------
+// Texture decoding helper — returns ImageData from a base64 data URL
+// ---------------------------------------------------------------------------
+
+function decodeTextureToImageData(
+  dataUrl: string,
+): Promise<{ imageData: ImageData; width: number; height: number }> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => {
+      const offscreen = document.createElement('canvas');
+      offscreen.width = img.width;
+      offscreen.height = img.height;
+      const offCtx = offscreen.getContext('2d');
+      if (!offCtx) {
+        reject(new Error('Failed to get offscreen canvas context'));
+        return;
+      }
+      offCtx.drawImage(img, 0, 0);
+      const imageData = offCtx.getImageData(0, 0, img.width, img.height);
+      resolve({ imageData, width: img.width, height: img.height });
+    };
+    img.onerror = () => reject(new Error('Failed to decode earth texture'));
+    img.src = dataUrl;
+  });
+}
+
+// ---------------------------------------------------------------------------
+// Texture-mapped sphere renderer
+// ---------------------------------------------------------------------------
+
+function drawTexturedSphere(
+  ctx: CanvasRenderingContext2D,
+  cx: number,
+  cy: number,
+  radius: number,
+  centerLon: number,
+  centerLat: number,
+  texData: Uint8ClampedArray,
+  texWidth: number,
+  texHeight: number,
+): void {
+  const centerLatRad = centerLat * DEG_TO_RAD;
+  const centerLonRad = centerLon * DEG_TO_RAD;
+  const sinCenterLat = Math.sin(centerLatRad);
+  const cosCenterLat = Math.cos(centerLatRad);
+
+  const BRIGHTNESS = 1.4;
+  // Blue tint for dark ocean areas
+  const OCEAN_THRESHOLD = 25;
+  const OCEAN_BLUE_R = 8;
+  const OCEAN_BLUE_G = 15;
+  const OCEAN_BLUE_B = 35;
+
+  const iR = Math.ceil(radius);
+  const x0 = Math.max(0, Math.floor(cx - iR));
+  const y0 = Math.max(0, Math.floor(cy - iR));
+  const x1 = Math.min(ctx.canvas.width / (ctx.getTransform().a || 1), Math.ceil(cx + iR));
+  const y1 = Math.min(ctx.canvas.height / (ctx.getTransform().d || 1), Math.ceil(cy + iR));
+
+  const outW = Math.ceil(x1 - x0);
+  const outH = Math.ceil(y1 - y0);
+  if (outW <= 0 || outH <= 0) return;
+
+  const outImageData = ctx.createImageData(outW, outH);
+  const out = outImageData.data;
+
+  const rSq = radius * radius;
+  const invR = 1 / radius;
+  const STEP = 2; // sample every 2nd pixel for performance
+
+  for (let py = y0; py < y1; py += STEP) {
+    const dy = -(py - cy) * invR; // flip y
+    const dySq = dy * dy;
+    const outRowBase = (Math.floor(py - y0)) * outW;
+
+    for (let px = x0; px < x1; px += STEP) {
+      const dx = (px - cx) * invR;
+      const rhoSq = dx * dx + dySq;
+      if (rhoSq > 1) continue;
+
+      const rho = Math.sqrt(rhoSq);
+
+      let lat: number;
+      let lon: number;
+
+      if (rho < 0.0001) {
+        lat = centerLatRad;
+        lon = centerLonRad;
+      } else {
+        const c = Math.asin(rho);
+        const sinC = Math.sin(c);
+        const cosC = Math.cos(c);
+
+        lat = Math.asin(cosC * sinCenterLat + (dy * sinC * cosCenterLat) / rho);
+        lon = centerLonRad + Math.atan2(
+          dx * sinC,
+          rho * cosCenterLat * cosC - dy * sinCenterLat * sinC,
+        );
+      }
+
+      // Map to texture UV
+      const lonDeg = lon / DEG_TO_RAD;
+      const latDeg = lat / DEG_TO_RAD;
+      const u = (lonDeg + 180) / 360;
+      const v = (90 - latDeg) / 180;
+
+      const texX = Math.floor(u * texWidth) % texWidth;
+      const texY = Math.min(Math.floor(v * texHeight), texHeight - 1);
+      const texIdx = (texY * texWidth + texX) * 4;
+
+      let r = texData[texIdx];
+      let g = texData[texIdx + 1];
+      let b = texData[texIdx + 2];
+
+      // Brightness boost
+      r = Math.min(255, Math.floor(r * BRIGHTNESS));
+      g = Math.min(255, Math.floor(g * BRIGHTNESS));
+      b = Math.min(255, Math.floor(b * BRIGHTNESS));
+
+      // Blue tint for dark ocean areas
+      const luminance = r * 0.299 + g * 0.587 + b * 0.114;
+      if (luminance < OCEAN_THRESHOLD) {
+        r = Math.max(r, OCEAN_BLUE_R);
+        g = Math.max(g, OCEAN_BLUE_G);
+        b = Math.max(b, OCEAN_BLUE_B);
+      }
+
+      // Write 2x2 block
+      for (let by = 0; by < STEP && (py - y0 + by) < outH; by++) {
+        for (let bx = 0; bx < STEP && (px - x0 + bx) < outW; bx++) {
+          const outIdx = ((Math.floor(py - y0) + by) * outW + (Math.floor(px - x0) + bx)) * 4;
+          out[outIdx] = r;
+          out[outIdx + 1] = g;
+          out[outIdx + 2] = b;
+          out[outIdx + 3] = 255;
+        }
+      }
+    }
+  }
+
+  ctx.putImageData(outImageData, x0, y0);
+}
+
 export const CanvasGlobe: React.FC<CanvasGlobeProps> = ({
   width,
   height,
@@ -414,10 +559,36 @@ export const CanvasGlobe: React.FC<CanvasGlobeProps> = ({
   activeTrackerIndex,
   globalFrame,
   accentColor = '#e74c3c',
+  earthTexture = '',
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const textureRef = useRef<{
+    data: Uint8ClampedArray;
+    width: number;
+    height: number;
+  } | null>(null);
+  const textureLoadedRef = useRef<string>(''); // track which URL was loaded
 
   const dpr = Math.min(typeof window !== 'undefined' ? window.devicePixelRatio : 1, 2);
+
+  // Decode the earth texture image once and cache in ref
+  useEffect(() => {
+    if (!earthTexture || earthTexture === textureLoadedRef.current) return;
+
+    decodeTextureToImageData(earthTexture)
+      .then(({ imageData, width: tw, height: th }) => {
+        textureRef.current = {
+          data: imageData.data,
+          width: tw,
+          height: th,
+        };
+        textureLoadedRef.current = earthTexture;
+      })
+      .catch((err) => {
+        console.warn('Failed to decode earth texture:', err);
+        textureRef.current = null;
+      });
+  }, [earthTexture]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -450,36 +621,58 @@ export const CanvasGlobe: React.FC<CanvasGlobeProps> = ({
     // Clear
     ctx.clearRect(0, 0, width, height);
 
-    // 1. Atmosphere glow
+    const hasTexture = textureRef.current !== null;
+
+    // 1. Atmosphere glow (drawn before/behind the sphere)
     drawAtmosphere(ctx, cx, cy, radius);
 
-    // 2. Ocean fill
-    drawOcean(ctx, cx, cy, radius);
+    if (hasTexture) {
+      // Texture-mapped rendering path
+      // Clip to globe circle
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+      ctx.clip();
 
-    // Clip to globe circle
-    ctx.save();
-    ctx.beginPath();
-    ctx.arc(cx, cy, radius, 0, Math.PI * 2);
-    ctx.clip();
+      drawTexturedSphere(
+        ctx,
+        cx,
+        cy,
+        radius,
+        centerLon,
+        centerLat,
+        textureRef.current!.data,
+        textureRef.current!.width,
+        textureRef.current!.height,
+      );
 
-    // 3. Grid lines
-    drawGridLines(ctx, centerLon, centerLat, radius, cx, cy);
+      ctx.restore();
+    } else {
+      // Fallback: polygon rendering (ocean + grid + countries)
+      drawOcean(ctx, cx, cy, radius);
 
-    // 4. Country polygons
-    if (geoFeatures.length > 0) {
-      drawCountries(ctx, geoFeatures, centerLon, centerLat, radius, cx, cy);
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+      ctx.clip();
+
+      drawGridLines(ctx, centerLon, centerLat, radius, cx, cy);
+
+      if (geoFeatures.length > 0) {
+        drawCountries(ctx, geoFeatures, centerLon, centerLat, radius, cx, cy);
+      }
+
+      ctx.restore();
     }
 
-    ctx.restore();
-
-    // Rim highlight
+    // Rim highlight (always on top)
     ctx.beginPath();
     ctx.arc(cx, cy, radius, 0, Math.PI * 2);
     ctx.strokeStyle = 'rgba(52, 152, 219, 0.15)';
     ctx.lineWidth = 1.5;
     ctx.stroke();
 
-    // 5. Pulsing dot at active tracker location
+    // 5. Pulsing dot at active tracker location (always on top)
     if (activeTrackerIndex >= 0 && activeTrackerIndex < trackers.length) {
       const target = trackers[activeTrackerIndex];
       drawPulsingDot(
@@ -495,7 +688,7 @@ export const CanvasGlobe: React.FC<CanvasGlobeProps> = ({
         accentColor,
       );
     }
-  }, [globalFrame, width, height, geoFeatures, trackers, activeTrackerIndex, accentColor, dpr]);
+  }, [globalFrame, width, height, geoFeatures, trackers, activeTrackerIndex, accentColor, dpr, earthTexture]);
 
   return (
     <canvas

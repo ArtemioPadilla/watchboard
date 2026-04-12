@@ -18,6 +18,7 @@ const DATA_PATH = resolve(ROOT_DIR, 'src/data/breaking.json');
 const OUTPUT_DIR = resolve(ROOT_DIR, 'output');
 const ENTRY_POINT = resolve(ROOT_DIR, 'src/Root.tsx');
 const NARRATION_PATH = resolve(ROOT_DIR, 'src/assets/narration.mp3');
+const EARTH_TEXTURE_PATH = resolve(ROOT_DIR, '../public/textures/earth-dark-threejs.jpg');
 
 async function main(): Promise<void> {
   console.log('=== Watchboard Video Renderer ===\n');
@@ -40,6 +41,17 @@ async function main(): Promise<void> {
   const GEO_PATH = resolve(ROOT_DIR, '../public/geo/countries-110m.json');
   const geoData = JSON.parse(readFileSync(GEO_PATH, 'utf-8'));
   const geoFeatures = geoData.features;
+
+  // Load earth night-lights texture as base64 data URL
+  let earthTexture = '';
+  if (existsSync(EARTH_TEXTURE_PATH)) {
+    const texBuf = readFileSync(EARTH_TEXTURE_PATH);
+    earthTexture = `data:image/jpeg;base64,${texBuf.toString('base64')}`;
+    console.log(`  Earth texture: ${(texBuf.length / 1024).toFixed(0)} KB loaded`);
+  } else {
+    console.warn('  Earth texture not found — falling back to polygon rendering');
+  }
+
   const trackerCount = Math.min(data.trackers.length, 3);
   const durationInFrames = calculateDuration(trackerCount);
 
@@ -58,7 +70,7 @@ async function main(): Promise<void> {
   const composition = await selectComposition({
     serveUrl: bundled,
     id: 'WatchboardDaily',
-    inputProps: { data, geoFeatures },
+    inputProps: { data, geoFeatures, earthTexture },
   });
 
   // Override duration based on actual tracker count
@@ -74,7 +86,7 @@ async function main(): Promise<void> {
     serveUrl: bundled,
     codec: 'h264',
     outputLocation: outputPath,
-    inputProps: { data, geoFeatures },
+    inputProps: { data, geoFeatures, earthTexture },
   });
 
   // Step 5 (optional): Merge narration audio via ffmpeg
