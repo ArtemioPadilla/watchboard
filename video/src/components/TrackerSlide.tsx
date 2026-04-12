@@ -122,9 +122,15 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
   const imageScale = interpolate(imageSpring, [0, 1], [0.85, 1]);
   const imageY = interpolate(imageSpring, [0, 1], [20, 0]);
 
-  const displayName = stripEmoji(tracker.name).toUpperCase();
-  const displayHeadline = smartTruncate(tracker.headline, 150);
-  const kpiDisplay = `${tracker.kpiPrefix ?? ''}${tracker.kpiValue}${tracker.kpiSuffix ?? ''}`;
+  // Safe defaults for all tracker fields
+  const safeName = tracker.name || tracker.slug || 'Unknown';
+  const safeHeadline = tracker.headline || tracker.name || 'Breaking news update';
+  const safeKpiValue = tracker.kpiValue ?? '—';
+  const safeKpiLabel = tracker.kpiLabel || 'STATUS';
+
+  const displayName = stripEmoji(safeName).toUpperCase();
+  const displayHeadline = smartTruncate(safeHeadline, 150);
+  const kpiDisplay = `${tracker.kpiPrefix ?? ''}${safeKpiValue}${tracker.kpiSuffix ?? ''}`;
 
   // Determine chevron direction from kpiPrefix or kpiSuffix
   const hasUpTrend = (tracker.kpiPrefix ?? '').includes('+') || (tracker.kpiPrefix ?? '').includes('\u2191');
@@ -271,7 +277,7 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
               marginBottom: 6,
             }}
           >
-            {tracker.kpiLabel}
+            {safeKpiLabel}
           </div>
 
           <div

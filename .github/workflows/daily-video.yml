@@ -34,10 +34,18 @@ jobs:
       - name: Render video
         run: cd video && npx tsx render.ts
 
+      - name: Install ffmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
       - name: Generate narration with Polly
+        continue-on-error: true
         env:
           AWS_REGION: us-east-1
         run: |
+          if ! command -v aws &>/dev/null; then
+            echo "AWS CLI not available — skipping narration"
+            exit 0
+          fi
           DATE=$(date -u +%Y-%m-%d)
           # Extract tracker names from breaking data
           TRACKERS=$(node -e "const d=require('./video/src/data/breaking.json'); console.log(d.trackers.map(t=>t.name).join('. '))")

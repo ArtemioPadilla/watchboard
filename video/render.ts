@@ -4,13 +4,15 @@
  * Usage: cd video && npx tsx render.ts
  *
  * Fetches breaking data, bundles the Remotion project, and renders to MP4.
+ * Every step has graceful fallbacks so we always produce SOMETHING.
  */
 import { execSync } from 'node:child_process';
-import { readFileSync, existsSync, mkdirSync } from 'node:fs';
+import { readFileSync, existsSync, mkdirSync, readdirSync, copyFileSync, statSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { bundle } from '@remotion/bundler';
 import { renderMedia, selectComposition } from '@remotion/renderer';
 import type { BreakingData } from './src/data/types.js';
+import { SAMPLE_DATA } from './src/data/types.js';
 import { calculateDuration } from './src/Video.js';
 
 const ROOT_DIR = resolve(import.meta.dirname ?? '.');
@@ -18,7 +20,13 @@ const DATA_PATH = resolve(ROOT_DIR, 'src/data/breaking.json');
 const OUTPUT_DIR = resolve(ROOT_DIR, 'output');
 const ENTRY_POINT = resolve(ROOT_DIR, 'src/Root.tsx');
 const NARRATION_PATH = resolve(ROOT_DIR, 'src/assets/narration.mp3');
-const EARTH_TEXTURE_PATH = resolve(ROOT_DIR, '../public/textures/earth-night-lights-nasa.jpg');
+
+// Earth texture candidates in priority order
+const EARTH_TEXTURE_CANDIDATES = [
+  resolve(ROOT_DIR, '../public/textures/earth-night-lights-nasa.jpg'),
+  resolve(ROOT_DIR, '../public/textures/earth-dark-blend-4k.webp'),
+  resolve(ROOT_DIR, '../public/textures/earth-dark-threejs.jpg'),
+];
 
 async function downloadThumbnail(url: string): Promise<Buffer | null> {
   const headers = {
@@ -47,31 +55,46 @@ async function downloadThumbnail(url: string): Promise<Buffer | null> {
 async function main(): Promise<void> {
   console.log('=== Watchboard Video Renderer ===\n');
 
-  // Step 1: Fetch breaking data
+  // Step 1: Fetch breaking data (with fallback to sample data)
   console.log('[1/4] Fetching breaking data...');
-  execSync('npx tsx src/data/fetch-breaking.ts', {
-    cwd: ROOT_DIR,
-    stdio: 'inherit',
-  });
-
-  if (!existsSync(DATA_PATH)) {
-    console.error('ERROR: Breaking data not found at', DATA_PATH);
-    process.exit(1);
+  let data: BreakingData;
+  try {
+    execSync('npx tsx src/data/fetch-breaking.ts', {
+      cwd: ROOT_DIR,
+      stdio: 'inherit',
+    });
+    data = JSON.parse(readFileSync(DATA_PATH, 'utf-8'));
+  } catch (err) {
+    console.warn('  Failed to fetch breaking data — using sample data:', (err as Error).message);
+    data = SAMPLE_DATA;
   }
 
-  const data: BreakingData = JSON.parse(readFileSync(DATA_PATH, 'utf-8'));
+  // Validate data has usable trackers
+  if (!data.trackers || data.trackers.length === 0) {
+    console.warn('  No trackers in data — using sample data');
+    data = SAMPLE_DATA;
+  }
 
   // Download tracker thumbnails for Remotion (can't fetch external URLs during render)
   console.log('  Downloading tracker thumbnails...');
+  const thumbnailDeadline = Date.now() + 30_000; // 30s total budget
   for (const tracker of data.trackers) {
-    for (const url of tracker.thumbnailUrls) {
-      const buf = await downloadThumbnail(url);
-      if (buf && buf.length > 5000) {
-        const ct = url.endsWith('.png') ? 'image/png' : url.endsWith('.webp') ? 'image/webp' : 'image/jpeg';
-        tracker.thumbnailBase64 = `data:${ct};base64,${buf.toString('base64')}`;
-        console.log(`    ${tracker.name}: thumbnail downloaded (${(buf.length / 1024).toFixed(0)} KB)`);
-        break;
+    if (Date.now() > thumbnailDeadline) {
+      console.warn('  Thumbnail download budget exhausted — skipping remaining');
+      break;
+    }
+    try {
+      for (const url of tracker.thumbnailUrls) {
+        const buf = await downloadThumbnail(url);
+        if (buf && buf.length > 5000) {
+          const ct = url.endsWith('.png') ? 'image/png' : url.endsWith('.webp') ? 'image/webp' : 'image/jpeg';
+          tracker.thumbnailBase64 = `data:${ct};base64,${buf.toString('base64')}`;
+          console.log(`    ${tracker.name}: thumbnail downloaded (${(buf.length / 1024).toFixed(0)} KB)`);
+          break;
+        }
       }
+    } catch (err) {
+      console.warn(`    ${tracker.name}: thumbnail download error — skipping:`, (err as Error).message);
     }
     if (!tracker.thumbnailBase64) {
       console.log(`    ${tracker.name}: no thumbnail found, will use globe`);
@@ -79,19 +102,48 @@ async function main(): Promise<void> {
   }
 
   // Load GeoJSON for globe rendering
-  const GEO_PATH = resolve(ROOT_DIR, '../public/geo/countries-110m.json');
-  const geoData = JSON.parse(readFileSync(GEO_PATH, 'utf-8'));
-  const geoFeatures = geoData.features;
+  let geoFeatures: unknown[] = [];
+  try {
+    const GEO_PATH = resolve(ROOT_DIR, '../public/geo/countries-110m.json');
+    const geoData = JSON.parse(readFileSync(GEO_PATH, 'utf-8'));
+    geoFeatures = geoData.features;
+  } catch (err) {
+    console.warn('  GeoJSON load failed — globe will render without countries:', (err as Error).message);
+  }
 
-  // Load earth night-lights texture as base64 data URL
+  // Load earth night-lights texture as base64 data URL (try multiple candidates)
   let earthTexture = '';
-  if (existsSync(EARTH_TEXTURE_PATH)) {
-    const texBuf = readFileSync(EARTH_TEXTURE_PATH);
-    const ext = EARTH_TEXTURE_PATH.endsWith('.webp') ? 'webp' : EARTH_TEXTURE_PATH.endsWith('.png') ? 'png' : 'jpeg';
-    earthTexture = `data:image/${ext};base64,${texBuf.toString('base64')}`;
-    console.log(`  Earth texture: ${(texBuf.length / 1024).toFixed(0)} KB loaded`);
-  } else {
-    console.warn('  Earth texture not found — falling back to polygon rendering');
+  try {
+    for (const texPath of EARTH_TEXTURE_CANDIDATES) {
+      if (existsSync(texPath)) {
+        const texBuf = readFileSync(texPath);
+        const ext = texPath.endsWith('.webp') ? 'webp' : texPath.endsWith('.png') ? 'png' : 'jpeg';
+        earthTexture = `data:image/${ext};base64,${texBuf.toString('base64')}`;
+        console.log(`  Earth texture: ${texPath.split('/').pop()} (${(texBuf.length / 1024).toFixed(0)} KB)`);
+        break;
+      }
+    }
+    if (!earthTexture) {
+      console.warn('  No earth texture found — globe will use polygon fallback');
+    }
+  } catch (err) {
+    console.warn('  Earth texture load failed — globe will use polygon fallback:', (err as Error).message);
+  }
+
+  // Music rotation: pick a track based on day-of-year
+  const musicDir = resolve(ROOT_DIR, 'music');
+  try {
+    if (existsSync(musicDir)) {
+      const musicFiles = readdirSync(musicDir).filter(f => f.endsWith('.mp3'));
+      if (musicFiles.length > 0) {
+        const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000);
+        const selectedMusic = musicFiles[dayOfYear % musicFiles.length];
+        copyFileSync(resolve(musicDir, selectedMusic), resolve(ROOT_DIR, 'public/bg-music.mp3'));
+        console.log(`  Music: ${selectedMusic}`);
+      }
+    }
+  } catch (err) {
+    console.warn('  Music rotation failed — using existing track:', (err as Error).message);
   }
 
   const trackerCount = Math.min(data.trackers.length, 3);
@@ -118,18 +170,36 @@ async function main(): Promise<void> {
   // Override duration based on actual tracker count
   composition.durationInFrames = durationInFrames;
 
-  // Step 4: Render
+  // Step 4: Render (with retry)
   if (!existsSync(OUTPUT_DIR)) mkdirSync(OUTPUT_DIR, { recursive: true });
   const outputPath = resolve(OUTPUT_DIR, `watchboard-${data.date}.mp4`);
 
   console.log(`[4/4] Rendering to ${outputPath}...`);
-  await renderMedia({
-    composition,
-    serveUrl: bundled,
-    codec: 'h264',
-    outputLocation: outputPath,
-    inputProps: { data, geoFeatures, earthTexture },
-  });
+  for (let attempt = 0; attempt < 2; attempt++) {
+    try {
+      await renderMedia({
+        composition,
+        serveUrl: bundled,
+        codec: 'h264',
+        outputLocation: outputPath,
+        inputProps: { data, geoFeatures, earthTexture },
+      });
+      break;
+    } catch (err) {
+      if (attempt === 0) {
+        console.warn('  Render failed, retrying...', (err as Error).message);
+      } else {
+        throw err;
+      }
+    }
+  }
+
+  // Output validation
+  const outputStat = statSync(outputPath);
+  if (outputStat.size < 100_000) {
+    throw new Error(`Output too small (${outputStat.size} bytes) — render likely failed`);
+  }
+  console.log(`  Output: ${(outputStat.size / 1024 / 1024).toFixed(1)} MB`);
 
   // Step 5 (optional): Merge narration audio via ffmpeg
   if (existsSync(NARRATION_PATH)) {
