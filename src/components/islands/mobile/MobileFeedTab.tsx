@@ -246,6 +246,7 @@ function FeedEventCard({ event: ev, onTap }: { event: FlatEvent; onTap: (ev: Fla
             className="mtab-event-thumb"
             src={thumb}
             alt=""
+            loading="lazy"
             referrerPolicy="no-referrer"
             onError={() => setImgFailed(true)}
           />

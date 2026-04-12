@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import CriticalCSS from '../components/static/CriticalCSS.astro';
 import PushSubscriptionManager from '../components/islands/PushSubscriptionManager';
 
 interface Props {
@@ -25,6 +26,7 @@ const ogImageUrl = trackerSlug
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <CriticalCSS />
   <title>{title}</title>
   <meta name="description" content={desc}>
   <meta property="og:title" content={title}>

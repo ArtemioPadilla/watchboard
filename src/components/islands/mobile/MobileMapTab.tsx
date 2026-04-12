@@ -188,6 +188,7 @@ function MapEventCard({ event, onDismiss }: { event: FlatEvent; onDismiss: () =>
           className="mtab-map-event-thumb"
           src={thumb}
           alt=""
+          loading="lazy"
           referrerPolicy="no-referrer"
           onError={() => setImgFailed(true)}
         />

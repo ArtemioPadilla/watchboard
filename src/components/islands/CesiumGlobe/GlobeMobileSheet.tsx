@@ -626,6 +626,7 @@ function MobileEventCard({ event, isActive }: { event: FlatEvent; isActive: bool
             className="mobile-event-card-thumb"
             src={thumb}
             alt=""
+            loading="lazy"
             referrerPolicy="no-referrer"
             onError={() => setImgFailed(true)}
           />
