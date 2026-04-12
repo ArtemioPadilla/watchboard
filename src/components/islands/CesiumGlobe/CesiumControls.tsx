@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { MAP_CATEGORIES } from '../../../lib/map-utils';
+import { t, getPreferredLocale } from '../../../i18n/translations';
 import type { VisualMode } from './cesium-shaders';
 import type { OrbitMode } from './useCesiumCamera';
 import { SAT_GROUPS, type SatGroupCounts } from './useSatellites';
@@ -40,11 +41,11 @@ interface Props {
 type ToolbarSection = 'filters' | 'camera' | 'visual' | 'layers' | 'vectors';
 
 const VISUAL_MODES: { id: VisualMode; label: string }[] = [
-  { id: 'normal', label: 'Standard' },
+  { id: 'normal', label: 'globe.standard' },
   { id: 'crt', label: 'CRT' },
-  { id: 'nvg', label: 'Night Vision' },
+  { id: 'nvg', label: 'globe.nightVision' },
   { id: 'thermal', label: 'FLIR' },
-  { id: 'panoptic', label: 'Panoptic' },
+  { id: 'panoptic', label: 'globe.panoptic' },
 ];
 
 const ORBIT_MODES: { id: OrbitMode; label: string }[] = [
@@ -85,6 +86,7 @@ export default function CesiumControls({
   const [activeSection, setActiveSection] = useState<ToolbarSection | null>(null);
   const [aisKeyDraft, setAisKeyDraft] = useState('');
   const hasAisKey = !!aisApiKey;
+  const locale = getPreferredLocale();
   const toolbarRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -104,7 +106,7 @@ export default function CesiumControls({
 
   const renderFilters = () => (
     <div className="globe-toolbar-flyout">
-      <div className="globe-control-label">Filters</div>
+      <div className="globe-control-label">{t('globe.filters', locale)}</div>
       {filterCats.map(c => (
         <button
           key={c.id}
@@ -123,17 +125,17 @@ export default function CesiumControls({
         className={`globe-filter globe-persist-toggle${persistLines ? ' active' : ''}`}
         onClick={onTogglePersist}
         aria-pressed={persistLines}
-        title={persistLines ? 'Showing all past arcs' : 'Showing current day arcs only'}
+        title={persistLines ? t('globe.showAllArcs', locale) : t('globe.showDayArcs', locale)}
       >
         <span className="globe-fdot" style={{ background: persistLines ? '#00ff88' : '#555' }} />
-        {persistLines ? 'All Days' : 'Day Only'}
+        {persistLines ? t('globe.allDays', locale) : t('globe.dayOnly', locale)}
       </button>
     </div>
   );
 
   const renderCamera = () => (
     <div className="globe-toolbar-flyout">
-      <div className="globe-control-label">Camera Presets</div>
+      <div className="globe-control-label">{t('globe.cameraPresets', locale)}</div>
       <div className="globe-preset-grid">
         {Object.entries(cameraPresets).map(([key, preset]) => (
           <button key={key} className="globe-preset-btn" onClick={() => { onCameraPreset(key); setActiveSection(null); }}>
@@ -143,7 +145,7 @@ export default function CesiumControls({
       </div>
       {onOrbitMode && (
         <>
-          <div className="globe-control-label" style={{ marginTop: '8px' }}>Orbit Mode</div>
+          <div className="globe-control-label" style={{ marginTop: '8px' }}>{t('globe.orbitMode', locale)}</div>
           <div className="globe-mode-row">
             {ORBIT_MODES.map(m => (
               <button
@@ -159,14 +161,14 @@ export default function CesiumControls({
       )}
       {onToggleHud && (
         <>
-          <div className="globe-control-label" style={{ marginTop: '8px' }}>HUD</div>
+          <div className="globe-control-label" style={{ marginTop: '8px' }}>{t('globe.hudLabel', locale)}</div>
           <button
             className={`globe-filter${showHud ? ' active' : ''}`}
             onClick={onToggleHud}
             aria-pressed={showHud}
           >
             <span className="globe-fdot" style={{ background: showHud ? '#00ff88' : '#555' }} />
-            {showHud ? 'HUD Visible' : 'HUD Hidden'}
+            {showHud ? t('globe.hudVisible', locale) : t('globe.hudHidden', locale)}
           </button>
         </>
       )}
@@ -175,7 +177,7 @@ export default function CesiumControls({
 
   const renderVisual = () => (
     <div className="globe-toolbar-flyout">
-      <div className="globe-control-label">Visual Mode</div>
+      <div className="globe-control-label">{t('globe.visualMode', locale)}</div>
       <div className="globe-mode-row">
         {VISUAL_MODES.map(m => (
           <button
@@ -183,7 +185,7 @@ export default function CesiumControls({
             className={`globe-mode-btn${visualMode === m.id ? ' active' : ''}`}
             onClick={() => onVisualMode(m.id)}
           >
-            {m.label}
+            {t(m.label as any, locale)}
           </button>
         ))}
       </div>
@@ -192,13 +194,13 @@ export default function CesiumControls({
 
   const renderLayers = () => (
     <div className="globe-toolbar-flyout">
-      <div className="globe-control-label">Intel Layers</div>
+      <div className="globe-control-label">{t('globe.intelLayers', locale)}</div>
       <button
         className={`globe-filter${layers.satellites ? ' active' : ''}`}
         onClick={() => onToggleLayer('satellites')}
       >
         <span className="globe-fdot" style={{ background: '#00ffcc' }} />
-        Satellites
+        {t('globe.satellites', locale)}
       </button>
       {layers.satellites && (
         <>
@@ -217,10 +219,10 @@ export default function CesiumControls({
               className={`globe-filter globe-fov-toggle${showFov ? ' active' : ''}`}
               onClick={onToggleFov}
               aria-pressed={showFov}
-              title={showFov ? 'Hide sensor FOV + targeting lines' : 'Show sensor FOV + targeting lines'}
+              title={showFov ? t('globe.hideFov', locale) : t('globe.showFov', locale)}
             >
               <span className="globe-fdot" style={{ background: showFov ? '#ff8844' : '#555' }} />
-              Sensor FOV + Targeting
+              {t('globe.sensorFov', locale)}
               {showFov && fovCount != null && fovCount > 0 && (
                 <span className="globe-filter-count">{fovCount}</span>
               )}
@@ -233,12 +235,12 @@ export default function CesiumControls({
         onClick={() => onToggleLayer('flights')}
       >
         <span className="globe-fdot" style={{ background: '#00aaff' }} />
-        Flights
+        {t('globe.flights', locale)}
       </button>
       {layers.flights && (
         <div className="globe-sublabel">
-          <span style={{ color: '#00aaff' }}>&#9679; Civilian</span>{' '}
-          <span style={{ color: '#ffdd00' }}>&#9679; Military</span>
+          <span style={{ color: '#00aaff' }}>&#9679; {t('globe.civilian', locale)}</span>{' '}
+          <span style={{ color: '#ffdd00' }}>&#9679; {t('globe.military', locale)}</span>
         </div>
       )}
       <button
@@ -246,13 +248,13 @@ export default function CesiumControls({
         onClick={() => onToggleLayer('ships')}
       >
         <span className="globe-fdot" style={{ background: '#00ddaa' }} />
-        Ships (AIS)
+        {t('globe.shipsAis', locale)}
       </button>
       {layers.ships && (
         <>
           <div className="globe-sublabel">
-            <span style={{ color: '#00ddaa' }}>&#9679; Underway</span>{' '}
-            <span style={{ color: '#888888' }}>&#9679; Anchored</span>
+            <span style={{ color: '#00ddaa' }}>&#9679; {t('globe.underway', locale)}</span>{' '}
+            <span style={{ color: '#888888' }}>&#9679; {t('globe.anchored', locale)}</span>
           </div>
           {!hasAisKey ? (
             <div className="globe-ais-key-input">
@@ -274,19 +276,19 @@ export default function CesiumControls({
                 }}
                 disabled={!aisKeyDraft.trim()}
               >
-                Connect
+                {t('globe.connect', locale)}
               </button>
               <div className="globe-ais-key-hint">
-                Free key from <a href="https://aisstream.io" target="_blank" rel="noopener noreferrer">aisstream.io</a>
+                {t('globe.aisKeyHint', locale)} <a href="https://aisstream.io" target="_blank" rel="noopener noreferrer">aisstream.io</a>
               </div>
             </div>
           ) : (
             <div className="globe-sublabel" style={{ gap: '6px' }}>
-              <span style={{ color: '#00ddaa' }}>AIS connected</span>
+              <span style={{ color: '#00ddaa' }}>{t('globe.aisConnected', locale)}</span>
               <button
                 className="globe-ais-key-clear"
                 onClick={() => onAisApiKeyChange?.('')}
-                title="Disconnect and clear API key"
+                title={t('globe.disconnectAis', locale)}
               >
                 &#x2715;
               </button>
@@ -296,52 +298,52 @@ export default function CesiumControls({
       )}
 
       {/* SIGINT / EW Layers */}
-      <div className="globe-control-label" style={{ marginTop: '6px' }}>SIGINT / EW</div>
+      <div className="globe-control-label" style={{ marginTop: '6px' }}>{t('globe.sigintEw', locale)}</div>
       <button
         className={`globe-filter${layers.gpsJam ? ' active' : ''}`}
         onClick={() => onToggleLayer('gpsJam')}
       >
         <span className="globe-fdot" style={{ background: '#ff2244' }} />
-        GPS Jamming
+        {t('globe.gpsJamming', locale)}
       </button>
       <button
         className={`globe-filter${layers.internetBlackout ? ' active' : ''}`}
         onClick={() => onToggleLayer('internetBlackout')}
       >
         <span className="globe-fdot" style={{ background: '#ff6644' }} />
-        Internet Blackout
+        {t('globe.internetBlackout', locale)}
       </button>
 
       {/* Fact Cards */}
-      <div className="globe-control-label" style={{ marginTop: '6px' }}>Intel Overlays</div>
+      <div className="globe-control-label" style={{ marginTop: '6px' }}>{t('globe.intelOverlays', locale)}</div>
       <button
         className={`globe-filter${layers.groundTruth ? ' active' : ''}`}
         onClick={() => onToggleLayer('groundTruth')}
       >
         <span className="globe-fdot" style={{ background: '#ffaa00' }} />
-        Fact Cards
+        {t('globe.factCards', locale)}
       </button>
 
       {/* Existing environmental layers */}
-      <div className="globe-control-label" style={{ marginTop: '6px' }}>Environment</div>
+      <div className="globe-control-label" style={{ marginTop: '6px' }}>{t('globe.environment', locale)}</div>
       <button
         className={`globe-filter${layers.quakes ? ' active' : ''}`}
         onClick={() => onToggleLayer('quakes')}
       >
         <span className="globe-fdot" style={{ background: '#ff6644' }} />
-        Seismic
+        {t('globe.seismic', locale)}
       </button>
       <button
         className={`globe-filter${layers.weather ? ' active' : ''}`}
         onClick={() => onToggleLayer('weather')}
       >
         <span className="globe-fdot" style={{ background: '#88ccff' }} />
-        Weather
+        {t('globe.weather', locale)}
       </button>
       {layers.weather && (
         <div className="globe-sublabel">
-          <span style={{ color: '#ffffff' }}>&#9679; Cloud</span>{' '}
-          <span style={{ color: '#88ccff' }}>&#9679; Wind</span>
+          <span style={{ color: '#ffffff' }}>&#9679; {t('globe.cloud', locale)}</span>{' '}
+          <span style={{ color: '#88ccff' }}>&#9679; {t('globe.wind', locale)}</span>
         </div>
       )}
       <button
@@ -349,7 +351,7 @@ export default function CesiumControls({
         onClick={() => onToggleLayer('nfz')}
       >
         <span className="globe-fdot" style={{ background: '#e74c3c' }} />
-        Airspace Closures
+        {t('globe.airspaceClosures', locale)}
       </button>
     </div>
   );
@@ -367,28 +369,28 @@ export default function CesiumControls({
         <button
           className={`globe-toolbar-icon${activeSection === 'filters' ? ' active' : ''}`}
           onClick={() => toggle('filters')}
-          title="Filters"
+          title={t('globe.filters', locale)}
         >
           <svg viewBox="0 0 16 16" width="16" height="16"><path d="M1 2h14l-5 6v5l-4 2V8z" fill="currentColor"/></svg>
         </button>
         <button
           className={`globe-toolbar-icon${activeSection === 'camera' ? ' active' : ''}`}
           onClick={() => toggle('camera')}
-          title="Camera & HUD"
+          title={t('globe.cameraAndHud', locale)}
         >
           <svg viewBox="0 0 16 16" width="16" height="16"><path d="M2 4h3l1-2h4l1 2h3v9H2zm6 2a3 3 0 100 6 3 3 0 000-6z" fill="currentColor"/></svg>
         </button>
         <button
           className={`globe-toolbar-icon${activeSection === 'visual' ? ' active' : ''}`}
           onClick={() => toggle('visual')}
-          title="Visual Mode"
+          title={t('globe.visualMode', locale)}
         >
           <svg viewBox="0 0 16 16" width="16" height="16"><path d="M8 3C4 3 1 8 1 8s3 5 7 5 7-5 7-5-3-5-7-5zm0 8a3 3 0 110-6 3 3 0 010 6z" fill="currentColor"/></svg>
         </button>
         <button
           className={`globe-toolbar-icon${activeSection === 'layers' ? ' active' : ''}`}
           onClick={() => toggle('layers')}
-          title="Intel Layers"
+          title={t('globe.intelLayers', locale)}
         >
           <svg viewBox="0 0 16 16" width="16" height="16"><path d="M8 1L1 5l7 4 7-4zM1 8l7 4 7-4M1 11l7 4 7-4" fill="none" stroke="currentColor" strokeWidth="1.5"/></svg>
         </button>
@@ -396,7 +398,7 @@ export default function CesiumControls({
           <button
             className={`globe-toolbar-icon${cinematicMode ? ' active cinematic-active' : ''}`}
             onClick={onToggleCinematic}
-            title={cinematicMode ? 'Exit Cinematic Mode' : 'Cinematic Mode'}
+            title={cinematicMode ? t('globe.exitCinematic', locale) : t('globe.cinematicMode', locale)}
           >
             <svg viewBox="0 0 16 16" width="16" height="16">
               <rect x="1" y="3" width="14" height="10" rx="1" fill="none" stroke="currentColor" strokeWidth="1.3"/>
@@ -411,7 +413,7 @@ export default function CesiumControls({
           <button
             className={`globe-toolbar-btn ${activeSection === 'vectors' ? 'active' : ''}`}
             onClick={() => toggle('vectors')}
-            title="Physics Vectors"
+            title={t('globe.physicsVectors', locale)}
             style={{ position: 'relative' }}
           >
             V&#x20d7;
@@ -425,13 +427,13 @@ export default function CesiumControls({
           {activeSection === 'vectors' && (
             <div className="globe-dropdown" style={{ minWidth: 180 }}>
               <div style={{ padding: '8px 12px', fontSize: '10px', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>
-                Vectors
+                {t('globe.vectors', locale)}
               </div>
               {([
-                { key: 'velocity' as const, label: 'Velocity', color: '#00ffaa' },
-                { key: 'gravityEarth' as const, label: 'Earth Gravity', color: '#ff9500' },
-                { key: 'gravityMoon' as const, label: 'Moon Gravity', color: '#bf7fff' },
-                { key: 'thrust' as const, label: 'Thrust', color: '#ff3333' },
+                { key: 'velocity' as const, label: 'globe.velocity' as const, color: '#00ffaa' },
+                { key: 'gravityEarth' as const, label: 'globe.earthGravity' as const, color: '#ff9500' },
+                { key: 'gravityMoon' as const, label: 'globe.moonGravity' as const, color: '#bf7fff' },
+                { key: 'thrust' as const, label: 'globe.thrust' as const, color: '#ff3333' },
               ]).map(v => (
                 <label
                   key={v.key}
@@ -448,7 +450,7 @@ export default function CesiumControls({
                     background: vectorToggles[v.key] ? v.color : 'transparent',
                     display: 'inline-block',
                   }} />
-                  {v.label}
+                  {t(v.label as any, locale)}
                 </label>
               ))}
             </div>
