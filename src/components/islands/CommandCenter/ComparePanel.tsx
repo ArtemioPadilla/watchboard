@@ -2,6 +2,7 @@ import { memo } from 'react';
 import type { CSSProperties } from 'react';
 import type { TrackerCardData } from '../../../lib/tracker-directory-utils';
 import { buildDateline } from '../../../lib/tracker-directory-utils';
+import { t, getPreferredLocale, type Locale } from '../../../i18n/translations';
 
 interface Props {
   trackers: TrackerCardData[];
@@ -17,18 +18,18 @@ function resolveComparedTrackers(
   trackers: TrackerCardData[],
   compareSlugs: string[],
 ): TrackerCardData[] {
-  const bySlug = new Map(trackers.map(t => [t.slug, t]));
+  const bySlug = new Map(trackers.map(tr => [tr.slug, tr]));
   return compareSlugs
     .map(slug => bySlug.get(slug))
-    .filter((t): t is TrackerCardData => t !== undefined);
+    .filter((tr): tr is TrackerCardData => tr !== undefined);
 }
 
 function buildKpiRows(compared: TrackerCardData[]): Array<{ label: string; values: (string | null)[] }> {
   const allLabels: string[] = [];
   const seen = new Set<string>();
 
-  for (const t of compared) {
-    for (const kpi of t.topKpis) {
+  for (const tr of compared) {
+    for (const kpi of tr.topKpis) {
       const normalized = kpi.label.toLowerCase();
       if (!seen.has(normalized)) {
         seen.add(normalized);
@@ -39,8 +40,8 @@ function buildKpiRows(compared: TrackerCardData[]): Array<{ label: string; value
 
   return allLabels.slice(0, MAX_KPIS_SHOWN).map(label => ({
     label,
-    values: compared.map(t => {
-      const match = t.topKpis.find(k => k.label.toLowerCase() === label.toLowerCase());
+    values: compared.map(tr => {
+      const match = tr.topKpis.find(k => k.label.toLowerCase() === label.toLowerCase());
       return match ? match.value : null;
     }),
   }));
@@ -58,6 +59,7 @@ const ComparePanel = memo(function ComparePanel({
   const compared = resolveComparedTrackers(trackers, compareSlugs);
   if (compared.length < 2) return null;
 
+  const locale = getPreferredLocale();
   const kpiRows = buildKpiRows(compared);
 
   return (
@@ -66,15 +68,15 @@ const ComparePanel = memo(function ComparePanel({
         {/* Header */}
         <div style={S.header}>
           <span style={S.title}>
-            COMPARING {compared.length} TRACKERS
+            {t('compare.comparing', locale)} {compared.length} {t('compare.trackers', locale)}
           </span>
           <button
             type="button"
             onClick={onClose}
             style={S.closeBtn}
-            aria-label="Close comparison panel"
+            aria-label={t('compare.closePanel', locale)}
           >
-            CLOSE
+            {t('compare.close', locale)}
           </button>
         </div>
 
@@ -84,28 +86,28 @@ const ComparePanel = memo(function ComparePanel({
             <thead>
               <tr>
                 <th style={S.labelCell} />
-                {compared.map(t => (
-                  <th key={t.slug} style={S.trackerHeader}>
+                {compared.map(tr => (
+                  <th key={tr.slug} style={S.trackerHeader}>
                     <div style={S.trackerHeaderInner}>
-                      <span style={{ fontSize: '0.8rem' }}>{t.icon || ''}</span>
-                      <span style={{ ...S.trackerName, color: t.color || '#3498db' }}>
-                        {t.shortName}
+                      <span style={{ fontSize: '0.8rem' }}>{tr.icon || ''}</span>
+                      <span style={{ ...S.trackerName, color: tr.color || '#3498db' }}>
+                        {tr.shortName}
                       </span>
                       <button
                         type="button"
-                        onClick={() => onRemove(t.slug)}
+                        onClick={() => onRemove(tr.slug)}
                         style={S.removeBtn}
-                        aria-label={`Remove ${t.shortName} from comparison`}
-                        title="Remove"
+                        aria-label={`${t('compare.removeFrom', locale)} — ${tr.shortName}`}
+                        title={t('compare.remove', locale)}
                       >
                         x
                       </button>
                     </div>
                     <a
-                      href={`${basePath}${t.slug}/`}
+                      href={`${basePath}${tr.slug}/`}
                       style={S.dashLink}
                     >
-                      OPEN
+                      {t('compare.open', locale)}
                     </a>
                   </th>
                 ))}
@@ -114,10 +116,10 @@ const ComparePanel = memo(function ComparePanel({
             <tbody>
               {/* Duration row */}
               <tr>
-                <td style={S.labelCell}>Duration</td>
-                {compared.map(t => (
-                  <td key={t.slug} style={S.valueCell}>
-                    {buildDateline(t)}
+                <td style={S.labelCell}>{t('compare.duration', locale)}</td>
+                {compared.map(tr => (
+                  <td key={tr.slug} style={S.valueCell}>
+                    {buildDateline(tr)}
                   </td>
                 ))}
               </tr>
@@ -134,10 +136,10 @@ const ComparePanel = memo(function ComparePanel({
               ))}
               {/* Region row */}
               <tr>
-                <td style={S.labelCell}>Region</td>
-                {compared.map(t => (
-                  <td key={t.slug} style={S.valueCell}>
-                    {t.region || <span style={S.noData}>--</span>}
+                <td style={S.labelCell}>{t('compare.region', locale)}</td>
+                {compared.map(tr => (
+                  <td key={tr.slug} style={S.valueCell}>
+                    {tr.region || <span style={S.noData}>--</span>}
                   </td>
                 ))}
               </tr>

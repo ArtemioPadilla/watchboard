@@ -9,6 +9,8 @@ import type { FlightData } from './useMapFlights';
 import MapArcAnimator from './MapArcAnimator';
 import MapFactCards from './MapFactCards';
 import type { FlatEvent } from '../../lib/timeline-utils';
+import { t, getPreferredLocale } from '../../i18n/translations';
+import type { Locale } from '../../i18n/translations';
 
 // ────────────────────────────────────────────
 //  Types
@@ -77,7 +79,7 @@ function resolveLineDash(line: MapLine): string {
 }
 
 /** Build a rich tooltip string for a line with OSINT data */
-function buildLineTooltip(line: MapLine): string {
+function buildLineTooltip(line: MapLine, locale: Locale = 'en'): string {
   const parts: string[] = [line.label];
 
   if (line.weaponType) {
@@ -85,30 +87,30 @@ function buildLineTooltip(line: MapLine): string {
   }
 
   if (line.platform) {
-    parts.push(`Platform: ${line.platform}`);
+    parts.push(`${t('map.platform', locale)}: ${line.platform}`);
   }
 
   if (line.launched != null || line.intercepted != null) {
-    const launched = line.launched != null ? `${line.launched} launched` : '';
-    const intercepted = line.intercepted != null ? `${line.intercepted} intercepted` : '';
+    const launched = line.launched != null ? `${line.launched} ${t('map.launched', locale)}` : '';
+    const intercepted = line.intercepted != null ? `${line.intercepted} ${t('map.intercepted', locale)}` : '';
     const counts = [launched, intercepted].filter(Boolean).join(', ');
     if (counts) parts.push(counts);
   }
 
   if (line.status) {
-    parts.push(`Status: ${STATUS_LABELS[line.status] || line.status.toUpperCase()}`);
+    parts.push(`${t('map.status', locale)}: ${STATUS_LABELS[line.status] || line.status.toUpperCase()}`);
   }
 
   if (line.damage) {
-    parts.push(`Damage: ${line.damage}`);
+    parts.push(`${t('map.damage', locale)}: ${line.damage}`);
   }
 
   if (line.casualties) {
-    parts.push(`Casualties: ${line.casualties}`);
+    parts.push(`${t('map.casualties', locale)}: ${line.casualties}`);
   }
 
   if (line.time) {
-    parts.push(`Time: ${line.time}`);
+    parts.push(`${t('map.time', locale)}: ${line.time}`);
   }
 
   return parts.join(' | ');
@@ -149,6 +151,7 @@ export default function LeafletMap({
   flights, terminatorPolygon, currentDate, isPlaying,
   events, showFactCards, mapCenter, mapBounds,
 }: Props) {
+  const locale = getPreferredLocale();
   const center: LatLngExpression = mapCenter ? [mapCenter.lat, mapCenter.lon] : [29, 49];
 
   const basePoints = points.filter(p => p.base);
@@ -269,7 +272,7 @@ export default function LeafletMap({
           className={quake.mag >= 4.5 ? 'earthquake-marker' : undefined}
         >
           <Tooltip className="dark-tooltip" sticky>
-            <span>{quake.label}<br />Depth: {quake.depth.toFixed(1)} km</span>
+            <span>{quake.label}<br />{t('map.depth', locale)}: {quake.depth.toFixed(1)} km</span>
           </Tooltip>
         </CircleMarker>
       ))}
@@ -320,7 +323,7 @@ export default function LeafletMap({
         const to: [number, number] = [line.to[1], line.to[0]];
         const positions = computeArcPositions(from, to);
         const color = lineColor(line.cat);
-        const tooltipContent = buildLineTooltip(line);
+        const tooltipContent = buildLineTooltip(line, locale);
 
         return (
           <Polyline
@@ -444,7 +447,7 @@ export default function LeafletMap({
           <Tooltip className="dark-tooltip flight-tooltip" sticky>
             <span>
               {f.callsign || f.icao24}
-              {f.isMilitary && <b> [MIL]</b>}
+              {f.isMilitary && <b> {t('map.mil', locale)}</b>}
               <br />
               {f.country} | {f.altitude.toLocaleString()} ft | {f.velocity} kts
             </span>

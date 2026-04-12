@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import type { FlatEvent } from '../../lib/timeline-utils';
 import { tierClass, tierLabelShort } from '../../lib/tier-utils';
+import { t, getPreferredLocale, type Locale } from '../../i18n/translations';
 
 interface Props {
   events: FlatEvent[];
@@ -18,19 +19,19 @@ function eventBorderColor(type: string): string {
   return 'var(--border-light)';
 }
 
-function eventTypeLabel(type: string): string {
+function eventTypeLabel(type: string, locale: Locale = 'en'): string {
   const labels: Record<string, string> = {
-    strike: 'KINETIC',
-    attack: 'KINETIC',
-    military: 'MILITARY',
-    retaliation: 'RETALIATION',
-    response: 'RESPONSE',
-    diplomatic: 'DIPLOMATIC',
-    politics: 'POLITICAL',
-    ceasefire: 'CEASEFIRE',
-    peace: 'PEACE',
-    economic: 'ECONOMIC',
-    sanctions: 'SANCTIONS',
+    strike: t('latest.kinetic', locale),
+    attack: t('latest.kinetic', locale),
+    military: t('latest.military', locale),
+    retaliation: t('latest.retaliation', locale),
+    response: t('latest.response', locale),
+    diplomatic: t('latest.diplomatic', locale),
+    politics: t('latest.political', locale),
+    ceasefire: t('latest.ceasefire', locale),
+    peace: t('latest.peace', locale),
+    economic: t('latest.economic', locale),
+    sanctions: t('latest.sanctions', locale),
   };
   return labels[type] ?? type.toUpperCase();
 }
@@ -44,15 +45,16 @@ function eventTypeColor(type: string): string {
   return 'var(--text-muted)';
 }
 
-function formatDate(iso: string): string {
+function formatDate(iso: string, locale: Locale = 'en'): string {
   const [year, month, day] = iso.split('-');
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  const m = months[parseInt(month, 10) - 1] ?? month;
+  const monthKeys = ['time.jan', 'time.feb', 'time.mar', 'time.apr', 'time.may', 'time.jun',
+                    'time.jul', 'time.aug', 'time.sep', 'time.oct', 'time.nov', 'time.dec'] as const;
+  const m = t(monthKeys[parseInt(month, 10) - 1] ?? 'time.jan', locale);
   return `${m} ${parseInt(day, 10)}, ${year}`;
 }
 
 export default function LatestEvents({ events, maxVisible = DEFAULT_MAX_VISIBLE }: Props) {
+  const locale = getPreferredLocale();
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [showAll, setShowAll] = useState(false);
 
@@ -84,9 +86,9 @@ export default function LatestEvents({ events, maxVisible = DEFAULT_MAX_VISIBLE 
   return (
     <div className="latest-events">
       <div className="latest-events-header">
-        <span className="latest-events-label">LATEST</span>
+        <span className="latest-events-label">{t('latest.latest', locale)}</span>
         <span className="latest-events-count">
-          {latestDate && formatDate(latestDate)} &middot; {latestEvents.length} event{latestEvents.length !== 1 ? 's' : ''}
+          {latestDate && formatDate(latestDate, locale)} &middot; {latestEvents.length} {latestEvents.length !== 1 ? t('latest.events', locale) : t('latest.event', locale)}
         </span>
         <div className="latest-events-line" />
       </div>
@@ -103,10 +105,10 @@ export default function LatestEvents({ events, maxVisible = DEFAULT_MAX_VISIBLE 
           >
             <div className="latest-event-header">
               <span className="latest-event-type" style={{ color: eventTypeColor(ev.type) }}>
-                {eventTypeLabel(ev.type)}
+                {eventTypeLabel(ev.type, locale)}
               </span>
               <span>
-                <span className="latest-event-time">{formatDate(ev.resolvedDate)}</span>
+                <span className="latest-event-time">{formatDate(ev.resolvedDate, locale)}</span>
                 <span className="latest-event-expand">{isExpanded ? '\u25B2' : '\u25BC'}</span>
               </span>
             </div>
@@ -158,7 +160,7 @@ export default function LatestEvents({ events, maxVisible = DEFAULT_MAX_VISIBLE 
           onClick={() => setShowAll(true)}
           type="button"
         >
-          +{remainingCount} more event{remainingCount !== 1 ? 's' : ''}
+          +{remainingCount} {remainingCount !== 1 ? t('latest.moreEvents', locale) : t('latest.moreEvent', locale)}
         </button>
       )}
     </div>

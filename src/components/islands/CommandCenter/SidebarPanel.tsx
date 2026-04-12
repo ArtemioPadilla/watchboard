@@ -161,14 +161,14 @@ const TrackerRow = memo(function TrackerRow({
             <span
               style={{ ...S.followBtn, color: isFollowed ? '#f39c12' : 'var(--text-muted)' }}
               onClick={e => { e.stopPropagation(); onToggleFollow(tracker.slug); }}
-              title={isFollowed ? 'Unfollow' : 'Follow'}
+              title={isFollowed ? t('sidebar.unfollow', locale) : t('sidebar.follow', locale)}
             >
               {isFollowed ? '★' : '☆'} {isFollowed ? t('status.following', locale) : t('status.follow', locale)}
             </span>
             <span
               style={{ ...S.compareBtn, color: isCompared ? 'var(--accent-blue, #58a6ff)' : 'var(--text-muted)' }}
               onClick={e => { e.stopPropagation(); onToggleCompare(tracker.slug); }}
-              title={isCompared ? 'Remove from comparison' : 'Add to comparison'}
+              title={isCompared ? t('sidebar.removeFromComparison', locale) : t('sidebar.addToComparison', locale)}
             >
               {isCompared ? '◆' : '◇'} {isCompared ? t('cc.compare', locale) : t('cc.compare', locale)}
             </span>
@@ -187,7 +187,7 @@ const TrackerRow = memo(function TrackerRow({
   }
 
   // Collapsed row
-  const freshDotInfo = getFreshnessDot(tracker.lastUpdated);
+  const freshDotInfo = getFreshnessDot(tracker.lastUpdated, locale);
   const tooltipText = rawHeadline
     ? `${tracker.shortName} — ${rawHeadline}`
     : tracker.shortName;
@@ -250,7 +250,7 @@ const TrackerRow = memo(function TrackerRow({
             opacity: isFollowed ? 1 : undefined,
           }}
           onClick={e => { e.stopPropagation(); onToggleFollow(tracker.slug); }}
-          title={isFollowed ? 'Unfollow' : 'Follow'}
+          title={isFollowed ? t('sidebar.unfollow', locale) : t('sidebar.follow', locale)}
         >
           {isFollowed ? '★' : '☆'}
         </span>
@@ -353,23 +353,23 @@ const SECTION_BADGE_COLORS: Record<string, { bg: string; fg: string }> = {
 
 const DEFAULT_BADGE_COLOR = { bg: 'rgba(148,152,168,0.12)', fg: '#9498a8' };
 
-function sectionBadgeLabel(section: string): string {
+function sectionBadgeLabel(section: string, locale: Locale = 'en'): string {
   const labelMap: Record<string, string> = {
-    events: 'EVENTS',
-    timeline: 'TIMELINE',
-    mapLines: 'MAP',
-    mapPoints: 'MAP',
-    'map-lines': 'MAP',
-    'map-points': 'MAP',
-    kpis: 'KPIs',
-    casualties: 'CASUALTIES',
-    econ: 'ECON',
-    political: 'POLITICAL',
-    claims: 'CLAIMS',
-    assets: 'ASSETS',
-    meta: 'META',
-    'strike-targets': 'STRIKES',
-    military: 'MILITARY',
+    events: t('sidebar.sectionEvents', locale),
+    timeline: t('sidebar.sectionTimeline', locale),
+    mapLines: t('sidebar.sectionMap', locale),
+    mapPoints: t('sidebar.sectionMap', locale),
+    'map-lines': t('sidebar.sectionMap', locale),
+    'map-points': t('sidebar.sectionMap', locale),
+    kpis: t('sidebar.sectionKpis', locale),
+    casualties: t('sidebar.sectionCasualties', locale),
+    econ: t('sidebar.sectionEcon', locale),
+    political: t('sidebar.sectionPolitical', locale),
+    claims: t('sidebar.sectionClaims', locale),
+    assets: t('sidebar.sectionAssets', locale),
+    meta: t('sidebar.sectionMeta', locale),
+    'strike-targets': t('sidebar.sectionStrikes', locale),
+    military: t('sidebar.sectionMilitary', locale),
   };
   return labelMap[section] ?? section.toUpperCase();
 }
@@ -503,7 +503,7 @@ const RecentEventsFeed = memo(function RecentEventsFeed({
               style={S.feedOpenLink}
               onClick={e => e.stopPropagation()}
             >
-              Open dashboard →
+              {t('sidebar.openDashboard', locale)}
             </a>
           </div>
         </div>
@@ -539,11 +539,13 @@ const RecentEventsFeed = memo(function RecentEventsFeed({
 
 type SortKey = 'name' | 'lastUpdated' | 'domain';
 
-const SORT_OPTIONS: { key: SortKey; label: string }[] = [
-  { key: 'name', label: 'Name' },
-  { key: 'lastUpdated', label: 'Last updated' },
-  { key: 'domain', label: 'Domain' },
-];
+function getSortOptions(locale: Locale): { key: SortKey; label: string }[] {
+  return [
+    { key: 'name', label: t('sidebar.sortName', locale) },
+    { key: 'lastUpdated', label: t('sidebar.sortLastUpdated', locale) },
+    { key: 'domain', label: t('sidebar.sortDomain', locale) },
+  ];
+}
 
 function sortTrackers(trackers: TrackerCardData[], sortKey: SortKey): TrackerCardData[] {
   const sorted = [...trackers];
@@ -561,13 +563,13 @@ function sortTrackers(trackers: TrackerCardData[], sortKey: SortKey): TrackerCar
 
 // ── Freshness dot helper ──
 
-function getFreshnessDot(lastUpdated: string): { color: string; shadow: string; label: string } {
+function getFreshnessDot(lastUpdated: string, locale: Locale = 'en'): { color: string; shadow: string; label: string } {
   const updated = new Date(lastUpdated);
   const now = new Date();
   const ageHrs = Math.floor((now.getTime() - updated.getTime()) / 3600000);
-  if (ageHrs < 24) return { color: 'var(--accent-green, #2ecc71)', shadow: '0 0 4px rgba(46,160,67,0.37)', label: 'Updated today' };
-  if (ageHrs < 48) return { color: 'var(--accent-amber, #f39c12)', shadow: '0 0 4px rgba(210,153,34,0.37)', label: 'Updated 1-2 days ago' };
-  return { color: 'var(--accent-red, #e74c3c)', shadow: '0 0 4px rgba(231,76,60,0.37)', label: 'Not updated in >2 days' };
+  if (ageHrs < 24) return { color: 'var(--accent-green, #2ecc71)', shadow: '0 0 4px rgba(46,160,67,0.37)', label: t('sidebar.updatedToday', locale) };
+  if (ageHrs < 48) return { color: 'var(--accent-amber, #f39c12)', shadow: '0 0 4px rgba(210,153,34,0.37)', label: t('sidebar.updated1to2Days', locale) };
+  return { color: 'var(--accent-red, #e74c3c)', shadow: '0 0 4px rgba(231,76,60,0.37)', label: t('sidebar.notUpdatedIn2Days', locale) };
 }
 
 // ── Main SidebarPanel ──
@@ -658,8 +660,8 @@ export default function SidebarPanel({
               target="_blank"
               rel="noopener noreferrer"
               style={S.headerIconBtn}
-              title="View on GitHub"
-              aria-label="View on GitHub"
+              title={t('sidebar.viewOnGithub', locale)}
+              aria-label={t('sidebar.viewOnGithub', locale)}
             >
               <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
             </a>
@@ -668,17 +670,17 @@ export default function SidebarPanel({
               target="_blank"
               rel="noopener noreferrer"
               style={S.supportBtn}
-              title="Support this project"
-              aria-label="Support this project"
+              title={t('sidebar.supportProject', locale)}
+              aria-label={t('sidebar.supportProject', locale)}
             >
               <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M4.25 2.5c-1.336 0-2.75 1.164-2.75 3 0 2.15 1.58 4.144 3.365 5.682A20.565 20.565 0 008 13.393a20.561 20.561 0 003.135-2.211C12.92 9.644 14.5 7.65 14.5 5.5c0-1.836-1.414-3-2.75-3-1.373 0-2.609.986-3.029 2.456a.749.749 0 01-1.442 0C6.859 3.486 5.623 2.5 4.25 2.5zM8 14.25l-.345.666-.002-.001-.006-.003-.018-.01a7.643 7.643 0 01-.31-.17 22.075 22.075 0 01-3.434-2.414C2.045 10.731 0 8.35 0 5.5 0 2.836 2.086 1 4.25 1 5.797 1 7.153 1.802 8 3.02 8.847 1.802 10.203 1 11.75 1 13.914 1 16 2.836 16 5.5c0 2.85-2.045 5.231-3.885 6.818a22.08 22.08 0 01-3.744 2.584l-.018.01-.006.003h-.002L8 14.25z"/></svg>
-              <span>Support</span>
+              <span>{t('sidebar.support', locale)}</span>
             </a>
           </div>
           <div style={S.headerRight}>
             {compareSlugs.length > 0 && (
               <span style={S.compareBadge}>
-                {compareSlugs.length} CMP
+                {compareSlugs.length} {t('sidebar.cmp', locale)}
               </span>
             )}
             <span style={S.liveIndicator}>● {liveCount} {t('cc.live', locale)}</span>
@@ -688,7 +690,7 @@ export default function SidebarPanel({
                 type="button"
                 onClick={onToggleLocale}
                 style={S.langBtn}
-                title="Change language"
+                title={t('sidebar.changeLanguage', locale)}
               >
                 {SUPPORTED_LOCALES.map((loc, i) => (
                   <span key={loc}>
@@ -715,7 +717,7 @@ export default function SidebarPanel({
           style={S.searchInput}
           onFocus={e => { e.currentTarget.style.borderColor = 'var(--accent-blue)'; }}
           onBlur={e => { e.currentTarget.style.borderColor = ''; }}
-          aria-label="Search trackers"
+          aria-label={t('sidebar.searchTrackers', locale)}
         />
       </div>
 
@@ -727,14 +729,14 @@ export default function SidebarPanel({
       {/* Sort dropdown */}
       {(viewMode || 'operations') !== 'geographic' && (
         <div style={S.sortWrap}>
-          <label style={S.sortLabel}>Sort by</label>
+          <label style={S.sortLabel}>{t('sidebar.sortBy', locale)}</label>
           <select
             value={sortKey}
             onChange={e => setSortKey(e.target.value as SortKey)}
             style={S.sortSelect}
-            aria-label="Sort trackers by"
+            aria-label={t('sidebar.sortTrackersBy', locale)}
           >
-            {SORT_OPTIONS.map(opt => (
+            {getSortOptions(locale).map(opt => (
               <option key={opt.key} value={opt.key}>{opt.label}</option>
             ))}
           </select>
@@ -750,7 +752,7 @@ export default function SidebarPanel({
             style={S.tab(!activeDomain)}
             onClick={() => setActiveDomain(null)}
           >
-            ALL <span style={S.tabCount}>{trackers.length}</span>
+            {t('sidebar.all', locale)} <span style={S.tabCount}>{trackers.length}</span>
           </button>
           {visibleDomains.map(d => (
             <button
@@ -867,7 +869,7 @@ export default function SidebarPanel({
                           cursor: 'pointer',
                         }}
                       >
-                        Show all {totalRows} trackers
+                        {t('sidebar.showAll', locale)} {totalRows} {t('sidebar.trackers', locale)}
                       </button>
                     )}
                   </>
@@ -880,11 +882,11 @@ export default function SidebarPanel({
 
       {/* Footer */}
       <div className="cc-footer" style={S.footer}>
-        <span>Watchboard v1.0 · MIT</span>
+        <span>{t('sidebar.version', locale)}</span>
         <div style={S.footerLinks}>
-          <a href={`${basePath}metrics/`} style={S.footerLink}>Status</a>
+          <a href={`${basePath}metrics/`} style={S.footerLink}>{t('footer.status', locale)}</a>
           <span style={S.footerSep}>·</span>
-          <a href={`${basePath}about/`} style={S.footerLink}>About</a>
+          <a href={`${basePath}about/`} style={S.footerLink}>{t('footer.about', locale)}</a>
           <span style={S.footerSep}>·</span>
           <a href="https://github.com/ArtemioPadilla/watchboard" target="_blank" rel="noopener noreferrer" style={S.footerLink}>GitHub</a>
         </div>
