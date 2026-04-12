@@ -8,11 +8,11 @@ const pushUrl = 'https://push.watchboard.dev';
 <BaseLayout title="Newsletter — Watchboard" description="Subscribe to the Watchboard weekly intelligence digest delivered to your inbox every Sunday.">
   <main id="main-content">
   <div class="newsletter-page">
-    <a class="newsletter-back" href={`${basePath}`}>&larr; Watchboard</a>
+    <a class="newsletter-back" href={`${basePath}`} data-i18n data-es="← Watchboard" data-fr="← Watchboard" data-pt="← Watchboard">&larr; Watchboard</a>
 
     <article class="newsletter-content">
-      <h1>📰 Weekly Intelligence Digest</h1>
-      <p class="newsletter-subtitle">
+      <h1 data-i18n data-es="📰 Resumen semanal de inteligencia" data-fr="📰 Résumé hebdomadaire du renseignement" data-pt="📰 Resumo semanal de inteligência">📰 Weekly Intelligence Digest</h1>
+      <p class="newsletter-subtitle" data-i18n data-es="Recibe un resumen curado de cada rastreador activo — entregado a tu correo cada domingo. Eventos clave, KPIs actualizados y análisis de titulares en todos los temas." data-fr="Recevez un résumé de chaque tracker actif — livré dans votre boîte mail chaque dimanche. Événements clés, KPIs mis à jour et analyse des gros titres." data-pt="Receba um resumo curado de cada rastreador ativo — entregue no seu e-mail todo domingo. Eventos-chave, KPIs atualizados e análise de manchetes em todos os tópicos.">
         Get a curated summary of every active tracker — delivered to your inbox every Sunday.
         Key events, updated KPIs, and headline analysis across all topics.
       </p>
@@ -20,7 +20,7 @@ const pushUrl = 'https://push.watchboard.dev';
       <div class="newsletter-form-wrapper" id="newsletter-form-wrapper">
         <form id="newsletter-form" class="newsletter-form">
           <div class="form-group">
-            <label for="email">Email address</label>
+            <label for="email" data-i18n data-es="Correo electrónico" data-fr="Adresse e-mail" data-pt="Endereço de e-mail">Email address</label>
             <input
               type="email"
               id="email"
@@ -30,31 +30,31 @@ const pushUrl = 'https://push.watchboard.dev';
               autocomplete="email"
             />
           </div>
-          <button type="submit" class="newsletter-submit" id="newsletter-submit">
+          <button type="submit" class="newsletter-submit" id="newsletter-submit" data-i18n data-es="Suscribirse" data-fr="S'abonner" data-pt="Inscrever-se">
             Subscribe
           </button>
-          <p class="newsletter-note">No spam. Unsubscribe anytime. One email per week.</p>
+          <p class="newsletter-note" data-i18n data-es="Sin spam. Cancela cuando quieras. Un correo por semana." data-fr="Pas de spam. Désabonnement à tout moment. Un e-mail par semaine." data-pt="Sem spam. Cancele quando quiser. Um e-mail por semana.">No spam. Unsubscribe anytime. One email per week.</p>
         </form>
 
         <div id="newsletter-success" class="newsletter-success" style="display:none;">
           <span class="success-icon">✅</span>
-          <h2>You're subscribed!</h2>
-          <p>Look for the first digest in your inbox this Sunday.</p>
+          <h2 data-i18n data-es="¡Estás suscrito!" data-fr="Vous êtes abonné !" data-pt="Você está inscrito!">You're subscribed!</h2>
+          <p data-i18n data-es="Busca el primer resumen en tu correo este domingo." data-fr="Recherchez le premier résumé dans votre boîte mail ce dimanche." data-pt="Procure o primeiro resumo no seu e-mail neste domingo.">Look for the first digest in your inbox this Sunday.</p>
         </div>
 
         <div id="newsletter-error" class="newsletter-error" style="display:none;">
           <span class="error-icon">⚠️</span>
-          <p id="newsletter-error-msg">Something went wrong. Please try again.</p>
+          <p id="newsletter-error-msg" data-i18n data-es="Algo salió mal. Por favor, inténtalo de nuevo." data-fr="Une erreur s'est produite. Veuillez réessayer." data-pt="Algo deu errado. Por favor, tente novamente.">Something went wrong. Please try again.</p>
         </div>
       </div>
 
       <section class="newsletter-preview">
-        <h2>What you'll get</h2>
+        <h2 data-i18n data-es="Lo que recibirás" data-fr="Ce que vous recevrez" data-pt="O que você receberá">What you'll get</h2>
         <ul>
-          <li><strong>Tracker summaries</strong> — headline + top KPIs for every active tracker</li>
-          <li><strong>Weekly digest</strong> — the most important events from the past 7 days</li>
-          <li><strong>Direct links</strong> — jump straight to any tracker for full analysis</li>
-          <li><strong>Dark-themed email</strong> — easy on the eyes, designed for readability</li>
+          <li data-i18n data-es="Resúmenes de rastreadores — titular + KPIs principales para cada rastreador activo" data-fr="Résumés des trackers — titre + KPIs principaux pour chaque tracker actif" data-pt="Resumos dos rastreadores — manchete + KPIs principais para cada rastreador ativo"><strong>Tracker summaries</strong> — headline + top KPIs for every active tracker</li>
+          <li data-i18n data-es="Resumen semanal — los eventos más importantes de los últimos 7 días" data-fr="Résumé hebdomadaire — les événements les plus importants des 7 derniers jours" data-pt="Resumo semanal — os eventos mais importantes dos últimos 7 dias"><strong>Weekly digest</strong> — the most important events from the past 7 days</li>
+          <li data-i18n data-es="Enlaces directos — ve directamente a cualquier rastreador para un análisis completo" data-fr="Liens directs — accédez directement à n'importe quel tracker pour une analyse complète" data-pt="Links diretos — vá direto para qualquer rastreador para análise completa"><strong>Direct links</strong> — jump straight to any tracker for full analysis</li>
+          <li data-i18n data-es="Correo con tema oscuro — fácil para los ojos, diseñado para legibilidad" data-fr="E-mail en thème sombre — agréable à lire, conçu pour la lisibilité" data-pt="E-mail com tema escuro — fácil para os olhos, projetado para legibilidade"><strong>Dark-themed email</strong> — easy on the eyes, designed for readability</li>
         </ul>
       </section>
     </article>

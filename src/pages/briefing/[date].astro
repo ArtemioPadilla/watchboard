@@ -156,18 +156,18 @@ const newsArticleSchema = {
       <nav class="breadcrumb" aria-label="Breadcrumb">
         <a href={`${basePath}`}>Watchboard</a>
         <span class="sep">/</span>
-        <a href={`${basePath}briefing/`}>Briefings</a>
+        <a href={`${basePath}briefing/`} data-i18n data-es="Informes" data-fr="Briefings" data-pt="Briefings">Briefings</a>
         <span class="sep">/</span>
         <span class="current">{date}</span>
       </nav>
 
       <!-- Header -->
       <header class="briefing-header">
-        <div class="briefing-label">DAILY BRIEFING</div>
+        <div class="briefing-label" data-i18n data-es="INFORME DIARIO" data-fr="BRIEFING QUOTIDIEN" data-pt="BRIEFING DIÁRIO">DAILY BRIEFING</div>
         <h1 class="briefing-date">{displayDate}</h1>
         <p class="briefing-stats">
-          <span class="stat-num">{totalEvents}</span> event{totalEvents !== 1 ? 's' : ''} across
-          <span class="stat-num">{trackerCount}</span> tracker{trackerCount !== 1 ? 's' : ''}
+          <span class="stat-num">{totalEvents}</span> <span data-i18n data-es={`${totalEvents !== 1 ? 'eventos' : 'evento'} en`} data-fr={`${totalEvents !== 1 ? 'événements' : 'événement'} dans`} data-pt={`${totalEvents !== 1 ? 'eventos' : 'evento'} em`}>event{totalEvents !== 1 ? 's' : ''} across</span>
+          <span class="stat-num">{trackerCount}</span> <span data-i18n data-es={trackerCount !== 1 ? 'rastreadores' : 'rastreador'} data-fr={trackerCount !== 1 ? 'trackers' : 'tracker'} data-pt={trackerCount !== 1 ? 'rastreadores' : 'rastreador'}>tracker{trackerCount !== 1 ? 's' : ''}</span>
         </p>
       </header>
 
@@ -177,7 +177,7 @@ const newsArticleSchema = {
           <a href={`${basePath}briefing/${prevDate}/`} class="day-nav-btn prev" rel="prev">
             <span class="nav-arrow">&larr;</span>
             <span class="nav-label">
-              <span class="nav-hint">Previous</span>
+              <span class="nav-hint" data-i18n data-es="Anterior" data-fr="Précédent" data-pt="Anterior">Previous</span>
               <span class="nav-date">{formatDateShort(prevDate)}</span>
             </span>
           </a>
@@ -185,17 +185,17 @@ const newsArticleSchema = {
           <span class="day-nav-btn prev disabled" aria-disabled="true">
             <span class="nav-arrow">&larr;</span>
             <span class="nav-label">
-              <span class="nav-hint">Previous</span>
+              <span class="nav-hint" data-i18n data-es="Anterior" data-fr="Précédent" data-pt="Anterior">Previous</span>
             </span>
           </span>
         )}
 
-        <a href={`${basePath}briefing/`} class="day-nav-index">All Briefings</a>
+        <a href={`${basePath}briefing/`} class="day-nav-index" data-i18n data-es="Todos los informes" data-fr="Tous les briefings" data-pt="Todos os briefings">All Briefings</a>
 
         {nextDate ? (
           <a href={`${basePath}briefing/${nextDate}/`} class="day-nav-btn next" rel="next">
             <span class="nav-label">
-              <span class="nav-hint">Next</span>
+              <span class="nav-hint" data-i18n data-es="Siguiente" data-fr="Suivant" data-pt="Próximo">Next</span>
               <span class="nav-date">{formatDateShort(nextDate)}</span>
             </span>
             <span class="nav-arrow">&rarr;</span>
@@ -203,7 +203,7 @@ const newsArticleSchema = {
         ) : (
           <span class="day-nav-btn next disabled" aria-disabled="true">
             <span class="nav-label">
-              <span class="nav-hint">Next</span>
+              <span class="nav-hint" data-i18n data-es="Siguiente" data-fr="Suivant" data-pt="Próximo">Next</span>
             </span>
             <span class="nav-arrow">&rarr;</span>
           </span>
@@ -219,7 +219,7 @@ const newsArticleSchema = {
                 <a href={`${basePath}${group.config.slug}/`} class="group-name">
                   {group.config.name}
                 </a>
-                <span class="group-count">
+                <span class="group-count" data-i18n data-es={`${group.events.length} ${group.events.length !== 1 ? 'eventos' : 'evento'}`} data-fr={`${group.events.length} ${group.events.length !== 1 ? 'événements' : 'événement'}`} data-pt={`${group.events.length} ${group.events.length !== 1 ? 'eventos' : 'evento'}`}>
                   {group.events.length} event{group.events.length !== 1 ? 's' : ''}
                 </span>
               </div>
@@ -254,8 +254,8 @@ const newsArticleSchema = {
 
       <!-- Footer nav -->
       <footer class="briefing-footer">
-        <a href={`${basePath}briefing/`} class="footer-link">&larr; All Briefings</a>
-        <a href={`${basePath}`} class="footer-link">Watchboard Home</a>
+        <a href={`${basePath}briefing/`} class="footer-link" data-i18n data-es="← Todos los informes" data-fr="← Tous les briefings" data-pt="← Todos os briefings">&larr; All Briefings</a>
+        <a href={`${basePath}`} class="footer-link" data-i18n data-es="Inicio de Watchboard" data-fr="Accueil Watchboard" data-pt="Início do Watchboard">Watchboard Home</a>
       </footer>
 
     </div>
