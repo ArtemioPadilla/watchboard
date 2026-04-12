@@ -61,16 +61,36 @@ function domainGradient(domain?: string): string {
   return DOMAIN_GRADIENTS[domain] ?? DOMAIN_GRADIENTS.default;
 }
 
-function filterAndSort(trackers: TrackerCardData[], followedSlugs: string[] = []): TrackerCardData[] {
+function filterAndSort(trackers: TrackerCardData[], followedSlugs: string[] = [], seenSlugs: Set<string> = new Set()): TrackerCardData[] {
   const eligible = trackers.filter((t) => t.status === 'active' && t.headline);
-  return sortByRelevance(eligible, followedSlugs);
+  const sorted = sortByRelevance(eligible, followedSlugs);
+  // Move already-seen stories to the end (like Instagram)
+  const unseen = sorted.filter((t) => !seenSlugs.has(t.slug));
+  const seen = sorted.filter((t) => seenSlugs.has(t.slug));
+  return [...unseen, ...seen];
 }
 
 // ── Component ──
 
 export default function MobileStoryCarousel({ trackers, basePath, followedSlugs = [], onTrackerChange }: Props) {
   const locale = getPreferredLocale();
-  const eligible = useMemo(() => filterAndSort(trackers, followedSlugs), [trackers, followedSlugs]);
+  // Read initial seen set for ordering (won't change during session)
+  const initialSeenSlugs = useMemo(() => {
+    try {
+      const stored = localStorage.getItem(SEEN_STORAGE_KEY);
+      if (!stored) return new Set<string>();
+      const parsed: Record<string, number> = JSON.parse(stored);
+      const now = Date.now();
+      const valid = Object.entries(parsed)
+        .filter(([, ts]) => now - ts < SEEN_TTL_MS)
+        .map(([slug]) => slug);
+      return new Set(valid);
+    } catch {
+      return new Set<string>();
+    }
+  }, []); // Only once on mount
+
+  const eligible = useMemo(() => filterAndSort(trackers, followedSlugs, initialSeenSlugs), [trackers, followedSlugs, initialSeenSlugs]);
 
   const [seenSlugs, setSeenSlugs] = useState<Set<string>>(() => {
     try {
