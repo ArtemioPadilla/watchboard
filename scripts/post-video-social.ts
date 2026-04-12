@@ -265,7 +265,7 @@ async function uploadAndProcessVideo(
     // Get service auth token for video upload
     const serviceAuth = await agent.com.atproto.server.getServiceAuth({
       aud: pdsAud,
-      lxm: 'app.bsky.video.uploadVideo',
+      lxm: 'com.atproto.repo.uploadBlob',
       exp: Math.floor(Date.now() / 1000) + 60 * 30,
     });
     const videoToken = serviceAuth.data.token;
