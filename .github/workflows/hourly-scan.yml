@@ -289,6 +289,17 @@ jobs:
             - Update trackers/${{ matrix.entry.tracker }}/data/kpis.json if metrics changed
             - Update trackers/${{ matrix.entry.tracker }}/data/meta.json: set heroHeadline and lastUpdated
 
+            STEP 3.5 — EVENT MEDIA (MANDATORY):
+            Every new event MUST have a `media` array with at least 1 item:
+            { "type": "image", "url": "<article-url>", "caption": "<brief description>", "source": "<outlet-name>", "thumbnail": "<direct-image-url>" }
+            - Search for the article covering this event from a Tier 1-2 source
+            - The `url` field = article URL
+            - The `thumbnail` field = the direct image URL (og:image, hero image, or photo from the article)
+            - To find the thumbnail: look for og:image meta tag in the article, or find a .jpg/.png/.webp URL from the same domain
+            - Prefer Reuters, AP, BBC, Al Jazeera, CNN image CDNs for reliability
+            - NEVER fabricate or guess image URLs — only use URLs you found via web search
+            - If you cannot find any image, set thumbnail to the article URL as fallback
+
             VALIDATION RULES (MUST follow):
             - year field MUST be a string like "Apr 3, 2026" (NOT a number)
             - source.pole MUST be one of: "western", "middle_eastern", "eastern", "international"
@@ -297,6 +308,8 @@ jobs:
             - If adding map-lines with cat "strike" or "retaliation": weaponType AND time are REQUIRED
             - Map coordinates must be within tracker's coordValidation bounds
             - Merge by ID — never remove existing items, only append
+            - Every event MUST have a non-empty `media` array
+            - Each media item MUST have `type`, `url`, and `thumbnail` fields
 
             STEP 4: Generate a tweet for this event:
             - Write the tweet text to /tmp/tweet-text.txt
@@ -383,6 +396,9 @@ jobs:
             STEP 4: Create trackers/${{ matrix.entry.tracker }}/data/ with:
             - meta.json: populated with trigger event info
             - events/$(date -u +%Y-%m-%d).json: the trigger event as first entry
+              IMPORTANT: The trigger event MUST include a `media` array with at least 1 item:
+              { "type": "image", "url": "<article-url>", "caption": "<description>", "source": "<outlet>", "thumbnail": "<direct-image-url>" }
+              Search for a news article covering this event and extract the og:image or hero image URL for the thumbnail.
             - map-points.json: event location (if known)
             - Empty arrays: kpis.json, timeline.json, map-lines.json, claims.json, political.json,
               casualties.json, econ.json, strike-targets.json, retaliation.json, assets.json, digests.json
