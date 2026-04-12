@@ -44,7 +44,7 @@ function cardHtml(card: FactCard): string {
 }
 
 const CARD_H_NO_THUMB = 52;
-const CARD_H_THUMB = 118;
+const CARD_H_THUMB = 138;
 const CONNECTOR_H = 20;
 
 // ────────────────────────────────────────────

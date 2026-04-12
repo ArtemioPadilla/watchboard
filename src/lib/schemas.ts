@@ -9,7 +9,7 @@ export const PoleSchema = z.enum(['western', 'middle_eastern', 'eastern', 'inter
 export const SourceSchema = z.object({
   name: z.string(),
   tier: TierSchema,
-  url: z.string().optional(),
+  url: z.string().optional(), // TODO: make required once existing data is backfilled
   pole: PoleSchema.optional(),
 });
 
