@@ -112,8 +112,13 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
     const firstUnseen = eligible.findIndex((t) => !seenSlugs.has(t.slug));
     return firstUnseen >= 0 ? firstUnseen : 0;
   });
+  const [slideIndex, setSlideIndex] = useState(0);
+  const slideIndexRef = useRef(0);
   const [paused, setPaused] = useState(false);
   const [pauseCountdown, setPauseCountdown] = useState(0);
+
+  // Keep slideIndex ref in sync with state
+  useEffect(() => { slideIndexRef.current = slideIndex; }, [slideIndex]);
 
   // I4 fix: drive progress via rAF + ref to avoid 10 re-renders/sec
   const progressRef = useRef(0);
@@ -162,6 +167,77 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
     }
   }, [currentIndex]);
 
+  // Reset rAF progress when navigating
+  const resetProgress = useCallback(() => {
+    progressRef.current = 0;
+    if (progressBarRef.current) progressBarRef.current.style.width = '0%';
+  }, []);
+
+  const goTo = useCallback(
+    (index: number) => {
+      const clamped = Math.max(0, Math.min(index, eligible.length - 1));
+      setCurrentIndex(clamped);
+      slideIndexRef.current = 0;
+      setSlideIndex(0);
+      resetProgress();
+    },
+    [eligible.length, resetProgress],
+  );
+
+  // Tap-right and auto-advance: advance slide first, then tracker
+  const goNext = useCallback(() => {
+    const current = eligible[currentIndex];
+    const slides = Math.max(1, current?.eventImages?.length ?? 1);
+    if (slideIndexRef.current < slides - 1) {
+      const next = slideIndexRef.current + 1;
+      slideIndexRef.current = next;
+      setSlideIndex(next);
+    } else {
+      slideIndexRef.current = 0;
+      setSlideIndex(0);
+      setCurrentIndex(idx => (idx + 1) % eligible.length);
+    }
+    resetProgress();
+  }, [eligible, currentIndex, eligible.length, resetProgress]);
+
+  // Tap-left: go back a slide, then previous tracker (landing on its last slide)
+  const goPrev = useCallback(() => {
+    if (slideIndexRef.current > 0) {
+      const prev = slideIndexRef.current - 1;
+      slideIndexRef.current = prev;
+      setSlideIndex(prev);
+    } else {
+      setCurrentIndex(idx => {
+        const prevIdx = (idx - 1 + eligible.length) % eligible.length;
+        const prevTracker = eligible[prevIdx];
+        const prevSlides = Math.max(1, prevTracker?.eventImages?.length ?? 1);
+        slideIndexRef.current = prevSlides - 1;
+        setSlideIndex(prevSlides - 1);
+        return prevIdx;
+      });
+    }
+    resetProgress();
+  }, [eligible, eligible.length, resetProgress]);
+
+  // Swipe: skip entire tracker
+  const skipToNextTracker = useCallback(() => {
+    slideIndexRef.current = 0;
+    setSlideIndex(0);
+    setCurrentIndex(idx => (idx + 1) % eligible.length);
+    resetProgress();
+  }, [eligible.length, resetProgress]);
+
+  const skipToPrevTracker = useCallback(() => {
+    slideIndexRef.current = 0;
+    setSlideIndex(0);
+    setCurrentIndex(idx => (idx - 1 + eligible.length) % eligible.length);
+    resetProgress();
+  }, [eligible.length, resetProgress]);
+
+  // Ref to always have latest goNext without re-triggering rAF effect
+  const goNextRef = useRef(goNext);
+  useEffect(() => { goNextRef.current = goNext; }, [goNext]);
+
   // I4 fix: auto-advance via rAF — direct DOM update, no state re-renders
   useEffect(() => {
     if (paused || eligible.length === 0) return;
@@ -175,8 +251,7 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
         progressBarRef.current.style.width = `${pct * 100}%`;
       }
       if (pct >= 1) {
-        setCurrentIndex(idx => (idx + 1) % eligible.length);
-        progressRef.current = 0;
+        goNextRef.current();
         start = now;
       }
       rafId = requestAnimationFrame(tick);
@@ -184,32 +259,6 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
     rafId = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(rafId);
   }, [paused, eligible.length]);
-
-  // Reset rAF progress when navigating
-  const resetProgress = useCallback(() => {
-    progressRef.current = 0;
-    if (progressBarRef.current) progressBarRef.current.style.width = '0%';
-  }, []);
-
-  const goTo = useCallback(
-    (index: number) => {
-      const clamped = Math.max(0, Math.min(index, eligible.length - 1));
-      setCurrentIndex(clamped);
-      resetProgress();
-    },
-    [eligible.length, resetProgress],
-  );
-
-  // S7 fix: use functional setCurrentIndex to avoid stale currentIndex
-  const goNext = useCallback(() => {
-    setCurrentIndex(idx => (idx + 1) % eligible.length);
-    resetProgress();
-  }, [eligible.length, resetProgress]);
-
-  const goPrev = useCallback(() => {
-    setCurrentIndex(idx => (idx - 1 + eligible.length) % eligible.length);
-    resetProgress();
-  }, [eligible.length, resetProgress]);
 
   // Pause/resume with auto-resume timer
   const clearPauseTimer = useCallback(() => {
@@ -280,14 +329,14 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
       touchStartY.current = null;
       touchStartX.current = null;
 
-      // Horizontal swipe to navigate between stories
+      // Horizontal swipe skips entire tracker (not individual slides)
       if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > SWIPE_THRESHOLD_PX) {
-        if (deltaX > 0) { goNext(); haptic(); } // swipe left = next
-        else { goPrev(); haptic(); }             // swipe right = prev
+        if (deltaX > 0) { skipToNextTracker(); haptic(); } // swipe left = next tracker
+        else { skipToPrevTracker(); haptic(); }             // swipe right = prev tracker
         return;
       }
     },
-    [goNext, goPrev],
+    [skipToNextTracker, skipToPrevTracker],
   );
 
   if (eligible.length === 0) return null;
@@ -318,14 +367,14 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
         onTouchEnd={handleTouchEnd}
         onClick={handleCardTap}
       >
-        {/* Progress bars — I4: current bar driven by rAF ref, no state re-renders */}
+        {/* Progress bars — one segment per slide in current tracker */}
         <div className="story-progress">
-          {eligible.map((_, i) => (
+          {Array.from({ length: Math.max(1, tracker.eventImages?.length ?? 1) }, (_, i) => (
             <div key={i} className="story-progress-segment">
               <div
-                ref={i === currentIndex ? progressBarRef : undefined}
-                className={`story-progress-fill${i < currentIndex ? ' complete' : ''}${i > currentIndex ? ' upcoming' : ''}`}
-                style={i === currentIndex ? { width: '0%' } : undefined}
+                ref={i === slideIndex ? progressBarRef : undefined}
+                className={`story-progress-fill${i < slideIndex ? ' complete' : ''}${i > slideIndex ? ' upcoming' : ''}`}
+                style={i === slideIndex ? { width: '0%' } : undefined}
               />
             </div>
           ))}
@@ -354,7 +403,7 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
           )}
         </div>
 
-        {/* Image area — carousel when paused, single image otherwise */}
+        {/* Image area — carousel when paused, slide-indexed image otherwise */}
         <div className="story-image">
           {paused && tracker.eventImages && tracker.eventImages.length > 1 ? (
             <div className="story-image-carousel-wrap">
@@ -366,7 +415,10 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
               />
             </div>
           ) : (
-            <StoryImage tracker={tracker} />
+            <StoryImage tracker={tracker} slideIndex={slideIndex} />
+          )}
+          {(tracker.eventImages?.length ?? 0) > 1 && !paused && (
+            <div className="story-slide-counter">{slideIndex + 1}/{tracker.eventImages!.length}</div>
           )}
         </div>
 
@@ -435,8 +487,29 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
 
 // ── Story Image Sub-component (3-tier fallback) ──
 
-function StoryImage({ tracker }: { tracker: TrackerCardData }) {
-  // Tier 1: Event media
+function StoryImage({ tracker, slideIndex = 0 }: { tracker: TrackerCardData; slideIndex?: number }) {
+  // Tier 0: Slide-indexed event image (multi-slide stories)
+  const slideImage = tracker.eventImages?.[slideIndex];
+  if (slideImage) {
+    return (
+      <>
+        <img
+          src={slideImage.url}
+          alt={tracker.headline ?? tracker.shortName}
+          className="story-image-map"
+          loading="lazy"
+          referrerPolicy="no-referrer"
+          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+        />
+        <div className="story-image-gradient" />
+        <span className="story-image-attribution">
+          {slideImage.source} &middot; T{slideImage.tier}
+        </span>
+      </>
+    );
+  }
+
+  // Tier 1: Latest event media (single-image fallback)
   if (tracker.latestEventMedia) {
     return (
       <>
