@@ -1,0 +1,102 @@
+name: Daily Intelligence Brief Video
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Midnight UTC = 6 PM CDMX
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/daily-video.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  video:
+    runs-on: ubuntu-latest
+    if: github.event_name != 'push'
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: video/package-lock.json
+
+      - name: Install video dependencies
+        run: cd video && npm ci
+
+      - name: Ensure browser for Remotion
+        run: cd video && npx remotion browser ensure
+
+      - name: Render video
+        run: cd video && npx tsx render.ts
+
+      - name: Generate narration with Polly
+        env:
+          AWS_REGION: us-east-1
+        run: |
+          DATE=$(date -u +%Y-%m-%d)
+          # Extract tracker names from breaking data
+          TRACKERS=$(node -e "const d=require('./video/src/data/breaking.json'); console.log(d.trackers.map(t=>t.name).join('. '))")
+          
+          # English narration
+          aws polly synthesize-speech \
+            --engine generative \
+            --voice-id Matthew \
+            --language-code en-US \
+            --output-format mp3 \
+            --text "Breaking stories on Watchboard today. ${TRACKERS}. Track these and 48 more at watchboard dot dev. Free, open source intelligence dashboards, updated daily by AI." \
+            video/output/narration-en.mp3 || echo "Polly EN failed (non-fatal)"
+
+          # Spanish narration  
+          aws polly synthesize-speech \
+            --engine generative \
+            --voice-id Pedro \
+            --language-code es-US \
+            --output-format mp3 \
+            --text "Noticias de última hora en Watchboard hoy. ${TRACKERS}. Rastrea estas y 48 más en watchboard punto dev. Paneles de inteligencia gratuitos y de código abierto, actualizados diariamente por IA." \
+            video/output/narration-es.mp3 || echo "Polly ES failed (non-fatal)"
+
+      - name: Merge narration into video
+        run: |
+          DATE=$(date -u +%Y-%m-%d)
+          VIDEO="video/output/watchboard-${DATE}.mp4"
+          
+          if [ -f video/output/narration-en.mp3 ] && [ -f "$VIDEO" ]; then
+            ffmpeg -i "$VIDEO" -i video/output/narration-en.mp3 \
+              -filter_complex '[0:a]volume=0.4[music];[1:a]volume=0.9[narr];[music][narr]amix=inputs=2:duration=first[out]' \
+              -map 0:v -map '[out]' -c:v copy \
+              "video/output/watchboard-${DATE}-narrated-en.mp4" -y || echo "Merge failed"
+          fi
+
+          if [ -f video/output/narration-es.mp3 ] && [ -f "$VIDEO" ]; then
+            ffmpeg -i "$VIDEO" -i video/output/narration-es.mp3 \
+              -filter_complex '[0:a]volume=0.4[music];[1:a]volume=0.9[narr];[music][narr]amix=inputs=2:duration=first[out]' \
+              -map 0:v -map '[out]' -c:v copy \
+              "video/output/watchboard-${DATE}-narrated-es.mp4" -y || echo "Merge failed"
+          fi
+
+      - name: Upload video artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: daily-video-${{ github.run_id }}
+          path: |
+            video/output/*.mp4
+            video/output/*.mp3
+          retention-days: 30
+
+      - name: Summary
+        run: |
+          DATE=$(date -u +%Y-%m-%d)
+          echo "## 🎬 Daily Video Generated" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Date:** ${DATE}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          ls -lh video/output/*.mp4 2>/dev/null | while read line; do
+            echo "- ${line}" >> $GITHUB_STEP_SUMMARY
+          done
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Download from the Artifacts section above." >> $GITHUB_STEP_SUMMARY
