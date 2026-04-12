@@ -79,6 +79,39 @@ jobs:
               "video/output/watchboard-${DATE}-narrated-es.mp4" -y || echo "Merge failed"
           fi
 
+      - name: Install root dependencies
+        run: npm ci
+
+      - name: Post to social media
+        continue-on-error: true
+        env:
+          BLUESKY_HANDLE: ${{ secrets.BLUESKY_HANDLE }}
+          BLUESKY_PASSWORD: ${{ secrets.BLUESKY_PASSWORD }}
+        run: |
+          DATE=$(date -u +%Y-%m-%d)
+          VIDEO="video/output/watchboard-${DATE}.mp4"
+          NARRATED="video/output/watchboard-${DATE}-narrated-en.mp4"
+          # Prefer narrated version if available, fall back to base video
+          if [ -f "$NARRATED" ]; then
+            npx tsx scripts/post-video-social.ts "$NARRATED"
+          elif [ -f "$VIDEO" ]; then
+            npx tsx scripts/post-video-social.ts "$VIDEO"
+          else
+            echo "No video file found — skipping social post"
+          fi
+
+      - name: Commit social post record
+        continue-on-error: true
+        run: |
+          DATE=$(date -u +%Y-%m-%d)
+          if [ -f "public/_social/video-post-${DATE}.json" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add "public/_social/video-post-${DATE}.json"
+            git diff --cached --quiet || git commit -m "chore(social): video post record ${DATE}"
+            git push || echo "Push failed (non-fatal)"
+          fi
+
       - name: Upload video artifacts
         uses: actions/upload-artifact@v4
         with:
