@@ -717,7 +717,7 @@ export default function SidebarPanel({
                 const MOBILE_LIMIT = 15;
                 let rowCount = 0;
                 const shouldLimit = isMobile && !showAllTrackers && !isSearching;
-                const totalRows = groups.reduce((sum, g) => sum + (g.type === 'series' ? 1 : g.trackers.length), 0);
+                const totalRows = groups.reduce((sum, g) => sum + g.trackers.length, 0);
 
                 return (
                   <>
@@ -726,7 +726,7 @@ export default function SidebarPanel({
 
                       // Render series groups as horizontal strips
                       if (group.type === 'series') {
-                        rowCount += 1;
+                        rowCount += group.trackers.length;
                         return (
                           <SeriesStrip
                             key={`series-${group.label}`}
