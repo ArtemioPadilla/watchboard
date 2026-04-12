@@ -21,8 +21,8 @@ import {
   type QueueEntry, type HistoryEntry,
 } from './social-types.js';
 import { BskyAgent, RichText } from '@atproto/api';
-import { readFileSync, existsSync } from 'fs';
-import { join } from 'path';
+import { readFileSync, existsSync, statSync } from 'fs';
+import { join, basename } from 'path';
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
@@ -242,6 +242,115 @@ async function postSkeet(
 
 function sleep(ms: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+// ── Video posting ────────────────────────────────────────────────────────────
+
+const VIDEO_MAX_BYTES = 50 * 1024 * 1024; // 50MB
+const VIDEO_POLL_INTERVAL_MS = 3000;
+const VIDEO_POLL_MAX_ATTEMPTS = 60;
+
+/**
+ * Upload and post a video to Bluesky using service auth for video.bsky.app.
+ * Handles: service auth token → upload → job polling → post creation.
+ */
+export async function postWithVideo(
+  agent: BskyAgent,
+  videoPath: string,
+  text: string,
+  altText?: string,
+): Promise<{ uri: string; cid: string } | null> {
+  const fileSize = statSync(videoPath).size;
+  if (fileSize > VIDEO_MAX_BYTES) {
+    console.warn(`[bluesky] Video too large (${(fileSize / 1024 / 1024).toFixed(1)}MB > 50MB)`);
+    return null;
+  }
+
+  const did = agent.session?.did;
+  if (!did) {
+    console.warn('[bluesky] No active session — cannot upload video');
+    return null;
+  }
+
+  // Service auth token (session accessJwt is rejected by video.bsky.app)
+  const serviceAuth = await agent.com.atproto.server.getServiceAuth({
+    aud: 'did:web:video.bsky.app',
+    lxm: 'app.bsky.video.uploadVideo',
+    exp: Math.floor(Date.now() / 1000) + 60 * 30,
+  });
+  const videoToken = serviceAuth.data.token;
+
+  const videoBuffer = readFileSync(videoPath);
+  const filename = basename(videoPath);
+  const uploadUrl = `https://video.bsky.app/xrpc/app.bsky.video.uploadVideo?did=${encodeURIComponent(did)}&name=${encodeURIComponent(filename)}`;
+
+  console.log(`[bluesky] Uploading video (${(fileSize / 1024 / 1024).toFixed(1)}MB)...`);
+  const uploadRes = await fetch(uploadUrl, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${videoToken}`,
+      'Content-Type': 'video/mp4',
+    },
+    body: videoBuffer,
+  });
+
+  if (!uploadRes.ok) {
+    const body = await uploadRes.text().catch(() => '');
+    console.warn(`[bluesky] Video upload failed (${uploadRes.status}): ${body}`);
+    return null;
+  }
+
+  const uploadData = await uploadRes.json() as { jobId: string };
+  if (!uploadData.jobId) {
+    console.warn('[bluesky] Video upload response missing jobId');
+    return null;
+  }
+
+  console.log(`[bluesky] Video uploaded, polling job ${uploadData.jobId}...`);
+
+  // Poll for processing completion
+  let blobRef: unknown = null;
+  for (let attempt = 0; attempt < VIDEO_POLL_MAX_ATTEMPTS; attempt++) {
+    await sleep(VIDEO_POLL_INTERVAL_MS);
+    try {
+      const statusUrl = `https://video.bsky.app/xrpc/app.bsky.video.getJobStatus?jobId=${encodeURIComponent(uploadData.jobId)}`;
+      const statusRes = await fetch(statusUrl, {
+        headers: { 'Authorization': `Bearer ${videoToken}` },
+      });
+      if (!statusRes.ok) continue;
+
+      const statusData = await statusRes.json() as { jobStatus: { state: string; blob?: unknown; error?: string; message?: string } };
+      const state = statusData.jobStatus?.state;
+
+      if (state === 'JOB_STATE_COMPLETED') {
+        blobRef = statusData.jobStatus.blob;
+        break;
+      }
+      if (state === 'JOB_STATE_FAILED') {
+        console.warn(`[bluesky] Video processing failed: ${statusData.jobStatus.error || statusData.jobStatus.message}`);
+        return null;
+      }
+      if (attempt % 5 === 0) {
+        console.log(`[bluesky] Processing... (${attempt + 1}/${VIDEO_POLL_MAX_ATTEMPTS}, state: ${state})`);
+      }
+    } catch (err) {
+      console.warn(`[bluesky] Poll error (attempt ${attempt + 1}):`, err);
+    }
+  }
+
+  if (!blobRef) {
+    console.warn('[bluesky] Video processing timed out');
+    return null;
+  }
+
+  const embed = {
+    $type: 'app.bsky.embed.video',
+    video: blobRef,
+    alt: altText ?? '',
+    aspectRatio: { width: 1920, height: 1080 },
+  };
+
+  return postSkeet(agent, truncateToGraphemes(text, BLUESKY_MAX_GRAPHEMES), { embed });
 }
 
 // ── RSS parsing (for --from-rss mode) ─────────────────────────────────────────

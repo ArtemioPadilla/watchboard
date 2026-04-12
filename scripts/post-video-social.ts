@@ -205,9 +205,30 @@ function createBlueskyAdapter(): SocialPlatform {
 }
 
 function buildBlueskyPostText(meta: VideoMeta): string {
-  const headlines = meta.trackers.map(t => t.headline).join('\n');
-  const raw = `\ud83d\udcca Watchboard Daily Brief \u2014 ${meta.date}\n\n${headlines}\n\n\ud83d\udd17 watchboard.dev`;
-  return truncateToGraphemes(raw, BLUESKY_MAX_GRAPHEMES);
+  const header = `\ud83d\udcca ${meta.date}`;
+  const footer = `\ud83d\udd17 watchboard.dev`;
+  const skeleton = `${header}\n\n\n\n${footer}`;
+  const skeletonLen = graphemeLength(skeleton);
+
+  // Budget for headlines: total limit minus skeleton
+  let headlineBudget = BLUESKY_MAX_GRAPHEMES - skeletonLen;
+  const lines: string[] = [];
+
+  for (const t of meta.trackers) {
+    const line = `\u2022 ${t.name}: ${t.headline}`;
+    const lineLen = graphemeLength(line) + 1; // +1 for newline
+    if (lineLen > headlineBudget) {
+      // Try to fit a truncated version
+      if (headlineBudget > 10) {
+        lines.push(truncateToGraphemes(line, headlineBudget - 1));
+      }
+      break;
+    }
+    lines.push(line);
+    headlineBudget -= lineLen;
+  }
+
+  return `${header}\n\n${lines.join('\n')}\n\n${footer}`;
 }
 
 async function uploadAndProcessVideo(
@@ -233,11 +254,19 @@ async function uploadAndProcessVideo(
     const filename = basename(videoPath);
     console.log(`[bluesky] Uploading video (${(fileSize / 1024 / 1024).toFixed(1)}MB)...`);
 
+    // Get service auth token for video.bsky.app (session accessJwt is rejected with 401)
+    const serviceAuth = await agent.com.atproto.server.getServiceAuth({
+      aud: 'did:web:video.bsky.app',
+      lxm: 'app.bsky.video.uploadVideo',
+      exp: Math.floor(Date.now() / 1000) + 60 * 30, // 30 min expiry
+    });
+    const videoToken = serviceAuth.data.token;
+
     const uploadUrl = `https://video.bsky.app/xrpc/app.bsky.video.uploadVideo?did=${encodeURIComponent(did)}&name=${encodeURIComponent(filename)}`;
     const uploadRes = await fetch(uploadUrl, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${accessJwt}`,
+        'Authorization': `Bearer ${videoToken}`,
         'Content-Type': 'video/mp4',
       },
       body: videoBuffer,
@@ -258,8 +287,8 @@ async function uploadAndProcessVideo(
 
     console.log(`[bluesky] Video uploaded, processing job ${jobId}...`);
 
-    // Poll for processing completion
-    const blobRef = await pollVideoJob(accessJwt, jobId);
+    // Poll for processing completion (use service auth token, not session JWT)
+    const blobRef = await pollVideoJob(videoToken, jobId);
     if (!blobRef) return null;
 
     return {
@@ -275,7 +304,7 @@ async function uploadAndProcessVideo(
 }
 
 async function pollVideoJob(
-  accessJwt: string,
+  videoToken: string,
   jobId: string,
 ): Promise<unknown | null> {
   for (let attempt = 0; attempt < POLL_MAX_ATTEMPTS; attempt++) {
@@ -284,7 +313,7 @@ async function pollVideoJob(
     try {
       const statusUrl = `https://video.bsky.app/xrpc/app.bsky.video.getJobStatus?jobId=${encodeURIComponent(jobId)}`;
       const statusRes = await fetch(statusUrl, {
-        headers: { 'Authorization': `Bearer ${accessJwt}` },
+        headers: { 'Authorization': `Bearer ${videoToken}` },
       });
 
       if (!statusRes.ok) {
