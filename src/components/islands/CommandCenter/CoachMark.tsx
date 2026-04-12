@@ -1,4 +1,5 @@
 import type { CoachHint } from '../../../lib/onboarding';
+import { t, getPreferredLocale } from '../../../i18n/translations';
 
 interface CoachMarkProps {
   hint: CoachHint;
@@ -6,6 +7,7 @@ interface CoachMarkProps {
 }
 
 export default function CoachMark({ hint, onDismiss }: CoachMarkProps) {
+  const locale = getPreferredLocale();
   // Position based on anchor type
   const positionStyle = getPositionStyle(hint.anchor);
 
@@ -14,7 +16,7 @@ export default function CoachMark({ hint, onDismiss }: CoachMarkProps) {
       <div style={styles.content}>
         <span style={styles.icon}>💡</span>
         <span style={styles.text}>{hint.text}</span>
-        <button style={styles.close} onClick={onDismiss} aria-label="Dismiss hint">×</button>
+        <button style={styles.close} onClick={onDismiss} aria-label={t('globe.dismissHint', locale)}>×</button>
       </div>
     </div>
   );

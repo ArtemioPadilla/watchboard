@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { t as translate, getPreferredLocale } from '../../../i18n/translations';
 import type { TrackerCardData } from '../../../lib/tracker-directory-utils';
 
 const NOTIF_KEY = 'watchboard-last-seen';
@@ -41,18 +42,19 @@ export default function NotificationManager({ trackers, followedSlugs }: Props) 
     if (updatedTrackers.length === 0) return;
 
     // Request permission if needed, then notify
+    const locale = getPreferredLocale();
     const showNotifications = () => {
-      for (const t of updatedTrackers.slice(0, 3)) {
-        const title = `${t.icon || ''} ${t.shortName} updated`;
-        const body = t.headline
-          ? t.headline.slice(0, 100)
-          : `New data available for ${t.shortName}`;
+      for (const tr of updatedTrackers.slice(0, 3)) {
+        const title = `${tr.icon || ''} ${tr.shortName} ${translate('notify.updated', locale)}`;
+        const body = tr.headline
+          ? tr.headline.slice(0, 100)
+          : `${translate('notify.newData', locale)} ${tr.shortName}`;
 
         try {
           new Notification(title, {
             body,
             icon: '/textures/earth-dark-blend-4k.webp',
-            tag: `wb-${t.slug}`,
+            tag: `wb-${tr.slug}`,
             silent: true,
           });
         } catch {}

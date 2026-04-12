@@ -9,6 +9,7 @@
  * Mission tab only appears when missionTrajectory is provided.
  */
 import { useState, useRef, useCallback, useEffect, useMemo, type MutableRefObject, type ReactNode } from 'react';
+import { t, getPreferredLocale } from '../../../i18n/translations';
 import type { FlatEvent } from '../../../lib/timeline-utils';
 import type { MapPoint, MapLine, KpiItem, MissionTrajectory } from '../../../lib/schemas';
 import type { VisualMode } from './cesium-shaders';
@@ -99,11 +100,11 @@ function getSnapY(state: SheetState, vh: number): number {
 /* ── Visual mode list ─────────────────────────────── */
 
 const VISUAL_MODES: { id: VisualMode; label: string }[] = [
-  { id: 'normal', label: 'Standard' },
+  { id: 'normal', label: 'globe.standard' },
   { id: 'crt', label: 'CRT' },
-  { id: 'nvg', label: 'Night Vision' },
+  { id: 'nvg', label: 'globe.nightVision' },
   { id: 'thermal', label: 'FLIR' },
-  { id: 'panoptic', label: 'Panoptic' },
+  { id: 'panoptic', label: 'globe.panoptic' },
 ];
 
 /* ── Event type colors ────────────────────────────── */
@@ -172,6 +173,7 @@ export default function GlobeMobileSheet(props: Props) {
     timelineBar,
   } = props;
 
+  const locale = getPreferredLocale();
   const [sheetState, setSheetState] = useState<SheetState>('half');
   const [activeTab, setActiveTab] = useState<TabId>('timeline');
   const [translateY, setTranslateY] = useState<number | null>(null); // null = snapped
@@ -181,11 +183,11 @@ export default function GlobeMobileSheet(props: Props) {
 
   // Available tabs
   const tabs = useMemo<TabId[]>(() => {
-    const t: TabId[] = ['timeline'];
-    if (missionTrajectory) t.push('mission');
-    t.push('intel', 'filters');
-    if (carouselEntities.length > 0) t.push('detail');
-    return t;
+    const tabIds: TabId[] = ['timeline'];
+    if (missionTrajectory) tabIds.push('mission');
+    tabIds.push('intel', 'filters');
+    if (carouselEntities.length > 0) tabIds.push('detail');
+    return tabIds;
   }, [missionTrajectory, carouselEntities.length]);
 
   // Auto-switch to detail tab when a fact card is tapped
@@ -314,11 +316,11 @@ export default function GlobeMobileSheet(props: Props) {
   const renderIntelContent = () => (
     <div className="mobile-sheet-intel">
       <div className="mobile-sheet-section-title">
-        INTEL FEED
+        {t('globe.intelFeed', locale)}
         <span className="mobile-sheet-badge">{dateEvents.length}</span>
       </div>
       {dateEvents.length === 0 ? (
-        <div className="mobile-sheet-empty">No events for this date</div>
+        <div className="mobile-sheet-empty">{t('globe.noEvents', locale)}</div>
       ) : (
         <div className="mobile-sheet-event-list">
           {dateEvents.map(ev => (
@@ -331,7 +333,7 @@ export default function GlobeMobileSheet(props: Props) {
 
   const renderFiltersContent = () => (
     <div className="mobile-sheet-filters">
-      <div className="mobile-sheet-section-title">CATEGORY FILTERS</div>
+      <div className="mobile-sheet-section-title">{t('globe.categoryFilters', locale)}</div>
       <div className="mobile-sheet-filter-grid">
         {categories.map(c => (
           <button
@@ -354,10 +356,10 @@ export default function GlobeMobileSheet(props: Props) {
         style={{ marginTop: 8 }}
       >
         <span className="mobile-sheet-fdot" style={{ background: persistLines ? '#00ff88' : '#555' }} />
-        {persistLines ? 'All Days' : 'Day Only'}
+        {persistLines ? t('globe.allDays', locale) : t('globe.dayOnly', locale)}
       </button>
 
-      <div className="mobile-sheet-section-title" style={{ marginTop: 16 }}>VISUAL MODE</div>
+      <div className="mobile-sheet-section-title" style={{ marginTop: 16 }}>{t('globe.visualMode', locale)}</div>
       <div className="mobile-sheet-mode-row">
         {VISUAL_MODES.map(m => (
           <button
@@ -365,23 +367,23 @@ export default function GlobeMobileSheet(props: Props) {
             className={`mobile-sheet-mode-btn${visualMode === m.id ? ' active' : ''}`}
             onClick={() => onVisualMode(m.id)}
           >
-            {m.label}
+            {t(m.label as any, locale)}
           </button>
         ))}
       </div>
 
-      <div className="mobile-sheet-section-title" style={{ marginTop: 16 }}>INTEL LAYERS</div>
+      <div className="mobile-sheet-section-title" style={{ marginTop: 16 }}>{t('globe.intelLayers', locale)}</div>
       <div className="mobile-sheet-filter-grid">
         {([
-          { key: 'satellites' as const, label: 'Satellites', color: '#00ffcc' },
-          { key: 'flights' as const, label: 'Flights', color: '#00aaff' },
-          { key: 'ships' as const, label: 'Ships', color: '#00ddaa' },
-          { key: 'quakes' as const, label: 'Seismic', color: '#ff6644' },
-          { key: 'weather' as const, label: 'Weather', color: '#88ccff' },
-          { key: 'nfz' as const, label: 'Airspace', color: '#e74c3c' },
-          { key: 'gpsJam' as const, label: 'GPS Jam', color: '#ff2244' },
-          { key: 'internetBlackout' as const, label: 'Internet', color: '#ff6644' },
-          { key: 'groundTruth' as const, label: 'Fact Cards', color: '#ffaa00' },
+          { key: 'satellites' as const, label: 'globe.satellites' as const, color: '#00ffcc' },
+          { key: 'flights' as const, label: 'globe.flights' as const, color: '#00aaff' },
+          { key: 'ships' as const, label: 'globe.ships' as const, color: '#00ddaa' },
+          { key: 'quakes' as const, label: 'globe.seismic' as const, color: '#ff6644' },
+          { key: 'weather' as const, label: 'globe.weather' as const, color: '#88ccff' },
+          { key: 'nfz' as const, label: 'globe.airspace' as const, color: '#e74c3c' },
+          { key: 'gpsJam' as const, label: 'globe.gpsJam' as const, color: '#ff2244' },
+          { key: 'internetBlackout' as const, label: 'globe.internet' as const, color: '#ff6644' },
+          { key: 'groundTruth' as const, label: 'globe.factCards' as const, color: '#ffaa00' },
         ]).map(l => (
           <button
             key={l.key}
@@ -389,7 +391,7 @@ export default function GlobeMobileSheet(props: Props) {
             onClick={() => onToggleLayer(l.key)}
           >
             <span className="mobile-sheet-fdot" style={{ background: l.color }} />
-            {l.label}
+            {t(l.label as any, locale)}
           </button>
         ))}
       </div>
@@ -405,28 +407,28 @@ export default function GlobeMobileSheet(props: Props) {
       <div className="mobile-sheet-detail">
         <div className="mobile-sheet-detail-header">
           <div className="mobile-sheet-section-title">
-            {entity.type === 'map-point' && entity.point ? entity.point.label : entity.name || 'Entity'}
+            {entity.type === 'map-point' && entity.point ? entity.point.label : entity.name || t('globe.entity', locale)}
           </div>
-          <button className="mobile-sheet-detail-close" onClick={onCloseCard} aria-label="Close detail">
+          <button className="mobile-sheet-detail-close" onClick={onCloseCard} aria-label={t('globe.closeDetail', locale)}>
             &times;
           </button>
         </div>
         {entity.type === 'map-point' && entity.point && (
           <div className="mobile-sheet-detail-body">
             <div className="mobile-sheet-detail-row">
-              <span className="mobile-sheet-detail-label">Category</span>
+              <span className="mobile-sheet-detail-label">{t('globe.category', locale)}</span>
               <span>{entity.point.cat}</span>
             </div>
             <div className="mobile-sheet-detail-row">
-              <span className="mobile-sheet-detail-label">Date</span>
+              <span className="mobile-sheet-detail-label">{t('globe.date', locale)}</span>
               <span>{entity.point.date}</span>
             </div>
             <div className="mobile-sheet-detail-row">
-              <span className="mobile-sheet-detail-label">Location</span>
+              <span className="mobile-sheet-detail-label">{t('globe.location', locale)}</span>
               <span>{entity.point.sub}</span>
             </div>
             <div className="mobile-sheet-detail-row">
-              <span className="mobile-sheet-detail-label">Source Tier</span>
+              <span className="mobile-sheet-detail-label">{t('globe.sourceTier', locale)}</span>
               <span>T{entity.point.tier}</span>
             </div>
           </div>
@@ -447,11 +449,11 @@ export default function GlobeMobileSheet(props: Props) {
   };
 
   const tabLabels: Record<TabId, string> = {
-    timeline: 'Timeline',
-    mission: 'Mission',
-    intel: 'Intel',
-    filters: 'Filters',
-    detail: 'Detail',
+    timeline: t('globe.timeline', locale),
+    mission: t('globe.mission', locale),
+    intel: t('globe.intel', locale),
+    filters: t('globe.filters', locale),
+    detail: t('globe.detail', locale),
   };
 
   /* ── Sheet styles ───────────────────────────────── */
@@ -536,6 +538,7 @@ function MissionCompact({
   vectorToggles?: VectorToggles;
   onToggleVector?: (key: keyof VectorToggles) => void;
 }) {
+  const locale = getPreferredLocale();
   const phaseRef = useRef<HTMLSpanElement>(null);
   const altRef = useRef<HTMLSpanElement>(null);
   const velRef = useRef<HTMLSpanElement>(null);
@@ -544,11 +547,11 @@ function MissionCompact({
 
   useEffect(() => {
     const tick = () => {
-      const t = telemetryRef.current;
-      if (phaseRef.current) phaseRef.current.textContent = t.currentPhase?.label ?? 'Pre-Launch';
-      if (altRef.current) altRef.current.textContent = formatDistanceCompact(t.altitudeKm);
-      if (velRef.current) velRef.current.textContent = formatVelocityCompact(t.velocityKmS);
-      if (moonDistRef.current) moonDistRef.current.textContent = formatDistanceCompact(t.distToMoonKm);
+      const tel = telemetryRef.current;
+      if (phaseRef.current) phaseRef.current.textContent = tel.currentPhase?.label ?? t('globe.preLaunch', locale);
+      if (altRef.current) altRef.current.textContent = formatDistanceCompact(tel.altitudeKm);
+      if (velRef.current) velRef.current.textContent = formatVelocityCompact(tel.velocityKmS);
+      if (moonDistRef.current) moonDistRef.current.textContent = formatDistanceCompact(tel.distToMoonKm);
       rafRef.current = requestAnimationFrame(tick);
     };
     rafRef.current = requestAnimationFrame(tick);
@@ -561,11 +564,11 @@ function MissionCompact({
         <div className="mobile-mission-vehicle">{vehicle}</div>
         <div className="mobile-mission-phase">
           <span className="mobile-mission-phase-dot" />
-          <span ref={phaseRef}>Pre-Launch</span>
+          <span ref={phaseRef}>{t('globe.preLaunch', locale)}</span>
         </div>
         {onTrackSpacecraft && (
           <button className="mobile-mission-track-btn" onClick={onTrackSpacecraft}>
-            TRACK
+            {t('globe.track', locale)}
           </button>
         )}
       </div>
@@ -585,13 +588,13 @@ function MissionCompact({
       </div>
       {vectorToggles && onToggleVector && (
         <div className="mobile-mission-vectors">
-          <div className="mobile-sheet-section-title" style={{ marginTop: 12 }}>VECTORS</div>
+          <div className="mobile-sheet-section-title" style={{ marginTop: 12 }}>{t('globe.vectors', locale)}</div>
           <div className="mobile-sheet-filter-grid">
             {([
-              { key: 'velocity' as const, label: 'Velocity', color: '#00ffaa' },
-              { key: 'gravityEarth' as const, label: 'Earth Gravity', color: '#ff9500' },
-              { key: 'gravityMoon' as const, label: 'Moon Gravity', color: '#bf7fff' },
-              { key: 'thrust' as const, label: 'Thrust', color: '#ff3333' },
+              { key: 'velocity' as const, label: 'globe.velocity' as const, color: '#00ffaa' },
+              { key: 'gravityEarth' as const, label: 'globe.earthGravity' as const, color: '#ff9500' },
+              { key: 'gravityMoon' as const, label: 'globe.moonGravity' as const, color: '#bf7fff' },
+              { key: 'thrust' as const, label: 'globe.thrust' as const, color: '#ff3333' },
             ]).map(v => (
               <button
                 key={v.key}
@@ -599,7 +602,7 @@ function MissionCompact({
                 onClick={() => onToggleVector(v.key)}
               >
                 <span className="mobile-sheet-fdot" style={{ background: v.color }} />
-                {v.label}
+                {t(v.label as any, locale)}
               </button>
             ))}
           </div>
