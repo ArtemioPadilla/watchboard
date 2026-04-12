@@ -455,10 +455,6 @@ function drawTexturedSphere(
   const sinCenterLat = Math.sin(centerLatRad);
   const cosCenterLat = Math.cos(centerLatRad);
 
-  // City light detection thresholds
-  const DARK_THRESHOLD = 25;
-  const CITY_THRESHOLD = 40;
-
   const iR = Math.ceil(radius);
   const x0 = Math.max(0, Math.floor(cx - iR));
   const y0 = Math.max(0, Math.floor(cy - iR));
@@ -520,26 +516,18 @@ function drawTexturedSphere(
       let g = texData[texIdx + 1];
       let b = texData[texIdx + 2];
 
-      // City lights vs dark areas — NASA "Earth at Night" style
-      // Texture: cities=bright(>100), ocean=blue-ish(25-56), unlit land=dark(20-28)
+      // NASA texture already has good colors — just slight boost for city lights
       const brightness = (r + g + b) / 3;
-      const blueRatio = b / (brightness + 1); // ocean has high blue ratio
-      
-      if (brightness > 80) {
-        // City light — boost with warm tint
-        r = Math.min(255, Math.floor(r * 2.5));
-        g = Math.min(255, Math.floor(g * 2.2));
-        b = Math.min(255, Math.floor(b * 1.5));
-      } else if (blueRatio > 1.3 && brightness < 60) {
-        // Ocean — very dark with subtle blue
-        r = 4;
-        g = 6;
-        b = 16;
+      if (brightness > 15) {
+        // Lit area — slight boost
+        r = Math.min(255, Math.floor(r * 1.3));
+        g = Math.min(255, Math.floor(g * 1.3));
+        b = Math.min(255, Math.floor(b * 1.1));
       } else {
-        // Unlit land — visible continent outlines
-        r = 12;
-        g = 14;
-        b = 18;
+        // Dark area — keep as-is, just ensure minimum
+        r = Math.max(r, 2);
+        g = Math.max(g, 2);
+        b = Math.max(b, 4);
       }
 
       // Write pixel

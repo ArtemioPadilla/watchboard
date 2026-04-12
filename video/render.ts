@@ -18,7 +18,7 @@ const DATA_PATH = resolve(ROOT_DIR, 'src/data/breaking.json');
 const OUTPUT_DIR = resolve(ROOT_DIR, 'output');
 const ENTRY_POINT = resolve(ROOT_DIR, 'src/Root.tsx');
 const NARRATION_PATH = resolve(ROOT_DIR, 'src/assets/narration.mp3');
-const EARTH_TEXTURE_PATH = resolve(ROOT_DIR, '../public/textures/earth-dark-blend-4k.webp');
+const EARTH_TEXTURE_PATH = resolve(ROOT_DIR, '../public/textures/earth-night-lights-nasa.jpg');
 
 async function main(): Promise<void> {
   console.log('=== Watchboard Video Renderer ===\n');
@@ -46,7 +46,7 @@ async function main(): Promise<void> {
   let earthTexture = '';
   if (existsSync(EARTH_TEXTURE_PATH)) {
     const texBuf = readFileSync(EARTH_TEXTURE_PATH);
-    const ext = EARTH_TEXTURE_PATH.endsWith('.webp') ? 'webp' : 'jpeg';
+    const ext = EARTH_TEXTURE_PATH.endsWith('.webp') ? 'webp' : EARTH_TEXTURE_PATH.endsWith('.png') ? 'png' : 'jpeg';
     earthTexture = `data:image/${ext};base64,${texBuf.toString('base64')}`;
     console.log(`  Earth texture: ${(texBuf.length / 1024).toFixed(0)} KB loaded`);
   } else {

@@ -80,15 +80,15 @@ export const Video: React.FC<VideoProps> = ({ data, narrationSrc, geoFeatures = 
           top: 0,
           left: 0,
           right: 0,
-          height: '45%',
+          height: '55%',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
         }}
       >
         <CanvasGlobe
-          width={600}
-          height={600}
+          width={800}
+          height={800}
           geoFeatures={geoFeatures}
           trackers={trackers}
           activeTrackerIndex={activeTrackerIndex}
