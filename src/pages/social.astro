@@ -16,21 +16,21 @@ const basePath = base.endsWith('/') ? base : `${base}/`;
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <polyline points="15 18 9 12 15 6"/>
         </svg>
-        Watchboard
+        <span data-i18n data-es="Watchboard" data-fr="Watchboard" data-pt="Watchboard">Watchboard</span>
       </a>
       <div class="social-title-row">
         <span class="section-num">S</span>
-        <h1 class="social-title">Social Command Center</h1>
+        <h1 class="social-title" data-i18n data-es="Centro de mando social" data-fr="Centre de commande social" data-pt="Central de comando social">Social Command Center</h1>
       </div>
-      <p class="social-subtitle">AI-curated social media queue with LLM judge, budget tracking, and batch approval.</p>
+      <p class="social-subtitle" data-i18n data-es="Cola de redes sociales curada por IA con juez LLM, seguimiento de presupuesto y aprobación por lotes." data-fr="File d'attente de médias sociaux gérée par IA avec juge LLM, suivi du budget et approbation par lots." data-pt="Fila de mídia social curada por IA com juiz LLM, rastreamento de orçamento e aprovação em lote.">AI-curated social media queue with LLM judge, budget tracking, and batch approval.</p>
     </header>
     <SocialCommandCenter client:load basePath={basePath} githubRepo="ArtemioPadilla/watchboard" />
     <footer class="platform-footer">
       <a href={basePath}>Watchboard</a>
       <span>&middot;</span>
-      <a href={`${basePath}about/`}>About</a>
+      <a href={`${basePath}about/`} data-i18n data-es="Acerca de" data-fr="À propos" data-pt="Sobre">About</a>
       <span>&middot;</span>
-      <a href={`${basePath}metrics/`}>Metrics</a>
+      <a href={`${basePath}metrics/`} data-i18n data-es="Métricas" data-fr="Métriques" data-pt="Métricas">Metrics</a>
       <span>&middot;</span>
       <a href={`${basePath}rss.xml`}>RSS</a>
       <span>&middot;</span>

@@ -8,11 +8,11 @@ const basePath = base.endsWith('/') ? base : `${base}/`;
   <main id="main-content">
     <div class="not-found">
       <div class="not-found-code">404</div>
-      <h1 class="not-found-title">Page Not Found</h1>
-      <p class="not-found-desc">The page you're looking for doesn't exist or has been moved.</p>
+      <h1 class="not-found-title" data-i18n data-es="Página no encontrada" data-fr="Page non trouvée" data-pt="Página não encontrada">Page Not Found</h1>
+      <p class="not-found-desc" data-i18n data-es="La página que buscas no existe o ha sido movida." data-fr="La page que vous recherchez n'existe pas ou a été déplacée." data-pt="A página que você procura não existe ou foi movida.">The page you're looking for doesn't exist or has been moved.</p>
       <div class="not-found-actions">
-        <a href={basePath} class="not-found-btn primary">← Back to Watchboard</a>
-        <a href={`${basePath}search/`} class="not-found-btn secondary">Search Trackers</a>
+        <a href={basePath} class="not-found-btn primary" data-i18n data-es="← Volver a Watchboard" data-fr="← Retour à Watchboard" data-pt="← Voltar ao Watchboard">← Back to Watchboard</a>
+        <a href={`${basePath}search/`} class="not-found-btn secondary" data-i18n data-es="Buscar rastreadores" data-fr="Rechercher des trackers" data-pt="Pesquisar rastreadores">Search Trackers</a>
       </div>
     </div>
   </main>

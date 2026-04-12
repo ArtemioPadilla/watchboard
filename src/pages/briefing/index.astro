@@ -97,25 +97,25 @@ const collectionPageSchema = {
     <div class="briefing-index">
 
       <!-- Back nav -->
-      <a href={`${basePath}`} class="back-link">&larr; Watchboard</a>
+      <a href={`${basePath}`} class="back-link" data-i18n data-es="← Watchboard" data-fr="← Watchboard" data-pt="← Watchboard">&larr; Watchboard</a>
 
       <!-- Header -->
       <header class="index-header">
-        <div class="index-label">INTELLIGENCE ARCHIVE</div>
-        <h1 class="index-title">Daily Briefings</h1>
-        <p class="index-desc">
+        <div class="index-label" data-i18n data-es="ARCHIVO DE INTELIGENCIA" data-fr="ARCHIVES DU RENSEIGNEMENT" data-pt="ARQUIVO DE INTELIGÊNCIA">INTELLIGENCE ARCHIVE</div>
+        <h1 class="index-title" data-i18n data-es="Informes diarios" data-fr="Briefings quotidiens" data-pt="Briefings diários">Daily Briefings</h1>
+        <p class="index-desc" data-i18n data-es="Resúmenes cruzados de rastreadores agregados cada día en todos los rastreadores activos de Watchboard. Cada informe enlaza a permalinks de eventos individuales con atribución completa de fuentes." data-fr="Résumés inter-trackers agrégés chaque jour sur tous les trackers actifs de Watchboard. Chaque briefing renvoie aux permaliens des événements individuels avec attribution complète des sources." data-pt="Resumos cruzados de rastreadores agregados diariamente em todos os rastreadores ativos do Watchboard. Cada briefing liga a permalinks de eventos individuais com atribuição completa de fontes.">
           Cross-tracker summaries aggregated each day across all active Watchboard trackers.
           Each briefing links to individual event permalinks with full source attribution.
         </p>
         <p class="index-count">
-          <span class="count-num">{totalDates}</span> briefings available
+          <span class="count-num">{totalDates}</span> <span data-i18n data-es="informes disponibles" data-fr="briefings disponibles" data-pt="briefings disponíveis">briefings available</span>
         </p>
       </header>
 
       <!-- Briefing list -->
       {briefings.length === 0 ? (
         <div class="empty-state">
-          <p>No briefings available yet. Events will appear here once trackers have day-level dated events.</p>
+          <p data-i18n data-es="Aún no hay informes disponibles. Los eventos aparecerán aquí una vez que los rastreadores tengan eventos con fecha a nivel de día." data-fr="Aucun briefing disponible pour le moment. Les événements apparaîtront ici une fois que les trackers auront des événements datés au jour." data-pt="Nenhum briefing disponível ainda. Os eventos aparecerão aqui assim que os rastreadores tiverem eventos datados por dia.">No briefings available yet. Events will appear here once trackers have day-level dated events.</p>
         </div>
       ) : (
         <ol class="briefing-list" reversed>
@@ -129,12 +129,12 @@ const collectionPageSchema = {
                 <div class="entry-right">
                   <span class="entry-stat">
                     <span class="stat-val">{entry.eventCount}</span>
-                    <span class="stat-lbl">event{entry.eventCount !== 1 ? 's' : ''}</span>
+                    <span class="stat-lbl" data-i18n data-es={entry.eventCount !== 1 ? 'eventos' : 'evento'} data-fr={entry.eventCount !== 1 ? 'événements' : 'événement'} data-pt={entry.eventCount !== 1 ? 'eventos' : 'evento'}>event{entry.eventCount !== 1 ? 's' : ''}</span>
                   </span>
                   <span class="entry-sep">&middot;</span>
                   <span class="entry-stat">
                     <span class="stat-val">{entry.trackerCount}</span>
-                    <span class="stat-lbl">tracker{entry.trackerCount !== 1 ? 's' : ''}</span>
+                    <span class="stat-lbl" data-i18n data-es={entry.trackerCount !== 1 ? 'rastreadores' : 'rastreador'} data-fr={entry.trackerCount !== 1 ? 'trackers' : 'tracker'} data-pt={entry.trackerCount !== 1 ? 'rastreadores' : 'rastreador'}>tracker{entry.trackerCount !== 1 ? 's' : ''}</span>
                   </span>
                   <span class="entry-arrow">&rarr;</span>
                 </div>
@@ -146,8 +146,8 @@ const collectionPageSchema = {
 
       <!-- Footer -->
       <footer class="index-footer">
-        <a href={`${basePath}`} class="footer-link">&larr; Back to Watchboard</a>
-        <a href={`${basePath}rss.xml`} class="footer-link">RSS Feed</a>
+        <a href={`${basePath}`} class="footer-link" data-i18n data-es="← Volver a Watchboard" data-fr="← Retour à Watchboard" data-pt="← Voltar ao Watchboard">&larr; Back to Watchboard</a>
+        <a href={`${basePath}rss.xml`} class="footer-link" data-i18n data-es="Fuente RSS" data-fr="Flux RSS" data-pt="Feed RSS">RSS Feed</a>
       </footer>
 
     </div>
