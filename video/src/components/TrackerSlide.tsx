@@ -20,8 +20,17 @@ const TIER_LABELS: Record<number, string> = {
   4: 'TIER 4 \u2014 UNVERIFIED',
 };
 
-function truncateAtWord(text: string, maxChars: number): string {
+function smartTruncate(text: string, maxChars: number): string {
   if (text.length <= maxChars) return text;
+  // Try to break at sentence boundaries (after at least 50 chars)
+  const breakPoints = [' — ', '; ', '. ', ' – '];
+  for (const bp of breakPoints) {
+    const idx = text.indexOf(bp, 50);
+    if (idx > 0 && idx < maxChars) {
+      return text.slice(0, idx);
+    }
+  }
+  // Fallback: word boundary
   const truncated = text.slice(0, maxChars);
   const lastSpace = truncated.lastIndexOf(' ');
   return (lastSpace > 0 ? truncated.slice(0, lastSpace) : truncated) + '...';
@@ -110,7 +119,7 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
   );
 
   const displayName = stripEmoji(tracker.name).toUpperCase();
-  const displayHeadline = truncateAtWord(tracker.headline, 120);
+  const displayHeadline = smartTruncate(tracker.headline, 150);
   const kpiDisplay = `${tracker.kpiPrefix ?? ''}${tracker.kpiValue}${tracker.kpiSuffix ?? ''}`;
 
   return (
@@ -142,10 +151,12 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
           right: 0,
           bottom: 0,
           paddingRight: 60,
-          paddingBottom: 100,
+          paddingBottom: 40,
           paddingLeft: 80,
+          paddingTop: 20,
           display: 'flex',
           flexDirection: 'column',
+          gap: 0,
         }}
       >
         {/* Tracker name */}
@@ -169,8 +180,8 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
             width: lineWidth,
             height: 3,
             background: accentColor,
-            marginTop: 12,
-            marginBottom: 24,
+            marginTop: 8,
+            marginBottom: 14,
             borderRadius: 2,
             boxShadow: `0 0 8px ${accentColor}80`,
           }}
@@ -182,7 +193,7 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
             opacity: headlineOpacity,
             transform: `translateY(${headlineY}px)`,
             fontFamily: "'DM Sans', sans-serif",
-            fontSize: 38,
+            fontSize: 34,
             fontWeight: 700,
             color: '#e8e9ed',
             lineHeight: 1.25,

@@ -179,8 +179,8 @@ function drawAtmosphere(
 ): void {
   const glowRadius = radius * 1.15;
   const gradient = ctx.createRadialGradient(cx, cy, radius * 0.92, cx, cy, glowRadius);
-  gradient.addColorStop(0, 'rgba(26, 74, 122, 0.30)');
-  gradient.addColorStop(0.5, 'rgba(26, 74, 122, 0.12)');
+  gradient.addColorStop(0, 'rgba(26, 74, 122, 0.10)');
+  gradient.addColorStop(0.5, 'rgba(26, 74, 122, 0.04)');
   gradient.addColorStop(1, 'rgba(26, 74, 122, 0)');
 
   ctx.beginPath();
@@ -454,8 +454,9 @@ function drawTexturedSphere(
   const sinCenterLat = Math.sin(centerLatRad);
   const cosCenterLat = Math.cos(centerLatRad);
 
-  // City light detection threshold
-  const CITY_THRESHOLD = 30;
+  // City light detection thresholds
+  const DARK_THRESHOLD = 25;
+  const CITY_THRESHOLD = 40;
 
   const iR = Math.ceil(radius);
   const x0 = Math.max(0, Math.floor(cx - iR));
@@ -518,18 +519,28 @@ function drawTexturedSphere(
       let g = texData[texIdx + 1];
       let b = texData[texIdx + 2];
 
-      // City lights vs dark areas
+      // City lights vs dark areas — NASA "Earth at Night" style
       const brightness = (r + g + b) / 3;
       if (brightness > CITY_THRESHOLD) {
-        // City light — boost aggressively with warm tint
-        r = Math.min(255, Math.floor(r * 2.5));
-        g = Math.min(255, Math.floor(g * 2.2));
-        b = Math.min(255, Math.floor(b * 1.8));
+        // City light — boost hard with warm orange tint
+        r = Math.min(255, Math.floor(r * 3.5));
+        g = Math.min(255, Math.floor(g * 2.8));
+        b = Math.min(255, Math.floor(b * 1.6));
+      } else if (brightness < DARK_THRESHOLD) {
+        // Dark area (ocean/unlit land) — near black, no blue tint
+        r = Math.floor(r * 0.3);
+        g = Math.floor(g * 0.3);
+        b = Math.floor(b * 0.3);
+        // Floor at #050508
+        r = Math.max(r, 5);
+        g = Math.max(g, 5);
+        b = Math.max(b, 8);
       } else {
-        // Dark area — subtle blue tint for ocean
-        r = Math.max(r, 8);
-        g = Math.max(g, 12);
-        b = Math.max(b, 20);
+        // Transition zone — dim but visible
+        const factor = 0.5;
+        r = Math.floor(r * factor);
+        g = Math.floor(g * factor);
+        b = Math.floor(b * factor);
       }
 
       // Write pixel
