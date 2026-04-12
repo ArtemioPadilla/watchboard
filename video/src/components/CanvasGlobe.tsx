@@ -622,91 +622,101 @@ export const CanvasGlobe: React.FC<CanvasGlobeProps> = ({
     const cy = height / 2;
     const radius = Math.min(width, height) * 0.46;
 
-    // Compute globe center via smooth interpolation
-    const { lon: rawLon, lat: centerLat } = computeGlobeCenter(
-      trackers,
-      activeTrackerIndex,
-      globalFrame,
-    );
-
-    // Normalize centerLon to [-180, 180]
-    const centerLon = ((rawLon % 360) + 540) % 360 - 180;
-
-    // Clear
-    ctx.clearRect(0, 0, width, height);
-
-    const hasTexture = textureRef.current !== null;
-
-    // 1. Atmosphere glow (drawn before/behind the sphere)
-    drawAtmosphere(ctx, cx, cy, radius);
-
-    if (hasTexture) {
-      // Texture-mapped rendering path
-      // Clip to globe circle
-      ctx.save();
-      ctx.beginPath();
-      ctx.arc(cx, cy, radius, 0, Math.PI * 2);
-      ctx.clip();
-
-      drawTexturedSphere(
-        ctx,
-        cx,
-        cy,
-        radius,
-        centerLon,
-        centerLat,
-        textureRef.current!.data,
-        textureRef.current!.width,
-        textureRef.current!.height,
+    try {
+      // Compute globe center via smooth interpolation
+      const { lon: rawLon, lat: centerLat } = computeGlobeCenter(
+        trackers,
+        activeTrackerIndex,
+        globalFrame,
       );
 
-      ctx.restore();
-    } else {
-      // Fallback: polygon rendering (ocean + grid + countries)
-      drawOcean(ctx, cx, cy, radius);
+      // Normalize centerLon to [-180, 180]
+      const centerLon = ((rawLon % 360) + 540) % 360 - 180;
 
-      ctx.save();
-      ctx.beginPath();
-      ctx.arc(cx, cy, radius, 0, Math.PI * 2);
-      ctx.clip();
+      // Clear
+      ctx.clearRect(0, 0, width, height);
 
-      drawGridLines(ctx, centerLon, centerLat, radius, cx, cy);
+      const hasTexture = textureRef.current !== null;
 
-      if (geoFeatures.length > 0) {
-        drawCountries(ctx, geoFeatures, centerLon, centerLat, radius, cx, cy);
+      // 1. Atmosphere glow (drawn before/behind the sphere)
+      drawAtmosphere(ctx, cx, cy, radius);
+
+      if (hasTexture) {
+        // Texture-mapped rendering path
+        // Clip to globe circle
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+        ctx.clip();
+
+        drawTexturedSphere(
+          ctx,
+          cx,
+          cy,
+          radius,
+          centerLon,
+          centerLat,
+          textureRef.current!.data,
+          textureRef.current!.width,
+          textureRef.current!.height,
+        );
+
+        ctx.restore();
+      } else {
+        // Fallback: polygon rendering (ocean + grid + countries)
+        drawOcean(ctx, cx, cy, radius);
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+        ctx.clip();
+
+        drawGridLines(ctx, centerLon, centerLat, radius, cx, cy);
+
+        if (geoFeatures.length > 0) {
+          drawCountries(ctx, geoFeatures, centerLon, centerLat, radius, cx, cy);
+        }
+
+        ctx.restore();
       }
 
-      ctx.restore();
-    }
+      // Rim highlight — bright blue edge like Cesium atmosphere
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+      ctx.strokeStyle = 'rgba(60, 160, 230, 0.35)';
+      ctx.lineWidth = 2.5;
+      ctx.stroke();
+      // Second softer outer rim
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius + 3, 0, Math.PI * 2);
+      ctx.strokeStyle = 'rgba(40, 120, 200, 0.12)';
+      ctx.lineWidth = 4;
+      ctx.stroke();
 
-    // Rim highlight — bright blue edge like Cesium atmosphere
-    ctx.beginPath();
-    ctx.arc(cx, cy, radius, 0, Math.PI * 2);
-    ctx.strokeStyle = 'rgba(60, 160, 230, 0.35)';
-    ctx.lineWidth = 2.5;
-    ctx.stroke();
-    // Second softer outer rim
-    ctx.beginPath();
-    ctx.arc(cx, cy, radius + 3, 0, Math.PI * 2);
-    ctx.strokeStyle = 'rgba(40, 120, 200, 0.12)';
-    ctx.lineWidth = 4;
-    ctx.stroke();
-
-    // 5. Pulsing dot at active tracker location (always on top)
-    if (activeTrackerIndex >= 0 && activeTrackerIndex < trackers.length) {
-      const target = trackers[activeTrackerIndex];
-      drawPulsingDot(
-        ctx,
-        centerLon,
-        centerLat,
-        target.mapCenter[0],
-        target.mapCenter[1],
-        radius,
-        cx,
-        cy,
-        globalFrame,
-        accentColor,
-      );
+      // 5. Pulsing dot at active tracker location (always on top)
+      if (activeTrackerIndex >= 0 && activeTrackerIndex < trackers.length) {
+        const target = trackers[activeTrackerIndex];
+        drawPulsingDot(
+          ctx,
+          centerLon,
+          centerLat,
+          target.mapCenter[0],
+          target.mapCenter[1],
+          radius,
+          cx,
+          cy,
+          globalFrame,
+          accentColor,
+        );
+      }
+    } catch (err) {
+      console.warn('Globe render error:', err);
+      // Ultimate fallback: draw a simple dark circle
+      ctx.clearRect(0, 0, width, height);
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+      ctx.fillStyle = '#0d1117';
+      ctx.fill();
     }
   }, [globalFrame, width, height, geoFeatures, trackers, activeTrackerIndex, accentColor, dpr, earthTexture]);
 
