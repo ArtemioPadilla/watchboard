@@ -14,6 +14,7 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { z } from "zod";
 import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { join, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
 // ── Constants ──
 
@@ -22,7 +23,8 @@ const DEFAULT_EVENT_LIMIT = 20;
 const MAX_EVENT_LIMIT = 100;
 
 // Resolve trackers directory relative to this file (mcp/ is inside the repo root)
-const REPO_ROOT = resolve(import.meta.dirname ?? ".", "..");
+const __dirname = fileURLToPath(new URL(".", import.meta.url));
+const REPO_ROOT = resolve(__dirname, "..");
 const TRACKERS_DIR = join(REPO_ROOT, "trackers");
 
 // ── Types ──
@@ -222,7 +224,7 @@ const server = new McpServer({
 // ── Tools ──
 
 server.registerTool(
-  "watchboard_list_trackers",
+  "list_trackers",
   {
     title: "List Watchboard Trackers",
     description: `List all Watchboard trackers with their slugs, names, domains, status, and last update dates.
@@ -268,7 +270,7 @@ Examples:
 );
 
 server.registerTool(
-  "watchboard_get_tracker_summary",
+  "get_tracker_summary",
   {
     title: "Get Tracker Summary",
     description: `Get a high-level summary for a specific Watchboard tracker including its latest digest, headline, KPI highlights, and day count.
@@ -307,7 +309,7 @@ Examples:
         content: [
           {
             type: "text" as const,
-            text: `Error: Tracker "${slug}" not found. Use watchboard_list_trackers to see available trackers.`,
+            text: `Error: Tracker "${slug}" not found. Use list_trackers to see available trackers.`,
           },
         ],
       };
@@ -350,7 +352,7 @@ Examples:
 );
 
 server.registerTool(
-  "watchboard_get_tracker_events",
+  "get_tracker_events",
   {
     title: "Get Tracker Events",
     description: `Get recent events for a Watchboard tracker. Events are sorted most-recent-first and include titles, dates, types, details, sources, and media links.
@@ -393,7 +395,7 @@ Examples:
         content: [
           {
             type: "text" as const,
-            text: `Error: Tracker "${slug}" not found. Use watchboard_list_trackers to see available trackers.`,
+            text: `Error: Tracker "${slug}" not found. Use list_trackers to see available trackers.`,
           },
         ],
       };
@@ -419,7 +421,7 @@ Examples:
 );
 
 server.registerTool(
-  "watchboard_get_breaking_news",
+  "get_breaking_news",
   {
     title: "Get Breaking News",
     description: `Get current breaking news items from all active Watchboard trackers. Returns trackers that have breaking=true in their metadata, along with their latest breaking digest entries.
@@ -479,7 +481,7 @@ Returns empty array if no trackers currently have breaking news.`,
 );
 
 server.registerTool(
-  "watchboard_search_events",
+  "search_events",
   {
     title: "Search Events",
     description: `Search for events across Watchboard trackers by keyword. Searches event titles, details, and types. Optionally filter to a specific tracker.
@@ -533,7 +535,7 @@ Examples:
           content: [
             {
               type: "text" as const,
-              text: `Error: Tracker "${tracker}" not found. Use watchboard_list_trackers to see available trackers.`,
+              text: `Error: Tracker "${tracker}" not found. Use list_trackers to see available trackers.`,
             },
           ],
         };
@@ -565,7 +567,7 @@ Examples:
 );
 
 server.registerTool(
-  "watchboard_get_tracker_kpis",
+  "get_tracker_kpis",
   {
     title: "Get Tracker KPIs",
     description: `Get structured KPI (Key Performance Indicator) data for a Watchboard tracker. KPIs include casualty counts, economic indicators, military metrics, and other quantitative data points.
@@ -600,7 +602,7 @@ Examples:
         content: [
           {
             type: "text" as const,
-            text: `Error: Tracker "${slug}" not found. Use watchboard_list_trackers to see available trackers.`,
+            text: `Error: Tracker "${slug}" not found. Use list_trackers to see available trackers.`,
           },
         ],
       };
@@ -621,7 +623,7 @@ Examples:
 );
 
 server.registerTool(
-  "watchboard_get_tracker_claims",
+  "get_tracker_claims",
   {
     title: "Get Tracker Contested Claims",
     description: `Get contested claims for a Watchboard tracker. Each claim presents opposing perspectives (sideA vs sideB) on a disputed question, with optional resolution notes.
@@ -659,7 +661,7 @@ Examples:
         content: [
           {
             type: "text" as const,
-            text: `Error: Tracker "${slug}" not found. Use watchboard_list_trackers to see available trackers.`,
+            text: `Error: Tracker "${slug}" not found. Use list_trackers to see available trackers.`,
           },
         ],
       };
