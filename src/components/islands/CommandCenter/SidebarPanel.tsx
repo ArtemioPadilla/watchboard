@@ -187,6 +187,11 @@ const TrackerRow = memo(function TrackerRow({
   }
 
   // Collapsed row
+  const freshDotInfo = getFreshnessDot(tracker.lastUpdated);
+  const tooltipText = rawHeadline
+    ? `${tracker.shortName} — ${rawHeadline}`
+    : tracker.shortName;
+
   return (
     <div
       ref={rowRef}
@@ -195,6 +200,7 @@ const TrackerRow = memo(function TrackerRow({
         ...S.collapsedRow,
         borderLeftColor: color,
         background: isHovered ? `${color}15` : 'transparent',
+        transform: isHovered ? 'translateX(2px)' : 'translateX(0)',
       }}
       onClick={e => {
         if (e.shiftKey) {
@@ -206,8 +212,17 @@ const TrackerRow = memo(function TrackerRow({
       onMouseEnter={() => onHover(tracker.slug)}
       onMouseLeave={() => onHover(null)}
       onDoubleClick={() => { window.location.href = href; }}
+      title={tooltipText}
     >
       <div style={S.collapsedLeft}>
+        <span
+          style={{
+            ...S.freshnessDot,
+            background: freshDotInfo.color,
+            boxShadow: `0 0 4px ${freshDotInfo.color}60`,
+          }}
+          title={freshDotInfo.label}
+        />
         <span style={S.icon}>{tracker.icon || ''}</span>
         <span className="cc-tracker-name" style={S.collapsedName}>{tracker.shortName}</span>
         {isCompared && <span style={S.compareDot} />}
@@ -516,6 +531,41 @@ const RecentEventsFeed = memo(function RecentEventsFeed({
   );
 });
 
+// ── Sort options ──
+
+type SortKey = 'name' | 'lastUpdated' | 'domain';
+
+const SORT_OPTIONS: { key: SortKey; label: string }[] = [
+  { key: 'name', label: 'Name' },
+  { key: 'lastUpdated', label: 'Last updated' },
+  { key: 'domain', label: 'Domain' },
+];
+
+function sortTrackers(trackers: TrackerCardData[], sortKey: SortKey): TrackerCardData[] {
+  const sorted = [...trackers];
+  switch (sortKey) {
+    case 'name':
+      return sorted.sort((a, b) => a.shortName.localeCompare(b.shortName));
+    case 'lastUpdated':
+      return sorted.sort((a, b) => new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime());
+    case 'domain':
+      return sorted.sort((a, b) => (a.domain || '').localeCompare(b.domain || '') || a.shortName.localeCompare(b.shortName));
+    default:
+      return sorted;
+  }
+}
+
+// ── Freshness dot helper ──
+
+function getFreshnessDot(lastUpdated: string): { color: string; label: string } {
+  const updated = new Date(lastUpdated);
+  const now = new Date();
+  const ageHrs = Math.floor((now.getTime() - updated.getTime()) / 3600000);
+  if (ageHrs < 24) return { color: 'var(--accent-green, #2ecc71)', label: 'Updated today' };
+  if (ageHrs < 72) return { color: 'var(--accent-amber, #f39c12)', label: 'Updated 1-3 days ago' };
+  return { color: 'var(--accent-red, #e74c3c)', label: 'Not updated in >3 days' };
+}
+
 // ── Main SidebarPanel ──
 
 export default function SidebarPanel({
@@ -547,13 +597,19 @@ export default function SidebarPanel({
   const [activeDomain, setActiveDomain] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [showAllTrackers, setShowAllTrackers] = useState(false);
+  const [sortKey, setSortKey] = useState<SortKey>('name');
 
   const filtered = useMemo(
     () => filterTrackers(trackers, activeDomain, searchQuery),
     [trackers, activeDomain, searchQuery],
   );
 
-  const groups = useMemo(() => groupTrackers(filtered), [filtered]);
+  const sortedFiltered = useMemo(
+    () => sortTrackers(filtered, sortKey),
+    [filtered, sortKey],
+  );
+
+  const groups = useMemo(() => groupTrackers(sortKey === 'name' ? filtered : sortedFiltered), [filtered, sortedFiltered, sortKey]);
   const domainCounts = useMemo(() => computeDomainCounts(trackers), [trackers]);
   const visibleDomains = useMemo(() => getVisibleDomains(domainCounts), [domainCounts]);
 
@@ -662,6 +718,23 @@ export default function SidebarPanel({
       {/* View mode toggle */}
       {onChangeViewMode && (
         <ViewModeToggle mode={viewMode || 'operations'} onChange={onChangeViewMode} />
+      )}
+
+      {/* Sort dropdown */}
+      {(viewMode || 'operations') !== 'geographic' && (
+        <div style={S.sortWrap}>
+          <label style={S.sortLabel}>Sort by</label>
+          <select
+            value={sortKey}
+            onChange={e => setSortKey(e.target.value as SortKey)}
+            style={S.sortSelect}
+            aria-label="Sort trackers by"
+          >
+            {SORT_OPTIONS.map(opt => (
+              <option key={opt.key} value={opt.key}>{opt.label}</option>
+            ))}
+          </select>
+        </div>
       )}
 
       {/* Domain tabs — only in domain mode */}

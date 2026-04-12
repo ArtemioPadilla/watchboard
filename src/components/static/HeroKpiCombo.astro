@@ -22,9 +22,9 @@ const cleanText = (s: string) =>
    .replace(/\s{2,}/g, ' ').trim();
 ---
 <div class="hero-kpi-combo hero-kpi-strip">
-  <h1 class="hero-kpi-headline" title={cleanText(meta.heroHeadline)}>
+  <h2 class="hero-kpi-headline" title={cleanText(meta.heroHeadline)}>
     {cleanText(meta.heroHeadline)}
-  </h1>
+  </h2>
   <div class="hero-kpi-right">
     {kpis.slice(0, 7).map(k => (
       <div class="hero-kpi-item">

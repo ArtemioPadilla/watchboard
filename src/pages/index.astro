@@ -170,7 +170,28 @@ const breakingTrackers = [...serializedTrackers]
     isBreaking: t.isBreaking,
   }));
 ---
-<BaseLayout title="Watchboard — Intelligence Dashboard Platform">
+<BaseLayout title="Watchboard — Open-Source Intelligence Dashboard for Global Conflicts, Security & Geopolitics" description="Track 48+ global events with AI-sourced intelligence — real-time maps, casualty data, contested claims, and daily digests for conflicts, politics, and security worldwide.">
+  <Fragment slot="head">
+    <script is:inline type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Watchboard",
+      "url": `${siteUrl}${basePath}`,
+      "description": "Open-source intelligence dashboard tracking 48+ global events with AI-sourced data, interactive maps, casualty tracking, and contested claims analysis.",
+      "applicationCategory": "NewsApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Artemio Padilla",
+        "url": "https://github.com/ArtemioPadilla"
+      }
+    })} />
+  </Fragment>
   <main id="main-content">
   <CommandCenter
     trackers={serializedTrackers}
