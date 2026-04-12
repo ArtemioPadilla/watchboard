@@ -1093,7 +1093,7 @@ const S = {
     padding: '8px 12px',
     borderLeft: '2px solid transparent',
     cursor: 'pointer',
-    transition: 'background 0.15s',
+    transition: 'background 0.15s, transform 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
     userSelect: 'none' as const,
     minHeight: 44, // ensure minimum touch target
   } as CSSProperties,
@@ -1159,6 +1159,44 @@ const S = {
     flexShrink: 0,
     boxShadow: '0 0 4px rgba(46,204,113,0.5)',
     animation: 'pulse 2s ease-in-out infinite',
+  } as CSSProperties,
+
+  freshnessDot: {
+    width: 6,
+    height: 6,
+    borderRadius: '50%',
+    flexShrink: 0,
+  } as CSSProperties,
+
+  sortWrap: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px',
+    padding: '4px 12px 6px',
+    flexShrink: 0,
+  } as CSSProperties,
+
+  sortLabel: {
+    fontFamily: "'JetBrains Mono', monospace",
+    fontSize: '0.48rem',
+    fontWeight: 600,
+    letterSpacing: '0.08em',
+    color: 'var(--text-muted)',
+    textTransform: 'uppercase' as const,
+    flexShrink: 0,
+  } as CSSProperties,
+
+  sortSelect: {
+    fontFamily: "'JetBrains Mono', monospace",
+    fontSize: '0.55rem',
+    color: 'var(--text-primary)',
+    background: 'var(--bg-secondary)',
+    border: '1px solid var(--border)',
+    borderRadius: 4,
+    padding: '3px 6px',
+    cursor: 'pointer',
+    outline: 'none',
+    transition: 'border-color 0.2s',
   } as CSSProperties,
 
   // Expanded row
