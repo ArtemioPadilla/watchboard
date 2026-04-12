@@ -355,7 +355,7 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
         </div>
 
         {/* Image area — carousel when paused, single image otherwise */}
-        <div className="story-image" onClick={paused ? (e: React.MouseEvent) => e.stopPropagation() : undefined}>
+        <div className="story-image">
           {paused && tracker.eventImages && tracker.eventImages.length > 1 ? (
             <div className="story-image-carousel-wrap">
               <ImageCarousel
