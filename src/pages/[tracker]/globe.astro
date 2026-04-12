@@ -56,11 +56,50 @@ const basePath = base.endsWith('/') ? base : `${base}/`;
       layoutOverrides={config.globe?.layoutOverrides}
       />
   </div>
-  <!-- Mobile users now see the 3D globe with GlobeMobileSheet for controls -->
-  <script define:vars={{ trackerSlug: config.slug }}>
+
+  <!-- Mobile mini-HUD -->
+  <div class="globe-mobile-hud" aria-hidden="true">
+    <span class="globe-mobile-hud-name">{config.shortName}</span>
+    {config.startDate && (
+      <span class="globe-mobile-hud-day" id="globe-day-count"></span>
+    )}
+  </div>
+
+  <!-- Mobile gesture hint (first visit) -->
+  <div class="globe-gesture-hint" id="globe-gesture-hint" style="display:none" role="status">
+    <div class="globe-gesture-hint-inner">
+      Pinch to zoom · Drag to rotate<br/>Pull up for events
+    </div>
+  </div>
+
+  <script define:vars={{ trackerSlug: config.slug, startDate: config.startDate ?? null }}>
     if (window.posthog) {
       window.posthog.register({ tracker_slug: trackerSlug });
       window.posthog.capture('globe_opened', { tracker_slug: trackerSlug });
+    }
+
+    // Day count for mini-HUD
+    if (startDate) {
+      const el = document.getElementById('globe-day-count');
+      if (el) {
+        const days = Math.floor((Date.now() - new Date(startDate).getTime()) / 86400000);
+        el.textContent = `DAY ${days.toLocaleString()}`;
+      }
+    }
+
+    // Gesture hint — show once per tracker on mobile
+    if (window.innerWidth <= 768) {
+      const hintKey = `globe-hint-${trackerSlug}`;
+      if (!localStorage.getItem(hintKey)) {
+        const hint = document.getElementById('globe-gesture-hint');
+        if (hint) {
+          hint.style.display = '';
+          const dismiss = () => { hint.style.display = 'none'; localStorage.setItem(hintKey, '1'); };
+          hint.addEventListener('click', dismiss);
+          hint.addEventListener('touchstart', dismiss, { passive: true });
+          setTimeout(dismiss, 3000);
+        }
+      }
     }
   </script>
   </main>

@@ -915,6 +915,12 @@ body:has(.globe-wrapper) .tooltip {
   letter-spacing: 0.04em;
 }
 
+/* Hidden on desktop — shown via mobile media query */
+.globe-mobile-hud,
+.globe-gesture-hint {
+  display: none;
+}
+
 /* ══════════════════════════════════════════════
    Mobile Responsive
    ══════════════════════════════════════════════ */
@@ -937,6 +943,79 @@ body:has(.globe-wrapper) .tooltip {
   /* Info panel — auto width inside hidden right slot */
   .globe-info-panel {
     width: auto;
+  }
+
+  /* Back + About links visible on mobile */
+  .globe-back-link,
+  .globe-about-link {
+    font-size: 0.7rem;
+    padding: 8px 12px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  /* Mini HUD — tracker name + day count */
+  .globe-mobile-hud {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 205;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 6px 12px;
+    background: rgba(10, 11, 14, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    pointer-events: none;
+  }
+  .globe-mobile-hud-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: rgba(232, 233, 237, 0.9);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .globe-mobile-hud-day {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.55rem;
+    color: rgba(231, 76, 60, 0.9);
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+
+  /* Gesture hint overlay */
+  .globe-gesture-hint {
+    position: fixed;
+    inset: 0;
+    z-index: 300;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5);
+    pointer-events: auto;
+    animation: gestureHintFade 3s ease-in-out forwards;
+  }
+  .globe-gesture-hint-inner {
+    text-align: center;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    color: rgba(232, 233, 237, 0.9);
+    line-height: 1.8;
+    padding: 20px 24px;
+    background: rgba(10, 11, 14, 0.85);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+  }
+  @keyframes gestureHintFade {
+    0%, 70% { opacity: 1; }
+    100% { opacity: 0; pointer-events: none; }
   }
 
   /* Ensure touch-friendly filter buttons */

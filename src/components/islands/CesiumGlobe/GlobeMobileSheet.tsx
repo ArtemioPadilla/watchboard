@@ -172,7 +172,7 @@ export default function GlobeMobileSheet(props: Props) {
     timelineBar,
   } = props;
 
-  const [sheetState, setSheetState] = useState<SheetState>('peek');
+  const [sheetState, setSheetState] = useState<SheetState>('half');
   const [activeTab, setActiveTab] = useState<TabId>('timeline');
   const [translateY, setTranslateY] = useState<number | null>(null); // null = snapped
   const sheetRef = useRef<HTMLDivElement>(null);
