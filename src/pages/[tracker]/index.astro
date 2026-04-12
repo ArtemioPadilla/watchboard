@@ -58,7 +58,6 @@ const basePath = base.endsWith('/') ? base : `${base}/`;
 const siteUrl = import.meta.env.SITE || 'https://watchboard.dev';
 const pageUrl = `${siteUrl}${basePath}${config.slug}/`;
 const eventCount = flatEvents.length;
-const latestDigest = data.digests[0];
 
 const faqSchema = {
   "@context": "https://schema.org",
@@ -94,7 +93,7 @@ const faqSchema = {
 
   <!-- Desktop layout -->
   <div class="desktop-layout">
-    <Header meta={data.meta} navSections={config.navSections} trackerSlug={config.slug} globeEnabled={config.globe?.enabled} statusLabel={statusLabel} />
+    <Header meta={data.meta} navSections={config.navSections} trackerSlug={config.slug} globeEnabled={config.globe?.enabled} statusLabel={statusLabel}  />
     <main id="main-content">
       <GeoBreadcrumb
         geoPath={config.geoPath}
@@ -104,18 +103,6 @@ const faqSchema = {
         city={config.city}
         neighborhood={config.neighborhood}
       />
-
-      <!-- SEO intro section -->
-      <div class="tracker-intro">
-        <p>{config.description}</p>
-        {latestDigest && (
-          <p class="tracker-latest-update">Latest: {latestDigest.summary?.slice(0, 150)}{(latestDigest.summary?.length ?? 0) > 150 ? '...' : ''}</p>
-        )}
-        <span class="tracker-meta-line">
-          Last updated {data.meta.lastUpdated ? new Date(data.meta.lastUpdated).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'recently'}
-          &middot; {eventCount} events tracked since {config.startDate}
-        </span>
-      </div>
 
       <HeroKpiCombo meta={data.meta} kpis={data.kpis} />
 
@@ -185,28 +172,6 @@ const faqSchema = {
 </BaseLayout>
 
 <style>
-  .tracker-intro {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 0.75rem 1rem;
-  }
-  .tracker-intro p {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.82rem;
-    color: var(--text-secondary);
-    line-height: 1.6;
-    margin: 0 0 0.3rem;
-  }
-  .tracker-latest-update {
-    font-style: italic;
-    opacity: 0.8;
-  }
-  .tracker-meta-line {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.65rem;
-    color: var(--text-muted);
-  }
-
   .seo-event-previews {
     max-width: 900px;
     margin: 0 auto 1.5rem;
@@ -252,5 +217,15 @@ const faqSchema = {
     font-size: 0.65rem;
     color: var(--text-muted);
     flex-shrink: 0;
+  }
+
+  /* Mobile: hide section headers to get map visible faster */
+  @media (max-width: 767px) {
+    .section-header {
+      display: none !important;
+    }
+    .map-container {
+      height: 300px !important;
+    }
   }
 </style>

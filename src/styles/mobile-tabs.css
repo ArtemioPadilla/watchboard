@@ -154,6 +154,11 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+.mtab-tab:active {
+  opacity: 0.7;
+  transform: scale(0.95);
+}
+
 .mtab-tab.active {
   color: var(--accent-red);
 }
@@ -214,6 +219,10 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+.mtab-subtab:active {
+  opacity: 0.7;
+}
+
 .mtab-subtab.active {
   color: var(--accent-red);
   border-bottom-color: var(--accent-red);
@@ -239,9 +248,25 @@
   flex-shrink: 0;
   scroll-snap-type: x proximity;
   scrollbar-width: none;
+  position: relative;
 }
 .mtab-kpi-row::-webkit-scrollbar { display: none; }
 .mtab-kpi-row > * { scroll-snap-align: start; }
+.mtab-kpi-row::after {
+  content: '\2192';
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 6px;
+  background: linear-gradient(to right, transparent, var(--bg-primary) 40%);
+  color: var(--text-muted);
+  font-size: 0.65rem;
+  pointer-events: none;
+  opacity: 0.7;
+}
 
 .mtab-kpi {
   font-size: 0.75rem;
@@ -259,6 +284,26 @@
   font-weight: 700;
 }
 
+/* ─── Headline bar ─── */
+.mtab-headline-bar {
+  padding: 6px 12px;
+  background: rgba(10, 11, 14, 0.95);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  white-space: normal;
+  max-height: 52px;
+  line-height: 1.3;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--border);
+}
+
 .mtab-map-container {
   flex: 1;
   min-height: 0;
@@ -271,8 +316,67 @@
   padding: 0;
 }
 
+.mtab-map-container .section-header { display: none; }
+.mtab-map-container .map-controls-overlay { display: none; }
+.mtab-map-container.mtab-legend-active .map-controls-overlay { display: flex; z-index: 499; }
+.mtab-map-container .leaflet-control-zoom { display: none; }
+
+/* Default: hide non-essential timeline controls */
+.mtab-map-container .utl-controls .utl-btn:not(.utl-play) { display: none; }
+.mtab-map-container .utl-controls .utl-settings { display: none; }
+.mtab-map-container .utl-controls .utl-persist { display: none; }
+.mtab-map-container .utl-clocks { display: none; }
+.mtab-map-container .utl-zoom-controls { display: none; }
+
+/* When expanded, show them */
+.mtab-map-container.mtab-controls-expanded .utl-controls .utl-btn:not(.utl-play) { display: inline-flex; }
+.mtab-map-container.mtab-controls-expanded .utl-controls .utl-settings { display: flex; }
+.mtab-map-container.mtab-controls-expanded .utl-controls .utl-persist { display: inline-flex; }
+.mtab-map-container.mtab-controls-expanded .utl-clocks { display: flex; }
+.mtab-map-container.mtab-controls-expanded .utl-zoom-controls { display: flex; }
+
+.mtab-legend-toggle {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 10px;
+  background: rgba(10, 11, 14, 0.9);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-secondary);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.mtab-legend-toggle:active { opacity: 0.8; }
+
+.mtab-timeline-expand {
+  position: absolute;
+  bottom: 90px;
+  right: 12px;
+  z-index: 500;
+  padding: 2px 8px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text-muted);
+  font-size: 0.6rem;
+  font-family: 'JetBrains Mono', monospace;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.mtab-timeline-expand:active { opacity: 0.7; }
+
 .mtab-map-container .map-container {
-  height: 100% !important;
+  height: calc(100% - 120px) !important;
 }
 
 .mtab-3d-placeholder {
@@ -482,6 +586,14 @@
   grid-template-columns: 1fr 1fr;
   gap: 8px;
   margin-bottom: 12px;
+  overflow: hidden;
+}
+
+@media (max-width: 420px) {
+  .mtab-kpi-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
 }
 
 @media (max-width: 360px) {
@@ -495,6 +607,8 @@
   padding: 10px;
   border-radius: 6px;
   border-left: 3px solid var(--border);
+  overflow: hidden;
+  min-width: 0;
 }
 
 .mtab-kpi-card.red   { border-left-color: var(--accent-red); }
@@ -509,6 +623,9 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-bottom: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .mtab-kpi-card-value {
@@ -517,6 +634,9 @@
   font-weight: 700;
   line-height: 1.2;
   color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .mtab-kpi-card-source {
@@ -535,17 +655,25 @@
   background: var(--bg-card);
   border-radius: 4px;
   margin-bottom: 3px;
+  gap: 8px;
+  overflow: hidden;
 }
 
 .mtab-data-row-label {
   font-size: 0.8rem;
   color: var(--text-secondary);
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .mtab-data-row-value {
   font-size: 0.8rem;
   color: var(--accent-red);
   font-weight: 600;
+  flex-shrink: 0;
+  text-align: right;
 }
 
 .mtab-econ-card {
@@ -919,6 +1047,11 @@
 }
 
 /* ─── Floating map event card (#6) ─── */
+@keyframes mtabCardPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.3); }
+  50% { box-shadow: 0 0 0 4px rgba(231, 76, 60, 0); }
+}
+
 .mtab-map-event-card {
   position: absolute;
   bottom: 12px;
@@ -927,18 +1060,18 @@
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  padding: 10px 12px;
-  background: rgba(10, 11, 14, 0.92);
-  backdrop-filter: blur(8px);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  z-index: 450; /* I6 fix: above Leaflet controls (z-index ~400) */
-  animation: mtabSlideUp 0.3s ease-out;
+  padding: 16px;
+  background: rgba(10, 11, 14, 0.95);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(231, 76, 60, 0.35);
+  border-radius: 10px;
+  z-index: 450;
+  animation: mtabSlideUp 0.3s ease-out, mtabCardPulse 2.5s ease-in-out 1s infinite;
 }
 
 .mtab-map-event-dot {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   flex-shrink: 0;
   margin-top: 4px;
@@ -950,16 +1083,21 @@
 }
 
 .mtab-map-event-type {
-  font-size: 0.55rem;
+  font-size: 0.6rem;
   font-family: 'JetBrains Mono', monospace;
-  color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-bottom: 2px;
+  margin-bottom: 3px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 3px;
+  background: rgba(255, 170, 0, 0.15);
+  color: var(--accent-amber);
+  display: inline-block;
 }
 
 .mtab-map-event-title {
-  font-size: 0.8rem;
+  font-size: 1rem;
   color: var(--text-primary);
   font-family: 'Cormorant Garamond', serif;
   font-weight: 600;
@@ -980,6 +1118,45 @@
   cursor: pointer;
   flex-shrink: 0;
   -webkit-tap-highlight-color: transparent;
+}
+
+/* ─── Active tab indicator line ─── */
+.mtab-tab-indicator {
+  position: absolute;
+  top: 0;
+  left: 25%;
+  right: 25%;
+  height: 2px;
+  background: var(--accent-red);
+  border-radius: 0 0 2px 2px;
+}
+
+/* ─── Coach mark overlay ─── */
+.mtab-coach-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  animation: mtabFadeIn 0.3s ease;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mtab-coach-text {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1rem;
+  color: #fff;
+  text-align: center;
+  line-height: 1.6;
+  max-width: 300px;
+}
+
+.mtab-coach-text strong {
+  color: var(--accent-red);
 }
 
 /* ─── Responsive layout switches ─── */

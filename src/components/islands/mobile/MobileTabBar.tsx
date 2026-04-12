@@ -15,10 +15,10 @@ interface Props {
 }
 
 const TABS: TabDef[] = [
-  { id: 'map',   icon: '◎', label: 'MAP'  },
-  { id: 'feed',  icon: '◉', label: 'FEED' },
-  { id: 'data',  icon: '▤', label: 'DATA' },
-  { id: 'intel', icon: '☷', label: 'INTEL' },
+  { id: 'map',   icon: '🗺️', label: 'Map'  },
+  { id: 'feed',  icon: '📰', label: 'Feed' },
+  { id: 'data',  icon: '📊', label: 'Data' },
+  { id: 'intel', icon: '💬', label: 'Intel' },
 ];
 
 export default function MobileTabBar({ activeTab, onTabChange, feedBadge }: Props) {
@@ -36,6 +36,7 @@ export default function MobileTabBar({ activeTab, onTabChange, feedBadge }: Prop
         >
           <span className="mtab-tab-icon">{tab.icon}</span>
           <span className="mtab-tab-label">{tab.label}</span>
+          {activeTab === tab.id && <span className="mtab-tab-indicator" />}
           {tab.id === 'feed' && feedBadge != null && feedBadge > 0 && (
             <span className="mtab-badge">{feedBadge}</span>
           )}

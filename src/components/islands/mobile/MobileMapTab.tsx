@@ -1,5 +1,5 @@
 // src/components/islands/mobile/MobileMapTab.tsx
-import { useState, useMemo, lazy, Suspense, Component, type ReactNode } from 'react';
+import { useState, useMemo, useCallback, lazy, Suspense, Component, type ReactNode } from 'react';
 import IntelMap from '../IntelMap';
 import { eventTypeColor } from '../../../lib/event-utils';
 import type { MapPoint, MapLine, KpiItem, Meta } from '../../../lib/schemas';
@@ -48,6 +48,11 @@ export default function MobileMapTab({
   const topKpis = kpis.slice(0, 5);
   const [globeState, setGlobeState] = useState<GlobeState>('prompt');
   const [cardDismissed, setCardDismissed] = useState(false);
+  const [legendOpen, setLegendOpen] = useState(false);
+  const [controlsExpanded, setControlsExpanded] = useState(false);
+
+  const toggleLegend = useCallback(() => setLegendOpen(prev => !prev), []);
+  const toggleControls = useCallback(() => setControlsExpanded(prev => !prev), []);
 
   // Latest event for floating card (#6)
   const latestEvent = useMemo(() => {
@@ -77,8 +82,26 @@ export default function MobileMapTab({
         </div>
       )}
 
+      {meta?.heroHeadline && (
+        <div className="mtab-headline-bar">{meta.heroHeadline}</div>
+      )}
+
       {mode === '2d' ? (
-        <div className="mtab-map-container">
+        <div className={`mtab-map-container${legendOpen ? ' mtab-legend-active' : ''}${controlsExpanded ? ' mtab-controls-expanded' : ''}`}>
+          <button
+            className="mtab-legend-toggle"
+            onClick={toggleLegend}
+            aria-label={legendOpen ? 'Hide legend' : 'Show legend'}
+          >
+            {legendOpen ? '\u2715' : '\u2630'} Layers
+          </button>
+          <button
+            className="mtab-timeline-expand"
+            onClick={toggleControls}
+            aria-label={controlsExpanded ? 'Collapse timeline controls' : 'Expand timeline controls'}
+          >
+            {controlsExpanded ? '\u25B2 Less' : '\u25BC More'}
+          </button>
           <IntelMap
             points={points}
             lines={lines}

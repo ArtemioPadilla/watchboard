@@ -1,5 +1,5 @@
 // src/components/islands/mobile/MobileTabShell.tsx
-import { useState, useMemo, useCallback, useRef } from 'react';
+import { useState, useMemo, useCallback, useRef, useEffect } from 'react';
 import MobileHeader from './MobileHeader';
 import MobileTabBar, { type MobileTab } from './MobileTabBar';
 import MobileMapTab from './MobileMapTab';
@@ -50,8 +50,18 @@ interface Props {
 }
 
 export default function MobileTabShell(props: Props) {
-  const [activeTab, setActiveTab] = useState<MobileTab>('map');
+  const [activeTab, setActiveTab] = useState<MobileTab>('feed');
   const [mapMode, setMapMode] = useState<'2d' | '3d'>(props.initialMapMode ?? '2d');
+  const [showCoach, setShowCoach] = useState(false);
+
+  // Coach mark: show once per tracker on first visit
+  useEffect(() => {
+    const key = `mtab-coach-${props.trackerSlug}`;
+    if (!localStorage.getItem(key)) {
+      setShowCoach(true);
+      localStorage.setItem(key, '1');
+    }
+  }, [props.trackerSlug]);
 
   const toggleMapMode = useCallback(() => {
     setMapMode(prev => (prev === '2d' ? '3d' : '2d'));
@@ -192,6 +202,15 @@ export default function MobileTabShell(props: Props) {
         onTabChange={handleTabChange}
         feedBadge={feedBadge}
       />
+
+      {showCoach && (
+        <div className="mtab-coach-overlay" onClick={() => setShowCoach(false)}>
+          <div className="mtab-coach-text">
+            Explore the <strong>{props.operationName}</strong> tracker.<br />
+            Tap map points for events. Swipe tabs below.
+          </div>
+        </div>
+      )}
     </div>
   );
 }
