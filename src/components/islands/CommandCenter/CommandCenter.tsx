@@ -443,7 +443,7 @@ export default function CommandCenter({
                 href="https://github.com/ArtemioPadilla/watchboard"
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ color: 'var(--text-muted, #8b949e)', opacity: 0.7, display: 'inline-flex', alignItems: 'center' }}
+                style={{ color: 'var(--text-muted, #8b949e)', opacity: 0.7, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minWidth: '44px', minHeight: '44px' }}
                 title="View on GitHub"
                 aria-label="View on GitHub"
               >
@@ -453,7 +453,7 @@ export default function CommandCenter({
                 href="https://github.com/sponsors/ArtemioPadilla"
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ color: 'var(--accent-pink, #f778ba)', opacity: 0.8, display: 'inline-flex', alignItems: 'center', gap: '2px', fontFamily: "'JetBrains Mono', monospace", fontSize: '0.5rem', fontWeight: 600, textDecoration: 'none' }}
+                style={{ color: 'var(--accent-pink, #f778ba)', opacity: 0.8, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '2px', fontFamily: "'JetBrains Mono', monospace", fontSize: '0.5rem', fontWeight: 600, textDecoration: 'none', minWidth: '44px', minHeight: '44px' }}
                 title="Support this project"
                 aria-label="Support this project"
               >

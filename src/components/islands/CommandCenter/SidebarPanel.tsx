@@ -546,6 +546,7 @@ export default function SidebarPanel({
 }: Props) {
   const [activeDomain, setActiveDomain] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [showAllTrackers, setShowAllTrackers] = useState(false);
 
   const filtered = useMemo(
     () => filterTrackers(trackers, activeDomain, searchQuery),
@@ -712,46 +713,89 @@ export default function SidebarPanel({
             {filtered.length === 0 ? (
               <div style={S.noResults}>{t('cc.noResults', locale)}</div>
             ) : (
-              groups.map(group => {
-                // Render series groups as horizontal strips
-                if (group.type === 'series') {
-                  return (
-                    <SeriesStrip
-                      key={`series-${group.label}`}
-                      group={group}
-                      basePath={basePath}
-                      activeTracker={activeTracker}
-                      hoveredTracker={hoveredTracker}
-                      onSelect={onSelectTracker}
-                      onHover={onHoverTracker}
-                    />
-                  );
-                }
+              (() => {
+                const MOBILE_LIMIT = 15;
+                let rowCount = 0;
+                const shouldLimit = isMobile && !showAllTrackers && !isSearching;
+                const totalRows = groups.reduce((sum, g) => sum + g.trackers.length, 0);
+
                 return (
-                  <div key={`${group.type}-${group.label}`}>
-                    <div style={S.groupHeader(group.type)}>
-                      {group.labelIcon && <span style={S.groupIcon(group.type)}>{group.labelIcon}</span>}
-                      <span>{group.label.toUpperCase()}</span>
-                    </div>
-                    {group.trackers.map(t => (
-                      <TrackerRow
-                        key={t.slug}
-                        tracker={t}
-                        basePath={basePath}
-                        isActive={activeTracker === t.slug}
-                        isHovered={hoveredTracker === t.slug}
-                        isFollowed={followedSlugs.includes(t.slug)}
-                        isCompared={compareSlugs.includes(t.slug)}
-                        onSelect={onSelectTracker}
-                        onHover={onHoverTracker}
-                        onToggleFollow={onToggleFollow}
-                        onToggleCompare={onToggleCompare}
-                        locale={locale}
-                      />
-                    ))}
-                  </div>
+                  <>
+                    {groups.map(group => {
+                      if (shouldLimit && rowCount >= MOBILE_LIMIT) return null;
+
+                      // Render series groups as horizontal strips
+                      if (group.type === 'series') {
+                        rowCount += group.trackers.length;
+                        return (
+                          <SeriesStrip
+                            key={`series-${group.label}`}
+                            group={group}
+                            basePath={basePath}
+                            activeTracker={activeTracker}
+                            hoveredTracker={hoveredTracker}
+                            onSelect={onSelectTracker}
+                            onHover={onHoverTracker}
+                          />
+                        );
+                      }
+
+                      const trackersToRender = shouldLimit
+                        ? group.trackers.slice(0, MOBILE_LIMIT - rowCount)
+                        : group.trackers;
+                      rowCount += trackersToRender.length;
+
+                      return (
+                        <div key={`${group.type}-${group.label}`}>
+                          <div style={S.groupHeader(group.type)}>
+                            {group.labelIcon && <span style={S.groupIcon(group.type)}>{group.labelIcon}</span>}
+                            <span>{group.label.toUpperCase()}</span>
+                          </div>
+                          {trackersToRender.map(t => (
+                            <TrackerRow
+                              key={t.slug}
+                              tracker={t}
+                              basePath={basePath}
+                              isActive={activeTracker === t.slug}
+                              isHovered={hoveredTracker === t.slug}
+                              isFollowed={followedSlugs.includes(t.slug)}
+                              isCompared={compareSlugs.includes(t.slug)}
+                              onSelect={onSelectTracker}
+                              onHover={onHoverTracker}
+                              onToggleFollow={onToggleFollow}
+                              onToggleCompare={onToggleCompare}
+                              locale={locale}
+                            />
+                          ))}
+                        </div>
+                      );
+                    })}
+                    {shouldLimit && totalRows > MOBILE_LIMIT && (
+                      <button
+                        type="button"
+                        onClick={() => setShowAllTrackers(true)}
+                        style={{
+                          display: 'block',
+                          width: '100%',
+                          padding: '12px 0',
+                          margin: '8px 0',
+                          background: 'rgba(88,166,255,0.08)',
+                          border: '1px solid rgba(88,166,255,0.2)',
+                          borderRadius: '6px',
+                          color: 'var(--accent-blue, #58a6ff)',
+                          fontFamily: "'JetBrains Mono', monospace",
+                          fontSize: '0.72rem',
+                          fontWeight: 600,
+                          letterSpacing: '0.04em',
+                          cursor: 'pointer',
+                        }}
+                      >
+                        Show all {totalRows} trackers
+                      </button>
+                    )}
+                  </>
                 );
-              })
+              })()
             )}
           </>
         )}

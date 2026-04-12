@@ -74,7 +74,11 @@
     gap: 4px;
   }
 
-  .globe-slot--top-left,
+  .globe-slot--top-left {
+    display: flex !important;
+    gap: 6px;
+    z-index: 210;
+  }
   .globe-slot--top-right,
   .globe-slot--left,
   .globe-slot--right,
