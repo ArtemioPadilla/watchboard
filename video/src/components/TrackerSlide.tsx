@@ -6,15 +6,11 @@ import {
   interpolate,
   spring,
 } from 'remotion';
-import type { BreakingTracker, GeoFeature } from '../data/types';
-import { CanvasGlobe } from './CanvasGlobe';
+import type { BreakingTracker } from '../data/types';
 
 interface TrackerSlideProps {
   tracker: BreakingTracker;
   accentColor: string;
-  /** Absolute frame where this slide starts in the composition */
-  slideStartFrame: number;
-  geoFeatures?: GeoFeature[];
 }
 
 const TIER_LABELS: Record<number, string> = {
@@ -44,29 +40,45 @@ function stripEmoji(text: string): string {
 export const TrackerSlide: React.FC<TrackerSlideProps> = ({
   tracker,
   accentColor,
-  geoFeatures,
 }) => {
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
+  const { fps, durationInFrames } = useVideoConfig();
 
-  // --- Spring animations with staggered delays ---
+  // --- Enter: slide up from bottom (first 15 frames) ---
+  const enterSpring = spring({
+    frame,
+    fps,
+    config: { damping: 14, stiffness: 120, mass: 0.8 },
+    durationInFrames: 20,
+  });
+  const enterY = interpolate(enterSpring, [0, 1], [120, 0]);
+  const enterOpacity = interpolate(enterSpring, [0, 1], [0, 1]);
 
-  // Tracker name (delay 0)
+  // --- Exit: slide down (last 15 frames) ---
+  const exitStart = durationInFrames - 15;
+  const exitProgress = interpolate(frame, [exitStart, durationInFrames], [0, 1], {
+    extrapolateLeft: 'clamp',
+    extrapolateRight: 'clamp',
+  });
+  const exitY = interpolate(exitProgress, [0, 1], [0, 80]);
+  const exitOpacity = interpolate(exitProgress, [0, 1], [1, 0]);
+
+  const translateY = enterY + exitY;
+  const opacity = enterOpacity * exitOpacity;
+
+  // --- Staggered content animations ---
   const nameSpring = spring({
     frame,
     fps,
     config: { damping: 14, stiffness: 120, mass: 0.8 },
   });
-  const nameOpacity = interpolate(nameSpring, [0, 1], [0, 1]);
   const nameY = interpolate(nameSpring, [0, 1], [20, 0]);
 
-  // Accent line (delay ~10)
   const lineWidth = interpolate(frame, [10, 40], [0, 200], {
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
   });
 
-  // Headline (delay ~20)
   const headlineSpring = spring({
     frame: Math.max(0, frame - 20),
     fps,
@@ -75,7 +87,6 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
   const headlineOpacity = interpolate(headlineSpring, [0, 1], [0, 1]);
   const headlineY = interpolate(headlineSpring, [0, 1], [30, 0]);
 
-  // KPI (delay ~35)
   const kpiSpring = spring({
     frame: Math.max(0, frame - 35),
     fps,
@@ -84,19 +95,12 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
   const kpiOpacity = interpolate(kpiSpring, [0, 1], [0, 1]);
   const kpiScale = interpolate(kpiSpring, [0, 1], [0.8, 1]);
 
-  // Source badge (delay ~50)
   const sourceSpring = spring({
     frame: Math.max(0, frame - 50),
     fps,
     config: { damping: 18, stiffness: 140, mass: 0.6 },
   });
   const sourceOpacity = interpolate(sourceSpring, [0, 1], [0, 1]);
-
-  // Exit fade (frames 135-149)
-  const exitOpacity = interpolate(frame, [135, 149], [1, 0], {
-    extrapolateLeft: 'clamp',
-    extrapolateRight: 'clamp',
-  });
 
   // Accent strip glow pulse
   const glowIntensity = interpolate(
@@ -110,7 +114,12 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
   const kpiDisplay = `${tracker.kpiPrefix ?? ''}${tracker.kpiValue}${tracker.kpiSuffix ?? ''}`;
 
   return (
-    <AbsoluteFill style={{ opacity: exitOpacity }}>
+    <AbsoluteFill
+      style={{
+        opacity,
+        transform: `translateY(${translateY}px)`,
+      }}
+    >
       {/* Left accent strip with glow */}
       <div
         style={{
@@ -124,167 +133,137 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
         }}
       />
 
-      {/* Content area — globe top 40%, text bottom 60% */}
+      {/* Text content — positioned in bottom 55% to leave room for globe */}
       <div
         style={{
           position: 'absolute',
-          top: 0,
+          top: '45%',
           left: 0,
           right: 0,
           bottom: 0,
+          paddingRight: 60,
+          paddingBottom: 100,
+          paddingLeft: 80,
           display: 'flex',
           flexDirection: 'column',
         }}
       >
-        {/* Globe section — top 40% */}
+        {/* Tracker name */}
         <div
           style={{
-            height: '40%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
+            transform: `translateY(${nameY}px)`,
+            fontFamily: "'JetBrains Mono', monospace",
+            fontSize: 28,
+            fontWeight: 700,
+            color: accentColor,
+            letterSpacing: '3px',
+            textTransform: 'uppercase',
           }}
         >
-          <CanvasGlobe
-            width={450}
-            height={450}
-            center={{ lat: tracker.mapCenter[0], lon: tracker.mapCenter[1] }}
-            accentColor={accentColor}
-            geoFeatures={geoFeatures ?? []}
-          />
+          {displayName}
         </div>
 
-        {/* Text section — bottom 60% */}
+        {/* Accent line */}
+        <div
+          style={{
+            width: lineWidth,
+            height: 3,
+            background: accentColor,
+            marginTop: 12,
+            marginBottom: 24,
+            borderRadius: 2,
+            boxShadow: `0 0 8px ${accentColor}80`,
+          }}
+        />
+
+        {/* Headline */}
+        <div
+          style={{
+            opacity: headlineOpacity,
+            transform: `translateY(${headlineY}px)`,
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: 44,
+            fontWeight: 700,
+            color: '#e8e9ed',
+            lineHeight: 1.25,
+            maxWidth: 900,
+          }}
+        >
+          {displayHeadline}
+        </div>
+
+        {/* KPI section */}
         <div
           style={{
             flex: 1,
-            paddingRight: 60,
-            paddingBottom: 100,
-            paddingLeft: 80,
             display: 'flex',
             flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            opacity: kpiOpacity,
+            transform: `scale(${kpiScale})`,
           }}
         >
-          {/* Tracker name */}
           <div
             style={{
-              opacity: nameOpacity,
-              transform: `translateY(${nameY}px)`,
               fontFamily: "'JetBrains Mono', monospace",
-              fontSize: 28,
+              fontSize: 18,
+              fontWeight: 500,
+              color: '#9498a8',
+              letterSpacing: '2px',
+              textTransform: 'uppercase',
+              marginBottom: 8,
+            }}
+          >
+            {tracker.kpiLabel}
+          </div>
+
+          <div
+            style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 80,
               fontWeight: 700,
               color: accentColor,
-              letterSpacing: '3px',
-              textTransform: 'uppercase',
+              lineHeight: 1,
+              textShadow: `0 0 40px ${accentColor}60, 0 0 80px ${accentColor}30`,
             }}
           >
-            {displayName}
+            {kpiDisplay}
           </div>
+        </div>
 
-          {/* Accent line */}
+        {/* Source tier badge */}
+        <div
+          style={{
+            opacity: sourceOpacity,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 10,
+          }}
+        >
           <div
             style={{
-              width: lineWidth,
-              height: 3,
               background: accentColor,
-              marginTop: 12,
-              marginBottom: 24,
-              borderRadius: 2,
-              boxShadow: `0 0 8px ${accentColor}80`,
-            }}
-          />
-
-          {/* Headline */}
-          <div
-            style={{
-              opacity: headlineOpacity,
-              transform: `translateY(${headlineY}px)`,
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: 44,
-              fontWeight: 700,
-              color: '#e8e9ed',
-              lineHeight: 1.25,
-              maxWidth: 900,
+              borderRadius: 4,
+              padding: '4px 12px',
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: 14,
+              fontWeight: 600,
+              color: '#0a0b0e',
+              letterSpacing: '1px',
             }}
           >
-            {displayHeadline}
+            {TIER_LABELS[tracker.sourceTier] ?? 'TIER 2'}
           </div>
-
-          {/* KPI section */}
-          <div
+          <span
             style={{
-              flex: 1,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              opacity: kpiOpacity,
-              transform: `scale(${kpiScale})`,
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: 16,
+              color: '#9498a8',
             }}
           >
-            {/* KPI label */}
-            <div
-              style={{
-                fontFamily: "'JetBrains Mono', monospace",
-                fontSize: 18,
-                fontWeight: 500,
-                color: '#9498a8',
-                letterSpacing: '2px',
-                textTransform: 'uppercase',
-                marginBottom: 8,
-              }}
-            >
-              {tracker.kpiLabel}
-            </div>
-
-            {/* KPI value */}
-            <div
-              style={{
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize: 80,
-                fontWeight: 700,
-                color: accentColor,
-                lineHeight: 1,
-                textShadow: `0 0 40px ${accentColor}60, 0 0 80px ${accentColor}30`,
-              }}
-            >
-              {kpiDisplay}
-            </div>
-          </div>
-
-          {/* Source tier badge */}
-          <div
-            style={{
-              opacity: sourceOpacity,
-              display: 'flex',
-              alignItems: 'center',
-              gap: 10,
-            }}
-          >
-            <div
-              style={{
-                background: accentColor,
-                borderRadius: 4,
-                padding: '4px 12px',
-                fontFamily: "'JetBrains Mono', monospace",
-                fontSize: 14,
-                fontWeight: 600,
-                color: '#0a0b0e',
-                letterSpacing: '1px',
-              }}
-            >
-              {TIER_LABELS[tracker.sourceTier] ?? 'TIER 2'}
-            </div>
-            <span
-              style={{
-                fontFamily: "'JetBrains Mono', monospace",
-                fontSize: 16,
-                color: '#9498a8',
-              }}
-            >
-              {tracker.sourceLabel}
-            </span>
-          </div>
+            {tracker.sourceLabel}
+          </span>
         </div>
       </div>
     </AbsoluteFill>

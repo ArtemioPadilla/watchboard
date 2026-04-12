@@ -1,14 +1,15 @@
 import React, { useRef, useEffect } from 'react';
-import { useCurrentFrame, useVideoConfig, spring, interpolate } from 'remotion';
+import { interpolate, spring } from 'remotion';
 import type { GeoFeature } from '../data/types';
 
 interface CanvasGlobeProps {
   width: number;
   height: number;
-  center?: { lat: number; lon: number };
-  accentColor?: string;
-  rotationOffset?: number;
   geoFeatures: GeoFeature[];
+  trackers: Array<{ mapCenter: [number, number] }>;
+  activeTrackerIndex: number; // -1 for intro/outro
+  globalFrame: number; // absolute frame for continuous rotation
+  accentColor?: string;
 }
 
 // ---------------------------------------------------------------------------
@@ -16,6 +17,7 @@ interface CanvasGlobeProps {
 // ---------------------------------------------------------------------------
 
 const DEG_TO_RAD = Math.PI / 180;
+const FPS = 30;
 
 interface ProjectedPoint {
   x: number;
@@ -52,6 +54,45 @@ function projectOrthographic(
     y: cy - y,
     visible: cosc > 0,
   };
+}
+
+// ---------------------------------------------------------------------------
+// Globe center interpolation — smooth rotation between trackers
+// ---------------------------------------------------------------------------
+
+function computeGlobeCenter(
+  trackers: Array<{ mapCenter: [number, number] }>,
+  activeTrackerIndex: number,
+  globalFrame: number,
+): { lon: number; lat: number } {
+  const baseRotation = globalFrame * 0.3; // slow continuous rotation
+
+  if (activeTrackerIndex < 0 || trackers.length === 0) {
+    // Intro/outro: free rotation, slight tilt
+    return {
+      lon: baseRotation,
+      lat: interpolate(Math.sin(globalFrame * 0.02), [-1, 1], [-10, 10]),
+    };
+  }
+
+  const target = trackers[activeTrackerIndex];
+  const targetLat = target.mapCenter[0];
+  const targetLon = target.mapCenter[1];
+
+  // Spring toward target position
+  // We use a manual spring approximation based on frames since tracker became active
+  const springVal = spring({
+    frame: globalFrame,
+    fps: FPS,
+    config: { damping: 22, stiffness: 40, mass: 1.5 },
+    durationInFrames: 60,
+  });
+
+  // Blend from base rotation toward target
+  const lon = interpolate(springVal, [0, 1], [baseRotation, targetLon]);
+  const lat = interpolate(springVal, [0, 1], [0, targetLat]);
+
+  return { lon, lat };
 }
 
 // ---------------------------------------------------------------------------
@@ -99,7 +140,6 @@ function drawGridLines(
   ctx.strokeStyle = 'rgba(21, 25, 34, 0.5)';
   ctx.lineWidth = 0.8;
 
-  // Latitude lines every 30 degrees
   for (let lat = -60; lat <= 60; lat += 30) {
     ctx.beginPath();
     let started = false;
@@ -119,7 +159,6 @@ function drawGridLines(
     ctx.stroke();
   }
 
-  // Longitude lines every 30 degrees
   for (let lon = -180; lon < 180; lon += 30) {
     ctx.beginPath();
     let started = false;
@@ -140,7 +179,6 @@ function drawGridLines(
   }
 }
 
-/** Check if a ring's centroid is on the visible hemisphere */
 function isRingVisible(
   ring: number[][],
   centerLon: number,
@@ -162,7 +200,7 @@ function isRingVisible(
   const cosc =
     Math.sin(phi0) * Math.sin(phi) +
     Math.cos(phi0) * Math.cos(phi) * Math.cos(lambda);
-  return cosc > -0.1; // slightly generous to avoid popping
+  return cosc > -0.1;
 }
 
 function drawCountries(
@@ -174,7 +212,6 @@ function drawCountries(
   cx: number,
   cy: number,
 ): void {
-  // Batch all country fills into one path, then all strokes into another
   ctx.beginPath();
   for (const feature of features) {
     const { geometry } = feature;
@@ -183,10 +220,9 @@ function drawCountries(
     if (geometry.type === 'Polygon') {
       rings = geometry.coordinates as number[][][];
     } else if (geometry.type === 'MultiPolygon') {
-      // Flatten MultiPolygon to list of rings (outer rings only)
       rings = [];
       for (const polygon of geometry.coordinates as number[][][][]) {
-        rings.push(polygon[0]); // outer ring only
+        rings.push(polygon[0]);
       }
     } else {
       continue;
@@ -213,7 +249,6 @@ function drawCountries(
   ctx.fillStyle = '#1a2535';
   ctx.fill();
 
-  // Stroke pass — thinner lines for country borders
   ctx.beginPath();
   for (const feature of features) {
     const { geometry } = feature;
@@ -244,7 +279,7 @@ function drawCountries(
             ctx.lineTo(p.x, p.y);
           }
         } else {
-          started = false; // break stroke on hidden points
+          started = false;
         }
       }
     }
@@ -269,7 +304,6 @@ function drawPulsingDot(
   const p = projectOrthographic(targetLon, targetLat, centerLon, centerLat, radius, cx, cy);
   if (!p.visible) return;
 
-  // Three expanding concentric rings
   for (let i = 0; i < 3; i++) {
     const phase = ((frame * 0.06) + (i * 0.33)) % 1;
     const ringRadius = 4 + phase * 28;
@@ -284,7 +318,6 @@ function drawPulsingDot(
     ctx.globalAlpha = 1;
   }
 
-  // Glow
   const glowGradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, 10);
   glowGradient.addColorStop(0, accentColor);
   glowGradient.addColorStop(1, 'transparent');
@@ -295,13 +328,11 @@ function drawPulsingDot(
   ctx.fill();
   ctx.globalAlpha = 1;
 
-  // Solid center dot
   ctx.beginPath();
   ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
   ctx.fillStyle = accentColor;
   ctx.fill();
 
-  // Bright core
   ctx.beginPath();
   ctx.arc(p.x, p.y, 1.8, 0, Math.PI * 2);
   ctx.fillStyle = '#ffffff';
@@ -315,14 +346,13 @@ function drawPulsingDot(
 export const CanvasGlobe: React.FC<CanvasGlobeProps> = ({
   width,
   height,
-  center,
-  accentColor = '#e74c3c',
-  rotationOffset = 0,
   geoFeatures,
+  trackers,
+  activeTrackerIndex,
+  globalFrame,
+  accentColor = '#e74c3c',
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
 
   const dpr = Math.min(typeof window !== 'undefined' ? window.devicePixelRatio : 1, 2);
 
@@ -344,36 +374,26 @@ export const CanvasGlobe: React.FC<CanvasGlobeProps> = ({
     const cy = height / 2;
     const radius = Math.min(width, height) * 0.42;
 
-    // Compute rotation
-    const defaultLon = frame * 0.5 + rotationOffset;
-    let centerLon = defaultLon;
-    let centerLat = 0;
-
-    if (center) {
-      const springValue = spring({
-        frame,
-        fps,
-        config: { damping: 20, stiffness: 60, mass: 1.2 },
-        durationInFrames: 40,
-      });
-
-      centerLon = interpolate(springValue, [0, 1], [defaultLon, center.lon]);
-      centerLat = interpolate(springValue, [0, 1], [0, center.lat]);
-    }
+    // Compute globe center via smooth interpolation
+    const { lon: rawLon, lat: centerLat } = computeGlobeCenter(
+      trackers,
+      activeTrackerIndex,
+      globalFrame,
+    );
 
     // Normalize centerLon to [-180, 180]
-    centerLon = ((centerLon % 360) + 540) % 360 - 180;
+    const centerLon = ((rawLon % 360) + 540) % 360 - 180;
 
     // Clear
     ctx.clearRect(0, 0, width, height);
 
-    // 1. Atmosphere glow (behind globe)
+    // 1. Atmosphere glow
     drawAtmosphere(ctx, cx, cy, radius);
 
     // 2. Ocean fill
     drawOcean(ctx, cx, cy, radius);
 
-    // Clip to globe circle for grid and countries
+    // Clip to globe circle
     ctx.save();
     ctx.beginPath();
     ctx.arc(cx, cy, radius, 0, Math.PI * 2);
@@ -382,36 +402,37 @@ export const CanvasGlobe: React.FC<CanvasGlobeProps> = ({
     // 3. Grid lines
     drawGridLines(ctx, centerLon, centerLat, radius, cx, cy);
 
-    // 4. Country polygons from GeoJSON
+    // 4. Country polygons
     if (geoFeatures.length > 0) {
       drawCountries(ctx, geoFeatures, centerLon, centerLat, radius, cx, cy);
     }
 
     ctx.restore();
 
-    // Subtle rim highlight
+    // Rim highlight
     ctx.beginPath();
     ctx.arc(cx, cy, radius, 0, Math.PI * 2);
     ctx.strokeStyle = 'rgba(52, 152, 219, 0.15)';
     ctx.lineWidth = 1.5;
     ctx.stroke();
 
-    // 5. Pulsing dot
-    if (center) {
+    // 5. Pulsing dot at active tracker location
+    if (activeTrackerIndex >= 0 && activeTrackerIndex < trackers.length) {
+      const target = trackers[activeTrackerIndex];
       drawPulsingDot(
         ctx,
         centerLon,
         centerLat,
-        center.lat,
-        center.lon,
+        target.mapCenter[0],
+        target.mapCenter[1],
         radius,
         cx,
         cy,
-        frame,
+        globalFrame,
         accentColor,
       );
     }
-  }, [frame, width, height, center, accentColor, rotationOffset, fps, dpr, geoFeatures]);
+  }, [globalFrame, width, height, geoFeatures, trackers, activeTrackerIndex, accentColor, dpr]);
 
   return (
     <canvas

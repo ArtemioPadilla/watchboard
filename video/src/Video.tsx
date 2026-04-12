@@ -8,6 +8,7 @@ import {
   staticFile,
 } from 'remotion';
 import { Background } from './components/Background';
+import { CanvasGlobe } from './components/CanvasGlobe';
 import { Intro } from './components/Intro';
 import { TrackerSlide } from './components/TrackerSlide';
 import { Outro } from './components/Outro';
@@ -19,12 +20,11 @@ import { SLIDE_ACCENTS, SAMPLE_DATA } from './data/types';
  *
  * Intro:     0-89    (3s)
  * Tracker 1: 90-239  (5s)
- * Tracker 2: 240-389 (5s)
+ * Tracker 2: 240-389 (5s)  — globe ROTATES to new location (this IS the transition)
  * Tracker 3: 390-539 (5s)
  * Outro:     540-689 (5s)
  *
  * Total: 690 frames = 23s at 30fps
- * If fewer than 3 trackers, shorten proportionally.
  */
 
 const INTRO_FRAMES = 90;
@@ -42,7 +42,41 @@ export const Video: React.FC<VideoProps> = ({ data, narrationSrc, geoFeatures = 
   const frame = useCurrentFrame();
 
   const trackerCount = Math.min(breakingData.trackers.length, 3);
-  const totalFrames = INTRO_FRAMES + trackerCount * SLIDE_FRAMES + OUTRO_FRAMES;
+  const trackers = breakingData.trackers.slice(0, 3);
+
+  // Determine which tracker is active based on current frame
+  // -1 = intro or outro (free rotation)
+  const getActiveTrackerIndex = (f: number): number => {
+    if (f < INTRO_FRAMES) return -1; // intro
+    const afterIntro = f - INTRO_FRAMES;
+    const idx = Math.floor(afterIntro / SLIDE_FRAMES);
+    if (idx >= trackerCount) return -1; // outro
+    return idx;
+  };
+
+  const activeTrackerIndex = getActiveTrackerIndex(frame);
+
+  // Compute a "frame since this tracker became active" for the globe spring
+  // This resets each time the active tracker changes
+  const getGlobeFrame = (f: number): number => {
+    if (f < INTRO_FRAMES) return f; // intro: use absolute frame
+    const afterIntro = f - INTRO_FRAMES;
+    const idx = Math.floor(afterIntro / SLIDE_FRAMES);
+    if (idx >= trackerCount) {
+      // outro: frames since outro started
+      return f - (INTRO_FRAMES + trackerCount * SLIDE_FRAMES);
+    }
+    // frames since this tracker slide started
+    return afterIntro - idx * SLIDE_FRAMES;
+  };
+
+  const globeFrame = getGlobeFrame(frame);
+
+  // Current accent color for the globe dot
+  const currentAccent =
+    activeTrackerIndex >= 0
+      ? SLIDE_ACCENTS[activeTrackerIndex % SLIDE_ACCENTS.length]
+      : '#e74c3c';
 
   // Global fade in from black
   const globalFadeIn = interpolate(frame, [0, 8], [0, 1], {
@@ -51,10 +85,35 @@ export const Video: React.FC<VideoProps> = ({ data, narrationSrc, geoFeatures = 
 
   return (
     <AbsoluteFill style={{ backgroundColor: '#0a0b0e', opacity: globalFadeIn }}>
+      {/* Starfield — persistent */}
       <Background />
 
+      {/* Globe — persistent, rotates between trackers */}
+      <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          height: '45%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <CanvasGlobe
+          width={500}
+          height={500}
+          geoFeatures={geoFeatures}
+          trackers={trackers}
+          activeTrackerIndex={activeTrackerIndex}
+          globalFrame={globeFrame}
+          accentColor={currentAccent}
+        />
+      </div>
+
       {/* Background music — loops if video is longer than track */}
-      <Audio src={staticFile('bg-music.mp3')} volume={0.3} loop />
+      <Audio src={staticFile('bg-music.mp3')} volume={0.6} loop />
 
       {/* Optional narration track */}
       {narrationSrc && (
@@ -68,8 +127,8 @@ export const Video: React.FC<VideoProps> = ({ data, narrationSrc, geoFeatures = 
         <Intro date={breakingData.date} />
       </Sequence>
 
-      {/* Tracker slides */}
-      {breakingData.trackers.slice(0, 3).map((tracker, i) => {
+      {/* Tracker slides — text overlays only */}
+      {trackers.map((tracker, i) => {
         const slideStart = INTRO_FRAMES + i * SLIDE_FRAMES;
         return (
           <Sequence
@@ -81,8 +140,6 @@ export const Video: React.FC<VideoProps> = ({ data, narrationSrc, geoFeatures = 
             <TrackerSlide
               tracker={tracker}
               accentColor={SLIDE_ACCENTS[i % SLIDE_ACCENTS.length]}
-              slideStartFrame={slideStart}
-              geoFeatures={geoFeatures}
             />
           </Sequence>
         );
