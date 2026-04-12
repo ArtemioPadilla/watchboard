@@ -104,11 +104,12 @@ const faqSchema = {
         neighborhood={config.neighborhood}
       />
 
+      <h1 class="tracker-page-title sr-only">{config.name}</h1>
       <HeroKpiCombo meta={data.meta} kpis={data.kpis} />
 
       <!-- Server-rendered event previews for SEO crawlability -->
       <div class="seo-event-previews">
-        <h2 class="seo-events-heading">Latest Events</h2>
+        <h2 class="seo-events-heading" id="events">Latest Events</h2>
         {flatEvents.slice(-5).reverse().map(ev => (
           <a href={eventPermalink(config.slug, ev.resolvedDate, ev.id, basePath)} class="seo-event-link">
             <time datetime={ev.resolvedDate}>
@@ -129,13 +130,14 @@ const faqSchema = {
           </div>
         )}
         <div class={config.sections.includes('map') ? 'theater-scroll' : 'theater-scroll full-width'}>
+          <h2 class="sr-only" id="latest-events">Latest Events</h2>
           <LatestEvents client:visible events={flatEvents} />
-          {config.sections.includes('military') && <MilitaryTabs client:visible strikeTargets={data.strikeTargets} retaliationData={data.retaliationData} assetsData={data.assetsData} tabs={config.militaryTabs} />}
-          {config.sections.includes('casualties') && <CasualtyTable casualties={data.casualties} />}
-          {config.sections.includes('economic') && <EconGrid econ={data.econ} />}
-          {config.sections.includes('claims') && <ClaimsMatrix claims={data.claims} />}
-          {config.sections.includes('political') && <PoliticalGrid political={data.political} avatarLabels={config.politicalAvatars} />}
-          {config.sections.includes('timeline') && <TimelineSection client:visible timeline={data.timeline} />}
+          {config.sections.includes('military') && <><h2 class="sr-only" id="military">Military Operations</h2><MilitaryTabs client:visible strikeTargets={data.strikeTargets} retaliationData={data.retaliationData} assetsData={data.assetsData} tabs={config.militaryTabs} /></>}
+          {config.sections.includes('casualties') && <><h2 class="sr-only" id="casualties">Casualties</h2><CasualtyTable casualties={data.casualties} /></>}
+          {config.sections.includes('economic') && <><h2 class="sr-only" id="economic">Economic Impact</h2><EconGrid econ={data.econ} /></>}
+          {config.sections.includes('claims') && <><h2 class="sr-only" id="claims">Contested Claims</h2><ClaimsMatrix claims={data.claims} /></>}
+          {config.sections.includes('political') && <><h2 class="sr-only" id="political">Political Landscape</h2><PoliticalGrid political={data.political} avatarLabels={config.politicalAvatars} /></>}
+          {config.sections.includes('timeline') && <><h2 class="sr-only" id="timeline">Timeline</h2><TimelineSection client:visible timeline={data.timeline} /></>}
         </div>
       </div>
 

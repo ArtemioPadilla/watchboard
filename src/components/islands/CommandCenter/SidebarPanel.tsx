@@ -127,7 +127,7 @@ const TrackerRow = memo(function TrackerRow({
           <div style={S.mediaThumbnail}>
             <img
               src={tracker.latestEventMedia.url}
-              alt=""
+              alt={`Latest event image for ${tracker.shortName}`}
               style={S.mediaThumbnailImg}
               loading="lazy"
               referrerPolicy="no-referrer"
@@ -214,7 +214,7 @@ const TrackerRow = memo(function TrackerRow({
         {tracker.latestEventMedia && (
           <img
             src={tracker.latestEventMedia.url}
-            alt=""
+            alt={`${tracker.shortName} event thumbnail`}
             style={S.collapsedThumb}
             loading="lazy"
             referrerPolicy="no-referrer"
@@ -437,7 +437,7 @@ const RecentEventsFeed = memo(function RecentEventsFeed({
           <div style={S.feedItemHeader}>
             <span style={{ fontSize: '0.7rem' }}>{tracker.icon || ''}</span>
             <span style={S.feedItemName}>{tracker.shortName}</span>
-            {isFollowed && <span style={S.followStar}>\u2605</span>}
+            {isFollowed && <span style={S.followStar}>★</span>}
             <span style={{ ...S.feedItemAge, color: tracker.color || '#3498db' }}>
               <span suppressHydrationWarning>{computeFreshness(tracker.lastUpdated).ageText}</span>
             </span>
@@ -484,7 +484,7 @@ const RecentEventsFeed = memo(function RecentEventsFeed({
               style={S.feedOpenLink}
               onClick={e => e.stopPropagation()}
             >
-              Open dashboard \u2192
+              Open dashboard →
             </a>
           </div>
         </div>
