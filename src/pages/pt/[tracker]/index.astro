@@ -40,17 +40,17 @@ const flatEvents = flattenTimelineEvents(data.timeline);
 const categories = config.map?.categories ?? [];
 
 // Portuguese status labels
-const temporalLabel = config.temporal === 'historical' ? 'HISTORICO' : 'ATIVO';
+const temporalLabel = config.temporal === 'historical' ? 'HISTÓRICO' : 'ATIVO';
 const domainLabels: Record<string, string> = {
-  conflict: 'CONFLITO', security: 'SEGURANCA', governance: 'GOVERNANCA',
-  disaster: 'DESASTRE', 'human-rights': 'DIREITOS HUMANOS', science: 'CIENCIA',
-  space: 'ESPACO', economy: 'ECONOMIA', culture: 'CULTURA', history: 'HISTORIA',
+  conflict: 'CONFLITO', security: 'SEGURANÇA', governance: 'GOVERNANÇA',
+  disaster: 'DESASTRE', 'human-rights': 'DIREITOS HUMANOS', science: 'CIÊNCIA',
+  space: 'ESPAÇO', economy: 'ECONOMIA', culture: 'CULTURA', history: 'HISTÓRIA',
 };
 const domainLabel = domainLabels[config.domain || ''] || 'RASTREADOR';
 const statusLabel = `${temporalLabel} ${domainLabel}`;
 ---
 <BaseLayout
-  title={`${config.shortName} — Painel de Inteligencia`}
+  title={`${config.shortName} — Painel de Inteligência`}
   description={config.description}
   trackerSlug={config.slug}
   githubRepo={config.githubRepo}
