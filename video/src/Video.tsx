@@ -11,7 +11,7 @@ import { Background } from './components/Background';
 import { Intro } from './components/Intro';
 import { TrackerSlide } from './components/TrackerSlide';
 import { Outro } from './components/Outro';
-import type { BreakingData } from './data/types';
+import type { BreakingData, GeoFeature } from './data/types';
 import { SLIDE_ACCENTS, SAMPLE_DATA } from './data/types';
 
 /**
@@ -34,9 +34,10 @@ const OUTRO_FRAMES = 150;
 interface VideoProps {
   data?: BreakingData;
   narrationSrc?: string;
+  geoFeatures?: GeoFeature[];
 }
 
-export const Video: React.FC<VideoProps> = ({ data, narrationSrc }) => {
+export const Video: React.FC<VideoProps> = ({ data, narrationSrc, geoFeatures = [] }) => {
   const breakingData = data ?? SAMPLE_DATA;
   const frame = useCurrentFrame();
 
@@ -81,6 +82,7 @@ export const Video: React.FC<VideoProps> = ({ data, narrationSrc }) => {
               tracker={tracker}
               accentColor={SLIDE_ACCENTS[i % SLIDE_ACCENTS.length]}
               slideStartFrame={slideStart}
+              geoFeatures={geoFeatures}
             />
           </Sequence>
         );

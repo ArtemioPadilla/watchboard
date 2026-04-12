@@ -18,6 +18,18 @@ export interface BreakingData {
   trackers: BreakingTracker[];
 }
 
+/** Minimal GeoJSON types for globe rendering */
+export interface GeoCoord {
+  type: 'Polygon' | 'MultiPolygon';
+  coordinates: number[][][][] | number[][][];
+}
+
+export interface GeoFeature {
+  type: 'Feature';
+  properties: { NAME?: string; ISO_A2?: string };
+  geometry: GeoCoord;
+}
+
 export const ACCENT_COLORS = {
   red: '#e74c3c',
   amber: '#f39c12',

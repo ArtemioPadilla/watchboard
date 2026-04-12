@@ -6,7 +6,7 @@ import {
   interpolate,
   spring,
 } from 'remotion';
-import type { BreakingTracker } from '../data/types';
+import type { BreakingTracker, GeoFeature } from '../data/types';
 import { CanvasGlobe } from './CanvasGlobe';
 
 interface TrackerSlideProps {
@@ -14,6 +14,7 @@ interface TrackerSlideProps {
   accentColor: string;
   /** Absolute frame where this slide starts in the composition */
   slideStartFrame: number;
+  geoFeatures?: GeoFeature[];
 }
 
 const TIER_LABELS: Record<number, string> = {
@@ -43,6 +44,7 @@ function stripEmoji(text: string): string {
 export const TrackerSlide: React.FC<TrackerSlideProps> = ({
   tracker,
   accentColor,
+  geoFeatures,
 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -148,6 +150,7 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
             height={450}
             center={{ lat: tracker.mapCenter[0], lon: tracker.mapCenter[1] }}
             accentColor={accentColor}
+            geoFeatures={geoFeatures ?? []}
           />
         </div>
 

@@ -18,6 +18,7 @@ export const RemotionRoot: React.FC = () => {
         height={1920}
         defaultProps={{
           data: SAMPLE_DATA,
+          geoFeatures: [],
         }}
       />
       {/* Preview compositions for individual sections */}
@@ -33,6 +34,7 @@ export const RemotionRoot: React.FC = () => {
             ...SAMPLE_DATA,
             trackers: SAMPLE_DATA.trackers.slice(0, 1),
           },
+          geoFeatures: [],
         }}
       />
     </>

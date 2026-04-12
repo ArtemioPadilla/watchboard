@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import { useCurrentFrame, useVideoConfig, spring, interpolate } from 'remotion';
+import type { GeoFeature } from '../data/types';
 
 interface CanvasGlobeProps {
   width: number;
@@ -7,64 +8,8 @@ interface CanvasGlobeProps {
   center?: { lat: number; lon: number };
   accentColor?: string;
   rotationOffset?: number;
+  geoFeatures: GeoFeature[];
 }
-
-// ---------------------------------------------------------------------------
-// Continent outlines — simplified [lon, lat] coordinate arrays
-// ---------------------------------------------------------------------------
-
-const NORTH_AMERICA: [number, number][] = [
-  [-130, 55], [-125, 60], [-115, 62], [-100, 64], [-90, 68], [-80, 65],
-  [-70, 60], [-65, 50], [-70, 44], [-75, 38], [-80, 32], [-82, 28],
-  [-90, 28], [-97, 26], [-105, 22], [-105, 30], [-110, 32], [-118, 34],
-  [-122, 38], [-125, 45], [-130, 55],
-];
-
-const SOUTH_AMERICA: [number, number][] = [
-  [-80, 10], [-75, 5], [-70, 10], [-60, 5], [-50, 0], [-42, -3],
-  [-38, -12], [-40, -22], [-48, -28], [-55, -34], [-60, -40],
-  [-65, -46], [-68, -52], [-72, -48], [-75, -40], [-75, -20],
-  [-80, -5], [-80, 10],
-];
-
-const EUROPE: [number, number][] = [
-  [-10, 36], [-5, 40], [-2, 43], [2, 46], [5, 48], [8, 54],
-  [12, 56], [18, 58], [25, 60], [30, 62], [35, 58], [30, 50],
-  [28, 45], [25, 40], [20, 38], [15, 38], [10, 44], [5, 44],
-  [-10, 36],
-];
-
-const AFRICA: [number, number][] = [
-  [-15, 30], [-17, 20], [-16, 14], [-12, 8], [-5, 5], [5, 4],
-  [9, 4], [12, 2], [15, -5], [20, -10], [28, -15], [35, -22],
-  [30, -30], [25, -34], [18, -34], [15, -28], [12, -18],
-  [10, -5], [5, 10], [10, 20], [10, 30], [5, 36], [-5, 36],
-  [-15, 30],
-];
-
-const ASIA: [number, number][] = [
-  [30, 62], [40, 65], [50, 55], [60, 58], [70, 55], [80, 50],
-  [90, 48], [100, 52], [110, 48], [120, 55], [130, 60], [140, 55],
-  [145, 48], [140, 42], [135, 35], [128, 35], [120, 30], [115, 22],
-  [108, 18], [105, 12], [100, 8], [95, 15], [85, 20], [78, 25],
-  [72, 22], [68, 24], [62, 25], [55, 26], [48, 30], [42, 36],
-  [30, 42], [30, 62],
-];
-
-const AUSTRALIA: [number, number][] = [
-  [115, -15], [120, -14], [128, -15], [135, -12], [142, -14],
-  [146, -18], [150, -24], [153, -28], [150, -35], [140, -38],
-  [132, -34], [125, -30], [118, -22], [115, -15],
-];
-
-const CONTINENTS: [number, number][][] = [
-  NORTH_AMERICA,
-  SOUTH_AMERICA,
-  EUROPE,
-  AFRICA,
-  ASIA,
-  AUSTRALIA,
-];
 
 // ---------------------------------------------------------------------------
 // Projection math
@@ -195,60 +140,118 @@ function drawGridLines(
   }
 }
 
-function drawContinents(
+/** Check if a ring's centroid is on the visible hemisphere */
+function isRingVisible(
+  ring: number[][],
+  centerLon: number,
+  centerLat: number,
+): boolean {
+  let lonSum = 0;
+  let latSum = 0;
+  const n = ring.length;
+  for (let i = 0; i < n; i++) {
+    lonSum += ring[i][0];
+    latSum += ring[i][1];
+  }
+  const centLon = lonSum / n;
+  const centLat = latSum / n;
+
+  const lambda = (centLon - centerLon) * DEG_TO_RAD;
+  const phi = centLat * DEG_TO_RAD;
+  const phi0 = centerLat * DEG_TO_RAD;
+  const cosc =
+    Math.sin(phi0) * Math.sin(phi) +
+    Math.cos(phi0) * Math.cos(phi) * Math.cos(lambda);
+  return cosc > -0.1; // slightly generous to avoid popping
+}
+
+function drawCountries(
   ctx: CanvasRenderingContext2D,
+  features: GeoFeature[],
   centerLon: number,
   centerLat: number,
   radius: number,
   cx: number,
   cy: number,
 ): void {
-  for (const continent of CONTINENTS) {
-    // Project all points
-    const projected = continent.map(([lon, lat]) =>
-      projectOrthographic(lon, lat, centerLon, centerLat, radius, cx, cy),
-    );
+  // Batch all country fills into one path, then all strokes into another
+  ctx.beginPath();
+  for (const feature of features) {
+    const { geometry } = feature;
+    let rings: number[][][];
 
-    // Only draw if at least some points are visible
-    const visiblePoints = projected.filter((p) => p.visible);
-    if (visiblePoints.length < 2) continue;
+    if (geometry.type === 'Polygon') {
+      rings = geometry.coordinates as number[][][];
+    } else if (geometry.type === 'MultiPolygon') {
+      // Flatten MultiPolygon to list of rings (outer rings only)
+      rings = [];
+      for (const polygon of geometry.coordinates as number[][][][]) {
+        rings.push(polygon[0]); // outer ring only
+      }
+    } else {
+      continue;
+    }
 
-    // Fill
-    ctx.beginPath();
-    let started = false;
-    for (const p of projected) {
-      if (p.visible) {
-        if (!started) {
-          ctx.moveTo(p.x, p.y);
-          started = true;
-        } else {
-          ctx.lineTo(p.x, p.y);
+    for (const ring of rings) {
+      if (!isRingVisible(ring, centerLon, centerLat)) continue;
+
+      let started = false;
+      for (const coord of ring) {
+        const p = projectOrthographic(coord[0], coord[1], centerLon, centerLat, radius, cx, cy);
+        if (p.visible) {
+          if (!started) {
+            ctx.moveTo(p.x, p.y);
+            started = true;
+          } else {
+            ctx.lineTo(p.x, p.y);
+          }
         }
       }
+      if (started) ctx.closePath();
     }
-    ctx.closePath();
-    ctx.fillStyle = '#1a2535';
-    ctx.fill();
-
-    // Stroke
-    ctx.beginPath();
-    started = false;
-    for (const p of projected) {
-      if (p.visible) {
-        if (!started) {
-          ctx.moveTo(p.x, p.y);
-          started = true;
-        } else {
-          ctx.lineTo(p.x, p.y);
-        }
-      } else {
-        started = false;
-      }
-    }
-    ctx.strokeStyle = '#2a3a4f';
-    ctx.lineWidth = 1.5;
-    ctx.stroke();
   }
+  ctx.fillStyle = '#1a2535';
+  ctx.fill();
+
+  // Stroke pass — thinner lines for country borders
+  ctx.beginPath();
+  for (const feature of features) {
+    const { geometry } = feature;
+    let rings: number[][][];
+
+    if (geometry.type === 'Polygon') {
+      rings = geometry.coordinates as number[][][];
+    } else if (geometry.type === 'MultiPolygon') {
+      rings = [];
+      for (const polygon of geometry.coordinates as number[][][][]) {
+        rings.push(polygon[0]);
+      }
+    } else {
+      continue;
+    }
+
+    for (const ring of rings) {
+      if (!isRingVisible(ring, centerLon, centerLat)) continue;
+
+      let started = false;
+      for (const coord of ring) {
+        const p = projectOrthographic(coord[0], coord[1], centerLon, centerLat, radius, cx, cy);
+        if (p.visible) {
+          if (!started) {
+            ctx.moveTo(p.x, p.y);
+            started = true;
+          } else {
+            ctx.lineTo(p.x, p.y);
+          }
+        } else {
+          started = false; // break stroke on hidden points
+        }
+      }
+    }
+  }
+  ctx.strokeStyle = '#2a3a4f';
+  ctx.lineWidth = 0.8;
+  ctx.stroke();
 }
 
 function drawPulsingDot(
@@ -315,6 +318,7 @@ export const CanvasGlobe: React.FC<CanvasGlobeProps> = ({
   center,
   accentColor = '#e74c3c',
   rotationOffset = 0,
+  geoFeatures,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const frame = useCurrentFrame();
@@ -369,7 +373,7 @@ export const CanvasGlobe: React.FC<CanvasGlobeProps> = ({
     // 2. Ocean fill
     drawOcean(ctx, cx, cy, radius);
 
-    // Clip to globe circle for grid and continents
+    // Clip to globe circle for grid and countries
     ctx.save();
     ctx.beginPath();
     ctx.arc(cx, cy, radius, 0, Math.PI * 2);
@@ -378,8 +382,10 @@ export const CanvasGlobe: React.FC<CanvasGlobeProps> = ({
     // 3. Grid lines
     drawGridLines(ctx, centerLon, centerLat, radius, cx, cy);
 
-    // 4. Continent polygons
-    drawContinents(ctx, centerLon, centerLat, radius, cx, cy);
+    // 4. Country polygons from GeoJSON
+    if (geoFeatures.length > 0) {
+      drawCountries(ctx, geoFeatures, centerLon, centerLat, radius, cx, cy);
+    }
 
     ctx.restore();
 
@@ -405,7 +411,7 @@ export const CanvasGlobe: React.FC<CanvasGlobeProps> = ({
         accentColor,
       );
     }
-  }, [frame, width, height, center, accentColor, rotationOffset, fps, dpr]);
+  }, [frame, width, height, center, accentColor, rotationOffset, fps, dpr, geoFeatures]);
 
   return (
     <canvas

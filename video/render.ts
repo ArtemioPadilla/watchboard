@@ -35,6 +35,11 @@ async function main(): Promise<void> {
   }
 
   const data: BreakingData = JSON.parse(readFileSync(DATA_PATH, 'utf-8'));
+
+  // Load GeoJSON for globe rendering
+  const GEO_PATH = resolve(ROOT_DIR, '../public/geo/countries-110m.json');
+  const geoData = JSON.parse(readFileSync(GEO_PATH, 'utf-8'));
+  const geoFeatures = geoData.features;
   const trackerCount = Math.min(data.trackers.length, 3);
   const durationInFrames = calculateDuration(trackerCount);
 
@@ -53,7 +58,7 @@ async function main(): Promise<void> {
   const composition = await selectComposition({
     serveUrl: bundled,
     id: 'WatchboardDaily',
-    inputProps: { data },
+    inputProps: { data, geoFeatures },
   });
 
   // Override duration based on actual tracker count
@@ -69,7 +74,7 @@ async function main(): Promise<void> {
     serveUrl: bundled,
     codec: 'h264',
     outputLocation: outputPath,
-    inputProps: { data },
+    inputProps: { data, geoFeatures },
   });
 
   // Step 5 (optional): Merge narration audio via ffmpeg
