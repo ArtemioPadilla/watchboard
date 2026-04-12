@@ -24,10 +24,10 @@ function parseRssItems(xml: string): RssItem[] {
     const rawDescription = get('description');
     const imageUrl = extractImageUrl(rawDescription, content);
     items.push({
-      title: get('title'),
+      title: decodeXmlEntities(get('title')),
       link: get('link'),
       guid: get('guid'),
-      description: rawDescription.slice(0, 200),
+      description: decodeXmlEntities(rawDescription).slice(0, 200),
       category: get('category') || 'daily',
       pubDate: get('pubDate'),
       image: imageUrl,
@@ -36,13 +36,23 @@ function parseRssItems(xml: string): RssItem[] {
   return items;
 }
 
-function decodeXmlEntities(url: string): string {
-  return url
+function decodeXmlEntities(text: string): string {
+  return text
     .replace(/&amp;/g, '&')
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>')
     .replace(/&quot;/g, '"')
-    .replace(/&apos;/g, "'");
+    .replace(/&apos;/g, "'")
+    .replace(/&#039;/g, "'")
+    .replace(/&mdash;/g, '—')
+    .replace(/&ndash;/g, '–')
+    .replace(/&rsquo;/g, '\u2019')
+    .replace(/&lsquo;/g, '\u2018')
+    .replace(/&rdquo;/g, '\u201d')
+    .replace(/&ldquo;/g, '\u201c')
+    .replace(/&hellip;/g, '…')
+    .replace(/&#(\d+);/g, (_, num) => String.fromCharCode(parseInt(num)))
+    .replace(/&#x([0-9a-fA-F]+);/g, (_, hex) => String.fromCharCode(parseInt(hex, 16)));
 }
 
 function extractImageUrl(description: string, fullItemXml?: string): string | null {
@@ -73,6 +83,29 @@ function extractTrackerSlug(link: string): string | null {
   return m ? m[1] : null;
 }
 
+async function fetchTrackerImage(slug: string): Promise<string | null> {
+  try {
+    const res = await fetch(`https://watchboard.dev/api/v1/trackers/${slug}.json`, {
+      headers: { 'User-Agent': 'Watchboard-Push/1.0' },
+    });
+    if (!res.ok) return null;
+    const data = await res.json() as {
+      recentEvents?: Array<{ media?: Array<{ thumbnail?: string; url?: string; type?: string }> }>;
+    };
+    for (const event of data.recentEvents ?? []) {
+      for (const media of event.media ?? []) {
+        if (media.thumbnail) return media.thumbnail;
+        if (media.type === 'image' && media.url && /\.(jpg|jpeg|png|webp|gif)/i.test(media.url)) {
+          return media.url;
+        }
+      }
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
 export async function handleCron(env: Env): Promise<Response> {
   // Fetch RSS
   const res = await fetch('https://watchboard.dev/rss.xml', {
@@ -98,6 +131,16 @@ export async function handleCron(env: Env): Promise<Response> {
   // Update seen GUIDs (keep last 200)
   const allGuids = [...new Set([...items.map(i => i.guid), ...(lastSeen ?? [])])].slice(0, 200);
   await env.PUSH_SUBSCRIPTIONS.put('last-seen-guids', JSON.stringify(allGuids));
+
+  // Enrich items with images from JSON API (RSS doesn't include them)
+  for (const item of newItems) {
+    if (!item.image) {
+      const slug = extractTrackerSlug(item.link);
+      if (slug) {
+        item.image = await fetchTrackerImage(slug);
+      }
+    }
+  }
 
   let totalPushed = 0;
   const staleEndpoints: string[] = [];
