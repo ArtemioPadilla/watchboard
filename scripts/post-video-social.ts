@@ -254,11 +254,19 @@ async function uploadAndProcessVideo(
     const filename = basename(videoPath);
     console.log(`[bluesky] Uploading video (${(fileSize / 1024 / 1024).toFixed(1)}MB)...`);
 
-    // Get service auth token for video.bsky.app (session accessJwt is rejected with 401)
+    // Get the PDS service endpoint DID for service auth
+    // Error said: aud should be the user's PDS DID (e.g. did:web:jellybaby.us-east.host.bsky.network)
+    // We get it from the session's serviceUrl or didDoc
+    const pdsUrl = agent.pdsUrl ?? agent.service.toString();
+    const pdsHost = new URL(pdsUrl).hostname;
+    const pdsAud = `did:web:${pdsHost}`;
+    console.log(`[bluesky] Service auth aud: ${pdsAud}`);
+
+    // Get service auth token for video upload
     const serviceAuth = await agent.com.atproto.server.getServiceAuth({
-      aud: 'did:web:video.bsky.app',
+      aud: pdsAud,
       lxm: 'app.bsky.video.uploadVideo',
-      exp: Math.floor(Date.now() / 1000) + 60 * 30, // 30 min expiry
+      exp: Math.floor(Date.now() / 1000) + 60 * 30,
     });
     const videoToken = serviceAuth.data.token;
 
