@@ -37,6 +37,33 @@ async function main(): Promise<void> {
 
   const data: BreakingData = JSON.parse(readFileSync(DATA_PATH, 'utf-8'));
 
+  // Download tracker thumbnails for Remotion (can't fetch external URLs during render)
+  console.log('  Downloading tracker thumbnails...');
+  for (const tracker of data.trackers) {
+    if (tracker.thumbnailUrl) {
+      try {
+        const resp = await fetch(tracker.thumbnailUrl, {
+          headers: { 'User-Agent': 'Watchboard-Video/1.0' },
+          signal: AbortSignal.timeout(8000),
+        });
+        if (resp.ok) {
+          const ct = resp.headers.get('content-type') ?? '';
+          if (!ct.startsWith('image/')) {
+            console.warn(`    ${tracker.name}: not an image (${ct}), skipping`);
+            continue;
+          }
+          const buf = Buffer.from(await resp.arrayBuffer());
+          tracker.thumbnailBase64 = `data:${ct};base64,${buf.toString('base64')}`;
+          console.log(`    ${tracker.name}: thumbnail downloaded (${(buf.length / 1024).toFixed(0)} KB)`);
+        } else {
+          console.warn(`    ${tracker.name}: thumbnail fetch failed (${resp.status})`);
+        }
+      } catch (e) {
+        console.warn(`    ${tracker.name}: thumbnail fetch error — ${e}`);
+      }
+    }
+  }
+
   // Load GeoJSON for globe rendering
   const GEO_PATH = resolve(ROOT_DIR, '../public/geo/countries-110m.json');
   const geoData = JSON.parse(readFileSync(GEO_PATH, 'utf-8'));

@@ -11,6 +11,8 @@ export interface BreakingTracker {
   sourceTier: 1 | 2 | 3 | 4;
   sourceLabel: string;
   mapCenter: [number, number]; // [lat, lng]
+  thumbnailUrl: string | null;
+  thumbnailBase64?: string;
 }
 
 export interface BreakingData {
@@ -59,6 +61,7 @@ export const SAMPLE_DATA: BreakingData = {
       sourceTier: 1,
       sourceLabel: 'CENTCOM / Reuters',
       mapCenter: [29, 49],
+      thumbnailUrl: null,
     },
     {
       slug: 'ukraine-war',
@@ -73,6 +76,7 @@ export const SAMPLE_DATA: BreakingData = {
       sourceTier: 2,
       sourceLabel: 'ISW / Reuters',
       mapCenter: [48.5, 35.0],
+      thumbnailUrl: null,
     },
     {
       slug: 'gaza-war',
@@ -87,6 +91,7 @@ export const SAMPLE_DATA: BreakingData = {
       sourceTier: 1,
       sourceLabel: 'IDF / Al Jazeera',
       mapCenter: [31.4, 34.4],
+      thumbnailUrl: null,
     },
   ],
 };

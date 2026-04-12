@@ -40,6 +40,35 @@ function parseKpiNumericValue(raw: string): number {
   return match ? parseFloat(match[0]) : 0;
 }
 
+function findLatestThumbnail(slug: string): string | null {
+  const eventsDir = join(TRACKERS_DIR, slug, 'data', 'events');
+  if (!existsSync(eventsDir)) return null;
+
+  const eventFiles = readdirSync(eventsDir)
+    .filter((f) => f.endsWith('.json'))
+    .sort()
+    .reverse()
+    .slice(0, 7);
+
+  for (const file of eventFiles) {
+    try {
+      const events = JSON.parse(readFileSync(join(eventsDir, file), 'utf-8'));
+      if (!Array.isArray(events)) continue;
+      for (const event of events) {
+        if (Array.isArray(event.media)) {
+          for (const item of event.media) {
+            if (item.thumbnail) return item.thumbnail;
+          }
+        }
+      }
+    } catch {
+      // skip malformed event files
+    }
+  }
+
+  return null;
+}
+
 function loadTrackerBreaking(slug: string): BreakingTracker | null {
   const trackerDir = join(TRACKERS_DIR, slug);
   const configPath = join(trackerDir, 'tracker.json');
@@ -76,6 +105,8 @@ function loadTrackerBreaking(slug: string): BreakingTracker | null {
     const lat = config.map?.center?.lat ?? 0;
     const lng = config.map?.center?.lon ?? 0;
 
+    const thumbnailUrl = findLatestThumbnail(slug);
+
     return {
       slug: config.slug,
       name: config.shortName ?? config.name,
@@ -88,6 +119,7 @@ function loadTrackerBreaking(slug: string): BreakingTracker | null {
       sourceTier,
       sourceLabel,
       mapCenter: [lat, lng],
+      thumbnailUrl,
     };
   } catch {
     console.warn(`Failed to load tracker: ${slug}`);

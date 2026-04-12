@@ -11,6 +11,7 @@ import { Background } from './components/Background';
 import { CanvasGlobe } from './components/CanvasGlobe';
 import { Intro } from './components/Intro';
 import { TrackerSlide } from './components/TrackerSlide';
+import { TrackerSlideImage } from './components/TrackerSlideImage';
 import { Outro } from './components/Outro';
 import type { BreakingData, GeoFeature } from './data/types';
 import { SLIDE_ACCENTS, SAMPLE_DATA } from './data/types';
@@ -113,9 +114,10 @@ export const Video: React.FC<VideoProps> = ({ data, narrationSrc, geoFeatures = 
         <Intro date={breakingData.date} />
       </Sequence>
 
-      {/* Tracker slides — text overlays only */}
+      {/* Tracker slides — image background when thumbnail available, globe otherwise */}
       {trackers.map((tracker, i) => {
         const slideStart = INTRO_FRAMES + i * SLIDE_FRAMES;
+        const SlideComponent = tracker.thumbnailBase64 ? TrackerSlideImage : TrackerSlide;
         return (
           <Sequence
             key={tracker.slug}
@@ -123,7 +125,7 @@ export const Video: React.FC<VideoProps> = ({ data, narrationSrc, geoFeatures = 
             durationInFrames={SLIDE_FRAMES}
             name={`Tracker: ${tracker.name}`}
           >
-            <TrackerSlide
+            <SlideComponent
               tracker={tracker}
               accentColor={SLIDE_ACCENTS[i % SLIDE_ACCENTS.length]}
             />
