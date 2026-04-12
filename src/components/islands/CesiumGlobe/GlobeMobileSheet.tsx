@@ -612,6 +612,8 @@ function MissionCompact({
 /** Compact mobile event card */
 function MobileEventCard({ event, isActive }: { event: FlatEvent; isActive: boolean }) {
   const [expanded, setExpanded] = useState(false);
+  const thumb = event.media?.find(m => m.thumbnail)?.thumbnail;
+  const [imgFailed, setImgFailed] = useState(false);
 
   return (
     <div className={`mobile-event-card${isActive ? ' active' : ''}`}>
@@ -619,10 +621,20 @@ function MobileEventCard({ event, isActive }: { event: FlatEvent; isActive: bool
         className="mobile-event-card-header"
         onClick={() => setExpanded(prev => !prev)}
       >
-        <span
-          className="mobile-event-type-dot"
-          style={{ background: TYPE_COLORS[event.type] || '#888' }}
-        />
+        {thumb && !imgFailed ? (
+          <img
+            className="mobile-event-card-thumb"
+            src={thumb}
+            alt=""
+            referrerPolicy="no-referrer"
+            onError={() => setImgFailed(true)}
+          />
+        ) : (
+          <span
+            className="mobile-event-type-dot"
+            style={{ background: TYPE_COLORS[event.type] || '#888' }}
+          />
+        )}
         <span className="mobile-event-title">{event.title}</span>
         <span className="mobile-event-expand">{expanded ? '\u2212' : '+'}</span>
       </button>

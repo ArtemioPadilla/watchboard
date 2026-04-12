@@ -19,8 +19,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 12
     outputs:
-      has_actions: ${{ steps.triage.outputs.has_actions || steps.triage-defaults.outputs.has_actions || 'false' }}
-      plan_json: ${{ steps.triage.outputs.plan_json || steps.triage-defaults.outputs.plan_json || '[]' }}
+      has_actions: ${{ steps.freshness.outputs.has_actions || steps.triage.outputs.has_actions || steps.triage-defaults.outputs.has_actions || 'false' }}
+      plan_json: ${{ steps.freshness.outputs.plan_json || steps.triage.outputs.plan_json || steps.triage-defaults.outputs.plan_json || '[]' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -118,7 +118,8 @@ jobs:
         run: |
           if [ -f /tmp/hourly-action-plan.json ]; then
             node -e "
-              const plan = JSON.parse(require('fs').readFileSync('/tmp/hourly-action-plan.json','utf8'));
+              const fs = require('fs');
+              const plan = JSON.parse(fs.readFileSync('/tmp/hourly-action-plan.json','utf8'));
               const hasActions = plan.updates.length > 0 || plan.newTrackers.length > 0;
               console.log('has_actions=' + hasActions);
 
@@ -130,11 +131,82 @@ jobs:
                 entries.push({ type: 'new_tracker', tracker: nt.suggestedSlug, data: JSON.stringify(nt) });
               }
               console.log('plan_json=' + JSON.stringify(entries));
+              fs.writeFileSync('/tmp/triage-plan.json', JSON.stringify(entries));
             " >> "$GITHUB_OUTPUT"
           else
             echo "has_actions=false" >> "$GITHUB_OUTPUT"
             echo "plan_json=[]" >> "$GITHUB_OUTPUT"
+            echo "[]" > /tmp/triage-plan.json
           fi
+
+      - name: Freshness check — inject stale trackers
+        id: freshness
+        run: |
+          node -e "
+            const fs = require('fs');
+            const path = require('path');
+            const NOW = Date.now();
+            const STALE_MS = 36 * 60 * 60 * 1000; // 36 hours
+
+            // Read existing plan (from triage or empty)
+            let plan = [];
+            try {
+              const raw = fs.readFileSync('/tmp/hourly-action-plan.json', 'utf8');
+              const parsed = JSON.parse(raw);
+              plan = parsed.updates || [];
+            } catch {}
+            const alreadyTracked = new Set(plan.map(u => u.tracker));
+
+            const staleAdded = [];
+            for (const slug of fs.readdirSync('trackers')) {
+              const configPath = path.join('trackers', slug, 'tracker.json');
+              if (!fs.existsSync(configPath)) continue;
+              const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+
+              // Only active, non-historical trackers
+              if (config.status !== 'active') continue;
+              if (config.temporal === 'historical') continue;
+              if (alreadyTracked.has(slug)) continue;
+
+              // Check lastUpdated from meta.json
+              const metaPath = path.join('trackers', slug, 'data', 'meta.json');
+              if (!fs.existsSync(metaPath)) continue;
+              const meta = JSON.parse(fs.readFileSync(metaPath, 'utf8'));
+              const lastUpdated = meta.lastUpdated ? new Date(meta.lastUpdated).getTime() : 0;
+              const ageDays = ((NOW - lastUpdated) / 86400000).toFixed(1);
+
+              if (NOW - lastUpdated > STALE_MS) {
+                staleAdded.push(slug);
+                console.log('Stale tracker: ' + slug + ' (last updated ' + ageDays + 'd ago)');
+              }
+            }
+
+            if (staleAdded.length === 0) {
+              console.log('No stale trackers found');
+              process.exit(0);
+            }
+
+            // Read current triage output or parse from GITHUB_OUTPUT
+            let hasActions = '${{ steps.triage.outputs.has_actions }}' === 'true';
+            let entries = [];
+            try {
+              const raw = fs.readFileSync('/tmp/triage-plan.json', 'utf8');
+              entries = JSON.parse(raw);
+            } catch { entries = []; }
+
+            for (const slug of staleAdded) {
+              entries.push({ type: 'update', tracker: slug, data: JSON.stringify({
+                tracker: slug,
+                events: [{ summary: 'Freshness refresh — no updates in 36+ hours', sources: [], timestamp: new Date().toISOString() }]
+              })});
+            }
+
+            // Write updated outputs
+            const outputFile = process.env.GITHUB_OUTPUT;
+            fs.appendFileSync(outputFile, 'has_actions=true\n');
+            fs.appendFileSync(outputFile, 'plan_json=' + JSON.stringify(entries) + '\n');
+            console.log('Added ' + staleAdded.length + ' stale trackers to plan: ' + staleAdded.join(', '));
+          "
 
       - name: Commit state
         env:
@@ -154,8 +226,16 @@ jobs:
             done
           fi
 
+      - name: Ensure action plan artifact exists
+        if: steps.freshness.outputs.has_actions == 'true' || steps.triage.outputs.has_actions == 'true'
+        run: |
+          if [ ! -f /tmp/hourly-action-plan.json ]; then
+            echo '{"updates":[],"newTrackers":[],"scannedAt":"'$(date -u +%Y-%m-%dT%H:%M:%SZ)'","candidateCount":0,"discardedCount":0}' > /tmp/hourly-action-plan.json
+            echo "Created default hourly-action-plan.json for freshness-only run"
+          fi
+
       - name: Upload action plan
-        if: steps.triage.outputs.has_actions == 'true'
+        if: steps.freshness.outputs.has_actions == 'true' || steps.triage.outputs.has_actions == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: hourly-action-plan

@@ -938,6 +938,64 @@
   letter-spacing: 0.5px;
 }
 
+/* ─── Event card thumbnail layout ─── */
+.mtab-event-card-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.mtab-event-card-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.mtab-event-thumb {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.mtab-event-thumb-fallback {
+  width: 60px;
+  height: 60px;
+  border-radius: 6px;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%);
+  border: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mtab-event-thumb-icon {
+  font-size: 1.1rem;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+
+/* ─── Map tab floating card thumbnail ─── */
+.mtab-map-event-thumb {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+/* ─── Globe mobile sheet event card thumbnail ─── */
+.mobile-event-card-thumb {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
 /* ─── Bottom sheet (#3) ─── */
 .mtab-sheet-backdrop {
   position: fixed;

@@ -148,21 +148,7 @@ export default function MobileFeedTab({ heroSubtitle, events }: Props) {
               </span>
             </div>
             {dayEvents.map(ev => (
-              <button
-                key={ev.id}
-                className="mtab-event-card"
-                style={{ borderLeftColor: eventTypeColor(ev.type) }}
-                onClick={() => handleEventTap(ev)}
-                aria-label={ev.title}
-              >
-                <div className="mtab-event-header">
-                  <span className="mtab-event-type">{ev.type}</span>
-                  <span className="mtab-event-time" suppressHydrationWarning>
-                    {relativeTime(ev.resolvedDate)}
-                  </span>
-                </div>
-                <div className="mtab-event-title">{ev.title}</div>
-              </button>
+              <FeedEventCard key={ev.id} event={ev} onTap={handleEventTap} />
             ))}
           </div>
         );
@@ -240,5 +226,47 @@ export default function MobileFeedTab({ heroSubtitle, events }: Props) {
         </div>
       )}
     </div>
+  );
+}
+
+function FeedEventCard({ event: ev, onTap }: { event: FlatEvent; onTap: (ev: FlatEvent) => void }) {
+  const thumb = ev.media?.find(m => m.thumbnail)?.thumbnail;
+  const [imgFailed, setImgFailed] = useState(false);
+
+  return (
+    <button
+      className="mtab-event-card"
+      style={{ borderLeftColor: eventTypeColor(ev.type) }}
+      onClick={() => onTap(ev)}
+      aria-label={ev.title}
+    >
+      <div className="mtab-event-card-row">
+        {thumb && !imgFailed ? (
+          <img
+            className="mtab-event-thumb"
+            src={thumb}
+            alt=""
+            referrerPolicy="no-referrer"
+            onError={() => setImgFailed(true)}
+          />
+        ) : (
+          <div
+            className="mtab-event-thumb-fallback"
+            style={{ borderColor: eventTypeColor(ev.type) }}
+          >
+            <span className="mtab-event-thumb-icon">{ev.type.charAt(0).toUpperCase()}</span>
+          </div>
+        )}
+        <div className="mtab-event-card-content">
+          <div className="mtab-event-header">
+            <span className="mtab-event-type">{ev.type}</span>
+            <span className="mtab-event-time" suppressHydrationWarning>
+              {relativeTime(ev.resolvedDate)}
+            </span>
+          </div>
+          <div className="mtab-event-title">{ev.title}</div>
+        </div>
+      </div>
+    </button>
   );
 }

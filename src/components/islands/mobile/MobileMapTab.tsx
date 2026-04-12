@@ -1,5 +1,5 @@
 // src/components/islands/mobile/MobileMapTab.tsx
-import { useState, useMemo, useCallback, lazy, Suspense, Component, type ReactNode } from 'react';
+import { useState, useMemo, useCallback, lazy, Suspense, Component, type ReactNode, type CSSProperties } from 'react';
 import IntelMap from '../IntelMap';
 import { eventTypeColor } from '../../../lib/event-utils';
 import type { MapPoint, MapLine, KpiItem, Meta } from '../../../lib/schemas';
@@ -171,21 +171,40 @@ export default function MobileMapTab({
 
       {/* Floating latest event card (#6) */}
       {latestEvent && !cardDismissed && (
-        <div className="mtab-map-event-card">
-          <div className="mtab-map-event-dot" style={{ background: eventTypeColor(latestEvent.type) }} />
-          <div className="mtab-map-event-body">
-            <div className="mtab-map-event-type">{latestEvent.type}</div>
-            <div className="mtab-map-event-title">{latestEvent.title}</div>
-          </div>
-          <button
-            className="mtab-map-event-dismiss"
-            onClick={() => setCardDismissed(true)}
-            aria-label="Dismiss"
-          >
-            ✕
-          </button>
-        </div>
+        <MapEventCard event={latestEvent} onDismiss={() => setCardDismissed(true)} />
       )}
+    </div>
+  );
+}
+
+function MapEventCard({ event, onDismiss }: { event: FlatEvent; onDismiss: () => void }) {
+  const thumb = event.media?.find(m => m.thumbnail)?.thumbnail;
+  const [imgFailed, setImgFailed] = useState(false);
+
+  return (
+    <div className="mtab-map-event-card">
+      {thumb && !imgFailed ? (
+        <img
+          className="mtab-map-event-thumb"
+          src={thumb}
+          alt=""
+          referrerPolicy="no-referrer"
+          onError={() => setImgFailed(true)}
+        />
+      ) : (
+        <div className="mtab-map-event-dot" style={{ background: eventTypeColor(event.type) }} />
+      )}
+      <div className="mtab-map-event-body">
+        <div className="mtab-map-event-type">{event.type}</div>
+        <div className="mtab-map-event-title">{event.title}</div>
+      </div>
+      <button
+        className="mtab-map-event-dismiss"
+        onClick={onDismiss}
+        aria-label="Dismiss"
+      >
+        ✕
+      </button>
     </div>
   );
 }
