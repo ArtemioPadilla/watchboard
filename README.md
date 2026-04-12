@@ -10,6 +10,7 @@ Track conflicts, disasters, political histories, and more — with AI-powered ni
 [![Last Commit](https://img.shields.io/github/last-commit/ArtemioPadilla/watchboard?style=flat-square&logo=github)](https://github.com/ArtemioPadilla/watchboard/commits/main)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/ArtemioPadilla/watchboard/deploy.yml?style=flat-square&logo=githubactions&label=build)](https://github.com/ArtemioPadilla/watchboard/actions/workflows/deploy.yml)
+[![JSON API](https://img.shields.io/badge/JSON%20API-free%20%C2%B7%20no%20auth-10b981?style=flat-square&logo=json)](https://watchboard.dev/api/)
 [![Powered by Claude Code](https://img.shields.io/badge/Powered%20by-Claude%20Code-7C3AED?style=flat-square&logo=anthropic)](https://claude.ai/code)
 
 **[Live Dashboard](https://watchboard.dev/)** — **[How to Add a Tracker](#adding-a-new-tracker)** — **[Request a Topic](https://github.com/ArtemioPadilla/watchboard/issues/new?template=tracker-request.md)**
@@ -20,7 +21,7 @@ Track conflicts, disasters, political histories, and more — with AI-powered ni
 
 ## Features
 
-- **48 active trackers** across conflicts, disasters, political histories, science, and culture
+- **50+ active trackers** across conflicts, disasters, political histories, science, and culture
 - **Config-driven architecture** — each tracker is a `tracker.json` + data directory; no code changes needed
 - **AI nightly updates** — Claude Code with web search refreshes eligible trackers automatically at 6 AM UTC
 - **Interactive 2D maps** — Leaflet with strike arcs, overlay layers (no-fly zones, GPS jamming, earthquakes), live flights, and day/night terminator
@@ -29,6 +30,8 @@ Track conflicts, disasters, political histories, and more — with AI-powered ni
 - **Source tier system** — every data point classified Tier 1–4 (official → unverified); contested claims explicitly flagged
 - **One-command tracker creation** — GitHub Actions `init-tracker.yml` generates a fully populated tracker in ~25 minutes via Claude Code
 - **Embeddable widgets** — each tracker has a `/embed/{slug}/` page (~4 KB, theme-aware) for third-party embedding
+- **Public JSON API** — static REST API with CORS, no auth required; powers third-party integrations
+- **MCP server** — Model Context Protocol integration for AI agents
 
 ---
 
@@ -45,7 +48,7 @@ Track conflicts, disasters, political histories, and more — with AI-powered ni
 | 🗽 | **September 11** | 2001 attacks, War on Terror, 9/11 Commission | USA | [Dashboard](https://watchboard.dev/september-11/) |
 
 <details>
-<summary><strong>All 48 trackers</strong></summary>
+<summary><strong>All 50+ trackers</strong></summary>
 
 | Icon | Tracker | Topic | Region | Link |
 |------|---------|-------|--------|------|
@@ -99,6 +102,52 @@ Track conflicts, disasters, political histories, and more — with AI-powered ni
 | ⚔️ | World War II | WWII 1939–1945 — Holocaust, Stalingrad, Normandy, atomic bombs | Europe/Pacific | [Dashboard](https://watchboard.dev/world-war-2/) |
 
 </details>
+
+---
+
+## Distribution & Integrations
+
+Watchboard data is available through multiple channels beyond the web dashboard:
+
+### Public JSON API
+
+Free, no authentication required. Static JSON files served from CDN with full CORS support.
+
+| Endpoint | Description |
+|----------|-------------|
+| `/api/v1/trackers.json` | All tracker metadata |
+| `/api/v1/trackers/{slug}.json` | Full data for a single tracker |
+| `/api/v1/breaking.json` | Current breaking news events |
+| `/api/v1/kpis/{slug}.json` | Key performance indicators for a tracker |
+| `/api/v1/events/{slug}.json` | Event timeline for a tracker |
+| `/api/v1/search-index.json` | Full-text search index |
+
+📖 **[API Documentation](https://watchboard.dev/api/)**
+
+### MCP Server
+
+Model Context Protocol server for AI agents (Claude, ChatGPT, Cursor, etc.). Provides 7 tools and 3 resources for querying tracker data programmatically.
+
+```bash
+git clone https://github.com/ArtemioPadilla/watchboard.git
+cd watchboard/mcp
+npm install
+npm start
+```
+
+📖 **[MCP Documentation](https://github.com/ArtemioPadilla/watchboard/tree/main/mcp)**
+
+### Telegram
+
+Automated breaking news channel — an hourly scan detects new high-priority events across all trackers and posts them to Telegram in real time.
+
+### Bluesky
+
+Automated social posting from the curated social queue. Breaking news, daily digests, and analysis threads published on Bluesky.
+
+### Newsletter
+
+Weekly digest email summarizing the most significant events across all active trackers, with subscriber management and one-click unsubscribe.
 
 ---
 
@@ -223,7 +272,7 @@ watchboard/
 │   ├── iran-conflict/
 │   │   ├── tracker.json               # Config: sections, map, AI prompts
 │   │   └── data/                      # JSON data + events/ partitions
-│   └── ...                            # 47 more trackers
+│   └── ...                            # 50+ more trackers
 ├── src/
 │   ├── pages/
 │   │   ├── index.astro                # Home: tracker card index

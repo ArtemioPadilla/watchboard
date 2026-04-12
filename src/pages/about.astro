@@ -109,6 +109,50 @@ const basePath = base.endsWith('/') ? base : `${base}/`;
       </section>
 
       <section>
+        <h2>Distribution</h2>
+        <p>
+          Watchboard data is available through multiple channels beyond the web dashboard, making it easy to integrate into your own tools, agents, and workflows.
+        </p>
+        <div class="dist-grid">
+          <div class="dist-item">
+            <div class="dist-icon">🔗</div>
+            <div class="dist-body">
+              <strong>Public JSON API</strong>
+              <p>Free, no authentication, no rate limits. Static JSON files served from CDN with full CORS support. Endpoints for tracker metadata, events, KPIs, breaking news, and search. <a href={`${basePath}api/`}>Documentation &rarr;</a></p>
+            </div>
+          </div>
+          <div class="dist-item">
+            <div class="dist-icon">🤖</div>
+            <div class="dist-body">
+              <strong>MCP Server</strong>
+              <p>Model Context Protocol server for AI agents (Claude, ChatGPT, Cursor, and others). Provides 7 tools and 3 resources for querying tracker data programmatically. <a href="https://github.com/ArtemioPadilla/watchboard/tree/main/mcp" target="_blank" rel="noopener noreferrer">Setup guide &rarr;</a></p>
+            </div>
+          </div>
+          <div class="dist-item">
+            <div class="dist-icon">✉️</div>
+            <div class="dist-body">
+              <strong>Telegram Channel</strong>
+              <p>Automated breaking news posts triggered by an hourly scan. High-priority events across all trackers are pushed to Telegram in real time.</p>
+            </div>
+          </div>
+          <div class="dist-item">
+            <div class="dist-icon">🥋</div>
+            <div class="dist-body">
+              <strong>Bluesky</strong>
+              <p>Automated social posting from the curated social queue. Breaking news, daily digests, and analysis threads published on Bluesky.</p>
+            </div>
+          </div>
+          <div class="dist-item">
+            <div class="dist-icon">📨</div>
+            <div class="dist-body">
+              <strong>Newsletter</strong>
+              <p>Weekly digest email summarizing the most significant events across all active trackers, with subscriber management and one-click unsubscribe.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
         <h2>Cross-Tracker Intelligence</h2>
         <p>
           Related trackers are aware of each other. Before updating, each tracker receives a &ldquo;sibling brief&rdquo;&mdash;a summary of what related trackers already cover. This prevents event duplication across overlapping topics. For example, a drone strike reported in both the Iran Conflict and a regional theater tracker will only appear in whichever topic it most directly belongs to, with a cross-reference in the other.
@@ -212,6 +256,8 @@ const basePath = base.endsWith('/') ? base : `${base}/`;
     </div>
 
     <footer class="platform-footer">
+      <a href={`${basePath}api/`}>API</a>
+      <span>&middot;</span>
       <a href={`${basePath}about/`}>About</a>
       <span>&middot;</span>
       <a href={`${basePath}metrics/`}>Status</a>
@@ -411,6 +457,43 @@ const basePath = base.endsWith('/') ? base : `${base}/`;
     font-size: 0.72rem;
     color: var(--text-muted);
     line-height: 1.5;
+  }
+
+  /* ── Distribution Grid ── */
+  .dist-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin: 1rem 0 1.25rem;
+  }
+  .dist-item {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+  }
+  .dist-icon {
+    font-size: 1.2rem;
+    min-width: 24px;
+    text-align: center;
+    margin-top: 0.1rem;
+  }
+  .dist-body strong {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    display: block;
+    margin-bottom: 0.2rem;
+  }
+  .dist-body p {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin: 0;
   }
 
   /* ── Credits Grid (matches tracker about page) ── */
