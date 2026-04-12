@@ -110,7 +110,7 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
   );
 
   const displayName = stripEmoji(tracker.name).toUpperCase();
-  const displayHeadline = truncateAtWord(tracker.headline, 80);
+  const displayHeadline = truncateAtWord(tracker.headline, 120);
   const kpiDisplay = `${tracker.kpiPrefix ?? ''}${tracker.kpiValue}${tracker.kpiSuffix ?? ''}`;
 
   return (
@@ -182,11 +182,13 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
             opacity: headlineOpacity,
             transform: `translateY(${headlineY}px)`,
             fontFamily: "'DM Sans', sans-serif",
-            fontSize: 44,
+            fontSize: 38,
             fontWeight: 700,
             color: '#e8e9ed',
             lineHeight: 1.25,
             maxWidth: 900,
+            maxHeight: '4.8em',
+            overflow: 'hidden' as const,
           }}
         >
           {displayHeadline}
@@ -221,7 +223,7 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
           <div
             style={{
               fontFamily: "'DM Sans', sans-serif",
-              fontSize: 80,
+              fontSize: 64,
               fontWeight: 700,
               color: accentColor,
               lineHeight: 1,

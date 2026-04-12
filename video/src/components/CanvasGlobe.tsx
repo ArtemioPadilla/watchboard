@@ -454,12 +454,8 @@ function drawTexturedSphere(
   const sinCenterLat = Math.sin(centerLatRad);
   const cosCenterLat = Math.cos(centerLatRad);
 
-  const BRIGHTNESS = 1.4;
-  // Blue tint for dark ocean areas
-  const OCEAN_THRESHOLD = 25;
-  const OCEAN_BLUE_R = 8;
-  const OCEAN_BLUE_G = 15;
-  const OCEAN_BLUE_B = 35;
+  // City light detection threshold
+  const CITY_THRESHOLD = 30;
 
   const iR = Math.ceil(radius);
   const x0 = Math.max(0, Math.floor(cx - iR));
@@ -476,7 +472,7 @@ function drawTexturedSphere(
 
   const rSq = radius * radius;
   const invR = 1 / radius;
-  const STEP = 2; // sample every 2nd pixel for performance
+  const STEP = 1; // every pixel for sharp city lights
 
   for (let py = y0; py < y1; py += STEP) {
     const dy = -(py - cy) * invR; // flip y
@@ -522,29 +518,26 @@ function drawTexturedSphere(
       let g = texData[texIdx + 1];
       let b = texData[texIdx + 2];
 
-      // Brightness boost
-      r = Math.min(255, Math.floor(r * BRIGHTNESS));
-      g = Math.min(255, Math.floor(g * BRIGHTNESS));
-      b = Math.min(255, Math.floor(b * BRIGHTNESS));
-
-      // Blue tint for dark ocean areas
-      const luminance = r * 0.299 + g * 0.587 + b * 0.114;
-      if (luminance < OCEAN_THRESHOLD) {
-        r = Math.max(r, OCEAN_BLUE_R);
-        g = Math.max(g, OCEAN_BLUE_G);
-        b = Math.max(b, OCEAN_BLUE_B);
+      // City lights vs dark areas
+      const brightness = (r + g + b) / 3;
+      if (brightness > CITY_THRESHOLD) {
+        // City light — boost aggressively with warm tint
+        r = Math.min(255, Math.floor(r * 2.5));
+        g = Math.min(255, Math.floor(g * 2.2));
+        b = Math.min(255, Math.floor(b * 1.8));
+      } else {
+        // Dark area — subtle blue tint for ocean
+        r = Math.max(r, 8);
+        g = Math.max(g, 12);
+        b = Math.max(b, 20);
       }
 
-      // Write 2x2 block
-      for (let by = 0; by < STEP && (py - y0 + by) < outH; by++) {
-        for (let bx = 0; bx < STEP && (px - x0 + bx) < outW; bx++) {
-          const outIdx = ((Math.floor(py - y0) + by) * outW + (Math.floor(px - x0) + bx)) * 4;
-          out[outIdx] = r;
-          out[outIdx + 1] = g;
-          out[outIdx + 2] = b;
-          out[outIdx + 3] = 255;
-        }
-      }
+      // Write pixel
+      const outIdx = (Math.floor(py - y0) * outW + Math.floor(px - x0)) * 4;
+      out[outIdx] = r;
+      out[outIdx + 1] = g;
+      out[outIdx + 2] = b;
+      out[outIdx + 3] = 255;
     }
   }
 
