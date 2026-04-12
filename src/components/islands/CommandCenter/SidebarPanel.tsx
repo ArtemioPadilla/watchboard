@@ -127,7 +127,7 @@ const TrackerRow = memo(function TrackerRow({
           <div style={S.mediaThumbnail}>
             <img
               src={tracker.latestEventMedia.url}
-              alt=""
+              alt={`Latest event image for ${tracker.shortName}`}
               style={S.mediaThumbnailImg}
               loading="lazy"
               referrerPolicy="no-referrer"
@@ -187,6 +187,11 @@ const TrackerRow = memo(function TrackerRow({
   }
 
   // Collapsed row
+  const freshDotInfo = getFreshnessDot(tracker.lastUpdated);
+  const tooltipText = rawHeadline
+    ? `${tracker.shortName} — ${rawHeadline}`
+    : tracker.shortName;
+
   return (
     <div
       ref={rowRef}
@@ -195,6 +200,7 @@ const TrackerRow = memo(function TrackerRow({
         ...S.collapsedRow,
         borderLeftColor: color,
         background: isHovered ? `${color}15` : 'transparent',
+        transform: isHovered ? 'translateX(2px)' : 'translateX(0)',
       }}
       onClick={e => {
         if (e.shiftKey) {
@@ -206,15 +212,28 @@ const TrackerRow = memo(function TrackerRow({
       onMouseEnter={() => onHover(tracker.slug)}
       onMouseLeave={() => onHover(null)}
       onDoubleClick={() => { window.location.href = href; }}
+      title={tooltipText}
     >
       <div style={S.collapsedLeft}>
+        <span
+          style={{
+            ...S.freshnessDot,
+            background: freshDotInfo.color,
+            boxShadow: freshDotInfo.shadow,
+          }}
+          title={freshDotInfo.label}
+          aria-label={freshDotInfo.label}
+          role="img"
+        >
+          <span className="sr-only">{freshDotInfo.label}</span>
+        </span>
         <span style={S.icon}>{tracker.icon || ''}</span>
         <span className="cc-tracker-name" style={S.collapsedName}>{tracker.shortName}</span>
         {isCompared && <span style={S.compareDot} />}
         {tracker.latestEventMedia && (
           <img
             src={tracker.latestEventMedia.url}
-            alt=""
+            alt={`${tracker.shortName} event thumbnail`}
             style={S.collapsedThumb}
             loading="lazy"
             referrerPolicy="no-referrer"
@@ -437,7 +456,7 @@ const RecentEventsFeed = memo(function RecentEventsFeed({
           <div style={S.feedItemHeader}>
             <span style={{ fontSize: '0.7rem' }}>{tracker.icon || ''}</span>
             <span style={S.feedItemName}>{tracker.shortName}</span>
-            {isFollowed && <span style={S.followStar}>\u2605</span>}
+            {isFollowed && <span style={S.followStar}>★</span>}
             <span style={{ ...S.feedItemAge, color: tracker.color || '#3498db' }}>
               <span suppressHydrationWarning>{computeFreshness(tracker.lastUpdated).ageText}</span>
             </span>
@@ -484,7 +503,7 @@ const RecentEventsFeed = memo(function RecentEventsFeed({
               style={S.feedOpenLink}
               onClick={e => e.stopPropagation()}
             >
-              Open dashboard \u2192
+              Open dashboard →
             </a>
           </div>
         </div>
@@ -515,6 +534,41 @@ const RecentEventsFeed = memo(function RecentEventsFeed({
     </div>
   );
 });
+
+// ── Sort options ──
+
+type SortKey = 'name' | 'lastUpdated' | 'domain';
+
+const SORT_OPTIONS: { key: SortKey; label: string }[] = [
+  { key: 'name', label: 'Name' },
+  { key: 'lastUpdated', label: 'Last updated' },
+  { key: 'domain', label: 'Domain' },
+];
+
+function sortTrackers(trackers: TrackerCardData[], sortKey: SortKey): TrackerCardData[] {
+  const sorted = [...trackers];
+  switch (sortKey) {
+    case 'name':
+      return sorted.sort((a, b) => a.shortName.localeCompare(b.shortName));
+    case 'lastUpdated':
+      return sorted.sort((a, b) => new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime());
+    case 'domain':
+      return sorted.sort((a, b) => (a.domain || '').localeCompare(b.domain || '') || a.shortName.localeCompare(b.shortName));
+    default:
+      return sorted;
+  }
+}
+
+// ── Freshness dot helper ──
+
+function getFreshnessDot(lastUpdated: string): { color: string; shadow: string; label: string } {
+  const updated = new Date(lastUpdated);
+  const now = new Date();
+  const ageHrs = Math.floor((now.getTime() - updated.getTime()) / 3600000);
+  if (ageHrs < 24) return { color: 'var(--accent-green, #2ecc71)', shadow: '0 0 4px rgba(46,160,67,0.37)', label: 'Updated today' };
+  if (ageHrs < 48) return { color: 'var(--accent-amber, #f39c12)', shadow: '0 0 4px rgba(210,153,34,0.37)', label: 'Updated 1-2 days ago' };
+  return { color: 'var(--accent-red, #e74c3c)', shadow: '0 0 4px rgba(231,76,60,0.37)', label: 'Not updated in >2 days' };
+}
 
 // ── Main SidebarPanel ──
 
@@ -547,13 +601,19 @@ export default function SidebarPanel({
   const [activeDomain, setActiveDomain] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [showAllTrackers, setShowAllTrackers] = useState(false);
+  const [sortKey, setSortKey] = useState<SortKey>('name');
 
   const filtered = useMemo(
     () => filterTrackers(trackers, activeDomain, searchQuery),
     [trackers, activeDomain, searchQuery],
   );
 
-  const groups = useMemo(() => groupTrackers(filtered), [filtered]);
+  const sortedFiltered = useMemo(
+    () => sortTrackers(filtered, sortKey),
+    [filtered, sortKey],
+  );
+
+  const groups = useMemo(() => groupTrackers(sortedFiltered), [sortedFiltered]);
   const domainCounts = useMemo(() => computeDomainCounts(trackers), [trackers]);
   const visibleDomains = useMemo(() => getVisibleDomains(domainCounts), [domainCounts]);
 
@@ -662,6 +722,23 @@ export default function SidebarPanel({
       {/* View mode toggle */}
       {onChangeViewMode && (
         <ViewModeToggle mode={viewMode || 'operations'} onChange={onChangeViewMode} />
+      )}
+
+      {/* Sort dropdown */}
+      {(viewMode || 'operations') !== 'geographic' && (
+        <div style={S.sortWrap}>
+          <label style={S.sortLabel}>Sort by</label>
+          <select
+            value={sortKey}
+            onChange={e => setSortKey(e.target.value as SortKey)}
+            style={S.sortSelect}
+            aria-label="Sort trackers by"
+          >
+            {SORT_OPTIONS.map(opt => (
+              <option key={opt.key} value={opt.key}>{opt.label}</option>
+            ))}
+          </select>
+        </div>
       )}
 
       {/* Domain tabs — only in domain mode */}
@@ -1020,7 +1097,7 @@ const S = {
     padding: '8px 12px',
     borderLeft: '2px solid transparent',
     cursor: 'pointer',
-    transition: 'background 0.15s',
+    transition: 'background 0.15s, transform 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
     userSelect: 'none' as const,
     minHeight: 44, // ensure minimum touch target
   } as CSSProperties,
@@ -1086,6 +1163,44 @@ const S = {
     flexShrink: 0,
     boxShadow: '0 0 4px rgba(46,204,113,0.5)',
     animation: 'pulse 2s ease-in-out infinite',
+  } as CSSProperties,
+
+  freshnessDot: {
+    width: 6,
+    height: 6,
+    borderRadius: '50%',
+    flexShrink: 0,
+  } as CSSProperties,
+
+  sortWrap: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px',
+    padding: '4px 12px 6px',
+    flexShrink: 0,
+  } as CSSProperties,
+
+  sortLabel: {
+    fontFamily: "'JetBrains Mono', monospace",
+    fontSize: '0.48rem',
+    fontWeight: 600,
+    letterSpacing: '0.08em',
+    color: 'var(--text-muted)',
+    textTransform: 'uppercase' as const,
+    flexShrink: 0,
+  } as CSSProperties,
+
+  sortSelect: {
+    fontFamily: "'JetBrains Mono', monospace",
+    fontSize: '0.55rem',
+    color: 'var(--text-primary)',
+    background: 'var(--bg-secondary)',
+    border: '1px solid var(--border)',
+    borderRadius: 4,
+    padding: '3px 6px',
+    cursor: 'pointer',
+    outline: 'none',
+    transition: 'border-color 0.2s',
   } as CSSProperties,
 
   // Expanded row

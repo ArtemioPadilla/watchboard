@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect, useRef, useMemo, lazy, Suspense } from 'react';
 import { trackEvent } from '../../../lib/analytics';
 import type { TrackerCardData } from '../../../lib/tracker-directory-utils';
+import { computeFreshness } from '../../../lib/tracker-directory-utils';
 import { computeCountryDensity } from '../../../lib/geo-utils';
 import { type Locale, SUPPORTED_LOCALES, getPreferredLocale, setPreferredLocale, t } from '../../../i18n/translations';
 const GlobePanel = lazy(() => import('./GlobePanel'));
@@ -417,7 +418,7 @@ export default function CommandCenter({
     ? mobileTab === 'trackers' ? styles.sidebar : { ...styles.sidebar, display: 'none' }
     : sidebarCollapsed
       ? { ...styles.sidebarCollapsed }
-      : { ...styles.sidebar, transition: 'all 0.3s ease' };
+      : { ...styles.sidebar };
 
   return (
     <div className="command-center-root" role="application" aria-label="Watchboard Command Center" style={styles.container}>
@@ -580,20 +581,36 @@ export default function CommandCenter({
               </svg>
             </button>
             <div style={styles.collapsedTrackerIcons}>
-              {trackers.filter(t => t.status === 'active').slice(0, 8).map(t => (
-                <button
-                  key={t.slug}
-                  onClick={() => { handleSelect(t.slug); setSidebarCollapsed(false); }}
-                  style={{
-                    ...styles.collapsedTrackerIcon,
-                    borderColor: activeTracker === t.slug ? t.color : 'transparent',
-                  }}
-                  title={t.shortName}
-                  aria-label={`Select ${t.shortName}`}
-                >
-                  <span style={{ fontSize: '1rem' }}>{t.icon}</span>
-                </button>
-              ))}
+              {trackers.filter(t => t.status === 'active').slice(0, 12).map(t => {
+                const freshness = computeFreshness(t.lastUpdated);
+                const freshnessColor = freshness.className === 'fresh'
+                  ? 'var(--accent-green, #2ecc71)'
+                  : freshness.className === 'recent'
+                    ? 'var(--accent-amber, #f39c12)'
+                    : 'var(--text-muted, #484f58)';
+                const freshnessShadow = freshness.className === 'fresh'
+                  ? 'rgba(46,160,67,0.37)'
+                  : freshness.className === 'recent'
+                    ? 'rgba(210,153,34,0.37)'
+                    : 'rgba(231,76,60,0.37)';
+                const isSelected = activeTracker === t.slug;
+                return (
+                  <button
+                    key={t.slug}
+                    onClick={() => { handleSelect(t.slug); setSidebarCollapsed(false); }}
+                    style={{
+                      ...styles.collapsedTrackerIcon,
+                      borderColor: isSelected ? t.color || freshnessColor : freshnessColor,
+                      boxShadow: isSelected ? `0 0 6px ${freshnessShadow}` : 'none',
+                      opacity: freshness.className === 'stale' ? 0.5 : 1,
+                    }}
+                    title={`${t.shortName} — ${freshness.label}`}
+                    aria-label={`Select ${t.shortName} (${freshness.label})`}
+                  >
+                    <span style={{ fontSize: '1rem' }}>{t.icon}</span>
+                  </button>
+                );
+              })}
             </div>
           </div>
         ) : (
@@ -798,17 +815,18 @@ const styles = {
     maxWidth: 440,
     borderLeft: '1px solid var(--border)',
     overflow: 'hidden',
-    transition: 'all 0.3s ease',
+    transition: 'flex 0.35s cubic-bezier(0.4, 0, 0.2, 1), min-width 0.35s cubic-bezier(0.4, 0, 0.2, 1), max-width 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease',
     position: 'relative' as const,
+    opacity: 1,
   } as React.CSSProperties,
 
   sidebarCollapsed: {
-    flex: '0 0 48px',
-    minWidth: 48,
-    maxWidth: 48,
+    flex: '0 0 52px',
+    minWidth: 52,
+    maxWidth: 52,
     borderLeft: '1px solid var(--border)',
     overflow: 'hidden',
-    transition: 'all 0.3s ease',
+    transition: 'flex 0.35s cubic-bezier(0.4, 0, 0.2, 1), min-width 0.35s cubic-bezier(0.4, 0, 0.2, 1), max-width 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease',
   } as React.CSSProperties,
 
   collapsedSidebarContent: {
@@ -816,8 +834,10 @@ const styles = {
     flexDirection: 'column' as const,
     alignItems: 'center',
     paddingTop: '0.75rem',
-    gap: '0.5rem',
+    gap: '0.4rem',
     height: '100%',
+    overflowY: 'auto' as const,
+    scrollbarWidth: 'none' as const,
   } as React.CSSProperties,
 
   sidebarToggleBtn: {
@@ -863,13 +883,13 @@ const styles = {
     border: '2px solid transparent',
     borderRadius: '8px',
     cursor: 'pointer',
-    padding: '4px',
-    width: '34px',
-    height: '34px',
+    padding: '3px',
+    width: '36px',
+    height: '36px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    transition: 'border-color 0.15s',
+    transition: 'border-color 0.2s, box-shadow 0.2s, transform 0.15s, opacity 0.2s',
   } as React.CSSProperties,
 
   overlayNav: {

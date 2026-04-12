@@ -1,0 +1,179 @@
+---
+/**
+ * CriticalCSS.astro
+ * Inlines above-the-fold CSS for faster first contentful paint.
+ * Include in <head> of BaseLayout to avoid render-blocking stylesheet load.
+ * Only covers the initial viewport: dark background, CSS variables, fonts, layout reset.
+ */
+---
+<style is:inline>
+  /* Critical CSS — inlined for fastest first paint */
+  :root {
+    --bg-primary: #0a0b0e;
+    --bg-secondary: #12141a;
+    --bg-card: #181b23;
+    --bg-card-hover: #1e2130;
+    --border: #2a2d3a;
+    --border-light: #363a4a;
+    --text-primary: #e8e9ed;
+    --text-secondary: #9498a8;
+    --text-muted: #8b8fa2;
+    --accent-red: #e74c3c;
+    --accent-red-dim: rgba(231,76,60,0.15);
+    --accent-amber: #f39c12;
+    --accent-blue: #3498db;
+    --accent-blue-dim: rgba(52,152,219,0.12);
+    --accent-green: #2ecc71;
+    --accent-green-dim: rgba(46,204,113,0.12);
+    --accent-purple: #a86cc1;
+    --accent-cyan: #1abc9c;
+    --tier-1: #e74c3c;
+    --tier-2: #3498db;
+    --tier-3: #f39c12;
+    --tier-4: #9498a8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    height: 100vh;
+    height: 100dvh;
+  }
+
+  body:has(.command-center-root) {
+    overflow: hidden;
+  }
+
+  /* Command center root layout — prevents flash of unstyled layout */
+  .command-center-root {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: var(--bg-primary);
+    position: relative;
+  }
+
+  /* Globe placeholder — dark area fills left immediately */
+  .cc-globe {
+    flex: 6 1 0%;
+    position: relative;
+    min-width: 0;
+    background: #000;
+  }
+
+  /* Sidebar initial frame */
+  .cc-sidebar {
+    flex: 4 1 0%;
+    min-width: 280px;
+    max-width: 440px;
+    border-left: 1px solid var(--border);
+    overflow: hidden;
+    background: var(--bg-primary);
+  }
+
+  /* Overlay nav bar — visible immediately */
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+  .skip-link:focus {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: auto;
+    height: auto;
+    padding: 0.5rem 1rem;
+    background: var(--accent-blue);
+    color: white;
+    z-index: 9999;
+    font-size: 0.9rem;
+  }
+
+  /* SR-only utility */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* Feedback FAB and tooltip — prevent layout shift */
+  .feedback-fab {
+    position: fixed;
+    bottom: 52px;
+    right: 12px;
+    z-index: 60;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    text-decoration: none;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+  }
+  .feedback-fab:hover { opacity: 1; }
+
+  .tooltip {
+    display: none;
+    position: fixed;
+    z-index: 200;
+    pointer-events: none;
+  }
+
+  /* Mobile layout */
+  @media (max-width: 767px) {
+    .command-center-root {
+      flex-direction: column;
+      height: 100vh;
+      height: 100dvh;
+    }
+    .cc-globe {
+      flex: 0 0 40vh;
+      height: 40vh;
+      max-height: 40vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .cc-sidebar {
+      flex: 1 1 0%;
+      max-width: none;
+      min-width: 0;
+      width: 100%;
+      border-left: none;
+      border-top: 1px solid var(--border);
+      overflow-y: auto;
+      min-height: 0;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .cc-globe {
+      flex: 0 0 35vh;
+      height: 35vh;
+      max-height: 35vh;
+    }
+  }
+</style>
