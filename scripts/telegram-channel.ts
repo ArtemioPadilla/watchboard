@@ -107,7 +107,7 @@ async function sendTelegramMessage(
         body: JSON.stringify({
           chat_id: chatId,
           photo: imageUrl,
-          caption: text.slice(0, 1024), // Photo captions limited to 1024
+          caption: stripHtmlAndTruncate(text, 1024), // Photo captions limited to 1024
           parse_mode: 'HTML',
           disable_web_page_preview: false,
         }),
@@ -238,6 +238,48 @@ function getTrackerThumbnail(slug: string): string | null {
   return `${BASE_URL}/${slug}/og.png`;
 }
 
+// ── HTML truncation helpers ──────────────────────────────────────────────────
+
+function stripHtml(html: string): string {
+  return html.replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"');
+}
+
+function stripHtmlAndTruncate(html: string, maxLen: number): string {
+  const plain = stripHtml(html);
+  if (plain.length <= maxLen) return plain;
+  return plain.slice(0, maxLen - 3) + '...';
+}
+
+function truncateHtmlMessage(html: string, maxLen: number): string {
+  if (html.length <= maxLen) return html;
+  // Find a safe cut point before maxLen that doesn't split a tag
+  let cutPoint = maxLen - 3;
+  // Walk back to avoid cutting inside a tag
+  const lastOpenBracket = html.lastIndexOf('<', cutPoint);
+  const lastCloseBracket = html.lastIndexOf('>', cutPoint);
+  if (lastOpenBracket > lastCloseBracket) {
+    // We're inside a tag, cut before it
+    cutPoint = lastOpenBracket;
+  }
+  let truncated = html.slice(0, cutPoint) + '...';
+  // Close any unclosed tags
+  const openTags: string[] = [];
+  const tagRegex = /<\/?(\w+)[^>]*>/g;
+  let match;
+  while ((match = tagRegex.exec(truncated)) !== null) {
+    if (match[0].startsWith('</')) {
+      openTags.pop();
+    } else if (!match[0].endsWith('/>')) {
+      openTags.push(match[1]);
+    }
+  }
+  // Close remaining open tags in reverse order
+  while (openTags.length > 0) {
+    truncated += '</' + openTags.pop() + '>';
+  }
+  return truncated;
+}
+
 // ── Message formatting ───────────────────────────────────────────────────────
 
 function escapeHtml(text: string): string {
@@ -326,10 +368,8 @@ function formatTelegramMessage(
 
   let message = lines.join('\n');
 
-  // Truncate if over limit
-  if (message.length > MAX_MESSAGE_LENGTH) {
-    message = message.slice(0, MAX_MESSAGE_LENGTH - 3) + '...';
-  }
+  // Truncate if over limit (HTML-aware to avoid splitting tags)
+  message = truncateHtmlMessage(message, MAX_MESSAGE_LENGTH);
 
   return message;
 }
