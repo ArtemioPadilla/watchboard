@@ -172,7 +172,20 @@ export default function MobileMapTab({
       {/* Floating latest event card (#6) */}
       {latestEvent && !cardDismissed && (
         <div className="mtab-map-event-card">
-          <div className="mtab-map-event-dot" style={{ background: eventTypeColor(latestEvent.type) }} />
+          {(() => {
+            const thumb = latestEvent.media?.find(m => m.thumbnail)?.thumbnail;
+            return thumb ? (
+              <img
+                className="mtab-map-event-thumb"
+                src={thumb}
+                alt=""
+                referrerPolicy="no-referrer"
+                onError={e => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+              />
+            ) : (
+              <div className="mtab-map-event-dot" style={{ background: eventTypeColor(latestEvent.type) }} />
+            );
+          })()}
           <div className="mtab-map-event-body">
             <div className="mtab-map-event-type">{latestEvent.type}</div>
             <div className="mtab-map-event-title">{latestEvent.title}</div>

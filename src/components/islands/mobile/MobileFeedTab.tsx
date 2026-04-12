@@ -147,23 +147,46 @@ export default function MobileFeedTab({ heroSubtitle, events }: Props) {
                 {dayEvents.length} event{dayEvents.length !== 1 ? 's' : ''}
               </span>
             </div>
-            {dayEvents.map(ev => (
-              <button
-                key={ev.id}
-                className="mtab-event-card"
-                style={{ borderLeftColor: eventTypeColor(ev.type) }}
-                onClick={() => handleEventTap(ev)}
-                aria-label={ev.title}
-              >
-                <div className="mtab-event-header">
-                  <span className="mtab-event-type">{ev.type}</span>
-                  <span className="mtab-event-time" suppressHydrationWarning>
-                    {relativeTime(ev.resolvedDate)}
-                  </span>
-                </div>
-                <div className="mtab-event-title">{ev.title}</div>
-              </button>
-            ))}
+            {dayEvents.map(ev => {
+              const thumb = ev.media?.find(m => m.thumbnail)?.thumbnail;
+              return (
+                <button
+                  key={ev.id}
+                  className="mtab-event-card"
+                  style={{ borderLeftColor: eventTypeColor(ev.type) }}
+                  onClick={() => handleEventTap(ev)}
+                  aria-label={ev.title}
+                >
+                  <div className="mtab-event-card-row">
+                    {thumb ? (
+                      <img
+                        className="mtab-event-thumb"
+                        src={thumb}
+                        alt=""
+                        referrerPolicy="no-referrer"
+                        onError={e => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+                      />
+                    ) : (
+                      <div
+                        className="mtab-event-thumb-fallback"
+                        style={{ borderColor: eventTypeColor(ev.type) }}
+                      >
+                        <span className="mtab-event-thumb-icon">{ev.type.charAt(0).toUpperCase()}</span>
+                      </div>
+                    )}
+                    <div className="mtab-event-card-content">
+                      <div className="mtab-event-header">
+                        <span className="mtab-event-type">{ev.type}</span>
+                        <span className="mtab-event-time" suppressHydrationWarning>
+                          {relativeTime(ev.resolvedDate)}
+                        </span>
+                      </div>
+                      <div className="mtab-event-title">{ev.title}</div>
+                    </div>
+                  </div>
+                </button>
+              );
+            })}
           </div>
         );
       })}
