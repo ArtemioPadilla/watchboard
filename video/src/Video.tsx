@@ -92,10 +92,7 @@ export const Video: React.FC<VideoProps> = ({ data, narrationSrc }) => {
         durationInFrames={OUTRO_FRAMES}
         name="Outro"
       >
-        <Outro
-          trackers={breakingData.trackers.slice(0, 3)}
-          startFrame={INTRO_FRAMES + trackerCount * SLIDE_FRAMES}
-        />
+        <Outro />
       </Sequence>
 
       {/* Bottom-right persistent watermark */}
