@@ -1,4 +1,6 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
+import { t, getPreferredLocale } from '../../i18n/translations';
+import type { Locale } from '../../i18n/translations';
 
 /* ── Types (mirror scripts/social-types.ts for client) ── */
 
@@ -113,25 +115,25 @@ const FC_COLORS: Record<FactCheckStatus, string> = {
   failed: '#f85149',
 };
 
-const STATUS_FILTERS: Array<{ key: string; label: string }> = [
-  { key: 'all', label: 'ALL' },
-  { key: 'auto_approved', label: 'AUTO' },
-  { key: 'pending_review', label: 'REVIEW' },
-  { key: 'expired', label: 'EXPIRED' },
-  { key: 'held', label: 'HELD' },
-  { key: 'approved', label: 'APPROVED' },
-  { key: 'rejected', label: 'REJECTED' },
-  { key: 'posted', label: 'POSTED' },
+const STATUS_FILTERS: Array<{ key: string; labelKey: string }> = [
+  { key: 'all', labelKey: 'social.filterAll' },
+  { key: 'auto_approved', labelKey: 'social.filterAuto' },
+  { key: 'pending_review', labelKey: 'social.filterReview' },
+  { key: 'expired', labelKey: 'social.filterExpired' },
+  { key: 'held', labelKey: 'social.filterHeld' },
+  { key: 'approved', labelKey: 'social.filterApproved' },
+  { key: 'rejected', labelKey: 'social.filterRejected' },
+  { key: 'posted', labelKey: 'social.filterPosted' },
 ];
 
-const TYPE_FILTERS: Array<{ key: string; label: string }> = [
-  { key: 'all', label: 'ALL TYPES' },
-  { key: 'digest', label: 'DIGEST' },
-  { key: 'breaking', label: 'BREAKING' },
-  { key: 'hot_take', label: 'HOT TAKE' },
-  { key: 'thread', label: 'THREAD' },
-  { key: 'data_viz', label: 'DATA VIZ' },
-  { key: 'meme', label: 'MEME' },
+const TYPE_FILTERS: Array<{ key: string; labelKey: string }> = [
+  { key: 'all', labelKey: 'social.filterAllTypes' },
+  { key: 'digest', labelKey: 'social.typeDigest' },
+  { key: 'breaking', labelKey: 'social.typeBreaking' },
+  { key: 'hot_take', labelKey: 'social.typeHotTake' },
+  { key: 'thread', labelKey: 'social.typeThread' },
+  { key: 'data_viz', labelKey: 'social.typeDataViz' },
+  { key: 'meme', labelKey: 'social.typeMeme' },
 ];
 
 /* ── Helpers ── */
@@ -250,10 +252,10 @@ function VerifiedBadgeSvg() {
 
 type TabId = 'overview' | 'queue' | 'activity';
 
-const TABS: Array<{ id: TabId; label: string }> = [
-  { id: 'overview', label: 'OVERVIEW' },
-  { id: 'activity', label: 'ACTIVITY FEED' },
-  { id: 'queue', label: 'QUEUE' },
+const TABS: Array<{ id: TabId; labelKey: string }> = [
+  { id: 'overview', labelKey: 'social.tabOverview' },
+  { id: 'activity', labelKey: 'social.tabActivity' },
+  { id: 'queue', labelKey: 'social.tabQueue' },
 ];
 
 /* ── Tracker colors ── */
@@ -298,6 +300,7 @@ function MiniBar({ data, color = '#58a6ff', width = 120, height = 32 }: { data: 
 /* ── Component ── */
 
 export default function SocialCommandCenter({ basePath, githubRepo }: Props) {
+  const locale = getPreferredLocale();
   const [queue, setQueue] = useState<QueueEntry[]>([]);
   const [budget, setBudget] = useState<BudgetData | null>(null);
   const [history, setHistory] = useState<HistoryEntry[]>([]);
@@ -338,7 +341,7 @@ export default function SocialCommandCenter({ basePath, githubRepo }: Props) {
           setHistory(Array.isArray(h) ? h : []);
         }
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to load data');
+        setError(err instanceof Error ? err.message : t('social.failedToLoad', locale));
       } finally {
         setLoading(false);
       }
@@ -469,7 +472,7 @@ export default function SocialCommandCenter({ basePath, githubRepo }: Props) {
   /* ── Auth handlers ── */
 
   const handleAuthenticate = useCallback(() => {
-    const token = prompt('Enter your GitHub Personal Access Token (PAT):');
+    const token = prompt(t('social.enterPat', locale));
     if (token) {
       setGhToken(token);
       localStorage.setItem('wb_gh_token', token);
@@ -552,7 +555,7 @@ export default function SocialCommandCenter({ basePath, githubRepo }: Props) {
         await updateQueueViaGitHub(updatedQueue);
         setQueue(updatedQueue);
       } catch (err) {
-        alert(err instanceof Error ? err.message : 'Failed to approve');
+        alert(err instanceof Error ? err.message : t('social.failedToApprove', locale));
       } finally {
         setSavingIds((prev) => {
           const next = new Set(prev);
@@ -575,7 +578,7 @@ export default function SocialCommandCenter({ basePath, githubRepo }: Props) {
         await updateQueueViaGitHub(updatedQueue);
         setQueue(updatedQueue);
       } catch (err) {
-        alert(err instanceof Error ? err.message : 'Failed to reject');
+        alert(err instanceof Error ? err.message : t('social.failedToReject', locale));
       } finally {
         setSavingIds((prev) => {
           const next = new Set(prev);
@@ -593,7 +596,7 @@ export default function SocialCommandCenter({ basePath, githubRepo }: Props) {
       const entry = queue.find((e) => e.id === id);
       if (!entry) return;
 
-      const newText = prompt('Edit tweet text:', entry.text);
+      const newText = prompt(t('social.editTweetText', locale), entry.text);
       if (newText === null || newText === entry.text) return;
 
       setSavingIds((prev) => new Set(prev).add(id));
@@ -604,7 +607,7 @@ export default function SocialCommandCenter({ basePath, githubRepo }: Props) {
         await updateQueueViaGitHub(updatedQueue);
         setQueue(updatedQueue);
       } catch (err) {
-        alert(err instanceof Error ? err.message : 'Failed to edit');
+        alert(err instanceof Error ? err.message : t('social.failedToEdit', locale));
       } finally {
         setSavingIds((prev) => {
           const next = new Set(prev);
@@ -627,7 +630,7 @@ export default function SocialCommandCenter({ basePath, githubRepo }: Props) {
       setQueue(updatedQueue);
       setSelected(new Set());
     } catch (err) {
-      alert(err instanceof Error ? err.message : 'Failed to batch approve');
+      alert(err instanceof Error ? err.message : t('social.failedToBatchApprove', locale));
     } finally {
       setBatchSaving(false);
     }
@@ -647,10 +650,10 @@ export default function SocialCommandCenter({ basePath, githubRepo }: Props) {
         !e.tweetId,
     ).length;
     if (dueCount === 0) {
-      alert('No tweets are due for posting right now. Approve tweets and check their publishAt times.');
+      alert(t('social.noTweetsDue', locale));
       return;
     }
-    if (!confirm(`Trigger posting workflow? ${dueCount} due tweet(s) will be published to X.`)) return;
+    if (!confirm(`${t('social.triggerConfirm', locale)} ${dueCount} ${t('social.dueTweets', locale)}`)) return;
     setPublishing(true);
     try {
       // Brief delay to ensure any recent approval commits have landed on the remote
@@ -670,9 +673,9 @@ export default function SocialCommandCenter({ basePath, githubRepo }: Props) {
         const errData = await res.json().catch(() => ({}));
         throw new Error(`GitHub API error (${res.status}): ${(errData as Record<string, string>).message ?? 'Failed to trigger workflow'}`);
       }
-      alert(`Workflow triggered! ${dueCount} tweet(s) will be posted in ~30 seconds. Refresh the page after a minute to see results.`);
+      alert(t('social.workflowTriggered', locale));
     } catch (err) {
-      alert(err instanceof Error ? err.message : 'Failed to trigger publish workflow');
+      alert(err instanceof Error ? err.message : t('social.failedToTrigger', locale));
     } finally {
       setPublishing(false);
     }
@@ -685,11 +688,11 @@ export default function SocialCommandCenter({ basePath, githubRepo }: Props) {
   /* ── Loading / Error states ── */
 
   if (loading) {
-    return <div className="scc-loading">Loading queue...</div>;
+    return <div className="scc-loading">{t('social.loadingQueue', locale)}</div>;
   }
 
   if (error) {
-    return <div className="scc-error">Error: {error}</div>;
+    return <div className="scc-error">{t('social.failedToLoad', locale)}: {error}</div>;
   }
 
   /* ── Main render ── */
@@ -698,32 +701,32 @@ export default function SocialCommandCenter({ basePath, githubRepo }: Props) {
     <>
       {/* Budget bar */}
       <div className="scc-cost-bar">
-        <span>BUDGET <b>${budget?.monthlyTarget.toFixed(2) ?? '—'}</b>/mo</span>
-        <span>SPENT <b>${budget?.spent.toFixed(2) ?? '—'}</b></span>
+        <span>{t('social.budget', locale)} <b>${budget?.monthlyTarget.toFixed(2) ?? '—'}</b>/mo</span>
+        <span>{t('social.spent', locale)} <b>${budget?.spent.toFixed(2) ?? '—'}</b></span>
         <div className="scc-cost-meter">
           <div className="scc-cost-fill" style={{ width: `${budgetPercent}%`, background: budgetPercent > 90 ? '#f85149' : undefined }} />
         </div>
-        <span>REMAINING <b>${budget?.remaining.toFixed(2) ?? '—'}</b></span>
-        <span>TWEETS <b>{budget?.tweetsPosted ?? 0}</b></span>
+        <span>{t('social.remaining', locale)} <b>${budget?.remaining.toFixed(2) ?? '—'}</b></span>
+        <span>{t('social.tweets', locale)} <b>{budget?.tweetsPosted ?? 0}</b></span>
         <div className="scc-auth-area">
           {ghToken ? (
             <>
-              <span className="scc-auth-badge authenticated">AUTHENTICATED</span>
-              <button className="scc-auth-btn logout" onClick={handleLogout}>Log out</button>
+              <span className="scc-auth-badge authenticated">{t('social.authenticated', locale)}</span>
+              <button className="scc-auth-btn logout" onClick={handleLogout}>{t('social.logOut', locale)}</button>
             </>
           ) : (
-            <button className="scc-auth-btn login" onClick={handleAuthenticate}>Authenticate</button>
+            <button className="scc-auth-btn login" onClick={handleAuthenticate}>{t('social.authenticate', locale)}</button>
           )}
         </div>
       </div>
 
       {/* Tabs */}
       <div className="scc-tabs">
-        {TABS.map(t => (
-          <button key={t.id} className={`scc-tab${activeTab === t.id ? ' active' : ''}`} onClick={() => setActiveTab(t.id)}>
-            {t.label}
-            {t.id === 'activity' && <span className="scc-tab-count">{history.length}</span>}
-            {t.id === 'queue' && <span className="scc-tab-count">{queue.length}</span>}
+        {TABS.map(tab => (
+          <button key={tab.id} className={`scc-tab${activeTab === tab.id ? ' active' : ''}`} onClick={() => setActiveTab(tab.id)}>
+            {t(tab.labelKey, locale)}
+            {tab.id === 'activity' && <span className="scc-tab-count">{history.length}</span>}
+            {tab.id === 'queue' && <span className="scc-tab-count">{queue.length}</span>}
           </button>
         ))}
       </div>
@@ -734,24 +737,24 @@ export default function SocialCommandCenter({ basePath, githubRepo }: Props) {
           {/* Stats cards row */}
           <div className="scc-stats-grid">
             <div className="scc-stat-card">
-              <div className="scc-stat-label">TWEETS THIS MONTH</div>
+              <div className="scc-stat-label">{t('social.tweetsThisMonth', locale)}</div>
               <div className="scc-stat-value">{budget?.tweetsPosted ?? history.filter(e => e.date.startsWith(todayStr().slice(0, 7))).length}</div>
-              <div className="scc-stat-sub">{stats.dailyAvg.toFixed(1)} avg/day</div>
+              <div className="scc-stat-sub">{stats.dailyAvg.toFixed(1)} {t('social.avgPerDay', locale)}</div>
             </div>
             <div className="scc-stat-card">
-              <div className="scc-stat-label">PROJECTED MONTHLY</div>
+              <div className="scc-stat-label">{t('social.projectedMonthly', locale)}</div>
               <div className="scc-stat-value" style={{ color: stats.projectedCost > (budget?.monthlyTarget ?? 1) ? '#f85149' : '#3fb950' }}>{stats.projectedMonthly}</div>
-              <div className="scc-stat-sub">~${stats.projectedCost.toFixed(2)} cost</div>
+              <div className="scc-stat-sub">~${stats.projectedCost.toFixed(2)} {t('social.cost', locale)}</div>
             </div>
             <div className="scc-stat-card">
-              <div className="scc-stat-label">DAILY CAP TODAY</div>
+              <div className="scc-stat-label">{t('social.dailyCapToday', locale)}</div>
               <div className="scc-stat-value">{stats.todayBreaking}<span style={{ color: '#484f58', fontSize: '0.6em' }}>/4</span></div>
-              <div className="scc-stat-sub">breaking tweets</div>
+              <div className="scc-stat-sub">{t('social.breakingTweets', locale)}</div>
             </div>
             <div className="scc-stat-card">
-              <div className="scc-stat-label">DAYS LEFT</div>
+              <div className="scc-stat-label">{t('social.daysLeft', locale)}</div>
               <div className="scc-stat-value">{stats.daysLeft}</div>
-              <div className="scc-stat-sub">${budget?.remaining.toFixed(2) ?? '0.00'} remaining</div>
+              <div className="scc-stat-sub">${budget?.remaining.toFixed(2) ?? '0.00'} {t('social.remainingSub', locale)}</div>
             </div>
           </div>
 
@@ -759,7 +762,7 @@ export default function SocialCommandCenter({ basePath, githubRepo }: Props) {
           <div className="scc-charts-grid">
             {/* Last 7 days */}
             <div className="scc-chart-card">
-              <div className="scc-chart-title">LAST 7 DAYS</div>
+              <div className="scc-chart-title">{t('social.last7Days', locale)}</div>
               <MiniBar data={stats.last7} width={200} height={40} />
               <div className="scc-chart-labels">
                 {stats.last7Labels.map((l, i) => <span key={i}>{l}</span>)}
@@ -768,7 +771,7 @@ export default function SocialCommandCenter({ basePath, githubRepo }: Props) {
 
             {/* By tracker */}
             <div className="scc-chart-card">
-              <div className="scc-chart-title">BY TRACKER</div>
+              <div className="scc-chart-title">{t('social.byTracker', locale)}</div>
               <div className="scc-breakdown-list">
                 {stats.trackerRanked.slice(0, 8).map(([slug, count]) => (
                   <div key={slug} className="scc-breakdown-row">
@@ -785,7 +788,7 @@ export default function SocialCommandCenter({ basePath, githubRepo }: Props) {
 
             {/* By type */}
             <div className="scc-chart-card">
-              <div className="scc-chart-title">BY TYPE</div>
+              <div className="scc-chart-title">{t('social.byType', locale)}</div>
               <div className="scc-breakdown-list">
                 {Object.entries(stats.byType).sort((a, b) => b[1] - a[1]).map(([type, count]) => (
                   <div key={type} className="scc-breakdown-row">
@@ -803,14 +806,14 @@ export default function SocialCommandCenter({ basePath, githubRepo }: Props) {
 
           {/* Recent activity preview */}
           <div className="scc-section-header">
-            <span>RECENT POSTS</span>
-            <button className="scc-link-btn" onClick={() => setActiveTab('activity')}>View all →</button>
+            <span>{t('social.recentPosts', locale)}</span>
+            <button className="scc-link-btn" onClick={() => setActiveTab('activity')}>{t('social.viewAll', locale)}</button>
           </div>
           <div className="scc-activity-list">
             {history.slice().reverse().slice(0, 5).map((entry, i) => (
               <ActivityRow key={entry.tweetId || i} entry={entry} expanded={expandedHistory.has(entry.tweetId)} onToggle={() => setExpandedHistory(prev => { const n = new Set(prev); n.has(entry.tweetId) ? n.delete(entry.tweetId) : n.add(entry.tweetId); return n; })} />
             ))}
-            {history.length === 0 && <div className="scc-empty"><span>No tweets posted yet</span></div>}
+            {history.length === 0 && <div className="scc-empty"><span>{t('social.noTweetsYet', locale)}</span></div>}
           </div>
         </div>
       )}
@@ -819,13 +822,13 @@ export default function SocialCommandCenter({ basePath, githubRepo }: Props) {
       {activeTab === 'activity' && (
         <div className="scc-activity-tab">
           <div className="scc-section-header">
-            <span>ALL POSTED TWEETS ({history.length})</span>
+            <span>{t('social.allPostedTweets', locale)} ({history.length})</span>
           </div>
           <div className="scc-activity-list">
             {history.slice().reverse().map((entry, i) => (
               <ActivityRow key={entry.tweetId || i} entry={entry} expanded={expandedHistory.has(entry.tweetId)} onToggle={() => setExpandedHistory(prev => { const n = new Set(prev); n.has(entry.tweetId) ? n.delete(entry.tweetId) : n.add(entry.tweetId); return n; })} />
             ))}
-            {history.length === 0 && <div className="scc-empty"><span>No tweets posted yet</span></div>}
+            {history.length === 0 && <div className="scc-empty"><span>{t('social.noTweetsYet', locale)}</span></div>}
           </div>
         </div>
       )}
@@ -836,21 +839,21 @@ export default function SocialCommandCenter({ basePath, githubRepo }: Props) {
           {/* Date picker + filters */}
           <div className="scc-queue-toolbar">
             <label className="scc-date-picker">
-              <span>DATE</span>
+              <span>{t('social.date', locale)}</span>
               <input type="date" value={queueDate} onChange={e => setQueueDate(e.target.value)} max={todayStr()} />
             </label>
             <div className="scc-filter-sep" />
             {STATUS_FILTERS.map((f) => (
-              <button key={f.key} className={`scc-fbtn${statusFilter === f.key ? ' active' : ''}`} onClick={() => setStatusFilter(f.key)}>{f.label}</button>
+              <button key={f.key} className={`scc-fbtn${statusFilter === f.key ? ' active' : ''}`} onClick={() => setStatusFilter(f.key)}>{t(f.labelKey, locale)}</button>
             ))}
             <div className="scc-filter-sep" />
             {TYPE_FILTERS.map((f) => (
-              <button key={f.key} className={`scc-fbtn${typeFilter === f.key ? ' active' : ''}`} onClick={() => setTypeFilter(f.key)}>{f.label}</button>
+              <button key={f.key} className={`scc-fbtn${typeFilter === f.key ? ' active' : ''}`} onClick={() => setTypeFilter(f.key)}>{t(f.labelKey, locale)}</button>
             ))}
             {languages.length > 1 && (
               <>
                 <div className="scc-filter-sep" />
-                <button className={`scc-fbtn${langFilter === 'all' ? ' active' : ''}`} onClick={() => setLangFilter('all')}>ALL LANGS</button>
+                <button className={`scc-fbtn${langFilter === 'all' ? ' active' : ''}`} onClick={() => setLangFilter('all')}>{t('social.allLangs', locale)}</button>
                 {languages.map((lang) => (
                   <button key={lang} className={`scc-fbtn${langFilter === lang ? ' active' : ''}`} onClick={() => setLangFilter(lang)}>{lang.toUpperCase()}</button>
                 ))}
@@ -862,9 +865,9 @@ export default function SocialCommandCenter({ basePath, githubRepo }: Props) {
           <div className="scc-list">
             {filteredQueue.length === 0 ? (
               <div className="scc-empty">
-                <span>No posts in queue</span>
+                <span>{t('social.noPostsInQueue', locale)}</span>
                 <span className="scc-empty-sub">
-                  {queue.length > 0 ? 'Try adjusting your filters' : queueDate === todayStr() ? 'No queue for today yet — next generation at 14:00 UTC' : `No queue file for ${queueDate}`}
+                  {queue.length > 0 ? t('social.tryAdjustingFilters', locale) : queueDate === todayStr() ? t('social.noQueueToday', locale) : `${t('social.noQueueFileFor', locale)} ${queueDate}`}
                 </span>
               </div>
             ) : (
@@ -890,18 +893,18 @@ export default function SocialCommandCenter({ basePath, githubRepo }: Props) {
           <div className="scc-bottom">
             <div className="scc-bottom-left">
               <button className="scc-fbtn" onClick={selectAll} style={{ fontSize: '10px' }}>
-                {filteredQueue.length > 0 && filteredQueue.every((e) => selected.has(e.id)) ? 'DESELECT ALL' : 'SELECT ALL'}
+                {filteredQueue.length > 0 && filteredQueue.every((e) => selected.has(e.id)) ? t('social.deselectAll', locale) : t('social.selectAll', locale)}
               </button>
-              <span><b>{selected.size}</b> selected</span>
-              <span>EST. COST <b>${selectedCost.toFixed(3)}</b></span>
-              {budget && <span>AFTER <b>${Math.max(0, budget.remaining - selectedCost).toFixed(3)}</b> remaining</span>}
+              <span><b>{selected.size}</b> {t('social.selected', locale)}</span>
+              <span>{t('social.estCost', locale)} <b>${selectedCost.toFixed(3)}</b></span>
+              {budget && <span>{t('social.after', locale)} <b>${Math.max(0, budget.remaining - selectedCost).toFixed(3)}</b> {t('social.remainingSub', locale)}</span>}
             </div>
             <div className="scc-bottom-right">
-              <button className="scc-batch-btn" disabled={selected.size === 0 || !ghToken || batchSaving} title={!ghToken ? 'Authenticate to enable' : undefined} onClick={handleBatchApprove}>
-                {batchSaving ? 'Saving...' : `BATCH APPROVE (${selected.size})`}
+              <button className="scc-batch-btn" disabled={selected.size === 0 || !ghToken || batchSaving} title={!ghToken ? t('social.authToEnable', locale) : undefined} onClick={handleBatchApprove}>
+                {batchSaving ? t('social.saving', locale) : `${t('social.batchApprove', locale)} (${selected.size})`}
               </button>
-              <button className="scc-batch-btn scc-publish-btn" disabled={!ghToken || publishing || queue.filter(e => e.status === 'approved' || e.status === 'auto_approved').length === 0} title={!ghToken ? 'Authenticate to enable' : 'Trigger GitHub Actions to post approved tweets to X'} onClick={handlePublishNow}>
-                {publishing ? 'TRIGGERING...' : `PUBLISH NOW (${queue.filter(e => e.status === 'approved' || e.status === 'auto_approved').length})`}
+              <button className="scc-batch-btn scc-publish-btn" disabled={!ghToken || publishing || queue.filter(e => e.status === 'approved' || e.status === 'auto_approved').length === 0} title={!ghToken ? t('social.authToEnable', locale) : undefined} onClick={handlePublishNow}>
+                {publishing ? t('social.triggering', locale) : `${t('social.publishNow', locale)} (${queue.filter(e => e.status === 'approved' || e.status === 'auto_approved').length})`}
               </button>
             </div>
           </div>
@@ -962,6 +965,7 @@ function QueueCard({
   onEdit,
   onReject,
 }: QueueCardProps) {
+  const locale = getPreferredLocale();
   const verdict = entry.judge.verdict;
   const typeColor = TYPE_COLORS[entry.type] ?? '#8b949e';
   const verdictColor = VERDICT_COLORS[verdict] ?? '#8b949e';
@@ -1016,7 +1020,7 @@ function QueueCard({
 
         {/* Judge box */}
         <div className="scc-judge">
-          <div className="scc-judge-label">LLM JUDGE</div>
+          <div className="scc-judge-label">{t('social.llmJudge', locale)}</div>
           <div className="scc-judge-comment">{entry.judge.comment}</div>
           {entry.judge.factChecks.length > 0 && (
             <div>
@@ -1036,7 +1040,7 @@ function QueueCard({
 
         {/* Cost */}
         <div className="scc-cost-tag">
-          EST. <b>${entry.estimatedCost.toFixed(3)}</b>
+          {t('social.est', locale)} <b>${entry.estimatedCost.toFixed(3)}</b>
         </div>
 
         {/* Action buttons */}
@@ -1044,26 +1048,26 @@ function QueueCard({
           <button
             className="scc-action-btn approve"
             disabled={!isAuthenticated || isSaving}
-            title={!isAuthenticated ? 'Authenticate to enable' : undefined}
+            title={!isAuthenticated ? t('social.authToEnable', locale) : undefined}
             onClick={onApprove}
           >
-            {isSaving ? 'Saving...' : 'APPROVE'}
+            {isSaving ? t('social.saving', locale) : t('social.approve', locale)}
           </button>
           <button
             className="scc-action-btn edit"
             disabled={!isAuthenticated || isSaving}
-            title={!isAuthenticated ? 'Authenticate to enable' : undefined}
+            title={!isAuthenticated ? t('social.authToEnable', locale) : undefined}
             onClick={onEdit}
           >
-            EDIT
+            {t('social.edit', locale)}
           </button>
           <button
             className="scc-action-btn reject"
             disabled={!isAuthenticated || isSaving}
-            title={!isAuthenticated ? 'Authenticate to enable' : undefined}
+            title={!isAuthenticated ? t('social.authToEnable', locale) : undefined}
             onClick={onReject}
           >
-            REJECT
+            {t('social.reject', locale)}
           </button>
         </div>
       </div>
@@ -1093,7 +1097,7 @@ function QueueCard({
               <img
                 className="scc-x-image"
                 src={entry.image}
-                alt="Tweet attachment"
+                alt={t('social.tweetAttachment', locale)}
                 loading="lazy"
               />
             )}
@@ -1103,7 +1107,7 @@ function QueueCard({
               <img
                 className="scc-x-image"
                 src={entry.memegenUrl}
-                alt="Meme attachment"
+                alt={t('social.memeAttachment', locale)}
                 loading="lazy"
               />
             )}
@@ -1123,8 +1127,8 @@ function QueueCard({
                 {entry.threadTweets.length > 1 && (
                   <button className="scc-thread-toggle" onClick={onToggleThread}>
                     {isThreadExpanded
-                      ? 'Collapse thread'
-                      : `Show ${entry.threadTweets.length - 1} more tweet${entry.threadTweets.length > 2 ? 's' : ''}`}
+                      ? t('social.collapseThread', locale)
+                      : `${entry.threadTweets.length - 1} more tweet${entry.threadTweets.length > 2 ? 's' : ''}`}
                   </button>
                 )}
               </div>
