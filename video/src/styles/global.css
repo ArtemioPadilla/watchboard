@@ -1,0 +1,34 @@
+/* Watchboard Video — Design Tokens */
+
+:root {
+  --bg-primary: #0a0b0e;
+  --bg-card: #181b23;
+  --bg-card-border: #2a2d3a;
+
+  --text-primary: #e8e9ed;
+  --text-secondary: #9498a8;
+  --text-muted: #5a5e6e;
+
+  --accent-red: #e74c3c;
+  --accent-amber: #f39c12;
+  --accent-blue: #3498db;
+  --accent-green: #2ecc71;
+
+  --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
