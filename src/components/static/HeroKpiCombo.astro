@@ -15,19 +15,16 @@ interface Props {
 
 const { meta, kpis } = Astro.props;
 
-/** Strip HTML tags and decode common entities for safe text display */
 const cleanText = (s: string) =>
   s.replace(/<[^>]+>/g, ' ')
-   .replace(/&amp;/g, '&')
-   .replace(/&lt;/g, '<')
-   .replace(/&gt;/g, '>')
-   .replace(/&quot;/g, '"')
-   .replace(/&#39;/g, "'")
-   .replace(/&middot;/g, '\u00B7')
-   .replace(/\s{2,}/g, ' ')
-   .trim();
+   .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+   .replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&middot;/g, '\u00B7')
+   .replace(/\s{2,}/g, ' ').trim();
 ---
 <div class="hero-kpi-combo hero-kpi-strip">
+  <h1 class="hero-kpi-headline" title={cleanText(meta.heroHeadline)}>
+    {cleanText(meta.heroHeadline)}
+  </h1>
   <div class="hero-kpi-right">
     {kpis.slice(0, 7).map(k => (
       <div class="hero-kpi-item">
@@ -51,6 +48,16 @@ const cleanText = (s: string) =>
     grid-template-columns: unset !important;
     padding: 0.4rem 1rem !important;
   }
+  .hero-kpi-strip .hero-kpi-headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin: 0 0 0.3rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
   .hero-kpi-strip .hero-kpi-right {
     display: flex !important;
     flex-direction: row !important;
@@ -66,12 +73,8 @@ const cleanText = (s: string) =>
     min-width: max-content;
   }
   @media (max-width: 768px) {
-    .hero-kpi-strip {
-      padding: 0.3rem 0.5rem !important;
-    }
-    .hero-kpi-strip .hero-kpi-right {
-      max-height: 50px;
-      gap: 0.75rem !important;
-    }
+    .hero-kpi-strip { padding: 0.3rem 0.5rem !important; }
+    .hero-kpi-strip .hero-kpi-headline { font-size: 0.75rem; }
+    .hero-kpi-strip .hero-kpi-right { max-height: 50px; gap: 0.75rem !important; }
   }
 </style>
