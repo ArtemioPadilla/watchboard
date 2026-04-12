@@ -20,9 +20,13 @@ export interface MapCategory {
   color: string;
 }
 
-export const MAP_CATEGORIES: MapCategory[] = [
+/** Fallback categories when no tracker config is available */
+export const DEFAULT_MAP_CATEGORIES: MapCategory[] = [
   { id: 'strike', label: 'US/Israel Strikes', color: '#e74c3c' },
   { id: 'retaliation', label: 'Iranian Retaliation', color: '#f39c12' },
   { id: 'asset', label: 'US Military Assets', color: '#3498db' },
   { id: 'front', label: 'Active Fronts', color: '#9b59b6' },
 ];
+
+/** @deprecated Use tracker config categories with DEFAULT_MAP_CATEGORIES as fallback */
+export const MAP_CATEGORIES: MapCategory[] = DEFAULT_MAP_CATEGORIES;
