@@ -17,13 +17,13 @@ const githubUrl = githubRepo ? `https://github.com/${githubRepo}` : 'https://git
 <footer class="site-footer">
   <div class="footer-inner">
     <div class="footer-links">
-      <a href={aboutHref}>About &amp; Credits</a>
+      <a href={aboutHref}><span data-i18n data-es="Acerca de y Créditos" data-fr="À propos et Crédits" data-pt="Sobre e Créditos">About &amp; Credits</span></a>
       <span class="footer-sep">&middot;</span>
       <a href={rssHref} title="RSS Feed" class="footer-rss">
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: -2px; margin-right: 3px;"><circle cx="6.18" cy="17.82" r="2.18"/><path d="M4 4.44v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56zm0 5.66v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z"/></svg>RSS Feed
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: -2px; margin-right: 3px;"><circle cx="6.18" cy="17.82" r="2.18"/><path d="M4 4.44v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56zm0 5.66v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z"/></svg><span data-i18n data-es="Fuente RSS" data-fr="Flux RSS" data-pt="Feed RSS">RSS Feed</span>
       </a>
       <span class="footer-sep">&middot;</span>
-      <a href={`${basePath}metrics/`}>Status</a>
+      <a href={`${basePath}metrics/`}><span data-i18n data-es="Estado" data-fr="Statut" data-pt="Status">Status</span></a>
       <span class="footer-sep">&middot;</span>
       <a href={`${basePath}social/`}>Social</a>
       <span class="footer-sep">&middot;</span>
@@ -35,8 +35,8 @@ const githubUrl = githubRepo ? `https://github.com/${githubRepo}` : 'https://git
       <span class="footer-sep">&middot;</span>
       <a href="https://artemiop.com/">artemiop.com</a>
       <span class="footer-sep">&middot;</span>
-      <span class="footer-updated">Last updated: {meta.lastUpdated}</span>
+      <span class="footer-updated"><span data-i18n data-es="Última actualización:" data-fr="Dernière mise à jour :" data-pt="Última atualização:">Last updated:</span> {meta.lastUpdated}</span>
     </div>
-    <div class="footer-note">{meta.footerNote} <span class="footer-sep">&middot;</span> Does not endorse any particular narrative.</div>
+    <div class="footer-note">{meta.footerNote} <span class="footer-sep">&middot;</span> <span data-i18n data-es="No respalda ninguna narrativa en particular." data-fr="Ne soutient aucun récit en particulier." data-pt="Não endossa nenhuma narrativa em particular.">Does not endorse any particular narrative.</span></div>
   </div>
 </footer>

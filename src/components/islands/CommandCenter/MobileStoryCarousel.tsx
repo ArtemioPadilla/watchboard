@@ -3,6 +3,7 @@ import type { TrackerCardData } from '../../../lib/tracker-directory-utils';
 import { sortByRelevance } from '../../../lib/relevance';
 import { haptic } from '../../../lib/haptic';
 import { relativeTime } from '../../../lib/event-utils';
+import { t, getPreferredLocale } from '../../../i18n/translations';
 import ImageCarousel from './ImageCarousel';
 
 // ── Types ──
@@ -68,6 +69,7 @@ function filterAndSort(trackers: TrackerCardData[], followedSlugs: string[] = []
 // ── Component ──
 
 export default function MobileStoryCarousel({ trackers, basePath, followedSlugs = [], onTrackerChange }: Props) {
+  const locale = getPreferredLocale();
   const eligible = useMemo(() => filterAndSort(trackers, followedSlugs), [trackers, followedSlugs]);
 
   // Start at the first unseen story instead of always index 0
@@ -299,7 +301,7 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
         {/* Paused indicator */}
         {paused && (
           <div className="story-paused-badge">
-            PAUSED · Resuming in {pauseCountdown}s
+            {t('story.paused', locale)} · {t('story.resumingIn', locale)} {pauseCountdown}s
           </div>
         )}
 
@@ -309,11 +311,11 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
           <div className="story-meta">
             <div className="story-name">{tracker.shortName}</div>
             <div className="story-date" suppressHydrationWarning>
-              DAY {tracker.dayCount} &middot; {relativeTime(tracker.lastUpdated)}
+              {t('story.day', locale)} {tracker.dayCount} &middot; {relativeTime(tracker.lastUpdated)}
             </div>
           </div>
           {isLive(tracker.lastUpdated) ? (
-            <span className="story-live-badge" suppressHydrationWarning>{paused ? 'PAUSED' : 'LIVE'}</span>
+            <span className="story-live-badge" suppressHydrationWarning>{paused ? t('story.paused', locale) : t('story.live', locale)}</span>
           ) : (
             <span className="story-date" suppressHydrationWarning>{relativeTime(tracker.lastUpdated)}</span>
           )}
@@ -345,10 +347,10 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
           <div className={`story-briefing ${paused ? 'story-briefing-expanded' : ''}`}>
             <div className="story-briefing-label">
               <span className="story-briefing-dot" />
-              BRIEFING
+              {t('story.briefing', locale)}
               {tracker.digestSectionsUpdated && tracker.digestSectionsUpdated.length > 0 && (
                 <span className="story-briefing-sections">
-                  {tracker.digestSectionsUpdated.length} sections updated
+                  {tracker.digestSectionsUpdated.length} {t('story.sectionsUpdated', locale)}
                 </span>
               )}
             </div>
@@ -378,12 +380,12 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
           href={`${basePath}${tracker.slug}/`}
           onClick={(e) => e.stopPropagation()}
         >
-          Read more →
+          {t('story.readMore', locale)}
         </a>
 
         {/* Swipe hint */}
         <div className="story-swipe-hint">
-          {paused ? 'TAP TO RESUME' : '\u2190 SWIPE \u2192 \u00b7 TAP TO PAUSE'}
+          {paused ? t('story.tapToResume', locale) : t('story.swipeHint', locale)}
         </div>
 
         {/* Touch zones (hidden when paused to allow full card tap) */}

@@ -27,7 +27,7 @@ const aboutHref = trackerSlug ? `${basePath}${trackerSlug}/about/` : `${basePath
       <span class="live-dot"></span>
       <span class="header-title"><strong>{statusLabel}</strong> &mdash; {meta.operationName}</span>
       <span class="freshness-indicator" data-updated={meta.lastUpdated} aria-live="polite">
-        <span class="freshness-text">{meta.lastUpdated ? `Updated ${new Date(meta.lastUpdated).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}` : 'Last update time unknown'}</span>
+        <span class="freshness-text" data-i18n data-es="Hora de actualización desconocida" data-fr="Heure de mise à jour inconnue" data-pt="Hora de atualização desconhecida">{meta.lastUpdated ? `Updated ${new Date(meta.lastUpdated).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}` : 'Last update time unknown'}</span>
       </span>
     </div>
     <button class="mobile-menu-btn" aria-label="Toggle navigation menu" aria-expanded="false">&#9776;</button>
@@ -35,8 +35,8 @@ const aboutHref = trackerSlug ? `${basePath}${trackerSlug}/about/` : `${basePath
       {sections.map(s => (
         <a class="nav-btn" href={`#${s.id}`}>{s.label}</a>
       ))}
-      {globeEnabled && <a class="nav-btn globe-nav-btn" href={globeHref}>3D Globe</a>}
-      <a class="nav-btn about-nav-btn" href={aboutHref}>About</a>
+      {globeEnabled && <a class="nav-btn globe-nav-btn" href={globeHref}><span data-i18n data-es="Globo 3D" data-fr="Globe 3D" data-pt="Globo 3D">3D Globe</span></a>}
+      <a class="nav-btn about-nav-btn" href={aboutHref}><span data-i18n data-es="Acerca de" data-fr="À propos" data-pt="Sobre">About</span></a>
     </nav>
   </div>
 </header>

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
+import { t, getPreferredLocale } from '../../../i18n/translations';
 
 interface WelcomeOverlayProps {
   onDismiss: (permanent: boolean) => void;
@@ -7,21 +8,21 @@ interface WelcomeOverlayProps {
 
 export default function WelcomeOverlay({ onDismiss }: WelcomeOverlayProps) {
   const [dontShowAgain, setDontShowAgain] = useState(false);
+  const locale = getPreferredLocale();
 
   return createPortal(
     <div style={styles.backdrop} onClick={() => onDismiss(dontShowAgain)}>
       <div style={styles.panel} onClick={(e) => e.stopPropagation()}>
         <div style={styles.icon}>🌐</div>
-        <h2 style={styles.heading}>Welcome to Watchboard</h2>
+        <h2 style={styles.heading}>{t('welcome.title', locale)}</h2>
         <p style={styles.description}>
-          Real-time intelligence dashboards tracking world events.
-          The globe rotates through active stories — click any tracker in the sidebar to explore.
+          {t('welcome.description', locale)}
         </p>
 
         <div style={styles.shortcuts}>
-          <ShortcutHint keyLabel="B" description="Pause broadcast" />
-          <ShortcutHint keyLabel="/" description="Search" />
-          <ShortcutHint keyLabel="?" description="All shortcuts" />
+          <ShortcutHint keyLabel="B" description={t('welcome.pauseBroadcast', locale)} />
+          <ShortcutHint keyLabel="/" description={t('welcome.search', locale)} />
+          <ShortcutHint keyLabel="?" description={t('welcome.allShortcuts', locale)} />
         </div>
 
         <div style={styles.footer}>
@@ -32,10 +33,10 @@ export default function WelcomeOverlay({ onDismiss }: WelcomeOverlayProps) {
               onChange={(e) => setDontShowAgain(e.target.checked)}
               style={styles.checkbox}
             />
-            Don't show again
+            {t('welcome.dontShowAgain', locale)}
           </label>
           <button style={styles.button} onClick={() => onDismiss(dontShowAgain)}>
-            Got it
+            {t('welcome.gotIt', locale)}
           </button>
         </div>
       </div>

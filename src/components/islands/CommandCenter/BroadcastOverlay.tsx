@@ -236,7 +236,7 @@ export default function BroadcastOverlay({
       {/* Auto-resume countdown */}
       {isUserPaused && pauseCountdown > 0 && (
         <div className="broadcast-countdown-badge">
-          ▶ Resuming in {pauseCountdown}s
+          ▶ {t('broadcast.resumingIn', locale)} {pauseCountdown}s
         </div>
       )}
 
@@ -261,7 +261,7 @@ export default function BroadcastOverlay({
                 <div className="broadcast-lt-expanded-text">
                   <div className="broadcast-lt-category">
                     {featuredTracker.domain?.toUpperCase()}
-                    {featuredTracker.dayCount != null && ` · DAY ${featuredTracker.dayCount}`}
+                    {featuredTracker.dayCount != null && ` · ${t('broadcast.day', locale)} ${featuredTracker.dayCount}`}
                   </div>
                   <div className="broadcast-lt-name">
                     {featuredTracker.icon} {featuredTracker.shortName}
@@ -290,7 +290,7 @@ export default function BroadcastOverlay({
                     href={`${basePath}${featuredTracker.slug}/`}
                     onClick={(e) => e.stopPropagation()}
                   >
-                    Open Dashboard →
+                    {t('broadcast.openDashboard', locale)}
                   </a>
                 </div>
                 <div className="broadcast-lt-expanded-image">
@@ -366,7 +366,7 @@ export default function BroadcastOverlay({
                 className={`broadcast-ticker-item ${i === currentIndex ? 'active' : ''}`}
                 onClick={(e) => { e.stopPropagation(); handleTickerItemClick(tr.slug); }}
               >
-                {tr.icon} {tr.shortName} — {tr.headline || 'Tracking...'}
+                {tr.icon} {tr.shortName} — {tr.headline || t('broadcast.tracking', locale)}
                 {i < trackerQueue.length - 1 && <span className="broadcast-ticker-separator">|</span>}
               </span>
             ))}
