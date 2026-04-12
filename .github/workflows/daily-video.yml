@@ -26,7 +26,7 @@ jobs:
           cache-dependency-path: video/package-lock.json
 
       - name: Install video dependencies
-        run: cd video && npm ci
+        run: cd video && npm ci --legacy-peer-deps
 
       - name: Ensure browser for Remotion
         run: cd video && npx remotion browser ensure
