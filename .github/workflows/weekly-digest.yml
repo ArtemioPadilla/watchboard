@@ -149,7 +149,7 @@ jobs:
         run: npx tsx scripts/newsletter-generate.ts
 
       - name: Trigger newsletter send
-        if: env.NEWSLETTER_SECRET != ''
+        if: ${{ secrets.NEWSLETTER_SECRET != '' }}
         env:
           NEWSLETTER_SECRET: ${{ secrets.NEWSLETTER_SECRET }}
         run: |

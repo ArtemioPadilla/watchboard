@@ -306,7 +306,7 @@ function generateNewsletter(sections: TrackerSection[]): string {
                 <br>
                 You received this because you subscribed to the weekly digest.
                 <br>
-                <a href="${PUSH_URL}/newsletter/unsubscribe?email={{EMAIL}}" style="color:#9498a8;text-decoration:underline;">Unsubscribe</a>
+                <a href="${PUSH_URL}/newsletter/unsubscribe?token={{UNSUBSCRIBE_TOKEN}}" style="color:#9498a8;text-decoration:underline;">Unsubscribe</a>
               </div>
             </td>
           </tr>
