@@ -8,21 +8,23 @@ interface Props {
   description?: string;
   trackerSlug?: string;
   githubRepo?: string;
+  locale?: string;
 }
 
-const { title, description, trackerSlug, githubRepo } = Astro.props;
+const { title, description, trackerSlug, githubRepo, locale = 'en' } = Astro.props;
 const siteUrl = import.meta.env.SITE || 'https://watchboard.dev';
 const base = import.meta.env.BASE_URL || '/';
 const basePath = base.endsWith('/') ? base : `${base}/`;
 const pageUrl = trackerSlug ? `${siteUrl}${basePath}${trackerSlug}/` : `${siteUrl}${new URL(Astro.url.pathname, siteUrl).pathname}`;
 const desc = description || 'Multi-topic intelligence dashboard with sourced data, interactive maps, and contested claims tracking.';
 const githubUrl = githubRepo ? `https://github.com/${githubRepo}` : 'https://github.com/ArtemioPadilla/watchboard';
+const hasLocalizedVersions = !!trackerSlug; // Only tracker pages have localized versions for now
 const ogImageUrl = trackerSlug
   ? `${siteUrl}${basePath}og/${trackerSlug}.png`
   : `${siteUrl}${basePath}og-card.png`;
 ---
 <!DOCTYPE html>
-<html lang="en">
+<html lang={locale}>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -36,6 +38,11 @@ const ogImageUrl = trackerSlug
   <meta property="og:image" content={ogImageUrl} />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content={locale === 'es' ? 'es_MX' : locale === 'fr' ? 'fr_FR' : locale === 'pt' ? 'pt_BR' : 'en_US'} />
+  {locale !== 'es' && <meta property="og:locale:alternate" content="es_MX" />}
+  {locale !== 'fr' && <meta property="og:locale:alternate" content="fr_FR" />}
+  {locale !== 'pt' && <meta property="og:locale:alternate" content="pt_BR" />}
+  {locale !== 'en' && <meta property="og:locale:alternate" content="en_US" />}
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content={ogImageUrl} />
   <meta name="twitter:title" content={title} />
@@ -48,9 +55,9 @@ const ogImageUrl = trackerSlug
   <link rel="manifest" href={`${basePath}manifest.json`}>
   <link rel="canonical" href={pageUrl}>
   <link rel="alternate" hreflang="en" href={pageUrl} />
-  <link rel="alternate" hreflang="es" href={`${siteUrl}/es/${trackerSlug ? `${trackerSlug}/` : ''}`} />
-  <link rel="alternate" hreflang="fr" href={`${siteUrl}/fr/${trackerSlug ? `${trackerSlug}/` : ''}`} />
-  <link rel="alternate" hreflang="pt" href={`${siteUrl}/pt/${trackerSlug ? `${trackerSlug}/` : ''}`} />
+  {hasLocalizedVersions && <link rel="alternate" hreflang="es" href={`${siteUrl}/es/${trackerSlug ? `${trackerSlug}/` : ''}`} />}
+  {hasLocalizedVersions && <link rel="alternate" hreflang="fr" href={`${siteUrl}/fr/${trackerSlug ? `${trackerSlug}/` : ''}`} />}
+  {hasLocalizedVersions && <link rel="alternate" hreflang="pt" href={`${siteUrl}/pt/${trackerSlug ? `${trackerSlug}/` : ''}`} />}
   <link rel="alternate" hreflang="x-default" href={pageUrl} />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔴</text></svg>">
   <script is:inline type="application/ld+json" set:html={JSON.stringify({
@@ -73,6 +80,7 @@ const ogImageUrl = trackerSlug
     "name": title,
     "description": desc,
     "url": pageUrl,
+    "inLanguage": locale,
   })} />
   <link rel="alternate" type="application/rss+xml" title={trackerSlug ? `${title} RSS` : 'Watchboard RSS'} href={trackerSlug ? `${basePath}${trackerSlug}/rss.xml` : `${basePath}rss.xml`} />
   <link rel="alternate" type="application/rss+xml" title="Watchboard Breaking News RSS" href={`${basePath}rss/breaking.xml`} />
@@ -115,15 +123,15 @@ const ogImageUrl = trackerSlug
   <slot name="head" />
 </head>
 <body>
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <a class="skip-link" href="#main-content">{locale === 'es' ? 'Ir al contenido principal' : locale === 'fr' ? 'Aller au contenu principal' : locale === 'pt' ? 'Ir para o conteudo principal' : 'Skip to main content'}</a>
   <div class="tooltip" id="tooltip"></div>
   <a
     class="feedback-fab"
     href={`${githubUrl}/issues/new/choose`}
     target="_blank"
     rel="noopener noreferrer"
-    title="Report issue or suggest a feature"
-    aria-label="Report issue or suggest a feature"
+    title={locale === 'es' ? 'Reportar problema o sugerir mejora' : locale === 'fr' ? 'Signaler un probleme ou suggerer une amelioration' : locale === 'pt' ? 'Reportar problema ou sugerir melhoria' : 'Report issue or suggest a feature'}
+    aria-label={locale === 'es' ? 'Reportar problema o sugerir mejora' : locale === 'fr' ? 'Signaler un probleme ou suggerer une amelioration' : locale === 'pt' ? 'Reportar problema ou sugerir melhoria' : 'Report issue or suggest a feature'}
   >
     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
