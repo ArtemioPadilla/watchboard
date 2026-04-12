@@ -218,4 +218,11 @@ const faqSchema = {
     color: var(--text-muted);
     flex-shrink: 0;
   }
+
+  /* Mobile: hide section headers to get map visible faster */
+  @media (max-width: 767px) {
+    .section-header {
+      display: none !important;
+    }
+  }
 </style>
