@@ -43,7 +43,7 @@ async function main(): Promise<void> {
     if (tracker.thumbnailUrl) {
       try {
         const resp = await fetch(tracker.thumbnailUrl, {
-          headers: { 'User-Agent': 'Watchboard-Video/1.0' },
+          headers: { 'User-Agent': 'Mozilla/5.0 (compatible; Watchboard/1.0)' },
           signal: AbortSignal.timeout(8000),
         });
         if (resp.ok) {
@@ -61,6 +61,19 @@ async function main(): Promise<void> {
       } catch (e) {
         console.warn(`    ${tracker.name}: thumbnail fetch error — ${e}`);
       }
+    }
+    // Fallback: use tracker OG image if no thumbnail
+    if (!tracker.thumbnailBase64) {
+      try {
+        const ogUrl = `https://watchboard.dev/og/${tracker.slug}.png`;
+        const ogResp = await fetch(ogUrl, { signal: AbortSignal.timeout(8000) });
+        if (ogResp.ok) {
+          const ct = ogResp.headers.get('content-type') ?? 'image/png';
+          const buf = Buffer.from(await ogResp.arrayBuffer());
+          tracker.thumbnailBase64 = `data:${ct};base64,${buf.toString('base64')}`;
+          console.log(`    ${tracker.name}: OG fallback (${(buf.length / 1024).toFixed(0)} KB)`);
+        }
+      } catch {}
     }
   }
 
