@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+import { t, getPreferredLocale } from '../../i18n/translations';
 
 /* ── Types ── */
 
@@ -101,14 +102,15 @@ function ensureKeyframes() {
 /* ── Helpers ── */
 
 function relativeTime(iso: string): string {
+  const locale = getPreferredLocale();
   const diff = Date.now() - new Date(iso).getTime();
   const mins = Math.floor(diff / 60_000);
-  if (mins < 1) return 'just now';
-  if (mins < 60) return `${mins}m ago`;
+  if (mins < 1) return t('metrics.justNow', locale);
+  if (mins < 60) return `${mins}${t('metrics.mAgo', locale)}`;
   const hours = Math.floor(mins / 60);
-  if (hours < 24) return `${hours}h ago`;
+  if (hours < 24) return `${hours}${t('metrics.hAgo', locale)}`;
   const days = Math.floor(hours / 24);
-  return days === 1 ? '1 day ago' : `${days} days ago`;
+  return days === 1 ? `1 ${t('metrics.dayAgo', locale)}` : `${days} ${t('metrics.daysAgo', locale)}`;
 }
 
 function formatFullDate(iso: string): string {
@@ -199,10 +201,11 @@ function inventoryTotal(inv: InventoryRow): number {
    ══════════════════════════════════════════════════ */
 
 function SystemStatusBanner({ summary }: { summary: SummaryStats }) {
+  const locale = getPreferredLocale();
   const isHealthy = summary.allPassing;
   const borderColor = isHealthy ? 'var(--accent-green)' : 'var(--accent-red)';
   const dotColor = borderColor;
-  const label = isHealthy ? 'All Systems Operational' : 'Service Degraded';
+  const label = isHealthy ? t('metrics.allOperational', locale) : t('metrics.serviceDegraded', locale);
 
   return (
     <div style={{
@@ -245,7 +248,7 @@ function SystemStatusBanner({ summary }: { summary: SummaryStats }) {
           color: 'var(--text-muted)',
           letterSpacing: '0.03em',
         }}>
-          Last successful update: {formatFullDate(summary.lastRunIso)}
+          {t('metrics.lastSuccessfulUpdate', locale)} {formatFullDate(summary.lastRunIso)}
         </span>
       )}
     </div>
@@ -307,6 +310,7 @@ function KpiCard({ label, value, color, subtext }: {
 }
 
 function KpiSummaryRow({ summary }: { summary: SummaryStats }) {
+  const locale = getPreferredLocale();
   const rateColor = summary.successRate >= 90
     ? 'var(--accent-green)'
     : summary.successRate >= 70
@@ -325,27 +329,27 @@ function KpiSummaryRow({ summary }: { summary: SummaryStats }) {
       marginBottom: '1.5rem',
     }}>
       <KpiCard
-        label="Total Runs"
+        label={t('metrics.totalRuns', locale)}
         value={String(summary.totalRuns)}
-        subtext={`${summary.successCount} successful`}
+        subtext={`${summary.successCount} ${t('metrics.successful', locale)}`}
       />
       <KpiCard
-        label="Success Rate"
+        label={t('metrics.successRate', locale)}
         value={`${summary.successRate.toFixed(0)}%`}
         color={rateColor}
-        subtext={`${summary.totalRuns - summary.successCount} failures`}
+        subtext={`${summary.totalRuns - summary.successCount} ${t('metrics.failures', locale)}`}
       />
       <KpiCard
-        label="Last Run"
+        label={t('metrics.lastRun', locale)}
         value={summary.lastRunRelative}
         color="var(--accent-blue)"
         subtext={summary.lastRunIso ? formatShortDate(summary.lastRunIso) : undefined}
       />
       <KpiCard
-        label="Schema Errors"
+        label={t('metrics.schemaErrors', locale)}
         value={String(summary.totalSchemaErrors)}
         color={summary.totalSchemaErrors > 0 ? 'var(--accent-red)' : 'var(--accent-green)'}
-        subtext={`across ${summary.totalRuns} runs`}
+        subtext={`${t('metrics.across', locale)} ${summary.totalRuns} ${t('metrics.runs', locale)}`}
       />
     </div>
   );
@@ -356,6 +360,7 @@ function KpiSummaryRow({ summary }: { summary: SummaryStats }) {
    ══════════════════════════════════════════════════ */
 
 function UptimeCalendar({ entries }: { entries: MetricsIndexEntry[] }) {
+  const locale = getPreferredLocale();
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
   const days = useMemo(() => build30DayCalendar(entries), [entries]);
 
@@ -375,7 +380,7 @@ function UptimeCalendar({ entries }: { entries: MetricsIndexEntry[] }) {
         color: 'var(--text-muted)',
         marginBottom: '1rem',
       }}>
-        30-Day Run History
+        {t('metrics.runHistory30d', locale)}
       </div>
 
       <div style={{
@@ -456,10 +461,10 @@ function UptimeCalendar({ entries }: { entries: MetricsIndexEntry[] }) {
                         : 'var(--accent-green)',
                   }}>
                     {day.runs === 0
-                      ? 'No runs'
+                      ? t('metrics.noRuns', locale)
                       : day.hasFailure
-                        ? `${day.runs} run${day.runs > 1 ? 's' : ''} \u00b7 failure`
-                        : `${day.runs} run${day.runs > 1 ? 's' : ''} \u00b7 all passed`}
+                        ? `${day.runs} run${day.runs > 1 ? 's' : ''} \u00b7 ${t('metrics.failure', locale)}`
+                        : `${day.runs} run${day.runs > 1 ? 's' : ''} \u00b7 ${t('metrics.allPassed', locale)}`}
                   </div>
                 </div>
               )}
@@ -478,7 +483,7 @@ function UptimeCalendar({ entries }: { entries: MetricsIndexEntry[] }) {
           {new Date(days[0].date + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
         </span>
         <span style={{ fontFamily: FONT_MONO, fontSize: '0.55rem', color: 'var(--text-muted)' }}>
-          Today
+          {t('metrics.today', locale)}
         </span>
       </div>
     </div>
@@ -490,6 +495,7 @@ function UptimeCalendar({ entries }: { entries: MetricsIndexEntry[] }) {
    ══════════════════════════════════════════════════ */
 
 function TrackerHealthTable({ latestRun }: { latestRun: MetricsRun | null }) {
+  const locale = getPreferredLocale();
   if (!latestRun) return null;
   const inventoryEntries = Object.entries(latestRun.inventory);
   if (inventoryEntries.length === 0) return null;
