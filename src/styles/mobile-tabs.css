@@ -586,6 +586,14 @@
   grid-template-columns: 1fr 1fr;
   gap: 8px;
   margin-bottom: 12px;
+  overflow: hidden;
+}
+
+@media (max-width: 420px) {
+  .mtab-kpi-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
 }
 
 @media (max-width: 360px) {
@@ -599,6 +607,8 @@
   padding: 10px;
   border-radius: 6px;
   border-left: 3px solid var(--border);
+  overflow: hidden;
+  min-width: 0;
 }
 
 .mtab-kpi-card.red   { border-left-color: var(--accent-red); }
@@ -613,6 +623,9 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-bottom: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .mtab-kpi-card-value {
@@ -621,6 +634,9 @@
   font-weight: 700;
   line-height: 1.2;
   color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .mtab-kpi-card-source {
@@ -639,17 +655,25 @@
   background: var(--bg-card);
   border-radius: 4px;
   margin-bottom: 3px;
+  gap: 8px;
+  overflow: hidden;
 }
 
 .mtab-data-row-label {
   font-size: 0.8rem;
   color: var(--text-secondary);
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .mtab-data-row-value {
   font-size: 0.8rem;
   color: var(--accent-red);
   font-weight: 600;
+  flex-shrink: 0;
+  text-align: right;
 }
 
 .mtab-econ-card {
