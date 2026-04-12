@@ -42,11 +42,11 @@ const categories = config.map?.categories ?? [];
 // French status labels
 const temporalLabel = config.temporal === 'historical' ? 'HISTORIQUE' : 'ACTIF';
 const domainLabels: Record<string, string> = {
-  conflict: 'CONFLIT', security: 'SECURITE', governance: 'GOUVERNANCE',
+  conflict: 'CONFLIT', security: 'SÉCURITÉ', governance: 'GOUVERNANCE',
   disaster: 'CATASTROPHE', 'human-rights': 'DROITS HUMAINS', science: 'SCIENCE',
-  space: 'ESPACE', economy: 'ECONOMIE', culture: 'CULTURE', history: 'HISTOIRE',
+  space: 'ESPACE', economy: 'ÉCONOMIE', culture: 'CULTURE', history: 'HISTOIRE',
 };
-const domainLabel = domainLabels[config.domain || ''] || 'TRACKER';
+const domainLabel = domainLabels[config.domain || ''] || 'DOSSIER';
 const statusLabel = `${temporalLabel} ${domainLabel}`;
 ---
 <BaseLayout

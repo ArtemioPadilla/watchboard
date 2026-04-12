@@ -40,11 +40,11 @@ const flatEvents = flattenTimelineEvents(data.timeline);
 const categories = config.map?.categories ?? [];
 
 // Spanish status labels
-const temporalLabel = config.temporal === 'historical' ? 'HISTORICO' : 'ACTIVO';
+const temporalLabel = config.temporal === 'historical' ? 'HISTÓRICO' : 'ACTIVO';
 const domainLabels: Record<string, string> = {
   conflict: 'CONFLICTO', security: 'SEGURIDAD', governance: 'GOBIERNO',
   disaster: 'DESASTRE', 'human-rights': 'DERECHOS HUMANOS', science: 'CIENCIA',
-  space: 'ESPACIO', economy: 'ECONOMIA', culture: 'CULTURA', history: 'HISTORIA',
+  space: 'ESPACIO', economy: 'ECONOMÍA', culture: 'CULTURA', history: 'HISTORIA',
 };
 const domainLabel = domainLabels[config.domain || ''] || 'RASTREADOR';
 const statusLabel = `${temporalLabel} ${domainLabel}`;
