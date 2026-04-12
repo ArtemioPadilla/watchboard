@@ -72,19 +72,12 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
   const locale = getPreferredLocale();
   const eligible = useMemo(() => filterAndSort(trackers, followedSlugs), [trackers, followedSlugs]);
 
-  // Start at the first unseen story instead of always index 0
-  const [currentIndex, setCurrentIndex] = useState(() => {
-    const firstUnseen = eligible.findIndex((t) => !seenSlugs.has(t.slug));
-    return firstUnseen >= 0 ? firstUnseen : 0;
-  });
-  const [paused, setPaused] = useState(false);
   const [seenSlugs, setSeenSlugs] = useState<Set<string>>(() => {
     try {
       const stored = localStorage.getItem(SEEN_STORAGE_KEY);
       if (!stored) return new Set();
       const parsed: Record<string, number> = JSON.parse(stored);
       const now = Date.now();
-      // Only restore entries that haven't expired
       const valid = Object.entries(parsed)
         .filter(([, ts]) => now - ts < SEEN_TTL_MS)
         .map(([slug]) => slug);
@@ -93,6 +86,13 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
       return new Set();
     }
   });
+
+  // Start at the first unseen story instead of always index 0
+  const [currentIndex, setCurrentIndex] = useState(() => {
+    const firstUnseen = eligible.findIndex((t) => !seenSlugs.has(t.slug));
+    return firstUnseen >= 0 ? firstUnseen : 0;
+  });
+  const [paused, setPaused] = useState(false);
   const [pauseCountdown, setPauseCountdown] = useState(0);
 
   // I4 fix: drive progress via rAF + ref to avoid 10 re-renders/sec
