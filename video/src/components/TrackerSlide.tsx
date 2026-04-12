@@ -7,6 +7,7 @@ import {
   spring,
 } from 'remotion';
 import type { BreakingTracker } from '../data/types';
+import { CanvasGlobe } from './CanvasGlobe';
 
 interface TrackerSlideProps {
   tracker: BreakingTracker;
@@ -121,7 +122,7 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
         }}
       />
 
-      {/* Content area */}
+      {/* Content area — globe top 40%, text bottom 60% */}
       <div
         style={{
           position: 'absolute',
@@ -129,133 +130,158 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
           left: 0,
           right: 0,
           bottom: 0,
-          paddingTop: 180,
-          paddingRight: 60,
-          paddingBottom: 120,
-          paddingLeft: 80,
           display: 'flex',
           flexDirection: 'column',
         }}
       >
-        {/* Tracker name */}
+        {/* Globe section — top 40% */}
         <div
           style={{
-            opacity: nameOpacity,
-            transform: `translateY(${nameY}px)`,
-            fontFamily: "'JetBrains Mono', monospace",
-            fontSize: 28,
-            fontWeight: 700,
-            color: accentColor,
-            letterSpacing: '3px',
-            textTransform: 'uppercase',
+            height: '40%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
           }}
         >
-          {displayName}
+          <CanvasGlobe
+            width={450}
+            height={450}
+            center={{ lat: tracker.mapCenter[0], lon: tracker.mapCenter[1] }}
+            accentColor={accentColor}
+          />
         </div>
 
-        {/* Accent line */}
-        <div
-          style={{
-            width: lineWidth,
-            height: 3,
-            background: accentColor,
-            marginTop: 16,
-            marginBottom: 40,
-            borderRadius: 2,
-            boxShadow: `0 0 8px ${accentColor}80`,
-          }}
-        />
-
-        {/* Headline */}
-        <div
-          style={{
-            opacity: headlineOpacity,
-            transform: `translateY(${headlineY}px)`,
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: 52,
-            fontWeight: 700,
-            color: '#e8e9ed',
-            lineHeight: 1.25,
-            maxWidth: 900,
-          }}
-        >
-          {displayHeadline}
-        </div>
-
-        {/* KPI section - centered, pushed down */}
+        {/* Text section — bottom 60% */}
         <div
           style={{
             flex: 1,
+            paddingRight: 60,
+            paddingBottom: 100,
+            paddingLeft: 80,
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            opacity: kpiOpacity,
-            transform: `scale(${kpiScale})`,
           }}
         >
-          {/* KPI label */}
+          {/* Tracker name */}
           <div
             style={{
+              opacity: nameOpacity,
+              transform: `translateY(${nameY}px)`,
               fontFamily: "'JetBrains Mono', monospace",
-              fontSize: 18,
-              fontWeight: 500,
-              color: '#9498a8',
-              letterSpacing: '2px',
-              textTransform: 'uppercase',
-              marginBottom: 8,
-            }}
-          >
-            {tracker.kpiLabel}
-          </div>
-
-          {/* KPI value */}
-          <div
-            style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: 120,
+              fontSize: 28,
               fontWeight: 700,
               color: accentColor,
-              lineHeight: 1,
-              textShadow: `0 0 40px ${accentColor}60, 0 0 80px ${accentColor}30`,
+              letterSpacing: '3px',
+              textTransform: 'uppercase',
             }}
           >
-            {kpiDisplay}
+            {displayName}
           </div>
-        </div>
 
-        {/* Source tier badge */}
-        <div
-          style={{
-            opacity: sourceOpacity,
-            display: 'flex',
-            alignItems: 'center',
-            gap: 10,
-          }}
-        >
+          {/* Accent line */}
           <div
             style={{
+              width: lineWidth,
+              height: 3,
               background: accentColor,
-              borderRadius: 4,
-              padding: '4px 12px',
-              fontFamily: "'JetBrains Mono', monospace",
-              fontSize: 14,
-              fontWeight: 600,
-              color: '#0a0b0e',
-              letterSpacing: '1px',
+              marginTop: 12,
+              marginBottom: 24,
+              borderRadius: 2,
+              boxShadow: `0 0 8px ${accentColor}80`,
             }}
-          >
-            {TIER_LABELS[tracker.sourceTier] ?? 'TIER 2'}
-          </div>
-          <span
+          />
+
+          {/* Headline */}
+          <div
             style={{
-              fontFamily: "'JetBrains Mono', monospace",
-              fontSize: 16,
-              color: '#9498a8',
+              opacity: headlineOpacity,
+              transform: `translateY(${headlineY}px)`,
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 44,
+              fontWeight: 700,
+              color: '#e8e9ed',
+              lineHeight: 1.25,
+              maxWidth: 900,
             }}
           >
-            {tracker.sourceLabel}
-          </span>
+            {displayHeadline}
+          </div>
+
+          {/* KPI section */}
+          <div
+            style={{
+              flex: 1,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              opacity: kpiOpacity,
+              transform: `scale(${kpiScale})`,
+            }}
+          >
+            {/* KPI label */}
+            <div
+              style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: 18,
+                fontWeight: 500,
+                color: '#9498a8',
+                letterSpacing: '2px',
+                textTransform: 'uppercase',
+                marginBottom: 8,
+              }}
+            >
+              {tracker.kpiLabel}
+            </div>
+
+            {/* KPI value */}
+            <div
+              style={{
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: 80,
+                fontWeight: 700,
+                color: accentColor,
+                lineHeight: 1,
+                textShadow: `0 0 40px ${accentColor}60, 0 0 80px ${accentColor}30`,
+              }}
+            >
+              {kpiDisplay}
+            </div>
+          </div>
+
+          {/* Source tier badge */}
+          <div
+            style={{
+              opacity: sourceOpacity,
+              display: 'flex',
+              alignItems: 'center',
+              gap: 10,
+            }}
+          >
+            <div
+              style={{
+                background: accentColor,
+                borderRadius: 4,
+                padding: '4px 12px',
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: 14,
+                fontWeight: 600,
+                color: '#0a0b0e',
+                letterSpacing: '1px',
+              }}
+            >
+              {TIER_LABELS[tracker.sourceTier] ?? 'TIER 2'}
+            </div>
+            <span
+              style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: 16,
+                color: '#9498a8',
+              }}
+            >
+              {tracker.sourceLabel}
+            </span>
+          </div>
         </div>
       </div>
     </AbsoluteFill>
