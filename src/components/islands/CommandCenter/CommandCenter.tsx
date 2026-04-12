@@ -337,7 +337,33 @@ export default function CommandCenter({
   const handleStoryTrackerChange = useCallback((slug: string) => {
     const tracker = trackers.find(t => t.slug === slug);
     if (tracker?.mapCenter) {
-      globeRef.current?.flyTo?.(tracker.mapCenter.lat, tracker.mapCenter.lon, 2.0, 1200);
+      // Dynamic zoom based on tracker scope
+      const region = tracker.region;
+      const domain = tracker.domain;
+      let altitude = 2.0; // default
+      let duration = 1800; // ms
+
+      // Country-level trackers: zoom closer
+      if (tracker.country && !tracker.aggregate) {
+        altitude = 1.2;
+        duration = 2200;
+      }
+      // Regional conflicts: medium zoom
+      if (region === 'middle-east' || region === 'southeast-asia') {
+        altitude = 1.5;
+        duration = 2000;
+      }
+      // Global/multi-region trackers: wide view
+      if (domain === 'economy' || domain === 'science' || region === 'global' || tracker.aggregate) {
+        altitude = 3.0;
+        duration = 2500;
+      }
+      // Historical trackers: slower, more cinematic
+      if (tracker.temporal === 'historical') {
+        duration = 3000;
+      }
+
+      globeRef.current?.flyTo?.(tracker.mapCenter.lat, tracker.mapCenter.lon, altitude, duration);
       globeRef.current?.setAutoRotate?.(false);
     }
   }, [trackers]);
