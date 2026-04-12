@@ -147,17 +147,24 @@ self.addEventListener('push', event => {
     };
   }
 
-  const { title, body, icon, url, tag, tracker } = payload;
+  const { title, body, icon, image, url, tag, tracker } = payload;
+
+  const notificationOptions = {
+    body: body || '',
+    icon: icon || '/icons/icon-192.png',
+    badge: '/icons/icon-192.png',
+    tag: tag || `wb-${tracker || 'update'}-${Date.now()}`,
+    data: { url: url || '/' },
+    vibrate: [200, 100, 200],
+  };
+
+  // Add image if available (shows large image in notification on supported platforms)
+  if (image) {
+    notificationOptions.image = image;
+  }
 
   event.waitUntil(
-    self.registration.showNotification(title || 'Watchboard', {
-      body: body || '',
-      icon: icon || '/icons/icon-192.png',
-      badge: '/icons/icon-192.png',
-      tag: tag || `wb-${tracker || 'update'}-${Date.now()}`,
-      data: { url: url || '/' },
-      vibrate: [200, 100, 200],
-    })
+    self.registration.showNotification(title || 'Watchboard', notificationOptions)
   );
 });
 
