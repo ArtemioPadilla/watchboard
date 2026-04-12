@@ -4,14 +4,13 @@
  * Endpoints:
  *   POST /newsletter/subscribe   — add email to newsletter list
  *   POST /newsletter/unsubscribe — remove email from newsletter list
- *   GET  /newsletter/unsubscribe — remove email (from email link with ?email=)
- *   GET  /newsletter/send        — trigger newsletter send (authenticated via NEWSLETTER_SECRET)
+ *   GET  /newsletter/unsubscribe — remove email (from email link with ?token=HMAC)
+ *   POST /newsletter/send        — trigger newsletter send (authenticated via NEWSLETTER_SECRET)
  */
 
 import type { Env } from '../index';
 
 const KV_PREFIX = 'newsletter:';
-const KV_LIST_KEY = 'newsletter:subscribers';
 
 // Simple email validation
 function isValidEmail(email: string): boolean {
@@ -22,6 +21,19 @@ async function sha256(message: string): Promise<string> {
   const msgBuffer = new TextEncoder().encode(message);
   const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
   return [...new Uint8Array(hashBuffer)].map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+/** Generate HMAC-SHA256 token for unsubscribe links. */
+async function hmacToken(email: string, secret: string): Promise<string> {
+  const key = await crypto.subtle.importKey(
+    'raw',
+    new TextEncoder().encode(secret),
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['sign'],
+  );
+  const sig = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(email.toLowerCase().trim()));
+  return [...new Uint8Array(sig)].map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
 /** Subscribe an email to the newsletter. */
@@ -46,12 +58,6 @@ async function subscribe(email: string, env: Env): Promise<Response> {
     subscribedAt: new Date().toISOString(),
   }));
 
-  // Update subscriber list (append hash)
-  const list = await env.PUSH_SUBSCRIPTIONS.get(KV_LIST_KEY, 'json') as string[] | null;
-  const subscribers = new Set(list ?? []);
-  subscribers.add(hash);
-  await env.PUSH_SUBSCRIPTIONS.put(KV_LIST_KEY, JSON.stringify([...subscribers]));
-
   return Response.json({ ok: true, message: 'Subscribed successfully' });
 }
 
@@ -68,30 +74,56 @@ async function unsubscribe(email: string, env: Env): Promise<Response> {
   // Remove subscriber record
   await env.PUSH_SUBSCRIPTIONS.delete(key);
 
-  // Remove from subscriber list
-  const list = await env.PUSH_SUBSCRIPTIONS.get(KV_LIST_KEY, 'json') as string[] | null;
-  if (list) {
-    const updated = list.filter(h => h !== hash);
-    await env.PUSH_SUBSCRIPTIONS.put(KV_LIST_KEY, JSON.stringify(updated));
-  }
-
   return Response.json({ ok: true, message: 'Unsubscribed successfully' });
 }
 
-/** Get all subscriber emails for sending. */
-async function getAllSubscribers(env: Env): Promise<string[]> {
-  const list = await env.PUSH_SUBSCRIPTIONS.get(KV_LIST_KEY, 'json') as string[] | null;
-  if (!list?.length) return [];
+/** Unsubscribe by HMAC token — iterate subscribers to find the matching email. */
+async function unsubscribeByToken(token: string, env: Env): Promise<Response> {
+  const secret = getUnsubscribeSecret(env);
+  if (!secret) {
+    return Response.json({ error: 'Unsubscribe not configured' }, { status: 501 });
+  }
 
-  const emails: string[] = [];
-  for (const hash of list) {
-    const key = `${KV_PREFIX}${hash}`;
-    const data = await env.PUSH_SUBSCRIPTIONS.get(key, 'json') as { email: string } | null;
-    if (data?.email) {
-      emails.push(data.email);
+  const subscribers = await getAllSubscriberRecords(env);
+  for (const { key, email } of subscribers) {
+    const expected = await hmacToken(email, secret);
+    if (expected === token) {
+      await env.PUSH_SUBSCRIPTIONS.delete(key);
+      return new Response(unsubscribeSuccessHtml, { status: 200, headers: { 'Content-Type': 'text/html' } });
     }
   }
-  return emails;
+
+  return new Response(unsubscribeInvalidHtml, { status: 400, headers: { 'Content-Type': 'text/html' } });
+}
+
+function getUnsubscribeSecret(env: Env): string | undefined {
+  const e = env as unknown as Record<string, string>;
+  return e.UNSUBSCRIBE_SECRET || e.NEWSLETTER_SECRET;
+}
+
+/** Get all subscriber emails for sending. Uses KV list with prefix iteration. */
+async function getAllSubscribers(env: Env): Promise<string[]> {
+  const records = await getAllSubscriberRecords(env);
+  return records.map(r => r.email);
+}
+
+/** Get all subscriber records (key + email) via KV prefix listing. */
+async function getAllSubscriberRecords(env: Env): Promise<Array<{ key: string; email: string }>> {
+  const results: Array<{ key: string; email: string }> = [];
+  let cursor: string | undefined;
+
+  do {
+    const list = await env.PUSH_SUBSCRIPTIONS.list({ prefix: KV_PREFIX, cursor });
+    for (const { name } of list.keys) {
+      const data = await env.PUSH_SUBSCRIPTIONS.get(name, 'json') as { email: string } | null;
+      if (data?.email) {
+        results.push({ key: name, email: data.email });
+      }
+    }
+    cursor = list.list_complete ? undefined : (list as unknown as { cursor: string }).cursor;
+  } while (cursor);
+
+  return results;
 }
 
 /** Trigger newsletter send. Requires NEWSLETTER_SECRET header for authentication. */
@@ -118,11 +150,18 @@ async function triggerSend(request: Request, env: Env): Promise<Response> {
     return Response.json({ ok: true, sent: 0, message: 'No subscribers' });
   }
 
-  // For now, return the subscriber list and HTML details.
-  // Actual email sending requires an email provider (Mailgun, SES, Resend, etc.)
-  // configured separately. This endpoint prepares the data.
-  // The workflow can POST the HTML here, and the worker will batch-send via
-  // the configured email API.
+  // Generate per-subscriber HTML with unsubscribe tokens
+  const unsubSecret = getUnsubscribeSecret(env);
+  const personalizedHtmls: Array<{ email: string; html: string }> = [];
+  for (const email of subscribers) {
+    let html = body.html;
+    if (unsubSecret) {
+      const token = await hmacToken(email, unsubSecret);
+      html = html.replace(/\{\{UNSUBSCRIBE_TOKEN\}\}/g, token);
+    }
+    html = html.replace(/\{\{EMAIL\}\}/g, email);
+    personalizedHtmls.push({ email, html });
+  }
 
   // Placeholder: log the intent (actual sending to be wired to email provider)
   const subject = body.subject || 'Watchboard Weekly Digest';
@@ -135,6 +174,31 @@ async function triggerSend(request: Request, env: Env): Promise<Response> {
     message: `Newsletter queued for ${subscribers.length} subscribers`,
   });
 }
+
+// --- HTML templates ---
+const unsubscribeSuccessHtml = `<!DOCTYPE html>
+<html><head><title>Unsubscribed — Watchboard</title>
+<style>body{background:#0a0b0e;color:#e8e9ed;font-family:sans-serif;display:flex;justify-content:center;align-items:center;height:100vh;margin:0}
+.card{background:#181b23;padding:32px;border-radius:8px;border:1px solid #2a2d3a;text-align:center;max-width:400px}
+h1{font-size:20px;margin:0 0 12px;color:#2ecc71}p{color:#9498a8;font-size:14px}
+a{color:#e74c3c;text-decoration:underline}</style></head>
+<body><div class="card"><h1>Unsubscribed</h1><p>You've been removed from the Watchboard weekly digest. <a href="https://watchboard.dev">Return to Watchboard</a>.</p></div></body></html>`;
+
+const unsubscribeInvalidHtml = `<!DOCTYPE html>
+<html><head><title>Invalid Link — Watchboard</title>
+<style>body{background:#0a0b0e;color:#e8e9ed;font-family:sans-serif;display:flex;justify-content:center;align-items:center;height:100vh;margin:0}
+.card{background:#181b23;padding:32px;border-radius:8px;border:1px solid #2a2d3a;text-align:center;max-width:400px}
+h1{font-size:20px;margin:0 0 12px}p{color:#9498a8;font-size:14px}
+a{color:#e74c3c;text-decoration:underline}</style></head>
+<body><div class="card"><h1>Invalid Link</h1><p>This unsubscribe link is invalid or expired. Return to <a href="https://watchboard.dev">Watchboard</a>.</p></div></body></html>`;
+
+const unsubscribeMissingHtml = `<!DOCTYPE html>
+<html><head><title>Unsubscribe — Watchboard</title>
+<style>body{background:#0a0b0e;color:#e8e9ed;font-family:sans-serif;display:flex;justify-content:center;align-items:center;height:100vh;margin:0}
+.card{background:#181b23;padding:32px;border-radius:8px;border:1px solid #2a2d3a;text-align:center;max-width:400px}
+h1{font-size:20px;margin:0 0 12px}p{color:#9498a8;font-size:14px}
+a{color:#e74c3c;text-decoration:underline}</style></head>
+<body><div class="card"><h1>Unsubscribe</h1><p>Missing token parameter. Return to <a href="https://watchboard.dev">Watchboard</a>.</p></div></body></html>`;
 
 /** Main handler for /newsletter/* routes */
 export async function handleNewsletter(request: Request, env: Env, path: string): Promise<Response> {
@@ -156,34 +220,18 @@ export async function handleNewsletter(request: Request, env: Env, path: string)
     return unsubscribe(body.email, env);
   }
 
-  // GET /newsletter/unsubscribe?email=... (from email link)
+  // GET /newsletter/unsubscribe?token=... (from email link, HMAC-based)
   if (path === '/newsletter/unsubscribe' && request.method === 'GET') {
     const url = new URL(request.url);
-    const email = url.searchParams.get('email');
-    if (!email) {
-      // Return a simple HTML page for confirmation
-      return new Response(`<!DOCTYPE html>
-<html><head><title>Unsubscribe — Watchboard</title>
-<style>body{background:#0a0b0e;color:#e8e9ed;font-family:sans-serif;display:flex;justify-content:center;align-items:center;height:100vh;margin:0}
-.card{background:#181b23;padding:32px;border-radius:8px;border:1px solid #2a2d3a;text-align:center;max-width:400px}
-h1{font-size:20px;margin:0 0 12px}p{color:#9498a8;font-size:14px}
-a{color:#e74c3c;text-decoration:underline}</style></head>
-<body><div class="card"><h1>Unsubscribe</h1><p>Missing email parameter. Return to <a href="https://watchboard.dev">Watchboard</a>.</p></div></body></html>`,
-        { status: 400, headers: { 'Content-Type': 'text/html' } });
+    const token = url.searchParams.get('token');
+    if (!token) {
+      return new Response(unsubscribeMissingHtml, { status: 400, headers: { 'Content-Type': 'text/html' } });
     }
-    await unsubscribe(email, env);
-    return new Response(`<!DOCTYPE html>
-<html><head><title>Unsubscribed — Watchboard</title>
-<style>body{background:#0a0b0e;color:#e8e9ed;font-family:sans-serif;display:flex;justify-content:center;align-items:center;height:100vh;margin:0}
-.card{background:#181b23;padding:32px;border-radius:8px;border:1px solid #2a2d3a;text-align:center;max-width:400px}
-h1{font-size:20px;margin:0 0 12px;color:#2ecc71}p{color:#9498a8;font-size:14px}
-a{color:#e74c3c;text-decoration:underline}</style></head>
-<body><div class="card"><h1>✅ Unsubscribed</h1><p>You've been removed from the Watchboard weekly digest. <a href="https://watchboard.dev">Return to Watchboard</a>.</p></div></body></html>`,
-      { status: 200, headers: { 'Content-Type': 'text/html' } });
+    return unsubscribeByToken(token, env);
   }
 
-  // GET /newsletter/send — trigger send (authenticated)
-  if (path === '/newsletter/send' && (request.method === 'GET' || request.method === 'POST')) {
+  // POST /newsletter/send — trigger send (authenticated)
+  if (path === '/newsletter/send' && request.method === 'POST') {
     return triggerSend(request, env);
   }
 

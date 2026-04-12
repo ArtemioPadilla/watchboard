@@ -12,7 +12,7 @@
  *   POST /newsletter/subscribe   → add email to newsletter list
  *   POST /newsletter/unsubscribe → remove email from newsletter list
  *   GET  /newsletter/unsubscribe → unsubscribe via email link
- *   GET|POST /newsletter/send    → trigger newsletter send (authenticated)
+ *   POST /newsletter/send        → trigger newsletter send (authenticated)
  */
 
 export interface Env {
