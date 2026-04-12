@@ -74,38 +74,31 @@ function filterAndSort(trackers: TrackerCardData[], followedSlugs: string[] = []
 
 export default function MobileStoryCarousel({ trackers, basePath, followedSlugs = [], onTrackerChange }: Props) {
   const locale = getPreferredLocale();
-  // Read initial seen set for ordering (won't change during session)
+  // Read initial seen set for ordering — resets when tracker has new data
   const initialSeenSlugs = useMemo(() => {
     try {
       const stored = localStorage.getItem(SEEN_STORAGE_KEY);
       if (!stored) return new Set<string>();
-      const parsed: Record<string, number> = JSON.parse(stored);
+      const parsed: Record<string, { seenAt: number; dataVersion: string } | number> = JSON.parse(stored);
       const now = Date.now();
       const valid = Object.entries(parsed)
-        .filter(([, ts]) => now - ts < SEEN_TTL_MS)
+        .filter(([slug, entry]) => {
+          if (typeof entry === 'number') return now - entry < SEEN_TTL_MS; // backward compat
+          if (now - entry.seenAt > SEEN_TTL_MS) return false;
+          const tracker = trackers.find(t => t.slug === slug);
+          if (tracker && tracker.lastUpdated && entry.dataVersion !== tracker.lastUpdated) return false;
+          return true;
+        })
         .map(([slug]) => slug);
       return new Set(valid);
     } catch {
       return new Set<string>();
     }
-  }, []); // Only once on mount
+  }, [trackers]);
 
   const eligible = useMemo(() => filterAndSort(trackers, followedSlugs, initialSeenSlugs), [trackers, followedSlugs, initialSeenSlugs]);
 
-  const [seenSlugs, setSeenSlugs] = useState<Set<string>>(() => {
-    try {
-      const stored = localStorage.getItem(SEEN_STORAGE_KEY);
-      if (!stored) return new Set();
-      const parsed: Record<string, number> = JSON.parse(stored);
-      const now = Date.now();
-      const valid = Object.entries(parsed)
-        .filter(([, ts]) => now - ts < SEEN_TTL_MS)
-        .map(([slug]) => slug);
-      return new Set(valid);
-    } catch {
-      return new Set();
-    }
-  });
+  const [seenSlugs, setSeenSlugs] = useState<Set<string>>(initialSeenSlugs);
 
   // Start at the first unseen story instead of always index 0
   const [currentIndex, setCurrentIndex] = useState(() => {
@@ -134,15 +127,18 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
         if (prev.has(slug)) return prev;
         const next = new Set(prev);
         next.add(slug);
-        // Persist to localStorage with timestamps
+        // Persist to localStorage with timestamps + data version
         try {
           const stored = localStorage.getItem(SEEN_STORAGE_KEY);
-          const data: Record<string, number> = stored ? JSON.parse(stored) : {};
-          data[slug] = Date.now();
+          const data: Record<string, { seenAt: number; dataVersion: string } | number> = stored ? JSON.parse(stored) : {};
+          const currentTracker = eligible[currentIndex];
+          data[slug] = { seenAt: Date.now(), dataVersion: currentTracker?.lastUpdated || '' };
           // Prune expired entries while we're at it
           const now = Date.now();
           for (const key of Object.keys(data)) {
-            if (now - data[key] > SEEN_TTL_MS) delete data[key];
+            const entry = data[key];
+            const seenAt = typeof entry === 'number' ? entry : entry.seenAt;
+            if (now - seenAt > SEEN_TTL_MS) delete data[key];
           }
           localStorage.setItem(SEEN_STORAGE_KEY, JSON.stringify(data));
         } catch { /* localStorage unavailable */ }
