@@ -7,6 +7,7 @@ import MobileFeedTab from './MobileFeedTab';
 import MobileDataTab from './MobileDataTab';
 import MobileIntelTab from './MobileIntelTab';
 import { haptic } from '../../../lib/haptic';
+import { t, getPreferredLocale } from '../../../i18n/translations';
 import type { MapPoint, MapLine, KpiItem, CasualtyRow, EconItem, Claim, PolItem, TimelineEra, StrikeItem, Asset, Meta } from '../../../lib/schemas';
 import type { FlatEvent } from '../../../lib/timeline-utils';
 import type { MapCategory } from '../../../lib/map-utils';
@@ -50,6 +51,7 @@ interface Props {
 }
 
 export default function MobileTabShell(props: Props) {
+  const locale = getPreferredLocale();
   const [activeTab, setActiveTab] = useState<MobileTab>('feed');
   const [mapMode, setMapMode] = useState<'2d' | '3d'>(props.initialMapMode ?? '2d');
   const [showCoach, setShowCoach] = useState(false);
@@ -206,8 +208,8 @@ export default function MobileTabShell(props: Props) {
       {showCoach && (
         <div className="mtab-coach-overlay" onClick={() => setShowCoach(false)}>
           <div className="mtab-coach-text">
-            Explore the <strong>{props.operationName}</strong> tracker.<br />
-            Tap map points for events. Swipe tabs below.
+            {t('mobile.coachExplore', locale)} <strong>{props.operationName}</strong> {t('mobile.coachTracker', locale)}<br />
+            {t('mobile.coachInstructions', locale)}
           </div>
         </div>
       )}

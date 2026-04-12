@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { trackEvent } from '../../lib/analytics';
 import type { TimelineEra, TimelineEvent } from '../../lib/schemas';
 import { tierClass, tierLabel } from '../../lib/tier-utils';
+import { t, getPreferredLocale } from '../../i18n/translations';
 
 function poleLabel(pole?: string): string | null {
   if (!pole) return null;
@@ -19,6 +20,7 @@ interface Props {
 }
 
 export default function TimelineSection({ timeline }: Props) {
+  const locale = getPreferredLocale();
   const [selected, setSelected] = useState<TimelineEvent | null>(null);
 
   const handleClick = (ev: TimelineEvent) => {
@@ -27,17 +29,17 @@ export default function TimelineSection({ timeline }: Props) {
   };
 
   const EVENT_TYPES = [
-    { type: 'military', color: 'var(--accent-red)', label: 'Military' },
-    { type: 'diplomatic', color: 'var(--accent-blue)', label: 'Diplomatic' },
-    { type: 'humanitarian', color: 'var(--accent-amber)', label: 'Humanitarian' },
-    { type: 'economic', color: 'var(--accent-green)', label: 'Economic' },
+    { type: 'military', color: 'var(--accent-red)', label: t('timeline.military', locale) },
+    { type: 'diplomatic', color: 'var(--accent-blue)', label: t('timeline.diplomatic', locale) },
+    { type: 'humanitarian', color: 'var(--accent-amber)', label: t('timeline.humanitarian', locale) },
+    { type: 'economic', color: 'var(--accent-green)', label: t('timeline.economic', locale) },
   ];
 
   return (
     <section className="section" id="sec-timeline">
       <div className="section-header">
         <span className="section-num">01</span>
-        <h2 className="section-title">Historical Timeline</h2>
+        <h2 className="section-title">{t('timeline.title', locale)}</h2>
         <span className="section-count">1941 &ndash; Present</span>
       </div>
       <div className="tl-legend">
@@ -49,7 +51,7 @@ export default function TimelineSection({ timeline }: Props) {
         ))}
         <span className="tl-legend-item">
           <span className="tl-legend-dot active-dot" />
-          Active
+          {t('timeline.active', locale)}
         </span>
       </div>
       <div className="timeline-container">

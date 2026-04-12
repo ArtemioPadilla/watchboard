@@ -4,6 +4,7 @@ import type { FlatEvent } from '../../../lib/timeline-utils';
 import { tierClass, tierLabelShort } from '../../../lib/tier-utils';
 import { haptic } from '../../../lib/haptic';
 import { eventTypeColor, relativeTime } from '../../../lib/event-utils';
+import { t, getPreferredLocale, type Locale } from '../../../i18n/translations';
 
 interface Props {
   heroSubtitle: string;
@@ -12,15 +13,16 @@ interface Props {
 
 const PULL_TRIGGER = 80;
 
-function formatDate(iso: string): string {
+function formatDate(iso: string, locale: Locale = 'en'): string {
   const [year, month, day] = iso.split('-');
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  const m = months[parseInt(month, 10) - 1] ?? month;
+  const monthKeys = ['time.jan', 'time.feb', 'time.mar', 'time.apr', 'time.may', 'time.jun',
+                    'time.jul', 'time.aug', 'time.sep', 'time.oct', 'time.nov', 'time.dec'] as const;
+  const m = t(monthKeys[parseInt(month, 10) - 1] ?? 'time.jan', locale);
   return `${m} ${parseInt(day, 10)}, ${year}`;
 }
 
 export default function MobileFeedTab({ heroSubtitle, events }: Props) {
+  const locale = getPreferredLocale();
   const [selectedEvent, setSelectedEvent] = useState<FlatEvent | null>(null);
 
   // ── Pull-to-refresh (#2) — C1 fix: use ref for pull distance ──
@@ -127,13 +129,13 @@ export default function MobileFeedTab({ heroSubtitle, events }: Props) {
             </span>
           )}
           <span className="mtab-pull-text">
-            {refreshing ? 'Refreshing...' : pullY >= PULL_TRIGGER * 0.5 ? 'Release to refresh' : 'Pull to refresh'}
+            {refreshing ? t('feed.refreshing', locale) : pullY >= PULL_TRIGGER * 0.5 ? t('feed.releaseToRefresh', locale) : t('feed.pullToRefresh', locale)}
           </span>
         </div>
       )}
 
       <div className="mtab-brief">
-        <div className="mtab-brief-label">Situation Brief</div>
+        <div className="mtab-brief-label">{t('feed.situationBrief', locale)}</div>
         <p className="mtab-brief-text">{heroSubtitle}</p>
       </div>
 
@@ -142,9 +144,9 @@ export default function MobileFeedTab({ heroSubtitle, events }: Props) {
         return (
           <div key={date} className="mtab-feed-day">
             <div className="mtab-feed-date">
-              {formatDate(date)}
+              {formatDate(date, locale)}
               <span className="mtab-feed-count">
-                {dayEvents.length} event{dayEvents.length !== 1 ? 's' : ''}
+                {dayEvents.length} {dayEvents.length !== 1 ? t('feed.events', locale) : t('feed.event', locale)}
               </span>
             </div>
             {dayEvents.map(ev => (
@@ -156,7 +158,7 @@ export default function MobileFeedTab({ heroSubtitle, events }: Props) {
 
       {sortedDates.length === 0 && (
         <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>
-          No events available.
+          {t('feed.noEvents', locale)}
         </p>
       )}
 
@@ -183,21 +185,21 @@ export default function MobileFeedTab({ heroSubtitle, events }: Props) {
               <button
                 className="mtab-sheet-close"
                 onClick={() => setSelectedEvent(null)}
-                aria-label="Close event details"
+                aria-label={t('feed.closeEventDetails', locale)}
               >
                 ✕
               </button>
             </div>
             <h3 id="mtab-sheet-title" className="mtab-sheet-title">{selectedEvent.title}</h3>
             <div className="mtab-sheet-date" suppressHydrationWarning>
-              {formatDate(selectedEvent.resolvedDate)} · {relativeTime(selectedEvent.resolvedDate)}
+              {formatDate(selectedEvent.resolvedDate, locale)} · {relativeTime(selectedEvent.resolvedDate)}
             </div>
             {selectedEvent.detail && (
               <p className="mtab-sheet-body">{selectedEvent.detail}</p>
             )}
             {selectedEvent.sources && selectedEvent.sources.length > 0 && (
               <div className="mtab-sheet-sources">
-                <div className="mtab-sheet-sources-label">Sources</div>
+                <div className="mtab-sheet-sources-label">{t('feed.sources', locale)}</div>
                 <div className="mtab-event-sources">
                   {selectedEvent.sources.map((src, i) => (
                     src.url ? (
