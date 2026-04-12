@@ -480,9 +480,11 @@ function drawTexturedSphere(
     for (let px = x0; px < x1; px += STEP) {
       const dx = (px - cx) * invR;
       const rhoSq = dx * dx + dySq;
-      if (rhoSq > 1) continue;
+      if (rhoSq > 1.02) continue; // slightly beyond edge for feathering
 
       const rho = Math.sqrt(rhoSq);
+      // Edge anti-aliasing: smooth falloff in the last 2% of radius
+      const edgeAlpha = rho > 0.97 ? Math.max(0, 1 - (rho - 0.97) / 0.05) : 1;
 
       let lat: number;
       let lon: number;
@@ -490,6 +492,17 @@ function drawTexturedSphere(
       if (rho < 0.0001) {
         lat = centerLatRad;
         lon = centerLonRad;
+      } else if (rho >= 1) {
+        // In feather zone beyond sphere — use edge projection
+        const clampedRho = 0.999;
+        const c = Math.asin(clampedRho);
+        const sinC = Math.sin(c);
+        const cosC = Math.cos(c);
+        lat = Math.asin(cosC * sinCenterLat + (dy * sinC * cosCenterLat) / rho);
+        lon = centerLonRad + Math.atan2(
+          dx * sinC,
+          rho * cosCenterLat * cosC - dy * sinCenterLat * sinC,
+        );
       } else {
         const c = Math.asin(rho);
         const sinC = Math.sin(c);
@@ -530,12 +543,12 @@ function drawTexturedSphere(
         b = Math.max(b, 4);
       }
 
-      // Write pixel
+      // Write pixel with edge anti-aliasing
       const outIdx = (Math.floor(py - y0) * outW + Math.floor(px - x0)) * 4;
-      out[outIdx] = r;
-      out[outIdx + 1] = g;
-      out[outIdx + 2] = b;
-      out[outIdx + 3] = 255;
+      out[outIdx] = Math.floor(r * edgeAlpha);
+      out[outIdx + 1] = Math.floor(g * edgeAlpha);
+      out[outIdx + 2] = Math.floor(b * edgeAlpha);
+      out[outIdx + 3] = Math.floor(255 * edgeAlpha);
     }
   }
 
