@@ -1,5 +1,5 @@
-import React, { useRef, useEffect, useMemo } from 'react';
-import { interpolate, Easing } from 'remotion';
+import React, { useRef, useEffect, useState } from 'react';
+import { interpolate, Easing, delayRender, continueRender } from 'remotion';
 import type { GeoFeature } from '../data/types';
 
 interface CanvasGlobeProps {
@@ -573,11 +573,19 @@ export const CanvasGlobe: React.FC<CanvasGlobeProps> = ({
   } | null>(null);
   const textureLoadedRef = useRef<string>(''); // track which URL was loaded
 
+  // Tell Remotion to wait for the earth texture to decode before capturing frames
+  const [handle] = useState(() =>
+    earthTexture ? delayRender('Loading earth texture') : null,
+  );
+
   const dpr = Math.min(typeof window !== 'undefined' ? window.devicePixelRatio : 1, 2);
 
   // Decode the earth texture image once and cache in ref
   useEffect(() => {
-    if (!earthTexture || earthTexture === textureLoadedRef.current) return;
+    if (!earthTexture || earthTexture === textureLoadedRef.current) {
+      if (handle) continueRender(handle);
+      return;
+    }
 
     decodeTextureToImageData(earthTexture)
       .then(({ imageData, width: tw, height: th }) => {
@@ -587,12 +595,14 @@ export const CanvasGlobe: React.FC<CanvasGlobeProps> = ({
           height: th,
         };
         textureLoadedRef.current = earthTexture;
+        if (handle) continueRender(handle);
       })
       .catch((err) => {
         console.warn('Failed to decode earth texture:', err);
         textureRef.current = null;
+        if (handle) continueRender(handle);
       });
-  }, [earthTexture]);
+  }, [earthTexture, handle]);
 
   useEffect(() => {
     const canvas = canvasRef.current;

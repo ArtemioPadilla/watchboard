@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   AbsoluteFill,
+  Img,
   useCurrentFrame,
   useVideoConfig,
   interpolate,
@@ -11,6 +12,7 @@ import type { BreakingTracker } from '../data/types';
 interface TrackerSlideProps {
   tracker: BreakingTracker;
   accentColor: string;
+  thumbnailBase64?: string;
 }
 
 const TIER_LABELS: Record<number, string> = {
@@ -47,6 +49,7 @@ function stripEmoji(text: string): string {
 export const TrackerSlide: React.FC<TrackerSlideProps> = ({
   tracker,
   accentColor,
+  thumbnailBase64,
 }) => {
   const frame = useCurrentFrame();
   const { fps, durationInFrames } = useVideoConfig();
@@ -109,6 +112,16 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
   });
   const sourceOpacity = interpolate(sourceSpring, [0, 1], [0, 1]);
 
+  // --- Image card animation (delayed after globe settles) ---
+  const imageSpring = spring({
+    frame: Math.max(0, frame - 20),
+    fps,
+    config: { damping: 14, stiffness: 100, mass: 0.9 },
+  });
+  const imageOpacity = interpolate(imageSpring, [0, 1], [0, 1]);
+  const imageScale = interpolate(imageSpring, [0, 1], [0.85, 1]);
+  const imageY = interpolate(imageSpring, [0, 1], [20, 0]);
+
   const displayName = stripEmoji(tracker.name).toUpperCase();
   const displayHeadline = smartTruncate(tracker.headline, 150);
   const kpiDisplay = `${tracker.kpiPrefix ?? ''}${tracker.kpiValue}${tracker.kpiSuffix ?? ''}`;
@@ -126,11 +139,49 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
         transform: `translateY(${translateY}px)`,
       }}
     >
-      {/* Text content — positioned in bottom 45% */}
+      {/* Image card — popup card below globe when thumbnail available */}
+      {thumbnailBase64 && (
+        <div
+          style={{
+            position: 'absolute',
+            top: '42%',
+            left: 0,
+            right: 0,
+            display: 'flex',
+            justifyContent: 'center',
+            zIndex: 2,
+            opacity: imageOpacity,
+            transform: `scale(${imageScale}) translateY(${imageY}px)`,
+          }}
+        >
+          <div
+            style={{
+              width: 400,
+              maxHeight: 200,
+              borderRadius: 8,
+              border: `2px solid ${accentColor}`,
+              boxShadow: `0 0 20px ${accentColor}40, 0 4px 24px rgba(0,0,0,0.6)`,
+              overflow: 'hidden',
+            }}
+          >
+            <Img
+              src={thumbnailBase64}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                display: 'block',
+              }}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Text content — positioned in bottom portion */}
       <div
         style={{
           position: 'absolute',
-          top: '55%',
+          top: thumbnailBase64 ? '62%' : '55%',
           left: 0,
           right: 0,
           bottom: 0,
@@ -183,7 +234,7 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
             opacity: headlineOpacity,
             transform: `translateY(${headlineY}px)`,
             fontFamily: "'DM Sans', sans-serif",
-            fontSize: 40,
+            fontSize: thumbnailBase64 ? 34 : 40,
             fontWeight: 700,
             color: '#e8e9ed',
             lineHeight: 1.25,
@@ -244,7 +295,7 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
             <span
               style={{
                 fontFamily: "'DM Sans', sans-serif",
-                fontSize: 72,
+                fontSize: thumbnailBase64 ? 56 : 72,
                 fontWeight: 700,
                 color: accentColor,
                 lineHeight: 1,

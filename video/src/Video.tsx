@@ -87,8 +87,8 @@ export const Video: React.FC<VideoProps> = ({ data, narrationSrc, geoFeatures = 
         }}
       >
         <CanvasGlobe
-          width={800}
-          height={800}
+          width={700}
+          height={700}
           geoFeatures={geoFeatures}
           trackers={trackers}
           activeTrackerIndex={activeTrackerIndex}
@@ -113,7 +113,7 @@ export const Video: React.FC<VideoProps> = ({ data, narrationSrc, geoFeatures = 
         <Intro date={breakingData.date} />
       </Sequence>
 
-      {/* Tracker slides — text overlays only */}
+      {/* Tracker slides — always use TrackerSlide, pass thumbnail when available */}
       {trackers.map((tracker, i) => {
         const slideStart = INTRO_FRAMES + i * SLIDE_FRAMES;
         return (
@@ -126,6 +126,7 @@ export const Video: React.FC<VideoProps> = ({ data, narrationSrc, geoFeatures = 
             <TrackerSlide
               tracker={tracker}
               accentColor={SLIDE_ACCENTS[i % SLIDE_ACCENTS.length]}
+              thumbnailBase64={tracker.thumbnailBase64}
             />
           </Sequence>
         );
