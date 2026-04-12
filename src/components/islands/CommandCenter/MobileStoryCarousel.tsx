@@ -123,6 +123,7 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
   const touchStartX = useRef<number | null>(null);
   const circlesRef = useRef<HTMLDivElement>(null);
   const pauseTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const lastTapTime = useRef<number>(0);
 
   // Mark current tracker as seen when index changes
   useEffect(() => {
@@ -241,12 +242,24 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
   }, [clearPauseTimer]);
 
   const handleCardTap = useCallback(() => {
+    const now = Date.now();
+    const DOUBLE_TAP_MS = 300;
+
+    if (now - lastTapTime.current < DOUBLE_TAP_MS) {
+      // Double tap → open tracker
+      haptic();
+      window.location.href = `${basePath}${eligible[currentIndex]?.slug}/`;
+      return;
+    }
+    lastTapTime.current = now;
+
+    // Single tap → pause/resume
     if (paused) {
       handleResume();
     } else {
       handlePause();
     }
-  }, [paused, handlePause, handleResume]);
+  }, [paused, handlePause, handleResume, basePath, eligible, currentIndex]);
 
   // Cleanup
   useEffect(() => {
