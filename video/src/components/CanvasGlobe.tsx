@@ -177,11 +177,12 @@ function drawAtmosphere(
   cy: number,
   radius: number,
 ): void {
-  const glowRadius = radius * 1.15;
-  const gradient = ctx.createRadialGradient(cx, cy, radius * 0.92, cx, cy, glowRadius);
-  gradient.addColorStop(0, 'rgba(26, 74, 122, 0.10)');
-  gradient.addColorStop(0.5, 'rgba(26, 74, 122, 0.04)');
-  gradient.addColorStop(1, 'rgba(26, 74, 122, 0)');
+  const glowRadius = radius * 1.18;
+  const gradient = ctx.createRadialGradient(cx, cy, radius * 0.88, cx, cy, glowRadius);
+  gradient.addColorStop(0, 'rgba(40, 120, 200, 0.20)');
+  gradient.addColorStop(0.4, 'rgba(30, 90, 160, 0.10)');
+  gradient.addColorStop(0.7, 'rgba(20, 60, 120, 0.04)');
+  gradient.addColorStop(1, 'rgba(10, 30, 60, 0)');
 
   ctx.beginPath();
   ctx.arc(cx, cy, glowRadius, 0, Math.PI * 2);
@@ -526,19 +527,19 @@ function drawTexturedSphere(
       
       if (brightness > 80) {
         // City light — boost with warm tint
-        r = Math.min(255, Math.floor(r * 2.0));
-        g = Math.min(255, Math.floor(g * 1.8));
-        b = Math.min(255, Math.floor(b * 1.2));
+        r = Math.min(255, Math.floor(r * 2.5));
+        g = Math.min(255, Math.floor(g * 2.2));
+        b = Math.min(255, Math.floor(b * 1.5));
       } else if (blueRatio > 1.3 && brightness < 60) {
-        // Ocean (blue-dominant dark) — make very dark blue
-        r = 3;
-        g = 4;
-        b = 12;
+        // Ocean — very dark with subtle blue
+        r = 4;
+        g = 6;
+        b = 16;
       } else {
-        // Unlit land — slightly lighter than ocean so continents are visible
-        r = 8;
-        g = 10;
-        b = 14;
+        // Unlit land — visible continent outlines
+        r = 12;
+        g = 14;
+        b = 18;
       }
 
       // Write pixel
@@ -667,11 +668,17 @@ export const CanvasGlobe: React.FC<CanvasGlobeProps> = ({
       ctx.restore();
     }
 
-    // Rim highlight (always on top)
+    // Rim highlight — bright blue edge like Cesium atmosphere
     ctx.beginPath();
     ctx.arc(cx, cy, radius, 0, Math.PI * 2);
-    ctx.strokeStyle = 'rgba(52, 152, 219, 0.15)';
-    ctx.lineWidth = 1.5;
+    ctx.strokeStyle = 'rgba(60, 160, 230, 0.35)';
+    ctx.lineWidth = 2.5;
+    ctx.stroke();
+    // Second softer outer rim
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius + 3, 0, Math.PI * 2);
+    ctx.strokeStyle = 'rgba(40, 120, 200, 0.12)';
+    ctx.lineWidth = 4;
     ctx.stroke();
 
     // 5. Pulsing dot at active tracker location (always on top)
