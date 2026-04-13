@@ -25,49 +25,49 @@ const basePath = base.endsWith('/') ? base : `${base}/`;
 <BaseLayout title={`About — ${config.shortName}`} trackerSlug={config.slug} githubRepo={config.githubRepo}>
   <main id="main-content">
   <div class="about-page">
-    <a class="about-back" href={`${basePath}${config.slug}/`}>&larr; Dashboard</a>
+    <a class="about-back" href={`${basePath}${config.slug}/`} data-i18n data-es="&larr; Panel" data-fr="&larr; Tableau de bord" data-pt="&larr; Painel">&larr; Dashboard</a>
 
     <article class="about-content">
-      <h1>About {config.name}</h1>
+      <h1><span data-i18n data-es="Acerca de" data-fr="&Agrave; propos" data-pt="Sobre">About</span> {config.name}</h1>
 
       <section>
-        <h2>What is this?</h2>
+        <h2 data-i18n data-es="&iquest;Qu&eacute; es esto?" data-fr="Qu'est-ce que c'est ?" data-pt="O que &eacute; isso?">What is this?</h2>
         <p>
-          {config.description}
-          Data is updated nightly via AI-assisted analysis of open sources. Every data point is tagged with a source tier (from official/primary to unverified) so readers can assess reliability at a glance.
+          {config.description}{' '}
+          <span data-i18n data-es="Los datos se actualizan cada noche mediante an&aacute;lisis asistido por IA de fuentes abiertas. Cada dato est&aacute; etiquetado con un nivel de fuente (de oficial/primario a no verificado) para que los lectores puedan evaluar la fiabilidad de un vistazo." data-fr="Les donn&eacute;es sont mises &agrave; jour chaque nuit via une analyse assist&eacute;e par IA de sources ouvertes. Chaque donn&eacute;e est &eacute;tiquet&eacute;e avec un niveau de source (d'officiel/primaire &agrave; non v&eacute;rifi&eacute;) pour que les lecteurs puissent &eacute;valuer la fiabilit&eacute; d'un coup d'&oelig;il." data-pt="Os dados s&atilde;o atualizados todas as noites via an&aacute;lise assistida por IA de fontes abertas. Cada dado &eacute; marcado com um n&iacute;vel de fonte (de oficial/prim&aacute;rio a n&atilde;o verificado) para que os leitores possam avaliar a confiabilidade rapidamente.">Data is updated nightly via AI-assisted analysis of open sources. Every data point is tagged with a source tier (from official/primary to unverified) so readers can assess reliability at a glance.</span>
         </p>
       </section>
 
       <section>
-        <h2>Disclaimer &amp; No Guarantees</h2>
+        <h2 data-i18n data-es="Descargo de responsabilidad y sin garant&iacute;as" data-fr="Avertissement et sans garantie" data-pt="Aviso legal e sem garantias">Disclaimer &amp; No Guarantees</h2>
         <p>
-          This dashboard is provided on a <strong>best-effort basis</strong>, with no warranties of any kind&mdash;express or implied.
+          <span data-i18n data-es="Este panel se proporciona con base en el mejor esfuerzo, sin garant&iacute;as de ning&uacute;n tipo, expresas o impl&iacute;citas." data-fr="Ce tableau de bord est fourni au mieux, sans garantie d'aucune sorte, expresse ou implicite." data-pt="Este painel &eacute; fornecido com base no melhor esfor&ccedil;o, sem garantias de qualquer tipo, expressas ou impl&iacute;citas.">This dashboard is provided on a <strong>best-effort basis</strong>, with no warranties of any kind&mdash;express or implied.</span>
         </p>
         <ul>
-          <li>Information may be <strong>incomplete, delayed, or inaccurate</strong>.</li>
-          <li>AI-assisted updates may introduce errors. All AI outputs are validated against schemas, but factual accuracy cannot be guaranteed.</li>
-          <li>This project does <strong>not</strong> endorse any political position, government narrative, or military action.</li>
-          <li>Nothing here constitutes professional intelligence analysis, legal advice, or journalistic reporting.</li>
-          <li>The dashboard presents <strong>multiple perspectives</strong> without claiming any single perspective is correct.</li>
+          <li data-i18n data-es="La informaci&oacute;n puede ser incompleta, retrasada o inexacta." data-fr="Les informations peuvent &ecirc;tre incompl&egrave;tes, retard&eacute;es ou inexactes." data-pt="As informa&ccedil;&otilde;es podem ser incompletas, atrasadas ou imprecisas.">Information may be <strong>incomplete, delayed, or inaccurate</strong>.</li>
+          <li data-i18n data-es="Las actualizaciones asistidas por IA pueden introducir errores. Todas las salidas de IA se validan contra esquemas, pero no se puede garantizar la precisi&oacute;n factual." data-fr="Les mises &agrave; jour assist&eacute;es par IA peuvent introduire des erreurs. Toutes les sorties IA sont valid&eacute;es contre des sch&eacute;mas, mais l'exactitude factuelle ne peut &ecirc;tre garantie." data-pt="Atualiza&ccedil;&otilde;es assistidas por IA podem introduzir erros. Todas as sa&iacute;das de IA s&atilde;o validadas contra esquemas, mas a precis&atilde;o factual n&atilde;o pode ser garantida.">AI-assisted updates may introduce errors. All AI outputs are validated against schemas, but factual accuracy cannot be guaranteed.</li>
+          <li data-i18n data-es="Este proyecto no respalda ninguna posici&oacute;n pol&iacute;tica, narrativa gubernamental ni acci&oacute;n militar." data-fr="Ce projet ne soutient aucune position politique, r&eacute;cit gouvernemental ou action militaire." data-pt="Este projeto n&atilde;o endossa nenhuma posi&ccedil;&atilde;o pol&iacute;tica, narrativa governamental ou a&ccedil;&atilde;o militar.">This project does <strong>not</strong> endorse any political position, government narrative, or military action.</li>
+          <li data-i18n data-es="Nada aqu&iacute; constituye an&aacute;lisis de inteligencia profesional, asesoramiento legal o reportaje period&iacute;stico." data-fr="Rien ici ne constitue une analyse de renseignement professionnelle, un conseil juridique ou un reportage journalistique." data-pt="Nada aqui constitui an&aacute;lise de intelig&ecirc;ncia profissional, aconselhamento jur&iacute;dico ou reportagem jornal&iacute;stica.">Nothing here constitutes professional intelligence analysis, legal advice, or journalistic reporting.</li>
+          <li data-i18n data-es="El panel presenta m&uacute;ltiples perspectivas sin afirmar que ninguna perspectiva sea correcta." data-fr="Le tableau de bord pr&eacute;sente de multiples perspectives sans pr&eacute;tendre qu'une seule soit correcte." data-pt="O painel apresenta m&uacute;ltiplas perspectivas sem afirmar que nenhuma perspectiva seja correta.">The dashboard presents <strong>multiple perspectives</strong> without claiming any single perspective is correct.</li>
         </ul>
       </section>
 
       <section>
-        <h2>Built With</h2>
+        <h2 data-i18n data-es="Construido Con" data-fr="Construit Avec" data-pt="Constru&iacute;do Com">Built With</h2>
         <div class="credits-grid">
-          <div class="credit-item"><strong>Astro</strong><span>Static site framework</span></div>
-          <div class="credit-item"><strong>React</strong><span>Interactive island components</span></div>
-          <div class="credit-item"><strong>CesiumJS</strong><span>3D globe visualization</span></div>
-          <div class="credit-item"><strong>Leaflet</strong><span>2D interactive mapping</span></div>
-          <div class="credit-item"><strong>Zod</strong><span>Schema validation</span></div>
-          <div class="credit-item"><strong>TypeScript</strong><span>Type-safe codebase</span></div>
-          <div class="credit-item"><strong>Claude API</strong><span>AI-assisted data updates</span></div>
+          <div class="credit-item"><strong>Astro</strong><span data-i18n data-es="Framework de sitio est&aacute;tico" data-fr="Framework de site statique" data-pt="Framework de site est&aacute;tico">Static site framework</span></div>
+          <div class="credit-item"><strong>React</strong><span data-i18n data-es="Componentes interactivos" data-fr="Composants interactifs" data-pt="Componentes interativos">Interactive island components</span></div>
+          <div class="credit-item"><strong>CesiumJS</strong><span data-i18n data-es="Visualizaci&oacute;n de globo 3D" data-fr="Visualisation de globe 3D" data-pt="Visualiza&ccedil;&atilde;o de globo 3D">3D globe visualization</span></div>
+          <div class="credit-item"><strong>Leaflet</strong><span data-i18n data-es="Mapeo interactivo 2D" data-fr="Cartographie interactive 2D" data-pt="Mapeamento interativo 2D">2D interactive mapping</span></div>
+          <div class="credit-item"><strong>Zod</strong><span data-i18n data-es="Validaci&oacute;n de esquemas" data-fr="Validation de sch&eacute;mas" data-pt="Valida&ccedil;&atilde;o de esquemas">Schema validation</span></div>
+          <div class="credit-item"><strong>TypeScript</strong><span data-i18n data-es="C&oacute;digo con tipado seguro" data-fr="Code typ&eacute; s&ucirc;r" data-pt="C&oacute;digo com tipagem segura">Type-safe codebase</span></div>
+          <div class="credit-item"><strong>Claude API</strong><span data-i18n data-es="Actualizaciones de datos con IA" data-fr="Mises &agrave; jour de donn&eacute;es par IA" data-pt="Atualiza&ccedil;&otilde;es de dados com IA">AI-assisted data updates</span></div>
         </div>
       </section>
 
       {config.slug === 'artemis-2' && (
       <section>
-        <h2>3D Model Credits</h2>
+        <h2 data-i18n data-es="Cr&eacute;ditos de Modelos 3D" data-fr="Cr&eacute;dits des Mod&egrave;les 3D" data-pt="Cr&eacute;ditos dos Modelos 3D">3D Model Credits</h2>
         <p>
           The Orion spacecraft 3D model used on the globe is based on
           <a href="https://sketchfab.com/3d-models/orion-spacecraft-fb89e865dcd446b89eaf78deaf213974" target="_blank" rel="noopener noreferrer">"Orion Spacecraft"</a> by
@@ -84,10 +84,10 @@ const basePath = base.endsWith('/') ? base : `${base}/`;
       )}
 
       <section>
-        <h2>Open Source</h2>
+        <h2 data-i18n data-es="C&oacute;digo Abierto" data-fr="Open Source" data-pt="C&oacute;digo Aberto">Open Source</h2>
         <p>
-          This project is open source.
-          <a href={githubUrl} target="_blank" rel="noopener noreferrer">View on GitHub</a>&mdash;contributions, bug reports, and feature suggestions are welcome.
+          <span data-i18n data-es="Este proyecto es de c&oacute;digo abierto." data-fr="Ce projet est open source." data-pt="Este projeto &eacute; de c&oacute;digo aberto.">This project is open source.</span>
+          <a href={githubUrl} target="_blank" rel="noopener noreferrer" data-i18n data-es="Ver en GitHub" data-fr="Voir sur GitHub" data-pt="Ver no GitHub">View on GitHub</a><span data-i18n data-es="&mdash;contribuciones, reportes de errores y sugerencias son bienvenidos." data-fr="&mdash;contributions, rapports de bugs et suggestions sont les bienvenus." data-pt="&mdash;contribui&ccedil;&otilde;es, relat&oacute;rios de bugs e sugest&otilde;es s&atilde;o bem-vindos.">&mdash;contributions, bug reports, and feature suggestions are welcome.</span>
         </p>
       </section>
     </article>

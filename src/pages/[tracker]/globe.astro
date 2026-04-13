@@ -35,8 +35,8 @@ const basePath = base.endsWith('/') ? base : `${base}/`;
   <main id="main-content">
   <div class="globe-layout">
     <div class="globe-slot globe-slot--top-left">
-      <a href={`${basePath}${config.slug}/`} class="globe-back-link">&larr; Dashboard</a>
-      <a href={`${basePath}${config.slug}/about/`} class="globe-about-link">About</a>
+      <a href={`${basePath}${config.slug}/`} class="globe-back-link" data-i18n data-es="&larr; Panel" data-fr="&larr; Tableau de bord" data-pt="&larr; Painel">&larr; Dashboard</a>
+      <a href={`${basePath}${config.slug}/about/`} class="globe-about-link" data-i18n data-es="Acerca de" data-fr="&Agrave; propos" data-pt="Sobre">About</a>
     </div>
     <CesiumGlobe
       client:only="react"
@@ -68,7 +68,7 @@ const basePath = base.endsWith('/') ? base : `${base}/`;
   <!-- Mobile gesture hint (first visit) -->
   <div class="globe-gesture-hint" id="globe-gesture-hint" style="display:none" role="status">
     <div class="globe-gesture-hint-inner">
-      Pinch to zoom · Drag to rotate<br/>Pull up for events
+      <span data-i18n data-es="Pellizca para zoom &middot; Arrastra para rotar" data-fr="Pincez pour zoomer &middot; Glissez pour pivoter" data-pt="Aperte para zoom &middot; Arraste para girar">Pinch to zoom &middot; Drag to rotate</span><br/><span data-i18n data-es="Desliza hacia arriba para eventos" data-fr="Tirez vers le haut pour les &eacute;v&eacute;nements" data-pt="Puxe para cima para eventos">Pull up for events</span>
     </div>
   </div>
 

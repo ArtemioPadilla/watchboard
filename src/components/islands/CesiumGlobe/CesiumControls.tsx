@@ -49,10 +49,10 @@ const VISUAL_MODES: { id: VisualMode; label: string }[] = [
 ];
 
 const ORBIT_MODES: { id: OrbitMode; label: string }[] = [
-  { id: 'off', label: 'OFF' },
-  { id: 'flat', label: 'FLAT' },
-  { id: 'spiral_in', label: 'SPIRAL IN' },
-  { id: 'spiral_out', label: 'SPIRAL OUT' },
+  { id: 'off', label: 'globe.orbitOff' },
+  { id: 'flat', label: 'globe.orbitFlat' },
+  { id: 'spiral_in', label: 'globe.orbitSpiralIn' },
+  { id: 'spiral_out', label: 'globe.orbitSpiralOut' },
 ];
 
 export default function CesiumControls({
@@ -153,7 +153,7 @@ export default function CesiumControls({
                 className={`globe-mode-btn${orbitMode === m.id ? ' active' : ''}`}
                 onClick={() => onOrbitMode(m.id)}
               >
-                {m.label}
+                {t(m.label as any, locale)}
               </button>
             ))}
           </div>

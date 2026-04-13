@@ -270,6 +270,7 @@ const kpiColors: Record<string, string> = {
   </style>
   <script is:inline>
     if(/[?&]theme=light/.test(location.search))document.documentElement.classList.add('theme-light');
+    (function(){try{var l=localStorage.getItem('watchboard-locale')||navigator.language.slice(0,2);if(['es','fr','pt'].indexOf(l)<0)return;document.querySelectorAll('[data-i18n]').forEach(function(el){var v=el.getAttribute('data-'+l);if(v)el.textContent=v})}catch(e){}})();
   </script>
 </head>
 <body>
@@ -278,9 +279,13 @@ const kpiColors: Record<string, string> = {
       {config.icon && <span class="embed-icon">{config.icon}</span>}
       <div class="embed-title-group">
         <div class="embed-name">{config.shortName}</div>
-        <div class="embed-day-count">Day {dayCount}</div>
+        <div class="embed-day-count"><span data-i18n data-es="D\u00eda" data-fr="Jour" data-pt="Dia">Day</span> {dayCount}</div>
       </div>
-      <span class={`embed-badge ${freshness.cssClass}`}>{freshness.label}</span>
+      <span class={`embed-badge ${freshness.cssClass}`} data-i18n
+        data-es={freshness.label === 'FRESH' ? 'FRESCO' : freshness.label === 'RECENT' ? 'RECIENTE' : 'DESACTUALIZADO'}
+        data-fr={freshness.label === 'FRESH' ? 'FRAIS' : freshness.label === 'RECENT' ? 'R\u00c9CENT' : 'OBSOL\u00c8TE'}
+        data-pt={freshness.label === 'FRESH' ? 'FRESCO' : freshness.label === 'RECENT' ? 'RECENTE' : 'DESATUALIZADO'}
+      >{freshness.label}</span>
     </div>
 
     {topKpis.length > 0 && (
@@ -297,7 +302,7 @@ const kpiColors: Record<string, string> = {
     )}
 
     <div class="embed-footer">
-      <a class="embed-link" href={dashboardUrl} target="_blank" rel="noopener">
+      <a class="embed-link" href={dashboardUrl} target="_blank" rel="noopener" data-i18n data-es="Abrir en Watchboard &#8594;" data-fr="Ouvrir sur Watchboard &#8594;" data-pt="Abrir no Watchboard &#8594;">
         Open on Watchboard &#8594;
       </a>
       <span class="embed-wb-mark">WB</span>

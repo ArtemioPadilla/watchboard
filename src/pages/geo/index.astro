@@ -4,19 +4,19 @@ import GeoIndex from '../../components/static/GeoIndex.astro';
 import { loadAllTrackers } from '../../lib/tracker-registry';
 import { loadTrackerData } from '../../lib/data';
 
-const REGION_LABELS: Record<string, string> = {
-  'north-america': 'North America',
-  'central-america': 'Central America',
-  'south-america': 'South America',
-  'europe': 'Europe',
-  'middle-east': 'Middle East',
-  'africa': 'Africa',
-  'central-asia': 'Central Asia',
-  'south-asia': 'South Asia',
-  'east-asia': 'East Asia',
-  'southeast-asia': 'Southeast Asia',
-  'oceania': 'Oceania',
-  'global': 'Global',
+const REGION_LABELS: Record<string, { en: string; es: string; fr: string; pt: string }> = {
+  'north-america': { en: 'North America', es: 'Am\u00e9rica del Norte', fr: 'Am\u00e9rique du Nord', pt: 'Am\u00e9rica do Norte' },
+  'central-america': { en: 'Central America', es: 'Am\u00e9rica Central', fr: 'Am\u00e9rique Centrale', pt: 'Am\u00e9rica Central' },
+  'south-america': { en: 'South America', es: 'Am\u00e9rica del Sur', fr: 'Am\u00e9rique du Sud', pt: 'Am\u00e9rica do Sul' },
+  'europe': { en: 'Europe', es: 'Europa', fr: 'Europe', pt: 'Europa' },
+  'middle-east': { en: 'Middle East', es: 'Medio Oriente', fr: 'Moyen-Orient', pt: 'Oriente M\u00e9dio' },
+  'africa': { en: 'Africa', es: '\u00c1frica', fr: 'Afrique', pt: '\u00c1frica' },
+  'central-asia': { en: 'Central Asia', es: 'Asia Central', fr: 'Asie Centrale', pt: '\u00c1sia Central' },
+  'south-asia': { en: 'South Asia', es: 'Asia del Sur', fr: 'Asie du Sud', pt: '\u00c1sia do Sul' },
+  'east-asia': { en: 'East Asia', es: 'Asia Oriental', fr: 'Asie de l\'Est', pt: '\u00c1sia Oriental' },
+  'southeast-asia': { en: 'Southeast Asia', es: 'Sudeste Asi\u00e1tico', fr: 'Asie du Sud-Est', pt: 'Sudeste Asi\u00e1tico' },
+  'oceania': { en: 'Oceania', es: 'Ocean\u00eda', fr: 'Oc\u00e9anie', pt: 'Oceania' },
+  'global': { en: 'Global', es: 'Global', fr: 'Mondial', pt: 'Global' },
 };
 
 const base = import.meta.env.BASE_URL;
@@ -36,7 +36,8 @@ const childNodes = [...regionCounts.entries()]
   .sort((a, b) => b[1] - a[1])
   .map(([region, count]) => ({
     id: region,
-    label: REGION_LABELS[region] || region,
+    label: REGION_LABELS[region]?.en || region,
+    i18n: REGION_LABELS[region] ? { es: REGION_LABELS[region].es, fr: REGION_LABELS[region].fr, pt: REGION_LABELS[region].pt } : undefined,
     trackerCount: count,
     href: `${basePath}geo/${region}/`,
   }));
@@ -45,6 +46,7 @@ const childNodes = [...regionCounts.entries()]
 <BaseLayout title="Geographic Index | Watchboard">
   <GeoIndex
     label="World"
+    labelI18n={{ es: 'Mundo', fr: 'Monde', pt: 'Mundo' }}
     path={[]}
     trackers={[]}
     childNodes={childNodes}

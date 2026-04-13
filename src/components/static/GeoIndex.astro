@@ -12,6 +12,7 @@ interface TrackerEntry {
 interface ChildNode {
   id: string;
   label: string;
+  i18n?: { es?: string; fr?: string; pt?: string };
   trackerCount: number;
   href: string;
 }
@@ -23,13 +24,14 @@ interface BreadcrumbItem {
 
 interface Props {
   label: string;
+  labelI18n?: { es?: string; fr?: string; pt?: string };
   path: string[];
   trackers: TrackerEntry[];
   childNodes: ChildNode[];
   breadcrumb: BreadcrumbItem[];
 }
 
-const { label, path, trackers, childNodes, breadcrumb } = Astro.props;
+const { label, labelI18n, path, trackers, childNodes, breadcrumb } = Astro.props;
 const base = import.meta.env.BASE_URL;
 const basePath = base.endsWith('/') ? base : `${base}/`;
 const totalTrackers = trackers.length + childNodes.reduce((sum, c) => sum + c.trackerCount, 0);
@@ -38,7 +40,7 @@ const totalTrackers = trackers.length + childNodes.reduce((sum, c) => sum + c.tr
 <div class="geo-index">
   {/* Breadcrumb */}
   <nav class="geo-breadcrumb-nav" aria-label="Geographic breadcrumb">
-    <a href={`${basePath}geo/`} class="geo-crumb-link">World</a>
+    <a href={`${basePath}geo/`} class="geo-crumb-link" data-i18n data-es="Mundo" data-fr="Monde" data-pt="Mundo">World</a>
     {breadcrumb.map((item) => (
       <>
         <span class="geo-crumb-sep">&rsaquo;</span>
@@ -49,7 +51,7 @@ const totalTrackers = trackers.length + childNodes.reduce((sum, c) => sum + c.tr
 
   {/* Title */}
   <div class="geo-title-block">
-    <h1 class="geo-title">{label}</h1>
+    <h1 class="geo-title" {...(labelI18n ? { 'data-i18n': '', 'data-es': labelI18n.es, 'data-fr': labelI18n.fr, 'data-pt': labelI18n.pt } : {})}>{label}</h1>
     <span class="geo-count">{totalTrackers} tracker{totalTrackers !== 1 ? 's' : ''}</span>
   </div>
 
@@ -60,7 +62,7 @@ const totalTrackers = trackers.length + childNodes.reduce((sum, c) => sum + c.tr
       <div class="geo-children-grid">
         {childNodes.map((child) => (
           <a href={child.href} class="geo-child-card">
-            <span class="geo-child-label">{child.label}</span>
+            <span class="geo-child-label" {...(child.i18n ? { 'data-i18n': '', 'data-es': child.i18n.es, 'data-fr': child.i18n.fr, 'data-pt': child.i18n.pt } : {})}>{child.label}</span>
             <span class="geo-child-count">{child.trackerCount} tracker{child.trackerCount !== 1 ? 's' : ''}</span>
           </a>
         ))}
