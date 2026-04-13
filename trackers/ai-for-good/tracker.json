@@ -1,0 +1,187 @@
+{
+  "slug": "ai-for-good",
+  "name": "AI for Good Tracker",
+  "shortName": "AI for Good",
+  "description": "Tracking real-world AI applications in healthcare, agriculture, disaster response, accessibility, and education — how artificial intelligence solves human problems beyond the hype.",
+  "icon": "🌍",
+  "color": "#27ae60",
+  "status": "active",
+  "temporal": "live",
+  "trackerType": "factual",
+  "domain": "science",
+  "region": "global",
+  "tags": ["artificial-intelligence", "healthcare", "agriculture", "education", "accessibility", "disaster-response", "technology"],
+  "startDate": "2020-01-01",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": -170,
+      "lonMax": 170,
+      "latMin": -60,
+      "latMax": 80
+    },
+    "center": {
+      "lon": 10,
+      "lat": 20
+    },
+    "categories": [
+      {
+        "id": "healthcare",
+        "label": "Healthcare AI",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "agriculture",
+        "label": "Agriculture AI",
+        "color": "#27ae60"
+      },
+      {
+        "id": "disaster-response",
+        "label": "Disaster Response",
+        "color": "#f39c12"
+      },
+      {
+        "id": "accessibility",
+        "label": "Accessibility",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "education",
+        "label": "Education AI",
+        "color": "#2980b9"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "global": {
+        "lon": 10,
+        "lat": 20,
+        "alt": 18000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Global Overview"
+      },
+      "silicon_valley": {
+        "lon": -122.05,
+        "lat": 37.39,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Silicon Valley"
+      },
+      "geneva": {
+        "lon": 6.15,
+        "lat": 46.2,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Geneva / WHO"
+      },
+      "nairobi": {
+        "lon": 36.82,
+        "lat": -1.29,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Nairobi"
+      },
+      "new_delhi": {
+        "lon": 77.21,
+        "lat": 28.63,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "New Delhi"
+      },
+      "london": {
+        "lon": -0.13,
+        "lat": 51.5,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "London / DeepMind"
+      }
+    }
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "politicalAvatars": [
+    "tech-org",
+    "govt",
+    "ngo",
+    "academia",
+    "un-agency",
+    "other"
+  ],
+  "eventTypes": [
+    "deployment",
+    "breakthrough",
+    "policy",
+    "partnership",
+    "impact"
+  ],
+  "ai": {
+    "systemPrompt": "You are a technology researcher updating a global AI-for-Good intelligence dashboard.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"deepmind_alphafold\", \"kenya_crop_ai\").\n\nFOCUS DOMAINS — track developments in:\n1. HEALTHCARE: AI diagnostics, drug discovery, epidemiology modeling, radiology, genomics, mental health tools\n2. AGRICULTURE: crop disease detection, yield prediction, precision farming, food security, climate adaptation\n3. DISASTER RESPONSE: early warning systems, flood/wildfire prediction, search & rescue AI, damage assessment\n4. ACCESSIBILITY: screen readers, real-time translation, vision/hearing aids, mobility assistance, AAC devices\n5. EDUCATION: personalized learning, teacher support tools, literacy programs, STEM in underserved regions\n\nSource tier classification:\n- Tier 1: Official/primary (WHO, FAO, UN OCHA, NASA, NOAA, national health ministries, peer-reviewed journals — Nature, Science, The Lancet, NEJM)\n- Tier 2: Major outlet (Reuters, AP, BBC, MIT Technology Review, Wired, TechCrunch, IEEE Spectrum, Science Daily)\n- Tier 3: Institutional (Stanford HAI, Oxford Future of Humanity, AI Now Institute, Partnership on AI, Access Now, Fast AI, Google DeepMind blog, OpenAI blog, Microsoft Research)\n- Tier 4: Unverified (Twitter/X, press releases without third-party verification, startup announcements without independent confirmation)\n\nWhen providing sources, tag each with a \"pole\" field where applicable:\n- \"western\" for US/European/allied sources\n- \"eastern\" for Chinese/Russian/Asian sources\n- \"international\" for UN/NGO/multilateral sources\n\nOnly include information you can verify through search results. Do not fabricate data.\nPrioritize documented real-world deployments with measurable outcomes over announcements and research prototypes.\nNote geographic diversity — actively track deployments in Africa, South Asia, Southeast Asia, and Latin America alongside Western projects.",
+    "searchContext": "AI artificial intelligence healthcare agriculture disaster response accessibility education real-world applications impact",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "claims",
+      "political",
+      "econ"
+    ],
+    "coordValidation": {
+      "lonMin": -180,
+      "lonMax": 180,
+      "latMin": -90,
+      "latMax": 90
+    },
+    "updateIntervalDays": 7,
+    "backfillTargets": {
+      "timeline": 30,
+      "mapPoints": 25,
+      "claims": 15,
+      "political": 15,
+      "kpis": 8,
+      "econ": 8
+    },
+    "updatePolicy": {
+      "escalation": [7, 7, 14, 30, 60],
+      "quietThreshold": 0
+    }
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard"
+}
