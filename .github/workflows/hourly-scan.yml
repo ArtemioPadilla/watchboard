@@ -280,6 +280,7 @@ jobs:
             - Skip STEP 4 (tweet) — do NOT write /tmp/tweet-text.txt
             - Still update meta.json lastUpdated (keep existing heroHeadline)
             - Still write digest entry with source: "freshness"
+            - Events MUST still have ALL required fields: id, year (string like "Apr 13, 2026"), title, type (e.g. "freshness"), detail (e.g. "Automated freshness refresh — no new developments"), sources: []
             - Complete in under 10 turns — be efficient
 
             STEP 1: Read the schemas and tracker config:
