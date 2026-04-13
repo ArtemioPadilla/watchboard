@@ -1,0 +1,189 @@
+{
+  "slug": "cancer-breakthroughs",
+  "name": "Cancer Breakthroughs Tracker",
+  "shortName": "Cancer Breakthroughs",
+  "description": "Intelligence dashboard tracking advances in cancer treatment: mRNA vaccines, CAR-T cell therapies, AI-powered early detection, immunotherapy, and rising survival rates since 2018.",
+  "icon": "🧬",
+  "color": "#27ae60",
+  "status": "active",
+  "temporal": "live",
+  "domain": "science",
+  "region": "global",
+  "tags": ["cancer", "oncology", "mRNA", "immunotherapy", "CAR-T", "early-detection", "clinical-trials"],
+  "startDate": "2018-01-01",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": -180,
+      "lonMax": 180,
+      "latMin": -60,
+      "latMax": 80
+    },
+    "center": {
+      "lon": 0,
+      "lat": 25
+    },
+    "categories": [
+      {
+        "id": "research-center",
+        "label": "Research Centers",
+        "color": "#27ae60"
+      },
+      {
+        "id": "trial-site",
+        "label": "Clinical Trial Sites",
+        "color": "#3498db"
+      },
+      {
+        "id": "breakthrough",
+        "label": "Breakthrough Events",
+        "color": "#f39c12"
+      },
+      {
+        "id": "regulatory",
+        "label": "Regulatory Actions",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "treatment-hub",
+        "label": "Treatment Innovation Hubs",
+        "color": "#1abc9c"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "global": {
+        "lon": 0,
+        "lat": 25,
+        "alt": 20000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Global Overview"
+      },
+      "nci": {
+        "lon": -77.1,
+        "lat": 38.98,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "NCI — Bethesda, MD"
+      },
+      "msk": {
+        "lon": -73.96,
+        "lat": 40.76,
+        "alt": 40000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Memorial Sloan Kettering"
+      },
+      "cambridge_uk": {
+        "lon": 0.13,
+        "lat": 52.21,
+        "alt": 50000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Cambridge Cancer Research"
+      },
+      "basel": {
+        "lon": 7.59,
+        "lat": 47.56,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Basel — Pharma Hub"
+      },
+      "tokyo": {
+        "lon": 139.73,
+        "lat": 35.66,
+        "alt": 50000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Tokyo — NCC Japan"
+      }
+    }
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Key Figures"
+    }
+  ],
+  "politicalAvatars": [
+    "researcher",
+    "pharma",
+    "regulator",
+    "patient-advocate",
+    "institutional",
+    "other"
+  ],
+  "eventTypes": [
+    "discovery",
+    "trial",
+    "approval",
+    "breakthrough",
+    "setback"
+  ],
+  "ai": {
+    "systemPrompt": "You are an oncology intelligence analyst updating a cancer breakthroughs dashboard.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"mrna_lung_trial\", \"car_t_fda_approval\").\n\nSOURCE TIERS for oncology intelligence:\n- Tier 1: Official/primary (FDA, EMA, NIH, NCI, WHO, IAEA — for radiation therapy, clinical trial registry ClinicalTrials.gov, peer-reviewed journals: NEJM, The Lancet, Nature Medicine, Cancer Cell)\n- Tier 2: Major outlet (Reuters Health, AP, STAT News, Science, Nature News, The BMJ, MedPage Today, Fierce Biotech, BioPharma Dive)\n- Tier 3: Institutional (ASCO, AACR, ESMO, HRW on access, MSF, IQVIA, Evaluate Pharma, CSIS, Brookings health policy)\n- Tier 4: Unverified (social media, preprints without peer review, company press releases without independent verification)\n\nWhen providing sources, tag each with a \"pole\" field:\n- \"western\" for US/European research and regulatory bodies\n- \"eastern\" for Chinese, Japanese, Korean, Russian research\n- \"international\" for WHO, UN agencies, multilateral bodies\n\nFOCUS AREAS for this tracker:\n- mRNA cancer vaccines (Moderna/BNT mRNA-4157, personalized neoantigen vaccines)\n- CAR-T cell therapies (FDA approvals, efficacy data, cost/access issues)\n- AI-powered early detection (FDA-cleared tools, accuracy data, clinical deployment)\n- Immunotherapy checkpoint inhibitors (PD-1/PD-L1, CTLA-4 — new approvals, combination trials)\n- Survival rate improvements by cancer type (5-year survival, stage-specific data)\n- Antibody-drug conjugates (ADCs) — emerging approvals\n- Tumor-infiltrating lymphocyte (TIL) therapy\n- CRISPR/gene editing in cancer treatment\n\nOnly include information you can verify through search results. Do not fabricate trial data, approval dates, or survival statistics.\nDEDUPLICATION: Same drug/trial within the same month = same event — merge, do not create duplicates.\nFor contested efficacy claims, note both manufacturer and independent trial data.",
+    "searchContext": "cancer treatment breakthroughs mRNA vaccine CAR-T immunotherapy AI early detection oncology",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": -180,
+      "lonMax": 180,
+      "latMin": -60,
+      "latMax": 85
+    },
+    "updateIntervalDays": 7,
+    "backfillTargets": {
+      "timeline": 30,
+      "mapPoints": 20,
+      "claims": 15,
+      "political": 15,
+      "kpis": 8,
+      "econ": 8
+    },
+    "updatePolicy": {
+      "escalation": [7, 14, 30, 60, 90],
+      "quietThreshold": 0
+    },
+    "rssFeeds": [
+      "https://news.google.com/rss/search?q=cancer+treatment+breakthrough+mRNA+CAR-T+immunotherapy&hl=en-US&gl=US&ceid=US:en",
+      "https://www.statnews.com/feed/"
+    ]
+  },
+  "githubRepo": "ArtemioPadilla/watchboard"
+}
