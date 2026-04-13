@@ -54,7 +54,7 @@ const serializedTrackers = nonDraft.map(t => {
       if (!bestSource) continue;
       const image = evt.media.find(m => m.thumbnail);
       if (image) {
-        eventImages.push({ url: image.thumbnail!, source: image.source || bestSource.name, tier: bestSource.tier });
+        eventImages.push({ url: image.thumbnail!, source: image.source || bestSource.name, tier: bestSource.tier, eventTitle: evt.title, eventDetail: evt.detail?.slice(0, 150) });
       }
     }
     latestEventMedia = eventImages[0];

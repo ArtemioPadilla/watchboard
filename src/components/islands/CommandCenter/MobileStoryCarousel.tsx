@@ -418,28 +418,35 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
           )}
         </div>
 
-        {/* Content — expanded when paused */}
-        <div className="story-content">
-          {tracker.headline && <p className={`story-headline ${paused ? 'story-headline-expanded' : ''}`}>{tracker.headline}</p>}
-        </div>
-
-        {/* Briefing */}
-        {(tracker.digestSummary || tracker.description) && (
-          <div className={`story-briefing ${paused ? 'story-briefing-expanded' : ''}`}>
-            <div className="story-briefing-label">
-              <span className="story-briefing-dot" />
-              {t('story.briefing', locale)}
-              {tracker.digestSectionsUpdated && tracker.digestSectionsUpdated.length > 0 && (
-                <span className="story-briefing-sections">
-                  {tracker.digestSectionsUpdated.length} {t('story.sectionsUpdated', locale)}
-                </span>
+        {/* Content — expanded when paused; per-slide text for slides 1+ */}
+        {(() => {
+          const currentSlideImage = tracker.eventImages?.[slideIndex];
+          const displayHeadline = (slideIndex > 0 && currentSlideImage?.eventTitle) ? currentSlideImage.eventTitle : tracker.headline;
+          const displayBriefing = (slideIndex > 0 && currentSlideImage?.eventDetail) ? currentSlideImage.eventDetail : (tracker.digestSummary ?? tracker.description);
+          return (
+            <>
+              <div className="story-content">
+                {displayHeadline && <p className={`story-headline ${paused ? 'story-headline-expanded' : ''}`}>{displayHeadline}</p>}
+              </div>
+              {displayBriefing && (
+                <div className={`story-briefing ${paused ? 'story-briefing-expanded' : ''}`}>
+                  <div className="story-briefing-label">
+                    <span className="story-briefing-dot" />
+                    {t('story.briefing', locale)}
+                    {slideIndex === 0 && tracker.digestSectionsUpdated && tracker.digestSectionsUpdated.length > 0 && (
+                      <span className="story-briefing-sections">
+                        {tracker.digestSectionsUpdated.length} {t('story.sectionsUpdated', locale)}
+                      </span>
+                    )}
+                  </div>
+                  <p className="story-briefing-text">
+                    {displayBriefing}
+                  </p>
+                </div>
               )}
-            </div>
-            <p className="story-briefing-text">
-              {tracker.digestSummary ?? tracker.description}
-            </p>
-          </div>
-        )}
+            </>
+          );
+        })()}
 
         {/* KPI strip */}
         {tracker.topKpis.length > 0 && (
