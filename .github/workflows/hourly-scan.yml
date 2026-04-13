@@ -480,6 +480,7 @@ jobs:
 
             VALIDATION RULES (MUST follow):
             - year field MUST be a string like "Apr 3, 2026" (NOT a number)
+            - Every source object MUST have `name` (string, e.g. "Reuters") and `tier` (1-4). Example: {"name": "Al Jazeera", "tier": 1, "url": "https://...", "pole": "middle_eastern"}
             - source.pole MUST be one of: "western", "middle_eastern", "eastern", "international"
             - All IDs must be unique kebab-case strings
             - NO future dates (today is $(date -u +%Y-%m-%d))
