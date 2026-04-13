@@ -1,0 +1,187 @@
+{
+  "slug": "species-recovery",
+  "name": "Species Recovery Tracker",
+  "shortName": "Species Recovery",
+  "description": "Intelligence dashboard tracking conservation wins and rewilding successes — from humpback whales and bald eagles to giant pandas and Iberian lynx — since the modern conservation era began in 1970.",
+  "icon": "🦅",
+  "color": "#27ae60",
+  "status": "active",
+  "temporal": "historical",
+  "trackerType": "factual",
+  "domain": "science",
+  "region": "global",
+  "tags": ["conservation", "biodiversity", "rewilding", "endangered-species", "wildlife"],
+  "startDate": "1970-01-01",
+  "eraLabel": "Modern Conservation Era",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": -180,
+      "lonMax": 180,
+      "latMin": -70,
+      "latMax": 80
+    },
+    "center": {
+      "lon": 0,
+      "lat": 20
+    },
+    "categories": [
+      {
+        "id": "recovery-site",
+        "label": "Recovery Site",
+        "color": "#27ae60"
+      },
+      {
+        "id": "sanctuary",
+        "label": "Protected Sanctuary",
+        "color": "#3498db"
+      },
+      {
+        "id": "rewilding",
+        "label": "Rewilding / Reintroduction",
+        "color": "#1abc9c"
+      },
+      {
+        "id": "breeding-program",
+        "label": "Breeding Program",
+        "color": "#f39c12"
+      },
+      {
+        "id": "threat",
+        "label": "Ongoing Threat Zone",
+        "color": "#e74c3c"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "global": {
+        "lon": 0,
+        "lat": 20,
+        "alt": 20000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Global Overview"
+      },
+      "yellowstone": {
+        "lon": -110.5,
+        "lat": 44.6,
+        "alt": 150000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Yellowstone (Wolf / Eagle)"
+      },
+      "donana": {
+        "lon": -6.9,
+        "lat": 37.5,
+        "alt": 200000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Doñana (Iberian Lynx)"
+      },
+      "sichuan": {
+        "lon": 103.5,
+        "lat": 31.0,
+        "alt": 200000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Sichuan (Giant Panda)"
+      },
+      "north_atlantic": {
+        "lon": -40.0,
+        "lat": 45.0,
+        "alt": 3000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "North Atlantic (Humpback Whale)"
+      },
+      "new_zealand": {
+        "lon": 174.0,
+        "lat": -41.0,
+        "alt": 500000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "New Zealand (Kakapo / Kiwi)"
+      }
+    }
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Funding"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Stakeholders"
+    }
+  ],
+  "politicalAvatars": [
+    "conservation-org",
+    "government",
+    "researcher",
+    "industry",
+    "community"
+  ],
+  "eventTypes": [
+    "recovery",
+    "listing",
+    "rewilding",
+    "legislation",
+    "threat"
+  ],
+  "ai": {
+    "systemPrompt": "You are a conservation science analyst updating a species recovery intelligence dashboard.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"humpback_whale_recovery\", \"bald_eagle_delisting\").\n\nThis tracker covers species recovery and conservation milestones globally, with special focus on: humpback whales, bald eagles, giant pandas, Iberian lynx, gray wolves, peregrine falcons, California condors, sea otters, American alligators, and rewilding projects worldwide.\n\nSource tier classification for conservation science:\n- Tier 1: Official/primary (IUCN Red List assessments, USFWS Federal Register, CITES, CBD, peer-reviewed journals: Science, Nature, Conservation Biology, Biological Conservation)\n- Tier 2: Major outlets (Reuters, AP, BBC, National Geographic, Scientific American, The Guardian, New Scientist, CNN)\n- Tier 3: Institutional (WWF, WCS, TRAFFIC, Rewilding Europe, IUCN SSC specialist groups, Defenders of Wildlife, Sierra Club, Audubon Society)\n- Tier 4: Unverified (social media, unattributed wildlife reports, citizen science without peer review)\n\nWhen providing sources, tag each with a \"pole\" field:\n- \"western\" for US/European government and media sources\n- \"international\" for UN/IUCN/multilateral conservation bodies\n- \"eastern\" for Asian government/media sources (China, Japan)\n\nOnly include information you can verify through search results. Do not fabricate population figures or dates.\nFor population counts: use the most recent IUCN assessment or peer-reviewed count; note if contested.\nFor map coordinates: only place points where the species actually occurs or occurred.",
+    "searchContext": "endangered species recovery conservation rewilding humpback whale bald eagle giant panda Iberian lynx",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "claims",
+      "political",
+      "econ"
+    ],
+    "coordValidation": {
+      "lonMin": -180,
+      "lonMax": 180,
+      "latMin": -90,
+      "latMax": 90
+    },
+    "updateIntervalDays": 30,
+    "backfillTargets": {
+      "timeline": 30,
+      "mapPoints": 20,
+      "claims": 12,
+      "political": 12,
+      "kpis": 8,
+      "econ": 6
+    },
+    "updatePolicy": {
+      "escalation": [30, 60, 90, 180],
+      "quietThreshold": 0
+    }
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard"
+}
