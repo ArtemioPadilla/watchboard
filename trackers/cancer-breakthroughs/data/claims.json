@@ -1,1 +1,212 @@
-[]
+[
+  {
+    "id": "mrna-4157-durability",
+    "question": "Does mRNA-4157 provide durable, clinically meaningful protection against melanoma recurrence?",
+    "sideA": {
+      "label": "Transformative Breakthrough",
+      "text": "KEYNOTE-942 Phase 2b showed a 44% reduction in recurrence/death vs. pembrolizumab alone at median 18-month follow-up. This is the first randomized trial ever to show clinical benefit from a personalized neoantigen mRNA cancer vaccine. FDA Breakthrough Therapy designation acknowledges extraordinary promise. The biological rationale — teaching the immune system to recognize tumor-specific neoantigens — is scientifically compelling and could be applied to any high-mutation-burden cancer."
+    },
+    "sideB": {
+      "label": "Phase 2b Results Require Confirmation",
+      "text": "KEYNOTE-942 enrolled only 157 patients in a 2:1 randomization — too small for definitive conclusions. The comparator arm (pembrolizumab alone) already achieved ~75% recurrence-free survival, and the absolute risk reduction was modest. Manufacturing complexity (6+ weeks per personalized vaccine, whole-exome sequencing required) and projected costs of $100,000+ per vaccine dose present enormous scalability and access barriers. Phase 3 data are needed before clinical practice changes."
+    },
+    "resolution": "Phase 3 KEYNOTE-942P3 trial is ongoing with results expected 2026-2027. FDA has granted Breakthrough Therapy designation. If Phase 3 confirms Phase 2b signal, mRNA cancer vaccines could become standard adjuvant therapy for resected high-risk melanoma and potentially other solid tumors.",
+    "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "car-t-cost-effectiveness",
+    "question": "Are CAR-T cell therapies cost-effective and should payers cover them broadly?",
+    "sideA": {
+      "label": "Durable Remissions Justify One-Time Cost",
+      "text": "CAR-T therapies achieve complete remissions in 30-50% of patients with otherwise fatal, treatment-refractory cancers. Unlike chronic therapies requiring years of infusions, CAR-T is often a single infusion. ICER analyses for some products (e.g., Yescarta for DLBCL) found incremental cost-effectiveness ratios within accepted thresholds when long-term survival gains are modeled. In relapsed ALL, Kymriah replaced repeat bone marrow transplants costing $300,000+. Value-based outcomes contracts are being piloted with some payers."
+    },
+    "sideB": {
+      "label": "$400,000–$500,000 Creates Systematic Inequity",
+      "text": "At $400,000–$500,000 per course, CAR-T therapies are unavailable in any low- or middle-income country without massive subsidy. Even in the US, insurance denials, prior authorization barriers, and out-of-pocket costs create access disparities along racial and socioeconomic lines. Commercial CAR-T is currently available at fewer than 200 certified treatment centers globally. ICER notes that for multiple myeloma indications, cost-effectiveness analyses fall outside accepted ranges when using real-world rather than trial populations."
+    },
+    "resolution": "CMS (Medicare) and commercial payers cover CAR-T for approved indications in the US, but access remains highly variable. Several countries (UK NHS, France, Germany) have negotiated indication-specific coverage with outcomes-based payments. Global access remains a critical unresolved equity challenge.",
+    "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "ai-detection-vs-radiologist",
+    "question": "Do AI cancer detection tools outperform radiologists, and are they ready to replace human reading?",
+    "sideA": {
+      "label": "AI Achieves Radiologist-Level or Superior Performance",
+      "text": "Multiple peer-reviewed studies, including Google/DeepMind work published in Nature, demonstrate AI mammography tools matching or exceeding expert radiologists in retrospective and some prospective settings. ProFound AI detected breast cancer 52% earlier on average in validation studies. AI is available 24/7, doesn't suffer from fatigue or reader variability, and can flag subtle findings missed in high-volume screening. In low-resource settings, AI offers the prospect of screening-level expert performance without specialist radiologists."
+    },
+    "sideB": {
+      "label": "Retrospective Data ≠ Real-World Performance; Human Oversight Still Essential",
+      "text": "Most AI mammography and lung CT studies are retrospective with high-quality curated datasets, not prospective randomized trials. A 2023 JAMA study found AI screening tools had higher false-positive rates than radiologists in real-world UK NHS mammography settings. AI systems trained on predominantly Western populations may underperform in diverse populations. AI cannot replicate clinical judgment integrating patient history, risk factors, and patient preferences. Current FDA clearances explicitly require radiologist oversight."
+    },
+    "resolution": "The emerging consensus is AI as decision support ('AI + radiologist') rather than replacement. Several countries are running prospective randomized trials comparing AI-first vs. radiologist-first screening workflows. Results from the MASAI trial (Sweden) and others will inform whether AI can safely reduce radiologist workload in well-resourced settings.",
+    "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "universal-cancer-vaccine-feasibility",
+    "question": "Can a universal preventive cancer vaccine be developed, and how soon?",
+    "sideA": {
+      "label": "Universal Vaccines Are Scientifically Achievable",
+      "text": "Unlike infectious disease vaccines targeting stable viral antigens, cancer vaccines face the challenge of highly mutated, patient-specific neoantigens. However, certain tumor-associated antigens are shared across patients: MAGE-A3, NY-ESO-1, MUC1, and HPV oncoproteins in viral-associated cancers. BioNTech's BNT111 targeting four shared melanoma antigens showed 40% response rates in Phase 2. For viral-associated cancers (HPV-related cervical, head/neck; HBV-related liver), preventive vaccines already exist and prevent ~1 million cancers annually."
+    },
+    "sideB": {
+      "label": "Tumor Heterogeneity Makes Universal Prevention Impractical",
+      "text": "Most common cancers (lung, colorectal, breast, pancreatic) are driven by patient-specific somatic mutations acquired over decades — not stable shared targets. Immunoediting means tumors downregulate antigens recognized by vaccine-primed immune cells. A vaccine effective against one patient's lung cancer likely targets different neoantigens than another's. The scientific community consensus is that therapeutic vaccines for diagnosed patients with high TMB are far more tractable near-term than preventive vaccines for healthy populations."
+    },
+    "resolution": "For viral-associated cancers: preventive vaccines exist (HPV vaccine prevents ~90% of HPV cancers; HBV vaccine prevents liver cancer). For non-viral cancers: near-term focus is therapeutic vaccines post-diagnosis in high-risk resected settings. Universal preventive cancer vaccines for non-viral solid tumors remain a long-term aspiration; shared-antigen targeted vaccines may achieve partial coverage in the coming decade.",
+    "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "checkpoint-toxicity-manageable",
+    "question": "Are the immune-related adverse events from checkpoint inhibitors manageable and acceptable given the benefits?",
+    "sideA": {
+      "label": "Toxicity Profile Is Generally Manageable and Acceptable",
+      "text": "The majority of patients on PD-1/PD-L1 inhibitors experience Grade 1-2 immune-related adverse events (irAEs) manageable with corticosteroids and treatment interruption. Grade 3-4 irAEs occur in ~5-15% of patients on monotherapy and ~25-30% on combination ipilimumab+nivolumab. Long-term survival data show that patients who achieve durable remissions — e.g., 50%+ of stage IV melanoma patients alive at 5 years — clearly benefit despite toxicity. Specialized irAE management guidelines and multidisciplinary toxicity teams have substantially improved outcomes."
+    },
+    "sideB": {
+      "label": "Serious and Potentially Fatal Toxicities Are Underappreciated",
+      "text": "Fatal irAEs occur in 0.3-1.3% of patients — a rate higher than traditional chemotherapy-related death in comparable populations. Immune-related colitis, pneumonitis, myocarditis, and autoimmune endocrinopathies can cause permanent organ damage. Combination ipilimumab+nivolumab carries Grade 3-4 toxicity rates of ~55% in some trials. Patients with pre-existing autoimmune disease, organ transplants, or poor performance status — often excluded from trials — face substantially higher irAE risk in real-world settings. The oncology community is not adequately screening or monitoring for these events."
+    },
+    "resolution": "Major oncology societies (ASCO, ESMO, SITC) have published comprehensive irAE management guidelines. Clinical practice has evolved to include regular toxicity monitoring, steroid protocols, and multidisciplinary teams. The benefit-risk balance is generally favorable for approved indications, but improved biomarkers to predict irAE risk remain an active area of research to enable personalized treatment selection.",
+    "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "car-t-solid-tumors-feasibility",
+    "question": "Can CAR-T cell therapies successfully treat solid tumors, or are they limited to blood cancers?",
+    "sideA": {
+      "label": "Solid Tumors Are the Next Frontier — Progress Is Real",
+      "text": "All 7 FDA-approved CAR-T therapies target liquid (blood) cancers, but preclinical and early clinical data in solid tumors are promising. Claudin-18.2 CAR-T shows responses in gastric cancer. GD2-targeted CAR-T has activity in neuroblastoma and osteosarcoma. Mesothelin CAR-T is active in mesothelioma. Emerging strategies including armored CAR-T with IL-18/IL-21 cytokine armoring, tandem CAR constructs to prevent antigen escape, and combinations with checkpoint inhibitors address the tumor microenvironment barrier. By 2025, multiple Phase 2 solid tumor CAR-T trials are enrolling."
+    },
+    "sideB": {
+      "label": "The Tumor Microenvironment Represents a Fundamental Barrier",
+      "text": "Solid tumors create a profoundly immunosuppressive microenvironment: regulatory T-cells, tumor-associated macrophages, physical stromal barriers, and TGF-β signaling exhaust CAR-T cells before they can kill tumor cells. Solid tumors lack the uniform antigen expression seen on B-cells: HER2, mesothelin, and EGFRvIII are heterogeneously expressed, allowing antigen-negative cells to escape. Manufacturing T-cells with adequate killing function from solid tumor patients — often heavily pre-treated — faces additional challenges. Significant scientific obstacles remain before solid tumor CAR-T matches hematologic outcomes."
+    },
+    "resolution": "The scientific community broadly agrees solid tumor CAR-T is feasible but technically harder than hematologic malignancies. Combination approaches, armored constructs, and allogeneic off-the-shelf designs may overcome microenvironment barriers. No solid tumor CAR-T is approved as of 2025, but clinical activity in neuroblastoma, gastric, and mesothelioma settings has been demonstrated. Regulatory approval in a solid tumor indication likely within 2-4 years if current trials maintain early signals.",
+    "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "liquid-biopsy-early-detection-accuracy",
+    "question": "Are multi-cancer early detection (MCED) blood tests like Grail Galleri sufficiently accurate for clinical screening use?",
+    "sideA": {
+      "label": "MCED Tests Offer Unprecedented Opportunity to Detect Lethal Cancers Early",
+      "text": "Galleri and similar ctDNA methylation-based MCED tests can detect 50+ cancer types from a single blood draw, including pancreatic, ovarian, and esophageal cancers that have no currently approved screening tests. Validated with >99% specificity (false positive rate <1%), the PATHFINDER study showed real-world clinical utility with ~99% of positive signals correctly directing appropriate follow-up workup. A positive signal for a cancer type without existing screening could be the difference between Stage I and Stage IV diagnosis for an otherwise undetectable cancer."
+    },
+    "sideB": {
+      "label": "Sensitivity Remains Too Low for Population Screening; Harm Potential is Real",
+      "text": "Overall sensitivity of Galleri in the PATHFINDER study was 29.5% — meaning 70.5% of cancers were missed. For early-stage cancers (Stage I-II), sensitivity was even lower. False positives, while <1%, create anxiety, unnecessary invasive follow-up testing, and costs — especially if cancer signal of origin is mislabeled. No randomized trial has yet demonstrated that MCED testing reduces cancer mortality. The NHS-Galleri randomized trial (UK) will provide key data. Guidelines from USPSTF have not yet endorsed MCED tests as clinical standard of care."
+    },
+    "resolution": "MCED tests are commercially available but not yet recommended as standard population screening by USPSTF, ACS, or major oncology guidelines as of 2025. The NHS-Galleri randomized trial (140,000 participants) will report interim data 2025-2026. These tests represent high potential complementary screening tools — particularly for cancers with no existing screening — but must demonstrate mortality reduction to enter standard practice.",
+    "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "adc-vs-chemo-outcomes",
+    "question": "Should ADCs replace conventional chemotherapy as preferred therapy in solid tumors where both are approved?",
+    "sideA": {
+      "label": "ADCs Offer Superior Efficacy with More Favorable Toxicity Profile",
+      "text": "DESTINY-Breast04 and DESTINY-Breast06 showed trastuzumab deruxtecan achieved 6+ month progression-free survival advantages over physician's choice chemotherapy in metastatic breast cancer with manageable toxicity. TROPiCS-02 showed sacituzumab govitecan improving OS in HR+/HER2-low breast cancer. ADCs deliver cytotoxic payloads with antibody precision, reducing systemic toxicity compared to conventional chemo. Response rates in HER2-positive gastric, lung, and urothelial cancers with T-DXd rival the most active cytotoxic regimens."
+    },
+    "sideB": {
+      "label": "Interstitial Lung Disease and Novel Toxicities Require Careful Patient Selection",
+      "text": "Trastuzumab deruxtecan is associated with drug-related interstitial lung disease (ILD) in ~10-15% of patients, including fatal Grade 5 events in ~1-2%. ILD risk management requires active monitoring and may limit use in patients with existing lung disease. ADC payload toxicities (nausea, fatigue, myelosuppression) rival conventional chemotherapy in many patients. Long-term toxicity data for newer ADCs are limited. Cost is 5-10× conventional chemo — raising payer and health system sustainability questions globally. Selection of patients most likely to benefit based on biomarker expression levels remains imprecise."
+    },
+    "resolution": "For HER2-positive and HER2-low metastatic breast cancer, ASCO and ESMO guidelines now position trastuzumab deruxtecan ahead of conventional chemotherapy in multiple lines. Regulatory approvals continue to shift ADCs into earlier treatment lines. The field is working on predictive biomarkers for ILD risk and refining optimal sequencing of ADC + immunotherapy + conventional chemotherapy combinations.",
+    "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "personalized-vaccine-manufacturing-scalability",
+    "question": "Can personalized neoantigen cancer vaccines scale to routine clinical use, or is the manufacturing process a prohibitive barrier?",
+    "sideA": {
+      "label": "mRNA Technology Enables Rapid, Scalable Personalization",
+      "text": "COVID-19 mRNA vaccine manufacturing demonstrated the ability to produce billions of doses using cell-free lipid nanoparticle platforms. Moderna's mRNA-4157 requires ~6 weeks from tumor biopsy to personalized vaccine — a timeline that may be acceptable in adjuvant settings (post-surgery). Whole-exome sequencing costs have fallen from $10,000+ to under $1,000. Bioinformatics pipelines for neoantigen prediction are standardizing rapidly. Moderna and BioNTech have invested heavily in personalized manufacturing infrastructure that could reach thousands of patients annually."
+    },
+    "sideB": {
+      "label": "Personalized Manufacturing Is Fundamentally Incompatible with Mass Healthcare Delivery",
+      "text": "Unlike off-the-shelf drugs, each personalized vaccine requires: tumor biopsy, whole-exome sequencing, normal tissue sequencing, neoantigen prediction, vaccine design, mRNA synthesis, formulation, release testing, and cold-chain shipment — all in ~6 weeks. Any step failure requires restart. Quality failures affect individual patients, not batches. This workflow is incompatible with rural, low-resource, or underserved healthcare settings. Estimated costs of $100,000+ per vaccine course will place these therapies outside reach of 95%+ of global cancer patients regardless of manufacturing optimization."
+    },
+    "resolution": "Manufacturing scalability is achievable for high-income country adjuvant oncology settings. The 6-week timeline is acceptable post-surgery but may be too long for metastatic/rapidly progressive disease. Cost reduction trajectory parallels sequencing cost curves and may reach $20,000–30,000 per course within 5-7 years. Global access for personalized mRNA vaccines remains a long-term unsolved challenge, likely requiring entirely different approaches for LMICs.",
+    "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "crispr-safety-cancer-treatment",
+    "question": "Is CRISPR gene editing sufficiently safe for use in cancer treatment, including off-target editing concerns?",
+    "sideA": {
+      "label": "First-in-Human Data Show Acceptable Safety; Off-Target Risks Are Manageable",
+      "text": "The first in-human CRISPR cancer trial (Penn Medicine 2021) demonstrated no CRISPR-related safety events at up to 9-month follow-up. Whole-genome sequencing of edited cells showed off-target editing at predicted sites but at low allele frequencies with no evidence of malignant transformation. CRISPR base editing and prime editing (newer variants) reduce the risk of double-strand DNA breaks associated with off-target insertions. FDA and EMA have established regulatory frameworks for CRISPR therapies, with Casgevy (SCD) approval providing precedent for rigorous safety standards."
+    },
+    "sideB": {
+      "label": "Long-Term Safety Data Are Absent; Off-Target Editing Could Cause Delayed Oncogenesis",
+      "text": "The first CRISPR cancer trial had only 3 patients with maximum 9-month follow-up — far too small and short to characterize the oncogenic risk of off-target DNA editing. CRISPR edits integrate into the genome permanently; off-target edits in oncogenes or tumor suppressor genes (TP53, RB1) could theoretically induce malignant transformation years after treatment. Unlike small molecules that are eliminated from the body, CRISPR edits are lifelong. Animal studies have shown chromosomal rearrangements from multiplex editing. The 10-20 year latency of some radiation-induced second malignancies should make regulators cautious about long-term CRISPR risks."
+    },
+    "resolution": "Current regulatory consensus allows CRISPR cancer therapy trials in adults with serious/life-threatening disease where benefit-risk favors treatment. Long-term safety registries are mandated for approved CRISPR therapies. The technology is advancing rapidly; improved specificity from base/prime editing and better off-target detection methods are progressively improving the safety profile. Definitive long-term safety data will require 10+ year follow-up studies.",
+    "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "immunotherapy-access-lmics",
+    "question": "Is global equity in access to immunotherapy achievable, and how should costs be addressed?",
+    "sideA": {
+      "label": "Differential Pricing and Biosimilars Can Bridge the Access Gap",
+      "text": "Biosimilars for older checkpoint inhibitors (pembrolizumab, nivolumab) will begin entering markets 2025-2030 as patents expire, potentially reducing prices by 60-80% — as has occurred with bevacizumab biosimilars. Generic pembrolizumab could cost under $10,000/year vs. $150,000+ currently. Voluntary licensing programs and tiered pricing already exist for some oncology drugs in Sub-Saharan Africa and South Asia. WHO's cancer essential medicines list and MSF advocacy are accelerating access negotiations. LMIC manufacturing capacity for mAbs is growing, particularly in India, South Korea, and Brazil."
+    },
+    "sideB": {
+      "label": "Structural Healthcare Gaps Make Even Biosimilar Access Inadequate",
+      "text": "Access to checkpoint inhibitors requires not just drug availability but diagnostic infrastructure (PD-L1 testing, MSI-H testing), IV administration facilities, specialty oncology staff for irAE management, and supportive care resources — none of which exist at scale in most LMICs. Even if pembrolizumab were free, 70%+ of cancer patients in Sub-Saharan Africa cannot access basic surgery and radiation therapy. Investment in precision immunotherapy for LMICs is ethically questionable when cervical cancer — fully preventable by HPV vaccination — kills 350,000 women annually, 90% in LMICs, due to vaccine distribution failures."
+    },
+    "resolution": "The oncology equity community broadly supports a tiered strategy: preventive vaccines and early detection in all settings; generic/biosimilar access to checkpoint inhibitors as health systems strengthen; CAR-T and personalized vaccines as long-term aspirations. LMIC-appropriate early detection (e.g., VIA for cervical cancer, low-cost liquid biopsy) receives growing research investment. The WHO Global Initiative for Childhood Cancer targets 60% survival improvement by 2030 using existing therapies.",
+    "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "pdl1-testing-necessity",
+    "question": "Is PD-L1 expression testing a reliable predictive biomarker for checkpoint inhibitor benefit?",
+    "sideA": {
+      "label": "PD-L1 Testing Identifies Patients Most Likely to Benefit",
+      "text": "Multiple trials confirm that PD-L1 high expressers (≥50% TPS or ≥10 CPS) derive substantially greater benefit from pembrolizumab and nivolumab. KEYNOTE-024 showed pembrolizumab monotherapy doubled PFS vs. chemotherapy in PD-L1 TPS ≥50% NSCLC. Regulatory agencies have made PD-L1 testing companion diagnostics for multiple approvals. In clinical practice, PD-L1 testing guides treatment selection and avoids unnecessary immunotherapy in patients unlikely to respond, reducing irAEs and cost."
+    },
+    "sideB": {
+      "label": "PD-L1 Is an Imperfect Biomarker With Significant False-Negative Rate",
+      "text": "PD-L1 negative patients still respond to checkpoint inhibitors in 5-10% of cases — meaningful in cancers without good alternatives. Tumor heterogeneity means a single biopsy site may not represent PD-L1 expression throughout the tumor. Different assays (22C3 for pembro, 28-8 for nivo) are not interchangeable across platforms. PD-L1 expression is dynamic — it changes after chemotherapy or radiation. MSI-H and TMB-H may be superior predictive biomarkers for some cancers. Restricting treatment by PD-L1 alone risks denying benefit to PD-L1-negative patients who might respond based on other molecular features."
+    },
+    "resolution": "The field is moving toward multibiomarker approaches combining PD-L1, MSI-H/dMMR, TMB-H, and tumor type to optimize immunotherapy selection. PD-L1 testing remains required for first-line pembrolizumab monotherapy in NSCLC. In combination regimens, PD-L1 thresholds are increasingly used to guide monotherapy vs. combination decisions. Better predictive biomarkers remain a critical unmet need in immuno-oncology.",
+    "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "til-therapy-vs-car-t-melanoma",
+    "question": "Is TIL therapy (Amtagvi) superior to CAR-T for solid tumors, or should CAR-T be developed for melanoma?",
+    "sideA": {
+      "label": "TIL Therapy Is the Right Platform for Solid Tumors — Avoids Antigen Escape",
+      "text": "TIL therapy uses the patient's own naturally selected tumor-reactive T-cells, which recognize a polyclonal repertoire of hundreds of tumor antigens — making antigen escape much harder than single-target CAR-T. In the C-144-01 trial, 31.5% objective response rate in heavily pre-treated melanoma compares favorably to any CAR-T in a comparable solid tumor setting. TIL therapy doesn't require engineering external receptors, avoiding insertional mutagenesis risks. The FDA approval of Amtagvi in February 2024 validated TIL as a clinical approach, establishing precedent for TIL development in other solid tumors."
+    },
+    "sideB": {
+      "label": "CAR-T Engineering Offers Greater Potency and Scalability Potential",
+      "text": "The 31.5% response rate for Amtagvi — while meaningful in its specific population — is lower than CAR-T response rates in blood cancers and requires a highly complex manufacturing process: tumor resection, 22+ day ex-vivo expansion, lymphodepletion, and IL-2 administration post-infusion with its associated toxicity. CAR-T therapies can be engineered with superior co-stimulatory signaling, cytokine armoring, and resistance to exhaustion. Allogeneic (off-the-shelf) CAR-T, if successful, could be manufactured at scale without patient-specific surgery. The choice between TIL and engineered CAR-T for solid tumors depends on tumor antigen heterogeneity — TIL may suit melanoma while CAR-T may be preferred for tumors with more uniform antigen expression."
+    },
+    "resolution": "Current clinical evidence favors TIL therapy for melanoma (approved by FDA February 2024). Engineered CAR-T is being developed for multiple solid tumor targets (claudin-18.2, GD2, mesothelin). The platforms are complementary: TIL leverages natural antigen diversity while CAR-T leverages engineering control. Future approaches may combine TIL expansion with CAR engineering to capture benefits of both.",
+    "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "combination-chemotherapy-immunotherapy-benefit",
+    "question": "Do chemotherapy + immunotherapy combinations provide meaningful benefit over immunotherapy alone, or just additive toxicity?",
+    "sideA": {
+      "label": "Chemotherapy Synergizes With Immunotherapy Through Immunogenic Cell Death",
+      "text": "Certain chemotherapies (taxanes, platinum, anthracyclines) induce immunogenic cell death, releasing damage-associated molecular patterns that activate innate immunity and prime antigen-presenting cells — creating an 'in situ vaccination' effect that potentiates checkpoint inhibitor activity. KEYNOTE-522 (pembro + chemo in TNBC), KEYNOTE-355 (pembro + chemo in metastatic TNBC), and IMpower150 (atezolizumab + chemo + bevacizumab in NSCLC) all demonstrated survival benefits beyond what either component achieves alone. Combination regimens are now standard of care in TNBC, NSCLC, and cervical cancer."
+    },
+    "sideB": {
+      "label": "Combinations Substantially Increase Toxicity Without Proportional Benefit for All Patients",
+      "text": "In biomarker-unselected populations, the absolute benefit of adding chemotherapy to immunotherapy is often 2-4 months median PFS — accompanied by doubled Grade 3-4 adverse event rates (55-60% vs. 25-30% for monotherapy). Patients with PD-L1 ≥50% NSCLC appear to derive no additional benefit from adding chemotherapy to pembrolizumab per KEYNOTE-189 subgroup analyses. Adding toxicity for marginal population-level benefits may not serve individual patients, particularly the elderly or those with poor performance status. Better biomarker-driven patient selection could identify who needs the combination vs. who can benefit from immunotherapy alone."
+    },
+    "resolution": "The field increasingly stratifies combination vs. monotherapy decisions by PD-L1, MSI-H, and tumor type. High PD-L1 expressers in NSCLC and PD-L1+ cervical cancer derive adequate benefit from pembrolizumab monotherapy; combination chemo-immunotherapy is reserved for lower expressers. In TNBC, the neoadjuvant combination is standard regardless of PD-L1 given pathologic CR endpoint. Ongoing biomarker-stratified trials will refine patient selection across tumor types.",
+    "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "early-cancer-detection-overdiagnosis",
+    "question": "Does expanded early cancer detection through AI and liquid biopsy save lives, or does it cause net harm through overdiagnosis and overtreatment?",
+    "sideA": {
+      "label": "Earlier Detection Saves Lives — Stage Migration Is the Primary Goal",
+      "text": "5-year survival for stage I cancer is typically 80-95% vs. 10-25% for stage IV across most solid tumors. MCED tests detecting stage I-II cancers currently found at stage III-IV represent a major potential mortality benefit. AI mammography improves sensitivity for small, dense-tissue cancers that would otherwise grow to Stage III before clinical presentation. Low-dose CT lung screening (LDCT) reduces lung cancer mortality by 20% in NLST trial. The mathematical case for catching cancer earlier is compelling: the survival benefit of stage I vs. stage IV diagnosis dwarfs any reasonable overtreatment risk."
+    },
+    "sideB": {
+      "label": "Overdiagnosis Causes Real, Measurable Harm to Patients and Health Systems",
+      "text": "Screening-related overdiagnosis — detecting cancers that would never have caused symptoms or death — is estimated at 20-50% for breast, prostate, and thyroid cancer screening programs. Overdiagnosed patients undergo surgery, radiation, and chemotherapy unnecessarily, with associated mortality, morbidity, and psychological harm. The US PSA testing era led to massive overdiagnosis of indolent prostate cancer, causing tens of thousands of unnecessary radical prostatectomies with permanent incontinence and impotence. Expanding MCED blood tests to detect 50+ cancer types risks enormous overdiagnosis cascade in cancer types (papillary thyroid, ductal carcinoma in situ, incidental kidney lesions) where watch-and-wait would have been appropriate."
+    },
+    "resolution": "The oncology community broadly agrees: overdiagnosis is a real and serious concern that must be measured in randomized trials, not dismissed. Active surveillance (watch-and-wait) protocols for low-grade prostate, thyroid, and breast lesions reduce overtreatment without compromising outcomes. Future MCED test clinical validation must include cancer-specific mortality as primary endpoint, not just detection rate. The NHS-Galleri RCT will be the first definitive test of whether MCED screening reduces cancer mortality.",
+    "lastUpdated": "2026-04-13"
+  }
+]

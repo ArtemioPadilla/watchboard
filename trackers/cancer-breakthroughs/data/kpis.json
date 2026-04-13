@@ -1,1 +1,96 @@
-[]
+[
+  {
+    "id": "car-t-approvals",
+    "label": "FDA-Approved CAR-T Cell Therapies",
+    "value": "7",
+    "color": "green",
+    "source": "FDA CBER, 2024",
+    "contested": false,
+    "delta": "+6 since 2017",
+    "deltaNote": "From 1 approved therapy (Kymriah, Aug 2017) to 7 by end of 2024",
+    "trend": "up",
+    "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "mrna-4157-efficacy",
+    "label": "mRNA-4157 Melanoma Recurrence Reduction",
+    "value": "44%",
+    "color": "green",
+    "source": "KEYNOTE-942 Phase 2b, NEJM Evidence 2023",
+    "contested": true,
+    "contestNote": "Phase 2b result in high-risk resected melanoma vs. pembrolizumab alone; Phase 3 confirmation pending",
+    "delta": "vs. pembrolizumab monotherapy",
+    "trend": "up",
+    "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "cancer-death-decline",
+    "label": "US Cancer Death Rate Decline Since 1991",
+    "value": "33%",
+    "color": "green",
+    "source": "American Cancer Society Cancer Facts & Figures 2024",
+    "contested": false,
+    "delta": "~3.5 million deaths averted",
+    "deltaNote": "Driven by screening, smoking cessation, and treatment advances including immunotherapy",
+    "trend": "down",
+    "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "active-oncology-trials",
+    "label": "Active Oncology Clinical Trials (Global)",
+    "value": "~8,000",
+    "color": "blue",
+    "source": "ClinicalTrials.gov, 2024",
+    "contested": false,
+    "delta": "+40% vs. 2018",
+    "trend": "up",
+    "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "keytruda-indications",
+    "label": "Pembrolizumab FDA-Approved Indications",
+    "value": "40+",
+    "color": "blue",
+    "source": "FDA Drug Approvals Database, 2024",
+    "contested": false,
+    "delta": "Broadest indication portfolio in oncology history",
+    "trend": "up",
+    "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "adc-approvals",
+    "label": "ADC Oncology Approvals Since 2019",
+    "value": "10+",
+    "color": "green",
+    "source": "FDA CDER, 2024",
+    "contested": false,
+    "delta": "Antibody-drug conjugate era now mainstream",
+    "deltaNote": "Includes T-DXd, sacituzumab govitecan, mirvetuximab soravtansine, loncastuximab tesirine, and others",
+    "trend": "up",
+    "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "car-t-average-cost",
+    "label": "Average CAR-T Therapy Cost (US)",
+    "value": "$400K–$500K",
+    "color": "amber",
+    "source": "ICER Value Assessment Reports, 2022–2023",
+    "contested": true,
+    "contestNote": "Manufacturers argue durable remissions justify one-time cost; payers and equity advocates dispute value for money",
+    "delta": "Major global access barrier",
+    "trend": "stable",
+    "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "melanoma-stage4-survival",
+    "label": "Metastatic Melanoma 5-Year Survival Rate",
+    "value": "~50%",
+    "color": "green",
+    "source": "ASCO Annual Meeting data 2023; SEER Database, NCI",
+    "contested": true,
+    "contestNote": "Was ~18% pre-immunotherapy era; ~50% with PD-1/CTLA-4 therapy, but varies by biomarker status and line of therapy",
+    "delta": "+32 pp vs. pre-immunotherapy baseline",
+    "trend": "up",
+    "lastUpdated": "2026-04-13"
+  }
+]
