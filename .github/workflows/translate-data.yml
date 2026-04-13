@@ -1,8 +1,8 @@
 name: Translate Tracker Data
 
 on:
-  schedule:
-    - cron: '0 22 * * *'  # 22:00 UTC — 8 hours after nightly, avoids rate limit clash
+  # schedule: # Disabled — translations done locally via OpenClaw Bedrock
+    # - cron: '0 22 * * *'  # Was consuming Claude Max rate limit  # 22:00 UTC — 8 hours after nightly, avoids rate limit clash
   # Previously triggered by workflow_run on Nightly Data Update,
   # but that ran immediately after nightly and hit Claude Code rate limits.
   workflow_dispatch:
