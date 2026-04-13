@@ -10,19 +10,48 @@
   "domain": "security",
   "region": "north-america",
   "country": "MX",
-  "geoPath": ["MX"],
+  "geoPath": [
+    "MX"
+  ],
   "aggregate": true,
   "startDate": "2019-10-17",
-  "sections": ["hero", "kpis", "timeline", "map"],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map"
+  ],
   "navSections": [
-    {"id": "kpis", "label": "Overview"},
-    {"id": "timeline", "label": "Timeline"},
-    {"id": "map", "label": "Map"}
+    {
+      "id": "kpis",
+      "label": "Overview"
+    },
+    {
+      "id": "timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "map",
+      "label": "Map"
+    }
   ],
   "map": {
     "enabled": true,
-    "bounds": {"lonMin": -118.4, "lonMax": -86.7, "latMin": 14.5, "latMax": 32.7},
-    "center": {"lon": -102, "lat": 23.5},
+    "bounds": {
+      "lonMin": -118.4,
+      "lonMax": -86.7,
+      "latMin": 14.5,
+      "latMax": 32.7
+    },
+    "center": {
+      "lon": -102,
+      "lat": 23.5
+    },
     "categories": []
+  },
+  "ai": {
+    "rssFeeds": [
+      "https://news.google.com/rss/search?q=Mexico+news+politics+economy+crime&hl=en-US&gl=US&ceid=US:en"
+    ]
   }
 }

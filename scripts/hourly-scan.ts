@@ -33,6 +33,21 @@ const GDELT_ENDPOINT = 'https://api.gdeltproject.org/api/v2/doc/doc';
 const GDELT_THEMES =
   'theme:TERROR OR theme:MILITARY OR theme:NATURAL_DISASTER OR theme:POLITICAL_VIOLENCE';
 
+/** High-quality general RSS feeds for broad coverage */
+const GENERAL_RSS_FEEDS = [
+  'https://www.aljazeera.com/xml/rss/all.xml',
+  'https://feeds.bbci.co.uk/news/world/rss.xml',
+  'https://feeds.reuters.com/reuters/worldNews',
+  'https://rss.nytimes.com/services/xml/rss/nyt/World.xml',
+  'https://news.google.com/rss?hl=en-US&gl=US&ceid=US:en',
+  'https://feeds.bbci.co.uk/news/technology/rss.xml',
+  'https://feeds.bbci.co.uk/news/science_and_environment/rss.xml',
+  'https://www.theguardian.com/world/rss',
+  'https://news.google.com/rss?hl=es-419&gl=MX&ceid=MX:es-419',
+  'https://elpais.com/rss/elpais/portada.xml',
+  'https://www.bbc.co.uk/mundo/index.xml',
+];
+
 const XML_PARSER = new XMLParser({
   ignoreAttributes: false,
   attributeNamePrefix: '@_',
@@ -398,6 +413,17 @@ export async function scan(): Promise<{ candidates: Candidate[]; state: HourlySt
       if (!item.title || !item.url) continue;
       const c = normalizeCandidate(item, slug, 'rss');
       candidates.push(c);
+    }
+  }
+
+  // 1b. General RSS feeds (broad coverage — matched by keywords)
+  const generalFeedList = GENERAL_RSS_FEEDS.map((url) => ({ slug: '__general__', url }));
+  if (generalFeedList.length > 0) {
+    const generalResults = await fetchRssFeeds(generalFeedList);
+    for (const { item } of generalResults) {
+      if (!item.title || !item.url) continue;
+      const matched = matchTrackerByKeywords(item.title, trackerKeywordMap);
+      candidates.push(normalizeCandidate(item, matched, 'rss'));
     }
   }
 

@@ -586,9 +586,24 @@ jobs:
             MSG="chore(hourly): update $TRACKER $(date -u +%Y-%m-%dT%H:%M:%SZ)"
           fi
           git commit -m "$MSG"
-          for i in 1 2 3; do
-            git pull --rebase origin main && git push && break
-            sleep $((RANDOM % 8 + 2))
+          for i in 1 2 3 4 5; do
+            if git pull --rebase origin main; then
+              git push && break
+            else
+              echo "Rebase conflict on attempt $i — resolving..."
+              # Accept theirs for metrics (non-essential), ours for tracker data
+              git diff --name-only --diff-filter=U | while read f; do
+                if echo "$f" | grep -q "_metrics/"; then
+                  git checkout --theirs "$f" && git add "$f"
+                elif echo "$f" | grep -q "state.json"; then
+                  git checkout --theirs "$f" && git add "$f"
+                else
+                  git checkout --ours "$f" && git add "$f"
+                fi
+              done
+              git rebase --continue --no-edit || git rebase --abort
+            fi
+            sleep $((RANDOM % 5 + 2))
           done
 
       - name: Job summary

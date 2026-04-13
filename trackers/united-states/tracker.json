@@ -10,19 +10,48 @@
   "domain": "governance",
   "region": "north-america",
   "country": "US",
-  "geoPath": ["US"],
+  "geoPath": [
+    "US"
+  ],
   "aggregate": true,
   "startDate": "2001-09-11",
-  "sections": ["hero", "kpis", "timeline", "map"],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map"
+  ],
   "navSections": [
-    {"id": "kpis", "label": "Overview"},
-    {"id": "timeline", "label": "Timeline"},
-    {"id": "map", "label": "Map"}
+    {
+      "id": "kpis",
+      "label": "Overview"
+    },
+    {
+      "id": "timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "map",
+      "label": "Map"
+    }
   ],
   "map": {
     "enabled": true,
-    "bounds": {"lonMin": -125, "lonMax": -66, "latMin": 24, "latMax": 50},
-    "center": {"lon": -98, "lat": 38},
+    "bounds": {
+      "lonMin": -125,
+      "lonMax": -66,
+      "latMin": 24,
+      "latMax": 50
+    },
+    "center": {
+      "lon": -98,
+      "lat": 38
+    },
     "categories": []
+  },
+  "ai": {
+    "rssFeeds": [
+      "https://news.google.com/rss/search?q=United+States+news+politics+economy&hl=en-US&gl=US&ceid=US:en"
+    ]
   }
 }
