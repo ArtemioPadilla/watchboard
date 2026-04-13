@@ -1,1 +1,97 @@
-[]
+[
+  {
+    "id": "global-renewable-capacity",
+    "label": "Global Renewable Capacity",
+    "value": "4,448 GW",
+    "color": "green",
+    "source": "IRENA / BloombergNEF (2024)",
+    "contested": false,
+    "delta": "+585 GW",
+    "deltaNote": "Added in 2024 alone — a single-year record",
+    "trend": "up",
+    "lastUpdated": "2026-04-13T00:00:00.000Z"
+  },
+  {
+    "id": "solar-lcoe",
+    "label": "Utility-Scale Solar Cost (LCOE)",
+    "value": "$0.044/kWh",
+    "color": "green",
+    "source": "IRENA Renewable Power Costs 2023",
+    "contested": false,
+    "delta": "−89%",
+    "deltaNote": "Cost reduction since 2010 ($0.40/kWh)",
+    "trend": "down",
+    "lastUpdated": "2026-04-13T00:00:00.000Z"
+  },
+  {
+    "id": "global-ev-share",
+    "label": "Global EV New-Car Sales Share",
+    "value": "≈20%",
+    "color": "blue",
+    "source": "IEA Global EV Outlook 2024",
+    "contested": false,
+    "delta": "+5 pp",
+    "deltaNote": "vs. 14% in 2022; 17 M EVs sold in 2024",
+    "trend": "up",
+    "lastUpdated": "2026-04-13T00:00:00.000Z"
+  },
+  {
+    "id": "clean-energy-investment",
+    "label": "Global Clean Energy Investment",
+    "value": "$2.1 trillion",
+    "color": "green",
+    "source": "IEA World Energy Investment 2024",
+    "contested": false,
+    "delta": "+5% YoY",
+    "deltaNote": "First time exceeding $2 T; doubles fossil fuel spending",
+    "trend": "up",
+    "lastUpdated": "2026-04-13T00:00:00.000Z"
+  },
+  {
+    "id": "netzero-commitments",
+    "label": "Countries with Net-Zero Targets",
+    "value": "140+",
+    "color": "blue",
+    "source": "Energy & Climate Intelligence Unit (2024)",
+    "contested": true,
+    "contestNote": "Many targets lack credible implementation plans or legislation",
+    "trend": "up",
+    "lastUpdated": "2026-04-13T00:00:00.000Z"
+  },
+  {
+    "id": "co2-captured-ccs",
+    "label": "CO₂ Captured Annually (CCS + DAC)",
+    "value": "~50 MtCO₂/yr",
+    "color": "amber",
+    "source": "IEA CCS Report 2023 / Global CCS Institute",
+    "contested": false,
+    "delta": "+15%",
+    "deltaNote": "Still <1% of what's needed by 2050 under net-zero scenarios",
+    "trend": "up",
+    "lastUpdated": "2026-04-13T00:00:00.000Z"
+  },
+  {
+    "id": "amazon-deforestation",
+    "label": "Amazon Deforestation Rate",
+    "value": "−50% vs 2021 peak",
+    "color": "green",
+    "source": "INPE / Brazil's Climate Observatory (2023–24)",
+    "contested": false,
+    "delta": "−50%",
+    "deltaNote": "Sharp drop under Lula government elected 2022",
+    "trend": "down",
+    "lastUpdated": "2026-04-13T00:00:00.000Z"
+  },
+  {
+    "id": "wind-capacity-added-2024",
+    "label": "New Wind Capacity Added (2024)",
+    "value": "117 GW",
+    "color": "green",
+    "source": "GWEC Global Wind Report 2025",
+    "contested": false,
+    "delta": "Record year",
+    "deltaNote": "Highest single-year wind addition ever; China installed 79 GW",
+    "trend": "up",
+    "lastUpdated": "2026-04-13T00:00:00.000Z"
+  }
+]

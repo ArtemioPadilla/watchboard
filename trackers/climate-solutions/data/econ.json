@@ -1,1 +1,112 @@
-[]
+[
+  {
+    "id": "global-clean-energy-investment",
+    "label": "Global Clean Energy Investment (Annual)",
+    "value": "$2.1 trillion",
+    "change": "+5% YoY",
+    "direction": "up",
+    "sparkData": [400, 500, 580, 650, 760, 920, 1100, 1500, 2000, 2100],
+    "color": "#27ae60",
+    "source": "IEA World Energy Investment 2024",
+    "lastUpdated": "2026-04-13T00:00:00.000Z"
+  },
+  {
+    "id": "solar-lcoe-cost",
+    "label": "Utility-Scale Solar LCOE ($/kWh)",
+    "value": "$0.044/kWh",
+    "change": "−89% since 2010",
+    "direction": "down",
+    "sparkData": [0.40, 0.32, 0.25, 0.18, 0.13, 0.085, 0.068, 0.057, 0.049, 0.044],
+    "color": "#f1c40f",
+    "source": "IRENA Renewable Power Costs 2023",
+    "lastUpdated": "2026-04-13T00:00:00.000Z"
+  },
+  {
+    "id": "onshore-wind-lcoe",
+    "label": "Onshore Wind LCOE ($/kWh)",
+    "value": "$0.033/kWh",
+    "change": "−69% since 2010",
+    "direction": "down",
+    "sparkData": [0.107, 0.095, 0.082, 0.072, 0.056, 0.048, 0.041, 0.037, 0.034, 0.033],
+    "color": "#3498db",
+    "source": "IRENA Renewable Power Costs 2023",
+    "lastUpdated": "2026-04-13T00:00:00.000Z"
+  },
+  {
+    "id": "ev-battery-cost",
+    "label": "Li-Ion Battery Pack Cost ($/kWh)",
+    "value": "$115/kWh",
+    "change": "−91% since 2010",
+    "direction": "down",
+    "sparkData": [1200, 830, 600, 400, 250, 180, 150, 135, 122, 115],
+    "color": "#9b59b6",
+    "source": "BloombergNEF Battery Price Survey 2024",
+    "lastUpdated": "2026-04-13T00:00:00.000Z"
+  },
+  {
+    "id": "green-bond-issuance",
+    "label": "Annual Green Bond Issuance (Global)",
+    "value": "$580 billion",
+    "change": "+11% YoY",
+    "direction": "up",
+    "sparkData": [43, 83, 163, 243, 270, 297, 510, 490, 522, 580],
+    "color": "#27ae60",
+    "source": "Climate Bonds Initiative 2023 Report",
+    "lastUpdated": "2026-04-13T00:00:00.000Z"
+  },
+  {
+    "id": "eu-ets-carbon-price",
+    "label": "EU ETS Carbon Price (€/tCO₂)",
+    "value": "~€60/tCO₂",
+    "change": "+12% vs 2022 avg",
+    "direction": "up",
+    "sparkData": [6, 8, 15, 25, 50, 80, 95, 65, 60, 60],
+    "color": "#e67e22",
+    "source": "ICE / EU ETS Market Data 2024",
+    "lastUpdated": "2026-04-13T00:00:00.000Z"
+  },
+  {
+    "id": "renewable-employment",
+    "label": "Global Renewable Energy Jobs",
+    "value": "16.2 million",
+    "change": "+14% vs 2022",
+    "direction": "up",
+    "sparkData": [7.2, 8.1, 9.8, 10.5, 11.5, 12.7, 13.7, 14.2, 15.2, 16.2],
+    "color": "#27ae60",
+    "source": "IRENA Renewable Energy and Jobs 2024",
+    "lastUpdated": "2026-04-13T00:00:00.000Z"
+  },
+  {
+    "id": "fossil-fuel-subsidies",
+    "label": "Global Fossil Fuel Subsidies (Explicit + Implicit)",
+    "value": "$7 trillion/yr",
+    "change": "+48% vs 2020",
+    "direction": "up",
+    "sparkData": [4.7, 5.0, 5.2, 5.9, 6.1, 7.0, 7.0, 7.0, 7.0, 7.0],
+    "color": "#e74c3c",
+    "source": "IMF Working Paper — Fossil Fuel Subsidies 2023",
+    "lastUpdated": "2026-04-13T00:00:00.000Z"
+  },
+  {
+    "id": "ira-private-investment",
+    "label": "US IRA-Catalyzed Private Clean Energy Investment",
+    "value": "$400+ billion",
+    "change": "Since Aug 2022 enactment",
+    "direction": "up",
+    "sparkData": [0, 10, 40, 90, 150, 210, 280, 340, 390, 410],
+    "color": "#3498db",
+    "source": "BloombergNEF / Clean Investment Monitor 2024",
+    "lastUpdated": "2026-04-13T00:00:00.000Z"
+  },
+  {
+    "id": "global-solar-capacity-gw",
+    "label": "Cumulative Global Solar PV Capacity (GW)",
+    "value": "≈1,870 GW",
+    "change": "+450 GW in 2024",
+    "direction": "up",
+    "sparkData": [50, 100, 180, 295, 480, 714, 943, 1177, 1419, 1870],
+    "color": "#f1c40f",
+    "source": "IRENA Renewable Capacity Statistics 2024 / BloombergNEF",
+    "lastUpdated": "2026-04-13T00:00:00.000Z"
+  }
+]
