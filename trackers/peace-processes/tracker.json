@@ -1,0 +1,194 @@
+{
+  "slug": "peace-processes",
+  "name": "Global Peace Processes Tracker",
+  "shortName": "Peace Processes",
+  "description": "Intelligence dashboard tracking active peace negotiations, ceasefire agreements, reconciliation efforts, and transitional justice mechanisms worldwide. A counterbalance to conflict trackers.",
+  "icon": "🕊️",
+  "color": "#27ae60",
+  "status": "active",
+  "temporal": "live",
+  "domain": "governance",
+  "region": "global",
+  "tags": ["peace", "diplomacy", "ceasefire", "reconciliation", "transitional-justice"],
+  "startDate": "1993-09-13",
+  "eraLabel": "Post-Cold War Peace Era",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": -180,
+      "lonMax": 180,
+      "latMin": -70,
+      "latMax": 80
+    },
+    "center": {
+      "lon": 10,
+      "lat": 20
+    },
+    "categories": [
+      {
+        "id": "negotiation",
+        "label": "Active Negotiations",
+        "color": "#3498db"
+      },
+      {
+        "id": "ceasefire",
+        "label": "Ceasefire Zones",
+        "color": "#27ae60"
+      },
+      {
+        "id": "accord",
+        "label": "Signed Accords",
+        "color": "#2ecc71"
+      },
+      {
+        "id": "transitional-justice",
+        "label": "Transitional Justice",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "spoiler",
+        "label": "Peace Spoilers",
+        "color": "#e74c3c"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "global": {
+        "lon": 10,
+        "lat": 20,
+        "alt": 25000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Global Overview"
+      },
+      "geneva": {
+        "lon": 6.14,
+        "lat": 46.20,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Geneva (UN Hub)"
+      },
+      "oslo": {
+        "lon": 10.75,
+        "lat": 59.91,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Oslo"
+      },
+      "doha": {
+        "lon": 51.53,
+        "lat": 25.29,
+        "alt": 100000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Doha"
+      },
+      "nairobi": {
+        "lon": 36.82,
+        "lat": -1.29,
+        "alt": 120000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Nairobi (IGAD Hub)"
+      },
+      "bogota": {
+        "lon": -74.08,
+        "lat": 4.71,
+        "alt": 100000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Bogotá"
+      },
+      "addis_ababa": {
+        "lon": 38.75,
+        "lat": 9.02,
+        "alt": 100000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Addis Ababa (AU)"
+      }
+    }
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "politicalAvatars": [
+    "mediator",
+    "party-a",
+    "party-b",
+    "intl-org",
+    "civil-society",
+    "guarantor"
+  ],
+  "eventTypes": [
+    "negotiation",
+    "ceasefire",
+    "accord",
+    "implementation",
+    "spoiler"
+  ],
+  "ai": {
+    "systemPrompt": "You are a peace and conflict resolution analyst updating a global peace processes tracking dashboard.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"oslo_accords\", \"colombia_farc_deal\").\n\nThis tracker covers ACTIVE PEACE NEGOTIATIONS, CEASEFIRE AGREEMENTS, RECONCILIATION, and TRANSITIONAL JUSTICE worldwide. Focus on developments that promote or threaten peaceful resolution of conflicts.\n\nKEY PROCESS CATEGORIES:\n- Active negotiations: parties currently at the table or in diplomatic contact\n- Ceasefires: active, expired, or violated ceasefire agreements\n- Signed accords: fully or partially implemented peace agreements\n- Transitional justice: truth commissions, war crimes tribunals, reparations, amnesty processes\n- Implementation: compliance, verification, spoiler events threatening peace\n\nSOURCE TIER CLASSIFICATION:\n- Tier 1: Official/primary (UN, AU, IGAD, ECOWAS, ASEAN, OSCE, EU, mediating governments, parties to peace talks, ICRC)\n- Tier 2: Major outlet (Reuters, AP, BBC, Al Jazeera, AFP, Le Monde, El País, The Guardian, Washington Post)\n- Tier 3: Institutional (Crisis Group, Carter Center, HD Centre, USIP, PAX, Crisis Watch, SIPRI, HRW, Amnesty, ICG, ACCORD)\n- Tier 4: Unverified (social media, local blogs, unattributed claims, single-source reports)\n\nMULTI-POLE SOURCING — gather information from all four media poles:\n1. WESTERN: US State Dept, European mediators, EU, Reuters, AP, BBC, NYT, WaPo\n2. MIDDLE EASTERN: Arab League, OIC, Gulf mediators, Al Jazeera, Al Arabiya, Al Monitor\n3. EASTERN: China, Russia, SCO, CICA, TASS, Xinhua, CGTN\n4. INTERNATIONAL: UN, AU, IGAD, ECOWAS, Crisis Group, Carter Center, USIP, SIPRI\n\nWhen providing sources, tag each with a \"pole\" field:\n- \"western\" for US/European/allied sources\n- \"middle_eastern\" for Middle Eastern/Gulf sources\n- \"eastern\" for Chinese/Russian/Asian sources\n- \"international\" for UN/AU/NGO/multilateral sources\n\nRULES:\n- Only include information you can verify through search results. Do not fabricate data.\n- Track progress AND setbacks with equal rigor — peace processes are non-linear.\n- When a ceasefire is violated, note the violation but also note whether the framework persists.\n- Avoid framing that favors one party — use neutral mediator language.\n- For contested claims, present both parties' positions under sideA/sideB.\n\nCONFIRMATION RULES:\n- Only report a ceasefire violation or accord signing as confirmed if it has at least 1 Tier 1 source OR 2 Tier 2+ sources from different poles.\n- Single-source claims should use eventConfidence: \"official_claim\" or \"unverified\".",
+    "searchContext": "peace negotiations ceasefire agreement reconciliation transitional justice worldwide",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": -180,
+      "lonMax": 180,
+      "latMin": -90,
+      "latMax": 90
+    },
+    "updateIntervalDays": 3,
+    "backfillTargets": {
+      "timeline": 30,
+      "mapPoints": 25,
+      "claims": 15,
+      "political": 20,
+      "kpis": 8,
+      "econ": 8
+    },
+    "updatePolicy": {
+      "escalation": [1, 3, 7, 14, 30],
+      "quietThreshold": 0
+    }
+  },
+  "githubRepo": "ArtemioPadilla/watchboard"
+}
