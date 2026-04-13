@@ -2,7 +2,7 @@ name: Hourly Breaking News Scan
 
 on:
   schedule:
-    - cron: '0 */3 * * *'  # Every 3 hours (was hourly — reduced to save Claude Code budget)
+    - cron: '0 * * * *'  # Every hour — scan is cheap (Sonnet), only updates cost
   workflow_dispatch: {}
 
 concurrency:
@@ -81,14 +81,58 @@ jobs:
             console.log('Collected context for ' + Object.keys(result).length + ' trackers');
           "
 
+      - name: Pre-filter candidates
+        if: steps.poll.outputs.has_candidates == 'true'
+        run: |
+          node -e "
+            const fs = require('fs');
+            const candidates = JSON.parse(fs.readFileSync('/tmp/hourly-candidates.json', 'utf8'));
+            const context = JSON.parse(fs.readFileSync('/tmp/hourly-context.json', 'utf8'));
+
+            // Build set of recent titles (lowercase) for dedup
+            const recentTitles = new Set();
+            for (const titles of Object.values(context)) {
+              for (const t of titles) recentTitles.add(t.toLowerCase().trim());
+            }
+
+            // Dedup by title similarity and remove already-covered events
+            const seen = new Set();
+            const filtered = [];
+            for (const c of candidates) {
+              const titleLower = (c.title || '').toLowerCase().trim();
+              // Skip if title matches recent event
+              if (recentTitles.has(titleLower)) continue;
+              // Skip if we already have a very similar title (first 60 chars)
+              const titleKey = titleLower.substring(0, 60);
+              if (seen.has(titleKey)) continue;
+              seen.add(titleKey);
+              // Skip candidates without a matched tracker (unmatched general feed noise)
+              // BUT keep them if from a tier-1 source
+              filtered.push(c);
+            }
+
+            // Sort: matched tracker first, then by timestamp desc
+            filtered.sort((a, b) => {
+              if (a.matchedTracker && !b.matchedTracker) return -1;
+              if (!a.matchedTracker && b.matchedTracker) return 1;
+              return (b.timestamp || '').localeCompare(a.timestamp || '');
+            });
+
+            // Cap at 30 to keep triage manageable
+            const capped = filtered.slice(0, 30);
+            fs.writeFileSync('/tmp/hourly-candidates.json', JSON.stringify(capped, null, 2));
+            console.log('Pre-filter: ' + candidates.length + ' -> ' + capped.length + ' candidates (removed ' + (candidates.length - capped.length) + ')');
+          "
+
       - name: AI triage
         id: triage-agent
         if: steps.poll.outputs.has_candidates == 'true'
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          claude_args: "--max-turns 5 --dangerously-skip-permissions"
+          claude_args: "--max-turns 10 --dangerously-skip-permissions"
           show_full_output: true
+          model: claude-sonnet-4-20250514
           prompt: |
             You are a news triage AI for Watchboard. You have TWO files to read, then write ONE output file. Be efficient — do all reads in your first turn, then write the output.
 
@@ -139,8 +183,34 @@ jobs:
             echo "[]" > /tmp/triage-plan.json
           fi
 
-      - name: Freshness check — inject stale trackers
+      - name: Log discarded candidates (feedback loop)
+        if: steps.poll.outputs.has_candidates == 'true'
+        run: |
+          node -e "
+            const fs = require('fs');
+            const candidates = JSON.parse(fs.readFileSync('/tmp/hourly-candidates.json', 'utf8'));
+            let plan = { updates: [], newTrackers: [], discardedCount: 0 };
+            try { plan = JSON.parse(fs.readFileSync('/tmp/hourly-action-plan.json', 'utf8')); } catch {}
+            const actedTrackers = new Set([
+              ...plan.updates.map(u => u.tracker),
+              ...plan.newTrackers.map(n => n.suggestedSlug)
+            ]);
+            const discarded = candidates.filter(c => !actedTrackers.has(c.matchedTracker));
+            const logDir = 'public/_hourly/discarded';
+            fs.mkdirSync(logDir, { recursive: true });
+            const today = new Date().toISOString().split('T')[0];
+            const logFile = logDir + '/' + today + '.json';
+            let existing = [];
+            try { existing = JSON.parse(fs.readFileSync(logFile, 'utf8')); } catch {}
+            existing.push(...discarded.map(c => ({ title: c.title, url: c.url, tracker: c.matchedTracker, ts: new Date().toISOString() })));
+            // Keep last 200 entries per day
+            fs.writeFileSync(logFile, JSON.stringify(existing.slice(-200), null, 2));
+            console.log('Logged ' + discarded.length + ' discarded candidates to ' + logFile);
+          " || true
+
+      - name: Freshness check — DISABLED (RSS feeds now cover all trackers)
         id: freshness
+        if: false  # Disabled — with full RSS coverage, organic updates replace freshness pings
         run: |
           node -e "
             const fs = require('fs');
