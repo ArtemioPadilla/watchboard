@@ -1,0 +1,101 @@
+[
+  {
+    "id": "territorial-control",
+    "label": "Al-Shabaab Territorial Control",
+    "value": "~20% of Somalia",
+    "color": "red",
+    "source": "ACLED / SIPRI 2024",
+    "contested": true,
+    "contestNote": "Al-Shabaab claims broader rural influence; SNA disputes any meaningful control figures",
+    "delta": "Down from ~40% in 2011",
+    "deltaNote": "Despite losses, group maintains shadow governance in rural south/central",
+    "trend": "down",
+    "lastUpdated": "2026-03-20T00:00:00.000Z"
+  },
+  {
+    "id": "conflict-events-annual",
+    "label": "Annual Conflict Events (ACLED)",
+    "value": "3,400+",
+    "color": "red",
+    "source": "ACLED 2024 Annual Data",
+    "contested": false,
+    "delta": "+12% vs 2022",
+    "deltaNote": "Increase driven by SNA/clan militia offensives and Al-Shabaab counter-attacks",
+    "trend": "up",
+    "lastUpdated": "2026-03-20T00:00:00.000Z"
+  },
+  {
+    "id": "idp-population",
+    "label": "Internally Displaced Persons",
+    "value": "~4 million",
+    "color": "amber",
+    "source": "UNHCR / OCHA Mar 2026",
+    "contested": false,
+    "contestNote": "50,000+ newly displaced by SNA seizure of Baidoa (late March 2026); multiple aid agencies suspended operations in Bay Region",
+    "delta": "+50,000 from Baidoa clashes",
+    "deltaNote": "SNA seizure of Southwest State capital added new displacement wave atop existing drought/conflict crisis",
+    "trend": "up",
+    "lastUpdated": "2026-04-01T00:00:00.000Z"
+  },
+  {
+    "id": "food-insecure",
+    "label": "Food Insecure Population",
+    "value": "6.5 million",
+    "color": "amber",
+    "source": "UNICEF / OCHA Apr 2026",
+    "contested": false,
+    "contestNote": "2M in IPC Phase 4 Emergency; 1.8M children under 5 face acute malnutrition; HRP only 13.4% funded ($852M); 2025 Deyr cereal harvest 83% below 30-year average; Gu rains beginning April 2026",
+    "delta": "HRP 13.4% funded as of Apr 6",
+    "deltaNote": "OCHA Drought Sitrep No. 5 (Apr 6, 2026): 86.6% of $852M HRP unfunded; Gu rains expected to bring partial relief starting mid-April",
+    "trend": "up",
+    "lastUpdated": "2026-04-09T14:42:00.000Z"
+  },
+  {
+    "id": "shabaab-revenue",
+    "label": "Al-Shabaab Annual Revenue",
+    "value": "~$200M+",
+    "color": "red",
+    "source": "UN Monitoring Group 2024 / Africa Center for Strategic Studies",
+    "contested": true,
+    "contestNote": "Includes Houthi-linked revenue sharing since 2024; FGS claims lower; charcoal, taxation, piracy, and extortion documented",
+    "trend": "up",
+    "lastUpdated": "2026-03-20T00:00:00.000Z"
+  },
+  {
+    "id": "aussom-troops",
+    "label": "AUSSOM Authorized Strength",
+    "value": "~12,626",
+    "color": "blue",
+    "source": "UNSC Resolution (Nov 2024) / AU",
+    "contested": false,
+    "delta": "ATMIS ended Dec 31, 2024",
+    "deltaNote": "AUSSOM (AU Support and Stabilization Mission) operational Jan 1, 2025; underfunded; Ethiopia excluded by FGS; Uganda threatened withdrawal after 20 Ugandan peacekeepers killed",
+    "trend": "down",
+    "lastUpdated": "2026-03-20T00:00:00.000Z"
+  },
+  {
+    "id": "us-airstrikes-total",
+    "label": "AFRICOM Airstrikes in Somalia (2026 YTD)",
+    "value": "~50 (Q1 2026)",
+    "color": "blue",
+    "source": "AFRICOM / Stars and Stripes Apr 2026",
+    "contested": true,
+    "contestNote": "Record pace: ~50 strikes in Q1 2026, on track to far exceed 2025 record of ~125 annual strikes; Airwars documents credible civilian harm in multiple strikes",
+    "delta": "+50 in Q1 alone",
+    "deltaNote": "SecDef Hegseth granted AFRICOM expanded strike authority; 2026 strike pace tracking to 200+/year vs 63 peak in 2019",
+    "trend": "up",
+    "lastUpdated": "2026-04-06T14:22:00.000Z"
+  },
+  {
+    "id": "sna-strength",
+    "label": "SNA Estimated Strength",
+    "value": "~24,000",
+    "color": "green",
+    "source": "IISS Military Balance 2024",
+    "contested": true,
+    "contestNote": "Ghost soldier problem; actual combat-ready forces significantly lower; payroll fraud endemic",
+    "delta": "Growing with clan militia integration",
+    "trend": "up",
+    "lastUpdated": "2026-03-20T00:00:00.000Z"
+  }
+]
