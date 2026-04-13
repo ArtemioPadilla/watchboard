@@ -1,31 +1,31 @@
 [
   {
     "id": "nato-avg-spending-pct",
-    "label": "Gasto de Defensa Promedio de la OTAN (% PIB)",
+    "label": "NATO Average Defense Spending (% GDP)",
     "value": "2.71%",
     "color": "amber",
-    "source": "NATO Defence Expenditure Report 2024",
+    "source": "NATO Annual Report 2025 (released Mar 26, 2026); 19.6% surge in allied expenditure reported",
     "contested": false,
     "delta": "+0.18%",
-    "deltaNote": "vs. 2023 average of 2.53%",
+    "deltaNote": "vs. 2023 average of 2.53%; all 32 allies at 2%+ for first time",
     "trend": "up",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "lastUpdated": "2026-03-26T00:00:00Z"
   },
   {
     "id": "nato-members-at-2pct",
-    "label": "Miembros de la OTAN que Cumplen la Meta del 2% del PIB",
-    "value": "23 / 32",
+    "label": "NATO Members Meeting 2% GDP Target",
+    "value": "32 / 32",
     "color": "green",
-    "source": "NATO, 2025 estimate",
+    "source": "NATO Annual Report 2025, released Mar 26, 2026",
     "contested": false,
-    "delta": "+5",
-    "deltaNote": "vs. 18 in 2024; up from 3 in 2014",
+    "delta": "+9",
+    "deltaNote": "All 32 members meet 2% for first time in NATO history; up from 23 in 2025 and 3 in 2014",
     "trend": "up",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "lastUpdated": "2026-03-26T00:00:00Z"
   },
   {
     "id": "us-troops-europe",
-    "label": "Tropas de EE.UU. Desplegadas en Europa",
+    "label": "US Troops Deployed in Europe",
     "value": "~80,000",
     "color": "blue",
     "source": "US Department of Defense, 2025",
@@ -36,7 +36,7 @@
   },
   {
     "id": "eu-rearm-fund",
-    "label": "Fondo de Defensa ReArm Europe de la UE",
+    "label": "EU ReArm Europe Defense Fund",
     "value": "€800B",
     "color": "blue",
     "source": "European Commission, ReArm Europe Plan, Mar 2025",
@@ -47,7 +47,7 @@
   },
   {
     "id": "germany-defense-spending",
-    "label": "Gasto de Defensa de Alemania (% PIB)",
+    "label": "Germany Defense Spending (% GDP)",
     "value": "2.0%",
     "color": "green",
     "source": "NATO, 2024",
@@ -59,7 +59,7 @@
   },
   {
     "id": "poland-defense-spending",
-    "label": "Gasto de Defensa de Polonia (% PIB)",
+    "label": "Poland Defense Spending (% GDP)",
     "value": "4.12%",
     "color": "green",
     "source": "NATO, 2024",
@@ -71,7 +71,7 @@
   },
   {
     "id": "nato-new-spending-target",
-    "label": "Meta de Gasto Acordada por la OTAN (para 2035)",
+    "label": "NATO Agreed Spending Target (by 2035)",
     "value": "5% GDP",
     "color": "amber",
     "source": "NATO Hague Summit Communiqué, Jun 2025",
@@ -82,7 +82,7 @@
   },
   {
     "id": "nato-total-spending",
-    "label": "Gasto Anual Total de Defensa de la OTAN",
+    "label": "NATO Total Annual Defense Spending",
     "value": "$1.51T",
     "color": "blue",
     "source": "NATO Defence Expenditure Report 2024",
@@ -94,7 +94,7 @@
   },
   {
     "id": "european-underinvestment-since-2014",
-    "label": "Subinversión Estimada de la OTAN Europea Desde 2014",
+    "label": "Estimated European NATO Underinvestment Since 2014",
     "value": "~$828B",
     "color": "red",
     "source": "Heritage Foundation estimate",
@@ -105,7 +105,7 @@
   },
   {
     "id": "nato-size",
-    "label": "Estados Miembros de la OTAN",
+    "label": "NATO Member States",
     "value": "32",
     "color": "green",
     "source": "NATO, 2024",
@@ -117,7 +117,7 @@
   },
   {
     "id": "german-defense-fund",
-    "label": "Fondo Especial de Defensa de Alemania (Sondervermögen)",
+    "label": "Germany Special Defense Fund (Sondervermögen)",
     "value": "€500B",
     "color": "green",
     "source": "Bundestag vote, Mar 21, 2025",
@@ -129,7 +129,7 @@
   },
   {
     "id": "us-nato-share",
-    "label": "Participación de EE.UU. en el Gasto de Defensa de la OTAN",
+    "label": "US Share of NATO Defense Spending",
     "value": "~67%",
     "color": "red",
     "source": "NATO, 2024",
@@ -137,5 +137,52 @@
     "contestNote": "US counts Indo-Pacific and global commitments in spending; European analysts argue effective European contribution to European defense is higher",
     "trend": "down",
     "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "rutte-trump-washington-meeting",
+    "label": "Rutte-Trump White House Meeting Outcome",
+    "value": "No Breakthrough — Trump 'Disgusted'",
+    "color": "red",
+    "source": "CNN, Reuters, Washington Post, Trump Truth Social — Apr 8, 2026",
+    "contested": false,
+    "delta": "No withdrawal announced — but no reassurance given",
+    "deltaNote": "2-hour closed-door meeting Apr 8. Trump posted 'NATO WASN'T THERE WHEN WE NEEDED THEM' on Truth Social hours later. WaPo: 'Trump vents at NATO but avoids rupture.' Rutte said Trump 'clearly disappointed.'",
+    "trend": "down",
+    "lastUpdated": "2026-04-09T00:00:00Z"
+  },
+  {
+    "id": "article5-reliability-status",
+    "label": "Article 5 Reliability (US Commitment Status)",
+    "value": "Worst Crisis in Alliance History",
+    "color": "red",
+    "source": "Bloomberg, WaPo, CNN, Al Jazeera, Reuters — Apr 8-12, 2026",
+    "contested": true,
+    "contestNote": "Trump told reporters Apr 9 he is 'absolutely' considering NATO withdrawal. Truth Social: 'NATO WASN'T THERE WHEN WE NEEDED THEM.' Rutte Washington visit Apr 7-12 ended with no Article 5 reassurance. Fmr NATO Amb. Daalder: 'the worst crisis the alliance has ever experienced.' Alliance in suspended crisis — next test Helsingborg FM meeting May 21-22.",
+    "trend": "down",
+    "lastUpdated": "2026-04-12T14:41:19Z"
+  },
+  {
+    "id": "republican-nato-support-pew-apr2026",
+    "label": "Republicans Who Say NATO Benefits US (Pew, Apr 2026)",
+    "value": "38%",
+    "color": "red",
+    "source": "Pew Research Center, April 6, 2026",
+    "contested": false,
+    "delta": "-11 pp in one year",
+    "deltaNote": "Down from 49% in Apr 2025 — steepest single-year decline in Pew polling history; correlated with Iran war fallout and Trump's anti-NATO messaging. 82% of Democrats still say NATO benefits the US.",
+    "trend": "down",
+    "lastUpdated": "2026-04-12T14:41:19Z"
+  },
+  {
+    "id": "nato-hormuz-ultimatum-status",
+    "label": "Trump 'Days' Hormuz Ultimatum for NATO Allies",
+    "value": "Deadline Active — Allies Scrambling",
+    "color": "red",
+    "source": "Der Spiegel, Bloomberg — Apr 9-10, 2026",
+    "contested": false,
+    "delta": "From political pledges to warship commitment demand",
+    "deltaNote": "Trump via Rutte demanded European capitals provide concrete Hormuz plans 'within days' — warship deployments required. Political statements deemed no longer sufficient. Germany signaled conditional willingness pending ceasefire and UN approval.",
+    "trend": "down",
+    "lastUpdated": "2026-04-12T14:41:19Z"
   }
 ]

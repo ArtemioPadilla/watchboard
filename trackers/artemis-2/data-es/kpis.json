@@ -1,7 +1,7 @@
 [
   {
     "id": "total-artemis-spend",
-    "label": "Inversión Total en Artemis",
+    "label": "Total Artemis Investment",
     "value": "~$100B",
     "color": "red",
     "source": "NASA OIG / Jared Isaacman, Feb 2026",
@@ -12,7 +12,7 @@
   },
   {
     "id": "sls-cost-per-launch",
-    "label": "Costo por Lanzamiento del SLS",
+    "label": "SLS Cost Per Launch",
     "value": "~$4.1B",
     "color": "red",
     "source": "NASA OIG Report IG-22-003",
@@ -23,17 +23,19 @@
   },
   {
     "id": "artemis2-target-date",
-    "label": "Lanzamiento Objetivo de Artemis II",
-    "value": "Apr 2026",
-    "color": "amber",
-    "source": "NASA, Dec 2024 / Feb 2026 updates",
+    "label": "Artemis II Mission Status",
+    "value": "MISSION COMPLETE",
+    "color": "green",
+    "source": "NASA / PBS NewsHour, Apr 11, 2026",
     "contested": false,
-    "trend": "stable",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "delta": "Crew home in Houston Apr 11 — 30-day Orion heat shield inspection underway at KSC",
+    "deltaNote": "Flyby Apr 6 set distance record (252,706 mi); skip-reentry performance data will define Artemis IV 2028 landing timeline",
+    "trend": "up",
+    "lastUpdated": "2026-04-12T14:00:00Z"
   },
   {
     "id": "artemis-accords-signatories",
-    "label": "Signatarios de los Acuerdos Artemis",
+    "label": "Artemis Accords Signatories",
     "value": "61 Nations",
     "color": "green",
     "source": "NASA.gov Artemis Accords (Jan 2026)",
@@ -43,7 +45,7 @@
   },
   {
     "id": "spacex-hls-contract",
-    "label": "Valor del Contrato HLS de SpaceX",
+    "label": "SpaceX HLS Contract Value",
     "value": "$2.89B",
     "color": "blue",
     "source": "NASA HLS Award, Apr 2021",
@@ -53,7 +55,7 @@
   },
   {
     "id": "blue-origin-hls-contract",
-    "label": "Valor del Contrato HLS de Blue Origin",
+    "label": "Blue Origin HLS Contract Value",
     "value": "$3.4B",
     "color": "blue",
     "source": "NASA SLD Award, May 2023",
@@ -63,18 +65,19 @@
   },
   {
     "id": "orion-distance-record",
-    "label": "Récord de Distancia de Orion en Espacio Profundo",
-    "value": "268,563 mi",
+    "label": "Human Deep Space Distance Record",
+    "value": "252,706 mi",
     "color": "green",
-    "source": "NASA Artemis I Mission Data, Nov 2022",
+    "source": "NASA Artemis II Mission Data, Apr 6, 2026",
     "contested": false,
-    "trend": "stable",
-    "deltaNote": "Surpassed Apollo 13 record for crewed spacecraft",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "trend": "up",
+    "delta": "Surpassed Apollo 13 crewed record (248,655 mi) at 1:56 p.m. EDT Apr 6",
+    "deltaNote": "Artemis II crew — farthest humans from Earth in history (Artemis I was uncrewed at 268,563 mi)",
+    "lastUpdated": "2026-04-06T19:30:00Z"
   },
   {
     "id": "artemis1-mission-duration",
-    "label": "Duración de la Misión Artemis I",
+    "label": "Artemis I Mission Duration",
     "value": "25.5 Days",
     "color": "blue",
     "source": "NASA Artemis I Post-Flight Report, Dec 2022",
@@ -84,7 +87,7 @@
   },
   {
     "id": "sls-thrust",
-    "label": "Empuje del SLS Block 1 al Despegue",
+    "label": "SLS Block 1 Thrust at Liftoff",
     "value": "8.8M lbs",
     "color": "blue",
     "source": "NASA SLS Program, verified Artemis I",
@@ -95,7 +98,7 @@
   },
   {
     "id": "artemis-landing-target",
-    "label": "Meta de Primer Alunizaje Tripulado",
+    "label": "First Crewed Lunar Landing Target",
     "value": "2028",
     "color": "amber",
     "source": "NASA Administrator Isaacman, Feb 2026",
@@ -106,7 +109,7 @@
   },
   {
     "id": "starship-hls-tanker-flights",
-    "label": "Vuelos de Cisterna Necesarios para Starship HLS",
+    "label": "Tanker Flights Needed for Starship HLS",
     "value": "14+",
     "color": "red",
     "source": "NASA / SpaceX HLS contract documentation",
@@ -117,7 +120,7 @@
   },
   {
     "id": "nasa-fy2026-proposed-cut",
-    "label": "Recorte Propuesto al Presupuesto de NASA AF2026",
+    "label": "Proposed FY2026 NASA Budget Cut",
     "value": "24%",
     "color": "red",
     "source": "White House FY2026 Budget Request, May 2025",
