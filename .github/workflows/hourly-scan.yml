@@ -7,7 +7,7 @@ on:
 
 concurrency:
   group: hourly-scan
-  cancel-in-progress: true
+  cancel-in-progress: false  # Don't cancel — runs can take 10+ min with update jobs
 
 permissions:
   contents: write
