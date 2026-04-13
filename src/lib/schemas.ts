@@ -223,7 +223,7 @@ export const DigestEntrySchema = z.object({
   title: z.string(),
   summary: z.string(),
   sectionsUpdated: z.array(z.string()).optional(),
-  source: z.enum(['daily', 'breaking', 'seed']).optional().default('daily'),
+  source: z.enum(['daily', 'breaking', 'seed', 'freshness']).optional().default('daily'),
 });
 
 // ── Ingestion Metrics ──
