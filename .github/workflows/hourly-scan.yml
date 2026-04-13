@@ -17,7 +17,7 @@ permissions:
 jobs:
   scan:
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 20  # Increased: RSS poll (~10m) + triage (~5m) need more room
     outputs:
       has_actions: ${{ steps.freshness.outputs.has_actions || steps.triage.outputs.has_actions || steps.triage-defaults.outputs.has_actions || 'false' }}
       plan_json: ${{ steps.freshness.outputs.plan_json || steps.triage.outputs.plan_json || steps.triage-defaults.outputs.plan_json || '[]' }}
