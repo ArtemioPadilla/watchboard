@@ -1,1 +1,213 @@
-[]
+[
+  {
+    "id": "nif-ignition-commercial-proximity",
+    "question": "Does the NIF ignition milestone mean commercial fusion is near?",
+    "sideA": {
+      "label": "Breakthrough Validates Path",
+      "text": "The December 2022 ignition milestone — the first time fusion energy exceeded laser input energy — was a genuine scientific breakthrough validating inertial confinement fusion (ICF) as a viable pathway to commercial power. Repeated ignition shots in 2023–2024 (including a 5.2 MJ record in Feb 2024) demonstrate reproducibility and improving yields. This provides a scientific foundation that private ICF companies like Pacific Fusion ($900M raised) can build upon toward commercial reactors."
+    },
+    "sideB": {
+      "label": "Far From a Power Plant",
+      "text": "While the NIF achieved Q>1 at the target level, the facility consumed approximately 300 MJ of electricity to generate the 2.05 MJ laser pulse that produced 3.15 MJ of fusion energy. Wall-plug efficiency is roughly 1%. The path to a commercial ICF power plant requires 100× improvements in laser efficiency, target fabrication at scale (1 million targets/day), tritium breeding, and materials capable of surviving neutron bombardment — none of which have been demonstrated."
+    },
+    "resolution": "Both positions are factually consistent. The NIF achieved a scientific milestone (target gain > 1) but remains far from a commercial power plant. The milestone provides a foundation for further research but does not imply commercial readiness within any specific timeframe. The scientific community distinguishes between target gain and system gain.",
+    "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "iter-value-vs-private-sector",
+    "question": "Is ITER still the right bet, or should resources go to private fusion?",
+    "sideA": {
+      "label": "ITER Remains Essential",
+      "text": "ITER is the only project that will achieve burning plasma — a self-sustaining fusion reaction — at the scale needed to inform commercial designs. No private company has yet demonstrated a burning plasma. ITER's 35-nation collaboration provides political stability, shared risk, and scientific access that no private venture can replicate. Its comprehensive diagnostics will answer fundamental plasma physics questions at Q=10 scale that smaller experiments cannot."
+    },
+    "sideB": {
+      "label": "ITER Is Too Slow and Expensive",
+      "text": "ITER first plasma has slipped from 2025 to 2033 and D-T burning plasma to 2039 — a 14-year delay. Budget grew from ~€5B (2006) to €20B+ (2024), including a €5.2B revision in July 2024. Private companies like Commonwealth Fusion Systems, Helion, and Pacific Fusion are targeting demonstration reactors or commercial power in the 2026–2028 timeframe at fractions of the cost. ITER's timeline means it will produce results after private sector companies may already have demonstrated net energy."
+    },
+    "resolution": "ITER and private fusion pursue different goals: ITER aims to study burning plasma physics at unprecedented scale; private ventures aim to commercialize fusion rapidly. Both can advance the field, but the opportunity cost of ITER's delays and cost overruns remains a legitimate policy debate. The Baseline 2024 represents ITER's most realistic schedule to date under DG Pietro Barabaschi.",
+    "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "fusion-2030s-grid-timeline",
+    "question": "Will fusion energy reach the power grid in the 2030s?",
+    "sideA": {
+      "label": "Commercial Fusion by 2035",
+      "text": "35 of 45 private fusion companies surveyed by the Fusion Industry Association in 2023 forecast commercially viable pilot plants by 2030–2035. Commonwealth Fusion Systems aims for SPARC (demo) results by late 2027 and ARC (commercial) by the early 2030s. Helion has signed a binding Microsoft PPA for 50 MW delivery by 2028. $9.8B in cumulative private investment signals serious commercial intent with experienced investors and technology milestones being met."
+    },
+    "sideB": {
+      "label": "Fusion Is Still Decades Away",
+      "text": "Nuclear fusion has been \"20 years away\" for 70 years. Even if SPARC achieves Q>2 by 2027, building a commercial plant (ARC) and connecting to the grid requires licensing, materials qualification, tritium supply chains, and regulatory approval — all first-of-a-kind processes likely requiring a decade. History shows that every major fusion project has experienced severe schedule slippage. Helion's 2028 target for 50 MW delivery is widely viewed by physicists as extremely aggressive."
+    },
+    "resolution": "Significant uncertainty remains. Private sector momentum and investment are unprecedented, but engineering timelines for first-of-a-kind systems routinely extend by years or decades. A more realistic consensus view places commercial grid fusion in the 2035–2045 window, with some optimistic scenarios hitting the 2030s. Regulatory pathways are also undefined for novel fusion reactor designs.",
+    "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "nif-true-ignition-definition",
+    "question": "Was the December 2022 NIF result true \"ignition\" or just partial net energy gain?",
+    "sideA": {
+      "label": "Scientific Ignition Was Achieved",
+      "text": "The December 5, 2022 shot produced 3.15 MJ of fusion energy from 2.05 MJ delivered to the target — a target gain of 1.54. By the scientific definition used in inertial fusion research, ignition occurs when fusion energy output exceeds the laser energy delivered to the target. This standard was met and exceeds the NIF's stated 60-year goal. DOE Secretary Jennifer Granholm and LLNL Director Kim Budil confirmed the ignition designation."
+    },
+    "sideB": {
+      "label": "It Was Target Gain, Not True Net Energy",
+      "text": "\"Ignition\" in NIF's definition refers only to the ratio of fusion energy to laser energy reaching the target — not to the total energy input to the facility. The NIF consumed approximately 300 MJ of electricity to produce the 2.05 MJ laser input, for an overall system efficiency of ~1%. From a power plant perspective, the shot produced far less energy than it consumed. Critics argue the terminology is misleading to non-specialists and inflates commercial promise."
+    },
+    "resolution": "Both are factually accurate at different levels of analysis. NIF met the formal scientific definition of ignition (target gain > 1). However, system efficiency (wall-plug to fusion output) remains ~1%, far below what a commercial plant requires. LLNL and DOE use the target gain definition; the controversy is primarily about public communication and commercial implications, not underlying physics.",
+    "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "plasma-records-commercial-relevance",
+    "question": "Do plasma duration records (KSTAR, EAST, WEST) translate to commercial progress?",
+    "sideA": {
+      "label": "Records Demonstrate Engineering Maturity",
+      "text": "KSTAR's 48-second record at 100M°C (2024), EAST's 1,066-second record (Jan 2025), and WEST's 1,337-second record (Feb 2025) collectively demonstrate that sustained, hot plasma can be maintained in engineered devices — a fundamental requirement for a fusion power plant. Longer pulse durations reduce thermal stress on reactor components and validate steady-state operating modes needed for baseload power generation. These records directly inform ITER design and operational parameters."
+    },
+    "sideB": {
+      "label": "Duration ≠ Net Energy Production",
+      "text": "All plasma duration records to date have been achieved while inputting more heating power than the fusion reactions produce — these are energy-consuming experiments, not energy-producing ones. KSTAR at 100M°C for 48 seconds is a confinement demonstration; it says nothing about whether the plasma produced net energy. The key figure of merit for a power plant is the fusion gain Q, which all current record-setting tokamaks achieve far below Q=1 in absolute terms."
+    },
+    "resolution": "Both views are correct. Plasma duration records are scientifically meaningful engineering milestones that demonstrate confinement capability, but they do not directly measure net energy production. The records validate steady-state operational physics but must be paired with higher plasma density and temperature to achieve fusion gain. They are necessary but not sufficient conditions for a power plant.",
+    "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "china-fusion-gap",
+    "question": "Is China closing the gap with Western nations in fusion energy?",
+    "sideA": {
+      "label": "China Is Rapidly Catching Up",
+      "text": "EAST set consecutive world records — 403 seconds (2023) and 1,066 seconds (Jan 2025) — while China's CFETR is under engineering development targeting a 2 GW test reactor by ~2035. China has designated fusion as a \"strategic frontier\" in its 14th Five-Year Plan and is investing more in government fusion R&D than the US and Europe combined. ENN Group, a private Chinese fusion company, is advancing its own FRC approach. China also provides 4 of 9 ITER vacuum vessel sectors."
+    },
+    "sideB": {
+      "label": "Western Private Sector Maintains Lead",
+      "text": "The dominant innovation in fusion now comes from US private companies — CFS, Helion, Pacific Fusion, TAE — which collectively hold $5B+ in private capital and are advancing novel magnet technologies (CFS's 20T HTS magnets), direct energy conversion (Helion's FRC), and aneutronic approaches (TAE's p-B11). China's government labs excel at plasma duration but lag on commercial pathway development. Western coordination through EUROfusion, JT-60SA, and the US-UK-Japan Broader Approach gives allied nations scientific integration advantages."
+    },
+    "resolution": "China is advancing rapidly in government-funded confinement research and is closing the gap on duration records. However, the commercial fusion race is currently led by US private ventures with superior access to private capital, HTS magnet technology, and entrepreneurial execution. A balanced assessment acknowledges China's strengths in confinement physics and the West's advantage in commercial innovation pathways.",
+    "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "private-fusion-overpromising",
+    "question": "Are private fusion companies overpromising timelines and results?",
+    "sideA": {
+      "label": "Genuine Innovation Driving Real Progress",
+      "text": "Private fusion companies have delivered concrete milestones: CFS validated 20T HTS magnets and began SPARC construction; Helion signed the first commercial fusion PPA with Microsoft; Pacific Fusion emerged with $900M in serious backing; TAE achieved FRC plasma milestones. Unlike government labs, private companies face real financial penalties for missing targets (Helion's Microsoft contract includes penalty clauses). $9.8B in sophisticated investor capital represents genuine due diligence, not hype."
+    },
+    "sideB": {
+      "label": "Timeline Projections Are Systematically Optimistic",
+      "text": "Every major fusion company has extended its timeline. Helion's 2028 delivery target for 50 MW is widely viewed by independent physicists as extremely aggressive — no FRC device has yet demonstrated net energy production. CFS moved its SPARC net energy target several times. Historical precedent from ITER and government fusion programs shows that plasma physics surprises consistently emerge that delay engineering milestones. Venture-backed companies have structural incentives to present optimistic timelines to investors."
+    },
+    "resolution": "Both observations are grounded in evidence. Private fusion companies have made genuine technical progress and attracted disciplined capital, but their commercial timelines are systematically more aggressive than independent scientific assessments. Independent experts generally suggest 2-5 year slippage from stated targets is likely. The FIA's own surveys show broad consensus among company self-assessments, which may introduce correlated optimism bias.",
+    "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "pboron11-feasibility",
+    "question": "Is hydrogen-boron (p-B11) aneutronic fusion scientifically feasible?",
+    "sideA": {
+      "label": "Aneutronic Path Is Viable",
+      "text": "TAE Technologies and others argue that hydrogen-boron fusion — which produces only alpha particles and no high-energy neutrons — is achievable at plasma temperatures of 1–3 billion degrees Celsius. The \"alpha channeling\" technique could reduce energy confinement time requirements by factors of 2.6–6.9. P-B11 would eliminate neutron activation of reactor walls, dramatically simplifying shielding, materials, and waste management, potentially making it far cheaper to commercialize than deuterium-tritium approaches."
+    },
+    "sideB": {
+      "label": "P-B11 Requires 10× Harder Conditions Than D-T",
+      "text": "The p-B11 fusion cross-section requires ion temperatures ~10–30× higher than D-T fusion to achieve comparable reaction rates. At those temperatures, bremsstrahlung (X-ray) radiation losses are severe — theoretical analyses in Physical Review E and Nature Communications suggest net energy gain for p-B11 plasmas is marginal or negative under most scenarios. The energy confinement requirements are 5–10 orders of magnitude beyond current devices. Most plasma physicists consider commercial p-B11 fusion a very long-shot compared to D-T."
+    },
+    "resolution": "The scientific consensus is that p-B11 fusion faces severe physics obstacles compared to D-T. While not definitively impossible, it requires conditions no current device approaches. TAE Technologies is the primary serious commercial proponent; most mainstream fusion efforts focus on D-T. The claim that alpha channeling makes p-B11 practical remains unverified experimentally. TAE's approach is scientifically credible as research but commercially highly speculative.",
+    "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "iter-cost-overrun-lesson",
+    "question": "Are ITER's delays and cost overruns a fundamental problem or manageable setback?",
+    "sideA": {
+      "label": "ITER Delays Are Manageable and Being Addressed",
+      "text": "Under new Director-General Pietro Barabaschi (since late 2022), ITER met all spending targets for the first time in 2024 — the strongest organizational performance in the project's history. The Baseline 2024 schedule represents a rigorous engineering analysis, not wishful thinking. First-of-a-kind megascience projects including CERN's LHC and the James Webb Space Telescope both experienced major delays and cost growth but ultimately succeeded. ITER's physics goals remain uniquely valuable and cannot be replicated by smaller experiments."
+    },
+    "sideB": {
+      "label": "ITER Is a Cautionary Megaproject Tale",
+      "text": "ITER's original 2025 first plasma target has slipped to 2033 — an 8-year delay. D-T burning plasma moved from 2035 to 2039. Budget grew from the original ~€5B (2006) to €20B+ (2024), a 4× cost overrun. Previous \"realistic\" revised schedules were also not met. The vacuum vessel sector defects, thermal shield cracks, and ongoing manufacturing challenges suggest systemic quality control problems, not isolated incidents. By the time ITER produces results, private companies may have already demonstrated commercial fusion."
+    },
+    "resolution": "Both perspectives are valid. ITER has experienced genuine management improvements under Barabaschi, and the Baseline 2024 is more credible than previous revisions. However, the cumulative delay (8+ years) and cost overrun (4×) are among the most severe in international science. Whether ITER's unique burning plasma capabilities justify this cost in light of private sector progress is a legitimate policy question without a clear resolution.",
+    "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "fusion-economics-cheap-or-not",
+    "question": "Will commercial fusion energy be cheap and abundant, or face the same economic challenges as nuclear fission?",
+    "sideA": {
+      "label": "Fusion Offers Transformative Energy Economics",
+      "text": "Deuterium-tritium fuel uses deuterium (from seawater) and lithium (from Earth's crust) in effectively unlimited supply, with no risk of meltdown, no long-lived nuclear waste, and minimal carbon emissions. Aneutronic fuels like hydrogen-boron produce only helium. At scale, fusion power plants could achieve capacity factors near 90% (baseload), providing continuous power unlike intermittent renewables. Fuel costs would be a fraction of fossil fuels, potentially making electricity near-free in the long run."
+    },
+    "sideB": {
+      "label": "Fusion Will Face Nuclear-Scale Capital Costs",
+      "text": "Fusion reactors require unprecedented first-wall materials capable of withstanding 14 MeV neutron bombardment for decades — materials science that has not been solved. Tritium breeding (to produce the fuel) is complex and undemonstrated at scale. The capital cost per megawatt of first-generation fusion plants is completely unknown but likely comparable to or exceeding advanced fission reactors. ITER's cost of €20B+ for a research reactor — not a commercial plant — suggests commercial fusion plants could cost tens of billions each."
+    },
+    "resolution": "The long-term fuel economics of fusion are genuinely favorable, but first-generation capital costs are deeply uncertain and likely very high. The most credible path to cheap fusion power requires solving materials science (neutron-resistant alloys), tritium breeding, and mass manufacturing — none of which have been demonstrated. Fusion cost projections remain speculative until at least one commercial demonstration plant is built and operated.",
+    "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "stellarator-vs-tokamak",
+    "question": "Are stellarators a better long-term approach than tokamaks for commercial fusion?",
+    "sideA": {
+      "label": "Stellarators Enable Steady-State Operation",
+      "text": "Tokamaks require a plasma current that can become violently unstable (disruptions), requiring complex mitigation systems. Stellarators use external coils shaped to confine plasma without inducing a current, enabling inherently steady-state operation — critical for baseload power. Wendelstein 7-X has demonstrated that stellarators can achieve confinement properties matching theoretical predictions. Renaissance Fusion and Proxima Fusion are among private ventures pursuing optimized stellarators.",
+      "pole": "western"
+    },
+    "sideB": {
+      "label": "Tokamaks Are Proven and Better Understood",
+      "text": "Tokamaks have achieved far higher plasma temperatures and densities than stellarators and represent 70 years of accumulated knowledge. ITER, JT-60SA, KSTAR, EAST, and virtually all leading commercial ventures (CFS SPARC, STEP) use tokamak designs. Stellarators' complex 3D coil geometries are extremely difficult and expensive to manufacture. While disruption control in tokamaks is challenging, solutions exist and are improving — the Wendelstein 7-X stellarator itself has not yet demonstrated ignition-level performance."
+    },
+    "resolution": "Both approaches have genuine merits. Tokamaks lead in performance achieved to date but face disruption challenges. Stellarators offer steady-state advantages but have lower performance and manufacturing complexity. The fusion community is actively pursuing both, with tokamaks dominating the commercial landscape while advanced stellarator designs (including optimized configurations using new computational tools) show long-term promise.",
+    "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "helion-frc-vs-tokamak",
+    "question": "Is Helion's field-reversed configuration (FRC) approach scientifically credible for commercial power?",
+    "sideA": {
+      "label": "FRC Offers Direct Energy Conversion Advantage",
+      "text": "Helion's FRC approach directly induces electrical current in surrounding coils as the plasma compresses and expands, potentially achieving 70%+ electric conversion efficiency versus ~30-40% for steam-cycle tokamak plants. The compact geometry (no external magnets required during fusion) reduces capital cost. Helion has progressed through 7 prototypes over 25 years, with Polaris achieving 150M°C D-T plasma in 2026. Microsoft's binding PPA with financial penalties demonstrates real institutional confidence."
+    },
+    "sideB": {
+      "label": "FRC Physics at Ignition Scale Is Unproven",
+      "text": "No FRC device has achieved fusion energy gain Q > 0.01, let alone Q > 1. FRC plasmas are inherently more turbulent and harder to confine than tokamak plasmas. The direct energy conversion efficiency claims have not been demonstrated at any scale. Helion's 2028 delivery target requires achieving net electricity production within 2 years — a timescale that would require a scientific breakthrough of comparable magnitude to NIF's 2022 result. Independent physicists widely characterize the 2028 target as implausible."
+    },
+    "resolution": "Helion's approach is scientifically credible as a research direction but commercially speculative on its stated timelines. The FRC direct-conversion concept is theoretically elegant and has legitimate physics backing, but the gap between current demonstrated performance and commercial operation is enormous. Microsoft's investment represents sophisticated risk-taking in an asymmetric payoff scenario, not a scientific endorsement of the 2028 timeline.",
+    "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "tritium-supply-problem",
+    "question": "Is tritium supply a serious obstacle to commercial D-T fusion?",
+    "sideA": {
+      "label": "Tritium Breeding Can Be Solved",
+      "text": "Commercial fusion reactors will breed their own tritium by irradiating lithium blankets with fusion neutrons (Li-6 + n → T + He-4). ITER's test blanket modules will validate this process. Sufficient lithium exists globally for centuries of fusion operation. Current Canadian CANDU reactors produce tritium as a byproduct and can supply research needs. Once the first commercial plants achieve tritium self-sufficiency, a bootstrap supply chain becomes possible."
+    },
+    "sideB": {
+      "label": "Global Tritium Supply Is Critically Limited",
+      "text": "The world's entire tritium inventory is approximately 20–25 kg, mostly held by Canada's Ontario Power Generation. Tritium has a 12.3-year half-life. A single commercial fusion plant of 1 GW would require starting inventory of ~5–10 kg and depends on achieving tritium breeding ratio (TBR) > 1.1 to grow supplies — a ratio never demonstrated in any fusion device. ITER will test but not prove commercial TBR. Without solved tritium breeding, D-T fusion cannot scale."
+    },
+    "resolution": "Tritium supply is a genuine and serious obstacle that has not yet been solved. While lithium-based tritium breeding is theoretically sound, no fusion facility has demonstrated TBR > 1 in operation. The limited global tritium inventory (~20-25 kg) constrains how many fusion plants can be started simultaneously. Commercial fusion at scale requires solved tritium breeding — a priority recognized by ITER's test blanket module program and by domestic programs globally.",
+    "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "ai-machine-learning-fusion-impact",
+    "question": "Is AI/machine learning genuinely transforming fusion research or is it overhyped?",
+    "sideA": {
+      "label": "AI Is Accelerating Fusion at Every Level",
+      "text": "Google and TAE Technologies' co-developed \"Optometrist Algorithm\" (since 2014) uses ML to optimize plasma configurations in real time — a task previously impossible due to computational complexity. DeepMind's 2022 work demonstrated real-time tokamak plasma shape control using reinforcement learning. AI-driven plasma disruption prediction (MIT, Princeton PPPL) has dramatically improved disruption avoidance. Machine learning is now integral to experiment design, data analysis, and materials discovery for fusion applications."
+    },
+    "sideB": {
+      "label": "AI Addresses Optimization, Not Physics Barriers",
+      "text": "While AI improves plasma control and experimental efficiency, the fundamental barriers to commercial fusion are physics and engineering, not optimization: achieving sustained net energy gain, demonstrating tritium breeding, developing neutron-tolerant materials, and proving reliable long-pulse operation. No AI system can accelerate the plasma physics insight required to solve disruptions in large tokamaks, improve confinement at ITER scale, or validate materials behavior under 14 MeV neutron bombardment. Efficiency gains from AI are marginal compared to these first-principles challenges."
+    },
+    "resolution": "AI is making a genuine and measurable contribution to fusion research in specific domains — plasma control, disruption prediction, materials screening, and experiment optimization. However, it is not a shortcut around the fundamental physics and engineering challenges. The honest characterization is that AI is a valuable tool that can accelerate progress, but not a game-changer that brings fusion timelines dramatically closer on its own.",
+    "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "inertial-vs-magnetic-confinement",
+    "question": "Which fusion approach — inertial confinement (ICF/laser) or magnetic confinement (tokamak/stellarator) — has a clearer path to commercial power?",
+    "sideA": {
+      "label": "Inertial Confinement Has Demonstrated Ignition",
+      "text": "The NIF proved in December 2022 that ICF can achieve fusion ignition. ICF power plants (\"fusion power plants\") are conceptually simpler — fire a target, harvest energy, repeat — without the complex plasma control required for magnetic confinement. ICF can use multiple fuel types and target geometries. Pacific Fusion ($900M), Marvel Fusion (€113M), and others are pursuing ICF for commercial power. The physics has been validated; the engineering path, while challenging, is clearer after NIF."
+    },
+    "sideB": {
+      "label": "Magnetic Confinement Is Further Along Commercially",
+      "text": "Magnetic confinement fusion (tokamaks, stellarators) has accumulated 70 years of data across dozens of devices worldwide. ITER, JT-60SA, KSTAR, and dozens of national experiments collectively provide an enormous physics database. CFS, Helion, General Fusion, and STEP are all variants of magnetic confinement. ICF at NIF requires replacing the multi-billion-dollar laser system with drivers achieving ~1,000× higher efficiency, plus target mass production at 1 million/day — challenges without a demonstrated solution path."
+    },
+    "resolution": "Both approaches face different but comparably difficult engineering challenges. Magnetic confinement has more accumulated knowledge and more active commercial programs. ICF has achieved ignition but faces the laser efficiency and target production scaling problem. The fusion community increasingly views these as complementary rather than competitive paths. It is premature to declare either approach definitively superior for commercial power.",
+    "lastUpdated": "2026-04-13"
+  }
+]
