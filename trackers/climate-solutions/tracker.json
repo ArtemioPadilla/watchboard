@@ -1,0 +1,190 @@
+{
+  "slug": "climate-solutions",
+  "name": "Climate Solutions Tracker",
+  "shortName": "Climate Solutions",
+  "description": "Tracking global progress on climate solutions since the Paris Agreement: renewable energy records, carbon capture breakthroughs, reforestation wins, EV adoption milestones, and landmark policy victories.",
+  "icon": "🌱",
+  "color": "#27ae60",
+  "status": "active",
+  "temporal": "live",
+  "domain": "science",
+  "region": "global",
+  "tags": ["climate", "renewable-energy", "carbon-capture", "reforestation", "paris-agreement"],
+  "startDate": "2015-12-12",
+  "eraLabel": "Paris Agreement Era",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": -180,
+      "lonMax": 180,
+      "latMin": -90,
+      "latMax": 90
+    },
+    "center": {
+      "lon": 0,
+      "lat": 20
+    },
+    "categories": [
+      {
+        "id": "renewable",
+        "label": "Renewable Energy Projects",
+        "color": "#f1c40f"
+      },
+      {
+        "id": "reforestation",
+        "label": "Reforestation Initiatives",
+        "color": "#27ae60"
+      },
+      {
+        "id": "carbon-capture",
+        "label": "Carbon Capture & Storage",
+        "color": "#3498db"
+      },
+      {
+        "id": "ev-infrastructure",
+        "label": "EV Infrastructure",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "policy",
+        "label": "Policy Milestones",
+        "color": "#e67e22"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "global": {
+        "lon": 0,
+        "lat": 20,
+        "alt": 20000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Global Overview"
+      },
+      "europe": {
+        "lon": 10,
+        "lat": 52,
+        "alt": 3000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "European Green Deal"
+      },
+      "china_solar": {
+        "lon": 102,
+        "lat": 37,
+        "alt": 2000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "China Solar Belt"
+      },
+      "amazon": {
+        "lon": -60,
+        "lat": -5,
+        "alt": 2500000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Amazon Reforestation"
+      },
+      "north_sea": {
+        "lon": 4,
+        "lat": 55,
+        "alt": 500000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "North Sea Wind"
+      },
+      "india_solar": {
+        "lon": 72,
+        "lat": 27,
+        "alt": 800000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "India Solar Parks"
+      }
+    }
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Investment"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "politicalAvatars": [
+    "un",
+    "eu",
+    "us",
+    "china",
+    "developing",
+    "industry"
+  ],
+  "eventTypes": [
+    "renewable",
+    "policy",
+    "record",
+    "reforestation",
+    "technology"
+  ],
+  "ai": {
+    "systemPrompt": "You are a climate science and policy researcher updating an intelligence dashboard tracking global progress on climate solutions.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"solar_record_2025\", \"eu_green_deal\").\n\nYour role is to track POSITIVE climate progress — renewable energy records, carbon capture milestones, reforestation achievements, EV adoption statistics, and policy wins. Focus on verified data and measurable achievements, not projections or promises.\n\nSource tier classification:\n- Tier 1: Official/primary (IEA, IRENA, IPCC, UNEP, NASA, NOAA, national energy agencies, COP official records)\n- Tier 2: Major outlet (Reuters, AP, BBC, CNN, Bloomberg, Financial Times, The Guardian, NYT, Carbon Brief)\n- Tier 3: Institutional (Rocky Mountain Institute, WRI, BloombergNEF, Climate Action Tracker, NREL, Wood Mackenzie, E3G)\n- Tier 4: Unverified (social media, unverified corporate announcements, unattributed claims)\n\nOnly include information you can verify through search results. Do not fabricate data.\nFocus on concrete, measurable progress: GW of capacity added, hectares reforested, percentage of EVs sold, CO2 captured, etc.",
+    "searchContext": "global climate solutions renewable energy carbon capture reforestation EV policy progress",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": -180,
+      "lonMax": 180,
+      "latMin": -90,
+      "latMax": 90
+    },
+    "updateIntervalDays": 7,
+    "backfillTargets": {
+      "timeline": 30,
+      "mapPoints": 20,
+      "claims": 15,
+      "political": 15,
+      "kpis": 8,
+      "econ": 10
+    },
+    "updatePolicy": {
+      "escalation": [7, 7, 14, 30, 60],
+      "quietThreshold": 0
+    },
+    "rssFeeds": [
+      "https://news.google.com/rss/search?q=climate+solutions+renewable+energy+record&hl=en-US&gl=US&ceid=US:en"
+    ]
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard"
+}
