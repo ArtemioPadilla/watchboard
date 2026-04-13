@@ -1,6 +1,7 @@
 import { useMemo, useState, useEffect } from 'react';
 import type { FlatEvent } from '../../lib/timeline-utils';
 import type { MapLine } from '../../lib/schemas';
+import { t, getPreferredLocale } from '../../i18n/translations';
 import MissionTimelineHeader from './CesiumGlobe/MissionTimelineHeader';
 import {
   type TimelineZoomLevel,
@@ -69,18 +70,19 @@ type Props = MapContext | GlobeContext;
 // ── Default legend items (from CesiumTimelineBar) ──
 
 const DEFAULT_LEGEND: { label: string; color: string }[] = [
-  { label: 'Kinetic', color: '#e74c3c' },
-  { label: 'Retaliation', color: '#f39c12' },
-  { label: 'Civilian Impact', color: '#ffaa00' },
-  { label: 'Maritime', color: '#00aaff' },
-  { label: 'Infrastructure', color: '#ff6644' },
-  { label: 'Escalation', color: '#ff44ff' },
-  { label: 'Airspace Closure', color: '#e74c3c' },
+  { label: 'timeline.legendKinetic', color: '#e74c3c' },
+  { label: 'timeline.legendRetaliation', color: '#f39c12' },
+  { label: 'timeline.legendCivilianImpact', color: '#ffaa00' },
+  { label: 'timeline.legendMaritime', color: '#00aaff' },
+  { label: 'timeline.legendInfrastructure', color: '#ff6644' },
+  { label: 'timeline.legendEscalation', color: '#ff44ff' },
+  { label: 'timeline.legendAirspaceClosure', color: '#e74c3c' },
 ];
 
 // ── Component ──
 
 export default function UnifiedTimelineBar(props: Props) {
+  const locale = getPreferredLocale();
   const {
     minDate,
     maxDate,
@@ -251,7 +253,7 @@ export default function UnifiedTimelineBar(props: Props) {
           min={0}
           max={1440}
           value={currentMinute}
-          aria-label="Intra-day time selector"
+          aria-label={t('timeline.intradaySelector', locale)}
           aria-valuetext={formatHHMM(currentMinute)}
           onChange={handleIntradayChange}
         />
@@ -278,8 +280,8 @@ export default function UnifiedTimelineBar(props: Props) {
           className="utl-btn"
           onClick={() => onDateChange(prevEventDate(currentDate, eventDates))}
           disabled={prevEventDate(currentDate, eventDates) === currentDate}
-          aria-label="Previous event"
-          title="Previous event date"
+          aria-label={t('timeline.prevEvent', locale)}
+          title={t('timeline.prevEventDate', locale)}
         >
           &#9664;
         </button>
@@ -288,7 +290,7 @@ export default function UnifiedTimelineBar(props: Props) {
         <button
           className="utl-btn utl-play"
           onClick={onTogglePlay}
-          aria-label={isPlaying ? 'Pause' : 'Play'}
+          aria-label={isPlaying ? t('timeline.pause', locale) : t('timeline.play', locale)}
         >
           {isPlaying ? '\u275A\u275A' : '\u25B6'}
         </button>
@@ -298,8 +300,8 @@ export default function UnifiedTimelineBar(props: Props) {
           className="utl-btn"
           onClick={() => onDateChange(nextEventDate(currentDate, eventDates))}
           disabled={nextEventDate(currentDate, eventDates) === currentDate}
-          aria-label="Next event"
-          title="Next event date"
+          aria-label={t('timeline.nextEvent', locale)}
+          title={t('timeline.nextEventDate', locale)}
         >
           &#9654;
         </button>
@@ -309,7 +311,7 @@ export default function UnifiedTimelineBar(props: Props) {
           <button
             className="utl-btn utl-gear"
             onClick={() => setShowSpeeds(prev => !prev)}
-            title="Playback speed"
+            title={t('timeline.playbackSpeed', locale)}
           >
             &#9881; <span className="utl-speed-badge">{currentSpeedLabel}</span>
           </button>
@@ -320,7 +322,7 @@ export default function UnifiedTimelineBar(props: Props) {
                   key={s.value}
                   className={`utl-speed-btn${playbackSpeed === s.value ? ' active' : ''}`}
                   onClick={() => { onSpeedChange(s.value); setShowSpeeds(false); }}
-                  title={`${s.label} per second`}
+                  title={`${s.label} ${t('timeline.perSecond', locale)}`}
                 >
                   {s.label}
                 </button>
@@ -334,9 +336,9 @@ export default function UnifiedTimelineBar(props: Props) {
           <button
             className={`utl-persist${persistLines ? ' active' : ''}`}
             onClick={onTogglePersist}
-            title={persistLines ? 'Showing all lines up to date' : 'Showing only current day'}
+            title={persistLines ? t('timeline.showAllLines', locale) : t('timeline.showDayOnly', locale)}
           >
-            {persistLines ? 'ALL' : 'DAY'}
+            {persistLines ? t('timeline.all', locale) : t('timeline.dayLabel', locale)}
           </button>
         )}
 
@@ -347,7 +349,7 @@ export default function UnifiedTimelineBar(props: Props) {
             onClick={onGoLive}
           >
             <span className="utl-live-dot" />
-            LIVE
+            {t('timeline.live', locale)}
           </button>
         )}
 
@@ -363,7 +365,7 @@ export default function UnifiedTimelineBar(props: Props) {
         <div className="utl-clocks">
           {isHistorical ? (
             <span className="utl-clock">
-              <span className="utl-clock-label">SIM</span> {formatTZ(simMs, 0)}
+              <span className="utl-clock-label">{t('timeline.sim', locale)}</span> {formatTZ(simMs, 0)}
             </span>
           ) : (
             (clocks ?? [{ label: 'UTC', offsetHours: 0 }]).map(c => (
@@ -382,7 +384,7 @@ export default function UnifiedTimelineBar(props: Props) {
             className="utl-btn utl-zoom-shift"
             disabled={zoomLevel === 'all'}
             onClick={() => onDateChange(shiftPeriod(currentDate, minDate, maxDate, zoomLevel, -1))}
-            title="Previous period"
+            title={t('timeline.prevPeriod', locale)}
           >
             &laquo;
           </button>
@@ -399,7 +401,7 @@ export default function UnifiedTimelineBar(props: Props) {
             className="utl-btn utl-zoom-shift"
             disabled={zoomLevel === 'all'}
             onClick={() => onDateChange(shiftPeriod(currentDate, minDate, maxDate, zoomLevel, 1))}
-            title="Next period"
+            title={t('timeline.nextPeriod', locale)}
           >
             &raquo;
           </button>
@@ -454,7 +456,7 @@ export default function UnifiedTimelineBar(props: Props) {
                 min={0}
                 max={viewTotalDays}
                 value={clampedViewDay}
-                aria-label="Timeline date selector"
+                aria-label={t('timeline.dateSelector', locale)}
                 aria-valuetext={formatDate(currentDate)}
                 onChange={e => onDateChange(dayToDate(Number(e.target.value), viewMin))}
               />
@@ -470,9 +472,9 @@ export default function UnifiedTimelineBar(props: Props) {
       {/* ── Row 4: Stats ── */}
       {stats && (
         <div className="utl-stats">
-          <span>{stats.locations} locations</span>
+          <span>{stats.locations} {t('timeline.locations', locale)}</span>
           <span className="utl-stats-sep">&middot;</span>
-          <span>{stats.vectors} vectors</span>
+          <span>{stats.vectors} {t('timeline.vectors', locale)}</span>
           {stats.sats != null && (
             <>
               <span className="utl-stats-sep">&middot;</span>
@@ -488,23 +490,23 @@ export default function UnifiedTimelineBar(props: Props) {
           {stats.flights != null ? (
             <>
               <span className="utl-stats-sep">&middot;</span>
-              <span style={{ color: '#00aaff' }}>{stats.flights} flights</span>
+              <span style={{ color: '#00aaff' }}>{stats.flights} {t('timeline.flights', locale)}</span>
             </>
           ) : stats.flightStatus === 'rate-limited' ? (
             <>
               <span className="utl-stats-sep">&middot;</span>
-              <span style={{ color: '#666', fontSize: '0.45rem' }}>flights: retrying...</span>
+              <span style={{ color: '#666', fontSize: '0.45rem' }}>{t('timeline.flightsRetrying', locale)}</span>
             </>
           ) : stats.flightStatus === 'loading' ? (
             <>
               <span className="utl-stats-sep">&middot;</span>
-              <span style={{ color: '#666', fontSize: '0.45rem' }}>flights: loading...</span>
+              <span style={{ color: '#666', fontSize: '0.45rem' }}>{t('timeline.flightsLoading', locale)}</span>
             </>
           ) : null}
           {stats.quakes != null && (
             <>
               <span className="utl-stats-sep">&middot;</span>
-              <span style={{ color: '#ff6644' }}>{stats.quakes} quakes</span>
+              <span style={{ color: '#ff6644' }}>{stats.quakes} {t('timeline.quakes', locale)}</span>
             </>
           )}
           {stats.wx != null && (
@@ -522,12 +524,12 @@ export default function UnifiedTimelineBar(props: Props) {
           {stats.ships != null ? (
             <>
               <span className="utl-stats-sep">&middot;</span>
-              <span style={{ color: '#00ddaa' }}>{stats.ships} ships</span>
+              <span style={{ color: '#00ddaa' }}>{stats.ships} {t('timeline.ships', locale)}</span>
             </>
           ) : stats.shipNoKey ? (
             <>
               <span className="utl-stats-sep">&middot;</span>
-              <span style={{ color: '#666', fontSize: '0.45rem' }}>ships: need AIS key</span>
+              <span style={{ color: '#666', fontSize: '0.45rem' }}>{t('timeline.shipsNeedKey', locale)}</span>
             </>
           ) : null}
           {stats.gpsJam != null && (
@@ -551,7 +553,7 @@ export default function UnifiedTimelineBar(props: Props) {
           {stats.historical && (
             <>
               <span className="utl-stats-sep">&middot;</span>
-              <span style={{ color: '#9498a8' }}>HISTORICAL</span>
+              <span style={{ color: '#9498a8' }}>{t('timeline.historicalLabel', locale)}</span>
             </>
           )}
         </div>
@@ -561,7 +563,7 @@ export default function UnifiedTimelineBar(props: Props) {
       <div className="utl-legend">
         {legend.map(item => (
           <span key={item.label} className="utl-legend-item" style={{ color: item.color }}>
-            &#9679; {item.label}
+            &#9679; {t(item.label as any, locale)}
           </span>
         ))}
       </div>
