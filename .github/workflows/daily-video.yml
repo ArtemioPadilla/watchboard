@@ -141,3 +141,35 @@ jobs:
           done
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "Download from the Artifacts section above." >> $GITHUB_STEP_SUMMARY
+      - name: Post video to Telegram
+        if: env.TELEGRAM_BOT_TOKEN != '' && env.TELEGRAM_CHANNEL_ID != ''
+        continue-on-error: true
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
+        run: |
+          DATE=$(date -u +%Y-%m-%d)
+          VIDEO="video/output/watchboard-${DATE}.mp4"
+          
+          if [ ! -f "$VIDEO" ]; then
+            echo "No video file — skipping Telegram"
+            exit 0
+          fi
+          
+          # Get tracker names for caption
+          CAPTION=$(node -e "
+            try {
+              const d = require('./video/src/data/breaking.json');
+              const names = d.trackers.map(t => '• ' + t.name).join('\n');
+              console.log('🔴 Watchboard Daily Brief — ${DATE}\n\n' + names + '\n\n🔗 watchboard.dev');
+            } catch { console.log('🔴 Watchboard Daily Brief — ${DATE}\n\n🔗 watchboard.dev'); }
+          ")
+          
+          curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendVideo" \
+            -F "chat_id=${TELEGRAM_CHANNEL_ID}" \
+            -F "video=@${VIDEO}" \
+            -F "caption=${CAPTION}" \
+            -F "parse_mode=HTML" \
+            -F "supports_streaming=true" \
+            && echo "✅ Video posted to Telegram" \
+            || echo "⚠️ Telegram video post failed (non-fatal)"
