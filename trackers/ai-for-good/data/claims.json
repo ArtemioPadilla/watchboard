@@ -1,1 +1,212 @@
-[]
+[
+  {
+    "id": "alphafold-drug-discovery-impact",
+    "question": "Has AlphaFold actually delivered new drugs, or is its impact still theoretical?",
+    "sideA": {
+      "label": "Transformative Breakthrough",
+      "text": "AlphaFold has enabled over 200 active drug discovery programs, provided structural insight for malaria vaccines (R21), identified drug targets for neglected tropical diseases, and accelerated molecular biology research by reducing time-to-structure from years to hours. Science named it Breakthrough of the Year 2021. The database has been downloaded millions of times by researchers in 190+ countries, irreversibly changing structural biology."
+    },
+    "sideB": {
+      "label": "Long Road to Drugs",
+      "text": "While AlphaFold predicts protein structures, drug discovery requires far more — understanding protein dynamics, binding pockets, toxicity, bioavailability, and clinical trial success. No AlphaFold-discovered drug has yet completed clinical trials. Critics note that predicted structures can contain errors in disordered regions, and that the hype has outpaced actual approved therapies. The road from structure to drug typically takes 10-15 years."
+    },
+    "resolution": "AlphaFold has genuinely transformed structural biology research and initiated hundreds of drug discovery programs, but no drug directly enabled by AlphaFold has yet received regulatory approval as of 2026. Impact on research is proven and enormous; clinical translation will take years. AlphaFold 3's extension to molecular interactions may accelerate this timeline.",
+    "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "ai-diagnostics-lmic-equity",
+    "question": "Can AI diagnostics genuinely reduce healthcare gaps in low- and middle-income countries?",
+    "sideA": {
+      "label": "Democratizing Healthcare",
+      "text": "AI diagnostic tools like Qure.ai's TB screening, retinal disease detection for diabetic blindness, and AI pathology have been deployed at scale in India, Africa, and Southeast Asia where specialist shortages are acute. These tools provide expert-level screening to rural populations that previously had no access to radiologists or pathologists — a genuine democratization of medical expertise that could save hundreds of thousands of lives annually."
+    },
+    "sideB": {
+      "label": "Performance Gaps & Infrastructure Barriers",
+      "text": "AI diagnostic tools trained predominantly on data from high-income countries often perform significantly worse on populations with different genetic backgrounds, disease presentations, and imaging equipment common in LMICs. WHO documented this performance gap in 2024 guidance. Infrastructure requirements (reliable electricity, smartphones, internet) create new barriers that may exclude the most underserved populations. Independent external validation in deployment settings is rare."
+    },
+    "resolution": "AI diagnostics show genuine promise and documented impact in LMIC deployments (TB screening, retinal disease, cancer detection), but performance gaps versus training-context populations are a documented concern. Rigorous local validation, diverse training data, and infrastructure investment are prerequisites for equitable benefit. The technology works but requires careful implementation to avoid reinforcing existing inequities.",
+    "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "ai-precision-farming-smallholders",
+    "question": "Does precision agriculture AI help smallholder farmers or does it primarily benefit large agribusiness?",
+    "sideA": {
+      "label": "Smallholder Empowerment",
+      "text": "Mobile-first AI applications like PlantVillage Nuru, offline crop disease detection, and SMS-based agricultural advisory systems have reached tens of millions of smallholder farmers in Africa and Asia. These tools provide expert agronomic advice previously available only to well-resourced commercial farms. Studies show 20-30% reductions in crop losses and more targeted input use. The FAO, CGIAR, and NGO partners have specifically designed AI tools for smallholder contexts with low-connectivity requirements."
+    },
+    "sideB": {
+      "label": "Digital Divide Persists",
+      "text": "The majority of precision agriculture AI investment and most advanced tools — drone-based field sensing, IoT soil monitoring, satellite data platforms — remain cost-prohibitive for smallholder farmers. Large agribusiness corporations are the primary beneficiaries of cutting-edge AI precision farming. Smartphone penetration in the most food-insecure regions remains low. Data from smallholder farms is also often used to train models that are then sold back as commercial products, raising data sovereignty concerns."
+    },
+    "resolution": "Mobile-based AI crop tools (disease detection, SMS advisories) have achieved genuine smallholder reach at scale. However, advanced precision agriculture AI remains concentrated in commercial farming contexts. The two tiers coexist: broad-reach mobile tools for smallholders alongside sophisticated commercial platforms. Bridging this gap requires deliberate investment in last-mile delivery and offline-capable systems.",
+    "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "ai-early-warning-lives-saved",
+    "question": "Do AI-powered early warning systems measurably save lives compared to traditional forecasting?",
+    "sideA": {
+      "label": "Proven Life-Saving Impact",
+      "text": "AI flood forecasting in India, Bangladesh, and Africa has delivered 7-day advance alerts to 460M+ people, with peer-reviewed validation showing 80-90% prediction accuracy in ungauged basins where traditional models failed. Communities receiving AI flood alerts have demonstrated significantly lower evacuation failure rates. AI wildfire detection catches ignitions 15-20 minutes faster than satellite monitoring, translating directly into faster evacuation decisions. Dengue prediction pilots in Southeast Asia showed 20-30% case reductions."
+    },
+    "sideB": {
+      "label": "Alert Doesn't Equal Action",
+      "text": "Technical prediction accuracy does not equal community safety. Many communities receiving AI alerts lack the governance structures, emergency resources, or communication infrastructure to act effectively on warnings. Flood alert systems have documented last-mile failures where warnings reached regional authorities but not affected households. False alarm fatigue can lead communities to ignore alerts. The most flood-vulnerable populations often lack the smartphones or connectivity needed to receive digital alerts."
+    },
+    "resolution": "AI early warning systems demonstrably outperform traditional forecasting in coverage and lead time, and peer-reviewed studies validate accuracy. However, the chain from alert to life-saving action requires functioning emergency management systems, community trust, and last-mile communication — gaps that technology alone cannot bridge. Investment in social infrastructure alongside technical systems is essential for impact.",
+    "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "ai-education-learning-outcomes",
+    "question": "Does AI-powered education improve learning outcomes, or does it risk widening educational inequalities?",
+    "sideA": {
+      "label": "Personalized Learning at Scale",
+      "text": "AI tutoring systems like Khanmigo and Duolingo Max provide personalized, adaptive instruction that adjusts to individual learning pace — a benefit previously available only to students who could afford private tutors. Early studies show students using AI tutors in math and language learning show measurable improvement in comprehension and retention. In under-resourced contexts with teacher shortages, AI tutors provide consistent instructional quality unavailable through any other means."
+    },
+    "sideB": {
+      "label": "Widening the Digital Divide",
+      "text": "AI education tools require reliable internet, modern devices, and often paid subscriptions — precisely the resources least available in the lowest-income communities most in need of educational support. UNESCO documented that school AI tool adoption in 2023 was heavily concentrated in high-income countries. Students who can afford AI tutors and students who cannot face an even greater opportunity gap than before. There is also evidence that some students use AI to complete assignments without engaging with content, undermining learning."
+    },
+    "resolution": "AI education technology shows genuine efficacy in controlled settings and is reaching students in 40+ countries through platforms like Khan Academy. However, access remains unequal along existing socioeconomic lines. Subsidized access programs and offline-capable tools are necessary but insufficient alone. Teacher training and curriculum integration are as important as the technology itself for equitable outcomes.",
+    "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "ai-bias-vulnerable-populations",
+    "question": "Does AI algorithmic bias systematically harm marginalized and vulnerable populations?",
+    "sideA": {
+      "label": "Documented and Ongoing Harm",
+      "text": "Joy Buolamwini's landmark audit (Gender Shades, MIT 2018) documented facial recognition error rates of 35%+ for dark-skinned women vs. under 1% for light-skinned men. AI medical diagnostic tools trained on predominantly white patient datasets perform significantly worse for Black patients. AI hiring tools have been shown to discriminate against women and minorities. These are not hypothetical concerns — they represent documented, measurable harms to marginalized groups when AI systems reflect training data biases."
+    },
+    "sideB": {
+      "label": "Bias Is Addressable, Not Inherent",
+      "text": "AI systems can be made more equitable through diverse training data, algorithmic auditing, fairness constraints, and regulatory oversight. Many 'biased' AI outcomes reflect historical human bias encoded in training data — AI can actually make this bias measurable and addressable, unlike opaque human decision-making. NIST AI Risk Management Framework, EU AI Act, and emerging auditing standards provide tools to identify and mitigate bias. The issue is governance failure, not an inherent property of AI."
+    },
+    "resolution": "AI bias in high-stakes domains (healthcare, criminal justice, hiring, credit) is a documented reality causing measurable harm to marginalized populations. The EU AI Act, NIST framework, and growing auditing practice provide mechanisms for mitigation. The debate is primarily about pace and accountability — whether voluntary industry self-regulation or mandatory external auditing is sufficient to protect affected communities in real time.",
+    "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "ai-mental-health-safety",
+    "question": "Is AI-powered mental health support safe and effective, or does it risk replacing essential human care?",
+    "sideA": {
+      "label": "Expanding Critical Access",
+      "text": "With fewer than 0.5 mental health professionals per 100,000 people in much of sub-Saharan Africa (vs. 12+ in high-income countries), AI mental health tools fill a gap that human care simply cannot reach at scale. Randomized controlled trials of apps like Woebot (CBT-based) have shown significant reductions in depression and anxiety in student populations. WHO's African pilots showed 78% of users reporting improved access to care. For populations otherwise receiving no support, AI tools represent a significant benefit."
+    },
+    "sideB": {
+      "label": "Safety Risks and Therapeutic Limits",
+      "text": "No AI system has passed clinical trials as a standalone mental health intervention. Conversations with AI cannot detect suicidal ideation reliably, and multiple incidents have raised concerns about chatbots providing harmful responses to vulnerable users. Clinicians warn that AI mental health tools may give users a false sense of receiving care while substituting for genuine therapy. Crisis situations require licensed human judgment. There is particular concern about deploying unvalidated AI mental health tools in culturally diverse contexts where models may be poorly calibrated."
+    },
+    "resolution": "AI mental health support tools show documented benefit as supplemental resources and in constrained contexts (mild-to-moderate symptoms, psychoeducation, structured CBT exercises). They are not validated or appropriate as replacements for clinical mental health care, particularly for acute crisis or severe illness. Best practice involves human oversight, clear scope limitations, and referral pathways — and cultural adaptation for non-Western populations.",
+    "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "alphafold-open-access-alphafold3",
+    "question": "Should powerful AI tools like AlphaFold 3 be fully open-source or is restricted access justifiable?",
+    "sideA": {
+      "label": "Open Science Imperative",
+      "text": "AlphaFold 2's open-source release democratized structural biology globally. AlphaFold 3's controlled API access — unlike AF2's open weights — limits use to registered academics and restricts commercial and clinical applications. Critics including Nature editorial board argue that tools with such potential health impact, developed partly on public scientific knowledge, should be fully open. Open access maximizes global benefit, particularly for researchers in LMICs who cannot afford commercial licenses."
+    },
+    "sideB": {
+      "label": "Responsible Staged Access",
+      "text": "Fully open-source release of AlphaFold 3 creates biosecurity risks — the same molecular modeling capability that can design therapeutic proteins can be misused to engineer pathogens. DeepMind argues that staged academic access allows benefit while preventing dual-use harms. Commercial restrictions fund continued development that benefits the scientific community. The controlled server provides access to the vast majority of legitimate research needs without enabling dangerous applications."
+    },
+    "resolution": "The AlphaFold 3 access debate reflects a genuine tension between open-science norms, global equity, and biosecurity risk management. The scientific community is divided, with major journals publishing perspectives on both sides. A middle path — open weights with use-case restrictions and monitoring — is increasingly discussed as a model for powerful dual-use biological AI tools going forward.",
+    "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "ai-drug-discovery-neglected-diseases",
+    "question": "Will AI actually accelerate drug discovery for neglected tropical diseases, or will commercial incentives divert the technology?",
+    "sideA": {
+      "label": "NTD Research Breakthrough Potential",
+      "text": "AlphaFold has revealed protein structures for all major neglected tropical disease pathogens (Trypanosoma, Plasmodium, Leishmania) — targets that lacked structural data for decades. AI compound screening can identify hits for NTDs at a fraction of traditional costs. The Drugs for Neglected Diseases initiative (DNDi) and Wellcome Trust are funding AI NTD programs. Gates Foundation investment is channeling AI drug discovery capabilities toward diseases affecting 1.7 billion people in poverty."
+    },
+    "sideB": {
+      "label": "Market Failure Persists",
+      "text": "AI drug discovery requires huge compute investment and scientific expertise concentrated in wealthy countries and pharmaceutical companies. There is no market incentive to develop drugs for diseases affecting primarily poor populations who cannot pay market prices. Historical precedent — antibiotic development, malaria drugs — shows that market failure persists regardless of technological capability. Without binding pharmaceutical accountability mechanisms, AI will primarily accelerate lucrative drug development in high-income disease areas, not NTDs."
+    },
+    "resolution": "AI is genuinely lowering the technical barriers to NTD drug discovery, with multiple programs initiated using AlphaFold and ML compound screening. However, the market failure that historically prevented NTD drug development is not solved by AI. Public funding mechanisms, advance purchase commitments, and open-science mandates remain necessary to translate AI capability into approved NTD therapies. Technology alone does not change the economics of neglected disease.",
+    "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "ai-climate-contribution",
+    "question": "Can AI meaningfully contribute to climate change mitigation and adaptation at the scale required?",
+    "sideA": {
+      "label": "Powerful Climate Tool",
+      "text": "AI is being applied to climate modeling (improved IPCC-class predictions), grid optimization (Google DeepMind cut data center cooling energy by 40%), renewable energy dispatch optimization, wildfire prediction, flood forecasting, and materials discovery for better batteries and solar cells. A 2022 Rolnick et al. analysis identified over 100 AI applications in climate mitigation and adaptation. Climate Change AI (Priya Donti's organization) has built an active global research community translating AI capability into climate action."
+    },
+    "sideB": {
+      "label": "AI's Own Carbon Cost",
+      "text": "Training large AI models generates substantial carbon emissions — GPT-3 training emitted ~552 tons of CO2, and model sizes are growing. Data centers running AI services consume increasing electricity and water. If AI primarily accelerates economic activity (and consumption), it may increase net emissions regardless of specific climate applications. There is concern that AI's energy demand will outpace efficiency gains, making AI a net negative for climate absent a fully decarbonized electricity grid."
+    },
+    "resolution": "AI offers genuine climate mitigation and adaptation tools, but its net impact depends critically on the energy source powering AI infrastructure. Running AI on renewable energy while deploying it for efficiency optimization, climate modeling, and clean technology acceleration creates a net climate benefit. The scientific consensus (per Nature and Science reviews) is that AI's climate application potential outweighs its energy costs in scenarios where grids are decarbonizing — but this is not guaranteed.",
+    "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "ai-data-sovereignty-global-south",
+    "question": "Should developing countries trust US and EU tech company AI tools, or does this create data colonialism?",
+    "sideA": {
+      "label": "Access Over Sovereignty Risks",
+      "text": "Practical access to powerful AI tools from Google, Microsoft, and Meta — even with data privacy trade-offs — delivers immediate, documented benefits in health, agriculture, and education that developing countries cannot build independently in the near term. Open-source models (Llama, Mistral) allow fine-tuning on local data without cloud dependency. The alternative of waiting for domestic AI capacity development means foregoing life-saving health and food security applications today."
+    },
+    "sideB": {
+      "label": "Data Colonialism is Real",
+      "text": "Data about African farmers' crops, patients' medical records, and students' learning patterns flowing to US tech corporations creates a permanent knowledge asymmetry. The extractive model — data collected from Global South populations is used to train models sold back as commercial services — mirrors historical colonial resource extraction. Countries like Kenya, Nigeria, and India are establishing AI governance frameworks and data sovereignty laws to ensure local data generates local value and that AI models reflect local cultural and linguistic context."
+    },
+    "resolution": "Both concerns are legitimate and not fully resolvable. International AI governance frameworks are attempting to balance access (through open models, tech transfer) with sovereignty (data governance, local AI capacity building). The UN AI Advisory Body's 2024 report recommended international compute access programs and open-source sharing specifically to address this imbalance. Developing country governments are increasingly asserting data sovereignty while maintaining openness to beneficial AI partnerships.",
+    "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "ai-healthcare-worker-displacement",
+    "question": "Will AI in healthcare help health workers or replace them, particularly in under-resourced settings?",
+    "sideA": {
+      "label": "AI as Clinical Augmentation",
+      "text": "In resource-rich settings, AI clinical documentation (Dragon Copilot), diagnostic assistance, and workflow tools are being positioned as augmenting human clinicians — reducing paperwork by 40%, freeing time for patient care, and flagging conditions humans might miss. In LMIC settings, AI extends the reach of scarce health workers (community health workers using AI diagnostic apps cover populations that physicians cannot). No major health system has proposed replacing physicians or nurses with AI systems."
+    },
+    "sideB": {
+      "label": "Structural Workforce Risks",
+      "text": "AI radiology tools are already reading millions of scans without radiologist review in some settings. Historically, labor-saving technology in professional services eventually reduces workforce size even if initially framed as augmentation. In LMICs with fragile health systems, AI tools could be used by administrators to justify not hiring health professionals or investing in health workforce training — especially if AI tools appear (misleadingly) to replicate specialist performance. WHO has called for explicit 'human-in-the-loop' guarantees."
+    },
+    "resolution": "Current AI health deployments are primarily augmenting rather than replacing health workers, and direct physician/nurse replacement is not the near-term direction in any major health system. The genuine risk is in system-level decisions: policymakers may under-invest in health workforce development on the premise that AI will fill gaps, which could entrench dependency on foreign technology without building domestic health capacity. WHO guidance now explicitly addresses this risk.",
+    "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "ai-foundation-models-accessibility-genuine",
+    "question": "Do large language and vision AI models genuinely improve accessibility, or do they create new forms of exclusion?",
+    "sideA": {
+      "label": "Transformative for Disability Access",
+      "text": "GPT-4 Vision in Be My Eyes, Microsoft Seeing AI, Google's Live Transcribe, and real-time captioning have provided blind, Deaf, and speech-impaired users with capabilities that did not exist at any price five years ago. AI models handle natural, unscripted language in real-world environments — reading menus, describing scenes, transcribing rapid speech — where traditional assistive technology failed. 50M+ users are accessing AI accessibility tools globally, many for the first time receiving meaningful digital inclusion."
+    },
+    "sideB": {
+      "label": "Creating New Accessibility Debts",
+      "text": "AI models can fail unpredictably and dangerously for accessibility users — misreading critical medical labels, generating hallucinated image descriptions, or failing on atypical speech (accents, speech disorders). As mainstream interfaces increasingly assume AI mediation, people with disabilities who cannot afford premium AI subscriptions, or whose voices and bodies are underrepresented in training data, face new barriers. 'AI-first' design risks discarding established, reliable assistive technology conventions in favor of novel interfaces that may not meet accessibility standards."
+    },
+    "resolution": "AI foundation models have demonstrably expanded accessibility capabilities in ways verified by disabled users and disability organizations. The risk is in reliability guarantees and economic access: AI accessibility tools must meet the dependability standards of safety-critical assistive technology, and must not become gated behind expensive subscriptions inaccessible to disabled people in low-income settings. The accessibility community is actively engaged in shaping AI standards through organizations like Accessibility Rights Advocacy Networks and direct engagement with AI developers.",
+    "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "ai-impact-measurement-overstated",
+    "question": "Are AI for Good impact claims overstated, and how should real-world outcomes be measured?",
+    "sideA": {
+      "label": "Real Impact, Verifiable Outcomes",
+      "text": "Many AI for Good impacts are published in peer-reviewed journals with measurable outcomes: AlphaFold DB downloads by 190+ countries (EMBL-EBI data), Google FloodHub alert delivery verified by independent audits, Nuru app crop loss reduction validated in randomized farm studies (Nature Plants), TB screening deployment tracked by national health ministries. Unlike many technology-sector claims, the best AI for Good projects produce rigorous academic validation comparable to drug trial standards."
+    },
+    "sideB": {
+      "label": "Hype Outpaces Evidence",
+      "text": "Most AI for Good project announcements lack peer-reviewed outcome validation. Press releases from tech companies routinely inflate user numbers, overstate accuracy claims, and report reach rather than impact. A 2023 systematic review found fewer than 30% of AI health deployment studies in LMICs included randomized controlled evaluation. The AI for Good 'impact' narrative also obscures how tech companies use philanthropic and social-good framing to deflect regulation, access government data, and build brand in emerging markets."
+    },
+    "resolution": "Impact evidence quality is highly variable. Leading projects (AlphaFold, Google Flood Forecasting, PlantVillage) have strong peer-reviewed validation. Many announced 'AI for Good' initiatives lack rigorous outcome measurement. The field needs standardized impact metrics, mandatory outcome reporting, independent auditing, and clear distinctions between pilot reach and sustained deployed impact. Regulatory and academic pressure for evidence standards is growing.",
+    "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "ai-regulation-innovation-balance",
+    "question": "Should AI for beneficial applications be regulated differently from high-risk AI to preserve innovation?",
+    "sideA": {
+      "label": "Proportionate Regulation Enables Good AI",
+      "text": "The EU AI Act creates a risk-tiered framework: low-risk AI (education tools, creative AI) faces minimal regulation; high-risk AI (medical devices, credit scoring, law enforcement) faces strict requirements. This proportionate approach allows beneficial AI in constrained domains to develop without burdensome compliance requirements, while ensuring the highest-risk applications face appropriate oversight. WHO and UNESCO have endorsed similar tiered approaches for health and education AI."
+    },
+    "sideB": {
+      "label": "Good Intent Doesn't Reduce Risk",
+      "text": "AI tools deployed in healthcare, agriculture, and disaster response directly affect lives and have real failure modes that can cause serious harm — misdiagnosis, poor crop advice, missed flood alerts. Classifying AI as 'for good' should not lower safety standards; it should raise them because affected populations are often more vulnerable. The EU AI Act's medical device classification provides an appropriate model: rigorous validation regardless of intent. Beneficial framing can mask risk; regulatory exemptions based on intent rather than impact create accountability gaps."
+    },
+    "resolution": "Regulatory consensus has converged on risk-based rather than intent-based frameworks. AI medical devices, regardless of beneficial purpose, must meet clinical validation standards. AI used for education or climate monitoring faces proportionally lower requirements commensurate with lower direct harm potential. Both the EU AI Act and WHO AI guidance follow this logic. The debate continues around pace of regulation vs. innovation speed, particularly for AI applied to urgent humanitarian crises where delay itself has costs.",
+    "lastUpdated": "2026-04-13"
+  }
+]

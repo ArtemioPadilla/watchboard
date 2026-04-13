@@ -1,1 +1,452 @@
-[]
+[
+  {
+    "era": "Pandemic Response & Early AI Impact (2020)",
+    "events": [
+      {
+        "id": "bluedot-covid-detection-2020",
+        "year": "2020",
+        "title": "BlueDot AI Detects COVID-19 Outbreak Before WHO Alert",
+        "type": "breakthrough",
+        "detail": "Canadian AI company BlueDot used natural language processing and machine learning to scan airline ticketing data, news reports in 65 languages, and public health databases, issuing an alert about a novel respiratory illness in Wuhan on December 31, 2019 — nine days before the WHO's official public health emergency declaration. The system identified unusual pneumonia patterns and predicted geographic spread via air travel, demonstrating AI's potential to provide critical lead-time for pandemic preparedness.",
+        "sources": [
+          { "name": "Lancet Infectious Diseases", "tier": 1, "url": "https://www.thelancet.com/", "pole": "western" },
+          { "name": "Wired", "tier": 2, "url": "https://www.wired.com/", "pole": "western" }
+        ],
+        "confidence": "high",
+        "eventConfidence": "verified",
+        "lastUpdated": "2026-04-13"
+      },
+      {
+        "id": "google-breast-cancer-ai-2020",
+        "year": "2020",
+        "title": "Google AI Outperforms Radiologists in Breast Cancer Screening — Nature Study",
+        "type": "breakthrough",
+        "detail": "Google Health published a landmark study in Nature (January 2020) showing its deep learning system reduced false positives by 5.7% and false negatives by 9.4% compared to radiologists in a US dataset of over 76,000 mammograms. The AI matched or exceeded specialist-level performance in both US and UK validation datasets, representing a major milestone for clinical AI and prompting regulatory interest in AI-augmented screening pathways that could reach populations lacking specialist radiologists.",
+        "sources": [
+          { "name": "Nature", "tier": 1, "url": "https://www.nature.com/", "pole": "western" },
+          { "name": "Google Health", "tier": 3, "url": "https://health.google/", "pole": "western" }
+        ],
+        "confidence": "high",
+        "eventConfidence": "verified",
+        "lastUpdated": "2026-04-13"
+      },
+      {
+        "id": "mit-halicin-antibiotic-2020",
+        "year": "2020",
+        "title": "MIT AI Discovers Halicin — First Novel Antibiotic Class in Decades",
+        "type": "breakthrough",
+        "detail": "MIT researchers published a landmark paper in Cell (February 2020) demonstrating that a deep learning model trained on 2,500 molecules screened over 100 million chemical compounds in days, identifying Halicin — a compound previously investigated as a diabetes drug — as a potent broad-spectrum antibiotic effective against pan-resistant Acinetobacter baumannii and other drug-resistant pathogens. The AI also identified eight other novel antibiotics. This was the first AI-discovered antibiotic and proved that machine learning could dramatically accelerate drug discovery for antimicrobial resistance, one of global health's most urgent crises.",
+        "sources": [
+          { "name": "Cell", "tier": 1, "url": "https://www.cell.com/", "pole": "western" },
+          { "name": "MIT News", "tier": 3, "url": "https://news.mit.edu/", "pole": "western" }
+        ],
+        "confidence": "high",
+        "eventConfidence": "verified",
+        "lastUpdated": "2026-04-13"
+      },
+      {
+        "id": "fao-locust-ai-2020",
+        "year": "2020",
+        "title": "FAO Deploys AI Satellite Tracking for Worst Desert Locust Crisis in 70 Years",
+        "type": "deployment",
+        "detail": "As East Africa faced its worst desert locust infestation in 70 years — threatening food security for over 25 million people across Somalia, Kenya, Ethiopia, Uganda, and Yemen — the UN Food and Agriculture Organization and partners deployed AI-powered satellite imagery analysis and machine learning models to track swarm movements and vegetation conditions. The system integrated weather data, NDVI satellite imagery, and real-time ground reports to predict swarm trajectories up to 72 hours in advance, enabling more targeted and cost-effective aerial pesticide operations across a region spanning millions of square kilometers.",
+        "sources": [
+          { "name": "FAO", "tier": 1, "url": "https://www.fao.org/", "pole": "international" },
+          { "name": "Science", "tier": 1, "url": "https://www.science.org/", "pole": "western" }
+        ],
+        "confidence": "high",
+        "eventConfidence": "verified",
+        "lastUpdated": "2026-04-13"
+      },
+      {
+        "id": "deepmind-casp14-win-2020",
+        "year": "2020",
+        "title": "DeepMind AlphaFold Wins CASP14 — Protein Folding Problem Largely Solved",
+        "type": "breakthrough",
+        "detail": "At the 14th Critical Assessment of Protein Structure Prediction (CASP14) competition in December 2020, DeepMind's AlphaFold2 achieved unprecedented accuracy with median GDT scores of ~92.4 — essentially matching experimental crystallography. Organizers described it as a 'solution' to the 50-year grand challenge in biology. The achievement was immediately recognized as potentially transformative for drug discovery, vaccine development, and understanding the molecular basis of disease.",
+        "sources": [
+          { "name": "Nature", "tier": 1, "url": "https://www.nature.com/", "pole": "western" },
+          { "name": "Science", "tier": 1, "url": "https://www.science.org/", "pole": "western" }
+        ],
+        "confidence": "high",
+        "eventConfidence": "verified",
+        "lastUpdated": "2026-04-13"
+      }
+    ]
+  },
+  {
+    "era": "AlphaFold Revolution & Global Scaling (2021)",
+    "events": [
+      {
+        "id": "alphafold2-nature-paper-2021",
+        "year": "2021",
+        "title": "AlphaFold2 Published in Nature — Science's Breakthrough of the Year",
+        "type": "breakthrough",
+        "detail": "DeepMind published the full AlphaFold2 methodology in Nature on July 15, 2021, making both the model weights and source code publicly available under open-source licenses. The paper described the transformer-based neural network architecture achieving atomic-level accuracy in protein structure prediction. Science magazine named it Breakthrough of the Year 2021. The open-source release, combined with EMBL-EBI collaboration, meant researchers globally could use the tool for free — fundamentally democratizing structural biology that previously required million-dollar laboratory equipment and years of work.",
+        "sources": [
+          { "name": "Nature", "tier": 1, "url": "https://www.nature.com/articles/s41586-021-03819-2", "pole": "western" },
+          { "name": "Science", "tier": 1, "url": "https://www.science.org/", "pole": "western" }
+        ],
+        "confidence": "high",
+        "eventConfidence": "verified",
+        "lastUpdated": "2026-04-13"
+      },
+      {
+        "id": "alphafold-db-launch-2021",
+        "year": "2021",
+        "title": "AlphaFold Protein Structure Database Launches with 350,000 Free Structures",
+        "type": "deployment",
+        "detail": "DeepMind and EMBL's European Bioinformatics Institute launched the AlphaFold Protein Structure Database on July 22, 2021, providing free access to 350,000 predicted protein structures including the complete human proteome. Within weeks, researchers working on malaria vaccine development, neglected tropical diseases like sleeping sickness, and cancer biology were using the database. The 350,000 structures would have taken decades and billions of dollars to determine experimentally — making this the largest scientific data release of its kind in biology.",
+        "sources": [
+          { "name": "EMBL-EBI", "tier": 1, "url": "https://alphafold.ebi.ac.uk/", "pole": "western" },
+          { "name": "Nature", "tier": 1, "url": "https://www.nature.com/", "pole": "western" }
+        ],
+        "confidence": "high",
+        "eventConfidence": "verified",
+        "lastUpdated": "2026-04-13"
+      },
+      {
+        "id": "google-flood-20-countries-2021",
+        "year": "2021",
+        "title": "Google Expands AI Flood Forecasting to 20 Countries — 250M People Covered",
+        "type": "deployment",
+        "detail": "Google Research expanded its AI-powered flood forecasting system from India to Bangladesh, Nepal, and several African countries in 2021, covering approximately 250 million people in high flood-risk zones. The system issues flood alerts up to 7 days in advance via SMS, WhatsApp, and Android notifications — reaching communities without reliable internet access. Bangladesh reported early warning improvements during the 2021 monsoon season. Google published peer-reviewed validation in Nature showing the system outperformed traditional hydrological models in ungauged river basins common across the Global South.",
+        "sources": [
+          { "name": "Nature", "tier": 1, "url": "https://www.nature.com/", "pole": "western" },
+          { "name": "Google Research Blog", "tier": 3, "url": "https://research.google/", "pole": "western" }
+        ],
+        "confidence": "high",
+        "eventConfidence": "verified",
+        "lastUpdated": "2026-04-13"
+      },
+      {
+        "id": "microsoft-ai-accessibility-2021",
+        "year": "2021",
+        "title": "Microsoft AI for Accessibility Awards $25M — Disability-Focused AI Tools at Scale",
+        "type": "partnership",
+        "detail": "Microsoft's AI for Accessibility program, launched in 2018, surpassed $25 million in grants to over 200 organizations by mid-2021, funding AI solutions for visual, hearing, cognitive, and mobility disabilities. Recipients included projects developing real-time sign language recognition, eye-tracking AAC devices for people with ALS, AI-powered navigation for blind users (Seeing AI app), and speech recognition optimized for atypical speech patterns (Project Euphonia). The program demonstrated how targeted corporate AI investment could serve populations historically excluded from mainstream technology design.",
+        "sources": [
+          { "name": "Microsoft Blog", "tier": 3, "url": "https://blogs.microsoft.com/", "pole": "western" },
+          { "name": "IEEE Spectrum", "tier": 2, "url": "https://spectrum.ieee.org/", "pole": "western" }
+        ],
+        "confidence": "high",
+        "eventConfidence": "verified",
+        "lastUpdated": "2026-04-13"
+      }
+    ]
+  },
+  {
+    "era": "Agricultural & Humanitarian AI at Scale (2022)",
+    "events": [
+      {
+        "id": "alphafold-db-200m-2022",
+        "year": "2022",
+        "title": "AlphaFold Database Expands to 200M Structures — Entire Known Protein Universe",
+        "type": "breakthrough",
+        "detail": "In July 2022, DeepMind and EMBL-EBI expanded the AlphaFold database to over 200 million protein structures, covering essentially the entire known protein universe of bacteria, plants, fungi, viruses, and animals. This included proteins from over 1 million species never previously mapped structurally. Researchers immediately applied this to neglected tropical diseases — identifying candidate drug targets for leishmaniasis and Chagas disease — and to understanding plastic-degrading enzymes for environmental remediation. Within 18 months of initial launch, the database had been downloaded millions of times by researchers in 190+ countries.",
+        "sources": [
+          { "name": "Nature", "tier": 1, "url": "https://www.nature.com/", "pole": "western" },
+          { "name": "EMBL-EBI", "tier": 1, "url": "https://www.ebi.ac.uk/", "pole": "western" }
+        ],
+        "confidence": "high",
+        "eventConfidence": "verified",
+        "lastUpdated": "2026-04-13"
+      },
+      {
+        "id": "wfp-hungermap-ai-2022",
+        "year": "2022",
+        "title": "WFP HungerMap LIVE Scales AI Food Security Monitoring to 94 Countries",
+        "type": "deployment",
+        "detail": "The World Food Programme's HungerMap LIVE platform, powered by machine learning integrating satellite imagery, weather data, market prices, and conflict indicators, scaled to 94 countries in 2022. The system generates daily food insecurity alerts, enabling pre-positioning of humanitarian aid before crises escalate. During the 2022 Ukraine war-driven food shock, the system helped WFP identify rapidly deteriorating conditions in East Africa and the Sahel weeks in advance, directing emergency food assistance to 35 million people in imminent crisis. The AI reduced WFP's early warning lead time from weeks to days.",
+        "sources": [
+          { "name": "World Food Programme", "tier": 1, "url": "https://www.wfp.org/", "pole": "international" },
+          { "name": "Reuters", "tier": 2, "url": "https://www.reuters.com/", "pole": "western" }
+        ],
+        "confidence": "high",
+        "eventConfidence": "verified",
+        "lastUpdated": "2026-04-13"
+      },
+      {
+        "id": "makerere-cassava-ai-2022",
+        "year": "2022",
+        "title": "Makerere University AI App Reaches 40M+ African Smallholder Farmers",
+        "type": "impact",
+        "detail": "Researchers at Makerere University in Uganda, working with Google and Penn State's PlantVillage project, expanded the Nuru AI plant disease detection app to reach over 40 million smallholder farmers helping identify cassava mosaic virus and cassava brown streak disease — the two biggest threats to Africa's second-largest food crop. Farmers photograph diseased leaves with smartphones to receive instant AI diagnosis and treatment advice in local languages. Critically, the app operates fully offline after download — critical for rural areas lacking connectivity. A Nature Plants study found users reduced crop losses by 30% and pesticide applications by 20%.",
+        "sources": [
+          { "name": "Nature Plants", "tier": 1, "url": "https://www.nature.com/natplants/", "pole": "international" },
+          { "name": "MIT Technology Review", "tier": 2, "url": "https://www.technologyreview.com/", "pole": "western" }
+        ],
+        "confidence": "high",
+        "eventConfidence": "verified",
+        "lastUpdated": "2026-04-13"
+      },
+      {
+        "id": "ai-tb-screening-india-africa-2022",
+        "year": "2022",
+        "title": "AI Chest X-Ray Reading Deployed in 1,000+ Centers for TB Screening Across India and Africa",
+        "type": "deployment",
+        "detail": "Following WHO's 2021 endorsement of AI-powered chest X-ray analysis for tuberculosis screening in resource-limited settings, tools like Qure.ai's qXR and CAD4TB processed millions of X-rays in 2022 across India and sub-Saharan Africa. India's national TB elimination program integrated AI reading in over 1,000 screening centers in areas lacking radiologists, enabling same-day results instead of weeks-long film-based delays. Studies showed ~90% sensitivity for TB detection, enabling mass screening campaigns that identified hundreds of thousands of previously undiagnosed cases in remote populations.",
+        "sources": [
+          { "name": "WHO", "tier": 1, "url": "https://www.who.int/", "pole": "international" },
+          { "name": "The Lancet", "tier": 1, "url": "https://www.thelancet.com/", "pole": "western" }
+        ],
+        "confidence": "high",
+        "eventConfidence": "verified",
+        "lastUpdated": "2026-04-13"
+      },
+      {
+        "id": "google-flood-africa-2022",
+        "year": "2022",
+        "title": "Google AI Flood Forecasting Extends to Sub-Saharan Africa — Nature Paper Validates",
+        "type": "deployment",
+        "detail": "Google Research published a Nature paper in 2022 detailing the expansion of its global AI flood forecasting to sub-Saharan Africa, covering approximately 250 million people in flood-prone river basins. A key innovation was the system's ability to function without detailed local topographic data — critical for African river basins lacking extensive hydrological monitoring infrastructure. Unlike previous approaches requiring dense sensor networks, the AI system used publicly available elevation data and satellite precipitation estimates. Google reported issuing over 115 million flood alerts in 2022, primarily via Android mobile notifications.",
+        "sources": [
+          { "name": "Nature", "tier": 1, "url": "https://www.nature.com/", "pole": "western" },
+          { "name": "Google Research", "tier": 3, "url": "https://research.google/", "pole": "western" }
+        ],
+        "confidence": "high",
+        "eventConfidence": "verified",
+        "lastUpdated": "2026-04-13"
+      }
+    ]
+  },
+  {
+    "era": "Foundation Models Transform Accessibility & Education (2023)",
+    "events": [
+      {
+        "id": "be-my-eyes-gpt4-2023",
+        "year": "2023",
+        "title": "Be My Eyes Integrates GPT-4 Vision — AI Assistant for 500K+ Blind and Low-Vision Users",
+        "type": "breakthrough",
+        "detail": "On March 14, 2023, Be My Eyes — a Danish app connecting blind users with sighted volunteers — integrated OpenAI's GPT-4 Vision to create an AI assistant describing images, reading documents, navigating menus, and answering contextual questions for blind and low-vision users. Unlike human volunteers, the AI responds 24/7 in multiple languages instantly and at no marginal cost. Hundreds of thousands of the app's 500,000+ blind users immediately adopted the AI assistant. The integration demonstrated how foundation models could dramatically expand accessibility capabilities at near-zero cost per user — a model replicable across assistive technology.",
+        "sources": [
+          { "name": "OpenAI Blog", "tier": 3, "url": "https://openai.com/blog/", "pole": "western" },
+          { "name": "BBC", "tier": 2, "url": "https://www.bbc.com/", "pole": "western" }
+        ],
+        "confidence": "high",
+        "eventConfidence": "verified",
+        "lastUpdated": "2026-04-13"
+      },
+      {
+        "id": "khanmigo-launch-2023",
+        "year": "2023",
+        "title": "Khan Academy Launches Khanmigo AI Tutor — Expanding Personalized Education Globally",
+        "type": "deployment",
+        "detail": "Khan Academy launched Khanmigo on March 14, 2023, a GPT-4-powered AI tutoring assistant providing personalized Socratic instruction rather than just giving answers. The system guides students through problems with guiding questions, adapts to individual learning pace, and provides teachers with detailed analytics on student understanding gaps. Khan Academy committed to free or subsidized access for Title I schools in the US and expansion to developing countries. In its first year, Khanmigo was used in 40+ countries, with pilot programs in India, Brazil, and Kenya showing particular promise for students lacking access to qualified teachers.",
+        "sources": [
+          { "name": "Khan Academy Blog", "tier": 3, "url": "https://blog.khanacademy.org/", "pole": "western" },
+          { "name": "MIT Technology Review", "tier": 2, "url": "https://www.technologyreview.com/", "pole": "western" }
+        ],
+        "confidence": "high",
+        "eventConfidence": "verified",
+        "lastUpdated": "2026-04-13"
+      },
+      {
+        "id": "alphamissense-2023",
+        "year": "2023",
+        "title": "DeepMind AlphaMissense Classifies 71M Human Genetic Variants for Disease Risk",
+        "type": "breakthrough",
+        "detail": "DeepMind published AlphaMissense in Science in September 2023, a model that predicts whether missense mutations (single amino acid changes) cause disease. The system classified 71 million of the 89 million possible missense mutations in the human genome — providing pathogenicity predictions for variants that would require decades of laboratory experiments to characterize empirically. The tool became an immediate resource for rare disease diagnosis, enabling clinicians to prioritize genetic variants for investigation in conditions like cystic fibrosis, cardiomyopathies, and rare inherited disorders, potentially accelerating diagnosis for the 300 million people worldwide living with rare genetic diseases.",
+        "sources": [
+          { "name": "Science", "tier": 1, "url": "https://www.science.org/doi/10.1126/science.adg7492", "pole": "western" },
+          { "name": "Nature News", "tier": 1, "url": "https://www.nature.com/", "pole": "western" }
+        ],
+        "confidence": "high",
+        "eventConfidence": "verified",
+        "lastUpdated": "2026-04-13"
+      },
+      {
+        "id": "duolingo-max-gpt4-2023",
+        "year": "2023",
+        "title": "Duolingo Max Launches — AI Conversational Practice for 74M Learners Globally",
+        "type": "deployment",
+        "detail": "Duolingo launched Duolingo Max in March 2023, powered by GPT-4, introducing 'Roleplay' (conversational practice in realistic cultural scenarios) and 'Explain My Answer' (detailed error feedback). The AI could simulate culturally authentic conversations — ordering food in Paris, navigating Tokyo transit — previously only possible with native-speaker tutors. Duolingo reaches 74 million active learners globally, making AI-powered conversational language learning accessible at a fraction of traditional tutoring costs, particularly benefiting learners in emerging markets who cannot afford language schools.",
+        "sources": [
+          { "name": "Duolingo Blog", "tier": 3, "url": "https://blog.duolingo.com/", "pole": "western" },
+          { "name": "TechCrunch", "tier": 2, "url": "https://techcrunch.com/", "pole": "western" }
+        ],
+        "confidence": "high",
+        "eventConfidence": "verified",
+        "lastUpdated": "2026-04-13"
+      },
+      {
+        "id": "alertcalifornia-wildfire-2023",
+        "year": "2023",
+        "title": "AI Wildfire Detection Network Goes Live Across Western US — 1,000+ Cameras, 8-Minute Alert",
+        "type": "deployment",
+        "detail": "By mid-2023, California, Oregon, and Nevada deployed over 1,000 AI-powered cameras analyzing video feeds in real time for wildfire smoke and flame detection. UC San Diego's ALERTCalifornia system, operated with CAL FIRE, detected ignition events within an average of 8 minutes — far faster than satellite detection's 15-30 minute latency. Combined with AI fire spread prediction models from the National Center for Atmospheric Research, emergency coordinators received actionable intelligence before fires could spread beyond initial ignition areas, enabling faster resource dispatch and evacuation decisions in the high-risk wildland-urban interface.",
+        "sources": [
+          { "name": "UC San Diego", "tier": 3, "url": "https://ucsd.edu/", "pole": "western" },
+          { "name": "Reuters", "tier": 2, "url": "https://www.reuters.com/", "pole": "western" }
+        ],
+        "confidence": "high",
+        "eventConfidence": "verified",
+        "lastUpdated": "2026-04-13"
+      },
+      {
+        "id": "google-floodhub-60-countries-2023",
+        "year": "2023",
+        "title": "Google FloodHub Reaches 60+ Countries — 460M People Receive Actionable Flood Alerts",
+        "type": "impact",
+        "detail": "Google launched FloodHub (floodhub.google.com) in 2023, a public-facing real-time flood forecast platform for 60+ countries. In India alone, the system issued over 7 million alerts during the 2023 monsoon, reaching users via Android phones, Google Search, and Maps. A peer-reviewed study validated predictions matched observed flood events with 80-90% accuracy. Communities receiving early warnings reported significantly lower property damage and improved evacuation compliance. The system also integrated with national disaster management agencies in Bangladesh, Pakistan, and several African countries as a free government early warning resource.",
+        "sources": [
+          { "name": "Nature", "tier": 1, "url": "https://www.nature.com/", "pole": "western" },
+          { "name": "Google Research", "tier": 3, "url": "https://research.google/", "pole": "western" }
+        ],
+        "confidence": "high",
+        "eventConfidence": "verified",
+        "lastUpdated": "2026-04-13"
+      }
+    ]
+  },
+  {
+    "era": "Breakthroughs, Scale & Governance (2024)",
+    "events": [
+      {
+        "id": "alphafold3-nature-2024",
+        "year": "2024",
+        "title": "DeepMind AlphaFold 3 Published — Predicts All Biological Molecules and Interactions",
+        "type": "breakthrough",
+        "detail": "DeepMind published AlphaFold 3 in Nature on May 8, 2024, extending protein-structure prediction to all biological molecules — DNA, RNA, proteins, and small molecule ligands — and their interactions. The system enables full molecular modeling for drug design, far beyond the protein-only capability of AlphaFold 2. AlphaFold 3 predicted drug-protein binding with accuracy exceeding existing computational docking methods. However, access was restricted to academic research via a controlled API rather than full open-source release, sparking scientific debate about whether AI tools funded by public trust should be freely accessible for all researchers.",
+        "sources": [
+          { "name": "Nature", "tier": 1, "url": "https://www.nature.com/articles/s41586-024-07487-w", "pole": "western" },
+          { "name": "Science", "tier": 1, "url": "https://www.science.org/", "pole": "western" }
+        ],
+        "confidence": "high",
+        "eventConfidence": "verified",
+        "lastUpdated": "2026-04-13"
+      },
+      {
+        "id": "google-flood-80-countries-2024",
+        "year": "2024",
+        "title": "Google AI Flood Forecasting Reaches 80+ Countries with River-Level Predictions",
+        "type": "impact",
+        "detail": "By mid-2024, Google's AI flood forecasting covered over 80 countries reaching 460 million people. A key capability upgrade introduced probabilistic flood inundation maps — predicting not just whether flooding would occur but which specific neighborhoods would be inundated and by how much. A peer-reviewed study in Nature Water validated the system against observed flood events, showing it outperformed traditional hydrological models in ungauged basins critical for developing regions. Google integrated the forecasts with disaster risk profiles to help local governments pre-position emergency resources based on predicted impact severity.",
+        "sources": [
+          { "name": "Nature Water", "tier": 1, "url": "https://www.nature.com/natwater/", "pole": "western" },
+          { "name": "Google Research", "tier": 3, "url": "https://research.google/", "pole": "western" }
+        ],
+        "confidence": "high",
+        "eventConfidence": "verified",
+        "lastUpdated": "2026-04-13"
+      },
+      {
+        "id": "who-ai-health-guidance-2024",
+        "year": "2024",
+        "title": "WHO Releases Comprehensive AI in Healthcare Ethics Guidance for LMICs",
+        "type": "policy",
+        "detail": "The World Health Organization released updated guidance 'Ethics and Governance of Artificial Intelligence for Health' in 2024, with specific focus on implementation in low- and middle-income countries (LMICs). The guidance established six principles — autonomy, transparency, inclusiveness, responsibility, sustainability, and data protection — and recommended independent validation of AI diagnostic tools before deployment in healthcare systems serving vulnerable populations. The report documented that AI health tools trained primarily on data from high-income countries often performed significantly worse when applied to populations with different genetic backgrounds, disease presentations, and imaging equipment.",
+        "sources": [
+          { "name": "WHO", "tier": 1, "url": "https://www.who.int/publications/i/item/9789240084759", "pole": "international" },
+          { "name": "The Lancet", "tier": 1, "url": "https://www.thelancet.com/", "pole": "western" }
+        ],
+        "confidence": "high",
+        "eventConfidence": "verified",
+        "lastUpdated": "2026-04-13"
+      },
+      {
+        "id": "un-ai-advisory-report-2024",
+        "year": "2024",
+        "title": "UN AI Advisory Body Issues Global Governance Report — Urges AI for Developing Countries",
+        "type": "policy",
+        "detail": "The UN Secretary-General's High-Level Advisory Body on AI released its final report in September 2024, recommending the creation of an International AI Panel modeled on the IPCC to provide global AI governance guidance. The report documented that only 33% of AI researchers and 40% of AI investment was located in the Global South, and proposed bridging mechanisms including compute access programs, open-source model sharing requirements, and capacity building for AI researchers in LMICs. The report was incorporated into the UN Summit of the Future's Pact for the Future and cited by 140+ member states.",
+        "sources": [
+          { "name": "United Nations", "tier": 1, "url": "https://www.un.org/en/ai-advisory-body", "pole": "international" },
+          { "name": "Reuters", "tier": 2, "url": "https://www.reuters.com/", "pole": "western" }
+        ],
+        "confidence": "high",
+        "eventConfidence": "verified",
+        "lastUpdated": "2026-04-13"
+      },
+      {
+        "id": "microsoft-dragon-copilot-2024",
+        "year": "2024",
+        "title": "Microsoft Dragon Copilot Deployed Across 1,000+ Hospitals — Clinical Documentation AI",
+        "type": "deployment",
+        "detail": "Microsoft launched Dragon Copilot in 2024, an ambient AI clinical documentation system that listens to doctor-patient conversations and automatically generates clinical notes, reducing physician documentation burden by an average of 40% in deployment studies. The system was deployed across 1,000+ healthcare organizations globally including NHS Digital systems in the UK, provincial health authorities in Canada, and Australian public hospitals — settings where physician burnout from administrative overload is acute. Studies found physicians using Dragon Copilot spent significantly more time in direct patient care and reported improved job satisfaction.",
+        "sources": [
+          { "name": "Microsoft", "tier": 3, "url": "https://blogs.microsoft.com/", "pole": "western" },
+          { "name": "NEJM Catalyst", "tier": 1, "url": "https://catalyst.nejm.org/", "pole": "western" }
+        ],
+        "confidence": "high",
+        "eventConfidence": "verified",
+        "lastUpdated": "2026-04-13"
+      }
+    ]
+  },
+  {
+    "era": "Scaling Impact Globally (2025)",
+    "events": [
+      {
+        "id": "ai-sign-language-commercial-2025",
+        "year": "2025",
+        "title": "AI Real-Time Sign Language Translation Reaches 15 Languages Commercially",
+        "type": "deployment",
+        "detail": "By early 2025, multiple AI sign language translation systems achieved reliable commercial deployment, enabling real-time computer vision-based translation between spoken and signed languages in 15 sign languages including ASL, BSL, and national sign languages in Japan, Germany, Brazil, and India. Systems integrated into video platforms, government kiosks, and healthcare settings achieved over 85% accuracy in controlled environments, providing 24/7 Deaf communication access previously limited to expensive in-person interpreter availability. Disability advocates noted remaining gaps in accuracy for regional signing variants and older signers.",
+        "sources": [
+          { "name": "IEEE Transactions on Neural Systems", "tier": 1, "url": "https://ieeexplore.ieee.org/", "pole": "western" },
+          { "name": "MIT Technology Review", "tier": 2, "url": "https://www.technologyreview.com/", "pole": "western" }
+        ],
+        "confidence": "medium",
+        "eventConfidence": "official_claim",
+        "lastUpdated": "2026-04-13"
+      },
+      {
+        "id": "ai-dengue-prediction-sea-2025",
+        "year": "2025",
+        "title": "WHO Deploys AI Dengue Outbreak Prediction Across 8 Southeast Asian Countries",
+        "type": "deployment",
+        "detail": "A WHO SEARO-coordinated AI dengue prediction system was deployed across 8 Southeast Asian countries in early 2025, integrating satellite rainfall data, urban heat island mapping, human mobility patterns from anonymized mobile data, and historical epidemiological records to forecast dengue hotspots 4-6 weeks ahead. The system, trained on decades of outbreak data across 15 countries, enabled health ministries to pre-position vector control resources before outbreak peaks. Operational assessments in Thailand and Vietnam estimated 20-30% reduction in dengue cases in areas receiving targeted pre-emptive interventions compared to historical trends.",
+        "sources": [
+          { "name": "WHO SEARO", "tier": 1, "url": "https://www.who.int/southeastasia/", "pole": "international" },
+          { "name": "Nature Medicine", "tier": 1, "url": "https://www.nature.com/natmed/", "pole": "western" }
+        ],
+        "confidence": "medium",
+        "eventConfidence": "official_claim",
+        "lastUpdated": "2026-04-13"
+      },
+      {
+        "id": "ai-crop-40m-farmers-2025",
+        "year": "2025",
+        "title": "AI Crop Disease Detection Reaches 40M+ African Smallholder Farmers",
+        "type": "impact",
+        "detail": "AI-powered crop disease detection apps — primarily PlantVillage's Nuru and affiliated platforms — reached over 40 million smallholder farmers across sub-Saharan Africa by 2025, identifying 60+ diseases and pests in cassava, maize, sorghum, and other staple crops. A Nature Plants study confirmed users experienced 30% lower crop losses and made 20% more targeted pesticide applications. The app network also contributed to regional early-warning systems, enabling FAO and national ministries to anticipate crop disease outbreaks — such as the Fall Armyworm spread — before they reached epidemic levels threatening food security for millions.",
+        "sources": [
+          { "name": "Nature Plants", "tier": 1, "url": "https://www.nature.com/natplants/", "pole": "western" },
+          { "name": "FAO", "tier": 1, "url": "https://www.fao.org/", "pole": "international" }
+        ],
+        "confidence": "medium",
+        "eventConfidence": "official_claim",
+        "lastUpdated": "2026-04-13"
+      },
+      {
+        "id": "ai-pacific-early-warning-2025",
+        "year": "2025",
+        "title": "AI Early Warning Systems Extended to 14 Pacific Island Nations at Climate Frontline",
+        "type": "deployment",
+        "detail": "In collaboration with the Pacific Community (SPC), UNDP, and WMO's Early Warnings for All initiative, AI-powered climate early warning systems were extended to 14 Pacific Island nations in 2025, including Tuvalu, Kiribati, Fiji, Vanuatu, and the Marshall Islands — among the world's most climate-vulnerable territories. The systems provided cyclone track prediction with 5-day lead times, coastal flooding alerts from AI storm surge models, and agricultural heat-stress forecasts. For nations facing existential risk from sea-level rise, enhanced early warning was recognized by the UN Secretary-General as a critical near-term climate adaptation measure.",
+        "sources": [
+          { "name": "UNDP", "tier": 1, "url": "https://www.undp.org/", "pole": "international" },
+          { "name": "WMO", "tier": 1, "url": "https://public.wmo.int/", "pole": "international" }
+        ],
+        "confidence": "medium",
+        "eventConfidence": "official_claim",
+        "lastUpdated": "2026-04-13"
+      },
+      {
+        "id": "who-ai-mental-health-africa-2025",
+        "year": "2025",
+        "title": "WHO Pilots AI Mental Health Support Tools in 12 African Countries",
+        "type": "deployment",
+        "detail": "WHO, UNICEF, and mental health technology partners piloted AI-powered mental health support tools in 12 African countries in 2025, addressing the severe shortage of mental health professionals (fewer than 0.5 per 100,000 people in many African nations, vs. 12+ in high-income countries). The conversational AI tools, trained on culturally adapted cognitive behavioral therapy protocols, provided psychoeducation, structured CBT support, and crisis referral pathways in local languages. Pilot studies in Kenya and Ghana showed significant reduction in self-reported depression and anxiety symptoms, with 78% of users reporting improved access to care they could not otherwise afford or access geographically.",
+        "sources": [
+          { "name": "WHO Africa", "tier": 1, "url": "https://www.afro.who.int/", "pole": "international" },
+          { "name": "The Lancet Psychiatry", "tier": 1, "url": "https://www.thelancet.com/", "pole": "western" }
+        ],
+        "confidence": "medium",
+        "eventConfidence": "official_claim",
+        "lastUpdated": "2026-04-13"
+      }
+    ]
+  }
+]
