@@ -1,0 +1,185 @@
+{
+  "slug": "fusion-energy",
+  "name": "Fusion Energy Race",
+  "shortName": "Fusion Energy",
+  "description": "Intelligence dashboard tracking the global race to commercial fusion energy — ITER construction, NIF net-energy gain, and private ventures like Commonwealth Fusion Systems and Helion.",
+  "icon": "⚛️",
+  "color": "#00b4d8",
+  "status": "active",
+  "temporal": "live",
+  "trackerType": "factual",
+  "domain": "science",
+  "region": "global",
+  "tags": ["fusion", "clean-energy", "plasma", "iter", "nif", "tokamak", "inertial-confinement"],
+  "startDate": "2022-12-05",
+  "eraLabel": "Net Gain Era",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": -180,
+      "lonMax": 180,
+      "latMin": -60,
+      "latMax": 80
+    },
+    "center": {
+      "lon": 10,
+      "lat": 35
+    },
+    "categories": [
+      {
+        "id": "government-lab",
+        "label": "Government Labs",
+        "color": "#0077b6"
+      },
+      {
+        "id": "private-venture",
+        "label": "Private Ventures",
+        "color": "#f77f00"
+      },
+      {
+        "id": "international",
+        "label": "International Projects",
+        "color": "#2dc653"
+      },
+      {
+        "id": "milestone",
+        "label": "Key Milestones",
+        "color": "#e9c46a"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "global": {
+        "lon": 10,
+        "lat": 30,
+        "alt": 18000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Global Overview"
+      },
+      "iter": {
+        "lon": 5.668,
+        "lat": 43.707,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "ITER — Cadarache, France"
+      },
+      "nif": {
+        "lon": -121.699,
+        "lat": 37.688,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "NIF — Livermore, California"
+      },
+      "cfs": {
+        "lon": -71.09,
+        "lat": 42.36,
+        "alt": 50000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Commonwealth Fusion — Cambridge, MA"
+      },
+      "helion": {
+        "lon": -122.201,
+        "lat": 47.965,
+        "alt": 50000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Helion Energy — Everett, WA"
+      },
+      "kstar": {
+        "lon": 127.39,
+        "lat": 36.38,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "KSTAR — Daejeon, South Korea"
+      }
+    }
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Global Map"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Investment"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "politicalAvatars": [
+    "us-doe",
+    "eu",
+    "private",
+    "intl",
+    "other"
+  ],
+  "eventTypes": [
+    "breakthrough",
+    "milestone",
+    "investment",
+    "regulatory",
+    "scientific"
+  ],
+  "ai": {
+    "systemPrompt": "You are a fusion energy research analyst updating an intelligence dashboard on the global race to commercial fusion power.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"nif_record_shot\", \"iter_assembly\").\n\nSOURCE TIERS for fusion energy:\n- Tier 1: Official/primary (DOE, NIF/LLNL press releases, ITER Organization, Fusion Industry Association reports, peer-reviewed journals: Nature, Science, Physical Review Letters, Nuclear Fusion)\n- Tier 2: Major outlets (Reuters, AP, BBC, Science News, MIT Technology Review, New Scientist, Physics Today, Ars Technica, Nature News, Bloomberg)\n- Tier 3: Institutional (CSIS, IAEA, Congressional Research Service, think tanks, university press offices, Fusion Industry Association analysis)\n- Tier 4: Unverified (social media, unattributed claims, company PR without external confirmation)\n\nWhen providing sources, use the \"pole\" field:\n- \"western\" for US/European/allied sources\n- \"eastern\" for Chinese/Russian/Asian sources\n- \"international\" for UN/IAEA/multilateral sources\n\nOnly include information you can verify through search results. Do not fabricate scientific data or milestone claims.\n\nKEY TRACKERS:\n- NIF (National Ignition Facility): laser inertial confinement, Dec 2022 ignition milestone\n- ITER: international tokamak under construction in Cadarache, France (35-nation project)\n- Commonwealth Fusion Systems (CFS): SPARC tokamak, high-temperature superconducting magnets, MIT spinoff\n- Helion Energy: field-reversed configuration (FRC), Microsoft power purchase agreement\n- TAE Technologies, Zap Energy, Realta Fusion, Renaissance Fusion, ENN Group (China)\n- JT-60SA (Japan-EU): world's largest operational tokamak as of 2023\n- KSTAR (South Korea): plasma duration records\n\nDEDUPLICATION:\n- Same experiment/shot within ±24 hours = same event — merge, do not duplicate.\n- When two sources report different yield numbers: prefer peer-reviewed journal over press release, note discrepancy.",
+    "searchContext": "fusion energy ITER NIF Commonwealth Fusion Helion commercial fusion plasma",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": -180,
+      "lonMax": 180,
+      "latMin": -70,
+      "latMax": 85
+    },
+    "updateIntervalDays": 7,
+    "updatePolicy": {
+      "escalation": [7, 14, 30, 60, 90],
+      "quietThreshold": 0
+    },
+    "backfillTargets": {
+      "timeline": 30,
+      "mapPoints": 20,
+      "claims": 15,
+      "political": 12,
+      "kpis": 8,
+      "econ": 8
+    },
+    "rssFeeds": [
+      "https://news.google.com/rss/search?q=fusion+energy+ITER+NIF+tokamak&hl=en-US&gl=US&ceid=US:en"
+    ]
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard"
+}
