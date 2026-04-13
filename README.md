@@ -139,7 +139,10 @@ npm start
 
 ### Telegram
 
-Automated breaking news channel — an hourly scan detects new high-priority events across all trackers and posts them to Telegram in real time.
+### Bluesky
+Daily intelligence briefs and breaking news — follow [@watchboard.bsky.social](https://bsky.app/profile/watchboard.bsky.social).
+
+Automated breaking news channel — join [@watchboard_dev](https://t.me/watchboard_dev) for real-time updates.
 
 ### Bluesky
 
