@@ -335,48 +335,148 @@ jobs:
           name: hourly-action-plan
           path: /tmp/
 
+      - name: Prepare schema and config context
+        if: matrix.entry.type == 'update'
+        run: |
+          # Extract relevant schema definitions
+          node -e "
+            const fs = require('fs');
+            const content = fs.readFileSync('src/lib/schemas.ts', 'utf8');
+
+            // Extract key type info in condensed form for the AI
+            const condensed = \`# Watchboard Schema Reference (condensed)
+          # TimelineEventSchema fields:
+          #   id: string (kebab-case)
+          #   year: string (coerced) — format: \"Mon DD, YYYY\" e.g. \"Apr 13, 2026\"
+          #   title: string
+          #   type: string
+          #   active?: boolean
+          #   detail: string
+          #   sources: Array<{name: string, tier: 1|2|3|4, url?: string, pole?: \"western\"|\"middle_eastern\"|\"eastern\"|\"international\"}>
+          #   media?: Array<{type: \"image\"|\"video\"|\"article\", url: string, caption?: string, source?: string, thumbnail?: string}>
+          #   weaponTypes?: Array<\"ballistic\"|\"cruise\"|\"drone\"|\"drone_loitering\"|\"drone_ucav\"|\"drone_recon\"|\"drone_fpv\"|\"rocket\"|\"mixed\"|\"unknown\">
+          #   confidence?: \"high\"|\"medium\"|\"low\"
+          #   eventConfidence?: \"verified\"|\"official_claim\"|\"disputed\"|\"unverified\"
+          #   confidenceReason?: string
+          #   lastUpdated?: string
+
+          # MapPointSchema fields:
+          #   id: string, lon: number, lat: number, cat: string, label: string, sub: string
+          #   tier: 1|2|3|4, date: string (YYYY-MM-DD, no future dates)
+          #   base?: boolean, showLabel?: boolean, zoneRadius?: number (positive)
+          #   lastUpdated?: string
+
+          # MapLineSchema fields:
+          #   id: string, from: [lon,lat], to: [lon,lat], cat: string, label: string
+          #   date: string (YYYY-MM-DD, no future dates)
+          #   weaponType?: (same enum as above), launched?: int>=0, intercepted?: int>=0
+          #   confidence?: \"high\"|\"medium\"|\"low\", time?: string (HH:MM 0:00-23:59)
+          #   damage?: string, casualties?: string, notes?: string, platform?: string
+          #   status?: \"hit\"|\"intercepted\"|\"partial\"|\"unknown\", lastUpdated?: string
+          #   RULE: if cat is \"strike\" or \"retaliation\", weaponType AND time are REQUIRED
+
+          # KpiSchema fields:
+          #   id: string, label: string, value: string, color: \"red\"|\"amber\"|\"blue\"|\"green\"
+          #   source: string, contested: boolean, contestNote?: string
+          #   delta?: string, deltaNote?: string, trend?: \"up\"|\"down\"|\"stable\"
+          #   lastUpdated?: string
+
+          # MediaItemSchema fields:
+          #   type: \"image\"|\"video\"|\"article\", url: string
+          #   caption?: string, source?: string, thumbnail?: string
+          \`;
+            fs.writeFileSync('/tmp/schemas-condensed.txt', condensed);
+            console.log('Wrote condensed schemas (' + condensed.length + ' chars)');
+          "
+
+          # Copy tracker config
+          TRACKER="${{ matrix.entry.tracker }}"
+          cp "trackers/${TRACKER}/tracker.json" /tmp/tracker-config.txt
+          echo "Copied tracker config for ${TRACKER}"
+
+      - name: Pre-fetch media thumbnails
+        if: matrix.entry.type == 'update'
+        env:
+          ENTRY_DATA: ${{ matrix.entry.data }}
+        run: |
+          node -e "
+            const fs = require('fs');
+            const { execSync } = require('child_process');
+
+            const data = JSON.parse(process.env.ENTRY_DATA || '{}');
+            const events = data.events || [];
+            const results = [];
+
+            for (const event of events) {
+              for (const url of (event.sources || [])) {
+                try {
+                  // Fetch page, follow redirects, timeout 10s
+                  const html = execSync(
+                    'curl -sL --max-time 10 --max-redirs 5 ' + JSON.stringify(url),
+                    { encoding: 'utf8', timeout: 15000 }
+                  ).substring(0, 50000); // Cap at 50KB
+
+                  // Extract og:image
+                  const ogMatch = html.match(/<meta[^>]+property=[\"']og:image[\"'][^>]+content=[\"']([^\"']+)[\"']/i)
+                    || html.match(/<meta[^>]+content=[\"']([^\"']+)[\"'][^>]+property=[\"']og:image[\"']/i);
+
+                  const thumbnail = ogMatch ? ogMatch[1] : null;
+                  const sourceName = new URL(url).hostname.replace('www.', '');
+
+                  results.push({
+                    url: url,
+                    thumbnail: thumbnail || url,
+                    source: sourceName,
+                    found: !!ogMatch
+                  });
+                  console.log((ogMatch ? 'Found' : 'No og:image for') + ': ' + url);
+                } catch (e) {
+                  results.push({ url: url, thumbnail: url, source: 'unknown', found: false });
+                  console.log('Failed to fetch: ' + url);
+                }
+              }
+            }
+
+            fs.writeFileSync('/tmp/media-prefetch.json', JSON.stringify(results, null, 2));
+            console.log('Pre-fetched media for ' + results.length + ' URLs');
+          "
+
       - name: Update tracker data
         if: matrix.entry.type == 'update'
         uses: anthropics/claude-code-action@v1
         with:
           allowed_bots: "github-actions[bot]"
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          claude_args: "--max-turns 35 --dangerously-skip-permissions"
+          claude_args: "--max-turns 20 --dangerously-skip-permissions"
           prompt: |
             You are updating the Watchboard tracker "${{ matrix.entry.tracker }}" with a breaking news event.
 
             IMPORTANT: If the triage data below says "Freshness refresh" with empty sources [], this is a keepalive — NOT real news. For freshness refreshes:
-            - Skip STEP 3.5 (media search) — use media: [] on the event
-            - Skip STEP 4 (tweet) — do NOT write /tmp/tweet-text.txt
+            - Use media: [] on the event
             - Still update meta.json lastUpdated (keep existing heroHeadline)
-            - Still write digest entry with source: "freshness"
             - Events MUST still have ALL required fields: id, year (string like "Apr 13, 2026"), title, type (e.g. "freshness"), detail (e.g. "Automated freshness refresh — no new developments"), sources: []
-            - Complete in under 10 turns — be efficient
+            - Complete in under 5 turns — be efficient
 
-            STEP 1: Read the schemas and tracker config:
-            - Read src/lib/schemas.ts (focus on TimelineEventSchema, MapPointSchema, MapLineSchema, SourceSchema)
-            - Read trackers/${{ matrix.entry.tracker }}/tracker.json
+            SCHEMA REFERENCE (do NOT read schemas.ts or tracker.json — use these directly):
+            $(cat /tmp/schemas-condensed.txt)
 
-            STEP 2: Here is the triage data for this update:
+            TRACKER CONFIG:
+            $(cat /tmp/tracker-config.txt)
+
+            TRIAGE DATA:
             ${{ matrix.entry.data }}
 
-            STEP 3: Update the tracker data files:
+            PRE-FETCHED MEDIA (use these directly — do NOT search the web for images):
+            $(cat /tmp/media-prefetch.json)
+
+            UPDATE the tracker data files:
             - Create or append to trackers/${{ matrix.entry.tracker }}/data/events/$(date -u +%Y-%m-%d).json
             - Update trackers/${{ matrix.entry.tracker }}/data/map-points.json if event has a location
             - Update trackers/${{ matrix.entry.tracker }}/data/map-lines.json if event involves movement/strike
             - Update trackers/${{ matrix.entry.tracker }}/data/kpis.json if metrics changed
             - Update trackers/${{ matrix.entry.tracker }}/data/meta.json: set heroHeadline and lastUpdated
-
-            STEP 3.5 — EVENT MEDIA (MANDATORY):
-            Every new event MUST have a `media` array with at least 1 item:
-            { "type": "image", "url": "<article-url>", "caption": "<brief description>", "source": "<outlet-name>", "thumbnail": "<direct-image-url>" }
-            - Search for the article covering this event from a Tier 1-2 source
-            - The `url` field = article URL
-            - The `thumbnail` field = the direct image URL (og:image, hero image, or photo from the article)
-            - To find the thumbnail: look for og:image meta tag in the article, or find a .jpg/.png/.webp URL from the same domain
-            - Prefer Reuters, AP, BBC, Al Jazeera, CNN image CDNs for reliability
-            - NEVER fabricate or guess image URLs — only use URLs you found via web search
-            - If you cannot find any image, set thumbnail to the article URL as fallback
+            - For each event, populate the `media` array using the pre-fetched thumbnails above:
+              { "type": "image", "url": "<article-url>", "caption": "<brief description>", "source": "<outlet-name>", "thumbnail": "<from-prefetch>" }
 
             VALIDATION RULES (MUST follow):
             - year field MUST be a string like "Apr 3, 2026" (NOT a number)
@@ -387,32 +487,57 @@ jobs:
             - Map coordinates must be within tracker's coordValidation bounds
             - Merge by ID — never remove existing items, only append
             - Every source MUST include a `url` field with the direct article URL (not a homepage)
-            - Every event MUST have a non-empty `media` array
-            - Each media item MUST have `type`, `url`, and `thumbnail` fields
 
-            STEP 4: Generate a tweet for this event:
-            - Write the tweet text to /tmp/tweet-text.txt
-            - Max 280 characters (URLs count as 23 chars via t.co)
-            - Include the tracker link: https://watchboard.dev/${{ matrix.entry.tracker }}/?utm_source=x&utm_medium=breaking_hourly&utm_campaign=$(date -u +%Y-%m-%d)
-            - Add 1 topic hashtag + #Watchboard (2 max)
-            - Tone: breaking news journalist, factual, concise
-
-            STEP 5 — WRITE DIGEST ENTRY FOR RSS:
-            After writing event data, read trackers/${{ matrix.entry.tracker }}/data/digests.json (create as [] if missing).
-            Check if a "breaking" digest already exists for today (source === "breaking" AND date === today YYYY-MM-DD).
-            If YES: update the existing entry — merge sectionsUpdated, update summary to reflect latest event.
-            If NO: prepend a new entry to the array:
-            {
-              "date": "YYYY-MM-DD",
-              "title": "Breaking: {event title}",
-              "summary": "{first 200 chars of event description}",
-              "sectionsUpdated": [{sections you modified}],
-              "source": "breaking"
-            }
-            Write the updated array back to digests.json.
-
-            STEP 6: Write the list of new event IDs (one per line) to /tmp/event-ids.txt
+            FINALLY: Write the list of new event IDs (one per line) to /tmp/event-ids.txt
             Write the list of sections you modified (one per line) to /tmp/sections.txt
+
+      - name: Generate tweet
+        if: matrix.entry.type == 'update'
+        env:
+          ENTRY_DATA: ${{ matrix.entry.data }}
+          TRACKER_SLUG: ${{ matrix.entry.tracker }}
+        run: |
+          node -e "
+            const fs = require('fs');
+            const data = JSON.parse(process.env.ENTRY_DATA || '{}');
+            const tracker = data.tracker || process.env.TRACKER_SLUG;
+            const event = (data.events || [])[0] || {};
+            const summary = (event.summary || '').substring(0, 200);
+            const today = new Date().toISOString().split('T')[0];
+            const link = 'https://watchboard.dev/' + tracker + '/?utm_source=x&utm_medium=breaking_hourly&utm_campaign=' + today;
+            // t.co wraps links to 23 chars, hashtag ~15, leaves ~240 for summary
+            const tweet = summary.substring(0, 230) + '\n\n' + link + '\n#Watchboard';
+            fs.writeFileSync('/tmp/tweet-text.txt', tweet);
+            console.log('Tweet generated: ' + tweet.length + ' chars');
+          "
+
+      - name: Write digest entry
+        if: matrix.entry.type == 'update'
+        env:
+          ENTRY_DATA: ${{ matrix.entry.data }}
+          TRACKER_SLUG: ${{ matrix.entry.tracker }}
+        run: |
+          node -e "
+            const fs = require('fs');
+            const tracker = process.env.TRACKER_SLUG;
+            const data = JSON.parse(process.env.ENTRY_DATA || '{}');
+            const digestPath = 'trackers/' + tracker + '/data/digests.json';
+            let digests = [];
+            try { digests = JSON.parse(fs.readFileSync(digestPath, 'utf8')); } catch {}
+            const today = new Date().toISOString().split('T')[0];
+            const existing = digests.findIndex(d => d.source === 'breaking' && d.date === today);
+            const event = (data.events || [])[0] || {};
+            const entry = {
+              date: today,
+              title: 'Breaking: ' + (event.summary || '').substring(0, 80),
+              summary: (event.summary || '').substring(0, 200),
+              sectionsUpdated: ['events', 'meta'],
+              source: 'breaking'
+            };
+            if (existing >= 0) { digests[existing] = entry; } else { digests.unshift(entry); }
+            fs.writeFileSync(digestPath, JSON.stringify(digests, null, 2));
+            console.log('Digest updated for ' + tracker);
+          "
 
       - name: Post breaking tweet
         if: matrix.entry.type == 'update'
