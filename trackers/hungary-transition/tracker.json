@@ -1,0 +1,38 @@
+{
+  "slug": "hungary-transition",
+  "name": "Hungary Political Transition",
+  "shortName": "Hungary",
+  "description": "Viktor Orbán swept from power after 16 years. Tracking Hungary's democratic transition and its implications for EU cohesion, NATO unity, and the Ukraine war.",
+  "icon": "🇭🇺",
+  "color": "#CE2939",
+  "status": "active",
+  "temporal": "live",
+  "domain": "Politics / Democratic Transition",
+  "region": "Europe",
+  "country": "Hungary",
+  "startDate": "2026-04-13",
+  "eraLabel": "Post-Orbán Transition",
+  "series": [],
+  "tags": ["europe", "democracy", "nato", "eu", "hungary"],
+  "sections": ["timeline", "map", "kpis"],
+  "map": {
+    "center": [19.0402, 47.4979],
+    "zoom": 7,
+    "style": "dark"
+  },
+  "globe": {
+    "defaultView": [19.0402, 47.4979, 3000000]
+  },
+  "navSections": ["events", "map", "kpis"],
+  "coordValidation": {
+    "lonRange": [10, 30],
+    "latRange": [42, 52]
+  },
+  "ai": {
+    "searchContext": "Hungary Orbán transition election democracy EU NATO",
+    "rssFeeds": [
+      "https://news.google.com/rss/search?q=Hungary+Orb%C3%A1n+political+transition&hl=en-US&gl=US&ceid=US:en",
+      "https://news.google.com/rss/search?q=Hungary+election+democracy+EU&hl=en-US&gl=US&ceid=US:en"
+    ]
+  }
+}
