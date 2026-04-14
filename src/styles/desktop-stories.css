@@ -1,0 +1,259 @@
+/* ─── Desktop Story Strip (sidebar collapsed view) ─── */
+
+.desktop-story-strip {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px 6px;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.desktop-story-strip::-webkit-scrollbar {
+  display: none;
+}
+
+/* ── Circle column ── */
+.desktop-story-circles {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.desktop-story-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  border: 2px solid var(--accent-green, #3fb950);
+  background: var(--bg-card, #161b22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.2s ease, opacity 0.2s ease;
+  flex-shrink: 0;
+}
+.desktop-story-circle:hover {
+  transform: scale(1.1);
+}
+.desktop-story-circle.active {
+  border-color: var(--accent-blue, #58a6ff);
+  box-shadow: 0 0 8px rgba(88, 166, 255, 0.3);
+}
+.desktop-story-circle.seen {
+  border-color: var(--border, #30363d);
+  opacity: 0.5;
+}
+
+/* ── Story card ── */
+.desktop-story-card {
+  position: relative;
+  background: var(--bg-card, #161b22);
+  border: 1px solid var(--border, #30363d);
+  border-radius: 10px;
+  overflow: hidden;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+/* ── Progress bars ── */
+.desktop-story-progress {
+  display: flex;
+  gap: 2px;
+  padding: 6px 6px 0;
+}
+
+.desktop-story-progress-seg {
+  flex: 1;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 1px;
+  overflow: hidden;
+}
+
+.desktop-story-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--accent-blue, #58a6ff);
+  border-radius: 1px;
+  transition: width 0.1s linear;
+}
+.desktop-story-progress-fill.complete {
+  width: 100%;
+}
+.desktop-story-progress-fill.upcoming {
+  width: 0%;
+}
+
+/* ── Image area ── */
+.desktop-story-image {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--bg-secondary, #0d1117);
+}
+.desktop-story-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.desktop-story-image-gradient {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(to top, var(--bg-card, #161b22) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+/* ── Header (icon + name + age) ── */
+.desktop-story-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px 2px;
+}
+.desktop-story-icon {
+  font-size: 14px;
+  flex-shrink: 0;
+}
+.desktop-story-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.55rem;
+  font-weight: 600;
+  color: var(--text-primary, #e6edf3);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+  min-width: 0;
+}
+.desktop-story-age {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.45rem;
+  color: var(--text-muted, #8b949e);
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* ── Content ── */
+.desktop-story-content {
+  padding: 8px 10px 4px;
+}
+
+.desktop-story-headline {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.62rem;
+  font-weight: 600;
+  color: var(--text-primary, #e6edf3);
+  line-height: 1.3;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ── KPIs ── */
+.desktop-story-kpis {
+  display: flex;
+  gap: 10px;
+  padding: 6px 10px 4px;
+}
+
+.desktop-story-kpi {
+  text-align: center;
+}
+.desktop-story-kpi-value {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+.desktop-story-kpi-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.38rem;
+  color: var(--text-muted, #8b949e);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-top: 1px;
+}
+
+/* ── Paused badge ── */
+.desktop-story-paused {
+  text-align: center;
+  padding: 3px 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.42rem;
+  font-weight: 600;
+  color: var(--text-muted, #8b949e);
+  letter-spacing: 0.08em;
+  background: rgba(88, 166, 255, 0.06);
+}
+
+/* ── Read More link ── */
+.desktop-story-open {
+  display: block;
+  text-align: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.5rem;
+  color: var(--accent-blue, #58a6ff);
+  text-decoration: none;
+  padding: 6px 8px;
+  border-top: 1px solid var(--border-light, rgba(48, 54, 61, 0.6));
+  letter-spacing: 0.04em;
+}
+.desktop-story-open:hover {
+  background: rgba(88, 166, 255, 0.08);
+}
+
+/* ── Navigation zones (invisible click areas) ── */
+.desktop-story-nav-left,
+.desktop-story-nav-right {
+  position: absolute;
+  top: 0;
+  bottom: 40px;
+  z-index: 5;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.desktop-story-nav-left {
+  left: 0;
+  width: 40%;
+}
+.desktop-story-nav-right {
+  right: 0;
+  width: 60%;
+}
+
+/* ── Card enter animation ── */
+.desktop-story-card-enter {
+  animation: desktopStoryFadeIn 0.25s ease-out;
+}
+@keyframes desktopStoryFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ── Hide on mobile ── */
+@media (max-width: 767px) {
+  .desktop-story-strip {
+    display: none;
+  }
+}
