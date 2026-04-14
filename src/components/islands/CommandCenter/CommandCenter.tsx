@@ -168,9 +168,7 @@ export default function CommandCenter({
     if (viewMode !== 'geographic') return;
     if (countriesGeoJSON) return;
 
-    const geoBase = import.meta.env.BASE_URL || '/watchboard';
-    const geoBasePath = geoBase.endsWith('/') ? geoBase : `${geoBase}/`;
-    fetch(`${geoBasePath}geo/countries-110m.json`)
+    fetch(`${basePath}geo/countries-110m.json`)
       .then(r => r.ok ? r.json() : null)
       .then(data => { if (data) setCountriesGeoJSON(data); })
       .catch(() => { /* polygon layer simply won't appear */ });
@@ -679,6 +677,7 @@ export default function CommandCenter({
                     onClick={() => { handleSelect(t.slug); setSidebarCollapsed(false); }}
                     style={{
                       ...styles.collapsedTrackerIcon,
+                      position: 'relative' as const,
                       borderColor: isSelected ? t.color || freshnessColor : freshnessColor,
                       boxShadow: isSelected ? `0 0 6px ${freshnessShadow}` : 'none',
                       opacity: freshness.className === 'stale' ? 0.5 : 1,
@@ -687,6 +686,18 @@ export default function CommandCenter({
                     aria-label={`Select ${t.shortName} (${freshness.label})`}
                   >
                     <span style={{ fontSize: '1rem' }}>{t.icon}</span>
+                    {freshness.className === 'fresh' && (
+                      <span style={{
+                        position: 'absolute',
+                        top: 1,
+                        right: 1,
+                        width: 6,
+                        height: 6,
+                        borderRadius: '50%',
+                        background: 'var(--accent-green)',
+                        boxShadow: '0 0 4px rgba(46,160,67,0.5)',
+                      }} />
+                    )}
                   </button>
                 );
               })}
