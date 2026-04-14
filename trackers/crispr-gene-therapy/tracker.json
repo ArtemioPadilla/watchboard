@@ -1,0 +1,196 @@
+{
+  "slug": "crispr-gene-therapy",
+  "name": "CRISPR Gene Therapy Tracker",
+  "shortName": "CRISPR",
+  "description": "Intelligence dashboard tracking CRISPR gene editing and gene therapy breakthroughs: approved treatments, clinical trials, base editing, prime editing, and the regulatory and ethical landscape reshaping medicine.",
+  "icon": "🧬",
+  "color": "#27ae60",
+  "status": "active",
+  "temporal": "live",
+  "domain": "science",
+  "region": "global",
+  "tags": ["biotechnology", "genomics", "medicine", "gene-editing", "clinical-trials", "crispr", "gene-therapy"],
+  "startDate": "2012-06-28",
+  "eraLabel": "CRISPR Revolution",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": -130,
+      "lonMax": 150,
+      "latMin": -45,
+      "latMax": 75
+    },
+    "center": {
+      "lon": -20,
+      "lat": 30
+    },
+    "categories": [
+      {
+        "id": "approved",
+        "label": "Approved Therapies",
+        "color": "#27ae60"
+      },
+      {
+        "id": "trial",
+        "label": "Clinical Trial Sites",
+        "color": "#3498db"
+      },
+      {
+        "id": "research",
+        "label": "Research Institutions",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "regulatory",
+        "label": "Regulatory Agencies",
+        "color": "#f39c12"
+      },
+      {
+        "id": "biotech",
+        "label": "Biotech Companies",
+        "color": "#e74c3c"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "global": {
+        "lon": -20,
+        "lat": 30,
+        "alt": 15000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Global Overview"
+      },
+      "berkeley": {
+        "lon": -122.26,
+        "lat": 37.87,
+        "alt": 50000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "UC Berkeley — Doudna Lab"
+      },
+      "broad": {
+        "lon": -71.10,
+        "lat": 42.36,
+        "alt": 50000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Broad Institute, Cambridge MA"
+      },
+      "london": {
+        "lon": -0.12,
+        "lat": 51.51,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "London — UK Gene Therapy Hubs"
+      },
+      "beijing": {
+        "lon": 116.40,
+        "lat": 39.90,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Beijing — Early Human CRISPR Trials"
+      },
+      "houston": {
+        "lon": -95.39,
+        "lat": 29.71,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Houston Medical Center"
+      }
+    }
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Global Map"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Market"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Debates"
+    },
+    {
+      "id": "sec-political",
+      "label": "Key Figures"
+    }
+  ],
+  "politicalAvatars": [
+    "researcher",
+    "biotech",
+    "regulator",
+    "patient",
+    "ethicist"
+  ],
+  "eventTypes": [
+    "approval",
+    "trial",
+    "discovery",
+    "policy",
+    "investment"
+  ],
+  "ai": {
+    "systemPrompt": "You are a science and biotechnology analyst updating a CRISPR gene therapy tracking dashboard.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"casgevy_approval\", \"sickle_cell_trial_phase3\").\n\nSource tier classification for this domain:\n- Tier 1: Official/primary (FDA, EMA, NIH, WHO, MHRA, peer-reviewed journals: Nature, Science, NEJM, Cell, Nature Medicine, Nature Biotechnology)\n- Tier 2: Major outlets (Reuters, AP, BBC, STAT News, Nature News, Science News, MIT Technology Review, Wall Street Journal, The Scientist)\n- Tier 3: Institutional (ClinicalTrials.gov, CRISPR Medicine News, Evaluate Pharma, Fierce Biotech, Endpoints News, bioRxiv preprints with institutional backing)\n- Tier 4: Unverified (company press releases without peer review, social media, unreviewed preprints, unattributed claims)\n\nCLINICAL DATA RULES:\n- Approved therapies require Tier 1 source (FDA/EMA/MHRA press release or peer-reviewed publication).\n- For clinical trials, include NCT number when available (format: NCT00000000).\n- Always distinguish: animal model results vs. human Phase I/II/III data.\n- Distinguish editing technologies: classic CRISPR-Cas9, Cas12, Cas13, base editing, prime editing.\n- For approved therapies, include brand name, generic name (INN), company, and approval date.\n\nSCIENCE SOURCING:\n- Do NOT report preliminary animal data as confirmed human breakthroughs.\n- Note retracted studies explicitly; do not include retracted data as current fact.\n- For off-target editing concerns, cite peer-reviewed safety data.\n\nOnly include information you can verify through search results. Do not fabricate data, trial results, or approval dates.",
+    "searchContext": "CRISPR gene editing gene therapy clinical trials FDA approval base editing prime editing",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": -180,
+      "lonMax": 180,
+      "latMin": -90,
+      "latMax": 90
+    },
+    "updateIntervalDays": 7,
+    "backfillTargets": {
+      "timeline": 30,
+      "mapPoints": 20,
+      "claims": 15,
+      "political": 15,
+      "kpis": 8,
+      "econ": 8
+    },
+    "updatePolicy": {
+      "escalation": [
+        7,
+        14,
+        30,
+        60,
+        90
+      ],
+      "quietThreshold": 0
+    },
+    "rssFeeds": [
+      "https://news.google.com/rss/search?q=CRISPR+gene+therapy+clinical+trial&hl=en-US&gl=US&ceid=US:en",
+      "https://www.statnews.com/feed/"
+    ]
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard"
+}
