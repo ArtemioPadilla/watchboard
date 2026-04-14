@@ -1,0 +1,190 @@
+{
+  "slug": "reforestation",
+  "name": "Global Reforestation & Rewilding Tracker",
+  "shortName": "Reforestation",
+  "description": "Intelligence dashboard tracking global reforestation and rewilding initiatives: the Great Green Wall, mangrove restoration, urban forests, trillion tree pledges, and ecosystem recovery milestones.",
+  "icon": "🌱",
+  "color": "#27ae60",
+  "status": "active",
+  "temporal": "live",
+  "domain": "science",
+  "region": "global",
+  "tags": ["environment", "ecology", "climate", "biodiversity", "reforestation", "rewilding"],
+  "startDate": "2007-01-01",
+  "eraLabel": "Restoration Era 2007–Present",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": -180,
+      "lonMax": 180,
+      "latMin": -60,
+      "latMax": 75
+    },
+    "center": {
+      "lon": 15,
+      "lat": 12
+    },
+    "categories": [
+      {
+        "id": "plantation",
+        "label": "Planting Sites",
+        "color": "#27ae60"
+      },
+      {
+        "id": "mangrove",
+        "label": "Mangrove Restoration",
+        "color": "#16a085"
+      },
+      {
+        "id": "urban",
+        "label": "Urban Forest",
+        "color": "#2ecc71"
+      },
+      {
+        "id": "degraded",
+        "label": "Degraded / At-Risk Land",
+        "color": "#e67e22"
+      },
+      {
+        "id": "recovery",
+        "label": "Recovery Zone",
+        "color": "#1abc9c"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "global": {
+        "lon": 15,
+        "lat": 10,
+        "alt": 20000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Global Overview"
+      },
+      "great_green_wall": {
+        "lon": 15,
+        "lat": 14,
+        "alt": 4500000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Great Green Wall (Sahel)"
+      },
+      "amazon": {
+        "lon": -60,
+        "lat": -5,
+        "alt": 3500000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Amazon Basin"
+      },
+      "congo_basin": {
+        "lon": 24,
+        "lat": -1,
+        "alt": 3000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Congo Basin"
+      },
+      "sundarban": {
+        "lon": 89.5,
+        "lat": 22,
+        "alt": 400000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Sundarbans Mangroves"
+      },
+      "borneo": {
+        "lon": 114,
+        "lat": 1,
+        "alt": 2000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Borneo Rainforest"
+      }
+    }
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Funding"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Claims"
+    },
+    {
+      "id": "sec-political",
+      "label": "Actors"
+    }
+  ],
+  "politicalAvatars": [
+    "un",
+    "afr-union",
+    "ngo",
+    "nat-gov",
+    "private",
+    "other"
+  ],
+  "eventTypes": [
+    "planting",
+    "restoration",
+    "policy",
+    "milestone",
+    "setback"
+  ],
+  "ai": {
+    "systemPrompt": "You are an environmental science researcher updating a global reforestation and rewilding intelligence dashboard.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"ggw_senegal_milestone\", \"amazon_reforestation_pact\").\n\nFOCUS AREAS:\n- Great Green Wall (GGW) across the African Sahel — 8,000 km from Senegal to Djibouti\n- Mangrove restoration globally (Sundarbans, West Africa, Southeast Asia, Caribbean)\n- Urban forest initiatives (urban tree canopy, city greening programs)\n- Trillion Tree Initiative / 1t.org / Bonn Challenge pledges and actual delivery\n- Amazon, Congo Basin, and Borneo forest protection and restoration\n- National reforestation programs (China's Three-North Shelterbelt, India, Ethiopia, Pakistan)\n- International frameworks: CBD Kunming-Montreal GBF, UN Decade on Ecosystem Restoration 2021-2030\n\nSOURCE TIERS for this domain:\n- Tier 1: Official primary sources (UNEP, FAO, CBD Secretariat, IUCN, national forest agencies, UNCCD, World Bank, AFR100)\n- Tier 2: Major scientific/news outlets (Nature, Science, Reuters, AP, BBC, Guardian, Carbon Brief, Mongabay, Bloomberg)\n- Tier 3: Institutional/analytical (WRI Global Forest Watch, WWF, Rainforest Alliance, Conservation International, CIFOR, Bonn Challenge progress reports, IDH)\n- Tier 4: Unverified (social media, unattributed pledges, uncorroborated estimates)\n\nSOURCING GUIDELINES:\n- Distinguish between trees planted vs. trees surviving (survival rates matter)\n- Distinguish between monoculture plantations vs. biodiverse native restoration\n- Report funding pledged vs. funding actually disbursed\n- Flag greenwashing concerns when pledges lack verification mechanisms\n- Include indigenous community involvement when reported\n\nOnly include information you can verify through search results. Do not fabricate data.\nFor contested claims (tree counts, survival rates, carbon sequestration estimates), note the source of each estimate and flag discrepancies.",
+    "searchContext": "global reforestation rewilding Great Green Wall trillion trees mangrove ecosystem restoration",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "claims",
+      "political",
+      "econ"
+    ],
+    "coordValidation": {
+      "lonMin": -180,
+      "lonMax": 180,
+      "latMin": -60,
+      "latMax": 75
+    },
+    "updateIntervalDays": 7,
+    "backfillTargets": {
+      "timeline": 30,
+      "mapPoints": 25,
+      "claims": 15,
+      "political": 15,
+      "kpis": 8,
+      "econ": 8
+    },
+    "updatePolicy": {
+      "escalation": [7, 7, 14, 30, 60],
+      "quietThreshold": 0
+    },
+    "rssFeeds": [
+      "https://news.google.com/rss/search?q=reforestation+rewilding+ecosystem+restoration&hl=en-US&gl=US&ceid=US:en",
+      "https://www.unep.org/rss.xml"
+    ]
+  },
+  "githubRepo": "ArtemioPadilla/watchboard"
+}
