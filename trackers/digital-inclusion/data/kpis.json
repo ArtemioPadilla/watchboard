@@ -1,1 +1,96 @@
-[]
+[
+  {
+    "id": "internet-penetration-global",
+    "label": "Global Internet Penetration",
+    "value": "67.4%",
+    "color": "blue",
+    "source": "ITU Global Connectivity Report 2024",
+    "contested": false,
+    "delta": "+2.1 pp",
+    "deltaNote": "year-over-year increase from 65.3% in 2023",
+    "trend": "up",
+    "lastUpdated": "2026-04-14T00:00:00Z"
+  },
+  {
+    "id": "people-offline-count",
+    "label": "People Still Offline Worldwide",
+    "value": "2.6 billion",
+    "color": "red",
+    "source": "ITU 2024 / UN Broadband Commission",
+    "contested": true,
+    "contestNote": "Estimates range from 2.5–2.9B depending on 'active use' vs. 'occasional access' definitions",
+    "trend": "down",
+    "lastUpdated": "2026-04-14T00:00:00Z"
+  },
+  {
+    "id": "starlink-active-subscribers",
+    "label": "Starlink Active Subscribers",
+    "value": "~4.2 million",
+    "color": "blue",
+    "source": "SpaceX regulatory filings / Q1 2025 reports",
+    "contested": false,
+    "delta": "+1.2M",
+    "deltaNote": "since mid-2024 (3M milestone)",
+    "trend": "up",
+    "lastUpdated": "2026-04-14T00:00:00Z"
+  },
+  {
+    "id": "mobile-broadband-coverage",
+    "label": "4G+ Mobile Coverage (% population)",
+    "value": "95%",
+    "color": "green",
+    "source": "GSMA Intelligence State of Connectivity 2024",
+    "contested": false,
+    "delta": "+2 pp",
+    "deltaNote": "coverage growing but adoption still lags at ~57%",
+    "trend": "up",
+    "lastUpdated": "2026-04-14T00:00:00Z"
+  },
+  {
+    "id": "gender-digital-gap",
+    "label": "Gender Digital Gap (mobile internet, LMICs)",
+    "value": "7 pp",
+    "color": "amber",
+    "source": "GSMA Connected Women Report 2023",
+    "contested": false,
+    "delta": "-1 pp",
+    "deltaNote": "slowly narrowing; women 7% less likely to use mobile internet than men in LMICs",
+    "trend": "down",
+    "lastUpdated": "2026-04-14T00:00:00Z"
+  },
+  {
+    "id": "school-connectivity-lmic",
+    "label": "School Connectivity in LMICs",
+    "value": "~40%",
+    "color": "red",
+    "source": "UNICEF / ITU Measuring Digital Development 2024",
+    "contested": true,
+    "contestNote": "Definitions vary: some estimates as low as 23% when measuring actual learning-quality broadband",
+    "trend": "up",
+    "lastUpdated": "2026-04-14T00:00:00Z"
+  },
+  {
+    "id": "data-cost-1gb-lmic",
+    "label": "1GB Data Cost (avg % of monthly income, LMICs)",
+    "value": "1.8%",
+    "color": "amber",
+    "source": "Alliance for Affordable Internet (A4AI) Affordability Report 2024",
+    "contested": false,
+    "delta": "-0.3 pp",
+    "deltaNote": "improving but ITU 2% affordability target still missed in 40+ countries",
+    "trend": "down",
+    "lastUpdated": "2026-04-14T00:00:00Z"
+  },
+  {
+    "id": "starlink-country-coverage",
+    "label": "Starlink Countries with Active Service",
+    "value": "100+",
+    "color": "blue",
+    "source": "SpaceX Starlink availability map, 2024",
+    "contested": false,
+    "delta": "+20 countries",
+    "deltaNote": "since early 2023; coverage expanding fastest in Sub-Saharan Africa and Pacific Islands",
+    "trend": "up",
+    "lastUpdated": "2026-04-14T00:00:00Z"
+  }
+]
