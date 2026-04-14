@@ -35,17 +35,36 @@ const GDELT_THEMES =
 
 /** High-quality general RSS feeds for broad coverage */
 const GENERAL_RSS_FEEDS = [
-  'https://www.aljazeera.com/xml/rss/all.xml',
-  'https://feeds.bbci.co.uk/news/world/rss.xml',
+  // ── Tier 1: Major international wire services & broadsheets ──
   'https://feeds.reuters.com/reuters/worldNews',
   'https://rss.nytimes.com/services/xml/rss/nyt/World.xml',
-  'https://news.google.com/rss?hl=en-US&gl=US&ceid=US:en',
-  'https://feeds.bbci.co.uk/news/technology/rss.xml',
-  'https://feeds.bbci.co.uk/news/science_and_environment/rss.xml',
   'https://www.theguardian.com/world/rss',
+  'https://www.latimes.com/world-nation/rss2.0.xml',
+  // ── Tier 1: Aggregators ──
+  'https://news.google.com/rss?hl=en-US&gl=US&ceid=US:en',
   'https://news.google.com/rss?hl=es-419&gl=MX&ceid=MX:es-419',
-  'https://elpais.com/rss/elpais/portada.xml',
-  'https://www.bbc.co.uk/mundo/index.xml',
+  // ── Tier 2: Regional powerhouses ──
+  'https://www.aljazeera.com/xml/rss/all.xml',               // Middle East & Global South
+  'https://feeds.bbci.co.uk/news/world/rss.xml',              // UK/Global
+  'https://feeds.bbci.co.uk/news/technology/rss.xml',         // Tech
+  'https://feeds.bbci.co.uk/news/science_and_environment/rss.xml', // Science
+  'https://www.bbc.co.uk/mundo/index.xml',                    // LatAm Spanish
+  'https://www.france24.com/en/rss',                          // Africa & Francophone
+  'https://www.rfi.fr/en/rss',                                // Africa & Francophone
+  'https://rss.dw.com/xml/rss-en-world',                      // German perspective, global
+  'https://www.middleeasteye.net/rss',                        // MENA region
+  'https://www.scmp.com/rss/91/feed',                         // China & East Asia
+  'https://www.japantimes.co.jp/feed/',                       // Japan & East Asia
+  'https://www.thehindu.com/news/international/feeder/default.rss', // India & South Asia
+  // ── Tier 2: Humanitarian & conflict-specific ──
+  'https://reliefweb.int/updates/rss.xml',                    // UN humanitarian (Somalia, Sahel, etc.)
+  'https://news.un.org/feed/subscribe/en/news/all/rss.xml',   // UN official
+  'https://www.thenewhumanitarian.org/rss.xml',               // Crisis journalism
+  // ── Tier 2: LatAm & security ──
+  'https://elpais.com/rss/elpais/portada.xml',                // Spain & LatAm
+  'https://aristeguinoticias.com/feed/',                      // Mexico investigative
+  'https://www.insightcrime.org/feed/',                       // Organized crime LatAm
+  'https://www.borderreport.com/feed/',                       // US-Mexico border
 ];
 
 const XML_PARSER = new XMLParser({
