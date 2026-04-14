@@ -30,6 +30,8 @@ import {
   type Candidate,
   type ActionPlan,
   PATHS,
+  loadManifest,
+  saveManifest,
 } from './hourly-types.js';
 import {
   buildTriagePrompt,
@@ -557,9 +559,22 @@ async function main() {
       if (validateTrackerJSON(update.tracker)) {
         updatedTrackers.push(update.tracker);
 
-        // Step 7: Write digest
+        // Step 7: Write digest + manifest
         const summary = update.events[0]?.summary || 'Breaking update';
         writeDigestEntry(update.tracker, summary);
+
+        // Update hourly manifest (triggers Telegram workflow on push)
+        const manifest = loadManifest();
+        manifest.updates.push({
+          tracker: update.tracker,
+          action: 'update',
+          eventIds: result.events?.map((e: any) => e.id).filter(Boolean) || [],
+          sections: result.sections || ['events', 'meta'],
+          tweetId: null,
+          timestamp: new Date().toISOString(),
+        });
+        saveManifest(manifest);
+
         log(`  ✓ ${update.tracker} updated and validated`);
       } else {
         log(`  ✗ ${update.tracker} failed validation — reverting`);

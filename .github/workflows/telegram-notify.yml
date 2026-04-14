@@ -1,10 +1,17 @@
 name: Telegram Channel Notifications
 
 on:
+  # Trigger on push to main with hourly updates (local or GitHub Actions)
+  push:
+    branches: [main]
+    paths:
+      - 'public/_hourly/today-updates.json'
+      - 'trackers/*/data/events/*.json'
   workflow_run:
     workflows: ["Hourly Breaking News Scan"]
     types:
       - completed
+  workflow_dispatch: {}
 
 concurrency:
   group: telegram-notify
