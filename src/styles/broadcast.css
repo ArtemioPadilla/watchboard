@@ -79,6 +79,31 @@
   font-size: 0.6rem;
 }
 
+/* Breaking ticker items */
+.broadcast-ticker-item.breaking {
+  color: var(--accent-red);
+  font-weight: 600;
+}
+
+.broadcast-ticker-item.breaking:hover {
+  color: #ff6b6b;
+}
+
+.broadcast-ticker-breaking-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 5px;
+  margin-right: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.45rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #fff;
+  background: var(--accent-red);
+  border-radius: 2px;
+  line-height: 1.4;
+}
+
 /* Lower-Third (CNN-style info card) */
 .broadcast-lower-third {
   position: absolute;

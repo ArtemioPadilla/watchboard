@@ -621,6 +621,7 @@ export default function CommandCenter({
             onGoToNext={broadcast.goToNext}
             onGoToPrev={broadcast.goToPrev}
             basePath={basePath}
+            breakingTrackers={breakingTrackers}
           />
         )}
       </div>
@@ -736,7 +737,7 @@ export default function CommandCenter({
       </nav>
 
       {/* Breaking News Ticker */}
-      {breakingTrackers.length > 0 && (
+      {breakingTrackers.length > 0 && !broadcastEnabled && (
         <div style={{
           ...styles.ticker,
           ...(isMobile ? { position: 'relative' as const, bottom: 'auto', flexShrink: 0 } : {})

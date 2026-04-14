@@ -19,6 +19,15 @@ interface TrackerForOverlay {
   digestSummary?: string;
 }
 
+interface BreakingTracker {
+  slug: string;
+  shortName: string;
+  headline?: string;
+  icon: string;
+  color: string;
+  isBreaking: boolean;
+}
+
 interface BroadcastOverlayProps {
   featuredTracker: TrackerForOverlay | null;
   phase: BroadcastPhase;
@@ -34,6 +43,7 @@ interface BroadcastOverlayProps {
   onGoToNext: () => void;
   onGoToPrev: () => void;
   basePath: string;
+  breakingTrackers?: BreakingTracker[];
 }
 
 const HOVER_GRACE_MS = 500;
@@ -53,6 +63,7 @@ export default function BroadcastOverlay({
   onGoToNext,
   onGoToPrev,
   basePath,
+  breakingTrackers = [],
 }: BroadcastOverlayProps) {
   const locale = getPreferredLocale();
   const isPaused = phase === 'paused';
@@ -351,7 +362,9 @@ export default function BroadcastOverlay({
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
-          <div className="broadcast-ticker-label">WATCHBOARD</div>
+          <div className="broadcast-ticker-label">
+            {breakingTrackers.length > 0 && breakingTrackers.some(t => t.isBreaking) ? 'BREAKING' : 'WATCHBOARD'}
+          </div>
           <div
             className="broadcast-ticker-track"
             ref={tickerTrackRef}
@@ -359,6 +372,17 @@ export default function BroadcastOverlay({
             onMouseDown={handleMouseDown}
             style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
           >
+            {breakingTrackers.map((bt) => (
+              <span
+                key={`breaking-${bt.slug}`}
+                className="broadcast-ticker-item breaking"
+                onClick={(e) => { e.stopPropagation(); window.location.href = `${basePath}${bt.slug}/`; }}
+              >
+                <span className="broadcast-ticker-breaking-tag">BREAKING</span>
+                {bt.icon} {bt.shortName} — {bt.headline || 'Breaking news'}
+                <span className="broadcast-ticker-separator">|</span>
+              </span>
+            ))}
             {trackerQueue.map((tr, i) => (
               <span
                 key={tr.slug}
