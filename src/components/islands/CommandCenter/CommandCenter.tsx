@@ -481,6 +481,28 @@ export default function CommandCenter({
               >
                 🌐{locale.toUpperCase()}
               </button>
+              <a
+                href={`${geoBase}/about/`}
+                style={{
+                  display: 'inline-flex', alignItems: 'center',
+                  padding: '2px 6px', border: '1px solid rgba(255,255,255,0.15)', borderRadius: 3,
+                  background: 'transparent', color: 'rgba(255,255,255,0.7)',
+                  textDecoration: 'none', fontSize: '0.5rem', fontFamily: "'JetBrains Mono', monospace",
+                }}
+                aria-label="About"
+              >ℹ️</a>
+              <a
+                href="https://t.me/watchboard_dev"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'inline-flex', alignItems: 'center',
+                  padding: '2px 6px', border: '1px solid rgba(255,255,255,0.15)', borderRadius: 3,
+                  background: 'transparent', color: 'rgba(255,255,255,0.7)',
+                  textDecoration: 'none', fontSize: '0.5rem', fontFamily: "'JetBrains Mono', monospace",
+                }}
+                aria-label="Telegram Channel"
+              >📢TG</a>
             </>
           ) : (
             <>
@@ -490,6 +512,8 @@ export default function CommandCenter({
               <span style={{ ...styles.overlayNavBadge, background: 'rgba(46,160,67,0.25)', borderColor: 'rgba(46,160,67,0.4)' }}>
                 <span style={{ ...styles.badgeCount, color: '#3fb950' }}>{updatedTodayCount}</span> updated today
               </span>
+              <a href={`${geoBase}/about/`} style={{ ...styles.overlayNavBadge, textDecoration: 'none', color: 'inherit', cursor: 'pointer' }}>About</a>
+              <a href="https://t.me/watchboard_dev" target="_blank" rel="noopener noreferrer" style={{ ...styles.overlayNavBadge, textDecoration: 'none', color: 'inherit', cursor: 'pointer' }}>📢 Telegram</a>
             </>
           )}
         </div>
