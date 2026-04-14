@@ -1,10 +1,10 @@
-import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { useRef, useCallback, useEffect } from 'react';
 import type { TrackerCardData } from '../../../lib/tracker-directory-utils';
-import { sortByRelevance } from '../../../lib/relevance';
 import { haptic } from '../../../lib/haptic';
 import { relativeTime } from '../../../lib/event-utils';
 import { t, getPreferredLocale } from '../../../i18n/translations';
 import ImageCarousel from './ImageCarousel';
+import { useStoryState } from './useStoryState';
 
 // ── Types ──
 
@@ -17,9 +17,7 @@ interface Props {
 
 // ── Constants ──
 
-const AUTO_ADVANCE_DURATION_MS = 10_000;
 const SWIPE_THRESHOLD_PX = 50;
-const PAUSE_DURATION_S = 15;
 
 const KPI_COLORS = [
   'var(--accent-red)',
@@ -38,8 +36,6 @@ const DOMAIN_GRADIENTS: Record<string, string> = {
 };
 
 const LIVE_THRESHOLD_MS = 6 * 3600_000;
-const SEEN_STORAGE_KEY = 'watchboard:stories:seen';
-const SEEN_TTL_MS = 24 * 3600_000; // Expire seen status after 24h
 
 // ── Helpers ──
 
@@ -61,230 +57,27 @@ function domainGradient(domain?: string): string {
   return DOMAIN_GRADIENTS[domain] ?? DOMAIN_GRADIENTS.default;
 }
 
-function filterAndSort(trackers: TrackerCardData[], followedSlugs: string[] = [], seenSlugs: Set<string> = new Set()): TrackerCardData[] {
-  const eligible = trackers.filter((t) => t.status === 'active' && t.headline);
-  const sorted = sortByRelevance(eligible, followedSlugs);
-  // Move already-seen stories to the end (like Instagram)
-  const unseen = sorted.filter((t) => !seenSlugs.has(t.slug));
-  const seen = sorted.filter((t) => seenSlugs.has(t.slug));
-  return [...unseen, ...seen];
-}
-
 // ── Component ──
 
 export default function MobileStoryCarousel({ trackers, basePath, followedSlugs = [], onTrackerChange }: Props) {
   const locale = getPreferredLocale();
-  // Read initial seen set for ordering — resets when tracker has new data
-  const initialSeenSlugs = useMemo(() => {
-    try {
-      const stored = localStorage.getItem(SEEN_STORAGE_KEY);
-      if (!stored) return new Set<string>();
-      const parsed: Record<string, { seenAt: number; dataVersion: string } | number> = JSON.parse(stored);
-      const now = Date.now();
-      const valid = Object.entries(parsed)
-        .filter(([slug, entry]) => {
-          if (typeof entry === 'number') return now - entry < SEEN_TTL_MS; // backward compat
-          if (now - entry.seenAt > SEEN_TTL_MS) return false;
-          const tracker = trackers.find(t => t.slug === slug);
-          if (tracker && tracker.lastUpdated && entry.dataVersion !== tracker.lastUpdated) return false;
-          return true;
-        })
-        .map(([slug]) => slug);
-      return new Set(valid);
-    } catch {
-      return new Set<string>();
-    }
-  }, [trackers]);
 
-  const eligible = useMemo(() => filterAndSort(trackers, followedSlugs, initialSeenSlugs), [trackers, followedSlugs, initialSeenSlugs]);
-
-  const [seenSlugs, setSeenSlugs] = useState<Set<string>>(initialSeenSlugs);
-
-  // Start at the first unseen story instead of always index 0
-  const [currentIndex, setCurrentIndex] = useState(() => {
-    const firstUnseen = eligible.findIndex((t) => !seenSlugs.has(t.slug));
-    return firstUnseen >= 0 ? firstUnseen : 0;
-  });
-  const [slideIndex, setSlideIndex] = useState(0);
-  const slideIndexRef = useRef(0);
-  const [paused, setPaused] = useState(false);
-  const [pauseCountdown, setPauseCountdown] = useState(0);
-
-  // Keep slideIndex ref in sync with state
-  useEffect(() => { slideIndexRef.current = slideIndex; }, [slideIndex]);
-
-  // I4 fix: drive progress via rAF + ref to avoid 10 re-renders/sec
-  const progressRef = useRef(0);
-  const progressBarRef = useRef<HTMLDivElement>(null);
+  const story = useStoryState({ trackers, followedSlugs, onTrackerChange });
 
   const touchStartY = useRef<number | null>(null);
   const touchStartX = useRef<number | null>(null);
   const circlesRef = useRef<HTMLDivElement>(null);
-  const pauseTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const lastTapTime = useRef<number>(0);
-
-  // Mark current tracker as seen when index changes
-  useEffect(() => {
-    if (eligible.length === 0) return;
-    const slug = eligible[currentIndex]?.slug;
-    if (slug) {
-      setSeenSlugs((prev) => {
-        if (prev.has(slug)) return prev;
-        const next = new Set(prev);
-        next.add(slug);
-        // Persist to localStorage with timestamps + data version
-        try {
-          const stored = localStorage.getItem(SEEN_STORAGE_KEY);
-          const data: Record<string, { seenAt: number; dataVersion: string } | number> = stored ? JSON.parse(stored) : {};
-          const currentTracker = eligible[currentIndex];
-          data[slug] = { seenAt: Date.now(), dataVersion: currentTracker?.lastUpdated || '' };
-          // Prune expired entries while we're at it
-          const now = Date.now();
-          for (const key of Object.keys(data)) {
-            const entry = data[key];
-            const seenAt = typeof entry === 'number' ? entry : entry.seenAt;
-            if (now - seenAt > SEEN_TTL_MS) delete data[key];
-          }
-          localStorage.setItem(SEEN_STORAGE_KEY, JSON.stringify(data));
-        } catch { /* localStorage unavailable */ }
-        return next;
-      });
-      onTrackerChange?.(slug);
-    }
-  }, [currentIndex, eligible, onTrackerChange]);
 
   // Auto-scroll circle row to keep active circle visible
   useEffect(() => {
     const container = circlesRef.current;
     if (!container) return;
-    const activeCircle = container.children[currentIndex] as HTMLElement | undefined;
+    const activeCircle = container.children[story.currentIndex] as HTMLElement | undefined;
     if (activeCircle) {
       activeCircle.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
     }
-  }, [currentIndex]);
-
-  // Reset rAF progress when navigating
-  const resetProgress = useCallback(() => {
-    progressRef.current = 0;
-    if (progressBarRef.current) progressBarRef.current.style.width = '0%';
-  }, []);
-
-  const goTo = useCallback(
-    (index: number) => {
-      const clamped = Math.max(0, Math.min(index, eligible.length - 1));
-      setCurrentIndex(clamped);
-      slideIndexRef.current = 0;
-      setSlideIndex(0);
-      resetProgress();
-    },
-    [eligible.length, resetProgress],
-  );
-
-  // Tap-right and auto-advance: advance slide first, then tracker
-  const goNext = useCallback(() => {
-    const current = eligible[currentIndex];
-    const slides = Math.max(1, current?.eventImages?.length ?? 1);
-    if (slideIndexRef.current < slides - 1) {
-      const next = slideIndexRef.current + 1;
-      slideIndexRef.current = next;
-      setSlideIndex(next);
-    } else {
-      slideIndexRef.current = 0;
-      setSlideIndex(0);
-      setCurrentIndex(idx => (idx + 1) % eligible.length);
-    }
-    resetProgress();
-  }, [eligible, currentIndex, eligible.length, resetProgress]);
-
-  // Tap-left: go back a slide, then previous tracker (landing on its last slide)
-  const goPrev = useCallback(() => {
-    if (slideIndexRef.current > 0) {
-      const prev = slideIndexRef.current - 1;
-      slideIndexRef.current = prev;
-      setSlideIndex(prev);
-    } else {
-      setCurrentIndex(idx => {
-        const prevIdx = (idx - 1 + eligible.length) % eligible.length;
-        const prevTracker = eligible[prevIdx];
-        const prevSlides = Math.max(1, prevTracker?.eventImages?.length ?? 1);
-        slideIndexRef.current = prevSlides - 1;
-        setSlideIndex(prevSlides - 1);
-        return prevIdx;
-      });
-    }
-    resetProgress();
-  }, [eligible, eligible.length, resetProgress]);
-
-  // Swipe: skip entire tracker
-  const skipToNextTracker = useCallback(() => {
-    slideIndexRef.current = 0;
-    setSlideIndex(0);
-    setCurrentIndex(idx => (idx + 1) % eligible.length);
-    resetProgress();
-  }, [eligible.length, resetProgress]);
-
-  const skipToPrevTracker = useCallback(() => {
-    slideIndexRef.current = 0;
-    setSlideIndex(0);
-    setCurrentIndex(idx => (idx - 1 + eligible.length) % eligible.length);
-    resetProgress();
-  }, [eligible.length, resetProgress]);
-
-  // Ref to always have latest goNext without re-triggering rAF effect
-  const goNextRef = useRef(goNext);
-  useEffect(() => { goNextRef.current = goNext; }, [goNext]);
-
-  // I4 fix: auto-advance via rAF — direct DOM update, no state re-renders
-  useEffect(() => {
-    if (paused || eligible.length === 0) return;
-    let start = performance.now();
-    let rafId: number;
-
-    const tick = (now: number) => {
-      const pct = Math.min((now - start) / AUTO_ADVANCE_DURATION_MS, 1);
-      progressRef.current = pct;
-      if (progressBarRef.current) {
-        progressBarRef.current.style.width = `${pct * 100}%`;
-      }
-      if (pct >= 1) {
-        goNextRef.current();
-        start = now;
-      }
-      rafId = requestAnimationFrame(tick);
-    };
-    rafId = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(rafId);
-  }, [paused, eligible.length]);
-
-  // Pause/resume with auto-resume timer
-  const clearPauseTimer = useCallback(() => {
-    if (pauseTimerRef.current) {
-      clearInterval(pauseTimerRef.current);
-      pauseTimerRef.current = null;
-    }
-  }, []);
-
-  const handlePause = useCallback(() => {
-    setPaused(true);
-    setPauseCountdown(PAUSE_DURATION_S);
-    clearPauseTimer();
-    let remaining = PAUSE_DURATION_S;
-    pauseTimerRef.current = setInterval(() => {
-      remaining--;
-      setPauseCountdown(remaining);
-      if (remaining <= 0) {
-        clearPauseTimer();
-        setPaused(false);
-        setPauseCountdown(0);
-      }
-    }, 1000);
-  }, [clearPauseTimer]);
-
-  const handleResume = useCallback(() => {
-    clearPauseTimer();
-    setPaused(false);
-    setPauseCountdown(0);
-  }, [clearPauseTimer]);
+  }, [story.currentIndex]);
 
   const handleCardTap = useCallback(() => {
     const now = Date.now();
@@ -293,25 +86,20 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
     if (now - lastTapTime.current < DOUBLE_TAP_MS) {
       // Double tap → open tracker
       haptic();
-      window.location.href = `${basePath}${eligible[currentIndex]?.slug}/`;
+      window.location.href = `${basePath}${story.eligible[story.currentIndex]?.slug}/`;
       return;
     }
     lastTapTime.current = now;
 
     // Single tap → pause/resume
-    if (paused) {
-      handleResume();
+    if (story.paused) {
+      story.handleResume();
     } else {
-      handlePause();
+      story.handlePause();
     }
-  }, [paused, handlePause, handleResume, basePath, eligible, currentIndex]);
+  }, [story.paused, story.handlePause, story.handleResume, basePath, story.eligible, story.currentIndex]);
 
-  // Cleanup
-  useEffect(() => {
-    return () => { clearPauseTimer(); };
-  }, [clearPauseTimer]);
-
-  // Swipe detection: horizontal (#5) + vertical (existing)
+  // Swipe detection: horizontal + vertical
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
     touchStartY.current = e.touches[0].clientY;
     touchStartX.current = e.touches[0].clientX;
@@ -327,26 +115,26 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
 
       // Horizontal swipe skips entire tracker (not individual slides)
       if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > SWIPE_THRESHOLD_PX) {
-        if (deltaX > 0) { skipToNextTracker(); haptic(); } // swipe left = next tracker
-        else { skipToPrevTracker(); haptic(); }             // swipe right = prev tracker
+        if (deltaX > 0) { story.skipToNextTracker(); haptic(); } // swipe left = next tracker
+        else { story.skipToPrevTracker(); haptic(); }             // swipe right = prev tracker
         return;
       }
     },
-    [skipToNextTracker, skipToPrevTracker],
+    [story.skipToNextTracker, story.skipToPrevTracker],
   );
 
-  if (eligible.length === 0) return null;
+  if (story.eligible.length === 0) return null;
 
-  const tracker = eligible[currentIndex];
+  const tracker = story.eligible[story.currentIndex];
 
   return (
     <div className="story-carousel">
       {/* Circle row */}
       <div className="story-circles" ref={circlesRef}>
-        {eligible.map((t, i) => (
-          <div key={t.slug} className="story-circle" onClick={() => { goTo(i); if (paused) handleResume(); }}>
+        {story.eligible.map((t, i) => (
+          <div key={t.slug} className="story-circle" onClick={() => { story.goTo(i); if (story.paused) story.handleResume(); }}>
             <div
-              className={`story-circle-ring${i === currentIndex ? ' active' : ''}${seenSlugs.has(t.slug) && i !== currentIndex ? ' seen' : ''}`}
+              className={`story-circle-ring${i === story.currentIndex ? ' active' : ''}${story.seenSlugs.has(t.slug) && i !== story.currentIndex ? ' seen' : ''}`}
             >
               <div className="story-circle-inner">{t.icon ?? '?'}</div>
             </div>
@@ -358,7 +146,7 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
       {/* Story card */}
       <div
         key={tracker.slug}
-        className={`story-card story-card-enter ${paused ? 'story-card-paused' : ''}`}
+        className={`story-card story-card-enter ${story.paused ? 'story-card-paused' : ''}`}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
         onClick={handleCardTap}
@@ -368,18 +156,18 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
           {Array.from({ length: Math.max(1, tracker.eventImages?.length ?? 1) }, (_, i) => (
             <div key={i} className="story-progress-segment">
               <div
-                ref={i === slideIndex ? progressBarRef : undefined}
-                className={`story-progress-fill${i < slideIndex ? ' complete' : ''}${i > slideIndex ? ' upcoming' : ''}`}
-                style={i === slideIndex ? { width: '0%' } : undefined}
+                ref={i === story.slideIndex ? story.progressBarRef : undefined}
+                className={`story-progress-fill${i < story.slideIndex ? ' complete' : ''}${i > story.slideIndex ? ' upcoming' : ''}`}
+                style={i === story.slideIndex ? { width: '0%' } : undefined}
               />
             </div>
           ))}
         </div>
 
         {/* Paused indicator */}
-        {paused && (
+        {story.paused && (
           <div className="story-paused-badge">
-            {t('story.paused', locale)} · {t('story.resumingIn', locale)} {pauseCountdown}s
+            {t('story.paused', locale)} · {t('story.resumingIn', locale)} {story.pauseCountdown}s
           </div>
         )}
 
@@ -393,7 +181,7 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
             </div>
           </div>
           {isLive(tracker.lastUpdated) ? (
-            <span className="story-live-badge" suppressHydrationWarning>{paused ? t('story.paused', locale) : t('story.live', locale)}</span>
+            <span className="story-live-badge" suppressHydrationWarning>{story.paused ? t('story.paused', locale) : t('story.live', locale)}</span>
           ) : (
             <span className="story-date" suppressHydrationWarning>{relativeTime(tracker.lastUpdated)}</span>
           )}
@@ -401,7 +189,7 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
 
         {/* Image area — carousel when paused, slide-indexed image otherwise */}
         <div className="story-image">
-          {paused && tracker.eventImages && tracker.eventImages.length > 1 ? (
+          {story.paused && tracker.eventImages && tracker.eventImages.length > 1 ? (
             <div className="story-image-carousel-wrap">
               <ImageCarousel
                 images={tracker.eventImages}
@@ -411,29 +199,29 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
               />
             </div>
           ) : (
-            <StoryImage tracker={tracker} slideIndex={slideIndex} />
+            <StoryImage tracker={tracker} slideIndex={story.slideIndex} />
           )}
-          {(tracker.eventImages?.length ?? 0) > 1 && !paused && (
-            <div className="story-slide-counter">{slideIndex + 1}/{tracker.eventImages!.length}</div>
+          {(tracker.eventImages?.length ?? 0) > 1 && !story.paused && (
+            <div className="story-slide-counter">{story.slideIndex + 1}/{tracker.eventImages!.length}</div>
           )}
         </div>
 
         {/* Content — expanded when paused; per-slide text for slides 1+ */}
         {(() => {
-          const currentSlideImage = tracker.eventImages?.[slideIndex];
-          const displayHeadline = (slideIndex > 0 && currentSlideImage?.eventTitle) ? currentSlideImage.eventTitle : tracker.headline;
-          const displayBriefing = (slideIndex > 0 && currentSlideImage?.eventDetail) ? currentSlideImage.eventDetail : (tracker.digestSummary ?? tracker.description);
+          const currentSlideImage = tracker.eventImages?.[story.slideIndex];
+          const displayHeadline = (story.slideIndex > 0 && currentSlideImage?.eventTitle) ? currentSlideImage.eventTitle : tracker.headline;
+          const displayBriefing = (story.slideIndex > 0 && currentSlideImage?.eventDetail) ? currentSlideImage.eventDetail : (tracker.digestSummary ?? tracker.description);
           return (
             <>
               <div className="story-content">
-                {displayHeadline && <p className={`story-headline ${paused ? 'story-headline-expanded' : ''}`}>{displayHeadline}</p>}
+                {displayHeadline && <p className={`story-headline ${story.paused ? 'story-headline-expanded' : ''}`}>{displayHeadline}</p>}
               </div>
               {displayBriefing && (
-                <div className={`story-briefing ${paused ? 'story-briefing-expanded' : ''}`}>
+                <div className={`story-briefing ${story.paused ? 'story-briefing-expanded' : ''}`}>
                   <div className="story-briefing-label">
                     <span className="story-briefing-dot" />
                     {t('story.briefing', locale)}
-                    {slideIndex === 0 && tracker.digestSectionsUpdated && tracker.digestSectionsUpdated.length > 0 && (
+                    {story.slideIndex === 0 && tracker.digestSectionsUpdated && tracker.digestSectionsUpdated.length > 0 && (
                       <span className="story-briefing-sections">
                         {tracker.digestSectionsUpdated.length} {t('story.sectionsUpdated', locale)}
                       </span>
@@ -473,14 +261,14 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
 
         {/* Swipe hint */}
         <div className="story-swipe-hint">
-          {paused ? t('story.tapToResume', locale) : t('story.swipeHint', locale)}
+          {story.paused ? t('story.tapToResume', locale) : t('story.swipeHint', locale)}
         </div>
 
         {/* Touch zones (hidden when paused to allow full card tap) */}
-        {!paused && (
+        {!story.paused && (
           <>
-            <div className="story-touch-left" onClick={(e) => { e.stopPropagation(); goPrev(); }} />
-            <div className="story-touch-right" onClick={(e) => { e.stopPropagation(); goNext(); }} />
+            <div className="story-touch-left" onClick={(e) => { e.stopPropagation(); story.goPrev(); }} />
+            <div className="story-touch-right" onClick={(e) => { e.stopPropagation(); story.goNext(); }} />
           </>
         )}
       </div>
