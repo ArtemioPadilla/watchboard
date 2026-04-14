@@ -1,9 +1,9 @@
 name: Hourly Breaking News Scan
 
 on:
-  schedule:
-    - cron: '0 * * * *'  # Every hour — scan is cheap (Sonnet), only updates cost
-  workflow_dispatch: {}
+  # schedule: # Disabled — hourly scan now runs locally via OpenClaw cron with Bedrock
+  #   - cron: '0 * * * *'
+  workflow_dispatch: {}  # Keep manual trigger as fallback
 
 concurrency:
   group: hourly-scan
