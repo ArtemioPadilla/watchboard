@@ -4,7 +4,7 @@
 
 **Multi-Topic Intelligence Dashboard Platform**
 
-Track conflicts, disasters, political histories, and more — with AI-powered nightly updates, interactive maps, and 3D globes.
+Track conflicts, science breakthroughs, political histories, and more — with AI-powered hourly updates, interactive maps, and 3D globes.
 
 [![GitHub Stars](https://img.shields.io/github/stars/ArtemioPadilla/watchboard?style=flat-square&logo=github&color=yellow)](https://github.com/ArtemioPadilla/watchboard/stargazers)
 [![Last Commit](https://img.shields.io/github/last-commit/ArtemioPadilla/watchboard?style=flat-square&logo=github)](https://github.com/ArtemioPadilla/watchboard/commits/main)
@@ -21,9 +21,10 @@ Track conflicts, disasters, political histories, and more — with AI-powered ni
 
 ## Features
 
-- **50+ active trackers** across conflicts, disasters, political histories, science, and culture
+- **60+ active trackers** across conflicts, disasters, political histories, science, and culture
 - **Config-driven architecture** — each tracker is a `tracker.json` + data directory; no code changes needed
 - **AI nightly updates** — Claude Code with web search refreshes eligible trackers automatically at 6 AM UTC
+- **Hourly breaking news scan** — 24+ RSS feeds from Reuters, Al Jazeera, France24, SCMP, and more; AI triage classifies events and updates trackers in real time
 - **Interactive 2D maps** — Leaflet with strike arcs, overlay layers (no-fly zones, GPS jamming, earthquakes), live flights, and day/night terminator
 - **3D globe visualization** — CesiumJS with missile animations, satellite tracking, cinematic event mode, and live ship AIS data
 - **Full-text search** — Pagefind indexes all 190+ pages at build time; zero runtime overhead
@@ -32,6 +33,7 @@ Track conflicts, disasters, political histories, and more — with AI-powered ni
 - **Embeddable widgets** — each tracker has a `/embed/{slug}/` page (~4 KB, theme-aware) for third-party embedding
 - **Public JSON API** — static REST API with CORS, no auth required; powers third-party integrations
 - **MCP server** — Model Context Protocol integration for AI agents
+- **Push notifications** — subscribe to specific trackers for breaking news and daily digest browser notifications
 
 ---
 
@@ -46,28 +48,38 @@ Track conflicts, disasters, political histories, and more — with AI-powered ni
 | 🕊️ | **Gaza War** | Israel-Gaza war — ground ops, humanitarian crisis, ICJ proceedings | Israel/Gaza | [Dashboard](https://watchboard.dev/gaza-war/) |
 | 🕊️ | **Israel-Palestine** | The full arc from 1948 founding to present | Middle East | [Dashboard](https://watchboard.dev/israel-palestine/) |
 | 🗽 | **September 11** | 2001 attacks, War on Terror, 9/11 Commission | USA | [Dashboard](https://watchboard.dev/september-11/) |
+| 🧬 | **CRISPR Gene Therapy** | Gene editing breakthroughs — from Cas9 to clinical trials | Global | [Dashboard](https://watchboard.dev/crispr-gene-therapy/) |
+| 🌿 | **Reforestation** | Global tree-planting initiatives, deforestation reversal, carbon sinks | Global | [Dashboard](https://watchboard.dev/reforestation/) |
+| ⚡ | **Fusion Energy** | ITER, NIF breakthrough, commercial fusion startups, net energy gain | Global | [Dashboard](https://watchboard.dev/fusion-energy/) |
 
 <details>
-<summary><strong>All 50+ trackers</strong></summary>
+<summary><strong>All 60+ trackers</strong></summary>
 
 | Icon | Tracker | Topic | Region | Link |
 |------|---------|-------|--------|------|
 | 🏔️ | Afghanistan-Pakistan War | US invasion, Taliban insurgency, ISIS-K, TTP attacks | Afghanistan/Pakistan | [Dashboard](https://watchboard.dev/afghanistan-pakistan-war/) |
+| 🤖 | AI for Good | Beneficial AI applications in healthcare, climate, accessibility | Global | [Dashboard](https://watchboard.dev/ai-for-good/) |
 | 🌹 | AMLO Presidency | Fourth Transformation, Tren Maya, AIFA, constitutional reforms (2018–2024) | Mexico | [Dashboard](https://watchboard.dev/amlo-presidency/) |
 | 🌙 | Artemis II Mission | Crewed lunar flyby, SLS, Orion capsule, journey to the Moon | USA/Global | [Dashboard](https://watchboard.dev/artemis-2/) |
 | 🕯️ | Ayotzinapa | Forced disappearance of 43 students in Iguala, Guerrero (2014) | Mexico | [Dashboard](https://watchboard.dev/ayotzinapa/) |
 | 🐰 | Bad Bunny | SoundCloud to reggaeton star, YHLQMDLG, Un Verano Sin Ti, world tours | Puerto Rico/Global | [Dashboard](https://watchboard.dev/bad-bunny/) |
+| 🔋 | Battery Revolution | Solid-state, sodium-ion, grid storage, EV battery breakthroughs | Global | [Dashboard](https://watchboard.dev/battery-revolution/) |
 | 🎤 | BTS | K-pop global rise, UN speeches, military service, ARMY fandom | South Korea/Global | [Dashboard](https://watchboard.dev/bts/) |
 | ⚔️ | Felipe Calderón Presidency | War on drugs, military vs cartels, Mérida Initiative (2006–2012) | Mexico | [Dashboard](https://watchboard.dev/calderon-presidency/) |
+| 🎗️ | Cancer Breakthroughs | CAR-T, mRNA vaccines for cancer, early detection, immunotherapy | Global | [Dashboard](https://watchboard.dev/cancer-breakthroughs/) |
 | ☢️ | Chernobyl Disaster | 1986 nuclear disaster — reactor explosion, liquidators, fallout | Ukraine/USSR | [Dashboard](https://watchboard.dev/chernobyl-disaster/) |
 | 🇨🇱 | Chile: Allende to Pinochet | Socialist government, CIA intervention, 1973 coup, Operation Condor | Chile | [Dashboard](https://watchboard.dev/chile-allende-pinochet/) |
 | 🤖 | China Tech Revolution | Made in China 2025, AI race, Huawei, TikTok, DeepSeek, US decoupling | China/Global | [Dashboard](https://watchboard.dev/china-tech-revolution/) |
+| 🌍 | Climate Solutions | Carbon capture, renewable energy, climate policy, adaptation | Global | [Dashboard](https://watchboard.dev/climate-solutions/) |
 | 🦠 | COVID-19 Pandemic | Wuhan origin, lockdowns, vaccines, variant waves, WHO response | Global | [Dashboard](https://watchboard.dev/covid-pandemic/) |
+| 🧬 | CRISPR Gene Therapy | Gene editing from Cas9 to clinical trials, sickle cell cure | Global | [Dashboard](https://watchboard.dev/crispr-gene-therapy/) |
 | 🇨🇺 | Cuba Crises | Revolution, Bay of Pigs, Missile Crisis, embargo, 2021 protests | Cuba/Caribbean | [Dashboard](https://watchboard.dev/cuba-crises/) |
 | 🔫 | Culiacanazo | October 2019 Culiacán Crisis and January 2023 Chapo Jr. capture | Sinaloa, Mexico | [Dashboard](https://watchboard.dev/culiacanazo/) |
+| 📱 | Digital Inclusion | Internet access, digital literacy, tech for underserved communities | Global | [Dashboard](https://watchboard.dev/digital-inclusion/) |
 | ⛵ | European Conquest of the Americas | Columbus, conquistadors, Aztec/Inca fall, colonization, Columbian Exchange | Americas | [Dashboard](https://watchboard.dev/european-conquest-americas/) |
 | 🦊 | Vicente Fox Presidency | Mexico's first opposition president, democratic transition (2000–2006) | Mexico | [Dashboard](https://watchboard.dev/fox-presidency/) |
 | ☢️ | Fukushima Daiichi | 2011 nuclear disaster — tsunami, meltdowns, TEPCO, decommission | Japan | [Dashboard](https://watchboard.dev/fukushima-disaster/) |
+| ⚡ | Fusion Energy | ITER, NIF, commercial fusion, net energy gain pursuit | Global | [Dashboard](https://watchboard.dev/fusion-energy/) |
 | 🕊️ | Gaza War | Ground operations, ceasefire talks, humanitarian crisis, displacement | Israel/Gaza | [Dashboard](https://watchboard.dev/gaza-war/) |
 | 📉 | Global Recession Risk | Tariff escalation, bond stress, China slowdown, central bank policy | Global | [Dashboard](https://watchboard.dev/global-recession-risk/) |
 | 🇭🇹 | Haiti Collapse | Moïse assassination, gang control, transitional council, UN intervention | Haiti/Caribbean | [Dashboard](https://watchboard.dev/haiti-collapse/) |
@@ -77,13 +89,17 @@ Track conflicts, disasters, political histories, and more — with AI-powered ni
 | 🕊️ | Israel-Palestine Conflict | 1948 to present — wars, Oslo Accords, intifadas, settlements | Middle East | [Dashboard](https://watchboard.dev/israel-palestine/) |
 | 🎯 | El Mencho / CJNG | February 2026 killing of El Mencho, CJNG territorial control | Mexico | [Dashboard](https://watchboard.dev/mencho-cjng/) |
 | 🗺️ | Mexico-US Wars | Texas Revolution, Alamo, Mexican-American War, Treaty of Guadalupe Hidalgo | Mexico/USA | [Dashboard](https://watchboard.dev/mexico-us-conflict/) |
+| 💉 | mRNA Revolution | mRNA vaccines beyond COVID, cancer vaccines, rare diseases | Global | [Dashboard](https://watchboard.dev/mrna-revolution/) |
 | ✈️ | MH17 Shootdown | 2014 downing of Malaysia Airlines Flight 17 over eastern Ukraine | Eastern Ukraine | [Dashboard](https://watchboard.dev/mh17-shootdown/) |
 | 🇲🇽 | Mexican Political History | PRI hegemony, democratic transition, PRI/PAN/PRD/Morena evolution | Mexico | [Dashboard](https://watchboard.dev/mx-political-history/) |
 | 🇲🇲 | Myanmar Civil War | Post-coup civil war following February 2021 military takeover | Myanmar/SE Asia | [Dashboard](https://watchboard.dev/myanmar-civil-war/) |
 | 🛡️ | NATO-US Tensions | Burden-sharing disputes, Article 5 questions, European autonomy | Europe/N. America | [Dashboard](https://watchboard.dev/nato-us-tensions/) |
+| 🌊 | Ocean Cleanup | Plastic removal, coral restoration, marine conservation | Global | [Dashboard](https://watchboard.dev/ocean-cleanup/) |
 | 🔴 | October 7th Attack | Hamas-led assault on Israel — kibbutz raids, hostages, IDF response | Israel/Gaza | [Dashboard](https://watchboard.dev/october-7-attack/) |
+| 🕊️ | Peace Processes | Active peace negotiations, ceasefires, conflict resolution | Global | [Dashboard](https://watchboard.dev/peace-processes/) |
 | 🏛️ | Enrique Peña Nieto Presidency | Structural reforms, Ayotzinapa crisis, Casa Blanca scandal (2012–2018) | Mexico | [Dashboard](https://watchboard.dev/pena-nieto-presidency/) |
 | ⚛️ | Quantum Theory | Planck, Einstein, Bohr, Heisenberg, Copenhagen, Bell theorem, quantum computing | Global | [Dashboard](https://watchboard.dev/quantum-theory/) |
+| 🌿 | Reforestation | Tree-planting initiatives, deforestation reversal, carbon sinks | Global | [Dashboard](https://watchboard.dev/reforestation/) |
 | 🌍 | Sahel Insurgency | JNIM/ISGS expansion, military coups, Wagner Group, French withdrawal | Sahel/North Africa | [Dashboard](https://watchboard.dev/sahel-insurgency/) |
 | 🗽 | September 11 Attacks | 2001 al-Qaeda attacks, War on Terror, 9/11 Commission | USA | [Dashboard](https://watchboard.dev/september-11/) |
 | 🔬 | Claudia Sheinbaum Presidency | First female president of Mexico, judicial reform, US-Mexico relations | Mexico | [Dashboard](https://watchboard.dev/sheinbaum-presidency/) |
@@ -91,6 +107,7 @@ Track conflicts, disasters, political histories, and more — with AI-powered ni
 | 🦁 | Somalia Conflict | Al-Shabaab insurgency, AMISOM, US drone strikes, state fragility | Somalia/Horn of Africa | [Dashboard](https://watchboard.dev/somalia-conflict/) |
 | 🌊 | SE Asia Escalation | South China Sea militarization, AUKUS, Philippines-China clashes | SE Asia/Pacific | [Dashboard](https://watchboard.dev/southeast-asia-escalation/) |
 | 🚀 | SpaceX History | Falcon 1, Falcon 9 reusability, Dragon, Starlink, Starship, Mars | USA/Global | [Dashboard](https://watchboard.dev/spacex-history/) |
+| 🦎 | Species Recovery | Endangered species comebacks, rewilding, conservation successes | Global | [Dashboard](https://watchboard.dev/species-recovery/) |
 | ⚔️ | Sudan Civil War | SAF vs RSF, Khartoum battle, Darfur ethnic violence, displacement | Sudan/East Africa | [Dashboard](https://watchboard.dev/sudan-conflict/) |
 | 🗺️ | Taiwan Strait Tensions | PLA exercises, TSMC, US arms sales, Taiwan Strait incidents | Taiwan/East Asia | [Dashboard](https://watchboard.dev/taiwan-conflict/) |
 | 🕯️ | Tlatelolco Massacre | October 2, 1968 massacre at Plaza de las Tres Culturas, Mexico City | Mexico City | [Dashboard](https://watchboard.dev/tlatelolco-1968/) |
@@ -138,19 +155,13 @@ npm start
 📖 **[MCP Documentation](https://github.com/ArtemioPadilla/watchboard/tree/main/mcp)**
 
 ### Telegram
+Automated breaking news channel with real-time updates from the hourly pipeline. Join [@watchboard_dev](https://t.me/watchboard_dev).
 
 ### Bluesky
-Daily intelligence briefs and breaking news — follow [@watchboard.bsky.social](https://bsky.app/profile/watchboard.bsky.social).
-
-Automated breaking news channel — join [@watchboard_dev](https://t.me/watchboard_dev) for real-time updates.
-
-### Bluesky
-
-Automated social posting from the curated social queue. Breaking news, daily digests, and analysis threads published on Bluesky.
+Automated social posting — breaking news, daily digests, and analysis threads. Follow [@watchboard.bsky.social](https://bsky.app/profile/watchboard.bsky.social).
 
 ### Newsletter
-
-Weekly digest email summarizing the most significant events across all active trackers, with subscriber management and one-click unsubscribe.
+Weekly digest summarizing the most significant events across all active trackers. Subscribe at [watchboard.dev/newsletter](https://watchboard.dev/newsletter/).
 
 ---
 
@@ -247,6 +258,19 @@ Data is automatically refreshed at 6 AM UTC via GitHub Actions. Each tracker has
 
 All data workflows use `claude-code-action` with a Claude Max subscription OAuth token (`CLAUDE_CODE_OAUTH_TOKEN`) — no per-token API costs.
 
+### Hourly Breaking News Scan
+
+In addition to the nightly deep updates, an hourly pipeline scans 24+ RSS feeds from international sources (Reuters, BBC, Al Jazeera, France24, SCMP, ReliefWeb, and more) for breaking developments. An AI triage agent classifies each headline and routes significant events to the appropriate tracker for immediate update.
+
+| Step | What happens |
+|------|-------------|
+| **Poll** | Fetch RSS feeds from 24+ international sources |
+| **Pre-filter** | Deduplicate against recent events, cap at 30 candidates |
+| **AI Triage** | Claude Sonnet classifies: update, new tracker suggestion, or discard |
+| **Data Update** | For each matched tracker: update events, KPIs, meta, maps |
+| **Validate** | Zod schema validation with auto-fix |
+| **Deploy** | Commit, push, trigger site rebuild |
+
 ### Setup
 
 1. Fork this repo
@@ -275,7 +299,7 @@ watchboard/
 │   ├── iran-conflict/
 │   │   ├── tracker.json               # Config: sections, map, AI prompts
 │   │   └── data/                      # JSON data + events/ partitions
-│   └── ...                            # 50+ more trackers
+│   └── ...                            # 60+ more trackers
 ├── src/
 │   ├── pages/
 │   │   ├── index.astro                # Home: tracker card index
@@ -309,7 +333,10 @@ watchboard/
 │   │   └── ...                        # Utilities (map, tier, timeline)
 │   └── styles/global.css              # Dark theme, CSS custom properties
 ├── scripts/
-│   └── update-data.ts                 # AI nightly updater (multi-tracker)
+│   ├── update-data.ts                 # AI nightly updater (multi-tracker)
+│   ├── hourly-scan.ts                 # RSS polling + candidate extraction
+│   ├── hourly-triage.ts               # AI classification of news candidates
+│   └── hourly-post.ts                 # Breaking news social posting
 ├── .github/workflows/
 │   ├── deploy.yml                     # Build + deploy to GitHub Pages
 │   ├── update-data.yml                # Nightly AI data refresh
