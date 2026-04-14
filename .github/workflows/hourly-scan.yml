@@ -697,6 +697,15 @@ jobs:
                   if (!e.type) { e.type = 'update'; modified = true; fixed++; }
                   if (!e.detail) { e.detail = e.title || 'No detail provided'; modified = true; fixed++; }
                   if (!e.media) { e.media = []; modified = true; fixed++; }
+                  // Fix invalid enum values
+                  const validConfidence = ['high','medium','low'];
+                  const validEventConf = ['verified','official_claim','disputed','unverified'];
+                  if (e.confidence && !validConfidence.includes(e.confidence)) { e.confidence = 'medium'; modified = true; fixed++; }
+                  if (e.eventConfidence && !validEventConf.includes(e.eventConfidence)) {
+                    // Map common mistakes
+                    const map: Record<string,string> = {confirmed:'verified', high:'verified', low:'unverified', medium:'official_claim'};
+                    e.eventConfidence = map[e.eventConfidence] || 'verified'; modified = true; fixed++;
+                  }
                   // Validate after fixes
                   TimelineEventSchema.parse(e);
                 }
