@@ -342,8 +342,54 @@ async function queryGdelt(
 }
 
 /**
+ * Resolves a Google News RSS redirect URL to the actual article URL.
+ * Returns the original URL if not a Google News URL or on failure.
+ */
+async function resolveGoogleNewsUrl(url: string): Promise<string> {
+  if (!url.startsWith('https://news.google.com/rss/articles/')) return url;
+  try {
+    const resp = await fetch(url, {
+      method: 'HEAD',
+      redirect: 'follow',
+      signal: AbortSignal.timeout(5_000),
+      headers: { 'User-Agent': 'Watchboard/1.0 hourly-scan' },
+    });
+    // The final URL after redirects
+    if (resp.url && resp.url !== url) return resp.url;
+    return url;
+  } catch {
+    return url;
+  }
+}
+
+/**
+ * Processes an array of items in parallel batches of a given size.
+ */
+async function processBatched<T, R>(
+  items: T[],
+  batchSize: number,
+  label: string,
+  fn: (item: T) => Promise<R>,
+): Promise<R[]> {
+  const results: R[] = [];
+  const totalBatches = Math.ceil(items.length / batchSize);
+
+  for (let i = 0; i < items.length; i += batchSize) {
+    const batch = items.slice(i, i + batchSize);
+    const batchNum = Math.floor(i / batchSize) + 1;
+    console.log(`[hourly-scan] ${label}: batch ${batchNum}/${totalBatches} (${batch.length} items)`);
+    const settled = await Promise.allSettled(batch.map(fn));
+    for (const r of settled) {
+      if (r.status === 'fulfilled') results.push(r.value);
+    }
+  }
+
+  return results;
+}
+
+/**
  * Fetches and parses RSS feeds for each tracker, returning raw items with
- * their tracker slug tagged.
+ * their tracker slug tagged. Processes feeds in parallel batches of 10.
  */
 async function fetchRssFeeds(
   feeds: { slug: string; url: string }[],
@@ -351,29 +397,51 @@ async function fetchRssFeeds(
   const results: { item: RssItem; slug: string }[] = [];
   const twoHoursAgo = new Date(Date.now() - 2 * 60 * 60 * 1000);
 
-  await Promise.allSettled(
-    feeds.map(async ({ slug, url }) => {
-      try {
-        const resp = await fetch(url, {
-          signal: AbortSignal.timeout(10_000),
-          headers: { 'User-Agent': 'Watchboard/1.0 hourly-scan' },
-        });
-        if (!resp.ok) return;
-        const xml = await resp.text();
-        const items = parseRssFeed(xml);
-        for (const item of items) {
-          // Filter out items older than 2 hours
-          if (item.timestamp) {
-            const itemDate = new Date(item.timestamp);
-            if (!isNaN(itemDate.getTime()) && itemDate < twoHoursAgo) continue;
-          }
-          results.push({ item, slug });
+  await processBatched(feeds, 10, 'Fetching RSS', async ({ slug, url }) => {
+    try {
+      const resp = await fetch(url, {
+        signal: AbortSignal.timeout(10_000),
+        headers: { 'User-Agent': 'Watchboard/1.0 hourly-scan' },
+      });
+      if (!resp.ok) return;
+      const xml = await resp.text();
+      const items = parseRssFeed(xml);
+      for (const item of items) {
+        // Filter out items older than 2 hours
+        if (item.timestamp) {
+          const itemDate = new Date(item.timestamp);
+          if (!isNaN(itemDate.getTime()) && itemDate < twoHoursAgo) continue;
         }
-      } catch {
-        // network errors are non-fatal
+        results.push({ item, slug });
       }
-    }),
-  );
+    } catch {
+      // network errors are non-fatal
+    }
+  });
+
+  // Resolve Google News redirect URLs in batches
+  const googleNewsIndices: number[] = [];
+  for (let i = 0; i < results.length; i++) {
+    if (results[i].item.url.startsWith('https://news.google.com/rss/articles/')) {
+      googleNewsIndices.push(i);
+    }
+  }
+
+  if (googleNewsIndices.length > 0) {
+    console.log(`[hourly-scan] Resolving ${googleNewsIndices.length} Google News URL(s)...`);
+    const resolved = await processBatched(
+      googleNewsIndices,
+      10,
+      'Resolving Google News URLs',
+      async (idx) => {
+        const resolvedUrl = await resolveGoogleNewsUrl(results[idx].item.url);
+        return { idx, resolvedUrl };
+      },
+    );
+    for (const { idx, resolvedUrl } of resolved) {
+      results[idx].item.url = resolvedUrl;
+    }
+  }
 
   return results;
 }
