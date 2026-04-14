@@ -1,0 +1,210 @@
+{
+  "slug": "digital-inclusion",
+  "name": "Global Digital Inclusion Tracker",
+  "shortName": "Digital Inclusion",
+  "description": "Intelligence dashboard tracking global efforts to bridge the digital divide — Starlink rural internet, digital literacy programs, affordable device initiatives, and connectivity milestones worldwide.",
+  "icon": "🌐",
+  "color": "#2980b9",
+  "status": "active",
+  "temporal": "live",
+  "trackerType": "factual",
+  "domain": "science",
+  "region": "global",
+  "tags": ["digital-divide", "connectivity", "internet-access", "starlink", "digital-literacy", "affordable-devices"],
+  "startDate": "2020-01-01",
+  "eraLabel": "Connectivity Expansion 2020–Present",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": -180,
+      "lonMax": 180,
+      "latMin": -60,
+      "latMax": 80
+    },
+    "center": {
+      "lon": 15,
+      "lat": 15
+    },
+    "categories": [
+      {
+        "id": "deployment",
+        "label": "Connectivity Deployments",
+        "color": "#2980b9"
+      },
+      {
+        "id": "literacy",
+        "label": "Digital Literacy Programs",
+        "color": "#27ae60"
+      },
+      {
+        "id": "devices",
+        "label": "Affordable Device Initiatives",
+        "color": "#f39c12"
+      },
+      {
+        "id": "policy",
+        "label": "Policy & Regulatory Milestones",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "underserved",
+        "label": "Underserved Communities",
+        "color": "#e74c3c"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "global": {
+        "lon": 15,
+        "lat": 15,
+        "alt": 22000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Global Overview"
+      },
+      "sub_saharan_africa": {
+        "lon": 25,
+        "lat": 0,
+        "alt": 6000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Sub-Saharan Africa"
+      },
+      "south_asia": {
+        "lon": 80,
+        "lat": 22,
+        "alt": 4500000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "South Asia"
+      },
+      "southeast_asia": {
+        "lon": 115,
+        "lat": 5,
+        "alt": 4000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Southeast Asia"
+      },
+      "rural_americas": {
+        "lon": -80,
+        "lat": 10,
+        "alt": 9000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Americas"
+      },
+      "east_africa": {
+        "lon": 38,
+        "lat": 5,
+        "alt": 2500000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "East Africa"
+      }
+    },
+    "clocks": [
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      },
+      {
+        "label": "EST",
+        "offsetHours": -5
+      },
+      {
+        "label": "IST",
+        "offsetHours": 5.5
+      },
+      {
+        "label": "WAT",
+        "offsetHours": 1
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Actors"
+    }
+  ],
+  "politicalAvatars": [
+    "tech-corp",
+    "government",
+    "intl-org",
+    "ngo",
+    "community",
+    "other"
+  ],
+  "eventTypes": [
+    "deployment",
+    "policy",
+    "partnership",
+    "research",
+    "milestone"
+  ],
+  "ai": {
+    "systemPrompt": "You are a technology and development researcher updating a global digital inclusion intelligence dashboard.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"starlink_africa_launch\", \"itu_connectivity_report\").\n\nFOCUS AREAS — track progress across these pillars:\n1. INFRASTRUCTURE: Starlink/LEO satellite deployments, undersea cable landings, rural fiber rollouts, mobile broadband expansion (4G/5G)\n2. LITERACY: Digital skills programs, school connectivity initiatives, community learning centers, coding bootcamps in underserved regions\n3. DEVICES: Affordable smartphone programs, low-cost tablet initiatives, device-as-a-service models, refurbished device distribution\n4. POLICY: National broadband plans, spectrum allocation decisions, digital taxation debates, data sovereignty laws, universal service funds\n5. ECONOMICS: Cost of entry-level data plans, device affordability indices, investment flows into connectivity infrastructure\n\nSOURCE TIERS for digital inclusion domain:\n- Tier 1: Official/primary (ITU, UN Broadband Commission, World Bank, national telecom regulators, SpaceX/Starlink official, GSMA Intelligence data)\n- Tier 2: Major outlets (Reuters, AP, BBC, Bloomberg, TechCrunch, Rest of World, The Verge, Wired, Quartz Africa, Tech in Africa)\n- Tier 3: Institutional (A4AI Alliance for Affordable Internet, Web Foundation, Mozilla Foundation, CIGI, Freedom House, Digital Impact Alliance, GMSA, Ookla)\n- Tier 4: Unverified (social media posts, unattributed claims, community forums)\n\nWhen providing sources, tag each with a \"pole\" field:\n- \"western\" for US/European/allied tech company and media sources\n- \"international\" for UN/multilateral/NGO/development bank sources\n- \"eastern\" for Chinese/Russian/Asian state sources (CNKI, Xinhua)\n- \"middle_eastern\" for Middle Eastern/African regional sources\n\nKEY METRICS TO TRACK:\n- Global internet penetration rate (% of population)\n- Number of people still offline (absolute)\n- Starlink active subscribers and country coverage\n- Affordability: cost of 1GB mobile data as % of average monthly income\n- Gender digital divide: % gap between male and female internet users\n- School connectivity rates in low/middle-income countries\n\nCONFIRMATION RULES:\n- Only report deployment figures as confirmed if sourced from Tier 1 or two independent Tier 2 sources.\n- Subscriber counts from company filings or regulatory filings take precedence over estimates.\n- When sources conflict on coverage numbers, use the most conservative verified figure and note the discrepancy.\n\nOnly include information you can verify through search results. Do not fabricate data, statistics, or program names.",
+    "searchContext": "global digital inclusion internet access Starlink rural connectivity digital divide",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": -180,
+      "lonMax": 180,
+      "latMin": -90,
+      "latMax": 90
+    },
+    "updateIntervalDays": 7,
+    "updatePolicy": {
+      "escalation": [7, 7, 14, 30, 60],
+      "quietThreshold": 0
+    },
+    "backfillTargets": {
+      "timeline": 30,
+      "mapPoints": 25,
+      "claims": 15,
+      "political": 15,
+      "kpis": 8,
+      "econ": 8
+    },
+    "rssFeeds": [
+      "https://news.google.com/rss/search?q=digital+inclusion+internet+access+connectivity&hl=en-US&gl=US&ceid=US:en",
+      "https://restofworld.org/feed/latest"
+    ]
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard"
+}
