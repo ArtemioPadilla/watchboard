@@ -1,1 +1,212 @@
-[]
+[
+  {
+    "id": "off-target-effects-manageable",
+    "question": "Are CRISPR off-target editing effects manageable enough for safe clinical use?",
+    "sideA": {
+      "label": "Proponents (Therapeutics developers, FDA)",
+      "text": "Modern CRISPR systems — including high-fidelity Cas9 variants (eSpCas9, HiFi Cas9), base editors, and prime editors — produce clinically acceptable off-target rates. For Casgevy, whole-genome sequencing of thousands of edited cell clones showed no detected off-target editing at any genomic locus. Regulatory agencies have accepted the safety profile based on extensive pre-clinical and clinical data."
+    },
+    "sideB": {
+      "label": "Critics (Independent scientists, bioethicists)",
+      "text": "Long-term oncogenic risks of undetected off-target mutations cannot be ruled out with current sequencing sensitivity. Single off-target edits in cancer-related genes (e.g., tumor suppressors) could have consequences appearing only after years or decades. Published studies have found unexpected off-target effects in cell lines not seen in primary cells. Independent surveillance is essential."
+    },
+    "resolution": "FDA approved Casgevy with post-market surveillance requirements for off-target monitoring. Current consensus: off-target rates with approved therapies are at or below spontaneous mutation rates, but long-term monitoring remains essential. Base editing and prime editing further reduce concerns by avoiding double-strand breaks.",
+    "lastUpdated": "2026-04-14"
+  },
+  {
+    "id": "he-jiankui-ethical-justification",
+    "question": "Was He Jiankui's CRISPR editing of human embryos ethically justified?",
+    "sideA": {
+      "label": "He Jiankui / Defenders",
+      "text": "He Jiankui argued that his experiment was justified by medical necessity — editing the CCR5 gene to protect children from a father with HIV. He claimed he followed informed consent procedures and that providing natural CCR5-delta32 mutations, which occur naturally in ~10% of Europeans, was no different from natural genetic variation. He compared his work to Louise Brown's IVF birth."
+    },
+    "sideB": {
+      "label": "Global Scientific Community / WHO / Bioethicists",
+      "text": "The experiment was reckless and scientifically premature. The children were exposed to unknown off-target risks without capacity for informed consent. CCR5 disruption does not provide complete HIV immunity and increases susceptibility to West Nile virus and severe influenza. Informed consent documents were misleading, ethical approvals were fabricated, and the experiment violated every established principle of research ethics for germline editing."
+    },
+    "resolution": "He Jiankui was sentenced to 3 years in prison (December 2019). The global scientific community has near-unanimously condemned the experiment. The children (now ~8 years old) remain under Chinese government protection with unknown health status. The episode has become a defining negative case study in research ethics and accelerated calls for international governance of germline editing.",
+    "lastUpdated": "2026-04-14"
+  },
+  {
+    "id": "germline-editing-should-it-proceed",
+    "question": "Should clinical germline editing (heritable genetic changes) ever be permitted in humans?",
+    "sideA": {
+      "label": "Disease Elimination Advocates",
+      "text": "Germline editing could permanently eliminate devastating hereditary diseases like Huntington's, Tay-Sachs, and severe beta-thalassemia from family lines in a single generation. With sufficient advances in safety and precision, future germline correction of serious monogenic diseases could be justified under strong regulatory oversight, fully informed parental consent, and independent clinical ethics review — as IVF and PGT-A have been normalized."
+    },
+    "sideB": {
+      "label": "Bioethicists, WHO, National Academies",
+      "text": "Germline editing creates permanent, heritable changes in individuals who cannot consent — a moral threshold distinct from somatic therapy. The risk-benefit calculation cannot be adequately made today given unknown multigenerational effects and incomplete science. Preimplantation genetic testing (PGT) offers a non-heritable alternative for most monogenic diseases. The line between therapy and enhancement is easily crossed, risking eugenics."
+    },
+    "resolution": "Current international consensus (WHO, National Academies, ISSCR): clinical germline editing should not proceed until safety and efficacy can be established, societal consensus is achieved, and rigorous oversight mechanisms exist. Basic research on human embryos continues to be permitted in some jurisdictions (UK, China, US with restrictions). The debate is active and ongoing.",
+    "lastUpdated": "2026-04-14"
+  },
+  {
+    "id": "patent-ownership-broad-vs-berkeley",
+    "question": "Who invented CRISPR-Cas9 gene editing — Broad Institute (Zhang) or UC Berkeley (Doudna)?",
+    "sideA": {
+      "label": "Broad Institute / Feng Zhang",
+      "text": "Zhang's lab was the first to demonstrate CRISPR-Cas9 editing in mammalian (human) cells in January 2013, filing the patent application in December 2012. The USPTO has repeatedly affirmed that Zhang's work on eukaryotic cell editing is non-obvious over Doudna/Charpentier's bacterial biochemistry work, making them separate inventions. The Broad has won at every level of US patent proceedings."
+    },
+    "sideB": {
+      "label": "UC Berkeley / Jennifer Doudna",
+      "text": "Doudna and Charpentier's June 2012 Science paper established the core CRISPR-Cas9 mechanism — programming Cas9 with a single guide RNA — which forms the basis of all subsequent applications. Their earlier patent filing (May 2012) predates Zhang's application. European patent proceedings have affirmed UC Berkeley's priority for foundational CRISPR-Cas9 claims. The human-cell application was merely an obvious extension of the biochemistry."
+    },
+    "resolution": "Ongoing split: Broad Institute controls dominant US patents for eukaryotic (human cell) CRISPR editing; UC Berkeley holds European foundational patents. Commercial agreements have been reached with different companies licensing from different entities. The patent war has not been fully resolved and continues to affect biotech licensing dynamics globally.",
+    "lastUpdated": "2026-04-14"
+  },
+  {
+    "id": "casgevy-pricing-fairness",
+    "question": "Is Casgevy's $2.2 million price tag justified, or does it represent a market failure?",
+    "sideA": {
+      "label": "Vertex / CRISPR Therapeutics / Industry",
+      "text": "The $2.2M price reflects the actual cost of development ($1–2B+ in R&D over 10 years), manufacturing (complex personalized cellular process), and the curative value of a one-time treatment versus decades of chronic care (hydroxyurea, transfusions, hospitalizations) costing $400K–$1M per year for severe SCD. Cost-effectiveness analyses by ICER support a price of $1.5–2.1M based on quality-adjusted life-years (QALYs) gained."
+    },
+    "sideB": {
+      "label": "Patient Advocates, Payers, Health Economists",
+      "text": "The $2.2M price is effectively a death sentence for most of the world's 300,000 annual sickle cell births — over 75% of whom occur in sub-Saharan Africa. Even in the US, only a fraction of the 100,000 SCD patients can access treatment given the manufacturing constraints and payer negotiations. Public R&D funding (NIH grants, DARPA) contributed substantially to CRISPR's development, yet benefits flow almost exclusively to wealthy patients."
+    },
+    "resolution": "Deeply contested. US Medicaid programs are negotiating outcomes-based agreements. Global access remains minimal. Novartis and other companies have announced tiered pricing approaches for low-income countries for other gene therapies. WHO and patient groups are actively lobbying for innovative payment models (annuity-based, outcomes-linked) for CRISPR therapies globally.",
+    "lastUpdated": "2026-04-14"
+  },
+  {
+    "id": "sickle-cell-truly-curative",
+    "question": "Is Casgevy a true 'cure' for sickle cell disease, or a very effective but incomplete treatment?",
+    "sideA": {
+      "label": "Vertex / Clinical Investigators",
+      "text": "Based on the CLIMB-SCD-121 trial, 93.5% of treated patients remained completely free of severe vaso-occlusive crises for at least 12 months. Victoria Gray and other early participants have now been symptom-free for 5+ years. The biological mechanism — permanent reactivation of fetal hemoglobin via BCL11A editing — is durable because it modifies long-lived hematopoietic stem cells. FDA's own approval language describes the treatment as 'potentially curative.'"
+    },
+    "sideB": {
+      "label": "Independent Hematologists / Cautious Scientists",
+      "text": "Five-year follow-up is insufficient to claim cure for a lifelong disease. The trial enrolled only 44 patients — too small to identify rare adverse events. HbF levels may theoretically wane in some patients over decades. Three patients in the SCD trial experienced serious adverse events during conditioning chemotherapy (which is required regardless of the gene therapy and carries its own risks). Long-term graft failure or immune rejection, while rare, cannot be excluded."
+    },
+    "resolution": "Current scientific consensus leans toward Casgevy as functionally curative for most treated patients based on available evidence. However, the FDA requires 15 years of post-market follow-up. Longer-term data (10+ years) will be critical for definitively confirming durability and detecting rare late adverse events.",
+    "lastUpdated": "2026-04-14"
+  },
+  {
+    "id": "in-vivo-vs-ex-vivo-approach",
+    "question": "Which CRISPR delivery paradigm is superior: ex vivo cell engineering or in vivo editing?",
+    "sideA": {
+      "label": "Ex Vivo Advocates (CRISPR Therapeutics / Vertex)",
+      "text": "Ex vivo editing (removing cells, editing them in the lab, reinfusing) gives complete control over editing efficiency, quality testing of the product, and exclusion of any off-target-affected cells before reinfusion. The patient receives a well-characterized, tested cellular product. Casgevy's approval validates this approach. For blood disorders, ex vivo is the gold standard because hematopoietic stem cells can be reliably harvested, edited, and engrafted."
+    },
+    "sideB": {
+      "label": "In Vivo Advocates (Intellia / Beam / Academia)",
+      "text": "Ex vivo requires myeloablative chemotherapy conditioning (a serious procedure with mortality risk), access to specialized cell manufacturing facilities, and cannot target cells in the brain, heart, or other organs not accessible for harvesting. In vivo delivery via LNPs or AAV reaches target tissues directly, is simpler, and could address a vastly larger range of diseases. Intellia's NTLA-2001 Phase 1 data prove in vivo CRISPR can achieve therapeutic TTR reduction without ex vivo manipulation."
+    },
+    "resolution": "Both paradigms have clear applications and limitations. Ex vivo dominates for blood/immune disorders where cells can be harvested. In vivo is essential for non-blood diseases (liver, lung, CNS, muscle). The field is pursuing both in parallel, with in vivo seen as the longer-term scalable approach once delivery challenges for non-liver tissues are solved.",
+    "lastUpdated": "2026-04-14"
+  },
+  {
+    "id": "china-crispr-regulation-permissiveness",
+    "question": "Is China's regulatory framework for CRISPR research appropriately rigorous or dangerously permissive?",
+    "sideA": {
+      "label": "Chinese Research Community / Speed Advocates",
+      "text": "China's less restrictive regulatory environment allowed the world's first human CRISPR trial (2016), generating valuable clinical data on safety and immune responses that benefited global research. Chinese institutions have produced world-leading CRISPR research and clinical data. China has since tightened regulations: He Jiankui's prosecution demonstrates regulatory enforcement capacity, and new guidelines on embryo research and gene editing have been enacted."
+    },
+    "sideB": {
+      "label": "Western Bioethicists / International Governance Bodies",
+      "text": "He Jiankui's experiment was only possible because China's regulatory framework failed to prevent clearly unethical research. Multiple Chinese institutions were involved but none enforced oversight. The first clinical trial proceeded without the multi-year safety review that Western regulators require. China's new regulations are an improvement but remain less independently enforced than FDA or EMA standards. The pressure to achieve national scientific firsts creates institutional incentives that undermine safety."
+    },
+    "resolution": "China has strengthened its gene editing and clinical trial regulations significantly since 2019 (National Ethical Review Measures for Medical Scientific Research 2023). International oversight gaps remain, and no global treaty binds nations to common CRISPR research standards. WHO's governance recommendations are voluntary.",
+    "lastUpdated": "2026-04-14"
+  },
+  {
+    "id": "gene-drives-environmental-release",
+    "question": "Should CRISPR gene drives be released into wild animal populations (e.g., to eliminate malaria-carrying mosquitoes)?",
+    "sideA": {
+      "label": "Public Health Advocates / Eradicationists",
+      "text": "Malaria kills 600,000+ people annually, mostly children under 5 in sub-Saharan Africa. CRISPR gene drives could suppress or eliminate Anopheles gambiae mosquito populations within years, potentially saving millions of lives at low economic cost. The Target Malaria consortium (funded by Gates Foundation) has conducted rigorous ecological modeling. The technology could also eliminate tick-borne diseases, invasive species, and agricultural pests. The humanitarian case is compelling."
+    },
+    "sideB": {
+      "label": "Environmentalists / Ecologists / Biosafety Scientists",
+      "text": "Gene drives are inherently self-propagating and potentially irreversible once released — unlike all prior environmental interventions. Models cannot fully predict secondary ecological effects of eliminating a species (even Anopheles) from complex ecosystems. No international governance framework exists to approve or restrict gene drive releases across borders. A drive could spread far beyond targeted geographic areas. Irreversibility violates the precautionary principle, and consent cannot be obtained from affected communities and species."
+    },
+    "resolution": "No gene drives have been released into wild populations as of 2026. Contained field trials with non-propagating modified mosquitoes are underway in Mali and other countries under strict biosafety protocols. International governance bodies, including the UN Convention on Biological Diversity, continue deliberating on frameworks for gene drive governance. Research continues with broad scientific consensus that contained lab and small-scale field studies are appropriate, but open environmental release requires much stronger governance.",
+    "lastUpdated": "2026-04-14"
+  },
+  {
+    "id": "global-equity-crispr-access",
+    "question": "Will CRISPR gene therapies remain accessible only to patients in wealthy nations?",
+    "sideA": {
+      "label": "Industry / Optimists",
+      "text": "Manufacturers are working to reduce the cost and complexity of ex vivo cell manufacturing through automation and process optimization. LNP-based in vivo therapies (like Intellia's NTLA-2001) do not require personalized manufacturing and could become more scalable. Value-based payment models (outcomes-linked, annuity) could make treatments accessible in middle-income countries. The Medicines Patent Pool has precedent for enabling generic access to life-saving therapies."
+    },
+    "sideB": {
+      "label": "Global Health Advocates / Equity Researchers",
+      "text": "The 300,000 infants born annually with sickle cell disease — predominantly in Nigeria, DR Congo, India, and other low/middle-income countries — have essentially zero access to Casgevy at $2.2M. Africa, which bears 70% of the global SCD burden, has almost no authorized treatment centers. If historical patterns from gene therapies like Zolgensma ($2.1M, spinal muscular atrophy) and CAR-T hold, the access gap will persist for a decade or more after approval."
+    },
+    "resolution": "Deep access inequality exists. WHO has called for tiered pricing. Some manufacturers have announced access programs for specific low-income countries. Global health organizations are funding lower-cost CRISPR therapy development (e.g., NIH's HEAL initiative, Sickle Cell Disease Coalition). Base editing and in vivo approaches may eventually enable lower-cost treatments, but equitable access remains an unsolved structural problem.",
+    "lastUpdated": "2026-04-14"
+  },
+  {
+    "id": "base-editing-vs-prime-editing",
+    "question": "Which next-generation gene editing technology will dominate clinical applications — base editing or prime editing?",
+    "sideA": {
+      "label": "Base Editing Advocates (Beam Therapeutics / David Liu early work)",
+      "text": "Base editing has a multi-year clinical head start: BEAM-101 and other ABE programs are already in Phase 1 trials. The technology is well-characterized, with hundreds of published studies on efficiency and specificity. Base editors are smaller in size than prime editing components, facilitating AAV delivery. For point mutation diseases (which constitute ~32,000 known pathogenic variants addressable by base editing), the technology is proven and advancing quickly toward approval."
+    },
+    "sideB": {
+      "label": "Prime Editing Advocates (Prime Medicine / Liu lab)",
+      "text": "Prime editing is more versatile than base editing — it can install all 12 types of base-to-base conversions plus small insertions and deletions, covering ~89% of known pathogenic variants vs. ~26% for current base editors. It avoids double-strand breaks AND bystander edits (unintended C-to-T or A-to-G edits at nearby bases). While later to clinical trials, prime editing will ultimately be applicable to a broader disease portfolio. Prime Medicine's PM359 for CGD is entering clinical development."
+    },
+    "resolution": "Both technologies are advancing in parallel. Base editing has a near-term clinical lead. Prime editing is likely the more complete long-term solution but faces additional delivery challenges (larger payload size). The field may see base editing achieve first regulatory approvals while prime editing addresses a broader disease spectrum thereafter.",
+    "lastUpdated": "2026-04-14"
+  },
+  {
+    "id": "crispr-diagnostics-covid-legacy",
+    "question": "Did COVID-19 validate CRISPR as a diagnostic platform, or did PCR remain the gold standard?",
+    "sideA": {
+      "label": "CRISPR Diagnostics Developers (Sherlock Biosciences / Mammoth Biosciences)",
+      "text": "The COVID-19 pandemic demonstrated CRISPR's potential as a rapid diagnostic platform. Sherlock Biosciences' SHERLOCK (Specific High Sensitivity Enzymatic Reporter UnLOCKing) and Mammoth Biosciences' DETECTR (DNA Endonuclease Targeted CRISPR Trans Reporter) platforms received FDA Emergency Use Authorization during COVID-19. These Cas12/Cas13-based tests offer isothermal amplification, lateral flow readout (no expensive PCR machine), and potential for multiplexing — enabling point-of-care testing in low-resource settings."
+    },
+    "sideB": {
+      "label": "Clinical Laboratory Scientists / Epidemiologists",
+      "text": "Despite regulatory authorizations, CRISPR diagnostics did not displace PCR during COVID-19. PCR remains the regulatory gold standard for sensitivity and specificity. CRISPR diagnostic platforms faced scale-up challenges. Antigen rapid tests, though less sensitive than CRISPR, were cheaper and faster for mass screening. For clinical use, CRISPR diagnostics still require head-to-head comparisons with PCR in large prospective studies before they can be considered equivalent."
+    },
+    "resolution": "CRISPR diagnostics proved the technology platform beyond therapeutics and secured FDA EUAs. PCR remains the regulatory gold standard for clinical diagnostics. CRISPR-based diagnostics are now being developed for cancer biomarker detection, antimicrobial resistance surveillance, and emerging pathogen identification — a growing market separate from COVID-19 testing.",
+    "lastUpdated": "2026-04-14"
+  },
+  {
+    "id": "lnp-delivery-non-liver-adequacy",
+    "question": "Are lipid nanoparticles (LNPs) sufficient for systemic in vivo CRISPR delivery, or is non-liver delivery still fundamentally unsolved?",
+    "sideA": {
+      "label": "Intellia / Alnylam / LNP Technology Optimists",
+      "text": "LNPs have been proven in three approved RNA therapeutics (patisiran, COVID-19 mRNA vaccines, givosiran) and now in Intellia's NTLA-2001 clinical data for liver editing. LNP formulation chemistry is advancing rapidly — ionizable lipids, PEGylation strategies, and targeting ligands (e.g., GalNAc for liver) enable efficient, specific delivery. Emerging LNP variants are showing promising results for lung, muscle, and lymph node delivery in preclinical models."
+    },
+    "sideB": {
+      "label": "Gene Therapy Field Skeptics / AAV Proponents",
+      "text": "LNPs preferentially accumulate in the liver after systemic administration due to apolipoprotein E binding. Non-liver tissues — including the brain, muscle, lung, and heart — remain largely inaccessible to current LNP technology at clinically relevant doses without unacceptable toxicity. AAV vectors can target specific non-liver tissues but face their own limitations (immunogenicity, re-dosing barriers, cargo size limits). No systemic LNP-based therapy has yet achieved therapeutic editing in non-liver tissues in humans."
+    },
+    "resolution": "LNPs are proven for liver delivery and advancing for lung (inhaled LNPs). Non-liver systemic delivery remains a major unsolved challenge and active research area. The field expects incremental progress — achieving efficacy in specific non-liver compartments (e.g., T-cells, tumor microenvironments, muscle) over the next 5–10 years, but a universal systemic non-liver delivery platform does not yet exist.",
+    "lastUpdated": "2026-04-14"
+  },
+  {
+    "id": "enhancement-vs-therapy-boundary",
+    "question": "Where should the ethical boundary between CRISPR therapeutic use and genetic enhancement be drawn?",
+    "sideA": {
+      "label": "Transhumanists / Enhancement Advocates",
+      "text": "The therapy/enhancement distinction is philosophically incoherent. Treating PKU (metabolic disease) vs. improving metabolic efficiency are points on a continuum of human flourishing. If we allow gene therapy to restore 'normal' vision, why not to extend it beyond normal? Enhancement that reduces disease susceptibility (e.g., APOE4 editing for Alzheimer's, PCSK9 editing for heart disease) blurs into therapy. Prohibiting enhancement is ultimately paternalistic and will merely drive the technology underground."
+    },
+    "sideB": {
+      "label": "Bioethicists / Disability Rights Advocates / National Academies",
+      "text": "Enhancement editing of embryos or germline without the future person's consent is categorically different from treating disease in a consenting patient. Enhancement privileges wealthy families who can afford it, exacerbating inequality. The disability rights community argues that genetic 'enhancement' carries implicit devaluation of people living with the conditions targeted. Social consensus on what constitutes 'normal' vs. 'enhanced' is impossible to achieve without coercive implications."
+    },
+    "resolution": "No jurisdiction currently permits genetic enhancement editing in humans. Current regulatory frameworks restrict CRISPR therapies to serious diseases where there is clear medical necessity. The boundary is expected to remain contentious as enhancement technologies advance. Most bioethicists support a strong default presumption against enhancement until safety, equity, and consent issues are adequately addressed.",
+    "lastUpdated": "2026-04-14"
+  },
+  {
+    "id": "crispr-cancer-allogeneic-cart",
+    "question": "Can CRISPR-edited allogeneic (off-the-shelf) CAR-T cells replace personalized autologous CAR-T therapy for cancer?",
+    "sideA": {
+      "label": "Allogeneic CAR-T Developers (CRISPR Therapeutics / Caribou)",
+      "text": "Allogeneic CRISPR-edited CAR-T cells, manufactured from healthy donor T cells, offer major advantages: off-the-shelf availability (no 3-4 week manufacturing wait for critically ill patients), consistent quality, lower cost per dose with batch manufacturing, and potential for outpatient administration. CRISPR can delete TCR alpha/beta (preventing GvHD), MHC-I (reducing rejection), and PD-1 (increasing persistence). Phase 1 data from CTX110 and CARBON (Caribou CB-010) show complete responses in heavily pre-treated patients."
+    },
+    "sideB": {
+      "label": "Autologous CAR-T Advocates / Kymriah/Yescarta Developers",
+      "text": "Allogeneic CAR-T cells face fundamental immunological challenges: host rejection (host-vs-graft) limits T-cell persistence and efficacy. Phase 1 allogeneic trials have shown lower complete response rates and shorter remission durations compared to autologous Kymriah and Yescarta in head-to-head analyses. MHC mismatch deletion alone is insufficient to prevent rejection. The personalized autologous approach maintains regulatory and clinical validation that allogeneic programs must earn independently."
+    },
+    "resolution": "Allogeneic CRISPR CAR-T is advancing but has not yet demonstrated superiority or non-inferiority to autologous CAR-T in randomized trials. Persistence and rejection remain the key barriers. The field expects both to coexist: autologous for best efficacy in B-cell malignancies, allogeneic (if persistence challenges are solved) for speed-critical and dose-intensive applications.",
+    "lastUpdated": "2026-04-14"
+  }
+]

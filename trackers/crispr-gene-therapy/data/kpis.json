@@ -1,1 +1,93 @@
-[]
+[
+  {
+    "id": "approved-crispr-therapies",
+    "label": "FDA/EMA Approved CRISPR Therapies",
+    "value": "1",
+    "color": "green",
+    "source": "FDA (Dec 2023), EMA (Feb 2024), MHRA (Nov 2023)",
+    "contested": false,
+    "delta": "+1 since Dec 2023",
+    "deltaNote": "Casgevy (exagamglogene autotemcel) approved for SCD and beta-thalassemia",
+    "trend": "up",
+    "lastUpdated": "2026-04-14"
+  },
+  {
+    "id": "active-clinical-trials",
+    "label": "Active CRISPR Clinical Trials (Global)",
+    "value": "~90",
+    "color": "blue",
+    "source": "ClinicalTrials.gov (Apr 2026)",
+    "contested": false,
+    "delta": "+35 vs 2022",
+    "deltaNote": "Covering sickle cell, cancer, vision, liver, cardiovascular disorders",
+    "trend": "up",
+    "lastUpdated": "2026-04-14"
+  },
+  {
+    "id": "casgevy-list-price",
+    "label": "Casgevy List Price (One-Time Treatment)",
+    "value": "$2.2M",
+    "color": "amber",
+    "source": "Vertex Pharmaceuticals (2023)",
+    "contested": true,
+    "contestNote": "Payers and patient advocates dispute cost-effectiveness vs. chronic standard-of-care; access barriers remain severe in low-income countries",
+    "lastUpdated": "2026-04-14"
+  },
+  {
+    "id": "patients-treated-casgevy",
+    "label": "Patients Treated Commercially (Casgevy)",
+    "value": "~50+",
+    "color": "green",
+    "source": "Vertex Pharmaceuticals Q1 2025 earnings",
+    "contested": false,
+    "delta": "Commercial launch Jan 2024",
+    "deltaNote": "Manufacturing and treatment center ramp-up ongoing; each case requires months of preparation",
+    "trend": "up",
+    "lastUpdated": "2026-04-14"
+  },
+  {
+    "id": "global-crispr-market-2024",
+    "label": "Global CRISPR Therapeutics Market (2024)",
+    "value": "$3.2B",
+    "color": "blue",
+    "source": "Grand View Research / Evaluate Pharma (2024)",
+    "contested": false,
+    "delta": "CAGR ~24–26% projected to 2030",
+    "deltaNote": "Includes therapeutics, tools, diagnostics, and agricultural CRISPR",
+    "trend": "up",
+    "lastUpdated": "2026-04-14"
+  },
+  {
+    "id": "crispr-research-publications",
+    "label": "CRISPR Research Publications (PubMed)",
+    "value": "45,000+",
+    "color": "blue",
+    "source": "PubMed / NIH (2026)",
+    "contested": false,
+    "delta": "+8,000 papers in 2024",
+    "deltaNote": "Exponential growth since 2013; field expanding to base editing, prime editing, CRISPRi/a",
+    "trend": "up",
+    "lastUpdated": "2026-04-14"
+  },
+  {
+    "id": "us-sickle-cell-patients",
+    "label": "US Sickle Cell Patients (Potential Casgevy Eligibility)",
+    "value": "~100,000",
+    "color": "amber",
+    "source": "NIH / CDC / American Society of Hematology",
+    "contested": false,
+    "delta": "~16,000 severe SCD cases",
+    "deltaNote": "$2.2M price tag and complex treatment process create major access barriers; only a fraction will receive treatment",
+    "lastUpdated": "2026-04-14"
+  },
+  {
+    "id": "years-since-discovery",
+    "label": "Years Since CRISPR-Cas9 Discovery",
+    "value": "14",
+    "color": "green",
+    "source": "Science, Jun 28, 2012 (Doudna & Charpentier)",
+    "contested": false,
+    "deltaNote": "From first landmark Science paper to first approved human therapy: 11 years",
+    "lastUpdated": "2026-04-14"
+  }
+]
