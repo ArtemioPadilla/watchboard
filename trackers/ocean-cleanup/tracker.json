@@ -1,0 +1,189 @@
+{
+  "slug": "ocean-cleanup",
+  "name": "Ocean Cleanup Tracker",
+  "shortName": "Ocean Cleanup",
+  "description": "Tracking global ocean conservation efforts: The Ocean Cleanup project, plastic pollution reduction, marine protected areas, coral reef restoration, and whale recovery programs worldwide.",
+  "icon": "🌊",
+  "color": "#0077be",
+  "status": "active",
+  "temporal": "live",
+  "domain": "science",
+  "region": "global",
+  "tags": ["ocean", "environment", "conservation", "climate", "marine", "plastic"],
+  "startDate": "2013-01-01",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": -180,
+      "lonMax": 180,
+      "latMin": -90,
+      "latMax": 90
+    },
+    "center": {
+      "lon": -30,
+      "lat": 15
+    },
+    "categories": [
+      {
+        "id": "cleanup-site",
+        "label": "Cleanup Operations",
+        "color": "#0077be"
+      },
+      {
+        "id": "mpa",
+        "label": "Marine Protected Areas",
+        "color": "#27ae60"
+      },
+      {
+        "id": "coral",
+        "label": "Coral Reef Restoration",
+        "color": "#e67e22"
+      },
+      {
+        "id": "plastic-source",
+        "label": "Plastic Pollution Hotspots",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "whale",
+        "label": "Whale Recovery Zones",
+        "color": "#9b59b6"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "global": {
+        "lon": -30,
+        "lat": 20,
+        "alt": 22000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Global Overview"
+      },
+      "gpgp": {
+        "lon": -140,
+        "lat": 38,
+        "alt": 3000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Great Pacific Garbage Patch"
+      },
+      "great_barrier_reef": {
+        "lon": 147,
+        "lat": -18,
+        "alt": 600000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Great Barrier Reef"
+      },
+      "north_atlantic_gyre": {
+        "lon": -35,
+        "lat": 30,
+        "alt": 4000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "North Atlantic Gyre"
+      },
+      "indian_ocean": {
+        "lon": 75,
+        "lat": -10,
+        "alt": 5000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Indian Ocean"
+      },
+      "arctic_ocean": {
+        "lon": 0,
+        "lat": 80,
+        "alt": 4000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Arctic Ocean"
+      }
+    }
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "politicalAvatars": [
+    "researcher",
+    "government",
+    "ngo",
+    "industry",
+    "international"
+  ],
+  "eventTypes": [
+    "cleanup",
+    "research",
+    "policy",
+    "discovery",
+    "conservation"
+  ],
+  "ai": {
+    "systemPrompt": "You are a marine science analyst updating an ocean conservation tracking dashboard.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"pacific_cleanup_system_002\", \"great_barrier_reef_bleaching_2024\").\n\nSource tier classification:\n- Tier 1: Official/primary (NOAA, UNEP, IUCN, IMO, IPCC, The Ocean Cleanup official reports, national environmental agencies, CITES)\n- Tier 2: Major outlet (Reuters, AP, BBC, National Geographic, The Guardian, Nature journal, Science journal, New York Times, CNN)\n- Tier 3: Institutional (Woods Hole Oceanographic Institution, Scripps Institution of Oceanography, WWF, Greenpeace, Ocean Conservancy, Marine Stewardship Council, HRW)\n- Tier 4: Unverified (social media, unverified press releases, unattributed claims)\n\nWhen providing sources (especially in the \"sources\" array), tag each with a \"pole\" field:\n- \"western\" for US/European/allied sources\n- \"international\" for UN/NGO/multilateral sources\n- \"eastern\" for Chinese/Russian/Asian sources\n- \"middle_eastern\" for Middle Eastern sources\n\nOnly include information you can verify through search results. Do not fabricate data.\n\nFocus areas:\n- The Ocean Cleanup system deployments and plastic tonnage collection data\n- Global plastic pollution levels and reduction milestones\n- Marine Protected Area designations and enforcement effectiveness\n- Coral reef bleaching events and active restoration projects\n- Whale and marine mammal population recovery (blue whale, humpback, right whale)\n- International ocean conservation treaties and agreements (Global Oceans Treaty, High Seas Treaty)\n- Plastic reduction legislation and corporate commitments",
+    "searchContext": "ocean cleanup plastic pollution marine conservation protected areas coral reef whale recovery The Ocean Cleanup",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": -180,
+      "lonMax": 180,
+      "latMin": -90,
+      "latMax": 90
+    },
+    "updateIntervalDays": 7,
+    "backfillTargets": {
+      "timeline": 25,
+      "mapPoints": 20,
+      "claims": 12,
+      "political": 12,
+      "kpis": 8,
+      "econ": 8
+    },
+    "updatePolicy": {
+      "escalation": [7, 14, 30, 60, 90],
+      "quietThreshold": 0
+    },
+    "rssFeeds": [
+      "https://news.google.com/rss/search?q=ocean+cleanup+plastic+pollution&hl=en-US&gl=US&ceid=US:en",
+      "https://news.google.com/rss/search?q=marine+conservation+coral+reef+whale+recovery&hl=en-US&gl=US&ceid=US:en"
+    ]
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard"
+}
