@@ -1,0 +1,191 @@
+{
+  "slug": "mrna-revolution",
+  "name": "mRNA Revolution Tracker",
+  "shortName": "mRNA Revolution",
+  "description": "Intelligence dashboard tracking the mRNA technology revolution — from COVID-19 vaccines to cancer immunotherapy, malaria, HIV, and personalized medicine. The platform technology transforming healthcare.",
+  "icon": "🧬",
+  "color": "#2980b9",
+  "status": "active",
+  "temporal": "live",
+  "domain": "science",
+  "region": "global",
+  "tags": ["mrna", "vaccines", "oncology", "biotech", "personalized-medicine", "clinical-trials"],
+  "startDate": "2020-12-11",
+  "eraLabel": "Platform Medicine Era",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": -180,
+      "lonMax": 180,
+      "latMin": -60,
+      "latMax": 85
+    },
+    "center": {
+      "lon": 0,
+      "lat": 20
+    },
+    "categories": [
+      {
+        "id": "trial-site",
+        "label": "Clinical Trial Sites",
+        "color": "#2980b9"
+      },
+      {
+        "id": "approval",
+        "label": "Regulatory Approvals",
+        "color": "#27ae60"
+      },
+      {
+        "id": "research-hub",
+        "label": "Research Hubs",
+        "color": "#8e44ad"
+      },
+      {
+        "id": "manufacturing",
+        "label": "Manufacturing Facilities",
+        "color": "#f39c12"
+      },
+      {
+        "id": "disease-burden",
+        "label": "Target Disease Burden",
+        "color": "#e74c3c"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "global": {
+        "lon": 0,
+        "lat": 20,
+        "alt": 15000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Global Overview"
+      },
+      "cambridge_ma": {
+        "lon": -71.11,
+        "lat": 42.36,
+        "alt": 50000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Cambridge, MA (Moderna)"
+      },
+      "mainz": {
+        "lon": 8.27,
+        "lat": 49.99,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Mainz (BioNTech HQ)"
+      },
+      "bethesda": {
+        "lon": -77.10,
+        "lat": 38.99,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Bethesda (NIH / FDA)"
+      },
+      "geneva": {
+        "lon": 6.15,
+        "lat": 46.20,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Geneva (WHO)"
+      },
+      "africa_trials": {
+        "lon": 25.0,
+        "lat": -5.0,
+        "alt": 5000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Africa (Trial Sites)"
+      }
+    }
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Market"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Debates"
+    },
+    {
+      "id": "sec-political",
+      "label": "Policy"
+    }
+  ],
+  "politicalAvatars": [
+    "pharma",
+    "regulator",
+    "researcher",
+    "patient-advocate",
+    "govt",
+    "other"
+  ],
+  "eventTypes": [
+    "trial",
+    "approval",
+    "breakthrough",
+    "safety",
+    "policy"
+  ],
+  "ai": {
+    "systemPrompt": "You are a biomedical intelligence analyst updating a dashboard tracking the mRNA technology revolution.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"bnt111_phase3\", \"mrna_1283_approval\").\n\nCOVERAGE SCOPE — track developments across all mRNA therapeutic areas:\n1. CANCER VACCINES: Personalized neoantigen vaccines (BNT111, mRNA-4157/V940, etc.), therapeutic cancer vaccines in trials\n2. INFECTIOUS DISEASE: Malaria (R21/Matrix-M, mRNA malaria candidates), HIV (IAVI/Moderna), RSV, influenza, tuberculosis\n3. RARE DISEASES: Propionic acidemia, methylmalonic acidemia, in vivo protein replacement therapies\n4. PLATFORM ADVANCES: Lipid nanoparticle delivery, self-amplifying mRNA (saRNA), circular RNA, next-gen modifications\n5. REGULATORY & POLICY: FDA, EMA, WHO approvals, Emergency Use Authorizations, accelerated pathways\n6. MARKET & INVESTMENT: Licensing deals, partnerships, funding rounds, clinical trial results impact on valuations\n\nSource tier classification:\n- Tier 1: Official/primary (FDA press releases, EMA opinions, WHO prequalification, NIH/NIAID announcements, peer-reviewed publications in Nature, Science, NEJM, Lancet, Cell)\n- Tier 2: Major outlet/science media (Reuters, AP, BBC, STAT News, Nature News, Science News, BioPharma Dive, FierceBiotech, Endpoints News)\n- Tier 3: Institutional (Brookings, CSIS, MSF, Gavi, CEPI, ClinicalTrials.gov registry data, preprint servers with caveats)\n- Tier 4: Unverified (company press releases without supporting data, social media, unreviewed preprints)\n\nOnly include information you can verify through search results. Do not fabricate clinical trial results or regulatory decisions.\n\nDATING CONVENTIONS:\n- For clinical trials: use trial start date or key results announcement date\n- year field must be a string (e.g. \"2024\" not 2024)\n\nCLINICAL MILESTONE TRACKING:\n- Always note Phase (I/II/III) and indication for any trial entry\n- Include ClinicalTrials.gov NCT number when available as part of detail or sources\n- For approvals: include geography, indication, and whether full or conditional/accelerated approval",
+    "searchContext": "mRNA vaccine technology cancer HIV malaria personalized medicine clinical trials FDA EMA approval biotech BioNTech Moderna",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "claims",
+      "political",
+      "econ"
+    ],
+    "coordValidation": {
+      "lonMin": -180,
+      "lonMax": 180,
+      "latMin": -90,
+      "latMax": 90
+    },
+    "updateIntervalDays": 7,
+    "backfillTargets": {
+      "timeline": 30,
+      "mapPoints": 20,
+      "claims": 15,
+      "political": 12,
+      "kpis": 8,
+      "econ": 8
+    },
+    "updatePolicy": {
+      "escalation": [7, 14, 30, 60, 90],
+      "quietThreshold": 30
+    },
+    "rssFeeds": [
+      "https://news.google.com/rss/search?q=mRNA+vaccine+cancer+clinical+trial&hl=en-US&gl=US&ceid=US:en",
+      "https://www.statnews.com/feed/"
+    ]
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard"
+}
