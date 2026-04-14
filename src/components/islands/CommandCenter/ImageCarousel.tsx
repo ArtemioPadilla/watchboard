@@ -26,6 +26,7 @@ const AUTO_ADVANCE_MS = 4000;
 export default function ImageCarousel({ images, autoAdvance = false, fallbackIcon, fallbackDomain }: ImageCarouselProps) {
   const [currentIdx, setCurrentIdx] = useState(0);
   const [progress, setProgress] = useState(0);
+  const [failedUrls, setFailedUrls] = useState<Set<string>>(new Set());
   const rafRef = useRef(0);
   const startRef = useRef(0);
 
@@ -88,14 +89,21 @@ export default function ImageCarousel({ images, autoAdvance = false, fallbackIco
         </div>
       )}
       <div style={styles.imageWrap}>
-        <img
-          src={current.url}
-          alt=""
-          style={styles.image}
-          loading="lazy"
-          referrerPolicy="no-referrer"
-          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-        />
+        {failedUrls.has(current.url) ? (
+          <div style={{ ...styles.fallback, background: DOMAIN_GRADIENTS[fallbackDomain ?? ''] ?? DOMAIN_GRADIENTS.default }}>
+            <span style={styles.fallbackIcon}>{fallbackIcon ?? '?'}</span>
+            <span style={styles.fallbackSource}>{current.source}</span>
+          </div>
+        ) : (
+          <img
+            src={current.url}
+            alt=""
+            style={styles.image}
+            loading="lazy"
+            referrerPolicy="no-referrer"
+            onError={() => { setFailedUrls(prev => new Set(prev).add(current.url)); }}
+          />
+        )}
       </div>
       {/* Attribution */}
       <div style={styles.attribution}>
@@ -169,9 +177,17 @@ const styles = {
     aspectRatio: '3 / 4',
     borderRadius: 8,
     display: 'flex',
+    flexDirection: 'column' as const,
     alignItems: 'center',
     justifyContent: 'center',
+    gap: 4,
     border: '1px solid var(--border, #30363d)',
+  } as React.CSSProperties,
+  fallbackSource: {
+    fontFamily: "'JetBrains Mono', monospace",
+    fontSize: '0.5rem',
+    color: 'var(--text-muted, #484f58)',
+    textAlign: 'center' as const,
   } as React.CSSProperties,
   fallbackIcon: {
     fontSize: 48,
