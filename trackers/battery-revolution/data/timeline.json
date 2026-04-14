@@ -1,1 +1,516 @@
-[]
+[
+  {
+    "era": "Disruption Foundations (2020)",
+    "events": [
+      {
+        "id": "byd-blade-battery-launch",
+        "year": "2020",
+        "title": "BYD Blade Battery: LFP Safety Revolution",
+        "type": "breakthrough",
+        "detail": "BYD unveiled the Blade Battery in March 2020, a lithium iron phosphate (LFP) cell in a flat prismatic 'blade' design that dramatically improved thermal stability. The pack-level energy density rose to ~140 Wh/kg via its cell-to-pack architecture. The battery passed a nail-penetration test without fire or explosion — a claim NMC competitors could not match at the time. The Blade went into the Han EV sedan and quickly reshaped the global narrative around LFP versus NMC chemistry.",
+        "sources": [
+          { "name": "BYD official press release", "tier": 1, "pole": "eastern" },
+          { "name": "Reuters", "tier": 2, "pole": "eastern" }
+        ],
+        "eventConfidence": "verified",
+        "lastUpdated": "2026-04-14"
+      },
+      {
+        "id": "gm-ultium-platform-announcement",
+        "year": "2020",
+        "title": "GM Ultium Platform: Modular Battery Architecture Unveiled",
+        "type": "investment",
+        "detail": "General Motors and LG Energy Solution announced the Ultium battery platform on March 4, 2020, alongside a $2.3B joint venture (Ultium Cells LLC) to build a battery gigafactory in Lordstown, Ohio. The pouch-cell NMC chemistry promised energy density up to 400 Wh/L and packs ranging from 50–200+ kWh. GM pledged $20B in EV and AV investment through 2025. The platform underpins Hummer EV, Cadillac Lyriq, and Silverado EV.",
+        "sources": [
+          { "name": "GM official press release", "tier": 1, "pole": "western" },
+          { "name": "Automotive News", "tier": 2, "pole": "western" }
+        ],
+        "eventConfidence": "verified",
+        "lastUpdated": "2026-04-14"
+      },
+      {
+        "id": "tesla-battery-day-4680",
+        "year": "2020",
+        "title": "Tesla Battery Day: 4680 Tabless Cell Announced",
+        "type": "breakthrough",
+        "detail": "On September 22, 2020, Tesla's Battery Day event introduced the 4680 cylindrical cell (46mm diameter, 80mm height) with a tabless electrode design. Elon Musk claimed 5× energy, 6× power, and 16% range improvement versus the 2170 cell, with a 14% cost reduction from form factor alone. Tesla announced the Kato Road pilot line in Fremont and plans to manufacture cells in-house at gigafactories. The event also unveiled the structural battery pack concept where cells act as load-bearing chassis members, and a move to dry-electrode coating (licensed from Maxwell Technologies).",
+        "sources": [
+          { "name": "Tesla Battery Day presentation", "tier": 1, "pole": "western" },
+          { "name": "Electrek", "tier": 2, "pole": "western" },
+          { "name": "Ars Technica", "tier": 2, "pole": "western" }
+        ],
+        "eventConfidence": "official_claim",
+        "lastUpdated": "2026-04-14"
+      },
+      {
+        "id": "quantumscape-spac-ipo",
+        "year": "2020",
+        "title": "QuantumScape SPAC IPO: Solid-State Bet Hits $50B Peak",
+        "type": "investment",
+        "detail": "QuantumScape, a Stanford spin-off backed by Volkswagen and Bill Gates, went public November 25, 2020 via a SPAC merger with Kensington Capital. The company disclosed initial test results showing its lithium-metal solid-state separator could charge to 80% in 15 minutes across 400 cycles at room temperature. Market cap briefly surpassed $50B — extraordinary for a company with no revenue. VW committed to using QuantumScape cells for its solid-state EVs. The IPO ignited investor frenzy around solid-state battery commercialization.",
+        "sources": [
+          { "name": "QuantumScape SEC filing", "tier": 1, "pole": "western" },
+          { "name": "Bloomberg", "tier": 2, "pole": "western" },
+          { "name": "Financial Times", "tier": 2, "pole": "western" }
+        ],
+        "eventConfidence": "verified",
+        "lastUpdated": "2026-04-14"
+      },
+      {
+        "id": "covid-supply-chain-stress",
+        "year": "2020",
+        "title": "COVID-19 Exposes Battery Supply Chain Fragility",
+        "type": "policy",
+        "detail": "The COVID-19 pandemic in early 2020 shuttered lithium, cobalt, and nickel mines across Chile, DRC, Philippines, and Indonesia, while Chinese battery factories experienced weeks-long shutdowns. EV manufacturers faced component shortages. The crisis accelerated government and industry rethinking of single-source supply chains. The US, EU, and Japan launched reviews of critical mineral dependencies. The episode directly motivated the IRA's domestic content requirements (2022) and Europe's Critical Raw Materials Act (2023).",
+        "sources": [
+          { "name": "IEA Global EV Outlook 2020", "tier": 1, "pole": "international" },
+          { "name": "Reuters", "tier": 2, "pole": "western" }
+        ],
+        "eventConfidence": "verified",
+        "lastUpdated": "2026-04-14"
+      }
+    ]
+  },
+  {
+    "era": "Chemistry Wars (2021)",
+    "events": [
+      {
+        "id": "tesla-kato-road-4680-pilot",
+        "year": "2021",
+        "title": "Tesla Begins 4680 Pilot Production at Kato Road",
+        "type": "deployment",
+        "detail": "Tesla started pilot production of 4680 cells at its Kato Road facility in Fremont, California, in early 2021. The facility aimed to produce enough cells to validate dry-electrode manufacturing at scale before committing to full gigafactory investment. Output ramped slowly due to challenges with dry-cathode coating and jellyroll alignment. The line served as the template for Gigafactory Texas 4680 production.",
+        "sources": [
+          { "name": "Tesla Q1 2021 Earnings Call", "tier": 1, "pole": "western" },
+          { "name": "Electrek", "tier": 2, "pole": "western" }
+        ],
+        "eventConfidence": "official_claim",
+        "lastUpdated": "2026-04-14"
+      },
+      {
+        "id": "volkswagen-power-day-2021",
+        "year": "2021",
+        "title": "Volkswagen Power Day: All-In on Batteries",
+        "type": "investment",
+        "detail": "On March 15, 2021, Volkswagen Group hosted its first 'Power Day,' announcing plans for six gigafactories in Europe by 2030 (240 GWh capacity), a shift to unified prismatic battery cells, and a proprietary charging network. VW committed €35B in EV investment through 2025. CEO Herbert Diess declared batteries would be VW's core competency, not a commodity. The company founded the Salzgitter-based battery unit that later became PowerCo SE.",
+        "sources": [
+          { "name": "Volkswagen Group press release", "tier": 1, "pole": "western" },
+          { "name": "Financial Times", "tier": 2, "pole": "western" },
+          { "name": "Reuters", "tier": 2, "pole": "western" }
+        ],
+        "eventConfidence": "verified",
+        "lastUpdated": "2026-04-14"
+      },
+      {
+        "id": "catl-sodium-ion-announcement",
+        "year": "2021",
+        "title": "CATL Unveils First-Generation Sodium-Ion Battery",
+        "type": "breakthrough",
+        "detail": "On July 29, 2021, CATL announced its first-generation sodium-ion battery with an energy density of 160 Wh/kg at the cell level — about 30% below its LFP cells but above earlier Na-ion benchmarks. CATL's key innovation was a Prussian white cathode structure that improved cycle life, and an AB-pack system combining Na-ion and Li-ion cells in a single pack to compensate for range limitations. CATL claimed charging to 80% in 15 minutes at room temperature. The announcement validated sodium-ion as a commercially viable alternative for cost-sensitive markets.",
+        "sources": [
+          { "name": "CATL official announcement", "tier": 1, "pole": "eastern" },
+          { "name": "Reuters", "tier": 2, "pole": "eastern" },
+          { "name": "CleanTechnica", "tier": 2, "pole": "western" }
+        ],
+        "eventConfidence": "official_claim",
+        "lastUpdated": "2026-04-14"
+      },
+      {
+        "id": "northvolt-major-fundraise-2021",
+        "year": "2021",
+        "title": "Northvolt Raises $2.75B, Reaches $12B Valuation",
+        "type": "investment",
+        "detail": "Swedish battery startup Northvolt raised $2.75B in June 2021, valuing the company at approximately $12B. Backers included Goldman Sachs Asset Management, Volkswagen, BMW, Goldman Sachs, and Baillie Gifford. Northvolt also secured a $14B order from Volkswagen. The raise was seen as validation that Europe could build a competitive battery industry. Northvolt's Skellefteå factory (Revolt Ett) completed its first battery cell in December 2021.",
+        "sources": [
+          { "name": "Northvolt press release", "tier": 1, "pole": "western" },
+          { "name": "Financial Times", "tier": 2, "pole": "western" },
+          { "name": "Reuters", "tier": 2, "pole": "western" }
+        ],
+        "eventConfidence": "verified",
+        "lastUpdated": "2026-04-14"
+      },
+      {
+        "id": "ford-gm-ev-battery-investment-2021",
+        "year": "2021",
+        "title": "Ford & GM Announce Mega-Scale EV Battery Investments",
+        "type": "investment",
+        "detail": "In September 2021, Ford announced a $11.4B investment in two battery plants and an EV assembly facility through its BlueOval SK joint venture with SK Innovation. The plants — in Tennessee and Kentucky — would produce 129 GWh annually by 2025. Separately, GM expanded its Ultium Cells JV with LG Energy Solution to include a second (Spring Hill, TN) and third (Lansing, MI) gigafactory. Together, Ford and GM commitments signaled a manufacturing shift of historic proportions in the US auto industry.",
+        "sources": [
+          { "name": "Ford Motor Company press release", "tier": 1, "pole": "western" },
+          { "name": "Reuters", "tier": 2, "pole": "western" },
+          { "name": "BloombergNEF", "tier": 3, "pole": "western" }
+        ],
+        "eventConfidence": "verified",
+        "lastUpdated": "2026-04-14"
+      },
+      {
+        "id": "northvolt-first-cell-production",
+        "year": "2021",
+        "title": "Northvolt Produces First Battery Cell in Sweden",
+        "type": "deployment",
+        "detail": "In December 2021, Northvolt's Revolt Ett factory in Skellefteå, Sweden produced its first battery cell — a historic milestone for European battery manufacturing independence. The initial NMC cell was handed to the first customer (Volkswagen). The factory was designed to run on 100% renewable hydropower from northern Sweden. Northvolt's successful production demonstrated that high-quality cells could be manufactured outside Asia, though scaling to full 40 GWh capacity proved far harder than projected.",
+        "sources": [
+          { "name": "Northvolt press release", "tier": 1, "pole": "western" },
+          { "name": "Reuters", "tier": 2, "pole": "western" }
+        ],
+        "eventConfidence": "verified",
+        "lastUpdated": "2026-04-14"
+      }
+    ]
+  },
+  {
+    "era": "Policy Explosion & Capital Surge (2022)",
+    "events": [
+      {
+        "id": "lg-energy-solution-ipo",
+        "year": "2022",
+        "title": "LG Energy Solution IPO: Largest Korean Listing in History",
+        "type": "investment",
+        "detail": "LG Energy Solution went public on the Korea Stock Exchange on January 27, 2022, raising approximately 12.75 trillion won (~$10.7B) — the largest IPO in Korean history. The company was spun off from LG Chem in 2020. At listing, LGES market cap reached approximately $100B, briefly making it South Korea's second-largest company. LGES at the time supplied cells to Tesla, GM (Ultium), and Stellantis, and was building factories in the US, Europe, and China in partnership with automakers.",
+        "sources": [
+          { "name": "LG Energy Solution prospectus / KRX", "tier": 1, "pole": "eastern" },
+          { "name": "Reuters", "tier": 2, "pole": "eastern" },
+          { "name": "Nikkei Asia", "tier": 2, "pole": "eastern" }
+        ],
+        "eventConfidence": "verified",
+        "lastUpdated": "2026-04-14"
+      },
+      {
+        "id": "tesla-gigafactory-berlin-inauguration",
+        "year": "2022",
+        "title": "Tesla Gigafactory Berlin-Brandenburg Opens",
+        "type": "deployment",
+        "detail": "Tesla's Gigafactory Berlin-Brandenburg (Giga Berlin) was inaugurated on March 22, 2022, near Grünheide, Germany. The factory produces Model Y vehicles with structural battery packs for European customers. Chancellor Olaf Scholz attended the opening ceremony. Initial capacity was 250,000 vehicles per year with plans to scale to 500,000. The Berlin factory represented Tesla's first European manufacturing site and its fastest-ever factory construction timeline. Local opposition from environmental groups over water usage continued during ramp-up.",
+        "sources": [
+          { "name": "Tesla press release", "tier": 1, "pole": "western" },
+          { "name": "Reuters", "tier": 2, "pole": "western" },
+          { "name": "Financial Times", "tier": 2, "pole": "western" }
+        ],
+        "eventConfidence": "verified",
+        "lastUpdated": "2026-04-14"
+      },
+      {
+        "id": "tesla-gigafactory-texas-opens",
+        "year": "2022",
+        "title": "Gigafactory Texas Opens — First 4680-Powered Model Y Delivered",
+        "type": "deployment",
+        "detail": "Tesla's Gigafactory Texas in Austin held its 'Cyber Rodeo' opening event on April 7, 2022. The factory began delivering Model Y vehicles using the new 4680 structural battery pack — the first consumer EVs ever sold with a structural battery architecture. Elon Musk confirmed the 4680 cells were produced in-house at the site. The Austin factory also produces the Cybertruck. Initial 4680 production yields were lower than targeted, resulting in hybrid shipments with both 4680 and 2170 packs during the early ramp.",
+        "sources": [
+          { "name": "Tesla press release", "tier": 1, "pole": "western" },
+          { "name": "Electrek", "tier": 2, "pole": "western" },
+          { "name": "The Verge", "tier": 2, "pole": "western" }
+        ],
+        "eventConfidence": "verified",
+        "lastUpdated": "2026-04-14"
+      },
+      {
+        "id": "catl-kirin-battery-revealed",
+        "year": "2022",
+        "title": "CATL Kirin Battery (CTP 3.0): 255 Wh/kg Pack, 1,000 km Range Claimed",
+        "type": "breakthrough",
+        "detail": "CATL unveiled the Kirin Battery (third-generation cell-to-pack, CTP 3.0) in June 2022, with full specifications disclosed in September 2022. The system achieves 255 Wh/kg at pack level — 13% higher than Tesla's structural pack — through a honeycomb-structure multi-functional elastic interlayer that serves as both thermal management and structural element. CATL claimed 1,000 km range and charging from 10% to 80% in 10 minutes at 4C rate. Zeekr and other Chinese automakers were first customers.",
+        "sources": [
+          { "name": "CATL press release", "tier": 1, "pole": "eastern" },
+          { "name": "Reuters", "tier": 2, "pole": "eastern" },
+          { "name": "Nikkei Asia", "tier": 2, "pole": "eastern" }
+        ],
+        "eventConfidence": "official_claim",
+        "lastUpdated": "2026-04-14"
+      },
+      {
+        "id": "us-inflation-reduction-act-signed",
+        "year": "2022",
+        "title": "US Inflation Reduction Act: $369B for Clean Energy, EV Tax Credits",
+        "type": "policy",
+        "detail": "President Biden signed the Inflation Reduction Act (IRA) on August 16, 2022 — the largest climate investment in US history at $369B. Key battery provisions: a $7,500 EV consumer tax credit (split $3,750 battery minerals from 'friendly countries' + $3,750 battery components assembled in North America), $10B Manufacturing Tax Credit (45X) for domestic battery cell and module manufacturing, and $3B in DOE grants for battery manufacturing. The IRA's domestic content requirements triggered an estimated $130B+ in announced US battery factory investments within 12 months.",
+        "sources": [
+          { "name": "White House / IRS official text", "tier": 1, "pole": "western" },
+          { "name": "Reuters", "tier": 2, "pole": "western" },
+          { "name": "BloombergNEF", "tier": 3, "pole": "western" }
+        ],
+        "eventConfidence": "verified",
+        "lastUpdated": "2026-04-14"
+      },
+      {
+        "id": "lithium-price-peak-2022",
+        "year": "2022",
+        "title": "Lithium Carbonate Peaks at ~$80,000/tonne — Triggering Investment Boom",
+        "type": "investment",
+        "detail": "Lithium carbonate prices in China reached approximately $80,000 per metric tonne (CNY equivalent) in November 2022 — an 11-fold increase from early 2021 levels — driven by surging EV demand, constrained mine supply, and speculative buying. The price spike made battery cell costs rise sharply, squeezing automaker margins and slowing EV adoption in price-sensitive markets. However, it also triggered an enormous wave of lithium mining investment across Chile, Australia, Argentina, Zimbabwe, and the US, which eventually led to the severe price crash of 2023–2024.",
+        "sources": [
+          { "name": "Benchmark Mineral Intelligence", "tier": 3, "pole": "international" },
+          { "name": "S&P Global", "tier": 2, "pole": "western" },
+          { "name": "Reuters", "tier": 2, "pole": "western" }
+        ],
+        "eventConfidence": "verified",
+        "lastUpdated": "2026-04-14"
+      }
+    ]
+  },
+  {
+    "era": "Commercial Scale & Industry Shocks (2023)",
+    "events": [
+      {
+        "id": "catl-condensed-battery-aviation",
+        "year": "2023",
+        "title": "CATL 'Condensed Battery': 500 Wh/kg for Aviation",
+        "type": "breakthrough",
+        "detail": "On April 18, 2023, at the Shanghai Auto Show, CATL unveiled its 'Condensed Battery' achieving 500 Wh/kg energy density at the cell level — the highest ever claimed for a production-intent battery. CATL said the cell uses a bio-inspired 'micron-bridge' cathode structure and an adaptive electrolyte designed for aerospace and aviation applications. CATL also announced a civilian electric aircraft partnership with COMAC. For EVs, CATL stated a 500 Wh/kg automotive version was under development, with mass production targeted for 2025. Independent verification of the full 500 Wh/kg specification remained limited.",
+        "sources": [
+          { "name": "CATL press release", "tier": 1, "pole": "eastern" },
+          { "name": "Nikkei Asia", "tier": 2, "pole": "eastern" },
+          { "name": "Nature Energy (editorial analysis)", "tier": 3, "pole": "international" }
+        ],
+        "eventConfidence": "official_claim",
+        "lastUpdated": "2026-04-14"
+      },
+      {
+        "id": "john-goodenough-death",
+        "year": "2023",
+        "title": "John Goodenough, Father of Li-Ion Battery, Dies at 100",
+        "type": "policy",
+        "detail": "John B. Goodenough, inventor of the lithium cobalt oxide cathode that underpins all modern lithium-ion batteries, died on June 25, 2023 at age 100. A physicist and materials scientist at MIT and later UT Austin, Goodenough's 1980 paper introducing LiCoO₂ enabled the rechargeable lithium-ion battery commercialized by Sony in 1991. He shared the 2019 Nobel Prize in Chemistry with M. Stanley Whittingham and Akira Yoshino. Goodenough also co-invented LFP (lithium iron phosphate) in 1997. In his final years, he advocated for solid-state batteries, co-authoring a controversial 2017 paper claiming a lithium-glass electrolyte with tripling of energy density.",
+        "sources": [
+          { "name": "University of Texas at Austin obituary", "tier": 1, "pole": "western" },
+          { "name": "New York Times", "tier": 2, "pole": "western" },
+          { "name": "Nature obituary", "tier": 3, "pole": "international" }
+        ],
+        "eventConfidence": "verified",
+        "lastUpdated": "2026-04-14"
+      },
+      {
+        "id": "eu-battery-regulation-2023",
+        "year": "2023",
+        "title": "EU Battery Regulation Enters Force — Mandatory Carbon Footprint & Battery Passport",
+        "type": "policy",
+        "detail": "The EU Battery Regulation (EU 2023/1542) was published in the Official Journal on July 28, 2023 and entered into force August 17, 2023. It mandates a digital battery passport for all EVs and industrial batteries (from 2027), carbon footprint declarations for EV batteries (from 2025), minimum recycled content (cobalt 16%, lithium 6%, nickel 6% by 2031), and due-diligence requirements for raw material supply chains. The regulation is the world's most comprehensive battery legislation and is expected to reshape global supply chains as non-EU manufacturers must comply to access the EU market.",
+        "sources": [
+          { "name": "Official Journal of the EU", "tier": 1, "pole": "western" },
+          { "name": "Reuters", "tier": 2, "pole": "western" },
+          { "name": "Transport & Environment", "tier": 3, "pole": "western" }
+        ],
+        "eventConfidence": "verified",
+        "lastUpdated": "2026-04-14"
+      },
+      {
+        "id": "toyota-solid-state-ev-2027-announcement",
+        "year": "2023",
+        "title": "Toyota Announces Solid-State EV by 2027–2028, Claims 1,200 km Range",
+        "type": "breakthrough",
+        "detail": "Toyota made a major announcement in October 2023 claiming it had achieved a breakthrough in solid-state battery manufacturing, targeting a commercial solid-state EV by 2027–2028. Toyota stated its bipolar solid-state battery architecture would deliver 1,200 km range per charge and recharge from near-empty to full in approximately 10 minutes. CEO Koji Sato said Toyota would use its own sulphide solid electrolyte. Toyota held approximately 1,000 solid-state battery patents — more than any other automaker. Industry analysts noted previous Toyota timelines had slipped, but the announcement was the most concrete from any major automaker.",
+        "sources": [
+          { "name": "Toyota Motor Corporation press release", "tier": 1, "pole": "eastern" },
+          { "name": "Reuters", "tier": 2, "pole": "eastern" },
+          { "name": "Nikkei Asia", "tier": 2, "pole": "eastern" }
+        ],
+        "eventConfidence": "official_claim",
+        "lastUpdated": "2026-04-14"
+      },
+      {
+        "id": "catl-shenxing-supercharge-battery",
+        "year": "2023",
+        "title": "CATL Shenxing 4C LFP: 400 km in 10 Minutes",
+        "type": "breakthrough",
+        "detail": "CATL launched the Shenxing (神行) Battery in November 2023 — the world's first mass-production LFP battery with 4C charging capability. CATL claimed the pack could add 400 km of range in 10 minutes using a second-generation M3P cathode combined with a nano-coated graphite anode and ultrafast electrolyte. The product addressed the key LFP disadvantage (slower charging vs. NMC) and was designed for Chinese automakers including GAC, Nio, and Geely. The Shenxing demonstrated that LFP chemistry could be competitive with premium NMC on charging speed.",
+        "sources": [
+          { "name": "CATL press release", "tier": 1, "pole": "eastern" },
+          { "name": "Reuters", "tier": 2, "pole": "eastern" },
+          { "name": "CleanTechnica", "tier": 2, "pole": "western" }
+        ],
+        "eventConfidence": "official_claim",
+        "lastUpdated": "2026-04-14"
+      },
+      {
+        "id": "jac-hina-sodium-ion-ev-launch",
+        "year": "2023",
+        "title": "JAC/HiNa Launch First Commercial Sodium-Ion EV in China",
+        "type": "deployment",
+        "detail": "In early 2023, JAC Motors and HiNa Battery Technology launched what is considered the first sodium-ion battery-powered commercial EV available for sale in China. The vehicles were primarily targeting the low-speed urban EV market with a range of approximately 250 km per charge. HiNa, backed by SINOPEC, uses a sodium copper iron manganese oxide (O3-type) cathode. The launch proved sodium-ion batteries were commercially viable, not just lab demonstrations, and triggered further investment from CATL, BYD, and SVOLT into sodium-ion products.",
+        "sources": [
+          { "name": "HiNa Battery / JAC Motors press release", "tier": 1, "pole": "eastern" },
+          { "name": "Nikkei Asia", "tier": 2, "pole": "eastern" },
+          { "name": "CleanTechnica", "tier": 2, "pole": "western" }
+        ],
+        "eventConfidence": "official_claim",
+        "lastUpdated": "2026-04-14"
+      }
+    ]
+  },
+  {
+    "era": "Price Crash & Disruption (2024)",
+    "events": [
+      {
+        "id": "lithium-price-crash-2024",
+        "year": "2024",
+        "title": "Lithium Carbonate Crashes to Multi-Year Low — Supply Glut Hits Industry",
+        "type": "investment",
+        "detail": "By early 2024, lithium carbonate prices had fallen more than 80% from their November 2022 peak, dropping to approximately $10,000–$12,000 per metric tonne. The crash was driven by a major oversupply: new mines in Australia, Chile, and Argentina came online faster than EV demand grew, while demand in China softened after government EV subsidy changes. Numerous lithium miners suspended production or shelved projects. Albemarle, SQM, and Ganfeng Lithium all reported sharply lower earnings. The price collapse was a double-edged sword: good for battery manufacturers and EV buyers, catastrophic for mining economics.",
+        "sources": [
+          { "name": "Benchmark Mineral Intelligence", "tier": 3, "pole": "international" },
+          { "name": "S&P Global Commodity Insights", "tier": 2, "pole": "western" },
+          { "name": "Reuters", "tier": 2, "pole": "western" }
+        ],
+        "eventConfidence": "verified",
+        "lastUpdated": "2026-04-14"
+      },
+      {
+        "id": "catl-shenxing-plus-1000km",
+        "year": "2024",
+        "title": "CATL Shenxing Plus: 1,000 km Range + 5C Ultra-Fast Charging",
+        "type": "breakthrough",
+        "detail": "In April 2024, CATL unveiled the Shenxing Plus battery pack, upgrading from the 4C to 5C charging capability and claiming 1,000 km of CLTC-cycle range in a single charge. The pack uses CATL's third-generation M3P cathode and a silicon-doped anode with nano-coating to handle extreme charge rates. According to CATL, 5-minute charging adds 520 km of CLTC range. The product represents the most aggressive LFP fast-charging specification commercially available, directly challenging the narrative that high range and fast charging require NMC chemistry.",
+        "sources": [
+          { "name": "CATL press release", "tier": 1, "pole": "eastern" },
+          { "name": "Reuters", "tier": 2, "pole": "eastern" },
+          { "name": "CleanTechnica", "tier": 2, "pole": "western" }
+        ],
+        "eventConfidence": "official_claim",
+        "lastUpdated": "2026-04-14"
+      },
+      {
+        "id": "eu-china-ev-tariffs-2024",
+        "year": "2024",
+        "title": "EU Imposes Additional Tariffs on Chinese EVs — Battery Trade War Escalates",
+        "type": "policy",
+        "detail": "In July 2024, the European Commission imposed provisional additional tariffs of up to 38.1% on battery-electric vehicles (BEVs) imported from China, on top of the existing 10% duty. The investigation found Chinese EV makers benefited from substantial state subsidies. BYD faced 17.4%, Geely 20%, and SAIC 38.1% additional tariffs. China threatened retaliatory tariffs on European agricultural goods and luxury cars. The tariff dispute accelerated plans by BYD, CATL, and SAIC to build production facilities within the EU (notably in Hungary, Spain, and Germany) to avoid import duties.",
+        "sources": [
+          { "name": "European Commission official announcement", "tier": 1, "pole": "western" },
+          { "name": "Reuters", "tier": 2, "pole": "western" },
+          { "name": "Financial Times", "tier": 2, "pole": "western" }
+        ],
+        "eventConfidence": "verified",
+        "lastUpdated": "2026-04-14"
+      },
+      {
+        "id": "quantumscape-automotive-solid-state-2024",
+        "year": "2024",
+        "title": "QuantumScape Achieves Automotive-Layer Solid-State Cell Specification",
+        "type": "breakthrough",
+        "detail": "In mid-2024, QuantumScape announced that its solid-state lithium-metal separator had been validated in an automotive-format multi-layer pouch cell (QSE-5 product line). The cells demonstrated 800+ charge cycles with less than 20% capacity loss at automotive-scale energy content, meeting Volkswagen's requirements for EV qualification testing. QuantumScape also disclosed a joint development agreement with a second automotive customer. The achievement represented the most significant commercially-oriented solid-state battery milestone for any startup, though mass production timelines remained several years away.",
+        "sources": [
+          { "name": "QuantumScape investor presentation", "tier": 1, "pole": "western" },
+          { "name": "Reuters", "tier": 2, "pole": "western" },
+          { "name": "Electrek", "tier": 2, "pole": "western" }
+        ],
+        "eventConfidence": "official_claim",
+        "lastUpdated": "2026-04-14"
+      },
+      {
+        "id": "northvolt-chapter11-bankruptcy",
+        "year": "2024",
+        "title": "Northvolt Files Chapter 11 Bankruptcy — European Battery Champion Collapses",
+        "type": "investment",
+        "detail": "Northvolt AB filed for Chapter 11 bankruptcy protection in a Delaware court on November 22, 2024, in the most significant setback for European battery ambitions. The Swedish company, once valued at $12B, had accumulated $5.8B in debt and faced severe quality problems leading BMW to cancel a $2B order in June 2024. Yield rates at the Skellefteå Revolt Ett factory reportedly fell far below targets. Co-founder and CEO Peter Carlsson resigned in November 2024. Northvolt's collapse raised fundamental questions about whether European battery manufacturing could compete with Chinese producers on cost and manufacturing expertise.",
+        "sources": [
+          { "name": "Northvolt press statement", "tier": 1, "pole": "western" },
+          { "name": "Financial Times", "tier": 2, "pole": "western" },
+          { "name": "Reuters", "tier": 2, "pole": "western" }
+        ],
+        "eventConfidence": "verified",
+        "lastUpdated": "2026-04-14"
+      },
+      {
+        "id": "samsung-sdi-solid-state-prototype-2024",
+        "year": "2024",
+        "title": "Samsung SDI Unveils High-Density Solid-State Battery Prototype",
+        "type": "breakthrough",
+        "detail": "Samsung SDI disclosed progress on its solid-state battery development in late 2024, revealing a prototype achieving approximately 800 Wh/L volumetric energy density — significantly above liquid-electrolyte NMC cells. Samsung SDI's approach uses a sulphide-based solid electrolyte with an NMC cathode and a lithium-metal anode. The company targeted 2027 for pilot production and 2030 for mass production to supply its automotive customers. Samsung SDI's solid-state program was internally code-named 'Diamond Battery,' with BMW as a key automotive partner for development.",
+        "sources": [
+          { "name": "Samsung SDI investor day presentation", "tier": 1, "pole": "eastern" },
+          { "name": "Nikkei Asia", "tier": 2, "pole": "eastern" },
+          { "name": "Reuters", "tier": 2, "pole": "eastern" }
+        ],
+        "eventConfidence": "official_claim",
+        "lastUpdated": "2026-04-14"
+      }
+    ]
+  },
+  {
+    "era": "Next-Gen Deployments (2025–2026)",
+    "events": [
+      {
+        "id": "toyota-solid-state-pilot-production",
+        "year": "2025",
+        "title": "Toyota Begins Pilot Solid-State Battery Production",
+        "type": "deployment",
+        "detail": "Toyota initiated pilot production of solid-state battery cells at its Honsha plant in Toyota City in early 2025, the first automaker to reach this milestone. The sulphide-based solid electrolyte cells are manufactured in a highly controlled dry-room environment. Toyota stated the pilot line would produce enough cells for test vehicles and final engineering validation before committing to a full production facility. Toyota's solid-state battery targets 2027–2028 for customer vehicles, with an initial annual capacity of tens of thousands of packs before scaling to hundreds of thousands. The announcement was a significant milestone that moved solid-state from pure lab concept to early industrial production.",
+        "sources": [
+          { "name": "Toyota Motor Corporation press release", "tier": 1, "pole": "eastern" },
+          { "name": "Reuters", "tier": 2, "pole": "eastern" },
+          { "name": "Nikkei Asia", "tier": 2, "pole": "eastern" }
+        ],
+        "eventConfidence": "official_claim",
+        "lastUpdated": "2026-04-14"
+      },
+      {
+        "id": "moss-landing-phase3-3gwh",
+        "year": "2025",
+        "title": "Moss Landing Phase 3 Reaches 3 GWh — World's Largest Grid Battery",
+        "type": "deployment",
+        "detail": "Vistra Energy's Moss Landing Energy Storage Facility in Monterey County, California completed its Phase 3 expansion in 2025, bringing total capacity to approximately 3 GWh — making it the world's largest grid-scale battery energy storage system. The facility uses Tesla Megapacks (later phases) and LG Energy Solution battery modules, and can power approximately 300,000 homes for four hours. The project directly replaced two natural gas peaker plants and is a flagship demonstration of battery storage replacing fossil fuel dispatchable generation. California's grid operator CAISO has cited the facility as critical to managing peak demand events.",
+        "sources": [
+          { "name": "Vistra Energy press release", "tier": 1, "pole": "western" },
+          { "name": "S&P Global", "tier": 2, "pole": "western" },
+          { "name": "BloombergNEF", "tier": 3, "pole": "western" }
+        ],
+        "eventConfidence": "official_claim",
+        "lastUpdated": "2026-04-14"
+      },
+      {
+        "id": "battery-pack-sub100-milestone",
+        "year": "2025",
+        "title": "Global Battery Pack Price Falls Below $100/kWh for First Time at Scale",
+        "type": "breakthrough",
+        "detail": "BloombergNEF's 2025 Battery Price Survey reported that average battery pack prices fell below $100/kWh for the first time on a sustained global basis, reaching approximately $91/kWh by year-end. This milestone — long considered the threshold at which EVs reach cost parity with ICE vehicles in upfront purchase price for many vehicle segments — was driven by LFP cell cost reductions in China, economies of scale in gigafactory operations, and lower lithium and cobalt input costs following the 2022–2024 price crash. LFP cells were as low as $53/kWh at pack level in volume Chinese production.",
+        "sources": [
+          { "name": "BloombergNEF Battery Price Survey 2025", "tier": 3, "pole": "western" },
+          { "name": "Reuters", "tier": 2, "pole": "western" }
+        ],
+        "eventConfidence": "official_claim",
+        "lastUpdated": "2026-04-14"
+      },
+      {
+        "id": "catl-1twh-cumulative-milestone",
+        "year": "2025",
+        "title": "CATL Surpasses 1 TWh of Cumulative Battery Production",
+        "type": "deployment",
+        "detail": "CATL announced in late 2025 that it had surpassed 1 terawatt-hour of cumulative battery production — a historic industrial milestone for any single company. The figure encompasses all battery chemistry types (LFP, NMC, NMCA, sodium-ion) across all applications (EV, energy storage, industrial). CATL's annual production rate exceeded 600 GWh in 2025, giving the company roughly 35% of all global battery production by itself. This level of output dwarfs all non-Chinese battery manufacturers combined and underscores the scale challenge facing Western nations seeking supply chain independence.",
+        "sources": [
+          { "name": "CATL official statement", "tier": 1, "pole": "eastern" },
+          { "name": "Reuters", "tier": 2, "pole": "eastern" },
+          { "name": "SNE Research", "tier": 3, "pole": "eastern" }
+        ],
+        "eventConfidence": "official_claim",
+        "lastUpdated": "2026-04-14"
+      },
+      {
+        "id": "global-grid-storage-200gwh-annual",
+        "year": "2025",
+        "title": "Global Annual Grid Storage Deployment Exceeds 200 GWh",
+        "type": "deployment",
+        "detail": "The global grid-scale energy storage market crossed 200 GWh of annual new deployment in 2025, according to Wood Mackenzie and BloombergNEF estimates — more than tripling from 2022 levels. The US, China, UK, and Australia led deployments. China alone deployed approximately 100 GWh of grid storage in 2025, driven by government mandates requiring renewable energy plants to include co-located storage. US deployment was boosted by IRA incentives. The market milestone validated long-duration storage as a mainstream grid resource rather than a niche application, and pushed battery manufacturers to develop 8-hour and longer-duration systems.",
+        "sources": [
+          { "name": "Wood Mackenzie Energy Storage Monitor Q4 2025", "tier": 3, "pole": "western" },
+          { "name": "BloombergNEF", "tier": 3, "pole": "western" },
+          { "name": "S&P Global", "tier": 2, "pole": "western" }
+        ],
+        "eventConfidence": "official_claim",
+        "lastUpdated": "2026-04-14"
+      },
+      {
+        "id": "battery-pack-below-90kwh-2026",
+        "year": "2026",
+        "title": "Battery Pack Prices Fall Below $90/kWh — Full ICE Cost Parity in Sight",
+        "type": "breakthrough",
+        "detail": "By early 2026, multiple industry analysts including BloombergNEF and Benchmark Mineral Intelligence reported that average global battery pack prices had fallen to approximately $88–91/kWh, with Chinese LFP volume production reaching as low as $53/kWh. For mainstream passenger vehicles (50–70 kWh packs), this translates to battery cost of $4,500–$6,000 — approaching the $5,000 internal combustion engine and transmission cost differential. Several Chinese automakers announced plans to launch EVs priced below equivalent ICE vehicles in domestic markets. Analysts projected full global purchase-price parity for mainstream segments by 2027–2028.",
+        "sources": [
+          { "name": "BloombergNEF Battery Price Survey 2025 (updated)", "tier": 3, "pole": "western" },
+          { "name": "Reuters", "tier": 2, "pole": "western" },
+          { "name": "Benchmark Mineral Intelligence", "tier": 3, "pole": "international" }
+        ],
+        "eventConfidence": "official_claim",
+        "lastUpdated": "2026-04-14"
+      }
+    ]
+  }
+]

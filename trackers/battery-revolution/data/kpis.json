@@ -1,1 +1,94 @@
-[]
+[
+  {
+    "id": "global-ev-battery-demand",
+    "label": "Global EV Battery Demand (2025 est.)",
+    "value": "~1,228 GWh",
+    "color": "green",
+    "source": "SNE Research / BloombergNEF 2025",
+    "contested": false,
+    "delta": "+25% YoY",
+    "deltaNote": "Up from ~985 GWh in 2024; China accounts for ~60% of demand",
+    "trend": "up",
+    "lastUpdated": "2026-04-14"
+  },
+  {
+    "id": "battery-pack-price-2025",
+    "label": "Avg. Battery Pack Price",
+    "value": "$91/kWh",
+    "color": "green",
+    "source": "BloombergNEF Battery Price Survey 2025",
+    "contested": false,
+    "delta": "-12% from 2024",
+    "deltaNote": "Sub-$100/kWh milestone passed in 2025; first since 2023 price spike",
+    "trend": "down",
+    "lastUpdated": "2026-04-14"
+  },
+  {
+    "id": "china-battery-market-share",
+    "label": "China's Global Battery Production Share",
+    "value": "~73%",
+    "color": "blue",
+    "source": "SNE Research 2025",
+    "contested": true,
+    "contestNote": "Declining from ~77% peak as Korean and nascent Western capacity expands; CATL + BYD alone hold ~55%",
+    "trend": "down",
+    "lastUpdated": "2026-04-14"
+  },
+  {
+    "id": "lithium-carbonate-price",
+    "label": "Lithium Carbonate (China spot)",
+    "value": "~$11,500/tonne",
+    "color": "amber",
+    "source": "Benchmark Mineral Intelligence, April 2026",
+    "contested": false,
+    "delta": "-86% from Nov 2022 peak",
+    "deltaNote": "Crashed from ~$80K/tonne; slight recovery from 2024 historic lows",
+    "trend": "up",
+    "lastUpdated": "2026-04-14"
+  },
+  {
+    "id": "solid-state-energy-density-lab",
+    "label": "Best Solid-State Energy Density (lab)",
+    "value": "500 Wh/kg",
+    "color": "blue",
+    "source": "CATL Condensed Battery (2025 aviation spec)",
+    "contested": true,
+    "contestNote": "Cell-level lab result for aviation; commercial automotive solid-state packs remain ~250–300 Wh/kg",
+    "trend": "up",
+    "lastUpdated": "2026-04-14"
+  },
+  {
+    "id": "world-largest-grid-battery",
+    "label": "World's Largest Grid Battery",
+    "value": "3 GWh",
+    "color": "green",
+    "source": "Vistra Energy — Moss Landing, CA (Phase 3, 2025)",
+    "contested": false,
+    "delta": "↑ from ~2 GWh (2024)",
+    "deltaNote": "Replacing gas peaker plants; enables 300,000+ homes for 4 hours",
+    "trend": "up",
+    "lastUpdated": "2026-04-14"
+  },
+  {
+    "id": "ev-max-range-wltp",
+    "label": "Longest Production EV Range (WLTP)",
+    "value": "~750 km",
+    "color": "blue",
+    "source": "Mercedes EQS 450+ / WLTP 2024 certification",
+    "contested": true,
+    "contestNote": "WLTP vs. real-world range differ by 20–30%; range anxiety remains key consumer barrier",
+    "trend": "up",
+    "lastUpdated": "2026-04-14"
+  },
+  {
+    "id": "sodium-ion-annual-production",
+    "label": "Sodium-Ion Global Output (2025 est.)",
+    "value": "~15 GWh",
+    "color": "amber",
+    "source": "SNE Research / industry estimates",
+    "contested": true,
+    "contestNote": "Near-zero in 2022; almost entirely Chinese production for low-cost EVs and two-wheelers",
+    "trend": "up",
+    "lastUpdated": "2026-04-14"
+  }
+]
