@@ -82,15 +82,17 @@
 /* Lower-Third (CNN-style info card) */
 .broadcast-lower-third {
   position: absolute;
-  bottom: 72px;
-  left: 0;
+  bottom: 76px;
+  left: 16px;
   max-width: 480px;
   display: flex;
   transform: translateX(-100%);
   opacity: 0;
-  transition: transform 0.4s ease-out, opacity 0.3s ease-out;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease-out;
   z-index: 20;
   pointer-events: none;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 .broadcast-lower-third.visible {
@@ -126,12 +128,13 @@
 }
 
 .broadcast-lt-body {
-  background: rgba(10, 11, 14, 0.92);
+  background: rgba(10, 11, 14, 0.94);
   border: 1px solid var(--border);
   border-left: none;
-  border-radius: 0 8px 8px 0;
+  border-radius: 0 10px 10px 0;
   padding: 12px 16px;
   backdrop-filter: blur(8px);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
 }
 
 .broadcast-lt-category {
@@ -176,9 +179,9 @@
 
 .broadcast-lt-kpi-label {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.5rem;
+  font-size: 0.55rem;
   letter-spacing: 0.1em;
-  color: var(--text-muted);
+  color: var(--text-secondary);
   text-transform: uppercase;
 }
 
@@ -354,8 +357,8 @@
 
 .broadcast-lt-kpi-item .broadcast-lt-kpi-label {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.4rem;
-  color: var(--text-muted);
+  font-size: 0.48rem;
+  color: var(--text-secondary);
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
@@ -375,17 +378,21 @@
   gap: 6px;
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.6rem;
-  color: var(--accent-blue);
+  font-weight: 600;
+  color: #fff;
   text-decoration: none;
-  padding: 5px 12px;
+  padding: 6px 14px;
+  background: rgba(31, 111, 235, 0.2);
   border: 1px solid rgba(88, 166, 255, 0.25);
   border-radius: 6px;
   cursor: pointer;
+  letter-spacing: 0.04em;
+  margin-top: 4px;
   transition: background 0.2s;
 }
 
 .broadcast-lt-open-link:hover {
-  background: rgba(88, 166, 255, 0.08);
+  background: rgba(31, 111, 235, 0.35);
 }
 
 /* Mobile: hide broadcast overlay */
