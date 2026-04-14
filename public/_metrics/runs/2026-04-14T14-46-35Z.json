@@ -1,0 +1,707 @@
+{
+  "timestamp": "2026-04-14T14:46:35Z",
+  "status": "failure",
+  "trigger": "schedule",
+  "pipeline": "nightly",
+  "trackersResolved": [
+    "afghanistan-pakistan-war",
+    "bad-bunny",
+    "haiti-collapse",
+    "hungary-transition",
+    "india-pakistan-conflict",
+    "mexico",
+    "myanmar-civil-war",
+    "october-7-attack",
+    "peace-processes",
+    "sahel-insurgency",
+    "sheinbaum-presidency",
+    "sinaloa-fragmentation",
+    "somalia-conflict",
+    "spacex-history",
+    "taiwan-conflict",
+    "uap-disclosure",
+    "united-states"
+  ],
+  "validation": {
+    "jsonValid": true,
+    "schemaValid": false,
+    "errors": [
+      {
+        "tracker": "hungary-transition",
+        "file": "meta.json",
+        "field": "operationName",
+        "message": "Required"
+      },
+      {
+        "tracker": "hungary-transition",
+        "file": "meta.json",
+        "field": "dayCount",
+        "message": "Required"
+      },
+      {
+        "tracker": "hungary-transition",
+        "file": "meta.json",
+        "field": "dateline",
+        "message": "Required"
+      },
+      {
+        "tracker": "hungary-transition",
+        "file": "meta.json",
+        "field": "heroSubtitle",
+        "message": "Required"
+      },
+      {
+        "tracker": "hungary-transition",
+        "file": "meta.json",
+        "field": "footerNote",
+        "message": "Required"
+      }
+    ],
+    "fixAgentInvoked": true,
+    "fixAgentResult": "failure",
+    "errorsBeforeFix": 1,
+    "errorsAfterFix": 0
+  },
+  "inventory": {
+    "afghanistan-pakistan-war": {
+      "kpis": 16,
+      "timeline": 10,
+      "mapPoints": 82,
+      "mapLines": 50,
+      "claims": 30,
+      "political": 21,
+      "casualties": 16,
+      "events": 23
+    },
+    "ai-for-good": {
+      "kpis": 8,
+      "timeline": 6,
+      "mapPoints": 25,
+      "mapLines": 0,
+      "claims": 15,
+      "political": 15,
+      "casualties": 0,
+      "events": 0
+    },
+    "amlo-presidency": {
+      "kpis": 12,
+      "timeline": 7,
+      "mapPoints": 31,
+      "mapLines": 0,
+      "claims": 26,
+      "political": 25,
+      "casualties": 0,
+      "events": 0
+    },
+    "artemis-2": {
+      "kpis": 12,
+      "timeline": 8,
+      "mapPoints": 22,
+      "mapLines": 0,
+      "claims": 15,
+      "political": 17,
+      "casualties": 0,
+      "events": 20
+    },
+    "ayotzinapa": {
+      "kpis": 8,
+      "timeline": 7,
+      "mapPoints": 15,
+      "mapLines": 0,
+      "claims": 9,
+      "political": 15,
+      "casualties": 7,
+      "events": 4
+    },
+    "bad-bunny": {
+      "kpis": 12,
+      "timeline": 6,
+      "mapPoints": 9,
+      "mapLines": 0,
+      "claims": 0,
+      "political": 14,
+      "casualties": 0,
+      "events": 11
+    },
+    "battery-revolution": {
+      "kpis": 8,
+      "timeline": 6,
+      "mapPoints": 20,
+      "mapLines": 0,
+      "claims": 15,
+      "political": 15,
+      "casualties": 0,
+      "events": 0
+    },
+    "bts": {
+      "kpis": 12,
+      "timeline": 11,
+      "mapPoints": 0,
+      "mapLines": 0,
+      "claims": 0,
+      "political": 7,
+      "casualties": 0,
+      "events": 22
+    },
+    "calderon-presidency": {
+      "kpis": 10,
+      "timeline": 7,
+      "mapPoints": 42,
+      "mapLines": 5,
+      "claims": 20,
+      "political": 20,
+      "casualties": 12,
+      "events": 0
+    },
+    "cancer-breakthroughs": {
+      "kpis": 8,
+      "timeline": 5,
+      "mapPoints": 22,
+      "mapLines": 0,
+      "claims": 15,
+      "political": 15,
+      "casualties": 0,
+      "events": 1
+    },
+    "chernobyl-disaster": {
+      "kpis": 8,
+      "timeline": 6,
+      "mapPoints": 20,
+      "mapLines": 0,
+      "claims": 15,
+      "political": 15,
+      "casualties": 10,
+      "events": 0
+    },
+    "chile-allende-pinochet": {
+      "kpis": 12,
+      "timeline": 7,
+      "mapPoints": 42,
+      "mapLines": 0,
+      "claims": 25,
+      "political": 20,
+      "casualties": 12,
+      "events": 0
+    },
+    "china-tech-revolution": {
+      "kpis": 14,
+      "timeline": 5,
+      "mapPoints": 46,
+      "mapLines": 0,
+      "claims": 26,
+      "political": 20,
+      "casualties": 0,
+      "events": 24
+    },
+    "climate-solutions": {
+      "kpis": 8,
+      "timeline": 5,
+      "mapPoints": 20,
+      "mapLines": 0,
+      "claims": 15,
+      "political": 15,
+      "casualties": 0,
+      "events": 0
+    },
+    "covid-pandemic": {
+      "kpis": 12,
+      "timeline": 7,
+      "mapPoints": 60,
+      "mapLines": 0,
+      "claims": 30,
+      "political": 20,
+      "casualties": 15,
+      "events": 0
+    },
+    "crispr-gene-therapy": {
+      "kpis": 8,
+      "timeline": 6,
+      "mapPoints": 22,
+      "mapLines": 0,
+      "claims": 15,
+      "political": 15,
+      "casualties": 0,
+      "events": 0
+    },
+    "cuba-crises": {
+      "kpis": 12,
+      "timeline": 10,
+      "mapPoints": 32,
+      "mapLines": 0,
+      "claims": 25,
+      "political": 20,
+      "casualties": 0,
+      "events": 1
+    },
+    "culiacanazo": {
+      "kpis": 10,
+      "timeline": 6,
+      "mapPoints": 22,
+      "mapLines": 0,
+      "claims": 15,
+      "political": 13,
+      "casualties": 10,
+      "events": 0
+    },
+    "digital-inclusion": {
+      "kpis": 8,
+      "timeline": 6,
+      "mapPoints": 25,
+      "mapLines": 0,
+      "claims": 15,
+      "political": 15,
+      "casualties": 0,
+      "events": 0
+    },
+    "european-conquest-americas": {
+      "kpis": 10,
+      "timeline": 11,
+      "mapPoints": 70,
+      "mapLines": 30,
+      "claims": 25,
+      "political": 20,
+      "casualties": 12,
+      "events": 0
+    },
+    "fox-presidency": {
+      "kpis": 10,
+      "timeline": 7,
+      "mapPoints": 21,
+      "mapLines": 0,
+      "claims": 15,
+      "political": 20,
+      "casualties": 0,
+      "events": 0
+    },
+    "fukushima-disaster": {
+      "kpis": 8,
+      "timeline": 9,
+      "mapPoints": 20,
+      "mapLines": 0,
+      "claims": 15,
+      "political": 15,
+      "casualties": 6,
+      "events": 0
+    },
+    "fusion-energy": {
+      "kpis": 8,
+      "timeline": 4,
+      "mapPoints": 20,
+      "mapLines": 0,
+      "claims": 15,
+      "political": 12,
+      "casualties": 0,
+      "events": 0
+    },
+    "gaza-war": {
+      "kpis": 12,
+      "timeline": 8,
+      "mapPoints": 80,
+      "mapLines": 59,
+      "claims": 31,
+      "political": 27,
+      "casualties": 16,
+      "events": 24
+    },
+    "global-recession-risk": {
+      "kpis": 13,
+      "timeline": 5,
+      "mapPoints": 39,
+      "mapLines": 0,
+      "claims": 21,
+      "political": 16,
+      "casualties": 0,
+      "events": 28
+    },
+    "haiti-collapse": {
+      "kpis": 10,
+      "timeline": 6,
+      "mapPoints": 47,
+      "mapLines": 0,
+      "claims": 21,
+      "political": 17,
+      "casualties": 16,
+      "events": 21
+    },
+    "hungary-transition": {
+      "kpis": 1,
+      "timeline": 0,
+      "mapPoints": 1,
+      "mapLines": 0,
+      "claims": 0,
+      "political": 0,
+      "casualties": 0,
+      "events": 1
+    },
+    "ice-history": {
+      "kpis": 13,
+      "timeline": 5,
+      "mapPoints": 59,
+      "mapLines": 0,
+      "claims": 25,
+      "political": 21,
+      "casualties": 10,
+      "events": 24
+    },
+    "india-pakistan-conflict": {
+      "kpis": 13,
+      "timeline": 8,
+      "mapPoints": 63,
+      "mapLines": 30,
+      "claims": 29,
+      "political": 23,
+      "casualties": 15,
+      "events": 19
+    },
+    "iran-conflict": {
+      "kpis": 9,
+      "timeline": 4,
+      "mapPoints": 208,
+      "mapLines": 253,
+      "claims": 49,
+      "political": 73,
+      "casualties": 19,
+      "events": 134
+    },
+    "israel-palestine": {
+      "kpis": 11,
+      "timeline": 8,
+      "mapPoints": 43,
+      "mapLines": 43,
+      "claims": 24,
+      "political": 26,
+      "casualties": 16,
+      "events": 31
+    },
+    "mencho-cjng": {
+      "kpis": 8,
+      "timeline": 4,
+      "mapPoints": 31,
+      "mapLines": 0,
+      "claims": 21,
+      "political": 24,
+      "casualties": 12,
+      "events": 25
+    },
+    "mexico-us-conflict": {
+      "kpis": 12,
+      "timeline": 7,
+      "mapPoints": 60,
+      "mapLines": 31,
+      "claims": 20,
+      "political": 17,
+      "casualties": 12,
+      "events": 0
+    },
+    "mexico": {
+      "kpis": 6,
+      "timeline": 4,
+      "mapPoints": 11,
+      "mapLines": 0,
+      "claims": 0,
+      "political": 0,
+      "casualties": 0,
+      "events": 14
+    },
+    "mh17-shootdown": {
+      "kpis": 8,
+      "timeline": 6,
+      "mapPoints": 20,
+      "mapLines": 5,
+      "claims": 15,
+      "political": 15,
+      "casualties": 8,
+      "events": 0
+    },
+    "mrna-revolution": {
+      "kpis": 8,
+      "timeline": 5,
+      "mapPoints": 20,
+      "mapLines": 0,
+      "claims": 15,
+      "political": 12,
+      "casualties": 0,
+      "events": 0
+    },
+    "mx-political-history": {
+      "kpis": 10,
+      "timeline": 7,
+      "mapPoints": 31,
+      "mapLines": 0,
+      "claims": 20,
+      "political": 25,
+      "casualties": 0,
+      "events": 1
+    },
+    "myanmar-civil-war": {
+      "kpis": 8,
+      "timeline": 7,
+      "mapPoints": 46,
+      "mapLines": 37,
+      "claims": 15,
+      "political": 21,
+      "casualties": 10,
+      "events": 26
+    },
+    "nato-us-tensions": {
+      "kpis": 16,
+      "timeline": 3,
+      "mapPoints": 40,
+      "mapLines": 0,
+      "claims": 26,
+      "political": 23,
+      "casualties": 0,
+      "events": 27
+    },
+    "ocean-cleanup": {
+      "kpis": 8,
+      "timeline": 6,
+      "mapPoints": 20,
+      "mapLines": 0,
+      "claims": 12,
+      "political": 12,
+      "casualties": 0,
+      "events": 0
+    },
+    "october-7-attack": {
+      "kpis": 8,
+      "timeline": 6,
+      "mapPoints": 30,
+      "mapLines": 15,
+      "claims": 16,
+      "political": 22,
+      "casualties": 12,
+      "events": 23
+    },
+    "peace-processes": {
+      "kpis": 8,
+      "timeline": 6,
+      "mapPoints": 25,
+      "mapLines": 0,
+      "claims": 15,
+      "political": 20,
+      "casualties": 0,
+      "events": 0
+    },
+    "pena-nieto-presidency": {
+      "kpis": 12,
+      "timeline": 6,
+      "mapPoints": 25,
+      "mapLines": 0,
+      "claims": 20,
+      "political": 20,
+      "casualties": 0,
+      "events": 0
+    },
+    "quantum-theory": {
+      "kpis": 8,
+      "timeline": 9,
+      "mapPoints": 40,
+      "mapLines": 0,
+      "claims": 20,
+      "political": 20,
+      "casualties": 0,
+      "events": 0
+    },
+    "reforestation": {
+      "kpis": 8,
+      "timeline": 5,
+      "mapPoints": 25,
+      "mapLines": 0,
+      "claims": 15,
+      "political": 15,
+      "casualties": 0,
+      "events": 0
+    },
+    "sahel-insurgency": {
+      "kpis": 13,
+      "timeline": 7,
+      "mapPoints": 71,
+      "mapLines": 38,
+      "claims": 26,
+      "political": 21,
+      "casualties": 18,
+      "events": 19
+    },
+    "september-11": {
+      "kpis": 8,
+      "timeline": 5,
+      "mapPoints": 22,
+      "mapLines": 0,
+      "claims": 20,
+      "political": 15,
+      "casualties": 10,
+      "events": 0
+    },
+    "sheinbaum-presidency": {
+      "kpis": 12,
+      "timeline": 5,
+      "mapPoints": 31,
+      "mapLines": 0,
+      "claims": 19,
+      "political": 25,
+      "casualties": 0,
+      "events": 23
+    },
+    "sinaloa-fragmentation": {
+      "kpis": 10,
+      "timeline": 5,
+      "mapPoints": 58,
+      "mapLines": 24,
+      "claims": 15,
+      "political": 18,
+      "casualties": 18,
+      "events": 19
+    },
+    "somalia-conflict": {
+      "kpis": 8,
+      "timeline": 6,
+      "mapPoints": 41,
+      "mapLines": 20,
+      "claims": 21,
+      "political": 20,
+      "casualties": 14,
+      "events": 26
+    },
+    "southeast-asia-escalation": {
+      "kpis": 13,
+      "timeline": 7,
+      "mapPoints": 74,
+      "mapLines": 44,
+      "claims": 27,
+      "political": 25,
+      "casualties": 10,
+      "events": 28
+    },
+    "spacex-history": {
+      "kpis": 10,
+      "timeline": 9,
+      "mapPoints": 31,
+      "mapLines": 0,
+      "claims": 21,
+      "political": 15,
+      "casualties": 0,
+      "events": 20
+    },
+    "species-recovery": {
+      "kpis": 8,
+      "timeline": 6,
+      "mapPoints": 20,
+      "mapLines": 0,
+      "claims": 12,
+      "political": 12,
+      "casualties": 0,
+      "events": 0
+    },
+    "sudan-conflict": {
+      "kpis": 12,
+      "timeline": 6,
+      "mapPoints": 77,
+      "mapLines": 50,
+      "claims": 21,
+      "political": 19,
+      "casualties": 13,
+      "events": 35
+    },
+    "taiwan-conflict": {
+      "kpis": 10,
+      "timeline": 6,
+      "mapPoints": 35,
+      "mapLines": 38,
+      "claims": 21,
+      "political": 22,
+      "casualties": 8,
+      "events": 25
+    },
+    "tlatelolco-1968": {
+      "kpis": 8,
+      "timeline": 6,
+      "mapPoints": 16,
+      "mapLines": 0,
+      "claims": 15,
+      "political": 12,
+      "casualties": 8,
+      "events": 0
+    },
+    "trump-presidencies": {
+      "kpis": 13,
+      "timeline": 8,
+      "mapPoints": 44,
+      "mapLines": 0,
+      "claims": 34,
+      "political": 27,
+      "casualties": 0,
+      "events": 30
+    },
+    "uap-disclosure": {
+      "kpis": 7,
+      "timeline": 5,
+      "mapPoints": 8,
+      "mapLines": 4,
+      "claims": 6,
+      "political": 10,
+      "casualties": 0,
+      "events": 12
+    },
+    "ukraine-war": {
+      "kpis": 8,
+      "timeline": 8,
+      "mapPoints": 58,
+      "mapLines": 46,
+      "claims": 25,
+      "political": 27,
+      "casualties": 15,
+      "events": 25
+    },
+    "united-states": {
+      "kpis": 8,
+      "timeline": 2,
+      "mapPoints": 10,
+      "mapLines": 0,
+      "claims": 0,
+      "political": 0,
+      "casualties": 0,
+      "events": 13
+    },
+    "usa-latam-interventions": {
+      "kpis": 12,
+      "timeline": 8,
+      "mapPoints": 71,
+      "mapLines": 0,
+      "claims": 31,
+      "political": 29,
+      "casualties": 17,
+      "events": 0
+    },
+    "world-cup-2026": {
+      "kpis": 18,
+      "timeline": 4,
+      "mapPoints": 23,
+      "mapLines": 0,
+      "claims": 13,
+      "political": 18,
+      "casualties": 0,
+      "events": 24
+    },
+    "world-war-1": {
+      "kpis": 12,
+      "timeline": 6,
+      "mapPoints": 80,
+      "mapLines": 60,
+      "claims": 25,
+      "political": 22,
+      "casualties": 16,
+      "events": 0
+    },
+    "world-war-2": {
+      "kpis": 12,
+      "timeline": 6,
+      "mapPoints": 84,
+      "mapLines": 55,
+      "claims": 29,
+      "political": 25,
+      "casualties": 20,
+      "events": 0
+    }
+  }
+}
