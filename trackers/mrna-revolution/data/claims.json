@@ -1,1 +1,212 @@
-[]
+[
+  {
+    "id": "mrna-long-term-safety",
+    "question": "Are mRNA vaccines safe in the long term?",
+    "sideA": {
+      "label": "Established Safety",
+      "text": "Over 5 billion mRNA COVID vaccine doses have been administered globally with continuous pharmacovigilance showing no evidence of long-term safety signals beyond known rare adverse events (myocarditis, anaphylaxis). The mRNA degrades rapidly in cells and does not integrate into the genome. Years of post-authorization safety data — the world's largest real-world vaccine study — demonstrate a well-characterized safety profile. FDA, EMA, WHO, and virtually all major health authorities continue to recommend the vaccines."
+    },
+    "sideB": {
+      "label": "Ongoing Uncertainty",
+      "text": "Critics note that five years is insufficient to assess truly 'long-term' safety for a novel vaccine technology administered to billions. Rare adverse events including vaccine-associated myocarditis in young males, VITT-like reactions, and rare neurological events require continued monitoring. Some argue that post-authorization surveillance systems (VAERS, Yellow Card) are underpowered to detect low-frequency signals, and that lipid nanoparticle biodistribution beyond the injection site deserves further study."
+    },
+    "resolution": "Regulatory consensus: mRNA vaccines have a well-characterized, favorable risk-benefit profile for COVID-19 prevention. Long-term genomic safety appears robust given mRNA's transient nature. Active surveillance systems continue monitoring, and rare adverse events (particularly myocarditis in young males after mRNA boosters) have been quantified and factored into updated guidance on dose spacing and indications.",
+    "lastUpdated": "2026-04-14T00:00:00.000Z"
+  },
+  {
+    "id": "myocarditis-mrna-young-males",
+    "question": "Does mRNA COVID vaccination cause myocarditis in young males, and at what risk?",
+    "sideA": {
+      "label": "Signal Is Real but Rare",
+      "text": "Post-authorization surveillance confirmed a small but real increased risk of myocarditis after mRNA COVID vaccination, predominantly in males aged 12–29 after the second dose or boosters. US data estimate approximately 6–28 cases per million second doses in this group. Cases are predominantly mild, self-limiting, and resolve with rest and NSAIDs. The benefit-risk calculation still strongly favors vaccination given COVID-19's own cardiac risk, but regulators have updated labeling and guidance on booster intervals accordingly."
+    },
+    "sideB": {
+      "label": "Risk Is Underestimated and Policy Response Insufficient",
+      "text": "Some cardiologists and researchers argue that passive reporting systems systematically undercount myocarditis events, and that cardiac MRI studies show subclinical myocardial inflammation in a broader population than captured by symptom-based surveillance. Critics contend that boosters in low-risk healthy young males are not justified given this risk, and that some countries (Finland, Sweden, Denmark) have appropriately restricted mRNA boosters for young men while US/UK guidance has been slower to update."
+    },
+    "resolution": "Confirmed: rare elevated myocarditis risk in young males post-mRNA COVID vaccination, primarily mild and self-resolving. Multiple countries updated guidance to extend intervals between doses or restrict certain boosters in low-risk young males. FDA added myocarditis/pericarditis warnings to vaccine labeling. Active cardiac safety monitoring continues. COVID-19 itself also causes myocarditis at higher rates in unvaccinated individuals, preserving positive risk-benefit.",
+    "lastUpdated": "2026-04-14T00:00:00.000Z"
+  },
+  {
+    "id": "mrna-omicron-efficacy-waning",
+    "question": "Do mRNA COVID vaccines remain effective against Omicron variants, and how rapidly does protection wane?",
+    "sideA": {
+      "label": "Vaccines Retain Meaningful Protection",
+      "text": "mRNA COVID vaccines substantially retain protection against severe disease, hospitalization, and death even against Omicron and subvariants, though neutralizing antibody titers decline within months. Updated bivalent and JN.1-targeted formulations restore neutralization. Real-world effectiveness studies consistently show 60–80%+ protection against severe outcomes. T-cell immunity, less strain-dependent than antibodies, provides durable cross-reactive protection against new variants."
+    },
+    "sideB": {
+      "label": "Waning and Variant Evasion Are Significant",
+      "text": "Protection against symptomatic infection from Omicron and its descendants wanes rapidly (within 3–4 months), and updated variants consistently evade mRNA vaccine-induced immunity more than original-strain vaccines anticipated. Repeated boosters show diminishing returns in low-risk populations and may in theory modulate immune responses toward tolerance. Updated variant-matched vaccines have not demonstrated significantly superior protection against infection in real-world studies compared to original vaccines."
+    },
+    "resolution": "Consensus: Original mRNA COVID vaccines are highly effective against severe disease but provide limited and waning protection against Omicron infection. Updated formulations targeting Omicron subvariants modestly improve immune responses against circulating strains. Annual updated boosters recommended for high-risk individuals. The COVID vaccine program remains a major public health success despite variant evolution.",
+    "lastUpdated": "2026-04-14T00:00:00.000Z"
+  },
+  {
+    "id": "personalized-vs-shared-cancer-vaccine",
+    "question": "Should mRNA cancer vaccines target personalized neoantigens or shared tumor-associated antigens?",
+    "sideA": {
+      "label": "Personalized Neoantigen Vaccines",
+      "text": "Personalized vaccines targeting unique somatic mutations (neoantigens) in each patient's tumor offer theoretically superior specificity and immunogenicity — neoantigens are truly foreign to the immune system, unlike shared antigens that may induce central tolerance. The KEYNOTE-942 Phase 2 data for mRNA-4157/V940 support this approach. Off-target autoimmunity risk is minimized. As sequencing and manufacturing costs decrease, personalized mRNA vaccines are increasingly scalable."
+    },
+    "sideB": {
+      "label": "Shared Antigen Vaccines",
+      "text": "Personalized neoantigen vaccines require a 6–8 week manufacturing lead time per patient, high cost (~$100,000+ per dose), and assume that sequencing accurately predicts immunogenic neoantigens (many predicted neoantigens don't actually elicit T-cell responses). Shared antigen vaccines (BNT111, BNT116) can be manufactured in advance, are less costly, and allow head-to-head randomized trials with standardized treatment arms. For patients with rapidly progressing disease, the turnaround time for personalized vaccines may be prohibitive."
+    },
+    "resolution": "Both approaches are clinically viable and complementary. Personalized vaccines are most advanced in adjuvant melanoma (mRNA-4157 Phase 3). Shared antigen vaccines (BNT111 melanoma, BNT116 NSCLC) are in Phase 2/3 and offer scalability. The field is pursuing both strategies in parallel, with tumor type, adjuvant intent vs. metastatic setting, and disease tempo likely to determine which approach is optimal.",
+    "lastUpdated": "2026-04-14T00:00:00.000Z"
+  },
+  {
+    "id": "mrna-ip-patent-disputes",
+    "question": "Who owns the foundational mRNA vaccine technology, and how do patent disputes affect the field?",
+    "sideA": {
+      "label": "Moderna and BioNTech/Pfizer Hold Key IP",
+      "text": "Moderna and BioNTech/Pfizer hold overlapping but extensive patent estates covering mRNA modifications (pseudouridine substitution), lipid nanoparticle (LNP) formulations, and manufacturing processes. Moderna filed suit against Pfizer-BioNTech in 2022 alleging infringement of its mRNA vaccine technology patents. Universities (UPenn, MIT) hold upstream patents licensed to Moderna. Arbutus Biopharma holds seminal LNP patents and sought royalties from Moderna. This IP landscape creates licensing barriers for competitors and LMIC manufacturers."
+    },
+    "sideB": {
+      "label": "IP Barriers Harm Global Health Equity",
+      "text": "MSF, Gavi, and public health advocates argue that mRNA vaccine IP — much of it developed with substantial public funding (NIH grants, BARDA contracts) — should be treated as a global public good. Moderna pledged not to enforce COVID vaccine patents during the pandemic but that pledge ended. The WHO mRNA Technology Transfer Hub (Afrigen, Biovac in South Africa) successfully reverse-engineered Moderna's vaccine using published literature, demonstrating that IP barriers are surmountable but slow. TRIPS flexibilities are insufficient for LMICs to rapidly develop mRNA capacity."
+    },
+    "resolution": "Ongoing litigation and licensing negotiations. Moderna v. Pfizer-BioNTech patent case partially dismissed, partially proceeding. Upstream LNP patents (Arbutus) partially invalidated. The IP landscape will determine market structure for second-generation mRNA vaccines and generic/biosimilar entry. WHO-supported technology transfer programs are building LMIC capacity, but the pace of technology diffusion to lower-income countries remains slower than advocates demand.",
+    "lastUpdated": "2026-04-14T00:00:00.000Z"
+  },
+  {
+    "id": "mrna-technology-transfer-lmics",
+    "question": "Should mRNA vaccine technology be transferred to low- and middle-income countries, and how?",
+    "sideA": {
+      "label": "Mandatory Transfer Is Essential for Global Health Security",
+      "text": "COVID-19 demonstrated that wealthy countries with domestic vaccine manufacturing capacity were far better protected than LMICs dependent on exports. The WHO mRNA Technology Transfer Hub model (Afrigen in South Africa) shows that LMICs can develop mRNA manufacturing with appropriate support. Public funding of mRNA vaccine development (NIH, BARDA) creates a moral obligation to ensure global access. COVAX's failures highlighted the inadequacy of a charity model — only domestic capacity ensures equity."
+    },
+    "sideB": {
+      "label": "IP Protection and Market Incentives Drive Innovation",
+      "text": "Mandatory technology transfer undermines the patent-driven incentive structure that motivated $10B+ private investment in mRNA technology in the first place. Companies that invested billions in R&D have legitimate IP rights. Forced transfer creates quality and safety risks if transferred to manufacturers without adequate GMP capacity. Market-based licensing agreements (as Moderna and BioNTech have pursued in Africa) can accomplish technology transfer while preserving innovation incentives. MRNA vaccines' complex cold-chain requirements also limit their immediate applicability in many LMICs."
+    },
+    "resolution": "WHO launched the mRNA Technology Transfer Hub in 2021; Afrigen successfully produced an mRNA COVID vaccine candidate (SpikoGen-AFGβ) using publicly available knowledge. The WHO program has expanded to train manufacturers in 15 LMICs. Companies have offered some voluntary licenses for LMIC markets, but technology transfer speed and scope remain insufficient according to public health advocates. The debate continues at WHO and WTO level.",
+    "lastUpdated": "2026-04-14T00:00:00.000Z"
+  },
+  {
+    "id": "mrna-booster-frequency-benefit",
+    "question": "How often should individuals receive mRNA COVID boosters, and do repeated doses benefit low-risk populations?",
+    "sideA": {
+      "label": "Annual Updated Boosters Benefit High-Risk Groups",
+      "text": "For immunocompromised individuals, the elderly, and those with significant comorbidities, annual or more frequent updated mRNA boosters demonstrably reduce hospitalization and death. The precedent of annual influenza vaccination supports an annual update approach as SARS-CoV-2 evolves. Updated variant-matched formulations better match circulating strains. The benefits of preventing severe COVID and associated Long COVID for high-risk individuals clearly outweigh risks of repeated mRNA exposure."
+    },
+    "sideB": {
+      "label": "Healthy Young Adults May Not Benefit from Repeated Boosters",
+      "text": "Real-world effectiveness studies from multiple countries show rapidly waning protection against infection for boosters and questionable additional protection from third, fourth, and fifth doses in young, healthy individuals who already have hybrid (vaccine + infection) immunity. Some immunologists raise theoretical concerns about repeated same-antigen mRNA stimulation potentially inducing imprinting or tolerance. Several European health authorities have restricted booster recommendations to high-risk groups only."
+    },
+    "resolution": "Major health authorities (FDA, EMA, WHO) recommend annual updated COVID boosters primarily for high-risk individuals including the elderly and immunocompromised. Healthy young adults without risk factors are generally not universally recommended for repeated boosters, though personal choice is supported. Country-specific guidance varies. The optimal boosting strategy for the endemic COVID era remains under study.",
+    "lastUpdated": "2026-04-14T00:00:00.000Z"
+  },
+  {
+    "id": "mrna-vs-vector-hiv",
+    "question": "Is mRNA or viral vector technology more promising for an HIV vaccine?",
+    "sideA": {
+      "label": "mRNA Offers Critical Flexibility for HIV",
+      "text": "HIV's extraordinary genetic diversity and evasion of conventional immune responses require vaccine approaches that can elicit broadly neutralizing antibodies (bNAbs) through sequential immunization. The mRNA platform uniquely allows rapid testing of new antigens, combination of germline-targeting priming with boosting immunogens, and potential for mucosal delivery. Phase 1 data showing germline-targeting success with mRNA (IAVI G001) was not achieved with traditional platforms. The speed of mRNA iteration allows testing of diverse immunogen sequences on compressed timelines."
+    },
+    "sideB": {
+      "label": "Vector Vaccines Have Deeper HIV Track Record",
+      "text": "Viral vector approaches (Modified Vaccinia Ankara, adeno-associated virus) have 20+ years of HIV vaccine data, proven T-cell immunogenicity, and established manufacturing infrastructure. HVTN 702 and other large HIV trials have used vector platforms. The RV144 Thai trial — the only HIV vaccine to show efficacy — used a protein/recombinant canarypox vector approach. Vector-delivered antigen may better mimic natural infection and prime mucosal immunity. mRNA's HIV-specific B-cell germline-targeting concept, while elegant, has not yet progressed beyond Phase 1."
+    },
+    "resolution": "Both platforms are under active investigation. The field increasingly converges on sequential immunization strategies using multiple platforms: germline-targeting mRNA for priming, followed by protein/vector boosts to shepherd B-cell evolution. IAVI, Scripps Research, and Moderna are the leading proponents of mRNA germline-targeting. The National Institute of Allergy and Infectious Diseases (NIAID) funds work on both platforms. True comparative efficacy data in Phase 2+ trials will be needed to resolve the question.",
+    "lastUpdated": "2026-04-14T00:00:00.000Z"
+  },
+  {
+    "id": "mrna-regulatory-speed-vs-rigor",
+    "question": "Did mRNA vaccine regulators compromise scientific rigor for speed during COVID-19?",
+    "sideA": {
+      "label": "Emergency Standards Were Scientifically Justified",
+      "text": "FDA, EMA, and WHO maintained data integrity standards during COVID-19 vaccine authorization — no data was fabricated or essential trials skipped. Operations ran in parallel (manufacturing scale-up while trials continued) rather than sequentially, compressing the timeline without cutting scientific corners. Rolling review and real-time data submission enabled speed without sacrificing rigor. The unprecedented post-authorization surveillance generated more safety data faster than any prior vaccine in history. The vaccines have performed as authorized."
+    },
+    "sideB": {
+      "label": "Emergency Approvals Created Precedents That Weaken Long-Term Confidence",
+      "text": "Critics — including some within the scientific community — argue that EUA/conditional approval frameworks applied political pressure to authorize vaccines before standard 2-year follow-up data. Pediatric EUAs in particular were based on immunogenicity bridging rather than direct efficacy data. Manufacturers received blanket liability protections that reduced accountability. Transparency around regulatory review documents was limited. Some post-authorization safety signals (myocarditis, primary series efficacy in children) required reanalysis of initial public communications."
+    },
+    "resolution": "Major reviews (including by the Cochrane Collaboration and independent academics) have found that COVID-19 vaccine approvals followed appropriate regulatory standards for emergency authorization. Post-authorization experience has validated the core safety and efficacy profiles. However, some researchers and regulators have proposed updates to EUA/conditional approval transparency requirements and liability frameworks for future public health emergencies to improve public trust.",
+    "lastUpdated": "2026-04-14T00:00:00.000Z"
+  },
+  {
+    "id": "lnp-off-target-effects",
+    "question": "Do lipid nanoparticle (LNP) delivery systems distribute to off-target organs, and does this matter?",
+    "sideA": {
+      "label": "LNP Biodistribution Is Controlled and Transient",
+      "text": "Regulatory submissions for both Pfizer and Moderna vaccines included full biodistribution studies in animals showing that while a small fraction of LNP-formulated mRNA distributes beyond the injection site (primarily to draining lymph nodes and liver), the vast majority (>90%) remains at the injection site and proximal lymph nodes. Peak distribution is within hours to days; mRNA is fully degraded within 1–2 weeks. No evidence of germline transmission or reproductive organ accumulation with standard dosing. Liver hepatotropism is expected for LNPs and not inherently harmful."
+    },
+    "sideB": {
+      "label": "Biodistribution Data Requires More Transparency",
+      "text": "A Japanese biodistribution study from Moderna's regulatory submission, released under FOIA, showed low-level LNP accumulation in liver, spleen, adrenal glands, and ovaries following high and repeated doses in animal models. Critics argue these data were not adequately disclosed publicly during authorization. While current evidence does not show harm from this distribution, they argue that long-term studies examining repeated-dose effects on hormone-producing tissues should be completed. The lack of a publicly available, fully comprehensive biodistribution dataset from actual human studies is a gap."
+    },
+    "resolution": "Regulatory agencies reviewed full biodistribution data packages prior to authorization. Available evidence indicates LNP-mRNA is transient and predominantly contained at the injection site and regional lymph nodes. Minor distribution to liver and other organs is observed in preclinical studies, as expected for LNP platforms, but is not associated with observed harm. WHO Technical Advisory Group on COVID-19 Vaccine Safety maintains ongoing surveillance. Researchers continue studying LNP optimization to further improve delivery precision.",
+    "lastUpdated": "2026-04-14T00:00:00.000Z"
+  },
+  {
+    "id": "mrna-vs-traditional-flu-vaccine",
+    "question": "Can mRNA seasonal influenza vaccines outperform traditional egg-based vaccines?",
+    "sideA": {
+      "label": "mRNA Eliminates Egg-Adaptation and Enables Faster Response",
+      "text": "Traditional flu vaccines are manufactured in chicken eggs, which introduces amino acid changes ('egg adaptations') that can reduce vaccine-virus match and real-world effectiveness, particularly for H3N2 strains. mRNA flu vaccines encode the exact circulating strain sequence and can be updated within weeks of a new WHO strain recommendation, compared to months for egg-based manufacturing. Phase 2/3 data for mRNA-1010 show superior H3N2 immunogenicity. An mRNA flu vaccine could be rapidly reformulated in a pandemic influenza scenario in 6–8 weeks versus 6+ months for egg-based."
+    },
+    "sideB": {
+      "label": "Traditional Vaccines Have Proven Track Record and Cost Advantage",
+      "text": "Despite decades of effort, annual influenza vaccines of all types offer only modest protection (40–60% effectiveness in typical years) due to antigenic drift and immune system 'imprinting.' A new delivery platform does not guarantee that mRNA flu vaccines will provide meaningfully higher real-world protection. Egg-based flu vaccine manufacturing is globally distributed, low-cost ($5–10/dose), heat-stable, and can be produced at massive scale without cold-chain constraints. mRNA flu vaccines would cost 5–10× more per dose and require 2–8°C cold chain, creating access barriers for LMICs."
+    },
+    "resolution": "Moderna's mRNA-1010 Phase 3 data are being reviewed by FDA and EMA. If approved, mRNA flu vaccines would address the egg-adaptation problem and offer manufacturing speed advantages. However, whether they provide meaningfully superior real-world protection against symptomatic flu remains to be proven in large effectiveness studies. The cost and cold-chain trade-off will determine uptake in LMICs and global health equity implications.",
+    "lastUpdated": "2026-04-14T00:00:00.000Z"
+  },
+  {
+    "id": "natural-immunity-vs-mrna-vaccination",
+    "question": "Does natural infection provide superior or comparable immunity to mRNA COVID vaccination?",
+    "sideA": {
+      "label": "Hybrid Immunity (Vaccine + Infection) Is Strongest",
+      "text": "Multiple immunological studies demonstrate that hybrid immunity — from both mRNA vaccination and prior infection — generates the broadest, most durable immune responses, including higher levels of broadly neutralizing antibodies and long-lived memory B cells. Vaccination before infection significantly reduces the risk of severe disease, Long COVID, and hospitalization. Natural infection alone, without prior vaccination, results in variable immune responses and 30% lower cross-variant protection than hybrid immunity."
+    },
+    "sideB": {
+      "label": "Natural Infection Immunity May Be More Durable",
+      "text": "Some immunologists and epidemiologists argue that natural COVID-19 infection (particularly in healthy adults) generates broader T-cell responses against conserved viral proteins not covered by spike-only mRNA vaccines, and that this cross-reactive T-cell immunity may provide more durable protection against future variants than antibody-based vaccine immunity. Countries with high natural infection rates and lower vaccination rates (e.g., some African nations) have not shown dramatically worse COVID outcomes per capita, raising questions about vaccine mandates in populations with high seroprevalence."
+    },
+    "resolution": "Scientific consensus: mRNA vaccination + natural infection (hybrid immunity) provides the most robust protection. Vaccination prior to infection significantly reduces severe outcomes. Natural infection alone provides variable and unpredictable protection and comes with substantial risk of severe disease, Long COVID, and death. Public health recommendations continue to favor vaccination over deliberate infection for immunity.",
+    "lastUpdated": "2026-04-14T00:00:00.000Z"
+  },
+  {
+    "id": "sara-vs-conventional-mrna",
+    "question": "Does self-amplifying mRNA (saRNA) technology offer sufficient advantages over conventional mRNA to justify its complexity?",
+    "sideA": {
+      "label": "saRNA's Dose Reduction Advantage Is Transformative",
+      "text": "Self-amplifying mRNA uses an encoded RNA-dependent RNA polymerase (RdRp) to replicate the therapeutic mRNA inside cells, enabling ~5–100× lower initial RNA doses to achieve equivalent or superior immune responses. Lower doses mean lower LNP payload (potentially reducing LNP-related reactogenicity), drastically reduced per-dose manufacturing costs, and potential for single-dose immunization. Japan's approval of ARCT-154 (Kostaive) validated this platform. saRNA may be particularly valuable for pandemic preparedness stockpiling where low-dose formulations allow vastly more doses per unit of manufactured RNA."
+    },
+    "sideB": {
+      "label": "saRNA's Replication Mechanism Introduces New Risks",
+      "text": "saRNA encodes a viral-origin RNA polymerase complex (alphavirus nsp1–4) that replicates within cells — introducing a more complex immunostimulatory profile than conventional mRNA. The viral replication elements may trigger innate immune activation in ways that could cause reactogenicity or interfere with therapeutic protein expression. saRNA constructs are larger (~9–12 kb vs. 2–4 kb for conventional mRNA), making LNP formulation more challenging. Regulatory frameworks for saRNA require new safety assessment paradigms. Long-term effects of self-amplifying RNA in human cells over time are less well characterized."
+    },
+    "resolution": "Japan's MHLW approval of ARCT-154 (Kostaive) in November 2023 established regulatory precedent for saRNA. Clinical safety data show reactogenicity is comparable to conventional mRNA vaccines. Dose-reduction advantages are real and demonstrated. The technology is at an earlier maturity stage than conventional mRNA (only one product approved as of 2024) and will require further efficacy and safety data from broad populations. Most analysts view saRNA as a promising next-generation platform rather than a near-term replacement for conventional mRNA.",
+    "lastUpdated": "2026-04-14T00:00:00.000Z"
+  },
+  {
+    "id": "mrna-cancer-vaccine-access-cost",
+    "question": "Will personalized mRNA cancer vaccines be accessible to patients globally, or only to those in wealthy countries?",
+    "sideA": {
+      "label": "Falling Costs Will Democratize Access",
+      "text": "Sequencing costs have fallen 10,000-fold since 2003, and mRNA manufacturing economies of scale are rapidly reducing per-dose costs. mRNA-4157/V940 uses automation-driven tumor sequencing, neoantigen selection, and mRNA synthesis that is already faster and cheaper than first-generation. As regulatory approval establishes reimbursement frameworks, personalized cancer vaccines will follow the path of other precision oncology therapies (CAR-T, PD-1 inhibitors) — initially expensive and high-income-country-limited, but progressively accessible via generics, biosimilars, and global health financing mechanisms."
+    },
+    "sideB": {
+      "label": "Personalized Manufacturing Is Fundamentally Incompatible with Global Access",
+      "text": "The manufacturing model for personalized mRNA cancer vaccines — a bespoke product made per patient using individualized tumor sequencing and synthesis — is structurally incompatible with the LMIC distribution model. Shared antigen or tumor-agnostic mRNA vaccines offer a more equitable path. Even in high-income countries, payers will face difficult coverage decisions for $100,000+ personalized cancer vaccines with Phase 2 efficacy data and unclear biomarkers for responders. The field risks repeating the CAR-T cell therapy access failure on a larger scale."
+    },
+    "resolution": "Access to personalized mRNA cancer vaccines will initially be highly restricted to wealthy-country patients who can afford oncology immunotherapy. Shared antigen mRNA cancer vaccines (if approved) would be more accessible. Global health financing for cancer vaccines does not currently exist at scale. The mRNA oncology field will need to proactively develop equitable access frameworks alongside clinical approval, rather than as an afterthought.",
+    "lastUpdated": "2026-04-14T00:00:00.000Z"
+  },
+  {
+    "id": "mrna-gene-therapy-classification",
+    "question": "Should mRNA therapeutics for protein replacement (e.g., rare diseases) be regulated as vaccines, gene therapies, or a new category?",
+    "sideA": {
+      "label": "mRNA Therapeutics Are Distinct from Gene Therapy and Require a New Framework",
+      "text": "mRNA therapeutics for protein replacement (e.g., mRNA-3927 for propionic acidemia) are fundamentally different from gene therapy: they do not modify the genome, do not integrate DNA, and produce only transient protein expression requiring repeat dosing. Regulating them under the same framework as viral-vector gene therapy would apply inappropriate safety criteria (genotoxicity, insertional oncogenesis) not relevant to mRNA. FDA and EMA have recognized this distinction and regulate mRNA therapeutics as biological products under existing frameworks, adapted for their unique properties."
+    },
+    "sideB": {
+      "label": "Regulatory Frameworks Must Account for Long-Term Protein Expression",
+      "text": "mRNA therapeutics that deliver functional proteins for chronic diseases — particularly those administered repeatedly over years — require safety assessment paradigms not yet fully established. Immunogenicity against the delivered protein (e.g., antibodies to the expressed enzyme that reduce efficacy or cause hypersensitivity) and systemic off-target expression due to LNP distribution to the liver and other tissues are relevant safety considerations that differ from traditional biologics. Some researchers argue that the speed of platform expansion into therapeutics is outpacing the development of appropriate regulatory standards."
+    },
+    "resolution": "FDA regulates mRNA therapeutics as biologic drug products under the PHSA Section 351 framework, distinct from gene therapy. EMA has similar categorical treatment. Both agencies are developing mRNA-specific guidance documents as the product class matures. The regulatory science is evolving in parallel with clinical development, which creates some uncertainty for developers but is broadly considered appropriate given the technology's novelty.",
+    "lastUpdated": "2026-04-14T00:00:00.000Z"
+  }
+]

@@ -1,1 +1,99 @@
-[]
+[
+  {
+    "id": "mrna-covid-doses-global",
+    "label": "COVID mRNA Doses Administered",
+    "value": ">5 billion",
+    "color": "blue",
+    "source": "WHO/Our World in Data",
+    "contested": false,
+    "contestNote": null,
+    "delta": "+400M in 2023",
+    "deltaNote": "Demand declining sharply from 2022 peak as pandemic wanes",
+    "trend": "down",
+    "lastUpdated": "2026-04-14T00:00:00.000Z"
+  },
+  {
+    "id": "countries-mrna-authorized",
+    "label": "Countries with mRNA Vaccine Authorization",
+    "value": "140+",
+    "color": "green",
+    "source": "WHO, FDA, EMA regulatory databases",
+    "contested": false,
+    "delta": "Stable",
+    "deltaNote": "COVID mRNA vaccines authorized in virtually all major economies",
+    "trend": "stable",
+    "lastUpdated": "2026-04-14T00:00:00.000Z"
+  },
+  {
+    "id": "non-covid-mrna-trials",
+    "label": "Active Non-COVID mRNA Clinical Trials",
+    "value": "100+",
+    "color": "blue",
+    "source": "ClinicalTrials.gov, WHO ICTRP",
+    "contested": false,
+    "delta": "+35 since 2022",
+    "deltaNote": "Cancer vaccines, HIV, RSV, malaria, rare diseases driving pipeline growth",
+    "trend": "up",
+    "lastUpdated": "2026-04-14T00:00:00.000Z"
+  },
+  {
+    "id": "mrna-4157-phase2-efficacy",
+    "label": "mRNA-4157 Melanoma Recurrence Reduction (Phase 2)",
+    "value": "44%",
+    "color": "green",
+    "source": "Moderna/Merck KEYNOTE-942 Phase 2 (SITC 2022)",
+    "contested": true,
+    "contestNote": "Phase 2 small sample; Phase 3 needed to confirm; improvement over pembrolizumab alone",
+    "delta": "Primary endpoint met",
+    "trend": "up",
+    "lastUpdated": "2026-04-14T00:00:00.000Z"
+  },
+  {
+    "id": "approved-non-covid-mrna",
+    "label": "Approved Non-COVID mRNA Vaccines",
+    "value": "2",
+    "color": "green",
+    "source": "FDA, MHLW Japan",
+    "contested": false,
+    "delta": "+1 in 2023",
+    "deltaNote": "Mresvia (RSV, USA/EU) and Kostaive (saRNA COVID, Japan) approved 2023–2024",
+    "trend": "up",
+    "lastUpdated": "2026-04-14T00:00:00.000Z"
+  },
+  {
+    "id": "time-to-first-eua",
+    "label": "Days from Genome Sequence to First mRNA EUA",
+    "value": "335 days",
+    "color": "amber",
+    "source": "FDA, NCBI GenBank submission records",
+    "contested": false,
+    "contestNote": "SARS-CoV-2 genome published Jan 10, 2020; BNT162b2 EUA Dec 11, 2020",
+    "delta": "Record: fastest vaccine in history",
+    "trend": "stable",
+    "lastUpdated": "2026-04-14T00:00:00.000Z"
+  },
+  {
+    "id": "mrna-pipeline-companies",
+    "label": "Companies with Active mRNA Therapeutic Pipeline",
+    "value": "50+",
+    "color": "blue",
+    "source": "GlobalData, Evaluate Pharma, company filings",
+    "contested": false,
+    "delta": "3× increase since 2019",
+    "deltaNote": "COVID success catalyzed massive investment in mRNA-based therapeutics",
+    "trend": "up",
+    "lastUpdated": "2026-04-14T00:00:00.000Z"
+  },
+  {
+    "id": "peak-mrna-market-2022",
+    "label": "Peak Annual mRNA Vaccine Revenue (2022)",
+    "value": "$58B+",
+    "color": "amber",
+    "source": "Moderna & BioNTech annual reports 2022",
+    "contested": false,
+    "contestNote": "Includes Moderna ($18.4B) + BioNTech/Pfizer Comirnaty ($37.8B) revenues; total market peak",
+    "delta": "−60% by 2024 as COVID demand normalizes",
+    "trend": "down",
+    "lastUpdated": "2026-04-14T00:00:00.000Z"
+  }
+]
