@@ -1,0 +1,196 @@
+{
+  "slug": "battery-revolution",
+  "name": "Battery Revolution Tracker",
+  "shortName": "Battery Revolution",
+  "description": "Intelligence dashboard tracking breakthroughs in battery and energy storage technology — solid-state, sodium-ion, grid-scale systems, and EV range improvements powering the clean energy transition.",
+  "icon": "⚡",
+  "color": "#27ae60",
+  "status": "active",
+  "temporal": "live",
+  "domain": "science",
+  "region": "global",
+  "tags": ["battery", "energy-storage", "clean-energy", "EV", "solid-state", "sodium-ion", "grid-scale", "lithium-ion"],
+  "startDate": "2020-01-01",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": -180,
+      "lonMax": 180,
+      "latMin": -60,
+      "latMax": 75
+    },
+    "center": {
+      "lon": 15,
+      "lat": 30
+    },
+    "categories": [
+      {
+        "id": "gigafactory",
+        "label": "Gigafactories & Production",
+        "color": "#27ae60"
+      },
+      {
+        "id": "breakthrough",
+        "label": "Research Breakthroughs",
+        "color": "#3498db"
+      },
+      {
+        "id": "grid-storage",
+        "label": "Grid-Scale Storage",
+        "color": "#f39c12"
+      },
+      {
+        "id": "policy",
+        "label": "Policy & Regulation",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "mining",
+        "label": "Critical Minerals",
+        "color": "#e74c3c"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "global": {
+        "lon": 15,
+        "lat": 20,
+        "alt": 18000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Global Overview"
+      },
+      "ningde": {
+        "lon": 119.52,
+        "lat": 26.66,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "CATL HQ — Ningde"
+      },
+      "nevada": {
+        "lon": -119.76,
+        "lat": 39.54,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Tesla Gigafactory Nevada"
+      },
+      "seoul": {
+        "lon": 126.98,
+        "lat": 37.57,
+        "alt": 100000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Seoul — LG & Samsung SDI"
+      },
+      "skellefte": {
+        "lon": 21.07,
+        "lat": 64.75,
+        "alt": 50000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Northvolt — Skellefteå"
+      },
+      "berlin": {
+        "lon": 13.40,
+        "lat": 52.52,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Berlin — Tesla Gigafactory"
+      }
+    }
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Market"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Figures"
+    }
+  ],
+  "politicalAvatars": [
+    "automaker",
+    "battery-maker",
+    "government",
+    "researcher",
+    "investor",
+    "other"
+  ],
+  "eventTypes": [
+    "breakthrough",
+    "deployment",
+    "policy",
+    "investment",
+    "recall"
+  ],
+  "ai": {
+    "systemPrompt": "You are a technology analyst specializing in battery and energy storage research. You track breakthroughs in solid-state batteries, sodium-ion chemistry, grid-scale storage systems, EV range improvements, and critical minerals supply chains.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"catl_solid_state_2024\", \"tesla_4680_production\").\n\nSOURCE TIERS — classify every source:\n- Tier 1: Official/primary (US DOE, NREL, EU Commission energy reports, Chinese MIIT, company official press releases, peer-reviewed Nature/Science publications, IEA reports)\n- Tier 2: Major outlet (Reuters, Bloomberg, Financial Times, BloombergNEF, S&P Global, Nikkei Asia, CleanTechnica, Electrek, The Verge, Ars Technica)\n- Tier 3: Institutional (Wood Mackenzie, IDC Research, Benchmark Mineral Intelligence, Rocky Mountain Institute, Transport & Environment, BNEF, Nature Energy journal, SNE Research)\n- Tier 4: Unverified (social media, unverified startup claims, anonymous industry sources, rumor sites)\n\nPole classification for sources:\n- \"western\" for US/European/allied sources\n- \"eastern\" for Chinese/Korean/Japanese sources\n- \"international\" for IEA/UN/multilateral sources\n\nREPORTING RULES:\n- Distinguish lab results from commercial production figures — always note which it is.\n- When reporting battery specs (energy density, cycle life, charge time), cite the source directly.\n- Only report a commercial breakthrough as confirmed if it has at least 1 Tier 1 source OR 2 Tier 2+ sources.\n- Single-source Tier 3/4 claims should use confidence: \"low\".\n- Do not fabricate performance specifications or investment figures.\n\nOnly include information you can verify through search results. Do not fabricate data.",
+    "searchContext": "battery technology breakthroughs solid-state sodium-ion grid storage EV energy",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": -180,
+      "lonMax": 180,
+      "latMin": -75,
+      "latMax": 80
+    },
+    "updateIntervalDays": 7,
+    "backfillTargets": {
+      "timeline": 30,
+      "mapPoints": 20,
+      "claims": 15,
+      "political": 15,
+      "kpis": 8,
+      "econ": 8
+    },
+    "updatePolicy": {
+      "escalation": [
+        7,
+        7,
+        14,
+        30,
+        60
+      ],
+      "quietThreshold": 0
+    },
+    "rssFeeds": [
+      "https://news.google.com/rss/search?q=battery+technology+breakthrough+solid+state&hl=en-US&gl=US&ceid=US:en",
+      "https://electrek.co/feed/"
+    ]
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard"
+}
