@@ -551,7 +551,10 @@ async function main() {
   const updatedTrackers: string[] = [];
   for (const update of plan.updates) {
     log(`Processing update for ${update.tracker}...`);
-    const result = await updateTrackerData(update.tracker, update);
+    try {
+      // Force garbage collection between trackers to prevent OOM
+      if (global.gc) global.gc();
+      const result = await updateTrackerData(update.tracker, update);
     if (result) {
       writeTrackerUpdate(update.tracker, result);
 
@@ -580,6 +583,11 @@ async function main() {
         log(`  ✗ ${update.tracker} failed validation — reverting`);
         run(`git checkout -- trackers/${update.tracker}/`);
       }
+    }
+    } catch (err: any) {
+      log(`  ✗ ${update.tracker} CRASHED: ${err.message}`);
+      // Revert any partial changes for this tracker
+      try { run(`git checkout -- trackers/${update.tracker}/`); } catch {}
     }
   }
 
