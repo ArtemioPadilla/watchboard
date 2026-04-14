@@ -13,6 +13,7 @@ import NotificationManager from './NotificationManager';
 import { useBroadcastMode } from './useBroadcastMode';
 import BroadcastOverlay from './BroadcastOverlay';
 import CoachMark from './CoachMark';
+import DesktopStoryStrip from './DesktopStoryStrip';
 import { getDiscoveredFeatures, markFeatureDiscovered, getNextCoachHint } from '../../../lib/onboarding';
 
 const FOLLOWS_KEY = 'watchboard-follows';
@@ -441,7 +442,9 @@ export default function CommandCenter({
   const sidebarStyle: React.CSSProperties = isMobile
     ? mobileTab === 'trackers' ? styles.sidebar : { ...styles.sidebar, display: 'none' }
     : sidebarCollapsed
-      ? { ...styles.sidebarCollapsed }
+      ? broadcastEnabled
+        ? { ...styles.sidebarCollapsed, flex: '0 0 220px', minWidth: 220, maxWidth: 220 }
+        : { ...styles.sidebarCollapsed }
       : { ...styles.sidebar };
 
   return (
@@ -657,51 +660,60 @@ export default function CommandCenter({
                 <line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="18" x2="21" y2="18" />
               </svg>
             </button>
-            <div style={styles.collapsedTrackerIcons}>
-              {trackers.filter(t => t.status === 'active').slice(0, 12).map(t => {
-                const freshness = computeFreshness(t.lastUpdated);
-                const freshnessColor = freshness.className === 'fresh'
-                  ? 'var(--accent-green, #2ecc71)'
-                  : freshness.className === 'recent'
-                    ? 'var(--accent-amber, #f39c12)'
-                    : 'var(--text-muted, #484f58)';
-                const freshnessShadow = freshness.className === 'fresh'
-                  ? 'rgba(46,160,67,0.37)'
-                  : freshness.className === 'recent'
-                    ? 'rgba(210,153,34,0.37)'
-                    : 'rgba(231,76,60,0.37)';
-                const isSelected = activeTracker === t.slug;
-                return (
-                  <button
-                    key={t.slug}
-                    onClick={() => { handleSelect(t.slug); setSidebarCollapsed(false); }}
-                    style={{
-                      ...styles.collapsedTrackerIcon,
-                      position: 'relative' as const,
-                      borderColor: isSelected ? t.color || freshnessColor : freshnessColor,
-                      boxShadow: isSelected ? `0 0 6px ${freshnessShadow}` : 'none',
-                      opacity: freshness.className === 'stale' ? 0.5 : 1,
-                    }}
-                    title={`${t.shortName} — ${freshness.label}`}
-                    aria-label={`Select ${t.shortName} (${freshness.label})`}
-                  >
-                    <span style={{ fontSize: '1rem' }}>{t.icon}</span>
-                    {freshness.className === 'fresh' && (
-                      <span style={{
-                        position: 'absolute',
-                        top: 1,
-                        right: 1,
-                        width: 6,
-                        height: 6,
-                        borderRadius: '50%',
-                        background: 'var(--accent-green)',
-                        boxShadow: '0 0 4px rgba(46,160,67,0.5)',
-                      }} />
-                    )}
-                  </button>
-                );
-              })}
-            </div>
+            {broadcastEnabled ? (
+              <DesktopStoryStrip
+                trackers={trackers}
+                basePath={basePath}
+                followedSlugs={followedSlugs}
+                onTrackerChange={handleStoryTrackerChange}
+              />
+            ) : (
+              <div style={styles.collapsedTrackerIcons}>
+                {trackers.filter(t => t.status === 'active').slice(0, 12).map(t => {
+                  const freshness = computeFreshness(t.lastUpdated);
+                  const freshnessColor = freshness.className === 'fresh'
+                    ? 'var(--accent-green, #2ecc71)'
+                    : freshness.className === 'recent'
+                      ? 'var(--accent-amber, #f39c12)'
+                      : 'var(--text-muted, #484f58)';
+                  const freshnessShadow = freshness.className === 'fresh'
+                    ? 'rgba(46,160,67,0.37)'
+                    : freshness.className === 'recent'
+                      ? 'rgba(210,153,34,0.37)'
+                      : 'rgba(231,76,60,0.37)';
+                  const isSelected = activeTracker === t.slug;
+                  return (
+                    <button
+                      key={t.slug}
+                      onClick={() => { handleSelect(t.slug); setSidebarCollapsed(false); }}
+                      style={{
+                        ...styles.collapsedTrackerIcon,
+                        position: 'relative' as const,
+                        borderColor: isSelected ? t.color || freshnessColor : freshnessColor,
+                        boxShadow: isSelected ? `0 0 6px ${freshnessShadow}` : 'none',
+                        opacity: freshness.className === 'stale' ? 0.5 : 1,
+                      }}
+                      title={`${t.shortName} — ${freshness.label}`}
+                      aria-label={`Select ${t.shortName} (${freshness.label})`}
+                    >
+                      <span style={{ fontSize: '1rem' }}>{t.icon}</span>
+                      {freshness.className === 'fresh' && (
+                        <span style={{
+                          position: 'absolute',
+                          top: 1,
+                          right: 1,
+                          width: 6,
+                          height: 6,
+                          borderRadius: '50%',
+                          background: 'var(--accent-green)',
+                          boxShadow: '0 0 4px rgba(46,160,67,0.5)',
+                        }} />
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
           </div>
         ) : (
           <>
