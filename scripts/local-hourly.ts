@@ -239,11 +239,11 @@ async function prefetchMedia(sources: string[]): Promise<Array<{url: string; thu
       const html = run(`curl -sL --max-time 8 --max-redirs 5 ${JSON.stringify(url)}`, { timeout: 15_000 });
       const ogMatch = html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i)
         || html.match(/<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:image["']/i);
-      const thumbnail = ogMatch ? ogMatch[1] : null;
+      const thumbnail = ogMatch ? ogMatch[1] : url; // fallback to article URL, never null
       const sourceName = new URL(url).hostname.replace('www.', '');
       results.push({ url, thumbnail, source: sourceName });
     } catch {
-      results.push({ url, thumbnail: null, source: 'unknown' });
+      results.push({ url, thumbnail: url, source: 'unknown' }); // never null
     }
   }
 
