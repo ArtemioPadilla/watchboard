@@ -231,19 +231,83 @@ function loadSchemasCondensed(): string {
 #   lastUpdated?: string`;
 }
 
-async function prefetchMedia(sources: string[]): Promise<Array<{url: string; thumbnail: string | null; source: string}>> {
-  const results: Array<{url: string; thumbnail: string | null; source: string}> = [];
+const BROWSER_UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36';
 
-  for (const url of sources.slice(0, 5)) {
+/**
+ * Extract og:image or twitter:image from HTML string.
+ * Handles both attribute orders and single-line HTML.
+ */
+function extractOgImage(html: string): string | null {
+  // Try multiple patterns — sites vary in attribute order
+  const patterns = [
+    /property=["']og:image["']\s+content=["']([^"']+)["']/i,
+    /content=["']([^"']+)["']\s+property=["']og:image["']/i,
+    /property=["']og:image["'][^>]*content=["']([^"']+)["']/i,
+    /content=["']([^"']+)["'][^>]*property=["']og:image["']/i,
+    /name=["']twitter:image(?::src)?["']\s+content=["']([^"']+)["']/i,
+    /content=["']([^"']+)["']\s+name=["']twitter:image(?::src)?["']/i,
+    /name=["']twitter:image(?::src)?["'][^>]*content=["']([^"']+)["']/i,
+    /content=["']([^"']+)["'][^>]*name=["']twitter:image(?::src)?["']/i,
+    /"image"\s*:\s*\[?\s*\{[^}]*"url"\s*:\s*"([^"]+)"/i, // JSON-LD schema.org
+  ];
+  for (const pat of patterns) {
+    const match = html.match(pat);
+    if (match?.[1] && match[1].startsWith('http')) return match[1];
+  }
+  return null;
+}
+
+/**
+ * Cascading thumbnail extraction:
+ * 1. Direct fetch with browser UA (catches ~70% of sites)
+ * 2. Google AMP cache (catches paywalled sites like NYT)
+ * 3. Fallback to article URL (never null)
+ */
+async function extractThumbnail(url: string): Promise<string> {
+  // Method 1: Direct fetch with real browser User-Agent
+  try {
+    const html = run(
+      `curl -sL --max-time 8 --max-redirs 5 -H "User-Agent: ${BROWSER_UA}" -H "Accept: text/html" ${JSON.stringify(url)}`,
+      { timeout: 15_000 }
+    );
+    const og = extractOgImage(html);
+    if (og) return og;
+  } catch {}
+
+  // Method 2: Google AMP/cache version
+  try {
+    const domain = new URL(url).hostname.replace('www.', '');
+    const ampUrl = `https://www.google.com/amp/s/${domain}${new URL(url).pathname}`;
+    const html = run(
+      `curl -sL --max-time 6 --max-redirs 3 -H "User-Agent: ${BROWSER_UA}" ${JSON.stringify(ampUrl)}`,
+      { timeout: 10_000 }
+    );
+    const og = extractOgImage(html);
+    if (og) return og;
+  } catch {}
+
+  // Method 3: Try oembed endpoint (works for many news sites)
+  try {
+    const oembedUrl = `https://noembed.com/embed?url=${encodeURIComponent(url)}`;
+    const json = run(`curl -sL --max-time 5 ${JSON.stringify(oembedUrl)}`, { timeout: 8_000 });
+    const data = JSON.parse(json);
+    if (data.thumbnail_url) return data.thumbnail_url;
+  } catch {}
+
+  // Final fallback: article URL itself (never null)
+  return url;
+}
+
+async function prefetchMedia(sources: string[]): Promise<Array<{url: string; thumbnail: string; source: string}>> {
+  const results: Array<{url: string; thumbnail: string; source: string}> = [];
+
+  for (const articleUrl of sources.slice(0, 5)) {
     try {
-      const html = run(`curl -sL --max-time 8 --max-redirs 5 ${JSON.stringify(url)}`, { timeout: 15_000 });
-      const ogMatch = html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i)
-        || html.match(/<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:image["']/i);
-      const thumbnail = ogMatch ? ogMatch[1] : url; // fallback to article URL, never null
-      const sourceName = new URL(url).hostname.replace('www.', '');
-      results.push({ url, thumbnail, source: sourceName });
+      const thumbnail = await extractThumbnail(articleUrl);
+      const sourceName = new URL(articleUrl).hostname.replace('www.', '');
+      results.push({ url: articleUrl, thumbnail, source: sourceName });
     } catch {
-      results.push({ url, thumbnail: url, source: 'unknown' }); // never null
+      results.push({ url: articleUrl, thumbnail: articleUrl, source: 'unknown' });
     }
   }
 
