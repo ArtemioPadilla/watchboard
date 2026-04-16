@@ -192,6 +192,9 @@ const pushTrackers = loadAllTrackers()
       // Register Watchboard service worker
       navigator.serviceWorker.register('/sw.js');
     }
+
+    // PWA refresh system (pull-to-refresh, update banner, refresh button)
+    import('../lib/pwa-refresh').then(m => m.initPwaRefresh()).catch(() => {});
   </script>
 </body>
 </html>
