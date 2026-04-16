@@ -9,6 +9,7 @@
  */
 import fs from 'fs';
 import path from 'path';
+import { validateThumbnail, resolveSourceUrl } from './thumbnail-utils.js';
 
 // ── CLI Flags ──
 
@@ -249,8 +250,16 @@ async function main() {
           if (needsThumb.length > 0) {
             for (const m of needsThumb) {
               await sleep(RATE_LIMIT_MS);
-              const ogImage = await fetchOgImage(m.url);
+              // Resolve opaque URLs (Google News blobs) before fetching
+              const resolvedUrl = resolveSourceUrl(m.url);
+              const ogImage = await fetchOgImage(resolvedUrl);
               if (ogImage && isNewsImage(ogImage)) {
+                // Run shared validation (blocklist, hotlink, etc.)
+                const validation = validateThumbnail(ogImage);
+                if (!validation.url) {
+                  console.log(`  [${slug}/${file}] Rejected thumbnail for "${event.id}": ${validation.rejectedReason}`);
+                  continue;
+                }
                 if (dryRun) {
                   console.log(`  [${slug}/${file}] Would add thumbnail for "${event.id}" from ${m.url.substring(0, 60)}`);
                   console.log(`    og:image: ${ogImage}`);
@@ -282,9 +291,18 @@ async function main() {
         for (const source of sourcesWithUrls) {
           await sleep(RATE_LIMIT_MS);
 
-          const ogImage = await fetchOgImage(source.url!);
+          // Resolve opaque URLs before fetching
+          const resolvedUrl = resolveSourceUrl(source.url!);
+          const ogImage = await fetchOgImage(resolvedUrl);
 
           if (ogImage && isNewsImage(ogImage)) {
+            // Run shared validation
+            const validation = validateThumbnail(ogImage);
+            if (!validation.url) {
+              console.log(`  [${slug}/${file}] Rejected thumbnail for "${event.id}": ${validation.rejectedReason}`);
+              continue;
+            }
+
             const mediaEntry: MediaItem = {
               type: 'image',
               url: source.url!,

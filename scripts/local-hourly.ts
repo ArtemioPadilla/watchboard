@@ -39,6 +39,11 @@ import {
   buildActionPlan,
   collectRecentEventTitles,
 } from './hourly-triage.js';
+import {
+  validateThumbnail,
+  resolveSourceUrl,
+  ThumbnailDeduplicator,
+} from './thumbnail-utils.js';
 
 // --- Constants ---
 
@@ -264,56 +269,97 @@ function extractOgImage(html: string): string | null {
 }
 
 /**
- * Cascading thumbnail extraction:
- * 1. Direct fetch with browser UA (catches ~70% of sites)
- * 2. Google AMP cache (catches paywalled sites like NYT)
- * 3. Fallback to article URL (never null)
+ * Cascading thumbnail extraction with validation.
+ *
+ * Pipeline:
+ * 1. Resolve source URL (Google News blobs → real article)
+ * 2. Extract og:image via multiple methods
+ * 3. Validate extracted thumbnail (blocklist, path patterns, hotlink)
+ * 4. Return null instead of garbage (null > trash)
  */
-async function extractThumbnail(url: string): Promise<string> {
+async function extractThumbnail(url: string, dedup?: ThumbnailDeduplicator): Promise<string | null> {
+  // Step 0: Resolve Google News and other opaque URLs
+  const resolvedUrl = resolveSourceUrl(url);
+  const fetchUrl = resolvedUrl !== url ? resolvedUrl : url;
+  if (resolvedUrl !== url) {
+    log(`  Resolved Google News URL → ${resolvedUrl.substring(0, 80)}`);
+  }
+
+  let candidate: string | null = null;
+
   // Method 1: Direct fetch with real browser User-Agent
   try {
     const html = run(
-      `curl -sL --max-time 8 --max-redirs 5 -H "User-Agent: ${BROWSER_UA}" -H "Accept: text/html" ${JSON.stringify(url)}`,
+      `curl -sL --max-time 8 --max-redirs 5 -H "User-Agent: ${BROWSER_UA}" -H "Accept: text/html" ${JSON.stringify(fetchUrl)}`,
       { timeout: 15_000 }
     );
-    const og = extractOgImage(html);
-    if (og) return og;
+    candidate = extractOgImage(html);
   } catch {}
 
   // Method 2: Google AMP/cache version
-  try {
-    const domain = new URL(url).hostname.replace('www.', '');
-    const ampUrl = `https://www.google.com/amp/s/${domain}${new URL(url).pathname}`;
-    const html = run(
-      `curl -sL --max-time 6 --max-redirs 3 -H "User-Agent: ${BROWSER_UA}" ${JSON.stringify(ampUrl)}`,
-      { timeout: 10_000 }
-    );
-    const og = extractOgImage(html);
-    if (og) return og;
-  } catch {}
+  if (!candidate) {
+    try {
+      const domain = new URL(fetchUrl).hostname.replace('www.', '');
+      const ampUrl = `https://www.google.com/amp/s/${domain}${new URL(fetchUrl).pathname}`;
+      const html = run(
+        `curl -sL --max-time 6 --max-redirs 3 -H "User-Agent: ${BROWSER_UA}" ${JSON.stringify(ampUrl)}`,
+        { timeout: 10_000 }
+      );
+      candidate = extractOgImage(html);
+    } catch {}
+  }
 
-  // Method 3: Try oembed endpoint (works for many news sites)
-  try {
-    const oembedUrl = `https://noembed.com/embed?url=${encodeURIComponent(url)}`;
-    const json = run(`curl -sL --max-time 5 ${JSON.stringify(oembedUrl)}`, { timeout: 8_000 });
-    const data = JSON.parse(json);
-    if (data.thumbnail_url) return data.thumbnail_url;
-  } catch {}
+  // Method 3: Try oembed endpoint
+  if (!candidate) {
+    try {
+      const oembedUrl = `https://noembed.com/embed?url=${encodeURIComponent(fetchUrl)}`;
+      const json = run(`curl -sL --max-time 5 ${JSON.stringify(oembedUrl)}`, { timeout: 8_000 });
+      const data = JSON.parse(json);
+      if (data.thumbnail_url) candidate = data.thumbnail_url;
+    } catch {}
+  }
 
-  // Final fallback: article URL itself (never null)
-  return url;
+  // No candidate found at all
+  if (!candidate) {
+    return null;
+  }
+
+  // Step 3: Validate the extracted thumbnail
+  const validation = validateThumbnail(candidate);
+  if (!validation.url) {
+    log(`  Rejected thumbnail: ${validation.rejectedReason} — ${candidate.substring(0, 80)}`);
+    return null;
+  }
+
+  // Step 4: Dedup check (optional, catches repeated generic images)
+  if (dedup) {
+    const dedupResult = dedup.check(candidate);
+    if (!dedupResult.valid) {
+      log(`  Rejected thumbnail (dedup): ${dedupResult.reason} — ${candidate.substring(0, 80)}`);
+      return null;
+    }
+  }
+
+  return candidate;
 }
 
 async function prefetchMedia(sources: string[]): Promise<Array<{url: string; thumbnail: string; source: string}>> {
   const results: Array<{url: string; thumbnail: string; source: string}> = [];
+  const dedup = new ThumbnailDeduplicator(3);
 
   for (const articleUrl of sources.slice(0, 5)) {
     try {
-      const thumbnail = await extractThumbnail(articleUrl);
+      const thumbnail = await extractThumbnail(articleUrl, dedup);
       const sourceName = new URL(articleUrl).hostname.replace('www.', '');
-      results.push({ url: articleUrl, thumbnail, source: sourceName });
+      // Only include if we got a valid thumbnail
+      if (thumbnail) {
+        results.push({ url: articleUrl, thumbnail, source: sourceName });
+      } else {
+        // Still include the source but without a thumbnail
+        results.push({ url: articleUrl, thumbnail: '', source: sourceName });
+      }
     } catch {
-      results.push({ url: articleUrl, thumbnail: articleUrl, source: 'unknown' });
+      results.push({ url: articleUrl, thumbnail: '', source: 'unknown' });
     }
   }
 
