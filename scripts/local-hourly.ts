@@ -102,13 +102,19 @@ function run(cmd: string, opts: { cwd?: string; timeout?: number } = {}): string
 
 function gitPull(): boolean {
   try {
+    // Stash any dirty state (e.g. state.json from previous run) before pull
+    try { run('git stash --include-untracked'); } catch {}
     run('git pull --rebase origin main');
+    // Restore stashed changes
+    try { run('git stash pop'); } catch {}
     log('Git pull successful');
     return true;
   } catch (err: any) {
     log(`Git pull failed: ${err.message}`);
     // Try to abort rebase if stuck
     try { run('git rebase --abort'); } catch {}
+    // Try to restore stash
+    try { run('git stash pop'); } catch {}
     return false;
   }
 }
