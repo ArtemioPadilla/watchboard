@@ -72,6 +72,7 @@ export function useBroadcastMode<T extends TrackerForBroadcast>(
   followedSlugs: string[] = [],
 ): BroadcastState<T> {
   const queue = useRef<T[]>([]);
+  const [trackerQueueState, setTrackerQueueState] = useState<T[]>([]);
   const indexRef = useRef(0);
   const phaseRef = useRef<BroadcastPhase>('idle');
   const phaseStartRef = useRef(0);
@@ -91,7 +92,9 @@ export function useBroadcastMode<T extends TrackerForBroadcast>(
   // Build queue: active trackers with mapCenter, sorted by relevance
   useEffect(() => {
     const eligible = trackers.filter(t => t.mapCenter && t.headline);
-    queue.current = sortByRelevance(eligible, followedSlugs);
+    const sorted = sortByRelevance(eligible, followedSlugs);
+    queue.current = sorted;
+    setTrackerQueueState(sorted);
   }, [trackers, followedSlugs]);
 
   const setPhaseState = useCallback((p: BroadcastPhase) => {
@@ -293,7 +296,7 @@ export function useBroadcastMode<T extends TrackerForBroadcast>(
     featuredTracker,
     phase,
     progress,
-    trackerQueue: queue.current,
+    trackerQueue: trackerQueueState,
     currentIndex,
     pause,
     resume,
