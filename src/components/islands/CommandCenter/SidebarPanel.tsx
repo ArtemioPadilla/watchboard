@@ -236,7 +236,7 @@ const TrackerRow = memo(function TrackerRow({
         <span style={S.icon}>{tracker.icon || ''}</span>
         <span className="cc-tracker-name" style={S.collapsedName}>{tracker.shortName}</span>
         {isLive && !isActive && (
-          <span className="cc-tracker-live-badge" aria-label="Currently featured by broadcast">
+          <span className="cc-tracker-live-badge" role="status" aria-label="Currently featured by broadcast">
             LIVE
           </span>
         )}
