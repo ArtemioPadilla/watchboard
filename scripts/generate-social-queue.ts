@@ -54,8 +54,10 @@ function collectTrackerContexts(today: string): TrackerContext[] {
     const digestPath = path.join(PATHS.trackersDir, slug, 'data', 'digests.json');
     let digest: DigestEntry | null = null;
     if (fs.existsSync(digestPath)) {
-      const digests: DigestEntry[] = JSON.parse(fs.readFileSync(digestPath, 'utf8'));
-      digest = digests.find(d => d.date === today) ?? null;
+      try {
+        const digests: DigestEntry[] = JSON.parse(fs.readFileSync(digestPath, 'utf8'));
+        digest = digests.find(d => d.date === today) ?? null;
+      } catch { /* skip malformed digest files */ }
     }
 
     const kpiPath = path.join(PATHS.trackersDir, slug, 'data', 'kpis.json');
