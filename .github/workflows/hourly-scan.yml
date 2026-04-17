@@ -1,8 +1,8 @@
 name: Hourly Breaking News Scan
 
 on:
-  # schedule: # Disabled — hourly scan now runs locally via OpenClaw cron with Bedrock
-  #   - cron: '0 * * * *'
+  schedule:
+    - cron: '0 * * * *'
   workflow_dispatch: {}  # Keep manual trigger as fallback
 
 concurrency:
@@ -130,9 +130,8 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          claude_args: "--max-turns 10 --dangerously-skip-permissions"
+          claude_args: "--max-turns 10 --dangerously-skip-permissions --model claude-sonnet-4-6"
           show_full_output: true
-          model: claude-sonnet-4-20250514
           prompt: |
             You are a news triage AI for Watchboard. You have TWO files to read, then write ONE output file. Be efficient — do all reads in your first turn, then write the output.
 
@@ -447,7 +446,7 @@ jobs:
         with:
           allowed_bots: "github-actions[bot]"
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          claude_args: "--max-turns 20 --dangerously-skip-permissions"
+          claude_args: "--max-turns 20 --dangerously-skip-permissions --model claude-sonnet-4-6"
           prompt: |
             You are updating the Watchboard tracker "${{ matrix.entry.tracker }}" with a breaking news event.
 
@@ -573,7 +572,7 @@ jobs:
         with:
           allowed_bots: "github-actions[bot]"
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          claude_args: "--max-turns 35 --dangerously-skip-permissions"
+          claude_args: "--max-turns 35 --dangerously-skip-permissions --model claude-sonnet-4-6"
           prompt: |
             You are creating a new Watchboard tracker based on a breaking news event.
 
