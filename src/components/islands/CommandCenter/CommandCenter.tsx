@@ -240,9 +240,15 @@ export default function CommandCenter({
     setActiveTracker(slug);
     if (slug) {
       setActiveGeoPath(null);
-      setSidebarCollapsed(false);
+      // Jump broadcast to this tracker and user-pause, so every surface
+      // (lower-third, story strip, sidebar) stays in sync without tearing
+      // down the broadcast experience. Esc or pauseCountdown resumes.
+      if (!broadcastOff) {
+        broadcast.jumpTo(slug);
+        broadcast.userPause();
+      }
     }
-  }, []);
+  }, [broadcastOff, broadcast]);
 
   const handleHover = useCallback((slug: string | null) => {
     setHoveredTracker(slug);
@@ -378,6 +384,7 @@ export default function CommandCenter({
         if (compareSlugs.length > 0) { setCompareSlugs([]); return; }
         if (isInput) { (target as HTMLInputElement).blur(); return; }
         setActiveTracker(null);
+        if (broadcast.isUserPaused) broadcast.userResume();
         return;
       }
 
@@ -437,7 +444,7 @@ export default function CommandCenter({
     };
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
-  }, [activeTracker, showHelp, compareSlugs.length, handleToggleFollow, handleToggleCompare, basePath, locale]);
+  }, [activeTracker, showHelp, compareSlugs.length, handleToggleFollow, handleToggleCompare, basePath, locale, broadcast]);
 
   const sidebarStyle: React.CSSProperties = isMobile
     ? mobileTab === 'trackers' ? styles.sidebar : { ...styles.sidebar, display: 'none' }
