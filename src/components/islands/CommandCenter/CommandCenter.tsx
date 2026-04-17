@@ -145,7 +145,7 @@ export default function CommandCenter({
     toggleCityLights?: () => void;
   }>(null);
 
-  const broadcastEnabled = !activeTracker && !broadcastOff;
+  const broadcastEnabled = !broadcastOff;
 
   const broadcast = useBroadcastMode(
     trackers,
@@ -332,40 +332,6 @@ export default function CommandCenter({
   const handleClearCompare = useCallback(() => {
     setCompareSlugs([]);
   }, []);
-
-  const handleStoryTrackerChange = useCallback((slug: string) => {
-    const tracker = trackers.find(t => t.slug === slug);
-    if (tracker?.mapCenter) {
-      // Dynamic zoom based on tracker scope
-      const region = tracker.region;
-      const domain = tracker.domain;
-      let altitude = 2.0; // default
-      let duration = 1800; // ms
-
-      // Country-level trackers: zoom closer
-      if (tracker.country && !tracker.aggregate) {
-        altitude = 1.2;
-        duration = 2200;
-      }
-      // Regional conflicts: medium zoom
-      if (region === 'middle-east' || region === 'southeast-asia') {
-        altitude = 1.5;
-        duration = 2000;
-      }
-      // Global/multi-region trackers: wide view
-      if (domain === 'economy' || domain === 'science' || region === 'global' || tracker.aggregate) {
-        altitude = 3.0;
-        duration = 2500;
-      }
-      // Historical trackers: slower, more cinematic
-      if (tracker.temporal === 'historical') {
-        duration = 3000;
-      }
-
-      globeRef.current?.flyTo?.(tracker.mapCenter.lat, tracker.mapCenter.lon, altitude, duration);
-      globeRef.current?.setAutoRotate?.(false);
-    }
-  }, [trackers]);
 
   // Global keyboard shortcuts
   useEffect(() => {
@@ -644,7 +610,7 @@ export default function CommandCenter({
       )}
       {isMobile && mobileTab === 'live' && (
         <div style={{ flex: '1 1 0%', overflow: 'hidden', position: 'relative' as const, minHeight: 0 }}>
-          <MobileStoryCarousel trackers={trackers} basePath={basePath} followedSlugs={followedSlugs} onTrackerChange={handleStoryTrackerChange} />
+          <MobileStoryCarousel trackers={trackers} basePath={basePath} followedSlugs={followedSlugs} />
         </div>
       )}
       <nav className="cc-sidebar" style={sidebarStyle} aria-label="Tracker directory">
@@ -662,10 +628,25 @@ export default function CommandCenter({
             </button>
             {broadcastEnabled ? (
               <DesktopStoryStrip
-                trackers={trackers}
                 basePath={basePath}
-                followedSlugs={followedSlugs}
-                onTrackerChange={handleStoryTrackerChange}
+                trackerQueue={broadcast.trackerQueue as typeof trackers}
+                featuredTracker={(broadcast.featuredTracker as (typeof trackers)[number] | null) ?? null}
+                currentIndex={broadcast.currentIndex}
+                progress={broadcast.progress}
+                isPaused={broadcast.isUserPaused}
+                pauseCountdown={broadcast.pauseCountdown}
+                onCircleClick={(slug) => {
+                  broadcast.jumpTo(slug);
+                  if (broadcast.isUserPaused) broadcast.userResume();
+                  handleDiscoverFeature('story-circle');
+                }}
+                onCardClick={() => {
+                  if (broadcast.isUserPaused) {
+                    broadcast.userResume();
+                  } else {
+                    broadcast.userPause();
+                  }
+                }}
               />
             ) : (
               <div style={styles.collapsedTrackerIcons}>
@@ -754,6 +735,7 @@ export default function CommandCenter({
               onLeaveGeoNode={handleLeaveGeoNode}
               onClickGeoNode={handleClickGeoNode}
               activeGeoPath={activeGeoPath}
+              featuredSlug={broadcastEnabled ? (broadcast.featuredTracker?.slug ?? null) : null}
             />
           </>
         )}
