@@ -1,22 +1,25 @@
-import { useRef, useEffect, useCallback } from 'react';
+import { useRef, useEffect, useMemo } from 'react';
 import type { TrackerCardData } from '../../../lib/tracker-directory-utils';
-import { useStoryState } from './useStoryState';
 import { relativeTime } from '../../../lib/event-utils';
 import { t, getPreferredLocale } from '../../../i18n/translations';
 
 // ── Types ──
 
 interface Props {
-  trackers: TrackerCardData[];
   basePath: string;
-  followedSlugs: string[];
-  onTrackerChange?: (slug: string) => void;
+  trackerQueue: TrackerCardData[];
+  featuredTracker: TrackerCardData | null;
+  currentIndex: number;
+  progress: number;            // 0..1
+  isPaused: boolean;
+  pauseCountdown: number;
+  onCircleClick: (slug: string) => void;
+  onCardClick: () => void;
 }
 
 // ── Constants ──
 
 const MAX_CIRCLES = 20;
-const AUTO_ADVANCE_MS = 12_000;
 
 const KPI_COLORS = [
   'var(--accent-red)',
@@ -43,140 +46,106 @@ function domainGradient(domain?: string): string {
 // ── Component ──
 
 export default function DesktopStoryStrip({
-  trackers,
   basePath,
-  followedSlugs,
-  onTrackerChange,
+  trackerQueue,
+  featuredTracker,
+  currentIndex,
+  progress,
+  isPaused,
+  pauseCountdown,
+  onCircleClick,
+  onCardClick,
 }: Props) {
   const locale = getPreferredLocale();
-
-  const story = useStoryState({
-    trackers,
-    followedSlugs,
-    autoAdvanceMs: AUTO_ADVANCE_MS,
-    onTrackerChange,
-  });
-
   const circlesRef = useRef<HTMLDivElement>(null);
+  const seenRef = useRef<Set<string>>(new Set());
+
+  // Accumulate "seen" slugs as cycle advances
+  useEffect(() => {
+    if (featuredTracker) seenRef.current.add(featuredTracker.slug);
+  }, [featuredTracker]);
 
   // Auto-scroll circle column to keep active circle visible
   useEffect(() => {
     const container = circlesRef.current;
     if (!container) return;
-    const activeCircle = container.children[story.currentIndex] as HTMLElement | undefined;
+    const activeCircle = container.children[currentIndex] as HTMLElement | undefined;
     if (activeCircle) {
       activeCircle.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
-  }, [story.currentIndex]);
+  }, [currentIndex]);
 
-  // Circle click: go to that index and resume if paused
-  const handleCircleClick = useCallback(
-    (index: number) => {
-      story.goTo(index);
-      if (story.paused) story.handleResume();
-    },
-    [story.goTo, story.paused, story.handleResume],
+  const visibleCircles = useMemo(
+    () => trackerQueue.slice(0, MAX_CIRCLES),
+    [trackerQueue],
   );
 
-  // Card click: toggle pause/resume
-  const handleCardClick = useCallback(
-    (e: React.MouseEvent) => {
-      // Don't toggle when clicking nav zones or links
-      const target = e.target as HTMLElement;
-      if (target.closest('.desktop-story-nav-left, .desktop-story-nav-right, .desktop-story-open')) return;
+  if (visibleCircles.length === 0 || !featuredTracker) return null;
 
-      if (story.paused) {
-        story.handleResume();
-      } else {
-        story.handlePause();
-      }
-    },
-    [story.paused, story.handlePause, story.handleResume],
-  );
-
-  // Nav zone clicks
-  const handlePrev = useCallback(
-    (e: React.MouseEvent) => {
-      e.stopPropagation();
-      if (!story.paused) story.goPrev();
-    },
-    [story.paused, story.goPrev],
-  );
-
-  const handleNext = useCallback(
-    (e: React.MouseEvent) => {
-      e.stopPropagation();
-      if (!story.paused) story.goNext();
-    },
-    [story.paused, story.goNext],
-  );
-
-  if (story.eligible.length === 0) return null;
-
-  const tracker = story.eligible[story.currentIndex];
-  const slideCount = Math.max(1, tracker.eventImages?.length ?? 1);
-  const kpis = tracker.topKpis.slice(0, 2);
+  const kpis = featuredTracker.topKpis.slice(0, 2);
+  const progressPct = Math.max(0, Math.min(100, progress * 100));
 
   return (
     <div className="desktop-story-strip">
       {/* Circle column */}
       <div className="desktop-story-circles" ref={circlesRef}>
-        {story.eligible.slice(0, MAX_CIRCLES).map((t, i) => (
+        {visibleCircles.map((tr, i) => (
           <div
-            key={t.slug}
-            className={`desktop-story-circle${i === story.currentIndex ? ' active' : ''}${story.seenSlugs.has(t.slug) && i !== story.currentIndex ? ' seen' : ''}`}
-            onClick={() => handleCircleClick(i)}
-            title={t.shortName}
+            key={tr.slug}
+            className={
+              `desktop-story-circle` +
+              (i === currentIndex ? ' active' : '') +
+              (seenRef.current.has(tr.slug) && i !== currentIndex ? ' seen' : '')
+            }
+            onClick={() => onCircleClick(tr.slug)}
+            title={tr.shortName}
           >
-            {t.icon ?? '?'}
+            {tr.icon ?? '?'}
           </div>
         ))}
       </div>
 
       {/* Story card */}
       <div
-        key={tracker.slug}
+        key={featuredTracker.slug}
         className="desktop-story-card desktop-story-card-enter"
-        onClick={handleCardClick}
+        onClick={onCardClick}
       >
-        {/* Progress bars */}
+        {/* Single progress bar driven by broadcast progress */}
         <div className="desktop-story-progress">
-          {Array.from({ length: slideCount }, (_, i) => (
-            <div key={i} className="desktop-story-progress-seg">
-              <div
-                ref={i === story.slideIndex ? story.progressBarRef : undefined}
-                className={`desktop-story-progress-fill${i < story.slideIndex ? ' complete' : ''}${i > story.slideIndex ? ' upcoming' : ''}`}
-                style={i === story.slideIndex ? { width: '0%' } : undefined}
-              />
-            </div>
-          ))}
+          <div className="desktop-story-progress-seg">
+            <div
+              className="desktop-story-progress-fill"
+              style={{ width: `${progressPct}%` }}
+            />
+          </div>
         </div>
 
         {/* Image */}
         <div className="desktop-story-image">
-          <DesktopStoryImage tracker={tracker} slideIndex={story.slideIndex} />
+          <DesktopStoryImage tracker={featuredTracker} />
         </div>
 
         {/* Paused badge */}
-        {story.paused && (
+        {isPaused && (
           <div className="desktop-story-paused">
-            {t('story.paused', locale)} · {story.pauseCountdown}s
+            {t('story.paused', locale)} · {pauseCountdown}s
           </div>
         )}
 
         {/* Header: icon + name + age */}
         <div className="desktop-story-header">
-          <span className="desktop-story-icon">{tracker.icon ?? '?'}</span>
-          <span className="desktop-story-name">{tracker.shortName}</span>
+          <span className="desktop-story-icon">{featuredTracker.icon ?? '?'}</span>
+          <span className="desktop-story-name">{featuredTracker.shortName}</span>
           <span className="desktop-story-age" suppressHydrationWarning>
-            {relativeTime(tracker.lastUpdated)}
+            {relativeTime(featuredTracker.lastUpdated)}
           </span>
         </div>
 
         {/* Headline */}
-        {tracker.headline && (
+        {featuredTracker.headline && (
           <div className="desktop-story-content">
-            <p className="desktop-story-headline">{tracker.headline}</p>
+            <p className="desktop-story-headline">{featuredTracker.headline}</p>
           </div>
         )}
 
@@ -200,19 +169,11 @@ export default function DesktopStoryStrip({
         {/* Read More link */}
         <a
           className="desktop-story-open"
-          href={`${basePath}${tracker.slug}/`}
+          href={`${basePath}${featuredTracker.slug}/`}
           onClick={(e) => e.stopPropagation()}
         >
           {t('story.readMore', locale)}
         </a>
-
-        {/* Navigation zones (hidden when paused) */}
-        {!story.paused && (
-          <>
-            <div className="desktop-story-nav-left" onClick={handlePrev} />
-            <div className="desktop-story-nav-right" onClick={handleNext} />
-          </>
-        )}
       </div>
     </div>
   );
@@ -220,15 +181,8 @@ export default function DesktopStoryStrip({
 
 // ── Image Sub-component (3-tier fallback) ──
 
-function DesktopStoryImage({
-  tracker,
-  slideIndex = 0,
-}: {
-  tracker: TrackerCardData;
-  slideIndex?: number;
-}) {
-  // Tier 0: Slide-indexed event image
-  const slideImage = tracker.eventImages?.[slideIndex];
+function DesktopStoryImage({ tracker }: { tracker: TrackerCardData }) {
+  const slideImage = tracker.eventImages?.[0];
   if (slideImage) {
     return (
       <>
@@ -246,7 +200,6 @@ function DesktopStoryImage({
     );
   }
 
-  // Tier 1: Latest event media
   if (tracker.latestEventMedia) {
     return (
       <>
@@ -264,7 +217,6 @@ function DesktopStoryImage({
     );
   }
 
-  // Tier 2: Domain gradient + emoji fallback
   return (
     <>
       <div
