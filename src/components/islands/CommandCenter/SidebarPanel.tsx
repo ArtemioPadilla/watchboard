@@ -41,6 +41,8 @@ interface Props {
   onLeaveGeoNode?: () => void;
   onClickGeoNode?: (nodeId: string, level: string) => void;
   activeGeoPath?: string[] | null;
+  // Current tracker featured by broadcast cycle (drives LIVE pulse + auto-scroll)
+  featuredSlug?: string | null;
 }
 
 // ── TrackerRow ──
@@ -52,6 +54,7 @@ const TrackerRow = memo(function TrackerRow({
   isHovered,
   isFollowed,
   isCompared,
+  isLive,
   onSelect,
   onHover,
   onToggleFollow,
@@ -64,6 +67,7 @@ const TrackerRow = memo(function TrackerRow({
   isHovered: boolean;
   isFollowed: boolean;
   isCompared: boolean;
+  isLive: boolean;
   onSelect: (slug: string | null) => void;
   onHover: (slug: string | null) => void;
   onToggleFollow: (slug: string) => void;
@@ -95,7 +99,8 @@ const TrackerRow = memo(function TrackerRow({
     return (
       <div
         ref={rowRef}
-        className="cc-tracker-expanded"
+        className={`cc-tracker-expanded${isLive ? ' cc-tracker-live' : ''}`}
+        data-tracker-slug={tracker.slug}
         style={{
           ...S.expandedRow,
           borderColor: `${color}50`,
@@ -195,7 +200,8 @@ const TrackerRow = memo(function TrackerRow({
   return (
     <div
       ref={rowRef}
-      className="cc-tracker-row"
+      className={`cc-tracker-row${isLive && !isActive ? ' cc-tracker-live' : ''}`}
+      data-tracker-slug={tracker.slug}
       style={{
         ...S.collapsedRow,
         borderLeftColor: color,
@@ -229,6 +235,11 @@ const TrackerRow = memo(function TrackerRow({
         </span>
         <span style={S.icon}>{tracker.icon || ''}</span>
         <span className="cc-tracker-name" style={S.collapsedName}>{tracker.shortName}</span>
+        {isLive && !isActive && (
+          <span className="cc-tracker-live-badge" aria-label="Currently featured by broadcast">
+            LIVE
+          </span>
+        )}
         {isCompared && <span style={S.compareDot} />}
         {tracker.latestEventMedia && (
           <img
@@ -599,6 +610,7 @@ export default function SidebarPanel({
   onLeaveGeoNode,
   onClickGeoNode,
   activeGeoPath,
+  featuredSlug,
 }: Props) {
   const [activeDomain, setActiveDomain] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
@@ -625,6 +637,17 @@ export default function SidebarPanel({
     [groups],
   );
 
+  // Auto-scroll the broadcast-featured tracker row into view when it changes
+  useEffect(() => {
+    if (!featuredSlug) return;
+    const el = document.querySelector<HTMLElement>(
+      `.cc-sidebar [data-tracker-slug="${featuredSlug}"]`,
+    );
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }, [featuredSlug]);
+
   const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
     if (e.key === 'Escape') {
       onSelectTracker(null);
@@ -649,7 +672,7 @@ export default function SidebarPanel({
   const isSearching = activeDomain !== null || searchQuery.trim().length > 0;
 
   return (
-    <div style={S.sidebar} onKeyDown={handleKeyDown} tabIndex={-1}>
+    <div className="cc-sidebar" style={S.sidebar} onKeyDown={handleKeyDown} tabIndex={-1}>
       {!isMobile && (
         <div style={S.header}>
           <div style={S.headerLeft}>
@@ -839,6 +862,7 @@ export default function SidebarPanel({
                               isHovered={hoveredTracker === t.slug}
                               isFollowed={followedSlugs.includes(t.slug)}
                               isCompared={compareSlugs.includes(t.slug)}
+                              isLive={featuredSlug === t.slug}
                               onSelect={onSelectTracker}
                               onHover={onHoverTracker}
                               onToggleFollow={onToggleFollow}

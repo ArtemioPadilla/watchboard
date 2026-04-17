@@ -3369,3 +3369,42 @@ body::before {
     transform: none;
   }
 }
+
+/* ── CommandCenter: broadcast-featured row LIVE pulse ── */
+@keyframes ccLivePulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 0 4px rgba(46, 204, 113, 0);
+  }
+}
+.cc-tracker-row.cc-tracker-live,
+.cc-tracker-expanded.cc-tracker-live {
+  animation: ccLivePulse 2s ease-in-out infinite;
+}
+.cc-tracker-live-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  margin-left: 6px;
+  padding: 1px 5px;
+  background: rgba(46, 204, 113, 0.15);
+  border: 1px solid rgba(46, 204, 113, 0.4);
+  border-radius: 3px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.42rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #3fb950;
+  text-transform: uppercase;
+}
+.cc-tracker-live-badge::before {
+  content: '';
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #3fb950;
+  animation: ccLivePulse 1.5s ease-in-out infinite;
+}
