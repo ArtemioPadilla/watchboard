@@ -155,6 +155,9 @@ export default function CommandCenter({
     followedSlugs,
   );
 
+  const broadcastRef = useRef(broadcast);
+  broadcastRef.current = broadcast;
+
   useEffect(() => {
     const hash = viewMode === 'operations' ? '' : viewMode === 'geographic' ? '#geo' : '#domain';
     if (hash) {
@@ -244,11 +247,11 @@ export default function CommandCenter({
       // (lower-third, story strip, sidebar) stays in sync without tearing
       // down the broadcast experience. Esc or pauseCountdown resumes.
       if (!broadcastOff) {
-        broadcast.jumpTo(slug);
-        broadcast.userPause();
+        broadcastRef.current.jumpTo(slug);
+        broadcastRef.current.userPause();
       }
     }
-  }, [broadcastOff, broadcast]);
+  }, [broadcastOff]);
 
   const handleHover = useCallback((slug: string | null) => {
     setHoveredTracker(slug);
@@ -384,7 +387,7 @@ export default function CommandCenter({
         if (compareSlugs.length > 0) { setCompareSlugs([]); return; }
         if (isInput) { (target as HTMLInputElement).blur(); return; }
         setActiveTracker(null);
-        if (broadcast.isUserPaused) broadcast.userResume();
+        if (broadcastRef.current.isUserPaused) broadcastRef.current.userResume();
         return;
       }
 
@@ -444,7 +447,7 @@ export default function CommandCenter({
     };
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
-  }, [activeTracker, showHelp, compareSlugs.length, handleToggleFollow, handleToggleCompare, basePath, locale, broadcast]);
+  }, [activeTracker, showHelp, compareSlugs.length, handleToggleFollow, handleToggleCompare, basePath, locale]);
 
   const sidebarStyle: React.CSSProperties = isMobile
     ? mobileTab === 'trackers' ? styles.sidebar : { ...styles.sidebar, display: 'none' }
@@ -677,15 +680,15 @@ export default function CommandCenter({
                 isPaused={broadcast.isUserPaused}
                 pauseCountdown={broadcast.pauseCountdown}
                 onCircleClick={(slug) => {
-                  broadcast.jumpTo(slug);
-                  if (broadcast.isUserPaused) broadcast.userResume();
+                  broadcastRef.current.jumpTo(slug);
+                  if (broadcastRef.current.isUserPaused) broadcastRef.current.userResume();
                   handleDiscoverFeature('story-circle');
                 }}
                 onCardClick={() => {
-                  if (broadcast.isUserPaused) {
-                    broadcast.userResume();
+                  if (broadcastRef.current.isUserPaused) {
+                    broadcastRef.current.userResume();
                   } else {
-                    broadcast.userPause();
+                    broadcastRef.current.userPause();
                   }
                 }}
               />
