@@ -663,8 +663,8 @@ export default function CommandCenter({
             {broadcastEnabled ? (
               <DesktopStoryStrip
                 basePath={basePath}
-                trackerQueue={broadcast.trackerQueue as typeof trackers}
-                featuredTracker={(broadcast.featuredTracker as (typeof trackers)[number] | null) ?? null}
+                trackerQueue={broadcast.trackerQueue}
+                featuredTracker={broadcast.featuredTracker ?? null}
                 currentIndex={broadcast.currentIndex}
                 progress={broadcast.progress}
                 isPaused={broadcast.isUserPaused}

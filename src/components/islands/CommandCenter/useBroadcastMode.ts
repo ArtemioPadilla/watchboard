@@ -28,11 +28,11 @@ interface GlobeHandle {
   setAutoRotate?: (enabled: boolean, speed?: number) => void;
 }
 
-interface BroadcastState {
-  featuredTracker: TrackerForBroadcast | null;
+interface BroadcastState<T = TrackerForBroadcast> {
+  featuredTracker: T | null;
   phase: BroadcastPhase;
   progress: number;
-  trackerQueue: TrackerForBroadcast[];
+  trackerQueue: T[];
   currentIndex: number;
   pause: () => void;
   resume: () => void;
@@ -64,14 +64,14 @@ function altitudeForDistance(dist: number): number {
 
 const USER_PAUSE_DURATION_S = 15;
 
-export function useBroadcastMode(
-  trackers: TrackerForBroadcast[],
+export function useBroadcastMode<T extends TrackerForBroadcast>(
+  trackers: T[],
   globeRef: React.RefObject<GlobeHandle | null>,
   enabled: boolean,
   onFeatureTracker?: (slug: string | null) => void,
   followedSlugs: string[] = [],
-): BroadcastState {
-  const queue = useRef<TrackerForBroadcast[]>([]);
+): BroadcastState<T> {
+  const queue = useRef<T[]>([]);
   const indexRef = useRef(0);
   const phaseRef = useRef<BroadcastPhase>('idle');
   const phaseStartRef = useRef(0);
@@ -81,7 +81,7 @@ export function useBroadcastMode(
   const userPausedRef = useRef(false);
   const pauseTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  const [featuredTracker, setFeaturedTracker] = useState<TrackerForBroadcast | null>(null);
+  const [featuredTracker, setFeaturedTracker] = useState<T | null>(null);
   const [phase, setPhase] = useState<BroadcastPhase>('idle');
   const [progress, setProgress] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -100,7 +100,7 @@ export function useBroadcastMode(
     if (mountedRef.current) setPhase(p);
   }, []);
 
-  const flyToTracker = useCallback((tracker: TrackerForBroadcast, prevTracker?: TrackerForBroadcast) => {
+  const flyToTracker = useCallback((tracker: T, prevTracker?: T) => {
     if (!tracker.mapCenter || !globeRef.current?.flyTo) return;
 
     const dist = prevTracker?.mapCenter
