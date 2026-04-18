@@ -2,9 +2,15 @@
  * CLI render script for Watchboard daily video.
  *
  * Usage: cd video && npx tsx render.ts
+ *        cd video && npx tsx render.ts --mode positive
+ *        cd video && npx tsx render.ts --mode positive --dry-run
  *
  * Fetches breaking data, bundles the Remotion project, and renders to MP4.
  * Every step has graceful fallbacks so we always produce SOMETHING.
+ *
+ * Flags:
+ *   --mode <conflict|positive>  Video scoring mode (default: conflict)
+ *   --dry-run                   Fetch and print scored trackers, then exit without rendering
  */
 import { execSync } from 'node:child_process';
 import { readFileSync, existsSync, mkdirSync, readdirSync, copyFileSync, statSync } from 'node:fs';
@@ -14,12 +20,35 @@ import { renderMedia, selectComposition } from '@remotion/renderer';
 import type { BreakingData } from './src/data/types.js';
 import { SAMPLE_DATA } from './src/data/types.js';
 import { calculateDuration } from './src/Video.js';
+import type { VideoMode } from './src/data/fetch-breaking.js';
 
 const ROOT_DIR = resolve(import.meta.dirname ?? '.');
 const DATA_PATH = resolve(ROOT_DIR, 'src/data/breaking.json');
 const OUTPUT_DIR = resolve(ROOT_DIR, 'output');
 const ENTRY_POINT = resolve(ROOT_DIR, 'src/Root.tsx');
 const NARRATION_PATH = resolve(ROOT_DIR, 'src/assets/narration.mp3');
+
+function parseCliFlags(): { mode: VideoMode; dryRun: boolean } {
+  const args = process.argv.slice(2);
+  let mode: VideoMode = 'conflict';
+  let dryRun = false;
+
+  for (let i = 0; i < args.length; i++) {
+    if (args[i] === '--mode' && i + 1 < args.length) {
+      const value = args[i + 1];
+      if (value === 'positive' || value === 'conflict') {
+        mode = value;
+      } else {
+        console.warn(`Unknown mode "${value}", defaulting to "conflict"`);
+      }
+      i++; // skip value
+    } else if (args[i] === '--dry-run') {
+      dryRun = true;
+    }
+  }
+
+  return { mode, dryRun };
+}
 
 // Earth texture candidates in priority order
 const EARTH_TEXTURE_CANDIDATES = [
@@ -53,16 +82,37 @@ async function downloadThumbnail(url: string): Promise<Buffer | null> {
 }
 
 async function main(): Promise<void> {
+  const { mode, dryRun } = parseCliFlags();
+
+  // Set VIDEO_MODE env var so fetch-breaking.ts picks it up
+  process.env.VIDEO_MODE = mode;
+
   console.log('=== Watchboard Video Renderer ===\n');
+  console.log(`  Mode: ${mode}${dryRun ? ' (dry-run)' : ''}\n`);
 
   // Step 1: Fetch breaking data (with fallback to sample data)
   console.log('[1/4] Fetching breaking data...');
   let data: BreakingData;
+  const dryRunFlag = dryRun ? ' --dry-run' : '';
   try {
-    execSync('npx tsx src/data/fetch-breaking.ts', {
+    execSync(`npx tsx src/data/fetch-breaking.ts${dryRunFlag}`, {
       cwd: ROOT_DIR,
       stdio: 'inherit',
+      env: { ...process.env, VIDEO_MODE: mode },
     });
+
+    if (dryRun) {
+      // In dry-run mode, fetch-breaking.ts prints scores but may not write the file.
+      // Read the data if available, otherwise use sample for the summary.
+      if (existsSync(DATA_PATH)) {
+        data = JSON.parse(readFileSync(DATA_PATH, 'utf-8'));
+      } else {
+        data = SAMPLE_DATA;
+      }
+      console.log('\nDry-run complete. No video rendered.');
+      return;
+    }
+
     data = JSON.parse(readFileSync(DATA_PATH, 'utf-8'));
   } catch (err) {
     console.warn('  Failed to fetch breaking data — using sample data:', (err as Error).message);
