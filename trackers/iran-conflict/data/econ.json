@@ -2,24 +2,18 @@
   {
     "id": "brent_crude",
     "label": "Brent Crude",
-    "value": "~$110/bbl",
-    "change": "Day 34: ~$110 (+$3 from Day 32); Apr 6 deadline tension pushing prices up; IEA: 'April crunch will be much worse than March'; Macquarie: 40% chance of $200/bbl",
-    "direction": "up",
+    "value": "~$90/bbl",
+    "change": "Day 49 (Apr 17): Brent plunged 9% to $90.38 on Iran opening Hormuz. Then Iran closed it again Apr 18. Highly volatile — uncertainty persists as ceasefire expires Apr 22.",
+    "direction": "down",
     "sparkData": [
       77.74,
-      79.37,
       82,
       88,
       94,
       108,
       112.98,
-      79.5,
-      90.2,
       100.5,
-      103.0,
       107.0,
-      101.0,
-      109.0,
       115.0,
       112.0,
       111.0,
@@ -27,42 +21,49 @@
       113.0,
       115.0,
       107.0,
-      110.0
+      110.0,
+      108.0,
+      105.0,
+      101.0,
+      98.0,
+      95.0,
+      90.38
     ],
     "color": "#e74c3c",
-    "source": "Reuters / OilPrice.com / Al Jazeera / CNBC / Goldman Sachs / Bloomberg / IEA",
-    "lastUpdated": "2026-04-02T14:50:00.000Z"
+    "source": "Reuters / CNN / NBC News / Al Jazeera / CNBC / Bloomberg",
+    "lastUpdated": "2026-04-18T12:16:00.000Z"
   },
   {
     "id": "wti_crude",
     "label": "WTI Crude",
-    "value": "~$107/bbl",
-    "change": "Day 34: ~$107 WTI; up on Apr 6 deadline pressure; tanker hit off Doha Apr 1; Iran missile wave at Israel; IEA April cliff warning",
-    "direction": "up",
+    "value": "~$83.85/bbl",
+    "change": "Day 49 (Apr 17): WTI plunged 11.45% to $83.85 — lowest since Mar 10 — when Iran declared Hormuz open. Iran closed Hormuz again Apr 18 over US blockade.",
+    "direction": "down",
     "sparkData": [
       71.23,
-      72.4,
       76,
       84,
       91,
       103,
       109.5,
-      76.8,
-      87.1,
       97.0,
-      92.5,
-      98.0,
       103.0,
       100.0,
       99.0,
       97.0,
       101.0,
       104.0,
-      107.0
+      107.0,
+      104.0,
+      100.0,
+      96.0,
+      92.0,
+      88.0,
+      83.85
     ],
     "color": "#e67e22",
-    "source": "Reuters / OilPrice.com / CNBC / Goldman Sachs",
-    "lastUpdated": "2026-04-02T14:50:00.000Z"
+    "source": "Reuters / CNN / NBC News / CNBC",
+    "lastUpdated": "2026-04-18T12:16:00.000Z"
   },
   {
     "id": "gold_spot",
@@ -89,9 +90,9 @@
   {
     "id": "sp500",
     "label": "S&P 500",
-    "value": "6,769",
-    "change": "-2.2%",
-    "direction": "down",
+    "value": "Record High",
+    "change": "+1.2% on Apr 17 — all-time record; 3rd straight week of gains on Hormuz opening news",
+    "direction": "up",
     "sparkData": [
       6920,
       6860,
@@ -101,11 +102,15 @@
       6240,
       6180,
       6724,
-      6769
+      6769,
+      6810,
+      6880,
+      6930,
+      6980
     ],
     "color": "#3498db",
-    "source": "JPMorgan / Bloomberg",
-    "lastUpdated": "2026-03-10"
+    "source": "CNN / Bloomberg / Motley Fool",
+    "lastUpdated": "2026-04-18T12:16:00.000Z"
   },
   {
     "id": "vix",
@@ -203,8 +208,8 @@
   {
     "id": "hormuz_traffic",
     "label": "Hormuz Traffic",
-    "value": "~5% (tolled)",
-    "change": "Day 34: IRGC 'Tehran toll booth' active; ~5% of pre-war capacity (tolled). April 6 deadline 4 days away — Trump threatens power plant strikes if Hormuz not reopened. Approved nations: China, Russia, India, Iraq, Pakistan, Malaysia, Thailand. ~550M bbl total lost since Feb 28. IEA: April crunch 'much worse than March.' SPR buffer nearing exhaustion mid-April.",
+    "value": "Near Zero (blocked)",
+    "change": "Apr 17: Iran briefly declared Hormuz 'completely open' — ships attempted transit but were turned back. Apr 18: Iran closed strait again, returns to 'previous state.' IRGC gunboats fired on merchant vessel. France/UK planning maritime security ops. ~600M bbl total lost since Feb 28.",
     "direction": "down",
     "sparkData": [
       100,
@@ -222,10 +227,14 @@
       8,
       5,
       6,
-      5
+      5,
+      3,
+      2,
+      60,
+      2
     ],
     "color": "#27ae60",
-    "source": "NBC News / USNI News / Lloyd's List Intelligence / Al Jazeera / AP / IEA / Rystad Energy / CNBC",
-    "lastUpdated": "2026-04-02T14:50:00.000Z"
+    "source": "Al Jazeera / NBC News / USNI News / Lloyd's List Intelligence / AP / IEA / Rystad Energy",
+    "lastUpdated": "2026-04-18T12:16:00.000Z"
   }
 ]

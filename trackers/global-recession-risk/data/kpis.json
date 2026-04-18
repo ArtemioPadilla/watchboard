@@ -14,13 +14,15 @@
   {
     "id": "global-gdp-2026-forecast",
     "label": "Global GDP Forecast 2026",
-    "value": "3.3%",
-    "color": "amber",
-    "source": "IMF WEO Update, Jan 2026",
+    "value": "3.1%",
+    "color": "red",
+    "source": "IMF WEO April 2026 (released Apr 14, 2026)",
     "contested": true,
-    "contestNote": "Downside risks from tariff re-escalation and AI asset concentration",
-    "trend": "stable",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "contestNote": "Reference scenario 3.1%; adverse scenario (war continuation) 2.5%; severe scenario 2.0%. Headline inflation 4.4% globally. Mid-East & Central Asia region cut 2pp to 1.9%.",
+    "delta": "-0.2pp",
+    "deltaNote": "From Jan 2026 baseline 3.3%; adverse/severe scenarios -0.8pp to -1.3pp from baseline",
+    "trend": "down",
+    "lastUpdated": "2026-04-18T12:00:00Z"
   },
   {
     "id": "us-unemployment",
@@ -109,14 +111,14 @@
   {
     "id": "vix-fear-gauge",
     "label": "VIX (Market Fear Index)",
-    "value": "~24–27",
-    "color": "red",
-    "source": "CBOE, Apr 10 2026",
+    "value": "~16–20",
+    "color": "amber",
+    "source": "CBOE, Apr 15–17 2026",
     "contested": false,
-    "delta": "Pulling back from Apr 9 spike (29–31) as markets process CPI core miss (2.6% — below forecast)",
-    "deltaNote": "Apr 10 stabilization: core CPI 0.1pp below forecast + Iran ceasefire holding partially eased fear. BUT Michigan sentiment 47.6 (all-time low) and year-ahead inflation expectations 4.8% (record monthly jump) keep elevated. S&P +3% for week. FOMC Apr 29–30 critical stagflation decision.",
-    "trend": "up",
-    "lastUpdated": "2026-04-10T00:00:00Z"
+    "delta": "Down sharply from Apr 10 (24–27) as ceasefire held and oil crashed 9.6% Apr 17",
+    "deltaNote": "S&P 500 hit record 7,022 (Apr 15); Nasdaq 12-session winning streak (longest since 2009); Nikkei record high. Oil -9.6% (Apr 17) on Iran FM declaring Hormuz 'fully open'. Fear index normalization, but FOMC Apr 29-30 and Powell term expiry (May 15) are near-term risk events.",
+    "trend": "down",
+    "lastUpdated": "2026-04-18T12:00:00Z"
   },
   {
     "id": "us-effective-tariff-rate",
@@ -131,25 +133,27 @@
   },
   {
     "id": "china-gdp-2025",
-    "label": "China GDP Forecast 2025",
-    "value": "4.0%",
+    "label": "China GDP Q1 2026 (actual) / 2025 Full Year",
+    "value": "5.0% (Q1 2026)",
     "color": "amber",
-    "source": "IMF WEO April 2025",
+    "source": "China NBS (Apr 16, 2026) / IMF WEO Apr 2026",
     "contested": true,
-    "contestNote": "Down 0.6pp from Jan 2025 forecast; property crisis, tariff headwinds weigh on growth",
-    "trend": "down",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "contestNote": "Q1 2026 beat (+5.0% vs 4.8% forecast) driven by Jan-Feb export front-loading. March exports fell sharply to +2.5% YoY (miss vs +8.6% forecast); factory-gate prices turned positive (+0.5%) for first time in 3+ years. Q2 headwinds mounting from Iran war demand destruction.",
+    "delta": "+0.5pp vs Q4 2025",
+    "deltaNote": "Q4 2025: 4.5%. Q1 2026: 5.0% — beat driven by front-loaded exports before Iran war demand shock took full effect. IMF maintains 2026 China forecast at ~4.5%.",
+    "trend": "up",
+    "lastUpdated": "2026-04-18T12:00:00Z"
   },
   {
     "id": "global-policy-uncertainty",
-    "label": "Global Policy Uncertainty Index",
-    "value": "~400+",
-    "color": "red",
-    "source": "Baker-Bloom-Davis / FRED; University of Michigan Apr 10 2026",
+    "label": "Global Policy Uncertainty / Recession Risk",
+    "value": "~300–350 (easing from peak)",
+    "color": "amber",
+    "source": "Baker-Bloom-Davis / FRED; Wall Street research Apr 15-17 2026",
     "contested": false,
-    "delta": "Surging — triple shock: Iran war energy, US-China 104%/84% tariff near-embargo, Michigan sentiment record low",
-    "deltaNote": "Apr 10: Michigan Consumer Sentiment 47.6 (all-time record low); year-ahead inflation expectations 4.8% (largest monthly jump in survey history). JPMorgan recession probability 65%, Moody's Analytics ~50%, Goldman 35%. IMF Spring Meetings Apr 13–18; WEO Apr 14 will show growth markdowns ~0.8pp. FOMC Apr 29–30 stagflation trap.",
-    "trend": "up",
-    "lastUpdated": "2026-04-10T00:00:00Z"
+    "delta": "Easing from Apr 10 peak on ceasefire/Hormuz reopening — but structural risks elevated",
+    "deltaNote": "Goldman Sachs recession probability: 30%; JPMorgan: 35% (down sharply from 65% Apr 10 high); Moody's Analytics: ~42%; Bloomberg economists: 30%; NY Fed yield curve: 18.8%. Oil crash (Apr 17: -9.6%) improves inflation outlook for FOMC Apr 29-30. Core PCE 3.06%, Michigan 47.6 all-time low, and ECB expected to hike to 2.5% by year-end keep macro risks elevated.",
+    "trend": "down",
+    "lastUpdated": "2026-04-18T12:00:00Z"
   }
 ]

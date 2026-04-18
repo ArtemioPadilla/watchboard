@@ -25,6 +25,19 @@
     "lastUpdated": "2026-04-06T14:00:00Z"
   },
   {
+    "id": "ice-annual-deportation-target",
+    "label": "ICE Annual Deportation Target (FY2026)",
+    "value": "1 Million",
+    "color": "amber",
+    "source": "ICE Congressional Budget Justification / Axios (Apr 15, 2026)",
+    "contested": true,
+    "contestNote": "ICE FY2025 total was 442,637 — target represents 2.3x current rate; 70.8% of detainees have no criminal conviction",
+    "delta": "442,637 in FY2025",
+    "deltaNote": "Official FY2025 data released Apr 15, 2026; 500,000/yr criminal deportation goal",
+    "trend": "up",
+    "lastUpdated": "2026-04-18T14:05:00Z"
+  },
+  {
     "id": "steel-tariff-rate",
     "label": "Section 232 Steel Tariff (effective Apr 6)",
     "value": "50%",
@@ -54,20 +67,32 @@
     "color": "blue",
     "source": "DOGE / CBS News analysis (Apr 2026)",
     "contested": true,
-    "contestNote": "Competing analysis estimates $135B in disruption costs; US Marshals deputized Musk security as federal agents (NBC, Apr 7)",
+    "contestNote": "Competing analysis estimates $135B in disruption costs; DOGE cuts hampered US Iran-war readiness per CNN (Apr 2026)",
     "lastUpdated": "2026-04-07T12:37:00Z"
   },
   {
-    "id": "market-selloff-tariff",
-    "label": "S&P 500 vs. Pre-Tariff Peak",
-    "value": "~-7%",
-    "color": "amber",
-    "source": "Yahoo Finance / Bloomberg (Apr 8, 2026)",
+    "id": "market-sp500-record",
+    "label": "S&P 500 (All-Time High Apr 15)",
+    "value": "7,022.95",
+    "color": "green",
+    "source": "CNBC / TheStreet (Apr 15, 2026)",
     "contested": false,
-    "delta": "+2.76% Apr 8 rally",
-    "deltaNote": "Iran ceasefire + oil price drop triggered rebound; prior week loss was 9-11%",
+    "delta": "Record high",
+    "deltaNote": "First-ever close above 7,000; Nasdaq notched 12-day win streak despite active Iran war blockade",
     "trend": "up",
-    "lastUpdated": "2026-04-08T14:05:00Z"
+    "lastUpdated": "2026-04-18T14:05:00Z"
+  },
+  {
+    "id": "oil-price-wti",
+    "label": "WTI Crude Oil Price",
+    "value": "~$92/bbl",
+    "color": "amber",
+    "source": "CNBC / Brent market data (Apr 18, 2026)",
+    "contested": false,
+    "delta": "Volatile week",
+    "deltaNote": "WTI ranged from ~$104 (Apr 12) to ~$80 (Apr 17 on Araghchi 'open strait') back to ~$92 after Iran reimposed Strait control Apr 18",
+    "trend": "down",
+    "lastUpdated": "2026-04-18T14:05:00Z"
   },
   {
     "id": "artemis-ii-mission-status",
@@ -83,15 +108,15 @@
   },
   {
     "id": "iran-ceasefire-us-diplomatic",
-    "label": "Iran Diplomacy Status",
-    "value": "Talks Collapsed",
+    "label": "Iran Ceasefire / Hormuz Status",
+    "value": "IRGC Fires on Tanker",
     "color": "red",
-    "source": "NPR / CNN / Al Jazeera (Apr 12, 2026)",
+    "source": "Military.com / Al Jazeera / NBC News (Apr 18, 2026)",
     "contested": true,
-    "contestNote": "Islamabad talks ended after 21 hrs with no deal Apr 12; Trump announced Hormuz naval blockade; Iran: 'Strait will not be opened'; ceasefire in serious jeopardy",
-    "delta": "Hormuz blockade ordered",
-    "deltaNote": "US Navy ordered to blockade Strait of Hormuz after Vance flew home empty-handed; WTI crude surged ~6% to ~$105/barrel",
+    "contestNote": "Strait under Iranian 'strict control' after Araghchi briefly declared it open Apr 17; IRGC gunboats fired on Indian tanker Apr 18; ceasefire expires Apr 21",
+    "delta": "Ceasefire expires Apr 21",
+    "deltaNote": "Trump blockade active; Iran closed Strait again; oil whipsawed to ~$92/bbl; second talks round not yet confirmed",
     "trend": "down",
-    "lastUpdated": "2026-04-12T12:00:00Z"
+    "lastUpdated": "2026-04-18T14:05:00Z"
   }
 ]
