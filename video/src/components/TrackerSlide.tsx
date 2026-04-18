@@ -13,6 +13,7 @@ interface TrackerSlideProps {
   tracker: BreakingTracker;
   accentColor: string;
   thumbnailBase64?: string;
+  theme?: 'dark' | 'day';
 }
 
 const TIER_LABELS: Record<number, string> = {
@@ -50,6 +51,7 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
   tracker,
   accentColor,
   thumbnailBase64,
+  theme = 'dark',
 }) => {
   const frame = useCurrentFrame();
   const { fps, durationInFrames } = useVideoConfig();
@@ -141,6 +143,7 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
   return (
     <AbsoluteFill
       style={{
+        position: 'relative',
         opacity,
         transform: `translateY(${translateY}px)`,
       }}
@@ -378,6 +381,27 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
           </div>
         </div>
       </div>
+      {/* BREAKTHROUGH badge — only in day/progress theme */}
+      {theme === 'day' && (
+        <div
+          style={{
+            position: 'absolute',
+            top: 48,
+            right: 36,
+            background: 'rgba(240, 165, 0, 0.18)',
+            border: '1.5px solid rgba(240, 165, 0, 0.6)',
+            borderRadius: 32,
+            padding: '8px 20px',
+            fontFamily: "'JetBrains Mono', monospace",
+            fontSize: 18,
+            fontWeight: 700,
+            color: '#f0c060',
+            letterSpacing: '3px',
+          }}
+        >
+          ↑ BREAKTHROUGH
+        </div>
+      )}
     </AbsoluteFill>
   );
 };

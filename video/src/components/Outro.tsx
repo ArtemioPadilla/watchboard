@@ -7,7 +7,7 @@ import {
   spring,
 } from 'remotion';
 
-export const Outro: React.FC = () => {
+export const Outro: React.FC<{ theme?: 'dark' | 'day' }> = ({ theme = 'dark' }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
@@ -82,7 +82,9 @@ export const Outro: React.FC = () => {
         style={{
           width: lineWidth,
           height: 2,
-          background: 'linear-gradient(90deg, transparent, #e74c3c, transparent)',
+          background: theme === 'day'
+            ? 'linear-gradient(90deg, transparent, #f0a500, transparent)'
+            : 'linear-gradient(90deg, transparent, #e74c3c, transparent)',
           borderRadius: 2,
         }}
       />
@@ -101,7 +103,12 @@ export const Outro: React.FC = () => {
           lineHeight: 1.6,
         }}
       >
-        51 TRACKERS &middot; UPDATED BY AI &middot; FREE AND OPEN SOURCE
+        {theme === 'day' ? 'TRACK WHAT\'S GOING RIGHT' : '51 TRACKERS · UPDATED BY AI · FREE AND OPEN SOURCE'}
+        {theme === 'day' && (
+          <div style={{ fontSize: 16, color: '#f0a500', opacity: 0.7, marginTop: 8, letterSpacing: '2px' }}>
+            SCIENCE DOESN&apos;T TAKE DAYS OFF
+          </div>
+        )}
       </div>
     </AbsoluteFill>
   );

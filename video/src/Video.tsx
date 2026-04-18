@@ -36,9 +36,10 @@ interface VideoProps {
   narrationSrc?: string;
   geoFeatures?: GeoFeature[];
   earthTexture?: string;
+  theme?: 'dark' | 'day';
 }
 
-export const Video: React.FC<VideoProps> = ({ data, narrationSrc, geoFeatures = [], earthTexture = '' }) => {
+export const Video: React.FC<VideoProps> = ({ data, narrationSrc, geoFeatures = [], earthTexture = '', theme = 'dark' }) => {
   const breakingData = data ?? SAMPLE_DATA;
   const frame = useCurrentFrame();
 
@@ -110,7 +111,7 @@ export const Video: React.FC<VideoProps> = ({ data, narrationSrc, geoFeatures = 
 
       {/* Intro */}
       <Sequence from={0} durationInFrames={INTRO_FRAMES} name="Intro">
-        <Intro date={breakingData.date} />
+        <Intro date={breakingData.date} theme={theme} />
       </Sequence>
 
       {/* Tracker slides — always use TrackerSlide, pass thumbnail when available */}
@@ -127,6 +128,7 @@ export const Video: React.FC<VideoProps> = ({ data, narrationSrc, geoFeatures = 
               tracker={tracker}
               accentColor={SLIDE_ACCENTS[i % SLIDE_ACCENTS.length]}
               thumbnailBase64={tracker.thumbnailBase64}
+              theme={theme}
             />
           </Sequence>
         );
@@ -138,7 +140,7 @@ export const Video: React.FC<VideoProps> = ({ data, narrationSrc, geoFeatures = 
         durationInFrames={OUTRO_FRAMES}
         name="Outro"
       >
-        <Outro />
+        <Outro theme={theme} />
       </Sequence>
 
           </AbsoluteFill>

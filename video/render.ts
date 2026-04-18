@@ -58,6 +58,8 @@ const EARTH_TEXTURE_DARK = [
 ];
 
 const EARTH_TEXTURE_DAY = [
+  resolve(ROOT_DIR, '../public/textures/earth-clouds-nasa-2k.jpg'),  // Variante C — NASA clouds (selected)
+  resolve(ROOT_DIR, '../public/textures/earth-solar-2k.jpg'),
   resolve(ROOT_DIR, '../public/textures/earth-day-4k.jpg'),
   resolve(ROOT_DIR, '../public/textures/earth-day-atmos-2k.jpg'),
 ];
