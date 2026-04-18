@@ -129,6 +129,13 @@ const basePath = base.endsWith('/') ? base : `${base}/`;
             </div>
           </div>
           <div class="dist-item">
+            <div class="dist-icon">🧠</div>
+            <div class="dist-body">
+              <strong>Claude Skill</strong>
+              <p>Install the Watchboard skill to let Claude query trackers, interpret KPIs, and surface breaking news automatically. Available in the Anthropic skills registry. <a href={`${basePath}skill/`}>Installation guide &rarr;</a></p>
+            </div>
+          </div>
+          <div class="dist-item">
             <div class="dist-icon">✉️</div>
             <div class="dist-body">
               <strong>Telegram Channel</strong>
@@ -257,6 +264,8 @@ const basePath = base.endsWith('/') ? base : `${base}/`;
 
     <footer class="platform-footer">
       <a href={`${basePath}api/`}>API</a>
+      <span>&middot;</span>
+      <a href={`${basePath}skill/`}>Skill</a>
       <span>&middot;</span>
       <a href={`${basePath}about/`}>About</a>
       <span>&middot;</span>

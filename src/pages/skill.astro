@@ -1,0 +1,444 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const base = import.meta.env.BASE_URL;
+const basePath = base.endsWith('/') ? base : `${base}/`;
+---
+<BaseLayout
+  title="AI Agent Skill — Watchboard"
+  description="Install the Watchboard skill for Claude and other AI agents. Query intelligence trackers, KPIs, casualty figures, and breaking news directly from your AI assistant.">
+  <main id="main-content">
+  <div class="skill-page">
+    <a class="skill-back" href={`${basePath}`}>&larr; Watchboard</a>
+
+    <article class="skill-content">
+      <h1>Watchboard for AI Agents</h1>
+      <p class="skill-lead">
+        Watchboard exposes its full intelligence database to AI agents through three integration paths: a Claude Skill, an MCP server, and a public JSON API. Query casualty figures, KPIs, breaking news, and daily digests — directly from your AI assistant.
+      </p>
+
+      <section>
+        <h2>Claude Skill</h2>
+        <p>
+          The Watchboard skill teaches Claude how to query trackers, interpret KPIs, and surface contested claims. Install it once and Claude will automatically use it whenever you ask about topics covered by Watchboard.
+        </p>
+        <div class="install-block">
+          <div class="install-option">
+            <div class="install-label">Claude Code</div>
+            <pre><code>/skill install watchboard</code></pre>
+          </div>
+          <div class="install-option">
+            <div class="install-label">Manual install — copy <code>SKILL.md</code> to your skills directory</div>
+            <pre><code>mkdir -p ~/.claude/skills/watchboard
+curl -sL https://watchboard.dev/skill/SKILL.md \
+  -o ~/.claude/skills/watchboard/SKILL.md</code></pre>
+          </div>
+          <div class="install-option">
+            <div class="install-label">Source</div>
+            <pre><code>github.com/anthropics/skills/tree/main/skills/watchboard</code></pre>
+          </div>
+        </div>
+
+        <h3>What you can ask</h3>
+        <div class="example-grid">
+          <div class="example-item">"What's the latest on the Iran conflict?"</div>
+          <div class="example-item">"Give me the casualty figures for Ukraine"</div>
+          <div class="example-item">"What's breaking on Watchboard right now?"</div>
+          <div class="example-item">"Summarize the Gaza tracker"</div>
+          <div class="example-item">"Show me KPIs for the Sinaloa fragmentation tracker"</div>
+          <div class="example-item">"Search for ceasefire events across all trackers"</div>
+        </div>
+      </section>
+
+      <section>
+        <h2>MCP Server</h2>
+        <p>
+          The Model Context Protocol server exposes Watchboard data as native tools in Claude Desktop, Cursor, and any MCP-compatible client. Includes <code>watchboard_get_tracker_claims</code> for contested claims — exclusive to MCP.
+        </p>
+        <div class="install-block">
+          <div class="install-option">
+            <div class="install-label">Setup</div>
+            <pre><code>git clone https://github.com/ArtemioPadilla/watchboard.git
+cd watchboard/mcp && npm install</code></pre>
+          </div>
+          <div class="install-option">
+            <div class="install-label">Claude Code</div>
+            <pre><code>claude mcp add watchboard -- npx tsx /path/to/watchboard/mcp/server.ts</code></pre>
+          </div>
+          <div class="install-option">
+            <div class="install-label">Claude Desktop — add to <code>claude_desktop_config.json</code></div>
+            <pre><code>{`{
+  "mcpServers": {
+    "watchboard": {
+      "command": "npx",
+      "args": ["tsx", "/path/to/watchboard/mcp/server.ts"]
+    }
+  }
+}`}</code></pre>
+          </div>
+        </div>
+
+        <div class="tools-grid">
+          <div class="tool-item">
+            <code>watchboard_list_trackers</code>
+            <span>List all active trackers</span>
+          </div>
+          <div class="tool-item">
+            <code>watchboard_get_tracker_summary</code>
+            <span>Headline + KPIs + digest</span>
+          </div>
+          <div class="tool-item">
+            <code>watchboard_get_tracker_events</code>
+            <span>Recent events with sources</span>
+          </div>
+          <div class="tool-item">
+            <code>watchboard_get_breaking_news</code>
+            <span>All current breaking items</span>
+          </div>
+          <div class="tool-item">
+            <code>watchboard_search_events</code>
+            <span>Keyword search across trackers</span>
+          </div>
+          <div class="tool-item">
+            <code>watchboard_get_tracker_kpis</code>
+            <span>Structured KPI data</span>
+          </div>
+          <div class="tool-item">
+            <code>watchboard_get_tracker_claims</code>
+            <span>Contested claims — sideA vs sideB</span>
+          </div>
+        </div>
+        <p><a href="https://github.com/ArtemioPadilla/watchboard/tree/main/mcp" target="_blank" rel="noopener noreferrer">Full MCP documentation &rarr;</a></p>
+      </section>
+
+      <section>
+        <h2>JSON API</h2>
+        <p>
+          Direct access with no authentication, no rate limits, and full CORS support. Static files served from CDN — safe to call from any environment.
+        </p>
+        <div class="api-table-wrap">
+          <table class="api-table">
+            <thead>
+              <tr><th>Endpoint</th><th>Returns</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>/api/v1/trackers.json</code></td><td>All trackers with metadata</td></tr>
+              <tr><td><code>/api/v1/trackers/{"{slug}"}.json</code></td><td>Full tracker: KPIs, events, digest</td></tr>
+              <tr><td><code>/api/v1/breaking.json</code></td><td>Active breaking news</td></tr>
+              <tr><td><code>/api/v1/kpis/{"{slug}"}.json</code></td><td>KPIs only (lightweight)</td></tr>
+              <tr><td><code>/api/v1/events/{"{slug}"}.json</code></td><td>Last 30 events</td></tr>
+              <tr><td><code>/api/v1/search-index.json</code></td><td>All event titles for search</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p><a href={`${basePath}api/`}>Full API documentation &rarr;</a></p>
+      </section>
+
+      <section>
+        <h2>Python CLI</h2>
+        <p>Zero-dependency script for querying Watchboard from any Python 3.8+ environment.</p>
+        <pre><code>python3 scripts/watchboard.py summary iran-conflict
+python3 scripts/watchboard.py breaking
+python3 scripts/watchboard.py kpis ukraine-war
+python3 scripts/watchboard.py events gaza-war --limit 10
+python3 scripts/watchboard.py search "ceasefire"
+python3 scripts/watchboard.py list --domain conflict</code></pre>
+        <p><a href="https://github.com/ArtemioPadilla/watchboard/blob/main/scripts/watchboard.py" target="_blank" rel="noopener noreferrer">View script on GitHub &rarr;</a></p>
+      </section>
+
+      <section>
+        <h2>Data Quality</h2>
+        <p>Every data point carries a source tier classification. Events are marked confirmed only when backed by a Tier-1 source or two independent Tier-2 sources. KPIs include contested flags with opposing perspectives.</p>
+        <div class="tier-grid">
+          <div class="tier-item">
+            <span class="tier-badge tier-1">Tier 1</span>
+            <span>Official — Pentagon, UN, IAEA, government statements</span>
+          </div>
+          <div class="tier-item">
+            <span class="tier-badge tier-2">Tier 2</span>
+            <span>Major outlets — Reuters, AP, BBC, Al Jazeera, AFP</span>
+          </div>
+          <div class="tier-item">
+            <span class="tier-badge tier-3">Tier 3</span>
+            <span>Institutional — think tanks, NGOs, academic sources</span>
+          </div>
+          <div class="tier-item">
+            <span class="tier-badge tier-4">Tier 4</span>
+            <span>Unverified — social media, anonymous, Telegram</span>
+          </div>
+        </div>
+      </section>
+    </article>
+
+    <div class="skill-cta">
+      <a class="skill-back" href={`${basePath}`}>&larr; Back to Watchboard</a>
+    </div>
+
+    <footer class="platform-footer">
+      <a href={`${basePath}api/`}>API</a>
+      <span>&middot;</span>
+      <a href={`${basePath}skill/`}>Skill</a>
+      <span>&middot;</span>
+      <a href={`${basePath}about/`}>About</a>
+      <span>&middot;</span>
+      <a href={`${basePath}metrics/`}>Status</a>
+      <span>&middot;</span>
+      <a href={`${basePath}rss.xml`}>RSS</a>
+      <span>&middot;</span>
+      <a href="https://github.com/ArtemioPadilla/watchboard" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </footer>
+  </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .skill-page {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  .skill-back {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    margin-bottom: 2rem;
+    transition: color 0.2s;
+  }
+  .skill-back:hover { color: var(--accent-blue); }
+
+  .skill-content h1 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 1rem;
+    line-height: 1.2;
+  }
+
+  .skill-lead {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+  }
+
+  section {
+    margin-bottom: 2.5rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  section:last-of-type { border-bottom: none; }
+
+  h2 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 0.75rem;
+  }
+
+  h3 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin: 1.5rem 0 0.75rem;
+  }
+
+  p {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin: 0 0 1rem;
+  }
+
+  a { color: var(--accent-blue); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  pre {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+    overflow-x: auto;
+    margin: 0.5rem 0;
+  }
+  pre code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--text-primary);
+    background: none;
+    padding: 0;
+  }
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 0.1em 0.3em;
+    color: var(--text-primary);
+  }
+
+  /* Install blocks */
+  .install-block {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 1rem 0 1.5rem;
+  }
+  .install-option { display: flex; flex-direction: column; gap: 0.3rem; }
+  .install-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Example queries */
+  .example-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+  }
+  .example-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.6rem 0.85rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    font-style: italic;
+  }
+
+  /* MCP tools */
+  .tools-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin: 1rem 0;
+  }
+  .tool-item {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.55rem 0.85rem;
+  }
+  .tool-item code {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 0.78rem;
+    color: var(--accent-blue);
+    white-space: nowrap;
+  }
+  .tool-item span {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+
+  /* API table */
+  .api-table-wrap { overflow-x: auto; margin: 1rem 0; }
+  .api-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+  }
+  .api-table th {
+    text-align: left;
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .api-table td {
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-secondary);
+    vertical-align: top;
+  }
+  .api-table tr:last-child td { border-bottom: none; }
+  .api-table code { font-size: 0.75rem; }
+
+  /* Tier grid */
+  .tier-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+  }
+  .tier-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.55rem 0.85rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+  }
+  .tier-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.2em 0.5em;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+  .tier-1 { background: #1a3a2a; color: #4ade80; }
+  .tier-2 { background: #1a2a3a; color: #60a5fa; }
+  .tier-3 { background: #2a2a1a; color: #facc15; }
+  .tier-4 { background: #2a1a1a; color: #f87171; }
+
+  /* CTA / footer */
+  .skill-cta {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .platform-footer {
+    margin-top: 3rem;
+    padding: 1.5rem 0;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .platform-footer a {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .platform-footer a:hover { color: var(--accent-blue); }
+
+  @media (max-width: 640px) {
+    .skill-page { padding: 1.5rem 1rem 3rem; }
+    .skill-content h1 { font-size: 1.6rem; }
+    .example-grid { grid-template-columns: 1fr; }
+    .tool-item { flex-direction: column; gap: 0.2rem; }
+  }
+</style>
