@@ -111,18 +111,29 @@ function buildVideoMeta(videoPath: string): VideoMeta {
 
 // ── Caption generation ───────────────────────────────────────────────────────
 
+const VIDEO_TYPE = (process.env.VIDEO_TYPE === 'progress') ? 'progress' : 'conflict';
+
 function buildCaptionEn(meta: VideoMeta): string {
   const headlines = meta.trackers.map(t => `${t.headline}`).join('\n');
+  if (VIDEO_TYPE === 'progress') {
+    return `\uD83C\uDF31 Watchboard Progress Brief \u2014 ${meta.date}\n\n${headlines}\n\nhttps://watchboard.dev`;
+  }
   return `Watchboard Daily Brief \u2014 ${meta.date}\n\n${headlines}\n\nhttps://watchboard.dev`;
 }
 
 function buildCaptionEs(meta: VideoMeta): string {
+  if (VIDEO_TYPE === 'progress') {
+    return `\uD83C\uDF31 Resumen de Progreso Watchboard \u2014 ${meta.date}\n\nhttps://watchboard.dev`;
+  }
   return `Resumen Diario Watchboard \u2014 ${meta.date}\n\nhttps://watchboard.dev`;
 }
 
 // ── Post record (idempotency file) ───────────────────────────────────────────
 
 function postRecordPath(date: string): string {
+  if (VIDEO_TYPE === 'progress') {
+    return join(SOCIAL_DIR, `video-post-progress-${date}.json`);
+  }
   return join(SOCIAL_DIR, `video-post-${date}.json`);
 }
 
@@ -159,7 +170,9 @@ function buildInitialRecord(meta: VideoMeta, platforms: SocialPlatform[]): Video
     narrationFile,
     caption_en: buildCaptionEn(meta),
     caption_es: buildCaptionEs(meta),
-    hashtags: ['#OSINT', '#geopolitics', '#Watchboard'],
+    hashtags: VIDEO_TYPE === 'progress'
+      ? ['#science', '#progress', '#breakthroughs', '#Watchboard']
+      : ['#OSINT', '#geopolitics', '#Watchboard'],
     platforms: platformMap,
     posted: {},
   };

@@ -4,7 +4,7 @@
  *
  * Supports two scoring modes via VIDEO_MODE env var:
  *   - "conflict" (default): prioritizes breaking news, recent updates, conflict trackers
- *   - "positive": prioritizes science/space/culture trackers, excludes war-related tags
+ *   - "positive": prioritizes trackers with tone="progress"
  *
  * Usage: npx tsx video/src/data/fetch-breaking.ts
  *        VIDEO_MODE=positive npx tsx video/src/data/fetch-breaking.ts
@@ -18,15 +18,13 @@ const OUTPUT_PATH = resolve(import.meta.dirname ?? '.', './breaking.json');
 
 export type VideoMode = 'conflict' | 'positive';
 
-const POSITIVE_DOMAINS = ['science', 'space', 'culture'] as const;
-const EXCLUDED_TAGS_FOR_POSITIVE = ['war', 'conflict', 'terrorism', 'sanctions', 'military'] as const;
-
 interface TrackerConfig {
   slug: string;
   name: string;
   shortName?: string;
   icon: string;
   status: string;
+  tone?: string;
   domain?: string;
   temporal?: string;
   tags?: string[];
@@ -52,6 +50,7 @@ export interface ScoredCandidate {
   score: number;
   breaking: boolean;
   lastUpdated: string;
+  tone?: string;
   domain?: string;
   temporal?: string;
   tags?: string[];
@@ -110,16 +109,12 @@ export function scoreCandidate(candidate: ScoredCandidate, mode: VideoMode): num
   const age = daysSince(candidate.lastUpdated);
 
   if (mode === 'positive') {
-    // REQUIRED: domain must be in the positive list
-    if (!candidate.domain || !POSITIVE_DOMAINS.includes(candidate.domain as typeof POSITIVE_DOMAINS[number])) {
-      return null;
-    }
-    // Exclude trackers with war-related tags
-    if (candidate.tags?.some((tag) => EXCLUDED_TAGS_FOR_POSITIVE.includes(tag as typeof EXCLUDED_TAGS_FOR_POSITIVE[number]))) {
+    // REQUIRED: tone must be 'progress'
+    if (candidate.tone !== 'progress') {
       return null;
     }
 
-    let score = 50; // domain match bonus (always awarded since we passed the check)
+    let score = 50; // tone match bonus (always awarded since we passed the check)
     if (age <= 7) score += 30;
     else if (age <= 30) score += 15;
     else if (age <= 90) score += 5;
@@ -145,6 +140,7 @@ interface LoadedTrackerData {
   tracker: BreakingTracker;
   breaking: boolean;
   lastUpdated: string;
+  tone?: string;
   domain?: string;
   temporal?: string;
   tags?: string[];
@@ -204,10 +200,13 @@ function loadTrackerBreaking(slug: string): LoadedTrackerData | null {
       thumbnailUrls,
     };
 
+    const tone = config.tone ?? 'neutral';
+
     return {
       tracker,
       breaking: meta.breaking === true,
       lastUpdated: meta.lastUpdated ?? '2000-01-01',
+      tone,
       domain: config.domain,
       temporal: config.temporal,
       tags: config.tags,
@@ -248,6 +247,7 @@ export function fetchBreakingData(options: FetchBreakingOptions = {}): BreakingD
       score: 0,
       breaking: loaded.breaking,
       lastUpdated: loaded.lastUpdated,
+      tone: loaded.tone,
       domain: loaded.domain,
       temporal: loaded.temporal,
       tags: loaded.tags,
