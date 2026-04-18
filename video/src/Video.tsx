@@ -14,6 +14,9 @@ import { TrackerSlide } from './components/TrackerSlide';
 import { Outro } from './components/Outro';
 import type { BreakingData, GeoFeature } from './data/types';
 import { SLIDE_ACCENTS, SAMPLE_DATA } from './data/types';
+import type { ThemeName } from './components/Background';
+
+const DAY_ACCENTS = ['#f0a500', '#27ae60', '#2980b9'];
 
 /**
  * Frame layout (30fps):
@@ -36,10 +39,11 @@ interface VideoProps {
   narrationSrc?: string;
   geoFeatures?: GeoFeature[];
   earthTexture?: string;
-  theme?: 'dark' | 'day';
+  theme?: ThemeName;
 }
 
 export const Video: React.FC<VideoProps> = ({ data, narrationSrc, geoFeatures = [], earthTexture = '', theme = 'dark' }) => {
+  const accents = theme === 'day' ? DAY_ACCENTS : SLIDE_ACCENTS;
   const breakingData = data ?? SAMPLE_DATA;
   const frame = useCurrentFrame();
 
@@ -59,10 +63,11 @@ export const Video: React.FC<VideoProps> = ({ data, narrationSrc, geoFeatures = 
   const activeTrackerIndex = getActiveTrackerIndex(frame);
 
   // Current accent color for the globe dot
+  const defaultAccent = theme === 'day' ? '#f0a500' : '#e74c3c';
   const currentAccent =
     activeTrackerIndex >= 0
-      ? SLIDE_ACCENTS[activeTrackerIndex % SLIDE_ACCENTS.length]
-      : '#e74c3c';
+      ? accents[activeTrackerIndex % accents.length]
+      : defaultAccent;
 
   // Global fade in from black
   const globalFadeIn = interpolate(frame, [0, 8], [0, 1], {
@@ -70,9 +75,9 @@ export const Video: React.FC<VideoProps> = ({ data, narrationSrc, geoFeatures = 
   });
 
   return (
-    <AbsoluteFill style={{ backgroundColor: '#0a0b0e', opacity: globalFadeIn }}>
+    <AbsoluteFill style={{ backgroundColor: theme === 'day' ? '#0a0e1a' : '#0a0b0e', opacity: globalFadeIn }}>
       {/* Starfield — persistent */}
-      <Background />
+      <Background theme={theme} />
 
       {/* Globe — persistent, rotates between trackers */}
       <div
@@ -126,7 +131,7 @@ export const Video: React.FC<VideoProps> = ({ data, narrationSrc, geoFeatures = 
           >
             <TrackerSlide
               tracker={tracker}
-              accentColor={SLIDE_ACCENTS[i % SLIDE_ACCENTS.length]}
+              accentColor={accents[i % accents.length]}
               thumbnailBase64={tracker.thumbnailBase64}
               theme={theme}
             />

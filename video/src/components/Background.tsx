@@ -1,9 +1,6 @@
 import React, { useMemo } from 'react';
 import { AbsoluteFill, useCurrentFrame, interpolate } from 'remotion';
 
-const STAR_COUNT = 120;
-const GRID_LINES = 12;
-
 interface Star {
   x: number;
   y: number;
@@ -13,18 +10,48 @@ interface Star {
   pulseOffset: number;
 }
 
-export const Background: React.FC = () => {
+export type ThemeName = 'dark' | 'day';
+
+interface BackgroundProps {
+  theme?: ThemeName;
+}
+
+const THEMES = {
+  dark: {
+    starCount: 120,
+    background: 'linear-gradient(180deg, #0a0b0e 0%, #0d0f15 40%, #0a0b0e 100%)',
+    starColor: '#e8e9ed',
+    gridColor: '#2a2d3a',
+    vignetteColor: 'rgba(10, 11, 14, 0.6)',
+    scanlineColor: 'rgba(231, 76, 60,',
+    sunGlow: false,
+  },
+  day: {
+    starCount: 60,
+    background:
+      'linear-gradient(180deg, #0a0e1a 0%, #1a2a4a 30%, #2d4a7a 60%, #4a6fa5 80%, #8b5e3c 95%, #c4843c 100%)',
+    starColor: '#fff8e7',
+    gridColor: 'rgba(200, 160, 80, 0.08)',
+    vignetteColor: 'rgba(10, 14, 26, 0.5)',
+    scanlineColor: 'rgba(240, 165, 0,',
+    sunGlow: true,
+  },
+} as const;
+
+const GRID_LINES = 12;
+
+export const Background: React.FC<BackgroundProps> = ({ theme = 'dark' }) => {
   const frame = useCurrentFrame();
+  const t = THEMES[theme];
 
   const stars = useMemo<Star[]>(() => {
     const result: Star[] = [];
-    // Deterministic pseudo-random using a simple seed
     let seed = 42;
     const rand = () => {
       seed = (seed * 16807 + 0) % 2147483647;
       return seed / 2147483647;
     };
-    for (let i = 0; i < STAR_COUNT; i++) {
+    for (let i = 0; i < t.starCount; i++) {
       result.push({
         x: rand() * 1080,
         y: rand() * 1920,
@@ -35,12 +62,12 @@ export const Background: React.FC = () => {
       });
     }
     return result;
-  }, []);
+  }, [t.starCount]);
 
   return (
     <AbsoluteFill
       style={{
-        background: 'linear-gradient(180deg, #0a0b0e 0%, #0d0f15 40%, #0a0b0e 100%)',
+        background: t.background,
       }}
     >
       {/* Animated grid */}
@@ -50,7 +77,6 @@ export const Background: React.FC = () => {
         style={{ position: 'absolute', top: 0, left: 0 }}
         viewBox="0 0 1080 1920"
       >
-        {/* Horizontal grid lines */}
         {Array.from({ length: GRID_LINES }, (_, i) => {
           const y = (i + 1) * (1920 / (GRID_LINES + 1));
           const opacity = interpolate(
@@ -65,13 +91,12 @@ export const Background: React.FC = () => {
               y1={y}
               x2="1080"
               y2={y}
-              stroke="#2a2d3a"
+              stroke={t.gridColor}
               strokeWidth="0.5"
               opacity={opacity}
             />
           );
         })}
-        {/* Vertical grid lines */}
         {Array.from({ length: 8 }, (_, i) => {
           const x = (i + 1) * (1080 / 9);
           const opacity = interpolate(
@@ -86,7 +111,7 @@ export const Background: React.FC = () => {
               y1="0"
               x2={x}
               y2="1920"
-              stroke="#2a2d3a"
+              stroke={t.gridColor}
               strokeWidth="0.5"
               opacity={opacity}
             />
@@ -98,7 +123,6 @@ export const Background: React.FC = () => {
       {stars.map((star, i) => {
         const pulse = Math.sin(frame * star.pulseSpeed + star.pulseOffset);
         const opacity = star.baseOpacity + pulse * 0.15;
-        // Slow drift
         const driftX = Math.sin(frame * 0.005 + star.pulseOffset) * 3;
         const driftY = Math.cos(frame * 0.004 + star.pulseOffset) * 2;
 
@@ -112,20 +136,37 @@ export const Background: React.FC = () => {
               width: star.size,
               height: star.size,
               borderRadius: '50%',
-              backgroundColor: '#e8e9ed',
+              backgroundColor: t.starColor,
               opacity,
             }}
           />
         );
       })}
 
+      {/* Sun glow at bottom horizon (day theme only) */}
+      {t.sunGlow && (
+        <div
+          style={{
+            position: 'absolute',
+            left: '50%',
+            top: 1750,
+            width: 800,
+            height: 800,
+            marginLeft: -400,
+            marginTop: -400,
+            borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(255, 180, 60, 0.12) 0%, transparent 70%)',
+            pointerEvents: 'none',
+          }}
+        />
+      )}
+
       {/* Subtle radial vignette */}
       <div
         style={{
           position: 'absolute',
           inset: 0,
-          background:
-            'radial-gradient(ellipse at center, transparent 30%, rgba(10, 11, 14, 0.6) 100%)',
+          background: `radial-gradient(ellipse at center, transparent 30%, ${t.vignetteColor} 100%)`,
         }}
       />
 
@@ -137,7 +178,7 @@ export const Background: React.FC = () => {
           left: 0,
           right: 0,
           height: 4,
-          background: `linear-gradient(90deg, transparent, rgba(231, 76, 60, ${interpolate(
+          background: `linear-gradient(90deg, transparent, ${t.scanlineColor} ${interpolate(
             Math.sin(frame * 0.08),
             [-1, 1],
             [0, 0.15],
