@@ -50,11 +50,16 @@ function parseCliFlags(): { mode: VideoMode; dryRun: boolean } {
   return { mode, dryRun };
 }
 
-// Earth texture candidates in priority order
-const EARTH_TEXTURE_CANDIDATES = [
+// Earth texture candidates by theme
+const EARTH_TEXTURE_DARK = [
   resolve(ROOT_DIR, '../public/textures/earth-night-lights-nasa.jpg'),
   resolve(ROOT_DIR, '../public/textures/earth-dark-blend-4k.webp'),
   resolve(ROOT_DIR, '../public/textures/earth-dark-threejs.jpg'),
+];
+
+const EARTH_TEXTURE_DAY = [
+  resolve(ROOT_DIR, '../public/textures/earth-day-4k.jpg'),
+  resolve(ROOT_DIR, '../public/textures/earth-day-atmos-2k.jpg'),
 ];
 
 async function downloadThumbnail(url: string): Promise<Buffer | null> {
@@ -83,6 +88,7 @@ async function downloadThumbnail(url: string): Promise<Buffer | null> {
 
 async function main(): Promise<void> {
   const { mode, dryRun } = parseCliFlags();
+  const theme = mode === 'positive' ? 'day' : 'dark';
 
   // Set VIDEO_MODE env var so fetch-breaking.ts picks it up
   process.env.VIDEO_MODE = mode;
@@ -161,10 +167,11 @@ async function main(): Promise<void> {
     console.warn('  GeoJSON load failed — globe will render without countries:', (err as Error).message);
   }
 
-  // Load earth night-lights texture as base64 data URL (try multiple candidates)
+  // Load earth texture as base64 data URL — day texture for positive mode, night for conflict
+  const textureCandidates = (theme === 'day') ? EARTH_TEXTURE_DAY : EARTH_TEXTURE_DARK;
   let earthTexture = '';
   try {
-    for (const texPath of EARTH_TEXTURE_CANDIDATES) {
+    for (const texPath of textureCandidates) {
       if (existsSync(texPath)) {
         const texBuf = readFileSync(texPath);
         const ext = texPath.endsWith('.webp') ? 'webp' : texPath.endsWith('.png') ? 'png' : 'jpeg';
@@ -214,7 +221,7 @@ async function main(): Promise<void> {
   const composition = await selectComposition({
     serveUrl: bundled,
     id: 'WatchboardDaily',
-    inputProps: { data, geoFeatures, earthTexture },
+    inputProps: { data, geoFeatures, earthTexture, theme },
   });
 
   // Override duration based on actual tracker count
@@ -232,7 +239,7 @@ async function main(): Promise<void> {
         serveUrl: bundled,
         codec: 'h264',
         outputLocation: outputPath,
-        inputProps: { data, geoFeatures, earthTexture },
+        inputProps: { data, geoFeatures, earthTexture, theme },
       });
       break;
     } catch (err) {
