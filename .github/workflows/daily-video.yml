@@ -283,6 +283,41 @@ jobs:
             video/output/*.mp3
           retention-days: 30
 
+      - name: Post progress video to Telegram
+        if: env.TELEGRAM_BOT_TOKEN != '' && env.TELEGRAM_CHANNEL_ID != ''
+        continue-on-error: true
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
+        run: |
+          DATE=$(date -u +%Y-%m-%d)
+          VIDEO="video/output/watchboard-${DATE}.mp4"
+          NARRATED="video/output/watchboard-${DATE}-progress-narrated-en.mp4"
+          SEND="$VIDEO"
+          [ -f "$NARRATED" ] && SEND="$NARRATED"
+
+          if [ ! -f "$SEND" ]; then
+            echo "No progress video file — skipping Telegram"
+            exit 0
+          fi
+
+          CAPTION=$(node -e "
+            try {
+              const d = require('./video/src/data/breaking.json');
+              const names = d.trackers.map(t => '\u2705 ' + t.name).join('\n');
+              console.log('\uD83C\uDF31 Watchboard Progress Brief \u2014 ${DATE}\n\n' + names + '\n\nScience doesn\'t take days off.\n\uD83D\uDD17 watchboard.dev');
+            } catch { console.log('\uD83C\uDF31 Watchboard Progress Brief \u2014 ${DATE}\n\n\uD83D\uDD17 watchboard.dev'); }
+          ")
+
+          curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendVideo" \
+            -F "chat_id=${TELEGRAM_CHANNEL_ID}" \
+            -F "video=@${SEND}" \
+            -F "caption=${CAPTION}" \
+            -F "parse_mode=HTML" \
+            -F "supports_streaming=true" \
+            && echo "\u2705 Progress video posted to Telegram" \
+            || echo "\u26A0\uFE0F Telegram progress video post failed (non-fatal)"
+
       - name: Summary
         run: |
           DATE=$(date -u +%Y-%m-%d)
