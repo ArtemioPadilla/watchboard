@@ -20,6 +20,7 @@ export const RemotionRoot: React.FC = () => {
           data: SAMPLE_DATA,
           geoFeatures: [],
           earthTexture: '',
+          theme: 'dark',
         }}
       />
       {/* Preview compositions for individual sections */}

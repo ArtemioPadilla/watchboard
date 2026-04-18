@@ -9,9 +9,10 @@ import {
 
 interface IntroProps {
   date: string;
+  theme?: 'dark' | 'day';
 }
 
-export const Intro: React.FC<IntroProps> = ({ date }) => {
+export const Intro: React.FC<IntroProps> = ({ date, theme = 'dark' }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
@@ -77,9 +78,11 @@ export const Intro: React.FC<IntroProps> = ({ date }) => {
           fontFamily: "'DM Sans', sans-serif",
           fontSize: 96,
           fontWeight: 700,
-          color: '#e74c3c',
+          color: theme === 'day' ? '#ffffff' : '#e74c3c',
           letterSpacing: '6px',
-          textShadow: `0 0 ${glowIntensity}px rgba(231, 76, 60, 0.5)`,
+          textShadow: theme === 'day'
+            ? `0 0 ${glowIntensity}px rgba(255, 255, 255, 0.35), 0 0 60px rgba(240, 165, 0, 0.2)`
+            : `0 0 ${glowIntensity}px rgba(231, 76, 60, 0.5)`,
           marginBottom: 20,
         }}
       >
@@ -91,7 +94,9 @@ export const Intro: React.FC<IntroProps> = ({ date }) => {
         style={{
           width: lineWidth,
           height: 3,
-          background: 'linear-gradient(90deg, transparent, #e74c3c, transparent)',
+          background: theme === 'day'
+            ? 'linear-gradient(90deg, transparent, #f0a500, transparent)'
+            : 'linear-gradient(90deg, transparent, #e74c3c, transparent)',
           marginBottom: 24,
           borderRadius: 2,
         }}
@@ -103,14 +108,14 @@ export const Intro: React.FC<IntroProps> = ({ date }) => {
           opacity: subtitleOpacity,
           transform: `translateY(${subtitleY}px)`,
           fontFamily: "'JetBrains Mono', monospace",
-          fontSize: 20,
-          fontWeight: 500,
-          color: '#9498a8',
-          letterSpacing: '5px',
+          fontSize: theme === 'day' ? 22 : 20,
+          fontWeight: 600,
+          color: theme === 'day' ? '#f0c060' : '#9498a8',
+          letterSpacing: theme === 'day' ? '8px' : '5px',
           marginBottom: 16,
         }}
       >
-        DAILY INTELLIGENCE BRIEF
+        {theme === 'day' ? 'PROGRESS BRIEF' : 'DAILY INTELLIGENCE BRIEF'}
       </div>
 
       {/* Date */}
@@ -119,9 +124,9 @@ export const Intro: React.FC<IntroProps> = ({ date }) => {
           opacity: dateOpacity,
           transform: `translateY(${dateY}px)`,
           fontFamily: "'JetBrains Mono', monospace",
-          fontSize: 24,
-          fontWeight: 600,
-          color: '#e8e9ed',
+          fontSize: theme === 'day' ? 20 : 24,
+          fontWeight: 500,
+          color: theme === 'day' ? 'rgba(255,255,255,0.6)' : '#e8e9ed',
           letterSpacing: '3px',
         }}
       >

@@ -173,3 +173,158 @@ jobs:
             -F "supports_streaming=true" \
             && echo "✅ Video posted to Telegram" \
             || echo "⚠️ Telegram video post failed (non-fatal)"
+
+  video-progress:
+    name: Daily Progress Video (positive mode)
+    runs-on: ubuntu-latest
+    needs: video
+    if: github.event_name != 'push'
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: video/package-lock.json
+
+      - name: Install video dependencies
+        run: cd video && npm ci --legacy-peer-deps
+
+      - name: Ensure browser for Remotion
+        run: cd video && npx remotion browser ensure
+
+      - name: Render progress video
+        run: cd video && npx tsx render.ts --mode positive
+
+      - name: Install ffmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      - name: Generate narration with Polly (progress tone)
+        continue-on-error: true
+        env:
+          AWS_REGION: us-east-1
+        run: |
+          if ! command -v aws &>/dev/null; then
+            echo "AWS CLI not available — skipping narration"
+            exit 0
+          fi
+          DATE=$(date -u +%Y-%m-%d)
+          TRACKERS=$(node -e "const d=require('./video/src/data/breaking.json'); console.log(d.trackers.map(t=>t.name).join('. '))")
+
+          aws polly synthesize-speech \
+            --engine generative \
+            --voice-id Joanna \
+            --language-code en-US \
+            --output-format mp3 \
+            --text "Good news from Watchboard today. ${TRACKERS}. Track breakthroughs across science, space, and culture at watchboard dot dev. Free, open source intelligence dashboards." \
+            video/output/narration-progress-en.mp3 || echo "Polly EN failed (non-fatal)"
+
+          aws polly synthesize-speech \
+            --engine generative \
+            --voice-id Lupe \
+            --language-code es-US \
+            --output-format mp3 \
+            --text "Buenas noticias en Watchboard hoy. ${TRACKERS}. Sigue los avances en ciencia, espacio y cultura en watchboard punto dev. Paneles de inteligencia gratuitos y de código abierto." \
+            video/output/narration-progress-es.mp3 || echo "Polly ES failed (non-fatal)"
+
+      - name: Merge narration into progress video
+        run: |
+          DATE=$(date -u +%Y-%m-%d)
+          VIDEO="video/output/watchboard-${DATE}.mp4"
+
+          if [ -f video/output/narration-progress-en.mp3 ] && [ -f "$VIDEO" ]; then
+            ffmpeg -i "$VIDEO" -i video/output/narration-progress-en.mp3 \
+              -filter_complex '[0:a]volume=0.4[music];[1:a]volume=0.9[narr];[music][narr]amix=inputs=2:duration=first[out]' \
+              -map 0:v -map '[out]' -c:v copy \
+              "video/output/watchboard-${DATE}-progress-narrated-en.mp4" -y || echo "Merge failed"
+          fi
+
+      - name: Install root dependencies
+        run: npm ci
+
+      - name: Post to social media (progress)
+        continue-on-error: true
+        env:
+          BLUESKY_HANDLE: ${{ secrets.BLUESKY_HANDLE }}
+          BLUESKY_PASSWORD: ${{ secrets.BLUESKY_PASSWORD }}
+          VIDEO_TYPE: progress
+        run: |
+          DATE=$(date -u +%Y-%m-%d)
+          VIDEO="video/output/watchboard-${DATE}.mp4"
+          NARRATED="video/output/watchboard-${DATE}-progress-narrated-en.mp4"
+          if [ -f "$NARRATED" ]; then
+            VIDEO_TYPE=progress npx tsx scripts/post-video-social.ts "$NARRATED"
+          elif [ -f "$VIDEO" ]; then
+            VIDEO_TYPE=progress npx tsx scripts/post-video-social.ts "$VIDEO"
+          else
+            echo "No progress video file found — skipping social post"
+          fi
+
+      - name: Commit social post record
+        continue-on-error: true
+        run: |
+          DATE=$(date -u +%Y-%m-%d)
+          if [ -f "public/_social/video-post-progress-${DATE}.json" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add "public/_social/video-post-progress-${DATE}.json"
+            git diff --cached --quiet || git commit -m "chore(social): progress video post record ${DATE}"
+            git push || echo "Push failed (non-fatal)"
+          fi
+
+      - name: Upload progress video artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: daily-video-progress-${{ github.run_id }}
+          path: |
+            video/output/*.mp4
+            video/output/*.mp3
+          retention-days: 30
+
+      - name: Post progress video to Telegram
+        if: env.TELEGRAM_BOT_TOKEN != '' && env.TELEGRAM_CHANNEL_ID != ''
+        continue-on-error: true
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
+        run: |
+          DATE=$(date -u +%Y-%m-%d)
+          VIDEO="video/output/watchboard-${DATE}.mp4"
+          NARRATED="video/output/watchboard-${DATE}-progress-narrated-en.mp4"
+          SEND="$VIDEO"
+          [ -f "$NARRATED" ] && SEND="$NARRATED"
+
+          if [ ! -f "$SEND" ]; then
+            echo "No progress video file — skipping Telegram"
+            exit 0
+          fi
+
+          CAPTION=$(node -e "
+            try {
+              const d = require('./video/src/data/breaking.json');
+              const names = d.trackers.map(t => '\u2705 ' + t.name).join('\n');
+              console.log('\uD83C\uDF31 Watchboard Progress Brief \u2014 ${DATE}\n\n' + names + '\n\nScience doesn\'t take days off.\n\uD83D\uDD17 watchboard.dev');
+            } catch { console.log('\uD83C\uDF31 Watchboard Progress Brief \u2014 ${DATE}\n\n\uD83D\uDD17 watchboard.dev'); }
+          ")
+
+          curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendVideo" \
+            -F "chat_id=${TELEGRAM_CHANNEL_ID}" \
+            -F "video=@${SEND}" \
+            -F "caption=${CAPTION}" \
+            -F "parse_mode=HTML" \
+            -F "supports_streaming=true" \
+            && echo "\u2705 Progress video posted to Telegram" \
+            || echo "\u26A0\uFE0F Telegram progress video post failed (non-fatal)"
+
+      - name: Summary
+        run: |
+          DATE=$(date -u +%Y-%m-%d)
+          echo "## 🌱 Progress Video Generated" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Date:** ${DATE}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          ls -lh video/output/*.mp4 2>/dev/null | while read line; do
+            echo "- ${line}" >> $GITHUB_STEP_SUMMARY
+          done

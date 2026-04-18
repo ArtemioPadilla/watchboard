@@ -397,6 +397,20 @@ function drawPulsingDot(
   ctx.fillStyle = accentColor;
   ctx.fill();
 
+  // Dark shadow outline for contrast against any terrain (desert, ocean, snow, forest)
+  ctx.beginPath();
+  ctx.arc(p.x, p.y, 9, 0, Math.PI * 2);
+  ctx.strokeStyle = 'rgba(0, 0, 0, 0.7)';
+  ctx.lineWidth = 3;
+  ctx.stroke();
+
+  // White outline ring — always visible regardless of terrain color
+  ctx.beginPath();
+  ctx.arc(p.x, p.y, 9, 0, Math.PI * 2);
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0.9)';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
   // White center highlight
   ctx.beginPath();
   ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);

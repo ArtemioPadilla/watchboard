@@ -88,6 +88,10 @@ export const SectionId = z.enum([
   'casualties', 'economic', 'claims', 'political',
 ]);
 
+// ── Tone classification ──
+export const ToneSchema = z.enum(['progress', 'alert', 'historical', 'neutral']);
+export type Tone = z.infer<typeof ToneSchema>;
+
 // ── Domain (primary topic classification) ──
 export const DomainSchema = z.enum([
   'conflict',
@@ -141,6 +145,8 @@ export const TrackerConfigSchema = z.object({
 
   // Tracker type classification
   trackerType: z.enum(['factual', 'institutional', 'historical']).optional(),
+
+  tone: ToneSchema.optional().default('neutral'),
 
   // Taxonomy
   domain: DomainSchema.optional(),
