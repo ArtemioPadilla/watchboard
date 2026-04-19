@@ -85,14 +85,26 @@
   {
     "id": "oil-price-wti",
     "label": "WTI Crude Oil Price",
-    "value": "~$92/bbl",
+    "value": "~$91/bbl",
     "color": "amber",
-    "source": "CNBC / Brent market data (Apr 18, 2026)",
+    "source": "CNBC / market data (Apr 19, 2026)",
     "contested": false,
-    "delta": "Volatile week",
-    "deltaNote": "WTI ranged from ~$104 (Apr 12) to ~$80 (Apr 17 on Araghchi 'open strait') back to ~$92 after Iran reimposed Strait control Apr 18",
+    "delta": "Ceasefire premium",
+    "deltaNote": "WTI ~$91.27/bbl Apr 19; national avg gas $3.45/gal; range Apr 12–19: $104 to $80 to $91; ceasefire expiry Apr 21 maintaining risk premium",
     "trend": "down",
-    "lastUpdated": "2026-04-18T14:05:00Z"
+    "lastUpdated": "2026-04-19T14:10:45Z"
+  },
+  {
+    "id": "umich-consumer-sentiment",
+    "label": "UMich Consumer Sentiment (Apr 2026)",
+    "value": "Lowest Since 1978",
+    "color": "red",
+    "source": "University of Michigan Surveys of Consumers (Apr 2026)",
+    "contested": false,
+    "delta": "46-year low",
+    "deltaNote": "Lowest in consistently-tracked history since 1978; driven by Iran war oil prices, tariff uncertainty, and weak jobs growth of ~20K/month since Jan 2025",
+    "trend": "down",
+    "lastUpdated": "2026-04-19T14:10:45Z"
   },
   {
     "id": "artemis-ii-mission-status",
@@ -109,14 +121,14 @@
   {
     "id": "iran-ceasefire-us-diplomatic",
     "label": "Iran Ceasefire / Hormuz Status",
-    "value": "IRGC Fires on Tanker",
+    "value": "Talks → Islamabad Apr 20",
     "color": "red",
-    "source": "Military.com / Al Jazeera / NBC News (Apr 18, 2026)",
+    "source": "The National / NPR / The Hill (Apr 19, 2026)",
     "contested": true,
-    "contestNote": "Strait under Iranian 'strict control' after Araghchi briefly declared it open Apr 17; IRGC gunboats fired on Indian tanker Apr 18; ceasefire expires Apr 21",
-    "delta": "Ceasefire expires Apr 21",
-    "deltaNote": "Trump blockade active; Iran closed Strait again; oil whipsawed to ~$92/bbl; second talks round not yet confirmed",
+    "contestNote": "Ceasefire expires April 21 with no deal; Kushner & Witkoff heading to Islamabad for Round 2; Iran blocked 2 tankers Apr 19; Iran says 'progress made'",
+    "delta": "Expires in 2 days",
+    "deltaNote": "Trump: 'have to start dropping bombs again' without deal by Wednesday; Turkey urges extension; Iran accelerating missile/drone upgrades",
     "trend": "down",
-    "lastUpdated": "2026-04-18T14:05:00Z"
+    "lastUpdated": "2026-04-19T14:10:45Z"
   }
 ]

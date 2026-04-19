@@ -965,9 +965,150 @@
         "type": "computing",
         "detail": "Google announces the Willow quantum chip, demonstrating that increasing the number of qubits used for error correction actually reduces the error rate — a key threshold for fault-tolerant quantum computing. The chip performs a random circuit sampling benchmark in under 5 minutes that would take classical supercomputers 10²⁵ years. This represents a major step toward practical quantum advantage beyond synthetic benchmarks.",
         "sources": [
-          { "name": "Google DeepMind / Nature — Willow announcement, December 2024", "tier": 1 }
+          { "name": "Google DeepMind / Nature — Willow announcement, December 2024", "tier": 1, "url": "https://blog.google/innovation-and-ai/technology/research/google-willow-quantum-chip/", "pole": "western" }
         ],
         "lastUpdated": "2026-03-20T00:00:00Z"
+      },
+      {
+        "id": "nist-hqc-fifth-pqc-algorithm",
+        "year": "Mar 11, 2025",
+        "title": "NIST Selects HQC as Fifth Post-Quantum Cryptographic Algorithm",
+        "type": "computing",
+        "detail": "The U.S. National Institute of Standards and Technology (NIST) officially selects HQC (Hamming Quasi-Cyclic) as its fifth post-quantum encryption algorithm, providing a mathematically distinct backup to ML-KEM (structured lattices) by using error-correcting codes. HQC joins four algorithms finalized in 2024 — ML-KEM (FIPS 203), ML-DSA (FIPS 204), SLH-DSA (FIPS 205), and FALCON — in preparing global cryptographic infrastructure against future quantum computer attacks. A draft HQC standard is expected within one year.",
+        "sources": [
+          { "name": "NIST — HQC Fifth PQC Algorithm Selection, March 11, 2025", "tier": 1, "url": "https://www.nist.gov/news-events/news/2025/03/nist-selects-hqc-fifth-algorithm-post-quantum-encryption", "pole": "western" }
+        ],
+        "media": [
+          {
+            "type": "article",
+            "url": "https://www.nist.gov/news-events/news/2025/03/nist-selects-hqc-fifth-algorithm-post-quantum-encryption",
+            "caption": "NIST selects HQC as fifth post-quantum encryption standard",
+            "source": "NIST",
+            "thumbnail": "https://www.nist.gov/news-events/news/2025/03/nist-selects-hqc-fifth-algorithm-post-quantum-encryption"
+          }
+        ],
+        "lastUpdated": "2026-04-19T12:14:00Z"
+      },
+      {
+        "id": "fujitsu-riken-256-qubit-2025",
+        "year": "Apr 22, 2025",
+        "title": "Fujitsu and RIKEN Unveil 256-Qubit Superconducting Quantum Computer",
+        "type": "computing",
+        "detail": "Fujitsu and RIKEN reveal a world-leading 256-qubit superconducting quantum computer at RIKEN's Center for Quantum Computing in Wako, Japan — a four-fold increase from their previous 64-qubit system — using a scalable 3D chip architecture. The system becomes available to researchers via Fujitsu's hybrid quantum computing platform in Q1 FY2025. A 1,000-qubit system is planned for 2026, positioning Japan as a major player in the global quantum hardware race.",
+        "sources": [
+          { "name": "Fujitsu Press Release — 256-qubit system, April 22, 2025", "tier": 2, "url": "https://info.archives.global.fujitsu/global/about/resources/news/press-releases/2025/0422-01.html", "pole": "eastern" }
+        ],
+        "media": [
+          {
+            "type": "article",
+            "url": "https://info.archives.global.fujitsu/global/about/resources/news/press-releases/2025/0422-01.html",
+            "caption": "Fujitsu and RIKEN develop 256-qubit superconducting quantum computer",
+            "source": "Fujitsu",
+            "thumbnail": "https://info.archives.global.fujitsu/global/about/resources/news/press-releases/2025/0422-01.html"
+          }
+        ],
+        "lastUpdated": "2026-04-19T12:14:00Z"
+      },
+      {
+        "id": "ionq-four-nines-gate-fidelity-2025",
+        "year": "Oct 21, 2025",
+        "title": "IonQ Sets World Record: 99.99% Two-Qubit Gate Fidelity",
+        "type": "computing",
+        "detail": "IonQ announces a world record 99.99% two-qubit gate fidelity — the first quantum company to cross the 'four nines' benchmark — using its Electronic Qubit Control (EQC) technology. This surpasses Oxford Ionics' 2024 record of 99.97% and brings trapped-ion quantum computers within reach of fault-tolerant error rates. High gate fidelity is critical because each gate error accumulates across a quantum computation, and fault-tolerant quantum computing generally requires physical error rates below ~0.1%.",
+        "sources": [
+          { "name": "IonQ Press Release — 99.99% gate fidelity world record, October 21, 2025", "tier": 2, "url": "https://www.ionq.com/news/ionq-achieves-landmark-result-setting-new-world-record-in-quantum-computing", "pole": "western" }
+        ],
+        "media": [
+          {
+            "type": "article",
+            "url": "https://www.ionq.com/news/ionq-achieves-landmark-result-setting-new-world-record-in-quantum-computing",
+            "caption": "IonQ achieves 99.99% two-qubit gate fidelity world record",
+            "source": "IonQ",
+            "thumbnail": "https://www.ionq.com/news/ionq-achieves-landmark-result-setting-new-world-record-in-quantum-computing"
+          }
+        ],
+        "lastUpdated": "2026-04-19T12:14:00Z"
+      },
+      {
+        "id": "quantinuum-helios-commercial-launch-2025",
+        "year": "Nov 5, 2025",
+        "title": "Quantinuum Launches Helios: Most Accurate Quantum Computer",
+        "type": "computing",
+        "detail": "Quantinuum announces the commercial launch of Helios, its most advanced trapped-ion quantum computer, featuring 98 physical qubits and a world-leading 99.921% two-qubit gate fidelity using barium-137 ions — a first in quantum computing. Helios achieves 48–94 logical (error-corrected) qubits with 99.99% state preparation and measurement fidelity, representing a major step toward fault-tolerant computation. The system introduces Guppy, a Python-based programming language for hybrid quantum-classical algorithms.",
+        "sources": [
+          { "name": "Quantinuum Press Release — Helios launch, November 5, 2025", "tier": 2, "url": "https://www.quantinuum.com/press-releases/quantinuum-announces-commercial-launch-of-new-helios-quantum-computer-that-offers-unprecedented-accuracy-to-enable-generative-quantum-ai-genqai", "pole": "western" }
+        ],
+        "media": [
+          {
+            "type": "article",
+            "url": "https://www.quantinuum.com/press-releases/quantinuum-announces-commercial-launch-of-new-helios-quantum-computer-that-offers-unprecedented-accuracy-to-enable-generative-quantum-ai-genqai",
+            "caption": "Quantinuum Helios: world's most accurate commercial quantum computer",
+            "source": "Quantinuum",
+            "thumbnail": "https://www.quantinuum.com/press-releases/quantinuum-announces-commercial-launch-of-new-helios-quantum-computer-that-offers-unprecedented-accuracy-to-enable-generative-quantum-ai-genqai"
+          }
+        ],
+        "lastUpdated": "2026-04-19T12:14:00Z"
+      },
+      {
+        "id": "ibm-nighthawk-processor-2025",
+        "year": "Nov 2025",
+        "title": "IBM Nighthawk: 120 Qubits with Enhanced Circuit Complexity",
+        "type": "computing",
+        "detail": "IBM reveals the Nighthawk quantum processor with 120 qubits and 218 next-generation tunable couplers at the IBM Quantum Summit, enabling 30% more circuit complexity than the previous Heron processor while maintaining low error rates. IBM projects the processor will support up to 5,000 two-qubit gates, targeting quantum advantage for real-world computational problems by end of 2026 and fault-tolerant quantum computing by 2029. IBM simultaneously previews the Loon experimental processor demonstrating all components needed for full fault tolerance.",
+        "sources": [
+          { "name": "IBM Newsroom — IBM Quantum Summit November 2025", "tier": 2, "url": "https://newsroom.ibm.com/2025-11-12-ibm-delivers-new-quantum-processors,-software,-and-algorithm-breakthroughs-on-path-to-advantage-and-fault-tolerance", "pole": "western" }
+        ],
+        "media": [
+          {
+            "type": "article",
+            "url": "https://newsroom.ibm.com/2025-11-12-ibm-delivers-new-quantum-processors,-software,-and-algorithm-breakthroughs-on-path-to-advantage-and-fault-tolerance",
+            "caption": "IBM Nighthawk processor and quantum computing roadmap to advantage by 2026",
+            "source": "IBM",
+            "thumbnail": "https://newsroom.ibm.com/2025-11-12-ibm-delivers-new-quantum-processors,-software,-and-algorithm-breakthroughs-on-path-to-advantage-and-fault-tolerance"
+          }
+        ],
+        "lastUpdated": "2026-04-19T12:14:00Z"
+      },
+      {
+        "id": "google-quantum-echoes-algorithm-2025",
+        "year": "Oct 2025",
+        "title": "Google Quantum Echoes Algorithm: Verifiable 13,000× Speedup",
+        "type": "computing",
+        "detail": "Google's Quantum AI team publishes results from the Quantum Echoes algorithm running on the 105-qubit Willow chip, demonstrating a verified quantum speedup 13,000 times faster than classical supercomputers on an out-of-order time correlator (OTOC) benchmark. Unlike previous quantum supremacy claims based on random circuit sampling — which have no classical application — Quantum Echoes addresses a physically meaningful problem relevant to quantum chaos and many-body physics, representing the first verifiable quantum advantage on a scientifically relevant task.",
+        "sources": [
+          { "name": "Google Quantum AI Blog — Quantum Echoes verifiable advantage, October 2025", "tier": 2, "url": "https://blog.google/technology/research/quantum-echoes-willow-verifiable-quantum-advantage/", "pole": "western" }
+        ],
+        "media": [
+          {
+            "type": "article",
+            "url": "https://blog.google/technology/research/quantum-echoes-willow-verifiable-quantum-advantage/",
+            "caption": "Google Quantum Echoes algorithm demonstrates 13,000x speedup over classical computers",
+            "source": "Google Quantum AI",
+            "thumbnail": "https://blog.google/technology/research/quantum-echoes-willow-verifiable-quantum-advantage/"
+          }
+        ],
+        "lastUpdated": "2026-04-19T12:14:00Z"
+      },
+      {
+        "id": "google-qday-2029-warning-2026",
+        "year": "Mar 2026",
+        "title": "Google Moves Q-Day Estimate to 2029",
+        "type": "computing",
+        "detail": "Google's security team updates its estimate of 'Q-Day' — the point at which a quantum computer could break RSA and elliptic curve encryption — from 2032 to 2029, citing new research showing Shor's algorithm could run on just 10,000–20,000 atomic qubits rather than the billions previously assumed. A Caltech–Berkeley–Oratomic study published in April 2026 shows that AI-assisted algorithm optimization has reduced the estimated qubit requirement by five orders of magnitude since 2012. Google sets an internal deadline to migrate to NIST-approved post-quantum cryptography by 2029.",
+        "sources": [
+          { "name": "Euronews — Google Q-Day warning, March 27, 2026", "tier": 2, "url": "https://www.euronews.com/next/2026/03/27/a-new-era-of-quantum-computing-may-pose-threats-closer-than-we-think-google-warns", "pole": "western" },
+          { "name": "TIME — AI-assisted quantum cryptography breakthrough, April 7, 2026", "tier": 2, "url": "https://time.com/article/2026/04/07/ai-quantum-computing-advance/", "pole": "western" }
+        ],
+        "media": [
+          {
+            "type": "article",
+            "url": "https://time.com/article/2026/04/07/ai-quantum-computing-advance/",
+            "caption": "Google warns Q-Day may arrive by 2029 as AI accelerates quantum cryptography attacks",
+            "source": "TIME",
+            "thumbnail": "https://time.com/article/2026/04/07/ai-quantum-computing-advance/"
+          }
+        ],
+        "lastUpdated": "2026-04-19T12:14:00Z"
       }
     ]
   }

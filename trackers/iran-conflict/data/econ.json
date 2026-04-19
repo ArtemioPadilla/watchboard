@@ -155,8 +155,8 @@
   {
     "id": "gas_price_us",
     "label": "US Gas Price (National Avg)",
-    "value": "$4.02/gal",
-    "change": "Above $4 for first time since 2022; California $5.87/gal",
+    "value": "$4.05/gal",
+    "change": "Sustained above $4; California $5.87/gal — Apr 19: IRGC Hormuz closure ongoing",
     "direction": "up",
     "sparkData": [
       2.95,
@@ -168,11 +168,12 @@
       3.45,
       3.54,
       3.75,
-      4.02
+      4.02,
+      4.05
     ],
     "color": "#e74c3c",
-    "source": "CNN / Time / AAA / Reuters",
-    "lastUpdated": "2026-03-31T14:49:00.000Z"
+    "source": "CNN / CBS News / AAA / Reuters",
+    "lastUpdated": "2026-04-19T14:32:00.000Z"
   },
   {
     "id": "iea_reserve_release",
@@ -209,7 +210,7 @@
     "id": "hormuz_traffic",
     "label": "Hormuz Traffic",
     "value": "Near Zero (blocked)",
-    "change": "Apr 17: Iran briefly declared Hormuz 'completely open' — ships attempted transit but were turned back. Apr 18: Iran closed strait again, returns to 'previous state.' IRGC gunboats fired on merchant vessel. France/UK planning maritime security ops. ~600M bbl total lost since Feb 28.",
+    "change": "Apr 19: IRGC fired on Indian-flagged tankers; Hormuz fully closed. Apr 17: briefly 'open' — ships turned back. Apr 18: re-closed. India summoned Iran's ambassador. Trump cited IRGC firing as ceasefire violation. ~610M bbl total lost since Feb 28.",
     "direction": "down",
     "sparkData": [
       100,
@@ -231,10 +232,11 @@
       3,
       2,
       60,
-      2
+      2,
+      1
     ],
     "color": "#27ae60",
-    "source": "Al Jazeera / NBC News / USNI News / Lloyd's List Intelligence / AP / IEA / Rystad Energy",
-    "lastUpdated": "2026-04-18T12:16:00.000Z"
+    "source": "Al Jazeera / NBC News / USNI News / Lloyd's List Intelligence / AP / IEA / CBS News / ABC News",
+    "lastUpdated": "2026-04-19T14:32:00.000Z"
   }
 ]

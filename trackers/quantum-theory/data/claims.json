@@ -225,6 +225,20 @@
     "lastUpdated": "2026-03-20T00:00:00Z"
   },
   {
+    "id": "qday-imminence-debate",
+    "question": "Is Q-Day — when quantum computers can break RSA/elliptic-curve encryption — imminent, or still decades away?",
+    "sideA": {
+      "label": "Imminent Threat: Q-Day by 2029–2032",
+      "text": "Google's security team moved its Q-Day estimate from 2032 to 2029 in March 2026, citing new AI-assisted research showing Shor's algorithm could run on just 10,000–20,000 atomic qubits — five orders of magnitude fewer than estimated in 2012. A Caltech–Berkeley–Oratomic study published in April 2026 finds that a 26,000-qubit system could crack Bitcoin's elliptic curve encryption in days. IonQ's 99.99% gate fidelity (Oct 2025) and Quantinuum Helios's 99.921% fidelity (Nov 2025) show quantum hardware is advancing faster than many expected. 'Harvest now, decrypt later' attacks already make long-lived encrypted data at immediate risk."
+    },
+    "sideB": {
+      "label": "Decades Away: NISQ Devices Cannot Break Real Encryption",
+      "text": "Today's best quantum computers have 100–1,000 noisy physical qubits; breaking 2048-bit RSA requires millions of logical qubits, each requiring hundreds to thousands of physical qubits for error correction. The error correction overhead alone means reliable cryptographic attacks are not possible for at least a decade. NIST finalized four post-quantum cryptographic standards in 2024 (ML-KEM, ML-DSA, SLH-DSA, FALCON) and added HQC as a fifth backup in March 2025, providing organizations with viable migration paths. Most cryptographers place practical cryptographic risk at 2030–2040."
+    },
+    "resolution": "Actively contested as of April 2026. NIST's finalization of post-quantum standards and Google's updated Q-Day estimate reflect growing institutional urgency, but technical consensus still places large-scale cryptographic attacks a decade or more away. The harvest-now-decrypt-later risk makes migration to post-quantum cryptography operationally urgent regardless of the exact timeline.",
+    "lastUpdated": "2026-04-19T12:14:00Z"
+  },
+  {
     "id": "bohr-heisenberg-priority",
     "question": "Who deserves primary credit for quantum mechanics: Heisenberg's matrix mechanics or Schrödinger's wave mechanics?",
     "sideA": {

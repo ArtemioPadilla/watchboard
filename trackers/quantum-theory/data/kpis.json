@@ -23,15 +23,27 @@
   },
   {
     "id": "largest-quantum-processor",
-    "label": "Largest Quantum Processor",
+    "label": "Largest Quantum Processor (Qubit Count)",
     "value": "1,121 qubits",
     "color": "amber",
-    "source": "IBM — IBM Condor, December 2023",
+    "source": "IBM — IBM Condor (2023); Google Willow 105q below-threshold error correction (2024)",
     "contested": false,
-    "delta": "IBM Condor (2023)",
-    "deltaNote": "Up from 433 qubits in 2022",
+    "delta": "IBM Condor holds raw qubit record; Quantinuum Helios leads in gate fidelity (99.921%)",
+    "deltaNote": "IBM Nighthawk (120q) and Fujitsu/RIKEN (256q) added in 2025",
     "trend": "up",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "lastUpdated": "2026-04-19T12:14:00Z"
+  },
+  {
+    "id": "best-gate-fidelity",
+    "label": "Best 2-Qubit Gate Fidelity",
+    "value": "99.99%",
+    "color": "green",
+    "source": "IonQ — Electronic Qubit Control (EQC), October 2025",
+    "contested": false,
+    "delta": "IonQ sets 'four nines' record (Oct 2025)",
+    "deltaNote": "Surpasses Oxford Ionics 99.97% (2024); Quantinuum Helios 99.921% (Nov 2025)",
+    "trend": "up",
+    "lastUpdated": "2026-04-19T12:14:00Z"
   },
   {
     "id": "quantum-supremacy-claim",
@@ -51,18 +63,19 @@
     "source": "McKinsey Quantum Technology Monitor 2024",
     "contested": false,
     "trend": "up",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "lastUpdated": "2026-04-19T12:14:00Z"
   },
   {
     "id": "quantum-computing-market",
-    "label": "Global Quantum Market (2024)",
-    "value": "~$1.5B",
+    "label": "Global Quantum Market (2025)",
+    "value": "~$1.8B",
     "color": "green",
-    "source": "McKinsey & Company — Quantum Technology Monitor 2024",
+    "source": "Network World — Top Quantum Breakthroughs 2025; CAGR ~32.7%, projected $5.3B by 2029",
     "contested": false,
     "trend": "up",
-    "delta": "+35% YoY",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "delta": "+20% YoY (2024→2025)",
+    "deltaNote": "Projected to reach $5.3B by 2029 at 32.7% CAGR",
+    "lastUpdated": "2026-04-19T12:14:00Z"
   },
   {
     "id": "quantum-interpretations",
@@ -84,5 +97,17 @@
     "delta": "Loophole-free since 2015",
     "trend": "stable",
     "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "qday-estimate",
+    "label": "Q-Day Estimate (Encryption Threat)",
+    "value": "2029–2035",
+    "color": "red",
+    "source": "Google Security — Q-Day update March 2026; Caltech/Berkeley/Oratomic study April 2026",
+    "contested": true,
+    "contestNote": "Google moved estimate to 2029; most cryptographers place risk at 2030–2040. NIST finalized PQC standards in 2024 to address the transition.",
+    "delta": "Google revised from 2032 → 2029 (Mar 2026)",
+    "trend": "up",
+    "lastUpdated": "2026-04-19T12:14:00Z"
   }
 ]
