@@ -85,6 +85,7 @@ jobs:
         continue-on-error: true
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          show_full_output: true
           prompt: |
             You are initializing a NEW tracker for the Watchboard intelligence dashboard platform.
 
@@ -426,6 +427,7 @@ jobs:
         continue-on-error: true
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          show_full_output: true
           allowed_bots: "github-actions[bot]"
           prompt: |
             You are performing a COMPREHENSIVE HISTORICAL BACKFILL for the Watchboard intelligence tracker: ${{ github.event.inputs.slug }}
