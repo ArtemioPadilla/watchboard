@@ -18,6 +18,7 @@ export interface BreakingTracker {
 export interface BreakingData {
   date: string;
   trackers: BreakingTracker[];
+  totalTrackers?: number;
 }
 
 /** Minimal GeoJSON types for globe rendering */

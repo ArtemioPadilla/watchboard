@@ -7,7 +7,7 @@ import {
   spring,
 } from 'remotion';
 
-export const Outro: React.FC<{ theme?: 'dark' | 'day' }> = ({ theme = 'dark' }) => {
+export const Outro: React.FC<{ theme?: 'dark' | 'day'; trackerCount?: number }> = ({ theme = 'dark', trackerCount = 64 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
@@ -103,7 +103,7 @@ export const Outro: React.FC<{ theme?: 'dark' | 'day' }> = ({ theme = 'dark' }) 
           lineHeight: 1.6,
         }}
       >
-        {theme === 'day' ? 'TRACK WHAT\'S GOING RIGHT' : '51 TRACKERS · UPDATED BY AI · FREE AND OPEN SOURCE'}
+        {theme === 'day' ? 'TRACK WHAT\'S GOING RIGHT' : `${trackerCount} TRACKERS · UPDATED BY AI · FREE AND OPEN SOURCE`}
         {theme === 'day' && (
           <div style={{ fontSize: 16, color: '#f0a500', opacity: 0.7, marginTop: 8, letterSpacing: '2px' }}>
             SCIENCE DOESN&apos;T TAKE DAYS OFF

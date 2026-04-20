@@ -294,7 +294,7 @@ export function fetchBreakingData(options: FetchBreakingOptions = {}): BreakingD
   }
 
   const today = new Date().toISOString().split('T')[0];
-  return { date: today, trackers: top3 };
+  return { date: today, trackers: top3, totalTrackers: scored.length };
 }
 
 // Main execution — only when run directly
