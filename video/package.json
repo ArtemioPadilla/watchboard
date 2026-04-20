@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "remotion studio",
     "render": "tsx render.ts",
-    "fetch": "tsx src/data/fetch-breaking.ts"
+    "fetch": "tsx src/data/fetch-breaking.ts",
+    "test": "vitest run"
   },
   "dependencies": {
     "@react-three/fiber": "^9.5.0",
@@ -23,6 +24,7 @@
     "@remotion/bundler": "^4.0.0",
     "@types/react": "^18.3.0",
     "tsx": "^4.21.0",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.0"
   }
 }

@@ -16,6 +16,87 @@ import { SAMPLE_DATA, type BreakingData, type BreakingTracker } from './types.js
 const TRACKERS_DIR = resolve(import.meta.dirname ?? '.', '../../../trackers');
 const OUTPUT_PATH = resolve(import.meta.dirname ?? '.', './breaking.json');
 
+// ── Tracker diversity state ──────────────────────────────────────────
+const STATE_DIR = resolve(import.meta.dirname ?? '.', '../../state');
+const STATE_PATH = join(STATE_DIR, 'tracker-history.json');
+
+export interface TrackerHistory {
+  version: number;
+  entries: Record<string, string[]>; // slug → ["2026-04-19", "2026-04-18", ...]
+}
+
+export function loadHistory(): TrackerHistory {
+  try {
+    if (!existsSync(STATE_PATH)) return { version: 1, entries: {} };
+    const raw = JSON.parse(readFileSync(STATE_PATH, 'utf-8'));
+    if (raw && typeof raw === 'object' && raw.version === 1 && typeof raw.entries === 'object') {
+      return raw as TrackerHistory;
+    }
+    return { version: 1, entries: {} };
+  } catch {
+    return { version: 1, entries: {} };
+  }
+}
+
+export function pruneHistory(history: TrackerHistory): TrackerHistory {
+  const cutoff = new Date();
+  cutoff.setDate(cutoff.getDate() - 7);
+  const cutoffStr = cutoff.toISOString().split('T')[0];
+
+  const entries: Record<string, string[]> = {};
+  for (const [slug, dates] of Object.entries(history.entries)) {
+    const kept = dates.filter((d) => d >= cutoffStr);
+    if (kept.length > 0) entries[slug] = kept;
+  }
+  return { version: 1, entries };
+}
+
+export function saveUsedTrackers(slugs: string[]): void {
+  if (!existsSync(STATE_DIR)) mkdirSync(STATE_DIR, { recursive: true });
+  const history = pruneHistory(loadHistory());
+  const today = new Date().toISOString().split('T')[0];
+
+  for (const slug of slugs) {
+    if (!history.entries[slug]) {
+      history.entries[slug] = [today];
+    } else if (!history.entries[slug].includes(today)) {
+      history.entries[slug].push(today);
+    }
+  }
+
+  writeFileSync(STATE_PATH, JSON.stringify(history, null, 2));
+}
+
+export function cooldownPenalty(slug: string, history: TrackerHistory): number {
+  const dates = history.entries[slug];
+  if (!dates || dates.length === 0) return 0;
+
+  const today = new Date().toISOString().split('T')[0];
+  // Find most recent past appearance (not today)
+  const pastDates = dates.filter((d) => d < today).sort().reverse();
+  if (pastDates.length === 0) return 0;
+
+  const mostRecent = pastDates[0];
+  const daysAgo = daysSince(mostRecent);
+
+  if (daysAgo <= 1) return 60;
+  if (daysAgo <= 2) return 30;
+  if (daysAgo <= 3) return 15;
+  if (daysAgo <= 4) return 7;
+  return 3; // 5+ days ago
+}
+
+export function noveltyBonus(lastUpdated: string, slug: string, history: TrackerHistory): number {
+  const dates = history.entries[slug];
+  if (!dates || dates.length === 0) return 10; // never appeared
+
+  const sorted = [...dates].sort().reverse();
+  const lastAppearance = sorted[0];
+
+  if (lastUpdated > lastAppearance) return 20; // updated since last video
+  return -20; // not updated since last appearance
+}
+
 export type VideoMode = 'conflict' | 'positive';
 
 interface TrackerConfig {
@@ -105,7 +186,7 @@ function daysSince(dateStr: string): number {
  * Returns null if the candidate should be excluded entirely (e.g., wrong domain
  * or excluded tags in positive mode).
  */
-export function scoreCandidate(candidate: ScoredCandidate, mode: VideoMode): number | null {
+export function scoreCandidate(candidate: ScoredCandidate, mode: VideoMode, history?: TrackerHistory): number | null {
   const age = daysSince(candidate.lastUpdated);
 
   if (mode === 'positive') {
@@ -121,6 +202,11 @@ export function scoreCandidate(candidate: ScoredCandidate, mode: VideoMode): num
     if (candidate.temporal === 'live') score += 20;
     if (candidate.breaking) score += 15;
     if (candidate.dayCount > 1000) score += 5;
+    if (history) {
+      const penalty = cooldownPenalty(candidate.tracker.slug, history);
+      const novelty = noveltyBonus(candidate.lastUpdated, candidate.tracker.slug, history);
+      score = Math.max(0, score - penalty + novelty);
+    }
     return score;
   }
 
@@ -133,6 +219,11 @@ export function scoreCandidate(candidate: ScoredCandidate, mode: VideoMode): num
   if (candidate.domain === 'conflict') score += 10;
   if (candidate.temporal === 'live') score += 5;
   if (candidate.dayCount > 0) score += 3;
+  if (history) {
+    const penalty = cooldownPenalty(candidate.tracker.slug, history);
+    const novelty = noveltyBonus(candidate.lastUpdated, candidate.tracker.slug, history);
+    score = Math.max(0, score - penalty + novelty);
+  }
   return score;
 }
 
@@ -232,6 +323,8 @@ export function fetchBreakingData(options: FetchBreakingOptions = {}): BreakingD
     return SAMPLE_DATA;
   }
 
+  const history = pruneHistory(loadHistory());
+
   const slugs = readdirSync(TRACKERS_DIR, { withFileTypes: true })
     .filter((d) => d.isDirectory())
     .map((d) => d.name);
@@ -254,7 +347,7 @@ export function fetchBreakingData(options: FetchBreakingOptions = {}): BreakingD
       dayCount: loaded.dayCount,
     };
 
-    const calculatedScore = scoreCandidate(candidate, mode);
+    const calculatedScore = scoreCandidate(candidate, mode, history);
     if (calculatedScore === null) continue; // excluded by mode filter
 
     candidate.score = calculatedScore;
@@ -279,6 +372,16 @@ export function fetchBreakingData(options: FetchBreakingOptions = {}): BreakingD
       console.log(`   Headline: ${c.tracker.headline}`);
       console.log(`   KPI: ${c.tracker.kpiLabel} ${c.tracker.kpiValue}`);
       console.log(`   Domain: ${c.domain ?? 'n/a'} | Temporal: ${c.temporal ?? 'n/a'} | Days: ${c.dayCount}`);
+      const baseScore = scoreCandidate(c, mode) ?? 0;
+      const penalty = cooldownPenalty(c.tracker.slug, history);
+      const novelty = noveltyBonus(c.lastUpdated, c.tracker.slug, history);
+      console.log(`   Diversity: [base: ${baseScore}, cooldown: -${penalty}, novelty: ${novelty >= 0 ? '+' : ''}${novelty}]`);
+      const slugDates = history.entries[c.tracker.slug];
+      if (slugDates && slugDates.length > 0) {
+        const lastDate = [...slugDates].sort().reverse()[0];
+        const daysAgo = Math.max(0, Math.floor((Date.now() - new Date(lastDate).getTime()) / 86_400_000));
+        console.log(`   Last in video: ${lastDate} (${daysAgo} day${daysAgo !== 1 ? 's' : ''} ago)`);
+      }
       console.log('');
     }
     if (scored.length === 0) {

@@ -260,6 +260,12 @@ async function main(): Promise<void> {
   }
   console.log(`  Output: ${(outputStat.size / 1024 / 1024).toFixed(1)} MB`);
 
+  // Persist tracker history after successful render
+  const { saveUsedTrackers } = await import('./src/data/fetch-breaking.js');
+  const usedSlugs = data.trackers.map((t) => t.slug);
+  saveUsedTrackers(usedSlugs);
+  console.log(`  History updated: ${usedSlugs.join(', ')}`);
+
   // Step 5 (optional): Merge narration audio via ffmpeg
   if (existsSync(NARRATION_PATH)) {
     console.log('[5/5] Merging narration audio...');
