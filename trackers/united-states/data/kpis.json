@@ -85,14 +85,14 @@
   {
     "id": "oil-price-wti",
     "label": "WTI Crude Oil Price",
-    "value": "~$91/bbl",
-    "color": "amber",
-    "source": "CNBC / market data (Apr 19, 2026)",
+    "value": "~$93–95/bbl",
+    "color": "red",
+    "source": "CNBC / market data (Apr 21, 2026)",
     "contested": false,
-    "delta": "Ceasefire premium",
-    "deltaNote": "WTI ~$91.27/bbl Apr 19; national avg gas $3.45/gal; range Apr 12–19: $104 to $80 to $91; ceasefire expiry Apr 21 maintaining risk premium",
-    "trend": "down",
-    "lastUpdated": "2026-04-19T14:10:45Z"
+    "delta": "Rising on ceasefire expiry",
+    "deltaNote": "WTI rising toward $93–95/bbl Apr 21 as ceasefire expired with no deal; S&P 500 moved into the red on ceasefire deadline; markets pricing in resumed US strikes",
+    "trend": "up",
+    "lastUpdated": "2026-04-21T14:05:00Z"
   },
   {
     "id": "umich-consumer-sentiment",
@@ -121,14 +121,14 @@
   {
     "id": "iran-ceasefire-us-diplomatic",
     "label": "Iran Ceasefire / Hormuz Status",
-    "value": "Talks → Islamabad Apr 20",
+    "value": "Expired — No Deal",
     "color": "red",
-    "source": "The National / NPR / The Hill (Apr 19, 2026)",
+    "source": "NPR / Al Jazeera / CNBC / The Hill (Apr 21, 2026)",
     "contested": true,
-    "contestNote": "Ceasefire expires April 21 with no deal; Kushner & Witkoff heading to Islamabad for Round 2; Iran blocked 2 tankers Apr 19; Iran says 'progress made'",
-    "delta": "Expires in 2 days",
-    "deltaNote": "Trump: 'have to start dropping bombs again' without deal by Wednesday; Turkey urges extension; Iran accelerating missile/drone upgrades",
+    "contestNote": "Ceasefire expired April 21 with no deal; Islamabad Round 2 ended after ~21 hrs with Iran absent from formal talks; Trump threatens to destroy Iranian power plants/bridges; US forces described as 'raring to go'",
+    "delta": "No extension",
+    "deltaNote": "Iran refused to send delegates citing US blockade; Trump called extension 'highly unlikely'; WTI crude rose toward $93–95/bbl as markets priced in resumed strikes",
     "trend": "down",
-    "lastUpdated": "2026-04-19T14:10:45Z"
+    "lastUpdated": "2026-04-21T14:05:00Z"
   }
 ]
