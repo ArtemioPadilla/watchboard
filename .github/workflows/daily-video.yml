@@ -120,6 +120,24 @@ jobs:
             git push || echo "Push failed (non-fatal)"
           fi
 
+      - name: Commit tracker history
+        continue-on-error: true
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if [ -f video/state/tracker-history.json ]; then
+            git add video/state/tracker-history.json
+            git diff --cached --quiet || git commit -m "chore(video): update tracker history $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            for i in 1 2 3; do
+              git pull --rebase origin main && git push && break
+              git rebase --abort || true
+              git reset --hard HEAD || true
+              sleep 2
+            done
+          else
+            echo "No tracker-history.json to commit"
+          fi
+
       - name: Upload video artifacts
         uses: actions/upload-artifact@v4
         with:
