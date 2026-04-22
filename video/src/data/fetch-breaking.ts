@@ -167,11 +167,10 @@ function loadRecentVideoHistory(
  * or excluded tags in positive mode).
  *
  * Repetition logic:
- *   - If the tracker appeared recently AND its headline is IDENTICAL → hard penalty (-60)
- *     (same news, no update — this is what the user sees as "repetition")
- *   - If the tracker appeared recently BUT headline changed → small penalty (-10)
- *     (same tracker, new content — acceptable)
- *   - If not seen recently → no penalty
+ *   - If the tracker's heroHeadline is IDENTICAL to a recent video → EXCLUDED entirely
+ *     (pipeline didn't update this tracker — nothing new to show)
+ *   - If the tracker appeared recently with a DIFFERENT headline → allowed normally
+ *     (same tracker, new content — that's fine)
  */
 export function scoreCandidate(
   candidate: ScoredCandidate,
@@ -182,19 +181,10 @@ export function scoreCandidate(
   const currentHeadline = candidate.tracker.headline ?? '';
   const prior = recentHistory.get(candidate.tracker.slug);
 
-  // Determine repetition penalty
-  let repetitionPenalty = 0;
-  if (prior !== undefined) {
-    const headlineUnchanged = prior.headline !== '' && prior.headline === currentHeadline;
-    if (headlineUnchanged) {
-      // Same story — hard penalty regardless of how many days ago
-      repetitionPenalty = prior.daysAgo === 1 ? 80 : prior.daysAgo === 2 ? 60 : 40;
-    } else {
-      // Different headline — tracker updated, allow with a small nudge toward variety
-      repetitionPenalty = 10;
-    }
+  // Hard exclusion: same headline as a previous video — pipeline hasn't updated this tracker
+  if (prior !== undefined && prior.headline !== '' && prior.headline === currentHeadline) {
+    return null;
   }
-
   if (mode === 'positive') {
     // REQUIRED: tone must be 'progress'
     if (candidate.tone !== 'progress') {
@@ -208,7 +198,6 @@ export function scoreCandidate(
     if (candidate.temporal === 'live') score += 20;
     if (candidate.breaking) score += 15;
     if (candidate.dayCount > 1000) score += 5;
-    score -= repetitionPenalty;
     return score;
   }
 
@@ -221,7 +210,6 @@ export function scoreCandidate(
   if (candidate.domain === 'conflict') score += 10;
   if (candidate.temporal === 'live') score += 5;
   if (candidate.dayCount > 0) score += 3;
-  score -= repetitionPenalty;
 
   return score;
 }
@@ -415,8 +403,8 @@ export function fetchBreakingData(options: FetchBreakingOptions = {}): BreakingD
       const prior = recentHistory.get(c.tracker.slug);
       const recentFlag = prior
         ? prior.headline === c.tracker.headline
-          ? ` 🔁 SAME HEADLINE (${prior.daysAgo}d ago)`
-          : ` ✅ updated since ${prior.daysAgo}d ago`
+          ? ` ❌ EXCLUDED — same headline (${prior.daysAgo}d ago)`
+          : ` ✅ updated since last appearance (${prior.daysAgo}d ago)`
         : '';
       console.log(`${i + 1}. ${c.tracker.icon} ${c.tracker.name} — score: ${c.score}${recentFlag}`);
       console.log(`   Domain: ${c.domain ?? 'n/a'} | Updated: ${c.lastUpdated} | Breaking: ${c.breaking}`);
