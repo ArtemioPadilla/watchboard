@@ -98,7 +98,9 @@ export function noveltyBonus(lastUpdated: string, slug: string, history: Tracker
   const sorted = [...dates].sort().reverse();
   const lastAppearance = sorted[0];
 
-  if (lastUpdated > lastAppearance) return 20; // updated since last video
+  // Normalize to YYYY-MM-DD for safe string comparison (lastUpdated may be ISO datetime)
+  const lastUpdatedDay = lastUpdated.slice(0, 10);
+  if (lastUpdatedDay > lastAppearance) return 20; // updated since last video
   return -20; // not updated since last appearance
 }
 
@@ -244,28 +246,19 @@ function loadRecentVideoHistory(
 /**
  * Computes a numeric score for a tracker candidate based on the video mode.
  *
- * Returns null if the candidate should be excluded entirely (e.g., wrong domain
- * or excluded tags in positive mode).
+ * Returns null if the candidate should be excluded entirely (e.g., wrong tone
+ * in positive mode).
  *
- * Repetition logic:
- *   - If the tracker's heroHeadline is IDENTICAL to a recent video → EXCLUDED entirely
- *     (pipeline didn't update this tracker — nothing new to show)
- *   - If the tracker appeared recently with a DIFFERENT headline → allowed normally
- *     (same tracker, new content — that's fine)
+ * Cooldown/novelty penalties and bonuses from TrackerHistory are applied in both
+ * conflict and positive modes when history is provided.
  */
 export function scoreCandidate(
   candidate: ScoredCandidate,
   mode: VideoMode,
-  recentHistory: Map<string, { daysAgo: number; headline: string }> = new Map(),
+  history?: TrackerHistory,
 ): number | null {
   const age = daysSince(candidate.lastUpdated);
-  const currentHeadline = candidate.tracker.headline ?? '';
-  const prior = recentHistory.get(candidate.tracker.slug);
 
-  // Hard exclusion: same headline as a previous video — pipeline hasn't updated this tracker
-  if (prior !== undefined && prior.headline !== '' && prior.headline === currentHeadline) {
-    return null;
-  }
   if (mode === 'positive') {
     // REQUIRED: tone must be 'progress'
     if (candidate.tone !== 'progress') {
@@ -296,6 +289,11 @@ export function scoreCandidate(
   if (candidate.domain === 'conflict') score += 10;
   if (candidate.temporal === 'live') score += 5;
   if (candidate.dayCount > 0) score += 3;
+  if (history) {
+    const penalty = cooldownPenalty(candidate.tracker.slug, history);
+    const novelty = noveltyBonus(candidate.lastUpdated, candidate.tracker.slug, history);
+    score = Math.max(0, score - penalty + novelty);
+  }
 
   return score;
 }
@@ -436,6 +434,9 @@ export function fetchBreakingData(options: FetchBreakingOptions = {}): BreakingD
     return SAMPLE_DATA;
   }
 
+  // Load tracker diversity history (cooldown decay + novelty bonus)
+  const trackerHistory = loadHistory();
+
   // Load recent video history for headline-based deduplication
   const recentHistory = loadRecentVideoHistory(3);
   if (recentHistory.size > 0) {
@@ -455,6 +456,13 @@ export function fetchBreakingData(options: FetchBreakingOptions = {}): BreakingD
     const loaded = loadTrackerBreaking(slug);
     if (!loaded) continue;
 
+    // Headline deduplication: exclude trackers whose headline hasn't changed since last video
+    const priorVideo = recentHistory.get(slug);
+    const currentHeadline = loaded.tracker.headline ?? '';
+    if (priorVideo !== undefined && priorVideo.headline !== '' && priorVideo.headline === currentHeadline) {
+      continue; // same headline as a previous video — nothing new to show
+    }
+
     const candidate: ScoredCandidate = {
       tracker: loaded.tracker,
       score: 0,
@@ -467,7 +475,7 @@ export function fetchBreakingData(options: FetchBreakingOptions = {}): BreakingD
       dayCount: loaded.dayCount,
     };
 
-    const calculatedScore = scoreCandidate(candidate, mode, recentHistory);
+    const calculatedScore = scoreCandidate(candidate, mode, trackerHistory);
     if (calculatedScore === null) continue; // excluded by mode filter
 
     candidate.score = calculatedScore;
@@ -488,9 +496,7 @@ export function fetchBreakingData(options: FetchBreakingOptions = {}): BreakingD
       const c = scored[i];
       const prior = recentHistory.get(c.tracker.slug);
       const recentFlag = prior
-        ? prior.headline === c.tracker.headline
-          ? ` ❌ EXCLUDED — same headline (${prior.daysAgo}d ago)`
-          : ` ✅ updated since last appearance (${prior.daysAgo}d ago)`
+        ? ` ✅ updated since last appearance (${prior.daysAgo}d ago)`
         : '';
       console.log(`${i + 1}. ${c.tracker.icon} ${c.tracker.name} — score: ${c.score}${recentFlag}`);
       console.log(`   Domain: ${c.domain ?? 'n/a'} | Updated: ${c.lastUpdated} | Breaking: ${c.breaking}`);
@@ -516,6 +522,11 @@ export function fetchBreakingData(options: FetchBreakingOptions = {}): BreakingD
   if (top3.length === 0) {
     console.warn('No active trackers found, using sample data.');
     return SAMPLE_DATA;
+  }
+
+  // Persist tracker history so cooldown/novelty state survives across runs
+  if (!dryRun) {
+    saveUsedTrackers(top3candidates.map((c) => c.tracker.slug));
   }
 
   const today = new Date().toISOString().split('T')[0];
