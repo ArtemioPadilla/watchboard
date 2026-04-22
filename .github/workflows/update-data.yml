@@ -838,11 +838,21 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git add trackers/
           git commit -m "chore(data): nightly AI update $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          pushed=false
           for i in 1 2 3; do
-            git pull --rebase origin main && git push && break
+            if git pull --rebase origin main && git push; then
+              pushed=true
+              break
+            fi
             echo "Push attempt $i failed, retrying..."
+            git rebase --abort || true
+            git reset --hard HEAD
             sleep 2
           done
+          if [ "$pushed" != "true" ]; then
+            echo "Failed to push nightly data commit after 3 attempts"
+            exit 1
+          fi
 
       - name: Collect metrics
         id: metrics
@@ -1101,11 +1111,21 @@ jobs:
           TIMESTAMP=$(date -u +%Y-%m-%dT%H:%M:%SZ)
           STATUS="${{ steps.validate.outputs.valid == 'true' && 'success' || (steps.revalidate.outputs.valid == 'true' && 'success' || 'failure') }}"
           git commit -m "chore(metrics): ingestion run $TIMESTAMP [$STATUS]"
+          pushed=false
           for i in 1 2 3; do
-            git pull --rebase origin main && git push && break
+            if git pull --rebase origin main && git push; then
+              pushed=true
+              break
+            fi
             echo "Push attempt $i failed, retrying..."
+            git rebase --abort || true
+            git reset --hard HEAD
             sleep 2
           done
+          if [ "$pushed" != "true" ]; then
+            echo "Failed to push nightly metrics commit after 3 attempts"
+            exit 1
+          fi
 
       - name: Clean up old hourly manifests
         run: |
