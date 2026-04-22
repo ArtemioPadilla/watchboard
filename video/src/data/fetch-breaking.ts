@@ -105,14 +105,17 @@ function daysSince(dateStr: string): number {
 }
 
 /**
- * Reads the slugs that appeared in videos in the last N days.
- * Parses public/_social/video-post-YYYY-MM-DD.json (caption_en contains tracker names,
- * but we prefer to store slugs explicitly — if not present, we skip gracefully).
+ * Reads recent video post records and returns a map of
+ * slug → { daysAgo, headline } for the most recent appearance of each tracker.
  *
- * Returns a Map<slug, daysAgo> for the most recent appearance of each slug.
+ * Used to penalize trackers whose headline hasn't changed since last appearance
+ * (i.e., no new content), while allowing a tracker to appear again if its
+ * heroHeadline is different (new update).
  */
-function loadRecentVideoSlugs(lookbackDays: number = 3): Map<string, number> {
-  const result = new Map<string, number>();
+function loadRecentVideoHistory(
+  lookbackDays: number = 3,
+): Map<string, { daysAgo: number; headline: string }> {
+  const result = new Map<string, { daysAgo: number; headline: string }>();
 
   if (!existsSync(SOCIAL_DIR)) return result;
 
@@ -123,26 +126,31 @@ function loadRecentVideoSlugs(lookbackDays: number = 3): Map<string, number> {
     d.setUTCDate(d.getUTCDate() - i);
     const dateStr = d.toISOString().split('T')[0];
 
-    // Check both conflict and progress post files
     for (const prefix of ['video-post', 'video-post-progress']) {
-      const path = join(SOCIAL_DIR, `${prefix}-${dateStr}.json`);
-      if (!existsSync(path)) continue;
+      const filePath = join(SOCIAL_DIR, `${prefix}-${dateStr}.json`);
+      if (!existsSync(filePath)) continue;
 
       try {
-        const post = JSON.parse(readFileSync(path, 'utf-8'));
+        const post = JSON.parse(readFileSync(filePath, 'utf-8'));
 
-        // Prefer explicit slugs array (future-proof)
-        if (Array.isArray(post.trackerSlugs)) {
-          for (const slug of post.trackerSlugs) {
-            if (!result.has(slug)) result.set(slug, i);
+        // Prefer explicit trackerHeadlines map: { slug: headline }
+        if (post.trackerHeadlines && typeof post.trackerHeadlines === 'object') {
+          for (const [slug, headline] of Object.entries(post.trackerHeadlines)) {
+            if (!result.has(slug)) {
+              result.set(slug, { daysAgo: i, headline: headline as string });
+            }
           }
           continue;
         }
 
-        // Fallback: extract tracker names from caption and try to match slugs
-        // We can't reliably reverse-engineer slugs from display names,
-        // so we skip this and rely on explicit slugs when available.
-        // (The render step will start writing trackerSlugs after this PR.)
+        // Legacy fallback: trackerSlugs without headlines — record slug only
+        if (Array.isArray(post.trackerSlugs)) {
+          for (const slug of post.trackerSlugs) {
+            if (!result.has(slug)) {
+              result.set(slug, { daysAgo: i, headline: '' });
+            }
+          }
+        }
       } catch {
         // skip malformed files
       }
@@ -157,13 +165,35 @@ function loadRecentVideoSlugs(lookbackDays: number = 3): Map<string, number> {
  *
  * Returns null if the candidate should be excluded entirely (e.g., wrong domain
  * or excluded tags in positive mode).
+ *
+ * Repetition logic:
+ *   - If the tracker appeared recently AND its headline is IDENTICAL → hard penalty (-60)
+ *     (same news, no update — this is what the user sees as "repetition")
+ *   - If the tracker appeared recently BUT headline changed → small penalty (-10)
+ *     (same tracker, new content — acceptable)
+ *   - If not seen recently → no penalty
  */
 export function scoreCandidate(
   candidate: ScoredCandidate,
   mode: VideoMode,
-  recentSlugs: Map<string, number> = new Map(),
+  recentHistory: Map<string, { daysAgo: number; headline: string }> = new Map(),
 ): number | null {
   const age = daysSince(candidate.lastUpdated);
+  const currentHeadline = candidate.tracker.headline ?? '';
+  const prior = recentHistory.get(candidate.tracker.slug);
+
+  // Determine repetition penalty
+  let repetitionPenalty = 0;
+  if (prior !== undefined) {
+    const headlineUnchanged = prior.headline !== '' && prior.headline === currentHeadline;
+    if (headlineUnchanged) {
+      // Same story — hard penalty regardless of how many days ago
+      repetitionPenalty = prior.daysAgo === 1 ? 80 : prior.daysAgo === 2 ? 60 : 40;
+    } else {
+      // Different headline — tracker updated, allow with a small nudge toward variety
+      repetitionPenalty = 10;
+    }
+  }
 
   if (mode === 'positive') {
     // REQUIRED: tone must be 'progress'
@@ -178,13 +208,7 @@ export function scoreCandidate(
     if (candidate.temporal === 'live') score += 20;
     if (candidate.breaking) score += 15;
     if (candidate.dayCount > 1000) score += 5;
-
-    // Recency penalty: discourage repeating same tracker
-    const daysAgo = recentSlugs.get(candidate.tracker.slug);
-    if (daysAgo !== undefined) {
-      score -= daysAgo === 1 ? 40 : daysAgo === 2 ? 25 : 10;
-    }
-
+    score -= repetitionPenalty;
     return score;
   }
 
@@ -197,12 +221,7 @@ export function scoreCandidate(
   if (candidate.domain === 'conflict') score += 10;
   if (candidate.temporal === 'live') score += 5;
   if (candidate.dayCount > 0) score += 3;
-
-  // Recency penalty: discourage repeating same tracker within 3 days
-  const daysAgo = recentSlugs.get(candidate.tracker.slug);
-  if (daysAgo !== undefined) {
-    score -= daysAgo === 1 ? 40 : daysAgo === 2 ? 25 : 10;
-  }
+  score -= repetitionPenalty;
 
   return score;
 }
@@ -343,11 +362,13 @@ export function fetchBreakingData(options: FetchBreakingOptions = {}): BreakingD
     return SAMPLE_DATA;
   }
 
-  // Load recent video history for deduplication
-  const recentSlugs = loadRecentVideoSlugs(3);
-  if (recentSlugs.size > 0) {
-    const slugList = [...recentSlugs.entries()].map(([s, d]) => `${s}(${d}d ago)`).join(', ');
-    console.log(`[diversity] Recent slugs (last 3 days): ${slugList}`);
+  // Load recent video history for headline-based deduplication
+  const recentHistory = loadRecentVideoHistory(3);
+  if (recentHistory.size > 0) {
+    const histList = [...recentHistory.entries()]
+      .map(([s, v]) => `${s}(${v.daysAgo}d ago)`)
+      .join(', ');
+    console.log(`[diversity] Recent tracker history (last 3 days): ${histList}`);
   }
 
   const slugs = readdirSync(TRACKERS_DIR, { withFileTypes: true })
@@ -372,7 +393,7 @@ export function fetchBreakingData(options: FetchBreakingOptions = {}): BreakingD
       dayCount: loaded.dayCount,
     };
 
-    const calculatedScore = scoreCandidate(candidate, mode, recentSlugs);
+    const calculatedScore = scoreCandidate(candidate, mode, recentHistory);
     if (calculatedScore === null) continue; // excluded by mode filter
 
     candidate.score = calculatedScore;
@@ -391,8 +412,11 @@ export function fetchBreakingData(options: FetchBreakingOptions = {}): BreakingD
     console.log(`\n=== ${modeLabel} mode (${today}) — top 10 before diversity pick ===`);
     for (let i = 0; i < Math.min(scored.length, 10); i++) {
       const c = scored[i];
-      const recentFlag = recentSlugs.has(c.tracker.slug)
-        ? ` ⚠️ seen ${recentSlugs.get(c.tracker.slug)}d ago`
+      const prior = recentHistory.get(c.tracker.slug);
+      const recentFlag = prior
+        ? prior.headline === c.tracker.headline
+          ? ` 🔁 SAME HEADLINE (${prior.daysAgo}d ago)`
+          : ` ✅ updated since ${prior.daysAgo}d ago`
         : '';
       console.log(`${i + 1}. ${c.tracker.icon} ${c.tracker.name} — score: ${c.score}${recentFlag}`);
       console.log(`   Domain: ${c.domain ?? 'n/a'} | Updated: ${c.lastUpdated} | Breaking: ${c.breaking}`);
