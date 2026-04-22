@@ -17,6 +17,7 @@ import DesktopStoryStrip from './DesktopStoryStrip';
 import { getDiscoveredFeatures, markFeatureDiscovered, getNextCoachHint } from '../../../lib/onboarding';
 
 const FOLLOWS_KEY = 'watchboard-follows';
+const SIDEBAR_PREF_KEY = 'watchboard-sidebar-pref'; // 'expanded' | 'collapsed'
 
 function loadFollows(): string[] {
   try {
@@ -196,6 +197,17 @@ export default function CommandCenter({
     const discovered = getDiscoveredFeatures();
     setDiscoveredFeatures(discovered);
     setCoachHint(getNextCoachHint(discovered));
+
+    // Sidebar default: expanded on wide desktops (≥ 1280px), collapsed on narrow
+    // screens. User's explicit preference in localStorage overrides the default.
+    const storedPref = localStorage.getItem(SIDEBAR_PREF_KEY);
+    if (storedPref === 'expanded') {
+      setSidebarCollapsed(false);
+    } else if (storedPref === 'collapsed') {
+      setSidebarCollapsed(true);
+    } else if (window.innerWidth >= 1280) {
+      setSidebarCollapsed(false);
+    }
   }, []);
 
   useEffect(() => {
@@ -661,7 +673,10 @@ export default function CommandCenter({
         {!isMobile && sidebarCollapsed ? (
           <div style={styles.collapsedSidebarContent}>
             <button
-              onClick={() => setSidebarCollapsed(false)}
+              onClick={() => {
+                setSidebarCollapsed(false);
+                try { localStorage.setItem(SIDEBAR_PREF_KEY, 'expanded'); } catch {}
+              }}
               style={styles.sidebarToggleBtn}
               aria-label="Expand sidebar"
               title="Expand sidebar"
@@ -733,7 +748,10 @@ export default function CommandCenter({
           <>
             {!isMobile && (
               <button
-                onClick={() => setSidebarCollapsed(true)}
+                onClick={() => {
+                  setSidebarCollapsed(true);
+                  try { localStorage.setItem(SIDEBAR_PREF_KEY, 'collapsed'); } catch {}
+                }}
                 style={styles.sidebarCollapseBtn}
                 aria-label="Collapse sidebar"
                 title="Collapse sidebar"
