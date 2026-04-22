@@ -38,15 +38,16 @@
   },
   {
     "id": "mrna-4157-phase2-efficacy",
-    "label": "mRNA-4157 Melanoma Recurrence Reduction (Phase 2)",
-    "value": "44%",
+    "label": "V940/mRNA-4157 Melanoma Death Rate Reduction (5-Year Follow-Up)",
+    "value": "49%",
     "color": "green",
-    "source": "Moderna/Merck KEYNOTE-942 Phase 2 (SITC 2022)",
+    "source": "Moderna/Merck KEYNOTE-942 Phase 2 5-Year Follow-Up (Jan 2026)",
     "contested": true,
-    "contestNote": "Phase 2 small sample; Phase 3 needed to confirm; improvement over pembrolizumab alone",
-    "delta": "Primary endpoint met",
+    "contestNote": "Phase 2 data; Phase 3 INTerpath still enrolling. Initial 2022 readout showed 44% recurrence reduction; 5-yr follow-up shows 49% death rate reduction vs. pembro alone",
+    "delta": "+5pp vs. 2-year readout",
+    "deltaNote": "Durable benefit confirmed at 5 years; Phase 3 primary results expected 2026–2027",
     "trend": "up",
-    "lastUpdated": "2026-04-14T00:00:00.000Z"
+    "lastUpdated": "2026-04-21T14:30:00.000Z"
   },
   {
     "id": "approved-non-covid-mrna",
@@ -95,5 +96,18 @@
     "delta": "−60% by 2024 as COVID demand normalizes",
     "trend": "down",
     "lastUpdated": "2026-04-14T00:00:00.000Z"
+  },
+  {
+    "id": "nci-cancer-vaccine-funding-2026",
+    "label": "NCI Cancer Vaccine Funding Commitment (2026)",
+    "value": "$200M",
+    "color": "green",
+    "source": "NCI / CNN Health (AACR 2026, Apr 20)",
+    "contested": false,
+    "contestNote": "Partially reverses 2025 cuts: proposed 40% NCI budget cut, $590M BARDA pandemic flu contract cancellation, 22 mRNA contracts terminated",
+    "delta": "Partial reversal of 2025 cuts",
+    "deltaNote": "Covers personalized neoantigen vaccines, shared antigen approaches, and combination immunotherapy strategies",
+    "trend": "up",
+    "lastUpdated": "2026-04-21T14:30:00.000Z"
   }
 ]

@@ -145,7 +145,7 @@ export default function CommandCenter({
     toggleCityLights?: () => void;
   }>(null);
 
-  const broadcastEnabled = !activeTracker && !broadcastOff;
+  const broadcastEnabled = !broadcastOff;
 
   const broadcast = useBroadcastMode(
     trackers,
@@ -154,6 +154,9 @@ export default function CommandCenter({
     (slug) => setHoveredTracker(slug),
     followedSlugs,
   );
+
+  const broadcastRef = useRef(broadcast);
+  broadcastRef.current = broadcast;
 
   useEffect(() => {
     const hash = viewMode === 'operations' ? '' : viewMode === 'geographic' ? '#geo' : '#domain';
@@ -240,9 +243,15 @@ export default function CommandCenter({
     setActiveTracker(slug);
     if (slug) {
       setActiveGeoPath(null);
-      setSidebarCollapsed(false);
+      // Jump broadcast to this tracker and user-pause, so every surface
+      // (lower-third, story strip, sidebar) stays in sync without tearing
+      // down the broadcast experience. Esc or pauseCountdown resumes.
+      if (!broadcastOff) {
+        broadcastRef.current.jumpTo(slug);
+        broadcastRef.current.userPause();
+      }
     }
-  }, []);
+  }, [broadcastOff]);
 
   const handleHover = useCallback((slug: string | null) => {
     setHoveredTracker(slug);
@@ -378,6 +387,7 @@ export default function CommandCenter({
         if (compareSlugs.length > 0) { setCompareSlugs([]); return; }
         if (isInput) { (target as HTMLInputElement).blur(); return; }
         setActiveTracker(null);
+        if (broadcastRef.current.isUserPaused) broadcastRef.current.userResume();
         return;
       }
 
@@ -662,10 +672,25 @@ export default function CommandCenter({
             </button>
             {broadcastEnabled ? (
               <DesktopStoryStrip
-                trackers={trackers}
                 basePath={basePath}
-                followedSlugs={followedSlugs}
-                onTrackerChange={handleStoryTrackerChange}
+                trackerQueue={broadcast.trackerQueue}
+                featuredTracker={broadcast.featuredTracker ?? null}
+                currentIndex={broadcast.currentIndex}
+                progress={broadcast.progress}
+                isPaused={broadcast.isUserPaused}
+                pauseCountdown={broadcast.pauseCountdown}
+                onCircleClick={(slug) => {
+                  broadcastRef.current.jumpTo(slug);
+                  if (broadcastRef.current.isUserPaused) broadcastRef.current.userResume();
+                  handleDiscoverFeature('story-circle');
+                }}
+                onCardClick={() => {
+                  if (broadcastRef.current.isUserPaused) {
+                    broadcastRef.current.userResume();
+                  } else {
+                    broadcastRef.current.userPause();
+                  }
+                }}
               />
             ) : (
               <div style={styles.collapsedTrackerIcons}>
@@ -754,6 +779,7 @@ export default function CommandCenter({
               onLeaveGeoNode={handleLeaveGeoNode}
               onClickGeoNode={handleClickGeoNode}
               activeGeoPath={activeGeoPath}
+              featuredSlug={broadcastEnabled ? (broadcast.featuredTracker?.slug ?? null) : null}
             />
           </>
         )}

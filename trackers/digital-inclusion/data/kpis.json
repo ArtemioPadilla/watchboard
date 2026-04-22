@@ -2,37 +2,37 @@
   {
     "id": "internet-penetration-global",
     "label": "Global Internet Penetration",
-    "value": "67.4%",
+    "value": "75%",
     "color": "blue",
-    "source": "ITU Global Connectivity Report 2024",
+    "source": "ITU Global Connectivity Report 2025",
     "contested": false,
-    "delta": "+2.1 pp",
-    "deltaNote": "year-over-year increase from 65.3% in 2023",
+    "delta": "+7.6 pp",
+    "deltaNote": "year-over-year increase per ITU GCR 2025; 6 billion people now connected for the first time",
     "trend": "up",
-    "lastUpdated": "2026-04-14T00:00:00Z"
+    "lastUpdated": "2026-04-21T14:35:22Z"
   },
   {
     "id": "people-offline-count",
     "label": "People Still Offline Worldwide",
-    "value": "2.6 billion",
+    "value": "2.2 billion",
     "color": "red",
-    "source": "ITU 2024 / UN Broadband Commission",
+    "source": "ITU Global Connectivity Report 2025",
     "contested": true,
-    "contestNote": "Estimates range from 2.5–2.9B depending on 'active use' vs. 'occasional access' definitions",
+    "contestNote": "ITU estimates 2.2B; estimates range 2.1–2.5B depending on 'active use' vs. 'occasional access' definitions; rural-urban and income divides persist",
     "trend": "down",
-    "lastUpdated": "2026-04-14T00:00:00Z"
+    "lastUpdated": "2026-04-21T14:35:22Z"
   },
   {
     "id": "starlink-active-subscribers",
-    "label": "Starlink Active Subscribers",
-    "value": "~4.2 million",
+    "label": "Starlink Direct Subscribers + Mobile Partners",
+    "value": "~6M direct / ~10M via carriers",
     "color": "blue",
-    "source": "SpaceX regulatory filings / Q1 2025 reports",
+    "source": "SpaceX / Domain-B Starlink Growth Report, April 2026",
     "contested": false,
-    "delta": "+1.2M",
-    "deltaNote": "since mid-2024 (3M milestone)",
+    "delta": "+1.8M direct",
+    "deltaNote": "direct residential subscribers ~6M Q1 2026; Direct-to-Cell reaching ~10M monthly active users via carrier partners",
     "trend": "up",
-    "lastUpdated": "2026-04-14T00:00:00Z"
+    "lastUpdated": "2026-04-21T14:35:22Z"
   },
   {
     "id": "mobile-broadband-coverage",
@@ -84,13 +84,13 @@
   {
     "id": "starlink-country-coverage",
     "label": "Starlink Countries with Active Service",
-    "value": "100+",
+    "value": "115+",
     "color": "blue",
-    "source": "SpaceX Starlink availability map, 2024",
+    "source": "SpaceX Starlink availability map / Domain-B Global Expansion Report, April 2026",
     "contested": false,
-    "delta": "+20 countries",
-    "deltaNote": "since early 2023; coverage expanding fastest in Sub-Saharan Africa and Pacific Islands",
+    "delta": "+15 countries",
+    "deltaNote": "since early 2024; constellation now 7,000+ active satellites with Direct-to-Cell coverage expanding via carrier partnerships",
     "trend": "up",
-    "lastUpdated": "2026-04-14T00:00:00Z"
+    "lastUpdated": "2026-04-21T14:35:22Z"
   }
 ]

@@ -55,17 +55,6 @@
     "lastUpdated": "2026-04-13"
   },
   {
-    "id": "uk-step-commitment",
-    "label": "UK Fusion Investment (STEP + R&D)",
-    "value": "£2.5B+",
-    "change": "+£410M announced Jan 2025",
-    "direction": "up",
-    "sparkData": [0.04, 0.1, 0.22, 0.5, 0.8, 1.2, 2.5],
-    "color": "#2dc653",
-    "source": "UK Atomic Energy Authority / UKAEA Jan 2025",
-    "lastUpdated": "2026-04-13"
-  },
-  {
     "id": "private-fusion-companies-count",
     "label": "Active Private Fusion Companies",
     "value": "43+",
@@ -78,7 +67,7 @@
   },
   {
     "id": "annual-investment-rate-2025",
-    "label": "Rolling 12-Month Private Investment (mid-2025)",
+    "label": "Rolling 12-Month Private Investment (mid-2025 peak)",
     "value": "$2.64B",
     "change": "+178% vs prior year",
     "direction": "up",
@@ -86,5 +75,38 @@
     "color": "#00b4d8",
     "source": "Fusion Industry Association — July 2025 data",
     "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "annual-investment-rate-2026",
+    "label": "Rolling 12-Month Private Investment (Apr 2026)",
+    "value": "$1.6B",
+    "change": "-39% from mid-2025 peak",
+    "direction": "down",
+    "sparkData": [2.64, 2.3, 2.1, 1.9, 1.8, 1.7, 1.6],
+    "color": "#e63946",
+    "source": "TechCrunch / Fusion Industry Association April 2026",
+    "lastUpdated": "2026-04-21"
+  },
+  {
+    "id": "arpa-e-fusion-commitment-2026",
+    "label": "ARPA-E Fusion Commitment (FY2026)",
+    "value": "$135M",
+    "change": "Largest in ARPA-E history",
+    "direction": "up",
+    "sparkData": [20, 35, 45, 55, 70, 90, 135],
+    "color": "#2dc653",
+    "source": "ARPA-E — April 8, 2026",
+    "lastUpdated": "2026-04-21"
+  },
+  {
+    "id": "uk-step-commitment",
+    "label": "UK Fusion Investment (STEP + R&D)",
+    "value": "£2.5B+",
+    "change": "+£1.3B National Fusion Strategy Apr 2026",
+    "direction": "up",
+    "sparkData": [0.04, 0.1, 0.22, 0.5, 0.8, 1.2, 2.5],
+    "color": "#2dc653",
+    "source": "UK Government National Fusion Energy Strategy, April 2026",
+    "lastUpdated": "2026-04-21"
   }
 ]

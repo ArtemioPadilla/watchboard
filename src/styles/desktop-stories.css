@@ -37,6 +37,12 @@
   cursor: pointer;
   transition: transform 0.15s ease, border-color 0.2s ease, opacity 0.2s ease;
   flex-shrink: 0;
+  padding: 0;
+  font-family: inherit;
+  color: inherit;
+  line-height: 1;
+  appearance: none;
+  -webkit-appearance: none;
 }
 .desktop-story-circle:hover {
   transform: scale(1.1);
@@ -81,13 +87,7 @@
   width: 0%;
   background: var(--accent-blue, #58a6ff);
   border-radius: 1px;
-  transition: width 0.1s linear;
-}
-.desktop-story-progress-fill.complete {
-  width: 100%;
-}
-.desktop-story-progress-fill.upcoming {
-  width: 0%;
+  transition: width 0.15s linear;
 }
 
 /* ── Image area ── */
@@ -215,25 +215,6 @@
 }
 .desktop-story-open:hover {
   background: rgba(88, 166, 255, 0.08);
-}
-
-/* ── Navigation zones (invisible click areas) ── */
-.desktop-story-nav-left,
-.desktop-story-nav-right {
-  position: absolute;
-  top: 0;
-  bottom: 40px;
-  z-index: 5;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-}
-.desktop-story-nav-left {
-  left: 0;
-  width: 40%;
-}
-.desktop-story-nav-right {
-  right: 0;
-  width: 60%;
 }
 
 /* ── Card enter animation ── */

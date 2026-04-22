@@ -140,7 +140,7 @@ export const Video: React.FC<VideoProps> = ({ data, narrationSrc, geoFeatures = 
         durationInFrames={OUTRO_FRAMES}
         name="Outro"
       >
-        <Outro theme={theme} />
+        <Outro theme={theme} trackerCount={breakingData.totalTrackers ?? breakingData.trackers.length} />
       </Sequence>
 
           </AbsoluteFill>
