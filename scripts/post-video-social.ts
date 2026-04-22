@@ -42,6 +42,7 @@ interface VideoPostRecord {
   caption_en: string;
   caption_es: string;
   hashtags: string[];
+  trackerSlugs: string[];
   platforms: Record<string, 'auto' | 'manual' | 'stub'>;
   posted: Record<string, { url: string; postedAt: string }>;
 }
@@ -173,6 +174,7 @@ function buildInitialRecord(meta: VideoMeta, platforms: SocialPlatform[]): Video
     hashtags: VIDEO_TYPE === 'progress'
       ? ['#science', '#progress', '#breakthroughs', '#Watchboard']
       : ['#OSINT', '#geopolitics', '#Watchboard'],
+    trackerSlugs: meta.trackers.map((t) => t.slug),
     platforms: platformMap,
     posted: {},
   };
