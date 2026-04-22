@@ -99,7 +99,7 @@ const TrackerRow = memo(function TrackerRow({
     return (
       <div
         ref={rowRef}
-        className={`cc-tracker-expanded${isLive ? ' cc-tracker-live' : ''}`}
+        className={`cc-tracker-expanded${isLive && !isActive ? ' cc-tracker-live' : ''}`}
         data-tracker-slug={tracker.slug}
         style={{
           ...S.expandedRow,

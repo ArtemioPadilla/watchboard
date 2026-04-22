@@ -65,20 +65,31 @@ export default function DesktopStoryStrip({
     if (featuredTracker) seenRef.current.add(featuredTracker.slug);
   }, [featuredTracker]);
 
+  // Slide a window over trackerQueue so the active circle stays visible.
+  const { visibleCircles, visibleActiveIndex } = useMemo(() => {
+    const total = trackerQueue.length;
+    if (total <= MAX_CIRCLES) {
+      return { visibleCircles: trackerQueue, visibleActiveIndex: currentIndex };
+    }
+    const half = Math.floor(MAX_CIRCLES / 2);
+    let start = currentIndex - half;
+    if (start < 0) start = 0;
+    if (start + MAX_CIRCLES > total) start = total - MAX_CIRCLES;
+    return {
+      visibleCircles: trackerQueue.slice(start, start + MAX_CIRCLES),
+      visibleActiveIndex: currentIndex - start,
+    };
+  }, [trackerQueue, currentIndex]);
+
   // Auto-scroll circle column to keep active circle visible
   useEffect(() => {
     const container = circlesRef.current;
     if (!container) return;
-    const activeCircle = container.children[currentIndex] as HTMLElement | undefined;
+    const activeCircle = container.children[visibleActiveIndex] as HTMLElement | undefined;
     if (activeCircle) {
       activeCircle.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
-  }, [currentIndex]);
-
-  const visibleCircles = useMemo(
-    () => trackerQueue.slice(0, MAX_CIRCLES),
-    [trackerQueue],
-  );
+  }, [visibleActiveIndex]);
 
   if (visibleCircles.length === 0 || !featuredTracker) return null;
 
@@ -90,18 +101,21 @@ export default function DesktopStoryStrip({
       {/* Circle column */}
       <div className="desktop-story-circles" ref={circlesRef}>
         {visibleCircles.map((tr, i) => (
-          <div
+          <button
+            type="button"
             key={tr.slug}
             className={
               `desktop-story-circle` +
-              (i === currentIndex ? ' active' : '') +
-              (seenRef.current.has(tr.slug) && i !== currentIndex ? ' seen' : '')
+              (i === visibleActiveIndex ? ' active' : '') +
+              (seenRef.current.has(tr.slug) && i !== visibleActiveIndex ? ' seen' : '')
             }
             onClick={() => onCircleClick(tr.slug)}
             title={tr.shortName}
+            aria-label={`Jump broadcast to ${tr.shortName}`}
+            aria-current={i === visibleActiveIndex ? 'true' : undefined}
           >
             {tr.icon ?? '?'}
-          </div>
+          </button>
         ))}
       </div>
 
@@ -109,7 +123,19 @@ export default function DesktopStoryStrip({
       <div
         key={featuredTracker.slug}
         className="desktop-story-card desktop-story-card-enter"
+        role="button"
+        tabIndex={0}
+        aria-label={featuredTracker.headline ?? `Toggle broadcast pause for ${featuredTracker.shortName}`}
         onClick={onCardClick}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            // Only trigger if the target is the card itself, not a child interactive element
+            if (e.target === e.currentTarget) {
+              e.preventDefault();
+              onCardClick();
+            }
+          }
+        }}
       >
         {/* Single progress bar driven by broadcast progress */}
         <div className="desktop-story-progress">
