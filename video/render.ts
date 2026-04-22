@@ -10,6 +10,7 @@
  *
  * Flags:
  *   --mode <conflict|positive>  Video scoring mode (default: conflict)
+ *   --theme <dark|day>          Override visual theme (default: auto from mode)
  *   --dry-run                   Fetch and print scored trackers, then exit without rendering
  */
 import { execSync } from 'node:child_process';
@@ -28,10 +29,13 @@ const OUTPUT_DIR = resolve(ROOT_DIR, 'output');
 const ENTRY_POINT = resolve(ROOT_DIR, 'src/Root.tsx');
 const NARRATION_PATH = resolve(ROOT_DIR, 'src/assets/narration.mp3');
 
-function parseCliFlags(): { mode: VideoMode; dryRun: boolean } {
+type ThemeName = 'dark' | 'day';
+
+function parseCliFlags(): { mode: VideoMode; dryRun: boolean; theme: ThemeName } {
   const args = process.argv.slice(2);
   let mode: VideoMode = 'conflict';
   let dryRun = false;
+  let themeOverride: ThemeName | null = null;
 
   for (let i = 0; i < args.length; i++) {
     if (args[i] === '--mode' && i + 1 < args.length) {
@@ -41,13 +45,24 @@ function parseCliFlags(): { mode: VideoMode; dryRun: boolean } {
       } else {
         console.warn(`Unknown mode "${value}", defaulting to "conflict"`);
       }
-      i++; // skip value
+      i++;
+    } else if (args[i] === '--theme' && i + 1 < args.length) {
+      const value = args[i + 1];
+      if (value === 'dark' || value === 'day') {
+        themeOverride = value;
+      } else {
+        console.warn(`Unknown theme "${value}", ignoring`);
+      }
+      i++;
     } else if (args[i] === '--dry-run') {
       dryRun = true;
     }
   }
 
-  return { mode, dryRun };
+  // Auto-select theme from mode unless explicitly overridden
+  const theme: ThemeName = themeOverride ?? (mode === 'positive' ? 'day' : 'dark');
+
+  return { mode, dryRun, theme };
 }
 
 // Earth texture candidates by theme
@@ -89,14 +104,13 @@ async function downloadThumbnail(url: string): Promise<Buffer | null> {
 }
 
 async function main(): Promise<void> {
-  const { mode, dryRun } = parseCliFlags();
-  const theme = mode === 'positive' ? 'day' : 'dark';
+  const { mode, dryRun, theme } = parseCliFlags();
 
   // Set VIDEO_MODE env var so fetch-breaking.ts picks it up
   process.env.VIDEO_MODE = mode;
 
   console.log('=== Watchboard Video Renderer ===\n');
-  console.log(`  Mode: ${mode}${dryRun ? ' (dry-run)' : ''}\n`);
+  console.log(`  Mode: ${mode} | Theme: ${theme}${dryRun ? ' (dry-run)' : ''}\n`);
 
   // Step 1: Fetch breaking data (with fallback to sample data)
   console.log('[1/4] Fetching breaking data...');

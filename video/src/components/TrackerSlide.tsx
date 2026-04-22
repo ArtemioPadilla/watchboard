@@ -53,6 +53,8 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
   thumbnailBase64,
   theme = 'dark',
 }) => {
+  // Day theme overrides the tier badge text color to stay readable
+  const badgeTextColor = theme === 'day' ? '#0a0e1a' : '#0a0b0e';
   const frame = useCurrentFrame();
   const { fps, durationInFrames } = useVideoConfig();
 
@@ -353,7 +355,7 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
                 fontFamily: "'JetBrains Mono', monospace",
                 fontSize: 20,
                 fontWeight: 600,
-                color: '#0a0b0e',
+                color: badgeTextColor,
                 letterSpacing: '1px',
               }}
             >

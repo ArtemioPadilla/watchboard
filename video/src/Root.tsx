@@ -37,6 +37,7 @@ export const RemotionRoot: React.FC = () => {
             trackers: SAMPLE_DATA.trackers.slice(0, 1),
           },
           geoFeatures: [],
+          theme: 'dark' as const,
         }}
       />
     </>
