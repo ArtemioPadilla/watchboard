@@ -672,24 +672,13 @@ export default function CommandCenter({
             </button>
             {broadcastEnabled ? (
               <DesktopStoryStrip
-                basePath={basePath}
                 trackerQueue={broadcast.trackerQueue}
                 featuredTracker={broadcast.featuredTracker ?? null}
                 currentIndex={broadcast.currentIndex}
-                progress={broadcast.progress}
-                isPaused={broadcast.isUserPaused}
-                pauseCountdown={broadcast.pauseCountdown}
                 onCircleClick={(slug) => {
                   broadcastRef.current.jumpTo(slug);
                   if (broadcastRef.current.isUserPaused) broadcastRef.current.userResume();
                   handleDiscoverFeature('story-circle');
-                }}
-                onCardClick={() => {
-                  if (broadcastRef.current.isUserPaused) {
-                    broadcastRef.current.userResume();
-                  } else {
-                    broadcastRef.current.userPause();
-                  }
                 }}
               />
             ) : (
