@@ -85,14 +85,14 @@
   {
     "id": "oil-price-wti",
     "label": "WTI Crude Oil Price",
-    "value": "~$93–95/bbl",
-    "color": "red",
-    "source": "CNBC / market data (Apr 21, 2026)",
+    "value": "~$87–91/bbl",
+    "color": "amber",
+    "source": "CNBC / Gulf News / FXStreet (Apr 22, 2026)",
     "contested": false,
-    "delta": "Rising on ceasefire expiry",
-    "deltaNote": "WTI rising toward $93–95/bbl Apr 21 as ceasefire expired with no deal; S&P 500 moved into the red on ceasefire deadline; markets pricing in resumed US strikes",
-    "trend": "up",
-    "lastUpdated": "2026-04-21T14:05:00Z"
+    "delta": "Down on ceasefire extension",
+    "deltaNote": "WTI fell from ~$93–95 to $87.50–$90.66 after Trump extended ceasefire Apr 22; Brent briefly spiked near $100 on strike fears before retreating to ~$98; prices remain elevated due to unresolved Hormuz blockade",
+    "trend": "down",
+    "lastUpdated": "2026-04-22T15:34:48Z"
   },
   {
     "id": "umich-consumer-sentiment",
@@ -121,14 +121,14 @@
   {
     "id": "iran-ceasefire-us-diplomatic",
     "label": "Iran Ceasefire / Hormuz Status",
-    "value": "Expired — No Deal",
-    "color": "red",
-    "source": "NPR / Al Jazeera / CNBC / The Hill (Apr 21, 2026)",
+    "value": "Extended Indefinitely",
+    "color": "amber",
+    "source": "Al Jazeera / Euronews / CBS News / NBC News (Apr 22, 2026)",
     "contested": true,
-    "contestNote": "Ceasefire expired April 21 with no deal; Islamabad Round 2 ended after ~21 hrs with Iran absent from formal talks; Trump threatens to destroy Iranian power plants/bridges; US forces described as 'raring to go'",
-    "delta": "No extension",
-    "deltaNote": "Iran refused to send delegates citing US blockade; Trump called extension 'highly unlikely'; WTI crude rose toward $93–95/bbl as markets priced in resumed strikes",
+    "contestNote": "Ceasefire extended at Pakistan's request Apr 22; US blockade continues; IRGC seized 2 ships (MSC Francesca, Epaminondas) and fired on 3 more in Hormuz on same day; Iran FM calls blockade 'act of war'; no talks scheduled",
+    "delta": "Extended Apr 22",
+    "deltaNote": "Trump extended via Truth Social after deadline passed; Iran govt described as 'seriously fractured'; blockade maintained; Brent briefly spiked to ~$100 then retreated; diplomatic stalemate continues",
     "trend": "down",
-    "lastUpdated": "2026-04-21T14:05:00Z"
+    "lastUpdated": "2026-04-22T15:34:48Z"
   }
 ]
