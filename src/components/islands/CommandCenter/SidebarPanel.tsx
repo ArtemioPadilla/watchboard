@@ -322,7 +322,8 @@ const FeedList = memo(function FeedList({
   isSearching,
 }: FeedListProps) {
   const now = Date.now();
-  const followed = new Set(followedSlugs);
+  const followed = useMemo(() => new Set(followedSlugs), [followedSlugs]);
+  const compared = useMemo(() => new Set(compareSlugs), [compareSlugs]);
 
   const renderOne = (tracker: TrackerCardData, isDimmed: boolean) => {
     const isActive = activeTracker === tracker.slug;
@@ -335,7 +336,7 @@ const FeedList = memo(function FeedList({
           isActive
           isHovered={hoveredTracker === tracker.slug}
           isFollowed={followed.has(tracker.slug)}
-          isCompared={compareSlugs.includes(tracker.slug)}
+          isCompared={compared.has(tracker.slug)}
           isLive={featuredSlug === tracker.slug}
           onSelect={onSelectTracker}
           onHover={onHoverTracker}
@@ -351,7 +352,7 @@ const FeedList = memo(function FeedList({
         tracker={tracker}
         isHovered={hoveredTracker === tracker.slug}
         isFollowed={followed.has(tracker.slug)}
-        isCompared={compareSlugs.includes(tracker.slug)}
+        isCompared={compared.has(tracker.slug)}
         isLive={featuredSlug === tracker.slug}
         isDimmed={isDimmed && !isSearching}
         basePath={basePath}
@@ -502,6 +503,12 @@ export default function SidebarPanel({
       onSelectTracker(null);
       return;
     }
+    // Skip arrow-key nav in geographic mode — the geo tree's visible order
+    // differs from flatSlugs (OPS/DOMAIN grouping), so indexing would jump
+    // unpredictably. Leave nav to mouse/click in geo view.
+    if (viewMode === 'geographic' && (e.key === 'ArrowDown' || e.key === 'ArrowUp')) {
+      return;
+    }
     if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
       e.preventDefault();
       const currentIdx = activeTracker ? flatSlugs.indexOf(activeTracker) : -1;
@@ -516,7 +523,7 @@ export default function SidebarPanel({
     if (e.key === 'Enter' && activeTracker) {
       window.location.href = `${basePath}${activeTracker}/`;
     }
-  }, [activeTracker, flatSlugs, onSelectTracker, basePath]);
+  }, [activeTracker, flatSlugs, onSelectTracker, basePath, viewMode]);
 
   const isSearching = searchQuery.trim().length > 0;
 
