@@ -2,18 +2,19 @@ import { useState, useMemo, useCallback, useRef, useEffect, memo } from 'react';
 import type { CSSProperties } from 'react';
 import {
   type TrackerCardData,
-  DOMAIN_COLORS,
   filterTrackers,
   groupTrackers,
   computeFreshness,
   buildDateline,
-  computeDomainCounts,
-  getVisibleDomains,
 } from '../../../lib/tracker-directory-utils';
 import { t, SUPPORTED_LOCALES, type Locale } from '../../../i18n/translations';
 import ViewModeToggle from './ViewModeToggle';
 import type { ViewMode } from './ViewModeToggle';
 import GeoAccordion from './GeoAccordion';
+import FeedRow from './FeedRow';
+import HeroCard from './HeroCard';
+import { selectHeroTracker } from '../../../lib/hero-selection';
+import { sortByRelevance } from '../../../lib/relevance';
 
 interface Props {
   trackers: TrackerCardData[];
@@ -191,87 +192,22 @@ const TrackerRow = memo(function TrackerRow({
     );
   }
 
-  // Collapsed row
-  const freshDotInfo = getFreshnessDot(tracker.lastUpdated, locale);
-  const tooltipText = rawHeadline
-    ? `${tracker.shortName} — ${rawHeadline}`
-    : tracker.shortName;
-
+  // Collapsed: delegate to FeedRow
   return (
-    <div
-      ref={rowRef}
-      className={`cc-tracker-row${isLive && !isActive ? ' cc-tracker-live' : ''}`}
-      data-tracker-slug={tracker.slug}
-      style={{
-        ...S.collapsedRow,
-        borderLeftColor: color,
-        background: isHovered ? `${color}15` : 'transparent',
-        transform: isHovered ? 'translateX(2px)' : 'translateX(0)',
-      }}
-      onClick={e => {
-        if (e.shiftKey) {
-          onToggleCompare(tracker.slug);
-        } else {
-          onSelect(tracker.slug);
-        }
-      }}
-      onMouseEnter={() => onHover(tracker.slug)}
-      onMouseLeave={() => onHover(null)}
-      onDoubleClick={() => { window.location.href = href; }}
-      title={tooltipText}
-    >
-      <div style={S.collapsedLeft}>
-        <span
-          style={{
-            ...S.freshnessDot,
-            background: freshDotInfo.color,
-            boxShadow: freshDotInfo.shadow,
-          }}
-          title={freshDotInfo.label}
-          aria-label={freshDotInfo.label}
-          role="img"
-        >
-          <span className="sr-only">{freshDotInfo.label}</span>
-        </span>
-        <span style={S.icon}>{tracker.icon || ''}</span>
-        <span className="cc-tracker-name" style={S.collapsedName}>{tracker.shortName}</span>
-        {isLive && !isActive && (
-          <span className="cc-tracker-live-badge" role="status" aria-label="Currently featured by broadcast">
-            LIVE
-          </span>
-        )}
-        {isCompared && <span style={S.compareDot} />}
-        {tracker.latestEventMedia && (
-          <img
-            src={tracker.latestEventMedia.url}
-            alt={`${tracker.shortName} event thumbnail`}
-            style={S.collapsedThumb}
-            loading="lazy"
-            referrerPolicy="no-referrer"
-            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-          />
-        )}
-      </div>
-      <div style={S.collapsedRight}>
-        <span
-          className="cc-follow-toggle"
-          style={{
-            ...S.collapsedFollowBtn,
-            color: isFollowed ? '#f39c12' : 'var(--text-muted)',
-            opacity: isFollowed ? 1 : undefined,
-          }}
-          onClick={e => { e.stopPropagation(); onToggleFollow(tracker.slug); }}
-          title={isFollowed ? t('sidebar.unfollow', locale) : t('sidebar.follow', locale)}
-        >
-          {isFollowed ? '★' : '☆'}
-        </span>
-        {freshness.className === 'fresh' && <span style={S.freshDot} />}
-        <span className="cc-tracker-status" suppressHydrationWarning style={{ ...S.collapsedStatus, color: freshness.className === 'fresh' ? 'var(--accent-green)' : freshness.className === 'recent' ? 'var(--accent-amber)' : 'var(--text-muted)' }}>
-          {t(freshness.className === 'fresh' ? 'status.fresh' : freshness.className === 'recent' ? 'status.recent' : 'status.stale' as any, locale)}
-        </span>
-        <span style={S.collapsedDay} suppressHydrationWarning>{dateline}</span>
-      </div>
-    </div>
+    <FeedRow
+      tracker={tracker}
+      isHovered={isHovered}
+      isFollowed={isFollowed}
+      isCompared={isCompared}
+      isLive={isLive}
+      isDimmed={false}
+      basePath={basePath}
+      locale={locale}
+      onSelect={onSelect}
+      onHover={onHover}
+      onToggleFollow={onToggleFollow}
+      onToggleCompare={onToggleCompare}
+    />
   );
 });
 
@@ -348,240 +284,153 @@ const SeriesStrip = memo(function SeriesStrip({
   );
 });
 
-// ── Section badge color mapping ──
+// ── FeedList ──
 
-const SECTION_BADGE_COLORS: Record<string, { bg: string; fg: string }> = {
-  events: { bg: 'rgba(88,166,255,0.12)', fg: '#58a6ff' },
-  timeline: { bg: 'rgba(88,166,255,0.12)', fg: '#58a6ff' },
-  mapLines: { bg: 'rgba(46,204,113,0.12)', fg: '#2ecc71' },
-  mapPoints: { bg: 'rgba(46,204,113,0.12)', fg: '#2ecc71' },
-  'map-lines': { bg: 'rgba(46,204,113,0.12)', fg: '#2ecc71' },
-  'map-points': { bg: 'rgba(46,204,113,0.12)', fg: '#2ecc71' },
-  kpis: { bg: 'rgba(243,156,18,0.12)', fg: '#f39c12' },
-  casualties: { bg: 'rgba(231,76,60,0.12)', fg: '#e74c3c' },
-  econ: { bg: 'rgba(168,108,193,0.12)', fg: '#a86cc1' },
-};
+const OLDER_THRESHOLD_MS = 48 * 3600 * 1000;
 
-const DEFAULT_BADGE_COLOR = { bg: 'rgba(148,152,168,0.12)', fg: '#9498a8' };
-
-function sectionBadgeLabel(section: string, locale: Locale = 'en'): string {
-  const labelMap: Record<string, string> = {
-    events: t('sidebar.sectionEvents', locale),
-    timeline: t('sidebar.sectionTimeline', locale),
-    mapLines: t('sidebar.sectionMap', locale),
-    mapPoints: t('sidebar.sectionMap', locale),
-    'map-lines': t('sidebar.sectionMap', locale),
-    'map-points': t('sidebar.sectionMap', locale),
-    kpis: t('sidebar.sectionKpis', locale),
-    casualties: t('sidebar.sectionCasualties', locale),
-    econ: t('sidebar.sectionEcon', locale),
-    political: t('sidebar.sectionPolitical', locale),
-    claims: t('sidebar.sectionClaims', locale),
-    assets: t('sidebar.sectionAssets', locale),
-    meta: t('sidebar.sectionMeta', locale),
-    'strike-targets': t('sidebar.sectionStrikes', locale),
-    military: t('sidebar.sectionMilitary', locale),
-  };
-  return labelMap[section] ?? section.toUpperCase();
-}
-
-function deduplicateBadges(sections: string[]): string[] {
-  const seen = new Set<string>();
-  const result: string[] = [];
-  for (const s of sections) {
-    const label = sectionBadgeLabel(s);
-    if (!seen.has(label)) {
-      seen.add(label);
-      result.push(s);
-    }
-  }
-  return result;
-}
-
-// ── Recent Events Feed ──
-
-const RecentEventsFeed = memo(function RecentEventsFeed({
-  trackers,
-  basePath,
-  followedSlugs,
-  onSelect,
-  locale = 'en',
-}: {
+interface FeedListProps {
   trackers: TrackerCardData[];
-  basePath: string;
   followedSlugs: string[];
-  onSelect: (slug: string | null) => void;
-  locale?: Locale;
-}) {
-  const [expandedSlug, setExpandedSlug] = useState<string | null>(null);
+  activeTracker: string | null;
+  hoveredTracker: string | null;
+  compareSlugs: string[];
+  featuredSlug: string | null;
+  basePath: string;
+  locale: Locale;
+  viewMode: ViewMode;
+  onSelectTracker: (slug: string | null) => void;
+  onHoverTracker: (slug: string | null) => void;
+  onToggleFollow: (slug: string) => void;
+  onToggleCompare: (slug: string) => void;
+  isSearching: boolean;
+}
 
-  const withHeadlines = useMemo(
-    () => trackers.filter(t => t.headline && t.status === 'active'),
-    [trackers],
-  );
+const FeedList = memo(function FeedList({
+  trackers,
+  followedSlugs,
+  activeTracker,
+  hoveredTracker,
+  compareSlugs,
+  featuredSlug,
+  basePath,
+  locale,
+  viewMode,
+  onSelectTracker,
+  onHoverTracker,
+  onToggleFollow,
+  onToggleCompare,
+  isSearching,
+}: FeedListProps) {
+  const now = Date.now();
+  const followed = new Set(followedSlugs);
 
-  const followedTrackers = useMemo(
-    () => withHeadlines
-      .filter(t => followedSlugs.includes(t.slug))
-      .sort((a, b) => new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime()),
-    [withHeadlines, followedSlugs],
-  );
-
-  const recentTrackers = useMemo(
-    () => withHeadlines
-      .filter(t => !followedSlugs.includes(t.slug))
-      .sort((a, b) => new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime()),
-    [withHeadlines, followedSlugs],
-  );
-
-  const toggleExpand = useCallback((slug: string) => {
-    setExpandedSlug(prev => prev === slug ? null : slug);
-  }, []);
-
-  if (followedTrackers.length === 0 && recentTrackers.length === 0) return null;
-
-  const localePrefix = locale !== 'en' ? `${locale}/` : '';
-
-  const renderItem = (tracker: TrackerCardData, isFollowed: boolean) => {
-    const isExpanded = expandedSlug === tracker.slug;
-    const rawHeadline = locale === 'es' && tracker.headlineEs ? tracker.headlineEs : tracker.headline;
-    const truncatedHeadline = rawHeadline && rawHeadline.length > 80
-      ? rawHeadline.slice(0, 80) + '\u2026'
-      : rawHeadline;
-    const href = `${basePath}${localePrefix}${tracker.slug}/`;
-    const badges = deduplicateBadges(tracker.digestSectionsUpdated ?? []);
-
+  const renderOne = (tracker: TrackerCardData, isDimmed: boolean) => {
+    const isActive = activeTracker === tracker.slug;
+    if (isActive) {
+      return (
+        <TrackerRow
+          key={tracker.slug}
+          tracker={tracker}
+          basePath={basePath}
+          isActive
+          isHovered={hoveredTracker === tracker.slug}
+          isFollowed={followed.has(tracker.slug)}
+          isCompared={compareSlugs.includes(tracker.slug)}
+          isLive={featuredSlug === tracker.slug}
+          onSelect={onSelectTracker}
+          onHover={onHoverTracker}
+          onToggleFollow={onToggleFollow}
+          onToggleCompare={onToggleCompare}
+          locale={locale}
+        />
+      );
+    }
     return (
-      <div
+      <FeedRow
         key={tracker.slug}
-        className="cc-feed-item"
-        style={{
-          ...S.feedItem,
-          borderBottom: '1px solid var(--border)',
-        }}
-      >
-        <div
-          style={{ cursor: 'pointer' }}
-          onClick={() => toggleExpand(tracker.slug)}
-        >
-          <div style={S.feedItemHeader}>
-            <span style={{ fontSize: '0.7rem' }}>{tracker.icon || ''}</span>
-            <span style={S.feedItemName}>{tracker.shortName}</span>
-            {isFollowed && <span style={S.followStar}>★</span>}
-            <span style={{ ...S.feedItemAge, color: tracker.color || '#3498db' }}>
-              <span suppressHydrationWarning>{computeFreshness(tracker.lastUpdated).ageText}</span>
-            </span>
-          </div>
-          <div style={S.feedItemText}>{truncatedHeadline}</div>
-        </div>
-
-        {/* Expandable digest detail */}
-        <div
-          style={{
-            maxHeight: isExpanded ? 300 : 0,
-            opacity: isExpanded ? 1 : 0,
-            overflow: 'hidden',
-            transition: 'max-height 0.3s ease, opacity 0.2s ease',
-          }}
-        >
-          <div style={S.feedExpandedContent}>
-            {tracker.digestSummary && (
-              <div style={S.feedDigestSummary}>
-                {tracker.digestSummary}
-              </div>
-            )}
-            {badges.length > 0 && (
-              <div style={S.feedBadgeRow}>
-                {badges.map(section => {
-                  const colors = SECTION_BADGE_COLORS[section] ?? DEFAULT_BADGE_COLOR;
-                  return (
-                    <span
-                      key={section}
-                      style={{
-                        ...S.feedSectionBadge,
-                        background: colors.bg,
-                        color: colors.fg,
-                      }}
-                    >
-                      {sectionBadgeLabel(section)}
-                    </span>
-                  );
-                })}
-              </div>
-            )}
-            <a
-              href={href}
-              style={S.feedOpenLink}
-              onClick={e => e.stopPropagation()}
-            >
-              {t('sidebar.openDashboard', locale)}
-            </a>
-          </div>
-        </div>
-      </div>
+        tracker={tracker}
+        isHovered={hoveredTracker === tracker.slug}
+        isFollowed={followed.has(tracker.slug)}
+        isCompared={compareSlugs.includes(tracker.slug)}
+        isLive={featuredSlug === tracker.slug}
+        isDimmed={isDimmed && !isSearching}
+        basePath={basePath}
+        locale={locale}
+        onSelect={onSelectTracker}
+        onHover={onHoverTracker}
+        onToggleFollow={onToggleFollow}
+        onToggleCompare={onToggleCompare}
+      />
     );
   };
 
+  if (trackers.length === 0) {
+    return (
+      <div style={{
+        padding: '24px 12px',
+        textAlign: 'center',
+        fontFamily: "'JetBrains Mono', monospace",
+        fontSize: '0.62rem',
+        color: 'var(--text-muted)',
+      }}>
+        No trackers match.
+      </div>
+    );
+  }
+
+  // DOMAIN view: group by tracker.domain, no dim-older split.
+  if (viewMode === 'domain') {
+    const byDomain = new Map<string, TrackerCardData[]>();
+    for (const tr of trackers) {
+      const key = tr.domain ?? 'other';
+      const arr = byDomain.get(key) ?? [];
+      arr.push(tr);
+      byDomain.set(key, arr);
+    }
+    return (
+      <>
+        {Array.from(byDomain.entries()).map(([domain, list]) => (
+          <div key={domain}>
+            <div className="cc-feed-group-divider" aria-label={domain.toUpperCase()}>
+              {domain.toUpperCase()}
+            </div>
+            {list.map(tr => renderOne(tr, false))}
+          </div>
+        ))}
+      </>
+    );
+  }
+
+  // OPS view: followed first, then recent, then older (dimmed), separated by
+  // 1px dividers (no text labels).
+  const followedTrackers: TrackerCardData[] = [];
+  const recent: TrackerCardData[] = [];
+  const older: TrackerCardData[] = [];
+
+  for (const tr of trackers) {
+    if (followed.has(tr.slug)) {
+      followedTrackers.push(tr);
+      continue;
+    }
+    const age = now - new Date(tr.lastUpdated).getTime();
+    if (age > OLDER_THRESHOLD_MS) older.push(tr);
+    else recent.push(tr);
+  }
+
   return (
-    <div style={S.feedWrap}>
+    <>
       {followedTrackers.length > 0 && (
         <>
-          <div style={S.feedHeader}>
-            <span style={{ color: '#f39c12', fontSize: '0.6rem' }}>{'\u2605'}</span>
-            <span>{t('status.following', locale)}</span>
-          </div>
-          {followedTrackers.map(tracker => renderItem(tracker, true))}
+          {followedTrackers.map(tr => renderOne(tr, false))}
+          {(recent.length > 0 || older.length > 0) && <div className="cc-feed-divider" />}
         </>
       )}
-      {recentTrackers.length > 0 && (
-        <>
-          <div style={{ ...S.feedHeader, marginTop: followedTrackers.length > 0 ? 6 : 0 }}>
-            <span style={S.feedDot} />
-            <span>{t('cc.latestIntel', locale)}</span>
-          </div>
-          {recentTrackers.map(tracker => renderItem(tracker, false))}
-        </>
-      )}
-    </div>
+      {recent.map(tr => renderOne(tr, false))}
+      {older.length > 0 && <div className="cc-feed-divider" />}
+      {older.map(tr => renderOne(tr, true))}
+    </>
   );
 });
-
-// ── Sort options ──
-
-type SortKey = 'name' | 'lastUpdated' | 'domain';
-
-function getSortOptions(locale: Locale): { key: SortKey; label: string }[] {
-  return [
-    { key: 'name', label: t('sidebar.sortName', locale) },
-    { key: 'lastUpdated', label: t('sidebar.sortLastUpdated', locale) },
-    { key: 'domain', label: t('sidebar.sortDomain', locale) },
-  ];
-}
-
-function sortTrackers(trackers: TrackerCardData[], sortKey: SortKey): TrackerCardData[] {
-  const sorted = [...trackers];
-  switch (sortKey) {
-    case 'name':
-      return sorted.sort((a, b) => a.shortName.localeCompare(b.shortName));
-    case 'lastUpdated':
-      return sorted.sort((a, b) => new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime());
-    case 'domain':
-      return sorted.sort((a, b) => (a.domain || '').localeCompare(b.domain || '') || a.shortName.localeCompare(b.shortName));
-    default:
-      return sorted;
-  }
-}
-
-// ── Freshness dot helper ──
-
-function getFreshnessDot(lastUpdated: string, locale: Locale = 'en'): { color: string; shadow: string; label: string } {
-  const updated = new Date(lastUpdated);
-  const now = new Date();
-  const ageHrs = Math.floor((now.getTime() - updated.getTime()) / 3600000);
-  if (ageHrs < 24) return { color: 'var(--accent-green, #2ecc71)', shadow: '0 0 4px rgba(46,160,67,0.37)', label: t('sidebar.updatedToday', locale) };
-  if (ageHrs < 48) return { color: 'var(--accent-amber, #f39c12)', shadow: '0 0 4px rgba(210,153,34,0.37)', label: t('sidebar.updated1to2Days', locale) };
-  return { color: 'var(--accent-red, #e74c3c)', shadow: '0 0 4px rgba(231,76,60,0.37)', label: t('sidebar.notUpdatedIn2Days', locale) };
-}
 
 // ── Main SidebarPanel ──
 
@@ -612,24 +461,24 @@ export default function SidebarPanel({
   activeGeoPath,
   featuredSlug,
 }: Props) {
-  const [activeDomain, setActiveDomain] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [showAllTrackers, setShowAllTrackers] = useState(false);
-  const [sortKey, setSortKey] = useState<SortKey>('name');
 
   const filtered = useMemo(
-    () => filterTrackers(trackers, activeDomain, searchQuery),
-    [trackers, activeDomain, searchQuery],
+    () => filterTrackers(trackers, null, searchQuery),
+    [trackers, searchQuery],
   );
 
   const sortedFiltered = useMemo(
-    () => sortTrackers(filtered, sortKey),
-    [filtered, sortKey],
+    () => sortByRelevance(filtered, followedSlugs),
+    [filtered, followedSlugs],
   );
 
   const groups = useMemo(() => groupTrackers(sortedFiltered), [sortedFiltered]);
-  const domainCounts = useMemo(() => computeDomainCounts(trackers), [trackers]);
-  const visibleDomains = useMemo(() => getVisibleDomains(domainCounts), [domainCounts]);
+
+  const heroTracker = useMemo(
+    () => selectHeroTracker(trackers, followedSlugs),
+    [trackers, followedSlugs],
+  );
 
   // Flat list of all visible tracker slugs for keyboard nav
   const flatSlugs = useMemo(
@@ -669,7 +518,7 @@ export default function SidebarPanel({
     }
   }, [activeTracker, flatSlugs, onSelectTracker, basePath]);
 
-  const isSearching = activeDomain !== null || searchQuery.trim().length > 0;
+  const isSearching = searchQuery.trim().length > 0;
 
   return (
     <div className="cc-sidebar" style={S.sidebar} onKeyDown={handleKeyDown} tabIndex={-1}>
@@ -749,46 +598,15 @@ export default function SidebarPanel({
         <ViewModeToggle mode={viewMode || 'operations'} onChange={onChangeViewMode} />
       )}
 
-      {/* Sort dropdown */}
-      {(viewMode || 'operations') !== 'geographic' && (
-        <div style={S.sortWrap}>
-          <label style={S.sortLabel}>{t('sidebar.sortBy', locale)}</label>
-          <select
-            value={sortKey}
-            onChange={e => setSortKey(e.target.value as SortKey)}
-            style={S.sortSelect}
-            aria-label={t('sidebar.sortTrackersBy', locale)}
-          >
-            {getSortOptions(locale).map(opt => (
-              <option key={opt.key} value={opt.key}>{opt.label}</option>
-            ))}
-          </select>
-        </div>
-      )}
-
-      {/* Domain tabs — only in domain mode */}
-      {(viewMode || 'operations') === 'domain' && (
-        <div style={S.tabs}>
-          <button
-            type="button"
-            className="cc-domain-tab"
-            style={S.tab(!activeDomain)}
-            onClick={() => setActiveDomain(null)}
-          >
-            {t('sidebar.all', locale)} <span style={S.tabCount}>{trackers.length}</span>
-          </button>
-          {visibleDomains.map(d => (
-            <button
-              key={d}
-              type="button"
-              className="cc-domain-tab"
-              style={S.tab(activeDomain === d, DOMAIN_COLORS[d])}
-              onClick={() => setActiveDomain(activeDomain === d ? null : d)}
-            >
-              {d.toUpperCase()} <span style={S.tabCount}>{domainCounts[d]}</span>
-            </button>
-          ))}
-        </div>
+      {/* Hero — hidden during search */}
+      {!isSearching && heroTracker && (
+        <HeroCard
+          tracker={heroTracker}
+          isBroadcastFeatured={featuredSlug === heroTracker.slug}
+          basePath={basePath}
+          locale={locale}
+          onSelect={onSelectTracker}
+        />
       )}
 
       {/* Tracker list */}
@@ -808,99 +626,22 @@ export default function SidebarPanel({
             activeGeoPath={activeGeoPath}
           />
         ) : (
-          <>
-            {/* Recent events feed (only when not searching) */}
-            {!isSearching && <RecentEventsFeed trackers={trackers} basePath={basePath} followedSlugs={followedSlugs} onSelect={onSelectTracker} locale={locale} />}
-
-            {filtered.length === 0 ? (
-              <div style={S.noResults}>{t('cc.noResults', locale)}</div>
-            ) : (
-              (() => {
-                const MOBILE_LIMIT = 15;
-                let rowCount = 0;
-                const shouldLimit = isMobile && !showAllTrackers && !isSearching;
-                const totalRows = groups.reduce((sum, g) => sum + g.trackers.length, 0);
-
-                return (
-                  <>
-                    {groups.map(group => {
-                      if (shouldLimit && rowCount >= MOBILE_LIMIT) return null;
-
-                      // Render series groups as horizontal strips
-                      if (group.type === 'series') {
-                        rowCount += group.trackers.length;
-                        return (
-                          <SeriesStrip
-                            key={`series-${group.label}`}
-                            group={group}
-                            basePath={basePath}
-                            activeTracker={activeTracker}
-                            hoveredTracker={hoveredTracker}
-                            onSelect={onSelectTracker}
-                            onHover={onHoverTracker}
-                          />
-                        );
-                      }
-
-                      const trackersToRender = shouldLimit
-                        ? group.trackers.slice(0, MOBILE_LIMIT - rowCount)
-                        : group.trackers;
-                      rowCount += trackersToRender.length;
-
-                      return (
-                        <div key={`${group.type}-${group.label}`}>
-                          <div style={S.groupHeader(group.type)}>
-                            {group.labelIcon && <span style={S.groupIcon(group.type)}>{group.labelIcon}</span>}
-                            <span>{group.label.toUpperCase()}</span>
-                          </div>
-                          {trackersToRender.map(t => (
-                            <TrackerRow
-                              key={t.slug}
-                              tracker={t}
-                              basePath={basePath}
-                              isActive={activeTracker === t.slug}
-                              isHovered={hoveredTracker === t.slug}
-                              isFollowed={followedSlugs.includes(t.slug)}
-                              isCompared={compareSlugs.includes(t.slug)}
-                              isLive={featuredSlug === t.slug}
-                              onSelect={onSelectTracker}
-                              onHover={onHoverTracker}
-                              onToggleFollow={onToggleFollow}
-                              onToggleCompare={onToggleCompare}
-                              locale={locale}
-                            />
-                          ))}
-                        </div>
-                      );
-                    })}
-                    {shouldLimit && totalRows > MOBILE_LIMIT && (
-                      <button
-                        type="button"
-                        onClick={() => setShowAllTrackers(true)}
-                        style={{
-                          display: 'block',
-                          width: '100%',
-                          padding: '12px 0',
-                          margin: '8px 0',
-                          background: 'rgba(88,166,255,0.08)',
-                          border: '1px solid rgba(88,166,255,0.2)',
-                          borderRadius: '6px',
-                          color: 'var(--accent-blue, #58a6ff)',
-                          fontFamily: "'JetBrains Mono', monospace",
-                          fontSize: '0.72rem',
-                          fontWeight: 600,
-                          letterSpacing: '0.04em',
-                          cursor: 'pointer',
-                        }}
-                      >
-                        {t('sidebar.showAll', locale)} {totalRows} {t('sidebar.trackers', locale)}
-                      </button>
-                    )}
-                  </>
-                );
-              })()
-            )}
-          </>
+          <FeedList
+            trackers={sortedFiltered}
+            followedSlugs={followedSlugs}
+            activeTracker={activeTracker}
+            hoveredTracker={hoveredTracker}
+            compareSlugs={compareSlugs}
+            featuredSlug={featuredSlug ?? null}
+            basePath={basePath}
+            locale={locale}
+            viewMode={(viewMode || 'operations') as ViewMode}
+            onSelectTracker={onSelectTracker}
+            onHoverTracker={onHoverTracker}
+            onToggleFollow={onToggleFollow}
+            onToggleCompare={onToggleCompare}
+            isSearching={isSearching}
+          />
         )}
       </div>
 
@@ -1057,38 +798,6 @@ const S = {
     boxSizing: 'border-box' as const,
   } as CSSProperties,
 
-  tabs: {
-    display: 'flex',
-    gap: '3px',
-    flexWrap: 'wrap' as const,
-    padding: '0 12px 8px',
-    borderBottom: '1px solid var(--border)',
-    flexShrink: 0,
-  } as CSSProperties,
-
-  tab: (active: boolean, color?: string): CSSProperties => ({
-    display: 'inline-flex',
-    alignItems: 'center',
-    gap: '3px',
-    padding: '2px 6px',
-    borderRadius: 3,
-    border: `1px solid ${active ? (color || 'var(--accent-blue)') : 'var(--border)'}`,
-    background: active ? `${color || 'var(--accent-blue)'}18` : 'transparent',
-    color: active ? (color || 'var(--accent-blue)') : 'var(--text-muted)',
-    fontFamily: "'JetBrains Mono', monospace",
-    fontSize: '0.5rem',
-    fontWeight: 600,
-    textTransform: 'uppercase' as const,
-    letterSpacing: '0.06em',
-    cursor: 'pointer',
-    whiteSpace: 'nowrap' as const,
-  }),
-
-  tabCount: {
-    fontWeight: 400,
-    opacity: 0.7,
-  } as CSSProperties,
-
   list: {
     flex: 1,
     overflowY: 'auto' as const,
@@ -1196,37 +905,6 @@ const S = {
     height: 6,
     borderRadius: '50%',
     flexShrink: 0,
-  } as CSSProperties,
-
-  sortWrap: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '8px',
-    padding: '4px 12px 6px',
-    flexShrink: 0,
-  } as CSSProperties,
-
-  sortLabel: {
-    fontFamily: "'JetBrains Mono', monospace",
-    fontSize: '0.48rem',
-    fontWeight: 600,
-    letterSpacing: '0.08em',
-    color: 'var(--text-muted)',
-    textTransform: 'uppercase' as const,
-    flexShrink: 0,
-  } as CSSProperties,
-
-  sortSelect: {
-    fontFamily: "'JetBrains Mono', monospace",
-    fontSize: '0.55rem',
-    color: 'var(--text-primary)',
-    background: 'var(--bg-secondary)',
-    border: '1px solid var(--border)',
-    borderRadius: 4,
-    padding: '3px 6px',
-    cursor: 'pointer',
-    outline: 'none',
-    transition: 'border-color 0.2s',
   } as CSSProperties,
 
   // Expanded row

@@ -3698,3 +3698,23 @@ body::before {
   outline: 2px solid var(--accent-blue);
   outline-offset: 2px;
 }
+
+.cc-feed-divider {
+  height: 1px;
+  background: var(--border, #2a2d3a);
+  margin: 6px 10px;
+  opacity: 0.5;
+}
+.cc-feed-group-divider {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.5rem;
+  letter-spacing: 0.22em;
+  color: var(--text-muted, #8b8fa2);
+  padding: 14px 12px 4px;
+  border-top: 1px solid var(--border, #2a2d3a);
+  margin-top: 6px;
+}
+.cc-feed-group-divider:first-child {
+  border-top: none;
+  margin-top: 0;
+}
