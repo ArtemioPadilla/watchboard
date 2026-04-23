@@ -49,6 +49,9 @@ const en = {
   'cc.live': 'LIVE',
   'cc.hist': 'HIST',
 
+  // Hero Card
+  'hero.day': 'DAY',
+
   // Sections
   'section.timeline': 'Timeline',
   'section.map': 'Theater Map',
@@ -592,6 +595,8 @@ const es: TranslationKeys = {
   'cc.live': 'EN VIVO',
   'cc.hist': 'HIST',
 
+  'hero.day': 'DÍA',
+
   'section.timeline': 'Línea de Tiempo',
   'section.map': 'Mapa de Teatro',
   'section.military': 'Militar',
@@ -1114,6 +1119,8 @@ const fr: TranslationKeys = {
   'cc.live': 'DIRECT',
   'cc.hist': 'HIST',
 
+  'hero.day': 'JOUR',
+
   'section.timeline': 'Chronologie',
   'section.map': 'Carte du Théâtre',
   'section.military': 'Militaire',
@@ -1635,6 +1642,8 @@ const pt: TranslationKeys = {
   'cc.noResults': 'Nenhum tracker corresponde à sua busca.',
   'cc.live': 'AO VIVO',
   'cc.hist': 'HIST',
+
+  'hero.day': 'DIA',
 
   'section.timeline': 'Linha do Tempo',
   'section.map': 'Mapa do Teatro',
