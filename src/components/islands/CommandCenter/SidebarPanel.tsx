@@ -481,11 +481,27 @@ export default function SidebarPanel({
     [trackers, followedSlugs],
   );
 
-  // Flat list of all visible tracker slugs for keyboard nav
-  const flatSlugs = useMemo(
-    () => groups.flatMap(g => g.trackers.map(t => t.slug)),
-    [groups],
-  );
+  // Match FeedList's visible order so arrow-key nav lands on adjacent rows:
+  // followed → recent (≤48h) → older (>48h). In geographic view, arrow nav is
+  // already disabled by handleKeyDown's early return.
+  const flatSlugs = useMemo(() => {
+    const followed = new Set(followedSlugs);
+    const OLDER_MS = 48 * 3600 * 1000;
+    const now = Date.now();
+    const followedArr: string[] = [];
+    const recent: string[] = [];
+    const older: string[] = [];
+    for (const t of sortedFiltered) {
+      if (followed.has(t.slug)) {
+        followedArr.push(t.slug);
+      } else if (now - new Date(t.lastUpdated).getTime() > OLDER_MS) {
+        older.push(t.slug);
+      } else {
+        recent.push(t.slug);
+      }
+    }
+    return [...followedArr, ...recent, ...older];
+  }, [sortedFiltered, followedSlugs]);
 
   // Auto-scroll the broadcast-featured tracker row into view when it changes
   useEffect(() => {
@@ -813,88 +829,10 @@ const S = {
     scrollbarColor: 'var(--border) transparent',
   } as CSSProperties,
 
-  groupHeader: (type: string): CSSProperties => ({
-    display: 'flex',
-    alignItems: 'center',
-    gap: '6px',
-    padding: '8px 12px 4px',
-    fontFamily: "'JetBrains Mono', monospace",
-    fontSize: '0.52rem',
-    fontWeight: 600,
-    letterSpacing: '0.12em',
-    color: type === 'live' ? 'var(--accent-green)' : type === 'historical' ? 'var(--accent-amber)' : 'var(--text-muted)',
-    marginTop: type === 'live' ? 0 : 8,
-  }),
-
-  groupIcon: (type: string): CSSProperties => ({
-    fontSize: '0.6rem',
-    color: type === 'live' ? 'var(--accent-green)' : type === 'historical' ? 'var(--accent-amber)' : 'var(--text-muted)',
-  }),
-
-  // Collapsed row
-  collapsedRow: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: '8px 12px',
-    borderLeft: '2px solid transparent',
-    cursor: 'pointer',
-    transition: 'background 0.15s, transform 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
-    userSelect: 'none' as const,
-    minHeight: 44, // ensure minimum touch target
-  } as CSSProperties,
-
-  collapsedLeft: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '6px',
-    minWidth: 0,
-  } as CSSProperties,
-
   icon: {
     fontSize: '0.9rem',
     lineHeight: 1,
     flexShrink: 0,
-  } as CSSProperties,
-
-  collapsedName: {
-    fontFamily: "'DM Sans', sans-serif",
-    fontSize: '0.78rem',
-    color: 'var(--text-primary)',
-    whiteSpace: 'nowrap' as const,
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-  } as CSSProperties,
-
-  collapsedThumb: {
-    width: 24,
-    height: 24,
-    borderRadius: 4,
-    objectFit: 'cover' as const,
-    flexShrink: 0,
-    border: '1px solid var(--border)',
-    opacity: 0.85,
-  } as CSSProperties,
-
-  collapsedRight: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '6px',
-    flexShrink: 0,
-  } as CSSProperties,
-
-  collapsedStatus: {
-    fontFamily: "'JetBrains Mono', monospace",
-    fontSize: '0.48rem',
-    fontWeight: 600,
-    letterSpacing: '0.06em',
-  } as CSSProperties,
-
-  collapsedDay: {
-    fontFamily: "'JetBrains Mono', monospace",
-    fontSize: '0.52rem',
-    color: 'var(--text-muted)',
-    opacity: 0.7,
   } as CSSProperties,
 
   freshDot: {
@@ -905,13 +843,6 @@ const S = {
     flexShrink: 0,
     boxShadow: '0 0 4px rgba(46,204,113,0.5)',
     animation: 'pulse 2s ease-in-out infinite',
-  } as CSSProperties,
-
-  freshnessDot: {
-    width: 6,
-    height: 6,
-    borderRadius: '50%',
-    flexShrink: 0,
   } as CSSProperties,
 
   // Expanded row
@@ -1058,23 +989,6 @@ const S = {
     userSelect: 'none' as const,
   } as CSSProperties,
 
-  followStar: {
-    color: '#f39c12',
-    fontSize: '0.55rem',
-    flexShrink: 0,
-  } as CSSProperties,
-
-  collapsedFollowBtn: {
-    fontSize: '0.7rem',
-    cursor: 'pointer',
-    flexShrink: 0,
-    opacity: 0,
-    transition: 'opacity 0.2s, color 0.2s',
-    userSelect: 'none' as const,
-    padding: '0 2px',
-    lineHeight: 1,
-  } as CSSProperties,
-
   compareBtn: {
     fontFamily: "'JetBrains Mono', monospace",
     fontSize: '0.52rem',
@@ -1083,14 +997,6 @@ const S = {
     transition: 'color 0.2s',
     letterSpacing: '0.04em',
     userSelect: 'none' as const,
-  } as CSSProperties,
-
-  compareDot: {
-    width: 5,
-    height: 5,
-    background: 'var(--accent-blue, #58a6ff)',
-    borderRadius: 2,
-    flexShrink: 0,
   } as CSSProperties,
 
   compareBadge: {
@@ -1222,123 +1128,6 @@ const S = {
     color: 'var(--accent-blue)',
     border: '1px solid rgba(52,152,219,0.3)',
     flexShrink: 0,
-  } as CSSProperties,
-
-  // Recent events feed
-  feedWrap: {
-    padding: '6px 12px 8px',
-    borderBottom: '1px solid var(--border)',
-    marginBottom: 4,
-  } as CSSProperties,
-
-  feedHeader: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '6px',
-    fontFamily: "'JetBrains Mono', monospace",
-    fontSize: '0.48rem',
-    fontWeight: 600,
-    letterSpacing: '0.12em',
-    color: 'var(--accent-green)',
-    marginBottom: 6,
-  } as CSSProperties,
-
-  feedDot: {
-    width: 5,
-    height: 5,
-    background: 'var(--accent-green)',
-    borderRadius: '50%',
-    boxShadow: '0 0 4px rgba(46,204,113,0.5)',
-    animation: 'pulse 2s ease-in-out infinite',
-  } as CSSProperties,
-
-  feedItem: {
-    padding: '4px 6px',
-    marginBottom: 3,
-    borderRadius: 4,
-    cursor: 'pointer',
-    transition: 'background 0.15s',
-    background: 'rgba(255,255,255,0.02)',
-  } as CSSProperties,
-
-  feedItemHeader: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '4px',
-  } as CSSProperties,
-
-  feedItemName: {
-    fontFamily: "'DM Sans', sans-serif",
-    fontSize: '0.65rem',
-    fontWeight: 600,
-    color: 'var(--text-primary)',
-  } as CSSProperties,
-
-  feedItemAge: {
-    fontFamily: "'JetBrains Mono', monospace",
-    fontSize: '0.42rem',
-    marginLeft: 'auto',
-  } as CSSProperties,
-
-  feedItemText: {
-    fontFamily: "'DM Sans', sans-serif",
-    fontSize: '0.6rem',
-    color: 'var(--text-muted)',
-    lineHeight: 1.4,
-    marginTop: 2,
-    paddingLeft: 18,
-  } as CSSProperties,
-
-  feedExpandedContent: {
-    paddingLeft: 18,
-    paddingTop: 6,
-    paddingBottom: 4,
-  } as CSSProperties,
-
-  feedDigestSummary: {
-    fontFamily: "'DM Sans', sans-serif",
-    fontSize: '0.6rem',
-    color: 'var(--text-secondary)',
-    lineHeight: 1.5,
-    marginBottom: 6,
-  } as CSSProperties,
-
-  feedBadgeRow: {
-    display: 'flex',
-    flexWrap: 'wrap' as const,
-    gap: '3px',
-    marginBottom: 6,
-  } as CSSProperties,
-
-  feedSectionBadge: {
-    fontFamily: "'JetBrains Mono', monospace",
-    fontSize: '0.45rem',
-    fontWeight: 600,
-    textTransform: 'uppercase' as const,
-    letterSpacing: '0.04em',
-    padding: '1px 5px',
-    borderRadius: 3,
-    whiteSpace: 'nowrap' as const,
-  } as CSSProperties,
-
-  feedOpenLink: {
-    fontFamily: "'JetBrains Mono', monospace",
-    fontSize: '0.5rem',
-    color: 'var(--accent-blue)',
-    textDecoration: 'none',
-    fontWeight: 600,
-    letterSpacing: '0.04em',
-    display: 'inline-block',
-    marginTop: 2,
-  } as CSSProperties,
-
-  noResults: {
-    textAlign: 'center' as const,
-    padding: '2rem 1rem',
-    fontFamily: "'JetBrains Mono', monospace",
-    fontSize: '0.65rem',
-    color: 'var(--text-muted)',
-    opacity: 0.6,
   } as CSSProperties,
 
   footer: {

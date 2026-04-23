@@ -3,10 +3,9 @@ import { selectHeroTracker } from './hero-selection';
 import type { TrackerCardData } from './tracker-directory-utils';
 
 function makeTracker(overrides: Partial<TrackerCardData> & { slug: string }): TrackerCardData {
-  return {
-    slug: overrides.slug,
-    shortName: overrides.shortName ?? overrides.slug,
-    name: overrides.name ?? overrides.slug,
+  const defaults: Omit<TrackerCardData, 'slug'> = {
+    shortName: overrides.slug,
+    name: overrides.slug,
     description: '',
     icon: '',
     color: '#3498db',
@@ -26,8 +25,8 @@ function makeTracker(overrides: Partial<TrackerCardData> & { slug: string }): Tr
     recentEventCount: 0,
     avgSourceTier: 2,
     sectionsUpdatedCount: 0,
-    ...(overrides as TrackerCardData),
-  } as TrackerCardData;
+  } as unknown as Omit<TrackerCardData, 'slug'>;
+  return { ...defaults, ...overrides } as TrackerCardData;
 }
 
 describe('selectHeroTracker', () => {
