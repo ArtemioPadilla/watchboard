@@ -3664,3 +3664,37 @@ body::before {
 .cc-feed-row:not(:hover) .cc-feed-actions:has(.is-on) {
   opacity: 1;
 }
+
+/* ─── Sidebar Inline Tabs ─── */
+.cc-feed-tabs {
+  display: flex;
+  gap: 0;
+  padding: 0 12px;
+  border-bottom: 1px solid var(--border, #2a2d3a);
+  margin-bottom: 4px;
+}
+.cc-feed-tab {
+  background: none;
+  border: none;
+  padding: 8px 10px 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--text-muted, #8b8fa2);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px; /* overlap the container's bottom border */
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.cc-feed-tab:hover {
+  color: var(--text-primary, #e8e9ed);
+}
+.cc-feed-tab.is-active {
+  color: var(--accent-blue, #58a6ff);
+  border-bottom-color: var(--accent-blue, #58a6ff);
+}
+.cc-feed-tab:focus-visible {
+  outline: 2px solid var(--accent-blue);
+  outline-offset: 2px;
+}
