@@ -96,15 +96,15 @@
   },
   {
     "id": "umich-consumer-sentiment",
-    "label": "UMich Consumer Sentiment (Apr 2026)",
-    "value": "Lowest Since 1978",
+    "label": "UMich Consumer Sentiment (Final Apr 2026)",
+    "value": "49.8",
     "color": "red",
-    "source": "University of Michigan Surveys of Consumers (Apr 2026)",
+    "source": "University of Michigan Surveys of Consumers — Final April Reading (Apr 2026)",
     "contested": false,
-    "delta": "46-year low",
-    "deltaNote": "Lowest in consistently-tracked history since 1978; driven by Iran war oil prices, tariff uncertainty, and weak jobs growth of ~20K/month since Jan 2025",
+    "delta": "−6.6% from March",
+    "deltaNote": "Final April reading 49.8 (preliminary was 47.6); down 6.6% from March; year-ahead inflation expectations at 4.8%; lowest on record in consistently-tracked history since 1978; driven by Iran war oil prices, tariff-era cost increases, and ~20K/month jobs growth since Jan 2025",
     "trend": "down",
-    "lastUpdated": "2026-04-19T14:10:45Z"
+    "lastUpdated": "2026-04-24T13:30:00Z"
   },
   {
     "id": "artemis-ii-mission-status",
@@ -121,14 +121,27 @@
   {
     "id": "iran-ceasefire-us-diplomatic",
     "label": "Iran Ceasefire / Hormuz Status",
-    "value": "Extended Indefinitely",
+    "value": "Day 56 — Indirect Talks",
     "color": "amber",
-    "source": "Al Jazeera / Euronews / CBS News / NBC News (Apr 22, 2026)",
+    "source": "CNN / Al Jazeera / PBS NewsHour (Apr 24, 2026)",
     "contested": true,
-    "contestNote": "Ceasefire extended at Pakistan's request Apr 22; US blockade continues; IRGC seized 2 ships (MSC Francesca, Epaminondas) and fired on 3 more in Hormuz on same day; Iran FM calls blockade 'act of war'; no talks scheduled",
-    "delta": "Extended Apr 22",
-    "deltaNote": "Trump extended via Truth Social after deadline passed; Iran govt described as 'seriously fractured'; blockade maintained; Brent briefly spiked to ~$100 then retreated; diplomatic stalemate continues",
+    "contestNote": "Ceasefire extended Apr 22; 3rd US carrier (USS George H.W. Bush) arrived near Iran Apr 24; Pentagon seized Iranian oil tanker; Iran FM Araghchi in Islamabad for indirect talks via Pakistan; Iran collecting Hormuz transit tolls up to $20M/day; 31+ ships turned back; Senate defeated 5th war powers resolution 46–51",
+    "delta": "USS Bush + tanker seizure",
+    "deltaNote": "Third US carrier deployed Apr 24; Pentagon seized second Iranian oil tanker in Indian Ocean; Araghchi in Islamabad for indirect Pakistan-mediated talks; Iran collecting Hormuz transit tolls; blockade continues indefinitely per Hegseth; WTI ~$88–90/bbl",
     "trend": "down",
-    "lastUpdated": "2026-04-22T15:34:48Z"
+    "lastUpdated": "2026-04-24T13:30:00Z"
+  },
+  {
+    "id": "ice-budget-reconciliation",
+    "label": "ICE/Border Patrol Budget Reconciliation",
+    "value": "$70B Approved (Senate)",
+    "color": "red",
+    "source": "NPR / CNBC / Roll Call (Apr 23, 2026)",
+    "contested": true,
+    "contestNote": "Senate passed budget reconciliation resolution 50–48 at 3:30 a.m. Apr 23, instructing committees to produce $70B in new ICE/Border Patrol funding; must pass House before funds allocated; bypasses Democratic filibuster; Rand Paul only Republican to vote for war powers resolution same night",
+    "delta": "Senate 50–48 at 3:30 a.m.",
+    "deltaNote": "Senate all-night vote Apr 23 passed DHS reconciliation resolution; House must still approve; $70B would fund ICE expansion toward 1M/year deportation target",
+    "trend": "up",
+    "lastUpdated": "2026-04-24T13:30:00Z"
   }
 ]
