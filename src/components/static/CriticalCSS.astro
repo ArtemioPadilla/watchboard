@@ -76,7 +76,14 @@
     border-left: 1px solid var(--border);
     overflow: hidden;
     background: var(--bg-primary);
-    padding-top: var(--cc-nav-h, 40px); /* JS sets exact nav height post-hydration */
+  }
+
+  /* Desktop only: offset below the fixed overlay nav. Mobile positions the nav
+     absolutely over the globe, so the sidebar must not reserve space for it. */
+  @media (min-width: 768px) {
+    .cc-sidebar {
+      padding-top: var(--cc-nav-h, 40px); /* JS sets exact nav height post-hydration */
+    }
   }
 
   /* Overlay nav bar — visible immediately */

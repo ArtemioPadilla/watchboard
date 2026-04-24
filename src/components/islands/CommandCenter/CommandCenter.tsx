@@ -249,7 +249,10 @@ export default function CommandCenter({
     const el = navRef.current;
     if (!el) return;
     const publish = () => {
-      document.documentElement.style.setProperty('--cc-nav-h', `${el.offsetHeight}px`);
+      // getBoundingClientRect is sub-pixel precise; offsetHeight would round to int
+      // and can leave a 1px overlap/gap under fractional DPR or zoom.
+      const h = Math.ceil(el.getBoundingClientRect().height);
+      document.documentElement.style.setProperty('--cc-nav-h', `${h}px`);
     };
     publish();
     const ro = new ResizeObserver(publish);
