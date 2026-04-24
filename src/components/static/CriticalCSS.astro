@@ -76,7 +76,7 @@
     border-left: 1px solid var(--border);
     overflow: hidden;
     background: var(--bg-primary);
-    padding-top: 48px; /* offset below fixed overlay navbar */
+    padding-top: var(--cc-nav-h, 40px); /* JS sets exact nav height post-hydration */
   }
 
   /* Overlay nav bar — visible immediately */

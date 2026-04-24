@@ -544,7 +544,7 @@ export default function SidebarPanel({
   const isSearching = searchQuery.trim().length > 0;
 
   return (
-    <div className="cc-sidebar" style={S.sidebar} onKeyDown={handleKeyDown} tabIndex={-1}>
+    <div className="cc-sidebar-inner" style={S.sidebar} onKeyDown={handleKeyDown} tabIndex={-1}>
       {!isMobile && (
         <div style={S.header}>
           <div style={S.headerLeft}>
