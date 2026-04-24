@@ -329,3 +329,50 @@ export type MissionPhase = z.infer<typeof MissionPhaseSchema>;
 export type MissionCrew = z.infer<typeof MissionCrewSchema>;
 export type MissionWaypoint = z.infer<typeof MissionWaypointSchema>;
 export type MissionTrajectory = z.infer<typeof MissionTrajectorySchema>;
+
+// ── Knowledge Graph ──
+
+export const EntityTypeSchema = z.enum(['person', 'organization', 'location', 'event', 'concept']);
+
+export const RelationshipTypeSchema = z.enum([
+  'INVOLVES', 'TRIGGERS', 'CAUSED_BY', 'RELATED_TO',
+  'PART_OF', 'OPPOSES', 'ALLIED_WITH', 'OVERLAPS'
+]);
+
+export const EntitySchema = z.object({
+  id: z.string().regex(/^[a-z0-9-]+$/, 'Entity ID must be kebab-case'),
+  type: EntityTypeSchema,
+  name: z.string().min(1),
+  aliases: z.array(z.string()).default([]),
+  description: z.string().min(10).max(500),
+  trackers: z.array(z.string()).min(1),
+  wikiUrl: z.string().url().optional(),
+  countryCode: z.string().length(2).optional(),
+});
+
+export const RelationshipSchema = z.object({
+  id: z.string().regex(/^[a-z0-9-]+$/, 'Relationship ID must be kebab-case'),
+  from: z.string(),
+  fromType: z.enum(['entity', 'tracker']),
+  to: z.string(),
+  toType: z.enum(['entity', 'tracker']),
+  rel: RelationshipTypeSchema,
+  weight: z.number().min(0).max(1),
+  note: z.string().optional(),
+  since: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
+  until: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
+});
+
+export const GraphIndexSchema = z.object({
+  version: z.literal(1),
+  entityCount: z.number(),
+  relationshipCount: z.number(),
+  lastUpdated: z.string(),
+});
+
+// Inferred types
+export type EntityType = z.infer<typeof EntityTypeSchema>;
+export type RelationshipType = z.infer<typeof RelationshipTypeSchema>;
+export type Entity = z.infer<typeof EntitySchema>;
+export type Relationship = z.infer<typeof RelationshipSchema>;
+export type GraphIndex = z.infer<typeof GraphIndexSchema>;

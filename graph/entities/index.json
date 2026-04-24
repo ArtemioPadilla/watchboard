@@ -1,0 +1,158 @@
+{
+  "entities": [
+    {
+      "id": "donald-trump",
+      "type": "person",
+      "name": "Donald Trump",
+      "aliases": ["Trump", "POTUS 45/47"],
+      "description": "45th and 47th President of the United States. Major actor in US foreign policy, NATO tensions, and Mexico-US relations.",
+      "trackers": ["trump-presidencies", "nato-us-tensions", "mexico-us-conflict", "iran-conflict", "global-recession-risk"],
+      "countryCode": "US",
+      "wikiUrl": "https://en.wikipedia.org/wiki/Donald_Trump"
+    },
+    {
+      "id": "ismael-el-mayo-zambada",
+      "type": "person",
+      "name": "Ismael 'El Mayo' Zambada",
+      "aliases": ["El Mayo", "Mayo Zambada"],
+      "description": "Co-founder of the Sinaloa Cartel. His arrest in 2024 triggered the Sinaloa fragmentation conflict.",
+      "trackers": ["sinaloa-fragmentation", "mexico-us-conflict", "mexico"],
+      "countryCode": "MX"
+    },
+    {
+      "id": "nemesio-el-mencho-oseguera",
+      "type": "person",
+      "name": "Nemesio 'El Mencho' Oseguera Cervantes",
+      "aliases": ["El Mencho", "CJNG leader"],
+      "description": "Founder and leader of CJNG (Jalisco New Generation Cartel). Most-wanted criminal in Mexico.",
+      "trackers": ["mencho-cjng", "sinaloa-fragmentation", "mexico", "mexico-us-conflict"],
+      "countryCode": "MX"
+    },
+    {
+      "id": "cjng",
+      "type": "organization",
+      "name": "Cártel Jalisco Nueva Generación (CJNG)",
+      "aliases": ["CJNG", "Jalisco New Generation Cartel"],
+      "description": "Mexican criminal organization founded by El Mencho. One of the most powerful cartels operating in Mexico and internationally.",
+      "trackers": ["mencho-cjng", "sinaloa-fragmentation", "mexico", "mexico-us-conflict"],
+      "countryCode": "MX"
+    },
+    {
+      "id": "sinaloa-cartel",
+      "type": "organization",
+      "name": "Sinaloa Cartel",
+      "aliases": ["Los Chapitos", "Cártel de Sinaloa"],
+      "description": "Major Mexican drug trafficking organization, fragmented between El Mayo faction and Los Chapitos after 2024 betrayal.",
+      "trackers": ["sinaloa-fragmentation", "mexico-us-conflict", "mexico"],
+      "countryCode": "MX"
+    },
+    {
+      "id": "iran",
+      "type": "location",
+      "name": "Iran",
+      "aliases": ["Islamic Republic of Iran", "Persia"],
+      "description": "Middle Eastern nation-state. Central actor in the 2026 Iran-US/Israel conflict and broader regional tensions.",
+      "trackers": ["iran-conflict", "israel-palestine", "october-7-attack"],
+      "countryCode": "IR"
+    },
+    {
+      "id": "israel",
+      "type": "location",
+      "name": "Israel",
+      "aliases": ["State of Israel", "IDF"],
+      "description": "Middle Eastern nation-state. Key actor in Iran conflict, Gaza war, and October 7 aftermath.",
+      "trackers": ["iran-conflict", "israel-palestine", "gaza-war", "october-7-attack"],
+      "countryCode": "IL"
+    },
+    {
+      "id": "ukraine",
+      "type": "location",
+      "name": "Ukraine",
+      "aliases": ["UA"],
+      "description": "Eastern European nation-state invaded by Russia in 2022. Central actor in the Ukraine-Russia war.",
+      "trackers": ["ukraine-war", "nato-us-tensions", "global-recession-risk"],
+      "countryCode": "UA"
+    },
+    {
+      "id": "russia",
+      "type": "location",
+      "name": "Russia",
+      "aliases": ["Russian Federation", "RF"],
+      "description": "Largest country by area. Invaded Ukraine in 2022; key actor in NATO tensions and global energy markets.",
+      "trackers": ["ukraine-war", "nato-us-tensions", "global-recession-risk"],
+      "countryCode": "RU"
+    },
+    {
+      "id": "nato",
+      "type": "organization",
+      "name": "NATO",
+      "aliases": ["North Atlantic Treaty Organization", "Atlantic Alliance"],
+      "description": "Collective defense alliance of 32 member states. Central to Ukraine-Russia war response and US-Europe tensions.",
+      "trackers": ["nato-us-tensions", "ukraine-war", "iran-conflict"],
+      "wikiUrl": "https://en.wikipedia.org/wiki/NATO"
+    },
+    {
+      "id": "hamas",
+      "type": "organization",
+      "name": "Hamas",
+      "aliases": ["Islamic Resistance Movement"],
+      "description": "Palestinian militant organization that governs Gaza. Conducted October 7 attacks; central actor in Gaza war.",
+      "trackers": ["october-7-attack", "gaza-war", "israel-palestine", "iran-conflict"],
+      "countryCode": "PS"
+    },
+    {
+      "id": "hezbollah",
+      "type": "organization",
+      "name": "Hezbollah",
+      "aliases": ["Hizballah", "Party of God"],
+      "description": "Lebanese Shia militant and political organization backed by Iran. Key actor in Iran conflict and Israel-Palestine dynamics.",
+      "trackers": ["iran-conflict", "israel-palestine", "october-7-attack"],
+      "countryCode": "LB"
+    },
+    {
+      "id": "covid-19",
+      "type": "event",
+      "name": "COVID-19 Pandemic",
+      "aliases": ["COVID", "Coronavirus pandemic", "SARS-CoV-2"],
+      "description": "Global pandemic caused by SARS-CoV-2, beginning in 2019. Triggered economic disruption and accelerated geopolitical shifts.",
+      "trackers": ["covid-pandemic", "global-recession-risk"],
+      "wikiUrl": "https://en.wikipedia.org/wiki/COVID-19_pandemic"
+    },
+    {
+      "id": "october-7-attacks",
+      "type": "event",
+      "name": "October 7, 2023 Hamas Attacks",
+      "aliases": ["7 de octubre", "Al-Aqsa Flood"],
+      "description": "Hamas-led cross-border attack on Israel on October 7, 2023. Triggered the Gaza War and changed regional dynamics.",
+      "trackers": ["october-7-attack", "gaza-war", "israel-palestine", "iran-conflict"],
+      "wikiUrl": "https://en.wikipedia.org/wiki/2023_Hamas-led_attack_on_Israel"
+    },
+    {
+      "id": "culiacanazo",
+      "type": "event",
+      "name": "El Culiacanazo",
+      "aliases": ["Culiacanazo 2019", "Ovidio Guzmán capture attempt"],
+      "description": "October 2019 failed capture attempt of Ovidio Guzmán in Culiacán, Sinaloa. Demonstrated cartel power over the Mexican state.",
+      "trackers": ["culiacanazo", "sinaloa-fragmentation", "amlo-presidency", "mexico"],
+      "wikiUrl": "https://en.wikipedia.org/wiki/2019_Culiac%C3%A1n_crisis"
+    },
+    {
+      "id": "andres-manuel-lopez-obrador",
+      "type": "person",
+      "name": "Andrés Manuel López Obrador",
+      "aliases": ["AMLO", "El Peje"],
+      "description": "President of Mexico 2018-2024. Founded Morena party; key actor in Mexico-US relations, cartel policy, and energy reform.",
+      "trackers": ["amlo-presidency", "culiacanazo", "mexico-us-conflict", "mexico"],
+      "countryCode": "MX"
+    },
+    {
+      "id": "claudia-sheinbaum",
+      "type": "person",
+      "name": "Claudia Sheinbaum",
+      "aliases": ["Sheinbaum"],
+      "description": "President of Mexico from October 2024. First female president of Mexico; AMLO's chosen successor from Morena.",
+      "trackers": ["sheinbaum-presidency", "mexico-us-conflict", "mexico"],
+      "countryCode": "MX"
+    }
+  ]
+}
