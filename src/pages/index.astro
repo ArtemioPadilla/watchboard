@@ -254,11 +254,13 @@ const breakingTrackers = [...serializedTrackers]
     border: 0;
   }
 
-  /* Desktop: offset sidebar content below the fixed overlay navbar so the
-     sidebar's own brand + search + tabs don't render underneath it */
+  /* Desktop: offset sidebar content below the fixed overlay navbar. The actual
+     nav height is published to --cc-nav-h by CommandCenter via ResizeObserver,
+     so this stays correct if the nav grows or shrinks. Fallback matches the
+     current rendered height for first paint before JS hydrates. */
   @media (min-width: 768px) {
     .cc-sidebar {
-      padding-top: 48px;
+      padding-top: var(--cc-nav-h, 40px);
     }
   }
 

@@ -139,6 +139,7 @@ export default function CommandCenter({
   const activeCountry = activeGeoPath && activeGeoPath.length >= 2 ? activeGeoPath[1] : null;
 
   const searchRef = useRef<HTMLInputElement>(null);
+  const navRef = useRef<HTMLDivElement>(null);
   const globeRef = useRef<{
     toggleRotation?: () => void;
     flyTo?: (lat: number, lng: number, altitude: number, durationMs: number) => void;
@@ -241,6 +242,23 @@ export default function CommandCenter({
     window.addEventListener('resize', check);
     return () => window.removeEventListener('resize', check);
   }, []);
+
+  // Publish overlay nav height as --cc-nav-h so the sidebar can offset by exactly
+  // that much without hardcoding a magic number that drifts as the nav changes.
+  useEffect(() => {
+    const el = navRef.current;
+    if (!el) return;
+    const publish = () => {
+      // getBoundingClientRect is sub-pixel precise; offsetHeight would round to int
+      // and can leave a 1px overlap/gap under fractional DPR or zoom.
+      const h = Math.ceil(el.getBoundingClientRect().height);
+      document.documentElement.style.setProperty('--cc-nav-h', `${h}px`);
+    };
+    publish();
+    const ro = new ResizeObserver(publish);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [isMobile]);
 
   const handleToggleLocale = useCallback(() => {
     setLocale(prev => {
@@ -475,7 +493,7 @@ export default function CommandCenter({
       <NotificationManager trackers={trackers} followedSlugs={followedSlugs} />
 
       {/* Overlay Nav */}
-      <div style={{
+      <div ref={navRef} style={{
         ...styles.overlayNav,
         ...(isMobile ? { position: 'absolute' as const } : {}),
       }} role="banner" aria-label="Watchboard navigation">
