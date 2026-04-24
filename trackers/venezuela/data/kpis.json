@@ -1,1 +1,93 @@
-[]
+[
+  {
+    "id": "diaspora-total",
+    "label": "Venezuelans Displaced",
+    "value": "7.9M",
+    "color": "red",
+    "source": "UNHCR / R4V (2024)",
+    "contested": false,
+    "delta": "+400K vs 2023",
+    "trend": "up",
+    "lastUpdated": "2026-04-24T00:00:00Z"
+  },
+  {
+    "id": "oil-production",
+    "label": "Daily Oil Output",
+    "value": "~900K bpd",
+    "color": "amber",
+    "source": "OPEC / PDVSA (2024)",
+    "contested": true,
+    "contestNote": "PDVSA claims higher; independent analysts cite ~800–950K bpd",
+    "delta": "−72% vs 1998 peak (3.3M bpd)",
+    "trend": "up",
+    "lastUpdated": "2026-04-24T00:00:00Z"
+  },
+  {
+    "id": "inflation-peak",
+    "label": "Peak Hyperinflation",
+    "value": "1,698,488%",
+    "color": "red",
+    "source": "IMF (2018)",
+    "contested": true,
+    "contestNote": "BCV withheld data for years; opposition economists estimated even higher figures",
+    "deltaNote": "Worst inflation in Venezuela's history (2018)",
+    "lastUpdated": "2026-04-24T00:00:00Z"
+  },
+  {
+    "id": "poverty-rate",
+    "label": "Extreme Poverty Rate",
+    "value": "~65%",
+    "color": "red",
+    "source": "ENCOVI / Universidad Católica Andrés Bello (2023)",
+    "contested": true,
+    "contestNote": "Government disputes figures; independent surveys consistently show 50–80%",
+    "trend": "down",
+    "deltaNote": "Improved from ~80% (2021) due to partial dollarization",
+    "lastUpdated": "2026-04-24T00:00:00Z"
+  },
+  {
+    "id": "political-prisoners",
+    "label": "Political Prisoners",
+    "value": "~940",
+    "color": "red",
+    "source": "Foro Penal (2024)",
+    "contested": true,
+    "contestNote": "Government denies existence of political prisoners; cites legal prosecutions",
+    "trend": "up",
+    "delta": "+300+ post July 28, 2024 election",
+    "lastUpdated": "2026-04-24T00:00:00Z"
+  },
+  {
+    "id": "gdp-decline",
+    "label": "GDP Decline (2013–2021)",
+    "value": "−80%",
+    "color": "red",
+    "source": "IMF / World Bank (2022)",
+    "contested": false,
+    "deltaNote": "Largest peacetime economic contraction in modern history",
+    "lastUpdated": "2026-04-24T00:00:00Z"
+  },
+  {
+    "id": "remittances",
+    "label": "Annual Remittances",
+    "value": "~$4.6B",
+    "color": "blue",
+    "source": "World Bank (2023)",
+    "contested": false,
+    "trend": "up",
+    "delta": "+15% vs 2022",
+    "deltaNote": "Largest single source of household income for many families",
+    "lastUpdated": "2026-04-24T00:00:00Z"
+  },
+  {
+    "id": "minimum-wage",
+    "label": "Monthly Minimum Wage",
+    "value": "$5.50",
+    "color": "amber",
+    "source": "BCV / Datanálisis (2024)",
+    "contested": false,
+    "deltaNote": "Nominal bolívar wage; most workers rely on dollar remittances",
+    "trend": "up",
+    "lastUpdated": "2026-04-24T00:00:00Z"
+  }
+]

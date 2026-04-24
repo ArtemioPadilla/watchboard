@@ -1,1 +1,101 @@
-[]
+[
+  {
+    "id": "oil-production-bpd",
+    "label": "Oil Production",
+    "value": "~900K bpd",
+    "change": "−72% vs 1998 peak",
+    "direction": "up",
+    "sparkData": [3300, 3100, 2900, 2500, 2000, 1500, 900, 700, 750, 900],
+    "color": "amber",
+    "source": "OPEC / PDVSA (2024)",
+    "lastUpdated": "2026-04-24T00:00:00Z"
+  },
+  {
+    "id": "inflation-rate",
+    "label": "Annual Inflation",
+    "value": "~189% (2023)",
+    "change": "Down from 1,698,488% (2018)",
+    "direction": "down",
+    "sparkData": [69, 180, 438, 65374, 929790, 1698488, 9585, 2665, 686, 360, 189],
+    "color": "red",
+    "source": "IMF / BCV (2024)",
+    "lastUpdated": "2026-04-24T00:00:00Z"
+  },
+  {
+    "id": "gdp-usd",
+    "label": "GDP (USD)",
+    "value": "~$97B (2023)",
+    "change": "−80% from $482B (2013 peak)",
+    "direction": "up",
+    "sparkData": [482, 371, 239, 151, 102, 95, 105, 97, 95, 97],
+    "color": "red",
+    "source": "IMF World Economic Outlook (2024)",
+    "lastUpdated": "2026-04-24T00:00:00Z"
+  },
+  {
+    "id": "pdvsa-revenue",
+    "label": "PDVSA Oil Revenue",
+    "value": "~$12B/year (est.)",
+    "change": "−85% from ~$80B peak",
+    "direction": "up",
+    "sparkData": [80, 65, 40, 25, 12, 8, 7, 9, 11, 12],
+    "color": "amber",
+    "source": "PDVSA / Reuters (2024)",
+    "lastUpdated": "2026-04-24T00:00:00Z"
+  },
+  {
+    "id": "unemployment-rate",
+    "label": "Unemployment Rate",
+    "value": "~5.8% (official)",
+    "change": "Widely understated; informal sector ~80%",
+    "direction": "down",
+    "sparkData": [7.5, 8.7, 16, 27, 35, 40, 35, 28, 20, 6],
+    "color": "amber",
+    "source": "BCV / ENCOVI (2023)",
+    "lastUpdated": "2026-04-24T00:00:00Z"
+  },
+  {
+    "id": "dollarization",
+    "label": "USD Share of Transactions",
+    "value": "~68%",
+    "change": "Up from ~0% (2018)",
+    "direction": "up",
+    "sparkData": [0, 0, 1, 5, 15, 35, 55, 65, 68, 68],
+    "color": "blue",
+    "source": "Datanálisis / ENCOVI (2023)",
+    "lastUpdated": "2026-04-24T00:00:00Z"
+  },
+  {
+    "id": "remittances-inflow",
+    "label": "Annual Remittances",
+    "value": "$4.6B (2023)",
+    "change": "+900% since 2018",
+    "direction": "up",
+    "sparkData": [0.5, 0.8, 1.2, 2.0, 3.0, 3.5, 4.0, 4.3, 4.6, 4.6],
+    "color": "green",
+    "source": "World Bank (2024)",
+    "lastUpdated": "2026-04-24T00:00:00Z"
+  },
+  {
+    "id": "poverty-extreme",
+    "label": "Extreme Poverty Rate",
+    "value": "~65% (2023)",
+    "change": "Down from ~80% (2021)",
+    "direction": "down",
+    "sparkData": [32, 48, 62, 70, 79, 80, 76, 70, 66, 65],
+    "color": "red",
+    "source": "ENCOVI / UCAB (2023)",
+    "lastUpdated": "2026-04-24T00:00:00Z"
+  },
+  {
+    "id": "external-debt",
+    "label": "External Debt",
+    "value": "~$160B",
+    "change": "Largely in default since 2017",
+    "direction": "up",
+    "sparkData": [65, 95, 115, 130, 145, 150, 155, 158, 160, 160],
+    "color": "red",
+    "source": "IMF / Reuters (2024)",
+    "lastUpdated": "2026-04-24T00:00:00Z"
+  }
+]
