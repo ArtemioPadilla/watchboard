@@ -17,7 +17,6 @@ interface TrackerInfo {
   name: string;
   topic: string;
   searchContext: string;
-  latestHeadline: string;
   manualRelated: string[];
   keywords: Set<string>;
 }
@@ -32,13 +31,6 @@ for (const slug of fs.readdirSync(trackersDir)) {
   try {
     const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
     if (config.status === 'draft') continue;
-
-    const metaPath = path.join(trackersDir, slug, 'data', 'meta.json');
-    let headline = '';
-    try {
-      const meta = JSON.parse(fs.readFileSync(metaPath, 'utf8'));
-      headline = meta.heroHeadline || '';
-    } catch {}
 
     const searchContext = config.ai?.searchContext || '';
     const manualRelated = config.ai?.relatedTrackers || [];
@@ -58,7 +50,6 @@ for (const slug of fs.readdirSync(trackersDir)) {
       name: config.name || slug,
       topic: config.topic || config.name || slug,
       searchContext,
-      latestHeadline: headline,
       manualRelated,
       keywords,
     });
@@ -70,7 +61,6 @@ for (const slug of fs.readdirSync(trackersDir)) {
 // Compute relationships
 const brief: Record<string, {
   topic: string;
-  latestHeadline: string;
   relatedSlugs: string[];
 }> = {};
 
@@ -94,7 +84,6 @@ for (const tracker of trackers) {
 
   brief[tracker.slug] = {
     topic: tracker.topic,
-    latestHeadline: tracker.latestHeadline,
     relatedSlugs: [...related],
   };
 }
