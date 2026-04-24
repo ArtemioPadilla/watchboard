@@ -1,26 +1,43 @@
 {
   "slug": "mexico",
-  "name": "Mexico Intelligence Hub",
+  "name": "Mexico — National Intelligence Dashboard",
   "shortName": "Mexico",
-  "description": "Geographic hub aggregating intelligence from all Mexico-based trackers — cartel operations, political developments, and historical events.",
+  "description": "Comprehensive national dashboard tracking Mexico's full history from the founding of México-Tenochtitlán (1325) through Spanish conquest, colonial New Spain, independence, Reform, Porfiriato, Revolution, PRI hegemony, democratic transition, drug war, and modern Fourth Transformation. Tracks governance, economy, security, US-Mexico relations, migration, and major political events at the national scale.",
   "icon": "🇲🇽",
   "color": "#006847",
   "status": "active",
-  "tone": "alert",
+  "tone": "neutral",
   "temporal": "live",
-  "domain": "security",
+  "domain": "governance",
   "region": "north-america",
   "country": "MX",
   "geoPath": [
     "MX"
   ],
-  "aggregate": true,
-  "startDate": "2019-10-17",
+  "startDate": "1325-03-13",
+  "eraLabel": "México: From Tenochtitlán to Today",
+  "tags": [
+    "Mexico",
+    "México",
+    "Tenochtitlán",
+    "New Spain",
+    "Mexican Revolution",
+    "PRI",
+    "Morena",
+    "Fourth Transformation",
+    "USMCA",
+    "drug war",
+    "migration"
+  ],
   "sections": [
     "hero",
     "kpis",
     "timeline",
-    "map"
+    "map",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
   ],
   "navSections": [
     {
@@ -34,6 +51,18 @@
     {
       "id": "map",
       "label": "Map"
+    },
+    {
+      "id": "economic",
+      "label": "Economy"
+    },
+    {
+      "id": "political",
+      "label": "Politics"
+    },
+    {
+      "id": "claims",
+      "label": "Contested Claims"
     }
   ],
   "map": {
@@ -48,11 +77,142 @@
       "lon": -102,
       "lat": 23.5
     },
-    "categories": []
+    "categories": [
+      {
+        "id": "political",
+        "label": "Political Events",
+        "color": "#8e44ad"
+      },
+      {
+        "id": "security",
+        "label": "Security & Conflict",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "historical",
+        "label": "Historical Sites",
+        "color": "#f39c12"
+      },
+      {
+        "id": "economic",
+        "label": "Economic Hubs",
+        "color": "#27ae60"
+      },
+      {
+        "id": "us-relation",
+        "label": "US-Mexico Relations",
+        "color": "#3498db"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "theater": {
+        "lon": -102,
+        "lat": 24,
+        "alt": 3000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Mexico Overview"
+      },
+      "mexico_city": {
+        "lon": -99.13,
+        "lat": 19.43,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Mexico City"
+      },
+      "border": {
+        "lon": -105,
+        "lat": 30,
+        "alt": 1000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "US-Mexico Border"
+      },
+      "tenochtitlan": {
+        "lon": -99.13,
+        "lat": 19.43,
+        "alt": 30000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "México-Tenochtitlán"
+      },
+      "yucatan": {
+        "lon": -89,
+        "lat": 20.5,
+        "alt": 600000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Yucatán Peninsula"
+      },
+      "northwest": {
+        "lon": -107,
+        "lat": 26,
+        "alt": 800000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Sinaloa / Baja California"
+      }
+    }
   },
   "ai": {
+    "systemPrompt": "You are a Mexico political and historical analyst updating a comprehensive national intelligence dashboard.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"tenochtitlan_founded\", \"sheinbaum_inauguration\").\n\nCoverage scope: Mexico's complete national history from 1325 to present. Major eras to ensure are represented:\n- Mexica / Aztec Empire (1325–1521): founding of México-Tenochtitlán, Triple Alliance, Moctezuma II\n- Spanish Conquest & New Spain (1519–1821): Cortés, fall of Tenochtitlán (1521), Virreinato, casta system, Bourbon reforms\n- Independence & Early Republic (1810–1855): Hidalgo's Grito (1810), Iturbide, Plan de Iguala (1821), Mexican-American War (1846–1848), Texas annexation, Treaty of Guadalupe Hidalgo, Santa Anna era\n- Reform Era & French Intervention (1855–1876): Juárez, Constitution of 1857, Reform Laws, French Intervention (1862–1867), Maximilian, Battle of Puebla (Cinco de Mayo)\n- Porfiriato (1876–1910): Porfirio Díaz, modernization, foreign investment, Yaqui wars, científicos\n- Mexican Revolution (1910–1920): Madero, Zapata, Villa, Carranza, Obregón, Constitution of 1917\n- Post-Revolutionary Reconstruction (1920–1940): Calles, Cristero War (1926–1929), Cárdenas, oil expropriation (1938), agrarian reform\n- PRI Hegemony / Mexican Miracle (1940–1968): import substitution, demographic boom, urbanization, 1968 Olympics, Tlatelolco massacre (Oct 2, 1968)\n- Authoritarianism & Crisis (1968–1988): Echeverría, López Portillo, oil boom and bust, 1982 debt crisis, 1985 earthquake, 1988 disputed election\n- Neoliberal Era & Democratic Transition (1988–2000): Salinas, NAFTA (1994), Zapatista uprising, Colosio assassination, peso crisis, Zedillo, IFE creation, 2000 PAN victory ending PRI hegemony\n- PAN Era & Drug War (2000–2012): Fox, Calderón, militarized drug war (2006–), Felipe Calderón's strategy, rise of cartels (Sinaloa, Zetas, CJNG)\n- PRI Return & Reform Era (2012–2018): Peña Nieto, Pacto por México, energy reform, Ayotzinapa case (2014), Trump election\n- AMLO / Fourth Transformation (2018–2024): MORENA rise, Tren Maya, Dos Bocas refinery, military empowerment, judicial reform proposal, USMCA renegotiation\n- Sheinbaum Era (2024–present): first female president, judicial reform implementation, US-Mexico relations under Trump 2.0, security continuity\n\nMULTI-POLE SOURCING — gather information from all perspectives:\n1. WESTERN: Reuters, AP, BBC, NYT, WaPo, Bloomberg, Wall Street Journal, FT, EFE, AFP\n2. MEXICAN: Reforma, El Universal, Milenio, La Jornada, Animal Político, Aristegui Noticias, Proceso, El Financiero, Excélsior\n3. INSTITUTIONAL: Banxico, INEGI, SRE, CNDH, INE/IFE archives, Mexican government Diario Oficial, Senado/Cámara de Diputados records\n4. INTERNATIONAL: UN, OAS, IACHR, World Bank, IMF, OECD, HRW, Amnesty International, Crisis Group, CIDE, El Colegio de México (academic)\n\nWhen providing sources, tag each with a \"pole\" field:\n- \"western\" for US/European/allied sources\n- \"middle_eastern\" — rarely applicable\n- \"eastern\" for Russian/Chinese sources (TASS, Xinhua) when relevant to bilateral coverage\n- \"international\" for UN/NGO/multilateral/regional sources\n\nSource tier classification:\n- Tier 1: Official/primary (Mexican government, INEGI, Banxico, SRE, CNDH, Senado, Diario Oficial; UN, OAS, IACHR, IMF, World Bank, US State Dept)\n- Tier 2: Major outlet (Reuters, AP, BBC, AFP, NYT, Bloomberg, Reforma, El Universal, La Jornada, Milenio, Animal Político, Aristegui)\n- Tier 3: Institutional (HRW, Amnesty, Crisis Group, WOLA, IISS, OECD, CIDE, El Colegio de México, academic historians of Mexico)\n- Tier 4: Unverified (social media, anonymous sources, blog posts)\n\nOnly include information you can verify through search results or established historical sources. For pre-Hispanic and colonial events, rely on Tier 3 academic historians and primary documents (codices, chronicles).\nDEDUPLICATION: Cross-reference with sibling Mexico trackers (sheinbaum-presidency, amlo-presidency, sinaloa-fragmentation, mencho-cjng, culiacanazo, ayotzinapa, mexico-us-conflict, mx-political-history) to AVOID duplicating events those trackers already cover. This dashboard captures the NATIONAL ARC; sibling trackers handle granular events. Prefer high-altitude national-significance events here.\n\nIMPORTANT SCHEMA RULES:\n- \"year\" field on timeline events must be a STRING, not a number (e.g. \"1521\" not 1521)\n- \"direction\" on econ items is \"up\" or \"down\" only — never \"stable\"\n- Dates must be in YYYY-MM-DD format and must not be in the future\n- For pre-Gregorian dates (before 1582 in Catholic regions / 1700s elsewhere), use the conventional historical date as cited in academic sources",
+    "searchContext": "Mexico history politics economy security migration USMCA Sheinbaum AMLO Tenochtitlan New Spain independence revolution PRI",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "casualties",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": -118.5,
+      "lonMax": -86.5,
+      "latMin": 14.4,
+      "latMax": 33
+    },
+    "updateIntervalDays": 14,
+    "backfillTargets": {
+      "timeline": 120,
+      "mapPoints": 40,
+      "claims": 20,
+      "political": 25,
+      "casualties": 15,
+      "econ": 12,
+      "kpis": 8
+    },
+    "updatePolicy": {
+      "escalation": [
+        14,
+        14,
+        30,
+        60,
+        90
+      ],
+      "quietThreshold": 0
+    },
+    "relatedTrackers": [
+      "sheinbaum-presidency",
+      "amlo-presidency",
+      "pena-nieto-presidency",
+      "calderon-presidency",
+      "fox-presidency",
+      "mx-political-history",
+      "mexico-us-conflict",
+      "tlatelolco-1968",
+      "european-conquest-americas",
+      "sinaloa-fragmentation",
+      "mencho-cjng",
+      "culiacanazo",
+      "ayotzinapa"
+    ],
     "rssFeeds": [
-      "https://news.google.com/rss/search?q=Mexico+news+politics+economy+crime&hl=en-US&gl=US&ceid=US:en"
+      "https://news.google.com/rss/search?q=Mexico+government+politics+economy&hl=en-US&gl=US&ceid=US:en"
     ]
   }
 }
