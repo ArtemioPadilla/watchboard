@@ -196,7 +196,7 @@ jobs:
             if (!me || !me.relatedSlugs.length) { console.log('No related trackers.'); process.exit(0); }
             const lines = me.relatedSlugs.map(s => {
               const r = brief[s];
-              return r ? '- ' + s + ': ' + r.topic + (r.latestHeadline ? ' (latest: ' + r.latestHeadline + ')' : '') : null;
+              return r ? '- ' + s + ': ' + r.topic : null;
             }).filter(Boolean);
             console.log('SIBLING TRACKERS (do NOT duplicate their events):\n' + lines.join('\n'));
           ")
@@ -313,6 +313,13 @@ jobs:
               "sectionsUpdated": ["only", "sections", "you", "actually", "changed"]
             }
             Keep only the latest 50 entries.
+
+            CRITICAL — CONTENT ISOLATION:
+            The heroHeadline, heroSubtitle, and digest summary MUST describe ONLY events
+            from this tracker (${{ matrix.slug }}). NEVER include events, headlines, or
+            developments from sibling trackers in these fields — even if they are thematically
+            related. Sibling context is provided ONLY to avoid duplicating events that already
+            appear in another tracker; it must never appear in your output text.
 
             RULES:
             - Merge-by-ID: never remove existing entries, only add new or update existing
