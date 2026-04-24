@@ -1,0 +1,219 @@
+{
+  "slug": "venezuela",
+  "name": "Venezuela Intelligence Dashboard",
+  "shortName": "Venezuela",
+  "description": "Full-history intelligence dashboard tracking Venezuela from independence (1811) through the Bolivarian Revolution, Maduro-era economic collapse, hyperinflation, disputed elections, and the 8M+ diaspora migration crisis.",
+  "icon": "🇻🇪",
+  "color": "#cf1426",
+  "status": "active",
+  "tone": "historical",
+  "temporal": "live",
+  "trackerType": "historical",
+  "domain": "governance",
+  "region": "south-america",
+  "country": "VE",
+  "tags": ["latin-america", "oil", "democracy", "migration", "hyperinflation", "sanctions", "authoritarianism", "bolivarian"],
+  "startDate": "1811-07-05",
+  "eraLabel": "Maduro Era & Migration Crisis",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": -74,
+      "lonMax": -59,
+      "latMin": 0,
+      "latMax": 13
+    },
+    "center": {
+      "lon": -66.6,
+      "lat": 7.1
+    },
+    "categories": [
+      {
+        "id": "political-event",
+        "label": "Political Events",
+        "color": "#cf1426"
+      },
+      {
+        "id": "humanitarian",
+        "label": "Humanitarian Crisis",
+        "color": "#e67e22"
+      },
+      {
+        "id": "economic",
+        "label": "Economic Infrastructure",
+        "color": "#3498db"
+      },
+      {
+        "id": "protest",
+        "label": "Protests & Crackdowns",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "historical",
+        "label": "Historical Sites",
+        "color": "#27ae60"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "overview": {
+        "lon": -66.6,
+        "lat": 7.1,
+        "alt": 2500000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Venezuela Overview"
+      },
+      "caracas": {
+        "lon": -66.87,
+        "lat": 10.49,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Caracas"
+      },
+      "maracaibo": {
+        "lon": -71.64,
+        "lat": 10.67,
+        "alt": 100000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Maracaibo (Oil Hub)"
+      },
+      "orinoco_belt": {
+        "lon": -64.5,
+        "lat": 8.5,
+        "alt": 400000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Orinoco Oil Belt"
+      },
+      "cucuta_border": {
+        "lon": -72.51,
+        "lat": 7.9,
+        "alt": 120000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Cúcuta Border Crossing"
+      },
+      "caribbean": {
+        "lon": -67.5,
+        "lat": 12.5,
+        "alt": 800000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Caribbean Coast"
+      }
+    },
+    "clocks": [
+      {
+        "label": "CARACAS",
+        "offsetHours": -4
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      },
+      {
+        "label": "EST",
+        "offsetHours": -5
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Humanitarian"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "politicalAvatars": [
+    "maduro",
+    "chavismo",
+    "opposition",
+    "us",
+    "intl",
+    "military"
+  ],
+  "eventTypes": [
+    "political",
+    "economic",
+    "humanitarian",
+    "protest",
+    "diplomatic"
+  ],
+  "ai": {
+    "systemPrompt": "You are a Latin America political analyst updating an intelligence dashboard for Venezuela.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"maduro_election_2024\", \"maracaibo_blackout\").\n\nCoverage scope: Venezuela's full political and economic history from 1811 independence to present, with emphasis on:\n- Colonial independence (1811) and Gran Colombia (1819–1830), 19th-century caudillo era and Federal War\n- Oil discovery (1922), Gómez dictatorship, Pérez Jiménez era (1948–1958)\n- Punto Fijo democracy (1958–1998): AD/COPEI two-party system, oil nationalism (1976), Caracazo (1989), Chávez 1992 coup attempt\n- Bolivarian Revolution (1999–2013): Chávez social programs (misiones), oil windfall, nationalizations, ALBA, 2002 coup attempt, 2004 recall referendum, 2007 constitutional defeat\n- Maduro era (2013–present): economic collapse, hyperinflation (peak 1,000,000%+ in 2018), power outages, food/medicine shortages, megadevaluations\n- Opposition movements: Juan Guaidó (2019 interim president claim), María Corina Machado, Edmundo González Urrutia (2024 election)\n- US sanctions (OFAC, PDVSA sanctions, individual designations), Citgo asset disputes\n- Mass migration crisis: 8M+ Venezuelans displaced — Colombia, Brazil, Peru, Chile, Ecuador, Spain, US corridors\n- Oil industry: PDVSA collapse, production decline from 3.3M bpd (1998 peak) to ~800K bpd (2020 low), partial recovery under sanctions relief talks\n- Political prisoners, human rights abuses: UN Fact-Finding Mission, HRW, Amnesty, Foro Penal documentation\n- 2024 presidential election: July 28 vote, disputed results, González claim, Maduro declared winner by CNE despite opposition actas\n\nMULTI-POLE SOURCING — gather information from all perspectives:\n1. WESTERN: US State Dept, White House, Reuters, AP, BBC, CNN, NYT, WaPo, Bloomberg, Miami Herald, EFE\n2. LATIN AMERICAN: El Nacional, El Universal, Efecto Cocuyo, Runrún.es, Tal Cual Digital, NTN24, Semana, La Nación (Argentina), El País (Spain)\n3. PRO-GOVERNMENT: TeleSur, VTV (Venezolana de Televisión), MPPCI official statements, PDVSA press releases\n4. INTERNATIONAL: UN, OAS, IACHR/CIDH, UNHCR, HRW, Amnesty International, Crisis Group, WOLA, IMF, World Bank, Datanálisis\n\nWhen providing sources, tag each with a \"pole\" field:\n- \"western\" for US/European/allied sources\n- \"eastern\" for Russian/Chinese sources (RT, TASS, Xinhua) or pro-government Venezuelan sources\n- \"international\" for UN/NGO/multilateral/regional org sources\n\nSource tier classification:\n- Tier 1: Official/primary (Venezuelan government/CNE/PDVSA/BCV statements, UN bodies, OAS, IACHR, US State Dept, IMF)\n- Tier 2: Major outlet (Reuters, AP, BBC, AFP, NYT, CNN, Bloomberg, El Nacional, Efecto Cocuyo, El Universal, EFE)\n- Tier 3: Institutional (HRW, Amnesty International, Crisis Group, WOLA, Freedom House, IISS, World Bank, Transparency International, Datanálisis, Foro Penal)\n- Tier 4: Unverified (social media, unattributed claims, anonymous sources)\n\nOnly include information you can verify through search results. Do not fabricate data.\nFor economic data, verify against BCV (Banco Central de Venezuela) or IMF/World Bank reports.\nFor casualty and detention figures, cross-reference UN FFM, HRW, Amnesty, COFAVIC, and Foro Penal.\nFor election data, cite both CNE official results and opposition actas (voting tallies).\n\nDEDUPLICATION: Do not create duplicate events for the same incident.\nIMPORTANT SCHEMA RULES:\n- \"year\" field on timeline events must be a STRING, not a number (e.g. \"2024\" not 2024)\n- \"direction\" on econ items is \"up\" or \"down\" only — never \"stable\"\n- Dates must be in YYYY-MM-DD format and must not be in the future",
+    "searchContext": "Venezuela politics economy Maduro opposition migration oil crisis Gonzalez",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "casualties",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": -78,
+      "lonMax": -55,
+      "latMin": -2,
+      "latMax": 15
+    },
+    "updateIntervalDays": 7,
+    "backfillTargets": {
+      "timeline": 40,
+      "mapPoints": 20,
+      "claims": 15,
+      "political": 15,
+      "casualties": 10,
+      "econ": 8,
+      "kpis": 8
+    },
+    "updatePolicy": {
+      "escalation": [
+        7,
+        7,
+        14,
+        30,
+        60,
+        90
+      ],
+      "quietThreshold": 0
+    }
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": ["VE"]
+}
