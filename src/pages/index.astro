@@ -254,6 +254,14 @@ const breakingTrackers = [...serializedTrackers]
     border: 0;
   }
 
+  /* Desktop: offset sidebar content below the fixed overlay navbar so the
+     sidebar's own brand + search + tabs don't render underneath it */
+  @media (min-width: 768px) {
+    .cc-sidebar {
+      padding-top: 48px;
+    }
+  }
+
   /* Tablets/narrow desktops: stack globe + sidebar */
   @media (max-width: 767px) {
     .command-center-root {
