@@ -1,0 +1,214 @@
+{
+  "slug": "cdmx",
+  "name": "Ciudad de México Tracker",
+  "shortName": "CDMX",
+  "description": "Intelligence dashboard tracking Mexico City from the founding of Tenochtitlan (1325) to today's 21-million megacity — covering governance, security, infrastructure, elections, and seven centuries of history.",
+  "icon": "🏙️",
+  "color": "#16a34a",
+  "status": "active",
+  "tone": "neutral",
+  "temporal": "live",
+  "trackerType": "institutional",
+  "domain": "governance",
+  "region": "north-america",
+  "country": "MX",
+  "state": "Ciudad de México",
+  "city": "Ciudad de México",
+  "geoPath": ["MX", "Ciudad de México"],
+  "tags": ["mexico", "urban", "governance", "history", "megacity", "latin-america"],
+  "startDate": "1325-03-13",
+  "eraLabel": "Tenochtitlan to Megacity",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": -99.45,
+      "lonMax": -98.85,
+      "latMin": 19.05,
+      "latMax": 19.75
+    },
+    "center": {
+      "lon": -99.13,
+      "lat": 19.43
+    },
+    "categories": [
+      {
+        "id": "governance",
+        "label": "Government & Politics",
+        "color": "#3b82f6"
+      },
+      {
+        "id": "security",
+        "label": "Crime & Security",
+        "color": "#ef4444"
+      },
+      {
+        "id": "infrastructure",
+        "label": "Infrastructure & Transport",
+        "color": "#f59e0b"
+      },
+      {
+        "id": "protest",
+        "label": "Protests & Movements",
+        "color": "#8b5cf6"
+      },
+      {
+        "id": "heritage",
+        "label": "Heritage & Historic Sites",
+        "color": "#10b981"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "overview": {
+        "lon": -99.13,
+        "lat": 19.43,
+        "alt": 400000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "CDMX Overview"
+      },
+      "zocalo": {
+        "lon": -99.133,
+        "lat": 19.432,
+        "alt": 12000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Zócalo / Tenochtitlan"
+      },
+      "tlatelolco": {
+        "lon": -99.138,
+        "lat": 19.451,
+        "alt": 10000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Plaza Tlatelolco"
+      },
+      "chapultepec": {
+        "lon": -99.185,
+        "lat": 19.421,
+        "alt": 18000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Bosque de Chapultepec"
+      },
+      "xochimilco": {
+        "lon": -99.101,
+        "lat": 19.263,
+        "alt": 22000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Xochimilco Chinampas"
+      },
+      "metro_area": {
+        "lon": -99.13,
+        "lat": 19.43,
+        "alt": 120000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Greater Metro Area"
+      }
+    },
+    "clocks": [
+      {
+        "label": "CDMX",
+        "offsetHours": -6
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      },
+      {
+        "label": "EST",
+        "offsetHours": -5
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Security"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economy"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Debates"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "politicalAvatars": [
+    "federal-gov",
+    "cdmx-gov",
+    "political-party",
+    "civil-society",
+    "indigenous",
+    "intl"
+  ],
+  "eventTypes": [
+    "governance",
+    "protest",
+    "disaster",
+    "security",
+    "infrastructure"
+  ],
+  "ai": {
+    "systemPrompt": "You are an urban governance analyst and historian updating an intelligence dashboard for Mexico City (Ciudad de México / CDMX).\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"metro_line12_collapse\", \"tlatelolco_1968\", \"homicide_rate_2024\").\n\nSOURCE TIER CLASSIFICATION for Mexico City:\n- Tier 1: Official/primary (Gobierno de la CDMX, Secretaría de Seguridad Ciudadana SSC, INEGI, INE, SACMEX, CONAGUA, SEMOVI, SEDEMA, Fiscalía CDMX, Congreso CDMX, SENER)\n- Tier 2: Major outlets (Reuters, AP, El Universal, La Jornada, Reforma, Proceso, Excélsior, Animal Político, El País México, BBC Mundo, Milenio, Aristegui Noticias, Bloomberg México)\n- Tier 3: Institutional/analytical (CIDE, UNAM, COLMEX, IMCO, México Evalúa, WOLA, HRW, Amnesty International, CMDPDH, Fundar, OECD, Banco de México)\n- Tier 4: Unverified (social media, unattributed claims, anonymous reports)\n\nCOVERAGE SCOPE:\n- Governance: 16 alcaldías administration, city budget, CDMX Congress, public services, head-of-government decisions, constitutional reforms\n- Security: SSC crime stats, homicide rates (CDMX is among Mexico's lowest per-capita), organized crime incursions, femicide, protest policing\n- Infrastructure: Metro (12 lines + expansions), Metrobús, Cablebús, Trolebús, Tren Interurbano México-Toluca, AIFA airport, Cutzamala water system, land subsidence, earthquake preparedness and reconstruction\n- Elections: Jefa de Gobierno, 16 alcaldías, CDMX legislature, federal deputies, referendums\n- Historical: Mexica/Aztec founding (1325), Triple Alliance, Spanish Conquest (1519-1521), Viceroyalty of New Spain capital (1521-1821), Independence (1821), Reform War, Maximilian Empire, Porfiriato, Revolution (1910), 1968 Olympics and Tlatelolco Massacre, 1985 earthquake (10,000+ dead), PRONASOL/Salinas era, 1997 PRD democratic transition, AMLO-PRD era, Claudia Sheinbaum MORENA governorship (2018-2023), Clara Brugada (2024-present)\n- Social movements: femicide marches (#UnDíaSinNosotras, #NosotrasParamos), student movements, SNTE teachers, LGBTQ+ rights, environmental protests, anti-gentrification\n\nHISTORICAL ERAS (use in `year` field for timeline — always as string):\n- \"Pre-Hispanic\" for events 1325-1521\n- \"Colonial\" for 1521-1821\n- \"Independent Mexico\" for 1821-1910\n- \"Revolutionary Era\" for 1910-1940\n- \"PRI Hegemony\" for 1940-1997\n- \"Democratic Transition\" for 1997-2018\n- \"MORENA Era\" for 2018-present\n\nOnly include information you can verify through search results. Do not fabricate data.\nFor historical events (pre-1990), use well-documented, encyclopedic-quality facts.\nFor current events (2020+), cite Tier 1-2 sources and include source URLs when available.\nThe `year` field must always be a STRING (e.g. \"1968\", \"2024\"), never a number.",
+    "searchContext": "Mexico City CDMX governance security infrastructure metro elections protest femicide earthquake 2024 2025",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "casualties",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": -99.6,
+      "lonMax": -98.5,
+      "latMin": 18.8,
+      "latMax": 20.2
+    },
+    "updateIntervalDays": 7,
+    "backfillTargets": {
+      "timeline": 40,
+      "mapPoints": 20,
+      "claims": 15,
+      "political": 20,
+      "kpis": 8,
+      "casualties": 10,
+      "econ": 8
+    },
+    "updatePolicy": {
+      "escalation": [7, 14, 30, 90],
+      "quietThreshold": 0
+    }
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard"
+}
