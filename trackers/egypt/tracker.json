@@ -1,0 +1,207 @@
+{
+  "slug": "egypt",
+  "name": "Egypt History Tracker",
+  "shortName": "Egypt",
+  "description": "Intelligence dashboard spanning 5,000 years of Egyptian civilization and governance: from Narmer's unification of the Two Lands (~3100 BCE) through pharaonic dynasties, Ptolemaic rule, Roman and Islamic conquests, Ottoman sovereignty, Napoleon's expedition, British occupation, the 1952 revolution, Nasser, Sadat's peace, Mubarak, the 2011 Tahrir uprising, and Sisi's Egypt today.",
+  "icon": "🏛️",
+  "color": "#c9a84c",
+  "status": "active",
+  "tone": "historical",
+  "temporal": "historical",
+  "trackerType": "historical",
+  "domain": "governance",
+  "region": "africa",
+  "country": "EG",
+  "tags": ["middle-east", "north-africa", "mena", "ancient-history", "archaeology", "islamichistory", "colonialism"],
+  "startDate": "-3100-01-01",
+  "eraLabel": "Five Millennia of Civilization",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": 22,
+      "lonMax": 42,
+      "latMin": 18,
+      "latMax": 34
+    },
+    "center": {
+      "lon": 30.5,
+      "lat": 27.0
+    },
+    "categories": [
+      {
+        "id": "ancient-site",
+        "label": "Ancient Sites",
+        "color": "#c9a84c"
+      },
+      {
+        "id": "political-center",
+        "label": "Political Centers",
+        "color": "#3498db"
+      },
+      {
+        "id": "conflict-zone",
+        "label": "Conflict Zones",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "infrastructure",
+        "label": "Key Infrastructure",
+        "color": "#2ecc71"
+      },
+      {
+        "id": "protest",
+        "label": "Revolution & Protest",
+        "color": "#9b59b6"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "overview": {
+        "lon": 30.5,
+        "lat": 26.5,
+        "alt": 2000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Egypt Overview"
+      },
+      "cairo": {
+        "lon": 31.24,
+        "lat": 30.06,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Cairo"
+      },
+      "giza": {
+        "lon": 31.13,
+        "lat": 29.97,
+        "alt": 20000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Giza Pyramids"
+      },
+      "luxor": {
+        "lon": 32.64,
+        "lat": 25.70,
+        "alt": 25000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Luxor / Ancient Thebes"
+      },
+      "alexandria": {
+        "lon": 29.92,
+        "lat": 31.20,
+        "alt": 30000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Alexandria"
+      },
+      "suez_canal": {
+        "lon": 32.55,
+        "lat": 30.40,
+        "alt": 100000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Suez Canal"
+      }
+    },
+    "clocks": [
+      {
+        "label": "CAIRO",
+        "offsetHours": 2
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Casualties"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "politicalAvatars": [
+    "pharaonic",
+    "foreign-power",
+    "nationalist",
+    "military",
+    "civil",
+    "international"
+  ],
+  "eventTypes": [
+    "political",
+    "military",
+    "diplomatic",
+    "cultural",
+    "economic"
+  ],
+  "ai": {
+    "systemPrompt": "You are a historical intelligence analyst updating a tracker for Egyptian civilization and governance spanning 5,000 years.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"narmer_unification\", \"suez_crisis_1956\").\n\nThis tracker covers ALL of Egyptian history:\n- Predynastic Egypt and Narmer's unification (~3100 BCE)\n- Old, Middle, and New Kingdoms; Amarna Period (Akhenaten/Tutankhamun); Ramesside era\n- Late Period and Assyrian/Persian conquests; Alexander the Great (332 BCE)\n- Ptolemaic dynasty and Cleopatra; Roman Egypt (30 BCE – 642 CE)\n- Arab Muslim conquest (641 CE); Umayyad, Abbasid, Fatimid caliphates\n- Fatimid founding of Cairo (969 CE); Ayyubid Saladin; Mamluk Sultanate\n- Ottoman conquest (1517); Napoleon's expedition (1798–1801)\n- Muhammad Ali Pasha modernization dynasty; Suez Canal opening (1869)\n- British occupation (1882); 1919 revolution; Wafd Party; 1952 Free Officers coup\n- Nasser era, Non-Aligned Movement, Suez Crisis (1956), Six-Day War (1967)\n- Yom Kippur War (1973); Sadat, Camp David Accords (1979); Mubarak era (1981–2011)\n- 2011 Tahrir Square revolution; Morsi (Muslim Brotherhood); 2013 Sisi coup\n- Austerity, IMF programs, Gaza border dynamics, BRICS+ accession (2024)\n\nMULTI-POLE SOURCING — gather information from all four media poles:\n1. EGYPTIAN/OFFICIAL: Egyptian presidency, Ministry of Foreign Affairs, MENA agency, Al-Ahram, Egypt State Information Service\n2. REGIONAL: Al Jazeera, Al Arabiya, Arab media, Israeli sources on Camp David/peace\n3. WESTERN: Reuters, AP, BBC, NYT, Guardian, Le Monde, academic Egyptology sources\n4. INTERNATIONAL: UN, UNESCO, IMF, World Bank, HRW, Amnesty International, COMELEC\n\nWhen providing sources, tag each with a \"pole\" field:\n- \"western\" for US/European/allied sources and academic Egyptology\n- \"middle_eastern\" for Egyptian/Arab/regional sources\n- \"eastern\" for Chinese/Russian/Asian sources\n- \"international\" for UN/NGO/multilateral/academic sources\n\nSource tier classification:\n- Tier 1: Official/primary (Egyptian government, UNESCO, UN, academic primary research, ancient inscriptions/papyri records)\n- Tier 2: Major outlet (Reuters, AP, BBC, Al Jazeera, Al-Ahram, Egypt Independent, major academic journals)\n- Tier 3: Institutional (HRW, Amnesty, IMF, World Bank, CSIS, Chatham House, academic secondary sources)\n- Tier 4: Unverified (social media, unattributed claims, speculative sources)\n\nIMPORTANT DATE HANDLING: For events before 1000 CE, use approximate dates where precision is impossible.\nFor timeline \"year\" field: use string notation like \"3100 BCE\", \"641 CE\", \"1952\".\nFor map-point \"date\" field: use YYYY-MM-DD format (four-digit year only), use earliest known date for ancient sites (e.g., \"0001-01-01\" for sites predating CE era).\n\nOnly include information you can verify through search results. Do not fabricate data.\nFor ancient periods, rely on established historical consensus from major Egyptology and academic sources.",
+    "searchContext": "Egypt history pharaohs ancient kingdom Nasser Sadat Mubarak Sisi Cairo governance MENA",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "casualties",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": 20,
+      "lonMax": 45,
+      "latMin": 15,
+      "latMax": 36
+    },
+    "updateIntervalDays": 30,
+    "backfillTargets": {
+      "timeline": 40,
+      "mapPoints": 25,
+      "claims": 15,
+      "political": 20,
+      "kpis": 8,
+      "casualties": 10,
+      "econ": 8
+    },
+    "updatePolicy": {
+      "escalation": [7, 14, 30, 60, 90],
+      "quietThreshold": 0
+    }
+  },
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": ["EG"]
+}
