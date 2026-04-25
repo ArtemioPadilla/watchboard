@@ -1,0 +1,210 @@
+{
+  "slug": "japan",
+  "name": "Japan: History & Governance Tracker",
+  "shortName": "Japan History",
+  "description": "Intelligence dashboard covering 2,600 years of Japanese history — from the legendary founding by Emperor Jimmu (660 BCE) through the Meiji Restoration, World War II, postwar economic miracle, and contemporary governance challenges including demographic decline and remilitarization.",
+  "icon": "🗾",
+  "color": "#bc002d",
+  "status": "active",
+  "tone": "historical",
+  "temporal": "historical",
+  "trackerType": "historical",
+  "domain": "governance",
+  "region": "east-asia",
+  "country": "JP",
+  "tags": ["japan", "ww2", "meiji", "shogunate", "nuclear", "asia-pacific", "democracy"],
+  "startDate": "-660-01-01",
+  "eraLabel": "Ancient to Present",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": 122,
+      "lonMax": 155,
+      "latMin": 24,
+      "latMax": 46
+    },
+    "center": {
+      "lon": 137,
+      "lat": 37
+    },
+    "categories": [
+      {
+        "id": "imperial",
+        "label": "Imperial Sites",
+        "color": "#bc002d"
+      },
+      {
+        "id": "battle",
+        "label": "Historic Battles",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "cultural",
+        "label": "Cultural Heritage",
+        "color": "#f39c12"
+      },
+      {
+        "id": "modern",
+        "label": "Modern Events",
+        "color": "#3498db"
+      },
+      {
+        "id": "disaster",
+        "label": "Major Disasters",
+        "color": "#9b59b6"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "overview": {
+        "lon": 137,
+        "lat": 37,
+        "alt": 2000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Japan Overview"
+      },
+      "tokyo": {
+        "lon": 139.69,
+        "lat": 35.69,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Tokyo"
+      },
+      "hiroshima": {
+        "lon": 132.46,
+        "lat": 34.39,
+        "alt": 40000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Hiroshima"
+      },
+      "kyoto": {
+        "lon": 135.77,
+        "lat": 35.01,
+        "alt": 40000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Kyoto (Imperial Capital)"
+      },
+      "fukushima": {
+        "lon": 140.47,
+        "lat": 37.42,
+        "alt": 30000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Fukushima Daiichi"
+      },
+      "nagasaki": {
+        "lon": 129.87,
+        "lat": 32.75,
+        "alt": 40000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Nagasaki"
+      }
+    },
+    "clocks": [
+      {
+        "label": "TOKYO",
+        "offsetHours": 9
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      },
+      {
+        "label": "EST",
+        "offsetHours": -5
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "politicalAvatars": [
+    "emperor",
+    "shogunate",
+    "meiji",
+    "us",
+    "other"
+  ],
+  "eventTypes": [
+    "political",
+    "military",
+    "cultural",
+    "economic",
+    "disaster"
+  ],
+  "ai": {
+    "systemPrompt": "You are a Japanese history researcher and governance analyst updating a comprehensive historical dashboard.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"meiji_restoration\", \"pearl_harbor_attack\").\n\nThis tracker covers the full arc of Japanese history from 660 BCE to the present:\n- Ancient/Classical: Jimmu founding, Yayoi period, Yamato state, Buddhism introduction, Nara/Heian aristocratic culture\n- Medieval: Genpei War, Kamakura/Muromachi shogunates, Sengoku period, Nobunaga/Hideyoshi/Tokugawa unification\n- Early Modern: Edo period, sakoku isolation, Perry's black ships (1853)\n- Modern: Meiji Restoration (1868), rapid industrialization, Sino-Japanese War (1894-95), Russo-Japanese War (1904-05)\n- Imperial: WWI, Taiwan/Korea colonization, Showa militarism, WWII (Pearl Harbor 1941, Hiroshima/Nagasaki 1945)\n- Postwar: US occupation, 1947 constitution, economic miracle, Plaza Accord, lost decade (1990s)\n- Contemporary: 2011 triple disaster (earthquake/tsunami/Fukushima), Abe era, demographic decline, remilitarization debate\n\nMULTI-POLE SOURCING — gather information from multiple perspectives:\n1. JAPANESE: NHK, Asahi Shimbun, Yomiuri Shimbun, Mainichi, Japan Times, Cabinet Office, Ministry of Foreign Affairs\n2. WESTERN: Reuters, AP, BBC, NYT, WaPo, US State Department, MacArthur archives\n3. EASTERN: Xinhua, CGTN, Kyodo News, Korean sources for colonial period context\n4. INTERNATIONAL: UN, UNESCO, IAEA, World Bank, IMF, OECD\n\nWhen providing sources, tag each with a \"pole\" field:\n- \"western\" for US/European/allied sources\n- \"eastern\" for Chinese/Russian/Asian sources\n- \"international\" for UN/NGO/multilateral sources\n\nSource tier classification:\n- Tier 1: Official/primary (Cabinet Secretariat, National Diet Library, National Archives of Japan, NHK, JAEA, Japan Meteorological Agency, UN)\n- Tier 2: Major outlet (Asahi Shimbun, Yomiuri Shimbun, Mainichi, Reuters, AP, BBC, NHK World, Japan Times, Kyodo News)\n- Tier 3: Institutional (CSIS, East Asia Forum, Stimson Center, Sasakawa Peace Foundation, RAND, Hoover Institution, World Bank, IMF, OECD)\n- Tier 4: Unverified (social media, unattributed claims, anonymous sources)\n\nOnly include information you can verify through search results. Do not fabricate data.\nFor contested historical events (comfort women, Nanjing Massacre, colonial period), present verified facts and note scholarly consensus.\n\nDATA CONVENTIONS:\n- year field on events is a string (e.g., \"1945\" or \"-660\")\n- For ancient events before the Common Era, use negative years in the year field\n- Economic indicators use direction: \"up\" or \"down\" only (never \"stable\")\n- Casualty figures include a contested field",
+    "searchContext": "Japan history governance politics economy Meiji Abe Kishida remilitarization",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": 118,
+      "lonMax": 158,
+      "latMin": 20,
+      "latMax": 50
+    },
+    "updateIntervalDays": 30,
+    "backfillTargets": {
+      "timeline": 40,
+      "mapPoints": 20,
+      "claims": 15,
+      "political": 20,
+      "kpis": 8
+    },
+    "updatePolicy": {
+      "escalation": [
+        30,
+        60,
+        90,
+        180
+      ],
+      "quietThreshold": 0
+    }
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": [
+    "JP"
+  ]
+}
