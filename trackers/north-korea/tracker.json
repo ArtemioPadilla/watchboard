@@ -1,0 +1,248 @@
+{
+  "slug": "north-korea",
+  "name": "North Korea / DPRK Tracker",
+  "shortName": "North Korea",
+  "description": "Intelligence dashboard tracking the Democratic People's Republic of Korea from post-WWII division (1945) through the Korean War, Kim dynasty succession, nuclear escalation, and the emerging Russia alliance.",
+  "icon": "🇰🇵",
+  "color": "#c0392b",
+  "status": "active",
+  "tone": "alert",
+  "temporal": "live",
+  "domain": "governance",
+  "region": "east-asia",
+  "country": "KP",
+  "tags": ["nuclear", "sanctions", "korean-war", "authoritarianism", "kim-dynasty", "icbm"],
+  "startDate": "1945-09-08",
+  "eraLabel": "Kim Dynasty & Nuclear State",
+  "trackerType": "historical",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "military",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": 120,
+      "lonMax": 135,
+      "latMin": 33,
+      "latMax": 46
+    },
+    "center": {
+      "lon": 127.0,
+      "lat": 39.5
+    },
+    "categories": [
+      {
+        "id": "nuclear-site",
+        "label": "Nuclear & Missile Sites",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "military",
+        "label": "Military Installations",
+        "color": "#e67e22"
+      },
+      {
+        "id": "diplomatic",
+        "label": "Diplomatic Events",
+        "color": "#3498db"
+      },
+      {
+        "id": "humanitarian",
+        "label": "Humanitarian",
+        "color": "#27ae60"
+      },
+      {
+        "id": "historical",
+        "label": "Historical Sites",
+        "color": "#9b59b6"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "peninsula": {
+        "lon": 127.5,
+        "lat": 37.5,
+        "alt": 1800000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Korean Peninsula"
+      },
+      "pyongyang": {
+        "lon": 125.73,
+        "lat": 39.03,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Pyongyang"
+      },
+      "dmz": {
+        "lon": 127.0,
+        "lat": 38.0,
+        "alt": 120000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "DMZ"
+      },
+      "yongbyon": {
+        "lon": 125.75,
+        "lat": 39.79,
+        "alt": 40000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Yongbyon Nuclear Complex"
+      },
+      "punggye_ri": {
+        "lon": 129.08,
+        "lat": 41.28,
+        "alt": 35000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Punggye-ri Test Site"
+      },
+      "sohae": {
+        "lon": 124.71,
+        "lat": 39.66,
+        "alt": 35000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Sohae Launch Facility"
+      }
+    },
+    "clocks": [
+      {
+        "label": "PYONGYANG",
+        "offsetHours": 9
+      },
+      {
+        "label": "SEOUL",
+        "offsetHours": 9
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      },
+      {
+        "label": "EST",
+        "offsetHours": -5
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-military",
+      "label": "Military"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Casualties"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "militaryTabs": [
+    {
+      "id": "strikes",
+      "label": "Missile Tests"
+    },
+    {
+      "id": "retaliation",
+      "label": "Provocations"
+    },
+    {
+      "id": "assets",
+      "label": "Military Assets"
+    }
+  ],
+  "politicalAvatars": [
+    "kp",
+    "kr",
+    "us",
+    "cn",
+    "ru",
+    "un"
+  ],
+  "eventTypes": [
+    "nuclear",
+    "diplomatic",
+    "military",
+    "political",
+    "humanitarian"
+  ],
+  "ai": {
+    "systemPrompt": "You are a North Korea intelligence analyst updating a historical governance dashboard on the Democratic People's Republic of Korea (DPRK).\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"nuclear_test_2006\", \"kim_jong_un_succession\").\n\nThis tracker covers the full history of North Korea: post-WWII division (1945), DPRK proclamation (1948), Korean War (1950–1953), Juche ideology, Soviet/Chinese aid era, 1994 famine, Sunshine Policy, nuclear program, Kim dynasty successions, Trump-Kim summits, COVID border closure, Russia alliance, and troop deployment to Russia (2024–present).\n\nMULTI-POLE SOURCING — gather from all perspectives:\n1. WESTERN: US State Dept, Pentagon, White House, Reuters, AP, BBC, CNN, NYT, WaPo, 38 North, NK News, VOA Korea\n2. REGIONAL: Yonhap News, Korea Herald, Korea Times, NHK, Asahi Shimbun, Mainichi, Global Times, CGTN\n3. EASTERN: KCNA (DPRK state media), Xinhua, TASS, RT (note bias)\n4. INTERNATIONAL: UN Panel of Experts, IAEA, WFP, HRW, Amnesty International, ICG, Crisis Group, SIPRI\n\nWhen providing sources, tag each with a \"pole\" field:\n- \"western\" for US/European/allied sources\n- \"eastern\" for Chinese/Russian/North Korean state media\n- \"international\" for UN/NGO/multilateral sources\n\nSource tier classification:\n- Tier 1: Official/primary (KCNA, US State Dept, Pentagon, UN Security Council resolutions, IAEA, South Korean NIS/Ministry of National Defense)\n- Tier 2: Major outlet (Reuters, AP, Yonhap, BBC, NYT, 38 North, NK News, Xinhua, Global Times, Korea Herald)\n- Tier 3: Institutional (SIPRI, CSIS, Crisis Group, HRW, Amnesty, WFP, RAND, Korea Economic Institute, KINU)\n- Tier 4: Unverified (defector accounts without corroboration, social media, unnamed officials)\n\nKEY ANALYTICAL RULES:\n- Nuclear test/missile launch data: cross-reference CTBTO seismic data with KCNA claims and US/South Korean military assessments\n- Casualty figures (Korean War, famine): note contested ranges from different academic and government sources\n- Satellite imagery analysis (38 North, Planet Labs, Maxar): treat as Tier 2 unless corroborated by official sources\n- KCNA claims: always label as official DPRK position; independently verify where possible\n- Economic data: North Korea does not publish national accounts — use UN, World Bank, Bank of Korea estimates with caution notes\n- Famine deaths: use range estimates (240,000–3.5 million), note methodological disputes\n\nDEDUPLICATION:\n- Same missile test within same day = same event — merge, do not create duplicates.\n- When DPRK and US/South Korea report conflicting data: present both perspectives with source attribution.\n\nOnly include information you can verify through search results. Do not fabricate data.",
+    "searchContext": "North Korea DPRK nuclear program Kim Jong-un Korean Peninsula missile",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "casualties",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": 115,
+      "lonMax": 145,
+      "latMin": 25,
+      "latMax": 55
+    },
+    "updateIntervalDays": 7,
+    "backfillTargets": {
+      "timeline": 40,
+      "mapPoints": 25,
+      "claims": 20,
+      "political": 20,
+      "casualties": 10,
+      "econ": 8,
+      "kpis": 8
+    },
+    "updatePolicy": {
+      "escalation": [
+        3,
+        7,
+        14,
+        30,
+        60,
+        90
+      ],
+      "quietThreshold": 0
+    },
+    "rssFeeds": [
+      "https://news.google.com/rss/search?q=North+Korea+DPRK+nuclear+missile&hl=en-US&gl=US&ceid=US:en",
+      "https://www.38north.org/feed/"
+    ]
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": [
+    "KP"
+  ]
+}
