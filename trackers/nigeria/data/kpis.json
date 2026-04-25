@@ -1,1 +1,101 @@
-[]
+[
+  {
+    "id": "kpi-population",
+    "label": "Population (2024 est.)",
+    "value": "223 million",
+    "color": "blue",
+    "source": "World Bank / NBS 2024",
+    "contested": false,
+    "delta": "+3.2%/yr",
+    "deltaNote": "Most populous country in Africa; 7th globally",
+    "trend": "up",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "kpi-gdp",
+    "label": "Nominal GDP (2024)",
+    "value": "$362 billion",
+    "color": "green",
+    "source": "IMF World Economic Outlook 2024",
+    "contested": false,
+    "delta": "+3.3% real growth",
+    "deltaNote": "Largest economy in Africa; oil accounts for ~6% of GDP but ~80% of export revenue",
+    "trend": "up",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "kpi-inflation",
+    "label": "Inflation Rate (Feb 2024)",
+    "value": "31.7%",
+    "color": "red",
+    "source": "National Bureau of Statistics Nigeria",
+    "contested": false,
+    "delta": "+20pp vs Jan 2023",
+    "deltaNote": "Post-subsidy removal and naira devaluation spike; food inflation over 35%",
+    "trend": "up",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "kpi-oil-production",
+    "label": "Crude Oil Output (2024)",
+    "value": "1.4 mbpd",
+    "color": "amber",
+    "source": "NNPC / OPEC Monthly Report 2024",
+    "contested": true,
+    "contestNote": "OPEC figures disputed; NGOs estimate lower due to oil theft losses exceeding 150,000 bpd",
+    "delta": "+18% vs 2022 trough",
+    "deltaNote": "Recovery from pipeline vandalism; OPEC quota is 1.5 mbpd",
+    "trend": "up",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "kpi-poverty-rate",
+    "label": "Poverty Headcount (2023)",
+    "value": "40.1%",
+    "color": "red",
+    "source": "World Bank Poverty & Equity Brief 2023",
+    "contested": true,
+    "contestNote": "NBS methodology revisions disputed; multidimensional poverty index shows 65%+",
+    "delta": "+4pp since 2019",
+    "deltaNote": "COVID-19 and subsidy removal impact; ~87 million in extreme poverty",
+    "trend": "up",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "kpi-conflict-fatalities",
+    "label": "Conflict Fatalities (2023)",
+    "value": "12,200+",
+    "color": "red",
+    "source": "ACLED Nigeria Annual Report 2023",
+    "contested": true,
+    "contestNote": "Government figures significantly lower; ACLED cross-checks multiple independent sources",
+    "delta": "-8% vs 2022",
+    "deltaNote": "Boko Haram/ISWAP, banditry, farmer-herder, and separatist violence combined",
+    "trend": "down",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "kpi-nollywood",
+    "label": "Nollywood Films/Year",
+    "value": "2,500+",
+    "color": "green",
+    "source": "NOFiA / UNESCO Cultural Statistics 2022",
+    "contested": false,
+    "delta": "+60% vs 2010",
+    "deltaNote": "Third largest film industry globally by volume; ~$1B annual revenue",
+    "trend": "up",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "kpi-naira-exchange",
+    "label": "Naira/USD Rate (2024)",
+    "value": "₦1,450/$1",
+    "color": "red",
+    "source": "Central Bank of Nigeria / Bloomberg 2024",
+    "contested": false,
+    "delta": "-70% vs Jan 2023 (₦460/$)",
+    "deltaNote": "CBN unified exchange rate policy June 2023; naira floated; historic devaluation",
+    "trend": "down",
+    "lastUpdated": "2026-04-25"
+  }
+]
