@@ -168,8 +168,8 @@ function parseKpiNumericValue(raw: string): number {
 export function parseKpiDisplay(raw: string): { prefix: string; suffix: string } {
   const s = raw.trim();
 
-  // Leading prefix: ~, +, >, <, !
-  const prefixMatch = s.match(/^([~+><!]*)/);
+  // Leading prefix: ~, +, >, <, !, $, €, £, ¥
+  const prefixMatch = s.match(/^([~+><!$€£¥]*)/);
   const prefix = prefixMatch ? prefixMatch[1] : '';
 
   // After stripping leading prefix, find the numeric core

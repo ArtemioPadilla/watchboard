@@ -319,6 +319,12 @@ describe('parseKpiDisplay', () => {
     expect(parseKpiDisplay('~7,000+')).toEqual({ prefix: '~', suffix: '+' });
   });
 
+  it('handles currency prefix symbols', () => {
+    expect(parseKpiDisplay('$2.89B')).toEqual({ prefix: '$', suffix: 'B' });
+    expect(parseKpiDisplay('$1.2T')).toEqual({ prefix: '$', suffix: 'T' });
+    expect(parseKpiDisplay('€450B')).toEqual({ prefix: '€', suffix: 'B' });
+  });
+
   it('handles × multiplier suffix', () => {
     expect(parseKpiDisplay('4×')).toEqual({ prefix: '', suffix: '×' });
   });
