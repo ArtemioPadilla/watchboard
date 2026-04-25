@@ -1,0 +1,211 @@
+{
+  "slug": "israel",
+  "name": "Land of Israel: Deep History",
+  "shortName": "Israel History",
+  "description": "Deep history dashboard spanning 1.5 million years of the Southern Levant — from Acheulean hominids at Ubeidiya through Canaanite city-states, Israelite kingdoms, Roman Judea, Ottoman rule, the British Mandate, and the modern State of Israel.",
+  "icon": "🏛️",
+  "color": "#1a5276",
+  "status": "active",
+  "tone": "historical",
+  "temporal": "historical",
+  "trackerType": "historical",
+  "domain": "history",
+  "region": "middle-east",
+  "country": "IL",
+  "tags": ["archaeology", "ancient-history", "holy-land", "levant", "prehistoric"],
+  "startDate": "-1500000-01-01",
+  "eraLabel": "Deep Prehistory to Present",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": 33.5,
+      "lonMax": 37.5,
+      "latMin": 28.5,
+      "latMax": 35.0
+    },
+    "center": {
+      "lon": 35.2,
+      "lat": 31.8
+    },
+    "categories": [
+      {
+        "id": "archaeology",
+        "label": "Archaeological Sites",
+        "color": "#8e44ad"
+      },
+      {
+        "id": "ancient-city",
+        "label": "Ancient Cities",
+        "color": "#d35400"
+      },
+      {
+        "id": "religious",
+        "label": "Sacred & Religious Sites",
+        "color": "#2980b9"
+      },
+      {
+        "id": "historical-event",
+        "label": "Historical Events",
+        "color": "#c0392b"
+      },
+      {
+        "id": "modern",
+        "label": "Modern Geopolitical",
+        "color": "#27ae60"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "levant_overview": {
+        "lon": 35.5,
+        "lat": 31.5,
+        "alt": 1200000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Southern Levant"
+      },
+      "jerusalem": {
+        "lon": 35.2354,
+        "lat": 31.7781,
+        "alt": 15000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Jerusalem / Temple Mount"
+      },
+      "jericho": {
+        "lon": 35.4641,
+        "lat": 31.8571,
+        "alt": 10000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Jericho (~9500 BCE)"
+      },
+      "ubeidiya": {
+        "lon": 35.56,
+        "lat": 32.67,
+        "alt": 8000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Ubeidiya (~1.5M BCE)"
+      },
+      "mount_carmel": {
+        "lon": 35.05,
+        "lat": 32.72,
+        "alt": 12000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Mount Carmel Caves"
+      },
+      "masada": {
+        "lon": 35.3534,
+        "lat": 31.3157,
+        "alt": 10000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Masada"
+      }
+    },
+    "clocks": [
+      {
+        "label": "TLV",
+        "offsetHours": 3
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      },
+      {
+        "label": "AMMAN",
+        "offsetHours": 3
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "politicalAvatars": [
+    "ancient-israel",
+    "foreign-empire",
+    "religious",
+    "modern-il",
+    "intl"
+  ],
+  "eventTypes": [
+    "archaeological",
+    "political",
+    "religious",
+    "military",
+    "legal"
+  ],
+  "ai": {
+    "systemPrompt": "You are a historian and archaeologist updating a deep history dashboard for the Land of Israel and the Southern Levant.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"ubeidiya_tools\", \"second_temple_destruction\", \"oslo_accords\").\n\nThis tracker covers 1.5 million years of the Southern Levant: prehistoric hominids (Ubeidiya ~1.5M BCE), Neanderthal/modern human cohabitation at Mount Carmel (~120–100 kya), Natufian sedentism (~12.5 kya), Neolithic Jericho (~9.5 kya), Bronze Age Canaan, Iron Age kingdoms of Israel and Judah, Babylonian exile and Second Temple period, Hellenistic/Hasmonean/Herodian, Roman Judea and Bar Kokhba revolt (132 CE), Byzantine, Sasanian invasion, Rashidun and Umayyad caliphates, Crusader Kingdom of Jerusalem (1099–1291), Ayyubid and Mamluk, Ottoman period (1517–1917), British Mandate (1920–1948), modern State of Israel (1948–present), Six-Day War (1967), Yom Kippur War (1973), Oslo Accords (1993), Second Intifada, and ongoing dynamics. Frame deep prehistory as the geological-archaeological-cultural through-line that contextualizes modern political claims. Cross-link to the israel-palestine tracker for post-1948 bilateral conflict events; this tracker focuses on the regional historical arc.\n\nMULTI-PERSPECTIVE SOURCING — gather from diverse scholarly traditions:\n1. WESTERN: British Museum, Metropolitan Museum, Smithsonian, National Geographic, Reuters, BBC History, AP, NYT\n2. ISRAELI/JEWISH: Israeli Antiquities Authority (IAA), Hebrew University, Tel Aviv University, Israel Museum, Haaretz, Times of Israel\n3. ARAB/ISLAMIC: Jordanian Dept of Antiquities, Al-Quds University, Al Jazeera historical, Waqf Authority\n4. INTERNATIONAL: UNESCO, UN OCHA, ICOMOS, Oxford University Press, Cambridge University Press, ASOR, JSTOR peer-reviewed journals\n\nSource tier classification:\n- Tier 1: Peer-reviewed academic publications (Nature, PNAS, Antiquity, Israel Exploration Journal), Israeli Antiquities Authority, UNESCO, official government historical records\n- Tier 2: Major science/history outlets (National Geographic, Smithsonian, BBC History, Reuters, AP, Haaretz), accredited museums (British Museum, Israel Museum)\n- Tier 3: Academic institutions (Hebrew University, Tel Aviv University, ASOR, Oxford CHJ, Jordan Dept of Antiquities), established think tanks\n- Tier 4: Unverified (social media, unattributed claims, fringe or pseudoarchaeological publications)\n\nOnly include information you can verify through search results. Do not fabricate data.\nRepresent both Israeli and Palestinian/Arab scholarly perspectives fairly on contested historical claims.\n\nIMPORTANT SCHEMA CONSTRAINTS:\n- year field on timeline events MUST be a string, e.g. \"9500 BCE\", \"70 CE\", \"1948\", \"1967\" — NOT a number\n- Map coordinates must be within the extended Southern Levant (lon 32–40, lat 27–36)\n- Do not create duplicate events within ±5 years unless genuinely distinct episodes\n- direction on econ items must be \"up\" or \"down\" only (NOT \"stable\")",
+    "searchContext": "Land of Israel Southern Levant history archaeology ancient Israel Palestine prehistory",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "claims",
+      "political",
+      "econ"
+    ],
+    "coordValidation": {
+      "lonMin": 32.0,
+      "lonMax": 40.0,
+      "latMin": 27.0,
+      "latMax": 36.0
+    },
+    "updateIntervalDays": 90,
+    "backfillTargets": {
+      "timeline": 40,
+      "mapPoints": 30,
+      "claims": 20,
+      "political": 20,
+      "kpis": 6,
+      "econ": 6
+    },
+    "updatePolicy": {
+      "escalation": [
+        30,
+        60,
+        90,
+        180,
+        365
+      ],
+      "quietThreshold": 0
+    }
+  },
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": [
+    "IL"
+  ]
+}
