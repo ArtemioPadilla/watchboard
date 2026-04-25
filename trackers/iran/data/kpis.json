@@ -1,1 +1,89 @@
-[]
+[
+  {
+    "id": "enrichment-level",
+    "label": "Uranium Enrichment Level",
+    "value": "60%",
+    "color": "red",
+    "source": "IAEA Board of Governors Report, 2024",
+    "contested": true,
+    "contestNote": "Iran maintains enrichment is for civilian energy; US/Israel/EU assess weapons-threshold ambiguity",
+    "delta": "+20% since 2021",
+    "deltaNote": "Raised from 20% to 60% after JCPOA collapse; some material at 84%",
+    "trend": "up",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "advanced-centrifuges",
+    "label": "Advanced Centrifuges Operating (IR-2m+)",
+    "value": "~8,500",
+    "color": "amber",
+    "source": "IAEA Safeguards Report, Nov 2024",
+    "contested": true,
+    "contestNote": "Iran disputes IAEA access and counts; exact operational figure uncertain",
+    "delta": "+3,000 since 2019",
+    "trend": "up",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "years-islamic-republic",
+    "label": "Years of Islamic Republic",
+    "value": "47 years",
+    "color": "blue",
+    "source": "Islamic Republic declared 1 April 1979",
+    "contested": false,
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "proven-oil-reserves",
+    "label": "Proven Oil Reserves (World Rank)",
+    "value": "155.6 Bn bbl (#4)",
+    "color": "green",
+    "source": "OPEC Annual Statistical Bulletin 2024",
+    "contested": false,
+    "trend": "stable",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "population",
+    "label": "Population",
+    "value": "87.9 million",
+    "color": "blue",
+    "source": "Statistical Centre of Iran / World Bank 2024",
+    "contested": false,
+    "delta": "+1.0% YoY",
+    "trend": "up",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "inflation-rate",
+    "label": "Annual Inflation Rate",
+    "value": "~35%",
+    "color": "red",
+    "source": "Statistical Centre of Iran / IMF World Economic Outlook 2024",
+    "contested": false,
+    "delta": "Down from 47% peak in 2022",
+    "deltaNote": "Structural inflation driven by sanctions, currency collapse, oil revenue constraints",
+    "trend": "down",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "frozen-sanctioned-assets",
+    "label": "Frozen / Restricted Assets (Est.)",
+    "value": "$100–150B+",
+    "color": "amber",
+    "source": "US Treasury OFAC / Reuters analysis 2024",
+    "contested": true,
+    "contestNote": "Iran claims higher amounts illegally seized; US figures dispute some totals",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "nuclear-standoff-years",
+    "label": "Years of International Nuclear Standoff",
+    "value": "22+ years",
+    "color": "red",
+    "source": "IAEA — Natanz facility publicly revealed August 2002",
+    "contested": false,
+    "deltaNote": "Standoff began with 2002 revelation of undeclared enrichment facilities at Natanz and Arak",
+    "lastUpdated": "2026-04-25"
+  }
+]

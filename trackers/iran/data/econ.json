@@ -1,1 +1,112 @@
-[]
+[
+  {
+    "id": "oil-production",
+    "label": "Oil Production",
+    "value": "3.2 mb/d (2024)",
+    "change": "+0.4 mb/d vs 2022",
+    "direction": "up",
+    "sparkData": [2.0, 1.8, 2.1, 2.4, 2.5, 2.7, 3.0, 3.1, 3.2],
+    "color": "#2ecc71",
+    "source": "OPEC Monthly Oil Market Report (Oct 2024)",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "inflation-rate",
+    "label": "Annual Inflation Rate",
+    "value": "~35% (2024)",
+    "change": "Down from 47% peak (2022)",
+    "direction": "down",
+    "sparkData": [9, 15, 20, 30, 47, 44, 40, 38, 35],
+    "color": "#e74c3c",
+    "source": "Statistical Centre of Iran / IMF WEO 2024",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "rial-exchange-rate",
+    "label": "Rial to USD (Free Market)",
+    "value": "~580,000 IRR/USD",
+    "change": "Depreciated ~90% since 2018",
+    "direction": "down",
+    "sparkData": [42000, 80000, 120000, 250000, 300000, 420000, 500000, 560000, 580000],
+    "color": "#e74c3c",
+    "source": "Tehran Free Market / Bonbast.com exchange rates 2024",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "gdp-ppp",
+    "label": "GDP (PPP)",
+    "value": "$1.6 trillion (2024)",
+    "change": "+2.5% real growth 2024",
+    "direction": "up",
+    "sparkData": [700, 800, 1000, 1050, 900, 1100, 1300, 1500, 1600],
+    "color": "#3498db",
+    "source": "IMF World Economic Outlook Database (Oct 2024)",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "oil-revenue",
+    "label": "Estimated Oil Export Revenue",
+    "value": "~$35B/year (2024)",
+    "change": "Down from ~$100B pre-2018 sanctions",
+    "direction": "up",
+    "sparkData": [100, 40, 20, 15, 20, 25, 30, 32, 35],
+    "color": "#f39c12",
+    "source": "US EIA / Reuters oil export estimates 2024",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "unemployment-rate",
+    "label": "Unemployment Rate",
+    "value": "~9.2% (2024)",
+    "change": "Youth unemployment ~28%",
+    "direction": "down",
+    "sparkData": [11, 13, 14, 12, 11, 10.5, 10, 9.5, 9.2],
+    "color": "#f39c12",
+    "source": "Statistical Centre of Iran / ILO 2024",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "natural-gas-reserves",
+    "label": "Proven Natural Gas Reserves",
+    "value": "34 trillion m³ (#1 World)",
+    "change": "Stable — world's largest proven reserves",
+    "direction": "up",
+    "sparkData": [27, 28, 29, 30, 31, 32, 33, 34, 34],
+    "color": "#2ecc71",
+    "source": "BP Statistical Review of World Energy 2024",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "sanctions-impact-gdp",
+    "label": "GDP Lost to Sanctions (Cumulative Est.)",
+    "value": "$1T+ (2012–2024)",
+    "change": "Accelerated after 2018 US withdrawal from JCPOA",
+    "direction": "down",
+    "sparkData": [10, 30, 80, 120, 150, 200, 250, 300, 350],
+    "color": "#9b59b6",
+    "source": "Atlantic Council / Iran Chamber of Commerce estimates",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "non-oil-exports",
+    "label": "Non-Oil Exports",
+    "value": "~$50B (2024)",
+    "change": "+8% YoY — diversification under sanctions pressure",
+    "direction": "up",
+    "sparkData": [20, 25, 30, 35, 40, 42, 45, 48, 50],
+    "color": "#1abc9c",
+    "source": "Iran Trade Promotion Organization / IRICA 2024",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "petrochemical-sector",
+    "label": "Petrochemical Exports",
+    "value": "~$17B (2024)",
+    "change": "Largest non-oil export category; routed via Iraq/Turkey",
+    "direction": "up",
+    "sparkData": [5, 6, 8, 9, 10, 12, 14, 15, 17],
+    "color": "#3498db",
+    "source": "National Petrochemical Company of Iran / Reuters 2024",
+    "lastUpdated": "2026-04-25"
+  }
+]
