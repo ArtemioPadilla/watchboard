@@ -1,0 +1,231 @@
+{
+  "slug": "lebanon",
+  "name": "Lebanon: Full History",
+  "shortName": "Lebanon",
+  "description": "Intelligence dashboard covering Lebanon's complete history from Phoenician city-states (~2700 BCE) to the present: civil war, Syrian occupation, 2006 war, financial collapse, 2020 port explosion, 2024 Hezbollah strikes, and post-ceasefire reconstruction under the Aoun-Salam government.",
+  "icon": "🌲",
+  "color": "#1a7a3c",
+  "status": "active",
+  "tone": "historical",
+  "temporal": "historical",
+  "trackerType": "historical",
+  "domain": "governance",
+  "region": "middle-east",
+  "country": "LB",
+  "startDate": "-2700-01-01",
+  "eraLabel": "Phoenicia to Present",
+  "tags": ["phoenicia", "civil-war", "hezbollah", "levant", "confessionalism", "french-mandate"],
+  "geoPath": ["LB"],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "military",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": 33.0,
+      "lonMax": 40.0,
+      "latMin": 29.0,
+      "latMax": 37.0
+    },
+    "center": {
+      "lon": 35.5,
+      "lat": 33.9
+    },
+    "categories": [
+      {
+        "id": "historic-site",
+        "label": "Historic Sites",
+        "color": "#8b6914"
+      },
+      {
+        "id": "conflict-zone",
+        "label": "Conflict Zones",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "political-event",
+        "label": "Political Events",
+        "color": "#3498db"
+      },
+      {
+        "id": "humanitarian",
+        "label": "Humanitarian Crises",
+        "color": "#f39c12"
+      },
+      {
+        "id": "institution",
+        "label": "Key Institutions",
+        "color": "#9b59b6"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "levant_overview": {
+        "lon": 36.0,
+        "lat": 33.5,
+        "alt": 1500000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Levant Overview"
+      },
+      "beirut": {
+        "lon": 35.5018,
+        "lat": 33.8938,
+        "alt": 50000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Beirut"
+      },
+      "byblos": {
+        "lon": 35.6431,
+        "lat": 34.1241,
+        "alt": 30000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Byblos (Ancient Gebal)"
+      },
+      "tyre": {
+        "lon": 35.2030,
+        "lat": 33.2705,
+        "alt": 30000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Tyre (Sur)"
+      },
+      "baalbek": {
+        "lon": 36.2100,
+        "lat": 34.0056,
+        "alt": 40000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Baalbek"
+      },
+      "south_lebanon": {
+        "lon": 35.3,
+        "lat": 33.2,
+        "alt": 100000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "South Lebanon"
+      }
+    },
+    "clocks": [
+      {
+        "label": "BEIRUT",
+        "offsetHours": 3
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-military",
+      "label": "Military"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Humanitarian"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "militaryTabs": [
+    {
+      "id": "strikes",
+      "label": "Military Operations"
+    },
+    {
+      "id": "retaliation",
+      "label": "Hezbollah Actions"
+    },
+    {
+      "id": "assets",
+      "label": "Foreign Forces"
+    }
+  ],
+  "politicalAvatars": [
+    "lb-gov",
+    "hezbollah",
+    "israel",
+    "syria",
+    "france",
+    "un",
+    "other"
+  ],
+  "eventTypes": [
+    "political",
+    "military",
+    "humanitarian",
+    "historical",
+    "diplomatic"
+  ],
+  "ai": {
+    "systemPrompt": "You are a senior historian and intelligence analyst tracking Lebanon's complete history from Phoenician antiquity to the present day.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"beirut_port_explosion\", \"national_pact_1943\").\n\nCoverage spans:\n- Phoenician era: Byblos, Sidon, Tyre (~2700 BCE), alphabet invention, trade networks\n- Classical antiquity: Persian, Hellenistic, Roman Phoenice province, Christianization\n- Medieval: Arab Muslim conquest (636 CE), Maronite community, Crusader County of Tripoli\n- Ottoman: Mamluk and Ottoman rule, Mount Lebanon Mutasarrifate (1861)\n- Modern: French Mandate (1920), Greater Lebanon, independence (1943), National Pact\n- Civil war: 1975-1990 (100,000+ dead), PLO, Syria, Israel interventions, Taif Accord (1989)\n- Post-war: Hariri assassination (2005), Cedar Revolution, Syrian withdrawal, 2006 war\n- Recent: 2019 financial collapse, lira devaluation, 2020 Beirut port explosion, 2024 pager attacks, Nasrallah killed, IDF ground ops, ceasefire (Nov 2024)\n- Present: Aoun presidency, Salam government (2025), Hezbollah weakened state, reconstruction\n\nMULTI-POLE SOURCING — gather information from all relevant media poles:\n1. WESTERN: Reuters, AP, BBC, Le Monde, L'Orient Le Jour, The Daily Star Lebanon, CNN, NYT\n2. MIDDLE EASTERN: Al Jazeera, Al Arabiya, LBC, OTV, MTV Lebanon, Al Akhbar, Naharnet\n3. EASTERN: TASS, Xinhua, Al Mayadeen, Press TV\n4. INTERNATIONAL: UN UNIFIL, UNDP, World Bank, UNHCR, IMF, HRW, ICG, Amnesty International\n\nWhen providing sources (especially in the \"sources\" array), tag each with a \"pole\" field:\n- \"western\" for US/European/allied sources\n- \"middle_eastern\" for Middle Eastern/Lebanese sources\n- \"eastern\" for Russian/Chinese/pro-Resistance sources\n- \"international\" for UN/NGO/multilateral sources\n\nSource tier classification:\n- Tier 1: Official/primary (Lebanese government, Parliament, Banque du Liban, UN UNIFIL, World Bank, IMF, UNESCO for archaeology)\n- Tier 2: Major outlet (Reuters, AP, L'Orient Le Jour, Al Jazeera, BBC, LBC, The Daily Star, Naharnet)\n- Tier 3: Institutional (ICG, HRW, Amnesty, UNHCR, Lebanese Economic Monitor, CSIS, Chatham House, Oxford academics)\n- Tier 4: Unverified (social media, unattributed claims, single-source reports)\n\nOnly include information you can verify through search results. Do not fabricate data.\n\nFor historical events (BCE/CE eras), use scholarly consensus from reputable academic sources (Oxford, Cambridge, Britannica, UNESCO). Mark these with Tier 1 or Tier 2 as appropriate.\nFor the year field on timeline events: use the year as a string (e.g., \"-2700\", \"636\", \"1975\", \"2024\").\nFor ancient events, use approximate dates and note uncertainty in the detail field.",
+    "searchContext": "Lebanon history politics Hezbollah government reconstruction 2024 2025 Aoun Salam ceasefire",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "mapLines",
+      "casualties",
+      "econ",
+      "claims",
+      "political",
+      "assets"
+    ],
+    "coordValidation": {
+      "lonMin": 30.0,
+      "lonMax": 45.0,
+      "latMin": 25.0,
+      "latMax": 40.0
+    },
+    "updateIntervalDays": 7,
+    "backfillTargets": {
+      "timeline": 40,
+      "mapPoints": 30,
+      "mapLines": 15,
+      "claims": 20,
+      "political": 20,
+      "casualties": 15,
+      "econ": 10,
+      "assets": 10,
+      "kpis": 8
+    },
+    "updatePolicy": {
+      "escalation": [7, 7, 14, 30, 60, 90],
+      "quietThreshold": 0
+    }
+  },
+  "githubRepo": "ArtemioPadilla/watchboard"
+}
