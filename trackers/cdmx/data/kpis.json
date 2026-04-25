@@ -1,1 +1,94 @@
-[]
+[
+  {
+    "id": "population_city",
+    "label": "City Population (Proper)",
+    "value": "9.21M",
+    "color": "blue",
+    "source": "INEGI Censo 2020 / CONAPO 2024 estimate",
+    "contested": false,
+    "delta": "+0.4% YoY",
+    "deltaNote": "City proper within 16 alcaldías; metro area ~22.5M",
+    "trend": "up",
+    "lastUpdated": "2026-04-25T00:00:00.000Z"
+  },
+  {
+    "id": "metro_area_population",
+    "label": "Metro Area Population",
+    "value": "22.5M",
+    "color": "blue",
+    "source": "CONAPO 2024 / MacroTrends",
+    "contested": false,
+    "delta": "+1.01% YoY",
+    "deltaNote": "World's 6th-largest metro area; 2nd-largest in Western Hemisphere",
+    "trend": "up",
+    "lastUpdated": "2026-04-25T00:00:00.000Z"
+  },
+  {
+    "id": "homicide_rate_2024",
+    "label": "Homicide Rate (per 100k, 2024)",
+    "value": "7.8",
+    "color": "amber",
+    "source": "Secretaría de Seguridad Ciudadana CDMX 2024",
+    "contested": true,
+    "contestNote": "CDMX rate is among Mexico's lowest — well below national average of ~22/100k. Critics argue femicides are systematically undercounted as homicides.",
+    "trend": "down",
+    "lastUpdated": "2026-04-25T00:00:00.000Z"
+  },
+  {
+    "id": "metro_daily_ridership",
+    "label": "Metro Daily Ridership (STC)",
+    "value": "4.2M",
+    "color": "green",
+    "source": "Sistema de Transporte Colectivo (STC) 2024",
+    "contested": false,
+    "deltaNote": "2nd-largest metro in North America; 12 lines, 195 stations, 226 km",
+    "trend": "up",
+    "lastUpdated": "2026-04-25T00:00:00.000Z"
+  },
+  {
+    "id": "gdp_national_share",
+    "label": "Share of National GDP",
+    "value": "22%",
+    "color": "green",
+    "source": "INEGI Cuentas Nacionales 2023",
+    "contested": false,
+    "deltaNote": "Metro area produces ~22% of Mexico's GDP; city proper ~15.8%. Largest economic zone in Latin America after São Paulo.",
+    "trend": "stable",
+    "lastUpdated": "2026-04-25T00:00:00.000Z"
+  },
+  {
+    "id": "cutzamala_reservoir_level",
+    "label": "Cutzamala Reservoir Level",
+    "value": "~52%",
+    "color": "amber",
+    "source": "CONAGUA / SACMEX 2025",
+    "contested": false,
+    "contestNote": "Dropped to historic low of 30% in May 2024 drought. Partially recovered by 2025 rainy season. 40% of city water lost to leaks.",
+    "delta": "+22pp from 2024 low",
+    "trend": "up",
+    "lastUpdated": "2026-04-25T00:00:00.000Z"
+  },
+  {
+    "id": "budget_2025",
+    "label": "CDMX Annual Budget 2025",
+    "value": "MXN 291.5B",
+    "color": "blue",
+    "source": "Congreso CDMX / Secretaría de Finanzas CDMX Dec 2024",
+    "contested": false,
+    "delta": "+8.8% vs 2024",
+    "deltaNote": "Includes MXN 23B for Metro modernization — largest Metro investment in history",
+    "trend": "up",
+    "lastUpdated": "2026-04-25T00:00:00.000Z"
+  },
+  {
+    "id": "land_subsidence_rate",
+    "label": "Max Land Subsidence Rate",
+    "value": "~50 cm/yr",
+    "color": "red",
+    "source": "UNAM / Nature Scientific Reports 2021",
+    "contested": false,
+    "contestNote": "Historic center sinking ~50cm/yr in worst zones; Palacio de Bellas Artes and Cathedral visibly tilting. Caused by groundwater over-extraction from ancient lake bed.",
+    "trend": "up",
+    "lastUpdated": "2026-04-25T00:00:00.000Z"
+  }
+]
