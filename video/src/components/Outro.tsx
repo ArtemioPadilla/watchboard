@@ -58,7 +58,8 @@ export const Outro: React.FC<{ theme?: 'dark' | 'day'; trackerCount?: number }> 
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'flex-end',
+        paddingBottom: 120,
         gap: 32,
       }}
     >
@@ -95,7 +96,7 @@ export const Outro: React.FC<{ theme?: 'dark' | 'day'; trackerCount?: number }> 
           opacity: statsOpacity,
           transform: `translateY(${statsY}px)`,
           fontFamily: "'JetBrains Mono', monospace",
-          fontSize: 20,
+          fontSize: 28,
           fontWeight: 500,
           color: '#9498a8',
           letterSpacing: '2px',

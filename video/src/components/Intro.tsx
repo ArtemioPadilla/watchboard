@@ -67,7 +67,8 @@ export const Intro: React.FC<IntroProps> = ({ date, theme = 'dark' }) => {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'flex-end',
+        paddingBottom: 120,
       }}
     >
       {/* Logo */}
@@ -108,10 +109,10 @@ export const Intro: React.FC<IntroProps> = ({ date, theme = 'dark' }) => {
           opacity: subtitleOpacity,
           transform: `translateY(${subtitleY}px)`,
           fontFamily: "'JetBrains Mono', monospace",
-          fontSize: theme === 'day' ? 22 : 20,
+          fontSize: theme === 'day' ? 30 : 28,
           fontWeight: 600,
           color: theme === 'day' ? '#f0c060' : '#9498a8',
-          letterSpacing: theme === 'day' ? '8px' : '5px',
+          letterSpacing: theme === 'day' ? '6px' : '4px',
           marginBottom: 16,
         }}
       >
@@ -124,7 +125,7 @@ export const Intro: React.FC<IntroProps> = ({ date, theme = 'dark' }) => {
           opacity: dateOpacity,
           transform: `translateY(${dateY}px)`,
           fontFamily: "'JetBrains Mono', monospace",
-          fontSize: theme === 'day' ? 20 : 24,
+          fontSize: theme === 'day' ? 26 : 30,
           fontWeight: 500,
           color: theme === 'day' ? 'rgba(255,255,255,0.6)' : '#e8e9ed',
           letterSpacing: '3px',
