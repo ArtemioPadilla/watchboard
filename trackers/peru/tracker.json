@@ -1,0 +1,214 @@
+{
+  "slug": "peru",
+  "name": "Peru: Empire to Republic",
+  "shortName": "Peru",
+  "description": "Intelligence dashboard spanning Peru's full history — from the Inca Empire under Pachacuti (1438) through the Spanish conquest, independence, the War of the Pacific, the Shining Path insurgency, Fujimori's autogolpe, and contemporary Lima political crises.",
+  "icon": "🏔️",
+  "color": "#c0392b",
+  "status": "active",
+  "tone": "historical",
+  "temporal": "historical",
+  "trackerType": "historical",
+  "domain": "governance",
+  "region": "south-america",
+  "country": "PE",
+  "tags": ["inca", "latin-america", "independence", "shining-path", "corruption", "andean"],
+  "startDate": "1438-01-01",
+  "eraLabel": "From Tahuantinsuyo to the Republic",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": -82,
+      "lonMax": -68,
+      "latMin": -19,
+      "latMax": 1
+    },
+    "center": {
+      "lon": -76,
+      "lat": -9.5
+    },
+    "categories": [
+      {
+        "id": "historical",
+        "label": "Historical Sites",
+        "color": "#e67e22"
+      },
+      {
+        "id": "political",
+        "label": "Political Events",
+        "color": "#c0392b"
+      },
+      {
+        "id": "conflict",
+        "label": "Armed Conflict",
+        "color": "#7f1d1d"
+      },
+      {
+        "id": "protest",
+        "label": "Social Movements",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "justice",
+        "label": "Legal / Corruption",
+        "color": "#3498db"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "overview": {
+        "lon": -76,
+        "lat": -9.5,
+        "alt": 3500000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Peru Overview"
+      },
+      "lima": {
+        "lon": -77.04,
+        "lat": -12.05,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Lima"
+      },
+      "cusco": {
+        "lon": -71.96,
+        "lat": -13.53,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Cusco (Inca Capital)"
+      },
+      "machu_picchu": {
+        "lon": -72.54,
+        "lat": -13.16,
+        "alt": 30000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Machu Picchu"
+      },
+      "ayacucho": {
+        "lon": -74.22,
+        "lat": -13.16,
+        "alt": 50000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Ayacucho (Shining Path)"
+      },
+      "lake_titicaca": {
+        "lon": -69.33,
+        "lat": -15.85,
+        "alt": 100000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Lake Titicaca"
+      }
+    },
+    "clocks": [
+      {
+        "label": "LIMA",
+        "offsetHours": -5
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Casualties"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Claims"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "politicalAvatars": [
+    "pe-gov",
+    "pe-military",
+    "pe-indigenous",
+    "pe-opposition",
+    "intl",
+    "other"
+  ],
+  "eventTypes": [
+    "governance",
+    "military",
+    "social",
+    "economic",
+    "diplomatic"
+  ],
+  "ai": {
+    "systemPrompt": "You are a Latin American historian and political analyst updating a comprehensive tracker for Peru's history from 1438 to the present day.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"pachacuti_founds_tahuantinsuyo\", \"fujimori_autogolpe_1992\").\n\nScope: Cover all major eras — Inca Empire (1438–1532), Spanish Conquest (1532–1542), Viceroyalty of Peru (1542–1821), Independence (1821–1824), Republic (1824–1968), Velasco Military Reforms (1968–1975), Shining Path insurgency (1980–2000), Fujimori era (1990–2000), 21st century political instability (Toledo, García, Humala, PPK, Vizcarra, Sagasti, Castillo, Boluarte), Odebrecht scandal, Andean indigenous movement, and Machu Picchu tourism economy.\n\nSource tier classification:\n- Tier 1: Official/primary (Peruvian government decrees, Congress, Poder Judicial, INEI, BCRP, CVR Truth and Reconciliation Commission, UN agencies, IAEA, UNESCO)\n- Tier 2: Major outlet (El Comercio, La República, RPP Noticias, Perú21, Reuters, AP, AFP, BBC Mundo, Al Jazeera Español, CNN en Español)\n- Tier 3: Institutional (IDL-Reporteros, DESCO, IEP Instituto de Estudios Peruanos, Crisis Group, HRW, Amnesty International, Oxfam Peru, Transparencia, WOLA, LASA)\n- Tier 4: Unverified (social media, unattributed sources, partisan blogs, anonymous testimony)\n\nWhen providing sources, tag each with a \"pole\" field:\n- \"western\" for US/European/international media and institutions\n- \"international\" for UN/NGO/multilateral sources\n- \"western\" for Peruvian domestic media (default pole)\n\nOnly include information you can verify through search results. Do not fabricate data.\nFor historical events (pre-1900), use academic consensus from reputable historians. For contested interpretations, note the disagreement in the claims section.\n\nDEDUPLICATION: Same event within ±2 days = same event — merge, do not create duplicates.\nFor casualty figures: use CVR (Comisión de la Verdad y Reconciliación) as the primary authoritative source for Shining Path/MRTA conflict.",
+    "searchContext": "Peru history Inca Empire Pizarro independence Shining Path Fujimori Odebrecht Boluarte",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "casualties",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": -85,
+      "lonMax": -65,
+      "latMin": -22,
+      "latMax": 5
+    },
+    "updateIntervalDays": 30,
+    "backfillTargets": {
+      "timeline": 40,
+      "mapPoints": 25,
+      "claims": 20,
+      "political": 20,
+      "casualties": 10,
+      "econ": 8,
+      "kpis": 8
+    },
+    "updatePolicy": {
+      "escalation": [
+        30,
+        60,
+        90,
+        180
+      ],
+      "quietThreshold": 0
+    }
+  },
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": [
+    "PE"
+  ]
+}
