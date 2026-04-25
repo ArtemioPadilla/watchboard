@@ -1,0 +1,239 @@
+{
+  "slug": "russia",
+  "name": "Russia: History & Power",
+  "shortName": "Russia",
+  "description": "Intelligence dashboard tracing Russian history from Kievan Rus (862 AD) through the Soviet era to Putin's Russia — empire, revolution, Cold War, and the ongoing Ukraine conflict.",
+  "icon": "🐻",
+  "color": "#cc0000",
+  "status": "active",
+  "tone": "historical",
+  "temporal": "historical",
+  "trackerType": "historical",
+  "domain": "governance",
+  "region": "europe",
+  "country": "RU",
+  "tags": ["russia", "soviet-union", "ukraine-war", "cold-war", "imperialism", "geopolitics", "sanctions"],
+  "startDate": "0862-01-01",
+  "eraLabel": "Kievan Rus to Putin",
+  "geoSecondary": ["UA", "BY", "GE", "KZ", "AZ", "PL"],
+  "geoPath": ["RU"],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "military",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": 20,
+      "lonMax": 180,
+      "latMin": 40,
+      "latMax": 78
+    },
+    "center": {
+      "lon": 60,
+      "lat": 58
+    },
+    "categories": [
+      {
+        "id": "capital",
+        "label": "Capitals & Power Centers",
+        "color": "#cc0000"
+      },
+      {
+        "id": "conflict",
+        "label": "Conflicts & Wars",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "expansion",
+        "label": "Territorial Expansion",
+        "color": "#f39c12"
+      },
+      {
+        "id": "revolution",
+        "label": "Revolution & Upheaval",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "nuclear",
+        "label": "Nuclear Sites",
+        "color": "#27ae60"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "eurasia": {
+        "lon": 60,
+        "lat": 58,
+        "alt": 8000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Eurasia Overview"
+      },
+      "moscow": {
+        "lon": 37.62,
+        "lat": 55.75,
+        "alt": 100000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Moscow"
+      },
+      "st_petersburg": {
+        "lon": 30.32,
+        "lat": 59.95,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "St. Petersburg"
+      },
+      "kyiv": {
+        "lon": 30.52,
+        "lat": 50.45,
+        "alt": 100000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Kyiv"
+      },
+      "crimea": {
+        "lon": 34.1,
+        "lat": 45.35,
+        "alt": 150000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Crimea"
+      },
+      "vladivostok": {
+        "lon": 131.87,
+        "lat": 43.12,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Vladivostok"
+      }
+    },
+    "clocks": [
+      {
+        "label": "MOSCOW",
+        "offsetHours": 3
+      },
+      {
+        "label": "KYIV",
+        "offsetHours": 3
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      },
+      {
+        "label": "EST",
+        "offsetHours": -5
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-military",
+      "label": "Military"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Humanitarian"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "militaryTabs": [
+    {
+      "id": "strikes",
+      "label": "Strike Targets"
+    },
+    {
+      "id": "retaliation",
+      "label": "Ukrainian Retaliation"
+    },
+    {
+      "id": "assets",
+      "label": "Military Assets"
+    }
+  ],
+  "politicalAvatars": [
+    "kremlin",
+    "military",
+    "opposition",
+    "western",
+    "ukraine",
+    "other"
+  ],
+  "eventTypes": [
+    "political",
+    "military",
+    "diplomatic",
+    "economic",
+    "social"
+  ],
+  "ai": {
+    "systemPrompt": "You are a Russian history and geopolitics analyst updating a comprehensive tracker covering Russian history from Kievan Rus (862 AD) to the present day.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"napoleon_invasion_1812\", \"ussr_collapse_1991\").\n\nMULTI-POLE SOURCING — gather information from all relevant perspectives:\n1. RUSSIAN OFFICIAL: Kremlin, Russian MFA, TASS, RIA Novosti, RT (note bias), Interfax, Rossiyskaya Gazeta\n2. WESTERN: Reuters, AP, BBC, CNN, NYT, The Guardian, Washington Post, The Economist, Foreign Affairs, Foreign Policy\n3. EASTERN: Xinhua, CGTN, Global Times (note bias), Kyodo News\n4. INTERNATIONAL: UN, OSCE, Council of Europe, HRW, Amnesty International, Carnegie Endowment, Chatham House, RUSI, Wilson Center\n\nWhen providing sources (especially in the \"sources\" array), tag each with a \"pole\" field:\n- \"western\" for US/European/allied sources\n- \"eastern\" for Russian/Chinese/Asian sources\n- \"international\" for UN/NGO/multilateral sources\n\nSource tier classification:\n- Tier 1: Official/primary (Russian state archives, Kremlin, UN Security Council, official state documents, Presidential decrees)\n- Tier 2: Major outlet (Reuters, AP, BBC, Interfax, TASS, Bloomberg, New York Times, Washington Post, The Economist)\n- Tier 3: Institutional (Carnegie Moscow Center, Chatham House, RUSI, HRW, Amnesty International, Wilson Center, CSIS, Freedom House, Levada Center)\n- Tier 4: Unverified (social media, Telegram channels, unattributed claims, anonymous sources)\n\nOnly include information you can verify through search results. Do not fabricate data.\nFor historical events (pre-1991), use verified historical scholarship and primary sources.\nFor recent events (post-2022), actively seek contrasting perspectives from multiple poles.\n\nKEY TOPICS TO MONITOR:\n- Ukraine war: territorial control, frontline changes, casualties, peace negotiations\n- Sanctions regime and Russian economic countermeasures (energy exports, ruble, inflation)\n- Political opposition: Navalny legacy, arrests, diaspora activism\n- Wagner Group aftermath and private military contractors (Africa, Middle East)\n- BRICS expansion and Russia's eastern pivot (China, India, Iran partnerships)\n- Energy weaponization: gas/oil export strategy to Europe and Asia\n- Nuclear doctrine signals and strategic weapons developments\n- Disinformation operations and information warfare campaigns\n\nDEDUPLICATION:\n- Same event within ±2 days = same event — merge, do not create duplicates.\n- When Russian and Western sources report different numbers: note discrepancies in the detail field.",
+    "searchContext": "Russia history governance Soviet Union Ukraine war Putin Kremlin",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "claims",
+      "political",
+      "econ",
+      "casualties"
+    ],
+    "coordValidation": {
+      "lonMin": 15,
+      "lonMax": 195,
+      "latMin": 35,
+      "latMax": 82
+    },
+    "updateIntervalDays": 7,
+    "backfillTargets": {
+      "timeline": 40,
+      "mapPoints": 30,
+      "claims": 20,
+      "political": 20,
+      "kpis": 8,
+      "casualties": 10,
+      "econ": 10
+    },
+    "updatePolicy": {
+      "escalation": [7, 7, 14, 30, 60],
+      "quietThreshold": 0
+    },
+    "rssFeeds": [
+      "https://news.google.com/rss/search?q=Russia+Ukraine+war+Putin+Kremlin&hl=en-US&gl=US&ceid=US:en"
+    ]
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard"
+}
