@@ -1,1 +1,97 @@
-[]
+[
+  {
+    "id": "iraq-population",
+    "label": "Population (2024)",
+    "value": "42.5 million",
+    "color": "blue",
+    "source": "World Bank / UN Population Division 2024",
+    "contested": false,
+    "delta": "+600,000/yr",
+    "deltaNote": "Growth rate ~1.5% annually; one of the world's youngest populations with median age ~22",
+    "trend": "up",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "oil-production",
+    "label": "Oil Production",
+    "value": "4.4 million bpd",
+    "color": "green",
+    "source": "OPEC / Iraqi Ministry of Oil 2024",
+    "contested": false,
+    "delta": "+200K bpd vs 2022",
+    "deltaNote": "Iraq is OPEC's second-largest producer; production growth constrained by OPEC+ quotas",
+    "trend": "up",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "oil-reserves",
+    "label": "Proven Oil Reserves",
+    "value": "145 billion barrels",
+    "color": "green",
+    "source": "OPEC Statistical Bulletin 2023",
+    "contested": false,
+    "delta": "5th largest globally",
+    "deltaNote": "~9% of world total; Iraq has barely explored its western desert, where further giant fields are suspected",
+    "trend": "stable",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "gdp-total",
+    "label": "GDP (Nominal)",
+    "value": "$268 billion",
+    "color": "blue",
+    "source": "World Bank, IMF Article IV Consultation 2024",
+    "contested": false,
+    "delta": "+8% vs 2022",
+    "deltaNote": "Oil revenues account for ~90% of government budget and ~45% of GDP; non-oil economy remains underdeveloped",
+    "trend": "up",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "idp-count",
+    "label": "Internally Displaced Persons",
+    "value": "1.18 million",
+    "color": "amber",
+    "source": "IOM Iraq Displacement Tracking Matrix (DTM) Q3 2024",
+    "contested": true,
+    "contestNote": "Peak displacement was 6 million at height of ISIS conflict (2014–2017); remaining IDPs face return barriers in Sinjar, disputed territories, and Anbar Province",
+    "delta": "-350,000 vs 2022",
+    "trend": "down",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "years-of-civilization",
+    "label": "Years of Continuous Civilization",
+    "value": "~5,500 years",
+    "color": "amber",
+    "source": "Archaeological consensus; Uruk period ~3500 BCE",
+    "contested": false,
+    "delta": "Since ~3500 BCE",
+    "deltaNote": "The world's oldest continuous urban civilization; includes the invention of writing, the wheel, and the first empires and law codes",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "isis-attacks-2024",
+    "label": "ISIS Attacks in Iraq (2024)",
+    "value": "~500 incidents",
+    "color": "red",
+    "source": "ACLED / UNAMI Threat Assessment 2024",
+    "contested": true,
+    "contestNote": "ISIS claimed responsibility for ~200 attacks; remainder attributed to ISIS by Iraqi security forces. ISIS defeated territorially (2017) but maintains active insurgency primarily in Anbar, Diyala, Kirkuk, and Salah al-Din provinces",
+    "delta": "-15% vs 2023",
+    "trend": "down",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "oil-export-revenue",
+    "label": "Annual Oil Export Revenue",
+    "value": "$88 billion",
+    "color": "green",
+    "source": "Iraqi Ministry of Oil, State Oil Marketing Organization (SOMO) 2024",
+    "contested": false,
+    "delta": "-24% vs 2022 peak",
+    "deltaNote": "2022 record: $115 billion. Revenue fell with global oil price decline. Northern Kirkuk exports (~400K bpd) halted since March 2023 per arbitration ruling vs Turkey.",
+    "trend": "down",
+    "lastUpdated": "2026-04-25"
+  }
+]
