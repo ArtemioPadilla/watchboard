@@ -1,1 +1,96 @@
-[]
+[
+  {
+    "id": "armed-conflict-duration",
+    "label": "FARC Insurgency Duration",
+    "value": "52 years",
+    "color": "red",
+    "source": "CERAC / JEP Colombia",
+    "contested": false,
+    "delta": "1964–2016",
+    "deltaNote": "Official FARC-EP armed insurgency period until Havana Accords",
+    "trend": "stable",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "total-conflict-deaths",
+    "label": "Conflict Deaths (1958–2016)",
+    "value": "≈ 220,000",
+    "color": "red",
+    "source": "Colombian Truth Commission (CEV), 2022",
+    "contested": true,
+    "contestNote": "CEV report puts total at 450,000 including all armed actors and violence; 220,000 is FARC-state conflict subset",
+    "trend": "stable",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "internally-displaced",
+    "label": "Internally Displaced Persons",
+    "value": "≈ 7.7 million",
+    "color": "red",
+    "source": "UNHCR / CODHES 2023",
+    "contested": false,
+    "delta": "Largest IDP population in Western Hemisphere",
+    "deltaNote": "Includes displacement from all armed actors 1985–2023",
+    "trend": "down",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "coca-cultivation",
+    "label": "Coca Cultivation Area (2022)",
+    "value": "204,000 ha",
+    "color": "amber",
+    "source": "UNODC Colombia Survey 2023",
+    "contested": false,
+    "delta": "+13% from 2021",
+    "deltaNote": "Record high despite decades of eradication programs",
+    "trend": "up",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "farc-dissidents",
+    "label": "Active FARC Dissident Fighters",
+    "value": "~5,000–6,000",
+    "color": "red",
+    "source": "InSight Crime / INDEPAZ 2024",
+    "contested": true,
+    "contestNote": "Government estimates lower; INDEPAZ and InSight Crime estimate 5,000–6,000 across FARC-EP (Estado Mayor Central) and Segunda Marquetalia",
+    "trend": "up",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "homicide-rate",
+    "label": "Homicide Rate (per 100,000)",
+    "value": "25.8",
+    "color": "amber",
+    "source": "INDEPAZ / Police statistics 2023",
+    "contested": false,
+    "delta": "Down from 80+ in 1991 peak",
+    "deltaNote": "Significant improvement from narco-war peak but still above regional average",
+    "trend": "down",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "farc-reintegration",
+    "label": "Ex-FARC in Reintegration Program",
+    "value": "≈ 13,600",
+    "color": "green",
+    "source": "ARN (Agencia para la Reintegración) 2024",
+    "contested": false,
+    "delta": "~3,000 abandoned process",
+    "deltaNote": "Estimated 3,000+ ex-combatants left the reintegration process and rejoined dissident factions",
+    "trend": "stable",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "colombia-gdp",
+    "label": "Colombia GDP (2023)",
+    "value": "$363 billion USD",
+    "color": "blue",
+    "source": "World Bank / DANE 2023",
+    "contested": false,
+    "delta": "+0.6% growth in 2023",
+    "deltaNote": "Growth slowed from post-COVID recovery; ranked 4th largest economy in Latin America",
+    "trend": "stable",
+    "lastUpdated": "2026-04-25"
+  }
+]
