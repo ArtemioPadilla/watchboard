@@ -1,0 +1,215 @@
+{
+  "slug": "european-union",
+  "name": "European Union Tracker",
+  "shortName": "European Union",
+  "description": "Intelligence dashboard tracing 75 years of European integration: from the Treaty of Paris (1951) through enlargement waves, the single market, the euro, Brexit, and the EU's evolving role in global governance.",
+  "icon": "🇪🇺",
+  "color": "#003399",
+  "status": "active",
+  "tone": "historical",
+  "temporal": "historical",
+  "trackerType": "institutional",
+  "domain": "governance",
+  "region": "europe",
+  "country": "EU",
+  "tags": ["european-union", "integration", "enlargement", "euro", "brexit", "governance", "treaties"],
+  "startDate": "1951-04-18",
+  "eraLabel": "European Integration 1951–present",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": -12,
+      "lonMax": 35,
+      "latMin": 34,
+      "latMax": 71
+    },
+    "center": {
+      "lon": 13,
+      "lat": 52
+    },
+    "categories": [
+      {
+        "id": "member-state",
+        "label": "EU Member States",
+        "color": "#003399"
+      },
+      {
+        "id": "candidate",
+        "label": "Candidate Countries",
+        "color": "#f39c12"
+      },
+      {
+        "id": "institution",
+        "label": "EU Institutions",
+        "color": "#27ae60"
+      },
+      {
+        "id": "crisis",
+        "label": "Crisis Events",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "enlargement",
+        "label": "Enlargement Events",
+        "color": "#9b59b6"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "europe_overview": {
+        "lon": 13,
+        "lat": 52,
+        "alt": 4000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Europe Overview"
+      },
+      "brussels": {
+        "lon": 4.35,
+        "lat": 50.85,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Brussels"
+      },
+      "strasbourg": {
+        "lon": 7.75,
+        "lat": 48.58,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Strasbourg"
+      },
+      "frankfurt": {
+        "lon": 8.68,
+        "lat": 50.11,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Frankfurt (ECB)"
+      },
+      "kyiv": {
+        "lon": 30.52,
+        "lat": 50.45,
+        "alt": 100000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Kyiv (Candidate)"
+      },
+      "london": {
+        "lon": -0.12,
+        "lat": 51.51,
+        "alt": 100000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "London (Brexit)"
+      }
+    },
+    "clocks": [
+      {
+        "label": "BRUSSELS",
+        "offsetHours": 2
+      },
+      {
+        "label": "LONDON",
+        "offsetHours": 1
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      },
+      {
+        "label": "KYIV",
+        "offsetHours": 3
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "politicalAvatars": [
+    "eu-commission",
+    "eu-council",
+    "eu-parliament",
+    "member-states",
+    "candidates",
+    "other"
+  ],
+  "eventTypes": [
+    "treaty",
+    "enlargement",
+    "crisis",
+    "legislation",
+    "election"
+  ],
+  "ai": {
+    "systemPrompt": "You are a European affairs analyst updating an EU integration intelligence dashboard.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"maastricht_treaty\", \"eastern_enlargement_2004\").\n\nThis tracker covers the full history of European integration from 1951 to the present:\n- Founding treaties: Treaty of Paris (1951), Treaty of Rome (1957), Single European Act (1986), Maastricht (1992), Amsterdam (1997), Nice (2001), Lisbon (2009)\n- Enlargement waves: UK/Ireland/Denmark (1973), Greece (1981), Spain/Portugal (1986), Austria/Finland/Sweden (1995), Eastern enlargement (2004/2007/2013), future candidates (Ukraine, Western Balkans)\n- Key crises: Eurozone debt crisis (2010-2015), Greek bailouts, migration crisis (2015), Brexit referendum & exit (2016-2020), COVID-19 & NextGenerationEU, Russia-Ukraine energy crisis (2022)\n- Major policy milestones: Schengen (1985/1995), Single Market (1993), Common Agricultural Policy, euro launch (1999/2002), AI Act (2024)\n- Current affairs: von der Leyen second term (2024-), Ukraine/Western Balkans candidacy, Mercosur trade deal, Trump 2.0 transatlantic relations, Draghi competitiveness report\n\nSource tier classification:\n- Tier 1: Official/primary (European Commission, European Council, European Parliament, ECB, Eurostat, EU Court of Justice, EUR-Lex, member state governments in official statements)\n- Tier 2: Major outlet (Reuters, AP, BBC, Politico Europe, Financial Times, Le Monde, Der Spiegel, El País, Corriere della Sera, Euractiv)\n- Tier 3: Institutional/analytical (ECFR, Bruegel, Carnegie Europe, CEPS, Jacques Delors Institute, Friends of Europe, HRW, Amnesty International, IMF, World Bank)\n- Tier 4: Unverified (social media, unattributed commentary, opinion pieces without primary sourcing)\n\nWhen providing sources, tag each with a \"pole\" field:\n- \"western\" for EU institutional and Western media sources\n- \"eastern\" for Russian, Chinese, or Eastern European eurosceptic perspectives\n- \"international\" for UN, NGO, or multilateral body sources\n- \"middle_eastern\" where relevant for MENA-EU relations coverage\n\nOnly include information you can verify through search results. Do not fabricate data.\nFor historical events, cite primary sources (official EU records, treaty texts, official government statements).\n\nDEDUPLICATION:\n- Same treaty/event = same entry — do not create duplicates across separate search passes.\n- For contested statistics (GDP, trade, budget figures), prefer Eurostat as the primary source.\n- year field on events is a string (NOT a number) — e.g. \"1957\" not 1957.",
+    "searchContext": "European Union integration history enlargement euro governance Brexit",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": -25,
+      "lonMax": 45,
+      "latMin": 30,
+      "latMax": 75
+    },
+    "updateIntervalDays": 7,
+    "backfillTargets": {
+      "timeline": 40,
+      "mapPoints": 25,
+      "claims": 15,
+      "political": 20,
+      "kpis": 8,
+      "econ": 10
+    },
+    "updatePolicy": {
+      "escalation": [
+        7,
+        7,
+        14,
+        30,
+        60
+      ],
+      "quietThreshold": 0
+    }
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": ["EU"]
+}
