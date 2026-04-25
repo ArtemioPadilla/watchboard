@@ -179,7 +179,8 @@ jobs:
             try {
               const d = require('./video/src/data/breaking.json');
               const names = d.trackers.map(t => '• ' + t.name).join('\n');
-              console.log('🔴 Watchboard Daily Brief — ${DATE}\n\n' + names + '\n\n🔗 watchboard.dev');
+              const hashtags = d.trackers.map(t => '#' + t.slug.replace(/-/g, '_')).join(' ') + ' #watchboard';
+              console.log('🔴 Watchboard Daily Brief — ${DATE}\n\n' + names + '\n\n🔗 watchboard.dev\n\n' + hashtags);
             } catch { console.log('🔴 Watchboard Daily Brief — ${DATE}\n\n🔗 watchboard.dev'); }
           ")
           
@@ -324,7 +325,8 @@ jobs:
             try {
               const d = require('./video/src/data/breaking.json');
               const names = d.trackers.map(t => '\u2705 ' + t.name).join('\n');
-              console.log('\uD83C\uDF31 Watchboard Progress Brief \u2014 ${DATE}\n\n' + names + '\n\nScience doesn\'t take days off.\n\uD83D\uDD17 watchboard.dev');
+              const hashtags = d.trackers.map(t => '#' + t.slug.replace(/-/g, '_')).join(' ') + ' #watchboard';
+              console.log('\uD83C\uDF31 Watchboard Progress Brief \u2014 ${DATE}\n\n' + names + '\n\nScience doesn\'t take days off.\n\uD83D\uDD17 watchboard.dev\n\n' + hashtags);
             } catch { console.log('\uD83C\uDF31 Watchboard Progress Brief \u2014 ${DATE}\n\n\uD83D\uDD17 watchboard.dev'); }
           ")
 
