@@ -1,0 +1,235 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import path from 'node:path';
+
+const base = import.meta.env.BASE_URL;
+const basePath = base.endsWith('/') ? base : base + '/';
+
+type Candidate = {
+  slug: string;
+  name: string;
+  tier: 2 | 3 | 4;
+  category: string;
+  description: string;
+};
+
+const candidates: Candidate[] = [
+  { slug: 'cuba', name: 'Cuba (full history)', tier: 2, category: 'Latam', description: 'Existing cuba-crises covers 1959+; expand to 1492 colonial era and full national arc.' },
+  { slug: 'ecuador', name: 'Ecuador', tier: 2, category: 'Latam', description: 'Petro economy, Lasso-Noboa transition, indigenous movement, security crisis.' },
+  { slug: 'bolivia', name: 'Bolivia', tier: 2, category: 'Latam', description: 'MAS-Morales era, lithium, plurinational constitution, indigenous nationhood.' },
+  { slug: 'paraguay', name: 'Paraguay', tier: 2, category: 'Latam', description: 'Stroessner legacy, Colorado Party hegemony, Itaipu energy economics.' },
+  { slug: 'uruguay', name: 'Uruguay', tier: 2, category: 'Latam', description: 'Frente Amplio governance, regulatory innovation, social progressivism.' },
+  { slug: 'haiti', name: 'Haiti (full history)', tier: 2, category: 'Latam', description: 'Existing haiti-collapse is event-scoped; expand to 1791 revolution and full arc.' },
+  { slug: 'central-america', name: 'Central America hub', tier: 2, category: 'Latam', description: 'GT, HN, SV, NI, PA, CR with shared eras, low marginal cost.' },
+  { slug: 'washington-dc', name: 'Washington, DC', tier: 3, category: 'Capital', description: 'Federal politics, Capitol events, DC home rule and statehood debate.' },
+  { slug: 'caracas', name: 'Caracas', tier: 3, category: 'Capital', description: 'Regime nerve center, blackouts, opposition rallies, Petare urban dynamics.' },
+  { slug: 'buenos-aires', name: 'Buenos Aires', tier: 3, category: 'Capital', description: 'Milei administration epicenter, federal-city tensions, immigration history.' },
+  { slug: 'sao-paulo', name: 'Sao Paulo', tier: 3, category: 'Capital', description: 'Brazil economic capital, PCC operations, housing and water crises.' },
+  { slug: 'tokyo', name: 'Tokyo', tier: 3, category: 'Capital', description: 'LDP politics, earthquake risk, demographics, Tokyo 2020 legacy.' },
+  { slug: 'mumbai', name: 'Mumbai', tier: 3, category: 'Capital', description: 'India financial heart, Bollywood, terror attack history, slum redevelopment.' },
+  { slug: 'lagos', name: 'Lagos', tier: 3, category: 'Capital', description: 'Largest African megacity, Tinubu political base, infrastructure megaprojects.' },
+  { slug: 'ai-governance', name: 'AI Governance', tier: 4, category: 'Thematic', description: 'EU AI Act, US executive orders, China AI law, distinct from ai-for-good.' },
+  { slug: 'cybersecurity-incidents', name: 'Cybersecurity Incidents', tier: 4, category: 'Thematic', description: 'Nation-state ransomware, breaches, cable cuts, critical-infra attacks.' },
+  { slug: 'climate-disasters', name: 'Climate Disasters', tier: 4, category: 'Thematic', description: 'Wildfires, floods, heatwaves, events tracker.' },
+  { slug: 'pandemic-watch', name: 'Pandemic Watch', tier: 4, category: 'Thematic', description: 'H5N1, mpox, future threats. covid-pandemic is closed.' },
+  { slug: 'elections-watch', name: 'Elections 2025-2026', tier: 4, category: 'Thematic', description: 'AR midterms, CL presidential, US midterms, IN regionals, superhub.' },
+  { slug: 'space-race', name: 'Space Race (global)', tier: 4, category: 'Thematic', description: 'China lunar, ISRO, ESA, commercial, meta tracker beyond spacex-history.' },
+  { slug: 'cartels-global', name: 'Cartels Global', tier: 4, category: 'Thematic', description: 'Mexican cartels, PCC, Ndrangheta, Yakuza, Wagner, global hub.' },
+  { slug: 'migration-corridors', name: 'Migration Corridors', tier: 4, category: 'Thematic', description: 'Cross-tracker layer connecting source-transit-destination.' },
+  { slug: 'sanctions-tracker', name: 'Sanctions Tracker', tier: 4, category: 'Thematic', description: 'OFAC, EU, UK designations; frozen assets; secondary effects.' },
+  { slug: 'press-freedom', name: 'Press Freedom', tier: 4, category: 'Thematic', description: 'Journalist killings, internet shutdowns, regulatory chill.' },
+];
+
+let tally: { lastUpdated: string; totalVotes: number; candidates: Array<{slug: string; votes: number; voters: string[]}> } = {
+  lastUpdated: '',
+  totalVotes: 0,
+  candidates: [],
+};
+
+try {
+  const tallyPath = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../public/_tracker-votes/tally.json');
+  tally = JSON.parse(readFileSync(tallyPath, 'utf8'));
+} catch {
+  // No tally yet
+}
+
+const tallyMap = new Map(tally.candidates.map(c => [c.slug, c.votes]));
+const REPO = 'ArtemioPadilla/watchboard';
+const ISSUE_BASE = 'https://github.com/' + REPO + '/issues/new?labels=tracker-vote';
+
+const candidatesWithUrls = candidates.map(c => {
+  const title = encodeURIComponent('[Vote] tracker: ' + c.slug);
+  const body = encodeURIComponent(
+    'I want a Watchboard tracker for ' + c.name + ' (slug: ' + c.slug + ').\n' +
+    '\n' +
+    'Add a +1 reaction or a +1 comment to add a vote.\n' +
+    '\n' +
+    'vote-slug: ' + c.slug
+  );
+  return {
+    ...c,
+    voteUrl: ISSUE_BASE + '&title=' + title + '&body=' + body,
+    votes: tallyMap.get(c.slug) ?? 0,
+  };
+});
+
+const tiers = [2, 3, 4] as const;
+const tierLabels: Record<number, string> = {
+  2: 'Tier 2 - Country / Region',
+  3: 'Tier 3 - Capital city',
+  4: 'Tier 4 - Thematic / cross-cutting',
+};
+---
+
+<BaseLayout
+  title="Vote on the Next Watchboard Trackers"
+  description="Help shape the Watchboard backlog: vote via GitHub for the next country, city, and thematic trackers."
+>
+  <main id="main-content" class="vote-page">
+    <header class="vote-header">
+      <a class="vote-home-link" href={basePath}>&larr; Watchboard</a>
+      <h1>Vote on the Next Trackers</h1>
+      <p class="vote-subtitle">
+        Tier 1 (world-relevant country gaps) is decided by maintainers.
+        Everything below is open to community vote.
+        Each "Vote" button opens a GitHub issue: your account = your vote, no spam.
+      </p>
+      <p class="vote-meta">
+        {tally.totalVotes > 0
+          ? tally.totalVotes + ' votes cast across ' + tally.candidates.length + ' candidates - last tallied ' + new Date(tally.lastUpdated).toISOString().slice(0, 10)
+          : 'Tally runs nightly. Be the first to vote.'}
+      </p>
+    </header>
+
+    {tiers.map(tier => (
+      <section class="vote-tier">
+        <h2>{tierLabels[tier]}</h2>
+        <ul class="candidate-grid">
+          {candidatesWithUrls.filter(c => c.tier === tier).map(c => (
+            <li class="candidate-card">
+              <div class="candidate-head">
+                <span class="candidate-name">{c.name}</span>
+                <span class="candidate-votes">{c.votes}</span>
+              </div>
+              <p class="candidate-desc">{c.description}</p>
+              <a class="vote-btn" href={c.voteUrl} target="_blank" rel="noopener noreferrer">
+                Vote on GitHub &rarr;
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+
+    <footer class="vote-footer">
+      <p>
+        See the full <a href={basePath + 'about/'}>backlog roadmap</a> and how trackers graduate from idea to shipped.
+        Already-shipped trackers are at the <a href={basePath}>home page</a>.
+      </p>
+    </footer>
+  </main>
+</BaseLayout>
+
+<style is:global>
+  .vote-page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+    color: var(--text-primary);
+    background: var(--bg-primary);
+    font-family: 'DM Sans', system-ui, sans-serif;
+    min-height: 100vh;
+  }
+  body:has(.vote-page) { overflow: auto !important; height: auto !important; }
+  .vote-home-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+  }
+  .vote-home-link:hover { color: var(--accent-blue); }
+  .vote-header h1 { margin: 1.5rem 0 0.5rem; font-size: 2rem; letter-spacing: -0.02em; }
+  .vote-subtitle { color: var(--text-secondary); max-width: 720px; line-height: 1.6; }
+  .vote-meta { color: var(--text-muted); font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; margin-top: 0.5rem; letter-spacing: 0.04em; }
+  .vote-tier { margin-top: 2.5rem; }
+  .vote-tier h2 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--accent-blue);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.5rem;
+  }
+  .candidate-grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+  .candidate-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    transition: border-color 0.2s;
+  }
+  .candidate-card:hover { border-color: var(--border-light); }
+  .candidate-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.5rem;
+  }
+  .candidate-name { font-weight: 600; font-size: 0.95rem; }
+  .candidate-votes {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--accent-amber);
+    background: rgba(243,156,18,0.1);
+    border: 1px solid rgba(243,156,18,0.25);
+    border-radius: 999px;
+    padding: 0.1rem 0.5rem;
+    min-width: 28px;
+    text-align: center;
+  }
+  .candidate-desc {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    line-height: 1.5;
+    flex: 1;
+    margin: 0;
+  }
+  .vote-btn {
+    display: inline-block;
+    align-self: flex-start;
+    padding: 0.4rem 0.8rem;
+    background: rgba(52,152,219,0.15);
+    border: 1px solid rgba(52,152,219,0.4);
+    color: var(--accent-blue);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    text-decoration: none;
+    border-radius: 4px;
+    letter-spacing: 0.04em;
+    transition: background 0.15s;
+  }
+  .vote-btn:hover { background: rgba(52,152,219,0.25); }
+  .vote-footer {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 0.85rem;
+  }
+  .vote-footer a { color: var(--accent-blue); }
+</style>

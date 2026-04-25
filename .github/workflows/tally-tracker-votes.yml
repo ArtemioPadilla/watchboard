@@ -1,0 +1,112 @@
+name: Tally Tracker Votes
+
+on:
+  schedule:
+    # Daily at 13:30 UTC — runs before the 14:00 nightly data update
+    - cron: '30 13 * * *'
+  workflow_dispatch:
+  issues:
+    types: [opened, labeled, unlabeled, edited, deleted, reopened, closed]
+
+permissions:
+  contents: write
+  issues: read
+
+concurrency:
+  group: tracker-votes-tally
+  cancel-in-progress: false
+
+jobs:
+  tally:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Compute tally
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          mkdir -p public/_tracker-votes
+          # Fetch all open + closed issues with the tracker-vote label.
+          # The vote-slug marker is in the issue body as: <!-- vote-slug: <slug> -->
+          # Each unique author across (issue body) ∪ (issue comments containing "+1") = 1 vote.
+          # +1 reactions on the issue itself also count.
+          ISSUES_JSON=$(gh api -X GET "repos/${GITHUB_REPOSITORY}/issues" \
+            -F labels=tracker-vote -F state=all -F per_page=100 \
+            --paginate --jq '[.[] | select(.pull_request | not) | {number, body, user: .user.login, reactions, comments_url}]')
+
+          echo "$ISSUES_JSON" > /tmp/issues.json
+
+          node <<'NODE'
+          const fs = require('fs');
+          const { execSync } = require('child_process');
+          const issues = JSON.parse(fs.readFileSync('/tmp/issues.json', 'utf8'));
+
+          // slug -> Set of voter logins
+          const voters = new Map();
+
+          for (const issue of issues) {
+            const m = (issue.body || '').match(/vote-slug:\s*([a-z0-9-]+)/i);
+            if (!m) continue;
+            const slug = m[1].toLowerCase();
+            if (!voters.has(slug)) voters.set(slug, new Set());
+            // Issue author counts as 1 vote
+            voters.get(slug).add(issue.user);
+
+            // +1 reactions on the issue
+            try {
+              const reacts = execSync(`gh api repos/${process.env.GITHUB_REPOSITORY}/issues/${issue.number}/reactions --jq '[.[] | select(.content == "+1") | .user.login]'`, { encoding: 'utf8' });
+              JSON.parse(reacts).forEach(login => voters.get(slug).add(login));
+            } catch (e) { /* swallow */ }
+
+            // Comments with "+1" (text or reaction)
+            try {
+              const comments = execSync(`gh api repos/${process.env.GITHUB_REPOSITORY}/issues/${issue.number}/comments --jq '[.[] | {body, user: .user.login}]'`, { encoding: 'utf8' });
+              const parsed = JSON.parse(comments);
+              for (const c of parsed) {
+                if (/(?:^|\s)\+1(?:\s|$)|👍/.test(c.body || '')) {
+                  voters.get(slug).add(c.user);
+                }
+              }
+            } catch (e) { /* swallow */ }
+          }
+
+          const candidates = Array.from(voters.entries())
+            .map(([slug, set]) => ({ slug, votes: set.size, voters: Array.from(set).sort() }))
+            .sort((a, b) => b.votes - a.votes);
+
+          const totalVotes = candidates.reduce((s, c) => s + c.votes, 0);
+
+          const out = {
+            lastUpdated: new Date().toISOString(),
+            totalVotes,
+            candidates,
+          };
+
+          fs.mkdirSync('public/_tracker-votes', { recursive: true });
+          fs.writeFileSync('public/_tracker-votes/tally.json', JSON.stringify(out, null, 2) + '\n');
+          console.log(`Tallied ${candidates.length} candidates, ${totalVotes} total voter-slug pairs`);
+          for (const c of candidates) {
+            console.log(`  ${c.slug}: ${c.votes}`);
+          }
+          NODE
+
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if ! git diff --quiet public/_tracker-votes/tally.json; then
+            git add public/_tracker-votes/tally.json
+            git commit -m "chore(votes): tally tracker-vote issues $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            git push
+          else
+            echo "No tally change."
+          fi
