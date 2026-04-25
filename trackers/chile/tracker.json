@@ -1,0 +1,208 @@
+{
+  "slug": "chile",
+  "name": "Chile: History & Governance",
+  "shortName": "Chile",
+  "description": "Intelligence dashboard covering the full arc of Chilean history — from the founding of Santiago (1541) and the Arauco War, through independence, the War of the Pacific, the Allende experiment, Pinochet's dictatorship and Chicago Boys reforms, the Concertación transition, and the ongoing political cycle from the 2019 estallido social to the Boric presidency.",
+  "icon": "🇨🇱",
+  "color": "#d52b1e",
+  "status": "active",
+  "tone": "historical",
+  "temporal": "historical",
+  "trackerType": "historical",
+  "domain": "governance",
+  "region": "south-america",
+  "country": "CL",
+  "tags": ["latin-america", "democracy", "dictatorship", "indigenous", "neoliberalism", "copper", "lithium"],
+  "startDate": "1541-02-12",
+  "eraLabel": "Republic to Estallido",
+  "geoPath": ["CL"],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": -78,
+      "lonMax": -62,
+      "latMin": -58,
+      "latMax": -15
+    },
+    "center": {
+      "lon": -70.5,
+      "lat": -35.0
+    },
+    "categories": [
+      {
+        "id": "historic-site",
+        "label": "Historic Sites",
+        "color": "#f39c12"
+      },
+      {
+        "id": "conflict",
+        "label": "Conflicts & Confrontations",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "economic-hub",
+        "label": "Economic Centers",
+        "color": "#27ae60"
+      },
+      {
+        "id": "political-event",
+        "label": "Political Events",
+        "color": "#3498db"
+      },
+      {
+        "id": "indigenous",
+        "label": "Indigenous Territories",
+        "color": "#9b59b6"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "overview": {
+        "lon": -70.5,
+        "lat": -35.0,
+        "alt": 4500000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Chile Overview"
+      },
+      "santiago": {
+        "lon": -70.65,
+        "lat": -33.45,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Santiago"
+      },
+      "valparaiso": {
+        "lon": -71.63,
+        "lat": -33.05,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Valparaíso"
+      },
+      "araucania": {
+        "lon": -72.5,
+        "lat": -38.75,
+        "alt": 300000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Araucanía — Mapuche Territory"
+      },
+      "atacama": {
+        "lon": -69.5,
+        "lat": -23.65,
+        "alt": 350000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Atacama — Nitrate & Copper North"
+      },
+      "patagonia": {
+        "lon": -71.0,
+        "lat": -50.5,
+        "alt": 600000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Patagonia & Magallanes"
+      }
+    },
+    "clocks": [
+      {
+        "label": "SANTIAGO",
+        "offsetHours": -3
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Victims"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economy"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "politicalAvatars": [
+    "cl-gov",
+    "cl-opposition",
+    "mapuche",
+    "cl-mil",
+    "intl",
+    "social"
+  ],
+  "eventTypes": [
+    "political",
+    "social",
+    "economic",
+    "historical",
+    "legal"
+  ],
+  "ai": {
+    "systemPrompt": "You are a Latin American historian and political analyst updating an intelligence dashboard on Chile's full history — from the 1541 founding of Santiago to the Boric presidency.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case).\n\nKEY TOPICS TO TRACK:\n- Colonial period: Captaincy General, Arauco War, Mapuche resistance\n- Independence (1810–1818): O'Higgins, San Martín, Battle of Chacabuco\n- 19th century: Portales conservative order, War of the Pacific (1879–1884), nitrate boom\n- Early 20th century: Balmaceda civil war (1891), Parliamentary Republic, Popular Front\n- Mid 20th century: Allende's Unidad Popular (1970–1973), socialist experiment, copper nationalization\n- Pinochet era (1973–1990): September 11 coup, Chicago Boys neoliberal reforms, human rights violations, Operation Condor\n- Transition: Concertación governments, Pinochet arrest (1998), human rights reckoning\n- Contemporary: 2019 estallido social, Boric presidency (2022–), constitutional referendums (2022, 2023), Mapuche conflict in Araucanía\n- Economy: copper economy, lithium triangle, pension reform, inequality (Gini)\n\nSOURCE TIERS for Chile:\n- Tier 1: Official/primary (Chilean government, Biblioteca del Congreso, Banco Central de Chile, INE, SEGPRES, Ministerio del Interior, judiciary)\n- Tier 2: Major outlet (La Tercera, El Mercurio, CIPER Chile, BBC Mundo, Reuters, AFP, The Guardian, NYT, Washington Post)\n- Tier 3: Institutional (FLACSO Chile, CEP, CIEPLAN, CLACSO, Human Rights Watch, Amnesty International, IACHR/CIDH, UN OHCHR, CONADEP equivalent)\n- Tier 4: Unverified (social media, unattributed claims, anonymous sources)\n\nOnly include information you can verify through search results. Do not fabricate data.\nFor historical events, include the year in the \"year\" field as a STRING (e.g. \"1973\", not 1973).\nFor the estallido social and contemporary events, use specific dates.",
+    "searchContext": "Chile history governance Pinochet Allende Boric estallido constitution Mapuche copper lithium",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "casualties",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": -82,
+      "lonMax": -60,
+      "latMin": -62,
+      "latMax": -10
+    },
+    "updateIntervalDays": 30,
+    "updatePolicy": {
+      "escalation": [7, 14, 30, 60, 90],
+      "quietThreshold": 0
+    },
+    "backfillTargets": {
+      "timeline": 40,
+      "mapPoints": 20,
+      "claims": 15,
+      "political": 20,
+      "kpis": 8,
+      "econ": 8,
+      "casualties": 10
+    }
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard"
+}
