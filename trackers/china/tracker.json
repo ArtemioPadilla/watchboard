@@ -1,0 +1,236 @@
+{
+  "slug": "china",
+  "name": "China: Full History Tracker",
+  "shortName": "China History",
+  "description": "Intelligence dashboard tracking 4,000 years of Chinese civilization — from the Xia Dynasty and Silk Road to Mao's revolution, Deng's reforms, and Xi Jinping's China.",
+  "icon": "🐉",
+  "color": "#c0392b",
+  "status": "active",
+  "tone": "historical",
+  "temporal": "historical",
+  "trackerType": "historical",
+  "domain": "history",
+  "region": "east-asia",
+  "country": "CN",
+  "startDate": "-2070-01-01",
+  "eraLabel": "4,000 Years of Chinese Civilization",
+  "tags": ["china", "dynasty", "silk-road", "mao", "xi-jinping", "taiwan", "hong-kong", "belt-and-road", "ccp", "prc"],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "military",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": 70,
+      "lonMax": 140,
+      "latMin": 15,
+      "latMax": 55
+    },
+    "center": {
+      "lon": 105,
+      "lat": 35
+    },
+    "categories": [
+      {
+        "id": "capital",
+        "label": "Historical Capitals",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "battle",
+        "label": "Major Battles",
+        "color": "#f39c12"
+      },
+      {
+        "id": "reform",
+        "label": "Political Reforms & Events",
+        "color": "#3498db"
+      },
+      {
+        "id": "protest",
+        "label": "Uprisings & Protests",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "trade",
+        "label": "Trade & Economic Zones",
+        "color": "#27ae60"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "overview": {
+        "lon": 105,
+        "lat": 35,
+        "alt": 5000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "China Overview"
+      },
+      "beijing": {
+        "lon": 116.39,
+        "lat": 39.91,
+        "alt": 100000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Beijing"
+      },
+      "xian": {
+        "lon": 108.93,
+        "lat": 34.26,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Xi'an (Tang Capital)"
+      },
+      "shanghai": {
+        "lon": 121.47,
+        "lat": 31.23,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Shanghai"
+      },
+      "hong_kong": {
+        "lon": 114.17,
+        "lat": 22.32,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Hong Kong"
+      },
+      "taiwan_strait": {
+        "lon": 120.0,
+        "lat": 24.0,
+        "alt": 300000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Taiwan Strait"
+      }
+    },
+    "clocks": [
+      {
+        "label": "BEIJING",
+        "offsetHours": 8
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      },
+      {
+        "label": "EST",
+        "offsetHours": -5
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-military",
+      "label": "Military"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Humanitarian"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "militaryTabs": [
+    {
+      "id": "strikes",
+      "label": "Military Campaigns"
+    },
+    {
+      "id": "retaliation",
+      "label": "Foreign Invasions"
+    },
+    {
+      "id": "assets",
+      "label": "PLA Forces"
+    }
+  ],
+  "politicalAvatars": [
+    "ccp",
+    "roc",
+    "western",
+    "eastern",
+    "intl",
+    "other"
+  ],
+  "eventTypes": [
+    "military",
+    "political",
+    "diplomatic",
+    "economic",
+    "social"
+  ],
+  "ai": {
+    "systemPrompt": "You are a historian and geopolitical analyst updating a comprehensive China intelligence dashboard.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"great_leap_forward\", \"tiananmen_1989\").\n\nThis tracker covers the FULL history of China from the Xia Dynasty (~2070 BCE) to the present, including:\n- Ancient dynasties: Xia, Shang, Zhou, Warring States, Qin, Han, Three Kingdoms, Tang, Song, Yuan, Ming, Qing\n- Modern era: Opium Wars, Taiping Rebellion, fall of Qing (1911), Republic of China, civil war, Long March\n- PRC era: Mao's founding (1949), Great Leap Forward, Cultural Revolution, Deng reforms (1978), Tiananmen (1989)\n- Contemporary: WTO accession, Hu Jintao era, Xi Jinping (2012–present), BRI, Hong Kong, Xinjiang, Taiwan, trade war, COVID, real estate, AI\n\nMULTI-POLE SOURCING — gather information from all four media poles:\n1. WESTERN: White House, State Dept, Reuters, AP, BBC, CNN, NYT, WaPo, The Economist, FT, WSJ\n2. EASTERN: Xinhua, CGTN, People's Daily, Global Times, SCMP (Hong Kong), Kyodo, Yonhap\n3. INTERNATIONAL: UN, WHO, World Bank, IMF, OECD, HRW, Amnesty, ICJ, WTO, IAEA\n4. ANALYTICAL: CSIS, Brookings, Chatham House, RAND, SIPRI, Council on Foreign Relations, MERICS\n\nWhen providing sources, tag each with a \"pole\" field:\n- \"western\" for US/European/allied sources\n- \"eastern\" for Chinese/Russian/Asian state sources\n- \"international\" for UN/NGO/multilateral sources\n\nSource tier classification:\n- Tier 1: Official/primary (Chinese government (NBS, MFA, PRC official), UN, World Bank, IMF, WHO, WTO official statements)\n- Tier 2: Major outlet (Reuters, AP, BBC, CNN, NYT, SCMP, Xinhua, CGTN, Global Times, FT, Bloomberg, WSJ)\n- Tier 3: Institutional (CSIS, Brookings, HRW, Amnesty, RAND, MERICS, Chatham House, Council on Foreign Relations, ICG, SIPRI)\n- Tier 4: Unverified (social media, activist claims, anonymous sources, unattributed testimony)\n\nOnly include information you can verify through search results. Do not fabricate data.\nFor historical events (pre-1900), use established scholarly consensus and cite authoritative historical sources.\nFor contested claims (e.g., COVID origins, Tiananmen death toll, Xinjiang), present multiple perspectives with source poles.\n\nDATE FORMAT:\n- Use exact dates where known (YYYY-MM-DD)\n- For ancient/medieval events, use the year only as a string (e.g., \"221\" for 221 BCE — note: use negative sign for BCE in id fields but NOT in year field which is a string)\n- The \"year\" field on timeline events MUST be a string, not a number\n\nDEDUPLICATION:\n- Do not add events already present in the existing data\n- Check existing ids before generating new ones",
+    "searchContext": "China history CCP Xi Jinping governance Belt Road Initiative Taiwan Hong Kong Xinjiang",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "casualties",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": 65,
+      "lonMax": 145,
+      "latMin": 10,
+      "latMax": 60
+    },
+    "updateIntervalDays": 30,
+    "backfillTargets": {
+      "timeline": 40,
+      "mapPoints": 30,
+      "claims": 20,
+      "political": 20,
+      "casualties": 10,
+      "econ": 10,
+      "kpis": 8
+    },
+    "updatePolicy": {
+      "escalation": [
+        30,
+        60,
+        90,
+        180
+      ],
+      "quietThreshold": 0
+    }
+  },
+  "geoPath": ["CN"],
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard"
+}
