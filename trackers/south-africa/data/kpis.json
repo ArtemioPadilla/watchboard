@@ -1,1 +1,94 @@
-[]
+[
+  {
+    "id": "unemployment-rate",
+    "label": "Unemployment Rate",
+    "value": "32.9%",
+    "color": "red",
+    "source": "Statistics South Africa, Q3 2024",
+    "contested": false,
+    "delta": "+0.3pp",
+    "deltaNote": "vs Q2 2024",
+    "trend": "up",
+    "lastUpdated": "2026-04-25T00:00:00Z"
+  },
+  {
+    "id": "gdp-usd",
+    "label": "GDP (nominal)",
+    "value": "$399 bn",
+    "color": "amber",
+    "source": "World Bank, 2023",
+    "contested": false,
+    "delta": "-3.1%",
+    "deltaNote": "vs 2022 in USD terms",
+    "trend": "down",
+    "lastUpdated": "2026-04-25T00:00:00Z"
+  },
+  {
+    "id": "gini-coefficient",
+    "label": "Gini Coefficient",
+    "value": "0.63",
+    "color": "red",
+    "source": "World Bank, 2022",
+    "contested": true,
+    "contestNote": "Highest in the world; consumption Gini (~0.57) gives a lower figure",
+    "trend": "stable",
+    "lastUpdated": "2026-04-25T00:00:00Z"
+  },
+  {
+    "id": "years-democracy",
+    "label": "Years of Democracy",
+    "value": "32 years",
+    "color": "green",
+    "source": "Electoral Commission of South Africa",
+    "contested": false,
+    "deltaNote": "First non-racial elections held 27 April 1994",
+    "trend": "stable",
+    "lastUpdated": "2026-04-25T00:00:00Z"
+  },
+  {
+    "id": "population",
+    "label": "Population",
+    "value": "61.5 million",
+    "color": "blue",
+    "source": "Statistics South Africa, mid-2024 estimate",
+    "contested": false,
+    "delta": "+1.3%",
+    "deltaNote": "annual growth rate",
+    "trend": "up",
+    "lastUpdated": "2026-04-25T00:00:00Z"
+  },
+  {
+    "id": "hiv-prevalence",
+    "label": "HIV Prevalence (adults)",
+    "value": "18.3%",
+    "color": "red",
+    "source": "UNAIDS, 2023",
+    "contested": false,
+    "deltaNote": "Largest HIV burden globally; ~7.8 million people living with HIV",
+    "trend": "down",
+    "lastUpdated": "2026-04-25T00:00:00Z"
+  },
+  {
+    "id": "anc-parliament-seats",
+    "label": "ANC Parliamentary Seats",
+    "value": "159 / 400",
+    "color": "amber",
+    "source": "Electoral Commission of South Africa, May 2024",
+    "contested": false,
+    "delta": "-71 seats",
+    "deltaNote": "First time ANC fell below 50% since 1994; 39.7% vote share",
+    "trend": "down",
+    "lastUpdated": "2026-04-25T00:00:00Z"
+  },
+  {
+    "id": "load-shedding-hours",
+    "label": "Load-Shedding Hours (2023 peak)",
+    "value": "~6,900 hrs",
+    "color": "red",
+    "source": "Eskom / CSIR Energy Centre, 2023",
+    "contested": true,
+    "contestNote": "Cumulative hours of rolling blackouts in 2023; significant improvement began mid-2024",
+    "trend": "down",
+    "lastUpdated": "2026-04-25T00:00:00Z"
+  }
+]
