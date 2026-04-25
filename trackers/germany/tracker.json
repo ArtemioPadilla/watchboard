@@ -1,0 +1,232 @@
+{
+  "slug": "germany",
+  "name": "Germany: History & Governance Tracker",
+  "shortName": "Germany",
+  "description": "Intelligence dashboard chronicling over 2,000 years of German history—from the Teutoburg Forest to the Merz government—tracking governance, wars, unification, and Germany's evolving role as an EU pillar.",
+  "icon": "🦅",
+  "color": "#DD0000",
+  "status": "active",
+  "tone": "historical",
+  "temporal": "historical",
+  "trackerType": "historical",
+  "domain": "governance",
+  "region": "europe",
+  "country": "DE",
+  "tags": ["germany", "history", "eu", "cold-war", "world-war", "reformation", "weimar", "reunification"],
+  "startDate": "0009-01-01",
+  "eraLabel": "2,000 Years of German History",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "military",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": 5,
+      "lonMax": 25,
+      "latMin": 45,
+      "latMax": 57
+    },
+    "center": {
+      "lon": 10.5,
+      "lat": 51.5
+    },
+    "categories": [
+      {
+        "id": "political-event",
+        "label": "Political Events",
+        "color": "#DD0000"
+      },
+      {
+        "id": "military-site",
+        "label": "Battles & Military",
+        "color": "#555555"
+      },
+      {
+        "id": "cultural-landmark",
+        "label": "Cultural & Intellectual",
+        "color": "#FFCE00"
+      },
+      {
+        "id": "reform-movement",
+        "label": "Reform & Revolution",
+        "color": "#3498db"
+      },
+      {
+        "id": "border-change",
+        "label": "Territorial Changes",
+        "color": "#9b59b6"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "overview": {
+        "lon": 10.5,
+        "lat": 51.5,
+        "alt": 1500000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Germany Overview"
+      },
+      "berlin": {
+        "lon": 13.405,
+        "lat": 52.52,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Berlin"
+      },
+      "teutoburg": {
+        "lon": 8.13,
+        "lat": 52.42,
+        "alt": 50000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Teutoburg Forest"
+      },
+      "nuremberg": {
+        "lon": 11.07,
+        "lat": 49.45,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Nuremberg"
+      },
+      "wittenberg": {
+        "lon": 12.65,
+        "lat": 51.87,
+        "alt": 40000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Wittenberg"
+      },
+      "central_europe": {
+        "lon": 14.0,
+        "lat": 50.5,
+        "alt": 2500000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Central Europe"
+      }
+    },
+    "clocks": [
+      {
+        "label": "BERLIN",
+        "offsetHours": 2
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-military",
+      "label": "Military"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Humanitarian"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "militaryTabs": [
+    {
+      "id": "strikes",
+      "label": "Military Campaigns"
+    },
+    {
+      "id": "retaliation",
+      "label": "Counteroffensives"
+    },
+    {
+      "id": "assets",
+      "label": "Strategic Assets"
+    }
+  ],
+  "politicalAvatars": [
+    "cdu-csu",
+    "spd",
+    "historical-ruler",
+    "eu-intl",
+    "other-parties"
+  ],
+  "eventTypes": [
+    "political",
+    "military",
+    "economic",
+    "diplomatic",
+    "social"
+  ],
+  "ai": {
+    "systemPrompt": "You are a German history and governance analyst updating an intelligence dashboard covering over 2,000 years of German history.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"bismarck_unification\", \"berlin_wall_fall\").\n\nThis tracker spans ancient Germanic tribes through the modern Federal Republic. Cover all major eras:\n- Ancient/Early Medieval: Teutoburg Forest (9 CE), Frankish Kingdom, Charlemagne (800 CE), Holy Roman Empire (962–1806)\n- Early Modern: Hanseatic League, Reformation (Luther 1517), Thirty Years War (1618–1648), Prussia under Frederick the Great\n- Napoleonic Era: Confederation of the Rhine, Congress of Vienna, 1848 Revolutions\n- Imperial Germany: Bismarck's unification (1871), Second Reich, World War I (1914–1918), Versailles Treaty\n- Weimar Republic (1918–1933) and rise of National Socialism\n- Third Reich (1933–1945): Nazi era, Holocaust, World War II\n- Post-war Division: FRG (West Germany) and GDR (East Germany), Berlin Wall (1961–1989)\n- Cold War Germany: Wirtschaftswunder, Ostpolitik (Brandt), NATO membership\n- Reunification (1989–1990) and post-Cold War Germany\n- Modern FRG: Kohl era, Schröder and Hartz reforms, Merkel era (2005–2021) and migration crisis\n- Contemporary: Scholz traffic-light coalition collapse (2024), Merz CDU 2025 government, AfD rise, post-Russian-gas energy reordering, EU pillar role\n\nSOURCE TIER CLASSIFICATION:\n- Tier 1: German Federal Government (Bundesregierung), Bundestag, Bundesarchiv, Bundesverfassungsgericht, EU Commission, UN, NATO official statements, Bundesbank\n- Tier 2: Major outlets (Der Spiegel, Frankfurter Allgemeine Zeitung, Süddeutsche Zeitung, Die Zeit, Reuters, AP, BBC, dpa, Tagesspiegel, ARD, ZDF)\n- Tier 3: Institutional/academic (DGAP, SWP Stiftung Wissenschaft und Politik, Ifo Institute, Konrad Adenauer Stiftung, Friedrich Ebert Stiftung, HRW, Amnesty International, peer-reviewed academic journals)\n- Tier 4: Unverified (social media, unattributed claims, unsourced opinion pieces)\n\nWhen providing sources, tag each with a \"pole\" field:\n- \"western\" for German/EU/NATO/US/Western European sources\n- \"eastern\" for Russian/Chinese perspectives on German-Russian or German-Chinese relations\n- \"international\" for UN/NGO/multilateral sources\n\nOnly include information you can verify through search results. Do not fabricate data.\nFor historical events (pre-1950), use established scholarly consensus as Tier 1 source.\n\nDATE RULES:\n- The \"year\" field on timeline events MUST be a string (e.g., \"1517\", \"1871\", \"1989\"), NOT a number.\n- For ancient events, use CE year strings (e.g., \"9\", \"800\", \"962\").\n- Do not use future dates.",
+    "searchContext": "Germany history governance Bundestag AfD Merz CDU 2025 federal republic",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "claims",
+      "political",
+      "econ"
+    ],
+    "coordValidation": {
+      "lonMin": 3,
+      "lonMax": 30,
+      "latMin": 43,
+      "latMax": 60
+    },
+    "updateIntervalDays": 30,
+    "backfillTargets": {
+      "timeline": 50,
+      "mapPoints": 30,
+      "claims": 20,
+      "political": 20,
+      "kpis": 8,
+      "econ": 8
+    },
+    "updatePolicy": {
+      "escalation": [
+        7,
+        14,
+        30,
+        60,
+        90,
+        180
+      ],
+      "quietThreshold": 0
+    }
+  },
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": [
+    "DE"
+  ]
+}
