@@ -58,8 +58,7 @@ export const Outro: React.FC<{ theme?: 'dark' | 'day'; trackerCount?: number }> 
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'flex-end',
-        paddingBottom: 120,
+        justifyContent: 'center',
         gap: 32,
       }}
     >

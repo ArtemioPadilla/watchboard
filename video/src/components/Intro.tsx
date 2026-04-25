@@ -67,8 +67,7 @@ export const Intro: React.FC<IntroProps> = ({ date, theme = 'dark' }) => {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'flex-end',
-        paddingBottom: 120,
+        justifyContent: 'center',
       }}
     >
       {/* Logo */}
