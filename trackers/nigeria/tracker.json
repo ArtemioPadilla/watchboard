@@ -1,0 +1,210 @@
+{
+  "slug": "nigeria",
+  "name": "Nigeria History Tracker",
+  "shortName": "Nigeria",
+  "description": "Comprehensive intelligence dashboard covering Nigeria's history from Nok culture (~500 BCE) through the Sokoto Caliphate, British colonization, independence, Biafran War, military rule cycles, Fourth Republic, and the Tinubu presidency.",
+  "icon": "🇳🇬",
+  "color": "#008751",
+  "status": "active",
+  "temporal": "historical",
+  "trackerType": "historical",
+  "tone": "historical",
+  "domain": "governance",
+  "region": "africa",
+  "country": "NG",
+  "startDate": "-500-01-01",
+  "eraLabel": "Nok to Tinubu",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": -5,
+      "lonMax": 20,
+      "latMin": 2,
+      "latMax": 20
+    },
+    "center": {
+      "lon": 8.5,
+      "lat": 9.0
+    },
+    "categories": [
+      {
+        "id": "political",
+        "label": "Political Centers",
+        "color": "#008751"
+      },
+      {
+        "id": "conflict",
+        "label": "Conflict Zones",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "cultural",
+        "label": "Cultural & Heritage Sites",
+        "color": "#f39c12"
+      },
+      {
+        "id": "economic",
+        "label": "Economic Hubs",
+        "color": "#3498db"
+      },
+      {
+        "id": "colonial",
+        "label": "Colonial History Sites",
+        "color": "#9b59b6"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "west_africa": {
+        "lon": 5.0,
+        "lat": 9.0,
+        "alt": 4000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "West Africa Overview"
+      },
+      "abuja": {
+        "lon": 7.49,
+        "lat": 9.07,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Abuja (Federal Capital)"
+      },
+      "lagos": {
+        "lon": 3.38,
+        "lat": 6.46,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Lagos Megacity"
+      },
+      "kano": {
+        "lon": 8.52,
+        "lat": 12.00,
+        "alt": 100000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Kano (Historic Hausa City)"
+      },
+      "niger_delta": {
+        "lon": 6.5,
+        "lat": 5.0,
+        "alt": 200000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Niger Delta (Oil Region)"
+      },
+      "maiduguri": {
+        "lon": 13.16,
+        "lat": 11.84,
+        "alt": 150000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Maiduguri (Boko Haram Epicenter)"
+      }
+    },
+    "clocks": [
+      {
+        "label": "ABUJA",
+        "offsetHours": 1
+      },
+      {
+        "label": "LONDON",
+        "offsetHours": 1
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Humanitarian"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "politicalAvatars": [
+    "federal-govt",
+    "military",
+    "opposition",
+    "regional",
+    "intl",
+    "other"
+  ],
+  "eventTypes": [
+    "political",
+    "conflict",
+    "cultural",
+    "economic",
+    "legal"
+  ],
+  "ai": {
+    "systemPrompt": "You are a West African historian and political analyst updating a comprehensive Nigeria history dashboard.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"biafran_war\", \"tinubu_election\").\n\nCOVERAGE SCOPE — This tracker spans Nigeria's full history:\n- Pre-colonial: Nok culture (~500 BCE), Igbo-Ukwu, Yoruba Ife and Oyo Empires, Benin Empire, Hausa city-states, Kanem-Bornu\n- Early modern: Sokoto Caliphate (1804), Usman dan Fodio jihad, Atlantic slave trade impact\n- Colonial: British colonization (Lagos 1861), Royal Niger Company, amalgamation (1914), nationalist movement\n- Independence era: 1960 independence, First Republic, January 1966 coup, July 1966 countercoup\n- Biafran War (1967-1970): causes, battles, humanitarian crisis, Gowon reconciliation\n- Military rule cycle: Gowon, Murtala Mohammed, Obasanjo I, Shagari, Buhari I, Babangida, Abacha, Abubakar\n- Fourth Republic (1999-present): Obasanjo civilian, Yar'Adua, Jonathan, Buhari APC era, Tinubu 2023-present\n- Security: Boko Haram/ISWAP insurgency (2009+), banditry in Northwest, Niger Delta militancy (MEND, MOSOP)\n- Economy: oil boom and bust cycles, fuel subsidy removal (2023), currency unification (naira devaluation)\n- Culture: Nollywood global rise, Afrobeats global phenomenon, Lagos megacity dynamics\n\nSOURCE TIER CLASSIFICATION:\n- Tier 1: Official/primary (Nigerian government, National Assembly, Central Bank of Nigeria, INEC, UN, World Bank, African Union, ECOWAS)\n- Tier 2: Major outlet (Reuters, AP, BBC, CNN, Al Jazeera, The Guardian, Premium Times, Channels TV, Daily Trust, Vanguard, Punch)\n- Tier 3: Institutional (CSIS, ICG, Africa Confidential, NOIPolls, Centre for Democracy and Development, HRW, Amnesty, Chatham House, IMF, African Development Bank)\n- Tier 4: Unverified (social media, unattributed claims, unnamed sources)\n\nWhen providing sources, tag each with a \"pole\" field:\n- \"western\" for US/European/allied sources\n- \"middle_eastern\" for Middle Eastern sources\n- \"eastern\" for Chinese/Russian/Asian sources\n- \"international\" for UN/NGO/multilateral/African institution sources\n\nOnly include information you can verify through search results. Do not fabricate data.\n\nSCHEMA REMINDERS:\n- year field must be a string (not a number)\n- date fields must be YYYY-MM-DD format, never future dates\n- direction on econ items must be \"up\" or \"down\" only (never \"stable\")\n- pole values: \"western\", \"middle_eastern\", \"eastern\", \"international\" only",
+    "searchContext": "Nigeria history politics governance economy security Boko Haram Niger Delta Tinubu Afrobeats Nollywood",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "casualties",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": -10,
+      "lonMax": 25,
+      "latMin": -2,
+      "latMax": 25
+    },
+    "updateIntervalDays": 7,
+    "backfillTargets": {
+      "timeline": 40,
+      "mapPoints": 25,
+      "claims": 20,
+      "political": 20,
+      "casualties": 10,
+      "econ": 8,
+      "kpis": 8
+    },
+    "updatePolicy": {
+      "escalation": [7, 14, 30, 60, 90],
+      "quietThreshold": 0
+    }
+  },
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": ["NG"]
+}
