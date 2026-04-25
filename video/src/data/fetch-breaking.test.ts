@@ -6,6 +6,7 @@ import {
   scoreCandidate,
   loadHistory,
   saveUsedTrackers,
+  parseKpiDisplay,
   type TrackerHistory,
   type ScoredCandidate,
 } from './fetch-breaking.js';
@@ -282,5 +283,49 @@ describe('loadHistory and saveUsedTrackers', () => {
     const loaded = loadHistory();
     expect(loaded.entries['tracker-a']).toContain(todayStr());
     expect(loaded.entries['tracker-b']).toContain(todayStr());
+  });
+});
+
+describe('parseKpiDisplay', () => {
+  it('extracts suffix % from percentage values', () => {
+    expect(parseKpiDisplay('145%')).toEqual({ prefix: '', suffix: '%' });
+    expect(parseKpiDisplay('+0.7%')).toEqual({ prefix: '+', suffix: '%' });
+    expect(parseKpiDisplay('~13.7%')).toEqual({ prefix: '~', suffix: '%' });
+  });
+
+  it('normalizes million/billion/trillion long-form to letter', () => {
+    expect(parseKpiDisplay('7.1 Million')).toEqual({ prefix: '', suffix: 'M' });
+    expect(parseKpiDisplay('14 million+')).toEqual({ prefix: '', suffix: 'M+' });
+    expect(parseKpiDisplay('14.9 Million')).toEqual({ prefix: '', suffix: 'M' });
+  });
+
+  it('preserves short-form letter suffixes', () => {
+    expect(parseKpiDisplay('100B+')).toEqual({ prefix: '', suffix: 'B+' });
+    expect(parseKpiDisplay('~1.323M')).toEqual({ prefix: '~', suffix: 'M' });
+  });
+
+  it('extracts trailing + from plain numbers', () => {
+    expect(parseKpiDisplay('150,000+')).toEqual({ prefix: '', suffix: '+' });
+    expect(parseKpiDisplay('72,560+')).toEqual({ prefix: '', suffix: '+' });
+  });
+
+  it('handles plain numbers with no suffix', () => {
+    expect(parseKpiDisplay('49')).toEqual({ prefix: '', suffix: '' });
+    expect(parseKpiDisplay('778')).toEqual({ prefix: '', suffix: '' });
+  });
+
+  it('handles tilde prefix only', () => {
+    expect(parseKpiDisplay('~90')).toEqual({ prefix: '~', suffix: '' });
+    expect(parseKpiDisplay('~7,000+')).toEqual({ prefix: '~', suffix: '+' });
+  });
+
+  it('handles currency prefix symbols', () => {
+    expect(parseKpiDisplay('$2.89B')).toEqual({ prefix: '$', suffix: 'B' });
+    expect(parseKpiDisplay('$1.2T')).toEqual({ prefix: '$', suffix: 'T' });
+    expect(parseKpiDisplay('€450B')).toEqual({ prefix: '€', suffix: 'B' });
+  });
+
+  it('handles × multiplier suffix', () => {
+    expect(parseKpiDisplay('4×')).toEqual({ prefix: '', suffix: '×' });
   });
 });
