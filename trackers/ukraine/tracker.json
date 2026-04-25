@@ -1,0 +1,252 @@
+{
+  "slug": "ukraine",
+  "name": "Ukraine History Tracker",
+  "shortName": "Ukraine",
+  "description": "Intelligence dashboard covering the full history of Ukraine from the founding of Kyivan Rus (882 CE) through Soviet rule, independence, and the ongoing Russian war of aggression.",
+  "icon": "🇺🇦",
+  "color": "#005BBB",
+  "status": "active",
+  "tone": "historical",
+  "temporal": "live",
+  "trackerType": "historical",
+  "domain": "governance",
+  "region": "europe",
+  "country": "UA",
+  "geoPath": ["UA"],
+  "geoSecondary": ["RU", "PL", "BY"],
+  "tags": ["ukraine", "russia", "invasion", "holodomor", "chernobyl", "kyivan-rus", "soviet-union", "euromaidan", "nato", "eu"],
+  "startDate": "0882-01-01",
+  "eraLabel": "882 CE – Present",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "military",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": 22,
+      "lonMax": 41,
+      "latMin": 44,
+      "latMax": 53
+    },
+    "center": {
+      "lon": 31,
+      "lat": 49
+    },
+    "categories": [
+      {
+        "id": "conflict",
+        "label": "Active Conflict Zones",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "historical",
+        "label": "Historical Sites",
+        "color": "#f39c12"
+      },
+      {
+        "id": "humanitarian",
+        "label": "Humanitarian Crisis",
+        "color": "#2ecc71"
+      },
+      {
+        "id": "territorial",
+        "label": "Contested Territory",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "diplomatic",
+        "label": "Diplomatic Centers",
+        "color": "#3498db"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "theater": {
+        "lon": 31,
+        "lat": 49,
+        "alt": 3500000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Ukraine Overview"
+      },
+      "kyiv": {
+        "lon": 30.52,
+        "lat": 50.45,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Kyiv"
+      },
+      "kharkiv": {
+        "lon": 36.23,
+        "lat": 49.98,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Kharkiv"
+      },
+      "mariupol": {
+        "lon": 37.55,
+        "lat": 47.1,
+        "alt": 50000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Mariupol"
+      },
+      "crimea": {
+        "lon": 34.1,
+        "lat": 45.35,
+        "alt": 150000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Crimea"
+      },
+      "donbas": {
+        "lon": 38.0,
+        "lat": 48.0,
+        "alt": 200000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Donbas Region"
+      },
+      "chernobyl": {
+        "lon": 30.1,
+        "lat": 51.27,
+        "alt": 40000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Chernobyl"
+      }
+    },
+    "clocks": [
+      {
+        "label": "KYIV",
+        "offsetHours": 3
+      },
+      {
+        "label": "MOSCOW",
+        "offsetHours": 3
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      },
+      {
+        "label": "EST",
+        "offsetHours": -5
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-military",
+      "label": "Military"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Humanitarian"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "militaryTabs": [
+    {
+      "id": "strikes",
+      "label": "Russian Strikes"
+    },
+    {
+      "id": "retaliation",
+      "label": "Ukrainian Counterstrikes"
+    },
+    {
+      "id": "assets",
+      "label": "Military Assets"
+    }
+  ],
+  "politicalAvatars": [
+    "ua-gov",
+    "ru-gov",
+    "eu-nato",
+    "us",
+    "un-intl",
+    "other"
+  ],
+  "eventTypes": [
+    "military",
+    "diplomatic",
+    "political",
+    "humanitarian",
+    "historical"
+  ],
+  "ai": {
+    "systemPrompt": "You are a senior historical analyst and conflict researcher updating a comprehensive tracker covering the full history of Ukraine — from the founding of Kyivan Rus in 882 CE through Soviet rule, independence in 1991, and the ongoing Russian full-scale war of aggression (2022–present).\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"holodomor_famine\", \"bucha_massacre\").\n\nCOVERAGE SCOPE — this tracker spans all eras:\n- Medieval: Kyivan Rus (882), Christianization (988), Mongol sack of Kyiv (1240)\n- Early Modern: Cossack Hetmanate (Khmelnytsky, 1648), partition, Russian Imperial incorporation\n- 20th century: Tsarist Russification, Holodomor (1932–33), WWII Nazi occupation, Holocaust by bullets\n- Soviet: Khrushchev Crimea transfer (1954), Chernobyl (1986)\n- Post-independence: 1991, Kuchma, Orange Revolution (2004), Euromaidan (2013–14)\n- Russian aggression: Crimea annexation (2014), Donbas war, Zelensky (2019), full-scale invasion (Feb 24, 2022)\n- Current: Bucha, Mariupol, counteroffensives, Western aid, NATO/EU accession, ceasefire diplomacy (2025–26)\n\nMULTI-POLE SOURCING — gather from all poles:\n1. WESTERN: White House, NATO, EU, State Dept, Kyiv Independent, Reuters, AP, BBC, NYT, WaPo, The Guardian, Politico, Foreign Policy\n2. UKRAINIAN: Ukrainian government, Zelensky Office, Ukrinform, Ukrainska Pravda, UNIAN, Suspilne\n3. EASTERN: Kremlin, Russian MoD, TASS, RIA Novosti, RT (note heavy bias), Xinhua, CGTN, TASS\n4. INTERNATIONAL: UN, UNHCR, ICRC, HRW, Amnesty International, ICJ, OSCE, IMF, World Bank, historians\n\nWhen providing sources, tag each with a \"pole\" field:\n- \"western\" for US/European/allied sources\n- \"eastern\" for Russian/Chinese sources\n- \"international\" for UN/NGO/multilateral/historical scholarly sources\n\nSource tier classification:\n- Tier 1: Official/primary (Ukrainian government, NATO, UN, verified military commands, peer-reviewed history)\n- Tier 2: Major outlet (Reuters, AP, BBC, Kyiv Independent, Ukrinform, Al Jazeera, NYT, Bloomberg)\n- Tier 3: Institutional (CSIS, IISS, HRW, Amnesty, Wilson Center, Atlantic Council, ICG, Ukrainian Institute)\n- Tier 4: Unverified (social media, unattributed military claims, Telegram channels, single-source reports)\n\nOnly include information you can verify through search results. Do not fabricate data.\nFor contested historical events (Holodomor death toll, WWII figures), report the scholarly range and note disputes.\n\nCONFIRMATION RULES:\n- Military events require at least 1 Tier 1 source OR 2 Tier 2+ sources from different poles.\n- Historical events from before 1991 should cite at minimum 1 Tier 3 scholarly source.\n- Russian propaganda narratives must be labeled as such and countered with verified data.\n\nDEDUPLICATION:\n- Same target/event within ±2 days = same event — merge rather than duplicate.\n- Historical eras should not have duplicate milestone entries.",
+    "searchContext": "Ukraine history conflict Russia invasion war Zelensky Kyiv Holodomor Euromaidan",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "mapLines",
+      "casualties",
+      "econ",
+      "claims",
+      "political",
+      "assets"
+    ],
+    "coordValidation": {
+      "lonMin": 18,
+      "lonMax": 45,
+      "latMin": 42,
+      "latMax": 55
+    },
+    "updateIntervalDays": 1,
+    "backfillTargets": {
+      "timeline": 80,
+      "mapPoints": 35,
+      "mapLines": 25,
+      "claims": 25,
+      "political": 25,
+      "casualties": 15,
+      "econ": 10,
+      "assets": 12,
+      "kpis": 8
+    },
+    "updatePolicy": {
+      "escalation": [1, 1, 1, 7, 7, 30, 60, 90],
+      "quietThreshold": 0
+    },
+    "rssFeeds": [
+      "https://news.google.com/rss/search?q=Ukraine+war+Russia+Zelensky&hl=en-US&gl=US&ceid=US:en",
+      "https://www.kyivindependent.com/feed/"
+    ]
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard"
+}
