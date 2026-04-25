@@ -1,1 +1,97 @@
-[]
+[
+  {
+    "id": "gdp-total",
+    "label": "GDP (2024)",
+    "value": "$18.8T",
+    "color": "blue",
+    "source": "National Bureau of Statistics China",
+    "contested": false,
+    "delta": "+5.0%",
+    "deltaNote": "Official 2024 growth; independent analysts estimate 2.4-2.8%",
+    "trend": "up",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "military-budget",
+    "label": "Military Budget (2025)",
+    "value": "$246B",
+    "color": "red",
+    "source": "Chinese Government / US DoD",
+    "contested": true,
+    "contestNote": "Official 1.78T yuan; US DoD estimates actual spending at $304-377B (32-63% higher)",
+    "delta": "+7.2%",
+    "trend": "up",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "trade-surplus",
+    "label": "Trade Surplus (2024)",
+    "value": "$992B",
+    "color": "green",
+    "source": "China General Administration of Customs",
+    "contested": false,
+    "delta": "+20.5%",
+    "deltaNote": "Record high; up from $823B in 2023",
+    "trend": "up",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "bri-countries",
+    "label": "Belt & Road Partners",
+    "value": "150+",
+    "color": "amber",
+    "source": "Green Finance & Development Center",
+    "contested": false,
+    "delta": "+5",
+    "deltaNote": "Countries signed BRI agreements since 2013 launch",
+    "trend": "up",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "nuclear-warheads",
+    "label": "Nuclear Warheads (est.)",
+    "value": "~500",
+    "color": "red",
+    "source": "SIPRI Yearbook 2024",
+    "contested": true,
+    "contestNote": "Pentagon projects China reaching 1,500 warheads by 2035; fastest nuclear buildup globally",
+    "delta": "+100",
+    "deltaNote": "Approx. annual addition rate since 2023",
+    "trend": "up",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "youth-unemployment",
+    "label": "Youth Unemployment (16-24)",
+    "value": "17.6%",
+    "color": "amber",
+    "source": "National Bureau of Statistics China",
+    "contested": true,
+    "contestNote": "NBS suspended reporting at 21.3% peak (Jul 2023); resumed with revised methodology in Jan 2024",
+    "delta": "-3.7%",
+    "deltaNote": "Down from 21.3% peak in July 2023",
+    "trend": "down",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "forex-reserves",
+    "label": "Foreign Exchange Reserves",
+    "value": "$3.34T",
+    "color": "green",
+    "source": "State Administration of Foreign Exchange (SAFE)",
+    "contested": false,
+    "deltaNote": "World's largest foreign exchange reserves",
+    "trend": "stable",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "years-of-civilization",
+    "label": "Years of Recorded History",
+    "value": "~4,000",
+    "color": "blue",
+    "source": "Archaeological consensus",
+    "contested": true,
+    "contestNote": "Xia Dynasty (~2070 BCE) debated; Shang Dynasty (c. 1600 BCE) confirmed by oracle bones",
+    "lastUpdated": "2026-04-25"
+  }
+]
