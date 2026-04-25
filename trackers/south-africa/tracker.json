@@ -1,0 +1,213 @@
+{
+  "slug": "south-africa",
+  "name": "South Africa History Tracker",
+  "shortName": "South Africa",
+  "description": "Intelligence dashboard covering South Africa's full history: from Cradle of Humankind fossils (~2.5M BCE) and Zulu kingdoms through colonialism, apartheid, liberation, and today's GNU coalition governance.",
+  "icon": "🇿🇦",
+  "color": "#2e7d32",
+  "status": "active",
+  "tone": "historical",
+  "temporal": "historical",
+  "trackerType": "historical",
+  "domain": "governance",
+  "region": "africa",
+  "country": "ZA",
+  "tags": ["apartheid", "democracy", "history", "africa", "brics", "rainbow-nation", "decolonization"],
+  "startDate": "-2500000-01-01",
+  "eraLabel": "Prehistoric to Present",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": 11,
+      "lonMax": 36,
+      "latMin": -36,
+      "latMax": -16
+    },
+    "center": {
+      "lon": 25.0,
+      "lat": -29.0
+    },
+    "categories": [
+      {
+        "id": "colonial",
+        "label": "Colonial History",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "apartheid",
+        "label": "Apartheid Era",
+        "color": "#e67e22"
+      },
+      {
+        "id": "resistance",
+        "label": "Resistance & Liberation",
+        "color": "#27ae60"
+      },
+      {
+        "id": "political",
+        "label": "Political Events",
+        "color": "#2980b9"
+      },
+      {
+        "id": "heritage",
+        "label": "Heritage & Archaeology",
+        "color": "#8e44ad"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "overview": {
+        "lon": 25.0,
+        "lat": -29.0,
+        "alt": 3000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Southern Africa"
+      },
+      "cape_town": {
+        "lon": 18.42,
+        "lat": -33.92,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Cape Town"
+      },
+      "johannesburg": {
+        "lon": 28.04,
+        "lat": -26.20,
+        "alt": 100000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Johannesburg"
+      },
+      "pretoria": {
+        "lon": 28.19,
+        "lat": -25.75,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Pretoria"
+      },
+      "soweto": {
+        "lon": 27.86,
+        "lat": -26.27,
+        "alt": 30000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Soweto"
+      },
+      "sterkfontein": {
+        "lon": 27.74,
+        "lat": -26.02,
+        "alt": 25000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Cradle of Humankind"
+      }
+    },
+    "clocks": [
+      {
+        "label": "SAST",
+        "offsetHours": 2
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Humanitarian"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "politicalAvatars": [
+    "anc",
+    "nparty",
+    "intl",
+    "civil",
+    "other"
+  ],
+  "eventTypes": [
+    "political",
+    "historical",
+    "economic",
+    "humanitarian",
+    "diplomatic"
+  ],
+  "ai": {
+    "systemPrompt": "You are a South African history and governance analyst updating an intelligence dashboard.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case).\n\nThis tracker covers South Africa's full history: from Cradle of Humankind prehistoric fossils (~2.5 million BCE) and Sterkfontein australopithecine finds, through Khoisan and Bantu migrations, Mapungubwe and Zulu kingdoms, Portuguese rounding of the Cape (1488), Dutch East India Company Cape colony (1652), the Great Trek and Mfecane upheaval, Anglo-Zulu War (1879), Anglo-Boer Wars (1880–81, 1899–1902), Union of South Africa (1910), 1948 National Party victory and apartheid system, Sharpeville Massacre (1960), ANC armed struggle and Mandela's arrest (1962), Soweto Uprising (1976), F.W. de Klerk unbanning ANC and Mandela release (1990), 1994 multiracial elections, post-apartheid governance (Mandela, Mbeki AIDS denialism, Zuma corruption era, Ramaphosa reforms), May 2024 GNU coalition (first ANC majority loss), ICJ genocide case against Israel, BRICS founding membership, ongoing load-shedding, Cape Town water crisis, and mining sector challenges.\n\nSource tier classification:\n- Tier 1: Official/primary (South African government, Parliament, Statistics SA, SARB, Constitutional Court, ANC, DA, TRC records, UN, AU, SADC, ICJ)\n- Tier 2: Major outlet (Reuters, AP, BBC, Mail & Guardian, Daily Maverick, News24, Al Jazeera, SABC News, Bloomberg, The Guardian)\n- Tier 3: Institutional (SAIRR, ISS Africa, Crisis Group, HRW, Amnesty International, World Bank, IMF, OECD, Oxford Economics, ESKOM reports)\n- Tier 4: Unverified (social media, unattributed claims, partisan commentary)\n\nOnly include information you can verify through search results. Do not fabricate data.\nWhen covering contested history (apartheid-era figures, TRC findings, casualty estimates for historical conflicts), note the source perspective and any scholarly disputes.\nFor the year field on events, always use a string (e.g., \"1976\"), never a number.",
+    "searchContext": "South Africa history governance apartheid ANC democracy GNU coalition Ramaphosa",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "casualties",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": 10,
+      "lonMax": 40,
+      "latMin": -40,
+      "latMax": -10
+    },
+    "updateIntervalDays": 30,
+    "backfillTargets": {
+      "timeline": 40,
+      "mapPoints": 25,
+      "claims": 15,
+      "political": 20,
+      "kpis": 8,
+      "econ": 8,
+      "casualties": 10
+    },
+    "updatePolicy": {
+      "escalation": [
+        30,
+        60,
+        90,
+        180
+      ],
+      "quietThreshold": 0
+    }
+  },
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": [
+    "ZA"
+  ]
+}
