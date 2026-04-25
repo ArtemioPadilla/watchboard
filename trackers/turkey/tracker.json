@@ -1,0 +1,238 @@
+{
+  "slug": "turkey",
+  "name": "Turkey History Tracker",
+  "shortName": "Turkey",
+  "description": "Intelligence dashboard tracking Turkey's full history from the Ottoman Empire founding (1299) through the modern Turkish Republic, Atatürk's reforms, Cold War NATO alignment, military coups, Kurdish conflict, and Erdoğan's AKP era.",
+  "icon": "🇹🇷",
+  "color": "#C8102E",
+  "status": "active",
+  "tone": "historical",
+  "temporal": "live",
+  "trackerType": "historical",
+  "domain": "governance",
+  "region": "middle-east",
+  "country": "TR",
+  "tags": ["ottoman", "turkey", "erdogan", "ataturk", "pkk", "nato", "governance", "history"],
+  "startDate": "1299-01-01",
+  "eraLabel": "Ottoman to Modern Era",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "military",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": 22,
+      "lonMax": 48,
+      "latMin": 34,
+      "latMax": 44
+    },
+    "center": {
+      "lon": 35,
+      "lat": 39
+    },
+    "categories": [
+      {
+        "id": "political-event",
+        "label": "Political Events & Coups",
+        "color": "#C8102E"
+      },
+      {
+        "id": "military-op",
+        "label": "Military Operations",
+        "color": "#e67e22"
+      },
+      {
+        "id": "reform",
+        "label": "Reform & Landmark Sites",
+        "color": "#27ae60"
+      },
+      {
+        "id": "protest",
+        "label": "Protests & Civil Unrest",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "disaster",
+        "label": "Disasters & Crises",
+        "color": "#3498db"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "overview": {
+        "lon": 35,
+        "lat": 39,
+        "alt": 2500000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Turkey Overview"
+      },
+      "istanbul": {
+        "lon": 28.9784,
+        "lat": 41.0082,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Istanbul / Constantinople"
+      },
+      "ankara": {
+        "lon": 32.8597,
+        "lat": 39.9334,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Ankara (Capital)"
+      },
+      "gallipoli": {
+        "lon": 26.6742,
+        "lat": 40.3976,
+        "alt": 50000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Gallipoli (Çanakkale)"
+      },
+      "diyarbakir": {
+        "lon": 40.2228,
+        "lat": 37.9144,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Diyarbakır (Kurdish Region)"
+      },
+      "izmir": {
+        "lon": 27.1428,
+        "lat": 38.4192,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "İzmir"
+      }
+    },
+    "clocks": [
+      {
+        "label": "ANKARA",
+        "offsetHours": 3
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      },
+      {
+        "label": "EST",
+        "offsetHours": -5
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-military",
+      "label": "Military"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Humanitarian"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "militaryTabs": [
+    {
+      "id": "strikes",
+      "label": "Operations"
+    },
+    {
+      "id": "retaliation",
+      "label": "PKK Activity"
+    },
+    {
+      "id": "assets",
+      "label": "Military Assets"
+    }
+  ],
+  "politicalAvatars": [
+    "akp",
+    "chp",
+    "military",
+    "kurds",
+    "intl"
+  ],
+  "eventTypes": [
+    "political",
+    "military",
+    "economic",
+    "diplomatic",
+    "social"
+  ],
+  "ai": {
+    "systemPrompt": "You are a Turkish history and politics analyst updating a comprehensive intelligence dashboard on Turkey.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case).\n\nThis tracker covers Turkey's full history from the Ottoman Empire (1299) through modern Erdoğan-era Turkey, including:\n- Ottoman Empire founding, expansion, and decline\n- Young Turk Revolution (1908), WWI, Armenian Genocide (1915)\n- Atatürk's War of Independence and founding of the Turkish Republic (1923)\n- Secularization, alphabet reform, and Westernization\n- Cold War NATO alignment (1952), Cyprus dispute (1974 invasion)\n- Military coups (1960, 1971, 1980, 1997 soft coup)\n- Kurdish PKK insurgency (1984–present)\n- Erbakan Islamist movement, AKP rise under Erdoğan (2002–present)\n- 2016 coup attempt and purges\n- Presidential system referendum (2017)\n- Turkish lira collapse and inflation crises\n- Syria intervention (2016–present), S-400 purchase (2019)\n- 2023 Kahramanmaraş earthquakes\n- 2023 elections, 2024–2025 opposition mayor detentions\n\nSource tier classification for Turkey:\n- Tier 1: Official/primary (Turkish Presidency, TBMM, Turkish Armed Forces TAF, UN, IAEA)\n- Tier 2: Major outlet (Reuters, AP, BBC, Al Jazeera, Hürriyet, Sabah, Cumhuriyet, Milliyet, CNN Türk, NTV)\n- Tier 3: Institutional (ICG, HRW, Amnesty International, Freedom House, Stockholm Freedom Center, RSF, TEPAV)\n- Tier 4: Unverified (social media, unattributed claims, strongly partisan accounts)\n\nWhen providing sources, tag each with a \"pole\" field:\n- \"western\" for US/European/allied sources\n- \"middle_eastern\" for Turkish/regional sources\n- \"eastern\" for Russian/Chinese sources\n- \"international\" for UN/NGO/multilateral sources\n\nOnly include information you can verify through search results. Do not fabricate data.\nFor historical events, cite authoritative historical sources or well-established scholarship.\nFor current events, verify through multiple sources before including.\n\nIMPORTANT SCHEMA RULES:\n- \"year\" field on timeline events must be a string (e.g. \"1453\"), NOT a number\n- \"direction\" on econ items must be \"up\" or \"down\" only (NOT \"stable\")\n- Dates must be YYYY-MM-DD format and must not be in the future",
+    "searchContext": "Turkey Erdogan AKP Ottoman Empire history politics Kurdish PKK",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "casualties",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": 15,
+      "lonMax": 55,
+      "latMin": 28,
+      "latMax": 48
+    },
+    "updateIntervalDays": 30,
+    "backfillTargets": {
+      "timeline": 40,
+      "mapPoints": 25,
+      "claims": 20,
+      "political": 20,
+      "kpis": 8,
+      "casualties": 10,
+      "econ": 10
+    },
+    "updatePolicy": {
+      "escalation": [
+        7,
+        14,
+        30,
+        60,
+        90
+      ],
+      "quietThreshold": 0
+    }
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": [
+    "TR"
+  ]
+}
