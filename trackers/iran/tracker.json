@@ -1,0 +1,222 @@
+{
+  "slug": "iran",
+  "name": "Iran: 2,500-Year History",
+  "shortName": "Iran History",
+  "description": "A comprehensive dashboard tracing Iran's history from Cyrus the Great's Achaemenid Empire (550 BCE) through the Safavid Shia state, Qajar and Pahlavi dynasties, the 1979 Islamic Revolution, and the modern Islamic Republic — including the nuclear program, JCPOA, sanctions, and current political dynamics.",
+  "icon": "🕌",
+  "color": "#1abc9c",
+  "status": "active",
+  "tone": "historical",
+  "temporal": "historical",
+  "domain": "governance",
+  "region": "middle-east",
+  "country": "IR",
+  "startDate": "-0550-01-01",
+  "eraLabel": "550 BCE – Present",
+  "trackerType": "historical",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": 44,
+      "lonMax": 64,
+      "latMin": 24,
+      "latMax": 40
+    },
+    "center": {
+      "lon": 53,
+      "lat": 32
+    },
+    "categories": [
+      {
+        "id": "ancient",
+        "label": "Ancient Capitals & Sites",
+        "color": "#f39c12"
+      },
+      {
+        "id": "political",
+        "label": "Political Centers",
+        "color": "#3498db"
+      },
+      {
+        "id": "nuclear",
+        "label": "Nuclear Facilities",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "conflict",
+        "label": "Conflict Sites",
+        "color": "#e67e22"
+      },
+      {
+        "id": "economic",
+        "label": "Economic Infrastructure",
+        "color": "#2ecc71"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "overview": {
+        "lon": 53,
+        "lat": 32,
+        "alt": 3000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Iran Overview"
+      },
+      "tehran": {
+        "lon": 51.39,
+        "lat": 35.69,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Tehran"
+      },
+      "persepolis": {
+        "lon": 52.89,
+        "lat": 29.93,
+        "alt": 50000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Persepolis"
+      },
+      "isfahan": {
+        "lon": 51.68,
+        "lat": 32.66,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Isfahan"
+      },
+      "tabriz": {
+        "lon": 46.3,
+        "lat": 38.08,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Tabriz"
+      },
+      "natanz": {
+        "lon": 51.73,
+        "lat": 33.51,
+        "alt": 50000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Natanz Nuclear Site"
+      },
+      "ahvaz": {
+        "lon": 48.67,
+        "lat": 31.32,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Ahvaz / Khuzestan"
+      }
+    },
+    "clocks": [
+      {
+        "label": "TEHRAN",
+        "offsetHours": 3.5
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Casualties"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "politicalAvatars": [
+    "ir-gov",
+    "ir-clergy",
+    "ir-reformist",
+    "western",
+    "intl",
+    "other"
+  ],
+  "eventTypes": [
+    "political",
+    "military",
+    "diplomatic",
+    "economic",
+    "social"
+  ],
+  "ai": {
+    "systemPrompt": "You are a historian and intelligence analyst updating a comprehensive tracker for Iran's 2,500-year history.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case).\n\nThis tracker spans from Cyrus the Great's Achaemenid Empire (550 BCE) through the Safavid Shia state, Qajar and Pahlavi dynasties, the 1953 CIA-MI6 coup against Mosaddegh, the 1979 Islamic Revolution, Iran-Iraq War, and the modern Islamic Republic under Khamenei — including the nuclear program, JCPOA, Trump withdrawal (2018), Soleimani killing (2020), Mahsa Amini protests (2022), and current Pezeshkian presidency and sanctions.\n\nSOURCE TIERS for Iranian history and current affairs:\n- Tier 1: Official/primary (Iranian government IRNA, UN, IAEA, US State Dept, declassified CIA documents, White House, Congress, academic peer-reviewed journals)\n- Tier 2: Major outlet (Reuters, AP, BBC, Al Jazeera, NYT, WaPo, Guardian, Le Monde, Radio Farda, Iran International, Financial Times)\n- Tier 3: Institutional (IISS, SIPRI, Wilson Center, Carnegie Endowment, Atlantic Council, HRW, Amnesty International, Crisis Group, CSIS, Chatham House)\n- Tier 4: Unverified (social media, unattributed claims, anonymous sources)\n\nWhen providing sources, tag each with a \"pole\" field:\n- \"western\" for US/European/allied sources\n- \"middle_eastern\" for Iranian/regional sources\n- \"eastern\" for Chinese/Russian sources\n- \"international\" for UN/NGO/multilateral sources\n\nOnly include information you can verify through search results. Do not fabricate data.\nFor historical events (pre-1900), prioritize academic and archival sources.\nFor modern events (post-1979), actively seek contrasting perspectives from different poles.\nFor the nuclear program, always cross-reference IAEA reports with Iranian official statements and western analysis.",
+    "searchContext": "Iran history Islamic Republic nuclear program Pahlavi dynasty 1979 revolution sanctions",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "casualties",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": 40,
+      "lonMax": 70,
+      "latMin": 20,
+      "latMax": 45
+    },
+    "updateIntervalDays": 7,
+    "backfillTargets": {
+      "timeline": 50,
+      "mapPoints": 30,
+      "claims": 20,
+      "political": 25,
+      "casualties": 15,
+      "econ": 10,
+      "kpis": 8
+    },
+    "updatePolicy": {
+      "escalation": [
+        7,
+        14,
+        30,
+        60,
+        90
+      ],
+      "quietThreshold": 0
+    }
+  },
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": [
+    "IR"
+  ]
+}
