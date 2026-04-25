@@ -4,6 +4,7 @@ export const DEFAULT_LOCALE: Locale = 'en';
 export const SUPPORTED_LOCALES: Locale[] = ['en', 'es', 'fr', 'pt'];
 
 type TranslationKeys = Record<keyof typeof en, string>;
+export type TranslationKey = keyof typeof en;
 
 const en = {
   // Header
@@ -108,6 +109,44 @@ const en = {
   'welcome.allShortcuts': 'All shortcuts',
   'welcome.dontShowAgain': "Don't show again",
   'welcome.gotIt': 'Got it',
+
+  // Onboarding tour (replaces welcome overlay)
+  'tour.skip': 'Skip tour',
+  'tour.next': 'Next →',
+  'tour.back': 'Back',
+  'tour.gotIt': 'Got it',
+  'tour.takeTheTour': 'Take the 30-second tour →',
+  'tour.startExploring': 'Start exploring →',
+
+  'tour.intro.title': 'Watchboard — live intelligence on the world\'s biggest stories.',
+  'tour.intro.body': 'Track 50+ unfolding events · Watch the broadcast · Search every claim & source.',
+
+  'tour.globe.title': 'The globe',
+  'tour.globe.body': 'Each pin is a real event. Click to dive into a tracker.',
+
+  'tour.sidebar.title': 'The sidebar',
+  'tour.sidebar.body': 'Every active tracker, grouped by view (Operations / Geographic / Domain). Star to follow.',
+
+  'tour.ticker.title': 'Broadcast mode',
+  'tour.ticker.body': 'Auto-cycles through trackers. Press B to pause. Hover to explore.',
+
+  'tour.tiers.title': 'How we rate sources',
+  'tour.tiers.body': 'T1 Official · T2 Major outlets · T3 Institutional · T4 Unverified. We surface all four so you can judge for yourself.',
+
+  'tour.closing.title': 'You\'re ready.',
+  'tour.closing.body': 'Press / to search · B to pause broadcast · ? for shortcuts and to replay this tour.',
+  'tour.closing.toast': 'Tour done. Replay anytime from the ? menu.',
+
+  'tour.replay': 'Replay tour',
+  'tour.newHere': 'New here?',
+  'tour.lastCompleted': 'Last completed:',
+
+  'tour.mobile.welcome.title': 'Watchboard',
+  'tour.mobile.welcome.body': 'Live intelligence on the world\'s biggest stories. Source badges (T1–T4) range from official to unverified.',
+  'tour.mobile.stories.title': 'Stories',
+  'tour.mobile.stories.body': 'Tap or swipe through stories above. Each circle is a tracker.',
+  'tour.mobile.dive.title': 'Dive in',
+  'tour.mobile.dive.body': 'Tap any story to open the full tracker.',
 
   // Header
   'header.activeTracker': 'ACTIVE TRACKER',
@@ -647,6 +686,44 @@ const es: TranslationKeys = {
   'welcome.dontShowAgain': 'No mostrar de nuevo',
   'welcome.gotIt': 'Entendido',
 
+  // Onboarding tour
+  'tour.skip': 'Saltar tour',
+  'tour.next': 'Siguiente →',
+  'tour.back': 'Atrás',
+  'tour.gotIt': 'Entendido',
+  'tour.takeTheTour': 'Hacer el tour de 30 segundos →',
+  'tour.startExploring': 'Empezar a explorar →',
+
+  'tour.intro.title': 'Watchboard — inteligencia en vivo sobre las historias más importantes del mundo.',
+  'tour.intro.body': 'Sigue más de 50 eventos en desarrollo · Mira la transmisión · Busca cualquier afirmación y fuente.',
+
+  'tour.globe.title': 'El globo',
+  'tour.globe.body': 'Cada punto es un evento real. Haz clic para entrar en un tracker.',
+
+  'tour.sidebar.title': 'La barra lateral',
+  'tour.sidebar.body': 'Todos los trackers activos, agrupados por vista (Operaciones / Geográfica / Dominio). Marca con estrella para seguir.',
+
+  'tour.ticker.title': 'Modo transmisión',
+  'tour.ticker.body': 'Cicla automáticamente entre trackers. Pulsa B para pausar. Pasa el ratón para explorar.',
+
+  'tour.tiers.title': 'Cómo clasificamos las fuentes',
+  'tour.tiers.body': 'T1 Oficiales · T2 Grandes medios · T3 Institucionales · T4 No verificadas. Mostramos las cuatro para que tú juzgues.',
+
+  'tour.closing.title': 'Listo.',
+  'tour.closing.body': 'Pulsa / para buscar · B para pausar la transmisión · ? para atajos y para repetir este tour.',
+  'tour.closing.toast': 'Tour completado. Repítelo desde el menú ?.',
+
+  'tour.replay': 'Repetir tour',
+  'tour.newHere': '¿Nuevo aquí?',
+  'tour.lastCompleted': 'Última vez:',
+
+  'tour.mobile.welcome.title': 'Watchboard',
+  'tour.mobile.welcome.body': 'Inteligencia en vivo sobre las historias más importantes. Las insignias (T1–T4) van de oficial a no verificado.',
+  'tour.mobile.stories.title': 'Historias',
+  'tour.mobile.stories.body': 'Toca o desliza entre las historias de arriba. Cada círculo es un tracker.',
+  'tour.mobile.dive.title': 'Sumérgete',
+  'tour.mobile.dive.body': 'Toca cualquier historia para abrir el tracker completo.',
+
   'header.activeTracker': 'RASTREADOR ACTIVO',
   'header.updated': 'Actualizado',
   'header.updateUnknown': 'Hora de actualización desconocida',
@@ -1171,6 +1248,44 @@ const fr: TranslationKeys = {
   'welcome.dontShowAgain': 'Ne plus afficher',
   'welcome.gotIt': 'Compris',
 
+  // Onboarding tour
+  'tour.skip': 'Passer le tour',
+  'tour.next': 'Suivant →',
+  'tour.back': 'Retour',
+  'tour.gotIt': 'Compris',
+  'tour.takeTheTour': 'Faire le tour de 30 secondes →',
+  'tour.startExploring': 'Commencer à explorer →',
+
+  'tour.intro.title': 'Watchboard — renseignement en direct sur les plus grandes histoires du monde.',
+  'tour.intro.body': 'Suivez 50+ événements en cours · Regardez la diffusion · Recherchez chaque affirmation et source.',
+
+  'tour.globe.title': 'Le globe',
+  'tour.globe.body': 'Chaque point est un événement réel. Cliquez pour ouvrir un tracker.',
+
+  'tour.sidebar.title': 'La barre latérale',
+  'tour.sidebar.body': 'Tous les trackers actifs, regroupés par vue (Opérations / Géographique / Domaine). Étoile pour suivre.',
+
+  'tour.ticker.title': 'Mode diffusion',
+  'tour.ticker.body': 'Défile automatiquement entre les trackers. Appuyez sur B pour mettre en pause. Survolez pour explorer.',
+
+  'tour.tiers.title': 'Notre classification des sources',
+  'tour.tiers.body': 'T1 Officielles · T2 Grands médias · T3 Institutionnelles · T4 Non vérifiées. Nous affichons les quatre pour que vous puissiez juger.',
+
+  'tour.closing.title': 'Vous êtes prêt.',
+  'tour.closing.body': 'Appuyez sur / pour chercher · B pour mettre en pause · ? pour les raccourcis et pour rejouer ce tour.',
+  'tour.closing.toast': 'Tour terminé. Rejouez-le depuis le menu ?.',
+
+  'tour.replay': 'Rejouer le tour',
+  'tour.newHere': 'Nouveau ici ?',
+  'tour.lastCompleted': 'Dernière fois :',
+
+  'tour.mobile.welcome.title': 'Watchboard',
+  'tour.mobile.welcome.body': 'Renseignement en direct. Les badges (T1–T4) vont d\'officiel à non vérifié.',
+  'tour.mobile.stories.title': 'Stories',
+  'tour.mobile.stories.body': 'Touchez ou glissez parmi les stories ci-dessus. Chaque cercle est un tracker.',
+  'tour.mobile.dive.title': 'Plongez',
+  'tour.mobile.dive.body': 'Touchez n\'importe quelle story pour ouvrir le tracker complet.',
+
   'header.activeTracker': 'DOSSIER ACTIF',
   'header.updated': 'Mis à jour',
   'header.updateUnknown': 'Heure de mise à jour inconnue',
@@ -1694,6 +1809,44 @@ const pt: TranslationKeys = {
   'welcome.allShortcuts': 'Todos os atalhos',
   'welcome.dontShowAgain': 'Não mostrar novamente',
   'welcome.gotIt': 'Entendi',
+
+  // Onboarding tour
+  'tour.skip': 'Pular tour',
+  'tour.next': 'Próximo →',
+  'tour.back': 'Voltar',
+  'tour.gotIt': 'Entendido',
+  'tour.takeTheTour': 'Fazer o tour de 30 segundos →',
+  'tour.startExploring': 'Começar a explorar →',
+
+  'tour.intro.title': 'Watchboard — inteligência ao vivo sobre as maiores histórias do mundo.',
+  'tour.intro.body': 'Acompanhe 50+ eventos em andamento · Assista à transmissão · Pesquise cada afirmação e fonte.',
+
+  'tour.globe.title': 'O globo',
+  'tour.globe.body': 'Cada ponto é um evento real. Clique para abrir um tracker.',
+
+  'tour.sidebar.title': 'A barra lateral',
+  'tour.sidebar.body': 'Todos os trackers ativos, agrupados por visão (Operações / Geográfica / Domínio). Marque com estrela para seguir.',
+
+  'tour.ticker.title': 'Modo transmissão',
+  'tour.ticker.body': 'Alterna automaticamente entre trackers. Pressione B para pausar. Passe o mouse para explorar.',
+
+  'tour.tiers.title': 'Como classificamos as fontes',
+  'tour.tiers.body': 'T1 Oficiais · T2 Grandes veículos · T3 Institucionais · T4 Não verificadas. Mostramos as quatro para você julgar.',
+
+  'tour.closing.title': 'Você está pronto.',
+  'tour.closing.body': 'Pressione / para buscar · B para pausar a transmissão · ? para atalhos e para repetir este tour.',
+  'tour.closing.toast': 'Tour concluído. Repita pelo menu ?.',
+
+  'tour.replay': 'Repetir tour',
+  'tour.newHere': 'Novo por aqui?',
+  'tour.lastCompleted': 'Última vez:',
+
+  'tour.mobile.welcome.title': 'Watchboard',
+  'tour.mobile.welcome.body': 'Inteligência ao vivo. Os selos (T1–T4) vão de oficial a não verificado.',
+  'tour.mobile.stories.title': 'Histórias',
+  'tour.mobile.stories.body': 'Toque ou deslize entre as histórias acima. Cada círculo é um tracker.',
+  'tour.mobile.dive.title': 'Mergulhe',
+  'tour.mobile.dive.body': 'Toque em qualquer história para abrir o tracker completo.',
 
   'header.activeTracker': 'RASTREADOR ATIVO',
   'header.updated': 'Atualizado',

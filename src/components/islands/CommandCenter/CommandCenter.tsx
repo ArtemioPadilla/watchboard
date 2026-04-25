@@ -14,7 +14,8 @@ import { useBroadcastMode } from './useBroadcastMode';
 import BroadcastOverlay from './BroadcastOverlay';
 import CoachMark from './CoachMark';
 import DesktopStoryStrip from './DesktopStoryStrip';
-import { getDiscoveredFeatures, markFeatureDiscovered, getNextCoachHint } from '../../../lib/onboarding';
+import { getDiscoveredFeatures, markFeatureDiscovered, getNextCoachHint, getTourState, resetTour } from '../../../lib/onboarding';
+import OnboardingTour, { TOUR_REPLAY_EVENT } from '../Onboarding/OnboardingTour';
 
 const FOLLOWS_KEY = 'watchboard-follows';
 const SIDEBAR_PREF_KEY = 'watchboard-sidebar-pref'; // 'expanded' | 'collapsed'
@@ -123,9 +124,10 @@ export default function CommandCenter({
   });
   const [locale, setLocale] = useState<Locale>('en');
   const [showHelp, setShowHelp] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== 'undefined' && window.innerWidth < 768,
+  );
   const [mobileTab, setMobileTab] = useState<'live' | 'trackers'>('live');
-  const [showToast, setShowToast] = useState(false);
   const [coachHint, setCoachHint] = useState<ReturnType<typeof getNextCoachHint>>(null);
   const [discoveredFeatures, setDiscoveredFeatures] = useState<Set<string>>(new Set());
 
@@ -208,15 +210,6 @@ export default function CommandCenter({
       setSidebarCollapsed(true);
     } else if (window.innerWidth >= 1280) {
       setSidebarCollapsed(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (!localStorage.getItem('watchboard-welcomed')) {
-      setShowToast(true);
-      localStorage.setItem('watchboard-welcomed', '1');
-      const timer = setTimeout(() => setShowToast(false), 8000);
-      return () => clearTimeout(timer);
     }
   }, []);
 
@@ -560,7 +553,7 @@ export default function CommandCenter({
         </div>
       </div>
 
-      <div className="cc-globe" style={{
+      <div id="tour-globe" className="cc-globe" style={{
         ...(sidebarCollapsed && !isMobile ? styles.globeExpanded : styles.globe),
         ...(isMobile ? { paddingTop: '2.5rem' } : {}),
       }} role="region" aria-label="Globe visualization">
@@ -687,7 +680,7 @@ export default function CommandCenter({
           <MobileStoryCarousel trackers={trackers} basePath={basePath} followedSlugs={followedSlugs} onTrackerChange={handleStoryTrackerChange} />
         </div>
       )}
-      <nav className="cc-sidebar" style={sidebarStyle} aria-label="Tracker directory">
+      <nav id="tour-sidebar" className="cc-sidebar" style={sidebarStyle} aria-label="Tracker directory">
         {!isMobile && sidebarCollapsed ? (
           <div style={styles.collapsedSidebarContent}>
             <button
@@ -856,6 +849,28 @@ export default function CommandCenter({
       {showHelp && (
         <div style={styles.helpOverlay} onClick={() => setShowHelp(false)}>
           <div style={styles.helpPanel} onClick={e => e.stopPropagation()}>
+            <div style={styles.replayBlock}>
+              <div>
+                <div style={styles.replayLabel}>{t('tour.newHere', locale)}</div>
+                {(() => {
+                  const ts = getTourState('desktop').completedAt;
+                  if (!ts) return null;
+                  const date = new Date(ts).toLocaleDateString(locale, { month: 'short', day: 'numeric', year: 'numeric' });
+                  return <div style={styles.replayMeta}>{t('tour.lastCompleted', locale)} {date}</div>;
+                })()}
+              </div>
+              <button
+                type="button"
+                style={styles.replayButton}
+                onClick={() => {
+                  resetTour('desktop');
+                  setShowHelp(false);
+                  window.dispatchEvent(new CustomEvent(TOUR_REPLAY_EVENT));
+                }}
+              >
+                ▶ {t('tour.replay', locale)}
+              </button>
+            </div>
             <div style={styles.helpTitle}>{t('shortcuts.title', locale)}</div>
             <div style={styles.helpGrid}>
               {SHORTCUTS.map(s => (
@@ -875,29 +890,7 @@ export default function CommandCenter({
         <CoachMark hint={coachHint} onDismiss={handleDismissCoachHint} />
       )}
 
-      {/* First-visit toast */}
-      {showToast && (
-        <div
-          style={{
-            position: 'fixed', bottom: '1.5rem', left: '50%', transform: 'translateX(-50%)',
-            background: 'var(--bg-card)', border: '1px solid var(--border)',
-            borderRadius: '8px', padding: '0.6rem 1.2rem',
-            fontFamily: "'JetBrains Mono', monospace", fontSize: '0.72rem',
-            color: 'var(--text-secondary)', zIndex: 9999,
-            animation: 'fadeIn 0.3s ease-out',
-            cursor: 'pointer',
-          }}
-          onClick={() => setShowToast(false)}
-          role="status"
-          aria-live="polite"
-        >
-          Press <kbd style={{ background: 'var(--bg-secondary)', padding: '0.1rem 0.3rem', borderRadius: '3px', color: 'var(--text-primary)' }}>/</kbd> to search
-          &nbsp;&middot;&nbsp;
-          <kbd style={{ background: 'var(--bg-secondary)', padding: '0.1rem 0.3rem', borderRadius: '3px', color: 'var(--text-primary)' }}>B</kbd> for broadcast
-          &nbsp;&middot;&nbsp;
-          <kbd style={{ background: 'var(--bg-secondary)', padding: '0.1rem 0.3rem', borderRadius: '3px', color: 'var(--text-primary)' }}>?</kbd> for shortcuts
-        </div>
-      )}
+      {!isMobile && <OnboardingTour />}
     </div>
   );
 }
@@ -1235,6 +1228,39 @@ const styles = {
     fontSize: '0.55rem',
     color: 'var(--text-muted, #484f58)',
     textAlign: 'center' as const,
+  } as React.CSSProperties,
+
+  replayBlock: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    background: 'var(--bg-secondary, #0d1117)',
+    border: '1px solid var(--border, #30363d)',
+    borderRadius: 6,
+    padding: '8px 12px',
+    marginBottom: '0.75rem',
+  } as React.CSSProperties,
+  replayLabel: {
+    fontFamily: "'DM Sans', sans-serif",
+    fontSize: '0.7rem',
+    color: 'var(--text-secondary, #8b949e)',
+  } as React.CSSProperties,
+  replayMeta: {
+    fontFamily: "'JetBrains Mono', monospace",
+    fontSize: '0.5rem',
+    color: 'var(--text-muted, #484f58)',
+    marginTop: 2,
+  } as React.CSSProperties,
+  replayButton: {
+    background: '#1f6feb',
+    color: '#fff',
+    fontFamily: "'DM Sans', sans-serif",
+    fontSize: '0.7rem',
+    fontWeight: 600,
+    padding: '4px 10px',
+    borderRadius: 4,
+    border: 'none',
+    cursor: 'pointer',
   } as React.CSSProperties,
 
   mobileTabBar: {

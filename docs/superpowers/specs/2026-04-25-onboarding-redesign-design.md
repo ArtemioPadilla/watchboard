@@ -52,7 +52,6 @@ Replace the single welcome modal with a multi-step guided tour that:
 - `#tour-globe` on the Cesium globe canvas wrapper.
 - `#tour-sidebar` on the `SidebarPanel` outer div.
 - `#tour-ticker` on the `BroadcastOverlay` ticker container.
-- `#tour-search` on the search button in `Header`.
 
 Missing anchor → step degrades to a centered modal (no spotlight). Logged once to console; no user-facing error.
 

@@ -358,6 +358,7 @@ export default function BroadcastOverlay({
       {/* News Ticker */}
       {trackerQueue.length > 0 && (
         <div
+          id="tour-ticker"
           className="broadcast-ticker"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
