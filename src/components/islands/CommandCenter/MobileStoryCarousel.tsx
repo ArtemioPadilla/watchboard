@@ -5,6 +5,8 @@ import { relativeTime } from '../../../lib/event-utils';
 import { t, getPreferredLocale } from '../../../i18n/translations';
 import ImageCarousel from './ImageCarousel';
 import { useStoryState } from './useStoryState';
+import { resetTour } from '../../../lib/onboarding';
+import MobileOnboarding, { MOBILE_TOUR_REPLAY_EVENT } from '../Onboarding/MobileOnboarding';
 
 // ── Types ──
 
@@ -129,6 +131,33 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
 
   return (
     <div className="story-carousel">
+      <MobileOnboarding />
+      <button
+        type="button"
+        aria-label={t('tour.replay' as any, locale)}
+        title={t('tour.replay' as any, locale)}
+        onClick={() => {
+          resetTour('mobile');
+          window.dispatchEvent(new CustomEvent(MOBILE_TOUR_REPLAY_EVENT));
+        }}
+        style={{
+          position: 'absolute',
+          top: 6,
+          right: 8,
+          zIndex: 10,
+          background: 'rgba(0,0,0,0.4)',
+          border: '1px solid rgba(255,255,255,0.15)',
+          borderRadius: '50%',
+          width: 28,
+          height: 28,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          color: 'rgba(255,255,255,0.7)',
+          cursor: 'pointer',
+          fontSize: '0.85rem',
+        }}
+      >↻</button>
       {/* Circle row */}
       <div className="story-circles" ref={circlesRef}>
         {story.eligible.map((t, i) => (
