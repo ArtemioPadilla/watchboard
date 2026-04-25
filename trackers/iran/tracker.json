@@ -6,7 +6,7 @@
   "icon": "🕌",
   "color": "#1abc9c",
   "status": "active",
-  "tone": "historical",
+  "tone": "alert",
   "temporal": "historical",
   "domain": "governance",
   "region": "middle-east",
@@ -213,7 +213,15 @@
         90
       ],
       "quietThreshold": 0
-    }
+    },
+    "relatedTrackers": [
+      "iran-conflict",
+      "israel-palestine",
+      "gaza-war",
+      "saudi-arabia",
+      "turkey",
+      "october-7-attack"
+    ]
   },
   "githubRepo": "ArtemioPadilla/watchboard",
   "geoPath": [

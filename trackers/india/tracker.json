@@ -12,7 +12,18 @@
   "domain": "governance",
   "region": "south-asia",
   "country": "IN",
-  "tags": ["india", "south-asia", "history", "independence", "partition", "mughal", "british-raj", "democracy", "hinduism", "civilization"],
+  "tags": [
+    "india",
+    "south-asia",
+    "history",
+    "independence",
+    "partition",
+    "mughal",
+    "british-raj",
+    "democracy",
+    "hinduism",
+    "civilization"
+  ],
   "startDate": "-2600-01-01",
   "eraLabel": "Ancient to Contemporary India",
   "sections": [
@@ -109,7 +120,7 @@
       },
       "patna": {
         "lon": 85.14,
-        "lat": 25.60,
+        "lat": 25.6,
         "alt": 70000,
         "pitch": -90,
         "heading": 0,
@@ -203,11 +214,26 @@
       "econ": 8
     },
     "updatePolicy": {
-      "escalation": [7, 14, 30, 60, 90, 180],
+      "escalation": [
+        7,
+        14,
+        30,
+        60,
+        90,
+        180
+      ],
       "quietThreshold": 30
-    }
+    },
+    "relatedTrackers": [
+      "china",
+      "india-pakistan-conflict",
+      "afghanistan-pakistan-war",
+      "iran"
+    ]
   },
   "ogImage": "/og-card.png",
   "githubRepo": "ArtemioPadilla/watchboard",
-  "geoPath": ["IN"]
+  "geoPath": [
+    "IN"
+  ]
 }

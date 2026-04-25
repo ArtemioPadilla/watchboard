@@ -14,7 +14,18 @@
   "country": "CN",
   "startDate": "-2070-01-01",
   "eraLabel": "4,000 Years of Chinese Civilization",
-  "tags": ["china", "dynasty", "silk-road", "mao", "xi-jinping", "taiwan", "hong-kong", "belt-and-road", "ccp", "prc"],
+  "tags": [
+    "china",
+    "dynasty",
+    "silk-road",
+    "mao",
+    "xi-jinping",
+    "taiwan",
+    "hong-kong",
+    "belt-and-road",
+    "ccp",
+    "prc"
+  ],
   "sections": [
     "hero",
     "kpis",
@@ -110,8 +121,8 @@
         "label": "Hong Kong"
       },
       "taiwan_strait": {
-        "lon": 120.0,
-        "lat": 24.0,
+        "lon": 120,
+        "lat": 24,
         "alt": 300000,
         "pitch": -90,
         "heading": 0,
@@ -228,9 +239,18 @@
         180
       ],
       "quietThreshold": 0
-    }
+    },
+    "relatedTrackers": [
+      "russia",
+      "india",
+      "taiwan-conflict",
+      "china-tech-revolution",
+      "southeast-asia-escalation"
+    ]
   },
-  "geoPath": ["CN"],
+  "geoPath": [
+    "CN"
+  ],
   "ogImage": "/og-card.png",
   "githubRepo": "ArtemioPadilla/watchboard"
 }

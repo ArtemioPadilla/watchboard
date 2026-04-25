@@ -6,7 +6,7 @@
   "icon": "🏙️",
   "color": "#16a34a",
   "status": "active",
-  "tone": "neutral",
+  "tone": "alert",
   "temporal": "live",
   "trackerType": "institutional",
   "domain": "governance",
@@ -14,8 +14,18 @@
   "country": "MX",
   "state": "Ciudad de México",
   "city": "Ciudad de México",
-  "geoPath": ["MX", "Ciudad de México"],
-  "tags": ["mexico", "urban", "governance", "history", "megacity", "latin-america"],
+  "geoPath": [
+    "MX",
+    "Ciudad de México"
+  ],
+  "tags": [
+    "mexico",
+    "urban",
+    "governance",
+    "history",
+    "megacity",
+    "latin-america"
+  ],
   "startDate": "1325-03-13",
   "eraLabel": "Tenochtitlan to Megacity",
   "sections": [
@@ -205,9 +215,22 @@
       "econ": 8
     },
     "updatePolicy": {
-      "escalation": [7, 14, 30, 90],
+      "escalation": [
+        7,
+        14,
+        30,
+        90
+      ],
       "quietThreshold": 0
-    }
+    },
+    "relatedTrackers": [
+      "mexico",
+      "sheinbaum-presidency",
+      "amlo-presidency",
+      "ayotzinapa",
+      "sinaloa-fragmentation",
+      "tlatelolco-1968"
+    ]
   },
   "ogImage": "/og-card.png",
   "githubRepo": "ArtemioPadilla/watchboard"

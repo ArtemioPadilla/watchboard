@@ -14,7 +14,14 @@
   "country": "CO",
   "startDate": "1499-09-07",
   "eraLabel": "1499–Present",
-  "tags": ["latin-america", "narco", "peace-process", "farc", "colonial-history", "human-rights"],
+  "tags": [
+    "latin-america",
+    "narco",
+    "peace-process",
+    "farc",
+    "colonial-history",
+    "human-rights"
+  ],
   "sections": [
     "hero",
     "kpis",
@@ -86,7 +93,7 @@
       },
       "cartagena": {
         "lon": -75.51,
-        "lat": 10.40,
+        "lat": 10.4,
         "alt": 50000,
         "pitch": -90,
         "heading": 0,
@@ -200,9 +207,22 @@
       "casualties": 10
     },
     "updatePolicy": {
-      "escalation": [7, 14, 30, 60, 90],
+      "escalation": [
+        7,
+        14,
+        30,
+        60,
+        90
+      ],
       "quietThreshold": 0
-    }
+    },
+    "relatedTrackers": [
+      "venezuela",
+      "peru",
+      "mexico",
+      "brazil",
+      "usa-latam-interventions"
+    ]
   },
   "githubRepo": "ArtemioPadilla/watchboard",
   "geoPath": [

@@ -12,10 +12,20 @@
   "domain": "governance",
   "region": "south-america",
   "country": "CL",
-  "tags": ["latin-america", "democracy", "dictatorship", "indigenous", "neoliberalism", "copper", "lithium"],
+  "tags": [
+    "latin-america",
+    "democracy",
+    "dictatorship",
+    "indigenous",
+    "neoliberalism",
+    "copper",
+    "lithium"
+  ],
   "startDate": "1541-02-12",
   "eraLabel": "Republic to Estallido",
-  "geoPath": ["CL"],
+  "geoPath": [
+    "CL"
+  ],
   "sections": [
     "hero",
     "kpis",
@@ -36,7 +46,7 @@
     },
     "center": {
       "lon": -70.5,
-      "lat": -35.0
+      "lat": -35
     },
     "categories": [
       {
@@ -71,7 +81,7 @@
     "cameraPresets": {
       "overview": {
         "lon": -70.5,
-        "lat": -35.0,
+        "lat": -35,
         "alt": 4500000,
         "pitch": -90,
         "heading": 0,
@@ -110,7 +120,7 @@
         "label": "Atacama — Nitrate & Copper North"
       },
       "patagonia": {
-        "lon": -71.0,
+        "lon": -71,
         "lat": -50.5,
         "alt": 600000,
         "pitch": -90,
@@ -190,7 +200,13 @@
     },
     "updateIntervalDays": 30,
     "updatePolicy": {
-      "escalation": [7, 14, 30, 60, 90],
+      "escalation": [
+        7,
+        14,
+        30,
+        60,
+        90
+      ],
       "quietThreshold": 0
     },
     "backfillTargets": {
@@ -201,7 +217,13 @@
       "kpis": 8,
       "econ": 8,
       "casualties": 10
-    }
+    },
+    "relatedTrackers": [
+      "argentina",
+      "peru",
+      "chile-allende-pinochet",
+      "brazil"
+    ]
   },
   "ogImage": "/og-card.png",
   "githubRepo": "ArtemioPadilla/watchboard"

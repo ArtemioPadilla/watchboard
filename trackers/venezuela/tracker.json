@@ -6,13 +6,22 @@
   "icon": "🇻🇪",
   "color": "#cf1426",
   "status": "active",
-  "tone": "historical",
+  "tone": "alert",
   "temporal": "live",
   "trackerType": "historical",
   "domain": "governance",
   "region": "south-america",
   "country": "VE",
-  "tags": ["latin-america", "oil", "democracy", "migration", "hyperinflation", "sanctions", "authoritarianism", "bolivarian"],
+  "tags": [
+    "latin-america",
+    "oil",
+    "democracy",
+    "migration",
+    "hyperinflation",
+    "sanctions",
+    "authoritarianism",
+    "bolivarian"
+  ],
   "startDate": "1811-07-05",
   "eraLabel": "Maduro Era & Migration Crisis",
   "sections": [
@@ -211,9 +220,18 @@
         90
       ],
       "quietThreshold": 0
-    }
+    },
+    "relatedTrackers": [
+      "cuba-crises",
+      "haiti-collapse",
+      "colombia",
+      "peru",
+      "usa-latam-interventions"
+    ]
   },
   "ogImage": "/og-card.png",
   "githubRepo": "ArtemioPadilla/watchboard",
-  "geoPath": ["VE"]
+  "geoPath": [
+    "VE"
+  ]
 }

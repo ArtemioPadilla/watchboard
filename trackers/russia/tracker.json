@@ -6,17 +6,34 @@
   "icon": "🐻",
   "color": "#cc0000",
   "status": "active",
-  "tone": "historical",
+  "tone": "alert",
   "temporal": "historical",
   "trackerType": "historical",
   "domain": "governance",
   "region": "europe",
   "country": "RU",
-  "tags": ["russia", "soviet-union", "ukraine-war", "cold-war", "imperialism", "geopolitics", "sanctions"],
+  "tags": [
+    "russia",
+    "soviet-union",
+    "ukraine-war",
+    "cold-war",
+    "imperialism",
+    "geopolitics",
+    "sanctions"
+  ],
   "startDate": "0862-01-01",
   "eraLabel": "Kievan Rus to Putin",
-  "geoSecondary": ["UA", "BY", "GE", "KZ", "AZ", "PL"],
-  "geoPath": ["RU"],
+  "geoSecondary": [
+    "UA",
+    "BY",
+    "GE",
+    "KZ",
+    "AZ",
+    "PL"
+  ],
+  "geoPath": [
+    "RU"
+  ],
   "sections": [
     "hero",
     "kpis",
@@ -227,11 +244,23 @@
       "econ": 10
     },
     "updatePolicy": {
-      "escalation": [7, 7, 14, 30, 60],
+      "escalation": [
+        7,
+        7,
+        14,
+        30,
+        60
+      ],
       "quietThreshold": 0
     },
     "rssFeeds": [
       "https://news.google.com/rss/search?q=Russia+Ukraine+war+Putin+Kremlin&hl=en-US&gl=US&ceid=US:en"
+    ],
+    "relatedTrackers": [
+      "ukraine-war",
+      "china",
+      "nato-us-tensions",
+      "mh17-shootdown"
     ]
   },
   "ogImage": "/og-card.png",
