@@ -1,1 +1,95 @@
-[]
+[
+  {
+    "id": "days-since-invasion",
+    "label": "Days Since Full-Scale Invasion",
+    "value": "1,521",
+    "color": "red",
+    "source": "Feb 24, 2022 invasion date",
+    "contested": false,
+    "delta": "+365 since last year",
+    "trend": "up",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "ukrainian-territory-occupied",
+    "label": "Ukrainian Territory Under Russian Occupation",
+    "value": "~18%",
+    "color": "red",
+    "source": "Institute for the Study of War / Ukrainian General Staff",
+    "contested": true,
+    "contestNote": "Russia claims 20%+ including annexed oblasts not fully controlled; Ukraine disputes all annexations as illegal",
+    "delta": "-2% from peak occupation (March 2022)",
+    "trend": "stable",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "russian-military-casualties",
+    "label": "Estimated Russian Military Casualties (KIA+WIA)",
+    "value": "600,000+",
+    "color": "amber",
+    "source": "Ukrainian General Staff / UK MoD estimates",
+    "contested": true,
+    "contestNote": "Russian MoD does not publish figures; independent Russian estimates suggest 100,000–200,000 KIA; UK/Ukraine figures are higher",
+    "delta": "+200,000 since Jan 2025",
+    "trend": "up",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "ukrainian-civilian-deaths",
+    "label": "Confirmed Ukrainian Civilian Deaths (UN)",
+    "value": "12,000+",
+    "color": "red",
+    "source": "UN Human Rights Monitoring Mission Ukraine",
+    "contested": true,
+    "contestNote": "UN figure represents confirmed documented deaths; actual toll estimated at 30,000–50,000+ by independent analysts",
+    "delta": "+2,000 since 2025",
+    "trend": "up",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "ukrainians-displaced",
+    "label": "Ukrainians Displaced by War",
+    "value": "~10 million",
+    "color": "amber",
+    "source": "UNHCR / IOM",
+    "contested": false,
+    "deltaNote": "6M+ as refugees abroad; 4M+ internally displaced",
+    "trend": "down",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "western-aid-total",
+    "label": "Total Western Military Aid to Ukraine",
+    "value": "$250B+",
+    "color": "blue",
+    "source": "Kiel Institute for World Economy – Ukraine Support Tracker",
+    "contested": true,
+    "contestNote": "Includes military, financial, and humanitarian aid; US contribution ~$110B (2022-2025); EU combined ~$100B+",
+    "delta": "+$50B since 2024",
+    "trend": "up",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "ukraine-gdp-recovery",
+    "label": "Ukrainian GDP Change 2023",
+    "value": "+4.8%",
+    "color": "green",
+    "source": "World Bank / IMF",
+    "contested": false,
+    "deltaNote": "Recovery from -29% collapse in 2022; ongoing war limits sustained growth",
+    "trend": "up",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "reconstruction-cost",
+    "label": "Estimated Ukraine Reconstruction Cost",
+    "value": "$524B",
+    "color": "amber",
+    "source": "World Bank – Ukraine Rapid Damage Assessment 2024",
+    "contested": true,
+    "contestNote": "Ukrainian government estimates exceed $750B including future security costs; grows with each year of war",
+    "delta": "+$100B from 2023 estimate",
+    "trend": "up",
+    "lastUpdated": "2026-04-25"
+  }
+]
