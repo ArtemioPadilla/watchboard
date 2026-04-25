@@ -1,1 +1,98 @@
-[]
+[
+  {
+    "id": "population",
+    "label": "Population",
+    "value": "83.5M",
+    "color": "blue",
+    "source": "Federal Statistical Office (Destatis), 2024",
+    "contested": false,
+    "delta": "+200K",
+    "deltaNote": "Net growth driven by immigration, partly offsetting low birth rate (1.46 children/woman)",
+    "trend": "stable",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "gdp-nominal",
+    "label": "GDP (Nominal)",
+    "value": "€3.9T",
+    "color": "amber",
+    "source": "Destatis, 2024 estimate",
+    "contested": false,
+    "delta": "-0.2%",
+    "deltaNote": "Germany entered mild recession in 2024 amid elevated energy costs and weak industrial demand; 4th largest economy globally",
+    "trend": "down",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "bundeswehr-strength",
+    "label": "Bundeswehr Personnel",
+    "value": "181,500",
+    "color": "amber",
+    "source": "Bundeswehr Annual Report 2024",
+    "contested": false,
+    "delta": "+5,200",
+    "deltaNote": "Expansion post-Zeitenwende 2022; target 203,000 by 2031 under €100B special fund",
+    "trend": "up",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "years-reunified",
+    "label": "Years Since Reunification",
+    "value": "36",
+    "color": "green",
+    "source": "German reunification, October 3, 1990",
+    "contested": false,
+    "deltaNote": "East–West economic and social gaps persist despite €2T+ in transfers since 1990",
+    "trend": "stable",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "afd-vote-share-2025",
+    "label": "AfD Vote Share (2025 Election)",
+    "value": "20.8%",
+    "color": "red",
+    "source": "Federal Returning Officer, February 23, 2025",
+    "contested": false,
+    "delta": "+4.4pp",
+    "deltaNote": "Second-largest party in Bundestag; CDU/CSU government formed without AfD under firewall policy",
+    "trend": "up",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "public-debt-gdp",
+    "label": "Public Debt / GDP",
+    "value": "63.2%",
+    "color": "amber",
+    "source": "Deutsche Bundesbank, 2024",
+    "contested": false,
+    "delta": "+2.1pp",
+    "deltaNote": "Debt brake (Schuldenbremse) suspended 2020–2023; debate over reforming it to fund defense and climate transition",
+    "trend": "up",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "asylum-applications-2023",
+    "label": "Asylum Applications (2023)",
+    "value": "351,915",
+    "color": "red",
+    "source": "Federal Office for Migration and Refugees (BAMF), 2024",
+    "contested": true,
+    "contestNote": "Migration policy central to 2025 election debate; Merz government pledges permanent border controls and deportations",
+    "delta": "+51%",
+    "deltaNote": "Highest since 2016 crisis; applicants primarily from Afghanistan, Syria, and Turkey",
+    "trend": "up",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "defense-spending-gdp",
+    "label": "Defense Spending (% GDP)",
+    "value": "2.12%",
+    "color": "green",
+    "source": "NATO, 2024",
+    "contested": false,
+    "delta": "+0.55pp",
+    "deltaNote": "Germany meets NATO 2% target for first time since reunification; Zeitenwende marks historic shift in security policy",
+    "trend": "up",
+    "lastUpdated": "2026-04-25"
+  }
+]

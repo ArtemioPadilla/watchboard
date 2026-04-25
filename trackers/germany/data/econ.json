@@ -1,1 +1,90 @@
-[]
+[
+  {
+    "id": "gdp-growth-rate",
+    "label": "GDP Growth Rate",
+    "value": "-0.2%",
+    "change": "Contraction after zero growth in 2023",
+    "direction": "down",
+    "sparkData": [-4.4, 3.2, 1.8, -0.4, -0.2],
+    "color": "red",
+    "source": "Destatis, 2024 (2020–2024 annual)",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "inflation-rate",
+    "label": "CPI Inflation Rate",
+    "value": "2.2%",
+    "change": "Falling from 6.9% peak in 2022",
+    "direction": "down",
+    "sparkData": [0.5, 3.1, 6.9, 5.9, 2.2],
+    "color": "green",
+    "source": "Destatis (2020–2024 annual)",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "unemployment-rate",
+    "label": "Unemployment Rate",
+    "value": "5.5%",
+    "change": "Slight increase from structural pressures",
+    "direction": "up",
+    "sparkData": [5.9, 5.7, 5.3, 5.7, 5.5],
+    "color": "amber",
+    "source": "Federal Employment Agency (BA), 2024",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "industrial-production",
+    "label": "Industrial Production (YoY)",
+    "value": "-3.0%",
+    "change": "Third consecutive year of decline",
+    "direction": "down",
+    "sparkData": [2.1, 4.3, -0.8, -1.5, -3.0],
+    "color": "red",
+    "source": "Destatis, 2024 (2020–2024)",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "trade-surplus",
+    "label": "Trade Balance Surplus",
+    "value": "€199B",
+    "change": "Recovered from 2022 energy shock dip",
+    "direction": "up",
+    "sparkData": [173, 113, 84, 199, 210],
+    "color": "green",
+    "source": "Destatis, 2023 (2019–2023)",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "energy-import-cost",
+    "label": "Energy Import Costs",
+    "value": "€120B",
+    "change": "Falling from 2022 peak of €220B after Russia gas cutoff",
+    "direction": "down",
+    "sparkData": [80, 75, 220, 170, 120],
+    "color": "amber",
+    "source": "BMWK (Federal Economics Ministry), 2020–2024 estimates",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "defense-budget",
+    "label": "Defense Budget",
+    "value": "€78.4B",
+    "change": "Doubled since 2021 via Sondervermögen special fund",
+    "direction": "up",
+    "sparkData": [45.2, 47.1, 50.3, 55.8, 78.4],
+    "color": "blue",
+    "source": "Bundesministerium der Verteidigung, 2020–2024",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "housing-price-index",
+    "label": "Residential Property Price Index",
+    "value": "148",
+    "change": "Modest decline from 2022 peak of 160",
+    "direction": "down",
+    "sparkData": [110, 125, 155, 160, 148],
+    "color": "amber",
+    "source": "Deutsche Bundesbank (index: 2015=100), 2020–2024",
+    "lastUpdated": "2026-04-25"
+  }
+]
