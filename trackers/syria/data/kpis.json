@@ -1,1 +1,91 @@
-[]
+[
+  {
+    "id": "total-war-dead",
+    "label": "Estimated War Deaths (2011–2024)",
+    "value": "500,000+",
+    "color": "red",
+    "source": "UN / SOHR / SNHR",
+    "contested": true,
+    "contestNote": "Syrian Observatory for Human Rights (SOHR) documented ~580,000 deaths; Syrian Network for Human Rights counted ~232,000 civilian deaths alone; Russian and Assad-regime sources minimized figures; true total may exceed 600,000 including those missing.",
+    "delta": "+1,500 in 2024 (pre-Dec)",
+    "trend": "down",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "displaced-persons",
+    "label": "Total Displaced Persons",
+    "value": "13.8 million",
+    "color": "amber",
+    "source": "UNHCR / UN OCHA 2025",
+    "contested": false,
+    "delta": "-400,000 in early returns (2025)",
+    "deltaNote": "Early voluntary returns since December 2024, mostly from Turkey and Lebanon",
+    "trend": "down",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "refugees-registered",
+    "label": "Refugees Registered Abroad",
+    "value": "5.5 million",
+    "color": "amber",
+    "source": "UNHCR — Syria Regional Refugee Response 2025",
+    "contested": false,
+    "delta": "+50,000 since Dec 2024",
+    "deltaNote": "Net figure — some returning, some still fleeing conflict zones",
+    "trend": "stable",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "days-since-regime-collapse",
+    "label": "Days Since Assad Regime Fell",
+    "value": "139",
+    "color": "blue",
+    "source": "December 8, 2024 (regime collapse) to April 25, 2026",
+    "contested": false,
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "hts-territory-control",
+    "label": "Transitional Govt Territory Control",
+    "value": "~65%",
+    "color": "green",
+    "source": "ACLED / ISW Syria Control Map April 2025",
+    "contested": true,
+    "contestNote": "HTS/transitional government controls Damascus, Aleppo, Homs, Hama, Idlib, Latakia, Daraa, and much of southern Syria. Estimates vary due to contested areas and tribal zones.",
+    "trend": "up",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "sdf-territory-control",
+    "label": "SDF (AANES) Territory Control",
+    "value": "~20%",
+    "color": "blue",
+    "source": "ACLED / ISW Syria Control Map April 2025",
+    "contested": true,
+    "contestNote": "SDF/AANES controls northeast Syria (Jazira, Euphrates basin including Raqqa, Deir ez-Zor NE, Qamishli). Turkey and transitional govt dispute legitimacy of SDF self-governance.",
+    "trend": "stable",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "reconstruction-cost",
+    "label": "Estimated Reconstruction Cost",
+    "value": "$250–400 billion",
+    "color": "amber",
+    "source": "World Bank / UNDP Syria Needs Assessment 2024",
+    "contested": true,
+    "contestNote": "World Bank 2017 estimate was $226B; subsequent destruction raised estimates. Some analysts cite $400B+; the actual figure depends heavily on security environment and population return.",
+    "trend": "up",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "gdp-collapse",
+    "label": "GDP vs Pre-War Level",
+    "value": "~25% of 2010 GDP",
+    "color": "red",
+    "source": "World Bank / IMF Syria Economic Monitor 2024",
+    "contested": true,
+    "contestNote": "Comprehensive economic data from Syria is unreliable. Syrian pound devaluation, black market economy, and sanctions make comparisons difficult. Some analysts place current GDP as low as 15% of pre-war levels.",
+    "trend": "down",
+    "lastUpdated": "2026-04-25"
+  }
+]
