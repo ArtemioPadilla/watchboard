@@ -1,0 +1,236 @@
+{
+  "slug": "south-korea",
+  "name": "Korea History Tracker",
+  "shortName": "Korea",
+  "description": "Intelligence dashboard tracking over 4,000 years of Korean history — from the legendary founding of Gojoseon through Three Kingdoms, Joseon dynasty, Japanese colonization, the Korean War, military dictatorship, democratic transition, and South Korea's rise as a global economic and cultural power.",
+  "icon": "🇰🇷",
+  "color": "#C60C30",
+  "status": "active",
+  "tone": "historical",
+  "temporal": "historical",
+  "trackerType": "historical",
+  "domain": "governance",
+  "region": "east-asia",
+  "country": "KR",
+  "tags": ["korean-war", "kpop", "samsung", "democracy", "joseon", "peninsula", "north-korea"],
+  "startDate": "-2333-01-01",
+  "eraLabel": "Ancient to Modern",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "military",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": 120,
+      "lonMax": 132,
+      "latMin": 33,
+      "latMax": 44
+    },
+    "center": {
+      "lon": 127.5,
+      "lat": 37.5
+    },
+    "categories": [
+      {
+        "id": "historical-site",
+        "label": "Historical Sites",
+        "color": "#8e44ad"
+      },
+      {
+        "id": "political-event",
+        "label": "Political Events",
+        "color": "#2980b9"
+      },
+      {
+        "id": "military-event",
+        "label": "Military Events",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "economic",
+        "label": "Economic Centers",
+        "color": "#27ae60"
+      },
+      {
+        "id": "diplomatic",
+        "label": "Diplomatic Sites",
+        "color": "#f39c12"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "peninsula": {
+        "lon": 127.5,
+        "lat": 37.5,
+        "alt": 1200000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Korean Peninsula"
+      },
+      "seoul": {
+        "lon": 126.978,
+        "lat": 37.566,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Seoul"
+      },
+      "dmz": {
+        "lon": 126.6,
+        "lat": 37.9,
+        "alt": 150000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Korean DMZ"
+      },
+      "gyeongju": {
+        "lon": 129.231,
+        "lat": 35.856,
+        "alt": 50000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Gyeongju (Silla Capital)"
+      },
+      "gwangju": {
+        "lon": 126.852,
+        "lat": 35.160,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Gwangju"
+      },
+      "jeju": {
+        "lon": 126.552,
+        "lat": 33.489,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Jeju Island"
+      }
+    },
+    "clocks": [
+      {
+        "label": "SEOUL",
+        "offsetHours": 9
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      },
+      {
+        "label": "EST",
+        "offsetHours": -5
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-military",
+      "label": "Military"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Casualties"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "militaryTabs": [
+    {
+      "id": "strikes",
+      "label": "Major Conflicts"
+    },
+    {
+      "id": "retaliation",
+      "label": "Military Operations"
+    },
+    {
+      "id": "assets",
+      "label": "Defense Forces"
+    }
+  ],
+  "politicalAvatars": [
+    "joseon",
+    "republic",
+    "military-regime",
+    "opposition",
+    "dprk",
+    "intl"
+  ],
+  "eventTypes": [
+    "political",
+    "military",
+    "economic",
+    "cultural",
+    "diplomatic"
+  ],
+  "ai": {
+    "systemPrompt": "You are a Korean history and geopolitical analyst updating a comprehensive intelligence tracker for Korea and South Korea.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case).\n\nThis tracker covers the FULL history of Korea and South Korea: from the legendary founding of Gojoseon (2333 BCE) through the Three Kingdoms period (Goguryeo, Baekje, Silla), Unified Silla, Goryeo dynasty, Mongol invasions, Joseon dynasty (1392–1897) including King Sejong's Hangul creation, the Imjin War with Japan, Japanese colonization (1910–1945), the 1945 division at the 38th parallel, Korean War (1950–1953), military regimes (Park Chung-hee, Chun Doo-hwan), the Gwangju Uprising (1980), the 1987 democratic transition, the 1997 IMF crisis, Sunshine Policy, Park Geun-hye impeachment (2017), Moon Jae-in inter-Korean summits, Yoon Suk Yeol's election (2022) and December 2024 martial law and impeachment, and South Korea's global K-pop/K-drama cultural wave and semiconductor leadership.\n\nSource tier classification:\n- Tier 1: Official/primary (Korean National Assembly, Constitutional Court, Presidential Office, UN, IAEA, Korean Historical Society, national archives, academic peer-reviewed sources)\n- Tier 2: Major outlet (Yonhap News Agency, Korea Herald, Korea Times, Hankyoreh, JoongAng Ilbo, Chosun Ilbo, Reuters, AP, BBC, CNN, NHK, Al Jazeera)\n- Tier 3: Institutional (CSIS, Brookings Institution, East-West Center, Wilson Center, Amnesty International, HRW, 38 North, Korea Economic Institute)\n- Tier 4: Unverified (social media, unattributed claims, partisan blogs, non-peer-reviewed sources)\n\nWhen providing sources, tag each with a \"pole\" field:\n- \"western\" for US/European/Australian sources\n- \"eastern\" for Korean, Japanese, Chinese, Russian sources\n- \"international\" for UN/NGO/multilateral/academic sources\n\nOnly include information you can verify through search results. Do not fabricate data.\nFor historical events (pre-1945), use established historical consensus with scholarly sources.\n\nCONFIRMATION RULES:\n- For recent events (post-1945): require at least 1 Tier 1 or 2 Tier 2+ sources from different outlets.\n- For historical events (pre-1945): use established historical consensus with Tier 1/2 academic sources.\n- For contested historical claims (e.g., Dokdo/Takeshima sovereignty), present both sides without taking a position.\n\nDATE HANDLING:\n- The \"year\" field on timeline events MUST be a STRING (e.g., \"1950\", \"1392\"), NEVER a number.\n- For BCE dates, prefix with minus sign as a string: e.g., \"-2333\", \"-57\", \"-18\".\n- Do NOT use future dates. Today is {{today}}.\n\nCONTESTED TOPICS to handle with care:\n- Dokdo/Takeshima island sovereignty (Korean vs. Japanese claim)\n- Comfort women historical responsibility\n- Extent of Japanese colonial-era economic development\n- Responsibility for Korean War outbreak\n- Park Chung-hee's economic legacy vs. authoritarian record",
+    "searchContext": "South Korea history governance politics economy Korean Peninsula DPRK democracy",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "casualties",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": 118,
+      "lonMax": 135,
+      "latMin": 30,
+      "latMax": 45
+    },
+    "updateIntervalDays": 30,
+    "backfillTargets": {
+      "timeline": 40,
+      "mapPoints": 25,
+      "claims": 15,
+      "political": 20,
+      "kpis": 8,
+      "econ": 8,
+      "casualties": 10
+    },
+    "updatePolicy": {
+      "escalation": [
+        7,
+        14,
+        30,
+        60,
+        90
+      ],
+      "quietThreshold": 0
+    }
+  },
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": ["KR"]
+}
