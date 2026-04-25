@@ -1,1 +1,94 @@
-[]
+[
+  {
+    "id": "brics-member-count",
+    "label": "Full Member States",
+    "value": "10",
+    "color": "green",
+    "source": "BRICS Official / NDB",
+    "contested": false,
+    "delta": "+5 since 2011",
+    "deltaNote": "Egypt, Ethiopia, Iran, UAE joined Jan 2024; Indonesia joined Jan 2025",
+    "trend": "up",
+    "lastUpdated": "2026-04-25T00:00:00Z"
+  },
+  {
+    "id": "brics-gdp-ppp-share",
+    "label": "Share of World GDP (PPP)",
+    "value": "~41%",
+    "color": "green",
+    "source": "IMF World Economic Outlook 2024",
+    "contested": true,
+    "contestNote": "PPP-adjusted figure favored by BRICS; G7 holds ~43% by nominal exchange rates — methodology choice significantly shifts perception of bloc dominance",
+    "trend": "up",
+    "lastUpdated": "2026-04-25T00:00:00Z"
+  },
+  {
+    "id": "brics-population-share",
+    "label": "Share of World Population",
+    "value": "~46%",
+    "color": "blue",
+    "source": "UN Population Division 2024",
+    "contested": false,
+    "delta": "+4%",
+    "deltaNote": "Grew with 2024–2025 expansion including Indonesia",
+    "trend": "up",
+    "lastUpdated": "2026-04-25T00:00:00Z"
+  },
+  {
+    "id": "ndb-approved-financing",
+    "label": "NDB Total Approved Financing",
+    "value": "$35.7B+",
+    "color": "blue",
+    "source": "NDB Annual Report 2024",
+    "contested": false,
+    "delta": "+100 projects",
+    "deltaNote": "First loans approved April 2016; $811M in green energy; Russia lending suspended Dec 2022",
+    "trend": "up",
+    "lastUpdated": "2026-04-25T00:00:00Z"
+  },
+  {
+    "id": "brics-oil-production-share",
+    "label": "Share of Global Oil Production",
+    "value": "~44%",
+    "color": "amber",
+    "source": "IEA / OPEC 2024",
+    "contested": true,
+    "contestNote": "Includes Russia, Iran, UAE, and Brazil; Saudi Arabia's unconfirmed membership status affects the figure significantly if included",
+    "trend": "up",
+    "lastUpdated": "2026-04-25T00:00:00Z"
+  },
+  {
+    "id": "brics-partner-nations",
+    "label": "BRICS Partner Nations",
+    "value": "12",
+    "color": "amber",
+    "source": "Kazan Declaration, Oct 2024",
+    "contested": false,
+    "delta": "+12 (new category)",
+    "deltaNote": "13 admitted at Kazan 2024; Indonesia upgraded to full member Jan 2025, reducing partner count to 12",
+    "trend": "up",
+    "lastUpdated": "2026-04-25T00:00:00Z"
+  },
+  {
+    "id": "intra-brics-trade",
+    "label": "Intra-BRICS Trade (Annual)",
+    "value": "$680B+",
+    "color": "blue",
+    "source": "UNCTAD / WTO 2024",
+    "contested": true,
+    "contestNote": "China-Russia energy trade volumes disputed due to sanctions opacity; aggregate figures from member-state customs vary by 10–15%",
+    "trend": "up",
+    "lastUpdated": "2026-04-25T00:00:00Z"
+  },
+  {
+    "id": "usd-share-global-fx-reserves",
+    "label": "USD Share of Global FX Reserves",
+    "value": "59%",
+    "color": "red",
+    "source": "IMF COFER 2024",
+    "contested": true,
+    "contestNote": "Down from 72% in 1999; BRICS de-dollarization framing claims faster decline, but yuan remains below 3% of global reserves — structural shift is slow",
+    "trend": "down",
+    "lastUpdated": "2026-04-25T00:00:00Z"
+  }
+]
