@@ -1,0 +1,213 @@
+{
+  "slug": "india",
+  "name": "India: 4,600 Years of Civilization",
+  "shortName": "India",
+  "description": "Intelligence dashboard spanning India's full arc: from Indus Valley civilization (c. 2600 BCE) through the Mughal Empire, British Raj, Gandhi's independence movement, 1947 Partition, and contemporary India as the world's most populous democracy under Modi.",
+  "icon": "🇮🇳",
+  "color": "#FF9933",
+  "status": "active",
+  "tone": "historical",
+  "temporal": "historical",
+  "trackerType": "historical",
+  "domain": "governance",
+  "region": "south-asia",
+  "country": "IN",
+  "tags": ["india", "south-asia", "history", "independence", "partition", "mughal", "british-raj", "democracy", "hinduism", "civilization"],
+  "startDate": "-2600-01-01",
+  "eraLabel": "Ancient to Contemporary India",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": 60,
+      "lonMax": 98,
+      "latMin": 5,
+      "latMax": 40
+    },
+    "center": {
+      "lon": 79,
+      "lat": 22
+    },
+    "categories": [
+      {
+        "id": "ancient",
+        "label": "Ancient Civilizations",
+        "color": "#f39c12"
+      },
+      {
+        "id": "empire",
+        "label": "Empires & Kingdoms",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "colonial",
+        "label": "British Colonial Sites",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "independence",
+        "label": "Independence Movement",
+        "color": "#2ecc71"
+      },
+      {
+        "id": "contemporary",
+        "label": "Contemporary Events",
+        "color": "#3498db"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "south_asia": {
+        "lon": 79,
+        "lat": 22,
+        "alt": 4500000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "South Asia Overview"
+      },
+      "new_delhi": {
+        "lon": 77.21,
+        "lat": 28.61,
+        "alt": 100000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "New Delhi"
+      },
+      "mohenjo_daro": {
+        "lon": 68.13,
+        "lat": 27.33,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Mohenjo-daro (Indus Valley)"
+      },
+      "varanasi": {
+        "lon": 83.01,
+        "lat": 25.32,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Varanasi"
+      },
+      "amritsar": {
+        "lon": 74.87,
+        "lat": 31.63,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Amritsar (Golden Temple)"
+      },
+      "patna": {
+        "lon": 85.14,
+        "lat": 25.60,
+        "alt": 70000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Patna / Pataliputra (Mauryan Capital)"
+      },
+      "mumbai": {
+        "lon": 72.88,
+        "lat": 19.08,
+        "alt": 90000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Mumbai"
+      }
+    },
+    "clocks": [
+      {
+        "label": "IST",
+        "offsetHours": 5.5
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      },
+      {
+        "label": "EST",
+        "offsetHours": -5
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "politicalAvatars": [
+    "mughal",
+    "british",
+    "congress",
+    "bjp",
+    "intl",
+    "other"
+  ],
+  "eventTypes": [
+    "political",
+    "military",
+    "social",
+    "economic",
+    "cultural"
+  ],
+  "ai": {
+    "systemPrompt": "You are a South Asia historian and governance analyst updating a tracker on India's 4,600-year civilization.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"ashoka_edicts\", \"partition_1947\").\n\nCOVERAGE SCOPE — this tracker spans ancient to contemporary India:\n- Ancient: Indus Valley/Harappan civilization (c. 2600–1700 BCE), Vedic period (c. 1500–600 BCE), Maurya Empire (322–185 BCE), Gupta Empire (320–550 CE)\n- Medieval: Rajput kingdoms, Delhi Sultanate (1206–1526), Vijayanagara Empire, Mughal Empire (1526–1857)\n- Colonial: British East India Company (1600–1858), 1857 Sepoy Mutiny, British Raj (1858–1947), Bengal Famine 1943\n- Independence: Gandhi non-violence movement, 1947 Independence and Partition with Pakistan, Nehru era\n- Modern: Indira Gandhi, Emergency (1975–1977), 1971 Bangladesh Liberation War, economic liberalization 1991\n- Contemporary: BJP rise, Modi government (2014–present), Kashmir Article 370 revocation (2019), CAA-NRC controversy, COVID-19, G20 presidency (2023), tech sector growth, demographic milestone as world's most populous nation\n\nSource tier classification for India:\n- Tier 1: Official/primary (Government of India, Parliament records, Supreme Court, Archaeological Survey of India, Census of India, Reserve Bank of India, Election Commission of India)\n- Tier 2: Major outlet (The Hindu, Times of India, NDTV, India Today, Hindustan Times, Reuters India, BBC India, Al Jazeera English)\n- Tier 3: Institutional (Brookings India, Observer Research Foundation, Centre for Policy Research, HRW, Amnesty, Carnegie India, academic historians, IMF/World Bank India reports)\n- Tier 4: Unverified (social media, unattributed claims, partisan sources)\n\nOnly include information you can verify through search results. Do not fabricate data.\n\nDATE FORMAT: The \"year\" field on timeline events must be a STRING (e.g. \"-2600\", \"1947\", \"2023\"). Use ISO dates (YYYY-MM-DD) for map-point date fields. For BCE dates, use negative years.\n\nKEY RULES:\n- Do not include future-dated events\n- Balance perspectives: Hindu nationalist, secular/Congress, Muslim, Dalit/Ambedkarite, regional/state, international scholarly consensus\n- Mark contested figures (casualty counts, famine death estimates, economic claims) with contested: true\n- For economic data: use direction \"up\" or \"down\" only (never \"stable\")\n- For KPI colors: use \"red\", \"amber\", \"blue\", or \"green\" only",
+    "searchContext": "India history civilization Mughal British Raj independence partition Modi governance",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": 55,
+      "lonMax": 100,
+      "latMin": 3,
+      "latMax": 42
+    },
+    "updateIntervalDays": 30,
+    "backfillTargets": {
+      "timeline": 40,
+      "mapPoints": 25,
+      "claims": 20,
+      "political": 20,
+      "kpis": 8,
+      "econ": 8
+    },
+    "updatePolicy": {
+      "escalation": [7, 14, 30, 60, 90, 180],
+      "quietThreshold": 30
+    }
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": ["IN"]
+}
