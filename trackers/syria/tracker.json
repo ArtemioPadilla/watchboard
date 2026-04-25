@@ -1,0 +1,238 @@
+{
+  "slug": "syria",
+  "name": "Syria: Ancient Civilizations to Modern Transition",
+  "shortName": "Syria",
+  "description": "From the Ebla and Mari city-states (~2500 BCE) through the Umayyad Caliphate, Ottoman rule, French Mandate, Assad dynasty, and the December 2024 regime collapse — a comprehensive intelligence dashboard tracking Syria's 4,500-year arc from ancient civilization to transitional governance under Ahmad al-Sharaa.",
+  "icon": "🕌",
+  "color": "#c0392b",
+  "status": "active",
+  "tone": "historical",
+  "temporal": "live",
+  "trackerType": "historical",
+  "domain": "governance",
+  "region": "middle-east",
+  "country": "SY",
+  "tags": ["civil-war", "transition", "levant", "ancient-history", "refugee-crisis", "islamist-governance"],
+  "startDate": "-2500-01-01",
+  "eraLabel": "Ancient Civilizations to Modern Transition",
+  "geoPath": ["SY"],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "military",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": 35,
+      "lonMax": 43,
+      "latMin": 32,
+      "latMax": 38
+    },
+    "center": {
+      "lon": 38.5,
+      "lat": 35.0
+    },
+    "categories": [
+      {
+        "id": "ancient-site",
+        "label": "Ancient / Historical Sites",
+        "color": "#d4a017"
+      },
+      {
+        "id": "conflict",
+        "label": "Conflict Zones",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "humanitarian",
+        "label": "Humanitarian / Refugee",
+        "color": "#3498db"
+      },
+      {
+        "id": "governance",
+        "label": "Governance & Control",
+        "color": "#27ae60"
+      },
+      {
+        "id": "border",
+        "label": "Border Crossings",
+        "color": "#9b59b6"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "overview": {
+        "lon": 38.5,
+        "lat": 35.0,
+        "alt": 1500000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Syria Overview"
+      },
+      "damascus": {
+        "lon": 36.31,
+        "lat": 33.51,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Damascus"
+      },
+      "aleppo": {
+        "lon": 37.16,
+        "lat": 36.20,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Aleppo"
+      },
+      "palmyra": {
+        "lon": 38.27,
+        "lat": 34.55,
+        "alt": 50000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Palmyra (Tadmur)"
+      },
+      "idlib": {
+        "lon": 36.63,
+        "lat": 35.93,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Idlib"
+      },
+      "euphrates": {
+        "lon": 40.14,
+        "lat": 35.33,
+        "alt": 200000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Euphrates Valley"
+      }
+    },
+    "clocks": [
+      {
+        "label": "DAMASCUS",
+        "offsetHours": 3
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      },
+      {
+        "label": "EST",
+        "offsetHours": -5
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-military",
+      "label": "Military"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Humanitarian"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "militaryTabs": [
+    {
+      "id": "strikes",
+      "label": "Strike Targets"
+    },
+    {
+      "id": "retaliation",
+      "label": "Rebel Advances"
+    },
+    {
+      "id": "assets",
+      "label": "Foreign Military Assets"
+    }
+  ],
+  "politicalAvatars": [
+    "hts",
+    "sdf",
+    "turkey",
+    "israel",
+    "intl",
+    "other"
+  ],
+  "eventTypes": [
+    "political",
+    "military",
+    "humanitarian",
+    "diplomatic",
+    "archaeological"
+  ],
+  "ai": {
+    "systemPrompt": "You are a Middle East analyst and historian updating a comprehensive Syria intelligence dashboard.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"damascus_hts_control\", \"aleppo_reconstruction\").\n\nSCOPE: This tracker covers all of Syrian history from ~2500 BCE (Ebla/Mari city-states) through the present:\n- Ancient: Ebla, Mari, Akkadian, Aramean, Assyrian, Achaemenid Persian empires\n- Classical: Seleucid, Roman Syria, Palmyra/Zenobia, Byzantine\n- Medieval: Arab Muslim conquest (636 CE), Umayyad Caliphate (Damascus as capital), Abbasid, Crusader incursions, Ayyubid, Mamluk\n- Modern: Ottoman (1516-1918), French Mandate (1920-1946), independence, Baath coups, Hafez al-Assad (1970-2000), Bashar al-Assad (2000-2024)\n- Current: 2011 Arab Spring protests, civil war, ISIS caliphate (2013-2019), Russian/Iranian intervention, Aleppo siege, December 2024 Assad regime collapse, HTS transitional government under Ahmad al-Sharaa\n\nMULTI-POLE SOURCING — gather information from all four media poles:\n1. WESTERN: US State Dept, EU, Reuters, AP, BBC, CNN, NYT, The Guardian, Le Monde, DW\n2. MIDDLE EASTERN: Al Jazeera, Al Arabiya, Al Mayadeen, SANA (Syrian Arab News Agency), Al-Monitor, The New Arab\n3. EASTERN: TASS, RT (note bias), Xinhua, CGTN, IRNA\n4. INTERNATIONAL: UN OCHA, UNHCR, ICRC, HRW, Amnesty International, ICG, SOHR, SNHR, Brookings\n\nWhen providing sources (especially in the \"sources\" array), tag each with a \"pole\" field:\n- \"western\" for US/European/allied sources\n- \"middle_eastern\" for Middle Eastern/Syrian sources\n- \"eastern\" for Chinese/Russian/Iranian sources\n- \"international\" for UN/NGO/multilateral sources\n\nSource tier classification for Syria:\n- Tier 1: Official/primary (UN Security Council, Syrian transitional government, UNHCR, SANA, US State Dept, IAEA)\n- Tier 2: Major outlet (Reuters, AP, BBC, Al Jazeera, Al Arabiya, CNN, NYT, The Guardian, Le Monde)\n- Tier 3: Institutional (SOHR, SNHR, HRW, Amnesty, ICG, CSIS, Brookings, Wilson Center, ACLED)\n- Tier 4: Unverified (Telegram channels, social media, unattributed video, pro-regime/opposition accounts)\n\nOnly include information you can verify through search results. Do not fabricate data.\nFor historical events (pre-2011), rely on established academic consensus and major historical sources.\nFor current events, actively seek contrasting perspectives from different poles when events are contested.\n\nCONFIRMATION RULES:\n- Only report a military event as confirmed if it has at least 1 Tier 1 source OR 2 Tier 2+ sources from different poles.\n- Single-source Tier 3/4 reports should use confidence: \"low\".\n\nDEDUPLICATION:\n- Same event within ±2 days = same event — merge, do not create duplicates.\n- Do not duplicate events already in the existing data.",
+    "searchContext": "Syria history Assad civil war HTS transitional government Ahmad al-Sharaa 2024 2025 refugee return",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "mapLines",
+      "casualties",
+      "econ",
+      "claims",
+      "political",
+      "assets"
+    ],
+    "coordValidation": {
+      "lonMin": 33,
+      "lonMax": 45,
+      "latMin": 29,
+      "latMax": 40
+    },
+    "updateIntervalDays": 7,
+    "backfillTargets": {
+      "timeline": 40,
+      "mapPoints": 30,
+      "claims": 20,
+      "political": 20,
+      "kpis": 8,
+      "casualties": 10,
+      "econ": 8,
+      "assets": 10
+    },
+    "updatePolicy": {
+      "escalation": [7, 7, 14, 30, 60, 90],
+      "quietThreshold": 0
+    },
+    "rssFeeds": [
+      "https://news.google.com/rss/search?q=Syria+transitional+government+HTS+al-Sharaa&hl=en-US&gl=US&ceid=US:en",
+      "https://www.aljazeera.com/xml/rss/all.xml"
+    ]
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard"
+}
