@@ -1,0 +1,209 @@
+{
+  "slug": "brazil",
+  "name": "Brazil: Five Centuries",
+  "shortName": "Brazil",
+  "description": "Intelligence dashboard tracing Brazil's full arc from Pedro Álvares Cabral's landfall (1500) through colonial slavery, independence, empire, republic, Vargas, military dictatorship, redemocratization, and the Lula–Bolsonaro era.",
+  "icon": "🇧🇷",
+  "color": "#009c3b",
+  "status": "active",
+  "tone": "historical",
+  "temporal": "historical",
+  "trackerType": "historical",
+  "domain": "governance",
+  "region": "south-america",
+  "country": "BR",
+  "tags": ["latin-america", "democracy", "corruption", "amazon", "brics", "lava-jato", "dictatorship"],
+  "startDate": "1500-04-22",
+  "eraLabel": "1500 – Present",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": -74,
+      "lonMax": -28,
+      "latMin": -34,
+      "latMax": 6
+    },
+    "center": {
+      "lon": -52,
+      "lat": -14
+    },
+    "categories": [
+      {
+        "id": "political",
+        "label": "Political Events",
+        "color": "#009c3b"
+      },
+      {
+        "id": "protest",
+        "label": "Protests & Uprisings",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "corruption",
+        "label": "Corruption Cases",
+        "color": "#f39c12"
+      },
+      {
+        "id": "economic",
+        "label": "Economic Milestones",
+        "color": "#3498db"
+      },
+      {
+        "id": "environmental",
+        "label": "Amazon & Environment",
+        "color": "#27ae60"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "overview": {
+        "lon": -52,
+        "lat": -14,
+        "alt": 6000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Brazil Overview"
+      },
+      "brasilia": {
+        "lon": -47.93,
+        "lat": -15.78,
+        "alt": 100000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Brasília"
+      },
+      "rio": {
+        "lon": -43.17,
+        "lat": -22.91,
+        "alt": 120000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Rio de Janeiro"
+      },
+      "sao_paulo": {
+        "lon": -46.63,
+        "lat": -23.55,
+        "alt": 100000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "São Paulo"
+      },
+      "manaus": {
+        "lon": -60.02,
+        "lat": -3.1,
+        "alt": 150000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Manaus / Amazon"
+      },
+      "salvador": {
+        "lon": -38.51,
+        "lat": -12.97,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Salvador (Colonial Capital)"
+      }
+    },
+    "clocks": [
+      {
+        "label": "BRASÍLIA",
+        "offsetHours": -3
+      },
+      {
+        "label": "MANAUS",
+        "offsetHours": -4
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "politicalAvatars": [
+    "executive",
+    "military",
+    "judiciary",
+    "opposition",
+    "international",
+    "civil-society"
+  ],
+  "eventTypes": [
+    "political",
+    "economic",
+    "social",
+    "environmental",
+    "diplomatic"
+  ],
+  "ai": {
+    "systemPrompt": "You are a Brazilian history and governance analyst updating a comprehensive intelligence dashboard covering five centuries of Brazilian history.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"plano_real_1994\", \"lava_jato_2014\").\n\nThis tracker spans from Pedro Álvares Cabral's landing in 1500 to the present day. Cover all major eras:\n- Colonial period & slave economy (1500-1822)\n- Independence & Empire of Brazil (1822-1889)\n- Old Republic / café com leite politics (1889-1930)\n- Vargas Era — Estado Novo (1930-1945, 1951-1954)\n- Developmental state & Kubitschek (1955-1961)\n- Military Dictatorship — AI-5 (1964-1985)\n- Redemocratization & Constituição de 1988\n- Plano Real & Cardoso era (1994-2002)\n- Lula first two terms — Bolsa Família, BRICS (2003-2010)\n- Dilma Rousseff — impeachment (2011-2016)\n- Temer transitional government (2016-2018)\n- Bolsonaro era — Amazon deforestation, COVID (2019-2022)\n- Lula third term — January 8 riots (2023-present)\n- Structural themes: Operation Lava Jato, Copa 2014, Rio 2016 Olympics, Amazon deforestation, social inequality (Gini)\n\nSOURCE TIERS for Brazilian governance:\n- Tier 1: Official/primary (Planalto, Congresso Nacional, STF Supreme Court, TSE Electoral Court, Banco Central do Brasil, IBGE, TCU, PGR, Brazilian Senate)\n- Tier 2: Major outlet (Folha de S.Paulo, O Globo, Estado de S. Paulo, Valor Econômico, Reuters, AP, BBC Brasil, CNN Brasil, UOL, G1/Globo, The Guardian)\n- Tier 3: Institutional/analytical (FGV, IPEA, IUPERJ, Transparência Internacional, HRW, Amnesty International, INPE/Amazon data, World Bank, IMF, WOLA, NACLA)\n- Tier 4: Unverified (social media, anonymous leaks, unattributed political claims)\n\nWhen providing sources, tag each with a \"pole\" field:\n- \"western\" for US/European/allied sources\n- \"eastern\" for Chinese/Russian/Asian sources\n- \"international\" for UN/NGO/multilateral sources\n- Use \"western\" for Brazilian domestic sources (closest alignment)\n\nOnly include information you can verify through search results. Do not fabricate data.\nFor historical events, cite academic or archival sources where available.\nFor ongoing events (2023-present), verify through search before including.\n\nDEDUPLICATION:\n- Do not add events that already exist in the current data.\n- For the same event reported by multiple sources, merge into one entry with the most authoritative source.\n\nDATE RULES:\n- The \"year\" field on timeline events must be a STRING (e.g. \"1964\", not 1964).\n- All date fields must be YYYY-MM-DD format.\n- Never use future dates.",
+    "searchContext": "Brazil history politics governance economy democracy Lula Bolsonaro Amazon Lava Jato",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": -75,
+      "lonMax": -28,
+      "latMin": -35,
+      "latMax": 7
+    },
+    "updateIntervalDays": 30,
+    "backfillTargets": {
+      "timeline": 40,
+      "mapPoints": 20,
+      "claims": 15,
+      "political": 15,
+      "kpis": 8,
+      "econ": 8
+    },
+    "updatePolicy": {
+      "escalation": [
+        30,
+        60,
+        90,
+        180
+      ],
+      "quietThreshold": 0
+    }
+  },
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": ["BR"]
+}
