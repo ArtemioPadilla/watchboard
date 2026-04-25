@@ -36,11 +36,14 @@ export default function OnboardingTour() {
       && !isTourCompleted('desktop');
     markTourComplete('desktop');
     setActive(false);
-    if (wasFirstCompletion) {
-      setShowCompletionToast(true);
-      setTimeout(() => setShowCompletionToast(false), 4000);
-    }
+    if (wasFirstCompletion) setShowCompletionToast(true);
   }, []);
+
+  useEffect(() => {
+    if (!showCompletionToast) return;
+    const id = setTimeout(() => setShowCompletionToast(false), 4000);
+    return () => clearTimeout(id);
+  }, [showCompletionToast]);
 
   const goNext = useCallback(() => {
     if (stepIdx >= DESKTOP_STEPS.length - 1) {
