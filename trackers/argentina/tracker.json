@@ -1,0 +1,215 @@
+{
+  "slug": "argentina",
+  "name": "Argentina: 490 Years of History",
+  "shortName": "Argentina",
+  "description": "Comprehensive intelligence dashboard tracing Argentina's history from the 1536 founding of Buenos Aires through colonial rule, independence, Perón, the Dirty War, the 2001 economic collapse, and Milei's libertarian presidency.",
+  "icon": "🇦🇷",
+  "color": "#74acdf",
+  "status": "active",
+  "temporal": "historical",
+  "trackerType": "historical",
+  "tone": "neutral",
+  "domain": "governance",
+  "region": "south-america",
+  "country": "AR",
+  "startDate": "1536-02-02",
+  "eraLabel": "1536–Present",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": -74,
+      "lonMax": -53,
+      "latMin": -56,
+      "latMax": -21
+    },
+    "center": {
+      "lon": -64,
+      "lat": -38
+    },
+    "categories": [
+      {
+        "id": "political",
+        "label": "Political Events",
+        "color": "#74acdf"
+      },
+      {
+        "id": "human-rights",
+        "label": "Human Rights",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "economic",
+        "label": "Economic Sites",
+        "color": "#f39c12"
+      },
+      {
+        "id": "historical",
+        "label": "Historical Sites",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "conflict",
+        "label": "Conflict Zones",
+        "color": "#e67e22"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "overview": {
+        "lon": -64,
+        "lat": -38,
+        "alt": 4000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Argentina Overview"
+      },
+      "buenos_aires": {
+        "lon": -58.38,
+        "lat": -34.60,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Buenos Aires"
+      },
+      "mendoza": {
+        "lon": -68.83,
+        "lat": -32.89,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Mendoza"
+      },
+      "vaca_muerta": {
+        "lon": -68.97,
+        "lat": -38.65,
+        "alt": 100000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Vaca Muerta"
+      },
+      "ushuaia": {
+        "lon": -68.30,
+        "lat": -54.80,
+        "alt": 50000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Ushuaia"
+      },
+      "malvinas": {
+        "lon": -59.50,
+        "lat": -51.75,
+        "alt": 150000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Islas Malvinas / Falklands"
+      }
+    },
+    "clocks": [
+      {
+        "label": "BUE",
+        "offsetHours": -3
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Casualties"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "politicalAvatars": [
+    "peronist",
+    "military",
+    "radical",
+    "liberal",
+    "intl",
+    "other"
+  ],
+  "eventTypes": [
+    "political",
+    "economic",
+    "human-rights",
+    "military",
+    "social"
+  ],
+  "ai": {
+    "systemPrompt": "You are a historian and political analyst updating a comprehensive Argentina history tracker.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"peronist_return\", \"dirty_war\", \"milei_election\").\n\nThis tracker covers the full history of Argentina from the 1536 founding of Buenos Aires through the present day, including:\n- Colonial era and Viceroyalty of the Río de la Plata (1776)\n- May Revolution (1810) and independence (1816)\n- Federalist-Unitarian civil wars and Rosas era\n- Constitution of 1853 and Generation of 1880\n- Conquest of the Desert and Mapuche/Tehuelche genocide\n- Mass European immigration wave (1880s–1930s)\n- Yrigoyen radical era and 1930 coup\n- Perón's first presidency (1946–1955)\n- Military-civilian cycles and Dirty War (1976–1983), ~30,000 disappeared\n- Falklands/Malvinas War (1982)\n- Alfonsín democracy and Juicio a las Juntas (1985)\n- Menem's neoliberal convertibility (1989–2001)\n- 2001 corralito and economic collapse\n- Kirchner-Fernández era (2003–2015)\n- Macri (2015–2019) and Alberto Fernández (2019–2023)\n- Javier Milei libertarian presidency (2023–present), inflation, IMF, Vaca Muerta\n\nSource tier classification for Argentina:\n- Tier 1: Official/primary (Argentine government/Casa Rosada, INDEC, CONADEP, BCRA, IMF, World Bank, OAS, UN CEPAL)\n- Tier 2: Major outlet (La Nación, Clarín, Infobae, Reuters, AP, BBC Mundo, El País, Ámbito Financiero, Página 12)\n- Tier 3: Institutional (CONICET, Memoria Abierta, CEDES, FLACSO, HRW, Amnesty International, ICG, Wilson Center)\n- Tier 4: Unverified (social media, partisan blogs, anonymous claims)\n\nOnly include information you can verify through search results. Do not fabricate data.\nFor contested historical events (Dirty War death toll, Malvinas casualties, economic statistics), note contestation with sources from multiple perspectives.\n\nYEAR FIELD: The \"year\" field in timeline events must be a STRING (e.g., \"1816\"), NOT a number.",
+    "searchContext": "Argentina history politics economy Milei Kirchner Perón Dirty War Malvinas inflation IMF",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "casualties",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": -75,
+      "lonMax": -52,
+      "latMin": -57,
+      "latMax": -20
+    },
+    "updateIntervalDays": 7,
+    "backfillTargets": {
+      "timeline": 40,
+      "mapPoints": 25,
+      "claims": 20,
+      "political": 20,
+      "kpis": 8,
+      "casualties": 8,
+      "econ": 8
+    },
+    "updatePolicy": {
+      "escalation": [
+        7,
+        14,
+        30,
+        60,
+        90
+      ],
+      "quietThreshold": 0
+    }
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": [
+    "AR"
+  ]
+}
