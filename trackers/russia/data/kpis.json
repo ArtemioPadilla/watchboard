@@ -1,1 +1,99 @@
-[]
+[
+  {
+    "id": "ukraine-territory-held",
+    "label": "Ukrainian Territory Occupied",
+    "value": "~20%",
+    "color": "red",
+    "source": "ISW / UN OCHA",
+    "contested": true,
+    "contestNote": "Russia claims annexation of 4 oblasts it does not fully control; Ukraine disputes all Russian territorial claims",
+    "delta": "~115,862 km²",
+    "deltaNote": "Approximate area under Russian occupation as of early 2025",
+    "trend": "up",
+    "lastUpdated": "2026-04-25T00:00:00.000Z"
+  },
+  {
+    "id": "russian-military-casualties",
+    "label": "Russian Military Casualties (KIA + WIA)",
+    "value": "~790,000+",
+    "color": "red",
+    "source": "US SACEUR (Gen. Cavoli estimate, April 2025)",
+    "contested": true,
+    "contestNote": "Russia does not release official casualty figures. Ukrainian MoD claims higher numbers; independent Russian sources suggest lower.",
+    "delta": "+50,000 since Jan 2025",
+    "deltaNote": "Approximate rate of ~1,000 casualties per day (KIA + WIA) as of 2025",
+    "trend": "up",
+    "lastUpdated": "2026-04-25T00:00:00.000Z"
+  },
+  {
+    "id": "nuclear-warheads-total",
+    "label": "Nuclear Warheads (Total)",
+    "value": "~5,460",
+    "color": "amber",
+    "source": "Federation of American Scientists / SIPRI 2025",
+    "contested": false,
+    "delta": "~1,718 deployed",
+    "deltaNote": "Largest nuclear arsenal in the world; modernization program ongoing",
+    "trend": "stable",
+    "lastUpdated": "2026-04-25T00:00:00.000Z"
+  },
+  {
+    "id": "russia-gdp-2025",
+    "label": "Russia GDP (Nominal)",
+    "value": "$2.54T",
+    "color": "amber",
+    "source": "IMF World Economic Outlook 2025",
+    "contested": false,
+    "delta": "+4.3% in 2024",
+    "deltaNote": "War economy growth driven by defense spending; real growth projected at 3.6% for 2025",
+    "trend": "up",
+    "lastUpdated": "2026-04-25T00:00:00.000Z"
+  },
+  {
+    "id": "inflation-rate",
+    "label": "Russia Inflation Rate",
+    "value": "~9%",
+    "color": "red",
+    "source": "IMF / Rosstat 2025",
+    "contested": false,
+    "delta": "+0.8% vs. 2024",
+    "deltaNote": "High defense spending and labor shortages drive persistent inflation; Central Bank rate held at 21%",
+    "trend": "up",
+    "lastUpdated": "2026-04-25T00:00:00.000Z"
+  },
+  {
+    "id": "sanctions-count",
+    "label": "Sanctions Imposed on Russia",
+    "value": "21,000+",
+    "color": "amber",
+    "source": "Castellum.AI / US Treasury / EU",
+    "contested": false,
+    "delta": "Most sanctioned nation",
+    "deltaNote": "Russia surpassed Iran and North Korea as the world's most sanctioned country in 2022",
+    "trend": "up",
+    "lastUpdated": "2026-04-25T00:00:00.000Z"
+  },
+  {
+    "id": "years-of-russian-statehood",
+    "label": "Years Since Kievan Rus Founded",
+    "value": "1,164",
+    "color": "blue",
+    "source": "Primary Chronicle (traditional dating, 862 AD)",
+    "contested": true,
+    "contestNote": "Ukraine, Belarus, and Russia all claim descent from Kievan Rus; historians debate continuity with modern Russia",
+    "trend": "up",
+    "lastUpdated": "2026-04-25T00:00:00.000Z"
+  },
+  {
+    "id": "defense-spending-gdp",
+    "label": "Defense Spending (% of GDP)",
+    "value": "~6.7%",
+    "color": "red",
+    "source": "Russian Finance Ministry / SIPRI 2024",
+    "contested": false,
+    "delta": "Highest since Soviet era",
+    "deltaNote": "Russia's 2024 defense budget: ~$109B USD. Largest share of GDP since the early 1990s Soviet collapse.",
+    "trend": "up",
+    "lastUpdated": "2026-04-25T00:00:00.000Z"
+  }
+]
