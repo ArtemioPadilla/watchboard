@@ -151,6 +151,50 @@ function parseKpiNumericValue(raw: string): number {
   return match ? parseFloat(match[0]) : 0;
 }
 
+/**
+ * Extracts display-friendly prefix and suffix from a raw KPI value string.
+ *
+ * Examples:
+ *   "~1.323M"   → prefix: "~",  suffix: "M"
+ *   "150,000+"  → prefix: "",   suffix: "+"
+ *   "145%"      → prefix: "",   suffix: "%"
+ *   "+0.7%"     → prefix: "+",  suffix: "%"
+ *   "14 million+" → prefix: "", suffix: " million+"
+ *   "49"        → prefix: "",   suffix: ""
+ *   "~90"       → prefix: "~",  suffix: ""
+ *   "100B+"     → prefix: "",   suffix: "B+"
+ *   "4×"        → prefix: "",   suffix: "×"
+ */
+export function parseKpiDisplay(raw: string): { prefix: string; suffix: string } {
+  const s = raw.trim();
+
+  // Leading prefix: ~, +, >, <, !
+  const prefixMatch = s.match(/^([~+><!]*)/);
+  const prefix = prefixMatch ? prefixMatch[1] : '';
+
+  // After stripping leading prefix, find the numeric core
+  const afterPrefix = s.slice(prefix.length);
+
+  // Numeric core: digits, commas, dots, optional dash for ranges
+  const numericMatch = afterPrefix.match(/^[\d,.\/–-]+/);
+  if (!numericMatch) return { prefix: '', suffix: '' };
+
+  const suffix = afterPrefix.slice(numericMatch[0].length).trim();
+
+  // Normalize common long-form suffixes
+  const normalizedSuffix = suffix
+    .replace(/^million\+$/i, 'M+')
+    .replace(/^million$/i, 'M')
+    .replace(/^billion\+$/i, 'B+')
+    .replace(/^billion$/i, 'B')
+    .replace(/^trillion\+$/i, 'T+')
+    .replace(/^trillion$/i, 'T')
+    .replace(/^thousand\+$/i, 'K+')
+    .replace(/^thousand$/i, 'K');
+
+  return { prefix, suffix: normalizedSuffix };
+}
+
 function findThumbnailUrls(slug: string): string[] {
   const eventsDir = join(TRACKERS_DIR, slug, 'data', 'events');
   if (!existsSync(eventsDir)) return [];
@@ -338,6 +382,9 @@ function loadTrackerBreaking(slug: string): LoadedTrackerData | null {
         const topKpi = kpis[0];
         kpiLabel = topKpi.label.toUpperCase();
         kpiValue = parseKpiNumericValue(topKpi.value);
+        const kpiDisplay = parseKpiDisplay(topKpi.value);
+        kpiPrefix = kpiDisplay.prefix;
+        kpiSuffix = kpiDisplay.suffix;
         sourceLabel = topKpi.source.split('/')[0].trim();
       }
     }
