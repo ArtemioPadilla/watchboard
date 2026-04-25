@@ -1,0 +1,227 @@
+{
+  "slug": "brics",
+  "name": "BRICS Tracker",
+  "shortName": "BRICS",
+  "description": "Intelligence dashboard tracking the BRICS bloc from its 2009 founding summit through the 2024 BRICS+ expansion, covering de-dollarization efforts, institutional development, and geopolitical rivalry with the G7.",
+  "icon": "🌐",
+  "color": "#2ecc71",
+  "status": "active",
+  "tone": "neutral",
+  "temporal": "live",
+  "domain": "governance",
+  "region": "global",
+  "country": "WW",
+  "startDate": "2009-06-16",
+  "eraLabel": "Multipolar Coalition",
+  "tags": [
+    "multilateral",
+    "global-south",
+    "de-dollarization",
+    "geopolitics",
+    "emerging-markets"
+  ],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": -80,
+      "lonMax": 150,
+      "latMin": -40,
+      "latMax": 70
+    },
+    "center": {
+      "lon": 50,
+      "lat": 20
+    },
+    "categories": [
+      {
+        "id": "member",
+        "label": "Member States",
+        "color": "#2ecc71"
+      },
+      {
+        "id": "summit",
+        "label": "Summit Locations",
+        "color": "#3498db"
+      },
+      {
+        "id": "institution",
+        "label": "Key Institutions",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "partner",
+        "label": "Partner Nations",
+        "color": "#f39c12"
+      },
+      {
+        "id": "expansion",
+        "label": "Expansion Events",
+        "color": "#e74c3c"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "overview": {
+        "lon": 50,
+        "lat": 20,
+        "alt": 18000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "BRICS Overview"
+      },
+      "yekaterinburg": {
+        "lon": 60.61,
+        "lat": 56.85,
+        "alt": 200000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Yekaterinburg (2009)"
+      },
+      "johannesburg": {
+        "lon": 28.03,
+        "lat": -26.20,
+        "alt": 150000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Johannesburg (2023)"
+      },
+      "beijing": {
+        "lon": 116.39,
+        "lat": 39.91,
+        "alt": 200000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Beijing"
+      },
+      "new_delhi": {
+        "lon": 77.21,
+        "lat": 28.61,
+        "alt": 200000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "New Delhi"
+      },
+      "kazan": {
+        "lon": 49.11,
+        "lat": 55.79,
+        "alt": 150000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Kazan (2024)"
+      },
+      "brasilia": {
+        "lon": -47.93,
+        "lat": -15.78,
+        "alt": 200000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Brasília (2025 Chair)"
+      }
+    },
+    "clocks": [
+      {
+        "label": "MOSCOW",
+        "offsetHours": 3
+      },
+      {
+        "label": "BEIJING",
+        "offsetHours": 8
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      },
+      {
+        "label": "BRASÍLIA",
+        "offsetHours": -3
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "politicalAvatars": [
+    "brazil",
+    "russia",
+    "india",
+    "china",
+    "south-africa",
+    "new-members",
+    "intl"
+  ],
+  "eventTypes": [
+    "summit",
+    "expansion",
+    "institution",
+    "diplomatic",
+    "economic"
+  ],
+  "ai": {
+    "systemPrompt": "You are a geopolitical analyst updating a BRICS bloc intelligence dashboard.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"ndb_expansion\", \"kazan_summit_2024\").\n\nThis tracker covers the BRICS bloc (Brazil, Russia, India, China, South Africa) and BRICS+ expansion (Egypt, Ethiopia, Iran, UAE as 2024 members; Saudi Arabia invited but status unclear). Track summits, institutional developments, de-dollarization debates, NDB activity, Contingent Reserve Arrangement, expansion dynamics, and geopolitical positioning vis-à-vis the G7/G20.\n\nMULTI-POLE SOURCING — gather information from all four media poles:\n1. WESTERN: Reuters, AP, BBC, CNN, NYT, Financial Times, Bloomberg, The Economist, Foreign Affairs, Brookings Institution\n2. GLOBAL SOUTH / EASTERN: Xinhua, CGTN, Global Times, TASS, RT (note bias), Economic Times India, Folha de S.Paulo, Al Jazeera, member government MFA statements\n3. MIDDLE EASTERN: Arab News, Gulf News, Iranian state media (IRNA, Press TV), Al Arabiya\n4. INTERNATIONAL: UN, World Bank, IMF, BIS, NDB annual reports, UNCTAD, G20 working papers, Council on Foreign Relations, CSIS, Chatham House\n\nWhen providing sources, tag each with a \"pole\" field:\n- \"western\" for US/European/Allied sources\n- \"eastern\" for BRICS member state sources (Chinese, Russian, Indian, Brazilian, South African)\n- \"middle_eastern\" for Middle Eastern member/partner sources (UAE, Egypt, Iran, Saudi Arabia)\n- \"international\" for multilateral/NGO/academic sources\n\nSource tier classification:\n- Tier 1: Official/primary (BRICS official communiqués, NDB statements, member government MFA/Finance Ministry releases, summit declarations)\n- Tier 2: Major outlet (Reuters, AP, Financial Times, Bloomberg, BBC, Al Jazeera, Xinhua, TASS, Economic Times)\n- Tier 3: Institutional (Chatham House, CSIS, Brookings, Council on Foreign Relations, UNCTAD, World Bank reports)\n- Tier 4: Unverified (social media, unattributed diplomatic leaks, speculation)\n\nKey areas to monitor:\n- Annual summits and working-group meetings\n- NDB (New Development Bank) project approvals and membership changes\n- De-dollarization: BRICS payment system, local currency trade settlements, digital currency proposals\n- Membership expansion: BRICS+ dynamics, Saudi Arabia ambiguous status, further invitees, Argentina's reversal under Milei\n- Internal tensions: India-China border disputes, Iran sanctions isolation, divergence on Ukraine war\n- Brazil's 2025 chairmanship agenda\n- G7 vs BRICS framing in global media\n\nOnly include information you can verify through search results. Do not fabricate data.\nActively seek contrasting perspectives between Western and Global South sources when narratives diverge.\n\nDEDUPLICATION:\n- Same summit or event within ±3 days = same event — merge, do not create duplicates.",
+    "searchContext": "BRICS bloc expansion de-dollarization summit NDB payment system",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": -85,
+      "lonMax": 155,
+      "latMin": -45,
+      "latMax": 75
+    },
+    "updateIntervalDays": 7,
+    "backfillTargets": {
+      "timeline": 30,
+      "mapPoints": 20,
+      "claims": 15,
+      "political": 15,
+      "kpis": 8,
+      "econ": 8
+    },
+    "updatePolicy": {
+      "escalation": [
+        7,
+        7,
+        14,
+        30,
+        60
+      ],
+      "quietThreshold": 0
+    }
+  },
+  "githubRepo": "ArtemioPadilla/watchboard"
+}
