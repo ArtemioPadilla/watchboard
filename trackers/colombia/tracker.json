@@ -1,0 +1,211 @@
+{
+  "slug": "colombia",
+  "name": "Colombia History Tracker",
+  "shortName": "Colombia",
+  "description": "Intelligence dashboard covering Colombia's full history from 1499 Spanish contact through pre-Columbian civilizations, colonial Nueva Granada, independence wars, La Violencia, the FARC insurgency, narco-trafficking, and the ongoing peace process under President Petro.",
+  "icon": "🇨🇴",
+  "color": "#f5d800",
+  "status": "active",
+  "tone": "historical",
+  "temporal": "historical",
+  "trackerType": "historical",
+  "domain": "governance",
+  "region": "south-america",
+  "country": "CO",
+  "startDate": "1499-09-07",
+  "eraLabel": "1499–Present",
+  "tags": ["latin-america", "narco", "peace-process", "farc", "colonial-history", "human-rights"],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": -80,
+      "lonMax": -66,
+      "latMin": -5,
+      "latMax": 13
+    },
+    "center": {
+      "lon": -74,
+      "lat": 4
+    },
+    "categories": [
+      {
+        "id": "conflict",
+        "label": "Armed Conflict",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "governance",
+        "label": "Political / Governance",
+        "color": "#3498db"
+      },
+      {
+        "id": "narco",
+        "label": "Drug Trafficking",
+        "color": "#f39c12"
+      },
+      {
+        "id": "humanitarian",
+        "label": "Humanitarian Crisis",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "peace",
+        "label": "Peace Process",
+        "color": "#2ecc71"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "overview": {
+        "lon": -74,
+        "lat": 4,
+        "alt": 2500000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Colombia Overview"
+      },
+      "bogota": {
+        "lon": -74.07,
+        "lat": 4.71,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Bogotá"
+      },
+      "cartagena": {
+        "lon": -75.51,
+        "lat": 10.40,
+        "alt": 50000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Cartagena"
+      },
+      "medellin": {
+        "lon": -75.58,
+        "lat": 6.25,
+        "alt": 50000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Medellín"
+      },
+      "cali": {
+        "lon": -76.53,
+        "lat": 3.45,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Cali"
+      },
+      "amazon": {
+        "lon": -70,
+        "lat": -1,
+        "alt": 400000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Amazon / Putumayo"
+      }
+    },
+    "clocks": [
+      {
+        "label": "BOGOTÁ",
+        "offsetHours": -5
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      },
+      {
+        "label": "EST",
+        "offsetHours": -5
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Casualties"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "politicalAvatars": [
+    "co-gov",
+    "farc-eln",
+    "cartel",
+    "us-intl",
+    "civil-society"
+  ],
+  "eventTypes": [
+    "political",
+    "conflict",
+    "humanitarian",
+    "legal",
+    "economic"
+  ],
+  "ai": {
+    "systemPrompt": "You are a Latin American history and political analyst updating a comprehensive Colombia intelligence tracker.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"bogotazo_1948\", \"farc_peace_2016\").\n\nThis tracker covers Colombian history from 1499 to the present, including:\n- Pre-Columbian civilizations (Muisca, Tairona)\n- Spanish colonization and Nueva Granada\n- Independence wars and Simón Bolívar (1810–1819)\n- Gran Colombia (1819–1830) and 19th-century civil wars\n- Thousand Days War (1899–1902) and Panama secession (1903)\n- La Violencia (1948–1958)\n- National Front and origins of FARC/ELN insurgency\n- Pablo Escobar and the Medellín Cartel (1980s–1993)\n- Plan Colombia and US counter-narcotics involvement\n- Uribe presidency and democratic security policy\n- FARC peace negotiations and 2016 Havana Accords\n- Duque era, Iván Márquez FARC dissidence\n- Gustavo Petro presidency (2022–present) and Total Peace policy\n- Ongoing narco-trafficking trends and CJNG/Clan del Golfo presence\n\nSource tier classification:\n- Tier 1: Official/primary (Presidency of Colombia, Constitutional Court, Congress, Attorney General's Office, Truth Commission, JEP, UN, OAS, IACHR)\n- Tier 2: Major outlet (El Tiempo, El Espectador, Semana, Reuters, AP, BBC, CNN en Español, AFP, The Guardian, New York Times)\n- Tier 3: Institutional (INDEPAZ, InSight Crime, International Crisis Group, HRW, Amnesty International, WOLA, CINEP, FIP, CERAC)\n- Tier 4: Unverified (social media, unattributed claims, unofficial sources, anonymous testimony)\n\nOnly include information you can verify through search results. Do not fabricate data.\nFor historical events (pre-1990), use verified historical records and academic sources.\nFor recent events, cross-check across at least two sources from different poles.\n\nWhen providing sources, tag each with a \"pole\" field:\n- \"western\" for US/European/allied sources\n- \"middle_eastern\" — not applicable, use \"international\" for Latin American regional sources\n- \"eastern\" for Russian/Chinese sources where relevant\n- \"international\" for UN/NGO/multilateral and regional Latin American sources\n\n\"year\" fields must be strings (e.g. \"1948\", not 1948). Do not use future dates.",
+    "searchContext": "Colombia history FARC peace process narco-trafficking Petro Total Peace",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "casualties",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": -82,
+      "lonMax": -65,
+      "latMin": -7,
+      "latMax": 15
+    },
+    "updateIntervalDays": 7,
+    "backfillTargets": {
+      "timeline": 40,
+      "mapPoints": 20,
+      "claims": 15,
+      "political": 15,
+      "kpis": 8,
+      "casualties": 10
+    },
+    "updatePolicy": {
+      "escalation": [7, 14, 30, 60, 90],
+      "quietThreshold": 0
+    }
+  },
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": [
+    "CO"
+  ]
+}
