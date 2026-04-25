@@ -1,0 +1,233 @@
+{
+  "slug": "france",
+  "name": "France: A Complete History",
+  "shortName": "France",
+  "description": "Intelligence dashboard tracking the full arc of French history — from the Frankish kingdom of Clovis I (481 CE) through dynasties, revolutions, empire, republic, and contemporary governance under the Fifth Republic.",
+  "icon": "🇫🇷",
+  "color": "#002395",
+  "status": "active",
+  "tone": "historical",
+  "temporal": "historical",
+  "trackerType": "historical",
+  "domain": "governance",
+  "region": "europe",
+  "country": "FR",
+  "tags": ["france", "history", "republic", "revolution", "napoleon", "monarchy", "europe", "fifth-republic"],
+  "startDate": "0481-01-01",
+  "eraLabel": "481 CE – Present",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "military",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": -10,
+      "lonMax": 16,
+      "latMin": 40,
+      "latMax": 54
+    },
+    "center": {
+      "lon": 2.35,
+      "lat": 46.8
+    },
+    "categories": [
+      {
+        "id": "political",
+        "label": "Political Events",
+        "color": "#002395"
+      },
+      {
+        "id": "battle",
+        "label": "Battles & Wars",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "uprising",
+        "label": "Revolutions & Uprisings",
+        "color": "#e67e22"
+      },
+      {
+        "id": "cultural",
+        "label": "Cultural & Intellectual Sites",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "institution",
+        "label": "Institutions & Landmarks",
+        "color": "#27ae60"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "overview": {
+        "lon": 2.35,
+        "lat": 46.8,
+        "alt": 2000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "France Overview"
+      },
+      "paris": {
+        "lon": 2.35,
+        "lat": 48.85,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Paris"
+      },
+      "versailles": {
+        "lon": 2.12,
+        "lat": 48.81,
+        "alt": 15000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Palace of Versailles"
+      },
+      "verdun": {
+        "lon": 5.38,
+        "lat": 49.16,
+        "alt": 50000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Battle of Verdun"
+      },
+      "normandy": {
+        "lon": -0.5,
+        "lat": 49.3,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Normandy (D-Day)"
+      },
+      "strasbourg": {
+        "lon": 7.75,
+        "lat": 48.58,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Strasbourg / Alsace"
+      }
+    },
+    "clocks": [
+      {
+        "label": "PARIS",
+        "offsetHours": 2
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-military",
+      "label": "Military"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "militaryTabs": [
+    {
+      "id": "strikes",
+      "label": "Major Campaigns"
+    },
+    {
+      "id": "retaliation",
+      "label": "Foreign Invasions"
+    },
+    {
+      "id": "assets",
+      "label": "French Armed Forces"
+    }
+  ],
+  "politicalAvatars": [
+    "monarchy",
+    "republic",
+    "opposition",
+    "clergy",
+    "foreign",
+    "military"
+  ],
+  "eventTypes": [
+    "political",
+    "military",
+    "social",
+    "cultural",
+    "diplomatic"
+  ],
+  "ai": {
+    "systemPrompt": "You are a French history and political intelligence analyst updating a comprehensive dashboard tracking France from 481 CE to the present.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"french_revolution_1789\", \"macron_pension_reform\").\n\nYou cover the full spectrum of French history: Merovingian and Carolingian dynasties (Clovis, Charlemagne), Capetian monarchy, Hundred Years War and Joan of Arc, French Renaissance, Wars of Religion and Edict of Nantes, Absolute Monarchy under Louis XIV at Versailles, French Revolution (1789), Napoleonic Empire and Code Civil, Bourbon Restoration, July Monarchy, Revolution of 1848, Second Republic, Second Empire under Napoleon III, Franco-Prussian War (1870–71), Third Republic, Dreyfus Affair, World War I (Verdun, Marne), interwar Popular Front, Vichy regime and French Resistance in WWII, Fourth Republic, decolonization (Indochina, Algerian War 1954–62), De Gaulle and Fifth Republic (1958), May 1968, Mitterrand, Chirac, Sarkozy, Hollande, and Macron presidencies — including gilets jaunes, pension reform crises, Le Pen far-right normalization, Sahel intervention exit, banlieue politics, and Paris Olympics 2024.\n\nSource tier classification:\n- Tier 1: Official/primary (French National Assembly, Élysée Palace, Archives nationales, INSEE, Journal officiel, EU institutions, UN, academic peer-reviewed publications)\n- Tier 2: Major outlet (Reuters, AP, Le Monde, Le Figaro, Libération, BBC, The Guardian, NYT, France 24, RFI)\n- Tier 3: Institutional (Sciences Po, EHESS, IFRI, OECD, Human Rights Watch, Amnesty International, L'Histoire, The Conversation FR)\n- Tier 4: Unverified (social media, blogs, unattributed claims, partisan sources)\n\nOnly include information you can verify through search results. Do not fabricate data.\nFor historical events, cross-reference academic consensus with primary sources.\nFor contemporary events (2017–present), include recent polling data and official government statements.\nWhen reporting on contested history (Vichy collaboration, colonial violence, Algerian War), present multiple scholarly perspectives.",
+    "searchContext": "France history governance politics Fifth Republic French Revolution Napoleon monarchy republic",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "claims",
+      "political",
+      "econ"
+    ],
+    "coordValidation": {
+      "lonMin": -15,
+      "lonMax": 20,
+      "latMin": 38,
+      "latMax": 56
+    },
+    "updateIntervalDays": 30,
+    "backfillTargets": {
+      "timeline": 40,
+      "mapPoints": 25,
+      "claims": 20,
+      "political": 20,
+      "kpis": 8,
+      "econ": 8
+    },
+    "updatePolicy": {
+      "escalation": [
+        7,
+        14,
+        30,
+        60,
+        90,
+        180
+      ],
+      "quietThreshold": 0
+    },
+    "rssFeeds": [
+      "https://news.google.com/rss/search?q=France+politique+histoire&hl=fr&gl=FR&ceid=FR:fr",
+      "https://www.lemonde.fr/rss/une.xml"
+    ]
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": [
+    "FR"
+  ]
+}
