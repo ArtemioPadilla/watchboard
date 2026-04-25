@@ -71,8 +71,8 @@ export default function OnboardingTour() {
   const isFirst = stepIdx === 0;
   const isLast = stepIdx === DESKTOP_STEPS.length - 1;
   const stepLabel = `${stepIdx + 1} / ${DESKTOP_STEPS.length}`;
-  const title = t(step.titleKey as any, locale);
-  const body = t(step.bodyKey as any, locale);
+  const title = t(step.titleKey, locale);
+  const body = t(step.bodyKey, locale);
 
   if (step.type === 'spotlight' && step.anchor) {
     return (
@@ -82,7 +82,6 @@ export default function OnboardingTour() {
         body={body}
         stepLabel={stepLabel}
         isFirst={isFirst}
-        isLast={isLast}
         backLabel={t('tour.back', locale)}
         nextLabel={t('tour.next', locale)}
         skipLabel={t('tour.skip', locale)}

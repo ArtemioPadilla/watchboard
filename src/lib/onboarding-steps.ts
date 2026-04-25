@@ -1,11 +1,13 @@
+import type { TranslationKey } from '../i18n/translations';
+
 export type StepType = 'hero' | 'spotlight' | 'closing';
 
 export interface OnboardingStep {
   id: string;
   type: StepType;
   anchor?: string;
-  titleKey: string;
-  bodyKey: string;
+  titleKey: TranslationKey;
+  bodyKey: TranslationKey;
 }
 
 export const DESKTOP_STEPS: OnboardingStep[] = [

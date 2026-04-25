@@ -134,8 +134,8 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
       <MobileOnboarding />
       <button
         type="button"
-        aria-label={t('tour.replay' as any, locale)}
-        title={t('tour.replay' as any, locale)}
+        aria-label={t('tour.replay', locale)}
+        title={t('tour.replay', locale)}
         onClick={() => {
           resetTour('mobile');
           window.dispatchEvent(new CustomEvent(MOBILE_TOUR_REPLAY_EVENT));

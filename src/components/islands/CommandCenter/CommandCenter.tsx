@@ -124,7 +124,9 @@ export default function CommandCenter({
   });
   const [locale, setLocale] = useState<Locale>('en');
   const [showHelp, setShowHelp] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== 'undefined' && window.innerWidth < 768,
+  );
   const [mobileTab, setMobileTab] = useState<'live' | 'trackers'>('live');
   const [coachHint, setCoachHint] = useState<ReturnType<typeof getNextCoachHint>>(null);
   const [discoveredFeatures, setDiscoveredFeatures] = useState<Set<string>>(new Set());
@@ -849,12 +851,12 @@ export default function CommandCenter({
           <div style={styles.helpPanel} onClick={e => e.stopPropagation()}>
             <div style={styles.replayBlock}>
               <div>
-                <div style={styles.replayLabel}>{t('tour.newHere' as any, locale)}</div>
+                <div style={styles.replayLabel}>{t('tour.newHere', locale)}</div>
                 {(() => {
                   const ts = getTourState('desktop').completedAt;
                   if (!ts) return null;
                   const date = new Date(ts).toLocaleDateString(locale, { month: 'short', day: 'numeric', year: 'numeric' });
-                  return <div style={styles.replayMeta}>{t('tour.lastCompleted' as any, locale)} {date}</div>;
+                  return <div style={styles.replayMeta}>{t('tour.lastCompleted', locale)} {date}</div>;
                 })()}
               </div>
               <button
@@ -866,7 +868,7 @@ export default function CommandCenter({
                   window.dispatchEvent(new CustomEvent(TOUR_REPLAY_EVENT));
                 }}
               >
-                ▶ {t('tour.replay' as any, locale)}
+                ▶ {t('tour.replay', locale)}
               </button>
             </div>
             <div style={styles.helpTitle}>{t('shortcuts.title', locale)}</div>

@@ -4,6 +4,7 @@ export const DEFAULT_LOCALE: Locale = 'en';
 export const SUPPORTED_LOCALES: Locale[] = ['en', 'es', 'fr', 'pt'];
 
 type TranslationKeys = Record<keyof typeof en, string>;
+export type TranslationKey = keyof typeof en;
 
 const en = {
   // Header

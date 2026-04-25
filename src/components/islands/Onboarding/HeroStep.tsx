@@ -50,19 +50,19 @@ export default function HeroStep({
   const isMobileSheet = variant === 'mobile';
 
   return createPortal(
-    <div role="dialog" aria-modal="true" aria-label="Onboarding tour step" style={styles.backdrop}>
+    <div role="dialog" aria-labelledby="watchboard-tour-hero-title" style={styles.backdrop}>
       <div style={isMobileSheet ? styles.mobileSheet : styles.panel}>
         {stepLabel && <div style={styles.stepLabel}>{stepLabel}</div>}
         {variant === 'intro' && <div style={styles.iconRow}>🌐 📺 🔍</div>}
         {variant === 'tiers' && (
           <div style={styles.tiersRow}>
-            <TierBadge color="var(--tier-1, #2ecc71)" label="T1" sub="Official" />
-            <TierBadge color="var(--tier-2, #58a6ff)" label="T2" sub="Major outlets" />
-            <TierBadge color="var(--tier-3, #f39c12)" label="T3" sub="Institutional" />
-            <TierBadge color="var(--tier-4, #e74c3c)" label="T4" sub="Unverified" />
+            <TierBadge color="var(--tier-1, #2ecc71)" label="T1" />
+            <TierBadge color="var(--tier-2, #58a6ff)" label="T2" />
+            <TierBadge color="var(--tier-3, #f39c12)" label="T3" />
+            <TierBadge color="var(--tier-4, #e74c3c)" label="T4" />
           </div>
         )}
-        <h2 style={styles.title}>{title}</h2>
+        <h2 id="watchboard-tour-hero-title" style={styles.title}>{title}</h2>
         <p style={styles.body}>{body}</p>
         <div style={styles.footer}>
           {!isFirst && !isMobileSheet && (
@@ -85,11 +85,10 @@ export default function HeroStep({
   );
 }
 
-function TierBadge({ color, label, sub }: { color: string; label: string; sub: string }) {
+function TierBadge({ color, label }: { color: string; label: string }) {
   return (
     <div style={{ ...tierBadgeStyles.cell, borderColor: color }}>
       <div style={{ ...tierBadgeStyles.label, color }}>{label}</div>
-      <div style={tierBadgeStyles.sub}>{sub}</div>
     </div>
   );
 }
@@ -99,18 +98,13 @@ const tierBadgeStyles: Record<string, React.CSSProperties> = {
     flex: 1,
     border: '1px solid',
     borderRadius: 6,
-    padding: '8px 4px',
+    padding: '10px 4px',
     textAlign: 'center',
   },
   label: {
     fontFamily: "'JetBrains Mono', monospace",
-    fontSize: '0.85rem',
+    fontSize: '0.95rem',
     fontWeight: 700,
-  },
-  sub: {
-    fontSize: '0.6rem',
-    color: 'var(--text-muted, #8b949e)',
-    marginTop: 2,
   },
 };
 

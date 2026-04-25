@@ -98,11 +98,9 @@ function runLegacyMigrationOnce(): void {
     if (!hadLegacy) return;
     for (const surface of ['desktop', 'mobile'] as TourSurface[]) {
       if (localStorage.getItem(tourKey(surface)) == null) {
-        const state: TourState = {
-          completed: true,
-          completedAt: new Date().toISOString(),
-          replayCount: 0,
-        };
+        // completedAt intentionally omitted — these users never saw the new
+        // tour, so showing a "Last completed:" date in the help panel would lie.
+        const state: TourState = { completed: true, replayCount: 0 };
         localStorage.setItem(tourKey(surface), JSON.stringify(state));
       }
     }

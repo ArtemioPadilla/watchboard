@@ -68,8 +68,8 @@ export default function MobileOnboarding() {
   return (
     <HeroStep
       variant="mobile"
-      title={t(step.titleKey as any, locale)}
-      body={t(step.bodyKey as any, locale)}
+      title={t(step.titleKey, locale)}
+      body={t(step.bodyKey, locale)}
       stepLabel={stepLabel}
       isFirst={isFirst}
       isLast={isLast}

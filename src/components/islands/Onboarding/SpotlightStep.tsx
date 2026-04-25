@@ -14,7 +14,6 @@ interface SpotlightStepProps {
   body: string;
   stepLabel: string;          // e.g. "2 / 6"
   isFirst: boolean;
-  isLast: boolean;
   backLabel: string;
   nextLabel: string;
   skipLabel: string;
@@ -33,7 +32,6 @@ export default function SpotlightStep({
   body,
   stepLabel,
   isFirst,
-  isLast,
   backLabel,
   nextLabel,
   skipLabel,
@@ -107,7 +105,7 @@ export default function SpotlightStep({
   const tooltipPos = computeTooltipPosition(rect);
 
   return createPortal(
-    <div role="dialog" aria-modal="true" aria-label="Onboarding tour step" style={styles.root}>
+    <div role="dialog" aria-labelledby="watchboard-tour-title" style={styles.root}>
       <svg style={styles.svg} aria-hidden="true">
         <defs>
           <mask id="watchboard-tour-spotlight">
@@ -129,7 +127,7 @@ export default function SpotlightStep({
 
       <div ref={tooltipRef} style={{ ...styles.tooltip, ...tooltipPos }}>
         <div style={styles.stepLabel}>{stepLabel}</div>
-        <div style={styles.title}>{title}</div>
+        <div id="watchboard-tour-title" style={styles.title}>{title}</div>
         <div style={styles.body}>{body}</div>
         <div style={styles.footer}>
           <button type="button" onClick={onSkip} style={styles.skip}>
