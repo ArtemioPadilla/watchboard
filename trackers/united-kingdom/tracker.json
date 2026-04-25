@@ -1,0 +1,211 @@
+{
+  "slug": "united-kingdom",
+  "name": "United Kingdom History Tracker",
+  "shortName": "UK History",
+  "description": "A comprehensive intelligence dashboard tracing the full history of the United Kingdom from the first King of all English (927) through empire, world wars, decolonization, Brexit, and the modern constitutional era.",
+  "icon": "🇬🇧",
+  "color": "#003087",
+  "status": "active",
+  "tone": "historical",
+  "temporal": "historical",
+  "trackerType": "historical",
+  "domain": "governance",
+  "region": "europe",
+  "country": "GB",
+  "tags": ["united-kingdom", "british-isles", "monarchy", "parliament", "empire", "history", "brexit", "nhs"],
+  "startDate": "0927-01-01",
+  "eraLabel": "British History 927–Present",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": -11,
+      "lonMax": 3,
+      "latMin": 49,
+      "latMax": 62
+    },
+    "center": {
+      "lon": -3,
+      "lat": 54.5
+    },
+    "categories": [
+      {
+        "id": "constitutional",
+        "label": "Constitutional Milestones",
+        "color": "#3498db"
+      },
+      {
+        "id": "conflict",
+        "label": "Wars & Battles",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "industrial",
+        "label": "Industrial Revolution",
+        "color": "#f39c12"
+      },
+      {
+        "id": "political",
+        "label": "Political Transformations",
+        "color": "#2ecc71"
+      },
+      {
+        "id": "empire",
+        "label": "Empire & Decolonization",
+        "color": "#9b59b6"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "overview": {
+        "lon": -3,
+        "lat": 54.5,
+        "alt": 1500000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "British Isles Overview"
+      },
+      "london": {
+        "lon": -0.1278,
+        "lat": 51.5074,
+        "alt": 30000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "London"
+      },
+      "westminster": {
+        "lon": -0.1246,
+        "lat": 51.4994,
+        "alt": 8000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Westminster"
+      },
+      "edinburgh": {
+        "lon": -3.1883,
+        "lat": 55.9533,
+        "alt": 25000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Edinburgh"
+      },
+      "belfast": {
+        "lon": -5.9301,
+        "lat": 54.5973,
+        "alt": 20000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Belfast"
+      },
+      "normandy": {
+        "lon": -0.5,
+        "lat": 49.2,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Normandy / D-Day"
+      }
+    },
+    "clocks": [
+      {
+        "label": "LONDON",
+        "offsetHours": 1
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      },
+      {
+        "label": "EST",
+        "offsetHours": -5
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "politicalAvatars": [
+    "crown",
+    "labour",
+    "conservative",
+    "celtic",
+    "liberal",
+    "other"
+  ],
+  "eventTypes": [
+    "constitutional",
+    "military",
+    "political",
+    "economic",
+    "diplomatic"
+  ],
+  "ai": {
+    "systemPrompt": "You are a British history and political analyst updating a comprehensive tracker covering the United Kingdom from 927 CE to the present.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case).\n\nThis tracker covers the full arc of British history:\n- Medieval England: Athelstan first King of all English (927), Norman conquest (1066), Magna Carta (1215), Hundred Years' War, Wars of the Roses\n- Early Modern: Henry VIII and Reformation, Elizabethan age, English Civil War, Acts of Union with Scotland (1707) and Ireland (1800)\n- Imperial era: Industrial Revolution, Napoleonic Wars and Trafalgar (1805), Victorian empire at its peak\n- 20th century: World War I and Lloyd George, Irish Free State (1922), interwar appeasement, Churchill and World War II, Attlee welfare state and NHS founding (1948)\n- Decolonization: India independence (1947), Africa (1950s–60s), Suez crisis (1956)\n- Modern: Thatcher era, Northern Ireland Troubles and Good Friday Agreement (1998), Blair–Brown New Labour, 2008 financial crisis\n- Contemporary: Brexit referendum (2016) and withdrawal (2020), Johnson–Truss–Sunak, Starmer Labour landslide (2024), cost-of-living crisis, Scottish independence question, Charles III accession (2022–)\n\nSource tier classification:\n- Tier 1: Official/primary (UK Parliament Hansard, No. 10 Downing Street, ONS, Bank of England, Scottish Parliament, Senedd, Stormont, The National Archives)\n- Tier 2: Major outlet (BBC, The Guardian, The Times, The Telegraph, Reuters, AP, Financial Times, The Economist, Sky News)\n- Tier 3: Institutional (LSE, Chatham House, King's College London, IPPR, Resolution Foundation, Hansard Society, Electoral Commission, HRW, Amnesty)\n- Tier 4: Unverified (social media, party press releases, unattributed commentary)\n\nOnly include information you can verify through search results. Do not fabricate data.\nFor historical events (pre-1900): cite reputable academic or archival sources at Tier 3.\nFor contemporary events: prioritize Tier 1–2 official and major media sources.\n\nCONFIRMATION RULES:\n- Only report a claim as confirmed if it has at least 1 Tier 1 source OR 2 Tier 2+ sources.\n- Contested historical interpretations should use eventConfidence: \"disputed\".\n- The \"year\" field must always be a string (e.g. \"1066\", \"2024\").\n\nDEDUPLICATION:\n- Do not duplicate events already in the timeline. Check the existing data before adding.\n- Same event within ±2 days = same event — merge, do not create duplicates.",
+    "searchContext": "United Kingdom history parliament Brexit monarchy Scotland NHS cost of living",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": -15,
+      "lonMax": 10,
+      "latMin": 45,
+      "latMax": 65
+    },
+    "updateIntervalDays": 30,
+    "backfillTargets": {
+      "timeline": 40,
+      "mapPoints": 25,
+      "claims": 20,
+      "political": 20,
+      "kpis": 8,
+      "econ": 10
+    },
+    "updatePolicy": {
+      "escalation": [
+        7,
+        14,
+        30,
+        60,
+        90,
+        180
+      ],
+      "quietThreshold": 0
+    }
+  },
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": ["GB"]
+}
