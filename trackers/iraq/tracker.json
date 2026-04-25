@@ -1,0 +1,255 @@
+{
+  "slug": "iraq",
+  "name": "Iraq & Mesopotamia Tracker",
+  "shortName": "Iraq",
+  "description": "Intelligence dashboard spanning 5,500 years of Mesopotamian and Iraqi history — from Sumerian city-states and Hammurabi's Code through the Abbasid Caliphate, Ottoman rule, British Mandate, Ba'ath coups, Gulf Wars, the US invasion of 2003, ISIS territorial defeat, and today's complex governance under the Sudani government.",
+  "icon": "🏺",
+  "color": "#c0870a",
+  "status": "active",
+  "tone": "historical",
+  "temporal": "historical",
+  "trackerType": "historical",
+  "domain": "governance",
+  "region": "middle-east",
+  "country": "IQ",
+  "tags": ["mesopotamia", "ancient-history", "middle-east", "oil", "isis", "gulf-war", "abbasid", "babylon"],
+  "startDate": "-3500-01-01",
+  "eraLabel": "Mesopotamia to Modern Iraq",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "military",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": 37,
+      "lonMax": 50,
+      "latMin": 28,
+      "latMax": 38
+    },
+    "center": {
+      "lon": 44.4,
+      "lat": 33.3
+    },
+    "categories": [
+      {
+        "id": "ancient-site",
+        "label": "Ancient & Archaeological Sites",
+        "color": "#c0870a"
+      },
+      {
+        "id": "battle",
+        "label": "Major Battles & Military Events",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "governance",
+        "label": "Government & Political Centers",
+        "color": "#3498db"
+      },
+      {
+        "id": "humanitarian",
+        "label": "Humanitarian & Displacement",
+        "color": "#f39c12"
+      },
+      {
+        "id": "oil",
+        "label": "Oil & Economic Infrastructure",
+        "color": "#2ecc71"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "overview": {
+        "lon": 44.4,
+        "lat": 33.3,
+        "alt": 2500000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Iraq Overview"
+      },
+      "baghdad": {
+        "lon": 44.396,
+        "lat": 33.312,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Baghdad"
+      },
+      "nineveh": {
+        "lon": 43.116,
+        "lat": 36.34,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Nineveh / Mosul"
+      },
+      "babylon": {
+        "lon": 44.422,
+        "lat": 32.536,
+        "alt": 40000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Ancient Babylon"
+      },
+      "ur": {
+        "lon": 46.103,
+        "lat": 30.962,
+        "alt": 50000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Ur — Sumerian City-State"
+      },
+      "kurdistan": {
+        "lon": 44.009,
+        "lat": 36.191,
+        "alt": 200000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Kurdistan Region / Erbil"
+      },
+      "basra": {
+        "lon": 47.783,
+        "lat": 30.508,
+        "alt": 120000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Basra & Southern Oil Fields"
+      }
+    },
+    "clocks": [
+      {
+        "label": "BAGHDAD",
+        "offsetHours": 3
+      },
+      {
+        "label": "ERBIL",
+        "offsetHours": 3
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      },
+      {
+        "label": "EST",
+        "offsetHours": -5
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-military",
+      "label": "Military"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Humanitarian"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "militaryTabs": [
+    {
+      "id": "strikes",
+      "label": "Major Operations"
+    },
+    {
+      "id": "retaliation",
+      "label": "Insurgent/PMF Actions"
+    },
+    {
+      "id": "assets",
+      "label": "Key Military Actors"
+    }
+  ],
+  "politicalAvatars": [
+    "sunni",
+    "shia",
+    "kurdish",
+    "iran-aligned",
+    "intl",
+    "other"
+  ],
+  "eventTypes": [
+    "political",
+    "military",
+    "humanitarian",
+    "archaeological",
+    "economic"
+  ],
+  "ai": {
+    "systemPrompt": "You are a senior historian and intelligence analyst specializing in Iraq and Mesopotamia, updating a comprehensive dashboard that spans from Sumerian city-states (~3500 BCE) to the present day.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"hammurabi_code\", \"baghdad_fall_1258\", \"isis_mosul_2014\").\n\nSCOPE: Cover the full arc of Iraqi/Mesopotamian history including:\n- Ancient empires (Sumerian, Akkadian, Babylonian, Assyrian, Achaemenid, Seleucid, Parthian, Sasanian)\n- Islamic era (Arab conquest 637 CE, Abbasid Caliphate 750-1258, Mongol sack 1258)\n- Ottoman period (1534-1918), British Mandate (1920), Hashemite Kingdom\n- Modern Iraq: 1958 Republic, Ba'ath coups (1963, 1968), Saddam Hussein era\n- Iran-Iraq War (1980-1988), Halabja chemical attack (1988), Gulf War (1991)\n- Sanctions & Oil-for-Food Program (1990s), US Invasion (2003), Saddam's fall\n- Sectarian civil war (2006-2008), ISIS rise (2014) and territorial defeat (2017)\n- Post-ISIS reconstruction, Sadr movement, Iran-aligned PMF militias\n- Current Sudani government (2022-present), Kurdistan Region autonomy, oil economy\n\nMULTI-POLE SOURCING — gather information from multiple source types:\n1. WESTERN: State Dept, Pentagon, CENTCOM, Reuters, AP, BBC, CNN, NYT, WaPo, The Guardian\n2. MIDDLE EASTERN: Al Jazeera, Al Monitor, Iraq Oil Report, Rudaw, Kurdistan 24, Shafaq News, Niqash\n3. EASTERN: Xinhua, TASS, Press TV (note bias)\n4. INTERNATIONAL: UN, UNAMI, UNHCR, World Bank, IMF, HRW, Amnesty International, IAEA, ICG\n5. ACADEMIC/INSTITUTIONAL: RAND, Chatham House, Middle East Institute, USIP, Brookings, Oxford Journals\n\nWhen providing sources tag each with a \"pole\" field:\n- \"western\" for US/European/allied sources\n- \"middle_eastern\" for Iraqi/regional sources\n- \"eastern\" for Chinese/Russian/Asian sources\n- \"international\" for UN/NGO/multilateral/academic sources\n\nSource tier classification:\n- Tier 1: Official/primary (Iraqi Government, Kurdistan Regional Government, UN UNAMI, World Bank, IMF, Pentagon, CENTCOM)\n- Tier 2: Major outlet (Reuters, AP, BBC, Al Jazeera, Al Monitor, Iraq Oil Report, New York Times)\n- Tier 3: Institutional (RAND, ICG, Chatham House, Middle East Institute, HRW, Amnesty International, USIP)\n- Tier 4: Unverified (social media, unattributed claims, militia press releases without corroboration)\n\nOnly include information you can verify through search results. Do not fabricate data.\nFor ancient/historical events (pre-1900), Tier 1 = major academic consensus or archaeological record; Tier 2 = primary historical texts (Herodotus, Ibn Battuta, etc.); Tier 3 = peer-reviewed scholarship.\n\nDATE FORMAT: Use \"year\" field as a string. For BCE dates use negative years as strings (e.g., \"-3500\", \"-539\"). For CE dates use positive years (e.g., \"637\", \"2003\").\n\nDEDUPLICATION:\n- Do not duplicate events already in the timeline.\n- For ongoing governance stories, update existing records rather than creating near-duplicates.\n- For ISIS-era events: merge reports of same operation within ±2 days.",
+    "searchContext": "Iraq history Mesopotamia governance politics conflict Sudani government PMF Kurdistan ISIS",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "casualties",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": 34,
+      "lonMax": 52,
+      "latMin": 26,
+      "latMax": 41
+    },
+    "updateIntervalDays": 30,
+    "backfillTargets": {
+      "timeline": 40,
+      "mapPoints": 30,
+      "claims": 15,
+      "political": 15,
+      "kpis": 8,
+      "casualties": 10,
+      "econ": 8
+    },
+    "updatePolicy": {
+      "escalation": [
+        14,
+        30,
+        60,
+        90,
+        180
+      ],
+      "quietThreshold": 0
+    },
+    "rssFeeds": [
+      "https://news.google.com/rss/search?q=Iraq+politics+governance&hl=en-US&gl=US&ceid=US:en",
+      "https://www.aljazeera.com/xml/rss/all.xml"
+    ]
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": [
+    "IQ"
+  ]
+}
