@@ -1,0 +1,212 @@
+{
+  "slug": "indonesia",
+  "name": "Indonesia: Empire to Republic",
+  "shortName": "Indonesia",
+  "description": "Intelligence dashboard tracing Indonesia's full history from the Majapahit Empire (1293) through Dutch colonization, the 1945 independence declaration, Sukarno and Suharto eras, Reformasi democratization, and the Prabowo presidency—spanning the world's largest archipelago nation.",
+  "icon": "🏝️",
+  "color": "#e63946",
+  "status": "active",
+  "temporal": "historical",
+  "trackerType": "historical",
+  "tone": "historical",
+  "domain": "governance",
+  "region": "southeast-asia",
+  "country": "ID",
+  "tags": ["indonesia", "southeast-asia", "colonial-history", "democracy", "asean", "nusantara", "majapahit"],
+  "startDate": "1293-01-01",
+  "eraLabel": "Empire to Republic, 1293–Present",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": 90,
+      "lonMax": 145,
+      "latMin": -12,
+      "latMax": 8
+    },
+    "center": {
+      "lon": 118,
+      "lat": -2
+    },
+    "categories": [
+      {
+        "id": "historical",
+        "label": "Historical Sites",
+        "color": "#f39c12"
+      },
+      {
+        "id": "political",
+        "label": "Political Centers",
+        "color": "#3498db"
+      },
+      {
+        "id": "conflict",
+        "label": "Conflict Zones",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "economic",
+        "label": "Economic Hubs",
+        "color": "#2ecc71"
+      },
+      {
+        "id": "independence",
+        "label": "Independence Movement",
+        "color": "#9b59b6"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "overview": {
+        "lon": 118,
+        "lat": -2,
+        "alt": 5000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Indonesia Overview"
+      },
+      "jakarta": {
+        "lon": 106.85,
+        "lat": -6.21,
+        "alt": 120000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Jakarta"
+      },
+      "nusantara": {
+        "lon": 116.72,
+        "lat": -1.08,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Nusantara (New Capital)"
+      },
+      "java": {
+        "lon": 110.5,
+        "lat": -7.5,
+        "alt": 800000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Java — Historical Core"
+      },
+      "bali": {
+        "lon": 115.19,
+        "lat": -8.41,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Bali"
+      },
+      "papua": {
+        "lon": 140.0,
+        "lat": -4.5,
+        "alt": 600000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Papua"
+      }
+    },
+    "clocks": [
+      {
+        "label": "JAKARTA",
+        "offsetHours": 7
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Humanitarian"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "politicalAvatars": [
+    "id-gov",
+    "id-mil",
+    "colonial",
+    "reformasi",
+    "international"
+  ],
+  "eventTypes": [
+    "political",
+    "military",
+    "economic",
+    "cultural",
+    "diplomatic"
+  ],
+  "ai": {
+    "systemPrompt": "You are an Indonesia historian and political analyst updating a comprehensive history tracker.\nToday's date is {{today}}. You have access to web search to find verified information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"majapahit_founding\", \"sukarno_declaration\").\n\nThis tracker covers the FULL history of Indonesia from the Majapahit Empire (1293) to the present day, including:\n- Hindu-Buddhist Nusantara and Majapahit Empire (1293–1527)\n- Islamization and Sultanate era (15th–16th centuries)\n- Portuguese arrival and VOC (Dutch East India Company) period (1602–1799)\n- Dutch East Indies colonization, Diponegoro War (1825–1830)\n- Suez Canal era plantation economy and Ethical Policy\n- Japanese occupation (1942–1945) and Sukarno's 1945 independence declaration (Pancasila)\n- Indonesian National Revolution and struggle against Dutch return (1945–1949)\n- Guided Democracy, Konfrontasi with Malaysia (1963–1966)\n- Suharto's New Order coup and mass killings (1965–1966)\n- Oil boom and development under New Order\n- Asian financial crisis (1998) and Reformasi democratization\n- Post-Suharto presidencies (Wahid, Megawati, Yudhoyono, Jokowi)\n- Bali bombings (2002, 2005) and counter-terrorism\n- Prabowo Subianto presidency (2024–present)\n- Nusantara new capital construction\n- Papua independence movement\n- Palm oil, rainforest economics, and climate\n- ASEAN leadership and Southeast Asian geopolitics\n\nSource tier classification for Indonesia:\n- Tier 1: Official/primary (Indonesian government, Sekretariat Negara, DPR, BPS Statistics Indonesia, Bank Indonesia, UN, World Bank, IMF)\n- Tier 2: Major outlet (Reuters, AP, BBC, The Jakarta Post, Kompas, Tempo, CNN Indonesia, Al Jazeera, Bloomberg)\n- Tier 3: Institutional (CSIS Indonesia, ISEAS-Yusof Ishak, HRW, Amnesty International, ICG, Global Witness, Chatham House)\n- Tier 4: Unverified (social media, unattributed claims, single-source reports)\n\nOnly include information you can verify through search results. Do not fabricate data.\nFor historical events (pre-1945): use verified historical scholarship as your source.\nFor contested events (1965–1966 killings, Papua, Timor-Leste): represent all significant perspectives.\n\nDATE RULES:\n- The \"year\" field on timeline events is a STRING (e.g., \"1293\", \"1945\", \"1998\").\n- Use YYYY-MM-DD format for all date fields.\n- Do NOT use future dates.\n\nECONOMIC DIRECTION: direction field must be \"up\" or \"down\" only (never \"stable\").",
+    "searchContext": "Indonesia history governance Prabowo Nusantara Papua ASEAN",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "casualties",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": 85,
+      "lonMax": 150,
+      "latMin": -15,
+      "latMax": 10
+    },
+    "updateIntervalDays": 30,
+    "backfillTargets": {
+      "timeline": 40,
+      "mapPoints": 25,
+      "claims": 20,
+      "political": 20,
+      "casualties": 10,
+      "econ": 8,
+      "kpis": 8
+    },
+    "updatePolicy": {
+      "escalation": [
+        30,
+        60,
+        90,
+        180
+      ],
+      "quietThreshold": 0
+    }
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": ["ID"]
+}
