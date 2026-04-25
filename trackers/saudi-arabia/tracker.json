@@ -1,0 +1,225 @@
+{
+  "slug": "saudi-arabia",
+  "name": "Saudi Arabia: Kingdom & Power",
+  "shortName": "Saudi Arabia",
+  "description": "Intelligence dashboard tracking Saudi Arabia's full history: from the First Saudi State (1744) and the Wahhabi alliance, through the modern Kingdom's founding (1932), oil discovery, Cold War alliances, 9/11 controversies, MBS rise, Vision 2030, Yemen war, and the Kingdom's evolving global role.",
+  "icon": "🌴",
+  "color": "#27ae60",
+  "status": "active",
+  "tone": "historical",
+  "temporal": "live",
+  "trackerType": "historical",
+  "domain": "governance",
+  "region": "middle-east",
+  "country": "SA",
+  "tags": ["monarchy", "oil", "islam", "vision-2030", "mbs", "aramco", "yemen", "gulf"],
+  "startDate": "1744-01-01",
+  "eraLabel": "Kingdom & Modern State",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": 30,
+      "lonMax": 65,
+      "latMin": 10,
+      "latMax": 38
+    },
+    "center": {
+      "lon": 45,
+      "lat": 24
+    },
+    "categories": [
+      {
+        "id": "governance",
+        "label": "Political Milestones",
+        "color": "#27ae60"
+      },
+      {
+        "id": "oil-energy",
+        "label": "Oil & Energy",
+        "color": "#f39c12"
+      },
+      {
+        "id": "megaproject",
+        "label": "Vision 2030 Projects",
+        "color": "#3498db"
+      },
+      {
+        "id": "diplomatic",
+        "label": "Diplomacy & Alliances",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "security",
+        "label": "Security Events",
+        "color": "#e74c3c"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "overview": {
+        "lon": 45,
+        "lat": 24,
+        "alt": 4000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Arabian Peninsula"
+      },
+      "riyadh": {
+        "lon": 46.72,
+        "lat": 24.69,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Riyadh"
+      },
+      "mecca": {
+        "lon": 39.83,
+        "lat": 21.42,
+        "alt": 50000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Mecca"
+      },
+      "medina": {
+        "lon": 39.61,
+        "lat": 24.47,
+        "alt": 50000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Medina"
+      },
+      "dhahran": {
+        "lon": 50.1,
+        "lat": 26.3,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Dhahran / Aramco"
+      },
+      "neom": {
+        "lon": 36.5,
+        "lat": 27.5,
+        "alt": 120000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "NEOM / The Line"
+      },
+      "red_sea": {
+        "lon": 41,
+        "lat": 21,
+        "alt": 600000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Red Sea Region"
+      }
+    },
+    "clocks": [
+      {
+        "label": "RIYADH",
+        "offsetHours": 3
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      },
+      {
+        "label": "EST",
+        "offsetHours": -5
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "politicalAvatars": [
+    "sa-royal",
+    "us-west",
+    "religious",
+    "opposition",
+    "regional",
+    "intl"
+  ],
+  "eventTypes": [
+    "political",
+    "economic",
+    "diplomatic",
+    "security"
+  ],
+  "ai": {
+    "systemPrompt": "You are a Middle East governance historian and intelligence analyst updating a comprehensive tracker on the Kingdom of Saudi Arabia.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"mbs_anticorruption\", \"oil_embargo_1973\").\n\nTRACKER SCOPE — Saudi Arabia from 1744 to present:\n- First Saudi State (1744–1818): Wahhabi-Saudi alliance, Dir'iyah Emirate, collapse\n- Second Saudi State (1824–1891): Riyadh reconquest, civil wars, Ottoman defeat\n- Ibn Saud era (1902–1953): reconquest of Nejd, Hejaz capture, Kingdom founding (1932), oil discovery (1938)\n- Mid-century (1953–1979): Aramco nationalization, King Faisal modernization, 1973 oil embargo, Iranian Revolution impact\n- Crisis years (1979–2001): Grand Mosque seizure, Gulf War, US troops, 1990s extremism\n- Post-9/11 (2001–2017): 9/11 hijacker connections, counterterrorism, Arab Spring navigation\n- MBS era (2017–present): Vision 2030, anti-corruption purge, Khashoggi assassination, Yemen war, Abraham Accords adjacency, Saudi-Iran rapprochement (2023), sportswashing, NEOM/megaprojects\n\nMULTI-POLE SOURCING — gather from all perspectives:\n1. WESTERN: White House, State Dept, Reuters, AP, BBC, CNN, NYT, WaPo, The Guardian, FT, Al-Monitor\n2. MIDDLE EASTERN: Al Jazeera, Arab News, Saudi Gazette, Al Arabiya, Asharq Al-Awsat, MBC, Middle East Eye\n3. EASTERN: Xinhua, CGTN, Global Times, TASS, Iranian state media (for Saudi-Iran context)\n4. INTERNATIONAL: UN, HRW, Amnesty International, Freedom House, OPEC, IMF, World Bank, CSIS, Chatham House, MEI\n\nWhen providing sources, tag each with a \"pole\" field:\n- \"western\" for US/European/allied sources\n- \"middle_eastern\" for Arab/Gulf/Saudi sources\n- \"eastern\" for Chinese/Russian/Asian sources\n- \"international\" for UN/NGO/multilateral sources\n\nSource tier classification:\n- Tier 1: Official/primary (Saudi Royal Court, Saudi Aramco, Saudi Ministry of Foreign Affairs, US State Dept, UN, OPEC official)\n- Tier 2: Major outlet (Reuters, AP, BBC, Al Jazeera, Arab News, FT, Bloomberg, CNN, WaPo)\n- Tier 3: Institutional (CSIS, Chatham House, MEI, HRW, Amnesty International, Freedom House, IMF, World Bank, Carnegie)\n- Tier 4: Unverified (social media, anonymous leaks, unattributed claims)\n\nOnly include information you can verify through search results. Do not fabricate data.\nFor historical events (pre-1990), use established scholarly and journalistic records.\nFor recent events, actively seek contrasting perspectives especially on contested topics (Khashoggi, 9/11 connections, Yemen civilian casualties, Vision 2030 progress claims).\n\nCONTESTED NARRATIVES — flag with appropriate confidence levels:\n- Saudi government official positions vs. human rights assessments\n- MBS Vision 2030 progress claims vs. independent economic analysis\n- Yemen war civilian casualty figures (Saudi/UAE vs. UN/NGO)\n- Khashoggi assassination — Saudi official versions vs. CIA/UN findings\n- 9/11 hijacker connections — Saudi government denials vs. declassified US documents\n\nFor the \"year\" field in timeline events, always use a string like \"1932\" NOT a number.\nFor economic direction field, only use \"up\" or \"down\" (never \"stable\").",
+    "searchContext": "Saudi Arabia history Kingdom politics oil MBS Vision 2030 Yemen governance",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "claims",
+      "political",
+      "econ"
+    ],
+    "coordValidation": {
+      "lonMin": 25,
+      "lonMax": 70,
+      "latMin": 5,
+      "latMax": 42
+    },
+    "updateIntervalDays": 7,
+    "backfillTargets": {
+      "timeline": 40,
+      "mapPoints": 25,
+      "claims": 15,
+      "political": 15,
+      "kpis": 8,
+      "econ": 8
+    },
+    "updatePolicy": {
+      "escalation": [
+        7,
+        7,
+        14,
+        30,
+        60,
+        90
+      ],
+      "quietThreshold": 0
+    },
+    "rssFeeds": [
+      "https://news.google.com/rss/search?q=Saudi+Arabia+MBS+Vision+2030&hl=en-US&gl=US&ceid=US:en",
+      "https://www.aljazeera.com/xml/rss/all.xml"
+    ]
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": [
+    "SA"
+  ]
+}
