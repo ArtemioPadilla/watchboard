@@ -1,0 +1,230 @@
+{
+  "slug": "pakistan",
+  "name": "Pakistan History Tracker",
+  "shortName": "Pakistan",
+  "description": "Comprehensive intelligence dashboard covering Pakistan from the Indus Valley Civilization (3300 BCE) through independence and partition (1947), military coups, nuclear tests, Kashmir conflicts, and modern governance crises.",
+  "icon": "🕌",
+  "color": "#1f6b35",
+  "status": "active",
+  "tone": "historical",
+  "temporal": "historical",
+  "trackerType": "historical",
+  "domain": "governance",
+  "region": "south-asia",
+  "country": "PK",
+  "tags": ["south-asia", "islamization", "nuclear", "partition", "kashmir", "democracy", "military-rule", "indus-valley"],
+  "startDate": "-3300-01-01",
+  "eraLabel": "Ancient to Modern Pakistan",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "military",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": 58,
+      "lonMax": 80,
+      "latMin": 20,
+      "latMax": 38
+    },
+    "center": {
+      "lon": 69,
+      "lat": 30
+    },
+    "categories": [
+      {
+        "id": "historical",
+        "label": "Historical Sites",
+        "color": "#f39c12"
+      },
+      {
+        "id": "political",
+        "label": "Political Events",
+        "color": "#3498db"
+      },
+      {
+        "id": "conflict",
+        "label": "Conflict Zones",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "border",
+        "label": "Border Disputes",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "economic",
+        "label": "Economic Infrastructure",
+        "color": "#2ecc71"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "overview": {
+        "lon": 69,
+        "lat": 30,
+        "alt": 3500000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Pakistan Overview"
+      },
+      "islamabad": {
+        "lon": 73.04,
+        "lat": 33.72,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Islamabad"
+      },
+      "karachi": {
+        "lon": 67.01,
+        "lat": 24.86,
+        "alt": 100000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Karachi"
+      },
+      "lahore": {
+        "lon": 74.34,
+        "lat": 31.55,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Lahore"
+      },
+      "mohenjo_daro": {
+        "lon": 68.14,
+        "lat": 27.32,
+        "alt": 40000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Mohenjo-daro"
+      },
+      "kashmir": {
+        "lon": 74.8,
+        "lat": 34.5,
+        "alt": 200000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Kashmir"
+      }
+    },
+    "clocks": [
+      {
+        "label": "PKT",
+        "offsetHours": 5
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      },
+      {
+        "label": "EST",
+        "offsetHours": -5
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-military",
+      "label": "Military"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Humanitarian"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "militaryTabs": [
+    {
+      "id": "strikes",
+      "label": "Military Operations"
+    },
+    {
+      "id": "retaliation",
+      "label": "Counter-Operations"
+    },
+    {
+      "id": "assets",
+      "label": "Strategic Assets"
+    }
+  ],
+  "politicalAvatars": [
+    "pak-gov",
+    "pak-mil",
+    "pti",
+    "religious",
+    "intl",
+    "other"
+  ],
+  "eventTypes": [
+    "political",
+    "military",
+    "diplomatic",
+    "economic",
+    "social"
+  ],
+  "ai": {
+    "systemPrompt": "You are a historian and political analyst updating a comprehensive tracker for Pakistan's history, from the ancient Indus Valley Civilization through modern governance, military coups, nuclear developments, and current political crises.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"partition_1947\", \"zia_ul_haq_coup\").\n\nSource tier classification:\n- Tier 1: Official/primary (Government of Pakistan, Supreme Court of Pakistan, Election Commission of Pakistan, ISPR, National Assembly, Senate, State Bank of Pakistan, IAEA, UN, IMF, World Bank)\n- Tier 2: Major outlet (Reuters, AP, BBC, Dawn, Geo News, ARY News, The News International, Pakistan Tribune, Al Jazeera, AFP, Guardian)\n- Tier 3: Institutional (PILDAT, HRCP, ICG, CSIS, Wilson Center, Brookings, RAND, USIP, South Asia Terrorism Portal, Jinnah Institute, SIPRI)\n- Tier 4: Unverified (social media, unattributed claims, party social posts without corroboration)\n\nWhen providing sources (especially in the \"sources\" array), tag each with a \"pole\" field:\n- \"western\" for US/European/allied sources\n- \"middle_eastern\" for Gulf/Arab sources with Pakistan coverage\n- \"eastern\" for Chinese/Russian/Asian sources\n- \"international\" for UN/NGO/multilateral sources\n\nCOVERAGE ERAS:\n- Ancient & Medieval: Indus Valley Civilization (~3300–1300 BCE), Vedic period, Maurya Empire, Kushan Empire, Arab conquest of Sindh (711 CE), Ghaznavids, Delhi Sultanate, Mughal Empire\n- Colonial: Sikh Empire, British East India Company annexation (Sindh 1843, Punjab 1849), British Raj, Muslim League founding (1906), Iqbal's Allahabad Address (1930), Lahore Resolution (1940), Pakistan Movement\n- Independence & Early State (1947–1971): Partition and independence, Kashmir War (1947), Liaquat Ali Khan assassination (1951), constitutions, Ayub Khan coup (1958), 1965 war, 1971 Bangladesh war\n- Bhutto–Zia Era (1971–1988): Zulfikar Ali Bhutto, 1977 Zia coup, Islamization, Soviet-Afghan War, Benazir Bhutto rise\n- Democracy & Nuclear (1988–1999): Alternating PPP/PML-N governments, 1998 nuclear tests, Kargil conflict (1999)\n- Musharraf Era (1999–2008): Military coup, 9/11 and War on Terror cooperation, LFO, Lal Masjid siege\n- Democracy Returns (2008–2018): PPP Zardari era, PML-N Nawaz Sharif, TTP insurgency, APS massacre (2014), China-Pakistan Economic Corridor (CPEC)\n- PTI & Instability (2018–present): Imran Khan government, economic crises, IMF bailouts, no-confidence vote (2022), May 9 2023 unrest, 2024 elections, Shehbaz Sharif coalition, TTP resurgence\n\nOnly include information you can verify through search results. Do not fabricate data.\nFor historical events (pre-1947), rely on established academic/institutional records.\nFor modern events (post-1947), prioritize Tier 1-2 sources.\n\nCONFIRMATION RULES:\n- Historical claims (pre-1947) should cite academic or institutional sources.\n- Modern political/military events require at least 1 Tier 1 or 2 independent Tier 2+ sources.\n- Single-source Tier 3/4 reports use confidence: \"low\".\n\nDEDUPLICATION:\n- Do not duplicate events that differ by only minor date variations (±2 days).\n- For contested figures (casualties, economic data), note discrepancies between official and independent sources.",
+    "searchContext": "Pakistan history governance military politics IMF Kashmir nuclear TTP elections",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "casualties",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": 55,
+      "lonMax": 85,
+      "latMin": 18,
+      "latMax": 42
+    },
+    "updateIntervalDays": 7,
+    "backfillTargets": {
+      "timeline": 40,
+      "mapPoints": 30,
+      "claims": 20,
+      "political": 20,
+      "kpis": 8,
+      "casualties": 10,
+      "econ": 8
+    },
+    "updatePolicy": {
+      "escalation": [7, 14, 30, 60, 90],
+      "quietThreshold": 30
+    }
+  },
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": ["PK"]
+}
