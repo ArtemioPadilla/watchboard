@@ -237,7 +237,7 @@ export default function BroadcastOverlay({
       )}
 
       {/* LIVE / PAUSED Badge */}
-      <div className={`broadcast-live-badge ${isPaused ? 'paused' : ''}`}>
+      <div id="tour-ticker" className={`broadcast-live-badge ${isPaused ? 'paused' : ''}`}>
         <div className="broadcast-live-dot" />
         <span className="broadcast-live-text">
           {isPaused ? t('broadcast.paused', locale) : t('broadcast.live', locale)}

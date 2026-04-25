@@ -560,7 +560,7 @@ export default function CommandCenter({
         </div>
       </div>
 
-      <div className="cc-globe" style={{
+      <div id="tour-globe" className="cc-globe" style={{
         ...(sidebarCollapsed && !isMobile ? styles.globeExpanded : styles.globe),
         ...(isMobile ? { paddingTop: '2.5rem' } : {}),
       }} role="region" aria-label="Globe visualization">
@@ -687,7 +687,7 @@ export default function CommandCenter({
           <MobileStoryCarousel trackers={trackers} basePath={basePath} followedSlugs={followedSlugs} onTrackerChange={handleStoryTrackerChange} />
         </div>
       )}
-      <nav className="cc-sidebar" style={sidebarStyle} aria-label="Tracker directory">
+      <nav id="tour-sidebar" className="cc-sidebar" style={sidebarStyle} aria-label="Tracker directory">
         {!isMobile && sidebarCollapsed ? (
           <div style={styles.collapsedSidebarContent}>
             <button
