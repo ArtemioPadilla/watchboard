@@ -10,7 +10,7 @@ on:
 
 permissions:
   contents: write
-  issues: read
+  issues: write
 
 concurrency:
   group: tracker-votes-tally
@@ -32,6 +32,7 @@ jobs:
       - name: Compute tally
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VOTE_THRESHOLD: '10'
         run: |
           set -e
           mkdir -p public/_tracker-votes
@@ -85,17 +86,70 @@ jobs:
 
           const totalVotes = candidates.reduce((s, c) => s + c.votes, 0);
 
+          const threshold = Number(process.env.VOTE_THRESHOLD) || 10;
           const out = {
             lastUpdated: new Date().toISOString(),
             totalVotes,
+            threshold,
             candidates,
           };
 
           fs.mkdirSync('public/_tracker-votes', { recursive: true });
           fs.writeFileSync('public/_tracker-votes/tally.json', JSON.stringify(out, null, 2) + '\n');
-          console.log(`Tallied ${candidates.length} candidates, ${totalVotes} total voter-slug pairs`);
+          console.log(`Tallied ${candidates.length} candidates, ${totalVotes} total voter-slug pairs (threshold=${threshold})`);
           for (const c of candidates) {
-            console.log(`  ${c.slug}: ${c.votes}`);
+            const flag = c.votes >= threshold ? ' [READY]' : '';
+            console.log(`  ${c.slug}: ${c.votes}${flag}`);
+          }
+
+          // Emit graduates list for the next step
+          const graduates = candidates.filter(c => c.votes >= threshold);
+          fs.writeFileSync('/tmp/graduates.json', JSON.stringify(graduates));
+          NODE
+
+      - name: Open graduation issues for first-time threshold crossers
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          if [ ! -s /tmp/graduates.json ]; then exit 0; fi
+          node <<'NODE'
+          const fs = require('fs');
+          const { execSync } = require('child_process');
+          const graduates = JSON.parse(fs.readFileSync('/tmp/graduates.json', 'utf8'));
+          if (!graduates.length) { console.log('No graduates this run.'); process.exit(0); }
+
+          // Pull existing graduation issues to avoid duplicates
+          const existingRaw = execSync(
+            `gh api -X GET "repos/${process.env.GITHUB_REPOSITORY}/issues" -F labels=graduation -F state=all -F per_page=100 --paginate --jq '[.[] | select(.pull_request | not) | .title]'`,
+            { encoding: 'utf8' }
+          );
+          const existing = new Set(JSON.parse(existingRaw));
+
+          for (const g of graduates) {
+            const title = `[Graduate] tracker: ${g.slug}`;
+            if (existing.has(title)) {
+              console.log(`Already filed: ${title}`);
+              continue;
+            }
+            const body = [
+              `Candidate **${g.slug}** has crossed the vote threshold with **${g.votes} votes**.`,
+              '',
+              'Voters:',
+              ...g.voters.map(v => `- @${v}`),
+              '',
+              'Next step: dispatch `init-tracker.yml` with appropriate inputs to ship this tracker.',
+              '',
+              `graduate-slug: ${g.slug}`,
+            ].join('\n');
+            const titlePath = '/tmp/grad-title.txt';
+            const bodyPath = '/tmp/grad-body.md';
+            fs.writeFileSync(titlePath, title);
+            fs.writeFileSync(bodyPath, body);
+            execSync(
+              `gh issue create --title "$(cat ${titlePath})" --body-file ${bodyPath} --label graduation`,
+              { stdio: 'inherit' }
+            );
           }
           NODE
 

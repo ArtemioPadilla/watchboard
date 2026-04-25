@@ -82,15 +82,30 @@ These amplify existing tracker value rather than adding new ones.
 ## How priorities get set
 
 1. **Tier 1** — strategic gaps the maintainer identifies (world-relevant, no current coverage). No vote.
-2. **Tier 2-4** — open to community vote at `/vote`. Tracker requests with the most votes graduate to 🚧 in batches.
+2. **Tier 2-4** — open to community vote at `/vote`. Candidates that cross the vote threshold graduate to 🚧 in batches.
 3. **Tier 5** — driven by usage data + roadmap alignment. Vote-eligible if shaped as a tracker, otherwise maintainer-prioritized.
+
+## Vote threshold and "winning"
+
+A candidate **graduates** (becomes eligible to ship) when it crosses **10 votes**.
+
+- 1 vote = 1 unique GitHub account interacting with the candidate's `tracker-vote` issue:
+  the issue author, anyone who reacts with 👍 on the issue, or anyone who comments with `+1` / 👍.
+- The tally workflow runs nightly and on every issue event, then writes `public/_tracker-votes/tally.json`.
+- When a candidate crosses 10 votes for the first time, the workflow opens a `[Graduate] tracker: <slug>`
+  issue with the `graduation` label, listing voters and what to dispatch next.
+- Multiple candidates can graduate in the same window — the maintainer ships them in vote-rank order
+  (highest count first), capped at 1–2 per Tier 1-style batch to keep deploys reviewable.
+- Threshold is a constant in `src/pages/vote.astro` (`VOTE_THRESHOLD = 10`) and
+  `.github/workflows/tally-tracker-votes.yml` (env `VOTE_THRESHOLD`). Adjust both together.
 
 ## Process for graduating a backlog item
 
 1. Idea (`💡`) → spec it. Either an issue or a `docs/superpowers/specs/<date>-<slug>.md`.
-2. Spec ✓ → backlog (`📋`) — eligible for vote.
-3. Vote winner → in progress (`🚧`) — dispatch via `init-tracker.yml`.
-4. Init+seed succeed → shipped (`✅`).
+2. Spec ✓ → backlog (`📋`) — eligible for vote at `/vote`.
+3. Crosses threshold → workflow files a `[Graduate]` issue → mark `🚧` in this file.
+4. Maintainer dispatches `init-tracker.yml` with topic, start date, region.
+5. Init+seed succeed → shipped (`✅`). Close the `[Graduate]` and `[Vote]` issues.
 
 ## Voting integration
 

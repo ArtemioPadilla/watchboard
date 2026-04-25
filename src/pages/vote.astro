@@ -59,6 +59,11 @@ const tallyMap = new Map(tally.candidates.map(c => [c.slug, c.votes]));
 const REPO = 'ArtemioPadilla/watchboard';
 const ISSUE_BASE = 'https://github.com/' + REPO + '/issues/new?labels=tracker-vote';
 
+// A candidate "graduates" (becomes eligible to ship) when it crosses this threshold.
+// The workflow opens a [Graduate] issue when the threshold is first crossed.
+// The maintainer then runs init-tracker.yml for the winning slug.
+const VOTE_THRESHOLD = 10;
+
 const candidatesWithUrls = candidates.map(c => {
   const title = encodeURIComponent('[Vote] tracker: ' + c.slug);
   const body = encodeURIComponent(
@@ -95,6 +100,8 @@ const tierLabels: Record<number, string> = {
         Tier 1 (world-relevant country gaps) is decided by maintainers.
         Everything below is open to community vote.
         Each "Vote" button opens a GitHub issue: your account = your vote, no spam.
+        A candidate becomes eligible to ship once it crosses <strong>{VOTE_THRESHOLD} votes</strong>;
+        the maintainer dispatches the build and the tracker goes live.
       </p>
       <p class="vote-meta">
         {tally.totalVotes > 0
@@ -107,18 +114,28 @@ const tierLabels: Record<number, string> = {
       <section class="vote-tier">
         <h2>{tierLabels[tier]}</h2>
         <ul class="candidate-grid">
-          {candidatesWithUrls.filter(c => c.tier === tier).map(c => (
-            <li class="candidate-card">
-              <div class="candidate-head">
-                <span class="candidate-name">{c.name}</span>
-                <span class="candidate-votes">{c.votes}</span>
-              </div>
-              <p class="candidate-desc">{c.description}</p>
-              <a class="vote-btn" href={c.voteUrl} target="_blank" rel="noopener noreferrer">
-                Vote on GitHub &rarr;
-              </a>
-            </li>
-          ))}
+          {candidatesWithUrls.filter(c => c.tier === tier).sort((a, b) => b.votes - a.votes).map(c => {
+            const pct = Math.min(100, Math.round((c.votes / VOTE_THRESHOLD) * 100));
+            const ready = c.votes >= VOTE_THRESHOLD;
+            return (
+              <li class={'candidate-card' + (ready ? ' candidate-ready' : '')}>
+                <div class="candidate-head">
+                  <span class="candidate-name">{c.name}</span>
+                  <span class={'candidate-votes' + (ready ? ' candidate-votes-ready' : '')}>{c.votes}</span>
+                </div>
+                <p class="candidate-desc">{c.description}</p>
+                <div class="candidate-progress" title={ready ? 'Threshold reached' : (VOTE_THRESHOLD - c.votes) + ' more vote(s) to graduate'}>
+                  <div class="candidate-progress-bar" style={'width:' + pct + '%'}></div>
+                  <span class="candidate-progress-label">
+                    {ready ? 'Ready to ship' : c.votes + ' / ' + VOTE_THRESHOLD}
+                  </span>
+                </div>
+                <a class="vote-btn" href={c.voteUrl} target="_blank" rel="noopener noreferrer">
+                  Vote on GitHub &rarr;
+                </a>
+              </li>
+            );
+          })}
         </ul>
       </section>
     ))}
@@ -184,6 +201,38 @@ const tierLabels: Record<number, string> = {
     transition: border-color 0.2s;
   }
   .candidate-card:hover { border-color: var(--border-light); }
+  .candidate-ready {
+    border-color: rgba(46,204,113,0.55) !important;
+    box-shadow: 0 0 0 1px rgba(46,204,113,0.25) inset;
+  }
+  .candidate-progress {
+    position: relative;
+    height: 4px;
+    background: var(--bg-secondary);
+    border-radius: 2px;
+    margin-top: 0.25rem;
+    overflow: hidden;
+  }
+  .candidate-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-blue), var(--accent-green));
+    transition: width 0.3s ease;
+  }
+  .candidate-progress-label {
+    position: absolute;
+    right: 0;
+    top: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+  }
+  .candidate-ready .candidate-progress-label { color: var(--accent-green); font-weight: 600; }
+  .candidate-votes-ready {
+    color: var(--accent-green) !important;
+    background: rgba(46,204,113,0.12) !important;
+    border-color: rgba(46,204,113,0.4) !important;
+  }
   .candidate-head {
     display: flex;
     justify-content: space-between;
