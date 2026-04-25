@@ -1,1 +1,667 @@
-[]
+[
+  {
+    "era": "Indus Valley Civilization (c. 2600–1700 BCE)",
+    "events": [
+      {
+        "id": "indus-valley-peak",
+        "year": "-2600",
+        "title": "Indus Valley / Harappan Civilization Flourishes",
+        "type": "cultural",
+        "detail": "The Indus Valley Civilization (also called Harappan) reaches its urban peak across modern-day Pakistan and northwest India. Cities like Mohenjo-daro and Harappa feature planned streets, advanced drainage systems, standardized weights and measures, and trade links extending to Mesopotamia. Population estimated at 1–5 million across 1,500+ settlements.",
+        "sources": [
+          { "name": "Archaeological Survey of India", "tier": 1 },
+          { "name": "UNESCO World Heritage Documentation", "tier": 1 },
+          { "name": "Jonathan Mark Kenoyer, Ancient Cities of the Indus Valley Civilisation (Oxford, 1998)", "tier": 3 }
+        ],
+        "lastUpdated": "2026-04-25"
+      },
+      {
+        "id": "mohenjo-daro-construction",
+        "year": "-2500",
+        "title": "Mohenjo-daro: Urban Planning Marvel",
+        "type": "cultural",
+        "detail": "Mohenjo-daro (modern Sindh, Pakistan) represents one of the earliest examples of urban planning. Its grid layout, public baths, two-storey brick buildings, and covered sewers rival contemporaries in Mesopotamia and Egypt. The Great Bath, measuring 12x7 metres, suggests public ritual or civic life. No palaces or temples identified — suggesting egalitarian governance or decentralized power.",
+        "sources": [
+          { "name": "Archaeological Survey of India", "tier": 1 },
+          { "name": "BBC History — Indus Valley Civilisation", "tier": 2 }
+        ],
+        "lastUpdated": "2026-04-25"
+      },
+      {
+        "id": "harappan-decline",
+        "year": "-1700",
+        "title": "Harappan Civilization Declines",
+        "type": "social",
+        "detail": "The Indus Valley Civilization undergoes dramatic decline by c. 1700 BCE. Major cities are abandoned and the standardized material culture fragments. Causes remain debated: climate change (weakening monsoon), river course changes (Ghaggar-Hakra/Saraswati drying), epidemic disease, or ecological degradation. Migration eastward to the Gangetic Plain may have seeded the subsequent Vedic culture.",
+        "sources": [
+          { "name": "Livio Storniolo et al., Nature Communications (2022) — climate collapse study", "tier": 3 },
+          { "name": "Reuters Science — Indus Valley decline", "tier": 2 }
+        ],
+        "eventConfidence": "disputed",
+        "confidenceReason": "Multiple competing theories; climate hypothesis gaining scholarly acceptance but not settled",
+        "lastUpdated": "2026-04-25"
+      }
+    ]
+  },
+  {
+    "era": "Vedic & Epic Age (c. 1500–500 BCE)",
+    "events": [
+      {
+        "id": "vedic-period-begins",
+        "year": "-1500",
+        "title": "Vedic Period Begins: Composition of the Rigveda",
+        "type": "cultural",
+        "detail": "The earliest hymns of the Rigveda — the oldest Sanskrit text and one of the world's oldest religious texts — are composed, probably in the Punjab region. The Vedic peoples (speaking early Indo-Aryan languages) settle across northwestern India. Whether they migrated from the Eurasian steppe or were indigenous is one of India's most contested historical and political debates.",
+        "sources": [
+          { "name": "UNESCO Memory of the World: Rigveda manuscripts", "tier": 1 },
+          { "name": "Michael Witzel, Harvard — Vedic Studies", "tier": 3 }
+        ],
+        "eventConfidence": "disputed",
+        "confidenceReason": "Aryan Migration/Indigenous Aryan debate remains politically and academically contested",
+        "lastUpdated": "2026-04-25"
+      },
+      {
+        "id": "upanishads-composed",
+        "year": "-800",
+        "title": "Upanishads Composed: Foundation of Hindu Philosophy",
+        "type": "cultural",
+        "detail": "The Upanishads (c. 800–200 BCE) lay the philosophical foundation of Hinduism, exploring concepts of Brahman (ultimate reality), Atman (individual soul), karma, dharma, and moksha (liberation). The Brihadaranyaka and Chandogya Upanishads are among the earliest. These texts underpin India's later philosophical traditions including Advaita Vedanta and inform Buddhist and Jain thought.",
+        "sources": [
+          { "name": "S. Radhakrishnan, The Principal Upanishads (1953)", "tier": 3 },
+          { "name": "UNESCO — Indian philosophical traditions", "tier": 1 }
+        ],
+        "lastUpdated": "2026-04-25"
+      },
+      {
+        "id": "mahavira-birth",
+        "year": "-599",
+        "title": "Birth of Mahavira: Founder of Modern Jainism",
+        "type": "cultural",
+        "detail": "Vardhamana (later Mahavira, 'Great Hero') is born in Vaishali (modern Bihar). He becomes the 24th and last Tirthankara (ford-maker) of Jainism, teaching ahimsa (non-violence), truth, and asceticism. Jainism profoundly influences Indian ethics, trade communities, and later Mahatma Gandhi's philosophy of non-violent resistance.",
+        "sources": [
+          { "name": "Encyclopaedia Britannica — Mahavira", "tier": 3 },
+          { "name": "Times of India — Jainism history", "tier": 2 }
+        ],
+        "lastUpdated": "2026-04-25"
+      },
+      {
+        "id": "buddha-birth",
+        "year": "-563",
+        "title": "Birth of Siddhartha Gautama (The Buddha)",
+        "type": "cultural",
+        "detail": "Siddhartha Gautama is born in Lumbini (modern Nepal) into the Shakya clan. Around age 35, he attains enlightenment under a Bodhi tree at Bodh Gaya (Bihar). His teachings — the Four Noble Truths and Eightfold Path — form Buddhism, which eventually spreads across Asia under Ashoka's patronage. Buddhism transforms India's religious, artistic, and political landscape for over a millennium.",
+        "sources": [
+          { "name": "UNESCO — Lumbini World Heritage Site", "tier": 1 },
+          { "name": "BBC Religion — Buddhism origins", "tier": 2 }
+        ],
+        "lastUpdated": "2026-04-25"
+      }
+    ]
+  },
+  {
+    "era": "Classical Empires: Maurya & Gupta (322 BCE–550 CE)",
+    "events": [
+      {
+        "id": "alexander-invasion",
+        "year": "-326",
+        "title": "Alexander the Great Invades Punjab",
+        "type": "military",
+        "detail": "Alexander III of Macedon crosses the Indus and defeats King Porus at the Battle of the Hydaspes River (modern Jhelum, Pakistan). Although victorious, Alexander's army mutinies and refuses to advance further east toward the Ganges. He retreats westward, dying in Babylon in 323 BCE. His brief conquest leaves Hellenistic cultural influences in Gandhara art and creates a power vacuum exploited by Chandragupta Maurya.",
+        "sources": [
+          { "name": "Arrian, Anabasis Alexandri (ancient source)", "tier": 3 },
+          { "name": "BBC History — Alexander in India", "tier": 2 }
+        ],
+        "lastUpdated": "2026-04-25"
+      },
+      {
+        "id": "maurya-empire-founded",
+        "year": "-322",
+        "title": "Chandragupta Maurya Founds the Maurya Empire",
+        "type": "political",
+        "detail": "Chandragupta Maurya, advised by the strategist Chanakya (Kautilya), overthrows the Nanda dynasty and establishes the Maurya Empire — India's first pan-subcontinental empire. At its peak under Ashoka, it covers modern India, Pakistan, Bangladesh, and parts of Afghanistan. Chanakya's Arthashastra (a treatise on statecraft) anticipates Machiavelli by 1,700 years.",
+        "sources": [
+          { "name": "R. Thapar, Ashoka and the Decline of the Mauryas (Oxford, 1961)", "tier": 3 },
+          { "name": "Archaeological Survey of India", "tier": 1 }
+        ],
+        "lastUpdated": "2026-04-25"
+      },
+      {
+        "id": "ashoka-kalinga-war",
+        "year": "-261",
+        "title": "Battle of Kalinga: Ashoka's Transformation",
+        "type": "military",
+        "detail": "Emperor Ashoka conquers the kingdom of Kalinga (modern Odisha) in a bloody campaign killing an estimated 100,000 people and displacing 150,000 more. Horrified by the carnage, Ashoka converts to Buddhism and abandons military expansion. His subsequent rock and pillar edicts — carved across India — proclaim tolerance, animal welfare, and dhamma (moral order). The Ashoka Chakra on India's national flag derives from his Lion Capital at Sarnath.",
+        "sources": [
+          { "name": "Ashokan Edicts (primary source)", "tier": 1 },
+          { "name": "UNESCO — Ashokan Monuments", "tier": 1 },
+          { "name": "R. Thapar, Ashoka and the Decline of the Mauryas", "tier": 3 }
+        ],
+        "lastUpdated": "2026-04-25"
+      },
+      {
+        "id": "gupta-empire-golden-age",
+        "year": "320",
+        "title": "Gupta Empire: India's Golden Age",
+        "type": "cultural",
+        "detail": "Chandragupta I founds the Gupta Empire (320–550 CE), which presides over a cultural and scientific golden age. Aryabhata calculates pi and proposes heliocentrism; Brahmagupta systematizes algebra; Kalidasa writes the Mahabharata commentary and the play Abhijnanashakuntalam. The decimal numeral system and the concept of zero (Shunya) reach their mature form. Sanskrit literature, temple architecture, and trade flourish.",
+        "sources": [
+          { "name": "Subhash Kak, Science in Ancient India (Louisiana State, 2000)", "tier": 3 },
+          { "name": "UNESCO — Ajanta Caves (Gupta-era art)", "tier": 1 }
+        ],
+        "lastUpdated": "2026-04-25"
+      }
+    ]
+  },
+  {
+    "era": "Medieval India: Sultanates & Empires (550–1526)",
+    "events": [
+      {
+        "id": "arab-conquest-sind",
+        "year": "711",
+        "title": "Arab Conquest of Sind",
+        "type": "military",
+        "detail": "Muhammad bin Qasim leads an Umayyad Arab army into Sind (modern Pakistan), defeating Raja Dahir at the Battle of the Indus. This marks the first sustained Muslim political presence in the subcontinent, though largely limited to Sind for centuries. The encounter integrates India into Islamic trade networks and introduces early contact between Hindu/Buddhist and Islamic intellectual traditions.",
+        "sources": [
+          { "name": "Chachnama (13th-century Persian chronicle)", "tier": 3 },
+          { "name": "Al Jazeera History — Islam in India", "tier": 2 }
+        ],
+        "lastUpdated": "2026-04-25"
+      },
+      {
+        "id": "delhi-sultanate-founded",
+        "year": "1206",
+        "title": "Delhi Sultanate Established",
+        "type": "political",
+        "detail": "After Muhammad of Ghor's defeat of Prithviraj Chauhan at the Second Battle of Tarain (1192), his general Qutb-ud-Din Aibak establishes the Delhi Sultanate — five successive dynasties (Slave, Khalji, Tughlaq, Sayyid, Lodi) ruling northern India until 1526. The Qutb Minar, construction of which begins under Aibak, becomes India's tallest medieval minaret. The Sultanate introduces Persian administrative traditions, Sufi Islam, and new artistic styles.",
+        "sources": [
+          { "name": "Ziauddin Barani, Tarikh-i-Firuz Shahi (14th-century chronicle)", "tier": 3 },
+          { "name": "Archaeological Survey of India — Qutb Minar", "tier": 1 }
+        ],
+        "lastUpdated": "2026-04-25"
+      },
+      {
+        "id": "vijayanagara-empire",
+        "year": "1336",
+        "title": "Vijayanagara Empire Founded in South India",
+        "type": "political",
+        "detail": "Harihara I and Bukka Raya I found the Vijayanagara Empire (1336–1646) on the Tungabhadra River, creating a powerful Hindu state that resists Sultanate expansion into the Deccan. At its peak under Krishnadevaraya (1509–1529), the empire controls much of South India, patronizes Telugu and Kannada literature, and trades with Portuguese and Arab merchants. Its ruins at Hampi are a UNESCO World Heritage Site.",
+        "sources": [
+          { "name": "UNESCO World Heritage — Hampi", "tier": 1 },
+          { "name": "Burton Stein, Vijayanagara (Cambridge, 1989)", "tier": 3 }
+        ],
+        "lastUpdated": "2026-04-25"
+      },
+      {
+        "id": "timur-invasion",
+        "year": "1398",
+        "title": "Timur's Invasion and Sack of Delhi",
+        "type": "military",
+        "detail": "Timur (Tamerlane) invades northern India with a Turco-Mongol army, sacking Delhi and massacring tens of thousands of inhabitants. Contemporary chronicles describe the city so devastated that no birds sang for months. The invasion fatally weakens the Tughlaq dynasty and fragments the Delhi Sultanate, accelerating the political vacuum that enables Babur's conquest in 1526. Timur is Babur's ancestor, linking this event to Mughal origins.",
+        "sources": [
+          { "name": "Yazdi, Zafarnama (15th-century Persian chronicle)", "tier": 3 },
+          { "name": "BBC History — Timur's invasion", "tier": 2 }
+        ],
+        "lastUpdated": "2026-04-25"
+      },
+      {
+        "id": "vasco-da-gama-calicut",
+        "year": "1498",
+        "title": "Vasco da Gama Arrives at Calicut",
+        "type": "economic",
+        "detail": "Portuguese explorer Vasco da Gama reaches Calicut (Kozhikode, Kerala) on May 20, 1498, opening the first direct sea route between Europe and India. This breaks the Arab and Venetian monopoly on the spice trade and marks the beginning of European maritime trade with India. Portugal soon establishes bases at Goa (1510), which it holds until 1961. Da Gama's arrival is a precursor to the British colonial era.",
+        "sources": [
+          { "name": "Barros, Décadas da Ásia (16th-century Portuguese chronicle)", "tier": 3 },
+          { "name": "BBC History — Vasco da Gama", "tier": 2 }
+        ],
+        "lastUpdated": "2026-04-25"
+      }
+    ]
+  },
+  {
+    "era": "Mughal Empire (1526–1857)",
+    "events": [
+      {
+        "id": "first-battle-panipat",
+        "year": "1526",
+        "title": "First Battle of Panipat: Babur Founds Mughal Empire",
+        "type": "military",
+        "detail": "Zahiruddin Muhammad Babur, a Timurid prince from Fergana (Uzbekistan), defeats Ibrahim Lodi, Sultan of Delhi, at Panipat on April 21, 1526, using superior artillery tactics. This establishes the Mughal Empire, which at its peak under Aurangzeb controls 95% of the subcontinent and generates ~25% of global GDP. The Mughal synthesis of Persian, Turkish, and Indian cultures produces some of history's greatest architecture, art, and literature.",
+        "sources": [
+          { "name": "Baburnama (Babur's memoirs, primary source)", "tier": 1 },
+          { "name": "John F. Richards, The Mughal Empire (Cambridge, 1993)", "tier": 3 }
+        ],
+        "lastUpdated": "2026-04-25"
+      },
+      {
+        "id": "akbar-reign",
+        "year": "1556",
+        "title": "Akbar the Great: Tolerance and Consolidation",
+        "type": "political",
+        "detail": "Akbar (r. 1556–1605) consolidates Mughal power after the Second Battle of Panipat and pursues a policy of religious syncretism. He abolishes the jizya tax on non-Muslims, marries Rajput princess Jodha Bai, and appoints Hindus to high office. He founds Din-i-Ilahi ('Religion of God'), a syncretic spiritual movement. His administrative genius — the mansabdari system, revenue reforms via minister Todar Mal — finances the empire's golden age.",
+        "sources": [
+          { "name": "Abul Fazl, Ain-i-Akbari (16th-century administrative record)", "tier": 1 },
+          { "name": "The Hindu — Akbar's legacy", "tier": 2 }
+        ],
+        "lastUpdated": "2026-04-25"
+      },
+      {
+        "id": "taj-mahal-built",
+        "year": "1632",
+        "title": "Taj Mahal Construction Begins",
+        "type": "cultural",
+        "detail": "Emperor Shah Jahan commissions the Taj Mahal in Agra as a mausoleum for his wife Mumtaz Mahal, who died in 1631 giving birth to their 14th child. Construction employs 20,000 workers over 22 years (completed 1653). The white marble structure inlaid with semi-precious stones is considered the pinnacle of Mughal architecture, blending Persian, Islamic, and Hindu elements. It is designated a UNESCO World Heritage Site in 1983.",
+        "sources": [
+          { "name": "UNESCO World Heritage — Taj Mahal", "tier": 1 },
+          { "name": "Archaeological Survey of India", "tier": 1 }
+        ],
+        "lastUpdated": "2026-04-25"
+      },
+      {
+        "id": "aurangzeb-policies",
+        "year": "1658",
+        "title": "Aurangzeb Seizes Power: Religious Austerity and Imperial Overreach",
+        "type": "political",
+        "detail": "Aurangzeb (r. 1658–1707) deposes his father Shah Jahan and executes his brothers in a succession war. His 49-year reign — the longest Mughal rule — extends the empire to its geographic peak but is marked by religious conservatism: reimposition of the jizya tax, demolition of some Hindu temples, and suppression of Sikhism (execution of Guru Tegh Bahadur, 1675). His exhausting Deccan campaigns drain imperial finances and sow resistance from Marathas, Sikhs, and Rajputs — contributing to Mughal fragmentation after his death.",
+        "sources": [
+          { "name": "Audrey Truschke, Aurangzeb: The Life and Legacy of India's Most Controversial King (Stanford, 2017)", "tier": 3 },
+          { "name": "Times of India — Mughal history", "tier": 2 }
+        ],
+        "eventConfidence": "disputed",
+        "confidenceReason": "Aurangzeb's legacy is intensely debated: Hindu nationalists and secular historians hold strongly opposing views",
+        "lastUpdated": "2026-04-25"
+      },
+      {
+        "id": "battle-of-plassey",
+        "year": "1757",
+        "title": "Battle of Plassey: British Establish Dominance in Bengal",
+        "type": "military",
+        "detail": "The British East India Company's Robert Clive defeats Nawab Siraj ud-Daulah at Plassey (Bengal) on June 23, 1757, aided by the treachery of Mir Jafar. The victory gives the Company control of Bengal — India's wealthiest province — enabling systematic extraction of revenue. Historian William Dalrymple estimates the Bengal surplus funded British industrialization. This is the defining turning point from Company trading post to colonial empire.",
+        "sources": [
+          { "name": "William Dalrymple, The Anarchy (Bloomsbury, 2019)", "tier": 3 },
+          { "name": "BBC History — Battle of Plassey", "tier": 2 }
+        ],
+        "lastUpdated": "2026-04-25"
+      }
+    ]
+  },
+  {
+    "era": "British Colonial Era (1757–1947)",
+    "events": [
+      {
+        "id": "east-india-company-charter",
+        "year": "1600",
+        "title": "British East India Company Chartered",
+        "type": "economic",
+        "detail": "Queen Elizabeth I grants a Royal Charter to the East India Company on December 31, 1600, giving it a monopoly on trade east of the Cape of Good Hope. From a trading operation, the Company evolves into a governing and military power, eventually controlling half of world trade. It becomes, as historian Nick Robins calls it, 'the world's first multinational corporation and first instance of too-big-to-fail capitalism.'",
+        "sources": [
+          { "name": "Nick Robins, The Corporation That Changed the World (Pluto, 2006)", "tier": 3 },
+          { "name": "BBC History — East India Company", "tier": 2 }
+        ],
+        "lastUpdated": "2026-04-25"
+      },
+      {
+        "id": "sepoy-mutiny-1857",
+        "year": "1857",
+        "title": "1857 Rebellion: Sepoy Mutiny / First War of Independence",
+        "type": "military",
+        "detail": "On May 10, 1857, Indian soldiers (sepoys) in Meerut mutiny against British officers, sparking a widespread uprising across northern and central India. Grievances include the greased cartridge controversy (cow/pig fat offensive to Hindus and Muslims), land annexation policies, and cultural insults. Delhi, Lucknow, Kanpur, and Jhansi become flashpoints. Rani Lakshmibai of Jhansi dies in battle. The rebellion is suppressed by 1858; the East India Company is dissolved and India comes under direct British Crown rule.",
+        "sources": [
+          { "name": "Saul David, The Indian Mutiny 1857 (Viking, 2002)", "tier": 3 },
+          { "name": "Government of India — National Archives", "tier": 1 }
+        ],
+        "eventConfidence": "disputed",
+        "confidenceReason": "Called 'Sepoy Mutiny' by British historians; 'First War of Indian Independence' by Indian nationalist tradition",
+        "lastUpdated": "2026-04-25"
+      },
+      {
+        "id": "british-raj-begins",
+        "year": "1858",
+        "title": "British Crown Takes Direct Rule: The British Raj",
+        "type": "political",
+        "detail": "The Government of India Act 1858 dissolves the East India Company, transferring sovereignty to the British Crown. Queen Victoria is proclaimed Empress of India in 1876. The Raj introduces railways (67,000 km by 1947), telegraphs, universities, and codified law — but also imposes deindustrialization (textile collapse), engineered famines, and racial hierarchies. Historian Shashi Tharoor estimates Britain extracted $45 trillion (2020 values) from India during colonial rule.",
+        "sources": [
+          { "name": "Shashi Tharoor, Inglorious Empire (Scribe, 2017)", "tier": 3 },
+          { "name": "Parliament of India Records", "tier": 1 }
+        ],
+        "contested": true,
+        "eventConfidence": "disputed",
+        "confidenceReason": "The $45 trillion extraction estimate is disputed by some economists; net impact of British rule is contested",
+        "lastUpdated": "2026-04-25"
+      },
+      {
+        "id": "indian-national-congress-founded",
+        "year": "1885",
+        "title": "Indian National Congress Founded",
+        "type": "political",
+        "detail": "The Indian National Congress (INC) is founded in Bombay on December 28, 1885, by A.O. Hume (a retired British civil servant), Dadabhai Naoroji, and Dinshaw Wacha. Initially a moderate organization seeking greater Indian participation in governance, it evolves under Bal Gangadhar Tilak and later Gandhi into the vehicle for mass independence struggle. It wins independence in 1947 and dominates Indian politics for four decades.",
+        "sources": [
+          { "name": "Indian National Congress official history", "tier": 1 },
+          { "name": "NDTV — Congress party history", "tier": 2 }
+        ],
+        "lastUpdated": "2026-04-25"
+      },
+      {
+        "id": "gandhi-returns",
+        "year": "1915",
+        "title": "Gandhi Returns from South Africa",
+        "type": "political",
+        "detail": "Mohandas Karamchand Gandhi returns to India from South Africa on January 9, 1915, after 21 years developing satyagraha (truth-force/nonviolent resistance) in Natal and Transvaal. Gokhale urges him to tour India and observe before acting. Gandhi establishes Sabarmati Ashram in Ahmedabad (1917) as his base, adopts Indian dress, and begins organizing peasant and worker movements in Champaran and Kheda before leading the national struggle.",
+        "sources": [
+          { "name": "Gandhi, An Autobiography: The Story of My Experiments with Truth", "tier": 1 },
+          { "name": "Ramachandra Guha, Gandhi Before India (Penguin, 2013)", "tier": 3 }
+        ],
+        "lastUpdated": "2026-04-25"
+      },
+      {
+        "id": "jallianwala-bagh-massacre",
+        "year": "1919",
+        "title": "Jallianwala Bagh Massacre",
+        "type": "military",
+        "detail": "On April 13, 1919 (Baisakhi festival), Brigadier-General Reginald Dyer orders troops to open fire without warning on a peaceful crowd of 10,000–20,000 gathered in Jallianwala Bagh, Amritsar. Official British figures: 379 dead, 1,200 wounded. Indian estimates: 1,000+ dead. The massacre ends General Dyer's career after the Hunter Commission inquiry but he is celebrated by some in Britain. It radicalizes Indian opinion, turning many moderates toward full independence.",
+        "sources": [
+          { "name": "Hunter Commission Report, Government of India 1920", "tier": 1 },
+          { "name": "Nigel Collett, The Butcher of Amritsar (Hambledon, 2005)", "tier": 3 }
+        ],
+        "contested": true,
+        "eventConfidence": "disputed",
+        "confidenceReason": "Death toll disputed: British official count (379) vs. Indian National Congress count (~1,000+)",
+        "lastUpdated": "2026-04-25"
+      },
+      {
+        "id": "salt-march",
+        "year": "1930",
+        "title": "Gandhi's Salt March (Dandi March)",
+        "type": "social",
+        "detail": "On March 12, 1930, Gandhi leads a 388-km march from Sabarmati Ashram to Dandi on the Gujarat coast, ending on April 6 with Gandhi picking up salt from the sea in defiance of British salt taxes. The Civil Disobedience Movement galvanizes India and draws international media attention (covered live by the BBC and American press). Over 60,000 Indians are arrested. The march demonstrates that mass nonviolent resistance can challenge imperial power.",
+        "sources": [
+          { "name": "Gandhi, The Selected Works of Mahatma Gandhi (Navajivan Trust)", "tier": 1 },
+          { "name": "Dennis Dalton, Mahatma Gandhi: Nonviolent Power in Action (Columbia, 2012)", "tier": 3 }
+        ],
+        "lastUpdated": "2026-04-25"
+      },
+      {
+        "id": "bengal-famine-1943",
+        "year": "1943",
+        "title": "Bengal Famine: 2–3 Million Dead",
+        "type": "social",
+        "detail": "The Bengal Famine of 1943 kills an estimated 2–3 million people — primarily in Bengal and Orissa — amid World War II. While Japanese advance into Burma disrupts rice imports, British wartime policies are widely blamed: grain exports continued, denial and export restrictions prevented aid, and Churchill allegedly rebuffed requests for food shipments. Nobel laureate Amartya Sen's foundational study found the famine was man-made through policy failure, not crop shortage.",
+        "sources": [
+          { "name": "Amartya Sen, Poverty and Famines (Oxford, 1981)", "tier": 3 },
+          { "name": "Madhusree Mukerjee, Churchill's Secret War (Basic Books, 2010)", "tier": 3 },
+          { "name": "BBC — Bengal Famine", "tier": 2 }
+        ],
+        "contested": true,
+        "eventConfidence": "disputed",
+        "confidenceReason": "Death toll and degree of British culpability contested; estimates range 2-4 million; Churchill's intent debated",
+        "lastUpdated": "2026-04-25"
+      },
+      {
+        "id": "quit-india-movement",
+        "year": "1942",
+        "title": "Quit India Movement",
+        "type": "political",
+        "detail": "On August 8, 1942, Gandhi launches the Quit India Movement at the All India Congress Committee in Bombay, calling for immediate British withdrawal. His 'Do or Die' speech leads to mass arrests of Congress leadership within hours. The movement triggers the largest civil disobedience in Indian history — over 100,000 arrested. It fails as an immediate strategy but demonstrates that colonial rule requires ever-greater repression to sustain.",
+        "sources": [
+          { "name": "AICC Resolution, August 8, 1942 (primary)", "tier": 1 },
+          { "name": "Government of India National Archives", "tier": 1 }
+        ],
+        "lastUpdated": "2026-04-25"
+      }
+    ]
+  },
+  {
+    "era": "Independence & Partition (1947–1964)",
+    "events": [
+      {
+        "id": "independence-partition-1947",
+        "year": "1947",
+        "title": "Independence and Partition: August 14–15, 1947",
+        "type": "political",
+        "detail": "At midnight on August 14–15, 1947, India gains independence from Britain, simultaneously partitioned into India (Hindu majority) and Pakistan (Muslim majority) under the Mountbatten Plan. Jawaharlal Nehru delivers his 'Tryst with Destiny' speech. Partition triggers the largest forced human migration in history: 14–18 million displaced, and sectarian violence kills an estimated 200,000–2 million people in Punjab and Bengal. The trauma shapes India-Pakistan relations for generations.",
+        "sources": [
+          { "name": "Nehru, 'Tryst with Destiny' speech (primary)", "tier": 1 },
+          { "name": "Yasmin Khan, The Great Partition (Yale, 2007)", "tier": 3 },
+          { "name": "UNHCR — 1947 Partition", "tier": 1 }
+        ],
+        "contested": true,
+        "eventConfidence": "disputed",
+        "confidenceReason": "Partition death toll varies enormously (200,000–2 million); responsibility between British, Congress, and Muslim League is contested",
+        "lastUpdated": "2026-04-25"
+      },
+      {
+        "id": "gandhi-assassination",
+        "year": "1948",
+        "title": "Assassination of Mahatma Gandhi",
+        "type": "political",
+        "detail": "Mohandas Karamchand Gandhi is shot dead on January 30, 1948, at Birla House (New Delhi) by Nathuram Godse, a Hindu nationalist from the RSS-affiliated organization. Godse objects to Gandhi's perceived sympathy toward Pakistan and Muslims. Gandhi's last words are reportedly 'Hey Ram.' His assassination shocks the world; India is officially in mourning for 13 days. Godse is hanged in November 1949. The event leads Sardar Patel to briefly ban the RSS.",
+        "sources": [
+          { "name": "Government of India — Official Assassination Records", "tier": 1 },
+          { "name": "Tushar Gandhi, 'Let's Kill Gandhi' (Rupa, 2007)", "tier": 3 }
+        ],
+        "lastUpdated": "2026-04-25"
+      },
+      {
+        "id": "constitution-adopted",
+        "year": "1950",
+        "title": "Indian Constitution Adopted: World's Largest Democracy",
+        "type": "political",
+        "detail": "The Constitution of India comes into force on January 26, 1950 — Republic Day — drafted by a Constituent Assembly chaired by B.R. Ambedkar. The world's longest written constitution (444 articles, 12 schedules) declares India a sovereign democratic republic with universal suffrage, fundamental rights, and abolition of untouchability. Ambedkar famously warns: 'however good a constitution may be, it is sure to turn out bad' if those in power are not men of character and integrity.",
+        "sources": [
+          { "name": "Constitution of India (primary document)", "tier": 1 },
+          { "name": "B.R. Ambedkar, Constituent Assembly Debates, November 25, 1949", "tier": 1 }
+        ],
+        "lastUpdated": "2026-04-25"
+      },
+      {
+        "id": "first-general-elections",
+        "year": "1951",
+        "title": "First General Elections: Universal Suffrage in Action",
+        "type": "political",
+        "detail": "India holds its first general elections over October 1951–February 1952, the largest democratic exercise in history to that point: 173 million eligible voters, 80% illiterate. The Indian National Congress under Nehru wins 364 of 489 seats. The election demonstrates that democracy can function in a poor, newly independent, highly diverse country — defying Western skepticism. India's Election Commission, established by B.R. Ambedkar, becomes a model of electoral integrity.",
+        "sources": [
+          { "name": "Election Commission of India — First General Election Records", "tier": 1 },
+          { "name": "Ramachandra Guha, India After Gandhi (Macmillan, 2007)", "tier": 3 }
+        ],
+        "lastUpdated": "2026-04-25"
+      },
+      {
+        "id": "sino-indian-war",
+        "year": "1962",
+        "title": "Sino-Indian War: India's Military Humiliation",
+        "type": "military",
+        "detail": "China launches a massive offensive across disputed Himalayan borders on October 20, 1962, in both the eastern (NEFA, now Arunachal Pradesh) and western (Aksai Chin) sectors. India's military is ill-prepared: Nehru's 'Forward Policy' of small posts in contested areas invites Chinese response. India suffers 1,383 killed, 1,047 wounded, 3,968 captured. China declares a unilateral ceasefire on November 21. The defeat shatters Nehru's 'Hindi-Chini bhai-bhai' (India-China brotherhood) narrative and begins India's military modernization.",
+        "sources": [
+          { "name": "Henderson Brooks-Bhagat Report (classified 1963, leaked 2014)", "tier": 1 },
+          { "name": "Neville Maxwell, India's China War (Jonathan Cape, 1970)", "tier": 3 }
+        ],
+        "lastUpdated": "2026-04-25"
+      }
+    ]
+  },
+  {
+    "era": "Nehru to Gandhi Era (1964–1991)",
+    "events": [
+      {
+        "id": "indo-pak-war-1971",
+        "year": "1971",
+        "title": "1971 War: Bangladesh Liberation and India's Victory",
+        "type": "military",
+        "detail": "India intervenes in the Pakistan civil war after West Pakistan's Operation Searchlight (March 25, 1971) triggers mass atrocities in East Pakistan (now Bangladesh), sending 10 million refugees into India. PM Indira Gandhi signs the Indo-Soviet Treaty of Peace (August), then launches a military offensive on December 3. The Pakistani Eastern Command surrenders on December 16 — 93,000 Pakistani soldiers, the largest military surrender since World War II. Bangladesh is born.",
+        "sources": [
+          { "name": "Government of India — Ministry of External Affairs", "tier": 1 },
+          { "name": "Gary Bass, The Blood Telegram (Knopf, 2013)", "tier": 3 },
+          { "name": "BBC — 1971 Bangladesh War", "tier": 2 }
+        ],
+        "lastUpdated": "2026-04-25"
+      },
+      {
+        "id": "pokhran-nuclear-test-1974",
+        "year": "1974",
+        "title": "Pokhran I: India's First Nuclear Test ('Smiling Buddha')",
+        "type": "military",
+        "detail": "India conducts its first nuclear weapons test — codenamed 'Smiling Buddha' — at Pokhran, Rajasthan, on May 18, 1974. PM Indira Gandhi approves the program; nuclear scientist Raja Ramanna oversees the detonation of a 12-kiloton plutonium device. India becomes the sixth nation to test a nuclear bomb (after the US, USSR, UK, France, China). India calls it a 'peaceful nuclear explosion' — a claim widely disbelieved. The test triggers US sanctions and stimulates Pakistani nuclear ambitions.",
+        "sources": [
+          { "name": "Itty Abraham, The Making of the Indian Atomic Bomb (Zed Books, 1998)", "tier": 3 },
+          { "name": "Times of India — Pokhran-I", "tier": 2 }
+        ],
+        "lastUpdated": "2026-04-25"
+      },
+      {
+        "id": "emergency-1975",
+        "year": "1975",
+        "title": "Indira Gandhi Declares the Emergency",
+        "type": "political",
+        "detail": "PM Indira Gandhi declares a state of emergency (June 25, 1975 – March 21, 1977) after the Allahabad High Court convicts her of electoral malpractice. Constitutional rights are suspended, the press is censored, political opponents (including Atal Bihari Vajpayee and Jayaprakash Narayan) are imprisoned without trial, and forced sterilization campaigns under son Sanjay Gandhi affect millions. The Emergency is the darkest period of post-independence Indian democracy.",
+        "sources": [
+          { "name": "P.N. Dhar, Indira Gandhi, the Emergency and Indian Democracy (Oxford, 2000)", "tier": 3 },
+          { "name": "Human Rights Watch — India Emergency", "tier": 3 },
+          { "name": "The Hindu — Emergency 40th anniversary", "tier": 2 }
+        ],
+        "lastUpdated": "2026-04-25"
+      },
+      {
+        "id": "operation-blue-star",
+        "year": "1984",
+        "title": "Operation Blue Star and Indira Gandhi's Assassination",
+        "type": "military",
+        "detail": "On June 3–6, 1984, the Indian Army storms the Golden Temple complex in Amritsar (Operation Blue Star) to remove armed Sikh separatists led by Jarnail Singh Bhindranwale. Death toll: 492 soldiers and civilians (official); Sikh groups claim 3,000+. On October 31, 1984, PM Indira Gandhi is assassinated by her two Sikh bodyguards. Anti-Sikh riots follow across India, killing 3,000–8,000 Sikhs in three days — widely blamed on Congress-aligned politicians.",
+        "sources": [
+          { "name": "Government of India — Misra Commission Report", "tier": 1 },
+          { "name": "Human Rights Watch — 1984 Sikh Massacre", "tier": 3 },
+          { "name": "BBC — Operation Blue Star", "tier": 2 }
+        ],
+        "contested": true,
+        "eventConfidence": "disputed",
+        "confidenceReason": "Golden Temple death tolls contested; accountability for anti-Sikh riots involves senior Congress figures; full government records remain classified",
+        "lastUpdated": "2026-04-25"
+      }
+    ]
+  },
+  {
+    "era": "Liberalization to Contemporary India (1991–Present)",
+    "events": [
+      {
+        "id": "economic-liberalization-1991",
+        "year": "1991",
+        "title": "Economic Liberalization: India's New Deal",
+        "type": "economic",
+        "detail": "Facing a balance-of-payments crisis (foreign reserves down to 3 weeks of imports), PM Narasimha Rao and Finance Minister Manmohan Singh unveil sweeping economic reforms in July 1991: removing the 'License Raj', reducing import tariffs, devaluing the rupee, inviting foreign investment, and allowing private sector entry in industries previously state-monopolized. India's GDP growth accelerates from ~3.5% to 7%+ over the next decade, lifting 400 million from poverty over 30 years.",
+        "sources": [
+          { "name": "Reserve Bank of India — Economic History", "tier": 1 },
+          { "name": "World Bank — India Economic Review", "tier": 1 },
+          { "name": "Arvind Panagariya, India: The Emerging Giant (Oxford, 2008)", "tier": 3 }
+        ],
+        "lastUpdated": "2026-04-25"
+      },
+      {
+        "id": "babri-masjid-demolition",
+        "year": "1992",
+        "title": "Babri Masjid Demolition: Hindu-Muslim Flashpoint",
+        "type": "social",
+        "detail": "On December 6, 1992, a Hindu nationalist mob of 150,000 demolishes the 16th-century Babri Masjid mosque in Ayodhya (Uttar Pradesh), built on a site claimed by Hindus as the birthplace of Lord Ram. The demolition sparks nationwide riots killing 2,000–2,500 people. The Supreme Court of India in 2019 awards the disputed 2.77 acres to Hindus for a temple, ordering a separate plot for a mosque. A Ram Mandir temple is inaugurated by PM Modi in January 2024.",
+        "sources": [
+          { "name": "Supreme Court of India — Ayodhya Judgment (November 9, 2019)", "tier": 1 },
+          { "name": "Human Rights Watch — 1992 Riots", "tier": 3 },
+          { "name": "The Hindu — Babri Masjid", "tier": 2 }
+        ],
+        "contested": true,
+        "eventConfidence": "disputed",
+        "confidenceReason": "Culpability for demolition and subsequent riots contested; Liberhan Commission report (2009) implicated BJP/VHP leadership",
+        "lastUpdated": "2026-04-25"
+      },
+      {
+        "id": "pokhran-ii-nuclear-tests",
+        "year": "1998",
+        "title": "Pokhran II: India Tests Nuclear Weapons ('Operation Shakti')",
+        "type": "military",
+        "detail": "India conducts five nuclear tests at Pokhran on May 11–13, 1998 (Operation Shakti), including a thermonuclear device, under PM Atal Bihari Vajpayee. India officially declares itself a nuclear weapons state with a no-first-use policy. Pakistan responds with its own tests (May 28–30, 1998), triggering US and international sanctions. The tests shift India's security calculus and lead eventually to the landmark 2005 US-India civilian nuclear deal.",
+        "sources": [
+          { "name": "Government of India — DAE press release, May 1998", "tier": 1 },
+          { "name": "SIPRI — South Asia Nuclear Arms", "tier": 3 },
+          { "name": "BBC — Pokhran II", "tier": 2 }
+        ],
+        "lastUpdated": "2026-04-25"
+      },
+      {
+        "id": "gujarat-riots-2002",
+        "year": "2002",
+        "title": "Gujarat Riots: 1,000+ Killed in Communal Violence",
+        "type": "social",
+        "detail": "Following the Godhra train fire (February 27, 2002) in which 59 Hindu pilgrims are killed, Gujarat erupts in anti-Muslim pogroms. Over three days, 1,000+ Muslims are killed (Gujarat government figure); NGOs estimate 2,000+. Over 150,000 displaced. Narendra Modi, then Chief Minister of Gujarat, is accused of allowing — or directing — police inaction. The Supreme Court's Special Investigation Team (2012) finds 'no prosecutable evidence' against Modi, though rights groups dispute this finding.",
+        "sources": [
+          { "name": "Supreme Court SIT Report, 2012", "tier": 1 },
+          { "name": "Human Rights Watch, 'We Have No Orders to Save You' (2002)", "tier": 3 },
+          { "name": "The Hindu — Gujarat 2002", "tier": 2 }
+        ],
+        "contested": true,
+        "eventConfidence": "disputed",
+        "confidenceReason": "Death toll, Modi's culpability, and police role remain contested; multiple judicial proceedings reached conflicting conclusions",
+        "lastUpdated": "2026-04-25"
+      },
+      {
+        "id": "modi-first-term",
+        "year": "2014",
+        "title": "Narendra Modi Elected: BJP Wins Landslide Majority",
+        "type": "political",
+        "detail": "The Bharatiya Janata Party (BJP) under Narendra Modi wins 282 of 543 Lok Sabha seats on May 16, 2014 — the first outright majority for any party since 1984 — on a platform of development, anti-corruption, and Hindu nationalism. Modi, a tea-seller's son and RSS pracharak, is the first PM born after independence. His government pursues 'Make in India', digital infrastructure (UPI, Aadhaar), and assertive Hindu nationalist policies. BJP wins again with 303 seats in 2019.",
+        "sources": [
+          { "name": "Election Commission of India — 2014 General Election Results", "tier": 1 },
+          { "name": "India Today — Modi election analysis", "tier": 2 }
+        ],
+        "lastUpdated": "2026-04-25"
+      },
+      {
+        "id": "article-370-revoked",
+        "year": "2019",
+        "title": "Article 370 Revoked: Jammu & Kashmir Loses Special Status",
+        "type": "political",
+        "detail": "On August 5, 2019, Home Minister Amit Shah presents a presidential order revoking Article 370 of the Indian Constitution, which had granted special autonomous status to Jammu & Kashmir since 1949. The state is bifurcated into two Union Territories (J&K and Ladakh). A communications blackout and deployment of 700,000 troops precede the move. Pakistan condemns it as illegal; the UN and rights groups raise human rights concerns. The Supreme Court upholds the revocation in December 2023.",
+        "sources": [
+          { "name": "Government of India — Presidential Order 2019", "tier": 1 },
+          { "name": "Supreme Court of India — J&K judgment, December 2023", "tier": 1 },
+          { "name": "Human Rights Watch — Kashmir 2019", "tier": 3 }
+        ],
+        "contested": true,
+        "eventConfidence": "disputed",
+        "confidenceReason": "Legality and human rights implications disputed by Pakistan, some Indian opposition parties, and international bodies",
+        "lastUpdated": "2026-04-25"
+      },
+      {
+        "id": "most-populous-nation",
+        "year": "2023",
+        "title": "India Becomes World's Most Populous Nation",
+        "type": "social",
+        "detail": "In April 2023, India overtakes China as the world's most populous nation, reaching 1.429 billion people (UN estimate). India's median age of 28 (vs China's 39) positions it for a demographic dividend — a growing working-age population supporting economic growth — if jobs, education, and healthcare keep pace. India accounts for 17.5% of the world's population on 2.4% of its land area.",
+        "sources": [
+          { "name": "United Nations Population Fund (UNFPA) 2023", "tier": 1 },
+          { "name": "NDTV — India population milestone", "tier": 2 }
+        ],
+        "lastUpdated": "2026-04-25"
+      },
+      {
+        "id": "g20-presidency-2023",
+        "year": "2023",
+        "title": "India Hosts G20 Presidency: New Delhi Declaration",
+        "type": "political",
+        "detail": "India assumes the G20 presidency (December 2022–November 2023) under the theme 'Vasudhaiva Kutumbakam' (One Earth, One Family, One Future). The New Delhi Summit (September 9–10, 2023) achieves the New Delhi Leaders' Declaration, including a landmark African Union membership in G20. India projects itself as a 'Vishwaguru' (world teacher) and voice of the Global South, pushing for debt restructuring reform and climate finance — though Ukraine language is heavily negotiated.",
+        "sources": [
+          { "name": "G20 India Presidency — New Delhi Declaration (2023)", "tier": 1 },
+          { "name": "Reuters — G20 India Summit", "tier": 2 }
+        ],
+        "lastUpdated": "2026-04-25"
+      },
+      {
+        "id": "modi-third-term-2024",
+        "year": "2024",
+        "title": "Modi Wins Third Term in Coalition Government",
+        "type": "political",
+        "detail": "In the June 2024 general elections, BJP wins 240 seats — down from 303 in 2019 and short of a majority (272) for the first time under Modi. The opposition INDIA alliance wins more seats than expected, with Congress securing 99. Modi is sworn in for a third consecutive term on June 9, 2024, leading the NDA coalition. Political analysts note a shift toward coalition dependency limiting BJP's legislative freedom.",
+        "sources": [
+          { "name": "Election Commission of India — 2024 General Election Results", "tier": 1 },
+          { "name": "The Hindu — 2024 Election Analysis", "tier": 2 }
+        ],
+        "lastUpdated": "2026-04-25"
+      }
+    ]
+  }
+]
