@@ -1,1 +1,86 @@
-[]
+[
+  {
+    "id": "oil-production",
+    "label": "Daily Oil Production",
+    "value": "10.1M bbl/day",
+    "color": "amber",
+    "source": "OPEC / CEIC, Jan 2026",
+    "contested": false,
+    "delta": "+5.5% vs 2024",
+    "trend": "up",
+    "lastUpdated": "2026-04-26T00:00:00.000Z"
+  },
+  {
+    "id": "gdp-2025",
+    "label": "GDP (2025 nominal)",
+    "value": "$1.1 trillion",
+    "color": "green",
+    "source": "IMF World Economic Outlook 2025",
+    "contested": false,
+    "delta": "+4.5% real growth",
+    "trend": "up",
+    "lastUpdated": "2026-04-26T00:00:00.000Z"
+  },
+  {
+    "id": "aramco-market-cap",
+    "label": "Saudi Aramco Market Cap",
+    "value": "$1.76 trillion",
+    "color": "amber",
+    "source": "companiesmarketcap.com, Apr 2026",
+    "contested": false,
+    "delta": "-30% from 2022 peak of $2.5T",
+    "trend": "down",
+    "lastUpdated": "2026-04-26T00:00:00.000Z"
+  },
+  {
+    "id": "population-2026",
+    "label": "Population",
+    "value": "35.2 million",
+    "color": "blue",
+    "source": "Worldometers, 2026 projection",
+    "contested": false,
+    "lastUpdated": "2026-04-26T00:00:00.000Z"
+  },
+  {
+    "id": "yemen-war-deaths",
+    "label": "Yemen War Total Deaths (est.)",
+    "value": "233,000+",
+    "color": "red",
+    "source": "UN OHCHR, Dec 2020",
+    "contested": true,
+    "contestNote": "Saudi-led coalition disputes indirect-cause methodology; HRW tallies 19,200+ direct coalition airstrike casualties. All parties bear responsibility.",
+    "lastUpdated": "2026-04-26T00:00:00.000Z"
+  },
+  {
+    "id": "non-oil-gdp-share",
+    "label": "Non-Oil Share of Real GDP",
+    "value": "55%",
+    "color": "green",
+    "source": "Saudi Vision 2030 Annual Report 2024",
+    "contested": true,
+    "contestNote": "Oil revenues still fund ~87% of government budget; Carnegie Endowment notes limited accountability in Vision 2030 self-reporting.",
+    "delta": "+10pp since 2016 baseline",
+    "trend": "up",
+    "lastUpdated": "2026-04-26T00:00:00.000Z"
+  },
+  {
+    "id": "proven-oil-reserves",
+    "label": "Proven Oil Reserves",
+    "value": "267 billion barrels",
+    "color": "amber",
+    "source": "OPEC / EIA (2025)",
+    "contested": true,
+    "contestNote": "Reserve figures have remained almost unchanged since 1990 despite decades of production; independent analysts question methodology of Saudi Aramco's reserve audits.",
+    "lastUpdated": "2026-04-26T00:00:00.000Z"
+  },
+  {
+    "id": "military-budget",
+    "label": "Defense Expenditure (2024)",
+    "value": "$80.3 billion",
+    "color": "red",
+    "source": "SIPRI Yearbook 2025",
+    "contested": false,
+    "delta": "Largest in Middle East; 7th globally",
+    "lastUpdated": "2026-04-26T00:00:00.000Z"
+  }
+]
