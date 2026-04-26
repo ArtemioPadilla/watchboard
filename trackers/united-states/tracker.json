@@ -1,39 +1,47 @@
 {
   "slug": "united-states",
-  "name": "United States Intelligence Hub",
+  "name": "United States — National Intelligence Dashboard",
   "shortName": "United States",
-  "description": "Geographic hub aggregating intelligence from all US-based trackers — security operations, political history, and space programs.",
+  "description": "Comprehensive national dashboard tracking US history from Paleo-Indian peopling of the Americas (~13,000 BCE) through colonial era, Revolution, Civil War, Reconstruction, world wars, civil rights, Cold War, post-9/11 War on Terror, and modern Trump-era politics. Tracks governance, economy, security, foreign policy, civil liberties, and major political events at the national scale.",
   "icon": "🇺🇸",
   "color": "#3C3B6E",
   "status": "active",
+  "tone": "neutral",
   "temporal": "live",
   "domain": "governance",
   "region": "north-america",
   "country": "US",
-  "geoPath": [
-    "US"
+  "geoPath": ["US"],
+  "startDate": "-13000-01-01",
+  "eraLabel": "United States: From First Peoples to Today",
+  "tags": [
+    "United States",
+    "USA",
+    "Paleo-Indian",
+    "Independence",
+    "Civil War",
+    "Cold War",
+    "Trump",
+    "Biden",
+    "constitution"
   ],
-  "aggregate": true,
-  "startDate": "2001-09-11",
   "sections": [
     "hero",
     "kpis",
     "timeline",
-    "map"
+    "map",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
   ],
   "navSections": [
-    {
-      "id": "kpis",
-      "label": "Overview"
-    },
-    {
-      "id": "timeline",
-      "label": "Timeline"
-    },
-    {
-      "id": "map",
-      "label": "Map"
-    }
+    {"id": "kpis", "label": "Overview"},
+    {"id": "timeline", "label": "Timeline"},
+    {"id": "map", "label": "Map"},
+    {"id": "economic", "label": "Economy"},
+    {"id": "political", "label": "Politics"},
+    {"id": "claims", "label": "Contested Claims"}
   ],
   "map": {
     "enabled": true,
@@ -43,15 +51,67 @@
       "latMin": 24,
       "latMax": 50
     },
-    "center": {
-      "lon": -98,
-      "lat": 38
-    },
-    "categories": []
+    "center": {"lon": -98, "lat": 38},
+    "categories": [
+      {"id": "political", "label": "Political Events", "color": "#8e44ad"},
+      {"id": "security", "label": "Security & Conflict", "color": "#e74c3c"},
+      {"id": "historical", "label": "Historical Sites", "color": "#f39c12"},
+      {"id": "economic", "label": "Economic Hubs", "color": "#27ae60"},
+      {"id": "civil-rights", "label": "Civil Rights", "color": "#3498db"}
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "theater": {"lon": -98, "lat": 38, "alt": 5000000, "pitch": -90, "heading": 0, "label": "United States Overview"},
+      "washington": {"lon": -77.04, "lat": 38.9, "alt": 80000, "pitch": -90, "heading": 0, "label": "Washington DC"},
+      "new-york": {"lon": -74.00, "lat": 40.71, "alt": 80000, "pitch": -90, "heading": 0, "label": "New York City"},
+      "border": {"lon": -105, "lat": 30, "alt": 1000000, "pitch": -90, "heading": 0, "label": "US-Mexico Border"},
+      "west-coast": {"lon": -120, "lat": 37, "alt": 1500000, "pitch": -90, "heading": 0, "label": "West Coast"},
+      "midwest": {"lon": -90, "lat": 41, "alt": 1500000, "pitch": -90, "heading": 0, "label": "Midwest"}
+    }
   },
   "ai": {
+    "systemPrompt": "You are a US political and historical analyst updating a comprehensive national intelligence dashboard.\nToday's date is {{today}}. You have access to web search.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose.\nDo NOT wrap in ```json blocks. Output JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"declaration_of_independence\", \"trump_inauguration_2025\").\n\nCoverage scope: full US history from prehistory to present:\n- Paleo-Indian peopling (Clovis ~13,000 BCE), Mississippian and Pueblo civilizations\n- Norse landings (Vinland), Columbian exchange (1492), Spanish entradas\n- English colonies (Jamestown 1607, Plymouth 1620), New England Puritans, Middle and Southern colonies\n- French and Indian War, taxation and Revolution (1775-1783), Constitution (1787), Bill of Rights\n- Federalist era, Louisiana Purchase, War of 1812, Jacksonian Democracy, Indian Removal\n- Mexican-American War (1846-48), Compromise of 1850, Civil War (1861-65), Reconstruction\n- Gilded Age, robber barons, Progressive Era, World War I, Roaring Twenties\n- Great Depression, New Deal, World War II, Cold War, McCarthyism\n- Civil Rights movement (Brown v Board 1954, MLK, Voting Rights Act 1965), Vietnam War\n- Watergate, Reagan revolution, end of Cold War\n- Clinton era, 9/11 (2001), War on Terror (Afghanistan, Iraq), 2008 financial crisis\n- Obama presidency (2009-2017), Trump first term (2017-2021), Biden (2021-2025), Trump second term (2025-)\n- ongoing: tariffs and trade wars, immigration enforcement, judicial reshaping, Ukraine policy, Israel policy, AI policy\n\nMULTI-POLE SOURCING:\n1. WESTERN: Reuters, AP, BBC, NYT, WaPo, Bloomberg, WSJ, FT, Politico, NPR\n2. PARTISAN: Fox News, MSNBC (note pole/lean), New York Post, The Hill\n3. INSTITUTIONAL: White House, Congress.gov, SCOTUS docket, Federal Register, BLS, Treasury, Fed, CBO, GAO\n4. INTERNATIONAL: UN, IMF, World Bank, OECD, Reuters/AFP foreign desks\n\nTag sources with \"pole\":\n- \"western\" for US/European/allied media\n- \"eastern\" for Russian/Chinese sources when relevant\n- \"international\" for UN/IMF/multilateral\n\nSource tier:\n- Tier 1: Official primary (White House, federal departments, Fed, Treasury, BLS, GAO, SCOTUS opinions, congressional records)\n- Tier 2: Major outlet (Reuters, AP, BBC, AFP, NYT, WaPo, Bloomberg, WSJ)\n- Tier 3: Institutional (RAND, Brookings, AEI, CFR, Pew, Gallup, ProPublica, academic journals)\n- Tier 4: Unverified social media\n\nDEDUPLICATION: Cross-reference with sibling trackers (trump-presidencies, mexico-us-conflict, september-11, world-war-1, world-war-2, ukraine-war, israel-palestine, gaza-war, iran-conflict). Avoid duplicating granular events those cover. This dashboard captures NATIONAL ARC events.\n\nIMPORTANT SCHEMA RULES:\n- year field is STRING (e.g. \"1776\")\n- direction on econ items is \"up\" or \"down\" only\n- Dates YYYY-MM-DD, not in future\n- Pre-1582 events: use historical-record date convention",
+    "searchContext": "United States history politics economy security civil rights Trump Biden Congress Supreme Court foreign policy",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "casualties",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": -125,
+      "lonMax": -66,
+      "latMin": 24,
+      "latMax": 50
+    },
+    "updateIntervalDays": 14,
+    "backfillTargets": {
+      "timeline": 100,
+      "mapPoints": 40,
+      "claims": 20,
+      "political": 25,
+      "casualties": 15,
+      "econ": 12,
+      "kpis": 8
+    },
+    "updatePolicy": {
+      "escalation": [14, 14, 30, 60, 90],
+      "quietThreshold": 0
+    },
+    "relatedTrackers": [
+      "trump-presidencies",
+      "september-11",
+      "mexico-us-conflict",
+      "ukraine-war",
+      "israel-palestine"
+    ],
     "rssFeeds": [
-      "https://news.google.com/rss/search?q=United+States+news+politics+economy&hl=en-US&gl=US&ceid=US:en"
+      "https://news.google.com/rss/search?q=United+States+government+politics+economy&hl=en-US&gl=US&ceid=US:en"
     ]
   }
 }
