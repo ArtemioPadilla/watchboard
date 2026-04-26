@@ -4,7 +4,11 @@ import type { TrackerCardData } from '../../../lib/tracker-directory-utils';
 import { computeFreshness } from '../../../lib/tracker-directory-utils';
 import { computeCountryDensity } from '../../../lib/geo-utils';
 import { type Locale, SUPPORTED_LOCALES, getPreferredLocale, setPreferredLocale, t } from '../../../i18n/translations';
-const GlobePanel = lazy(() => import('./GlobePanel'));
+import { deferImport } from '../../../lib/defer-load';
+// Defer Cesium parse+execute (~5s of CPU on mid-tier mobile) past LCP so the
+// rest of the homepage can paint and hydrate first. Suspense fallback covers
+// the wait with the existing starfield skeleton.
+const GlobePanel = lazy(() => deferImport(() => import('./GlobePanel')));
 import SidebarPanel from './SidebarPanel';
 import type { ViewMode } from './ViewModeToggle';
 import MobileStoryCarousel from './MobileStoryCarousel';
