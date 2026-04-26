@@ -679,11 +679,16 @@ export default function CommandCenter({
           </button>
         </div>
       )}
-      {isMobile && mobileTab === 'live' && (
-        <div style={{ flex: '1 1 0%', overflow: 'hidden', position: 'relative' as const, minHeight: 0 }}>
-          <MobileStoryCarousel trackers={trackers} basePath={basePath} followedSlugs={followedSlugs} onTrackerChange={handleStoryTrackerChange} />
-        </div>
-      )}
+      {/* Mobile story carousel — rendered unconditionally so SSR HTML
+          contains the LCP-critical text without waiting for JS to detect
+          viewport. Hidden on desktop and on mobile when mobileTab !== 'live'
+          via the cc-mobile-live-slot CSS class (see index.astro). */}
+      <div
+        className={`cc-mobile-live-slot ${mobileTab === 'live' ? 'cc-mobile-live-active' : ''}`}
+        style={{ flex: '1 1 0%', overflow: 'hidden', position: 'relative' as const, minHeight: 0 }}
+      >
+        <MobileStoryCarousel trackers={trackers} basePath={basePath} followedSlugs={followedSlugs} onTrackerChange={handleStoryTrackerChange} />
+      </div>
       <nav id="tour-sidebar" className="cc-sidebar" style={sidebarStyle} aria-label="Tracker directory">
         {!isMobile && sidebarCollapsed ? (
           <div style={styles.collapsedSidebarContent}>

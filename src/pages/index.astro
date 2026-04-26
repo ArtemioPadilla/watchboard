@@ -265,6 +265,14 @@ const breakingTrackers = [...serializedTrackers]
   }
 
   /* Tablets/narrow desktops: stack globe + sidebar */
+  /* Mobile story carousel slot — always in the React tree (so SSR HTML
+     has the LCP element), hidden on desktop, hidden on mobile until the
+     'live' tab is active. */
+  .cc-mobile-live-slot { display: none; }
+  @media (max-width: 767px) {
+    .cc-mobile-live-slot.cc-mobile-live-active { display: block; }
+  }
+
   @media (max-width: 767px) {
     .command-center-root {
       flex-direction: column !important;
