@@ -1,0 +1,134 @@
+[
+  {
+    "id": "us-gdp-nominal",
+    "label": "US GDP (Nominal, 2025)",
+    "value": "$29.2 trillion",
+    "change": "+2.3% (2024 full-year)",
+    "direction": "up",
+    "sparkData": [21.4, 20.9, 23.3, 25.5, 27.4, 28.2, 29.2],
+    "color": "blue",
+    "source": "BEA (Bureau of Economic Analysis) / IMF World Economic Outlook 2025",
+    "lastUpdated": "2026-04-26T22:00:00Z"
+  },
+  {
+    "id": "national-debt",
+    "label": "US National Debt",
+    "value": "$36.6 trillion",
+    "change": "+$2.1T in FY2025",
+    "direction": "up",
+    "sparkData": [20.2, 22.7, 24.3, 26.9, 30.9, 33.2, 36.6],
+    "color": "red",
+    "source": "US Treasury / TreasuryDirect.gov (April 2026)",
+    "lastUpdated": "2026-04-26T22:00:00Z"
+  },
+  {
+    "id": "unemployment-rate",
+    "label": "Unemployment Rate (U-3)",
+    "value": "4.2%",
+    "change": "+0.3pp vs Jan 2025",
+    "direction": "up",
+    "sparkData": [14.7, 6.4, 3.9, 3.6, 3.4, 3.9, 4.2],
+    "color": "amber",
+    "source": "BLS Current Population Survey (March 2026)",
+    "lastUpdated": "2026-04-26T22:00:00Z"
+  },
+  {
+    "id": "cpi-inflation",
+    "label": "Consumer Price Inflation (CPI YoY)",
+    "value": "3.4%",
+    "change": "Rising from 2.9% (Jan 2025) on tariff pass-through",
+    "direction": "up",
+    "sparkData": [1.2, 7.1, 6.5, 3.7, 3.4, 2.9, 3.4],
+    "color": "red",
+    "source": "BLS Consumer Price Index (March 2026)",
+    "lastUpdated": "2026-04-26T22:00:00Z"
+  },
+  {
+    "id": "federal-funds-rate",
+    "label": "Federal Funds Rate (Target)",
+    "value": "4.25–4.50%",
+    "change": "On hold since Dec 2024; Fed paused on tariff uncertainty",
+    "direction": "down",
+    "sparkData": [0.25, 0.25, 4.25, 5.25, 5.50, 4.50, 4.375],
+    "color": "amber",
+    "source": "Federal Reserve FOMC Statement (March 2026)",
+    "lastUpdated": "2026-04-26T22:00:00Z"
+  },
+  {
+    "id": "federal-deficit-fy2025",
+    "label": "Federal Budget Deficit (FY2025 Projected)",
+    "value": "$1.9 trillion",
+    "change": "+$300B vs FY2024 ($1.6T)",
+    "direction": "up",
+    "sparkData": [0.67, 3.13, 2.78, 1.38, 1.70, 1.60, 1.90],
+    "color": "red",
+    "source": "CBO Budget and Economic Outlook (Feb 2026)",
+    "lastUpdated": "2026-04-26T22:00:00Z"
+  },
+  {
+    "id": "sp500-index",
+    "label": "S&P 500 Index",
+    "value": "~5,500",
+    "change": "-13% from Jan 2025 high (7,165 Apr 24 intraday); tariff volatility",
+    "direction": "down",
+    "sparkData": [3231, 4766, 3839, 4769, 5881, 7165, 5500],
+    "color": "amber",
+    "source": "S&P Dow Jones Indices (April 2026)",
+    "lastUpdated": "2026-04-26T22:00:00Z"
+  },
+  {
+    "id": "trade-goods-deficit",
+    "label": "US Goods Trade Deficit (Annual)",
+    "value": "$1.21 trillion",
+    "change": "+6.5% vs 2023 ($1.14T); tariffs not yet reflected",
+    "direction": "up",
+    "sparkData": [0.67, 0.86, 1.10, 1.06, 1.14, 1.17, 1.21],
+    "color": "red",
+    "source": "US Census Bureau / BEA International Trade Data (2024)",
+    "lastUpdated": "2026-04-26T22:00:00Z"
+  },
+  {
+    "id": "real-wage-growth",
+    "label": "Real Wage Growth (YoY, Production Workers)",
+    "value": "+0.8%",
+    "change": "Slowing from +1.4% (2024) as tariff inflation erodes purchasing power",
+    "direction": "down",
+    "sparkData": [-2.1, -3.8, -1.9, 0.6, 1.4, 1.4, 0.8],
+    "color": "amber",
+    "source": "BLS Employment Cost Index / CPI (March 2026)",
+    "lastUpdated": "2026-04-26T22:00:00Z"
+  },
+  {
+    "id": "us-manufacturing-jobs",
+    "label": "US Manufacturing Employment",
+    "value": "12.9 million",
+    "change": "+45,000 jobs since Jan 2025 (tariff reshoring narrative vs actual)",
+    "direction": "up",
+    "sparkData": [12.3, 12.2, 12.6, 12.9, 12.8, 12.85, 12.9],
+    "color": "green",
+    "source": "BLS Current Employment Statistics (March 2026)",
+    "lastUpdated": "2026-04-26T22:00:00Z"
+  },
+  {
+    "id": "median-household-income",
+    "label": "Median Household Income (2023 dollars)",
+    "value": "$80,610",
+    "change": "+4.0% real increase in 2023 (latest Census data)",
+    "direction": "up",
+    "sparkData": [68.7, 74.6, 70.8, 74.6, 77.5, 77.5, 80.6],
+    "color": "green",
+    "source": "US Census Bureau Current Population Survey (Sep 2024, 2023 data)",
+    "lastUpdated": "2026-04-26T22:00:00Z"
+  },
+  {
+    "id": "student-loan-debt-total",
+    "label": "Total Federal Student Loan Debt",
+    "value": "$1.74 trillion",
+    "change": "+$20B since Biden forgiveness halted (Jan 2025)",
+    "direction": "up",
+    "sparkData": [1.1, 1.37, 1.57, 1.63, 1.74, 1.72, 1.74],
+    "color": "red",
+    "source": "Federal Student Aid / Education Department (Q4 2025)",
+    "lastUpdated": "2026-04-26T22:00:00Z"
+  }
+]
