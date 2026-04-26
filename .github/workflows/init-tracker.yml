@@ -462,6 +462,7 @@ jobs:
 
             SECTION GUIDANCE:
             - timeline.json: Array of TimelineEra objects with events. Cover FULL timeline. Aim for backfillTargets.timeline events.
+              SOURCE URL POLICY (powers thumbnail enrichment): every event dated 1900 or later MUST have at least one source with a `url` field pointing to a public web article. Pre-1900 events: URLs encouraged, academic citations without URL allowed. Without URLs the og:image enrichment pipeline cannot generate thumbnails.
             - map-points.json: Real coordinates within bounds. Use tracker's map.categories for cat field.
             - claims.json: Both sides substantive. Cover all major contested narratives.
             - political.json: Key actors across all sides. Use tracker's politicalAvatars. Real quotes.

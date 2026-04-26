@@ -128,6 +128,11 @@ jobs:
             - Each event in an era: { id, year (display label like "Sep 26, 2014" or "Mar 2015"), title, type (from tracker's eventTypes), detail (2-3 sentences with specifics), sources: [{name, url, tier}] }
             - Aim for backfillTargets.timeline TOTAL events distributed across eras
             - Cover ALL major milestones — legal decisions, investigations, discoveries, political changes
+            - **SOURCE URL POLICY (powers thumbnail enrichment):**
+              - Events dated 1900 or later: every event MUST have AT LEAST ONE source with a `url` field pointing to a public web article (news, govt site, IGO report). Without a URL the og:image pipeline can't enrich it.
+              - Events before 1900: source URLs are encouraged but academic citations without URL are OK.
+              - For very recent events, prefer Tier 1-2 outlets (Reuters, AP, BBC, official govt) where the article URL is canonical and unlikely to break.
+              - Even when citing books/archives, include a Wikipedia or academic publisher URL if one exists for the work.
 
             **map-points.json** (array of MapPoint objects — see MapPointSchema):
             - Each point: { id, lon, lat, cat (from tracker's map.categories IDs), label, sub (1-2 sentence description), tier, date }
