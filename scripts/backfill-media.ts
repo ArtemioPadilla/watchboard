@@ -218,9 +218,14 @@ async function main() {
 
   for (const slug of slugs) {
     const eventsDir = path.join(trackersDir, slug, 'data', 'events');
-    const eventFiles = fs.readdirSync(eventsDir).filter((f) => f.endsWith('.json'));
+    const eventFiles = fs.existsSync(eventsDir)
+      ? fs.readdirSync(eventsDir).filter((f) => f.endsWith('.json'))
+      : [];
 
-    if (eventFiles.length === 0) continue;
+    const timelinePath = path.join(trackersDir, slug, 'data', 'timeline.json');
+    const hasTimeline = fs.existsSync(timelinePath);
+
+    if (eventFiles.length === 0 && !hasTimeline) continue;
     trackersProcessed++;
 
     for (const file of eventFiles) {
@@ -334,6 +339,73 @@ async function main() {
       // Write back if modified and not dry run
       if (fileModified && !dryRun) {
         fs.writeFileSync(filePath, JSON.stringify(events, null, 2) + '\n');
+      }
+    }
+
+    // Pass 2: also process events embedded in timeline.json (era-grouped format)
+    if (hasTimeline) {
+      let timelineModified = false;
+      let timeline: { era: string | null; events: TimelineEvent[] }[];
+      try {
+        timeline = JSON.parse(fs.readFileSync(timelinePath, 'utf8'));
+      } catch {
+        console.warn(`  [${slug}/timeline.json] Skipping — invalid JSON`);
+        continue;
+      }
+      if (!Array.isArray(timeline)) continue;
+
+      for (const era of timeline) {
+        if (!era.events || !Array.isArray(era.events)) continue;
+        for (const event of era.events) {
+          // Skip events that already have media with thumbnails
+          if (event.media && Array.isArray(event.media) && event.media.length > 0) {
+            const hasUsefulThumb = event.media.some((m: MediaItem) => m.thumbnail);
+            if (hasUsefulThumb) continue;
+          }
+
+          const sourcesWithUrls = (event.sources || []).filter(
+            (s: EventSource) => s.url && isArticleUrl(s.url)
+          );
+          if (sourcesWithUrls.length === 0) {
+            totalSkipped++;
+            continue;
+          }
+
+          let foundMedia = false;
+          for (const source of sourcesWithUrls) {
+            await sleep(RATE_LIMIT_MS);
+            const resolvedUrl = resolveSourceUrl(source.url!);
+            const ogImage = await fetchOgImage(resolvedUrl);
+            if (ogImage && isNewsImage(ogImage)) {
+              const validation = validateThumbnail(ogImage);
+              if (!validation.url) {
+                console.log(`  [${slug}/timeline.json] Rejected thumbnail for "${event.id}": ${validation.rejectedReason}`);
+                continue;
+              }
+              const mediaEntry: MediaItem = {
+                type: 'article',
+                url: source.url!,
+                source: source.name,
+                thumbnail: validation.url,
+              };
+              if (dryRun) {
+                console.log(`  [${slug}/timeline.json] Would add media for "${event.id}" from ${source.name}`);
+              } else {
+                event.media = [mediaEntry];
+                timelineModified = true;
+                console.log(`  [${slug}/timeline.json] Added media for "${event.id}" from ${source.name}`);
+              }
+              totalEnriched++;
+              foundMedia = true;
+              break;
+            }
+          }
+          if (!foundMedia) totalFailed++;
+        }
+      }
+
+      if (timelineModified && !dryRun) {
+        fs.writeFileSync(timelinePath, JSON.stringify(timeline, null, 2) + '\n');
       }
     }
   }
