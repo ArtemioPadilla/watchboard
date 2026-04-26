@@ -12,10 +12,19 @@
   "domain": "governance",
   "region": "middle-east",
   "country": "SY",
-  "tags": ["civil-war", "transition", "levant", "ancient-history", "refugee-crisis", "islamist-governance"],
+  "tags": [
+    "civil-war",
+    "transition",
+    "levant",
+    "ancient-history",
+    "refugee-crisis",
+    "islamist-governance"
+  ],
   "startDate": "-2500-01-01",
   "eraLabel": "Ancient Civilizations to Modern Transition",
-  "geoPath": ["SY"],
+  "geoPath": [
+    "SY"
+  ],
   "sections": [
     "hero",
     "kpis",
@@ -37,7 +46,7 @@
     },
     "center": {
       "lon": 38.5,
-      "lat": 35.0
+      "lat": 35
     },
     "categories": [
       {
@@ -72,7 +81,7 @@
     "cameraPresets": {
       "overview": {
         "lon": 38.5,
-        "lat": 35.0,
+        "lat": 35,
         "alt": 1500000,
         "pitch": -90,
         "heading": 0,
@@ -88,7 +97,7 @@
       },
       "aleppo": {
         "lon": 37.16,
-        "lat": 36.20,
+        "lat": 36.2,
         "alt": 60000,
         "pitch": -90,
         "heading": 0,
@@ -225,12 +234,26 @@
       "assets": 10
     },
     "updatePolicy": {
-      "escalation": [7, 7, 14, 30, 60, 90],
+      "escalation": [
+        7,
+        7,
+        14,
+        30,
+        60,
+        90
+      ],
       "quietThreshold": 0
     },
     "rssFeeds": [
       "https://news.google.com/rss/search?q=Syria+transitional+government+HTS+al-Sharaa&hl=en-US&gl=US&ceid=US:en",
       "https://www.aljazeera.com/xml/rss/all.xml"
+    ],
+    "relatedTrackers": [
+      "lebanon",
+      "iraq",
+      "israel-palestine",
+      "saudi-arabia",
+      "iran-conflict"
     ]
   },
   "ogImage": "/og-card.png",

@@ -11,7 +11,13 @@
   "trackerType": "factual",
   "domain": "science",
   "region": "global",
-  "tags": ["conservation", "biodiversity", "rewilding", "endangered-species", "wildlife"],
+  "tags": [
+    "conservation",
+    "biodiversity",
+    "rewilding",
+    "endangered-species",
+    "wildlife"
+  ],
   "startDate": "1970-01-01",
   "eraLabel": "Modern Conservation Era",
   "sections": [
@@ -92,23 +98,23 @@
       },
       "sichuan": {
         "lon": 103.5,
-        "lat": 31.0,
+        "lat": 31,
         "alt": 200000,
         "pitch": -90,
         "heading": 0,
         "label": "Sichuan (Giant Panda)"
       },
       "north_atlantic": {
-        "lon": -40.0,
-        "lat": 45.0,
+        "lon": -40,
+        "lat": 45,
         "alt": 3000000,
         "pitch": -90,
         "heading": 0,
         "label": "North Atlantic (Humpback Whale)"
       },
       "new_zealand": {
-        "lon": 174.0,
-        "lat": -41.0,
+        "lon": 174,
+        "lat": -41,
         "alt": 500000,
         "pitch": -90,
         "heading": 0,
@@ -179,9 +185,21 @@
       "econ": 6
     },
     "updatePolicy": {
-      "escalation": [30, 60, 90, 180],
+      "escalation": [
+        30,
+        60,
+        90,
+        180
+      ],
       "quietThreshold": 0
-    }
+    },
+    "relatedTrackers": [
+      "ocean-cleanup",
+      "fusion-energy",
+      "climate-solutions",
+      "crispr-gene-therapy",
+      "cancer-breakthroughs"
+    ]
   },
   "ogImage": "/og-card.png",
   "githubRepo": "ArtemioPadilla/watchboard"

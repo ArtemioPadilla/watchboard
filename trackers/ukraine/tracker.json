@@ -12,9 +12,26 @@
   "domain": "governance",
   "region": "europe",
   "country": "UA",
-  "geoPath": ["UA"],
-  "geoSecondary": ["RU", "PL", "BY"],
-  "tags": ["ukraine", "russia", "invasion", "holodomor", "chernobyl", "kyivan-rus", "soviet-union", "euromaidan", "nato", "eu"],
+  "geoPath": [
+    "UA"
+  ],
+  "geoSecondary": [
+    "RU",
+    "PL",
+    "BY"
+  ],
+  "tags": [
+    "ukraine",
+    "russia",
+    "invasion",
+    "holodomor",
+    "chernobyl",
+    "kyivan-rus",
+    "soviet-union",
+    "euromaidan",
+    "nato",
+    "eu"
+  ],
   "startDate": "0882-01-01",
   "eraLabel": "882 CE – Present",
   "sections": [
@@ -112,8 +129,8 @@
         "label": "Crimea"
       },
       "donbas": {
-        "lon": 38.0,
-        "lat": 48.0,
+        "lon": 38,
+        "lat": 48,
         "alt": 200000,
         "pitch": -90,
         "heading": 0,
@@ -239,12 +256,28 @@
       "kpis": 8
     },
     "updatePolicy": {
-      "escalation": [1, 1, 1, 7, 7, 30, 60, 90],
+      "escalation": [
+        1,
+        1,
+        1,
+        7,
+        7,
+        30,
+        60,
+        90
+      ],
       "quietThreshold": 0
     },
     "rssFeeds": [
       "https://news.google.com/rss/search?q=Ukraine+war+Russia+Zelensky&hl=en-US&gl=US&ceid=US:en",
       "https://www.kyivindependent.com/feed/"
+    ],
+    "relatedTrackers": [
+      "ukraine-war",
+      "russia",
+      "chernobyl-disaster",
+      "iraq",
+      "syria"
     ]
   },
   "ogImage": "/og-card.png",

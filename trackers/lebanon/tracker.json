@@ -14,8 +14,17 @@
   "country": "LB",
   "startDate": "-2700-01-01",
   "eraLabel": "Phoenicia to Present",
-  "tags": ["phoenicia", "civil-war", "hezbollah", "levant", "confessionalism", "french-mandate"],
-  "geoPath": ["LB"],
+  "tags": [
+    "phoenicia",
+    "civil-war",
+    "hezbollah",
+    "levant",
+    "confessionalism",
+    "french-mandate"
+  ],
+  "geoPath": [
+    "LB"
+  ],
   "sections": [
     "hero",
     "kpis",
@@ -30,10 +39,10 @@
   "map": {
     "enabled": true,
     "bounds": {
-      "lonMin": 33.0,
-      "lonMax": 40.0,
-      "latMin": 29.0,
-      "latMax": 37.0
+      "lonMin": 33,
+      "lonMax": 40,
+      "latMin": 29,
+      "latMax": 37
     },
     "center": {
       "lon": 35.5,
@@ -71,7 +80,7 @@
     "enabled": true,
     "cameraPresets": {
       "levant_overview": {
-        "lon": 36.0,
+        "lon": 36,
         "lat": 33.5,
         "alt": 1500000,
         "pitch": -90,
@@ -95,7 +104,7 @@
         "label": "Byblos (Ancient Gebal)"
       },
       "tyre": {
-        "lon": 35.2030,
+        "lon": 35.203,
         "lat": 33.2705,
         "alt": 30000,
         "pitch": -90,
@@ -103,7 +112,7 @@
         "label": "Tyre (Sur)"
       },
       "baalbek": {
-        "lon": 36.2100,
+        "lon": 36.21,
         "lat": 34.0056,
         "alt": 40000,
         "pitch": -90,
@@ -205,10 +214,10 @@
       "assets"
     ],
     "coordValidation": {
-      "lonMin": 30.0,
-      "lonMax": 45.0,
-      "latMin": 25.0,
-      "latMax": 40.0
+      "lonMin": 30,
+      "lonMax": 45,
+      "latMin": 25,
+      "latMax": 40
     },
     "updateIntervalDays": 7,
     "backfillTargets": {
@@ -223,9 +232,23 @@
       "kpis": 8
     },
     "updatePolicy": {
-      "escalation": [7, 7, 14, 30, 60, 90],
+      "escalation": [
+        7,
+        7,
+        14,
+        30,
+        60,
+        90
+      ],
       "quietThreshold": 0
-    }
+    },
+    "relatedTrackers": [
+      "syria",
+      "iraq",
+      "saudi-arabia",
+      "israel-palestine",
+      "turkey"
+    ]
   },
   "githubRepo": "ArtemioPadilla/watchboard"
 }

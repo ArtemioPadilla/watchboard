@@ -9,7 +9,13 @@
   "temporal": "live",
   "domain": "governance",
   "region": "global",
-  "tags": ["peace", "diplomacy", "ceasefire", "reconciliation", "transitional-justice"],
+  "tags": [
+    "peace",
+    "diplomacy",
+    "ceasefire",
+    "reconciliation",
+    "transitional-justice"
+  ],
   "startDate": "1993-09-13",
   "eraLabel": "Post-Cold War Peace Era",
   "sections": [
@@ -74,7 +80,7 @@
       },
       "geneva": {
         "lon": 6.14,
-        "lat": 46.20,
+        "lat": 46.2,
         "alt": 80000,
         "pitch": -90,
         "heading": 0,
@@ -186,9 +192,22 @@
       "econ": 8
     },
     "updatePolicy": {
-      "escalation": [1, 3, 7, 14, 30],
+      "escalation": [
+        1,
+        3,
+        7,
+        14,
+        30
+      ],
       "quietThreshold": 0
-    }
+    },
+    "relatedTrackers": [
+      "brics",
+      "iran-conflict",
+      "russia",
+      "israel-palestine",
+      "ukraine-war"
+    ]
   },
   "githubRepo": "ArtemioPadilla/watchboard"
 }

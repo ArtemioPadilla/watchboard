@@ -12,7 +12,15 @@
   "domain": "governance",
   "region": "east-asia",
   "country": "KR",
-  "tags": ["korean-war", "kpop", "samsung", "democracy", "joseon", "peninsula", "north-korea"],
+  "tags": [
+    "korean-war",
+    "kpop",
+    "samsung",
+    "democracy",
+    "joseon",
+    "peninsula",
+    "north-korea"
+  ],
   "startDate": "-2333-01-01",
   "eraLabel": "Ancient to Modern",
   "sections": [
@@ -103,7 +111,7 @@
       },
       "gwangju": {
         "lon": 126.852,
-        "lat": 35.160,
+        "lat": 35.16,
         "alt": 60000,
         "pitch": -90,
         "heading": 0,
@@ -229,8 +237,17 @@
         90
       ],
       "quietThreshold": 0
-    }
+    },
+    "relatedTrackers": [
+      "north-korea",
+      "japan",
+      "taiwan-conflict",
+      "pakistan",
+      "china"
+    ]
   },
   "githubRepo": "ArtemioPadilla/watchboard",
-  "geoPath": ["KR"]
+  "geoPath": [
+    "KR"
+  ]
 }

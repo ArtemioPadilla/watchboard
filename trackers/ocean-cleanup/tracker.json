@@ -10,7 +10,14 @@
   "temporal": "live",
   "domain": "science",
   "region": "global",
-  "tags": ["ocean", "environment", "conservation", "climate", "marine", "plastic"],
+  "tags": [
+    "ocean",
+    "environment",
+    "conservation",
+    "climate",
+    "marine",
+    "plastic"
+  ],
   "startDate": "2013-01-01",
   "sections": [
     "hero",
@@ -177,12 +184,25 @@
       "econ": 8
     },
     "updatePolicy": {
-      "escalation": [7, 14, 30, 60, 90],
+      "escalation": [
+        7,
+        14,
+        30,
+        60,
+        90
+      ],
       "quietThreshold": 0
     },
     "rssFeeds": [
       "https://news.google.com/rss/search?q=ocean+cleanup+plastic+pollution&hl=en-US&gl=US&ceid=US:en",
       "https://news.google.com/rss/search?q=marine+conservation+coral+reef+whale+recovery&hl=en-US&gl=US&ceid=US:en"
+    ],
+    "relatedTrackers": [
+      "species-recovery",
+      "climate-solutions",
+      "fusion-energy",
+      "battery-revolution",
+      "ai-for-good"
     ]
   },
   "ogImage": "/og-card.png",

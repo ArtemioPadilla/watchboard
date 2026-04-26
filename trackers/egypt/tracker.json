@@ -12,7 +12,15 @@
   "domain": "governance",
   "region": "africa",
   "country": "EG",
-  "tags": ["middle-east", "north-africa", "mena", "ancient-history", "archaeology", "islamichistory", "colonialism"],
+  "tags": [
+    "middle-east",
+    "north-africa",
+    "mena",
+    "ancient-history",
+    "archaeology",
+    "islamichistory",
+    "colonialism"
+  ],
   "startDate": "-3100-01-01",
   "eraLabel": "Five Millennia of Civilization",
   "sections": [
@@ -35,7 +43,7 @@
     },
     "center": {
       "lon": 30.5,
-      "lat": 27.0
+      "lat": 27
     },
     "categories": [
       {
@@ -94,7 +102,7 @@
       },
       "luxor": {
         "lon": 32.64,
-        "lat": 25.70,
+        "lat": 25.7,
         "alt": 25000,
         "pitch": -90,
         "heading": 0,
@@ -102,7 +110,7 @@
       },
       "alexandria": {
         "lon": 29.92,
-        "lat": 31.20,
+        "lat": 31.2,
         "alt": 30000,
         "pitch": -90,
         "heading": 0,
@@ -110,7 +118,7 @@
       },
       "suez_canal": {
         "lon": 32.55,
-        "lat": 30.40,
+        "lat": 30.4,
         "alt": 100000,
         "pitch": -90,
         "heading": 0,
@@ -198,10 +206,25 @@
       "econ": 8
     },
     "updatePolicy": {
-      "escalation": [7, 14, 30, 60, 90],
+      "escalation": [
+        7,
+        14,
+        30,
+        60,
+        90
+      ],
       "quietThreshold": 0
-    }
+    },
+    "relatedTrackers": [
+      "syria",
+      "south-africa",
+      "brics",
+      "iraq",
+      "saudi-arabia"
+    ]
   },
   "githubRepo": "ArtemioPadilla/watchboard",
-  "geoPath": ["EG"]
+  "geoPath": [
+    "EG"
+  ]
 }

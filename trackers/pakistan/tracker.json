@@ -12,7 +12,16 @@
   "domain": "governance",
   "region": "south-asia",
   "country": "PK",
-  "tags": ["south-asia", "islamization", "nuclear", "partition", "kashmir", "democracy", "military-rule", "indus-valley"],
+  "tags": [
+    "south-asia",
+    "islamization",
+    "nuclear",
+    "partition",
+    "kashmir",
+    "democracy",
+    "military-rule",
+    "indus-valley"
+  ],
   "startDate": "-3300-01-01",
   "eraLabel": "Ancient to Modern Pakistan",
   "sections": [
@@ -221,10 +230,25 @@
       "econ": 8
     },
     "updatePolicy": {
-      "escalation": [7, 14, 30, 60, 90],
+      "escalation": [
+        7,
+        14,
+        30,
+        60,
+        90
+      ],
       "quietThreshold": 30
-    }
+    },
+    "relatedTrackers": [
+      "india",
+      "india-pakistan-conflict",
+      "iran",
+      "russia",
+      "turkey"
+    ]
   },
   "githubRepo": "ArtemioPadilla/watchboard",
-  "geoPath": ["PK"]
+  "geoPath": [
+    "PK"
+  ]
 }

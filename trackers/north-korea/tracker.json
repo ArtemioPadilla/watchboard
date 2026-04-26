@@ -11,7 +11,14 @@
   "domain": "governance",
   "region": "east-asia",
   "country": "KP",
-  "tags": ["nuclear", "sanctions", "korean-war", "authoritarianism", "kim-dynasty", "icbm"],
+  "tags": [
+    "nuclear",
+    "sanctions",
+    "korean-war",
+    "authoritarianism",
+    "kim-dynasty",
+    "icbm"
+  ],
   "startDate": "1945-09-08",
   "eraLabel": "Kim Dynasty & Nuclear State",
   "trackerType": "historical",
@@ -35,7 +42,7 @@
       "latMax": 46
     },
     "center": {
-      "lon": 127.0,
+      "lon": 127,
       "lat": 39.5
     },
     "categories": [
@@ -86,8 +93,8 @@
         "label": "Pyongyang"
       },
       "dmz": {
-        "lon": 127.0,
-        "lat": 38.0,
+        "lon": 127,
+        "lat": 38,
         "alt": 120000,
         "pitch": -90,
         "heading": 0,
@@ -238,6 +245,13 @@
     "rssFeeds": [
       "https://news.google.com/rss/search?q=North+Korea+DPRK+nuclear+missile&hl=en-US&gl=US&ceid=US:en",
       "https://www.38north.org/feed/"
+    ],
+    "relatedTrackers": [
+      "south-korea",
+      "russia",
+      "china",
+      "taiwan-conflict",
+      "iran"
     ]
   },
   "ogImage": "/og-card.png",

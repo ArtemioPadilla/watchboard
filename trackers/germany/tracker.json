@@ -12,7 +12,16 @@
   "domain": "governance",
   "region": "europe",
   "country": "DE",
-  "tags": ["germany", "history", "eu", "cold-war", "world-war", "reformation", "weimar", "reunification"],
+  "tags": [
+    "germany",
+    "history",
+    "eu",
+    "cold-war",
+    "world-war",
+    "reformation",
+    "weimar",
+    "reunification"
+  ],
   "startDate": "0009-01-01",
   "eraLabel": "2,000 Years of German History",
   "sections": [
@@ -110,7 +119,7 @@
         "label": "Wittenberg"
       },
       "central_europe": {
-        "lon": 14.0,
+        "lon": 14,
         "lat": 50.5,
         "alt": 2500000,
         "pitch": -90,
@@ -223,7 +232,14 @@
         180
       ],
       "quietThreshold": 0
-    }
+    },
+    "relatedTrackers": [
+      "france",
+      "united-kingdom",
+      "world-war-2",
+      "european-union",
+      "ukraine"
+    ]
   },
   "githubRepo": "ArtemioPadilla/watchboard",
   "geoPath": [

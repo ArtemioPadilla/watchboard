@@ -12,7 +12,13 @@
   "domain": "history",
   "region": "middle-east",
   "country": "IL",
-  "tags": ["archaeology", "ancient-history", "holy-land", "levant", "prehistoric"],
+  "tags": [
+    "archaeology",
+    "ancient-history",
+    "holy-land",
+    "levant",
+    "prehistoric"
+  ],
   "startDate": "-1500000-01-01",
   "eraLabel": "Deep Prehistory to Present",
   "sections": [
@@ -30,7 +36,7 @@
       "lonMin": 33.5,
       "lonMax": 37.5,
       "latMin": 28.5,
-      "latMax": 35.0
+      "latMax": 35
     },
     "center": {
       "lon": 35.2,
@@ -179,10 +185,10 @@
       "econ"
     ],
     "coordValidation": {
-      "lonMin": 32.0,
-      "lonMax": 40.0,
-      "latMin": 27.0,
-      "latMax": 36.0
+      "lonMin": 32,
+      "lonMax": 40,
+      "latMin": 27,
+      "latMax": 36
     },
     "updateIntervalDays": 90,
     "backfillTargets": {
@@ -202,7 +208,14 @@
         365
       ],
       "quietThreshold": 0
-    }
+    },
+    "relatedTrackers": [
+      "israel-palestine",
+      "iraq",
+      "october-7-attack",
+      "syria",
+      "lebanon"
+    ]
   },
   "githubRepo": "ArtemioPadilla/watchboard",
   "geoPath": [

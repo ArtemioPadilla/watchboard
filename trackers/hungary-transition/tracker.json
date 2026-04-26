@@ -2,34 +2,105 @@
   "slug": "hungary-transition",
   "name": "Hungary Political Transition",
   "shortName": "Hungary",
-  "description": "Viktor Orbán swept from power after 16 years. Tracking Hungary's democratic transition and its implications for EU cohesion, NATO unity, and the Ukraine war.",
+  "description": "Viktor Orbán's 16-year rule and the post-Orbán political transition. Tracks Hungarian governance, EU cohesion friction, NATO unity stress, and Ukraine war policy.",
   "icon": "🇭🇺",
   "color": "#CE2939",
   "status": "active",
+  "tone": "alert",
   "temporal": "live",
-  "domain": "Politics / Democratic Transition",
-  "region": "Europe",
-  "country": "Hungary",
-  "startDate": "2026-04-13",
-  "eraLabel": "Post-Orbán Transition",
-  "series": [],
-  "tags": ["europe", "democracy", "nato", "eu", "hungary"],
-  "sections": ["timeline", "map", "kpis"],
+  "domain": "governance",
+  "region": "central-europe",
+  "country": "HU",
+  "geoPath": ["HU"],
+  "startDate": "2010-05-29",
+  "eraLabel": "Orbán era and aftermath",
+  "tags": [
+    "Hungary",
+    "Orbán",
+    "Fidesz",
+    "EU",
+    "NATO",
+    "democratic backsliding",
+    "Tisza"
+  ],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "political",
+    "claims"
+  ],
+  "navSections": [
+    {"id": "kpis", "label": "Overview"},
+    {"id": "timeline", "label": "Timeline"},
+    {"id": "map", "label": "Map"},
+    {"id": "political", "label": "Politics"},
+    {"id": "claims", "label": "Contested Claims"}
+  ],
   "map": {
-    "center": [19.0402, 47.4979],
-    "zoom": 7,
-    "style": "dark"
+    "enabled": true,
+    "bounds": {
+      "lonMin": 16,
+      "lonMax": 23,
+      "latMin": 45.5,
+      "latMax": 48.8
+    },
+    "center": {"lon": 19.0402, "lat": 47.4979},
+    "categories": [
+      {"id": "political", "label": "Political Events", "color": "#8e44ad"},
+      {"id": "eu-relation", "label": "EU Relations", "color": "#3498db"},
+      {"id": "nato", "label": "NATO Posture", "color": "#27ae60"},
+      {"id": "rule-of-law", "label": "Rule of Law", "color": "#e74c3c"},
+      {"id": "economic", "label": "Economic", "color": "#f39c12"}
+    ]
   },
   "globe": {
-    "defaultView": [19.0402, 47.4979, 3000000]
-  },
-  "navSections": ["events", "map", "kpis"],
-  "coordValidation": {
-    "lonRange": [10, 30],
-    "latRange": [42, 52]
+    "enabled": true,
+    "cameraPresets": {
+      "theater": {"lon": 19, "lat": 47.5, "alt": 600000, "pitch": -90, "heading": 0, "label": "Hungary"},
+      "budapest": {"lon": 19.04, "lat": 47.5, "alt": 60000, "pitch": -90, "heading": 0, "label": "Budapest"},
+      "europe": {"lon": 15, "lat": 50, "alt": 3000000, "pitch": -90, "heading": 0, "label": "Europe Overview"},
+      "ukraine-border": {"lon": 22.5, "lat": 48.5, "alt": 200000, "pitch": -90, "heading": 0, "label": "Ukraine Border"}
+    }
   },
   "ai": {
-    "searchContext": "Hungary Orbán transition election democracy EU NATO",
+    "systemPrompt": "You are a Central Europe political analyst updating an intelligence dashboard for Hungary.\nToday's date is {{today}}. You have access to web search.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose.\nDo NOT wrap in ```json blocks. Output JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"orban_2024_speech\", \"tisza_rally_budapest\").\n\nCoverage scope: Hungarian politics from Orbán's 2010 return to power through present.\n- Fidesz two-thirds majorities and constitutional changes\n- Media pluralism erosion, judicial reform, Stop Soros laws\n- EU rule-of-law mechanism, Article 7 procedure, frozen funds\n- NATO unity and Hungary's blocking moves on Ukraine aid, Sweden NATO accession\n- Russia/China tilt: Paks II nuclear, Belt and Road, Rosatom contracts\n- 2026 election cycle: Tisza Party (Péter Magyar) rise, Fidesz response\n- Roma minority issues, gender/LGBTQ legislation, demographic policies\n\nMULTI-POLE SOURCING:\n1. WESTERN/EU: Reuters, AP, BBC, FT, Bloomberg, Politico Europe, Euractiv, EUObserver, Süddeutsche Zeitung, Der Standard\n2. HUNGARIAN: Telex.hu, HVG, 444.hu, Magyar Hang, Index, Magyar Nemzet (pro-government), Origo (pro-government)\n3. INSTITUTIONAL: European Commission, Council of Europe, Venice Commission, OSCE/ODIHR, Freedom House, RSF, Transparency International Hungary\n4. EASTERN: TASS, RT (with caveat) for Russia-Hungary bilateral coverage\n\nTag sources with \"pole\":\n- \"western\" for EU/US/allied media\n- \"eastern\" for Russian/Chinese media\n- \"international\" for UN/EU institutions/NGOs\n\nSource tier:\n- Tier 1: Official (EU Commission rulings, Hungarian Diario Oficial, Council of Europe, ECtHR rulings, Hungarian Statistical Office)\n- Tier 2: Major outlet (Reuters, AP, BBC, AFP, Politico, FT, Telex, HVG, 444)\n- Tier 3: Institutional (Freedom House, V-Dem, Bertelsmann, Transparency International, IISS, ECFR)\n- Tier 4: Unverified social media\n\nDEDUPLICATION: Cross-reference with sibling trackers (ukraine-war, russia, european-union, nato-us-tensions). Avoid re-recording NATO/Ukraine events those trackers already cover; capture Hungary's specific position.\n\nIMPORTANT SCHEMA RULES:\n- year field is STRING (e.g. \"2024\")\n- direction on econ items is \"up\" or \"down\" only\n- Dates YYYY-MM-DD, not in future",
+    "searchContext": "Hungary Orbán Fidesz Tisza Magyar EU rule-of-law NATO Ukraine sanctions Article-7",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "claims",
+      "political",
+      "econ"
+    ],
+    "coordValidation": {
+      "lonMin": 15,
+      "lonMax": 24,
+      "latMin": 45,
+      "latMax": 49
+    },
+    "updateIntervalDays": 7,
+    "backfillTargets": {
+      "timeline": 60,
+      "mapPoints": 25,
+      "claims": 15,
+      "political": 20,
+      "econ": 8,
+      "kpis": 8
+    },
+    "updatePolicy": {
+      "escalation": [7, 7, 14, 30, 60],
+      "quietThreshold": 0
+    },
+    "relatedTrackers": [
+      "ukraine-war",
+      "russia",
+      "european-union",
+      "nato-us-tensions",
+      "germany"
+    ],
     "rssFeeds": [
       "https://news.google.com/rss/search?q=Hungary+Orb%C3%A1n+political+transition&hl=en-US&gl=US&ceid=US:en",
       "https://news.google.com/rss/search?q=Hungary+election+democracy+EU&hl=en-US&gl=US&ceid=US:en"

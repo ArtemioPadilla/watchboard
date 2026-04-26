@@ -10,7 +10,14 @@
   "temporal": "live",
   "domain": "science",
   "region": "global",
-  "tags": ["environment", "ecology", "climate", "biodiversity", "reforestation", "rewilding"],
+  "tags": [
+    "environment",
+    "ecology",
+    "climate",
+    "biodiversity",
+    "reforestation",
+    "rewilding"
+  ],
   "startDate": "2007-01-01",
   "eraLabel": "Restoration Era 2007–Present",
   "sections": [
@@ -179,12 +186,25 @@
       "econ": 8
     },
     "updatePolicy": {
-      "escalation": [7, 7, 14, 30, 60],
+      "escalation": [
+        7,
+        7,
+        14,
+        30,
+        60
+      ],
       "quietThreshold": 0
     },
     "rssFeeds": [
       "https://news.google.com/rss/search?q=reforestation+rewilding+ecosystem+restoration&hl=en-US&gl=US&ceid=US:en",
       "https://www.unep.org/rss.xml"
+    ],
+    "relatedTrackers": [
+      "climate-solutions",
+      "ocean-cleanup",
+      "species-recovery",
+      "digital-inclusion",
+      "fusion-energy"
     ]
   },
   "githubRepo": "ArtemioPadilla/watchboard"

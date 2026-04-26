@@ -12,7 +12,15 @@
   "domain": "governance",
   "region": "southeast-asia",
   "country": "ID",
-  "tags": ["indonesia", "southeast-asia", "colonial-history", "democracy", "asean", "nusantara", "majapahit"],
+  "tags": [
+    "indonesia",
+    "southeast-asia",
+    "colonial-history",
+    "democracy",
+    "asean",
+    "nusantara",
+    "majapahit"
+  ],
   "startDate": "1293-01-01",
   "eraLabel": "Empire to Republic, 1293–Present",
   "sections": [
@@ -109,7 +117,7 @@
         "label": "Bali"
       },
       "papua": {
-        "lon": 140.0,
+        "lon": 140,
         "lat": -4.5,
         "alt": 600000,
         "pitch": -90,
@@ -204,9 +212,18 @@
         180
       ],
       "quietThreshold": 0
-    }
+    },
+    "relatedTrackers": [
+      "pakistan",
+      "india",
+      "south-africa",
+      "nigeria",
+      "argentina"
+    ]
   },
   "ogImage": "/og-card.png",
   "githubRepo": "ArtemioPadilla/watchboard",
-  "geoPath": ["ID"]
+  "geoPath": [
+    "ID"
+  ]
 }

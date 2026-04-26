@@ -10,7 +10,14 @@
   "trackerType": "factual",
   "domain": "science",
   "region": "global",
-  "tags": ["digital-divide", "connectivity", "internet-access", "starlink", "digital-literacy", "affordable-devices"],
+  "tags": [
+    "digital-divide",
+    "connectivity",
+    "internet-access",
+    "starlink",
+    "digital-literacy",
+    "affordable-devices"
+  ],
   "startDate": "2020-01-01",
   "eraLabel": "Connectivity Expansion 2020–Present",
   "sections": [
@@ -189,7 +196,13 @@
     },
     "updateIntervalDays": 7,
     "updatePolicy": {
-      "escalation": [7, 7, 14, 30, 60],
+      "escalation": [
+        7,
+        7,
+        14,
+        30,
+        60
+      ],
       "quietThreshold": 0
     },
     "backfillTargets": {
@@ -203,6 +216,13 @@
     "rssFeeds": [
       "https://news.google.com/rss/search?q=digital+inclusion+internet+access+connectivity&hl=en-US&gl=US&ceid=US:en",
       "https://restofworld.org/feed/latest"
+    ],
+    "relatedTrackers": [
+      "ocean-cleanup",
+      "reforestation",
+      "climate-solutions",
+      "ai-for-good",
+      "fusion-energy"
     ]
   },
   "ogImage": "/og-card.png",

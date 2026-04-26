@@ -34,7 +34,7 @@
     },
     "center": {
       "lon": 8.5,
-      "lat": 9.0
+      "lat": 9
     },
     "categories": [
       {
@@ -68,8 +68,8 @@
     "enabled": true,
     "cameraPresets": {
       "west_africa": {
-        "lon": 5.0,
-        "lat": 9.0,
+        "lon": 5,
+        "lat": 9,
         "alt": 4000000,
         "pitch": -90,
         "heading": 0,
@@ -93,7 +93,7 @@
       },
       "kano": {
         "lon": 8.52,
-        "lat": 12.00,
+        "lat": 12,
         "alt": 100000,
         "pitch": -90,
         "heading": 0,
@@ -101,7 +101,7 @@
       },
       "niger_delta": {
         "lon": 6.5,
-        "lat": 5.0,
+        "lat": 5,
         "alt": 200000,
         "pitch": -90,
         "heading": 0,
@@ -201,10 +201,25 @@
       "kpis": 8
     },
     "updatePolicy": {
-      "escalation": [7, 14, 30, 60, 90],
+      "escalation": [
+        7,
+        14,
+        30,
+        60,
+        90
+      ],
       "quietThreshold": 0
-    }
+    },
+    "relatedTrackers": [
+      "south-africa",
+      "pakistan",
+      "india",
+      "indonesia",
+      "argentina"
+    ]
   },
   "githubRepo": "ArtemioPadilla/watchboard",
-  "geoPath": ["NG"]
+  "geoPath": [
+    "NG"
+  ]
 }

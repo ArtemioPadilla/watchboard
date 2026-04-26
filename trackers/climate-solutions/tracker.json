@@ -10,7 +10,13 @@
   "temporal": "live",
   "domain": "science",
   "region": "global",
-  "tags": ["climate", "renewable-energy", "carbon-capture", "reforestation", "paris-agreement"],
+  "tags": [
+    "climate",
+    "renewable-energy",
+    "carbon-capture",
+    "reforestation",
+    "paris-agreement"
+  ],
   "startDate": "2015-12-12",
   "eraLabel": "Paris Agreement Era",
   "sections": [
@@ -179,11 +185,24 @@
       "econ": 10
     },
     "updatePolicy": {
-      "escalation": [7, 7, 14, 30, 60],
+      "escalation": [
+        7,
+        7,
+        14,
+        30,
+        60
+      ],
       "quietThreshold": 0
     },
     "rssFeeds": [
       "https://news.google.com/rss/search?q=climate+solutions+renewable+energy+record&hl=en-US&gl=US&ceid=US:en"
+    ],
+    "relatedTrackers": [
+      "ocean-cleanup",
+      "battery-revolution",
+      "reforestation",
+      "fusion-energy",
+      "species-recovery"
     ]
   },
   "ogImage": "/og-card.png",

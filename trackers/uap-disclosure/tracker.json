@@ -60,40 +60,108 @@
     "legislative",
     "cultural"
   ],
-  "politicalAvatars": ["us", "other"],
+  "politicalAvatars": [
+    "us",
+    "other"
+  ],
   "geoPath": [
     "US"
   ],
   "map": {
     "enabled": true,
-    "bounds": {"lonMin": -130, "lonMax": -65, "latMin": 22, "latMax": 52},
-    "center": {"lon": -98, "lat": 38},
+    "bounds": {
+      "lonMin": -130,
+      "lonMax": -65,
+      "latMin": 22,
+      "latMax": 52
+    },
+    "center": {
+      "lon": -98,
+      "lat": 38
+    },
     "categories": [
-      {"id": "sighting", "label": "UAP Sighting", "color": "#e74c3c"},
-      {"id": "military", "label": "Military Encounter", "color": "#3498db"},
-      {"id": "government", "label": "Government Facility", "color": "#2ecc71"},
-      {"id": "hearing", "label": "Congressional Hearing", "color": "#f39c12"}
+      {
+        "id": "sighting",
+        "label": "UAP Sighting",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "military",
+        "label": "Military Encounter",
+        "color": "#3498db"
+      },
+      {
+        "id": "government",
+        "label": "Government Facility",
+        "color": "#2ecc71"
+      },
+      {
+        "id": "hearing",
+        "label": "Congressional Hearing",
+        "color": "#f39c12"
+      }
     ]
   },
   "globe": {
     "enabled": true,
     "cameraPresets": {
-      "theater": {"lon": -98, "lat": 38, "alt": 8000000, "pitch": -90, "heading": 0, "label": "Continental US"},
-      "pentagon": {"lon": -77.06, "lat": 38.87, "alt": 50000, "pitch": -90, "heading": 0, "label": "Pentagon"},
-      "area51": {"lon": -115.81, "lat": 37.24, "alt": 80000, "pitch": -90, "heading": 0, "label": "Area 51"},
-      "nimitz": {"lon": -117.5, "lat": 31.5, "alt": 200000, "pitch": -90, "heading": 0, "label": "Nimitz Encounter"}
+      "theater": {
+        "lon": -98,
+        "lat": 38,
+        "alt": 8000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Continental US"
+      },
+      "pentagon": {
+        "lon": -77.06,
+        "lat": 38.87,
+        "alt": 50000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Pentagon"
+      },
+      "area51": {
+        "lon": -115.81,
+        "lat": 37.24,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Area 51"
+      },
+      "nimitz": {
+        "lon": -117.5,
+        "lat": 31.5,
+        "alt": 200000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Nimitz Encounter"
+      }
     }
   },
   "githubRepo": "ArtemioPadilla/watchboard",
   "ai": {
     "systemPrompt": "You are an intelligence analyst updating a UAP/UFO disclosure tracking dashboard.\nToday's date is {{today}}. You have access to web search.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose.\nDo NOT wrap in ```json blocks. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case).\n\nThis is an institutional/historical tracker. Focus on:\n1. Official government actions (congressional hearings, legislation, executive orders)\n2. Declassified documents and official reports\n3. Whistleblower testimony under oath\n4. Pentagon/DoD/AARO official statements\n5. Scientific studies and institutional positions\n\nDo NOT include unverified sightings, social media claims, or conspiracy theories.\nEvery claim must note its official status and any opposing institutional positions.\n\nSource tier classification:\n- Tier 1: Official (Congress.gov, White House, Pentagon, AARO, ODNI, DoD IG)\n- Tier 2: Major outlet (NYT, WaPo, Reuters, AP, CNN, BBC, NewsNation, Politico)\n- Tier 3: Institutional (SCU, AIAA, Harvard Galileo Project, RAND)\n- Tier 4: Unverified (social media, anonymous claims)",
     "searchContext": "UAP UFO disclosure congressional hearings AARO Pentagon whistleblower",
-    "enabledSections": ["kpis", "timeline", "map", "claims", "political"],
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "map",
+      "claims",
+      "political"
+    ],
     "updateIntervalDays": 7,
     "backfillTargets": {
       "timeline": 30,
       "claims": 15,
       "political": 15
-    }
+    },
+    "relatedTrackers": [
+      "ice-history",
+      "trump-presidencies",
+      "nato-us-tensions",
+      "september-11",
+      "spacex-history"
+    ]
   }
 }

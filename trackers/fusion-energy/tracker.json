@@ -11,7 +11,15 @@
   "trackerType": "factual",
   "domain": "science",
   "region": "global",
-  "tags": ["fusion", "clean-energy", "plasma", "iter", "nif", "tokamak", "inertial-confinement"],
+  "tags": [
+    "fusion",
+    "clean-energy",
+    "plasma",
+    "iter",
+    "nif",
+    "tokamak",
+    "inertial-confinement"
+  ],
   "startDate": "2022-12-05",
   "eraLabel": "Net Gain Era",
   "sections": [
@@ -166,7 +174,13 @@
     },
     "updateIntervalDays": 7,
     "updatePolicy": {
-      "escalation": [7, 14, 30, 60, 90],
+      "escalation": [
+        7,
+        14,
+        30,
+        60,
+        90
+      ],
       "quietThreshold": 0
     },
     "backfillTargets": {
@@ -179,6 +193,13 @@
     },
     "rssFeeds": [
       "https://news.google.com/rss/search?q=fusion+energy+ITER+NIF+tokamak&hl=en-US&gl=US&ceid=US:en"
+    ],
+    "relatedTrackers": [
+      "battery-revolution",
+      "species-recovery",
+      "ocean-cleanup",
+      "cancer-breakthroughs",
+      "ai-for-good"
     ]
   },
   "ogImage": "/og-card.png",

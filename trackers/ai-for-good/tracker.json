@@ -11,7 +11,15 @@
   "trackerType": "factual",
   "domain": "science",
   "region": "global",
-  "tags": ["artificial-intelligence", "healthcare", "agriculture", "education", "accessibility", "disaster-response", "technology"],
+  "tags": [
+    "artificial-intelligence",
+    "healthcare",
+    "agriculture",
+    "education",
+    "accessibility",
+    "disaster-response",
+    "technology"
+  ],
   "startDate": "2020-01-01",
   "sections": [
     "hero",
@@ -179,9 +187,22 @@
       "econ": 8
     },
     "updatePolicy": {
-      "escalation": [7, 7, 14, 30, 60],
+      "escalation": [
+        7,
+        7,
+        14,
+        30,
+        60
+      ],
       "quietThreshold": 0
-    }
+    },
+    "relatedTrackers": [
+      "cancer-breakthroughs",
+      "fusion-energy",
+      "ocean-cleanup",
+      "battery-revolution",
+      "species-recovery"
+    ]
   },
   "ogImage": "/og-card.png",
   "githubRepo": "ArtemioPadilla/watchboard"

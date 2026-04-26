@@ -10,7 +10,14 @@
   "temporal": "live",
   "domain": "science",
   "region": "global",
-  "tags": ["mrna", "vaccines", "oncology", "biotech", "personalized-medicine", "clinical-trials"],
+  "tags": [
+    "mrna",
+    "vaccines",
+    "oncology",
+    "biotech",
+    "personalized-medicine",
+    "clinical-trials"
+  ],
   "startDate": "2020-12-11",
   "eraLabel": "Platform Medicine Era",
   "sections": [
@@ -90,7 +97,7 @@
         "label": "Mainz (BioNTech HQ)"
       },
       "bethesda": {
-        "lon": -77.10,
+        "lon": -77.1,
         "lat": 38.99,
         "alt": 60000,
         "pitch": -90,
@@ -99,15 +106,15 @@
       },
       "geneva": {
         "lon": 6.15,
-        "lat": 46.20,
+        "lat": 46.2,
         "alt": 80000,
         "pitch": -90,
         "heading": 0,
         "label": "Geneva (WHO)"
       },
       "africa_trials": {
-        "lon": 25.0,
-        "lat": -5.0,
+        "lon": 25,
+        "lat": -5,
         "alt": 5000000,
         "pitch": -90,
         "heading": 0,
@@ -179,12 +186,25 @@
       "econ": 8
     },
     "updatePolicy": {
-      "escalation": [7, 14, 30, 60, 90],
+      "escalation": [
+        7,
+        14,
+        30,
+        60,
+        90
+      ],
       "quietThreshold": 30
     },
     "rssFeeds": [
       "https://news.google.com/rss/search?q=mRNA+vaccine+cancer+clinical+trial&hl=en-US&gl=US&ceid=US:en",
       "https://www.statnews.com/feed/"
+    ],
+    "relatedTrackers": [
+      "cancer-breakthroughs",
+      "crispr-gene-therapy",
+      "climate-solutions",
+      "covid-pandemic",
+      "battery-revolution"
     ]
   },
   "ogImage": "/og-card.png",

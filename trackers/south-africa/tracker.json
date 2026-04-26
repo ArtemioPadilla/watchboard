@@ -12,7 +12,15 @@
   "domain": "governance",
   "region": "africa",
   "country": "ZA",
-  "tags": ["apartheid", "democracy", "history", "africa", "brics", "rainbow-nation", "decolonization"],
+  "tags": [
+    "apartheid",
+    "democracy",
+    "history",
+    "africa",
+    "brics",
+    "rainbow-nation",
+    "decolonization"
+  ],
   "startDate": "-2500000-01-01",
   "eraLabel": "Prehistoric to Present",
   "sections": [
@@ -34,8 +42,8 @@
       "latMax": -16
     },
     "center": {
-      "lon": 25.0,
-      "lat": -29.0
+      "lon": 25,
+      "lat": -29
     },
     "categories": [
       {
@@ -69,8 +77,8 @@
     "enabled": true,
     "cameraPresets": {
       "overview": {
-        "lon": 25.0,
-        "lat": -29.0,
+        "lon": 25,
+        "lat": -29,
         "alt": 3000000,
         "pitch": -90,
         "heading": 0,
@@ -86,7 +94,7 @@
       },
       "johannesburg": {
         "lon": 28.04,
-        "lat": -26.20,
+        "lat": -26.2,
         "alt": 100000,
         "pitch": -90,
         "heading": 0,
@@ -204,7 +212,14 @@
         180
       ],
       "quietThreshold": 0
-    }
+    },
+    "relatedTrackers": [
+      "nigeria",
+      "india",
+      "indonesia",
+      "pakistan",
+      "sudan-conflict"
+    ]
   },
   "githubRepo": "ArtemioPadilla/watchboard",
   "geoPath": [

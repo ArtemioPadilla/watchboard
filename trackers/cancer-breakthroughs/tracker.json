@@ -10,7 +10,15 @@
   "temporal": "live",
   "domain": "science",
   "region": "global",
-  "tags": ["cancer", "oncology", "mRNA", "immunotherapy", "CAR-T", "early-detection", "clinical-trials"],
+  "tags": [
+    "cancer",
+    "oncology",
+    "mRNA",
+    "immunotherapy",
+    "CAR-T",
+    "early-detection",
+    "clinical-trials"
+  ],
   "startDate": "2018-01-01",
   "sections": [
     "hero",
@@ -178,12 +186,25 @@
       "econ": 8
     },
     "updatePolicy": {
-      "escalation": [7, 14, 30, 60, 90],
+      "escalation": [
+        7,
+        14,
+        30,
+        60,
+        90
+      ],
       "quietThreshold": 0
     },
     "rssFeeds": [
       "https://news.google.com/rss/search?q=cancer+treatment+breakthrough+mRNA+CAR-T+immunotherapy&hl=en-US&gl=US&ceid=US:en",
       "https://www.statnews.com/feed/"
+    ],
+    "relatedTrackers": [
+      "mrna-revolution",
+      "crispr-gene-therapy",
+      "ai-for-good",
+      "fusion-energy",
+      "battery-revolution"
     ]
   },
   "githubRepo": "ArtemioPadilla/watchboard"
