@@ -1,1 +1,90 @@
-[]
+[
+  {
+    "id": "gdp-nominal",
+    "label": "GDP (Nominal, USD)",
+    "value": "$4.03 trillion",
+    "change": "Fell from 3rd to 4th globally in 2023",
+    "direction": "down",
+    "sparkData": [5.1, 4.9, 5.0, 4.2, 4.9, 4.2, 4.03],
+    "color": "blue",
+    "source": "World Bank National Accounts, 2024",
+    "lastUpdated": "2026-04-26T00:00:00Z"
+  },
+  {
+    "id": "govt-debt-gdp",
+    "label": "Government Debt / GDP",
+    "value": "236.7%",
+    "change": "+2.5 pp YoY",
+    "direction": "up",
+    "sparkData": [220, 225, 228, 231, 234, 236, 237],
+    "color": "red",
+    "source": "IMF Fiscal Monitor 2024",
+    "lastUpdated": "2026-04-26T00:00:00Z"
+  },
+  {
+    "id": "fertility-rate-econ",
+    "label": "Total Fertility Rate",
+    "value": "1.15",
+    "change": "-0.05 from 2023",
+    "direction": "down",
+    "sparkData": [1.36, 1.30, 1.26, 1.22, 1.20, 1.17, 1.15],
+    "color": "red",
+    "source": "Ministry of Health, Labour and Welfare, 2024",
+    "lastUpdated": "2026-04-26T00:00:00Z"
+  },
+  {
+    "id": "defense-spending-pct-gdp",
+    "label": "Defense Spending (% GDP)",
+    "value": "1.6%",
+    "change": "+0.6 pp since 2021",
+    "direction": "up",
+    "sparkData": [0.9, 0.9, 1.0, 1.1, 1.2, 1.4, 1.6],
+    "color": "amber",
+    "source": "Japanese Ministry of Defense, FY2024",
+    "lastUpdated": "2026-04-26T00:00:00Z"
+  },
+  {
+    "id": "cpi-inflation-econ",
+    "label": "Core CPI Inflation",
+    "value": "2.7%",
+    "change": "Break from deflation era (2000–2021)",
+    "direction": "up",
+    "sparkData": [-0.3, 0.1, -0.4, 2.5, 3.3, 2.7, 2.7],
+    "color": "amber",
+    "source": "Statistics Bureau of Japan, 2024",
+    "lastUpdated": "2026-04-26T00:00:00Z"
+  },
+  {
+    "id": "unemployment-rate-econ",
+    "label": "Unemployment Rate",
+    "value": "2.5%",
+    "change": "-0.1 pp YoY",
+    "direction": "down",
+    "sparkData": [3.0, 2.8, 2.8, 2.6, 2.5, 2.4, 2.5],
+    "color": "green",
+    "source": "Statistics Bureau of Japan, 2024",
+    "lastUpdated": "2026-04-26T00:00:00Z"
+  },
+  {
+    "id": "trade-balance-econ",
+    "label": "Trade Balance (¥ trillion)",
+    "value": "-¥5.5T deficit",
+    "change": "Persistent deficit since 2011 energy shift",
+    "direction": "down",
+    "sparkData": [6.9, 4.5, 1.8, -1.9, -5.2, -6.3, -5.5],
+    "color": "red",
+    "source": "Ministry of Finance Japan; Customs Bureau, 2024",
+    "lastUpdated": "2026-04-26T00:00:00Z"
+  },
+  {
+    "id": "nikkei-225",
+    "label": "Nikkei 225 Index",
+    "value": "~38,000",
+    "change": "Finally recovered 1989 bubble peak (38,916) in 2024",
+    "direction": "up",
+    "sparkData": [8000, 10000, 15000, 20000, 27000, 33000, 38000],
+    "color": "green",
+    "source": "Tokyo Stock Exchange, 2024",
+    "lastUpdated": "2026-04-26T00:00:00Z"
+  }
+]
