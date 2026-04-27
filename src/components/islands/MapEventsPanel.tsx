@@ -178,8 +178,13 @@ export default function MapEventsPanel({ events, currentDate, isOpen, onToggle }
                             rel="noopener noreferrer"
                             className="map-event-media-link"
                           >
-                            {(m.type === 'image' || m.thumbnail) && m.thumbnail ? (
-                              <img src={m.thumbnail} alt={m.caption || ''} className="map-event-thumb" loading="lazy" referrerPolicy="no-referrer" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+                            {m.thumbnail ? (
+                              <span style={{ position: 'relative', display: 'inline-block', lineHeight: 0 }}>
+                                <img src={m.thumbnail} alt={m.caption || ''} className="map-event-thumb" loading="lazy" referrerPolicy="no-referrer" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+                                {m.type === 'video' && (
+                                  <span style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '1.6rem', textShadow: '0 1px 4px rgba(0,0,0,0.8)', background: 'rgba(0,0,0,0.18)', pointerEvents: 'none' }} aria-hidden="true">&#9654;</span>
+                                )}
+                              </span>
                             ) : m.type === 'video' ? (
                               <span className="map-event-video-icon">&#9654; Video</span>
                             ) : (

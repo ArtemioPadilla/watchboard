@@ -254,10 +254,17 @@ const pageTitle = `${event.title} — ${config.shortName} — Watchboard`;
                       />
                     </a>
                   ) : item.type === 'video' ? (
-                    <a href={item.url} target="_blank" rel="noopener noreferrer" class="video-link">
-                      <span class="video-icon">&#9654;</span>
-                      <span>Watch video</span>
-                    </a>
+                    item.thumbnail ? (
+                      <a href={item.url} target="_blank" rel="noopener noreferrer" class="video-poster">
+                        <img src={item.thumbnail} alt={item.caption || event.title} loading="lazy" referrerpolicy="no-referrer" />
+                        <span class="video-poster-play" aria-hidden="true">&#9654;</span>
+                      </a>
+                    ) : (
+                      <a href={item.url} target="_blank" rel="noopener noreferrer" class="video-link">
+                        <span class="video-icon">&#9654;</span>
+                        <span>Watch video</span>
+                      </a>
+                    )
                   ) : (
                     <a href={item.url} target="_blank" rel="noopener noreferrer" class="article-link">
                       <span class="article-icon">&#128196;</span>
@@ -558,6 +565,34 @@ const pageTitle = `${event.title} — ${config.shortName} — Watchboard`;
   .video-icon,
   .article-icon {
     font-size: 1.4rem;
+  }
+  .video-poster {
+    position: relative;
+    display: block;
+    line-height: 0;
+    text-decoration: none;
+  }
+  .video-poster img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 4px;
+  }
+  .video-poster-play {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 3rem;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+    background: rgba(0,0,0,0.18);
+    border-radius: 4px;
+    transition: background 0.15s;
+  }
+  .video-poster:hover .video-poster-play {
+    background: rgba(0,0,0,0.4);
   }
 
   /* ── Sources ── */
