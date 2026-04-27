@@ -245,6 +245,30 @@ Contested figures are explicitly flagged with `'yes'`, `'evolving'`, `'heavily'`
 
 ---
 
+## Daily Intelligence Brief Video
+
+A 30-second vertical (1080×1920) video summarising the top breaking trackers ships every day to Telegram + Bluesky. Built with [Remotion](https://remotion.dev) — code-driven video, hot-reload editor, programmatic rendering.
+
+```bash
+make video-prep   # Pull latest news + bundle thumbnails for the Studio preview
+make video        # Open Remotion Studio (timeline editor, like After Effects but code-driven)
+make video-render # Render today's MP4 → video/output/
+```
+
+The Studio at `http://localhost:3000` exposes every typography, position, color, and animation value as live-editable sliders/colour pickers via the right-hand "Props" panel. Tunable trees:
+
+- `slideStyle` — TrackerSlide elements (image card, headline, KPI block, source row)
+- `introStyle` — opening logo + subtitle + date animation
+- `outroStyle` — watchboard.dev card + stats line + fade-out
+
+Edits in the panel are transient (preview only). To persist, copy the values to `DEFAULT_*_STYLE` constants in `video/src/data/slide-style.ts` — both Studio and the production renderer read from there.
+
+Daily brief archive: [`/videos`](https://watchboard.dev/videos) lists every shipped video with its trackers, headlines, KPIs, and source tiers.
+
+For static layout iteration without the Studio, open `tools/video-editor.html` — a vanilla-JS mockup of the TrackerSlide layout with the same control panel.
+
+---
+
 ## Nightly AI Updates
 
 Data is automatically refreshed at 6 AM UTC via GitHub Actions. Each tracker has a configurable `updateIntervalDays` — active conflicts update daily; historical cases update every 30–180 days. The workflow resolves which trackers are due, then uses Claude Code with web search to update each one.
