@@ -1,0 +1,351 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import RoadmapBoard from '../components/islands/RoadmapBoard.tsx';
+import { ROADMAP_ITEMS, MILESTONES, counts } from '../data/roadmap-items';
+
+const base = import.meta.env.BASE_URL;
+const basePath = base.endsWith('/') ? base : `${base}/`;
+const c = counts();
+
+// Last shipped date for the "as of" line.
+const shipped = ROADMAP_ITEMS.filter((i) => i.status === 'shipped').map((i) => i.date).sort();
+const lastShipped = shipped[shipped.length - 1] ?? new Date().toISOString().slice(0, 10);
+---
+<BaseLayout
+  title="Watchboard Roadmap"
+  description="What's shipped, in progress, and planned next for Watchboard. Live status of perf, growth, content, accessibility, and infrastructure work."
+>
+  <main id="main-content">
+    <div class="roadmap-page">
+      <a class="roadmap-back" href={`${basePath}about/`}>&larr; About</a>
+
+      <header class="roadmap-hero">
+        <div class="roadmap-eyebrow">
+          <span class="roadmap-pulse" aria-hidden="true"></span>
+          OPERATIONS STATUS · UNCLASSIFIED · UPDATED {lastShipped}
+        </div>
+        <h1>Roadmap</h1>
+        <p class="roadmap-lede">
+          What's shipped, in progress, and planned. Updated whenever code lands. Source of truth lives in
+          <code>src/data/roadmap-items.ts</code>; this page renders it directly.
+        </p>
+      </header>
+
+      <section class="roadmap-summary">
+        <h2 class="sr-only">Summary by area</h2>
+        <p>
+          <strong>{c.shipped}</strong> shipped ·
+          <strong>{c.inProgress}</strong> in progress ·
+          <strong>{c.planned}</strong> planned ·
+          <strong>{c.idea}</strong> ideas captured.
+          Filter by area below or switch to the timeline view to see milestones.
+        </p>
+      </section>
+
+      <RoadmapBoard client:load />
+
+      <section class="roadmap-milestones-overview">
+        <h2>Milestones</h2>
+        <div class="ms-grid">
+          <article class="ms-card ms-card-shipped">
+            <header><span class="ms-tag">Shipped</span><h3>{MILESTONES.M1.label}</h3></header>
+            <p>{MILESTONES.M1.theme}</p>
+          </article>
+          <article class="ms-card ms-card-next">
+            <header><span class="ms-tag">Up next</span><h3>{MILESTONES.M2.label}</h3></header>
+            <p>{MILESTONES.M2.theme}</p>
+          </article>
+          <article class="ms-card ms-card-planning">
+            <header><span class="ms-tag">Planning</span><h3>{MILESTONES.M3.label}</h3></header>
+            <p>{MILESTONES.M3.theme}</p>
+          </article>
+          <article class="ms-card ms-card-horizon">
+            <header><span class="ms-tag">Horizon</span><h3>{MILESTONES.M4.label}</h3></header>
+            <p>{MILESTONES.M4.theme}</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="roadmap-how">
+        <h2>How this roadmap works</h2>
+        <ul>
+          <li>
+            <strong>Status</strong> moves left → right: <em>idea → planned → in progress → shipped</em>.
+            Items don't expire; they get closed when delivered or explicitly retired.
+          </li>
+          <li>
+            <strong>Priority</strong> P0 (must) → P3 (deferred). Set by impact ÷ effort, not by who asked first.
+          </li>
+          <li>
+            <strong>Effort</strong> XS &lt;1h · S &lt;1d · M 1–3d · L 1w · XL multi-week. Best-guess ranges.
+          </li>
+          <li>
+            <strong>Milestones</strong> M1–M4 are 4–6 week windows. Items can re-slot if measurement (Web Vitals,
+            user reports) changes priority. We move things to M2 cheerfully, not in shame.
+          </li>
+          <li>
+            <strong>Content vs platform.</strong> This page covers <em>platform</em> items (perf, growth, infra,
+            UX, content depth). New <em>tracker requests</em> live at
+            <a href={`${basePath}vote/`}>/vote</a> and the
+            <a href="https://github.com/ArtemioPadilla/watchboard/blob/main/docs/tracker-roadmap.md" target="_blank" rel="noopener noreferrer">
+              tracker roadmap doc
+            </a>.
+          </li>
+        </ul>
+      </section>
+
+      <section class="roadmap-suggest">
+        <h2>Suggest something</h2>
+        <p>
+          Found a bug, want a feature, or have a tracker idea? File a GitHub issue and tag it
+          <code>roadmap</code> or <code>tracker-vote</code>:
+        </p>
+        <div class="roadmap-cta-row">
+          <a class="roadmap-cta" href="https://github.com/ArtemioPadilla/watchboard/issues/new" target="_blank" rel="noopener noreferrer">
+            ➕ Open an issue
+          </a>
+          <a class="roadmap-cta secondary" href={`${basePath}vote/`}>
+            🗳 Vote on tracker requests
+          </a>
+        </div>
+      </section>
+
+      <a class="roadmap-back" href={`${basePath}about/`}>&larr; Back to About</a>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .roadmap-page {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+    color: var(--text-primary, #e6edf3);
+  }
+
+  .roadmap-back {
+    display: inline-block;
+    margin: 0 0 2rem;
+    color: var(--text-muted, #8b949e);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-family: 'DM Sans', sans-serif;
+    border: 1px solid var(--border, #30363d);
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    transition: all 0.2s;
+  }
+  .roadmap-back:hover {
+    color: var(--text-primary, #e6edf3);
+    border-color: var(--border-light, #484f58);
+    background: var(--bg-card, #161b22);
+  }
+
+  .roadmap-hero {
+    margin-bottom: 2rem;
+  }
+  .roadmap-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.18em;
+    color: var(--accent-red, #e74c3c);
+    background: rgba(231, 76, 60, 0.1);
+    border: 1px solid rgba(231, 76, 60, 0.3);
+    padding: 4px 10px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .roadmap-pulse {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent-red, #e74c3c);
+    box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7); }
+    70%  { box-shadow: 0 0 0 8px rgba(231, 76, 60, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0); }
+  }
+  .roadmap-hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 6vw, 3rem);
+    font-weight: 700;
+    margin: 0 0 0.5rem;
+    letter-spacing: -0.02em;
+  }
+  .roadmap-lede {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    color: var(--text-secondary, #8b949e);
+    line-height: 1.6;
+    max-width: 640px;
+  }
+  .roadmap-lede code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85em;
+    background: var(--bg-secondary, #0d1117);
+    border: 1px solid var(--border, #30363d);
+    padding: 1px 6px;
+    border-radius: 3px;
+  }
+
+  .roadmap-summary {
+    margin-bottom: 1.5rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary, #8b949e);
+    font-family: 'DM Sans', sans-serif;
+  }
+  .roadmap-summary strong {
+    color: var(--text-primary, #e6edf3);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .roadmap-milestones-overview {
+    margin-top: 3rem;
+  }
+  .roadmap-milestones-overview h2,
+  .roadmap-how h2,
+  .roadmap-suggest h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 0 1rem;
+    letter-spacing: -0.01em;
+  }
+  .ms-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+  }
+  .ms-card {
+    background: var(--bg-card, #161b22);
+    border: 1px solid var(--border, #30363d);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .ms-card header { margin-bottom: 6px; }
+  .ms-card h3 {
+    margin: 4px 0 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    color: var(--text-primary, #e6edf3);
+  }
+  .ms-card p {
+    margin: 0;
+    font-size: 0.78rem;
+    color: var(--text-secondary, #8b949e);
+    line-height: 1.4;
+  }
+  .ms-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.55rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+  .ms-card-shipped  .ms-tag { background: rgba(46,204,113,0.15);  color: var(--accent-green, #2ecc71); }
+  .ms-card-next     .ms-tag { background: rgba(243,156,18,0.15);  color: var(--accent-amber, #f39c12); }
+  .ms-card-planning .ms-tag { background: rgba(88,166,255,0.15);  color: var(--accent-blue,  #58a6ff); }
+  .ms-card-horizon  .ms-tag { background: rgba(163,113,247,0.15); color: var(--accent-purple,#a371f7); }
+
+  .roadmap-how {
+    margin-top: 3rem;
+  }
+  .roadmap-how ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .roadmap-how li {
+    font-size: 0.85rem;
+    color: var(--text-secondary, #8b949e);
+    line-height: 1.6;
+    padding-left: 1rem;
+    border-left: 2px solid var(--border, #30363d);
+  }
+  .roadmap-how strong { color: var(--text-primary, #e6edf3); font-weight: 600; }
+  .roadmap-how em { color: var(--accent-blue, #58a6ff); font-style: normal; }
+  .roadmap-how a { color: var(--accent-blue, #58a6ff); }
+  .roadmap-how code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85em;
+    background: var(--bg-secondary, #0d1117);
+    border: 1px solid var(--border, #30363d);
+    padding: 1px 6px;
+    border-radius: 3px;
+  }
+
+  .roadmap-suggest {
+    margin-top: 3rem;
+    padding: 1.5rem;
+    background: var(--bg-card, #161b22);
+    border: 1px solid var(--border, #30363d);
+    border-radius: 10px;
+  }
+  .roadmap-suggest p {
+    color: var(--text-secondary, #8b949e);
+    font-size: 0.85rem;
+    line-height: 1.6;
+    margin: 0 0 1rem;
+  }
+  .roadmap-suggest code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85em;
+    background: var(--bg-secondary, #0d1117);
+    border: 1px solid var(--border, #30363d);
+    padding: 1px 6px;
+    border-radius: 3px;
+  }
+  .roadmap-cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .roadmap-cta {
+    display: inline-block;
+    background: var(--accent-blue, #58a6ff);
+    color: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: filter 0.15s;
+  }
+  .roadmap-cta:hover { filter: brightness(1.1); }
+  .roadmap-cta.secondary {
+    background: transparent;
+    border: 1px solid var(--border, #30363d);
+    color: var(--text-secondary, #8b949e);
+  }
+  .roadmap-cta.secondary:hover {
+    color: var(--text-primary, #e6edf3);
+    border-color: var(--border-light, #484f58);
+    background: var(--bg-secondary, #0d1117);
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+</style>
