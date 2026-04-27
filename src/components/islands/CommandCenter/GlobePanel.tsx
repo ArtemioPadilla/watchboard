@@ -563,6 +563,9 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
   // hook already flew the camera (with its own distance-aware altitude),
   // and a second pointOfView() call here would re-trigger the fly animation
   // after the first one lands, causing a visible double-spin.
+  // Depends on `trackers` (not the unmemoized `hubPoints`) so a tracker
+  // data refresh moves the camera if the user is still on that tracker,
+  // without re-running every render.
   useEffect(() => {
     const globe = globeRef.current;
     if (!globe || !activeTracker || broadcastMode) return;
@@ -573,7 +576,8 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
       const controls = globe.controls();
       if (controls) controls.autoRotate = false;
     }
-  }, [activeTracker, broadcastMode]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeTracker, broadcastMode, trackers]);
 
   // Resume auto-rotate on deselect (skip during broadcast — hook controls camera)
   useEffect(() => {
