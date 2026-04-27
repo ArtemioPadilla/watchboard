@@ -16,6 +16,9 @@ import {
   normalizeCandidate,
   PATHS,
 } from './hourly-types.js';
+import { resolveFeedsForActiveTrackers } from '../src/lib/tracker-feeds.js';
+import { pollRealtimeSources } from '../src/lib/realtime-sources.js';
+import { loadAllTrackers } from '../src/lib/tracker-registry.js';
 
 // --- Constants ---
 
@@ -66,6 +69,13 @@ const GENERAL_RSS_FEEDS = [
   'https://www.insightcrime.org/feed/',                       // Organized crime LatAm
   'https://www.borderreport.com/feed/',                       // US-Mexico border
 ];
+
+/** Union the static general feeds with dynamic per-tracker feeds. */
+function buildFeedList(): string[] {
+  const dynamic = resolveFeedsForActiveTrackers(loadAllTrackers());
+  const all = new Set<string>([...GENERAL_RSS_FEEDS, ...dynamic.map((d) => d.url)]);
+  return [...all];
+}
 
 const XML_PARSER = new XMLParser({
   ignoreAttributes: false,
@@ -504,7 +514,7 @@ export async function scan(): Promise<{ candidates: Candidate[]; state: HourlySt
   }
 
   // 1b. General RSS feeds (broad coverage — matched by keywords)
-  const generalFeedList = GENERAL_RSS_FEEDS.map((url) => ({ slug: '__general__', url }));
+  const generalFeedList = buildFeedList().map((url) => ({ slug: '__general__', url }));
   if (generalFeedList.length > 0) {
     const generalResults = await fetchRssFeeds(generalFeedList);
     for (const { item } of generalResults) {
@@ -566,6 +576,26 @@ if (
 ) {
   const { candidates, state } = await scan();
   saveState(state);
+
+  // Realtime: Bluesky + Telegram public channels.
+  const realtime = await pollRealtimeSources();
+  candidates.push(...realtime);
+
+  // Read deferred candidates the light scans accumulated since the last heavy run.
+  try {
+    const pendingPath = PATHS.pendingCandidates;
+    if (existsSync(pendingPath)) {
+      const pending = JSON.parse(readFileSync(pendingPath, 'utf8'));
+      if (pending?.entries?.length) {
+        candidates.push(...pending.entries.map((e: any) => e.candidate));
+        // Reset the pending file once consumed
+        writeFileSync(pendingPath, JSON.stringify({ version: 1, entries: [] }, null, 2));
+      }
+    }
+  } catch (err) {
+    console.warn('[hourly-scan] failed to read pending candidates:', (err as Error).message);
+  }
+
   if (candidates.length === 0) {
     console.log('[hourly-scan] No new candidates. Exiting.');
   } else {
