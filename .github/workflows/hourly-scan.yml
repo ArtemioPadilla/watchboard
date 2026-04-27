@@ -22,8 +22,8 @@ jobs:
       has_actions: ${{ steps.freshness.outputs.has_actions || steps.triage.outputs.has_actions || steps.triage-defaults.outputs.has_actions || 'false' }}
       plan_json: ${{ steps.freshness.outputs.plan_json || steps.triage.outputs.plan_json || steps.triage-defaults.outputs.plan_json || '[]' }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
       - run: npm ci
@@ -321,10 +321,10 @@ jobs:
       matrix:
         entry: ${{ fromJSON(needs.scan.outputs.plan_json) }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           ref: main
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
       - run: npm ci
