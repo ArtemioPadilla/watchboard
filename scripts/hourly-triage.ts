@@ -17,6 +17,7 @@ import {
   type ActionPlanNewTracker,
   PATHS,
 } from './hourly-types.js';
+import { appendTriageEntries, pruneTriageLog } from '../src/lib/triage-log.js';
 
 // --- Constants ---
 
@@ -357,6 +358,21 @@ export async function triage(
 
   // Build action plan
   const plan = buildActionPlan(candidates, triageResults);
+
+  // Persist every decision to the audit log so /breaking-news-audit/ can show
+  // what was discarded vs accepted.
+  const logEntries = triageResults.map((r) => ({
+    timestamp: new Date().toISOString(),
+    candidate: candidates[r.index],
+    decision: r.action as 'update' | 'new_tracker' | 'discard',
+    reason: r.reason,
+    confidence: r.confidence,
+    model: MODEL,
+    scanType: 'heavy' as const,
+  }));
+  appendTriageEntries(logEntries, PATHS.triageLog);
+  const removed = pruneTriageLog(PATHS.triageLog, 14);
+  if (removed > 0) console.log(`[triage] pruned ${removed} log entries older than 14 days`);
 
   // Write to disk
   writeFileSync(DEFAULT_ACTION_PLAN_PATH, JSON.stringify(plan, null, 2), 'utf8');
