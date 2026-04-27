@@ -63,40 +63,53 @@ export function useStoryState(options: UseStoryStateOptions): StoryState {
     onTrackerChange,
   } = options;
 
-  // Read initial seen set for ordering — resets when tracker has new data
-  const initialSeenSlugs = useMemo(() => {
-    try {
-      const stored = localStorage.getItem(SEEN_STORAGE_KEY);
-      if (!stored) return new Set<string>();
-      const parsed: Record<string, { seenAt: number; dataVersion: string } | number> = JSON.parse(stored);
-      const now = Date.now();
-      const valid = Object.entries(parsed)
-        .filter(([slug, entry]) => {
-          if (typeof entry === 'number') return now - entry < SEEN_TTL_MS; // backward compat
-          if (now - entry.seenAt > SEEN_TTL_MS) return false;
-          const tracker = trackers.find((t) => t.slug === slug);
-          if (tracker && tracker.lastUpdated && entry.dataVersion !== tracker.lastUpdated) return false;
-          return true;
-        })
-        .map(([slug]) => slug);
-      return new Set(valid);
-    } catch {
-      return new Set<string>();
-    }
-  }, [trackers]);
+  // Initial seen set is read from localStorage AFTER mount via useEffect, not
+  // synchronously — otherwise the SSR pass (no localStorage) and the first
+  // client render disagree on story order, throwing React error #418
+  // (hydration text mismatch) and forcing React to discard the SSR'd LCP
+  // element. Starting empty keeps server/client identical on first render.
+  const [initialSeenSlugs, setInitialSeenSlugs] = useState<Set<string>>(() => new Set());
 
   const eligible = useMemo(
     () => filterAndSort(trackers, followedSlugs, initialSeenSlugs),
     [trackers, followedSlugs, initialSeenSlugs],
   );
 
-  const [seenSlugs, setSeenSlugs] = useState<Set<string>>(initialSeenSlugs);
+  const [seenSlugs, setSeenSlugs] = useState<Set<string>>(() => new Set());
 
-  // Start at the first unseen story instead of always index 0
-  const [currentIndex, setCurrentIndex] = useState(() => {
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem(SEEN_STORAGE_KEY);
+      if (!stored) return;
+      const parsed: Record<string, { seenAt: number; dataVersion: string } | number> = JSON.parse(stored);
+      const now = Date.now();
+      const valid = Object.entries(parsed)
+        .filter(([slug, entry]) => {
+          if (typeof entry === 'number') return now - entry < SEEN_TTL_MS;
+          if (now - entry.seenAt > SEEN_TTL_MS) return false;
+          const tracker = trackers.find((t) => t.slug === slug);
+          if (tracker && tracker.lastUpdated && entry.dataVersion !== tracker.lastUpdated) return false;
+          return true;
+        })
+        .map(([slug]) => slug);
+      if (valid.length === 0) return;
+      const next = new Set(valid);
+      setInitialSeenSlugs(next);
+      setSeenSlugs(next);
+    } catch {
+      // localStorage unavailable; stay with empty default
+    }
+  }, [trackers]);
+
+  // Start at index 0 to match SSR; jump to first unseen once seen-set loads
+  const [currentIndex, setCurrentIndex] = useState(0);
+  useEffect(() => {
+    if (seenSlugs.size === 0) return;
     const firstUnseen = eligible.findIndex((t) => !seenSlugs.has(t.slug));
-    return firstUnseen >= 0 ? firstUnseen : 0;
-  });
+    if (firstUnseen > 0) setCurrentIndex(firstUnseen);
+    // Only run once when seenSlugs populates from localStorage
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [seenSlugs.size > 0]);
   const [slideIndex, setSlideIndex] = useState(0);
   const slideIndexRef = useRef(0);
   const [paused, setPaused] = useState(false);
