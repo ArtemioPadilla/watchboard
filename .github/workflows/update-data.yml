@@ -28,10 +28,10 @@ jobs:
       hourly_updates: ${{ steps.hourly.outputs.hourly_updates }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: '22'
           cache: 'npm'
@@ -166,10 +166,10 @@ jobs:
       fail-fast: false
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: '22'
           cache: 'npm'
@@ -365,13 +365,16 @@ jobs:
     needs: [resolve, update]
     if: always()
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    # 20 min was hitting the wall — Astro build (95 trackers, ~6800 pages) is
+    # ~10-15 min on its own, then social-queue generation adds 1-3 min. Giving
+    # 45 min of headroom so the rare slow run doesn't get killed mid-push.
+    timeout-minutes: 45
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: '22'
           cache: 'npm'
@@ -972,7 +975,8 @@ jobs:
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           show_full_output: true
-          timeout_minutes: 5
+          # timeout_minutes is not a valid input for this action; the
+          # job-level timeout-minutes (above) bounds the run instead.
           prompt: |
             Read the file public/_social/prompt-latest.txt — it contains a complete prompt for generating a social media queue.
 
