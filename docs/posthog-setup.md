@@ -56,11 +56,19 @@
 - [ ] Create retention insight: users who visited on Day 0 → returned on Day 1, 7, 30
 - [ ] Group by `tracker_slug` to see which trackers have the stickiest audience
 
-## 7. Web Vitals (Optional)
+## 7. Web Vitals (Enabled)
 
-- [ ] PostHog autocaptures Web Vitals if enabled
-- [ ] Check PostHog → Web Analytics → Web Vitals tab
-- [ ] Compare with Cloudflare Web Analytics Core Web Vitals data
+Watchboard collects Core Web Vitals from real users via PostHog's built-in capture. Configured in `src/layouts/BaseLayout.astro` as `capture_performance: { web_vitals: true }` on `posthog.init`.
+
+PostHog auto-buffers and sends LCP, INP (replaces FID), CLS, FCP, and TTFB samples with each `$pageview`. No additional client code required.
+
+- [ ] In PostHog → **Web Analytics** → **Web Vitals** tab, confirm samples are arriving (typically 1-2 hours of normal traffic for a meaningful baseline)
+- [ ] Filter by `$device_type` (desktop vs mobile) — perf budgets differ
+- [ ] Filter by `$current_url` to compare homepage vs tracker pages
+- [ ] Watch the **p75 LCP** trend over time as the canonical mobile perf metric
+- [ ] Cross-check against Cloudflare Web Analytics Core Web Vitals (independent measurement source)
+
+**Tip:** real-user metrics smooth out the variance that simulated Lighthouse runs suffer (~30-40% spread on the same site). Use these for go/no-go on perf changes; reserve Lighthouse for deep dives on individual loads.
 
 ## 8. Alerts (Optional)
 
