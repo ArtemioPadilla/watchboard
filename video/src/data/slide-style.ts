@@ -309,3 +309,199 @@ export const slideStyleSchema = z.object({
     imageDelayFrames: z.number().min(0).max(120),
   }),
 });
+
+// ─────────────────────────────────────────────────────────────────────
+// Intro / Outro styling
+// ─────────────────────────────────────────────────────────────────────
+
+export interface IntroStyle {
+  logoFontFamily: string;
+  logoFontSize: number;
+  logoFontWeight: number;
+  logoLetterSpacing: number;
+  logoColorDark: string;
+  logoColorDay: string;
+  logoMarginBottom: number;
+  glowMin: number;
+  glowMax: number;
+  lineWidthFinal: number;
+  lineHeight: number;
+  lineMarginBottom: number;
+  subtitleFontFamily: string;
+  subtitleFontSizeDark: number;
+  subtitleFontSizeDay: number;
+  subtitleFontWeight: number;
+  subtitleColorDark: string;
+  subtitleColorDay: string;
+  subtitleLetterSpacingDark: number;
+  subtitleLetterSpacingDay: number;
+  subtitleMarginBottom: number;
+  subtitleTextDark: string;
+  subtitleTextDay: string;
+  dateFontFamily: string;
+  dateFontSizeDark: number;
+  dateFontSizeDay: number;
+  dateFontWeight: number;
+  dateColorDark: string;
+  dateColorDay: string;
+  dateLetterSpacing: number;
+  fadeInFrames: number;
+  logoDelayFrames: number;
+  subtitleDelayFrames: number;
+  dateDelayFrames: number;
+  lineGrowEndFrame: number;
+}
+
+export const DEFAULT_INTRO_STYLE: IntroStyle = {
+  logoFontFamily: "'DM Sans', sans-serif",
+  logoFontSize: 96,
+  logoFontWeight: 700,
+  logoLetterSpacing: 6,
+  logoColorDark: '#e74c3c',
+  logoColorDay: '#ffffff',
+  logoMarginBottom: 20,
+  glowMin: 20,
+  glowMax: 45,
+  lineWidthFinal: 280,
+  lineHeight: 3,
+  lineMarginBottom: 24,
+  subtitleFontFamily: "'JetBrains Mono', monospace",
+  subtitleFontSizeDark: 28,
+  subtitleFontSizeDay: 30,
+  subtitleFontWeight: 600,
+  subtitleColorDark: '#9498a8',
+  subtitleColorDay: '#f0c060',
+  subtitleLetterSpacingDark: 4,
+  subtitleLetterSpacingDay: 6,
+  subtitleMarginBottom: 16,
+  subtitleTextDark: 'DAILY INTELLIGENCE BRIEF',
+  subtitleTextDay: 'PROGRESS BRIEF',
+  dateFontFamily: "'JetBrains Mono', monospace",
+  dateFontSizeDark: 30,
+  dateFontSizeDay: 26,
+  dateFontWeight: 500,
+  dateColorDark: '#e8e9ed',
+  dateColorDay: 'rgba(255,255,255,0.6)',
+  dateLetterSpacing: 3,
+  fadeInFrames: 15,
+  logoDelayFrames: 8,
+  subtitleDelayFrames: 30,
+  dateDelayFrames: 50,
+  lineGrowEndFrame: 55,
+};
+
+export const introStyleSchema = z.object({
+  logoFontFamily: z.string(),
+  logoFontSize: z.number().min(20).max(200),
+  logoFontWeight: z.number().min(100).max(900),
+  logoLetterSpacing: z.number().min(0).max(20),
+  logoColorDark: z.string(),
+  logoColorDay: z.string(),
+  logoMarginBottom: z.number().min(0).max(80),
+  glowMin: z.number().min(0).max(80),
+  glowMax: z.number().min(0).max(150),
+  lineWidthFinal: z.number().min(50).max(800),
+  lineHeight: z.number().min(0).max(20),
+  lineMarginBottom: z.number().min(0).max(100),
+  subtitleFontFamily: z.string(),
+  subtitleFontSizeDark: z.number().min(10).max(80),
+  subtitleFontSizeDay: z.number().min(10).max(80),
+  subtitleFontWeight: z.number().min(100).max(900),
+  subtitleColorDark: z.string(),
+  subtitleColorDay: z.string(),
+  subtitleLetterSpacingDark: z.number().min(0).max(20),
+  subtitleLetterSpacingDay: z.number().min(0).max(20),
+  subtitleMarginBottom: z.number().min(0).max(80),
+  subtitleTextDark: z.string(),
+  subtitleTextDay: z.string(),
+  dateFontFamily: z.string(),
+  dateFontSizeDark: z.number().min(10).max(80),
+  dateFontSizeDay: z.number().min(10).max(80),
+  dateFontWeight: z.number().min(100).max(900),
+  dateColorDark: z.string(),
+  dateColorDay: z.string(),
+  dateLetterSpacing: z.number().min(0).max(20),
+  fadeInFrames: z.number().min(0).max(60),
+  logoDelayFrames: z.number().min(0).max(60),
+  subtitleDelayFrames: z.number().min(0).max(120),
+  dateDelayFrames: z.number().min(0).max(120),
+  lineGrowEndFrame: z.number().min(0).max(120),
+});
+
+export interface OutroStyle {
+  urlFontFamily: string;
+  urlFontSize: number;
+  urlFontWeight: number;
+  urlColor: string;
+  urlLetterSpacing: number;
+  lineWidthFinal: number;
+  lineHeight: number;
+  statsFontFamily: string;
+  statsFontSize: number;
+  statsFontWeight: number;
+  statsColor: string;
+  statsLetterSpacing: number;
+  statsLineHeight: number;
+  daySubLabel: string;
+  daySubFontSize: number;
+  daySubColor: string;
+  daySubMarginTop: number;
+  rowGap: number;
+  fadeOutStartFrame: number;
+  fadeOutEndFrame: number;
+  lineGrowEndFrame: number;
+  urlDelayFrames: number;
+  statsDelayFrames: number;
+}
+
+export const DEFAULT_OUTRO_STYLE: OutroStyle = {
+  urlFontFamily: "'DM Sans', sans-serif",
+  urlFontSize: 72,
+  urlFontWeight: 700,
+  urlColor: '#e8e9ed',
+  urlLetterSpacing: 2,
+  lineWidthFinal: 320,
+  lineHeight: 2,
+  statsFontFamily: "'JetBrains Mono', monospace",
+  statsFontSize: 28,
+  statsFontWeight: 500,
+  statsColor: '#9498a8',
+  statsLetterSpacing: 2,
+  statsLineHeight: 1.6,
+  daySubLabel: "SCIENCE DOESN'T TAKE DAYS OFF",
+  daySubFontSize: 16,
+  daySubColor: '#f0a500',
+  daySubMarginTop: 8,
+  rowGap: 32,
+  fadeOutStartFrame: 120,
+  fadeOutEndFrame: 148,
+  lineGrowEndFrame: 45,
+  urlDelayFrames: 20,
+  statsDelayFrames: 40,
+};
+
+export const outroStyleSchema = z.object({
+  urlFontFamily: z.string(),
+  urlFontSize: z.number().min(20).max(200),
+  urlFontWeight: z.number().min(100).max(900),
+  urlColor: z.string(),
+  urlLetterSpacing: z.number().min(0).max(20),
+  lineWidthFinal: z.number().min(50).max(800),
+  lineHeight: z.number().min(0).max(20),
+  statsFontFamily: z.string(),
+  statsFontSize: z.number().min(10).max(80),
+  statsFontWeight: z.number().min(100).max(900),
+  statsColor: z.string(),
+  statsLetterSpacing: z.number().min(0).max(20),
+  statsLineHeight: z.number().min(0.8).max(3),
+  daySubLabel: z.string(),
+  daySubFontSize: z.number().min(8).max(60),
+  daySubColor: z.string(),
+  daySubMarginTop: z.number().min(0).max(60),
+  rowGap: z.number().min(0).max(120),
+  fadeOutStartFrame: z.number().min(0).max(300),
+  fadeOutEndFrame: z.number().min(0).max(300),
+  lineGrowEndFrame: z.number().min(0).max(120),
+  urlDelayFrames: z.number().min(0).max(120),
+  statsDelayFrames: z.number().min(0).max(120),
+});

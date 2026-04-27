@@ -6,13 +6,16 @@ import {
   interpolate,
   spring,
 } from 'remotion';
+import { DEFAULT_INTRO_STYLE, type IntroStyle } from '../data/slide-style';
 
 interface IntroProps {
   date: string;
   theme?: 'dark' | 'day';
+  style?: Partial<IntroStyle>;
 }
 
-export const Intro: React.FC<IntroProps> = ({ date, theme = 'dark' }) => {
+export const Intro: React.FC<IntroProps> = ({ date, theme = 'dark', style }) => {
+  const I: IntroStyle = { ...DEFAULT_INTRO_STYLE, ...(style || {}) };
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
@@ -20,13 +23,13 @@ export const Intro: React.FC<IntroProps> = ({ date, theme = 'dark' }) => {
   const formatted = formatDate(date);
 
   // Fade in from black over first 15 frames
-  const fadeIn = interpolate(frame, [0, 15], [0, 1], {
+  const fadeIn = interpolate(frame, [0, I.fadeInFrames], [0, 1], {
     extrapolateRight: 'clamp',
   });
 
   // Logo spring entry
   const logoSpring = spring({
-    frame: Math.max(0, frame - 8),
+    frame: Math.max(0, frame - I.logoDelayFrames),
     fps,
     config: { damping: 12, stiffness: 100, mass: 0.8 },
   });
@@ -35,7 +38,7 @@ export const Intro: React.FC<IntroProps> = ({ date, theme = 'dark' }) => {
 
   // Subtitle appears after logo
   const subtitleSpring = spring({
-    frame: Math.max(0, frame - 30),
+    frame: Math.max(0, frame - I.subtitleDelayFrames),
     fps,
     config: { damping: 18, stiffness: 140, mass: 0.6 },
   });
@@ -44,7 +47,7 @@ export const Intro: React.FC<IntroProps> = ({ date, theme = 'dark' }) => {
 
   // Date appears last
   const dateSpring = spring({
-    frame: Math.max(0, frame - 50),
+    frame: Math.max(0, frame - I.dateDelayFrames),
     fps,
     config: { damping: 20, stiffness: 160, mass: 0.5 },
   });
@@ -52,13 +55,13 @@ export const Intro: React.FC<IntroProps> = ({ date, theme = 'dark' }) => {
   const dateY = interpolate(dateSpring, [0, 1], [15, 0]);
 
   // Red accent line grows
-  const lineWidth = interpolate(frame, [20, 55], [0, 280], {
+  const lineWidth = interpolate(frame, [20, I.lineGrowEndFrame], [0, I.lineWidthFinal], {
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
   });
 
   // Subtle glow pulse on logo
-  const glowIntensity = interpolate(Math.sin(frame * 0.06), [-1, 1], [20, 45]);
+  const glowIntensity = interpolate(Math.sin(frame * 0.06), [-1, 1], [I.glowMin, I.glowMax]);
 
   return (
     <AbsoluteFill
@@ -75,15 +78,15 @@ export const Intro: React.FC<IntroProps> = ({ date, theme = 'dark' }) => {
         style={{
           opacity: logoOpacity,
           transform: `scale(${logoScale})`,
-          fontFamily: "'DM Sans', sans-serif",
-          fontSize: 96,
-          fontWeight: 700,
-          color: theme === 'day' ? '#ffffff' : '#e74c3c',
-          letterSpacing: '6px',
+          fontFamily: I.logoFontFamily,
+          fontSize: I.logoFontSize,
+          fontWeight: I.logoFontWeight,
+          color: theme === 'day' ? I.logoColorDay : I.logoColorDark,
+          letterSpacing: `${I.logoLetterSpacing}px`,
           textShadow: theme === 'day'
             ? `0 0 ${glowIntensity}px rgba(255, 255, 255, 0.35), 0 0 60px rgba(240, 165, 0, 0.2)`
             : `0 0 ${glowIntensity}px rgba(231, 76, 60, 0.5)`,
-          marginBottom: 20,
+          marginBottom: I.logoMarginBottom,
         }}
       >
         WATCHBOARD
@@ -93,11 +96,11 @@ export const Intro: React.FC<IntroProps> = ({ date, theme = 'dark' }) => {
       <div
         style={{
           width: lineWidth,
-          height: 3,
+          height: I.lineHeight,
           background: theme === 'day'
             ? 'linear-gradient(90deg, transparent, #f0a500, transparent)'
             : 'linear-gradient(90deg, transparent, #e74c3c, transparent)',
-          marginBottom: 24,
+          marginBottom: I.lineMarginBottom,
           borderRadius: 2,
         }}
       />
@@ -107,15 +110,15 @@ export const Intro: React.FC<IntroProps> = ({ date, theme = 'dark' }) => {
         style={{
           opacity: subtitleOpacity,
           transform: `translateY(${subtitleY}px)`,
-          fontFamily: "'JetBrains Mono', monospace",
-          fontSize: theme === 'day' ? 30 : 28,
-          fontWeight: 600,
-          color: theme === 'day' ? '#f0c060' : '#9498a8',
-          letterSpacing: theme === 'day' ? '6px' : '4px',
-          marginBottom: 16,
+          fontFamily: I.subtitleFontFamily,
+          fontSize: theme === 'day' ? I.subtitleFontSizeDay : I.subtitleFontSizeDark,
+          fontWeight: I.subtitleFontWeight,
+          color: theme === 'day' ? I.subtitleColorDay : I.subtitleColorDark,
+          letterSpacing: `${theme === 'day' ? I.subtitleLetterSpacingDay : I.subtitleLetterSpacingDark}px`,
+          marginBottom: I.subtitleMarginBottom,
         }}
       >
-        {theme === 'day' ? 'PROGRESS BRIEF' : 'DAILY INTELLIGENCE BRIEF'}
+        {theme === 'day' ? I.subtitleTextDay : I.subtitleTextDark}
       </div>
 
       {/* Date */}
@@ -123,11 +126,11 @@ export const Intro: React.FC<IntroProps> = ({ date, theme = 'dark' }) => {
         style={{
           opacity: dateOpacity,
           transform: `translateY(${dateY}px)`,
-          fontFamily: "'JetBrains Mono', monospace",
-          fontSize: theme === 'day' ? 26 : 30,
-          fontWeight: 500,
-          color: theme === 'day' ? 'rgba(255,255,255,0.6)' : '#e8e9ed',
-          letterSpacing: '3px',
+          fontFamily: I.dateFontFamily,
+          fontSize: theme === 'day' ? I.dateFontSizeDay : I.dateFontSizeDark,
+          fontWeight: I.dateFontWeight,
+          color: theme === 'day' ? I.dateColorDay : I.dateColorDark,
+          letterSpacing: `${I.dateLetterSpacing}px`,
         }}
       >
         {formatted}

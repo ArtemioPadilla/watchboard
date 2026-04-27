@@ -34,7 +34,7 @@ const INTRO_FRAMES = 90;
 const SLIDE_FRAMES = 150;
 const OUTRO_FRAMES = 150;
 
-import type { SlideStyle } from './data/slide-style';
+import type { SlideStyle, IntroStyle, OutroStyle } from './data/slide-style';
 
 interface VideoProps {
   data?: BreakingData;
@@ -44,9 +44,11 @@ interface VideoProps {
   theme?: ThemeName;
   /** Visual style overrides for TrackerSlide — editable live in Studio's Default Props panel. */
   slideStyle?: Partial<SlideStyle>;
+  introStyle?: Partial<IntroStyle>;
+  outroStyle?: Partial<OutroStyle>;
 }
 
-export const Video: React.FC<VideoProps> = ({ data, narrationSrc, geoFeatures = [], earthTexture = '', theme = 'dark', slideStyle }) => {
+export const Video: React.FC<VideoProps> = ({ data, narrationSrc, geoFeatures = [], earthTexture = '', theme = 'dark', slideStyle, introStyle, outroStyle }) => {
   const accents = theme === 'day' ? DAY_ACCENTS : SLIDE_ACCENTS;
   const breakingData = data ?? SAMPLE_DATA;
   const frame = useCurrentFrame();
@@ -120,7 +122,7 @@ export const Video: React.FC<VideoProps> = ({ data, narrationSrc, geoFeatures = 
 
       {/* Intro */}
       <Sequence from={0} durationInFrames={INTRO_FRAMES} name="Intro">
-        <Intro date={breakingData.date} theme={theme} />
+        <Intro date={breakingData.date} theme={theme} style={introStyle} />
       </Sequence>
 
       {/* Tracker slides — always use TrackerSlide, pass thumbnail when available */}
@@ -150,7 +152,7 @@ export const Video: React.FC<VideoProps> = ({ data, narrationSrc, geoFeatures = 
         durationInFrames={OUTRO_FRAMES}
         name="Outro"
       >
-        <Outro theme={theme} trackerCount={breakingData.totalTrackers ?? breakingData.trackers.length} />
+        <Outro theme={theme} trackerCount={breakingData.totalTrackers ?? breakingData.trackers.length} style={outroStyle} />
       </Sequence>
 
           </AbsoluteFill>

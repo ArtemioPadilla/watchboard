@@ -6,8 +6,10 @@ import {
   interpolate,
   spring,
 } from 'remotion';
+import { DEFAULT_OUTRO_STYLE, type OutroStyle } from '../data/slide-style';
 
-export const Outro: React.FC<{ theme?: 'dark' | 'day'; trackerCount?: number }> = ({ theme = 'dark', trackerCount = 64 }) => {
+export const Outro: React.FC<{ theme?: 'dark' | 'day'; trackerCount?: number; style?: Partial<OutroStyle> }> = ({ theme = 'dark', trackerCount = 64, style }) => {
+  const O: OutroStyle = { ...DEFAULT_OUTRO_STYLE, ...(style || {}) };
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
@@ -20,18 +22,18 @@ export const Outro: React.FC<{ theme?: 'dark' | 'day'; trackerCount?: number }> 
   const mainOpacity = interpolate(entrySpring, [0, 1], [0, 1]);
   const mainScale = interpolate(entrySpring, [0, 1], [0.9, 1]);
 
-  // URL text (delay ~20)
+  // URL text
   const urlSpring = spring({
-    frame: Math.max(0, frame - 20),
+    frame: Math.max(0, frame - O.urlDelayFrames),
     fps,
     config: { damping: 16, stiffness: 120, mass: 0.7 },
   });
   const urlOpacity = interpolate(urlSpring, [0, 1], [0, 1]);
   const urlScale = interpolate(urlSpring, [0, 1], [0.8, 1]);
 
-  // Stats line (delay ~40)
+  // Stats line
   const statsSpring = spring({
-    frame: Math.max(0, frame - 40),
+    frame: Math.max(0, frame - O.statsDelayFrames),
     fps,
     config: { damping: 18, stiffness: 140, mass: 0.6 },
   });
@@ -39,13 +41,13 @@ export const Outro: React.FC<{ theme?: 'dark' | 'day'; trackerCount?: number }> 
   const statsY = interpolate(statsSpring, [0, 1], [15, 0]);
 
   // Fade to black at end
-  const fadeOut = interpolate(frame, [120, 148], [1, 0], {
+  const fadeOut = interpolate(frame, [O.fadeOutStartFrame, O.fadeOutEndFrame], [1, 0], {
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
   });
 
   // Red accent line
-  const lineWidth = interpolate(frame, [10, 45], [0, 320], {
+  const lineWidth = interpolate(frame, [10, O.lineGrowEndFrame], [0, O.lineWidthFinal], {
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
   });
@@ -59,7 +61,7 @@ export const Outro: React.FC<{ theme?: 'dark' | 'day'; trackerCount?: number }> 
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        gap: 32,
+        gap: O.rowGap,
       }}
     >
       {/* watchboard.dev */}
@@ -67,11 +69,11 @@ export const Outro: React.FC<{ theme?: 'dark' | 'day'; trackerCount?: number }> 
         style={{
           opacity: urlOpacity,
           transform: `scale(${urlScale})`,
-          fontFamily: "'DM Sans', sans-serif",
-          fontSize: 72,
-          fontWeight: 700,
-          color: '#e8e9ed',
-          letterSpacing: '2px',
+          fontFamily: O.urlFontFamily,
+          fontSize: O.urlFontSize,
+          fontWeight: O.urlFontWeight,
+          color: O.urlColor,
+          letterSpacing: `${O.urlLetterSpacing}px`,
         }}
       >
         watchboard.dev
@@ -81,7 +83,7 @@ export const Outro: React.FC<{ theme?: 'dark' | 'day'; trackerCount?: number }> 
       <div
         style={{
           width: lineWidth,
-          height: 2,
+          height: O.lineHeight,
           background: theme === 'day'
             ? 'linear-gradient(90deg, transparent, #f0a500, transparent)'
             : 'linear-gradient(90deg, transparent, #e74c3c, transparent)',
@@ -94,19 +96,19 @@ export const Outro: React.FC<{ theme?: 'dark' | 'day'; trackerCount?: number }> 
         style={{
           opacity: statsOpacity,
           transform: `translateY(${statsY}px)`,
-          fontFamily: "'JetBrains Mono', monospace",
-          fontSize: 28,
-          fontWeight: 500,
-          color: '#9498a8',
-          letterSpacing: '2px',
+          fontFamily: O.statsFontFamily,
+          fontSize: O.statsFontSize,
+          fontWeight: O.statsFontWeight,
+          color: O.statsColor,
+          letterSpacing: `${O.statsLetterSpacing}px`,
           textAlign: 'center',
-          lineHeight: 1.6,
+          lineHeight: O.statsLineHeight,
         }}
       >
         {theme === 'day' ? 'TRACK WHAT\'S GOING RIGHT' : `${trackerCount} TRACKERS · UPDATED BY AI · FREE AND OPEN SOURCE`}
         {theme === 'day' && (
-          <div style={{ fontSize: 16, color: '#f0a500', opacity: 0.7, marginTop: 8, letterSpacing: '2px' }}>
-            SCIENCE DOESN&apos;T TAKE DAYS OFF
+          <div style={{ fontSize: O.daySubFontSize, color: O.daySubColor, opacity: 0.7, marginTop: O.daySubMarginTop, letterSpacing: '2px' }}>
+            {O.daySubLabel}
           </div>
         )}
       </div>
