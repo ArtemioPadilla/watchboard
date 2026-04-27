@@ -34,15 +34,19 @@ const INTRO_FRAMES = 90;
 const SLIDE_FRAMES = 150;
 const OUTRO_FRAMES = 150;
 
+import type { SlideStyle } from './data/slide-style';
+
 interface VideoProps {
   data?: BreakingData;
   narrationSrc?: string;
   geoFeatures?: GeoFeature[];
   earthTexture?: string;
   theme?: ThemeName;
+  /** Visual style overrides for TrackerSlide — editable live in Studio's Default Props panel. */
+  slideStyle?: Partial<SlideStyle>;
 }
 
-export const Video: React.FC<VideoProps> = ({ data, narrationSrc, geoFeatures = [], earthTexture = '', theme = 'dark' }) => {
+export const Video: React.FC<VideoProps> = ({ data, narrationSrc, geoFeatures = [], earthTexture = '', theme = 'dark', slideStyle }) => {
   const accents = theme === 'day' ? DAY_ACCENTS : SLIDE_ACCENTS;
   const breakingData = data ?? SAMPLE_DATA;
   const frame = useCurrentFrame();
@@ -134,6 +138,7 @@ export const Video: React.FC<VideoProps> = ({ data, narrationSrc, geoFeatures = 
               accentColor={accents[i % accents.length]}
               thumbnailBase64={tracker.thumbnailBase64}
               theme={theme}
+              style={slideStyle}
             />
           </Sequence>
         );

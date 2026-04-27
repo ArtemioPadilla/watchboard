@@ -8,12 +8,28 @@ import {
   spring,
 } from 'remotion';
 import type { BreakingTracker } from '../data/types';
+import { DEFAULT_SLIDE_STYLE, alpha, type SlideStyle } from '../data/slide-style';
 
 interface TrackerSlideProps {
   tracker: BreakingTracker;
   accentColor: string;
   thumbnailBase64?: string;
   theme?: 'dark' | 'day';
+  /**
+   * Optional style overrides. Any value not provided falls back to DEFAULT_SLIDE_STYLE.
+   * The Studio's "Default Props" panel can edit this object live for visual tuning.
+   */
+  style?: Partial<SlideStyle>;
+}
+
+/** Deep-merge a partial style override on top of defaults. */
+function mergeStyle(override?: Partial<SlideStyle>): SlideStyle {
+  if (!override) return DEFAULT_SLIDE_STYLE;
+  const out: SlideStyle = JSON.parse(JSON.stringify(DEFAULT_SLIDE_STYLE));
+  for (const key of Object.keys(override) as Array<keyof SlideStyle>) {
+    Object.assign(out[key] as object, override[key] as object);
+  }
+  return out;
 }
 
 const TIER_LABELS: Record<number, string> = {
@@ -52,7 +68,9 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
   accentColor,
   thumbnailBase64,
   theme = 'dark',
+  style,
 }) => {
+  const S = mergeStyle(style);
   // Day theme overrides the tier badge text color to stay readable
   const badgeTextColor = theme === 'day' ? '#0a0e1a' : '#0a0b0e';
   const frame = useCurrentFrame();
@@ -62,14 +80,14 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
   const enterSpring = spring({
     frame,
     fps,
-    config: { damping: 14, stiffness: 120, mass: 0.8 },
-    durationInFrames: 20,
+    config: { damping: S.animation.enterSpringDamping, stiffness: S.animation.enterSpringStiffness, mass: S.animation.enterSpringMass },
+    durationInFrames: S.animation.enterDurationFrames,
   });
   const enterY = interpolate(enterSpring, [0, 1], [120, 0]);
   const enterOpacity = interpolate(enterSpring, [0, 1], [0, 1]);
 
   // --- Exit animation ---
-  const exitStart = durationInFrames - 15;
+  const exitStart = durationInFrames - S.animation.exitDurationFrames;
   const exitProgress = interpolate(frame, [exitStart, durationInFrames], [0, 1], {
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
@@ -88,13 +106,13 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
   });
   const nameY = interpolate(nameSpring, [0, 1], [20, 0]);
 
-  const lineWidth = interpolate(frame, [10, 40], [0, 160], {
+  const lineWidth = interpolate(frame, [10, 40], [0, S.trackerName.underlineWidthFinal], {
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
   });
 
   const headlineSpring = spring({
-    frame: Math.max(0, frame - 20),
+    frame: Math.max(0, frame - S.animation.headlineDelayFrames),
     fps,
     config: { damping: 16, stiffness: 100, mass: 0.9 },
   });
@@ -102,7 +120,7 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
   const headlineY = interpolate(headlineSpring, [0, 1], [30, 0]);
 
   const kpiSpring = spring({
-    frame: Math.max(0, frame - 35),
+    frame: Math.max(0, frame - S.animation.kpiDelayFrames),
     fps,
     config: { damping: 14, stiffness: 110, mass: 0.8 },
   });
@@ -110,7 +128,7 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
   const kpiScale = interpolate(kpiSpring, [0, 1], [0.8, 1]);
 
   const sourceSpring = spring({
-    frame: Math.max(0, frame - 50),
+    frame: Math.max(0, frame - S.animation.sourceDelayFrames),
     fps,
     config: { damping: 18, stiffness: 140, mass: 0.6 },
   });
@@ -118,7 +136,7 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
 
   // --- Image card animation (delayed after globe settles) ---
   const imageSpring = spring({
-    frame: Math.max(0, frame - 20),
+    frame: Math.max(0, frame - S.animation.imageDelayFrames),
     fps,
     config: { damping: 14, stiffness: 100, mass: 0.9 },
   });
@@ -155,7 +173,7 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
         <div
           style={{
             position: 'absolute',
-            top: '42%',
+            top: `${S.imageCard.topPct}%`,
             left: 0,
             right: 0,
             display: 'flex',
@@ -167,11 +185,11 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
         >
           <div
             style={{
-              width: 400,
-              maxHeight: 200,
-              borderRadius: 8,
-              border: `2px solid ${accentColor}`,
-              boxShadow: `0 0 20px ${accentColor}40, 0 4px 24px rgba(0,0,0,0.6)`,
+              width: S.imageCard.width,
+              maxHeight: S.imageCard.maxHeight,
+              borderRadius: S.imageCard.borderRadius,
+              border: `${S.imageCard.borderWidthPx}px solid ${accentColor}`,
+              boxShadow: `0 0 20px ${alpha(accentColor, S.imageCard.glowOpacity)}, 0 4px ${S.imageCard.shadowBlur}px rgba(0,0,0,0.6)`,
               overflow: 'hidden',
             }}
           >
@@ -192,14 +210,14 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
       <div
         style={{
           position: 'absolute',
-          top: thumbnailBase64 ? '62%' : '55%',
+          top: thumbnailBase64 ? `${S.textBlock.topPctWithThumb}%` : `${S.textBlock.topPctNoThumb}%`,
           left: 0,
           right: 0,
           bottom: 0,
-          paddingLeft: 70,
-          paddingRight: 70,
-          paddingTop: 10,
-          paddingBottom: 30,
+          paddingLeft: S.textBlock.paddingLeft,
+          paddingRight: S.textBlock.paddingRight,
+          paddingTop: S.textBlock.paddingTop,
+          paddingBottom: S.textBlock.paddingBottom,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -212,16 +230,16 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            marginBottom: 14,
+            marginBottom: S.trackerName.blockMarginBottom,
           }}
         >
           <div
             style={{
-              fontFamily: "'JetBrains Mono', monospace",
-              fontSize: 34,
-              fontWeight: 600,
+              fontFamily: S.trackerName.fontFamily,
+              fontSize: S.trackerName.fontSize,
+              fontWeight: S.trackerName.fontWeight,
               color: accentColor,
-              letterSpacing: '4px',
+              letterSpacing: `${S.trackerName.letterSpacing}px`,
               textTransform: 'uppercase',
             }}
           >
@@ -230,11 +248,11 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
           <div
             style={{
               width: lineWidth,
-              height: 3,
+              height: S.trackerName.underlineHeight,
               background: accentColor,
-              marginTop: 8,
+              marginTop: S.trackerName.nameUnderlineGap,
               borderRadius: 2,
-              boxShadow: `0 0 8px ${accentColor}80`,
+              boxShadow: `0 0 8px ${alpha(accentColor, S.trackerName.underlineGlowOpacity)}`,
             }}
           />
         </div>
@@ -244,16 +262,16 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
           style={{
             opacity: headlineOpacity,
             transform: `translateY(${headlineY}px)`,
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: thumbnailBase64 ? 42 : 48,
-            fontWeight: 700,
-            color: '#e8e9ed',
-            lineHeight: 1.25,
+            fontFamily: S.headline.fontFamily,
+            fontSize: thumbnailBase64 ? S.headline.fontSizeWithThumb : S.headline.fontSizeNoThumb,
+            fontWeight: S.headline.fontWeight,
+            color: S.headline.color,
+            lineHeight: S.headline.lineHeight,
             textAlign: 'center',
-            maxWidth: 940,
+            maxWidth: S.headline.maxWidth,
             maxHeight: '5em',
             overflow: 'hidden' as const,
-            marginBottom: 18,
+            marginBottom: S.headline.marginBottom,
           }}
         >
           {displayHeadline}
@@ -273,13 +291,13 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
         >
           <div
             style={{
-              fontFamily: "'JetBrains Mono', monospace",
-              fontSize: 22,
-              fontWeight: 500,
-              color: '#9498a8',
-              letterSpacing: '3px',
+              fontFamily: S.kpi.labelFontFamily,
+              fontSize: S.kpi.labelFontSize,
+              fontWeight: S.kpi.labelFontWeight,
+              color: S.kpi.labelColor,
+              letterSpacing: `${S.kpi.labelLetterSpacing}px`,
               textTransform: 'uppercase',
-              marginBottom: 6,
+              marginBottom: S.kpi.labelMarginBottom,
             }}
           >
             {safeKpiLabel}
@@ -289,39 +307,39 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: 16,
+              gap: S.kpi.chevronGap,
             }}
           >
             <span
               style={{
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize: 48,
+                fontFamily: S.kpi.valueFontFamily,
+                fontSize: S.kpi.chevronFontSize,
                 fontWeight: 700,
                 color: accentColor,
-                opacity: 0.5,
+                opacity: S.kpi.chevronOpacity,
               }}
             >
               {chevronChar}
             </span>
             <span
               style={{
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize: thumbnailBase64 ? 56 : 72,
-                fontWeight: 700,
+                fontFamily: S.kpi.valueFontFamily,
+                fontSize: thumbnailBase64 ? S.kpi.valueFontSizeWithThumb : S.kpi.valueFontSizeNoThumb,
+                fontWeight: S.kpi.valueFontWeight,
                 color: accentColor,
                 lineHeight: 1,
-                textShadow: `0 0 40px ${accentColor}60, 0 0 80px ${accentColor}30`,
+                textShadow: `0 0 40px ${alpha(accentColor, S.kpi.valueGlowOuter)}, 0 0 80px ${alpha(accentColor, S.kpi.valueGlowSpread)}`,
               }}
             >
               {kpiDisplay}
             </span>
             <span
               style={{
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize: 48,
+                fontFamily: S.kpi.valueFontFamily,
+                fontSize: S.kpi.chevronFontSize,
                 fontWeight: 700,
                 color: accentColor,
-                opacity: 0.5,
+                opacity: S.kpi.chevronOpacity,
               }}
             >
               {chevronCharRight}
@@ -344,19 +362,19 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: 10,
+              gap: S.source.rowGap,
             }}
           >
             <div
               style={{
                 background: accentColor,
-                borderRadius: 4,
-                padding: '4px 12px',
+                borderRadius: S.source.badgeBorderRadius,
+                padding: `${S.source.badgePadY}px ${S.source.badgePadX}px`,
                 fontFamily: "'JetBrains Mono', monospace",
-                fontSize: 20,
-                fontWeight: 600,
+                fontSize: S.source.badgeFontSize,
+                fontWeight: S.source.badgeFontWeight,
                 color: badgeTextColor,
-                letterSpacing: '1px',
+                letterSpacing: `${S.source.badgeLetterSpacing}px`,
               }}
             >
               {TIER_LABELS[tracker.sourceTier] ?? 'TIER 2'}
@@ -364,8 +382,8 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
             <span
               style={{
                 fontFamily: "'JetBrains Mono', monospace",
-                fontSize: 20,
-                color: '#9498a8',
+                fontSize: S.source.sourceFontSize,
+                color: S.source.sourceColor,
               }}
             >
               {tracker.sourceLabel}
@@ -384,21 +402,21 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
         </div>
       </div>
       {/* BREAKTHROUGH badge — only in day/progress theme */}
-      {theme === 'day' && (
+      {theme === 'day' && S.breakthrough.enabled && (
         <div
           style={{
             position: 'absolute',
-            top: 48,
-            right: 36,
+            top: S.breakthrough.top,
+            right: S.breakthrough.right,
             background: 'rgba(240, 165, 0, 0.18)',
             border: '1.5px solid rgba(240, 165, 0, 0.6)',
-            borderRadius: 32,
-            padding: '8px 20px',
+            borderRadius: S.breakthrough.borderRadius,
+            padding: `${S.breakthrough.paddingY}px ${S.breakthrough.paddingX}px`,
             fontFamily: "'JetBrains Mono', monospace",
-            fontSize: 18,
-            fontWeight: 700,
-            color: '#f0c060',
-            letterSpacing: '3px',
+            fontSize: S.breakthrough.fontSize,
+            fontWeight: S.breakthrough.fontWeight,
+            color: S.breakthrough.color,
+            letterSpacing: `${S.breakthrough.letterSpacing}px`,
           }}
         >
           ↑ BREAKTHROUGH
