@@ -22,6 +22,13 @@ npm run backfill-media -- --tracker iran-conflict  # Single tracker only
 npm run backfill-wikimedia          # Wikipedia REST + search fallback for events without source URLs
 npm run backfill-wikimedia -- --videos  # Wikimedia Commons video file search
 YOUTUBE_API_KEY=xxx npx tsx scripts/backfill-youtube.ts   # YouTube clip backfill (modern events 1990+)
+
+# Daily video — Remotion Studio is the timeline-editor equivalent of After Effects
+make video-prep      # Refresh breaking.json + bundle thumbnails/globe assets into studio-data.json
+make video           # Open Remotion Studio (auto-installs deps with --legacy-peer-deps if needed)
+make video-render    # Render the daily breaking brief MP4 → video/output/
+make video-render-progress  # Render the daily progress brief MP4
+make help            # List all Make targets
 ```
 
 ## Deployment & Workflows
@@ -111,6 +118,8 @@ Metrics schemas: `MetricsRunSchema`, `MetricsIndexEntrySchema`, `MetricsInventor
 - `src/pages/[tracker]/about.astro` — about page per tracker
 - `src/pages/search.astro` — full-text search page (Pagefind UI, dark themed)
 - `src/pages/metrics.astro` — ingestion metrics dashboard (Salesforce-style status page)
+- `src/pages/vote.astro` — community vote on Tier 2-4 backlog trackers
+- `src/pages/videos.astro` — daily brief video archive (reads `video/state/daily-log.json`)
 - `src/pages/breaking-news-audit.astro` — public audit page for the breaking-news pipeline (reads `public/_hourly/triage-log.json` at runtime)
 - `src/pages/rss.xml.ts` — global RSS feed (all tracker digests)
 - `src/pages/[tracker]/rss.xml.ts` — per-tracker RSS feed
@@ -226,6 +235,36 @@ AI-curated social media posting system. Replaces the old `generate-social-drafts
 ### Tracker request voting (`/vote`)
 
 The `/vote` page lists Tier 2-4 backlog candidates from `docs/tracker-roadmap.md`. Each "Vote on GitHub" button opens a pre-filled issue with the `tracker-vote` label and a `vote-slug:` marker in the body. The `tally-tracker-votes.yml` workflow runs nightly + on every issue event: counts unique GitHub accounts (issue author + 👍 reactions + `+1` comments), writes `public/_tracker-votes/tally.json`, and opens a `[Graduate] tracker: <slug>` issue when a candidate first crosses the 10-vote threshold. The threshold is a single constant (`VOTE_THRESHOLD`) in `src/pages/vote.astro` and `tally-tracker-votes.yml` env.
+
+### Daily intelligence brief video (`video/`)
+
+Each day a 30s vertical 1080×1920 video summarises the top breaking trackers and posts to Telegram + Bluesky. Pipeline:
+
+- **Compositions** live in `video/src/Root.tsx` — `WatchboardDaily` (dark/breaking), `WatchboardProgress` (day/positive), `WatchboardDaily-Short` (1-tracker preview).
+- **Components** under `video/src/components/` — `Intro`, `TrackerSlide`, `Outro`, `CanvasGlobe`, `Background`. Each accepts a `style` prop with sane defaults.
+- **All tunable typography / position / animation values** are lifted into `video/src/data/slide-style.ts` as `SlideStyle`, `IntroStyle`, `OutroStyle` types with `DEFAULT_*_STYLE` constants and matching Zod schemas. Edit those constants → both Studio preview AND production renders pick up the new values.
+- **Renderer**: `video/render.ts` — fetches breaking news, downloads thumbnails as base64, loads GeoJSON + Earth texture, renders MP4 to `video/output/`. Run via `cd video && npx tsx render.ts` or `make video-render`.
+- **Workflow**: `.github/workflows/daily-video.yml` runs at 00:00 UTC, posts to Telegram with caption derived from `t.headline` (matches video on screen) and 5 hashtags max (4 topical + `#Watchboard`).
+- **Daily log**: `video/state/daily-log.json` — appended each run with full per-day metadata (items, KPIs, source tiers, file size, run ID). Powers `/videos` archive page.
+- **Tracker history**: `video/state/tracker-history.json` — slugs+dates only, used to avoid the same trackers showing 2 days in a row.
+
+#### Editing the video — Remotion Studio (timeline editor)
+
+```bash
+make video-prep   # 1st time: refreshes breaking.json + downloads thumbnails as base64 + bundles globe assets into video/src/data/studio-data.json (gitignored, ~3 MB). Re-run anytime you want fresh data in the preview.
+make video        # opens Remotion Studio at http://localhost:3000
+```
+
+The Studio is the equivalent of After Effects for code-driven video:
+- **Sidebar**: 3 compositions (`WatchboardDaily`, `WatchboardProgress`, `WatchboardDaily-Short`)
+- **Center**: live preview at the chosen frame; ←/→ steps frame, Space plays
+- **Right Props panel**: thanks to Zod `videoSchema` in `Root.tsx`, every styling field renders as a slider/colour picker/text input. Three tunable trees: `slideStyle`, `introStyle`, `outroStyle`.
+
+Edits in the right panel are **transient** (preview only). To make them persist, copy the values to the matching `DEFAULT_*_STYLE` constants in `slide-style.ts`. Hot-reload picks up changes instantly.
+
+DPR is hard-coded to 2 in `CanvasGlobe.tsx` so Studio (Retina browser) and the renderer (Chrome headless) produce pixel-identical output. Don't read `window.devicePixelRatio` again — it caused divergence.
+
+Helper: `tools/video-editor.html` is a standalone vanilla-JS mockup of the TrackerSlide composition for static layout iteration without the Studio. Doesn't render animation; use Studio for motion work.
 
 ### Adding a new tracker
 
