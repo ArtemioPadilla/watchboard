@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TriageLogBoard from '../components/islands/TriageLogBoard.tsx';
+
+const base = import.meta.env.BASE_URL;
+const basePath = base.endsWith('/') ? base : `${base}/`;
+const logUrl = `${basePath}_hourly/triage-log.json`;
+---
+<BaseLayout title="Breaking News Audit" description="Every triage decision the breaking-news pipeline made in the last 14 days">
+  <main id="main-content">
+    <div class="audit-page">
+      <a class="audit-back" href={`${basePath}about/`}>&larr; About</a>
+      <h1>Breaking News Audit</h1>
+      <p class="audit-lede">
+        Every triage decision the breaking-news pipeline made in the last 14 days. Use this to spot rejected candidates that look like they should have been accepted, and tune thresholds in <code>scripts/hourly-triage.ts</code>.
+      </p>
+      <TriageLogBoard logUrl={logUrl} client:load />
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .audit-page { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 4rem; color: var(--text-primary, #e6edf3); }
+  .audit-back {
+    display: inline-block; margin-bottom: 2rem;
+    color: var(--text-muted, #8b949e); text-decoration: none;
+    font-size: 0.85rem; font-family: 'DM Sans', sans-serif;
+    border: 1px solid var(--border, #30363d); padding: 0.4rem 0.8rem; border-radius: 6px;
+    transition: all 0.2s;
+  }
+  .audit-back:hover { color: var(--text-primary); background: var(--bg-card); }
+  h1 { font-family: 'Cormorant Garamond', serif; font-size: 2rem; margin: 0 0 0.5rem; }
+  .audit-lede { color: var(--text-secondary, #8b949e); margin-bottom: 1.5rem; max-width: 640px; }
+  code {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.85em;
+    background: var(--bg-secondary, #0d1117);
+    border: 1px solid var(--border, #30363d);
+    padding: 1px 6px; border-radius: 3px;
+  }
+</style>
