@@ -15,6 +15,9 @@ interface Props {
   basePath: string;
   followedSlugs?: string[];
   onTrackerChange?: (slug: string) => void;
+  /** When false, suppresses rAF auto-advance + localStorage writes. Used so
+   *  the SSR-rendered carousel doesn't waste CPU on desktop or hidden tabs. */
+  enabled?: boolean;
 }
 
 // ── Constants ──
@@ -61,10 +64,10 @@ function domainGradient(domain?: string): string {
 
 // ── Component ──
 
-export default function MobileStoryCarousel({ trackers, basePath, followedSlugs = [], onTrackerChange }: Props) {
+export default function MobileStoryCarousel({ trackers, basePath, followedSlugs = [], onTrackerChange, enabled = true }: Props) {
   const locale = getPreferredLocale();
 
-  const story = useStoryState({ trackers, followedSlugs, onTrackerChange });
+  const story = useStoryState({ trackers, followedSlugs, onTrackerChange, enabled });
 
   const touchStartY = useRef<number | null>(null);
   const touchStartX = useRef<number | null>(null);

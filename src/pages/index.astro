@@ -265,12 +265,20 @@ const breakingTrackers = [...serializedTrackers]
   }
 
   /* Tablets/narrow desktops: stack globe + sidebar */
-  /* Mobile story carousel slot — always in the React tree (so SSR HTML
-     has the LCP element), hidden on desktop, hidden on mobile until the
-     'live' tab is active. */
+  /* Mobile-tab visibility — drive layout from CSS (not JS) so the SSR
+     HTML matches the final rendered layout on mobile. The
+     CommandCenter root carries cc-mobile-tab-{live|trackers} (defaults
+     to 'live' so SSR matches a fresh visit). On mobile, this controls
+     which slot is visible without waiting for hydration to flip
+     isMobile. */
   .cc-mobile-live-slot { display: none; }
   @media (max-width: 767px) {
     .cc-mobile-live-slot.cc-mobile-live-active { display: block; }
+    /* Default mobile state: hide the desktop sidebar layout; show only
+       when the user picks the trackers tab. Without this, the SSR's
+       desktop sidebar (rendered because isMobile=false on server) flashes
+       on top of the carousel until hydration catches up. */
+    .cc-mobile-tab-live .cc-sidebar { display: none !important; }
   }
 
   @media (max-width: 767px) {
