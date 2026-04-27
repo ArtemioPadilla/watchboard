@@ -10,12 +10,32 @@
         "active": true,
         "detail": "Russian forces crossed into Ukraine from three directions: north via Belarus toward Kyiv, east from Russia toward Kharkiv and Donbas, and south from Crimea. President Putin announced a 'special military operation' in a pre-dawn address. Ukraine declared martial law; President Zelenskyy called for international support. NATO activated its defense plans for the first time.",
         "sources": [
-          { "name": "Ukrainian Presidential Office", "tier": 1, "pole": "western" },
-          { "name": "Reuters", "tier": 2, "pole": "western" },
-          { "name": "Russian MoD", "tier": 1, "pole": "eastern" }
+          {
+            "name": "Ukrainian Presidential Office",
+            "tier": 1,
+            "pole": "western"
+          },
+          {
+            "name": "Reuters",
+            "tier": 2,
+            "pole": "western"
+          },
+          {
+            "name": "Russian MoD",
+            "tier": 1,
+            "pole": "eastern"
+          }
         ],
         "confidence": "high",
-        "lastUpdated": "2026-03-20"
+        "lastUpdated": "2026-03-20",
+        "media": [
+          {
+            "type": "image",
+            "url": "https://en.wikipedia.org/wiki/2022_Russian_invasion_of_Ukraine",
+            "source": "Wikipedia / 2022 Russian invasion of Ukraine",
+            "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/2022_Russian_Invasion_of_Ukraine_Phase_1_animated.gif/330px-2022_Russian_Invasion_of_Ukraine_Phase_1_animated.gif"
+          }
+        ]
       },
       {
         "id": "zaporizhzhia-nuclear-plant-seized",
@@ -24,12 +44,32 @@
         "type": "military",
         "detail": "Russian forces captured the Zaporizhzhia Nuclear Power Plant — Europe's largest — after overnight fighting. The first time in history an armed force captured an operating nuclear plant. IAEA Director General Rafael Grossi called for immediate talks. Ukraine's state nuclear company Energoatom reported that firefighting units were initially blocked from responding to fires at the site.",
         "sources": [
-          { "name": "IAEA", "tier": 1, "pole": "international" },
-          { "name": "Energoatom", "tier": 1, "pole": "western" },
-          { "name": "BBC", "tier": 2, "pole": "western" }
+          {
+            "name": "IAEA",
+            "tier": 1,
+            "pole": "international"
+          },
+          {
+            "name": "Energoatom",
+            "tier": 1,
+            "pole": "western"
+          },
+          {
+            "name": "BBC",
+            "tier": 2,
+            "pole": "western"
+          }
         ],
         "confidence": "high",
-        "lastUpdated": "2026-03-20"
+        "lastUpdated": "2026-03-20",
+        "media": [
+          {
+            "type": "image",
+            "url": "https://en.wikipedia.org/wiki/Zaporizhzhia_Nuclear_Power_Plant",
+            "source": "Wikipedia / Zaporizhzhia Nuclear Power Plant",
+            "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Kernkraftwerk_Saporischschja.JPG/330px-Kernkraftwerk_Saporischschja.JPG"
+          }
+        ]
       },
       {
         "id": "mariupol-theater-bombing",
@@ -38,12 +78,32 @@
         "type": "military",
         "detail": "Russian forces bombed Mariupol's Drama Theater, which was serving as a shelter for hundreds of civilians. Satellite images showed the word 'CHILDREN' written in large Cyrillic letters visible from above. An estimated 300–1,300 civilians were killed. The bombing was condemned by Western governments as a war crime.",
         "sources": [
-          { "name": "Mariupol City Council", "tier": 1, "pole": "western" },
-          { "name": "AP", "tier": 2, "pole": "western" },
-          { "name": "Maxar Technologies", "tier": 2, "pole": "international" }
+          {
+            "name": "Mariupol City Council",
+            "tier": 1,
+            "pole": "western"
+          },
+          {
+            "name": "AP",
+            "tier": 2,
+            "pole": "western"
+          },
+          {
+            "name": "Maxar Technologies",
+            "tier": 2,
+            "pole": "international"
+          }
         ],
         "confidence": "high",
-        "lastUpdated": "2026-03-20"
+        "lastUpdated": "2026-03-20",
+        "media": [
+          {
+            "type": "image",
+            "url": "https://en.wikipedia.org/wiki/Mariupol_theatre",
+            "source": "Wikipedia / Mariupol theatre",
+            "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/%D0%94%D0%BE%D0%BD%D0%B5%D1%86%D1%8C%D0%BA%D0%B8%D0%B9_%D0%B0%D0%BA%D0%B0%D0%B4%D0%B5%D0%BC%D1%96%D1%87%D0%BD%D0%B8%D0%B9_%D0%BE%D0%B1%D0%BB%D0%B0%D1%81%D0%BD%D0%B8%D0%B9_%D0%B4%D1%80%D0%B0%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%BD%D0%B8%D0%B9_%D1%82%D0%B5%D0%B0%D1%82%D1%80.jpg/330px-%D0%94%D0%BE%D0%BD%D0%B5%D1%86%D1%8C%D0%BA%D0%B8%D0%B9_%D0%B0%D0%BA%D0%B0%D0%B4%D0%B5%D0%BC%D1%96%D1%87%D0%BD%D0%B8%D0%B9_%D0%BE%D0%B1%D0%BB%D0%B0%D1%81%D0%BD%D0%B8%D0%B9_%D0%B4%D1%80%D0%B0%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%BD%D0%B8%D0%B9_%D1%82%D0%B5%D0%B0%D1%82%D1%80.jpg"
+          }
+        ]
       },
       {
         "id": "kyiv-siege-repelled",
@@ -52,12 +112,32 @@
         "type": "military",
         "detail": "Russia announced a pull-back of forces from northern Ukraine, citing a 'goodwill gesture' for peace talks. Ukrainian and Western officials rejected the framing, calling it a strategic failure. Russian forces had failed to capture Kyiv in what was expected to be a days-long operation. The withdrawal revealed extensive looting and civilian killings during occupation.",
         "sources": [
-          { "name": "Ukrainian MoD", "tier": 1, "pole": "western" },
-          { "name": "Pentagon", "tier": 1, "pole": "western" },
-          { "name": "Reuters", "tier": 2, "pole": "western" }
+          {
+            "name": "Ukrainian MoD",
+            "tier": 1,
+            "pole": "western"
+          },
+          {
+            "name": "Pentagon",
+            "tier": 1,
+            "pole": "western"
+          },
+          {
+            "name": "Reuters",
+            "tier": 2,
+            "pole": "western"
+          }
         ],
         "confidence": "high",
-        "lastUpdated": "2026-03-20"
+        "lastUpdated": "2026-03-20",
+        "media": [
+          {
+            "type": "image",
+            "url": "https://en.wikipedia.org/wiki/2022_Russian_invasion_of_Ukraine",
+            "source": "Wikipedia / 2022 Russian invasion of Ukraine",
+            "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/2022_Russian_Invasion_of_Ukraine_Phase_1_animated.gif/330px-2022_Russian_Invasion_of_Ukraine_Phase_1_animated.gif"
+          }
+        ]
       },
       {
         "id": "bucha-massacre-discovered",
@@ -66,12 +146,32 @@
         "type": "military",
         "detail": "After Russian withdrawal from Bucha northwest of Kyiv, Ukrainian forces and journalists found hundreds of civilian bodies — many in the streets, some bound and showing signs of torture or execution. Satellite images (Maxar) proved the deaths occurred during Russian occupation. More than 1,400 civilians were killed in the Kyiv region during the month-long occupation. The ICC opened a war crimes investigation.",
         "sources": [
-          { "name": "Ukrainian Prosecutor General", "tier": 1, "pole": "western" },
-          { "name": "New York Times", "tier": 2, "pole": "western" },
-          { "name": "ICC", "tier": 1, "pole": "international" }
+          {
+            "name": "Ukrainian Prosecutor General",
+            "tier": 1,
+            "pole": "western"
+          },
+          {
+            "name": "New York Times",
+            "tier": 2,
+            "pole": "western"
+          },
+          {
+            "name": "ICC",
+            "tier": 1,
+            "pole": "international"
+          }
         ],
         "confidence": "high",
-        "lastUpdated": "2026-03-20"
+        "lastUpdated": "2026-03-20",
+        "media": [
+          {
+            "type": "image",
+            "url": "https://en.wikipedia.org/wiki/Bucha_massacre",
+            "source": "Wikipedia / Bucha massacre",
+            "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/The_city_of_Bucha_after_liberation_from_the_Russians_01.jpg/330px-The_city_of_Bucha_after_liberation_from_the_Russians_01.jpg"
+          }
+        ]
       },
       {
         "id": "russia-suspended-unhrc",
@@ -80,11 +180,27 @@
         "type": "diplomatic",
         "detail": "The UN General Assembly voted 93-24 with 58 abstentions to suspend Russia from the Human Rights Council in response to the Bucha massacre and other documented atrocities. Russia called the vote 'illegitimate.' The suspension was the second in UNHRC history (after Libya in 2011).",
         "sources": [
-          { "name": "UN General Assembly", "tier": 1, "pole": "international" },
-          { "name": "Reuters", "tier": 2, "pole": "western" }
+          {
+            "name": "UN General Assembly",
+            "tier": 1,
+            "pole": "international"
+          },
+          {
+            "name": "Reuters",
+            "tier": 2,
+            "pole": "western"
+          }
         ],
         "confidence": "high",
-        "lastUpdated": "2026-03-20"
+        "lastUpdated": "2026-03-20",
+        "media": [
+          {
+            "type": "image",
+            "url": "https://en.wikipedia.org/wiki/Russian_war_crimes",
+            "source": "Wikipedia / Russian war crimes",
+            "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Dnipro_after_Russian_missile_attack%2C_2023-01-14_%2802-01%29.jpg/330px-Dnipro_after_Russian_missile_attack%2C_2023-01-14_%2802-01%29.jpg"
+          }
+        ]
       },
       {
         "id": "moskva-flagship-sunk",
@@ -93,12 +209,32 @@
         "type": "military",
         "detail": "Ukraine struck and sank the Moskva, flagship of Russia's Black Sea Fleet, using two Neptune anti-ship missiles developed by Ukraine. The ship — which had been involved in the Snake Island standoff — sank while being towed to port. Russia claimed a fire and explosion had caused the sinking. The loss was the most significant Russian naval defeat since World War II.",
         "sources": [
-          { "name": "Ukrainian Navy", "tier": 1, "pole": "western" },
-          { "name": "Pentagon", "tier": 1, "pole": "western" },
-          { "name": "AP", "tier": 2, "pole": "western" }
+          {
+            "name": "Ukrainian Navy",
+            "tier": 1,
+            "pole": "western"
+          },
+          {
+            "name": "Pentagon",
+            "tier": 1,
+            "pole": "western"
+          },
+          {
+            "name": "AP",
+            "tier": 2,
+            "pole": "western"
+          }
         ],
         "confidence": "high",
-        "lastUpdated": "2026-03-20"
+        "lastUpdated": "2026-03-20",
+        "media": [
+          {
+            "type": "image",
+            "url": "https://en.wikipedia.org/wiki/Russian_cruiser_Moskva",
+            "source": "Wikipedia / Russian cruiser Moskva",
+            "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Russian_cruiser_Moskva.jpg/330px-Russian_cruiser_Moskva.jpg"
+          }
+        ]
       }
     ]
   },
@@ -112,12 +248,32 @@
         "type": "military",
         "detail": "After an 82-day siege, the last Ukrainian defenders at the Azovstal steel plant in Mariupol surrendered per order of Ukraine's military command. Approximately 2,439 fighters were taken prisoner, including Azov regiment soldiers who became global symbols of resistance. The surrender ended Ukraine's last hold in Mariupol; the city was almost completely destroyed. Russia immediately put the prisoners on trial in occupied territory.",
         "sources": [
-          { "name": "Ukrainian MoD", "tier": 1, "pole": "western" },
-          { "name": "Reuters", "tier": 2, "pole": "western" },
-          { "name": "Azov Regiment", "tier": 1, "pole": "western" }
+          {
+            "name": "Ukrainian MoD",
+            "tier": 1,
+            "pole": "western"
+          },
+          {
+            "name": "Reuters",
+            "tier": 2,
+            "pole": "western"
+          },
+          {
+            "name": "Azov Regiment",
+            "tier": 1,
+            "pole": "western"
+          }
         ],
         "confidence": "high",
-        "lastUpdated": "2026-03-20"
+        "lastUpdated": "2026-03-20",
+        "media": [
+          {
+            "type": "image",
+            "url": "https://en.wikipedia.org/wiki/2022_Russian_invasion_of_Ukraine",
+            "source": "Wikipedia / 2022 Russian invasion of Ukraine",
+            "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/2022_Russian_Invasion_of_Ukraine_Phase_1_animated.gif/330px-2022_Russian_Invasion_of_Ukraine_Phase_1_animated.gif"
+          }
+        ]
       },
       {
         "id": "lend-lease-act-signed",
@@ -126,11 +282,27 @@
         "type": "diplomatic",
         "detail": "President Biden signed the Ukraine Democracy Defense Lend-Lease Act, the first such legislation since World War II, streamlining massive US military aid delivery. The law allowed for expedited weapons transfers and helped unlock the most significant Western weapons escalation of the war's first phase.",
         "sources": [
-          { "name": "White House", "tier": 1, "pole": "western" },
-          { "name": "US Congress", "tier": 1, "pole": "western" }
+          {
+            "name": "White House",
+            "tier": 1,
+            "pole": "western"
+          },
+          {
+            "name": "US Congress",
+            "tier": 1,
+            "pole": "western"
+          }
         ],
         "confidence": "high",
-        "lastUpdated": "2026-03-20"
+        "lastUpdated": "2026-03-20",
+        "media": [
+          {
+            "type": "image",
+            "url": "https://en.wikipedia.org/wiki/Ukraine_Democracy_Defense_Lend-Lease_Act_of_2022",
+            "source": "Wikipedia / Ukraine Democracy Defense Lend-Lease Act of 2022",
+            "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Great_Seal_of_the_United_States_%28obverse%29.svg/330px-Great_Seal_of_the_United_States_%28obverse%29.svg.png"
+          }
+        ]
       },
       {
         "id": "himars-delivered",
@@ -139,11 +311,27 @@
         "type": "military",
         "detail": "The US delivered the first M142 HIMARS multiple-launch rocket systems to Ukraine. Ukraine immediately used them to strike Russian ammunition depots deep behind front lines, destroying dozens of critical logistics nodes. The deliveries transformed Ukraine's ability to conduct deep strikes, forcing Russia to move ammunition further from the front. Eventually 40+ systems were delivered.",
         "sources": [
-          { "name": "Pentagon", "tier": 1, "pole": "western" },
-          { "name": "Ukrainian MoD", "tier": 1, "pole": "western" }
+          {
+            "name": "Pentagon",
+            "tier": 1,
+            "pole": "western"
+          },
+          {
+            "name": "Ukrainian MoD",
+            "tier": 1,
+            "pole": "western"
+          }
         ],
         "confidence": "high",
-        "lastUpdated": "2026-03-20"
+        "lastUpdated": "2026-03-20",
+        "media": [
+          {
+            "type": "image",
+            "url": "https://en.wikipedia.org/wiki/M142_HIMARS",
+            "source": "Wikipedia / M142 HIMARS",
+            "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/HIMARS_-_missile_launched.jpg/330px-HIMARS_-_missile_launched.jpg"
+          }
+        ]
       },
       {
         "id": "nord-stream-sabotage",
@@ -152,12 +340,32 @@
         "type": "military",
         "detail": "Underwater explosions severely damaged both Nord Stream 1 and Nord Stream 2 Baltic Sea pipelines, cutting Russian gas supply routes to Europe. Investigations by Germany, Sweden, and Denmark were launched. By 2023–2024, reporting from the Washington Post, NYT, and Der Spiegel pointed to Ukrainian military operatives. Swedish and Danish probes were closed; Germany's investigation continued into 2026.",
         "sources": [
-          { "name": "German Federal Prosecutors", "tier": 1, "pole": "western" },
-          { "name": "Washington Post", "tier": 2, "pole": "western" },
-          { "name": "TASS", "tier": 2, "pole": "eastern" }
+          {
+            "name": "German Federal Prosecutors",
+            "tier": 1,
+            "pole": "western"
+          },
+          {
+            "name": "Washington Post",
+            "tier": 2,
+            "pole": "western"
+          },
+          {
+            "name": "TASS",
+            "tier": 2,
+            "pole": "eastern"
+          }
         ],
         "confidence": "medium",
-        "lastUpdated": "2026-03-20"
+        "lastUpdated": "2026-03-20",
+        "media": [
+          {
+            "type": "image",
+            "url": "https://en.wikipedia.org/wiki/Nord_Stream_pipelines_sabotage",
+            "source": "Wikipedia / Nord Stream pipelines sabotage",
+            "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Nord_Stream_gas_leaks_2022.svg/330px-Nord_Stream_gas_leaks_2022.svg.png"
+          }
+        ]
       },
       {
         "id": "russia-illegal-annexation",
@@ -166,12 +374,32 @@
         "type": "diplomatic",
         "detail": "Putin signed legislation annexing Donetsk, Luhansk, Zaporizhzhia, and Kherson oblasts into Russia — the largest attempted annexation in Europe since World War II. The UN General Assembly voted 143-5 to condemn the annexation as illegal. Russia did not fully control any of the four regions at the time of annexation. NATO and G7 partners pledged never to recognize the illegal land grabs.",
         "sources": [
-          { "name": "Kremlin", "tier": 1, "pole": "eastern" },
-          { "name": "UN General Assembly", "tier": 1, "pole": "international" },
-          { "name": "NATO", "tier": 1, "pole": "western" }
+          {
+            "name": "Kremlin",
+            "tier": 1,
+            "pole": "eastern"
+          },
+          {
+            "name": "UN General Assembly",
+            "tier": 1,
+            "pole": "international"
+          },
+          {
+            "name": "NATO",
+            "tier": 1,
+            "pole": "western"
+          }
         ],
         "confidence": "high",
-        "lastUpdated": "2026-03-20"
+        "lastUpdated": "2026-03-20",
+        "media": [
+          {
+            "type": "image",
+            "url": "https://en.wikipedia.org/wiki/Russian_annexation_of_Donetsk%2C_Kherson%2C_Luhansk_and_Zaporizhzhia_oblasts",
+            "source": "Wikipedia / Russian annexation of Donetsk%2C Kherson%2C Luhansk and Zaporizhzhia oblasts",
+            "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Moscow_Annexation_Ceremony_%28free_image%29.png/330px-Moscow_Annexation_Ceremony_%28free_image%29.png"
+          }
+        ]
       },
       {
         "id": "partial-mobilization-russia",
@@ -180,12 +408,32 @@
         "type": "military",
         "detail": "Putin announced a 'partial mobilization' of up to 300,000 Russian military reservists, acknowledging that the war was not going as planned. The announcement triggered immediate flight from Russia — over 668,000 people left in 2022. Videos showed elderly and unfit men being conscripted. The mobilization eventually replenished Russian frontline units but produced poorly trained soldiers.",
         "sources": [
-          { "name": "Kremlin", "tier": 1, "pole": "eastern" },
-          { "name": "BBC", "tier": 2, "pole": "western" },
-          { "name": "Meduza", "tier": 2, "pole": "international" }
+          {
+            "name": "Kremlin",
+            "tier": 1,
+            "pole": "eastern"
+          },
+          {
+            "name": "BBC",
+            "tier": 2,
+            "pole": "western"
+          },
+          {
+            "name": "Meduza",
+            "tier": 2,
+            "pole": "international"
+          }
         ],
         "confidence": "high",
-        "lastUpdated": "2026-03-20"
+        "lastUpdated": "2026-03-20",
+        "media": [
+          {
+            "type": "image",
+            "url": "https://en.wikipedia.org/wiki/Mobilization",
+            "source": "Wikipedia / Mobilization",
+            "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Messangers_were_sent_to_every_village.jpg/330px-Messangers_were_sent_to_every_village.jpg"
+          }
+        ]
       },
       {
         "id": "crimea-bridge-explosion",
@@ -194,11 +442,27 @@
         "type": "military",
         "detail": "A major explosion — attributed to Ukraine — partially destroyed the Kerch Bridge (also called Crimea Bridge), the 19km span connecting Russia to occupied Crimea. The truck-bomb attack collapsed two road spans and set fuel tanker cars ablaze. Russia blamed Ukraine. It was a major symbolic and logistical blow; the bridge was Putin's personal project and had been inaugurated in 2018.",
         "sources": [
-          { "name": "Reuters", "tier": 2, "pole": "western" },
-          { "name": "Russian FSB", "tier": 1, "pole": "eastern" }
+          {
+            "name": "Reuters",
+            "tier": 2,
+            "pole": "western"
+          },
+          {
+            "name": "Russian FSB",
+            "tier": 1,
+            "pole": "eastern"
+          }
         ],
         "confidence": "high",
-        "lastUpdated": "2026-03-20"
+        "lastUpdated": "2026-03-20",
+        "media": [
+          {
+            "type": "image",
+            "url": "https://en.wikipedia.org/wiki/2025_Russia_bridge_collapses",
+            "source": "Wikipedia / 2025 Russia bridge collapses",
+            "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/2TE10MK-0680_crashed_section.webp/330px-2TE10MK-0680_crashed_section.webp.png"
+          }
+        ]
       }
     ]
   },
@@ -212,12 +476,32 @@
         "type": "military",
         "detail": "Ukraine launched a surprise offensive in Kharkiv Oblast, breaking through Russian lines around Balakliya. Within two weeks, Ukrainian forces liberated approximately 12,000 km² of territory, recapturing Izyum (a key Russian logistics hub), Kupiansk, and Balakliya. Russian forces left behind massive quantities of military equipment, documents, and evidence of atrocities in abandoned positions.",
         "sources": [
-          { "name": "Ukrainian MoD", "tier": 1, "pole": "western" },
-          { "name": "ISW", "tier": 3, "pole": "western" },
-          { "name": "Reuters", "tier": 2, "pole": "western" }
+          {
+            "name": "Ukrainian MoD",
+            "tier": 1,
+            "pole": "western"
+          },
+          {
+            "name": "ISW",
+            "tier": 3,
+            "pole": "western"
+          },
+          {
+            "name": "Reuters",
+            "tier": 2,
+            "pole": "western"
+          }
         ],
         "confidence": "high",
-        "lastUpdated": "2026-03-20"
+        "lastUpdated": "2026-03-20",
+        "media": [
+          {
+            "type": "image",
+            "url": "https://en.wikipedia.org/wiki/2022_Kharkiv_counteroffensive",
+            "source": "Wikipedia / 2022 Kharkiv counteroffensive",
+            "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/2022_Kharkiv_Counteroffensive.svg/330px-2022_Kharkiv_Counteroffensive.svg.png"
+          }
+        ]
       },
       {
         "id": "kherson-liberation",
@@ -226,12 +510,32 @@
         "type": "military",
         "detail": "Ukrainian forces entered Kherson city after Russian troops withdrew across the Dnipro River — the only regional capital Russia had captured since the 2022 invasion and the only one it subsequently abandoned. Residents celebrated in the streets. President Zelenskyy visited Kherson days later. Russian forces established a new defensive line on the east bank of the Dnipro and began shelling the liberated city almost immediately.",
         "sources": [
-          { "name": "Ukrainian MoD", "tier": 1, "pole": "western" },
-          { "name": "Zelenskyy Presidential Office", "tier": 1, "pole": "western" },
-          { "name": "Reuters", "tier": 2, "pole": "western" }
+          {
+            "name": "Ukrainian MoD",
+            "tier": 1,
+            "pole": "western"
+          },
+          {
+            "name": "Zelenskyy Presidential Office",
+            "tier": 1,
+            "pole": "western"
+          },
+          {
+            "name": "Reuters",
+            "tier": 2,
+            "pole": "western"
+          }
         ],
         "confidence": "high",
-        "lastUpdated": "2026-03-20"
+        "lastUpdated": "2026-03-20",
+        "media": [
+          {
+            "type": "image",
+            "url": "https://en.wikipedia.org/wiki/Liberation_of_Kherson",
+            "source": "Wikipedia / Liberation of Kherson",
+            "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Kherson_Counteroffensive_Tanks_%28Cropped%29.png/330px-Kherson_Counteroffensive_Tanks_%28Cropped%29.png"
+          }
+        ]
       },
       {
         "id": "izyum-mass-graves",
@@ -240,12 +544,32 @@
         "type": "humanitarian",
         "detail": "After the liberation of Izyum during the Kharkiv counteroffensive, Ukrainian investigators discovered a mass burial site near the city containing more than 440 graves, including civilians and soldiers. Many showed signs of torture. The site confirmed patterns of Russian atrocities that had been documented in Bucha and other liberated areas.",
         "sources": [
-          { "name": "Ukrainian Prosecutor General", "tier": 1, "pole": "western" },
-          { "name": "BBC", "tier": 2, "pole": "western" },
-          { "name": "Human Rights Watch", "tier": 3, "pole": "international" }
+          {
+            "name": "Ukrainian Prosecutor General",
+            "tier": 1,
+            "pole": "western"
+          },
+          {
+            "name": "BBC",
+            "tier": 2,
+            "pole": "western"
+          },
+          {
+            "name": "Human Rights Watch",
+            "tier": 3,
+            "pole": "international"
+          }
         ],
         "confidence": "high",
-        "lastUpdated": "2026-03-20"
+        "lastUpdated": "2026-03-20",
+        "media": [
+          {
+            "type": "image",
+            "url": "https://en.wikipedia.org/wiki/Izium_mass_graves",
+            "source": "Wikipedia / Izium mass graves",
+            "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Cemetery_in_Izium_made_during_Russian_occupation_%2807%29.jpg/330px-Cemetery_in_Izium_made_during_Russian_occupation_%2807%29.jpg"
+          }
+        ]
       }
     ]
   },
@@ -259,12 +583,32 @@
         "type": "military",
         "detail": "Russia began deploying Iran-supplied Shahed-136 kamikaze drones (rebranded as Geran-2) in mass attacks on Ukrainian power infrastructure. Combined with Kalibr and Kh-101 cruise missile strikes, these attacks destroyed or damaged a significant portion of Ukraine's electricity generation capacity. By winter 2022, millions of Ukrainians faced rolling blackouts of up to 12 hours daily. Ukraine urgently requested air defense systems.",
         "sources": [
-          { "name": "Ukrainian Energy Ministry", "tier": 1, "pole": "western" },
-          { "name": "Reuters", "tier": 2, "pole": "western" },
-          { "name": "ISW", "tier": 3, "pole": "western" }
+          {
+            "name": "Ukrainian Energy Ministry",
+            "tier": 1,
+            "pole": "western"
+          },
+          {
+            "name": "Reuters",
+            "tier": 2,
+            "pole": "western"
+          },
+          {
+            "name": "ISW",
+            "tier": 3,
+            "pole": "western"
+          }
         ],
         "confidence": "high",
-        "lastUpdated": "2026-03-20"
+        "lastUpdated": "2026-03-20",
+        "media": [
+          {
+            "type": "image",
+            "url": "https://en.wikipedia.org/wiki/Drone_warfare",
+            "source": "Wikipedia / Drone warfare",
+            "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/SBU_Alpha.jpg/330px-SBU_Alpha.jpg"
+          }
+        ]
       },
       {
         "id": "soledar-falls",
@@ -273,12 +617,32 @@
         "type": "military",
         "detail": "Wagner Group mercenaries under Yevgeny Prigozhin captured Soledar, a salt-mining town north of Bakhmut, after weeks of intense urban combat. Soledar was the first significant Russian tactical gain since November 2022. Prigozhin publicly credited Wagner, sidelining Russia's regular military, which caused visible friction with official Moscow channels. The town's capture opened additional approach routes to Bakhmut.",
         "sources": [
-          { "name": "ISW", "tier": 3, "pole": "western" },
-          { "name": "Prigozhin statement", "tier": 1, "pole": "eastern" },
-          { "name": "Ukrainian MoD", "tier": 1, "pole": "western" }
+          {
+            "name": "ISW",
+            "tier": 3,
+            "pole": "western"
+          },
+          {
+            "name": "Prigozhin statement",
+            "tier": 1,
+            "pole": "eastern"
+          },
+          {
+            "name": "Ukrainian MoD",
+            "tier": 1,
+            "pole": "western"
+          }
         ],
         "confidence": "high",
-        "lastUpdated": "2026-03-20"
+        "lastUpdated": "2026-03-20",
+        "media": [
+          {
+            "type": "image",
+            "url": "https://en.wikipedia.org/wiki/Russian_winter_offensive_in_Ukraine_(2022%E2%80%932023)",
+            "source": "Wikipedia / Russian winter offensive in Ukraine (2022%E2%80%932023)",
+            "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/2022_Russian_invasion_of_Ukraine.svg/330px-2022_Russian_invasion_of_Ukraine.svg.png"
+          }
+        ]
       }
     ]
   },
@@ -292,11 +656,27 @@
         "type": "diplomatic",
         "detail": "Germany confirmed it would supply Leopard 2 tanks and allow allies to re-export their German-made Leopard 2s. The US simultaneously announced it would send 31 M1 Abrams tanks. The announcements ended months of debate over tank supplies, removing a key psychological barrier to Western escalation. Poland, Canada, Spain, and others subsequently pledged Leopards.",
         "sources": [
-          { "name": "German Federal Government", "tier": 1, "pole": "western" },
-          { "name": "White House", "tier": 1, "pole": "western" }
+          {
+            "name": "German Federal Government",
+            "tier": 1,
+            "pole": "western"
+          },
+          {
+            "name": "White House",
+            "tier": 1,
+            "pole": "western"
+          }
         ],
         "confidence": "high",
-        "lastUpdated": "2026-03-20"
+        "lastUpdated": "2026-03-20",
+        "media": [
+          {
+            "type": "image",
+            "url": "https://en.wikipedia.org/wiki/Leopard_2",
+            "source": "Wikipedia / Leopard 2",
+            "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Leopard_2_A7V_313_Bad_Frankenhausen_2024.JPG/330px-Leopard_2_A7V_313_Bad_Frankenhausen_2024.JPG"
+          }
+        ]
       },
       {
         "id": "storm-shadow-delivery",
@@ -305,11 +685,27 @@
         "type": "military",
         "detail": "The UK supplied Storm Shadow cruise missiles (known as SCALP in France) to Ukraine — the first Western long-range cruise missiles provided. With a range of approximately 250km, they enabled Ukraine to strike deep in Russian-occupied territory, including the Crimean Bridge and ammunition depots in Crimea. France subsequently provided SCALP. The delivery was a major escalation in Western weapons policy.",
         "sources": [
-          { "name": "UK MoD", "tier": 1, "pole": "western" },
-          { "name": "Reuters", "tier": 2, "pole": "western" }
+          {
+            "name": "UK MoD",
+            "tier": 1,
+            "pole": "western"
+          },
+          {
+            "name": "Reuters",
+            "tier": 2,
+            "pole": "western"
+          }
         ],
         "confidence": "high",
-        "lastUpdated": "2026-03-20"
+        "lastUpdated": "2026-03-20",
+        "media": [
+          {
+            "type": "image",
+            "url": "https://en.wikipedia.org/wiki/Storm_Shadow",
+            "source": "Wikipedia / Storm Shadow",
+            "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/RAF_Museum%2C_Colindale%2C_London_-_DSC06025.JPG/330px-RAF_Museum%2C_Colindale%2C_London_-_DSC06025.JPG"
+          }
+        ]
       },
       {
         "id": "bakhmut-falls",
@@ -318,12 +714,32 @@
         "type": "military",
         "detail": "Prigozhin announced that Wagner Group forces had taken full control of Bakhmut, while Ukraine disputed complete Russian control of the city. The Battle of Bakhmut was the longest and bloodiest battle of the war, lasting from August 2022 to May 2023. Wagner is estimated to have lost 20,000–30,000 fighters, including tens of thousands of recruited convicts. Ukrainian losses were also severe. Russia gained a city largely reduced to rubble.",
         "sources": [
-          { "name": "Wagner/Prigozhin statement", "tier": 1, "pole": "eastern" },
-          { "name": "Ukrainian MoD", "tier": 1, "pole": "western" },
-          { "name": "ISW", "tier": 3, "pole": "western" }
+          {
+            "name": "Wagner/Prigozhin statement",
+            "tier": 1,
+            "pole": "eastern"
+          },
+          {
+            "name": "Ukrainian MoD",
+            "tier": 1,
+            "pole": "western"
+          },
+          {
+            "name": "ISW",
+            "tier": 3,
+            "pole": "western"
+          }
         ],
         "confidence": "high",
-        "lastUpdated": "2026-03-20"
+        "lastUpdated": "2026-03-20",
+        "media": [
+          {
+            "type": "image",
+            "url": "https://en.wikipedia.org/wiki/Battle_of_Chasiv_Yar",
+            "source": "Wikipedia / Battle of Chasiv Yar",
+            "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/2024-08-22_-_24_OMBr_ZSU%2C_Chasiv_Yar%2C_02.jpg/330px-2024-08-22_-_24_OMBr_ZSU%2C_Chasiv_Yar%2C_02.jpg"
+          }
+        ]
       }
     ]
   },
@@ -337,12 +753,32 @@
         "type": "humanitarian",
         "detail": "The Kakhovka Hydroelectric Dam — the largest dam in Ukraine and a massive Soviet-era structure — was breached in an explosion, causing catastrophic flooding along the Dnipro River. Over 240 square miles were flooded; more than one million people lost drinking water access; dozens were killed. Evidence including water-flow analysis and testimony pointed to an explosion from within the dam structure on the Russian-controlled side. Russia blamed Ukraine.",
         "sources": [
-          { "name": "OHCHR", "tier": 1, "pole": "international" },
-          { "name": "New York Times", "tier": 2, "pole": "western" },
-          { "name": "Ukrainian MoD", "tier": 1, "pole": "western" }
+          {
+            "name": "OHCHR",
+            "tier": 1,
+            "pole": "international"
+          },
+          {
+            "name": "New York Times",
+            "tier": 2,
+            "pole": "western"
+          },
+          {
+            "name": "Ukrainian MoD",
+            "tier": 1,
+            "pole": "western"
+          }
         ],
         "confidence": "high",
-        "lastUpdated": "2026-03-20"
+        "lastUpdated": "2026-03-20",
+        "media": [
+          {
+            "type": "image",
+            "url": "https://en.wikipedia.org/wiki/Kakhovka_Dam",
+            "source": "Wikipedia / Kakhovka Dam",
+            "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/%D0%93%D1%80%D0%B5%D0%B1%D0%BB%D1%8F_%D1%96_%D0%9A%D0%B0%D1%85%D0%BE%D0%B2%D1%81%D1%8C%D0%BA%D0%B0_%D0%93%D0%95%D0%A1_03.jpg/330px-%D0%93%D1%80%D0%B5%D0%B1%D0%BB%D1%8F_%D1%96_%D0%9A%D0%B0%D1%85%D0%BE%D0%B2%D1%81%D1%8C%D0%BA%D0%B0_%D0%93%D0%95%D0%A1_03.jpg"
+          }
+        ]
       },
       {
         "id": "summer-counteroffensive-launch",
@@ -351,12 +787,32 @@
         "type": "military",
         "detail": "Ukraine launched its long-anticipated summer counteroffensive primarily in Zaporizhzhia Oblast, aiming to cut Russia's land corridor to Crimea by reaching Melitopol and Tokmak. Initial mechanized assaults ran into multi-layered Russian defensive positions — minefields, dragon's teeth, and trenches up to 20 miles deep. The offensive adopted more methodical approaches but failed to breach the main Russian defensive line, recapturing approximately 300 km² by year's end.",
         "sources": [
-          { "name": "Ukrainian MoD", "tier": 1, "pole": "western" },
-          { "name": "ISW", "tier": 3, "pole": "western" },
-          { "name": "Reuters", "tier": 2, "pole": "western" }
+          {
+            "name": "Ukrainian MoD",
+            "tier": 1,
+            "pole": "western"
+          },
+          {
+            "name": "ISW",
+            "tier": 3,
+            "pole": "western"
+          },
+          {
+            "name": "Reuters",
+            "tier": 2,
+            "pole": "western"
+          }
         ],
         "confidence": "high",
-        "lastUpdated": "2026-03-20"
+        "lastUpdated": "2026-03-20",
+        "media": [
+          {
+            "type": "image",
+            "url": "https://en.wikipedia.org/wiki/2022_Kherson_counteroffensive",
+            "source": "Wikipedia / 2022 Kherson counteroffensive",
+            "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Russian_Occupation_of_Kherson_Oblast.svg/330px-Russian_Occupation_of_Kherson_Oblast.svg.png"
+          }
+        ]
       },
       {
         "id": "wagner-mutiny",
@@ -365,9 +821,21 @@
         "type": "military",
         "detail": "Wagner Group chief Yevgeny Prigozhin launched an armed rebellion against Russia's military leadership, capturing Rostov-on-Don and marching his forces up the M4 highway toward Moscow. His column advanced to within approximately 200km of Moscow before halting. A deal brokered by Belarusian President Lukashenko sent Prigozhin to Belarus and dropped criminal charges. It was the most significant internal challenge to Putin's authority in his 23-year rule.",
         "sources": [
-          { "name": "Reuters", "tier": 2, "pole": "western" },
-          { "name": "BBC", "tier": 2, "pole": "western" },
-          { "name": "Kremlin", "tier": 1, "pole": "eastern" }
+          {
+            "name": "Reuters",
+            "tier": 2,
+            "pole": "western"
+          },
+          {
+            "name": "BBC",
+            "tier": 2,
+            "pole": "western"
+          },
+          {
+            "name": "Kremlin",
+            "tier": 1,
+            "pole": "eastern"
+          }
         ],
         "confidence": "high",
         "lastUpdated": "2026-03-20"
@@ -379,12 +847,32 @@
         "type": "military",
         "detail": "Yevgeny Prigozhin, Wagner co-founder Dmitry Utkin, and seven other Wagner leaders were killed when their private jet crashed over Tver Oblast, Russia — exactly two months after the mutiny. Western officials and analysts widely attributed the crash to the Kremlin. Putin expressed condolences while calling Prigozhin 'a talented businessman who made serious mistakes in life.' Wagner was subsequently absorbed into Russian military command structures.",
         "sources": [
-          { "name": "Reuters", "tier": 2, "pole": "western" },
-          { "name": "Russian aviation authorities", "tier": 1, "pole": "eastern" },
-          { "name": "CIA (US assessment)", "tier": 1, "pole": "western" }
+          {
+            "name": "Reuters",
+            "tier": 2,
+            "pole": "western"
+          },
+          {
+            "name": "Russian aviation authorities",
+            "tier": 1,
+            "pole": "eastern"
+          },
+          {
+            "name": "CIA (US assessment)",
+            "tier": 1,
+            "pole": "western"
+          }
         ],
         "confidence": "high",
-        "lastUpdated": "2026-03-20"
+        "lastUpdated": "2026-03-20",
+        "media": [
+          {
+            "type": "image",
+            "url": "https://en.wikipedia.org/wiki/2023_Wagner_Group_plane_crash",
+            "source": "Wikipedia / 2023 Wagner Group plane crash",
+            "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/MNT-Aero_LLC_RA-02795_Embraer_Legacy_600_%28EMB-135BJ%29.jpg/330px-MNT-Aero_LLC_RA-02795_Embraer_Legacy_600_%28EMB-135BJ%29.jpg"
+          }
+        ]
       }
     ]
   },
@@ -398,11 +886,27 @@
         "type": "military",
         "detail": "Ukrainian Commander-in-Chief Valery Zaluzhnyi was replaced by Oleksandr Syrskyi, the commander who led the successful Kharkiv and Kherson counteroffensives. The change was attributed to strategic disagreements with Zelenskyy over manpower and tactics after the disappointing summer counteroffensive. Zaluzhnyi was named ambassador to the UK. The command transition came as Russia intensified pressure on Avdiivka.",
         "sources": [
-          { "name": "Zelenskyy Presidential Office", "tier": 1, "pole": "western" },
-          { "name": "Reuters", "tier": 2, "pole": "western" }
+          {
+            "name": "Zelenskyy Presidential Office",
+            "tier": 1,
+            "pole": "western"
+          },
+          {
+            "name": "Reuters",
+            "tier": 2,
+            "pole": "western"
+          }
         ],
         "confidence": "high",
-        "lastUpdated": "2026-03-20"
+        "lastUpdated": "2026-03-20",
+        "media": [
+          {
+            "type": "image",
+            "url": "https://en.wikipedia.org/wiki/Oleksandr_Syrskyi",
+            "source": "Wikipedia / Oleksandr Syrskyi",
+            "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/OleskandrSyrskyiColonelGeneral.jpg/330px-OleskandrSyrskyiColonelGeneral.jpg"
+          }
+        ]
       },
       {
         "id": "avdiivka-falls",
@@ -411,12 +915,32 @@
         "type": "military",
         "detail": "Ukrainian forces withdrew from Avdiivka, an industrial city that had been a Ukrainian stronghold since 2014. The city fell after four months of intense Russian assault using overwhelming force, including massive infantry attacks and hundreds of armored vehicles. Russia had surrounded the city on three sides. The fall was Russia's biggest tactical gain since Bakhmut and exposed Ukrainian ammunition shortages due to US Congress delays in passing aid.",
         "sources": [
-          { "name": "Ukrainian MoD", "tier": 1, "pole": "western" },
-          { "name": "ISW", "tier": 3, "pole": "western" },
-          { "name": "Russian MoD", "tier": 1, "pole": "eastern" }
+          {
+            "name": "Ukrainian MoD",
+            "tier": 1,
+            "pole": "western"
+          },
+          {
+            "name": "ISW",
+            "tier": 3,
+            "pole": "western"
+          },
+          {
+            "name": "Russian MoD",
+            "tier": 1,
+            "pole": "eastern"
+          }
         ],
         "confidence": "high",
-        "lastUpdated": "2026-03-20"
+        "lastUpdated": "2026-03-20",
+        "media": [
+          {
+            "type": "image",
+            "url": "https://en.wikipedia.org/wiki/Battle_of_Avdiivka_(2023%E2%80%932024)",
+            "source": "Wikipedia / Battle of Avdiivka (2023%E2%80%932024)",
+            "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Avdiivka_during_fighting_%282024-01-03%29_01.jpg/330px-Avdiivka_during_fighting_%282024-01-03%29_01.jpg"
+          }
+        ]
       },
       {
         "id": "us-aid-package-april-2024",
@@ -425,11 +949,27 @@
         "type": "diplomatic",
         "detail": "The US House of Representatives passed a $61 billion aid package for Ukraine, ending a six-month Republican blockade led by Speaker Mike Johnson and MAGA members aligned with Trump. The Senate had passed the bill earlier. Biden signed it into law on April 24. The package included ATACMS long-range missiles and replenished air defense interceptors. Ukraine's military described ammunition shortages during the delay as critical.",
         "sources": [
-          { "name": "US Congress", "tier": 1, "pole": "western" },
-          { "name": "White House", "tier": 1, "pole": "western" }
+          {
+            "name": "US Congress",
+            "tier": 1,
+            "pole": "western"
+          },
+          {
+            "name": "White House",
+            "tier": 1,
+            "pole": "western"
+          }
         ],
         "confidence": "high",
-        "lastUpdated": "2026-03-20"
+        "lastUpdated": "2026-03-20",
+        "media": [
+          {
+            "type": "image",
+            "url": "https://en.wikipedia.org/wiki/List_of_military_aid_to_Ukraine_during_the_Russo-Ukrainian_war",
+            "source": "Wikipedia / List of military aid to Ukraine during the Russo-Ukrainian war",
+            "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Delivering_military_aid_to_Ukraine_-_detailed.svg/330px-Delivering_military_aid_to_Ukraine_-_detailed.svg.png"
+          }
+        ]
       },
       {
         "id": "kharkiv-offensive-may-2024",
@@ -438,11 +978,27 @@
         "type": "military",
         "detail": "Russian forces crossed from Belgorod Oblast into Kharkiv Oblast, capturing dozens of villages in the Vovchansk area and opening a new front. Ukraine scrambled reserves to stabilize the line. The offensive prompted intense debate in Washington about whether to allow Ukraine to strike targets inside Russian territory with US-supplied weapons. The front was largely stabilized by late May, but Russia established a new threat axis to Ukraine's second city.",
         "sources": [
-          { "name": "ISW", "tier": 3, "pole": "western" },
-          { "name": "Ukrainian MoD", "tier": 1, "pole": "western" }
+          {
+            "name": "ISW",
+            "tier": 3,
+            "pole": "western"
+          },
+          {
+            "name": "Ukrainian MoD",
+            "tier": 1,
+            "pole": "western"
+          }
         ],
         "confidence": "high",
-        "lastUpdated": "2026-03-20"
+        "lastUpdated": "2026-03-20",
+        "media": [
+          {
+            "type": "image",
+            "url": "https://en.wikipedia.org/wiki/Kharkiv",
+            "source": "Wikipedia / Kharkiv",
+            "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/%D0%A3%D1%81%D0%BF%D0%B5%D0%BD%D1%81%D1%8C%D0%BA%D0%B8%D0%B9_%D1%81%D0%BE%D0%B1%D0%BE%D1%80_%D0%B2%D0%B7%D0%B8%D0%BC%D0%BA%D1%83%2C_%D0%B0%D0%B5%D1%80%D0%BE%D1%84%D0%BE%D1%82%D0%BE.jpg/330px-%D0%A3%D1%81%D0%BF%D0%B5%D0%BD%D1%81%D1%8C%D0%BA%D0%B8%D0%B9_%D1%81%D0%BE%D0%B1%D0%BE%D1%80_%D0%B2%D0%B7%D0%B8%D0%BC%D0%BA%D1%83%2C_%D0%B0%D0%B5%D1%80%D0%BE%D1%84%D0%BE%D1%82%D0%BE.jpg"
+          }
+        ]
       },
       {
         "id": "f16-operational",
@@ -451,11 +1007,27 @@
         "type": "military",
         "detail": "Denmark and the Netherlands delivered the first F-16 Fighting Falcon jets to Ukraine, with the aircraft becoming combat-operational in August 2024. Belgium and Norway subsequently began transfers. While pilots had been training for over a year, the number of aircraft was limited and the F-16s were not a game-changer in air-to-air combat, but provided improved strike capabilities. The jets required Western technicians and spare parts to maintain.",
         "sources": [
-          { "name": "Danish MoD", "tier": 1, "pole": "western" },
-          { "name": "Ukrainian Air Force", "tier": 1, "pole": "western" }
+          {
+            "name": "Danish MoD",
+            "tier": 1,
+            "pole": "western"
+          },
+          {
+            "name": "Ukrainian Air Force",
+            "tier": 1,
+            "pole": "western"
+          }
         ],
         "confidence": "high",
-        "lastUpdated": "2026-03-20"
+        "lastUpdated": "2026-03-20",
+        "media": [
+          {
+            "type": "image",
+            "url": "https://en.wikipedia.org/wiki/General_Dynamics_F-16_Fighting_Falcon",
+            "source": "Wikipedia / General Dynamics F-16 Fighting Falcon",
+            "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/F-16_June_2008.jpg/330px-F-16_June_2008.jpg"
+          }
+        ]
       },
       {
         "id": "kursk-incursion",
@@ -464,12 +1036,32 @@
         "type": "military",
         "detail": "Ukrainian forces launched a surprise cross-border offensive into Russia's Kursk Oblast — the first time foreign forces had occupied Russian territory since WWII. Ukrainian troops captured Sudzha, a major gas transit hub, and over 1,300 km² at peak. Ukraine hoped to force Russia to redeploy forces from Ukraine's east. Russia eventually reinforced with North Korean troops, and Ukraine's positions were progressively pushed back.",
         "sources": [
-          { "name": "Ukrainian MoD", "tier": 1, "pole": "western" },
-          { "name": "ISW", "tier": 3, "pole": "western" },
-          { "name": "Reuters", "tier": 2, "pole": "western" }
+          {
+            "name": "Ukrainian MoD",
+            "tier": 1,
+            "pole": "western"
+          },
+          {
+            "name": "ISW",
+            "tier": 3,
+            "pole": "western"
+          },
+          {
+            "name": "Reuters",
+            "tier": 2,
+            "pole": "western"
+          }
         ],
         "confidence": "high",
-        "lastUpdated": "2026-03-20"
+        "lastUpdated": "2026-03-20",
+        "media": [
+          {
+            "type": "image",
+            "url": "https://en.wikipedia.org/wiki/Kursk_campaign",
+            "source": "Wikipedia / Kursk campaign",
+            "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Kursk_front_of_the_Russo-Ukrainian_War.svg/330px-Kursk_front_of_the_Russo-Ukrainian_War.svg.png"
+          }
+        ]
       },
       {
         "id": "north-korean-troops-deployed",
@@ -478,12 +1070,32 @@
         "type": "military",
         "detail": "The US, NATO, and South Korea confirmed that approximately 10,000 North Korean soldiers had been deployed to Russia's Kursk Oblast to fight alongside Russian forces against Ukraine's incursion. The troops were reportedly poorly trained for modern warfare but provided crucial manpower. North Korea received significant compensation — believed to include ballistic missile technology and artillery manufacturing knowhow — in exchange. NATO Secretary General Rutte called the deployment 'very serious.'",
         "sources": [
-          { "name": "NATO", "tier": 1, "pole": "western" },
-          { "name": "Pentagon", "tier": 1, "pole": "western" },
-          { "name": "South Korean NIS", "tier": 1, "pole": "western" }
+          {
+            "name": "NATO",
+            "tier": 1,
+            "pole": "western"
+          },
+          {
+            "name": "Pentagon",
+            "tier": 1,
+            "pole": "western"
+          },
+          {
+            "name": "South Korean NIS",
+            "tier": 1,
+            "pole": "western"
+          }
         ],
         "confidence": "high",
-        "lastUpdated": "2026-03-20"
+        "lastUpdated": "2026-03-20",
+        "media": [
+          {
+            "type": "image",
+            "url": "https://en.wikipedia.org/wiki/North_Korean_involvement_in_the_Russo-Ukrainian_war_(2022%E2%80%93present)",
+            "source": "Wikipedia / North Korean involvement in the Russo-Ukrainian war (2022%E2%80%93present)",
+            "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Russia%27s_President_Vladimir_Putin_on_state_visit_to_North_Korea.jpg/330px-Russia%27s_President_Vladimir_Putin_on_state_visit_to_North_Korea.jpg"
+          }
+        ]
       },
       {
         "id": "g7-loan-frozen-assets",
@@ -492,8 +1104,16 @@
         "type": "diplomatic",
         "detail": "G7 leaders finalized a $50 billion loan to Ukraine backed by interest from ~$300 billion in frozen Russian central bank assets, primarily held in Euroclear in Belgium. The US contributed $20 billion. The arrangement skirted legal barriers to outright confiscation of Russian sovereign assets while providing significant funding. EU separately agreed in December 2025 to maintain the freeze indefinitely until Russia compensates Ukraine.",
         "sources": [
-          { "name": "G7 Leaders", "tier": 1, "pole": "western" },
-          { "name": "European Commission", "tier": 1, "pole": "western" }
+          {
+            "name": "G7 Leaders",
+            "tier": 1,
+            "pole": "western"
+          },
+          {
+            "name": "European Commission",
+            "tier": 1,
+            "pole": "western"
+          }
         ],
         "confidence": "high",
         "lastUpdated": "2026-03-20"
@@ -505,11 +1125,27 @@
         "type": "diplomatic",
         "detail": "Putin signed an update to Russia's nuclear doctrine stating that Russia would consider a conventional attack by any nuclear-armed state's ally as grounds for a Russian nuclear strike. The updated doctrine was widely seen as a direct warning against Ukraine using Western weapons to strike Russia, coming after Biden authorized ATACMS use for limited strikes inside Russia. Western analysts noted it lowered the nuclear threshold significantly.",
         "sources": [
-          { "name": "Kremlin", "tier": 1, "pole": "eastern" },
-          { "name": "Reuters", "tier": 2, "pole": "western" }
+          {
+            "name": "Kremlin",
+            "tier": 1,
+            "pole": "eastern"
+          },
+          {
+            "name": "Reuters",
+            "tier": 2,
+            "pole": "western"
+          }
         ],
         "confidence": "high",
-        "lastUpdated": "2026-03-20"
+        "lastUpdated": "2026-03-20",
+        "media": [
+          {
+            "type": "image",
+            "url": "https://en.wikipedia.org/wiki/Ukraine%E2%80%93NATO_relations",
+            "source": "Wikipedia / Ukraine%E2%80%93NATO relations",
+            "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Location_NATO_Ukraine.svg/330px-Location_NATO_Ukraine.svg.png"
+          }
+        ]
       }
     ]
   },
@@ -523,11 +1159,27 @@
         "type": "diplomatic",
         "detail": "Donald Trump was inaugurated as the 47th US President, triggering an immediate shift in US Ukraine policy. Trump suspended some intelligence sharing with Ukraine, signaled intent to end the war quickly through negotiations rather than continued military pressure, and appointed Steve Witkoff and Keith Kellogg as envoys. Trump had promised during the campaign to end the war 'within 24 hours' — a promise that proved impossible to keep.",
         "sources": [
-          { "name": "White House", "tier": 1, "pole": "western" },
-          { "name": "Reuters", "tier": 2, "pole": "western" }
+          {
+            "name": "White House",
+            "tier": 1,
+            "pole": "western"
+          },
+          {
+            "name": "Reuters",
+            "tier": 2,
+            "pole": "western"
+          }
         ],
         "confidence": "high",
-        "lastUpdated": "2026-03-20"
+        "lastUpdated": "2026-03-20",
+        "media": [
+          {
+            "type": "image",
+            "url": "https://en.wikipedia.org/wiki/First_presidency_of_Donald_Trump",
+            "source": "Wikipedia / First presidency of Donald Trump",
+            "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Donald_Trump_official_portrait.jpg/330px-Donald_Trump_official_portrait.jpg"
+          }
+        ]
       },
       {
         "id": "oval-office-confrontation",
@@ -536,12 +1188,32 @@
         "type": "diplomatic",
         "detail": "A contentious meeting between Trump, Vice President Vance, and President Zelenskyy in the Oval Office devolved into a public confrontation, with Trump telling Zelenskyy 'you're in a very bad position... make a deal or we're out.' The meeting ended without a planned minerals agreement being signed. Vance accused Zelenskyy of being 'disrespectful.' The incident shocked European allies and briefly triggered a US pause in military aid to Ukraine.",
         "sources": [
-          { "name": "White House pool reports", "tier": 1, "pole": "western" },
-          { "name": "Zelenskyy Presidential Office", "tier": 1, "pole": "western" },
-          { "name": "Reuters", "tier": 2, "pole": "western" }
+          {
+            "name": "White House pool reports",
+            "tier": 1,
+            "pole": "western"
+          },
+          {
+            "name": "Zelenskyy Presidential Office",
+            "tier": 1,
+            "pole": "western"
+          },
+          {
+            "name": "Reuters",
+            "tier": 2,
+            "pole": "western"
+          }
         ],
         "confidence": "high",
-        "lastUpdated": "2026-03-20"
+        "lastUpdated": "2026-03-20",
+        "media": [
+          {
+            "type": "image",
+            "url": "https://en.wikipedia.org/wiki/2026_United_States%E2%80%93Holy_See_rift",
+            "source": "Wikipedia / 2026 United States%E2%80%93Holy See rift",
+            "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/USA_Holy_see_locations.svg/330px-USA_Holy_see_locations.svg.png"
+          }
+        ]
       },
       {
         "id": "ukraine-ceasefire-acceptance",
@@ -550,9 +1222,21 @@
         "type": "diplomatic",
         "detail": "After the US suspended military aid following the Oval Office confrontation, Ukraine agreed to a US-proposed 30-day ceasefire on energy infrastructure strikes. Russia rejected the proposal, continuing its strikes on Ukrainian cities. The episode demonstrated Ukraine's increasing diplomatic vulnerability and dependence on continued US support. The minerals deal was later signed in April 2025.",
         "sources": [
-          { "name": "Ukrainian MoD", "tier": 1, "pole": "western" },
-          { "name": "US State Department", "tier": 1, "pole": "western" },
-          { "name": "Reuters", "tier": 2, "pole": "western" }
+          {
+            "name": "Ukrainian MoD",
+            "tier": 1,
+            "pole": "western"
+          },
+          {
+            "name": "US State Department",
+            "tier": 1,
+            "pole": "western"
+          },
+          {
+            "name": "Reuters",
+            "tier": 2,
+            "pole": "western"
+          }
         ],
         "confidence": "high",
         "lastUpdated": "2026-03-20"
@@ -564,12 +1248,32 @@
         "type": "military",
         "detail": "Russian forces backed by North Korean troops systematically retook territory in Kursk Oblast that Ukraine had captured in August 2024. Sudzha, the largest town captured, was retaken in March 2025. Russia declared full recapture of Kursk Oblast in April 2025. The retreat ended Ukraine's Kursk gambit, which had hoped to force a Russian troop redeployment from the Donbas frontline. Instead, the incursion had drawn Ukrainian forces from other fronts.",
         "sources": [
-          { "name": "ISW", "tier": 3, "pole": "western" },
-          { "name": "Russian MoD", "tier": 1, "pole": "eastern" },
-          { "name": "Ukrainian MoD", "tier": 1, "pole": "western" }
+          {
+            "name": "ISW",
+            "tier": 3,
+            "pole": "western"
+          },
+          {
+            "name": "Russian MoD",
+            "tier": 1,
+            "pole": "eastern"
+          },
+          {
+            "name": "Ukrainian MoD",
+            "tier": 1,
+            "pole": "western"
+          }
         ],
         "confidence": "high",
-        "lastUpdated": "2026-03-20"
+        "lastUpdated": "2026-03-20",
+        "media": [
+          {
+            "type": "image",
+            "url": "https://en.wikipedia.org/wiki/Kursk_campaign",
+            "source": "Wikipedia / Kursk campaign",
+            "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Kursk_front_of_the_Russo-Ukrainian_War.svg/330px-Kursk_front_of_the_Russo-Ukrainian_War.svg.png"
+          }
+        ]
       },
       {
         "id": "minerals-deal-signed",
@@ -578,8 +1282,16 @@
         "type": "diplomatic",
         "detail": "The US and Ukraine signed a minerals partnership agreement giving the US long-term access to Ukraine's substantial critical mineral reserves (lithium, titanium, uranium, manganese, and rare earth elements). The deal gave the US economic stakes in Ukraine's reconstruction and security, and was seen as Trump's preferred framework for continued engagement. Ukraine secured continued US support in exchange for long-term resource access.",
         "sources": [
-          { "name": "US Treasury", "tier": 1, "pole": "western" },
-          { "name": "Ukrainian government", "tier": 1, "pole": "western" }
+          {
+            "name": "US Treasury",
+            "tier": 1,
+            "pole": "western"
+          },
+          {
+            "name": "Ukrainian government",
+            "tier": 1,
+            "pole": "western"
+          }
         ],
         "confidence": "high",
         "lastUpdated": "2026-03-20"
@@ -591,12 +1303,32 @@
         "type": "diplomatic",
         "detail": "Russia and Ukraine held their first direct negotiations since spring 2022 in Istanbul, Turkey. The only concrete outcome was an agreement on a prisoner exchange — the largest of the war, involving over 1,000 POWs on each side. Core territorial and security issues remained unresolved. Russia demanded Ukraine withdraw from all four annexed oblasts; Ukraine insisted on sovereignty and security guarantees. The talks confirmed the vast gap between the sides' positions.",
         "sources": [
-          { "name": "Turkish Foreign Ministry", "tier": 1, "pole": "international" },
-          { "name": "Ukrainian Presidential Office", "tier": 1, "pole": "western" },
-          { "name": "Reuters", "tier": 2, "pole": "western" }
+          {
+            "name": "Turkish Foreign Ministry",
+            "tier": 1,
+            "pole": "international"
+          },
+          {
+            "name": "Ukrainian Presidential Office",
+            "tier": 1,
+            "pole": "western"
+          },
+          {
+            "name": "Reuters",
+            "tier": 2,
+            "pole": "western"
+          }
         ],
         "confidence": "high",
-        "lastUpdated": "2026-03-20"
+        "lastUpdated": "2026-03-20",
+        "media": [
+          {
+            "type": "image",
+            "url": "https://en.wikipedia.org/wiki/2022_Russian_invasion_of_Ukraine",
+            "source": "Wikipedia / 2022 Russian invasion of Ukraine",
+            "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/2022_Russian_Invasion_of_Ukraine_Phase_1_animated.gif/330px-2022_Russian_Invasion_of_Ukraine_Phase_1_animated.gif"
+          }
+        ]
       },
       {
         "id": "trump-putin-alaska-summit",
@@ -605,12 +1337,32 @@
         "type": "diplomatic",
         "detail": "The first direct US-Russia summit in over four years was held in Alaska. Trump and Putin discussed ceasefire terms without Ukraine present. Putin reportedly demanded Ukraine withdraw from the remaining 30% of Donetsk it controlled and bar NATO membership permanently. Trump presented it as progress; Zelenskyy and European leaders were alarmed that Ukraine's security interests were being negotiated without Ukrainian participation.",
         "sources": [
-          { "name": "White House", "tier": 1, "pole": "western" },
-          { "name": "Reuters", "tier": 2, "pole": "western" },
-          { "name": "Kremlin", "tier": 1, "pole": "eastern" }
+          {
+            "name": "White House",
+            "tier": 1,
+            "pole": "western"
+          },
+          {
+            "name": "Reuters",
+            "tier": 2,
+            "pole": "western"
+          },
+          {
+            "name": "Kremlin",
+            "tier": 1,
+            "pole": "eastern"
+          }
         ],
         "confidence": "high",
-        "lastUpdated": "2026-03-20"
+        "lastUpdated": "2026-03-20",
+        "media": [
+          {
+            "type": "image",
+            "url": "https://en.wikipedia.org/wiki/2025_Russia%E2%80%93United_States_summit",
+            "source": "Wikipedia / 2025 Russia%E2%80%93United States summit",
+            "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/President_Trump_and_President_Putin_standing_together_%28cropped%29.jpg/330px-President_Trump_and_President_Putin_standing_together_%28cropped%29.jpg"
+          }
+        ]
       },
       {
         "id": "28-point-peace-plan",
@@ -619,11 +1371,27 @@
         "type": "diplomatic",
         "detail": "A US peace framework circulated by Trump envoys Witkoff and Dmitriev called for Ukraine to cede the Donbas and Zaporizhzhia/Kherson oblasts to Russia, permanently bar NATO membership, and receive security guarantees from a third-party coalition. European leaders, especially France, Germany, and the UK, strongly objected — fearing the plan rewarded Russian aggression and set a precedent for territorial conquest. Ukraine's formal response was rejection of the territorial concessions.",
         "sources": [
-          { "name": "Axios", "tier": 2, "pole": "western" },
-          { "name": "Reuters", "tier": 2, "pole": "western" }
+          {
+            "name": "Axios",
+            "tier": 2,
+            "pole": "western"
+          },
+          {
+            "name": "Reuters",
+            "tier": 2,
+            "pole": "western"
+          }
         ],
         "confidence": "medium",
-        "lastUpdated": "2026-03-20"
+        "lastUpdated": "2026-03-20",
+        "media": [
+          {
+            "type": "image",
+            "url": "https://en.wikipedia.org/wiki/Gaza_peace_plan",
+            "source": "Wikipedia / Gaza peace plan",
+            "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/President_Donald_Trump_and_Israeli_Prime_Minister_Benjamin_Netanyahu_hold_a_joint_press_conference_%28cropped%29.jpg/330px-President_Donald_Trump_and_Israeli_Prime_Minister_Benjamin_Netanyahu_hold_a_joint_press_conference_%28cropped%29.jpg"
+          }
+        ]
       },
       {
         "id": "four-year-anniversary",
@@ -632,12 +1400,32 @@
         "type": "humanitarian",
         "detail": "On the fourth anniversary of Russia's full-scale invasion, Russia controlled approximately 20% of Ukrainian territory — including Crimea, most of Donetsk and Luhansk oblasts, and portions of Zaporizhzhia and Kherson. Combined military casualties on both sides approached 1.7–2 million. Over 9 million Ukrainians remained displaced. Negotiations continued without breakthrough in trilateral talks via Abu Dhabi and Geneva.",
         "sources": [
-          { "name": "ISW", "tier": 3, "pole": "western" },
-          { "name": "UN OHCHR", "tier": 1, "pole": "international" },
-          { "name": "Reuters", "tier": 2, "pole": "western" }
+          {
+            "name": "ISW",
+            "tier": 3,
+            "pole": "western"
+          },
+          {
+            "name": "UN OHCHR",
+            "tier": 1,
+            "pole": "international"
+          },
+          {
+            "name": "Reuters",
+            "tier": 2,
+            "pole": "western"
+          }
         ],
         "confidence": "high",
-        "lastUpdated": "2026-03-20"
+        "lastUpdated": "2026-03-20",
+        "media": [
+          {
+            "type": "image",
+            "url": "https://en.wikipedia.org/wiki/2022_Russian_invasion_of_Ukraine",
+            "source": "Wikipedia / 2022 Russian invasion of Ukraine",
+            "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/2022_Russian_Invasion_of_Ukraine_Phase_1_animated.gif/330px-2022_Russian_Invasion_of_Ukraine_Phase_1_animated.gif"
+          }
+        ]
       }
     ]
   }
