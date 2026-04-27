@@ -1,0 +1,252 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import path from 'node:path';
+
+const base = import.meta.env.BASE_URL;
+const basePath = base.endsWith('/') ? base : base + '/';
+
+type Item = {
+  slug: string;
+  name: string;
+  icon?: string;
+  headline?: string;
+  kpiLabel?: string;
+  kpiValue?: number | string;
+  kpiPrefix?: string;
+  kpiSuffix?: string;
+  sourceTier?: number;
+  sourceLabel?: string;
+  thumbnailUrl?: string | null;
+};
+
+type LogEntry = {
+  date: string;
+  renderedAt?: string;
+  mode?: string;
+  note?: string;
+  items: Item[];
+  file?: string | null;
+  fileSizeMb?: number | null;
+  narratedFile?: string | null;
+  narratedSizeMb?: number | null;
+  runId?: string;
+};
+
+let log: LogEntry[] = [];
+try {
+  const p = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../video/state/daily-log.json');
+  const raw = JSON.parse(readFileSync(p, 'utf8'));
+  if (Array.isArray(raw)) log = raw;
+} catch {
+  // No log yet — page will render empty state
+}
+
+// Also load tracker-history for the dates that predate the daily log
+type History = { version?: number; entries: Record<string, string[]> };
+let history: History = { entries: {} };
+try {
+  const p = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../video/state/tracker-history.json');
+  history = JSON.parse(readFileSync(p, 'utf8'));
+} catch {}
+
+// Build a per-date list of slugs from tracker-history for legacy backfill view
+const historyByDate = new Map<string, string[]>();
+for (const [slug, dates] of Object.entries(history.entries || {})) {
+  for (const d of dates) {
+    if (!historyByDate.has(d)) historyByDate.set(d, []);
+    historyByDate.get(d)!.push(slug);
+  }
+}
+
+// Combine: dates with full entries (from log) + dates only in history
+const loggedDates = new Set(log.map(e => e.date));
+const legacyEntries: LogEntry[] = Array.from(historyByDate.entries())
+  .filter(([d]) => !loggedDates.has(d))
+  .map(([d, slugs]) => ({
+    date: d,
+    items: slugs.map(s => ({ slug: s, name: s.replace(/-/g, ' ') })),
+    note: 'Slug-only legacy entry — predates daily-log.json',
+  }));
+
+const allEntries: LogEntry[] = [...log, ...legacyEntries].sort((a, b) => b.date.localeCompare(a.date));
+---
+
+<BaseLayout
+  title="Daily Brief Archive — Watchboard"
+  description="Historical archive of daily intelligence brief videos. Topics chosen, headlines, KPIs, source tiers."
+>
+  <main id="main-content" class="videos-page">
+    <header class="videos-header">
+      <a class="videos-home-link" href={basePath}>&larr; Watchboard</a>
+      <h1>Daily Brief Archive</h1>
+      <p class="videos-subtitle">
+        Every daily video that posts to Telegram. Each entry shows the trackers selected,
+        their editorial headlines, the on-screen KPI, and the source tier — so you can
+        audit what was chosen and why.
+      </p>
+      <p class="videos-meta">
+        {allEntries.length > 0
+          ? allEntries.length + ' entries · oldest ' + allEntries[allEntries.length - 1].date + ' · newest ' + allEntries[0].date
+          : 'No archive entries yet — first entry will land after the next daily run.'}
+      </p>
+    </header>
+
+    {allEntries.length === 0 && (
+      <p class="videos-empty">No daily videos archived yet. Check back after the next run at 00:14 UTC.</p>
+    )}
+
+    <ol class="videos-list">
+      {allEntries.map(entry => (
+        <li class="video-day">
+          <header class="video-day-header">
+            <h2 class="video-day-date">{entry.date}</h2>
+            {entry.mode && <span class="video-day-mode">{entry.mode}</span>}
+            {entry.fileSizeMb && (
+              <span class="video-day-size">{entry.fileSizeMb} MB</span>
+            )}
+            {entry.runId && (
+              <a class="video-day-run" href={'https://github.com/ArtemioPadilla/watchboard/actions/runs/' + entry.runId} target="_blank" rel="noopener noreferrer">workflow run</a>
+            )}
+          </header>
+          {entry.note && <p class="video-day-note">{entry.note}</p>}
+          {entry.items.length > 0 && (
+            <ol class="video-day-items">
+              {entry.items.map(item => (
+                <li class="video-item">
+                  {item.thumbnailUrl && (
+                    <img class="video-item-thumb" src={item.thumbnailUrl} alt={item.name} loading="lazy" referrerpolicy="no-referrer" />
+                  )}
+                  <div class="video-item-body">
+                    <div class="video-item-title">
+                      {item.icon && <span class="video-item-icon">{item.icon}</span>}
+                      <a href={basePath + item.slug + '/'}>{item.name}</a>
+                    </div>
+                    {item.headline && <p class="video-item-headline">{item.headline}</p>}
+                    {item.kpiLabel && (
+                      <p class="video-item-kpi">
+                        <strong>{item.kpiPrefix || ''}{item.kpiValue}{item.kpiSuffix || ''}</strong>
+                        {' '}{item.kpiLabel}
+                      </p>
+                    )}
+                    {item.sourceLabel && (
+                      <p class="video-item-source">
+                        {item.sourceTier && <span class={'tier-pill t' + item.sourceTier}>T{item.sourceTier}</span>}
+                        {' '}{item.sourceLabel}
+                      </p>
+                    )}
+                  </div>
+                </li>
+              ))}
+            </ol>
+          )}
+        </li>
+      ))}
+    </ol>
+  </main>
+</BaseLayout>
+
+<style is:global>
+  .videos-page {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+    color: var(--text-primary);
+    background: var(--bg-primary);
+    font-family: 'DM Sans', system-ui, sans-serif;
+    min-height: 100vh;
+  }
+  body:has(.videos-page) { overflow: auto !important; height: auto !important; }
+  .videos-home-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+  }
+  .videos-home-link:hover { color: var(--accent-blue); }
+  .videos-header h1 { margin: 1.5rem 0 0.5rem; font-size: 2rem; letter-spacing: -0.02em; }
+  .videos-subtitle { color: var(--text-secondary); max-width: 720px; line-height: 1.6; }
+  .videos-meta { color: var(--text-muted); font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; margin-top: 0.5rem; letter-spacing: 0.04em; }
+  .videos-empty { color: var(--text-muted); margin: 3rem 0; font-style: italic; }
+
+  .videos-list { list-style: none; padding: 0; margin: 2rem 0 0; }
+  .video-day {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+  }
+  .video-day-header { display: flex; align-items: baseline; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
+  .video-day-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.1rem;
+    margin: 0;
+    color: var(--accent-amber);
+    letter-spacing: 0.04em;
+  }
+  .video-day-mode {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--accent-blue);
+    background: rgba(52,152,219,0.12);
+    border: 1px solid rgba(52,152,219,0.3);
+    padding: 0.1rem 0.5rem;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .video-day-size, .video-day-run {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+  }
+  .video-day-run { color: var(--accent-blue); text-decoration: none; }
+  .video-day-run:hover { text-decoration: underline; }
+  .video-day-note { color: var(--text-muted); font-size: 0.8rem; font-style: italic; margin: 0 0 0.5rem; }
+
+  .video-day-items { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.75rem; }
+  .video-item {
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+  }
+  .video-item-thumb {
+    width: 96px;
+    height: 64px;
+    object-fit: cover;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+  .video-item-body { flex: 1; min-width: 0; }
+  .video-item-title { display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.25rem; }
+  .video-item-title a {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+  .video-item-title a:hover { color: var(--accent-blue); }
+  .video-item-icon { font-size: 1.1rem; }
+  .video-item-headline { color: var(--text-secondary); font-size: 0.85rem; line-height: 1.4; margin: 0.25rem 0; }
+  .video-item-kpi { color: var(--accent-amber); font-size: 0.75rem; margin: 0.25rem 0; font-family: 'JetBrains Mono', monospace; }
+  .video-item-kpi strong { color: var(--text-primary); }
+  .video-item-source { color: var(--text-muted); font-size: 0.7rem; margin: 0.15rem 0 0; font-family: 'JetBrains Mono', monospace; }
+  .tier-pill {
+    display: inline-block;
+    padding: 0.05rem 0.4rem;
+    border-radius: 999px;
+    font-size: 0.6rem;
+    font-weight: 600;
+    margin-right: 0.25rem;
+  }
+  .tier-pill.t1 { background: rgba(231,76,60,0.15); color: var(--tier-1); border: 1px solid rgba(231,76,60,0.4); }
+  .tier-pill.t2 { background: rgba(52,152,219,0.15); color: var(--tier-2); border: 1px solid rgba(52,152,219,0.4); }
+  .tier-pill.t3 { background: rgba(243,156,18,0.15); color: var(--tier-3); border: 1px solid rgba(243,156,18,0.4); }
+  .tier-pill.t4 { background: rgba(148,152,168,0.15); color: var(--tier-4); border: 1px solid rgba(148,152,168,0.4); }
+</style>
