@@ -174,13 +174,19 @@ jobs:
             exit 0
           fi
           
-          # Get tracker names for caption
+          # Build caption from the SAME headlines shown in the rendered video.
+          # Each tracker's headline is the editorial title displayed on screen;
+          # we fall back to the tracker name only when no headline was selected.
           CAPTION=$(node -e "
+            function escapeHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
             try {
               const d = require('./video/src/data/breaking.json');
-              const names = d.trackers.map(t => '• ' + t.name).join('\n');
+              const lines = d.trackers.map(t => {
+                const head = (t.headline || t.name || '').trim();
+                return '• <b>' + escapeHtml(t.name) + '</b>: ' + escapeHtml(head);
+              }).join('\n');
               const hashtags = d.trackers.map(t => '#' + t.slug.replace(/-/g, '_')).join(' ') + ' #watchboard';
-              console.log('🔴 Watchboard Daily Brief — ${DATE}\n\n' + names + '\n\n🔗 watchboard.dev\n\n' + hashtags);
+              console.log('🔴 <b>Watchboard Daily Brief</b> — ${DATE}\n\n' + lines + '\n\n🔗 watchboard.dev\n\n' + hashtags);
             } catch { console.log('🔴 Watchboard Daily Brief — ${DATE}\n\n🔗 watchboard.dev'); }
           ")
           
@@ -322,11 +328,15 @@ jobs:
           fi
 
           CAPTION=$(node -e "
+            function escapeHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
             try {
               const d = require('./video/src/data/breaking.json');
-              const names = d.trackers.map(t => '\u2705 ' + t.name).join('\n');
+              const lines = d.trackers.map(t => {
+                const head = (t.headline || t.name || '').trim();
+                return '\u2705 <b>' + escapeHtml(t.name) + '</b>: ' + escapeHtml(head);
+              }).join('\n');
               const hashtags = d.trackers.map(t => '#' + t.slug.replace(/-/g, '_')).join(' ') + ' #watchboard';
-              console.log('\uD83C\uDF31 Watchboard Progress Brief \u2014 ${DATE}\n\n' + names + '\n\nScience doesn\'t take days off.\n\uD83D\uDD17 watchboard.dev\n\n' + hashtags);
+              console.log('\uD83C\uDF31 <b>Watchboard Progress Brief</b> \u2014 ${DATE}\n\n' + lines + '\n\nScience doesn\'t take days off.\n\uD83D\uDD17 watchboard.dev\n\n' + hashtags);
             } catch { console.log('\uD83C\uDF31 Watchboard Progress Brief \u2014 ${DATE}\n\n\uD83D\uDD17 watchboard.dev'); }
           ")
 
