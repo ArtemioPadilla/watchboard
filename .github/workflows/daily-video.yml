@@ -237,15 +237,42 @@ jobs:
           # we fall back to the tracker name only when no headline was selected.
           CAPTION=$(node -e "
             function escapeHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+            function slugTag(slug){return '#' + slug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join('');}
+            // Extract proper-noun-like tokens from headlines (CamelCase, ALLCAPS, 2+ chars).
+            // Used to pad to 4 topical hashtags when there aren't enough unique tracker slugs.
+            function headlineTags(text){
+              const STOP = new Set(['The','And','For','With','From','This','That','New','Day','Week','April','March','May','June','July','August','September','October','November','December','January','February','At','In','On','Of','To','By','As','Is','It','Be','Are','An','A','Or','But','If','So','We','You','Our','Their','Its','Has','Have','After','Before','When','While','Where','Why','How','First','Last','Big','Top','Two','Three','Four']);
+              const tokens = (text.match(/\b[A-Z][A-Za-z0-9]{1,}(?:\s[A-Z][A-Za-z0-9]+)?\b|\b[A-Z]{2,}\b/g) || [])
+                .map(t => t.replace(/\s+/g, ''))
+                .filter(t => t.length >= 3 && !STOP.has(t));
+              return tokens.map(t => '#' + t);
+            }
             try {
               const d = require('./video/src/data/breaking.json');
               const lines = d.trackers.map(t => {
                 const head = (t.headline || t.name || '').trim();
                 return '• <b>' + escapeHtml(t.name) + '</b>: ' + escapeHtml(head);
               }).join('\n');
-              const hashtags = d.trackers.map(t => '#' + t.slug.replace(/-/g, '_')).join(' ') + ' #watchboard';
+              // 5 hashtags total: 4 topical (slug-derived first, headline-mined fallback)
+              // + #Watchboard. Instagram breaks layout at 6+.
+              const topical = [];
+              const seen = new Set();
+              for (const t of d.trackers) {
+                const tag = slugTag(t.slug);
+                if (!seen.has(tag.toLowerCase())) { topical.push(tag); seen.add(tag.toLowerCase()); }
+                if (topical.length >= 4) break;
+              }
+              if (topical.length < 4) {
+                const allHeadlines = d.trackers.map(t => t.headline || '').join(' ');
+                for (const tag of headlineTags(allHeadlines)) {
+                  if (seen.has(tag.toLowerCase())) continue;
+                  topical.push(tag); seen.add(tag.toLowerCase());
+                  if (topical.length >= 4) break;
+                }
+              }
+              const hashtags = (topical.slice(0, 4).join(' ') + ' #Watchboard').trim();
               console.log('🔴 <b>Watchboard Daily Brief</b> — ${DATE}\n\n' + lines + '\n\n🔗 watchboard.dev\n\n' + hashtags);
-            } catch { console.log('🔴 Watchboard Daily Brief — ${DATE}\n\n🔗 watchboard.dev'); }
+            } catch { console.log('🔴 Watchboard Daily Brief — ${DATE}\n\n🔗 watchboard.dev\n\n#Watchboard'); }
           ")
           
           curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendVideo" \
@@ -387,15 +414,38 @@ jobs:
 
           CAPTION=$(node -e "
             function escapeHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+            function slugTag(slug){return '#' + slug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join('');}
+            function headlineTags(text){
+              const STOP = new Set(['The','And','For','With','From','This','That','New','Day','Week','April','March','May','June','July','August','September','October','November','December','January','February','At','In','On','Of','To','By','As','Is','It','Be','Are','An','A','Or','But','If','So','We','You','Our','Their','Its','Has','Have','After','Before','When','While','Where','Why','How','First','Last','Big','Top','Two','Three','Four']);
+              const tokens = (text.match(/\b[A-Z][A-Za-z0-9]{1,}(?:\s[A-Z][A-Za-z0-9]+)?\b|\b[A-Z]{2,}\b/g) || [])
+                .map(t => t.replace(/\s+/g, ''))
+                .filter(t => t.length >= 3 && !STOP.has(t));
+              return tokens.map(t => '#' + t);
+            }
             try {
               const d = require('./video/src/data/breaking.json');
               const lines = d.trackers.map(t => {
                 const head = (t.headline || t.name || '').trim();
                 return '\u2705 <b>' + escapeHtml(t.name) + '</b>: ' + escapeHtml(head);
               }).join('\n');
-              const hashtags = d.trackers.map(t => '#' + t.slug.replace(/-/g, '_')).join(' ') + ' #watchboard';
+              const topical = [];
+              const seen = new Set();
+              for (const t of d.trackers) {
+                const tag = slugTag(t.slug);
+                if (!seen.has(tag.toLowerCase())) { topical.push(tag); seen.add(tag.toLowerCase()); }
+                if (topical.length >= 4) break;
+              }
+              if (topical.length < 4) {
+                const allHeadlines = d.trackers.map(t => t.headline || '').join(' ');
+                for (const tag of headlineTags(allHeadlines)) {
+                  if (seen.has(tag.toLowerCase())) continue;
+                  topical.push(tag); seen.add(tag.toLowerCase());
+                  if (topical.length >= 4) break;
+                }
+              }
+              const hashtags = (topical.slice(0, 4).join(' ') + ' #Watchboard').trim();
               console.log('\uD83C\uDF31 <b>Watchboard Progress Brief</b> \u2014 ${DATE}\n\n' + lines + '\n\nScience doesn\'t take days off.\n\uD83D\uDD17 watchboard.dev\n\n' + hashtags);
-            } catch { console.log('\uD83C\uDF31 Watchboard Progress Brief \u2014 ${DATE}\n\n\uD83D\uDD17 watchboard.dev'); }
+            } catch { console.log('\uD83C\uDF31 Watchboard Progress Brief \u2014 ${DATE}\n\n\uD83D\uDD17 watchboard.dev\n\n#Watchboard'); }
           ")
 
           curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendVideo" \
