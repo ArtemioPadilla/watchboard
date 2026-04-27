@@ -53,7 +53,7 @@ Track conflicts, science breakthroughs, political histories, and more — with A
 | ⚡ | **Fusion Energy** | ITER, NIF breakthrough, commercial fusion startups, net energy gain | Global | [Dashboard](https://watchboard.dev/fusion-energy/) |
 
 <details>
-<summary><strong>All 60+ trackers</strong></summary>
+<summary><strong>All 95+ trackers</strong></summary>
 
 | Icon | Tracker | Topic | Region | Link |
 |------|---------|-------|--------|------|

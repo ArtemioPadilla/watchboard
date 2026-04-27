@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **Watchboard** — a multi-topic intelligence dashboard platform. Each "tracker" is a self-contained dashboard with its own data, sections, map region, 3D globe, and AI update prompts. Built with Astro 5, TypeScript, and React islands. Data stored as JSON files per tracker, auto-updated via Claude Code Action (Max subscription OAuth).
 
-Active trackers: **Iran Conflict**, **September 11**, **Chernobyl**, **Fukushima**, **Ayotzinapa**, **MH17 Shootdown**, **Mencho/CJNG**, **Culiacanazo**, and more. New trackers can be created in ~25 min via the `init-tracker.yml` GitHub Actions workflow.
+**95 active trackers** spanning country histories (Mexico, India, China, Russia, Israel, Iran, Brazil, Egypt, Nigeria, etc.), modern conflicts (Iran, Gaza, Ukraine, Sudan, Myanmar, Sahel), Mexican presidencies, scientific breakthroughs (mRNA, CRISPR, fusion), capitals (CDMX), and cultural arcs (BTS, Bad Bunny). The full backlog with proposed Tier 2-5 trackers is in `docs/tracker-roadmap.md`; community votes on what's next at `/vote` (GitHub-issue-backed, 10-vote threshold). New trackers can be created in ~25 min via the `init-tracker.yml` GitHub Actions workflow.
 
 ## Commands
 
@@ -16,9 +16,12 @@ npm run build        # Type-check + build static site to dist/ (postbuild runs p
 npm run preview      # Preview built site
 npm run update-data  # Run AI data update for all trackers (requires ANTHROPIC_API_KEY or OPENAI_API_KEY)
 TRACKER_SLUG=iran-conflict npm run update-data  # Update a single tracker
-npm run backfill-media              # Enrich all events with og:image from source URLs
+npm run backfill-media              # Enrich events with og:image (and og:video) from source URLs
 npm run backfill-media -- --dry-run # Preview what would change without writing
 npm run backfill-media -- --tracker iran-conflict  # Single tracker only
+npm run backfill-wikimedia          # Wikipedia REST + search fallback for events without source URLs
+npm run backfill-wikimedia -- --videos  # Wikimedia Commons video file search
+YOUTUBE_API_KEY=xxx npx tsx scripts/backfill-youtube.ts   # YouTube clip backfill (modern events 1990+)
 ```
 
 ## Deployment & Workflows
@@ -210,7 +213,13 @@ AI-curated social media posting system. Replaces the old `generate-social-drafts
 - `update-data.ts` — legacy AI data updater (direct API keys)
 - `generate-review-manifest.ts` — event gap detection per tracker (used by nightly workflow)
 - `generate-sibling-brief.ts` — cross-tracker context generation (used by nightly workflow)
-- `backfill-media.ts` — enriches existing events with `media` arrays by fetching `og:image` from source URLs. Flags: `--dry-run` (preview only), `--tracker <slug>` (single tracker). Run: `npx tsx scripts/backfill-media.ts`
+- `backfill-media.ts` — enriches existing events with `media` arrays by fetching `og:image` and `og:video` from source URLs. Walks both `data/events/*.json` partitions and `data/timeline.json` era-grouped events. Flags: `--dry-run`, `--tracker <slug>`.
+- `backfill-wikimedia.ts` — Wikipedia REST `page/summary` + full-text search fallback for events without source URLs (typical for pre-internet historical events). With `--videos`, switches to Wikimedia Commons `filetype:video` search and attaches `.webm/.ogv/.mp4` clips with still-frame thumbnails. Idempotent across re-runs.
+- `backfill-youtube.ts` — YouTube Data API v3 search scoped to a curated list of trustworthy news channels (Reuters, AP, BBC, AlJazeera, CNN, etc.). Only processes events dated 1990+. Requires `YOUTUBE_API_KEY` env var (free tier = 10k units/day = ~100 searches; budget per-tracker via `--max N`).
+
+### Tracker request voting (`/vote`)
+
+The `/vote` page lists Tier 2-4 backlog candidates from `docs/tracker-roadmap.md`. Each "Vote on GitHub" button opens a pre-filled issue with the `tracker-vote` label and a `vote-slug:` marker in the body. The `tally-tracker-votes.yml` workflow runs nightly + on every issue event: counts unique GitHub accounts (issue author + 👍 reactions + `+1` comments), writes `public/_tracker-votes/tally.json`, and opens a `[Graduate] tracker: <slug>` issue when a candidate first crosses the 10-vote threshold. The threshold is a single constant (`VOTE_THRESHOLD`) in `src/pages/vote.astro` and `tally-tracker-votes.yml` env.
 
 ### Adding a new tracker
 
