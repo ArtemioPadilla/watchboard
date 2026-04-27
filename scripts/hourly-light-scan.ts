@@ -21,13 +21,17 @@ import {
   saveState,
   normalizeCandidate,
 } from './hourly-types.js';
-import { buildKeywordIndex, scoreCandidate } from '../src/lib/keyword-match.js';
+import { buildKeywordIndices, scoreCandidateDetailed } from '../src/lib/keyword-match.js';
 import { pollRealtimeSources } from '../src/lib/realtime-sources.js';
 import { appendTriageEntries, pruneTriageLog } from '../src/lib/triage-log.js';
 import { loadAllTrackers } from './lib/load-trackers-node.js';
 
 const HIGH_THRESHOLD     = 0.85;
-const MODERATE_THRESHOLD = 0.50;
+// Defer threshold is intentionally low — the new matcher discards aggressively,
+// and we want even single-hit borderline cases to reach the heavy scan's AI
+// triage rather than being lost. The substance gate above keeps direct posts
+// strict; the deferred queue is the heavy scan's input, not a publish channel.
+const MODERATE_THRESHOLD = 0.25;
 
 /** Curated high-signal RSS feeds for the light scan only. The heavy scan
  *  uses the wider list. */
@@ -117,21 +121,22 @@ async function main() {
   const trackers = loadAllTrackers().filter((t) => t.status === 'active');
   if (trackers.length === 0) { console.log('[light-scan] no active trackers'); return; }
 
-  // Build keyword indexes from the actual tracker.json schema:
-  //  - tracker.tags: array of free-form keyword hints (e.g. "Mexico", "PRI")
-  //  - tracker.name: full display name as fallback signal
-  //  - tracker.ai.searchContext: prose context the nightly pipeline uses
-  const indexes = trackers.map((t) => ({
+  // Build keyword indices corpus-aware so common tokens (e.g. "history",
+  // "war", "2025", "tracker") that appear across many trackers are stripped
+  // — they generate false positives on unrelated headlines.
+  const inputs = trackers.map((t) => ({
     tracker: t,
-    index: buildKeywordIndex({
+    config: {
       slug: t.slug,
       keywords: [
         ...(Array.isArray(t.tags) ? t.tags : []),
         ...(t.name ? [t.name] : []),
       ],
       searchContext: t.ai?.searchContext,
-    }),
+    },
   }));
+  const indexMap = buildKeywordIndices(inputs.map((i) => i.config));
+  const indexes = inputs.map((i) => ({ tracker: i.tracker, index: indexMap.get(i.tracker.slug)! }));
 
   const [rss, realtime] = await Promise.all([pollLightFeeds(), pollRealtimeSources()]);
   const fresh = dedup([...rss, ...realtime], seenUrls);
@@ -144,12 +149,25 @@ async function main() {
   for (const cand of fresh) {
     let bestScore = 0;
     let bestSlug = '';
+    let bestDetail = { specificHits: 0, commonHits: 0, phraseHits: 0 };
     for (const { tracker, index } of indexes) {
-      const s = scoreCandidate(cand, index);
-      if (s > bestScore) { bestScore = s; bestSlug = tracker.slug; }
+      const d = scoreCandidateDetailed(cand, index, indexMap);
+      if (d.score > bestScore) {
+        bestScore = d.score;
+        bestSlug = tracker.slug;
+        bestDetail = d;
+      }
     }
 
-    if (bestScore >= HIGH_THRESHOLD && bestSlug) {
+    // Substance gate: even with a high score, a direct post needs at least
+    // 2 distinct specific tokens — single-keyword matches like "Trump" or
+    // "United States" alone produce false positives, and the heavy scan's
+    // AI triage handles those better than the threshold alone.
+    const hasSubstance =
+      bestDetail.specificHits >= 2 ||
+      (bestDetail.specificHits >= 1 && bestDetail.phraseHits >= 1);
+
+    if (bestScore >= HIGH_THRESHOLD && bestSlug && hasSubstance) {
       cand.matchedTracker = bestSlug;
       await postTelegram(cand, bestScore, bestSlug);
       posted++;
