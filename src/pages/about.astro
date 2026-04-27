@@ -192,6 +192,9 @@ const basePath = base.endsWith('/') ? base : `${base}/`;
         <p>
           Watchboard's product roadmap is public and live. <a href={`${basePath}roadmap/`}>View the roadmap →</a> for what's shipped, in progress, planned, and captured as ideas — broken down by area (performance, growth, content, accessibility, infrastructure) with priority and effort estimates. The page is fed directly from the codebase, so it's never out of date with what's deployed.
         </p>
+        <p>
+          The <a href={`${basePath}breaking-news-audit/`}>breaking-news audit page</a> shows every triage decision the hourly + 6-hourly scans made in the last 14 days — useful when calibrating which headlines should reach Telegram.
+        </p>
       </section>
 
       <section>
@@ -279,6 +282,8 @@ const basePath = base.endsWith('/') ? base : `${base}/`;
       <a href={`${basePath}metrics/`}>Status</a>
       <span>&middot;</span>
       <a href={`${basePath}roadmap/`}>Roadmap</a>
+      <span>&middot;</span>
+      <a href={`${basePath}breaking-news-audit/`}>Audit</a>
       <span>&middot;</span>
       <a href={`${basePath}social/`}>Social</a>
       <span>&middot;</span>

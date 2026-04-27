@@ -111,6 +111,7 @@ Metrics schemas: `MetricsRunSchema`, `MetricsIndexEntrySchema`, `MetricsInventor
 - `src/pages/[tracker]/about.astro` — about page per tracker
 - `src/pages/search.astro` — full-text search page (Pagefind UI, dark themed)
 - `src/pages/metrics.astro` — ingestion metrics dashboard (Salesforce-style status page)
+- `src/pages/breaking-news-audit.astro` — public audit page for the breaking-news pipeline (reads `public/_hourly/triage-log.json` at runtime)
 - `src/pages/rss.xml.ts` — global RSS feed (all tracker digests)
 - `src/pages/[tracker]/rss.xml.ts` — per-tracker RSS feed
 
@@ -207,6 +208,10 @@ AI-curated social media posting system. Replaces the old `generate-social-drafts
 - `onboarding.ts` — tour persistence (`getTourState`, `markTourComplete`, `resetTour`, `isTourCompleted`) backed by versioned localStorage keys + one-shot legacy migration. Also keeps the older `COACH_HINTS` queue for post-tour micro-discovery hints.
 - `onboarding-steps.ts` — pure step config: `DESKTOP_STEPS` (6) + `MOBILE_STEPS` (3) consumed by the Onboarding controllers.
 - `defer-load.ts` — `deferImport(factory)` wraps `React.lazy()` factories with `requestIdleCallback` (with `setTimeout(50)` fallback) so heavy chunks like Cesium are not parsed during the LCP/hydration window. Used at `CommandCenter.tsx` for `GlobePanel`.
+- `tracker-feeds.ts` — `REGION_FEEDS`/`DOMAIN_FEEDS` registry + `resolveFeedsForActiveTrackers()` so adding a tracker auto-extends the breaking-news source list.
+- `keyword-match.ts` — `buildKeywordIndex(tracker)` + `scoreCandidate(candidate, index)`. Pure deterministic scoring used by the light scan.
+- `triage-log.ts` — append + 14-day prune helpers backing the audit page.
+- `realtime-sources.ts` — `pollBluesky()` + `pollTelegram()` returning the same `Candidate` shape as RSS.
 
 ### Scripts (`scripts/`)
 
@@ -216,6 +221,7 @@ AI-curated social media posting system. Replaces the old `generate-social-drafts
 - `backfill-media.ts` — enriches existing events with `media` arrays by fetching `og:image` and `og:video` from source URLs. Walks both `data/events/*.json` partitions and `data/timeline.json` era-grouped events. Flags: `--dry-run`, `--tracker <slug>`.
 - `backfill-wikimedia.ts` — Wikipedia REST `page/summary` + full-text search fallback for events without source URLs (typical for pre-internet historical events). With `--videos`, switches to Wikimedia Commons `filetype:video` search and attaches `.webm/.ogv/.mp4` clips with still-frame thumbnails. Idempotent across re-runs.
 - `backfill-youtube.ts` — YouTube Data API v3 search scoped to a curated list of trustworthy news channels (Reuters, AP, BBC, AlJazeera, CNN, etc.). Only processes events dated 1990+. Requires `YOUTUBE_API_KEY` env var (free tier = 10k units/day = ~100 searches; budget per-tracker via `--max N`).
+- `hourly-light-scan.ts` — 15-min cron via `.github/workflows/light-scan.yml`. Polls a curated subset + realtime sources, scores via `keyword-match.ts`, posts to Telegram on score ≥ 0.85, defers 0.5–0.85 to `pending-candidates.json`, discards below 0.5. No LLM call.
 
 ### Tracker request voting (`/vote`)
 
