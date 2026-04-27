@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, type CSSProperties } from 'react';
 import type { TriageLog, TriageLogEntry } from '../../../scripts/hourly-types';
 
 type Decision = TriageLogEntry['decision'];
@@ -107,7 +107,7 @@ export default function TriageLogBoard({ logUrl }: Props) {
   );
 }
 
-const selectStyle: React.CSSProperties = {
+const selectStyle: CSSProperties = {
   background: 'var(--bg-secondary, #0d1117)',
   color: 'var(--text-primary, #e6edf3)',
   border: '1px solid var(--border, #30363d)',
@@ -117,7 +117,7 @@ const selectStyle: React.CSSProperties = {
   fontSize: '0.75rem',
 };
 
-const badge: React.CSSProperties = {
+const badge: CSSProperties = {
   fontFamily: 'JetBrains Mono, monospace',
   fontSize: '0.6rem',
   fontWeight: 600,

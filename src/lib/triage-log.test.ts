@@ -46,9 +46,13 @@ describe('triage-log', () => {
     expect(log.entries[2].candidate.title).toMatch(/^t-2-/);
   });
 
-  it('pruneTriageLog removes entries older than 14 days', () => {
+  it('pruneTriageLog removes entries older than the cutoff (15+ days w/ 14-day retention)', () => {
     const path = join(tmp, 'test3.json');
-    appendTriageEntries([mkEntry(0), mkEntry(7), mkEntry(14), mkEntry(20)], path);
+    // Use 15/20 instead of 14/20 — 14 sits exactly at the cutoff boundary,
+    // so timing jitter between mkEntry() and pruneTriageLog() can flip whether
+    // the 14d entry is kept (>= cutoffMs) or dropped. Test the unambiguous
+    // case: clearly-old entries are removed, recent entries are kept.
+    appendTriageEntries([mkEntry(0), mkEntry(7), mkEntry(15), mkEntry(20)], path);
     const removed = pruneTriageLog(path, 14);
     const log = readTriageLog(path);
     const titles = log.entries.map((e) => e.candidate.title);

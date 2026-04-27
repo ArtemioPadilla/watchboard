@@ -6,11 +6,12 @@ import type { Candidate } from '../../scripts/hourly-types';
 const mkTracker = (over: Partial<TrackerConfig> & { searchContext?: string; keywords?: string[] }): TrackerConfig => ({
   slug: 'iran-conflict', name: 'Iran Conflict', shortName: 'Iran', icon: '🇮🇷',
   status: 'active', domain: 'conflict', region: 'middle-east', sections: [],
+  description: '',
+  navSections: [],
   searchContext: 'Iran-US/Israel conflict',
   keywords: ['Iran', 'Tehran', 'Khamenei', 'IRGC'],
-  meta: { startDate: '2024-01-01' } as any,
   ...over,
-});
+} as unknown as TrackerConfig);
 
 const mkCandidate = (title: string, source = 'reuters'): Candidate => ({
   title, url: `https://x.com/${encodeURIComponent(title)}`, source,

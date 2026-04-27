@@ -575,11 +575,24 @@ if (
   fileURLToPath(import.meta.url) === process.argv[1]
 ) {
   const { candidates, state } = await scan();
-  saveState(state);
+
+  // Add realtime + pending candidates BEFORE saving state, and dedup them
+  // against the same `seen` set scan() used + intra-batch URLs. Without
+  // this, URLs that landed via Bluesky/Telegram or earlier light scans
+  // would be re-triaged on every heavy run.
+  const seenUrls = new Set([
+    ...state.seen.map((s) => s.url),
+    ...candidates.map((c) => c.url),
+  ]);
 
   // Realtime: Bluesky + Telegram public channels.
   const realtime = await pollRealtimeSources();
-  candidates.push(...realtime);
+  for (const c of realtime) {
+    if (seenUrls.has(c.url)) continue;
+    seenUrls.add(c.url);
+    candidates.push(c);
+    state.seen.push({ url: c.url, tracker: c.matchedTracker ?? 'unknown', eventId: '', ts: new Date().toISOString() });
+  }
 
   // Read deferred candidates the light scans accumulated since the last heavy run.
   try {
@@ -587,7 +600,14 @@ if (
     if (existsSync(pendingPath)) {
       const pending = JSON.parse(readFileSync(pendingPath, 'utf8'));
       if (pending?.entries?.length) {
-        candidates.push(...pending.entries.map((e: any) => e.candidate));
+        for (const entry of pending.entries) {
+          const c: Candidate | undefined = entry?.candidate;
+          if (!c?.url) continue;
+          if (seenUrls.has(c.url)) continue;
+          seenUrls.add(c.url);
+          candidates.push(c);
+          state.seen.push({ url: c.url, tracker: c.matchedTracker ?? 'unknown', eventId: '', ts: new Date().toISOString() });
+        }
         // Reset the pending file once consumed
         writeFileSync(pendingPath, JSON.stringify({ version: 1, entries: [] }, null, 2));
       }
@@ -595,6 +615,10 @@ if (
   } catch (err) {
     console.warn('[hourly-scan] failed to read pending candidates:', (err as Error).message);
   }
+
+  // Persist state AFTER realtime + pending have been folded in so subsequent
+  // scans treat their URLs as already seen.
+  saveState(state);
 
   if (candidates.length === 0) {
     console.log('[hourly-scan] No new candidates. Exiting.');

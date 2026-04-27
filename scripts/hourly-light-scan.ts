@@ -23,7 +23,7 @@ import {
 } from './hourly-types.js';
 import { buildKeywordIndex, scoreCandidate } from '../src/lib/keyword-match.js';
 import { pollRealtimeSources } from '../src/lib/realtime-sources.js';
-import { appendTriageEntries } from '../src/lib/triage-log.js';
+import { appendTriageEntries, pruneTriageLog } from '../src/lib/triage-log.js';
 import { loadAllTrackers } from '../src/lib/tracker-registry.js';
 
 const HIGH_THRESHOLD     = 0.85;
@@ -97,11 +97,15 @@ async function postTelegram(candidate: Candidate, score: number, trackerSlug: st
     console.warn('[light-scan] TELEGRAM_BOT_TOKEN/CHAT_ID missing; skipping post');
     return;
   }
-  const text = `⚡ *Breaking* (${trackerSlug}, score ${score.toFixed(2)})\n${candidate.title}\n${candidate.url}`;
+  // Use plain text instead of Markdown to avoid escaping headache — headlines
+  // routinely contain `_`, `*`, `[`, `]`, `(`, `)` which Telegram's Markdown
+  // parser treats as formatting. Plain text + URL preview gives the same UX
+  // without the breakage risk.
+  const text = `⚡ Breaking (${trackerSlug}, score ${score.toFixed(2)})\n${candidate.title}\n${candidate.url}`;
   const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ chat_id: chatId, text, parse_mode: 'Markdown', disable_web_page_preview: false }),
+    body: JSON.stringify({ chat_id: chatId, text, disable_web_page_preview: false }),
   });
   if (!res.ok) console.warn('[light-scan] telegram post failed:', await res.text());
 }
@@ -113,9 +117,20 @@ async function main() {
   const trackers = loadAllTrackers().filter((t) => t.status === 'active');
   if (trackers.length === 0) { console.log('[light-scan] no active trackers'); return; }
 
+  // Build keyword indexes from the actual tracker.json schema:
+  //  - tracker.tags: array of free-form keyword hints (e.g. "Mexico", "PRI")
+  //  - tracker.name: full display name as fallback signal
+  //  - tracker.ai.searchContext: prose context the nightly pipeline uses
   const indexes = trackers.map((t) => ({
     tracker: t,
-    index: buildKeywordIndex({ slug: t.slug, keywords: (t as any).keywords, searchContext: (t as any).searchContext }),
+    index: buildKeywordIndex({
+      slug: t.slug,
+      keywords: [
+        ...(Array.isArray(t.tags) ? t.tags : []),
+        ...(t.name ? [t.name] : []),
+      ],
+      searchContext: t.ai?.searchContext,
+    }),
   }));
 
   const [rss, realtime] = await Promise.all([pollLightFeeds(), pollRealtimeSources()]);
@@ -166,6 +181,10 @@ async function main() {
 
   savePending(pending, PATHS.pendingCandidates);
   appendTriageEntries(logEntries, PATHS.triageLog);
+  // Independent prune from the heavy scan so the audit log stays bounded
+  // even if the heavy pipeline is paused/failing.
+  const removedFromLog = pruneTriageLog(PATHS.triageLog, 14);
+  if (removedFromLog > 0) console.log(`[light-scan] pruned ${removedFromLog} log entries older than 14 days`);
   state.lastScan = new Date().toISOString();
   saveState(state);
 
