@@ -18,6 +18,7 @@ help:
 	@echo ""
 	@echo "  Video — Remotion Studio (interactive timeline editor):"
 	@echo "    make video                   Open Remotion Studio (timeline + preview)"
+	@echo "    make video-prep              Refresh real news + thumbnails for Studio preview"
 	@echo "    make video-install           Install video deps (with --legacy-peer-deps)"
 	@echo "    make video-render            Render daily breaking video → video/output/"
 	@echo "    make video-render-progress   Render daily progress video"
@@ -78,6 +79,12 @@ video-render-progress:
 
 video-fetch:
 	cd video && npx tsx src/data/fetch-breaking.ts
+
+# Refresh real news + download thumbnails as base64 so the Remotion Studio
+# preview shows the actual globe and photos (not just SAMPLE_DATA).
+# Run before `make video` whenever you want fresh data in the timeline.
+video-prep:
+	cd video && npx tsx prep-studio.ts
 
 # ─────────────────────────────────────────────────────────────────────
 # Media backfill
