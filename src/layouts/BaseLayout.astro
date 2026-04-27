@@ -122,6 +122,10 @@ const pushTrackers = loadAllTrackers()
           autocapture: true,
           capture_pageview: true,
           capture_pageleave: true,
+          // Capture LCP, FID/INP, CLS, FCP, TTFB on real user loads so we
+          // can track perf trends in PostHog Insights instead of trusting
+          // noisy single-run synthetic Lighthouse numbers.
+          capture_performance: { web_vitals: true },
         });
       });
     </script>
