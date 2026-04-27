@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added — 2026-04-26
+- **Multi-step onboarding tour** (#122): replaces the single-toast welcome with a 6-step guided desktop tour (hero → globe → sidebar → broadcast ticker → source-tier explainer → closing) and a 3-step mobile bottom-sheet flow. Versioned localStorage keys (`watchboard-tour-{desktop,mobile}-v1`) with one-shot legacy migration. Replay button in the `?` shortcuts panel (with last-completed timestamp); mobile gets a small ↻ button on the carousel.
+  - New: `src/components/islands/Onboarding/{OnboardingTour,MobileOnboarding,SpotlightStep,HeroStep}.tsx`
+  - New: `src/lib/onboarding-steps.ts` + tests; `src/lib/onboarding.ts` extended with tour persistence API and legacy-key migration
+  - Spec: `docs/superpowers/specs/2026-04-25-onboarding-redesign-design.md`
+- **PostHog Web Vitals capture** (#125): `capture_performance: { web_vitals: true }` on `posthog.init` to collect real-user LCP/INP/CLS/FCP/TTFB samples. Surfaced in PostHog → Insights → Web Vitals.
+
+### Changed — 2026-04-26
+- **Defer Cesium parse+execute past LCP** (#123): wrap the lazy `GlobePanel` import in a `deferImport(() => ...)` helper that yields to `requestIdleCallback` (with `setTimeout(50)` fallback for Safari < 16.4). Cesium's ~5s of CPU on mid-tier mobile no longer competes with homepage paint and React hydration. Verified: vendor-globe long-task dropped from 5018 ms to 178 ms post-deploy.
+  - New: `src/lib/defer-load.ts`
+- **SSR mobile story carousel** (#124): render `<MobileStoryCarousel>` unconditionally in `CommandCenter` JSX so the LCP-critical text exists in initial HTML. Visibility now controlled purely by a `.cc-mobile-live-slot` CSS @media rule. Adds a `cc-mobile-tab-{live|trackers}` class on the root so the mobile sidebar is also CSS-driven (prevents pre-hydration desktop-sidebar flash). Wires the `enabled` prop on `useStoryState` so the carousel does not run rAF or write to localStorage when hidden.
+
+### Fixed — 2026-04-26
+- **React hydration error #418 on returning visitors** (#126): `useStoryState` was reading `localStorage.seenSlugs` synchronously in `useMemo`, which reorders eligible stories on the client and caused text mismatch with the SSR pass. Move the read into a `useEffect` so first server and first client render both see an empty seen set; the carousel re-renders into the correct order ~50 ms post-hydration.
+- **Globe double-spin on tracker click** (#127): `handleSelect` triggered two camera flights — `broadcast.jumpTo()` (distance-aware altitude) then `GlobePanel`'s `activeTracker` `useEffect` (altitude 1.8). Skip the latter when `broadcastMode` is on, mirroring the symmetric check on the deselect effect. Effect dep list updated to depend on `trackers` (stable prop) instead of the unmemoized `hubPoints`.
+
 ### Added
 - **Social Command Center — config and seed files**: `social-config.json` at project root (base URL, handle, budget, API costs, scheduling slots, judge thresholds, hashtag rules, languages, tweet types); `public/_social/budget.json` (monthly budget tracker, seeded at $0 spent for 2026-04); `public/_social/history.json` (empty array, seed for posted tweet log)
 - **SEO: Sitemap generation**: `@astrojs/sitemap` integration auto-generates `sitemap-index.xml` and `sitemap-0.xml` at build time with all page URLs

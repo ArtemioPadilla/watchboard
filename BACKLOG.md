@@ -1,6 +1,6 @@
 # Feature Backlog
 
-Last updated: 2026-03-10
+Last updated: 2026-04-26
 
 Reviewed by: Prometeo (PM), Forja (Dev), Centinela (QA) — second-pass consensus applied
 
@@ -39,6 +39,9 @@ Reviewed by: Prometeo (PM), Forja (Dev), Centinela (QA) — second-pass consensu
 | BL-020 | API health indicator | Client-side data source status (green/yellow/red) for OpenSky, USGS, Open-Meteo, Cesium Ion. Pairs with BL-012 as trust signal | S | Dev + PM: moved earlier — trust signal, not polish |
 | BL-021 | Political section source chips | Every section has tier badges except Political — credibility consistency gap | XS | PM: low effort, closes visible inconsistency |
 | BL-024 | KPI trend deltas | Add optional `delta` field to `KpiSchema` showing change direction/magnitude on each KPI card | S | PM: flagged from March 4 assessment, was silently dropped |
+| BL-025 | Migrate from GitHub Pages to Cloudflare Pages | Lighthouse measured 1.8-2.5s TTFB on GH Pages; Cloudflare Pages typically 200-400ms + automatic Brotli (~15-25% smaller than gzip) + better LATAM/EU edge presence. No code changes — DNS swap. Highest ROI/hour of any remaining perf lever. | S | Dev: deferred 2026-04-26 after defer-cesium + SSR-carousel didn't move LCP enough. Confirms with PostHog Web Vitals before/after |
+| BL-026 | Cut homepage HTML payload | `serializedTrackers` includes all 95 trackers' headlines, KPIs, eventImages, digestSummary in initial HTML (157 KB document). Lazy-load detail fields per tracker; keep only what's needed for first paint of cards/sidebar. Estimated -500-800ms LCP via download-time savings. | M | Dev: highest-ROI single code change for perf. Touches `src/pages/index.astro` serialization + relevant island prop shapes |
+| BL-027 | Tree-shake Cesium bundle | Migrate from monolithic `cesium` package import to `@cesium/engine` + `@cesium/widgets` modular imports. Bundle 4.3 MB → ~1.5-2 MB; mobile parse 5s → 2s. Bigger refactor — affects every Cesium import site. | L | Dev: deferred until BL-025 + BL-026 are measured. Pairs with BL-018 (bundle analysis) for verification |
 
 ## P3 — Low Priority / Deferred
 

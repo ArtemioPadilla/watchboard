@@ -126,7 +126,8 @@ Client-hydrated interactive components:
 - **`MetricsDashboard.tsx`** — Salesforce-style ingestion status page with uptime calendar, KPI cards, per-tracker health table, expandable run log, error trend chart
 - **`CesiumGlobe/`** — 3D globe with missile animations, satellites, earthquakes, cinematic event mode (`useCinematicMode.ts`). Globe is fully parameterized — camera presets, categories, and initial view come from `tracker.json` props, not hardcoded.
 - **`BroadcastOverlay.tsx`** — TV news broadcast mode for homepage globe. Lower-third headlines, scrolling ticker, LIVE badge. Auto-cycles through trackers with smooth globe fly-tos. Uses `useBroadcastMode.ts` hook (state machine: idle → transitioning → dwelling). Toggle with `B` key.
-- **`MobileStoryCarousel.tsx`** — Instagram Stories-style carousel on mobile homepage. Circle avatar row, auto-advancing story cards (10s), 3-tier image fallback (verified event media → OSM map tile → domain gradient), swipe-up to open tracker.
+- **`MobileStoryCarousel.tsx`** — Instagram Stories-style carousel on mobile homepage. Circle avatar row, auto-advancing story cards (10s), 3-tier image fallback (verified event media → OSM map tile → domain gradient), swipe-up to open tracker. Always present in the SSR HTML (visibility via `.cc-mobile-live-slot` CSS @media); the `enabled` prop suppresses the rAF auto-advance and `localStorage` writes when hidden on desktop.
+- **`Onboarding/`** — first-visit guided tour. `OnboardingTour.tsx` (6-step desktop controller), `MobileOnboarding.tsx` (3-step bottom-sheet), `SpotlightStep.tsx` (SVG-mask spotlight + auto-positioned tooltip primitive), `HeroStep.tsx` (fullscreen hero / tier-explainer / closing variants). Triggers from `localStorage.watchboard-tour-{desktop,mobile}-v1` (versioned, with one-shot legacy migration). Replayable via the `?` shortcuts panel on desktop and the ↻ button on the mobile carousel.
 
 ### Nightly Update Pipeline
 
@@ -200,6 +201,9 @@ AI-curated social media posting system. Replaces the old `generate-social-drafts
 - `constants.ts` — `NAV_SECTIONS`, `MIL_TABS` (loaded from default tracker config)
 - `timeline-utils.ts` — `flattenTimelineEvents()`, `resolveEventDate()` (supports "Mon DD, YYYY" and "Mon DD" formats)
 - `cesium-config.ts` — `configureCesium()`, `CameraPreset` type, `CameraPresetsMap` type (presets come from tracker.json, not hardcoded)
+- `onboarding.ts` — tour persistence (`getTourState`, `markTourComplete`, `resetTour`, `isTourCompleted`) backed by versioned localStorage keys + one-shot legacy migration. Also keeps the older `COACH_HINTS` queue for post-tour micro-discovery hints.
+- `onboarding-steps.ts` — pure step config: `DESKTOP_STEPS` (6) + `MOBILE_STEPS` (3) consumed by the Onboarding controllers.
+- `defer-load.ts` — `deferImport(factory)` wraps `React.lazy()` factories with `requestIdleCallback` (with `setTimeout(50)` fallback) so heavy chunks like Cesium are not parsed during the LCP/hydration window. Used at `CommandCenter.tsx` for `GlobePanel`.
 
 ### Scripts (`scripts/`)
 
