@@ -15,6 +15,7 @@ import path from 'path';
 
 const args = process.argv.slice(2);
 const dryRun = args.includes('--dry-run');
+const videosOnly = args.includes('--videos');
 const trackerFlagIdx = args.indexOf('--tracker');
 const trackerFilter = trackerFlagIdx !== -1 ? args[trackerFlagIdx + 1] : null;
 const maxFlagIdx = args.indexOf('--max');
@@ -124,6 +125,30 @@ async function wikipediaSearch(query: string): Promise<{ pageUrl: string; thumbn
   return wikipediaSummary(top);
 }
 
+/**
+ * Wikimedia Commons file search restricted to videos. Sparse coverage but
+ * gives historical clips for emblematic events: parades, speeches, disasters.
+ */
+async function findCommonsVideo(event: TimelineEvent): Promise<{ url: string; thumbnail: string; title: string } | null> {
+  if (!event.title) return null;
+  const query = cleanTitle(event.title);
+  await sleep(RATE_LIMIT_MS);
+  const url = `https://commons.wikimedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(query)}+filetype:video&srnamespace=6&srlimit=3&format=json&origin=*`;
+  const data = await fetchJSON(url);
+  const top = data?.query?.search?.[0]?.title;
+  if (!top || !/^File:.+\.(webm|ogv|mp4)$/i.test(top)) return null;
+  await sleep(RATE_LIMIT_MS);
+  const infoUrl = `https://commons.wikimedia.org/w/api.php?action=query&prop=videoinfo|imageinfo&titles=${encodeURIComponent(top)}&viprop=url|size&iiprop=url&iiurlwidth=480&format=json&origin=*`;
+  const info = await fetchJSON(infoUrl);
+  const pages = info?.query?.pages;
+  if (!pages) return null;
+  const page: any = Object.values(pages)[0];
+  const videoUrl = page?.videoinfo?.[0]?.url || page?.imageinfo?.[0]?.url;
+  const thumb = page?.imageinfo?.[0]?.thumburl;
+  if (!videoUrl) return null;
+  return { url: videoUrl, thumbnail: thumb || videoUrl, title: top };
+}
+
 async function findThumbnail(event: TimelineEvent): Promise<{ pageUrl: string; thumbnail: string; via: string } | null> {
   if (!event.title) return null;
   const cleaned = cleanTitle(event.title);
@@ -146,6 +171,29 @@ async function processEvents(events: TimelineEvent[], slug: string, fileLabel: s
   for (const ev of events) {
     if (budget.remaining <= 0) { skipped++; continue; }
     if (!ev.title) { skipped++; continue; }
+
+    if (videosOnly) {
+      // In videos pass: skip events that already have a video media entry
+      if (ev.media && ev.media.some(m => m.type === 'video')) { skipped++; continue; }
+      const v = await findCommonsVideo(ev);
+      if (!v) { failed++; continue; }
+      const entry: MediaItem = {
+        type: 'video',
+        url: v.url,
+        source: `Wikimedia Commons / ${v.title.replace(/^File:/, '')}`,
+        thumbnail: v.thumbnail,
+      };
+      if (dryRun) {
+        console.log(`  [${slug}/${fileLabel}] WOULD add commons-video "${ev.id}" -> ${v.title}`);
+      } else {
+        ev.media = [...(ev.media || []), entry];
+        console.log(`  [${slug}/${fileLabel}] +commons-video "${ev.id}" (${v.title})`);
+      }
+      enriched++;
+      budget.remaining--;
+      continue;
+    }
+
     if (ev.media && Array.isArray(ev.media) && ev.media.some(m => m.thumbnail)) { skipped++; continue; }
 
     const hit = await findThumbnail(ev);

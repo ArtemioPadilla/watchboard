@@ -84,26 +84,35 @@ async function fetchOgImage(url: string): Promise<string | null> {
       // Ignore cancel errors
     }
 
-    // Extract og:image — handles both property="og:image" and content="..." in any order
-    // Pattern 1: <meta property="og:image" content="...">
-    const pattern1 = /<meta\s[^>]*property=["']og:image["'][^>]*content=["']([^"']+)["'][^>]*\/?>/i;
-    // Pattern 2: <meta content="..." property="og:image">
-    const pattern2 = /<meta\s[^>]*content=["']([^"']+)["'][^>]*property=["']og:image["'][^>]*\/?>/i;
+    // Extract og:image AND og:video meta tags (both property orders supported)
+    const pickOg = (prop: string): string | null => {
+      const escaped = prop.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const p1 = new RegExp(`<meta\\s[^>]*property=["']${escaped}["'][^>]*content=["']([^"']+)["'][^>]*\\/?>`, 'i');
+      const p2 = new RegExp(`<meta\\s[^>]*content=["']([^"']+)["'][^>]*property=["']${escaped}["'][^>]*\\/?>`, 'i');
+      const m = html.match(p1) || html.match(p2);
+      if (!m || !m[1]) return null;
+      const v = m[1].trim();
+      if (v.startsWith('//')) return `https:${v}`;
+      if (v.startsWith('http://') || v.startsWith('https://')) return v;
+      return null;
+    };
 
-    const match = html.match(pattern1) || html.match(pattern2);
-    if (match && match[1]) {
-      const imageUrl = match[1].trim();
-      // Basic validation: must look like a URL
-      if (imageUrl.startsWith('http://') || imageUrl.startsWith('https://') || imageUrl.startsWith('//')) {
-        return imageUrl.startsWith('//') ? `https:${imageUrl}` : imageUrl;
-      }
-    }
-
-    return null;
+    const image = pickOg('og:image');
+    const video = pickOg('og:video') || pickOg('og:video:url') || pickOg('og:video:secure_url');
+    // Stash on a side cache for fetchOgVideo() to read
+    if (video && image) (fetchOgImage as any)._lastVideo = video;
+    else (fetchOgImage as any)._lastVideo = null;
+    return image;
   } catch {
     // Timeout, network error, etc.
+    (fetchOgImage as any)._lastVideo = null;
     return null;
   }
+}
+
+/** Companion to fetchOgImage — reads og:video found in the most recent fetch. */
+function lastOgVideo(): string | null {
+  return (fetchOgImage as any)._lastVideo ?? null;
 }
 
 // ── Image Quality Filtering ──
@@ -299,6 +308,7 @@ async function main() {
           // Resolve opaque URLs before fetching
           const resolvedUrl = resolveSourceUrl(source.url!);
           const ogImage = await fetchOgImage(resolvedUrl);
+          const ogVideo = lastOgVideo();
 
           if (ogImage && isNewsImage(ogImage)) {
             // Run shared validation
@@ -308,20 +318,29 @@ async function main() {
               continue;
             }
 
-            const mediaEntry: MediaItem = {
+            const entries: MediaItem[] = [{
               type: 'image',
               url: source.url!,
               caption: event.title,
               source: source.name,
               thumbnail: ogImage,
-            };
+            }];
+            if (ogVideo) {
+              entries.push({
+                type: 'video',
+                url: ogVideo,
+                caption: event.title,
+                source: source.name,
+                thumbnail: ogImage,
+              });
+            }
 
             if (dryRun) {
-              console.log(`  [${slug}/${file}] Would add media for "${event.id}" from ${source.name}`);
-              console.log(`    og:image: ${ogImage}`);
+              console.log(`  [${slug}/${file}] Would add media${ogVideo ? '+video' : ''} for "${event.id}" from ${source.name}`);
+              console.log(`    og:image: ${ogImage}${ogVideo ? `\n    og:video: ${ogVideo}` : ''}`);
             } else {
-              event.media = [mediaEntry];
-              console.log(`  [${slug}/${file}] Fetched og:image from ${source.url} for event "${event.id}"`);
+              event.media = entries;
+              console.log(`  [${slug}/${file}] Fetched og:image${ogVideo ? '+og:video' : ''} from ${source.url} for event "${event.id}"`);
               fileModified = true;
             }
 
@@ -376,24 +395,33 @@ async function main() {
             await sleep(RATE_LIMIT_MS);
             const resolvedUrl = resolveSourceUrl(source.url!);
             const ogImage = await fetchOgImage(resolvedUrl);
+            const ogVideo = lastOgVideo();
             if (ogImage && isNewsImage(ogImage)) {
               const validation = validateThumbnail(ogImage);
               if (!validation.url) {
                 console.log(`  [${slug}/timeline.json] Rejected thumbnail for "${event.id}": ${validation.rejectedReason}`);
                 continue;
               }
-              const mediaEntry: MediaItem = {
+              const entries: MediaItem[] = [{
                 type: 'article',
                 url: source.url!,
                 source: source.name,
                 thumbnail: validation.url,
-              };
+              }];
+              if (ogVideo) {
+                entries.push({
+                  type: 'video',
+                  url: ogVideo,
+                  source: source.name,
+                  thumbnail: validation.url,
+                });
+              }
               if (dryRun) {
-                console.log(`  [${slug}/timeline.json] Would add media for "${event.id}" from ${source.name}`);
+                console.log(`  [${slug}/timeline.json] Would add media${ogVideo ? '+video' : ''} for "${event.id}" from ${source.name}`);
               } else {
-                event.media = [mediaEntry];
+                event.media = entries;
                 timelineModified = true;
-                console.log(`  [${slug}/timeline.json] Added media for "${event.id}" from ${source.name}`);
+                console.log(`  [${slug}/timeline.json] Added media${ogVideo ? '+video' : ''} for "${event.id}" from ${source.name}`);
               }
               totalEnriched++;
               foundMedia = true;
