@@ -485,7 +485,7 @@ export default function CommandCenter({
       : { ...styles.sidebar };
 
   return (
-    <div className="command-center-root" role="application" aria-label="Watchboard Command Center" style={styles.container}>
+    <div className={`command-center-root cc-mobile-tab-${mobileTab}`} role="application" aria-label="Watchboard Command Center" style={styles.container}>
       <h1 className="sr-only">Watchboard — Intelligence Dashboard Platform</h1>
       <NotificationManager trackers={trackers} followedSlugs={followedSlugs} />
 
@@ -679,11 +679,28 @@ export default function CommandCenter({
           </button>
         </div>
       )}
-      {isMobile && mobileTab === 'live' && (
-        <div style={{ flex: '1 1 0%', overflow: 'hidden', position: 'relative' as const, minHeight: 0 }}>
-          <MobileStoryCarousel trackers={trackers} basePath={basePath} followedSlugs={followedSlugs} onTrackerChange={handleStoryTrackerChange} />
-        </div>
-      )}
+      {/* Mobile story carousel — rendered unconditionally so SSR HTML
+          contains the LCP-critical text without waiting for JS to detect
+          viewport. Hidden on desktop and on mobile when mobileTab !== 'live'
+          via the cc-mobile-live-slot CSS class (see index.astro).
+          suppressHydrationWarning: useStoryState reads localStorage seenSlugs
+          on the client which can reorder eligible stories vs the SSR pass.
+          The structure is identical, only the rendered text may differ;
+          React updates text in-place without unmounting, so the SSR'd LCP
+          element still satisfies LCP. */}
+      <div
+        className={`cc-mobile-live-slot ${mobileTab === 'live' ? 'cc-mobile-live-active' : ''}`}
+        style={{ flex: '1 1 0%', overflow: 'hidden', position: 'relative' as const, minHeight: 0 }}
+        suppressHydrationWarning
+      >
+        <MobileStoryCarousel
+          trackers={trackers}
+          basePath={basePath}
+          followedSlugs={followedSlugs}
+          onTrackerChange={handleStoryTrackerChange}
+          enabled={isMobile && mobileTab === 'live'}
+        />
+      </div>
       <nav id="tour-sidebar" className="cc-sidebar" style={sidebarStyle} aria-label="Tracker directory">
         {!isMobile && sidebarCollapsed ? (
           <div style={styles.collapsedSidebarContent}>
