@@ -93,8 +93,8 @@ export const Video: React.FC<VideoProps> = ({ data, narrationSrc, geoFeatures = 
         }}
       >
         <CanvasGlobe
-          width={700}
-          height={700}
+          width={1000}
+          height={1000}
           geoFeatures={geoFeatures}
           trackers={trackers}
           activeTrackerIndex={activeTrackerIndex}
