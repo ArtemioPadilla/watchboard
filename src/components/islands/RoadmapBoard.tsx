@@ -13,15 +13,10 @@ import {
 
 type View = 'kanban' | 'timeline';
 
-interface Props {
-  /** From import.meta.env.BASE_URL on the Astro side. */
-  basePath: string;
-}
-
 const STATUS_ORDER: RoadmapStatus[] = ['shipped', 'in-progress', 'planned', 'idea'];
 const MILESTONE_ORDER: RoadmapMilestone[] = ['M1', 'M2', 'M3', 'M4', 'future'];
 
-export default function RoadmapBoard({ basePath }: Props) {
+export default function RoadmapBoard() {
   const [view, setView] = useState<View>('kanban');
   const [areaFilter, setAreaFilter] = useState<RoadmapArea | 'all'>('all');
   const [expandedId, setExpandedId] = useState<string | null>(null);
@@ -120,7 +115,6 @@ export default function RoadmapBoard({ basePath }: Props) {
                       item={item}
                       expanded={expandedId === item.id}
                       onToggle={() => toggleExpand(item.id)}
-                      basePath={basePath}
                     />
                   ))}
                 </div>
@@ -147,7 +141,6 @@ export default function RoadmapBoard({ basePath }: Props) {
                       item={item}
                       expanded={expandedId === item.id}
                       onToggle={() => toggleExpand(item.id)}
-                      basePath={basePath}
                     />
                   ))}
                 </div>
@@ -175,12 +168,10 @@ function ItemCard({
   item,
   expanded,
   onToggle,
-  basePath,
 }: {
   item: RoadmapItem;
   expanded: boolean;
   onToggle: () => void;
-  basePath: string;
 }) {
   const area = AREA_META[item.area];
   const status = STATUS_META[item.status];
@@ -188,16 +179,19 @@ function ItemCard({
     .map((id) => ROADMAP_ITEMS.find((it) => it.id === id)?.title)
     .filter(Boolean) as string[];
 
+  const bodyId = `${item.id}-body`;
+
   return (
     <article
       className={`rm-card ${expanded ? 'expanded' : ''}`}
       style={{ borderLeftColor: area.color }}
-      aria-expanded={expanded}
     >
       <button
         type="button"
         className="rm-card-toggle"
         onClick={onToggle}
+        aria-expanded={expanded}
+        aria-controls={bodyId}
         aria-label={`${expanded ? 'Collapse' : 'Expand'} ${item.title}`}
       >
         <div className="rm-card-head">
@@ -214,7 +208,7 @@ function ItemCard({
         </div>
       </button>
       {expanded && (
-        <div className="rm-card-body">
+        <div id={bodyId} className="rm-card-body">
           <p className="rm-card-desc">{item.description}</p>
           {item.outcome && (
             <p className="rm-card-outcome">
