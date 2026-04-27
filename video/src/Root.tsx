@@ -9,9 +9,14 @@ import { SAMPLE_DATA } from './data/types';
 // so the timeline shows real photos and globe; render.ts always re-runs
 // fetch-breaking + thumbnail download from scratch.
 let studioData: typeof SAMPLE_DATA = SAMPLE_DATA;
+let studioGeoFeatures: unknown[] = [];
+let studioEarthTexture = '';
 try {
   // eslint-disable-next-line @typescript-eslint/no-require-imports
-  studioData = require('./data/studio-data.json');
+  const bundle = require('./data/studio-data.json');
+  studioData = bundle;
+  studioGeoFeatures = bundle._geoFeatures ?? [];
+  studioEarthTexture = bundle._earthTexture ?? '';
 } catch { /* file optional */ }
 
 export const RemotionRoot: React.FC = () => {
@@ -29,12 +34,27 @@ export const RemotionRoot: React.FC = () => {
         height={1920}
         defaultProps={{
           data: studioData,
-          geoFeatures: [],
-          earthTexture: '',
+          geoFeatures: studioGeoFeatures,
+          earthTexture: studioEarthTexture,
           theme: 'dark',
         }}
       />
-      {/* Preview compositions for individual sections */}
+      {/* Daily Progress Brief — same component, day theme */}
+      <Composition
+        id="WatchboardProgress"
+        component={Video}
+        durationInFrames={durationInFrames}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          data: studioData,
+          geoFeatures: studioGeoFeatures,
+          earthTexture: studioEarthTexture,
+          theme: 'day' as const,
+        }}
+      />
+      {/* Single-tracker preview */}
       <Composition
         id="WatchboardDaily-Short"
         component={Video}
@@ -47,7 +67,8 @@ export const RemotionRoot: React.FC = () => {
             ...studioData,
             trackers: studioData.trackers.slice(0, 1),
           },
-          geoFeatures: [],
+          geoFeatures: studioGeoFeatures,
+          earthTexture: studioEarthTexture,
           theme: 'dark' as const,
         }}
       />

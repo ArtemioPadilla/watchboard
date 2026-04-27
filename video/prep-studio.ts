@@ -14,6 +14,20 @@ import { fileURLToPath } from 'node:url';
 const ROOT_DIR = dirname(fileURLToPath(import.meta.url));
 const DATA_PATH = resolve(ROOT_DIR, 'src/data/breaking.json');
 const STUDIO_PATH = resolve(ROOT_DIR, 'src/data/studio-data.json');
+const GEO_PATH = resolve(ROOT_DIR, '../public/geo/countries-110m.json');
+
+// Mirror render.ts texture preference order. First file that exists wins.
+const EARTH_TEXTURE_DARK = [
+  resolve(ROOT_DIR, '../public/textures/earth-night-lights-nasa.jpg'),
+  resolve(ROOT_DIR, '../public/textures/earth-dark-blend-4k.webp'),
+  resolve(ROOT_DIR, '../public/textures/earth-dark-threejs.jpg'),
+];
+const EARTH_TEXTURE_DAY = [
+  resolve(ROOT_DIR, '../public/textures/earth-clouds-nasa-2k.jpg'),
+  resolve(ROOT_DIR, '../public/textures/earth-solar-2k.jpg'),
+  resolve(ROOT_DIR, '../public/textures/earth-day-4k.jpg'),
+  resolve(ROOT_DIR, '../public/textures/earth-day-atmos-2k.jpg'),
+];
 
 async function downloadThumbnail(url: string): Promise<Buffer | null> {
   const headers = {
@@ -80,9 +94,40 @@ async function main() {
     if (!downloaded) console.log(`  ${tracker.name}: all thumbnail URLs failed`);
   }
 
-  writeFileSync(STUDIO_PATH, JSON.stringify(data, null, 2) + '\n');
-  console.log(`[prep-studio] Wrote ${STUDIO_PATH} with ${data.trackers.length} trackers + thumbnails.`);
-  console.log('[prep-studio] Now restart Remotion Studio (npm run dev) — preview will use this data.');
+  // Load GeoJSON for the globe outline
+  let geoFeatures: unknown[] = [];
+  try {
+    const geoData = JSON.parse(readFileSync(GEO_PATH, 'utf-8'));
+    geoFeatures = geoData.features ?? [];
+    console.log(`[prep-studio] GeoJSON: ${geoFeatures.length} country features`);
+  } catch (err) {
+    console.warn(`[prep-studio] GeoJSON load failed (${(err as Error).message}) — globe outline will be empty`);
+  }
+
+  // Encode an Earth texture as base64. Tries dark first (default theme).
+  let earthTexture = '';
+  const candidates = [...EARTH_TEXTURE_DARK, ...EARTH_TEXTURE_DAY];
+  for (const tex of candidates) {
+    if (existsSync(tex)) {
+      try {
+        const buf = readFileSync(tex);
+        const ext = tex.endsWith('.webp') ? 'webp' : tex.endsWith('.png') ? 'png' : 'jpeg';
+        earthTexture = `data:image/${ext};base64,${buf.toString('base64')}`;
+        console.log(`[prep-studio] Earth texture: ${tex.split('/').pop()} (${(buf.length / 1024).toFixed(0)} KB)`);
+        break;
+      } catch {}
+    }
+  }
+  if (!earthTexture) {
+    console.warn('[prep-studio] No Earth texture found — globe will render as solid color');
+  }
+
+  // Build the bundle Studio reads
+  const bundle = { ...data, _geoFeatures: geoFeatures, _earthTexture: earthTexture };
+  writeFileSync(STUDIO_PATH, JSON.stringify(bundle, null, 2) + '\n');
+  const sizeMb = (JSON.stringify(bundle).length / 1024 / 1024).toFixed(1);
+  console.log(`[prep-studio] Wrote ${STUDIO_PATH} (${sizeMb} MB, ${data.trackers.length} trackers + globe assets).`);
+  console.log('[prep-studio] Restart Remotion Studio (Ctrl+C then make video) to pick it up.');
 }
 
 main().catch((err) => {
