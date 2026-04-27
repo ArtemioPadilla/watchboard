@@ -1,3 +1,5 @@
+import { z } from 'zod';
+
 /**
  * SlideStyle — every tunable typography / position / sizing value that
  * TrackerSlide.tsx renders, lifted out as a single prop so Remotion
@@ -211,3 +213,99 @@ export function alpha(hex: string, a: number): string {
   const n = parseInt(m[1], 16);
   return `rgba(${(n>>16)&255},${(n>>8)&255},${n&255},${a})`;
 }
+
+// Zod schema mirroring SlideStyle so Remotion Studio renders interactive
+// controls in the right "Props" panel. Each numeric field becomes a slider
+// (with min/max where it makes sense), strings become text inputs, booleans
+// checkboxes, hex colors get a color picker via z.string().
+export const slideStyleSchema = z.object({
+  imageCard: z.object({
+    topPct: z.number().min(0).max(100),
+    width: z.number().min(100).max(1080),
+    maxHeight: z.number().min(50).max(800),
+    borderRadius: z.number().min(0).max(60),
+    borderWidthPx: z.number().min(0).max(10),
+    glowOpacity: z.number().min(0).max(1),
+    shadowBlur: z.number().min(0).max(80),
+  }),
+  textBlock: z.object({
+    topPctWithThumb: z.number().min(0).max(100),
+    topPctNoThumb: z.number().min(0).max(100),
+    paddingLeft: z.number().min(0).max(300),
+    paddingRight: z.number().min(0).max(300),
+    paddingTop: z.number().min(0).max(200),
+    paddingBottom: z.number().min(0).max(200),
+  }),
+  trackerName: z.object({
+    fontFamily: z.string(),
+    fontSize: z.number().min(10).max(120),
+    fontWeight: z.number().min(100).max(900),
+    letterSpacing: z.number().min(0).max(20),
+    underlineWidthFinal: z.number().min(0).max(800),
+    underlineHeight: z.number().min(0).max(20),
+    underlineGlowOpacity: z.number().min(0).max(1),
+    nameUnderlineGap: z.number().min(0).max(40),
+    blockMarginBottom: z.number().min(0).max(80),
+  }),
+  headline: z.object({
+    fontFamily: z.string(),
+    fontSizeWithThumb: z.number().min(12).max(120),
+    fontSizeNoThumb: z.number().min(12).max(140),
+    fontWeight: z.number().min(100).max(900),
+    color: z.string(),
+    lineHeight: z.number().min(0.8).max(2.5),
+    maxWidth: z.number().min(200).max(1080),
+    marginBottom: z.number().min(0).max(80),
+  }),
+  kpi: z.object({
+    labelFontFamily: z.string(),
+    labelFontSize: z.number().min(10).max(80),
+    labelFontWeight: z.number().min(100).max(900),
+    labelColor: z.string(),
+    labelLetterSpacing: z.number().min(0).max(12),
+    labelMarginBottom: z.number().min(0).max(50),
+    chevronFontSize: z.number().min(10).max(140),
+    chevronOpacity: z.number().min(0).max(1),
+    chevronGap: z.number().min(0).max(80),
+    valueFontFamily: z.string(),
+    valueFontSizeWithThumb: z.number().min(20).max(200),
+    valueFontSizeNoThumb: z.number().min(20).max(200),
+    valueFontWeight: z.number().min(100).max(900),
+    valueGlowOuter: z.number().min(0).max(1),
+    valueGlowSpread: z.number().min(0).max(1),
+  }),
+  source: z.object({
+    badgePadX: z.number().min(0).max(50),
+    badgePadY: z.number().min(0).max(30),
+    badgeBorderRadius: z.number().min(0).max(40),
+    badgeFontSize: z.number().min(8).max(50),
+    badgeFontWeight: z.number().min(100).max(900),
+    badgeLetterSpacing: z.number().min(0).max(8),
+    sourceFontSize: z.number().min(8).max(50),
+    sourceColor: z.string(),
+    rowGap: z.number().min(0).max(50),
+  }),
+  breakthrough: z.object({
+    enabled: z.boolean(),
+    top: z.number().min(0).max(300),
+    right: z.number().min(0).max(300),
+    paddingX: z.number().min(0).max(60),
+    paddingY: z.number().min(0).max(40),
+    borderRadius: z.number().min(0).max(80),
+    fontSize: z.number().min(8).max(60),
+    fontWeight: z.number().min(100).max(900),
+    color: z.string(),
+    letterSpacing: z.number().min(0).max(10),
+  }),
+  animation: z.object({
+    enterSpringDamping: z.number().min(1).max(60),
+    enterSpringStiffness: z.number().min(20).max(400),
+    enterSpringMass: z.number().min(0.1).max(5),
+    enterDurationFrames: z.number().min(1).max(120),
+    exitDurationFrames: z.number().min(1).max(120),
+    headlineDelayFrames: z.number().min(0).max(120),
+    kpiDelayFrames: z.number().min(0).max(120),
+    sourceDelayFrames: z.number().min(0).max(120),
+    imageDelayFrames: z.number().min(0).max(120),
+  }),
+});
