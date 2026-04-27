@@ -120,14 +120,72 @@ jobs:
             git push || echo "Push failed (non-fatal)"
           fi
 
-      - name: Commit tracker history
+      - name: Append to daily-log.json
+        continue-on-error: true
+        run: |
+          DATE=$(date -u +%Y-%m-%d)
+          VIDEO="video/output/watchboard-${DATE}.mp4"
+          NARRATED="video/output/watchboard-${DATE}-narrated-en.mp4"
+          mkdir -p video/state
+          DATE="$DATE" VIDEO="$VIDEO" NARRATED="$NARRATED" RUN_ID="${{ github.run_id }}" node -e "
+            const fs = require('fs');
+            const path = 'video/state/daily-log.json';
+            const date = process.env.DATE;
+            let log = [];
+            try { log = JSON.parse(fs.readFileSync(path, 'utf8')); } catch {}
+            if (!Array.isArray(log)) log = [];
+            if (log.some(e => e.date === date)) {
+              console.log('Daily log already has entry for ' + date + ' — skipping append');
+              process.exit(0);
+            }
+            const breaking = JSON.parse(fs.readFileSync('video/src/data/breaking.json', 'utf8'));
+            const file = process.env.VIDEO;
+            const narrated = process.env.NARRATED;
+            const fileSize = fs.existsSync(file) ? fs.statSync(file).size : null;
+            const narratedSize = fs.existsSync(narrated) ? fs.statSync(narrated).size : null;
+            const items = (breaking.trackers || []).map(t => ({
+              slug: t.slug,
+              name: t.name,
+              icon: t.icon,
+              headline: t.headline,
+              kpiLabel: t.kpiLabel,
+              kpiValue: t.kpiValue,
+              kpiPrefix: t.kpiPrefix,
+              kpiSuffix: t.kpiSuffix,
+              sourceTier: t.sourceTier,
+              sourceLabel: t.sourceLabel,
+              thumbnailUrl: Array.isArray(t.thumbnailUrls) ? t.thumbnailUrls[0] : null,
+            }));
+            log.push({
+              date,
+              renderedAt: new Date().toISOString(),
+              mode: 'breaking',
+              items,
+              file: fileSize ? file : null,
+              fileSizeMb: fileSize ? +(fileSize / 1024 / 1024).toFixed(2) : null,
+              narratedFile: narratedSize ? narrated : null,
+              narratedSizeMb: narratedSize ? +(narratedSize / 1024 / 1024).toFixed(2) : null,
+              runId: process.env.RUN_ID,
+            });
+            log.sort((a, b) => b.date.localeCompare(a.date));
+            fs.writeFileSync(path, JSON.stringify(log, null, 2) + '\n');
+            console.log('Appended ' + date + ' (' + items.length + ' items) to daily-log.json');
+          "
+
+      - name: Commit tracker history + daily log
         continue-on-error: true
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          if [ -f video/state/tracker-history.json ]; then
-            git add video/state/tracker-history.json
-            git diff --cached --quiet || git commit -m "chore(video): update tracker history $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          changed=0
+          for f in video/state/tracker-history.json video/state/daily-log.json; do
+            if [ -f "$f" ]; then
+              git add "$f"
+              changed=1
+            fi
+          done
+          if [ $changed -eq 1 ]; then
+            git diff --cached --quiet || git commit -m "chore(video): update tracker history + daily log $(date -u +%Y-%m-%dT%H:%M:%SZ)"
             for i in 1 2 3; do
               git pull --rebase origin main && git push && break
               git rebase --abort || true
@@ -135,7 +193,7 @@ jobs:
               sleep 2
             done
           else
-            echo "No tracker-history.json to commit"
+            echo "No video state to commit"
           fi
 
       - name: Upload video artifacts
