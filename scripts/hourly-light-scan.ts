@@ -134,7 +134,7 @@ async function main() {
       if (s > bestScore) { bestScore = s; bestSlug = tracker.slug; }
     }
 
-    if (bestScore >= HIGH_THRESHOLD) {
+    if (bestScore >= HIGH_THRESHOLD && bestSlug) {
       cand.matchedTracker = bestSlug;
       await postTelegram(cand, bestScore, bestSlug);
       posted++;
