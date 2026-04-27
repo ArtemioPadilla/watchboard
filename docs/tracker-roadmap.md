@@ -1,8 +1,10 @@
 # Tracker Roadmap
 
-Living document of proposed trackers, prioritized by impact. Tier 1 has been (or is being) implemented; Tiers 2–5 are the open backlog and feed the community vote at `/vote`.
+Living document of proposed **trackers** (content), prioritized by impact. Tier 1 has been (or is being) implemented; Tiers 2–5 are the open backlog and feed the community vote at `/vote`.
 
-Last updated: 2026-04-25.
+> Looking for the **platform** roadmap (perf, growth, accessibility, infrastructure)? See [`product-roadmap.md`](./product-roadmap.md) or the live interactive view at [/roadmap/](https://watchboard.dev/roadmap/).
+
+Last updated: 2026-04-26.
 
 ## Status Legend
 
