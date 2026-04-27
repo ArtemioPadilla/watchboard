@@ -14,188 +14,112 @@
     --muted: #9498a8;
     --accent: #58a6ff;
     --accent-amber: #f0c060;
-    --accent-green: #2ecc71;
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: 'DM Sans', system-ui, sans-serif; height: 100%; }
-  body { display: flex; flex-direction: column; }
+  body { display: flex; flex-direction: column; height: 100vh; }
   header {
     padding: 0.6rem 1rem;
     border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+    display: flex; align-items: center; gap: 1rem;
     background: var(--panel);
   }
-  header h1 { margin: 0; font-size: 0.95rem; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.06em; }
+  header h1 { margin: 0; font-size: 0.85rem; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.06em; }
+  header .meta { color: var(--muted); font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; }
   header .actions { margin-left: auto; display: flex; gap: 0.5rem; }
   button.btn {
-    background: var(--panel-2);
-    color: var(--text);
-    border: 1px solid var(--border);
-    padding: 0.35rem 0.7rem;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.7rem;
-    border-radius: 4px;
-    cursor: pointer;
-    letter-spacing: 0.05em;
+    background: var(--panel-2); color: var(--text); border: 1px solid var(--border);
+    padding: 0.35rem 0.7rem; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
+    border-radius: 4px; cursor: pointer; letter-spacing: 0.05em;
   }
   button.btn:hover { border-color: var(--accent); color: var(--accent); }
   button.btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
-  button.btn.primary:hover { background: #4a8fe0; color: #fff; }
 
-  main {
-    flex: 1;
-    display: grid;
-    grid-template-columns: 1fr 380px;
-    overflow: hidden;
-  }
+  .top-bar { display: flex; gap: 0.7rem; padding: 0.5rem 1rem; background: var(--panel-2); border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+  .top-bar label { font-size: 0.7rem; color: var(--muted); font-family: 'JetBrains Mono', monospace; display: flex; align-items: center; gap: 0.3rem; }
+  .top-bar select { background: var(--bg); color: var(--text); border: 1px solid var(--border); padding: 0.2rem 0.3rem; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; border-radius: 3px; }
 
-  /* Stage */
+  main { flex: 1; display: grid; grid-template-columns: 1fr 420px; overflow: hidden; }
+
   .stage {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #0a0b0e, #14161e);
-    overflow: auto;
-    padding: 1rem;
+    display: flex; align-items: center; justify-content: center;
+    background: repeating-linear-gradient(45deg, #0a0b0e, #0a0b0e 10px, #12141a 10px, #12141a 20px);
+    overflow: auto; padding: 1rem;
   }
-  .canvas-wrap {
-    width: 360px;
-    height: 640px;
-    position: relative;
+  /* Real video canvas: 1080×1920 vertical 30fps. Render at 1/3 = 360×640. */
+  .canvas-frame {
+    position: relative; overflow: hidden;
     box-shadow: 0 0 0 1px var(--border), 0 12px 40px rgba(0,0,0,0.6);
-    transform-origin: center center;
     background: #000;
-    overflow: hidden;
   }
-  .canvas-wrap.size-portrait { width: 360px; height: 640px; }
-  .canvas-wrap.size-square { width: 480px; height: 480px; }
-  .canvas-wrap.size-landscape { width: 640px; height: 360px; }
+  .scaled { position: absolute; top: 0; left: 0; transform-origin: top left; }
 
-  /* Slide layers */
-  .bg-grad { position: absolute; inset: 0; }
-  .bg-glow { position: absolute; inset: 0; pointer-events: none; }
-  .top-date {
+  .bg { position: absolute; inset: 0; }
+  .vignette { position: absolute; inset: 0; pointer-events: none; }
+
+  .image-card-wrap {
     position: absolute;
-    width: 100%;
-    text-align: center;
-    font-family: 'JetBrains Mono', monospace;
-    pointer-events: none;
+    top: 42%; left: 0; right: 0;
+    display: flex; justify-content: center;
+    z-index: 2;
   }
-  .name-block {
+  .image-card { width: 400px; max-height: 200px; border-radius: 8px; overflow: hidden; }
+  .image-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .text-block {
     position: absolute;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    pointer-events: none;
+    left: 0; right: 0; bottom: 0;
+    padding: 10px 70px 30px;
+    display: flex; flex-direction: column; align-items: center;
   }
-  .tracker-name {
-    font-family: 'JetBrains Mono', monospace;
-    text-transform: uppercase;
-  }
-  .name-underline {
-    margin-top: 8px;
-    border-radius: 2px;
-  }
+  .name-block { display: flex; flex-direction: column; align-items: center; margin-bottom: 14px; }
+  .tracker-name { font-family: 'JetBrains Mono', monospace; text-transform: uppercase; }
+  .name-underline { margin-top: 8px; border-radius: 2px; }
+
   .headline {
-    position: absolute;
-    width: calc(100% - 40px);
-    left: 20px;
-    text-align: center;
     font-family: 'DM Sans', sans-serif;
-    line-height: 1.25;
-    pointer-events: none;
-  }
-  .kpi-block {
-    position: absolute;
-    width: 100%;
-    text-align: center;
-    pointer-events: none;
-  }
-  .kpi-label {
-    font-family: 'JetBrains Mono', monospace;
-    color: var(--muted);
-  }
-  .kpi-value {
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 700;
-  }
-  .source-row {
-    position: absolute;
-    width: 100%;
-    text-align: center;
-    pointer-events: none;
-  }
-  .tier-badge {
-    display: inline-block;
-    border-radius: 4px;
-    font-family: 'JetBrains Mono', monospace;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-  }
-  .source-label {
-    font-family: 'JetBrains Mono', monospace;
-    margin-top: 6px;
-  }
-  .thumb {
-    position: absolute;
-    object-fit: cover;
-  }
-  .corner-brand {
-    position: absolute;
-    font-family: 'JetBrains Mono', monospace;
-    font-weight: 700;
-    color: var(--accent-amber);
-    background: rgba(0,0,0,0.4);
-    padding: 6px 12px;
-    border-radius: 4px;
-    border: 1px solid rgba(240,192,96,0.4);
-    pointer-events: none;
+    line-height: 1.25; text-align: center;
+    max-width: 940px; max-height: 5em; overflow: hidden;
+    margin-bottom: 18px;
   }
 
-  /* Right panel */
-  .panel {
-    background: var(--panel);
-    border-left: 1px solid var(--border);
-    overflow-y: auto;
-    padding: 0.75rem;
-    font-size: 0.8rem;
-  }
-  details {
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    margin-bottom: 0.6rem;
-    background: var(--panel-2);
-  }
-  details summary {
-    cursor: pointer;
-    padding: 0.4rem 0.7rem;
+  .kpi-block { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .kpi-label { font-family: 'JetBrains Mono', monospace; text-transform: uppercase; margin-bottom: 6px; }
+  .kpi-value-row { display: flex; align-items: center; gap: 16px; }
+  .chevron { font-family: 'DM Sans', sans-serif; font-weight: 700; opacity: 0.5; }
+  .kpi-value { font-family: 'DM Sans', sans-serif; font-weight: 700; line-height: 1; }
+
+  .bottom-row { display: flex; align-items: center; justify-content: space-between; width: 100%; margin-top: auto; }
+  .source-left { display: flex; align-items: center; gap: 10px; }
+  .tier-badge { border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-weight: 600; letter-spacing: 1px; }
+  .source-label { font-family: 'JetBrains Mono', monospace; }
+
+  .breakthrough {
+    position: absolute; top: 48px; right: 36px;
+    background: rgba(240,165,0,0.18);
+    border: 1.5px solid rgba(240,165,0,0.6);
+    border-radius: 32px; padding: 8px 20px;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--accent);
+    font-size: 18px; font-weight: 700;
+    color: #f0c060; letter-spacing: 3px;
+    z-index: 3;
+  }
+
+  .panel { background: var(--panel); border-left: 1px solid var(--border); overflow-y: auto; padding: 0.7rem; font-size: 0.8rem; }
+  details { border: 1px solid var(--border); border-radius: 4px; margin-bottom: 0.6rem; background: var(--panel-2); }
+  details summary {
+    cursor: pointer; padding: 0.4rem 0.7rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent);
     list-style: none;
   }
   details summary::-webkit-details-marker { display: none; }
-  details[open] summary { border-bottom: 1px solid var(--border); }
-  .controls { padding: 0.6rem 0.7rem; display: grid; grid-template-columns: 1fr; gap: 0.5rem; }
-  .row { display: grid; grid-template-columns: 100px 1fr 50px; align-items: center; gap: 0.5rem; }
-  .row label { color: var(--muted); font-size: 0.7rem; font-family: 'JetBrains Mono', monospace; }
+  .controls { padding: 0.6rem 0.7rem; display: grid; gap: 0.4rem; }
+  .row { display: grid; grid-template-columns: 130px 1fr 60px; align-items: center; gap: 0.4rem; }
+  .row label { color: var(--muted); font-size: 0.65rem; font-family: 'JetBrains Mono', monospace; }
   .row input[type=range] { width: 100%; }
-  .row input[type=number], .row input[type=text], .row select {
-    background: var(--bg); color: var(--text); border: 1px solid var(--border);
-    padding: 0.2rem 0.3rem; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
-    border-radius: 3px; width: 100%;
-  }
-  .row .val { color: var(--accent-amber); font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; text-align: right; }
-  input[type=color] { padding: 0; height: 24px; border: none; background: none; }
-
-  .top-bar { display: flex; gap: 0.4rem; padding: 0.5rem; background: var(--panel-2); border-bottom: 1px solid var(--border); }
-  .top-bar label { font-size: 0.7rem; color: var(--muted); font-family: 'JetBrains Mono', monospace; display: flex; align-items: center; gap: 0.3rem; }
+  .row input[type=color] { padding: 0; height: 24px; border: none; background: none; }
+  .row .val { color: var(--accent-amber); font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; text-align: right; }
 
   textarea#export-out {
     width: 100%; min-height: 220px; background: var(--bg); color: var(--text);
@@ -203,10 +127,11 @@
     font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
     resize: vertical;
   }
-
-  .swatch {
-    display: inline-block; width: 14px; height: 14px; border-radius: 3px;
-    border: 1px solid var(--border); vertical-align: middle; margin-right: 4px;
+  .export-fab {
+    position: fixed; bottom: 12px; left: 12px;
+    width: 600px; max-height: 60vh; overflow: auto;
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: 4px; z-index: 50;
   }
 </style>
 </head>
@@ -214,26 +139,26 @@
 
 <header>
   <h1>WATCHBOARD VIDEO EDITOR</h1>
-  <span style="color: var(--muted); font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;">vertical 1080×1920 preview at 1/3 scale</span>
+  <span class="meta">1080×1920 @ 30fps · matches video/src/components/TrackerSlide.tsx</span>
   <div class="actions">
     <button class="btn" id="reset-btn">Reset</button>
-    <button class="btn" id="randomize-btn">Sample data</button>
     <button class="btn primary" id="export-btn">Export JSON</button>
   </div>
 </header>
 
 <div class="top-bar">
-  <label>Format
-    <select id="format-select">
-      <option value="portrait">Portrait 9:16</option>
-      <option value="square">Square 1:1</option>
-      <option value="landscape">Landscape 16:9</option>
+  <label>Scale
+    <select id="scale-select">
+      <option value="0.222">1/4.5 (240×426)</option>
+      <option value="0.333" selected>1/3 (360×640)</option>
+      <option value="0.444">1/2.25 (480×853)</option>
+      <option value="0.5">1/2 (540×960)</option>
     </select>
   </label>
   <label>Theme
     <select id="theme-select">
       <option value="dark">Dark</option>
-      <option value="day">Day</option>
+      <option value="day">Day (progress)</option>
     </select>
   </label>
   <label>Sample
@@ -243,59 +168,55 @@
       <option value="2">Gaza War</option>
     </select>
   </label>
-  <label style="margin-left: auto;">
-    <input type="checkbox" id="show-thumb" checked /> Show thumbnail
-  </label>
+  <label><input type="checkbox" id="show-thumb" checked /> Thumbnail</label>
+  <label><input type="checkbox" id="show-image-card" checked /> Image card layer</label>
 </div>
 
 <main>
+  <div class="stage">
+    <div class="canvas-frame" id="canvas">
+      <div class="scaled" id="scaled" style="width: 1080px; height: 1920px;">
+        <div class="bg" id="layer-bg"></div>
+        <div class="vignette" id="layer-vignette"></div>
+        <div class="breakthrough" id="layer-breakthrough" style="display:none">↑ BREAKTHROUGH</div>
 
-  <div class="stage" id="stage">
-    <div class="canvas-wrap size-portrait" id="canvas">
-      <!-- Background gradient -->
-      <div class="bg-grad" id="layer-bg"></div>
-      <div class="bg-glow" id="layer-glow"></div>
+        <div class="image-card-wrap" id="layer-image-wrap">
+          <div class="image-card" id="layer-image-card">
+            <img id="layer-image" src="" />
+          </div>
+        </div>
 
-      <!-- Top corner brand -->
-      <div class="corner-brand" id="layer-brand">WATCHBOARD</div>
-
-      <!-- Top date -->
-      <div class="top-date" id="layer-date">2026-04-27</div>
-
-      <!-- Tracker name + underline -->
-      <div class="name-block" id="layer-name-block">
-        <div class="tracker-name" id="layer-name">CANCER BREAKTHROUGHS</div>
-        <div class="name-underline" id="layer-underline"></div>
-      </div>
-
-      <!-- Headline -->
-      <div class="headline" id="layer-headline">MD Anderson Unveils New Cancer Breakthroughs at AACR Conference</div>
-
-      <!-- KPI -->
-      <div class="kpi-block" id="layer-kpi">
-        <div class="kpi-label" id="layer-kpi-label">FDA-APPROVED CAR-T CELL THERAPIES</div>
-        <div class="kpi-value" id="layer-kpi-value">7</div>
-      </div>
-
-      <!-- Thumbnail -->
-      <img class="thumb" id="layer-thumb" src="" style="display:none" />
-
-      <!-- Source row -->
-      <div class="source-row" id="layer-source">
-        <span class="tier-badge" id="layer-tier">TIER 2 — MAJOR OUTLET</span>
-        <div class="source-label" id="layer-source-label">FDA CBER, 2024</div>
+        <div class="text-block" id="layer-text">
+          <div class="name-block">
+            <div class="tracker-name" id="layer-name">CANCER BREAKTHROUGHS</div>
+            <div class="name-underline" id="layer-underline"></div>
+          </div>
+          <div class="headline" id="layer-headline">MD Anderson Unveils New Cancer Breakthroughs at AACR Conference</div>
+          <div class="kpi-block">
+            <div class="kpi-label" id="layer-kpi-label">FDA-APPROVED CAR-T CELL THERAPIES</div>
+            <div class="kpi-value-row">
+              <span class="chevron" id="layer-chevron-l">«</span>
+              <span class="kpi-value" id="layer-kpi-value">7</span>
+              <span class="chevron" id="layer-chevron-r">»</span>
+            </div>
+          </div>
+          <div class="bottom-row">
+            <div class="source-left">
+              <div class="tier-badge" id="layer-tier">TIER 2 — MAJOR OUTLET</div>
+              <span class="source-label" id="layer-source-label">FDA CBER, 2024</span>
+            </div>
+            <div></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
-  <aside class="panel" id="panel">
-    <!-- Controls injected by JS -->
-  </aside>
-
+  <aside class="panel" id="panel"></aside>
 </main>
 
-<details style="position: fixed; bottom: 12px; left: 12px; max-width: 600px; max-height: 60vh; overflow: auto; background: var(--panel); border: 1px solid var(--border); border-radius: 4px; z-index: 50;">
-  <summary>Export</summary>
+<details class="export-fab">
+  <summary>Export JSON</summary>
   <div style="padding: 0.5rem;">
     <textarea id="export-out" readonly></textarea>
   </div>
@@ -303,431 +224,275 @@
 
 <script>
 const SAMPLES = [
-  {
-    name: 'CANCER BREAKTHROUGHS', headline: 'MD Anderson Unveils New Cancer Breakthroughs at AACR Conference',
-    accent: '#10b981', kpiLabel: 'FDA-APPROVED CAR-T CELL THERAPIES', kpiValue: '7', tier: 2,
-    sourceLabel: 'FDA CBER, 2024',
-    thumb: 'https://www.statnews.com/wp-content/uploads/2015/09/150920_DrugCompanies.jpg'
-  },
-  {
-    name: 'IRAN CONFLICT', headline: 'IRGC fires ballistic salvo at Negev airbase amid escalating Hormuz incidents',
-    accent: '#e74c3c', kpiLabel: 'CONFIRMED STRIKES (LAST 30D)', kpiValue: '142', tier: 1,
-    sourceLabel: 'IDF Spokesperson, IISS',
-    thumb: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Shahab-3D_missile.jpg/640px-Shahab-3D_missile.jpg'
-  },
-  {
-    name: 'GAZA WAR', headline: 'IDF announces phased withdrawal from Rafah corridor; humanitarian pause begins',
-    accent: '#f39c12', kpiLabel: 'DAYS OF CONFLICT', kpiValue: '930', tier: 1,
-    sourceLabel: 'OCHA, IDF, ICRC',
-    thumb: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Gaza_Strip_map2.svg/640px-Gaza_Strip_map2.svg.png'
-  }
+  { name: 'CANCER BREAKTHROUGHS', headline: 'MD Anderson Unveils New Cancer Breakthroughs at AACR Conference',
+    accent: '#10b981', kpiLabel: 'FDA-APPROVED CAR-T CELL THERAPIES', kpiValue: '7', kpiPrefix: '', kpiSuffix: '',
+    tier: 2, sourceLabel: 'FDA CBER, 2024',
+    thumb: 'https://www.statnews.com/wp-content/uploads/2015/09/150920_DrugCompanies.jpg' },
+  { name: 'IRAN CONFLICT', headline: 'IRGC fires ballistic salvo at Negev airbase amid escalating Hormuz incidents',
+    accent: '#e74c3c', kpiLabel: 'CONFIRMED STRIKES (LAST 30D)', kpiValue: '142', kpiPrefix: '+', kpiSuffix: '',
+    tier: 1, sourceLabel: 'IDF Spokesperson, IISS',
+    thumb: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Shahab-3D_missile.jpg/640px-Shahab-3D_missile.jpg' },
+  { name: 'GAZA WAR', headline: 'IDF announces phased withdrawal from Rafah corridor; humanitarian pause begins',
+    accent: '#f39c12', kpiLabel: 'DAYS OF CONFLICT', kpiValue: '930', kpiPrefix: '', kpiSuffix: '',
+    tier: 1, sourceLabel: 'OCHA, IDF, ICRC',
+    thumb: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Gaza_Strip_map2.svg/640px-Gaza_Strip_map2.svg.png' },
 ];
 
-// Default config - matches current TrackerSlide.tsx values where possible.
+// All defaults match exact pixel values in video/src/components/TrackerSlide.tsx + Background.tsx.
 const DEFAULT_CONFIG = {
   background: {
-    gradAngle: 135,
-    topColor: '#0a0b0e',
-    bottomColor: '#14161e',
-    accentGlowOpacity: 0.18,
-    accentGlowSize: 80,
+    darkGrad: 'linear-gradient(180deg, #0a0b0e 0%, #0d0f15 40%, #0a0b0e 100%)',
+    dayGrad: 'linear-gradient(180deg, #0a0e1a 0%, #1a2a4a 30%, #2d4a7a 60%, #4a6fa5 80%, #8b5e3c 95%, #c4843c 100%)',
+    vignetteOpacity: 0.5,
   },
-  brand: {
-    enabled: true,
-    top: 12,
-    right: 12,
-    fontSize: 14,
-    color: '#f0c060',
-  },
-  date: {
-    enabled: true,
-    top: 18,
-    fontSize: 14,
-    color: '#9498a8',
-    letterSpacing: 4,
-  },
-  trackerName: {
-    top: 56,
-    fontSize: 22,
-    fontWeight: 600,
-    letterSpacing: 4,
-    underlineWidth: 80,
-    underlineHeight: 3,
-    underlineGlow: 0.5,
-  },
-  headline: {
-    top: 130,
-    fontSize: 28,
-    fontWeight: 700,
-    color: '#e8e9ed',
-    lineHeight: 1.25,
-    maxWidth: 320,
-    paddingX: 20,
-  },
-  kpi: {
-    top: 320,
-    labelFontSize: 14,
-    labelColor: '#9498a8',
-    labelLetterSpacing: 1.5,
-    labelGap: 8,
-    valueFontSize: 64,
-    valueFontWeight: 700,
-  },
-  thumb: {
-    top: 430,
-    width: 280,
-    height: 140,
-    borderRadius: 8,
-    opacity: 0.92,
-    centerX: true,
-  },
-  source: {
-    top: 580,
-    badgePadX: 12,
-    badgePadY: 4,
-    badgeFontSize: 12,
-    badgeBg: '#10b981',
-    badgeText: '#0a0b0e',
-    sourceFontSize: 12,
-    sourceColor: '#9498a8',
-  },
-  animation: {
-    enterSpringDamping: 14,
-    enterSpringStiffness: 120,
-    enterSpringMass: 0.8,
-    enterDuration: 20,
-    exitDuration: 15,
-  },
+  imageCard: { topPct: 42, width: 400, maxHeight: 200, borderRadius: 8, borderWidth: 2, glowAlpha: 0.25, shadowBlur: 24 },
+  textBlock: { topPctWithThumb: 62, topPctNoThumb: 55, paddingLeft: 70, paddingRight: 70, paddingTop: 10, paddingBottom: 30 },
+  trackerName: { fontSize: 34, fontWeight: 600, letterSpacing: 4, underlineWidthFinal: 160, underlineHeight: 3, underlineGlowAlpha: 0.5, marginBottom: 14, nameUnderlineGap: 8 },
+  headline: { fontSizeWithThumb: 42, fontSizeNoThumb: 48, fontWeight: 700, color: '#e8e9ed', lineHeight: 1.25, maxWidth: 940, marginBottom: 18 },
+  kpi: { labelFontSize: 22, labelFontWeight: 500, labelColor: '#9498a8', labelLetterSpacing: 3, labelMarginBottom: 6, chevronFontSize: 48, chevronOpacity: 0.5, chevronGap: 16, valueFontSizeWithThumb: 56, valueFontSizeNoThumb: 72, valueFontWeight: 700, valueGlowOuter: 0.38, valueGlowSpread: 0.19 },
+  source: { badgePadX: 12, badgePadY: 4, badgeBorderRadius: 4, badgeFontSize: 20, badgeFontWeight: 600, badgeLetterSpacing: 1, sourceFontSize: 20, sourceColor: '#9498a8', rowGap: 10 },
+  breakthrough: { enabled: true, top: 48, right: 36, paddingX: 20, paddingY: 8, borderRadius: 32, fontSize: 18, fontWeight: 700, color: '#f0c060', letterSpacing: 3 },
+  animation: { enterDamping: 14, enterStiffness: 120, enterMass: 0.8, enterDuration: 20, exitDuration: 15, headlineDelayFrames: 20, kpiDelayFrames: 35, sourceDelayFrames: 50, imageDelayFrames: 20 },
 };
 
 let cfg = JSON.parse(JSON.stringify(DEFAULT_CONFIG));
-const STORAGE_KEY = 'watchboard-video-editor-cfg';
+const STORAGE_KEY = 'watchboard-video-editor-cfg-v2';
+try { const s = localStorage.getItem(STORAGE_KEY); if (s) cfg = { ...cfg, ...JSON.parse(s) }; } catch {}
 
-// Restore from localStorage on load
-try {
-  const saved = localStorage.getItem(STORAGE_KEY);
-  if (saved) cfg = { ...cfg, ...JSON.parse(saved) };
-} catch {}
-
-// Schema for the controls panel — describes every tunable param.
 const SECTIONS = [
-  {
-    title: 'Background',
-    key: 'background',
-    fields: [
-      { name: 'gradAngle', label: 'Gradient angle', type: 'range', min: 0, max: 360, step: 1, unit: '°' },
-      { name: 'topColor', label: 'Top color', type: 'color' },
-      { name: 'bottomColor', label: 'Bottom color', type: 'color' },
-      { name: 'accentGlowOpacity', label: 'Accent glow', type: 'range', min: 0, max: 1, step: 0.01 },
-      { name: 'accentGlowSize', label: 'Glow size', type: 'range', min: 0, max: 200, step: 1, unit: '%' },
-    ],
-  },
-  {
-    title: 'Watchboard brand',
-    key: 'brand',
-    fields: [
-      { name: 'enabled', label: 'Show', type: 'checkbox' },
-      { name: 'top', label: 'Top', type: 'range', min: 0, max: 100, step: 1, unit: 'px' },
-      { name: 'right', label: 'Right', type: 'range', min: 0, max: 100, step: 1, unit: 'px' },
-      { name: 'fontSize', label: 'Font size', type: 'range', min: 8, max: 32, step: 1, unit: 'px' },
-      { name: 'color', label: 'Color', type: 'color' },
-    ],
-  },
-  {
-    title: 'Date',
-    key: 'date',
-    fields: [
-      { name: 'enabled', label: 'Show', type: 'checkbox' },
-      { name: 'top', label: 'Top', type: 'range', min: 0, max: 200, step: 1, unit: 'px' },
-      { name: 'fontSize', label: 'Font size', type: 'range', min: 8, max: 40, step: 1, unit: 'px' },
-      { name: 'color', label: 'Color', type: 'color' },
-      { name: 'letterSpacing', label: 'Letter spacing', type: 'range', min: 0, max: 12, step: 0.5, unit: 'px' },
-    ],
-  },
-  {
-    title: 'Tracker name + underline',
-    key: 'trackerName',
-    fields: [
-      { name: 'top', label: 'Top', type: 'range', min: 0, max: 300, step: 1, unit: 'px' },
-      { name: 'fontSize', label: 'Font size', type: 'range', min: 12, max: 48, step: 1, unit: 'px' },
-      { name: 'fontWeight', label: 'Weight', type: 'range', min: 300, max: 900, step: 100 },
-      { name: 'letterSpacing', label: 'Letter spacing', type: 'range', min: 0, max: 12, step: 0.5, unit: 'px' },
-      { name: 'underlineWidth', label: 'Underline w', type: 'range', min: 0, max: 240, step: 1, unit: 'px' },
-      { name: 'underlineHeight', label: 'Underline h', type: 'range', min: 0, max: 12, step: 1, unit: 'px' },
-      { name: 'underlineGlow', label: 'Underline glow', type: 'range', min: 0, max: 1, step: 0.05 },
-    ],
-  },
-  {
-    title: 'Headline',
-    key: 'headline',
-    fields: [
-      { name: 'top', label: 'Top', type: 'range', min: 0, max: 600, step: 1, unit: 'px' },
-      { name: 'fontSize', label: 'Font size', type: 'range', min: 14, max: 60, step: 1, unit: 'px' },
-      { name: 'fontWeight', label: 'Weight', type: 'range', min: 300, max: 900, step: 100 },
-      { name: 'color', label: 'Color', type: 'color' },
-      { name: 'lineHeight', label: 'Line height', type: 'range', min: 0.9, max: 2.0, step: 0.05 },
-      { name: 'maxWidth', label: 'Max width', type: 'range', min: 100, max: 360, step: 4, unit: 'px' },
-      { name: 'paddingX', label: 'Padding X', type: 'range', min: 0, max: 80, step: 1, unit: 'px' },
-    ],
-  },
-  {
-    title: 'KPI',
-    key: 'kpi',
-    fields: [
-      { name: 'top', label: 'Top', type: 'range', min: 100, max: 800, step: 1, unit: 'px' },
-      { name: 'labelFontSize', label: 'Label size', type: 'range', min: 8, max: 40, step: 1, unit: 'px' },
-      { name: 'labelColor', label: 'Label color', type: 'color' },
-      { name: 'labelLetterSpacing', label: 'Label LS', type: 'range', min: 0, max: 6, step: 0.1, unit: 'px' },
-      { name: 'labelGap', label: 'Label gap', type: 'range', min: 0, max: 40, step: 1, unit: 'px' },
-      { name: 'valueFontSize', label: 'Value size', type: 'range', min: 24, max: 160, step: 1, unit: 'px' },
-      { name: 'valueFontWeight', label: 'Value weight', type: 'range', min: 300, max: 900, step: 100 },
-    ],
-  },
-  {
-    title: 'Thumbnail',
-    key: 'thumb',
-    fields: [
-      { name: 'top', label: 'Top', type: 'range', min: 0, max: 800, step: 1, unit: 'px' },
-      { name: 'width', label: 'Width', type: 'range', min: 80, max: 360, step: 1, unit: 'px' },
-      { name: 'height', label: 'Height', type: 'range', min: 60, max: 480, step: 1, unit: 'px' },
-      { name: 'borderRadius', label: 'Radius', type: 'range', min: 0, max: 40, step: 1, unit: 'px' },
-      { name: 'opacity', label: 'Opacity', type: 'range', min: 0, max: 1, step: 0.05 },
-      { name: 'centerX', label: 'Center X', type: 'checkbox' },
-    ],
-  },
-  {
-    title: 'Source row',
-    key: 'source',
-    fields: [
-      { name: 'top', label: 'Top', type: 'range', min: 200, max: 900, step: 1, unit: 'px' },
-      { name: 'badgePadX', label: 'Badge pad-X', type: 'range', min: 0, max: 30, step: 1, unit: 'px' },
-      { name: 'badgePadY', label: 'Badge pad-Y', type: 'range', min: 0, max: 16, step: 1, unit: 'px' },
-      { name: 'badgeFontSize', label: 'Badge size', type: 'range', min: 8, max: 24, step: 1, unit: 'px' },
-      { name: 'badgeBg', label: 'Badge bg', type: 'color' },
-      { name: 'badgeText', label: 'Badge text', type: 'color' },
-      { name: 'sourceFontSize', label: 'Source size', type: 'range', min: 8, max: 24, step: 1, unit: 'px' },
-      { name: 'sourceColor', label: 'Source color', type: 'color' },
-    ],
-  },
-  {
-    title: 'Animation (enter/exit)',
-    key: 'animation',
-    fields: [
-      { name: 'enterSpringDamping', label: 'Damping', type: 'range', min: 1, max: 50, step: 1 },
-      { name: 'enterSpringStiffness', label: 'Stiffness', type: 'range', min: 50, max: 300, step: 5 },
-      { name: 'enterSpringMass', label: 'Mass', type: 'range', min: 0.1, max: 3, step: 0.1 },
-      { name: 'enterDuration', label: 'Enter (frames)', type: 'range', min: 5, max: 60, step: 1 },
-      { name: 'exitDuration', label: 'Exit (frames)', type: 'range', min: 5, max: 60, step: 1 },
-    ],
-  },
+  { title: 'Background', key: 'background', fields: [
+    { name: 'vignetteOpacity', label: 'Vignette α', type: 'range', min: 0, max: 1, step: 0.05 },
+  ]},
+  { title: 'Image card (42% top)', key: 'imageCard', fields: [
+    { name: 'topPct', label: 'Top %', type: 'range', min: 0, max: 90, step: 1, unit: '%' },
+    { name: 'width', label: 'Width', type: 'range', min: 200, max: 1080, step: 4, unit: 'px' },
+    { name: 'maxHeight', label: 'Max height', type: 'range', min: 80, max: 600, step: 4, unit: 'px' },
+    { name: 'borderRadius', label: 'Radius', type: 'range', min: 0, max: 40, step: 1, unit: 'px' },
+    { name: 'borderWidth', label: 'Border', type: 'range', min: 0, max: 8, step: 0.5, unit: 'px' },
+    { name: 'glowAlpha', label: 'Border glow α', type: 'range', min: 0, max: 1, step: 0.02 },
+    { name: 'shadowBlur', label: 'Shadow blur', type: 'range', min: 0, max: 60, step: 1, unit: 'px' },
+  ]},
+  { title: 'Text block (bottom)', key: 'textBlock', fields: [
+    { name: 'topPctWithThumb', label: 'Top % w/thumb', type: 'range', min: 30, max: 90, step: 1, unit: '%' },
+    { name: 'topPctNoThumb', label: 'Top % no-thumb', type: 'range', min: 30, max: 90, step: 1, unit: '%' },
+    { name: 'paddingLeft', label: 'Pad L', type: 'range', min: 0, max: 200, step: 2, unit: 'px' },
+    { name: 'paddingRight', label: 'Pad R', type: 'range', min: 0, max: 200, step: 2, unit: 'px' },
+    { name: 'paddingTop', label: 'Pad T', type: 'range', min: 0, max: 100, step: 2, unit: 'px' },
+    { name: 'paddingBottom', label: 'Pad B', type: 'range', min: 0, max: 100, step: 2, unit: 'px' },
+  ]},
+  { title: 'Tracker name + underline', key: 'trackerName', fields: [
+    { name: 'fontSize', label: 'Font size', type: 'range', min: 12, max: 80, step: 1, unit: 'px' },
+    { name: 'fontWeight', label: 'Weight', type: 'range', min: 300, max: 900, step: 100 },
+    { name: 'letterSpacing', label: 'Letter sp', type: 'range', min: 0, max: 12, step: 0.5, unit: 'px' },
+    { name: 'underlineWidthFinal', label: 'Underline w', type: 'range', min: 0, max: 600, step: 4, unit: 'px' },
+    { name: 'underlineHeight', label: 'Underline h', type: 'range', min: 0, max: 12, step: 1, unit: 'px' },
+    { name: 'underlineGlowAlpha', label: 'Glow α', type: 'range', min: 0, max: 1, step: 0.05 },
+    { name: 'marginBottom', label: 'Block→headline', type: 'range', min: 0, max: 60, step: 1, unit: 'px' },
+    { name: 'nameUnderlineGap', label: 'Name→line gap', type: 'range', min: 0, max: 30, step: 1, unit: 'px' },
+  ]},
+  { title: 'Headline', key: 'headline', fields: [
+    { name: 'fontSizeWithThumb', label: 'Size w/thumb', type: 'range', min: 14, max: 80, step: 1, unit: 'px' },
+    { name: 'fontSizeNoThumb', label: 'Size no-thumb', type: 'range', min: 14, max: 100, step: 1, unit: 'px' },
+    { name: 'fontWeight', label: 'Weight', type: 'range', min: 300, max: 900, step: 100 },
+    { name: 'color', label: 'Color', type: 'color' },
+    { name: 'lineHeight', label: 'Line height', type: 'range', min: 0.9, max: 2.0, step: 0.05 },
+    { name: 'maxWidth', label: 'Max width', type: 'range', min: 200, max: 1080, step: 4, unit: 'px' },
+    { name: 'marginBottom', label: 'Gap below', type: 'range', min: 0, max: 60, step: 1, unit: 'px' },
+  ]},
+  { title: 'KPI', key: 'kpi', fields: [
+    { name: 'labelFontSize', label: 'Label size', type: 'range', min: 12, max: 60, step: 1, unit: 'px' },
+    { name: 'labelFontWeight', label: 'Label weight', type: 'range', min: 300, max: 900, step: 100 },
+    { name: 'labelColor', label: 'Label color', type: 'color' },
+    { name: 'labelLetterSpacing', label: 'Label LS', type: 'range', min: 0, max: 8, step: 0.5, unit: 'px' },
+    { name: 'labelMarginBottom', label: 'Gap below label', type: 'range', min: 0, max: 30, step: 1, unit: 'px' },
+    { name: 'chevronFontSize', label: 'Chevron size', type: 'range', min: 16, max: 100, step: 1, unit: 'px' },
+    { name: 'chevronOpacity', label: 'Chevron α', type: 'range', min: 0, max: 1, step: 0.05 },
+    { name: 'chevronGap', label: 'Chevron gap', type: 'range', min: 0, max: 60, step: 1, unit: 'px' },
+    { name: 'valueFontSizeWithThumb', label: 'Value size w/thumb', type: 'range', min: 24, max: 160, step: 1, unit: 'px' },
+    { name: 'valueFontSizeNoThumb', label: 'Value size no-thumb', type: 'range', min: 24, max: 160, step: 1, unit: 'px' },
+    { name: 'valueFontWeight', label: 'Value weight', type: 'range', min: 300, max: 900, step: 100 },
+    { name: 'valueGlowOuter', label: 'Glow α (40px)', type: 'range', min: 0, max: 1, step: 0.02 },
+    { name: 'valueGlowSpread', label: 'Glow α (80px)', type: 'range', min: 0, max: 1, step: 0.02 },
+  ]},
+  { title: 'Source row', key: 'source', fields: [
+    { name: 'badgePadX', label: 'Badge pad-X', type: 'range', min: 0, max: 30, step: 1, unit: 'px' },
+    { name: 'badgePadY', label: 'Badge pad-Y', type: 'range', min: 0, max: 16, step: 1, unit: 'px' },
+    { name: 'badgeBorderRadius', label: 'Badge radius', type: 'range', min: 0, max: 30, step: 1, unit: 'px' },
+    { name: 'badgeFontSize', label: 'Badge size', type: 'range', min: 10, max: 36, step: 1, unit: 'px' },
+    { name: 'badgeFontWeight', label: 'Badge weight', type: 'range', min: 300, max: 900, step: 100 },
+    { name: 'badgeLetterSpacing', label: 'Badge LS', type: 'range', min: 0, max: 6, step: 0.5, unit: 'px' },
+    { name: 'sourceFontSize', label: 'Source size', type: 'range', min: 10, max: 36, step: 1, unit: 'px' },
+    { name: 'sourceColor', label: 'Source color', type: 'color' },
+    { name: 'rowGap', label: 'Badge↔source gap', type: 'range', min: 0, max: 40, step: 1, unit: 'px' },
+  ]},
+  { title: 'Day-theme BREAKTHROUGH badge', key: 'breakthrough', fields: [
+    { name: 'enabled', label: 'Show', type: 'checkbox' },
+    { name: 'top', label: 'Top', type: 'range', min: 0, max: 200, step: 1, unit: 'px' },
+    { name: 'right', label: 'Right', type: 'range', min: 0, max: 200, step: 1, unit: 'px' },
+    { name: 'paddingX', label: 'Pad X', type: 'range', min: 0, max: 50, step: 1, unit: 'px' },
+    { name: 'paddingY', label: 'Pad Y', type: 'range', min: 0, max: 30, step: 1, unit: 'px' },
+    { name: 'borderRadius', label: 'Radius', type: 'range', min: 0, max: 60, step: 1, unit: 'px' },
+    { name: 'fontSize', label: 'Font size', type: 'range', min: 10, max: 40, step: 1, unit: 'px' },
+    { name: 'fontWeight', label: 'Weight', type: 'range', min: 300, max: 900, step: 100 },
+    { name: 'color', label: 'Color', type: 'color' },
+    { name: 'letterSpacing', label: 'Letter sp', type: 'range', min: 0, max: 8, step: 0.5, unit: 'px' },
+  ]},
+  { title: 'Animation timing', key: 'animation', fields: [
+    { name: 'enterDamping', label: 'Enter damping', type: 'range', min: 1, max: 50, step: 1 },
+    { name: 'enterStiffness', label: 'Enter stiffness', type: 'range', min: 50, max: 300, step: 5 },
+    { name: 'enterMass', label: 'Enter mass', type: 'range', min: 0.1, max: 3, step: 0.1 },
+    { name: 'enterDuration', label: 'Enter (frames)', type: 'range', min: 5, max: 60, step: 1 },
+    { name: 'exitDuration', label: 'Exit (frames)', type: 'range', min: 5, max: 60, step: 1 },
+    { name: 'headlineDelayFrames', label: 'Headline delay', type: 'range', min: 0, max: 80, step: 1 },
+    { name: 'kpiDelayFrames', label: 'KPI delay', type: 'range', min: 0, max: 100, step: 1 },
+    { name: 'sourceDelayFrames', label: 'Source delay', type: 'range', min: 0, max: 100, step: 1 },
+    { name: 'imageDelayFrames', label: 'Image delay', type: 'range', min: 0, max: 80, step: 1 },
+  ]},
 ];
 
 const $ = (id) => document.getElementById(id);
-const stage = $('stage');
-const canvas = $('canvas');
-const panel = $('panel');
+function hexToRgba(hex, a) { const m = (hex||'').match(/^#([0-9a-f]{6})$/i); if (!m) return `rgba(255,255,255,${a})`; const n = parseInt(m[1], 16); return `rgba(${(n>>16)&255},${(n>>8)&255},${n&255},${a})`; }
 
 function applyConfig() {
-  // Background
-  const b = cfg.background;
-  $('layer-bg').style.background = `linear-gradient(${b.gradAngle}deg, ${b.topColor}, ${b.bottomColor})`;
-  const accent = SAMPLES[+$('sample-select').value].accent;
-  $('layer-glow').style.background = `radial-gradient(${b.accentGlowSize}% ${b.accentGlowSize}% at 50% 30%, ${hexToRgba(accent, b.accentGlowOpacity)}, transparent 70%)`;
+  const sample = SAMPLES[+$('sample-select').value];
+  const accent = sample.accent;
+  const theme = $('theme-select').value;
+  const showThumb = $('show-thumb').checked && sample.thumb;
+  const showImageCard = $('show-image-card').checked && showThumb;
 
-  // Brand
-  const br = cfg.brand;
-  const brand = $('layer-brand');
-  brand.style.display = br.enabled ? 'block' : 'none';
-  brand.style.top = br.top + 'px';
-  brand.style.right = br.right + 'px';
-  brand.style.fontSize = br.fontSize + 'px';
-  brand.style.color = br.color;
+  $('layer-bg').style.background = theme === 'day' ? cfg.background.dayGrad : cfg.background.darkGrad;
+  $('layer-vignette').style.background = `radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,${cfg.background.vignetteOpacity}) 100%)`;
 
-  // Date
-  const dt = cfg.date;
-  const dateEl = $('layer-date');
-  dateEl.style.display = dt.enabled ? 'block' : 'none';
-  dateEl.style.top = dt.top + 'px';
-  dateEl.style.fontSize = dt.fontSize + 'px';
-  dateEl.style.color = dt.color;
-  dateEl.style.letterSpacing = dt.letterSpacing + 'px';
+  const ic = cfg.imageCard;
+  const imgWrap = $('layer-image-wrap');
+  imgWrap.style.display = showImageCard ? 'flex' : 'none';
+  imgWrap.style.top = ic.topPct + '%';
+  const card = $('layer-image-card');
+  card.style.width = ic.width + 'px';
+  card.style.maxHeight = ic.maxHeight + 'px';
+  card.style.borderRadius = ic.borderRadius + 'px';
+  card.style.border = `${ic.borderWidth}px solid ${accent}`;
+  card.style.boxShadow = `0 0 20px ${hexToRgba(accent, ic.glowAlpha)}, 0 4px ${ic.shadowBlur}px rgba(0,0,0,0.6)`;
+  $('layer-image').src = sample.thumb || '';
 
-  // Tracker name
+  const tb = cfg.textBlock;
+  const txt = $('layer-text');
+  txt.style.top = (showThumb ? tb.topPctWithThumb : tb.topPctNoThumb) + '%';
+  txt.style.padding = `${tb.paddingTop}px ${tb.paddingRight}px ${tb.paddingBottom}px ${tb.paddingLeft}px`;
+
   const tn = cfg.trackerName;
-  const nameBlock = $('layer-name-block');
-  nameBlock.style.top = tn.top + 'px';
-  const nameEl = $('layer-name');
-  nameEl.style.fontSize = tn.fontSize + 'px';
-  nameEl.style.fontWeight = tn.fontWeight;
-  nameEl.style.letterSpacing = tn.letterSpacing + 'px';
-  nameEl.style.color = accent;
+  const nm = $('layer-name');
+  nm.textContent = sample.name;
+  nm.style.fontSize = tn.fontSize + 'px';
+  nm.style.fontWeight = tn.fontWeight;
+  nm.style.letterSpacing = tn.letterSpacing + 'px';
+  nm.style.color = accent;
   const ul = $('layer-underline');
-  ul.style.width = tn.underlineWidth + 'px';
+  ul.style.width = tn.underlineWidthFinal + 'px';
   ul.style.height = tn.underlineHeight + 'px';
   ul.style.background = accent;
-  ul.style.boxShadow = `0 0 8px ${hexToRgba(accent, tn.underlineGlow)}`;
+  ul.style.boxShadow = `0 0 8px ${hexToRgba(accent, tn.underlineGlowAlpha)}`;
+  ul.style.marginTop = tn.nameUnderlineGap + 'px';
+  document.querySelector('.name-block').style.marginBottom = tn.marginBottom + 'px';
 
-  // Headline
   const h = cfg.headline;
-  const headlineEl = $('layer-headline');
-  headlineEl.style.top = h.top + 'px';
-  headlineEl.style.fontSize = h.fontSize + 'px';
-  headlineEl.style.fontWeight = h.fontWeight;
-  headlineEl.style.color = h.color;
-  headlineEl.style.lineHeight = h.lineHeight;
-  headlineEl.style.maxWidth = h.maxWidth + 'px';
-  headlineEl.style.left = h.paddingX + 'px';
-  headlineEl.style.right = h.paddingX + 'px';
-  headlineEl.style.width = 'auto';
-  headlineEl.style.marginLeft = 'auto';
-  headlineEl.style.marginRight = 'auto';
+  const hl = $('layer-headline');
+  hl.textContent = sample.headline;
+  hl.style.fontSize = (showThumb ? h.fontSizeWithThumb : h.fontSizeNoThumb) + 'px';
+  hl.style.fontWeight = h.fontWeight;
+  hl.style.color = h.color;
+  hl.style.lineHeight = h.lineHeight;
+  hl.style.maxWidth = h.maxWidth + 'px';
+  hl.style.marginBottom = h.marginBottom + 'px';
 
-  // KPI
   const k = cfg.kpi;
-  const kpi = $('layer-kpi');
-  kpi.style.top = k.top + 'px';
-  $('layer-kpi-label').style.fontSize = k.labelFontSize + 'px';
-  $('layer-kpi-label').style.color = k.labelColor;
-  $('layer-kpi-label').style.letterSpacing = k.labelLetterSpacing + 'px';
-  $('layer-kpi-label').style.marginBottom = k.labelGap + 'px';
-  $('layer-kpi-value').style.fontSize = k.valueFontSize + 'px';
-  $('layer-kpi-value').style.fontWeight = k.valueFontWeight;
-  $('layer-kpi-value').style.color = accent;
-
-  // Thumbnail
-  const t = cfg.thumb;
-  const thumb = $('layer-thumb');
-  const sample = SAMPLES[+$('sample-select').value];
-  thumb.style.display = $('show-thumb').checked && sample.thumb ? 'block' : 'none';
-  thumb.src = sample.thumb || '';
-  thumb.style.top = t.top + 'px';
-  thumb.style.width = t.width + 'px';
-  thumb.style.height = t.height + 'px';
-  thumb.style.borderRadius = t.borderRadius + 'px';
-  thumb.style.opacity = t.opacity;
-  if (t.centerX) {
-    thumb.style.left = '50%';
-    thumb.style.transform = 'translateX(-50%)';
-  } else {
-    thumb.style.left = '20px';
-    thumb.style.transform = 'none';
+  const kl = $('layer-kpi-label');
+  kl.textContent = sample.kpiLabel;
+  kl.style.fontSize = k.labelFontSize + 'px';
+  kl.style.fontWeight = k.labelFontWeight;
+  kl.style.color = k.labelColor;
+  kl.style.letterSpacing = k.labelLetterSpacing + 'px';
+  kl.style.marginBottom = k.labelMarginBottom + 'px';
+  document.querySelector('.kpi-value-row').style.gap = k.chevronGap + 'px';
+  for (const id of ['layer-chevron-l', 'layer-chevron-r']) {
+    const c = $(id);
+    c.style.fontSize = k.chevronFontSize + 'px';
+    c.style.opacity = k.chevronOpacity;
+    c.style.color = accent;
   }
+  const downTrend = (sample.kpiPrefix||'').includes('-');
+  $('layer-chevron-l').textContent = downTrend ? '»' : '«';
+  $('layer-chevron-r').textContent = downTrend ? '«' : '»';
+  const kv = $('layer-kpi-value');
+  kv.textContent = (sample.kpiPrefix||'') + sample.kpiValue + (sample.kpiSuffix||'');
+  kv.style.fontSize = (showThumb ? k.valueFontSizeWithThumb : k.valueFontSizeNoThumb) + 'px';
+  kv.style.fontWeight = k.valueFontWeight;
+  kv.style.color = accent;
+  kv.style.textShadow = `0 0 40px ${hexToRgba(accent, k.valueGlowOuter)}, 0 0 80px ${hexToRgba(accent, k.valueGlowSpread)}`;
 
-  // Source
   const s = cfg.source;
-  const src = $('layer-source');
-  src.style.top = s.top + 'px';
   const tier = $('layer-tier');
+  const tierLabels = { 1: 'TIER 1 — OFFICIAL', 2: 'TIER 2 — MAJOR OUTLET', 3: 'TIER 3 — INSTITUTIONAL', 4: 'TIER 4 — UNVERIFIED' };
+  tier.textContent = tierLabels[sample.tier] || 'TIER 2';
   tier.style.padding = `${s.badgePadY}px ${s.badgePadX}px`;
+  tier.style.borderRadius = s.badgeBorderRadius + 'px';
   tier.style.fontSize = s.badgeFontSize + 'px';
-  tier.style.background = s.badgeBg;
-  tier.style.color = s.badgeText;
-  const srcLabel = $('layer-source-label');
-  srcLabel.style.fontSize = s.sourceFontSize + 'px';
-  srcLabel.style.color = s.sourceColor;
+  tier.style.fontWeight = s.badgeFontWeight;
+  tier.style.background = accent;
+  tier.style.color = theme === 'day' ? '#0a0e1a' : '#0a0b0e';
+  tier.style.letterSpacing = s.badgeLetterSpacing + 'px';
+  const sl = $('layer-source-label');
+  sl.textContent = sample.sourceLabel;
+  sl.style.fontSize = s.sourceFontSize + 'px';
+  sl.style.color = s.sourceColor;
+  document.querySelector('.source-left').style.gap = s.rowGap + 'px';
 
-  // Persist
+  const bt = cfg.breakthrough;
+  const btEl = $('layer-breakthrough');
+  btEl.style.display = (theme === 'day' && bt.enabled) ? 'block' : 'none';
+  btEl.style.top = bt.top + 'px';
+  btEl.style.right = bt.right + 'px';
+  btEl.style.padding = `${bt.paddingY}px ${bt.paddingX}px`;
+  btEl.style.borderRadius = bt.borderRadius + 'px';
+  btEl.style.fontSize = bt.fontSize + 'px';
+  btEl.style.fontWeight = bt.fontWeight;
+  btEl.style.color = bt.color;
+  btEl.style.letterSpacing = bt.letterSpacing + 'px';
+
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(cfg)); } catch {}
 }
 
-function hexToRgba(hex, a) {
-  const m = hex.match(/^#([0-9a-f]{6})$/i);
-  if (!m) return `rgba(255,255,255,${a})`;
-  const n = parseInt(m[1], 16);
-  return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`;
-}
-
-function applySample() {
-  const s = SAMPLES[+$('sample-select').value];
-  $('layer-name').textContent = s.name;
-  $('layer-headline').textContent = s.headline;
-  $('layer-kpi-label').textContent = s.kpiLabel;
-  $('layer-kpi-value').textContent = s.kpiValue;
-  $('layer-tier').textContent = `TIER ${s.tier} — ${s.tier === 1 ? 'OFFICIAL' : s.tier === 2 ? 'MAJOR OUTLET' : s.tier === 3 ? 'INSTITUTIONAL' : 'UNVERIFIED'}`;
-  $('layer-source-label').textContent = s.sourceLabel;
-  applyConfig();
-}
-
-function applyFormat() {
-  const f = $('format-select').value;
-  canvas.className = 'canvas-wrap size-' + f;
-}
-
-function applyTheme() {
-  const theme = $('theme-select').value;
-  if (theme === 'day') {
-    cfg.background.topColor = '#dde6f0';
-    cfg.background.bottomColor = '#a8c0d8';
-    cfg.headline.color = '#0a0e1a';
-    cfg.kpi.labelColor = '#3a4258';
-    cfg.source.sourceColor = '#4a5468';
-    cfg.source.badgeText = '#0a0e1a';
-  } else {
-    cfg.background.topColor = '#0a0b0e';
-    cfg.background.bottomColor = '#14161e';
-    cfg.headline.color = '#e8e9ed';
-    cfg.kpi.labelColor = '#9498a8';
-    cfg.source.sourceColor = '#9498a8';
-    cfg.source.badgeText = '#0a0b0e';
-  }
-  buildPanel();
-  applyConfig();
+function applyScale() {
+  const scale = parseFloat($('scale-select').value);
+  $('scaled').style.transform = `scale(${scale})`;
+  const canvas = $('canvas');
+  canvas.style.width = (1080 * scale) + 'px';
+  canvas.style.height = (1920 * scale) + 'px';
 }
 
 function buildPanel() {
+  const panel = $('panel');
   panel.innerHTML = '';
   for (const sec of SECTIONS) {
-    const det = document.createElement('details');
-    det.open = false;
-    const sum = document.createElement('summary');
-    sum.textContent = sec.title;
+    const det = document.createElement('details'); det.open = false;
+    const sum = document.createElement('summary'); sum.textContent = sec.title;
     det.appendChild(sum);
-    const wrap = document.createElement('div');
-    wrap.className = 'controls';
+    const wrap = document.createElement('div'); wrap.className = 'controls';
     for (const f of sec.fields) {
-      const row = document.createElement('div');
-      row.className = 'row';
-      const lbl = document.createElement('label');
-      lbl.textContent = f.label;
+      const row = document.createElement('div'); row.className = 'row';
+      const lbl = document.createElement('label'); lbl.textContent = f.label;
       row.appendChild(lbl);
-
-      let input;
       const val = cfg[sec.key][f.name];
-
-      if (f.type === 'range') {
-        input = document.createElement('input');
-        input.type = 'range';
-        input.min = f.min; input.max = f.max; input.step = f.step;
-        input.value = val;
-      } else if (f.type === 'color') {
-        input = document.createElement('input');
-        input.type = 'color';
-        input.value = val;
-      } else if (f.type === 'checkbox') {
-        input = document.createElement('input');
-        input.type = 'checkbox';
-        input.checked = !!val;
-      } else if (f.type === 'select') {
-        input = document.createElement('select');
-        for (const o of f.options) {
-          const opt = document.createElement('option');
-          opt.value = o; opt.textContent = o;
-          if (o === val) opt.selected = true;
-          input.appendChild(opt);
-        }
-      }
+      let input;
+      if (f.type === 'range') { input = document.createElement('input'); input.type = 'range'; input.min = f.min; input.max = f.max; input.step = f.step; input.value = val; }
+      else if (f.type === 'color') { input = document.createElement('input'); input.type = 'color'; input.value = val; }
+      else if (f.type === 'checkbox') { input = document.createElement('input'); input.type = 'checkbox'; input.checked = !!val; }
       row.appendChild(input);
-
-      const valSpan = document.createElement('span');
-      valSpan.className = 'val';
+      const valSpan = document.createElement('span'); valSpan.className = 'val';
       valSpan.textContent = (f.type === 'checkbox' ? (val ? 'on' : 'off') : (val + (f.unit || '')));
       row.appendChild(valSpan);
-
       const handler = () => {
-        let v;
-        if (f.type === 'checkbox') v = input.checked;
-        else if (f.type === 'range') v = parseFloat(input.value);
-        else v = input.value;
+        const v = f.type === 'checkbox' ? input.checked : f.type === 'range' ? parseFloat(input.value) : input.value;
         cfg[sec.key][f.name] = v;
         valSpan.textContent = (f.type === 'checkbox' ? (v ? 'on' : 'off') : (v + (f.unit || '')));
         applyConfig();
@@ -736,34 +501,26 @@ function buildPanel() {
       input.addEventListener('change', handler);
       wrap.appendChild(row);
     }
-    det.appendChild(wrap);
-    panel.appendChild(det);
+    det.appendChild(wrap); panel.appendChild(det);
   }
 }
 
-// Wire top bar
-$('format-select').addEventListener('change', applyFormat);
-$('theme-select').addEventListener('change', applyTheme);
-$('sample-select').addEventListener('change', applySample);
+$('scale-select').addEventListener('change', applyScale);
+$('theme-select').addEventListener('change', applyConfig);
+$('sample-select').addEventListener('change', applyConfig);
 $('show-thumb').addEventListener('change', applyConfig);
-$('reset-btn').addEventListener('click', () => {
-  cfg = JSON.parse(JSON.stringify(DEFAULT_CONFIG));
-  buildPanel(); applyConfig();
-});
-$('randomize-btn').addEventListener('click', applySample);
+$('show-image-card').addEventListener('change', applyConfig);
+$('reset-btn').addEventListener('click', () => { cfg = JSON.parse(JSON.stringify(DEFAULT_CONFIG)); buildPanel(); applyConfig(); });
 $('export-btn').addEventListener('click', () => {
   const out = JSON.stringify(cfg, null, 2);
   $('export-out').value = out;
-  // Also copy to clipboard
   try { navigator.clipboard.writeText(out); } catch {}
-  // Open the export details
-  const exportDetails = document.querySelector('details:last-of-type');
-  if (exportDetails) exportDetails.open = true;
+  document.querySelector('.export-fab').open = true;
 });
 
-// Boot
 buildPanel();
-applySample();
+applyScale();
+applyConfig();
 </script>
 </body>
 </html>
