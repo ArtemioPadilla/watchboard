@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added — 2026-04-27
+- **Breaking-news pipeline redesign** (#131): two-tier scan cadence + per-tracker dynamic feeds + realtime sources + persistent audit log + public `/breaking-news-audit/` page. Targets latency (was 6 h gap), regional misses (CDMX-style stories now covered by `tracker.country`-keyed Mexican outlets), and low yield (deterministic keyword path means no LLM-rejection of obvious matches).
+  - **Light scan** (every 15 min, `.github/workflows/light-scan.yml` + `scripts/hourly-light-scan.ts`): polls Reuters/BBC/AP/Google News + Bluesky firehose + Telegram public channels. Scores via `src/lib/keyword-match.ts` (deterministic, no LLM). ≥ 0.85 → Telegram post. 0.5–0.85 → defers to `public/_hourly/pending-candidates.json`. < 0.5 → discards to audit log.
+  - **Heavy scan** (every 6 h, existing `update-data.yml` and `scripts/hourly-scan.ts`): now resolves per-tracker dynamic feeds via `src/lib/tracker-feeds.ts` (adding a Mexican tracker auto-pulls Animal Político / La Jornada / El Universal / Aristegui; Indian → The Hindu / Indian Express / Times of India; Middle East → Al Jazeera / Al Arabiya / Times of Israel / Haaretz; etc.). Polls the same realtime sources. Reads + clears `pending-candidates.json`. Sonnet triage writes every decision to `triage-log.json`.
+  - **Audit page** at `/breaking-news-audit/` (`src/components/islands/TriageLogBoard.tsx`): filters by decision / scan type / min score, expandable cards. Linked from About + footer. Reads `public/_hourly/triage-log.json` at runtime — no build dependency.
+  - **New `Candidate.feedOrigin`** values: `'rss' | 'gdelt' | 'bluesky' | 'telegram'`.
+  - **New libs**: `tracker-feeds.ts`, `keyword-match.ts`, `triage-log.ts`, `realtime-sources.ts` — each pure / well-bounded with unit tests (18 new tests, 181 total passing).
+  - Spec: `docs/superpowers/specs/2026-04-27-breaking-news-pipeline-redesign-design.md`
+  - Plan: `docs/superpowers/plans/2026-04-27-breaking-news-pipeline-redesign.md`
+
 ### Added — 2026-04-26
 - **Multi-step onboarding tour** (#122): replaces the single-toast welcome with a 6-step guided desktop tour (hero → globe → sidebar → broadcast ticker → source-tier explainer → closing) and a 3-step mobile bottom-sheet flow. Versioned localStorage keys (`watchboard-tour-{desktop,mobile}-v1`) with one-shot legacy migration. Replay button in the `?` shortcuts panel (with last-completed timestamp); mobile gets a small ↻ button on the carousel.
   - New: `src/components/islands/Onboarding/{OnboardingTour,MobileOnboarding,SpotlightStep,HeroStep}.tsx`

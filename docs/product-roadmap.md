@@ -1,6 +1,6 @@
 # Watchboard Product Roadmap
 
-Last updated: 2026-04-26
+Last updated: 2026-04-27
 
 This is the **platform** roadmap — performance, growth, content, accessibility, infrastructure, UX. New tracker requests live in [`docs/tracker-roadmap.md`](./tracker-roadmap.md) and the community vote at `/vote`.
 
@@ -24,7 +24,7 @@ The interactive view is at **[/roadmap/](https://watchboard.dev/roadmap/)** (kan
 
 ## M1 — April 2026 ✅ shipped
 
-**Theme:** Onboarding + perf foundations.
+**Theme:** Onboarding + perf foundations + breaking-news pipeline.
 
 | Status | Title | Area | Priority | PRs |
 |---|---|---|---|---|
@@ -34,11 +34,15 @@ The interactive view is at **[/roadmap/](https://watchboard.dev/roadmap/)** (kan
 | ✅ | PostHog Web Vitals capture | Analytics | P1 | #125 |
 | ✅ | Fix globe double-spin on tracker click | UX | P2 | #127 |
 | ✅ | Documentation sync | Infrastructure | P2 | #128 |
+| ✅ | Public roadmap page | Growth | P2 | #129 |
+| ✅ | CI hygiene (action versions + nightly headroom) | Reliability | P2 | #130 |
+| ✅ | **Breaking-news pipeline redesign** (light scan + per-tracker feeds + realtime + audit) | Reliability / Growth | **P0** | #131 |
 
 **Verified outcomes:**
 - vendor-globe long-task: **5018 ms → 178 ms** (Lighthouse mobile post-deploy).
 - LCP element (`p.story-briefing-text`) now exists in initial HTML on mobile.
 - Real-user perf samples flowing into PostHog → Insights → Web Vitals.
+- Breaking-news cadence: **6 h → 15 min** for major-wire stories. Per-tracker feeds auto-extend coverage when a new tracker is added (no scan-script edits). Every triage decision now visible at `/breaking-news-audit/` for threshold tuning.
 
 ---
 

@@ -117,6 +117,32 @@ export const ROADMAP_ITEMS: RoadmapItem[] = [
     status: 'shipped', area: 'infrastructure', priority: 'P2', effort: 'XS', milestone: 'M1',
     prs: [128], date: '2026-04-26',
   },
+  {
+    id: 'rm-public-roadmap-page',
+    title: 'Public /roadmap page',
+    description:
+      '33-item interactive roadmap (kanban + timeline + area filters + expandable cards) sourced from src/data/roadmap-items.ts and mirrored at docs/product-roadmap.md. Linked from About + footer.',
+    status: 'shipped', area: 'growth', priority: 'P2', effort: 'M', milestone: 'M1',
+    prs: [129], date: '2026-04-26',
+  },
+  {
+    id: 'rm-ci-hygiene',
+    title: 'CI hygiene: action versions + nightly headroom',
+    description:
+      'Bump actions/checkout v4 → v5 and actions/setup-node v4 → v5 across all 14 workflow files (Node 20 deprecation 2026-06-02). Bump nightly finalize timeout-minutes 20 → 45 (Astro build + social queue was hitting the wall). Drop invalid timeout_minutes input from claude-code-action.',
+    status: 'shipped', area: 'reliability', priority: 'P2', effort: 'S', milestone: 'M1',
+    prs: [130], date: '2026-04-27',
+  },
+  {
+    id: 'rm-breaking-news-pipeline',
+    title: 'Breaking-news pipeline redesign (light scan + per-tracker feeds + realtime + audit)',
+    description:
+      'Two-tier scan cadence (15-min light scan + 6h heavy scan) + per-tracker dynamic feeds (COUNTRY_FEEDS keyed by ISO codes + REGION_FEEDS + DOMAIN_FEEDS) + realtime sources (Bluesky firehose + Telegram public channels) + persistent triage audit log + public /breaking-news-audit/ page. Light scan uses deterministic keyword matching (no LLM cost); heavy scan keeps Sonnet triage. Adding a tracker auto-extends source coverage with no scan-script edits.',
+    status: 'shipped', area: 'reliability', priority: 'P0', effort: 'XL', milestone: 'M1',
+    prs: [131], date: '2026-04-27',
+    outcome:
+      'Major-wire breaking news cadence: 6h → 15min. Mexican/Indian/Israeli trackers automatically pull native-language outlets. Every triage decision visible for tuning at /breaking-news-audit/.',
+  },
 
   // ─── M2 — May 2026: Real-user perf + growth ─────────────────────────
   {
