@@ -24,7 +24,7 @@ import {
 import { buildKeywordIndex, scoreCandidate } from '../src/lib/keyword-match.js';
 import { pollRealtimeSources } from '../src/lib/realtime-sources.js';
 import { appendTriageEntries, pruneTriageLog } from '../src/lib/triage-log.js';
-import { loadAllTrackers } from '../src/lib/tracker-registry.js';
+import { loadAllTrackers } from './lib/load-trackers-node.js';
 
 const HIGH_THRESHOLD     = 0.85;
 const MODERATE_THRESHOLD = 0.50;

@@ -1,6 +1,10 @@
 import { TrackerConfigSchema, type TrackerConfig, type Domain, type Region } from './tracker-config';
 
-// Eagerly load all tracker.json files at build time
+// Vite/Astro-only: import.meta.glob is rewritten at build time to a static
+// module map. This module is transitively imported by browser islands (via
+// constants.ts → MilitaryTabs.tsx), so it must NOT pull in node:* — the glob
+// transform leaves no Node deps in the browser bundle.
+// For Node-only scripts (tsx scripts/hourly-*.ts), use scripts/lib/load-trackers-node.ts.
 const trackerModules = import.meta.glob<{ default: unknown }>(
   '../../trackers/*/tracker.json',
   { eager: true },

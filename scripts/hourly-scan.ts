@@ -18,7 +18,7 @@ import {
 } from './hourly-types.js';
 import { resolveFeedsForActiveTrackers } from '../src/lib/tracker-feeds.js';
 import { pollRealtimeSources } from '../src/lib/realtime-sources.js';
-import { loadAllTrackers } from '../src/lib/tracker-registry.js';
+import { loadAllTrackers } from './lib/load-trackers-node.js';
 
 // --- Constants ---
 
