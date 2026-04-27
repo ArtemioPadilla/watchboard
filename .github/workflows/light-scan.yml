@@ -1,0 +1,43 @@
+name: Hourly Light Scan
+
+on:
+  schedule:
+    - cron: '0,15,30,45 * * * *'   # every 15 minutes
+  workflow_dispatch: {}
+
+concurrency:
+  group: hourly-light-scan
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - run: npm ci
+
+      - name: Run light scan
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID:   ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: npx tsx scripts/hourly-light-scan.ts
+
+      - name: Commit pending-candidates + triage-log + state
+        run: |
+          git config user.name  "watchboard-bot"
+          git config user.email "bot@watchboard.dev"
+          git add public/_hourly/pending-candidates.json public/_hourly/triage-log.json public/_hourly/state.json || true
+          if ! git diff --cached --quiet; then
+            git commit -m "chore(light-scan): update pending + audit + state $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            for i in 1 2 3; do
+              if git pull --rebase origin main && git push origin main; then break; fi
+              echo "retry $i"; sleep 5
+            done
+          fi
