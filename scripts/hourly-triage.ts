@@ -17,6 +17,7 @@ import {
   type ActionPlanNewTracker,
   PATHS,
 } from './hourly-types.js';
+import { appendTriageEntries, pruneTriageLog } from '../src/lib/triage-log.js';
 
 // --- Constants ---
 
@@ -357,6 +358,30 @@ export async function triage(
 
   // Build action plan
   const plan = buildActionPlan(candidates, triageResults);
+
+  // Persist every decision to the audit log so /breaking-news-audit/ can show
+  // what was discarded vs accepted. Skip results whose `index` doesn't map
+  // to a real candidate (rare LLM output error) so the audit JSON stays
+  // well-formed.
+  const logEntries = triageResults.flatMap((r) => {
+    const candidate = candidates[r.index];
+    if (!candidate) {
+      console.warn(`[triage] skipping audit log entry for invalid candidate index: ${r.index}`);
+      return [];
+    }
+    return [{
+      timestamp: new Date().toISOString(),
+      candidate,
+      decision: r.action as 'update' | 'new_tracker' | 'discard',
+      reason: r.reason,
+      confidence: r.confidence,
+      model: MODEL,
+      scanType: 'heavy' as const,
+    }];
+  });
+  appendTriageEntries(logEntries, PATHS.triageLog);
+  const removed = pruneTriageLog(PATHS.triageLog, 14);
+  if (removed > 0) console.log(`[triage] pruned ${removed} log entries older than 14 days`);
 
   // Write to disk
   writeFileSync(DEFAULT_ACTION_PLAN_PATH, JSON.stringify(plan, null, 2), 'utf8');

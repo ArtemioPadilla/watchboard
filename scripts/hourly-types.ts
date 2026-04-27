@@ -37,7 +37,11 @@ export interface Candidate {
   source: string;
   timestamp: string;
   matchedTracker: string | null;
-  feedOrigin: 'rss' | 'gdelt';
+  feedOrigin: 'rss' | 'gdelt' | 'bluesky' | 'telegram';
+  /** Source-tier hint propagated from the feed registry; 1 = official, 2 = major outlet, 3 = institutional. */
+  sourceTier?: 1 | 2 | 3;
+  /** ISO 639-1 language code from the source feed (informational; matching is language-agnostic). */
+  language?: 'en' | 'es' | 'fr' | 'pt' | 'ar' | 'zh' | 'ja' | 'hi';
 }
 
 export interface TriageResult {
@@ -74,6 +78,38 @@ export interface ActionPlanNewTracker {
   triggerEvent: { summary: string; sources: string[]; timestamp: string };
 }
 
+/** A candidate the light scan saw with moderate confidence. The next heavy
+ *  scan reads this file, merges with its own poll, and runs full triage. */
+export interface PendingCandidate {
+  candidate: Candidate;
+  /** Multi-signal score from the light scan: keyword + liveness + tier. 0-1. */
+  score: number;
+  /** When the light scan recorded it. */
+  recordedAt: string;
+}
+
+export interface PendingCandidates {
+  version: 1;
+  entries: PendingCandidate[];
+}
+
+/** One row in the audit log. Append-only; pruned at 14 days. */
+export interface TriageLogEntry {
+  timestamp: string;
+  candidate: Candidate;
+  decision: 'update' | 'new_tracker' | 'defer' | 'discard';
+  reason: string;
+  confidence: number;
+  model: string | null;       // null for keyword-only decisions
+  scanType: 'light' | 'heavy';
+}
+
+export interface TriageLog {
+  version: 1;
+  lastPruned: string;
+  entries: TriageLogEntry[];
+}
+
 // --- Paths ---
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -85,6 +121,9 @@ export const PATHS = {
   trackersDir: join(ROOT, 'trackers'),
   socialBudget: join(ROOT, 'public', '_social', 'budget.json'),
   socialHistory: join(ROOT, 'public', '_social', 'history.json'),
+  pendingCandidates: join(ROOT, 'public', '_hourly', 'pending-candidates.json'),
+  triageLog:         join(ROOT, 'public', '_hourly', 'triage-log.json'),
+  realtimeState:     join(ROOT, 'public', '_hourly', 'realtime-state.json'),
 };
 
 // --- State I/O ---
@@ -148,7 +187,8 @@ export function saveManifest(manifest: HourlyManifest, path: string = PATHS.mani
 export function normalizeCandidate(
   raw: { title: string; url: string; source: string; timestamp: string },
   matchedTracker: string | null,
-  feedOrigin: 'rss' | 'gdelt',
+  feedOrigin: Candidate['feedOrigin'],
+  extra: Pick<Candidate, 'sourceTier' | 'language'> = {},
 ): Candidate {
   return {
     title: raw.title,
@@ -157,5 +197,6 @@ export function normalizeCandidate(
     timestamp: raw.timestamp,
     matchedTracker,
     feedOrigin,
+    ...extra,
   };
 }
