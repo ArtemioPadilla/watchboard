@@ -195,6 +195,30 @@ export function parseKpiDisplay(raw: string): { prefix: string; suffix: string }
   return { prefix, suffix: normalizedSuffix };
 }
 
+/**
+ * Heuristic check — does this URL look like a direct image link, vs. an
+ * article page URL that happened to land in the `thumbnail` field by mistake?
+ *
+ * Accepts:
+ *   - explicit image extensions: .jpg .jpeg .png .webp .gif .avif .svg
+ *   - known image CDN path patterns: /wp-content/uploads/, i0.wp.com,
+ *     i.ytimg.com, /images/, /img/, /photos/, /media/ + ext, /resize=, /fit=
+ *
+ * Rejects everything else (article URLs, /news/, /story/, /article/, etc.)
+ */
+function looksLikeImageUrl(url: string): boolean {
+  const lower = url.toLowerCase();
+  // Direct image extensions (with or without query string)
+  if (/\.(jpe?g|png|webp|gif|avif|svg)(\?|$)/i.test(lower)) return true;
+  // Common image CDN/host patterns
+  if (/i\d?\.(wp\.com|ytimg\.com|imgur\.com|redd\.it)/.test(lower)) return true;
+  // wp-content uploads even when extension is masked
+  if (/\/wp-content\/uploads\//.test(lower)) return true;
+  // Image resize/fit operators
+  if (/[?&](resize|fit|w|h)=\d+/.test(lower)) return true;
+  return false;
+}
+
 function findThumbnailUrls(slug: string): string[] {
   const eventsDir = join(TRACKERS_DIR, slug, 'data', 'events');
   if (!existsSync(eventsDir)) return [];
@@ -205,15 +229,26 @@ function findThumbnailUrls(slug: string): string[] {
     .reverse()
     .slice(0, 5);
 
-  const urls: string[] = [];
+  const directImages: string[] = [];
+  const articleUrls: string[] = [];
   for (const file of eventFiles) {
     try {
       const events = JSON.parse(readFileSync(join(eventsDir, file), 'utf-8'));
       if (!Array.isArray(events)) continue;
       for (const event of events) {
-        if (Array.isArray(event.media)) {
-          for (const item of event.media) {
-            if (item.thumbnail) urls.push(item.thumbnail);
+        if (!Array.isArray(event.media)) continue;
+        for (const item of event.media) {
+          // Prefer real image in thumbnail; fall back to media url; collect
+          // article URLs separately so the renderer can extract og:image as
+          // a last-resort fallback.
+          if (item.thumbnail && looksLikeImageUrl(item.thumbnail)) {
+            directImages.push(item.thumbnail);
+          } else if (item.url && looksLikeImageUrl(item.url)) {
+            directImages.push(item.url);
+          } else if (item.thumbnail) {
+            articleUrls.push(item.thumbnail);
+          } else if (item.url) {
+            articleUrls.push(item.url);
           }
         }
       }
@@ -222,7 +257,10 @@ function findThumbnailUrls(slug: string): string[] {
     }
   }
 
-  return [...new Set(urls)];
+  // Direct images win; article URLs only get tried when no direct image is
+  // available. The renderer's downloadThumbnail() will detect them as HTML
+  // and extract og:image (see render.ts).
+  return [...new Set([...directImages, ...articleUrls])];
 }
 
 function daysSince(dateStr: string): number {

@@ -79,11 +79,11 @@ const EARTH_TEXTURE_DAY = [
   resolve(ROOT_DIR, '../public/textures/earth-day-atmos-2k.jpg'),
 ];
 
-async function downloadThumbnail(url: string): Promise<Buffer | null> {
+async function downloadThumbnail(url: string, allowHtmlExtraction = true): Promise<Buffer | null> {
   const headers = {
     'User-Agent':
       'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-    Accept: 'image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8',
+    Accept: 'image/avif,image/webp,image/apng,image/svg+xml,image/*,text/html;q=0.8,*/*;q=0.5',
     'Accept-Language': 'en-US,en;q=0.9',
     Referer: 'https://www.google.com/',
   };
@@ -96,8 +96,30 @@ async function downloadThumbnail(url: string): Promise<Buffer | null> {
     });
     if (!resp.ok) return null;
     const ct = resp.headers.get('content-type') ?? '';
-    if (!ct.startsWith('image/')) return null;
-    return Buffer.from(await resp.arrayBuffer());
+    if (ct.startsWith('image/')) {
+      return Buffer.from(await resp.arrayBuffer());
+    }
+    // HTML article fallback: parse og:image and refetch the actual image.
+    // Many AI-populated thumbnail fields point at article URLs by mistake.
+    if (allowHtmlExtraction && ct.startsWith('text/html')) {
+      const html = (await resp.text()).slice(0, 50_000); // first 50KB is enough for <head>
+      const m =
+        html.match(/<meta\s[^>]*property=["']og:image["'][^>]*content=["']([^"']+)["']/i) ||
+        html.match(/<meta\s[^>]*content=["']([^"']+)["'][^>]*property=["']og:image["']/i) ||
+        html.match(/<meta\s[^>]*name=["']twitter:image["'][^>]*content=["']([^"']+)["']/i);
+      if (m && m[1]) {
+        let imgUrl = m[1].trim();
+        if (imgUrl.startsWith('//')) imgUrl = 'https:' + imgUrl;
+        if (imgUrl.startsWith('/')) {
+          try { imgUrl = new URL(imgUrl, url).toString(); } catch { /* skip relative without base */ }
+        }
+        if (/^https?:\/\//.test(imgUrl)) {
+          // Recurse once with allowHtmlExtraction=false to avoid loops
+          return downloadThumbnail(imgUrl, false);
+        }
+      }
+    }
+    return null;
   } catch {
     return null;
   }
