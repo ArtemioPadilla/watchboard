@@ -3,6 +3,16 @@ import type { APIContext } from 'astro';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import type { TriageLog, TriageLogEntry } from '../../../scripts/hourly-types';
+import type { FeedMeta } from '../../lib/feed-registry';
+
+export const feedMeta: FeedMeta = {
+  title: 'Light-scan triage firehose',
+  description:
+    'Every candidate the 15-minute keyword-only light scan considers, with score, decision (post/defer), and matched tracker. Discards omitted to keep the feed dense. Built for downstream LLM consumption.',
+  cadence: 'every 15 min (light scan cron)',
+  category: 'triage',
+  path: 'rss/light-scan.xml',
+};
 
 /**
  * RSS feed of every candidate the light scan has scored — posted, deferred, or

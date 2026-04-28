@@ -1,48 +1,24 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { loadAllTrackers } from '../lib/tracker-registry';
+import { discoverStaticFeeds, type FeedMeta } from '../lib/feed-registry';
 
 const base = import.meta.env.BASE_URL;
 const basePath = base.endsWith('/') ? base : `${base}/`;
 const siteUrl = 'https://watchboard.dev';
 
+// Auto-discover every static .xml.ts endpoint that exports a feedMeta.
+// Add a new feed = create the endpoint with feedMeta; this list updates.
+const modules = import.meta.glob<{ feedMeta?: FeedMeta }>(
+  ['./rss.xml.ts', './rss/*.xml.ts'],
+  { eager: true },
+);
+const globalFeeds = discoverStaticFeeds(modules, siteUrl, basePath);
+
 const trackers = loadAllTrackers()
   .filter((t) => t.status === 'active')
   .map((t) => ({ slug: t.slug, name: t.shortName ?? t.name, icon: t.icon ?? '' }))
   .sort((a, b) => a.name.localeCompare(b.name));
-
-interface Feed {
-  title: string;
-  description: string;
-  href: string;
-  cadence: string;
-  tags: string[];
-}
-
-const globalFeeds: Feed[] = [
-  {
-    title: 'All trackers — global digest',
-    description: 'Every digest entry from every active tracker, sorted newest-first. The default site-wide feed.',
-    href: `${basePath}rss.xml`,
-    cadence: 'on each nightly data update (~daily)',
-    tags: ['rss', 'all-trackers'],
-  },
-  {
-    title: 'Breaking news',
-    description: 'Only digest entries flagged as breaking by the heavy-scan AI triage pipeline.',
-    href: `${basePath}rss/breaking.xml`,
-    cadence: 'every 6h (heavy scan cron)',
-    tags: ['rss', 'breaking'],
-  },
-  {
-    title: 'Light-scan triage firehose',
-    description:
-      'Every candidate the 15-minute keyword-only light scan considers, with score, decision (post/defer), and matched tracker. Discards omitted to keep the feed dense. Built for downstream LLM consumption.',
-    href: `${basePath}rss/light-scan.xml`,
-    cadence: 'every 15 min (light scan cron)',
-    tags: ['rss', 'triage', 'llm-friendly'],
-  },
-];
 ---
 
 <BaseLayout
@@ -58,19 +34,27 @@ const globalFeeds: Feed[] = [
         URLs are stable — once published, they don't change.
       </p>
 
+      <div class="feeds-machine">
+        <span class="feeds-machine-label">Machine-readable index:</span>
+        <a href={`${basePath}feeds.json`}><code>feeds.json</code></a>
+        <span class="feed-sep">·</span>
+        <a href={`${basePath}feeds.opml`}><code>feeds.opml</code></a>
+        <span class="feeds-machine-hint">— OPML imports all feeds into your reader at once.</span>
+      </div>
+
       <section class="feeds-section">
         <h2>Global</h2>
         <ul class="feeds-list">
           {globalFeeds.map((f) => (
             <li class="feed-card">
               <div class="feed-head">
-                <a class="feed-title" href={f.href}>{f.title}</a>
-                <code class="feed-url">{siteUrl}{f.href}</code>
+                <a class="feed-title" href={f.url.replace(siteUrl, '')}>{f.title}</a>
+                <code class="feed-url">{f.url}</code>
               </div>
               <p class="feed-desc">{f.description}</p>
               <div class="feed-meta">
                 <span class="feed-cadence">{f.cadence}</span>
-                {f.tags.map((t) => <span class="feed-tag">{t}</span>)}
+                <span class="feed-tag">{f.category}</span>
               </div>
             </li>
           ))}
@@ -103,6 +87,10 @@ const globalFeeds: Feed[] = [
           <li>Sub-feeds live under <code>/rss/&lt;name&gt;.xml</code>.</li>
           <li>Per-tracker feeds live under <code>/&lt;tracker-slug&gt;/rss.xml</code>.</li>
           <li>Discoverable via <code>&lt;link rel="alternate" type="application/rss+xml"&gt;</code> in every page's <code>&lt;head&gt;</code>.</li>
+          <li>
+            Index endpoints: <code>/feeds/</code> (HTML), <code>/feeds.json</code> (machine-readable),
+            <code>/feeds.opml</code> (RSS-reader importable).
+          </li>
         </ul>
       </section>
     </div>
@@ -122,6 +110,20 @@ const globalFeeds: Feed[] = [
   h1 { font-family: 'DM Sans', sans-serif; font-size: 2.2rem; margin: 0 0 0.6rem; }
   h2 { font-family: 'DM Sans', sans-serif; font-size: 1.3rem; margin: 2.5rem 0 0.8rem; color: var(--accent-blue, #58a6ff); }
   .feeds-lede { color: var(--text-secondary, #9498a8); font-size: 1rem; line-height: 1.6; max-width: 720px; }
+  .feeds-machine {
+    margin: 1.4rem 0 0;
+    padding: 0.7rem 1rem;
+    background: var(--bg-card, #161b22); border: 1px solid var(--border, #30363d);
+    border-radius: 6px;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.78rem;
+    color: var(--text-secondary, #9498a8);
+    display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;
+  }
+  .feeds-machine-label { color: var(--text-muted, #8b949e); margin-right: 0.3rem; }
+  .feeds-machine a { color: var(--accent-blue, #58a6ff); text-decoration: none; }
+  .feeds-machine a:hover { text-decoration: underline; }
+  .feeds-machine-hint { margin-left: 0.4rem; font-size: 0.72rem; }
+  .feed-sep { color: var(--text-muted, #8b949e); opacity: 0.4; }
   .feeds-section { margin-top: 2rem; }
   .feeds-sub { color: var(--text-secondary, #9498a8); font-size: 0.9rem; margin: 0 0 1rem; }
   .feeds-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.8rem; }
