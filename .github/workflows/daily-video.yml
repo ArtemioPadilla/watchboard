@@ -288,11 +288,7 @@ jobs:
           if [ -f /tmp/telegram-caption-breaking.txt ]; then
             CAPTION=$(cat /tmp/telegram-caption-breaking.txt)
           else
-            CAPTION="🔴 Watchboard Daily Brief — ${DATE}
-
-🔗 watchboard.dev
-
-#Watchboard"
+            CAPTION=$(printf '🔴 Watchboard Daily Brief — %s\n\n🔗 watchboard.dev\n\n#Watchboard' "$DATE")
           fi
           
           curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendVideo" \
@@ -485,11 +481,7 @@ jobs:
           if [ -f /tmp/telegram-caption-progress.txt ]; then
             CAPTION=$(cat /tmp/telegram-caption-progress.txt)
           else
-            CAPTION="🌱 Watchboard Progress Brief — ${DATE}
-
-🔗 watchboard.dev
-
-#Watchboard"
+            CAPTION=$(printf '🌱 Watchboard Progress Brief — %s\n\n🔗 watchboard.dev\n\n#Watchboard' "$DATE")
           fi
 
           curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendVideo" \
