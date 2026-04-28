@@ -109,7 +109,7 @@ export const DomainSchema = z.enum([
 // ── Geographic region ──
 export const RegionSchema = z.enum([
   'north-america', 'central-america', 'south-america',
-  'europe', 'middle-east', 'africa',
+  'europe', 'central-europe', 'middle-east', 'africa',
   'central-asia', 'south-asia', 'east-asia',
   'southeast-asia', 'oceania', 'global',
 ]);

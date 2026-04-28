@@ -78,9 +78,9 @@ describe('tracker-feeds', () => {
   it('REGION_FEEDS keys match the RegionSchema enum (no stray taxonomy)', () => {
     // These are the values RegionSchema accepts in src/lib/tracker-config.ts.
     const validRegions = new Set([
-      'africa', 'central-america', 'central-europe', 'east-asia', 'europe',
-      'global', 'middle-east', 'north-america', 'south-america', 'south-asia',
-      'southeast-asia',
+      'africa', 'central-america', 'central-asia', 'central-europe', 'east-asia',
+      'europe', 'global', 'middle-east', 'north-america', 'oceania',
+      'south-america', 'south-asia', 'southeast-asia',
     ]);
     for (const region of Object.keys(REGION_FEEDS)) {
       expect(validRegions.has(region)).toBe(true);
