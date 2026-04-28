@@ -78,9 +78,17 @@ function buildCaption(mode: 'breaking' | 'progress'): string {
 
 function videoPathFor(mode: 'breaking' | 'progress'): string | null {
   // Prefer narrated MP4 when present; fall back to base.
+  // render.ts emits '-progress' suffix for positive/progress mode so the two
+  // sequential renders don't clobber each other.
   const candidates = mode === 'progress'
-    ? [`watchboard-${date}-progress-narrated-en.mp4`, `watchboard-${date}.mp4`]
-    : [`watchboard-${date}-narrated-en.mp4`, `watchboard-${date}.mp4`];
+    ? [
+        `watchboard-${date}-progress-narrated-en.mp4`,
+        `watchboard-${date}-progress.mp4`,
+      ]
+    : [
+        `watchboard-${date}-narrated-en.mp4`,
+        `watchboard-${date}.mp4`,
+      ];
   for (const f of candidates) {
     const p = resolve(ROOT_DIR, 'video/output', f);
     if (existsSync(p)) return p;

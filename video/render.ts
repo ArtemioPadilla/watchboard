@@ -267,7 +267,12 @@ async function main(): Promise<void> {
 
   // Step 4: Render (with retry)
   if (!existsSync(OUTPUT_DIR)) mkdirSync(OUTPUT_DIR, { recursive: true });
-  const outputPath = resolve(OUTPUT_DIR, `watchboard-${data.date}.mp4`);
+  // Distinct filename per mode so 'breaking' and 'positive' renders don't
+  // overwrite each other when run sequentially in the same working dir.
+  // (The CI runs them in separate jobs / FS, but locally — and in the new
+  // make video-render-all target — they share output/.)
+  const modeSuffix = mode === 'positive' ? '-progress' : '';
+  const outputPath = resolve(OUTPUT_DIR, `watchboard-${data.date}${modeSuffix}.mp4`);
 
   console.log(`[4/4] Rendering to ${outputPath}...`);
   for (let attempt = 0; attempt < 2; attempt++) {
@@ -305,7 +310,7 @@ async function main(): Promise<void> {
   // Step 5 (optional): Merge narration audio via ffmpeg
   if (existsSync(NARRATION_PATH)) {
     console.log('[5/5] Merging narration audio...');
-    const finalPath = resolve(OUTPUT_DIR, `watchboard-${data.date}-final.mp4`);
+    const finalPath = resolve(OUTPUT_DIR, `watchboard-${data.date}${modeSuffix}-final.mp4`);
     try {
       execSync(
         `ffmpeg -y -i "${outputPath}" -i "${NARRATION_PATH}" ` +

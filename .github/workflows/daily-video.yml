@@ -410,7 +410,7 @@ jobs:
       - name: Merge narration into progress video
         run: |
           DATE=$(date -u +%Y-%m-%d)
-          VIDEO="video/output/watchboard-${DATE}.mp4"
+          VIDEO="video/output/watchboard-${DATE}-progress.mp4"
 
           if [ -f video/output/narration-progress-en.mp3 ] && [ -f "$VIDEO" ]; then
             ffmpeg -i "$VIDEO" -i video/output/narration-progress-en.mp3 \
@@ -430,7 +430,7 @@ jobs:
           VIDEO_TYPE: progress
         run: |
           DATE=$(date -u +%Y-%m-%d)
-          VIDEO="video/output/watchboard-${DATE}.mp4"
+          VIDEO="video/output/watchboard-${DATE}-progress.mp4"
           NARRATED="video/output/watchboard-${DATE}-progress-narrated-en.mp4"
           if [ -f "$NARRATED" ]; then
             VIDEO_TYPE=progress npx tsx scripts/post-video-social.ts "$NARRATED"
@@ -470,7 +470,7 @@ jobs:
           TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
         run: |
           DATE=$(date -u +%Y-%m-%d)
-          VIDEO="video/output/watchboard-${DATE}.mp4"
+          VIDEO="video/output/watchboard-${DATE}-progress.mp4"
           NARRATED="video/output/watchboard-${DATE}-progress-narrated-en.mp4"
           SEND="$VIDEO"
           [ -f "$NARRATED" ] && SEND="$NARRATED"
