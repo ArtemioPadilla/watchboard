@@ -56,6 +56,9 @@ const pushTrackers = loadAllTrackers()
   <meta name="theme-color" content="#0d1117">
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
   <meta name="referrer" content="strict-origin-when-cross-origin">
+  {/* TODO(2026-05): flip CSP-Report-Only to enforcement after 1 week of clean violation reports */}
+  <meta http-equiv="Content-Security-Policy-Report-Only" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://*.posthog.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; connect-src 'self' https://*.posthog.com https://app.posthog.com https://us.i.posthog.com https://api.open-meteo.com https://earthquake.usgs.gov https://opensky-network.org https://*.wikipedia.org https://*.wikimedia.org https://api.memegen.link https://assets.ion.cesium.com https://tiles.ion.cesium.com https://cesium.com https://static.cloudflareinsights.com; frame-src https://www.youtube.com https://youtube.com; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; worker-src 'self' blob:">
+  <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
   <link rel="preload" href={`${basePath}fonts/jetbrains-mono-latin.woff2`} as="font" type="font/woff2" crossorigin>
   <link rel="preload" href={`${basePath}fonts/dm-sans-latin.woff2`} as="font" type="font/woff2" crossorigin>
   <link rel="manifest" href={`${basePath}manifest.json`}>
