@@ -1,0 +1,171 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { loadAllTrackers } from '../lib/tracker-registry';
+
+const base = import.meta.env.BASE_URL;
+const basePath = base.endsWith('/') ? base : `${base}/`;
+const siteUrl = 'https://watchboard.dev';
+
+const trackers = loadAllTrackers()
+  .filter((t) => t.status === 'active')
+  .map((t) => ({ slug: t.slug, name: t.shortName ?? t.name, icon: t.icon ?? '' }))
+  .sort((a, b) => a.name.localeCompare(b.name));
+
+interface Feed {
+  title: string;
+  description: string;
+  href: string;
+  cadence: string;
+  tags: string[];
+}
+
+const globalFeeds: Feed[] = [
+  {
+    title: 'All trackers — global digest',
+    description: 'Every digest entry from every active tracker, sorted newest-first. The default site-wide feed.',
+    href: `${basePath}rss.xml`,
+    cadence: 'on each nightly data update (~daily)',
+    tags: ['rss', 'all-trackers'],
+  },
+  {
+    title: 'Breaking news',
+    description: 'Only digest entries flagged as breaking by the heavy-scan AI triage pipeline.',
+    href: `${basePath}rss/breaking.xml`,
+    cadence: 'every 6h (heavy scan cron)',
+    tags: ['rss', 'breaking'],
+  },
+  {
+    title: 'Light-scan triage firehose',
+    description:
+      'Every candidate the 15-minute keyword-only light scan considers, with score, decision (post/defer), and matched tracker. Discards omitted to keep the feed dense. Built for downstream LLM consumption.',
+    href: `${basePath}rss/light-scan.xml`,
+    cadence: 'every 15 min (light scan cron)',
+    tags: ['rss', 'triage', 'llm-friendly'],
+  },
+];
+---
+
+<BaseLayout
+  title="RSS Feeds"
+  description="All Watchboard RSS feeds — site-wide, breaking news, light-scan triage firehose, and per-tracker."
+>
+  <main id="main-content">
+    <div class="feeds-page">
+      <a class="feeds-back" href={basePath}>&larr; Home</a>
+      <h1>RSS Feeds</h1>
+      <p class="feeds-lede">
+        All Watchboard feeds. Subscribe in any RSS reader or wire into an LLM/agent pipeline.
+        URLs are stable — once published, they don't change.
+      </p>
+
+      <section class="feeds-section">
+        <h2>Global</h2>
+        <ul class="feeds-list">
+          {globalFeeds.map((f) => (
+            <li class="feed-card">
+              <div class="feed-head">
+                <a class="feed-title" href={f.href}>{f.title}</a>
+                <code class="feed-url">{siteUrl}{f.href}</code>
+              </div>
+              <p class="feed-desc">{f.description}</p>
+              <div class="feed-meta">
+                <span class="feed-cadence">{f.cadence}</span>
+                {f.tags.map((t) => <span class="feed-tag">{t}</span>)}
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section class="feeds-section">
+        <h2>Per-tracker</h2>
+        <p class="feeds-sub">
+          Pattern: <code>/&lt;tracker-slug&gt;/rss.xml</code>. One feed per active tracker
+          ({trackers.length} total).
+        </p>
+        <ul class="feeds-tracker-grid">
+          {trackers.map((t) => (
+            <li>
+              <a href={`${basePath}${t.slug}/rss.xml`}>
+                <span class="tracker-icon">{t.icon}</span>
+                <span class="tracker-name">{t.name}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section class="feeds-section">
+        <h2>URL convention</h2>
+        <ul class="feeds-rules">
+          <li>All feeds use the <code>.xml</code> suffix and serve <code>application/xml</code>.</li>
+          <li>Site-wide global feed lives at the root: <code>/rss.xml</code>.</li>
+          <li>Sub-feeds live under <code>/rss/&lt;name&gt;.xml</code>.</li>
+          <li>Per-tracker feeds live under <code>/&lt;tracker-slug&gt;/rss.xml</code>.</li>
+          <li>Discoverable via <code>&lt;link rel="alternate" type="application/rss+xml"&gt;</code> in every page's <code>&lt;head&gt;</code>.</li>
+        </ul>
+      </section>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .feeds-page { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 4rem; color: var(--text-primary, #e6edf3); }
+  .feeds-back {
+    display: inline-block; margin-bottom: 2rem;
+    color: var(--text-muted, #8b949e); text-decoration: none;
+    font-size: 0.85rem; font-family: 'DM Sans', sans-serif;
+    border: 1px solid var(--border, #30363d); padding: 0.4rem 0.8rem; border-radius: 6px;
+    transition: all 0.2s;
+  }
+  .feeds-back:hover { color: var(--text-primary, #e6edf3); border-color: var(--accent-blue, #58a6ff); }
+  h1 { font-family: 'DM Sans', sans-serif; font-size: 2.2rem; margin: 0 0 0.6rem; }
+  h2 { font-family: 'DM Sans', sans-serif; font-size: 1.3rem; margin: 2.5rem 0 0.8rem; color: var(--accent-blue, #58a6ff); }
+  .feeds-lede { color: var(--text-secondary, #9498a8); font-size: 1rem; line-height: 1.6; max-width: 720px; }
+  .feeds-section { margin-top: 2rem; }
+  .feeds-sub { color: var(--text-secondary, #9498a8); font-size: 0.9rem; margin: 0 0 1rem; }
+  .feeds-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.8rem; }
+  .feed-card {
+    background: var(--bg-card, #161b22); border: 1px solid var(--border, #30363d);
+    border-radius: 8px; padding: 1rem 1.2rem;
+    transition: border-color 0.15s;
+  }
+  .feed-card:hover { border-color: var(--accent-blue, #58a6ff); }
+  .feed-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; }
+  .feed-title { font-family: 'DM Sans', sans-serif; font-size: 1.05rem; font-weight: 600; color: var(--accent-blue, #58a6ff); text-decoration: none; }
+  .feed-title:hover { text-decoration: underline; }
+  .feed-url {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+    color: var(--text-muted, #8b949e); user-select: all;
+  }
+  .feed-desc { margin: 0.5rem 0 0.7rem; color: var(--text-secondary, #9498a8); font-size: 0.88rem; line-height: 1.5; }
+  .feed-meta { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; }
+  .feed-cadence { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--text-muted, #8b949e); }
+  .feed-tag {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; padding: 2px 6px;
+    border: 1px solid var(--border, #30363d); border-radius: 3px;
+    color: var(--text-muted, #8b949e); letter-spacing: 0.04em; text-transform: uppercase;
+  }
+  .feeds-tracker-grid {
+    list-style: none; padding: 0; margin: 0;
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 0.4rem;
+  }
+  .feeds-tracker-grid a {
+    display: flex; align-items: center; gap: 6px;
+    padding: 0.4rem 0.6rem;
+    background: var(--bg-card, #161b22); border: 1px solid var(--border, #30363d);
+    border-radius: 5px; text-decoration: none; color: var(--text-primary, #e6edf3);
+    font-family: 'DM Sans', sans-serif; font-size: 0.78rem;
+    transition: border-color 0.15s, background 0.15s;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .feeds-tracker-grid a:hover { border-color: var(--accent-blue, #58a6ff); background: var(--bg-card-hover, #1e2130); }
+  .tracker-icon { flex-shrink: 0; }
+  .tracker-name { overflow: hidden; text-overflow: ellipsis; }
+  .feeds-rules { color: var(--text-secondary, #9498a8); font-size: 0.9rem; line-height: 1.7; }
+  .feeds-rules code {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.85rem;
+    background: var(--bg-card, #161b22); padding: 1px 5px; border-radius: 3px;
+    color: var(--text-primary, #e6edf3);
+  }
+</style>
