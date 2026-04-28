@@ -1,6 +1,6 @@
 # Watchboard Product Roadmap
 
-Last updated: 2026-04-27
+Last updated: 2026-04-28
 
 This is the **platform** roadmap — performance, growth, content, accessibility, infrastructure, UX. New tracker requests live in [`docs/tracker-roadmap.md`](./tracker-roadmap.md) and the community vote at `/vote`.
 
@@ -37,12 +37,15 @@ The interactive view is at **[/roadmap/](https://watchboard.dev/roadmap/)** (kan
 | ✅ | Public roadmap page | Growth | P2 | #129 |
 | ✅ | CI hygiene (action versions + nightly headroom) | Reliability | P2 | #130 |
 | ✅ | **Breaking-news pipeline redesign** (light scan + per-tracker feeds + realtime + audit) | Reliability / Growth | **P0** | #131 |
+| ✅ | Docs sync — README / CHANGELOG / roadmap for the breaking-news pipeline | Infrastructure | P2 | #132 |
+| ✅ | Consolidated freshness indicator (Header + audit page) — implements the freshness slice of the 2026-03-04 P0 data-freshness-indicators spec | UX | P1 | #133 |
 
 **Verified outcomes:**
 - vendor-globe long-task: **5018 ms → 178 ms** (Lighthouse mobile post-deploy).
 - LCP element (`p.story-briefing-text`) now exists in initial HTML on mobile.
 - Real-user perf samples flowing into PostHog → Insights → Web Vitals.
 - Breaking-news cadence: **6 h → 15 min** for major-wire stories. Per-tracker feeds auto-extend coverage when a new tracker is added (no scan-script edits). Every triage decision now visible at `/breaking-news-audit/` for threshold tuning.
+- Single, typed freshness component drives both the page-header "Updated Xh ago" pill and the audit-page "Last scan: …" label. ~38 lines of vanilla DOM mutation deleted, 9 unit tests added to lock down boundary inclusivity (the failure mode that originally let stale data render as fresh).
 
 ---
 
