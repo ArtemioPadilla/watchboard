@@ -147,7 +147,7 @@ export const ROADMAP_ITEMS: RoadmapItem[] = [
     id: 'rm-docs-sync-breaking-news',
     title: 'Docs sync — README / CHANGELOG / roadmap for the breaking-news pipeline',
     description:
-      'Documents PR #131 across README (rewritten "Hourly Breaking News Scan" → two-tier flow with realtime + audit), CHANGELOG (full Added entry), product-roadmap.md (M1 shipped table + outcomes), and src/data/roadmap-items.ts (so the live /roadmap page stat counters and Kanban view include #131).',
+      'Documents PR #131 across README (rewritten "Hourly Breaking News Scan" → two-tier flow with realtime + audit), CHANGELOG (full Added entry), product-roadmap.md (M1 shipped table + outcomes), and src/data/roadmap-items.ts (so the live /roadmap page stat counters and Kanban view include #132).',
     status: 'shipped', area: 'infrastructure', priority: 'P2', effort: 'XS', milestone: 'M1',
     prs: [132], date: '2026-04-27',
   },
