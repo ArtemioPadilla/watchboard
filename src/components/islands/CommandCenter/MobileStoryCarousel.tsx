@@ -1,4 +1,4 @@
-import { useRef, useCallback, useEffect } from 'react';
+import { useRef, useCallback, useEffect, useMemo } from 'react';
 import type { TrackerCardData } from '../../../lib/tracker-directory-utils';
 import { haptic } from '../../../lib/haptic';
 import { relativeTime } from '../../../lib/event-utils';
@@ -7,6 +7,7 @@ import ImageCarousel from './ImageCarousel';
 import { useStoryState } from './useStoryState';
 import { resetTour } from '../../../lib/onboarding';
 import MobileOnboarding, { MOBILE_TOUR_REPLAY_EVENT } from '../Onboarding/MobileOnboarding';
+import { useTrackerDetail, prefetchTrackerDetail, getCachedDetail } from './useTrackerDetail';
 
 // ── Types ──
 
@@ -67,7 +68,16 @@ function domainGradient(domain?: string): string {
 export default function MobileStoryCarousel({ trackers, basePath, followedSlugs = [], onTrackerChange, enabled = true }: Props) {
   const locale = getPreferredLocale();
 
-  const story = useStoryState({ trackers, followedSlugs, onTrackerChange, enabled });
+  // Slide count source for the active story — useStoryState reads this in
+  // goNext/goPrev so multi-image stories cycle through all frames once
+  // /api/cards/{slug}.json resolves rather than auto-advancing after one tick.
+  const story = useStoryState({
+    trackers,
+    followedSlugs,
+    onTrackerChange,
+    enabled,
+    getSlideCount: (slug) => getCachedDetail(slug)?.eventImages?.length,
+  });
 
   const touchStartY = useRef<number | null>(null);
   const touchStartX = useRef<number | null>(null);
@@ -128,9 +138,36 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
     [story.skipToNextTracker, story.skipToPrevTracker],
   );
 
-  if (story.eligible.length === 0) return null;
+  // Hooks must run in stable order — fetch detail + prefetch BEFORE the
+  // empty-eligible early return below. baseTracker may be undefined when
+  // eligible is empty, in which case useTrackerDetail receives null and
+  // skips the fetch.
+  const baseTracker: TrackerCardData | undefined = story.eligible[story.currentIndex];
 
-  const tracker = story.eligible[story.currentIndex];
+  // Lazy-fetch detail (digestSummary, digestSectionsUpdated, full
+  // eventImages) for the visible story + 1 prefetch ahead so swipe-next is
+  // instant. Detail is merged onto the shell so downstream code can keep
+  // reading `tracker.eventImages` etc as before — when detail is still
+  // loading those fields stay undefined and the existing fallbacks kick in.
+  const { detail } = useTrackerDetail(baseTracker?.slug ?? null);
+  useEffect(() => {
+    if (story.eligible.length === 0) return;
+    const next = story.eligible[(story.currentIndex + 1) % story.eligible.length];
+    if (next?.slug) prefetchTrackerDetail(next.slug);
+  }, [story.currentIndex, story.eligible]);
+
+  const tracker = useMemo<TrackerCardData | undefined>(() => {
+    if (!baseTracker) return undefined;
+    if (!detail) return baseTracker;
+    return {
+      ...baseTracker,
+      digestSummary: detail.digestSummary ?? baseTracker.digestSummary,
+      digestSectionsUpdated: detail.digestSectionsUpdated ?? baseTracker.digestSectionsUpdated,
+      eventImages: detail.eventImages ?? baseTracker.eventImages,
+    };
+  }, [baseTracker, detail]);
+
+  if (!tracker || story.eligible.length === 0) return null;
 
   return (
     <div className="story-carousel">

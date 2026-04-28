@@ -5,7 +5,17 @@
 
 // ── Types ──
 
-export interface TrackerCardData {
+/**
+ * Shell payload — the minimum every tracker card needs in the initial HTML
+ * so the collapsed sidebar row, hero card, broadcast lower-third (compact),
+ * mobile carousel chrome (icon row + first slide chrome) and relevance
+ * sorting all render correctly without a network round-trip.
+ *
+ * Anything that is text-heavy or only used in expanded/paused states is
+ * promoted to TrackerCardDetail and lazy-fetched from
+ * /api/cards/{slug}.json.
+ */
+export interface TrackerCardShell {
   slug: string;
   shortName: string;
   name: string;
@@ -37,18 +47,49 @@ export interface TrackerCardData {
   lastUpdated: string;
   headline?: string;
   topKpis: Array<{ value: string; label: string }>;
-  headlineEs?: string;
-  descriptionEs?: string;
-  topKpisEs?: Array<{ value: string; label: string }>;
-  digestSummary?: string;
-  digestSectionsUpdated?: string[];
+  /** Single hero thumbnail for the compact row — full gallery lives in detail. */
   latestEventMedia?: { url: string; source: string; tier: number };
-  eventImages?: Array<{ url: string; source: string; tier: number; eventTitle?: string; eventDetail?: string }>;
+  /**
+   * Spanish translation of the hero headline. Kept in the shell (not the
+   * lazy-fetched detail) so collapsed cards on /es/ render correctly on
+   * first paint without flashing the English string for ~50ms while the
+   * detail fetch resolves. Long-form fields (descriptionEs, topKpisEs) are
+   * still in detail since they only appear in expanded states.
+   */
+  headlineEs?: string;
   isBreaking?: boolean;
+  // Scalars used by the relevance sort that runs at first paint. Cheap (3
+  // numbers per tracker) so they stay inline rather than blocking sort on a
+  // fetch waterfall.
   recentEventCount?: number;
   avgSourceTier?: number;
   sectionsUpdatedCount?: number;
 }
+
+/**
+ * Detail payload — text-heavy fields and translations served from
+ * /api/cards/{slug}.json. Fetched on demand by:
+ *   - SidebarPanel: when a row is first expanded
+ *   - BroadcastOverlay: when the lower-third is paused/expanded
+ *   - MobileStoryCarousel: when a story becomes active (incl. neighbor
+ *     prefetch so swipe is instant)
+ */
+export interface TrackerCardDetail {
+  slug: string;
+  digestSummary?: string;
+  digestSectionsUpdated?: string[];
+  eventImages?: Array<{ url: string; source: string; tier: number; eventTitle?: string; eventDetail?: string }>;
+  descriptionEs?: string;
+  topKpisEs?: Array<{ value: string; label: string }>;
+}
+
+/**
+ * Backwards-compat type used by all components touched in this perf split.
+ * TrackerCardData = shell + (optional) detail fields. Components should treat
+ * detail fields as possibly-undefined and gracefully degrade until the lazy
+ * fetch resolves.
+ */
+export type TrackerCardData = TrackerCardShell & Partial<Omit<TrackerCardDetail, 'slug'>>;
 
 export interface TrackerGroup {
   type: 'live' | 'series' | 'historical' | 'archived';
@@ -128,7 +169,7 @@ export function groupTrackers(trackers: TrackerCardData[]): TrackerGroup[] {
     t => t.status !== 'archived' && t.temporal !== 'historical' && !t.seriesId,
   );
   if (live.length > 0) {
-    groups.push({ type: 'live', label: 'Live Operations', labelIcon: '\u25C9', trackers: live });
+    groups.push({ type: 'live', label: 'Live Operations', labelIcon: '◉', trackers: live });
   }
 
   // 2. Series groups
@@ -159,13 +200,13 @@ export function groupTrackers(trackers: TrackerCardData[]): TrackerGroup[] {
     t => t.status !== 'archived' && t.temporal === 'historical' && !t.seriesId,
   );
   if (historical.length > 0) {
-    groups.push({ type: 'historical', label: 'Historical Analysis', labelIcon: '\u23F0', trackers: historical });
+    groups.push({ type: 'historical', label: 'Historical Analysis', labelIcon: '⏰', trackers: historical });
   }
 
   // 4. Archived
   const archived = trackers.filter(t => t.status === 'archived');
   if (archived.length > 0) {
-    groups.push({ type: 'archived', label: 'Archived', labelIcon: '\u25FB', trackers: archived });
+    groups.push({ type: 'archived', label: 'Archived', labelIcon: '◻', trackers: archived });
   }
 
   return groups;
@@ -196,7 +237,7 @@ export function buildDateline(tracker: TrackerCardData): string {
   }
   const startYear = tracker.startDate.slice(0, 4);
   const endYear = tracker.endDate ? tracker.endDate.slice(0, 4) : 'Present';
-  return startYear === endYear ? startYear : `${startYear}\u2013${endYear}`;
+  return startYear === endYear ? startYear : `${startYear}–${endYear}`;
 }
 
 // ── Domain counts ──
