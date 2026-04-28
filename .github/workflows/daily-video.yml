@@ -37,6 +37,56 @@ jobs:
       - name: Render video
         run: cd video && npx tsx render.ts
 
+      # Snapshot the caption RIGHT after the render — before any git pull/rebase
+      # can clobber breaking.json. Fix for: caption was reading a stale
+      # breaking.json that the rebase reverted to main's older version.
+      - name: Snapshot Telegram caption from breaking.json
+        run: |
+          DATE=$(date -u +%Y-%m-%d)
+          DATE="$DATE" node -e "
+            function escapeHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+            function slugTag(slug){return '#' + slug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join('');}
+            function headlineTags(text){
+              const STOP = new Set(['The','And','For','With','From','This','That','New','Day','Week','April','March','May','June','July','August','September','October','November','December','January','February','At','In','On','Of','To','By','As','Is','It','Be','Are','An','A','Or','But','If','So','We','You','Our','Their','Its','Has','Have','After','Before','When','While','Where','Why','How','First','Last','Big','Top','Two','Three','Four']);
+              const tokens = (text.match(/\b[A-Z][A-Za-z0-9]{1,}(?:\s[A-Z][A-Za-z0-9]+)?\b|\b[A-Z]{2,}\b/g) || [])
+                .map(t => t.replace(/\s+/g, ''))
+                .filter(t => t.length >= 3 && !STOP.has(t));
+              return tokens.map(t => '#' + t);
+            }
+            const fs = require('fs');
+            const date = process.env.DATE;
+            try {
+              const d = JSON.parse(fs.readFileSync('video/src/data/breaking.json', 'utf8'));
+              const lines = d.trackers.map(t => {
+                const head = (t.headline || t.name || '').trim();
+                return '• <b>' + escapeHtml(t.name) + '</b>: ' + escapeHtml(head);
+              }).join('\n');
+              const topical = [];
+              const seen = new Set();
+              for (const t of d.trackers) {
+                const tag = slugTag(t.slug);
+                if (!seen.has(tag.toLowerCase())) { topical.push(tag); seen.add(tag.toLowerCase()); }
+                if (topical.length >= 4) break;
+              }
+              if (topical.length < 4) {
+                const allHeadlines = d.trackers.map(t => t.headline || '').join(' ');
+                for (const tag of headlineTags(allHeadlines)) {
+                  if (seen.has(tag.toLowerCase())) continue;
+                  topical.push(tag); seen.add(tag.toLowerCase());
+                  if (topical.length >= 4) break;
+                }
+              }
+              const hashtags = (topical.slice(0, 4).join(' ') + ' #Watchboard').trim();
+              const cap = '🔴 <b>Watchboard Daily Brief</b> — ' + date + '\n\n' + lines + '\n\n🔗 watchboard.dev\n\n' + hashtags;
+              fs.writeFileSync('/tmp/telegram-caption-breaking.txt', cap);
+              console.log('Snapshotted caption (' + cap.length + ' chars)');
+            } catch (e) {
+              const cap = '🔴 Watchboard Daily Brief — ' + date + '\n\n🔗 watchboard.dev\n\n#Watchboard';
+              fs.writeFileSync('/tmp/telegram-caption-breaking.txt', cap);
+              console.log('Caption snapshot fell back to minimal — ' + e.message);
+            }
+          "
+
       - name: Generate narration with Polly
         continue-on-error: true
         env:
@@ -232,48 +282,18 @@ jobs:
             exit 0
           fi
           
-          # Build caption from the SAME headlines shown in the rendered video.
-          # Each tracker's headline is the editorial title displayed on screen;
-          # we fall back to the tracker name only when no headline was selected.
-          CAPTION=$(node -e "
-            function escapeHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-            function slugTag(slug){return '#' + slug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join('');}
-            // Extract proper-noun-like tokens from headlines (CamelCase, ALLCAPS, 2+ chars).
-            // Used to pad to 4 topical hashtags when there aren't enough unique tracker slugs.
-            function headlineTags(text){
-              const STOP = new Set(['The','And','For','With','From','This','That','New','Day','Week','April','March','May','June','July','August','September','October','November','December','January','February','At','In','On','Of','To','By','As','Is','It','Be','Are','An','A','Or','But','If','So','We','You','Our','Their','Its','Has','Have','After','Before','When','While','Where','Why','How','First','Last','Big','Top','Two','Three','Four']);
-              const tokens = (text.match(/\b[A-Z][A-Za-z0-9]{1,}(?:\s[A-Z][A-Za-z0-9]+)?\b|\b[A-Z]{2,}\b/g) || [])
-                .map(t => t.replace(/\s+/g, ''))
-                .filter(t => t.length >= 3 && !STOP.has(t));
-              return tokens.map(t => '#' + t);
-            }
-            try {
-              const d = require('./video/src/data/breaking.json');
-              const lines = d.trackers.map(t => {
-                const head = (t.headline || t.name || '').trim();
-                return '• <b>' + escapeHtml(t.name) + '</b>: ' + escapeHtml(head);
-              }).join('\n');
-              // 5 hashtags total: 4 topical (slug-derived first, headline-mined fallback)
-              // + #Watchboard. Instagram breaks layout at 6+.
-              const topical = [];
-              const seen = new Set();
-              for (const t of d.trackers) {
-                const tag = slugTag(t.slug);
-                if (!seen.has(tag.toLowerCase())) { topical.push(tag); seen.add(tag.toLowerCase()); }
-                if (topical.length >= 4) break;
-              }
-              if (topical.length < 4) {
-                const allHeadlines = d.trackers.map(t => t.headline || '').join(' ');
-                for (const tag of headlineTags(allHeadlines)) {
-                  if (seen.has(tag.toLowerCase())) continue;
-                  topical.push(tag); seen.add(tag.toLowerCase());
-                  if (topical.length >= 4) break;
-                }
-              }
-              const hashtags = (topical.slice(0, 4).join(' ') + ' #Watchboard').trim();
-              console.log('🔴 <b>Watchboard Daily Brief</b> — ${DATE}\n\n' + lines + '\n\n🔗 watchboard.dev\n\n' + hashtags);
-            } catch { console.log('🔴 Watchboard Daily Brief — ${DATE}\n\n🔗 watchboard.dev\n\n#Watchboard'); }
-          ")
+          # Use the caption snapshot taken right after the render, BEFORE any
+          # git pull/rebase could revert breaking.json to an older committed
+          # version. This guarantees the caption matches the video on screen.
+          if [ -f /tmp/telegram-caption-breaking.txt ]; then
+            CAPTION=$(cat /tmp/telegram-caption-breaking.txt)
+          else
+            CAPTION="🔴 Watchboard Daily Brief — ${DATE}
+
+🔗 watchboard.dev
+
+#Watchboard"
+          fi
           
           curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendVideo" \
             -F "chat_id=${TELEGRAM_CHANNEL_ID}" \
@@ -310,6 +330,54 @@ jobs:
 
       - name: Render progress video
         run: cd video && npx tsx render.ts --mode positive
+
+      # Snapshot the progress caption immediately, same reason as breaking.
+      - name: Snapshot Telegram caption (progress) from breaking.json
+        run: |
+          DATE=$(date -u +%Y-%m-%d)
+          DATE="$DATE" node -e "
+            function escapeHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+            function slugTag(slug){return '#' + slug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join('');}
+            function headlineTags(text){
+              const STOP = new Set(['The','And','For','With','From','This','That','New','Day','Week','April','March','May','June','July','August','September','October','November','December','January','February','At','In','On','Of','To','By','As','Is','It','Be','Are','An','A','Or','But','If','So','We','You','Our','Their','Its','Has','Have','After','Before','When','While','Where','Why','How','First','Last','Big','Top','Two','Three','Four']);
+              const tokens = (text.match(/\b[A-Z][A-Za-z0-9]{1,}(?:\s[A-Z][A-Za-z0-9]+)?\b|\b[A-Z]{2,}\b/g) || [])
+                .map(t => t.replace(/\s+/g, ''))
+                .filter(t => t.length >= 3 && !STOP.has(t));
+              return tokens.map(t => '#' + t);
+            }
+            const fs = require('fs');
+            const date = process.env.DATE;
+            try {
+              const d = JSON.parse(fs.readFileSync('video/src/data/breaking.json', 'utf8'));
+              const lines = d.trackers.map(t => {
+                const head = (t.headline || t.name || '').trim();
+                return '✅ <b>' + escapeHtml(t.name) + '</b>: ' + escapeHtml(head);
+              }).join('\n');
+              const topical = [];
+              const seen = new Set();
+              for (const t of d.trackers) {
+                const tag = slugTag(t.slug);
+                if (!seen.has(tag.toLowerCase())) { topical.push(tag); seen.add(tag.toLowerCase()); }
+                if (topical.length >= 4) break;
+              }
+              if (topical.length < 4) {
+                const allHeadlines = d.trackers.map(t => t.headline || '').join(' ');
+                for (const tag of headlineTags(allHeadlines)) {
+                  if (seen.has(tag.toLowerCase())) continue;
+                  topical.push(tag); seen.add(tag.toLowerCase());
+                  if (topical.length >= 4) break;
+                }
+              }
+              const hashtags = (topical.slice(0, 4).join(' ') + ' #Watchboard').trim();
+              const cap = '🌱 <b>Watchboard Progress Brief</b> — ' + date + '\n\n' + lines + '\n\nScience doesn\\'t take days off.\n🔗 watchboard.dev\n\n' + hashtags;
+              fs.writeFileSync('/tmp/telegram-caption-progress.txt', cap);
+              console.log('Snapshotted progress caption (' + cap.length + ' chars)');
+            } catch (e) {
+              const cap = '🌱 Watchboard Progress Brief — ' + date + '\n\n🔗 watchboard.dev\n\n#Watchboard';
+              fs.writeFileSync('/tmp/telegram-caption-progress.txt', cap);
+              console.log('Progress caption snapshot fell back — ' + e.message);
+            }
+          "
 
       - name: Generate narration with Polly (progress tone)
         continue-on-error: true
@@ -412,41 +480,17 @@ jobs:
             exit 0
           fi
 
-          CAPTION=$(node -e "
-            function escapeHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-            function slugTag(slug){return '#' + slug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join('');}
-            function headlineTags(text){
-              const STOP = new Set(['The','And','For','With','From','This','That','New','Day','Week','April','March','May','June','July','August','September','October','November','December','January','February','At','In','On','Of','To','By','As','Is','It','Be','Are','An','A','Or','But','If','So','We','You','Our','Their','Its','Has','Have','After','Before','When','While','Where','Why','How','First','Last','Big','Top','Two','Three','Four']);
-              const tokens = (text.match(/\b[A-Z][A-Za-z0-9]{1,}(?:\s[A-Z][A-Za-z0-9]+)?\b|\b[A-Z]{2,}\b/g) || [])
-                .map(t => t.replace(/\s+/g, ''))
-                .filter(t => t.length >= 3 && !STOP.has(t));
-              return tokens.map(t => '#' + t);
-            }
-            try {
-              const d = require('./video/src/data/breaking.json');
-              const lines = d.trackers.map(t => {
-                const head = (t.headline || t.name || '').trim();
-                return '\u2705 <b>' + escapeHtml(t.name) + '</b>: ' + escapeHtml(head);
-              }).join('\n');
-              const topical = [];
-              const seen = new Set();
-              for (const t of d.trackers) {
-                const tag = slugTag(t.slug);
-                if (!seen.has(tag.toLowerCase())) { topical.push(tag); seen.add(tag.toLowerCase()); }
-                if (topical.length >= 4) break;
-              }
-              if (topical.length < 4) {
-                const allHeadlines = d.trackers.map(t => t.headline || '').join(' ');
-                for (const tag of headlineTags(allHeadlines)) {
-                  if (seen.has(tag.toLowerCase())) continue;
-                  topical.push(tag); seen.add(tag.toLowerCase());
-                  if (topical.length >= 4) break;
-                }
-              }
-              const hashtags = (topical.slice(0, 4).join(' ') + ' #Watchboard').trim();
-              console.log('\uD83C\uDF31 <b>Watchboard Progress Brief</b> \u2014 ${DATE}\n\n' + lines + '\n\nScience doesn\'t take days off.\n\uD83D\uDD17 watchboard.dev\n\n' + hashtags);
-            } catch { console.log('\uD83C\uDF31 Watchboard Progress Brief \u2014 ${DATE}\n\n\uD83D\uDD17 watchboard.dev\n\n#Watchboard'); }
-          ")
+          # Use the snapshot taken right after render, before any git pull/rebase
+          # could revert breaking.json. Guarantees caption matches the video.
+          if [ -f /tmp/telegram-caption-progress.txt ]; then
+            CAPTION=$(cat /tmp/telegram-caption-progress.txt)
+          else
+            CAPTION="🌱 Watchboard Progress Brief — ${DATE}
+
+🔗 watchboard.dev
+
+#Watchboard"
+          fi
 
           curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendVideo" \
             -F "chat_id=${TELEGRAM_CHANNEL_ID}" \
