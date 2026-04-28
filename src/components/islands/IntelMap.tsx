@@ -12,6 +12,8 @@ import { useMapOverlays } from './useMapOverlays';
 import type { LayerState } from './useMapOverlays';
 import { useMapFlights } from './useMapFlights';
 import { useTerminator } from './useTerminator';
+import IslandErrorBoundary from './shared/IslandErrorBoundary';
+import { IslandErrorFallback } from './shared/IslandErrorFallback';
 
 interface Props {
   points: MapPoint[];
@@ -22,7 +24,17 @@ interface Props {
   mapBounds?: { lonMin: number; lonMax: number; latMin: number; latMax: number };
 }
 
-export default function IntelMap({ points, lines, events, categories, mapCenter, mapBounds }: Props) {
+export default function IntelMap(props: Props) {
+  return (
+    <IslandErrorBoundary
+      fallback={<IslandErrorFallback feature="the intelligence map" />}
+    >
+      <IntelMapInner {...props} />
+    </IslandErrorBoundary>
+  );
+}
+
+function IntelMapInner({ points, lines, events, categories, mapCenter, mapBounds }: Props) {
   // Use prop categories with fallback to hardcoded defaults
   const mapCategories = categories && categories.length > 0 ? categories : MAP_CATEGORIES;
   // Set tracker categories so catColor() uses them for dot colors

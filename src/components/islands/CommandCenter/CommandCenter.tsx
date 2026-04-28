@@ -20,6 +20,8 @@ import CoachMark from './CoachMark';
 import DesktopStoryStrip from './DesktopStoryStrip';
 import { getDiscoveredFeatures, markFeatureDiscovered, getNextCoachHint, getTourState, resetTour } from '../../../lib/onboarding';
 import OnboardingTour, { TOUR_REPLAY_EVENT } from '../Onboarding/OnboardingTour';
+import IslandErrorBoundary from '../shared/IslandErrorBoundary';
+import { IslandErrorFallback } from '../shared/IslandErrorFallback';
 
 const FOLLOWS_KEY = 'watchboard-follows';
 const SIDEBAR_PREF_KEY = 'watchboard-sidebar-pref'; // 'expanded' | 'collapsed'
@@ -103,7 +105,22 @@ interface Props {
   breakingTrackers: BreakingTracker[];
 }
 
-export default function CommandCenter({
+export default function CommandCenter(props: Props) {
+  return (
+    <IslandErrorBoundary
+      fallback={
+        <IslandErrorFallback
+          feature="the command center"
+          style={{ width: '100vw', height: '100vh', margin: 0, maxWidth: 'none', borderRadius: 0 }}
+        />
+      }
+    >
+      <CommandCenterInner {...props} />
+    </IslandErrorBoundary>
+  );
+}
+
+function CommandCenterInner({
   trackers,
   basePath,
   liveCount,

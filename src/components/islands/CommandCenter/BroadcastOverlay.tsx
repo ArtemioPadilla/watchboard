@@ -3,6 +3,8 @@ import { t, getPreferredLocale } from '../../../i18n/translations';
 import type { BroadcastPhase } from './useBroadcastMode';
 import ImageCarousel from './ImageCarousel';
 import { useDragScrub } from './useDragScrub';
+import IslandErrorBoundary from '../shared/IslandErrorBoundary';
+import { IslandErrorFallback } from '../shared/IslandErrorFallback';
 
 interface TrackerForOverlay {
   slug: string;
@@ -48,7 +50,17 @@ interface BroadcastOverlayProps {
 
 const HOVER_GRACE_MS = 500;
 
-export default function BroadcastOverlay({
+export default function BroadcastOverlay(props: BroadcastOverlayProps) {
+  return (
+    <IslandErrorBoundary
+      fallback={<IslandErrorFallback feature="the broadcast overlay" />}
+    >
+      <BroadcastOverlayInner {...props} />
+    </IslandErrorBoundary>
+  );
+}
+
+function BroadcastOverlayInner({
   featuredTracker,
   phase,
   progress,

@@ -1,10 +1,11 @@
 // src/components/islands/mobile/MobileMapTab.tsx
-import { useState, useMemo, useCallback, lazy, Suspense, Component, type ReactNode, type CSSProperties } from 'react';
+import { useState, useMemo, useCallback, lazy, Suspense } from 'react';
 import IntelMap from '../IntelMap';
 import { eventTypeColor } from '../../../lib/event-utils';
 import type { MapPoint, MapLine, KpiItem, Meta } from '../../../lib/schemas';
 import type { FlatEvent } from '../../../lib/timeline-utils';
 import type { MapCategory } from '../../../lib/map-utils';
+import IslandErrorBoundary from '../shared/IslandErrorBoundary';
 
 // Lazy-load CesiumGlobe — only imported when user confirms
 const CesiumGlobe = lazy(() => import('../CesiumGlobe/CesiumGlobe'));
@@ -28,17 +29,6 @@ interface Props {
 }
 
 type GlobeState = 'prompt' | 'loading' | 'loaded' | 'error';
-
-// C3 fix: ErrorBoundary to catch lazy-load failures and transition to 'error' state
-class GlobeErrorBoundary extends Component<
-  { children: ReactNode; onError: () => void },
-  { hasError: boolean }
-> {
-  state = { hasError: false };
-  static getDerivedStateFromError() { return { hasError: true }; }
-  componentDidCatch() { this.props.onError(); }
-  render() { return this.state.hasError ? null : this.props.children; }
-}
 
 export default function MobileMapTab({
   mode, points, lines, events, categories, kpis,
@@ -128,7 +118,7 @@ export default function MobileMapTab({
           )}
 
           {(globeState === 'loading' || globeState === 'loaded') && meta && (
-            <GlobeErrorBoundary onError={handleGlobeError}>
+            <IslandErrorBoundary fallback={null} onError={handleGlobeError}>
               <Suspense
                 fallback={
                   <div className="mtab-3d-placeholder">
@@ -154,7 +144,7 @@ export default function MobileMapTab({
                   />
                 </div>
               </Suspense>
-            </GlobeErrorBoundary>
+            </IslandErrorBoundary>
           )}
 
           {globeState === 'error' && (
