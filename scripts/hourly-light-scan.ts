@@ -149,7 +149,7 @@ async function main() {
 
   const pending = loadPending(PATHS.pendingCandidates);
   const logEntries: TriageLogEntry[] = [];
-  let posted = 0, deferred = 0, discarded = 0;
+  let posted = 0, deferred = 0, discarded = 0, queued = 0;
 
   for (const cand of fresh) {
     let bestScore = 0;
@@ -182,6 +182,7 @@ async function main() {
       // posted to Telegram, but mencho-cjng/data/events/* unchanged).
       pending.entries.push({ candidate: cand, score: bestScore, recordedAt: new Date().toISOString() });
       posted++;
+      queued++;
       logEntries.push({
         timestamp: new Date().toISOString(), candidate: cand,
         decision: 'update', reason: `light-scan posted directly + queued for heavy scan (score ${bestScore.toFixed(2)})`,
@@ -191,6 +192,7 @@ async function main() {
       cand.matchedTracker = bestSlug;
       pending.entries.push({ candidate: cand, score: bestScore, recordedAt: new Date().toISOString() });
       deferred++;
+      queued++;
       logEntries.push({
         timestamp: new Date().toISOString(), candidate: cand,
         decision: 'defer', reason: `deferred to next heavy scan (score ${bestScore.toFixed(2)})`,
@@ -217,7 +219,7 @@ async function main() {
   state.lastScan = new Date().toISOString();
   saveState(state);
 
-  console.log(`[light-scan] done: posted=${posted} deferred=${deferred} discarded=${discarded}`);
+  console.log(`[light-scan] done: posted=${posted} deferred=${deferred} discarded=${discarded} queued=${queued}`);
 }
 
 main().catch((err) => { console.error('[light-scan] fatal:', err); process.exit(1); });

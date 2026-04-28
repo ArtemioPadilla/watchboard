@@ -49,6 +49,63 @@ describe('hourly-scan', () => {
     });
   });
 
+  describe('promotePendingCandidates', () => {
+    const mkCand = (url: string, title = 'T') => ({
+      title, url, source: 's', timestamp: '', matchedTracker: 'x', feedOrigin: 'rss' as const,
+    });
+
+    it('promotes pending entries into candidates even if they would be in state.seen', async () => {
+      const { promotePendingCandidates } = await import('../scripts/hourly-scan.js');
+      const candidates = [mkCand('https://a.com')];
+      const pending = { entries: [{ candidate: mkCand('https://b.com') }] };
+      // Note: the live code does NOT pass state.seen — that's the bug we fixed.
+      // The helper must promote 'b' even though in production it would be in state.seen.
+      const promoted = promotePendingCandidates(pending, candidates);
+      expect(promoted).toBe(1);
+      expect(candidates.map(c => c.url)).toEqual(['https://a.com', 'https://b.com']);
+    });
+
+    it('skips pending duplicates already in the in-flight batch', async () => {
+      const { promotePendingCandidates } = await import('../scripts/hourly-scan.js');
+      const candidates = [mkCand('https://a.com')];
+      const pending = { entries: [{ candidate: mkCand('https://a.com') }] };
+      const promoted = promotePendingCandidates(pending, candidates);
+      expect(promoted).toBe(0);
+      expect(candidates).toHaveLength(1);
+    });
+
+    it('dedups within the pending list itself', async () => {
+      const { promotePendingCandidates } = await import('../scripts/hourly-scan.js');
+      const candidates: Array<ReturnType<typeof mkCand>> = [];
+      const pending = {
+        entries: [
+          { candidate: mkCand('https://x.com') },
+          { candidate: mkCand('https://x.com', 'duplicate') },
+          { candidate: mkCand('https://y.com') },
+        ],
+      };
+      const promoted = promotePendingCandidates(pending, candidates);
+      expect(promoted).toBe(2);
+      expect(candidates.map(c => c.url)).toEqual(['https://x.com', 'https://y.com']);
+    });
+
+    it('ignores entries with missing url or candidate', async () => {
+      const { promotePendingCandidates } = await import('../scripts/hourly-scan.js');
+      const candidates: Array<ReturnType<typeof mkCand>> = [];
+      const pending = {
+        entries: [
+          { candidate: undefined },
+          {} as { candidate?: ReturnType<typeof mkCand> },
+          { candidate: { ...mkCand(''), url: '' } },
+          { candidate: mkCand('https://ok.com') },
+        ],
+      };
+      const promoted = promotePendingCandidates(pending, candidates);
+      expect(promoted).toBe(1);
+      expect(candidates.map(c => c.url)).toEqual(['https://ok.com']);
+    });
+  });
+
   describe('parseRssFeed', () => {
     it('extracts items from RSS XML', async () => {
       const { parseRssFeed } = await import('../scripts/hourly-scan.js');

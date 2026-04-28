@@ -568,6 +568,33 @@ export async function scan(): Promise<{ candidates: Candidate[]; state: HourlySt
   return { candidates: dedupedFresh, state: updatedState };
 }
 
+/**
+ * Promote pending candidates (queued by light scans) into the heavy-scan
+ * triage batch. Pending entries are explicitly queued items that already
+ * passed dedup once when the light scan recorded them; by the time this
+ * runs, their URLs are typically already in `state.seen`. So we dedup only
+ * against the in-flight batch, not against `state.seen` — otherwise every
+ * pending entry would be silently dropped.
+ *
+ * Mutates `candidates` in place. Returns how many were promoted.
+ */
+export function promotePendingCandidates(
+  pending: { entries: Array<{ candidate?: Candidate }> },
+  candidates: Candidate[],
+): number {
+  const batchUrls = new Set(candidates.map((c) => c.url));
+  let promoted = 0;
+  for (const entry of pending.entries) {
+    const c: Candidate | undefined = entry?.candidate;
+    if (!c?.url) continue;
+    if (batchUrls.has(c.url)) continue;
+    batchUrls.add(c.url);
+    candidates.push(c);
+    promoted++;
+  }
+  return promoted;
+}
+
 // --- CLI entry point ---
 
 if (
@@ -595,27 +622,13 @@ if (
   }
 
   // Read deferred candidates the light scans accumulated since the last heavy run.
-  // IMPORTANT: pending entries are explicitly queued by the light scan AFTER it
-  // already pushed the URL to state.seen (see hourly-light-scan.ts line ~197).
-  // So checking against `seenUrls` here would always skip them — that bug
-  // silently swallowed every pending candidate. Dedup pending only against the
-  // current in-flight batch instead; state.seen already has the URLs and we
-  // don't need to re-record them.
+  // See `promotePendingCandidates` above for why pending bypasses `state.seen`.
   try {
     const pendingPath = PATHS.pendingCandidates;
     if (existsSync(pendingPath)) {
       const pending = JSON.parse(readFileSync(pendingPath, 'utf8'));
       if (pending?.entries?.length) {
-        const batchUrls = new Set(candidates.map((c) => c.url));
-        let promoted = 0;
-        for (const entry of pending.entries) {
-          const c: Candidate | undefined = entry?.candidate;
-          if (!c?.url) continue;
-          if (batchUrls.has(c.url)) continue;
-          batchUrls.add(c.url);
-          candidates.push(c);
-          promoted++;
-        }
+        const promoted = promotePendingCandidates(pending, candidates);
         if (promoted > 0) console.log(`[hourly-scan] promoted ${promoted} pending candidate(s) to triage`);
         // Reset the pending file once consumed
         writeFileSync(pendingPath, JSON.stringify({ version: 1, entries: [] }, null, 2));
