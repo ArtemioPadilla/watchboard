@@ -50,3 +50,7 @@ video/src/data/studio-data.json
 # retention), not git.
 video/output/*.mp4
 video/output/*.mp3
+
+# Per-mode breaking-data snapshots written by render.ts so the repost script
+# can read the right tracker set per mode without contention. Regenerable.
+video/src/data/breaking-data-*.json

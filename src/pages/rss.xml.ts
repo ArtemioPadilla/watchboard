@@ -2,6 +2,15 @@ import rss from '@astrojs/rss';
 import type { APIContext } from 'astro';
 import { loadAllTrackers } from '../lib/tracker-registry';
 import { loadTrackerData } from '../lib/data';
+import type { FeedMeta } from '../lib/feed-registry';
+
+export const feedMeta: FeedMeta = {
+  title: 'All trackers — global digest',
+  description: 'Every digest entry from every active tracker, sorted newest-first. The default site-wide feed.',
+  cadence: 'on each nightly data update (~daily)',
+  category: 'global',
+  path: 'rss.xml',
+};
 
 export async function GET(context: APIContext) {
   const trackers = loadAllTrackers().filter(t => t.status !== 'draft');

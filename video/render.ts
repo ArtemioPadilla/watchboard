@@ -169,6 +169,22 @@ async function main(): Promise<void> {
     data = SAMPLE_DATA;
   }
 
+  // Mode-specific snapshot — render.ts is called twice in `make video-render-all`
+  // and the second call overwrites breaking.json with the OTHER mode's
+  // trackers. Caption builders (repost-daily-telegram.ts, daily-video.yml)
+  // need to read the data that was used for THIS specific render, so we
+  // freeze a copy here. Filename mirrors the user-facing name:
+  //   conflict mode → breaking-data-breaking.json
+  //   positive mode → breaking-data-progress.json
+  const snapshotName = mode === 'positive' ? 'breaking-data-progress.json' : 'breaking-data-breaking.json';
+  const snapshotPath = resolve(ROOT_DIR, 'src/data', snapshotName);
+  try {
+    const fs = await import('node:fs');
+    fs.writeFileSync(snapshotPath, JSON.stringify(data, null, 2) + '\n');
+  } catch (err) {
+    console.warn(`  Failed to write snapshot ${snapshotName}:`, (err as Error).message);
+  }
+
   // Download tracker thumbnails for Remotion (can't fetch external URLs during render)
   console.log('  Downloading tracker thumbnails...');
   const thumbnailDeadline = Date.now() + 30_000; // 30s total budget

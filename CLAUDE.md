@@ -122,7 +122,13 @@ Metrics schemas: `MetricsRunSchema`, `MetricsIndexEntrySchema`, `MetricsInventor
 - `src/pages/videos.astro` — daily brief video archive (reads `video/state/daily-log.json`)
 - `src/pages/breaking-news-audit.astro` — public audit page for the breaking-news pipeline (reads `public/_hourly/triage-log.json` at runtime)
 - `src/pages/rss.xml.ts` — global RSS feed (all tracker digests)
+- `src/pages/rss/breaking.xml.ts` — breaking news only (digests flagged `breaking` by the heavy scan)
+- `src/pages/rss/light-scan.xml.ts` — every triage decision from the 15-min light scan (firehose, LLM-friendly)
 - `src/pages/[tracker]/rss.xml.ts` — per-tracker RSS feed
+- `src/pages/feeds.astro` — human HTML index of every feed; auto-discovers via `import.meta.glob` of `feedMeta` exports
+- `src/pages/feeds.json.ts` — machine-readable JSON list of all feeds (for agents/LLMs)
+- `src/pages/feeds.opml.ts` — OPML 2.0 bundle (one-click import in any RSS reader)
+- `src/lib/feed-registry.ts` — shared `FeedMeta` type + `discoverStaticFeeds()` helper backing the three index endpoints. New RSS endpoint = create the file with a `feedMeta` export, all four indexes update on next build.
 
 ### Static Components (`src/components/static/`)
 

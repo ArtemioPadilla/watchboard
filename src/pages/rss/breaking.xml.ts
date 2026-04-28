@@ -2,6 +2,15 @@ import rss from '@astrojs/rss';
 import type { APIContext } from 'astro';
 import { loadAllTrackers } from '../../lib/tracker-registry';
 import { loadTrackerData } from '../../lib/data';
+import type { FeedMeta } from '../../lib/feed-registry';
+
+export const feedMeta: FeedMeta = {
+  title: 'Breaking news',
+  description: 'Only digest entries flagged as breaking by the heavy-scan AI triage pipeline.',
+  cadence: 'every 6h (heavy scan cron)',
+  category: 'breaking',
+  path: 'rss/breaking.xml',
+};
 
 export async function GET(context: APIContext) {
   const trackers = loadAllTrackers().filter(t => t.status !== 'draft');

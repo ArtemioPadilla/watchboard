@@ -3,3 +3,8 @@ Allow: /
 
 Sitemap: https://watchboard.dev/sitemap-index.xml
 Sitemap: https://watchboard.dev/sitemap-news.xml
+
+# Machine-readable RSS feed indexes (for agents/crawlers/LLMs):
+#   https://watchboard.dev/feeds.json   — JSON list of every feed
+#   https://watchboard.dev/feeds.opml   — OPML 2.0 bundle (importable in any RSS reader)
+#   https://watchboard.dev/feeds/       — human HTML index

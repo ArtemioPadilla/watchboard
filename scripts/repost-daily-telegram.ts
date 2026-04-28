@@ -45,12 +45,23 @@ const date = dateArg ?? new Date().toISOString().slice(0, 10);
 
 const BREAKING_JSON = resolve(ROOT_DIR, 'video/src/data/breaking.json');
 
-if (!existsSync(BREAKING_JSON)) {
-  console.error(`Missing ${BREAKING_JSON}`);
-  process.exit(1);
-}
+// Per-mode snapshots written by render.ts. We read the snapshot for the
+// mode being posted so the caption matches that specific render — even if
+// the OTHER mode's render overwrote breaking.json afterwards.
+const SNAPSHOT_BREAKING = resolve(ROOT_DIR, 'video/src/data/breaking-data-breaking.json');
+const SNAPSHOT_PROGRESS = resolve(ROOT_DIR, 'video/src/data/breaking-data-progress.json');
 
-const breaking = JSON.parse(readFileSync(BREAKING_JSON, 'utf8'));
+function loadDataForMode(mode: 'breaking' | 'progress'): any | null {
+  const snap = mode === 'progress' ? SNAPSHOT_PROGRESS : SNAPSHOT_BREAKING;
+  if (existsSync(snap)) {
+    try { return JSON.parse(readFileSync(snap, 'utf8')); } catch {}
+  }
+  // Fallback — only safe when ONE mode was rendered (no overwrite risk).
+  if (existsSync(BREAKING_JSON)) {
+    try { return JSON.parse(readFileSync(BREAKING_JSON, 'utf8')); } catch {}
+  }
+  return null;
+}
 
 function escapeHtml(s: string): string {
   return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -66,23 +77,27 @@ function headlineTags(text: string): string[] {
   return tokens.map(t => '#' + t);
 }
 
-function buildCaption(mode: 'breaking' | 'progress'): string {
+function buildCaption(mode: 'breaking' | 'progress'): string | null {
+  const data = loadDataForMode(mode);
+  if (!data || !Array.isArray(data.trackers) || data.trackers.length === 0) {
+    return null;
+  }
   const bullet = mode === 'progress' ? '✅' : '•';
   const header = mode === 'progress' ? '🌱 <b>Watchboard Progress Brief</b>' : '🔴 <b>Watchboard Daily Brief</b>';
-  const lines = (breaking.trackers as Array<{ slug: string; name: string; headline?: string }>).map(t => {
+  const lines = (data.trackers as Array<{ slug: string; name: string; headline?: string }>).map(t => {
     const head = (t.headline || t.name || '').trim();
     return bullet + ' <b>' + escapeHtml(t.name) + '</b>: ' + escapeHtml(head);
   }).join('\n');
 
   const topical: string[] = [];
   const seen = new Set<string>();
-  for (const t of breaking.trackers) {
+  for (const t of data.trackers) {
     const tag = slugTag(t.slug);
     if (!seen.has(tag.toLowerCase())) { topical.push(tag); seen.add(tag.toLowerCase()); }
     if (topical.length >= 4) break;
   }
   if (topical.length < 4) {
-    const allHeadlines = breaking.trackers.map((t: any) => t.headline || '').join(' ');
+    const allHeadlines = data.trackers.map((t: any) => t.headline || '').join(' ');
     for (const tag of headlineTags(allHeadlines)) {
       if (seen.has(tag.toLowerCase())) continue;
       topical.push(tag); seen.add(tag.toLowerCase());
@@ -123,6 +138,10 @@ async function postOne(mode: 'breaking' | 'progress'): Promise<boolean> {
     return false;
   }
   const caption = buildCaption(mode);
+  if (!caption) {
+    console.error(`[${mode}] No data available — render a video first so the snapshot exists.`);
+    return false;
+  }
 
   console.log(`───────────── ${mode.toUpperCase()} caption ─────────────`);
   console.log(caption.replace(/<[^>]+>/g, ''));
