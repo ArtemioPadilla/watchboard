@@ -3,9 +3,14 @@
  *
  * Fast 15-min scan: polls a curated subset of high-signal feeds + Bluesky +
  * Telegram, scores each candidate against active trackers via deterministic
- * keyword matching, posts to Telegram on HIGH score (>= 0.85), defers
- * MODERATE (0.5..0.85) to pending-candidates.json for the next heavy scan,
- * and discards LOW (< 0.5) to the audit log.
+ * keyword matching. HIGH-score (>= 0.85, with substance gate) → posts to
+ * Telegram for instant alerting AND queues to pending-candidates.json so the
+ * next heavy scan promotes it to AI triage + tracker data update. MODERATE
+ * (>= MODERATE_THRESHOLD) → pending only. LOW → discarded to audit log.
+ *
+ * Telegram is an alert channel; only the heavy scan writes tracker data. Both
+ * paths queue to pending so high-confidence breaking news actually reaches
+ * the tracker's events file.
  *
  * No LLM call — by design, this path is keyword-only.
  */
@@ -144,7 +149,7 @@ async function main() {
 
   const pending = loadPending(PATHS.pendingCandidates);
   const logEntries: TriageLogEntry[] = [];
-  let posted = 0, deferred = 0, discarded = 0;
+  let posted = 0, deferred = 0, discarded = 0, queued = 0;
 
   for (const cand of fresh) {
     let bestScore = 0;
@@ -170,16 +175,24 @@ async function main() {
     if (bestScore >= HIGH_THRESHOLD && bestSlug && hasSubstance) {
       cand.matchedTracker = bestSlug;
       await postTelegram(cand, bestScore, bestSlug);
+      // Also queue for the next heavy scan: Telegram is just an alert channel,
+      // it doesn't write to tracker data. Without this, high-confidence breaking
+      // news posts to Telegram but the tracker's events file is never updated
+      // (e.g. CJNG El Jardinero detention 2026-04-27 — detected 2× at 0.87,
+      // posted to Telegram, but mencho-cjng/data/events/* unchanged).
+      pending.entries.push({ candidate: cand, score: bestScore, recordedAt: new Date().toISOString() });
       posted++;
+      queued++;
       logEntries.push({
         timestamp: new Date().toISOString(), candidate: cand,
-        decision: 'update', reason: `light-scan posted directly (score ${bestScore.toFixed(2)})`,
+        decision: 'update', reason: `light-scan posted directly + queued for heavy scan (score ${bestScore.toFixed(2)})`,
         confidence: bestScore, model: null, scanType: 'light',
       });
     } else if (bestScore >= MODERATE_THRESHOLD) {
       cand.matchedTracker = bestSlug;
       pending.entries.push({ candidate: cand, score: bestScore, recordedAt: new Date().toISOString() });
       deferred++;
+      queued++;
       logEntries.push({
         timestamp: new Date().toISOString(), candidate: cand,
         decision: 'defer', reason: `deferred to next heavy scan (score ${bestScore.toFixed(2)})`,
@@ -206,7 +219,7 @@ async function main() {
   state.lastScan = new Date().toISOString();
   saveState(state);
 
-  console.log(`[light-scan] done: posted=${posted} deferred=${deferred} discarded=${discarded}`);
+  console.log(`[light-scan] done: posted=${posted} deferred=${deferred} discarded=${discarded} queued=${queued}`);
 }
 
 main().catch((err) => { console.error('[light-scan] fatal:', err); process.exit(1); });
