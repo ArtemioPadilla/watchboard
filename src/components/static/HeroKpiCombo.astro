@@ -1,5 +1,6 @@
 ---
 import type { KpiItem } from '../../lib/schemas';
+import FreshnessBadge from '../islands/FreshnessBadge.tsx';
 
 interface Props {
   meta: {
@@ -22,9 +23,12 @@ const cleanText = (s: string) =>
    .replace(/\s{2,}/g, ' ').trim();
 ---
 <div class="hero-kpi-combo hero-kpi-strip">
-  <h1 class="hero-kpi-headline" title={cleanText(meta.heroHeadline)}>
-    {cleanText(meta.heroHeadline)}
-  </h1>
+  <div class="hero-kpi-top">
+    <h1 class="hero-kpi-headline" title={cleanText(meta.heroHeadline)}>
+      {cleanText(meta.heroHeadline)}
+    </h1>
+    <FreshnessBadge lastUpdated={meta.lastUpdated} client:load />
+  </div>
   <div class="hero-kpi-right">
     {kpis.slice(0, 7).map(k => (
       <div class="hero-kpi-item">
@@ -48,15 +52,24 @@ const cleanText = (s: string) =>
     grid-template-columns: unset !important;
     padding: 0.4rem 1rem !important;
   }
+  .hero-kpi-strip .hero-kpi-top {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 0 0 0.3rem;
+    min-width: 0;
+  }
   .hero-kpi-strip .hero-kpi-headline {
     font-family: 'Cormorant Garamond', serif;
     font-size: 0.85rem;
     font-weight: 600;
     color: var(--text-secondary);
-    margin: 0 0 0.3rem;
+    margin: 0;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    flex: 1 1 auto;
+    min-width: 0;
   }
   .hero-kpi-strip .hero-kpi-right {
     display: flex !important;
