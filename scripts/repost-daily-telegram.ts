@@ -16,6 +16,26 @@ import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT_DIR = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+
+// Auto-load credentials from .env at the repo root (gitignored). No dotenv
+// dep — minimal parser supports KEY=value lines, # comments, blank lines,
+// and surrounding quotes. Existing process.env values win over .env.
+function loadDotenv(path: string): void {
+  if (!existsSync(path)) return;
+  for (const raw of readFileSync(path, 'utf8').split('\n')) {
+    const line = raw.trim();
+    if (!line || line.startsWith('#')) continue;
+    const eq = line.indexOf('=');
+    if (eq <= 0) continue;
+    const key = line.slice(0, eq).trim();
+    let val = line.slice(eq + 1).trim();
+    if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
+      val = val.slice(1, -1);
+    }
+    if (process.env[key] == null) process.env[key] = val;
+  }
+}
+loadDotenv(resolve(ROOT_DIR, '.env'));
 const argv = process.argv.slice(2);
 const dryRun = argv.includes('--dry-run');
 const isProgress = argv.includes('--progress');
