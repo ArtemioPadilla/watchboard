@@ -17,6 +17,14 @@ export interface UseStoryStateOptions {
   autoAdvanceMs?: number;
   enabled?: boolean;
   onTrackerChange?: (slug: string) => void;
+  /**
+   * Per-slug slide count source, sourced from the lazy-fetched
+   * TrackerCardDetail. The shell trackers passed in `trackers` no longer
+   * carry `eventImages` (it lives in /api/cards/{slug}.json), so callers
+   * supply this lookup so goNext/goPrev can read fresh slide counts as
+   * details stream in. Returning undefined falls back to 1 slide.
+   */
+  getSlideCount?: (slug: string) => number | undefined;
 }
 
 export interface StoryState {
@@ -61,7 +69,15 @@ export function useStoryState(options: UseStoryStateOptions): StoryState {
     autoAdvanceMs = DEFAULT_AUTO_ADVANCE_MS,
     enabled = true,
     onTrackerChange,
+    getSlideCount,
   } = options;
+
+  // Stable ref so goNext/goPrev callbacks don't have to re-bind every render
+  // when getSlideCount identity changes.
+  const getSlideCountRef = useRef(getSlideCount);
+  useEffect(() => {
+    getSlideCountRef.current = getSlideCount;
+  }, [getSlideCount]);
 
   // Initial seen set is read from localStorage AFTER mount via useEffect, not
   // synchronously — otherwise the SSR pass (no localStorage) and the first
@@ -177,10 +193,14 @@ export function useStoryState(options: UseStoryStateOptions): StoryState {
     [eligible.length, resetProgress],
   );
 
-  // Tap-right and auto-advance: advance slide first, then tracker
+  // Tap-right and auto-advance: advance slide first, then tracker.
+  // Slide count comes from the lazy-fetched detail via getSlideCount() when
+  // available, otherwise falls back to whatever shell.eventImages still
+  // carries (will be 0/undefined post-shell-split, so 1 slide).
   const goNext = useCallback(() => {
     const current = eligible[currentIndex];
-    const slides = Math.max(1, current?.eventImages?.length ?? 1);
+    const fromDetail = current?.slug ? getSlideCountRef.current?.(current.slug) : undefined;
+    const slides = Math.max(1, fromDetail ?? current?.eventImages?.length ?? 1);
     if (slideIndexRef.current < slides - 1) {
       const next = slideIndexRef.current + 1;
       slideIndexRef.current = next;
@@ -193,7 +213,11 @@ export function useStoryState(options: UseStoryStateOptions): StoryState {
     resetProgress();
   }, [eligible, currentIndex, eligible.length, resetProgress]);
 
-  // Tap-left: go back a slide, then previous tracker (landing on its last slide)
+  // Tap-left: go back a slide, then previous tracker (landing on its last
+  // slide). When jumping back, slide count for the previous tracker isn't
+  // known yet (its detail might not be in cache), so we land on slide 0 and
+  // trust the prefetch path to fill in. Caller can re-trigger goNext to walk
+  // forward once detail loads.
   const goPrev = useCallback(() => {
     if (slideIndexRef.current > 0) {
       const prev = slideIndexRef.current - 1;
@@ -203,7 +227,10 @@ export function useStoryState(options: UseStoryStateOptions): StoryState {
       setCurrentIndex((idx) => {
         const prevIdx = (idx - 1 + eligible.length) % eligible.length;
         const prevTracker = eligible[prevIdx];
-        const prevSlides = Math.max(1, prevTracker?.eventImages?.length ?? 1);
+        const fromDetail = prevTracker?.slug
+          ? getSlideCountRef.current?.(prevTracker.slug)
+          : undefined;
+        const prevSlides = Math.max(1, fromDetail ?? prevTracker?.eventImages?.length ?? 1);
         slideIndexRef.current = prevSlides - 1;
         setSlideIndex(prevSlides - 1);
         return prevIdx;

@@ -3,6 +3,9 @@ import { t, getPreferredLocale } from '../../../i18n/translations';
 import type { BroadcastPhase } from './useBroadcastMode';
 import ImageCarousel from './ImageCarousel';
 import { useDragScrub } from './useDragScrub';
+import IslandErrorBoundary from '../shared/IslandErrorBoundary';
+import { IslandErrorFallback } from '../shared/IslandErrorFallback';
+import { useTrackerDetail, prefetchTrackerDetail } from './useTrackerDetail';
 
 interface TrackerForOverlay {
   slug: string;
@@ -48,7 +51,17 @@ interface BroadcastOverlayProps {
 
 const HOVER_GRACE_MS = 500;
 
-export default function BroadcastOverlay({
+export default function BroadcastOverlay(props: BroadcastOverlayProps) {
+  return (
+    <IslandErrorBoundary
+      fallback={<IslandErrorFallback feature="the broadcast overlay" />}
+    >
+      <BroadcastOverlayInner {...props} />
+    </IslandErrorBoundary>
+  );
+}
+
+function BroadcastOverlayInner({
   featuredTracker,
   phase,
   progress,
@@ -71,6 +84,21 @@ export default function BroadcastOverlay({
   const graceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const tickerTrackRef = useRef<HTMLDivElement>(null);
   const activeItemRefs = useRef<Map<number, HTMLSpanElement>>(new Map());
+
+  // Lazy-fetch detail for the currently featured tracker so the
+  // paused/expanded lower-third has digestSummary + eventImages without
+  // shipping them in the homepage HTML. Pre-warm the next tracker in the
+  // queue (kept light: just a Map lookup + idle fetch) so when broadcast
+  // auto-advances or the user clicks "next" the panel feels instant.
+  const featuredSlug = featuredTracker?.slug ?? null;
+  const { detail: featuredDetail, loading: featuredLoading } = useTrackerDetail(featuredSlug);
+  useEffect(() => {
+    const next = trackerQueue[(currentIndex + 1) % Math.max(1, trackerQueue.length)];
+    if (next?.slug) prefetchTrackerDetail(next.slug);
+  }, [currentIndex, trackerQueue]);
+
+  const featuredEventImages = featuredDetail?.eventImages ?? featuredTracker?.eventImages ?? [];
+  const featuredDigest = featuredDetail?.digestSummary ?? featuredTracker?.digestSummary;
 
   // Ticker: scroll to center the active item whenever currentIndex changes
   // The broadcast cycle drives the ticker position, keeping card + ticker in sync
@@ -280,9 +308,13 @@ export default function BroadcastOverlay({
                   {featuredTracker.headline && (
                     <div className="broadcast-lt-headline">{featuredTracker.headline}</div>
                   )}
-                  {featuredTracker.digestSummary && (
-                    <div className="broadcast-lt-digest">{featuredTracker.digestSummary}</div>
-                  )}
+                  {featuredDigest ? (
+                    <div className="broadcast-lt-digest">{featuredDigest}</div>
+                  ) : featuredLoading ? (
+                    /* Skeleton — keeps lower-third height stable while detail
+                       resolves, so the LIVE pulse doesn't reflow. */
+                    <div className="broadcast-lt-digest broadcast-lt-digest-skeleton" aria-hidden />
+                  ) : null}
                   {featuredTracker.topKpis.length > 0 && (
                     <div className="broadcast-lt-kpis-row">
                       {featuredTracker.topKpis.slice(0, 3).map((kpi, i) => (
@@ -306,7 +338,7 @@ export default function BroadcastOverlay({
                 </div>
                 <div className="broadcast-lt-expanded-image">
                   <ImageCarousel
-                    images={featuredTracker.eventImages || []}
+                    images={featuredEventImages}
                     autoAdvance={true}
                     fallbackIcon={featuredTracker.icon}
                     fallbackDomain={featuredTracker.domain}

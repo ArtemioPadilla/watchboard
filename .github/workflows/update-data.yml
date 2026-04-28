@@ -1185,6 +1185,33 @@ jobs:
     permissions:
       issues: write
     steps:
+      - name: Telegram failure alert
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          RESOLVE_RESULT: ${{ needs.resolve.result }}
+          UPDATE_RESULT: ${{ needs.update.result }}
+          FINALIZE_RESULT: ${{ needs.finalize.result }}
+        run: |
+          if [ -z "$TELEGRAM_BOT_TOKEN" ] || [ -z "$TELEGRAM_CHAT_ID" ]; then
+            echo "TELEGRAM_BOT_TOKEN/CHAT_ID missing; skipping Telegram alert"
+            exit 0
+          fi
+          RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          SHA_SHORT=$(echo "${{ github.sha }}" | cut -c1-7)
+          FAILED=""
+          [ "$RESOLVE_RESULT" = "failure" ] && FAILED="$FAILED resolve"
+          [ "$UPDATE_RESULT" = "failure" ] && FAILED="$FAILED update"
+          [ "$FINALIZE_RESULT" = "failure" ] && FAILED="$FAILED finalize"
+          FAILED=$(echo "$FAILED" | xargs)
+          [ -z "$FAILED" ] && FAILED="unknown"
+          TEXT=$(printf '🚨 Nightly Data Update FAILED\nJob(s): %s\nSHA: %s\n%s' "$FAILED" "$SHA_SHORT" "$RUN_URL")
+          PAYLOAD=$(jq -n --arg c "$TELEGRAM_CHAT_ID" --arg t "$TEXT" \
+            '{chat_id: $c, text: $t, disable_web_page_preview: false}')
+          curl -sS -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+            -H "Content-Type: application/json" \
+            -d "$PAYLOAD" || echo "Telegram post failed (non-blocking)"
+
       - name: Create failure issue (if not already open)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

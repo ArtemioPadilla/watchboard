@@ -1,6 +1,12 @@
 /**
- * Static JSON endpoint — generates /watchboard/_data/{slug}.json at build time.
- * Islands fetch this on mount instead of receiving multi-MB inline props.
+ * Static JSON endpoint — generates /api/data/{slug}.json at build time. Used
+ * by the per-tracker dashboard islands (timeline, map, KPIs, claims) which
+ * fetch this on mount instead of receiving multi-MB inline props.
+ *
+ * NOT to be confused with /api/cards/{slug}.json (sibling endpoint at
+ * src/pages/api/cards/[tracker].json.ts). That one is a much smaller
+ * payload tailored to the homepage card surfaces (digestSummary, eventImages
+ * gallery, ES translations) and is fetched lazily as cards expand.
  */
 import type { APIRoute, GetStaticPaths } from 'astro';
 import { loadAllTrackers } from '../../../lib/tracker-registry';

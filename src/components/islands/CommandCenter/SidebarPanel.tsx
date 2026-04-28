@@ -15,6 +15,7 @@ import FeedRow from './FeedRow';
 import HeroCard from './HeroCard';
 import { selectHeroTracker } from '../../../lib/hero-selection';
 import { sortByRelevance } from '../../../lib/relevance';
+import { useTrackerDetail } from './useTrackerDetail';
 
 interface Props {
   trackers: TrackerCardData[];
@@ -82,6 +83,12 @@ const TrackerRow = memo(function TrackerRow({
   const href = `${basePath}${localePrefix}${tracker.slug}/`;
   const rowRef = useRef<HTMLDivElement>(null);
 
+  // Lazy-fetch detail (es translations, full digest) when this row is the
+  // active/expanded one. Only fires when isActive flips true, which is
+  // exactly the user gesture the perf split was designed around. Cached in
+  // a process-wide Map so reopening or jumping between surfaces is instant.
+  const { detail } = useTrackerDetail(isActive ? tracker.slug : null);
+
   // Auto-scroll into view when selected or featured by broadcast
   useEffect(() => {
     if ((isActive || isHovered) && rowRef.current) {
@@ -89,6 +96,9 @@ const TrackerRow = memo(function TrackerRow({
     }
   }, [isActive, isHovered]);
 
+  // detail is fetched-on-expand; results prime the shared cache so other
+  // surfaces (broadcast lower-third, mobile carousel) have it ready.
+  void detail;
   const rawHeadline = locale === 'es' && tracker.headlineEs ? tracker.headlineEs : tracker.headline;
   const truncatedHeadline = rawHeadline
     ? rawHeadline.length > 120

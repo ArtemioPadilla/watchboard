@@ -3,6 +3,8 @@ import { trackEvent } from '../../lib/analytics';
 import type { TimelineEra, TimelineEvent } from '../../lib/schemas';
 import { tierClass, tierLabel } from '../../lib/tier-utils';
 import { t, getPreferredLocale } from '../../i18n/translations';
+import IslandErrorBoundary from './shared/IslandErrorBoundary';
+import { IslandErrorFallback } from './shared/IslandErrorFallback';
 
 function poleLabel(pole?: string): string | null {
   if (!pole) return null;
@@ -19,7 +21,21 @@ interface Props {
   timeline: TimelineEra[];
 }
 
-export default function TimelineSection({ timeline }: Props) {
+export default function TimelineSection(props: Props) {
+  return (
+    <IslandErrorBoundary
+      fallback={
+        <section className="section" id="sec-timeline">
+          <IslandErrorFallback feature="the timeline" />
+        </section>
+      }
+    >
+      <TimelineSectionInner {...props} />
+    </IslandErrorBoundary>
+  );
+}
+
+function TimelineSectionInner({ timeline }: Props) {
   const locale = getPreferredLocale();
   const [selected, setSelected] = useState<TimelineEvent | null>(null);
 

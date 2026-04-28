@@ -12,19 +12,23 @@ const historicalTrackers = active.filter(t => t.temporal === 'historical');
 const base = import.meta.env.BASE_URL;
 const basePath = base.endsWith('/') ? base : `${base}/`;
 
-// Serialize tracker data for the CommandCenter island
+// Serialize tracker data for the CommandCenter island.
+//
+// PERF: this used to inline the full TrackerCardData (digestSummary,
+// digestSectionsUpdated, full eventImages array with eventDetail strings,
+// Spanish translations) for all ~95 trackers, which dominated the homepage
+// HTML. Detail fields are now served lazily from /api/cards/{slug}.json
+// and merged in by useTrackerDetail when a card is expanded / featured.
+// We still emit the scalars relevance sorting needs (recentEventCount,
+// avgSourceTier, sectionsUpdatedCount, isBreaking) so first-paint sort runs
+// without a fetch waterfall — see src/lib/relevance.ts.
 const serializedTrackers = nonDraft.map(t => {
   let topKpis: Array<{ value: string; label: string }> = [];
   let dayCount = 0;
   let lastUpdated = t.startDate;
   let headline: string | undefined;
   let headlineEs: string | undefined;
-  let descriptionEs: string | undefined;
-  let topKpisEs: Array<{ value: string; label: string }> = [];
-  let digestSummary: string | undefined;
-  let digestSectionsUpdated: string[] | undefined;
   let latestEventMedia: { url: string; source: string; tier: number } | undefined;
-  let eventImages: Array<{ url: string; source: string; tier: number }> = [];
   let isBreaking = false;
   let recentEventCount = 0;
   let avgSourceTier = 0;
@@ -38,15 +42,15 @@ const serializedTrackers = nonDraft.map(t => {
     headline = data.meta.heroHeadline?.replace(/<[^>]+>/g, ' ').replace(/\s{2,}/g, ' ').trim();
     const latestDigest = data.digests[0];
     if (latestDigest) {
-      digestSummary = latestDigest.summary;
-      digestSectionsUpdated = latestDigest.sectionsUpdated;
       sectionsUpdatedCount = latestDigest.sectionsUpdated?.length ?? 0;
     }
 
-    // Collect up to 5 recent event images from T1-T2 sources (most recent first)
+    // Latest hero thumbnail only — the full eventImages[] gallery lives in
+    // /api/cards/{slug}.json. Walk events newest-first and pick the first
+    // T1/T2 image we find.
     const allEvents = data.timeline.flatMap(era => era.events).reverse();
     for (const evt of allEvents) {
-      if (eventImages.length >= 5) break;
+      if (latestEventMedia) break;
       if (!evt.media?.length) continue;
       const bestSource = evt.sources
         .filter(s => s.tier <= 2)
@@ -54,10 +58,13 @@ const serializedTrackers = nonDraft.map(t => {
       if (!bestSource) continue;
       const image = evt.media.find(m => m.thumbnail);
       if (image) {
-        eventImages.push({ url: image.thumbnail!, source: image.source || bestSource.name, tier: bestSource.tier, eventTitle: evt.title, eventDetail: evt.detail?.slice(0, 150) });
+        latestEventMedia = {
+          url: image.thumbnail!,
+          source: image.source || bestSource.name,
+          tier: bestSource.tier,
+        };
       }
     }
-    latestEventMedia = eventImages[0];
 
     // Compute relevance scoring inputs
     const nowMs = Date.now();
@@ -88,14 +95,14 @@ const serializedTrackers = nonDraft.map(t => {
     // Tracker may not have data yet — use config defaults
   }
 
-  // Load Spanish translations if available
+  // Spanish hero headline only — kept in the shell so /es/ collapsed cards
+  // render the translated string on first paint. Long-form ES copy lives in
+  // /api/cards/{slug}.json (descriptionEs, topKpisEs).
   try {
     const esData = loadTrackerData(t.slug, t.eraLabel, 'es');
     headlineEs = esData.meta.heroHeadline?.replace(/<[^>]+>/g, ' ').replace(/\s{2,}/g, ' ').trim();
-    topKpisEs = esData.kpis.slice(0, 3);
-    descriptionEs = esData.meta.heroSubtitle || undefined;
   } catch {
-    // No Spanish data available — will fall back to English
+    // No Spanish data — fall back to English headline.
   }
 
   return {
@@ -129,14 +136,9 @@ const serializedTrackers = nonDraft.map(t => {
     dayCount,
     lastUpdated,
     headline,
-    topKpis,
     headlineEs,
-    descriptionEs,
-    topKpisEs,
-    digestSummary,
-    digestSectionsUpdated,
+    topKpis,
     latestEventMedia,
-    eventImages,
     isBreaking,
     recentEventCount,
     avgSourceTier,

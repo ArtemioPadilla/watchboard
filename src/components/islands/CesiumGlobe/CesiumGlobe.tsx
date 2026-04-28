@@ -49,6 +49,8 @@ import CollapsiblePanel from './CollapsiblePanel';
 import GlobeMobileSheet from './GlobeMobileSheet';
 import type { MissionTrajectory } from '../../../lib/schemas';
 import { resolveLayout, type PanelId } from './layout-presets';
+import IslandErrorBoundary from '../shared/IslandErrorBoundary';
+import { IslandErrorFallback } from '../shared/IslandErrorFallback';
 
 interface Props {
   points: MapPoint[];
@@ -90,7 +92,22 @@ function msToDateStr(ms: number): string {
   return new Date(ms).toISOString().split('T')[0];
 }
 
-export default function CesiumGlobe({ points, lines, kpis, meta, events = [], cameraPresets = {}, categories = [], mapCenter, isHistorical = false, endDate, clocks, missionTrajectory, globeLayout, layoutOverrides }: Props) {
+export default function CesiumGlobe(props: Props) {
+  return (
+    <IslandErrorBoundary
+      fallback={
+        <IslandErrorFallback
+          feature="the 3D globe"
+          style={{ width: '100%', height: '100%', margin: 0, maxWidth: 'none' }}
+        />
+      }
+    >
+      <CesiumGlobeInner {...props} />
+    </IslandErrorBoundary>
+  );
+}
+
+function CesiumGlobeInner({ points, lines, kpis, meta, events = [], cameraPresets = {}, categories = [], mapCenter, isHistorical = false, endDate, clocks, missionTrajectory, globeLayout, layoutOverrides }: Props) {
   const layout = resolveLayout(globeLayout, layoutOverrides);
   const hasPanelInSlot = (slot: string, panel: PanelId) =>
     (layout.slots[slot as keyof typeof layout.slots] ?? []).includes(panel);

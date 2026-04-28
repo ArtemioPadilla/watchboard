@@ -41,3 +41,50 @@ jobs:
               echo "retry $i"; sleep 5
             done
           fi
+
+  # ── Notify Telegram on failure (deduped: only first failure in a streak) ──
+  # Light scan runs every 15 min, so naive alerting would spam. We check the
+  # immediately-prior run's conclusion via `gh run list` and alert only when
+  # the previous run was NOT also a failure (i.e., this is the first failure
+  # in a row). Tradeoff: if the prev-run lookup itself fails (rate limit, gh
+  # outage), we fall back to alerting — better noisy than silent.
+  notify-failure:
+    needs: [scan]
+    if: failure()
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Check previous run + alert Telegram
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          if [ -z "$TELEGRAM_BOT_TOKEN" ] || [ -z "$TELEGRAM_CHAT_ID" ]; then
+            echo "TELEGRAM_BOT_TOKEN/CHAT_ID missing; skipping Telegram alert"
+            exit 0
+          fi
+
+          # Look up the previous run's conclusion. .[0] is the current (still
+          # in-progress) run, so .[1] is the most recent finished one.
+          PREV_CONCLUSION=$(gh run list \
+            --workflow=light-scan.yml \
+            --repo "${{ github.repository }}" \
+            --limit 2 \
+            --json conclusion \
+            --jq '.[1].conclusion' 2>/dev/null || echo "unknown")
+          echo "Previous run conclusion: ${PREV_CONCLUSION}"
+
+          if [ "$PREV_CONCLUSION" = "failure" ]; then
+            echo "Previous run also failed — skipping Telegram alert to avoid spam (15-min cron)"
+            exit 0
+          fi
+
+          RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          SHA_SHORT=$(echo "${{ github.sha }}" | cut -c1-7)
+          TEXT=$(printf '🚨 Light Scan FAILED (first in streak)\nJob: scan\nSHA: %s\n%s' "$SHA_SHORT" "$RUN_URL")
+          PAYLOAD=$(jq -n --arg c "$TELEGRAM_CHAT_ID" --arg t "$TEXT" \
+            '{chat_id: $c, text: $t, disable_web_page_preview: false}')
+          curl -sS -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+            -H "Content-Type: application/json" \
+            -d "$PAYLOAD" || echo "Telegram post failed (non-blocking)"
