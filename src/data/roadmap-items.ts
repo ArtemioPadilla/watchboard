@@ -143,6 +143,24 @@ export const ROADMAP_ITEMS: RoadmapItem[] = [
     outcome:
       'Major-wire breaking news cadence: 6h → 15min. Mexican/Indian/Israeli trackers automatically pull native-language outlets. Every triage decision visible for tuning at /breaking-news-audit/.',
   },
+  {
+    id: 'rm-docs-sync-breaking-news',
+    title: 'Docs sync — README / CHANGELOG / roadmap for the breaking-news pipeline',
+    description:
+      'Documents PR #131 across README (rewritten "Hourly Breaking News Scan" → two-tier flow with realtime + audit), CHANGELOG (full Added entry), product-roadmap.md (M1 shipped table + outcomes), and src/data/roadmap-items.ts (so the live /roadmap page stat counters and Kanban view include #131).',
+    status: 'shipped', area: 'infrastructure', priority: 'P2', effort: 'XS', milestone: 'M1',
+    prs: [132], date: '2026-04-27',
+  },
+  {
+    id: 'rm-freshness-badge',
+    title: 'Consolidated freshness indicator (Header + audit page)',
+    description:
+      'Replaces Header.astro\'s vanilla-JS freshness span with a typed, SSR-safe React island (FreshnessBadge) that ticks every 60s and emits the static date during SSR to avoid React #418 hydration errors. Same strings, classes, and 30h staleness threshold as before. The audit page (/breaking-news-audit/) now also surfaces "Last scan: X ago" with tighter thresholds (1h fresh / 6h stale) since the light scan runs every 15 min. Implements the freshness slice of the long-pending data-freshness-indicators spec (P0, approved 2026-03-04).',
+    status: 'shipped', area: 'ux', priority: 'P1', effort: 'S', milestone: 'M1',
+    prs: [133], date: '2026-04-27',
+    outcome:
+      '~38 lines of vanilla DOM mutation deleted. 9 unit tests lock down classifyFreshness boundaries + formatAgo buckets. Locale-aware "unknown" copy (en/es/fr/pt). Reusable for future pages that need at-a-glance freshness.',
+  },
 
   // ─── M2 — May 2026: Real-user perf + growth ─────────────────────────
   {

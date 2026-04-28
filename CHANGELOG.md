@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed — 2026-04-27
+- **Consolidated freshness indicator** (#133): replaced the inline-JS freshness span in `Header.astro` with a typed React island (`src/components/islands/FreshnessBadge.tsx`). Same strings, same `.freshness-indicator`/`.fresh`/`.stale` class hooks (no CSS changes), same 30 h staleness threshold — but now: SSR-safe (renders the static date string before hydration to avoid React #418), proper React lifecycle with 60 s tick, locale-aware "unknown" copy (en/es/fr/pt), and reusable. Also surfaces "Last scan: X ago" on `/breaking-news-audit/` with tighter thresholds (1 h fresh / 6 h stale) since the light scan runs every 15 min — answers "is what I'm looking at fresh?" at a glance.
+  - New: `src/components/islands/FreshnessBadge.tsx` (+ `FreshnessBadge.test.ts` with 9 unit tests covering boundary inclusivity and time-bucket formatting)
+  - Modified: `src/components/static/Header.astro` (− ~38 lines vanilla DOM mutation, + the React island mount), `src/components/islands/TriageLogBoard.tsx` (mounts the badge with `label="Last scan:"` using the most recent triage-log entry timestamp)
+  - Implements the freshness slice of the long-pending [`docs/specs/data-freshness-indicators.md`](docs/specs/data-freshness-indicators.md) (P0, approved 2026-03-04). KPI deltas + scroll spy from that spec are deferred (deltas need AI-updater work, scroll spy already shipped earlier in `Header.astro`).
+
 ### Added — 2026-04-27
 - **Breaking-news pipeline redesign** (#131): two-tier scan cadence + per-tracker dynamic feeds + realtime sources + persistent audit log + public `/breaking-news-audit/` page. Targets latency (was 6 h gap), regional misses (CDMX-style stories now covered by `tracker.country`-keyed Mexican outlets), and low yield (deterministic keyword path means no LLM-rejection of obvious matches).
   - **Light scan** (every 15 min, `.github/workflows/light-scan.yml` + `scripts/hourly-light-scan.ts`): polls Reuters/BBC/AP/Google News + Bluesky firehose + Telegram public channels. Scores via `src/lib/keyword-match.ts` (deterministic, no LLM). ≥ 0.85 → Telegram post. 0.5–0.85 → defers to `public/_hourly/pending-candidates.json`. < 0.5 → discards to audit log.
