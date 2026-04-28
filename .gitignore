@@ -44,3 +44,9 @@ playwright-report/
 
 # Remotion Studio prep data — heavy base64 thumbnails, regenerable via prep-studio.ts
 video/src/data/studio-data.json
+
+# Video pipeline output — large MP4/MP3 artifacts. Re-renderable via
+# `make video-render-all`. CI uploads them as workflow artifacts (30-day
+# retention), not git.
+video/output/*.mp4
+video/output/*.mp3
