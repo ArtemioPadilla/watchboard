@@ -1,152 +1,169 @@
 import { useEffect, useState } from 'react';
+import { getPreferredLocale, type Locale } from '../../i18n/translations';
+
+/**
+ * "Updated X ago" pill with tier-colored staleness states. Used in the page
+ * Header (replaces a vanilla-JS span that did the same thing) and on the
+ * /breaking-news-audit/ page to surface "Last scan: …" prominently.
+ *
+ * Strings, thresholds, and class hooks intentionally match the previous
+ * vanilla implementation (`.freshness-indicator`, `.freshness-text`, `.fresh`,
+ * `.stale` — styled in `src/styles/global.css`) so the existing CSS keeps
+ * working without an island-specific stylesheet.
+ *
+ * Time buckets (per the 2026-03-04 data-freshness spec):
+ *   < 1h:      "Updated X min ago"
+ *   1–23h:     "Updated Xh ago"
+ *   24–47h:    "Updated yesterday"
+ *   48h+:      "Updated X days ago"
+ *   ≥ stale:   above text + "— Data may be outdated" (amber)
+ *   missing:   "Last update time unknown"
+ */
 
 interface Props {
-  /** ISO 8601 timestamp from `meta.lastUpdated`. May be undefined for trackers
-   *  whose data has never been updated. */
+  /** ISO 8601 timestamp. Undefined / unparseable → "Last update time unknown". */
   lastUpdated?: string;
-  /**
-   * Hours after which the badge flips to amber + "may be outdated" copy.
-   * Default 30h matches the spec — one missed nightly cycle.
-   */
-  staleHours?: number;
-  /**
-   * Hours under which the badge renders in green. Default 12h. The neutral
-   * state (between fresh and stale) is muted gray.
-   */
+  /** Hours under which the badge renders fresh (green). Default 12. */
   freshHours?: number;
-  /** Optional className passed through to the root span. */
+  /** Hours at or above which the badge renders stale (amber + warning). Default 30. */
+  staleHours?: number;
+  /** Optional label override. Defaults to nothing — the component renders only "Updated …". */
+  label?: string;
+  /** Locale override; falls back to `getPreferredLocale()` (only the unknown
+   *  state is translated, matching the prior Header implementation). */
+  locale?: Locale;
+  /** Extra class names appended to the root `.freshness-indicator`. */
   className?: string;
 }
 
 type Tier = 'fresh' | 'neutral' | 'stale' | 'unknown';
 
-function classify(diffMs: number, freshMs: number, staleMs: number): Tier {
+const UNKNOWN_LABEL: Record<Locale, string> = {
+  en: 'Last update time unknown',
+  es: 'Hora de actualización desconocida',
+  fr: 'Heure de mise à jour inconnue',
+  pt: 'Hora de atualização desconhecida',
+};
+
+export function classifyFreshness(diffMs: number, freshMs: number, staleMs: number): Tier {
   if (!Number.isFinite(diffMs) || diffMs < 0) return 'unknown';
-  if (diffMs <= freshMs) return 'fresh';
+  // Boundary inclusivity per the spec: < 12h is fresh; ≥ 30h is stale; everything between is neutral.
+  if (diffMs < freshMs) return 'fresh';
   if (diffMs >= staleMs) return 'stale';
   return 'neutral';
 }
 
-function formatAgo(diffMs: number): string {
+export function formatAgo(diffMs: number): string {
   const min = Math.floor(diffMs / 60_000);
-  if (min < 1)  return 'just now';
-  if (min < 60) return `${min} min ago`;
-  const h = Math.floor(min / 60);
-  if (h < 24)   return `${h}h ago`;
-  if (h < 48)   return 'yesterday';
-  const d = Math.floor(h / 24);
-  return `${d}d ago`;
+  if (min < 60) return `Updated ${Math.max(1, min)} min ago`;
+  const hr = Math.floor(diffMs / 3_600_000);
+  if (hr < 24) return `Updated ${hr}h ago`;
+  if (hr < 48) return 'Updated yesterday';
+  const days = Math.floor(diffMs / 86_400_000);
+  return `Updated ${days} days ago`;
 }
 
-const COLORS: Record<Tier, { color: string; bg: string; border: string; dot: string }> = {
-  fresh:   { color: 'var(--accent-green, #2ecc71)', bg: 'rgba(46,204,113,0.10)',  border: 'rgba(46,204,113,0.35)',  dot: 'var(--accent-green, #2ecc71)' },
-  neutral: { color: 'var(--text-muted,    #8b949e)', bg: 'rgba(139,148,158,0.10)', border: 'rgba(139,148,158,0.30)', dot: 'var(--text-muted, #8b949e)' },
-  stale:   { color: 'var(--accent-amber,  #f39c12)', bg: 'rgba(243,156,18,0.10)',  border: 'rgba(243,156,18,0.40)',  dot: 'var(--accent-amber, #f39c12)' },
-  unknown: { color: 'var(--text-muted,    #8b949e)', bg: 'transparent',            border: 'rgba(139,148,158,0.30)', dot: 'var(--text-muted, #8b949e)' },
-};
+/** Static SSR text — used until the first useEffect tick on the client. */
+function staticUpdatedText(lastUpdated: string): string {
+  const parsed = new Date(lastUpdated);
+  if (Number.isNaN(parsed.getTime())) return '';
+  return `Updated ${parsed.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`;
+}
 
 export default function FreshnessBadge({
   lastUpdated,
-  staleHours = 30,
   freshHours = 12,
+  staleHours = 30,
+  label,
+  locale,
   className,
 }: Props) {
-  // Render the static timestamp (or "—") on first mount so the SSR HTML and the
-  // first client render are identical (avoids React #418). The relative form
-  // takes over after hydration.
-  const [tick, setTick] = useState(0);
+  const [now, setNow] = useState<number | null>(null);
+
   useEffect(() => {
-    setTick((n) => n + 1);
-    const id = setInterval(() => setTick((n) => n + 1), 60_000);
+    setNow(Date.now());
+    const id = setInterval(() => setNow(Date.now()), 60_000);
     return () => clearInterval(id);
   }, []);
 
-  // SSR / first render: render the date as a stable static string.
-  if (tick === 0) {
-    if (!lastUpdated) {
+  const effectiveLocale = locale ?? getPreferredLocale();
+  const unknownText = UNKNOWN_LABEL[effectiveLocale] ?? UNKNOWN_LABEL.en;
+
+  const ts = lastUpdated ? Date.parse(lastUpdated) : NaN;
+  const validTs = Number.isFinite(ts);
+
+  // First render (server + first client paint): emit a stable static string so
+  // SSR HTML matches the first client render byte-for-byte (avoids React #418).
+  if (now === null) {
+    if (!lastUpdated || !validTs) {
       return (
-        <span className={className} style={{ ...baseStyle, ...stylesFor(COLORS.unknown) }} role="status" aria-live="polite">
-          <span style={dotStyle(COLORS.unknown.dot)} aria-hidden="true" />
-          Last update unknown
+        <span
+          className={joinClasses('freshness-indicator', 'stale', className)}
+          role="status"
+          aria-live="polite"
+          title={lastUpdated}
+        >
+          {label && <span className="freshness-label">{label}{' '}</span>}
+          <span className="freshness-text">{unknownText}</span>
         </span>
       );
     }
     return (
-      <span className={className} style={{ ...baseStyle, ...stylesFor(COLORS.neutral) }} role="status" aria-live="polite" suppressHydrationWarning>
-        <span style={dotStyle(COLORS.neutral.dot)} aria-hidden="true" />
-        Updated {lastUpdated.slice(0, 10)}
+      <span
+        className={joinClasses('freshness-indicator', className)}
+        role="status"
+        aria-live="polite"
+        title={lastUpdated}
+        suppressHydrationWarning
+      >
+        {label && <span className="freshness-label">{label}{' '}</span>}
+        <span className="freshness-text" suppressHydrationWarning>
+          {staticUpdatedText(lastUpdated)}
+        </span>
       </span>
     );
   }
 
-  if (!lastUpdated) {
+  if (!lastUpdated || !validTs) {
     return (
-      <span className={className} style={{ ...baseStyle, ...stylesFor(COLORS.unknown) }} role="status" aria-live="polite">
-        <span style={dotStyle(COLORS.unknown.dot)} aria-hidden="true" />
-        Last update unknown
+      <span
+        className={joinClasses('freshness-indicator', 'stale', className)}
+        role="status"
+        aria-live="polite"
+        title={lastUpdated}
+      >
+        {label && <span className="freshness-label">{label}{' '}</span>}
+        <span className="freshness-text">{unknownText}</span>
       </span>
     );
   }
 
-  const ts = Date.parse(lastUpdated);
-  if (!Number.isFinite(ts)) {
-    return (
-      <span className={className} style={{ ...baseStyle, ...stylesFor(COLORS.unknown) }} role="status" aria-live="polite">
-        <span style={dotStyle(COLORS.unknown.dot)} aria-hidden="true" />
-        Last update unknown
-      </span>
-    );
-  }
-
-  const diffMs = Date.now() - ts;
+  const diffMs = now - ts;
   const freshMs = freshHours * 3_600_000;
   const staleMs = staleHours * 3_600_000;
-  const tier = classify(diffMs, freshMs, staleMs);
-  const colors = COLORS[tier];
+  const tier = classifyFreshness(diffMs, freshMs, staleMs);
+  const baseText = formatAgo(diffMs);
+  const text = tier === 'stale' ? `${baseText} — Data may be outdated` : baseText;
 
-  // Stale headline gets an explicit "may be outdated" so color isn't the
-  // sole signal (a11y).
-  const label = tier === 'stale'
-    ? `Updated ${formatAgo(diffMs)} — may be outdated`
-    : `Updated ${formatAgo(diffMs)}`;
+  const tierClass =
+    tier === 'fresh' ? 'fresh' :
+    tier === 'stale' ? 'stale' :
+    tier === 'unknown' ? 'stale' :
+    null;
 
   return (
     <span
-      className={className}
-      style={{ ...baseStyle, ...stylesFor(colors) }}
+      className={joinClasses('freshness-indicator', tierClass, className)}
       role="status"
       aria-live="polite"
       title={lastUpdated}
     >
-      <span style={dotStyle(colors.dot)} aria-hidden="true" />
-      {label}
+      {label && <span className="freshness-label">{label}{' '}</span>}
+      <span className="freshness-text">{text}</span>
     </span>
   );
 }
 
-const baseStyle: React.CSSProperties = {
-  display: 'inline-flex',
-  alignItems: 'center',
-  gap: 6,
-  padding: '3px 8px',
-  borderRadius: 999,
-  border: '1px solid',
-  fontFamily: "'JetBrains Mono', monospace",
-  fontSize: '0.6rem',
-  letterSpacing: '0.04em',
-  whiteSpace: 'nowrap',
-};
-
-function stylesFor(c: { color: string; bg: string; border: string }): React.CSSProperties {
-  return { color: c.color, background: c.bg, borderColor: c.border };
-}
-
-function dotStyle(color: string): React.CSSProperties {
-  return {
-    width: 6,
-    height: 6,
-    borderRadius: '50%',
-    background: color,
-    flex: '0 0 auto',
-  };
+function joinClasses(...parts: (string | null | undefined)[]): string {
+  return parts.filter(Boolean).join(' ');
 }

@@ -1,6 +1,7 @@
 ---
 import type { Meta } from '../../lib/schemas';
 import type { NavSection } from '../../lib/tracker-config';
+import FreshnessBadge from '../islands/FreshnessBadge.tsx';
 
 interface Props {
   meta: Meta;
@@ -26,9 +27,7 @@ const aboutHref = trackerSlug ? `${basePath}${trackerSlug}/about/` : `${basePath
       <span class="header-sep">&middot;</span>
       <span class="live-dot"></span>
       <span class="header-title"><strong>{statusLabel}</strong> &mdash; {meta.operationName}</span>
-      <span class="freshness-indicator" data-updated={meta.lastUpdated} aria-live="polite">
-        <span class="freshness-text" data-i18n data-es="Hora de actualización desconocida" data-fr="Heure de mise à jour inconnue" data-pt="Hora de atualização desconhecida">{meta.lastUpdated ? `Updated ${new Date(meta.lastUpdated).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}` : 'Last update time unknown'}</span>
-      </span>
+      <FreshnessBadge lastUpdated={meta.lastUpdated} client:load />
     </div>
     <button class="mobile-menu-btn" aria-label="Toggle navigation menu" aria-expanded="false">&#9776;</button>
     <nav class="header-nav">
@@ -111,41 +110,9 @@ const aboutHref = trackerSlug ? `${basePath}${trackerSlug}/about/` : `${basePath
   );
   sections.forEach(s => navObserver.observe(s));
 
-  // ── Freshness indicator ──
-  const freshnessEl = document.querySelector('.freshness-indicator') as HTMLElement | null;
-  if (freshnessEl) {
-    const updatedStr = freshnessEl.dataset.updated;
-    function updateFreshness() {
-      if (!updatedStr || !freshnessEl) return;
-      const updated = new Date(updatedStr).getTime();
-      if (isNaN(updated)) {
-        freshnessEl.querySelector('.freshness-text')!.textContent = 'Last update time unknown';
-        freshnessEl.classList.add('stale');
-        return;
-      }
-      const ageMs = Date.now() - updated;
-      const ageMin = Math.floor(ageMs / 60000);
-      const ageHr = Math.floor(ageMs / 3600000);
-      const ageDays = Math.floor(ageMs / 86400000);
-      const STALE_MS = 30 * 3600000; // 30 hours
-
-      let text: string;
-      if (ageMin < 60) {
-        text = `Updated ${Math.max(1, ageMin)} min ago`;
-      } else if (ageHr < 24) {
-        text = `Updated ${ageHr}h ago`;
-      } else if (ageHr < 48) {
-        text = 'Updated yesterday';
-      } else {
-        text = `Updated ${ageDays} days ago`;
-      }
-
-      const isStale = ageMs > STALE_MS;
-      freshnessEl.querySelector('.freshness-text')!.textContent = isStale ? `${text} — Data may be outdated` : text;
-      freshnessEl.classList.toggle('stale', isStale);
-      freshnessEl.classList.toggle('fresh', !isStale);
-    }
-    updateFreshness();
-    setInterval(updateFreshness, 60000); // Update every minute
-  }
+  // (Freshness indicator is now the FreshnessBadge React island —
+  // src/components/islands/FreshnessBadge.tsx — mounted above. The vanilla-JS
+  // implementation that lived here previously was deleted; both versions
+  // shared the .freshness-indicator/.freshness-text/.fresh/.stale class hooks
+  // styled in src/styles/global.css.)
 </script>

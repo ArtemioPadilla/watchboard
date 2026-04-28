@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState, type CSSProperties } from 'react';
 import type { TriageLog, TriageLogEntry } from '../../../scripts/hourly-types';
+import FreshnessBadge from './FreshnessBadge';
 
 type Decision = TriageLogEntry['decision'];
 
@@ -28,11 +29,27 @@ export default function TriageLogBoard({ logUrl }: Props) {
       .sort((a, b) => b.timestamp.localeCompare(a.timestamp));
   }, [log, decisionFilter, scanFilter, minScore]);
 
+  // The most recent entry's timestamp is the audit-log "freshness" — i.e. when
+  // the latest scan made any decision. If the log is empty, we fall back to
+  // the lastPruned stamp (which is set every time the heavy triage runs even
+  // if nothing was triaged).
+  const lastActivity = useMemo(() => {
+    if (!log) return undefined;
+    const newest = log.entries
+      .map((e) => e.timestamp)
+      .sort()
+      .pop();
+    return newest ?? log.lastPruned ?? undefined;
+  }, [log]);
+
   if (error) return <div style={{ color: 'var(--accent-red)' }}>Error loading audit log: {error}</div>;
   if (!log) return <div>Loading…</div>;
 
   return (
     <div style={{ fontFamily: 'DM Sans, sans-serif', color: 'var(--text-primary, #e6edf3)' }}>
+      <div style={{ marginBottom: 16 }}>
+        <FreshnessBadge lastUpdated={lastActivity} label="Last scan:" freshHours={1} staleHours={6} />
+      </div>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 16 }}>
         <select value={decisionFilter} onChange={(e) => setDecisionFilter(e.target.value as Decision | 'all')} style={selectStyle}>
           <option value="all">All decisions</option>
