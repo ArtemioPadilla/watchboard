@@ -1,6 +1,6 @@
 # Watchboard Product Roadmap
 
-Last updated: 2026-04-28
+Last updated: 2026-04-28 (post-#135)
 
 This is the **platform** roadmap — performance, growth, content, accessibility, infrastructure, UX. New tracker requests live in [`docs/tracker-roadmap.md`](./tracker-roadmap.md) and the community vote at `/vote`.
 
@@ -39,6 +39,8 @@ The interactive view is at **[/roadmap/](https://watchboard.dev/roadmap/)** (kan
 | ✅ | **Breaking-news pipeline redesign** (light scan + per-tracker feeds + realtime + audit) | Reliability / Growth | **P0** | #131 |
 | ✅ | Docs sync — README / CHANGELOG / roadmap for the breaking-news pipeline | Infrastructure | P2 | #132 |
 | ✅ | Consolidated freshness indicator (Header + audit page) — implements the freshness slice of the 2026-03-04 P0 data-freshness-indicators spec | UX | P1 | #133 |
+| ✅ | Docs sync — extensive sync for #133 + #132 (README, CHANGELOG, roadmap, CLAUDE.md) | Infrastructure | P2 | #134 |
+| ✅ | **Light-scan high-score → tracker data** regression fix — high-confidence breaking news now reaches the heavy scan via pending queue (was Telegram-only); also fixes pending-dedup bug that silently dropped every queued candidate | Reliability | **P0** | #135 |
 
 **Verified outcomes:**
 - vendor-globe long-task: **5018 ms → 178 ms** (Lighthouse mobile post-deploy).

@@ -286,7 +286,7 @@ All data workflows use `claude-code-action` with a Claude Max subscription OAuth
 
 Two scheduled scans cover breaking news end-to-end:
 
-**Light scan** (every 15 min, no LLM cost): polls a curated set of high-signal wires (Reuters, BBC, AP top-stories, GDELT) plus public real-time sources (Bluesky firehose for select OSINT/news accounts, Telegram public channels). Scores each candidate against active trackers via deterministic keyword matching (`src/lib/keyword-match.ts`). Score ≥ 0.85 → posts to Telegram immediately. Score 0.5–0.85 → defers to `public/_hourly/pending-candidates.json` for the next heavy scan. Score < 0.5 → discards to the audit log.
+**Light scan** (every 15 min, no LLM cost): polls a curated set of high-signal wires (Reuters, BBC, AP top-stories, GDELT) plus public real-time sources (Bluesky firehose for select OSINT/news accounts, Telegram public channels). Scores each candidate against active trackers via deterministic keyword matching (`src/lib/keyword-match.ts`). Score ≥ 0.85 → posts to Telegram **and** queues to `public/_hourly/pending-candidates.json` so the next heavy scan promotes it to AI triage and writes the tracker event. Score 0.5–0.85 → queue only. Score < 0.5 → discards to the audit log. Telegram is the realtime alert channel; only the heavy scan writes tracker JSON.
 
 **Heavy scan** (every 6 h, Claude Sonnet triage): polls the wider RSS list (24+ sources) plus per-tracker dynamic feeds (`src/lib/tracker-feeds.ts` — adding a Mexican tracker auto-pulls Animal Político / La Jornada / El Universal / Aristegui; an Indian tracker auto-pulls The Hindu / Indian Express / Times of India; etc.) plus the same realtime sources. Reads `pending-candidates.json` from light scans and merges. Sonnet classifies each: update / new_tracker_suggestion / discard. Every decision is appended to `public/_hourly/triage-log.json`.
 
@@ -296,8 +296,8 @@ Two scheduled scans cover breaking news end-to-end:
 |---|---|---|
 | **Poll** | curated wires + Bluesky + Telegram | full RSS (24+) + per-tracker dynamic feeds + Bluesky + Telegram + pending-candidates.json |
 | **Score / triage** | keyword-match (deterministic, no LLM) | Claude Sonnet triage |
-| **Above threshold** | Telegram post (≥ 0.85) | tracker update workflow |
-| **Below threshold** | defer 0.5–0.85, discard < 0.5 | discard |
+| **Above threshold** | Telegram post + queue to pending (≥ 0.85) | tracker update workflow |
+| **Below threshold** | queue 0.5–0.85, discard < 0.5 | discard |
 | **Audit** | append to `triage-log.json` | append to `triage-log.json` (+ 14-day prune) |
 | **Cadence** | 15 min | 6 h |
 
