@@ -384,9 +384,18 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
                 fontFamily: "'JetBrains Mono', monospace",
                 fontSize: S.source.sourceFontSize,
                 color: S.source.sourceColor,
+                // Truncate to a single ellipsised line so long source labels
+                // (e.g. "NATO Annual Report 2025 (released Mar 26, 2026); 19.6%
+                // surge in allied expenditure reported") don't overflow the
+                // canvas. Ellipsis falls outside; flex shrinks to fit.
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                minWidth: 0,
+                flex: 1,
               }}
             >
-              {tracker.sourceLabel}
+              {smartTruncate(tracker.sourceLabel, 60)}
             </span>
           </div>
 

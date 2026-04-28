@@ -592,14 +592,15 @@ export const CanvasGlobe: React.FC<CanvasGlobeProps> = ({
     earthTexture ? delayRender('Loading earth texture') : null,
   );
 
-  // DPR is hardcoded to 2 (not read from window.devicePixelRatio) so that
-  // Remotion Studio (Retina browser, dpr=2) and the renderer (Chrome headless,
-  // dpr=1) produce IDENTICAL output. Reading window.devicePixelRatio caused
-  // the internal canvas size + transform to mismatch between the two
-  // environments, and the setTransform was effectively reset by Studio's
-  // iframe reflow — making the globe display in the top-left corner.
-  // 2 gives Retina-quality sharpness in both Studio and final renders.
-  const dpr = 2;
+  // No DPR scaling — Remotion's renderer outputs the composition at exact
+  // 1080×1920 pixels regardless of browser DPR, so internal canvas pixels
+  // should equal CSS pixels. Earlier attempts to read window.devicePixelRatio
+  // OR hardcode dpr=2 caused the globe to render in the top-left corner
+  // because setTransform(dpr,...) was being implicitly reset (canvas.width
+  // assignment in a re-render clears it; some draw paths via ctx.save/restore
+  // also dropped it). Drawing at CSS-pixel coords with no transform is the
+  // most robust path and renders identically in Studio and production.
+  const dpr = 1;
 
   // Decode the earth texture image once and cache in ref
   useEffect(() => {
