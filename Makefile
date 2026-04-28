@@ -77,6 +77,13 @@ video-render:
 video-render-progress:
 	cd video && npx tsx render.ts --mode positive
 
+# Re-post today's rendered MP4 to Telegram with the same caption logic
+# the daily-video.yml workflow uses. Useful when you regenerate locally
+# after a botched daily run. Set TELEGRAM_BOT_TOKEN + TELEGRAM_CHANNEL_ID.
+# Add --dry-run to preview the caption without posting.
+video-repost-telegram:
+	npx tsx scripts/repost-daily-telegram.ts $(ARGS)
+
 video-fetch:
 	cd video && npx tsx src/data/fetch-breaking.ts
 
