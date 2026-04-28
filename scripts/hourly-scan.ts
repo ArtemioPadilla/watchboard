@@ -595,19 +595,28 @@ if (
   }
 
   // Read deferred candidates the light scans accumulated since the last heavy run.
+  // IMPORTANT: pending entries are explicitly queued by the light scan AFTER it
+  // already pushed the URL to state.seen (see hourly-light-scan.ts line ~197).
+  // So checking against `seenUrls` here would always skip them — that bug
+  // silently swallowed every pending candidate. Dedup pending only against the
+  // current in-flight batch instead; state.seen already has the URLs and we
+  // don't need to re-record them.
   try {
     const pendingPath = PATHS.pendingCandidates;
     if (existsSync(pendingPath)) {
       const pending = JSON.parse(readFileSync(pendingPath, 'utf8'));
       if (pending?.entries?.length) {
+        const batchUrls = new Set(candidates.map((c) => c.url));
+        let promoted = 0;
         for (const entry of pending.entries) {
           const c: Candidate | undefined = entry?.candidate;
           if (!c?.url) continue;
-          if (seenUrls.has(c.url)) continue;
-          seenUrls.add(c.url);
+          if (batchUrls.has(c.url)) continue;
+          batchUrls.add(c.url);
           candidates.push(c);
-          state.seen.push({ url: c.url, tracker: c.matchedTracker ?? 'unknown', eventId: '', ts: new Date().toISOString() });
+          promoted++;
         }
+        if (promoted > 0) console.log(`[hourly-scan] promoted ${promoted} pending candidate(s) to triage`);
         // Reset the pending file once consumed
         writeFileSync(pendingPath, JSON.stringify({ version: 1, entries: [] }, null, 2));
       }
