@@ -122,7 +122,13 @@ Metrics schemas: `MetricsRunSchema`, `MetricsIndexEntrySchema`, `MetricsInventor
 - `src/pages/videos.astro` — daily brief video archive (reads `video/state/daily-log.json`)
 - `src/pages/breaking-news-audit.astro` — public audit page for the breaking-news pipeline (reads `public/_hourly/triage-log.json` at runtime)
 - `src/pages/rss.xml.ts` — global RSS feed (all tracker digests)
+- `src/pages/rss/breaking.xml.ts` — breaking news only (digests flagged `breaking` by the heavy scan)
+- `src/pages/rss/light-scan.xml.ts` — every triage decision from the 15-min light scan (firehose, LLM-friendly)
 - `src/pages/[tracker]/rss.xml.ts` — per-tracker RSS feed
+- `src/pages/feeds.astro` — human HTML index of every feed; auto-discovers via `import.meta.glob` of `feedMeta` exports
+- `src/pages/feeds.json.ts` — machine-readable JSON list of all feeds (for agents/LLMs)
+- `src/pages/feeds.opml.ts` — OPML 2.0 bundle (one-click import in any RSS reader)
+- `src/lib/feed-registry.ts` — shared `FeedMeta` type + `discoverStaticFeeds()` helper backing the three index endpoints. New RSS endpoint = create the file with a `feedMeta` export, all four indexes update on next build.
 
 ### Static Components (`src/components/static/`)
 
@@ -141,6 +147,8 @@ Client-hydrated interactive components:
 - **`BroadcastOverlay.tsx`** — TV news broadcast mode for homepage globe. Lower-third headlines, scrolling ticker, LIVE badge. Auto-cycles through trackers with smooth globe fly-tos. Uses `useBroadcastMode.ts` hook (state machine: idle → transitioning → dwelling). Toggle with `B` key.
 - **`MobileStoryCarousel.tsx`** — Instagram Stories-style carousel on mobile homepage. Circle avatar row, auto-advancing story cards (10s), 3-tier image fallback (verified event media → OSM map tile → domain gradient), swipe-up to open tracker. Always present in the SSR HTML (visibility via `.cc-mobile-live-slot` CSS @media); the `enabled` prop suppresses the rAF auto-advance and `localStorage` writes when hidden on desktop.
 - **`Onboarding/`** — first-visit guided tour. `OnboardingTour.tsx` (6-step desktop controller), `MobileOnboarding.tsx` (3-step bottom-sheet), `SpotlightStep.tsx` (SVG-mask spotlight + auto-positioned tooltip primitive), `HeroStep.tsx` (fullscreen hero / tier-explainer / closing variants). Triggers from `localStorage.watchboard-tour-{desktop,mobile}-v1` (versioned, with one-shot legacy migration). Replayable via the `?` shortcuts panel on desktop and the ↻ button on the mobile carousel.
+- **`FreshnessBadge.tsx`** — "Updated Xh ago" pill with tier-colored staleness states (green < `freshHours`, neutral, amber ≥ `staleHours` with explicit "— Data may be outdated" copy). SSR-safe: emits the static date string before hydration so server and first client render match (avoids React #418). Ticks every 60 s post-mount. Locale-aware "unknown" copy for en/es/fr/pt. Mounted from `Header.astro` (page-wide indicator using `meta.lastUpdated`) and `TriageLogBoard.tsx` (audit page, label "Last scan:" with tighter 1 h fresh / 6 h stale thresholds since the light scan runs every 15 min). Class hooks `.freshness-indicator`/`.fresh`/`.stale` are styled in `src/styles/global.css:220` — reuse those classes for any new mount of this component.
+- **`TriageLogBoard.tsx`** — `/breaking-news-audit/` page. Fetches `public/_hourly/triage-log.json` at runtime; filter chips by decision (update / new_tracker / defer / discard), scan type (light / heavy), and minimum confidence score. Each entry expands to show full reason text + source. Displays a `FreshnessBadge` showing "Last scan: X ago" derived from the most recent entry timestamp (or `lastPruned` as fallback when the log is empty).
 
 ### Nightly Update Pipeline
 

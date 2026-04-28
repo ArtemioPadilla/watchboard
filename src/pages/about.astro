@@ -205,7 +205,7 @@ const basePath = base.endsWith('/') ? base : `${base}/`;
         <ul>
           <li><strong>Ingestion metrics</strong>&mdash;View run history, success rates, and validation errors on the <a href={`${basePath}metrics/`}>Status</a> dashboard</li>
           <li><strong>Open source</strong>&mdash;Full source code, data files, and update history available on <a href="https://github.com/ArtemioPadilla/watchboard" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-          <li><strong>RSS feeds</strong>&mdash;Subscribe to per-tracker or <a href={`${basePath}rss.xml`}>global feeds</a> for update notifications</li>
+          <li><strong>RSS feeds</strong>&mdash;Subscribe to <a href={`${basePath}rss.xml`}>global</a>, <a href={`${basePath}rss/breaking.xml`}>breaking</a>, <a href={`${basePath}rss/light-scan.xml`}>light-scan triage</a>, or per-tracker feeds. Browse all at <a href={`${basePath}feeds/`}>/feeds</a> (HTML index, JSON, and OPML bundle for one-click reader import)</li>
           <li><strong>Changelog</strong>&mdash;Every data update is committed to git with a full diff, so you can see exactly what changed and when</li>
         </ul>
       </section>

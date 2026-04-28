@@ -90,6 +90,10 @@ const pushTrackers = loadAllTrackers()
   })} />
   <link rel="alternate" type="application/rss+xml" title={trackerSlug ? `${title} RSS` : 'Watchboard RSS'} href={trackerSlug ? `${basePath}${trackerSlug}/rss.xml` : `${basePath}rss.xml`} />
   <link rel="alternate" type="application/rss+xml" title="Watchboard Breaking News RSS" href={`${basePath}rss/breaking.xml`} />
+  <link rel="alternate" type="application/rss+xml" title="Watchboard Light-Scan Triage RSS" href={`${basePath}rss/light-scan.xml`} />
+  {/* Machine-readable feed index (for agents/crawlers) and OPML bundle (one-click import in any RSS reader) */}
+  <link rel="alternate" type="application/json" title="Watchboard feed index (JSON)" href={`${basePath}feeds.json`} />
+  <link rel="alternate" type="text/x-opml" title="Watchboard feeds (OPML)" href={`${basePath}feeds.opml`} />
   {/* Resource hints for common image domains — only on pages that load event images */}
   {(trackerSlug || Astro.url.pathname === '/' || Astro.url.pathname === basePath) && (<>
   <link rel="preconnect" href="https://www.aljazeera.com" crossorigin>

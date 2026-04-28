@@ -23,6 +23,8 @@ const githubUrl = githubRepo ? `https://github.com/${githubRepo}` : 'https://git
         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: -2px; margin-right: 3px;"><circle cx="6.18" cy="17.82" r="2.18"/><path d="M4 4.44v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56zm0 5.66v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z"/></svg><span data-i18n data-es="Fuente RSS" data-fr="Flux RSS" data-pt="Feed RSS">RSS Feed</span>
       </a>
       <span class="footer-sep">&middot;</span>
+      <a href={`${basePath}feeds/`} title="All RSS feeds + OPML/JSON indexes"><span data-i18n data-es="Todas las fuentes" data-fr="Tous les flux" data-pt="Todos os feeds">All Feeds</span></a>
+      <span class="footer-sep">&middot;</span>
       <a href={`${basePath}metrics/`}><span data-i18n data-es="Estado" data-fr="Statut" data-pt="Status">Status</span></a>
       <span class="footer-sep">&middot;</span>
       <a href={`${basePath}videos/`}><span data-i18n data-es="Videos" data-fr="Vidéos" data-pt="Vídeos">Videos</span></a>
