@@ -161,6 +161,24 @@ export const ROADMAP_ITEMS: RoadmapItem[] = [
     outcome:
       '~38 lines of vanilla DOM mutation deleted. 9 unit tests lock down classifyFreshness boundaries + formatAgo buckets. Locale-aware "unknown" copy (en/es/fr/pt). Reusable for future pages that need at-a-glance freshness.',
   },
+  {
+    id: 'rm-docs-sync-freshness',
+    title: 'Docs sync — extensive sync for #133 (freshness) + #132',
+    description:
+      'README, CHANGELOG, product-roadmap.md, CLAUDE.md, and src/data/roadmap-items.ts updated so that documentation, the live /roadmap page stat counters, and the Kanban view all reflect PR #132 and #133 (freshness consolidation). Mirrors the FreshnessBadge React island into the islands catalog; documents TriageLogBoard\'s "Last scan:" mount.',
+    status: 'shipped', area: 'infrastructure', priority: 'P2', effort: 'XS', milestone: 'M1',
+    prs: [134], date: '2026-04-28',
+  },
+  {
+    id: 'rm-light-scan-pending-fix',
+    title: 'Light-scan high-score hits now reach tracker data',
+    description:
+      'Two bugs in the breaking-news pipeline silently swallowed every queued candidate. (1) hourly-light-scan.ts routed score ≥ 0.85 only to Telegram + audit log, never to pending-candidates.json — so the AI-triage heavy scan (which is what writes tracker JSON) never saw the candidate. The CJNG El Jardinero detention was the canary: detected 2× at 0.87 on 2026-04-27, posted to Telegram, but mencho-cjng/data/events/* unchanged. (2) hourly-scan.ts deduped pending entries against state.seen — but every pending URL was guaranteed to be in state.seen by the time the heavy scan ran, so all of them were filtered out. Fix: high-score branch also pushes to pending; pending-promotion extracted into testable helper that dedups only against the in-flight batch. 4 new unit tests, [hourly-scan] promoted N log line for observability.',
+    status: 'shipped', area: 'reliability', priority: 'P0', effort: 'S', milestone: 'M1',
+    prs: [135], date: '2026-04-28',
+    outcome:
+      'Closes the alert→triage→data-update loop the original two-tier redesign assumed but never wired. High-confidence breaking news now lands in tracker events files within ~6 h instead of being lost.',
+  },
 
   // ─── M2 — May 2026: Real-user perf + growth ─────────────────────────
   {
