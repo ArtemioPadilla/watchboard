@@ -73,3 +73,35 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  # ── Notify Telegram on build/deploy failure ──
+  notify-failure:
+    needs: [build, deploy]
+    if: failure()
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Telegram failure alert
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          BUILD_RESULT: ${{ needs.build.result }}
+          DEPLOY_RESULT: ${{ needs.deploy.result }}
+        run: |
+          if [ -z "$TELEGRAM_BOT_TOKEN" ] || [ -z "$TELEGRAM_CHAT_ID" ]; then
+            echo "TELEGRAM_BOT_TOKEN/CHAT_ID missing; skipping Telegram alert"
+            exit 0
+          fi
+          RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          SHA_SHORT=$(echo "${{ github.sha }}" | cut -c1-7)
+          FAILED=""
+          [ "$BUILD_RESULT" = "failure" ] && FAILED="$FAILED build"
+          [ "$DEPLOY_RESULT" = "failure" ] && FAILED="$FAILED deploy"
+          FAILED=$(echo "$FAILED" | xargs)
+          [ -z "$FAILED" ] && FAILED="unknown"
+          TEXT=$(printf '🚨 Pages Deploy FAILED\nJob(s): %s\nSHA: %s\n%s' "$FAILED" "$SHA_SHORT" "$RUN_URL")
+          PAYLOAD=$(jq -n --arg c "$TELEGRAM_CHAT_ID" --arg t "$TEXT" \
+            '{chat_id: $c, text: $t, disable_web_page_preview: false}')
+          curl -sS -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+            -H "Content-Type: application/json" \
+            -d "$PAYLOAD" || echo "Telegram post failed (non-blocking)"
