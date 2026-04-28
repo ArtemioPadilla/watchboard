@@ -22,6 +22,9 @@ help:
 	@echo "    make video-install           Install video deps (with --legacy-peer-deps)"
 	@echo "    make video-render            Render daily breaking video → video/output/"
 	@echo "    make video-render-progress   Render daily progress video"
+	@echo "    make video-render-all        Render BOTH (breaking + progress)"
+	@echo "    make video-repost-telegram   Re-post to Telegram (ARGS=--all to do both)"
+	@echo "    make video-redo-all          Render BOTH + re-post BOTH to Telegram"
 	@echo "    make video-fetch             Refresh breaking.json with latest news"
 	@echo ""
 	@echo "  Media backfill (thumbnails for events):"
@@ -77,12 +80,24 @@ video-render:
 video-render-progress:
 	cd video && npx tsx render.ts --mode positive
 
-# Re-post today's rendered MP4 to Telegram with the same caption logic
-# the daily-video.yml workflow uses. Useful when you regenerate locally
-# after a botched daily run. Set TELEGRAM_BOT_TOKEN + TELEGRAM_CHANNEL_ID.
-# Add --dry-run to preview the caption without posting.
+# Render both daily videos (breaking + progress) sequentially with one cmd.
+# Reuses breaking.json between renders — they share tracker selection.
+video-render-all: video-render video-render-progress
+	@echo "→ Both videos rendered to video/output/"
+
+# Re-post today's rendered MP4 to Telegram with the same caption logic the
+# daily-video.yml workflow uses. Set TELEGRAM_BOT_TOKEN + TELEGRAM_CHANNEL_ID.
+# Default posts breaking only. Pass ARGS to switch:
+#   make video-repost-telegram ARGS=--dry-run         # preview only
+#   make video-repost-telegram ARGS=--progress        # progress brief
+#   make video-repost-telegram ARGS=--all             # both
+#   make video-repost-telegram ARGS="--all --dry-run" # preview both
 video-repost-telegram:
 	npx tsx scripts/repost-daily-telegram.ts $(ARGS)
+
+# Convenience: render BOTH and re-post BOTH to Telegram in one command.
+video-redo-all: video-render-all
+	npx tsx scripts/repost-daily-telegram.ts --all $(ARGS)
 
 video-fetch:
 	cd video && npx tsx src/data/fetch-breaking.ts

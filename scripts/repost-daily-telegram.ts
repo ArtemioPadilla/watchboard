@@ -5,7 +5,9 @@
  *
  * Usage:
  *   TELEGRAM_BOT_TOKEN=xxx TELEGRAM_CHANNEL_ID=@watchboard_dev \
- *     npx tsx scripts/repost-daily-telegram.ts
+ *     npx tsx scripts/repost-daily-telegram.ts            # breaking
+ *     npx tsx scripts/repost-daily-telegram.ts --progress # progress brief
+ *     npx tsx scripts/repost-daily-telegram.ts --all      # both, sequentially
  *
  *   With --dry-run prints the caption and exits without sending.
  */
@@ -16,19 +18,13 @@ import { fileURLToPath } from 'node:url';
 const ROOT_DIR = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const argv = process.argv.slice(2);
 const dryRun = argv.includes('--dry-run');
+const isProgress = argv.includes('--progress');
+const isAll = argv.includes('--all');
 const dateArg = argv.find(a => /^\d{4}-\d{2}-\d{2}$/.test(a));
 const date = dateArg ?? new Date().toISOString().slice(0, 10);
 
 const BREAKING_JSON = resolve(ROOT_DIR, 'video/src/data/breaking.json');
-const VIDEO_BASE = resolve(ROOT_DIR, `video/output/watchboard-${date}.mp4`);
-const VIDEO_NARRATED = resolve(ROOT_DIR, `video/output/watchboard-${date}-narrated-en.mp4`);
-const VIDEO_FILE = existsSync(VIDEO_NARRATED) ? VIDEO_NARRATED : VIDEO_BASE;
 
-if (!existsSync(VIDEO_FILE)) {
-  console.error(`Video not found: ${VIDEO_FILE}`);
-  console.error(`Run: cd video && npx tsx render.ts (or make video-render) first.`);
-  process.exit(1);
-}
 if (!existsSync(BREAKING_JSON)) {
   console.error(`Missing ${BREAKING_JSON}`);
   process.exit(1);
@@ -50,56 +46,80 @@ function headlineTags(text: string): string[] {
   return tokens.map(t => '#' + t);
 }
 
-const lines = (breaking.trackers as Array<{ slug: string; name: string; headline?: string }>).map(t => {
-  const head = (t.headline || t.name || '').trim();
-  return '• <b>' + escapeHtml(t.name) + '</b>: ' + escapeHtml(head);
-}).join('\n');
+function buildCaption(mode: 'breaking' | 'progress'): string {
+  const bullet = mode === 'progress' ? '✅' : '•';
+  const header = mode === 'progress' ? '🌱 <b>Watchboard Progress Brief</b>' : '🔴 <b>Watchboard Daily Brief</b>';
+  const lines = (breaking.trackers as Array<{ slug: string; name: string; headline?: string }>).map(t => {
+    const head = (t.headline || t.name || '').trim();
+    return bullet + ' <b>' + escapeHtml(t.name) + '</b>: ' + escapeHtml(head);
+  }).join('\n');
 
-const topical: string[] = [];
-const seen = new Set<string>();
-for (const t of breaking.trackers) {
-  const tag = slugTag(t.slug);
-  if (!seen.has(tag.toLowerCase())) { topical.push(tag); seen.add(tag.toLowerCase()); }
-  if (topical.length >= 4) break;
-}
-if (topical.length < 4) {
-  const allHeadlines = breaking.trackers.map((t: any) => t.headline || '').join(' ');
-  for (const tag of headlineTags(allHeadlines)) {
-    if (seen.has(tag.toLowerCase())) continue;
-    topical.push(tag); seen.add(tag.toLowerCase());
+  const topical: string[] = [];
+  const seen = new Set<string>();
+  for (const t of breaking.trackers) {
+    const tag = slugTag(t.slug);
+    if (!seen.has(tag.toLowerCase())) { topical.push(tag); seen.add(tag.toLowerCase()); }
     if (topical.length >= 4) break;
   }
-}
-const hashtags = topical.slice(0, 4).join(' ') + ' #Watchboard';
-
-const caption = `🔴 <b>Watchboard Daily Brief</b> — ${date}\n\n${lines}\n\n🔗 watchboard.dev\n\n${hashtags}`;
-
-console.log('───────────────── Caption ─────────────────');
-console.log(caption.replace(/<[^>]+>/g, ''));
-console.log('───────────────────────────────────────────');
-console.log(`Video file: ${VIDEO_FILE}`);
-
-if (dryRun) {
-  console.log('(dry run — not sending)');
-  process.exit(0);
-}
-
-const token = process.env.TELEGRAM_BOT_TOKEN;
-const chatId = process.env.TELEGRAM_CHANNEL_ID;
-if (!token || !chatId) {
-  console.error('Missing TELEGRAM_BOT_TOKEN or TELEGRAM_CHANNEL_ID env vars.');
-  process.exit(1);
+  if (topical.length < 4) {
+    const allHeadlines = breaking.trackers.map((t: any) => t.headline || '').join(' ');
+    for (const tag of headlineTags(allHeadlines)) {
+      if (seen.has(tag.toLowerCase())) continue;
+      topical.push(tag); seen.add(tag.toLowerCase());
+      if (topical.length >= 4) break;
+    }
+  }
+  const hashtags = topical.slice(0, 4).join(' ') + ' #Watchboard';
+  const tail = mode === 'progress'
+    ? "\nScience doesn't take days off.\n🔗 watchboard.dev\n\n"
+    : '\n🔗 watchboard.dev\n\n';
+  return `${header} — ${date}\n\n${lines}\n${tail}${hashtags}`;
 }
 
-(async () => {
+function videoPathFor(mode: 'breaking' | 'progress'): string | null {
+  // Prefer narrated MP4 when present; fall back to base.
+  const candidates = mode === 'progress'
+    ? [`watchboard-${date}-progress-narrated-en.mp4`, `watchboard-${date}.mp4`]
+    : [`watchboard-${date}-narrated-en.mp4`, `watchboard-${date}.mp4`];
+  for (const f of candidates) {
+    const p = resolve(ROOT_DIR, 'video/output', f);
+    if (existsSync(p)) return p;
+  }
+  return null;
+}
+
+async function postOne(mode: 'breaking' | 'progress'): Promise<boolean> {
+  const file = videoPathFor(mode);
+  if (!file) {
+    console.error(`[${mode}] Video not found in video/output/ for ${date}. Run 'make video-render${mode === 'progress' ? '-progress' : ''}' first.`);
+    return false;
+  }
+  const caption = buildCaption(mode);
+
+  console.log(`───────────── ${mode.toUpperCase()} caption ─────────────`);
+  console.log(caption.replace(/<[^>]+>/g, ''));
+  console.log('───────────────────────────────────────────');
+  console.log(`Video: ${file}`);
+
+  if (dryRun) {
+    console.log('(dry run — not sending)\n');
+    return true;
+  }
+
+  const token = process.env.TELEGRAM_BOT_TOKEN;
+  const chatId = process.env.TELEGRAM_CHANNEL_ID;
+  if (!token || !chatId) {
+    console.error('Missing TELEGRAM_BOT_TOKEN or TELEGRAM_CHANNEL_ID env vars.');
+    return false;
+  }
+
   const formData = new FormData();
   formData.append('chat_id', chatId);
   formData.append('caption', caption);
   formData.append('parse_mode', 'HTML');
   formData.append('supports_streaming', 'true');
-  // Read file into a Blob so fetch can multipart it
-  const buf = readFileSync(VIDEO_FILE);
-  formData.append('video', new Blob([buf], { type: 'video/mp4' }), `watchboard-${date}.mp4`);
+  const buf = readFileSync(file);
+  formData.append('video', new Blob([buf], { type: 'video/mp4' }), file.split('/').pop()!);
 
   const res = await fetch(`https://api.telegram.org/bot${token}/sendVideo`, {
     method: 'POST',
@@ -107,9 +127,24 @@ if (!token || !chatId) {
   });
   const body = await res.text();
   if (!res.ok) {
-    console.error(`Telegram API error: ${res.status}`);
-    console.error(body);
-    process.exit(2);
+    console.error(`[${mode}] Telegram API error: ${res.status}\n${body}`);
+    return false;
   }
-  console.log('✅ Posted to Telegram.');
+  console.log(`✅ [${mode}] Posted to Telegram.\n`);
+  return true;
+}
+
+(async () => {
+  const modes: Array<'breaking' | 'progress'> = isAll
+    ? ['breaking', 'progress']
+    : isProgress
+      ? ['progress']
+      : ['breaking'];
+
+  let allOk = true;
+  for (const m of modes) {
+    const ok = await postOne(m);
+    if (!ok) allOk = false;
+  }
+  process.exit(allOk ? 0 : 2);
 })();
