@@ -1,18 +1,56 @@
 {
-  "lastRun": "2026-04-25T00:00:00.000Z",
+  "lastRun": "2026-04-29T15:30:47.123Z",
   "tracker": "north-korea",
-  "trigger": "seed",
+  "trigger": "nightly",
   "sections": {
-    "kpis": { "status": "ok", "count": 8 },
-    "timeline": { "status": "ok", "count": 42 },
-    "mapPoints": { "status": "ok", "count": 25 },
-    "mapLines": { "status": "ok", "count": 7 },
-    "claims": { "status": "ok", "count": 20 },
-    "political": { "status": "ok", "count": 20 },
-    "casualties": { "status": "ok", "count": 11 },
-    "econ": { "status": "ok", "count": 8 },
-    "assets": { "status": "ok", "count": 12 },
-    "strikeTargets": { "status": "ok", "count": 10 },
-    "retaliation": { "status": "ok", "count": 10 }
-  }
+    "events": {
+      "status": "ok",
+      "count": 3
+    },
+    "kpis": {
+      "status": "ok",
+      "count": 8
+    },
+    "timeline": {
+      "status": "ok",
+      "count": 42
+    },
+    "mapPoints": {
+      "status": "ok",
+      "count": 27
+    },
+    "mapLines": {
+      "status": "ok",
+      "count": 8
+    },
+    "claims": {
+      "status": "ok",
+      "count": 20
+    },
+    "political": {
+      "status": "ok",
+      "count": 21
+    },
+    "casualties": {
+      "status": "ok",
+      "count": 11
+    },
+    "econ": {
+      "status": "ok",
+      "count": 9
+    },
+    "assets": {
+      "status": "ok",
+      "count": 12
+    },
+    "strikeTargets": {
+      "status": "ok",
+      "count": 10
+    },
+    "retaliation": {
+      "status": "ok",
+      "count": 10
+    }
+  },
+  "consecutiveQuietRuns": 1
 }

@@ -222,5 +222,19 @@
     },
     "resolution": "Regulatory consensus has converged on risk-based rather than intent-based frameworks. AI medical devices, regardless of beneficial purpose, must meet clinical validation standards. AI used for education or climate monitoring faces proportionally lower requirements commensurate with lower direct harm potential. Both the EU AI Act and WHO AI guidance follow this logic. The debate continues around pace of regulation vs. innovation speed, particularly for AI applied to urgent humanitarian crises where delay itself has costs.",
     "lastUpdated": "2026-04-13"
+  },
+  {
+    "id": "ai-clinical-documentation-patient-outcomes",
+    "question": "Does widespread deployment of AI clinical documentation tools translate to measurable patient health improvements, or only to clinician efficiency gains?",
+    "sideA": {
+      "label": "Efficiency Is a Patient Safety Benefit",
+      "text": "AI clinical documentation tools (ambient AI scribes, automated note generation) have been validated to reduce physician administrative burden by 30-83% in randomized studies, freeing time for direct patient interaction. Physician burnout is itself a documented patient safety risk — reducing burnout reduces medication errors, improves communication, and increases diagnostic attention. Multiple randomized controlled trials confirm clinician satisfaction and time savings. In under-resourced settings, AI documentation extends the capacity of a single clinician to safely manage more patients, effectively expanding access to care. Efficiency gains at scale are health system improvements, not merely administrative conveniences."
+    },
+    "sideB": {
+      "label": "Efficiency ≠ Health Outcomes",
+      "text": "MIT Technology Review's April 2026 analysis of the rapidly expanding healthcare AI sector found that while AI clinical tools consistently document efficiency improvements and clinician satisfaction gains, rigorous evidence that patients actually experience better health outcomes remains thin and largely absent. The gap is not trivial: healthcare systems are making multi-million-dollar AI procurement decisions based on efficiency metrics, while the foundational question — 'do AI-assisted patients get better?' — largely goes unanswered. Measuring patient outcomes requires 5-10 year longitudinal studies that the field has not prioritized. Reducing physician paperwork while leaving diagnostic errors, readmission rates, and mortality unchanged would represent a significant governance failure."
+    },
+    "resolution": "Current evidence strongly supports AI clinical documentation's efficiency and burnout-reduction benefits. Patient health outcome data, by contrast, is largely absent — not because the evidence is negative, but because the studies have not been done. The MIT Technology Review April 2026 analysis, the WHO/Europe AI health snapshot (April 2026), and leading clinical AI researchers agree that the field is deploying AI faster than it is measuring health impact. Mandatory outcome tracking requirements, tied to regulatory approval and institutional procurement, are increasingly proposed as the solution. AI clinical tools are likely beneficial; the evidence base to confirm this is still being built.",
+    "lastUpdated": "2026-04-29"
   }
 ]

@@ -1,0 +1,34 @@
+[
+  {
+    "id": "prost-lm-prostate-cancer-multimodal-ai-apr28-2026",
+    "year": "2026",
+    "title": "Prost-LM Multimodal AI Achieves 0.954 AUC for Prostate Cancer Diagnosis Across 3,940 Patients — Outperforms MRI-Only Reads",
+    "type": "breakthrough",
+    "detail": "A multimodal large language model called Prost-LM, published in npj Digital Medicine (Nature group), demonstrated state-of-the-art prostate cancer diagnostic accuracy in April 2026 by integrating three data types into a unified semantic space: MRI imaging features (PI-RADS characteristics), prostate-specific antigen (PSA) blood test values, and free-text clinical radiology reports. Validated on 3,940 patients from multiple centers, Prost-LM achieved an area under the curve (AUC) of 0.954 for cancer vs. benign diagnosis and 0.955 for clinically significant prostate cancer (Gleason grade ≥ 7, which defines cases requiring treatment vs. active surveillance). Both figures substantially outperform MRI-only interpretation models, which reached an AUC of 0.868 in the same validation set — a 9-10 percentage point improvement that translates into meaningfully fewer missed cancers and fewer unnecessary biopsies. Unlike black-box AI approaches, Prost-LM generates interpretable explanations of its diagnostic reasoning, allowing it to function as a transparent 'second reader' that radiologists and urologists can interrogate rather than simply accept. Prostate cancer is the second most common cancer in men globally (1.4 million new cases annually per WHO), and MRI interpretation quality varies substantially between institutions and radiologists — the setting where AI decision support has the greatest potential to standardize care quality. The multi-center validation design — using data from multiple hospital systems — makes the results more transferable to real-world deployment than single-center studies, addressing a common criticism of clinical AI research. Separately, the same week's AI healthcare digest noted OpenAI deploying a clinician-verified ChatGPT for US healthcare providers, and multiple AI clinical documentation tools showing 30-83% reductions in physician administrative burden across specialty types.",
+    "sources": [
+      {
+        "name": "npj Digital Medicine — Nature group",
+        "tier": 1,
+        "url": "https://www.nature.com/articles/s41746-026-02670-x",
+        "pole": "western"
+      },
+      {
+        "name": "LucidQuest Ventures — AI in Healthcare and Digital Health Today (April 28, 2026)",
+        "tier": 3,
+        "url": "https://www.lqventures.com/ai-in-healthcare-and-digital-health-today-april-28-2026/",
+        "pole": "western"
+      }
+    ],
+    "media": [
+      {
+        "type": "article",
+        "url": "https://www.nature.com/articles/s41746-026-02670-x",
+        "caption": "Prost-LM multimodal AI achieves 0.954 AUC for prostate cancer diagnosis across 3,940 patients — npj Digital Medicine",
+        "source": "npj Digital Medicine"
+      }
+    ],
+    "confidence": "high",
+    "eventConfidence": "verified",
+    "lastUpdated": "2026-04-29"
+  }
+]
