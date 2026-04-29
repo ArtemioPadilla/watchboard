@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "lastPruned": "2026-04-29T08:49:20.691Z",
+  "lastPruned": "2026-04-29T09:42:47.841Z",
   "entries": [
     {
       "timestamp": "2026-04-27T22:03:51.193Z",
@@ -21011,6 +21011,431 @@
       "decision": "update",
       "reason": "light-scan posted directly + queued for heavy scan (score 0.95)",
       "confidence": 0.95,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-04-29T09:42:47.811Z",
+      "candidate": {
+        "title": "Two dead after small plane crashes into Australia airport hangar",
+        "url": "https://www.bbc.com/news/articles/ce9pzlvyvejo?at_medium=RSS&at_campaign=rss",
+        "source": "bbc",
+        "timestamp": "2026-04-29T09:42:46.514Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-04-29T09:42:47.812Z",
+      "candidate": {
+        "title": "Endangered antelopes flown to Kenya from Czech zoo in 'historic homecoming'",
+        "url": "https://www.bbc.com/news/articles/c202l3gzvp7o?at_medium=RSS&at_campaign=rss",
+        "source": "bbc",
+        "timestamp": "2026-04-29T09:42:46.514Z",
+        "matchedTracker": "haiti-collapse",
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-04-29T09:42:47.813Z",
+      "candidate": {
+        "title": "Outrage after Indian man carries his sister's skeleton to a bank to prove her death",
+        "url": "https://www.bbc.com/news/articles/clypl5jrjqlo?at_medium=RSS&at_campaign=rss",
+        "source": "bbc",
+        "timestamp": "2026-04-29T09:42:46.514Z",
+        "matchedTracker": "israel-palestine",
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-04-29T09:42:47.813Z",
+      "candidate": {
+        "title": "Federal Grand Jury Indicts Former FBI Director James Comey for Threats to Harm President Trump - Department of Justice (.gov)",
+        "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxNX2pSUFVtWG9wSDNzdF9NS0RTTm5rQTY2QUx1NkhVTlNMMGxyQkF2S25NZ2FKek1qZ2V0dzBVdWJzNnUxeWNjelp2MVluOGxkVjhsVTBQdTBNSk1XaWYyOER4TFRBQWswSjlxcW9BaTRZWWRXLUk0S0FJdzR1c3lPWjdaSm9UTWJiVHJLc25CMno5VkZyMXRmZnRqZzNjVmVEd0llZ29hcFJMTmpXUm83REE1SFVBeFhCOHc?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-04-29T09:42:46.574Z",
+        "matchedTracker": "sheinbaum-presidency",
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.34)",
+      "confidence": 0.34041666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-04-29T09:42:47.814Z",
+      "candidate": {
+        "title": "After Another Attempt on Trump’s Life, Is Political Violence on the Rise in the U.S.? - The New York Times",
+        "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxPUzBrVVgyMTNvSEhvczVjR0RTWGhhSGQwWE5yV284T3ZvUFdQNEU5a1pIR2YzdktRMjlZYVVxUXFXa0VQcVhQMFI2QzlxWFBOTXpneGZBb1hNVVI4S1ZSeUh2SG9hMWhMZzdLbVVZYXlxRTZuOWZpUVpmOWNLM2lJcVNvaWVUeE9SQU5neGlKVlpOX0NnTGlYZks4VDFwZw?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-04-29T09:42:46.574Z",
+        "matchedTracker": "hungary-transition",
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-04-29T09:42:47.814Z",
+      "candidate": {
+        "title": "Asian stocks gain and oil prices decline after the UAE says it will exit OPEC - AP News",
+        "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxNVXE4ZnR2TDVqSWNOQ2lHVVZia0ZucW9QNVRMT1pONWtsVXZySGhGSDdYYTlqbEkwTTZ5cG9hNzlIUGt1N1U4bjhCZ1BCdldzei04VXlvTXhIdURvdDdUM3pkYUxOLXNCckhoQjBZekJYWDhlZG5iWld2bGFJeTBmU2hYZk5SNU02WkxET1Jvek93RFAwZS1JM0cwcldfejRl?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-04-29T09:42:46.574Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.02)",
+      "confidence": 0.02375,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-04-29T09:42:47.815Z",
+      "candidate": {
+        "title": "Morning Bid: Fed sails into unchartered waters as Powell bows out - Reuters",
+        "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxOZGJTVldsckNXa0Nvb2dfMkNoQW1qSWdYcmNrdXVNNkZ4UUVhWGlFd3I4WWJUbWhlblRLR3laSHNOazNaQmlTSE1TSnBONmlibElVS0I0ZWZpZEdJTVBWR3RXM2JXTFJnQ1Q3MnNBQldQWlY1dUZpYXRpa0c4aWw3SVZtSXdTZw?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-04-29T09:42:46.574Z",
+        "matchedTracker": "global-recession-risk",
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-04-29T09:42:47.815Z",
+      "candidate": {
+        "title": "Affordability Still Dominates Americans' Financial Worries - Gallup News",
+        "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxNY1lkUGpVakh6Z1pyUFUySzVEQWYzbldjZ2tnSU00MzJ0S1oyTy00bHlObXBmYzNEeFR1Q2ZjSnRUSzIweWNnZ3E4MTlUendwaHpQTlFFUXl2blNBVGMtZ3htQ2RVTzlYb042ZjFEZEF6eE1DSzZNSHUyRnk5dFdudWxEZl9YeTJ4Q3pqNUpZYW1MVVhJT0tn?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-04-29T09:42:46.574Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-04-29T09:42:47.816Z",
+      "candidate": {
+        "title": "Lovable launches its vibe-coding app on iOS and Android - TechCrunch",
+        "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNSWQ5dWNnV3F5MTMwWmhoYnFyOURnX2JIY2YxQWk1UlI3cFZzSGU1d0RJNXVTUkQzRUppNHgydTFjbm5oQ280S2ZKU0FpVWVUclBXQ3E3aUY5bEsyOGlwWHJRSjJSTmd5bVozT1JzblQ0SThfTUtIYnlHajJqRUdwcE9HTUdxTGhMeURCeFhtSkZXbVRh?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-04-29T09:42:46.574Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-04-29T09:42:47.818Z",
+      "candidate": {
+        "title": "Horoscope for Wednesday, April 29, 2026 - Chicago Sun-Times",
+        "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxPTXhHZHhEemVPR3E4RkJpa3czWUJUZTMyV3lZeElyUnlvYy1raTI0QlYySlNScTdPd0pXYjhSbEItVFg0ZVhHenctN2p0TllrWVNXMGdJRnoxVEQ4NWZObFhvdXdPbGJ3ZnBlc2F5bHlkbG5ad21yNEEwYjk0U2xRRHZhbzI5SC1PUmMwemFIM01LYkJlNlE?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-04-29T09:42:46.574Z",
+        "matchedTracker": "mencho-cjng",
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-04-29T09:42:47.818Z",
+      "candidate": {
+        "title": "Diésel a 27 pesos la próxima semana: Gobierno y gasolineros acuerdan nuevo costo del combustible - El Financiero",
+        "url": "https://news.google.com/rss/articles/CBMi4gFBVV95cUxNb3dLWk5EY0NOOGdPVHZ0bU9sNkhGcjhvZDZLUG8zOHhxSUp5VFVlQkppN1Rkc1N2UkpjbjFidXlvYzZHLXdrR1paMEpoNURfdHdtZC1qNlZXRVhkQ0ZySWFsTHlfX1NfWV9aeUJ5ZW1sa19ZLUxqWnJrUnBmTFR6eFU4cExudHNyVkIwZzh1ZnlkMDA4b0xETUhsZFlYa2ZnUXBtSmstMUdsS280Z2NCQ2x0QWJOSkIzTGtqM2F1ekFfNmkwRF9ZMHJ6V0I4WHMzMkk5cVVuS3daekVJNmI5dUZB?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-04-29T09:42:46.905Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-04-29T09:42:47.819Z",
+      "candidate": {
+        "title": "¡Mewtwo megaevoluciona y llegan más novedades emocionantes de GO Fest! - Pokémon GO",
+        "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE1PdXlwM0lyMGhyaFRJeERXcnhWMlNYTE1UaG1LY2YzeFROUTM1WEVzWDdfNnIxU3JHVnU0V2UxbFhNT3hhSjBZdzdiSVV1eHV3bFZ3MXdwaTVYUVcxaFVldExJUQ?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-04-29T09:42:46.905Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-04-29T09:42:47.819Z",
+      "candidate": {
+        "title": "Spot crude premiums ease from record highs despite Hormuz closure reut.rs/426H8VB",
+        "url": "https://bsky.app/profile/reuters.com/post/3mkmslgbzf627",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-04-29T09:40:18Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-04-29T09:42:47.820Z",
+      "candidate": {
+        "title": "Robinhood shares fall as crypto slump dents trading volume growth reut.rs/4vXvAlf",
+        "url": "https://bsky.app/profile/reuters.com/post/3mkmscbmypn27",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-04-29T09:35:11Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-04-29T09:42:47.820Z",
+      "candidate": {
+        "title": "Taiwan chipmaker UMC sees 'headwinds' from Iran war, but predicts resilient demand reut.rs/3QuLxiH",
+        "url": "https://bsky.app/profile/reuters.com/post/3mkmrqhuupv2g",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-04-29T09:25:14Z",
+        "matchedTracker": "china",
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-04-29T09:42:47.820Z",
+      "candidate": {
+        "title": "Britain's DCC gets takeover approach from Energy Capital Partners, KKR reut.rs/3OAij1g",
+        "url": "https://bsky.app/profile/reuters.com/post/3mkmr6ovosm2t",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-04-29T09:15:17Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.02)",
+      "confidence": 0.02375,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-04-29T09:42:47.821Z",
+      "candidate": {
+        "title": "Taiwan tops Beijing's agenda for Trump-Xi summit reut.rs/3R79jkO",
+        "url": "https://bsky.app/profile/reuters.com/post/3mkmqvnvdnl2n",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-04-29T09:10:14Z",
+        "matchedTracker": "brics",
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-04-29T09:42:47.821Z",
+      "candidate": {
+        "title": "Investors reload yen shorts in intervention test reut.rs/4cEMb5F",
+        "url": "https://bsky.app/profile/reuters.com/post/3mkmqmpujmm2m",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-04-29T09:05:14Z",
+        "matchedTracker": "usa-latam-interventions",
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-04-29T09:42:47.822Z",
+      "candidate": {
+        "title": "India opens $4 billion expressway spanning 600 km in most populous state reut.rs/48ykjhg",
+        "url": "https://bsky.app/profile/reuters.com/post/3mkmqfbui2m2g",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-04-29T09:01:05Z",
+        "matchedTracker": "india",
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.63)",
+      "confidence": 0.6333333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-04-29T09:42:47.822Z",
+      "candidate": {
+        "title": "Women paid the highest price in Jakarta train tragedy reut.rs/4tAu4DT",
+        "url": "https://bsky.app/profile/reuters.com/post/3mkmprxext62q",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-04-29T08:50:16Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-04-29T09:42:47.822Z",
+      "candidate": {
+        "title": "Three years of war have left Sudan's capital studded with unexploded land mines and other weapons that have killed and maimed residents as they try to rebuild their lives.",
+        "url": "https://bsky.app/profile/apnews.com/post/3mkmr6jsphg2i",
+        "source": "bsky:apnews.com",
+        "timestamp": "2026-04-29T09:15:12Z",
+        "matchedTracker": "argentina",
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-04-29T09:42:47.823Z",
+      "candidate": {
+        "title": "The federal judge presiding over the fraud case against the organizer of New York City’s SantaCon bar crawl made it clear at the defendant’s first appearance before her that she’s not a fan of the annual celebration.",
+        "url": "https://bsky.app/profile/apnews.com/post/3mkmqdsasoo2i",
+        "source": "bsky:apnews.com",
+        "timestamp": "2026-04-29T09:00:15Z",
+        "matchedTracker": "ayotzinapa",
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-04-29T09:42:47.824Z",
+      "candidate": {
+        "title": "Iran has executed at least 21 people and arrested more than 4,000 since the beginning of the US-Israel war on Iran, according to the UN.\n🔴 More on aljazeera.com",
+        "url": "https://bsky.app/profile/aljazeera.com/post/3mkmsdexo7s2m",
+        "source": "bsky:aljazeera.com",
+        "timestamp": "2026-04-29T09:35:49.027Z",
+        "matchedTracker": "iran-conflict",
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-04-29T09:42:47.824Z",
+      "candidate": {
+        "title": "The accused face up to 12 years in prison for the attack that burned one-fifth of activist Andrie Yunus's body.",
+        "url": "https://bsky.app/profile/aljazeera.com/post/3mkmrz5h5fo2l",
+        "source": "bsky:aljazeera.com",
+        "timestamp": "2026-04-29T09:30:05.339Z",
+        "matchedTracker": "argentina",
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-04-29T09:42:47.824Z",
+      "candidate": {
+        "title": "How the Iran war is hitting the UK https://aje.news/sadsc1",
+        "url": "https://bsky.app/profile/aljazeera.com/post/3mkmqdjaxto2j",
+        "source": "bsky:aljazeera.com",
+        "timestamp": "2026-04-29T09:00:05.852Z",
+        "matchedTracker": "iran-conflict",
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.32)",
+      "confidence": 0.31666666666666665,
       "model": null,
       "scanType": "light"
     }
