@@ -116,9 +116,9 @@ export interface SlideStyle {
 
 export const DEFAULT_SLIDE_STYLE: SlideStyle = {
   imageCard: {
-    topPct: 42,
-    width: 400,
-    maxHeight: 200,
+    topPct: 40,
+    width: 852,
+    maxHeight: 387,
     borderRadius: 8,
     borderWidthPx: 2,
     glowOpacity: 0.25,
@@ -134,14 +134,14 @@ export const DEFAULT_SLIDE_STYLE: SlideStyle = {
   },
   trackerName: {
     fontFamily: "'JetBrains Mono', monospace",
-    fontSize: 34,
+    fontSize: 54,
     fontWeight: 600,
-    letterSpacing: 4,
-    underlineWidthFinal: 160,
+    letterSpacing: 15,
+    underlineWidthFinal: 261,
     underlineHeight: 3,
-    underlineGlowOpacity: 0.5,
-    nameUnderlineGap: 8,
-    blockMarginBottom: 14,
+    underlineGlowOpacity: 1,
+    nameUnderlineGap: 14,
+    blockMarginBottom: 35,
   },
   headline: {
     fontFamily: "'DM Sans', sans-serif",
@@ -171,15 +171,15 @@ export const DEFAULT_SLIDE_STYLE: SlideStyle = {
     valueGlowSpread: 0.19,
   },
   source: {
-    badgePadX: 12,
+    badgePadX: 9,
     badgePadY: 4,
-    badgeBorderRadius: 4,
-    badgeFontSize: 20,
-    badgeFontWeight: 600,
+    badgeBorderRadius: 10,
+    badgeFontSize: 29,
+    badgeFontWeight: 671,
     badgeLetterSpacing: 1,
-    sourceFontSize: 20,
+    sourceFontSize: 32,
     sourceColor: '#9498a8',
-    rowGap: 10,
+    rowGap: 25,
   },
   breakthrough: {
     enabled: true,
@@ -315,6 +315,9 @@ export const slideStyleSchema = z.object({
 // ─────────────────────────────────────────────────────────────────────
 
 export interface IntroStyle {
+  // Vertical offset of the whole intro block from canvas center (px).
+  // Negative = up, positive = down. Default 0 = centered.
+  verticalOffset: number;
   logoFontFamily: string;
   logoFontSize: number;
   logoFontWeight: number;
@@ -353,36 +356,37 @@ export interface IntroStyle {
 }
 
 export const DEFAULT_INTRO_STYLE: IntroStyle = {
+  verticalOffset: 198,
   logoFontFamily: "'DM Sans', sans-serif",
   logoFontSize: 96,
   logoFontWeight: 700,
-  logoLetterSpacing: 6,
+  logoLetterSpacing: 10,
   logoColorDark: '#e74c3c',
   logoColorDay: '#ffffff',
-  logoMarginBottom: 20,
-  glowMin: 20,
-  glowMax: 45,
-  lineWidthFinal: 280,
+  logoMarginBottom: 80,
+  glowMin: 17,
+  glowMax: 37,
+  lineWidthFinal: 299,
   lineHeight: 3,
-  lineMarginBottom: 24,
+  lineMarginBottom: 61,
   subtitleFontFamily: "'JetBrains Mono', monospace",
-  subtitleFontSizeDark: 28,
-  subtitleFontSizeDay: 30,
+  subtitleFontSizeDark: 50,
+  subtitleFontSizeDay: 50,
   subtitleFontWeight: 600,
   subtitleColorDark: '#9498a8',
   subtitleColorDay: '#f0c060',
-  subtitleLetterSpacingDark: 4,
-  subtitleLetterSpacingDay: 6,
-  subtitleMarginBottom: 16,
+  subtitleLetterSpacingDark: 8,
+  subtitleLetterSpacingDay: 8,
+  subtitleMarginBottom: 62,
   subtitleTextDark: 'DAILY INTELLIGENCE BRIEF',
   subtitleTextDay: 'PROGRESS BRIEF',
   dateFontFamily: "'JetBrains Mono', monospace",
-  dateFontSizeDark: 30,
-  dateFontSizeDay: 26,
-  dateFontWeight: 500,
+  dateFontSizeDark: 70,
+  dateFontSizeDay: 70,
+  dateFontWeight: 539,
   dateColorDark: '#e8e9ed',
   dateColorDay: 'rgba(255,255,255,0.6)',
-  dateLetterSpacing: 3,
+  dateLetterSpacing: 5,
   fadeInFrames: 15,
   logoDelayFrames: 8,
   subtitleDelayFrames: 30,
@@ -391,6 +395,7 @@ export const DEFAULT_INTRO_STYLE: IntroStyle = {
 };
 
 export const introStyleSchema = z.object({
+  verticalOffset: z.number().min(-800).max(800),
   logoFontFamily: z.string(),
   logoFontSize: z.number().min(20).max(200),
   logoFontWeight: z.number().min(100).max(900),
@@ -429,6 +434,9 @@ export const introStyleSchema = z.object({
 });
 
 export interface OutroStyle {
+  // Vertical offset of the whole outro block from canvas center (px).
+  // Negative = up, positive = down. Default 0 = centered.
+  verticalOffset: number;
   urlFontFamily: string;
   urlFontSize: number;
   urlFontWeight: number;
@@ -455,8 +463,9 @@ export interface OutroStyle {
 }
 
 export const DEFAULT_OUTRO_STYLE: OutroStyle = {
+  verticalOffset: 30,
   urlFontFamily: "'DM Sans', sans-serif",
-  urlFontSize: 72,
+  urlFontSize: 94,
   urlFontWeight: 700,
   urlColor: '#e8e9ed',
   urlLetterSpacing: 2,
@@ -467,7 +476,7 @@ export const DEFAULT_OUTRO_STYLE: OutroStyle = {
   statsFontWeight: 500,
   statsColor: '#9498a8',
   statsLetterSpacing: 2,
-  statsLineHeight: 1.6,
+  statsLineHeight: 2,
   daySubLabel: "SCIENCE DOESN'T TAKE DAYS OFF",
   daySubFontSize: 16,
   daySubColor: '#f0a500',
@@ -481,6 +490,7 @@ export const DEFAULT_OUTRO_STYLE: OutroStyle = {
 };
 
 export const outroStyleSchema = z.object({
+  verticalOffset: z.number().min(-800).max(800),
   urlFontFamily: z.string(),
   urlFontSize: z.number().min(20).max(200),
   urlFontWeight: z.number().min(100).max(900),

@@ -56,7 +56,7 @@ export const Outro: React.FC<{ theme?: 'dark' | 'day'; trackerCount?: number; st
     <AbsoluteFill
       style={{
         opacity: mainOpacity * fadeOut,
-        transform: `scale(${mainScale})`,
+        transform: `scale(${mainScale}) translateY(${O.verticalOffset}px)`,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',

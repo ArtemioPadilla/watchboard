@@ -71,6 +71,7 @@ export const Intro: React.FC<IntroProps> = ({ date, theme = 'dark', style }) => 
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
+        transform: `translateY(${I.verticalOffset}px)`,
       }}
     >
       {/* Logo */}
