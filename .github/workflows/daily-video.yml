@@ -294,7 +294,7 @@ jobs:
           curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendVideo" \
             -F "chat_id=${TELEGRAM_CHANNEL_ID}" \
             -F "video=@${VIDEO}" \
-            -F "caption=${CAPTION}" \
+            --form-string "caption=${CAPTION}" \
             -F "parse_mode=HTML" \
             -F "supports_streaming=true" \
             && echo "✅ Video posted to Telegram" \
@@ -487,7 +487,7 @@ jobs:
           curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendVideo" \
             -F "chat_id=${TELEGRAM_CHANNEL_ID}" \
             -F "video=@${SEND}" \
-            -F "caption=${CAPTION}" \
+            --form-string "caption=${CAPTION}" \
             -F "parse_mode=HTML" \
             -F "supports_streaming=true" \
             && echo "\u2705 Progress video posted to Telegram" \
