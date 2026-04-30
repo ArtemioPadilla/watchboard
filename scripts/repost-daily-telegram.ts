@@ -106,8 +106,8 @@ function buildCaption(mode: 'breaking' | 'progress'): string | null {
   }
   const hashtags = topical.slice(0, 4).join(' ') + ' #Watchboard';
   const tail = mode === 'progress'
-    ? "\nScience doesn't take days off.\n🔗 watchboard.dev\n\n"
-    : '\n🔗 watchboard.dev\n\n';
+    ? "\nScience doesn't take days off.\n🔗 watchboard.dev\n\n📌 Subscribe · Collaborate · Get Knowledge\n\n"
+    : '\n🔗 watchboard.dev\n\n📌 Subscribe · Collaborate · Get Knowledge\n\n';
   return `${header} — ${date}\n\n${lines}\n${tail}${hashtags}`;
 }
 
