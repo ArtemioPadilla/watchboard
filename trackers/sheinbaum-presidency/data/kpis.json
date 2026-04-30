@@ -36,14 +36,16 @@
   },
   {
     "id": "gdp-growth-2025",
-    "label": "GDP Growth (2025 actual / 2026 forecast)",
-    "value": "0.4% / 1.6%",
-    "color": "amber",
-    "source": "Banxico quarterly report, Feb 2026; Citi Mexico Survey",
+    "label": "GDP Growth (2025 actual / Q1 2026 preliminary)",
+    "value": "0.4% / -0.8% QoQ",
+    "color": "red",
+    "source": "INEGI preliminary Q1 2026, Apr 30; Banxico Feb 2026 report",
     "contested": true,
-    "contestNote": "2025 final: ~0.4% (tariff shock, investment cuts). Banxico raised 2026 forecast to 1.6% in Feb; private sector consensus 1.3–1.5%; government projects 1.8–2.8%",
-    "trend": "up",
-    "lastUpdated": "2026-04-06T00:00:00Z"
+    "contestNote": "Q1 2026 preliminary: -0.8% quarterly contraction, +0.2% annual. All three sectors declined. Government projects 1.8–2.8% for full-year 2026; IMF/BBVA forecast 1.6–1.8%. Sharp rebound required in Q2–Q4.",
+    "delta": "Q1 2026: +0.2% annual, -0.8% quarterly",
+    "deltaNote": "All sectors contracted: primary -1.4%, secondary -1.1%, tertiary -0.6%. $17.4B in investment lost to U.S. tariff uncertainty per Expansión.",
+    "trend": "down",
+    "lastUpdated": "2026-04-30T15:05:00Z"
   },
   {
     "id": "inflation-rate",
@@ -82,13 +84,13 @@
   {
     "id": "peso-usd-rate",
     "label": "Peso / USD Exchange Rate",
-    "value": "~17.41 MXN",
+    "value": "~17.53 MXN",
     "color": "amber",
-    "source": "Banxico FIX rate, Apr 26, 2026",
+    "source": "Wise / exchange-rates.org, Apr 30, 2026",
     "contested": false,
-    "delta": "Slight recovery to 17.41 Apr 26 (Banxico FIX 17.4052); modest strengthening from 17.42 Apr 24 on low weekend volume",
+    "delta": "Weakened to 17.53 Apr 30 from 17.41 Apr 26; Q1 GDP contraction and DOJ-Rocha Moya headline pressuring peso",
     "trend": "down",
-    "lastUpdated": "2026-04-26T16:00:00Z"
+    "lastUpdated": "2026-04-30T15:05:00Z"
   },
   {
     "id": "budget-deficit-2024",
