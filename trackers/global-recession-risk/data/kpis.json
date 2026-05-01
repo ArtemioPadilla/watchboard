@@ -1,5 +1,17 @@
 [
   {
+    "id": "us-gdp-q1-2026-advance",
+    "label": "US GDP Q1 2026 (Advance Estimate)",
+    "value": "+2.0%",
+    "color": "green",
+    "source": "BEA Advance Estimate, Q1 2026 (released Apr 30, 2026)",
+    "contested": false,
+    "delta": "+1.3pp",
+    "deltaNote": "vs Q4 2025 (+0.7%); beat GDPNow final forecast (1.2%) and NY Fed nowcast (2.09%); slightly below 2.2% consensus. AI data center investment + rebounding federal spending drove upside. Recession avoided for Q1 despite Iran war energy shock.",
+    "trend": "up",
+    "lastUpdated": "2026-04-30T13:30:00Z"
+  },
+  {
     "id": "us-gdp-q4-2025",
     "label": "US GDP Q4 2025",
     "value": "+0.7%",
@@ -7,7 +19,7 @@
     "source": "BEA, Mar 13 2026",
     "contested": false,
     "delta": "-3.7pp",
-    "deltaNote": "vs Q3 2025 (+4.4%)",
+    "deltaNote": "vs Q3 2025 (+4.4%); Q1 2026 advance now shows rebound to +2.0% (Apr 30, 2026)",
     "trend": "down",
     "lastUpdated": "2026-03-20T00:00:00Z"
   },
@@ -32,57 +44,57 @@
     "source": "BLS, Mar 2026 (released Apr 3, 2026)",
     "contested": false,
     "delta": "+0.9pp",
-    "deltaNote": "vs 2023 trough (3.4%); Feb revised down 130K to net -92K — first monthly payroll loss since 2020",
+    "deltaNote": "vs 2023 trough (3.4%); Feb revised down 130K to net -92K — first monthly payroll loss since 2020; April 2026 jobs report due May 8",
     "trend": "down",
     "lastUpdated": "2026-04-06T00:00:00Z"
   },
   {
     "id": "us-core-pce",
-    "label": "US Core PCE Inflation",
-    "value": "3.06%",
+    "label": "US PCE Inflation (March 2026)",
+    "value": "3.2% Core / 3.5% Headline",
     "color": "red",
-    "source": "BEA PCE Release, Jan 2026 (released Mar 13, 2026)",
+    "source": "BEA PCE Release, March 2026 (released Apr 30, 2026)",
     "contested": false,
-    "delta": "+0.26pp",
-    "deltaNote": "Jan 2026 BEA data; 3-month annualized rate 3.66% — re-acceleration above Fed 2% target on tariff pass-through",
+    "delta": "+0.14pp core / +0.34pp headline",
+    "deltaNote": "March 2026: Core PCE 3.2% YoY (+0.3% MoM), Headline PCE 3.5% YoY (+0.7% MoM) — hottest since Iran war began. Energy shock feeds headline; tariff pass-through sustains core. Both far above Fed 2% target.",
     "trend": "up",
-    "lastUpdated": "2026-04-01T14:00:00Z"
+    "lastUpdated": "2026-04-30T13:30:00Z"
   },
   {
     "id": "fed-funds-rate",
     "label": "Fed Funds Rate",
     "value": "3.50–3.75%",
     "color": "blue",
-    "source": "Federal Reserve FOMC, Jan 28 2026",
+    "source": "Federal Reserve FOMC, Apr 29 2026 (unanimous hold — Powell's final meeting)",
     "contested": false,
     "delta": "-175 bps",
-    "deltaNote": "vs peak (5.25–5.50%, Aug 2023–Sep 2024)",
+    "deltaNote": "vs peak (5.25–5.50%, Aug 2023–Sep 2024); FOMC held unanimously at Apr 29 — Powell's final meeting. Warsh floor vote expected week of May 11. JPMorgan: zero cuts 2026, possible hike Q3 2027.",
     "trend": "down",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "lastUpdated": "2026-04-29T19:00:00Z"
   },
   {
     "id": "ecb-deposit-rate",
     "label": "ECB Deposit Facility Rate",
     "value": "2.00%",
     "color": "blue",
-    "source": "ECB Governing Council, Jun 11 2025",
+    "source": "ECB Governing Council, Apr 30 2026 (hold; Eurozone CPI flash 3.0%)",
     "contested": false,
     "delta": "-200 bps",
-    "deltaNote": "8 consecutive cuts from 4.00% (Jun 2024)",
+    "deltaNote": "8 consecutive cuts from 4.00% (Jun 2024) to 2.00% (Jun 2025). Apr 30: Held at 2.00% as Eurozone April CPI flash hit 3.0% (up from 2.3%) — Iran war energy shock reverses ECB disinflation progress.",
     "trend": "down",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "lastUpdated": "2026-04-30T13:45:00Z"
   },
   {
     "id": "us-10y-treasury-yield",
     "label": "US 10Y Treasury Yield",
-    "value": "~4.31%",
+    "value": "~4.37%",
     "color": "amber",
-    "source": "Federal Reserve H.15 / FRED DGS10, Apr 10 2026",
+    "source": "Federal Reserve H.15 / FRED DGS10, Apr 30 2026",
     "contested": false,
-    "delta": "-0.15pp",
-    "deltaNote": "Apr 10 settle at 4.31% — down from 4.46% Apr 4 peak but elevated; core CPI miss (2.6% vs 2.7% forecast) provided mild bond relief; S&P +3% for week; inflation risk premium persists ahead of Apr 14 WEO and Apr 29–30 FOMC",
-    "trend": "down",
-    "lastUpdated": "2026-04-10T00:00:00Z"
+    "delta": "+0.06pp",
+    "deltaNote": "Apr 30: Rose from 4.31% (Apr 10) to ~4.37% as March PCE at 3.5% headline / 3.2% core confirms inflation re-acceleration; S&P 500 ATH creates mild risk-on pressure. JPMorgan: no Fed cuts 2026.",
+    "trend": "up",
+    "lastUpdated": "2026-04-30T14:00:00Z"
   },
   {
     "id": "us-consumer-confidence",
@@ -104,21 +116,21 @@
     "source": "University of Michigan, Apr 24 2026 (Final Release)",
     "contested": false,
     "delta": "-5.7 (from Mar final 53.5)",
-    "deltaNote": "ALL-TIME RECORD LOW CONFIRMED — Final April 2026 reading confirmed near 47.6 preliminary; below 1980 energy crisis nadir of 51.7. Year-ahead inflation expectations 4.8% (from 3.8% — largest one-month jump in survey history). Long-run 5Y expectations also elevated. FOMC April 28-29 meets with sentiment at all-time lows and Brent crude at $107/barrel.",
+    "deltaNote": "ALL-TIME RECORD LOW CONFIRMED — Final April 2026 reading confirmed near 47.6 preliminary; below 1980 energy crisis nadir of 51.7. Year-ahead inflation expectations 4.8% (from 3.8% — largest one-month jump in survey history). Long-run 5Y expectations also elevated.",
     "trend": "down",
     "lastUpdated": "2026-04-24T13:45:00Z"
   },
   {
     "id": "vix-fear-gauge",
     "label": "S&P 500 / Market Risk Gauge",
-    "value": "S&P 500 ~7,128 (Apr 29 intraday)",
-    "color": "amber",
-    "source": "Yahoo Finance / CNBC / TheStreet, Apr 28-29 2026",
+    "value": "S&P 500 7,264 (May 1, 2026) — New All-Time High",
+    "color": "green",
+    "source": "TheStreet / CNBC, May 1 2026",
     "contested": false,
-    "delta": "Down from ATH ~7,165 (Apr 24 close) as Powell's final FOMC meeting + Warsh 13-11 committee vote + Brent $114 oil spike weigh on equities",
-    "deltaNote": "S&P 500 fell 0.46% on Apr 28 (to ~7,138) on an OpenAI-revenue-miss-driven chip selloff; extended to ~7,128 on Apr 29 as mega-cap hyperscalers fell 1-2% ahead of after-close earnings (MSFT, META, GOOGL, AMZN — combined ~$11T market cap). FOMC holds at 3.50-3.75% — Powell's final meeting as Chair. Warsh advanced 13-11 party-line Senate Banking Committee vote (historic first), heads to full Senate floor vote. Brent crude at $114-116 (highest since June 2022). Q1 2026 GDP advance (BEA, 8:30 AM Apr 30; GDPNow 1.24%) + March PCE (also Apr 30) are next catalysts. Recession probabilities: Goldman Sachs 30%, JPMorgan 35%, Moody's Analytics 49%.",
-    "trend": "down",
-    "lastUpdated": "2026-04-29T17:00:00Z"
+    "delta": "ATH series: 7,209 (Apr 30, +1.02%) → 7,264 (May 1, +0.77%)",
+    "deltaNote": "Back-to-back ATH highs on tech mega-cap blowout (MSFT $82.9B +18%, GOOGL $109.9B +22%, META net income +61%), Q1 GDP advance +2.0% beat, ISM Manufacturing 52.7% (4th expansion month). Recession probabilities: Goldman 25%, JPMorgan 30%, Moody's 42%. Warsh floor vote week of May 11.",
+    "trend": "up",
+    "lastUpdated": "2026-05-01T14:25:18Z"
   },
   {
     "id": "us-effective-tariff-rate",
@@ -147,13 +159,13 @@
   {
     "id": "global-policy-uncertainty",
     "label": "Global Policy Uncertainty / Recession Risk",
-    "value": "~300–350 (easing from peak)",
+    "value": "~250–300 (improving on GDP beat)",
     "color": "amber",
-    "source": "Baker-Bloom-Davis / FRED; Wall Street research Apr 15-17 2026",
+    "source": "Baker-Bloom-Davis / FRED; Wall Street research May 1 2026",
     "contested": false,
-    "delta": "Easing from Apr 10 peak on ceasefire/Hormuz reopening — but structural risks elevated",
-    "deltaNote": "Goldman Sachs recession probability: 30%; JPMorgan: 35% (down sharply from 65% Apr 10 high); Moody's Analytics: ~42%; Bloomberg economists: 30%; NY Fed yield curve: 18.8%. Oil crash (Apr 17: -9.6%) improves inflation outlook for FOMC Apr 29-30. Core PCE 3.06%, Michigan 47.6 all-time low, and ECB expected to hike to 2.5% by year-end keep macro risks elevated.",
+    "delta": "Modestly improving — GDP beat +2.0% reduces immediate recession fears; tech earnings strong",
+    "deltaNote": "Goldman Sachs recession probability: ~25% (reduced from 30%); JPMorgan: ~30% (held); Moody's Analytics: ~42% (reduced from 49%); Bloomberg economists: ~28%; NY Fed yield curve: 18.8%. March PCE at 3.5%/3.2% core confirms stagflation trap — no Fed cuts 2026. Warsh confirmation week of May 11.",
     "trend": "down",
-    "lastUpdated": "2026-04-18T12:00:00Z"
+    "lastUpdated": "2026-05-01T14:25:18Z"
   }
 ]

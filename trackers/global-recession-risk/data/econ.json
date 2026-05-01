@@ -2,13 +2,13 @@
   {
     "id": "us-gdp-quarterly",
     "label": "US GDP Growth (Quarterly, Ann.)",
-    "value": "+0.7%",
-    "change": "-3.7pp from Q3",
-    "direction": "down",
-    "sparkData": [3.4, 1.6, 3.0, 3.1, 2.3, -0.6, 3.8, 4.4, 0.7],
-    "color": "amber",
-    "source": "BEA / FRED A191RL1Q225SBEA",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "value": "+2.0% (Q1 2026 Advance)",
+    "change": "+1.3pp from Q4 2025 (+0.7%); beat GDPNow 1.2%",
+    "direction": "up",
+    "sparkData": [1.6, 3.0, 3.1, 2.3, -0.6, 3.8, 4.4, 0.7, 2.0],
+    "color": "green",
+    "source": "BEA Advance Estimate Q1 2026 (Apr 30, 2026)",
+    "lastUpdated": "2026-04-30T13:30:00Z"
   },
   {
     "id": "us-cpi-yoy",
@@ -24,46 +24,46 @@
   {
     "id": "us-core-pce",
     "label": "US Core PCE Inflation",
-    "value": "3.06%",
-    "change": "+0.26pp — re-acceleration on tariff pass-through",
+    "value": "3.2%",
+    "change": "+0.14pp MoM; Headline PCE 3.5% YoY — hottest since Iran war began",
     "direction": "up",
-    "sparkData": [5.6, 4.9, 4.0, 3.2, 2.9, 2.6, 2.7, 2.8, 3.06],
+    "sparkData": [4.9, 4.0, 3.2, 2.9, 2.6, 2.7, 2.8, 3.06, 3.2],
     "color": "red",
-    "source": "BEA PCE Release, Jan 2026 (released Mar 13, 2026)",
-    "lastUpdated": "2026-04-01T14:00:00Z"
+    "source": "BEA PCE Release, March 2026 (released Apr 30, 2026)",
+    "lastUpdated": "2026-04-30T13:30:00Z"
   },
   {
     "id": "fed-funds-rate-history",
     "label": "Fed Funds Rate",
     "value": "3.50–3.75%",
-    "change": "-175 bps from peak",
+    "change": "-175 bps from peak; Apr 29 unanimous hold (Powell's final meeting)",
     "direction": "down",
     "sparkData": [0.25, 2.5, 5.5, 5.5, 5.5, 4.75, 4.25, 3.75, 3.625],
     "color": "blue",
     "source": "Federal Reserve FOMC / FRED FEDFUNDS",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "lastUpdated": "2026-04-29T19:00:00Z"
   },
   {
     "id": "ecb-deposit-rate",
     "label": "ECB Deposit Facility Rate",
     "value": "2.00%",
-    "change": "-200 bps from peak",
+    "change": "Apr 30 hold as Eurozone CPI flash hits 3.0% (Iran war energy shock)",
     "direction": "down",
     "sparkData": [0.0, -0.5, 0.0, 2.0, 4.0, 3.75, 3.0, 2.25, 2.0],
     "color": "blue",
-    "source": "ECB Governing Council",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "source": "ECB Governing Council (Apr 30 hold decision)",
+    "lastUpdated": "2026-04-30T13:45:00Z"
   },
   {
     "id": "china-gdp-growth",
     "label": "China GDP Growth (Annual)",
-    "value": "4.0% (2025 forecast)",
-    "change": "-0.6pp (IMF revision)",
-    "direction": "down",
-    "sparkData": [6.0, 2.3, 3.0, 5.2, 4.9, 4.0, 4.4, 4.4, 4.0],
+    "value": "5.0% (Q1 2026 actual)",
+    "change": "+0.5pp vs Q4 2025 (4.5%) — front-loaded exports",
+    "direction": "up",
+    "sparkData": [6.0, 2.3, 3.0, 5.2, 4.9, 4.0, 4.4, 4.5, 5.0],
     "color": "amber",
-    "source": "China NBS / IMF WEO April 2025",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "source": "China NBS / IMF WEO April 2026",
+    "lastUpdated": "2026-04-18T12:00:00Z"
   },
   {
     "id": "global-trade-volume",
@@ -80,7 +80,7 @@
     "id": "us-unemployment-rate",
     "label": "US Unemployment Rate",
     "value": "4.3%",
-    "change": "-0.1pp; Feb revised to net -92K (first monthly loss since 2020)",
+    "change": "Mar 2026 (Apr 3 release); Apr jobs report due May 8",
     "direction": "down",
     "sparkData": [3.5, 3.6, 3.7, 3.4, 4.0, 4.1, 4.2, 4.4, 4.3],
     "color": "amber",
@@ -90,35 +90,35 @@
   {
     "id": "us-10y-treasury-yield",
     "label": "US 10Y Treasury Yield",
-    "value": "~4.35%",
-    "change": "+0.05pp from Apr 10 (4.30%) — rising as oil spike to $114 (Brent Apr 29) reignites inflation premium; 2s/10s curve +57 bps (steepened)",
+    "value": "~4.37%",
+    "change": "+0.06pp from Apr 10 — hot PCE (3.5%/3.2% core Apr 30) reignites inflation premium",
     "direction": "up",
-    "sparkData": [2.8, 4.0, 4.7, 4.4, 4.3, 4.2, 4.0, 4.31, 4.35],
+    "sparkData": [2.8, 4.0, 4.7, 4.4, 4.3, 4.2, 4.0, 4.31, 4.37],
     "color": "amber",
-    "source": "Federal Reserve H.15 / FRED DGS10 / Advisor Perspectives, Apr 28 2026",
-    "lastUpdated": "2026-04-29T17:00:00Z"
+    "source": "Federal Reserve H.15 / FRED DGS10, Apr 30 2026",
+    "lastUpdated": "2026-04-30T14:00:00Z"
   },
   {
     "id": "wti-crude-oil",
     "label": "WTI Crude Oil (USD/bbl)",
-    "value": "~$103.18 (Apr 29); Brent $114.37–$116.53",
-    "change": "+9.3% from Apr 25 WTI close ($94.40) — Trump issues new Iran threats Apr 29; Brent highest since June 2022",
+    "value": "~$103 WTI / ~$114 Brent (Apr 30, 2026)",
+    "change": "Brent closed ~$114.01 (Apr 30); off session high $126 on Iran fears; elevated vs pre-war $85",
     "direction": "up",
-    "sparkData": [95, 70, 72, 78, 75, 60, 58, 64.51, 98.79, 113, 85.57, 94.40, 98.0, 103.18],
+    "sparkData": [70, 72, 78, 75, 60, 58, 64.51, 85.57, 94.40, 98.0, 103.18, 103.0],
     "color": "red",
-    "source": "CNBC / Fortune Apr 29 2026; EIA",
-    "lastUpdated": "2026-04-29T17:00:00Z"
+    "source": "CNBC / EIA, Apr 30 2026",
+    "lastUpdated": "2026-04-30T14:00:00Z"
   },
   {
     "id": "eurozone-cpi",
     "label": "Eurozone CPI (Year-over-Year)",
-    "value": "~2.3%",
-    "change": "Near ECB 2% target",
-    "direction": "down",
-    "sparkData": [8.9, 6.1, 3.4, 2.2, 2.4, 2.1, 2.3, 2.3, 2.3],
-    "color": "green",
-    "source": "Eurostat / ECB",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "value": "~3.0% (Apr 2026 flash)",
+    "change": "+0.7pp from prior months — Iran war energy shock reverses ECB disinflation",
+    "direction": "up",
+    "sparkData": [8.9, 6.1, 3.4, 2.2, 2.4, 2.1, 2.3, 2.3, 3.0],
+    "color": "red",
+    "source": "Eurostat Flash CPI Estimate, April 2026 (released Apr 30)",
+    "lastUpdated": "2026-04-30T13:45:00Z"
   },
   {
     "id": "us-consumer-confidence",
@@ -146,22 +146,22 @@
     "id": "us-hy-credit-spread",
     "label": "US High Yield Credit Spread",
     "value": "3.27%",
-    "change": "Tight vs crisis levels",
+    "change": "Tight vs crisis levels — S&P 500 ATH 7,264 signals benign credit conditions",
     "direction": "down",
     "sparkData": [3.5, 5.0, 4.5, 3.0, 3.5, 3.8, 3.2, 3.0, 3.27],
     "color": "green",
     "source": "ICE BofA / FRED BAMLH0A0HYM2",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "lastUpdated": "2026-05-01T14:25:18Z"
   },
   {
     "id": "shiller-cape-ratio",
     "label": "S&P 500 Shiller CAPE Ratio",
-    "value": "~37–38",
-    "change": "S&P 500 ~7,165 (Apr 24 ATH close); CAPE ~37–38 entering Super Week — elevated vs. historical mean ~17; J.P. Morgan shifts to no cuts 2026",
+    "value": "~38.5",
+    "change": "S&P 500 at new ATH 7,264 (May 1); CAPE ~38.5 — 122% above historical mean ~17; tech AI mega-cap concentration",
     "direction": "up",
-    "sparkData": [27, 30, 28, 32, 36, 38, 37, 36.7, 37.5],
+    "sparkData": [27, 30, 28, 32, 36, 38, 37, 37.5, 38.5],
     "color": "red",
-    "source": "Robert Shiller / Yale / multpl.com; Motley Fool Apr 26 2026; J.P. Morgan Global Research",
-    "lastUpdated": "2026-04-26T13:54:43Z"
+    "source": "Robert Shiller / Yale / multpl.com; S&P 500 ATH 7,264 (May 1, 2026)",
+    "lastUpdated": "2026-05-01T14:25:18Z"
   }
 ]
