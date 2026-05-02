@@ -15,7 +15,7 @@ jobs:
   video:
     runs-on: ubuntu-latest
     if: github.event_name != 'push'
-    timeout-minutes: 20
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v5
 
@@ -305,7 +305,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: video
     if: github.event_name != 'push'
-    timeout-minutes: 20
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v5
 
