@@ -327,8 +327,11 @@ jobs:
       - name: Render progress video
         run: cd video && npx tsx render.ts --mode positive
 
-      # Snapshot the progress caption immediately, same reason as breaking.
-      - name: Snapshot Telegram caption (progress) from breaking.json
+      # Snapshot the progress caption immediately after the progress render.
+      # Must read breaking-data-progress.json (written by render.ts --mode positive),
+      # NOT breaking.json which belongs to the conflict job and may carry stale
+      # or conflict-mode trackers. See: https://github.com/ArtemioPadilla/watchboard/issues/141
+      - name: Snapshot Telegram caption (progress) from breaking-data-progress.json
         run: |
           DATE=$(date -u +%Y-%m-%d)
           DATE="$DATE" node -e "
@@ -344,7 +347,11 @@ jobs:
             const fs = require('fs');
             const date = process.env.DATE;
             try {
-              const d = JSON.parse(fs.readFileSync('video/src/data/breaking.json', 'utf8'));
+              const progressPath = 'video/src/data/breaking-data-progress.json';
+              const fallbackPath = 'video/src/data/breaking.json';
+              const srcPath = fs.existsSync(progressPath) ? progressPath : fallbackPath;
+              if (srcPath === fallbackPath) console.warn('WARNING: breaking-data-progress.json not found, falling back to breaking.json');
+              const d = JSON.parse(fs.readFileSync(srcPath, 'utf8'));
               const lines = d.trackers.map(t => {
                 const head = (t.headline || t.name || '').trim();
                 return '✅ <b>' + escapeHtml(t.name) + '</b>: ' + escapeHtml(head);
@@ -385,7 +392,12 @@ jobs:
             exit 0
           fi
           DATE=$(date -u +%Y-%m-%d)
-          TRACKERS=$(node -e "const d=require('./video/src/data/breaking.json'); console.log(d.trackers.map(t=>t.name).join('. '))")
+          TRACKERS=$(node -e "
+            const fs = require('fs');
+            const p = fs.existsSync('./video/src/data/breaking-data-progress.json') ? './video/src/data/breaking-data-progress.json' : './video/src/data/breaking.json';
+            const d = require(p);
+            console.log(d.trackers.map(t=>t.name).join('. '));
+          ")
 
           aws polly synthesize-speech \
             --engine generative \
