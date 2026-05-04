@@ -123,25 +123,25 @@
   {
     "id": "vix-fear-gauge",
     "label": "S&P 500 / Market Risk Gauge",
-    "value": "S&P 500 7,264 (May 1, 2026) — New All-Time High",
-    "color": "green",
-    "source": "TheStreet / CNBC, May 1 2026",
+    "value": "S&P 500 ~7,255 (May 4, 2026) — Retreating from ATH on Iran Escalation",
+    "color": "amber",
+    "source": "TheStreet / CNBC, May 4 2026",
     "contested": false,
-    "delta": "ATH series: 7,209 (Apr 30, +1.02%) → 7,264 (May 1, +0.77%)",
-    "deltaNote": "Back-to-back ATH highs on tech mega-cap blowout (MSFT $82.9B +18%, GOOGL $109.9B +22%, META net income +61%), Q1 GDP advance +2.0% beat, ISM Manufacturing 52.7% (4th expansion month). Recession probabilities: Goldman 25%, JPMorgan 30%, Moody's 42%. Warsh floor vote week of May 11.",
-    "trend": "up",
-    "lastUpdated": "2026-05-01T14:25:18Z"
+    "delta": "ATH 7,264 (May 1) → ~7,255 (May 4, −0.13%) on Iran 'Project Freedom' launch + disputed missile incident",
+    "deltaNote": "Minor retreat from back-to-back ATH highs (7,209 Apr 30; 7,264 May 1) as 'Project Freedom' military escort launched May 4 and disputed Iranian missile incident reported. Iran-US escalation risk offsets AI investment mega-theme. Warsh Senate floor vote expected week of May 11 (~92% probability). EU 25% auto tariffs effective May 5. Recession probabilities: Goldman ~25%, JPMorgan ~30%, Moody's ~42%.",
+    "trend": "down",
+    "lastUpdated": "2026-05-04T14:00:00Z"
   },
   {
     "id": "us-effective-tariff-rate",
     "label": "US Avg Effective Tariff Rate",
-    "value": "8.9% overall (31.6% China)",
+    "value": "8.9–15% overall + 25% EU autos (May 5)",
     "color": "red",
-    "source": "Penn Wharton Budget Model, Apr 15 2026; CBP CAPE Portal, Apr 20 2026",
+    "source": "Penn Wharton / CBP CAPE Portal Apr 20; CNBC May 1 2026 (EU auto tariffs)",
     "contested": true,
-    "contestNote": "8.9% overall under Section 122; China faces 31.6% effective rate (post-IEEPA Supreme Court ruling). CAPE portal launched Apr 20 for $166B in IEEPA refunds — system crashed under high volume on Day 1. Over 56,000 importers in queue across 53M eligible shipments. Section 122 rate faces ongoing Court of International Trade litigation; expiry in ~120 days restores to ~8.2%. Original IEEPA 104% China rate struck down Feb 20, 2026.",
-    "trend": "down",
-    "lastUpdated": "2026-04-21T14:22:45Z"
+    "contestNote": "Section 122 baseline: 8.9% overall, 31.6% China effective rate. CAPE portal processing $166B IEEPA refunds (~56,000 importers). NEW May 5: 25% EU auto tariffs effective. CRITICAL DEADLINE: Section 122 tariffs expire July 23, 2026 (150 days from Feb 24); Congressional approval required to extend — no unilateral renewal. Section 301 public hearing May 5 (15 countries incl. EU, China, Japan) previews next tariff wave.",
+    "trend": "up",
+    "lastUpdated": "2026-05-04T14:00:00Z"
   },
   {
     "id": "china-gdp-2025",
