@@ -87,14 +87,14 @@
   {
     "id": "us-10y-treasury-yield",
     "label": "US 10Y Treasury Yield",
-    "value": "~4.37%",
+    "value": "~4.42%",
     "color": "amber",
-    "source": "Federal Reserve H.15 / FRED DGS10, Apr 30 2026",
+    "source": "Federal Reserve H.15 / FRED DGS10, May 5-6 2026",
     "contested": false,
-    "delta": "+0.06pp",
-    "deltaNote": "Apr 30: Rose from 4.31% (Apr 10) to ~4.37% as March PCE at 3.5% headline / 3.2% core confirms inflation re-acceleration; S&P 500 ATH creates mild risk-on pressure. JPMorgan: no Fed cuts 2026.",
+    "delta": "+0.05pp from Apr 30",
+    "deltaNote": "May 5: Spiked to 4.44% (highest since mid-2025) on Iran-Korean ship strike and inflation fears. May 6: Eased to ~4.42% as oil crashed 8-9% on Iran ceasefire optimism, reducing rate-hike premium. Directional trend: upward from 4.31% (Apr 10) → 4.37% (Apr 30) → 4.42-4.44% (May 5-6). ISM Services Prices Paid 70.7 keeps rate-hike risk elevated. JPMorgan: no Fed cuts 2026.",
     "trend": "up",
-    "lastUpdated": "2026-04-30T14:00:00Z"
+    "lastUpdated": "2026-05-06T21:00:00Z"
   },
   {
     "id": "us-consumer-confidence",
@@ -123,14 +123,14 @@
   {
     "id": "vix-fear-gauge",
     "label": "S&P 500 / Market Risk Gauge",
-    "value": "S&P 500 ~7,255 (May 4, 2026) — Retreating from ATH on Iran Escalation",
-    "color": "amber",
-    "source": "TheStreet / CNBC, May 4 2026",
+    "value": "S&P 500 ATH 7,259.22 (May 6, 2026) — New Record on Iran Ceasefire Progress; Oil Crashes 8-9%",
+    "color": "green",
+    "source": "CNBC / TheStreet, May 6 2026",
     "contested": false,
-    "delta": "ATH 7,264 (May 1) → ~7,255 (May 4, −0.13%) on Iran 'Project Freedom' launch + disputed missile incident",
-    "deltaNote": "Minor retreat from back-to-back ATH highs (7,209 Apr 30; 7,264 May 1) as 'Project Freedom' military escort launched May 4 and disputed Iranian missile incident reported. Iran-US escalation risk offsets AI investment mega-theme. Warsh Senate floor vote expected week of May 11 (~92% probability). EU 25% auto tariffs effective May 5. Recession probabilities: Goldman ~25%, JPMorgan ~30%, Moody's ~42%.",
-    "trend": "down",
-    "lastUpdated": "2026-05-04T14:00:00Z"
+    "delta": "7,200.75 (May 5, -0.4%) → 7,259.22 ATH (May 6, +0.81%) on Iran deal optimism + oil crash",
+    "deltaNote": "May 5: S&P fell 0.4% to 7,200.75 as Iran struck a South Korean vessel in Hormuz (Dow -1.1%). May 6: S&P surged 0.81% to new ATH 7,259.22 as Trump paused 'Project Freedom' and Iran submitted ceasefire proposal — oil crashed 8-9% (Brent $103, WTI $93-95). Nasdaq record 25,326.13. Recession probabilities eased: Goldman ~22%, JPMorgan ~28%, Moody's ~42%. ADP April +109K. Warsh Senate floor vote week of May 11 (~92% probability). BLS April jobs report May 8.",
+    "trend": "up",
+    "lastUpdated": "2026-05-06T21:00:00Z"
   },
   {
     "id": "us-effective-tariff-rate",
@@ -164,8 +164,8 @@
     "source": "Baker-Bloom-Davis / FRED; Wall Street research May 1 2026",
     "contested": false,
     "delta": "Modestly improving — GDP beat +2.0% reduces immediate recession fears; tech earnings strong",
-    "deltaNote": "Goldman Sachs recession probability: ~25% (reduced from 30%); JPMorgan: ~30% (held); Moody's Analytics: ~42% (reduced from 49%); Bloomberg economists: ~28%; NY Fed yield curve: 18.8%. March PCE at 3.5%/3.2% core confirms stagflation trap — no Fed cuts 2026. Warsh confirmation week of May 11.",
+    "deltaNote": "May 6: Oil crashed 8-9% on Iran ceasefire progress (Brent $103, WTI $93-95) — easing stagflation tail risk. Goldman Sachs recession probability: ~22% (reduced from 25%); JPMorgan: ~28% (from 30%); Moody's Analytics: ~42% (from 49%). ISM Services Prices Paid 70.7 (May 5, highest since 2022) — stagflation embedded. ADP April +109K. BLS April jobs May 8. Warsh Senate floor vote week of May 11. Section 122 tariff cliff July 23. Trump-Xi summit May 14-15.",
     "trend": "down",
-    "lastUpdated": "2026-05-01T14:25:18Z"
+    "lastUpdated": "2026-05-06T21:00:00Z"
   }
 ]

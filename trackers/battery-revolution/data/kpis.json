@@ -4,12 +4,12 @@
     "label": "Global EV Battery Demand (2025 est.)",
     "value": "~1,228 GWh",
     "color": "green",
-    "source": "SNE Research / BloombergNEF 2025",
+    "source": "SNE Research / BloombergNEF 2025; Q1 2026: 244.6 GWh (+9.1% YoY)",
     "contested": false,
-    "delta": "+25% YoY",
-    "deltaNote": "Up from ~985 GWh in 2024; China accounts for ~60% of demand",
+    "delta": "+25% YoY (2025); Q1 2026 pace implies +9% annual",
+    "deltaNote": "Full year 2025: ~1,228 GWh; Q1 2026 confirmed 244.6 GWh by SNE Research. Market entering structural transition: growth decelerating in China and North America but expanding in Europe and other Asia.",
     "trend": "up",
-    "lastUpdated": "2026-04-14"
+    "lastUpdated": "2026-05-06"
   },
   {
     "id": "battery-pack-price-2025",
@@ -25,14 +25,15 @@
   },
   {
     "id": "china-battery-market-share",
-    "label": "China's Global Battery Production Share",
-    "value": "~73%",
+    "label": "CATL Global EV Battery Market Share (Q1 2026)",
+    "value": "40.7%",
     "color": "blue",
-    "source": "SNE Research 2025",
-    "contested": true,
-    "contestNote": "Declining from ~77% peak as Korean and nascent Western capacity expands; CATL + BYD alone hold ~55%",
-    "trend": "down",
-    "lastUpdated": "2026-04-14"
+    "source": "SNE Research Q1 2026 (via electrive / CnEVPost, May 6, 2026)",
+    "contested": false,
+    "delta": "+1.5 pp from 39.2% (FY2025)",
+    "deltaNote": "CATL Q1 2026 production: 99.5 GWh (+15.2% YoY); China accounts for ~73% of global battery production overall; CATL + BYD (13.7%) hold ~54% combined",
+    "trend": "up",
+    "lastUpdated": "2026-05-06"
   },
   {
     "id": "lithium-carbonate-price",

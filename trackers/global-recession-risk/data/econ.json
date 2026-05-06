@@ -101,13 +101,13 @@
   {
     "id": "wti-crude-oil",
     "label": "WTI Crude Oil (USD/bbl)",
-    "value": "~$103 WTI / ~$115 Brent (May 4, 2026)",
-    "change": "Brent $115.01 (May 4 open, +$3.81); WTI $103.42 (+$1.48); elevated 55-60% above pre-war ($64/$73). Hormuz at 9% of pre-war volume (12 crossings vs 129/day avg). 'Project Freedom' military escort launched May 4.",
-    "direction": "up",
-    "sparkData": [70, 72, 78, 75, 60, 58, 64.51, 85.57, 94.40, 98.0, 103.18, 115.01],
-    "color": "red",
-    "source": "Fortune / EIA, May 4 2026; CNN live Hormuz shipping data",
-    "lastUpdated": "2026-05-04T14:00:00Z"
+    "value": "~$94 WTI / ~$103 Brent (May 6, 2026)",
+    "change": "Oil crashed 8-9% on May 6 as Iran sent ceasefire proposal and Trump paused 'Project Freedom'; WTI from $103.42 (May 4) → ~$104.20 (May 5) → ~$93-95 (May 6). Brent $115 → $114 → $103. Largest single-day drop of 2026. Hormuz still disrupted; still ~40% above pre-war ($67 WTI).",
+    "direction": "down",
+    "sparkData": [70, 72, 78, 75, 60, 58, 64.51, 85.57, 94.40, 103.18, 115.01, 94.0],
+    "color": "amber",
+    "source": "CNBC / Fortune / EIA, May 6 2026; Iran peace deal progress reporting",
+    "lastUpdated": "2026-05-06T21:00:00Z"
   },
   {
     "id": "eurozone-cpi",
@@ -157,11 +157,33 @@
     "id": "shiller-cape-ratio",
     "label": "S&P 500 Shiller CAPE Ratio",
     "value": "~38.5",
-    "change": "S&P 500 at new ATH 7,264 (May 1); CAPE ~38.5 — 122% above historical mean ~17; tech AI mega-cap concentration",
+    "change": "S&P 500 at new ATH 7,259.22 (May 6); CAPE ~38.5 — 122% above historical mean ~17; tech AI mega-cap concentration",
     "direction": "up",
     "sparkData": [27, 30, 28, 32, 36, 38, 37, 37.5, 38.5],
     "color": "red",
-    "source": "Robert Shiller / Yale / multpl.com; S&P 500 ATH 7,264 (May 1, 2026)",
-    "lastUpdated": "2026-05-01T14:25:18Z"
+    "source": "Robert Shiller / Yale / multpl.com; S&P 500 ATH 7,259.22 (May 6, 2026)",
+    "lastUpdated": "2026-05-06T21:00:00Z"
+  },
+  {
+    "id": "ism-services-pmi-april-2026",
+    "label": "ISM Services PMI — April 2026",
+    "value": "53.6 (Prices Paid: 70.7 — highest since 2022)",
+    "change": "+3.7 on Prices Paid sub-index; New Orders fell 7.1 pts; Employment contracting 2nd month — stagflation embedded in services",
+    "direction": "up",
+    "sparkData": [55.2, 53.5, 54.6, 55.2, 54.9, 52.1, 52.7, 54.0, 53.6],
+    "color": "red",
+    "source": "ISM Non-Manufacturing PMI, April 2026 (released May 5, 2026)",
+    "lastUpdated": "2026-05-05T16:00:00Z"
+  },
+  {
+    "id": "rba-cash-rate",
+    "label": "Reserve Bank of Australia Cash Rate",
+    "value": "4.35% (May 2026 — third consecutive 2026 hike)",
+    "change": "+75 bps in 2026 (Feb/Mar/May hikes of +25 bps each) — reversing all 2025 cuts; Australia CPI 4.6% YoY (March 2026) driven by Iran war energy shock",
+    "direction": "up",
+    "sparkData": [0.1, 3.35, 4.35, 3.85, 3.6, 3.35, 3.85, 4.1, 4.35],
+    "color": "red",
+    "source": "Reserve Bank of Australia, May 2026 decision (released May 2026)",
+    "lastUpdated": "2026-05-06T21:00:00Z"
   }
 ]

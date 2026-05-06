@@ -2,9 +2,9 @@
   {
     "id": "brent_crude",
     "label": "Brent Crude",
-    "value": "~$113/bbl",
-    "change": "May 4 (Day 66): Brent re-elevated to ~$113/bbl as IRGC announced Hormuz maritime control zone ($1M+ tolls/vessel) and claimed missile strike on US frigate — new escalation ahead of May 5 US escort mission launch. May 1: Eased to ~$109.95 from Apr 30 record $126. Only 5–8% normal Hormuz traffic operating.",
-    "direction": "up",
+    "value": "~$110/bbl",
+    "change": "May 6 (Day 68): Brent settled ~$109.87/bbl — down from $114.4 May 4 peak as Project Freedom pause + one-page memo signals reduce immediate clash risk. May 5: $112.9/bbl. May 4: $114.4 peak. Apr 30 record: $126/bbl. Dual blockade persists; 2 US-escorted ships transited May 5 as proof of concept. Pre-war baseline Feb 27: $77.74/bbl.",
+    "direction": "down",
     "sparkData": [
       77.74,
       82,
@@ -38,18 +38,21 @@
       126.0,
       109.95,
       112.0,
-      113.0
+      113.0,
+      114.4,
+      112.9,
+      109.87
     ],
     "color": "#e74c3c",
     "source": "Reuters / CNN / Al Jazeera / Bloomberg / CNBC / World Bank / Washington Post",
-    "lastUpdated": "2026-05-04T14:30:00.000Z"
+    "lastUpdated": "2026-05-06T15:36:43.000Z"
   },
   {
     "id": "wti_crude",
     "label": "WTI Crude",
-    "value": "~$104/bbl",
-    "change": "May 4: WTI recovering to ~$104/bbl on IRGC maritime zone and Hormuz escort mission escalation. May 1: Had eased to ~$102.45. Apr 30: Hit $109.64 — conflict high — as CENTCOM briefed Trump on fresh strike options. Hormuz dual blockade ongoing; ~500+ tankers stranded.",
-    "direction": "up",
+    "value": "~$102/bbl",
+    "change": "May 6 (Day 68): WTI settled ~$102.27/bbl on deal signals and Project Freedom pause. May 5: ~$104/bbl. May 4: ~$106/bbl. Apr 30: $109.64 — conflict high. Hormuz dual blockade ongoing; ~500+ tankers stranded. 2 US-escorted ships transited May 5.",
+    "direction": "down",
     "sparkData": [
       71.23,
       76,
@@ -78,11 +81,15 @@
       96.36,
       101.10,
       109.64,
-      102.45
+      102.45,
+      104.0,
+      106.0,
+      104.0,
+      102.27
     ],
     "color": "#e67e22",
     "source": "Reuters / CNN / CNBC / Al Jazeera / Bloomberg",
-    "lastUpdated": "2026-05-01T14:30:00.000Z"
+    "lastUpdated": "2026-05-06T15:36:43.000Z"
   },
   {
     "id": "gold_spot",
@@ -175,7 +182,7 @@
     "id": "gas_price_us",
     "label": "US Gas Price (National Avg)",
     "value": "$4.45/gal",
-    "change": "May 4 (Day 66): US national avg hits $4.45/gal — new conflict record, up 49.3% since Feb 28. IRGC maritime zone + Hormuz escort mission launch May 5 threatens further spike. California $5.87+/gal. Budget airlines requested $2.5B federal fuel aid.",
+    "change": "May 6 (Day 68): National avg holding near $4.45/gal — slight easing possible as Brent falls from $114.4 peak on Project Freedom pause + deal signals. May 4 (Day 66): Conflict record $4.45/gal. Up 49.3% since Feb 28 ($2.98 baseline). California $5.87+/gal. Budget airlines requested $2.5B federal fuel aid.",
     "direction": "up",
     "sparkData": [
       2.95,
@@ -190,11 +197,13 @@
       4.02,
       4.05,
       4.18,
-      4.30
+      4.30,
+      4.45,
+      4.45
     ],
     "color": "#e74c3c",
     "source": "CNN / CBS News / AAA / Reuters / Washington Post / CNBC",
-    "lastUpdated": "2026-05-01T14:30:00.000Z"
+    "lastUpdated": "2026-05-06T15:36:43.000Z"
   },
   {
     "id": "iea_reserve_release",
@@ -230,9 +239,9 @@
   {
     "id": "hormuz_traffic",
     "label": "Hormuz Traffic",
-    "value": "Near Zero (IRGC toll zone)",
-    "change": "May 4: IRGC announces formal maritime control zone with $1M+ per-vessel tolls — new escalation layer on top of dual blockade. May 3: Trump announces US will escort commercial vessels through Hormuz starting May 5. Dual blockade ongoing. Apr 23: IRGC holding MSC Francesca and Epaminondas crews. 31+ vessels turned back by US blockade.",
-    "direction": "down",
+    "value": "Minimal (2 ships May 5)",
+    "change": "May 5 (Day 67): Project Freedom escorts 2 commercial ships through strait — first US-convoyed passage. IRGC fires warning shots at US warship, destroys 7 fast boats. Trump pauses mission May 5 for deal talks. May 4: IRGC announces formal maritime control zone with $1M+ per-vessel tolls. Dual blockade ongoing. ~1,500 vessels with 22,500 crew trapped in Gulf. 31+ vessels turned back by US blockade.",
+    "direction": "up",
     "sparkData": [
       100,
       90,
@@ -257,10 +266,12 @@
       1,
       0,
       0,
+      0,
+      2,
       0
     ],
     "color": "#27ae60",
     "source": "Al Jazeera / NBC News / USNI News / Lloyd's List Intelligence / AP / IEA / CBS News / ABC News / CNBC / Reuters / Military.com",
-    "lastUpdated": "2026-05-01T14:30:00.000Z"
+    "lastUpdated": "2026-05-06T15:36:43.000Z"
   }
 ]
