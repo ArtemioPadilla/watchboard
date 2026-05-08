@@ -100,14 +100,25 @@
   },
   {
     "id": "peso-exchange-rate",
-    "label": "Peso / USD Exchange Rate (2025 avg)",
-    "value": "19.20 MXN/USD",
-    "change": "+8% depreciation from 2023 lows; within Banxico intervention corridor",
-    "direction": "up",
-    "sparkData": [19.2, 19.3, 21.5, 20.3, 19.4, 17.4, 19.2],
-    "color": "amber",
-    "source": "Banxico / Bloomberg — 2025",
-    "lastUpdated": "2026-04-24T12:00:00.000Z"
+    "label": "Peso / USD Exchange Rate (May 2026)",
+    "value": "17.31 MXN/USD",
+    "change": "−10% from 2025 avg (19.20); peso strengthened on nearshoring FDI + Banxico rate cuts",
+    "direction": "down",
+    "sparkData": [19.3, 21.5, 20.3, 19.4, 18.5, 17.8, 17.31],
+    "color": "green",
+    "source": "Banxico / Bloomberg — May 2026",
+    "lastUpdated": "2026-05-08T12:00:00.000Z"
+  },
+  {
+    "id": "mexico-banxico-rate",
+    "label": "Banxico Benchmark Rate (May 2026)",
+    "value": "6.5%",
+    "change": "−4.75 pp from 11.25% peak (Aug 2023); 2+ year easing cycle complete per May 7 board vote",
+    "direction": "down",
+    "sparkData": [4.0, 6.5, 9.0, 11.0, 11.25, 9.0, 6.5],
+    "color": "green",
+    "source": "Banxico — May 7, 2026 (3-2 vote)",
+    "lastUpdated": "2026-05-07T20:00:00.000Z"
   },
   {
     "id": "mexico-external-debt",
@@ -122,13 +133,13 @@
   },
   {
     "id": "mexico-gdp-growth",
-    "label": "GDP Growth Rate (2025)",
-    "value": "0.6%",
-    "change": "Near-stagnation; structural issues drag: security, energy, judicial uncertainty",
-    "direction": "up",
-    "sparkData": [2.2, -0.3, -8.3, 4.8, 3.1, 1.7, 0.6],
-    "color": "amber",
-    "source": "INEGI / IMF WEO April 2025",
-    "lastUpdated": "2026-04-24T12:00:00.000Z"
+    "label": "GDP Growth Rate (2025 / Q1 2026)",
+    "value": "0.6% / −Contraction",
+    "change": "Q1 2026: largest GDP contraction in over a year; investment fell 6.6% in 2025; Plan México Acciones response",
+    "direction": "down",
+    "sparkData": [4.8, 3.1, 1.7, 0.6, 0.4, -0.1, -0.5],
+    "color": "red",
+    "source": "INEGI / Bloomberg — May 2026",
+    "lastUpdated": "2026-05-08T12:00:00.000Z"
   }
 ]

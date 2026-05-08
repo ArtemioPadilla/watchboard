@@ -41,12 +41,12 @@
     "label": "US Unemployment Rate",
     "value": "4.3%",
     "color": "amber",
-    "source": "BLS, Mar 2026 (released Apr 3, 2026)",
+    "source": "BLS April 2026 Employment Situation (released May 8, 2026)",
     "contested": false,
     "delta": "+0.9pp",
-    "deltaNote": "vs 2023 trough (3.4%); Feb revised down 130K to net -92K — first monthly payroll loss since 2020; April 2026 jobs report due May 8",
+    "deltaNote": "vs 2023 trough (3.4%). April 2026 CONFIRMED 4.3% (unchanged from March) — BLS May 8 release. April payrolls: +115,000 (strong beat vs ~60K consensus). February now revised to –156,000 (deepest monthly loss since April 2020, from prior –133K). March revised up to +185,000. Part-time for economic reasons +445K to 4.9M. Federal government –9K (DOGE cuts continuing).",
     "trend": "down",
-    "lastUpdated": "2026-04-06T00:00:00Z"
+    "lastUpdated": "2026-05-08T14:20:00Z"
   },
   {
     "id": "us-core-pce",
@@ -87,14 +87,14 @@
   {
     "id": "us-10y-treasury-yield",
     "label": "US 10Y Treasury Yield",
-    "value": "~4.42%",
+    "value": "~4.32%",
     "color": "amber",
-    "source": "Federal Reserve H.15 / FRED DGS10, May 5-6 2026",
+    "source": "Federal Reserve H.15 / FRED DGS10, May 8 2026",
     "contested": false,
-    "delta": "+0.05pp from Apr 30",
-    "deltaNote": "May 5: Spiked to 4.44% (highest since mid-2025) on Iran-Korean ship strike and inflation fears. May 6: Eased to ~4.42% as oil crashed 8-9% on Iran ceasefire optimism, reducing rate-hike premium. Directional trend: upward from 4.31% (Apr 10) → 4.37% (Apr 30) → 4.42-4.44% (May 5-6). ISM Services Prices Paid 70.7 keeps rate-hike risk elevated. JPMorgan: no Fed cuts 2026.",
-    "trend": "up",
-    "lastUpdated": "2026-05-06T21:00:00Z"
+    "delta": "-0.12pp from May 5 peak",
+    "deltaNote": "May 5: Spiked to 4.44% (highest since mid-2025). May 6: Eased to ~4.42% on oil crash. May 7: ~4.35% as ceasefire progress continued and oil fell to $100. May 8: ~4.32% after BLS April jobs report (+115K beat) — yield fell as the beat was seen as growth-supportive but not inflationary enough to force a Warsh rate hike. Directional trend shifted: 4.44% (May 5 peak) → 4.32% (May 8) as Iran ceasefire and jobs data reduced stagflation tail risk. Warsh era begins week of May 11.",
+    "trend": "down",
+    "lastUpdated": "2026-05-08T14:20:00Z"
   },
   {
     "id": "us-consumer-confidence",
@@ -123,14 +123,14 @@
   {
     "id": "vix-fear-gauge",
     "label": "S&P 500 / Market Risk Gauge",
-    "value": "S&P 500 ATH 7,259.22 (May 6, 2026) — New Record on Iran Ceasefire Progress; Oil Crashes 8-9%",
+    "value": "S&P 500 ~7,395 (May 8, 2026) — April Jobs Beat (+115K) Extends Rally; Dow Near 50,000; Warsh Vote 3 Days Away",
     "color": "green",
-    "source": "CNBC / TheStreet, May 6 2026",
+    "source": "TheStreet / BLS / Bloomberg, May 7-8 2026",
     "contested": false,
-    "delta": "7,200.75 (May 5, -0.4%) → 7,259.22 ATH (May 6, +0.81%) on Iran deal optimism + oil crash",
-    "deltaNote": "May 5: S&P fell 0.4% to 7,200.75 as Iran struck a South Korean vessel in Hormuz (Dow -1.1%). May 6: S&P surged 0.81% to new ATH 7,259.22 as Trump paused 'Project Freedom' and Iran submitted ceasefire proposal — oil crashed 8-9% (Brent $103, WTI $93-95). Nasdaq record 25,326.13. Recession probabilities eased: Goldman ~22%, JPMorgan ~28%, Moody's ~42%. ADP April +109K. Warsh Senate floor vote week of May 11 (~92% probability). BLS April jobs report May 8.",
+    "delta": "7,259.22 ATH (May 6) → 7,365 (May 7, +1.5%) → ~7,395 (May 8, +0.41%) on jobs beat",
+    "deltaNote": "May 6: S&P ATH 7,259.22 on Iran ceasefire + oil crash 8-9% (Brent $103). May 7: S&P +1.5% to ~7,365 (Dow approaches 50,000 for first time; Nasdaq ~25,839) on continued ceasefire optimism; oil ~$100.45 Brent. May 8: S&P +0.41% to ~7,395 after BLS April jobs report (+115K beat vs ~60K consensus). 10Y yield eased to ~4.32% (from 4.44% peak May 5). Recession probabilities revised lower: Goldman ~20%, JPMorgan ~25%, Moody's ~40%. Warsh Senate floor vote week of May 11. Trump-Xi Beijing summit May 14-15.",
     "trend": "up",
-    "lastUpdated": "2026-05-06T21:00:00Z"
+    "lastUpdated": "2026-05-08T14:20:00Z"
   },
   {
     "id": "us-effective-tariff-rate",
@@ -159,13 +159,13 @@
   {
     "id": "global-policy-uncertainty",
     "label": "Global Policy Uncertainty / Recession Risk",
-    "value": "~250–300 (improving on GDP beat)",
+    "value": "~230–260 (improving on jobs beat + ceasefire progress)",
     "color": "amber",
-    "source": "Baker-Bloom-Davis / FRED; Wall Street research May 1 2026",
+    "source": "Baker-Bloom-Davis / FRED; Wall Street research May 8 2026",
     "contested": false,
-    "delta": "Modestly improving — GDP beat +2.0% reduces immediate recession fears; tech earnings strong",
-    "deltaNote": "May 6: Oil crashed 8-9% on Iran ceasefire progress (Brent $103, WTI $93-95) — easing stagflation tail risk. Goldman Sachs recession probability: ~22% (reduced from 25%); JPMorgan: ~28% (from 30%); Moody's Analytics: ~42% (from 49%). ISM Services Prices Paid 70.7 (May 5, highest since 2022) — stagflation embedded. ADP April +109K. BLS April jobs May 8. Warsh Senate floor vote week of May 11. Section 122 tariff cliff July 23. Trump-Xi summit May 14-15.",
+    "delta": "Improving — BLS April +115K jobs beat, oil ~$100-101, S&P 500 near 7,400; Warsh vote 3 days away",
+    "deltaNote": "May 8: BLS April jobs report +115K (strong beat vs ~60K consensus); unemployment 4.3% unchanged; February revised to –156K deepest monthly loss since COVID. Oil Brent ~$100-101 (down from $103 May 6). 10Y yield ~4.32% (from 4.44% May 5 peak). Recession probabilities further revised lower post-jobs beat: Goldman ~20% (from 22% May 6), JPMorgan ~25% (from 28%), Moody's Analytics ~40% (from 42%). S&P 500 near ~7,395 (May 8). Iran ceasefire talks continuing — US MOU under Iranian review; both sides maintaining diplomatic pause. Warsh Senate floor vote week of May 11 (before Powell May 15 expiry). Trump-Xi Beijing summit May 14-15. Section 122 tariff cliff July 23.",
     "trend": "down",
-    "lastUpdated": "2026-05-06T21:00:00Z"
+    "lastUpdated": "2026-05-08T14:20:00Z"
   }
 ]

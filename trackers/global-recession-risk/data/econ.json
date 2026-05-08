@@ -80,34 +80,34 @@
     "id": "us-unemployment-rate",
     "label": "US Unemployment Rate",
     "value": "4.3%",
-    "change": "Mar 2026 (Apr 3 release); Apr jobs report due May 8",
+    "change": "Apr 2026 CONFIRMED 4.3% (May 8 BLS release); +115K nonfarm payrolls (beat vs ~60K consensus); Feb revised to –156K (deepest since COVID)",
     "direction": "down",
-    "sparkData": [3.5, 3.6, 3.7, 3.4, 4.0, 4.1, 4.2, 4.4, 4.3],
+    "sparkData": [3.5, 3.6, 3.7, 3.4, 4.0, 4.1, 4.2, 4.3, 4.3],
     "color": "amber",
-    "source": "BLS Employment Situation, Apr 3 2026 (March data)",
-    "lastUpdated": "2026-04-06T00:00:00Z"
+    "source": "BLS Employment Situation, April 2026 (released May 8, 2026)",
+    "lastUpdated": "2026-05-08T14:20:00Z"
   },
   {
     "id": "us-10y-treasury-yield",
     "label": "US 10Y Treasury Yield",
-    "value": "~4.37%",
-    "change": "+0.06pp from Apr 10 — hot PCE (3.5%/3.2% core Apr 30) reignites inflation premium",
-    "direction": "up",
-    "sparkData": [2.8, 4.0, 4.7, 4.4, 4.3, 4.2, 4.0, 4.31, 4.37],
+    "value": "~4.32%",
+    "change": "-0.12pp from May 5 peak (4.44%) — easing as oil crash + jobs beat reduce stagflation tail risk",
+    "direction": "down",
+    "sparkData": [2.8, 4.0, 4.7, 4.4, 4.3, 4.2, 4.0, 4.44, 4.32],
     "color": "amber",
-    "source": "Federal Reserve H.15 / FRED DGS10, Apr 30 2026",
-    "lastUpdated": "2026-04-30T14:00:00Z"
+    "source": "Federal Reserve H.15 / FRED DGS10, May 8 2026 (post-BLS jobs report)",
+    "lastUpdated": "2026-05-08T14:20:00Z"
   },
   {
     "id": "wti-crude-oil",
     "label": "WTI Crude Oil (USD/bbl)",
-    "value": "~$94 WTI / ~$103 Brent (May 6, 2026)",
-    "change": "Oil crashed 8-9% on May 6 as Iran sent ceasefire proposal and Trump paused 'Project Freedom'; WTI from $103.42 (May 4) → ~$104.20 (May 5) → ~$93-95 (May 6). Brent $115 → $114 → $103. Largest single-day drop of 2026. Hormuz still disrupted; still ~40% above pre-war ($67 WTI).",
+    "value": "~$91 WTI / ~$101 Brent (May 8, 2026)",
+    "change": "Oil continuing to ease as Iran ceasefire diplomacy advances. Brent: $114 (May 5) → $103 (May 6) → $100.45 (May 7) → $100.54 (May 8). WTI: $104 → $94 → $91.50 → $91. Still ~35-40% above pre-war levels ($67 WTI). EIA: 14 mbpd global supply disrupted; post-conflict recovery expected gradual. IEA: partial Hormuz reopening underway but full normalization requires formal ceasefire.",
     "direction": "down",
-    "sparkData": [70, 72, 78, 75, 60, 58, 64.51, 85.57, 94.40, 103.18, 115.01, 94.0],
+    "sparkData": [70, 72, 78, 75, 60, 58, 64.51, 85.57, 94.40, 103.18, 115.01, 94.0, 91.0],
     "color": "amber",
-    "source": "CNBC / Fortune / EIA, May 6 2026; Iran peace deal progress reporting",
-    "lastUpdated": "2026-05-06T21:00:00Z"
+    "source": "CNBC / Fortune / EIA / IEA, May 8 2026; Iran ceasefire progress",
+    "lastUpdated": "2026-05-08T14:20:00Z"
   },
   {
     "id": "eurozone-cpi",

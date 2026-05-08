@@ -12,14 +12,14 @@
   },
   {
     "id": "avg-us-tariff-rate",
-    "label": "Average US Effective Tariff Rate (May 1, 2026)",
-    "value": "~11.8% (effective)",
-    "change": "May 1: Scotch whisky tariffs lifted for UK during King Charles state visit — concession under US-UK Economic Prosperity Deal (Scotch had 10% tariff; was set to rise to 25% in June). CBP opened CAPE portal Apr 20 for $166B in IEEPA refunds (60–90 day processing; 56,497 importers registered); 10% universal tariff via Section 122 remains in effect through July 2026; new Section 301 investigations underway vs. EU/China/Mexico for replacement authority",
+    "label": "Average US Effective Tariff Rate (May 8 — CIT Strikes Down 10% Global Tariff; Legal Limbo Pending Appeal)",
+    "value": "~0–10% (legal limbo)",
+    "change": "May 7: Court of International Trade 2-1 struck down Trump's 10% global tariff (Section 122) as 'invalid' and 'not authorized by law' — 2nd major tariff defeat after SCOTUS IEEPA ruling Feb 2026; Trump admin vows appeal; $166B in IEEPA refunds still being processed via CAPE portal (56,497 importers); Section 301 investigations underway vs. EU/China/Mexico for replacement authority; core PCE inflation running ~3% y/y; average household paying ~$1,500/yr in additional tariff costs per Moody's/PIIE",
     "direction": "down",
-    "sparkData": [2.5, 3.0, 4.0, 6.0, 12.0, 27.0, 22.0, 13.7, 11.8],
+    "sparkData": [2.5, 3.0, 4.0, 6.0, 12.0, 27.0, 22.0, 11.8, 5.0],
     "color": "#e67e22",
-    "source": "CBP / Peterson Institute / CNBC / White House",
-    "lastUpdated": "2026-05-01T14:00:00.000Z"
+    "source": "CBP / Peterson Institute / Court of International Trade / WaPo / NPR",
+    "lastUpdated": "2026-05-08T14:00:00.000Z"
   },
   {
     "id": "us-gdp-growth",
@@ -78,14 +78,14 @@
   },
   {
     "id": "brent-crude-oil-price",
-    "label": "Brent Crude Oil Price (May 7, 2026 — Trump Says Deal 'Very Possible'; Diplomacy Advancing; Prices Easing)",
-    "value": "~$97–101/bbl (easing)",
-    "change": "Brent continued easing to ~$97–101/bbl on May 7 as Trump expressed strong deal optimism ('very possible,' 'over quickly') and Iran reviewed the US proposal; Operation Epic Fury ended May 6; Pakistan-mediated diplomacy advancing; US gas avg ~$4.35/gallon; analysts project $85–90 range if Hormuz fully reopens under deal; 41 Iranian tankers (~69M bbls) still blocked pending agreement; US naval blockade remains in force",
-    "direction": "down",
-    "sparkData": [78, 82, 69, 80, 85, 99, 116, 100, 99],
-    "color": "#e67e22",
+    "label": "Brent Crude Oil Price (May 8, 2026 — Volatile After Hormuz Exchange; MOU Response Awaited)",
+    "value": "~$103–109/bbl (volatile)",
+    "change": "Brent surged back to ~$103–109/bbl on May 8 after US-Iran traded fire in Hormuz; Trump called it 'just a love tap'; WTI ~$103/bbl; US gas up to $6/gallon in some regions; Iran lost est. $4.8B in oil revenue since blockade began Apr 13; analysts project $85–90 range if Hormuz reopens under deal; 31 Iranian tankers (~53M bbls) still blocked; peace MOU response awaited",
+    "direction": "up",
+    "sparkData": [78, 82, 69, 80, 85, 99, 116, 99, 106],
+    "color": "#c0392b",
     "source": "Bloomberg / Reuters / Al Jazeera / CNN Business / EIA",
-    "lastUpdated": "2026-05-07T14:37:46.000Z"
+    "lastUpdated": "2026-05-08T14:00:00.000Z"
   },
   {
     "id": "dow-jones-index",
