@@ -59,14 +59,15 @@
   {
     "id": "cutzamala_reservoir_level",
     "label": "Cutzamala Reservoir Level",
-    "value": "~52%",
-    "color": "amber",
-    "source": "CONAGUA / SACMEX 2025",
+    "value": "~77%",
+    "color": "green",
+    "source": "CONAGUA / SACMEX Apr 2026",
     "contested": false,
-    "contestNote": "Dropped to historic low of 30% in May 2024 drought. Partially recovered by 2025 rainy season. 40% of city water lost to leaks.",
-    "delta": "+22pp from 2024 low",
+    "contestNote": "Reached 90.7% in January 2026 (best in 6 years) after strong 2025 rainy season. Declined to 76.7% by April 7 amid pre-rainy season drawdown. Still well above May 2024 historic low of 30%. A 604M peso modernization (new valves, SCADA control system) is underway after 40 years without major upgrades.",
+    "delta": "Started 2026 at 90.7% (6-yr high)",
+    "deltaNote": "Seasonal decline expected through May; recovery anticipated from June rainy season",
     "trend": "up",
-    "lastUpdated": "2026-04-25T00:00:00.000Z"
+    "lastUpdated": "2026-05-09T14:24:13Z"
   },
   {
     "id": "budget_2025",
@@ -85,10 +86,11 @@
     "label": "Max Land Subsidence Rate",
     "value": "~50 cm/yr",
     "color": "red",
-    "source": "UNAM / Nature Scientific Reports 2021",
+    "source": "UNAM / Nature 2021 + NASA NISAR 2026",
     "contested": false,
-    "contestNote": "Historic center sinking ~50cm/yr in worst zones; Palacio de Bellas Artes and Cathedral visibly tilting. Caused by groundwater over-extraction from ancient lake bed.",
+    "contestNote": "Historic center sinking ~50cm/yr in worst zones; Palacio de Bellas Artes and Cathedral visibly tilting. Caused by groundwater over-extraction from ancient lake bed. NASA NISAR satellite data (published May 2026, Oct 2025–Jan 2026 measurements) confirmed 14 in/yr (~35 cm) at monitored landmarks including AICM airport and the Ángel de la Independencia monument.",
+    "delta": "NASA NISAR (May 2026) confirms ongoing",
     "trend": "up",
-    "lastUpdated": "2026-04-25T00:00:00.000Z"
+    "lastUpdated": "2026-05-09T14:24:13Z"
   }
 ]

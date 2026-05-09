@@ -14,14 +14,15 @@
   {
     "id": "oil-production",
     "label": "Oil Production",
-    "value": "4.4 million bpd",
-    "color": "green",
-    "source": "OPEC / Iraqi Ministry of Oil 2024",
-    "contested": false,
-    "delta": "+200K bpd vs 2022",
-    "deltaNote": "Iraq is OPEC's second-largest producer; production growth constrained by OPEC+ quotas",
+    "value": "~1.5 million bpd",
+    "color": "red",
+    "source": "Iraqi Deputy Oil Minister / Al Arabiya May 2026",
+    "contested": true,
+    "contestNote": "Pre-crisis (Jan 2026): ~4.3M bpd. Hormuz blockade (Feb–May 2026) cut production to ~800K bpd at trough. Recovery to ~1.5M bpd by May 2, 2026. Full recovery possible within 1 week of Hormuz opening per Deputy Minister.",
+    "delta": "-66% vs pre-crisis",
+    "deltaNote": "Strait of Hormuz blockade (US-Iran war, from late Feb 2026) has severely restricted southern export capacity. Basra-Haditha pipeline under construction for alternative routing.",
     "trend": "up",
-    "lastUpdated": "2026-04-25"
+    "lastUpdated": "2026-05-09"
   },
   {
     "id": "oil-reserves",
@@ -85,13 +86,14 @@
   {
     "id": "oil-export-revenue",
     "label": "Annual Oil Export Revenue",
-    "value": "$88 billion",
-    "color": "green",
-    "source": "Iraqi Ministry of Oil, State Oil Marketing Organization (SOMO) 2024",
-    "contested": false,
-    "delta": "-24% vs 2022 peak",
-    "deltaNote": "2022 record: $115 billion. Revenue fell with global oil price decline. Northern Kirkuk exports (~400K bpd) halted since March 2023 per arbitration ruling vs Turkey.",
+    "value": "~$40B (2026 crisis est.)",
+    "color": "red",
+    "source": "Bloomberg / SOMO / Al Arabiya May 2026",
+    "contested": true,
+    "contestNote": "Hormuz blockade (US-Iran war) has cut southern exports by ~66% since late February 2026. Estimate based on partial production data and annualized shortfall. Final 2026 figure will depend on Hormuz resolution timeline.",
+    "delta": "-55% vs 2024 ($88B)",
+    "deltaNote": "Budget crisis: Iraq government spending depends ~90% on oil revenues. KRG salary arrears, public sector backlog, and reconstruction programs all severely impacted. Basra-Haditha pipeline construction started May 1 as emergency diversification measure.",
     "trend": "down",
-    "lastUpdated": "2026-04-25"
+    "lastUpdated": "2026-05-09"
   }
 ]

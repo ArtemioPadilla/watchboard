@@ -1,35 +1,42 @@
 {
-  "lastRun": "2026-04-25T12:00:00Z",
+  "lastRun": "2026-05-09T14:24:00Z",
   "tracker": "india",
-  "trigger": "seed",
+  "trigger": "nightly",
   "sections": {
+    "events": {
+      "status": "updated",
+      "count": 9
+    },
     "kpis": {
-      "status": "ok",
-      "count": 8
+      "status": "updated",
+      "count": 10
     },
     "timeline": {
       "status": "ok",
       "count": 43
     },
     "mapPoints": {
-      "status": "seeded",
-      "count": 30
+      "status": "updated",
+      "count": 34
     },
     "claims": {
-      "status": "seeded",
+      "status": "ok",
       "count": 25
     },
     "political": {
-      "status": "seeded",
-      "count": 25
-    },
-    "casualties": {
-      "status": "seeded",
-      "count": 18
+      "status": "updated",
+      "count": 26
     },
     "econ": {
-      "status": "seeded",
-      "count": 16
+      "status": "updated",
+      "count": 17
+    },
+    "meta": {
+      "status": "updated"
+    },
+    "digests": {
+      "status": "updated",
+      "count": 2
     }
   },
   "consecutiveQuietRuns": 1

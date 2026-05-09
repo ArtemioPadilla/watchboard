@@ -2,68 +2,68 @@
   {
     "id": "oil-production",
     "label": "Oil Production",
-    "value": "3.2 mb/d (2024)",
-    "change": "+0.4 mb/d vs 2022",
-    "direction": "up",
-    "sparkData": [2.0, 1.8, 2.1, 2.4, 2.5, 2.7, 3.0, 3.1, 3.2],
-    "color": "#2ecc71",
-    "source": "OPEC Monthly Oil Market Report (Oct 2024)",
-    "lastUpdated": "2026-04-25"
+    "value": "~1.5 mb/d (2026 est.)",
+    "change": "-1.7 mb/d from 2024 peak — Hormuz closure impact",
+    "direction": "down",
+    "sparkData": [2.0, 1.8, 2.1, 2.4, 2.5, 2.7, 3.0, 3.1, 1.5],
+    "color": "#e74c3c",
+    "source": "US EIA / OPEC / Reuters estimates May 2026",
+    "lastUpdated": "2026-05-09"
   },
   {
     "id": "inflation-rate",
     "label": "Annual Inflation Rate",
-    "value": "~35% (2024)",
-    "change": "Down from 47% peak (2022)",
-    "direction": "down",
-    "sparkData": [9, 15, 20, 30, 47, 44, 40, 38, 35],
+    "value": "~54% (May 2026)",
+    "change": "Up from 35% pre-war; food prices +140%",
+    "direction": "up",
+    "sparkData": [9, 15, 20, 30, 47, 44, 40, 35, 54],
     "color": "#e74c3c",
-    "source": "Statistical Centre of Iran / IMF WEO 2024",
-    "lastUpdated": "2026-04-25"
+    "source": "Statistical Centre of Iran / IMF WEO 2026",
+    "lastUpdated": "2026-05-09"
   },
   {
     "id": "rial-exchange-rate",
     "label": "Rial to USD (Free Market)",
-    "value": "~580,000 IRR/USD",
-    "change": "Depreciated ~90% since 2018",
+    "value": "~1,800,000 IRR/USD",
+    "change": "Fell ~60% since June 2025 conflict; new all-time low",
     "direction": "down",
-    "sparkData": [42000, 80000, 120000, 250000, 300000, 420000, 500000, 560000, 580000],
+    "sparkData": [42000, 80000, 250000, 420000, 500000, 560000, 580000, 900000, 1800000],
     "color": "#e74c3c",
-    "source": "Tehran Free Market / Bonbast.com exchange rates 2024",
-    "lastUpdated": "2026-04-25"
+    "source": "Free market rates / Fortune / CNBC May 2026",
+    "lastUpdated": "2026-05-09"
   },
   {
     "id": "gdp-ppp",
     "label": "GDP (PPP)",
-    "value": "$1.6 trillion (2024)",
-    "change": "+2.5% real growth 2024",
-    "direction": "up",
-    "sparkData": [700, 800, 1000, 1050, 900, 1100, 1300, 1500, 1600],
-    "color": "#3498db",
-    "source": "IMF World Economic Outlook Database (Oct 2024)",
-    "lastUpdated": "2026-04-25"
+    "value": "$1.5 trillion (2026 IMF forecast)",
+    "change": "-6.1% real GDP contraction projected for 2026",
+    "direction": "down",
+    "sparkData": [700, 800, 1000, 1050, 900, 1100, 1300, 1600, 1500],
+    "color": "#e74c3c",
+    "source": "IMF World Economic Outlook 2026",
+    "lastUpdated": "2026-05-09"
   },
   {
     "id": "oil-revenue",
     "label": "Estimated Oil Export Revenue",
-    "value": "~$35B/year (2024)",
-    "change": "Down from ~$100B pre-2018 sanctions",
-    "direction": "up",
-    "sparkData": [100, 40, 20, 15, 20, 25, 30, 32, 35],
-    "color": "#f39c12",
-    "source": "US EIA / Reuters oil export estimates 2024",
-    "lastUpdated": "2026-04-25"
+    "value": "~$15B/year (2026 est.)",
+    "change": "Down ~57% from 2024 ($35B) due to Hormuz closure",
+    "direction": "down",
+    "sparkData": [100, 40, 20, 15, 20, 25, 30, 35, 15],
+    "color": "#e74c3c",
+    "source": "US EIA / Reuters / Axios oil export estimates 2026",
+    "lastUpdated": "2026-05-09"
   },
   {
     "id": "unemployment-rate",
     "label": "Unemployment Rate",
-    "value": "~9.2% (2024)",
-    "change": "Youth unemployment ~28%",
-    "direction": "down",
-    "sparkData": [11, 13, 14, 12, 11, 10.5, 10, 9.5, 9.2],
-    "color": "#f39c12",
-    "source": "Statistical Centre of Iran / ILO 2024",
-    "lastUpdated": "2026-04-25"
+    "value": "~12–15% (2026 est.)",
+    "change": "~1 million new unemployed since June 2025 conflict",
+    "direction": "up",
+    "sparkData": [11, 13, 14, 12, 11, 10.5, 10, 9.5, 13.5],
+    "color": "#e74c3c",
+    "source": "Statistical Centre of Iran / CNBC May 2026",
+    "lastUpdated": "2026-05-09"
   },
   {
     "id": "natural-gas-reserves",
@@ -74,39 +74,39 @@
     "sparkData": [27, 28, 29, 30, 31, 32, 33, 34, 34],
     "color": "#2ecc71",
     "source": "BP Statistical Review of World Energy 2024",
-    "lastUpdated": "2026-04-25"
+    "lastUpdated": "2026-05-09"
   },
   {
     "id": "sanctions-impact-gdp",
-    "label": "GDP Lost to Sanctions (Cumulative Est.)",
-    "value": "$1T+ (2012–2024)",
-    "change": "Accelerated after 2018 US withdrawal from JCPOA",
+    "label": "GDP Lost to Sanctions + War (Cumulative Est.)",
+    "value": "$1.2T+ (2012–2026)",
+    "change": "Accelerated dramatically since June 2025 conflict",
     "direction": "down",
-    "sparkData": [10, 30, 80, 120, 150, 200, 250, 300, 350],
+    "sparkData": [10, 30, 80, 120, 150, 200, 250, 350, 450],
     "color": "#9b59b6",
-    "source": "Atlantic Council / Iran Chamber of Commerce estimates",
-    "lastUpdated": "2026-04-25"
+    "source": "Atlantic Council / CNBC / IMF 2026 estimates",
+    "lastUpdated": "2026-05-09"
   },
   {
     "id": "non-oil-exports",
     "label": "Non-Oil Exports",
-    "value": "~$50B (2024)",
-    "change": "+8% YoY — diversification under sanctions pressure",
-    "direction": "up",
-    "sparkData": [20, 25, 30, 35, 40, 42, 45, 48, 50],
-    "color": "#1abc9c",
-    "source": "Iran Trade Promotion Organization / IRICA 2024",
-    "lastUpdated": "2026-04-25"
+    "value": "~$40B (2026 est.)",
+    "change": "-20% from 2024 ($50B) — sanctions tightening, Hormuz disruption",
+    "direction": "down",
+    "sparkData": [20, 25, 30, 35, 40, 42, 45, 50, 40],
+    "color": "#e74c3c",
+    "source": "Iran Trade Promotion Organization / Reuters 2026",
+    "lastUpdated": "2026-05-09"
   },
   {
     "id": "petrochemical-sector",
     "label": "Petrochemical Exports",
-    "value": "~$17B (2024)",
-    "change": "Largest non-oil export category; routed via Iraq/Turkey",
-    "direction": "up",
-    "sparkData": [5, 6, 8, 9, 10, 12, 14, 15, 17],
-    "color": "#3498db",
-    "source": "National Petrochemical Company of Iran / Reuters 2024",
-    "lastUpdated": "2026-04-25"
+    "value": "~$12B (2026 est.)",
+    "change": "Down from $17B (2024) — US sanctions on Chinese buyers hit hard",
+    "direction": "down",
+    "sparkData": [5, 6, 8, 9, 10, 12, 14, 17, 12],
+    "color": "#e74c3c",
+    "source": "NPC / Reuters / US Treasury OFAC May 2026",
+    "lastUpdated": "2026-05-09"
   }
 ]
