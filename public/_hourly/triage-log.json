@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "lastPruned": "2026-05-10T11:46:49.084Z",
+  "lastPruned": "2026-05-10T12:18:55.647Z",
   "entries": [
     {
       "timestamp": "2026-04-27T22:03:51.193Z",
@@ -146516,6 +146516,142 @@
         "source": "bsky:aljazeera.com",
         "timestamp": "2026-05-10T11:30:03.489Z",
         "matchedTracker": "iran-conflict",
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-05-10T12:18:55.543Z",
+      "candidate": {
+        "title": "Army parachutes onto remote island to help Briton with suspected hantavirus",
+        "url": "https://www.bbc.com/news/articles/cvgzv77ldpdo?at_medium=RSS&at_campaign=rss",
+        "source": "bbc",
+        "timestamp": "2026-05-10T12:18:54.051Z",
+        "matchedTracker": "bts",
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-05-10T12:18:55.543Z",
+      "candidate": {
+        "title": "Israel deports two activists detained on board Gaza flotilla",
+        "url": "https://www.bbc.com/news/articles/cvgzdpxv2d7o?at_medium=RSS&at_campaign=rss",
+        "source": "bbc",
+        "timestamp": "2026-05-10T12:18:54.051Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.02)",
+      "confidence": 0.02375,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-05-10T12:18:55.544Z",
+      "candidate": {
+        "title": "Cruise ship stricken by hantavirus reaches Canary Islands, where passengers, some crew, will be evacuated - CBS News",
+        "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxQWWc3NVg2ck8tR2FJTnlhY2V6VzlncWFDUllYMm9ZWkdoM1FDUUthdkNucnJIV1cwazNtYzVzZ080Um1RZEk1VXVZRVN3dFBJdlVBQjN2UENpWHF3SFdKNHBFRVZTenRGbXVhVkpNVFlrUmY0SGNqN2tnNWNhOEM5VzItdWpySTFUdnF6NWRKcDjSAZYBQVVfeXFMTlV5LUJzaFE2WndZVE96elVhQW14Sy1aaklPOWtzMFNhcDNUM2FndWdSVXg3ZWZxZ3cxTHl5M2xOTjhKRlQzWkVBLWJESjBJWUx1TE5mZXduLTB2c3NXbzVmY0dzdmlEeTlXYUJUd0ZLbWlDd2Q0bVU3VGZ2NkJkTDR3SjRyZTI3ZVBXMlc4QUdaQUtHSWhn?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-05-10T12:18:54.167Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-05-10T12:18:55.544Z",
+      "candidate": {
+        "title": "She went from New York to a Russian prison. Will she be freed? - USA Today",
+        "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxPWm9CcXhWazd3YUxpZFdkN0hpcmY0MUdST3FvUUZFSXRUWUFpb2RsMTZ1ems4MWJHNk9EYTgzZEk3RkRMem9TRTRONzJHZElmMGotN2dfQ2g2aEctSXRjYUxJVEQ4ZWFVeEs5RmFjSFE2LU85WGxwdjBrdGRVWmxJSjl2RlF5MndMNjhBdlVtelRud1ZWcnlRWkZUYkJuTkt3LUlVcmJPYXcwbmUtU2hkZVh1b1p2UWlHU2c?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-05-10T12:18:54.167Z",
+        "matchedTracker": "world-cup-2026",
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-05-10T12:18:55.544Z",
+      "candidate": {
+        "title": "Con doblete de Santiago Sandoval, Chivas vence a Tigres y avanza a semifinales de la Liga Mx - La Jornada",
+        "url": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxOVTZHblZIQkhkck94YTBycjRFcnFITXJjOU51Y2J5dkZwSEt1WEwzSzZYT3h3TG1memo4RVJtRGlOOFd2N0FyNFc0cjBuSXVCZWNFMk1WWlhjY0ZtbmpfTF9wck45T2dkVjdXQnZuZU93QjdQSnN0UTZ5bkhFWDdMR2pOMG92S2czcWs0bWVNenNrV0VqWVAyMnlwQVNhRDRvQ0JiYlZmc1BhWWJCRy1wVTA3UEVpSE5JZi1WVVJlbVhlckdhNHJsb1V6OTlncjRweHJtVzBfOUZaSzVweTBj?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-05-10T12:18:54.688Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-05-10T12:18:55.545Z",
+      "candidate": {
+        "title": "Del recorte al ‘lo checamos el lunes’: Cronología de los dichos de Mario Delgado sobre el fin de clases - El Financiero",
+        "url": "https://news.google.com/rss/articles/CBMi6AFBVV95cUxQdXRhZGtKZFhxMDV5UEt5Q2FPaGlTdklDblZaNko0cWJTTk1UUjlHTHo5Y3N2WXNkaDNuQ3owaF9rWGs3Z0ItZG1lblNCbUNLQWpPaXlaa29UV2NnSkszUHB6S0NwMlNxdnlYbjJhUU0yWW1pYmpSSE05WnZHa29hTGQwT3FhUzFtUXJ6cjJuVU5WaEVNMG93TFlDNDB3ZHEyTm02Mm5RdzFlN0VyelJyX3loY1JfLTdwRXFBanlnV2pmRDlGOFVNYS1VSzZCci1Sb25lNHg4WVNOYi1aWmVERmwxeEQ2VjFX?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-05-10T12:18:54.688Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-05-10T12:18:55.545Z",
+      "candidate": {
+        "title": "Las ventas de Nintendo Switch 2 se disparan tras el anuncio de subida de precio hasta el punto de agotar stock y recibir restricciones en algunas tiendas - Nintenderos",
+        "url": "https://news.google.com/rss/articles/CBMimgJBVV95cUxPaGFnNkFXaDN1OEFod0xhX1IwN3BkY0VoTzJUV1laNjRLVWgtR3YwU1pLbHJlbTJfNkpIUXpjTUVYeXZ6RTFKZzIwLTUtRTQxMF9mb292V3pJdEU3aGxvbVBiejljekxhdXlHekUtZzNIdWV5SkVUNlRkQ3lVemxFa2xzQ3F0bkp2U2Z0dmdhQUhTR1B5aDN5T2tKNm5vZTFOMXV3dzBhRjNncHd1QUM2M2ROTS1xSWdvUVJSZjNpZVB6RE5fbGdmZjRlckpFaXBNbmZRTUZsZm9JdFdzOG9BSE1seGRCYTAxaXVfUlh3bFV4NUpiV09sQmhhbkxHMkZQSC1rUXRjTmpmYjBXZktmZTNKdWFJV28zalHSAZ8CQVVfeXFMTUI0Z0NaSWtadU5veXV5X0FFUmczUFA2WlRxNm9HbHAwQ05XNmlwdlhxb1VIX3dtXy16QmxPbFdqSXZBaFZyaTZqSm1wNmdic09VNll2amlMQ3lGRV9DS3pwSFc3YVdFY3ZfcVlOVWNKdjREOHV3aWhqNUxnTE8yQWU4QWlMMFl5M1VmYS1vMlhPM1BUZnljNkVVVWpKcEpsal8xVms3ZXozS3loS1JxRTB4ZGc1Qk9Xdkh4WlM0ZHMtcVl0TENEUmpFTnlGcW9iTVJ0MnJ5QUlQWlFseWI1cENWZVlocElwUVJsWWFNTGx2elFOdVpVTElvTENmZDRBNFRTZDJyR2k5eXRMNnlHQmxJeHN3TGlVcy12WjdvWG8?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-05-10T12:18:54.688Z",
+        "matchedTracker": "tlatelolco-1968",
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-05-10T12:18:55.546Z",
+      "candidate": {
+        "title": "After 24 years, the Fire have returned to Portland. The expansion Portland Fire took to the court at the city’s Moda Center, dubbed the “Fire Pit” for the occasion, for the team’s WNBA season opener against the Chicago Sky on Saturday night. ",
+        "url": "https://bsky.app/profile/apnews.com/post/3mlipjsya6y26",
+        "source": "bsky:apnews.com",
+        "timestamp": "2026-05-10T12:00:16Z",
+        "matchedTracker": "argentina",
         "feedOrigin": "bluesky",
         "sourceTier": 2
       },
