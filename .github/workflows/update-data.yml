@@ -617,6 +617,23 @@ jobs:
         if: steps.fix_agent.outcome == 'success' && steps.validate.outputs.valid == 'false'
         run: |
           git add trackers/
+          # JSON syntax check first — the fix agent has occasionally produced files
+          # with stray commas or missing punctuation. Without this gate the next
+          # block does an uncaught JSON.parse and we get a noisy stack trace
+          # instead of a clear "invalid JSON" signal.
+          invalid=0
+          for f in $(find trackers -name '*.json' -path '*/data/*' -type f ! -name 'review-manifest.json'); do
+            if ! node -e "JSON.parse(require('fs').readFileSync('$f','utf8'))" 2>/dev/null; then
+              echo "::error file=$f::Fix agent produced invalid JSON"
+              invalid=$((invalid + 1))
+            fi
+          done
+          if [ "$invalid" -gt 0 ]; then
+            echo "valid=false" >> $GITHUB_OUTPUT
+            echo "error_count=$invalid" >> $GITHUB_OUTPUT
+            echo "$invalid file(s) have invalid JSON after fix agent — aborting"
+            exit 0
+          fi
           npx tsx -e "
           import { z } from 'zod';
           import * as S from './src/lib/schemas.js';
@@ -675,8 +692,20 @@ jobs:
             steps.revalidate.outputs.valid == 'true'
           )
         run: |
-          npm run build 2>&1 | tail -20
-          echo "build_ok=true" >> $GITHUB_OUTPUT
+          # Capture exit code explicitly — piping through `tail` (the old form)
+          # masked failures because tail always exits 0, so build_ok was set even
+          # when astro build crashed.
+          set +e
+          npm run build > /tmp/build.log 2>&1
+          BUILD_EXIT=$?
+          set -e
+          tail -50 /tmp/build.log
+          if [ "$BUILD_EXIT" -eq 0 ]; then
+            echo "build_ok=true" >> $GITHUB_OUTPUT
+          else
+            echo "build_ok=false" >> $GITHUB_OUTPUT
+            echo "::error::Build failed (exit $BUILD_EXIT) — data commit will be skipped"
+          fi
         continue-on-error: true
 
       - name: Validate media URLs
@@ -1114,8 +1143,14 @@ jobs:
           git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git"
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
+          # Earlier steps (Check for changes, Re-validate after fix) run `git add trackers/`.
+          # If the data commit was skipped (validation/build gate failed) those files stay
+          # staged and would otherwise piggy-back into this metrics commit — that's how
+          # broken tracker JSON ended up tagged as `chore(metrics): ... [failure]` and
+          # silently shipped to main. Reset the index so this commit is metrics-only.
+          git reset HEAD -- . >/dev/null
           git add public/_metrics/ public/_social/
-          if git diff --cached --quiet public/_metrics/ public/_social/; then
+          if git diff --cached --quiet; then
             echo "No metrics changes"
             exit 0
           fi
