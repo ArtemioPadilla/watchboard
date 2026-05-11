@@ -41,6 +41,12 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Validate tracker data (fail fast on bad JSON/schema)
+        # Runs in ~1s. Surfaces invalid tracker data with a precise file:line
+        # annotation in the Actions UI instead of waiting ~2 min for `astro build`
+        # to crash with a vite plugin stack trace.
+        run: npm run validate-data
+
       - name: Backfill missing digests
         run: npx tsx scripts/ensure-digests.ts
 

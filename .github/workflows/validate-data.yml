@@ -1,0 +1,46 @@
+name: Validate Tracker Data
+
+# Defense in depth: every push that touches tracker JSON gets a focused
+# green/red signal in <30s, independent of the full Astro build & deploy.
+# Catches issues like missing commas, bad enum values, or schema regressions
+# at the commit that introduced them — including bot commits.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'trackers/**/data/**/*.json'
+      - 'src/lib/schemas.ts'
+      - 'scripts/validate-tracker-data.ts'
+      - '.github/workflows/validate-data.yml'
+  pull_request:
+    paths:
+      - 'trackers/**/data/**/*.json'
+      - 'src/lib/schemas.ts'
+      - 'scripts/validate-tracker-data.ts'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validate-data-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate JSON syntax + Zod schemas
+        run: npm run validate-data
