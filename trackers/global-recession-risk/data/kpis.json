@@ -87,14 +87,14 @@
   {
     "id": "us-10y-treasury-yield",
     "label": "US 10Y Treasury Yield",
-    "value": "~4.32%",
-    "color": "amber",
-    "source": "Federal Reserve H.15 / FRED DGS10, May 8 2026",
+    "value": "~4.40–4.45% (May 12 — hot CPI repricing)",
+    "color": "red",
+    "source": "Federal Reserve H.15 / FRED DGS10; CNBC May 12 2026 (post-April CPI)",
     "contested": false,
-    "delta": "-0.12pp from May 5 peak",
-    "deltaNote": "May 5: Spiked to 4.44% (highest since mid-2025). May 6: Eased to ~4.42% on oil crash. May 7: ~4.35% as ceasefire progress continued and oil fell to $100. May 8: ~4.32% after BLS April jobs report (+115K beat) — yield fell as the beat was seen as growth-supportive but not inflationary enough to force a Warsh rate hike. Directional trend shifted: 4.44% (May 5 peak) → 4.32% (May 8) as Iran ceasefire and jobs data reduced stagflation tail risk. Warsh era begins week of May 11.",
-    "trend": "down",
-    "lastUpdated": "2026-05-08T14:20:00Z"
+    "delta": "+0.08–0.13pp from May 8 close (4.32%)",
+    "deltaNote": "May 8 close: ~4.32% (post-jobs beat). May 12: Yields rose on hot April CPI print (3.8% YoY, core +0.4% MoM — highest since Jan 2025). CME FedWatch raised rate HIKE probability by year-end to ~30% — first serious hike pricing since the tightening cycle reversed. 10Y direction flipped from 'down' to rising on renewed stagflation fears. The Warsh Fed inherits an upward yield trajectory entering June 9-10 FOMC.",
+    "trend": "up",
+    "lastUpdated": "2026-05-12T13:30:00Z"
   },
   {
     "id": "us-consumer-confidence",
@@ -123,25 +123,25 @@
   {
     "id": "vix-fear-gauge",
     "label": "S&P 500 / Market Risk Gauge",
-    "value": "S&P 500 ~7,399 (May 11 Close) — Six-Week Winning Streak Continues; Warsh Cloture Vote Underway; Bessent-He Seoul Talks May 12-13",
-    "color": "green",
-    "source": "TheStreet / Times of Israel / CNBC, May 11 2026",
+    "value": "S&P 500 ~7,369 (May 12 — down ~0.4% on hot April CPI); Six-Week Streak Broken; CME Hike Odds Rise to ~30%",
+    "color": "amber",
+    "source": "24/7 Wall St / Yahoo Finance / CME FedWatch, May 12 2026",
     "contested": false,
-    "delta": "May 10: brief sell-off on Iran ceasefire fears; May 11: stabilized ~7,399 on Iran peace hopes + Warsh clarity",
-    "deltaNote": "May 10: Markets sold off as Fortune reported 'ceasefire plans going nowhere'; Brent crude bounced +2.7% to $104, WTI +2.7% to $97.97. May 11: Markets stabilized and edged up — S&P 500 ~7,399 (Times of Israel: 'record highs on US-Iran peace deal hopes'), Nasdaq ~26,247 — extending six-week streak (longest since 2024). Warsh Senate cloture vote at 5:30 PM ET May 11 (~92% confirmation probability). Bessent-He Lifeng Seoul trade talks confirmed May 12-13 (pre-Trump-Xi summit warm-up). April CPI due Tuesday May 12. RSM cut US 2026 GDP forecast to 1.7%. Recession probabilities: Goldman ~20%, JPMorgan ~25%, Moody's ~40%.",
-    "trend": "up",
-    "lastUpdated": "2026-05-11T13:58:00Z"
+    "delta": "–0.4% S&P 500 / –0.92% Nasdaq on hot April CPI (3.8% YoY); six-week winning streak ends",
+    "deltaNote": "May 12: April CPI 3.8% YoY (above estimates) triggered equity selloff — S&P 500 down ~0.4%, Nasdaq down ~0.92% (~270 pts), Dow down ~0.5% (~253 pts). CME FedWatch raised Fed HIKE probability by year-end to ~30% — first serious tightening pricing since the cycle reversed. Gold fell ~$10 to ~$4,708/oz. The prior six-week winning streak (longest since 2024, ending at ~7,399 May 11) was interrupted. Warsh Senate Governor confirmation completed May 12; Chair vote imminent May 13. Bessent-He Lifeng Seoul Day 1: 'very good' (tariff stability maintained). Oil Brent ~$105-110 (elevated on Hormuz). Trump-Xi Beijing summit May 14-15 remains the key catalyst for potential recovery.",
+    "trend": "down",
+    "lastUpdated": "2026-05-12T14:30:00Z"
   },
   {
     "id": "us-effective-tariff-rate",
     "label": "US Avg Effective Tariff Rate",
-    "value": "8.9–15% overall + 25% EU autos (May 5); Seoul Talks May 12-13",
+    "value": "8.9–15% overall + 25% EU autos; Tariff Stability Maintained (Seoul Day 1, May 12); Trump-Xi Summit May 14-15",
     "color": "red",
-    "source": "Penn Wharton / CBP CAPE Portal Apr 20; CNBC May 1 2026 (EU auto tariffs); SCMP May 11",
+    "source": "Penn Wharton / CBP CAPE Portal Apr 20; SCMP May 12 2026 (Seoul talks Day 1)",
     "contested": true,
-    "contestNote": "Section 122 baseline: 8.9% overall, 31.6% China effective rate (~37.3% effective on Chinese goods under overlapping tariff regime). CAPE portal processing $166B IEEPA refunds (~56,000 importers). 25% EU auto tariffs effective May 5. CRITICAL DEADLINE: Section 122 tariffs expire July 23, 2026 (73 days from May 11); Congressional approval required to extend. MAJOR DEVELOPMENT: Bessent-He Lifeng trade talks confirmed Seoul May 12-13 ahead of Trump-Xi summit May 14-15 — pre-summit warm-up with tariff framework on agenda. Trump 'Board of Trade' proposal emerging as key US-China managed trade mechanism.",
+    "contestNote": "Section 122 baseline: 8.9% overall, 31.6% China effective rate (~37.3% on Chinese goods under overlapping regime). Seoul Day 1 result (May 12): Both sides agreed to 'continue to maintain the stability of tariffs' — no new tariff changes in either direction. Focus on Chinese purchase commitments. China opposes Section 301 investigations targeting 16 countries. CRITICAL DEADLINE: Section 122 tariffs expire July 23, 2026 (72 days from May 12); Congressional approval required. Trump-Xi Beijing summit May 14-15 is the next potential de-escalation catalyst — 'Board of Trade' managed-trade mechanism remains the most likely institutional outcome. April CPI hot print (3.8%) reduces political room for tariff de-escalation as energy inflation already elevated.",
     "trend": "up",
-    "lastUpdated": "2026-05-11T13:58:00Z"
+    "lastUpdated": "2026-05-12T14:30:00Z"
   },
   {
     "id": "china-gdp-2025",
@@ -159,13 +159,13 @@
   {
     "id": "global-policy-uncertainty",
     "label": "Global Policy Uncertainty / Recession Risk",
-    "value": "~240–265 (elevated; May 10 Iran ceasefire fears rebounded oil to $104 Brent)",
-    "color": "amber",
-    "source": "Baker-Bloom-Davis / FRED; Wall Street research; RSM GDP forecast May 11 2026",
+    "value": "Elevated — April CPI 3.8% (May 12 BLS) Triggers Equity Selloff; CME Hike Odds Rise to ~30%; Seoul Talks 'Very Good'",
+    "color": "red",
+    "source": "BLS / CME FedWatch / CNBC / SCMP, May 12 2026",
     "contested": false,
-    "delta": "Mixed: May 10 sell-off on ceasefire stall; May 11 stabilization on Warsh clarity + Seoul talks",
-    "deltaNote": "May 11 status: (1) Warsh Senate cloture vote 5:30 PM ET May 11 (~92% probability) — if confirmed, chairs June 9-10 FOMC; (2) Bessent-He Lifeng Seoul pre-summit talks May 12-13 confirmed; (3) Trump-Xi Beijing summit May 14-15 — Iran + tariffs + rare earths on agenda; (4) April CPI due May 12 — critical inflation test; (5) Oil Brent ~$104 (May 11) — bounced from $101 on renewed ceasefire fears (Iran MOU still under Khamenei review); (6) RSM cut US 2026 GDP forecast to 1.7% (stagflation lite). Recession probabilities: Goldman ~20%, JPMorgan ~25%, Moody's ~40%. Powell expires May 15. Section 122 tariff cliff July 23 (73 days). The outcome of the May 11-15 macro window — Warsh confirmation, Trump-Xi summit, April CPI — will reset the 2026 recession trajectory.",
-    "trend": "down",
-    "lastUpdated": "2026-05-11T13:58:00Z"
+    "delta": "April CPI 3.8% YoY upside surprise — hawkish repricing; equities down ~0.4% S&P 500; hike odds 30%",
+    "deltaNote": "May 12 status: (1) APRIL CPI CONFIRMED: 3.8% YoY headline (+0.6% MoM), 2.8% YoY core (+0.4% MoM — highest since Jan 2025); energy +17.9% YoY drove headline; CME FedWatch raised Fed HIKE probability by year-end to ~30% — first serious tightening pricing; (2) Warsh confirmed as Fed GOVERNOR (14-year term) May 12; CHAIR vote expected May 13 (Powell expires May 15); (3) Seoul Day 1 Bessent-He: 'very good' — tariff stability maintained, purchase commitments focus, no deal signed; Trump-Xi Beijing summit May 14-15; (4) Oil Brent ~$105-110 (elevated Hormuz); S&P 500 down ~0.4% on hot CPI; (5) Section 122 tariff cliff July 23 (72 days). Recession probabilities: Goldman ~20%, JPMorgan ~25%, Moody's ~40%. Hot CPI deepens stagflation trap — Warsh era begins with rising hike pressure and elevated energy inflation.",
+    "trend": "up",
+    "lastUpdated": "2026-05-12T14:30:00Z"
   }
 ]
