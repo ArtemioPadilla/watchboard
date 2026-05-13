@@ -8,18 +8,94 @@
  *
  * IMPORTANT: satori requires every <div> to have explicit `display: 'flex'`.
  * The `el()` helper below enforces this constraint automatically.
+ *
+ * ARCHITECTURE NOTE — Worker isolation:
+ * @resvg/resvg-js is a native Node addon. A malformed SVG (e.g. extreme path
+ * complexity, corrupt data URIs) can trigger a native segfault (SIGSEGV) that
+ * kills the entire build process (exit code 139). To prevent a single tracker
+ * from aborting all OG image generation, `resvg.render()` is executed inside
+ * a dedicated Worker thread via `renderSvgInWorker()`. If that thread crashes
+ * or times out the main process catches the error and falls back to a minimal
+ * placeholder PNG so the build continues.
  */
 import type { APIRoute, GetStaticPaths } from 'astro';
 import satori from 'satori';
-import { Resvg } from '@resvg/resvg-js';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { Worker } from 'node:worker_threads';
 // @ts-expect-error — sharp CJS default export
 import sharp from 'sharp';
 import { loadAllTrackers } from '../../lib/tracker-registry';
 import { loadTrackerData } from '../../lib/data';
 import type { TrackerConfig } from '../../lib/tracker-config';
 import type { TrackerData } from '../../lib/data';
+
+// ── Worker-based resvg renderer ──
+// Runs @resvg/resvg-js in an isolated Worker thread so a native segfault
+// cannot kill the build process. Resolves with the PNG Buffer or rejects
+// if the worker exits abnormally or exceeds the timeout.
+const WORKER_TIMEOUT_MS = 30_000;
+
+function renderSvgInWorker(svg: string, width: number): Promise<Buffer> {
+  return new Promise((resolve, reject) => {
+    // Use process.cwd() + known src path so the .mjs is found consistently
+    // both during `astro dev` and `astro build`. The worker file is plain JS
+    // (not TypeScript) so Vite/Astro never tries to bundle or transform it.
+    const workerPath = join(process.cwd(), 'src/lib/og-render-worker.mjs');
+    const worker = new Worker(workerPath, { workerData: { svg, width } });
+
+    const timer = setTimeout(() => {
+      worker.terminate();
+      reject(new Error(`resvg worker timed out after ${WORKER_TIMEOUT_MS}ms`));
+    }, WORKER_TIMEOUT_MS);
+
+    worker.on('message', (msg: { ok: boolean; png?: Uint8Array; error?: string }) => {
+      clearTimeout(timer);
+      if (msg.ok && msg.png) {
+        resolve(Buffer.from(msg.png));
+      } else {
+        reject(new Error(msg.error ?? 'resvg worker returned error'));
+      }
+    });
+
+    worker.on('error', (err) => {
+      clearTimeout(timer);
+      reject(err);
+    });
+
+    worker.on('exit', (code) => {
+      if (code !== 0) {
+        clearTimeout(timer);
+        reject(new Error(`resvg worker exited with code ${code}`));
+      }
+    });
+  });
+}
+
+// ── Fallback PNG (minimal card, no native renderer) ──
+// Used when the resvg worker crashes. Produces a 1200x630 dark card with the
+// tracker title rendered via sharp's text overlay so the build never fails.
+async function renderFallbackPng(config: TrackerConfig): Promise<Buffer> {
+  const title = (config.shortName || config.name).slice(0, 60);
+  return sharp({
+    create: { width: WIDTH, height: HEIGHT, channels: 3, background: { r: 13, g: 17, b: 23 } },
+  })
+    .composite([
+      {
+        input: Buffer.from(
+          `<svg width="${WIDTH}" height="${HEIGHT}" xmlns="http://www.w3.org/2000/svg">` +
+            `<rect width="${WIDTH}" height="4" fill="${config.color || '#58a6ff'}"/>` +
+            `<text x="48" y="340" font-family="sans-serif" font-size="52" font-weight="bold" fill="#ffffff">${title.replace(/&/g, '&amp;').replace(/</g, '&lt;')}</text>` +
+            `<text x="48" y="400" font-family="sans-serif" font-size="28" fill="#6e7681">watchboard.dev</text>` +
+            '</svg>',
+        ),
+        top: 0,
+        left: 0,
+      },
+    ])
+    .png()
+    .toBuffer();
+}
 
 // ── Dimensions ──
 const WIDTH = 1200;
@@ -670,13 +746,16 @@ export const GET: APIRoute = async ({ props }) => {
     });
   }
 
-  const resvg = new Resvg(svg, {
-    fitTo: { mode: 'width', value: WIDTH },
-  });
-  const pngData = resvg.render();
-  const pngBuffer = pngData.asPng();
+  let pngBuffer: Buffer;
+  try {
+    pngBuffer = await renderSvgInWorker(svg, WIDTH);
+  } catch (workerErr) {
+    // Worker crashed (segfault, OOM, timeout) — fall back to a minimal solid-color PNG
+    console.warn(`[og] worker crashed for ${config.slug}, emitting fallback PNG:`, workerErr);
+    pngBuffer = await renderFallbackPng(config);
+  }
 
-  return new Response(Buffer.from(pngBuffer), {
+  return new Response(pngBuffer, {
     headers: {
       'Content-Type': 'image/png',
       'Cache-Control': 'public, max-age=86400',
