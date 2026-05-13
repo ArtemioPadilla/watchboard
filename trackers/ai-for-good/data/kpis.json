@@ -14,14 +14,14 @@
   {
     "id": "ai-flood-warning-countries",
     "label": "Countries with AI Flood Forecasting",
-    "value": "80+",
+    "value": "150+",
     "color": "blue",
-    "source": "Google Research / FloodHub",
+    "source": "Google Research / FloodHub (May 2026)",
     "contested": false,
-    "delta": "Up from 2 countries in 2018",
-    "deltaNote": "Google AI flood coverage expanded to 80+ countries reaching 460M+ people by 2024",
+    "delta": "Up from 80+ countries in 2024, 2 countries in 2018",
+    "deltaNote": "Google Groundsource AI (powered by Gemini, trained on 2.6M geo-tagged flood reports) now covers 150+ countries reaching 700M+ people with urban flash flood warnings",
     "trend": "up",
-    "lastUpdated": "2026-04-13"
+    "lastUpdated": "2026-05-13"
   },
   {
     "id": "ai-tb-detection-accuracy",
@@ -47,13 +47,13 @@
   {
     "id": "ai-early-warning-people",
     "label": "People Covered by AI Early Warning",
-    "value": "460M+",
+    "value": "700M+",
     "color": "amber",
-    "source": "UNDRR / Google FloodHub / WMO",
+    "source": "UNDRR / Google FloodHub / WMO (May 2026)",
     "contested": true,
-    "contestNote": "Coverage does not guarantee adequate last-mile dissemination or response capacity in all communities",
+    "contestNote": "Coverage does not guarantee adequate last-mile dissemination or response capacity in all communities; Flood Hub 700M figure is Google's estimate for Groundsource system rollout",
     "trend": "up",
-    "lastUpdated": "2026-04-13"
+    "lastUpdated": "2026-05-13"
   },
   {
     "id": "ai-accessibility-users",
@@ -111,5 +111,17 @@
     "deltaNote": "Arizona, California, Colorado, Oregon, Washington, and 12 others; international deployment in Australia and Canada as well",
     "trend": "up",
     "lastUpdated": "2026-05-06"
+  },
+  {
+    "id": "ai-drug-discovery-market-size",
+    "label": "AI Drug Discovery Market Size",
+    "value": "$1.13B",
+    "color": "green",
+    "source": "Research and Markets / GlobeNewswire (May 2026)",
+    "contested": false,
+    "delta": "Projected $2.29B by 2031; Eli Lilly $2.75B Insilico deal largest single partnership to date",
+    "deltaNote": "Major pharma deploying dedicated AI infrastructure: Eli Lilly 'LillyPod' (1,016 NVIDIA Blackwell GPUs), Pfizer AI screening 30-day compound identification",
+    "trend": "up",
+    "lastUpdated": "2026-05-13"
   }
 ]

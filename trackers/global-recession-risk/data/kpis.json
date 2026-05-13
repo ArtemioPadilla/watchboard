@@ -87,14 +87,14 @@
   {
     "id": "us-10y-treasury-yield",
     "label": "US 10Y Treasury Yield",
-    "value": "~4.40–4.45% (May 12 — hot CPI repricing)",
+    "value": "~4.50–4.55% (May 13 — double inflation shock: CPI 3.8% + PPI 6.0%)",
     "color": "red",
-    "source": "Federal Reserve H.15 / FRED DGS10; CNBC May 12 2026 (post-April CPI)",
+    "source": "Federal Reserve H.15 / FRED DGS10; CME FedWatch, May 13 2026 (post-April PPI)",
     "contested": false,
-    "delta": "+0.08–0.13pp from May 8 close (4.32%)",
-    "deltaNote": "May 8 close: ~4.32% (post-jobs beat). May 12: Yields rose on hot April CPI print (3.8% YoY, core +0.4% MoM — highest since Jan 2025). CME FedWatch raised rate HIKE probability by year-end to ~30% — first serious hike pricing since the tightening cycle reversed. 10Y direction flipped from 'down' to rising on renewed stagflation fears. The Warsh Fed inherits an upward yield trajectory entering June 9-10 FOMC.",
+    "delta": "+0.18–0.23pp from May 8 close (4.32%); two-day hawkish repricing",
+    "deltaNote": "May 8 close: ~4.32%. May 12: Rose to ~4.40–4.45% on hot April CPI (3.8% YoY). May 13: Continued higher to ~4.50–4.55% after April PPI +6.0% YoY (hottest since Dec 2022) — second consecutive upside inflation shock. CME FedWatch: ~30% probability of Fed rate HIKE by year-end (raised on May 12 CPI). The Warsh Fed inherits an upward yield trajectory; June 9-10 FOMC press conference will be closely watched for balance-sheet reduction and forward guidance signals. PPI leading indicator: +6.0% YoY PPI implies persistent CPI upward pressure through May-June.",
     "trend": "up",
-    "lastUpdated": "2026-05-12T13:30:00Z"
+    "lastUpdated": "2026-05-13T14:35:22Z"
   },
   {
     "id": "us-consumer-confidence",
@@ -123,25 +123,25 @@
   {
     "id": "vix-fear-gauge",
     "label": "S&P 500 / Market Risk Gauge",
-    "value": "S&P 500 ~7,369 (May 12 — down ~0.4% on hot April CPI); Six-Week Streak Broken; CME Hike Odds Rise to ~30%",
+    "value": "S&P 500 ~7,400.96 (May 13 — –0.16% on hot PPI); Nasdaq –0.71%; CME Hike Odds ~30%; Warsh Confirmed Fed Chair",
     "color": "amber",
-    "source": "24/7 Wall St / Yahoo Finance / CME FedWatch, May 12 2026",
+    "source": "24/7 Wall St / Yahoo Finance / CME FedWatch, May 13 2026",
     "contested": false,
-    "delta": "–0.4% S&P 500 / –0.92% Nasdaq on hot April CPI (3.8% YoY); six-week winning streak ends",
-    "deltaNote": "May 12: April CPI 3.8% YoY (above estimates) triggered equity selloff — S&P 500 down ~0.4%, Nasdaq down ~0.92% (~270 pts), Dow down ~0.5% (~253 pts). CME FedWatch raised Fed HIKE probability by year-end to ~30% — first serious tightening pricing since the cycle reversed. Gold fell ~$10 to ~$4,708/oz. The prior six-week winning streak (longest since 2024, ending at ~7,399 May 11) was interrupted. Warsh Senate Governor confirmation completed May 12; Chair vote imminent May 13. Bessent-He Lifeng Seoul Day 1: 'very good' (tariff stability maintained). Oil Brent ~$105-110 (elevated on Hormuz). Trump-Xi Beijing summit May 14-15 remains the key catalyst for potential recovery.",
+    "delta": "–0.16% S&P 500 / –0.71% Nasdaq on April PPI +6.0% YoY (hottest since Dec 2022); double inflation shock week",
+    "deltaNote": "May 13: April PPI +6.0% YoY / +1.4% MoM (vs +0.5% estimate — nearly 3x) delivered second consecutive day of hot inflation following April CPI 3.8% YoY (May 12). S&P 500: ~7,400.96 (–0.16%), Nasdaq: down ~–0.71%, Dow: +0.11% (mixed). Markets resilient despite double inflation shock as investors partially priced in stagflation after May 12 CPI. KEY May 13 events: (1) Senate confirmed Kevin Warsh as Fed Chair — Powell era ends May 15; (2) Trump arrived Beijing with CEO delegation ahead of Trump-Xi summit May 14-15; (3) Seoul Day 2 Bessent-He Lifeng: 'candid, in-depth, constructive' — $30B managed trade framework confirmed for summit. CME hike odds remain ~30% by year-end. 10Y treasury yield: ~4.50–4.55% (up from 4.32% on May 8).",
     "trend": "down",
-    "lastUpdated": "2026-05-12T14:30:00Z"
+    "lastUpdated": "2026-05-13T14:35:22Z"
   },
   {
     "id": "us-effective-tariff-rate",
     "label": "US Avg Effective Tariff Rate",
-    "value": "8.9–15% overall + 25% EU autos; Tariff Stability Maintained (Seoul Day 1, May 12); Trump-Xi Summit May 14-15",
+    "value": "8.9–15% overall + 25% EU autos; $30B Managed Trade Framework Confirmed for Trump-Xi Summit (Seoul Day 2, May 13)",
     "color": "red",
-    "source": "Penn Wharton / CBP CAPE Portal Apr 20; SCMP May 12 2026 (Seoul talks Day 1)",
+    "source": "Penn Wharton / CBP CAPE Portal Apr 20; U.S. News / Xinhua May 13 2026 (Seoul Day 2 + $30B framework)",
     "contested": true,
-    "contestNote": "Section 122 baseline: 8.9% overall, 31.6% China effective rate (~37.3% on Chinese goods under overlapping regime). Seoul Day 1 result (May 12): Both sides agreed to 'continue to maintain the stability of tariffs' — no new tariff changes in either direction. Focus on Chinese purchase commitments. China opposes Section 301 investigations targeting 16 countries. CRITICAL DEADLINE: Section 122 tariffs expire July 23, 2026 (72 days from May 12); Congressional approval required. Trump-Xi Beijing summit May 14-15 is the next potential de-escalation catalyst — 'Board of Trade' managed-trade mechanism remains the most likely institutional outcome. April CPI hot print (3.8%) reduces political room for tariff de-escalation as energy inflation already elevated.",
+    "contestNote": "Section 122 baseline: 8.9% overall, 31.6% China effective rate (~37.3% on Chinese goods under overlapping regime). Seoul Day 2 (May 13): Xinhua — 'candid, in-depth, constructive' exchanges. $30B-for-$30B reciprocal tariff reduction confirmed as summit deliverable — symmetric managed-trade exchange on non-sensitive goods. 'Board of Trade' standing bilateral body as institutional vehicle. Additional deliverables: Chinese purchase commitments (Boeing, soybeans, energy) + critical minerals cooperation deal. CRITICAL DEADLINE: Section 122 tariffs expire July 23, 2026 (71 days from May 13); Congressional approval required. Trump-Xi summit begins May 14 in Beijing — tariff de-escalation + Iran top agenda. April PPI +6.0% YoY (May 13) paradoxically reduces political room for tariff cuts as producers inflation record-high.",
     "trend": "up",
-    "lastUpdated": "2026-05-12T14:30:00Z"
+    "lastUpdated": "2026-05-13T14:35:22Z"
   },
   {
     "id": "china-gdp-2025",
@@ -159,13 +159,13 @@
   {
     "id": "global-policy-uncertainty",
     "label": "Global Policy Uncertainty / Recession Risk",
-    "value": "Elevated — April CPI 3.8% (May 12 BLS) Triggers Equity Selloff; CME Hike Odds Rise to ~30%; Seoul Talks 'Very Good'",
+    "value": "Elevated — April PPI +6.0% YoY (May 13 BLS) + Warsh Confirmed Fed Chair; $30B Managed Trade Framework Confirmed; Trump-Xi Summit Begins May 14",
     "color": "red",
-    "source": "BLS / CME FedWatch / CNBC / SCMP, May 12 2026",
+    "source": "BLS / CME FedWatch / CNBC / U.S. News / The Hill, May 13 2026",
     "contested": false,
-    "delta": "April CPI 3.8% YoY upside surprise — hawkish repricing; equities down ~0.4% S&P 500; hike odds 30%",
-    "deltaNote": "May 12 status: (1) APRIL CPI CONFIRMED: 3.8% YoY headline (+0.6% MoM), 2.8% YoY core (+0.4% MoM — highest since Jan 2025); energy +17.9% YoY drove headline; CME FedWatch raised Fed HIKE probability by year-end to ~30% — first serious tightening pricing; (2) Warsh confirmed as Fed GOVERNOR (14-year term) May 12; CHAIR vote expected May 13 (Powell expires May 15); (3) Seoul Day 1 Bessent-He: 'very good' — tariff stability maintained, purchase commitments focus, no deal signed; Trump-Xi Beijing summit May 14-15; (4) Oil Brent ~$105-110 (elevated Hormuz); S&P 500 down ~0.4% on hot CPI; (5) Section 122 tariff cliff July 23 (72 days). Recession probabilities: Goldman ~20%, JPMorgan ~25%, Moody's ~40%. Hot CPI deepens stagflation trap — Warsh era begins with rising hike pressure and elevated energy inflation.",
+    "delta": "DOUBLE INFLATION SHOCK: April CPI 3.8% (May 12) + April PPI +6.0% (May 13) — hottest since Dec 2022; CME hike odds ~30%",
+    "deltaNote": "May 13 status: (1) APRIL PPI +6.0% YoY (hottest since Dec 2022): +1.4% MoM (vs +0.5% est), core +1.0% MoM (vs +0.4% est) — second consecutive day of hot inflation data following April CPI 3.8% (May 12); (2) WARSH CONFIRMED AS FED CHAIR by Senate May 13 — Powell era ends May 15; first Warsh FOMC June 9-10 with stagflation inheritance: CPI 3.8%, PPI 6.0%, core PCE 3.2%; (3) SEOUL DAY 2: 'Candid, in-depth, constructive' (Xinhua) — $30B-for-$30B reciprocal managed trade reduction confirmed as Trump-Xi summit deliverable; critical minerals deal + Chinese purchase commitments also on agenda; (4) Trump arrives Beijing with CEO delegation — summit begins May 14; Iran (Hormuz), tariffs, rare earths top agenda; (5) S&P 500 ~7,401 (-0.16%), Nasdaq -0.71% on PPI; 10Y yield ~4.50-4.55%; (6) Section 122 cliff July 23 (71 days). Recession probabilities: Goldman ~20%, JPMorgan ~25%, Moody's ~40%. Stagflation trap deepest since Iran war began — two consecutive record-setting inflation prints entering the most important US-China diplomatic summit of 2026.",
     "trend": "up",
-    "lastUpdated": "2026-05-12T14:30:00Z"
+    "lastUpdated": "2026-05-13T14:35:22Z"
   }
 ]

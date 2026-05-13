@@ -90,13 +90,24 @@
   {
     "id": "us-10y-treasury-yield",
     "label": "US 10Y Treasury Yield",
-    "value": "~4.32%",
-    "change": "-0.12pp from May 5 peak (4.44%) — easing as oil crash + jobs beat reduce stagflation tail risk",
-    "direction": "down",
-    "sparkData": [2.8, 4.0, 4.7, 4.4, 4.3, 4.2, 4.0, 4.44, 4.32],
-    "color": "amber",
-    "source": "Federal Reserve H.15 / FRED DGS10, May 8 2026 (post-BLS jobs report)",
-    "lastUpdated": "2026-05-08T14:20:00Z"
+    "value": "~4.50–4.55% (May 13 — double inflation shock repricing)",
+    "change": "+0.18–0.23pp from May 8 close (4.32%) — consecutive CPI (+3.8% May 12) and PPI (+6.0% May 13) hot prints drive hawkish repricing; CME hike odds ~30%",
+    "direction": "up",
+    "sparkData": [2.8, 4.0, 4.7, 4.4, 4.3, 4.2, 4.0, 4.32, 4.52],
+    "color": "red",
+    "source": "Federal Reserve H.15 / FRED DGS10 / CME FedWatch, May 13 2026 (post-PPI)",
+    "lastUpdated": "2026-05-13T14:35:22Z"
+  },
+  {
+    "id": "us-ppi-yoy-april-2026",
+    "label": "US PPI (Year-over-Year)",
+    "value": "+6.0% (April 2026) — hottest since Dec 2022",
+    "change": "+1.4% MoM (vs +0.5% forecast — nearly 3x estimate); Core +1.0% MoM (vs +0.4% estimate); follows April CPI 3.8% released May 12 — two consecutive days of inflation shock",
+    "direction": "up",
+    "sparkData": [11.7, 6.3, 3.0, 2.0, 2.2, 2.5, 3.0, 4.2, 6.0],
+    "color": "red",
+    "source": "BLS PPI Release, April 2026 (released May 13, 2026)",
+    "lastUpdated": "2026-05-13T14:35:22Z"
   },
   {
     "id": "wti-crude-oil",

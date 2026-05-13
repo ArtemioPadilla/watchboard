@@ -210,6 +210,20 @@
     "lastUpdated": "2026-04-20"
   },
   {
+    "id": "ai-co-clinician-primary-care-readiness",
+    "question": "Is AI now ready to assist in primary care clinical decision-making, or does deployment risk patient harm?",
+    "sideA": {
+      "label": "Evidence Supports Supervised Deployment",
+      "text": "Google DeepMind's May 2026 AI co-clinician study found the system matched or outperformed primary care physicians in 68 of 140 clinical areas and achieved zero critical errors in 97 of 98 realistic queries. This follows Harvard Medical School's Science publication showing OpenAI o1 outperforming ER physicians in diagnostic accuracy (67% vs. 56%). With a WHO-projected 10 million health worker shortfall by 2030 and hundreds of millions of people in LMICs who have no primary care access, these results suggest supervised AI clinical assistance could extend healthcare reach to populations currently without meaningful access. The 'triadic care' model — AI assisting both patients and clinicians — is explicitly not replacing physicians but extending their effective capacity."
+    },
+    "sideB": {
+      "label": "Simulation Does Not Equal Clinical Reality",
+      "text": "Randomized crossover simulations using hypothetical encounters are controlled research conditions that differ significantly from real-world clinical practice. AI models optimized to perform well on benchmark queries may fail unpredictably on atypical presentations, rare conditions, communication-dependent assessments, or patients with multiple comorbidities. The 3 of 98 queries where critical errors occurred represent a 3% rate that, at healthcare scale, would mean millions of potential errors. WHO and major medical associations have called for full clinical trials with real patient outcomes before deploying AI in primary care decision support. 'Zero harm in simulation' does not translate to 'zero harm in deployment.'"
+    },
+    "resolution": "The convergence of high-performance AI clinical benchmarks (DeepMind co-clinician, Harvard/OpenAI diagnostic study) and the global health worker shortage creates genuine pressure toward supervised AI clinical deployment. However, medical consensus requires prospective clinical trials measuring real patient outcomes — not benchmark simulations — before AI systems assist in binding clinical decisions. The regulatory pathway (EU AI Act, FDA SaMD framework, WHO AI health guidance) requires this evidence. The most responsible near-term application is AI-assisted triage and clinical documentation in settings with physician oversight — not autonomous primary care AI.",
+    "lastUpdated": "2026-05-13"
+  },
+  {
     "id": "ai-regulation-innovation-balance",
     "question": "Should AI for beneficial applications be regulated differently from high-risk AI to preserve innovation?",
     "sideA": {
