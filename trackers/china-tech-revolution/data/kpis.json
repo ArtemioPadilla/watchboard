@@ -140,14 +140,14 @@
   },
   {
     "id": "nvidia-h200-china-sales-status",
-    "label": "Nvidia H200 Chips Sold to China (Apr 23, 2026)",
-    "value": "0 units",
+    "label": "Nvidia H200 Chips Delivered to China (May 14, 2026)",
+    "value": "0 units delivered",
     "color": "red",
-    "source": "US Commerce Secretary Lutnick / Senate Appropriations Committee (Apr 23, 2026)",
+    "source": "US Commerce Dept / CNBC (May 14, 2026)",
     "contested": false,
-    "delta": "Despite Jan 2026 conditional approval; China choosing Huawei Ascend over H200 domestically",
+    "delta": "Cleared for ~10 Chinese firms (Alibaba, Tencent, ByteDance, JD.com) at May 14 summit; China refuses purchases, steering firms to domestic Huawei Ascend per Beijing guidance; SAMR suspended antitrust probes into Nvidia/Qualcomm/Intel as negotiating leverage",
     "trend": "down",
-    "lastUpdated": "2026-04-23T14:45:00.000Z"
+    "lastUpdated": "2026-05-14T15:04:31Z"
   },
   {
     "id": "us-chips-act-allocated",
@@ -173,14 +173,14 @@
   },
   {
     "id": "us-china-tariff-rate-apr2026",
-    "label": "US Tariff Rate on Chinese Imports (Apr 2026)",
-    "value": "145% (20% for electronics)",
-    "color": "red",
-    "source": "US Trade Representative / CBP Notice (Apr 11, 2026)",
+    "label": "US Tariff Rate on Chinese Imports (May 12, 2026 Trade Truce)",
+    "value": "30% baseline / 20% electronics",
+    "color": "amber",
+    "source": "US Trade Representative / May 12, 2026 US-China Trade Truce",
     "contested": false,
-    "delta": "Phones, computers, chips exempt from 145% reciprocal tariff; still at 20% fentanyl tariff. China at 125% on US goods (eff. Apr 12). Lutnick: exemptions 'short-lived'",
-    "trend": "up",
-    "lastUpdated": "2026-04-12T00:00:00Z"
+    "delta": "Down from 145% via May 12 trade truce: US applies 30% on most Chinese goods; electronics remain at 20% fentanyl tariff. China's tariff on US goods fell from 125% to 10%. Semiconductor sectoral tariffs still pending per Lutnick. China SAMR suspended antitrust probes against Nvidia, Qualcomm, Intel pending summit outcome.",
+    "trend": "down",
+    "lastUpdated": "2026-05-14T15:04:31Z"
   },
   {
     "id": "china-us-ai-arena-gap-2026",
@@ -291,5 +291,27 @@
     "delta": "2x beat on consensus (+7.1% / +16.1% forecasts); AI hardware & semiconductors ~50% of export growth (Goldman Sachs / Nomura); Bloomberg: China earns $500M/hour from AI-supercharged exports",
     "trend": "up",
     "lastUpdated": "2026-05-12T15:33:17Z"
+  },
+  {
+    "id": "alibaba-q1-2026-ai-operating-loss",
+    "label": "Alibaba Q1 2026 Operating Result",
+    "value": "First operating loss since 2021 crackdown",
+    "color": "amber",
+    "source": "Bloomberg / Alibaba Q1 2026 Earnings (May 13, 2026)",
+    "contested": false,
+    "delta": "Revenue missed consensus; CEO Eddie Wu pledges 'far, far' more AI spending; cloud/AI margins compressed by Huawei Cloud and ByteDance Volcano Engine competition; loss signals Chinese Big Tech prioritizing AI dominance over near-term profitability",
+    "trend": "down",
+    "lastUpdated": "2026-05-14T15:04:31Z"
+  },
+  {
+    "id": "us-china-ai-safety-dialogue-may14",
+    "label": "US-China AI Safety Dialogue — May 14, 2026 Summit",
+    "value": "Formal framework announced",
+    "color": "blue",
+    "source": "CNBC / Treasury Secretary Bessent (May 14, 2026)",
+    "contested": false,
+    "delta": "Bessent: 'We are in the lead in AI' — US-China will begin talks on AI guardrails, best practices, and governance. First institutionalized AI safety dialogue under Trump administration. Xi pledged China will 'open wider' to foreign tech business. China SAMR suspended antitrust probes against Nvidia, Qualcomm, Intel pending summit outcome.",
+    "trend": "up",
+    "lastUpdated": "2026-05-14T15:04:31Z"
   }
 ]
