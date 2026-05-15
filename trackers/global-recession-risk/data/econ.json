@@ -167,13 +167,13 @@
   {
     "id": "shiller-cape-ratio",
     "label": "S&P 500 Shiller CAPE Ratio",
-    "value": "~39.5 (May 14 — S&P 500 record 7,444.25; Nasdaq record 26,402)",
-    "change": "S&P 500 7,444.25 NEW RECORD (+0.5% May 14); Nasdaq 26,402.34 (+1.2%); CAPE ~39.5 — ~132% above historical mean ~17; Warsh era begins May 15",
-    "direction": "up",
-    "sparkData": [27, 30, 28, 32, 36, 38, 37, 38.5, 39.5],
+    "value": "~38.9–39.0 (May 15 — Post-Summit Sell-Off; S&P 500 -0.9% from ATH; Still ~130% Above Historical Mean)",
+    "change": "May 15 sell-off: S&P 500 -0.9% (from ~7,500 ATH May 14 to ~7,432); Nasdaq -1.3%; CAPE ~38.9-39.0 — still deeply elevated ~130% above historical mean ~17; summit 'meagre' outcomes did not resolve valuation risk",
+    "direction": "down",
+    "sparkData": [27, 30, 28, 32, 36, 38, 37, 39.5, 38.9],
     "color": "red",
-    "source": "Yahoo Finance / CNBC; S&P 500 record close 7,444.25 (May 14, 2026); Trump-Xi summit Day 1 tech rally",
-    "lastUpdated": "2026-05-14T20:00:00Z"
+    "source": "247 Wall St / CNBC / Bloomberg; May 15 2026 summit sell-off; Warsh era begins",
+    "lastUpdated": "2026-05-15T14:00:00Z"
   },
   {
     "id": "ism-services-pmi-april-2026",
@@ -196,5 +196,16 @@
     "color": "red",
     "source": "Reserve Bank of Australia, May 2026 decision (released May 2026)",
     "lastUpdated": "2026-05-06T21:00:00Z"
+  },
+  {
+    "id": "us-retail-sales-april-2026",
+    "label": "US Retail Sales (April 2026)",
+    "value": "$757.1B — +0.5% MoM / +4.9% YoY (Consumer Holding Despite Record-Low Sentiment)",
+    "change": "+0.5% MoM from March; +4.9% YoY (above headline inflation — real consumer spending positive); Nonstore retailers +11.1% YoY; retail trade +5.2% YoY",
+    "direction": "up",
+    "sparkData": [0.6, 0.3, -0.3, 0.7, 0.5, -0.2, 0.4, 0.4, 0.5],
+    "color": "green",
+    "source": "US Census Bureau Advance Monthly Retail Trade Survey, April 2026 (released May 15, 2026)",
+    "lastUpdated": "2026-05-15T14:00:00Z"
   }
 ]
