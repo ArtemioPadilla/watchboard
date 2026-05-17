@@ -12,9 +12,11 @@ interface IntroProps {
   date: string;
   theme?: 'dark' | 'day';
   style?: Partial<IntroStyle>;
+  titleOverride?: string;
+  subtitleOverride?: string;
 }
 
-export const Intro: React.FC<IntroProps> = ({ date, theme = 'dark', style }) => {
+export const Intro: React.FC<IntroProps> = ({ date, theme = 'dark', style, titleOverride, subtitleOverride }) => {
   const I: IntroStyle = { ...DEFAULT_INTRO_STYLE, ...(style || {}) };
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -93,6 +95,26 @@ export const Intro: React.FC<IntroProps> = ({ date, theme = 'dark', style }) => 
         WATCHBOARD
       </div>
 
+      {/* Artist / series title — shown when titleOverride is set */}
+      {titleOverride && (
+        <div
+          style={{
+            opacity: logoOpacity,
+            transform: `scale(${logoScale})`,
+            fontFamily: "'Inter', 'Helvetica Neue', sans-serif",
+            fontSize: 52,
+            fontWeight: 800,
+            color: theme === 'day' ? '#f0a500' : '#e74c3c',
+            letterSpacing: 6,
+            textTransform: 'uppercase',
+            marginTop: 8,
+            marginBottom: 4,
+          }}
+        >
+          {titleOverride}
+        </div>
+      )}
+
       {/* Red accent line */}
       <div
         style={{
@@ -119,7 +141,7 @@ export const Intro: React.FC<IntroProps> = ({ date, theme = 'dark', style }) => 
           marginBottom: I.subtitleMarginBottom,
         }}
       >
-        {theme === 'day' ? I.subtitleTextDay : I.subtitleTextDark}
+        {theme === 'day' ? (subtitleOverride ?? I.subtitleTextDay) : (subtitleOverride ?? I.subtitleTextDark)}
       </div>
 
       {/* Date */}

@@ -11,6 +11,7 @@ import { Background } from './components/Background';
 import { CanvasGlobe } from './components/CanvasGlobe';
 import { Intro } from './components/Intro';
 import { TrackerSlide } from './components/TrackerSlide';
+import { TimelineSlide } from './components/TimelineSlide';
 import { Outro } from './components/Outro';
 import type { BreakingData, GeoFeature } from './data/types';
 import { SLIDE_ACCENTS, SAMPLE_DATA } from './data/types';
@@ -122,12 +123,19 @@ export const Video: React.FC<VideoProps> = ({ data, narrationSrc, geoFeatures = 
 
       {/* Intro */}
       <Sequence from={0} durationInFrames={INTRO_FRAMES} name="Intro">
-        <Intro date={breakingData.date} theme={theme} style={introStyle} />
+        <Intro
+          date={breakingData.date}
+          theme={theme}
+          style={introStyle}
+          titleOverride={breakingData.title}
+          subtitleOverride={breakingData.subtitle}
+        />
       </Sequence>
 
-      {/* Tracker slides — always use TrackerSlide, pass thumbnail when available */}
+      {/* Tracker slides — use TimelineSlide for map-disabled trackers, TrackerSlide otherwise */}
       {trackers.map((tracker, i) => {
         const slideStart = INTRO_FRAMES + i * SLIDE_FRAMES;
+        const useTimeline = tracker.mapEnabled === false && tracker.events && tracker.events.length > 0;
         return (
           <Sequence
             key={tracker.slug}
@@ -135,13 +143,21 @@ export const Video: React.FC<VideoProps> = ({ data, narrationSrc, geoFeatures = 
             durationInFrames={SLIDE_FRAMES}
             name={`Tracker: ${tracker.name}`}
           >
-            <TrackerSlide
-              tracker={tracker}
-              accentColor={accents[i % accents.length]}
-              thumbnailBase64={tracker.thumbnailBase64}
-              theme={theme}
-              style={slideStyle}
-            />
+            {useTimeline ? (
+              <TimelineSlide
+                tracker={tracker}
+                accentColor={accents[i % accents.length]}
+                theme={theme}
+              />
+            ) : (
+              <TrackerSlide
+                tracker={tracker}
+                accentColor={accents[i % accents.length]}
+                thumbnailBase64={tracker.thumbnailBase64}
+                theme={theme}
+                style={slideStyle}
+              />
+            )}
           </Sequence>
         );
       })}

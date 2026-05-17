@@ -73,10 +73,10 @@ const EARTH_TEXTURE_DARK = [
 ];
 
 const EARTH_TEXTURE_DAY = [
-  resolve(ROOT_DIR, '../public/textures/earth-clouds-nasa-2k.jpg'),  // Variante C — NASA clouds (selected)
-  resolve(ROOT_DIR, '../public/textures/earth-solar-2k.jpg'),
-  resolve(ROOT_DIR, '../public/textures/earth-day-4k.jpg'),
+  resolve(ROOT_DIR, '../public/textures/earth-day-4k.jpg'),          // 4K — best quality
   resolve(ROOT_DIR, '../public/textures/earth-day-atmos-2k.jpg'),
+  resolve(ROOT_DIR, '../public/textures/earth-clouds-nasa-2k.jpg'),
+  resolve(ROOT_DIR, '../public/textures/earth-solar-2k.jpg'),
 ];
 
 async function downloadThumbnail(url: string, allowHtmlExtraction = true): Promise<Buffer | null> {
@@ -138,26 +138,30 @@ async function main(): Promise<void> {
   console.log('[1/4] Fetching breaking data...');
   let data: BreakingData;
   const dryRunFlag = dryRun ? ' --dry-run' : '';
+  const skipFetch = process.env.SKIP_FETCH === '1';
   try {
-    execSync(`npx tsx src/data/fetch-breaking.ts${dryRunFlag}`, {
-      cwd: ROOT_DIR,
-      stdio: 'inherit',
-      env: { ...process.env, VIDEO_MODE: mode },
-    });
+    if (skipFetch && existsSync(DATA_PATH)) {
+      console.log('  SKIP_FETCH=1 — using existing breaking.json');
+      data = JSON.parse(readFileSync(DATA_PATH, 'utf-8'));
+    } else {
+      execSync(`npx tsx src/data/fetch-breaking.ts${dryRunFlag}`, {
+        cwd: ROOT_DIR,
+        stdio: 'inherit',
+        env: { ...process.env, VIDEO_MODE: mode },
+      });
 
-    if (dryRun) {
-      // In dry-run mode, fetch-breaking.ts prints scores but may not write the file.
-      // Read the data if available, otherwise use sample for the summary.
-      if (existsSync(DATA_PATH)) {
-        data = JSON.parse(readFileSync(DATA_PATH, 'utf-8'));
-      } else {
-        data = SAMPLE_DATA;
+      if (dryRun) {
+        if (existsSync(DATA_PATH)) {
+          data = JSON.parse(readFileSync(DATA_PATH, 'utf-8'));
+        } else {
+          data = SAMPLE_DATA;
+        }
+        console.log('\nDry-run complete. No video rendered.');
+        return;
       }
-      console.log('\nDry-run complete. No video rendered.');
-      return;
-    }
 
-    data = JSON.parse(readFileSync(DATA_PATH, 'utf-8'));
+      data = JSON.parse(readFileSync(DATA_PATH, 'utf-8'));
+    }
   } catch (err) {
     console.warn('  Failed to fetch breaking data — using sample data:', (err as Error).message);
     data = SAMPLE_DATA;

@@ -153,6 +153,7 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
   const displayName = stripEmoji(safeName).toUpperCase();
   const displayHeadline = smartTruncate(safeHeadline, 150);
   const kpiDisplay = `${tracker.kpiPrefix ?? ''}${safeKpiValue}${tracker.kpiSuffix ?? ''}`;
+  const seriesLabel = tracker.seriesLabel ?? null;
 
   // Determine chevron direction from kpiPrefix or kpiSuffix
   const hasUpTrend = (tracker.kpiPrefix ?? '').includes('+') || (tracker.kpiPrefix ?? '').includes('\u2191');
@@ -183,34 +184,53 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
             transform: `scale(${imageScale}) translateY(${imageY}px)`,
           }}
         >
-          <div
-            style={{
-              width: S.imageCard.width,
-              maxHeight: S.imageCard.maxHeight,
-              borderRadius: S.imageCard.borderRadius,
-              border: `${S.imageCard.borderWidthPx}px solid ${accentColor}`,
-              boxShadow: `0 0 20px ${alpha(accentColor, S.imageCard.glowOpacity)}, 0 4px ${S.imageCard.shadowBlur}px rgba(0,0,0,0.6)`,
-              overflow: 'hidden',
-            }}
-          >
-            <Img
-              src={thumbnailBase64}
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                display: 'block',
-              }}
-            />
-          </div>
+          {(() => {
+            const cardW = S.imageCard.width;
+            // If we have the aspect ratio, derive exact height — no black bars
+            const cardH = tracker.thumbnailAspectRatio
+              ? Math.round(cardW / tracker.thumbnailAspectRatio)
+              : S.imageCard.maxHeight;
+            return (
+              <div
+                style={{
+                  width: cardW,
+                  height: cardH,
+                  borderRadius: S.imageCard.borderRadius,
+                  border: `${S.imageCard.borderWidthPx}px solid ${accentColor}`,
+                  boxShadow: `0 0 20px ${alpha(accentColor, S.imageCard.glowOpacity)}, 0 4px ${S.imageCard.shadowBlur}px rgba(0,0,0,0.6)`,
+                  overflow: 'hidden',
+                }}
+              >
+                <Img
+                  src={thumbnailBase64}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    display: 'block',
+                  }}
+                />
+              </div>
+            );
+          })()}
         </div>
       )}
 
-      {/* Text content — positioned in bottom portion */}
+      {/* Text content — positioned below image card dynamically */}
       <div
         style={{
           position: 'absolute',
-          top: thumbnailBase64 ? `${S.textBlock.topPctWithThumb}%` : `${S.textBlock.topPctNoThumb}%`,
+          top: thumbnailBase64
+            ? (() => {
+                const cardW = S.imageCard.width;
+                const cardH = tracker.thumbnailAspectRatio
+                  ? Math.round(cardW / tracker.thumbnailAspectRatio)
+                  : S.imageCard.maxHeight;
+                const cardTopPx = (S.imageCard.topPct / 100) * 1920;
+                const textTopPx = cardTopPx + cardH + 24;
+                return `${textTopPx}px`;
+              })()
+            : `${S.textBlock.topPctNoThumb}%`,
           left: 0,
           right: 0,
           bottom: 0,
@@ -233,6 +253,23 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
             marginBottom: S.trackerName.blockMarginBottom,
           }}
         >
+          {/* Series label (e.g. BTS) above tracker name */}
+          {seriesLabel && (
+            <div
+              style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: 22,
+                fontWeight: 700,
+                color: accentColor,
+                letterSpacing: 6,
+                textTransform: 'uppercase',
+                opacity: 0.75,
+                marginBottom: 4,
+              }}
+            >
+              {seriesLabel}
+            </div>
+          )}
           <div
             style={{
               fontFamily: S.trackerName.fontFamily,
