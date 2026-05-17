@@ -12,9 +12,15 @@ interface IntroProps {
   date: string;
   theme?: 'dark' | 'day';
   style?: Partial<IntroStyle>;
+  titleOverride?: string;
+  subtitleOverride?: string;
 }
 
-export const Intro: React.FC<IntroProps> = ({ date, theme = 'dark', style }) => {
+export const Intro: React.FC<IntroProps> = ({ date, theme = 'dark', style, titleOverride, subtitleOverride }) => {
+  // Keeps both sides of the conflict: the branch's new title/subtitle overrides,
+  // and main's mergeStyle helper (#158). mergeStyle deep-merges and skips
+  // undefined keys, so it is strictly safer than the shallow spread the branch
+  // was written against — a nested partial style no longer wipes its siblings.
   const I: IntroStyle = mergeStyle(DEFAULT_INTRO_STYLE, style);
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -93,6 +99,26 @@ export const Intro: React.FC<IntroProps> = ({ date, theme = 'dark', style }) => 
         WATCHBOARD
       </div>
 
+      {/* Artist / series title — shown when titleOverride is set */}
+      {titleOverride && (
+        <div
+          style={{
+            opacity: logoOpacity,
+            transform: `scale(${logoScale})`,
+            fontFamily: "'Inter', 'Helvetica Neue', sans-serif",
+            fontSize: 52,
+            fontWeight: 800,
+            color: theme === 'day' ? '#f0a500' : '#e74c3c',
+            letterSpacing: 6,
+            textTransform: 'uppercase',
+            marginTop: 8,
+            marginBottom: 4,
+          }}
+        >
+          {titleOverride}
+        </div>
+      )}
+
       {/* Red accent line */}
       <div
         style={{
@@ -119,7 +145,7 @@ export const Intro: React.FC<IntroProps> = ({ date, theme = 'dark', style }) => 
           marginBottom: I.subtitleMarginBottom,
         }}
       >
-        {theme === 'day' ? I.subtitleTextDay : I.subtitleTextDark}
+        {theme === 'day' ? (subtitleOverride ?? I.subtitleTextDay) : (subtitleOverride ?? I.subtitleTextDark)}
       </div>
 
       {/* Date */}

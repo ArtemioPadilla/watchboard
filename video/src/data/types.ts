@@ -1,3 +1,9 @@
+export interface TrackerEvent {
+  date?: string;
+  title: string;
+  detail?: string;
+}
+
 /** Breaking tracker data used by the video composition */
 export interface BreakingTracker {
   slug: string;
@@ -13,12 +19,18 @@ export interface BreakingTracker {
   mapCenter: [number, number]; // [lat, lng]
   thumbnailUrls: string[];
   thumbnailBase64?: string;
+  thumbnailAspectRatio?: number;  // width/height — used to size card without black bars
+  mapEnabled?: boolean;
+  events?: TrackerEvent[];
+  seriesLabel?: string;
 }
 
 export interface BreakingData {
   date: string;
   trackers: BreakingTracker[];
   totalTrackers?: number;
+  title?: string;
+  subtitle?: string;
 }
 
 /** Minimal GeoJSON types for globe rendering */
