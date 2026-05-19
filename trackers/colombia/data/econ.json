@@ -46,13 +46,24 @@
   {
     "id": "oil-production",
     "label": "Oil Production (barrels/day)",
-    "value": "~780,000 bpd",
-    "change": "Declining; Petro pledged no new contracts",
+    "value": "~750,000 bpd",
+    "change": "Declining; Petro's no-new-contracts moratorium reducing output",
     "direction": "down",
-    "sparkData": [870, 860, 830, 810, 790, 780],
+    "sparkData": [870, 860, 830, 810, 780, 750],
     "color": "amber",
-    "source": "Ministerio de Minas y Energía / Ecopetrol 2023",
-    "lastUpdated": "2026-04-25"
+    "source": "Ecopetrol Q1 2026 Earnings / Ministerio de Minas",
+    "lastUpdated": "2026-05-19"
+  },
+  {
+    "id": "ecopetrol-q1-2026-ebitda",
+    "label": "Ecopetrol EBITDA Q1 2026",
+    "value": "COP 13.5 trillion",
+    "change": "+1.5% year-on-year despite -8.7% revenue decline",
+    "direction": "up",
+    "sparkData": [11.2, 12.0, 13.1, 13.8, 13.3, 13.5],
+    "color": "blue",
+    "source": "Ecopetrol SEC 6-K Filing / Earnings Call, May 2026",
+    "lastUpdated": "2026-05-19"
   },
   {
     "id": "us-aid-plan-colombia",

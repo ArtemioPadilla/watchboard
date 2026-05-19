@@ -89,14 +89,14 @@
   },
   {
     "id": "us-10y-treasury-yield",
-    "label": "US 10Y Treasury Yield",
-    "value": "30Y BRIEFLY >5.00% (May 18 Moody's Aa1 Shock); 10Y Range 4.45–4.63% Intraday; May 15 Close: 4.59% — MOODY'S Aa1 DOWNGRADE + WARSH QT = DOUBLE TIGHTENING",
-    "change": "30Y briefly >5.00% Monday May 18 — first time since late 2023 — after Moody's Aa1 downgrade (announced May 16 after close). Moody's cited deficit 9% GDP by 2034 and debt 134% GDP by 2035. 10Y range: 4.45–4.63%. Warsh $6.7T QT + Moody's reduced demand for Treasuries = sustained upward yield pressure. BofA: >50% hike probability by March 2027.",
+    "label": "US 10Y / 30Y Treasury Yield",
+    "value": "30Y HIT 5.189% (May 19 — Highest Since July 2007, 19-Year High); 10Y ~4.6%; Citi Next Target: 5.5%; BofA Survey: 62% Expect 6%",
+    "change": "30Y Treasury hit 5.189% on May 19 — highest since July 2007 (19 years). Citi flags 5.5% as next key level. BofA survey: 62% of fund managers expect 30Y to reach 6% — highest such expectation since 1999. Drivers: Moody's Aa1 downgrade (May 16) + Warsh QT plans + CPI 3.8%/PPI 6.0% stagflation. Fannie/Freddie also downgraded to Aa1.",
     "direction": "up",
-    "sparkData": [2.8, 4.0, 4.7, 4.4, 4.3, 4.2, 4.0, 4.32, 4.59, 4.55],
+    "sparkData": [2.8, 4.0, 4.7, 4.4, 4.3, 4.2, 4.0, 4.32, 4.59, 5.189],
     "color": "red",
-    "source": "Federal Reserve H.15 / FRED DGS10 / Moody's Rating Action May 2026 / TheStreet May 18 2026",
-    "lastUpdated": "2026-05-18T14:30:00Z"
+    "source": "CNBC / Bloomberg / Federal Reserve H.15 / FRED DGS30; May 19, 2026",
+    "lastUpdated": "2026-05-19T14:27:45Z"
   },
   {
     "id": "us-ppi-yoy-april-2026",
@@ -167,13 +167,13 @@
   {
     "id": "shiller-cape-ratio",
     "label": "S&P 500 Shiller CAPE Ratio",
-    "value": "~38.4–38.6 (May 18 — S&P 7,382.65 Close; Moody's Aa1 + 30Y >5.00% Compress Valuations; JPMorgan 2026 Target 7,200; ~128% Above Historical Mean ~17)",
-    "change": "May 18 close: S&P 500 7,382.65 (-0.35%); Nasdaq 26,054.08 (-0.65%); Dow 49,439.08 (-0.18%). CAPE ~38.4–38.6 — Moody's Aa1 downgrade (May 16) + 30Y briefly >5.00% (May 18) add new compression pressure. Higher real rates reduce the present value of earnings; BofA's no-cut-until-July-2027 stance removes the rate-cut equity 'put' entirely.",
+    "value": "~38.2 (May 19 — S&P ~7,372 Close; 30Y at 5.189% Further Compresses Valuations; JPMorgan 2026 Target 7,200; Citi Eyes 30Y at 5.5%)",
+    "change": "May 19 close: S&P ~7,372 (-0.55%); Dow -0.85%; Nasdaq -0.55%; Russell -0.65%. CAPE ~38.2 — 30Y at 5.189% (19-year high, Citi targets 5.5%) directly compresses equity valuations via higher discount rates. BofA no-cut-until-July-2027 stance removes the rate-cut equity 'put'. BofA 2026 S&P target 7,200 implies -3.6% from May 19 close.",
     "direction": "down",
-    "sparkData": [27, 30, 28, 32, 36, 38, 37, 39.5, 38.8, 38.5],
+    "sparkData": [27, 30, 28, 32, 36, 38, 37, 39.5, 38.5, 38.2],
     "color": "red",
-    "source": "TheStreet / Yahoo Finance / Moody's Rating Action / Federal Reserve H.15; May 18 2026",
-    "lastUpdated": "2026-05-18T14:30:00Z"
+    "source": "TheStreet / 247 Wall St / CNBC; May 19, 2026",
+    "lastUpdated": "2026-05-19T14:27:45Z"
   },
   {
     "id": "ism-services-pmi-april-2026",
