@@ -6,13 +6,13 @@ const base = import.meta.env.BASE_URL;
 const basePath = base.endsWith('/') ? base : `${base}/`;
 const logUrl = `${basePath}_hourly/triage-log.json`;
 ---
-<BaseLayout title="Breaking News Audit" description="Every triage decision the breaking-news pipeline made in the last 14 days">
+<BaseLayout title="Breaking News Audit" description="Triage decisions from the last 14 days. Scroll and use filters to explore — load more to page through all entries.">
   <main id="main-content">
     <div class="audit-page">
       <a class="audit-back" href={`${basePath}about/`}>&larr; About</a>
       <h1>Breaking News Audit</h1>
       <p class="audit-lede">
-        Every triage decision the breaking-news pipeline made in the last 14 days. Use this to spot rejected candidates that look like they should have been accepted, and tune thresholds in <code>scripts/hourly-triage.ts</code>.
+        Triage decisions from the last 14 days. Scroll and use filters to explore — load more to page through all entries. Use this to spot rejected candidates that look like they should have been accepted, and tune thresholds in <code>scripts/hourly-triage.ts</code>.
       </p>
       <TriageLogBoard logUrl={logUrl} client:load />
     </div>

@@ -13,6 +13,9 @@ export default function TriageLogBoard({ logUrl }: Props) {
   const [scanFilter, setScanFilter] = useState<'all' | 'light' | 'heavy'>('all');
   const [minScore, setMinScore] = useState(0);
 
+  const PAGE_SIZE = 200;
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+
   useEffect(() => {
     fetch(logUrl)
       .then((r) => r.ok ? r.json() : Promise.reject(`HTTP ${r.status}`))
@@ -28,6 +31,10 @@ export default function TriageLogBoard({ logUrl }: Props) {
       .filter((e) => e.confidence >= minScore)
       .sort((a, b) => b.timestamp.localeCompare(a.timestamp));
   }, [log, decisionFilter, scanFilter, minScore]);
+
+  useEffect(() => {
+    setVisibleCount(PAGE_SIZE);
+  }, [decisionFilter, scanFilter, minScore]);
 
   // The most recent entry's timestamp is the audit-log "freshness" — i.e. when
   // the latest scan made any decision. If the log is empty, we fall back to
@@ -78,7 +85,7 @@ export default function TriageLogBoard({ logUrl }: Props) {
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
         {entries.length === 0 && <div style={{ opacity: 0.6 }}>No entries match these filters.</div>}
-        {entries.slice(0, 200).map((e, i) => (
+        {entries.slice(0, visibleCount).map((e, i) => (
           <article key={`${e.timestamp}-${i}`} style={{
             background: 'var(--bg-card, #161b22)',
             border: '1px solid var(--border, #30363d)',
@@ -114,9 +121,30 @@ export default function TriageLogBoard({ logUrl }: Props) {
             </div>
           </article>
         ))}
-        {entries.length > 200 && (
-          <div style={{ opacity: 0.6, padding: '8px', textAlign: 'center', fontSize: '0.7rem' }}>
-            Showing 200 of {entries.length}. Tighten filters to narrow.
+        {entries.length > visibleCount && (
+          <div style={{ textAlign: 'center', marginTop: 12 }}>
+            <span style={{ fontSize: '0.7rem', color: 'var(--text-muted, #8b949e)', marginRight: 12 }}>
+              Showing {Math.min(visibleCount, entries.length)} of {entries.length} entries
+            </span>
+            <button
+              onClick={() => setVisibleCount((c) => c + PAGE_SIZE)}
+              style={{
+                background: 'var(--bg-card, #161b22)',
+                border: '1px solid var(--border, #30363d)',
+                color: 'var(--text-primary, #e6edf3)',
+                borderRadius: 6,
+                padding: '4px 12px',
+                fontSize: '0.75rem',
+                cursor: 'pointer',
+              }}
+            >
+              Load {Math.min(PAGE_SIZE, entries.length - visibleCount)} more
+            </button>
+          </div>
+        )}
+        {entries.length <= visibleCount && entries.length > 0 && (
+          <div style={{ textAlign: 'center', marginTop: 12, fontSize: '0.7rem', color: 'var(--text-muted, #8b949e)' }}>
+            Showing all {entries.length} entries
           </div>
         )}
       </div>
