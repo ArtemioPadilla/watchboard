@@ -148,6 +148,17 @@ async function main() {
   console.log(`[light-scan] ${fresh.length} fresh candidates after dedup`);
 
   const pending = loadPending(PATHS.pendingCandidates);
+
+  // Prune stale pending entries (older than 7 days) to keep queue bounded.
+  const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+  const beforePrune = pending.entries.length;
+  pending.entries = pending.entries.filter((e) => e.recordedAt >= sevenDaysAgo);
+  if (pending.entries.length < beforePrune)
+    console.log(`[light-scan] pruned ${beforePrune - pending.entries.length} stale pending entries (>7 days)`);
+
+  // Build a Set of URLs already in the queue to prevent duplicate entries.
+  const pendingUrls = new Set(pending.entries.map((e) => e.candidate.url));
+
   const logEntries: TriageLogEntry[] = [];
   let posted = 0, deferred = 0, discarded = 0, queued = 0;
 
@@ -180,9 +191,12 @@ async function main() {
       // news posts to Telegram but the tracker's events file is never updated
       // (e.g. CJNG El Jardinero detention 2026-04-27 — detected 2× at 0.87,
       // posted to Telegram, but mencho-cjng/data/events/* unchanged).
-      pending.entries.push({ candidate: cand, score: bestScore, recordedAt: new Date().toISOString() });
+      if (!pendingUrls.has(cand.url)) {
+        pending.entries.push({ candidate: cand, score: bestScore, recordedAt: new Date().toISOString() });
+        pendingUrls.add(cand.url);
+        queued++;
+      }
       posted++;
-      queued++;
       logEntries.push({
         timestamp: new Date().toISOString(), candidate: cand,
         decision: 'update', reason: `light-scan posted directly + queued for heavy scan (score ${bestScore.toFixed(2)})`,
@@ -190,9 +204,12 @@ async function main() {
       });
     } else if (bestScore >= MODERATE_THRESHOLD) {
       cand.matchedTracker = bestSlug;
-      pending.entries.push({ candidate: cand, score: bestScore, recordedAt: new Date().toISOString() });
+      if (!pendingUrls.has(cand.url)) {
+        pending.entries.push({ candidate: cand, score: bestScore, recordedAt: new Date().toISOString() });
+        pendingUrls.add(cand.url);
+        queued++;
+      }
       deferred++;
-      queued++;
       logEntries.push({
         timestamp: new Date().toISOString(), candidate: cand,
         decision: 'defer', reason: `deferred to next heavy scan (score ${bestScore.toFixed(2)})`,
