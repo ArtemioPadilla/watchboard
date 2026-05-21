@@ -54,3 +54,6 @@ video/output/*.mp3
 # Per-mode breaking-data snapshots written by render.ts so the repost script
 # can read the right tracker set per mode without contention. Regenerable.
 video/src/data/breaking-data-*.json
+
+# Internal pipeline state — not for public deployment
+scripts/state/pending-candidates.json

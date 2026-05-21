@@ -121,7 +121,7 @@ export const PATHS = {
   trackersDir: join(ROOT, 'trackers'),
   socialBudget: join(ROOT, 'public', '_social', 'budget.json'),
   socialHistory: join(ROOT, 'public', '_social', 'history.json'),
-  pendingCandidates: join(ROOT, 'public', '_hourly', 'pending-candidates.json'),
+  pendingCandidates: join(ROOT, 'scripts', 'state', 'pending-candidates.json'),
   triageLog:         join(ROOT, 'public', '_hourly', 'triage-log.json'),
   realtimeState:     join(ROOT, 'public', '_hourly', 'realtime-state.json'),
 };
