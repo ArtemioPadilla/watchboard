@@ -78,14 +78,25 @@
   },
   {
     "id": "nvidia-china-revenue",
-    "label": "Nvidia Revenue from China",
-    "value": "$10.3B (FY2024)",
-    "change": "-from ~25% to 16.9% of total",
+    "label": "Nvidia China Revenue / Q1 FY2027 Total (May 21, 2026)",
+    "value": "$81.62B Q1 total (+85% YoY); China: ~$0",
+    "change": "CEO Huang: Nvidia 'largely conceded' China AI market to Huawei; China was 20%+ of data center revenue, now near-zero; Huang: export ban 'largely backfired' commercially",
     "direction": "down",
-    "sparkData": [3, 5, 7, 9, 11, 14, 16, 20, 17, 14, 12, 10],
+    "sparkData": [3, 5, 7, 9, 11, 14, 16, 20, 17, 14, 12, 0],
     "color": "#e74c3c",
-    "source": "Nvidia FY2024 Annual Report",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "source": "Nvidia Q1 FY2027 Earnings / CNBC (May 21, 2026)",
+    "lastUpdated": "2026-05-21T14:42:17Z"
+  },
+  {
+    "id": "alibaba-zhenwu-m890-deployment",
+    "label": "Alibaba Zhenwu M890 AI Chip Deployment (May 20, 2026)",
+    "value": "560K+ units; 400+ customers; 3x H20 claim",
+    "change": "Unveiled at Alibaba Cloud Summit in Hangzhou; 144GB HBM3, 800GB/s interchip bandwidth; 3x performance vs Nvidia H20 claimed (unverified); also released Qwen 3.7-Max (35-hr agentic coding)",
+    "direction": "up",
+    "sparkData": [0, 0, 0, 0, 10, 30, 80, 150, 250, 380, 500, 560],
+    "color": "#27ae60",
+    "source": "Alibaba Cloud Summit / Bloomberg / CNBC (May 20, 2026)",
+    "lastUpdated": "2026-05-21T14:42:17Z"
   },
   {
     "id": "china-ai-investment",

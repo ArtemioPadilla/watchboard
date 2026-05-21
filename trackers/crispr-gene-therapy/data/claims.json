@@ -208,5 +208,19 @@
     },
     "resolution": "Allogeneic CRISPR CAR-T is advancing but has not yet demonstrated superiority or non-inferiority to autologous CAR-T in randomized trials. Persistence and rejection remain the key barriers. The field expects both to coexist: autologous for best efficacy in B-cell malignancies, allogeneic (if persistence challenges are solved) for speed-critical and dose-intensive applications.",
     "lastUpdated": "2026-04-14"
+  },
+  {
+    "id": "dna-guided-vs-rna-guided-crispr-future",
+    "question": "Will DNA-guided CRISPR systems eventually replace RNA-guided systems as the dominant platform for gene editing and diagnostics?",
+    "sideA": {
+      "label": "DNA-Guide Advocates (University of Florida / HKUST researchers)",
+      "text": "DNA molecules are chemically more stable than RNA, are less susceptible to degradation by ubiquitous RNases in biological environments, and can incorporate a wider range of chemical modifications (e.g., phosphorothioate backbones, locked nucleic acids). DNA guides could be cheaper to manufacture, more shelf-stable for point-of-care diagnostics, and potentially less immunogenic than RNA-guide-Cas9 ribonucleoprotein complexes. Two independent groups publishing in Nature Biotechnology (May 2026) demonstrated that functional DNA-guided CRISPR activity is achievable — overturning the dogma that CRISPR requires RNA guides. For rapid diagnostics and antiviral applications, the stability advantage could be transformative."
+    },
+    "sideB": {
+      "label": "RNA-Guide Proponents / Established CRISPR Field",
+      "text": "RNA-guided CRISPR has over a decade of optimization, thousands of clinical and preclinical datasets, and two approved therapies (Casgevy, lonvo-z pending). The entire manufacturing infrastructure, guide design algorithms, off-target prediction tools, and regulatory frameworks assume RNA guides. DNA-guided CRISPR is at a very early stage — proof-of-concept in vitro without clinical validation. The Watson-Crick base-pairing chemistry of DNA:DNA hybrids is inherently weaker than RNA:DNA hybrids, potentially limiting targeting efficiency at genomic loci. Clinical translation would require rebuilding validated safety and efficacy datasets from scratch."
+    },
+    "resolution": "Highly preliminary — two Nature Biotechnology publications (May 2026) establish proof-of-concept for DNA-guided CRISPR, but clinical applications are years away. Near-term applications are more likely in diagnostics (where stability matters more than editing efficiency) than in therapeutic gene editing. RNA-guided CRISPR will dominate clinical applications for the foreseeable future, while DNA-guided systems may find specialized niches in diagnostics and chemical biology.",
+    "lastUpdated": "2026-05-21"
   }
 ]

@@ -2,35 +2,35 @@
   {
     "id": "oil-production-bpd",
     "label": "Oil Production",
-    "value": "~1.1M bpd",
-    "change": "+57% vs 2020 low (~700K bpd); 9+ rigs redeployed; Chevron JVs ~250K bpd; OFAC GL 46B expanding access",
+    "value": "~1.0–1.1M bpd",
+    "change": "EIA projects mid-2026 recovery to pre-sanctions level; Chevron completed Orinoco Belt asset swap (Q2 2026) consolidating 49% stake in Petroindependencia; Vitol and Trafigura authorized to export Venezuelan crude under OFAC GL 46",
     "direction": "up",
     "sparkData": [3300, 3100, 2900, 2500, 2000, 1500, 900, 700, 750, 900, 1000, 1100],
     "color": "amber",
-    "source": "EIA / Chevron Q1 2026 Earnings / PDVSA / Bloomberg (May 2026)",
-    "lastUpdated": "2026-05-12T00:00:00Z"
+    "source": "EIA / Chevron Q2 2026 / PDVSA / Bloomberg (May 2026)",
+    "lastUpdated": "2026-05-21T16:40:18Z"
   },
   {
     "id": "inflation-rate",
     "label": "Annual Inflation",
-    "value": "~71.8% (Q1 2026)",
-    "change": "Down from 1,698,488% (2018) — partial stabilization",
-    "direction": "down",
-    "sparkData": [69, 180, 438, 65374, 929790, 1698488, 9585, 2665, 686, 360, 189, 72],
-    "color": "amber",
-    "source": "Holland & Knight / BCV estimate (Q1 2026)",
-    "lastUpdated": "2026-05-04T00:00:00Z"
+    "value": "~612% (Apr 2026, BCV)",
+    "change": "Up from post-crisis low; January 2026 political shock triggered bolivar depreciation and price spike; BCV resumed publishing data post-Maduro; IMF projects 218–387% full-year 2026 average",
+    "direction": "up",
+    "sparkData": [69, 180, 438, 65374, 929790, 1698488, 9585, 2665, 686, 360, 189, 72, 612],
+    "color": "red",
+    "source": "BCV / Trading Economics / IMF April 2026 WEO",
+    "lastUpdated": "2026-05-21T16:40:18Z"
   },
   {
     "id": "gdp-usd",
     "label": "GDP (USD)",
     "value": "~$115B (2025 est.)",
-    "change": "~23% year-on-year rebound in Q1 2026 amid political transition",
+    "change": "IMF April 2026 WEO projects +4.0% real GDP growth for 2026; oil sector recovery and post-Maduro international re-engagement driving rebound; IMF and World Bank resumed formal engagement post-transition",
     "direction": "up",
     "sparkData": [482, 371, 239, 151, 102, 95, 105, 97, 95, 97, 105, 115],
     "color": "amber",
-    "source": "Holland & Knight / IMF estimate (2026)",
-    "lastUpdated": "2026-05-04T00:00:00Z"
+    "source": "IMF April 2026 WEO / Holland & Knight",
+    "lastUpdated": "2026-05-21T16:40:18Z"
   },
   {
     "id": "pdvsa-revenue",

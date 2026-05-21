@@ -26,14 +26,14 @@
   {
     "id": "global-ev-share",
     "label": "Global EV New-Car Sales Share",
-    "value": "≈25%",
+    "value": "25%",
     "color": "blue",
-    "source": "IEA / ICCT Q1 2026 data",
+    "source": "IEA Global EV Outlook 2026 (May 21, 2026)",
     "contested": false,
     "delta": "+5 pp",
-    "deltaNote": "20M+ EVs sold in 2025 — 1 in 4 new cars globally. Q1 2026: Europe hit 19% record Q1 BEV share; Nature Comms confirms tipping point crossed in EU & China",
+    "deltaNote": "IEA confirmed 20.2M EVs sold in 2025 — 1 in 4 new cars globally. China: ~55% EV share; Europe: 28%; US: ~10%. Global EV fleet now displaces 1.2 Mb/d of oil. 2026 forecast: 23M EVs (28% share).",
     "trend": "up",
-    "lastUpdated": "2026-05-06T00:00:00.000Z"
+    "lastUpdated": "2026-05-21T00:00:00.000Z"
   },
   {
     "id": "clean-energy-investment",
@@ -93,6 +93,18 @@
     "deltaNote": "Sharp drop under Lula government elected 2022",
     "trend": "down",
     "lastUpdated": "2026-04-13T00:00:00.000Z"
+  },
+  {
+    "id": "global-battery-storage-capacity",
+    "label": "Global Battery Storage Deployed (2025)",
+    "value": "112 GW / 307 GWh",
+    "color": "green",
+    "source": "BloombergNEF Energy Storage Market Outlook 1H 2026",
+    "contested": false,
+    "delta": "+48% vs 2024",
+    "deltaNote": "Energy storage entered the '100 GW era' in 2025. Solar-to-storage ratio fell from 56:1 (2016) to 6:1 (2025). BNEF projects 158 GW / 459 GWh installed in 2026 and 2.9 TW cumulative by 2036.",
+    "trend": "up",
+    "lastUpdated": "2026-05-21T00:00:00.000Z"
   },
   {
     "id": "wind-capacity-added-2024",

@@ -84,13 +84,26 @@
   {
     "id": "sodium-ion-annual-production",
     "label": "Sodium-Ion Global Output / Pipeline",
-    "value": "60+ GWh ordered",
+    "value": "60+ GWh ordered; Gotion Gnascent 261 Wh/kg",
     "color": "green",
-    "source": "CATL / HyperStrong deal, April 2026",
+    "source": "CATL/HyperStrong (Apr 2026); Gotion Gnascent launch (May 17, 2026)",
     "contested": false,
-    "delta": "CATL declares mass production 2026",
-    "deltaNote": "60 GWh HyperStrong grid deal is world's largest Na-ion order; CATL 2nd-gen cell reaches ~200 Wh/kg; production cost within 5% of LFP at volume",
+    "delta": "CATL mass production 2026; Gotion Q4 2026",
+    "deltaNote": "60 GWh HyperStrong grid deal is world's largest Na-ion order; CATL 2nd-gen cell ~200 Wh/kg. Gotion's new Gnascent brand (May 2026) reaches 261 Wh/kg (high-energy) and 20,000+ cycles (grid storage) — closing the energy-density gap with LFP. Two Na-ion mass-production supply chains are now confirmed for 2026.",
     "trend": "up",
-    "lastUpdated": "2026-04-29"
+    "lastUpdated": "2026-05-17"
+  },
+  {
+    "id": "peak-ev-battery-charging-catl-qilin3",
+    "label": "Fastest EV Battery Charging Rate (announced)",
+    "value": "10C continuous / 3,000 kW output",
+    "color": "blue",
+    "source": "CATL Qilin 3 (3rd-gen) — CATL Tech Day, Apr 21, 2026",
+    "contested": true,
+    "contestNote": "CATL Tech Day announcement; production vehicle qualification ongoing with three unnamed OEMs for 2027. Requires ~1,000 kW charger infrastructure not yet widely deployed. 3rd-gen Shenxing LFP achieves 10-80% in 3m44s. Real-world rates will be constrained by charging network capacity.",
+    "delta": "vs 4C peak (Qilin 2, 2023) — 2.5× improvement",
+    "deltaNote": "CATL's 1st-gen Shenxing (2024) achieved 4C; Qilin 3 claims 10C continuous with 3,000 kW output — enabling ~400 km recovered in under 5 minutes. Targets 1,000+ km WLTP range in premium vehicle platform. If achieved commercially, eliminates fast-charging as an EV objection.",
+    "trend": "up",
+    "lastUpdated": "2026-05-21"
   }
 ]
