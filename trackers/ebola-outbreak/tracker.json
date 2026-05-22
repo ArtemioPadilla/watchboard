@@ -1,0 +1,221 @@
+{
+  "slug": "ebola-outbreak",
+  "name": "Ebola Outbreak Tracker",
+  "shortName": "Ebola",
+  "description": "Intelligence dashboard tracking Ebola virus disease outbreaks from the 1976 Yambuku discovery through the 2014 West Africa epidemic and the active 2026 Bundibugyo outbreak in DRC and Uganda.",
+  "icon": "🦠",
+  "color": "#8b0000",
+  "status": "active",
+  "tone": "alert",
+  "temporal": "live",
+  "domain": "disaster",
+  "region": "africa",
+  "country": "CD",
+  "tags": ["epidemiology", "public-health", "hemorrhagic-fever", "WHO-PHEIC", "vaccine", "zoonosis"],
+  "startDate": "1976-06-01",
+  "eraLabel": "1976–Present: Outbreaks & Response",
+  "geoSecondary": ["UG", "GN", "LR", "SL", "SS"],
+  "geoPath": ["CD"],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": -20,
+      "lonMax": 50,
+      "latMin": -18,
+      "latMax": 20
+    },
+    "center": {
+      "lon": 24,
+      "lat": 0
+    },
+    "categories": [
+      {
+        "id": "outbreak-zone",
+        "label": "Active Outbreak Zone",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "treatment",
+        "label": "Ebola Treatment Unit",
+        "color": "#e67e22"
+      },
+      {
+        "id": "containment",
+        "label": "Quarantine / Containment",
+        "color": "#f39c12"
+      },
+      {
+        "id": "response",
+        "label": "Aid & Response Hub",
+        "color": "#3498db"
+      },
+      {
+        "id": "historical",
+        "label": "Historical Outbreak Site",
+        "color": "#95a5a6"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "layout": "disaster",
+    "cameraPresets": {
+      "overview": {
+        "lon": 20,
+        "lat": -2,
+        "alt": 5000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Sub-Saharan Africa"
+      },
+      "ituri": {
+        "lon": 28.9,
+        "lat": 1.7,
+        "alt": 250000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Ituri Province, DRC"
+      },
+      "bundibugyo": {
+        "lon": 30.06,
+        "lat": 0.68,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Bundibugyo, Uganda"
+      },
+      "kinshasa": {
+        "lon": 15.31,
+        "lat": -4.32,
+        "alt": 120000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Kinshasa, DRC"
+      },
+      "west_africa": {
+        "lon": -12.0,
+        "lat": 8.5,
+        "alt": 1500000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "West Africa (2014 Epicenter)"
+      },
+      "yambuku": {
+        "lon": 22.42,
+        "lat": 3.66,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Yambuku (1976 Origin)"
+      }
+    },
+    "clocks": [
+      {
+        "label": "KINSHASA",
+        "offsetHours": 1
+      },
+      {
+        "label": "KAMPALA",
+        "offsetHours": 3
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      },
+      {
+        "label": "EST",
+        "offsetHours": -5
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Casualties"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "politicalAvatars": [
+    "who",
+    "drc-gov",
+    "ug-gov",
+    "msf",
+    "cdc",
+    "other"
+  ],
+  "eventTypes": [
+    "outbreak",
+    "medical",
+    "humanitarian",
+    "political",
+    "scientific"
+  ],
+  "ai": {
+    "systemPrompt": "You are a public health intelligence analyst and epidemiologist updating an Ebola outbreak tracking dashboard.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"ituri_outbreak_2026\", \"rvsv_zebov_approval\").\n\nThis tracker covers ALL Ebola virus disease outbreaks from 1976 to present across all strains:\n- Zaire ebolavirus (EBOV) — highest CFR ~60-90%\n- Sudan ebolavirus (SUDV)\n- Bundibugyo ebolavirus (BDBV) — active 2026 outbreak\n- Taï Forest ebolavirus (TAFV)\n- Reston ebolavirus (RESTV) — non-pathogenic in humans\n\nFocus for active monitoring: 2026 Bundibugyo outbreak in Ituri Province, DRC and cross-border spillover into Uganda.\n\nSource tier classification:\n- Tier 1: Official/primary (WHO situation reports, DRC Ministry of Health / MSANTE, Uganda Ministry of Health, CDC Emergency Operations, OCHA, UN CERF)\n- Tier 2: Major outlet (Reuters, AP, BBC, Al Jazeera, Le Monde, Deutsche Welle Africa, The Guardian)\n- Tier 3: Institutional (MSF/Médecins Sans Frontières, GAVI, CEPI, HealthMap, ProMED, CIDRAP, Lancet, NEJM, Science, Nature, HRW, Amnesty)\n- Tier 4: Unverified (social media, unattributed field reports, community rumors)\n\nEPIDEMIOLOGY RULES:\n- Case counts: distinguish confirmed, probable, and suspected. Report WHO-verified totals.\n- CFR (case fatality rate) = deaths / total cases × 100. Note if contested.\n- Ring vaccination coverage: report as percentage of targeted contacts.\n- Contact tracing: report as proportion of cases with full contact lists.\n- Only report a transmission event as confirmed if WHO or MoH has officially reported it.\n- Do NOT conflate different strains — Bundibugyo and Zaire are distinct species.\n\nDEDUPLICATION:\n- Same outbreak event within ±3 days = same event — merge, do not duplicate.\n- Historical events (pre-2020) should use the year as the \"year\" field (as a string).\n\nOnly include information you can verify through search results. Do not fabricate case counts, coordinates, or dates.",
+    "searchContext": "Ebola virus outbreak DRC Uganda 2026 WHO response",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "casualties",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": -20,
+      "lonMax": 50,
+      "latMin": -18,
+      "latMax": 20
+    },
+    "updateIntervalDays": 1,
+    "backfillTargets": {
+      "timeline": 35,
+      "mapPoints": 25,
+      "claims": 15,
+      "political": 15,
+      "casualties": 10,
+      "econ": 8,
+      "kpis": 8
+    },
+    "updatePolicy": {
+      "escalation": [1, 1, 3, 7, 14, 30, 60, 90],
+      "quietThreshold": 0
+    },
+    "rssFeeds": [
+      "https://news.google.com/rss/search?q=Ebola+outbreak+DRC+Uganda&hl=en-US&gl=US&ceid=US:en",
+      "https://www.who.int/feeds/entity/csr/don/en/rss.xml"
+    ]
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard"
+}
