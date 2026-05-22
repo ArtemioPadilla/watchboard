@@ -1,1 +1,92 @@
-[]
+[
+  {
+    "id": "kpi-total-cases-2026",
+    "label": "Confirmed + Probable Cases (2026)",
+    "value": "178",
+    "color": "red",
+    "source": "WHO Situation Report #18 — DRC-Uganda Ebola, 22 May 2026",
+    "contested": false,
+    "delta": "+12 (7d)",
+    "deltaNote": "New cases in past 7 days across Ituri Province and Bundibugyo District",
+    "trend": "up",
+    "lastUpdated": "2026-05-22"
+  },
+  {
+    "id": "kpi-deaths-2026",
+    "label": "Total Deaths (2026 Outbreak)",
+    "value": "52",
+    "color": "red",
+    "source": "WHO / DRC Ministry of Health, 22 May 2026",
+    "contested": false,
+    "delta": "+4 (7d)",
+    "trend": "up",
+    "lastUpdated": "2026-05-22"
+  },
+  {
+    "id": "kpi-cfr-2026",
+    "label": "Case Fatality Rate (2026 BDBV)",
+    "value": "29.2%",
+    "color": "amber",
+    "source": "WHO Situation Report #18",
+    "contested": true,
+    "contestNote": "CFR may undercount due to suspected community deaths in conflict-affected zones. BDBV historically 25–47% CFR in prior outbreaks.",
+    "trend": "down",
+    "lastUpdated": "2026-05-22"
+  },
+  {
+    "id": "kpi-vaccine-coverage",
+    "label": "Ring Vaccination Coverage",
+    "value": "74%",
+    "color": "amber",
+    "source": "WHO / GAVI — Vaccination Progress Report, May 2026",
+    "contested": false,
+    "delta": "+8% (vs March)",
+    "deltaNote": "Target is ≥95% of identified ring contacts. Second round underway.",
+    "trend": "up",
+    "lastUpdated": "2026-05-22"
+  },
+  {
+    "id": "kpi-contact-tracing",
+    "label": "Contact Tracing Coverage",
+    "value": "83%",
+    "color": "amber",
+    "source": "WHO Situation Report #18 — IHR Emergency Operations",
+    "contested": false,
+    "deltaNote": "~23% of affected zones inaccessible due to armed group activity in eastern Ituri",
+    "trend": "up",
+    "lastUpdated": "2026-05-22"
+  },
+  {
+    "id": "kpi-health-zones-affected",
+    "label": "Health Zones Affected",
+    "value": "7",
+    "color": "red",
+    "source": "DRC Ministry of Health / Uganda MoH, May 2026",
+    "contested": false,
+    "deltaNote": "5 health zones in DRC Ituri Province + 2 districts in Uganda (Bundibugyo, Kasese)",
+    "trend": "up",
+    "lastUpdated": "2026-05-22"
+  },
+  {
+    "id": "kpi-west-africa-total",
+    "label": "West Africa 2014–16 Epidemic Total",
+    "value": "28,616 cases / 11,310 deaths",
+    "color": "red",
+    "source": "WHO — Final West Africa Ebola Situation Report, January 2016",
+    "contested": false,
+    "deltaNote": "Largest Ebola outbreak in history; Guinea, Liberia, Sierra Leone combined",
+    "trend": "stable",
+    "lastUpdated": "2026-05-22"
+  },
+  {
+    "id": "kpi-all-outbreaks-total",
+    "label": "All Ebola Outbreaks Since 1976",
+    "value": "35+ outbreaks / ~37,000 cases",
+    "color": "blue",
+    "source": "CDC Ebola Chronology / WHO DON Archive",
+    "contested": false,
+    "deltaNote": "Includes all Ebola species: EBOV, SUDV, BDBV, TAFV, RESTV",
+    "trend": "stable",
+    "lastUpdated": "2026-05-22"
+  }
+]
