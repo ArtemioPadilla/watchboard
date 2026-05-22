@@ -90,13 +90,13 @@
   {
     "id": "us-10y-treasury-yield",
     "label": "US 10Y / 30Y Treasury Yield",
-    "value": "30Y HIT 5.189% (May 19 — Highest Since July 2007, 19-Year High); 10Y ~4.6%; Citi Next Target: 5.5%; BofA Survey: 62% Expect 6%",
-    "change": "30Y Treasury hit 5.189% on May 19 — highest since July 2007 (19 years). Citi flags 5.5% as next key level. BofA survey: 62% of fund managers expect 30Y to reach 6% — highest such expectation since 1999. Drivers: Moody's Aa1 downgrade (May 16) + Warsh QT plans + CPI 3.8%/PPI 6.0% stagflation. Fannie/Freddie also downgraded to Aa1.",
+    "value": "30Y ~5.086% (May 22 Relief from 5.189% 18-Year High); 10Y ~4.564%; Iran Peace Talks Ease Yields Slightly; Structural Drivers Intact",
+    "change": "30Y eased to ~5.086% on May 22 (from 5.189% 18-yr high on May 19) on Iran peace talk optimism; 10Y ~4.564%. Single-session relief — structural drivers (Moody's Aa1, Warsh QT, CPI 3.8%, PPI 6.0%, FOMC rate hike discussion) fully intact. Citi 5.5% target active.",
     "direction": "up",
-    "sparkData": [2.8, 4.0, 4.7, 4.4, 4.3, 4.2, 4.0, 4.32, 4.59, 5.189],
+    "sparkData": [2.8, 4.0, 4.7, 4.4, 4.3, 4.2, 4.0, 4.32, 4.59, 5.189, 5.086],
     "color": "red",
-    "source": "CNBC / Bloomberg / Federal Reserve H.15 / FRED DGS30; May 19, 2026",
-    "lastUpdated": "2026-05-19T14:27:45Z"
+    "source": "CNBC / Federal Reserve H.15 / FRED DGS30; May 22, 2026",
+    "lastUpdated": "2026-05-22T14:30:00Z"
   },
   {
     "id": "us-ppi-yoy-april-2026",
@@ -218,5 +218,16 @@
     "color": "amber",
     "source": "US Census Bureau New Residential Construction, April 2026 (released May 21, 2026)",
     "lastUpdated": "2026-05-21T14:45:22Z"
+  },
+  {
+    "id": "us-flash-pmi-may-2026",
+    "label": "US Flash PMI (May 2026) — S&P Global",
+    "value": "Mfg 55.3 (4-Yr High) / Svc 50.9 / Composite 51.7; Input Costs Fastest Since Jun 2022; Q2 GDP ~1%",
+    "change": "Manufacturing PMI: 55.3 (beat 53.8 est; highest since May 2022, 48-month high); Services PMI: 50.9 (miss vs 51.1 est; 2-month low); Composite: 51.7. Input cost surge: manufacturing fastest since Jun 2022; services price increases fastest in a year. Q2 GDP trajectory ~1% annualized (vs Q1's +2.0%).",
+    "direction": "down",
+    "sparkData": [52.1, 50.9, 52.7, 53.8, 52.5, 51.0, 53.0, 54.5, 51.7],
+    "color": "red",
+    "source": "S&P Global Flash US PMI, May 2026 (released May 22, 2026)",
+    "lastUpdated": "2026-05-22T14:30:00Z"
   }
 ]
