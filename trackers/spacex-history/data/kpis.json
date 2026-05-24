@@ -2,24 +2,24 @@
   {
     "id": "total-orbital-launches",
     "label": "2026 Orbital Launches",
-    "value": "60",
+    "value": "62",
     "color": "blue",
     "source": "Spaceflight Now / NASASpaceFlight.com",
     "contested": false,
-    "delta": "60th: Starlink 29-sat (May 21, 10:04 UTC, SLC-40, B1077 28th flight, ASOG 613th landing). 59th: Starlink 17-35 (May 20, 02:46 UTC, Vandenberg SLC-4E, 24 sats, B1103, OCISLY 612th landing). 58th: CRS-34 (May 15, Dragon C209 docked ISS May 17, B1096 6th flight, LZ-40 611th landing). 57th: NROL-172 (May 11, Vandenberg). Starship IFT-12 Block 3 scrubbed May 21 (T-40 sec); second attempt NET tonight May 22 at 22:30 UTC from OLP-2.",
+    "delta": "62nd: Starlink 17-37 (May 23, 14:00 UTC, Vandenberg SLC-4E, 24 sats, B1100 6th flight, OCISLY 614th landing). 61st: Starship IFT-12 Block 3 (May 22, 22:30 UTC, OLP-2 Starbase — first V3 flight; Raptor relight success; Ship 39 Indian Ocean splashdown; Booster 19 lost to off-nominal boostback). 60th: Starlink 29-sat (May 21, SLC-40, B1077 28th flight, ASOG 613th landing). 59th: Starlink 17-35 (May 20, Vandenberg, B1103, OCISLY 612th landing). 58th: CRS-34 (May 15, Dragon C209 docked ISS May 17, B1096 6th flight, LZ-40 611th landing).",
     "trend": "up",
-    "lastUpdated": "2026-05-22T10:00:00.000Z"
+    "lastUpdated": "2026-05-24T00:00:00.000Z"
   },
   {
     "id": "booster-landings",
     "label": "Total Booster Recoveries (All-Time)",
-    "value": "613",
+    "value": "614",
     "color": "green",
     "source": "Spaceflight Now / SpaceX.com",
     "contested": false,
-    "delta": "613th: ASOG landing (Starlink 29-sat, May 21, B1077 28th flight). 612th: OCISLY landing (Starlink 17-35, May 20, B1103). 611th: LZ-40 RTLS landing (CRS-34, May 15, B1096 6th flight). 610th: OCISLY landing (NROL-172, May 11). 604th–605th: Twin RTLS B1072/B1075 (Falcon Heavy ViaSat-3 F3, Apr 29).",
+    "delta": "614th: OCISLY landing (Starlink 17-37, May 23, B1100 6th flight, Vandenberg). Note: IFT-12 Booster 19 (May 22) was NOT recovered — off-nominal boostback burn caused transonic impact. 613th: ASOG landing (Starlink 29-sat, May 21, B1077 28th flight). 612th: OCISLY landing (Starlink 17-35, May 20, B1103). 611th: LZ-40 RTLS landing (CRS-34, May 15, B1096 6th flight).",
     "trend": "up",
-    "lastUpdated": "2026-05-21T10:30:00.000Z"
+    "lastUpdated": "2026-05-24T00:00:00.000Z"
   },
   {
     "id": "active-starlink-sats",
@@ -28,9 +28,9 @@
     "color": "blue",
     "source": "Starlink.com / FCC filings / SpaceX S-1 (May 20, 2026)",
     "contested": false,
-    "delta": "~10,427+ in orbit; ~12,032 total launched. S-1 confirms 10.3M subscribers (doubled YoY); ARPU $66/month (Q1 2026, down from $99/month 2023). Starlink 17-35 (May 20, 24 sats) + Starlink 29-sat (May 21, 29 sats) added. 10,000+ milestone crossed March 16, 2026.",
+    "delta": "~10,451+ in orbit; ~12,056 total launched. S-1 confirms 10.3M subscribers (doubled YoY); ARPU $66/month (Q1 2026, down from $99/month 2023). Starlink 17-37 (May 23, 24 sats) + Starlink 29-sat (May 21, 29 sats) + Starlink 17-35 (May 20, 24 sats) added. 10,000+ milestone crossed March 16, 2026.",
     "trend": "up",
-    "lastUpdated": "2026-05-21T10:30:00.000Z"
+    "lastUpdated": "2026-05-24T00:00:00.000Z"
   },
   {
     "id": "starlink-subscribers",
@@ -75,13 +75,13 @@
   {
     "id": "starship-ift-tests",
     "label": "Starship Integrated Flight Tests",
-    "value": "11",
-    "color": "amber",
+    "value": "12",
+    "color": "green",
     "source": "NASASpaceFlight.com / SpacePolicyOnline / SpaceX.com",
     "contested": false,
-    "delta": "IFT-12 SECOND ATTEMPT TONIGHT — May 22, 2026 at 22:30 UTC (5:30 p.m. CDT, OLP-2, Starbase). First attempt May 21 scrubbed at T-40 sec: hydraulic pin on Mechazilla tower arm failed to retract; issue resolved overnight. Block 3 debut: Booster 19 (33 Raptor 3 engines) + Ship 39 V3 (124.4 m, 25% more propellant, 3 grid fins). Both stages targeting ocean splashdowns (Gulf + Indian Ocean); 20 Starlink mass-simulators + 2 heat-shield observer sats; in-space Raptor relight attempt; no Mechazilla booster catch on this first Block 3 flight. Also: inaugural launch from OLP-2 (Pad 2). FAA approval valid. 60–65% favorable weather. IFT-11 (Oct 13, 2025) was last completed flight.",
+    "delta": "IFT-12 COMPLETED May 22, 2026 at 22:30 UTC from OLP-2. Block 3 debut: Booster 19 (33 Raptor 3 engines) + Ship 39 V3 (124.4 m). OUTCOMES: Raptor engine relight in space — SUCCESS (first ever); Ship 39 Indian Ocean splashdown — SUCCESS; 22 Starlink mass-simulators deployed — SUCCESS. ANOMALY: Booster 19 off-nominal boostback burn (outer ring Raptor ignition failure) → transonic impact (booster not recovered). IFT-13 to incorporate boostback anomaly analysis. IFT-11 (Oct 13, 2025) was previous flight.",
     "trend": "up",
-    "lastUpdated": "2026-05-22T10:00:00.000Z"
+    "lastUpdated": "2026-05-24T00:00:00.000Z"
   },
   {
     "id": "company-valuation",

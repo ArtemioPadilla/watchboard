@@ -79,12 +79,23 @@
   {
     "id": "econ-tourism-impact",
     "label": "Uganda Tourism Decline (Ebola Alert Effect)",
-    "value": "~18% arrivals drop",
-    "change": "Q1 2026 vs Q1 2025 (preliminary)",
+    "value": "~30% arrivals drop (revised)",
+    "change": "Q2 2026 booking cancellations after PHEIC and Kampala cases",
     "direction": "down",
-    "sparkData": [100, 98, 92, 83, 82, 82],
+    "sparkData": [100, 98, 92, 83, 75, 70],
     "color": "#e67e22",
-    "source": "Uganda Tourism Board Preliminary Data, April 2026",
-    "lastUpdated": "2026-05-22"
+    "source": "Uganda Tourism Board / Reuters, May 2026",
+    "lastUpdated": "2026-05-24"
+  },
+  {
+    "id": "econ-us-state-dept-response",
+    "label": "US Government Ebola Response Funding — 2026",
+    "value": "$28M",
+    "change": "USAID + CDC deployed to DRC and Uganda",
+    "direction": "up",
+    "sparkData": [0, 0, 5, 12, 20, 28],
+    "color": "#3498db",
+    "source": "US State Department Ebola Response Update, 23 May 2026",
+    "lastUpdated": "2026-05-24"
   }
 ]

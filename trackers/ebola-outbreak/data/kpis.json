@@ -1,71 +1,87 @@
 [
   {
     "id": "kpi-total-cases-2026",
-    "label": "Confirmed + Probable Cases (2026)",
-    "value": "178",
+    "label": "Suspected Cases (2026 DRC + Uganda)",
+    "value": "~750",
     "color": "red",
-    "source": "WHO Situation Report #18 — DRC-Uganda Ebola, 22 May 2026",
-    "contested": false,
-    "delta": "+12 (7d)",
-    "deltaNote": "New cases in past 7 days across Ituri Province and Bundibugyo District",
+    "source": "WHO Situation Report — DRC-Uganda Ebola, 23 May 2026",
+    "contested": true,
+    "contestNote": "746 suspected cases; 85 lab-confirmed across DRC (Ituri, Nord-Kivu, Sud-Kivu) and Uganda (Kampala). Suspected count includes probable and unconfirmed deaths in conflict-inaccessible zones.",
+    "delta": "+500+ (7d)",
+    "deltaNote": "Rapid surge from ~246 suspected cases on May 16 to ~750 by May 23 as reporting system scaled up",
     "trend": "up",
-    "lastUpdated": "2026-05-22"
+    "lastUpdated": "2026-05-24"
+  },
+  {
+    "id": "kpi-confirmed-cases-2026",
+    "label": "Lab-Confirmed Cases (2026 Outbreak)",
+    "value": "85",
+    "color": "red",
+    "source": "WHO / DRC Ministry of Health, 23 May 2026",
+    "contested": false,
+    "delta": "+77 (7d)",
+    "deltaNote": "8 confirmed on May 16; 85 by May 23 including 5 imported in Kampala, Uganda",
+    "trend": "up",
+    "lastUpdated": "2026-05-24"
   },
   {
     "id": "kpi-deaths-2026",
-    "label": "Total Deaths (2026 Outbreak)",
-    "value": "52",
+    "label": "Suspected Deaths (2026 Outbreak)",
+    "value": "177",
     "color": "red",
-    "source": "WHO / DRC Ministry of Health, 22 May 2026",
-    "contested": false,
-    "delta": "+4 (7d)",
+    "source": "WHO / DRC Ministry of Health, 23 May 2026",
+    "contested": true,
+    "contestNote": "177 suspected deaths across DRC; 10 confirmed deaths (9 DRC, 1 Uganda). Suspected figure includes community deaths in inaccessible zones of Ituri. Undercount likely.",
+    "delta": "+97 (7d)",
     "trend": "up",
-    "lastUpdated": "2026-05-22"
+    "lastUpdated": "2026-05-24"
   },
   {
     "id": "kpi-cfr-2026",
     "label": "Case Fatality Rate (2026 BDBV)",
-    "value": "29.2%",
+    "value": "11.8–23.7%",
     "color": "amber",
-    "source": "WHO Situation Report #18",
+    "source": "WHO Situation Report #21 / DRC MoH",
     "contested": true,
-    "contestNote": "CFR may undercount due to suspected community deaths in conflict-affected zones. BDBV historically 25–47% CFR in prior outbreaks.",
-    "trend": "down",
-    "lastUpdated": "2026-05-22"
+    "contestNote": "CFR ranges from 11.8% (10 confirmed deaths / 85 confirmed cases) to 23.7% (177 suspected deaths / 746 suspected cases). BDBV historically 25–47% CFR in prior outbreaks; suspected community deaths are likely undercounted.",
+    "trend": "up",
+    "lastUpdated": "2026-05-24"
   },
   {
     "id": "kpi-vaccine-coverage",
-    "label": "Ring Vaccination Coverage",
-    "value": "74%",
-    "color": "amber",
-    "source": "WHO / GAVI — Vaccination Progress Report, May 2026",
-    "contested": false,
-    "delta": "+8% (vs March)",
-    "deltaNote": "Target is ≥95% of identified ring contacts. Second round underway.",
-    "trend": "up",
-    "lastUpdated": "2026-05-22"
-  },
-  {
-    "id": "kpi-contact-tracing",
-    "label": "Contact Tracing Coverage",
-    "value": "83%",
-    "color": "amber",
-    "source": "WHO Situation Report #18 — IHR Emergency Operations",
-    "contested": false,
-    "deltaNote": "~23% of affected zones inaccessible due to armed group activity in eastern Ituri",
-    "trend": "up",
-    "lastUpdated": "2026-05-22"
+    "label": "rVSV-ZEBOV Emergency Use Ring Vaccination",
+    "value": "No licensed BDBV vaccine",
+    "color": "red",
+    "source": "WHO IHR Emergency Committee Temporary Recommendations, 22 May 2026",
+    "contested": true,
+    "contestNote": "rVSV-ZEBOV (Ervebo) licensed for Zaire ebolavirus only. Off-label/emergency ring vaccination ongoing; no human efficacy data for BDBV. ETU attacks in Ituri have disrupted vaccination supply lines. MVA-BN-Filo BDBV candidate on compassionate use.",
+    "delta": "No change",
+    "deltaNote": "CEPI fast-tracking $45M for BDBV-specific vaccine; no ETA for licensed product",
+    "trend": "stable",
+    "lastUpdated": "2026-05-24"
   },
   {
     "id": "kpi-health-zones-affected",
-    "label": "Health Zones Affected",
-    "value": "7",
+    "label": "DRC Provinces + Countries Affected",
+    "value": "3 DRC provinces + Uganda",
     "color": "red",
-    "source": "DRC Ministry of Health / Uganda MoH, May 2026",
+    "source": "WHO DON603 / DRC MoH / Uganda MoH, 23 May 2026",
     "contested": false,
-    "deltaNote": "5 health zones in DRC Ituri Province + 2 districts in Uganda (Bundibugyo, Kasese)",
+    "delta": "+2 provinces (7d)",
+    "deltaNote": "Ituri (index), Nord-Kivu incl. Goma (confirmed by ~May 19), Sud-Kivu / Bukavu (confirmed May 21). Uganda: 5 imported cases in Kampala, no local transmission. 10 additional countries assessed 'at risk.'",
     "trend": "up",
-    "lastUpdated": "2026-05-22"
+    "lastUpdated": "2026-05-24"
+  },
+  {
+    "id": "kpi-contact-tracing",
+    "label": "Contact Tracing Coverage (Uganda Kampala)",
+    "value": "87 contacts under monitoring",
+    "color": "amber",
+    "source": "Uganda Ministry of Health, 23 May 2026",
+    "contested": false,
+    "deltaNote": "All 87 identified contacts of Uganda's first two confirmed cases under 21-day monitoring. DRC contact tracing severely impaired by ETU attacks and ~23% zone inaccessibility.",
+    "trend": "stable",
+    "lastUpdated": "2026-05-24"
   },
   {
     "id": "kpi-west-africa-total",
@@ -76,7 +92,7 @@
     "contested": false,
     "deltaNote": "Largest Ebola outbreak in history; Guinea, Liberia, Sierra Leone combined",
     "trend": "stable",
-    "lastUpdated": "2026-05-22"
+    "lastUpdated": "2026-05-24"
   },
   {
     "id": "kpi-all-outbreaks-total",
@@ -85,8 +101,8 @@
     "color": "blue",
     "source": "CDC Ebola Chronology / WHO DON Archive",
     "contested": false,
-    "deltaNote": "Includes all Ebola species: EBOV, SUDV, BDBV, TAFV, RESTV",
+    "deltaNote": "Includes all Ebola species: EBOV, SUDV, BDBV, TAFV, RESTV. 2026 DRC-Uganda BDBV outbreak ongoing.",
     "trend": "stable",
-    "lastUpdated": "2026-05-22"
+    "lastUpdated": "2026-05-24"
   }
 ]

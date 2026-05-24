@@ -2,8 +2,8 @@
   {
     "id": "brent_crude",
     "label": "Brent Crude",
-    "value": "~$103/bbl",
-    "change": "May 22 (Day 84): Brent ~$103.82/bbl — fell ~5% for the week on Al Arabiya draft deal leak; deal optimism sends equities +$500B; oil down on Hormuz reopening expectations. May 21 (Day 83): ~$104–107/bbl — Iran 'reviewing' US proposal, Pakistan Field Marshal Munir in Tehran. May 4 peak: $114.4/bbl. Apr 30 record: $126/bbl. Pre-war baseline Feb 27: $77.74/bbl.",
+    "value": "~$96/bbl",
+    "change": "May 24 (Day 86): Brent ~$96/bbl — fell ~7% from May 22 level on Axios deal details (HEU export, 12-15yr moratorium) and Iran's 30-day Hormuz reopening signal. May 23 (Day 85): ~$100/bbl — Trump declares deal 'largely negotiated'; Pakistan Munir's Tehran visit 'highly productive.' May 22 (Day 84): ~$103/bbl — Al Arabiya draft deal leak. May 4 peak: $114.4/bbl. Apr 30 record: $126/bbl. Pre-war baseline Feb 27: $77.74/bbl.",
     "direction": "down",
     "sparkData": [
       77.74,
@@ -54,17 +54,19 @@
       106.5,
       106.0,
       105.0,
-      103.82
+      103.82,
+      100.0,
+      96.0
     ],
     "color": "#e74c3c",
-    "source": "Reuters / CNN / CNBC / Al Jazeera / Bloomberg / OilPrice.com / Euronews / The National / NPR / Axios / IEA",
-    "lastUpdated": "2026-05-22T14:00:00.000Z"
+    "source": "Reuters / CNN / CNBC / Al Jazeera / Bloomberg / OilPrice.com / Euronews / The National / NPR / Axios / IEA / NBC News",
+    "lastUpdated": "2026-05-24T14:21:37.000Z"
   },
   {
     "id": "wti_crude",
     "label": "WTI Crude",
-    "value": "~$97/bbl",
-    "change": "May 22 (Day 84): WTI ~$97/bbl — fell on Al Arabiya draft deal leak and Hormuz reopening optimism; largest weekly drop since conflict began. May 21 (Day 83): ~$102–105/bbl — Iran diplomatic signals cause mild market relief. Apr 30 conflict high: $109.64. Pre-war baseline: $71.23/bbl.",
+    "value": "~$88/bbl",
+    "change": "May 24 (Day 86): WTI ~$88/bbl — fell ~9% over 48hrs on Axios nuclear deal exclusives and Iran's Hormuz 30-day reopening signal; compounding deal optimism. May 23 (Day 85): ~$93/bbl — Trump 'largely negotiated' declaration. May 22 (Day 84): ~$97/bbl — Al Arabiya draft deal leak. Apr 30 conflict high: $109.64. Pre-war baseline: $71.23/bbl.",
     "direction": "down",
     "sparkData": [
       71.23,
@@ -107,11 +109,14 @@
       108.0,
       106.0,
       105.5,
-      103.5
+      103.5,
+      97.0,
+      93.0,
+      88.0
     ],
     "color": "#e67e22",
-    "source": "Reuters / CNN / CNBC / Al Jazeera / Bloomberg / OilPrice.com / NPR",
-    "lastUpdated": "2026-05-21T14:27:30.000Z"
+    "source": "Reuters / CNN / CNBC / Al Jazeera / Bloomberg / OilPrice.com / NPR / NBC News",
+    "lastUpdated": "2026-05-24T14:21:37.000Z"
   },
   {
     "id": "gold_spot",
@@ -138,8 +143,8 @@
   {
     "id": "sp500",
     "label": "S&P 500",
-    "value": "Major Rally — Draft Deal Leak",
-    "change": "May 22 (Day 84): Surged ~$500B market cap on Al Arabiya draft US-Iran deal leak — largest single-day rally since April 17 Hormuz opening. May 21 (Day 83): Mildly positive — Iran 'reviewing' US proposal, Pakistan mediation escalates. Apr 17: All-time record high (+1.2%) on Hormuz opening news.",
+    "value": "Extended Rally — Deal Details Emerging",
+    "change": "May 24 (Day 86): Further rally on Axios nuclear deal details (HEU export, 12-15yr moratorium) and Rubio 'significant progress' signal; oil price decline boosting consumer sectors. May 23 (Day 85): Sustained gains on Trump 'largely negotiated' declaration. May 22 (Day 84): Surged ~$500B market cap on Al Arabiya draft deal leak. Apr 17: All-time record high (+1.2%) on Hormuz opening news.",
     "direction": "up",
     "sparkData": [
       6920,
@@ -158,11 +163,14 @@
       6920,
       6850,
       6870,
-      6890
+      6890,
+      6920,
+      6960,
+      6980
     ],
     "color": "#3498db",
-    "source": "CNN / Bloomberg / Motley Fool / 24/7 Wall St.",
-    "lastUpdated": "2026-05-21T14:27:30.000Z"
+    "source": "CNN / Bloomberg / Motley Fool / 24/7 Wall St. / NBC News / CNBC",
+    "lastUpdated": "2026-05-24T14:21:37.000Z"
   },
   {
     "id": "vix",
@@ -268,8 +276,8 @@
   {
     "id": "hormuz_traffic",
     "label": "Hormuz Traffic",
-    "value": "Blockade Continues — ~5% Normal Traffic",
-    "change": "May 22 (Day 84): Al Arabiya draft deal includes Hormuz freedom-of-navigation guarantee; Trump demands 'open and free' — no tolls; Rubio rejects Iranian toll or coordination requirement. Draft deal markets give optimism but no opening yet. May 21 (Day 83): Pakistan Field Marshal Munir in Tehran; Iran 'reviewing' MOU response. 1,550+ vessels stranded; ~22,500 mariners trapped. May 4: IRGC formal control zone — $1M+ tolls.",
+    "value": "Blockade Continues — 30-Day Reopening Signaled",
+    "change": "May 24 (Day 86): Iran officially signals Hormuz shipping will return to pre-war levels within 30 days of deal signing — most concrete timeline yet. 1,550+ vessels stranded; ~22,500 mariners trapped. May 23 (Day 85): Munir's 'productive' Tehran visit; deal optimism strengthens. May 22 (Day 84): Al Arabiya draft deal includes Hormuz freedom-of-navigation guarantee; Trump demands 'open and free.' May 4: IRGC formal control zone — $1M+ tolls.",
     "direction": "up",
     "sparkData": [
       100,
@@ -297,10 +305,12 @@
       0,
       0,
       2,
-      0
+      0,
+      1,
+      1
     ],
     "color": "#27ae60",
-    "source": "Al Jazeera / NBC News / USNI News / Lloyd's List Intelligence / AP / IEA / CBS News / ABC News / CNBC / Reuters / Military.com / NPR / Axios",
-    "lastUpdated": "2026-05-19T14:22:45.000Z"
+    "source": "Al Jazeera / NBC News / USNI News / Lloyd's List Intelligence / AP / IEA / CBS News / ABC News / CNBC / Reuters / Military.com / NPR / Axios / NBC News",
+    "lastUpdated": "2026-05-24T14:21:37.000Z"
   }
 ]
