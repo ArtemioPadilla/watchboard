@@ -36,16 +36,16 @@
   },
   {
     "id": "gdp-growth-2025",
-    "label": "GDP Growth (2025 actual / Q1 2026 preliminary)",
-    "value": "0.4% / -0.8% QoQ",
+    "label": "GDP Growth (2025 actual / Q1 2026 / 2026 full-year forecast)",
+    "value": "0.4% / -0.8% QoQ / 1.1%",
     "color": "red",
-    "source": "INEGI preliminary Q1 2026, Apr 30; Banxico Feb 2026 report",
+    "source": "INEGI Q1 2026 preliminary (Apr 30); Citi Encuesta de Expectativas, May 21, 2026",
     "contested": true,
-    "contestNote": "Q1 2026 preliminary: -0.8% quarterly contraction, +0.2% annual. All three sectors declined. Government projects 1.8–2.8% for full-year 2026; IMF/BBVA forecast 1.6–1.8%. Sharp rebound required in Q2–Q4.",
-    "delta": "Q1 2026: +0.2% annual, -0.8% quarterly",
-    "deltaNote": "All sectors contracted: primary -1.4%, secondary -1.1%, tertiary -0.6%. $17.4B in investment lost to U.S. tariff uncertainty per Expansión.",
+    "contestNote": "Q1 2026 INEGI preliminary: -0.8% quarterly, +0.2% annual. All three sectors declined. Full-year 2026 forecasts: Citi survey (May 21) 1.1% — lowest consensus estimate; IMF 1.6%; BBVA 1.8%; govt 1.8–2.8%. USMCA renegotiation uncertainty is the primary drag on new investment.",
+    "delta": "2026 full-year forecast cut to 1.1% (Citi May 21); Q1 actual: -0.8% QoQ",
+    "deltaNote": "Q1 all sectors contracted: primary -1.4%, secondary -1.1%, tertiary -0.6%. $17.4B in investment held due to tariff uncertainty. Citi consensus lowest since 2020.",
     "trend": "down",
-    "lastUpdated": "2026-04-30T15:05:00Z"
+    "lastUpdated": "2026-05-25T16:05:44Z"
   },
   {
     "id": "inflation-rate",
@@ -84,13 +84,13 @@
   {
     "id": "peso-usd-rate",
     "label": "Peso / USD Exchange Rate",
-    "value": "~17.29 MXN",
+    "value": "~17.33 MXN",
     "color": "green",
-    "source": "X-Rates / Banxico FIX, May 8, 2026",
+    "source": "Banxico FIX / Citi Encuesta de Expectativas, May 22, 2026",
     "contested": false,
-    "delta": "~17.29 MXN/USD (May 8); Banxico FIX May 7: 17.2530. Peso holding near multi-week highs as USD weakens broadly; 200bp rate differential (Banxico 6.75% vs Fed ~4.5%) supports carry trade",
+    "delta": "~17.33 MXN/USD week of May 22, mild depreciation from 17.29 (May 8); year-end consensus 18.0 per Citi (May 21). Banxico rate at 6.50% supports carry trade; USMCA uncertainty a mild headwind.",
     "trend": "down",
-    "lastUpdated": "2026-05-08T14:00:00Z"
+    "lastUpdated": "2026-05-25T16:05:44Z"
   },
   {
     "id": "budget-deficit-2024",

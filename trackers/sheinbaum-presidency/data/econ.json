@@ -1,14 +1,14 @@
 [
   {
     "id": "gdp-growth-rate",
-    "label": "GDP Growth (2025 actual / Q1 2026 preliminary)",
-    "value": "0.4% / -0.8% QoQ",
-    "change": "Q1 2026 INEGI preliminary (Apr 30): -0.8% quarterly contraction, +0.2% annual. All sectors declined. Full-year 2026 forecast: IMF 1.6%, BBVA 1.8%, govt 1.8–2.8%.",
+    "label": "GDP Growth (2025 actual / Q1 2026 preliminary / 2026 forecast)",
+    "value": "0.4% / -0.8% QoQ / 1.1%",
+    "change": "Q1 2026 INEGI preliminary (Apr 30): -0.8% quarterly contraction, +0.2% annual. All sectors declined. Full-year 2026 forecast downgraded: Citi survey May 21 → 1.1%; IMF 1.6%; BBVA 1.8%; govt 1.8–2.8%. USMCA uncertainty and tariff drag cited.",
     "direction": "down",
-    "sparkData": [4.6, 3.2, 2.4, 1.8, 0.9, 0.4, 0.2],
+    "sparkData": [4.6, 3.2, 2.4, 1.8, 0.9, 0.4, 0.2, 0.11],
     "color": "#e74c3c",
-    "source": "INEGI preliminary Q1 2026, April 30, 2026",
-    "lastUpdated": "2026-04-30T15:05:00Z"
+    "source": "INEGI preliminary Q1 2026, April 30; Citi Encuesta de Expectativas, May 21, 2026",
+    "lastUpdated": "2026-05-25T16:05:44Z"
   },
   {
     "id": "annual-inflation",
@@ -35,13 +35,13 @@
   {
     "id": "peso-usd-exchange",
     "label": "Peso / USD Rate (MXN)",
-    "value": "~17.29",
-    "change": "~17.29 MXN/USD (May 8); Banxico FIX 17.2530 (May 7). Peso holding near multi-week highs; 200bp rate differential vs. Fed supports carry trade. Banxico cut to 6.50% on May 7 (15th consecutive cut).",
+    "value": "~17.33",
+    "change": "~17.33 MXN/USD (week of May 22); mild depreciation from ~17.29 (May 8) as USMCA bilateral talks open. Year-end consensus forecast: ~18.0 pesos/dollar (Citi survey May 21). Banxico rate at 6.50% provides carry-trade support.",
     "direction": "down",
-    "sparkData": [17.2, 18.5, 19.8, 21.0, 20.2, 19.5, 18.5, 17.7, 18.12, 17.83, 17.27, 17.37, 17.32, 17.35, 17.41, 17.53, 17.25, 17.29],
+    "sparkData": [17.2, 18.5, 19.8, 21.0, 20.2, 19.5, 18.5, 17.7, 18.12, 17.83, 17.27, 17.37, 17.32, 17.35, 17.41, 17.53, 17.25, 17.29, 17.33],
     "color": "#27ae60",
-    "source": "X-Rates / Banxico FIX, May 8, 2026",
-    "lastUpdated": "2026-05-08T14:00:00Z"
+    "source": "Banxico FIX / Citi Encuesta de Expectativas May 21, 2026",
+    "lastUpdated": "2026-05-25T16:05:44Z"
   },
   {
     "id": "fdi-inflows",
