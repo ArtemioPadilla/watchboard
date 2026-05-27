@@ -2,50 +2,51 @@
   {
     "id": "kpi-total-cases-2026",
     "label": "Suspected Cases (2026 DRC + Uganda)",
-    "value": "~900+",
+    "value": "906",
     "color": "red",
-    "source": "WHO / DRC Ministry of Health — DRC-Uganda Ebola, 25 May 2026",
+    "source": "WHO Situation Report #2 — DRC-Uganda Ebola, 26 May 2026",
     "contested": true,
-    "contestNote": "904 suspected cases; 101 lab-confirmed in DRC (Ituri, Nord-Kivu, Sud-Kivu) + 12 confirmed in Uganda (Kampala). Suspected count includes probable and unconfirmed deaths in conflict-inaccessible zones. 18 escaped ETU patients from Mongbwalu not fully traced.",
-    "delta": "+150+ (7d)",
-    "deltaNote": "Rapid surge from ~750 suspected cases on May 23 to 900+ by May 25 as outbreak expands to three DRC provinces",
+    "contestNote": "906 suspected in DRC across Ituri, Nord-Kivu, Sud-Kivu; 112 lab-confirmed total (105 DRC + 7 Uganda). Suspected count includes probable and unconfirmed deaths in conflict-inaccessible zones. 25+ escaped ETU patients from Mongbwalu attacks not traced.",
+    "delta": "+6 (1d)",
+    "deltaNote": "Marginal increase from 900+ to 906 per WHO Sit-Rep #2; undercounting likely given 23% of outbreak zone inaccessible and 25+ escaped patients from Mongbwalu",
     "trend": "up",
-    "lastUpdated": "2026-05-25"
+    "lastUpdated": "2026-05-26"
   },
   {
     "id": "kpi-confirmed-cases-2026",
     "label": "Lab-Confirmed Cases (2026 Outbreak — DRC + Uganda)",
-    "value": "113",
+    "value": "112",
     "color": "red",
-    "source": "WHO / DRC MoH / Uganda MoH, 25 May 2026",
+    "source": "WHO Situation Report #2 / DRC MoH / Uganda MoH, 26 May 2026",
     "contested": false,
-    "delta": "+28 (2d)",
-    "deltaNote": "101 confirmed DRC + 12 confirmed Uganda (up from 85 DRC + 5 Uganda on May 23). Uganda cases jumped from 5 to 12 within 48 hours.",
+    "delta": "-1 (revised)",
+    "deltaNote": "WHO Sit-Rep #2 revised to 112: 105 confirmed DRC (+4) + 7 confirmed Uganda (5 previously preliminary cases reclassified as probable). Net +4 new DRC confirmed since May 25.",
     "trend": "up",
-    "lastUpdated": "2026-05-25"
+    "lastUpdated": "2026-05-26"
   },
   {
     "id": "kpi-deaths-2026",
-    "label": "Suspected Deaths (2026 Outbreak)",
-    "value": "177+",
+    "label": "Deaths (2026 Outbreak)",
+    "value": "223+ suspected / 11 confirmed",
     "color": "red",
-    "source": "WHO / DRC Ministry of Health, 25 May 2026",
+    "source": "WHO Situation Report #2 / DRC Ministry of Health, 26 May 2026",
     "contested": true,
-    "contestNote": "177+ suspected deaths across DRC; 10 confirmed deaths (9 DRC, 1 Uganda). Suspected figure includes community deaths in inaccessible zones of Ituri. Undercount likely. 18 escaped ETU patients from Mongbwalu represent additional untracked mortality risk.",
-    "delta": "Ongoing (accelerating)",
+    "contestNote": "223+ suspected deaths in DRC (up from 177+ on May 25); 11 confirmed deaths (10 DRC, 1 Uganda). Mongbwalu local CFR ~27% (88 suspected deaths / 322 suspected cases). 25+ escaped patients represent untraceable mortality risk.",
+    "delta": "+46 suspected deaths (1d)",
+    "deltaNote": "Suspected deaths rose sharply from 177+ to 223+ per WHO Sit-Rep #2 as community deaths in inaccessible zones are formally counted",
     "trend": "up",
-    "lastUpdated": "2026-05-25"
+    "lastUpdated": "2026-05-26"
   },
   {
     "id": "kpi-cfr-2026",
     "label": "Case Fatality Rate (2026 BDBV)",
-    "value": "8.8–~20%",
+    "value": "9.8–24.6%",
     "color": "amber",
-    "source": "WHO / DRC MoH — updated 25 May 2026",
+    "source": "WHO Situation Report #2 / DRC MoH — updated 26 May 2026",
     "contested": true,
-    "contestNote": "CFR ranges from 8.8% (10 confirmed deaths / 113 confirmed cases) to ~20% (177 suspected deaths / 900 suspected cases). BDBV historically 25–47% CFR in prior outbreaks; suspected community deaths are likely undercounted. ETU disruptions affect treatment access.",
+    "contestNote": "CFR ranges from 9.8% (11 confirmed deaths / 112 confirmed cases) to 24.6% (223 suspected deaths / 906 suspected cases). Mongbwalu local CFR ~27%. BDBV historically 25–47% CFR. Suspected deaths are likely undercounted; 23% of zone inaccessible. ETU attacks disrupt treatment access.",
     "trend": "up",
-    "lastUpdated": "2026-05-25"
+    "lastUpdated": "2026-05-26"
   },
   {
     "id": "kpi-vaccine-coverage",
@@ -63,25 +64,25 @@
   {
     "id": "kpi-health-zones-affected",
     "label": "DRC Provinces + Countries Affected",
-    "value": "3 DRC provinces + Uganda (12 cases)",
+    "value": "3 DRC provinces + Uganda (7–12 confirmed)",
     "color": "red",
-    "source": "WHO DON603 / DRC MoH / Uganda MoH, 25 May 2026",
+    "source": "WHO Situation Report #2 / DRC MoH / Uganda MoH, 26 May 2026",
     "contested": false,
-    "delta": "+7 Uganda cases (2d)",
-    "deltaNote": "Ituri (index), Nord-Kivu incl. Goma, Sud-Kivu / Bukavu in DRC. Uganda: 12 confirmed cases in Kampala — up from 5 on May 23. 10 additional countries assessed 'at risk.' 18 escaped patients from Mongbwalu represent uncontrolled transmission risk.",
+    "delta": "Uganda revised to 7 lab-confirmed",
+    "deltaNote": "Ituri (index, 322 susp. in Mongbwalu alone), Nord-Kivu (incl. Goma), Sud-Kivu / Bukavu in DRC. Uganda: 7 lab-confirmed (5 probable) in Kampala per WHO Sit-Rep #2. 25+ escaped patients from Mongbwalu attacks represent uncontrolled transmission risk.",
     "trend": "up",
-    "lastUpdated": "2026-05-25"
+    "lastUpdated": "2026-05-26"
   },
   {
     "id": "kpi-contact-tracing",
     "label": "Contact Tracing Coverage (Uganda Kampala)",
     "value": "147 contacts under monitoring",
     "color": "amber",
-    "source": "Uganda Ministry of Health, 25 May 2026",
+    "source": "Uganda Ministry of Health / WHO Situation Report #2, 26 May 2026",
     "contested": false,
-    "deltaNote": "Expanded from 87 contacts on May 23 to 147 as Uganda confirmed 12 cases. All identified contacts under 21-day monitoring. DRC contact tracing severely impaired by ETU attacks and 18 unaccounted escaped patients from Mongbwalu.",
+    "deltaNote": "147 contacts under 21-day monitoring in Uganda (unchanged from May 25). DRC contact tracing severely impaired: 23% of outbreak zone inaccessible; 25+ escaped patients from Mongbwalu attacks generate hundreds of untraceable community contacts.",
     "trend": "up",
-    "lastUpdated": "2026-05-25"
+    "lastUpdated": "2026-05-26"
   },
   {
     "id": "kpi-west-africa-total",
