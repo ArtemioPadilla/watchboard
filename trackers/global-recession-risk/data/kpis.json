@@ -1,15 +1,15 @@
 [
   {
     "id": "us-gdp-q1-2026-advance",
-    "label": "US GDP Q1 2026 (Advance Estimate)",
-    "value": "+2.0%",
-    "color": "green",
-    "source": "BEA Advance Estimate, Q1 2026 (released Apr 30, 2026)",
+    "label": "US GDP Q1 2026 (Second Estimate — Revised Down)",
+    "value": "+1.6%",
+    "color": "amber",
+    "source": "BEA GDP Second Estimate, Q1 2026 (released May 28, 2026)",
     "contested": false,
-    "delta": "+1.3pp",
-    "deltaNote": "vs Q4 2025 (+0.7%); beat GDPNow final forecast (1.2%) and NY Fed nowcast (2.09%); slightly below 2.2% consensus. AI data center investment + rebounding federal spending drove upside. Recession avoided for Q1 despite Iran war energy shock.",
-    "trend": "up",
-    "lastUpdated": "2026-04-30T13:30:00Z"
+    "delta": "-0.4pp from advance (+2.0%)",
+    "deltaNote": "Revised down from +2.0% advance estimate (Apr 30) to +1.6% annualized — driven by downward adjustments to consumer spending and residential investment. Q4 2025 remains +0.5%. At +1.6%, Q1 represents the weakest quarterly growth since Q1 2025 (-0.6% contraction). Real final sales to domestic purchasers revised lower. Deloitte revised full-year 2026 US GDP forecast to just +0.4%. Recession not confirmed but stall-speed growth trajectory with stagflation.",
+    "trend": "down",
+    "lastUpdated": "2026-05-28T13:30:00Z"
   },
   {
     "id": "us-gdp-q4-2025",
@@ -50,15 +50,15 @@
   },
   {
     "id": "us-core-pce",
-    "label": "US PCE Inflation (March 2026)",
-    "value": "3.2% Core / 3.5% Headline",
+    "label": "US PCE Inflation (April 2026 — 3-Year High)",
+    "value": "3.3% Core / 3.8% Headline",
     "color": "red",
-    "source": "BEA PCE Release, March 2026 (released Apr 30, 2026)",
+    "source": "BEA PCE Release, April 2026 (released May 28, 2026)",
     "contested": false,
-    "delta": "+0.14pp core / +0.34pp headline",
-    "deltaNote": "March 2026: Core PCE 3.2% YoY (+0.3% MoM), Headline PCE 3.5% YoY (+0.7% MoM) — hottest since Iran war began. Energy shock feeds headline; tariff pass-through sustains core. Both far above Fed 2% target.",
+    "delta": "+0.1pp core / +0.3pp headline vs March",
+    "deltaNote": "APRIL 2026 (released May 28): Core PCE 3.3% YoY (+0.2% MoM — softer than +0.3% feared); Headline PCE 3.8% YoY (+0.4% MoM — below +0.5% consensus). YoY prints are 3-year highs (highest core since Oct 2025; highest headline since May 2023). 'Supercore' services PCE (ex-energy, ex-housing) decelerated to +0.1% MoM — the one dovish signal. Real disposable income: -0.5% MoM (2nd consecutive decline). Saving rate: 2.6% multi-year low. Energy (gasoline +5.5% MoM) drove the headline surge. Warsh prefers trimmed-mean gauge — which eased. June FOMC hold: ~99% priced.",
     "trend": "up",
-    "lastUpdated": "2026-04-30T13:30:00Z"
+    "lastUpdated": "2026-05-28T13:30:00Z"
   },
   {
     "id": "fed-funds-rate",
@@ -123,14 +123,14 @@
   {
     "id": "vix-fear-gauge",
     "label": "S&P 500 / Market Risk Gauge",
-    "value": "S&P 500 7,519.12 (Record May 26); Dow Record; Brent $99.18 (May 27); BOJ June 16 Hike at 65–77%; Pre-PCE Positioning: April PCE + Q1 GDP 2nd Estimate Due May 28",
+    "value": "S&P 500 ~7,557 (New ATH May 28); Snowflake +36.5%; Brent $91–92 (Down 20% from 2026 High $115); PCE 3.3% Core / 3.8% Headline — June FOMC Hold ~99%",
     "color": "amber",
-    "source": "TheStreet / CNBC / Fortune / ING Think, May 26-27, 2026",
+    "source": "TheStreet / CNBC / BEA / FRED; May 28-29, 2026",
     "contested": false,
-    "delta": "S&P 500 hit new record close 7,519.12 on May 26 (+0.61%) driven by Micron +19% AI surge. Dow hit record on May 27. 10Y Treasury: 4.47% (May 27). 30Y: 5.024% (May 26). Brent $99.18 (May 27, third session below $100). Trump May 27: Iran deal 'close to finalizing.' Section 122 cliff: 57 days.",
-    "deltaNote": "MAY 26-27 SITUATION REPORT: S&P 500 9th consecutive week of gains (record 7,519.12 close May 26) — sentiment/equity divergence at historic extremes. STRUCTURAL RISKS INTACT: (1) US self-defense strikes on Iran May 26 (oil 3%+ intraday spike); (2) April PCE + Q1 GDP 2nd estimate due May 28 — most important Warsh-era data point; (3) BOJ June 16 hike 65–77% (coincides with Warsh's first FOMC); (4) Michigan 44.8 all-time record low; (5) Conference Board May 93.1 — Expectations Index 74.4, 16th consecutive month below 80 recession threshold. OIL RELIEF SCENARIO PROGRESSING: Brent $99.18 (May 27), WTI $93.12 — if deal signed in days, Brent could fall to $85–90 by July. PCE May 28 is the immediate binary: above 3.2% core = 30Y back above 5.10%, below 3.0% = meaningful relief.",
+    "delta": "May 28: S&P 500 new ATH ~7,557 (+0.51%) — market shrugged off hot PCE YoY on softer MoM prints. Snowflake +36.5% (best-ever session on strong guidance). May 29: Brent ~$91-92, down ~20% from 2026 high of ~$115. 10Y Treasury: ~4.47-4.48%. 30Y: ~5.00-5.10%. June FOMC hold ~99% priced. Iran MOU drafted at negotiator level but unsigned.",
+    "deltaNote": "MAY 28-29 SITUATION REPORT: S&P 500 set yet another ATH (~7,557) on May 28 as the 'less bad than feared' PCE MoM prints (core +0.2% vs +0.3% feared) allowed bulls to shrug off the 3-year-high YoY readings. AI tech continued leading. IRAN DEAL PROGRESS: Brent is now down ~20% from the 2026 high of ~$115 (early May IRGC seizure peak), settling around $91-92 on May 29 — the largest oil-price relief since the April 7 ceasefire announcement. Critical caveats: (1) MOU is not signed — Trump hasn't endorsed; Vance: 'couple language points'; White House called Iranian press claim a 'fabrication'; (2) Iran parliament hardliners remain the domestic political obstacle; (3) Uranium stockpile disposition unresolved. If MOU signed by June 5: Goldman recession probability falls from 30% toward 18%; CPI path toward 3.0%. If talks collapse: Brent back toward $103+; recession probability toward 60%. SECTION 122 CLIFF: 54 days. BOJ + WARSH FOMC June 16: highest-priority tail risk.",
     "trend": "down",
-    "lastUpdated": "2026-05-27T18:00:00Z"
+    "lastUpdated": "2026-05-29T14:00:00Z"
   },
   {
     "id": "us-effective-tariff-rate",
@@ -159,13 +159,13 @@
   {
     "id": "global-policy-uncertainty",
     "label": "Global Policy Uncertainty / Recession Risk",
-    "value": "MAY 27: Trump Iran Deal 'Close to Finalizing' (Strong Inspections); Brent $99.18; BOJ June 16 Hike 65-77%; PCE April + Q1 GDP 2nd Estimate DUE MAY 28; Section 122 Cliff 57 Days; Goldman 30%, Moody's 49%",
+    "value": "MAY 29: Iran MOU Drafted at Negotiator Level — Not Signed; Brent $91–92 (Down 20% from $115 High); PCE 3.3% Core / 3.8% Headline (MoM Softer); Q1 GDP Revised 1.6%; Section 122 Cliff 54 Days; Goldman 30%, Moody's 49%",
     "color": "red",
-    "source": "CBS News / CNBC / Fortune / ING Think; May 27, 2026",
+    "source": "CNBC / BEA / CNN / Penn Mutual AM; May 28-29, 2026",
     "contested": false,
-    "delta": "MAY 27 STATUS: (1) Trump says US-Iran deal 'close to finalizing with strong inspections' — Khamenei advisor Shamkhani calls US nuclear demands a 'fantasy'; (2) US self-defense strikes on Iran missile sites May 26 — oil spiked 3%+, then Brent settled at $99.18 May 27; (3) CB Consumer Confidence May: 93.1 (beat, but 16th month Expectations below 80); (4) S&P 500 record close 7,519.12 (May 26); (5) PCE April + Q1 GDP 2nd estimate + Durable Goods DUE TOMORROW May 28.",
-    "deltaNote": "MAY 27 SITUATION REPORT — WARSH ERA DAY 13: CRITICAL DATA TOMORROW (PCE APRIL): The most consequential single data release of the Warsh era drops May 28. If core PCE April exceeds 3.2%: 30Y Treasury reverses toward 5.10%+, Warsh prepares tighter June 16-17 signal, recession probability rises toward 55%+. If below 3.0%: major relief — Warsh can hold or even signal cuts, oil deal path becomes clearer. IRAN DEAL STATUS (May 27): Trump 'close to finalizing' vs Khamenei advisor 'fantasy' — the verification mechanism (IAEA-style inspections vs Iranian sovereignty objections) remains the core blocker. Framework: 60-day graduated Hormuz reopening conditional on verified nuclear drawdown. OIL ARITHMETIC: Brent $99.18 → must reach $85-90 sustainably for CPI relief below 3.0%. BOJ JUNE 16 HIKE: 65-77% market probability (ING/OIS, post Japan Q1 GDP beat). SIMULTANEOUS BOJ + WARSH FOMC June 16 remains the highest-probability tail risk scenario in global markets. RECESSION DECISION PATH: Iran deal → May 28 PCE → June 5 jobs → June 16 BOJ + FOMC → July 23 Section 122 cliff (57 days). Goldman 30%, JPMorgan 35%, Moody's 49%.",
+    "delta": "MAY 29 STATUS: (1) Iran MOU drafted at negotiator level — 60-day framework incl. partial Hormuz reopening + nuclear freeze; BUT Trump hasn't signed; Vance 'couple language points'; White House called Iranian state TV claim a 'fabrication'; (2) Brent ~$91-92, down ~20% from 2026 high; (3) April PCE 3.3% core / 3.8% headline — MoM softer than feared (core +0.2%); Q1 GDP revised down to +1.6%; (4) S&P 500 new ATH ~7,557 on May 28; (5) June FOMC hold ~99% priced.",
+    "deltaNote": "MAY 29 SITUATION REPORT — WARSH ERA DAY 15: IRAN MOU PROGRESS VS POLITICAL UNCERTAINTY: The 60-day MOU framework drafted May 28 covers (a) 72-hour Hormuz commercial reopening protocol, (b) IAEA daily access to Fordow + Natanz, (c) uranium enrichment cap at 20%. Key unresolved: disposition of Iran's ~72 kg of 60%-enriched uranium stockpile — deferred to 30-day follow-on talks. CRITICAL DOMESTIC OBSTACLES: Iran parliament hardliners; Iranian supreme leader Khamenei has not endorsed; Trump has not signed. TIMELINE RISK: The June 16 self-imposed deadline coincides with Warsh's first FOMC and BOJ meeting — the most dangerous single-day concentration of global monetary and geopolitical risk in 2026. PCE AFTERMATH: April PCE 3.3% core / 3.8% headline YoY are 3-year highs, but MoM prints (core +0.2%, headline +0.4%) were softer than feared. 'Supercore' services PCE decelerated to +0.1% — Warsh's preferred gauge likely also eased. June FOMC hold ~99% priced. Q1 GDP revised to +1.6% (from +2.0%). Section 122 cliff now 54 days (July 23). RECESSION MATRIX: If MOU signed by June 5 + oil reaches $85-90 by June 15 + May jobs solid: Goldman probability falls from 30% toward 18%. If deal collapses: Moody's 49% rises toward 60%+. Goldman 30%, JPMorgan 35%, Moody's 49% (pre-PCE estimates; updates expected).",
     "trend": "down",
-    "lastUpdated": "2026-05-27T18:00:00Z"
+    "lastUpdated": "2026-05-29T14:00:00Z"
   }
 ]

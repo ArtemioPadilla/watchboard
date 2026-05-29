@@ -15,14 +15,14 @@
   {
     "id": "kpi-confirmed-cases-2026",
     "label": "Lab-Confirmed Cases (2026 Outbreak — DRC + Uganda)",
-    "value": "128",
+    "value": "132",
     "color": "red",
-    "source": "CDC / ECDC — DRC/Uganda Ebola tracking, 28 May 2026",
+    "source": "CDC — Ebola Situation Summary, 29 May 2026",
     "contested": false,
-    "delta": "+16 DRC (2d)",
-    "deltaNote": "DRC confirmed rose from 105 (May 26) to 121 — 16 new lab-confirmed in 48 hours, fastest confirmation rate since PHEIC. Uganda remains 7 confirmed. Total 128.",
+    "delta": "+4 DRC (1d)",
+    "deltaNote": "DRC confirmed rose from 121 (May 28) to 125 (May 29) — 4 additional lab-confirmed per CDC daily update. Uganda remains 7 confirmed. Total 132 confirmed. DRC MoH reconciled suspected count back to 906 (removed non-cases, reclassified some as confirmed).",
     "trend": "up",
-    "lastUpdated": "2026-05-28"
+    "lastUpdated": "2026-05-29"
   },
   {
     "id": "kpi-deaths-2026",
@@ -50,16 +50,16 @@
   },
   {
     "id": "kpi-vaccine-coverage",
-    "label": "rVSV-ZEBOV Emergency Use Ring Vaccination",
-    "value": "No licensed BDBV vaccine — Oxford trials in 2–3 months",
+    "label": "BDBV Vaccine Status — WHO Expert Panel Ruling (28 May 2026)",
+    "value": "Ervebo ring vaccination HALTED — ChAdOx1 BDBV priority (2–3 mo to trial)",
     "color": "red",
-    "source": "Oxford / Serum Institute of India / The Week, 26 May 2026; WHO IHR Committee 22 May 2026",
+    "source": "WHO R&D Blueprint Expert Panel, 28 May 2026; Oxford / Serum Institute of India",
     "contested": true,
-    "contestNote": "rVSV-ZEBOV (Ervebo) licensed for Zaire ebolavirus only. Off-label ring vaccination ongoing. Oxford University + Serum Institute of India ChAdOx1 BDBV candidate could enter Phase 1 human trials within 2–3 months. MVA-BN-Filo on compassionate use. ETU attacks disrupted vaccination supply lines in Ituri.",
-    "delta": "Oxford trials: est. Aug–Sep 2026 per updated Serum Institute timeline",
-    "deltaNote": "Updated May 26: Oxford/Serum Institute partnership confirmed trials could begin within 2–3 months, accelerated from prior 6–9 month estimate. CEPI co-funding $45M for BDBV candidates.",
+    "contestNote": "WHO expert panel (28 May) ruled rVSV-ZEBOV (Ervebo) must NOT be used outside research settings for BDBV — ending off-label ring vaccination as currently structured. ChAdOx1 BDBV (Oxford/Serum Institute) is now highest-priority candidate; Phase 1 trials within 2–3 months pending additional animal data. rVSV BDBV (IAVI) 7–9 months. Therapeutics prioritized: MBP134, Maftivimab®, remdesivir (all clinical trial only). Obeldesivir proposed as post-exposure prophylaxis for contacts.",
+    "delta": "Ervebo ring vaccination protocol under revision post-28 May WHO ruling",
+    "deltaNote": "May 29: Ring vaccination with Ervebo suspended pending WHO expert panel implementation guidance. ChAdOx1 BDBV remains highest priority for Phase 1 human trials in ~2–3 months (Aug–Sep 2026). CEPI co-funding $45M. All candidates must be used exclusively within clinical trials per WHO.",
     "trend": "up",
-    "lastUpdated": "2026-05-28"
+    "lastUpdated": "2026-05-29"
   },
   {
     "id": "kpi-health-zones-affected",
