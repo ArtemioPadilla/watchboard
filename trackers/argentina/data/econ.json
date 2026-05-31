@@ -1,7 +1,7 @@
 [
   {
     "id": "inflation-annual-2023",
-    "label": "Annual Inflation (Dec 2023)",
+    "label": "Annual Inflation (Dec 2023 Peak)",
     "value": "211.4%",
     "change": "+116.6 pts vs 2022",
     "direction": "up",
@@ -9,6 +9,17 @@
     "color": "#e74c3c",
     "source": "INDEC",
     "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "inflation-annual-2026",
+    "label": "Annual Inflation (Apr 2026)",
+    "value": "32.4%",
+    "change": "-179 pts vs Dec 2023 peak",
+    "direction": "down",
+    "sparkData": [211.4, 161.0, 113.4, 87.0, 54.9, 38.0, 32.4],
+    "color": "#f39c12",
+    "source": "INDEC / IMF WEO 2026",
+    "lastUpdated": "2026-05-31"
   },
   {
     "id": "gdp-per-capita-usd-2024",
@@ -35,13 +46,13 @@
   {
     "id": "primary-fiscal-balance",
     "label": "Primary Fiscal Balance (% GDP)",
-    "value": "+1.9% (2024)",
-    "change": "+6.7 pts vs 2023",
+    "value": "+1.4% projected (2026)",
+    "change": "IMF 2nd review approved May 21",
     "direction": "up",
-    "sparkData": [-4.8, -3.9, -3.0, -4.4, -2.5, -4.8, 1.9],
+    "sparkData": [-4.8, -3.9, -3.0, -4.4, -2.5, -4.8, 1.4],
     "color": "#27ae60",
-    "source": "Argentine Ministry of Economy",
-    "lastUpdated": "2026-04-25"
+    "source": "Argentine Ministry of Economy / IMF",
+    "lastUpdated": "2026-05-31"
   },
   {
     "id": "external-debt-gdp",
@@ -57,24 +68,24 @@
   {
     "id": "vaca-muerta-oil-output",
     "label": "Vaca Muerta Oil Output (kb/d)",
-    "value": "~450 kb/d (2024)",
-    "change": "+220 kb/d since 2020",
+    "value": "~874 kb/d (Feb 2026)",
+    "change": "+424 kb/d since 2020",
     "direction": "up",
-    "sparkData": [80, 150, 230, 300, 350, 400, 450],
+    "sparkData": [80, 150, 300, 400, 450, 650, 874],
     "color": "#27ae60",
-    "source": "Secretaría de Energía Argentina",
-    "lastUpdated": "2026-04-25"
+    "source": "Secretaría de Energía Argentina / Buenos Aires Times",
+    "lastUpdated": "2026-05-31"
   },
   {
     "id": "imf-outstanding-debt",
     "label": "IMF Outstanding Debt (Milei era)",
-    "value": "$40B",
-    "change": "+$20B new program (2025)",
+    "value": "$15.8B disbursed",
+    "change": "2nd review released $1B (May 21, 2026)",
     "direction": "up",
-    "sparkData": [44.0, 43.5, 42.0, 40.0, 40.0, 40.0, 60.0],
+    "sparkData": [44.0, 43.5, 42.0, 40.0, 40.0, 12.0, 15.8],
     "color": "#e74c3c",
     "source": "IMF / BCRA",
-    "lastUpdated": "2026-04-25"
+    "lastUpdated": "2026-05-31"
   },
   {
     "id": "gdp-crisis-2001-2002",

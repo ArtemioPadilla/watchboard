@@ -56,14 +56,14 @@
   },
   {
     "id": "china-gdp-growth",
-    "label": "China GDP Growth (Annual)",
-    "value": "5.0% (Q1 2026 actual)",
-    "change": "+0.5pp vs Q4 2025 (4.5%) — front-loaded exports",
-    "direction": "up",
-    "sparkData": [6.0, 2.3, 3.0, 5.2, 4.9, 4.0, 4.4, 4.5, 5.0],
+    "label": "China GDP Growth / Manufacturing PMI",
+    "value": "Q1 2026 GDP: 5.0%; May NBS Manufacturing PMI: 50.0 (Borderline — New Orders 49.9 in Contraction)",
+    "change": "Q1 2026 GDP: 5.0% YoY (beat 4.8% forecast; front-loaded export surge Jan-Feb). May 2026 NBS Manufacturing PMI (released May 31): 50.0 — exactly at expansion/contraction boundary; down from 50.3 April. New orders sub-index: 49.9 (contraction). Production: 51.2. High-tech: 52.9. Equipment: 52.1. Q2 2026 momentum stalling — Iran war Middle East demand destruction + US 31.6% effective tariff barrier. PBOC counter-cyclical tools likely. IMF 2026 China forecast: ~4.5% (downside risk growing).",
+    "direction": "down",
+    "sparkData": [6.0, 2.3, 3.0, 5.2, 4.9, 4.0, 4.4, 4.5, 5.0, 50.0],
     "color": "amber",
-    "source": "China NBS / IMF WEO April 2026",
-    "lastUpdated": "2026-04-18T12:00:00Z"
+    "source": "China NBS / IMF WEO April 2026 / Xinhua May 31, 2026",
+    "lastUpdated": "2026-05-31T14:22:47Z"
   },
   {
     "id": "global-trade-volume",
@@ -112,13 +112,13 @@
   {
     "id": "wti-crude-oil",
     "label": "WTI Crude Oil (USD/bbl)",
-    "value": "Brent ~$91–92 / WTI ~$87–88 (May 29 — Down 20% from 2026 High $115; Iran MOU Drafted but Unsigned; June FOMC Hold ~99%)",
-    "change": "May 28: Brent $93.71, WTI $88.90 on tentative Iran MOU at negotiator level. May 29: Brent ~$91-92 — down ~20% from 2026 high ~$115 (IRGC seizure peak). Oil relief scenario progressing: MOU covers partial Hormuz reopening + nuclear freeze, but unsigned — Trump hasn't endorsed; VP Vance 'couple language points'; uranium stockpile disposition deferred. Goldman oil desk: deal by June 5 targets Brent $88 within 2 weeks. IEA structural floor: ~$80-82 even with full reopening.",
+    "value": "Brent ~$92.56 (May 30 — Down 19% for May 2026; Iran MOU 'Mostly Agreed' But Unsigned; US Military Maintains Gulf Readiness)",
+    "change": "Brent closed ~$92.56 on May 30 — down approximately 19% for the full month of May 2026 (from ~$114 at month open during IRGC seizure crisis peak). Largest monthly oil price decline since COVID demand collapse (April 2020). Iran MOU 'mostly agreed' at negotiator level per Axios; 60-day framework: Hormuz reopening in 72 hours of signing + nuclear freeze + sanctions waivers. Trump has not signed; US military 'ready to resume combat if needed' (Hegseth). Goldman oil desk target: Brent $88 within 2 weeks of a signed deal. IEA structural floor: ~$80-82 even with full reopening.",
     "direction": "down",
-    "sparkData": [70, 72, 78, 75, 60, 58, 64.51, 85.57, 94.40, 103.18, 115.01, 95.42, 111.04, 103.54, 97.0, 99.18, 93.71, 91.5],
+    "sparkData": [70, 72, 78, 75, 60, 58, 64.51, 85.57, 94.40, 103.18, 115.01, 95.42, 111.04, 103.54, 97.0, 99.18, 93.71, 91.5, 92.56],
     "color": "amber",
-    "source": "CNBC / IEA / CNN; May 28-29, 2026",
-    "lastUpdated": "2026-05-29T14:00:00Z"
+    "source": "CNBC / Axios / IEA; May 29-30, 2026",
+    "lastUpdated": "2026-05-30T14:22:47Z"
   },
   {
     "id": "eurozone-cpi",
@@ -167,13 +167,13 @@
   {
     "id": "shiller-cape-ratio",
     "label": "S&P 500 / CAPE Ratio",
-    "value": "S&P 500 ~7,557 (New ATH May 28); Snowflake +36.5%; CAPE ~38.8; Sentiment/Equity Divergence at Historic Extremes",
-    "change": "May 28: S&P 500 new ATH ~7,557 (+0.51%); AI tech led (MSFT, ORCL, PLTR +3-4%); Snowflake +36.5% (strong guidance, best-ever session). PCE 'less bad than feared' MoM prints drove bulls. CAPE ~38.8 at new ATH with 30Y Treasury at 5.00-5.10% — historically the most extreme valuation/yield combination since the dot-com era. BofA 2026 S&P target 7,200 implies -4.7% downside from May 28 ATH.",
+    "value": "S&P 500 7,580.06 (Record May 29 Close, +5% for May 2026); CAPE ~39.0; Chicago PMI 62.7 (4-Yr High); Sentiment/Equity Divergence at Historic Extremes",
+    "change": "S&P 500 closed May 29 at 7,580.06 — new record close, +5.0% for the month of May. S&P has gained in 9 of last 10 weeks. AI tech continues to lead (MSFT, ORCL, PLTR, Snowflake +36.5% on May 28 earnings). Chicago PMI surged to 62.7 on May 29 (4-year high; biggest monthly jump since 2020). CAPE ratio ~39.0 at new ATH with 30Y Treasury at ~5.00-5.02% — historically extreme valuation/yield combination. BofA 2026 S&P target 7,200 implies -5% downside from May 29 record. Michigan Consumer Sentiment at 70-year record low (44.8) — widest equity/sentiment divergence in market history.",
     "direction": "up",
-    "sparkData": [27, 30, 28, 32, 36, 38, 37, 39.5, 38.5, 38.2, 38.5, 38.8],
+    "sparkData": [27, 30, 28, 32, 36, 38, 37, 39.5, 38.5, 38.2, 38.5, 38.8, 39.0],
     "color": "red",
-    "source": "TheStreet / CNBC; May 28, 2026",
-    "lastUpdated": "2026-05-28T21:00:00Z"
+    "source": "StoneX / Advisor Perspectives / CNBC; May 29-31, 2026",
+    "lastUpdated": "2026-05-31T14:22:47Z"
   },
   {
     "id": "ism-services-pmi-april-2026",

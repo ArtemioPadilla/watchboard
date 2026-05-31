@@ -2,40 +2,40 @@
   {
     "id": "kpi-total-cases-2026",
     "label": "Suspected Cases (2026 DRC + Uganda)",
-    "value": "1,205+",
+    "value": "1,077+ suspected / 234+ confirmed",
     "color": "red",
-    "source": "CDC / ECDC / ReliefWeb tracking — 28 May 2026",
+    "source": "CGTN / WHO tracking — 31 May 2026; Al Jazeera — 30 May 2026",
     "contested": true,
-    "contestNote": "~1,077 suspected DRC + 121 confirmed DRC + 7 confirmed Uganda = 1,205 total as of May 27–28. Suspected count includes probable and unconfirmed deaths in conflict-inaccessible zones. 25+ escaped ETU patients from Mongbwalu attacks still unaccounted.",
-    "delta": "+299 (2d)",
-    "deltaNote": "Surged from 906 suspected (May 26) to 1,205 total as of May 27–28 per CDC/ECDC tracking; fastest 48-hour acceleration since PHEIC declaration. Mongbwalu escaped patients generating cascading secondary chains.",
+    "contestNote": "1,028 suspected DRC + 9 confirmed Uganda = 1,037+ active surveillance cases; 225 confirmed DRC + 9 confirmed Uganda = 234 total lab-confirmed as of May 30–31. Suspected count includes probable and unconfirmed deaths in conflict-inaccessible zones. Mongbwalu escaped patients generating uncounted community transmission.",
+    "delta": "+172 suspected (3d)",
+    "deltaNote": "Suspected cases surged from 906 (May 26) to 1,077 (May 31) per WHO/CGTN tracking; confirmed cases nearly doubled from 125 to 225 in DRC in 48 hours (May 29–30) as expanded lab capacity and outbreak acceleration converged.",
     "trend": "up",
-    "lastUpdated": "2026-05-28"
+    "lastUpdated": "2026-05-31"
   },
   {
     "id": "kpi-confirmed-cases-2026",
     "label": "Lab-Confirmed Cases (2026 Outbreak — DRC + Uganda)",
-    "value": "132",
+    "value": "234+",
     "color": "red",
-    "source": "CDC — Ebola Situation Summary, 29 May 2026",
+    "source": "Al Jazeera / WHO — 30 May 2026; Uganda MoH",
     "contested": false,
-    "delta": "+4 DRC (1d)",
-    "deltaNote": "DRC confirmed rose from 121 (May 28) to 125 (May 29) — 4 additional lab-confirmed per CDC daily update. Uganda remains 7 confirmed. Total 132 confirmed. DRC MoH reconciled suspected count back to 906 (removed non-cases, reclassified some as confirmed).",
+    "delta": "+100 DRC (1d)",
+    "deltaNote": "DRC confirmed cases nearly doubled: from 125 (May 29) to ~225 (May 30) — fastest 48-hour confirmation rate since outbreak began, reflecting expanded BSL-3 mobile lab capacity in Ituri plus genuine epidemic acceleration. Uganda updated to 9 confirmed (from 7).",
     "trend": "up",
-    "lastUpdated": "2026-05-29"
+    "lastUpdated": "2026-05-30"
   },
   {
     "id": "kpi-deaths-2026",
     "label": "Deaths (2026 Outbreak)",
-    "value": "264+ suspected / 18 confirmed",
+    "value": "246+ probable / 26+ confirmed",
     "color": "red",
-    "source": "CDC / ECDC — DRC/Uganda Ebola tracking, 28 May 2026",
+    "source": "CGTN / WHO tracking — 31 May 2026",
     "contested": true,
-    "contestNote": "238+ suspected deaths in DRC; 17 confirmed DRC deaths + 1 confirmed Uganda death = 18 confirmed. Mongbwalu local CFR ~27%. 25+ escaped patients represent untraceable mortality risk. Community deaths in inaccessible zones likely undercounted.",
-    "delta": "+41+ suspected deaths (2d)",
-    "deltaNote": "Suspected deaths rose from 223+ (May 26) to 264+ as of May 27–28 per CDC/ECDC. Confirmed deaths rose from 11 to 18 (7 new confirmed deaths in DRC over 48 hours).",
+    "contestNote": "Probable deaths: 246+ across DRC (220+ suspected DRC + 26 confirmed). Confirmed deaths: ~25 DRC + 1 Uganda = 26 total as of May 31. Mongbwalu cluster contributes significant undercount; community deaths in inaccessible zones not captured. Escaped patients generating untraceable mortality.",
+    "delta": "+28 probable deaths (3d)",
+    "deltaNote": "Probable deaths rose from 264 (May 28 estimate) to 246 recalibrated per WHO methodology (31 May); confirmed deaths rose from 18 to 26 as lab-confirmed case surge added confirmed deaths. CGTN reports 246 probable deaths total as of May 31.",
     "trend": "up",
-    "lastUpdated": "2026-05-28"
+    "lastUpdated": "2026-05-31"
   },
   {
     "id": "kpi-cfr-2026",
@@ -64,14 +64,14 @@
   {
     "id": "kpi-health-zones-affected",
     "label": "DRC Provinces + Countries Affected",
-    "value": "3 DRC provinces + Uganda (border now closed)",
+    "value": "3 DRC provinces + Uganda (9 confirmed, border closed)",
     "color": "red",
-    "source": "Al Jazeera / Uganda MoH, 28 May 2026",
+    "source": "Al Jazeera / Uganda MoH, 30 May 2026",
     "contested": false,
-    "delta": "Uganda closes DRC border for 4 weeks",
-    "deltaNote": "Ituri (index, 322+ susp. in Mongbwalu), Nord-Kivu (incl. Goma), Sud-Kivu / Bukavu in DRC. Uganda: 7 lab-confirmed in Kampala; DRC border closed 4 weeks from May 28, 2026. WHO recommends against border closures but Uganda acted unilaterally.",
+    "delta": "Uganda: 9 confirmed (was 7 May 29)",
+    "deltaNote": "Ituri (index, 1,028+ suspected DRC total including Mongbwalu cluster), Nord-Kivu (incl. Goma), Sud-Kivu / Bukavu in DRC. Uganda: 9 lab-confirmed in Kampala (updated May 30 from 7). Uganda DRC border closed 4 weeks from May 28 — WHO recommends against blanket closures. WHO DG visited DRC May 30.",
     "trend": "up",
-    "lastUpdated": "2026-05-28"
+    "lastUpdated": "2026-05-30"
   },
   {
     "id": "kpi-contact-tracing",
