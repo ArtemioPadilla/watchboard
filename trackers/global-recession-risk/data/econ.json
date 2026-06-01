@@ -56,14 +56,14 @@
   },
   {
     "id": "china-gdp-growth",
-    "label": "China GDP Growth / Manufacturing PMI",
-    "value": "Q1 2026 GDP: 5.0%; May NBS Manufacturing PMI: 50.0 (Borderline — New Orders 49.9 in Contraction)",
-    "change": "Q1 2026 GDP: 5.0% YoY (beat 4.8% forecast; front-loaded export surge Jan-Feb). May 2026 NBS Manufacturing PMI (released May 31): 50.0 — exactly at expansion/contraction boundary; down from 50.3 April. New orders sub-index: 49.9 (contraction). Production: 51.2. High-tech: 52.9. Equipment: 52.1. Q2 2026 momentum stalling — Iran war Middle East demand destruction + US 31.6% effective tariff barrier. PBOC counter-cyclical tools likely. IMF 2026 China forecast: ~4.5% (downside risk growing).",
+    "label": "China GDP Growth / Manufacturing PMI (NBS + Caixin)",
+    "value": "Q1 2026 GDP: 5.0%; NBS PMI May: 50.0 (Borderline); Caixin PMI May: 51.8% (Beat — SME & Private Sector Resilience)",
+    "change": "JUNE 1 UPDATE — CAIXIN PMI: 51.8% (June 1 release; beat 51.4% consensus; down from 52.2% April). NBS PMI May 31: 50.0 borderline; new orders 49.9 contraction. NBS/Caixin DIVERGENCE: NBS surveys large SOEs/export sector (stalling at borderline); Caixin surveys SME/private sector (solid expansion at 51.8%). Caixin: domestic demand, new customers, and product upgrades drove activity; export orders dipped; input/output price increases slowed first time in 6–7 months (disinflation signal). Q1 2026 GDP: 5.0% (front-loaded export surge). Q2 2026 momentum decelerating. PBOC RRR cut/targeted lending likely in H2 2026. IMF 2026 China forecast: ~4.5% (downside risk growing).",
     "direction": "down",
-    "sparkData": [6.0, 2.3, 3.0, 5.2, 4.9, 4.0, 4.4, 4.5, 5.0, 50.0],
+    "sparkData": [6.0, 2.3, 3.0, 5.2, 4.9, 4.0, 4.4, 4.5, 5.0, 51.8],
     "color": "amber",
-    "source": "China NBS / IMF WEO April 2026 / Xinhua May 31, 2026",
-    "lastUpdated": "2026-05-31T14:22:47Z"
+    "source": "Caixin / S&P Global China Manufacturing PMI May 2026 (June 1, 2026); China NBS (May 31, 2026)",
+    "lastUpdated": "2026-06-01T14:45:22Z"
   },
   {
     "id": "global-trade-volume",
@@ -112,13 +112,13 @@
   {
     "id": "wti-crude-oil",
     "label": "WTI Crude Oil (USD/bbl)",
-    "value": "Brent ~$92.56 (May 30 — Down 19% for May 2026; Iran MOU 'Mostly Agreed' But Unsigned; US Military Maintains Gulf Readiness)",
-    "change": "Brent closed ~$92.56 on May 30 — down approximately 19% for the full month of May 2026 (from ~$114 at month open during IRGC seizure crisis peak). Largest monthly oil price decline since COVID demand collapse (April 2020). Iran MOU 'mostly agreed' at negotiator level per Axios; 60-day framework: Hormuz reopening in 72 hours of signing + nuclear freeze + sanctions waivers. Trump has not signed; US military 'ready to resume combat if needed' (Hegseth). Goldman oil desk target: Brent $88 within 2 weeks of a signed deal. IEA structural floor: ~$80-82 even with full reopening.",
+    "value": "Brent ~$96.42 (June 1 — Partial Recovery from $92.56 May 30; Iran MOU Still Unsigned Day 3; Deal Close but Not Signed)",
+    "change": "JUNE 1 UPDATE: Brent crude rose to approximately $96.42/bbl at 8:30 a.m. ET on June 1, 2026 — recovering from the May 30 close of ~$92.56. The uptick reflects continuing market uncertainty about Iran MOU timeline: deal still not signed as of June 1; US and Iran remain 'closing in' on the one-page MOU but Trump has not endorsed. WTI rose ~7% intraday. May monthly summary: Brent fell ~19% in May (from ~$114 to ~$92) — largest monthly oil price decline since COVID April 2020. Goldman oil desk target: Brent $88 within 2 weeks of signed deal. IEA floor: ~$80-82 even with full Hormuz reopening. June 5 Iran MOU window remains critical; June 16-17 Warsh FOMC is next major oil price catalyst.",
     "direction": "down",
-    "sparkData": [70, 72, 78, 75, 60, 58, 64.51, 85.57, 94.40, 103.18, 115.01, 95.42, 111.04, 103.54, 97.0, 99.18, 93.71, 91.5, 92.56],
+    "sparkData": [70, 72, 78, 75, 60, 58, 64.51, 85.57, 94.40, 103.18, 115.01, 95.42, 111.04, 103.54, 97.0, 99.18, 93.71, 91.5, 92.56, 96.42],
     "color": "amber",
-    "source": "CNBC / Axios / IEA; May 29-30, 2026",
-    "lastUpdated": "2026-05-30T14:22:47Z"
+    "source": "Fortune / CNBC / Axios; June 1, 2026",
+    "lastUpdated": "2026-06-01T14:45:22Z"
   },
   {
     "id": "eurozone-cpi",
@@ -229,5 +229,16 @@
     "color": "red",
     "source": "S&P Global Flash US PMI, May 2026 (released May 22, 2026)",
     "lastUpdated": "2026-05-22T14:30:00Z"
+  },
+  {
+    "id": "ism-manufacturing-pmi-may2026",
+    "label": "US ISM Manufacturing PMI (May 2026 — Released June 1)",
+    "value": "54.0% — 5th Consecutive Expansion Month; New Orders 56.8%; Strongest Since May 2022; Corresponds to 2.2% Annualized GDP Growth",
+    "change": "+1.3pp from April 52.7%; New Orders up 2.7pp to 56.8% (most forward-looking sub-index); 19th consecutive month of overall economic expansion. Four of six largest manufacturing industries reported increased new orders. Corresponds to 2.2% annualized real GDP growth per ISM historical correlation — well above the ~1% Q2 GDP trajectory projected by Goldman/JPMorgan. Confirms Chicago PMI surge (62.7, May 29) was nationally representative. Front-loading ahead of Section 122 tariff cliff (July 24) and AI capital goods investment both contributing.",
+    "direction": "up",
+    "sparkData": [47.8, 48.7, 50.0, 50.9, 50.3, 49.0, 50.3, 51.6, 52.7, 54.0],
+    "color": "green",
+    "source": "ISM Manufacturing PMI Report, May 2026 (released June 1, 2026)",
+    "lastUpdated": "2026-06-01T14:45:22Z"
   }
 ]

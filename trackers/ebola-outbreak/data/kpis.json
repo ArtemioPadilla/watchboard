@@ -1,41 +1,41 @@
 [
   {
     "id": "kpi-total-cases-2026",
-    "label": "Suspected Cases (2026 DRC + Uganda)",
-    "value": "1,077+ suspected / 234+ confirmed",
+    "label": "Confirmed Cases (2026 DRC + Uganda)",
+    "value": "291 confirmed (282 DRC + 9 Uganda) / 220+ suspected under investigation",
     "color": "red",
-    "source": "CGTN / WHO tracking — 31 May 2026; Al Jazeera — 30 May 2026",
+    "source": "DRC MoH / NPR / ABC News — 1 June 2026; UN News; WHO DON605",
     "contested": true,
-    "contestNote": "1,028 suspected DRC + 9 confirmed Uganda = 1,037+ active surveillance cases; 225 confirmed DRC + 9 confirmed Uganda = 234 total lab-confirmed as of May 30–31. Suspected count includes probable and unconfirmed deaths in conflict-inaccessible zones. Mongbwalu escaped patients generating uncounted community transmission.",
-    "delta": "+172 suspected (3d)",
-    "deltaNote": "Suspected cases surged from 906 (May 26) to 1,077 (May 31) per WHO/CGTN tracking; confirmed cases nearly doubled from 125 to 225 in DRC in 48 hours (May 29–30) as expanded lab capacity and outbreak acceleration converged.",
+    "contestNote": "DRC: 264 confirmed in Ituri, 15 in Nord-Kivu, 3 in Sud-Kivu = 282 confirmed DRC. Uganda: 9 confirmed, all Kampala, all linked to DRC travel. 220 additional suspected cases under active investigation in DRC. Community deaths in 23%-inaccessible Ituri zones likely under-reported. Mongbwalu escaped-patient cluster continues to generate untraceable community transmission.",
+    "delta": "+57 confirmed DRC (3d)",
+    "deltaNote": "DRC confirmed cases rose from 225 (May 30) to 282 (June 1) — a further 57-case increase in 48 hours as expanded mobile BSL-3 lab capacity in Ituri continued accelerating confirmation throughput. Uganda remained at 9 confirmed. Five survivors discharged as of June 1 (4 nurses + 1 lab worker).",
     "trend": "up",
-    "lastUpdated": "2026-05-31"
+    "lastUpdated": "2026-06-01"
   },
   {
     "id": "kpi-confirmed-cases-2026",
     "label": "Lab-Confirmed Cases (2026 Outbreak — DRC + Uganda)",
-    "value": "234+",
+    "value": "291 total (282 DRC + 9 Uganda)",
     "color": "red",
-    "source": "Al Jazeera / WHO — 30 May 2026; Uganda MoH",
+    "source": "DRC MoH / Face2Face Africa / ABC News — 1 June 2026",
     "contested": false,
-    "delta": "+100 DRC (1d)",
-    "deltaNote": "DRC confirmed cases nearly doubled: from 125 (May 29) to ~225 (May 30) — fastest 48-hour confirmation rate since outbreak began, reflecting expanded BSL-3 mobile lab capacity in Ituri plus genuine epidemic acceleration. Uganda updated to 9 confirmed (from 7).",
+    "delta": "+57 DRC (2d)",
+    "deltaNote": "DRC confirmed cases rose from ~225 (May 30) to 282 (June 1): 264 Ituri, 15 Nord-Kivu, 3 Sud-Kivu. Uganda remains at 9 confirmed (stable). Total confirmed: 291. Five survivors discharged as of June 1 (4 nurses formally discharged, 1 lab worker cleared May 29).",
     "trend": "up",
-    "lastUpdated": "2026-05-30"
+    "lastUpdated": "2026-06-01"
   },
   {
     "id": "kpi-deaths-2026",
     "label": "Deaths (2026 Outbreak)",
-    "value": "246+ probable / 26+ confirmed",
+    "value": "43 confirmed (42 DRC + 1 Uganda) / 220+ suspected under investigation",
     "color": "red",
-    "source": "CGTN / WHO tracking — 31 May 2026",
+    "source": "DRC MoH / NPR / ABC News — 1 June 2026; UN News",
     "contested": true,
-    "contestNote": "Probable deaths: 246+ across DRC (220+ suspected DRC + 26 confirmed). Confirmed deaths: ~25 DRC + 1 Uganda = 26 total as of May 31. Mongbwalu cluster contributes significant undercount; community deaths in inaccessible zones not captured. Escaped patients generating untraceable mortality.",
-    "delta": "+28 probable deaths (3d)",
-    "deltaNote": "Probable deaths rose from 264 (May 28 estimate) to 246 recalibrated per WHO methodology (31 May); confirmed deaths rose from 18 to 26 as lab-confirmed case surge added confirmed deaths. CGTN reports 246 probable deaths total as of May 31.",
+    "contestNote": "Confirmed deaths: 42 DRC + 1 Uganda = 43 total as of June 1 per official lab-confirmed case reports. CFR (confirmed): 43/291 = 14.8%. Community deaths in the 23%-inaccessible Ituri zone remain unconfirmed. Mongbwalu escaped patients still generating untraceable mortality. WHO uses the broader suspected-case death count (246+ probable through May 31) for situational awareness.",
+    "delta": "+17 confirmed deaths (2d)",
+    "deltaNote": "Confirmed DRC deaths rose from ~25 (May 30) to 42 (June 1) as expanded lab confirmation brought previously probable deaths into the confirmed column. Uganda confirmed deaths remain at 1.",
     "trend": "up",
-    "lastUpdated": "2026-05-31"
+    "lastUpdated": "2026-06-01"
   },
   {
     "id": "kpi-cfr-2026",
