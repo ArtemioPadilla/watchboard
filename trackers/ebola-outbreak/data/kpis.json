@@ -2,40 +2,40 @@
   {
     "id": "kpi-total-cases-2026",
     "label": "Confirmed Cases (2026 DRC + Uganda)",
-    "value": "291 confirmed (282 DRC + 9 Uganda) / 220+ suspected under investigation",
+    "value": "336 confirmed (321 DRC + 15 Uganda) / 116 suspected under investigation",
     "color": "red",
-    "source": "DRC MoH / NPR / ABC News — 1 June 2026; UN News; WHO DON605",
+    "source": "ECDC / CDC / WHO — 2 June 2026",
     "contested": true,
-    "contestNote": "DRC: 264 confirmed in Ituri, 15 in Nord-Kivu, 3 in Sud-Kivu = 282 confirmed DRC. Uganda: 9 confirmed, all Kampala, all linked to DRC travel. 220 additional suspected cases under active investigation in DRC. Community deaths in 23%-inaccessible Ituri zones likely under-reported. Mongbwalu escaped-patient cluster continues to generate untraceable community transmission.",
-    "delta": "+57 confirmed DRC (3d)",
-    "deltaNote": "DRC confirmed cases rose from 225 (May 30) to 282 (June 1) — a further 57-case increase in 48 hours as expanded mobile BSL-3 lab capacity in Ituri continued accelerating confirmation throughput. Uganda remained at 9 confirmed. Five survivors discharged as of June 1 (4 nurses + 1 lab worker).",
+    "contestNote": "DRC: 299 confirmed in Ituri (15 health zones), 19 in Nord-Kivu (7 health zones), 3 in Sud-Kivu (1 health zone) = 321 confirmed DRC. Uganda: 15 confirmed (8 Kampala), including 7 from local transmission chains and 4 with DRC travel links. 116 suspected cases under active investigation in DRC. Community deaths in 23%-inaccessible Ituri zones likely under-reported. Uganda local transmission confirmed for first time June 2.",
+    "delta": "+45 confirmed (1d)",
+    "deltaNote": "DRC confirmed cases rose from 282 (June 1) to 321 (June 2) — +39 in 24 hours. Uganda surged from 9 to 15 — +6, with 7 now attributed to local Uganda transmission chains. Total global confirmed: 291 → 336. Suspected DRC cases fell from 220+ to 116 as mobile lab throughput converted suspects to confirmed.",
     "trend": "up",
-    "lastUpdated": "2026-06-01"
+    "lastUpdated": "2026-06-02"
   },
   {
     "id": "kpi-confirmed-cases-2026",
     "label": "Lab-Confirmed Cases (2026 Outbreak — DRC + Uganda)",
-    "value": "291 total (282 DRC + 9 Uganda)",
+    "value": "336 total (321 DRC + 15 Uganda)",
     "color": "red",
-    "source": "DRC MoH / Face2Face Africa / ABC News — 1 June 2026",
+    "source": "ECDC / CDC / WHO — 2 June 2026",
     "contested": false,
-    "delta": "+57 DRC (2d)",
-    "deltaNote": "DRC confirmed cases rose from ~225 (May 30) to 282 (June 1): 264 Ituri, 15 Nord-Kivu, 3 Sud-Kivu. Uganda remains at 9 confirmed (stable). Total confirmed: 291. Five survivors discharged as of June 1 (4 nurses formally discharged, 1 lab worker cleared May 29).",
+    "delta": "+45 (1d)",
+    "deltaNote": "DRC: 321 confirmed (299 Ituri/15 health zones, 19 Nord-Kivu/7 health zones, 3 Sud-Kivu). Uganda: 15 confirmed including first local transmission cases (7 local-chain, 4 DRC-linked, 8 Kampala). Total confirmed: 336 as of June 2. Five survivors previously discharged June 1 (4 nurses + 1 lab worker).",
     "trend": "up",
-    "lastUpdated": "2026-06-01"
+    "lastUpdated": "2026-06-02"
   },
   {
     "id": "kpi-deaths-2026",
     "label": "Deaths (2026 Outbreak)",
-    "value": "43 confirmed (42 DRC + 1 Uganda) / 220+ suspected under investigation",
+    "value": "49 confirmed (48 DRC + 1 Uganda)",
     "color": "red",
-    "source": "DRC MoH / NPR / ABC News — 1 June 2026; UN News",
+    "source": "ECDC / CDC / WHO — 2 June 2026",
     "contested": true,
-    "contestNote": "Confirmed deaths: 42 DRC + 1 Uganda = 43 total as of June 1 per official lab-confirmed case reports. CFR (confirmed): 43/291 = 14.8%. Community deaths in the 23%-inaccessible Ituri zone remain unconfirmed. Mongbwalu escaped patients still generating untraceable mortality. WHO uses the broader suspected-case death count (246+ probable through May 31) for situational awareness.",
-    "delta": "+17 confirmed deaths (2d)",
-    "deltaNote": "Confirmed DRC deaths rose from ~25 (May 30) to 42 (June 1) as expanded lab confirmation brought previously probable deaths into the confirmed column. Uganda confirmed deaths remain at 1.",
+    "contestNote": "Confirmed deaths: 48 DRC + 1 Uganda = 49 total as of June 2 per official lab-confirmed case reports. CFR (confirmed): 49/336 = 14.6%. Community deaths in the 23%-inaccessible Ituri zone remain unconfirmed. Ituri province alone accounts for 299 confirmed cases across 15 health zones. Probable and suspected deaths beyond the confirmed count remain uncaptured in inaccessible zones.",
+    "delta": "+6 confirmed deaths (1d)",
+    "deltaNote": "Confirmed DRC deaths rose from 42 (June 1) to 48 (June 2). Uganda deaths remain at 1 confirmed. Total confirmed deaths: 43 → 49 in 24 hours.",
     "trend": "up",
-    "lastUpdated": "2026-06-01"
+    "lastUpdated": "2026-06-02"
   },
   {
     "id": "kpi-cfr-2026",
@@ -64,14 +64,14 @@
   {
     "id": "kpi-health-zones-affected",
     "label": "DRC Provinces + Countries Affected",
-    "value": "3 DRC provinces + Uganda (9 confirmed, border closed)",
+    "value": "3 DRC provinces (15+ health zones) + Uganda (15 confirmed, local transmission)",
     "color": "red",
-    "source": "Al Jazeera / Uganda MoH, 30 May 2026",
+    "source": "ECDC / CDC — 2 June 2026",
     "contested": false,
-    "delta": "Uganda: 9 confirmed (was 7 May 29)",
-    "deltaNote": "Ituri (index, 1,028+ suspected DRC total including Mongbwalu cluster), Nord-Kivu (incl. Goma), Sud-Kivu / Bukavu in DRC. Uganda: 9 lab-confirmed in Kampala (updated May 30 from 7). Uganda DRC border closed 4 weeks from May 28 — WHO recommends against blanket closures. WHO DG visited DRC May 30.",
+    "delta": "Uganda: 15 confirmed (+6) — 7 now local transmission",
+    "deltaNote": "Ituri Province: 299 confirmed across 15 health zones. Nord-Kivu (incl. Goma): 19 confirmed from 7 health zones. Sud-Kivu / Bukavu: 3 confirmed from 1 health zone. Uganda: 15 confirmed (8 Kampala) — 7 from local transmission chains confirmed June 2, marking first clear within-country secondary spread. Uganda DRC border closed 4 weeks from May 28 (day 6).",
     "trend": "up",
-    "lastUpdated": "2026-05-30"
+    "lastUpdated": "2026-06-02"
   },
   {
     "id": "kpi-contact-tracing",
