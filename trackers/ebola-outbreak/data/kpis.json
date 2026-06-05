@@ -2,40 +2,40 @@
   {
     "id": "kpi-total-cases-2026",
     "label": "Confirmed Cases (2026 DRC + Uganda)",
-    "value": "336 confirmed (321 DRC + 15 Uganda) / 116 suspected under investigation",
+    "value": "378 confirmed (363 DRC + 15 Uganda) / ~116 suspected under investigation",
     "color": "red",
-    "source": "ECDC / CDC / WHO — 2 June 2026",
+    "source": "WHO DG Media Briefing / CDC / ECDC — 3 June 2026",
     "contested": true,
-    "contestNote": "DRC: 299 confirmed in Ituri (15 health zones), 19 in Nord-Kivu (7 health zones), 3 in Sud-Kivu (1 health zone) = 321 confirmed DRC. Uganda: 15 confirmed (8 Kampala), including 7 from local transmission chains and 4 with DRC travel links. 116 suspected cases under active investigation in DRC. Community deaths in 23%-inaccessible Ituri zones likely under-reported. Uganda local transmission confirmed for first time June 2.",
-    "delta": "+45 confirmed (1d)",
-    "deltaNote": "DRC confirmed cases rose from 282 (June 1) to 321 (June 2) — +39 in 24 hours. Uganda surged from 9 to 15 — +6, with 7 now attributed to local Uganda transmission chains. Total global confirmed: 291 → 336. Suspected DRC cases fell from 220+ to 116 as mobile lab throughput converted suspects to confirmed.",
+    "contestNote": "DRC: 341 confirmed in Ituri (17 health zones), 19 in Nord-Kivu (7 health zones), 3 in Sud-Kivu (1 health zone) = 363 confirmed DRC. Uganda: 15 confirmed (8 Kampala + 1 Wakiso), including 7 from local transmission chains. ~116 suspected cases under active investigation in DRC. Community deaths in 23%-inaccessible Ituri zones likely under-reported. Uganda local transmission confirmed June 2; Ituri expanded to 17 health zones by June 3.",
+    "delta": "+42 DRC confirmed (1d, June 2→3)",
+    "deltaNote": "DRC confirmed cases rose from 321 (June 2) to 363 (June 3) — +42 in 24 hours, with 19 new cases in the most recent reporting window. Ituri Province expanded from 15 to 17 active health zones (341 confirmed). Uganda held at 15. Total global confirmed: 336 → 378. 206 patients currently hospitalized in DRC isolation units.",
     "trend": "up",
-    "lastUpdated": "2026-06-02"
+    "lastUpdated": "2026-06-03"
   },
   {
     "id": "kpi-confirmed-cases-2026",
     "label": "Lab-Confirmed Cases (2026 Outbreak — DRC + Uganda)",
-    "value": "336 total (321 DRC + 15 Uganda)",
+    "value": "378 total (363 DRC + 15 Uganda)",
     "color": "red",
-    "source": "ECDC / CDC / WHO — 2 June 2026",
+    "source": "WHO DG Media Briefing / CDC / ECDC — 3 June 2026",
     "contested": false,
-    "delta": "+45 (1d)",
-    "deltaNote": "DRC: 321 confirmed (299 Ituri/15 health zones, 19 Nord-Kivu/7 health zones, 3 Sud-Kivu). Uganda: 15 confirmed including first local transmission cases (7 local-chain, 4 DRC-linked, 8 Kampala). Total confirmed: 336 as of June 2. Five survivors previously discharged June 1 (4 nurses + 1 lab worker).",
+    "delta": "+42 DRC (1d, June 2→3)",
+    "deltaNote": "DRC: 363 confirmed (341 Ituri/17 health zones, 19 Nord-Kivu/7 health zones, 3 Sud-Kivu/1 health zone). Uganda: 15 confirmed (8 Kampala + 1 Wakiso) including local transmission cases. Total confirmed: 378 as of June 3. Five survivors discharged as of June 1 (4 nurses + 1 lab worker). 206 currently hospitalized.",
     "trend": "up",
-    "lastUpdated": "2026-06-02"
+    "lastUpdated": "2026-06-03"
   },
   {
     "id": "kpi-deaths-2026",
     "label": "Deaths (2026 Outbreak)",
-    "value": "49 confirmed (48 DRC + 1 Uganda)",
+    "value": "63 confirmed (62 DRC + 1 Uganda)",
     "color": "red",
-    "source": "ECDC / CDC / WHO — 2 June 2026",
+    "source": "WHO DG Media Briefing / CDC / ECDC — 3 June 2026",
     "contested": true,
-    "contestNote": "Confirmed deaths: 48 DRC + 1 Uganda = 49 total as of June 2 per official lab-confirmed case reports. CFR (confirmed): 49/336 = 14.6%. Community deaths in the 23%-inaccessible Ituri zone remain unconfirmed. Ituri province alone accounts for 299 confirmed cases across 15 health zones. Probable and suspected deaths beyond the confirmed count remain uncaptured in inaccessible zones.",
-    "delta": "+6 confirmed deaths (1d)",
-    "deltaNote": "Confirmed DRC deaths rose from 42 (June 1) to 48 (June 2). Uganda deaths remain at 1 confirmed. Total confirmed deaths: 43 → 49 in 24 hours.",
+    "contestNote": "Confirmed deaths: 62 DRC + 1 Uganda = 63 total as of June 3 per official lab-confirmed case reports. CFR (confirmed): 63/378 = 16.7%. Community deaths in the 23%-inaccessible Ituri zone remain unconfirmed. Ituri province spans 17 health zones with 341 confirmed cases. 2 new deaths reported in the 24-hour window ending June 3. Probable and suspected deaths beyond the confirmed count remain uncaptured in inaccessible zones.",
+    "delta": "+14 confirmed deaths (June 2→3)",
+    "deltaNote": "Confirmed DRC deaths rose from 48 (June 2) to 62 (June 3) — +14 in 24 hours. Uganda deaths remain at 1 confirmed. Total confirmed deaths: 49 → 63. Most recent 24-hour window: 2 new deaths in DRC.",
     "trend": "up",
-    "lastUpdated": "2026-06-02"
+    "lastUpdated": "2026-06-03"
   },
   {
     "id": "kpi-cfr-2026",
@@ -64,14 +64,14 @@
   {
     "id": "kpi-health-zones-affected",
     "label": "DRC Provinces + Countries Affected",
-    "value": "3 DRC provinces (15+ health zones) + Uganda (15 confirmed, local transmission)",
+    "value": "3 DRC provinces (17+ health zones in Ituri) + Uganda (15 confirmed, local transmission + Wakiso)",
     "color": "red",
-    "source": "ECDC / CDC — 2 June 2026",
+    "source": "WHO DG Media Briefing / ECDC / CDC — 3 June 2026",
     "contested": false,
-    "delta": "Uganda: 15 confirmed (+6) — 7 now local transmission",
-    "deltaNote": "Ituri Province: 299 confirmed across 15 health zones. Nord-Kivu (incl. Goma): 19 confirmed from 7 health zones. Sud-Kivu / Bukavu: 3 confirmed from 1 health zone. Uganda: 15 confirmed (8 Kampala) — 7 from local transmission chains confirmed June 2, marking first clear within-country secondary spread. Uganda DRC border closed 4 weeks from May 28 (day 6).",
+    "delta": "Ituri: expanded to 17 health zones (+2 from June 2)",
+    "deltaNote": "Ituri Province: 341 confirmed across 17 health zones (up from 299/15 on June 2 — widest provincial footprint yet). Nord-Kivu (incl. Goma): 19 confirmed from 7 health zones. Sud-Kivu / Bukavu: 3 confirmed from 1 health zone. Uganda: 15 confirmed — 8 Kampala + 1 new Wakiso district case + 7 from local transmission chains. Uganda DRC border closed 4 weeks from May 28 (day 8).",
     "trend": "up",
-    "lastUpdated": "2026-06-02"
+    "lastUpdated": "2026-06-03"
   },
   {
     "id": "kpi-contact-tracing",

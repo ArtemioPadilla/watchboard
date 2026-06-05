@@ -1,0 +1,62 @@
+[
+  {
+    "id": "huawei-ascend-910c-deepseek-v4pro-full-parameter-training-jun05-2026",
+    "date": "2026-06-05",
+    "year": "2026",
+    "title": "Huawei Ascend 910C Chips Complete Full-Parameter Post-Training of DeepSeek V4-Pro (1.6 Trillion Parameters) — China's Domestic AI Hardware Stack Validated at Frontier Training Scale",
+    "type": "breakthrough",
+    "detail": "A research consortium comprising Huawei, Shenzhen Loop Area Institute, Harbin Institute of Technology Shenzhen, and Shenzhen Research Institute of Big Data completed full-parameter post-training of DeepSeek's V4-Pro model entirely on Huawei Ascend 910C chips, the South China Morning Post reported on June 5. The model contains 1.6 trillion parameters — DeepSeek's largest to date — and the post-training run deployed at least 1,000 Huawei Ascend 910C chips. The technical significance is substantial: full-parameter post-training is the most computationally demanding phase of the AI development lifecycle, requiring synchronous gradient updates across the entire model architecture — a fundamentally harder task than inference (running an already-trained model). Until this milestone, Huawei's Ascend chip ecosystem had been validated primarily for AI inference at scale (ByteDance Doubao inference on Ascend; DeepSeek V4-Pro inference on Ascend from May 2026), but not for frontier-model post-training. The completion of full-parameter post-training on domestically produced silicon demonstrates that China now possesses the complete AI development pipeline on domestic hardware: data curation → pre-training → fine-tuning → post-training → inference — all executable without a single Nvidia GPU or Western AI chip. This is the technical closure of the DeepSeek-on-Ascend thesis: the model can now be reproduced, refined, and specialized entirely within China's domestic chip ecosystem. The milestone arrives as DeepSeek finalizes its $7.4B funding round (Bloomberg, June 3) and as the Huawei Ascend 950PR (H2 2026 delivery, ~750K units planned) targets mass-volume AI inference at data center scale. SCMP framed the achievement as 'a major leap for China's AI self-reliance' — the US export control strategy's primary lever (GPU access for frontier model training) has demonstrably lost effectiveness at the level that matters most: cutting-edge model development.",
+    "sources": [
+      {
+        "name": "SCMP",
+        "tier": 2,
+        "url": "https://www.scmp.com/tech/article/3356117/huawei-chips-refine-deepseek-model-major-leap-chinas-ai-self-reliance",
+        "pole": "western"
+      }
+    ],
+    "media": [
+      {
+        "type": "article",
+        "url": "https://www.scmp.com/tech/article/3356117/huawei-chips-refine-deepseek-model-major-leap-chinas-ai-self-reliance",
+        "caption": "SCMP (June 5): Huawei chips refine DeepSeek model — major leap for China's AI self-reliance as Ascend 910C completes full-parameter post-training of V4-Pro (1.6T params)",
+        "source": "SCMP",
+        "thumbnail": "https://www.scmp.com/tech/article/3356117/huawei-chips-refine-deepseek-model-major-leap-chinas-ai-self-reliance"
+      }
+    ],
+    "confidence": "high",
+    "eventConfidence": "verified"
+  },
+  {
+    "id": "zhongji-innolight-csi300-top-constituent-jun05-2026",
+    "date": "2026-06-05",
+    "year": "2026",
+    "title": "Zhongji Innolight Surpasses CATL as China's Largest CSI 300 Stock at 5.3% Weighting — AI Optical Hardware Boom Reshapes China's Benchmark Equity Index",
+    "type": "trade",
+    "detail": "Zhongji Innolight Co. (SHE:300308), a Chinese manufacturer of high-speed fiber optic transceiver modules for AI data center interconnects, became the largest constituent of China's CSI 300 Index with a 5.3% weighting, overtaking EV battery giant CATL at 4.1%, the South China Morning Post reported on June 5. Zhongji Innolight shares had achieved a fivefold increase during 2025 and nearly doubled again in 2026 — Q1 2026 net profit grew 262% year-on-year; full-year 2025 net profit rose 108% YoY. The company's explosive growth reflects the AI hyperscaler infrastructure buildout: high-speed optical transceivers are essential for connecting server racks within AI training and inference data centers, and demand is surging as both US and Chinese hyperscalers race to expand GPU cluster capacity. Major customers: Alphabet/Google (22% of sales), Amazon (11%), Meta (6.4%), Huawei (5%), Alibaba (1.9%). The customer list is uniquely trans-Pacific — Zhongji Innolight simultaneously supplies the US hyperscalers driving the Western AI buildout AND Chinese domestic AI cloud infrastructure, making its optical components one of the few technology products explicitly exempt from the US-China chip export control perimeter. The CSI 300 weighting shift from CATL to Zhongji Innolight is read as a structural inflection signal: China's equity markets are repricing from 'EV era benchmark stock' (CATL, dominant 2020–2024) to 'AI era benchmark stock' (Zhongji Innolight, 2025–2026) — the composition of China's blue-chip index now reflects the AI infrastructure investment cycle rather than the EV transition cycle. Bloomberg's June 4 report confirmed the development. The Zhongji Innolight ascendancy also illustrates how China's supply chain position in AI hardware extends beyond chips — the US-China tech bifurcation is chip-centric, but optical networking, power management, and packaging supply chains are globally integrated and flowing toward China.",
+    "sources": [
+      {
+        "name": "SCMP",
+        "tier": 2,
+        "url": "https://www.scmp.com/business/china-business/article/3356074/ai-hyperscaler-effect-vaults-chinas-zhongji-innolight-top-csi-300-benchmark",
+        "pole": "western"
+      },
+      {
+        "name": "Bloomberg",
+        "tier": 2,
+        "url": "https://www.bloomberg.com/news/articles/2026-06-04/ai-boom-propels-china-optical-maker-to-top-weighting-on-csi-300",
+        "pole": "western"
+      }
+    ],
+    "media": [
+      {
+        "type": "article",
+        "url": "https://www.scmp.com/business/china-business/article/3356074/ai-hyperscaler-effect-vaults-chinas-zhongji-innolight-top-csi-300-benchmark",
+        "caption": "SCMP (June 5): AI hyperscaler effect vaults Zhongji Innolight to top of CSI 300 benchmark, displacing CATL — 5.3% weighting as optical module demand surges from Google, Amazon, Huawei",
+        "source": "SCMP",
+        "thumbnail": "https://www.scmp.com/business/china-business/article/3356074/ai-hyperscaler-effect-vaults-chinas-zhongji-innolight-top-csi-300-benchmark"
+      }
+    ],
+    "confidence": "high",
+    "eventConfidence": "verified"
+  }
+]

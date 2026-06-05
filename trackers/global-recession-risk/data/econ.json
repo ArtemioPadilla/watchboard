@@ -78,25 +78,25 @@
   },
   {
     "id": "us-unemployment-rate",
-    "label": "US Unemployment Rate",
-    "value": "4.3%",
-    "change": "Apr 2026 CONFIRMED 4.3% (May 8 BLS release); +115K nonfarm payrolls (beat vs ~60K consensus); Feb revised to –156K (deepest since COVID)",
+    "label": "US Unemployment Rate / May 2026 NFP",
+    "value": "4.3% (May 2026 — Unchanged; NFP +172K Blowout Beat vs ~85K Consensus)",
+    "change": "May 2026 (June 5): NFP +172K (vs ~85K consensus; massive beat); unemployment 4.3% unchanged; avg hourly earnings +0.3% MoM / +3.4% YoY. Prior revisions: March +29K to +214K; April +64K to +179K (+93K net). Sahm Rule ~0.43% (below 0.5% recession threshold). Sectors: Leisure/Hospitality +70K; Local Gov +55K; Health +35K; Financial –22K.",
     "direction": "down",
-    "sparkData": [3.5, 3.6, 3.7, 3.4, 4.0, 4.1, 4.2, 4.3, 4.3],
+    "sparkData": [3.5, 3.6, 3.7, 3.4, 4.0, 4.1, 4.2, 4.3, 4.3, 4.3],
     "color": "amber",
-    "source": "BLS Employment Situation, April 2026 (released May 8, 2026)",
-    "lastUpdated": "2026-05-08T14:20:00Z"
+    "source": "BLS Employment Situation, May 2026 (released June 5, 2026)",
+    "lastUpdated": "2026-06-05T13:45:00Z"
   },
   {
     "id": "us-10y-treasury-yield",
     "label": "US 10Y / 30Y Treasury Yield",
-    "value": "10Y 4.47% / 30Y 5.024% (May 26-27 — Iran Deal Relief Eases Yields; PCE April + Q1 GDP 2nd Estimate Due May 28)",
-    "change": "May 26: 10Y fell 8 bps to 4.489%, 30Y fell 5 bps to 5.024% as markets reopened post-Memorial Day with Iran peace optimism. May 27: 10Y eased to 4.47% as PCE-week positioning begins. Structural drivers (Moody's Aa1 downgrade, Warsh QT, FOMC rate hike discussion, Big Beautiful Bill +$3T) fully intact — yield relief contingent on Iran deal closing.",
+    "value": "10Y 4.54% / 30Y ~5.01% (June 5 — NFP +172K Triggers Rate-Hike Repricing; December Hike Fully Priced)",
+    "change": "June 5: 10Y surged to 4.54% (+6 bps) after BLS May 2026 NFP +172K blowout; 30Y back above 5.01%. Traders fully priced December 2026 Fed rate hike — most hawkish yield repricing of the Warsh era. Structural drivers fully intact: Moody's Aa1, Warsh QT, FOMC rate hike discussion, Big Beautiful Bill +$3T, ISM Services Prices Paid 71.3%.",
     "direction": "up",
-    "sparkData": [2.8, 4.0, 4.7, 4.4, 4.3, 4.2, 4.0, 4.32, 4.59, 5.189, 5.086, 5.024],
+    "sparkData": [2.8, 4.0, 4.7, 4.4, 4.3, 4.2, 4.0, 4.32, 4.59, 5.189, 5.086, 5.024, 4.47, 4.49, 4.54],
     "color": "red",
-    "source": "CNBC / Federal Reserve H.15 / FRED DGS30; May 26-27, 2026",
-    "lastUpdated": "2026-05-27T18:00:00Z"
+    "source": "Trading Economics / US Treasury / Yahoo Finance; June 5, 2026",
+    "lastUpdated": "2026-06-05T13:45:00Z"
   },
   {
     "id": "us-ppi-yoy-april-2026",
@@ -112,13 +112,13 @@
   {
     "id": "wti-crude-oil",
     "label": "WTI Crude Oil (USD/bbl)",
-    "value": "Brent ~$93.38 (June 2 — –1.68%; Iran-US Talks Resume + Hezbollah Ceasefire; Trump: Deal 'Over Next Week'; MOU Day 4 Unsigned)",
-    "change": "JUNE 2 UPDATE: Brent crude fell to approximately $93.38/bbl (–1.68%) on June 2, 2026 — down from the June 1 recovery close of ~$96.42 — as oil markets priced incremental de-escalation. Two parallel developments weighed on oil: (1) Iran and US resumed talks after brief suspension; (2) Israel and Hezbollah agreed to a ceasefire, reducing the broader Middle East war premium. Trump told ABC that a Hormuz deal was reachable 'over the next week.' Goldman Sachs oil desk: if deal signed + Brent reaches $88 by June 5, recession probability falls from 30% toward 18%. IEA floor: ~$80-82 even with full Hormuz reopening. WTI: ~$90.70/bbl. June 5 = Iran MOU window + May jobs report. Goldman $88 target within 2 weeks of signed deal.",
+    "value": "Brent ~$97.44 (June 5 at 9AM — Iran MOU Unsigned Day 7; Trump Edits Demand Stronger Nuclear Language; Goldman $88 Target on Signed Deal)",
+    "change": "JUNE 3-5 UPDATE: Brent rebounded from $93 (June 2) to ~$101.36 (June 3) as MOU signing uncertainty persisted, then fell to ~$97.95 (June 4) and ~$97.44 (June 5 morning) on continued deal optimism. Iran MOU unsigned Day 7 — Trump sent draft back for stronger language. VP Vance: signing 'uncertain.' Iran deal signed + Brent $88 = Goldman recession probability from ~25% toward 18%. IEA floor ~$80-82 even with full reopening. Section 301 tariffs (June 3) on 60 economies adds medium-term inflation risk.",
     "direction": "down",
-    "sparkData": [70, 72, 78, 75, 60, 58, 64.51, 85.57, 94.40, 103.18, 115.01, 95.42, 111.04, 103.54, 97.0, 99.18, 93.71, 91.5, 92.56, 96.42, 93.38],
+    "sparkData": [70, 72, 78, 75, 60, 58, 64.51, 85.57, 94.40, 103.18, 115.01, 95.42, 111.04, 103.54, 97.0, 99.18, 93.71, 91.5, 92.56, 96.42, 93.38, 101.36, 97.95, 97.44],
     "color": "amber",
-    "source": "Fortune / The National / CNN; June 2, 2026",
-    "lastUpdated": "2026-06-02T15:23:47Z"
+    "source": "Fortune / EIA / Trading Economics; June 5, 2026",
+    "lastUpdated": "2026-06-05T13:45:00Z"
   },
   {
     "id": "eurozone-cpi",
@@ -167,24 +167,24 @@
   {
     "id": "shiller-cape-ratio",
     "label": "S&P 500 / CAPE Ratio",
-    "value": "S&P 500 ~7,590 (June 2 — –0.14% from ATH 7,600); CAPE ~39.0; Nvidia +6% (PC Chip); HPE +20%+ (AI Data Center); VIX 16.05 (+4.77%); Russell 2000 –0.38%; Narrow AI Leadership",
-    "change": "JUNE 2 UPDATE: S&P 500 pulled back –0.14% on June 2 from the June 1 record close of 7,599.96. The Nasdaq –0.25%, Russell 2000 –0.38% (small caps underperforming = late-cycle signal). AI-adjacent stocks surged: Nvidia +6% (new PC processor); HPE +20%+ (record AI data center quarter). VIX rose 4.77% to 16.05 — rising volatility beneath ATH is classic late-cycle. CAPE ~39.0 with 30Y Treasury at ~5.02% remains historically extreme (2nd-most expensive 120-year combination). BofA 2026 S&P target 7,200 implies ~5% downside. Michigan Consumer Sentiment 44.8 (70-year record low) vs. S&P 500 ATH = widest equity/sentiment divergence in market history.",
+    "value": "S&P 500 ~7,493 (June 5 — –1.2% on NFP +172K Rate-Hike Repricing); CAPE ~38.5; 10Y 4.54%; Nasdaq –1.8%; AI Chips Selloff",
+    "change": "JUNE 5 UPDATE: S&P 500 fell ~1.2% to ~7,493 as blowout May NFP +172K triggered 'good news is bad news' rate-hike repricing. Nasdaq –1.8%; AI chip complex: Micron/AMD –6.3%, Broadcom –3.8% (guidance unchanged = disappointment). December 2026 Fed rate hike fully priced — first time in Warsh era. CAPE ~38.5 with 10Y at 4.54% and 30Y above 5% remains historically extreme. BofA target 7,200 implies ~4% downside from current level.",
     "direction": "up",
-    "sparkData": [27, 30, 28, 32, 36, 38, 37, 39.5, 38.5, 38.2, 38.5, 38.8, 39.0, 39.0],
+    "sparkData": [27, 30, 28, 32, 36, 38, 37, 39.5, 38.5, 38.2, 38.5, 38.8, 39.0, 39.0, 38.5],
     "color": "red",
-    "source": "24/7 Wall St. / TheStreet / Yahoo Finance; June 2, 2026",
-    "lastUpdated": "2026-06-02T15:23:47Z"
+    "source": "Yahoo Finance / TheStreet / Trading Economics; June 5, 2026",
+    "lastUpdated": "2026-06-05T13:45:00Z"
   },
   {
     "id": "ism-services-pmi-april-2026",
-    "label": "ISM Services PMI — April 2026",
-    "value": "53.6 (Prices Paid: 70.7 — highest since 2022)",
-    "change": "+3.7 on Prices Paid sub-index; New Orders fell 7.1 pts; Employment contracting 2nd month — stagflation embedded in services",
+    "label": "ISM Services PMI — May 2026 (Released June 3)",
+    "value": "54.5 (Prices Paid: 71.3 — Highest Since Aug 2022; 23rd Consecutive Expansion Month)",
+    "change": "May: 54.5 (beat 53.8; up from April 53.6); Business Activity 57.7; New Orders 57.3; Prices Paid 71.3 (highest since Aug 2022 — stagflation embedded); Employment 47.9 (3rd straight month contracting — hiring freeze signal)",
     "direction": "up",
-    "sparkData": [55.2, 53.5, 54.6, 55.2, 54.9, 52.1, 52.7, 54.0, 53.6],
+    "sparkData": [55.2, 53.5, 54.6, 55.2, 54.9, 52.1, 52.7, 54.0, 53.6, 54.5],
     "color": "red",
-    "source": "ISM Non-Manufacturing PMI, April 2026 (released May 5, 2026)",
-    "lastUpdated": "2026-05-05T16:00:00Z"
+    "source": "ISM Non-Manufacturing PMI, May 2026 (released June 3, 2026)",
+    "lastUpdated": "2026-06-03T16:00:00Z"
   },
   {
     "id": "rba-cash-rate",
