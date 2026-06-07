@@ -2,40 +2,40 @@
   {
     "id": "kpi-total-cases-2026",
     "label": "Confirmed Cases (2026 DRC + Uganda)",
-    "value": "378 confirmed (363 DRC + 15 Uganda) / ~116 suspected under investigation",
+    "value": "400 confirmed (381 DRC + 19 Uganda) / ~116 suspected under investigation",
     "color": "red",
-    "source": "WHO DG Media Briefing / CDC / ECDC — 3 June 2026",
+    "source": "WHO DON605 / ECDC / CDC — 5 June 2026",
     "contested": true,
-    "contestNote": "DRC: 341 confirmed in Ituri (17 health zones), 19 in Nord-Kivu (7 health zones), 3 in Sud-Kivu (1 health zone) = 363 confirmed DRC. Uganda: 15 confirmed (8 Kampala + 1 Wakiso), including 7 from local transmission chains. ~116 suspected cases under active investigation in DRC. Community deaths in 23%-inaccessible Ituri zones likely under-reported. Uganda local transmission confirmed June 2; Ituri expanded to 17 health zones by June 3.",
-    "delta": "+42 DRC confirmed (1d, June 2→3)",
-    "deltaNote": "DRC confirmed cases rose from 321 (June 2) to 363 (June 3) — +42 in 24 hours, with 19 new cases in the most recent reporting window. Ituri Province expanded from 15 to 17 active health zones (341 confirmed). Uganda held at 15. Total global confirmed: 336 → 378. 206 patients currently hospitalized in DRC isolation units.",
+    "contestNote": "DRC: 359 confirmed in Ituri (17 health zones), 19 in Nord-Kivu (7 health zones), 3 in Sud-Kivu (1 health zone) = 381 confirmed DRC as of June 3 (WHO DON605, published June 5). Uganda: 19 confirmed (8 Kampala + 1 Wakiso + new contacts June 5), 2 deaths. Community deaths in 23%-inaccessible Ituri zones likely under-reported. Ebola now confirmed in Mambasa Territory (IS-controlled, health workers cannot enter). Testing capacity expanded to 800 tests/day.",
+    "delta": "+22 DRC / +4 Uganda (June 3→5)",
+    "deltaNote": "DRC confirmed rose from 363 (June 3, DG briefing) to 381 (June 3, WHO DON revision). Uganda rose from 15 (June 2) to 19 confirmed (June 5, +3 new contacts). Total confirmed: 378 → 400. 233 currently hospitalized in DRC isolation units.",
     "trend": "up",
-    "lastUpdated": "2026-06-03"
+    "lastUpdated": "2026-06-07"
   },
   {
     "id": "kpi-confirmed-cases-2026",
     "label": "Lab-Confirmed Cases (2026 Outbreak — DRC + Uganda)",
-    "value": "378 total (363 DRC + 15 Uganda)",
+    "value": "400 total (381 DRC + 19 Uganda)",
     "color": "red",
-    "source": "WHO DG Media Briefing / CDC / ECDC — 3 June 2026",
+    "source": "WHO DON605 / ECDC / CDC — 5 June 2026",
     "contested": false,
-    "delta": "+42 DRC (1d, June 2→3)",
-    "deltaNote": "DRC: 363 confirmed (341 Ituri/17 health zones, 19 Nord-Kivu/7 health zones, 3 Sud-Kivu/1 health zone). Uganda: 15 confirmed (8 Kampala + 1 Wakiso) including local transmission cases. Total confirmed: 378 as of June 3. Five survivors discharged as of June 1 (4 nurses + 1 lab worker). 206 currently hospitalized.",
+    "delta": "+22 DRC, +4 Uganda (since June 3 briefing)",
+    "deltaNote": "DRC: 381 confirmed (359 Ituri/17 health zones, 19 Nord-Kivu/7 health zones, 3 Sud-Kivu/1 health zone). Uganda: 19 confirmed — 8 Kampala + 1 Wakiso + new contact-linked cases June 5. Total confirmed: 400 as of June 5. 233 currently hospitalized in DRC. CDC MMWR modeling (June 5) warns 10,000–20,000+ cases possible without immediate scale-up.",
     "trend": "up",
-    "lastUpdated": "2026-06-03"
+    "lastUpdated": "2026-06-07"
   },
   {
     "id": "kpi-deaths-2026",
     "label": "Deaths (2026 Outbreak)",
-    "value": "63 confirmed (62 DRC + 1 Uganda)",
+    "value": "66 confirmed (64 DRC + 2 Uganda)",
     "color": "red",
-    "source": "WHO DG Media Briefing / CDC / ECDC — 3 June 2026",
+    "source": "WHO DON605 / ECDC / CDC — 5 June 2026",
     "contested": true,
-    "contestNote": "Confirmed deaths: 62 DRC + 1 Uganda = 63 total as of June 3 per official lab-confirmed case reports. CFR (confirmed): 63/378 = 16.7%. Community deaths in the 23%-inaccessible Ituri zone remain unconfirmed. Ituri province spans 17 health zones with 341 confirmed cases. 2 new deaths reported in the 24-hour window ending June 3. Probable and suspected deaths beyond the confirmed count remain uncaptured in inaccessible zones.",
-    "delta": "+14 confirmed deaths (June 2→3)",
-    "deltaNote": "Confirmed DRC deaths rose from 48 (June 2) to 62 (June 3) — +14 in 24 hours. Uganda deaths remain at 1 confirmed. Total confirmed deaths: 49 → 63. Most recent 24-hour window: 2 new deaths in DRC.",
+    "contestNote": "Confirmed deaths: 64 DRC + 2 Uganda = 66 total as of June 5. CFR (confirmed): 66/400 = 16.5%. Community deaths in 23%-inaccessible Ituri zone remain unconfirmed; Mambasa (IS-controlled) now completely inaccessible. Ituri province spans 17 health zones with 359 confirmed cases.",
+    "delta": "+3 (since June 3 briefing: 63 → 66)",
+    "deltaNote": "DRC confirmed deaths rose from 62 to 64; Uganda from 1 to 2 confirmed deaths. The 2 Uganda deaths are the first Uganda fatalities beyond the initial confirmed case. Total deaths: 63 → 66 as of June 5.",
     "trend": "up",
-    "lastUpdated": "2026-06-03"
+    "lastUpdated": "2026-06-07"
   },
   {
     "id": "kpi-cfr-2026",
@@ -64,26 +64,26 @@
   {
     "id": "kpi-health-zones-affected",
     "label": "DRC Provinces + Countries Affected",
-    "value": "3 DRC provinces (17+ health zones in Ituri) + Uganda (15 confirmed, local transmission + Wakiso)",
+    "value": "3 DRC provinces (17 health zones in Ituri) + Uganda (19 confirmed, 2 deaths) + Mambasa IS zone inaccessible",
     "color": "red",
-    "source": "WHO DG Media Briefing / ECDC / CDC — 3 June 2026",
+    "source": "WHO DON605 / ECDC / CIDRAP — 5–6 June 2026",
     "contested": false,
-    "delta": "Ituri: expanded to 17 health zones (+2 from June 2)",
-    "deltaNote": "Ituri Province: 341 confirmed across 17 health zones (up from 299/15 on June 2 — widest provincial footprint yet). Nord-Kivu (incl. Goma): 19 confirmed from 7 health zones. Sud-Kivu / Bukavu: 3 confirmed from 1 health zone. Uganda: 15 confirmed — 8 Kampala + 1 new Wakiso district case + 7 from local transmission chains. Uganda DRC border closed 4 weeks from May 28 (day 8).",
+    "delta": "Ebola now confirmed in Mambasa IS-controlled territory (June 6)",
+    "deltaNote": "Ituri Province: 359 confirmed across 17 health zones. Nord-Kivu (incl. Goma): 19 confirmed from 7 health zones. Sud-Kivu / Bukavu: 3 confirmed from 1 health zone. Uganda: 19 confirmed — 8 Kampala + 1 Wakiso + new contact-linked cases. Uganda DRC border closure (May 28) in second week. Mambasa Territory (IS-controlled Ituri) now confirmed affected; health workers cannot enter.",
     "trend": "up",
-    "lastUpdated": "2026-06-03"
+    "lastUpdated": "2026-06-07"
   },
   {
     "id": "kpi-contact-tracing",
     "label": "Contact Tracing Coverage (Uganda + DRC)",
-    "value": "<45% DRC / 147+ Uganda contacts monitored",
-    "color": "amber",
-    "source": "CDC / Uganda MoH / WHO — 28 May 2026",
+    "value": "~45% DRC / ~20% field estimate / 668 Uganda contacts monitored",
+    "color": "red",
+    "source": "CDC / Uganda MoH / WHO — 5 June 2026",
     "contested": true,
-    "delta": "DRC coverage deteriorating",
-    "deltaNote": "DRC contact tracing coverage dropped below 45% vs 80% threshold needed for containment. 25+ escaped Mongbwalu patients estimated to generate 300–450 untraced community contacts. Uganda monitoring 147+ contacts under 21-day surveillance. Uganda border closure may complicate cross-border contact tracing.",
+    "delta": "Uganda contact count nearly 5x increase; DRC field rate may be as low as 20%",
+    "deltaNote": "WHO reports ~45% DRC contact tracing; CDC field teams estimate as low as 20% in most affected areas. Uganda monitoring 668+ contacts under 21-day surveillance (up from 147 in late May). DRC border closure from May 28 has impaired cross-border contact tracing. Mambasa Territory (IS-controlled) represents a complete 'contact tracing dead zone.' CDC MMWR modeling: achieving 95% isolation is the only path to rapid suppression.",
     "trend": "down",
-    "lastUpdated": "2026-05-28"
+    "lastUpdated": "2026-06-07"
   },
   {
     "id": "kpi-west-africa-total",

@@ -13,15 +13,16 @@
   },
   {
     "id": "mrna-4157-efficacy",
-    "label": "mRNA-4157 Melanoma Recurrence Reduction",
-    "value": "44%",
+    "label": "Intismeran Autogene Melanoma Recurrence Reduction (5-Year)",
+    "value": "49%",
     "color": "green",
-    "source": "KEYNOTE-942 Phase 2b, NEJM Evidence 2023",
+    "source": "KEYNOTE-942 5-Year Follow-up, Journal of Clinical Oncology / ASCO 2026 (June 1, 2026)",
     "contested": true,
-    "contestNote": "Phase 2b result in high-risk resected melanoma vs. pembrolizumab alone; Phase 3 confirmation pending",
-    "delta": "vs. pembrolizumab monotherapy",
+    "contestNote": "Phase 2b result (n=157) in high-risk resected melanoma; 5-year RFS HR 0.51 (49% reduction), DMFS HR 0.411 (59% reduction), OS trend HR 0.471 (not statistically significant due to small events). Phase 3 INTerpath-001 (n=~1,089) fully enrolled; pivotal results 2026–2029.",
+    "delta": "vs. pembrolizumab alone; up from 44% at 18-month interim",
+    "deltaNote": "5-year follow-up deepens the Phase 2b signal: HR 0.51 at 5 years vs. HR 0.56 at 18 months; first personalized mRNA cancer vaccine to sustain durable benefit at 5 years",
     "trend": "up",
-    "lastUpdated": "2026-04-30"
+    "lastUpdated": "2026-06-01"
   },
   {
     "id": "cancer-death-decline",
@@ -120,13 +121,25 @@
   {
     "id": "fda-oncology-approvals-2026-ytd",
     "label": "FDA Oncology Approvals in 2026 (Year-to-Date)",
-    "value": "15+",
+    "value": "17+",
     "color": "green",
-    "source": "FDA CDER/CBER Drug Approval Databases — cumulative through May 29, 2026",
+    "source": "FDA CDER/CBER Drug Approval Databases — cumulative through June 7, 2026",
     "contested": false,
-    "delta": "Includes Decnupaz/pivekimab sunirine BPDCN (May 27), Enhertu early HER2+ breast cancer (May 15), atezolizumab/ctDNA MIBC (May 15), Sonrotoclax MCL (May 13), Bizengri bile duct (May 8), Veppanu first PROTAC (May 1), plus 9 Q1 approvals",
-    "deltaNote": "Decnupaz (May 27) is a CD123-directed ADC for blastic plasmacytoid dendritic cell neoplasm (BPDCN), a rare and aggressive blood cancer. ASCO 2026 (May 29–June 2) opened with landmark CROWN lorlatinib 7-year data and HARMONi-6 ivonescimab; daraxonrasib RASolute 302 pancreatic cancer plenary scheduled May 31",
+    "delta": "June 2026 additions: Cavhanza nilotinib ODT for CML (June 2), generic eribulin (Lupin/Natco) for metastatic breast/liposarcoma (June 3); FDA fast-track granted giredestrant (June 2); daraxonrasib expanded access authorized ahead of full NDA",
+    "deltaNote": "ASCO 2026 (May 29–June 2) produced 5 Plenary Session results: daraxonrasib/RASolute 302 (pancreatic cancer, OS HR 0.40 — near-doubling of survival), adjuvant selpercatinib/LIBRETTO-432 (RET+ NSCLC, EFS HR 0.172), perioperative apalutamide/PROTEUS (high-risk prostate), abemaciclib/SARC041 (liposarcoma, first positive Ph3 ever), plus intismeran autogene 5-year melanoma data (HR 0.51)",
     "trend": "up",
-    "lastUpdated": "2026-05-29"
+    "lastUpdated": "2026-06-07"
+  },
+  {
+    "id": "daraxonrasib-pancreatic-os-hr",
+    "label": "Daraxonrasib OS Hazard Ratio vs. Chemo in 2L Pancreatic Cancer",
+    "value": "HR 0.40",
+    "color": "green",
+    "source": "RASolute 302 Phase 3, NEJM / ASCO 2026 Plenary Session (June 1, 2026)",
+    "contested": false,
+    "delta": "13.2 months vs. 6.7 months median OS — first drug to nearly double survival in 2nd-line pancreatic cancer",
+    "deltaNote": "Largest OS benefit ever demonstrated in a Phase 3 trial for pancreatic ductal adenocarcinoma. RAS mutations (primarily KRAS G12D, G12V) drive ~90% of PDAC; daraxonrasib is an oral pan-RAS(ON) inhibitor. FDA expanded access authorized; NDA filing accelerated for 2026 submission.",
+    "trend": "up",
+    "lastUpdated": "2026-06-01"
   }
 ]

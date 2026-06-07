@@ -89,14 +89,14 @@
   },
   {
     "id": "us-10y-treasury-yield",
-    "label": "US 10Y / 30Y Treasury Yield",
-    "value": "10Y 4.54% / 30Y ~5.01% (June 5 — NFP +172K Triggers Rate-Hike Repricing; December Hike Fully Priced)",
-    "change": "June 5: 10Y surged to 4.54% (+6 bps) after BLS May 2026 NFP +172K blowout; 30Y back above 5.01%. Traders fully priced December 2026 Fed rate hike — most hawkish yield repricing of the Warsh era. Structural drivers fully intact: Moody's Aa1, Warsh QT, FOMC rate hike discussion, Big Beautiful Bill +$3T, ISM Services Prices Paid 71.3%.",
+    "label": "US 10Y / 30Y / 2Y Treasury Yield",
+    "value": "10Y 4.544% / 30Y 5.007% / 2Y 4.162% (June 5 Close — NFP +172K; December Hike Fully Priced; ECB June 11 Hike 99%; BOJ June 16 Hike 96%+; Warsh FOMC June 16-17)",
+    "change": "June 5 close: 10Y 4.544% (+~6 bps); 30Y 5.007%; 2Y 4.162% (highest 2Y since Feb 25, 2025 — 2026 high). December 2026 Fed rate hike fully priced after NFP blowout. June 6-7 weekend: ECB June 11 hike (99%) + BOJ June 16 hike (96%+) adds global rate-hike pressure across all maturities. Warsh June 17 dot plot is the next yield-defining event: if dot shows 1 hike for 2026, 10Y likely tests 4.75%; 30Y targets 5.189% (May 19 high).",
     "direction": "up",
-    "sparkData": [2.8, 4.0, 4.7, 4.4, 4.3, 4.2, 4.0, 4.32, 4.59, 5.189, 5.086, 5.024, 4.47, 4.49, 4.54],
+    "sparkData": [2.8, 4.0, 4.7, 4.4, 4.3, 4.2, 4.0, 4.32, 4.59, 5.189, 5.086, 5.024, 4.47, 4.49, 4.54, 4.544],
     "color": "red",
-    "source": "Trading Economics / US Treasury / Yahoo Finance; June 5, 2026",
-    "lastUpdated": "2026-06-05T13:45:00Z"
+    "source": "US Treasury / CNBC / Bloomberg; June 5, 2026",
+    "lastUpdated": "2026-06-07T08:30:00Z"
   },
   {
     "id": "us-ppi-yoy-april-2026",
@@ -111,14 +111,14 @@
   },
   {
     "id": "wti-crude-oil",
-    "label": "WTI Crude Oil (USD/bbl)",
-    "value": "Brent ~$97.44 (June 5 at 9AM — Iran MOU Unsigned Day 7; Trump Edits Demand Stronger Nuclear Language; Goldman $88 Target on Signed Deal)",
-    "change": "JUNE 3-5 UPDATE: Brent rebounded from $93 (June 2) to ~$101.36 (June 3) as MOU signing uncertainty persisted, then fell to ~$97.95 (June 4) and ~$97.44 (June 5 morning) on continued deal optimism. Iran MOU unsigned Day 7 — Trump sent draft back for stronger language. VP Vance: signing 'uncertain.' Iran deal signed + Brent $88 = Goldman recession probability from ~25% toward 18%. IEA floor ~$80-82 even with full reopening. Section 301 tariffs (June 3) on 60 economies adds medium-term inflation risk.",
+    "label": "WTI / Brent Crude Oil (USD/bbl)",
+    "value": "Brent ~$93-97 (June 5-7 Weekend Range — Iran MOU Day 9 Unsigned; Goldman $88 Target on Signed Deal; Triple CB Week June 11-17 Adds Demand-Uncertainty Premium)",
+    "change": "JUNE 5-7 UPDATE: Brent ~$97.44 (June 5 morning) → ~$93.71 (June 5 close) on continued deal optimism + Iran ceasefire progress without signature. June 6-7 weekend range: ~$93-97 as diplomatic stall continues (Day 9). Iran MOU binary: Signed deal → Brent $88 (Goldman $88 threshold = recession probability cut from 15% toward 10%); Unsigned through June 17 FOMC → Brent stays above $90 → CPI above 3.5% → Warsh dot plot shows December hike. IEA floor ~$80-82 even with full reopening (logistics take 60-90 days). Section 301 tariffs (June 3) on 60 economies add medium-term demand uncertainty.",
     "direction": "down",
-    "sparkData": [70, 72, 78, 75, 60, 58, 64.51, 85.57, 94.40, 103.18, 115.01, 95.42, 111.04, 103.54, 97.0, 99.18, 93.71, 91.5, 92.56, 96.42, 93.38, 101.36, 97.95, 97.44],
+    "sparkData": [70, 72, 78, 75, 60, 58, 64.51, 85.57, 94.40, 103.18, 115.01, 95.42, 111.04, 103.54, 97.0, 99.18, 93.71, 91.5, 92.56, 96.42, 93.38, 101.36, 97.95, 97.44, 93.71],
     "color": "amber",
-    "source": "Fortune / EIA / Trading Economics; June 5, 2026",
-    "lastUpdated": "2026-06-05T13:45:00Z"
+    "source": "Fortune / EIA / Axios / Trading Economics; June 5-7, 2026",
+    "lastUpdated": "2026-06-07T08:30:00Z"
   },
   {
     "id": "eurozone-cpi",
@@ -167,13 +167,13 @@
   {
     "id": "shiller-cape-ratio",
     "label": "S&P 500 / CAPE Ratio",
-    "value": "S&P 500 ~7,493 (June 5 — –1.2% on NFP +172K Rate-Hike Repricing); CAPE ~38.5; 10Y 4.54%; Nasdaq –1.8%; AI Chips Selloff",
-    "change": "JUNE 5 UPDATE: S&P 500 fell ~1.2% to ~7,493 as blowout May NFP +172K triggered 'good news is bad news' rate-hike repricing. Nasdaq –1.8%; AI chip complex: Micron/AMD –6.3%, Broadcom –3.8% (guidance unchanged = disappointment). December 2026 Fed rate hike fully priced — first time in Warsh era. CAPE ~38.5 with 10Y at 4.54% and 30Y above 5% remains historically extreme. BofA target 7,200 implies ~4% downside from current level.",
+    "value": "S&P 500 7,383.74 (June 5 Close — –2.6%, Worst Day Since Oct 2025); CAPE ~37-38; 10Y 4.544%; Nasdaq –4.2%; AI Chips Selloff; Goldman 15% Recession Probability; Triple CB Week June 11-17",
+    "change": "JUNE 5 CONFIRMED CLOSE: S&P 500 fell 200.57 pts (–2.6%) to 7,383.74 — worst single-day decline since October 2025; Nasdaq –4.2% to 25,709.43; Dow –1.4% to 50,866.78. AI chip complex: Nvidia –3.7%, Broadcom –4.6%, Micron/AMD –6.3%. S&P had hit above 7,600 for the first time on June 2 (record high on AI surge). JUNE 6-7 WEEKEND: Goldman 15% recession probability (cut from 25%); ECB June 11 hike at 99% adds eurozone rate-hike pressure. CAPE ~37-38 with 10Y 4.544% remains historically extreme — earnings yield of ~2.6% vs. risk-free 4.5% creates unfavorable equity risk premium.",
     "direction": "up",
-    "sparkData": [27, 30, 28, 32, 36, 38, 37, 39.5, 38.5, 38.2, 38.5, 38.8, 39.0, 39.0, 38.5],
+    "sparkData": [27, 30, 28, 32, 36, 38, 37, 39.5, 38.5, 38.2, 38.5, 38.8, 39.0, 38.5, 37.8],
     "color": "red",
-    "source": "Yahoo Finance / TheStreet / Trading Economics; June 5, 2026",
-    "lastUpdated": "2026-06-05T13:45:00Z"
+    "source": "Yahoo Finance / TheStreet / Goldman Sachs; June 5-7, 2026",
+    "lastUpdated": "2026-06-07T08:30:00Z"
   },
   {
     "id": "ism-services-pmi-april-2026",
