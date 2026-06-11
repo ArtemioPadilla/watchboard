@@ -302,13 +302,23 @@ jobs:
             }
           }
 
+          fs.writeFileSync('/tmp/zod-failure-count.txt', String(failures));
           if (failures > 0) {
             console.error(failures + ' file(s) failed Zod schema validation');
             process.exit(1);
           }
           console.log('All files pass Zod schema validation');
-          "
-          echo "valid=true" >> $GITHUB_OUTPUT
+          " 2>&1 || true
+
+          # Explicitly set valid=true/false from the captured failure count
+          # (a tsx crash before the count file is written also counts as failure).
+          FAILURES=$(cat /tmp/zod-failure-count.txt 2>/dev/null || echo 1)
+          if [ "$FAILURES" -gt 0 ]; then
+            echo "valid=false" >> $GITHUB_OUTPUT
+            echo "$FAILURES file(s) failed Zod schema validation — commit will be skipped"
+          else
+            echo "valid=true" >> $GITHUB_OUTPUT
+          fi
 
       - name: Commit and push
         if: steps.changes.outputs.changed == 'true' && steps.json_check.outputs.valid == 'true' && steps.validate_schemas.outputs.valid == 'true'
@@ -321,11 +331,21 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git add "trackers/${SLUG}/"
           git commit -m "chore(data): seed ${SLUG} tracker data $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-          for i in 1 2 3; do
-            git pull --rebase origin main && git push && break
-            echo "Push attempt $i failed, retrying..."
-            sleep 2
+          pushed=false
+          for i in $(seq 1 5); do
+            if git pull --rebase origin main && git push; then
+              echo "Push succeeded on attempt $i"
+              pushed=true
+              break
+            fi
+            git rebase --abort 2>/dev/null || true
+            echo "Push attempt $i failed, retrying with jitter..."
+            sleep $(( (RANDOM % 8) + 3 ))
           done
+          if [ "$pushed" != "true" ]; then
+            echo "ERROR: failed to push seed data after 5 attempts"
+            exit 1
+          fi
 
       - name: Job summary
         if: always()

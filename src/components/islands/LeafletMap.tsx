@@ -1,16 +1,19 @@
-import { MapContainer, TileLayer, CircleMarker, Polyline, Tooltip, ZoomControl, Circle, Marker, Polygon, Pane } from 'react-leaflet';
+import { useEffect } from 'react';
+import { MapContainer, TileLayer, CircleMarker, Polyline, Tooltip, ZoomControl, Circle, Marker, Polygon, Pane, useMap } from 'react-leaflet';
 import type { LatLngExpression } from 'leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import type { MapPoint, MapLine } from '../../lib/schemas';
+import type { MapCategory } from '../../lib/map-utils';
 import { catColor, lineColor, WEAPON_TYPE_WEIGHTS, WEAPON_TYPE_LABELS, STATUS_LABELS, computeArcPositions } from './map-helpers';
 import type { OverlayData } from './useMapOverlays';
 import type { FlightData } from './useMapFlights';
 import MapArcAnimator from './MapArcAnimator';
 import MapFactCards from './MapFactCards';
 import type { FlatEvent } from '../../lib/timeline-utils';
-import { t, getPreferredLocale } from '../../i18n/translations';
+import { t } from '../../i18n/translations';
 import type { Locale } from '../../i18n/translations';
+import { useLocale } from '../../i18n/useLocale';
 
 // ────────────────────────────────────────────
 //  Types
@@ -19,6 +22,7 @@ import type { Locale } from '../../i18n/translations';
 interface Props {
   points: MapPoint[];
   lines: MapLine[];
+  categories?: MapCategory[];
   onSelectPoint: (pt: MapPoint) => void;
   onSelectLine?: (line: MapLine) => void;
   overlays?: OverlayData;
@@ -143,15 +147,50 @@ function quakeColor(depth: number): string {
 }
 
 // ────────────────────────────────────────────
+//  Scroll-zoom guard
+// ────────────────────────────────────────────
+
+/**
+ * Disables Leaflet scroll-wheel zoom until the user clicks/focuses the map,
+ * and re-disables it when the pointer/focus leaves. Restores normal page
+ * scrolling over the (viewport-dominating) map; +/- zoom controls and
+ * drag/pinch remain unaffected.
+ */
+function ScrollZoomGuard() {
+  const map = useMap();
+
+  useEffect(() => {
+    const container = map.getContainer();
+    const enable = () => map.scrollWheelZoom.enable();
+    const disable = () => map.scrollWheelZoom.disable();
+
+    disable();
+    container.addEventListener('click', enable);
+    container.addEventListener('focusin', enable);
+    container.addEventListener('mouseleave', disable);
+    container.addEventListener('focusout', disable);
+
+    return () => {
+      container.removeEventListener('click', enable);
+      container.removeEventListener('focusin', enable);
+      container.removeEventListener('mouseleave', disable);
+      container.removeEventListener('focusout', disable);
+    };
+  }, [map]);
+
+  return null;
+}
+
+// ────────────────────────────────────────────
 //  Component
 // ────────────────────────────────────────────
 
 export default function LeafletMap({
-  points, lines, onSelectPoint, onSelectLine, overlays,
+  points, lines, categories, onSelectPoint, onSelectLine, overlays,
   flights, terminatorPolygon, currentDate, isPlaying,
   events, showFactCards, mapCenter, mapBounds,
 }: Props) {
-  const locale = getPreferredLocale();
+  const locale = useLocale();
   const center: LatLngExpression = mapCenter ? [mapCenter.lat, mapCenter.lon] : [29, 49];
 
   const basePoints = points.filter(p => p.base);
@@ -171,9 +210,10 @@ export default function LeafletMap({
       minZoom={3}
       maxZoom={12}
       style={{ width: '100%', height: '100%', background: '#0d0f14' }}
-      scrollWheelZoom={true}
+      scrollWheelZoom={false}
       zoomControl={false}
     >
+      <ScrollZoomGuard />
       <ZoomControl position="topright" />
       <TileLayer
         url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
@@ -369,7 +409,7 @@ export default function LeafletMap({
 
       {/* Front zone markers */}
       {frontPoints.map(pt => {
-        const color = catColor(pt.cat);
+        const color = catColor(pt.cat, categories);
         return (
           <CircleMarker
             key={pt.id}
@@ -400,7 +440,7 @@ export default function LeafletMap({
       {[...regularPoints]
         .sort((a, b) => b.tier - a.tier)
         .map(pt => {
-          const color = catColor(pt.cat);
+          const color = catColor(pt.cat, categories);
           const isPermanent = showPermanentLabel(pt);
           const radius = markerRadius(pt.cat, pt.tier);
 

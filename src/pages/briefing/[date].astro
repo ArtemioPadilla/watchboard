@@ -13,6 +13,7 @@ import { flattenTimelineEvents } from '../../lib/timeline-utils';
 import { eventPermalink } from '../../lib/event-slug';
 import type { TrackerConfig } from '../../lib/tracker-config';
 import type { FlatEvent } from '../../lib/timeline-utils';
+import { jsonLd } from '../../lib/json-ld';
 
 interface DayTrackerGroup {
   config: TrackerConfig;
@@ -142,8 +143,8 @@ const newsArticleSchema = {
   description={`${totalEvents} events across ${trackerCount} tracker${trackerCount !== 1 ? 's' : ''} on ${displayDate}. Cross-tracker intelligence summary.`}
 >
   <Fragment slot="head">
-    <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
-    <script is:inline type="application/ld+json" set:html={JSON.stringify(newsArticleSchema)} />
+    <script is:inline type="application/ld+json" set:html={jsonLd(breadcrumbSchema)} />
+    <script is:inline type="application/ld+json" set:html={jsonLd(newsArticleSchema)} />
     <link rel="canonical" href={pageUrl} />
     {prevDate && <link rel="prev" href={`${basePath}briefing/${prevDate}/`} />}
     {nextDate && <link rel="next" href={`${basePath}briefing/${nextDate}/`} />}

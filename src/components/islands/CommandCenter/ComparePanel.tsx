@@ -2,7 +2,8 @@ import { memo } from 'react';
 import type { CSSProperties } from 'react';
 import type { TrackerCardData } from '../../../lib/tracker-directory-utils';
 import { buildDateline } from '../../../lib/tracker-directory-utils';
-import { t, getPreferredLocale, type Locale } from '../../../i18n/translations';
+import { t, type Locale } from '../../../i18n/translations';
+import { useLocale } from '../../../i18n/useLocale';
 
 interface Props {
   trackers: TrackerCardData[];
@@ -54,12 +55,14 @@ const ComparePanel = memo(function ComparePanel({
   onRemove,
   basePath,
 }: Props) {
+  // Hook must run unconditionally — keep it above the early returns.
+  const locale = useLocale();
+
   if (compareSlugs.length < 2) return null;
 
   const compared = resolveComparedTrackers(trackers, compareSlugs);
   if (compared.length < 2) return null;
 
-  const locale = getPreferredLocale();
   const kpiRows = buildKpiRows(compared);
 
   return (

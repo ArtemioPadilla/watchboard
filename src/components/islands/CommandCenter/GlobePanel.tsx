@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, useMemo, forwardRef, useImperativeHandle } from 'react';
-import { t, getPreferredLocale } from '../../../i18n/translations';
+import { t } from '../../../i18n/translations';
+import { useLocale } from '../../../i18n/useLocale';
 import type { TrackerCardData } from '../../../lib/tracker-directory-utils';
 
 interface GlobePoint {
@@ -207,6 +208,7 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
   onPolygonClick,
   onPolygonHover,
 }, ref) {
+  const locale = useLocale();
   const [loading, setLoading] = useState(true);
   const [cityLights, setCityLights] = useState(cityLightsProp);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -642,13 +644,13 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
           <div style={styles.loadingGlobe}>
             <div style={styles.loadingRing} />
           </div>
-          <div style={styles.loadingText}>{t('cc.initGlobe', getPreferredLocale())}</div>
+          <div style={styles.loadingText}>{t('cc.initGlobe', locale)}</div>
         </div>
       )}
       <div ref={containerRef} style={styles.globeWrap} />
       {!broadcastMode && (
         <div style={styles.statusBar}>
-          <span>{t('cc.globeHint', getPreferredLocale())}</span>
+          <span>{t('cc.globeHint', locale)}</span>
         </div>
       )}
       <button

@@ -69,8 +69,13 @@ function rawIndex(tracker: TrackerLike): { tokens: Set<string>; phrases: string[
   if (tracker.searchContext) sources.push(tracker.searchContext);
   for (const s of sources) {
     tokenize(s).forEach((t) => tokens.add(t));
-    const norm = s.trim().toLowerCase();
-    if (tokenize(norm).length >= MIN_PHRASE_TOKENS) phrases.push(norm);
+    // searchContext is typically a comma/semicolon-separated list of topics.
+    // A 10+ token blob never matches a headline verbatim, so split it into
+    // segments first — each segment is a realistic candidate phrase.
+    for (const segment of s.split(/[,;]/)) {
+      const norm = segment.trim().toLowerCase();
+      if (norm && tokenize(norm).length >= MIN_PHRASE_TOKENS) phrases.push(norm);
+    }
   }
   return { tokens, phrases };
 }

@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { t, getPreferredLocale } from '../../i18n/translations';
+import { useLocale } from '../../i18n/useLocale';
 
 /* ── Types ── */
 
@@ -201,7 +202,7 @@ function inventoryTotal(inv: InventoryRow): number {
    ══════════════════════════════════════════════════ */
 
 function SystemStatusBanner({ summary }: { summary: SummaryStats }) {
-  const locale = getPreferredLocale();
+  const locale = useLocale();
   const isHealthy = summary.allPassing;
   const borderColor = isHealthy ? 'var(--accent-green)' : 'var(--accent-red)';
   const dotColor = borderColor;
@@ -310,7 +311,7 @@ function KpiCard({ label, value, color, subtext }: {
 }
 
 function KpiSummaryRow({ summary }: { summary: SummaryStats }) {
-  const locale = getPreferredLocale();
+  const locale = useLocale();
   const rateColor = summary.successRate >= 90
     ? 'var(--accent-green)'
     : summary.successRate >= 70
@@ -360,7 +361,7 @@ function KpiSummaryRow({ summary }: { summary: SummaryStats }) {
    ══════════════════════════════════════════════════ */
 
 function UptimeCalendar({ entries }: { entries: MetricsIndexEntry[] }) {
-  const locale = getPreferredLocale();
+  const locale = useLocale();
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
   const days = useMemo(() => build30DayCalendar(entries), [entries]);
 
@@ -495,7 +496,7 @@ function UptimeCalendar({ entries }: { entries: MetricsIndexEntry[] }) {
    ══════════════════════════════════════════════════ */
 
 function TrackerHealthTable({ latestRun }: { latestRun: MetricsRun | null }) {
-  const locale = getPreferredLocale();
+  const locale = useLocale();
   if (!latestRun) return null;
   const inventoryEntries = Object.entries(latestRun.inventory);
   if (inventoryEntries.length === 0) return null;
@@ -1327,6 +1328,7 @@ function ErrorTrendChart({ entries }: { entries: MetricsIndexEntry[] }) {
    ══════════════════════════════════════════════════ */
 
 export default function MetricsDashboard() {
+  const locale = useLocale();
   const [index, setIndex] = useState<MetricsIndexEntry[]>([]);
   const [loading, setLoading] = useState(true);
   const [expandedTimestamp, setExpandedTimestamp] = useState<string | null>(null);
@@ -1369,7 +1371,7 @@ export default function MetricsDashboard() {
             .catch(() => {/* non-critical */});
         }
       })
-      .catch(() => setLoading(false));
+      .catch(() => { if (mountedRef.current) setLoading(false); });
   }, []);
 
   const filteredEntries = useMemo(
@@ -1435,7 +1437,7 @@ export default function MetricsDashboard() {
           animation: 'md-pulse 1s linear infinite',
           margin: '0 auto 1rem',
         }} />
-        Loading system status...
+        {t('metrics.loadingStatus', locale)}
       </div>
     );
   }
@@ -1449,7 +1451,7 @@ export default function MetricsDashboard() {
         fontFamily: FONT_SANS,
         fontSize: '0.85rem',
       }}>
-        No ingestion runs recorded yet.
+        {t('metrics.noRunsYet', locale)}
       </div>
     );
   }
@@ -1471,9 +1473,9 @@ export default function MetricsDashboard() {
         width: 'fit-content',
       }}>
         {([
-          { key: 'all' as const, label: 'ALL' },
-          { key: 'nightly' as const, label: 'NIGHTLY' },
-          { key: 'hourly' as const, label: 'HOURLY' },
+          { key: 'all' as const, label: t('metrics.filterAll', locale) },
+          { key: 'nightly' as const, label: t('metrics.filterNightly', locale) },
+          { key: 'hourly' as const, label: t('metrics.filterHourly', locale) },
         ]).map(({ key, label }) => {
           const isActive = pipelineFilter === key;
           return (

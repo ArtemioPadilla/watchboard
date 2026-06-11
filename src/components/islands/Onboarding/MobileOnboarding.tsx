@@ -1,54 +1,15 @@
-import { useEffect, useState, useCallback } from 'react';
 import { MOBILE_STEPS } from '../../../lib/onboarding-steps';
-import { isTourCompleted, markTourComplete, getTourState } from '../../../lib/onboarding';
-import { t, getPreferredLocale } from '../../../i18n/translations';
+import { t } from '../../../i18n/translations';
+import { useLocale } from '../../../i18n/useLocale';
+import { useOnboardingController } from './useOnboardingController';
 import HeroStep from './HeroStep';
 
 export const MOBILE_TOUR_REPLAY_EVENT = 'watchboard:start-mobile-tour';
 
 export default function MobileOnboarding() {
-  const [active, setActive] = useState(false);
-  const [stepIdx, setStepIdx] = useState(0);
-  const [showCompletionToast, setShowCompletionToast] = useState(false);
-  const locale = getPreferredLocale();
-
-  useEffect(() => {
-    if (!isTourCompleted('mobile')) {
-      setStepIdx(0);
-      setActive(true);
-    }
-  }, []);
-
-  useEffect(() => {
-    const handler = () => {
-      setStepIdx(0);
-      setActive(true);
-    };
-    window.addEventListener(MOBILE_TOUR_REPLAY_EVENT, handler);
-    return () => window.removeEventListener(MOBILE_TOUR_REPLAY_EVENT, handler);
-  }, []);
-
-  const finish = useCallback(() => {
-    const wasFirstCompletion = getTourState('mobile').replayCount === 0
-      && !isTourCompleted('mobile');
-    markTourComplete('mobile');
-    setActive(false);
-    if (wasFirstCompletion) setShowCompletionToast(true);
-  }, []);
-
-  useEffect(() => {
-    if (!showCompletionToast) return;
-    const id = setTimeout(() => setShowCompletionToast(false), 4000);
-    return () => clearTimeout(id);
-  }, [showCompletionToast]);
-
-  const goNext = useCallback(() => {
-    if (stepIdx >= MOBILE_STEPS.length - 1) {
-      finish();
-    } else {
-      setStepIdx((i) => i + 1);
-    }
-  }, [stepIdx, finish]);
+  const locale = useLocale();
+  const { active, stepIdx, showCompletionToast, finish, goNext, goBack } =
+    useOnboardingController(MOBILE_STEPS.length, 'mobile', MOBILE_TOUR_REPLAY_EVENT);
 
   if (!active && !showCompletionToast) return null;
 
@@ -77,7 +38,7 @@ export default function MobileOnboarding() {
       backLabel={t('tour.back', locale)}
       skipLabel={t('tour.skip', locale)}
       onPrimary={goNext}
-      onBack={() => setStepIdx((i) => Math.max(0, i - 1))}
+      onBack={goBack}
       onSkip={finish}
     />
   );

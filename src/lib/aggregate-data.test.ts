@@ -42,14 +42,14 @@ describe('aggregateTrackerData', () => {
     const children = [
       makeTrackerData({
         timeline: [{ era: 'Era 1', events: [
-          { date: '2026-01-01', title: 'Event A', year: '2026', sources: [] } as any,
-          { date: '2026-01-02', title: 'Event B', year: '2026', sources: [] } as any,
+          { title: 'Event A', year: 'Jan 1, 2026', sources: [] } as any,
+          { title: 'Event B', year: 'Jan 2, 2026', sources: [] } as any,
         ] }],
       }),
       makeTrackerData({
         timeline: [{ era: 'Era 2', events: [
-          { date: '2026-01-01', title: 'Event A', year: '2026', sources: [] } as any,  // duplicate
-          { date: '2026-01-03', title: 'Event C', year: '2026', sources: [] } as any,
+          { title: 'Event A', year: 'Jan 1, 2026', sources: [] } as any,  // duplicate
+          { title: 'Event C', year: 'Jan 3, 2026', sources: [] } as any,
         ] }],
       }),
     ];
@@ -173,12 +173,12 @@ describe('aggregateTrackerData', () => {
     const children = [
       makeTrackerData({
         timeline: [{ era: 'Era 1', events: [
-          { date: '2026-01-01', title: 'Old Event', year: '2026', sources: [] } as any,
+          { title: 'Old Event', year: 'Jan 1, 2026', sources: [] } as any,
         ] }],
       }),
       makeTrackerData({
         timeline: [{ era: 'Era 2', events: [
-          { date: '2026-03-15', title: 'New Event', year: '2026', sources: [] } as any,
+          { title: 'New Event', year: 'Mar 15, 2026', sources: [] } as any,
         ] }],
       }),
     ];

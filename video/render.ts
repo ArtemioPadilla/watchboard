@@ -79,7 +79,16 @@ const EARTH_TEXTURE_DAY = [
   resolve(ROOT_DIR, '../public/textures/earth-day-atmos-2k.jpg'),
 ];
 
-async function downloadThumbnail(url: string, allowHtmlExtraction = true): Promise<Buffer | null> {
+interface DownloadedThumbnail {
+  buf: Buffer;
+  /** MIME type from the final HTTP response's Content-Type header (params stripped). */
+  contentType: string;
+}
+
+async function downloadThumbnail(
+  url: string,
+  allowHtmlExtraction = true,
+): Promise<DownloadedThumbnail | null> {
   const headers = {
     'User-Agent':
       'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
@@ -95,9 +104,9 @@ async function downloadThumbnail(url: string, allowHtmlExtraction = true): Promi
       signal: AbortSignal.timeout(10000),
     });
     if (!resp.ok) return null;
-    const ct = resp.headers.get('content-type') ?? '';
+    const ct = (resp.headers.get('content-type') ?? '').split(';')[0].trim().toLowerCase();
     if (ct.startsWith('image/')) {
-      return Buffer.from(await resp.arrayBuffer());
+      return { buf: Buffer.from(await resp.arrayBuffer()), contentType: ct };
     }
     // HTML article fallback: parse og:image and refetch the actual image.
     // Many AI-populated thumbnail fields point at article URLs by mistake.
@@ -195,11 +204,15 @@ async function main(): Promise<void> {
     }
     try {
       for (const url of tracker.thumbnailUrls) {
-        const buf = await downloadThumbnail(url);
-        if (buf && buf.length > 5000) {
-          const ct = url.endsWith('.png') ? 'image/png' : url.endsWith('.webp') ? 'image/webp' : 'image/jpeg';
-          tracker.thumbnailBase64 = `data:${ct};base64,${buf.toString('base64')}`;
-          console.log(`    ${tracker.name}: thumbnail downloaded (${(buf.length / 1024).toFixed(0)} KB)`);
+        const result = await downloadThumbnail(url);
+        if (result && result.buf.length > 5000) {
+          // Prefer the actual Content-Type from the final HTTP response;
+          // fall back to extension sniffing only when the header is missing.
+          const ct =
+            result.contentType ||
+            (url.endsWith('.png') ? 'image/png' : url.endsWith('.webp') ? 'image/webp' : 'image/jpeg');
+          tracker.thumbnailBase64 = `data:${ct};base64,${result.buf.toString('base64')}`;
+          console.log(`    ${tracker.name}: thumbnail downloaded (${(result.buf.length / 1024).toFixed(0)} KB)`);
           break;
         }
       }
@@ -247,7 +260,10 @@ async function main(): Promise<void> {
     if (existsSync(musicDir)) {
       const musicFiles = readdirSync(musicDir).filter(f => f.endsWith('.mp3'));
       if (musicFiles.length > 0) {
-        const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000);
+        // Day-of-year computed in UTC so local timezone never shifts the pick
+        const now = new Date();
+        const dayOfYear =
+          Math.floor((now.getTime() - Date.UTC(now.getUTCFullYear(), 0, 1)) / 86400000) + 1;
         const selectedMusic = musicFiles[dayOfYear % musicFiles.length];
         copyFileSync(resolve(musicDir, selectedMusic), resolve(ROOT_DIR, 'public/bg-music.mp3'));
         console.log(`  Music: ${selectedMusic}`);

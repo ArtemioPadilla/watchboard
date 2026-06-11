@@ -9,6 +9,8 @@ import { eventToSlug } from '../lib/event-slug';
 
 export const GET: APIRoute = ({ site }) => {
   const siteUrl = site?.toString().replace(/\/$/, '') || 'https://watchboard.dev';
+  const base = import.meta.env.BASE_URL || '/';
+  const basePath = base.endsWith('/') ? base : `${base}/`;
   const trackers = loadAllTrackers().filter(t => t.status !== 'draft');
   const cutoff = new Date(Date.now() - 48 * 60 * 60 * 1000);
   const cutoffStr = cutoff.toISOString().split('T')[0];
@@ -26,7 +28,7 @@ export const GET: APIRoute = ({ site }) => {
     for (const ev of flatEvents) {
       if (ev.resolvedDate < cutoffStr) continue;
       const slug = eventToSlug(ev.resolvedDate, ev.id);
-      const url = `${siteUrl}/${t.slug}/events/${slug}`;
+      const url = `${siteUrl}${basePath}${t.slug}/events/${slug}`;
       entries.push(`  <url>
     <loc>${url}</loc>
     <news:news>

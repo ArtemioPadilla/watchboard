@@ -515,42 +515,47 @@ const S = {
 
 // ── Thumbnail helpers ──
 
-function cardImageUrl(tracker: TrackerCardData): string | null {
-  if (tracker.latestEventMedia) return tracker.latestEventMedia.url;
-  if (tracker.mapCenter) {
-    const { lat, lon } = tracker.mapCenter;
-    const z = 5;
-    const n = Math.pow(2, z);
-    const x = Math.floor(((lon + 180) / 360) * n);
-    const y = Math.floor(
-      ((1 - Math.log(Math.tan((lat * Math.PI) / 180) + 1 / Math.cos((lat * Math.PI) / 180)) / Math.PI) / 2) * n,
-    );
-    return `https://tile.openstreetmap.org/${z}/${x}/${y}.png`;
-  }
-  return null;
+function osmTileUrl(lat: number, lon: number, z = 5): string {
+  const n = Math.pow(2, z);
+  const x = Math.floor(((lon + 180) / 360) * n);
+  const y = Math.floor(
+    ((1 - Math.log(Math.tan((lat * Math.PI) / 180) + 1 / Math.cos((lat * Math.PI) / 180)) / Math.PI) / 2) * n,
+  );
+  return `https://tile.openstreetmap.org/${z}/${x}/${y}.png`;
 }
 
 function CardImage({ tracker }: { tracker: TrackerCardData }) {
   const [loaded, setLoaded] = useState(false);
-  const [failed, setFailed] = useState(false);
-  const url = cardImageUrl(tracker);
+  // onError degrades through tiers: event media → OSM tile → hidden (the
+  // card's domain gradient backdrop shows through).
+  const [mediaFailed, setMediaFailed] = useState(false);
+  const [tileFailed, setTileFailed] = useState(false);
 
-  if (!url || failed) return null;
+  const showEventMedia = !!tracker.latestEventMedia && !mediaFailed;
+  const tileUrl = tracker.mapCenter && !tileFailed
+    ? osmTileUrl(tracker.mapCenter.lat, tracker.mapCenter.lon)
+    : null;
+  const url = showEventMedia ? tracker.latestEventMedia!.url : tileUrl;
 
-  const isEventMedia = !!tracker.latestEventMedia;
+  if (!url) return null;
 
   return (
     <div style={S.cardImage}>
       <img
+        key={url}
         src={url}
         alt=""
         style={{ ...S.cardImageImg, opacity: loaded ? 1 : 0 }}
         loading="lazy"
         referrerPolicy="no-referrer"
         onLoad={() => setLoaded(true)}
-        onError={() => setFailed(true)}
+        onError={() => {
+          setLoaded(false);
+          if (showEventMedia) setMediaFailed(true);
+          else setTileFailed(true);
+        }}
       />
-      {isEventMedia && tracker.latestEventMedia && (
+      {showEventMedia && tracker.latestEventMedia && (
         <span style={S.cardImageAttr}>
           {tracker.latestEventMedia.source} · T{tracker.latestEventMedia.tier}
         </span>

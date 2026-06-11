@@ -36,14 +36,16 @@ const eventModules = import.meta.glob<{ default: unknown }>(
   { eager: true },
 );
 
-// ── Locale-specific data (Spanish translations) ──
-const esDataModules = import.meta.glob<{ default: unknown }>(
-  '../../trackers/*/data-es/*.json',
+// ── Locale-specific data (es/fr/pt translations) ──
+// One locale-agnostic glob covers data-es/, data-fr/, data-pt/ — lookups are
+// keyed by `data-${locale}/` so each locale resolves its own files.
+const localeDataModules = import.meta.glob<{ default: unknown }>(
+  '../../trackers/*/data-*/*.json',
   { eager: true },
 );
 
-const esEventModules = import.meta.glob<{ default: unknown }>(
-  '../../trackers/*/data-es/events/*.json',
+const localeEventModules = import.meta.glob<{ default: unknown }>(
+  '../../trackers/*/data-*/events/*.json',
   { eager: true },
 );
 
@@ -52,7 +54,7 @@ function getTrackerData(slug: string, filename: string, locale?: Locale): unknow
   // Try locale-specific file first
   if (locale && locale !== 'en') {
     const localeKey = `../../trackers/${slug}/data-${locale}/${filename}`;
-    const localeMod = esDataModules[localeKey];
+    const localeMod = localeDataModules[localeKey];
     if (localeMod) {
       return 'default' in localeMod ? localeMod.default : localeMod;
     }
@@ -76,19 +78,16 @@ function loadTimeline(slug: string, eraLabel?: string, locale?: Locale) {
 
   // Collect partitioned daily events for this tracker
   // Use locale-specific events if available, otherwise English
-  const useEsEvents = locale && locale !== 'en';
-  const evtModules = useEsEvents ? esEventModules : eventModules;
-  const prefix = useEsEvents
-    ? `../../trackers/${slug}/data-${locale}/events/`
-    : `../../trackers/${slug}/data/events/`;
+  const useLocaleEvents = locale && locale !== 'en';
+  const prefix = `../../trackers/${slug}/data-${locale}/events/`;
 
   // Also check English events as fallback
   const enPrefix = `../../trackers/${slug}/data/events/`;
 
   // Collect event file paths (prefer locale, fall back to English)
   const enPaths = Object.keys(eventModules).filter(p => p.startsWith(enPrefix));
-  const localePaths = useEsEvents
-    ? Object.keys(esEventModules).filter(p => p.startsWith(prefix))
+  const localePaths = useLocaleEvents
+    ? Object.keys(localeEventModules).filter(p => p.startsWith(prefix))
     : [];
 
   // Build a map of date → module (locale overrides English)
@@ -102,7 +101,7 @@ function loadTimeline(slug: string, eraLabel?: string, locale?: Locale) {
   for (const path of localePaths) {
     const dateMatch = path.match(/(\d{4}-\d{2}-\d{2})\.json$/);
     if (dateMatch) {
-      dateModuleMap.set(dateMatch[1], { path, mod: esEventModules[path] });
+      dateModuleMap.set(dateMatch[1], { path, mod: localeEventModules[path] });
     }
   }
 
@@ -155,7 +154,14 @@ export interface TrackerData {
   missionTrajectory: z.infer<typeof MissionTrajectorySchema> | null;
 }
 
-export function loadTrackerData(slug: string, eraLabel?: string, locale?: Locale): TrackerData {
+export function loadTrackerData(
+  slug: string,
+  eraLabel?: string,
+  locale?: Locale,
+  /** Internal: guards against infinite recursion on (mis)configured nested aggregates. */
+  visited: Set<string> = new Set(),
+): TrackerData {
+  visited.add(slug);
   const kpis = z.array(KpiSchema).parse(getTrackerData(slug, 'kpis.json', locale) ?? []);
   const timeline = loadTimeline(slug, eraLabel, locale);
   const mapPoints = z.array(MapPointSchema).parse(getTrackerData(slug, 'map-points.json', locale) ?? []);
@@ -216,12 +222,13 @@ export function loadTrackerData(slug: string, eraLabel?: string, locale?: Locale
     const childConfigs = allConfigs.filter(t => {
       if (!t.geoPath || t.geoPath.length <= thisConfig.geoPath!.length) return false;
       if (t.slug === slug) return false;
+      if (visited.has(t.slug)) return false; // recursion guard
       return thisConfig.geoPath!.every((seg, i) => t.geoPath![i] === seg);
     });
 
     const childrenData = childConfigs.map(c => {
       try {
-        return loadTrackerData(c.slug, c.eraLabel, locale);
+        return loadTrackerData(c.slug, c.eraLabel, locale, visited);
       } catch {
         return null;
       }

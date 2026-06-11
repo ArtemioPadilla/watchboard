@@ -16,6 +16,12 @@ permissions:
   issues: write
   id-token: write
 
+# Self-concurrency only: prevents overlapping nightly runs without queueing
+# behind the short main-commits workflows (this pipeline runs for hours).
+concurrency:
+  group: nightly-data-update
+  cancel-in-progress: false
+
 jobs:
   # ── Phase 1: Resolve eligible trackers + generate shared context ──
   resolve:
@@ -984,6 +990,20 @@ jobs:
             const pruned = index.filter(e => e.timestamp >= cutoff);
             require('fs').writeFileSync(indexPath, JSON.stringify(pruned, null, 2));
             console.log('Index: ' + pruned.length + ' entries');
+
+            // Delete orphaned run files not referenced by the pruned index
+            // (otherwise public/_metrics/runs/ grows forever).
+            const runsDir = 'public/_metrics/runs';
+            const keep = new Set(pruned.map(e => e.file));
+            let orphans = 0;
+            for (const f of require('fs').readdirSync(runsDir)) {
+              if (f.endsWith('.json') && !keep.has(f)) {
+                require('fs').unlinkSync(runsDir + '/' + f);
+                orphans++;
+                console.log('Deleted orphaned run file: ' + f);
+              }
+            }
+            console.log('Orphaned run files removed: ' + orphans);
           "
 
       - name: Build social queue prompt
@@ -1000,7 +1020,7 @@ jobs:
       - name: Generate social queue via Claude
         id: social
         if: steps.social_prompt.outputs.has_prompt == 'true'
-        uses: anthropics/claude-code-action@main
+        uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           show_full_output: true

@@ -6,10 +6,10 @@ import {
   interpolate,
   spring,
 } from 'remotion';
-import { DEFAULT_OUTRO_STYLE, type OutroStyle } from '../data/slide-style';
+import { DEFAULT_OUTRO_STYLE, mergeStyle, type OutroStyle } from '../data/slide-style';
 
 export const Outro: React.FC<{ theme?: 'dark' | 'day'; trackerCount?: number; style?: Partial<OutroStyle> }> = ({ theme = 'dark', trackerCount = 64, style }) => {
-  const O: OutroStyle = { ...DEFAULT_OUTRO_STYLE, ...(style || {}) };
+  const O: OutroStyle = mergeStyle(DEFAULT_OUTRO_STYLE, style);
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 

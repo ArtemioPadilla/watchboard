@@ -130,14 +130,18 @@ audit:
 	@if [ -f /tmp/audit_all.mjs ]; then \
 		node /tmp/audit_all.mjs .; \
 	else \
-		echo "audit script not in /tmp — run from a fresh session or recreate"; \
+		echo "ERROR: /tmp/audit_all.mjs not found — the audit script is not versioned."; \
+		echo "Recreate it (or restore it from a session that generated it) before running 'make audit'."; \
+		exit 1; \
 	fi
 
 measure:
 	@if [ -f /tmp/measure_quality.sh ]; then \
 		bash /tmp/measure_quality.sh; \
 	else \
-		echo "measure script not in /tmp — run from a fresh session or recreate"; \
+		echo "ERROR: /tmp/measure_quality.sh not found — the measure script is not versioned."; \
+		echo "Recreate it (or restore it from a session that generated it) before running 'make measure'."; \
+		exit 1; \
 	fi
 
 # ─────────────────────────────────────────────────────────────────────

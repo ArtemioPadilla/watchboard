@@ -1,7 +1,8 @@
 import { useMemo, useState, useEffect } from 'react';
 import type { FlatEvent } from '../../lib/timeline-utils';
 import type { MapLine } from '../../lib/schemas';
-import { t, getPreferredLocale } from '../../i18n/translations';
+import { t } from '../../i18n/translations';
+import { useLocale } from '../../i18n/useLocale';
 import MissionTimelineHeader from './CesiumGlobe/MissionTimelineHeader';
 import {
   type TimelineZoomLevel,
@@ -82,7 +83,7 @@ const DEFAULT_LEGEND: { label: string; color: string }[] = [
 // ── Component ──
 
 export default function UnifiedTimelineBar(props: Props) {
-  const locale = getPreferredLocale();
+  const locale = useLocale();
   const {
     minDate,
     maxDate,

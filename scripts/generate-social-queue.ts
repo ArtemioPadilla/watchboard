@@ -19,6 +19,25 @@ import {
   type QueueEntry, type QueueStatus, type SocialConfig, type BudgetData, type HistoryEntry,
 } from './social-types.js';
 
+// ── Prompt-injection hardening ──
+
+/**
+ * Sanitize tracker-supplied strings (event titles, digest summaries, KPI
+ * values) before interpolating them into the LLM prompt. Strips markdown
+ * header markers and code fences that could fake prompt structure, drops
+ * lines that look like instruction injection, and truncates each item.
+ */
+function sanitizeForPrompt(input: unknown, maxLen = 300): string {
+  if (typeof input !== 'string') return '';
+  return input
+    .replace(/```/g, '')
+    .split('\n')
+    .filter(line => !/^(system|assistant|ignore previous)/i.test(line.trim()))
+    .map(line => line.replace(/^#+\s*/, ''))
+    .join('\n')
+    .slice(0, maxLen);
+}
+
 // ── Tracker data collection ──
 
 interface DigestEntry {
@@ -67,7 +86,8 @@ function collectTrackerContexts(today: string): TrackerContext[] {
         const kpis = JSON.parse(fs.readFileSync(kpiPath, 'utf8'));
         kpiSnapshot = kpis
           .slice(0, 6)
-          .map((k: { label: string; value: string }) => `${k.label}: ${k.value}`)
+          .map((k: { label: string; value: string }) =>
+            `${sanitizeForPrompt(k.label, 80)}: ${sanitizeForPrompt(k.value, 80)}`)
           .join('; ');
       } catch { /* skip */ }
     }
@@ -85,8 +105,8 @@ function collectTrackerContexts(today: string): TrackerContext[] {
           const dayEvents = JSON.parse(fs.readFileSync(path.join(eventsDir, file), 'utf8'));
           const fileDate = file.replace('.json', '');
           for (const evt of dayEvents.slice(0, 3)) {
-            const evtId = evt.id || '';
-            const evtTitle = evt.title || evt.headline || '';
+            const evtId = sanitizeForPrompt(evt.id || '', 80);
+            const evtTitle = sanitizeForPrompt(evt.title || evt.headline || '');
             // Include event ID so LLM can construct permalink URLs for breaking tweets
             events.push(`[${fileDate}] (id: ${evtId}) ${evtTitle}`);
           }
@@ -213,9 +233,9 @@ Meme tweets MUST have verdict REVIEW (never PUBLISH).
 
 ## TRACKER DATA FOR TODAY
 
-${trackersWithDigests.map(c => `### ${c.shortName} (${c.slug}) [domain: ${c.domain}]
-Digest: ${c.digest?.summary ?? 'No update today'}
-Sections updated: ${c.digest?.sectionsUpdated?.join(', ') ?? 'none'}
+${trackersWithDigests.map(c => `### ${sanitizeForPrompt(c.shortName, 80)} (${c.slug}) [domain: ${c.domain}]
+Digest: ${sanitizeForPrompt(c.digest?.summary, 600) || 'No update today'}
+Sections updated: ${sanitizeForPrompt(c.digest?.sectionsUpdated?.join(', '), 200) || 'none'}
 KPIs: ${c.kpiSnapshot || 'none'}
 Recent events:
 ${c.recentEvents || 'none'}
@@ -335,8 +355,12 @@ async function main(): Promise<void> {
     process.exit(1);
   }
 
-  const result = await response.json() as { content: Array<{ text: string }> };
-  const rawText = result.content[0].text.trim();
+  const result = await response.json() as { content?: Array<{ text?: string }> };
+  const rawText = result.content?.[0]?.text?.trim();
+  if (!rawText) {
+    console.error('[social-queue] API response had no text content:', JSON.stringify(result).slice(0, 500));
+    process.exit(1);
+  }
 
   let entries: QueueEntry[];
   try {
@@ -361,11 +385,17 @@ async function main(): Promise<void> {
 
     if (entry.threadTweets && entry.threadTweets.length > 0) {
       for (let i = 0; i < entry.threadTweets.length; i++) {
-        const weighted = twitterWeightedLength(entry.threadTweets[i]);
+        // The poster appends "\n\n{link}" to the LAST thread tweet — validate
+        // the final posted text, not just the raw draft.
+        const isLast = i === entry.threadTweets.length - 1;
+        const postedText = isLast
+          ? `${entry.threadTweets[i]}\n\n${entry.link}`
+          : entry.threadTweets[i];
+        const weighted = twitterWeightedLength(postedText);
         if (weighted > 280) {
-          console.warn(`[social-queue] OVER LIMIT thread[${i}] (${weighted}/280): ${entry.tracker}/${entry.type} — rejecting`);
+          console.warn(`[social-queue] OVER LIMIT thread[${i}]${isLast ? ' (incl. link)' : ''} (${weighted}/280): ${entry.tracker}/${entry.type} — rejecting`);
           entry.status = 'rejected';
-          entry.judge.comment += ` [AUTO-REJECTED: thread tweet ${i} is ${weighted}/280 chars]`;
+          entry.judge.comment += ` [AUTO-REJECTED: thread tweet ${i}${isLast ? ' (incl. appended link)' : ''} is ${weighted}/280 chars]`;
           rejected++;
           break;
         }

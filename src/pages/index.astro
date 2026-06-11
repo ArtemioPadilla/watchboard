@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { loadAllTrackers } from '../lib/tracker-registry';
 import { loadTrackerData } from '../lib/data';
 import CommandCenter from '../components/islands/CommandCenter/CommandCenter';
+import { jsonLd } from '../lib/json-ld';
 
 const trackers = loadAllTrackers();
 const nonDraft = trackers.filter(t => t.status !== 'draft');
@@ -174,7 +175,7 @@ const breakingTrackers = [...serializedTrackers]
 ---
 <BaseLayout title="Watchboard — Open-Source Intelligence Dashboard for Global Conflicts, Security & Geopolitics" description="Track 48+ global events with AI-sourced intelligence — real-time maps, casualty data, contested claims, and daily digests for conflicts, politics, and security worldwide.">
   <Fragment slot="head">
-    <script is:inline type="application/ld+json" set:html={JSON.stringify({
+    <script is:inline type="application/ld+json" set:html={jsonLd({
       "@context": "https://schema.org",
       "@type": "WebApplication",
       "name": "Watchboard",
@@ -242,18 +243,6 @@ const breakingTrackers = [...serializedTrackers]
   @keyframes scaleIn {
     from { opacity: 0; transform: scale(0.95); }
     to { opacity: 1; transform: scale(1); }
-  }
-
-  .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0,0,0,0);
-    white-space: nowrap;
-    border: 0;
   }
 
   /* Desktop: offset sidebar content below the fixed overlay navbar. The actual

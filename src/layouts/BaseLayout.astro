@@ -3,6 +3,7 @@ import '../styles/global.css';
 import CriticalCSS from '../components/static/CriticalCSS.astro';
 import PushSubscriptionManager from '../components/islands/PushSubscriptionManager';
 import { loadAllTrackers } from '../lib/tracker-registry';
+import { jsonLd } from '../lib/json-ld';
 
 interface Props {
   title: string;
@@ -64,12 +65,12 @@ const pushTrackers = loadAllTrackers()
   <link rel="manifest" href={`${basePath}manifest.json`}>
   <link rel="canonical" href={pageUrl}>
   <link rel="alternate" hreflang="en" href={pageUrl} />
-  {hasLocalizedVersions && <link rel="alternate" hreflang="es" href={`${siteUrl}/es/${trackerSlug ? `${trackerSlug}/` : ''}`} />}
-  {hasLocalizedVersions && <link rel="alternate" hreflang="fr" href={`${siteUrl}/fr/${trackerSlug ? `${trackerSlug}/` : ''}`} />}
-  {hasLocalizedVersions && <link rel="alternate" hreflang="pt" href={`${siteUrl}/pt/${trackerSlug ? `${trackerSlug}/` : ''}`} />}
+  {hasLocalizedVersions && <link rel="alternate" hreflang="es" href={`${siteUrl}${basePath}es/${trackerSlug ? `${trackerSlug}/` : ''}`} />}
+  {hasLocalizedVersions && <link rel="alternate" hreflang="fr" href={`${siteUrl}${basePath}fr/${trackerSlug ? `${trackerSlug}/` : ''}`} />}
+  {hasLocalizedVersions && <link rel="alternate" hreflang="pt" href={`${siteUrl}${basePath}pt/${trackerSlug ? `${trackerSlug}/` : ''}`} />}
   <link rel="alternate" hreflang="x-default" href={pageUrl} />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔴</text></svg>">
-  <script is:inline type="application/ld+json" set:html={JSON.stringify({
+  <script is:inline type="application/ld+json" set:html={jsonLd({
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "Watchboard",
@@ -83,7 +84,7 @@ const pushTrackers = loadAllTrackers()
       "query-input": "required name=search_term_string",
     },
   })} />
-  <script is:inline type="application/ld+json" set:html={JSON.stringify({
+  <script is:inline type="application/ld+json" set:html={jsonLd({
     "@context": "https://schema.org",
     "@type": "WebPage",
     "name": title,
@@ -200,8 +201,9 @@ const pushTrackers = loadAllTrackers()
           if (reg.scope && !reg.scope.includes('watchboard.dev')) reg.unregister();
         }
       });
-      // Register Watchboard service worker
-      navigator.serviceWorker.register('/sw.js');
+      // Register Watchboard service worker (scoped to the configured base path)
+      const swBase = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+      navigator.serviceWorker.register(`${swBase}sw.js`);
     }
 
     // PWA refresh system (pull-to-refresh, update banner, refresh button)

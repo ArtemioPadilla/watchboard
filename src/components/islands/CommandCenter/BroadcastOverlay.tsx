@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { t, getPreferredLocale } from '../../../i18n/translations';
+import { t } from '../../../i18n/translations';
+import { useLocale } from '../../../i18n/useLocale';
 import type { BroadcastPhase } from './useBroadcastMode';
 import ImageCarousel from './ImageCarousel';
 import { useDragScrub } from './useDragScrub';
@@ -51,6 +52,16 @@ interface BroadcastOverlayProps {
 
 const HOVER_GRACE_MS = 500;
 
+/** OSM tile fallback for the compact thumbnail — mirrors MobileStoryCarousel's 3-tier approach. */
+function mapTileUrl(lat: number, lon: number, zoom = 5): string {
+  const n = Math.pow(2, zoom);
+  const x = Math.floor(((lon + 180) / 360) * n);
+  const y = Math.floor(
+    ((1 - Math.log(Math.tan((lat * Math.PI) / 180) + 1 / Math.cos((lat * Math.PI) / 180)) / Math.PI) / 2) * n,
+  );
+  return `https://tile.openstreetmap.org/${zoom}/${x}/${y}.png`;
+}
+
 export default function BroadcastOverlay(props: BroadcastOverlayProps) {
   return (
     <IslandErrorBoundary
@@ -78,10 +89,22 @@ function BroadcastOverlayInner({
   basePath,
   breakingTrackers = [],
 }: BroadcastOverlayProps) {
-  const locale = getPreferredLocale();
+  const locale = useLocale();
   const isPaused = phase === 'paused';
   const isVisible = phase === 'dwelling' || phase === 'transitioning';
   const graceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Keep isUserPaused readable from timers without stale closures, and drop
+  // any pending grace timer if broadcast resumes by other means (countdown,
+  // Esc) — otherwise the late timer would restart the dwell and skip trackers.
+  const isUserPausedRef = useRef(isUserPaused);
+  useEffect(() => {
+    isUserPausedRef.current = isUserPaused;
+    if (!isUserPaused && graceTimerRef.current) {
+      clearTimeout(graceTimerRef.current);
+      graceTimerRef.current = null;
+    }
+  }, [isUserPaused]);
   const tickerTrackRef = useRef<HTMLDivElement>(null);
   const activeItemRefs = useRef<Map<number, HTMLSpanElement>>(new Map());
 
@@ -99,6 +122,24 @@ function BroadcastOverlayInner({
 
   const featuredEventImages = featuredDetail?.eventImages ?? featuredTracker?.eventImages ?? [];
   const featuredDigest = featuredDetail?.digestSummary ?? featuredTracker?.digestSummary;
+
+  // Compact thumbnail with onError degradation: event media → OSM tile →
+  // nothing (same tiering as MobileStoryCarousel). Failed URLs are remembered
+  // so the broadcast cycle doesn't retry hotlink-blocked media every dwell.
+  const [failedThumbUrls, setFailedThumbUrls] = useState<Set<string>>(new Set());
+  const markThumbFailed = useCallback((url: string) => {
+    setFailedThumbUrls(prev => (prev.has(url) ? prev : new Set(prev).add(url)));
+  }, []);
+  const mediaThumbUrl = featuredTracker?.latestEventMedia?.url;
+  const tileThumbUrl = featuredTracker?.mapCenter
+    ? mapTileUrl(featuredTracker.mapCenter.lat, featuredTracker.mapCenter.lon)
+    : undefined;
+  const compactThumbUrl =
+    mediaThumbUrl && !failedThumbUrls.has(mediaThumbUrl)
+      ? mediaThumbUrl
+      : tileThumbUrl && !failedThumbUrls.has(tileThumbUrl)
+        ? tileThumbUrl
+        : undefined;
 
   // Ticker: scroll to center the active item whenever currentIndex changes
   // The broadcast cycle drives the ticker position, keeping card + ticker in sync
@@ -128,7 +169,9 @@ function BroadcastOverlayInner({
   const handleMouseLeave = useCallback(() => {
     if (!isUserPaused) return;
     graceTimerRef.current = setTimeout(() => {
-      onUserResume();
+      graceTimerRef.current = null;
+      // Read via ref — the closure's isUserPaused may be stale by now.
+      if (isUserPausedRef.current) onUserResume();
     }, HOVER_GRACE_MS);
   }, [isUserPaused, onUserResume]);
 
@@ -184,11 +227,13 @@ function BroadcastOverlayInner({
   const dragLastXRef = useRef(0);
   const dragVelocityRef = useRef(0);
   const inertiaRafRef = useRef<number>(0);
+  const inertiaCancelledRef = useRef(false);
   const [isDragging, setIsDragging] = useState(false);
 
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
     cancelAnimationFrame(inertiaRafRef.current);
+    inertiaCancelledRef.current = false;
     dragStartXRef.current = e.clientX;
     dragLastXRef.current = e.clientX;
     dragVelocityRef.current = 0;
@@ -213,6 +258,10 @@ function BroadcastOverlayInner({
       let velocity = dragVelocityRef.current;
       const friction = 0.95;
       const tick = () => {
+        // Cancelled flag stops re-scheduling after unmount cleanup — a frame
+        // already in flight when cancelAnimationFrame runs would otherwise
+        // keep mutating the unmounted ticker DOM.
+        if (inertiaCancelledRef.current) return;
         if (Math.abs(velocity) < 0.5 || !tickerTrackRef.current) return;
         tickerTrackRef.current.scrollLeft += velocity;
         velocity *= friction;
@@ -230,7 +279,10 @@ function BroadcastOverlayInner({
 
   // Cleanup inertia on unmount
   useEffect(() => {
-    return () => cancelAnimationFrame(inertiaRafRef.current);
+    return () => {
+      inertiaCancelledRef.current = true;
+      cancelAnimationFrame(inertiaRafRef.current);
+    };
   }, []);
 
   // Card drag (swipe left/right on the lower-third)
@@ -348,14 +400,15 @@ function BroadcastOverlayInner({
             ) : (
               /* ── Compact layout with optional thumbnail ── */
               <div className="broadcast-lt-compact">
-                {featuredTracker.latestEventMedia && (
+                {compactThumbUrl && (
                   <img
+                    key={compactThumbUrl}
                     className="broadcast-lt-compact-thumb"
-                    src={featuredTracker.latestEventMedia.url}
+                    src={compactThumbUrl}
                     alt=""
                     loading="lazy"
                     referrerPolicy="no-referrer"
-                    onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                    onError={() => markThumbFailed(compactThumbUrl)}
                   />
                 )}
                 <div className="broadcast-lt-compact-text">

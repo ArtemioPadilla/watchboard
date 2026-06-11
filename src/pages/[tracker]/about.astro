@@ -22,7 +22,7 @@ const githubUrl = config.githubRepo ? `https://github.com/${config.githubRepo}` 
 const base = import.meta.env.BASE_URL;
 const basePath = base.endsWith('/') ? base : `${base}/`;
 ---
-<BaseLayout title={`About — ${config.shortName}`} trackerSlug={config.slug} githubRepo={config.githubRepo}>
+<BaseLayout title={`About — ${config.shortName} — Watchboard`} trackerSlug={config.slug} githubRepo={config.githubRepo}>
   <main id="main-content">
   <div class="about-page">
     <a class="about-back" href={`${basePath}${config.slug}/`} data-i18n data-es="&larr; Panel" data-fr="&larr; Tableau de bord" data-pt="&larr; Painel">&larr; Dashboard</a>

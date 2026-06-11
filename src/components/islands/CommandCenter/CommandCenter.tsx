@@ -42,7 +42,7 @@ const SHORTCUTS = [
   { key: '↑ ↓', tKey: 'shortcuts.navigate' },
   { key: 'Enter', tKey: 'shortcuts.open' },
   { key: 'F', tKey: 'shortcuts.follow' },
-  { key: 'C', tKey: 'cc.compare' },
+  { key: 'C', tKey: 'shortcuts.compare' },
   { key: 'B', tKey: 'shortcuts.broadcast' },
   { key: 'G', tKey: 'shortcuts.rotate' },
   { key: 'L', tKey: 'shortcuts.cityLights' },
@@ -686,13 +686,13 @@ function CommandCenterInner({
             onClick={() => setMobileTab('live')}
             style={mobileTab === 'live' ? styles.mobileTabActive : styles.mobileTab}
           >
-            ⚡ LIVE
+            ⚡ {t('cc.tabLive', locale)}
           </button>
           <button
             onClick={() => setMobileTab('trackers')}
             style={mobileTab === 'trackers' ? styles.mobileTabActive : styles.mobileTab}
           >
-            📋 TRACKERS
+            📋 {t('cc.tabTrackers', locale)}
           </button>
         </div>
       )}

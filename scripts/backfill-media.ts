@@ -36,11 +36,16 @@ function sleep(ms: number): Promise<void> {
 
 // ── og:image Extraction ──
 
+interface OgMedia {
+  image: string | null;
+  video: string | null;
+}
+
 /**
- * Fetches a URL and extracts the og:image meta tag content.
- * Returns null on any failure (timeout, non-200, missing tag).
+ * Fetches a URL and extracts the og:image / og:video meta tag contents.
+ * Returns { image: null, video: null } on any failure (timeout, non-200, missing tag).
  */
-async function fetchOgImage(url: string): Promise<string | null> {
+async function fetchOgMedia(url: string): Promise<OgMedia> {
   try {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
@@ -57,12 +62,12 @@ async function fetchOgImage(url: string): Promise<string | null> {
     clearTimeout(timeoutId);
 
     if (!response.ok) {
-      return null;
+      return { image: null, video: null };
     }
 
     // Read only the first ~50KB to find the og:image in <head>
     const reader = response.body?.getReader();
-    if (!reader) return null;
+    if (!reader) return { image: null, video: null };
 
     let html = '';
     const decoder = new TextDecoder();
@@ -99,20 +104,12 @@ async function fetchOgImage(url: string): Promise<string | null> {
 
     const image = pickOg('og:image');
     const video = pickOg('og:video') || pickOg('og:video:url') || pickOg('og:video:secure_url');
-    // Stash on a side cache for fetchOgVideo() to read
-    if (video && image) (fetchOgImage as any)._lastVideo = video;
-    else (fetchOgImage as any)._lastVideo = null;
-    return image;
+    // og:video is only useful alongside a still image (used as its thumbnail)
+    return { image, video: image ? video : null };
   } catch {
     // Timeout, network error, etc.
-    (fetchOgImage as any)._lastVideo = null;
-    return null;
+    return { image: null, video: null };
   }
-}
-
-/** Companion to fetchOgImage — reads og:video found in the most recent fetch. */
-function lastOgVideo(): string | null {
-  return (fetchOgImage as any)._lastVideo ?? null;
 }
 
 // ── Image Quality Filtering ──
@@ -220,7 +217,8 @@ async function main() {
     slugs = [trackerFilter];
   }
 
-  let totalEnriched = 0;
+  let totalEnriched = 0;      // actual writes only
+  let totalWouldEnrich = 0;   // dry-run preview count
   let totalSkipped = 0;
   let totalFailed = 0;
   let trackersProcessed = 0;
@@ -265,11 +263,11 @@ async function main() {
             for (const m of needsThumb) {
               await sleep(RATE_LIMIT_MS);
               // Resolve opaque URLs (Google News blobs) before fetching
-              const resolvedUrl = resolveSourceUrl(m.url);
-              const ogImage = await fetchOgImage(resolvedUrl);
+              const resolvedUrl = await resolveSourceUrl(m.url);
+              const { image: ogImage } = await fetchOgMedia(resolvedUrl);
               if (ogImage && isNewsImage(ogImage)) {
                 // Run shared validation (blocklist, hotlink, etc.)
-                const validation = validateThumbnail(ogImage);
+                const validation = await validateThumbnail(ogImage);
                 if (!validation.url) {
                   console.log(`  [${slug}/${file}] Rejected thumbnail for "${event.id}": ${validation.rejectedReason}`);
                   continue;
@@ -277,12 +275,13 @@ async function main() {
                 if (dryRun) {
                   console.log(`  [${slug}/${file}] Would add thumbnail for "${event.id}" from ${m.url.substring(0, 60)}`);
                   console.log(`    og:image: ${ogImage}`);
+                  totalWouldEnrich++;
                 } else {
                   m.thumbnail = ogImage;
                   console.log(`  [${slug}/${file}] Filled thumbnail for "${event.id}"`);
                   fileModified = true;
+                  totalEnriched++;
                 }
-                totalEnriched++;
               }
             }
           }
@@ -306,13 +305,12 @@ async function main() {
           await sleep(RATE_LIMIT_MS);
 
           // Resolve opaque URLs before fetching
-          const resolvedUrl = resolveSourceUrl(source.url!);
-          const ogImage = await fetchOgImage(resolvedUrl);
-          const ogVideo = lastOgVideo();
+          const resolvedUrl = await resolveSourceUrl(source.url!);
+          const { image: ogImage, video: ogVideo } = await fetchOgMedia(resolvedUrl);
 
           if (ogImage && isNewsImage(ogImage)) {
             // Run shared validation
-            const validation = validateThumbnail(ogImage);
+            const validation = await validateThumbnail(ogImage);
             if (!validation.url) {
               console.log(`  [${slug}/${file}] Rejected thumbnail for "${event.id}": ${validation.rejectedReason}`);
               continue;
@@ -338,13 +336,14 @@ async function main() {
             if (dryRun) {
               console.log(`  [${slug}/${file}] Would add media${ogVideo ? '+video' : ''} for "${event.id}" from ${source.name}`);
               console.log(`    og:image: ${ogImage}${ogVideo ? `\n    og:video: ${ogVideo}` : ''}`);
+              totalWouldEnrich++;
             } else {
               event.media = entries;
               console.log(`  [${slug}/${file}] Fetched og:image${ogVideo ? '+og:video' : ''} from ${source.url} for event "${event.id}"`);
               fileModified = true;
+              totalEnriched++;
             }
 
-            totalEnriched++;
             foundMedia = true;
             break; // Use the first successful source
           }
@@ -393,11 +392,10 @@ async function main() {
           let foundMedia = false;
           for (const source of sourcesWithUrls) {
             await sleep(RATE_LIMIT_MS);
-            const resolvedUrl = resolveSourceUrl(source.url!);
-            const ogImage = await fetchOgImage(resolvedUrl);
-            const ogVideo = lastOgVideo();
+            const resolvedUrl = await resolveSourceUrl(source.url!);
+            const { image: ogImage, video: ogVideo } = await fetchOgMedia(resolvedUrl);
             if (ogImage && isNewsImage(ogImage)) {
-              const validation = validateThumbnail(ogImage);
+              const validation = await validateThumbnail(ogImage);
               if (!validation.url) {
                 console.log(`  [${slug}/timeline.json] Rejected thumbnail for "${event.id}": ${validation.rejectedReason}`);
                 continue;
@@ -418,12 +416,13 @@ async function main() {
               }
               if (dryRun) {
                 console.log(`  [${slug}/timeline.json] Would add media${ogVideo ? '+video' : ''} for "${event.id}" from ${source.name}`);
+                totalWouldEnrich++;
               } else {
                 event.media = entries;
                 timelineModified = true;
                 console.log(`  [${slug}/timeline.json] Added media${ogVideo ? '+video' : ''} for "${event.id}" from ${source.name}`);
+                totalEnriched++;
               }
-              totalEnriched++;
               foundMedia = true;
               break;
             }
@@ -442,7 +441,8 @@ async function main() {
   console.log('');
   console.log('─'.repeat(60));
   const verb = dryRun ? 'Would enrich' : 'Enriched';
-  console.log(`${verb} ${totalEnriched} events across ${trackersProcessed} trackers (${totalSkipped} skipped, ${totalFailed} failed)`);
+  const count = dryRun ? totalWouldEnrich : totalEnriched;
+  console.log(`${verb} ${count} events across ${trackersProcessed} trackers (${totalSkipped} skipped, ${totalFailed} failed)`);
   if (dryRun) {
     console.log('(dry run — no files were modified)');
   }

@@ -404,6 +404,22 @@ jobs:
         with:
           ref: main
 
+      # The init job's push may not be visible on origin/main yet (GitHub
+      # eventual consistency). Poll up to 6 × 10s before the verify step fails.
+      - name: Wait for init commit to land on origin/main
+        run: |
+          SLUG="${{ github.event.inputs.slug }}"
+          for i in $(seq 1 6); do
+            if [ -f "trackers/${SLUG}/tracker.json" ]; then
+              echo "trackers/${SLUG}/tracker.json found (attempt $i)"
+              break
+            fi
+            echo "trackers/${SLUG}/tracker.json not yet on origin/main — re-fetching (attempt $i/6)"
+            sleep 10
+            git fetch origin main
+            git reset --hard origin/main
+          done
+
       - name: Verify tracker exists after init
         run: |
           SLUG="${{ github.event.inputs.slug }}"

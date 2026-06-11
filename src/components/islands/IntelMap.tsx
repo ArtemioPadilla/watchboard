@@ -3,7 +3,7 @@ import { trackEvent } from '../../lib/analytics';
 import type { MapPoint, MapLine } from '../../lib/schemas';
 import type { FlatEvent } from '../../lib/timeline-utils';
 import { MAP_CATEGORIES, type MapCategory } from '../../lib/map-utils';
-import { tierLabelFull, tierClass, setTrackerCategories } from './map-helpers';
+import { tierLabelFull, tierClass } from './map-helpers';
 import LeafletMap from './LeafletMap';
 import UnifiedTimelineBar from './UnifiedTimelineBar';
 import MapEventsPanel from './MapEventsPanel';
@@ -35,10 +35,9 @@ export default function IntelMap(props: Props) {
 }
 
 function IntelMapInner({ points, lines, events, categories, mapCenter, mapBounds }: Props) {
-  // Use prop categories with fallback to hardcoded defaults
+  // Use prop categories with fallback to hardcoded defaults. Passed down to
+  // LeafletMap so catColor() resolves dot colors without a module singleton.
   const mapCategories = categories && categories.length > 0 ? categories : MAP_CATEGORIES;
-  // Set tracker categories so catColor() uses them for dot colors
-  setTrackerCategories(mapCategories);
   // ── Filters ──
   const [activeFilters, setActiveFilters] = useState<Set<string>>(
     new Set(mapCategories.map(c => c.id)),
@@ -191,6 +190,7 @@ function IntelMapInner({ points, lines, events, categories, mapCenter, mapBounds
         <LeafletMap
           points={filteredPoints}
           lines={filteredLines}
+          categories={mapCategories}
           onSelectPoint={setSelectedPoint}
           overlays={overlays}
           flights={layers.flights ? flights : undefined}

@@ -11,6 +11,12 @@ on:
 permissions:
   contents: write
 
+# Shared group serializes the small state-commit workflows against each other
+# so they don't race pushes to main.
+concurrency:
+  group: main-commits
+  cancel-in-progress: false
+
 jobs:
   video:
     runs-on: ubuntu-latest
@@ -167,7 +173,21 @@ jobs:
             git config user.email "github-actions[bot]@users.noreply.github.com"
             git add "public/_social/video-post-${DATE}.json"
             git diff --cached --quiet || git commit -m "chore(social): video post record ${DATE}"
-            git push || echo "Push failed (non-fatal)"
+            pushed=false
+            for i in $(seq 1 5); do
+              if git pull --rebase origin main && git push; then
+                echo "Push succeeded on attempt $i"
+                pushed=true
+                break
+              fi
+              git rebase --abort 2>/dev/null || true
+              echo "Push attempt $i failed, retrying with jitter..."
+              sleep $(( (RANDOM % 8) + 3 ))
+            done
+            if [ "$pushed" != "true" ]; then
+              echo "ERROR: failed to push video post record after 5 attempts"
+              exit 1
+            fi
           fi
 
       - name: Append to daily-log.json
@@ -268,7 +288,7 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "Download from the Artifacts section above." >> $GITHUB_STEP_SUMMARY
       - name: Post video to Telegram
-        if: env.TELEGRAM_BOT_TOKEN != '' && env.TELEGRAM_CHANNEL_ID != ''
+        if: ${{ secrets.TELEGRAM_BOT_TOKEN != '' && secrets.TELEGRAM_CHANNEL_ID != '' }}
         continue-on-error: true
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
@@ -471,7 +491,7 @@ jobs:
           retention-days: 30
 
       - name: Post progress video to Telegram
-        if: env.TELEGRAM_BOT_TOKEN != '' && env.TELEGRAM_CHANNEL_ID != ''
+        if: ${{ secrets.TELEGRAM_BOT_TOKEN != '' && secrets.TELEGRAM_CHANNEL_ID != '' }}
         continue-on-error: true
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}

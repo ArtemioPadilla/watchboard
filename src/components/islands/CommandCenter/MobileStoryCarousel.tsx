@@ -1,8 +1,9 @@
-import { useRef, useCallback, useEffect, useMemo } from 'react';
+import { useRef, useCallback, useEffect, useMemo, useState } from 'react';
 import type { TrackerCardData } from '../../../lib/tracker-directory-utils';
 import { haptic } from '../../../lib/haptic';
 import { relativeTime } from '../../../lib/event-utils';
-import { t, getPreferredLocale } from '../../../i18n/translations';
+import { t } from '../../../i18n/translations';
+import { useLocale } from '../../../i18n/useLocale';
 import ImageCarousel from './ImageCarousel';
 import { useStoryState } from './useStoryState';
 import { resetTour } from '../../../lib/onboarding';
@@ -66,7 +67,7 @@ function domainGradient(domain?: string): string {
 // ── Component ──
 
 export default function MobileStoryCarousel({ trackers, basePath, followedSlugs = [], onTrackerChange, enabled = true }: Props) {
-  const locale = getPreferredLocale();
+  const locale = useLocale();
 
   // Slide count source for the active story — useStoryState reads this in
   // goNext/goPrev so multi-image stories cycle through all frames once
@@ -348,9 +349,15 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
 // ── Story Image Sub-component (3-tier fallback) ──
 
 function StoryImage({ tracker, slideIndex = 0 }: { tracker: TrackerCardData; slideIndex?: number }) {
+  // URLs that failed to load — onError pushes the render down to the next
+  // tier (media → OSM tile → gradient) instead of leaving a black box.
+  const [failedUrls, setFailedUrls] = useState<Set<string>>(new Set());
+  const markFailed = (url: string) =>
+    setFailedUrls(prev => (prev.has(url) ? prev : new Set(prev).add(url)));
+
   // Tier 0: Slide-indexed event image (multi-slide stories)
   const slideImage = tracker.eventImages?.[slideIndex];
-  if (slideImage) {
+  if (slideImage && !failedUrls.has(slideImage.url)) {
     return (
       <>
         <img
@@ -359,7 +366,7 @@ function StoryImage({ tracker, slideIndex = 0 }: { tracker: TrackerCardData; sli
           className="story-image-map"
           loading="lazy"
           referrerPolicy="no-referrer"
-          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+          onError={() => markFailed(slideImage.url)}
         />
         <div className="story-image-gradient" />
         <span className="story-image-attribution">
@@ -370,20 +377,21 @@ function StoryImage({ tracker, slideIndex = 0 }: { tracker: TrackerCardData; sli
   }
 
   // Tier 1: Latest event media (single-image fallback)
-  if (tracker.latestEventMedia) {
+  if (tracker.latestEventMedia && !failedUrls.has(tracker.latestEventMedia.url)) {
+    const media = tracker.latestEventMedia;
     return (
       <>
         <img
-          src={tracker.latestEventMedia.url}
+          src={media.url}
           alt={tracker.headline ?? tracker.shortName}
           className="story-image-map"
           loading="lazy"
           referrerPolicy="no-referrer"
-          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+          onError={() => markFailed(media.url)}
         />
         <div className="story-image-gradient" />
         <span className="story-image-attribution">
-          {tracker.latestEventMedia.source} &middot; T{tracker.latestEventMedia.tier}
+          {media.source} &middot; T{media.tier}
         </span>
       </>
     );
@@ -392,20 +400,24 @@ function StoryImage({ tracker, slideIndex = 0 }: { tracker: TrackerCardData; sli
   // Tier 2: Map tile from mapCenter
   if (tracker.mapCenter) {
     const { lat, lon } = tracker.mapCenter;
-    return (
-      <>
-        <img
-          src={mapTileUrl(lat, lon)}
-          alt={`Map near ${tracker.shortName}`}
-          className="story-image-map"
-          loading="lazy"
-        />
-        <div className="story-map-markers">
-          <div className="story-map-marker" style={{ top: '50%', left: '50%' }} />
-        </div>
-        <div className="story-image-gradient" />
-      </>
-    );
+    const tileUrl = mapTileUrl(lat, lon);
+    if (!failedUrls.has(tileUrl)) {
+      return (
+        <>
+          <img
+            src={tileUrl}
+            alt={`Map near ${tracker.shortName}`}
+            className="story-image-map"
+            loading="lazy"
+            onError={() => markFailed(tileUrl)}
+          />
+          <div className="story-map-markers">
+            <div className="story-map-marker" style={{ top: '50%', left: '50%' }} />
+          </div>
+          <div className="story-image-gradient" />
+        </>
+      );
+    }
   }
 
   // Tier 3: Domain gradient + emoji

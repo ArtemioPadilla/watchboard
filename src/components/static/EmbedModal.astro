@@ -11,8 +11,13 @@ interface Props {
 
 const { trackerSlug, trackerName, siteUrl = 'https://watchboard.dev' } = Astro.props;
 
+// HTML-escape values interpolated into the snippet string — the snippet is
+// rendered as code, but users paste it verbatim into their own pages.
+const escapeHtml = (s: string) =>
+  s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
 const embedUrl = `${siteUrl}/embed/${trackerSlug}/`;
-const iframeSnippet = `<iframe src="${embedUrl}" width="360" height="220" style="border:none;border-radius:8px;" title="${trackerName} — Watchboard"></iframe>`;
+const iframeSnippet = `<iframe src="${embedUrl}" width="360" height="220" style="border:none;border-radius:8px;" title="${escapeHtml(trackerName)} — Watchboard"></iframe>`;
 
 const dialogId = `embed-dialog-${trackerSlug}`;
 ---

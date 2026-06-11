@@ -7,7 +7,8 @@ import MobileFeedTab from './MobileFeedTab';
 import MobileDataTab from './MobileDataTab';
 import MobileIntelTab from './MobileIntelTab';
 import { haptic } from '../../../lib/haptic';
-import { t, getPreferredLocale } from '../../../i18n/translations';
+import { t } from '../../../i18n/translations';
+import { useLocale } from '../../../i18n/useLocale';
 import type { MapPoint, MapLine, KpiItem, CasualtyRow, EconItem, Claim, PolItem, TimelineEra, StrikeItem, Asset, Meta } from '../../../lib/schemas';
 import type { FlatEvent } from '../../../lib/timeline-utils';
 import type { MapCategory } from '../../../lib/map-utils';
@@ -51,7 +52,7 @@ interface Props {
 }
 
 export default function MobileTabShell(props: Props) {
-  const locale = getPreferredLocale();
+  const locale = useLocale();
   const [activeTab, setActiveTab] = useState<MobileTab>('feed');
   const [mapMode, setMapMode] = useState<'2d' | '3d'>(props.initialMapMode ?? '2d');
   const [showCoach, setShowCoach] = useState(false);

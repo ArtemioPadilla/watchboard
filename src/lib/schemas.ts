@@ -78,15 +78,21 @@ const TimeFieldSchema = z.string().regex(
   'Invalid time format, expected HH:MM (0:00–23:59)',
 );
 
-/** ISO date format YYYY-MM-DD — rejects future dates */
+/** Latest acceptable date: today UTC + 1 day buffer.
+ *  Updates running close to midnight UTC (or sources in timezones ahead of
+ *  UTC) can legitimately produce "tomorrow" dates — don't reject those. */
+function maxAllowedDate(): string {
+  return new Date(Date.now() + 24 * 3600_000).toISOString().slice(0, 10);
+}
+
+/** ISO date format YYYY-MM-DD — rejects future dates (with a +1 day UTC buffer) */
 const DateFieldSchema = z.string()
   .regex(/^\d{4}-\d{2}-\d{2}$/, 'Date must be YYYY-MM-DD')
-  .refine((d) => d <= new Date().toISOString().slice(0, 10), 'Date must not be in the future');
+  .refine((d) => d <= maxAllowedDate(), 'Date must not be in the future');
 
-/** Check if a YYYY-MM-DD date string is in the future relative to today. */
+/** Check if a YYYY-MM-DD date string is in the future (beyond the +1 day UTC buffer). */
 export function isFutureDate(dateStr: string): boolean {
-  const today = new Date().toISOString().slice(0, 10);
-  return dateStr > today;
+  return dateStr > maxAllowedDate();
 }
 
 /** Theater coordinate: [lon, lat] — bounds are tracker-specific, validated at config level */

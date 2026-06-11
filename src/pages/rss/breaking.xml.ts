@@ -14,7 +14,7 @@ export const feedMeta: FeedMeta = {
 
 export async function GET(context: APIContext) {
   const trackers = loadAllTrackers().filter(t => t.status !== 'draft');
-  const base = import.meta.env.BASE_URL || '/watchboard';
+  const base = import.meta.env.BASE_URL || '/';
   const basePath = base.endsWith('/') ? base : `${base}/`;
 
   // Collect breaking digest entries from all trackers

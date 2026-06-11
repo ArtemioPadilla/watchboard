@@ -6,6 +6,7 @@
 import type { TrackerCardData } from './tracker-directory-utils';
 import type { TrackerData } from './data';
 import { countryName } from './country-names';
+import { resolveEventDate } from './timeline-utils';
 
 // ── Types ──
 
@@ -295,13 +296,22 @@ export function aggregateTrackerData(
   // Timeline: parent first, else merged children events
   let timeline = parentData.timeline;
   if (!hasOwnTimeline) {
+    // TimelineEvent has no `date` field — only `year` (a human-readable string).
+    // Resolve it to YYYY-MM-DD for sorting; unresolvable dates sort last.
     const allEvents = childrenData
       .flatMap(c => c.timeline.flatMap(era => era.events))
-      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      .sort((a, b) => {
+        const da = resolveEventDate(a.year) ?? '';
+        const db = resolveEventDate(b.year) ?? '';
+        if (da === db) return 0;
+        if (!da) return 1;
+        if (!db) return -1;
+        return db < da ? -1 : 1; // newest first
+      });
 
     const seen = new Set<string>();
     const deduped = allEvents.filter(evt => {
-      const key = `${evt.date}::${evt.title.toLowerCase().slice(0, 40)}`;
+      const key = `${evt.year}::${evt.title.toLowerCase().slice(0, 40)}`;
       if (seen.has(key)) return false;
       seen.add(key);
       return true;

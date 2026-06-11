@@ -445,7 +445,9 @@ function injectStyles(): void {
 
 /**
  * Initialize the PWA refresh system.
- * Call this once from BaseLayout.astro after DOMContentLoaded.
+ * Called explicitly from BaseLayout.astro (`import('../lib/pwa-refresh').then(m => m.initPwaRefresh())`).
+ * This module intentionally has NO import-time side effects — initialization
+ * only happens when this function is called.
  */
 export function initPwaRefresh(opts: RefreshOptions = {}): void {
   // Only run in browser
@@ -459,18 +461,7 @@ export function initPwaRefresh(opts: RefreshOptions = {}): void {
   if (opts.pullToRefresh !== false) {
     setupPullToRefresh(opts);
   }
-}
 
-// Auto-init when loaded as a script
-if (typeof document !== 'undefined') {
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => initPwaRefresh());
-  } else {
-    initPwaRefresh();
-  }
-}
-
-// Also expose refreshData globally for debugging
-if (typeof window !== 'undefined') {
+  // Expose refreshData globally for debugging
   (window as any).__wbRefresh = refreshData;
 }

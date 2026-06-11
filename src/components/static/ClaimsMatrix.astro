@@ -18,7 +18,7 @@ const { claims } = Astro.props;
       <details class="claim-card-collapsible" open={i === 0}>
         <summary class="claim-summary">
           <span class="claim-question-text">{c.question}</span>
-          <span class="claim-expand-icon"></span>
+          <span class="claim-expand-icon" aria-hidden="true"></span>
         </summary>
         <div class="claim-body">
           <div class="claim-sides">

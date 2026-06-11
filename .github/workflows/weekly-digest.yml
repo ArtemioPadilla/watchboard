@@ -11,6 +11,12 @@ on:
 permissions:
   contents: write
 
+# Shared group serializes the small state-commit workflows against each other
+# so they don't race pushes to main.
+concurrency:
+  group: main-commits
+  cancel-in-progress: false
+
 jobs:
   digest:
     runs-on: ubuntu-latest

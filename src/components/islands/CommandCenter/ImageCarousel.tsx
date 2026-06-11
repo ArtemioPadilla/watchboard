@@ -112,11 +112,19 @@ export default function ImageCarousel({ images, autoAdvance = false, fallbackIco
       {/* Dots + arrows (only if multiple images) */}
       {images.length > 1 && (
         <div style={styles.controls}>
-          <button style={styles.arrow} onClick={(e) => { e.stopPropagation(); goTo((currentIdx - 1 + images.length) % images.length); }}>‹</button>
+          <button
+            type="button"
+            aria-label="Previous image"
+            style={styles.arrow}
+            onClick={(e) => { e.stopPropagation(); goTo((currentIdx - 1 + images.length) % images.length); }}
+          >‹</button>
           <div style={styles.dots}>
             {images.map((_, i) => (
-              <span
+              <button
                 key={i}
+                type="button"
+                aria-label={`Go to image ${i + 1} of ${images.length}`}
+                aria-current={i === currentIdx ? 'true' : undefined}
                 style={{
                   ...styles.dot,
                   opacity: i === currentIdx ? 1 : 0.35,
@@ -125,7 +133,12 @@ export default function ImageCarousel({ images, autoAdvance = false, fallbackIco
               />
             ))}
           </div>
-          <button style={styles.arrow} onClick={(e) => { e.stopPropagation(); goTo((currentIdx + 1) % images.length); }}>›</button>
+          <button
+            type="button"
+            aria-label="Next image"
+            style={styles.arrow}
+            onClick={(e) => { e.stopPropagation(); goTo((currentIdx + 1) % images.length); }}
+          >›</button>
         </div>
       )}
     </div>
@@ -210,6 +223,10 @@ const styles = {
     alignItems: 'center',
   } as React.CSSProperties,
   dot: {
+    // Reset default <button> chrome — renders as a plain dot.
+    appearance: 'none' as const,
+    border: 'none',
+    padding: 0,
     width: 6,
     height: 6,
     borderRadius: '50%',
