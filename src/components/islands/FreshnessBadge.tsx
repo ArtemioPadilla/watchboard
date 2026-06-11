@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { getPreferredLocale, type Locale } from '../../i18n/translations';
+import { type Locale } from '../../i18n/translations';
+import { useLocale } from '../../i18n/useLocale';
 
 /**
  * "Updated X ago" pill with tier-colored staleness states. Used in the page
@@ -29,8 +30,8 @@ interface Props {
   staleHours?: number;
   /** Optional label override. Defaults to nothing — the component renders only "Updated …". */
   label?: string;
-  /** Locale override; falls back to `getPreferredLocale()` (only the unknown
-   *  state is translated, matching the prior Header implementation). */
+  /** Locale override; falls back to the SSR-safe `useLocale()` hook (only the
+   *  unknown state is translated, matching the prior Header implementation). */
   locale?: Locale;
   /** Extra class names appended to the root `.freshness-indicator`. */
   className?: string;
@@ -79,6 +80,7 @@ export default function FreshnessBadge({
   className,
 }: Props) {
   const [now, setNow] = useState<number | null>(null);
+  const detectedLocale = useLocale();
 
   useEffect(() => {
     setNow(Date.now());
@@ -86,7 +88,7 @@ export default function FreshnessBadge({
     return () => clearInterval(id);
   }, []);
 
-  const effectiveLocale = locale ?? getPreferredLocale();
+  const effectiveLocale = locale ?? detectedLocale;
   const unknownText = UNKNOWN_LABEL[effectiveLocale] ?? UNKNOWN_LABEL.en;
 
   const ts = lastUpdated ? Date.parse(lastUpdated) : NaN;

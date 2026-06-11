@@ -64,6 +64,32 @@ function sleep(ms: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+/**
+ * Permanent X API errors that will fail identically on every retry —
+ * duplicate content (HTTP 403 / legacy code 187) and suspended/locked
+ * accounts. Retrying these just burns budget slots; mark the entry rejected.
+ */
+function isPermanentXError(err: unknown): boolean {
+  const e = err as {
+    code?: number;
+    data?: { detail?: string; title?: string; errors?: Array<{ code?: number; message?: string }> };
+    errors?: Array<{ code?: number; message?: string }>;
+  };
+  const legacyCodes = [
+    ...(e?.errors ?? []),
+    ...(e?.data?.errors ?? []),
+  ].map(x => x?.code);
+  if (legacyCodes.includes(187)) return true; // duplicate status
+
+  const detail = `${e?.data?.detail ?? ''} ${e?.data?.title ?? ''} ${
+    [...(e?.errors ?? []), ...(e?.data?.errors ?? [])].map(x => x?.message ?? '').join(' ')
+  }`.toLowerCase();
+  if (detail.includes('duplicate')) return true;
+  if (detail.includes('suspended')) return true;
+  if (e?.code === 403 && (detail.includes('not allowed') || detail.includes('forbidden'))) return true;
+  return false;
+}
+
 async function main(): Promise<void> {
   const dryRun = process.argv.includes('--dry-run');
   const today = todayDateString();
@@ -191,13 +217,31 @@ async function main(): Promise<void> {
       });
 
       posted++;
+
+      // Persist after EVERY successful post — a crash mid-loop must not
+      // re-post tweets that already went out (queue carries tweetId/status).
+      saveQueue(today, queue);
+      saveBudget(budget);
+      saveHistory(history);
+
       await sleep(2000);
     } catch (err) {
       console.error(`[poster] Failed: ${entry.tracker}/${entry.type}:`, err);
+      if (isPermanentXError(err)) {
+        // Permanent error (duplicate content, suspended account) — retrying
+        // is pointless; reject so the next run skips this entry.
+        entry.status = 'rejected';
+        if (entry.judge) {
+          entry.judge.comment += ' [AUTO-REJECTED: permanent X API error (duplicate/suspended)]';
+        }
+        console.warn(`[poster] Permanent X API error — marking ${entry.tracker}/${entry.type} as rejected`);
+        saveQueue(today, queue);
+      }
+      // Transient errors (rate limits, network) keep status approved → retried next run.
     }
   }
 
-  // Save all state
+  // Final save (covers entries normalized at load time even if nothing posted)
   saveQueue(today, queue);
   saveBudget(budget);
   saveHistory(history);

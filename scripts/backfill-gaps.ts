@@ -2,12 +2,30 @@
  * Auto-gap detector — finds dates with missing data coverage and backfills them.
  * Designed to run after the nightly update in CI.
  * Caps at MAX_GAPS_PER_RUN to limit API costs.
+ *
+ * Usage: npx tsx scripts/backfill-gaps.ts [--tracker <slug>]
  */
 import { readFileSync, existsSync, readdirSync } from 'fs';
 import { join } from 'path';
 import { execSync } from 'child_process';
 
-const DATA_DIR = join(process.cwd(), 'src', 'data');
+// Default kept for back-compat with the original single-theater layout.
+const DEFAULT_TRACKER = 'iran-conflict';
+
+function parseTrackerArg(): string {
+  const args = process.argv.slice(2);
+  const idx = args.indexOf('--tracker');
+  if (idx !== -1 && args[idx + 1]) return args[idx + 1];
+  return DEFAULT_TRACKER;
+}
+
+const TRACKER = parseTrackerArg();
+if (!/^[a-z0-9-]+$/.test(TRACKER)) {
+  console.error(`[backfill-gaps] Invalid tracker slug: ${TRACKER}`);
+  process.exit(1);
+}
+
+const DATA_DIR = join(process.cwd(), 'trackers', TRACKER, 'data');
 const EVENTS_DIR = join(DATA_DIR, 'events');
 const MAX_GAPS_PER_RUN = parseInt(process.env.MAX_BACKFILL_GAPS || '5', 10);
 
@@ -31,9 +49,19 @@ function dateRange(from: string, to: string): string[] {
 }
 
 function main() {
+  if (!existsSync(DATA_DIR)) {
+    console.error(`[backfill-gaps] Tracker data dir not found: ${DATA_DIR}`);
+    process.exit(1);
+  }
+  console.log(`[backfill-gaps] Tracker: ${TRACKER}`);
+
   // Determine the date range from existing data
-  const points = JSON.parse(readFileSync(join(DATA_DIR, 'map-points.json'), 'utf8'));
-  const lines = JSON.parse(readFileSync(join(DATA_DIR, 'map-lines.json'), 'utf8'));
+  const points = existsSync(join(DATA_DIR, 'map-points.json'))
+    ? JSON.parse(readFileSync(join(DATA_DIR, 'map-points.json'), 'utf8'))
+    : [];
+  const lines = existsSync(join(DATA_DIR, 'map-lines.json'))
+    ? JSON.parse(readFileSync(join(DATA_DIR, 'map-lines.json'), 'utf8'))
+    : [];
 
   const allDates = [
     ...points.map((p: { date: string }) => p.date),
@@ -102,7 +130,7 @@ function main() {
     console.log(`\n[backfill-gaps] Backfilling ${gap.date}...`);
     try {
       execSync(
-        `npx tsx scripts/backfill.ts --from ${gap.date} --to ${gap.date}`,
+        `npx tsx scripts/backfill.ts --from ${gap.date} --to ${gap.date} --tracker ${TRACKER}`,
         { stdio: 'inherit', cwd: process.cwd() },
       );
     } catch (err) {

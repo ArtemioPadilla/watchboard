@@ -80,6 +80,8 @@ const AiConfigSchema = z.object({
   updatePolicy: UpdatePolicySchema.optional(),
   backfillTargets: z.record(z.string(), z.number().int().positive()).optional(),
   rssFeeds: z.array(z.string().url()).optional(),
+  /** Manual override for sibling-brief generation (cross-tracker context). */
+  relatedTrackers: z.array(z.string()).optional(),
 });
 
 // ── Section IDs ──

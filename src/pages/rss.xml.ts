@@ -14,7 +14,7 @@ export const feedMeta: FeedMeta = {
 
 export async function GET(context: APIContext) {
   const trackers = loadAllTrackers().filter(t => t.status !== 'draft');
-  const base = import.meta.env.BASE_URL || '/watchboard';
+  const base = import.meta.env.BASE_URL || '/';
   const basePath = base.endsWith('/') ? base : `${base}/`;
 
   // Collect digest entries from all trackers
@@ -23,12 +23,17 @@ export async function GET(context: APIContext) {
   for (const tracker of trackers) {
     try {
       const data = loadTrackerData(tracker.slug, tracker.eraLabel);
+      // A tracker can have >1 digest on the same date (e.g. daily + breaking),
+      // so suffix repeats to keep item links (and thus GUIDs) unique.
+      const seenDates = new Map<string, number>();
       for (const digest of data.digests) {
+        const n = (seenDates.get(digest.date) ?? 0) + 1;
+        seenDates.set(digest.date, n);
         items.push({
           title: digest.title,
           pubDate: new Date(digest.date),
           description: digest.summary,
-          link: `${basePath}${tracker.slug}/#digest-${digest.date}`,
+          link: `${basePath}${tracker.slug}/#digest-${digest.date}${n > 1 ? `-${n}` : ''}`,
           customData: `<category>${digest.source || 'daily'}</category>`,
         });
       }

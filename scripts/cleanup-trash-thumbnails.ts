@@ -95,7 +95,7 @@ async function main() {
           totalScanned++;
 
           // Run validation
-          const validation = validateThumbnail(m.thumbnail, { enableHeadCheck: headCheck });
+          const validation = await validateThumbnail(m.thumbnail, { enableHeadCheck: headCheck });
           const isDuplicate = duplicates.has(m.thumbnail);
 
           if (!validation.url || isDuplicate) {

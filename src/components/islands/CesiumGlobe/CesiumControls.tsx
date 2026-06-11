@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { MAP_CATEGORIES } from '../../../lib/map-utils';
-import { t, getPreferredLocale } from '../../../i18n/translations';
+import { t } from '../../../i18n/translations';
+import { useLocale } from '../../../i18n/useLocale';
 import type { VisualMode } from './cesium-shaders';
 import type { OrbitMode } from './useCesiumCamera';
 import { SAT_GROUPS, type SatGroupCounts } from './useSatellites';
@@ -86,7 +87,7 @@ export default function CesiumControls({
   const [activeSection, setActiveSection] = useState<ToolbarSection | null>(null);
   const [aisKeyDraft, setAisKeyDraft] = useState('');
   const hasAisKey = !!aisApiKey;
-  const locale = getPreferredLocale();
+  const locale = useLocale();
   const toolbarRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

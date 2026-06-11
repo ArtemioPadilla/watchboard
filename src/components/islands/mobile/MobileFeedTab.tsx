@@ -4,7 +4,8 @@ import type { FlatEvent } from '../../../lib/timeline-utils';
 import { tierClass, tierLabelShort } from '../../../lib/tier-utils';
 import { haptic } from '../../../lib/haptic';
 import { eventTypeColor, relativeTime } from '../../../lib/event-utils';
-import { t, getPreferredLocale, type Locale } from '../../../i18n/translations';
+import { t, type Locale } from '../../../i18n/translations';
+import { useLocale } from '../../../i18n/useLocale';
 
 interface Props {
   heroSubtitle: string;
@@ -22,7 +23,7 @@ function formatDate(iso: string, locale: Locale = 'en'): string {
 }
 
 export default function MobileFeedTab({ heroSubtitle, events }: Props) {
-  const locale = getPreferredLocale();
+  const locale = useLocale();
   const [selectedEvent, setSelectedEvent] = useState<FlatEvent | null>(null);
 
   // ── Pull-to-refresh (#2) — C1 fix: use ref for pull distance ──
@@ -30,7 +31,7 @@ export default function MobileFeedTab({ heroSubtitle, events }: Props) {
   const [refreshing, setRefreshing] = useState(false);
   const pullStartRef = useRef<number | null>(null);
   const pullYRef = useRef(0);
-  const reloadTimerRef = useRef<ReturnType<typeof setTimeout>>();
+  const reloadTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   // I5 fix: clean up reload timer on unmount
   useEffect(() => {

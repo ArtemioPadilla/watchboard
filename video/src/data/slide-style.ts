@@ -206,6 +206,33 @@ export const DEFAULT_SLIDE_STYLE: SlideStyle = {
   },
 };
 
+/**
+ * Deep-merge a partial style override on top of defaults.
+ * - `undefined` values in the override are ignored (defaults win).
+ * - Nested plain objects (e.g. SlideStyle groups like `imageCard`) are
+ *   merged key-by-key; scalars/strings replace the default outright.
+ * Used by TrackerSlide, Intro and Outro so the Studio "Default Props"
+ * panel can pass sparse overrides without wiping defaults.
+ */
+export function mergeStyle<T extends object>(defaults: T, override?: Partial<T>): T {
+  if (!override) return defaults;
+  const out: T = JSON.parse(JSON.stringify(defaults));
+  for (const key of Object.keys(override) as Array<keyof T>) {
+    const value = override[key];
+    if (value === undefined) continue;
+    const base = out[key];
+    if (
+      typeof value === 'object' && value !== null && !Array.isArray(value) &&
+      typeof base === 'object' && base !== null && !Array.isArray(base)
+    ) {
+      Object.assign(base as object, value);
+    } else {
+      out[key] = value as T[keyof T];
+    }
+  }
+  return out;
+}
+
 /** Convert a hex color (#RRGGBB) + alpha (0..1) into rgba(). */
 export function alpha(hex: string, a: number): string {
   const m = hex.match(/^#([0-9a-f]{6})$/i);

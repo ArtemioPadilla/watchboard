@@ -119,13 +119,16 @@ export function useStoryState(options: UseStoryStateOptions): StoryState {
 
   // Start at index 0 to match SSR; jump to first unseen once seen-set loads
   const [currentIndex, setCurrentIndex] = useState(0);
+  const jumpedToUnseenRef = useRef(false);
   useEffect(() => {
-    if (seenSlugs.size === 0) return;
+    // One-shot: only jump the first time seenSlugs populates from
+    // localStorage, never on later size changes as stories get marked seen.
+    if (jumpedToUnseenRef.current || seenSlugs.size === 0) return;
+    jumpedToUnseenRef.current = true;
     const firstUnseen = eligible.findIndex((t) => !seenSlugs.has(t.slug));
     if (firstUnseen > 0) setCurrentIndex(firstUnseen);
-    // Only run once when seenSlugs populates from localStorage
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [seenSlugs.size > 0]);
+  }, [seenSlugs.size]);
   const [slideIndex, setSlideIndex] = useState(0);
   const slideIndexRef = useRef(0);
   const [paused, setPaused] = useState(false);

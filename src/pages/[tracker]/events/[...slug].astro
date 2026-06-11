@@ -15,6 +15,7 @@ import { eventToSlug, eventPermalink } from '../../../lib/event-slug';
 import { tierLabel, tierClass } from '../../../lib/tier-utils';
 import type { TrackerConfig } from '../../../lib/tracker-config';
 import type { FlatEvent } from '../../../lib/timeline-utils';
+import { jsonLd } from '../../../lib/json-ld';
 
 export function getStaticPaths() {
   const trackers = loadAllTrackers().filter(t => t.status !== 'draft');
@@ -187,10 +188,10 @@ const pageTitle = `${event.title} — ${config.shortName} — Watchboard`;
     <link rel="canonical" href={pageUrl} />
 
     {/* NewsArticle JSON-LD */}
-    <script is:inline type="application/ld+json" set:html={JSON.stringify(newsArticleLD)} />
+    <script is:inline type="application/ld+json" set:html={jsonLd(newsArticleLD)} />
 
     {/* BreadcrumbList JSON-LD */}
-    <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbLD)} />
+    <script is:inline type="application/ld+json" set:html={jsonLd(breadcrumbLD)} />
   </Fragment>
 
   <main id="main-content" class="event-page">

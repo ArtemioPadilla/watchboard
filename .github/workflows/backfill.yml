@@ -9,9 +9,19 @@ on:
       to_date:
         description: 'End date (YYYY-MM-DD)'
         required: true
+      tracker:
+        description: 'Tracker slug'
+        required: false
+        default: 'iran-conflict'
 
 permissions:
   contents: write
+
+# Shared group serializes the small state-commit workflows against each other
+# so they don't race pushes to main.
+concurrency:
+  group: main-commits
+  cancel-in-progress: false
 
 jobs:
   backfill:
@@ -34,19 +44,39 @@ jobs:
           AI_PROVIDER: ${{ secrets.AI_PROVIDER || 'anthropic' }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        run: npm run backfill -- --from ${{ github.event.inputs.from_date }} --to ${{ github.event.inputs.to_date }}
+          FROM_DATE: ${{ github.event.inputs.from_date }}
+          TO_DATE: ${{ github.event.inputs.to_date }}
+          TRACKER: ${{ github.event.inputs.tracker }}
+        run: npm run backfill -- --tracker "$TRACKER" --from "$FROM_DATE" --to "$TO_DATE"
 
       - name: Check for changes
         id: changes
         run: |
-          git add src/data/events/
-          git diff --cached --quiet src/data/events/ && echo "changed=false" >> $GITHUB_OUTPUT || echo "changed=true" >> $GITHUB_OUTPUT
+          git add trackers/*/data/
+          git diff --cached --quiet trackers/ && echo "changed=false" >> $GITHUB_OUTPUT || echo "changed=true" >> $GITHUB_OUTPUT
 
       - name: Commit and push
         if: steps.changes.outputs.changed == 'true'
+        env:
+          FROM_DATE: ${{ github.event.inputs.from_date }}
+          TO_DATE: ${{ github.event.inputs.to_date }}
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add src/data/events/
-          git commit -m "chore(data): backfill events ${{ github.event.inputs.from_date }} to ${{ github.event.inputs.to_date }}"
-          git push
+          git add trackers/*/data/
+          git commit -m "chore(data): backfill events $FROM_DATE to $TO_DATE"
+          pushed=false
+          for i in $(seq 1 5); do
+            if git pull --rebase origin main && git push; then
+              echo "Push succeeded on attempt $i"
+              pushed=true
+              break
+            fi
+            git rebase --abort 2>/dev/null || true
+            echo "Push attempt $i failed, retrying with jitter..."
+            sleep $(( (RANDOM % 8) + 3 ))
+          done
+          if [ "$pushed" != "true" ]; then
+            echo "ERROR: failed to push backfill after 5 attempts"
+            exit 1
+          fi

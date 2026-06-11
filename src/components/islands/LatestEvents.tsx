@@ -1,7 +1,8 @@
 import { useState, useMemo } from 'react';
 import type { FlatEvent } from '../../lib/timeline-utils';
 import { tierClass, tierLabelShort } from '../../lib/tier-utils';
-import { t, getPreferredLocale, type Locale } from '../../i18n/translations';
+import { t, type Locale } from '../../i18n/translations';
+import { useLocale } from '../../i18n/useLocale';
 
 interface Props {
   events: FlatEvent[];
@@ -54,7 +55,7 @@ function formatDate(iso: string, locale: Locale = 'en'): string {
 }
 
 export default function LatestEvents({ events, maxVisible = DEFAULT_MAX_VISIBLE }: Props) {
-  const locale = getPreferredLocale();
+  const locale = useLocale();
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [showAll, setShowAll] = useState(false);
 

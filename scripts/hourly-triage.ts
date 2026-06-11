@@ -17,7 +17,7 @@ import {
   type ActionPlanNewTracker,
   PATHS,
 } from './hourly-types.js';
-import { appendTriageEntries, pruneTriageLog } from '../src/lib/triage-log.js';
+import { appendTriageEntries } from '../src/lib/triage-log.js';
 
 // --- Constants ---
 
@@ -379,9 +379,9 @@ export async function triage(
       scanType: 'heavy' as const,
     }];
   });
-  appendTriageEntries(logEntries, PATHS.triageLog);
-  const removed = pruneTriageLog(PATHS.triageLog, 14);
-  if (removed > 0) console.log(`[triage] pruned ${removed} log entries older than 14 days`);
+  // Append + weekly partition + prune in one atomic pass (see triage-log.ts).
+  const archived = appendTriageEntries(logEntries, PATHS.triageLog);
+  if (archived > 0) console.log(`[triage] archived ${archived} log entries to weekly files`);
 
   // Write to disk
   writeFileSync(DEFAULT_ACTION_PLAN_PATH, JSON.stringify(plan, null, 2), 'utf8');

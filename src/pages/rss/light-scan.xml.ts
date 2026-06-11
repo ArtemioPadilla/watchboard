@@ -36,20 +36,18 @@ function readLog(): TriageLog | null {
   }
 }
 
+// Plain text — @astrojs/rss entity-escapes descriptions, so any HTML here
+// would render literally in readers.
 function describe(e: TriageLogEntry): string {
   const c = e.candidate;
   const tracker = c.matchedTracker ?? 'unmatched';
   const tier = c.sourceTier ?? '?';
   const score = e.confidence.toFixed(2);
   return [
-    `<p><strong>${e.decision.toUpperCase()}</strong> · score ${score} · tracker <code>${tracker}</code> · ${c.source} (T${tier})</p>`,
-    `<p>${escape(e.reason)}</p>`,
-    e.scanType === 'heavy' && e.model ? `<p>model: ${e.model}</p>` : '',
-  ].join('');
-}
-
-function escape(s: string): string {
-  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    `${e.decision.toUpperCase()} · score ${score} · tracker ${tracker} · ${c.source} (T${tier})`,
+    e.reason,
+    e.scanType === 'heavy' && e.model ? `model: ${e.model}` : '',
+  ].filter(Boolean).join('\n');
 }
 
 export async function GET(context: APIContext) {
@@ -68,7 +66,6 @@ export async function GET(context: APIContext) {
       `<category>${e.decision}</category>`,
       `<category>scan:${e.scanType}</category>`,
       e.candidate.matchedTracker ? `<category>tracker:${e.candidate.matchedTracker}</category>` : '',
-      `<guid isPermaLink="false">${escape(e.candidate.url)}::${e.timestamp}</guid>`,
     ].filter(Boolean).join(''),
   }));
 

@@ -42,6 +42,7 @@ import {
 import {
   validateThumbnail,
   resolveSourceUrl,
+  safeFetchText,
   ThumbnailDeduplicator,
 } from './thumbnail-utils.js';
 
@@ -279,7 +280,7 @@ function extractOgImage(html: string): string | null {
  */
 async function extractThumbnail(url: string, dedup?: ThumbnailDeduplicator): Promise<string | null> {
   // Step 0: Resolve Google News and other opaque URLs
-  const resolvedUrl = resolveSourceUrl(url);
+  const resolvedUrl = await resolveSourceUrl(url);
   const fetchUrl = resolvedUrl !== url ? resolvedUrl : url;
   if (resolvedUrl !== url) {
     log(`  Resolved Google News URL → ${resolvedUrl.substring(0, 80)}`);
@@ -288,24 +289,26 @@ async function extractThumbnail(url: string, dedup?: ThumbnailDeduplicator): Pro
   let candidate: string | null = null;
 
   // Method 1: Direct fetch with real browser User-Agent
-  try {
-    const html = run(
-      `curl -sL --max-time 8 --max-redirs 5 -H "User-Agent: ${BROWSER_UA}" -H "Accept: text/html" ${JSON.stringify(fetchUrl)}`,
-      { timeout: 15_000 }
-    );
-    candidate = extractOgImage(html);
-  } catch {}
+  // (SSRF-safe native fetch — scheme allowlist, private-IP blocklist,
+  //  capped redirects, AbortSignal timeout. See thumbnail-utils.ts.)
+  {
+    const html = await safeFetchText(fetchUrl, {
+      timeoutMs: 8_000,
+      headers: { 'User-Agent': BROWSER_UA, 'Accept': 'text/html' },
+    });
+    if (html) candidate = extractOgImage(html);
+  }
 
   // Method 2: Google AMP/cache version
   if (!candidate) {
     try {
       const domain = new URL(fetchUrl).hostname.replace('www.', '');
       const ampUrl = `https://www.google.com/amp/s/${domain}${new URL(fetchUrl).pathname}`;
-      const html = run(
-        `curl -sL --max-time 6 --max-redirs 3 -H "User-Agent: ${BROWSER_UA}" ${JSON.stringify(ampUrl)}`,
-        { timeout: 10_000 }
-      );
-      candidate = extractOgImage(html);
+      const html = await safeFetchText(ampUrl, {
+        timeoutMs: 6_000,
+        headers: { 'User-Agent': BROWSER_UA },
+      });
+      if (html) candidate = extractOgImage(html);
     } catch {}
   }
 
@@ -313,9 +316,11 @@ async function extractThumbnail(url: string, dedup?: ThumbnailDeduplicator): Pro
   if (!candidate) {
     try {
       const oembedUrl = `https://noembed.com/embed?url=${encodeURIComponent(fetchUrl)}`;
-      const json = run(`curl -sL --max-time 5 ${JSON.stringify(oembedUrl)}`, { timeout: 8_000 });
-      const data = JSON.parse(json);
-      if (data.thumbnail_url) candidate = data.thumbnail_url;
+      const json = await safeFetchText(oembedUrl, { timeoutMs: 5_000 });
+      if (json) {
+        const data = JSON.parse(json);
+        if (data.thumbnail_url) candidate = data.thumbnail_url;
+      }
     } catch {}
   }
 
@@ -325,7 +330,7 @@ async function extractThumbnail(url: string, dedup?: ThumbnailDeduplicator): Pro
   }
 
   // Step 3: Validate the extracted thumbnail
-  const validation = validateThumbnail(candidate);
+  const validation = await validateThumbnail(candidate);
   if (!validation.url) {
     log(`  Rejected thumbnail: ${validation.rejectedReason} — ${candidate.substring(0, 80)}`);
     return null;

@@ -13,18 +13,25 @@ export const getStaticPaths: GetStaticPaths = () => {
 
 export async function GET(context: APIContext) {
   const { config } = context.props as { config: ReturnType<typeof loadAllTrackers>[number] };
-  const base = import.meta.env.BASE_URL || '/watchboard';
+  const base = import.meta.env.BASE_URL || '/';
   const basePath = base.endsWith('/') ? base : `${base}/`;
   const data = loadTrackerData(config.slug, config.eraLabel);
 
+  // A tracker can have >1 digest on the same date (e.g. daily + breaking),
+  // so suffix repeats to keep item links (and thus GUIDs) unique.
+  const seenDates = new Map<string, number>();
   const items = data.digests
-    .map(digest => ({
-      title: digest.title,
-      pubDate: new Date(digest.date),
-      description: digest.summary,
-      link: `${basePath}${config.slug}/#digest-${digest.date}`,
-      customData: `<category>${digest.source || 'daily'}</category>`,
-    }))
+    .map(digest => {
+      const n = (seenDates.get(digest.date) ?? 0) + 1;
+      seenDates.set(digest.date, n);
+      return {
+        title: digest.title,
+        pubDate: new Date(digest.date),
+        description: digest.summary,
+        link: `${basePath}${config.slug}/#digest-${digest.date}${n > 1 ? `-${n}` : ''}`,
+        customData: `<category>${digest.source || 'daily'}</category>`,
+      };
+    })
     .sort((a, b) => b.pubDate.getTime() - a.pubDate.getTime())
     .slice(0, 50);
 

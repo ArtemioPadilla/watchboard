@@ -306,7 +306,7 @@ Casualty figures use a `contested` field (`'yes'`/`'no'`/`'evolving'`/`'heavily'
 
 ## CSS
 
-Global stylesheet at `src/styles/global.css`. Dark theme via CSS custom properties on `:root`. Key color semantics: `--accent-red`, `--accent-amber`, `--accent-blue`, `--accent-green`, `--accent-purple`. Tier colors: `--tier-1` through `--tier-4`. Font paths use `/watchboard/fonts/`.
+Global stylesheet at `src/styles/global.css`. Dark theme via CSS custom properties on `:root`. Key color semantics: `--accent-red`, `--accent-amber`, `--accent-blue`, `--accent-green`, `--accent-purple`. Tier colors: `--tier-1` through `--tier-4`. Fonts live under `public/fonts/` and are served from `/fonts/` — the base path is configured in `astro.config.mjs` (`base: '/'`), so always build font/asset URLs from `import.meta.env.BASE_URL` rather than hardcoding a prefix.
 
 Broadcast styles in `src/styles/broadcast.css`. Mobile story carousel in `src/styles/mobile-stories.css`.
 

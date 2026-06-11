@@ -6,7 +6,7 @@ import {
   interpolate,
   spring,
 } from 'remotion';
-import { DEFAULT_INTRO_STYLE, type IntroStyle } from '../data/slide-style';
+import { DEFAULT_INTRO_STYLE, mergeStyle, type IntroStyle } from '../data/slide-style';
 
 interface IntroProps {
   date: string;
@@ -15,7 +15,7 @@ interface IntroProps {
 }
 
 export const Intro: React.FC<IntroProps> = ({ date, theme = 'dark', style }) => {
-  const I: IntroStyle = { ...DEFAULT_INTRO_STYLE, ...(style || {}) };
+  const I: IntroStyle = mergeStyle(DEFAULT_INTRO_STYLE, style);
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 

@@ -7,6 +7,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { loadAllTrackers } from '../../lib/tracker-registry';
 import { loadTrackerData } from '../../lib/data';
 import { flattenTimelineEvents } from '../../lib/timeline-utils';
+import { jsonLd } from '../../lib/json-ld';
 
 const base = import.meta.env.BASE_URL;
 const basePath = base.endsWith('/') ? base : `${base}/`;
@@ -88,8 +89,8 @@ const collectionPageSchema = {
   description={`Cross-tracker daily intelligence summaries from Watchboard. ${totalDates} briefings available — each date aggregates events across all active trackers.`}
 >
   <Fragment slot="head">
-    <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
-    <script is:inline type="application/ld+json" set:html={JSON.stringify(collectionPageSchema)} />
+    <script is:inline type="application/ld+json" set:html={jsonLd(breadcrumbSchema)} />
+    <script is:inline type="application/ld+json" set:html={jsonLd(collectionPageSchema)} />
     <link rel="canonical" href={pageUrl} />
   </Fragment>
 

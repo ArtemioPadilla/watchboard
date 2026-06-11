@@ -9,7 +9,8 @@
  * Mission tab only appears when missionTrajectory is provided.
  */
 import { useState, useRef, useCallback, useEffect, useMemo, type MutableRefObject, type ReactNode } from 'react';
-import { t, getPreferredLocale } from '../../../i18n/translations';
+import { t } from '../../../i18n/translations';
+import { useLocale } from '../../../i18n/useLocale';
 import type { FlatEvent } from '../../../lib/timeline-utils';
 import type { MapPoint, MapLine, KpiItem, MissionTrajectory } from '../../../lib/schemas';
 import type { VisualMode } from './cesium-shaders';
@@ -173,7 +174,7 @@ export default function GlobeMobileSheet(props: Props) {
     timelineBar,
   } = props;
 
-  const locale = getPreferredLocale();
+  const locale = useLocale();
   const [sheetState, setSheetState] = useState<SheetState>('half');
   const [activeTab, setActiveTab] = useState<TabId>('timeline');
   const [translateY, setTranslateY] = useState<number | null>(null); // null = snapped
@@ -538,7 +539,7 @@ function MissionCompact({
   vectorToggles?: VectorToggles;
   onToggleVector?: (key: keyof VectorToggles) => void;
 }) {
-  const locale = getPreferredLocale();
+  const locale = useLocale();
   const phaseRef = useRef<HTMLSpanElement>(null);
   const altRef = useRef<HTMLSpanElement>(null);
   const velRef = useRef<HTMLSpanElement>(null);

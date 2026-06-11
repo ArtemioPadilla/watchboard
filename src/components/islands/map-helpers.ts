@@ -3,15 +3,12 @@ import { MAP_CATEGORIES, type MapCategory } from '../../lib/map-utils';
 // Re-export tier helpers for backward compatibility — canonical source is tier-utils
 export { tierClass, tierLabelFull } from '../../lib/tier-utils';
 
-// Look up category color — uses tracker-specific categories if provided, falls back to hardcoded defaults
-let _trackerCategories: MapCategory[] | null = null;
-
-export function setTrackerCategories(cats: MapCategory[]) {
-  _trackerCategories = cats;
-}
-
-export function catColor(cat: string): string {
-  const cats = _trackerCategories ?? MAP_CATEGORIES;
+// Look up category color — uses tracker-specific categories if provided,
+// falls back to hardcoded defaults. Categories are threaded as a parameter
+// (no module-level singleton) so two maps on one page can't clobber each
+// other's colors and render stays pure.
+export function catColor(cat: string, categories?: MapCategory[]): string {
+  const cats = categories && categories.length > 0 ? categories : MAP_CATEGORIES;
   return cats.find(c => c.id === cat)?.color || '#888';
 }
 

@@ -80,7 +80,11 @@ body {
   color: var(--text-primary);
   font-family: 'DM Sans', sans-serif;
   line-height: 1.6;
+  /* clip, not hidden: hidden turns body into a scroll container, which makes
+     Chrome's compositor swallow wheel/PageDown scrolling on tall pages
+     (e.g. tracker dashboards). hidden kept as fallback for old browsers. */
   overflow-x: hidden;
+  overflow-x: clip;
 }
 
 /* ─── UTILITIES ─── */
@@ -1702,7 +1706,9 @@ body::before {
 .theater-scroll {
   min-height: 100vh;
   padding-left: 1.5rem;
-  overflow: hidden;
+  /* clip (not hidden): hidden creates a scroll container that swallows
+     wheel events, breaking page scrolling over the intel column */
+  overflow: clip;
   min-width: 0;
   max-width: 100%;
   width: 100%;
@@ -1713,7 +1719,7 @@ body::before {
   margin: 0;
   padding: 2.5rem 0 2.5rem 1rem;
   position: relative;
-  overflow: hidden;
+  overflow: clip;
   box-sizing: border-box;
 }
 

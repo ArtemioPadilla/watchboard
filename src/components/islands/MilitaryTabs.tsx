@@ -13,13 +13,28 @@ const MONTH_INDEX: Record<string, number> = {
   Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11,
 };
 
-/** Parse "Feb 28", "Mar 1, 08:10", "Mar 1–2" etc. into a Date (year defaults to 2026). */
-function parseTimeField(time: string): Date | null {
+/**
+ * Parse "Feb 28", "Mar 1, 08:10", "Mar 1–2", "Jun 13, 2025" etc. into a Date.
+ * Uses an explicit 4-digit year from the string when present; otherwise falls
+ * back to the provided year (derived from the item's data, not hardcoded).
+ */
+function parseTimeField(time: string, fallbackYear: number): Date | null {
   const match = time.match(/^([A-Z][a-z]{2})\s+(\d{1,2})/);
   if (!match) return null;
   const monthIdx = MONTH_INDEX[match[1]];
   if (monthIdx === undefined) return null;
-  return new Date(2026, monthIdx, parseInt(match[2], 10));
+  const yearMatch = time.match(/\b(\d{4})\b/);
+  const year = yearMatch ? parseInt(yearMatch[1], 10) : fallbackYear;
+  return new Date(year, monthIdx, parseInt(match[2], 10));
+}
+
+/** Best-available year for an item without an explicit year in `time`. */
+function itemFallbackYear(item: StrikeItem): number {
+  if (item.lastUpdated) {
+    const y = new Date(item.lastUpdated).getFullYear();
+    if (Number.isFinite(y)) return y;
+  }
+  return new Date().getFullYear();
 }
 
 function computeDateRange(strikes: StrikeItem[], retaliation: StrikeItem[]): string {
@@ -28,7 +43,7 @@ function computeDateRange(strikes: StrikeItem[], retaliation: StrikeItem[]): str
   let latest: Date | null = null;
 
   for (const item of allItems) {
-    const d = parseTimeField(item.time);
+    const d = parseTimeField(item.time, itemFallbackYear(item));
     if (!d) continue;
     if (!earliest || d < earliest) earliest = d;
     if (!latest || d > latest) latest = d;

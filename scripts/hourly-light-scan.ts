@@ -28,7 +28,7 @@ import {
 } from './hourly-types.js';
 import { buildKeywordIndices, scoreCandidateDetailed } from '../src/lib/keyword-match.js';
 import { pollRealtimeSources } from '../src/lib/realtime-sources.js';
-import { appendTriageEntries, pruneTriageLog } from '../src/lib/triage-log.js';
+import { appendTriageEntries } from '../src/lib/triage-log.js';
 import { loadAllTrackers } from './lib/load-trackers-node.js';
 
 const HIGH_THRESHOLD     = 0.85;
@@ -99,29 +99,52 @@ function savePending(p: PendingCandidates, path: string): void {
   writeFileSync(path, JSON.stringify(p, null, 2), 'utf8');
 }
 
-async function postTelegram(candidate: Candidate, score: number, trackerSlug: string): Promise<void> {
+/** Post a breaking alert to Telegram. Returns true on success — failures are
+ *  recorded in state.telegramFailed so the next scan retries the alert. */
+async function postTelegram(title: string, url: string, score: number, trackerSlug: string): Promise<boolean> {
   const token = process.env.TELEGRAM_BOT_TOKEN;
   const chatId = process.env.TELEGRAM_CHAT_ID;
   if (!token || !chatId) {
     console.warn('[light-scan] TELEGRAM_BOT_TOKEN/CHAT_ID missing; skipping post');
-    return;
+    return false;
   }
   // Use plain text instead of Markdown to avoid escaping headache — headlines
   // routinely contain `_`, `*`, `[`, `]`, `(`, `)` which Telegram's Markdown
   // parser treats as formatting. Plain text + URL preview gives the same UX
   // without the breakage risk.
-  const text = `⚡ Breaking (${trackerSlug}, score ${score.toFixed(2)})\n${candidate.title}\n${candidate.url}`;
-  const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ chat_id: chatId, text, disable_web_page_preview: false }),
-  });
-  if (!res.ok) console.warn('[light-scan] telegram post failed:', await res.text());
+  const text = `⚡ Breaking (${trackerSlug}, score ${score.toFixed(2)})\n${title}\n${url}`;
+  try {
+    const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: chatId, text, disable_web_page_preview: false }),
+    });
+    if (!res.ok) {
+      console.warn('[light-scan] telegram post failed:', await res.text());
+      return false;
+    }
+    return true;
+  } catch (err) {
+    console.warn('[light-scan] telegram post failed:', (err as Error).message);
+    return false;
+  }
 }
 
 async function main() {
   const state = loadState();
   const seenUrls = new Set(state.seen.map((s) => s.url));
+
+  // Retry Telegram alerts that failed on a previous scan (the candidate was
+  // already queued to pending — only the alert was lost).
+  if (state.telegramFailed?.length) {
+    const stillFailed: typeof state.telegramFailed = [];
+    for (const f of state.telegramFailed) {
+      const ok = await postTelegram(f.title, f.url, f.score, f.tracker);
+      if (ok) console.log(`[light-scan] retried telegram alert OK: ${f.url}`);
+      else stillFailed.push(f);
+    }
+    state.telegramFailed = stillFailed;
+  }
 
   const trackers = loadAllTrackers().filter((t) => t.status === 'active');
   if (trackers.length === 0) { console.log('[light-scan] no active trackers'); return; }
@@ -185,7 +208,16 @@ async function main() {
 
     if (bestScore >= HIGH_THRESHOLD && bestSlug && hasSubstance) {
       cand.matchedTracker = bestSlug;
-      await postTelegram(cand, bestScore, bestSlug);
+      const tgOk = await postTelegram(cand.title, cand.url, bestScore, bestSlug);
+      if (!tgOk) {
+        // Record so the next scan retries the alert (URL is already in
+        // state.seen, so without this the alert would be lost forever).
+        state.telegramFailed = state.telegramFailed ?? [];
+        state.telegramFailed.push({
+          url: cand.url, title: cand.title, tracker: bestSlug,
+          score: bestScore, ts: new Date().toISOString(),
+        });
+      }
       // Also queue for the next heavy scan: Telegram is just an alert channel,
       // it doesn't write to tracker data. Without this, high-confidence breaking
       // news posts to Telegram but the tracker's events file is never updated
@@ -228,11 +260,11 @@ async function main() {
   }
 
   savePending(pending, PATHS.pendingCandidates);
-  appendTriageEntries(logEntries, PATHS.triageLog);
-  // Independent prune from the heavy scan so the audit log stays bounded
-  // even if the heavy pipeline is paused/failing.
-  const removedFromLog = pruneTriageLog(PATHS.triageLog, 14);
-  if (removedFromLog > 0) console.log(`[light-scan] pruned ${removedFromLog} log entries older than 14 days`);
+  // Append + weekly partition + prune happen in one atomic pass; entries
+  // older than the current+previous ISO week are archived to
+  // triage-log-YYYY-Www.json files (incl. the one-time legacy migration).
+  const archivedFromLog = appendTriageEntries(logEntries, PATHS.triageLog);
+  if (archivedFromLog > 0) console.log(`[light-scan] archived ${archivedFromLog} log entries to weekly files`);
   state.lastScan = new Date().toISOString();
   saveState(state);
 

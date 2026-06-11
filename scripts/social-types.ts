@@ -89,6 +89,19 @@ export const PATHS = {
   trackersDir: path.join(ROOT, 'trackers'),
 };
 
+// ── Atomic writes ──
+
+/**
+ * Atomic write: write to a temp file then rename (rename is atomic on POSIX).
+ * Prevents corrupted/truncated JSON if the process is killed mid-write
+ * (e.g. a CI runner SIGTERM).
+ */
+export function atomicWriteFile(filePath: string, content: string): void {
+  const tmpPath = `${filePath}.tmp`;
+  fs.writeFileSync(tmpPath, content, 'utf8');
+  fs.renameSync(tmpPath, filePath);
+}
+
 // ── Loaders ──
 
 export function loadConfig(): SocialConfig {
@@ -99,17 +112,31 @@ export function loadBudget({ autoSave = true } = {}): BudgetData {
   const budget: BudgetData = JSON.parse(fs.readFileSync(PATHS.budget, 'utf8'));
   const currentMonth = new Date().toISOString().slice(0, 7);
   if (budget.currentMonth !== currentMonth) {
-    budget.currentMonth = currentMonth;
-    budget.spent = 0;
-    budget.tweetsPosted = 0;
-    budget.remaining = budget.monthlyTarget;
-    if (autoSave) saveBudget(budget);
+    // Only reset when monthlyTarget is a sane positive number — a malformed
+    // budget file would otherwise wipe spend tracking and set remaining=NaN.
+    if (typeof budget.monthlyTarget === 'number' && Number.isFinite(budget.monthlyTarget) && budget.monthlyTarget > 0) {
+      console.warn(
+        `[social] ⚠️  MONTHLY BUDGET RESET: ${budget.currentMonth} → ${currentMonth} ` +
+        `(spent $${Number(budget.spent ?? 0).toFixed(2)} / ${budget.tweetsPosted ?? 0} tweets last month; ` +
+        `remaining reset to $${budget.monthlyTarget.toFixed(2)})`,
+      );
+      budget.currentMonth = currentMonth;
+      budget.spent = 0;
+      budget.tweetsPosted = 0;
+      budget.remaining = budget.monthlyTarget;
+      if (autoSave) saveBudget(budget);
+    } else {
+      console.warn(
+        `[social] ⚠️  Month rolled over (${budget.currentMonth} → ${currentMonth}) but monthlyTarget ` +
+        `is invalid (${JSON.stringify(budget.monthlyTarget)}) — SKIPPING budget reset. Fix public/_social/budget.json.`,
+      );
+    }
   }
   return budget;
 }
 
 export function saveBudget(budget: BudgetData): void {
-  fs.writeFileSync(PATHS.budget, JSON.stringify(budget, null, 2), 'utf8');
+  atomicWriteFile(PATHS.budget, JSON.stringify(budget, null, 2));
 }
 
 export function loadHistory(): HistoryEntry[] {
@@ -118,7 +145,7 @@ export function loadHistory(): HistoryEntry[] {
 }
 
 export function saveHistory(history: HistoryEntry[]): void {
-  fs.writeFileSync(PATHS.history, JSON.stringify(history, null, 2), 'utf8');
+  atomicWriteFile(PATHS.history, JSON.stringify(history, null, 2));
 }
 
 export function loadQueue(date: string): QueueEntry[] {
@@ -130,7 +157,7 @@ export function loadQueue(date: string): QueueEntry[] {
 export function saveQueue(date: string, queue: QueueEntry[]): void {
   fs.mkdirSync(PATHS.socialDir, { recursive: true });
   const queuePath = path.join(PATHS.socialDir, `queue-${date}.json`);
-  fs.writeFileSync(queuePath, JSON.stringify(queue, null, 2), 'utf8');
+  atomicWriteFile(queuePath, JSON.stringify(queue, null, 2));
 }
 
 // ── Character counting ──

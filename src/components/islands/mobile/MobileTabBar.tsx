@@ -1,5 +1,6 @@
 // src/components/islands/mobile/MobileTabBar.tsx
-import { t, getPreferredLocale } from '../../../i18n/translations';
+import { t } from '../../../i18n/translations';
+import { useLocale } from '../../../i18n/useLocale';
 
 export type MobileTab = 'map' | 'feed' | 'data' | 'intel';
 
@@ -26,7 +27,7 @@ const TAB_LABEL_KEYS: Record<MobileTab, string> = {
 const TAB_ORDER: MobileTab[] = ['map', 'feed', 'data', 'intel'];
 
 export default function MobileTabBar({ activeTab, onTabChange, feedBadge }: Props) {
-  const locale = getPreferredLocale();
+  const locale = useLocale();
   return (
     <nav className="mtab-bar" role="tablist" aria-label={t('mobile.dashboardSections', locale)}>
       {TAB_ORDER.map(tabId => (

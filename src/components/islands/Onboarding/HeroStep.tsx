@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
+import { useFocusTrap } from './useFocusTrap';
 
 interface HeroStepProps {
   variant: 'intro' | 'tiers' | 'closing' | 'mobile';
@@ -31,6 +32,10 @@ export default function HeroStep({
   onSkip,
 }: HeroStepProps) {
   const primaryRef = useRef<HTMLButtonElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  // Keep Tab cycling inside the dialog.
+  useFocusTrap(panelRef);
 
   useEffect(() => {
     primaryRef.current?.focus();
@@ -50,8 +55,8 @@ export default function HeroStep({
   const isMobileSheet = variant === 'mobile';
 
   return createPortal(
-    <div role="dialog" aria-labelledby="watchboard-tour-hero-title" style={styles.backdrop}>
-      <div style={isMobileSheet ? styles.mobileSheet : styles.panel}>
+    <div role="dialog" aria-modal="true" aria-labelledby="watchboard-tour-hero-title" style={styles.backdrop}>
+      <div ref={panelRef} style={isMobileSheet ? styles.mobileSheet : styles.panel}>
         {stepLabel && <div style={styles.stepLabel}>{stepLabel}</div>}
         {variant === 'intro' && <div style={styles.iconRow}>🌐 📺 🔍</div>}
         {variant === 'tiers' && (

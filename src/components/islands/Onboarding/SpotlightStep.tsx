@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, useCallback, useLayoutEffect } from 'react';
 import { createPortal } from 'react-dom';
+import { useFocusTrap } from './useFocusTrap';
 
 interface Rect {
   x: number;
@@ -43,6 +44,10 @@ export default function SpotlightStep({
   const [missing, setMissing] = useState(false);
   const tooltipRef = useRef<HTMLDivElement>(null);
   const loggedMissing = useRef(false);
+
+  // Keep Tab cycling inside the dialog — the page behind is inert visually
+  // but otherwise still focusable.
+  useFocusTrap(tooltipRef);
 
   const measure = useCallback(() => {
     const el = document.querySelector(anchor) as HTMLElement | null;
@@ -105,7 +110,7 @@ export default function SpotlightStep({
   const tooltipPos = computeTooltipPosition(rect);
 
   return createPortal(
-    <div role="dialog" aria-labelledby="watchboard-tour-title" style={styles.root}>
+    <div role="dialog" aria-modal="true" aria-labelledby="watchboard-tour-title" style={styles.root}>
       <svg style={styles.svg} aria-hidden="true">
         <defs>
           <mask id="watchboard-tour-spotlight">

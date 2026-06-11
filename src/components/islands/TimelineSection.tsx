@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { trackEvent } from '../../lib/analytics';
 import type { TimelineEra, TimelineEvent } from '../../lib/schemas';
 import { tierClass, tierLabel } from '../../lib/tier-utils';
-import { t, getPreferredLocale } from '../../i18n/translations';
+import { t } from '../../i18n/translations';
+import { useLocale } from '../../i18n/useLocale';
 import IslandErrorBoundary from './shared/IslandErrorBoundary';
 import { IslandErrorFallback } from './shared/IslandErrorFallback';
 
@@ -21,6 +22,29 @@ interface Props {
   timeline: TimelineEra[];
 }
 
+/**
+ * Derive the displayed year range from the timeline data itself.
+ * Ends in "Present" when the latest event reaches the current year or the
+ * timeline has an event flagged active; empty timelines render no range.
+ */
+function computeYearRange(timeline: TimelineEra[]): string {
+  const years: number[] = [];
+  let hasActive = false;
+  for (const era of timeline) {
+    for (const ev of era.events) {
+      const match = String(ev.year).match(/\d{4}/);
+      if (match) years.push(parseInt(match[0], 10));
+      if (ev.active) hasActive = true;
+    }
+  }
+  if (years.length === 0) return '';
+  const min = Math.min(...years);
+  const max = Math.max(...years);
+  const end = hasActive || max >= new Date().getFullYear() ? 'Present' : String(max);
+  if (String(min) === end) return String(min);
+  return `${min} – ${end}`;
+}
+
 export default function TimelineSection(props: Props) {
   return (
     <IslandErrorBoundary
@@ -36,8 +60,9 @@ export default function TimelineSection(props: Props) {
 }
 
 function TimelineSectionInner({ timeline }: Props) {
-  const locale = getPreferredLocale();
+  const locale = useLocale();
   const [selected, setSelected] = useState<TimelineEvent | null>(null);
+  const yearRange = useMemo(() => computeYearRange(timeline), [timeline]);
 
   const handleClick = (ev: TimelineEvent) => {
     trackEvent('timeline_event_expanded', { event_title: ev.title, year: ev.year });
@@ -56,7 +81,7 @@ function TimelineSectionInner({ timeline }: Props) {
       <div className="section-header">
         <span className="section-num">01</span>
         <h2 className="section-title">{t('timeline.title', locale)}</h2>
-        <span className="section-count">1941 &ndash; Present</span>
+        {yearRange && <span className="section-count">{yearRange}</span>}
       </div>
       <div className="tl-legend">
         {EVENT_TYPES.map(et => (

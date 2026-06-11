@@ -12,8 +12,11 @@ permissions:
   contents: write
   issues: write
 
+# Shared group serializes the small state-commit workflows against each other
+# (post-social-queue, weekly-digest, tally-tracker-votes, backfill, daily-video)
+# so they don't race pushes to main.
 concurrency:
-  group: tracker-votes-tally
+  group: main-commits
   cancel-in-progress: false
 
 jobs:
@@ -160,7 +163,21 @@ jobs:
           if ! git diff --quiet public/_tracker-votes/tally.json; then
             git add public/_tracker-votes/tally.json
             git commit -m "chore(votes): tally tracker-vote issues $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-            git push
+            pushed=false
+            for i in $(seq 1 5); do
+              if git pull --rebase origin main && git push; then
+                echo "Push succeeded on attempt $i"
+                pushed=true
+                break
+              fi
+              git rebase --abort 2>/dev/null || true
+              echo "Push attempt $i failed, retrying with jitter..."
+              sleep $(( (RANDOM % 8) + 3 ))
+            done
+            if [ "$pushed" != "true" ]; then
+              echo "ERROR: failed to push tally after 5 attempts"
+              exit 1
+            fi
           else
             echo "No tally change."
           fi

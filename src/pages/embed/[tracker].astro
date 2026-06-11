@@ -58,8 +58,9 @@ function computeFreshness(updatedAt: string): { label: string; cssClass: string 
 
 const freshness = computeFreshness(lastUpdated);
 
-// Resolve accent color — fallback to neutral blue
-const accentColor = config.color || '#3498db';
+// Resolve accent color — validate as a hex color before interpolating into
+// the inline <style> below (CSS injection guard); fallback to neutral blue.
+const accentColor = /^#[0-9a-fA-F]{3,8}$/.test(config.color || '') ? config.color! : '#3498db';
 
 // Build the full dashboard URL
 const base = import.meta.env.BASE_URL;
@@ -270,7 +271,7 @@ const kpiColors: Record<string, string> = {
   </style>
   <script is:inline>
     if(/[?&]theme=light/.test(location.search))document.documentElement.classList.add('theme-light');
-    (function(){try{var l=localStorage.getItem('watchboard-locale')||navigator.language.slice(0,2);if(['es','fr','pt'].indexOf(l)<0)return;document.querySelectorAll('[data-i18n]').forEach(function(el){var v=el.getAttribute('data-'+l);if(v)el.textContent=v})}catch(e){}})();
+    (function(){try{var l=localStorage.getItem('watchboard-locale')||navigator.language.slice(0,2);if(['es','fr','pt'].indexOf(l)<0)return;document.documentElement.lang=l;document.querySelectorAll('[data-i18n]').forEach(function(el){var v=el.getAttribute('data-'+l);if(v)el.textContent=v})}catch(e){}})();
   </script>
 </head>
 <body>

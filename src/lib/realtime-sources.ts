@@ -63,16 +63,19 @@ export async function pollTelegram(perChannelLimit = 10): Promise<Candidate[]> {
       });
       if (!res.ok) throw new Error(`status ${res.status}`);
       const html = await res.text();
-      const re = /<div class="tgme_widget_message_text[^>]*>([\s\S]*?)<\/div>/g;
-      const idRe = /data-post="([^"]+)"/g;
-      const ids: string[] = [];
-      for (const m of html.matchAll(idRe)) ids.push(m[1]);
-      let i = 0;
-      for (const m of html.matchAll(re)) {
-        if (i >= perChannelLimit) break;
-        const raw = m[1].replace(/<[^>]+>/g, ' ').replace(/&[a-z#0-9]+;/g, ' ').trim();
-        if (raw.length < 10) { i++; continue; }
-        const id = ids[i] ?? `${ch.slug}-${i}`;
+      // Parse each message container holistically: split the page on the
+      // message wrapper, then extract id + text from the SAME block. (Two
+      // parallel matchAll passes desync when a message has no text — e.g.
+      // photo-only posts — and produce wrong post URLs.)
+      const blocks = html.split(/<div class="tgme_widget_message_wrap/).slice(1);
+      let emitted = 0;
+      for (const block of blocks) {
+        if (emitted >= perChannelLimit) break;
+        const id = block.match(/data-post="([^"]+)"/)?.[1];
+        const textMatch = block.match(/<div class="tgme_widget_message_text[^>]*>([\s\S]*?)<\/div>/);
+        if (!id || !textMatch) continue; // photo-only / service messages
+        const raw = textMatch[1].replace(/<[^>]+>/g, ' ').replace(/&[a-z#0-9]+;/g, ' ').trim();
+        if (raw.length < 10) continue;
         const url = `https://t.me/${ch.slug}/${id.split('/').pop()}`;
         out.push(normalizeCandidate(
           { title: raw.slice(0, 280), url, source: `tg:${ch.slug}`, timestamp: new Date().toISOString() },
@@ -80,7 +83,7 @@ export async function pollTelegram(perChannelLimit = 10): Promise<Candidate[]> {
           'telegram',
           { sourceTier: ch.tier },
         ));
-        i++;
+        emitted++;
       }
     } catch (err) {
       console.warn(`[realtime] telegram fetch failed for ${ch.slug}:`, (err as Error).message);

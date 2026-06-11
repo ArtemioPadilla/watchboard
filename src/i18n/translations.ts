@@ -49,6 +49,8 @@ const en = {
   'cc.noResults': 'No trackers match your search.',
   'cc.live': 'LIVE',
   'cc.hist': 'HIST',
+  'cc.tabLive': 'LIVE',
+  'cc.tabTrackers': 'TRACKERS',
 
   // Hero Card
   'hero.day': 'DAY',
@@ -72,6 +74,7 @@ const en = {
   'shortcuts.navigate': 'Navigate trackers',
   'shortcuts.open': 'Open dashboard',
   'shortcuts.follow': 'Follow / unfollow',
+  'shortcuts.compare': 'Compare',
   'shortcuts.rotate': 'Toggle globe rotation',
   'shortcuts.cityLights': 'Toggle city lights',
   'shortcuts.openSelected': 'Open selected tracker',
@@ -633,6 +636,8 @@ const es: TranslationKeys = {
   'cc.noResults': 'Ningún rastreador coincide con tu búsqueda.',
   'cc.live': 'EN VIVO',
   'cc.hist': 'HIST',
+  'cc.tabLive': 'EN VIVO',
+  'cc.tabTrackers': 'RASTREADORES',
 
   'hero.day': 'DÍA',
 
@@ -652,6 +657,7 @@ const es: TranslationKeys = {
   'shortcuts.navigate': 'Navegar rastreadores',
   'shortcuts.open': 'Abrir panel',
   'shortcuts.follow': 'Seguir / dejar de seguir',
+  'shortcuts.compare': 'Comparar',
   'shortcuts.rotate': 'Alternar rotación del globo',
   'shortcuts.cityLights': 'Alternar luces urbanas',
   'shortcuts.openSelected': 'Abrir rastreador seleccionado',
@@ -1195,6 +1201,8 @@ const fr: TranslationKeys = {
   'cc.noResults': 'Aucun tracker ne correspond à votre recherche.',
   'cc.live': 'DIRECT',
   'cc.hist': 'HIST',
+  'cc.tabLive': 'DIRECT',
+  'cc.tabTrackers': 'DOSSIERS',
 
   'hero.day': 'JOUR',
 
@@ -1214,6 +1222,7 @@ const fr: TranslationKeys = {
   'shortcuts.navigate': 'Naviguer les trackers',
   'shortcuts.open': 'Ouvrir le tableau',
   'shortcuts.follow': 'Suivre / ne plus suivre',
+  'shortcuts.compare': 'Comparer',
   'shortcuts.rotate': 'Alterner la rotation du globe',
   'shortcuts.cityLights': 'Alterner les lumières urbaines',
   'shortcuts.openSelected': 'Ouvrir le tracker sélectionné',
@@ -1757,6 +1766,8 @@ const pt: TranslationKeys = {
   'cc.noResults': 'Nenhum tracker corresponde à sua busca.',
   'cc.live': 'AO VIVO',
   'cc.hist': 'HIST',
+  'cc.tabLive': 'AO VIVO',
+  'cc.tabTrackers': 'RASTREADORES',
 
   'hero.day': 'DIA',
 
@@ -1776,6 +1787,7 @@ const pt: TranslationKeys = {
   'shortcuts.navigate': 'Navegar trackers',
   'shortcuts.open': 'Abrir painel',
   'shortcuts.follow': 'Seguir / deixar de seguir',
+  'shortcuts.compare': 'Comparar',
   'shortcuts.rotate': 'Alternar rotação do globo',
   'shortcuts.cityLights': 'Alternar luzes urbanas',
   'shortcuts.openSelected': 'Abrir tracker selecionado',

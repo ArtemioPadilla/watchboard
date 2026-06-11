@@ -8,7 +8,7 @@ import {
   spring,
 } from 'remotion';
 import type { BreakingTracker } from '../data/types';
-import { DEFAULT_SLIDE_STYLE, alpha, type SlideStyle } from '../data/slide-style';
+import { DEFAULT_SLIDE_STYLE, alpha, mergeStyle, type SlideStyle } from '../data/slide-style';
 
 interface TrackerSlideProps {
   tracker: BreakingTracker;
@@ -20,16 +20,6 @@ interface TrackerSlideProps {
    * The Studio's "Default Props" panel can edit this object live for visual tuning.
    */
   style?: Partial<SlideStyle>;
-}
-
-/** Deep-merge a partial style override on top of defaults. */
-function mergeStyle(override?: Partial<SlideStyle>): SlideStyle {
-  if (!override) return DEFAULT_SLIDE_STYLE;
-  const out: SlideStyle = JSON.parse(JSON.stringify(DEFAULT_SLIDE_STYLE));
-  for (const key of Object.keys(override) as Array<keyof SlideStyle>) {
-    Object.assign(out[key] as object, override[key] as object);
-  }
-  return out;
 }
 
 const TIER_LABELS: Record<number, string> = {
@@ -70,7 +60,7 @@ export const TrackerSlide: React.FC<TrackerSlideProps> = ({
   theme = 'dark',
   style,
 }) => {
-  const S = mergeStyle(style);
+  const S = mergeStyle(DEFAULT_SLIDE_STYLE, style);
   // Day theme overrides the tier badge text color to stay readable
   const badgeTextColor = theme === 'day' ? '#0a0e1a' : '#0a0b0e';
   const frame = useCurrentFrame();

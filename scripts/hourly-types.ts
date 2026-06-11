@@ -11,9 +11,21 @@ export interface SeenEntry {
   ts: string;
 }
 
+/** A high-confidence candidate whose Telegram alert failed to send.
+ *  The next light scan retries the alert (the candidate is still queued to
+ *  pending for the heavy scan regardless). */
+export interface TelegramFailedEntry {
+  url: string;
+  title: string;
+  tracker: string;
+  score: number;
+  ts: string;
+}
+
 export interface HourlyState {
   lastScan: string;
   seen: SeenEntry[];
+  telegramFailed?: TelegramFailedEntry[];
 }
 
 export interface ManifestUpdate {
@@ -108,6 +120,9 @@ export interface TriageLog {
   version: 1;
   lastPruned: string;
   entries: TriageLogEntry[];
+  /** Index of available weekly archive files (e.g. "2026-W23" →
+   *  triage-log-2026-W23.json). Present on the main log only. */
+  weeks?: string[];
 }
 
 // --- Paths ---
@@ -138,6 +153,7 @@ export function loadState(path: string = PATHS.state): HourlyState {
     const raw: HourlyState = JSON.parse(readFileSync(path, 'utf8'));
     const cutoff = new Date(Date.now() - PRUNE_HOURS * 60 * 60 * 1000).toISOString();
     raw.seen = raw.seen.filter(e => e.ts > cutoff);
+    if (raw.telegramFailed) raw.telegramFailed = raw.telegramFailed.filter(e => e.ts > cutoff);
     return raw;
   } catch {
     return { lastScan: '', seen: [] };

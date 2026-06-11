@@ -15,27 +15,33 @@ interface Props {
  * notifications for trackers that have been updated since.
  */
 export default function NotificationManager({ trackers, followedSlugs }: Props) {
-  const hasRun = useRef(false);
+  // Last-seen timestamp is read (and bumped) once per visit; the effect
+  // itself re-runs when followedSlugs changes so trackers followed during
+  // the session still get their notification without a reload.
+  const lastSeenTimeRef = useRef<number | null>(null);
+  const notifiedSlugs = useRef<Set<string>>(new Set());
 
   useEffect(() => {
-    if (hasRun.current || followedSlugs.length === 0) return;
-    hasRun.current = true;
+    if (followedSlugs.length === 0) return;
 
     // Only run if notifications are supported and permitted
     if (!('Notification' in window)) return;
     if (Notification.permission === 'denied') return;
 
-    const lastSeen = localStorage.getItem(NOTIF_KEY);
-    const lastSeenTime = lastSeen ? new Date(lastSeen).getTime() : 0;
-
-    // Save current visit time
-    localStorage.setItem(NOTIF_KEY, new Date().toISOString());
+    if (lastSeenTimeRef.current === null) {
+      const lastSeen = localStorage.getItem(NOTIF_KEY);
+      lastSeenTimeRef.current = lastSeen ? new Date(lastSeen).getTime() : 0;
+      // Save current visit time
+      localStorage.setItem(NOTIF_KEY, new Date().toISOString());
+    }
+    const lastSeenTime = lastSeenTimeRef.current;
 
     if (!lastSeenTime) return; // First visit, don't notify
 
-    // Find followed trackers updated since last visit
+    // Find followed trackers updated since last visit (skip already-notified)
     const updatedTrackers = trackers.filter(t =>
       followedSlugs.includes(t.slug) &&
+      !notifiedSlugs.current.has(t.slug) &&
       new Date(t.lastUpdated).getTime() > lastSeenTime
     );
 
@@ -45,6 +51,7 @@ export default function NotificationManager({ trackers, followedSlugs }: Props) 
     const locale = getPreferredLocale();
     const showNotifications = () => {
       for (const tr of updatedTrackers.slice(0, 3)) {
+        notifiedSlugs.current.add(tr.slug);
         const title = `${tr.icon || ''} ${tr.shortName} ${translate('notify.updated', locale)}`;
         const body = tr.headline
           ? tr.headline.slice(0, 100)

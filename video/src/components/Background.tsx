@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { AbsoluteFill, useCurrentFrame, interpolate } from 'remotion';
+import { alpha } from '../data/slide-style';
 
 interface Star {
   x: number;
@@ -23,7 +24,7 @@ const THEMES = {
     starColor: '#e8e9ed',
     gridColor: '#2a2d3a',
     vignetteColor: 'rgba(10, 11, 14, 0.6)',
-    scanlineColor: 'rgba(231, 76, 60,',
+    scanlineColor: '#e74c3c',
     sunGlow: false,
   },
   day: {
@@ -33,7 +34,7 @@ const THEMES = {
     starColor: '#fff8e7',
     gridColor: 'rgba(200, 160, 80, 0.08)',
     vignetteColor: 'rgba(10, 14, 26, 0.5)',
-    scanlineColor: 'rgba(240, 165, 0,',
+    scanlineColor: '#f0a500',
     sunGlow: true,
   },
 } as const;
@@ -178,11 +179,10 @@ export const Background: React.FC<BackgroundProps> = ({ theme = 'dark' }) => {
           left: 0,
           right: 0,
           height: 4,
-          background: `linear-gradient(90deg, transparent, ${t.scanlineColor} ${interpolate(
-            Math.sin(frame * 0.08),
-            [-1, 1],
-            [0, 0.15],
-          )}), transparent)`,
+          background: `linear-gradient(90deg, transparent, ${alpha(
+            t.scanlineColor,
+            interpolate(Math.sin(frame * 0.08), [-1, 1], [0, 0.15]),
+          )}, transparent)`,
           transform: `translateY(${(frame * 2) % 1920}px)`,
         }}
       />

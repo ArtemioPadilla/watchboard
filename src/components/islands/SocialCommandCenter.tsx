@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
-import { t, getPreferredLocale } from '../../i18n/translations';
-import type { Locale } from '../../i18n/translations';
+import { t } from '../../i18n/translations';
+import type { Locale, TranslationKey } from '../../i18n/translations';
+import { useLocale } from '../../i18n/useLocale';
 
 /* ── Types (mirror scripts/social-types.ts for client) ── */
 
@@ -115,7 +116,7 @@ const FC_COLORS: Record<FactCheckStatus, string> = {
   failed: '#f85149',
 };
 
-const STATUS_FILTERS: Array<{ key: string; labelKey: string }> = [
+const STATUS_FILTERS: Array<{ key: string; labelKey: TranslationKey }> = [
   { key: 'all', labelKey: 'social.filterAll' },
   { key: 'auto_approved', labelKey: 'social.filterAuto' },
   { key: 'pending_review', labelKey: 'social.filterReview' },
@@ -126,7 +127,7 @@ const STATUS_FILTERS: Array<{ key: string; labelKey: string }> = [
   { key: 'posted', labelKey: 'social.filterPosted' },
 ];
 
-const TYPE_FILTERS: Array<{ key: string; labelKey: string }> = [
+const TYPE_FILTERS: Array<{ key: string; labelKey: TranslationKey }> = [
   { key: 'all', labelKey: 'social.filterAllTypes' },
   { key: 'digest', labelKey: 'social.typeDigest' },
   { key: 'breaking', labelKey: 'social.typeBreaking' },
@@ -252,7 +253,7 @@ function VerifiedBadgeSvg() {
 
 type TabId = 'overview' | 'queue' | 'activity';
 
-const TABS: Array<{ id: TabId; labelKey: string }> = [
+const TABS: Array<{ id: TabId; labelKey: TranslationKey }> = [
   { id: 'overview', labelKey: 'social.tabOverview' },
   { id: 'activity', labelKey: 'social.tabActivity' },
   { id: 'queue', labelKey: 'social.tabQueue' },
@@ -300,7 +301,7 @@ function MiniBar({ data, color = '#58a6ff', width = 120, height = 32 }: { data: 
 /* ── Component ── */
 
 export default function SocialCommandCenter({ basePath, githubRepo }: Props) {
-  const locale = getPreferredLocale();
+  const locale = useLocale();
   const [queue, setQueue] = useState<QueueEntry[]>([]);
   const [budget, setBudget] = useState<BudgetData | null>(null);
   const [history, setHistory] = useState<HistoryEntry[]>([]);
@@ -314,11 +315,23 @@ export default function SocialCommandCenter({ basePath, githubRepo }: Props) {
   const [expandedHistory, setExpandedHistory] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [ghToken, setGhToken] = useState<string>(
-    typeof window !== 'undefined' ? localStorage.getItem('wb_gh_token') ?? '' : '',
-  );
+  // Token starts empty (matches SSR) and loads from sessionStorage after
+  // mount — avoids a hydration mismatch and keeps the PAT out of persistent
+  // localStorage (sessionStorage is cleared when the tab closes).
+  const [ghToken, setGhToken] = useState<string>('');
+  const [showTokenInput, setShowTokenInput] = useState(false);
+  const [tokenDraft, setTokenDraft] = useState('');
   const [savingIds, setSavingIds] = useState<Set<string>>(new Set());
   const [batchSaving, setBatchSaving] = useState(false);
+
+  useEffect(() => {
+    try {
+      const stored = sessionStorage.getItem('wb_gh_token');
+      if (stored) setGhToken(stored);
+      // Purge any token left behind by the old localStorage flow.
+      localStorage.removeItem('wb_gh_token');
+    } catch { /* storage unavailable */ }
+  }, []);
 
   /* ── Data fetching ── */
 
@@ -471,17 +484,20 @@ export default function SocialCommandCenter({ basePath, githubRepo }: Props) {
 
   /* ── Auth handlers ── */
 
-  const handleAuthenticate = useCallback(() => {
-    const token = prompt(t('social.enterPat', locale));
-    if (token) {
-      setGhToken(token);
-      localStorage.setItem('wb_gh_token', token);
-    }
-  }, []);
+  const handleTokenSubmit = useCallback(() => {
+    const token = tokenDraft.trim();
+    if (!token) return;
+    setGhToken(token);
+    try { sessionStorage.setItem('wb_gh_token', token); } catch { /* ignore */ }
+    setTokenDraft('');
+    setShowTokenInput(false);
+  }, [tokenDraft]);
 
   const handleLogout = useCallback(() => {
     setGhToken('');
-    localStorage.removeItem('wb_gh_token');
+    try { sessionStorage.removeItem('wb_gh_token'); } catch { /* ignore */ }
+    // One-shot migration: drop any token persisted by the old localStorage flow
+    try { localStorage.removeItem('wb_gh_token'); } catch { /* ignore */ }
   }, []);
 
   /* ── GitHub API helper ── */
@@ -714,8 +730,42 @@ export default function SocialCommandCenter({ basePath, githubRepo }: Props) {
               <span className="scc-auth-badge authenticated">{t('social.authenticated', locale)}</span>
               <button className="scc-auth-btn logout" onClick={handleLogout}>{t('social.logOut', locale)}</button>
             </>
+          ) : showTokenInput ? (
+            <form
+              onSubmit={(e) => { e.preventDefault(); handleTokenSubmit(); }}
+              style={{ display: 'flex', alignItems: 'center', gap: 6 }}
+            >
+              <input
+                type="password"
+                value={tokenDraft}
+                onChange={(e) => setTokenDraft(e.target.value)}
+                placeholder={t('social.enterPat', locale)}
+                aria-label={t('social.enterPat', locale)}
+                autoFocus
+                autoComplete="off"
+                style={{
+                  background: 'var(--bg-card, #161b22)',
+                  border: '1px solid var(--border, #30363d)',
+                  borderRadius: 6,
+                  color: 'var(--text-primary, #e6edf3)',
+                  fontSize: '0.7rem',
+                  padding: '4px 8px',
+                  width: 220,
+                }}
+              />
+              <button type="submit" className="scc-auth-btn login" disabled={!tokenDraft.trim()}>
+                OK
+              </button>
+              <button
+                type="button"
+                className="scc-auth-btn logout"
+                onClick={() => { setShowTokenInput(false); setTokenDraft(''); }}
+              >
+                ✕
+              </button>
+            </form>
           ) : (
-            <button className="scc-auth-btn login" onClick={handleAuthenticate}>{t('social.authenticate', locale)}</button>
+            <button className="scc-auth-btn login" onClick={() => setShowTokenInput(true)}>{t('social.authenticate', locale)}</button>
           )}
         </div>
       </div>
@@ -965,7 +1015,7 @@ function QueueCard({
   onEdit,
   onReject,
 }: QueueCardProps) {
-  const locale = getPreferredLocale();
+  const locale = useLocale();
   const verdict = entry.judge.verdict;
   const typeColor = TYPE_COLORS[entry.type] ?? '#8b949e';
   const verdictColor = VERDICT_COLORS[verdict] ?? '#8b949e';

@@ -17,6 +17,16 @@ import { selectHeroTracker } from '../../../lib/hero-selection';
 import { sortByRelevance } from '../../../lib/relevance';
 import { useTrackerDetail } from './useTrackerDetail';
 
+/** OSM tile fallback for the expanded-row thumbnail (media → tile → hidden). */
+function mapTileUrl(lat: number, lon: number, zoom = 5): string {
+  const n = Math.pow(2, zoom);
+  const x = Math.floor(((lon + 180) / 360) * n);
+  const y = Math.floor(
+    ((1 - Math.log(Math.tan((lat * Math.PI) / 180) + 1 / Math.cos((lat * Math.PI) / 180)) / Math.PI) / 2) * n,
+  );
+  return `https://tile.openstreetmap.org/${zoom}/${x}/${y}.png`;
+}
+
 interface Props {
   trackers: TrackerCardData[];
   basePath: string;
@@ -83,6 +93,15 @@ const TrackerRow = memo(function TrackerRow({
   const href = `${basePath}${localePrefix}${tracker.slug}/`;
   const rowRef = useRef<HTMLDivElement>(null);
 
+  // Expanded-row thumbnail fallback: event media → OSM tile → hidden.
+  const [mediaThumbFailed, setMediaThumbFailed] = useState(false);
+  const [tileThumbFailed, setTileThumbFailed] = useState(false);
+  const showMediaThumb = !!tracker.latestEventMedia && !mediaThumbFailed;
+  const tileThumbUrl = tracker.mapCenter && !tileThumbFailed
+    ? mapTileUrl(tracker.mapCenter.lat, tracker.mapCenter.lon)
+    : undefined;
+  const expandedThumbUrl = showMediaThumb ? tracker.latestEventMedia!.url : tileThumbUrl;
+
   // Lazy-fetch detail (es translations, full digest) when this row is the
   // active/expanded one. Only fires when isActive flips true, which is
   // exactly the user gesture the perf split was designed around. Cached in
@@ -139,19 +158,24 @@ const TrackerRow = memo(function TrackerRow({
           </div>
         )}
 
-        {tracker.latestEventMedia && (
+        {tracker.latestEventMedia && expandedThumbUrl && (
           <div style={S.mediaThumbnail}>
             <img
-              src={tracker.latestEventMedia.url}
-              alt={`Latest event image for ${tracker.shortName}`}
+              key={expandedThumbUrl}
+              src={expandedThumbUrl}
+              alt={showMediaThumb
+                ? `Latest event image for ${tracker.shortName}`
+                : `Map near ${tracker.shortName}`}
               style={S.mediaThumbnailImg}
               loading="lazy"
               referrerPolicy="no-referrer"
-              onError={(e) => { (e.target as HTMLImageElement).parentElement!.style.display = 'none'; }}
+              onError={() => (showMediaThumb ? setMediaThumbFailed(true) : setTileThumbFailed(true))}
             />
-            <span style={S.mediaThumbnailAttr}>
-              {tracker.latestEventMedia.source} · T{tracker.latestEventMedia.tier}
-            </span>
+            {showMediaThumb && (
+              <span style={S.mediaThumbnailAttr}>
+                {tracker.latestEventMedia.source} · T{tracker.latestEventMedia.tier}
+              </span>
+            )}
           </div>
         )}
 

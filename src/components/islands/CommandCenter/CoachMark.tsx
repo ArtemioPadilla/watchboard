@@ -1,5 +1,6 @@
 import type { CoachHint } from '../../../lib/onboarding';
-import { t, getPreferredLocale } from '../../../i18n/translations';
+import { t } from '../../../i18n/translations';
+import { useLocale } from '../../../i18n/useLocale';
 
 interface CoachMarkProps {
   hint: CoachHint;
@@ -7,7 +8,7 @@ interface CoachMarkProps {
 }
 
 export default function CoachMark({ hint, onDismiss }: CoachMarkProps) {
-  const locale = getPreferredLocale();
+  const locale = useLocale();
   // Position based on anchor type
   const positionStyle = getPositionStyle(hint.anchor);
 

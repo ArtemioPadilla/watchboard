@@ -1,6 +1,6 @@
 import { Ion } from 'cesium';
 
-const ION_TOKEN = (import.meta as any).env?.PUBLIC_CESIUM_ION_TOKEN || '';
+const ION_TOKEN = import.meta.env.PUBLIC_CESIUM_ION_TOKEN ?? '';
 
 export function configureCesium() {
   if (ION_TOKEN) {
