@@ -165,11 +165,30 @@ jobs:
             node -e "
               const fs = require('fs');
               const plan = JSON.parse(fs.readFileSync('/tmp/hourly-action-plan.json','utf8'));
-              const hasActions = plan.updates.length > 0 || plan.newTrackers.length > 0;
+
+              // Validate 'update' entries reference an existing tracker slug.
+              // The AI triage step can hallucinate/typo slugs (e.g. 'sahel' instead of
+              // 'sahel-insurgency'), which breaks the downstream act job at the
+              // 'cp tracker.json' step. Drop those here instead of failing the run.
+              const validUpdates = [];
+              const invalidUpdates = [];
+              for (const u of plan.updates) {
+                const configPath = 'trackers/' + u.tracker + '/tracker.json';
+                if (fs.existsSync(configPath)) {
+                  validUpdates.push(u);
+                } else {
+                  invalidUpdates.push(u.tracker);
+                }
+              }
+              if (invalidUpdates.length > 0) {
+                console.log('Dropping updates for unknown tracker slug(s): ' + invalidUpdates.join(', '));
+              }
+
+              const hasActions = validUpdates.length > 0 || plan.newTrackers.length > 0;
               console.log('has_actions=' + hasActions);
 
               const entries = [];
-              for (const u of plan.updates) {
+              for (const u of validUpdates) {
                 entries.push({ type: 'update', tracker: u.tracker, data: JSON.stringify(u) });
               }
               for (const nt of plan.newTrackers) {
@@ -718,6 +737,55 @@ jobs:
               }
               console.log('Zod validation passed' + (fixed > 0 ? ' (auto-fixed ' + fixed + ' fields)' : ''));
             } catch(e: any) { console.error('Zod error (after auto-fix attempt):', e.message); process.exit(1); }
+          "
+
+          # Also schema-validate the other data files the AI may have touched
+          # (map-lines, map-points, kpis, meta, digests, etc). Previously only
+          # events/*.json was Zod-checked here, so a bad map-lines.json entry
+          # (e.g. a full ISO timestamp instead of "HH:MM" in the `time` field)
+          # could sit broken for days until the nightly full-repo validate-data
+          # run in deploy.yml caught it. See: ukraine-war map-lines.json time
+          # format bug, 2026-06-27 to 2026-07-04.
+          npx tsx -e "
+            import * as S from './src/lib/schemas.js';
+            import { z } from 'zod';
+            import { existsSync, readFileSync } from 'fs';
+
+            const dir = 'trackers/$TRACKER/data';
+            const schemaMap: Record<string, z.ZodTypeAny> = {
+              'kpis.json': z.array(S.KpiSchema),
+              'timeline.json': z.array(S.TimelineEraSchema),
+              'map-points.json': z.array(S.MapPointSchema),
+              'map-lines.json': z.array(S.MapLineSchema),
+              'strike-targets.json': z.array(S.StrikeItemSchema),
+              'retaliation.json': z.array(S.StrikeItemSchema),
+              'assets.json': z.array(S.AssetSchema),
+              'casualties.json': z.array(S.CasualtyRowSchema),
+              'econ.json': z.array(S.EconItemSchema),
+              'claims.json': z.array(S.ClaimSchema),
+              'political.json': z.array(S.PolItemSchema),
+              'meta.json': S.MetaSchema,
+              'digests.json': z.array(S.DigestEntrySchema),
+            };
+
+            let failed = false;
+            for (const [file, schema] of Object.entries(schemaMap)) {
+              const fp = dir + '/' + file;
+              if (!existsSync(fp)) continue;
+              const raw = JSON.parse(readFileSync(fp, 'utf8'));
+              const result = schema.safeParse(raw);
+              if (!result.success) {
+                failed = true;
+                console.error('  ✗', file);
+                for (const err of result.error.errors.slice(0, 5)) {
+                  console.error('    ', err.path.join('.'), ':', err.message);
+                }
+              } else {
+                console.log('  ✓', file);
+              }
+            }
+            if (failed) { console.error('Schema validation failed for tracker data files'); process.exit(1); }
+            console.log('Tracker data file schema validation passed');
           "
 
       - name: Update update-log
