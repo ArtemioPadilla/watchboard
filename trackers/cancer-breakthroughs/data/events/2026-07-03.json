@@ -1,0 +1,32 @@
+[
+  {
+    "id": "compass-ai-immunotherapy-prediction-model-2026",
+    "year": "Jul 3, 2026",
+    "title": "Harvard's COMPASS AI Model Predicts Immunotherapy Response Across 33 Cancer Types",
+    "type": "discovery",
+    "detail": "Harvard Medical School researchers published COMPASS, a pan-cancer AI foundation model that predicts which patients will respond to immune checkpoint inhibitors, in Nature Medicine. COMPASS uses a concept bottleneck transformer that encodes tumor gene-expression data into 44 biologically grounded immune concepts (immune cell states, tumor-microenvironment interactions, signaling pathways), and was pretrained on 10,184 tumors spanning 33 cancer types before fine-tuning on 16 clinical cohorts covering 1,133 ICI-treated patients across seven cancers and six checkpoint inhibitor regimens (anti-PD-1, anti-PD-L1, anti-CTLA-4, and combinations). It outperformed 22 existing prediction methods by roughly 8.5% in accuracy and 15.7% in area-under-precision-recall-curve on average, and generalizes to cancer types and drugs not seen during fine-tuning — a step toward AI-guided patient stratification for immunotherapy.",
+    "sources": [
+      {
+        "name": "Nature Medicine",
+        "tier": 1,
+        "url": "https://www.nature.com/articles/s41591-026-04502-7",
+        "pole": "western"
+      },
+      {
+        "name": "Medical Xpress",
+        "tier": 3,
+        "url": "https://medicalxpress.com/news/2026-07-ai-tool-cancer-immunotherapy-drugs.html",
+        "pole": "western"
+      }
+    ],
+    "media": [
+      {
+        "type": "article",
+        "url": "https://medicalxpress.com/news/2026-07-ai-tool-cancer-immunotherapy-drugs.html",
+        "caption": "COMPASS, a Harvard-developed AI model, predicts cancer immunotherapy response across 33 cancer types by analyzing tumor gene-expression patterns",
+        "source": "Medical Xpress",
+        "thumbnail": "https://scx1.b-cdn.net/csz/news/800a/2026/ai-tool-improves-predi-1.jpg"
+      }
+    ]
+  }
+]

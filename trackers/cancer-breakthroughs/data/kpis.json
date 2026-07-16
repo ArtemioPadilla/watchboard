@@ -121,14 +121,14 @@
   {
     "id": "fda-oncology-approvals-2026-ytd",
     "label": "FDA Oncology Approvals in 2026 (Year-to-Date)",
-    "value": "17+",
+    "value": "22+",
     "color": "green",
-    "source": "FDA CDER/CBER Drug Approval Databases — cumulative through June 7, 2026",
+    "source": "FDA CDER/CBER Drug Approval Databases — cumulative through July 14, 2026",
     "contested": false,
-    "delta": "June 2026 additions: Cavhanza nilotinib ODT for CML (June 2), generic eribulin (Lupin/Natco) for metastatic breast/liposarcoma (June 3); FDA fast-track granted giredestrant (June 2); daraxonrasib expanded access authorized ahead of full NDA",
-    "deltaNote": "ASCO 2026 (May 29–June 2) produced 5 Plenary Session results: daraxonrasib/RASolute 302 (pancreatic cancer, OS HR 0.40 — near-doubling of survival), adjuvant selpercatinib/LIBRETTO-432 (RET+ NSCLC, EFS HR 0.172), perioperative apalutamide/PROTEUS (high-risk prostate), abemaciclib/SARC041 (liposarcoma, first positive Ph3 ever), plus intismeran autogene 5-year melanoma data (HR 0.51)",
+    "delta": "June-July additions: belzutifan+pembrolizumab adjuvant RCC (June 12), capivasertib+abiraterone PTEN-deficient prostate cancer (June 12), Tecelra converted to full approval + pediatric expansion (June 22), Tregzi — first regulatory T-cell therapy (June 30), gedatolisib/Revtorpyk — first pan-PI3K/mTOR inhibitor (July 14)",
+    "deltaNote": "ASCO 2026 (May 29–June 2) produced 5 Plenary Session results: daraxonrasib/RASolute 302 (pancreatic cancer, OS HR 0.40), adjuvant selpercatinib/LIBRETTO-432 (RET+ NSCLC, EFS HR 0.172), perioperative apalutamide/PROTEUS (high-risk prostate), abemaciclib/SARC041 (liposarcoma), plus intismeran autogene 5-year melanoma data (HR 0.51); pace continued through summer with 5 more approvals across kidney, prostate, sarcoma, transplant, and breast cancer",
     "trend": "up",
-    "lastUpdated": "2026-06-07"
+    "lastUpdated": "2026-07-16"
   },
   {
     "id": "daraxonrasib-pancreatic-os-hr",
@@ -141,5 +141,29 @@
     "deltaNote": "Largest OS benefit ever demonstrated in a Phase 3 trial for pancreatic ductal adenocarcinoma. RAS mutations (primarily KRAS G12D, G12V) drive ~90% of PDAC; daraxonrasib is an oral pan-RAS(ON) inhibitor. FDA expanded access authorized; NDA filing accelerated for 2026 submission.",
     "trend": "up",
     "lastUpdated": "2026-06-01"
+  },
+  {
+    "id": "compass-ai-immunotherapy-accuracy-gain",
+    "label": "COMPASS AI Model Accuracy Gain vs. Prior Immunotherapy-Response Predictors",
+    "value": "+8.5%",
+    "color": "blue",
+    "source": "Harvard Medical School — Nature Medicine, July 3, 2026",
+    "contested": false,
+    "delta": "Also +15.7% AUPRC vs. 22 existing methods",
+    "deltaNote": "Pan-cancer foundation model trained on 10,184 tumors across 33 cancer types, fine-tuned on 16 clinical cohorts (1,133 ICI-treated patients, 7 cancers, 6 checkpoint inhibitor regimens); generalizes to cancers/drugs not seen during fine-tuning",
+    "trend": "up",
+    "lastUpdated": "2026-07-03"
+  },
+  {
+    "id": "gedatolisib-first-pan-pi3k-mtor-approval",
+    "label": "Pan-PI3K/mTOR Inhibitor — First FDA Approval (Any Disease)",
+    "value": "1 (First Ever)",
+    "color": "green",
+    "source": "FDA — Celcuity Revtorpyk (gedatolisib) approval, July 14, 2026",
+    "contested": false,
+    "delta": "VIKTORIA-1 triplet PFS 9.3 vs. 2.0 months (fulvestrant alone)",
+    "deltaNote": "Only approved inhibitor of all class I PI3K isoforms (alpha, beta, delta, gamma) plus mTORC1 and mTORC2; approved with fulvestrant +/- palbociclib for PIK3CA-wild-type HR+/HER2- advanced breast cancer",
+    "trend": "up",
+    "lastUpdated": "2026-07-14"
   }
 ]

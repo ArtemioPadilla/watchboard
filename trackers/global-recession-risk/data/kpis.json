@@ -39,50 +39,50 @@
   {
     "id": "us-unemployment",
     "label": "US Unemployment Rate",
-    "value": "4.3%",
+    "value": "4.2%",
     "color": "amber",
-    "source": "BLS April 2026 Employment Situation (released May 8, 2026)",
+    "source": "BLS June 2026 Employment Situation (released July 2, 2026)",
     "contested": false,
-    "delta": "+0.9pp",
-    "deltaNote": "vs 2023 trough (3.4%). April 2026 CONFIRMED 4.3% (unchanged from March) — BLS May 8 release. April payrolls: +115,000 (strong beat vs ~60K consensus). February now revised to –156,000 (deepest monthly loss since April 2020, from prior –133K). March revised up to +185,000. Part-time for economic reasons +445K to 4.9M. Federal government –9K (DOGE cuts continuing).",
+    "delta": "-0.1pp vs May (4.3%)",
+    "deltaNote": "June 2026 (July 2): Unemployment fell to 4.2% (vs 4.3% expected) — but largely because labor-force participation dropped to 61.5%, the lowest since March 2021, rather than from underlying strength. June NFP +57,000, a sharp slowdown from May's downwardly-revised +129,000; April/May combined revised down 74,000. Average hourly earnings +0.3% to $37.64 (+3.5% YoY).",
     "trend": "down",
-    "lastUpdated": "2026-05-08T14:20:00Z"
+    "lastUpdated": "2026-07-02T13:30:00Z"
   },
   {
     "id": "us-core-pce",
-    "label": "US PCE Inflation (April 2026 — 3-Year High)",
-    "value": "3.3% Core / 3.8% Headline",
+    "label": "US PCE Inflation (May 2026 — Highest Since 2023)",
+    "value": "3.4% Core / 4.1% Headline",
     "color": "red",
-    "source": "BEA PCE Release, April 2026 (released May 28, 2026)",
+    "source": "BEA PCE Release, May 2026 (released June 25, 2026)",
     "contested": false,
-    "delta": "+0.1pp core / +0.3pp headline vs March",
-    "deltaNote": "APRIL 2026 (released May 28): Core PCE 3.3% YoY (+0.2% MoM — softer than +0.3% feared); Headline PCE 3.8% YoY (+0.4% MoM — below +0.5% consensus). YoY prints are 3-year highs (highest core since Oct 2025; highest headline since May 2023). 'Supercore' services PCE (ex-energy, ex-housing) decelerated to +0.1% MoM — the one dovish signal. Real disposable income: -0.5% MoM (2nd consecutive decline). Saving rate: 2.6% multi-year low. Energy (gasoline +5.5% MoM) drove the headline surge. Warsh prefers trimmed-mean gauge — which eased. June FOMC hold: ~99% priced.",
+    "delta": "+0.1pp core / +0.3pp headline vs April",
+    "deltaNote": "MAY 2026 (released June 25): Headline PCE 4.1% YoY (+0.4% MoM) — highest since April 2023. Core PCE 3.4% YoY (vs 3.3% forecast). Personal income and spending each +0.7% MoM; saving rate held at 3%. Released just over a week after Warsh's hawkish dot plot, complicating the disinflation narrative even as Iran-deal oil relief began working through the data. June CPI (July 14) subsequently cooled to 3.5%, suggesting May PCE may mark the cycle high.",
     "trend": "up",
-    "lastUpdated": "2026-05-28T13:30:00Z"
+    "lastUpdated": "2026-06-25T13:30:00Z"
   },
   {
     "id": "fed-funds-rate",
     "label": "Fed Funds Rate",
     "value": "3.50–3.75%",
     "color": "blue",
-    "source": "Federal Reserve FOMC, Apr 29 2026 (unanimous hold — Powell's final meeting)",
+    "source": "Federal Reserve FOMC, June 17 2026 (Warsh's first meeting — unanimous hold)",
     "contested": false,
-    "delta": "-175 bps",
-    "deltaNote": "vs peak (5.25–5.50%, Aug 2023–Sep 2024); FOMC held unanimously at Apr 29 — Powell's final meeting. Warsh floor vote expected week of May 11. JPMorgan: zero cuts 2026, possible hike Q3 2027.",
-    "trend": "down",
-    "lastUpdated": "2026-04-29T19:00:00Z"
+    "delta": "Held; hawkish dot plot signals hike ahead",
+    "deltaNote": "June 16-17: Warsh's first FOMC as Chair unanimously held at 3.50-3.75%. The Summary of Economic Projections turned hawkish: 2026 median dot rose to 3.8% from 3.4% in March — implying a hike, not a cut — with 9 of 18 members projecting ≥1 hike. 2026 PCE forecast raised to 3.6% from 2.7%. Warsh declined to submit his own dot. Next FOMC July 28-29 is a non-SEP meeting; consensus expects another hold.",
+    "trend": "up",
+    "lastUpdated": "2026-06-17T18:00:00Z"
   },
   {
     "id": "ecb-deposit-rate",
     "label": "ECB Deposit Facility Rate",
-    "value": "2.00%",
+    "value": "2.25%",
     "color": "blue",
-    "source": "ECB Governing Council, Apr 30 2026 (hold; Eurozone CPI flash 3.0%)",
+    "source": "ECB Governing Council, June 11 2026 (25bp hike — first since July 2023)",
     "contested": false,
-    "delta": "-200 bps",
-    "deltaNote": "8 consecutive cuts from 4.00% (Jun 2024) to 2.00% (Jun 2025). Apr 30: Held at 2.00% as Eurozone April CPI flash hit 3.0% (up from 2.3%) — Iran war energy shock reverses ECB disinflation progress.",
-    "trend": "down",
-    "lastUpdated": "2026-04-30T13:45:00Z"
+    "delta": "+25 bps",
+    "deltaNote": "June 11: ECB raised all three key rates 25bp — deposit facility to 2.25%, main refi to 2.40%, marginal lending to 2.65% (effective June 17). First hike since July 2023, reversing the final step of the prior 8-cut easing cycle. New staff projections: HICP 3.0% (2026)/2.3% (2027)/2.0% (2028); growth cut to 0.8%/1.2%/1.5%. Lagarde left the door open to further tightening.",
+    "trend": "up",
+    "lastUpdated": "2026-06-11T13:00:00Z"
   },
   {
     "id": "us-10y-treasury-yield",
@@ -123,49 +123,61 @@
   {
     "id": "vix-fear-gauge",
     "label": "S&P 500 / Market Risk Gauge",
-    "value": "S&P 500 –2.6% June 5 to 7,383.74 (Worst Day Since Oct 2025); Goldman 15% Recession Probability; ECB June 11 Hike 99%; BOJ June 16 Hike 96%+; Warsh FOMC June 16-17 (9 Days); Iran MOU Day 9 Unsigned; Section 122 Cliff 47 Days",
+    "value": "S&P 500 7,572.40 (Jul 14 Close, +0.38%); H1 2026 +9.6% (Best Since 2020); Goldman Recession Probability Confirmed at 15% (Jun 22); June CPI Cools to 3.5%",
     "color": "amber",
-    "source": "Yahoo Finance / TheStreet / Goldman Sachs / Bloomberg; June 5-7, 2026",
+    "source": "CNBC / CNN / Goldman Sachs; June 22 – July 14, 2026",
     "contested": false,
-    "delta": "JUNE 5 CLOSE (CONFIRMED): S&P 500 –200.57 pts (–2.6%) to 7,383.74 — worst single-day drop since October 2025; Nasdaq –4.2% to 25,709.43; Dow –1.4% to 50,866.78. 10Y yield 4.544%; 30Y 5.007%; 2Y 4.162% (2026 high). December 2026 Fed hike fully priced. WEEKEND: Goldman Sachs cut US recession probability to 15% (from 25%) — 'no landing' base case. Triple central bank week: ECB June 11 (25bp hike to 2.25% at 99% probability), BOJ June 16 (hike to 1.00% at 96%+), Warsh FOMC June 16-17 (hold; dot plot critical). Iran MOU Day 9 unsigned; Brent ~$93-97.",
-    "deltaNote": "JUNE 6-7 UPDATE — GOLDMAN 15% + TRIPLE CB WEEK: After May NFP +172K blowout (June 5), Goldman Sachs formally cut 12-month US recession probability to 15% (from 25%). 'No landing' — growth above trend + inflation above 2% — is now the base case, requiring the Warsh Fed to hike rather than cut. JPMorgan 35% and Moody's 49% have not yet updated. Critical week June 8-17: (1) ECB June 11: 99% probability 25bp hike to 2.25% — first ECB hike since July 2023; (2) BOJ June 16: 96%+ probability 25bp hike to 1.00% — simultaneous with Warsh FOMC Day 1, creating August 2024 carry-unwind replay risk; (3) Warsh FOMC June 16-17: Hold expected, but dot plot December hike signal is the key deliverable. Iran MOU Day 9 unsigned → Brent above $90 → CPI stays above 3.5% → Warsh cannot signal cuts. Section 122 tariff cliff July 24 (47 days). Goldman 'paycheck recession' concurrent warning: real income eroding at pace rarely seen outside official recessions.",
-    "trend": "down",
-    "lastUpdated": "2026-06-07T08:30:00Z"
+    "delta": "Markets round-tripped the June scare: after the June 5 -2.6% drop, the signed Iran MOU (June 17) and subsequent oil-price collapse drove a relief rally into H1 close (S&P +9.6%, 24 record closes). June's weak jobs report (July 2) and cooling June CPI (July 14, 3.5%) both supported further gains — S&P closed July 14 at 7,572.40 (+0.38%), Nasdaq +0.62% to 26,269.23, Dow +150 pts to 52,658.64.",
+    "deltaNote": "JUNE-JULY ARC: Triple central bank week (ECB hike Jun 11, BOJ hike Jun 16, Warsh hawkish dot plot Jun 17) was more than offset by the same-day signed Iran MOU, which crashed Brent ~11% and triggered a broad risk-on rally. Goldman confirmed its 15% 12-month US recession probability on June 22 post-deal. H1 2026 closed +9.6% for the S&P (best first half since 2020) and +12.8% for Nasdaq, with the Russell 2000 up ~22% (best since 1991). Weak June jobs (NFP +57K, Jul 2) and cooling June CPI (3.5%, Jul 14) reinforced a 'goldilocks' market read heading into the July 24 Section 122 tariff cliff and July 28-29 FOMC.",
+    "trend": "up",
+    "lastUpdated": "2026-07-14T20:00:00Z"
   },
   {
     "id": "us-effective-tariff-rate",
     "label": "US Avg Effective Tariff Rate",
-    "value": "8.9% overall; ~31.6% China effective; USTR Greer (May 17): US Can Restore 'Busan Deal' ~41.6% China Rate; Board of Trade Framework Only; CIT Struck Down Sec. 122 (May 7) — Federal Circuit Stay Active",
+    "value": "8.9% overall; ~31.6% China effective; Section 122 Cliff July 24 — 8 Days Away; Section 301 Fallback Timing in Doubt",
     "color": "red",
     "source": "Penn Wharton / CBP / USTR Greer CBS Face the Nation / Gibson Dunn / BDO, May 17 2026",
     "contested": true,
-    "contestNote": "Section 122 baseline: 8.9% overall, 31.6% China effective rate. Summit Day 1-2 (May 14-15): Board of Trade $30B framework; Boeing 200 jets; ag pledges; rare earth mutual de-escalation; NO Iran/Hormuz breakthrough. USTR Greer (May 17 Face the Nation): 'The Chinese know the US can elevate tariffs to the higher level at the time of the Busan deal in October.' Post-SCOTUS Feb ruling knocked ~10pp off China rate; Greer warning US can restore ~41.6% level. LEGAL: CIT ruled (May 7, 2-1) Section 122 tariffs unlawful — BUT Federal Circuit issued stay May 12; tariffs still collected. Federal Circuit appeal likely resolves Oct-Nov 2026. CRITICAL DEADLINE: Section 122 expires July 23 (66 days from May 17); Congressional action required.",
+    "contestNote": "Section 122 baseline unchanged at 8.9% overall / 31.6% China effective. Federal Circuit stay (June 11) keeps Section 122 tariffs collected pending appeal, but the underlying July 24 statutory cliff is unaffected by the stay. USTR's Section 301 fallback (60 economies, forced-labor rationale) closed its comment period July 6 and held its hearing July 7 — but standard rulemaking requires a final rule ≥30 days before taking effect, meaning Section 301 may not be ready to fully backstop the cliff, raising the prospect of a tariff-revenue coverage gap. No Congressional action to extend Section 122 has been reported; an extension needs 60 Senate votes.",
     "trend": "up",
-    "lastUpdated": "2026-05-17T12:00:00Z"
+    "lastUpdated": "2026-07-16T00:00:00Z"
   },
   {
     "id": "china-gdp-2025",
-    "label": "China GDP Q1 2026 (actual) / 2025 Full Year",
-    "value": "5.0% (Q1 2026)",
+    "label": "China GDP Q2 2026 (actual)",
+    "value": "4.3% (Q2 2026) — Slowest in 3.5 Years",
     "color": "amber",
-    "source": "China NBS (Apr 16, 2026) / IMF WEO Apr 2026",
+    "source": "China NBS (Jul 14, 2026) / IMF WEO Jul 2026",
     "contested": true,
-    "contestNote": "Q1 2026 beat (+5.0% vs 4.8% forecast) driven by Jan-Feb export front-loading. March exports fell sharply to +2.5% YoY (miss vs +8.6% forecast); factory-gate prices turned positive (+0.5%) for first time in 3+ years. Q2 headwinds mounting from Iran war demand destruction.",
-    "delta": "+0.5pp vs Q4 2025",
-    "deltaNote": "Q4 2025: 4.5%. Q1 2026: 5.0% — beat driven by front-loaded exports before Iran war demand shock took full effect. IMF maintains 2026 China forecast at ~4.5%.",
-    "trend": "up",
-    "lastUpdated": "2026-04-18T12:00:00Z"
+    "contestNote": "Q2 2026 missed forecast (4.3% vs 4.5% expected), down from 5.0% in Q1 — slowest pace in roughly 3.5 years. H1 fixed-asset investment -5.7% YoY (real estate -18%). June activity data (Jul 15) was mixed: industrial production +5.3% YoY beat, retail sales +1.0% YoY soft. Stimulus speculation building ahead of the late-July Politburo meeting.",
+    "delta": "-0.7pp vs Q1 2026",
+    "deltaNote": "Q1 2026: 5.0% (front-loaded exports). Q2 2026: 4.3% — Iran war demand destruction and property-sector drag materializing as expected. IMF July WEO maintains global growth at 3.0% for 2026 but revised headline inflation up to 4.7%.",
+    "trend": "down",
+    "lastUpdated": "2026-07-14T09:00:00Z"
   },
   {
     "id": "global-policy-uncertainty",
     "label": "Global Policy Uncertainty / Recession Risk",
-    "value": "JUNE 7: Goldman 15% (Cut from 25%); ECB June 11 Hike 99% (2.25%); BOJ June 16 Hike 96%+ (1.00%); Warsh FOMC June 16-17 Dot Plot Critical; Iran MOU Day 9 Unsigned; Brent ~$94-97; Section 122 Cliff 47 Days",
+    "value": "JULY 16: Goldman 15% (Confirmed Jun 22 Post-Iran-Deal); IMF Jul WEO Global Growth 3.0% / Inflation 4.7%; Section 122 Cliff 8 Days; China Q2 GDP Miss 4.3%; June CPI Cools to 3.5%",
     "color": "red",
-    "source": "Goldman Sachs / Bloomberg / ECB / BLS; June 5-7, 2026",
+    "source": "Goldman Sachs / IMF / BLS / China NBS; June 11 – July 16, 2026",
     "contested": false,
-    "delta": "JUNE 6-7 WEEKEND UPDATE — GOLDMAN 15% + TRIPLE CENTRAL BANK WEEK: (1) Goldman Sachs formally revised US 12-month recession probability to 15% (from 25%) following the May NFP +172K blowout. 'No landing' — growth above trend + inflation above 2% — is now the base case scenario. 'Paycheck recession' concurrent warning: real income eroding at pace rarely seen outside official recessions (tariffs + Iran war energy squeeze). (2) ECB June 11: Markets price 99% probability of 25bp hike to 2.25% deposit rate — first ECB hike since July 2023. Eurozone CPI 3.0% (April flash). (3) BOJ June 16: 96%+ probability of 25bp hike to 1.00% (highest Japanese rate since 2008). Simultaneous with Warsh FOMC Day 1 — August 2024 carry-unwind replay risk. (4) Warsh FOMC June 16-17: Hold expected but dot plot (December hike signal) is the policy-defining deliverable. (5) Iran MOU Day 9 unsigned → Brent $93-97 → CPI above 3.5% → Warsh cannot signal easing. (6) Section 122 cliff July 24 (47 days).",
-    "deltaNote": "JUNE 7 RECESSION PROBABILITY MATRIX (UPDATED): Goldman 15% (formally revised down June 6-7, post-NFP); JPMorgan 35% (pre-June 5 — pending formal revision); Moody's 49% (pre-June 5 — pending revision). Polymarket: ~18.5% odds of US recession by year-end. THE KEY RISK HAS SHIFTED: From 'will there be a 2026 recession?' to 'will the no-landing scenario require a 2026 hike that causes a 2027 recession?' Goldman's 15% reflects near-term optimism (NFP +172K; ISM Mfg 54.0; ISM Services 54.5; labor market intact) while maintaining elevated uncertainty for 2027 (no-landing → hike → credit tightening → eventual downturn). THE IRAN BINARY remains the single largest policy wildcard: signed MOU + Brent $88 = Goldman toward 10%; unsigned + Brent above $95 = Goldman back toward 20-25%.",
+    "delta": "JUNE-JULY ARC — TRIPLE CB WEEK RESOLVED, IRAN DEAL SIGNED, RECESSION RISK EASES FURTHER: ECB hiked to 2.25% (Jun 11), BOJ hiked to 1.00% (Jun 16), and Warsh's first FOMC held with a hawkish dot plot (Jun 17) — but the same-day signed US-Iran MOU crashed Brent ~11% and drove a broad relief rally that dominated the macro narrative for the rest of June. Goldman confirmed its 15% US recession probability June 22. Weak June jobs (NFP +57K) and cooling June CPI (3.5%) followed in early-mid July. China's Q2 GDP miss (4.3%) and the IMF's July WEO (3.0% global growth, inflation revised up to 4.7%, 'disinflation stalled') are the two main sources of renewed downside risk heading into the July 24 Section 122 tariff cliff.",
+    "deltaNote": "JULY 16 RECESSION PROBABILITY MATRIX (UPDATED): Goldman 15% (confirmed June 22, post-Iran-deal — unchanged since). JPMorgan and Moody's have not published new numeric figures within this window; bank commentary (Semafor, June 29) turned more optimistic in tone without a revised percentage. THE KEY RISK HAS SHIFTED AGAIN: from 'triple central bank shock' to 'Section 122 cliff coverage gap' — Section 301 fallback tariffs may not be legally ready by July 24, and no Congressional extension has been reported. Secondary risk: China's Q2 GDP slowdown (4.3%, slowest in 3.5 years) combined with the IMF's downward-revised disinflation trajectory (headline inflation 4.7%, up from April's estimate) suggests global growth risks are re-building even as US data cools.",
     "trend": "down",
-    "lastUpdated": "2026-06-07T08:30:00Z"
+    "lastUpdated": "2026-07-16T00:00:00Z"
+  },
+  {
+    "id": "boj-policy-rate",
+    "label": "BOJ Policy Rate",
+    "value": "1.00%",
+    "color": "blue",
+    "source": "Bank of Japan, June 16 2026 (25bp hike — highest since 1995)",
+    "contested": false,
+    "delta": "+25 bps",
+    "deltaNote": "June 16: BOJ hiked 25bp to 1.00%, the highest level since 1995, in a 7-1 vote (Asada dissenting) — citing Iran-war energy-cost pass-through risk. The hike landed the same day Warsh's first FOMC opened, raising August-2024-style carry-unwind concerns; the immediate market reaction was orderly (Nikkei +0.46%), but the yen still fell to a fresh 40-year low past 162/USD by June 30 despite the hike and an estimated $72.5bn in prior FX intervention.",
+    "trend": "up",
+    "lastUpdated": "2026-06-16T04:00:00Z"
   }
 ]

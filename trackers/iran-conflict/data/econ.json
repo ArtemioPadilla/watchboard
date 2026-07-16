@@ -2,8 +2,8 @@
   {
     "id": "brent_crude",
     "label": "Brent Crude",
-    "value": "~$97/bbl",
-    "change": "June 6-7 (Day 99-100): ~$97/bbl — rose on June 6 drone/missile exchange (4 IRGC drones intercepted; US strikes Goruk + Qeshm radar; 7 IRGC ballistic missiles at Kuwait/Bahrain). June 5 (Day 98): ~$95.25/bbl. June 3 (Day 96): Rose ~2% on Kuwait airport strike. June 1 (Day 94): Surged ~7% to ~$97/bbl. Apr 30 record: $126/bbl. Pre-war baseline Feb 27: $77.74/bbl.",
+    "value": "~$85/bbl",
+    "change": "Jul 16 (Day 139): ~$84.63/bbl (TradingEconomics), up 6.39% month-over-month as US-Iran fighting resumed Jul 6-16 following the MOU collapse. Jul 10: ~$76.80/bbl low. Jun 19: ~$80.57/bbl after Geneva/Lucerne talks postponed. Jun 22-24: ~$76-79/bbl low on MOU optimism + US Treasury 60-day license for Iranian-origin crude transactions. Jun 8 (Day 101): ~$91/bbl on Iran-Israel missile exchange. Jun 6-7 (Day 99-100): ~$97/bbl peak.",
     "direction": "up",
     "sparkData": [
       77.74,
@@ -69,11 +69,30 @@
       99.0,
       96.0,
       95.25,
-      97.0
+      97.0,
+      95.25,
+      97.0,
+      91.0,
+      88.5,
+      82.0,
+      79.25,
+      77.9,
+      75.57,
+      78.3,
+      79.5,
+      80.57,
+      82.0,
+      84.0,
+      79.0,
+      76.8,
+      78.0,
+      80.5,
+      82.5,
+      84.63
     ],
     "color": "#e74c3c",
     "source": "CNBC / Reuters / Al Jazeera / Bloomberg / Fortune / The Hill / NPR / CNN Business / Trading Economics",
-    "lastUpdated": "2026-06-07T14:00:00.000Z"
+    "lastUpdated": "2026-07-16T18:00:00.000Z"
   },
   {
     "id": "wti_crude",
@@ -107,7 +126,7 @@
       90.86,
       97.37,
       96.36,
-      101.10,
+      101.1,
       109.64,
       102.45,
       104.0,
@@ -249,7 +268,7 @@
       4.02,
       4.05,
       4.18,
-      4.30,
+      4.3,
       4.45,
       4.45,
       4.52,
@@ -263,13 +282,22 @@
   {
     "id": "iea_reserve_release",
     "label": "IEA Reserve Release",
-    "value": "400M bbl",
-    "change": "Largest in history",
+    "value": "400M+ bbl (SPR at 1983 Low)",
+    "change": "Week ending Jul 3, 2026: US Strategic Petroleum Reserve fell to 319.5 million barrels — lowest level since April 1983 — after a 172M+ barrel exchange-program release tied to the war's supply pressure (repayable 2026-2029 with an 18-24% in-kind premium). Energy Secretary Chris Wright says 200M barrels are planned to be added back later in 2026.",
     "direction": "down",
-    "sparkData": [0, 0, 0, 0, 0, 50, 172, 400],
+    "sparkData": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      50,
+      172,
+      400
+    ],
     "color": "#3498db",
     "source": "IEA / WaPo / NPR / CNBC",
-    "lastUpdated": "2026-03-13T06:00:00.000Z"
+    "lastUpdated": "2026-07-16T18:00:00.000Z"
   },
   {
     "id": "shipping_rates",
@@ -294,9 +322,9 @@
   {
     "id": "hormuz_traffic",
     "label": "Hormuz Traffic",
-    "value": "4.7 Ships/Day (5% Pre-War) — Day 100",
-    "change": "June 7 (Day 100): Hormuz at 5% of pre-war traffic (4.7 ships/day 7-day avg; ~2% tanker traffic). SPR drawn down 58.32M bbl in 13 weeks. June 6 (Day 99): New IRGC drone salvo + US radar site strikes further deterred commercial traffic. June 5 (Day 98): IRGC charging $1M+ per vessel transit fee; ~15 ships/day authorized. June 3 (Day 96): US struck IRGC drone control stations on Qeshm Island. 1,550+ vessels stranded.",
-    "direction": "up",
+    "value": "10-14 Ships/Day — Day 139 (Collapsed Again)",
+    "change": "Jul 16 (Day 139): Hormuz traffic effectively collapsed again after the MOU's 60-day safe-passage guarantee broke down — Jul 12 recorded only 10 transits vs. an ~88/day pre-crisis baseline; Jul 13 saw 14 transits (4 crude tankers), a ~60% weekly drop. US military escorted convoys moved 8M+ barrels through on one recent Sunday. Late Jun (MOU period): traffic had partially recovered to just over two dozen vessels/day (Jun 29) after the Jun 17 Islamabad MOU suspended Iran's per-vessel toll regime for 60 days — that recovery reversed after the Jul 6-7 tanker attack wave.",
+    "direction": "down",
     "sparkData": [
       100,
       90,
@@ -326,10 +354,24 @@
       0,
       1,
       1,
-      1
+      1,
+      1,
+      2,
+      3,
+      5,
+      10,
+      15,
+      20,
+      25,
+      20,
+      10,
+      8,
+      5,
+      10,
+      14
     ],
     "color": "#27ae60",
     "source": "Al Jazeera / NBC News / USNI News / Lloyd's List Intelligence / AP / IEA / CBS News / ABC News / CNBC / Reuters / Military.com / NPR / Axios / CNN Business / The National",
-    "lastUpdated": "2026-06-05T14:00:00.000Z"
+    "lastUpdated": "2026-07-16T18:00:00.000Z"
   }
 ]

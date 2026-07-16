@@ -18,10 +18,10 @@
     "color": "amber",
     "source": "UNHCR / UN OCHA May 2026",
     "contested": false,
-    "delta": "-400,000 net since Dec 2024 (1.3M+ returned, new displacements continue)",
-    "deltaNote": "Over 1.3 million voluntary returns since December 2024; UNHCR projects up to 1M more in 2026",
+    "delta": "-400,000 net since Dec 2024 (1.63M+ returned, new displacements continue)",
+    "deltaNote": "1,630,874 refugee returns confirmed by UNHCR as of April 30, 2026, plus 1.8 million IDP returns; UNHCR projects up to 1M more refugee returns in 2026",
     "trend": "down",
-    "lastUpdated": "2026-05-17"
+    "lastUpdated": "2026-07-16"
   },
   {
     "id": "refugees-registered",
@@ -38,11 +38,11 @@
   {
     "id": "days-since-regime-collapse",
     "label": "Days Since Assad Regime Fell",
-    "value": "541",
+    "value": "585",
     "color": "blue",
-    "source": "December 8, 2024 (regime collapse) to June 2, 2026",
+    "source": "December 8, 2024 (regime collapse) to July 16, 2026",
     "contested": false,
-    "lastUpdated": "2026-06-02"
+    "lastUpdated": "2026-07-16"
   },
   {
     "id": "hts-territory-control",
@@ -73,9 +73,9 @@
     "color": "amber",
     "source": "World Bank / UNDP Syria Needs Assessment 2024",
     "contested": true,
-    "contestNote": "World Bank 2017 estimate was $226B; subsequent destruction raised estimates. Some analysts cite $400B+; the actual figure depends heavily on security environment and population return.",
+    "contestNote": "World Bank 2017 estimate was $226B; subsequent destruction raised estimates. Some analysts cite $400B+; the actual figure depends heavily on security environment and population return. A July 2026 industry estimate (Al Arabia Law) instead cites $216B — nearly 10x Syria's current GDP — illustrating how widely reconstruction-cost estimates still diverge 19 months into the transition.",
     "trend": "up",
-    "lastUpdated": "2026-04-25"
+    "lastUpdated": "2026-07-16"
   },
   {
     "id": "gdp-collapse",
@@ -87,5 +87,29 @@
     "contestNote": "Comprehensive economic data from Syria is unreliable. Syrian pound devaluation, black market economy, and sanctions make comparisons difficult. Some analysts place current GDP as low as 15% of pre-war levels.",
     "trend": "down",
     "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "isis-attacks-2026-ytd",
+    "label": "ISIS Attacks on Syrian Forces (2026 YTD)",
+    "value": "52 (H1 2026)",
+    "color": "amber",
+    "source": "The National / conflict monitors, June 2026",
+    "contested": false,
+    "delta": "+225% vs. 16 attacks in all of 2025",
+    "deltaNote": "Sharp escalation tracked as US forces drew down from ~2,000 to ~700 in northeast Syria; includes the June 15 Raqqa police HQ suicide bombing and a June 19 US drone strike that killed ISIS leader Ali Husayn al-Ulaywi in Idlib",
+    "trend": "up",
+    "lastUpdated": "2026-07-16"
+  },
+  {
+    "id": "us-terrorism-designation-status",
+    "label": "US State Sponsor of Terrorism Designation",
+    "value": "Rescission in progress (45-day congressional review)",
+    "color": "green",
+    "source": "US Dept. of State / Treasury, Jul 8, 2026",
+    "contested": false,
+    "delta": "Trump notified Congress Jul 8, 2026 via letter to al-Sharaa signed at NATO Ankara summit",
+    "deltaNote": "Designation was imposed on Syria in the late 1970s under Hafez al-Assad; rescission would remove the last major western sanction and allow reconnection to the international banking system",
+    "trend": "down",
+    "lastUpdated": "2026-07-16"
   }
 ]

@@ -79,12 +79,34 @@
   {
     "id": "nikkei-225",
     "label": "Nikkei 225 Index",
-    "value": "~38,000",
-    "change": "Finally recovered 1989 bubble peak (38,916) in 2024",
+    "value": "~69,700",
+    "change": "Hit all-time record 72,831.73 on June 22, 2026 amid AI boom",
     "direction": "up",
-    "sparkData": [8000, 10000, 15000, 20000, 27000, 33000, 38000],
+    "sparkData": [38000, 45000, 52000, 58000, 65000, 72800, 69700],
     "color": "green",
-    "source": "Tokyo Stock Exchange, 2024",
-    "lastUpdated": "2026-04-26T00:00:00Z"
+    "source": "Tokyo Stock Exchange / Nikkei Indexes, July 2026",
+    "lastUpdated": "2026-07-16T00:00:00Z"
+  },
+  {
+    "id": "boj-policy-rate-econ",
+    "label": "BOJ Policy Rate",
+    "value": "1.00%",
+    "change": "+25bp on June 16, 2026 — highest since 1995",
+    "direction": "up",
+    "sparkData": [0, 0.1, 0.25, 0.5, 0.75, 1.0, 1.0],
+    "color": "amber",
+    "source": "Bank of Japan, June 2026 Monetary Policy Meeting",
+    "lastUpdated": "2026-06-16T00:00:00Z"
+  },
+  {
+    "id": "yen-exchange-rate-econ",
+    "label": "Yen / US Dollar",
+    "value": "¥162.6",
+    "change": "Weakest level since December 1986",
+    "direction": "down",
+    "sparkData": [140, 150, 156, 160, 161, 162.6, 161.9],
+    "color": "red",
+    "source": "Bloomberg; Reuters, June 2026",
+    "lastUpdated": "2026-06-29T00:00:00Z"
   }
 ]

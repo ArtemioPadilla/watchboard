@@ -147,15 +147,40 @@
   },
   {
     "id": "cuba-blackout-hours-2026",
-    "label": "Daily Blackout Hours in Cuba — May 2026 (US Oil Blockade Effect)",
+    "label": "Daily Blackout Hours in Cuba — Jul 2026 (US Oil Blockade Effect)",
     "value": "20–22",
     "color": "red",
-    "source": "Cuba Energy & Mines Ministry (May 14, 2026); Axios; CNBC",
+    "source": "Cuba Energy & Mines Ministry; Unión Eléctrica de Cuba; Al Jazeera (Jul 2026)",
     "contested": false,
-    "delta": "Fuel reserves: zero",
-    "deltaNote": "Cuba's Energy Minister declared all fuel oil and diesel reserves exhausted on May 14, 2026. The most acute energy crisis since the 1990s Special Period.",
+    "delta": "5 total grid collapses in 2026",
+    "deltaNote": "Rolling blackouts of 20-22 hours persist daily since fuel reserves hit zero in May 2026; the national grid additionally suffered 3 total collapses in the 10 days between Jul 7 and Jul 14, 2026 alone, leaving ~10 million without power each time.",
     "trend": "down",
-    "lastUpdated": "2026-05-19T16:09:54Z"
+    "lastUpdated": "2026-07-16T19:40:00Z"
+  },
+  {
+    "id": "cuba-nationwide-blackouts-count-2026",
+    "label": "Total Island-Wide Grid Collapses in Cuba (2026)",
+    "value": "5",
+    "color": "red",
+    "source": "Unión Eléctrica de Cuba; Al Jazeera; Bloomberg (as of Jul 14, 2026)",
+    "contested": false,
+    "delta": "3 collapses in the 10 days Jul 7–14 alone",
+    "deltaNote": "Cuba's grid lost all operating reserve after the US oil blockade cut fuel supply; a single plant tripping offline now cascades into a full nationwide blackout.",
+    "trend": "up",
+    "lastUpdated": "2026-07-16T19:40:00Z"
+  },
+  {
+    "id": "cuba-infant-mortality-2026",
+    "label": "Cuba Infant Mortality Rate (per 1,000 live births) — 2026 Blockade Impact",
+    "value": "9.9",
+    "color": "red",
+    "source": "OHCHR; UN High Commissioner for Human Rights Volker Türk (Jun 8, 2026)",
+    "contested": true,
+    "contestNote": "UN attributes the near-doubling of infant mortality directly to US fuel restrictions and extraterritorial sanctions; US government disputes causal framing of its sanctions policy.",
+    "delta": "Nearly doubled since early 2026",
+    "deltaNote": "Childhood cancer survival also fell from ~85% to ~65% as hospitals lost access to imported medicines and equipment, per OHCHR.",
+    "trend": "up",
+    "lastUpdated": "2026-07-16T19:40:00Z"
   },
   {
     "id": "nicaragua-gold-sanctions-2026",
@@ -168,5 +193,17 @@
     "deltaNote": "April 16, 2026 sanctions targeted Ortega's sons and Nicaragua's primary hard-currency earning sector — gold mining — the broadest escalation since the 2018 NICA Act.",
     "trend": "up",
     "lastUpdated": "2026-05-19T16:09:54Z"
+  },
+  {
+    "id": "nicaragua-visa-restrictions-2026",
+    "label": "Nicaraguan Officials/Associates Under US Visa Restrictions (2018–2026)",
+    "value": "2,350+",
+    "color": "amber",
+    "source": "US State Department (Jun 8-9, 2026)",
+    "contested": false,
+    "delta": "Jun 8, 2026: +100 after Brooklyn Rivera's death in custody",
+    "deltaNote": "Secretary of State Rubio imposed visa restrictions on 100+ additional Nicaraguan officials and family members in direct response to the death in state custody of Indigenous Miskito leader Brooklyn Rivera.",
+    "trend": "up",
+    "lastUpdated": "2026-07-16T19:40:00Z"
   }
 ]

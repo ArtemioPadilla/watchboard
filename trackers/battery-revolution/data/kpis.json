@@ -1,15 +1,15 @@
 [
   {
     "id": "global-ev-battery-demand",
-    "label": "Global EV Battery Demand (2025 est.)",
-    "value": "~1,228 GWh",
+    "label": "Global EV Battery Demand (Jan–May 2026)",
+    "value": "469.2 GWh",
     "color": "green",
-    "source": "SNE Research / BloombergNEF 2025; Q1 2026: 244.6 GWh (+9.1% YoY)",
+    "source": "SNE Research / CnEVPost, Jul 3, 2026",
     "contested": false,
-    "delta": "+25% YoY (2025); Q1 2026 pace implies +9% annual",
-    "deltaNote": "Full year 2025: ~1,228 GWh; Q1 2026 confirmed 244.6 GWh by SNE Research. Market entering structural transition: growth decelerating in China and North America but expanding in Europe and other Asia.",
+    "delta": "+16.3% YoY",
+    "deltaNote": "Global EV battery usage reached 469.2 GWh in the first five months of 2026, up 16.3% YoY. Top 10 global makers are 7 Chinese firms, holding 72.6% combined share — up 2.1pp YoY, underscoring continued Chinese concentration even as Tesla retook the EV sales (not battery-supply) crown from BYD in Q1 2026.",
     "trend": "up",
-    "lastUpdated": "2026-05-06"
+    "lastUpdated": "2026-07-16"
   },
   {
     "id": "battery-pack-price-2025",
@@ -25,38 +25,38 @@
   },
   {
     "id": "china-battery-market-share",
-    "label": "CATL Global EV Battery Market Share (Q1 2026)",
-    "value": "40.7%",
+    "label": "CATL Global EV Battery Market Share (Jan–May 2026)",
+    "value": "40.2%",
     "color": "blue",
-    "source": "SNE Research Q1 2026 (via electrive / CnEVPost, May 6, 2026)",
+    "source": "SNE Research (via CnEVPost, Jul 3, 2026)",
     "contested": false,
-    "delta": "+1.5 pp from 39.2% (FY2025)",
-    "deltaNote": "CATL Q1 2026 production: 99.5 GWh (+15.2% YoY); China accounts for ~73% of global battery production overall; CATL + BYD (13.7%) hold ~54% combined",
+    "delta": "+2.2 pp from 38.0% (same period 2025)",
+    "deltaNote": "CATL held 40.2% of the global EV battery market Jan–May 2026, versus 38.0% a year earlier. BYD ranked second at 14.4% share (67.6 GWh installed, +0.4% YoY — a lackluster showing tied to a 15% drop in Chinese domestic BEV sales).",
     "trend": "up",
-    "lastUpdated": "2026-05-06"
+    "lastUpdated": "2026-07-16"
   },
   {
     "id": "lithium-carbonate-price",
     "label": "Lithium Carbonate (China spot)",
-    "value": "~$24,400/tonne",
+    "value": "~¥154,000/tonne",
     "color": "amber",
-    "source": "TradingEconomics / Benchmark Mineral Intelligence, May 27, 2026",
+    "source": "TradingEconomics / SMM China, Jul 15, 2026",
     "contested": false,
-    "delta": "-6% from Q1 2026 peak; spiked to ~$27,600 (mid-May), then retreated",
-    "deltaNote": "Price spiked to ~200,500 CNY/T (~$27,600/tonne) on May 13 — a two-year high — driven by supply restarts in response to Q1 2026 rally, then retreated to ~177,000 CNY/T (~$24,400/tonne) by May 27 as producers responded with supply. Still 67% below Nov 2022 peak. Volatility reflects thin liquidity and sensitivity to policy-driven supply shocks.",
+    "delta": "Rebounded from 3-month low ¥151,750 (Jun 29) to ¥165,000 (Jul 13), settling ~¥154,000 by Jul 15",
+    "deltaNote": "Lithium carbonate hit a three-month low of ¥151,750/tonne on June 29, 2026 before rebounding to ¥165,000 by July 13 on stronger-than-expected demand from EV and energy-storage battery makers, then easing to trade flat around ¥154,000 (~$21,500/tonne) by July 15. Volatility continues to reflect thin liquidity and the tug-of-war between new mine supply and accelerating storage demand.",
     "trend": "down",
-    "lastUpdated": "2026-05-28"
+    "lastUpdated": "2026-07-16"
   },
   {
     "id": "solid-state-energy-density-lab",
     "label": "Best Solid-State Energy Density (production-stage)",
     "value": "500 Wh/kg",
     "color": "blue",
-    "source": "Ganfeng Lithium small-batch production (May 2026); CAS lab result 451.5 Wh/kg (May 2026)",
+    "source": "Ganfeng Lithium small-batch production (May 2026); GAC first solid-state production line (Jun–Jul 2026)",
     "contested": true,
-    "contestNote": "Ganfeng's 500 Wh/kg cell entered small-batch production in May 2026 (dozens–hundreds of cells/day), with 400 Wh/kg variant at 1,100+ cycle validation. CAS published 451.5 Wh/kg with 20C rate (3-min charge) and nail-penetration safety pass. Commercial automotive solid-state packs remain ~250–300 Wh/kg. Basquevolt (Spain) launched 402 Wh/kg hybrid polymer cell commercially May 22, 2026.",
+    "contestNote": "Ganfeng's 500 Wh/kg cell remains the highest at production stage (dozens–hundreds of cells/day). GAC Group completed its first all-solid-state battery production line (>60 Ah cells, 400+ Wh/kg, 1,000+ km CLTC range) in mid-2026, targeting mass ramp 2027–2030. Separately, Max Planck Institute researchers published in Nature (Apr 2026, wider press pickup Jul 10) the first mechanical proof of how lithium dendrites fracture garnet solid electrolytes via hydrostatic stress — a safety-relevant finding for scaling any of these cells past small-batch volumes.",
     "trend": "up",
-    "lastUpdated": "2026-05-28"
+    "lastUpdated": "2026-07-16"
   },
   {
     "id": "world-largest-grid-battery",
@@ -84,14 +84,14 @@
   {
     "id": "sodium-ion-annual-production",
     "label": "Sodium-Ion Global Output / Pipeline",
-    "value": "60+ GWh ordered; Gotion Gnascent 261 Wh/kg",
+    "value": "65+ GWh ordered; Hina matches Tesla cell quality",
     "color": "green",
-    "source": "CATL/HyperStrong (Apr 2026); Gotion Gnascent launch (May 17, 2026)",
+    "source": "CATL/HyperStrong + CATL/Alfen (Jul 16, 2026); Hina/Cell Reports Physical Science (Jun 21, 2026)",
     "contested": false,
-    "delta": "CATL mass production 2026; Gotion Q4 2026",
-    "deltaNote": "60 GWh HyperStrong grid deal is world's largest Na-ion order; CATL 2nd-gen cell ~200 Wh/kg. Gotion's new Gnascent brand (May 2026) reaches 261 Wh/kg (high-energy) and 20,000+ cycles (grid storage) — closing the energy-density gap with LFP. Two Na-ion mass-production supply chains are now confirmed for 2026.",
+    "delta": "CATL's first Europe sodium-ion BESS deployment now confirmed (5 GWh, Alfen, from 2027)",
+    "deltaNote": "CATL signed a 5 GWh TENER Sodium storage deal with Dutch integrator Alfen on July 16, 2026 — the first planned sodium-ion BESS deployment in Europe — adding to its 60 GWh HyperStrong domestic order. Separately, peer-reviewed research published Jun 21 found Chinese maker Hina's sodium-ion cells, using a tabless double-aluminum current collector design, now match Tesla's lithium-ion cells on manufacturing quality and performance — a notable validation of sodium-ion's production maturity, not just its cost story.",
     "trend": "up",
-    "lastUpdated": "2026-05-17"
+    "lastUpdated": "2026-07-16"
   },
   {
     "id": "peak-ev-battery-charging-catl-qilin3",

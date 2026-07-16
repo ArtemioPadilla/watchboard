@@ -79,14 +79,26 @@
   },
   {
     "id": "inflation-peak",
-    "label": "CPI Inflation (May 2026)",
-    "value": "11.7%",
+    "label": "CPI Inflation (June 2026)",
+    "value": "11.1%",
     "color": "amber",
-    "source": "Pakistan Bureau of Statistics / SBP May 2026",
+    "source": "Pakistan Bureau of Statistics / SBP June 2026",
     "contested": false,
-    "contestNote": "Peaked at 38% (May 2023); fell to ~4% by early 2026 then rebounded to 11.7% in May 2026, driven by fuel/transport costs from Iran conflict; SBP raised policy rate 100bps to 11.5% in April 2026",
-    "delta": "Up from 4.1% (Dec 2024); highest since June 2024",
+    "contestNote": "Peaked at 38% (May 2023); fell to ~4% by early 2026 then rebounded on fuel/transport costs from the Iran conflict, peaking at 11.7% in May 2026 before easing slightly to 11.1% in June as transport costs cooled; food inflation accelerated to 9.4%, its highest since April 2024",
+    "delta": "Down from 11.7% (May 2026); still elevated vs 4.1% (Dec 2024)",
+    "trend": "down",
+    "lastUpdated": "2026-07-01"
+  },
+  {
+    "id": "defense-budget-fy27",
+    "label": "Defense Budget (FY2026-27)",
+    "value": "Rs3.01T (~$10.8B)",
+    "color": "amber",
+    "source": "Government of Pakistan Budget 2026-27 / Ministry of Finance",
+    "contested": false,
+    "contestNote": "Physical defense assets funding jumped 39.62% (Rs925.83B), covering J-35 stealth fighter, Hangor-class submarine, and HQ-19 missile-shield programs",
+    "delta": "+17.6% vs FY2025-26 revised allocation, amid Balochistan counterinsurgency and Afghan border war",
     "trend": "up",
-    "lastUpdated": "2026-06-01"
+    "lastUpdated": "2026-06-12"
   }
 ]
