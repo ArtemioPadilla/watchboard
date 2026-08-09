@@ -1272,7 +1272,11 @@ jobs:
       - name: Telegram failure alert
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
+          # Infra alerts go to TELEGRAM_ALERT_CHAT_ID (private ops chat), NEVER to
+          # TELEGRAM_CHANNEL_ID — that is the public content channel with
+          # outside subscribers. If the alert secret is unset the guard below
+          # exits quietly rather than falling back to the public channel.
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_ALERT_CHAT_ID }}
           RESOLVE_RESULT: ${{ needs.resolve.result }}
           UPDATE_RESULT: ${{ needs.update.result }}
           FINALIZE_RESULT: ${{ needs.finalize.result }}
