@@ -57,7 +57,11 @@ jobs:
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           show_full_output: true
-          claude_args: "--max-turns 5 --dangerously-skip-permissions"
+          # 5 turns was not enough to run the web searches and emit the JSON
+          # array, so every run died on "Reached maximum number of turns".
+          # In line with the other research-style jobs in this repo (triage 20,
+          # nightly update 30) and bounded by the job's 15-minute timeout.
+          claude_args: "--max-turns 25 --dangerously-skip-permissions"
           prompt: |
             You are a news intelligence analyst for Watchboard, a multi-topic intelligence dashboard.
 
@@ -92,11 +96,28 @@ jobs:
             Max 5 candidates. Only include candidates with confidence >= 0.6.
 
       - name: Create GitHub Issues for candidates
-        if: steps.scout.outputs.result != ''
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          EXECUTION_FILE: ${{ steps.scout.outputs.execution_file }}
         run: |
-          echo '${{ steps.scout.outputs.result }}' | node -e "
+          # claude-code-action exposes no `outputs.result` — its outputs are
+          # branch_name, execution_file, github_token, session_id and
+          # structured_output. Gating on the non-existent one made this step
+          # never run, so the scout burned turns and created nothing. The final
+          # assistant text lives in the JSON execution log instead.
+          if [ -z "$EXECUTION_FILE" ] || [ ! -f "$EXECUTION_FILE" ]; then
+            echo "No scout execution file — skipping issue creation"
+            exit 0
+          fi
+          node -e "
+            const fs = require('fs');
+            let raw;
+            try { raw = JSON.parse(fs.readFileSync(process.env.EXECUTION_FILE, 'utf8')); }
+            catch { process.exit(0); }
+            const events = Array.isArray(raw) ? raw : [raw];
+            const last = events.filter(e => e && e.type === 'result').pop();
+            process.stdout.write(last && typeof last.result === 'string' ? last.result : '');
+          " | node -e "
             const readline = require('readline');
             let input = '';
             process.stdin.on('data', d => input += d);
