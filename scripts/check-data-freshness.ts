@@ -19,7 +19,7 @@
  * Exit codes: 0 healthy, 1 stale (alert), 2 usage/read error.
  */
 
-import { readFileSync, readdirSync, existsSync } from 'node:fs';
+import { readFileSync, readdirSync, existsSync, appendFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -175,7 +175,6 @@ function main(): void {
   );
 
   if (process.env.GITHUB_OUTPUT) {
-    const { appendFileSync } = require('node:fs');
     appendFileSync(
       process.env.GITHUB_OUTPUT,
       `healthy=${report.healthy}\n` +
