@@ -562,8 +562,13 @@ jobs:
             console.log('Digest updated for ' + tracker);
           "
 
-      - name: Post breaking tweet
-        if: matrix.entry.type == 'update'
+      - name: Post breaking tweet — DISABLED (migrated to Bluesky)
+        # Social posting moved to Bluesky; the X credentials are stale and this
+        # step was failing every run with `ApiResponseError: 401`, which took
+        # the whole act job down with it. Everything else already posts via
+        # scripts/bluesky-post.ts (post-social-queue.yml), and weekly-digest.yml
+        # has its X block commented out — this was the last live X caller.
+        if: false && matrix.entry.type == 'update'
         env:
           X_API_KEY: ${{ secrets.X_API_KEY }}
           X_API_SECRET: ${{ secrets.X_API_SECRET }}
@@ -641,8 +646,9 @@ jobs:
             - If this is a sudden event (earthquake, attack, etc.) write "false" to /tmp/should-seed.txt
             - If this is an ongoing situation with history write "true" to /tmp/should-seed.txt
 
-      - name: Post new tracker tweet
-        if: matrix.entry.type == 'new_tracker'
+      - name: Post new tracker tweet — DISABLED (migrated to Bluesky)
+        # See "Post breaking tweet" above — X posting is retired.
+        if: false && matrix.entry.type == 'new_tracker'
         env:
           X_API_KEY: ${{ secrets.X_API_KEY }}
           X_API_SECRET: ${{ secrets.X_API_SECRET }}
