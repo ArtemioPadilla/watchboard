@@ -141,4 +141,44 @@ describe('hourly-scan', () => {
       expect(items[0].title).toBe('Atom Article');
     });
   });
+
+  describe('GDELT circuit breaker', () => {
+    // Regression: the per-tracker GDELT sweep was a serial loop over every
+    // tracker. When the endpoint stalls, each call burns its ~10s connect
+    // timeout, so ~96 trackers cost ~18 min and starved the rest of the
+    // hourly-scan job until it hit the 20-minute workflow timeout.
+    it('stops querying after consecutive failures instead of calling once per tracker', async () => {
+      const realFetch = globalThis.fetch;
+      let gdeltCalls = 0;
+
+      globalThis.fetch = (async (input: RequestInfo | URL) => {
+        const url = String(input);
+        if (url.includes('gdeltproject.org')) {
+          gdeltCalls++;
+          throw new TypeError('fetch failed'); // simulates UND_ERR_CONNECT_TIMEOUT
+        }
+        // Everything else (RSS) resolves as an empty feed.
+        return {
+          ok: true,
+          url,
+          status: 200,
+          text: async () => '<?xml version="1.0"?><rss><channel></channel></rss>',
+          json: async () => ({}),
+        } as unknown as Response;
+      }) as typeof fetch;
+
+      try {
+        const { scan } = await import('../scripts/hourly-scan.js');
+        await scan();
+
+        // Breaker trips at 8 consecutive failures, checked per batch of 6,
+        // so the sweep must abort within a couple of batches — nowhere near
+        // the ~96 active trackers it would otherwise hit.
+        expect(gdeltCalls).toBeGreaterThan(0);
+        expect(gdeltCalls).toBeLessThanOrEqual(20);
+      } finally {
+        globalThis.fetch = realFetch;
+      }
+    }, 30_000);
+  });
 });

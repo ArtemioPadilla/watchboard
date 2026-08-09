@@ -36,6 +36,13 @@ const GDELT_ENDPOINT = 'https://api.gdeltproject.org/api/v2/doc/doc';
 const GDELT_THEMES =
   'theme:TERROR OR theme:MILITARY OR theme:NATURAL_DISASTER OR theme:POLITICAL_VIOLENCE';
 
+/** Concurrent per-tracker GDELT queries. Kept modest — GDELT rate-limits. */
+const GDELT_BATCH_SIZE = 6;
+/** Wall-clock cap for the whole per-tracker GDELT phase. */
+const GDELT_PHASE_BUDGET_MS = 90_000;
+/** Consecutive failed queries after which the endpoint is treated as down. */
+const GDELT_FAILURE_STREAK_LIMIT = 8;
+
 /** High-quality general RSS feeds for broad coverage */
 const GENERAL_RSS_FEEDS = [
   // ── Tier 1: Major international wire services & broadsheets ──
@@ -326,11 +333,16 @@ function collectEventUrls(slug: string, daysBack: number): Set<string> {
 
 /**
  * Fetches a GDELT query and returns raw article data.
+ *
+ * Returns `null` when the request itself failed (network error, timeout,
+ * non-OK status) as opposed to succeeding with no articles. Callers use that
+ * distinction to trip a circuit breaker when the endpoint is unreachable —
+ * see the GDELT phase in `scan()`.
  */
 async function queryGdelt(
   query: string,
   maxRecords: number = 25,
-): Promise<RssItem[]> {
+): Promise<RssItem[] | null> {
   const params = new URLSearchParams({
     query,
     mode: 'ArtList',
@@ -347,7 +359,7 @@ async function queryGdelt(
       signal: AbortSignal.timeout(15_000),
       headers: { 'User-Agent': 'Watchboard/1.0 hourly-scan' },
     });
-    if (!resp.ok) return [];
+    if (!resp.ok) return null;
     const data = await resp.json();
     const articles = data?.articles ?? [];
     return articles.map(
@@ -366,7 +378,7 @@ async function queryGdelt(
       }),
     );
   } catch {
-    return [];
+    return null;
   }
 }
 
@@ -525,21 +537,69 @@ export async function scan(): Promise<{ candidates: Candidate[]; state: HourlySt
   }
 
   // 2. Per-tracker GDELT queries (using searchContext)
-  for (const t of trackers) {
-    if (!t.searchContext) continue;
-    const items = await queryGdelt(t.searchContext, 10);
-    for (const item of items) {
-      if (!item.title || !item.url) continue;
-      candidates.push(normalizeCandidate(item, t.slug, 'gdelt'));
+  //
+  // Bounded on purpose. This used to be a serial `for` loop over every tracker,
+  // which is fine while GDELT is healthy but catastrophic when it is not: a
+  // stalled endpoint burns its ~10s connect timeout per call, so ~96 trackers
+  // cost ~18 min and starved the rest of the job until it hit the workflow
+  // timeout. Batch the calls, cap the whole phase on wall-clock, and stop early
+  // once the endpoint looks dead rather than paying the timeout 96 times.
+  const gdeltTrackers = trackers.filter((t) => t.searchContext);
+  const gdeltStart = Date.now();
+  let failStreak = 0;
+  let gdeltDone = 0;
+
+  for (let i = 0; i < gdeltTrackers.length; i += GDELT_BATCH_SIZE) {
+    if (Date.now() - gdeltStart > GDELT_PHASE_BUDGET_MS) {
+      console.warn(
+        `[hourly-scan] GDELT phase budget (${GDELT_PHASE_BUDGET_MS / 1000}s) exhausted — ` +
+          `skipping ${gdeltTrackers.length - gdeltDone} of ${gdeltTrackers.length} tracker queries`,
+      );
+      break;
+    }
+    if (failStreak >= GDELT_FAILURE_STREAK_LIMIT) {
+      console.warn(
+        `[hourly-scan] GDELT endpoint unreachable (${failStreak} consecutive failures) — ` +
+          `skipping ${gdeltTrackers.length - gdeltDone} of ${gdeltTrackers.length} tracker queries`,
+      );
+      break;
+    }
+
+    const batch = gdeltTrackers.slice(i, i + GDELT_BATCH_SIZE);
+    console.log(
+      `[hourly-scan] GDELT per-tracker: batch ${Math.floor(i / GDELT_BATCH_SIZE) + 1}/` +
+        `${Math.ceil(gdeltTrackers.length / GDELT_BATCH_SIZE)} (${batch.length} items)`,
+    );
+
+    const settled = await Promise.all(
+      batch.map(async (t) => ({ slug: t.slug, items: await queryGdelt(t.searchContext!, 10) })),
+    );
+
+    for (const { slug, items } of settled) {
+      gdeltDone++;
+      if (items === null) {
+        failStreak++;
+        continue;
+      }
+      failStreak = 0;
+      for (const item of items) {
+        if (!item.title || !item.url) continue;
+        candidates.push(normalizeCandidate(item, slug, 'gdelt'));
+      }
     }
   }
 
-  // 3. GDELT global sweep (catches out-of-scope events)
-  const gdeltItems = await queryGdelt(GDELT_THEMES, 50);
-  for (const item of gdeltItems) {
-    if (!item.title || !item.url) continue;
-    const matched = matchTrackerByKeywords(item.title, trackerKeywordMap);
-    candidates.push(normalizeCandidate(item, matched, 'gdelt'));
+  // 3. GDELT global sweep (catches out-of-scope events).
+  // Skipped when the per-tracker phase already proved the endpoint is down.
+  if (failStreak < GDELT_FAILURE_STREAK_LIMIT) {
+    const gdeltItems = await queryGdelt(GDELT_THEMES, 50);
+    for (const item of gdeltItems ?? []) {
+      if (!item.title || !item.url) continue;
+      const matched = matchTrackerByKeywords(item.title, trackerKeywordMap);
+      candidates.push(normalizeCandidate(item, matched, 'gdelt'));
+    }
+  } else {
+    console.warn('[hourly-scan] Skipping GDELT global sweep — endpoint unreachable');
   }
 
   // 4. Dedup against seen URLs
