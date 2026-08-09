@@ -42,16 +42,23 @@ jobs:
           tar -xzf actionlint.tar.gz actionlint
           ./actionlint -version
 
-          # Script bodies are NOT linted here (-shellcheck= disables it).
-          # Enabling it surfaced 212 pre-existing findings across every
-          # workflow, almost all SC2086 "double quote to prevent globbing" on
-          # scripts that have run correctly for months. A check that starts red
-          # gets ignored or switched off, and mass-quoting long-lived shell for
-          # a style rule risks breaking working pipelines to fix nothing.
+          # Script bodies are linted, but only at severity `error`.
           #
-          # The purpose of this job is the class of bug that actually caused
-          # outages here — invalid contexts, non-existent outputs, malformed
-          # expressions — and actionlint catches those without shellcheck.
-          # Cleaning up the shell debt and re-enabling it is worth doing as its
-          # own change.
-          ./actionlint -color -shellcheck=
+          # Running shellcheck at its default severity reports 212 findings
+          # across every workflow, 158 of them SC2086 "double quote to prevent
+          # globbing" on scripts that have run correctly for months. A check
+          # that starts red gets ignored or switched off, and mass-quoting
+          # long-lived shell for a style rule risks breaking working pipelines
+          # to fix nothing.
+          #
+          # At `error` the repo is clean, so real shell defects fail the build
+          # while the style backlog stays out of the way. That backlog is not
+          # imaginary — 19 warnings remain (SC2044, SC2034, SC2046, SC2155) —
+          # and raising this to `warning` after clearing them is a worthwhile
+          # follow-up.
+          #
+          # `error` covers shell that cannot be parsed at all — quoting that
+          # terminates a string early, unbalanced constructs — which is the
+          # failure mode that killed the scout's issue-creation step at runtime
+          # with "syntax error near unexpected token".
+          SHELLCHECK_OPTS="-S error" ./actionlint -color
