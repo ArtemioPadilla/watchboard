@@ -1,0 +1,47 @@
+name: Lint Workflows
+
+# Static validation of the workflow files themselves.
+#
+# This exists because two real outages came from mistakes a linter catches
+# instantly:
+#   - `secrets` used in a step-level `if:` made daily-video.yml fail to parse.
+#     GitHub reported zero jobs, produced no logs, and silently stopped
+#     generating the scheduled runs — ~7.5 weeks with no daily video.
+#   - tracker-lifecycle.yml read `steps.scout.outputs.result`, an output the
+#     action does not expose, so the issue-creation step never ran.
+#
+# Neither surfaced as a normal test failure, and one left no logs at all.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/**'
+  pull_request:
+    paths:
+      - '.github/workflows/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  actionlint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Run actionlint
+        # Pinned to a release rather than latest so a new upstream check cannot
+        # turn an unrelated PR red without us choosing to take it.
+        run: |
+          VERSION=1.7.12
+          curl -sSLo actionlint.tar.gz \
+            "https://github.com/rhysd/actionlint/releases/download/v${VERSION}/actionlint_${VERSION}_linux_amd64.tar.gz"
+          tar -xzf actionlint.tar.gz actionlint
+          ./actionlint -version
+
+          # shellcheck is available on the runner, so script bodies are linted
+          # too. -color for readable annotations in the job log.
+          ./actionlint -color

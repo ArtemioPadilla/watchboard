@@ -1254,7 +1254,11 @@ jobs:
   # ── Phase 4: Notify on failure ──
   notify-failure:
     needs: [resolve, update, finalize]
-    if: failure()
+    # `cancelled()` matters as much as `failure()`: a job that hits its
+    # timeout-minutes is reported as cancelled, not failed. That is exactly how
+    # this pipeline died silently for two weeks — finalize timed out every night
+    # and no alert ever fired.
+    if: failure() || cancelled()
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
@@ -1263,7 +1267,7 @@ jobs:
       - name: Telegram failure alert
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
           RESOLVE_RESULT: ${{ needs.resolve.result }}
           UPDATE_RESULT: ${{ needs.update.result }}
           FINALIZE_RESULT: ${{ needs.finalize.result }}

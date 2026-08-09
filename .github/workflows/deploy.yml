@@ -83,14 +83,15 @@ jobs:
   # ── Notify Telegram on build/deploy failure ──
   notify-failure:
     needs: [build, deploy]
-    if: failure()
+    # A timed-out job reports as cancelled, not failed — see update-data.yml.
+    if: failure() || cancelled()
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
       - name: Telegram failure alert
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
           BUILD_RESULT: ${{ needs.build.result }}
           DEPLOY_RESULT: ${{ needs.deploy.result }}
         run: |
