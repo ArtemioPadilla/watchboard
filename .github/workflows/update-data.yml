@@ -372,6 +372,33 @@ jobs:
             IMPORTANT: Do NOT commit or push. The workflow handles that.
           claude_args: "--max-turns 30 --dangerously-skip-permissions"  # Reduced from 50 to save Claude Code budget
 
+      - name: Stamp update-log
+        # STEP 4 of the prompt asks the agent to write update-log.json, and it
+        # usually does not: the 2026-08-09 catch-up recovered real events for 23
+        # trackers but only 2 update-logs came back. lastRun then still looks
+        # stale, so the scheduler keeps re-picking trackers that were in fact
+        # just updated, and the freshness numbers understate reality.
+        #
+        # Stamping it here rather than asking the model — the hourly scan has
+        # always done it this way. Only lastRun is written; per-section status
+        # stays the agent's to report, since only it knows what it touched.
+        if: success()
+        run: |
+          LOG="trackers/${{ matrix.slug }}/data/update-log.json"
+          [ -d "$(dirname "$LOG")" ] || exit 0
+          node -e "
+            const fs = require('fs');
+            const p = '$LOG';
+            let log = {};
+            try { log = JSON.parse(fs.readFileSync(p, 'utf8')); } catch {}
+            if (!log || typeof log !== 'object') log = {};
+            log.lastRun = new Date().toISOString();
+            log.tracker = '${{ matrix.slug }}';
+            if (!log.sections || typeof log.sections !== 'object') log.sections = {};
+            fs.writeFileSync(p, JSON.stringify(log, null, 2));
+            console.log('Stamped lastRun=' + log.lastRun);
+          "
+
       - name: Upload tracker changes
         if: always()
         uses: actions/upload-artifact@v4
