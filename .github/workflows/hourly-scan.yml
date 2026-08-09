@@ -462,12 +462,20 @@ jobs:
           "
 
       - name: Update tracker data
+        id: update
         if: matrix.entry.type == 'update'
         uses: anthropics/claude-code-action@v1
         with:
           allowed_bots: "github-actions[bot]"
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          claude_args: "--max-turns 20 --dangerously-skip-permissions --model claude-sonnet-4-6"
+          # --json-schema returns the touched sections and new event ids as a
+          # validated payload on `outputs.structured_output`. They used to be
+          # written to /tmp text files that nothing read, so update-log.json was
+          # filled from a hardcoded section list instead — claiming kpis and
+          # map-points were refreshed whether or not they were touched.
+          claude_args: >-
+            --max-turns 20 --dangerously-skip-permissions --model claude-sonnet-4-6
+            --json-schema '{"type":"object","properties":{"eventIds":{"type":"array","items":{"type":"string"}},"sections":{"type":"array","items":{"type":"string","enum":["events","map-points","map-lines","kpis","meta","casualties","econ","claims","political","strike-targets","retaliation","assets","timeline"]}}},"required":["eventIds","sections"]}'
           prompt: |
             You are updating the Watchboard tracker "${{ matrix.entry.tracker }}" with a breaking news event.
 
@@ -511,8 +519,10 @@ jobs:
             - Merge by ID — never remove existing items, only append
             - Every source MUST include a `url` field with the direct article URL (not a homepage)
 
-            FINALLY: Write the list of new event IDs (one per line) to /tmp/event-ids.txt
-            Write the list of sections you modified (one per line) to /tmp/sections.txt
+            FINALLY: return `eventIds` (the ids of events you created) and
+            `sections` (only the sections you actually modified — do NOT list a
+            section you did not write to). Your reply is validated against a
+            JSON schema.
 
       - name: Generate tweet
         if: matrix.entry.type == 'update'
@@ -804,12 +814,28 @@ jobs:
               ? JSON.parse(fs.readFileSync('$LOG_FILE','utf8'))
               : {lastRun:'',sections:{}};
             log.lastRun = new Date().toISOString();
-            const sections = (process.env.SECTIONS || '').split(',').filter(Boolean);
+
+            // Prefer the sections the agent reports it actually wrote. The
+            // hardcoded FALLBACK_SECTIONS list is only a backstop (new_tracker
+            // entries, or a run with no structured output) — using it
+            // unconditionally marked kpis/map-points as refreshed even when
+            // untouched, which skews freshness and the nightly's escalation.
+            let sections = [];
+            try {
+              const so = JSON.parse(process.env.STRUCTURED_OUTPUT || '{}');
+              if (Array.isArray(so.sections)) sections = so.sections.filter(Boolean);
+            } catch {}
+            if (!sections.length) {
+              sections = (process.env.FALLBACK_SECTIONS || '').split(',').filter(Boolean);
+              console.log('No sections in structured output — using fallback list');
+            }
+            console.log('Marking sections updated: ' + sections.join(', '));
             for (const s of sections) log.sections[s] = {lastRun: log.lastRun, status: 'updated'};
             fs.writeFileSync('$LOG_FILE', JSON.stringify(log, null, 2));
           "
         env:
-          SECTIONS: ${{ matrix.entry.type == 'update' && 'events,map-points,kpis,meta' || 'events,map-points,meta' }}
+          STRUCTURED_OUTPUT: ${{ steps.update.outputs.structured_output }}
+          FALLBACK_SECTIONS: ${{ matrix.entry.type == 'update' && 'events,map-points,kpis,meta' || 'events,map-points,meta' }}
 
       - name: Collect metrics
         id: metrics
