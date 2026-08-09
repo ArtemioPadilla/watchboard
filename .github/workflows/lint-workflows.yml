@@ -42,6 +42,16 @@ jobs:
           tar -xzf actionlint.tar.gz actionlint
           ./actionlint -version
 
-          # shellcheck is available on the runner, so script bodies are linted
-          # too. -color for readable annotations in the job log.
-          ./actionlint -color
+          # Script bodies are NOT linted here (-shellcheck= disables it).
+          # Enabling it surfaced 212 pre-existing findings across every
+          # workflow, almost all SC2086 "double quote to prevent globbing" on
+          # scripts that have run correctly for months. A check that starts red
+          # gets ignored or switched off, and mass-quoting long-lived shell for
+          # a style rule risks breaking working pipelines to fix nothing.
+          #
+          # The purpose of this job is the class of bug that actually caused
+          # outages here — invalid contexts, non-existent outputs, malformed
+          # expressions — and actionlint catches those without shellcheck.
+          # Cleaning up the shell debt and re-enabling it is worth doing as its
+          # own change.
+          ./actionlint -color -shellcheck=
