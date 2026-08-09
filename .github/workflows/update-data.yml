@@ -6,9 +6,13 @@ on:
   workflow_dispatch:
     inputs:
       tracker_slug:
-        description: 'Tracker slug to update, or "all" to check all eligible trackers'
+        description: 'Tracker slug, comma-separated list of slugs, or "all" for every eligible tracker'
         required: false
         default: 'all'
+      review_window_days:
+        description: 'Max review-window days for gap detection (default 30). Raise for a catch-up run.'
+        required: false
+        default: ''
 
 permissions:
   contents: write
@@ -51,10 +55,18 @@ jobs:
           MANUAL_SLUG="${{ github.event.inputs.tracker_slug || 'all' }}"
 
           if [ "$MANUAL_SLUG" != "all" ]; then
-            echo "slugs=$MANUAL_SLUG" >> $GITHUB_OUTPUT
-            echo "slugs_json=[\"$MANUAL_SLUG\"]" >> $GITHUB_OUTPUT
+            # Accepts one slug or a comma-separated list, so a catch-up run can
+            # target the specific trackers that fell behind without processing
+            # all 96.
+            SLUGS=$(echo "$MANUAL_SLUG" | tr ',' ' ' | xargs)
+            SLUGS_JSON=$(echo "$SLUGS" | node -e "
+              const s = require('fs').readFileSync(0,'utf8').trim();
+              console.log(JSON.stringify(s.split(/\s+/).filter(Boolean)));
+            ")
+            echo "slugs=$SLUGS" >> $GITHUB_OUTPUT
+            echo "slugs_json=$SLUGS_JSON" >> $GITHUB_OUTPUT
             echo "has_trackers=true" >> $GITHUB_OUTPUT
-            echo "Manual trigger: $MANUAL_SLUG"
+            echo "Manual trigger: $SLUGS"
             exit 0
           fi
 
@@ -190,6 +202,9 @@ jobs:
           path: /tmp/
 
       - name: Generate review manifest
+        env:
+          # Empty on scheduled runs, so the script keeps its 30-day default.
+          REVIEW_WINDOW_MAX_DAYS: ${{ github.event.inputs.review_window_days }}
         run: ELIGIBLE_SLUGS="${{ matrix.slug }}" npx tsx scripts/generate-review-manifest.ts
 
       - name: Build sibling context for prompt

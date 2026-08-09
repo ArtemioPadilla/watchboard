@@ -35,8 +35,22 @@ for (const slug of slugs) {
     }
   }
 
-  // Window: min(max(daysSinceLastRun, 7), 30)
-  const windowSize = Math.min(Math.max(daysSinceLastRun, 7), 30);
+  // Window: min(max(daysSinceLastRun, 7), MAX_WINDOW_DAYS)
+  //
+  // The cap is what stops a stale tracker from ever catching up: once the
+  // nightly runs, lastRun resets to today and the window shrinks back to 7, so
+  // anything older than the cap is skipped permanently rather than gradually
+  // recovered. After the 2026-07/08 outage some trackers were 60+ days behind
+  // and would have kept a hole forever. Override it for a one-off catch-up run
+  // and leave the default alone for normal nights, since a wide window inflates
+  // the manifest and the agent has a fixed turn budget.
+  // Parsed defensively: on scheduled runs GitHub passes workflow inputs through
+  // as an empty string, and `'' ?? 30` is '' — so a naive Number() would yield
+  // 0 and silently disable gap detection on every normal night.
+  const rawMax = process.env.REVIEW_WINDOW_MAX_DAYS;
+  const parsedMax = rawMax ? Number(rawMax) : NaN;
+  const MAX_WINDOW_DAYS = Number.isFinite(parsedMax) && parsedMax > 0 ? parsedMax : 30;
+  const windowSize = Math.min(Math.max(daysSinceLastRun, 7), MAX_WINDOW_DAYS);
 
   const windowStart = new Date(today);
   windowStart.setDate(windowStart.getDate() - windowSize);
