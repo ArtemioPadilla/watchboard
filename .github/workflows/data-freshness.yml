@@ -96,7 +96,7 @@ jobs:
               echo "could be anywhere in the pipeline. Check the nightly and hourly"
               echo "runs, then the credential canary."
             } > /tmp/freshness-issue.md
-            gh issue create --title "$TITLE" --label "automated" \
+            gh issue create --title "$TITLE" --label "automation" \
               --body-file /tmp/freshness-issue.md || true
           fi
 
