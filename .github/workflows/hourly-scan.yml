@@ -768,9 +768,73 @@ jobs:
           npx tsx -e "
             import * as S from './src/lib/schemas.js';
             import { z } from 'zod';
-            import { existsSync, readFileSync } from 'fs';
+            import { existsSync, readFileSync, writeFileSync } from 'fs';
 
             const dir = 'trackers/$TRACKER/data';
+
+            // Normalise map-lines before validating. events/*.json already gets
+            // this treatment above, but map-lines did not — so a single
+            // out-of-enum value discarded the whole update. Real case: a source
+            // describing a 'drone or missile attack' produced
+            // weaponType 'drone/missile', which is not in the enum, and the
+            // saudi-arabia event was dropped entirely (2026-08-09).
+            const WEAPON_TYPES = ['ballistic','cruise','drone','drone_loitering','drone_ucav','drone_recon','drone_fpv','rocket','mixed','unknown'];
+            function normaliseWeaponType(v: unknown): string {
+              if (typeof v !== 'string') return 'unknown';
+              if (WEAPON_TYPES.includes(v)) return v;
+              const s = v.toLowerCase();
+              // Ambiguous source wording ('drone or missile') means mixed, not a guess.
+              const drone = s.includes('drone') || s.includes('uav');
+              const missile = s.includes('missile') || s.includes('ballistic') || s.includes('cruise');
+              if (drone && missile) return 'mixed';
+              if (s.includes('loiter') || s.includes('shahed') || s.includes('kamikaze')) return 'drone_loitering';
+              if (drone) return 'drone_loitering';
+              if (s.includes('ballistic')) return 'ballistic';
+              if (s.includes('cruise')) return 'cruise';
+              if (s.includes('rocket')) return 'rocket';
+              if (missile) return 'ballistic';
+              return 'unknown';
+            }
+            function normaliseTime(v: unknown): string | null {
+              if (typeof v !== 'string') return null;
+              if (/^([01][0-9]|2[0-3]):[0-5][0-9]\$/.test(v)) return v;
+              // Most common mistake: a full ISO timestamp instead of HH:MM.
+              const m = v.match(/T([01][0-9]|2[0-3]):([0-5][0-9])/) || v.match(/^([0-9]{1,2}):([0-5][0-9])/);
+              if (m) return String(m[1]).padStart(2,'0') + ':' + m[2];
+              return null;
+            }
+
+            const mlPath = dir + '/map-lines.json';
+            if (existsSync(mlPath)) {
+              try {
+                const lines = JSON.parse(readFileSync(mlPath, 'utf8'));
+                if (Array.isArray(lines)) {
+                  let changed = 0;
+                  for (const l of lines) {
+                    if (l && l.weaponType !== undefined) {
+                      const fixedW = normaliseWeaponType(l.weaponType);
+                      if (fixedW !== l.weaponType) {
+                        console.log('  map-lines: weaponType ' + JSON.stringify(l.weaponType) + ' -> ' + fixedW);
+                        l.weaponType = fixedW; changed++;
+                      }
+                    }
+                    if (l && l.time !== undefined) {
+                      const fixedT = normaliseTime(l.time);
+                      if (fixedT === null) {
+                        // Required for strike/retaliation, so dropping the entry
+                        // would lose the event. Keep it, flagged as midnight.
+                        console.log('  map-lines: unparseable time ' + JSON.stringify(l.time) + ' -> 00:00');
+                        l.time = '00:00'; changed++;
+                      } else if (fixedT !== l.time) {
+                        console.log('  map-lines: time ' + JSON.stringify(l.time) + ' -> ' + fixedT);
+                        l.time = fixedT; changed++;
+                      }
+                    }
+                  }
+                  if (changed > 0) writeFileSync(mlPath, JSON.stringify(lines, null, 2));
+                }
+              } catch { /* malformed JSON is caught by the validation below */ }
+            }
             const schemaMap: Record<string, z.ZodTypeAny> = {
               'kpis.json': z.array(S.KpiSchema),
               'timeline.json': z.array(S.TimelineEraSchema),

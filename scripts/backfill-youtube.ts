@@ -96,7 +96,10 @@ async function searchYouTube(query: string): Promise<YTHit | null> {
   });
   const url = 'https://www.googleapis.com/youtube/v3/search?' + params.toString();
   let res: Response;
-  try { res = await fetch(url); }
+  // Bounded on purpose. An unbounded fetch inside a per-event loop is the shape
+  // that took down the nightly and the hourly scan: one stalled host and the
+  // loop hangs until the job's wall-clock limit kills it, discarding the work.
+  try { res = await fetch(url, { signal: AbortSignal.timeout(15_000) }); }
   catch { return null; }
   if (!res.ok) {
     if (res.status === 403 || res.status === 429) {
