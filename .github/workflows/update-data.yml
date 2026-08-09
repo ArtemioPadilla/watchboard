@@ -687,7 +687,12 @@ jobs:
           console.log('All pass after fix');
           " 2>&1 || true
           AFTER=$(cat /tmp/zod-error-count-after-fix.txt 2>/dev/null || echo 0)
-          echo "valid=$( [ \"$AFTER\" -eq 0 ] && echo true || echo false )" >> $GITHUB_OUTPUT
+          # An empty or non-numeric file made `[ "$AFTER" -eq 0 ]` fail as a
+          # shell error, which happened to fall through to valid=false. Keep
+          # that conservative outcome explicitly — an unreadable error count
+          # must never be treated as "zero errors" and let data through.
+          case "$AFTER" in ''|*[!0-9]*) AFTER=1 ;; esac
+          echo "valid=$( [ "$AFTER" -eq 0 ] && echo true || echo false )" >> $GITHUB_OUTPUT
           echo "error_count=$AFTER" >> $GITHUB_OUTPUT
 
       - name: Build gate (catch runtime errors Zod misses)
