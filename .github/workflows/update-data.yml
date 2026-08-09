@@ -553,13 +553,54 @@ jobs:
               for (const ef of fs.readdirSync(eventsDir).filter(f => f.endsWith('.json'))) {
                 const fp = path.join(eventsDir, ef);
                 const raw = JSON.parse(fs.readFileSync(fp, 'utf8'));
+
+                // Normalise confusable enums before validating. The hourly scan
+                // has done this for a while; the nightly did not, and leaned on
+                // the LLM fix agent instead. On 2026-08-09 that cost the whole
+                // night: germany had confidence 'official_claim' — a valid
+                // eventConfidence value in the wrong field — the fix agent did
+                // not repair it, and every tracker's data was discarded over two
+                // events. Deterministic repair is cheaper and more reliable than
+                // an LLM for a fixed set of format mistakes.
+                const CONF = ['high','medium','low'];
+                const EVENT_CONF = ['verified','official_claim','disputed','unverified'];
+                const CONF_MAP: Record<string,string> = {
+                  verified:'high', official_claim:'medium', disputed:'low', unverified:'low',
+                  confirmed:'high', certain:'high', probable:'medium', possible:'low',
+                };
+                const EVENT_CONF_MAP: Record<string,string> = {
+                  confirmed:'verified', high:'verified', medium:'official_claim',
+                  low:'unverified', official:'official_claim', contested:'disputed',
+                };
+                let normalised = 0;
+                for (const e of (Array.isArray(raw) ? raw : [raw])) {
+                  if (!e || typeof e !== 'object') continue;
+                  if (e.confidence && !CONF.includes(e.confidence)) {
+                    const to = CONF_MAP[e.confidence] || 'medium';
+                    console.log('    normalised confidence ' + JSON.stringify(e.confidence) + ' -> ' + to);
+                    e.confidence = to; normalised++;
+                  }
+                  if (e.eventConfidence && !EVENT_CONF.includes(e.eventConfidence)) {
+                    const to = EVENT_CONF_MAP[e.eventConfidence] || 'unverified';
+                    console.log('    normalised eventConfidence ' + JSON.stringify(e.eventConfidence) + ' -> ' + to);
+                    e.eventConfidence = to; normalised++;
+                  }
+                }
+                if (normalised > 0) fs.writeFileSync(fp, JSON.stringify(raw, null, 2));
+
                 const result = eventSchema.safeParse(raw);
                 if (result.success) {
                   console.log('  ✓ events/' + ef);
                 } else {
                   console.error('  ✗ events/' + ef);
                   for (const err of result.error.errors.slice(0, 5)) {
-                    errors.push({ tracker: slug, file: 'events/' + ef, field: err.path.join('.'), message: err.message });
+                    const field = err.path.join('.');
+                    // Printed as well as collected: the non-events branch above
+                    // logs the reason, this one only recorded it, so a failing
+                    // night showed a bare ✗ and the cause had to be dug out of
+                    // the fix agent's prompt.
+                    console.error('    ', field, ':', err.message);
+                    errors.push({ tracker: slug, file: 'events/' + ef, field, message: err.message });
                   }
                   failures++;
                 }
@@ -751,18 +792,22 @@ jobs:
           git add trackers/
           git commit -m "chore(data): nightly AI update $(date -u +%Y-%m-%dT%H:%M:%SZ)"
           pushed=false
-          for i in 1 2 3; do
+          # Same backoff as the metrics push below — this one matters more,
+          # since losing it discards the night's data entirely.
+          delay=2
+          for i in 1 2 3 4 5; do
             if git pull --rebase origin main && git push; then
               pushed=true
               break
             fi
-            echo "Push attempt $i failed, retrying..."
+            echo "Push attempt $i failed, retrying in ${delay}s..."
             git rebase --abort || true
             git reset --hard HEAD
-            sleep 2
+            sleep "$delay"
+            delay=$((delay * 2))
           done
           if [ "$pushed" != "true" ]; then
-            echo "Failed to push nightly data commit after 3 attempts"
+            echo "Failed to push nightly data commit after 5 attempts"
             exit 1
           fi
 
@@ -1218,18 +1263,24 @@ jobs:
           STATUS="${{ steps.validate.outputs.valid == 'true' && 'success' || (steps.revalidate.outputs.valid == 'true' && 'success' || 'failure') }}"
           git commit -m "chore(metrics): ingestion run $TIMESTAMP [$STATUS]"
           pushed=false
-          for i in 1 2 3; do
+          # Exponential backoff over more attempts. Three tries two seconds
+          # apart lost this push on 2026-08-09: main is written by the hourly
+          # scan, the light scan and merges, so a fixed short retry keeps
+          # colliding with the same traffic it is waiting out.
+          delay=2
+          for i in 1 2 3 4 5; do
             if git pull --rebase origin main && git push; then
               pushed=true
               break
             fi
-            echo "Push attempt $i failed, retrying..."
+            echo "Push attempt $i failed, retrying in ${delay}s..."
             git rebase --abort || true
             git reset --hard HEAD
-            sleep 2
+            sleep "$delay"
+            delay=$((delay * 2))
           done
           if [ "$pushed" != "true" ]; then
-            echo "Failed to push nightly metrics commit after 3 attempts"
+            echo "Failed to push nightly metrics commit after 5 attempts"
             exit 1
           fi
 
