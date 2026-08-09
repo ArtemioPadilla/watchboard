@@ -8,6 +8,15 @@ on:
     workflows: ["Nightly Data Update"]
     types: [completed]
     branches: [main]
+  # Safety net. The site went 16 days without publishing (last success
+  # 2026-07-18) because every path to a deploy was blocked at once: the
+  # workflow_run path required the nightly to conclude 'success' and it was
+  # timing out to 'cancelled', while the push path never fires for bot commits
+  # — GitHub does not trigger workflows for pushes made with GITHUB_TOKEN.
+  # A daily schedule guarantees the published site cannot drift far behind the
+  # committed data no matter which trigger is broken.
+  schedule:
+    - cron: '30 19 * * *'  # after the nightly (14:00) and freshness check (18:00)
 
 permissions:
   contents: read
@@ -20,13 +29,20 @@ concurrency:
 
 jobs:
   build:
-    # When triggered by workflow_run (nightly update), only deploy if it succeeded.
-    # Push events (including hourly-scan commits) and workflow_dispatch always pass
-    # this condition because event_name is 'push' or 'workflow_dispatch', not
-    # 'workflow_run', so the first clause is true and the || short-circuits.
+    # When triggered by workflow_run (nightly update), deploy unless it failed
+    # outright. Other events (push, workflow_dispatch, schedule) always pass,
+    # because the first clause is true and the || short-circuits.
+    #
+    # 'cancelled' is accepted deliberately: that is what a job timeout reports,
+    # and a timed-out nightly still commits whatever it validated before the
+    # wall. Requiring 'success' meant a partially-successful night published
+    # nothing at all — data sat committed but unpublished for over two weeks.
+    # Anything committed has already passed the JSON + Zod + build gates, so
+    # publishing it is safe.
     if: >-
       github.event_name != 'workflow_run' ||
-      github.event.workflow_run.conclusion == 'success'
+      github.event.workflow_run.conclusion == 'success' ||
+      github.event.workflow_run.conclusion == 'cancelled'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

@@ -1,0 +1,103 @@
+name: Data Freshness Alarm
+
+# The pipeline's last line of defence.
+#
+# Every other alarm watches a specific failure — a job that errored, a
+# credential that stopped authenticating, a workflow that would not parse. Each
+# only fires for a failure mode somebody anticipated.
+#
+# This one watches the outcome. If tracker data stops moving forward it
+# reports, whatever the cause, including causes not yet seen. All three outages
+# found in this repo would have tripped it, and none of them raised an alert at
+# the time:
+#
+#   - revoked OAuth token      — agents never ran
+#   - finalize timeout         — data produced but never committed
+#   - hourly GDELT stall       — triage starved, state never committed
+#
+# Runs after the nightly has had time to finish (14:00 UTC + ~4h).
+
+on:
+  schedule:
+    - cron: '0 18 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  freshness:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - run: npm ci
+
+      - name: Check data freshness
+        id: check
+        continue-on-error: true
+        run: npx tsx scripts/check-data-freshness.ts
+
+      - name: Alert
+        if: steps.check.outcome != 'success'
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SUMMARY: ${{ steps.check.outputs.summary }}
+          FRESHEST_DAYS: ${{ steps.check.outputs.freshest_days }}
+          STALE_COUNT: ${{ steps.check.outputs.stale_count }}
+          ACTIVE_COUNT: ${{ steps.check.outputs.active_count }}
+        run: |
+          RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
+          {
+            echo "## Data Freshness — STALE"
+            echo ""
+            echo "${SUMMARY}"
+            echo ""
+            echo "- Freshest tracker: ${FRESHEST_DAYS}d ago"
+            echo "- Stale: ${STALE_COUNT}/${ACTIVE_COUNT}"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          if [ -n "$TELEGRAM_BOT_TOKEN" ] && [ -n "$TELEGRAM_CHAT_ID" ]; then
+            TEXT=$(printf '📉 Watchboard data is stale\n\n%s\n\nFreshest: %sd ago\nStale: %s/%s\n\n%s' \
+                    "$SUMMARY" "$FRESHEST_DAYS" "$STALE_COUNT" "$ACTIVE_COUNT" "$RUN_URL")
+            PAYLOAD=$(jq -n --arg c "$TELEGRAM_CHAT_ID" --arg t "$TEXT" '{chat_id:$c, text:$t}')
+            curl -s --max-time 15 -X POST \
+              "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+              -H 'Content-Type: application/json' -d "$PAYLOAD" > /dev/null || true
+          fi
+
+          # Durable channel, deduplicated so a sustained outage does not pile up
+          # a new issue every day.
+          TITLE="[freshness] Tracker data has gone stale"
+          EXISTING=$(gh issue list --search "$TITLE in:title" --state open \
+                       --json number --jq '.[0].number // empty' 2>/dev/null || echo "")
+          if [ -n "$EXISTING" ]; then
+            gh issue comment "$EXISTING" --body "Still stale: ${SUMMARY} (${RUN_URL})" || true
+          else
+            {
+              echo "${SUMMARY}"
+              echo ""
+              echo "- Freshest tracker: ${FRESHEST_DAYS}d ago"
+              echo "- Stale: ${STALE_COUNT}/${ACTIVE_COUNT}"
+              echo ""
+              echo "Run: ${RUN_URL}"
+              echo ""
+              echo "This alarm watches the outcome, not a specific job, so the cause"
+              echo "could be anywhere in the pipeline. Check the nightly and hourly"
+              echo "runs, then the credential canary."
+            } > /tmp/freshness-issue.md
+            gh issue create --title "$TITLE" --label "automated" \
+              --body-file /tmp/freshness-issue.md || true
+          fi
+
+          exit 1
