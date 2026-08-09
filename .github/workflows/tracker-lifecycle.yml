@@ -127,14 +127,25 @@ jobs:
               if (!candidates.length) { console.log('Scout returned no candidates'); process.exit(0); }
               console.log('Scout returned ' + candidates.length + ' candidate(s)');
 
-              const { execSync } = require('child_process');
+              // execFileSync, not execSync: arguments go straight to gh instead
+              // of through a shell, so no quoting or escaping is involved. The
+              // shell-string version below used to carry an unescaped double
+              // quote inside a regex, which terminated the surrounding bash
+              // string and killed the step with a syntax error. It never
+              // surfaced because the step was gated on a non-existent output
+              // and so had never once run.
+              const { execFileSync } = require('child_process');
+              const fs = require('fs');
               for (const c of candidates) {
                 if (c.confidence < 0.6) continue;
 
+                const title = '[Scout] Proposed tracker: ' + c.slug;
+
                 // Check for existing open issue
                 try {
-                  const existing = execSync(
-                    'gh issue list --search \"[Scout] Proposed tracker: ' + c.slug + '\" --state open --json number --jq length',
+                  const existing = execFileSync(
+                    'gh',
+                    ['issue','list','--search',title,'--state','open','--json','number','--jq','length'],
                     { encoding: 'utf8' }
                   ).trim();
                   if (parseInt(existing) > 0) {
@@ -171,13 +182,21 @@ jobs:
                 ].join('\n');
 
                 try {
-                  execSync(
-                    'gh issue create' +
-                    ' --title \"[Scout] Proposed tracker: ' + c.slug + '\"' +
-                    ' --label \"' + labels.join(',') + '\"' +
-                    ' --body \"' + body.replace(/"/g, '\\\\"').replace(/\n/g, '\\n') + '\"',
-                    { stdio: 'inherit' }
-                  );
+                  // --body-file rather than inlining the body: it can contain
+                  // quotes, newlines and backticks from the model's prose.
+                  const bodyFile = '/tmp/scout-issue-' + c.slug + '.md';
+                  fs.writeFileSync(bodyFile, body);
+                  const base = ['issue','create','--title',title,'--body-file',bodyFile];
+                  try {
+                    execFileSync('gh', [...base,'--label',labels.join(',')], { stdio: 'inherit' });
+                  } catch {
+                    // gh refuses the whole call if any label is missing, and
+                    // these (scout, auto-triage, domain:*) are not defined in
+                    // the repo. Losing a candidate over a missing label would
+                    // be worse than losing the label.
+                    console.warn('Label(s) rejected — creating issue without labels');
+                    execFileSync('gh', base, { stdio: 'inherit' });
+                  }
                   console.log('Created issue for: ' + c.slug);
                 } catch(e) {
                   console.error('Failed to create issue for ' + c.slug + ':', e.message);
