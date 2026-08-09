@@ -714,6 +714,38 @@ jobs:
           fi
         continue-on-error: true
 
+      - name: Backfill missing digests
+        if: |
+          steps.build_check.outputs.build_ok == 'true'
+        run: npx tsx scripts/ensure-digests.ts
+
+      - name: Commit and push data
+        if: |
+          steps.build_check.outputs.build_ok == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add trackers/
+          git commit -m "chore(data): nightly AI update $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          pushed=false
+          for i in 1 2 3; do
+            if git pull --rebase origin main && git push; then
+              pushed=true
+              break
+            fi
+            echo "Push attempt $i failed, retrying..."
+            git rebase --abort || true
+            git reset --hard HEAD
+            sleep 2
+          done
+          if [ "$pushed" != "true" ]; then
+            echo "Failed to push nightly data commit after 3 attempts"
+            exit 1
+          fi
+
       - name: Validate media URLs
         id: media_check
         if: steps.build_check.outputs.build_ok == 'true'
@@ -816,15 +848,35 @@ jobs:
             console.log('');
             console.log('HEAD-checking ' + urlsToCheck.length + ' media URLs...');
 
-            let ok = 0, broken = 0;
+            // Bounded: a serial loop over every URL grew past the job timeout
+            // (5k+ URLs and climbing daily). Pool the requests and hard-stop on
+            // a wall-clock budget so this diagnostic can never starve the job.
+            const CONCURRENCY = 24;
+            const DEADLINE_MS = 5 * 60 * 1000;
+            const startedAt = Date.now();
+
+            let ok = 0, broken = 0, skipped = 0, cursor = 0;
             const failures = [];
-            for (const entry of urlsToCheck) {
-              const result = await headCheck(entry.url);
-              if (result.ok) { ok++; }
-              else { broken++; failures.push(entry.slug + '/' + entry.event + ': ' + entry.url + ' (' + result.status + ')'); }
+
+            async function worker() {
+              while (true) {
+                const i = cursor++;
+                if (i >= urlsToCheck.length) return;
+                if (Date.now() - startedAt > DEADLINE_MS) { skipped++; continue; }
+                const entry = urlsToCheck[i];
+                const result = await headCheck(entry.url);
+                if (result.ok) { ok++; }
+                else { broken++; failures.push(entry.slug + '/' + entry.event + ': ' + entry.url + ' (' + result.status + ')'); }
+              }
             }
+
+            await Promise.all(Array.from({ length: CONCURRENCY }, worker));
+
             console.log('  Reachable: ' + ok + ' ✓');
             console.log('  Broken URLs: ' + broken + (broken > 0 ? ' ⚠️' : ''));
+            if (skipped > 0) {
+              console.warn('  Skipped (5m time budget exhausted): ' + skipped + ' of ' + urlsToCheck.length + ' ⚠️');
+            }
             if (failures.length > 0) {
               console.warn('');
               console.warn('Broken media URLs (non-blocking):');
@@ -866,38 +918,6 @@ jobs:
           if (pct < 50) console.warn('  ⚠️ Source URL coverage below 50% — consider backfilling');
           else console.log('  ✓ Coverage acceptable');
           "
-
-      - name: Backfill missing digests
-        if: |
-          steps.build_check.outputs.build_ok == 'true'
-        run: npx tsx scripts/ensure-digests.ts
-
-      - name: Commit and push data
-        if: |
-          steps.build_check.outputs.build_ok == 'true'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git"
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git add trackers/
-          git commit -m "chore(data): nightly AI update $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-          pushed=false
-          for i in 1 2 3; do
-            if git pull --rebase origin main && git push; then
-              pushed=true
-              break
-            fi
-            echo "Push attempt $i failed, retrying..."
-            git rebase --abort || true
-            git reset --hard HEAD
-            sleep 2
-          done
-          if [ "$pushed" != "true" ]; then
-            echo "Failed to push nightly data commit after 3 attempts"
-            exit 1
-          fi
 
       - name: Collect metrics
         id: metrics
