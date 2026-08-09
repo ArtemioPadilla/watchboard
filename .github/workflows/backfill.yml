@@ -26,6 +26,9 @@ concurrency:
 jobs:
   backfill:
     runs-on: ubuntu-latest
+    # Without this the job inherits GitHub's 6-hour default, so a stalled
+    # upstream host could burn hours of Actions time before anyone noticed.
+    timeout-minutes: 60
     steps:
       - name: Checkout
         uses: actions/checkout@v5
