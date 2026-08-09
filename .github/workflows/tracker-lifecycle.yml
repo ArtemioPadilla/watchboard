@@ -61,7 +61,14 @@ jobs:
           # array, so every run died on "Reached maximum number of turns".
           # In line with the other research-style jobs in this repo (triage 20,
           # nightly update 30) and bounded by the job's 15-minute timeout.
-          claude_args: "--max-turns 25 --dangerously-skip-permissions"
+          #
+          # --json-schema makes the action validate the reply and expose it as
+          # `outputs.structured_output`, instead of us scraping a JSON array out
+          # of free-form prose. The schema root must be an object, so the list
+          # is nested under `candidates`.
+          claude_args: >-
+            --max-turns 25 --dangerously-skip-permissions
+            --json-schema '{"type":"object","properties":{"candidates":{"type":"array","maxItems":5,"items":{"type":"object","properties":{"slug":{"type":"string","pattern":"^[a-z0-9]+(-[a-z0-9]+)*$"},"name":{"type":"string"},"topic":{"type":"string"},"domain":{"type":"string","enum":["conflict","security","governance","disaster","human-rights","science","space","economy","culture","history"]},"region":{"type":"string","enum":["north-america","central-america","south-america","europe","middle-east","africa","central-asia","south-asia","east-asia","southeast-asia","oceania","global"]},"country":{"type":"string"},"startDate":{"type":"string","pattern":"^[0-9]{4}-[0-9]{2}-[0-9]{2}$"},"rationale":{"type":"string"},"confidence":{"type":"number","minimum":0,"maximum":1},"suggestedProfile":{"type":"string","enum":["crisis","steady","historical"]},"overlappingTrackers":{"type":"array","items":{"type":"string"}}},"required":["slug","name","topic","domain","startDate","confidence"]}}},"required":["candidates"]}'
           prompt: |
             You are a news intelligence analyst for Watchboard, a multi-topic intelligence dashboard.
 
@@ -76,7 +83,8 @@ jobs:
             - Clear geographic scope
             - Identifiable KPIs, political actors, map-plottable locations
 
-            Output ONLY a JSON array (no markdown, no explanation) with this structure per candidate:
+            Return your answer as a `candidates` array (the response is validated
+            against a JSON schema), with this structure per candidate:
             [
               {
                 "slug": "kebab-case-slug",
@@ -98,34 +106,26 @@ jobs:
       - name: Create GitHub Issues for candidates
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          EXECUTION_FILE: ${{ steps.scout.outputs.execution_file }}
+          # claude-code-action exposes no `outputs.result` — gating on it made
+          # this step never run, so the scout burned turns and created nothing.
+          # With --json-schema set on the scout, the validated reply arrives
+          # here as a JSON string, so no prose-scraping is needed.
+          STRUCTURED_OUTPUT: ${{ steps.scout.outputs.structured_output }}
         run: |
-          # claude-code-action exposes no `outputs.result` — its outputs are
-          # branch_name, execution_file, github_token, session_id and
-          # structured_output. Gating on the non-existent one made this step
-          # never run, so the scout burned turns and created nothing. The final
-          # assistant text lives in the JSON execution log instead.
-          if [ -z "$EXECUTION_FILE" ] || [ ! -f "$EXECUTION_FILE" ]; then
-            echo "No scout execution file — skipping issue creation"
+          if [ -z "$STRUCTURED_OUTPUT" ]; then
+            echo "No structured output from scout — skipping issue creation"
             exit 0
           fi
-          node -e "
-            const fs = require('fs');
-            let raw;
-            try { raw = JSON.parse(fs.readFileSync(process.env.EXECUTION_FILE, 'utf8')); }
-            catch { process.exit(0); }
-            const events = Array.isArray(raw) ? raw : [raw];
-            const last = events.filter(e => e && e.type === 'result').pop();
-            process.stdout.write(last && typeof last.result === 'string' ? last.result : '');
-          " | node -e "
-            const readline = require('readline');
+          printf '%s' "$STRUCTURED_OUTPUT" | node -e "
             let input = '';
             process.stdin.on('data', d => input += d);
             process.stdin.on('end', async () => {
-              const match = input.match(/\[[\s\S]*\]/);
-              if (!match) { console.log('No JSON array found in scout output'); process.exit(0); }
-              let candidates;
-              try { candidates = JSON.parse(match[0]); } catch(e) { console.error('Failed to parse:', e); process.exit(0); }
+              let parsed;
+              try { parsed = JSON.parse(input); }
+              catch(e) { console.error('Failed to parse structured output:', e.message); process.exit(0); }
+              const candidates = Array.isArray(parsed) ? parsed : (parsed && parsed.candidates) || [];
+              if (!candidates.length) { console.log('Scout returned no candidates'); process.exit(0); }
+              console.log('Scout returned ' + candidates.length + ' candidate(s)');
 
               const { execSync } = require('child_process');
               for (const c of candidates) {
