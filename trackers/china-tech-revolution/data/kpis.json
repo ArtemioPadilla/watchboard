@@ -145,20 +145,20 @@
     "color": "red",
     "source": "CNBC / Taipei Times (May 15, 2026)",
     "contested": false,
-    "delta": "Summit closed May 15 with NO chip deal — H200 license framework reportedly includes 15–25% revenue remittance to US government; Beijing instructed Chinese firms to pause Nvidia orders in favor of domestic Huawei Ascend; rare earth exports ~50% below pre-restriction levels; no signed AI governance framework produced at summit",
+    "delta": "Summit closed May 15 with NO chip deal — H200 license framework reportedly includes 15–25% revenue remittance to US government; Beijing instructed Chinese firms to pause Nvidia orders in favor of domestic Huawei Ascend; rare earth exports ~50% below pre-restriction levels; no signed AI governance framework produced at summit. June 8: CEO Jensen Huang declined Sen. Warren's invitation to testify before the Senate Banking Committee on China chip compliance, the same week Nvidia disclosed ~$50B in annual China revenue excluded from fiscal guidance.",
     "trend": "down",
-    "lastUpdated": "2026-05-16T14:00:00Z"
+    "lastUpdated": "2026-06-08T15:00:00Z"
   },
   {
     "id": "cxmt-q1-2026-revenue-ipo",
-    "label": "CXMT Q1 2026 Revenue / IPO Approval (June 6, 2026)",
-    "value": "50.8B yuan (~$7B); IPO approved",
+    "label": "CXMT Shanghai IPO Debut (July 27, 2026)",
+    "value": "+466% first-day surge; $8.6B raised; ~$460B market cap",
     "color": "green",
-    "source": "Korea Times / WccFtech (June 6, 2026)",
+    "source": "CNBC / TechNode / Tom's Hardware (July 27, 2026)",
     "contested": false,
-    "delta": "+719% YoY Q1 2026 revenue; net profit 33B yuan (reversed from prior-year loss); Shanghai STAR Market IPO approved ($4.4B / 30B yuan); YMTC preparing its own listing; US FAR procurement ban also targets CXMT/YMTC/SMIC chips; driven by surging domestic AI DRAM demand from ByteDance, Alibaba, DeepSeek cluster builds",
+    "delta": "CXMT priced its STAR Market IPO at 8.66 yuan/share, raising 57.92B yuan (~$8.6B) — Asia's biggest 2026 IPO. Shares surged 466% (531% intraday peak) to ~49 yuan, making CXMT China's most valuable listed company (~3.3T yuan, surpassing ICBC). Institutional demand ~570x oversubscribed, retail 212x. Signed $3B Tencent (June) and $7B five-year ByteDance (July) DRAM supply deals ahead of listing. IPO prospectus directs proceeds to DRAM capacity, not HBM — leaving Samsung/SK Hynix HBM lead largely intact. Debut triggered a bipartisan Capitol Hill probe and a Senate letter (July 30) demanding Apple commit to avoid CXMT/YMTC chips by Aug 21.",
     "trend": "up",
-    "lastUpdated": "2026-06-07T14:56:19Z"
+    "lastUpdated": "2026-07-27T16:00:00Z"
   },
   {
     "id": "us-chips-act-allocated",
@@ -294,14 +294,14 @@
   },
   {
     "id": "moonshot-ai-valuation-may2026",
-    "label": "Moonshot AI (Kimi) Valuation — May 2026 Funding Round",
-    "value": "$20B",
+    "label": "Moonshot AI (Kimi) Valuation / Kimi K3 Release",
+    "value": "$20B valuation; Kimi K3 released Jul 16–27",
     "color": "green",
-    "source": "Bloomberg / Asanify (May 7–9, 2026)",
+    "source": "Bloomberg / Asanify (May 7–9, 2026); CNBC / TechCrunch (Jul 16–18, 2026)",
     "contested": false,
-    "delta": "Up 4.6x from $4.3B (late 2025); $2B round led by Meituan, Alibaba & Tencent participating; total 2026 fundraising ~$3.9B; China's fourth major AI unicorn after DeepSeek ($45B), MiniMax ($40B+), Zhipu AI ($14B)",
+    "delta": "Up 4.6x from $4.3B (late 2025); $2B round led by Meituan, Alibaba & Tencent participating; total 2026 fundraising ~$3.9B; China's fourth major AI unicorn after DeepSeek ($45B), MiniMax ($40B+), Zhipu AI ($14B). July 16–27: released Kimi K3, a ~2.8T-parameter open-weight MoE model with 1M-token context, priced $3/$15 per M tokens — coincided with a ~1% Nasdaq chip-stock selloff on renewed China open-source AI competitiveness concerns.",
     "trend": "up",
-    "lastUpdated": "2026-05-09T14:30:00Z"
+    "lastUpdated": "2026-07-18T15:00:00Z"
   },
   {
     "id": "china-april-2026-trade-exports",
@@ -536,6 +536,28 @@
     "delta": "Overtook CATL (4.1%) as largest CSI 300 constituent. Shares up 5x in 2025, 2x more in 2026. Q1 2026 net profit +262% YoY. AI data center optical transceiver supplier to Google (22%), Amazon (11%), Meta (6.4%), Huawei (5%), Alibaba (1.9%). Trans-Pacific neutral in US-China chip war — optical interconnects not subject to export controls. Index shift signals China equity markets repricing from EV era to AI infrastructure era benchmark stock.",
     "trend": "up",
     "lastUpdated": "2026-06-05T15:30:00Z"
+  },
+  {
+    "id": "china-rare-earth-retaliation-jun22-2026",
+    "label": "China Export Controls on US Rare-Earth/Defense Firms (June 22, 2026)",
+    "value": "10 US entities added, incl. MP Materials, USA Rare Earth",
+    "color": "amber",
+    "source": "Al Jazeera / Washington Post (June 22, 2026)",
+    "contested": false,
+    "delta": "MOFCOM barred dual-use exports to MP Materials, USA Rare Earth, and 8 defense-linked firms in retaliation for the Pentagon's expanded ~80-firm 'Chinese military-industrial entity' list. Entity-specific, not a blanket rare-earth ban; China's broader Oct 2025 rare-earth control suspension (from the Xi-Trump summit) remains in effect until Nov 2026. China separately widened controls to 14 EU firms in July.",
+    "trend": "up",
+    "lastUpdated": "2026-06-22T15:00:00Z"
+  },
+  {
+    "id": "deepseek-v4-flash-official-jul31-2026",
+    "label": "DeepSeek V4-Flash Official Release (July 31, 2026)",
+    "value": "Enhanced agent capabilities; lower API cost",
+    "color": "green",
+    "source": "Caixin Global / Axios (Jul 31–Aug 1, 2026)",
+    "contested": false,
+    "delta": "DeepSeek shipped the official V4-Flash model July 31 — improved autonomous agent capabilities and further API cost cuts via post-training refinement, without a companion V4-Pro release. Lands two weeks after Moonshot's Kimi K3, intensifying China's low-cost frontier-model race (Bloomberg: 'DeepSeek's new bargain model accelerates AI's race to zero').",
+    "trend": "up",
+    "lastUpdated": "2026-07-31T15:00:00Z"
   },
   {
     "id": "us-bis-chip-export-global-scope-jun01-2026",

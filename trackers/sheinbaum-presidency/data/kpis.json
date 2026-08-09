@@ -2,26 +2,26 @@
   {
     "id": "approval-rating",
     "label": "Presidential Approval Rating",
-    "value": "51%",
+    "value": "57%",
     "color": "amber",
-    "source": "Bloomberg LatAm Pulse / multiple pollsters, end-April 2026",
+    "source": "Bloomberg LatAm Pulse (AtlasIntel), August 6, 2026",
     "contested": false,
-    "delta": "-21pp since Jan 2026",
-    "deltaNote": "Peaked at 85% Feb 2025; fell to 72% Mar 2026; 54% Mar 2026; now 51% — lowest of presidency. Driven by Q1 GDP contraction (-0.8%), CIA-Chihuahua sovereignty crisis, DOJ indictment of Sinaloa governor, and economic anxiety.",
-    "trend": "down",
-    "lastUpdated": "2026-05-06T14:00:00Z"
+    "delta": "+8pp vs. July 2026 low; -15pp since Jan 2026",
+    "deltaNote": "Peaked at 85% Feb 2025; fell to 72% Mar 2026; 54% Mar 2026; 51% end-April; dipped below 50% for the first time in early July amid inflation/purchasing-power concerns; rebounded to 57% by Aug 6 as headline inflation fell to 3.12% (lowest since May 2020) and Sheinbaum sharpened criticism of ICE following the July 7 Houston killing of Lorenzo Salgado Araujo.",
+    "trend": "up",
+    "lastUpdated": "2026-08-06T12:00:00Z"
   },
   {
     "id": "homicide-rate",
     "label": "Homicide Rate (per 100k)",
     "value": "17.5",
     "color": "amber",
-    "source": "SNSP / INEGI; García Harfuch security balance, mañanera May 27, 2026",
+    "source": "SNSP / INEGI; García Harfuch security balance, H1 2026 report (early July 2026)",
     "contested": true,
-    "contestNote": "Through May 2026: daily intentional homicide avg fell 49% since Oct 2024 inauguration (86.9/day → 44.3/day) — García Harfuch May 27 report. Mar 2026 lowest monthly count since 2015. Critics note: disappearances still rising; Sinaloa up ~400%; 800+ families displaced by Los Ardillos drone attacks in Guerrero. Independent analysts warn of potential reclassification effects. 54,300 arrested; 400+ tons drugs seized; 2,400 clandestine labs destroyed; 92 high-value targets extradited.",
-    "delta": "-49% daily avg since Oct 2024 inauguration (86.9→44.3/day through May 2026)",
+    "contestNote": "H1 2026 (Jan–Jun): 8,988 homicides nationally, daily avg 49.7 — down 30.1% vs. same period 2025. June alone averaged 45.4/day, the lowest June in 12 years and a 48% drop since Sept 2024. 54% of homicides concentrated in 8 states led by Guanajuato, Baja California, and Chihuahua; homicides fell in 29 of 32 states (only Oaxaca, Colima, Tlaxcala rose). 59,582 arrested for high-impact crimes since Oct 2024; 31,366 firearms seized; 498.98 tonnes of drugs seized; 2,627 clandestine labs dismantled. Critics note: disappearances still rising; Sinaloa cartel conflict ongoing; independent analysts warn of potential reclassification effects.",
+    "delta": "-30.1% YoY H1 2026 (49.7/day avg); June 2026 lowest June in 12 years (45.4/day)",
     "trend": "down",
-    "lastUpdated": "2026-05-27T14:32:17Z"
+    "lastUpdated": "2026-07-03T14:00:00Z"
   },
   {
     "id": "total-homicides-2025",
@@ -36,27 +36,28 @@
   },
   {
     "id": "gdp-growth-2025",
-    "label": "GDP Growth (2025 actual / Q1 2026 / 2026 full-year forecast)",
-    "value": "0.4% / -0.8% QoQ / 0.8%",
-    "color": "red",
-    "source": "INEGI Q1 2026 preliminary (Apr 30); OECD Economic Outlook June 3, 2026; Citi Encuesta de Expectativas May 21, 2026",
+    "label": "GDP Growth (Q1 2026 / Q2 2026 / 2026 full-year forecast)",
+    "value": "-0.8% QoQ / +1.5% QoQ / 0.8–1.6%",
+    "color": "amber",
+    "source": "INEGI Q2 2026 preliminary (July 30); OECD Economic Outlook June 3, 2026; Citi Encuesta de Expectativas May 21, 2026",
     "contested": true,
-    "contestNote": "Q1 2026 INEGI preliminary: -0.8% quarterly, +0.2% annual. All three sectors declined. Full-year 2026 forecasts: OECD June 2026 cut to 0.8% (most pessimistic, down from 1.3%) — cites Q1 contraction, tariff drag, fiscal consolidation, policy uncertainty; Citi survey (May 21) 1.1%; IMF 1.6%; BBVA 1.8%; govt 1.8–2.8%. OECD 2027 outlook: 1.8%.",
-    "delta": "OECD Jun 3 cut to 0.8% (most pessimistic); Citi May 21 at 1.1%; Q1 actual: -0.8% QoQ",
-    "deltaNote": "Q1 all sectors contracted: primary -1.4%, secondary -1.1%, tertiary -0.6%. $17.4B in investment held due to tariff uncertainty. OECD is now the lowest major forecast for Mexico's 2026 full-year growth.",
-    "trend": "down",
-    "lastUpdated": "2026-06-07T14:30:00Z"
+    "contestNote": "Q1 2026: -0.8% QoQ, +0.2% annual (all sectors declined). Q2 2026 (July 30 release): +2.1% YoY, +1.5% QoQ seasonally adjusted — strongest quarterly rebound since Q4 2020, boosted by World Cup-related consumer/tourism spending; services +1.5% QoQ, industry +1.6% QoQ, primary sector +3.3% QoQ. Government says 1.5% full-year target still reachable absent an H2 contraction. Independent full-year 2026 forecasts remain more cautious: OECD 0.8% (most pessimistic), Citi 1.1%, IMF 1.6%, BBVA 1.8% — reflecting continued USMCA-review and tariff uncertainty.",
+    "delta": "Q2 2026: +2.1% YoY / +1.5% QoQ, best quarter since Q4 2020",
+    "deltaNote": "Rebound driven by World Cup spending and resilient domestic consumption; USMCA review missed its July 1 deadline, keeping full-year forecasts cautious.",
+    "trend": "up",
+    "lastUpdated": "2026-07-30T14:00:00Z"
   },
   {
     "id": "inflation-rate",
     "label": "Annual Inflation",
-    "value": "4.11%",
-    "color": "amber",
-    "source": "INEGI, first fortnight May 2026 (announced Sheinbaum mañanera May 22, 2026)",
+    "value": "3.12%",
+    "color": "green",
+    "source": "INEGI, July 2026 (released August 8, 2026)",
     "contested": false,
-    "delta": "-0.34pp vs full April 2026 (4.45%); -0.16pp vs second half April. Attributed partly to fuel price freeze agreement with gas station owners and electricity subsidy. Monthly deceleration continuing into Q2 2026.",
+    "delta": "-0.25pp vs June 2026 (3.37%); fourth consecutive month of deceleration (4.6% Mar → 3.12% Jul)",
+    "deltaNote": "Lowest annual inflation reading since May 2020; back within Banxico's 3% ± 1pp target range. Core inflation also returned to target range. Contributed to Sheinbaum's approval rebound to 57% by early August.",
     "trend": "down",
-    "lastUpdated": "2026-05-23T12:00:00Z"
+    "lastUpdated": "2026-08-08T12:00:00Z"
   },
   {
     "id": "fdi-2025",
@@ -75,22 +76,22 @@
     "label": "Banxico Policy Rate",
     "value": "6.50%",
     "color": "blue",
-    "source": "Banco de México official press release, May 7, 2026; Bloomberg",
+    "source": "Banco de México official press release, August 6, 2026; Bloomberg",
     "contested": false,
-    "delta": "-475bp from 11.25% peak; 15th consecutive cut; 3-2 split vote May 7, 2026. Board guidance: easing cycle is over — 'appropriate to maintain at current level.' No further cuts expected through 2027.",
-    "trend": "down",
-    "lastUpdated": "2026-05-10T14:00:00Z"
+    "delta": "-475bp from 11.25% peak; held unchanged at both the June 2026 and August 6, 2026 meetings (5-0 vote in August). Board reiterated it is assessing the impact of prior cuts amid inflation now inside the 2.0–4.0% target range; no further cuts signaled.",
+    "trend": "stable",
+    "lastUpdated": "2026-08-06T14:00:00Z"
   },
   {
     "id": "peso-usd-rate",
     "label": "Peso / USD Exchange Rate",
-    "value": "~17.33 MXN",
+    "value": "~17.24 MXN",
     "color": "green",
-    "source": "Banxico FIX / Citi Encuesta de Expectativas, May 22, 2026",
+    "source": "Banxico FIX, August 6, 2026",
     "contested": false,
-    "delta": "~17.33 MXN/USD week of May 22, mild depreciation from 17.29 (May 8); year-end consensus 18.0 per Citi (May 21). Banxico rate at 6.50% supports carry trade; USMCA uncertainty a mild headwind.",
+    "delta": "~17.24 MXN/USD (Aug 6), appreciating trend through early August from ~17.36 (Aug 1); year-end consensus ~18.0 per Citi (May 21). Banxico rate at 6.50% supports carry trade; USMCA review uncertainty a mild headwind.",
     "trend": "down",
-    "lastUpdated": "2026-05-25T16:05:44Z"
+    "lastUpdated": "2026-08-06T16:00:00Z"
   },
   {
     "id": "budget-deficit-2024",

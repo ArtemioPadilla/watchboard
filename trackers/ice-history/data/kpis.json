@@ -2,14 +2,14 @@
   {
     "id": "current-detention-population",
     "label": "Current Detention Population",
-    "value": "73,000+",
+    "value": "65,765",
     "color": "red",
-    "source": "CBS News / TRAC Reports (May 2026)",
+    "source": "Austin Kocher / Deportation Data Project (data as of Jul 11, 2026; released Jul 24)",
     "contested": false,
-    "delta": "+84%",
-    "deltaNote": "Record high — up 84% year-over-year. Surpasses previous peak of 70,000+ during Operation Metro Surge. Admin target remains 100,000+ beds by fall 2026 under $71.7B reconciliation bill scheduled for Senate floor vote week of May 18.",
+    "delta": "First data release since April",
+    "deltaNote": "ICE went dark on its congressionally-mandated biweekly detention/deportation reports after its Apr 9, 2026 release (60,311 held); the Jul 24, 2026 release was the first new data in over 3 months, showing 65,765 held as of Jul 11 — up from 60,311 in April but below the Jan 24, 2026 record of 70,766. 70.6% (46,436 of 65,765) have no criminal conviction. GPS/ankle-monitor caseload continued climbing past 35,000. Republicans omitted the biweekly-reporting mandate from FY2026 appropriations language for the first time since 2018; ICE blamed the gap on government shutdowns.",
     "trend": "up",
-    "lastUpdated": "2026-05-17T15:45:00.000Z"
+    "lastUpdated": "2026-08-09T00:00:00Z"
   },
   {
     "id": "detainees-no-criminal-record",
@@ -66,13 +66,13 @@
   {
     "id": "total-287g-agreements",
     "label": "287(g) MOAs Active",
-    "value": "2,127",
+    "value": "2,179",
     "color": "amber",
-    "source": "ICE.gov / Axios / ACLU (July 16, 2026)",
+    "source": "ICE.gov (as of Aug 6, 2026)",
     "contested": true,
-    "contestNote": "ACLU's 'Deputized for Disaster' analysis found 77.2M people (32% of the country) now live in a county with a 287(g) agreement, with DHS training 10,000+ officers under the model and expansion reaching university police, state fire marshals, and wildlife agencies in some states. Virginia's HB1441/SB783 (effective July 1, 2026) restricts state 287(g) participation, while local sheriffs continue independently. New Mexico, Maine, and Maryland enacted bans. 2,127 MOAs as of mid-July 2026 across 39 states and 2 territories — up from 1,903 on June 5 and 688 when Trump's second term began in January 2025.",
+    "contestNote": "ACLU's 'Deputized for Disaster' analysis found 77.2M people (32% of the country) now live in a county with a 287(g) agreement, with DHS training 10,000+ officers under the model and expansion reaching university police, state fire marshals, and wildlife agencies in some states. Virginia's HB1441/SB783 (effective July 1, 2026) restricts state 287(g) participation, while local sheriffs continue independently. New Mexico, Maine, and Maryland enacted bans. 2,127 MOAs as of mid-July 2026 across 39 states and 2 territories — up from 1,903 on June 5 and 688 when Trump's second term began in January 2025. As of Aug 6, 2026, ICE reports 2,179 total MOAs across 39 states and 2 territories — 179 JEM agreements (30 states + 1 territory), 533 WSO agreements (34 states), and 1,467 TFM agreements (32 states + 2 territories) — up from 2,127 in mid-July.",
     "trend": "up",
-    "lastUpdated": "2026-07-16T00:00:00.000Z"
+    "lastUpdated": "2026-08-09T00:00:00Z"
   },
   {
     "id": "private-prison-share",
@@ -86,24 +86,26 @@
   {
     "id": "alternatives-to-detention",
     "label": "Alternatives to Detention (ATD)",
-    "value": "179,991",
+    "value": "35,000+",
     "color": "blue",
-    "source": "TRAC Reports (Feb 2026)",
+    "source": "Austin Kocher / Deportation Data Project (data as of Jul 11, 2026)",
     "contested": false,
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "lastUpdated": "2026-08-09T00:00:00Z",
+    "deltaNote": "GPS ankle-monitor/ATD caseload continued climbing as of the Jul 24, 2026 data release (first since April), up from 179,991 total ATD enrollment reported in Feb 2026 filings; the 35,000+ figure reflects the actively-monitored GPS cohort specifically.",
+    "trend": "up"
   },
   {
     "id": "fy2026-partial-deaths",
     "label": "Deaths in Custody (FY2026, partial)",
-    "value": "21+",
+    "value": "24+",
     "color": "red",
-    "source": "CNN / HRW / PHR / ICE.gov (as of July 6, 2026)",
+    "source": "NBC News / AP / ICE.gov (as of Aug 4, 2026)",
     "contested": true,
-    "contestNote": "At least 21 people have died in ICE custody in calendar year 2026 through July 6. The June 25 HRW/PHR 'Dying in Detention' report found 52 deaths in the 500 days between Trump's Jan 20, 2025 inauguration and June 4, 2026 — a trend-adjusted mortality rate nearly triple the Biden administration's and higher than the COVID-19 pandemic era; mortality rose 138% while the detained population grew only 77%. Mexico's government separately documented 17 Mexican nationals dead in ICE custody or operations since Jan 2025, including Lorenzo Salgado Araujo (shot by an ICE officer in Houston, July 7). On June 4, Acting ICE Director Venturella rescinded the 30-day post-release death reporting requirement, narrowing official disclosure. OIDO (independent oversight body) shuttered May 5, 2026. PHR: 95% of deaths likely preventable with adequate medical care.",
-    "delta": "Record pace — mortality rate nearly triple Biden era",
-    "deltaNote": "21+ deaths in custody through July 6, 2026 (calendar year); 52 deaths in the 500 days since Jan 20, 2025 per HRW/PHR (June 25). Venturella memo (June 4) narrows official reporting scope going forward.",
+    "contestNote": "At least 24 people have died in ICE custody in calendar year 2026 through Aug 4 — surpassing the pace of every prior year on record except FY2025. New deaths since the June 25 HRW/PHR report include Jesús Manuel Arenas-Silva (45, Venezuela), who died of suspected cardiac arrest July 13 while being bus-transferred from Irwin County Detention Center to Folkston, GA — his family says ICE denied him his medications — and Priciliano Trejo (29, Mexico), who died July 24 at Stewart Detention Center after his family says a leukemia diagnosis went untreated. Acting Director Venturella's June 4 memo ending post-release death reporting remains in effect, and DHS has not restored the OIDO oversight office shuttered May 5.",
+    "delta": "24+ deaths through Aug 4, 2026 (calendar year)",
+    "deltaNote": "Up from 21+ reported through Jul 6, 2026; two additional named deaths (Arenas-Silva Jul 13, Trejo Jul 24) documented since the June 25 HRW/PHR report.",
     "trend": "up",
-    "lastUpdated": "2026-07-14T00:00:00Z"
+    "lastUpdated": "2026-08-09T00:00:00Z"
   },
   {
     "id": "fy2024-admin-arrests",
@@ -188,5 +190,16 @@
     "deltaNote": "Down from 50%+ grant rate under Biden administration",
     "trend": "down",
     "lastUpdated": "2026-04-12T12:17:00Z"
+  },
+  {
+    "id": "ice-data-reporting-gap-2026",
+    "label": "ICE Congressionally-Mandated Data Reporting Gap",
+    "value": "3+ months dark",
+    "color": "amber",
+    "source": "The Marshall Project / KJZZ / Austin Kocher (Jul 2026)",
+    "contested": true,
+    "contestNote": "ICE went without publishing its biweekly detention/arrest/deportation data — mandated by appropriations law every year since 2018 — from its Apr 9, 2026 report until a partial release Jul 24, 2026. FY2026 appropriations language notably omitted the reporting mandate for the first time. ICE blamed government shutdowns; researchers and advocates (Center for Immigration Studies' Jessica Vaughan, American Immigration Council's Aaron Reichlin-Melnick, NILC's Heidi Altman) say the agency has ample funding ($240B+) and other agencies kept publishing on schedule. DHS separately claims 981,000 arrests and 948,000 deportations since Jan 2025, plus 3M+ total departures including 2.2M self-deportations — figures that cannot be independently verified absent the underlying data.",
+    "trend": "up",
+    "lastUpdated": "2026-08-09T00:00:00Z"
   }
 ]

@@ -13,16 +13,16 @@
   },
   {
     "id": "avg-tariff-rate",
-    "label": "Average US Tariff Rate (Jun 2026 — Section 301 Forced Labor Proposal: +12.5% on 60 Economies; Section 122 Expires Jul 24)",
-    "value": "~10% + new proposals",
+    "label": "Average US Tariff Rate (Jul 23, 2026 — Section 301 Forced-Labor Tariffs Take Effect on 80+ Countries)",
+    "value": "~10-12.5% baseline + sector tariffs",
     "color": "amber",
     "source": "Peterson Institute for International Economics / USTR",
     "contested": true,
-    "contestNote": "Jun 2026: USTR proposed additional 12.5% forced-labor tariffs on 60 economies (Section 301); public comment period open through Jul 6. Section 122 10% global tariff expires Jul 24, 2026 unless extended. SCOTUS struck IEEPA tariffs Feb 2026; $166B in IEEPA refunds processing via CAPE portal (56,497 importers).",
+    "contestNote": "Jul 23, 2026: USTR finalized Section 301 forced-labor tariffs (10-12.5%) on 80+ trading partners including Canada, Mexico, India, UK, replacing the expired 10% Section 122 global tariff. Jul 20: separate 50% Section 338 tariffs announced on Canadian dairy/alcohol/vehicles, effective Aug 19. China rate remains 145% via Section 301. SCOTUS struck IEEPA tariffs Feb 2026; $166B in refunds processing.",
     "delta": "+11pp vs pre-Trump baseline",
-    "deltaNote": "Tariff regime in flux: 10% global (Section 122 through Jul 24), China 145% (Section 301), new forced-labor proposals for 60 economies",
+    "deltaNote": "Tariff regime hardened further in Jul 2026: baseline shifted from temporary 10% (Section 122) to permanent Section 301 forced-labor duties; Canada singled out for additional 50% sectoral tariffs",
     "trend": "up",
-    "lastUpdated": "2026-06-07T14:00:00.000Z"
+    "lastUpdated": "2026-08-09T00:00:00.000Z"
   },
   {
     "id": "border-crossings-2025",
@@ -49,14 +49,14 @@
   {
     "id": "executive-orders-term2",
     "label": "Executive Orders (2nd Term)",
-    "value": "256+",
+    "value": "260+",
     "color": "amber",
     "source": "Federal Register / Ballotpedia / White House",
     "contested": false,
     "delta": "256 EOs + 59 memoranda + 135 proclamations",
-    "deltaNote": "TrumpIRA.gov retirement savings EO signed May 1, 2026 — directs Treasury to build comparison platform for ~50M workers without employer plans; operational by Jan 1, 2027. Pharma tariff EO (100% on patented drugs) and metal tariff EO (flat 50%) signed Apr 2; College Sports EO signed Apr 3",
+    "deltaNote": "EO 14415 (Jul 20, 2026) delegates Defense Production Act authority over critical minerals/defense supply chains; military spouse commission EO signed Aug 3, 2026. TrumpIRA.gov retirement savings EO signed May 1, 2026.",
     "trend": "up",
-    "lastUpdated": "2026-05-01T14:00:00.000Z"
+    "lastUpdated": "2026-08-09T00:00:00.000Z"
   },
   {
     "id": "federal-employees-buyout",
@@ -104,14 +104,15 @@
   },
   {
     "id": "trump-approval-rating",
-    "label": "Trump Approval Rating (Jun 5-7, 2026 — The Economist: Net -25%; The Hill: -25%; Silver Bulletin Net -19.1; ARG: 31%; Big Data Poll: 39.4%)",
-    "value": "~37–39%",
+    "label": "Trump Approval Rating (Jul 31–Aug 3, 2026 — YouGov/Economist: Net -35 Economy; Overall Net -20.6)",
+    "value": "~38% approve / 59% disapprove",
     "color": "red",
-    "source": "The Economist / The Hill / Big Data Poll / Silver Bulletin / Economist-YouGov / American Research Group",
+    "source": "YouGov/Economist / CNN/SSRS / Fox News",
     "contested": true,
-    "contestNote": "June 7, 2026 (Day 504): The Economist and The Hill report Trump's net approval at -25% — his lowest ever — driven by Iran war cost-of-living impacts and tariff inflation. Net -43% on inflation/prices handling. Silver Bulletin aggregate net: -19.1 (lowest of either term). Democrats lead generic ballot by +8. Big Data Poll (field May 24-27): 39.4% — first time below 40% in 2nd term. ARG: 31% — lowest single-poll reading ever. White without college degree support down to 49% (from 63% in Feb 2025); Republicans broadly: 68% (down from 73% in Jan 2025).",
+    "contestNote": "YouGov/Economist poll (Jul 31–Aug 3, 2026): only 30% approve of Trump's economic handling, 65% disapprove (net -35); CNN/SSRS put economic net approval at -40, Fox News at -34. On inflation specifically: 25% approve, 69% disapprove (52% strongly). Overall approval ~38.2% / 58.8% disapprove (net -20.6) — among the lowest of either term. Inflation remains the defining vulnerability heading into the 2026 midterms.",
     "trend": "down",
-    "lastUpdated": "2026-06-07T14:00:00.000Z"
+    "lastUpdated": "2026-08-09T00:00:00.000Z",
+    "deltaNote": "Continued decline from Jun 7 reading (net -25 Economist/Hill); driven by persistent tariff-inflation pass-through and Iran war energy costs"
   },
   {
     "id": "iran-war-casualties",

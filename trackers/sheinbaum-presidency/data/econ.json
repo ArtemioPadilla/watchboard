@@ -1,47 +1,47 @@
 [
   {
     "id": "gdp-growth-rate",
-    "label": "GDP Growth (2025 actual / Q1 2026 preliminary / 2026 forecast)",
-    "value": "0.4% / -0.8% QoQ / 0.8%",
-    "change": "Q1 2026 INEGI preliminary (Apr 30): -0.8% quarterly contraction, +0.2% annual. All sectors declined. Full-year 2026 forecast: OECD June 2026 Economic Outlook → 0.8% (most pessimistic; cut from 1.3%); Citi survey May 21 → 1.1%; IMF 1.6%; BBVA 1.8%; govt 1.8–2.8%. OECD cited Q1 contraction, U.S. tariff drag, fiscal consolidation, and policy uncertainty. 2027 OECD outlook: 1.8%.",
-    "direction": "down",
-    "sparkData": [4.6, 3.2, 2.4, 1.8, 0.9, 0.4, 0.2, 0.08],
-    "color": "#e74c3c",
-    "source": "INEGI preliminary Q1 2026, April 30; OECD Economic Outlook June 2026, June 3; Citi Encuesta de Expectativas May 21, 2026",
-    "lastUpdated": "2026-06-07T14:30:00Z"
+    "label": "GDP Growth (Q1 2026 / Q2 2026 / 2026 forecast)",
+    "value": "-0.8% QoQ / +1.5% QoQ / 0.8-1.6%",
+    "change": "Q1 2026: -0.8% QoQ, +0.2% annual (all sectors declined). Q2 2026 (July 30 release): +2.1% YoY, +1.5% QoQ seasonally adjusted — strongest quarterly rebound since Q4 2020, boosted by World Cup-related spending; services +1.5% QoQ, industry +1.6% QoQ, primary +3.3% QoQ. Full-year 2026 forecasts remain cautious: OECD 0.8% (most pessimistic), Citi 1.1%, IMF 1.6%, BBVA 1.8%, govt target 1.5%.",
+    "direction": "up",
+    "sparkData": [4.6, 3.2, 2.4, 1.8, 0.9, 0.4, 0.2, 0.08, 2.1],
+    "color": "#27ae60",
+    "source": "INEGI preliminary Q2 2026, July 30; OECD Economic Outlook June 3, 2026; Citi Encuesta de Expectativas May 21, 2026",
+    "lastUpdated": "2026-07-30T14:00:00Z"
   },
   {
     "id": "annual-inflation",
     "label": "Annual Inflation",
-    "value": "4.11%",
-    "change": "-0.34pp vs full April 2026 (4.45%); -0.16pp vs second half April. Fuel price freeze with gas station owners and electricity summer subsidy are key downward drivers. Continued deceleration into Q2 2026.",
+    "value": "3.12%",
+    "change": "-0.25pp vs June 2026 (3.37%); fourth consecutive month of deceleration (4.6% Mar → 3.12% Jul), lowest since May 2020. Back within Banxico's 3% ± 1pp target range; core inflation also returned to target.",
     "direction": "down",
-    "sparkData": [8.7, 7.1, 4.7, 4.2, 3.8, 3.7, 4.0, 4.63, 4.53, 4.45, 4.11],
-    "color": "#e67e22",
-    "source": "INEGI, first fortnight May 2026 — announced May 22, 2026 mañanera",
-    "lastUpdated": "2026-05-23T12:00:00Z"
+    "sparkData": [8.7, 7.1, 4.7, 4.2, 3.8, 3.7, 4.0, 4.63, 4.53, 4.45, 4.11, 3.66, 3.37, 3.12],
+    "color": "#27ae60",
+    "source": "INEGI, July 2026 — released August 8, 2026",
+    "lastUpdated": "2026-08-08T12:00:00Z"
   },
   {
     "id": "banxico-policy-rate",
     "label": "Banxico Policy Rate",
     "value": "6.50%",
-    "change": "-475bp from 11.25% peak; 15th consecutive cut (25bp) on May 7, 2026 in 3-2 split vote (Gov. Rodríguez Ceja + Cuadra + Mejía for cut; Borja + Heath for hold). Board guidance signals end of easing cycle. No further cuts expected through 2027.",
+    "change": "-475bp from 11.25% peak; held unchanged at both the June 2026 and August 6, 2026 meetings (5-0 vote in August) after 15 consecutive cuts through May 7. Board is assessing the impact of prior cuts amid inflation now inside the 2.0–4.0% target range; no further cuts signaled through 2027.",
     "direction": "down",
-    "sparkData": [11.0, 10.5, 10.0, 9.5, 9.0, 8.5, 8.0, 7.5, 7.0, 6.75, 6.50],
+    "sparkData": [11.0, 10.5, 10.0, 9.5, 9.0, 8.5, 8.0, 7.5, 7.0, 6.75, 6.50, 6.50, 6.50],
     "color": "#3498db",
-    "source": "Banco de México press release, May 7, 2026; Bloomberg",
-    "lastUpdated": "2026-05-10T14:00:00Z"
+    "source": "Banco de México press release, August 6, 2026; Bloomberg",
+    "lastUpdated": "2026-08-06T14:00:00Z"
   },
   {
     "id": "peso-usd-exchange",
     "label": "Peso / USD Rate (MXN)",
-    "value": "~17.33",
-    "change": "~17.33 MXN/USD (week of May 22); mild depreciation from ~17.29 (May 8) as USMCA bilateral talks open. Year-end consensus forecast: ~18.0 pesos/dollar (Citi survey May 21). Banxico rate at 6.50% provides carry-trade support.",
+    "value": "~17.24",
+    "change": "~17.24 MXN/USD (Aug 6), appreciating trend through early August from ~17.36 (Aug 1) as USMCA talks continued post-World Cup final. Year-end consensus forecast: ~18.0 pesos/dollar (Citi survey May 21). Banxico rate at 6.50% provides carry-trade support.",
     "direction": "down",
-    "sparkData": [17.2, 18.5, 19.8, 21.0, 20.2, 19.5, 18.5, 17.7, 18.12, 17.83, 17.27, 17.37, 17.32, 17.35, 17.41, 17.53, 17.25, 17.29, 17.33],
+    "sparkData": [17.2, 18.5, 19.8, 21.0, 20.2, 19.5, 18.5, 17.7, 18.12, 17.83, 17.27, 17.37, 17.32, 17.35, 17.41, 17.53, 17.25, 17.29, 17.33, 17.36, 17.24],
     "color": "#27ae60",
-    "source": "Banxico FIX / Citi Encuesta de Expectativas May 21, 2026",
-    "lastUpdated": "2026-05-25T16:05:44Z"
+    "source": "Banxico FIX, August 6, 2026",
+    "lastUpdated": "2026-08-06T16:00:00Z"
   },
   {
     "id": "fdi-inflows",
