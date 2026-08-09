@@ -26,7 +26,7 @@ jobs:
       - name: Run light scan
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID:   ${{ secrets.TELEGRAM_CHAT_ID }}
+          TELEGRAM_CHAT_ID:   ${{ secrets.TELEGRAM_CHANNEL_ID }}
         run: npx tsx scripts/hourly-light-scan.ts
 
       - name: Commit pending-candidates + triage-log + state
@@ -50,7 +50,8 @@ jobs:
   # outage), we fall back to alerting — better noisy than silent.
   notify-failure:
     needs: [scan]
-    if: failure()
+    # A timed-out job reports as cancelled, not failed — see update-data.yml.
+    if: failure() || cancelled()
     runs-on: ubuntu-latest
     timeout-minutes: 3
     steps:
@@ -58,7 +59,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
         run: |
           if [ -z "$TELEGRAM_BOT_TOKEN" ] || [ -z "$TELEGRAM_CHAT_ID" ]; then
             echo "TELEGRAM_BOT_TOKEN/CHAT_ID missing; skipping Telegram alert"

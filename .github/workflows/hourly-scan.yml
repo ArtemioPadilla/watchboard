@@ -230,7 +230,10 @@ jobs:
 
       - name: Freshness check — DISABLED (RSS feeds now cover all trackers)
         id: freshness
-        if: false  # Disabled — with full RSS coverage, organic updates replace freshness pings
+        # Disabled — with full RSS coverage, organic updates replace freshness
+        # pings. Gated on a repo variable rather than a literal `false` so the
+        # workflow linter stays clean and it can be re-enabled without a commit.
+        if: vars.ENABLE_FRESHNESS_CHECK == 'true'
         run: |
           node -e "
             const fs = require('fs');
@@ -961,3 +964,35 @@ jobs:
           else
             echo "No hourly changes detected — skipping deploy trigger"
           fi
+
+  notify-failure:
+    needs: [scan, act, trigger-deploy]
+    # This workflow had no failure alert at all, despite being the most
+    # frequently failing one in the repo. `cancelled()` is included because a
+    # job that exceeds timeout-minutes reports as cancelled, not failed — which
+    # is exactly how the 20-minute scan timeouts went unnoticed.
+    if: failure() || cancelled()
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Telegram failure alert
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
+          SCAN_RESULT: ${{ needs.scan.result }}
+          ACT_RESULT: ${{ needs.act.result }}
+          DEPLOY_RESULT: ${{ needs.trigger-deploy.result }}
+        run: |
+          if [ -z "$TELEGRAM_BOT_TOKEN" ] || [ -z "$TELEGRAM_CHAT_ID" ]; then
+            echo "Telegram secrets missing; skipping alert"
+            exit 0
+          fi
+          RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          TEXT=$(printf '⚠️ Hourly Breaking News Scan failed\n\nscan: %s\nact: %s\ntrigger-deploy: %s\n\n%s' \
+                  "$SCAN_RESULT" "$ACT_RESULT" "$DEPLOY_RESULT" "$RUN_URL")
+          PAYLOAD=$(jq -n --arg c "$TELEGRAM_CHAT_ID" --arg t "$TEXT" \
+                      '{chat_id:$c, text:$t}')
+          curl -s --max-time 15 -X POST \
+            "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+            -H 'Content-Type: application/json' \
+            -d "$PAYLOAD" > /dev/null || true
