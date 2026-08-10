@@ -7,6 +7,15 @@ export default defineConfig({
   output: 'static',
   site: 'https://watchboard.dev',
   base: '/',
+  // /rss and /rss/ 404'd: src/pages/rss/ holds breaking.xml and light-scan.xml
+  // but has no index, so the directory itself was never a route. Nothing on the
+  // site linked there, but it is the URL people type by convention — a bad one
+  // to lose on a site whose product is feeds. Sent to the global feed rather
+  // than to /feeds/, since bare /rss conventionally means "the feed".
+  redirects: {
+    '/rss': '/rss.xml',
+    '/rss/': '/rss.xml',
+  },
   i18n: {
     defaultLocale: 'en',
     locales: ['en', 'es', 'fr', 'pt'],
