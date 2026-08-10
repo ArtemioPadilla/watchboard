@@ -2,11 +2,10 @@
   {
     "id": "us-gdp-quarterly",
     "label": "US GDP Growth (Quarterly, Ann.)",
-    "value": "+1.6% (Q1 2026 — 2nd Estimate, Revised Down)",
-    "change": "-0.4pp from advance estimate (+2.0%); downward revision to consumer spending + residential investment; Q4 2025 holds at +0.5%; Deloitte: full-year 2026 only +0.4%",
-    "direction": "down",
+    "value": "+1.5% (Q2 2026 advance estimate)",
+    "change": "Q2 2026 advance estimate (Jul 30): +1.5% annualized, below the 2.1% forecast though up from Q4 2025's final +0.5%. Consumer spending +3.2%; net trade -1.0pp; inventories -0.7pp.",
+    "direction": "up",
     "sparkData": [
-      1.6,
       3.0,
       3.1,
       2.3,
@@ -14,11 +13,12 @@
       3.8,
       4.4,
       0.7,
-      1.6
+      1.6,
+      1.5
     ],
     "color": "amber",
-    "source": "BEA GDP Second Estimate Q1 2026 (May 28, 2026)",
-    "lastUpdated": "2026-05-28T13:30:00Z"
+    "source": "BEA GDP Advance Estimate, Q2 2026 (released July 30, 2026)",
+    "lastUpdated": "2026-07-30T12:30:00Z"
   },
   {
     "id": "us-cpi-yoy",
@@ -70,12 +70,10 @@
   {
     "id": "fed-funds-rate-history",
     "label": "Fed Funds Rate",
-    "value": "3.50–3.75%",
-    "change": "Held at Warsh's first FOMC (Jun 16-17); hawkish dot plot: 2026 median rose to 3.8% from 3.4%, implying a hike not a cut. Next FOMC Jul 28-29 (non-SEP) expected hold.",
+    "value": "3.50-3.75% (held July 29 — 3 hawkish dissents)",
+    "change": "July 28-29 FOMC (non-SEP meeting) held rates unchanged at 3.50-3.75%; three members dissented in favor of a hike, an unusually large hawkish dissent bloc after the July 23 oil shock. Warsh called the internal debate a 'good family fight.'",
     "direction": "up",
     "sparkData": [
-      0.25,
-      2.5,
       5.5,
       5.5,
       5.5,
@@ -83,11 +81,12 @@
       4.25,
       3.75,
       3.625,
-      3.625
+      3.625,
+      3.75
     ],
     "color": "blue",
-    "source": "Federal Reserve FOMC / FRED FEDFUNDS",
-    "lastUpdated": "2026-06-17T18:00:00Z"
+    "source": "Federal Reserve FOMC Statement, July 29, 2026",
+    "lastUpdated": "2026-07-29T18:00:00Z"
   },
   {
     "id": "ecb-deposit-rate",
@@ -137,7 +136,7 @@
     "id": "global-trade-volume",
     "label": "Global Trade Volume Growth",
     "value": "~1.0–1.5% (2026 IMF WEO Apr est.)",
-    "change": "Revised down further — Iran war demand destruction + US-China 31.6% effective tariff barrier",
+    "change": "Revised down further — Iran war demand destruction + US-China 31.6% effective tariff barrier China's July exports jumped 23.9% YoY ($397.85B) on AI-tech demand and front-loading ahead of the new 12.5% Section 301 tariffs that replaced the lapsed 10% levy; trade surplus widened to $112.5B (Aug 7 data).",
     "direction": "down",
     "sparkData": [
       5.0,
@@ -152,18 +151,15 @@
     ],
     "color": "red",
     "source": "WTO / IMF WEO Apr 2026 (released Apr 14, 2026)",
-    "lastUpdated": "2026-04-18T12:00:00Z"
+    "lastUpdated": "2026-08-07T03:00:00Z"
   },
   {
     "id": "us-unemployment-rate",
-    "label": "US Unemployment Rate / June 2026 NFP",
-    "value": "4.2% (June 2026 — Fell on Lower Participation); NFP +57K, Sharp Slowdown From May",
-    "change": "July 2 release: NFP +57,000 (vs ~113-115K consensus) — sharp slowdown from May's downwardly-revised +129,000; Apr/May revised down a combined 74,000. Unemployment fell to 4.2% (vs 4.3% expected) largely on participation rate dropping to 61.5% (lowest since March 2021). Avg hourly earnings +0.3% to $37.64 (+3.5% YoY).",
+    "label": "US Unemployment Rate / July 2026 NFP",
+    "value": "4.1% (July 2026, released Aug 7)",
+    "change": "July NFP fell 23,000 (vs +83K expected); May+June revised down a combined 103,000; unemployment eased to 4.1% from 4.2% on lower participation.",
     "direction": "down",
     "sparkData": [
-      3.5,
-      3.6,
-      3.7,
       3.4,
       4.0,
       4.1,
@@ -171,16 +167,17 @@
       4.3,
       4.3,
       4.3,
-      4.2
+      4.2,
+      4.1
     ],
     "color": "amber",
-    "source": "BLS Employment Situation, June 2026 (released July 2, 2026)",
-    "lastUpdated": "2026-07-02T13:30:00Z"
+    "source": "BLS Employment Situation, July 2026 (released August 7, 2026)",
+    "lastUpdated": "2026-08-07T13:30:00Z"
   },
   {
     "id": "us-10y-treasury-yield",
     "label": "US 10Y / 30Y / 2Y Treasury Yield",
-    "value": "10Y ~4.25–4.35% (Post-MOU/Post-CPI Range)",
+    "value": "10Y ~4.6-4.65% (Aug 10); spiked to highest since Jan 2025 on Jul 23 oil shock, fell 7bp on Aug 7 jobs miss",
     "change": "June 17: 10Y fell 9bp to 4.25% as the signed Iran MOU eased energy-inflation fears, partially offsetting Warsh's hawkish dot plot released the same day. Yields stayed range-bound through early-mid July as June CPI (3.5%, Jul 14) confirmed disinflation resuming and the weak June jobs report (Jul 2) reduced near-term hike urgency pricing.",
     "direction": "down",
     "sparkData": [
@@ -203,8 +200,10 @@
       4.25
     ],
     "color": "red",
-    "source": "US Treasury / CNBC; June 17, 2026",
-    "lastUpdated": "2026-07-14T14:00:00Z"
+    "source": "CNBC / FRED; July 23 - August 10, 2026",
+    "lastUpdated": "2026-08-10T18:00:00Z",
+    "delta": "Round-tripped: rose sharply July 23 on the oil/Hormuz shock and surging Fed hike odds, then fell ~7bps to ~4.6% on Aug 7 after the weak July jobs report cooled hike expectations; held steady at 4.65% by Aug 10.",
+    "deltaNote": "JULY 23-AUG 10 ARC: The Red Sea/Hormuz oil shock (Brent >$100, July 23) pushed the 10Y to its highest since January 2025 as September Fed-hike odds jumped to ~82%. The FOMC held rates July 29 with 3 hawkish dissents. The July 30 Q2 GDP miss (+1.5% vs 2.1% forecast) added growth-scare pressure before the July 24 Section 122/301 tariff transition and August ISM prints (mfg 55.6%, services 54.1%) offered mixed signals. The Aug 7 jobs report (NFP -23K, revisions -103K combined) reversed the hawkish repricing, pulling the 10Y down roughly 7bps to ~4.6%."
   },
   {
     "id": "us-ppi-yoy-april-2026",
@@ -230,29 +229,10 @@
   {
     "id": "wti-crude-oil",
     "label": "WTI / Brent Crude Oil (USD/bbl)",
-    "value": "Brent ~$73 (Early July) — Down ~40% From War-Peak $118 (April); MOU-Driven Crash",
-    "change": "JUNE 17 MOU SIGNING: Brent crashed ~11% to ~$96 (WTI ~14% to ~$96) as the US-Iran MOU was signed and the Strait of Hormuz reopened. Continued decline through H1 close: Brent traded near $73/bbl in early July — down ~40% from the April war peak of $118. Morgan Stanley cut its Brent forecast to $90 (Q3) and $80 (Q4).",
-    "direction": "down",
+    "value": "Brent $100.69 (Jul 23 close, +7%); Fell to ~$90s by Aug 7 as risk premium eased",
+    "change": "Brent crossed $100/bbl on July 23 for the first time since late May after Houthi militants struck two Saudi tankers in the Red Sea, reflaring the Strait of Hormuz disruption; US gasoline averaged $4/gal same day.",
+    "direction": "up",
     "sparkData": [
-      70,
-      72,
-      78,
-      75,
-      60,
-      58,
-      64.51,
-      85.57,
-      94.4,
-      103.18,
-      115.01,
-      95.42,
-      111.04,
-      103.54,
-      97.0,
-      99.18,
-      93.71,
-      91.5,
-      92.56,
       96.42,
       93.38,
       101.36,
@@ -260,20 +240,20 @@
       97.44,
       93.71,
       96,
-      73
+      73,
+      100.69
     ],
     "color": "green",
-    "source": "Al Jazeera / CNN / Morgan Stanley; June 17 – July 1, 2026",
-    "lastUpdated": "2026-07-01T00:00:00Z"
+    "source": "CNBC, July 23, 2026",
+    "lastUpdated": "2026-07-23T20:00:00Z"
   },
   {
     "id": "eurozone-cpi",
     "label": "Eurozone CPI (Year-over-Year)",
-    "value": "~3.0% (Apr 2026 flash)",
-    "change": "+0.7pp from prior months — Iran war energy shock reverses ECB disinflation",
+    "value": "2.9% YoY (July 2026)",
+    "change": "+0.1pp from June (2.8%); core CPI +0.1pp to 2.5%. Energy +10.0% YoY (highest component), services +3.3%, as the July 23 oil shock pushed fuel costs higher across the bloc.",
     "direction": "up",
     "sparkData": [
-      8.9,
       6.1,
       3.4,
       2.2,
@@ -281,11 +261,12 @@
       2.1,
       2.3,
       2.3,
-      3.0
+      3.0,
+      2.9
     ],
     "color": "red",
-    "source": "Eurostat Flash CPI Estimate, April 2026 (released Apr 30)",
-    "lastUpdated": "2026-04-30T13:45:00Z"
+    "source": "Eurostat Flash Estimate, July 2026 (released July 31, 2026)",
+    "lastUpdated": "2026-07-31T10:00:00Z"
   },
   {
     "id": "us-consumer-confidence",
@@ -382,13 +363,11 @@
   },
   {
     "id": "ism-services-pmi-april-2026",
-    "label": "ISM Services PMI — May 2026 (Released June 3)",
-    "value": "54.5 (Prices Paid: 71.3 — Highest Since Aug 2022; 23rd Consecutive Expansion Month)",
-    "change": "May: 54.5 (beat 53.8; up from April 53.6); Business Activity 57.7; New Orders 57.3; Prices Paid 71.3 (highest since Aug 2022 — stagflation embedded); Employment 47.9 (3rd straight month contracting — hiring freeze signal)",
+    "label": "ISM Services PMI — July 2026 (Released Aug 5)",
+    "value": "54.1% — Below 54.5% Forecast; Employment Back in Contraction",
+    "change": "+0.1pp from June; Business Activity Index +3.7pp to 59.1%; New Orders +2.1pp to 57.2%; but the Employment Index fell back into contraction, an early labor-market crack ahead of the Aug 7 jobs miss.",
     "direction": "up",
     "sparkData": [
-      55.2,
-      53.5,
       54.6,
       55.2,
       54.9,
@@ -396,11 +375,12 @@
       52.7,
       54.0,
       53.6,
-      54.5
+      54.5,
+      54.1
     ],
     "color": "red",
-    "source": "ISM Non-Manufacturing PMI, May 2026 (released June 3, 2026)",
-    "lastUpdated": "2026-06-03T16:00:00Z"
+    "source": "ISM Services PMI Report, July 2026 (released August 5, 2026)",
+    "lastUpdated": "2026-08-05T14:00:00Z"
   },
   {
     "id": "rba-cash-rate",
@@ -488,13 +468,11 @@
   },
   {
     "id": "ism-manufacturing-pmi-may2026",
-    "label": "US ISM Manufacturing PMI (May 2026 — Released June 1)",
-    "value": "54.0% — 5th Consecutive Expansion Month; New Orders 56.8%; Strongest Since May 2022; Corresponds to 2.2% Annualized GDP Growth",
-    "change": "+1.3pp from April 52.7%; New Orders up 2.7pp to 56.8% (most forward-looking sub-index); 19th consecutive month of overall economic expansion. Four of six largest manufacturing industries reported increased new orders. Corresponds to 2.2% annualized real GDP growth per ISM historical correlation — well above the ~1% Q2 GDP trajectory projected by Goldman/JPMorgan. Confirms Chicago PMI surge (62.7, May 29) was nationally representative. Front-loading ahead of Section 122 tariff cliff (July 24) and AI capital goods investment both contributing.",
+    "label": "US ISM Manufacturing PMI (July 2026 — Released Aug 3)",
+    "value": "55.6% — 7th Consecutive Expansion Month; Highest Since May 2022",
+    "change": "+2.3pp from June; New Orders 56.7% (7th straight expansion month); Employment Index 52.8% (best since Aug 2022); Production Index 58.5% (best since Nov 2021).",
     "direction": "up",
     "sparkData": [
-      47.8,
-      48.7,
       50.0,
       50.9,
       50.3,
@@ -502,11 +480,12 @@
       50.3,
       51.6,
       52.7,
-      54.0
+      54.0,
+      55.6
     ],
     "color": "green",
-    "source": "ISM Manufacturing PMI Report, May 2026 (released June 1, 2026)",
-    "lastUpdated": "2026-06-01T14:45:22Z"
+    "source": "ISM Manufacturing PMI Report, July 2026 (released August 3, 2026)",
+    "lastUpdated": "2026-08-03T14:00:00Z"
   },
   {
     "id": "boj-policy-rate-history",

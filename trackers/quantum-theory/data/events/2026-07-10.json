@@ -1,0 +1,33 @@
+[
+  {
+    "id": "google-willow-reinforcement-learning-calibration-2026",
+    "year": "2026",
+    "title": "Google Quantum AI Uses Reinforcement Learning to Self-Calibrate Willow Mid-Computation",
+    "type": "computing",
+    "detail": "Google Quantum AI and Google DeepMind published a Nature paper showing a reinforcement learning agent can continuously recalibrate a superconducting quantum processor using the error-detection events that quantum error correction already produces, rather than pausing for dedicated tune-up passes. Running on the 105-qubit Willow chip, the RL agent adjusted more than 1,000 hardware control parameters in real time, cutting the logical error rate by roughly 20% versus expert-tuned calibration and improving stability 3.5x when hardware drifted, setting a record surface-code logical error rate of 7.72×10⁻⁴ per cycle at distance 7. The 299-author study, led by Volodymyr Sivak and Alexis Morvan, is the first demonstration of RL-based error-correction control at the scale of a full error-corrected processor.",
+    "sources": [
+      {
+        "name": "Nature — Reinforcement learning control of quantum error correction",
+        "tier": 1,
+        "url": "https://www.nature.com/articles/s41586-026-10759-2",
+        "pole": "western"
+      },
+      {
+        "name": "The Quantum Insider — Google Study Shows Quantum Computer Can Learn From Its Own Errors While It Computes",
+        "tier": 2,
+        "url": "https://thequantuminsider.com/2026/07/10/google-study-shows-quantum-computer-can-learn-from-its-own-errors-while-it-computes/",
+        "pole": "western"
+      }
+    ],
+    "media": [
+      {
+        "type": "image",
+        "url": "https://thequantuminsider.com/2026/07/10/google-study-shows-quantum-computer-can-learn-from-its-own-errors-while-it-computes/",
+        "caption": "Google Quantum AI's reinforcement learning agent steers Willow's controls in real time during error-correction cycles",
+        "source": "The Quantum Insider",
+        "thumbnail": "https://thequantuminsider.com/wp-content/uploads/2026/07/Screenshot-2026-07-10-at-7.00.17-AM.png"
+      }
+    ],
+    "lastUpdated": "2026-08-10T00:00:00Z"
+  }
+]

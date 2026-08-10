@@ -2,68 +2,68 @@
   {
     "id": "oil-production",
     "label": "Oil Production",
-    "value": "~1.2 mb/d (est., mid-July 2026)",
-    "change": "Further decline after US reimposed a naval blockade July 14 following the ceasefire's collapse",
+    "value": "~1.0 mb/d (est., early Aug 2026)",
+    "change": "No tankers loaded at Kharg Island (~90% of exports) for at least a week as of Aug 8",
     "direction": "down",
-    "sparkData": [2.0, 1.8, 2.1, 2.4, 2.5, 2.7, 3.0, 1.5, 1.2],
+    "sparkData": [2.0, 1.8, 2.1, 2.4, 2.5, 2.7, 3.0, 1.5, 1.2, 1.0],
     "color": "#e74c3c",
-    "source": "US EIA / OPEC / CNBC July 2026",
-    "lastUpdated": "2026-07-14"
+    "source": "US EIA / OPEC / Fortune (Aug 8, 2026)",
+    "lastUpdated": "2026-08-08"
   },
   {
     "id": "inflation-rate",
     "label": "Annual Inflation Rate",
-    "value": "~54% (May 2026)",
-    "change": "Up from 35% pre-war; food prices +140%",
+    "value": "~88.6% (late June 2026, point-to-point)",
+    "change": "Sharply higher than the ~54% official 12-month figure reported in May; methodology differs by source",
     "direction": "up",
-    "sparkData": [9, 15, 20, 30, 47, 44, 40, 35, 54],
+    "sparkData": [9, 15, 20, 30, 47, 44, 40, 54, 88.6],
     "color": "#e74c3c",
-    "source": "Statistical Centre of Iran / IMF WEO 2026",
-    "lastUpdated": "2026-05-09"
+    "source": "Statistical Centre of Iran / IMF WEO 2026 / Fortune (Aug 8, 2026)",
+    "lastUpdated": "2026-08-08"
   },
   {
     "id": "rial-exchange-rate",
     "label": "Rial to USD (Free Market)",
-    "value": "~1,750,000–1,830,000 IRR/USD",
-    "change": "New all-time low after the naval blockade reimposed July 14; basic goods prices up ~400% since the conflict began",
+    "value": "~1,854,000 IRR/USD",
+    "change": "New all-time low; basic goods prices up 400%+ since the conflict began",
     "direction": "down",
-    "sparkData": [42000, 80000, 250000, 420000, 500000, 560000, 900000, 1800000, 1830000],
+    "sparkData": [42000, 80000, 250000, 420000, 500000, 560000, 900000, 1800000, 1830000, 1854000],
     "color": "#e74c3c",
-    "source": "CNBC / IranWarRoom market data July 2026",
-    "lastUpdated": "2026-07-14"
+    "source": "Alanchand / CNBC / IranWarRoom market data (Aug 9, 2026)",
+    "lastUpdated": "2026-08-09"
   },
   {
     "id": "gdp-ppp",
     "label": "GDP (PPP)",
-    "value": "$1.4 trillion (2026 revised est.)",
-    "change": "-8.8% to -10% real GDP contraction — revised sharply down from May estimates",
+    "value": "$1.4 trillion (2026 est.)",
+    "change": "-5.4% to -10% real GDP contraction reported (estimates diverge by source); Fortune (Aug 8) cites -5.4% for the year",
     "direction": "down",
-    "sparkData": [700, 800, 1000, 1050, 900, 1100, 1300, 1600, 1400],
+    "sparkData": [700, 800, 1000, 1050, 900, 1100, 1300, 1600, 1400, 1400],
     "color": "#e74c3c",
-    "source": "IMF / Iranian economists symposium, Tehran (May 30, 2026)",
-    "lastUpdated": "2026-05-31"
+    "source": "IMF / Iranian economists symposium, Tehran (May 30) / Fortune (Aug 8, 2026)",
+    "lastUpdated": "2026-08-08"
   },
   {
     "id": "oil-revenue",
     "label": "Estimated Oil Export Revenue",
-    "value": "~$11B/year (est., mid-July 2026)",
-    "change": "Further decline from ~$15B — US reimposed oil sanctions and a naval blockade after the July 8 ceasefire collapse",
+    "value": "~$9B/year (est., early Aug 2026)",
+    "change": "Further decline from ~$11B as Kharg Island loading halted for a week amid the naval blockade",
     "direction": "down",
-    "sparkData": [100, 40, 20, 15, 20, 25, 35, 15, 11],
+    "sparkData": [100, 40, 20, 15, 20, 25, 35, 15, 11, 9],
     "color": "#e74c3c",
-    "source": "US EIA / CNN oil sanctions coverage July 2026",
-    "lastUpdated": "2026-07-14"
+    "source": "US EIA / Fortune oil sanctions coverage (Aug 8, 2026)",
+    "lastUpdated": "2026-08-08"
   },
   {
     "id": "unemployment-rate",
     "label": "Unemployment Rate",
-    "value": "~12–15% (2026 est.)",
-    "change": "~1 million new unemployed since June 2025 conflict",
+    "value": "9.1%–15% (2026 est., diverges by source)",
+    "change": "Fortune (Aug 8) cites an official 9.1% rate; independent estimates remain 12-15% given wartime job losses",
     "direction": "up",
-    "sparkData": [11, 13, 14, 12, 11, 10.5, 10, 9.5, 13.5],
+    "sparkData": [11, 13, 14, 12, 11, 10.5, 10, 9.5, 13.5, 9.1],
     "color": "#e74c3c",
-    "source": "Statistical Centre of Iran / CNBC May 2026",
-    "lastUpdated": "2026-05-09"
+    "source": "Statistical Centre of Iran / Fortune (Aug 8, 2026)",
+    "lastUpdated": "2026-08-08"
   },
   {
     "id": "natural-gas-reserves",

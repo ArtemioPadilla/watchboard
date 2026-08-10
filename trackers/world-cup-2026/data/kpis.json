@@ -1,14 +1,13 @@
 [
   {
     "id": "days-to-kickoff",
-    "label": "Days to Final",
-    "value": "3",
-    "color": "red",
-    "source": "FIFA.com — Jul 19, 2026 Final at MetLife Stadium",
+    "label": "Tournament Status",
+    "value": "Concluded",
+    "color": "green",
+    "source": "FIFA.com — Final played Jul 19, 2026 at MetLife Stadium",
     "contested": false,
-    "deltaNote": "Final: Spain vs Argentina, Sunday July 19, 3:00 PM ET, MetLife Stadium (East Rutherford, NJ) — first-ever Spain vs Argentina World Cup Final. Spain beat France 2-0 (Jul 14, Dallas) and Argentina beat England 2-1 (Jul 15, Atlanta) in the semifinals. Third-place playoff: France vs England, Saturday July 18, Hard Rock Stadium, Miami.",
-    "trend": "down",
-    "lastUpdated": "2026-07-16T18:24:40.000Z"
+    "deltaNote": "Spain won the 2026 FIFA World Cup, beating Argentina 1-0 in extra time (Ferran Torres, 106') at MetLife Stadium, July 19 — Spain's second title, first since 2010. England beat France 6-4 in the third-place playoff (Jul 18, Hard Rock Stadium, Miami), England's best finish since 1966.",
+    "lastUpdated": "2026-08-10T00:00:00.000Z"
   },
   {
     "id": "teams-competing",
@@ -56,14 +55,14 @@
   },
   {
     "id": "projected-revenue",
-    "label": "FIFA Projected Revenue",
-    "value": "$10.9B",
-    "color": "amber",
-    "source": "Sports Value / FIFA Publications",
-    "contested": true,
-    "contestNote": "FIFA 2023–2026 budget projects $11B total; independent analysts cite ~$10.9B for tournament-specific revenue; economists warn travel bans and immigration enforcement may reduce actual returns below projections",
+    "label": "FIFA Tournament Revenue",
+    "value": "$11B+",
+    "color": "green",
+    "source": "FIFA / NPR",
+    "contested": false,
+    "deltaNote": "FIFA confirmed tournament revenue exceeding $11B, pushing its full 2023–2026 commercial cycle past $15B — up from roughly $7.5B in the 2022 cycle. Days later, a separate FIFA plan to sell a 20% stake in a new commercial entity valued at $20B (targeting up to $4.2B, buyer led by Joshua Kushner's Thrive Eternal) was scrapped July 31 after UEFA and European federations threatened to boycott.",
     "trend": "up",
-    "lastUpdated": "2026-03-22T06:00:00.000Z"
+    "lastUpdated": "2026-08-10T00:00:00.000Z"
   },
   {
     "id": "global-viewers",
@@ -187,14 +186,13 @@
   },
   {
     "id": "teams-remaining",
-    "label": "Teams Remaining",
-    "value": "2",
-    "color": "blue",
-    "source": "FIFA.com / Al Jazeera",
+    "label": "Champion",
+    "value": "Spain",
+    "color": "green",
+    "source": "FIFA.com / ESPN",
     "contested": false,
-    "deltaNote": "Spain and Argentina secured the final after semifinal wins over France (2-0, Jul 14) and England (2-1, Jul 15). First-ever Spain vs Argentina World Cup Final, July 19.",
-    "trend": "down",
-    "lastUpdated": "2026-07-16T18:24:40.000Z"
+    "deltaNote": "Spain beat Argentina 1-0 in extra time (Ferran Torres, 106') to win its second World Cup. Rodri (Spain) won the Golden Ball; Kylian Mbappé (France) won the Golden Boot (10 goals) for a second straight World Cup; Unai Simón (Spain) won the Golden Glove; Pau Cubarsí (Spain) won Best Young Player.",
+    "lastUpdated": "2026-08-10T00:00:00.000Z"
   },
   {
     "id": "record-us-tv-viewership",
@@ -206,5 +204,28 @@
     "deltaNote": "USA's Round of 16 elimination to Belgium (Jul 6, Lumen Field, Seattle) drew 33.086M viewers on Fox — the most-watched soccer telecast in US history. Spain-France semifinal drew 11.462M on Fox, the most-watched men's World Cup semifinal in US English-language TV history. Mexico-England Round of 16 drew 23.2M Total Audience Delivery on Telemundo/Peacock — most-watched soccer match in US Spanish-language media history.",
     "trend": "up",
     "lastUpdated": "2026-07-16T18:24:40.000Z"
+  },
+  {
+    "id": "record-attendance",
+    "label": "Total Tournament Attendance",
+    "value": "6.81M",
+    "color": "green",
+    "source": "FIFA.com / Forbes",
+    "contested": false,
+    "delta": "Nearly 2x the 1994 record",
+    "deltaNote": "A record 6,810,966 fans attended the 104 matches — nearly double the previous record set at the 1994 World Cup in the US — at 99.7% occupancy, averaging 65,351/match. The July 19 final sold out MetLife Stadium at 80,663.",
+    "trend": "up",
+    "lastUpdated": "2026-08-10T00:00:00.000Z"
+  },
+  {
+    "id": "final-tv-viewership",
+    "label": "World Cup Final US Viewership",
+    "value": "60M+",
+    "color": "green",
+    "source": "NBC New York / ESPN / Fox",
+    "contested": false,
+    "deltaNote": "The Spain-Argentina final drew 38.937M English-language viewers on Fox — a US record for a soccer broadcast — plus 22.6M on Telemundo, for 60M+ combined US viewers. FIFA projected the tournament's global broadcast audience at roughly 1.8 billion.",
+    "trend": "up",
+    "lastUpdated": "2026-08-10T00:00:00.000Z"
   }
 ]

@@ -92,15 +92,28 @@
   },
   {
     "id": "amazon-deforestation-brazil",
-    "label": "Amazon Deforestation (Brazil, H1 2026)",
-    "value": "1,295 km² (Jan–Jun 2026)",
+    "label": "Amazon Deforestation (Brazil, 12-mo. Aug'25–Jul'26)",
+    "value": "2,874 km²",
     "color": "green",
-    "source": "INPE PRODES (July 10, 2026); WRI/Univ. of Maryland GLAD Lab (April 2026)",
+    "source": "INPE DETER alerts (Aug 9, 2026); INPE PRODES (July 10, 2026); WRI/Univ. of Maryland GLAD Lab (April 2026)",
     "contested": false,
-    "contestNote": "Lowest first-half deforestation figure since 2016, a 38% drop vs. the same period in 2025. Follows an April 2026 WRI/GLAD Lab finding that Brazil cut non-fire primary forest loss 41% in 2025 vs. 2024 — its lowest level on record. Improvement attributed to the relaunched PPCDAm plan and stepped-up IBAMA enforcement. However, forest degradation (illegal logging, wildfires, drought) affects an estimated 40% of remaining forest — not captured in deforestation metrics.",
-    "delta": "-38%",
-    "deltaNote": "vs. Jan–Jun 2025",
+    "contestNote": "Lowest annual deforestation-alert total since 2013 (down 36% y/y, 55.6% below the prior decade's average) — extends the decline reported in the July 10 PRODES half-year figure (1,295 km², Jan–Jun 2026, -38% y/y). Improvement attributed to the relaunched PPCDAm plan and stepped-up IBAMA enforcement. However, forest degradation (illegal logging, wildfires, drought) affects an estimated 40% of remaining forest — not captured in deforestation-alert metrics.",
+    "delta": "-36%",
+    "deltaNote": "vs. Aug'24–Jul'25; lowest since 2013",
     "trend": "down",
-    "lastUpdated": "2026-07-10"
+    "lastUpdated": "2026-08-09"
+  },
+  {
+    "id": "ethiopia-green-legacy-trees",
+    "label": "Ethiopia Green Legacy — Cumulative Trees Planted",
+    "value": "48+ B seedlings",
+    "color": "green",
+    "source": "Government of Ethiopia / Green Legacy Initiative (Aug 3, 2026)",
+    "contested": true,
+    "contestNote": "Includes a record 800 million seedlings planted in a single day on Aug 3, 2026 (22.2M participants) toward an 8 billion seedling target for 2026 and an eventual 50–65 billion goal. Government claims 79–83% survival rates, but independent researchers note no publicly available site-level surveys exist to verify planting locations or nationwide survival; global studies show roughly half of mass-planted seedlings die within 5 years.",
+    "delta": "+800 M",
+    "deltaNote": "single-day record, Aug 3, 2026",
+    "trend": "up",
+    "lastUpdated": "2026-08-10"
   }
 ]

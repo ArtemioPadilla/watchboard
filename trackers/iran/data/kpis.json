@@ -35,39 +35,52 @@
   {
     "id": "peace-negotiations-status",
     "label": "US-Iran Peace Negotiations",
-    "value": "Ceasefire Collapsed — War Resumed July 8",
+    "value": "No Formal Talks — Iran-Oman Hormuz Deal Nearing",
     "color": "red",
-    "source": "Al Jazeera / CNN / NPR (July 8-13, 2026)",
+    "source": "NPR / CBS News / Al Jazeera (Aug 7-9, 2026)",
     "contested": true,
-    "contestNote": "The 60-day ceasefire fell apart July 8 after Iran struck commercial vessels in the Strait of Hormuz without US-framework clearance; Trump declared the deal 'over' at the NATO summit in Ankara. The US struck ~80-90 Iranian military targets over two nights; IRGC retaliated against US bases in Kuwait and Bahrain. Iran maintains it holds sole authority over Hormuz transit approval; the US insists the strait must stay open to all traffic.",
-    "delta": "Ceasefire declared 'over' by Trump July 8; renewed strikes and retaliation through mid-July",
-    "deltaNote": "Trump has signaled negotiations could still resume ('I did not think the war would restart') while warning of disproportionate response to further Iranian action. No new talks confirmed as of July 16.",
+    "contestNote": "The 60-day ceasefire fell apart July 8 after Iran struck commercial vessels in the Strait of Hormuz without US-framework clearance; Trump declared the deal 'over' at the NATO summit in Ankara. No formal US-Iran talks have resumed. Iran instead reached a near-final bilateral arrangement with Oman for jointly managing Hormuz shipping traffic that bars US and Israeli vessels, while conditioning any full reopening of the strait on the US lifting its naval blockade, withdrawing regional forces, and ending the war.",
+    "delta": "Iran-Oman Hormuz management deal reported near-final Aug 7-8; no direct US-Iran negotiations confirmed",
+    "deltaNote": "Iranian officials say sanctions relief is 'desperately needed' as the blockade pushes the economy toward collapse, but Tehran maintains maximalist preconditions before engaging Washington directly.",
     "trend": "down",
-    "lastUpdated": "2026-07-08"
+    "lastUpdated": "2026-08-08"
+  },
+  {
+    "id": "supreme-leader-health-status",
+    "label": "Supreme Leader Public Status",
+    "value": "Unconfirmed — First Video Since March, Still No Verified Sighting",
+    "color": "amber",
+    "source": "Anadolu Agency / The Week / Iran International (Aug 8-10, 2026)",
+    "contested": true,
+    "contestNote": "Mojtaba Khamenei has made no confirmed public appearance since being named Supreme Leader in March 2026, following the Feb 28 strike that killed his father and reportedly injured him. Israeli media reported him in 'extremely critical condition' in early August; Iran's Mehr News released an undated 12-second video days later showing him with advisers, which resolved little given the lack of date/location markers. President Pezeshkian has said communication with him is 'very difficult.' Trump has claimed he is '90 percent gone.'",
+    "delta": "First video release since succession, but authenticity/timing unverified",
+    "trend": "stable",
+    "lastUpdated": "2026-08-08"
   },
   {
     "id": "inflation-rate",
     "label": "Annual Inflation Rate",
-    "value": "~54% (12-month) / 100%+ point-to-point",
+    "value": "~88.6% (late June 2026) / 100%+ point-to-point",
     "color": "red",
-    "source": "Statistical Centre of Iran / IMF World Economic Outlook 2026",
-    "contested": false,
-    "delta": "Up from ~35% pre-war; food prices up 140%+",
-    "deltaNote": "IMF projects 68.9% annual inflation for 2026; point inflation on basic goods reached 100%. Bread +140%, red meat +135%, oils/fats +219% YoY.",
+    "source": "Statistical Centre of Iran / IMF World Economic Outlook 2026 / Fortune (Aug 8, 2026)",
+    "contested": true,
+    "contestNote": "Estimates vary by methodology: official 12-month figures earlier in 2026 ran ~54%, while more recent point-to-point/annualized reporting citing Iranian and Western economists puts the rate at 88.6% as of late June. Bread +140%, red meat +135%, oils/fats +219% YoY. IMF's 2026 full-year projection was 68.9% prior to the July-August blockade escalation.",
+    "delta": "Accelerating sharply since the July 8 ceasefire collapse and Aug naval blockade tightening",
+    "deltaNote": "IMF's 68.9% full-year projection now looks conservative given the 88.6% figure reported in early August amid the Kharg Island export halt.",
     "trend": "up",
-    "lastUpdated": "2026-05-09"
+    "lastUpdated": "2026-08-08"
   },
   {
     "id": "rial-exchange-rate-2026",
     "label": "Rial to USD (Free Market, 2026)",
-    "value": "1.75–1.83 million IRR/USD",
+    "value": "~1.85 million IRR/USD",
     "color": "red",
-    "source": "CNBC / IranWarRoom market data (July 2026)",
+    "source": "Alanchand / CNBC / IranWarRoom market data (Aug 9, 2026)",
     "contested": false,
-    "delta": "New all-time low after US reimposed naval blockade July 14",
-    "deltaNote": "Pre-conflict rate was ~580,000 IRR/USD. Regime officials have acknowledged the blockade's devastating impact on trade; basic goods prices up 400% since the conflict began.",
+    "delta": "New all-time low, continuing the slide from the July 14 blockade reimposition",
+    "deltaNote": "Pre-conflict rate was ~580,000 IRR/USD. Regime officials have acknowledged the blockade's devastating impact on trade; basic goods prices up 400%+ since the conflict began.",
     "trend": "down",
-    "lastUpdated": "2026-07-14"
+    "lastUpdated": "2026-08-09"
   },
   {
     "id": "proven-oil-reserves",
@@ -113,14 +126,14 @@
   {
     "id": "executions-2025-2026",
     "label": "Executions in 2025 / 2026 YTD",
-    "value": "2,159 (2025) / 47+ political executions since Feb 28 conflict",
+    "value": "2,159 (2025) / 77+ executions in July 2026 alone",
     "color": "red",
-    "source": "Iran Human Rights (Oslo) / Amnesty International / Iran HRM (July 2026)",
+    "source": "Iran Human Rights (Oslo) / Amnesty International / Iran HRM monthly report (Aug 8, 2026)",
     "contested": false,
-    "contestNote": "Iran's 2025 figure is the highest since 1981. Political executions have surged to levels unseen since the 1980s. At least 12 Isfahan protesters had death sentences referred to the Enforcement Unit July 5; 2022-uprising prisoner Aref Khoshkar was executed July 16. Actual totals are higher as the regime conceals execution data.",
-    "delta": "9+ hangings between July 12-14 alone; execution pace accelerating since Khamenei's July funeral concluded",
-    "deltaNote": "Iran Human Rights (Oslo) documents at least 47 political prisoners killed since the Feb 28 US-Israeli strikes, alongside expedited group trials, denial of independent counsel, and forced confessions under 'wartime conditions.'",
+    "contestNote": "Iran's 2025 figure is the highest since 1981. Political executions have surged to levels unseen since the 1980s. Iran HRM's July 2026 monthly review recorded at least 77 executions and 160 arrests; other monitors (Hengaw) counted 67+ for the month. The 12-defendant Isfahan 'Alikhani Square' protest case saw executions on July 19 and July 28 despite UN appeals to halt. Actual totals are higher as the regime conceals execution data.",
+    "delta": "Public hangings of Isfahan protesters July 19 and July 28; UN experts' July 23 halt appeal went unheeded",
+    "deltaNote": "Iran Human Rights (Oslo) and Iran HRM document dozens of political prisoners executed since the Feb 28 US-Israeli strikes, alongside expedited group trials, denial of independent counsel, and forced confessions under 'wartime conditions.'",
     "trend": "up",
-    "lastUpdated": "2026-07-16"
+    "lastUpdated": "2026-08-08"
   }
 ]

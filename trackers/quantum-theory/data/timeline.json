@@ -2270,6 +2270,192 @@
           }
         ],
         "lastUpdated": "2026-07-16T00:00:00Z"
+      },
+      {
+        "id": "google-willow-reinforcement-learning-calibration-2026",
+        "year": "Jul 10, 2026",
+        "title": "Google Quantum AI Uses Reinforcement Learning to Self-Calibrate Willow Mid-Computation",
+        "type": "computing",
+        "detail": "Google Quantum AI and Google DeepMind published a Nature paper showing a reinforcement learning agent can continuously recalibrate a superconducting quantum processor using the error-detection events that quantum error correction already produces, rather than pausing for dedicated tune-up passes. Running on the 105-qubit Willow chip, the RL agent adjusted more than 1,000 hardware control parameters in real time, cutting the logical error rate by roughly 20% versus expert-tuned calibration and improving stability 3.5x when hardware drifted, setting a record surface-code logical error rate of 7.72×10⁻⁴ per cycle at distance 7. The 299-author study, led by Volodymyr Sivak and Alexis Morvan, is the first demonstration of RL-based error-correction control at the scale of a full error-corrected processor.",
+        "sources": [
+          {
+            "name": "Nature — Reinforcement learning control of quantum error correction",
+            "tier": 1,
+            "url": "https://www.nature.com/articles/s41586-026-10759-2",
+            "pole": "western"
+          },
+          {
+            "name": "The Quantum Insider — Google Study Shows Quantum Computer Can Learn From Its Own Errors While It Computes",
+            "tier": 2,
+            "url": "https://thequantuminsider.com/2026/07/10/google-study-shows-quantum-computer-can-learn-from-its-own-errors-while-it-computes/",
+            "pole": "western"
+          }
+        ],
+        "media": [
+          {
+            "type": "image",
+            "url": "https://thequantuminsider.com/2026/07/10/google-study-shows-quantum-computer-can-learn-from-its-own-errors-while-it-computes/",
+            "caption": "Google Quantum AI's reinforcement learning agent steers Willow's controls in real time during error-correction cycles",
+            "source": "The Quantum Insider",
+            "thumbnail": "https://thequantuminsider.com/wp-content/uploads/2026/07/Screenshot-2026-07-10-at-7.00.17-AM.png"
+          }
+        ],
+        "lastUpdated": "2026-08-10T00:00:00Z"
+      },
+      {
+        "id": "quantinuum-topological-gate-set-anyons-2026",
+        "year": "Jul 17, 2026",
+        "title": "Quantinuum Demonstrates First Universal Topological Gate Set Using Non-Abelian Anyons",
+        "type": "computing",
+        "detail": "A collaboration between Quantinuum, the University of Chicago Pritzker School of Molecular Engineering, Harvard, and Stony Brook University entangled 54 physical qubits on Quantinuum's H2 trapped-ion processor to create a stable topological state based on the S3 non-Abelian symmetry group. By combining anyonic braiding with a fusion measurement primitive, the team assembled a complete, fault-tolerant toolkit of computational operations using topological qutrits — including a high-fidelity magic state prepared directly on hardware — potentially avoiding magic-state distillation, which conventionally consumes up to 90% of a fault-tolerant computer's resources. The results were published in Nature.",
+        "sources": [
+          {
+            "name": "Nature — Universal gates from braiding and fusing anyons on quantum hardware",
+            "tier": 1,
+            "url": "https://www.nature.com/articles/s41586-026-10709-y",
+            "pole": "western"
+          },
+          {
+            "name": "Quantum Computing Report — Quantinuum and Academic Partners Demonstrate First Universal Topological Gate Set via Non-Abelian Anyons",
+            "tier": 2,
+            "url": "https://quantumcomputingreport.com/quantinuum-and-academic-partners-demonstrate-first-universal-topological-gate-set-via-non-abelian-anyons/",
+            "pole": "western"
+          }
+        ],
+        "media": [
+          {
+            "type": "image",
+            "url": "https://quantumcomputingreport.com/quantinuum-and-academic-partners-demonstrate-first-universal-topological-gate-set-via-non-abelian-anyons/",
+            "caption": "Quantinuum's H2 trapped-ion processor braids and fuses non-Abelian anyons to realize a universal topological gate set",
+            "source": "Quantum Computing Report",
+            "thumbnail": "https://quantumcomputingreport.com/wp-content/uploads/2026/07/image-204.png"
+          }
+        ],
+        "lastUpdated": "2026-08-10T00:00:00Z"
+      },
+      {
+        "id": "northwestern-quantum-entanglement-telecom-fiber-2026",
+        "year": "Jul 22, 2026",
+        "title": "Northwestern Demonstrates Quantum Entanglement Over Live Telecom Fiber",
+        "type": "experiment",
+        "detail": "Researchers in Prem Kumar's lab at Northwestern's McCormick School of Engineering, led by graduate student Gina Talcott, distributed entangled photon pairs across 24.4 km of installed fiber connecting Northwestern's Evanston campus to the StarLight facility in downtown Chicago — while the same fiber simultaneously carried roughly 36 terabits per second of live commercial internet traffic. By isolating quantum signals in the O-band while classical data used the C-band, with picosecond-level synchronization and filtering, the team preserved entanglement fidelity above 94%. Published in Optica Quantum, it is the first demonstration of entanglement distribution between remote nodes over a fiber carrying real-world commercial traffic, a key step toward a quantum internet that reuses existing telecom infrastructure.",
+        "sources": [
+          {
+            "name": "Northwestern Now — Quantum internet leaves the lab",
+            "tier": 1,
+            "url": "https://news.northwestern.edu/stories/2026/07/quantum-internet-leaves-the-lab",
+            "pole": "western"
+          },
+          {
+            "name": "Phys.org — Quantum internet leaves the lab with first real-world entanglement over busy telecom fiber",
+            "tier": 2,
+            "url": "https://phys.org/news/2026-07-quantum-internet-lab-real-world.html",
+            "pole": "western"
+          }
+        ],
+        "media": [
+          {
+            "type": "image",
+            "url": "https://phys.org/news/2026-07-quantum-internet-lab-real-world.html",
+            "caption": "Entangled photons travel 24.4 km of live Chicago-area telecom fiber alongside commercial internet traffic",
+            "source": "Phys.org",
+            "thumbnail": "https://scx1.b-cdn.net/csz/news/800a/2026/quantum-internet-leave.jpg"
+          }
+        ],
+        "lastUpdated": "2026-08-10T00:00:00Z"
+      },
+      {
+        "id": "hrl-silicon-quantum-processor-self-correcting-2026",
+        "year": "Jul 29, 2026",
+        "title": "HRL Laboratories Runs Self-Contained Silicon Quantum Processor With Onboard Error Correction",
+        "type": "computing",
+        "detail": "HRL Laboratories published \"A digitally controlled silicon quantum processing unit\" as Nature's cover story, demonstrating an 18 exchange-only-qubit silicon spin chip (54 exchange-coupled quantum dots across three rails) paired with a custom 70-million-transistor CMOS controller operating at 4 Kelvin inside the same cryostat. The system generates all of its own time-varying control signals and runs repeated rounds of error correction with no real-time input from room-temperature electronics — the first time this has been shown for a silicon platform. Control errors fell roughly tenfold versus prior demonstrations, and errors dropped about fivefold as more qubits were added to the repetition code. The paper landed six days after IBM announced a definitive agreement to acquire HRL from joint owners Boeing and General Motors, bringing silicon spin qubits into IBM's Anderon quantum foundry roadmap.",
+        "sources": [
+          {
+            "name": "HRL Laboratories — HRL demonstrates a silicon quantum processor that runs itself",
+            "tier": 1,
+            "url": "https://www.hrl.com/news/2026/07/29/hrl-demonstrates-a-silicon-quantum-processor-that-runs-itself",
+            "pole": "western"
+          },
+          {
+            "name": "Quantum Computing Report — HRL Laboratories Demonstrates Self-Running Silicon QPU in Nature Benchmark",
+            "tier": 2,
+            "url": "https://quantumcomputingreport.com/hrl-laboratories-demonstrates-self-running-silicon-qpu-in-nature-benchmark/",
+            "pole": "western"
+          }
+        ],
+        "media": [
+          {
+            "type": "image",
+            "url": "https://quantumcomputingreport.com/hrl-laboratories-demonstrates-self-running-silicon-qpu-in-nature-benchmark/",
+            "caption": "HRL's 18-qubit silicon spin processor pairs with a 4-Kelvin CMOS controller housed inside the same cryostat",
+            "source": "Quantum Computing Report",
+            "thumbnail": "https://quantumcomputingreport.com/wp-content/uploads/2026/07/image-299-1024x383.png"
+          }
+        ],
+        "lastUpdated": "2026-08-10T00:00:00Z"
+      },
+      {
+        "id": "ionq-record-q2-2026-skywater-acquisition",
+        "year": "Aug 5, 2026",
+        "title": "IonQ Posts Record Q2 2026 Revenue, Closes $1.8B SkyWater Acquisition",
+        "type": "computing",
+        "detail": "IonQ reported record second-quarter 2026 revenue of $80.1 million, up 287% year-over-year and its fifth consecutive record quarter, beating its internal plan by roughly 20%. The company raised full-year guidance to $280–290 million, citing 132% organic growth driven by fifth-generation quantum system deployments to KISTI (South Korea) and QuantumBasel (Switzerland). The quarter also included the close of IonQ's $1.8 billion acquisition of semiconductor manufacturer SkyWater Technology, which management framed as extending IonQ from a quantum computing specialist into a full-stack platform spanning computing, networking, sensing, security, and domestic chip manufacturing.",
+        "sources": [
+          {
+            "name": "IonQ — IonQ Announces Record Second Quarter 2026 Revenues, Growing 287% YoY",
+            "tier": 1,
+            "url": "https://investors.ionq.com/news/news-details/2026/IonQ-Announces-Record-Second-Quarter-2026-Revenues-Growing-287-YoY/default.aspx",
+            "pole": "western"
+          },
+          {
+            "name": "Quantum Computing Report — IonQ Reports Record Q2 2026 Financial Results: Revenue Soars 287% to $80.1M, Full-Year Guidance Raised to $290M",
+            "tier": 2,
+            "url": "https://quantumcomputingreport.com/ionq-reports-record-q2-2026-financial-results-revenue-soars-287-to-80-1m-full-year-guidance-raised-to-290m/",
+            "pole": "western"
+          }
+        ],
+        "media": [
+          {
+            "type": "image",
+            "url": "https://quantumcomputingreport.com/ionq-reports-record-q2-2026-financial-results-revenue-soars-287-to-80-1m-full-year-guidance-raised-to-290m/",
+            "caption": "IonQ's Q2 2026 results highlight record revenue and the closed SkyWater acquisition",
+            "source": "Quantum Computing Report",
+            "thumbnail": "https://quantumcomputingreport.com/wp-content/uploads/2026/08/image-46-1024x527.png"
+          }
+        ],
+        "lastUpdated": "2026-08-10T00:00:00Z"
+      },
+      {
+        "id": "sunlight-quantum-entanglement-2026",
+        "year": "Aug 6, 2026",
+        "title": "Researchers Generate Quantum Entanglement Directly From Sunlight",
+        "type": "experiment",
+        "detail": "A team led by recent University of Ottawa graduate Cheng Li (with Robert Boyd's group) and the Max Planck Institute for the Science of Light (Hanieh Fattahi's group) generated polarization-entangled photon pairs using concentrated sunlight instead of a laser pump. Sunlight collected over 1.4 square meters by a Fresnel lens and solar concentrator on a sun-tracking mount was focused into a nonlinear crystal via spontaneous parametric down-conversion, producing entangled photons with about 94% fidelity and correlations that violated Bell's inequality, confirming genuine entanglement despite the sunlight's spatial and temporal incoherence. The outdoor demonstration points toward simpler, lower-power quantum light sources for satellites and secure communications that would not depend on laser hardware.",
+        "sources": [
+          {
+            "name": "Phys.org — Sunlight-powered setup generates quantum entanglement",
+            "tier": 2,
+            "url": "https://phys.org/news/2026-08-sunlight-powered-setup-generates-quantum.html",
+            "pole": "western"
+          },
+          {
+            "name": "ScienceDaily — Sunlight creates quantum entanglement once thought to require lasers",
+            "tier": 2,
+            "url": "https://www.sciencedaily.com/releases/2026/08/260807035133.htm",
+            "pole": "western"
+          }
+        ],
+        "media": [
+          {
+            "type": "image",
+            "url": "https://phys.org/news/2026-08-sunlight-powered-setup-generates-quantum.html",
+            "caption": "Cheng Li's outdoor setup uses a Fresnel lens and solar concentrator to pump entangled photon generation with sunlight",
+            "source": "Phys.org",
+            "thumbnail": "https://scx1.b-cdn.net/csz/news/800a/2026/researchers-generate-q-1.jpg"
+          }
+        ],
+        "lastUpdated": "2026-08-10T00:00:00Z"
       }
     ]
   }

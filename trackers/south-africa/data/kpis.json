@@ -2,14 +2,14 @@
   {
     "id": "unemployment-rate",
     "label": "Unemployment Rate",
-    "value": "32.9%",
+    "value": "32.7%",
     "color": "red",
-    "source": "Statistics South Africa, Q3 2024",
+    "source": "Statistics South Africa, QLFS Q1 2026",
     "contested": false,
-    "delta": "+0.3pp",
-    "deltaNote": "vs Q2 2024",
+    "delta": "+1.3pp",
+    "deltaNote": "vs Q4 2025 (31.4%)",
     "trend": "up",
-    "lastUpdated": "2026-04-25T00:00:00Z"
+    "lastUpdated": "2026-08-10T00:00:00Z"
   },
   {
     "id": "gdp-usd",
@@ -82,13 +82,13 @@
   },
   {
     "id": "load-shedding-hours",
-    "label": "Load-Shedding Hours (2023 peak)",
-    "value": "~6,900 hrs",
-    "color": "red",
-    "source": "Eskom / CSIR Energy Centre, 2023",
-    "contested": true,
-    "contestNote": "Cumulative hours of rolling blackouts in 2023; significant improvement began mid-2024",
-    "trend": "down",
-    "lastUpdated": "2026-04-25T00:00:00Z"
+    "label": "Days Without Load-Shedding",
+    "value": "441 days",
+    "color": "green",
+    "source": "Eskom, as of 4 August 2026",
+    "contested": false,
+    "deltaNote": "Load-shedding-free streak since 16 May 2025; down from ~6,900 cumulative hours of blackouts in 2023",
+    "trend": "up",
+    "lastUpdated": "2026-08-10T00:00:00Z"
   }
 ]
