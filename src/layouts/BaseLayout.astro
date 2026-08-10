@@ -57,8 +57,32 @@ const pushTrackers = loadAllTrackers()
   <meta name="theme-color" content="#0d1117">
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
   <meta name="referrer" content="strict-origin-when-cross-origin">
-  {/* TODO(2026-05): flip CSP-Report-Only to enforcement after 1 week of clean violation reports */}
-  <meta http-equiv="Content-Security-Policy-Report-Only" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://*.posthog.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; connect-src 'self' https://*.posthog.com https://app.posthog.com https://us.i.posthog.com https://api.open-meteo.com https://earthquake.usgs.gov https://opensky-network.org https://*.wikipedia.org https://*.wikimedia.org https://api.memegen.link https://assets.ion.cesium.com https://tiles.ion.cesium.com https://cesium.com https://static.cloudflareinsights.com; frame-src https://www.youtube.com https://youtube.com; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; worker-src 'self' blob:">
+  {/* Still Report-Only, and deliberately so.
+
+      The original TODO said "flip to enforcement after 1 week of clean
+      violation reports". Those reports were never going anywhere: the policy
+      has no report-uri or report-to, so for months it neither blocked nor
+      reported — decorative in both directions.
+
+      Auditing the client code against the policy showed enforcement today
+      would have broken real features, since connect-src had drifted behind
+      what the islands actually call:
+
+        celestrak.org              useSatellites.ts   (globe satellites)
+        archive-api.open-meteo.com useMapOverlays.ts  (historical weather)
+        stream.aisstream.io        useShips.ts        (AIS ship traffic)
+        basemaps.cartocdn.com      LeafletMap.tsx     (basemap tiles)
+        api.github.com             SocialCommandCenter.tsx (PAT auth)
+        tile.openstreetmap.org     TrackerDirectory.tsx
+        t.me                       useMapOverlays.ts
+
+      Those are now allowed. Enforcement is a separate change once this has
+      been live long enough to confirm nothing else is missing — note that
+      'unsafe-inline' in script-src (required by the PostHog snippet and
+      Astro's define:vars) limits the XSS protection enforcement would buy;
+      the durable wins are object-src, base-uri, frame-ancestors, form-action
+      and constraining connect-src. */}
+  <meta http-equiv="Content-Security-Policy-Report-Only" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://*.posthog.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; connect-src 'self' https://*.posthog.com https://app.posthog.com https://us.i.posthog.com https://api.open-meteo.com https://archive-api.open-meteo.com https://earthquake.usgs.gov https://opensky-network.org https://celestrak.org https://*.celestrak.org https://api.github.com https://*.basemaps.cartocdn.com https://tile.openstreetmap.org https://t.me wss://stream.aisstream.io https://*.wikipedia.org https://*.wikimedia.org https://api.memegen.link https://assets.ion.cesium.com https://tiles.ion.cesium.com https://cesium.com https://static.cloudflareinsights.com; frame-src https://www.youtube.com https://youtube.com; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; worker-src 'self' blob:">
   <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
   <link rel="preload" href={`${basePath}fonts/jetbrains-mono-latin.woff2`} as="font" type="font/woff2" crossorigin>
   <link rel="preload" href={`${basePath}fonts/dm-sans-latin.woff2`} as="font" type="font/woff2" crossorigin>

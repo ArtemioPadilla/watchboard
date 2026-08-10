@@ -68,7 +68,13 @@ jobs:
 
       - name: Build Astro site
         env:
-          PUBLIC_POSTHOG_KEY: phc_CtJ5gPA3KykaauRYyqjkjq3ELJrBeJWxeKFoZkFNHwuw
+          # A PUBLIC_POSTHOG_KEY secret has existed since April but nothing read
+          # it — the key was inlined here instead. phc_ keys are public by
+          # design (they ship in the HTML), so this was never an exposure, just
+          # two sources of truth where rotating meant editing code. Falls back
+          # to the literal so a fork or a missing secret still builds with
+          # analytics rather than silently losing them.
+          PUBLIC_POSTHOG_KEY: ${{ secrets.PUBLIC_POSTHOG_KEY || 'phc_CtJ5gPA3KykaauRYyqjkjq3ELJrBeJWxeKFoZkFNHwuw' }}
           PUBLIC_POSTHOG_HOST: https://us.i.posthog.com
         run: npm run build
 
