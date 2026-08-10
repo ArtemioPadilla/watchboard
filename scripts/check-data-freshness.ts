@@ -34,17 +34,33 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const GLOBAL_STALE_DAYS = Number(process.env.FRESHNESS_GLOBAL_STALE_DAYS ?? 3);
 
 /**
- * Share of active trackers allowed to sit past their own staleness horizon
- * before we report. Individual trackers legitimately go quiet — historical
- * arcs especially — so this is about the fleet, not any single one.
+ * How many times its own configured cadence a tracker may exceed before it
+ * counts as stale.
+ *
+ * The first version of this compared every tracker against a flat 30 days,
+ * which measured almost nothing: configured cadences here run from 7 to 365
+ * days, and 67 of 96 trackers are on 90 days or more, so most of the fleet sat
+ * "past 30 days" permanently and by design. Judging each tracker against its
+ * own cadence is what separates a genuinely stalled tracker from one that is
+ * simply slow on purpose — uap-disclosure at 66 days on a 7-day cadence (9.4x)
+ * is a real problem; a 180-day arc at 88 days is not.
  */
-const STALE_TRACKER_RATIO = Number(process.env.FRESHNESS_STALE_RATIO ?? 0.9);
-const TRACKER_STALE_DAYS = Number(process.env.FRESHNESS_TRACKER_STALE_DAYS ?? 30);
+const STALE_CADENCE_FACTOR = Number(process.env.FRESHNESS_CADENCE_FACTOR ?? 2);
+
+/**
+ * Share of active trackers allowed to be stale before we report. This is about
+ * the fleet, not any single tracker — individual ones legitimately go quiet.
+ */
+const STALE_TRACKER_RATIO = Number(process.env.FRESHNESS_STALE_RATIO ?? 0.35);
 
 export interface TrackerFreshness {
   slug: string;
   lastRun: string | null;
   daysSince: number | null;
+  /** Longest configured update interval, in days. */
+  cadenceDays: number;
+  /** daysSince / cadenceDays — how far past its own schedule it has drifted. */
+  overdueRatio: number | null;
 }
 
 export interface FreshnessReport {
@@ -65,13 +81,24 @@ export function collectFreshness(now: Date, root: string = ROOT): TrackerFreshne
     const configPath = join(trackersDir, slug, 'tracker.json');
     if (!existsSync(configPath)) continue;
 
-    let config: { status?: string };
+    let config: {
+      status?: string;
+      ai?: { updatePolicy?: { escalation?: number[] }; updateIntervalDays?: number };
+    };
     try {
       config = JSON.parse(readFileSync(configPath, 'utf8'));
     } catch {
       continue;
     }
     if (config.status !== 'active') continue;
+
+    // The slowest step of the escalation ladder is the real deadline: a quiet
+    // tracker is allowed to drift out to it before anything is wrong.
+    const escalation = config.ai?.updatePolicy?.escalation;
+    const cadenceDays =
+      escalation && escalation.length
+        ? Math.max(...escalation)
+        : (config.ai?.updateIntervalDays ?? 1);
 
     let lastRun: string | null = null;
     try {
@@ -91,7 +118,13 @@ export function collectFreshness(now: Date, root: string = ROOT): TrackerFreshne
       }
     }
 
-    out.push({ slug, lastRun, daysSince });
+    out.push({
+      slug,
+      lastRun,
+      daysSince,
+      cadenceDays,
+      overdueRatio: daysSince === null ? null : daysSince / Math.max(cadenceDays, 1),
+    });
   }
 
   return out;
@@ -110,8 +143,13 @@ export function evaluate(trackers: TrackerFreshness[]): FreshnessReport {
   const freshest = sorted[0] ?? null;
   const stalest = sorted[sorted.length - 1] ?? null;
 
-  const staleCount =
-    trackers.length - withDays.filter((t) => t.daysSince < TRACKER_STALE_DAYS).length;
+  // Stale relative to its own cadence, not a flat day count. An unknown
+  // lastRun counts as stale — a tracker we cannot date is not evidence of
+  // health.
+  const staleTrackers = trackers.filter(
+    (t) => t.overdueRatio === null || t.overdueRatio > STALE_CADENCE_FACTOR,
+  );
+  const staleCount = staleTrackers.length;
 
   if (trackers.length === 0) {
     reasons.push('No active trackers found — cannot assess freshness');
@@ -132,7 +170,7 @@ export function evaluate(trackers: TrackerFreshness[]): FreshnessReport {
     if (ratio >= STALE_TRACKER_RATIO) {
       reasons.push(
         `${staleCount}/${trackers.length} active trackers (${Math.round(ratio * 100)}%) ` +
-          `have not been updated in ${TRACKER_STALE_DAYS}d.`,
+          `are more than ${STALE_CADENCE_FACTOR}x past their own configured cadence.`,
       );
     }
   }
@@ -171,7 +209,7 @@ function main(): void {
     );
   }
   console.log(
-    `[freshness] Past ${TRACKER_STALE_DAYS}d: ${report.staleCount}/${report.activeCount}`,
+    `[freshness] Past ${STALE_CADENCE_FACTOR}x own cadence: ${report.staleCount}/${report.activeCount}`,
   );
 
   if (process.env.GITHUB_OUTPUT) {
