@@ -1,0 +1,71 @@
+---
+/**
+ * /rss — the URL people type by convention.
+ *
+ * Previously a 404: this directory held breaking.xml.ts and light-scan.xml.ts
+ * but no index, so the directory itself was never a route.
+ *
+ * Deliberately a real page rather than a redirect. Astro's redirect stub is
+ * bare HTML with no <head> from BaseLayout, so an RSS reader pointed at /rss
+ * would receive a page containing no feed autodiscovery — and readers do not
+ * follow meta-refresh. BaseLayout emits <link rel="alternate"
+ * type="application/rss+xml"> for every global feed, so a reader given this URL
+ * discovers rss.xml on its own, while a human gets something readable.
+ *
+ * Kept short on purpose: /feeds/ is the full index including all 96 per-tracker
+ * feeds. This lists only the global ones and points there.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { discoverStaticFeeds, type FeedMeta } from '../../lib/feed-registry';
+
+const base = import.meta.env.BASE_URL;
+const basePath = base.endsWith('/') ? base : `${base}/`;
+const siteUrl = 'https://watchboard.dev';
+
+// Same discovery as /feeds/, paths relative to this file.
+const modules = import.meta.glob<{ feedMeta?: FeedMeta }>(
+  ['../rss.xml.ts', './*.xml.ts'],
+  { eager: true },
+);
+const globalFeeds = discoverStaticFeeds(modules, siteUrl, basePath);
+---
+
+<BaseLayout
+  title="RSS"
+  description="Watchboard RSS feeds — site-wide, breaking news and light-scan triage. Subscribe in any reader."
+>
+  <main id="main-content">
+    <div class="feeds-page">
+      <a class="feeds-back" href={basePath}>&larr; Home</a>
+      <h1>RSS</h1>
+      <p class="feeds-lede">
+        The main Watchboard feeds. For per-tracker feeds and machine-readable
+        indexes, see <a href={`${basePath}feeds/`}>all feeds</a>.
+      </p>
+
+      <ul class="feeds-list">
+        {globalFeeds.map((f) => (
+          <li class="feed-card">
+            <div class="feed-head">
+              <a class="feed-title" href={f.url.replace(siteUrl, '')}>{f.title}</a>
+              <code class="feed-url">{f.url}</code>
+            </div>
+            <p class="feed-desc">{f.description}</p>
+            <div class="feed-meta">
+              <span class="feed-cadence">{f.cadence}</span>
+              <span class="feed-tag">{f.category}</span>
+            </div>
+          </li>
+        ))}
+      </ul>
+
+      <div class="feeds-machine">
+        <span class="feeds-machine-label">Machine-readable index:</span>
+        <a href={`${basePath}feeds.json`}><code>feeds.json</code></a>
+        <span class="feed-sep">·</span>
+        <a href={`${basePath}feeds.opml`}><code>feeds.opml</code></a>
+        <span class="feeds-machine-hint">— OPML imports every feed at once.</span>
+      </div>
+    </div>
+  </main>
+</BaseLayout>
