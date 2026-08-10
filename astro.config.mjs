@@ -7,15 +7,10 @@ export default defineConfig({
   output: 'static',
   site: 'https://watchboard.dev',
   base: '/',
-  // /rss and /rss/ 404'd: src/pages/rss/ holds breaking.xml and light-scan.xml
-  // but has no index, so the directory itself was never a route. Nothing on the
-  // site linked there, but it is the URL people type by convention — a bad one
-  // to lose on a site whose product is feeds. Sent to the global feed rather
-  // than to /feeds/, since bare /rss conventionally means "the feed".
-  redirects: {
-    '/rss': '/rss.xml',
-    '/rss/': '/rss.xml',
-  },
+  // Note: /rss is a real page (src/pages/rss/index.astro), not a redirect.
+  // Astro's generated redirect stub is bare HTML with no <head> from
+  // BaseLayout, so an RSS reader pointed at /rss would get a page containing
+  // no feed autodiscovery and no way to find the actual feed.
   i18n: {
     defaultLocale: 'en',
     locales: ['en', 'es', 'fr', 'pt'],
