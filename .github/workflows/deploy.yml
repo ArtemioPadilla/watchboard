@@ -23,8 +23,17 @@ permissions:
   pages: write
   id-token: write
 
+# Renamed from "pages" on 2026-08-10. Every deploy queued behind that group
+# stopped materialising: runs sat `pending` with zero jobs for 15+ minutes and
+# were then superseded, so nothing published for ~14 hours while every other
+# workflow in the repo started and finished normally. Ruled out in turn: repo
+# concurrency collisions (no other workflow used the group), runner contention
+# (no overlapping runs), the environment's branch policy (main is allowed),
+# GitHub-wide incidents (all components operational), an orphaned github-pages
+# deployment stuck without a status since 17:44 (resolved, no effect), and a
+# stale queue (drained, no effect). What remained was the group itself.
 concurrency:
-  group: "pages"
+  group: pages-deploy
   cancel-in-progress: false
 
 jobs:
