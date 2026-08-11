@@ -261,12 +261,12 @@ jobs:
         run: |
           SLUG="${{ github.event.inputs.slug }}"
           invalid=0
-          for f in $(find "trackers/${SLUG}" -name '*.json' -type f); do
+          while IFS= read -r f; do
             if ! node -e "JSON.parse(require('fs').readFileSync('$f','utf8'))" 2>/dev/null; then
               echo "INVALID JSON: $f"
               invalid=$((invalid + 1))
             fi
-          done
+          done < <(find "trackers/${SLUG}" -name '*.json' -type f)
           if [ "$invalid" -gt 0 ]; then
             echo "valid=false" >> $GITHUB_OUTPUT
             echo "$invalid file(s) failed JSON validation"
@@ -513,12 +513,12 @@ jobs:
         run: |
           SLUG="${{ github.event.inputs.slug }}"
           invalid=0
-          for f in $(find "trackers/${SLUG}" -name '*.json' -path '*/data/*' -type f); do
+          while IFS= read -r f; do
             if ! node -e "JSON.parse(require('fs').readFileSync('$f','utf8'))" 2>/dev/null; then
               echo "INVALID JSON: $f"
               invalid=$((invalid + 1))
             fi
-          done
+          done < <(find "trackers/${SLUG}" -name '*.json' -path '*/data/*' -type f)
           if [ "$invalid" -gt 0 ]; then
             echo "valid=false" >> $GITHUB_OUTPUT
           else

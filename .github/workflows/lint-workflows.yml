@@ -42,7 +42,7 @@ jobs:
           tar -xzf actionlint.tar.gz actionlint
           ./actionlint -version
 
-          # Script bodies are linted, but only at severity `error`.
+          # Script bodies are linted at severity `warning`.
           #
           # Running shellcheck at its default severity reports 212 findings
           # across every workflow, 158 of them SC2086 "double quote to prevent
@@ -51,14 +51,16 @@ jobs:
           # long-lived shell for a style rule risks breaking working pipelines
           # to fix nothing.
           #
-          # At `error` the repo is clean, so real shell defects fail the build
-          # while the style backlog stays out of the way. That backlog is not
-          # imaginary — 19 warnings remain (SC2044, SC2034, SC2046, SC2155) —
-          # and raising this to `warning` after clearing them is a worthwhile
-          # follow-up.
+          # The 19 warnings that backlog referred to (SC2044, SC2034, SC2046,
+          # SC2155) have since been cleared, so the level is `warning` and the
+          # repo is clean at it. `info` and `style` stay off: they are ~180
+          # SC2086 quoting suggestions on shell that works, and turning them on
+          # would put the check back in the red it was designed to avoid.
           #
-          # `error` covers shell that cannot be parsed at all — quoting that
+          # This level covers shell that cannot be parsed — quoting that
           # terminates a string early, unbalanced constructs — which is the
           # failure mode that killed the scout's issue-creation step at runtime
-          # with "syntax error near unexpected token".
-          SHELLCHECK_OPTS="-S error" ./actionlint -color
+          # with "syntax error near unexpected token" — plus fragile constructs
+          # like `for f in $(find ...)`, which silently mishandles paths with
+          # spaces.
+          SHELLCHECK_OPTS="-S warning" ./actionlint -color

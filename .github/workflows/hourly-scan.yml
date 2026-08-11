@@ -313,7 +313,7 @@ jobs:
             echo "No state changes"
           else
             git commit -m "chore(hourly): update scan state $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-            for i in 1 2 3; do
+            for _ in 1 2 3; do
               git pull --rebase origin main && git push && break
               sleep $((RANDOM % 5 + 2))
             done
@@ -323,7 +323,7 @@ jobs:
         if: steps.freshness.outputs.has_actions == 'true' || steps.triage.outputs.has_actions == 'true'
         run: |
           if [ ! -f /tmp/hourly-action-plan.json ]; then
-            echo '{"updates":[],"newTrackers":[],"scannedAt":"'$(date -u +%Y-%m-%dT%H:%M:%SZ)'","candidateCount":0,"discardedCount":0}' > /tmp/hourly-action-plan.json
+            echo '{"updates":[],"newTrackers":[],"scannedAt":"'"$(date -u +%Y-%m-%dT%H:%M:%SZ)"'","candidateCount":0,"discardedCount":0}' > /tmp/hourly-action-plan.json
             echo "Created default hourly-action-plan.json for freshness-only run"
           fi
 
@@ -590,7 +590,8 @@ jobs:
           TRACKER_SLUG: ${{ matrix.entry.tracker }}
         run: |
           if [ -f /tmp/tweet-text.txt ]; then
-            export TWEET_TEXT=$(cat /tmp/tweet-text.txt)
+            TWEET_TEXT=$(cat /tmp/tweet-text.txt)
+            export TWEET_TEXT
             EVENT_IDS=$(cat /tmp/event-ids.txt 2>/dev/null | tr '\n' ',' | sed 's/,$//')
             SECTIONS=$(cat /tmp/sections.txt 2>/dev/null | tr '\n' ',' | sed 's/,$//')
             export EVENT_IDS SECTIONS
@@ -911,7 +912,6 @@ jobs:
           TIMESTAMP=$(date -u +%Y-%m-%dT%H:%M:%SZ)
           FILENAME=$(echo "$TIMESTAMP" | sed 's/:/-/g')
           TRACKER="${{ matrix.entry.tracker }}"
-          TYPE="${{ matrix.entry.type }}"
 
           # Determine status from validation step
           if [ "${{ steps.validate-json.outcome || 'success' }}" = "failure" ]; then

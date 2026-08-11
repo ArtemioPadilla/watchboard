@@ -510,12 +510,12 @@ jobs:
         if: steps.changes.outputs.changed == 'true'
         run: |
           invalid=0
-          for f in $(find trackers -name '*.json' -path '*/data/*' -type f ! -name 'review-manifest.json'); do
+          while IFS= read -r f; do
             if ! node -e "JSON.parse(require('fs').readFileSync('$f','utf8'))" 2>/dev/null; then
               echo "INVALID JSON: $f"
               invalid=$((invalid + 1))
             fi
-          done
+          done < <(find trackers -name '*.json' -path '*/data/*' -type f ! -name 'review-manifest.json')
           if [ "$invalid" -gt 0 ]; then
             echo "valid=false" >> $GITHUB_OUTPUT
           else
@@ -711,12 +711,12 @@ jobs:
           # block does an uncaught JSON.parse and we get a noisy stack trace
           # instead of a clear "invalid JSON" signal.
           invalid=0
-          for f in $(find trackers -name '*.json' -path '*/data/*' -type f ! -name 'review-manifest.json'); do
+          while IFS= read -r f; do
             if ! node -e "JSON.parse(require('fs').readFileSync('$f','utf8'))" 2>/dev/null; then
               echo "::error file=$f::Fix agent produced invalid JSON"
               invalid=$((invalid + 1))
             fi
-          done
+          done < <(find trackers -name '*.json' -path '*/data/*' -type f ! -name 'review-manifest.json')
           if [ "$invalid" -gt 0 ]; then
             echo "valid=false" >> $GITHUB_OUTPUT
             echo "error_count=$invalid" >> $GITHUB_OUTPUT
@@ -1043,7 +1043,7 @@ jobs:
           INVENTORY="{"
           FIRST=true
           for dir in trackers/*/data; do
-            SLUG=$(basename $(dirname "$dir"))
+            SLUG=$(basename "$(dirname "$dir")")
             [ ! -d "$dir" ] && continue
             KPI=$(node -e "try{console.log(JSON.parse(require('fs').readFileSync('$dir/kpis.json','utf8')).length)}catch{console.log(0)}")
             TL=$(node -e "try{console.log(JSON.parse(require('fs').readFileSync('$dir/timeline.json','utf8')).length)}catch{console.log(0)}")
@@ -1337,7 +1337,7 @@ jobs:
           echo "| Tracker | KPIs | Timeline | Map Pts | Map Lines | Claims | Political | Casualties |" >> $GITHUB_STEP_SUMMARY
           echo "|---------|------|----------|---------|-----------|--------|-----------|------------|" >> $GITHUB_STEP_SUMMARY
           for dir in trackers/*/data; do
-            SLUG=$(basename $(dirname "$dir"))
+            SLUG=$(basename "$(dirname "$dir")")
             [ ! -d "$dir" ] && continue
             KPI=$(node -e "try{console.log(JSON.parse(require('fs').readFileSync('$dir/kpis.json','utf8')).length)}catch{console.log(0)}")
             TL=$(node -e "try{console.log(JSON.parse(require('fs').readFileSync('$dir/timeline.json','utf8')).length)}catch{console.log(0)}")
@@ -1399,7 +1399,6 @@ jobs:
         run: |
           TODAY=$(date -u +%Y-%m-%d)
           TITLE="⚠️ Nightly Data Update failed — $TODAY"
-          PREFIX="⚠️ Nightly Data Update failed"
           RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
 
           # Check if an open issue with this prefix already exists
