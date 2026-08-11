@@ -194,19 +194,19 @@ jobs:
           echo "=== Validating translated JSON syntax ==="
           LOCALE="${{ steps.resolve.outputs.locale }}"
           invalid=0
-          for f in $(find trackers -path "*/data-${LOCALE}/*.json" -type f); do
+          while IFS= read -r f; do
             if ! node -e "JSON.parse(require('fs').readFileSync('$f','utf8'))" 2>/dev/null; then
               echo "INVALID JSON: $f"
               invalid=$((invalid + 1))
             fi
-          done
+          done < <(find trackers -path "*/data-${LOCALE}/*.json" -type f)
           # Also validate translation-hashes.json files
-          for f in $(find trackers -name 'translation-hashes.json' -type f); do
+          while IFS= read -r f; do
             if ! node -e "JSON.parse(require('fs').readFileSync('$f','utf8'))" 2>/dev/null; then
               echo "INVALID JSON: $f"
               invalid=$((invalid + 1))
             fi
-          done
+          done < <(find trackers -name 'translation-hashes.json' -type f)
           if [ "$invalid" -gt 0 ]; then
             echo "valid=false" >> $GITHUB_OUTPUT
             echo "$invalid JSON file(s) failed syntax validation — skipping commit"
@@ -223,7 +223,7 @@ jobs:
           LOCALE="${{ steps.resolve.outputs.locale }}"
           failures=0
           for dir in trackers/*/data-${LOCALE}; do
-            SLUG=$(basename $(dirname "$dir"))
+            SLUG=$(basename "$(dirname "$dir")")
             SRC_DIR="trackers/${SLUG}/data"
             echo "--- Checking ${SLUG} (${LOCALE}) ---"
 

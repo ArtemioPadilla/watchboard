@@ -95,7 +95,7 @@ jobs:
             echo "No changes to commit"
           else
             git commit -m "chore(telegram): update sent log $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-            for i in 1 2 3; do
+            for _ in 1 2 3; do
               git pull --rebase origin main && git push && break
               sleep $((RANDOM % 5 + 2))
             done
