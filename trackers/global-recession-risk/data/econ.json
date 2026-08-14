@@ -177,7 +177,7 @@
   {
     "id": "us-10y-treasury-yield",
     "label": "US 10Y / 30Y / 2Y Treasury Yield",
-    "value": "10Y ~4.6-4.65% (Aug 10); spiked to highest since Jan 2025 on Jul 23 oil shock, fell 7bp on Aug 7 jobs miss",
+    "value": "10Y ~4.65% (Aug 13); eased further on flat PPI, Aug 14 Hormuz tanker attack renews upside risk",
     "change": "June 17: 10Y fell 9bp to 4.25% as the signed Iran MOU eased energy-inflation fears, partially offsetting Warsh's hawkish dot plot released the same day. Yields stayed range-bound through early-mid July as June CPI (3.5%, Jul 14) confirmed disinflation resuming and the weak June jobs report (Jul 2) reduced near-term hike urgency pricing.",
     "direction": "down",
     "sparkData": [
@@ -197,13 +197,15 @@
       4.49,
       4.54,
       4.544,
-      4.25
+      4.25,
+      4.6,
+      4.65
     ],
     "color": "red",
-    "source": "CNBC / FRED; July 23 - August 10, 2026",
-    "lastUpdated": "2026-08-10T18:00:00Z",
-    "delta": "Round-tripped: rose sharply July 23 on the oil/Hormuz shock and surging Fed hike odds, then fell ~7bps to ~4.6% on Aug 7 after the weak July jobs report cooled hike expectations; held steady at 4.65% by Aug 10.",
-    "deltaNote": "JULY 23-AUG 10 ARC: The Red Sea/Hormuz oil shock (Brent >$100, July 23) pushed the 10Y to its highest since January 2025 as September Fed-hike odds jumped to ~82%. The FOMC held rates July 29 with 3 hawkish dissents. The July 30 Q2 GDP miss (+1.5% vs 2.1% forecast) added growth-scare pressure before the July 24 Section 122/301 tariff transition and August ISM prints (mfg 55.6%, services 54.1%) offered mixed signals. The Aug 7 jobs report (NFP -23K, revisions -103K combined) reversed the hawkish repricing, pulling the 10Y down roughly 7bps to ~4.6%."
+    "source": "CNBC / FRED; July 23 - August 14, 2026",
+    "lastUpdated": "2026-08-14T18:00:00Z",
+    "delta": "Round-tripped: rose sharply July 23 on the oil/Hormuz shock, fell ~7bps to ~4.6% on Aug 7 after the weak July jobs report, then eased a further ~4bp to 4.65% on Aug 13's flat PPI, before the Aug 14 UAE tanker attacks in the Strait of Hormuz reintroduced energy-shock upside risk.",
+    "deltaNote": "JULY 23-AUG 14 ARC: The Red Sea/Hormuz oil shock (Brent >$100, July 23) pushed the 10Y to its highest since January 2025 as September Fed-hike odds jumped to ~82%. The Aug 7 jobs report and Aug 12-13 CPI/PPI prints both cooled, pulling the 10Y down to 4.65% and September hike odds under 35%. The Aug 14 attack on two UAE tankers in the Strait of Hormuz — the second in under a week — rebounded oil prices and re-injected energy-driven inflation risk into the outlook."
   },
   {
     "id": "us-ppi-yoy-april-2026",
@@ -227,10 +229,32 @@
     "lastUpdated": "2026-05-13T14:35:22Z"
   },
   {
+    "id": "us-ppi-yoy-july-2026",
+    "label": "US PPI (Year-over-Year) — July 2026",
+    "value": "+4.7% YoY; Flat MoM — Below 0.2% Forecast",
+    "change": "Flat MoM (vs +0.2% forecast); core PPI +0.2% MoM (vs +0.3% forecast); annual headline 4.7%, core 4.2%. Goods -0.7% (energy -3.1%, gasoline -5.7%); services +0.2%; food -0.9%. Cooler wholesale-inflation print helped drive the S&P 500 to a fresh record above 7,800 and pulled September Fed hike odds under 35%.",
+    "direction": "down",
+    "sparkData": [
+      11.7,
+      6.3,
+      3.0,
+      2.0,
+      2.2,
+      2.5,
+      3.0,
+      4.2,
+      6.0,
+      4.7
+    ],
+    "color": "green",
+    "source": "BLS PPI Release, July 2026 (released August 13, 2026)",
+    "lastUpdated": "2026-08-13T14:00:00Z"
+  },
+  {
     "id": "wti-crude-oil",
     "label": "WTI / Brent Crude Oil (USD/bbl)",
-    "value": "Brent $100.69 (Jul 23 close, +7%); Fell to ~$90s by Aug 7 as risk premium eased",
-    "change": "Brent crossed $100/bbl on July 23 for the first time since late May after Houthi militants struck two Saudi tankers in the Red Sea, reflaring the Strait of Hormuz disruption; US gasoline averaged $4/gal same day.",
+    "value": "Brent ~$88-89 (Aug 11-13); Rebounded Aug 14 After Second Hormuz Tanker Attack in a Week",
+    "change": "Brent crossed $100/bbl on July 23 for the first time since late May after Houthi militants struck two Saudi tankers in the Red Sea, reflaring the Strait of Hormuz disruption; eased into the high-$80s by mid-August as risk premium faded, then rebounded Aug 14 after two UAE tankers were attacked transiting the Strait of Hormuz — the second such incident in under a week.",
     "direction": "up",
     "sparkData": [
       96.42,
@@ -241,11 +265,13 @@
       93.71,
       96,
       73,
-      100.69
+      100.69,
+      87.55,
+      88.91
     ],
     "color": "green",
-    "source": "CNBC, July 23, 2026",
-    "lastUpdated": "2026-07-23T20:00:00Z"
+    "source": "CNBC / Fortune / Al Jazeera; July 23 - August 14, 2026",
+    "lastUpdated": "2026-08-14T18:00:00Z"
   },
   {
     "id": "eurozone-cpi",
@@ -335,8 +361,8 @@
   {
     "id": "shiller-cape-ratio",
     "label": "S&P 500 / CAPE Ratio",
-    "value": "S&P 500 7,572.40 (Jul 14 Close, +0.38%); H1 2026 +9.6% (Best First Half Since 2020)",
-    "change": "H1 2026 CLOSE: S&P 500 +9.6%, Nasdaq +12.8%, Russell 2000 ~+22% (best H1 since 1991) — 24 record S&P closes, 20 Nasdaq. The June 17 signed Iran MOU (Brent crash) drove a broad relief rally that reversed the early-June selloff. June CPI cooling to 3.5% (Jul 14) pushed the S&P to 7,572.40 (+0.38%); Nasdaq +0.62% to 26,269.23; Dow +150 pts to 52,658.64.",
+    "value": "S&P 500 7,799 (Aug 13 Close, +0.65%, First Above 7,800 Intraday); Slipped Aug 14 on Weak Retail Sales/Sentiment",
+    "change": "AUG 13: S&P 500 closed at a fresh record 7,799 (+0.65%), clearing 7,800 intraday for the first time, as flat July PPI pulled September Fed hike odds under 35%; Nasdaq +0.81% to 26,803, Dow +0.13% to 53,840. AUG 14: index slipped fractionally after July retail sales fell 0.6% and Michigan sentiment tumbled to 51.0.",
     "direction": "up",
     "sparkData": [
       27,
@@ -355,11 +381,13 @@
       38.5,
       37.8,
       39.5,
-      40.2
+      40.2,
+      40.8,
+      41.2
     ],
     "color": "red",
-    "source": "CNBC / CNN; July 14, 2026",
-    "lastUpdated": "2026-07-14T20:00:00Z"
+    "source": "CNBC / TheStreet; August 13, 2026",
+    "lastUpdated": "2026-08-13T20:00:00Z"
   },
   {
     "id": "ism-services-pmi-april-2026",
@@ -423,6 +451,29 @@
     "color": "green",
     "source": "US Census Bureau Advance Monthly Retail Trade Survey, April 2026 (released May 15, 2026)",
     "lastUpdated": "2026-05-15T14:00:00Z"
+  },
+  {
+    "id": "us-retail-sales-july-2026",
+    "label": "US Retail Sales (July 2026)",
+    "value": "$763.6B — -0.6% MoM (Steepest Drop in Over a Year) / +5.0% YoY",
+    "change": "-0.6% MoM from June's revised $768.1B, missing the +0.1% forecast; +5.0% YoY. Motor vehicle & parts dealers -1.8%, nonstore/online -2.2%, gasoline stations -0.9%; clothing +1.9%, health/personal care +0.7%. Landed alongside a preliminary Michigan sentiment reading of 51.0, pulling stocks off Thursday's record close.",
+    "direction": "down",
+    "sparkData": [
+      0.6,
+      0.3,
+      -0.3,
+      0.7,
+      0.5,
+      -0.2,
+      0.4,
+      0.4,
+      0.5,
+      0.2,
+      -0.6
+    ],
+    "color": "red",
+    "source": "US Census Bureau Advance Monthly Retail Trade Survey, July 2026 (released August 14, 2026)",
+    "lastUpdated": "2026-08-14T12:30:00Z"
   },
   {
     "id": "us-housing-starts-april-2026",

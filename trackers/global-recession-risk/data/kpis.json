@@ -87,14 +87,14 @@
   {
     "id": "us-10y-treasury-yield",
     "label": "US 10Y / 30Y Treasury Yield",
-    "value": "10Y ~4.6-4.65% (Aug 10); Spiked to Highest Since Jan 2025 on Jul 23 Oil Shock, Fell ~7bp on Aug 7 Jobs Miss",
+    "value": "10Y ~4.65% (Aug 13) — Eased Further on Flat PPI; Hormuz Tanker Attack Aug 14 Renews Upside Risk",
     "color": "red",
-    "source": "CNBC / Federal Reserve H.15 / FRED; July 23 - August 10, 2026",
+    "source": "CNBC / Federal Reserve H.15 / FRED; July 23 - August 14, 2026",
     "contested": false,
-    "delta": "Round-tripped a full cycle: surged on the July 23 Hormuz/Red Sea oil shock and 82% September hike-odds spike, then fell back roughly 7bps to ~4.6% after the Aug 7 jobs miss reversed hike expectations; held at 4.65% by Aug 10.",
-    "deltaNote": "JULY 23-AUG 10: Oil-driven inflation scare (Brent >$100) pushed the 10Y to its highest since Jan 2025, even as the FOMC held rates July 29 with 3 hawkish dissents. The Aug 7 jobs report (NFP -23K, -103K combined revisions) fully reversed the hike repricing.",
+    "delta": "Round-tripped a full cycle: surged on the July 23 Hormuz/Red Sea oil shock, fell back after the Aug 7 jobs miss, then eased a further ~4bp to 4.65% on Aug 13's flat PPI — before the Aug 14 UAE tanker attacks in the Strait of Hormuz reintroduced energy-shock upside risk.",
+    "deltaNote": "JULY 23-AUG 14: Oil-driven inflation scare (Brent >$100) pushed the 10Y to its highest since Jan 2025 in late July. The Aug 7 jobs report and Aug 13 flat PPI (below the 0.2% forecast) both reversed hike repricing, pulling September hike odds under 35% and the 10Y down to 4.65%. The Aug 14 attack on two UAE tankers in the Strait of Hormuz — the second in under a week — rebounded oil prices and re-injected energy-driven inflation risk just as soft retail sales and a crumbling Michigan sentiment reading pointed toward growth weakness instead.",
     "trend": "down",
-    "lastUpdated": "2026-08-10T18:00:00Z"
+    "lastUpdated": "2026-08-14T18:00:00Z"
   },
   {
     "id": "us-consumer-confidence",
@@ -110,27 +110,27 @@
   },
   {
     "id": "michigan-consumer-sentiment",
-    "label": "Michigan Consumer Sentiment (May 2026 Final)",
-    "value": "44.8",
+    "label": "Michigan Consumer Sentiment (August 2026 Preliminary)",
+    "value": "51.0",
     "color": "red",
-    "source": "University of Michigan, May 22 2026 (Final Release)",
+    "source": "University of Michigan, August 14 2026 (Preliminary Release)",
     "contested": false,
-    "delta": "-2.8 (from Apr Final 47.6)",
-    "deltaNote": "MAY 2026 FINAL — THIRD CONSECUTIVE ALL-TIME RECORD LOW: 44.8 shatters April's 47.6 record (already below 1980 energy crisis nadir of 51.7). Preliminary reading was 48.2; final collapsed 3.4 points — unusually large revision. Year-ahead inflation expectations: 4.5% (down from April's 4.7% — the largest one-month jump in survey history). ~1/3 of respondents spontaneously mentioned gasoline prices; ~30% mentioned tariffs. Deepest consumer pessimism in the survey's 70+ year history. S&P 500 closed 8 consecutive weekly gains (7,473.47); the sentiment/spending divergence has never been wider.",
+    "delta": "-4.2 (from July Final 55.2); -7.6% MoM, -12.4% YoY",
+    "deltaNote": "AUG 2026 PRELIMINARY (released Aug 14): 51.0, badly missing the 54.5 consensus and down from July's final 55.2. Index of Consumer Expectations fell more sharply than Current Conditions; short-term expectations -11%, long-term projections -17%. Only 8% of consumers expect income growth to outpace inflation. Year-ahead inflation expectations rose to 4.3%. Sentiment fell across demographic and political lines, sharpest among Republicans, older consumers, lower-income households, and those without college degrees. Still well above May 2026's all-time record low of 44.8, but the renewed slide — alongside July retail sales' steepest drop in over a year (Aug 14) — marks the clearest crack yet in the 'resilient consumer' narrative. Final August reading due Aug 28.",
     "trend": "down",
-    "lastUpdated": "2026-05-22T14:45:00Z"
+    "lastUpdated": "2026-08-14T14:00:00Z"
   },
   {
     "id": "vix-fear-gauge",
     "label": "S&P 500 / Market Risk Gauge",
-    "value": "S&P 500 Record Close 7,757.64 (Aug 7, +0.62%); Round-Tripped Jul 23 Oil-Shock Selloff (Dow -600, Nasdaq -3%) via Jul 29 FOMC Hold and Aug 7 Jobs-Driven Rally",
+    "value": "S&P 500 Record Close 7,799 (Aug 13, +0.65%, First Close Above 7,800 Intraday); Slipped Aug 14 on Weak Retail Sales/Sentiment",
     "color": "amber",
-    "source": "CNBC / TheStreet / Federal Reserve; July 23 – August 7, 2026",
+    "source": "CNBC / TheStreet / Federal Reserve; July 23 – August 14, 2026",
     "contested": false,
-    "delta": "Sharp round trip: the July 23 Hormuz/Red Sea oil shock knocked the Dow down 600+ points and the Nasdaq nearly 3% on hike fears; the market recovered through the July 29 FOMC hold and Q2 GDP miss, then rallied to a fresh S&P record (7,757.64) on Aug 7 as the weak jobs report cut hike risk.",
-    "deltaNote": "JULY 23-AUG 7 ARC: Oil-driven hike fears (Brent >$100, Sept hike odds ~82%) triggered the sharpest selloff of the window July 23. The FOMC's July 29 hold (with 3 hawkish dissents) and a mixed data run — Q2 GDP miss (+1.5%), strong ISM manufacturing (55.6%), soft ISM services employment — kept markets choppy into early August. The Aug 7 jobs shock (NFP -23K, -103K combined revisions) flipped sentiment decisively: S&P 500 closed at a record 7,757.64, Dow +0.28% to 54,036.93, Nasdaq +1.3% to 26,690.62.",
+    "delta": "Sharp round trip and fresh record: the July 23 Hormuz/Red Sea oil shock knocked the Dow down 600+ points; markets recovered through the Jul 29 FOMC hold and Aug 7 jobs-driven rally, then set a fresh record 7,799 close on Aug 13's flat PPI before slipping fractionally Aug 14 on the retail-sales miss and Michigan sentiment plunge.",
+    "deltaNote": "JULY 23-AUG 14 ARC: Oil-driven hike fears triggered the sharpest selloff of the window July 23. The FOMC's July 29 hold, the Aug 7 jobs shock, and Aug 12-13's cooling CPI/PPI prints drove a steady rally to a fresh S&P record (7,799, clearing 7,800 intraday) on Aug 13, with September hike odds falling under 35%. Aug 14 brought a pullback — retail sales fell 0.6% (steepest drop in over a year) and Michigan consumer sentiment tumbled to 51.0 — while a fresh Hormuz tanker attack rebounded oil prices, reintroducing energy-shock risk to the disinflation narrative.",
     "trend": "up",
-    "lastUpdated": "2026-08-07T20:00:00Z"
+    "lastUpdated": "2026-08-14T20:00:00Z"
   },
   {
     "id": "us-effective-tariff-rate",
@@ -159,14 +159,14 @@
   {
     "id": "global-policy-uncertainty",
     "label": "Global Policy Uncertainty / Recession Risk",
-    "value": "AUG 10: Fed Held Jul 29 (3.50-3.75%, 3 Hawkish Dissents); Section 301 Tariffs (10-12.5%) Live Since Jul 24; Jul NFP -23K Shock; S&P Record Close; Brent Round-Tripped $100→$90s",
+    "value": "AUG 14: July CPI (3.4%) and PPI (Flat) Both Cool, S&P Sets Record Above 7,800; Retail Sales -0.6% and Michigan Sentiment 51.0 Crack the Consumer Story; Hormuz Tanker Attack Renews Oil Risk",
     "color": "red",
-    "source": "Federal Reserve / BEA / BLS / ISM / Eurostat; July 17 – August 10, 2026",
+    "source": "Federal Reserve / BEA / BLS / Census Bureau / U. Michigan / ISM / Eurostat; July 17 – August 14, 2026",
     "contested": false,
-    "delta": "JULY 23-AUG 10 ARC — OIL SHOCK, TARIFF CLIFF RESOLVES, JOBS SHOCK REVERSES HIKE FEARS: Houthi tanker attacks off Saudi Arabia reflared the Hormuz/Red Sea oil shock July 23, sending Brent above $100 and September Fed-hike odds to ~82% intraday. The Section 122 tariff surcharge expired by statute July 24, replaced same-minute by Section 301 forced-labor tariffs (10-12.5%) on 60 economies — the coverage gap traders had worried about did not materialize. The FOMC held rates July 29 despite the inflation scare, with 3 members dissenting in favor of a hike. Q2 GDP's advance estimate (July 30, +1.5%) missed the 2.1% forecast, and China's Politburo (July 31) pledged only targeted stimulus. Eurozone inflation rose to 2.9% (July 31) on the oil shock. ISM prints were mixed: manufacturing surged to 55.6% (Aug 3, best since May 2022) while services' employment sub-index fell into contraction (Aug 5). The July jobs report (Aug 7: NFP -23K, May/June revised down 103K combined) reversed the hawkish repricing entirely — the S&P 500 closed at a record high and Fed September hike odds collapsed.",
-    "deltaNote": "AUG 10 RECESSION RISK SNAPSHOT: The dominant swing factor this window was geopolitical-energy, not domestic demand — the Jul 23 Hormuz/Red Sea tanker attacks pushed Brent through $100 and briefly repriced Fed policy toward a hike, before the Aug 7 jobs miss flipped sentiment back toward a hold/cut bias. Growth signals are genuinely mixed: GDP advance missed, ISM manufacturing hit a 4-year high, ISM services employment contracted, and payrolls swung negative with large downward revisions. The tariff transition (Section 122 → Section 301) executed without the feared coverage gap. Next catalysts: August CPI, the September FOMC, and whether China's 'targeted' stimulus pledge translates into concrete measures.",
+    "delta": "AUG 10-14 ARC — DISINFLATION CONFIRMED, THEN CONSUMER DATA CRACKS AND OIL RISK RETURNS: July CPI cooled to 3.4% headline / 2.5% core (Aug 12), and July PPI came in flat — below the 0.2% forecast — with core PPI +0.2% (Aug 13), driving the S&P 500 to a fresh record 7,799 close (first time above 7,800 intraday) and pulling September Fed hike odds under 35% from ~55% a week earlier. That disinflation narrative was complicated Aug 14: July retail sales fell 0.6%, the steepest monthly drop in over a year, and the University of Michigan's preliminary August sentiment reading tumbled to 51.0 (from July's 55.2), pulling stocks off their record highs. The same day, two UAE tankers were attacked in the Strait of Hormuz — the second such incident in under a week — rebounding oil prices and reintroducing energy-driven inflation risk into the Fed's calculus.",
+    "deltaNote": "AUG 14 RECESSION RISK SNAPSHOT: The window's dominant theme flipped from inflation risk to demand risk — cooling CPI/PPI initially cleared the way for a durable 'no landing' read, but the retail-sales miss and consumer-sentiment collapse are the clearest demand-side cracks since the Aug 7 jobs shock, while the renewed Hormuz tanker attacks show the energy-shock tail risk has not gone away. Next catalysts: the final August Michigan sentiment reading (Aug 28), August jobs and CPI reports, and the September 16-17 FOMC meeting.",
     "trend": "down",
-    "lastUpdated": "2026-08-10T18:00:00Z"
+    "lastUpdated": "2026-08-14T20:00:00Z"
   },
   {
     "id": "boj-policy-rate",
