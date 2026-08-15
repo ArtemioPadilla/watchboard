@@ -26,6 +26,23 @@ export interface HourlyState {
   lastScan: string;
   seen: SeenEntry[];
   telegramFailed?: TelegramFailedEntry[];
+  /**
+   * Telegram alerts already sent, for topic-level deduplication.
+   *
+   * `seen` dedups by URL, which does not stop the channel repeating itself:
+   * when Reuters, AP and the BBC all cover one story that is three URLs, three
+   * passes of the substance gate, and three near-identical posts. This records
+   * what a post was *about* so the next one can be suppressed.
+   */
+  alerted?: AlertedEntry[];
+}
+
+export interface AlertedEntry {
+  /** Tracker the alert was filed under. */
+  tracker: string;
+  /** Normalised significant words from the headline — the topic fingerprint. */
+  topicKey: string;
+  ts: string;
 }
 
 export interface ManifestUpdate {
@@ -154,6 +171,7 @@ export function loadState(path: string = PATHS.state): HourlyState {
     const cutoff = new Date(Date.now() - PRUNE_HOURS * 60 * 60 * 1000).toISOString();
     raw.seen = raw.seen.filter(e => e.ts > cutoff);
     if (raw.telegramFailed) raw.telegramFailed = raw.telegramFailed.filter(e => e.ts > cutoff);
+    if (raw.alerted) raw.alerted = raw.alerted.filter(e => e.ts > cutoff);
     return raw;
   } catch {
     return { lastScan: '', seen: [] };
