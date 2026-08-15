@@ -38,6 +38,57 @@ const HIGH_THRESHOLD     = 0.85;
 // strict; the deferred queue is the heavy scan's input, not a publish channel.
 const MODERATE_THRESHOLD = 0.25;
 
+// ── Telegram noise control ───────────────────────────────────────────────────
+// This scan runs every 15 minutes and, until now, posted every candidate that
+// cleared the substance gate. Deduplication was by URL only, so one story
+// covered by Reuters, AP and the BBC was three URLs and three near-identical
+// posts to a public channel with outside subscribers.
+//
+// Two limits, deliberately blunt: a topic fingerprint so the same story is not
+// repeated, and a daily cap so an unusually busy news day cannot flood the
+// channel regardless. telegram-channel.ts already caps itself at 10/day; this
+// path had no cap at all.
+/** Hours a topic stays suppressed after being alerted. */
+const TOPIC_COOLDOWN_HOURS = 12;
+/** Max light-scan alerts per day, across all trackers. */
+const ALERT_DAILY_CAP = 6;
+/** Word overlap above which two headlines are treated as the same story. */
+const TOPIC_MATCH_RATIO = 0.6;
+
+const TOPIC_STOPWORDS = new Set([
+  'the','and','for','with','from','that','this','after','over','into','says',
+  'said','amid','new','breaking','update','live','report','reports','reported',
+  'has','have','been','will','its','his','her','their','they','are','was','were',
+  'more','than','who','what','when','where','why','how','about','out','off',
+]);
+
+/**
+ * Significant words of a headline, lowercased, singularised and sorted — the
+ * topic key.
+ *
+ * The trailing-s trim is crude but it is what makes wire copy match: "Houthis
+ * claim missile attack" and "Houthi rebels struck with missiles" otherwise
+ * share only three words and slip past as separate stories.
+ */
+function topicKeyOf(title: string): string {
+  const words = (title.toLowerCase().match(/[a-z0-9]{3,}/g) ?? [])
+    .filter((w) => !TOPIC_STOPWORDS.has(w))
+    .map((w) => (w.length > 4 && w.endsWith('s') && !w.endsWith('ss') ? w.slice(0, -1) : w));
+  return [...new Set(words)].sort().join(' ');
+}
+
+/** True when two topic keys share enough significant words to be one story. */
+function sameTopic(a: string, b: string): boolean {
+  const A = new Set(a.split(' ').filter(Boolean));
+  const B = new Set(b.split(' ').filter(Boolean));
+  if (A.size === 0 || B.size === 0) return false;
+  let shared = 0;
+  for (const w of A) if (B.has(w)) shared++;
+  // Ratio against the shorter headline: a wire snippet and a longer writeup of
+  // the same event should still match.
+  return shared / Math.min(A.size, B.size) >= TOPIC_MATCH_RATIO;
+}
+
 /** Curated high-signal RSS feeds for the light scan only. The heavy scan
  *  uses the wider list. */
 const LIGHT_RSS_FEEDS = [
@@ -208,7 +259,29 @@ async function main() {
 
     if (bestScore >= HIGH_THRESHOLD && bestSlug && hasSubstance) {
       cand.matchedTracker = bestSlug;
-      const tgOk = await postTelegram(cand.title, cand.url, bestScore, bestSlug);
+
+      // Suppress a repeat of a story already announced, and stop a busy day
+      // from flooding the channel. Queuing for the heavy scan still happens
+      // below either way — this only governs what gets *posted*.
+      state.alerted = state.alerted ?? [];
+      const key = topicKeyOf(cand.title);
+      const cooldownFrom = new Date(Date.now() - TOPIC_COOLDOWN_HOURS * 3600_000).toISOString();
+      const dupe = state.alerted.find(
+        (a) => a.ts > cooldownFrom && a.tracker === bestSlug && sameTopic(a.topicKey, key),
+      );
+      const today = new Date().toISOString().slice(0, 10);
+      const sentToday = state.alerted.filter((a) => a.ts.slice(0, 10) === today).length;
+
+      let tgOk = true;
+      if (dupe) {
+        console.log(`[light-scan] skip alert (same story as earlier post): ${cand.title.slice(0, 70)}`);
+      } else if (sentToday >= ALERT_DAILY_CAP) {
+        console.log(`[light-scan] daily alert cap reached (${ALERT_DAILY_CAP}) — queued only`);
+      } else {
+        tgOk = await postTelegram(cand.title, cand.url, bestScore, bestSlug);
+        if (tgOk) state.alerted.push({ tracker: bestSlug, topicKey: key, ts: new Date().toISOString() });
+      }
+
       if (!tgOk) {
         // Record so the next scan retries the alert (URL is already in
         // state.seen, so without this the alert would be lost forever).
