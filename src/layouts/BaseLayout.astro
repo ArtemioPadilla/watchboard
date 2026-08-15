@@ -57,35 +57,39 @@ const pushTrackers = loadAllTrackers()
   <meta name="theme-color" content="#0d1117">
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
   <meta name="referrer" content="strict-origin-when-cross-origin">
-  {/* Enforced. Previously Report-Only for months behind a TODO saying "flip
-      after 1 week of clean violation reports" — reports that were never
-      collected, since the policy has no report-uri or report-to. It neither
-      blocked nor reported: decorative in both directions.
+  {/* Report-Only — reverted from enforcement, which broke the globe.
 
-      connect-src had drifted well behind what the islands actually call, so
-      enforcing it earlier would have broken working features. Recovered by
-      auditing the client code and then the compiled bundles:
+      The connect-src list below is correct and was worth fixing: it had
+      drifted behind what the islands call (celestrak, archive-api.open-meteo,
+      stream.aisstream, basemaps.cartocdn, api.github, tile.openstreetmap, t.me)
+      and *.cesium.com was missing entirely.
 
-        celestrak.org              useSatellites.ts   (globe satellites)
-        archive-api.open-meteo.com useMapOverlays.ts  (historical weather)
-        stream.aisstream.io        useShips.ts        (AIS ship traffic)
-        basemaps.cartocdn.com      LeafletMap.tsx     (basemap tiles)
-        api.github.com             SocialCommandCenter.tsx (PAT auth)
-        tile.openstreetmap.org     TrackerDirectory.tsx
-        t.me                       useMapOverlays.ts
-        *.cesium.com               Cesium Ion — api.cesium.com appears in the
-                                   bundle and the old explicit hosts did not
-                                   cover it, which would have broken the globe
+      But connect-src was never the blocker. Loading the live pages in a real
+      browser — which is what static analysis could not substitute for — showed
+      script-src is what actually breaks Cesium:
 
-      Scope, honestly: 'unsafe-inline' in script-src is required by the PostHog
-      snippet and Astro's define:vars, so this buys less XSS protection than it
-      looks. The durable wins are object-src 'none', base-uri, frame-ancestors,
-      form-action, and constraining where the page may connect.
+        EvalError: Evaluating a string as JavaScript violates CSP
+          → CesiumGlobe.js fails to hydrate; the globe does not render
+        WebAssembly.instantiate() violates CSP
+          → Cesium's WASM module is blocked
 
-      If something does break, reverting is one word: put -Report-Only back on
-      the http-equiv below. Worth checking the globe and /social/ with a
-      console open, since those exercise the most third-party endpoints. */}
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://*.posthog.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; connect-src 'self' https://*.posthog.com https://app.posthog.com https://us.i.posthog.com https://api.open-meteo.com https://archive-api.open-meteo.com https://earthquake.usgs.gov https://opensky-network.org https://celestrak.org https://*.celestrak.org https://api.github.com https://*.basemaps.cartocdn.com https://tile.openstreetmap.org https://t.me wss://stream.aisstream.io https://*.wikipedia.org https://*.wikimedia.org https://api.memegen.link https://*.cesium.com https://cesium.com https://static.cloudflareinsights.com; frame-src https://www.youtube.com https://youtube.com; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; worker-src 'self' blob:">
+      Cesium needs 'unsafe-eval' and 'wasm-unsafe-eval'. Granting both to get
+      the globe back would leave script-src as 'self' 'unsafe-inline'
+      'unsafe-eval' — at which point enforcement buys almost nothing against
+      XSS, which is the threat a CSP exists for.
+
+      Two other findings from the same run, worth keeping:
+        - connect-src misses cloudflareinsights.com (the beacon posts to
+          /cdn-cgi/rum on the apex, not the static. subdomain that is listed)
+        - frame-ancestors is IGNORED in a <meta> CSP; it only works as an HTTP
+          header. It was never providing the clickjacking protection claimed
+          for it, and GitHub Pages cannot set headers.
+
+      So enforcement here is worth less than it appears and costs a working
+      globe. Doing it properly means moving the policy to an HTTP header
+      (a CDN in front of Pages) and isolating Cesium, not flipping this
+      attribute. Left Report-Only deliberately, not by oversight. */}
+  <meta http-equiv="Content-Security-Policy-Report-Only" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://*.posthog.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; connect-src 'self' https://*.posthog.com https://app.posthog.com https://us.i.posthog.com https://api.open-meteo.com https://archive-api.open-meteo.com https://earthquake.usgs.gov https://opensky-network.org https://celestrak.org https://*.celestrak.org https://api.github.com https://*.basemaps.cartocdn.com https://tile.openstreetmap.org https://t.me wss://stream.aisstream.io https://*.wikipedia.org https://*.wikimedia.org https://api.memegen.link https://*.cesium.com https://cesium.com https://static.cloudflareinsights.com https://cloudflareinsights.com; frame-src https://www.youtube.com https://youtube.com; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; worker-src 'self' blob:">
   <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
   <link rel="preload" href={`${basePath}fonts/jetbrains-mono-latin.woff2`} as="font" type="font/woff2" crossorigin>
   <link rel="preload" href={`${basePath}fonts/dm-sans-latin.woff2`} as="font" type="font/woff2" crossorigin>
