@@ -3,6 +3,27 @@ name: Build and Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+    # Data commits do not trigger a deploy on their own.
+    #
+    # Every push to main queued another deploy, and a burst of them — a few
+    # merges in a row, or a run of bot commits — leaves runs stacked in the
+    # concurrency group cancelling each other. Twice now the group has ended up
+    # wedged: runs sit `pending` with zero jobs indefinitely and nothing
+    # publishes (see #193). Renaming the group cleared it the first time, which
+    # is why it was thought to be the cause; it wedged again under the new name,
+    # so the trigger volume is the real driver.
+    #
+    # Data still reaches the site through three other paths: the hourly scan's
+    # explicit trigger-deploy job, the nightly's workflow_run, and the daily
+    # schedule below. This only stops each individual data commit from opening
+    # its own deploy.
+    paths-ignore:
+      - 'trackers/**'
+      - 'public/_metrics/**'
+      - 'public/_hourly/**'
+      - 'public/_social/**'
+      - 'public/_tracker-votes/**'
+      - 'video/state/**'
   workflow_dispatch:
   workflow_run:
     workflows: ["Nightly Data Update"]

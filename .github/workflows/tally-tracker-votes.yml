@@ -170,8 +170,28 @@ jobs:
                 pushed=true
                 break
               fi
+              # Backoff alone does not help here. When another run has also
+              # written tally.json the rebase fails with "could not apply" —
+              # a content conflict, not contention — so every retry hits the
+              # same wall and the run dies after five identical failures.
+              #
+              # tally.json is regenerated from scratch each run (a full recount
+              # of every vote issue), so the newest version is always the
+              # correct one. Rebase our commit onto the updated main by keeping
+              # our file rather than trying to merge two generated snapshots.
               git rebase --abort 2>/dev/null || true
-              echo "Push attempt $i failed, retrying with jitter..."
+              cp public/_tracker-votes/tally.json /tmp/tally-ours.json
+              git reset --hard origin/main
+              mkdir -p public/_tracker-votes
+              cp /tmp/tally-ours.json public/_tracker-votes/tally.json
+              if git diff --quiet public/_tracker-votes/tally.json; then
+                echo "Tally already current on main after reset — nothing to push"
+                pushed=true
+                break
+              fi
+              git add public/_tracker-votes/tally.json
+              git commit -m "chore(votes): tally tracker-vote issues $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+              echo "Push attempt $i failed, rebuilt commit on latest main; retrying with jitter..."
               sleep $(( (RANDOM % 8) + 3 ))
             done
             if [ "$pushed" != "true" ]; then
