@@ -53,8 +53,15 @@ permissions:
 # GitHub-wide incidents (all components operational), an orphaned github-pages
 # deployment stuck without a status since 17:44 (resolved, no effect), and a
 # stale queue (drained, no effect). What remained was the group itself.
+# Renamed a second time (2026-08-16). Renaming is the only thing that has ever
+# cleared a wedged group — runs sitting `pending` with zero jobs indefinitely —
+# but it treats the symptom: the group jammed again under the previous name, so
+# the name was never the cause. The paths-ignore above is the actual fix, since
+# it removes the trigger bursts that precede every jam. This rename is only to
+# unblock the queue that is stuck right now. If it wedges a third time, the
+# burst theory is wrong too and #193 should go to GitHub Support.
 concurrency:
-  group: pages-deploy
+  group: pages-deploy-2
   cancel-in-progress: false
 
 jobs:
