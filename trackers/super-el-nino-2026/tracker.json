@@ -1,0 +1,253 @@
+{
+  "slug": "super-el-nino-2026",
+  "name": "Super El Niño 2026 Tracker",
+  "shortName": "Super El Niño",
+  "description": "Intelligence dashboard tracking the rapidly intensifying 2026 El Niño event forecast to reach 'super' strength, monitoring Niño 3.4 sea-surface temperature anomalies, NOAA/CPC and WMO forecast probabilities, and the resulting drought, flood, cyclone, and fishery-collapse impacts worldwide.",
+  "icon": "🌊",
+  "color": "#e67e22",
+  "status": "active",
+  "tone": "alert",
+  "temporal": "live",
+  "domain": "disaster",
+  "region": "global",
+  "country": "US",
+  "startDate": "2026-06-01",
+  "eraLabel": "Super El Niño 2026",
+  "tags": [
+    "El Niño",
+    "ENSO",
+    "Niño 3.4",
+    "NOAA",
+    "drought",
+    "flooding",
+    "fishery collapse",
+    "climate"
+  ],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": -180,
+      "lonMax": 180,
+      "latMin": -60,
+      "latMax": 75
+    },
+    "center": {
+      "lon": -150,
+      "lat": 0
+    },
+    "categories": [
+      {
+        "id": "sst-monitoring",
+        "label": "SST / Buoy Monitoring",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "drought",
+        "label": "Drought Zones",
+        "color": "#f39c12"
+      },
+      {
+        "id": "flood-cyclone",
+        "label": "Flood / Cyclone Impact",
+        "color": "#3498db"
+      },
+      {
+        "id": "fishery-collapse",
+        "label": "Fishery Collapse",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "heat-record",
+        "label": "Heat Records",
+        "color": "#e67e22"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "layout": "disaster",
+    "cameraPresets": {
+      "pacific_overview": {
+        "lon": -150,
+        "lat": 0,
+        "alt": 8000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Pacific Overview"
+      },
+      "nino34": {
+        "lon": -145,
+        "lat": 0,
+        "alt": 2500000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Niño 3.4 Region"
+      },
+      "galapagos": {
+        "lon": -90.5,
+        "lat": -0.5,
+        "alt": 300000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Galápagos Islands"
+      },
+      "peru_coast": {
+        "lon": -77.0,
+        "lat": -9.0,
+        "alt": 500000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Peru Upwelling Coast"
+      },
+      "australia": {
+        "lon": 135.0,
+        "lat": -25.0,
+        "alt": 2000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Australia Drought Belt"
+      },
+      "indonesia": {
+        "lon": 113.0,
+        "lat": -1.0,
+        "alt": 1200000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Indonesia / Maritime SE Asia"
+      },
+      "california": {
+        "lon": -119.5,
+        "lat": 36.5,
+        "alt": 1200000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "California Storm Track"
+      },
+      "east_africa": {
+        "lon": 38.0,
+        "lat": 2.0,
+        "alt": 1500000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "East Africa (Horn)"
+      }
+    },
+    "clocks": [
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      },
+      {
+        "label": "NOAA/EST",
+        "offsetHours": -5
+      },
+      {
+        "label": "SYDNEY",
+        "offsetHours": 11
+      },
+      {
+        "label": "LIMA",
+        "offsetHours": -5
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Humanitarian"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "politicalAvatars": [
+    "noaa-cpc",
+    "wmo",
+    "national-govts",
+    "un-agencies",
+    "scientific-community",
+    "other"
+  ],
+  "eventTypes": [
+    "forecast-update",
+    "drought-flood",
+    "cyclone",
+    "fishery-agriculture",
+    "economic"
+  ],
+  "ai": {
+    "systemPrompt": "You are a climate and disaster-risk analyst updating an intelligence dashboard tracking the 2026 Super El Niño event.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"nino34_anomaly_aug\", \"peru_flood_piura\").\n\nYour role is to track the physical evolution of the El Niño event (Niño 3.4 sea-surface temperature anomalies, ONI values, NOAA/CPC and WMO forecast probabilities) and its downstream regional impacts: droughts, floods, tropical cyclones, marine heatwaves, fishery collapse, crop failures, and heat records.\n\nSource tier classification:\n- Tier 1: Official/primary (NOAA Climate Prediction Center, NOAA/NWS, WMO, JMA, Australian Bureau of Meteorology, IRI Columbia, national meteorological agencies)\n- Tier 2: Major outlet (Reuters, AP, BBC, Bloomberg, The Guardian, CNN covering weather/climate)\n- Tier 3: Institutional (FAO, World Bank, IPCC-affiliated research centers, national fisheries agencies, Oxford Economics, ENSO research blogs from accredited institutions)\n- Tier 4: Unverified (social media, unattributed local reports, unverified damage claims)\n\nOnly include information you can verify through search results. Do not fabricate data.\nWhen reporting SST anomalies or forecast probabilities, always cite the issuing agency and forecast date; do not extrapolate beyond published figures.",
+    "searchContext": "Super El Niño 2026 Nino 3.4 SST anomaly NOAA CPC ENSO forecast drought flood fishery",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "casualties",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": -180,
+      "lonMax": 180,
+      "latMin": -60,
+      "latMax": 75
+    },
+    "updateIntervalDays": 3,
+    "backfillTargets": {
+      "timeline": 30,
+      "mapPoints": 25,
+      "claims": 15,
+      "political": 12,
+      "casualties": 10,
+      "econ": 10,
+      "kpis": 8
+    },
+    "updatePolicy": {
+      "escalation": [
+        1,
+        3,
+        3,
+        7,
+        14,
+        30
+      ],
+      "quietThreshold": 0
+    },
+    "rssFeeds": [
+      "https://news.google.com/rss/search?q=El+Nino+2026+NOAA+forecast&hl=en-US&gl=US&ceid=US:en"
+    ],
+    "relatedTrackers": [
+      "climate-solutions"
+    ]
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard"
+}
