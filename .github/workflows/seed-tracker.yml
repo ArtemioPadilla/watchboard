@@ -191,6 +191,22 @@ jobs:
                { "lastRun": "<current ISO timestamp>", "tracker": "${{ steps.validate.outputs.slug }}", "sections": { "<section>": { "status": "seeded", "itemCount": <n> }, ... } }
 
             IMPORTANT: Do NOT commit or push. The workflow handles that.
+
+            DO THE RESEARCH YOURSELF — do not delegate it to sub-agents or
+            background tasks. This job is a single turn: when you stop, the run
+            ends. There is no later notification and nothing resumes.
+
+            Two consecutive runs on 2026-08-16 ended with the tracker still
+            empty because of exactly this. Their final messages were:
+
+              "Three research agents are running in the background. I'll wait
+               for them to complete before assembling the tracker data."
+              "I'll just wait for the automatic completion notifications from
+               the background research agents instead."
+
+            Both reported success after ~12 turns having written nothing, and
+            the commit step was skipped because there were no changes. Search
+            and write the files yourself, in this turn.
           claude_args: "--max-turns 80 --dangerously-skip-permissions"
 
       - name: Check for changes
@@ -203,8 +219,16 @@ jobs:
           echo "=== Staged changes ==="
           git diff --cached --name-only "trackers/${SLUG}/"
           if git diff --cached --quiet "trackers/${SLUG}/"; then
+            # Fail rather than skip. A seed that writes nothing is a failure,
+            # not a no-op: the whole purpose of this job is to populate a
+            # tracker. Reporting success and silently skipping the commit is
+            # how super-el-nino-2026 reached production active, with 8 sections
+            # and zero data, twice in a row.
             echo "changed=false" >> $GITHUB_OUTPUT
-            echo "No changes detected"
+            echo "::error::Seed produced no changes — the tracker is still empty."
+            echo "Check the agent's final message: if it delegated to background"
+            echo "agents and stopped waiting for them, it never wrote anything."
+            exit 1
           else
             echo "changed=true" >> $GITHUB_OUTPUT
             echo "Changes detected, will commit"

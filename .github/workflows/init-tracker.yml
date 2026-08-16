@@ -492,6 +492,15 @@ jobs:
             Read back every file, count items vs backfillTargets, print summary table.
 
             IMPORTANT: Do NOT commit or push. The workflow handles that.
+
+            DO THE RESEARCH YOURSELF — do not delegate it to sub-agents or
+            background tasks. This job is a single turn: when you stop, the run
+            ends. Nothing resumes and no notification arrives later.
+
+            Two runs on 2026-08-16 ended with the tracker empty for exactly this
+            reason, both stopping to "wait for the background research agents".
+            They reported success after ~12 turns having written no files. Search
+            and write the files yourself, in this turn.
           claude_args: "--max-turns 80 --dangerously-skip-permissions"
 
       - name: Check for changes
@@ -500,8 +509,16 @@ jobs:
           SLUG="${{ github.event.inputs.slug }}"
           git add "trackers/${SLUG}/"
           if git diff --cached --quiet "trackers/${SLUG}/"; then
+            # Fail rather than skip — see seed-tracker.yml for the same guard.
+            # The init job has already committed a live, active tracker.json by
+            # this point, so a silent no-op here publishes an empty tracker.
+            # That is how super-el-nino-2026 went live active, 8 sections, zero
+            # data: the seed agent delegated to background agents, stopped to
+            # wait for them, wrote nothing, and the run still reported success.
             echo "changed=false" >> $GITHUB_OUTPUT
-            echo "No changes from seed"
+            echo "::error::Seed produced no changes — ${SLUG} is live but empty."
+            echo "Re-run seed-tracker.yml for this slug, or archive the tracker."
+            exit 1
           else
             echo "changed=true" >> $GITHUB_OUTPUT
             echo "Seed produced changes"
