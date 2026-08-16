@@ -614,7 +614,14 @@ jobs:
         with:
           allowed_bots: "github-actions[bot]"
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          claude_args: "--max-turns 35 --dangerously-skip-permissions --model claude-sonnet-4-6"
+          # 35 was not enough: runs finished the work and were then failed for
+          # overrunning, losing the tracker entirely.
+          #   2026-08-14  "successful result after 37 turns, exceeding 35"
+          #   2026-08-16  "successful result after 45 turns, exceeding 35" (x2)
+          # Aligned with init-tracker/seed-tracker, which build a tracker from
+          # scratch the same way. The observed runs take ~5 min, so 80 turns
+          # still sits well inside this job's 15-minute timeout.
+          claude_args: "--max-turns 80 --dangerously-skip-permissions --model claude-sonnet-4-6"
           prompt: |
             You are creating a new Watchboard tracker based on a breaking news event.
 
