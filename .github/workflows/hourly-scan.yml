@@ -843,6 +843,31 @@ jobs:
                 }
               } catch { /* malformed JSON is caught by the validation below */ }
             }
+
+            // map-points: sub is a required subtitle the agent regularly omits.
+            // On 2026-08-17 a single missing sub failed the whole job with
+            // '0.sub : Required', so the indonesia-earthquake-2026 tracker was
+            // never committed — the same shape as the weaponType enum above.
+            // Falling back to the label loses no information: it is the string
+            // that would have been shown anyway.
+            const mpPath = dir + '/map-points.json';
+            if (existsSync(mpPath)) {
+              try {
+                const points = JSON.parse(readFileSync(mpPath, 'utf8'));
+                if (Array.isArray(points)) {
+                  let changed = 0;
+                  for (const p of points) {
+                    if (!p || typeof p !== 'object') continue;
+                    if (typeof p.sub !== 'string') {
+                      p.sub = typeof p.label === 'string' ? p.label : '';
+                      console.log('  map-points: filled missing sub for ' + (p.id ?? '(no id)'));
+                      changed++;
+                    }
+                  }
+                  if (changed > 0) writeFileSync(mpPath, JSON.stringify(points, null, 2));
+                }
+              } catch { /* malformed JSON is caught by the validation below */ }
+            }
             const schemaMap: Record<string, z.ZodTypeAny> = {
               'kpis.json': z.array(S.KpiSchema),
               'timeline.json': z.array(S.TimelineEraSchema),
