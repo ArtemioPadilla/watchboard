@@ -121,14 +121,27 @@
   {
     "id": "fda-oncology-approvals-2026-ytd",
     "label": "FDA Oncology Approvals in 2026 (Year-to-Date)",
-    "value": "22+",
+    "value": "24+",
     "color": "green",
-    "source": "FDA CDER/CBER Drug Approval Databases — cumulative through July 14, 2026",
+    "source": "FDA CDER/CBER Drug Approval Databases — cumulative through August 13, 2026",
     "contested": false,
-    "delta": "June-July additions: belzutifan+pembrolizumab adjuvant RCC (June 12), capivasertib+abiraterone PTEN-deficient prostate cancer (June 12), Tecelra converted to full approval + pediatric expansion (June 22), Tregzi — first regulatory T-cell therapy (June 30), gedatolisib/Revtorpyk — first pan-PI3K/mTOR inhibitor (July 14)",
-    "deltaNote": "ASCO 2026 (May 29–June 2) produced 5 Plenary Session results: daraxonrasib/RASolute 302 (pancreatic cancer, OS HR 0.40), adjuvant selpercatinib/LIBRETTO-432 (RET+ NSCLC, EFS HR 0.172), perioperative apalutamide/PROTEUS (high-risk prostate), abemaciclib/SARC041 (liposarcoma), plus intismeran autogene 5-year melanoma data (HR 0.51); pace continued through summer with 5 more approvals across kidney, prostate, sarcoma, transplant, and breast cancer",
+    "delta": "July-August additions: Tudriqev oncolytic virus + nivolumab melanoma (Aug 6), Zenbexus (iberdomide) — first CELMoD, multiple myeloma (Aug 13)",
+    "deltaNote": "ASCO 2026 (May 29–June 2) produced 5 Plenary Session results: daraxonrasib/RASolute 302 (pancreatic cancer, OS HR 0.40), adjuvant selpercatinib/LIBRETTO-432 (RET+ NSCLC, EFS HR 0.172), perioperative apalutamide/PROTEUS (high-risk prostate), abemaciclib/SARC041 (liposarcoma), plus intismeran autogene 5-year melanoma data (HR 0.51); pace continued through summer with approvals across kidney, prostate, sarcoma, transplant, breast, melanoma, and myeloma",
     "trend": "up",
-    "lastUpdated": "2026-07-16"
+    "lastUpdated": "2026-08-13"
+  },
+  {
+    "id": "zenbexus-celmod-mrd-response",
+    "label": "Zenbexus (Iberdomide) MRD-Negative CR Rate vs. Control",
+    "value": "41% vs. 21%",
+    "color": "green",
+    "source": "EXCALIBER-RRMM Phase 3 Trial, FDA Approval Aug 13, 2026",
+    "contested": true,
+    "contestNote": "First FDA oncology approval ever granted directly on an MRD surrogate endpoint rather than progression-free survival; PFS results remain pending as a condition of accelerated approval.",
+    "delta": "First-in-class CELMoD (cereblon E3 ligase modulator) therapy",
+    "deltaNote": "p<0.0001; 16-month median follow-up. High rates of neutropenia (90.2%) and infection (78.9%); REMS-restricted due to embryo-fetal toxicity risk.",
+    "trend": "up",
+    "lastUpdated": "2026-08-13"
   },
   {
     "id": "daraxonrasib-pancreatic-os-hr",
