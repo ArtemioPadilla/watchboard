@@ -33,7 +33,17 @@ jobs:
         run: |
           git config user.name  "watchboard-bot"
           git config user.email "bot@watchboard.dev"
-          git add public/_hourly/pending-candidates.json public/_hourly/triage-log.json public/_hourly/state.json || true
+          # Add each file separately. `git add a b c` fails as a whole when any
+          # path is missing, and the `|| true` hid it: pending-candidates.json
+          # is written to scripts/state/ (and gitignored), not public/_hourly/,
+          # so the add aborted and state.json was never staged either. Nothing
+          # from this workflow has been committed since 2026-05-21 as a result —
+          # state.alerted never persisted, so the dedup added in #198 started
+          # every run with no memory and re-posted the same stories every
+          # 15 minutes.
+          for f in public/_hourly/triage-log.json public/_hourly/state.json; do
+            [ -f "$f" ] && git add "$f"
+          done
           if ! git diff --cached --quiet; then
             git commit -m "chore(light-scan): update pending + audit + state $(date -u +%Y-%m-%dT%H:%M:%SZ)"
             for i in 1 2 3; do
