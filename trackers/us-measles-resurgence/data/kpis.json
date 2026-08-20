@@ -1,1 +1,91 @@
-[]
+[
+  {
+    "id": "kpi-2026-national-cases",
+    "label": "2026 confirmed measles cases (US)",
+    "value": "2,465",
+    "color": "red",
+    "source": "CDC national measles dashboard, mid-August 2026",
+    "contested": true,
+    "contestNote": "CDC publishes only lab-confirmed cases as of a weekly Thursday cutoff; state dashboards and independent trackers (e.g. CNN) often run higher — e.g. Florida cited at 64 (CDC) vs 92 (CNN tracker).",
+    "delta": "+94",
+    "deltaNote": "vs prior week's tally",
+    "trend": "up",
+    "lastUpdated": "2026-08-20T04:28:03Z"
+  },
+  {
+    "id": "kpi-2025-national-cases",
+    "label": "2025 full-year confirmed cases",
+    "value": "2,289",
+    "color": "amber",
+    "source": "CDC year-end 2025 measles data",
+    "contested": false,
+    "trend": "stable",
+    "lastUpdated": "2026-08-20T04:28:03Z"
+  },
+  {
+    "id": "kpi-states-affected",
+    "label": "Jurisdictions with 2026 cases",
+    "value": "45",
+    "color": "amber",
+    "source": "CDC measles case count dashboard, July 2026",
+    "contested": false,
+    "trend": "up",
+    "lastUpdated": "2026-08-20T04:28:03Z"
+  },
+  {
+    "id": "kpi-outbreak-associated-share",
+    "label": "Cases outbreak-associated (2026)",
+    "value": "94%",
+    "color": "red",
+    "source": "CDC, mid-August 2026 (2,407 of 2,566 preliminary)",
+    "contested": false,
+    "trend": "stable",
+    "lastUpdated": "2026-08-20T04:28:03Z"
+  },
+  {
+    "id": "kpi-deaths-total",
+    "label": "Confirmed measles deaths",
+    "value": "3",
+    "color": "red",
+    "source": "CDC / Texas DSHS / New Mexico DOH — 2 children (TX), 1 adult (NM), all unvaccinated",
+    "contested": false,
+    "trend": "stable",
+    "lastUpdated": "2026-08-20T04:28:03Z"
+  },
+  {
+    "id": "kpi-mmr-kindergarten-coverage",
+    "label": "National MMR kindergarten coverage",
+    "value": "92.4%",
+    "color": "amber",
+    "source": "CDC SchoolVaxView, 2025-2026 school year (released Aug 17, 2026)",
+    "contested": false,
+    "delta": "-0.1pp",
+    "deltaNote": "vs 92.5% in 2024-2025",
+    "trend": "down",
+    "lastUpdated": "2026-08-20T04:28:03Z"
+  },
+  {
+    "id": "kpi-kindergarten-exemption-rate",
+    "label": "Kindergarten vaccine exemption rate",
+    "value": "4.2%",
+    "color": "amber",
+    "source": "CDC SchoolVaxView, 2025-2026 school year",
+    "contested": false,
+    "delta": "+0.6pp",
+    "deltaNote": "vs 3.6% prior year; record high",
+    "trend": "up",
+    "lastUpdated": "2026-08-20T04:28:03Z"
+  },
+  {
+    "id": "kpi-hospitalization-rate-2026",
+    "label": "2026 hospitalization rate",
+    "value": "7%",
+    "color": "blue",
+    "source": "CDC surveillance data via Medical Daily / NEJM Evidence analyses",
+    "contested": false,
+    "delta": "-4pp",
+    "deltaNote": "vs 11% in 2025",
+    "trend": "down",
+    "lastUpdated": "2026-08-20T04:28:03Z"
+  }
+]
