@@ -1,0 +1,263 @@
+{
+  "slug": "ecuador-narco-conflict",
+  "name": "Ecuador Narco-Security Emergency Tracker",
+  "shortName": "Ecuador Narco Crisis",
+  "description": "Intelligence dashboard tracking Ecuador's narco-security emergency: record homicide rates, repeated states of emergency, prison gang control, US-assisted security operations, and mass displacement across Guayaquil, Esmeraldas, and beyond.",
+  "icon": "🔫",
+  "color": "#d35400",
+  "status": "active",
+  "tone": "alert",
+  "temporal": "live",
+  "domain": "security",
+  "region": "south-america",
+  "tags": [
+    "ecuador",
+    "noboa",
+    "narco-trafficking",
+    "gang-violence",
+    "los-choneros",
+    "los-lobos",
+    "state-of-emergency",
+    "guayaquil",
+    "esmeraldas",
+    "prisons"
+  ],
+  "country": "EC",
+  "startDate": "2024-01-09",
+  "eraLabel": "Internal Armed Conflict 2024–",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "military",
+    "casualties",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": -81.5,
+      "lonMax": -75.0,
+      "latMin": -5.5,
+      "latMax": 1.7
+    },
+    "center": {
+      "lon": -79.3,
+      "lat": -1.2
+    },
+    "categories": [
+      {
+        "id": "homicide-violence",
+        "label": "Homicides & Violence",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "prison-control",
+        "label": "Prison Control",
+        "color": "#8e44ad"
+      },
+      {
+        "id": "us-operation",
+        "label": "US-Assisted Operations",
+        "color": "#3498db"
+      },
+      {
+        "id": "displacement",
+        "label": "Displacement",
+        "color": "#f39c12"
+      },
+      {
+        "id": "trafficking-hub",
+        "label": "Ports & Trafficking Routes",
+        "color": "#27ae60"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "overview": {
+        "lon": -79.3,
+        "lat": -1.2,
+        "alt": 1300000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Ecuador Overview"
+      },
+      "guayaquil": {
+        "lon": -79.9,
+        "lat": -2.19,
+        "alt": 50000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Guayaquil"
+      },
+      "esmeraldas": {
+        "lon": -79.65,
+        "lat": 0.98,
+        "alt": 50000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Esmeraldas"
+      },
+      "quito": {
+        "lon": -78.47,
+        "lat": -0.18,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Quito"
+      },
+      "manta": {
+        "lon": -80.73,
+        "lat": -0.95,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Manta"
+      },
+      "san_lorenzo": {
+        "lon": -78.83,
+        "lat": 1.29,
+        "alt": 40000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "San Lorenzo / Colombia Border"
+      }
+    },
+    "clocks": [
+      {
+        "label": "GUAYAQUIL",
+        "offsetHours": -5
+      },
+      {
+        "label": "QUITO",
+        "offsetHours": -5
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      },
+      {
+        "label": "EST",
+        "offsetHours": -5
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-military",
+      "label": "Operations"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Casualties"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "militaryTabs": [
+    {
+      "id": "strikes",
+      "label": "Security Operations"
+    },
+    {
+      "id": "retaliation",
+      "label": "Gang Retaliation"
+    },
+    {
+      "id": "assets",
+      "label": "Deployed Forces & US Support"
+    }
+  ],
+  "politicalAvatars": [
+    "ec-gov",
+    "ec-forces",
+    "gangs",
+    "us",
+    "international"
+  ],
+  "eventTypes": [
+    "violence",
+    "security-operation",
+    "prison",
+    "displacement",
+    "political"
+  ],
+  "ai": {
+    "systemPrompt": "You are a security analyst updating a tracker on Ecuador's narco-security emergency.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"guayaquil_prison_riot\", \"esmeraldas_homicide_spike\").\n\nCoverage priorities: homicide rate and violence indicators (national and by province, especially Guayas/Guayaquil and Esmeraldas), declarations and renewals of states of emergency, prison (SNAI) control and riots, gang structures (Los Choneros, Los Lobos, Los Tiguerones, Chone Killers and successor factions), US-Ecuador security cooperation and land operations, internal displacement, and port-based cocaine trafficking (Guayaquil, Esmeraldas, Manta).\n\nSource tier classification:\n- Tier 1: Official (Presidencia de la República del Ecuador, Ministerio del Interior/Gobierno, Policía Nacional del Ecuador, Fuerzas Armadas del Ecuador, SNAI, Fiscalía General del Estado, US SOUTHCOM/State Department statements)\n- Tier 2: Major outlet (Reuters, AP, Primicias, El Universo, El Comercio, Expreso, BBC Mundo, France 24, EFE, Bloomberg)\n- Tier 3: Institutional (InSight Crime, International Crisis Group, Human Rights Watch, Igarapé Institute, Fundación OECO, CELAG, Ecuadorian universities/think tanks)\n- Tier 4: Unverified (social media, unattributed gang communiqués, unconfirmed casualty claims)\n\nOnly include information you can verify through search results. Do not fabricate data.\nWhen homicide or casualty figures are contested between government and independent sources, note the discrepancy and mark contested accordingly.",
+    "searchContext": "Ecuador narco-conflict Noboa gang violence state of emergency prisons US cooperation",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "mapLines",
+      "casualties",
+      "claims",
+      "political",
+      "assets"
+    ],
+    "coordValidation": {
+      "lonMin": -82,
+      "lonMax": -74,
+      "latMin": -6,
+      "latMax": 2
+    },
+    "updateIntervalDays": 1,
+    "backfillTargets": {
+      "timeline": 30,
+      "mapPoints": 25,
+      "mapLines": 15,
+      "claims": 15,
+      "political": 15,
+      "casualties": 12,
+      "assets": 10,
+      "kpis": 8
+    },
+    "updatePolicy": {
+      "escalation": [
+        1,
+        1,
+        1,
+        7,
+        7,
+        30,
+        60,
+        90
+      ],
+      "quietThreshold": 0
+    },
+    "rssFeeds": [
+      "https://news.google.com/rss/search?q=Ecuador+narco+violence+state+of+emergency&hl=en-US&gl=US&ceid=US:en",
+      "https://news.google.com/rss/search?q=Ecuador+Noboa+gangs+prisons&hl=es-419&gl=EC&ceid=EC:es-419"
+    ],
+    "relatedTrackers": [
+      "sinaloa-fragmentation",
+      "colombia",
+      "usa-latam-interventions",
+      "peru",
+      "mencho-cjng"
+    ]
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": [
+    "EC"
+  ]
+}
