@@ -6,8 +6,39 @@ import path from 'path';
 
 // ── Types ──
 
-export type TweetType = 'digest' | 'breaking' | 'hot_take' | 'thread' | 'data_viz' | 'meme';
-export type Voice = 'analyst' | 'journalist' | 'edgy' | 'witty';
+/**
+ * Tweet types.
+ *
+ * `hot_take` and `meme` were removed after the account was suspended for
+ * "inauthentic behavior". Both generated provocative or comedic content at
+ * volume, which is the pattern anti-spam systems look for, and neither drew on
+ * anything a competitor could not reproduce with a prompt.
+ *
+ * The four types that replaced them can only be written by something that has
+ * actually tracked the data: 2,299 recorded contested claims across 110
+ * trackers, 685 casualty figures flagged as disputed, and a 14-day escalation
+ * baseline per tracker. That is the differentiator — what the account knows,
+ * not how many personas it performs.
+ */
+export type TweetType =
+  | 'digest'
+  | 'breaking'
+  | 'thread'
+  | 'data_viz'
+  | 'contested'      // two sourced sides of a disputed figure
+  | 'stale_data'     // an official number frozen while reality moved
+  | 'escalation'     // a tracker spiking above its own baseline
+  | 'cross_tracker'; // a pattern only visible across many trackers
+
+/**
+ * One voice.
+ *
+ * A single automated account rotating through analyst / journalist / edgy /
+ * witty produces the appearance of several people writing, which is close to
+ * what X's authenticity policy describes. Authority here comes from the data,
+ * not from the register.
+ */
+export type Voice = 'analyst';
 export type Verdict = 'PUBLISH' | 'REVIEW' | 'HOLD' | 'KILL';
 export type FactCheckStatus = 'verified' | 'warning' | 'unverifiable' | 'failed';
 export type QueueStatus = 'auto_approved' | 'pending_review' | 'held' | 'approved' | 'rejected' | 'posted' | 'expired';

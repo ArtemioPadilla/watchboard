@@ -5,8 +5,8 @@ import { useLocale } from '../../i18n/useLocale';
 
 /* ── Types (mirror scripts/social-types.ts for client) ── */
 
-type TweetType = 'digest' | 'breaking' | 'hot_take' | 'thread' | 'data_viz' | 'meme';
-type Voice = 'analyst' | 'journalist' | 'edgy' | 'witty';
+type TweetType = 'digest' | 'breaking' | 'thread' | 'data_viz' | 'contested' | 'stale_data' | 'escalation' | 'cross_tracker';
+type Voice = 'analyst';
 type Verdict = 'PUBLISH' | 'REVIEW' | 'HOLD' | 'KILL';
 type FactCheckStatus = 'verified' | 'warning' | 'unverifiable' | 'failed';
 type QueueStatus = 'auto_approved' | 'pending_review' | 'held' | 'approved' | 'rejected' | 'posted';
@@ -96,10 +96,12 @@ const VERDICT_COLORS: Record<Verdict, string> = {
 const TYPE_COLORS: Record<TweetType, string> = {
   digest: '#58a6ff',
   breaking: '#f85149',
-  hot_take: '#f778ba',
   thread: '#a371f7',
   data_viz: '#3fb950',
-  meme: '#d29922',
+  contested: '#f778ba',
+  stale_data: '#d29922',
+  escalation: '#ff7b72',
+  cross_tracker: '#79c0ff',
 };
 
 const FC_ICONS: Record<FactCheckStatus, string> = {
@@ -131,10 +133,12 @@ const TYPE_FILTERS: Array<{ key: string; labelKey: TranslationKey }> = [
   { key: 'all', labelKey: 'social.filterAllTypes' },
   { key: 'digest', labelKey: 'social.typeDigest' },
   { key: 'breaking', labelKey: 'social.typeBreaking' },
-  { key: 'hot_take', labelKey: 'social.typeHotTake' },
   { key: 'thread', labelKey: 'social.typeThread' },
   { key: 'data_viz', labelKey: 'social.typeDataViz' },
-  { key: 'meme', labelKey: 'social.typeMeme' },
+  { key: 'contested', labelKey: 'social.typeContested' },
+  { key: 'stale_data', labelKey: 'social.typeStaleData' },
+  { key: 'escalation', labelKey: 'social.typeEscalation' },
+  { key: 'cross_tracker', labelKey: 'social.typeCrossTracker' },
 ];
 
 /* ── Helpers ── */
