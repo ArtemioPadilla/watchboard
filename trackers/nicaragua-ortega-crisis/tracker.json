@@ -1,0 +1,215 @@
+{
+  "slug": "nicaragua-ortega-crisis",
+  "name": "Nicaragua Constitutional Crisis Tracker",
+  "shortName": "Nicaragua Crisis",
+  "description": "Intelligence dashboard tracking Nicaragua's 2026 constitutional rupture under Daniel Ortega and Rosario Murillo — one-party consolidation, political prisoners and exile, US/international sanctions and tariffs, OAS response, and church-state conflict.",
+  "icon": "⛓️",
+  "color": "#8e44ad",
+  "status": "active",
+  "tone": "alert",
+  "temporal": "live",
+  "domain": "governance",
+  "region": "central-america",
+  "tags": [
+    "nicaragua",
+    "ortega",
+    "murillo",
+    "central-america",
+    "authoritarianism",
+    "oas",
+    "sanctions",
+    "political-prisoners"
+  ],
+  "country": "NI",
+  "startDate": "2026-06-01",
+  "eraLabel": "Constitutional Rupture 2026",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": -87.7,
+      "lonMax": -82.6,
+      "latMin": 10.7,
+      "latMax": 15.05
+    },
+    "center": {
+      "lon": -86.25,
+      "lat": 12.15
+    },
+    "categories": [
+      {
+        "id": "constitutional-reform",
+        "label": "Constitutional & Legal Actions",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "political-prisoner",
+        "label": "Detentions & Exile",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "sanctions-tariffs",
+        "label": "Sanctions & Tariffs",
+        "color": "#3498db"
+      },
+      {
+        "id": "international-response",
+        "label": "OAS & International Response",
+        "color": "#f39c12"
+      },
+      {
+        "id": "church-state",
+        "label": "Church-State Relations",
+        "color": "#2ecc71"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "overview": {
+        "lon": -85.5,
+        "lat": 12.5,
+        "alt": 900000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Nicaragua Overview"
+      },
+      "managua": {
+        "lon": -86.2504,
+        "lat": 12.1364,
+        "alt": 40000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Managua"
+      },
+      "oas_dc": {
+        "lon": -77.0399,
+        "lat": 38.9012,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "OAS Headquarters, Washington DC"
+      },
+      "vatican": {
+        "lon": 12.4534,
+        "lat": 41.9029,
+        "alt": 20000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Vatican City"
+      },
+      "costa_rica_border": {
+        "lon": -85.6,
+        "lat": 11.0219,
+        "alt": 50000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Peñas Blancas / Costa Rica Border"
+      }
+    },
+    "clocks": [
+      {
+        "label": "MANAGUA",
+        "offsetHours": -6
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      },
+      {
+        "label": "EST",
+        "offsetHours": -5
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Sanctions & Economy"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "politicalAvatars": [
+    "ni-gov",
+    "opposition",
+    "church",
+    "us",
+    "oas",
+    "other"
+  ],
+  "eventTypes": [
+    "constitutional",
+    "detention",
+    "sanctions",
+    "diplomatic",
+    "religious"
+  ],
+  "ai": {
+    "systemPrompt": "You are a political analyst and human rights researcher updating a tracker on Nicaragua's constitutional crisis under Daniel Ortega and Rosario Murillo.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"constitutional_reform_july\", \"oas_emergency_session\").\n\nTrack five threads: (1) constitutional and legal changes consolidating one-party rule, (2) political prisoners, detentions, and forced exile, (3) US and international sanctions and tariffs, (4) OAS and international diplomatic response, (5) church-state relations and repression of the Catholic Church.\n\nSource tier classification:\n- Tier 1: Official/primary (Nicaraguan government gazette La Gaceta, US Treasury OFAC, US State Department, OAS official statements, UN OHCHR)\n- Tier 2: Major outlet (Reuters, AP, AFP, BBC, Confidencial, La Prensa — both exiled independent Nicaraguan outlets)\n- Tier 3: Institutional (Human Rights Watch, Amnesty International, WOLA, Inter-American Commission on Human Rights/CIDH, International Crisis Group)\n- Tier 4: Unverified (social media, unattributed claims)\n\nOnly include information you can verify through search results. Do not fabricate data.\nWhen the Nicaraguan government and independent/exile outlets or human rights groups give conflicting accounts, capture both sides rather than picking one — this is expected and should surface in claims.",
+    "searchContext": "Nicaragua Ortega Murillo constitutional crisis political prisoners sanctions OAS",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": -90,
+      "lonMax": -80,
+      "latMin": 9,
+      "latMax": 16
+    },
+    "updateIntervalDays": 1,
+    "backfillTargets": {
+      "timeline": 30,
+      "mapPoints": 20,
+      "claims": 15,
+      "political": 15,
+      "kpis": 8,
+      "econ": 8
+    },
+    "updatePolicy": {
+      "escalation": [
+        1,
+        1,
+        1,
+        7,
+        7,
+        30
+      ],
+      "quietThreshold": 0
+    },
+    "relatedTrackers": []
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": [
+    "NI"
+  ]
+}
