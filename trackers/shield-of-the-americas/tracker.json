@@ -1,0 +1,243 @@
+{
+  "slug": "shield-of-the-americas",
+  "name": "Shield of the Americas Tracker",
+  "shortName": "Shield of Americas",
+  "description": "Intelligence dashboard tracking the Shield of the Americas hemispheric defense coalition, founded 7 March 2026 at Doral, and its expanding membership, ministerials, and basing agreements across the Western Hemisphere.",
+  "icon": "🛡️",
+  "color": "#2874a6",
+  "status": "active",
+  "tone": "neutral",
+  "temporal": "live",
+  "domain": "security",
+  "region": "north-america",
+  "country": "US",
+  "tags": [
+    "hemispheric-defense",
+    "southcom",
+    "mutual-defense",
+    "basing-agreements",
+    "western-hemisphere",
+    "colombia",
+    "panama"
+  ],
+  "startDate": "2026-03-07",
+  "eraLabel": "Coalition Formation & Expansion 2026",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "military",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": -120,
+      "lonMax": -30,
+      "latMin": -56,
+      "latMax": 33
+    },
+    "center": {
+      "lon": -79,
+      "lat": 9
+    },
+    "categories": [
+      {
+        "id": "member",
+        "label": "Member States",
+        "color": "#2874a6"
+      },
+      {
+        "id": "accession",
+        "label": "New Accessions",
+        "color": "#2ecc71"
+      },
+      {
+        "id": "ministerial",
+        "label": "Ministerials & Summits",
+        "color": "#f39c12"
+      },
+      {
+        "id": "basing",
+        "label": "Basing & Overflight",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "holdout",
+        "label": "Holdout States",
+        "color": "#9b59b6"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "overview": {
+        "lon": -75,
+        "lat": 5,
+        "alt": 7000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Hemispheric Overview"
+      },
+      "doral": {
+        "lon": -80.3553,
+        "lat": 25.8195,
+        "alt": 50000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Doral, FL (Founding Summit / SOUTHCOM HQ)"
+      },
+      "panama_city": {
+        "lon": -79.5199,
+        "lat": 8.9824,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Panama City (Ministerial)"
+      },
+      "bogota": {
+        "lon": -74.0721,
+        "lat": 4.7110,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Bogotá, Colombia (19th Member)"
+      },
+      "brasilia": {
+        "lon": -47.8825,
+        "lat": -15.7942,
+        "alt": 150000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Brasília (Holdout Watch)"
+      },
+      "mexico_city": {
+        "lon": -99.1332,
+        "lat": 19.4326,
+        "alt": 150000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Mexico City (Holdout Watch)"
+      }
+    },
+    "clocks": [
+      {
+        "label": "DORAL",
+        "offsetHours": -5
+      },
+      {
+        "label": "BOGOTA",
+        "offsetHours": -5
+      },
+      {
+        "label": "BRASILIA",
+        "offsetHours": -3
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-military",
+      "label": "Military"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "militaryTabs": [
+    {
+      "id": "ministerials",
+      "label": "Ministerials & Agreements"
+    },
+    {
+      "id": "basing",
+      "label": "Basing & Overflight"
+    },
+    {
+      "id": "assets",
+      "label": "SOUTHCOM Coordination & Assets"
+    }
+  ],
+  "politicalAvatars": [
+    "us",
+    "co",
+    "pa",
+    "mx",
+    "br",
+    "other"
+  ],
+  "eventTypes": [
+    "diplomatic",
+    "accession",
+    "military",
+    "reaction"
+  ],
+  "ai": {
+    "systemPrompt": "You are a defense-policy analyst updating a dashboard tracking the Shield of the Americas hemispheric defense coalition.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"colombia_accession\", \"panama_ministerial\").\n\nFOCUS AREAS:\n- Membership and accession: which of the 18-19+ member states have joined, ratification status, new accessions or withdrawals, holdout state positions.\n- Ministerials and agreements: defense ministerial meetings (founding summit 7 March 2026 at Doral, Panama ministerial 12 August 2026), joint statements, Access, Basing and Overflight (ABO) agreements and other bilateral/multilateral instruments signed.\n- Basing and overflight arrangements: specific basing rights, overflight authorizations, host-nation support arrangements, SOUTHCOM coordination mechanisms.\n- Campaign plan: development, drafting, and eventual release of the November 2026 multinational campaign plan — scope, participating states, command structure.\n- Holdout states: statements and policy positions from Mexico, Brazil, Cuba and Canada explaining non-accession, and any signs of a shift toward or away from membership.\n\nSource tier classification:\n- Tier 1: Official/primary (SOUTHCOM public affairs, US Department of Defense/Pentagon, White House, member state defense/foreign ministries, General Francis Donovan's office)\n- Tier 2: Major outlet (Reuters, AP, Bloomberg, Defense News, Miami Herald, El Tiempo, La Prensa, Folha de S.Paulo, Reforma)\n- Tier 3: Institutional (CSIS, Atlantic Council, Inter-American Dialogue, WOLA, SOUTHCOM-focused think tanks, Wilson Center)\n- Tier 4: Unverified (social media, unattributed leaks)\n\nOnly include information you can verify through search results. Do not fabricate data.\nActively seek CONTRASTING perspectives — member-state framing of the coalition as defensive/cooperative versus holdout-state (especially Mexican, Brazilian, and Cuban) framing of it as US-dominated overreach.\n\nCONFIRMATION RULES:\n- Only report a membership/accession or agreement claim as confirmed if it has at least 1 Tier 1 source OR 2 Tier 2+ sources.\n- Single-source Tier 3/4 reports should use confidence: \"low\".\n\nDEDUPLICATION:\n- Same announcement or agreement reported by multiple outlets within ±2 days = same event — merge, do not create duplicates.",
+    "searchContext": "Shield of the Americas hemispheric defense coalition SOUTHCOM",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": -125,
+      "lonMax": -25,
+      "latMin": -60,
+      "latMax": 40
+    },
+    "updateIntervalDays": 1,
+    "backfillTargets": {
+      "timeline": 25,
+      "mapPoints": 20,
+      "claims": 15,
+      "political": 15,
+      "kpis": 8
+    },
+    "updatePolicy": {
+      "escalation": [
+        1,
+        1,
+        1,
+        7,
+        7,
+        30
+      ],
+      "quietThreshold": 0
+    },
+    "relatedTrackers": [
+      "mecca-defense-pact",
+      "colombia",
+      "brazil",
+      "mexico",
+      "cuba-crises"
+    ]
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": [
+    "US"
+  ]
+}
