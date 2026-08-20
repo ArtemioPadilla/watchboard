@@ -1,0 +1,259 @@
+{
+  "slug": "drc-conflict",
+  "name": "DRC Conflict Tracker",
+  "shortName": "DRC Conflict",
+  "description": "Intelligence dashboard tracking the M23 and ADF conflicts in eastern DR Congo, DRC's ICJ case against Rwanda, the Washington Accords peace process, and mineral supply chains around the Rubaya coltan mine.",
+  "icon": "⛏️",
+  "color": "#c0392b",
+  "status": "active",
+  "tone": "alert",
+  "temporal": "live",
+  "domain": "conflict",
+  "region": "africa",
+  "tags": [
+    "drc",
+    "congo",
+    "m23",
+    "adf",
+    "rwanda",
+    "ituri",
+    "north-kivu",
+    "coltan",
+    "great-lakes",
+    "icj"
+  ],
+  "country": "CD",
+  "startDate": "2025-01-01",
+  "eraLabel": "Great Lakes Crisis 2025–2026",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "military",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": 27.3,
+      "lonMax": 31.5,
+      "latMin": -3,
+      "latMax": 3.5
+    },
+    "center": {
+      "lon": 29.4,
+      "lat": 0.25
+    },
+    "categories": [
+      {
+        "id": "m23-advance",
+        "label": "M23 Advances & Clashes",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "adf-attack",
+        "label": "ADF Attacks",
+        "color": "#d35400"
+      },
+      {
+        "id": "displacement",
+        "label": "Displacement & IDP Camps",
+        "color": "#f39c12"
+      },
+      {
+        "id": "mineral-site",
+        "label": "Mineral Sites & Supply Chains",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "peace-process",
+        "label": "Peace Process & Diplomacy",
+        "color": "#3498db"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "overview": {
+        "lon": 29.4,
+        "lat": 0.3,
+        "alt": 900000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "North Kivu / Ituri Theater"
+      },
+      "goma": {
+        "lon": 29.2228,
+        "lat": -1.6792,
+        "alt": 40000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Goma"
+      },
+      "rubaya": {
+        "lon": 29.1167,
+        "lat": -1.35,
+        "alt": 15000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Rubaya Coltan Mine"
+      },
+      "bunia": {
+        "lon": 30.2492,
+        "lat": 1.5636,
+        "alt": 40000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Bunia (Ituri)"
+      },
+      "rutshuru": {
+        "lon": 29.4667,
+        "lat": -1.1833,
+        "alt": 25000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Rutshuru"
+      },
+      "kigali": {
+        "lon": 30.0619,
+        "lat": -1.9441,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Kigali (Rwanda)"
+      }
+    },
+    "clocks": [
+      {
+        "label": "KINSHASA",
+        "offsetHours": 1
+      },
+      {
+        "label": "KIGALI",
+        "offsetHours": 2
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      },
+      {
+        "label": "EST",
+        "offsetHours": -5
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-military",
+      "label": "Military"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Humanitarian"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "militaryTabs": [
+    {
+      "id": "strikes",
+      "label": "M23 Operations"
+    },
+    {
+      "id": "retaliation",
+      "label": "ADF Operations"
+    },
+    {
+      "id": "assets",
+      "label": "Forces & Peacekeepers"
+    }
+  ],
+  "politicalAvatars": [
+    "cd-gov",
+    "m23",
+    "adf",
+    "rw-gov",
+    "un",
+    "other"
+  ],
+  "eventTypes": [
+    "military",
+    "diplomatic",
+    "humanitarian",
+    "economic"
+  ],
+  "ai": {
+    "systemPrompt": "You are a conflict analyst updating an intelligence tracking dashboard on the Democratic Republic of Congo and Great Lakes region crisis.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"goma_clash\", \"icj_ruling\").\n\nCOVERAGE PRIORITIES:\n- M23 rebel operations and territorial control in North Kivu (Goma, Rutshuru, Masisi) and South Kivu\n- ADF (Allied Democratic Forces) attacks on civilians in Ituri and North Kivu\n- The DRC v. Rwanda case at the International Court of Justice (ICJ) over alleged Rwandan military involvement in the east\n- DRC-Rwanda relations, the Washington Accords peace framework, and the Joint Security Coordination Mechanism\n- FDLR demobilisation process\n- Mineral supply chains around Rubaya and other coltan/cassiterite mining sites, and their links to armed groups\n- Displacement, IDP camps, and humanitarian conditions\n- Congolese domestic politics: Tshisekedi government, Senate/constitutional developments, FARDC operations\n\nSource tier classification:\n- Tier 1: Official/primary (MONUSCO, UN Group of Experts on the DRC, UN OHCHR, ICJ, DRC Presidency/FARDC, Rwandan government, African Union, EAC/SADC communiques)\n- Tier 2: Major outlet (Reuters, AP, AFP, BBC, Al Jazeera, RFI, Radio Okapi)\n- Tier 3: Institutional (Congo Research Group/Kivu Security Tracker, International Crisis Group, Global Witness, IPIS, Human Rights Watch, Amnesty International)\n- Tier 4: Unverified (social media, unattributed militia claims, unverified casualty tolls)\n\nOnly include information you can verify through search results. Do not fabricate data.\nWhen DRC and Rwandan government accounts conflict (e.g. on Rwandan troop presence or casualty figures), report both positions and flag as contested.\n\nDEDUPLICATION:\n- Same location and event within ±2 days = same event — merge, do not create duplicates.",
+    "searchContext": "DRC Congo M23 ADF conflict Rwanda Great Lakes",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "mapLines",
+      "casualties",
+      "econ",
+      "claims",
+      "political",
+      "assets"
+    ],
+    "coordValidation": {
+      "lonMin": 26,
+      "lonMax": 32,
+      "latMin": -4,
+      "latMax": 4
+    },
+    "updateIntervalDays": 1,
+    "backfillTargets": {
+      "timeline": 35,
+      "mapPoints": 30,
+      "mapLines": 20,
+      "claims": 20,
+      "political": 20,
+      "casualties": 12,
+      "econ": 10,
+      "assets": 10,
+      "kpis": 8
+    },
+    "updatePolicy": {
+      "escalation": [
+        1,
+        1,
+        1,
+        7,
+        7,
+        30,
+        60,
+        90
+      ],
+      "quietThreshold": 0
+    }
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": [
+    "CD"
+  ]
+}
