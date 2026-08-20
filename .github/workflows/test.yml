@@ -1,0 +1,34 @@
+name: Tests
+
+# The repo had 225 vitest tests across 18 files and nothing ran them. They
+# passed locally and were never executed on a PR, which makes them decoration:
+# a test that never runs cannot fail, so it cannot tell you anything.
+#
+# This matters most for the pipeline logic under tests/ (light-scan dedup,
+# triage, data freshness), where the recurring failure mode has been a step
+# reporting success while its work silently went nowhere.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  vitest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
