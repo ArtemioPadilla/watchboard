@@ -1,0 +1,195 @@
+{
+  "slug": "us-measles-resurgence",
+  "name": "US Measles Resurgence Tracker",
+  "shortName": "US Measles",
+  "description": "Tracking the 2025-2026 US measles resurgence — record case counts since elimination was declared in 2000, vaccination and exemption trends, and the threatened loss of PAHO elimination status.",
+  "icon": "🦠",
+  "color": "#c0392b",
+  "status": "active",
+  "tone": "alert",
+  "temporal": "live",
+  "trackerType": "factual",
+  "domain": "disaster",
+  "region": "north-america",
+  "tags": [
+    "measles",
+    "vaccination",
+    "public-health",
+    "cdc",
+    "paho",
+    "elimination-status",
+    "outbreak",
+    "mmr"
+  ],
+  "country": "US",
+  "startDate": "2025-01-01",
+  "eraLabel": "Resurgence & Elimination Threat 2025-2026",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "casualties",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": -125,
+      "lonMax": -66,
+      "latMin": 24,
+      "latMax": 49
+    },
+    "center": {
+      "lon": -98,
+      "lat": 38.5
+    },
+    "categories": [
+      {
+        "id": "outbreak",
+        "label": "Active Outbreak Cluster",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "hospitalization",
+        "label": "Hospitalization Site",
+        "color": "#f39c12"
+      },
+      {
+        "id": "vaccination-response",
+        "label": "Vaccination Clinic / Response",
+        "color": "#3498db"
+      },
+      {
+        "id": "policy-action",
+        "label": "Policy / Exemption Action",
+        "color": "#9b59b6"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "overview": {
+        "lon": -98,
+        "lat": 39,
+        "alt": 4000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "National Overview"
+      },
+      "gaines_county_tx": {
+        "lon": -102.64,
+        "lat": 32.72,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Gaines County, TX (2025 Outbreak Origin)"
+      },
+      "utah": {
+        "lon": -111.89,
+        "lat": 40.76,
+        "alt": 150000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Utah (441 Cases)"
+      },
+      "cdc_atlanta": {
+        "lon": -84.32,
+        "lat": 33.79,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "CDC Headquarters, Atlanta"
+      },
+      "paho_dc": {
+        "lon": -77.0369,
+        "lat": 38.9072,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "PAHO Headquarters, Washington DC"
+      }
+    }
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Casualties"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "politicalAvatars": [
+    "cdc",
+    "hhs",
+    "state-govt",
+    "paho",
+    "advocacy",
+    "other"
+  ],
+  "eventTypes": [
+    "outbreak",
+    "policy",
+    "vaccination",
+    "hospitalization",
+    "elimination-status"
+  ],
+  "ai": {
+    "systemPrompt": "You are a public health intelligence analyst updating a tracker on the US measles resurgence and the threatened loss of measles elimination status.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"utah_outbreak_update\", \"cdc_case_count\").\n\nSource tier classification:\n- Tier 1: Official/primary (CDC MMWR reports, CDC measles case count dashboard, state and county health departments, PAHO/WHO official statements, HHS)\n- Tier 2: Major outlet (Reuters, AP, NYT, Washington Post, NPR, STAT News, CIDRAP)\n- Tier 3: Institutional/analytical (KFF, Johns Hopkins Bloomberg School of Public Health, Council on Foreign Relations, peer-reviewed journals, American Academy of Pediatrics)\n- Tier 4: Unverified (social media, unattributed claims)\n\nOnly include information you can verify through search results. Do not fabricate data.\nTrack national and state-level case counts, outbreak clusters, MMR vaccination coverage and exemption rates, hospitalizations and deaths, the PAHO/WHO elimination status determination timeline, and public health response measures (quarantines, vaccination clinics, school exemption policy changes).\nWhen case counts differ between CDC and state health departments, prefer the most recent official source and note discrepancies.",
+    "searchContext": "US measles outbreak 2026 elimination status CDC",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "claims",
+      "political",
+      "casualties"
+    ],
+    "coordValidation": {
+      "lonMin": -130,
+      "lonMax": -60,
+      "latMin": 20,
+      "latMax": 50
+    },
+    "updateIntervalDays": 7,
+    "backfillTargets": {
+      "timeline": 30,
+      "mapPoints": 20,
+      "claims": 15,
+      "political": 15,
+      "kpis": 8,
+      "casualties": 10
+    },
+    "updatePolicy": {
+      "escalation": [
+        7,
+        7,
+        7,
+        14,
+        30
+      ],
+      "quietThreshold": 0
+    }
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": [
+    "US"
+  ]
+}
