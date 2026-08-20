@@ -1,0 +1,242 @@
+{
+  "slug": "mecca-defense-pact",
+  "name": "Mecca Defense Pact Tracker",
+  "shortName": "Mecca Pact",
+  "description": "Intelligence dashboard tracking the 2026 Mecca mutual-defense pact between Saudi Arabia, Pakistan, Turkey and other signatories, and the regional security realignment following the Iran-US/Israel conflict.",
+  "icon": "🤝",
+  "color": "#1b6b4a",
+  "status": "active",
+  "tone": "alert",
+  "temporal": "live",
+  "domain": "security",
+  "region": "middle-east",
+  "country": "SA",
+  "tags": [
+    "defense-pact",
+    "mutual-defense",
+    "gulf-security",
+    "saudi-arabia",
+    "pakistan",
+    "turkey",
+    "regional-realignment"
+  ],
+  "startDate": "2026-08-07",
+  "eraLabel": "Pact Signing & Realignment 2026",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "military",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": 25,
+      "lonMax": 75,
+      "latMin": 10,
+      "latMax": 42
+    },
+    "center": {
+      "lon": 45,
+      "lat": 26
+    },
+    "categories": [
+      {
+        "id": "signatory",
+        "label": "Founding Signatories",
+        "color": "#1b6b4a"
+      },
+      {
+        "id": "accession",
+        "label": "New Accessions",
+        "color": "#2ecc71"
+      },
+      {
+        "id": "exercise",
+        "label": "Joint Exercises",
+        "color": "#f39c12"
+      },
+      {
+        "id": "basing",
+        "label": "Basing Arrangements",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "reaction",
+        "label": "Regional Reactions",
+        "color": "#9b59b6"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "overview": {
+        "lon": 45,
+        "lat": 26,
+        "alt": 3500000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Regional Overview"
+      },
+      "mecca": {
+        "lon": 39.8262,
+        "lat": 21.4225,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Mecca (Signing Site)"
+      },
+      "riyadh": {
+        "lon": 46.6753,
+        "lat": 24.7136,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Riyadh"
+      },
+      "islamabad": {
+        "lon": 73.0479,
+        "lat": 33.6844,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Islamabad"
+      },
+      "ankara": {
+        "lon": 32.8597,
+        "lat": 39.9334,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Ankara"
+      },
+      "tehran": {
+        "lon": 51.389,
+        "lat": 35.6892,
+        "alt": 150000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Tehran (Reaction Watch)"
+      }
+    },
+    "clocks": [
+      {
+        "label": "RIYADH",
+        "offsetHours": 3
+      },
+      {
+        "label": "ISB",
+        "offsetHours": 5
+      },
+      {
+        "label": "ANKARA",
+        "offsetHours": 3
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-military",
+      "label": "Military"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "militaryTabs": [
+    {
+      "id": "exercises",
+      "label": "Joint Exercises"
+    },
+    {
+      "id": "basing",
+      "label": "Basing Arrangements"
+    },
+    {
+      "id": "assets",
+      "label": "Deployed Assets"
+    }
+  ],
+  "politicalAvatars": [
+    "sa",
+    "pk",
+    "tr",
+    "ir",
+    "il",
+    "us",
+    "other"
+  ],
+  "eventTypes": [
+    "diplomatic",
+    "military",
+    "accession",
+    "reaction"
+  ],
+  "ai": {
+    "systemPrompt": "You are a security analyst updating a dashboard tracking the 2026 Mecca mutual-defense pact and the regional security realignment it triggered.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"pact_signing\", \"pakistan_ratification\").\n\nFOCUS AREAS:\n- Signatories and accession: who signed at Mecca, who has since acceded or expressed interest, ratification status in each country's legislature.\n- Treaty terms: mutual-defense clauses (Article 5-style triggers), scope (nuclear umbrella questions, conventional-only, cyber), command structure, funding.\n- Joint exercises and basing: announced or conducted joint military exercises, troop rotations, new or expanded basing arrangements between signatories.\n- Reactions: statements and policy responses from Iran, Israel, the United States, and other regional/global powers (China, Russia, EU, GCC states not party to the pact).\n\nSource tier classification:\n- Tier 1: Official/primary (Saudi Press Agency, Saudi Ministry of Foreign Affairs, Pakistani ISPR/MOFA, Turkish MFA/TRT official statements, GCC Secretariat, US State Dept/DoD, Iranian IRNA/Foreign Ministry, Israeli MFA/IDF official statements)\n- Tier 2: Major outlet (Reuters, AP, Al Jazeera, Al Arabiya, Anadolu Agency, Dawn, Middle East Eye, Bloomberg, BBC, WaPo, NYT)\n- Tier 3: Institutional (IISS, CSIS, Chatham House, Carnegie Endowment, RUSI, Atlantic Council, Crisis Group)\n- Tier 4: Unverified (social media, unattributed leaks)\n\nOnly include information you can verify through search results. Do not fabricate data.\nActively seek CONTRASTING perspectives — Gulf/Pakistani/Turkish framing of the pact as defensive versus Iranian/Israeli framing of it as escalatory or threatening.\n\nCONFIRMATION RULES:\n- Only report a signatory/accession or treaty-term claim as confirmed if it has at least 1 Tier 1 source OR 2 Tier 2+ sources.\n- Single-source Tier 3/4 reports should use confidence: \"low\".\n\nDEDUPLICATION:\n- Same announcement or exercise reported by multiple outlets within ±2 days = same event — merge, do not create duplicates.",
+    "searchContext": "Mecca defense pact Saudi Arabia Pakistan Turkey mutual defense treaty 2026",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": 20,
+      "lonMax": 80,
+      "latMin": 5,
+      "latMax": 45
+    },
+    "updateIntervalDays": 1,
+    "backfillTargets": {
+      "timeline": 25,
+      "mapPoints": 15,
+      "claims": 15,
+      "political": 15,
+      "kpis": 8
+    },
+    "updatePolicy": {
+      "escalation": [
+        1,
+        1,
+        1,
+        7,
+        7,
+        30
+      ],
+      "quietThreshold": 0
+    },
+    "relatedTrackers": [
+      "iran-conflict",
+      "israel-palestine",
+      "gaza-war"
+    ]
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": [
+    "SA"
+  ]
+}
