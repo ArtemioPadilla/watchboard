@@ -187,13 +187,26 @@ jobs:
                   const bodyFile = '/tmp/scout-issue-' + c.slug + '.md';
                   fs.writeFileSync(bodyFile, body);
                   const base = ['issue','create','--title',title,'--body-file',bodyFile];
+                  // gh refuses the whole call if any single label is missing,
+                  // so create them first. Without this the fallback below
+                  // silently swallowed ALL labels whenever ONE was undefined,
+                  // which is what left #177-#180 completely unlabelled while
+                  // #205-#208 a week later came out fine — the labels happened
+                  // to exist by then. A new domain would have repeated it.
+                  for (const name of labels) {
+                    try {
+                      execFileSync('gh', ['label','create',name,'--force'],
+                                   { stdio: 'ignore' });
+                    } catch {
+                      // Non-fatal: if label creation is not permitted, the
+                      // fallback below still gets the issue filed.
+                    }
+                  }
                   try {
                     execFileSync('gh', [...base,'--label',labels.join(',')], { stdio: 'inherit' });
                   } catch {
-                    // gh refuses the whole call if any label is missing, and
-                    // these (scout, auto-triage, domain:*) are not defined in
-                    // the repo. Losing a candidate over a missing label would
-                    // be worse than losing the label.
+                    // Last resort. Losing a candidate over a label would be
+                    // worse than losing the label.
                     console.warn('Label(s) rejected — creating issue without labels');
                     execFileSync('gh', base, { stdio: 'inherit' });
                   }
