@@ -1,0 +1,194 @@
+{
+  "slug": "us-cyclosporiasis-outbreak",
+  "name": "US Cyclosporiasis Outbreak Tracker",
+  "shortName": "Cyclosporiasis Outbreak",
+  "description": "Tracking the 2026 U.S. cyclosporiasis outbreak — confirmed and probable case counts, hospitalizations, CDC/FDA traceback investigations, implicated produce, and import alerts and recalls.",
+  "icon": "🦠",
+  "color": "#c0392b",
+  "status": "active",
+  "tone": "alert",
+  "temporal": "live",
+  "domain": "disaster",
+  "region": "north-america",
+  "tags": [
+    "cyclosporiasis",
+    "foodborne-illness",
+    "outbreak",
+    "cdc",
+    "fda",
+    "food-safety",
+    "produce-recall",
+    "united-states"
+  ],
+  "country": "US",
+  "startDate": "2026-07-01",
+  "eraLabel": "2026 Outbreak",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "casualties",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": -125,
+      "lonMax": -66,
+      "latMin": 24,
+      "latMax": 49
+    },
+    "center": {
+      "lon": -98,
+      "lat": 39
+    },
+    "categories": [
+      {
+        "id": "case-cluster",
+        "label": "Case Clusters",
+        "color": "#c0392b"
+      },
+      {
+        "id": "traceback",
+        "label": "Traceback / Farm Site",
+        "color": "#f39c12"
+      },
+      {
+        "id": "recall",
+        "label": "Recall / Import Alert",
+        "color": "#3498db"
+      },
+      {
+        "id": "advisory",
+        "label": "Advisory Issued",
+        "color": "#9b59b6"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "layout": "disaster",
+    "cameraPresets": {
+      "overview": {
+        "lon": -98,
+        "lat": 39,
+        "alt": 4000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "United States Overview"
+      },
+      "cdc_atlanta": {
+        "lon": -84.31,
+        "lat": 33.79,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "CDC Headquarters, Atlanta"
+      },
+      "fda_hq": {
+        "lon": -77.0,
+        "lat": 39.03,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "FDA Headquarters, Silver Spring"
+      },
+      "nogales_poe": {
+        "lon": -110.94,
+        "lat": 31.34,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Nogales Port of Entry (Produce Imports)"
+      },
+      "mcallen_poe": {
+        "lon": -98.23,
+        "lat": 26.2,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "McAllen Port of Entry (Produce Imports)"
+      }
+    }
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Cases & Hospitalizations"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Claims"
+    },
+    {
+      "id": "sec-political",
+      "label": "Agency Response"
+    }
+  ],
+  "politicalAvatars": [
+    "cdc",
+    "fda",
+    "state-health",
+    "industry",
+    "other"
+  ],
+  "eventTypes": [
+    "outbreak",
+    "investigation",
+    "recall",
+    "advisory"
+  ],
+  "ai": {
+    "systemPrompt": "You are a public health and food safety analyst updating a tracker for the 2026 U.S. cyclosporiasis outbreak.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"texas_case_cluster\", \"basil_recall_alert\").\n\nSource tier classification:\n- Tier 1: Official/primary (CDC, FDA, state and local health departments, USDA)\n- Tier 2: Major outlet (Reuters, AP, CNN, NYT, WaPo, Food Safety News, NBC News)\n- Tier 3: Institutional (state epidemiology bureaus, academic public health researchers, CSTE, WHO)\n- Tier 4: Unverified (social media, unattributed reports)\n\nOnly include information you can verify through search results. Do not fabricate data.\nTrack: confirmed and probable case counts by state, hospitalizations, CDC/FDA traceback investigations, implicated produce items (e.g. basil, cilantro, raspberries), FDA import alerts and recalls, and CDC health advisories.\nUse the \"contested\" field on casualty/case rows when case counts or source attribution are disputed between agencies, states, or industry.",
+    "searchContext": "cyclosporiasis outbreak United States 2026 CDC FDA case count recall",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "casualties",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": -130,
+      "lonMax": -60,
+      "latMin": 20,
+      "latMax": 50
+    },
+    "updateIntervalDays": 1,
+    "backfillTargets": {
+      "timeline": 25,
+      "mapPoints": 20,
+      "claims": 15,
+      "political": 15,
+      "kpis": 8,
+      "casualties": 10
+    },
+    "updatePolicy": {
+      "escalation": [
+        1,
+        1,
+        1,
+        7,
+        7,
+        30
+      ],
+      "quietThreshold": 0
+    }
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": [
+    "US"
+  ]
+}
