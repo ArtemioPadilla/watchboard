@@ -1,1 +1,98 @@
-[]
+[
+  {
+    "id": "missing-persons-count",
+    "question": "How many people are missing after the earthquakes?",
+    "sideA": { "label": "Venezuelan Government", "text": "Officials have published only sparse local figures — e.g. La Guaira's governor cited 1,579 missing in the state as of 3 August — and National Assembly President Jorge Rodríguez has said no nationwide missing-persons count will be released, 'to avoid speculation.'" },
+    "sideB": { "label": "UN / Independent Trackers", "text": "UN humanitarian chief Tom Fletcher cited over 50,000 missing on 27 June; crowdsourced databases 'Venezuela Te Busca' and 'Venezuela Reporta' separately logged 18,100 (7 Jul) and 41,300 names respectively." },
+    "resolution": "No authoritative nationwide figure exists. Experts (UCL's Ilan Kelman, Swiss rescue group REDOG) say the true toll may never be fully known, drawing parallels to Hurricane Maria and the 2004 Indian Ocean tsunami, where final counts took years to settle.",
+    "lastUpdated": "2026-08-20T00:00:00.000Z"
+  },
+  {
+    "id": "economic-damage-estimate",
+    "question": "What is the total economic damage from the earthquakes?",
+    "sideA": { "label": "UN Office for Disaster Risk Reduction (UNDRR)", "text": "Direct damage to buildings and infrastructure totals approximately US$37 billion — $24B in residential/commercial/institutional buildings and $13B in infrastructure (water, power, telecom, transport)." },
+    "sideB": { "label": "UN Development Programme (UNDP)", "text": "A narrower housing-and-economic-focused assessment puts damage at US$4.7–8.7 billion, roughly 4–8% of Venezuela's GDP, while cautioning the true cost could run 1.5–3x higher once indirect losses are counted." },
+    "resolution": "OCHA reporting publishes both figures side by side without reconciling them — they measure different scopes (UNDRR's broader infrastructure-inclusive estimate vs UNDP's narrower housing/economic lens) rather than directly contradicting one another.",
+    "lastUpdated": "2026-08-20T00:00:00.000Z"
+  },
+  {
+    "id": "govt-response-adequacy",
+    "question": "Was the government's emergency response adequate?",
+    "sideA": { "label": "Acting President Delcy Rodríguez", "text": "'We've done everything in our power, and we'll continue to do everything in our power and more' — citing 14,000+ military personnel deployed within 48 hours and coordination with 51 international delegations." },
+    "sideB": { "label": "Residents & International Media", "text": "Many Venezuelans said the response was 'limited and insufficient'; volunteers led search efforts for over 24 hours before official assistance arrived; officials were filmed taking selfies at disaster sites without joining recovery work; the New York Times described government casualty figures as a 'substantial undercount.'" },
+    "resolution": "Independent verification is limited. Analysts note the government has incentives both to overstate its response (to preserve legitimacy) and to understate casualties (to limit scrutiny) — the balance of evidence points to a genuinely under-resourced initial response followed by a large but uneven scale-up.",
+    "lastUpdated": "2026-08-20T00:00:00.000Z"
+  },
+  {
+    "id": "injured-figure-freeze",
+    "question": "Why has the official injured count stopped rising?",
+    "sideA": { "label": "Official OCHA Figure", "text": "The injured/hospitalized count has been reported at 16,740 in every OCHA situation report since 5 July, even as the death toll climbed by more than 3,700 over the same period." },
+    "sideB": { "label": "Analysts", "text": "The frozen figure is likely an artifact of reporting methodology — an early snapshot count never revised — rather than evidence the true injury toll stopped growing; the separate, still-rising figure of people who received hospital/medical care (73,356 as of 14 Aug) suggests the true injury burden is far larger." },
+    "resolution": "Watchboard treats the 16,740 figure as stale and distinct from the cumulative hospital-care count, per OCHA's own reporting structure, rather than merging the two.",
+    "lastUpdated": "2026-08-20T00:00:00.000Z"
+  },
+  {
+    "id": "media-access-restrictions",
+    "question": "Did the government restrict access to disaster zones and media coverage?",
+    "sideA": { "label": "Interior Minister Diosdado Cabello", "text": "Access restrictions to La Guaira imposed on the night of 26 June were necessary for 'ambulance access and health reasons.'" },
+    "sideB": { "label": "International Journalists & Rights Groups", "text": "Reporters described being blocked from entering the hardest-hit areas, and some accused the government of intermittently restricting social media (including X/Twitter) at a time when platforms were being used to coordinate missing-persons searches." },
+    "resolution": "The UN publicly appealed to Venezuela to ease social-media restrictions on 26 June; X access was subsequently restored, then reportedly curtailed again, suggesting real but inconsistently enforced restrictions rather than a blanket blackout.",
+    "lastUpdated": "2026-08-20T00:00:00.000Z"
+  },
+  {
+    "id": "casualty-reporting-consistency",
+    "question": "Are the government's day-to-day casualty updates reliable?",
+    "sideA": { "label": "Venezuelan Government", "text": "Official tallies are updated regularly through state channels and presented as the authoritative national count." },
+    "sideB": { "label": "PROVEA (Venezuelan human rights group)", "text": "Flagged inconsistent updates in the response's first week — e.g. the death count rose by only 20 between 27 and 28 June while the separately reported injured figure fell from 3,238 to 3,150 in the same window, an implausible pattern for an active mass-casualty event." },
+    "resolution": "Experts attribute the inconsistencies to the operational chaos of a fast-moving disaster (double-counting, delayed regional reporting, revised methodologies) rather than deliberate falsification, per multiple independent seismologists and disaster researchers quoted in coverage.",
+    "lastUpdated": "2026-08-20T00:00:00.000Z"
+  },
+  {
+    "id": "deportee-flight-deaths",
+    "question": "Were recently deported migrants killed while staying in La Guaira hotels?",
+    "sideA": { "label": "El País Reporting", "text": "More than 32 people who had recently been returned to Venezuela on a US Immigration and Customs Enforcement deportation flight, and were staying in hotels in La Guaira, were reported killed when those hotels collapsed." },
+    "sideB": { "label": "Venezuelan Government", "text": "Has not issued a distinct public accounting of deportee casualties separate from the general La Guaira hotel-collapse toll." },
+    "resolution": "The claim traces to a single investigative report (El País) rather than an official confirmed list; Watchboard flags it as reported-but-unconfirmed by primary authorities.",
+    "lastUpdated": "2026-08-20T00:00:00.000Z"
+  },
+  {
+    "id": "elections-political-transition",
+    "question": "Should the earthquake response accelerate a political transition in Venezuela?",
+    "sideA": { "label": "María Corina Machado (opposition, Nobel Peace laureate)", "text": "Argues the government's halting quake response exposed its core weaknesses and that she should return from exile to help lead 'the transition process, especially after the tragedy,' reviving calls for free elections." },
+    "sideB": { "label": "Delcy Rodríguez / Governing coalition", "text": "Frames the recovery as a national-unity effort requiring stability and continuity of the current government, not a political opening; officials have emphasized operational response over transition talk." },
+    "resolution": "As of mid-August, no election timeline or transition process has been announced; NPR and other outlets report the disaster has pushed Venezuela's long-stalled democratic transition further to the sidelines rather than accelerating it.",
+    "lastUpdated": "2026-08-20T00:00:00.000Z"
+  },
+  {
+    "id": "earthquake-magnitude-discrepancy",
+    "question": "What was the true magnitude of the mainshock?",
+    "sideA": { "label": "USGS", "text": "Rates the mainshock at Mw 7.5, with the earlier event at Mw 7.2, 33–39 seconds apart — the figures used as this tracker's reference values." },
+    "sideB": { "label": "INGV / GEOSCOPE", "text": "Italy's INGV calculated a combined Mw 7.6 for the sequence, while France's GEOSCOPE network reported an even higher Mw 7.8." },
+    "resolution": "Magnitude discrepancies of this size are common across seismic networks for large, complex ruptures measured with different methodologies; USGS's Mw 7.2/7.5 figures are used as the tracker's reference values, as the most widely cited by international media and disaster responders.",
+    "lastUpdated": "2026-08-20T00:00:00.000Z"
+  },
+  {
+    "id": "security-forces-looting",
+    "question": "Did security personnel engage in looting during the disaster response?",
+    "sideA": { "label": "Documented Incidents", "text": "Four officers of the CICPC (Venezuela's scientific/criminal investigations police) were arrested and discharged after being caught looting; multiple videos and resident accounts allege soldiers and police stealing from damaged and abandoned homes." },
+    "sideB": { "label": "Government Position", "text": "Cabello has emphasized that 'the people of La Guaira' are organized and urged residents to 'trust their government,' without directly addressing the looting allegations in public statements reviewed." },
+    "resolution": "The CICPC arrests confirm at least some documented cases of security-force misconduct; the broader scale of looting allegations circulating in resident videos remains unverified by independent investigators.",
+    "lastUpdated": "2026-08-20T00:00:00.000Z"
+  },
+  {
+    "id": "trafficking-risk-orphans",
+    "question": "Are earthquake-orphaned or separated children at heightened risk of trafficking?",
+    "sideA": { "label": "Plan International, Save the Children, anti-trafficking NGOs", "text": "Warn that mass displacement, family separation, and an estimated 680,000 children in need across affected areas create conditions criminal trafficking networks are known to exploit, and call for urgent child-protection measures before cases emerge." },
+    "sideB": { "label": "On-the-Ground Reporting", "text": "As of the most recent assessments, no confirmed trafficking complaints or evidence have been documented in the hardest-hit areas, including La Guaira and northern Caracas." },
+    "resolution": "NGOs frame this as a preventive warning rather than a confirmed ongoing pattern — the absence of confirmed cases to date does not rule out under-reporting in a disrupted child-protection system.",
+    "lastUpdated": "2026-08-20T00:00:00.000Z"
+  },
+  {
+    "id": "humanitarian-funding-shortfall",
+    "question": "Is the international community funding Venezuela's earthquake response adequately?",
+    "sideA": { "label": "UN OCHA / Tom Fletcher", "text": "The 2026 Humanitarian Response Plan needs $931 million to reach 1.3 million people over six months; only about 39% has been funded, leaving a roughly $566–627 million gap as of mid-summer reporting." },
+    "sideB": { "label": "Venezuelan Government", "text": "Emphasizes its own large-scale domestic mobilization — 26,121 Civil Protection, firefighter, police and military personnel plus a 17,832-strong civilian volunteer corps — as evidence the response does not depend primarily on international funding." },
+    "resolution": "Both are true simultaneously: Venezuela has mobilized a very large domestic workforce, but OCHA's own figures show the formal international humanitarian financing pillar remains significantly underfunded relative to appealed needs.",
+    "lastUpdated": "2026-08-20T00:00:00.000Z"
+  }
+]
