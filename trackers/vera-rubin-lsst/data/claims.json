@@ -1,1 +1,170 @@
-[]
+[
+  {
+    "id": "3i-atlas-natural-or-artificial",
+    "question": "Is interstellar object 3I/ATLAS a natural comet or could it be an artificial technosignature?",
+    "sideA": {
+      "label": "Mainstream astronomy community",
+      "text": "Astrometry, photometry, and activity measurements — including Rubin Observatory's own precovery data — are fully consistent with a natural, if unusually large, interstellar comet; its orbital behavior matches physical models with no need for exotic explanations."
+    },
+    "sideB": {
+      "label": "Avi Loeb (Harvard)",
+      "text": "Ten identified anomalies — including a retrograde orbit closely aligned with the ecliptic, extreme negative polarization, and an unusual nickel-rich gas composition — are unusual enough that a technological origin cannot be ruled out, estimated at roughly 30–40% likelihood."
+    },
+    "resolution": "As of August 2026, no peer-reviewed analysis, including Rubin's own observations, has found evidence inconsistent with a natural cometary origin; the debate continues primarily in public commentary and preprints rather than the refereed literature.",
+    "lastUpdated": "2026-08-20"
+  },
+  {
+    "id": "satellite-megaconstellations-threat",
+    "question": "Do satellite megaconstellations pose an existential threat to Rubin's wide-field science?",
+    "sideA": {
+      "label": "Astronomers / Rubin Observatory staff",
+      "text": "Planned constellations of over a million satellites could triple night-sky brightness and cause Rubin to miss roughly 15% of hazardous near-Earth asteroids in affected exposures, threatening core planetary-defense and cosmology goals."
+    },
+    "sideB": {
+      "label": "Satellite operators / mitigation researchers",
+      "text": "Darkening treatments, orbit-avoidance coordination, and Rubin-side scheduling and image-processing techniques can substantially reduce streak contamination, keeping the survey's science goals achievable even as constellations grow."
+    },
+    "resolution": "Unresolved and actively evolving; Rubin has stood up dedicated simulation and mitigation research, but the scale of planned launches versus the tens of thousands of objects tracked today means the net impact on the 10-year survey remains uncertain.",
+    "lastUpdated": "2026-08-20"
+  },
+  {
+    "id": "proprietary-data-period-fairness",
+    "question": "Is Rubin's 2-year data proprietary period a fair balance between incentivizing investment and open science?",
+    "sideA": {
+      "label": "Rubin data policy / NSF-DOE",
+      "text": "A time-limited proprietary period is standard practice that rewards the US and Chilean institutions and international partners who funded construction through in-kind contributions, before data becomes fully public."
+    },
+    "sideB": {
+      "label": "International astronomy community",
+      "text": "Scientists outside the US, Chile, and in-kind partner countries are locked out of the world's most powerful time-domain dataset for two years, disadvantaging researchers outside major funding blocs and complicating joint projects with fully open missions like the Roman Space Telescope."
+    },
+    "resolution": "Access mechanisms for scientists without data rights after the proprietary period ends have not yet been finalized, leaving the practical scope of the 'fully open after 2 years' promise unresolved.",
+    "lastUpdated": "2026-08-20"
+  },
+  {
+    "id": "alert-broker-trust",
+    "question": "Can automated community alert brokers be trusted to classify Rubin's nightly alert stream without human review?",
+    "sideA": {
+      "label": "Broker teams / survey operators",
+      "text": "At up to 10 million alerts per night, machine classification is the only feasible approach; well-tuned brokers with adjustable confidence thresholds make automated triage reliable enough for real science use."
+    },
+    "sideB": {
+      "label": "Skeptical researchers",
+      "text": "The overwhelming majority of alerts are ranked by machine probability scores alone and never reach human review, and threshold-tuning decisions — such as one broker raising its cutoff from 0.3 to 0.7 to cut false positives — directly determine which real discoveries survive, an opaque and high-stakes filtering step."
+    },
+    "resolution": "An open, unresolved operational question as the survey scales up; broker performance and threshold choices are expected to be an active area of methods research throughout the 10-year survey.",
+    "lastUpdated": "2026-08-20"
+  },
+  {
+    "id": "naming-symbolic-or-substantive",
+    "question": "Was renaming the observatory for Vera Rubin a substantive recognition of women in science or a largely symbolic gesture?",
+    "sideA": {
+      "label": "Congress / NSF / Rubin family",
+      "text": "Naming the first US national observatory after a woman — honoring Rubin's foundational dark-matter evidence and her advocacy for women in astronomy — sets a meaningful precedent and was strongly supported by her family."
+    },
+    "sideB": {
+      "label": "Some commentators",
+      "text": "A name change alone does not address the structural underrepresentation of women in astronomy leadership and funding decisions that Rubin herself fought throughout her career; substantive change requires more than a rededication ceremony."
+    },
+    "resolution": "Both are true in different registers: the December 2019 naming is widely celebrated as a first for a US national observatory, while broader representation metrics in astronomy leadership are tracked separately and show slower progress.",
+    "lastUpdated": "2026-08-20"
+  },
+  {
+    "id": "fy26-budget-adequate",
+    "question": "Is Rubin Observatory's FY2026 budget request adequate to run the survey as planned?",
+    "sideA": {
+      "label": "NSF budget justification",
+      "text": "Rubin was explicitly shielded from the FY2026 budget's broader 56% NSF cut, with $32 million requested for operations — nearly double the prior year's $17.7 million — reflecting the agency's stated priority to protect the observatory."
+    },
+    "sideB": {
+      "label": "American Astronomical Society",
+      "text": "The requested $32 million is still about 20% below what was previously projected as necessary for the start of full science operations, risking reduced observing efficiency, staffing, or data-processing capacity just as the survey begins."
+    },
+    "resolution": "Congress had not finalized the FY2026 appropriation as of this tracker's last update; the operational impact of any shortfall will only become clear once the survey's first full year of operations is underway.",
+    "lastUpdated": "2026-08-20"
+  },
+  {
+    "id": "survey-start-delayed",
+    "question": "Did the Legacy Survey start on schedule, or was it delayed?",
+    "sideA": {
+      "label": "Rubin Observatory / NOIRLab",
+      "text": "The June 30, 2026 start reflects the natural conclusion of an unusually thorough commissioning process for a first-of-its-kind facility, not a program failure — extensive on-sky checkouts were always expected before committing to 10 years of survey cadence."
+    },
+    "sideB": {
+      "label": "Prior public messaging",
+      "text": "Rubin's own earlier public statements had pointed to an 'early 2026' start after First Look in mid-2025; checkouts running months longer than anticipated meant the actual start slipped from that expectation."
+    },
+    "resolution": "The survey began June 30, 2026 — later than the 'early 2026' timeline suggested after First Look, but within the range of schedule uncertainty typical for commissioning a telescope and camera of this complexity.",
+    "lastUpdated": "2026-08-20"
+  },
+  {
+    "id": "construction-cost-schedule",
+    "question": "Was Rubin's construction cost and schedule growth reasonable given the pandemic and the project's technical scope?",
+    "sideA": {
+      "label": "NSF / DOE program management",
+      "text": "COVID-19 pandemic disruptions plus the unprecedented technical challenge of building the largest camera and one of the largest wide-field mirrors ever made justify the schedule extension and cost growth from an original $473 million NSF authorization to $571 million."
+    },
+    "sideB": {
+      "label": "Budget watchdogs (GAO)",
+      "text": "Major facility cost and schedule growth of this scale warrants scrutiny regardless of cause, especially as it came alongside broader NSF large-facility portfolio pressure and competition for scarce federal science funding."
+    },
+    "resolution": "NSF's authorized Total Project Cost was formally revised upward to $571.0 million in December 2021, and the project is tracked among GAO-monitored major facilities; both the pandemic-driven delay and the cost increase are documented matters of public record rather than active dispute.",
+    "lastUpdated": "2026-08-20"
+  },
+  {
+    "id": "chile-partnership-equity",
+    "question": "Is Chile an equal scientific partner in Rubin Observatory, or primarily a host country for US-led science?",
+    "sideA": {
+      "label": "NOIRLab / AURA",
+      "text": "Chilean astronomers and institutions hold full data rights alongside the US, and the observatory actively engages local communities on dark-sky protection and science education, reflecting a genuine partnership model used across Chile's observatories."
+    },
+    "sideB": {
+      "label": "Some Chilean science-policy voices",
+      "text": "Major funding, camera construction, and most senior leadership positions remain concentrated in US institutions (NSF, DOE, SLAC), with Chile's role centered on hosting the physical site and protecting the dark skies the survey depends on."
+    },
+    "resolution": "Chile holds full data rights alongside the US by agreement, and government officials including President Boric have publicly reaffirmed the partnership, though the concentration of funding and technical leadership in US institutions is a structural fact of the project's funding sources.",
+    "lastUpdated": "2026-08-20"
+  },
+  {
+    "id": "dp1-scientific-maturity",
+    "question": "Are early Data Preview releases (DP1, EDP2) scientifically mature enough for publishable results, or still commissioning-grade?",
+    "sideA": {
+      "label": "Rubin Data Management team",
+      "text": "DP1's roughly 2.3 million cataloged objects and EDP2's calibrated COSMOS mosaic are processed with pipelines intended for full survey operations, making them suitable for real scientific analysis and already the basis of published discoveries such as the 3I/ATLAS measurements."
+    },
+    "sideB": {
+      "label": "Cautious survey scientists",
+      "text": "Both releases are explicitly drawn from commissioning-phase and early-optimization data — not steady-state 10-year survey cadence — so photometric calibration, depth, and systematics may still evolve significantly before the first true annual Data Release."
+    },
+    "resolution": "Rubin's own documentation labels DP1 and EDP2 as previews rather than full Data Releases, and the January 2026 DP1 update was itself a calibration refinement — both sides agree the data are usable now but still expected to improve.",
+    "lastUpdated": "2026-08-20"
+  },
+  {
+    "id": "alien-hype-vs-science-communication",
+    "question": "Does high-profile 'is it aliens?' coverage of interstellar objects help or hurt public trust in Rubin's science communication?",
+    "sideA": {
+      "label": "Science communicators (e.g., Brian Cox)",
+      "text": "Speculative technosignature claims that outrun the data risk misleading the public and undermine trust in legitimate findings once objects are inevitably shown to be natural."
+    },
+    "sideB": {
+      "label": "Loeb and supporters",
+      "text": "Provocative but scientifically framed hypotheses draw wider public attention to real observatory science and rare interstellar visitors, and rigorously testing even unlikely hypotheses is a legitimate part of the scientific process."
+    },
+    "resolution": "No resolution in sight — the pattern repeated with 'Oumuamua in 2017 and 3I/ATLAS in 2025, and is likely to recur with future interstellar objects Rubin is expected to detect more frequently than any prior survey.",
+    "lastUpdated": "2026-08-20"
+  },
+  {
+    "id": "rubin-roman-redundancy",
+    "question": "Are Rubin (ground-based) and NASA's Roman Space Telescope (space-based) redundant investments, or complementary?",
+    "sideA": {
+      "label": "Dark energy science community",
+      "text": "Rubin and Roman use different but statistically cross-checking methods — weak lensing, supernovae, baryon acoustic oscillations — from different vantage points, and cross-survey synergy strengthens systematic-error control for both."
+    },
+    "sideB": {
+      "label": "Budget-conscious critics",
+      "text": "Two multi-billion-dollar facilities pursuing overlapping dark-energy science goals in the same decade strains a constrained federal science budget, especially with Roman's fully open data policy creating friction against Rubin's 2-year proprietary period for joint analyses."
+    },
+    "resolution": "Mission scientists frame the programs as complementary by design, though the differing data-access policies documented in synergy studies create real practical friction for joint research that neither side disputes.",
+    "lastUpdated": "2026-08-20"
+  }
+]
