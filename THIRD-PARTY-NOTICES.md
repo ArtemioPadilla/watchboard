@@ -46,11 +46,11 @@ Bundled under `public/fonts/` and served from `/fonts/`:
 - DM Sans
 - Cormorant Garamond
 
-All three are published under the SIL Open Font License 1.1. **The OFL requires
-that the licence text accompany the font files, and it is not currently
-bundled.** Copies of `OFL.txt` should be added alongside them. Flagged rather
-than silently fixed, because the correct text must come from each font's own
-upstream release rather than be reconstructed.
+All three are published under the SIL Open Font License 1.1, which requires its
+text to accompany the font files. Those licences are in
+[`public/fonts/licenses/`](public/fonts/licenses/) — each one the verbatim
+`OFL.txt` from that font's own upstream repository, carrying its own copyright
+line rather than a reconstructed one.
 
 ## Map and imagery services
 
