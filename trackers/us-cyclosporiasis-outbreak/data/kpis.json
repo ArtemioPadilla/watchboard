@@ -1,1 +1,91 @@
-[]
+[
+  {
+    "id": "kpi-confirmed-cases-national",
+    "label": "Lab-Confirmed Cases (Season, Since May 1)",
+    "value": "15,716",
+    "color": "red",
+    "source": "CDC",
+    "contested": false,
+    "delta": "+13x",
+    "deltaNote": "vs. 1,180 cases in the same period of 2025",
+    "trend": "up",
+    "lastUpdated": "2026-08-19T00:00:00Z"
+  },
+  {
+    "id": "kpi-total-reported-combined",
+    "label": "Total Reported Cases (Confirmed + Probable)",
+    "value": "24,000+",
+    "color": "red",
+    "source": "CDC / ABC News",
+    "contested": true,
+    "contestNote": "Combines confirmed and probable cases across all active clusters; distinct from the narrower multistate outbreak count of 9,481.",
+    "trend": "up",
+    "lastUpdated": "2026-08-12T00:00:00Z"
+  },
+  {
+    "id": "kpi-multistate-outbreak-cases",
+    "label": "Multistate Outbreak Cases (Taylor Farms Lettuce)",
+    "value": "9,481",
+    "color": "amber",
+    "source": "CDC",
+    "contested": true,
+    "contestNote": "Michigan's own state dashboard separately reports 13,909 cumulative cases using a broader counting methodology.",
+    "delta": "+7,534",
+    "deltaNote": "since Jul 24 (1,947 cases)",
+    "trend": "up",
+    "lastUpdated": "2026-08-13T00:00:00Z"
+  },
+  {
+    "id": "kpi-hospitalizations",
+    "label": "Hospitalizations (Multistate Outbreak)",
+    "value": "398",
+    "color": "amber",
+    "source": "CDC",
+    "contested": false,
+    "trend": "up",
+    "lastUpdated": "2026-08-13T00:00:00Z"
+  },
+  {
+    "id": "kpi-deaths",
+    "label": "Deaths",
+    "value": "2",
+    "color": "red",
+    "source": "Michigan Department of Health and Human Services",
+    "contested": false,
+    "delta": "0",
+    "deltaNote": "unchanged since first reported Aug 3",
+    "trend": "stable",
+    "lastUpdated": "2026-08-13T00:00:00Z"
+  },
+  {
+    "id": "kpi-states-affected-outbreak",
+    "label": "States in Multistate Outbreak",
+    "value": "17",
+    "color": "amber",
+    "source": "CDC",
+    "contested": false,
+    "delta": "+12",
+    "deltaNote": "from 5 states on Jul 24 to 17 by Aug 13",
+    "trend": "up",
+    "lastUpdated": "2026-08-13T00:00:00Z"
+  },
+  {
+    "id": "kpi-states-surveillance-wide",
+    "label": "States With Any Reported Case (Season-Wide)",
+    "value": "47",
+    "color": "blue",
+    "source": "CDC",
+    "contested": false,
+    "trend": "up",
+    "lastUpdated": "2026-08-19T00:00:00Z"
+  },
+  {
+    "id": "kpi-recall-distribution-states",
+    "label": "States Receiving Recalled Lettuce",
+    "value": "31",
+    "color": "blue",
+    "source": "FDA",
+    "contested": false,
+    "lastUpdated": "2026-08-20T00:00:00Z"
+  }
+]
