@@ -1,1 +1,90 @@
-[]
+[
+  {
+    "id": "regions-affected",
+    "label": "Regions with fuel shortages",
+    "value": "78 of 83",
+    "color": "red",
+    "source": "Novaya Gazeta / Wikipedia tracker, Jul 2026",
+    "contested": true,
+    "contestNote": "Estimates vary by source and date: Novaya Gazeta counted 78 of 83 regions plus occupied territories on Jul 2 2026; some reports of Russian-controlled territory (incl. occupied regions) put it at 88 of 89.",
+    "trend": "up",
+    "lastUpdated": "2026-08-20T00:00:00Z"
+  },
+  {
+    "id": "population-affected",
+    "label": "People affected by shortage",
+    "value": "50 million (35% of population)",
+    "color": "red",
+    "source": "Financial Times, Jul 9 2026",
+    "contested": false,
+    "trend": "up",
+    "lastUpdated": "2026-08-20T00:00:00Z"
+  },
+  {
+    "id": "refining-capacity-offline",
+    "label": "Refining capacity disabled",
+    "value": "20–43%",
+    "color": "amber",
+    "source": "IEA / Ukraine General Staff / Finnish President Stubb, Jul 2026",
+    "contested": true,
+    "contestNote": "IEA says \"more than 20%\"; Ukraine's General Staff claims 42.74%; Finnish President Alexander Stubb estimated 40%. Reuters separately found overall national processing down only 3–6%, as unaffected refineries partly compensated.",
+    "trend": "up",
+    "lastUpdated": "2026-08-20T00:00:00Z"
+  },
+  {
+    "id": "gasoline-retail-price",
+    "label": "AI-95 retail price",
+    "value": "74.38 RUB/L (official) vs up to 120–140 RUB/L (independent stations)",
+    "color": "amber",
+    "source": "Rosstat official data vs independent station reporting, Jun 2026",
+    "contested": true,
+    "contestNote": "Official Rosstat averages run well below prices actually seen at independent (non-major-oil-company) stations in several federal districts.",
+    "trend": "up",
+    "lastUpdated": "2026-08-20T00:00:00Z"
+  },
+  {
+    "id": "crude-throughput",
+    "label": "Crude processing rate",
+    "value": "4.1M bbl/day (June 2026)",
+    "color": "red",
+    "source": "Financial Times, Jul 9 2026",
+    "contested": false,
+    "delta": "-28%",
+    "deltaNote": "vs 5-year average; 35% below design capacity",
+    "trend": "down",
+    "lastUpdated": "2026-08-20T00:00:00Z"
+  },
+  {
+    "id": "states-of-emergency",
+    "label": "Regions under state of emergency",
+    "value": "5+ (Crimea, Sevastopol, Penza, Irkutsk, Zabaykalsky)",
+    "color": "red",
+    "source": "Regional decrees, Jun–Jul 2026",
+    "contested": false,
+    "trend": "up",
+    "lastUpdated": "2026-08-20T00:00:00Z"
+  },
+  {
+    "id": "belarus-gasoline-imports",
+    "label": "Gasoline imports from Belarus",
+    "value": "~141,000 tonnes/month",
+    "color": "blue",
+    "source": "Meduza / Belarusian export data, Jun 2026",
+    "contested": false,
+    "delta": "~20x YoY",
+    "trend": "up",
+    "lastUpdated": "2026-08-20T00:00:00Z"
+  },
+  {
+    "id": "inflation-forecast-2026",
+    "label": "End-2026 inflation forecast",
+    "value": "6.2%",
+    "color": "amber",
+    "source": "Analyst consensus / Bank of Russia commentary, Jul 2026",
+    "contested": false,
+    "delta": "+4.2pp",
+    "deltaNote": "June monthly inflation hit 10.6% annualized, up from 2% in May",
+    "trend": "up",
+    "lastUpdated": "2026-08-20T00:00:00Z"
+  }
+]
