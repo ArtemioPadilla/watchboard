@@ -1,1 +1,84 @@
-[]
+[
+  {
+    "id": "hectares-burned-national",
+    "label": "Hectares Burned Nationally",
+    "value": "4,082,237 ha",
+    "color": "red",
+    "source": "CIFFC / Public Safety Canada, as of Aug 12",
+    "contested": true,
+    "contestNote": "CIFFC and provincial agencies update tallies independently and frequently; figures can lag or diverge by a day or more.",
+    "delta": "+~7,250 km² (Ontario alone)",
+    "trend": "up",
+    "lastUpdated": "2026-08-20T04:20:00Z"
+  },
+  {
+    "id": "total-fires-national",
+    "label": "Total Wildfires This Season",
+    "value": "4,654",
+    "color": "amber",
+    "source": "CIFFC / Public Safety Canada, as of Aug 12",
+    "contested": false,
+    "trend": "up",
+    "lastUpdated": "2026-08-20T04:20:00Z"
+  },
+  {
+    "id": "active-fires-current",
+    "label": "Active Wildfires (incl. Out of Control)",
+    "value": "582 active / 31 out of control",
+    "color": "amber",
+    "source": "Public Safety Canada, as of Aug 18",
+    "contested": false,
+    "trend": "down",
+    "lastUpdated": "2026-08-20T04:20:00Z"
+  },
+  {
+    "id": "total-evacuated",
+    "label": "People Evacuated (Season Total)",
+    "value": "24,000+",
+    "color": "amber",
+    "source": "Public Safety Canada / provincial emergency management",
+    "contested": false,
+    "trend": "up",
+    "lastUpdated": "2026-08-20T04:20:00Z"
+  },
+  {
+    "id": "total-deaths",
+    "label": "Confirmed Deaths",
+    "value": "5",
+    "color": "red",
+    "source": "CBC News, CBS News, government statements",
+    "contested": false,
+    "deltaNote": "1 firefighter (NS), 3 aircrew/firefighters (NWT plane crash), 1 civilian (BC)",
+    "lastUpdated": "2026-08-20T04:20:00Z"
+  },
+  {
+    "id": "largest-fire-thunder-bay-36",
+    "label": "Largest Single Fire (Thunder Bay 36)",
+    "value": "~320,000 ha",
+    "color": "red",
+    "source": "Ontario Aviation, Forest Fire and Emergency Services",
+    "contested": false,
+    "deltaNote": "Largest wildfire ever recorded in Ontario",
+    "lastUpdated": "2026-08-20T04:20:00Z"
+  },
+  {
+    "id": "milwaukee-record-aqi",
+    "label": "Record US AQI Reading (Milwaukee)",
+    "value": "644",
+    "color": "blue",
+    "source": "Wisconsin DNR / Medical Daily",
+    "contested": false,
+    "deltaNote": "More than double Milwaukee's prior all-time record of 300 (1987)",
+    "lastUpdated": "2026-08-20T04:20:00Z"
+  },
+  {
+    "id": "us-population-under-air-quality-alerts",
+    "label": "US Population Under Air Quality Alerts (Peak)",
+    "value": "120 million+",
+    "color": "blue",
+    "source": "US National Weather Service / EPA AirNow",
+    "contested": false,
+    "deltaNote": "16+ US states under alerts, July 14–20",
+    "lastUpdated": "2026-08-20T04:20:00Z"
+  }
+]
