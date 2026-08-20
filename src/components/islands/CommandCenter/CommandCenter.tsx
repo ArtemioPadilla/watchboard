@@ -98,6 +98,12 @@ interface BreakingTracker {
 interface Props {
   trackers: TrackerCardData[];
   basePath: string;
+  /**
+   * Locale the page was served at. The island still lets the reader switch,
+   * but /es/, /fr/ and /pt/ must open in their own language rather than
+   * defaulting to English and making the visitor change it back.
+   */
+  initialLocale?: Locale;
   liveCount: number;
   historicalCount: number;
   trackerCount: number;
@@ -128,6 +134,7 @@ function CommandCenterInner({
   trackerCount,
   updatedTodayCount,
   breakingTrackers,
+  initialLocale,
 }: Props) {
   const [activeTracker, setActiveTracker] = useState<string | null>(null);
   const [hoveredTracker, setHoveredTracker] = useState<string | null>(null);
@@ -143,7 +150,7 @@ function CommandCenterInner({
     }
     return 'operations';
   });
-  const [locale, setLocale] = useState<Locale>('en');
+  const [locale, setLocale] = useState<Locale>(initialLocale ?? 'en');
   const [showHelp, setShowHelp] = useState(false);
   const [isMobile, setIsMobile] = useState(() =>
     typeof window !== 'undefined' && window.innerWidth < 768,
