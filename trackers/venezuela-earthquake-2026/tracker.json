@@ -1,0 +1,236 @@
+{
+  "slug": "venezuela-earthquake-2026",
+  "name": "Venezuela Earthquake Doublet Tracker",
+  "shortName": "Venezuela Quake",
+  "description": "Intelligence dashboard tracking the 24 June 2026 Venezuela earthquake doublet (M7.2 Yaracuy / M7.5 La Guaira) — the strongest quakes to strike Venezuela since 1900 — and the ongoing humanitarian response, shelter crisis, and reconstruction.",
+  "icon": "🌋",
+  "color": "#e67e22",
+  "status": "active",
+  "tone": "alert",
+  "temporal": "live",
+  "domain": "disaster",
+  "region": "south-america",
+  "country": "VE",
+  "startDate": "2026-06-24",
+  "eraLabel": "Earthquake Doublet & Response 2026",
+  "tags": [
+    "earthquake",
+    "GLIDE EQ-2026-000093-VEN",
+    "USGS PAGER",
+    "La Guaira",
+    "Yaracuy",
+    "OCHA",
+    "humanitarian",
+    "reconstruction"
+  ],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": -69.2,
+      "lonMax": -66.3,
+      "latMin": 9.6,
+      "latMax": 11.0
+    },
+    "center": {
+      "lon": -67.9,
+      "lat": 10.45
+    },
+    "categories": [
+      {
+        "id": "epicenter",
+        "label": "Earthquake Epicenters",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "shelter",
+        "label": "Shelter / Transitional Camps",
+        "color": "#f39c12"
+      },
+      {
+        "id": "aid",
+        "label": "Aid Distribution",
+        "color": "#3498db"
+      },
+      {
+        "id": "infrastructure",
+        "label": "Infrastructure Damage",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "hospital",
+        "label": "Hospitals Affected",
+        "color": "#16a085"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "layout": "disaster",
+    "cameraPresets": {
+      "theater": {
+        "lon": -67.9,
+        "lat": 10.45,
+        "alt": 700000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Venezuela Central Coast Overview"
+      },
+      "san_felipe_epicenter": {
+        "lon": -68.557,
+        "lat": 10.343,
+        "alt": 40000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "San Felipe Epicenter (M7.2)"
+      },
+      "catia_la_mar_epicenter": {
+        "lon": -67.217,
+        "lat": 10.606,
+        "alt": 40000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Catia La Mar Epicenter (M7.5)"
+      },
+      "caracas": {
+        "lon": -66.9036,
+        "lat": 10.4806,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Caracas"
+      },
+      "maiquetia_airport": {
+        "lon": -66.9911,
+        "lat": 10.6013,
+        "alt": 25000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Simón Bolívar Intl Airport (Maiquetía)"
+      },
+      "valencia": {
+        "lon": -68.0077,
+        "lat": 10.162,
+        "alt": 50000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Valencia"
+      }
+    },
+    "clocks": [
+      {
+        "label": "CARACAS",
+        "offsetHours": -4
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      },
+      {
+        "label": "EST",
+        "offsetHours": -5
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Humanitarian"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "politicalAvatars": [
+    "ve-gov",
+    "un-ocha",
+    "ifrc",
+    "intl-aid",
+    "other"
+  ],
+  "eventTypes": [
+    "seismic",
+    "humanitarian",
+    "response",
+    "reconstruction",
+    "political"
+  ],
+  "ai": {
+    "systemPrompt": "You are a humanitarian disaster analyst updating an intelligence dashboard tracking the 24 June 2026 Venezuela earthquake doublet and its aftermath.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"ocha_sitrep_33\", \"la_guaira_camp_expansion\").\n\nEVENT BACKGROUND: two mainshocks struck 33 seconds apart on 24 June 2026 at 22:04:31 and 22:05:04 UTC (18:04 local) — M7.2 (USGS us6000t7zc) 20km east of San Felipe, Yaracuy, and M7.5 (USGS us6000t7zp) 20km west of Catia La Mar, La Guaira. Both were 10km depth, strike-slip, and rated USGS PAGER RED. This is the strongest earthquake to strike Venezuela since 1900. GLIDE identifier: EQ-2026-000093-VEN.\n\nSource tier classification:\n- Tier 1: Official/primary (OCHA situation reports, USGS, Venezuelan Protección Civil / government agencies, IFRC operation updates, PAHO/WHO)\n- Tier 2: Major outlet (Reuters, AP, BBC, El Nacional, La Nación, Infobae, France 24)\n- Tier 3: Institutional (UNDRR, UNDP, World Bank, ACAPS, CSIS, Oxford Economics)\n- Tier 4: Unverified (social media, unattributed local reports)\n\nOnly include information you can verify through search results. Do not fabricate data.\n\nCRITICAL DATA RULES — CASUALTY FIGURES MUST BE DATED:\n- OCHA situation reports are the source of record for the death toll. Always attach the as-of date of the specific SitRep to any casualty figure and note the SitRep number when available. The toll has risen steadily across successive SitReps — do not silently overwrite an older dated figure with a newer one without preserving the date context; treat each figure as a point-in-time data point.\n- The official injured count (16,740) has been frozen since the 5 July SitRep even as the death toll kept rising — mark this figure contested: \"heavily\" and note the freeze explicitly. It is DISTINCT from the cumulative count of people who received hospital/medical care (a separate, larger, growing figure) — never merge the two.\n- There is NO official missing-persons count. Do not publish one, even if you find speculative or unofficial estimates in secondary sources.\n- Economic damage is genuinely and openly contested between UNDRR (~US$37 billion direct damage) and UNDP (US$6.7 billion, ~6% of GDP) — these appear side by side in the same OCHA reporting. Publish both figures with clear attribution to their source rather than reconciling or picking one as authoritative.\n- Do NOT publish USGS PAGER modelled loss estimates (e.g. modelled fatality or economic loss ranges generated automatically at the time of the quake) as if they were observed/confirmed values. If referencing them, label them explicitly as \"PAGER modelled estimate\" and keep them out of the primary casualty/economic KPI figures.\n- When reporting shelter, camp, or damage-assessment figures (homes lost, transitional camps, high-risk home assessments, buildings collapsed, hospitals affected, aftershock counts, people reached, target caseload), always cite the source and as-of date.",
+    "searchContext": "Venezuela earthquake doublet La Guaira Yaracuy June 2026 OCHA situation report humanitarian response",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "casualties",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": -69.5,
+      "lonMax": -66,
+      "latMin": 9.3,
+      "latMax": 11.3
+    },
+    "updateIntervalDays": 7,
+    "backfillTargets": {
+      "timeline": 30,
+      "mapPoints": 20,
+      "claims": 12,
+      "political": 12,
+      "casualties": 10,
+      "econ": 8,
+      "kpis": 8
+    },
+    "updatePolicy": {
+      "escalation": [
+        3,
+        7,
+        7,
+        14,
+        30
+      ],
+      "quietThreshold": 0
+    },
+    "rssFeeds": [
+      "https://news.google.com/rss/search?q=Venezuela+earthquake+OCHA+humanitarian&hl=en-US&gl=US&ceid=US:en",
+      "https://reliefweb.int/updates/rss.xml?search=primary_country.iso3%3A%22VEN%22"
+    ],
+    "relatedTrackers": [
+      "haiti-collapse",
+      "super-el-nino-2026"
+    ]
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": [
+    "VE"
+  ]
+}
