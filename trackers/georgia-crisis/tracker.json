@@ -1,0 +1,198 @@
+{
+  "slug": "georgia-crisis",
+  "name": "Georgia Political Crisis Tracker",
+  "shortName": "Georgia Crisis",
+  "description": "Intelligence dashboard tracking Georgia's political crisis and authoritarian consolidation — the Tbilisi protest movement, political prisoners, civil society crackdown, and the frozen EU accession process.",
+  "icon": "🇬🇪",
+  "color": "#c0392b",
+  "status": "active",
+  "tone": "alert",
+  "temporal": "live",
+  "domain": "governance",
+  "region": "europe",
+  "tags": [
+    "georgia",
+    "tbilisi",
+    "georgian-dream",
+    "eu-accession",
+    "protests",
+    "political-prisoners",
+    "caucasus"
+  ],
+  "country": "GE",
+  "startDate": "2024-11-28",
+  "eraLabel": "Protest Movement & Crackdown",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": 39.9,
+      "lonMax": 46.7,
+      "latMin": 41.0,
+      "latMax": 43.6
+    },
+    "center": {
+      "lon": 44.79,
+      "lat": 41.72
+    },
+    "categories": [
+      {
+        "id": "protest",
+        "label": "Protest Sites",
+        "color": "#f39c12"
+      },
+      {
+        "id": "crackdown",
+        "label": "Crackdowns & Arrests",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "political-prisoner",
+        "label": "Political Prisoners",
+        "color": "#8e44ad"
+      },
+      {
+        "id": "legislation",
+        "label": "Legislation & Media Restrictions",
+        "color": "#3498db"
+      },
+      {
+        "id": "diplomatic",
+        "label": "EU / Russia Relations",
+        "color": "#2ecc71"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "overview": {
+        "lon": 43.5,
+        "lat": 42.0,
+        "alt": 800000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Georgia Overview"
+      },
+      "tbilisi": {
+        "lon": 44.7926,
+        "lat": 41.7042,
+        "alt": 20000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Tbilisi — Rustaveli Avenue"
+      },
+      "batumi": {
+        "lon": 41.6367,
+        "lat": 41.6168,
+        "alt": 30000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Batumi"
+      },
+      "south_ossetia": {
+        "lon": 43.9662,
+        "lat": 42.2410,
+        "alt": 40000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Tskhinvali / South Ossetia"
+      },
+      "abkhazia": {
+        "lon": 41.0234,
+        "lat": 42.9903,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Sukhumi / Abkhazia"
+      },
+      "brussels": {
+        "lon": 4.3676,
+        "lat": 50.8442,
+        "alt": 40000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Brussels — EU Accession"
+      }
+    }
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "politicalAvatars": [
+    "gd",
+    "opposition",
+    "civil-society",
+    "eu",
+    "russia",
+    "other"
+  ],
+  "eventTypes": [
+    "protest",
+    "legal",
+    "legislation",
+    "diplomatic"
+  ],
+  "ai": {
+    "systemPrompt": "You are a governance and human rights analyst updating a tracker on Georgia's political crisis.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"rustaveli_arrests_day500\").\n\nCOVERAGE FOCUS:\n- Protest continuity in Tbilisi (Rustaveli Avenue and beyond) and crackdowns on demonstrators\n- Political prisoners and prosecutions (track named individuals, charges, sentences — cross-check against Transparency International Georgia's political prisoner list)\n- Legislation restricting civil society, media, and NGOs (e.g. \"foreign agents\" style laws, broadcasting restrictions)\n- EU accession status (freeze, visa liberalization threats, EU statements) and NATO relations\n- Relations with Russia (trade, energy, informal alignment claims) versus the West\n\nSource tier classification:\n- Tier 1: Official (Parliament of Georgia, Georgian Dream party statements, Georgian courts/prosecutor's office, EU Council/Commission, US State Department)\n- Tier 2: Major outlet (Reuters, AP, BBC, RFE/RL, Al Jazeera, OC Media, Civil.ge)\n- Tier 3: Institutional (Amnesty International, Human Rights Watch, Transparency International Georgia, ISFED, GYLA — Georgian Young Lawyers' Association, International Crisis Group)\n- Tier 4: Unverified (social media, unattributed claims)\n\nOnly include information you can verify through search results. Do not fabricate data.\nWhen reporting political prisoner counts or arrest figures, prefer Transparency International Georgia or Amnesty International tallies over government figures, and note discrepancies.",
+    "searchContext": "Georgia political crisis Tbilisi protests Georgian Dream EU accession",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": 38,
+      "lonMax": 48,
+      "latMin": 40,
+      "latMax": 44
+    },
+    "updateIntervalDays": 3,
+    "backfillTargets": {
+      "timeline": 30,
+      "mapPoints": 20,
+      "claims": 15,
+      "political": 15,
+      "kpis": 8
+    },
+    "updatePolicy": {
+      "escalation": [3, 3, 7, 14, 30],
+      "quietThreshold": 0
+    },
+    "relatedTrackers": [
+      "ukraine-war",
+      "russia",
+      "european-union",
+      "hungary-transition"
+    ]
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": [
+    "GE"
+  ]
+}
