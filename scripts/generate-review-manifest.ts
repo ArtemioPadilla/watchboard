@@ -101,16 +101,37 @@ for (const slug of slugs) {
     }
   }
 
+  // Cap the gap list to what the agent's turn budget can actually cover.
+  //
+  // The prompt asks for at least two search strategies per gap day, and the
+  // update agent runs with --max-turns 30. A 46-day catch-up window produced
+  // 38 gap days: 76+ searches in 30 turns is arithmetically impossible, so the
+  // agent covers a prefix and the rest are silently skipped — the manifest
+  // looks thorough while most of it is unreachable.
+  //
+  // Newest first: recent gaps matter more to readers, and an old gap survives
+  // to the next catch-up run whereas a recent one becomes old.
+  const GAP_BUDGET = 12;
+  const prioritised = [...gapDays].sort().reverse();
+  const gapDaysCapped = prioritised.slice(0, GAP_BUDGET);
+  const gapDaysDropped = prioritised.slice(GAP_BUDGET);
+
   const manifest = {
     tracker: slug,
     windowStart: windowStartStr,
     windowEnd: todayStr,
     days,
     totalEvents,
-    gapDays,
+    gapDays: gapDaysCapped,
+    gapDaysDropped,
   };
 
   const manifestPath = path.join(dataDir, 'review-manifest.json');
   fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
-  console.log(`Generated manifest for ${slug}: ${days.length} days, ${gapDays.length} gaps, ${totalEvents} total events`);
+  // Say what was dropped. A silent cap reads as "covered everything" when it
+  // did not, which is the failure this whole manifest exists to prevent.
+  const dropped = gapDaysDropped.length
+    ? ` (${gapDaysDropped.length} older gaps deferred: ${gapDaysDropped[gapDaysDropped.length - 1]}..${gapDaysDropped[0]})`
+    : '';
+  console.log(`Generated manifest for ${slug}: ${days.length} days, ${gapDaysCapped.length} gaps${dropped}, ${totalEvents} total events`);
 }
