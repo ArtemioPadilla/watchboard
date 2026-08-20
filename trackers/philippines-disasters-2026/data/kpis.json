@@ -1,1 +1,92 @@
-[]
+[
+  {
+    "id": "cascade-total-deaths",
+    "label": "Cumulative Deaths Across Cascade (Earthquake + Bavi + Aug Storms)",
+    "value": "155+",
+    "color": "red",
+    "source": "PHIVOLCS / NDRRMC / OCHA aggregate, Aug 18-20, 2026",
+    "contested": true,
+    "contestNote": "Aggregates three distinct NDRRMC/PHIVOLCS tallies (106-107 earthquake, 23+ Bavi, 26 Aug storms); local government counts in Sarangani and Lanao del Sur run higher than national totals in places",
+    "delta": "+26 since Aug 9 storm tally began",
+    "trend": "up",
+    "lastUpdated": "2026-08-20T12:00:00Z"
+  },
+  {
+    "id": "eq-magnitude",
+    "label": "Mindanao Earthquake Magnitude",
+    "value": "Mw 7.8",
+    "color": "red",
+    "source": "PHIVOLCS / USGS, June 8, 2026",
+    "contested": false,
+    "delta": "57km depth (USGS); 33km (PHIVOLCS)",
+    "trend": "stable",
+    "lastUpdated": "2026-08-20T12:00:00Z"
+  },
+  {
+    "id": "aftershock-count",
+    "label": "Aftershocks Recorded Since June 8",
+    "value": "8,500+",
+    "color": "amber",
+    "source": "PHIVOLCS, as of Aug 5, 2026",
+    "contested": false,
+    "delta": "Includes two M6.5 and one M6.3 (Aug 5) events",
+    "trend": "up",
+    "lastUpdated": "2026-08-20T12:00:00Z"
+  },
+  {
+    "id": "homes-damaged-earthquake",
+    "label": "Homes Damaged/Destroyed (Earthquake)",
+    "value": "138,563",
+    "color": "amber",
+    "source": "NDRRMC / OCHA, June-July 2026",
+    "contested": true,
+    "contestNote": "OCHA's regional tally (121,307 as of early July) trails the cumulative NDRRMC figure that includes later-confirmed damage from continued aftershocks (up to 113,300+ homes in Mindanao alone by August)",
+    "delta": "19,243 totally destroyed",
+    "trend": "up",
+    "lastUpdated": "2026-08-20T12:00:00Z"
+  },
+  {
+    "id": "people-affected-aug-storms",
+    "label": "People Affected by Aug Storm/Habagat Sequence",
+    "value": "5.1 million",
+    "color": "amber",
+    "source": "NDRRMC, Aug 18, 2026",
+    "contested": false,
+    "delta": "1.47M families across 10 regions incl. NCR, Central Luzon, CAR",
+    "trend": "up",
+    "lastUpdated": "2026-08-20T12:00:00Z"
+  },
+  {
+    "id": "eq-economic-loss",
+    "label": "Earthquake Economic Loss",
+    "value": "₱71 billion",
+    "color": "red",
+    "source": "NDRRMC damage assessment, 2026",
+    "contested": false,
+    "delta": "Incl. ₱70B in marine resource/coastal uplift damage",
+    "trend": "up",
+    "lastUpdated": "2026-08-20T12:00:00Z"
+  },
+  {
+    "id": "gdp-growth-q2-2026",
+    "label": "Philippine GDP Growth (Q2 2026, YoY)",
+    "value": "2.3%",
+    "color": "red",
+    "source": "PSA / Bloomberg, Q2 2026",
+    "contested": false,
+    "delta": "Softest expansion since Q4 2009 outside COVID; IMF cut full-year forecast to 4.1% from 5.6%",
+    "trend": "down",
+    "lastUpdated": "2026-08-20T12:00:00Z"
+  },
+  {
+    "id": "energy-emergency-status",
+    "label": "National Energy Emergency Status",
+    "value": "Active — EO 110",
+    "color": "amber",
+    "source": "Office of the President, Executive Order 110",
+    "contested": false,
+    "delta": "In effect since March 24, 2026; Luzon/Visayas grids repeatedly hit red alert through the disaster cascade",
+    "trend": "stable",
+    "lastUpdated": "2026-08-20T12:00:00Z"
+  }
+]
