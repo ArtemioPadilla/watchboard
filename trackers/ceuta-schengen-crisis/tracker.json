@@ -1,0 +1,207 @@
+{
+  "slug": "ceuta-schengen-crisis",
+  "name": "Ceuta Migration Surge & Schengen Crisis Tracker",
+  "shortName": "Ceuta / Schengen Crisis",
+  "description": "Tracking the July 2026 migration surge into the Spanish enclave of Ceuta from Morocco and the EU political rupture it triggered, including Italy's suspension of Schengen free travel with Spain.",
+  "icon": "🛂",
+  "color": "#2980b9",
+  "status": "active",
+  "tone": "alert",
+  "temporal": "live",
+  "domain": "governance",
+  "region": "europe",
+  "country": "ES",
+  "geoSecondary": [
+    "MA",
+    "IT"
+  ],
+  "city": "Ceuta",
+  "startDate": "2026-07-30",
+  "eraLabel": "Ceuta Surge & Schengen Rupture 2026",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "casualties",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": -10,
+      "lonMax": 15,
+      "latMin": 30,
+      "latMax": 52
+    },
+    "center": {
+      "lon": 0,
+      "lat": 40
+    },
+    "categories": [
+      {
+        "id": "crossing",
+        "label": "Migrant Crossings",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "reception-center",
+        "label": "Reception Centers",
+        "color": "#3498db"
+      },
+      {
+        "id": "death-rescue",
+        "label": "Deaths & Rescues",
+        "color": "#7f2e2e"
+      },
+      {
+        "id": "border-control",
+        "label": "Border Control Measures",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "diplomacy",
+        "label": "Diplomatic Actions",
+        "color": "#2ecc71"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "overview": {
+        "lon": 0,
+        "lat": 40,
+        "alt": 3000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Western Mediterranean Overview"
+      },
+      "ceuta": {
+        "lon": -5.3213,
+        "lat": 35.8894,
+        "alt": 50000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Ceuta"
+      },
+      "strait_of_gibraltar": {
+        "lon": -5.6039,
+        "lat": 35.9895,
+        "alt": 90000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Strait of Gibraltar"
+      },
+      "madrid": {
+        "lon": -3.7038,
+        "lat": 40.4168,
+        "alt": 100000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Madrid"
+      },
+      "rabat": {
+        "lon": -6.8498,
+        "lat": 34.0209,
+        "alt": 100000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Rabat"
+      },
+      "rome": {
+        "lon": 12.4964,
+        "lat": 41.9028,
+        "alt": 100000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Rome"
+      }
+    }
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Casualties"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Claims"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "politicalAvatars": [
+    "es-gov",
+    "it-gov",
+    "ma-gov",
+    "eu",
+    "ngo",
+    "other"
+  ],
+  "eventTypes": [
+    "migration",
+    "diplomatic",
+    "humanitarian",
+    "political"
+  ],
+  "ai": {
+    "systemPrompt": "You are a migration and EU affairs analyst updating a tracker on the Ceuta migration surge and the resulting Schengen crisis.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"ceuta_crossing_jul30\", \"italy_schengen_suspension\").\n\nSource tier classification:\n- Tier 1: Official/primary (Spanish Ministry of Interior, Frontex, Moroccan government statements, Italian Ministry of Interior, European Commission, Ceuta city government)\n- Tier 2: Major outlet (Reuters, AP, EFE, El País, La Repubblica, Le Monde, BBC, Politico Europe)\n- Tier 3: Institutional (UNHCR, IOM, Human Rights Watch, Amnesty International, Real Instituto Elcano, ISPI, Frontex analytical reports)\n- Tier 4: Unverified (social media, unattributed claims, unverified viral videos)\n\nOnly include information you can verify through search results. Do not fabricate data.\nTrack: daily/cumulative crossing and return figures, confirmed and estimated deaths, reception centre (CETI) capacity and conditions, Spain-Morocco diplomatic exchanges, Spain-Italy border-check measures, and the wider EU political reaction (leader statements, the 22-signatory letter, Schengen-suspension threats).\nWhen figures are contested between Spanish, Moroccan, and Italian sources, report each source's figure separately and note the discrepancy rather than picking one.",
+    "searchContext": "Ceuta migration crisis Spain Morocco Schengen Italy border",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "claims",
+      "political",
+      "casualties"
+    ],
+    "coordValidation": {
+      "lonMin": -12,
+      "lonMax": 16,
+      "latMin": 28,
+      "latMax": 53
+    },
+    "updateIntervalDays": 1,
+    "backfillTargets": {
+      "timeline": 30,
+      "mapPoints": 20,
+      "claims": 15,
+      "political": 15,
+      "kpis": 8,
+      "casualties": 10
+    },
+    "updatePolicy": {
+      "escalation": [
+        1,
+        1,
+        1,
+        7,
+        7,
+        30
+      ],
+      "quietThreshold": 0
+    },
+    "relatedTrackers": [
+      "morocco-spain-relations",
+      "eu-migration-policy",
+      "italy-politics"
+    ]
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": [
+    "ES"
+  ]
+}
