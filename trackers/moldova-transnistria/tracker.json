@@ -1,0 +1,261 @@
+{
+  "slug": "moldova-transnistria",
+  "name": "Moldova-Transnistria Destabilisation Tracker",
+  "shortName": "Moldova-Transnistria",
+  "description": "Intelligence dashboard tracking Russian destabilisation pressure on Moldova during 2026: fast-track Transnistria citizenship and passportisation, the collapse of the pro-EU government, drone and airspace incidents, energy dependence, and Moldova's EU accession path.",
+  "icon": "🇲🇩",
+  "color": "#1a5276",
+  "status": "active",
+  "tone": "alert",
+  "temporal": "live",
+  "domain": "conflict",
+  "region": "europe",
+  "tags": [
+    "moldova",
+    "transnistria",
+    "russia",
+    "passportisation",
+    "drone-incursion",
+    "eu-accession",
+    "energy-security",
+    "chisinau"
+  ],
+  "country": "MD",
+  "geoSecondary": [
+    "RO"
+  ],
+  "startDate": "2026-04-01",
+  "eraLabel": "Destabilisation Pressure 2026",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "military",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": 26.4,
+      "lonMax": 30.6,
+      "latMin": 45.3,
+      "latMax": 48.6
+    },
+    "center": {
+      "lon": 28.6,
+      "lat": 47
+    },
+    "categories": [
+      {
+        "id": "passportisation",
+        "label": "Citizenship & Passportisation",
+        "color": "#c0392b"
+      },
+      {
+        "id": "government-crisis",
+        "label": "Government Stability",
+        "color": "#f39c12"
+      },
+      {
+        "id": "drone-incident",
+        "label": "Drone & Airspace Incidents",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "energy-pressure",
+        "label": "Energy Dependence",
+        "color": "#e67e22"
+      },
+      {
+        "id": "eu-accession",
+        "label": "EU Accession Progress",
+        "color": "#2ecc71"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "overview": {
+        "lon": 28.6,
+        "lat": 47,
+        "alt": 900000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Moldova & Transnistria Overview"
+      },
+      "chisinau": {
+        "lon": 28.8638,
+        "lat": 47.0105,
+        "alt": 40000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Chisinau"
+      },
+      "tiraspol": {
+        "lon": 29.6238,
+        "lat": 46.8403,
+        "alt": 30000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Tiraspol (Transnistria)"
+      },
+      "bender": {
+        "lon": 29.4864,
+        "lat": 46.8258,
+        "alt": 20000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Bender / Security Zone"
+      },
+      "cuciurgan": {
+        "lon": 29.8674,
+        "lat": 46.5975,
+        "alt": 20000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Cuciurgan Power Plant (MGRES)"
+      },
+      "cahul_border": {
+        "lon": 28.1928,
+        "lat": 45.9078,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Cahul / Romanian Border"
+      }
+    },
+    "clocks": [
+      {
+        "label": "CHISINAU",
+        "offsetHours": 3
+      },
+      {
+        "label": "MOSCOW",
+        "offsetHours": 3
+      },
+      {
+        "label": "BRUSSELS",
+        "offsetHours": 2
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-military",
+      "label": "Military"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "militaryTabs": [
+    {
+      "id": "strikes",
+      "label": "Drone & Airspace Incidents"
+    },
+    {
+      "id": "retaliation",
+      "label": "Moldovan/Romanian Response"
+    },
+    {
+      "id": "assets",
+      "label": "OGRF & Security Assets"
+    }
+  ],
+  "politicalAvatars": [
+    "md-gov",
+    "transnistria",
+    "ru",
+    "eu",
+    "ro",
+    "other"
+  ],
+  "eventTypes": [
+    "citizenship",
+    "political",
+    "drone-incident",
+    "energy",
+    "diplomatic"
+  ],
+  "ai": {
+    "systemPrompt": "You are a security and political-intelligence analyst updating a dashboard tracking Russian destabilisation pressure on Moldova and the breakaway Transnistria region during 2026.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"chisinau_govt_collapse\", \"romania_drone_aug16\").\n\nFOCUS AREAS:\n- Citizenship & passportisation: Russian decrees fast-tracking citizenship for Transnistria residents, naturalisation numbers, Kremlin statements on \"protecting\" Russian citizens there.\n- Government stability: coalition dynamics, resignations, snap elections, pro-EU vs pro-Russian party maneuvering in Chisinau.\n- Drone & airspace incidents: incursions or crossings involving Moldovan, Transnistrian, or Romanian airspace, intercepts, debris, official attributions and denials.\n- Energy dependence: gas transit, electricity supply from the Cuciurgan (Moldavskaya GRES) plant in Transnistria, price shocks, diversification efforts (EU interconnectors, alternative suppliers).\n- EU accession: negotiation cluster openings/closings, EU Council statements, referenda, and Russian-linked disinformation or vote-buying allegations.\n- Operational Group of Russian Forces (OGRF) posture in Transnistria: troop levels, ammunition depot (Cobasna) status, statements from Chisinau and Tiraspol.\n\nSource tier classification:\n- Tier 1: Official/primary (Presidency of Moldova, Government of Moldova, Moldovan Ministry of Foreign Affairs, Moldovan Intelligence and Security Service (SIS), Romanian Ministry of Defence (MApN), Kremlin/Russian MFA, European Commission/Council statements, Tiraspol \"authorities\" statements — clearly labeled as Transnistrian self-declared sources)\n- Tier 2: Major outlet (Reuters, AP, BBC, RFE/RL Moldova, Politico Europe, Financial Times, Balkan Insight, Euronews)\n- Tier 3: Institutional (RUSI, Institute for the Study of War (ISW), Chatham House, Center for European Policy Analysis (CEPA), International Crisis Group (ICG))\n- Tier 4: Unverified (social media, unattributed Telegram channels, unverified Transnistrian or Russian claims)\n\nOnly include information you can verify through search results. Do not fabricate data.\nActively seek CONTRASTING perspectives — Chisinau/EU/Romanian statements versus Moscow/Tiraspol statements — when events are contested.\n\nCONFIRMATION RULES:\n- Only report an incident (drone crossing, troop movement, government action) as confirmed if it has at least 1 Tier 1 source OR 2 Tier 2+ sources.\n- Single-source Tier 3/4 reports should use confidence: \"low\".\n\nDEDUPLICATION:\n- Same incident reported by multiple outlets within ±2 days = same event — merge, do not create duplicates.",
+    "searchContext": "Moldova Transnistria Russia destabilisation passportisation drone government crisis 2026",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "mapLines",
+      "econ",
+      "claims",
+      "political",
+      "assets"
+    ],
+    "coordValidation": {
+      "lonMin": 25,
+      "lonMax": 31,
+      "latMin": 44,
+      "latMax": 49
+    },
+    "updateIntervalDays": 1,
+    "backfillTargets": {
+      "timeline": 30,
+      "mapPoints": 20,
+      "mapLines": 10,
+      "claims": 15,
+      "political": 15,
+      "econ": 10,
+      "assets": 8,
+      "kpis": 8
+    },
+    "updatePolicy": {
+      "escalation": [
+        1,
+        1,
+        1,
+        7,
+        7,
+        30
+      ],
+      "quietThreshold": 0
+    },
+    "rssFeeds": [
+      "https://news.google.com/rss/search?q=Moldova+Transnistria+Russia&hl=en-US&gl=US&ceid=US:en"
+    ],
+    "relatedTrackers": [
+      "nato-airspace-incursions",
+      "russia",
+      "ukraine-war",
+      "russian-fuel-crisis"
+    ]
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": [
+    "MD"
+  ]
+}
