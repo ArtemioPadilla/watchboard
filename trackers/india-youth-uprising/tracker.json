@@ -1,0 +1,203 @@
+{
+  "slug": "india-youth-uprising",
+  "name": "India Youth Uprising Tracker",
+  "shortName": "India Youth Uprising",
+  "description": "Intelligence dashboard tracking India's 2026 youth protest wave over exam integrity and graduate unemployment, sparked by the NEET-UG paper leak and CBSE marking irregularities.",
+  "icon": "✊",
+  "color": "#f39c12",
+  "status": "active",
+  "tone": "alert",
+  "temporal": "live",
+  "domain": "governance",
+  "region": "south-asia",
+  "tags": [
+    "india",
+    "protests",
+    "neet",
+    "unemployment",
+    "students",
+    "education-policy"
+  ],
+  "country": "IN",
+  "startDate": "2026-06-06",
+  "eraLabel": "Youth Protest Wave 2026",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "casualties",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": 68.0,
+      "lonMax": 97.5,
+      "latMin": 6.5,
+      "latMax": 37.5
+    },
+    "center": {
+      "lon": 78.9,
+      "lat": 22.5
+    },
+    "categories": [
+      {
+        "id": "protest",
+        "label": "Protests & Marches",
+        "color": "#f39c12"
+      },
+      {
+        "id": "crackdown",
+        "label": "Police Crackdown/Violence",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "arrest",
+        "label": "Arrests/Detentions",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "policy",
+        "label": "Policy & Political Response",
+        "color": "#3498db"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "overview": {
+        "lon": 78.9,
+        "lat": 22.5,
+        "alt": 2200000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "India Overview"
+      },
+      "jantar_mantar": {
+        "lon": 77.2166,
+        "lat": 28.6271,
+        "alt": 15000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Jantar Mantar, New Delhi"
+      },
+      "parliament": {
+        "lon": 77.2126,
+        "lat": 28.6172,
+        "alt": 10000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Parliament House, New Delhi"
+      },
+      "mumbai": {
+        "lon": 72.8777,
+        "lat": 19.076,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Mumbai"
+      },
+      "bengaluru": {
+        "lon": 77.5946,
+        "lat": 12.9716,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Bengaluru"
+      },
+      "kolkata": {
+        "lon": 88.3639,
+        "lat": 22.5726,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Kolkata"
+      }
+    }
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Casualties"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "politicalAvatars": [
+    "bjp-govt",
+    "opposition",
+    "students",
+    "police",
+    "judiciary",
+    "other"
+  ],
+  "eventTypes": [
+    "protest",
+    "policy",
+    "legal",
+    "political"
+  ],
+  "ai": {
+    "systemPrompt": "You are a governance and civil society analyst updating a tracker for India's 2026 youth protest wave over exam integrity and graduate unemployment.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"jantar_mantar_march_jul20\").\n\nSource tier classification:\n- Tier 1: Official/primary (Ministry of Education, PIB, CBSE, NTA, Delhi Police, Parliament records, Supreme Court/High Court orders)\n- Tier 2: Major outlet (Reuters, AP, BBC, The Hindu, Indian Express, Hindustan Times, NDTV, Times of India)\n- Tier 3: Institutional (PRS Legislative Research, Centre for Studying Developing Societies, Azim Premji University/State of Working India, PUCL, Amnesty India, Human Rights Watch)\n- Tier 4: Unverified (social media, unattributed video, unconfirmed casualty/arrest figures)\n\nOnly include information you can verify through search results. Do not fabricate data.\nCasualty and arrest figures are often contested between police and protester/opposition accounts — use the \"contested\" field to flag discrepancies and attribute each figure to its source.\nTrack: protest events and locations, casualties and arrests, exam-integrity policy and legislation (including the Public Examinations Amendment Act), and political concessions or resignations.",
+    "searchContext": "India NEET-UG paper leak student protests youth unemployment 2026",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "casualties",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": 65,
+      "lonMax": 100,
+      "latMin": 5,
+      "latMax": 40
+    },
+    "updateIntervalDays": 1,
+    "backfillTargets": {
+      "timeline": 30,
+      "mapPoints": 20,
+      "claims": 15,
+      "political": 15,
+      "kpis": 8,
+      "casualties": 10
+    },
+    "updatePolicy": {
+      "escalation": [
+        1,
+        1,
+        1,
+        7,
+        7,
+        30
+      ],
+      "quietThreshold": 0
+    },
+    "relatedTrackers": [
+      "india"
+    ]
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": [
+    "IN"
+  ]
+}
