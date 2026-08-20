@@ -1,1 +1,83 @@
-[]
+[
+  {
+    "id": "confirmed-deaths",
+    "label": "Confirmed Deaths",
+    "value": "24",
+    "color": "red",
+    "source": "Government/Defensoría del Pueblo tallies (as of Jul 9, 2026)",
+    "contested": true,
+    "contestNote": "Union and independent sources dispute how many deaths are directly attributable to blockade-caused hospital shortages (~14 of the total) versus other causes.",
+    "trend": "stable",
+    "lastUpdated": "2026-08-20T12:00:00.000Z"
+  },
+  {
+    "id": "state-of-emergency-status",
+    "label": "State of Emergency",
+    "value": "90-day, declared Jun 20",
+    "color": "amber",
+    "source": "Government of Bolivia / Congress ratification",
+    "contested": false,
+    "lastUpdated": "2026-08-20T12:00:00.000Z"
+  },
+  {
+    "id": "active-blockades",
+    "label": "Active Blockades",
+    "value": "0 (all cleared Jun 23)",
+    "color": "green",
+    "source": "National highway authority (ABC)",
+    "contested": false,
+    "trend": "down",
+    "deltaNote": "Down from a peak of 77 blockades on Jun 13, 2026",
+    "lastUpdated": "2026-08-20T12:00:00.000Z"
+  },
+  {
+    "id": "usd-exchange-rate",
+    "label": "USD Exchange Rate (floated)",
+    "value": "Bs. 11.00 / $1",
+    "color": "red",
+    "source": "Central Bank of Bolivia",
+    "contested": false,
+    "trend": "up",
+    "deltaNote": "Up from the 15-year peg of Bs. 6.96 before the Jun 29 float; peaked above Bs. 11 in late July",
+    "lastUpdated": "2026-08-20T12:00:00.000Z"
+  },
+  {
+    "id": "inflation-rate",
+    "label": "Inflation (y/y)",
+    "value": ">20%",
+    "color": "red",
+    "source": "IMF / Reuters reporting",
+    "contested": false,
+    "trend": "up",
+    "lastUpdated": "2026-08-20T12:00:00.000Z"
+  },
+  {
+    "id": "imf-loan-package",
+    "label": "IMF Extended Fund Facility",
+    "value": "$1.9B pending Congress",
+    "color": "blue",
+    "source": "IMF staff-level agreement, Jul 29, 2026",
+    "contested": false,
+    "lastUpdated": "2026-08-20T12:00:00.000Z"
+  },
+  {
+    "id": "total-arrests",
+    "label": "Arrests (crisis-related)",
+    "value": "583+",
+    "color": "amber",
+    "source": "Government figures, as of Jul 2, 2026",
+    "contested": true,
+    "contestNote": "MAS-aligned and union groups characterize a portion of arrests and the Evo Morales warrant as politically motivated prosecution.",
+    "lastUpdated": "2026-08-20T12:00:00.000Z"
+  },
+  {
+    "id": "gdp-impact",
+    "label": "Cumulative GDP Impact",
+    "value": "5.5%",
+    "color": "red",
+    "source": "Government/institutional estimates, Jun 15, 2026",
+    "contested": false,
+    "trend": "up",
+    "lastUpdated": "2026-08-20T12:00:00.000Z"
+  }
+]

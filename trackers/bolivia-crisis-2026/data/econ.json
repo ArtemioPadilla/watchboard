@@ -1,1 +1,90 @@
-[]
+[
+  {
+    "id": "gdp-impact",
+    "label": "Cumulative GDP Impact",
+    "value": "5.5%",
+    "change": "+5.5 pts",
+    "direction": "up",
+    "sparkData": [0, 0.5, 1.2, 2.1, 3.4, 4.5, 5.5],
+    "color": "#e74c3c",
+    "source": "Government/institutional estimates, Jun 15, 2026",
+    "lastUpdated": "2026-08-20T12:00:00.000Z"
+  },
+  {
+    "id": "usd-exchange-rate",
+    "label": "USD Exchange Rate (floated boliviano)",
+    "value": "Bs. 11.00 / $1",
+    "change": "+13% since float",
+    "direction": "up",
+    "sparkData": [9.73, 9.9, 10.2, 10.5, 10.75, 10.9, 11.0],
+    "color": "#9b59b6",
+    "source": "Central Bank of Bolivia",
+    "lastUpdated": "2026-08-20T12:00:00.000Z"
+  },
+  {
+    "id": "inflation-yoy",
+    "label": "Year-over-Year Inflation",
+    "value": ">20%",
+    "change": "sharply higher",
+    "direction": "up",
+    "sparkData": [6, 9, 13, 16, 18, 20, 21],
+    "color": "#e74c3c",
+    "source": "IMF / Reuters reporting",
+    "lastUpdated": "2026-08-20T12:00:00.000Z"
+  },
+  {
+    "id": "blockade-daily-loss-peak",
+    "label": "Daily Economic Loss During Blockades (peak)",
+    "value": "$50M/day",
+    "change": "peak May 14",
+    "direction": "up",
+    "sparkData": [5, 15, 30, 45, 50, 48, 40],
+    "color": "#f39c12",
+    "source": "Government estimates",
+    "lastUpdated": "2026-08-20T12:00:00.000Z"
+  },
+  {
+    "id": "blockade-total-loss",
+    "label": "Cumulative Blockade Losses (53 days)",
+    "value": "Bs. 14 billion",
+    "change": "over 53 days",
+    "direction": "up",
+    "sparkData": [0.5, 2, 5, 8, 11, 13, 14],
+    "color": "#e74c3c",
+    "source": "National highway authority / government estimates",
+    "lastUpdated": "2026-08-20T12:00:00.000Z"
+  },
+  {
+    "id": "jobs-lost",
+    "label": "Jobs Lost (direct + indirect)",
+    "value": "~250,000",
+    "change": "by Jun 24",
+    "direction": "up",
+    "sparkData": [10000, 50000, 100000, 150000, 200000, 240000, 250000],
+    "color": "#e74c3c",
+    "source": "Government/labor estimates",
+    "lastUpdated": "2026-08-20T12:00:00.000Z"
+  },
+  {
+    "id": "tourism-losses",
+    "label": "Tourism Sector Losses",
+    "value": "$200M+",
+    "change": "90% booking cancellations",
+    "direction": "up",
+    "sparkData": [10, 40, 90, 140, 180, 200, 210],
+    "color": "#3498db",
+    "source": "Latin America Republic / tourism sector reporting",
+    "lastUpdated": "2026-08-20T12:00:00.000Z"
+  },
+  {
+    "id": "imf-financing",
+    "label": "IMF Extended Fund Facility (pending approval)",
+    "value": "$1.9B",
+    "change": "36-month program",
+    "direction": "up",
+    "sparkData": [0, 0, 0, 0.5, 1, 1.5, 1.9],
+    "color": "#2ecc71",
+    "source": "IMF staff-level agreement, Jul 29, 2026",
+    "lastUpdated": "2026-08-20T12:00:00.000Z"
+  }
+]
