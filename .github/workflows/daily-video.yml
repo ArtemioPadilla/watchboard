@@ -102,16 +102,42 @@ jobs:
             echo "AWS CLI not available — skipping narration"
             exit 0
           fi
-          # Extract tracker names from breaking data
-          TRACKERS=$(node -e "const d=require('./video/src/data/breaking.json'); console.log(d.trackers.map(t=>t.name).join('. '))")
+          # Lead story plus the other names. Reading a bare list of tracker
+          # names is an index, not a narration — the same flaw #157 identifies
+          # in the visual intro. The lead gets its actual headline.
+          LEAD=$(node -e "
+            const d=require('./video/src/data/breaking.json');
+            const t=d.trackers[0]||{};
+            console.log((t.headline||t.name||'Breaking').split(';')[0].trim());
+          ")
+          TRACKERS=$(node -e "const d=require('./video/src/data/breaking.json'); console.log(d.trackers.slice(1).map(t=>t.name).join('. '))")
+
+          # Tracker count was hardcoded as \"48 more\" and spoken aloud in every
+          # video. There are far more than 48 now, so the narration was stating
+          # a false figure daily. Counted from the repo instead.
+          TOTAL=$(node -e "
+            const fs=require('fs');
+            const n=fs.readdirSync('trackers').filter(d=>{
+              try { return JSON.parse(fs.readFileSync('trackers/'+d+'/tracker.json','utf8')).status==='active'; }
+              catch { return false; }
+            }).length;
+            console.log(Math.max(0, n-3));
+          ")
           
           # English narration
+          # SSML, limited to what the GENERATIVE engine actually supports:
+          # <break>, <s>, <p> are fully available and <prosody rate> partially.
+          # <emphasis> is NOT available on any engine — the example in #157
+          # uses it, and Polly errors on unsupported tags, which combined with
+          # this step's continue-on-error would have silently dropped narration
+          # from every video.
           aws polly synthesize-speech \
             --engine generative \
             --voice-id Matthew \
             --language-code en-US \
             --output-format mp3 \
-            --text "Breaking stories on Watchboard today. ${TRACKERS}. Track these and 48 more at watchboard dot dev. Free, open source intelligence dashboards, updated daily by AI." \
+            --text-type ssml \
+            --text "<speak><prosody rate='95%'>${LEAD}</prosody><break time='700ms'/>Also tracking today: ${TRACKERS}.<break time='500ms'/>These and ${TOTAL} more at watchboard dot dev.<break time='300ms'/>Free, open source intelligence dashboards, updated daily.</speak>" \
             video/output/narration-en.mp3 || echo "Polly EN failed (non-fatal)"
 
           # Spanish narration  
@@ -120,7 +146,8 @@ jobs:
             --voice-id Pedro \
             --language-code es-US \
             --output-format mp3 \
-            --text "Noticias de última hora en Watchboard hoy. ${TRACKERS}. Rastrea estas y 48 más en watchboard punto dev. Paneles de inteligencia gratuitos y de código abierto, actualizados diariamente por IA." \
+            --text-type ssml \
+            --text "<speak><prosody rate='95%'>${LEAD}</prosody><break time='700ms'/>También seguimos hoy: ${TRACKERS}.<break time='500ms'/>Estas y ${TOTAL} más en watchboard punto dev.<break time='300ms'/>Paneles de inteligencia gratuitos y de código abierto, actualizados a diario.</speak>" \
             video/output/narration-es.mp3 || echo "Polly ES failed (non-fatal)"
 
       - name: Merge narration into video
