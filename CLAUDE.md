@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **Watchboard** — a multi-topic intelligence dashboard platform. Each "tracker" is a self-contained dashboard with its own data, sections, map region, 3D globe, and AI update prompts. Built with Astro 5, TypeScript, and React islands. Data stored as JSON files per tracker, auto-updated via Claude Code Action (Max subscription OAuth).
 
-**95 active trackers** spanning country histories (Mexico, India, China, Russia, Israel, Iran, Brazil, Egypt, Nigeria, etc.), modern conflicts (Iran, Gaza, Ukraine, Sudan, Myanmar, Sahel), Mexican presidencies, scientific breakthroughs (mRNA, CRISPR, fusion), capitals (CDMX), and cultural arcs (BTS, Bad Bunny). The full backlog with proposed Tier 2-5 trackers is in `docs/tracker-roadmap.md`; community votes on what's next at `/vote` (GitHub-issue-backed, 10-vote threshold). New trackers can be created in ~25 min via the `init-tracker.yml` GitHub Actions workflow.
+**117 active trackers** spanning country histories (Mexico, India, China, Russia, Israel, Iran, Brazil, Egypt, Nigeria, etc.), modern conflicts (Iran, Gaza, Ukraine, Sudan, Myanmar, Sahel), Mexican presidencies, scientific breakthroughs (mRNA, CRISPR, fusion), capitals (CDMX), and cultural arcs (BTS, Bad Bunny). The full backlog with proposed Tier 2-5 trackers is in `docs/tracker-roadmap.md`; community votes on what's next at `/vote` (GitHub-issue-backed, 10-vote threshold). New trackers can be created in ~25 min via the `init-tracker.yml` GitHub Actions workflow.
 
 ## Commands
 
@@ -40,6 +40,9 @@ make help            # List all Make targets
   3. **Finalize** — downloads artifacts, validates JSON + Zod, runs fix agent if validation fails (1 retry), build gate (`npm run build`), commits data, collects + commits ingestion metrics
 - **Init new tracker**: `.github/workflows/init-tracker.yml` — manual dispatch with slug, topic, start_date, region. Claude Code generates `tracker.json` + empty data files. Auto-chains into seed job.
 - **Seed tracker data**: `.github/workflows/seed-tracker.yml` — manual dispatch for comprehensive historical backfill. Claude Code does deep web research and populates all sections.
+- **Credential canary**: `.github/workflows/credential-canary.yml` — daily liveness check on Telegram, Bluesky, Claude OAuth and PostHog. Built after a revoked token took seven workflows down for two weeks unnoticed. Infra alerts go to `TELEGRAM_ALERT_CHAT_ID` (private ops chat), **never** `TELEGRAM_CHANNEL_ID` (public content channel with outside subscribers)
+- **Tests**: `.github/workflows/test.yml` — runs the vitest suite on every PR. Added after finding 225 tests that no workflow had ever executed
+- **X API check**: `.github/workflows/x-api-check.yml` — manual dispatch, `verify` (read-only) or `post-test`
 - All data workflows use `claude-code-action` with `CLAUDE_CODE_OAUTH_TOKEN` (Max subscription) — no per-token API costs
 - Each workflow produces a `$GITHUB_STEP_SUMMARY` with data inventory tables
 - Legacy: `scripts/update-data.ts` still works with direct API keys (`ANTHROPIC_API_KEY` / `OPENAI_API_KEY`)
@@ -240,6 +243,11 @@ AI-curated social media posting system. Replaces the old `generate-social-drafts
 - `backfill-youtube.ts` — YouTube Data API v3 search scoped to a curated list of trustworthy news channels (Reuters, AP, BBC, AlJazeera, CNN, etc.). Only processes events dated 1990+. Requires `YOUTUBE_API_KEY` env var (free tier = 10k units/day = ~100 searches; budget per-tracker via `--max N`).
 - `hourly-light-scan.ts` — 15-min cron via `.github/workflows/light-scan.yml`. Polls a curated subset + realtime sources, scores via `keyword-match.ts`. ≥ 0.85 (with substance gate) → Telegram alert + queued to `pending-candidates.json` so the next heavy scan promotes it to AI triage and tracker data update. ≥ MODERATE_THRESHOLD → pending only. < MODERATE_THRESHOLD → discarded to audit log. Telegram is the alert channel; only the heavy scan writes tracker JSON, so queuing is what closes the data-update loop. No LLM call.
 
+- `check-source-tiers.ts` — flags data entries citing a non-primary source (Wikipedia, reddit, x.com, substack) at tier 1-2. Zod cannot catch this: `tier` is a valid number whatever the source says, but the tier scale is the product's core promise. Distinguishes compound citations (`"UNAMA Report / Pakistan ISPR / Wikipedia"`, defensible) from bare ones (`"Wikipedia"` alone, not). Runs non-blocking in the nightly finalize phase.
+- `csp-hashes.ts` — postbuild step replacing `'unsafe-inline'` with per-page SHA-256 script hashes. Astro's own CSP support is v6 and covers only on-demand pages; this site is 5.18 `output: 'static'`, and nonces are impossible on static output because a nonce must be unique per request. Hashes JSON-LD blocks too — CSP treats `application/ld+json` as a script element, and omitting them breaks structured data silently.
+- `generate-hook.ts` — hook headline candidates for the daily video, against the four patterns in #157. Validation rejects over-length, hashtags, emoji, unknown patterns, and empty strings (the model correctly *declining* a pattern the facts do not support). Every rejection falls back to a derived headline: worse copy, always true.
+- `x-check.ts` — X API check with two modes. `verify` is one read-only `GET /2/users/me`; `post-test` publishes one tweet, verifying auth first so a write is never spent discovering the account is suspended. Manual dispatch only, never scheduled.
+
 ### Tracker request voting (`/vote`)
 
 The `/vote` page lists Tier 2-4 backlog candidates from `docs/tracker-roadmap.md`. Each "Vote on GitHub" button opens a pre-filled issue with the `tracker-vote` label and a `vote-slug:` marker in the body. The `tally-tracker-votes.yml` workflow runs nightly + on every issue event: counts unique GitHub accounts (issue author + 👍 reactions + `+1` comments), writes `public/_tracker-votes/tally.json`, and opens a `[Graduate] tracker: <slug>` issue when a candidate first crosses the 10-vote threshold. The threshold is a single constant (`VOTE_THRESHOLD`) in `src/pages/vote.astro` and `tally-tracker-votes.yml` env.
@@ -309,6 +317,21 @@ Casualty figures use a `contested` field (`'yes'`/`'no'`/`'evolving'`/`'heavily'
 Global stylesheet at `src/styles/global.css`. Dark theme via CSS custom properties on `:root`. Key color semantics: `--accent-red`, `--accent-amber`, `--accent-blue`, `--accent-green`, `--accent-purple`. Tier colors: `--tier-1` through `--tier-4`. Fonts live under `public/fonts/` and are served from `/fonts/` — the base path is configured in `astro.config.mjs` (`base: '/'`), so always build font/asset URLs from `import.meta.env.BASE_URL` rather than hardcoding a prefix.
 
 Broadcast styles in `src/styles/broadcast.css`. Mobile story carousel in `src/styles/mobile-stories.css`.
+
+## Failure modes
+
+`docs/silent-failure-patterns.md` records the dominant defect class in this
+repo: **a step reporting success while its work goes nowhere**. Found nine
+times in one session — metrics committing with no data, a `git add` aborting
+wholesale since May, 225 tests no workflow ran, a CSP the browser ignored, a
+Cesium guard that was always true.
+
+Read it before trusting a green checkmark. The short version: verify the
+artefact, not the exit code — re-read the file, count the entries, load the
+page, render the frame.
+
+It also lists traps specific to this repo, including `[tracker]` directories
+being invisible to plain git pathspecs and ReliefWeb's 403 on plain fetches.
 
 ## Development Methodology
 
