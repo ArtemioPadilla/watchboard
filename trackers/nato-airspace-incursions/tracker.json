@@ -1,0 +1,256 @@
+{
+  "slug": "nato-airspace-incursions",
+  "name": "NATO Airspace Incursions Tracker",
+  "shortName": "NATO Airspace Incursions",
+  "description": "Intelligence dashboard tracking Russian drone and aircraft incursions into NATO airspace across Poland, Romania, the Baltic states, and Germany during 2026 — fighter intercepts, shoot-downs, NATO statements, and air-defence deployments.",
+  "icon": "🛩️",
+  "color": "#2c5aa0",
+  "status": "active",
+  "tone": "alert",
+  "temporal": "live",
+  "domain": "conflict",
+  "region": "central-europe",
+  "tags": [
+    "russia",
+    "nato",
+    "drone-incursion",
+    "airspace-violation",
+    "poland",
+    "romania",
+    "baltic-states",
+    "article-4",
+    "air-defence"
+  ],
+  "country": "PL",
+  "geoSecondary": [
+    "RO",
+    "LV",
+    "DE"
+  ],
+  "startDate": "2026-03-23",
+  "eraLabel": "Russian Airspace Incursions 2026",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "military",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": 11,
+      "lonMax": 30,
+      "latMin": 43,
+      "latMax": 60
+    },
+    "center": {
+      "lon": 20,
+      "lat": 52
+    },
+    "categories": [
+      {
+        "id": "incursion",
+        "label": "Airspace Incursions",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "intercept",
+        "label": "Fighter Intercepts",
+        "color": "#f39c12"
+      },
+      {
+        "id": "shootdown",
+        "label": "Shoot-Downs",
+        "color": "#c0392b"
+      },
+      {
+        "id": "infrastructure-strike",
+        "label": "Infrastructure Impact",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "nato-response",
+        "label": "NATO Response & Deployment",
+        "color": "#3498db"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "overview": {
+        "lon": 20,
+        "lat": 52,
+        "alt": 3500000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "NATO Eastern Flank Overview"
+      },
+      "constanta_port": {
+        "lon": 28.6167,
+        "lat": 44.1833,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Constanta Port, Romania"
+      },
+      "latvia_airspace": {
+        "lon": 24.1052,
+        "lat": 56.9496,
+        "alt": 150000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Latvia Airspace"
+      },
+      "baltic_intercept_zone": {
+        "lon": 19.5,
+        "lat": 55.3,
+        "alt": 200000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Baltic Sea Intercept Zone"
+      },
+      "lublin_poland": {
+        "lon": 22.5684,
+        "lat": 51.2465,
+        "alt": 100000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Lublin, Poland"
+      },
+      "leipzig_halle": {
+        "lon": 12.2401,
+        "lat": 51.4239,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Leipzig/Halle Airport, Germany"
+      }
+    },
+    "clocks": [
+      {
+        "label": "WARSAW",
+        "offsetHours": 2
+      },
+      {
+        "label": "BUCHAREST",
+        "offsetHours": 3
+      },
+      {
+        "label": "RIGA",
+        "offsetHours": 3
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-military",
+      "label": "Military"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "militaryTabs": [
+    {
+      "id": "strikes",
+      "label": "Incursions & Intercepts"
+    },
+    {
+      "id": "retaliation",
+      "label": "NATO Response"
+    },
+    {
+      "id": "assets",
+      "label": "Air-Defence Assets"
+    }
+  ],
+  "politicalAvatars": [
+    "ru",
+    "nato",
+    "pl",
+    "ro",
+    "baltic",
+    "other"
+  ],
+  "eventTypes": [
+    "incursion",
+    "intercept",
+    "shootdown",
+    "diplomatic",
+    "deployment"
+  ],
+  "ai": {
+    "systemPrompt": "You are a security and defense-intelligence analyst updating a dashboard tracking Russian drone and aircraft incursions into NATO airspace during 2026 — incidents across Poland, Romania, the Baltic states (Latvia, Lithuania, Estonia), and Germany.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"constanta_drone_jun5\", \"lublin_missile_jul29\").\n\nFOCUS AREAS:\n- Individual incursion incidents: date, country, location, type of object (drone, cruise missile, reconnaissance aircraft), whether intercepted, engaged, or downed, and by which NATO member's aircraft or air-defence system.\n- Intercepts and shoot-downs: which NATO air force conducted the intercept (aircraft type, e.g. F-16, Rafale, Eurofighter, F/A-18), outcome, and any debris or casualty reports.\n- NATO and member-state statements: official NATO/SHAPE statements, Article 4 consultation requests, attribution of responsibility to Russia, and any policy or posture changes (e.g. NATO's Eastern Sentry air-policing reinforcement).\n- Air-defence deployments: additional fighter jets, air-defence systems (Patriot, NASAMS, IRIS-T), or radar/surveillance assets moved to the eastern flank in response.\n\nSource tier classification:\n- Tier 1: Official/primary (NATO/SHAPE statements, Polish MON, Romanian MApN, Latvian/Lithuanian/Estonian Ministries of Defence, German Bundeswehr/Luftwaffe, national Air Force press releases)\n- Tier 2: Major outlet (Reuters, AP, BBC, Politico Europe, Financial Times, Notes from Poland, Kyiv Independent, Anadolu Agency)\n- Tier 3: Institutional (RUSI, Institute for the Study of War (ISW), Center for European Policy Analysis (CEPA), Chatham House, Jane's)\n- Tier 4: Unverified (social media, unattributed OSINT/Telegram channels, unverified Russian MoD claims)\n\nOnly include information you can verify through search results. Do not fabricate data.\nActively seek CONTRASTING perspectives — NATO/member-state attribution versus Russian government denials or alternative explanations (e.g. claims of navigation error or third-party origin).\n\nCONFIRMATION RULES:\n- Only report an incursion, intercept, or shoot-down as confirmed if it has at least 1 Tier 1 source OR 2 Tier 2+ sources.\n- Single-source Tier 3/4 reports should use confidence: \"low\".\n\nDEDUPLICATION:\n- Same incident reported by multiple outlets within ±2 days = same event — merge, do not create duplicates.",
+    "searchContext": "Russian drone aircraft NATO airspace incursion Poland Romania Baltic states 2026",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "mapLines",
+      "claims",
+      "political",
+      "assets"
+    ],
+    "coordValidation": {
+      "lonMin": 10,
+      "lonMax": 31,
+      "latMin": 42,
+      "latMax": 61
+    },
+    "updateIntervalDays": 1,
+    "backfillTargets": {
+      "timeline": 30,
+      "mapPoints": 20,
+      "mapLines": 15,
+      "claims": 15,
+      "political": 12,
+      "kpis": 8,
+      "assets": 10
+    },
+    "updatePolicy": {
+      "escalation": [
+        1,
+        1,
+        1,
+        7,
+        7,
+        30
+      ],
+      "quietThreshold": 0
+    },
+    "rssFeeds": [
+      "https://news.google.com/rss/search?q=NATO+airspace+incursion+Russia+drone&hl=en-US&gl=US&ceid=US:en"
+    ],
+    "relatedTrackers": [
+      "russia",
+      "ukraine",
+      "nato-us-tensions"
+    ]
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": [
+    "PL"
+  ]
+}
