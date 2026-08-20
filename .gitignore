@@ -44,6 +44,12 @@ playwright-report/
 
 # Remotion Studio prep data — heavy base64 thumbnails, regenerable via prep-studio.ts
 video/src/data/studio-data.json
+# Generated per-run by scripts/generate-hook.ts — the chosen hook and the prompt
+# that produced it. Regenerated every render; committing them would create
+# merge noise on every daily video.
+video/src/data/hook.json
+video/src/data/hook-prompt.txt
+
 
 # Video pipeline output — large MP4/MP3 artifacts. Re-renderable via
 # `make video-render-all`. CI uploads them as workflow artifacts (30-day
