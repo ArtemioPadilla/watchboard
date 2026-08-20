@@ -1,1 +1,114 @@
-[]
+[
+  {
+    "id": "yemen-war-total-deaths",
+    "label": "Yemen War Total Deaths (est., cumulative since 2015)",
+    "value": "377,000+",
+    "color": "red",
+    "source": "UN Development Programme / UN News, Dec 2021",
+    "contested": true,
+    "contestNote": "~60% attributed to indirect causes (famine, disease, lack of healthcare); Saudi-led coalition disputes indirect-cause methodology. ACLED's narrower direct-violence tally separately recorded 70,000+ direct fatalities. Figure pre-dates the 2026 escalation.",
+    "trend": "up",
+    "lastUpdated": "2026-08-14T00:00:00.000Z"
+  },
+  {
+    "id": "marib-hadramout-troops-killed-aug6",
+    "label": "Govt. Troops Killed, Marib/Hadramout (Aug 6)",
+    "value": "30–58",
+    "color": "red",
+    "source": "Yemeni government / AFP military source / Houthi claim",
+    "contested": true,
+    "contestNote": "Government confirmed 30 killed, 50 wounded; unnamed military source told AFP toll may reach 58; Houthis claim 45 killed. Deadliest single episode of the conflict in years.",
+    "delta": "+30",
+    "trend": "up",
+    "lastUpdated": "2026-08-07T00:00:00.000Z"
+  },
+  {
+    "id": "tihamah-shipping-deaths",
+    "label": "Killed in Bab al-Mandeb 'Double-Tap' Strike (Aug 11)",
+    "value": "6",
+    "color": "red",
+    "source": "Yemen government / Al Jazeera / NBC News",
+    "contested": false,
+    "delta": "+6",
+    "deltaNote": "4 crew (3 Pakistani, 1 Indonesian) + 2 Yemeni coast guard rescuers killed on the cargo ship Tihamah. First fatal Houthi attack on shipping since the Iran war began Feb 28.",
+    "trend": "up",
+    "lastUpdated": "2026-08-13T00:00:00.000Z"
+  },
+  {
+    "id": "najran-civilians-wounded",
+    "label": "Civilians Wounded, Najran (Aug 7)",
+    "value": "11",
+    "color": "amber",
+    "source": "Saudi Press Agency / Saudi-led Coalition Joint Forces Command",
+    "contested": false,
+    "deltaNote": "7 Saudis (incl. a 4-year-old with 2nd-degree burns), 1 Yemeni, 2 Egyptians, 1 Pakistani. Highest civilian toll inside Saudi Arabia in over four years.",
+    "trend": "stable",
+    "lastUpdated": "2026-08-08T00:00:00.000Z"
+  },
+  {
+    "id": "yemen-humanitarian-need",
+    "label": "People in Need of Humanitarian Assistance",
+    "value": "22M+",
+    "color": "amber",
+    "source": "UN OCHA — Yemen Humanitarian Needs and Response Plan 2026",
+    "contested": false,
+    "deltaNote": "Includes 5.2M internally displaced persons, 329,000 migrants, and 63,000 refugees/asylum seekers. 2026 appeal is barely 20% funded.",
+    "trend": "up",
+    "lastUpdated": "2026-08-13T00:00:00.000Z"
+  },
+  {
+    "id": "brent-crude-price",
+    "label": "Brent Crude Price",
+    "value": "$89/bbl",
+    "color": "amber",
+    "source": "CNBC / OilPrice.com",
+    "contested": false,
+    "delta": "-11",
+    "deltaNote": "Peaked near $100/bbl on Jul 23 after the Saudi tanker strikes; eased to ~$89 by mid-August as markets balanced Red Sea risk against still-open Gulf export routes.",
+    "trend": "stable",
+    "lastUpdated": "2026-08-12T00:00:00.000Z"
+  },
+  {
+    "id": "red-sea-coalition-members",
+    "label": "Red Sea Maritime Defence Coalition Signatories",
+    "value": "14 nations",
+    "color": "blue",
+    "source": "Al Jazeera / The Hill",
+    "contested": false,
+    "deltaNote": "43 of 51 invited states plus the EU attended the Jul 30 Riyadh summit; 14 signed the founding statement incl. Turkiye, Egypt, Pakistan, Jordan, Bangladesh. UAE and Oman did not join.",
+    "trend": "stable",
+    "lastUpdated": "2026-08-10T00:00:00.000Z"
+  },
+  {
+    "id": "us-strikes-civilian-toll-2025",
+    "label": "Civilians Killed/Wounded, US Strikes (2025 campaign)",
+    "value": "153 killed / ~250 wounded",
+    "color": "red",
+    "source": "Pentagon review via Washington Post, Aug 11, 2026",
+    "contested": true,
+    "contestNote": "First Trump administration public acknowledgment of significant civilian harm from US operations. Pentagon found 3 April 2025 strikes 'more likely than not' caused civilian harm but denied condolence payments; 15 further incidents remain under investigation.",
+    "trend": "stable",
+    "lastUpdated": "2026-08-11T00:00:00.000Z"
+  },
+  {
+    "id": "days-since-truce-broken",
+    "label": "Days Since Truce Broke (Abha Airport, Jul 13)",
+    "value": "38",
+    "color": "red",
+    "source": "Watchboard calculation",
+    "contested": false,
+    "trend": "up",
+    "lastUpdated": "2026-08-20T00:00:00.000Z"
+  },
+  {
+    "id": "jazan-refinery-strikes-count",
+    "label": "Houthi Strikes on Jazan Refinery Since Jul 27",
+    "value": "2 confirmed (+1 claimed Aug 13)",
+    "color": "amber",
+    "source": "Al Jazeera / Bloomberg / NBC News",
+    "contested": true,
+    "contestNote": "Jul 27 and Aug 9 strikes confirmed by Saudi authorities (fires extinguished, no injuries); a third strike claimed by the Houthis Aug 13 was not independently confirmed.",
+    "trend": "up",
+    "lastUpdated": "2026-08-14T00:00:00.000Z"
+  }
+]

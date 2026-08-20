@@ -1,1 +1,136 @@
-[]
+[
+  {
+    "id": "brent-crude-price",
+    "label": "Brent Crude Oil",
+    "value": "$89/bbl",
+    "change": "-11 from Jul 23 peak",
+    "direction": "down",
+    "sparkData": [
+      78,
+      80,
+      85,
+      100,
+      96,
+      91,
+      89,
+      89
+    ],
+    "color": "#c0392b",
+    "source": "CNBC / OilPrice.com",
+    "lastUpdated": "2026-08-12T00:00:00.000Z"
+  },
+  {
+    "id": "jazan-refinery-capacity-offline",
+    "label": "Jazan Refinery Capacity Disrupted",
+    "value": "400,000 bpd",
+    "change": "Offline/intermittent since Jul 27",
+    "direction": "down",
+    "sparkData": [
+      400,
+      400,
+      0,
+      100,
+      300,
+      350,
+      250
+    ],
+    "color": "#9b59b6",
+    "source": "Al Jazeera / NBC News",
+    "lastUpdated": "2026-08-14T00:00:00.000Z"
+  },
+  {
+    "id": "war-risk-insurance-premium",
+    "label": "Red Sea War-Risk Insurance Premium",
+    "value": "Sharply elevated",
+    "change": "+ since Jul 20 blockade declaration",
+    "direction": "up",
+    "sparkData": [
+      0.15,
+      0.2,
+      0.35,
+      0.5,
+      0.6,
+      0.65,
+      0.7
+    ],
+    "color": "#f39c12",
+    "source": "Insurance Journal / Lloyd's List (via sibling tracker reporting)",
+    "lastUpdated": "2026-08-13T00:00:00.000Z"
+  },
+  {
+    "id": "yemen-humanitarian-funding-gap",
+    "label": "2026 Yemen Aid Appeal Funded",
+    "value": "~20%",
+    "change": "Critically underfunded",
+    "direction": "down",
+    "sparkData": [
+      35,
+      30,
+      28,
+      25,
+      22,
+      20,
+      20
+    ],
+    "color": "#e74c3c",
+    "source": "UN OCHA — Yemen Humanitarian Needs and Response Plan 2026",
+    "lastUpdated": "2026-08-13T00:00:00.000Z"
+  },
+  {
+    "id": "aramco-market-cap",
+    "label": "Saudi Aramco Market Cap",
+    "value": "$1.76 trillion",
+    "change": "Pressured by repeated Jazan strikes",
+    "direction": "down",
+    "sparkData": [
+      1.85,
+      1.82,
+      1.8,
+      1.78,
+      1.77,
+      1.76,
+      1.76
+    ],
+    "color": "#3498db",
+    "source": "companiesmarketcap.com",
+    "lastUpdated": "2026-08-10T00:00:00.000Z"
+  },
+  {
+    "id": "red-sea-shipping-reroute",
+    "label": "Vessels Diverting via Cape of Good Hope",
+    "value": "Majority of Red Sea-bound traffic",
+    "change": "Rising since Jul 20 blockade + Aug 11 fatal strike",
+    "direction": "up",
+    "sparkData": [
+      20,
+      30,
+      45,
+      55,
+      65,
+      70,
+      72
+    ],
+    "color": "#2ecc71",
+    "source": "CFR Global Conflict Tracker / shipping industry reporting",
+    "lastUpdated": "2026-08-13T00:00:00.000Z"
+  },
+  {
+    "id": "yemeni-rial-divergence",
+    "label": "Yemeni Rial (Aden vs. Sana'a rate divergence)",
+    "value": "Widening gap",
+    "change": "Depreciation pressure amid renewed conflict",
+    "direction": "down",
+    "sparkData": [
+      100,
+      102,
+      105,
+      110,
+      115,
+      118,
+      120
+    ],
+    "color": "#e67e22",
+    "source": "Yemen Monitor / financial reporting",
+    "lastUpdated": "2026-08-12T00:00:00.000Z"
+  }
+]
