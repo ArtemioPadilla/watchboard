@@ -326,6 +326,89 @@ function loadRecentVideoHistory(
 }
 
 /**
+ * Escalation signal: how much did this tracker move TODAY, relative to itself?
+ *
+ * The existing score measures freshness and tone — whether a tracker updated
+ * recently and whether its mood fits the video mode. It cannot distinguish a
+ * tracker that added one routine event from one that added fifteen including
+ * casualties, so a quiet tracker that happens to be `breaking` outranks a war
+ * that just escalated. That is the gap #157 describes as "impact ranking".
+ *
+ * Measured against the tracker's own baseline rather than an absolute count,
+ * because trackers have wildly different normal volumes: three events is a
+ * huge day for a country-history tracker and a slow one for an active war.
+ *
+ * Deterministic — reads the daily event partitions, makes no model call.
+ */
+export function escalationScore(
+  slug: string,
+  today: string,
+  trackersDir: string = TRACKERS_DIR,
+): { recent: number; baseline: number; ratio: number; bonus: number } {
+  const dir = join(trackersDir, slug, 'data', 'events');
+  if (!existsSync(dir)) return { recent: 0, baseline: 0, ratio: 0, bonus: 0 };
+
+  let files: string[];
+  try {
+    files = readdirSync(dir).filter((f) => f.endsWith('.json'));
+  } catch {
+    return { recent: 0, baseline: 0, ratio: 0, bonus: 0 };
+  }
+
+  const countOn = (date: string): number => {
+    const f = join(dir, `${date}.json`);
+    if (!existsSync(f)) return 0;
+    try {
+      const parsed = JSON.parse(readFileSync(f, 'utf-8'));
+      return Array.isArray(parsed) ? parsed.length : 0;
+    } catch {
+      return 0;
+    }
+  };
+
+  const shift = (date: string, days: number): string => {
+    const d = new Date(`${date}T00:00:00Z`);
+    d.setUTCDate(d.getUTCDate() - days);
+    return d.toISOString().slice(0, 10);
+  };
+
+  // Today plus yesterday: the nightly run lands at 14:00 UTC, so "today" alone
+  // is empty for a video rendered before it and the signal would vanish.
+  const recent = countOn(today) + countOn(shift(today, 1));
+
+  // Baseline: mean daily events over the preceding 14 days, excluding the two
+  // days already counted as recent so a spike cannot inflate its own baseline.
+  const WINDOW = 14;
+  let total = 0;
+  for (let i = 2; i < 2 + WINDOW; i++) total += countOn(shift(today, i));
+  const baseline = total / WINDOW;
+
+  // Guard the divisor: a tracker with no history at all would otherwise show
+  // an infinite ratio on its first event.
+  const ratio = recent === 0 ? 0 : recent / Math.max(baseline, 0.5);
+
+  // Bounded so escalation informs the ranking without dominating it — the
+  // `breaking` flag is still worth more (100).
+  let bonus = 0;
+  if (recent > 0) {
+    if (ratio >= 4) bonus = 40;
+    else if (ratio >= 2.5) bonus = 25;
+    else if (ratio >= 1.5) bonus = 12;
+    // A tracker moving at its normal rate gets nothing: that is not escalation.
+  }
+
+  // Cap by absolute volume. Running this against the real repo showed the
+  // ratio alone is not enough: `france` had a baseline of 0.07 events/day, so
+  // two events scored the same maximum as a genuine escalation, while
+  // `ukraine` going from 1.29/day to 3 scored a third of it. A near-silent
+  // tracker publishing twice is noise with a big ratio, not impact.
+  const volumeCap = recent >= 6 ? 40 : recent >= 3 ? 25 : 12;
+  bonus = Math.min(bonus, volumeCap);
+
+  return { recent, baseline, ratio, bonus };
+}
+
+/**
  * Computes a numeric score for a tracker candidate based on the video mode.
  *
  * Returns null if the candidate should be excluded entirely (e.g., wrong tone
@@ -338,6 +421,7 @@ export function scoreCandidate(
   candidate: ScoredCandidate,
   mode: VideoMode,
   history?: TrackerHistory,
+  today?: string,
 ): number | null {
   const age = daysSince(candidate.lastUpdated);
 
@@ -371,6 +455,9 @@ export function scoreCandidate(
   if (candidate.domain === 'conflict') score += 10;
   if (candidate.temporal === 'live') score += 5;
   if (candidate.dayCount > 0) score += 3;
+  // Impact, not just freshness: a tracker that spiked above its own baseline
+  // outranks one that merely updated. See escalationScore.
+  if (today) score += escalationScore(candidate.tracker.slug, today).bonus;
   if (history) {
     const penalty = cooldownPenalty(candidate.tracker.slug, history);
     const novelty = noveltyBonus(candidate.lastUpdated, candidate.tracker.slug, history);
