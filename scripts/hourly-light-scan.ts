@@ -14,6 +14,7 @@
  *
  * No LLM call — by design, this path is keyword-only.
  */
+import { pathToFileURL } from 'node:url';
 import { writeFileSync, readFileSync, existsSync, mkdirSync } from 'fs';
 import { dirname } from 'path';
 import { XMLParser } from 'fast-xml-parser';
@@ -54,12 +55,47 @@ const TOPIC_COOLDOWN_HOURS = 12;
 const ALERT_DAILY_CAP = 6;
 /** Word overlap above which two headlines are treated as the same story. */
 const TOPIC_MATCH_RATIO = 0.6;
+/**
+ * Shared significant words above which two headlines are the same story
+ * regardless of ratio.
+ *
+ * The ratio alone was too strict in practice. Measured against 242 real
+ * headlines from a single day, the same story covered by three outlets scored
+ * 0.38-0.40 -- just under the 0.6 bar -- so each outlet alerted separately:
+ *
+ *   "United Arab Emirates suspends trade with Iran after ..."   } shared:
+ *   "UAE says it is suspending trade with Iran after missile"   } iran,
+ *   "UAE cuts off trade with Iran after missiles land in water" } missile, trade
+ *
+ * Outlets write the same event at different lengths and with different framing,
+ * which inflates the denominator; what actually identifies a story is the
+ * entities it names. Three shared significant words is a strong signal, and
+ * over-merging is the cheap direction to err in: the cost is one missed alert
+ * in a 12h window, while the heavy scan still ingests every candidate into
+ * tracker data. Under-merging spams a public channel with outside subscribers.
+ */
+const TOPIC_MIN_SHARED = 3;
 
 const TOPIC_STOPWORDS = new Set([
   'the','and','for','with','from','that','this','after','over','into','says',
   'said','amid','new','breaking','update','live','report','reports','reported',
   'has','have','been','will','its','his','her','their','they','are','was','were',
   'more','than','who','what','when','where','why','how','about','out','off',
+  // Weak verbs and qualifiers that survive the 3-char filter and pad the
+  // denominator without saying anything about which story this is.
+  'again','could','would','should','may','might','still','back','told','say',
+  'make','made','take','took','get','got','via',
+]);
+
+/**
+ * Outlet names, which arrive inside feed titles ("... - The Washington Post")
+ * and are pure noise for topic identity: they are precisely the part that
+ * differs when two outlets cover one story.
+ */
+const TOPIC_OUTLETS = new Set([
+  'reuters','reut','jazeera','aljazeera','wsj','bbc','cnn','nyt','nytimes',
+  'wapo','guardian','bloomberg','axios','cnbc','npr','afp','apnews','politico',
+  'telegraph','independent','newsweek','forbes','thehill','hill',
 ]);
 
 /**
@@ -70,22 +106,30 @@ const TOPIC_STOPWORDS = new Set([
  * claim missile attack" and "Houthi rebels struck with missiles" otherwise
  * share only three words and slip past as separate stories.
  */
-function topicKeyOf(title: string): string {
+export function topicKeyOf(title: string): string {
   const words = (title.toLowerCase().match(/[a-z0-9]{3,}/g) ?? [])
-    .filter((w) => !TOPIC_STOPWORDS.has(w))
+    .filter((w) => !TOPIC_STOPWORDS.has(w) && !TOPIC_OUTLETS.has(w))
+    // Drop mixed letter+digit tokens: these are tracking-slug fragments from
+    // feed URLs ("4x9tv5m"), never topic words. Pure digits are kept -- years
+    // and casualty counts do identify a story (subject to the tokeniser's
+    // 3-char minimum, so "150" survives and "12" does not).
+    .filter((w) => !(/\d/.test(w) && /[a-z]/.test(w)))
     .map((w) => (w.length > 4 && w.endsWith('s') && !w.endsWith('ss') ? w.slice(0, -1) : w));
   return [...new Set(words)].sort().join(' ');
 }
 
 /** True when two topic keys share enough significant words to be one story. */
-function sameTopic(a: string, b: string): boolean {
+export function sameTopic(a: string, b: string): boolean {
   const A = new Set(a.split(' ').filter(Boolean));
   const B = new Set(b.split(' ').filter(Boolean));
   if (A.size === 0 || B.size === 0) return false;
   let shared = 0;
   for (const w of A) if (B.has(w)) shared++;
   // Ratio against the shorter headline: a wire snippet and a longer writeup of
-  // the same event should still match.
+  // the same event should still match. The absolute floor catches the case the
+  // ratio misses -- two long, differently-framed writeups naming the same
+  // entities. See TOPIC_MIN_SHARED.
+  if (shared >= TOPIC_MIN_SHARED) return true;
   return shared / Math.min(A.size, B.size) >= TOPIC_MATCH_RATIO;
 }
 
@@ -344,4 +388,10 @@ async function main() {
   console.log(`[light-scan] done: posted=${posted} deferred=${deferred} discarded=${discarded} queued=${queued}`);
 }
 
-main().catch((err) => { console.error('[light-scan] fatal:', err); process.exit(1); });
+// Only run when invoked directly (`npx tsx scripts/hourly-light-scan.ts`).
+// This module is imported by tests/hourly-topic-dedup.test.ts for topicKeyOf
+// and sameTopic; without this guard, importing it starts a real scan -- feed
+// polling and the Telegram post path -- from inside the test suite.
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main().catch((err) => { console.error('[light-scan] fatal:', err); process.exit(1); });
+}
