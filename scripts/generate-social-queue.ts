@@ -16,8 +16,7 @@ import {
   loadConfig, loadBudget, loadHistory, saveQueue,
   todayDateString, twitterWeightedLength, estimateCost,
   PATHS,
-  type QueueEntry, type QueueStatus, type SocialConfig, type BudgetData, type HistoryEntry,
-} from './social-types.js';
+  type QueueEntry, type QueueStatus, type SocialConfig, type BudgetData, type HistoryEntry, type TweetType } from './social-types.js';
 
 // ── Prompt-injection hardening ──
 
@@ -55,6 +54,10 @@ interface TrackerContext {
   digest: DigestEntry | null;
   kpiSnapshot: string;
   recentEvents: string;
+  /** Unresolved sourced disagreements — the material for `contested` tweets. */
+  contestedClaims: string;
+  /** Figures flagged as disputed or frozen — the material for `stale_data`. */
+  staleFigures: string;
 }
 
 function collectTrackerContexts(today: string): TrackerContext[] {
@@ -92,6 +95,41 @@ function collectTrackerContexts(today: string): TrackerContext[] {
       } catch { /* skip */ }
     }
 
+    // Contested claims and frozen figures — the material the four
+    // data-derived tweet types are built from. Asking the model for a
+    // `contested` tweet without giving it the disputes would just invite it to
+    // invent one, which is the failure mode that matters most here.
+    const claimsPath = path.join(PATHS.trackersDir, slug, 'data', 'claims.json');
+    let contestedClaims = '';
+    if (fs.existsSync(claimsPath)) {
+      try {
+        const claims = JSON.parse(fs.readFileSync(claimsPath, 'utf8'));
+        contestedClaims = claims
+          .filter((c: { resolution?: string }) =>
+            // Unresolved disputes only. A settled question is not a story.
+            !c.resolution || /unresolved|contested|disputed|no official/i.test(c.resolution))
+          .slice(0, 3)
+          .map((c: { question?: string; sideA?: { label?: string; text?: string }; sideB?: { label?: string; text?: string } }) =>
+            `Q: ${sanitizeForPrompt(c.question, 140)} | ${sanitizeForPrompt(c.sideA?.label, 40)}: ${sanitizeForPrompt(c.sideA?.text, 160)} | ${sanitizeForPrompt(c.sideB?.label, 40)}: ${sanitizeForPrompt(c.sideB?.text, 160)}`)
+          .join(' || ');
+      } catch { /* skip malformed claims */ }
+    }
+
+    const casualtiesPath = path.join(PATHS.trackersDir, slug, 'data', 'casualties.json');
+    let staleFigures = '';
+    if (fs.existsSync(casualtiesPath)) {
+      try {
+        const rows = JSON.parse(fs.readFileSync(casualtiesPath, 'utf8'));
+        staleFigures = rows
+          .filter((r: { contested?: string }) =>
+            r.contested && r.contested !== 'no' && r.contested !== 'evolving')
+          .slice(0, 3)
+          .map((r: { category?: string; killed?: string; source?: string; note?: string }) =>
+            `${sanitizeForPrompt(r.category, 80)}: ${sanitizeForPrompt(r.killed, 40)} (${sanitizeForPrompt(r.source, 60)}) ${sanitizeForPrompt(r.note, 120)}`)
+          .join(' || ');
+      } catch { /* skip */ }
+    }
+
     const eventsDir = path.join(PATHS.trackersDir, slug, 'data', 'events');
     let recentEvents = '';
     if (fs.existsSync(eventsDir)) {
@@ -123,6 +161,8 @@ function collectTrackerContexts(today: string): TrackerContext[] {
       digest,
       kpiSnapshot,
       recentEvents,
+      contestedClaims,
+      staleFigures,
     });
   }
 
@@ -197,20 +237,40 @@ ${performanceSummary}
 - Memes: NO hashtags
 - Never use generic tags like #ConflictTracking or #IntelDashboard
 
-## TWEET TYPES & VOICES
-Choose the best type for each piece of content:
-- digest (voice: analyst) — daily summary, data-first, authoritative
-- breaking (voice: journalist) — significant development, narrative, impact-focused
-- hot_take (voice: edgy) — provocative, contrarian, data-backed commentary
-- thread (voice: journalist) — complex story, 3-7 tweets, narrative arc
-- data_viz (voice: analyst) — trend spotting, week-over-week, let data tell the story
-- meme (voice: witty) — humor, absurd contradictions, relatable. Use memegen.link template.
+## VOICE
+One voice: analyst. Sober, precise, data-first. Authority comes from the figures
+and their provenance, not from tone. Never adopt a persona, never perform wit,
+never write provocatively for its own sake.
 
-## MEME FORMAT
-For meme tweets, pick a template from memegen.link and provide top/bottom text.
-Available templates: drake, distracted-boyfriend, expanding-brain, two-buttons, change-my-mind, always-has-been, is-this-a-pigeon, uno-draw-25, woman-yelling-at-cat, disaster-girl, roll-safe, trump-bill-signing, batman-slapping
-URL format: https://api.memegen.link/images/{template}/{top_text}/{bottom_text}.png
-Use underscores for spaces, hyphens for new lines in the text.
+## TWEET TYPES
+Choose the best type for each piece of content:
+- digest — daily summary, data-first
+- breaking — significant development, impact-focused
+- thread — complex story, 3-7 tweets, narrative arc
+- data_viz — trend spotting, week-over-week, let data tell the story
+
+These four are the differentiated ones. They can only be written by something
+that has actually tracked the data, which is the whole point — a competitor can
+copy a tone with a prompt, not a year of dated figures:
+
+- contested — a figure where sourced authorities genuinely disagree. State BOTH
+  sides with attribution. Do not adjudicate, do not average. The disagreement
+  IS the story.
+    e.g. "Two UN agencies put the Venezuela quake damage at $37bn and $6.7bn.
+          Same OCHA report, same paragraph."
+- stale_data — an official figure frozen while the situation moved. Give the
+  freeze date and what changed around it.
+    e.g. "Venezuela's official injured count hasn't moved since 5 July.
+          The death toll rose 89% in that time."
+- escalation — a tracker spiking above its OWN 14-day baseline. Give both
+  numbers; a big ratio on a tiny baseline is noise, not news.
+- cross_tracker — a pattern visible only across many trackers at once.
+
+RULES FOR THESE FOUR
+- Every figure needs a source and an as-of date. No figure without provenance.
+- Never present an extrapolation as an observation.
+- If the data does not support a clean claim, do not write the tweet. Returning
+  fewer tweets is correct; inventing a pattern is not.
 
 ## LANGUAGES
 Available: ${config.languages.join(', ')}
@@ -239,20 +299,22 @@ Sections updated: ${sanitizeForPrompt(c.digest?.sectionsUpdated?.join(', '), 200
 KPIs: ${c.kpiSnapshot || 'none'}
 Recent events:
 ${c.recentEvents || 'none'}
+Unresolved disputes: ${c.contestedClaims || 'none'}
+Disputed or frozen figures: ${c.staleFigures || 'none'}
 `).join('\n')}
 
 ## OUTPUT FORMAT
 Respond with a JSON array of tweet objects. Each object MUST have ALL these fields:
 {
-  "type": "digest|breaking|hot_take|thread|data_viz|meme",
-  "voice": "analyst|journalist|edgy|witty",
+  "type": "digest|breaking|thread|data_viz|contested|stale_data|escalation|cross_tracker",
+  "voice": "analyst",
   "tracker": "tracker-slug",
   "lang": "en|es|fr|pt",
   "text": "the tweet body text ONLY — do NOT include the link or hashtags in this field, they are appended automatically by the poster",
   "hashtags": ["#TopicTag", "#Watchboard"],
   "link": "(see LINK RULES below)",
   "image": "(see LINK RULES below — OG image URL for breaking tweets, null otherwise)",
-  "memegenUrl": "https://api.memegen.link/images/..." or null,
+  "memegenUrl": null,
   "publishAt": "${today}T08:00:00Z",
   "estimatedCost": 0.01,
   "threadTweets": ["tweet 1", "tweet 2", ...] or null,
@@ -270,7 +332,7 @@ LINK RULES:
 - For "breaking" tweets: link to the specific event permalink. Format the event ID as a slug (lowercase, replace non-alphanumeric with hyphens). URL: https://watchboard.dev/{tracker}/events/{date}-{event-id-slug}?utm_source=x&utm_medium=breaking&utm_campaign=${today}
   Also set "image" to the per-event OG card: https://watchboard.dev/og/{tracker}/{date}-{event-id-slug}.png
 - For ALL other tweet types: link to the tracker dashboard: https://watchboard.dev/{tracker}/?utm_source=x&utm_medium={type}&utm_campaign=${today}
-  Set "image" to null (or a memegen URL for memes).
+  Set "image" to null unless a stat card applies.
 - The event IDs are shown in the "Recent events" data as (id: ...) — use them to build slugs.
 
 CRITICAL RULES:
@@ -289,7 +351,11 @@ function assignStatus(entry: QueueEntry, config: SocialConfig): QueueStatus {
   if (entry.judge.verdict === 'KILL') return 'rejected';
   if (entry.judge.verdict === 'HOLD') return 'held';
   if (entry.judge.verdict === 'REVIEW') return 'pending_review';
-  if (config.judge.memesAlwaysReview && entry.type === 'meme') return 'pending_review';
+  // The four data-derived types make a factual claim about a disputed or
+  // frozen figure, so a wrong one is worse than a dull one — they never
+  // auto-approve, whatever the judge scores.
+  const NEEDS_REVIEW: TweetType[] = ['contested', 'stale_data', 'escalation', 'cross_tracker'];
+  if (NEEDS_REVIEW.includes(entry.type)) return 'pending_review';
   if (entry.judge.verdict === 'PUBLISH' && entry.judge.score >= config.judge.autoApproveThreshold) return 'auto_approved';
   if (entry.judge.score >= config.judge.reviewThreshold) return 'pending_review';
   return 'rejected';

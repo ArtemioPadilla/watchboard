@@ -2,7 +2,7 @@
   "baseUrl": "https://watchboard.dev",
   "handle": "@watchboard_dev",
   "budget": {
-    "monthlyTarget": 1.00,
+    "monthlyTarget": 1.0,
     "currency": "USD"
   },
   "apiCosts": {
@@ -14,12 +14,17 @@
     "newTrackerTweet": 0.01
   },
   "scheduling": {
-    "slots": ["08:00", "13:00", "18:00", "22:00"],
+    "slots": [
+      "08:00",
+      "13:00",
+      "18:00",
+      "22:00"
+    ],
     "timezone": "UTC"
   },
   "judge": {
     "autoApproveThreshold": 0.85,
-    "reviewThreshold": 0.50,
+    "reviewThreshold": 0.5,
     "memesAlwaysReview": true
   },
   "hashtags": {
@@ -28,6 +33,20 @@
     "threadsLastOnly": true,
     "memesNone": true
   },
-  "languages": ["en", "es", "fr", "pt"],
-  "tweetTypes": ["digest", "breaking", "hot_take", "thread", "data_viz", "meme"]
+  "languages": [
+    "en",
+    "es",
+    "fr",
+    "pt"
+  ],
+  "tweetTypes": [
+    "digest",
+    "breaking",
+    "thread",
+    "data_viz",
+    "contested",
+    "stale_data",
+    "escalation",
+    "cross_tracker"
+  ]
 }
