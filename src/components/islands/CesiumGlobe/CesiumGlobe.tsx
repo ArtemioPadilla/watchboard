@@ -8,7 +8,6 @@ import {
   Color,
   Rectangle,
   SceneMode,
-  createWorldTerrainAsync,
   type Viewer as CesiumViewer,
 } from 'cesium';
 import 'cesium/Build/Cesium/Widgets/widgets.css';
@@ -16,7 +15,6 @@ import type { CesiumComponentRef } from 'resium';
 import type { MapPoint, MapLine, KpiItem, Meta } from '../../../lib/schemas';
 import type { FlatEvent } from '../../../lib/timeline-utils';
 import { MAP_CATEGORIES } from '../../../lib/map-utils';
-import { configureCesium, hasIonToken } from '../../../lib/cesium-config';
 import { createCRTStage, createNVGStage, createThermalStage, createBloomStage, createSharpenStage, createPanopticStage, type VisualMode } from './cesium-shaders';
 import { useCesiumCamera } from './useCesiumCamera';
 import type { OrbitMode } from './useCesiumCamera';
@@ -68,8 +66,6 @@ interface Props {
   layoutOverrides?: Record<string, string[]>;
 }
 
-// Configure Cesium Ion on module load
-configureCesium();
 
 const KPI_COLORS: Record<string, string> = {
   red: '#e74c3c',
@@ -402,20 +398,6 @@ function CesiumGlobeInner({ points, lines, kpis, meta, events = [], cameraPreset
     viewer.scene.backgroundColor = Color.fromCssColorString('#0a0b0e');
     viewer.scene.globe.baseColor = Color.fromCssColorString('#0d0f14');
 
-    // Terrain (free with Cesium Ion token).
-    //
-    // The guard used to read Cesium's Ion.defaultAccessToken, which is ALWAYS
-    // truthy: Cesium ships a demo token and assigns it at import time. So this
-    // branch always ran, requested Ion asset 1 with a token that has no access,
-    // and got a 401 on every globe load. hasIonToken reflects whether we
-    // actually configured one.
-    if (hasIonToken) {
-      createWorldTerrainAsync().then(terrain => {
-        if (!viewer.isDestroyed()) {
-          viewer.terrainProvider = terrain;
-        }
-      }).catch(() => {});
-    }
 
     // Lighting — day/night terminator
     viewer.scene.globe.enableLighting = true;
@@ -605,12 +587,10 @@ function CesiumGlobeInner({ points, lines, kpis, meta, events = [], cameraPreset
             if (v && v !== cesiumViewer) handleViewerReady(v);
           }}
           full
-          // With no Ion token, Cesium's default base layer is an Ion asset that
-          // 401s on every load and never renders. Skipping it changes nothing
-          // visually — the globe already falls back to scene.globe.baseColor —
-          // and drops two failed requests per globe load. If a token is set,
-          // this passes undefined and Cesium uses its default Ion imagery.
-          baseLayer={hasIonToken ? undefined : false}
+          // No base imagery layer. Cesium would otherwise request its default
+          // Ion asset, which 401s and never renders; the globe is meant to show
+          // scene.globe.baseColor with the GeoJSON overlays on top.
+          baseLayer={false}
           sceneMode={SceneMode.SCENE3D}
           animation={false}
           baseLayerPicker={false}
