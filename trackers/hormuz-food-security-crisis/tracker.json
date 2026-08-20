@@ -1,0 +1,206 @@
+{
+  "slug": "hormuz-food-security-crisis",
+  "name": "Hormuz Food & Energy Security Crisis Tracker",
+  "shortName": "Hormuz Crisis",
+  "description": "Intelligence dashboard tracking the 2026 global food and energy security crisis stemming from disruption around the Strait of Hormuz — crude oil and food commodity prices, shipping and insurance rates, import-dependent countries under strain, and policy responses.",
+  "icon": "🛢️",
+  "color": "#d35400",
+  "status": "active",
+  "tone": "alert",
+  "temporal": "live",
+  "domain": "economy",
+  "region": "middle-east",
+  "startDate": "2026-07-01",
+  "eraLabel": "Hormuz Disruption 2026",
+  "tags": [
+    "Strait of Hormuz",
+    "food security",
+    "energy security",
+    "oil prices",
+    "shipping",
+    "supply chain",
+    "inflation"
+  ],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": 44,
+      "lonMax": 60,
+      "latMin": 20,
+      "latMax": 30
+    },
+    "center": {
+      "lon": 54,
+      "lat": 25
+    },
+    "categories": [
+      {
+        "id": "shipping-disruption",
+        "label": "Shipping & Insurance Disruption",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "energy-flashpoint",
+        "label": "Energy Infrastructure & Flashpoints",
+        "color": "#f39c12"
+      },
+      {
+        "id": "import-strain",
+        "label": "Import-Dependent Countries Under Strain",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "policy-response",
+        "label": "Policy & Diplomatic Response",
+        "color": "#3498db"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "overview": {
+        "lon": 54,
+        "lat": 25,
+        "alt": 2500000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Persian Gulf Overview"
+      },
+      "hormuz_strait": {
+        "lon": 56.25,
+        "lat": 26.57,
+        "alt": 150000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Strait of Hormuz"
+      },
+      "ras_tanura": {
+        "lon": 50.16,
+        "lat": 26.64,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Ras Tanura (Saudi Export Terminal)"
+      },
+      "fujairah": {
+        "lon": 56.33,
+        "lat": 25.12,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Fujairah (Bypass Terminal, UAE)"
+      },
+      "suez_canal": {
+        "lon": 32.35,
+        "lat": 30.5,
+        "alt": 200000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Suez Canal (Alternate Route)"
+      },
+      "global_markets": {
+        "lon": 30,
+        "lat": 15,
+        "alt": 15000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Global Food Import Belt"
+      }
+    }
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "politicalAvatars": [
+    "opec",
+    "gulf-states",
+    "importers",
+    "int-orgs",
+    "us-eu",
+    "other"
+  ],
+  "eventTypes": [
+    "economic",
+    "shipping",
+    "policy",
+    "diplomatic",
+    "market"
+  ],
+  "ai": {
+    "systemPrompt": "You are an energy and food security analyst updating the Hormuz Food & Energy Security Crisis tracker.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"brent_crude\", \"wheat_futures\").\n\nSource tier classification:\n- Tier 1: Official/primary (EIA, IEA, OPEC, World Bank, IMF, WFP, FAO, US Treasury, national central banks, Lloyd's List Intelligence shipping data)\n- Tier 2: Major outlet (Reuters, Bloomberg, Financial Times, Wall Street Journal, AP, CNBC)\n- Tier 3: Institutional (S&P Global Platts, Kpler, Oxford Economics, CSIS, Atlantic Council, JPMorgan/Goldman Sachs research)\n- Tier 4: Unverified (social media, unattributed shipping/insurance reports)\n\nOnly include information you can verify through search results. Do not fabricate data.\nTrack: crude oil and food commodity prices (wheat, corn, rice, cooking oil), shipping volumes and war-risk insurance premiums through the Strait of Hormuz, import-dependent countries under strain (fuel/food subsidies, inflation, currency pressure), and policy responses from both oil-exporting and food-importing governments.",
+    "searchContext": "Strait of Hormuz shipping disruption crude oil food security crisis 2026",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": 40,
+      "lonMax": 65,
+      "latMin": 15,
+      "latMax": 35
+    },
+    "updateIntervalDays": 1,
+    "backfillTargets": {
+      "timeline": 30,
+      "mapPoints": 20,
+      "claims": 15,
+      "political": 15,
+      "kpis": 8,
+      "econ": 15
+    },
+    "updatePolicy": {
+      "escalation": [
+        1,
+        1,
+        1,
+        3,
+        7,
+        14,
+        30
+      ],
+      "quietThreshold": 0
+    },
+    "rssFeeds": [
+      "https://news.google.com/rss/search?q=Strait+of+Hormuz+shipping+oil&hl=en-US&gl=US&ceid=US:en",
+      "https://news.google.com/rss/search?q=food+security+crisis+wheat+prices+2026&hl=en-US&gl=US&ceid=US:en"
+    ],
+    "relatedTrackers": [
+      "iran-conflict",
+      "global-recession-risk"
+    ]
+  },
+  "githubRepo": "ArtemioPadilla/watchboard"
+}
