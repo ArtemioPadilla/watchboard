@@ -1,1 +1,91 @@
-[]
+[
+  {
+    "id": "eu-hectares-burned",
+    "label": "EU Hectares Burned (2026, to 13 Aug)",
+    "value": "568,415 ha",
+    "color": "red",
+    "source": "EFFIS (European Forest Fire Information System)",
+    "contested": false,
+    "delta": "vs. 775,748 ha same date 2025",
+    "deltaNote": "Below 2025's pace EU-wide even as individual countries set national records",
+    "trend": "up",
+    "lastUpdated": "2026-08-20T00:00:00Z"
+  },
+  {
+    "id": "spain-hectares-burned",
+    "label": "Spain Hectares Burned (2026)",
+    "value": "283,988 ha",
+    "color": "red",
+    "source": "Spanish civil protection / EFFIS",
+    "contested": false,
+    "delta": "+198% vs. 20-yr average",
+    "trend": "up",
+    "lastUpdated": "2026-08-20T00:00:00Z"
+  },
+  {
+    "id": "france-hectares-burned",
+    "label": "France Hectares Burned (2026)",
+    "value": "115,000+ ha",
+    "color": "red",
+    "source": "Sécurité Civile / Wikipedia — 2026 France wildfires",
+    "contested": false,
+    "delta": "National record",
+    "trend": "up",
+    "lastUpdated": "2026-08-20T00:00:00Z"
+  },
+  {
+    "id": "total-wildfire-fatalities",
+    "label": "Total Wildfire Fatalities (Spain, France, Greece)",
+    "value": "41+",
+    "color": "red",
+    "source": "AP / national civil protection agencies",
+    "contested": true,
+    "contestNote": "Country tallies (Spain 16, France 25, Greece 8) are each independently evolving and not centrally reconciled into a single Europe-wide count.",
+    "trend": "up",
+    "lastUpdated": "2026-08-20T00:00:00Z"
+  },
+  {
+    "id": "june-heatwave-excess-deaths",
+    "label": "June Heatwave Excess Deaths (WHO confirmed)",
+    "value": "1,300+",
+    "color": "amber",
+    "source": "World Health Organization Europe",
+    "contested": true,
+    "contestNote": "Independent modelled excess-mortality estimates for the same week run as high as 20,390 — see contested claim on heatwave death toll methodology.",
+    "trend": "up",
+    "lastUpdated": "2026-08-20T00:00:00Z"
+  },
+  {
+    "id": "total-evacuated",
+    "label": "Total Evacuated (Spain + France + Greece)",
+    "value": "340,000+",
+    "color": "amber",
+    "source": "AP / Reuters wire reports",
+    "contested": false,
+    "delta": "Includes 220,000+ Gironde, 60,000 Ávila/Madrid, 18,000 Castellón, 10,000+ Greece",
+    "trend": "up",
+    "lastUpdated": "2026-08-20T00:00:00Z"
+  },
+  {
+    "id": "danube-water-level",
+    "label": "Danube Water Level (key gauge, Aug 2026)",
+    "value": "~10 cm",
+    "color": "red",
+    "source": "Romanian/Hungarian river authorities",
+    "contested": true,
+    "contestNote": "Down nearly 70% from the prior 2018 record low of 33cm at this gauge; other Danube gauges (Serbia, Bulgaria) report different local records.",
+    "trend": "down",
+    "lastUpdated": "2026-08-20T00:00:00Z"
+  },
+  {
+    "id": "eu-gdp-impact",
+    "label": "EU GDP Impact (2026 est.)",
+    "value": "-1.0% (~€180B)",
+    "color": "amber",
+    "source": "Economist estimates cited by The Cool Down / The National",
+    "contested": true,
+    "contestNote": "A narrower think-tank estimate covering only 5 discrete heatwave events puts lost output at just £4.4B — the two figures use very different methodologies.",
+    "trend": "down",
+    "lastUpdated": "2026-08-20T00:00:00Z"
+  }
+]
