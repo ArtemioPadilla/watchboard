@@ -1,0 +1,264 @@
+{
+  "slug": "ethiopia-conflict",
+  "name": "Ethiopia Conflict Tracker",
+  "shortName": "Ethiopia Conflict",
+  "description": "Intelligence dashboard tracking Ethiopia's multi-front 2026 crisis: the disrupted general election, the ENDF-TPLF war restart in Tigray, Fano and OLA insurgencies, and rising Ethiopia-Eritrea tension over Assab and Red Sea access.",
+  "icon": "🦅",
+  "color": "#c0392b",
+  "status": "active",
+  "tone": "alert",
+  "temporal": "live",
+  "domain": "conflict",
+  "region": "africa",
+  "country": "ET",
+  "startDate": "2026-01-29",
+  "eraLabel": "Election Crisis & Tigray War Restart 2026",
+  "tags": [
+    "TPLF",
+    "Fano",
+    "OLA",
+    "ENDF",
+    "Tigray",
+    "Amhara",
+    "Oromia",
+    "Eritrea",
+    "election",
+    "displacement"
+  ],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "military",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": 33,
+      "lonMax": 43.5,
+      "latMin": 5,
+      "latMax": 15.5
+    },
+    "center": {
+      "lon": 39,
+      "lat": 9.5
+    },
+    "categories": [
+      {
+        "id": "clash",
+        "label": "ENDF-TPLF Clashes",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "election-disruption",
+        "label": "Election Disruption",
+        "color": "#f39c12"
+      },
+      {
+        "id": "drone-strike",
+        "label": "Drone Strikes",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "displacement",
+        "label": "Displacement Sites",
+        "color": "#3498db"
+      },
+      {
+        "id": "eritrea-tension",
+        "label": "Eritrea Border Tension",
+        "color": "#16a085"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "theater": {
+        "lon": 39,
+        "lat": 9.5,
+        "alt": 2500000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Ethiopia Theater"
+      },
+      "addis_ababa": {
+        "lon": 38.74,
+        "lat": 9.03,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Addis Ababa"
+      },
+      "mekelle": {
+        "lon": 39.47,
+        "lat": 13.5,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Mekelle, Tigray"
+      },
+      "shererina_border": {
+        "lon": 36.63,
+        "lat": 14.28,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Shererina / Sudan Border"
+      },
+      "raya_alamata": {
+        "lon": 39.55,
+        "lat": 12.42,
+        "alt": 40000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Raya Alamata"
+      },
+      "assab": {
+        "lon": 42.73,
+        "lat": 13.01,
+        "alt": 150000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Assab, Eritrea"
+      }
+    },
+    "clocks": [
+      {
+        "label": "ADDIS",
+        "offsetHours": 3
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      },
+      {
+        "label": "EST",
+        "offsetHours": -5
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-military",
+      "label": "Military"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Humanitarian"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "militaryTabs": [
+    {
+      "id": "strikes",
+      "label": "ENDF Strikes"
+    },
+    {
+      "id": "retaliation",
+      "label": "TPLF/Fano Actions"
+    },
+    {
+      "id": "assets",
+      "label": "Forces Deployed"
+    }
+  ],
+  "politicalAvatars": [
+    "endf",
+    "tplf",
+    "fano",
+    "ola",
+    "eritrea",
+    "un",
+    "other"
+  ],
+  "eventTypes": [
+    "military",
+    "political",
+    "humanitarian",
+    "diplomatic"
+  ],
+  "ai": {
+    "systemPrompt": "You are a conflict analyst updating the Ethiopia Conflict Tracker.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"mekelle_shelling\", \"raya_alamata_strike\").\n\nCOVERAGE SCOPE: the 2026 general election and its aftermath (disrupted voting, Fano armed clashes on election day); the ENDF-TPLF war restart in Tigray (Shererina/Sudan border battle, dismantling of the federal interim administration, artillery and drone exchanges); the Raya Alamata school drone strike and other strikes on civilian sites; the Fano insurgency in Amhara and the OLA insurgency in Oromia; refugee displacement into Sudan; and the Ethiopia-Eritrea confrontation over Assab and Red Sea access.\n\nSource tier classification:\n- Tier 1: Official (Ethiopian government/ENDF statements, TPLF statements, Eritrean government, UN OCHA, UNHCR)\n- Tier 2: Major outlet (Reuters, AP, BBC, Al Jazeera, Addis Standard, The Reporter Ethiopia, Ethiopia Insider)\n- Tier 3: Institutional (ACLED, International Crisis Group, Human Rights Watch, Amnesty International)\n- Tier 4: Unverified (social media, unattributed reports, unverified militia claims)\n\nOnly include information you can verify through search results. Do not fabricate data.\nWhen ENDF and TPLF/Fano/OLA sources report conflicting casualty or territorial claims, note the discrepancy explicitly rather than picking a side.\nSame location/incident within ±2 days = same event — merge, do not create duplicates.",
+    "searchContext": "Ethiopia conflict Tigray TPLF Fano OLA ENDF election Eritrea Assab",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "mapLines",
+      "casualties",
+      "econ",
+      "claims",
+      "political",
+      "assets"
+    ],
+    "coordValidation": {
+      "lonMin": 30,
+      "lonMax": 45,
+      "latMin": 3,
+      "latMax": 18
+    },
+    "updateIntervalDays": 1,
+    "backfillTargets": {
+      "timeline": 30,
+      "mapPoints": 30,
+      "mapLines": 20,
+      "claims": 15,
+      "political": 15,
+      "casualties": 12,
+      "econ": 8,
+      "assets": 10
+    },
+    "updatePolicy": {
+      "escalation": [
+        1,
+        1,
+        1,
+        7,
+        7,
+        30,
+        60,
+        90
+      ],
+      "quietThreshold": 0
+    },
+    "rssFeeds": [
+      "https://news.google.com/rss/search?q=Ethiopia+Tigray+TPLF+conflict&hl=en-US&gl=US&ceid=US:en",
+      "https://news.google.com/rss/search?q=Ethiopia+Fano+Amhara+insurgency&hl=en-US&gl=US&ceid=US:en"
+    ],
+    "relatedTrackers": [
+      "sudan-conflict",
+      "sahel-insurgency",
+      "myanmar-civil-war"
+    ]
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": [
+    "ET"
+  ]
+}
