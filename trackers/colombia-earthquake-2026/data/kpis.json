@@ -1,1 +1,10 @@
-[]
+[
+  { "id": "confirmed-deaths", "label": "Confirmed Deaths", "value": "312+", "color": "red", "source": "Instituto Nacional de Medicina Legal", "contested": true, "contestNote": "Toll has risen steadily from 132 (Aug 10) to 312+ (Aug 19) as search operations progressed.", "trend": "up", "delta": "+180 since Aug 10", "lastUpdated": "2026-08-20T12:00:00Z" },
+  { "id": "confirmed-injured", "label": "Injured", "value": "4,611+", "color": "amber", "source": "Instituto Nacional de Medicina Legal", "contested": false, "trend": "up", "lastUpdated": "2026-08-20T12:00:00Z" },
+  { "id": "missing-persons", "label": "Missing", "value": "290+", "color": "amber", "source": "UNGRD", "contested": true, "contestNote": "Early estimates ran as high as 420; figure has narrowed but remains fluid.", "trend": "down", "lastUpdated": "2026-08-20T12:00:00Z" },
+  { "id": "displaced-families", "label": "Families Affected", "value": "120,328", "color": "blue", "source": "UNGRD", "contested": false, "lastUpdated": "2026-08-20T12:00:00Z" },
+  { "id": "buildings-destroyed", "label": "Structures Destroyed", "value": "14,493", "color": "red", "source": "UNGRD / Wikipedia", "contested": false, "lastUpdated": "2026-08-20T12:00:00Z" },
+  { "id": "departments-affected", "label": "Departments Affected", "value": "12–15", "color": "blue", "source": "UNGRD", "contested": true, "contestNote": "Presidential address cited 12 departments; UNGRD municipal data cited 15.", "lastUpdated": "2026-08-20T12:00:00Z" },
+  { "id": "reconstruction-cost", "label": "Reconstruction Cost Estimate", "value": "COP 30T (~US$9.6B)", "color": "red", "source": "Colombian Presidency", "contested": true, "contestNote": "Estimates range from Oxford Economics' $1–2B to USGS's ~$40B (7% of GDP) — a 20x spread.", "lastUpdated": "2026-08-20T12:00:00Z" },
+  { "id": "aftershocks-recorded", "label": "Aftershocks Recorded", "value": "325+", "color": "amber", "source": "Servicio Geológico Colombiano", "contested": false, "trend": "up", "lastUpdated": "2026-08-20T12:00:00Z" }
+]
