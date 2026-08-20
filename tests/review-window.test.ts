@@ -44,3 +44,50 @@ describe('review window', () => {
     expect(windowSize(365, null)).toBe(30);
   });
 });
+
+/**
+ * Widening the window without widening the turn budget just moves the failure.
+ *
+ * The prompt asks for 2+ search strategies per gap day and the agent runs with
+ * --max-turns 30. A 46-day catch-up produced 38 gap days: 76+ searches in 30
+ * turns is arithmetically impossible, so the agent covers a prefix and the rest
+ * are skipped with nothing saying so.
+ */
+function prioritiseGaps(gapDays: string[], budget = 12) {
+  const sorted = [...gapDays].sort().reverse();
+  return { kept: sorted.slice(0, budget), dropped: sorted.slice(budget) };
+}
+
+describe('gap budget', () => {
+  // Real dates: 15 July through 21 August, the span that actually produced 38
+  // gaps on `germany`.
+  const many: string[] = [];
+  for (let d = new Date('2026-07-15T00:00:00Z'); d <= new Date('2026-08-21T00:00:00Z'); d.setUTCDate(d.getUTCDate() + 1)) {
+    many.push(d.toISOString().slice(0, 10));
+  }
+
+  it('caps the gap list to what 30 turns can cover', () => {
+    expect(many.length).toBeGreaterThan(30);          // the fixture is the real problem size
+    expect(prioritiseGaps(many).kept).toHaveLength(12);
+  });
+
+  it('keeps the newest gaps, because an old gap survives to the next run', () => {
+    const { kept, dropped } = prioritiseGaps(many);
+    expect(kept[0]).toBe('2026-08-21');               // newest kept
+    expect(dropped[dropped.length - 1]).toBe('2026-07-15'); // oldest dropped
+    expect(kept[kept.length - 1] > dropped[0]).toBe(true);  // no interleaving
+  });
+
+  it('reports what it dropped rather than truncating silently', () => {
+    const { kept, dropped } = prioritiseGaps(many);
+    expect(kept.length + dropped.length).toBe(many.length);  // nothing vanishes
+    expect(dropped.length).toBeGreaterThan(0);
+  });
+
+  it('does nothing when the gaps already fit', () => {
+    const few = ['2026-08-01', '2026-08-02'];
+    const { kept, dropped } = prioritiseGaps(few);
+    expect(kept).toHaveLength(2);
+    expect(dropped).toEqual([]);
+  });
+});
