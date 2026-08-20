@@ -1,0 +1,257 @@
+{
+  "slug": "yemen-conflict",
+  "name": "Yemen Conflict Tracker",
+  "shortName": "Yemen Conflict",
+  "description": "Intelligence dashboard tracking the 2026 widening of the regional war into Yemen and Saudi Arabia, as Houthi forces strike Saudi-backed Yemeni government forces and an Aramco facility inside the Kingdom.",
+  "icon": "🚀",
+  "color": "#c0392b",
+  "status": "active",
+  "tone": "alert",
+  "temporal": "live",
+  "domain": "conflict",
+  "region": "middle-east",
+  "country": "YE",
+  "startDate": "2026-08-06",
+  "eraLabel": "Regional War Widening 2026",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "military",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": 40,
+      "lonMax": 52,
+      "latMin": 12,
+      "latMax": 27
+    },
+    "center": {
+      "lon": 46,
+      "lat": 18
+    },
+    "categories": [
+      {
+        "id": "houthi-strike",
+        "label": "Houthi Attacks",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "ground-clash",
+        "label": "Ground Clashes",
+        "color": "#f39c12"
+      },
+      {
+        "id": "oil-infrastructure",
+        "label": "Oil Infrastructure Strikes",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "coalition-response",
+        "label": "Saudi/Coalition Response",
+        "color": "#3498db"
+      },
+      {
+        "id": "humanitarian",
+        "label": "Humanitarian Impact",
+        "color": "#2ecc71"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "theater": {
+        "lon": 46,
+        "lat": 18,
+        "alt": 2800000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Full Theater"
+      },
+      "sanaa": {
+        "lon": 44.191,
+        "lat": 15.3694,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Sana'a"
+      },
+      "marib": {
+        "lon": 45.3258,
+        "lat": 15.4694,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Marib Front"
+      },
+      "hodeidah": {
+        "lon": 42.9545,
+        "lat": 14.7979,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Hodeidah"
+      },
+      "aden": {
+        "lon": 45.0187,
+        "lat": 12.7855,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Aden"
+      },
+      "abqaiq": {
+        "lon": 49.67,
+        "lat": 25.937,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Abqaiq Aramco Facility"
+      }
+    },
+    "clocks": [
+      {
+        "label": "SANAA",
+        "offsetHours": 3
+      },
+      {
+        "label": "RIYADH",
+        "offsetHours": 3
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      },
+      {
+        "label": "EST",
+        "offsetHours": -4
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-military",
+      "label": "Military"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Humanitarian"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "militaryTabs": [
+    {
+      "id": "strikes",
+      "label": "Houthi Strikes"
+    },
+    {
+      "id": "retaliation",
+      "label": "Saudi/Coalition Response"
+    },
+    {
+      "id": "assets",
+      "label": "Military Assets Deployed"
+    }
+  ],
+  "politicalAvatars": [
+    "houthi",
+    "ye_gov",
+    "sa",
+    "ir",
+    "us",
+    "other"
+  ],
+  "eventTypes": [
+    "military",
+    "diplomatic",
+    "humanitarian",
+    "economic"
+  ],
+  "ai": {
+    "systemPrompt": "You are a conflict intelligence analyst updating a dashboard tracking the widening of the 2026 regional war into Yemen and Saudi Arabia.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"abqaiq_strike\", \"marib_clash\").\n\nMULTI-POLE SOURCING — gather information from all four media poles:\n1. WESTERN: US State Dept, CENTCOM, Reuters, AP, BBC, CNN, NYT, WaPo, Bloomberg\n2. MIDDLE EASTERN: Saudi Press Agency (SPA), Al Arabiya, Asharq Al-Awsat, Al Jazeera, Al-Masirah (Houthi media, note bias), Yemeni government statements, IRNA, Press TV\n3. EASTERN: Xinhua, CGTN, TASS, RT (note bias)\n4. INTERNATIONAL: UN, OCHA, ICRC, HRW, ACLED, IISS, Sana'a Center for Strategic Studies, International Crisis Group, Oxford Economics\n\nWhen providing sources (especially in the \"sources\" array), tag each with a \"pole\" field:\n- \"western\" for US/European/allied sources\n- \"middle_eastern\" for Saudi/Yemeni/Iranian sources\n- \"eastern\" for Chinese/Russian/Asian sources\n- \"international\" for UN/NGO/multilateral sources\n\nSource tier classification:\n- Tier 1: Official/primary (SPA, Al-Masirah official Houthi statements, Yemeni government statements, Saudi-led coalition statements, Saudi Aramco official statements, CENTCOM)\n- Tier 2: Major outlet (Reuters, AP, BBC, Al Jazeera, CNN, Asharq Al-Awsat, Al Arabiya, Bloomberg)\n- Tier 3: Institutional (ACLED, IISS, Sana'a Center for Strategic Studies, International Crisis Group, Oxford Economics)\n- Tier 4: Unverified (social media, Telegram channels, unattributed military claims)\n\nOnly include information you can verify through search results. Do not fabricate data.\nActively seek CONTRASTING perspectives from different poles when events are contested — Houthi claims and Saudi/coalition claims routinely conflict on casualty counts and strike outcomes.\n\nCONFIRMATION RULES:\n- Only report a military event as confirmed if it has at least 1 Tier 1 source OR 2 Tier 2+ sources from different poles.\n- Single-source Tier 3/4 reports should use confidence: \"low\".\n\nDEDUPLICATION:\n- Same target within ±2 hours = same event — merge, do not create duplicates.\n- When Houthi and Saudi/coalition report different numbers: use defender counts for interceptions, attacker counts for launches. Note discrepancies.",
+    "searchContext": "Yemen Houthi conflict Saudi Arabia Aramco strike",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "mapLines",
+      "casualties",
+      "econ",
+      "claims",
+      "political",
+      "assets"
+    ],
+    "coordValidation": {
+      "lonMin": 38,
+      "lonMax": 53,
+      "latMin": 10,
+      "latMax": 29
+    },
+    "updateIntervalDays": 1,
+    "backfillTargets": {
+      "timeline": 30,
+      "mapPoints": 30,
+      "mapLines": 30,
+      "claims": 20,
+      "political": 20,
+      "casualties": 15,
+      "econ": 10,
+      "assets": 10
+    },
+    "updatePolicy": {
+      "escalation": [
+        1,
+        1,
+        1,
+        7,
+        7,
+        30,
+        60,
+        90
+      ],
+      "quietThreshold": 0
+    },
+    "rssFeeds": [
+      "https://news.google.com/rss/search?q=Yemen+Houthi+Saudi+Arabia&hl=en-US&gl=US&ceid=US:en",
+      "https://www.aljazeera.com/xml/rss/all.xml"
+    ],
+    "relatedTrackers": [
+      "iran-conflict",
+      "gaza-war",
+      "israel-palestine",
+      "iran",
+      "saudi-arabia"
+    ]
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": [
+    "YE"
+  ]
+}
