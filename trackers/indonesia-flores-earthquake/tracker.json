@@ -1,0 +1,235 @@
+{
+  "slug": "indonesia-flores-earthquake",
+  "name": "Flores Earthquake Tracker",
+  "shortName": "Flores Quake",
+  "description": "Intelligence dashboard tracking the M7.7 earthquake that struck 68km north-northwest of Ende, Flores Island, Indonesia on 14-15 August 2026: casualties, displacement, shelter provision, aftershock sequence, damage assessment, and the national and international relief response.",
+  "icon": "🏚️",
+  "color": "#e67e22",
+  "status": "active",
+  "tone": "alert",
+  "temporal": "live",
+  "domain": "disaster",
+  "region": "southeast-asia",
+  "country": "ID",
+  "startDate": "2026-08-14",
+  "eraLabel": "Earthquake & Relief Response 2026",
+  "tags": [
+    "earthquake",
+    "Flores",
+    "Ende",
+    "aftershocks",
+    "displacement",
+    "BNPB",
+    "humanitarian"
+  ],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": 119.8,
+      "lonMax": 122.8,
+      "latMin": -9.6,
+      "latMax": -7.9
+    },
+    "center": {
+      "lon": 121.3,
+      "lat": -8.6
+    },
+    "categories": [
+      {
+        "id": "impact-zone",
+        "label": "Impact Zone",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "aftershock",
+        "label": "Aftershocks",
+        "color": "#f39c12"
+      },
+      {
+        "id": "shelter",
+        "label": "Shelter Sites",
+        "color": "#3498db"
+      },
+      {
+        "id": "aid-distribution",
+        "label": "Aid Distribution",
+        "color": "#27ae60"
+      },
+      {
+        "id": "infrastructure",
+        "label": "Damaged Infrastructure",
+        "color": "#9b59b6"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "layout": "disaster",
+    "cameraPresets": {
+      "theater": {
+        "lon": 121.3,
+        "lat": -8.7,
+        "alt": 500000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Flores Overview"
+      },
+      "epicenter": {
+        "lon": 121.42,
+        "lat": -8.27,
+        "alt": 100000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Epicenter"
+      },
+      "ende": {
+        "lon": 121.66,
+        "lat": -8.845,
+        "alt": 40000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Ende"
+      },
+      "maumere": {
+        "lon": 122.207,
+        "lat": -8.621,
+        "alt": 40000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Maumere"
+      },
+      "bajawa": {
+        "lon": 121.048,
+        "lat": -8.771,
+        "alt": 40000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Bajawa"
+      },
+      "kupang": {
+        "lon": 123.607,
+        "lat": -10.178,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Kupang (Relief Coordination)"
+      }
+    },
+    "clocks": [
+      {
+        "label": "FLORES (WITA)",
+        "offsetHours": 8
+      },
+      {
+        "label": "JAKARTA (WIB)",
+        "offsetHours": 7
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Humanitarian"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "politicalAvatars": [
+    "id-gov",
+    "id-mil",
+    "local-govt",
+    "intl-aid",
+    "other"
+  ],
+  "eventTypes": [
+    "rescue",
+    "humanitarian",
+    "infrastructure",
+    "aftershock"
+  ],
+  "ai": {
+    "systemPrompt": "You are a disaster response analyst updating the Flores Earthquake tracker.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"ende_shelter_camp\", \"aftershock_aug16\").\n\nSource tier classification:\n- Tier 1: Official (BNPB - Indonesia's National Disaster Management Agency, BMKG - Meteorology, Climatology and Geophysics Agency, Ministry of Health, NTT provincial government, USGS)\n- Tier 2: Major outlet (Reuters, AP, Antara News, Kompas, Jakarta Post, BBC, Al Jazeera, CNA)\n- Tier 3: Institutional (UN OCHA, WHO, IFRC, Indonesian Red Cross (PMI), World Bank)\n- Tier 4: Unverified (social media, unattributed local reports)\n\nOnly include information you can verify through search results. Do not fabricate data.\nCasualty and displacement figures from BNPB updates frequently as search-and-rescue continues — always use the most recent official figure and note when counts are still rising.\nTrack the aftershock sequence (magnitude, depth, time) as it is a distinct axis of ongoing risk separate from the initial mainshock.",
+    "searchContext": "Flores Indonesia earthquake Ende August 2026 casualties displacement relief BNPB",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "casualties",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": 119.5,
+      "lonMax": 123.2,
+      "latMin": -9.9,
+      "latMax": -7.7
+    },
+    "updateIntervalDays": 1,
+    "backfillTargets": {
+      "timeline": 30,
+      "mapPoints": 25,
+      "claims": 15,
+      "political": 12,
+      "casualties": 10,
+      "econ": 8,
+      "kpis": 8
+    },
+    "updatePolicy": {
+      "escalation": [
+        1,
+        1,
+        1,
+        3,
+        7,
+        14,
+        30
+      ],
+      "quietThreshold": 0
+    },
+    "rssFeeds": [
+      "https://news.google.com/rss/search?q=Flores+Indonesia+earthquake+Ende&hl=en-US&gl=US&ceid=US:en"
+    ],
+    "relatedTrackers": [
+      "indonesia",
+      "super-el-nino-2026"
+    ]
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": [
+    "ID"
+  ]
+}
