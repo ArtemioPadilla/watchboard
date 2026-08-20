@@ -663,6 +663,26 @@ jobs:
             echo "error_count=0" >> $GITHUB_OUTPUT
           fi
 
+      - name: Check source tiers
+        # Zod cannot catch this: `tier` is a valid number whatever the source
+        # says. But the tier scale is the product's core promise, so a
+        # Wikipedia citation carrying tier 1 misrepresents the one thing
+        # readers are asked to trust.
+        #
+        # Non-blocking on purpose. This reports on data a model wrote
+        # overnight, and failing the nightly over a citation would be worse
+        # than the citation. It goes to the step summary where it is visible.
+        continue-on-error: true
+        run: |
+          npx tsx scripts/check-source-tiers.ts | tee /tmp/tiers.txt
+          {
+            echo "### Source tiers"
+            echo ""
+            echo '```'
+            cat /tmp/tiers.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
       - name: Fix validation errors
         id: fix_agent
         if: steps.validate.outputs.valid == 'false' && steps.changes.outputs.changed == 'true'
