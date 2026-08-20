@@ -1,0 +1,245 @@
+{
+  "slug": "thailand-cambodia-border-war",
+  "name": "Thailand-Cambodia Border War Tracker",
+  "shortName": "Thailand-Cambodia Border",
+  "description": "Intelligence dashboard tracking the Thailand-Cambodia border conflict, from the May 2025 flashpoint through the July 2025 confrontation, the December 2025 ceasefire collapse and joint ceasefire, and the 2026 shift to fence construction and disputed-sector diplomacy.",
+  "icon": "🛕",
+  "color": "#d35400",
+  "status": "active",
+  "tone": "alert",
+  "temporal": "live",
+  "domain": "conflict",
+  "region": "southeast-asia",
+  "tags": [
+    "thailand",
+    "cambodia",
+    "border",
+    "asean",
+    "preah-vihear",
+    "displacement",
+    "southeast-asia"
+  ],
+  "country": "TH",
+  "startDate": "2025-05-28",
+  "eraLabel": "Border Crisis 2025-2026",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "military",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": 102.0,
+      "lonMax": 106.0,
+      "latMin": 13.0,
+      "latMax": 15.5
+    },
+    "center": {
+      "lon": 104.0,
+      "lat": 14.2
+    },
+    "categories": [
+      {
+        "id": "clash",
+        "label": "Armed Clashes",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "ceasefire-violation",
+        "label": "Ceasefire Violations",
+        "color": "#f39c12"
+      },
+      {
+        "id": "displacement",
+        "label": "Displacement / IDP Sites",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "temple-dispute",
+        "label": "Disputed Temples",
+        "color": "#f1c40f"
+      },
+      {
+        "id": "fence",
+        "label": "Fence & Infrastructure",
+        "color": "#3498db"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "overview": {
+        "lon": 103.9,
+        "lat": 14.1,
+        "alt": 900000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Border Corridor Overview"
+      },
+      "preah_vihear": {
+        "lon": 104.681,
+        "lat": 14.391,
+        "alt": 40000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Preah Vihear Temple"
+      },
+      "ta_muen_thom": {
+        "lon": 103.083,
+        "lat": 14.345,
+        "alt": 30000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Ta Muen Thom Temple"
+      },
+      "poipet_border": {
+        "lon": 102.5624,
+        "lat": 13.6503,
+        "alt": 25000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Poipet-Aranyaprathet Crossing"
+      },
+      "surin_sisaket": {
+        "lon": 103.9,
+        "lat": 14.75,
+        "alt": 150000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Surin-Sisaket Displacement Zone"
+      }
+    },
+    "clocks": [
+      {
+        "label": "BKK",
+        "offsetHours": 7
+      },
+      {
+        "label": "PNH",
+        "offsetHours": 7
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-military",
+      "label": "Military"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Humanitarian"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "militaryTabs": [
+    {
+      "id": "strikes",
+      "label": "Clashes & Strikes"
+    },
+    {
+      "id": "retaliation",
+      "label": "Retaliatory Fire"
+    },
+    {
+      "id": "assets",
+      "label": "Deployments & Fence Construction"
+    }
+  ],
+  "politicalAvatars": [
+    "th",
+    "kh",
+    "asean",
+    "un",
+    "other"
+  ],
+  "eventTypes": [
+    "military",
+    "diplomatic",
+    "humanitarian",
+    "political"
+  ],
+  "ai": {
+    "systemPrompt": "You are a conflict analyst updating a dashboard tracking the Thailand-Cambodia border conflict.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"chong_bok_clash\", \"ceasefire_violation_jan6\").\n\nBACKGROUND: Fighting broke out along the 800km Thailand-Cambodia border after a May 28, 2025 clash near Chong Bok. Confrontation escalated in July 2025 (43+ killed, 300,000+ displaced) before a ceasefire. That ceasefire collapsed on December 7, 2025 with fighting reported at 16+ locations, followed by a renewed joint ceasefire on December 27, 2025. Roughly 409,000 people remained displaced as of January 1, 2026, with ceasefire violations reported January 6 and February 24, 2026. Through mid-2026 the posture shifted from open fighting toward fence construction and infrastructure encroachment in disputed sectors.\n\nTrack: ceasefire status and violations, displacement/IDP figures, disputed temple and border sectors (Preah Vihear, Ta Muen Thom, and others), ASEAN and bilateral diplomacy, and military posture including fence/infrastructure construction.\n\nSource tier classification:\n- Tier 1: Official/primary (Royal Thai Army, Royal Thai Government spokesperson, Cambodian Ministry of National Defence / RCAF, Cambodian government spokesperson, ASEAN Secretariat, UN OCHA)\n- Tier 2: Major outlet (Reuters, AP, BBC, Bangkok Post, The Nation Thailand, Khmer Times, Phnom Penh Post, Al Jazeera, CNA/Channel News Asia)\n- Tier 3: Institutional (ISEAS-Yusof Ishak Institute, International Crisis Group, CSIS, ASEAN Studies Centre, HRW, Amnesty International)\n- Tier 4: Unverified (social media, unattributed claims from either side)\n\nOnly include information you can verify through search results. Do not fabricate data.\nWhen Thai and Cambodian sources give conflicting casualty, violation, or displacement figures, report both with attribution and flag as contested rather than picking one.\n\nDEDUPLICATION:\n- Same location/incident within ±2 days = same event — merge, do not create duplicates.",
+    "searchContext": "Thailand Cambodia border conflict ceasefire",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "mapLines",
+      "casualties",
+      "econ",
+      "claims",
+      "political",
+      "assets"
+    ],
+    "coordValidation": {
+      "lonMin": 101,
+      "lonMax": 107,
+      "latMin": 12,
+      "latMax": 16
+    },
+    "updateIntervalDays": 2,
+    "backfillTargets": {
+      "timeline": 35,
+      "mapPoints": 25,
+      "mapLines": 20,
+      "claims": 15,
+      "political": 15,
+      "casualties": 12,
+      "econ": 8,
+      "assets": 12,
+      "kpis": 8
+    },
+    "updatePolicy": {
+      "escalation": [
+        2,
+        2,
+        2,
+        7,
+        7,
+        14,
+        30
+      ],
+      "quietThreshold": 0
+    }
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": [
+    "TH"
+  ],
+  "geoSecondary": [
+    "KH"
+  ]
+}
