@@ -70,8 +70,10 @@ const pushTrackers = loadAllTrackers()
       had no effective CSP whatsoever: not enforcement, not report-only. The
       soak period this was waiting on was never collecting anything.
 
-      Cesium needs 'unsafe-eval' and 'wasm-unsafe-eval' — that is what broke
-      the globe when this was first flipped, and both are granted here.
+      CesiumJS needs 'unsafe-eval' and 'wasm-unsafe-eval' — that is what broke
+      the globe when this was first flipped, and both are granted here. Its
+      assets are served locally from /cesium/, so no cesium.com origin is
+      allowlisted: Cesium Ion, the cloud service, is not used.
       Verified with Playwright against the live pages, not by static analysis:
       home and /globe/ load with zero CSP refusals and the Cesium canvas
       renders.
@@ -92,7 +94,7 @@ const pushTrackers = loadAllTrackers()
       lives in public/_headers instead, ready for a CDN in front of Pages.
       X-Frame-Options (set there too) is the clickjacking control that
       actually applies today. */}
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://*.posthog.com https://static.cloudflareinsights.com 'unsafe-eval' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; connect-src 'self' https://*.posthog.com https://app.posthog.com https://us.i.posthog.com https://api.open-meteo.com https://archive-api.open-meteo.com https://earthquake.usgs.gov https://opensky-network.org https://celestrak.org https://*.celestrak.org https://api.github.com https://*.basemaps.cartocdn.com https://tile.openstreetmap.org https://t.me wss://stream.aisstream.io https://*.wikipedia.org https://*.wikimedia.org https://api.memegen.link https://*.cesium.com https://cesium.com https://static.cloudflareinsights.com https://cloudflareinsights.com; frame-src https://www.youtube.com https://youtube.com; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'; worker-src 'self' blob:">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://*.posthog.com https://static.cloudflareinsights.com 'unsafe-eval' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; connect-src 'self' https://*.posthog.com https://app.posthog.com https://us.i.posthog.com https://api.open-meteo.com https://archive-api.open-meteo.com https://earthquake.usgs.gov https://opensky-network.org https://celestrak.org https://*.celestrak.org https://api.github.com https://*.basemaps.cartocdn.com https://tile.openstreetmap.org https://t.me wss://stream.aisstream.io https://*.wikipedia.org https://*.wikimedia.org https://api.memegen.link https://static.cloudflareinsights.com https://cloudflareinsights.com; frame-src https://www.youtube.com https://youtube.com; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'; worker-src 'self' blob:">
   <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
   <link rel="preload" href={`${basePath}fonts/jetbrains-mono-latin.woff2`} as="font" type="font/woff2" crossorigin>
   <link rel="preload" href={`${basePath}fonts/dm-sans-latin.woff2`} as="font" type="font/woff2" crossorigin>
