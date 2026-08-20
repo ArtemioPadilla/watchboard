@@ -27,7 +27,7 @@ import {
   saveState,
   normalizeCandidate,
 } from './hourly-types.js';
-import { buildKeywordIndices, scoreCandidateDetailed } from '../src/lib/keyword-match.js';
+import { buildKeywordIndices, scoreCandidateDetailed, hasSubstance as hasSubstanceFor } from '../src/lib/keyword-match.js';
 import { pollRealtimeSources } from '../src/lib/realtime-sources.js';
 import { appendTriageEntries } from '../src/lib/triage-log.js';
 import { loadAllTrackers } from './lib/load-trackers-node.js';
@@ -293,13 +293,28 @@ async function main() {
       }
     }
 
-    // Substance gate: even with a high score, a direct post needs at least
-    // 2 distinct specific tokens — single-keyword matches like "Trump" or
-    // "United States" alone produce false positives, and the heavy scan's
-    // AI triage handles those better than the threshold alone.
-    const hasSubstance =
-      bestDetail.specificHits >= 2 ||
-      (bestDetail.specificHits >= 1 && bestDetail.phraseHits >= 1);
+    // Substance gate: a single matched token is not evidence, whatever the
+    // score says. It governs both the alert path and the defer path below.
+    //
+    // One specific hit scores 0.3167 at tier 2, which clears MODERATE_THRESHOLD
+    // on its own. Measured against a full day of traffic, 143 of 170 deferred
+    // candidates (84%) routed on exactly one token, and the token was routinely
+    // a domain acronym colliding with an ordinary English word:
+    //
+    //   "car"    -> cancer-breakthroughs   (CAR-T cell therapy)
+    //   "who"    -> covid-pandemic         (the WHO)
+    //   "system" -> brics                  ("payment system")
+    //
+    // Tokenisation lowercases, so "WHO" and "who" are the same token — it
+    // cannot carry evidence in either direction. That produced routes like
+    // "Angélique Kidjo becomes first African musician with a Hollywood star"
+    // -> sheinbaum-presidency, and "Watch: SpaceX rocket spotted off Christmas
+    // Island" -> artemis-2.
+    //
+    // None of those 143 reached HIGH_THRESHOLD, so requiring substance to
+    // route costs no alerts; it only stops the heavy scan's AI triage from
+    // spending turns on noise.
+    const hasSubstance = hasSubstanceFor(bestDetail);
 
     if (bestScore >= HIGH_THRESHOLD && bestSlug && hasSubstance) {
       cand.matchedTracker = bestSlug;
@@ -351,7 +366,7 @@ async function main() {
         decision: 'update', reason: `light-scan posted directly + queued for heavy scan (score ${bestScore.toFixed(2)})`,
         confidence: bestScore, model: null, scanType: 'light',
       });
-    } else if (bestScore >= MODERATE_THRESHOLD) {
+    } else if (bestScore >= MODERATE_THRESHOLD && hasSubstance) {
       cand.matchedTracker = bestSlug;
       if (!pendingUrls.has(cand.url)) {
         pending.entries.push({ candidate: cand, score: bestScore, recordedAt: new Date().toISOString() });
@@ -366,9 +381,16 @@ async function main() {
       });
     } else {
       discarded++;
+      // Separate the two discard reasons so the audit page can tell "nothing
+      // matched" from "matched, but on a single token" — the latter is what
+      // #149 was reporting as misrouting.
+      const reason =
+        bestScore >= MODERATE_THRESHOLD
+          ? `matched ${bestSlug} on a single token — no substance (score ${bestScore.toFixed(2)})`
+          : `low score (${bestScore.toFixed(2)})`;
       logEntries.push({
         timestamp: new Date().toISOString(), candidate: cand,
-        decision: 'discard', reason: `low score (${bestScore.toFixed(2)})`,
+        decision: 'discard', reason,
         confidence: bestScore, model: null, scanType: 'light',
       });
     }
