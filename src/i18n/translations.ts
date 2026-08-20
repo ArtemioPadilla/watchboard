@@ -641,7 +641,7 @@ const es: TranslationKeys = {
 
   'hero.day': 'DÍA',
 
-  'section.timeline': 'Linea de Tiempo',
+  'section.timeline': 'Línea de Tiempo',
   'section.map': 'Mapa de Teatro',
   'section.military': 'Militar',
   'section.casualties': 'Víctimas',
@@ -649,7 +649,7 @@ const es: TranslationKeys = {
   'section.claims': 'Declaraciones',
   'section.political': 'Político',
 
-  'footer.about': 'Acerca de y Creditos',
+  'footer.about': 'Acerca de y Créditos',
   'footer.disclaimer': 'No respalda ninguna narrativa en particular.',
 
   'shortcuts.title': 'ATAJOS DE TECLADO',
@@ -1163,7 +1163,7 @@ const es: TranslationKeys = {
 };
 
 const fr: TranslationKeys = {
-  'header.unclassified': 'NON CLASSIFIE',
+  'header.unclassified': 'NON CLASSIFIÉ',
   'header.osint': 'RENSEIGNEMENT DE SOURCES OUVERTES',
   'header.fouo': 'USAGE OFFICIEL',
   'header.home': 'Accueil Watchboard',
@@ -1178,13 +1178,13 @@ const fr: TranslationKeys = {
   'status.follow': 'SUIVRE',
 
   'domain.conflict': 'CONFLIT',
-  'domain.security': 'SECURITE',
+  'domain.security': 'SÉCURITÉ',
   'domain.governance': 'GOUVERNANCE',
   'domain.disaster': 'CATASTROPHE',
   'domain.human-rights': 'DROITS HUMAINS',
   'domain.science': 'SCIENCE',
   'domain.space': 'ESPACE',
-  'domain.economy': 'ECONOMIE',
+  'domain.economy': 'ÉCONOMIE',
   'domain.culture': 'CULTURE',
   'domain.history': 'HISTOIRE',
   'domain.tracker': 'DOSSIER',
@@ -1214,7 +1214,7 @@ const fr: TranslationKeys = {
   'section.claims': 'Revendications',
   'section.political': 'Politique',
 
-  'footer.about': 'A propos et Credits',
+  'footer.about': 'À propos et Crédits',
   'footer.disclaimer': 'Ne soutient aucun récit en particulier.',
 
   'shortcuts.title': 'RACCOURCIS CLAVIER',
@@ -1306,7 +1306,7 @@ const fr: TranslationKeys = {
   'footer.social': 'Social',
   'footer.lastUpdated': 'Dernière mise à jour :',
 
-  'time.justNow': 'A l\'instant',
+  'time.justNow': 'À l\'instant',
   'time.minAgo': 'min',
   'time.hAgo': 'h',
   'time.dAgo': 'j',
@@ -1728,7 +1728,7 @@ const fr: TranslationKeys = {
 };
 
 const pt: TranslationKeys = {
-  'header.unclassified': 'NAO CLASSIFICADO',
+  'header.unclassified': 'NÃO CLASSIFICADO',
   'header.osint': 'INTELIGÊNCIA DE FONTES ABERTAS',
   'header.fouo': 'USO OFICIAL',
   'header.home': 'Início Watchboard',
@@ -1743,11 +1743,11 @@ const pt: TranslationKeys = {
   'status.follow': 'SEGUIR',
 
   'domain.conflict': 'CONFLITO',
-  'domain.security': 'SEGURANCA',
-  'domain.governance': 'GOVERNANCA',
+  'domain.security': 'SEGURANÇA',
+  'domain.governance': 'GOVERNANÇA',
   'domain.disaster': 'DESASTRE',
   'domain.human-rights': 'DIREITOS HUMANOS',
-  'domain.science': 'CIENCIA',
+  'domain.science': 'CIÊNCIA',
   'domain.space': 'ESPAÇO',
   'domain.economy': 'ECONOMIA',
   'domain.culture': 'CULTURA',
@@ -1779,7 +1779,7 @@ const pt: TranslationKeys = {
   'section.claims': 'Declarações',
   'section.political': 'Político',
 
-  'footer.about': 'Sobre e Creditos',
+  'footer.about': 'Sobre e Créditos',
   'footer.disclaimer': 'Não endossa nenhuma narrativa em particular.',
 
   'shortcuts.title': 'ATALHOS DE TECLADO',

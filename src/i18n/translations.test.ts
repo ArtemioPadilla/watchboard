@@ -18,7 +18,7 @@ describe('t', () => {
   it('returns Spanish translation for locale "es"', () => {
     /** TC-i18n-003: t() returns Spanish. Verifies: AC-t-es */
     expect(t('header.unclassified', 'es')).toBe('NO CLASIFICADO');
-    expect(t('footer.about', 'es')).toBe('Acerca de y Creditos');
+    expect(t('footer.about', 'es')).toBe('Acerca de y Créditos');
     expect(t('status.active', 'es')).toBe('ACTIVO');
   });
 
@@ -47,34 +47,34 @@ describe('t', () => {
   it('covers section keys in both languages', () => {
     /** TC-i18n-006: t() section translations. Verifies: AC-t-complete */
     expect(t('section.timeline', 'en')).toBe('Timeline');
-    expect(t('section.timeline', 'es')).toBe('Linea de Tiempo');
+    expect(t('section.timeline', 'es')).toBe('Línea de Tiempo');
   });
 
   it('returns French translation for locale "fr"', () => {
     /** TC-i18n-017: t() returns French. Verifies: AC-t-fr */
-    expect(t('header.unclassified', 'fr')).toBe('NON CLASSIFIE');
-    expect(t('footer.about', 'fr')).toBe('A propos et Credits');
+    expect(t('header.unclassified', 'fr')).toBe('NON CLASSIFIÉ');
+    expect(t('footer.about', 'fr')).toBe('À propos et Crédits');
     expect(t('status.active', 'fr')).toBe('ACTIF');
     expect(t('status.fresh', 'fr')).toBe('EN DIRECT');
     expect(t('status.follow', 'fr')).toBe('SUIVRE');
     expect(t('status.following', 'fr')).toBe('SUIVI');
     expect(t('domain.conflict', 'fr')).toBe('CONFLIT');
-    expect(t('domain.security', 'fr')).toBe('SECURITE');
+    expect(t('domain.security', 'fr')).toBe('SÉCURITÉ');
     expect(t('domain.governance', 'fr')).toBe('GOUVERNANCE');
     expect(t('cc.search', 'fr')).toBe('Rechercher des trackers... (appuyez /)');
   });
 
   it('returns Portuguese translation for locale "pt"', () => {
     /** TC-i18n-018: t() returns Portuguese. Verifies: AC-t-pt */
-    expect(t('header.unclassified', 'pt')).toBe('NAO CLASSIFICADO');
-    expect(t('footer.about', 'pt')).toBe('Sobre e Creditos');
+    expect(t('header.unclassified', 'pt')).toBe('NÃO CLASSIFICADO');
+    expect(t('footer.about', 'pt')).toBe('Sobre e Créditos');
     expect(t('status.active', 'pt')).toBe('ATIVO');
     expect(t('status.fresh', 'pt')).toBe('AO VIVO');
     expect(t('status.follow', 'pt')).toBe('SEGUIR');
     expect(t('status.following', 'pt')).toBe('SEGUINDO');
     expect(t('domain.conflict', 'pt')).toBe('CONFLITO');
-    expect(t('domain.security', 'pt')).toBe('SEGURANCA');
-    expect(t('domain.governance', 'pt')).toBe('GOVERNANCA');
+    expect(t('domain.security', 'pt')).toBe('SEGURANÇA');
+    expect(t('domain.governance', 'pt')).toBe('GOVERNANÇA');
     expect(t('cc.search', 'pt')).toBe('Buscar trackers... (pressione /)');
   });
 
@@ -83,20 +83,20 @@ describe('t', () => {
     expect(t('domain.disaster', 'fr')).toBe('CATASTROPHE');
     expect(t('domain.human-rights', 'fr')).toBe('DROITS HUMAINS');
     expect(t('domain.science', 'fr')).toBe('SCIENCE');
-    expect(t('domain.economy', 'fr')).toBe('ECONOMIE');
+    expect(t('domain.economy', 'fr')).toBe('ÉCONOMIE');
   });
 
   it('covers all domain keys in Portuguese', () => {
     /** TC-i18n-020: t() Portuguese domain translations. Verifies: AC-t-pt-domains */
     expect(t('domain.disaster', 'pt')).toBe('DESASTRE');
     expect(t('domain.human-rights', 'pt')).toBe('DIREITOS HUMANOS');
-    expect(t('domain.science', 'pt')).toBe('CIENCIA');
+    expect(t('domain.science', 'pt')).toBe('CIÊNCIA');
     expect(t('domain.economy', 'pt')).toBe('ECONOMIA');
   });
 
   it('covers time keys in French and Portuguese', () => {
     /** TC-i18n-021: t() time translations across all locales. Verifies: AC-t-time */
-    expect(t('time.justNow', 'fr')).toBe('A l\'instant');
+    expect(t('time.justNow', 'fr')).toBe('À l\'instant');
     expect(t('time.day', 'fr')).toBe('JOUR');
     expect(t('time.days', 'fr')).toBe('JOURS');
     expect(t('time.justNow', 'pt')).toBe('Agora mesmo');
