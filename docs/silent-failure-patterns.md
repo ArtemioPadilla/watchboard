@@ -11,7 +11,7 @@ schemas — are exactly the signals it defeats.
 workflow is green. The page renders. And the thing you believed was happening
 is not happening, sometimes for months.
 
-## The nine
+## The eleven
 
 | what looked fine | what was actually happening |
 | --- | --- |
@@ -24,6 +24,8 @@ is not happening, sometimes for months.
 | 225 vitest tests | No workflow ran them |
 | `Content-Security-Policy-Report-Only` in a `<meta>` | Ignored by browsers entirely — report-only is header-only, so the site had no policy at all |
 | `if (Ion.defaultAccessToken)` guarding terrain | Always truthy; Cesium assigns a demo token at import. The guard never prevented anything |
+| `review_window_days` widening the catch-up window | Only raised a ceiling. The window is driven by `daysSinceLastRun`, which any run resets to today — so a catch-up dispatched after a normal night scanned 7 days whatever value was passed |
+| A 46-day manifest listing 38 gap days | The agent runs with `--max-turns 30` and the prompt asks 2+ searches per gap. 76+ searches in 30 turns: it covered a prefix and skipped the rest silently |
 
 ## The inverse, which is just as expensive
 
@@ -77,6 +79,23 @@ whether a workflow ran.
   for genuinely optional steps and dangerous everywhere else. AWS Polly errors
   on unsupported SSML tags, and `<emphasis>` is unsupported on every engine —
   adopting it would have dropped narration from every video silently.
+
+## Fixing one layer can move the failure rather than remove it
+
+The last two rows above are one story, and the second was caused by fixing the
+first.
+
+The Berlin Pride attack of 25 July 2026 was missing from `germany`. Widening
+the review window was correct — the manifest went from 7 days to 46, and found
+38 gaps. The event still did not land, because widening the window enlarged the
+manifest without enlarging the turn budget that consumes it.
+
+Correct arithmetic on the layer being fixed, unchanged outcome. The only thing
+that showed it was re-checking the artefact after the fix instead of the fix
+itself.
+
+**When a fix does not produce the result, suspect the next layer down before
+concluding the fix worked.**
 
 ## The rule
 

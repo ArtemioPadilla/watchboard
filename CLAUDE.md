@@ -321,7 +321,7 @@ Broadcast styles in `src/styles/broadcast.css`. Mobile story carousel in `src/st
 ## Failure modes
 
 `docs/silent-failure-patterns.md` records the dominant defect class in this
-repo: **a step reporting success while its work goes nowhere**. Found nine
+repo: **a step reporting success while its work goes nowhere**. Found eleven
 times in one session — metrics committing with no data, a `git add` aborting
 wholesale since May, 225 tests no workflow ran, a CSP the browser ignored, a
 Cesium guard that was always true.
