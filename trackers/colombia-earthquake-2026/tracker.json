@@ -1,0 +1,211 @@
+{
+  "slug": "colombia-earthquake-2026",
+  "name": "Colombia Earthquake 2026 Tracker",
+  "shortName": "Colombia Earthquake",
+  "description": "Intelligence dashboard tracking the magnitude 7.4 earthquake that struck Chocó department, Colombia on 10 August 2026 — casualties, damage assessment, relief operations, reconstruction funding, and aftershocks.",
+  "icon": "🌋",
+  "color": "#d35400",
+  "status": "active",
+  "tone": "alert",
+  "temporal": "live",
+  "domain": "disaster",
+  "region": "south-america",
+  "country": "CO",
+  "startDate": "2026-08-10",
+  "eraLabel": "Response & Reconstruction",
+  "tags": [
+    "earthquake",
+    "natural-disaster",
+    "chocó",
+    "latin-america"
+  ],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": -78.0,
+      "lonMax": -75.3,
+      "latMin": 2.8,
+      "latMax": 6.8
+    },
+    "center": {
+      "lon": -76.4,
+      "lat": 4.6
+    },
+    "categories": [
+      {
+        "id": "impact-zone",
+        "label": "Impact / Damage Zones",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "shelter",
+        "label": "Emergency Shelters",
+        "color": "#3498db"
+      },
+      {
+        "id": "aid-distribution",
+        "label": "Aid Distribution",
+        "color": "#27ae60"
+      },
+      {
+        "id": "infrastructure",
+        "label": "Damaged Infrastructure",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "aftershock",
+        "label": "Significant Aftershocks",
+        "color": "#f39c12"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "layout": "disaster",
+    "cameraPresets": {
+      "overview": {
+        "lon": -76.4,
+        "lat": 4.6,
+        "alt": 700000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Chocó / Valle del Cauca Overview"
+      },
+      "epicenter": {
+        "lon": -76.25,
+        "lat": 4.9667,
+        "alt": 40000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Epicentre — San José del Palmar"
+      },
+      "cali": {
+        "lon": -76.532,
+        "lat": 3.4516,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Cali"
+      },
+      "pereira": {
+        "lon": -75.6961,
+        "lat": 4.8133,
+        "alt": 50000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Pereira"
+      },
+      "quibdo": {
+        "lon": -76.6611,
+        "lat": 5.6947,
+        "alt": 50000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Quibdó"
+      }
+    }
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Humanitarian"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "politicalAvatars": [
+    "co-gov",
+    "ungrd",
+    "military",
+    "ngo",
+    "intl",
+    "other"
+  ],
+  "eventTypes": [
+    "seismic",
+    "humanitarian",
+    "infrastructure",
+    "political",
+    "economic"
+  ],
+  "ai": {
+    "systemPrompt": "You are a disaster response analyst updating a tracker for the August 2026 Chocó, Colombia earthquake.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"cali_collapse_aug12\", \"ungrd_relief_flight\").\n\nSource tier classification:\n- Tier 1: Official/primary (UNGRD, Colombian Presidency, Servicio Geológico Colombiano, Ministerio de Salud, Cruz Roja Colombiana, USGS)\n- Tier 2: Major outlet (Reuters, AP, El Tiempo, El Espectador, Semana, Caracol Radio, RCN, BBC, CNN en Español)\n- Tier 3: Institutional (OCHA, PAHO/WHO, World Bank, IFRC, HRW, CSIS)\n- Tier 4: Unverified (social media, unattributed testimony, uncorroborated casualty claims)\n\nKey topics to monitor:\n- Death toll, injured, and missing person counts across departments (Cali, Pereira, Chocó and beyond)\n- Search and rescue operations, aftershock activity, and structural risk assessments\n- Emergency shelter and displaced population figures\n- Damage assessment (homes, schools, health centres, roads, bridges)\n- Reconstruction funding, national disaster declaration measures, and international aid pledges\n- Political response and accountability (national government, departmental governments, military/UNGRD coordination)\n\nOnly include information you can verify through search results. Do not fabricate data.\nWhen sources disagree on casualty or damage figures, note the discrepancy and mark contested fields appropriately.",
+    "searchContext": "Colombia Chocó earthquake August 2026 Cali Pereira",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "casualties",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": -79.0,
+      "lonMax": -74.0,
+      "latMin": 1.5,
+      "latMax": 8.0
+    },
+    "updateIntervalDays": 1,
+    "backfillTargets": {
+      "timeline": 30,
+      "mapPoints": 25,
+      "claims": 15,
+      "political": 15,
+      "kpis": 8,
+      "casualties": 10,
+      "econ": 8
+    },
+    "updatePolicy": {
+      "escalation": [
+        1,
+        1,
+        1,
+        7,
+        7,
+        30,
+        60,
+        90
+      ],
+      "quietThreshold": 0
+    },
+    "relatedTrackers": [
+      "colombia"
+    ]
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "state": "Chocó",
+  "geoPath": [
+    "CO",
+    "Chocó"
+  ]
+}
