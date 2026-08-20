@@ -205,3 +205,23 @@ export function scoreCandidate(
 ): number {
   return scoreCandidateDetailed(candidate, index, corpus).score;
 }
+
+/**
+ * Whether a match is backed by enough evidence to route on, independent of the
+ * scalar score.
+ *
+ * A single matched token scores 0.3167 at tier 2, which clears the light
+ * scan's defer threshold on its own. That is not evidence: index tokens are
+ * lowercased, so domain acronyms collide with ordinary English words and match
+ * headlines that have nothing to do with the tracker ("car" for CAR-T therapy,
+ * "who" for the WHO, "system" for a payment system).
+ *
+ * Two distinct specific tokens, or one specific token plus a long phrase, is
+ * the bar. Both the alert path and the defer path use it.
+ */
+export function hasSubstance(detail: Pick<ScoreDetail, 'specificHits' | 'phraseHits'>): boolean {
+  return (
+    detail.specificHits >= 2 ||
+    (detail.specificHits >= 1 && detail.phraseHits >= 1)
+  );
+}

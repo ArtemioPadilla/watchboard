@@ -41,7 +41,15 @@ jobs:
           # state.alerted never persisted, so the dedup added in #198 started
           # every run with no memory and re-posted the same stories every
           # 15 minutes.
-          for f in public/_hourly/triage-log.json public/_hourly/state.json; do
+          # The weekly archives (triage-log-YYYY-Www.json) must be committed too.
+          # The log partitions aged-out entries into them and prunes the main
+          # file; committing only the main file means those entries are pruned
+          # from a tracked file into an untracked one that the next run's fresh
+          # checkout never sees. They are gone, and the `weeks` index in the
+          # main log points at files that were never pushed -- which is why the
+          # audit page's archive loader has always had nothing to load.
+          for f in public/_hourly/triage-log.json public/_hourly/state.json \
+                   public/_hourly/triage-log-[0-9]*.json; do
             [ -f "$f" ] && git add "$f"
           done
           if ! git diff --cached --quiet; then
