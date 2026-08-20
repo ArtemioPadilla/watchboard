@@ -1,0 +1,229 @@
+{
+  "slug": "kenya-genz-protests",
+  "name": "Kenya Gen Z Protests Tracker",
+  "shortName": "Kenya Gen Z Protests",
+  "description": "Intelligence dashboard tracking Kenya's Gen Z protest movement — from the 2024 Finance Bill uprising through its 2026 third wave — police response, casualties, and cost-of-living policy.",
+  "icon": "✊🏾",
+  "color": "#e74c3c",
+  "status": "active",
+  "tone": "alert",
+  "temporal": "live",
+  "domain": "governance",
+  "region": "africa",
+  "tags": [
+    "kenya",
+    "genz",
+    "protests",
+    "finance-act",
+    "nairobi",
+    "cost-of-living",
+    "police-brutality"
+  ],
+  "country": "KE",
+  "startDate": "2024-06-18",
+  "eraLabel": "Gen Z Uprising 2024-2026",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": 33.89,
+      "lonMax": 41.91,
+      "latMin": -4.68,
+      "latMax": 5.51
+    },
+    "center": {
+      "lon": 36.8219,
+      "lat": -1.2921
+    },
+    "categories": [
+      {
+        "id": "protest",
+        "label": "Protests & Marches",
+        "color": "#f39c12"
+      },
+      {
+        "id": "crackdown",
+        "label": "Police Crackdown",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "arrest",
+        "label": "Arrests & Detentions",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "policy",
+        "label": "Government Response",
+        "color": "#3498db"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "overview": {
+        "lon": 37.9062,
+        "lat": -0.0236,
+        "alt": 1200000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Kenya Overview"
+      },
+      "nairobi_cbd": {
+        "lon": 36.8219,
+        "lat": -1.2864,
+        "alt": 40000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Nairobi CBD"
+      },
+      "mathare": {
+        "lon": 36.8581,
+        "lat": -1.2607,
+        "alt": 15000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Mathare"
+      },
+      "state_house": {
+        "lon": 36.8085,
+        "lat": -1.2864,
+        "alt": 15000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "State House, Nairobi"
+      },
+      "kisumu": {
+        "lon": 34.7617,
+        "lat": -0.0917,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Kisumu"
+      },
+      "mombasa": {
+        "lon": 39.6682,
+        "lat": -4.0435,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Mombasa"
+      }
+    },
+    "clocks": [
+      {
+        "label": "NAIROBI",
+        "offsetHours": 3
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      },
+      {
+        "label": "EST",
+        "offsetHours": -4
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Humanitarian"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "politicalAvatars": [
+    "ke-gov",
+    "ke-police",
+    "protesters",
+    "opposition",
+    "civil-society",
+    "intl"
+  ],
+  "eventTypes": [
+    "protest",
+    "police-response",
+    "policy",
+    "legal",
+    "humanitarian"
+  ],
+  "ai": {
+    "systemPrompt": "You are a governance and civil-unrest analyst updating a tracker for Kenya's Gen Z protest movement.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"mathare_shooting_2026\", \"finance_act_2026\").\n\nCOVERAGE FOCUS:\n- Protest waves and their triggers (Finance Bill/Act clauses, tax hikes on bread/mobile money/data, unemployment, cost of living)\n- Police and security-force response, deaths, injuries, abductions, and enforced disappearances\n- Government concessions, cabinet reshuffles, bill withdrawals, and policy reversals\n- Economic indicators tied to the movement (inflation, unemployment, fuel/food prices, IMF program terms)\n- Civil society, opposition, and international reaction\n\nSource tier classification:\n- Tier 1: Official (Kenya Police Service, IPOA, National Treasury, Judiciary, Parliament Hansard, State House statements)\n- Tier 2: Major outlet (Reuters, AP, BBC, Daily Nation/Nation Media Group, The Standard, Citizen Digital, The Star, Al Jazeera)\n- Tier 3: Institutional (KNCHR, Amnesty International Kenya, Human Rights Watch, ICJ Kenya, Africa Uncensored, LSK - Law Society of Kenya)\n- Tier 4: Unverified (social media/X/TikTok posts, unattributed claims)\n\nOnly include information you can verify through search results. Do not fabricate data.\nCasualty and arrest figures are frequently contested between police and civil-society sources — capture both counts and mark the \"contested\" field accordingly.",
+    "searchContext": "Kenya Gen Z protests Finance Act cost of living police crackdown",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "casualties",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": 33,
+      "lonMax": 43,
+      "latMin": -5,
+      "latMax": 6
+    },
+    "updateIntervalDays": 1,
+    "backfillTargets": {
+      "timeline": 30,
+      "mapPoints": 20,
+      "claims": 15,
+      "political": 15,
+      "kpis": 8,
+      "casualties": 10,
+      "econ": 8
+    },
+    "updatePolicy": {
+      "escalation": [
+        1,
+        1,
+        3,
+        7,
+        14,
+        30
+      ],
+      "quietThreshold": 0
+    },
+    "relatedTrackers": [
+      "sudan-conflict",
+      "myanmar-civil-war",
+      "sahel-insurgency",
+      "nigeria"
+    ]
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": [
+    "KE"
+  ]
+}
