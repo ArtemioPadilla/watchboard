@@ -1,0 +1,198 @@
+{
+  "slug": "bolivia-crisis-2026",
+  "name": "Bolivia Crisis Tracker",
+  "shortName": "Bolivia Crisis",
+  "description": "Intelligence dashboard tracking Bolivia's 2026 political and economic crisis: the COB labour confederation standoff, state of emergency, fuel and dollar shortages, and deadly unrest in La Paz and El Alto.",
+  "icon": "🇧🇴",
+  "color": "#d52b1e",
+  "status": "active",
+  "tone": "alert",
+  "temporal": "live",
+  "domain": "governance",
+  "region": "south-america",
+  "country": "BO",
+  "startDate": "2026-05-14",
+  "eraLabel": "2026 Crisis",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": -68.35,
+      "lonMax": -68.0,
+      "latMin": -16.65,
+      "latMax": -16.35
+    },
+    "center": {
+      "lon": -68.15,
+      "lat": -16.5
+    },
+    "categories": [
+      {
+        "id": "protest",
+        "label": "Protests & Marches",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "roadblock",
+        "label": "Roadblocks",
+        "color": "#f39c12"
+      },
+      {
+        "id": "security-response",
+        "label": "Government/Security Response",
+        "color": "#3498db"
+      },
+      {
+        "id": "shortage",
+        "label": "Fuel/Dollar Shortage Sites",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "casualty",
+        "label": "Casualty Sites",
+        "color": "#7f8c8d"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "overview": {
+        "lon": -68.15,
+        "lat": -16.9,
+        "alt": 400000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "La Paz/El Alto Overview"
+      },
+      "la_paz_center": {
+        "lon": -68.1193,
+        "lat": -16.4897,
+        "alt": 30000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "La Paz City Center"
+      },
+      "el_alto": {
+        "lon": -68.1719,
+        "lat": -16.5038,
+        "alt": 30000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "El Alto"
+      },
+      "plaza_murillo": {
+        "lon": -68.1367,
+        "lat": -16.495,
+        "alt": 8000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Plaza Murillo (Government Palace)"
+      },
+      "la_paz_el_alto_highway": {
+        "lon": -68.15,
+        "lat": -16.505,
+        "alt": 15000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "La Paz-El Alto Highway Corridor"
+      }
+    }
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Casualties"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "politicalAvatars": [
+    "bo-gov",
+    "cob",
+    "bo-security",
+    "opposition",
+    "intl",
+    "other"
+  ],
+  "eventTypes": [
+    "protest",
+    "government",
+    "economic",
+    "humanitarian",
+    "negotiation"
+  ],
+  "ai": {
+    "systemPrompt": "You are a governance and political-economy analyst updating a crisis tracking dashboard for Bolivia.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"cob_strike_day50\", \"la_paz_curfew\").\n\nSource tier classification:\n- Tier 1: Official/primary (Bolivian government ministries, Bolivian Ombudsman/Defensoría del Pueblo, Central Obrera Boliviana (COB) statements, Bolivian Central Bank)\n- Tier 2: Major outlet (Reuters, AP, BBC, El Deber, Página Siete, Los Tiempos, La Razón, AFP)\n- Tier 3: Institutional (CIDH/IACHR, Human Rights Watch, Amnesty International, Crisis Group, Fundación Jubileo, CEDLA)\n- Tier 4: Unverified (social media, unattributed claims)\n\nOnly include information you can verify through search results. Do not fabricate data.\nTrack: protests and roadblocks (bloqueos), government response and states of emergency, casualties (deaths/injuries with contested status where figures diverge), fuel and dollar/forex shortages, and political negotiations between the government and COB.\nWhen casualty or shortage figures diverge between official and independent/union sources, note the discrepancy and mark contested accordingly.",
+    "searchContext": "Bolivia political crisis COB strike state of emergency 2026",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "casualties",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": -69.7,
+      "lonMax": -66.5,
+      "latMin": -18.5,
+      "latMax": -15.0
+    },
+    "updateIntervalDays": 1,
+    "backfillTargets": {
+      "timeline": 35,
+      "mapPoints": 25,
+      "claims": 15,
+      "political": 15,
+      "casualties": 12,
+      "econ": 8,
+      "kpis": 8
+    },
+    "updatePolicy": {
+      "escalation": [
+        1,
+        1,
+        1,
+        7,
+        7,
+        30
+      ],
+      "quietThreshold": 0
+    },
+    "relatedTrackers": []
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": [
+    "BO"
+  ]
+}
