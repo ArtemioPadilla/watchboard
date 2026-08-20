@@ -1,1 +1,90 @@
-[]
+[
+  {
+    "id": "kpi-total-killed",
+    "label": "Estimated Total Killed",
+    "value": "140+",
+    "color": "red",
+    "source": "Aggregated independent media/WHO estimates",
+    "contested": true,
+    "contestNote": "Thai and Cambodian government tallies differ; independent estimates combine the July (43+) and December (101+) phases.",
+    "trend": "stable",
+    "lastUpdated": "2026-08-20T12:00:00.000Z"
+  },
+  {
+    "id": "kpi-peak-displaced",
+    "label": "Peak Displacement (Dec 2025)",
+    "value": "500,000+",
+    "color": "amber",
+    "source": "Reuters/AP aggregated reporting",
+    "contested": true,
+    "contestNote": "Estimates range from ~300,000 (July) to 500,000+ (December peak) depending on source and date.",
+    "delta": "409,000 as of Jan 1, 2026",
+    "deltaNote": "Gradual decline since the Dec 27, 2025 ceasefire",
+    "trend": "down",
+    "lastUpdated": "2026-08-20T12:00:00.000Z"
+  },
+  {
+    "id": "kpi-still-displaced",
+    "label": "Still Displaced (Jan 2026)",
+    "value": "409,000",
+    "color": "amber",
+    "source": "World Vision International",
+    "contested": false,
+    "trend": "down",
+    "lastUpdated": "2026-08-20T12:00:00.000Z"
+  },
+  {
+    "id": "kpi-ceasefire-day-count",
+    "label": "Days Since Dec 27 Ceasefire",
+    "value": "236",
+    "color": "blue",
+    "source": "Watchboard calculation",
+    "contested": false,
+    "trend": "stable",
+    "lastUpdated": "2026-08-20T12:00:00.000Z"
+  },
+  {
+    "id": "kpi-fence-length-planned",
+    "label": "Planned/Built Fence Length",
+    "value": "1.3km built / 17km+ planned",
+    "color": "blue",
+    "source": "Bangkok Post / Bloomberg",
+    "contested": false,
+    "trend": "up",
+    "lastUpdated": "2026-08-20T12:00:00.000Z"
+  },
+  {
+    "id": "kpi-bilateral-trade",
+    "label": "2024 Bilateral Trade Value",
+    "value": "366.7B baht (~$10B)",
+    "color": "amber",
+    "source": "ITD Thailand",
+    "contested": false,
+    "delta": "Land trade down from $1.9B to $0.9B, Q2 to Q4 2025",
+    "deltaNote": "Border closures during escalations",
+    "trend": "down",
+    "lastUpdated": "2026-08-20T12:00:00.000Z"
+  },
+  {
+    "id": "kpi-us-tariff-rate",
+    "label": "US Tariff Rate",
+    "value": "19%",
+    "color": "green",
+    "source": "US Trade Representative",
+    "contested": false,
+    "delta": "Down from 36% threatened",
+    "deltaNote": "Reduced after the Jul 28, 2025 ceasefire held",
+    "trend": "down",
+    "lastUpdated": "2026-08-20T12:00:00.000Z"
+  },
+  {
+    "id": "kpi-conflict-day-count",
+    "label": "Days Since May 28, 2025 Flashpoint",
+    "value": "449",
+    "color": "red",
+    "source": "Watchboard calculation",
+    "contested": false,
+    "trend": "stable",
+    "lastUpdated": "2026-08-20T12:00:00.000Z"
+  }
+]
