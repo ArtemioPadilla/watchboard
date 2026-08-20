@@ -1,0 +1,235 @@
+{
+  "slug": "canada-wildfires-2026",
+  "name": "Canada Wildfires Tracker",
+  "shortName": "Canada Wildfires",
+  "description": "Intelligence dashboard tracking Canada's 2026 wildfire season — hectares burned by province, evacuations and casualties, transboundary smoke and air quality across Canada and the US, and firefighting resource deployment.",
+  "icon": "🔥",
+  "color": "#d35400",
+  "status": "active",
+  "tone": "alert",
+  "temporal": "live",
+  "domain": "disaster",
+  "region": "north-america",
+  "country": "CA",
+  "startDate": "2026-06-01",
+  "eraLabel": "2026 Wildfire Season",
+  "tags": [
+    "wildfire",
+    "canada",
+    "smoke",
+    "air-quality",
+    "evacuation",
+    "british-columbia",
+    "ontario",
+    "northwest-territories",
+    "quebec"
+  ],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": -141,
+      "lonMax": -52,
+      "latMin": 40,
+      "latMax": 70
+    },
+    "center": {
+      "lon": -95,
+      "lat": 55
+    },
+    "categories": [
+      {
+        "id": "fire-perimeter",
+        "label": "Active Fire Perimeters",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "evacuation",
+        "label": "Evacuation Zones",
+        "color": "#f39c12"
+      },
+      {
+        "id": "air-quality",
+        "label": "Air Quality Alerts",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "resource-deployment",
+        "label": "Firefighting Resources",
+        "color": "#3498db"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "layout": "disaster",
+    "cameraPresets": {
+      "theater": {
+        "lon": -95,
+        "lat": 55,
+        "alt": 4000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Canada Overview"
+      },
+      "nwt_fires": {
+        "lon": -114.5,
+        "lat": 62,
+        "alt": 400000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Northwest Territories Fire Zone"
+      },
+      "quebec_fires": {
+        "lon": -74,
+        "lat": 50,
+        "alt": 300000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Quebec Fire Zone"
+      },
+      "thunder_bay": {
+        "lon": -89.25,
+        "lat": 48.38,
+        "alt": 150000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Thunder Bay 36 Fire (Ontario)"
+      },
+      "summerland": {
+        "lon": -119.65,
+        "lat": 49.6,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Summerland, BC (Bald Range Fire)"
+      },
+      "milwaukee_aqi": {
+        "lon": -87.91,
+        "lat": 43.04,
+        "alt": 150000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Milwaukee, WI (Record AQI 644)"
+      }
+    },
+    "clocks": [
+      {
+        "label": "PT",
+        "offsetHours": -7
+      },
+      {
+        "label": "MT",
+        "offsetHours": -6
+      },
+      {
+        "label": "ET",
+        "offsetHours": -4
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Humanitarian"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "politicalAvatars": [
+    "ca-fed",
+    "ca-prov",
+    "us-gov",
+    "intl-aid",
+    "other"
+  ],
+  "eventTypes": [
+    "wildfire",
+    "evacuation",
+    "air-quality",
+    "firefighting"
+  ],
+  "ai": {
+    "systemPrompt": "You are a disaster response analyst updating the Canada Wildfires tracker.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"bald_range_fire\", \"thunder_bay_36_fire\").\n\nSource tier classification:\n- Tier 1: Official (Canadian Interagency Forest Fire Centre (CIFFC), BC Wildfire Service, Ontario Aviation, Forest Fire and Emergency Services, Quebec's SOPFEU, NWT Fire, Environment and Climate Change Canada (ECCC), Public Safety Canada, US EPA AirNow, US National Weather Service)\n- Tier 2: Major outlet (Reuters, AP, CBC News, CTV News, Global News, The Globe and Mail, National Post, NYT, Washington Post, local outlets in affected US cities e.g. Detroit Free Press, Milwaukee Journal Sentinel)\n- Tier 3: Institutional (IQAir, WHO air quality guidance, Canadian Red Cross, FEMA, provincial/territorial emergency management agencies, academic wildfire research groups)\n- Tier 4: Unverified (social media, unattributed local reports)\n\nOnly include information you can verify through search results. Do not fabricate data.\nHectares-burned and fire-count figures update frequently across CIFFC and provincial agencies — always use the most recent official figure and note the as-of date.\nTrack transboundary smoke as a distinct axis: US air quality alerts, AQI readings in affected cities, and the number of US states/residents under advisories are as important as on-the-ground fire and evacuation data.",
+    "searchContext": "Canada wildfires 2026 evacuations air quality smoke hectares burned",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "casualties",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": -145,
+      "lonMax": -50,
+      "latMin": 38,
+      "latMax": 72
+    },
+    "updateIntervalDays": 1,
+    "backfillTargets": {
+      "timeline": 35,
+      "mapPoints": 25,
+      "claims": 15,
+      "political": 12,
+      "casualties": 10,
+      "econ": 8,
+      "kpis": 8
+    },
+    "updatePolicy": {
+      "escalation": [
+        1,
+        1,
+        1,
+        3,
+        7,
+        14,
+        30
+      ],
+      "quietThreshold": 0
+    },
+    "rssFeeds": [
+      "https://news.google.com/rss/search?q=Canada+wildfires+2026+evacuation+air+quality&hl=en-US&gl=US&ceid=US:en"
+    ],
+    "relatedTrackers": [
+      "super-el-nino-2026"
+    ]
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": [
+    "CA"
+  ]
+}
