@@ -49,8 +49,21 @@ for (const slug of slugs) {
   // 0 and silently disable gap detection on every normal night.
   const rawMax = process.env.REVIEW_WINDOW_MAX_DAYS;
   const parsedMax = rawMax ? Number(rawMax) : NaN;
-  const MAX_WINDOW_DAYS = Number.isFinite(parsedMax) && parsedMax > 0 ? parsedMax : 30;
-  const windowSize = Math.min(Math.max(daysSinceLastRun, 7), MAX_WINDOW_DAYS);
+  const explicit = Number.isFinite(parsedMax) && parsedMax > 0 ? parsedMax : null;
+
+  // An explicit value IS the window, not a ceiling on it.
+  //
+  // It used to be only a cap, which meant it could not do the one job it
+  // exists for. The window is driven by daysSinceLastRun, and any run resets
+  // lastRun to today — so a catch-up dispatched right after a normal night got
+  // max(0, 7) = 7 days no matter how large a value was passed. Raising a
+  // ceiling above a floor nothing reaches changes nothing.
+  //
+  // Found chasing a real gap: the Berlin Pride attack of 25 July 2026 was
+  // missing from `germany`, and two targeted runs with review_window_days=60
+  // both scanned 7 days and never looked at it.
+  const MAX_WINDOW_DAYS = explicit ?? 30;
+  const windowSize = explicit ?? Math.min(Math.max(daysSinceLastRun, 7), MAX_WINDOW_DAYS);
 
   const windowStart = new Date(today);
   windowStart.setDate(windowStart.getDate() - windowSize);
