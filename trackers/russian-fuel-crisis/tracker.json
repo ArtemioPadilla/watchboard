@@ -1,0 +1,217 @@
+{
+  "slug": "russian-fuel-crisis",
+  "name": "Russian Fuel Crisis Tracker",
+  "shortName": "Russia Fuel Crisis",
+  "description": "Intelligence dashboard tracking Russia's domestic fuel crisis of 2025-2026 — refinery outages, regional rationing and states of emergency, retail queues and price spikes, and export/import-substitution policy as shortages spread across the country.",
+  "icon": "⛽",
+  "color": "#d35400",
+  "status": "active",
+  "tone": "alert",
+  "temporal": "live",
+  "trackerType": "factual",
+  "domain": "economy",
+  "region": "europe",
+  "tags": [
+    "russia",
+    "fuel crisis",
+    "gasoline shortage",
+    "refineries",
+    "rationing",
+    "energy",
+    "sanctions"
+  ],
+  "country": "RU",
+  "startDate": "2025-08-02",
+  "eraLabel": "Domestic Fuel Crisis 2025-2026",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": 19.25,
+      "lonMax": 180,
+      "latMin": 41.19,
+      "latMax": 81.85
+    },
+    "center": {
+      "lon": 60,
+      "lat": 61
+    },
+    "categories": [
+      {
+        "id": "refinery-outage",
+        "label": "Refinery Outages",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "rationing",
+        "label": "Rationing & Sales Restrictions",
+        "color": "#f39c12"
+      },
+      {
+        "id": "price-queue",
+        "label": "Price Spikes & Queues",
+        "color": "#e67e22"
+      },
+      {
+        "id": "state-of-emergency",
+        "label": "States of Emergency",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "export-policy",
+        "label": "Export & Import Policy",
+        "color": "#3498db"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "overview": {
+        "lon": 60,
+        "lat": 61,
+        "alt": 6000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Russia Overview"
+      },
+      "omsk": {
+        "lon": 73.3645,
+        "lat": 54.9924,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Omsk Refinery"
+      },
+      "saratov": {
+        "lon": 46.0086,
+        "lat": 51.5462,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Saratov Refinery"
+      },
+      "moscow": {
+        "lon": 37.6173,
+        "lat": 55.7558,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Moscow (Federal Policy)"
+      },
+      "crimea": {
+        "lon": 34.1,
+        "lat": 44.95,
+        "alt": 100000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Crimea (20L Rationing Cap)"
+      },
+      "novorossiysk": {
+        "lon": 37.7674,
+        "lat": 44.7235,
+        "alt": 100000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Novorossiysk (Export Terminal)"
+      }
+    }
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "politicalAvatars": [
+    "ru-federal",
+    "ru-regional",
+    "ru-industry",
+    "consumers",
+    "intl",
+    "other"
+  ],
+  "eventTypes": [
+    "outage",
+    "rationing",
+    "price",
+    "policy",
+    "protest"
+  ],
+  "ai": {
+    "systemPrompt": "You are an energy and economics analyst updating a tracker on Russia's domestic fuel crisis.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"omsk_refinery_halt\", \"crimea_20l_cap\").\n\nThis tracker covers the DEMAND-SIDE and DOMESTIC-CONSEQUENCES story: refinery outages and capacity, regional sales restrictions and rationing schemes (odd/even plate days, litre caps, fuel-type substitutions like Euro-3 re-authorization), states of emergency, retail prices and queues, and export/import-substitution policy. Do NOT duplicate coverage of the Ukrainian drone/missile strikes on refineries themselves — that belongs to the ukraine-war tracker; only note a strike here if it directly explains a capacity or rationing change.\n\nSource tier classification:\n- Tier 1: Official/primary (Russian Ministry of Energy, Rosstat, regional governor decrees/orders, company statements from Rosneft, Lukoil, Gazprom Neft, Surgutneftegaz, Tatneft)\n- Tier 2: Major outlet (Reuters, Bloomberg, AP, Financial Times, The Moscow Times, RBC, Kommersant, Vedomosti)\n- Tier 3: Institutional (Kpler, S&P Global Platts, IEA, Re:Russia, CREA — Centre for Research on Energy and Clean Air, Institute for the Study of War economic notes)\n- Tier 4: Unverified (Telegram channels, social media reports of queues/shortages, unattributed regional chatter)\n\nOnly include information you can verify through search results. Do not fabricate data.\nTrack: refinery outages and capacity disabled (by facility and region), the number/share of Russian regions under sales restrictions or rationing, states of emergency declared, retail fuel prices (gasoline/diesel) and queue reports, and federal/regional policy responses (export bans, Euro-3 re-authorization, import substitution, price caps).",
+    "searchContext": "Russia gasoline diesel fuel shortage crisis refinery rationing 2025 2026",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": 15,
+      "lonMax": 180,
+      "latMin": 40,
+      "latMax": 82
+    },
+    "updateIntervalDays": 1,
+    "backfillTargets": {
+      "timeline": 35,
+      "mapPoints": 25,
+      "claims": 15,
+      "political": 15,
+      "kpis": 8,
+      "econ": 15
+    },
+    "updatePolicy": {
+      "escalation": [
+        1,
+        1,
+        1,
+        3,
+        7,
+        14,
+        30
+      ],
+      "quietThreshold": 0
+    },
+    "rssFeeds": [
+      "https://news.google.com/rss/search?q=Russia+fuel+shortage+gasoline+crisis&hl=en-US&gl=US&ceid=US:en",
+      "https://news.google.com/rss/search?q=Russia+refinery+rationing+petrol&hl=en-US&gl=US&ceid=US:en"
+    ],
+    "relatedTrackers": [
+      "ukraine-war",
+      "global-recession-risk"
+    ]
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": [
+    "RU"
+  ]
+}
