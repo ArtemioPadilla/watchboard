@@ -2,6 +2,7 @@
   "name": "watchboard",
   "type": "module",
   "version": "1.0.0",
+  "license": "MIT",
   "scripts": {
     "copy-cesium": "node -e \"const{cpSync,existsSync}=require('fs');const s='node_modules/cesium/Build/Cesium/';['Workers','ThirdParty','Assets','Widgets'].forEach(d=>{if(!existsSync('public/cesium/'+d))cpSync(s+d,'public/cesium/'+d,{recursive:true})})\"",
     "dev": "npm run copy-cesium && astro dev",
