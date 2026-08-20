@@ -1,0 +1,255 @@
+{
+  "slug": "europe-climate-crisis-2026",
+  "name": "Europe Climate Crisis 2026 Tracker",
+  "shortName": "Europe Climate Crisis",
+  "description": "Intelligence dashboard tracking Europe's compound climate crisis of 2026 — record heat, severe drought, and the worst wildfire season on record across Spain, France, Italy, Portugal, Greece, and Romania.",
+  "icon": "🔥",
+  "color": "#e67e22",
+  "status": "active",
+  "tone": "alert",
+  "temporal": "live",
+  "domain": "disaster",
+  "region": "europe",
+  "country": "ES",
+  "geoSecondary": [
+    "FR",
+    "IT",
+    "PT",
+    "GR",
+    "RO"
+  ],
+  "startDate": "2026-06-01",
+  "eraLabel": "Summer 2026 Wildfire & Drought Crisis",
+  "tags": [
+    "wildfires",
+    "drought",
+    "heatwave",
+    "excess mortality",
+    "Spain",
+    "France",
+    "Italy",
+    "Portugal",
+    "Greece",
+    "Romania",
+    "Danube",
+    "nuclear power",
+    "climate change"
+  ],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": -9.5,
+      "lonMax": 29,
+      "latMin": 34,
+      "latMax": 51
+    },
+    "center": {
+      "lon": 8,
+      "lat": 42.5
+    },
+    "categories": [
+      {
+        "id": "wildfire",
+        "label": "Active Fires / Burn Scars",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "drought",
+        "label": "Drought & Low River Levels",
+        "color": "#e67e22"
+      },
+      {
+        "id": "heat-record",
+        "label": "Heat Records & Mortality",
+        "color": "#f39c12"
+      },
+      {
+        "id": "evacuation",
+        "label": "Evacuations & Emergencies",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "energy-agriculture",
+        "label": "Energy & Agriculture Impact",
+        "color": "#3498db"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "layout": "disaster",
+    "cameraPresets": {
+      "overview": {
+        "lon": 5,
+        "lat": 43,
+        "alt": 3500000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Southern Europe Overview"
+      },
+      "guadalajara_sierra_norte": {
+        "lon": -3.1,
+        "lat": 41.05,
+        "alt": 100000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Guadalajara Sierra Norte Fire"
+      },
+      "madrid_deep_space": {
+        "lon": -4.249,
+        "lat": 40.429,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "NASA Madrid Deep Space Complex"
+      },
+      "gironde_saumos": {
+        "lon": -1.12,
+        "lat": 44.86,
+        "alt": 100000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Gironde / Saumos Fire"
+      },
+      "barcelona_fabra": {
+        "lon": 2.1244,
+        "lat": 41.4184,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Barcelona (Fabra Observatory)"
+      },
+      "cernavoda": {
+        "lon": 27.9967,
+        "lat": 44.3392,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Cernavoda Nuclear Plant (Danube)"
+      }
+    },
+    "clocks": [
+      {
+        "label": "MADRID",
+        "offsetHours": 2
+      },
+      {
+        "label": "PARIS",
+        "offsetHours": 2
+      },
+      {
+        "label": "BUCHAREST",
+        "offsetHours": 3
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Humanitarian"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "politicalAvatars": [
+    "es-gov",
+    "fr-gov",
+    "eu-commission",
+    "civil-protection",
+    "scientific-community",
+    "other"
+  ],
+  "eventTypes": [
+    "wildfire",
+    "heat-drought",
+    "evacuation-emergency",
+    "energy-agriculture",
+    "political-response"
+  ],
+  "ai": {
+    "systemPrompt": "You are a disaster and climate-risk analyst updating an intelligence dashboard tracking Europe's compound climate crisis of 2026 — record heat, severe drought, and the worst wildfire season on record across Spain, France, Italy, Portugal, Greece, and Romania.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"guadalajara_fire_aug13\", \"fabra_heat_record_jul8\").\n\nYour role is to track hectares burned per country, fatalities and evacuations, heat records and excess mortality, drought indicators and river/reservoir levels, and downstream energy and agricultural consequences (e.g. nuclear reactor shutdowns tied to river cooling-water limits).\n\nSource tier classification:\n- Tier 1: Official/primary (AEMET, Météo-France, Copernicus EFFIS, national civil protection agencies — Protección Civil, Sécurité Civile, Protezione Civile, national statistics/health ministries for excess mortality, IAEA/Romanian nuclear regulator for Cernavoda)\n- Tier 2: Major outlet (Reuters, AP, BBC, El País, Le Monde, La Repubblica, Euronews)\n- Tier 3: Institutional (Copernicus Climate Change Service, WMO, European Forest Fire Information System (EFFIS), Joint Research Centre, Oxford Economics)\n- Tier 4: Unverified (social media, unattributed local reports, unverified damage claims)\n\nOnly include information you can verify through search results. Do not fabricate data.\nSeveral figures are contested across sources — notably whether the Ávila or the merged Ávila-Madrid fire was the largest in Spanish history (some outlets cite ~50,000 ha for Ávila alone; other records put the merged Ávila-Madrid fire at ~15,000 ha with Guadalajara Sierra Norte separately at 32,000+ ha). Flag such figures with contested status and cite both figures with their sources rather than picking one.",
+    "searchContext": "Europe wildfires drought heatwave 2026 Spain France Portugal Italy Greece Romania Danube",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "casualties",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": -10,
+      "lonMax": 30,
+      "latMin": 33,
+      "latMax": 52
+    },
+    "updateIntervalDays": 1,
+    "backfillTargets": {
+      "timeline": 35,
+      "mapPoints": 25,
+      "claims": 15,
+      "political": 12,
+      "casualties": 12,
+      "econ": 10,
+      "kpis": 8
+    },
+    "updatePolicy": {
+      "escalation": [
+        1,
+        1,
+        1,
+        3,
+        7,
+        14,
+        30
+      ],
+      "quietThreshold": 0
+    },
+    "rssFeeds": [
+      "https://news.google.com/rss/search?q=Europe+wildfires+drought+heatwave+2026&hl=en-US&gl=US&ceid=US:en"
+    ],
+    "relatedTrackers": [
+      "super-el-nino-2026",
+      "climate-solutions",
+      "european-union"
+    ]
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": [
+    "ES"
+  ]
+}
