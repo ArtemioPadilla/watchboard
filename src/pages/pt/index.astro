@@ -1,9 +1,9 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import { loadAllTrackers } from '../lib/tracker-registry';
-import { loadTrackerData } from '../lib/data';
-import CommandCenter from '../components/islands/CommandCenter/CommandCenter';
-import { jsonLd } from '../lib/json-ld';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { loadAllTrackers } from '../../lib/tracker-registry';
+import { loadTrackerData } from '../../lib/data';
+import CommandCenter from '../../components/islands/CommandCenter/CommandCenter';
+import { jsonLd } from '../../lib/json-ld';
 
 const trackers = loadAllTrackers();
 const nonDraft = trackers.filter(t => t.status !== 'draft');
@@ -173,14 +173,14 @@ const breakingTrackers = [...serializedTrackers]
     isBreaking: t.isBreaking,
   }));
 ---
-<BaseLayout title="Watchboard — Open-Source Intelligence Dashboard for Global Conflicts, Security & Geopolitics" description={`Track ${nonDraft.length} global events with AI-sourced intelligence — real-time maps, casualty data, contested claims, and daily digests for conflicts, politics, and security worldwide.`}>
+<BaseLayout title="Watchboard — Painel de Inteligência de Código Aberto sobre Conflitos, Segurança e Geopolítica" description={`Acompanhe ${nonDraft.length} eventos globais com inteligência de fontes verificadas — mapas em tempo real, dados de vítimas, alegações contestadas e resumos diários.`} locale="pt">
   <Fragment slot="head">
     <script is:inline type="application/ld+json" set:html={jsonLd({
       "@context": "https://schema.org",
       "@type": "WebApplication",
       "name": "Watchboard",
-      "url": "https://watchboard.dev/",
-      "description": `Open-source intelligence dashboard tracking ${nonDraft.length} global events with AI-sourced data, interactive maps, casualty tracking, and contested claims analysis.`,
+      "url": "https://watchboard.dev/pt/",
+      "description": `Painel de inteligência de código aberto acompanhando ${nonDraft.length} eventos globais com dados de fontes verificadas, mapas interativos, rastreamento de vítimas e análise de alegações contestadas.`,
       "applicationCategory": "NewsApplication",
       "operatingSystem": "Web",
       "offers": {
@@ -204,6 +204,7 @@ const breakingTrackers = [...serializedTrackers]
     trackerCount={nonDraft.length}
     updatedTodayCount={updatedTodayCount}
     breakingTrackers={breakingTrackers}
+    initialLocale="pt"
     client:idle
   />
   </main>
