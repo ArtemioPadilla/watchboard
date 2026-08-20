@@ -1,0 +1,228 @@
+{
+  "slug": "vera-rubin-lsst",
+  "name": "Vera C. Rubin Observatory / LSST Tracker",
+  "shortName": "Rubin LSST",
+  "description": "Intelligence dashboard tracking the Vera C. Rubin Observatory's Legacy Survey of Space and Time (LSST): data releases, alert volumes, asteroid and transient discoveries, and ten-year survey coverage progress.",
+  "icon": "🔭",
+  "color": "#283593",
+  "status": "active",
+  "tone": "progress",
+  "temporal": "live",
+  "domain": "science",
+  "region": "south-america",
+  "tags": [
+    "astronomy",
+    "vera-rubin-observatory",
+    "lsst",
+    "telescope",
+    "chile",
+    "asteroids",
+    "transients",
+    "cosmology",
+    "simonyi-telescope"
+  ],
+  "country": "CL",
+  "state": "Coquimbo",
+  "city": "Vicuña",
+  "startDate": "2026-06-30",
+  "eraLabel": "Legacy Survey of Space and Time",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": -71.5,
+      "lonMax": -70.0,
+      "latMin": -30.8,
+      "latMax": -29.5
+    },
+    "center": {
+      "lon": -70.7494,
+      "lat": -30.2446
+    },
+    "categories": [
+      {
+        "id": "observatory-site",
+        "label": "Rubin Observatory (Cerro Pachón)",
+        "color": "#3498db"
+      },
+      {
+        "id": "neighboring-facility",
+        "label": "Neighboring Observatories",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "support-hub",
+        "label": "Support & Logistics Hub",
+        "color": "#f39c12"
+      },
+      {
+        "id": "milestone",
+        "label": "Survey Milestones",
+        "color": "#27ae60"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "overview": {
+        "lon": -70.7494,
+        "lat": -30.2446,
+        "alt": 300000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Coquimbo Region Overview"
+      },
+      "cerro_pachon": {
+        "lon": -70.7494,
+        "lat": -30.2446,
+        "alt": 15000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Vera C. Rubin Observatory (Cerro Pachón)"
+      },
+      "cerro_tololo": {
+        "lon": -70.815,
+        "lat": -30.169,
+        "alt": 15000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Cerro Tololo Inter-American Observatory"
+      },
+      "la_serena": {
+        "lon": -71.2489,
+        "lat": -29.9027,
+        "alt": 40000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "La Serena — NOIRLab Chile HQ"
+      },
+      "tucson": {
+        "lon": -110.9265,
+        "lat": 32.2217,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Tucson, AZ — NSF NOIRLab / Rubin Project HQ"
+      },
+      "slac": {
+        "lon": -122.2026,
+        "lat": 37.4189,
+        "alt": 40000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "SLAC National Accelerator Laboratory (LSST Camera)"
+      }
+    },
+    "clocks": [
+      {
+        "label": "CLT",
+        "offsetHours": -4
+      },
+      {
+        "label": "MST",
+        "offsetHours": -7
+      },
+      {
+        "label": "PST",
+        "offsetHours": -8
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Claims & Debates"
+    },
+    {
+      "id": "sec-political",
+      "label": "Key Figures"
+    }
+  ],
+  "politicalAvatars": [
+    "nsf",
+    "doe",
+    "noirlab",
+    "chile-govt",
+    "researcher"
+  ],
+  "eventTypes": [
+    "data-release",
+    "discovery",
+    "commissioning",
+    "milestone",
+    "collaboration"
+  ],
+  "ai": {
+    "systemPrompt": "You are an astronomy and astrophysics analyst updating a tracking dashboard for the Vera C. Rubin Observatory's Legacy Survey of Space and Time (LSST).\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"data_preview_2_release\", \"first_800k_alert_night\").\n\nSource tier classification for this domain:\n- Tier 1: Official/primary (NSF, DOE, NOIRLab, Vera C. Rubin Observatory press releases and Data Management notices, IAU Minor Planet Center, peer-reviewed journals: ApJ, AJ, Nature Astronomy, Nature)\n- Tier 2: Major outlets (Reuters, AP, BBC, Space.com, Sky & Telescope, Scientific American, New York Times science desk, Ars Technica)\n- Tier 3: Institutional (American Astronomical Society, ESO, partner university press offices, arXiv preprints with institutional backing, Rubin Observatory Data Preview documentation)\n- Tier 4: Unverified (social media claims, unreviewed preprints without institutional backing, unattributed rumors)\n\nSCIENCE DATA RULES:\n- Distinguish confirmed vs. provisional object designations (e.g. asteroids pending confirmation by the Minor Planet Center vs. officially catalogued).\n- Report alert-volume and detection figures precisely as stated by official sources; do not round or extrapolate beyond what is reported.\n- Track data release names precisely (e.g. \"Early Data Preview 2\", \"Data Preview 1\", \"Data Release 1\") — do not conflate different releases.\n- Distinguish commissioning/engineering imagery from official science survey operations.\n- Do NOT report preliminary or single-source claims as confirmed discoveries; note when a result is a preprint pending peer review.\n\nOnly include information you can verify through search results. Do not fabricate data, figures, or discovery counts.",
+    "searchContext": "Vera Rubin Observatory LSST Legacy Survey of Space and Time data release discoveries asteroids Cerro Pachón",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": -72.0,
+      "lonMax": -69.5,
+      "latMin": -31.5,
+      "latMax": -29.0
+    },
+    "updateIntervalDays": 3,
+    "backfillTargets": {
+      "timeline": 30,
+      "mapPoints": 15,
+      "claims": 15,
+      "political": 12,
+      "kpis": 8
+    },
+    "updatePolicy": {
+      "escalation": [
+        3,
+        3,
+        7,
+        14,
+        30,
+        60
+      ],
+      "quietThreshold": 0
+    },
+    "rssFeeds": [
+      "https://news.google.com/rss/search?q=Vera+Rubin+Observatory+LSST&hl=en-US&gl=US&ceid=US:en",
+      "https://news.google.com/rss/search?q=Rubin+Observatory+asteroid+discovery&hl=en-US&gl=US&ceid=US:en"
+    ],
+    "relatedTrackers": [
+      "spacex-history",
+      "fusion-energy",
+      "crispr-gene-therapy",
+      "mrna-revolution"
+    ]
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": [
+    "CL",
+    "Coquimbo",
+    "Vicuña"
+  ]
+}
