@@ -1,0 +1,224 @@
+{
+  "slug": "usmca-trade-rupture",
+  "name": "USMCA Trade Rupture Tracker",
+  "shortName": "USMCA Rupture",
+  "description": "Intelligence dashboard tracking the 2026 breakdown of USMCA and the US-Canada tariff war, from the failed Article 34.7 joint review to escalating tariffs and retaliation.",
+  "icon": "🚧",
+  "color": "#e67e22",
+  "status": "active",
+  "tone": "alert",
+  "temporal": "live",
+  "domain": "economy",
+  "region": "north-america",
+  "tags": [
+    "usmca",
+    "tariffs",
+    "trade-war",
+    "canada",
+    "mexico",
+    "united-states",
+    "ustr"
+  ],
+  "country": "US",
+  "geoSecondary": [
+    "CA",
+    "MX"
+  ],
+  "startDate": "2026-07-01",
+  "eraLabel": "USMCA Rupture 2026",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": -125,
+      "lonMax": -66,
+      "latMin": 14,
+      "latMax": 60
+    },
+    "center": {
+      "lon": -100,
+      "lat": 40
+    },
+    "categories": [
+      {
+        "id": "tariff-action",
+        "label": "US Tariff Actions",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "retaliation",
+        "label": "Canadian/Mexican Retaliation",
+        "color": "#f39c12"
+      },
+      {
+        "id": "border-crossing",
+        "label": "Border Crossings & Infrastructure",
+        "color": "#3498db"
+      },
+      {
+        "id": "trade-hub",
+        "label": "Affected Trade Hubs & Sectors",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "diplomatic",
+        "label": "Diplomatic/Review Events",
+        "color": "#2ecc71"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "overview": {
+        "lon": -100,
+        "lat": 45,
+        "alt": 4500000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "North America Overview"
+      },
+      "washington": {
+        "lon": -77.0369,
+        "lat": 38.9072,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Washington, D.C."
+      },
+      "ottawa": {
+        "lon": -75.6972,
+        "lat": 45.4215,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Ottawa"
+      },
+      "mexico_city": {
+        "lon": -99.1332,
+        "lat": 19.4326,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Mexico City"
+      },
+      "gordie_howe_bridge": {
+        "lon": -83.0858,
+        "lat": 42.2775,
+        "alt": 20000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Gordie Howe International Bridge"
+      }
+    },
+    "clocks": [
+      {
+        "label": "DC",
+        "offsetHours": -4
+      },
+      {
+        "label": "OTT",
+        "offsetHours": -4
+      },
+      {
+        "label": "CDMX",
+        "offsetHours": -6
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "politicalAvatars": [
+    "us",
+    "ca",
+    "mx",
+    "industry",
+    "other"
+  ],
+  "eventTypes": [
+    "tariff",
+    "retaliation",
+    "legal",
+    "diplomatic",
+    "economic"
+  ],
+  "ai": {
+    "systemPrompt": "You are a trade policy analyst updating a tracker on the 2026 USMCA rupture and US-Canada-Mexico tariff war.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"canada_50pct_tariff\", \"gordie_howe_reopening\").\n\nSource tier classification:\n- Tier 1: Official/primary (USTR, White House executive orders, Federal Register, Global Affairs Canada, Mexico's Secretaría de Economía, U.S. Supreme Court opinions, U.S. International Trade Commission)\n- Tier 2: Major outlet (Reuters, AP, Bloomberg, WSJ, Globe and Mail, CBC, El Financiero, El Economista)\n- Tier 3: Institutional (Peterson Institute for International Economics, CSIS, Cato Institute, US Chamber of Commerce, Tax Foundation, Canadian Chamber of Commerce)\n- Tier 4: Unverified (social media, unattributed leaks, anonymous sourcing)\n\nTrack: specific tariff rates and the goods/sectors they cover, the Article 34.7 annual review process and its 2036 expiry clock, retaliatory measures by Canada and Mexico, affected trade volumes and sector impacts, court challenges (post-IEEPA-ruling legal basis for tariffs), and diplomatic developments between the three governments.\n\nOnly include information you can verify through search results. Do not fabricate data.\nWhen figures are disputed between governments (e.g. tariff revenue estimates, trade volume impact), note the discrepancy and cite both sides.",
+    "searchContext": "USMCA trade rupture US Canada Mexico tariff war 2026",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "mapLines",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": -130,
+      "lonMax": -60,
+      "latMin": 10,
+      "latMax": 65
+    },
+    "updateIntervalDays": 1,
+    "backfillTargets": {
+      "timeline": 30,
+      "mapPoints": 20,
+      "mapLines": 15,
+      "claims": 15,
+      "political": 15,
+      "kpis": 8,
+      "econ": 10
+    },
+    "updatePolicy": {
+      "escalation": [
+        1,
+        1,
+        1,
+        7,
+        7,
+        30
+      ],
+      "quietThreshold": 0
+    },
+    "relatedTrackers": [
+      "mexico",
+      "mexico-us-conflict",
+      "sheinbaum-presidency"
+    ]
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard"
+}
