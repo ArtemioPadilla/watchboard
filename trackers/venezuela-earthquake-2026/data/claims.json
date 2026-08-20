@@ -1,17 +1,17 @@
 [
   {
     "id": "death-toll-provenance",
-    "question": "Which death toll is current — 6,301 or 6,438?",
+    "question": "Which death toll is current — and does the 6,438 figure have a source?",
     "sideA": {
       "label": "OCHA Situation Report #33 (14 Aug 2026)",
       "text": "6,301 dead as of 10 August 2026. This sits on a continuous, verifiable series: OCHA published 33 situation reports whose tolls rise from 32 (25 Jun) through 5,546 (24 Jul, #31) to 6,125 (3 Aug, #32) — the last of which IFRC Operation Update #2 independently confirms. A ReliefWeb full-text search for '6,438' returns no results."
     },
     "sideB": {
-      "label": "Response Situation Report #23 (14-17 Aug 2026)",
-      "text": "6,438 dead as of 17 August 2026, a week later than OCHA #33 and consistent with the ~25 deaths/day the series was running. ReliefWeb hosts a separately numbered response report series covering 14-17 August, which would legitimately postdate OCHA #33."
+      "label": "Response Situation Report #23 (14-17 Aug 2026), as originally cited",
+      "text": "The tracker was seeded with 6,438 dead attributed to this report. Fetching it directly settles the question: report #23 is an IOM operational update covering aid delivery — 5,887 kitchen sets, 4,500 collapsible jerry cans, 4,217 shelter kits — and contains no casualty figures at all. The strings \"6,438\", \"fallecidos\", \"muertos\" and \"decesos\" do not appear in it."
     },
-    "resolution": "Unresolved. Both figures are plausible: 6,438 is exactly what the OCHA trend extrapolates to by mid-August, which is either corroboration or the reason to doubt it. The distinction matters because the dashboard classifies by source tier, and an extrapolation presented as an observation is a tier-1 claim built on nothing. Needs one primary-source check against the report actually numbered #23. Until then the KPI carries the later figure marked contested, and this entry records why.",
-    "lastUpdated": "2026-08-20T00:00:00.000Z"
+    "resolution": "Resolved 2026-08-21. The 6,438 figure cannot be sourced to the report that was cited for it, and a ReliefWeb full-text search returns nothing for it either. The figure matches what a linear extrapolation of the OCHA series produces by mid-August, which is most likely what it was. Corrected to 6,301 as of 10 August 2026 from OCHA Situation Report #33 — a continuous 33-report series whose 3 August value IFRC independently confirms. Kept on the record because how a wrong figure entered matters as much as the correction.",
+    "lastUpdated": "2026-08-21T00:00:00.000Z"
   },
   {
     "id": "missing-persons-count",
