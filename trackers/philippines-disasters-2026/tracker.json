@@ -1,0 +1,237 @@
+{
+  "slug": "philippines-disasters-2026",
+  "name": "Philippines Cascading Disasters 2026 Tracker",
+  "shortName": "PH Disasters 2026",
+  "description": "Intelligence dashboard tracking the 2026 cascade of disasters in the Philippines: the 8 June M7.8 Mindanao earthquake and tsunami, Typhoon Bavi landslides, the mid-August Luis/Maymay/Dolphin typhoon-and-habagat sequence, and the compounding national energy crisis and rolling blackouts.",
+  "icon": "🌪️",
+  "color": "#e67e22",
+  "status": "active",
+  "tone": "alert",
+  "temporal": "live",
+  "domain": "disaster",
+  "region": "southeast-asia",
+  "country": "PH",
+  "startDate": "2026-06-07",
+  "eraLabel": "Cascading Disasters 2026",
+  "tags": [
+    "earthquake",
+    "tsunami",
+    "typhoon",
+    "landslide",
+    "habagat",
+    "energy crisis",
+    "blackout",
+    "Mindanao",
+    "Luzon"
+  ],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": 116.9,
+      "lonMax": 126.6,
+      "latMin": 4.5,
+      "latMax": 21.2
+    },
+    "center": {
+      "lon": 122.5,
+      "lat": 11.5
+    },
+    "categories": [
+      {
+        "id": "seismic-impact",
+        "label": "Earthquake / Tsunami Impact",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "typhoon-track",
+        "label": "Typhoon Landfalls & Tracks",
+        "color": "#3498db"
+      },
+      {
+        "id": "landslide",
+        "label": "Landslides",
+        "color": "#8b5a2b"
+      },
+      {
+        "id": "shelter-aid",
+        "label": "Shelters & Aid Distribution",
+        "color": "#f39c12"
+      },
+      {
+        "id": "energy-grid",
+        "label": "Energy Grid Stress",
+        "color": "#9b59b6"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "layout": "disaster",
+    "cameraPresets": {
+      "philippines_overview": {
+        "lon": 122.5,
+        "lat": 11.5,
+        "alt": 2800000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Philippines Overview"
+      },
+      "mindanao_quake_zone": {
+        "lon": 125.0,
+        "lat": 6.0,
+        "alt": 400000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Mindanao Earthquake Zone"
+      },
+      "general_santos": {
+        "lon": 125.1716,
+        "lat": 6.1164,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "General Santos City"
+      },
+      "sarangani": {
+        "lon": 125.2,
+        "lat": 5.75,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Sarangani Province"
+      },
+      "manila_luzon": {
+        "lon": 120.9842,
+        "lat": 14.5995,
+        "alt": 500000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Manila / Luzon"
+      },
+      "visayas_typhoon_track": {
+        "lon": 124.5,
+        "lat": 11.0,
+        "alt": 900000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Visayas Typhoon Track"
+      }
+    },
+    "clocks": [
+      {
+        "label": "MANILA",
+        "offsetHours": 8
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      },
+      {
+        "label": "EST",
+        "offsetHours": -5
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Humanitarian"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "politicalAvatars": [
+    "ph-natl-govt",
+    "ph-local-govt",
+    "ph-energy-sector",
+    "un-agencies",
+    "ngo-response",
+    "other"
+  ],
+  "eventTypes": [
+    "earthquake",
+    "typhoon",
+    "landslide",
+    "energy-crisis",
+    "humanitarian-response"
+  ],
+  "ai": {
+    "systemPrompt": "You are a disaster-response analyst updating an intelligence dashboard tracking the 2026 cascade of disasters in the Philippines.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"gensan_quake_jun8\", \"typhoon_luis_landfall\").\n\nYour role is to track the physical evolution and humanitarian/economic impact of this disaster cascade: the 8 June M7.8 earthquake and tsunami centered near Kablalan, Sarangani (and its aftershocks/landslides), Typhoon Bavi's July landslides, the 8-16 August sequence of Typhoons Luis, Maymay and Dolphin plus the habagat monsoon, and the concurrent national energy crisis with rolling blackouts.\n\nSource tier classification:\n- Tier 1: Official/primary (PHIVOLCS, PAGASA, NDRRMC, Philippine Department of Energy, USGS, JMA tsunami warnings, local provincial/city disaster offices)\n- Tier 2: Major outlet (Reuters, AP, BBC, GMA News, ABS-CBN News, Philippine Star, Manila Bulletin, Rappler, Inquirer.net)\n- Tier 3: Institutional (Philippine Red Cross, UN OCHA, IFRC, ReliefWeb, Oxford Economics, World Bank)\n- Tier 4: Unverified (social media, unattributed local reports, unverified damage claims)\n\nOnly include information you can verify through search results. Do not fabricate data.\nWhen reporting casualty or displacement figures, cite the issuing agency and report date; note discrepancies between NDRRMC and local government tallies as contested where they differ.",
+    "searchContext": "Philippines 2026 earthquake tsunami typhoon landslide habagat energy crisis blackout disaster response",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "casualties",
+      "econ",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": 115,
+      "lonMax": 128,
+      "latMin": 3,
+      "latMax": 22
+    },
+    "updateIntervalDays": 1,
+    "backfillTargets": {
+      "timeline": 30,
+      "mapPoints": 25,
+      "claims": 15,
+      "political": 12,
+      "casualties": 12,
+      "econ": 10,
+      "kpis": 8
+    },
+    "updatePolicy": {
+      "escalation": [
+        1,
+        1,
+        3,
+        7,
+        14,
+        30
+      ],
+      "quietThreshold": 0
+    },
+    "rssFeeds": [
+      "https://news.google.com/rss/search?q=Philippines+earthquake+typhoon+disaster+2026&hl=en-US&gl=US&ceid=US:en"
+    ],
+    "relatedTrackers": [
+      "super-el-nino-2026"
+    ]
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": [
+    "PH"
+  ]
+}
