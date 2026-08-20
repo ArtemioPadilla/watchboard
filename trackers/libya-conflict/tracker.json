@@ -1,0 +1,263 @@
+{
+  "slug": "libya-conflict",
+  "name": "Libya Conflict Tracker",
+  "shortName": "Libya Conflict",
+  "description": "Intelligence dashboard tracking Libya's 2026 escalation — assassinations and armed incidents, oil infrastructure attacks, the GNU-GNS political split, migration policy, and foreign involvement.",
+  "icon": "🐫",
+  "color": "#c0392b",
+  "status": "active",
+  "tone": "alert",
+  "temporal": "live",
+  "domain": "conflict",
+  "region": "africa",
+  "tags": [
+    "libya",
+    "tripoli",
+    "benghazi",
+    "zawia",
+    "gnu",
+    "gns",
+    "lna",
+    "oil",
+    "migration",
+    "north-africa"
+  ],
+  "country": "LY",
+  "startDate": "2026-06-23",
+  "eraLabel": "2026 Escalation",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "military",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": 9,
+      "lonMax": 25.5,
+      "latMin": 19,
+      "latMax": 35.5
+    },
+    "center": {
+      "lon": 17.2,
+      "lat": 29.5
+    },
+    "categories": [
+      {
+        "id": "assassination",
+        "label": "Assassinations & Armed Incidents",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "oil-infrastructure",
+        "label": "Oil & Power Infrastructure Attacks",
+        "color": "#f39c12"
+      },
+      {
+        "id": "migration",
+        "label": "Migration & Mediterranean Crossings",
+        "color": "#3498db"
+      },
+      {
+        "id": "political-split",
+        "label": "GNU-GNS Political Events",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "foreign-involvement",
+        "label": "Foreign Military & Mercenary Presence",
+        "color": "#1abc9c"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "overview": {
+        "lon": 17.2,
+        "lat": 27,
+        "alt": 2500000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Libya Overview"
+      },
+      "tripoli": {
+        "lon": 13.1913,
+        "lat": 32.8872,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Tripoli (GNU)"
+      },
+      "benghazi": {
+        "lon": 20.0667,
+        "lat": 32.1167,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Benghazi (LNA/GNS)"
+      },
+      "zawia": {
+        "lon": 12.7278,
+        "lat": 32.7522,
+        "alt": 40000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Zawia Oil Refinery"
+      },
+      "sirte": {
+        "lon": 16.5887,
+        "lat": 31.2089,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Sirte Frontline / Oil Crescent"
+      },
+      "mediterranean_route": {
+        "lon": 13.5,
+        "lat": 34.5,
+        "alt": 400000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Central Mediterranean Crossing"
+      }
+    },
+    "clocks": [
+      {
+        "label": "TRIPOLI",
+        "offsetHours": 2
+      },
+      {
+        "label": "UTC",
+        "offsetHours": 0
+      },
+      {
+        "label": "BRUSSELS",
+        "offsetHours": 2
+      }
+    ]
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-military",
+      "label": "Military"
+    },
+    {
+      "id": "sec-humanitarian",
+      "label": "Casualties"
+    },
+    {
+      "id": "sec-economic",
+      "label": "Economic"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "militaryTabs": [
+    {
+      "id": "incidents",
+      "label": "Assassinations & Armed Incidents"
+    },
+    {
+      "id": "oil-attacks",
+      "label": "Oil & Infrastructure Attacks"
+    },
+    {
+      "id": "foreign-forces",
+      "label": "Foreign Forces & Mercenaries"
+    }
+  ],
+  "politicalAvatars": [
+    "gnu",
+    "gns",
+    "lna",
+    "un",
+    "foreign",
+    "other"
+  ],
+  "eventTypes": [
+    "military",
+    "political",
+    "economic",
+    "humanitarian",
+    "migration"
+  ],
+  "ai": {
+    "systemPrompt": "You are a conflict analyst updating a tracker for Libya's 2026 political-military escalation.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"zawia_refinery_strike\", \"mansouri_assassination\").\n\nFOCUS AREAS: assassinations and targeted armed incidents (Tripoli, Benghazi, and beyond); oil and power infrastructure attacks (refineries, substations, pipelines) and their effect on production/exports; the GNU (Tripoli, west) vs GNS (eastern Government of National Stability, Benghazi/LNA) political and territorial split; migration policy shifts and Mediterranean crossing incidents; and foreign military, mercenary, or state involvement (Turkey, Russia/Wagner successors, UAE, Egypt, etc.).\n\nSource tier classification:\n- Tier 1: Official/primary (GNU/Government of National Unity statements, GNS/LNA statements, National Oil Corporation, UNSMIL, Libyan Ministry of Interior/Health)\n- Tier 2: Major outlet (Reuters, AP, BBC, Al Jazeera, Libya Observer, Libya Herald, Middle East Eye)\n- Tier 3: Institutional (Crisis Group, HRW, UNHCR, IOM, ACLED, Oxford Economics, ECFR)\n- Tier 4: Unverified (social media, unattributed claims, unverified video)\n\nOnly include information you can verify through search results. Do not fabricate data.\nWhen GNU and GNS/LNA sources dispute casualty or attribution figures, report both and mark the item contested.",
+    "searchContext": "Libya conflict GNU GNS LNA Tripoli Benghazi Zawia oil infrastructure",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "mapLines",
+      "casualties",
+      "econ",
+      "claims",
+      "political",
+      "assets"
+    ],
+    "coordValidation": {
+      "lonMin": 8,
+      "lonMax": 26,
+      "latMin": 18,
+      "latMax": 36
+    },
+    "updateIntervalDays": 1,
+    "backfillTargets": {
+      "timeline": 30,
+      "mapPoints": 25,
+      "mapLines": 15,
+      "claims": 15,
+      "political": 15,
+      "casualties": 10,
+      "econ": 8,
+      "kpis": 8,
+      "assets": 10
+    },
+    "updatePolicy": {
+      "escalation": [
+        1,
+        1,
+        1,
+        7,
+        7,
+        30
+      ],
+      "quietThreshold": 0
+    },
+    "rssFeeds": [
+      "https://news.google.com/rss/search?q=Libya+conflict&hl=en-US&gl=US&ceid=US:en",
+      "https://www.aljazeera.com/xml/rss/all.xml"
+    ],
+    "relatedTrackers": [
+      "sudan-conflict",
+      "sahel-crisis",
+      "egypt"
+    ]
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": [
+    "LY"
+  ]
+}
