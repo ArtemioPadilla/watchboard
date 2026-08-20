@@ -1,0 +1,59 @@
+name: X API Check
+
+# The X account was suspended in April 2026 and posting moved to Bluesky.
+# This answers "can we post again?" without finding out the expensive way.
+#
+#   verify     one read-only GET /2/users/me. No writes, minimal quota.
+#   post-test  posts a single tweet, after verifying auth first.
+#
+# Manual dispatch only, never scheduled: the whole point is to touch the API
+# as little as possible while an enforcement action may still be in effect.
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'verify (read-only) or post-test (publishes one tweet)'
+        required: true
+        default: 'verify'
+        type: choice
+        options: [verify, post-test]
+      text:
+        description: 'Tweet text — only used when mode is post-test'
+        required: false
+        default: ''
+
+concurrency:
+  group: x-api-check
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+
+      - name: Guard post-test input
+        if: inputs.mode == 'post-test'
+        run: |
+          if [ -z "${{ inputs.text }}" ]; then
+            echo "::error::post-test requires text"; exit 1
+          fi
+
+      - name: Run check
+        env:
+          X_API_KEY: ${{ secrets.X_API_KEY }}
+          X_API_SECRET: ${{ secrets.X_API_SECRET }}
+          X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
+          X_ACCESS_TOKEN_SECRET: ${{ secrets.X_ACCESS_TOKEN_SECRET }}
+          X_TEST_TEXT: ${{ inputs.text }}
+        run: npx tsx scripts/x-check.ts "${{ inputs.mode }}"
