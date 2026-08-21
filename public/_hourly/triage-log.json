@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "lastPruned": "2026-08-21T02:21:50.819Z",
+  "lastPruned": "2026-08-21T03:28:51.241Z",
   "entries": [
     {
       "timestamp": "2026-08-19T20:27:46.732Z",
@@ -15667,6 +15667,397 @@
         "source": "bsky:aljazeera.com",
         "timestamp": "2026-08-21T01:00:04.840Z",
         "matchedTracker": "syria",
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.63)",
+      "confidence": 0.6333333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T03:28:51.224Z",
+      "candidate": {
+        "title": "Why the US economy is ringing alarm bells",
+        "url": "https://www.bbc.co.uk/news/articles/c9d8z72nn02o?at_medium=RSS&at_campaign=rss",
+        "source": "bbc",
+        "timestamp": "2026-08-21T03:28:49.696Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T03:28:51.225Z",
+      "candidate": {
+        "title": "Hong Kong's Tiananmen activists guilty in national security trial",
+        "url": "https://www.bbc.co.uk/news/articles/c1l10mdrld5o?at_medium=RSS&at_campaign=rss",
+        "source": "bbc",
+        "timestamp": "2026-08-21T03:28:49.696Z",
+        "matchedTracker": "china",
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.63)",
+      "confidence": 0.6333333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T03:28:51.225Z",
+      "candidate": {
+        "title": "Bali jails Swiss tourist for insulting sacred Day of Silence",
+        "url": "https://www.bbc.co.uk/news/articles/cj4kr59r28ko?at_medium=RSS&at_campaign=rss",
+        "source": "bbc",
+        "timestamp": "2026-08-21T03:28:49.696Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched world-war-2 on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T03:28:51.226Z",
+      "candidate": {
+        "title": "White House faces questions over security clearance for top Trump aide Natalie Harp - The Guardian",
+        "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxNUEtsT3VBUmpRLWI3Mnh2cks5WUNfNHg3VHZZX0VGbFQyTXFyc0MwbHFZVkl4WXpta29vSkdlTkFXYlRTck5jb2FpcW5wTjd0Y3dCRG16RTl5TWFwY1F1Zk1yWlNLWWUtWHN5SGV1bk9NQTFhV09wT0RsZGE4MUxOeDZOOHpUUQ?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-08-21T03:28:50.172Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.02)",
+      "confidence": 0.02375,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T03:28:51.226Z",
+      "candidate": {
+        "title": "USS Lincoln heads home after extended deployment to the Middle East - NBC News",
+        "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxPb0kwTGVEVW1nQ3ZsYk9VcXVQUnkzNlBoWFVZR1E3Z3dUU0FscW1WLWhsM21vLVR5TVZqcnF2SEVfcEZ0VTFIdEtEQ1B2S2dIMGdfd3R1RDFodGFYeGF4TXFqeTFpT21FQTBHT1NFcXRUSG55UkVLZmhQQlFTdHd4WjJJTnFuS1FsSUhROVItUzBVSDVzc01HUF9nbVNqbERWbDhPMlVHelNxNzRrcF9WSWtGZjhoWDA?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-08-21T03:28:50.172Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.05)",
+      "confidence": 0.0475,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T03:28:51.227Z",
+      "candidate": {
+        "title": "Tornado Long Island: Nassau County declares state of emergency; storm hits Atlantic Beach, Sun n Surf beach club - ABC7 New York",
+        "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxQTzZkVWJvT0I5eWctZTA0cUNma1hYN3d6M0pWN2p5T1hackVxaUl1TjAxMVpqeTFLU2R3eUY3cWNMazRXSlJvcVE4Q1lCb2dmS1hsZTZvVUwzLTFCREtzYUl4am1TYkNhZ0hQamttRE9LREY1TEZyTWFhTjhKT05DUHF6eFBYVFFUcHZzc2MtWnUxYVR2SEVUR1N4UXlOWDJYZ1VCYWx0STNkNmZ6ZTJpdTdVVVJQblNja3RqM3UwcGZnMUlET0dkLXZxZG7SAdIBQVVfeXFMTUVwNkM0RUJBY2cweTZPVkl2ZWJNMnZ2VS1tb3ZnSDVPMUxaaVNpNWZPRzdRTF9hSUpwb1A1QW1iQTZ2Qk1uNW1uYmRrRTJfd2ZveGx6OFFlT0RGV1JYZDVacEJfSGF3b0MwTHRGNjd6elJKQUlJWHozZkxSN2NzSkhYdUlpa01YeXZXRlpfS3dfZ3hPT3E2OENSWlNmakhlVGVXdGRqYWE1ZzJFWld0c1NPWEN6TVBvZC1oZ1p1NHhyd01LSUtBa3NCWmozQUFNcW13?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-08-21T03:28:50.172Z",
+        "matchedTracker": "bolivia-crisis-2026",
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.63)",
+      "confidence": 0.6333333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T03:28:51.227Z",
+      "candidate": {
+        "title": "Are ships passing Hormuz more willing to defy Iran or US? What data shows - Al Jazeera",
+        "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxOancwTUdheHB0dzJWSHhyNm91UkVsYzBlc1AwSzYyR2xvNVktOE9zZU95aHV0SExDOU9leFJhdzFGVm9QZHpYeGd5alV2eE9PS3cxZUdFbDNpLVhLV1pDeGxKNUdaa01sbVpacFJnMXp1aWoxQVQ1S3NoTDZiLTBsTE1HTXdZZjUtaC1veXB3Vk04ZUpfZnQ2b1VacF9IX25rVHNqazhUX2ExVUxZcnfSAbMBQVVfeXFMT0N1Y2lxb3E3OGdWQzJuZFJNWVNoQXRZOU9JNi1rMzJ1TWhRU0ZlM2NSV3pGMHhNcVdySTNxUmI1b1JmbjN1YV9ReW1xanJiMHMzOFA3NUZTZm91bktrYWoxZXgtcWVoQ0FrZlFONEo4aVk2T0pnc1JSUnNEVGdkRHdNV3FnaHZfZ2plbmR3SjBuWm14QnkzT1ZyQzhab2NJVy0wWXB2bmE0U2lkR2lCZkhjZ0E?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-08-21T03:28:50.172Z",
+        "matchedTracker": "iran-conflict",
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.63)",
+      "confidence": 0.6333333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T03:28:51.228Z",
+      "candidate": {
+        "title": "Army plans to phase out drone unit championed by sacked generals - The Hill",
+        "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE05YkRobFBkY0NEZEQxaldSYXZEQ2NMSVN2azdkYjNsUHJkYjF2Unhvdnd0ZVRvUEhGSHdPZ1JyZ01aWTJRN3dCSkJvYV9LN2ZoWmh2SlJ4R3hELU1vTXhfSmhvT1hFanV4Y1E4YzZUQlB4Q253NGRGT1V5Z2tOTTDSAYQBQVVfeXFMT09jbjRwdVZ2ZmU5dE1RSU1PUlJSdTF6Zkxua1pCM3dVbDBXMDZoYjlLaTFfa3UtcV9abHEtQW9pbkFCa2dXa1NjYmJ3cFh4WkR1cUVvdGNjSXdQTHdQNGJ3NmhjdnoxWmQza1BuWlExTm8xN3Jtay1fMEc4M0VqbWxIWVJU?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-08-21T03:28:50.172Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched bts on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T03:28:51.228Z",
+      "candidate": {
+        "title": "Tiananmen vigil organizers found guilty of inciting subversion in Hong Kong - CNN",
+        "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxORDA5bFgyVnFreWhUeGRJcjQweEx5b3BxNUhfYWdsbDdJWkZZcDIxVGh6ZDc0cGRnOHc5cnZTeFh6M0pCSlVzbVZBWHQ4Q3A3M2FjZ3ZPWUZfejNnd3hpM1FlWEktVjFESElJbVJWb0FNd3pkWm85MC1RQXZMSkVOSE9pR2E3TE03RTJrNjVn?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-08-21T03:28:50.172Z",
+        "matchedTracker": "china",
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.63)",
+      "confidence": 0.6333333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T03:28:51.229Z",
+      "candidate": {
+        "title": "ChatGPT can now send texts for you with new Apple Messages plug-in - TechCrunch",
+        "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxNT0xTb2FDbkVPSXdPNDRzZGVIa1pKYXRnNHJqX2ZkemVKUFpHbEtFcWt6bV9hYkVUY29adHdRS2RQLThKa2c3bGc3NzJOWkNfb25FOU1UdlVnRDFCRUhZUUJjZEFUNUw3bllZdXZyVHJjMXVwOFFrcTctX2dtbjFncVVwY09kdXpsWHpyUGp5c3RZRjN6Y0ZTOHRNaXZVS2V3WkE?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-08-21T03:28:50.172Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched mexico on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T03:28:51.229Z",
+      "candidate": {
+        "title": "Sheinbaum aclara si Harfuch fue a Argentina por Fernando Farías, involucrado en huchicol fiscal - El Financiero",
+        "url": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxOVEQ0SDl3ZXRqQlZHSzNlSUc5eHdKaVdOOTBLYW5QOW51SGNSN2gyVkFRODN5LWdBa1BBc2c4NFFkc0ExM3d5em1CN0w2UlhEbnEwTjNJZW5qMmdXekx0VVFLaHRGZlg0MjRVdk1IYnE3WFE4bXZISUFTR0p5cUVvVVVXOExtdHRjQVdDdTZtOVRZRmFOQlRRYms2MU4wWEVCWGo5UGpGQU1xQ3h4RHNzTnk5OUxxM1NBOHEwTElXTE9iZHRvTTNyQUE1NDlmdGlWZjhYMGR0al9XYjYtMWY3Mw?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-08-21T03:28:50.547Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched argentina on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T03:28:51.230Z",
+      "candidate": {
+        "title": "Reactivan Más de 2 Millones de Líneas Móviles tras Suspensión por Registro Obligatorio - N+",
+        "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxPQ1kzUWoxWl92T0pnX2N3U1g5LVBxblRpUU9CbGVuaXV3YUlraWVGQlhibndlamVIZXRNUlZvR0pqMGQ4aWtKbm1DcHRFbUNPaHRxZk43MURRcEFiV1NLek1rbXJrNWhiUEdIUmVUZzZOOTdUaVA4NTBFUERYU3NYLVhrcXVJWVlrT3dyWDNUMEVpLUdzdGM5anltd0h3bW5rZXhYYWg5ODE1TXpYNWlVVzhkbDV2Z0N5cXg3cg?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-08-21T03:28:50.547Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T03:28:51.230Z",
+      "candidate": {
+        "title": "Sin visa y con inmunidad actuará personal militar estadunidense en Ecuador - La Jornada",
+        "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTFBBeFFsQ21kTE1SaHBMOVFuSlhHOTdUWmRhVE1WLVU0NmVVUjUzc2diSEhrWmZqZW5YeW5uVm9kRkx4V2EtS21LZ3ZGaFFYQVNNdm8yOGJZeV9wQ01hcmtGZlJ3?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-08-21T03:28:50.547Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched ecuador-narco-conflict on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T03:28:51.231Z",
+      "candidate": {
+        "title": "El embargo de Emiratos Árabes Unidos podría cerrarle a Irán la principal vía de escape para su economía - Infobae",
+        "url": "https://news.google.com/rss/articles/CBMi6AFBVV95cUxOc0lwdUlOMkRqbkVZRElTajRoWVduNG9qMzZoeDhRSmxzX2VEcHJRR1dJYnBRLWxfMlhUMW8yTjZ1a0tCZy1kNU81eW94YTlET2h2QmFJT1ZoUUJEQTgxMDRPb0lTU3o0dnpzOXp0cklWNE9EOXV6QXBXNzNMQzZxNzRpZVRERGZmSnAtU0NNSF9YdVJ1RC1lcUNlQjZqVnY3LTkwbm1kYWRScWNyUFctQjJzNzRCVnB3Ym9henVDTHBicGRMUExLSnR5OTZRUHgzS2dPLWdhZl90UEVFNDR1Rkh3dU1RVFlt0gGDAkFVX3lxTFA0Y1VHUy1zODJaUkNDSFVvdGVuU1Y1dmhfaVlkZ0JCUVdSa0p1ZlBXXzZsbmJFazdKbm54d0ZOSFkwUGVxdGhwUWI3Uy1pNTlaeEpNZW5SWkpRdUFuQXE5QWZZNFA0OGt5MFVlSDZ6amE4dmZ5bDRXQkxSdFRkbXUwOU1rOHdkd2d5eTJMYWludzY5ZWkxUFdkSGdJazc3Y2VyT1NOcV81cTYzQTA0WXZ0LUZaQXFJWEdiQUdVRmtoRzYtTEZMeDBHYXRMMER3ZjhFZTFMNEppazRQRW1qVnpjcXdEeDJsZWlPRGdBMFV3WHdaZXRUZmxBekI2dEdFbWZFWU0?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-08-21T03:28:50.547Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched cuba-crises on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T03:28:51.231Z",
+      "candidate": {
+        "title": "GAC GS7 PHEV: tecnología, desempeño y sofisticación - CIONoticias",
+        "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNM0hNd1EtS1kxbEFCOEVSQUFyaWxQeUxpZ3ZtTzRta09TRGRJZDBReFhjemVYWU5xMjVVRkNlQkR5R2RsM1YxVkVycnJYa1FHenNGeG1sMTNIblBCWUJ4eXQ3QldTV3FsUG5uTDVIbHVFWGlxanVIaE5kak5DSTRjckJDcHUzZ1NFSmVDZQ?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-08-21T03:28:50.547Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T03:28:51.232Z",
+      "candidate": {
+        "title": "Telmex prepara su mejor paquete de internet Infinitum hasta ahora: 2 Gbps de bajada y subida en México - Xataka México",
+        "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxOY2hQT0xrY1U2UUVKbF9ESHlCUnNieGh3MVRiTmxIWjBFZVB3Qm9WUUhzUVAxOHM5VlBOajNEbmVTUXRwalRXVHFkQXd1amJqVWEzbng4U3EtakxJY0NPUEJ0Qm5kdlhPaWFkNEttM29qRGR1QVpXTFVMMDVwUm4wZ2taTDNqUWd2WUhmT3ZKYjhJc1oxZlBMa2JsdXgxbTNSdWp3REw1cDZ4SzlCZGxjd1AtTTZZMDhYQW9WUzZpeGx5eklORFhBZdIBzgFBVV95cUxNQzc4MnRVR2E3ZEhQck15NjlFaEQxWFc0QVF5SHdVVzkwVEMxMXRRZzNWT09Nb3VmVHFhSnF3dGdqRzFoRWVqREd1MUkwXzZkaUI4MFVSSF8zVkExVmxoRW94emF3QUJrTDdORnpUSnFNMEVPTUNoV3dRNGpKRWk1ZGhEaFBaZXVrcWlWcDBTVDJ5a1FMT3BjY0JDUWxmY1J1RkJnbWU0TThyOXA5amR0blZ4elBka0hXYlNTaVlWbFh6RE9yaC1DcTZSOUFPQQ?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-08-21T03:28:50.547Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched cdmx on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T03:28:51.232Z",
+      "candidate": {
+        "title": "Charter plane carrying 8 crashes near remote site in western Alaska, AP reports reut.rs/4bZH7Ip",
+        "url": "https://bsky.app/profile/reuters.com/post/3mtkrwrhq5u2i",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-08-21T03:10:10Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched shield-of-the-americas on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T03:28:51.232Z",
+      "candidate": {
+        "title": "Hormuz ship crossings hover in single digits, data shows reut.rs/4qu4jEv",
+        "url": "https://bsky.app/profile/reuters.com/post/3mtkrghbpbh2n",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-08-21T03:01:03Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched hormuz-food-security-crisis on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T03:28:51.233Z",
+      "candidate": {
+        "title": "To compete in the increasingly commercialized world of college sports, a growing number of universities are turning to nonprofits, limited liability companies and other affiliated entities to generate more revenue.",
+        "url": "https://bsky.app/profile/apnews.com/post/3mtkrf2gqtg2u",
+        "source": "bsky:apnews.com",
+        "timestamp": "2026-08-21T03:00:16Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.02)",
+      "confidence": 0.02375,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T03:28:51.234Z",
+      "candidate": {
+        "title": "BREAKING: A charter plane carrying eight people has crashed near a remote radar site in western Alaska, a federal official says.",
+        "url": "https://bsky.app/profile/apnews.com/post/3mtkqio6cat2c",
+        "source": "bsky:apnews.com",
+        "timestamp": "2026-08-21T02:44:24Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched germany on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T03:28:51.234Z",
+      "candidate": {
+        "title": "Two former organizers of Tiananmen Square vigils in Hong Kong are convicted in a closely watched national security case.",
+        "url": "https://bsky.app/profile/apnews.com/post/3mtkq7n4xrm2u",
+        "source": "bsky:apnews.com",
+        "timestamp": "2026-08-21T02:39:21Z",
+        "matchedTracker": "china",
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.63)",
+      "confidence": 0.6333333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T03:28:51.234Z",
+      "candidate": {
+        "title": "US Treasury Secretary Bessent says new economic measures will 'collapse' Iranian government.",
+        "url": "https://bsky.app/profile/aljazeera.com/post/3mtkrepxjap2u",
+        "source": "bsky:aljazeera.com",
+        "timestamp": "2026-08-21T03:00:05.292Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched haiti-collapse on a single token — no substance (score 0.34)",
+      "confidence": 0.34041666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T03:28:51.235Z",
+      "candidate": {
+        "title": "Houthis and government trade attacks as Yemen slides back to full-scale war https://aje.news/6vmnyc",
+        "url": "https://bsky.app/profile/aljazeera.com/post/3mtkpp3gpvk2t",
+        "source": "bsky:aljazeera.com",
+        "timestamp": "2026-08-21T02:30:05.446Z",
+        "matchedTracker": "september-11",
         "feedOrigin": "bluesky",
         "sourceTier": 2
       },
