@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "lastPruned": "2026-08-21T18:54:12.552Z",
+  "lastPruned": "2026-08-21T19:21:03.664Z",
   "entries": [
     {
       "timestamp": "2026-08-19T20:27:46.732Z",
@@ -23238,6 +23238,397 @@
       "decision": "update",
       "reason": "light-scan posted directly + queued for heavy scan (score 0.95)",
       "confidence": 0.95,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T19:21:03.640Z",
+      "candidate": {
+        "title": "Supreme Court allows Trump’s ballroom construction to continue for now - NPR",
+        "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxOLURhNWJndWU1aFA5d243WVJyNHEzTnlZZE5idHlsMHRBVUFhMUxieEtGeDFOeWJFU0s2VjJRdEtLd1FRSXhrYW5nM25YTDhlOEJsc1dlQjllQlppUnc1aGFXc0ZjMk9qTXpnU1Z3MnRBeE9BdFBxLTNYUGRoMjZXVFlaLVlCalctOW1JQWFfOEZmTlNNSDFKQURVZjd2eUZnNWU0R3JRWGhXby1NdlNJc09ZblM?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-08-21T19:21:01.551Z",
+        "matchedTracker": "united-states",
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.66)",
+      "confidence": 0.6570833333333332,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T19:21:03.641Z",
+      "candidate": {
+        "title": "Trump Announces Move to Lift Ground Beef Tariffs in Bid to Lower Prices - The New York Times",
+        "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE45X3NWUUZ6aWRON0pOb2h0c0VhVWU5eGZndTFBYjk5SGNTbHpqZ21xYWMyc3hYcU1vS0NVUXFuaklONU1FRGd5ajFreUVRMEt0RlJTa0Y4OUVLWURuRV9ZRGlPaWU3RFpCOUFOdlRTX2ZISjdkaUtQb1Z3Yno1Tm8?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-08-21T19:21:01.551Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched trump-presidencies on a single token — no substance (score 0.34)",
+      "confidence": 0.34041666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T19:21:03.642Z",
+      "candidate": {
+        "title": "Defense rests in Lindsay Clancy’s triple-murder trial - CNN",
+        "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE1hRlJNY2pwLVBEbEZKbGtGaGV4Q283N21tdzhSdmx5Y1lheUx3blVHcnJHM1hfMXZqd29mbUJES0Nna2c0MnVwaUtMTktBX1lWRE1GeUJQTG9PTGJxQjA2c0dTTGdPemRvMWVrZkx5RmJ0UlJ0RjJB?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-08-21T19:21:01.551Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched mecca-defense-pact on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T19:21:03.643Z",
+      "candidate": {
+        "title": "Trump US attorney pick can no longer investigate one of the president’s top foes, court rules - CNN",
+        "url": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxNS0M0cXVOVGRqdHFFZnVGV3VtRU50QUZmbTFCSmMwSnRTT1dQVnNrWDdvWHJwRzU4UHlPWTBsVFZVMXFkSFpEWWJaTlJYejRqbUFyclF4ZnBLLThnTERkejlOSnpZWS1tNzlaZHEzX1IyYThHMFVUXzZOTm9TYzB5TEV6cUJGWHVMRWlyZDliWnNoZUo4bUhTeWpobmF0cTVCOEJqbWFiVjFCSkVVbzVTSC12OGFJS2RSOVdkeXVGRnhvdVU?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-08-21T19:21:01.551Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched sheinbaum-presidency on a single token — no substance (score 0.34)",
+      "confidence": 0.34041666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T19:21:03.644Z",
+      "candidate": {
+        "title": "Knicks owner bankrolled Hochul. Now he's the GOP's biggest donor in New York. - Politico",
+        "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxPRHdrUENraHBpbGJqM1k4Nm1YZE5ucm9vNlU4eTR6dURwdjdKWDVkNnlwa3RrcjdfUS1kNmI2eGJCZmRRN2RUdGZKa0hIckhzZk5LUm1acXpMTVl6dXNfdHNuNVdZcmRZTlhrWVk2TlVMVnRDb0t0RlJ2cllVazJqNFl2VzN4VTBVOXJ5WERuamxyamNQdl92VHlZZ2JSX0ZJT0VLSVJmN0xTdGVPS2pieEpCbW5aV2xhekRNZnc2ckI4a1VNOTlRc09Zam16UQ?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-08-21T19:21:01.551Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched mexico on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T19:21:03.645Z",
+      "candidate": {
+        "title": "Ken Griffin's Citadel sheds over 80% of Situational Awareness' bets - Reuters",
+        "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxQWmNZWnNmT3RLM3Zkb0o4eTN5WEQ0dkVqbl9xSklVblBwUjFfVXVZdTZ6Y1dYOGx1aG1mUE9kMGRRMERjOWtYN1hwVkFRLV9BTVhxNU1LdG9TMXFSZXp4eGJEeUhRYWNvUUNTLTA0UVQ0Rm5rUXYwSXRibmpMeXlHeUs1RVJQS1o0TS1TRVh6aDlISXl5bjJGcnFEYnpkVGxFaHhZSHJxSHc4REpYVkh3eFpDM205RnRGTDJZ?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-08-21T19:21:01.551Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T19:21:03.645Z",
+      "candidate": {
+        "title": "Pixel 11: Google Is Paying $545 For Any Old Phone - Forbes",
+        "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNM091b01TMWpBT21wNGE0WGppS0dVdG1fWlJ1dGZ5Q1lxODU4UXdzNzJEWkxwX29xVzZrenViTXhnSVEzc0ZBa0djTjNIeE1iYjdJNmhOcnVESGw2T2stZ1JCVW9uMG8wTXg5UzR6V25NSzNZandmVHU1YVJaMUtZNDZsX1p6QjRFU3BSa04xa2tDWWRTdExvQTU4OWdBV0Y2dU84?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-08-21T19:21:01.551Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T19:21:03.646Z",
+      "candidate": {
+        "title": "Hayden Panettiere's ex-fiancé Wladimir Klitschko pens heart-wrenching message on her 37th birthday - Yahoo",
+        "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxQS0xwM2F6WEhxRzhRREJ0b3E5Vi02YlFwM3BibXBuVUozeXNYMlZJckVGMXNQUDJweHB6NjcxdXU5QzVhV0N2N3hSdUlkTDNZbkdyOG1LMEFfdUtTOGV5UGRnYU5MaXR5Y0JwTWxldE1XQ0F0bFhRbUtmY09iOUx1VDJUN3NHMGdfZ19HekdUTjlRano3cVNVcmxGaXl4M0tSY1FIOEc2SlZNUQ?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-08-21T19:21:01.551Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T19:21:03.647Z",
+      "candidate": {
+        "title": "Contralmirante Fernando Farías Laguna ingresa al penal del Altiplano - La Jornada",
+        "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxQZ2p5ang0dnlxc2NEc255V0p3TF9zUlduQUlMS2Q0cUJ5T2JGU3UyaGRGTXVzeWhDV2NKaVpCekdzVjNua1RLbjRIOGNIWkZYYTBlWDBpbGpyN3EyeGFyTWtIT2RFQzlpejcyX2liMWl3eE5waWwwcG84enVZLXhCT3F0c01RM1RpX0JzTXNlWV94c1V5QTUwU0w0TUdMNkpia0hqbURqQ0w2X0dlTGw1dXJqQ3BEaTF2Q3FVcmJrYw?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-08-21T19:21:01.920Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T19:21:03.647Z",
+      "candidate": {
+        "title": "Profugo de la justicia, Francisco Álvarez, hijo del R1 revela detalles sobre el asesinato de su expareja Valeria Márquez: VIDEO - Reporte Indigo",
+        "url": "https://news.google.com/rss/articles/CBMijwJBVV95cUxOMklBaW5HYmFXc3UxYzgtcTNVYnJfbW1vV1o0eWdOMW1DY3JCWE44NjJuSmtfdExOT2phVG5abTl0TzBXVUlGMGpqVGZOYWVtOF84RUhTaW52Z3BHQTB5ZjgzZ1BTeGhoQUE0dUFSRGRmNTNaWmRtNnRabUgwM3VmWjYzNmJYWGtDN2NiaDN0WHV1dExST3FqWk9mWFhJc0ZJZUpPa3IzT2JlVnFwcU5hRmlUNFBQRFk0bDUxRnFjN2t5a0FJUFZ3cVgzTEs5eU5QOXNsQkJuUVdYakR1a1ZIcVlLb0pOOFo1b2ZORjMtZm5qYVhHZEJUZ3ZVMkhuVVhSNW1SajdkWWhTT2otcDIw0gGUAkFVX3lxTE92ek1sNjl3U0hpUmRvSlMwQlB0ZEk2OTFlelVhWHZVUEhkcS1uMV8tNjVYUkhRWnpSNE82dnVmVkdkYXk0Zm00aWJ1T3B2X1hELVF3WkZvWlZRWnZOa3d3NkNhR2pBdXRacWZzNm5xdk9Nc1RlRW5rVmJOQzdGYmFWNEE5ekNZSlZFLWJORUVUR0g3Q0dpMTlpNHRGSzFGaXdzbWE0aGZZaXRRZ1U5VXhqTmFveFZoVVJmMmZxRUl4T084T29QbnBOSHBaZ192Wk9GaTRyS0ljMDM2WFd5TncwdzBVdVdJaWJ2MTdWVmNoZVNCMkJNUXRQa2FZRTg1T3dFWC02VENyajlwREpJenRTc1JYQg?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-08-21T19:21:01.920Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T19:21:03.648Z",
+      "candidate": {
+        "title": "Netanyahu acusa a Erdogan de ser \"un dictador antisemita\" - DW.com",
+        "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxOQjd6eVBSVmZoS1lFXy1ydF9wNjgyX090SGpFR1l1X0hxc2h3V2VpcUdSMUhrVFR3MU9hZkpHWjJjOVU4NVhsN01QcmhhdlNKR0l1QWdMdktpZWNxTWpRX1N4OEEzVGpER2pEOUg3T1lwc0lwa3ZPYjBiT09ud1E1SEtKc0VKaW02VHR2LWY4V3ptTk44UkJSZFZpb2pXdVVpWmxRaWF30gGmAUFVX3lxTE5VSm9QX29HRElITVBJQlREQ05FUmhlWThzeUJyUEZVRTBfTTdHYU9FaEhBeTZjUGV4VF9EQ0dFczRxekhVUTJ5b1o0UmRkVkh0QjloT09KU2ZVTVl2TFdVNl9UYVltaHloRzduY092YmZuck80Y3lDTXZZNWQ0T2NuclRPY19RejRpV21hLWx3dDcxbC03VVNkSFd3bjBmM3R1eFE5Umc?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-08-21T19:21:01.920Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched turkey on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T19:21:03.648Z",
+      "candidate": {
+        "title": "Trump y Lula conversan durante más de una hora tras los recientes gestos hostiles de Washington - EL PAÍS",
+        "url": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxOUDczdU5fVFVxOGRaczB6cXNwV2xEcTBpY0w5M1VlN2VYR282WFlsQXpzMk1vSGJNVFlrMUppTXVUbFZIMVpKZ1N1SkdzTzZGSVg2N0Nnb00tUXhCNXRCejNpR0Z5OHhGSm5zVGJSMW5MRi1yUE5USVQ4MVQ0OVkxRWc0NVNGM0RKQnBwdUZmZWhqVG5mVkk1NXVDa0tRY202ejlVSTV1ZDVSdkNpRmFBNlZJZkk0U05KTUt5eFAxaUFmQklSTDY5bndZblhRazNiR1MzbdIB6AFBVV95cUxNT0FWNDNjN0V4ZVBpeUlMLVBPeFRGUFRMR043SnlIWjZVbEJvNkxJbENZbDNKQlVMWHlqcXVoVng0bW5rS2loZ0NsRHQ3ZnRfRVd0T004TEdjMWNmREFQU2F1SWxpQW1GWTM5NzBwaDBYUVMtamNPN29fN285UmJIU1NLSTZnMHlXQlJwR1ZZVWN2S2RUTEhnQXltUzhsOTVxdG1MeG1IWFpoajFZdXBKU25jOFdGV3NSdmtsZDBZUnVyV2Nmd1EzQU5xS19FU2VSdWw4VlVOQWhzTTNaeGFfNHMxQjMzN3Fn?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-08-21T19:21:01.920Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched brazil on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T19:21:03.649Z",
+      "candidate": {
+        "title": "¿Cómo funciona la primera vacuna “personalizada” contra el cáncer de piel que avanza hacia su aprobación? - UnoTV",
+        "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxQcENScGQ2cFRtOHNOWUh1NS0wZXd1bW5yZ2NXeG5yLS1ReElQMmdRb0szM0xzM2luLS0zNzNaWmZNcDNBWF94QWliVW9mcUgwcmpoTVVwVGtTZ1RaZFY1Z0ZyaGxPc29vUkRaUWwzRTFhdFBlUUFZX3o1emsyRzZQS1ZzODR4S2lqQ2JkTWNTOHJ2VEIzaDNTWTcxa1laRXBnRHNTQVF1NHlvNTV1ZzRHNg?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-08-21T19:21:01.920Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T19:21:03.649Z",
+      "candidate": {
+        "title": "Victoria Ruffo responde a críticas por llamar fea a hija de Eugenio Derbez y Alessandra Rosaldo - Infobae",
+        "url": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxPMUIxMV9ocnRjQTI4YUNTczh1cElUdEk3aGZiblBVMjVqMzFoblJkM2ZCWDlIbXAzc19UWnZ3WnBMRm1oS3ZYVWFOS0FDd3J1X1Bib3d4SVRyWHl3QjRRTTA1ME5BVkFXT2ZkMG1mQTRvOUNnUUpLeTR3NC01S2FIWFB3d1lhbVBkeWRMZHFHU2k5VzZwVXRKYTdYZjh3QUtNUldXNVBfZnlVaW0zUmZ0WTl2azZ6M0xVTktNVmhlTENTMHhwb0k0dXJBdGg1ZTMzeWpHQtIB7wFBVV95cUxOVElMai03MjlYMkZBeG5PNmdlRnRfa21OdUprZENYUjdoVnMwY0RvMXozRWotWmF0M0FERUJCVVBWcXpPTG5rYzl3TnlURlhOYkJ2MHFFUTU4dXZxUnZ5SmZGQkRRVzZGeWlaY1Fzc21VYjBFOWkyZUVrU0tWZTBPcGpRVGlKNjRvazd0dVRJc05jQlRLWXJONkdnaXFTenQ3M1kwMmhEaTNRdVR6YVdzajYyLUFUc1ZmREZvQU91Mk5OZ2pVMEZCNzU3TEQwcC1LR1VMY2IzVHB6QjdkcVVvaERZWXhUS1A5eUF4eGVPUQ?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-08-21T19:21:01.920Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T19:21:03.650Z",
+      "candidate": {
+        "title": "Bok captain Du Toit warns concentration is key to seeing off All Blacks threat reut.rs/4c3OcI5",
+        "url": "https://bsky.app/profile/reuters.com/post/3mtmhurhje72r",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-08-21T19:15:25Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T19:21:03.650Z",
+      "candidate": {
+        "title": "Ken Griffin's Citadel sheds over 80% of Situational Awareness' bets reut.rs/4xMhkMi",
+        "url": "https://bsky.app/profile/reuters.com/post/3mtmhlolivn2d",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-08-21T19:10:20Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T19:21:03.651Z",
+      "candidate": {
+        "title": "German state politician calls for EU tariffs on Chinese hybrid cars, letter shows reut.rs/3SKJpok",
+        "url": "https://bsky.app/profile/reuters.com/post/3mtmhcki7me2t",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-08-21T19:05:14Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched battery-revolution on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T19:21:03.651Z",
+      "candidate": {
+        "title": "Alex Jones gets Sandy Hook family's Texas verdict reduced on appeal reut.rs/3S7Eg9I",
+        "url": "https://bsky.app/profile/reuters.com/post/3mtmh5q3zb22w",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-08-21T19:02:32Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched mexico-us-conflict on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T19:21:03.652Z",
+      "candidate": {
+        "title": "BREAKING: The editor of military newspaper Stars and Stripes says he has been fired for insubordination after calling any censorship a \"red line.\"",
+        "url": "https://bsky.app/profile/apnews.com/post/3mtmhyaqqja2b",
+        "source": "bsky:apnews.com",
+        "timestamp": "2026-08-21T19:17:22Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched yemen-conflict on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T19:21:03.652Z",
+      "candidate": {
+        "title": "Prosecutors declined to charge Gov. Katie Hobbs, a Democrat seeking reelection, over allegations she took part in a pay-to-play scheme.",
+        "url": "https://bsky.app/profile/apnews.com/post/3mtmhqqwaos25",
+        "source": "bsky:apnews.com",
+        "timestamp": "2026-08-21T19:13:11Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T19:21:03.653Z",
+      "candidate": {
+        "title": "Cleanup efforts and damage assessment are underway in Delaware's capital and on Long Island, New York, after tornadoes touched down.",
+        "url": "https://bsky.app/profile/apnews.com/post/3mtmh3nnfab2i",
+        "source": "bsky:apnews.com",
+        "timestamp": "2026-08-21T19:01:23Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched mexico on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T19:21:03.653Z",
+      "candidate": {
+        "title": "One person has been taken into custody after the attack at a high school in Fagersta, local authorities said. ",
+        "url": "https://bsky.app/profile/aljazeera.com/post/3mtmgze4uul2t",
+        "source": "bsky:aljazeera.com",
+        "timestamp": "2026-08-21T19:00:05.870Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched october-7-attack on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T19:21:03.654Z",
+      "candidate": {
+        "title": "NEW - Spain plans to transfer 500 migrant girls from Ceuta to the mainland, responding to an invasion during late July.  Read here:  https://www.disclose.tv/id/nqyg7plr83/    @disclosetv",
+        "url": "https://t.me/disclosetv/21734",
+        "source": "tg:disclosetv",
+        "timestamp": "2026-08-21T19:21:03.308Z",
+        "matchedTracker": "ceuta-schengen-crisis",
+        "feedOrigin": "telegram",
+        "sourceTier": 3
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.57)",
+      "confidence": 0.5666666666666667,
       "model": null,
       "scanType": "light"
     }
