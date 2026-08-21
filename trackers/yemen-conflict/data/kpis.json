@@ -93,11 +93,33 @@
   {
     "id": "days-since-truce-broken",
     "label": "Days Since Truce Broke (Abha Airport, Jul 13)",
-    "value": "38",
+    "value": "39",
     "color": "red",
     "source": "Watchboard calculation",
     "contested": false,
     "trend": "up",
+    "lastUpdated": "2026-08-21T00:00:00.000Z"
+  },
+  {
+    "id": "yemen-food-insecurity",
+    "label": "Yemenis Facing Food Insecurity",
+    "value": "18M+",
+    "color": "amber",
+    "source": "UN High Commissioner for Human Rights (Volker Türk), Aug 17, 2026",
+    "contested": false,
+    "deltaNote": "Cited alongside a warning that Yemen risks a return to full-scale conflict; distinct from the broader 22M+ figure for total humanitarian need.",
+    "trend": "up",
+    "lastUpdated": "2026-08-17T00:00:00.000Z"
+  },
+  {
+    "id": "yemeni-govt-operations-24h",
+    "label": "Government Operations vs. Houthis (24h, Aug 20)",
+    "value": "81",
+    "color": "amber",
+    "source": "Yemeni military spokesman Gen. Majid Abdullah al-Nuzaili / Al Jazeera",
+    "contested": true,
+    "contestNote": "Government-reported operation and casualty ('neutralized' fighters/commanders) tally; not independently verified. Followed a claimed 181 operations on Aug 16.",
+    "trend": "stable",
     "lastUpdated": "2026-08-20T00:00:00.000Z"
   },
   {

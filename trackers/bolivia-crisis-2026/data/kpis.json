@@ -33,23 +33,35 @@
   {
     "id": "usd-exchange-rate",
     "label": "USD Exchange Rate (floated)",
-    "value": "Bs. 11.00 / $1",
+    "value": "Bs. 12.13 / $1",
     "color": "red",
-    "source": "Central Bank of Bolivia",
+    "source": "Central Bank of Bolivia (Jul 31 official fixing, effective Aug 3)",
     "contested": false,
     "trend": "up",
-    "deltaNote": "Up from the 15-year peg of Bs. 6.96 before the Jun 29 float; peaked above Bs. 11 in late July",
-    "lastUpdated": "2026-08-20T12:00:00.000Z"
+    "deltaNote": "Up from the 15-year peg of Bs. 6.96 before the Jun 29 float; official fixing rose to Bs. 12.13 by Jul 31, while parallel digital-dollar rates trade lower, around Bs. 11.50-11.90",
+    "lastUpdated": "2026-08-21T14:47:26.000Z"
   },
   {
     "id": "inflation-rate",
     "label": "Inflation (y/y)",
-    "value": ">20%",
+    "value": ">20% (IMF FY26 forecast)",
     "color": "red",
     "source": "IMF / Reuters reporting",
+    "contested": true,
+    "contestNote": "The IMF forecasts full-year 2026 inflation near 20.7%, but Bolivia's statistics institute (INE) reported an official year-on-year print of just 4.93% for July 2026 — pass-through from the June currency float and December fuel-subsidy cuts had not yet fully hit consumer prices.",
+    "trend": "up",
+    "lastUpdated": "2026-08-21T14:47:26.000Z"
+  },
+  {
+    "id": "diesel-gracos-price",
+    "label": "Diesel Price — Large Consumers (GRACOS)",
+    "value": "Bs. 18.00 / L (+84%)",
+    "color": "amber",
+    "source": "Supreme Decree 5676, Aug 17, 2026 / YPFB",
     "contested": false,
     "trend": "up",
-    "lastUpdated": "2026-08-20T12:00:00.000Z"
+    "deltaNote": "Up from the prior Bs. 9.80-9.90/L rate; the subsidized Bs. 9.80/L price is unchanged for transport operators and individual consumers",
+    "lastUpdated": "2026-08-21T14:47:26.000Z"
   },
   {
     "id": "imf-loan-package",

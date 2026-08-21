@@ -2,24 +2,25 @@
   {
     "id": "hectares-burned-national",
     "label": "Hectares Burned Nationally",
-    "value": "4,082,237 ha",
+    "value": "~4.1M ha (4,100,000+)",
     "color": "red",
-    "source": "CIFFC / Public Safety Canada, as of Aug 12",
+    "source": "CIFFC / Public Safety Canada, as of Aug 18",
     "contested": true,
-    "contestNote": "CIFFC and provincial agencies update tallies independently and frequently; figures can lag or diverge by a day or more.",
-    "delta": "+~7,250 km² (Ontario alone)",
+    "contestNote": "CIFFC and provincial agencies update tallies independently and frequently; figures can lag or diverge by a day or more. Season remains below the five-year average and below 2025's pace (7.7M ha by mid-August).",
+    "delta": "+~18,000 ha vs Aug 12 estimate",
     "trend": "up",
-    "lastUpdated": "2026-08-20T04:20:00Z"
+    "lastUpdated": "2026-08-21T14:45:21Z"
   },
   {
     "id": "total-fires-national",
     "label": "Total Wildfires This Season",
-    "value": "4,654",
+    "value": "4,793",
     "color": "amber",
-    "source": "CIFFC / Public Safety Canada, as of Aug 12",
+    "source": "CIFFC / Public Safety Canada, as of Aug 18",
     "contested": false,
+    "delta": "+139 vs Aug 12",
     "trend": "up",
-    "lastUpdated": "2026-08-20T04:20:00Z"
+    "lastUpdated": "2026-08-21T14:45:21Z"
   },
   {
     "id": "active-fires-current",
@@ -34,12 +35,13 @@
   {
     "id": "total-evacuated",
     "label": "People Evacuated (Season Total)",
-    "value": "24,000+",
+    "value": "~23,000 total (~11,000 still under evacuation order)",
     "color": "amber",
-    "source": "Public Safety Canada / provincial emergency management",
+    "source": "Public Safety Canada — Aug 18 federal update",
     "contested": false,
-    "trend": "up",
-    "lastUpdated": "2026-08-20T04:20:00Z"
+    "deltaNote": "8,600 Indigenous people affected; 4,294 evacuated from 25 First Nations communities as of Aug 18",
+    "trend": "down",
+    "lastUpdated": "2026-08-21T14:45:21Z"
   },
   {
     "id": "total-deaths",
