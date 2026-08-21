@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "lastPruned": "2026-08-21T03:28:51.241Z",
+  "lastPruned": "2026-08-21T04:10:22.392Z",
   "entries": [
     {
       "timestamp": "2026-08-19T20:27:46.732Z",
@@ -16058,6 +16058,108 @@
         "source": "bsky:aljazeera.com",
         "timestamp": "2026-08-21T02:30:05.446Z",
         "matchedTracker": "september-11",
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.63)",
+      "confidence": 0.6333333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T04:10:21.953Z",
+      "candidate": {
+        "title": "Japan executes man who killed five in Pachinko parlour fire",
+        "url": "https://www.bbc.co.uk/news/articles/cly8k232mn7o?at_medium=RSS&at_campaign=rss",
+        "source": "bbc",
+        "timestamp": "2026-08-21T04:10:06.831Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched brazil on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T04:10:21.954Z",
+      "candidate": {
+        "title": "Broken toilets, leaking roofs: Why India's 'cockroach' party wants to fix schools  ",
+        "url": "https://www.bbc.co.uk/news/articles/ckg4q8kyxp7o?at_medium=RSS&at_campaign=rss",
+        "source": "bbc",
+        "timestamp": "2026-08-21T04:10:06.831Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched india-youth-uprising on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T04:10:21.955Z",
+      "candidate": {
+        "title": "No sweat: Japanese men turn to hair removal in scorching summer reut.rs/4gIQiQ7",
+        "url": "https://bsky.app/profile/reuters.com/post/3mtkurrrnzl2i",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-08-21T04:01:04Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T04:10:22.384Z",
+      "candidate": {
+        "title": "Trump wants a new meeting with Kim Jong Un. North Korea says not so fast reut.rs/4xb4U0l",
+        "url": "https://bsky.app/profile/reuters.com/post/3mtku6hsy6h2i",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-08-21T03:50:16Z",
+        "matchedTracker": "north-korea",
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "update",
+      "reason": "light-scan posted directly + queued for heavy scan (score 0.95)",
+      "confidence": 0.95,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T04:10:22.385Z",
+      "candidate": {
+        "title": "Antigovernment protesters take to Tunisia’s streets for second month https://aje.news/j6jeda",
+        "url": "https://bsky.app/profile/aljazeera.com/post/3mtkupzvvuy2g",
+        "source": "bsky:aljazeera.com",
+        "timestamp": "2026-08-21T04:00:06.199Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched southeast-asia-escalation on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-21T04:10:22.386Z",
+      "candidate": {
+        "title": "Taliban release two detained UN staff members in Afghanistan https://aje.news/bgs482",
+        "url": "https://bsky.app/profile/aljazeera.com/post/3mtkt2ewaca25",
+        "source": "bsky:aljazeera.com",
+        "timestamp": "2026-08-21T03:30:05.644Z",
+        "matchedTracker": "afghanistan-pakistan-war",
         "feedOrigin": "bluesky",
         "sourceTier": 2
       },
