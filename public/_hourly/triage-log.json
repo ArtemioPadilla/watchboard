@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "lastPruned": "2026-08-22T03:54:51.157Z",
+  "lastPruned": "2026-08-22T04:26:34.499Z",
   "entries": [
     {
       "timestamp": "2026-08-19T20:27:46.732Z",
@@ -27199,6 +27199,40 @@
       "decision": "discard",
       "reason": "matched myanmar-civil-war on a single token — no substance (score 0.34)",
       "confidence": 0.34041666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-22T04:26:34.487Z",
+      "candidate": {
+        "title": "BREAKING: The U.S. is imposing 50% tariffs on $20 billion worth of Canadian products after last-ditch negotiations failed. Canada promises to match the tax.",
+        "url": "https://bsky.app/profile/apnews.com/post/3mtnfgpvlth2i",
+        "source": "bsky:apnews.com",
+        "timestamp": "2026-08-22T04:04:26Z",
+        "matchedTracker": "usmca-trade-rupture",
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.63)",
+      "confidence": 0.6333333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-22T04:26:34.489Z",
+      "candidate": {
+        "title": "Guyana’s Rodrigues Birkett leads informal poll in race to be next UN leader https://aje.news/11r57k",
+        "url": "https://bsky.app/profile/aljazeera.com/post/3mtnf6wk53y2t",
+        "source": "bsky:aljazeera.com",
+        "timestamp": "2026-08-22T04:00:05.356Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched fusion-energy on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
       "model": null,
       "scanType": "light"
     }
