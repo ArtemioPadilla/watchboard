@@ -39,7 +39,7 @@
     "id": "ukraine-reconstruction-cost",
     "label": "Ukraine Reconstruction Cost Estimate",
     "value": "$524B",
-    "change": "Needed over 10 years; equivalent to 3× pre-war Ukrainian GDP",
+    "change": "Needed over 10 years; equivalent to 3\u00d7 pre-war Ukrainian GDP",
     "direction": "up",
     "sparkData": [
       100,
@@ -57,7 +57,7 @@
     "id": "frozen-russian-assets",
     "label": "Frozen Russian State Assets",
     "value": "~$300B",
-    "change": "Primarily €210B at Euroclear Belgium; generating ~$3B/year interest",
+    "change": "Primarily \u20ac210B at Euroclear Belgium; generating ~$3B/year interest",
     "direction": "up",
     "sparkData": [
       295,
@@ -92,8 +92,8 @@
   {
     "id": "eu-total-ukraine-aid",
     "label": "EU Total Aid to Ukraine (all types)",
-    "value": "€118B+",
-    "change": "EU surpassed US as largest single aid provider in 2024; includes €50B 4-year facility. NATO targeting additional $15B for Ukraine in 2026.",
+    "value": "\u20ac118B+",
+    "change": "EU surpassed US as largest single aid provider in 2024; includes \u20ac50B 4-year facility. NATO targeting additional $15B for Ukraine in 2026.",
     "direction": "up",
     "sparkData": [
       15,
@@ -129,7 +129,7 @@
     "id": "russia-interest-rate",
     "label": "Russian Central Bank Interest Rate",
     "value": "15%",
-    "change": "Cut from 21% peak (7th cut since Jun 2025); Bank of Russia easing cycle — 15.5% Feb 2026, then 15% Mar 20, 2026 as economy slows and inflation moderates to ~5.9%. Oil export disruptions from Ukrainian drone campaign compound economic pressure.",
+    "change": "Cut from 21% peak (7th cut since Jun 2025); Bank of Russia easing cycle \u2014 15.5% Feb 2026, then 15% Mar 20, 2026 as economy slows and inflation moderates to ~5.9%. Oil export disruptions from Ukrainian drone campaign compound economic pressure.",
     "direction": "down",
     "sparkData": [
       8,
@@ -146,7 +146,7 @@
   {
     "id": "ukraine-war-cost-per-day",
     "label": "Ukraine War Cost per Day (Russia)",
-    "value": "$500M–$1B",
+    "value": "$500M\u2013$1B",
     "change": "Estimated daily Russian war expenditure; driving budget deficit and depleting National Wealth Fund",
     "direction": "up",
     "sparkData": [
@@ -165,7 +165,7 @@
     "id": "russia-wealth-fund-depletion",
     "label": "Russian National Wealth Fund",
     "value": "~near exhaustion",
-    "change": "Kremlin acknowledged fund running dry; at record withdrawal pace in early 2026. ~40% of Russian oil export capacity halted (Mar 25) from Ukrainian drone strikes on Ust-Luga and Primorsk ports plus tanker seizures — described as most severe disruption in modern Russian history.",
+    "change": "Kremlin acknowledged fund running dry; at record withdrawal pace in early 2026. ~40% of Russian oil export capacity halted (Mar 25) from Ukrainian drone strikes on Ust-Luga and Primorsk ports plus tanker seizures \u2014 described as most severe disruption in modern Russian history.",
     "direction": "down",
     "sparkData": [
       100,
@@ -235,7 +235,7 @@
   },
   {
     "id": "us-ukraine-minerals-deal",
-    "label": "US–Ukraine Critical Minerals Investment Fund",
+    "label": "US\u2013Ukraine Critical Minerals Investment Fund",
     "value": "Signed Apr 30, 2025",
     "change": "Joint fund for Ukraine reconstruction backed by future mineral revenues. Future US military aid counts as US contribution. Ukraine not required to repay past aid. Minerals wealth estimated at $14.8T total.",
     "direction": "up",
@@ -248,27 +248,41 @@
       100
     ],
     "color": "blue",
-    "source": "US Treasury / CSIS / Fortune (Apr–May 2025)",
+    "source": "US Treasury / CSIS / Fortune (Apr\u2013May 2025)",
     "lastUpdated": "2026-03-21T06:00:00.000Z"
   },
   {
     "id": "russia-gasoline-export-ban-apr2026",
     "label": "Russia Gasoline Export Ban (April 2026)",
     "value": "Suspended",
-    "change": "Russia suspended all gasoline exports effective April 1, 2026 — direct consequence of Ukrainian drone strikes cutting domestic refining capacity and port export throughput",
+    "change": "Russia suspended all gasoline exports effective April 1, 2026 \u2014 direct consequence of Ukrainian drone strikes cutting domestic refining capacity and port export throughput",
     "direction": "down",
-    "sparkData": [100, 95, 85, 65, 30, 0],
+    "sparkData": [
+      100,
+      95,
+      85,
+      65,
+      30,
+      0
+    ],
     "color": "red",
     "source": "Russian Deputy PM Novak / Reuters / Bloomberg (Mar 30, 2026)",
     "lastUpdated": "2026-03-30T14:15:42Z"
   },
   {
     "id": "eu-20th-sanctions-90b-ukraine-loan-apr2026",
-    "label": "EU 20th Sanctions Package + €90B Ukraine Loan",
-    "value": "€90B loan approved",
-    "change": "EU formally adopted 20th Russia sanctions (120+ new listings, 20 banks, 46 shadow fleet tankers now 632 total, crypto platform ban, anti-circumvention tool vs. Kyrgyzstan) and approved €90B interest-free loan to Ukraine on April 23, 2026 — covering two-thirds of Ukraine's needs through 2027-28",
+    "label": "EU 20th Sanctions Package + \u20ac90B Ukraine Loan",
+    "value": "\u20ac90B loan approved",
+    "change": "EU formally adopted 20th Russia sanctions (120+ new listings, 20 banks, 46 shadow fleet tankers now 632 total, crypto platform ban, anti-circumvention tool vs. Kyrgyzstan) and approved \u20ac90B interest-free loan to Ukraine on April 23, 2026 \u2014 covering two-thirds of Ukraine's needs through 2027-28",
     "direction": "up",
-    "sparkData": [0, 10, 20, 40, 70, 90],
+    "sparkData": [
+      0,
+      10,
+      20,
+      40,
+      70,
+      90
+    ],
     "color": "green",
     "source": "EU Council / European Commission (Apr 23, 2026)",
     "lastUpdated": "2026-04-24T09:00:00Z"
@@ -277,9 +291,16 @@
     "id": "ukraine-21st-sanctions-demand-apr2026",
     "label": "Zelensky Demands EU 21st Sanctions Package",
     "value": "Demanded Apr 25",
-    "change": "Following Russia's 666-asset mass attack, Zelensky formally called on EU leaders to immediately advance a 21st sanctions package against Russia — one day after the 20th package entered into force (Apr 23). The new package would target additional energy revenues and shadow fleet tankers.",
+    "change": "Following Russia's 666-asset mass attack, Zelensky formally called on EU leaders to immediately advance a 21st sanctions package against Russia \u2014 one day after the 20th package entered into force (Apr 23). The new package would target additional energy revenues and shadow fleet tankers.",
     "direction": "up",
-    "sparkData": [17, 18, 19, 20, 20, 21],
+    "sparkData": [
+      17,
+      18,
+      19,
+      20,
+      20,
+      21
+    ],
     "color": "blue",
     "source": "Zelensky statement / Kyiv Independent (Apr 25, 2026)",
     "lastUpdated": "2026-04-25T14:00:00Z"
@@ -288,9 +309,16 @@
     "id": "russia-gdp-contraction-q1-2026",
     "label": "Russia GDP Contraction Q1 2026",
     "value": "-0.3%",
-    "change": "Russia's economy contracted 0.3% in Q1 2026 — first quarterly GDP decline since early 2023 — under combined pressure of war expenditure, Western sanctions, and the Bank of Russia's high interest rates. 2026 full-year forecast downgraded to 0.4% from 1.3%.",
+    "change": "Russia's economy contracted 0.3% in Q1 2026 \u2014 first quarterly GDP decline since early 2023 \u2014 under combined pressure of war expenditure, Western sanctions, and the Bank of Russia's high interest rates. 2026 full-year forecast downgraded to 0.4% from 1.3%.",
     "direction": "down",
-    "sparkData": [1.5, 1.3, 0.8, 0.3, -0.1, -0.3],
+    "sparkData": [
+      1.5,
+      1.3,
+      0.8,
+      0.3,
+      -0.1,
+      -0.3
+    ],
     "color": "red",
     "source": "Reuters / Russian Deputy PM / Investing.com (May 2026)",
     "lastUpdated": "2026-05-17T14:32:00Z"
@@ -299,31 +327,52 @@
     "id": "ukraine-novorossiysk-oil-strike-may23-2026",
     "label": "Ukraine Strikes Novorossiysk Oil Terminal (May 23)",
     "value": "~75M tons/yr disrupted",
-    "change": "Ukraine struck Russia's Sheskharis oil terminal and Grushovaya oil depot at Novorossiysk — Russia's largest Black Sea crude export hub handling ~75 million tons/year (~20% of Russia's total crude exports). Shadow-fleet tanker 'Chrysalis' also hit. Fires confirmed at both facilities. Compounds disruptions from Ukraine's March–May 2026 campaign targeting Baltic oil ports (Ust-Luga, Primorsk) and Black Sea refineries (Tuapse struck 4 times).",
+    "change": "Ukraine struck Russia's Sheskharis oil terminal and Grushovaya oil depot at Novorossiysk \u2014 Russia's largest Black Sea crude export hub handling ~75 million tons/year (~20% of Russia's total crude exports). Shadow-fleet tanker 'Chrysalis' also hit. Fires confirmed at both facilities. Compounds disruptions from Ukraine's March\u2013May 2026 campaign targeting Baltic oil ports (Ust-Luga, Primorsk) and Black Sea refineries (Tuapse struck 4 times).",
     "direction": "down",
-    "sparkData": [100, 95, 85, 70, 55, 40],
+    "sparkData": [
+      100,
+      95,
+      85,
+      70,
+      55,
+      40
+    ],
     "color": "red",
     "source": "Bloomberg / Kyiv Independent / Fortune / The Moscow Times (May 23, 2026)",
     "lastUpdated": "2026-05-24T14:00:00Z"
   },
   {
     "id": "ukraine-vtorovo-moscow-airports-strike-may24-2026",
-    "label": "Ukraine Strikes Vtorovo Oil Station (Vladimir Oblast) — Moscow Airport Fuel Supply Hit",
+    "label": "Ukraine Strikes Vtorovo Oil Station (Vladimir Oblast) \u2014 Moscow Airport Fuel Supply Hit",
     "value": "Moscow airports fuel disrupted",
-    "change": "Ukraine's SBU Special Group Alpha drones struck the Vtorovo oil pumping and dispatching station in Vladimir Oblast (JSC Transneft Verkhnyaya Volga) — the facility pumps diesel into the Moscow Ring Oil Product Pipeline, directly supplying Sheremetyevo, Domodedovo, and Vnukovo airports. 800 sq meter fire, heavy smoke. Second strike on this facility (first: Sep 2025). Part of Ukraine's 'long-range sanctions' campaign deepening into Russia's domestic fuel supply chains.",
+    "change": "Ukraine's SBU Special Group Alpha drones struck the Vtorovo oil pumping and dispatching station in Vladimir Oblast (JSC Transneft Verkhnyaya Volga) \u2014 the facility pumps diesel into the Moscow Ring Oil Product Pipeline, directly supplying Sheremetyevo, Domodedovo, and Vnukovo airports. 800 sq meter fire, heavy smoke. Second strike on this facility (first: Sep 2025). Part of Ukraine's 'long-range sanctions' campaign deepening into Russia's domestic fuel supply chains.",
     "direction": "down",
-    "sparkData": [100, 95, 85, 75, 60, 45],
+    "sparkData": [
+      100,
+      95,
+      85,
+      75,
+      60,
+      45
+    ],
     "color": "red",
-    "source": "Euromaidan Press / Ukrainska Pravda / Militarnyi (May 24–25, 2026)",
+    "source": "Euromaidan Press / Ukrainska Pravda / Militarnyi (May 24\u201325, 2026)",
     "lastUpdated": "2026-05-25T14:23:11Z"
   },
   {
     "id": "ukraine-armavir-taganrog-oil-strikes-may30-2026",
     "label": "Ukraine Strikes Armavir Oil Depot + Taganrog Shadow Tanker (May 30)",
     "value": "Krasnodar Krai oil disrupted",
-    "change": "Ukraine's long-range drones struck the Armavir oil depot in Krasnodar Krai (~500 km from border) and a shadow-fleet sanctions-evasion tanker in Taganrog port on the night of May 29–30. Zelensky confirmed both strikes plus a simultaneous hit on a marine oil terminal in occupied Crimea. Armavir attack expands Ukraine's 2026 energy campaign beyond refineries into oil storage and distribution hubs — third Krasnodar Krai energy target struck in 2026 after Ilsky refinery (March 27) and Tuapse refinery (April 16, 20). Combined with Novorossiysk (May 23), Volgograd Lukoil (May 29), Vtorovo (May 24), and Baltic terminal strikes (March 2026), Ukraine's energy infrastructure campaign has struck ~12 Russian facilities in 2026 alone.",
+    "change": "Ukraine's long-range drones struck the Armavir oil depot in Krasnodar Krai (~500 km from border) and a shadow-fleet sanctions-evasion tanker in Taganrog port on the night of May 29\u201330. Zelensky confirmed both strikes plus a simultaneous hit on a marine oil terminal in occupied Crimea. Armavir attack expands Ukraine's 2026 energy campaign beyond refineries into oil storage and distribution hubs \u2014 third Krasnodar Krai energy target struck in 2026 after Ilsky refinery (March 27) and Tuapse refinery (April 16, 20). Combined with Novorossiysk (May 23), Volgograd Lukoil (May 29), Vtorovo (May 24), and Baltic terminal strikes (March 2026), Ukraine's energy infrastructure campaign has struck ~12 Russian facilities in 2026 alone.",
     "direction": "down",
-    "sparkData": [100, 92, 80, 65, 50, 38],
+    "sparkData": [
+      100,
+      92,
+      80,
+      65,
+      50,
+      38
+    ],
     "color": "red",
     "source": "Zelensky statement / Washington Times / Euronews (May 30, 2026)",
     "lastUpdated": "2026-05-31T14:35:22Z"
@@ -332,44 +381,90 @@
     "id": "ukraine-saratov-kirov-pipeline-strikes-jun1-2026",
     "label": "Ukraine Strikes Saratov Refinery + Kirov Pipeline Station (June 1)",
     "value": "2 new regions hit; ~1,300km strike depth",
-    "change": "Ukraine's overnight May31-Jun1 drone campaign (229 drones; 212 intercepted) struck the Rosneft Saratov oil refinery on the Volga River (~700km from front; ~7M ton/year capacity; large-scale fire confirmed) and the Lazarevo pumping station in Kirov region (~1,300km from Ukraine), which serves the Surgut-Gorky-Polotsk pipeline transporting Siberian crude oil to Belarus. Two new Russian regions struck in a single night — expanding Ukraine's energy offensive to Saratov and Kirov oblasts in addition to prior strikes across Krasnodar, Volgograd, Yaroslavl, Moscow, Ryazan, and Leningrad regions.",
+    "change": "Ukraine's overnight May31-Jun1 drone campaign (229 drones; 212 intercepted) struck the Rosneft Saratov oil refinery on the Volga River (~700km from front; ~7M ton/year capacity; large-scale fire confirmed) and the Lazarevo pumping station in Kirov region (~1,300km from Ukraine), which serves the Surgut-Gorky-Polotsk pipeline transporting Siberian crude oil to Belarus. Two new Russian regions struck in a single night \u2014 expanding Ukraine's energy offensive to Saratov and Kirov oblasts in addition to prior strikes across Krasnodar, Volgograd, Yaroslavl, Moscow, Ryazan, and Leningrad regions.",
     "direction": "down",
-    "sparkData": [100, 88, 75, 60, 45, 30],
+    "sparkData": [
+      100,
+      88,
+      75,
+      60,
+      45,
+      30
+    ],
     "color": "red",
     "source": "Japan Times / Al Jazeera / Ukraine General Staff (June 1, 2026)",
     "lastUpdated": "2026-06-01T17:09:25Z"
   },
   {
     "id": "eu-90b-loan-first-tranche-june2026",
-    "label": "EU €90B Loan First Tranche — Approaching Ukraine",
+    "label": "EU \u20ac90B Loan First Tranche \u2014 Approaching Ukraine",
     "value": "First tranche imminent (Jun 2026)",
-    "change": "The European Union is preparing to deliver the first tranche of its €90 billion interest-free loan to Ukraine in late May/early June 2026, specifically earmarked for weapons purchases including air defense interceptors, artillery ammunition, and drone mass production. The loan was approved on April 23, 2026 (20th sanctions package) and covers approximately two-thirds of Ukraine's defense needs through 2027–2028. First tranche delivery represents the most significant European defense financing of 2026 — arriving as Ukraine's air defense interceptors reach critical shortage levels following Russia's May 2026 mass aerial campaign.",
+    "change": "The European Union is preparing to deliver the first tranche of its \u20ac90 billion interest-free loan to Ukraine in late May/early June 2026, specifically earmarked for weapons purchases including air defense interceptors, artillery ammunition, and drone mass production. The loan was approved on April 23, 2026 (20th sanctions package) and covers approximately two-thirds of Ukraine's defense needs through 2027\u20132028. First tranche delivery represents the most significant European defense financing of 2026 \u2014 arriving as Ukraine's air defense interceptors reach critical shortage levels following Russia's May 2026 mass aerial campaign.",
     "direction": "up",
-    "sparkData": [0, 0, 10, 30, 60, 90],
+    "sparkData": [
+      0,
+      0,
+      10,
+      30,
+      60,
+      90
+    ],
     "color": "green",
     "source": "Militarnyi / EU Council / Kyiv Post (May 31, 2026)",
     "lastUpdated": "2026-05-31T14:35:22Z"
   },
   {
     "id": "ukraine-ilsky-refinery-jun2-2026-strike",
-    "label": "Ukraine Strikes Ilsky Refinery (16th Time) — Krasnodar Energy Disruption",
+    "label": "Ukraine Strikes Ilsky Refinery (16th Time) \u2014 Krasnodar Energy Disruption",
     "value": "16th strike (Jun 2, 2026)",
     "change": "Ukraine struck the Ilsky oil refinery in Krasnodar Krai for at least the 16th time since the start of the full-scale invasion, igniting a large fire visible 10+ km away (capacity: ~6.6M tonnes/year). The strike is part of Ukraine's sustained June 2026 energy campaign following June 1 strikes on the Saratov Rosneft refinery (~7M ton/year) and Kirov Lazarevo pipeline station (~1,300 km from Ukraine), May 30 strikes on Armavir oil depot and Taganrog shadow tanker, and May 23 Novorossiysk terminal strike. Ukraine also destroyed a Pantsir-S1 air defense system and struck a Russian vessel in Crimea in the same operational window.",
     "direction": "down",
-    "sparkData": [100, 90, 78, 62, 48, 35],
+    "sparkData": [
+      100,
+      90,
+      78,
+      62,
+      48,
+      35
+    ],
     "color": "red",
     "source": "Kyiv Independent / Ukrinform / Militarnyi (June 2, 2026)",
     "lastUpdated": "2026-06-02T14:00:00Z"
   },
   {
     "id": "germany-115b-ukraine-package-jun2026",
-    "label": "Germany €11.5B Ukraine Aid Package (June 2026)",
-    "value": "€11.5B committed",
-    "change": "Germany announced its largest-ever single-country Ukraine aid package of €11.5 billion in June 2026 — focused on air defense systems (Patriot, IRIS-T), drones, and artillery ammunition. Combined with Norway's ~$7B commitment and the NATO $15B 2026 target, European military financing for Ukraine reached record levels even as US Congress advanced the Ukraine Support Act ($8B) — reflecting the shift of primary Western Ukraine support responsibility to European nations.",
+    "label": "Germany \u20ac11.5B Ukraine Aid Package (June 2026)",
+    "value": "\u20ac11.5B committed",
+    "change": "Germany announced its largest-ever single-country Ukraine aid package of \u20ac11.5 billion in June 2026 \u2014 focused on air defense systems (Patriot, IRIS-T), drones, and artillery ammunition. Combined with Norway's ~$7B commitment and the NATO $15B 2026 target, European military financing for Ukraine reached record levels even as US Congress advanced the Ukraine Support Act ($8B) \u2014 reflecting the shift of primary Western Ukraine support responsibility to European nations.",
     "direction": "up",
-    "sparkData": [2, 5, 8, 10, 11, 11.5],
+    "sparkData": [
+      2,
+      5,
+      8,
+      10,
+      11,
+      11.5
+    ],
     "color": "green",
     "source": "German Government / Kyiv Post (June 2026)",
     "lastUpdated": "2026-06-07T14:00:00Z"
+  },
+  {
+    "id": "us-senate-100pct-tariff-sanctions-aug2026",
+    "label": "US Senate Passes 100% Tariff Sanctions Bill on Russian Oil Buyers",
+    "value": "Up to 100% tariffs",
+    "change": "The US Senate passed the Sanctioning Russia and Iran Act of 2026 in early August 2026, authorizing tariffs of up to 100% on countries that continue purchasing Russian oil and gas. Zelensky welcomed the move, saying 'real, strong American pressure and sanctions against Russia are what will help the most' to end the war. The bill adds to mounting economic pressure on Moscow: Russia's economy contracted 0.6% quarter-on-quarter in Q1 2026, and oil and gas revenues in H1 2026 were just 64% of their level two years earlier, amid a lower EU oil price cap and sustained Ukrainian strikes on Russian refineries.",
+    "direction": "up",
+    "sparkData": [
+      10,
+      20,
+      40,
+      60,
+      80,
+      100
+    ],
+    "color": "red",
+    "source": "US Senate / Al Jazeera / KSE Institute (Aug 2026)",
+    "lastUpdated": "2026-08-22T14:00:00Z"
   }
 ]
