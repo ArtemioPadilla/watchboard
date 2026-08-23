@@ -35,11 +35,34 @@
   {
     "id": "migrants_remaining",
     "label": "Migrants Still in Ceuta",
-    "value": "3,000-5,000",
+    "value": "3,500-5,000",
     "color": "amber",
-    "source": "2026 Ceuta migrant crisis coverage (Aug 4)",
+    "source": "Police estimate via Euronews (Aug 20)",
     "contested": false,
-    "lastUpdated": "2026-08-20T12:00:00Z"
+    "contestNote": "As of Aug 20, most were living unsheltered at the El Trampolín beach camp rather than in official facilities; police began clearing the camp that day.",
+    "trend": "stable",
+    "lastUpdated": "2026-08-23T12:00:00Z"
+  },
+  {
+    "id": "el_trampolin_relocation",
+    "label": "Beach Camp Migrants Relocated to Shelters",
+    "value": "1,200+ / ~4,000",
+    "color": "blue",
+    "source": "Euronews (Aug 21)",
+    "contested": false,
+    "contestNote": "Transferred to two new temporary reception centres, Loma Margarita and El Embolsamiento (1,800 combined initial capacity), as police cleared the El Trampolín beach camp; roughly 500 people reported to have returned to the beach afterward.",
+    "trend": "up",
+    "lastUpdated": "2026-08-23T12:00:00Z"
+  },
+  {
+    "id": "unaccompanied_minors_identified",
+    "label": "Unaccompanied Minors Identified",
+    "value": "2,168",
+    "color": "amber",
+    "source": "National Police via Euronews/Al Jazeera (Aug 18-19)",
+    "contested": false,
+    "contestNote": "Includes ~500 girls Spain is preparing to transfer to specialised mainland facilities without transferring legal guardianship to receiving regions, over EU preference for repatriation to Morocco and refusal by several autonomous communities to accept minors.",
+    "lastUpdated": "2026-08-23T12:00:00Z"
   },
   {
     "id": "ceti_overcapacity",

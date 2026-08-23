@@ -2,13 +2,13 @@
   {
     "id": "brent_crude",
     "label": "Brent Crude",
-    "value": "$101/bbl",
+    "value": "$94/bbl",
     "color": "amber",
-    "source": "ICE / Al Jazeera (Aug 13, 2026)",
+    "source": "OilPrice.com / CNBC (Aug 21-22, 2026)",
     "contested": false,
-    "delta": "+41% since Feb 27",
+    "delta": "+31% since Feb 27; 2nd straight weekly gain (~6% w/w)",
     "trend": "up",
-    "lastUpdated": "2026-08-20T04:00:00Z"
+    "lastUpdated": "2026-08-23T14:47:27Z"
   },
   {
     "id": "fao_food_price_index",
@@ -24,14 +24,15 @@
   {
     "id": "hormuz_daily_transits",
     "label": "Hormuz Daily Tanker Transits",
-    "value": "~8/day",
+    "value": "~10/day",
     "color": "red",
-    "source": "MarineTraffic / Al Jazeera",
-    "contested": false,
+    "source": "Lloyd's List Intelligence (Aug 10-16, 2026 weekly brief)",
+    "contested": true,
+    "contestNote": "Lloyd's List counted 73 transits (Aug 10-16, up from 60 the prior week); UKMTO figures cited by CNN put the week at ~20% of the pre-war average, a materially different read on the same period",
     "delta": "vs 130-140/day pre-war",
-    "deltaNote": "~94% reduction",
+    "deltaNote": "~92% reduction, ticking up from ~94% two weeks ago",
     "trend": "down",
-    "lastUpdated": "2026-08-20T04:00:00Z"
+    "lastUpdated": "2026-08-23T14:47:27Z"
   },
   {
     "id": "war_risk_insurance",
