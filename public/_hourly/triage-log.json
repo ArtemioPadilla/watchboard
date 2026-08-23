@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "lastPruned": "2026-08-23T07:36:02.931Z",
+  "lastPruned": "2026-08-23T08:00:00.811Z",
   "entries": [
     {
       "timestamp": "2026-08-19T20:27:46.732Z",
@@ -35580,6 +35580,57 @@
       "decision": "discard",
       "reason": "matched ai-for-good on a single token — no substance (score 0.32)",
       "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-23T08:00:00.800Z",
+      "candidate": {
+        "title": "Army Secretary Dan Driscoll considering stepping down, sources say - CBS News",
+        "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPbXdPWXdUOFVtSWtBS2V4bnAtTi1JUldtNU1ONTNTSnJlbzNYVGJ4UTBnNzdSdzVvX1JHYXZhX1ctUUt3dVhsZFNXbHR4UnQtVERaN3hxS2J5VUNSbU12eE0tYWxJcDBaZS1pN1lOVkRwaUZ5bDZrUC11SDJxTVJXTGlyR0dNZHY5STBB?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-08-23T07:59:58.806Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched bts on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-23T08:00:00.801Z",
+      "candidate": {
+        "title": "Iran says Pakistan's army chief to visit Tehran on Monday reut.rs/45Ky3nf",
+        "url": "https://bsky.app/profile/reuters.com/post/3mtqcjac4bp2t",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-08-23T07:50:09Z",
+        "matchedTracker": "iran",
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.63)",
+      "confidence": 0.6333333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-23T08:00:00.801Z",
+      "candidate": {
+        "title": "Russian online retailer Ozon warehouse in Orenburg region hit in drone attack, governor says reut.rs/4xOJQNk",
+        "url": "https://bsky.app/profile/reuters.com/post/3mtqbxdezds2o",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-08-23T07:40:08Z",
+        "matchedTracker": "nato-airspace-incursions",
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.63)",
+      "confidence": 0.6333333333333333,
       "model": null,
       "scanType": "light"
     }
