@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "lastPruned": "2026-08-23T16:00:08.994Z",
+  "lastPruned": "2026-08-23T16:33:04.151Z",
   "entries": [
     {
       "timestamp": "2026-08-19T20:27:46.732Z",
@@ -37835,6 +37835,244 @@
         "source": "bsky:aljazeera.com",
         "timestamp": "2026-08-23T16:00:05.896Z",
         "matchedTracker": "hormuz-food-security-crisis",
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.63)",
+      "confidence": 0.6333333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-23T16:33:04.119Z",
+      "candidate": {
+        "title": "Thousands struggling without power in Indiana 12 days after severe storms",
+        "url": "https://www.bbc.co.uk/news/articles/clyly8vdpdwo?at_medium=RSS&at_campaign=rss",
+        "source": "bbc",
+        "timestamp": "2026-08-23T16:33:01.930Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched europe-climate-crisis-2026 on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-23T16:33:04.120Z",
+      "candidate": {
+        "title": "Tim Scott calls support for Darline Graham an ‘easy choice’ despite her debate flub - NBC News",
+        "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxPRlF0bTh3TXdNUVgtU0JobjE5RWJiOHNLNzVlYk1lMHhic2g0a1piUTFCd3FyaXFYUk9Kc01yWERsT0dmWS1uXy1rczRhUE04TVJMeldocTh6RXZVZ3ZyM3EwV3R4RjBiQWhrV2tZYVBkVnN6ZWZveGRiRlRzSnc0RDRfcG9ZQUtTd3czMUpCZlJwVmJqTl9sSk5WbUZaQ2x5TGVN?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-08-23T16:33:02.044Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-23T16:33:04.121Z",
+      "candidate": {
+        "title": "Iran Warns Gulf States Not to Join Trump’s Economic War - The New York Times",
+        "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPYmRfbGVhX1Z3V082VjdoczdEYzhoVmluOGdzUGkyRlhEQXJMOGpqdXREU1JsQTRZQU9zdUV3VUpNUUNFck1jdGhNNld5MUxCaEk2eEduaWd4Mm5rakZkcWRoTVg2YmdUajN1WXJiYjduYnVjWkFyUHUzVnhob1lHRjcwWDM3clJ2UVk0?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-08-23T16:33:02.044Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched iran-conflict on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-23T16:33:04.121Z",
+      "candidate": {
+        "title": "Hawk Fire: 10,500+-acre wildfire in Nevada prompts Sierra County evac warnings - KCRA",
+        "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxOTFhuOVNOYWhEX3FEVWY4SE83c3lLdVprbVFQREdhbGg0WXVMRkJVQlFHcWpBVDV5QmxZYW03aWRyWEdmRFduV011cTZLSTkyR1VXRlBHTW9peEdrQ1ZNRDVEaGotcXRneGVtclVEdnZxM0RlWGpyMTVpc1M2bGtuUVQ5S0JNdW5RSjQyTQ?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-08-23T16:33:02.044Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched canada-wildfires-2026 on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-23T16:33:04.122Z",
+      "candidate": {
+        "title": "Inside Josh Kushner’s $17 Billion Fortune: The Lakers, OpenAI, SpaceX - Forbes",
+        "url": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxOZjRSOEJwaFZ1QmJuZjQ1X2FNc2tWeXdnSmp3NDZzbnpiU0ZHV2ZTdTJRckxXaHJDbXlycVdCc0YtU0YxcG0xb1ItVnpwZGdnWUswbVJkMUdndkZvYlN4TVlpSVgzeXI3aDEtVDl4WUh0RWpQMzk5b1RFQkh3WGIxWURpbmd6eFNqUnAxNmt1UXVxR3JlbmVROTgxeXRkVFUzcjBwd3FmQktYN1Y4S0V3UEZ2SlVxMXAtWUd1T0pXUnJaYmExMWZsdjY0bUVZTGhVV1NYOA?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-08-23T16:33:02.044Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched artemis-2 on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-23T16:33:04.123Z",
+      "candidate": {
+        "title": "Eye-watering price tag leaks for upcoming Asus Googlebook with 16 GB RAM and 8-core CPU - Notebookcheck",
+        "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxQT2Z1NklKWWdCZ25NTl8xOEViZTRwNzVZUmdUU2VhRXhNU21YM2pvaWNVeTduNHpRM3BoSDFLWUJtamFPOHhzbVAwaHhwS01EMnliMm8wWUthM1ljekF2WEh6YUVza2QzZFEyZU1OaFhudDF6UWpYWms5eHY1ejVWbVM1cy1ob0ZLRWg5WElqN2pjOW9WbHRzTklsTUZRaFJrMmhuMHdYQTdObWZuWE4yNHdxM0p0WHlMQTJxU2J6QUFfRC1mWUpaU3J2STc?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-08-23T16:33:02.044Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-23T16:33:04.123Z",
+      "candidate": {
+        "title": "Hayden Panettiere's troubling final months after a life in the spotlight: A timeline - WCVB",
+        "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxORVpiS3IxWUptUDdNQ1F6ZWtzWTlLNndaVTY3Vml0ZmJaZHFZY2pta2VUWDFjNjZCTzVIRkszb0lhdTl5VF9IbjBHOXdYSjFLMWVERVBpdkZWWGU1MFpzNjhlSWNDQ2lGQ3BuVWJMSjdMN1Rxek1aX2d1OC1sbDJ3Um9lZw?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-08-23T16:33:02.044Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-23T16:33:04.124Z",
+      "candidate": {
+        "title": "Los 3 cabos sueltos del secuestro del ‘Mayo’ Zambada y del asesinato de Héctor Melesio Cuén - El Financiero",
+        "url": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxNemlvNGJCa05TSkNCVFVpTF9PVkVMUXFEUnlOYmNxN1luQkh6d19BUjV0SmZNdEwtNU5KT0t2NGpDWU9xSEMtUURwclRiN016djlZb1JCYkQ3OTBaUzVWRG1lMVlqZ2ZpRnJMNG1OS1VSSktJaTBJRnJfRHBMUXVReHN1ampHeUl1VTNqbGFOVDFBRkYyNWJvTk5ZRTRGTkUwa2tlRkZLUWdKWEtvc1hGRWhSTThLc1UtOFd1MGp2NTFOYThpN3pPTThfTE93aVMzNlNUY2VKbmlnZw?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-08-23T16:33:03.221Z",
+        "matchedTracker": "sinaloa-fragmentation",
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.63)",
+      "confidence": 0.6333333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-23T16:33:04.125Z",
+      "candidate": {
+        "title": "Exdirector de la DEA pide a Harfuch que arresten y deporten a Rocha Moya tras su regreso al gobierno de Sinaloa - Infobae",
+        "url": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxOVmFpd2ZGQnViOEFUUVNTLXVZZFhFdDVNNXB1YjZyWmthVXpQbllzbkVWSHZ0aFc4c0RZMElfZUVCaHNTLTFQR3RhNjVhS3YxVC1Ca2hxT0h2dVB3RGNVTjJ1MHFGUHhiT0lSQ1RORlY5Y3ZtdE5pSGNGWjNoQWdMSHdXd0I3NldmQV9UTnlaTDk0V05VWGQ0MUo0RjlnM0hBX0ZSMHhUMXhOLTJjS0JYZ0dzaWJuMkNKQTZra1g0bE82SjBwaWc2UDdzVVJBbmlScjdwWF80eDl5YWRjSHUxN3h5VW5sODVVbEHSAYQCQVVfeXFMTmNhNHpLMTh5VHZuZ0pVM0lROTdkSUpJRHBBWmRTX1AzeHFFUDhuckdvcjFybk8yV2V6SmIzTDhDd0tGWVlyam9lOU1WREtiQ3pia2V2RzFkVTVoeE56d3hlYTBsSHdUVFJCZDJhZ2g1NWhDVUV3MWs0SlBxUERCTTJuOFNkWC1DdVNTYl9pNGwySWdjdVdQaVJ1cFhCdDNqSUZfNVdadjJUX0FyQVZhTmYtWnd1bk1BUEdLLUZtS3p6a0lURThhNk5uaTNQb1k1UjRKNlZqRTZDR1lmQzBqQWRBaHNsaFJ1NjZWNjBKbHhMZ243U2V4ekRKQ05aMGowcHdPSHk?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-08-23T16:33:03.221Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched culiacanazo on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-23T16:33:04.126Z",
+      "candidate": {
+        "title": "¿Bebé en camino? Stephanie Cayo aclara las versiones tras la foto de Alejandro Sanz que causó revuelo - HOLA",
+        "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxQRWtjVFNOTThMd2ZzdFkyUjM2MWNaQWNnRmNVeEJ1QW1GYnYtZjZZWUo5elI0SzZoaURCMWlRTFlFNEhwM1NQQ3JmZmZXVk9weUQzVk9kQlFWNjlKNHd0Z1NwUEtiMjVsS1k3cWNQYU8yejMxakp1S1FXa0wwVnhsOUN4VnVyRm44OVJXVGVGaW9qemtLTm9fMTRTT0FyZDRBWG9fX1FRVkxrU2R6c2EyajZCMmVicTQ1NDBNeG5mWG1xR0FyenBENQ?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-08-23T16:33:03.221Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched tlatelolco-1968 on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-23T16:33:04.127Z",
+      "candidate": {
+        "title": "D-backs' manager: Ketel Marte 'free to do whatever' while on IL reut.rs/4gprhrU",
+        "url": "https://bsky.app/profile/reuters.com/post/3mtr6hdqqa42z",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-08-23T16:10:10Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-23T16:33:04.128Z",
+      "candidate": {
+        "title": "Commerzbank chair calls for review of German takeover rules after UniCredit bid reut.rs/3U4KR5p",
+        "url": "https://bsky.app/profile/reuters.com/post/3mtr5xo2c7n2n",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-08-23T16:01:24Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-23T16:33:04.129Z",
+      "candidate": {
+        "title": "A new documentary follows three physicians facing the odds: limited medical supplies, Israeli bombing, and upon returning home, media bias and indifference. interc.pt/46d28vJ",
+        "url": "https://bsky.app/profile/theintercept.com/post/3mtm5aj42tf2z",
+        "source": "bsky:theintercept.com",
+        "timestamp": "2026-08-21T16:05:08.764Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched mexico on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-23T16:33:04.130Z",
+      "candidate": {
+        "title": "Canada, US and tit-for-tat tariffs: How will they impact their economies? https://aje.news/83ay2x",
+        "url": "https://bsky.app/profile/aljazeera.com/post/3mtr7kwvy2q2t",
+        "source": "bsky:aljazeera.com",
+        "timestamp": "2026-08-23T16:30:04.906Z",
+        "matchedTracker": "usmca-trade-rupture",
         "feedOrigin": "bluesky",
         "sourceTier": 2
       },
