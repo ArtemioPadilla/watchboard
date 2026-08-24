@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "lastPruned": "2026-08-24T14:24:38.168Z",
+  "lastPruned": "2026-08-24T15:08:39.207Z",
   "entries": [
     {
       "timestamp": "2026-08-19T20:27:46.732Z",
@@ -46477,6 +46477,465 @@
       "decision": "defer",
       "reason": "deferred to next heavy scan (score 0.57)",
       "confidence": 0.5666666666666667,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T15:08:38.443Z",
+      "candidate": {
+        "title": "Israel warns of 'forceful' response to kites flown from Gaza",
+        "url": "https://www.bbc.co.uk/news/articles/c5y58g2dp3xo?at_medium=RSS&at_campaign=rss",
+        "source": "bbc",
+        "timestamp": "2026-08-24T15:08:36.634Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched gaza-war on a single token — no substance (score 0.34)",
+      "confidence": 0.34041666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T15:08:38.445Z",
+      "candidate": {
+        "title": "Trump says U.S. will hike Canada auto tariffs to 50% as trade war escalates - CNBC",
+        "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE5NVnNJWGhDdTFvVFBMaGVjcldDel91bGg5eW1IdDNOOGJ0cWVnWVFTOWE0S3VHZlpjcWRIdW5lc1hCWEg5RGVMeXBBMDQ5aUpaR2xyRTZIVnAxUDJTdzJNWEkwd0drdjdiUk5TQmw5ejJFQTcyMjY0Wm9WRzjSAYIBQVVfeXFMUElPMnVlU3BVRGRvR19leEtvUzI0akZTdVRDb1VRY1NOcmQzMmVFdFNlUVZleU5LRDg0T01YRlM1djFUUmhPRTV1RjUwZlhWTV84UGFyVFl0bl9FQ1MzOHNEdUFEeHBTVzhwdEJUNTJKZlRaQzc2Q2tUSWhDR3NIVGFLdw?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-08-24T15:08:36.722Z",
+        "matchedTracker": "usmca-trade-rupture",
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "update",
+      "reason": "light-scan posted directly + queued for heavy scan (score 0.95)",
+      "confidence": 0.95,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T15:08:38.445Z",
+      "candidate": {
+        "title": "Iran’s rial currency hits new record low as US prepares to announce more sanctions - AP News",
+        "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxNZlROSkFsYjg2RjA1RzJfY1VYTWNZZFhPcDVqSDJrRzFWR1pXQ29uS2NvaEhkVWo1d3dHeXF2QnlWTnNJY2RyVlJJWVQwcG15V0wtbEtwdUU0R05YWVhhbHpyZnZvT0tuMXM1RlJ3YVBxSlc4SGpHazJzSndyRkNqbXF6YVF5U1hqT2t0RmpCUnM3SDNXSkxtS2t6T3RnNGMtMnNiT1Q3X0VXNjg?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-08-24T15:08:36.722Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched iran-conflict on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T15:08:38.446Z",
+      "candidate": {
+        "title": "Watch Live: Lindsay Clancy trial testimony continues with prosecution rebuttal witnesses - CBS News",
+        "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNck8wd0huUmVfTk5sc3BtSUNoeWMyTEQ2TGhmMThrcXNjYk5zUDRmSGlHRGlWc1dTT3k5RmMzeThOcnNuaHVYaGdUUzg4eW83UjM4WGFCbVN6T1BnVHp6bUUwWGlpZXczVkxKaEM5MzhBeS1HME5PdnRQVF9wRW9sdkV0T3V5U2RfcFFtQQ?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-08-24T15:08:36.722Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched mh17-shootdown on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T15:08:38.446Z",
+      "candidate": {
+        "title": "Trump says rejecting data centers is \"a mistake\" - Axios",
+        "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxOUVFiOUIyM2kyQi16Zl9zY0lLODRkdVgwQ2YyMXF5TXJtZFd6LVAxS3BIOHBzOHFoNGY1RlZTay1sYjVXWkMzc3piSk5nNDdNazRaRmtOVy1UNWhCNTFhUTNZdENLQjh2QmdWMkQtMTJjS0J2OWJJeDhTTGozQkdsUQ?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-08-24T15:08:36.722Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched vera-rubin-lsst on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T15:08:38.446Z",
+      "candidate": {
+        "title": "Illinois officer convicted in Sonya Massey killing has died, lawyer says - The Washington Post",
+        "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxNdFQ1NzItd25yeUk5YkdDQnlDS1VvRWV6R3RkMFZDWnhrWjkyN1JiSjU2M2FjSTZlQ29IaVVlS0o5cHZKWTJvdk5nZ2JTMi0zVkpqMFFqbEM0QjhWT2ZCLXUzZnBOdmlRcXo4T0JuaXZubExiUDcySUdGYWlZa3dmdnUxUEdqbi1UYlVYdjg3NXNjbTdZM0dkRno4NU92U3JrdWdPQlpSUzJnMWt0X210NVY2b25ZRndXRUE?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-08-24T15:08:36.722Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched fox-presidency on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T15:08:38.447Z",
+      "candidate": {
+        "title": "DR Congo, M23 rebels agree on roadmap for peace talks - Al Jazeera",
+        "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxQS3JiWGxKYU1JU3NraTlfM3FaVmJGTWVqM3BkM09pQWJIZjZSeEZsb0ZKMFZCdnZ5cUkweE1kOGQ5UEdlNlJuYUNObmlVc2psUDRaa1A4eEFEQ3NOQjg4QVFLN3l2U29vbk13ZVRrSF9WblNEQU5POHpFWjdOZllPWkZERWxxVi1HN1RxSGJVSjc2NFNYWUF0ONIBngFBVV95cUxOTlJiTHcyNy0yelJVZGxlbnpJYVYtMWYzOXJ1Uk9CRGhKSVNJdl8zMzBGRFEyOU9Id2hGLTFlZmVpUjQ3eWUxTU9maGZRVXVkOExMWEtGZXdPd0hWWXRiVmZfcTRqUnFrZDFLR2lXQ25tc2VrLUtDY1k0QlU2Tl93RnN2V1NXX1NvN1o5Z0VoME9EbjdlUjNTaHU4UzByQQ?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-08-24T15:08:36.722Z",
+        "matchedTracker": "drc-conflict",
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.63)",
+      "confidence": 0.6333333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T15:08:38.447Z",
+      "candidate": {
+        "title": "It Took Apple 8 Years to Listen to Me and Add This Killer Feature to the Apple TV - CNET",
+        "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxPZW9OMGpyRVVhcEZQTFc2ODgzZlJtM1VtdDY1MEotU0ppbGtTdk4yQ1JoLWI0RFMwZk9jS1F3RlN1YW0yLUJzbU5SdXdEZHJvN0RNMl82dzN6VUJaVzdROTdVY2J6RlA5aXNiUlhiZW1NbHZwUW5sVFBOVkVEc2VTX1RkMWEzOVpBbmpuZTRBZlRhd1JieHBSRHBjTjNqNnVxX1BRWlBxSGVrTXVNc0hOZmxKWGtOYlhrX2RXUEkzalhsMW5CMGc?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-08-24T15:08:36.722Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched argentina on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T15:08:38.448Z",
+      "candidate": {
+        "title": "There Are Carrier Pigeon Apps Now Because Pigeon Technology Is Actually Superior - Gizmodo",
+        "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxOOU5kQzY0WkV1bnY1ZlhGLXJQSmYwWHk1cGx4SmlnLU5QRnUxYm9yYUtWTUpmVGt3TGZteDJkQlI0S3ZoZDNRcWxIbGNRejUyN0NLVUtjNWp5ZjhCYjVwQnN2OHNPM3d6TGtlM0MyWVJfMV9QUjFTMWlCY1dYSnZjTE54cVMwZFJacGpOandoWG9yRDk0UU1kMWJQVEtWcWdkUFgyVEVjdEp2QlQwa3dHYw?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-08-24T15:08:36.722Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched ai-for-good on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T15:08:38.448Z",
+      "candidate": {
+        "title": "Gaza documentary produced by the Guardian to receive world premiere at Venice film festival - The Guardian",
+        "url": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxQakpnNEhQaUhmUWlfQXZaZ2JQdk9UTzdnajNIa0ZOS2lLd0l2aktqSlBNb3ZjVF9pajB5NEZUQkhMS0xLbjhVaW55Z3lMeDM0c25tUy1yTlZKc0p2MGtrSVJka0plRG9hRlFQWjVYbXBrYWdERGZpenY4LVFySzB1MVpIcHdZaGlZMU43Q1JSVExhQzZXWm5YRTFUSzhWNnBSa0QtT1JyaVVsTGlkYmFqc3oxeEE1Y216bkRuR0p6Tm10WXpBMFpqNjYzd3dsYTJVelE?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-08-24T15:08:36.722Z",
+        "matchedTracker": "october-7-attack",
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.63)",
+      "confidence": 0.6333333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T15:08:38.449Z",
+      "candidate": {
+        "title": "Shelley Fabares, star of 'The Donna Reed Show' and 'Coach,' dead at 82 - Fox News",
+        "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxOSXhqYVRFVFcxSF90RGYtcnMtTzViU2VaYTRhS1NlUGJJQ1NYVWJXR0NDa1FyQ0haa0Y4Q216MXdJR3JtSXB5VU5vaUl4VE1CNUNIQWRxUVp1a1h1QVVlS2NaWFF1NU01UjhZLXdBMTE0cWh2b19DazdQX2lraTJ3NGRqZ1kzQTIxWDRDSnhVa0FWQdIBlwFBVV95cUxPMTZWc1JjMC1vV3drRGQ3NmtoT1pyQ1lneUdEbUlPMTdnSTdvTm93bk16TjBxNkttQ2h1RVdSYzdZUThEY2VWb0NKUkdKZC1sQ29FdVZWR0lMRTVYbVZPVE9xRVlaTXo5WkV4d281UzhfWDZabzNFMWR1UWU4VzREcjd0eTRDZnVpemlTSmtLTzJwdjdmNngw?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-08-24T15:08:36.722Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched fox-presidency on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T15:08:38.449Z",
+      "candidate": {
+        "title": "El director de la DEA refrenda la ofensiva en México y EE UU contra el Cartel Jalisco - EL PAÍS",
+        "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxOU3Z2aHFVNjgyZkZidm9OUUZXeF9WMGhpTnptazEzV2VfQjJtU1ZtNWtTaWZ1Q3RSSS13Q2Y2TllLSjNrdTdFY2FXS1JMYnZIc0hMZVBNeHBGYWt6WXBMMldHelRPeUpXY01sTGJjamtBVlZ0SC03NElLMVk0RHBZbmdDazg5cDdac3I4MzNuU3E3N1dodVdqcHQ2Z3I4WExYVXZ1dG5FU1hiSjNQX2xTMkR5cmhmbnhGOENTbkNncWtWM05FMkE?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-08-24T15:08:36.755Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched mencho-cjng on a single token — no substance (score 0.34)",
+      "confidence": 0.34041666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T15:08:38.449Z",
+      "candidate": {
+        "title": "Megaobras, bajo la lupa; a 4 años de operar, AIFA incumple metas y su costo se disparó - El Universal",
+        "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxPZzlzeDdHQmRkbUhWcmtfcHJiYUQxSUpONEFYdXlwYy1TdWNkczFtMVZhSHUxS202T3hZXzVyOW00akczUk05TGk3MEJibUctNzJ3cW0xV1lwcF9mX19hMndqTUdjNkZ3VXN4UGxwcFFQQXJMbDVmNm5STFpuOW5xbFpZY2VDRkYzdzRBVTZCTzhyZ05uMzd1cDlfdFZuQ1pVNE1mbDVINE9vYU5acHdBNzNUTHdzZGRmTUFrOE5YQQ?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-08-24T15:08:36.755Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched amlo-presidency on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T15:08:38.450Z",
+      "candidate": {
+        "title": "La Mañanera de Claudia Sheinbaum en vivo hoy lunes 24 de agosto - SinEmbargo",
+        "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxQYVQzTkhsWnVEakpmSHBzUjl4ck84SndDVHJHRWoxSUNJNThnU0xuS1B3dnBRcTJxQVQyNU5hWnJ5Q1pqVnQ4cV95NlhhMS03dE16djZQLWg0SzQzdnZqYTNiSUFXbzE2c0xQWnJlY2dLYlh1U1lNc2tqaUd5TTRqR1NiUHkzSEpXeEQ3MjAtRjU0ajJDN0h1d0RRbDFSNjQ?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-08-24T15:08:36.755Z",
+        "matchedTracker": "sheinbaum-presidency",
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.63)",
+      "confidence": 0.6333333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T15:08:38.450Z",
+      "candidate": {
+        "title": "Cuén no murió en una gasolinera: Fausto ‘N’ revela que Los Chapitos habrían encubierto su homicidio - El Financiero",
+        "url": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxPdXdCMXFJSDlMMW9FM3A3eEVJVHRJRk9lNzNMem9fSzVWQUFaYUFkbk45Uy1CZWFxZHVObnpVWjlXMmtjcllaa0hFN2Q3TXB0RlZZTTlnMjZCRm11d2xicjRveFU0ekdqWnBZY2RnQ2lUZ3lqakFlZTRINmZBenRFbjB6VXVvMjM3aHVwZ1BPeEZtN0RoMzNwMzdVWlplNFdiZ19rbWtNQWVWemFTZ284VmdlMDdFNDB3MFJQanBZb2h0Ni1JckxMOE5ON3l4RDVrX0ZHLUp5VV9CYXRsaDN0ZnRTUQ?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-08-24T15:08:36.755Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched ecuador-narco-conflict on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T15:08:38.451Z",
+      "candidate": {
+        "title": "EU, base de Cerimedo para expandir la ultraderecha en AL - La Jornada",
+        "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxOT20wdnF6S2R4cll6Um55UlBUbHZIaFlxczE2YmNxUVZaY0t6RnFwQjhKZU53VXFtMW1JZmxmN2ZNM1kyYUZ5eHRHTE1xdmU2M3ZhdUVKWDE4Z2R2NXpuQThYTGxQRWM1ODE3QUJ5TXhueVNFTVFTSFV3VkR0M3Z3TUk0UnZPWm1nYk8tZ1VSTk9RZkd6SjdlLXpQenNhMGI0a2J3OW9JVFVUbTA?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-08-24T15:08:36.755Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched crispr-gene-therapy on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T15:08:38.451Z",
+      "candidate": {
+        "title": "Canada July factory sales most likely down 0.2% - Statscan flash estimate reut.rs/4gsaPHd",
+        "url": "https://bsky.app/profile/reuters.com/post/3mttlc5yiuc2i",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-08-24T15:05:14Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched canada-wildfires-2026 on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T15:08:38.452Z",
+      "candidate": {
+        "title": "China's $119 billion policy financing tool begins project applications, faces roll-out lag reut.rs/4ilgRfu",
+        "url": "https://bsky.app/profile/reuters.com/post/3mttl3g4vrt2d",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-08-24T15:01:28Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched ai-for-good on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T15:08:39.188Z",
+      "candidate": {
+        "title": "FDA places clinical hold on Regenxbio's gene therapy for Hunter Syndrome reut.rs/4xlBwVw",
+        "url": "https://bsky.app/profile/reuters.com/post/3mttkhgd3vy2i",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-08-24T14:50:17Z",
+        "matchedTracker": "crispr-gene-therapy",
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "update",
+      "reason": "light-scan posted directly + queued for heavy scan (score 0.95)",
+      "confidence": 0.95,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T15:08:39.188Z",
+      "candidate": {
+        "title": "Mexico inflation accelerates in early August reut.rs/4qA4xu1",
+        "url": "https://bsky.app/profile/reuters.com/post/3mttk6jz47o2s",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-08-24T14:45:19Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched argentina on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T15:08:39.188Z",
+      "candidate": {
+        "title": "Move over, Warsh. Treasury's Bessent also has a credibility problem reut.rs/4gNBCz7",
+        "url": "https://bsky.app/profile/reuters.com/post/3mttjvqyebz2r",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-08-24T14:40:24Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T15:08:39.188Z",
+      "candidate": {
+        "title": "Mexico boosts sterile fly dispersal as US reopens cattle trade reut.rs/4y08gDD",
+        "url": "https://bsky.app/profile/reuters.com/post/3mttj2lyezm2z",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-08-24T14:25:13Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched september-11 on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T15:08:39.189Z",
+      "candidate": {
+        "title": "A group of 22 former international cricket captains have renewed their appeal for the medical treatment of former star player turned politician Imran Khan in a letter to Pakistan Prime Minister Shehbaz Sharif.",
+        "url": "https://bsky.app/profile/apnews.com/post/3mttkzjdoql25",
+        "source": "bsky:apnews.com",
+        "timestamp": "2026-08-24T15:00:24Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched cancer-breakthroughs on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T15:08:39.190Z",
+      "candidate": {
+        "title": "When pressed about the Iran war, a CENTCOM press official threatened to put an Intercept reporter on a “list of people to disregard.” interc.pt/4iqCPOb",
+        "url": "https://bsky.app/profile/theintercept.com/post/3mttjm7x34s2z",
+        "source": "bsky:theintercept.com",
+        "timestamp": "2026-08-24T14:35:04.872Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched iran-conflict on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T15:08:39.190Z",
+      "candidate": {
+        "title": "With Alex Vindman and George Conway’s losses, Democratic voters are forcefully rejecting the notion that Russia is to blame for America’s ills. interc.pt/4yfYFZF",
+        "url": "https://bsky.app/profile/theintercept.com/post/3mtoioays7q2a",
+        "source": "bsky:theintercept.com",
+        "timestamp": "2026-08-22T14:35:00.652Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched hungary-transition on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T15:08:39.190Z",
+      "candidate": {
+        "title": "Photos: Towering landfill collapse kills 30 in Guinea’s capital, Conakry https://aje.news/z71kgv",
+        "url": "https://bsky.app/profile/aljazeera.com/post/3mttjditvfu2d",
+        "source": "bsky:aljazeera.com",
+        "timestamp": "2026-08-24T14:30:11.989Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched haiti-collapse on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T15:08:39.191Z",
+      "candidate": {
+        "title": "BREAKING: Iran’s currency hit a new record low Monday as U.S. prepared to announce new sanctions it said would be an “economic D-Day” and would add further pressure on an economy already battered by previous sanctions and a naval blockade.   @insiderpaper",
+        "url": "https://t.me/insiderpaper/44097",
+        "source": "tg:insiderpaper",
+        "timestamp": "2026-08-24T15:08:37.724Z",
+        "matchedTracker": null,
+        "feedOrigin": "telegram",
+        "sourceTier": 3
+      },
+      "decision": "discard",
+      "reason": "matched iran-conflict on a single token — no substance (score 0.28)",
+      "confidence": 0.2833333333333333,
       "model": null,
       "scanType": "light"
     }
