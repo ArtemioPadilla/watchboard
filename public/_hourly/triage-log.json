@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "lastPruned": "2026-08-24T10:09:04.635Z",
+  "lastPruned": "2026-08-24T10:52:08.934Z",
   "entries": [
     {
       "timestamp": "2026-08-19T20:27:46.732Z",
@@ -44403,6 +44403,397 @@
       "decision": "update",
       "reason": "light-scan posted directly + queued for heavy scan (score 0.85)",
       "confidence": 0.85,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T10:52:08.901Z",
+      "candidate": {
+        "title": "Russia's second-biggest online retailer targeted in Ukrainian strikes",
+        "url": "https://www.bbc.co.uk/news/articles/cg598yvrzpro?at_medium=RSS&at_campaign=rss",
+        "source": "bbc",
+        "timestamp": "2026-08-24T10:52:06.738Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched southeast-asia-escalation on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T10:52:08.901Z",
+      "candidate": {
+        "title": "Access to Zambian courts prevented as election petition deadline looms",
+        "url": "https://www.bbc.co.uk/news/articles/cgrvjn88rxqo?at_medium=RSS&at_campaign=rss",
+        "source": "bbc",
+        "timestamp": "2026-08-24T10:52:06.738Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched ethiopia-conflict on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T10:52:08.902Z",
+      "candidate": {
+        "title": "Here’s what items could cost more as the US-Canada trade war heats up | CNN Business - CNN",
+        "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE1RVUt6eFRlLUFQNFQxWHROZHlsVFBhVHB2TU9ETDdLckNmRy1aZWxtWXN2aUVjbWFSeVlhM1pJc3pRMVlBSGhiYlhDc3FRaXpiUFYwN1k3RWUwVE1ta2lrZzFuMVk3RGE4RlNV?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-08-24T10:52:06.795Z",
+        "matchedTracker": "usmca-trade-rupture",
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.63)",
+      "confidence": 0.6333333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T10:52:08.902Z",
+      "candidate": {
+        "title": "Data centers’ ‘oh s--t’ moment - Politico",
+        "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxOclF4bTlPQkZtM0wyZmJKbmxZWkJicXZRM05ya1o2ZTZqWl9SVUxSWG5kSWtacUNwQm05bkNtZk5TMl9CUHQzd2JHclVkOTg4X3lBUGNYZE1PUU95ZTJ2Z3ZTeS1ZZDFIU0VyY1lSUDFLNDdjcGlCMmhqNkRzQkZxMFF3?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-08-24T10:52:06.795Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched vera-rubin-lsst on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T10:52:08.903Z",
+      "candidate": {
+        "title": "A Drone Killed Three Ukrainians. It Was Guided Entirely by A.I. - The New York Times",
+        "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxNVFV3MFZhQjlBRWRHTnNoX0Q3UVp2Q1JwN2tRUU82MnA2a2Rya2d2bFZTZVBFWUUxLU9wYmxDaXd3RHF2eEhQMU92dXlkYlRDVnMtdXpJRHdpLUxTbTRvYnhxY2pMU04zTFFkSEdvX09wZVNONEdnMTNMLWZJcjJoOERVbmhGUmhHVkRMRW9XczFxejFRN1JOdEsyNExZdw?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-08-24T10:52:06.795Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched mexico on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T10:52:08.903Z",
+      "candidate": {
+        "title": "These Conservatives Want to Be Working Moms. The Manosphere Disapproves. - The New York Times",
+        "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxOcm1USHpKYVZoUUxhNWxfR3I2R25nUkFwS2RVdmFLNWZkaTVKczZRZk5XTUFOM3AwLWl6cXQwbDY4N0U3YURVVjJkb1FDQ3VwTjF0aTMwY2tpNkZOOVJfZ1k2MXg2U0ctWnJoT1VpRHpGc1A5UkM1b09QYjhjRndaTW9KSlhwSkxSUWE5Rg?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-08-24T10:52:06.795Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched mexico on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T10:52:08.904Z",
+      "candidate": {
+        "title": "U.S. Marines Cancel Drill With South Korea, Citing Iran War Demands - The New York Times",
+        "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxPZGRIZHk0elE2ekEwMWl6ZWI0Sm5lM2xkVHNYcTE4TXd3bGtJYklQUXdZNGhHQmQxX1EzLWRfbjdFRFdYN0pIN2tmT1V5bzd2X0E3LUJfY3A4TjJYLXJnY3YwS3hoTWlIUEp1UXVGejU0ZVZydWxNYkN3eHBqRmhUU0phZW12U3RnSWtVMUtuNA?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-08-24T10:52:06.795Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched iran-conflict on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T10:52:08.904Z",
+      "candidate": {
+        "title": "Ukraine news: UK PM Burnham arrives in Kyiv to show support - DW.com",
+        "url": "https://news.google.com/rss/articles/CBMizwFBVV95cUxPOFNUOHhJZ3BTUzF2d240MmJUWDFVTUV1emhPczgtMEdlczhYZUhTN2Q3R0lMdjNqWlZFZVFsOURRbUtRNC1QNlB6cWJlNVlUWHM1SDE0Wnc0d3BiQXRFX0hsZGROWlJ6YTlIeHJORlJDdFgyVjFsZm1RTmk4dUZkRVFsTDNvWjFBcXV3eC1qWTlhdWJmbTlSc0RhZWxXVU8zdkVObGJ5MFh6NnJTOHQxZ0NIbkYzd0dxX1gxYkhjNTkzVmt0THpiQ2xrQlM2Z3c?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-08-24T10:52:06.795Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched ukraine on a single token — no substance (score 0.34)",
+      "confidence": 0.34041666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T10:52:08.905Z",
+      "candidate": {
+        "title": "Alibaba shares slide after $10.2 billion AI share sale offered at sharp discount - Reuters",
+        "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxPbmJDLXh4Z1Q1TU1xaFVKallDYkY5TmdpYUlUTkpxZ1BGS09ReGNfSlJTd0F4OGNKYndTUndKRmRVaU9DUUNfWVc0b1FyV211dFQwRTdHZS1CNExRd3owLU93WEUtcWZ6YkQyOThYMmZlNDFJM01RbjhOenhvaFptLW44S2tmR2pPSjJOWlhnUHNhUy02Wm1Td0gyY3F1QzhyQk42YWhnNl9UUXBxY0Z3bzhUSm1tRjhTZ3YyM3dVU21ibERiRzMtQ3B6eTlfZw?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-08-24T10:52:06.795Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T10:52:08.905Z",
+      "candidate": {
+        "title": "Exhiben plolémicos mensajes de Liz Vilchis en X - López-Dóriga Digital",
+        "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxOTlh5U0tsc2JDV2V0ZHVQOTVZOWVRci1GV2FFUjNZelpaTEVuZkhiOGllV1FNZ2lZQUhYLXF4THR0ZHktT25PY2ZNTWdJSjFLSVlmTkRrY3ZpNWRlZUdjVUx6TWp4WjBrc3NnbUtORkJkc204T3JlSE5sOWdIaVBodVcxb0NZdGc5TE9KSlNnMHp6Q0ZRa0d4OGZRazB2LWR5bWZVcUVJVEZUdlk?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-08-24T10:52:06.817Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched digital-inclusion on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T10:52:08.906Z",
+      "candidate": {
+        "title": "ECB's Cipollone sees stagflation risk from Hormuz crisis as remote reut.rs/3UzFwmB",
+        "url": "https://bsky.app/profile/reuters.com/post/3mtt52awems2d",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-08-24T10:50:16Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched global-recession-risk on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T10:52:08.907Z",
+      "candidate": {
+        "title": "PSG coach warns players need to compete out of their comfort zone reut.rs/4gNey3v",
+        "url": "https://bsky.app/profile/reuters.com/post/3mtt4rlo6u22w",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-08-24T10:45:26Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched chernobyl-disaster on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T10:52:08.908Z",
+      "candidate": {
+        "title": "India plans first tokenised bond issue in September, sources say reut.rs/4c7EQep",
+        "url": "https://bsky.app/profile/reuters.com/post/3mtt4ih2grg25",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-08-24T10:40:19Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched sheinbaum-presidency on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T10:52:08.909Z",
+      "candidate": {
+        "title": "How Amazon learned to stop worrying and love arbitration (again) reut.rs/4gi7P1C",
+        "url": "https://bsky.app/profile/reuters.com/post/3mtt47bt45z25",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-08-24T10:35:11Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched brazil on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T10:52:08.909Z",
+      "candidate": {
+        "title": "Indonesia says death toll from August 15 earthquake reaches 100 reut.rs/4gg48cB",
+        "url": "https://bsky.app/profile/reuters.com/post/3mtt3x2xfeb25",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-08-24T10:30:36Z",
+        "matchedTracker": "indonesia-flores-earthquake",
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.66)",
+      "confidence": 0.6570833333333332,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T10:52:08.910Z",
+      "candidate": {
+        "title": "Bond market anxiety raises stakes for Warsh's debut Jackson Hole speech reut.rs/4c9tkz7",
+        "url": "https://bsky.app/profile/reuters.com/post/3mtt3njbp2b2s",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-08-24T10:25:15Z",
+        "matchedTracker": "global-recession-risk",
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.63)",
+      "confidence": 0.6333333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T10:52:08.911Z",
+      "candidate": {
+        "title": "Exxon turns to automated drilling in the Permian in push for higher oil output reut.rs/3Swsiqf",
+        "url": "https://bsky.app/profile/reuters.com/post/3mtt33sodlj25",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-08-24T10:15:21Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.02)",
+      "confidence": 0.02375,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T10:52:08.912Z",
+      "candidate": {
+        "title": "Trump's frustrations drove vaccine order, but MAHA wants more reut.rs/4zwiz3O",
+        "url": "https://bsky.app/profile/reuters.com/post/3mtt2so53zp25",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-08-24T10:10:14Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched cancer-breakthroughs on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T10:52:08.913Z",
+      "candidate": {
+        "title": "Artificial intelligence is beginning to reshape China's job market, supported by state policies that some economists believe might undermine the overall strength of its economy. That's forcing many people to adapt.",
+        "url": "https://bsky.app/profile/apnews.com/post/3mtt3wleewe23",
+        "source": "bsky:apnews.com",
+        "timestamp": "2026-08-24T10:30:20Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched ai-for-good on a single token — no substance (score 0.34)",
+      "confidence": 0.34041666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T10:52:08.913Z",
+      "candidate": {
+        "title": "US military says strike on alleged drug-smuggling boat kills two https://aje.news/wzr34l",
+        "url": "https://bsky.app/profile/aljazeera.com/post/3mtt3w4hbny2v",
+        "source": "bsky:aljazeera.com",
+        "timestamp": "2026-08-24T10:30:04.110Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched bolivia-crisis-2026 on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T10:52:08.913Z",
+      "candidate": {
+        "title": "BREAKING - Mexican governor wanted on US drug charges returns to office  bit.ly/4zs1Sqc   Follow  @InsiderPaper  for more news",
+        "url": "https://t.me/insiderpaper/44084",
+        "source": "tg:insiderpaper",
+        "timestamp": "2026-08-24T10:52:08.238Z",
+        "matchedTracker": "mexico",
+        "feedOrigin": "telegram",
+        "sourceTier": 3
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.57)",
+      "confidence": 0.5666666666666667,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T10:52:08.914Z",
+      "candidate": {
+        "title": "BREAKING: Ukraine launched drone strikes on a warehouse belonging to major Russian online retailer Ozon, with footage showing a massive plume of black smoke   @insiderpaper",
+        "url": "https://t.me/insiderpaper/44092",
+        "source": "tg:insiderpaper",
+        "timestamp": "2026-08-24T10:52:08.238Z",
+        "matchedTracker": "nato-airspace-incursions",
+        "feedOrigin": "telegram",
+        "sourceTier": 3
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.57)",
+      "confidence": 0.5666666666666667,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-08-24T10:52:08.914Z",
+      "candidate": {
+        "title": "Chinese tech firm Honor’s humanoid robot, Lightning, ran 100 meters in 9.32 seconds during a test event - CCTV",
+        "url": "https://t.me/insiderpaper/44093",
+        "source": "tg:insiderpaper",
+        "timestamp": "2026-08-24T10:52:08.238Z",
+        "matchedTracker": null,
+        "feedOrigin": "telegram",
+        "sourceTier": 3
+      },
+      "decision": "discard",
+      "reason": "matched china-tech-revolution on a single token — no substance (score 0.28)",
+      "confidence": 0.2833333333333333,
       "model": null,
       "scanType": "light"
     }
