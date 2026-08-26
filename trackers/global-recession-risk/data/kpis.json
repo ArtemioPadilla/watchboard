@@ -1,15 +1,15 @@
 [
   {
     "id": "us-gdp-q1-2026-advance",
-    "label": "US GDP Q2 2026 (Advance Estimate)",
+    "label": "US GDP Q2 2026 (Second Estimate)",
     "value": "+1.5%",
     "color": "amber",
-    "source": "BEA GDP Advance Estimate, Q2 2026 (released July 30, 2026)",
+    "source": "BEA GDP Second Estimate, Q2 2026 (released August 26, 2026)",
     "contested": false,
-    "delta": "Below 2.1% forecast; up from Q4 2025's final +0.5%",
-    "deltaNote": "Q2 2026 advance estimate (July 30): +1.5% annualized, missing the 2.1% consensus forecast. Consumer spending rose a solid 3.2%, but net trade subtracted 1.0pp (tariff-driven import strength) and inventory drawdowns cut a further 0.7pp. Released the day before China's Politburo meeting and a week before the weak July jobs report — part of a broader mixed-growth-signal window.",
+    "delta": "Unrevised from advance estimate; down from Q1 2026's +2.1%",
+    "deltaNote": "AUG 26 UPDATE — SECOND ESTIMATE CONFIRMS: Q2 2026 real GDP held at +1.5% annualized, unrevised from the July 30 advance estimate. An upward revision to consumer spending was offset by an upward revision to imports. Real GDI rose 2.2% (vs 1.2% in Q1); corporate profits rose $400.9B (vs $74.4B in Q1). The PCE price index within the report ran hot — 5.3% headline, 3.6% core — underscoring the stagflation-adjacent mix of sub-trend growth and above-target inflation heading into Warsh's first Jackson Hole keynote (Aug 28). Prior: Q2 advance estimate (July 30): +1.5% annualized, missing the 2.1% consensus forecast; consumer spending +3.2%, net trade -1.0pp, inventories -0.7pp.",
     "trend": "down",
-    "lastUpdated": "2026-07-30T12:30:00Z"
+    "lastUpdated": "2026-08-26T12:30:00Z"
   },
   {
     "id": "us-gdp-q4-2025",
@@ -87,14 +87,14 @@
   {
     "id": "us-10y-treasury-yield",
     "label": "US 10Y / 30Y Treasury Yield",
-    "value": "30Y 5.31-5.32% (Aug 17) — Highest Since 2007; 10Y ~4.72-4.74%",
+    "value": "10Y ~4.625% (Aug 25, -7bps); 30Y 5.31-5.32% (Aug 17 peak) — Highest Since 2007",
     "color": "red",
-    "source": "CNBC / Federal Reserve H.15 / FRED; July 23 - August 17, 2026",
+    "source": "CNBC / Federal Reserve H.15 / FRED; July 23 - August 25, 2026",
     "contested": false,
-    "delta": "Round-tripped again: eased to 4.65% (10Y) on Aug 13's flat PPI, then jumped Aug 17 as the US-Iran MOU's 60-day window expired without a deal, reviving the oil-driven inflation premium alongside structurally rising long-end supply concerns.",
-    "deltaNote": "AUG 14-17: The Aug 14 UAE tanker attacks and the Aug 17 expiration of the US-Iran MOU (Trump ruled out an extension) re-injected war-risk premium into oil (Brent ~$91) just as national debt concerns (nearing $40T) and stubborn above-target inflation kept long-end yields elevated. The 30-year Treasury yield rose to 5.31-5.32% on Aug 17 — its highest level since June 2007 — while the 10-year added to 4.72-4.74%. A Reuters poll of 104 economists (Aug 12-17) found 94 expect the Fed to hold at 3.50-3.75% in September, with market pricing near 70% odds of a hold, though futures still imply one hike by December.",
-    "trend": "up",
-    "lastUpdated": "2026-08-17T20:00:00Z"
+    "delta": "Eased again: 10Y fell more than 7bps to 4.625% Aug 25 as markets looked past the Canada tariff escalation toward Nvidia earnings and Warsh's Aug 28 Jackson Hole keynote.",
+    "deltaNote": "AUG 25 UPDATE: The 10-year Treasury yield fell over 7bps to 4.625% as a chip-sector rebound and easing near-term rate-hike bets outweighed the Canada retaliatory-tariff announcement. This continues the round-trip pattern since the Aug 17 peak: the 30-year hit 5.31-5.32% (highest since June 2007) when the US-Iran MOU expired without a deal, then eased through Aug 13's flat PPI before this latest pullback. National debt concerns (nearing $40T) and stubborn above-target inflation remain the structural floor under long-end yields even as near-term data (Aug 7 jobs miss, Aug 13 PPI) argues for a September Fed hold — a Reuters poll of 104 economists (Aug 12-17) found 94 expect a hold.",
+    "trend": "down",
+    "lastUpdated": "2026-08-25T20:00:00Z"
   },
   {
     "id": "us-consumer-confidence",
@@ -123,25 +123,25 @@
   {
     "id": "vix-fear-gauge",
     "label": "S&P 500 / Market Risk Gauge",
-    "value": "S&P 500 -0.5% (Aug 17) as US-Iran MOU Expires and 30Y Yield Hits 19-Year High; Record 7,799 Close Aug 13 Now Receding",
-    "color": "red",
-    "source": "CNBC / TheStreet / Yahoo Finance / Federal Reserve; July 23 – August 17, 2026",
+    "value": "S&P 500 +0.3% to 7,677.28 (Aug 25) as Chip Rebound Offsets Canada Tariff Escalation Ahead of Nvidia Earnings",
+    "color": "amber",
+    "source": "AP / Yahoo Finance / CNBC / Federal Reserve; July 23 – August 25, 2026",
     "contested": false,
-    "delta": "Round trip continues: the fresh Aug 13 record (7,799, first close above 7,800 intraday) gave way to a two-day pullback — the Aug 14 retail-sales/sentiment miss, then an Aug 17 slide (Dow -0.5%, S&P -0.5%, Nasdaq -0.3%) as the US-Iran MOU expired and oil/yields jumped together.",
-    "deltaNote": "JULY 23-AUG 17 ARC: Oil-driven hike fears triggered the sharpest selloff of the window July 23. The FOMC's July 29 hold, the Aug 7 jobs shock, and Aug 12-13's cooling CPI/PPI prints drove a rally to a fresh S&P record (7,799) on Aug 13. That reversed over the following days: the Aug 14 retail-sales/sentiment miss, a second Hormuz tanker attack, and finally the Aug 17 expiration of the US-Iran MOU (no deal, no extension) pushed Brent to ~$91 and the 30-year Treasury yield to 5.31-5.32% — highest since 2007 — pulling stocks off their highs even as September hike odds remain low (Reuters poll: 94/104 economists expect a hold).",
-    "trend": "down",
-    "lastUpdated": "2026-08-17T21:00:00Z"
+    "delta": "AUG 25: S&P 500 +0.3% (7,677.28), Dow +0.3% (53,577.40), Nasdaq +0.7% (26,151.30) as a semiconductor rebound and a 7bp drop in the 10Y yield outweighed Canada's newly announced retaliatory tariffs.",
+    "deltaNote": "AUG 17-25 ARC: The Aug 17 US-Iran MOU expiration (Brent ~$91, 30Y yield to 5.31-5.32%) pulled stocks off their Aug 13 record (7,799). Markets stabilized and rallied into the following week: Aug 25 saw all three major indices gain as investors rotated back into chip names (Nvidia +2%, snapping a 7-day losing streak) ahead of Wednesday's earnings and looked past Canada's $20B retaliatory tariff announcement. Attention now turns to the Aug 26 GDP second estimate, Nvidia's Aug 26 report, and incoming Fed Chair Warsh's Aug 28 Jackson Hole keynote — three catalysts in three days.",
+    "trend": "up",
+    "lastUpdated": "2026-08-25T21:00:00Z"
   },
   {
     "id": "us-effective-tariff-rate",
     "label": "US Avg Effective Tariff Rate",
-    "value": "Section 301 Forced-Labor Tariffs (10-12.5%) on 60 Economies Live Since Jul 24; Canada Section 338 Tariffs (50% on ~$20B) Due at Midnight Aug 19",
+    "value": "Canada Section 338 Tariffs (50% on ~$20B) Took Effect Aug 22; Canada Retaliates With 15-50% Tariffs on $20B, Effective Sept 8",
     "color": "red",
-    "source": "USTR / Global Trade Alert / Holland & Knight; CP24 / CBC / BNN Bloomberg; July 24 - August 18, 2026",
+    "source": "USTR / Global Trade Alert / Bloomberg / AP; July 24 - August 25, 2026",
     "contested": true,
-    "contestNote": "The Section 122 tariff surcharge expired by statute at 12:01am EDT July 24; USTR's Section 301 forced-labor tariffs (10% or 12.5%, 60 economies) took effect the same minute, avoiding a coverage gap. Canada/Mexico USMCA-qualifying goods and CAFTA-DR textiles remain exempt from Section 301 — but the separate Section 338 threat on Canada (50% tariffs on ~$20B of autos, alcohol, and dairy) is due at 12:01am EDT Aug 19 absent a deal. Carney spoke with Trump by phone Aug 17, calling talks 'very intense and delicate'; LeBlanc met USTR Greer and Commerce Secretary Lutnick in Washington the same day (4th meeting in 3 weeks) saying 'our job is not yet done.' Sticking points: auto-tariff content rules, steel/aluminum tariffs, and dairy supply management.",
+    "contestNote": "US-Canada trade talks collapsed late Aug 21; the Section 338 tariffs (50% on ~$20B of Canadian autos, alcohol, and dairy) took effect Aug 22 (after a brief 3-day suspension from the original Aug 19 date). Carney declared Canada 'at war' with the US on trade. On Aug 25, Carney announced Canada's countermeasures: tiered 15%/25%/50% retaliatory tariffs on ~$20B of US goods across 700+ products (steel, aluminum, furniture, clothing at 50%; appliances, dairy, seafood at 25%; other industrial goods at 15%), effective September 8, plus a C$7.5B (US$5.4B) support package for affected workers and businesses. Two days later (Aug 24) Trump additionally threatened 50% tariffs on Canadian autos, auto parts, and steel starting Jan 1, 2027. Separately, the Section 122/Section 301 transition (60 economies, 10-12.5%) that resolved July 24 remains in force; USMCA-qualifying goods stay exempt from Section 301.",
     "trend": "up",
-    "lastUpdated": "2026-08-18T18:00:00Z"
+    "lastUpdated": "2026-08-25T18:00:00Z"
   },
   {
     "id": "china-gdp-2025",
@@ -159,14 +159,14 @@
   {
     "id": "global-policy-uncertainty",
     "label": "Global Policy Uncertainty / Recession Risk",
-    "value": "AUG 17: US-Iran MOU Expires Without a Deal, 30Y Yield Hits 5.31% (Highest Since 2007); China July Activity Data Misses; Canada Faces 50% Tariffs at Midnight Aug 19",
+    "value": "AUG 25: US-Canada Trade War Escalates (Retaliatory Tariffs Effective Sept 8); GDP Second Estimate + Jackson Hole + Nvidia Earnings All Land This Week",
     "color": "red",
-    "source": "Federal Reserve / BEA / BLS / China NBS / Census Bureau / U. Michigan; July 17 – August 18, 2026",
+    "source": "Federal Reserve / BEA / BLS / China NBS / Census Bureau / U. Michigan; July 17 – August 25, 2026",
     "contested": false,
-    "delta": "AUG 14-18 ARC — CONSUMER CRACKS, THEN GEOPOLITICAL AND BOND-MARKET STRESS: The Aug 14 retail-sales miss and Michigan sentiment collapse pulled stocks off their Aug 13 record. Aug 17 brought two compounding shocks: the US-Iran MOU's 60-day window expired without a deal (Trump ruled out an extension), pushing Brent to ~$91 and driving the 30-year Treasury yield to 5.31-5.32% — highest since June 2007 — while China's July activity data missed across output, retail sales, and investment. Aug 18 added a fresh trade-policy cliff: Carney and Trump spoke by phone hours before 50% Section 338 tariffs on ~$20B of Canadian goods are due to take effect at midnight, with talks still 'very intense and delicate.'",
-    "deltaNote": "AUG 18 RECESSION RISK SNAPSHOT: Four distinct risk channels are now flashing simultaneously — a bond market pricing in structurally higher long-end yields on debt/inflation concerns, a reignited Iran war-risk premium in oil, a deepening China slowdown, and an imminent US-Canada tariff deadline. None individually rises to a 2026-recession-defining shock, but the simultaneity is new. Next catalysts: the Aug 19 Section 338 deadline, the final August Michigan sentiment reading (Aug 28), and the September 16-17 FOMC meeting.",
+    "delta": "AUG 19-25 ARC — TRADE WAR ESCALATES INTO A THREE-CATALYST WEEK: US-Canada talks collapsed Aug 21; Section 338 tariffs (50% on ~$20B of Canadian goods) took effect Aug 22 after a brief suspension; Carney declared Canada 'at war' with the US on trade. Trump escalated further Aug 24, threatening 50% tariffs on Canadian autos/steel from Jan 1, 2027. Canada announced its retaliatory tariffs Aug 25 (15-50% on ~$20B of US goods, effective Sept 8, plus a C$7.5B support package), though markets shrugged it off — the S&P 500 gained 0.3% and the 10Y yield eased 7bps to 4.625% as chip stocks rebounded ahead of Nvidia's earnings.",
+    "deltaNote": "AUG 25 RECESSION RISK SNAPSHOT: Five distinct risk channels are now in play — a now-active US-Canada trade war (each side's tariffs escalating in real time), a bond market still structurally pressured by debt/inflation concerns even as it eases short-term, a deepening China slowdown, elevated equity valuations heading into Nvidia's Aug 26 report, and incoming Fed Chair Warsh's first Jackson Hole keynote (Aug 28) — his clearest policy signal yet on whether 'no landing' becomes the Fed's operative framework. None individually rises to a 2026-recession-defining shock, but the density of catalysts in a single week (GDP second estimate + durable goods Aug 26, Nvidia earnings Aug 26, Jackson Hole Aug 27-29) raises the odds of a volatile turn. Next catalysts: Nvidia earnings (Aug 26 after close), Jackson Hole (Aug 27-29), final August Michigan sentiment (Aug 28), and the September 16-17 FOMC meeting.",
     "trend": "down",
-    "lastUpdated": "2026-08-18T20:00:00Z"
+    "lastUpdated": "2026-08-25T21:00:00Z"
   },
   {
     "id": "boj-policy-rate",

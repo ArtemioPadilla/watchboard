@@ -1,15 +1,15 @@
 [
   {
     "id": "eu-hectares-burned",
-    "label": "EU Hectares Burned (2026, to 20 Aug)",
-    "value": "619,613 ha",
+    "label": "EU Hectares Burned (2026, to 25 Aug)",
+    "value": "626,818 ha",
     "color": "red",
     "source": "EFFIS (European Forest Fire Information System)",
     "contested": false,
-    "delta": "vs. 968,167 ha same date 2025",
+    "delta": "vs. 983,367 ha same date 2025",
     "deltaNote": "Below 2025's record pace EU-wide even as individual countries set national records",
     "trend": "up",
-    "lastUpdated": "2026-08-21T00:00:00Z"
+    "lastUpdated": "2026-08-25T00:00:00Z"
   },
   {
     "id": "spain-hectares-burned",
@@ -76,6 +76,18 @@
     "contestNote": "Down nearly 70% from the prior 2018 record low of 33cm at this gauge; other Danube gauges (Serbia, Bulgaria) report different local records.",
     "trend": "down",
     "lastUpdated": "2026-08-20T00:00:00Z"
+  },
+  {
+    "id": "europe-summer-excess-deaths",
+    "label": "Europe Summer 2026 Excess Deaths",
+    "value": "32,000+",
+    "color": "amber",
+    "source": "EuroMomo (23-country model)",
+    "contested": true,
+    "contestNote": "An independent AFP tally of 8 countries with their own overlapping reporting windows (Germany 14,000, France 7,300, Spain ~4,500, England 2,877, Belgium 2,570, Netherlands 968, Portugal 600+, Austria 396) totals 33,000 — figures are provisional and set to be revised upward as national health agencies finalize counts.",
+    "delta": "up from WHO's 1,300+ confirmed-attributed figure for the June heatwave alone",
+    "trend": "up",
+    "lastUpdated": "2026-08-22T00:00:00Z"
   },
   {
     "id": "eu-gdp-impact",

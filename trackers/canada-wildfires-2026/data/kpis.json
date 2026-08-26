@@ -56,12 +56,14 @@
   {
     "id": "largest-fire-thunder-bay-36",
     "label": "Largest Single Fire (Thunder Bay 36)",
-    "value": "~320,000 ha",
+    "value": "301,240 ha",
     "color": "red",
-    "source": "Ontario Aviation, Forest Fire and Emergency Services",
+    "source": "Ontario Aviation, Forest Fire and Emergency Services, as of Aug 24",
     "contested": false,
-    "deltaNote": "Largest wildfire ever recorded in Ontario",
-    "lastUpdated": "2026-08-20T04:20:00Z"
+    "delta": "Revised down from ~320,000 ha estimate after perimeter remapping",
+    "deltaNote": "Still not under control; largest wildfire ever recorded in Ontario. Part of the Rinker Lake Complex; Ontario and Mexican crews using helicopter bucket/belly-tank support",
+    "trend": "stable",
+    "lastUpdated": "2026-08-26T15:02:41Z"
   },
   {
     "id": "milwaukee-record-aqi",
@@ -86,14 +88,14 @@
   {
     "id": "bald-range-fire-size",
     "label": "Bald Range Fire Size (Summerland, BC)",
-    "value": "25,021 ha",
+    "value": "25,171 ha",
     "color": "red",
-    "source": "BC Wildfire Service, as of Aug 23",
+    "source": "BC Wildfire Service, as of Aug 25 (4pm update)",
     "contested": false,
-    "delta": "+~200 ha vs Aug 22 estimate — growth stalled after weekend rain",
-    "deltaNote": "8 evacuation orders and 13 evacuation alerts remain in place; BC's province-wide state of emergency (declared Aug 8) extended through Aug 29",
+    "delta": "+150 ha vs Aug 23 estimate — growth remains slow",
+    "deltaNote": "Down to 6 evacuation orders and 10 evacuation alerts (from 8 orders/13 alerts); all Peachland-area alerts fully rescinded, though the Faulder evacuation order remains where dozens of homes were destroyed. 322 firefighters assigned with 24-hour coverage; warmer, drier conditions expected to raise visible flame/smoke",
     "trend": "stable",
-    "lastUpdated": "2026-08-24T14:58:42Z"
+    "lastUpdated": "2026-08-26T15:02:41Z"
   },
   {
     "id": "pear-lake-fire-size",
@@ -102,9 +104,31 @@
     "color": "red",
     "source": "BC Wildfire Service, as of Aug 24",
     "contested": false,
-    "delta": "+2,419 ha vs Aug 21 estimate (162,326 ha)",
-    "deltaNote": "Now the season's second-largest wildfire; evacuation orders expanded to ~200 properties along Highway 99 (SLRD, TNRD, Bonaparte and Ts'kw'aylaxw First Nations)",
+    "delta": "Unchanged vs Aug 21 estimate — size steady after weekend rain",
+    "deltaNote": "Now the season's second-largest wildfire; 476 firefighters, 89 structure-protection personnel, 120 heavy equipment units and 21 helicopters deployed. Village of Clinton rescinded most evacuation alerts but some remain due to flood risk; a warming/drying trend could increase fire activity",
+    "trend": "stable",
+    "lastUpdated": "2026-08-26T15:02:41Z"
+  },
+  {
+    "id": "ainslie-creek-fire-size",
+    "label": "Ainslie Creek Fire Size (Merritt/Fraser Canyon, BC)",
+    "value": "67,722 ha",
+    "color": "red",
+    "source": "Thompson-Nicola Regional District / CFJC Today, as of Aug 24",
+    "contested": false,
+    "deltaNote": "Out of control since late July; TNRD downgraded response Aug 24 — 620 properties given all-clear, ~283 properties remain on evacuation alert and 58 on evacuation order across three electoral areas. No structure losses reported",
+    "trend": "stable",
+    "lastUpdated": "2026-08-26T15:02:41Z"
+  },
+  {
+    "id": "nwt-wildfire-total",
+    "label": "Northwest Territories Wildfire Total (Season)",
+    "value": "1,586,232 ha across 284 fires",
+    "color": "amber",
+    "source": "NWT Environment and Climate Change, as of Aug 24",
+    "contested": false,
+    "deltaNote": "219 active (211 out of control, 3 held, 5 under control); NWT accounts for more than a quarter of Canada's total burn area this season",
     "trend": "up",
-    "lastUpdated": "2026-08-24T14:58:42Z"
+    "lastUpdated": "2026-08-26T15:02:41Z"
   }
 ]

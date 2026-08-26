@@ -35,13 +35,13 @@
   {
     "id": "migrants_remaining",
     "label": "Migrants Still in Ceuta",
-    "value": "3,500-5,000",
+    "value": "5,000-8,000",
     "color": "amber",
-    "source": "Police estimate via Euronews (Aug 20)",
-    "contested": false,
-    "contestNote": "As of Aug 20, most were living unsheltered at the El Trampolín beach camp rather than in official facilities; police began clearing the camp that day.",
+    "source": "Euronews (Aug 25) / Breitbart (Aug 22)",
+    "contested": true,
+    "contestNote": "Euronews puts the figure at roughly 5,000, including ~2,000 unaccompanied minors; Breitbart cites a higher unofficial estimate of ~8,000. The El Trampolín beach camp was fully rebuilt within 24 hours of the Aug 21 eviction attempt, and the city government has suspended beach-cleaning operations for as long as migrants keep returning.",
     "trend": "stable",
-    "lastUpdated": "2026-08-23T12:00:00Z"
+    "lastUpdated": "2026-08-26T15:01:12Z"
   },
   {
     "id": "el_trampolin_relocation",
@@ -57,12 +57,14 @@
   {
     "id": "unaccompanied_minors_identified",
     "label": "Unaccompanied Minors Identified",
-    "value": "2,168",
+    "value": "~1,500",
     "color": "amber",
-    "source": "National Police via Euronews/Al Jazeera (Aug 18-19)",
-    "contested": false,
-    "contestNote": "Includes ~500 girls Spain is preparing to transfer to specialised mainland facilities without transferring legal guardianship to receiving regions, over EU preference for repatriation to Morocco and refusal by several autonomous communities to accept minors.",
-    "lastUpdated": "2026-08-23T12:00:00Z"
+    "source": "Interior Ministry via Euronews (Aug 26)",
+    "contested": true,
+    "contestNote": "Revised down from the 2,168 reported Aug 18-19 after a database audit found duplicate case entries for the same children. Includes ~500 girls Spain is preparing to transfer to specialised mainland facilities without transferring legal guardianship to receiving regions, over EU preference for repatriation to Morocco and refusal by several autonomous communities to accept minors.",
+    "delta": "-668",
+    "trend": "down",
+    "lastUpdated": "2026-08-26T15:01:12Z"
   },
   {
     "id": "ceti_overcapacity",
@@ -94,6 +96,17 @@
     "contested": false,
     "contestNote": "Two separate, reciprocal measures: Italy notified the European Commission its checks on Spanish arrivals run until September 1 (could be lifted or extended); Spain's checks on Italian arrivals, imposed Aug 8 after Rome rejected Madrid's ultimatum, run until at least September 7.",
     "lastUpdated": "2026-08-21T14:00:00Z"
+  },
+  {
+    "id": "hate_speech_incidents",
+    "label": "Hate Speech Posts Logged (Jul 30-31 crossing window)",
+    "value": "9,590",
+    "color": "amber",
+    "source": "OBERAXE via Euronews (Aug 25)",
+    "contested": false,
+    "contestNote": "Logged over the two days of the mass crossing alone; part of a broader jump to 57,406 hate-content items in July, up from 40,800 in June. 48% of posts link migration to crime and 40% dehumanise targeted groups.",
+    "trend": "up",
+    "lastUpdated": "2026-08-25T00:00:00Z"
   },
   {
     "id": "ceuta_business_losses",

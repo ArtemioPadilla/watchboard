@@ -2,8 +2,8 @@
   {
     "id": "us-gdp-quarterly",
     "label": "US GDP Growth (Quarterly, Ann.)",
-    "value": "+1.5% (Q2 2026 advance estimate)",
-    "change": "Q2 2026 advance estimate (Jul 30): +1.5% annualized, below the 2.1% forecast though up from Q4 2025's final +0.5%. Consumer spending +3.2%; net trade -1.0pp; inventories -0.7pp.",
+    "value": "+1.5% (Q2 2026 second estimate, unrevised)",
+    "change": "AUG 26 second estimate: +1.5% annualized, unrevised from the advance estimate; consumer spending revised up, offset by an upward revision to imports. Real GDI +2.2% (vs +1.2% Q1); corporate profits +$400.9B (vs +$74.4B Q1). Prior: Jul 30 advance estimate +1.5%, below the 2.1% forecast, up from Q4 2025's final +0.5%.",
     "direction": "up",
     "sparkData": [
       3.0,
@@ -14,11 +14,12 @@
       4.4,
       0.7,
       1.6,
+      1.5,
       1.5
     ],
     "color": "amber",
-    "source": "BEA GDP Advance Estimate, Q2 2026 (released July 30, 2026)",
-    "lastUpdated": "2026-07-30T12:30:00Z"
+    "source": "BEA GDP Second Estimate, Q2 2026 (released August 26, 2026)",
+    "lastUpdated": "2026-08-26T12:30:00Z"
   },
   {
     "id": "us-cpi-yoy",
@@ -178,9 +179,9 @@
   {
     "id": "us-10y-treasury-yield",
     "label": "US 10Y / 30Y / 2Y Treasury Yield",
-    "value": "30Y 5.31-5.32% (Aug 17) — highest since 2007; 10Y ~4.72-4.74%",
-    "change": "Aug 17: US-Iran MOU expires without a deal; 30Y Treasury yield jumps to its highest level since June 2007 as renewed oil-market war risk compounds existing concerns over federal debt issuance and sticky inflation.",
-    "direction": "up",
+    "value": "10Y ~4.625% (Aug 25, -7bps); 30Y 5.31-5.32% (Aug 17 peak) — highest since 2007",
+    "change": "Aug 25: 10Y Treasury yield fell over 7bps to 4.625% as a chip-sector rally and easing near-term hike bets outweighed the Canada retaliatory-tariff announcement, extending the pullback from Aug 17's 19-year 30Y high.",
+    "direction": "down",
     "sparkData": [
       2.8,
       4.0,
@@ -201,13 +202,14 @@
       4.25,
       4.6,
       4.65,
-      4.73
+      4.73,
+      4.625
     ],
     "color": "red",
-    "source": "CNBC / FRED; July 23 - August 17, 2026",
-    "lastUpdated": "2026-08-17T20:00:00Z",
-    "delta": "Round-tripped again: eased to ~4.65% (10Y) on Aug 13's flat PPI, then jumped Aug 17 as the US-Iran MOU's 60-day window lapsed without a deal, reviving the oil-driven inflation premium (Brent ~$91) on top of structurally rising long-end supply concerns.",
-    "deltaNote": "JULY 23-AUG 17 ARC: The Red Sea/Hormuz oil shock (Brent >$100, July 23) pushed yields to a multi-month high as September Fed-hike odds jumped to ~82%. The Aug 7 jobs report and Aug 12-13 CPI/PPI prints both cooled, pulling the 10Y down to 4.65% and September hike odds under 35%. The Aug 14 Hormuz tanker attacks and the Aug 17 expiration of the US-Iran MOU (Trump ruled out an extension) then pushed the 30-year Treasury yield to 5.31-5.32% — its highest level since June 2007 — as renewed geopolitical risk compounded existing debt/inflation concerns."
+    "source": "CNBC / FRED; July 23 - August 25, 2026",
+    "lastUpdated": "2026-08-25T20:00:00Z",
+    "delta": "AUG 25: 10Y fell over 7bps to 4.625% as markets rotated into chip stocks ahead of Nvidia earnings and looked past the Canada tariff escalation.",
+    "deltaNote": "JULY 23-AUG 25 ARC: The Red Sea/Hormuz oil shock (Brent >$100, July 23) pushed yields to a multi-month high as September Fed-hike odds jumped to ~82%. The Aug 7 jobs report and Aug 12-13 CPI/PPI prints both cooled, pulling the 10Y down to 4.65% and September hike odds under 35%. The Aug 14 Hormuz tanker attacks and the Aug 17 expiration of the US-Iran MOU then pushed the 30-year Treasury yield to 5.31-5.32% — its highest level since June 2007. Yields have since eased again: 10Y at 4.625% on Aug 25, even as the US-Canada trade war escalated (Section 338 tariffs took effect Aug 22; Canada's retaliatory tariffs announced Aug 25, effective Sept 8) — underlying debt/inflation concerns remain the structural floor under long-end yields."
   },
   {
     "id": "us-ppi-yoy-april-2026",
@@ -365,9 +367,9 @@
   {
     "id": "shiller-cape-ratio",
     "label": "S&P 500 / CAPE Ratio",
-    "value": "S&P 500 Slips 0.5% (Aug 17) as US-Iran MOU Expires and 30Y Yield Hits 19-Year High; Record 7,799 Close (Aug 13) Receding",
-    "change": "AUG 13: S&P 500 closed at a fresh record 7,799 (+0.65%), clearing 7,800 intraday for the first time. AUG 14: index slipped fractionally after July retail sales fell 0.6% and Michigan sentiment tumbled to 51.0. AUG 17: Dow -0.5%, S&P -0.5%, Nasdaq -0.3% as the US-Iran MOU expired without a deal, oil jumped to ~$91, and the 30-year Treasury yield hit 5.31-5.32% (highest since 2007).",
-    "direction": "down",
+    "value": "S&P 500 +0.3% to 7,677.28 (Aug 25) as Chip Rebound Offsets Canada Tariff Escalation Ahead of Nvidia Earnings",
+    "change": "AUG 17: Dow -0.5%, S&P -0.5%, Nasdaq -0.3% as the US-Iran MOU expired, oil jumped to ~$91, and the 30-year Treasury yield hit 5.31-5.32% (highest since 2007). AUG 25: S&P 500 +0.3% (7,677.28), Dow +0.3% (53,577.40), Nasdaq +0.7% (26,151.30) as Nvidia gained ~2% (snapping a 7-day losing streak) and investors looked past Canada's newly announced $20B retaliatory-tariff package.",
+    "direction": "up",
     "sparkData": [
       27,
       30,
@@ -388,11 +390,12 @@
       40.2,
       40.8,
       41.2,
-      40.9
+      40.9,
+      41.1
     ],
-    "color": "red",
-    "source": "CNBC / TheStreet / Yahoo Finance; August 13-17, 2026",
-    "lastUpdated": "2026-08-17T21:00:00Z"
+    "color": "amber",
+    "source": "AP / Yahoo Finance / The Motley Fool; August 13-25, 2026",
+    "lastUpdated": "2026-08-25T21:00:00Z"
   },
   {
     "id": "ism-services-pmi-april-2026",
@@ -563,5 +566,19 @@
     "color": "blue",
     "source": "Bank of Japan Monetary Policy Release, June 16 2026",
     "lastUpdated": "2026-06-16T04:00:00Z"
+  },
+  {
+    "id": "us-durable-goods-orders-july-2026",
+    "label": "US Durable Goods Orders (July 2026)",
+    "value": "$339.3B — +1.1% MoM, Beat 0.4% Forecast",
+    "change": "New orders for manufactured durable goods rose $3.6 billion (+1.1%) to $339.3 billion in July, well ahead of the 0.4% consensus forecast and accelerating from June's +0.3%. Ex-transportation orders rose 0.4%; ex-defense orders rose 1.3%. Transportation equipment led the increase, up $2.6 billion (+2.3%) to $116.2 billion.",
+    "direction": "up",
+    "sparkData": [
+      0.3,
+      1.1
+    ],
+    "color": "green",
+    "source": "US Census Bureau Advance Report on Durable Goods, July 2026 (released August 26, 2026)",
+    "lastUpdated": "2026-08-26T12:30:00Z"
   }
 ]

@@ -1,15 +1,15 @@
 [
   {
     "id": "global-ev-battery-demand",
-    "label": "Global EV Battery Demand (Jan–May 2026)",
-    "value": "469.2 GWh",
+    "label": "Global EV Battery Demand (H1 2026)",
+    "value": "608.5 GWh",
     "color": "green",
-    "source": "SNE Research / CnEVPost, Jul 3, 2026",
+    "source": "SNE Research (via battery-tech.net), Aug 2026",
     "contested": false,
-    "delta": "+16.3% YoY",
-    "deltaNote": "Global EV battery usage reached 469.2 GWh in the first five months of 2026, up 16.3% YoY. Top 10 global makers are 7 Chinese firms, holding 72.6% combined share — up 2.1pp YoY, underscoring continued Chinese concentration even as Tesla retook the EV sales (not battery-supply) crown from BYD in Q1 2026.",
+    "delta": "+20% YoY",
+    "deltaNote": "Global EV battery installations reached 608.5 GWh in H1 2026, up 20% YoY. CATL led with 242.7 GWh (39.9% share), extending its lead even as Chinese makers as a group face intensifying non-China competition — CATL's global ESS (grid storage) share held at 27.1% in H1 2026 as non-China storage markets overtook China in installed volume for the first time.",
     "trend": "up",
-    "lastUpdated": "2026-07-16"
+    "lastUpdated": "2026-08-26"
   },
   {
     "id": "battery-pack-price-2025",
@@ -25,27 +25,27 @@
   },
   {
     "id": "china-battery-market-share",
-    "label": "CATL Global EV Battery Market Share (Jan–May 2026)",
-    "value": "40.2%",
+    "label": "CATL Global EV Battery Market Share (H1 2026)",
+    "value": "39.9%",
     "color": "blue",
-    "source": "SNE Research (via CnEVPost, Jul 3, 2026)",
+    "source": "SNE Research (via battery-tech.net), Aug 2026",
     "contested": false,
-    "delta": "+2.2 pp from 38.0% (same period 2025)",
-    "deltaNote": "CATL held 40.2% of the global EV battery market Jan–May 2026, versus 38.0% a year earlier. BYD ranked second at 14.4% share (67.6 GWh installed, +0.4% YoY — a lackluster showing tied to a 15% drop in Chinese domestic BEV sales).",
-    "trend": "up",
-    "lastUpdated": "2026-07-16"
+    "delta": "Broadly steady vs. 40.2% (Jan–May 2026)",
+    "deltaNote": "CATL held 39.9% of the global EV battery market in H1 2026 with 242.7 GWh installed, out of 608.5 GWh installed globally (+20% YoY). CATL separately reported it shipped 125.0 GWh into the grid-storage (ESS) market in H1 2026 (+81% YoY), lifting its ESS share to 27.1% even as non-China ESS markets overtook China in installed volume for the first time.",
+    "trend": "stable",
+    "lastUpdated": "2026-08-26"
   },
   {
     "id": "lithium-carbonate-price",
     "label": "Lithium Carbonate (China spot)",
-    "value": "~¥154,000/tonne",
+    "value": "~¥160,500/tonne",
     "color": "amber",
-    "source": "TradingEconomics / SMM China, Jul 15, 2026",
+    "source": "Carbon Credits / Benchmark Mineral Intelligence, Aug 24, 2026",
     "contested": false,
-    "delta": "Rebounded from 3-month low ¥151,750 (Jun 29) to ¥165,000 (Jul 13), settling ~¥154,000 by Jul 15",
-    "deltaNote": "Lithium carbonate hit a three-month low of ¥151,750/tonne on June 29, 2026 before rebounding to ¥165,000 by July 13 on stronger-than-expected demand from EV and energy-storage battery makers, then easing to trade flat around ¥154,000 (~$21,500/tonne) by July 15. Volatility continues to reflect thin liquidity and the tug-of-war between new mine supply and accelerating storage demand.",
-    "trend": "down",
-    "lastUpdated": "2026-07-16"
+    "delta": "Fell to ~¥123,000 (~$18,310/tonne, Aug 12 low) then surged 5.39% in one session on Aug 24 to ¥160,500",
+    "deltaNote": "Lithium carbonate slid to a fresh low of roughly $18,310/tonne (CIF Asia) by August 12, 2026 on bearish 2027-oversupply sentiment and swelling cell/EV/BESS inventories, before jumping 5.39% in a single session on August 24 to $23.87/kg (~¥160,500/tonne) on robust downstream energy-storage demand — BESS lithium demand grew ~71% in 2025 with another ~55% growth forecast for 2026, increasingly decoupling price direction from EV demand alone.",
+    "trend": "up",
+    "lastUpdated": "2026-08-26"
   },
   {
     "id": "solid-state-energy-density-lab",
