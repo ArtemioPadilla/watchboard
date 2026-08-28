@@ -34,13 +34,13 @@
   {
     "id": "gasoline-retail-price",
     "label": "AI-95 retail price",
-    "value": "74.38 RUB/L (official) vs up to 120–140 RUB/L (independent stations)",
+    "value": "79.32 RUB/L (official) vs 200–350 RUB/L in Crimea's black market",
     "color": "amber",
-    "source": "Rosstat official data vs independent station reporting, Jun 2026",
+    "source": "Rosstat via Vedomosti, Aug 24 2026 / Meduza, Aug 27 2026",
     "contested": true,
-    "contestNote": "Official Rosstat averages run well below prices actually seen at independent (non-major-oil-company) stations in several federal districts.",
+    "contestNote": "Official Rosstat national averages remain well below independent-station and black-market prices; the gap is most extreme in occupied Crimea, where formal sales are suspended.",
     "trend": "up",
-    "lastUpdated": "2026-08-20T00:00:00Z"
+    "lastUpdated": "2026-08-27T00:00:00Z"
   },
   {
     "id": "crude-throughput",
@@ -102,12 +102,14 @@
   {
     "id": "regions-under-rationing",
     "label": "Regions with active fuel-sale rationing",
-    "value": "59 (+17 localized)",
+    "value": "63 of 85 (+19 localized)",
     "color": "red",
-    "source": "Meduza, Aug 20 2026",
+    "source": "TASS / RBC-Ukraine, Aug 23 2026",
     "contested": false,
+    "delta": "+4",
+    "deltaNote": "Up from 59 regions on Aug 20; Putin acknowledged 'certain inconveniences' the same day",
     "trend": "up",
-    "lastUpdated": "2026-08-21T00:00:00Z"
+    "lastUpdated": "2026-08-23T00:00:00Z"
   },
   {
     "id": "moscow-station-availability",

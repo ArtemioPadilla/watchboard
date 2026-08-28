@@ -2,9 +2,9 @@
   {
     "id": "brent_crude_price",
     "label": "Brent Crude Oil",
-    "value": "$94/bbl",
-    "change": "2nd straight weekly gain (~6% w/w); +31% since Feb 27",
-    "direction": "up",
+    "value": "$87.65/bbl",
+    "change": "Down from $94 (Aug 23) after Iran-Oman temporary Hormuz corridor deal; steadied Aug 27 on hot US PCE data",
+    "direction": "down",
     "sparkData": [
       71.6,
       80,
@@ -16,11 +16,13 @@
       96.8,
       101,
       87.1,
-      94
+      94,
+      86.38,
+      87.65
     ],
     "color": "#e74c3c",
-    "source": "OilPrice.com / CNBC",
-    "lastUpdated": "2026-08-23T14:47:27Z"
+    "source": "CNBC / Eastern Herald",
+    "lastUpdated": "2026-08-28T00:02:46Z"
   },
   {
     "id": "fao_food_price_index_econ",
@@ -44,8 +46,8 @@
   {
     "id": "wheat_futures",
     "label": "Global Wheat Price",
-    "value": "+5.8% m/m",
-    "change": "July 2026 surge",
+    "value": "$734.30/bu",
+    "change": "Highest since June 2023; +25% vs January 2026 as Black Sea and Gulf disruptions compound",
     "direction": "up",
     "sparkData": [
       100,
@@ -53,11 +55,12 @@
       103,
       104,
       105,
-      111
+      111,
+      125
     ],
     "color": "#f1c40f",
-    "source": "FAO / World Grain",
-    "lastUpdated": "2026-08-20T04:00:00Z"
+    "source": "FAO / CNBC / TradingEconomics",
+    "lastUpdated": "2026-08-28T00:02:46Z"
   },
   {
     "id": "vegetable_oil_index",
@@ -116,9 +119,9 @@
   {
     "id": "hormuz_transit_volume",
     "label": "Hormuz Tanker Transits",
-    "value": "73/week (Aug 10-16)",
-    "change": "up from 60/week prior week, still ~92% below pre-war",
-    "direction": "up",
+    "value": "~2-3/day (Aug 23-26)",
+    "change": "down from 73/week (Aug 10-16); traffic thinned further despite the Aug 26 Iran-Oman corridor deal",
+    "direction": "down",
     "sparkData": [
       135,
       40,
@@ -127,11 +130,12 @@
       25,
       8,
       8.6,
-      10.4
+      10.4,
+      3
     ],
     "color": "#2980b9",
-    "source": "Lloyd's List Intelligence",
-    "lastUpdated": "2026-08-23T14:47:27Z"
+    "source": "PortWatch / Vortexa",
+    "lastUpdated": "2026-08-28T00:02:46Z"
   },
   {
     "id": "fertilizer_urea_price",

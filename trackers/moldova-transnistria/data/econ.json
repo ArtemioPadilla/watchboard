@@ -12,14 +12,36 @@
   },
   {
     "id": "econ-inflation-rate",
-    "label": "Inflation Rate (2026 est.)",
-    "value": "8.1%",
-    "change": "+3.4pp vs pre-conflict forecast",
+    "label": "Inflation Rate (NBM Year-End 2026 Peak Forecast)",
+    "value": "9.2%",
+    "change": "Raised from 7.0% in the Aug 13, 2026 Inflation Report",
     "direction": "up",
-    "sparkData": [4.7, 5.5, 6.4, 7.2, 7.8, 8.1],
+    "sparkData": [5.5, 6.4, 7.2, 7.8, 8.1, 9.2],
     "color": "red",
-    "source": "National Bank of Moldova / FocusEconomics",
-    "lastUpdated": "2026-08-20T00:00:00.000Z"
+    "source": "National Bank of Moldova, Inflation Report, Aug 13, 2026",
+    "lastUpdated": "2026-08-28T00:17:19.000Z"
+  },
+  {
+    "id": "econ-nbm-base-rate",
+    "label": "National Bank of Moldova Base Rate",
+    "value": "7.50%",
+    "change": "Raised Aug 6, 2026",
+    "direction": "up",
+    "sparkData": [6.0, 6.5, 6.5, 7.0, 7.0, 7.5],
+    "color": "amber",
+    "source": "National Bank of Moldova, Monetary Policy Decision, Aug 6, 2026",
+    "lastUpdated": "2026-08-28T00:17:19.000Z"
+  },
+  {
+    "id": "econ-household-gas-price-hike",
+    "label": "Projected Household Gas Price Increase",
+    "value": "+38%",
+    "change": "To ~€1.04/m³ (20.3 MDL) incl. VAT",
+    "direction": "up",
+    "sparkData": [423, 460, 500, 550, 600, 624],
+    "color": "red",
+    "source": "Energocom / Moldova1",
+    "lastUpdated": "2026-08-28T00:17:19.000Z"
   },
   {
     "id": "econ-electricity-import-share",

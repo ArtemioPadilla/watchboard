@@ -2,13 +2,24 @@
   {
     "id": "cas-total-deaths-national",
     "category": "Deaths, national total (2025-2026)",
-    "killed": "3",
+    "killed": "5",
     "injured": "n/a",
-    "source": "CDC / Texas DSHS / New Mexico DOH",
+    "source": "CDC / Texas DSHS / New Mexico DOH / Pennsylvania DOH",
     "tier": 1,
-    "contested": "no",
-    "note": "2 unvaccinated children in Texas (Lubbock, ages 6 and 8) and 1 unvaccinated adult in Lea County, New Mexico. All three had no known underlying conditions.",
-    "lastUpdated": "2026-08-20T04:28:03Z"
+    "contested": "evolving",
+    "note": "2 unvaccinated children in Texas (Lubbock, ages 6 and 8) and 1 unvaccinated adult in Lea County, New Mexico in 2025; 2 unvaccinated Lancaster County, PA residents in Aug 2026. The PA total is contested — see cas-pennsylvania-deaths-2026.",
+    "lastUpdated": "2026-08-28T00:57:58Z"
+  },
+  {
+    "id": "cas-pennsylvania-deaths-2026",
+    "category": "Pennsylvania (Lancaster County), 2026 deaths",
+    "killed": "2",
+    "injured": "unknown, embedded in 393 statewide cases",
+    "source": "Pennsylvania Dept. of Health / CDC",
+    "tier": 2,
+    "contested": "heavily",
+    "note": "Pennsylvania announced Aug 25, 2026 what it called the state's first measles deaths in 35 years — 2 unvaccinated Lancaster County residents, one an infant who tested positive for measles and died of a splenic laceration. PA declined to release further identifying details citing privacy. CDC publicly disputed PA's 'measles-associated' framing, saying the Governor's office had not shared underlying case data or accepted CDC's offer of assistance; the county coroner has not confirmed either death was caused BY measles as of Aug 27, 2026.",
+    "lastUpdated": "2026-08-28T00:57:58Z"
   },
   {
     "id": "cas-texas-outbreak",
@@ -58,12 +69,12 @@
     "id": "cas-national-hospitalization-2026",
     "category": "National hospitalization rate, 2026",
     "killed": "n/a",
-    "injured": "7% of confirmed cases",
-    "source": "CDC surveillance data via Medical Daily",
+    "injured": "169 of 2,777 cases (~6%)",
+    "source": "CDC surveillance data via U.S. News, Aug 25, 2026",
     "tier": 2,
     "contested": "no",
-    "note": "Rate declined from 2025 despite record case counts; attributed partly to earlier clinical recognition and outpatient management.",
-    "lastUpdated": "2026-08-20T04:28:03Z"
+    "note": "Rate and absolute total both below 2025's pace (243 hospitalizations, 11%) despite record case counts; attributed partly to earlier clinical recognition and outpatient management.",
+    "lastUpdated": "2026-08-28T00:57:58Z"
   },
   {
     "id": "cas-under5-hospitalization",

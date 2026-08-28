@@ -2,13 +2,13 @@
   {
     "id": "brent_crude",
     "label": "Brent Crude",
-    "value": "$94/bbl",
+    "value": "$87.65/bbl",
     "color": "amber",
-    "source": "OilPrice.com / CNBC (Aug 21-22, 2026)",
+    "source": "CNBC / Eastern Herald (Aug 26-27, 2026)",
     "contested": false,
-    "delta": "+31% since Feb 27; 2nd straight weekly gain (~6% w/w)",
-    "trend": "up",
-    "lastUpdated": "2026-08-23T14:47:27Z"
+    "delta": "Down from $94 (Aug 23) after Iran-Oman temporary Hormuz corridor deal; -2.5% to $86.38 on Aug 26 before steadying on hot US PCE data Aug 27",
+    "trend": "down",
+    "lastUpdated": "2026-08-28T00:02:46Z"
   },
   {
     "id": "fao_food_price_index",
@@ -24,15 +24,15 @@
   {
     "id": "hormuz_daily_transits",
     "label": "Hormuz Daily Tanker Transits",
-    "value": "~10/day",
+    "value": "~2-3/day",
     "color": "red",
-    "source": "Lloyd's List Intelligence (Aug 10-16, 2026 weekly brief)",
+    "source": "PortWatch / Vortexa (Aug 23-26, 2026)",
     "contested": true,
-    "contestNote": "Lloyd's List counted 73 transits (Aug 10-16, up from 60 the prior week); UKMTO figures cited by CNN put the week at ~20% of the pre-war average, a materially different read on the same period",
+    "contestNote": "PortWatch recorded just 3 transits on Aug 23 against an 85/day pre-crisis baseline; Vortexa/Baird Maritime reported only 2 tankers crossing on Aug 25-26, the lowest daily tally since early May, even as Iran and Oman finalized a temporary transit corridor",
     "delta": "vs 130-140/day pre-war",
-    "deltaNote": "~92% reduction, ticking up from ~94% two weeks ago",
+    "deltaNote": "Traffic thinned further despite the Aug 26 corridor announcement, which has not yet translated into higher transit counts",
     "trend": "down",
-    "lastUpdated": "2026-08-23T14:47:27Z"
+    "lastUpdated": "2026-08-28T00:02:46Z"
   },
   {
     "id": "war_risk_insurance",

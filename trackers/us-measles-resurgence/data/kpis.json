@@ -2,15 +2,15 @@
   {
     "id": "kpi-2026-national-cases",
     "label": "2026 confirmed measles cases (US)",
-    "value": "2,465",
+    "value": "2,777",
     "color": "red",
-    "source": "CDC national measles dashboard, mid-August 2026",
+    "source": "CDC national measles dashboard, Aug 20, 2026 weekly update",
     "contested": true,
     "contestNote": "CDC publishes only lab-confirmed cases as of a weekly Thursday cutoff; state dashboards and independent trackers (e.g. CNN) often run higher — e.g. Florida cited at 64 (CDC) vs 92 (CNN tracker).",
-    "delta": "+94",
-    "deltaNote": "vs prior week's tally",
+    "delta": "+211",
+    "deltaNote": "vs prior week's tally of 2,566 — more than double the prior week's +101 gain, driven mostly by Pennsylvania and Ohio",
     "trend": "up",
-    "lastUpdated": "2026-08-20T04:28:03Z"
+    "lastUpdated": "2026-08-28T00:57:58Z"
   },
   {
     "id": "kpi-2025-national-cases",
@@ -25,32 +25,37 @@
   {
     "id": "kpi-states-affected",
     "label": "Jurisdictions with 2026 cases",
-    "value": "45",
+    "value": "47",
     "color": "amber",
-    "source": "CDC measles case count dashboard, July 2026",
+    "source": "CDC measles case count dashboard, Aug 20, 2026 update",
     "contested": false,
+    "delta": "+2",
+    "deltaNote": "vs 45 jurisdictions in mid-August",
     "trend": "up",
-    "lastUpdated": "2026-08-20T04:28:03Z"
+    "lastUpdated": "2026-08-28T00:57:58Z"
   },
   {
     "id": "kpi-outbreak-associated-share",
     "label": "Cases outbreak-associated (2026)",
     "value": "94%",
     "color": "red",
-    "source": "CDC, mid-August 2026 (2,407 of 2,566 preliminary)",
+    "source": "CDC, Aug 20, 2026 (2,614 of 2,777)",
     "contested": false,
     "trend": "stable",
-    "lastUpdated": "2026-08-20T04:28:03Z"
+    "lastUpdated": "2026-08-28T00:57:58Z"
   },
   {
     "id": "kpi-deaths-total",
     "label": "Confirmed measles deaths",
-    "value": "3",
+    "value": "5",
     "color": "red",
-    "source": "CDC / Texas DSHS / New Mexico DOH — 2 children (TX), 1 adult (NM), all unvaccinated",
-    "contested": false,
-    "trend": "stable",
-    "lastUpdated": "2026-08-20T04:28:03Z"
+    "source": "CDC / Texas DSHS / New Mexico DOH / Pennsylvania DOH — 2 children (TX) + 1 adult (NM) in 2025, all unvaccinated; 2 unvaccinated Lancaster County, PA residents in Aug 2026 (causation disputed by CDC)",
+    "contested": true,
+    "contestNote": "Pennsylvania calls its 2 residents 'measles-associated' deaths (lab/epi evidence of measles present); CDC publicly disputed the framing, saying PA has not shared underlying case data, and the county coroner has not confirmed either death was caused BY measles.",
+    "delta": "+2",
+    "deltaNote": "first 2026 deaths, both in Lancaster County, PA (Aug 25, 2026)",
+    "trend": "up",
+    "lastUpdated": "2026-08-28T00:57:58Z"
   },
   {
     "id": "kpi-mmr-kindergarten-coverage",
@@ -79,13 +84,13 @@
   {
     "id": "kpi-hospitalization-rate-2026",
     "label": "2026 hospitalization rate",
-    "value": "7%",
+    "value": "6%",
     "color": "blue",
-    "source": "CDC surveillance data via Medical Daily / NEJM Evidence analyses",
+    "source": "U.S. News, Aug 25, 2026 (169 hospitalizations of 2,777 cases) via CDC surveillance data",
     "contested": false,
-    "delta": "-4pp",
-    "deltaNote": "vs 11% in 2025",
+    "delta": "-5pp",
+    "deltaNote": "vs 11% in 2025 (243 of 2,289 cases)",
     "trend": "down",
-    "lastUpdated": "2026-08-20T04:28:03Z"
+    "lastUpdated": "2026-08-28T00:57:58Z"
   }
 ]
