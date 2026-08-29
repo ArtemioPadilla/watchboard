@@ -2,13 +2,13 @@
   {
     "id": "days_of_conflict",
     "label": "Days of Conflict",
-    "value": "180",
+    "value": "183",
     "color": "red",
     "source": "Al Jazeera / GlobalSecurity.org",
     "contested": false,
-    "delta": "+2",
+    "delta": "+3",
     "trend": "up",
-    "lastUpdated": "2026-08-26T18:30:00.000Z"
+    "lastUpdated": "2026-08-29T19:00:00.000Z"
   },
   {
     "id": "iran_killed",
@@ -73,26 +73,27 @@
   {
     "id": "brent_crude",
     "label": "Brent Crude",
-    "value": "~$86/bbl",
+    "value": "~$88.58/bbl",
     "color": "amber",
     "source": "CNBC / Reuters / Al Jazeera / Bloomberg / Fortune / The Hill / Trading Economics / Al-Monitor / Insurance Journal",
     "contested": false,
-    "delta": "-7.6% (Iran-Oman Hormuz corridor deal)",
-    "trend": "down",
-    "lastUpdated": "2026-08-26T18:00:00.000Z",
-    "deltaNote": "Aug 26 (Day 180): Brent fell to a two-week low of ~$86/bbl (WTI ~$80/bbl) after Iran and Oman agreed a temporary joint navigation corridor through the Strait of Hormuz plus a mine-clearing project — the first concrete de-escalation of the Hormuz blockade since the June MOU's safe-passage window lapsed. Aug 24 (Day 178): Brent eased 1.3% to ~$93.09-93.17/bbl on profit-taking after two strong weeks of gains, as traders awaited details of Treasury Secretary Bessent's 'Operation Economic Outcast' sanctions package and Iran's rial hit a record low (~2.02M/$1 market rate). Aug 21 (Day 175): Brent closed at $94.39/bbl, a second straight weekly gain of over 5%, though CNBC described prices as 'little changed' intraday after President Pezeshkian said Iran should end the war now from a 'position of power and dignity.' Aug 19 (Day 173): Brent rose toward $92/bbl, extending gains for a fourth straight session, after the UAE suspended trade with Iran over alleged missile fire, three China-linked supertankers turned back mid-transit, and the bulker Minoan Dignity was struck near the Strait of Hormuz. Aug 17 (Day 171): Brent rose 2.7% to $90.87/bbl as the 60-day US-Iran MOU deadline lapsed without a deal. Jul 16 (Day 139): Brent ~$84.63/bbl (TradingEconomics), up 6.39% month-over-month as fighting resumed Jul 6-16. Jul 10: ~$76.80/bbl low. Jun 19 (Day 112): ~$80.57/bbl after Geneva/Lucerne talks postponed. Jun 6-7 (Day 99-100): ~$97/bbl peak on drone/missile exchange. Pre-war baseline Feb 27: $77.74/bbl."
+    "delta": "+3% since Aug 26 Hormuz-deal low",
+    "trend": "up",
+    "lastUpdated": "2026-08-29T19:00:00.000Z",
+    "deltaNote": "Aug 28 (Day 182): Brent at ~$88.58/bbl per Al Jazeera's six-month conflict tally, up from the Aug 26 two-week low as CENTCOM's mine-clearing claim was offset by the IRGC's rival 'decisive control' claim and continued zero Iranian oil exports since the mid-July blockade resumed. Aug 26 (Day 180): Brent fell to a two-week low of ~$86/bbl (WTI ~$80/bbl) after Iran and Oman agreed a temporary joint navigation corridor through the Strait of Hormuz plus a mine-clearing project — the first concrete de-escalation of the Hormuz blockade since the June MOU's safe-passage window lapsed. Aug 24 (Day 178): Brent eased 1.3% to ~$93.09-93.17/bbl on profit-taking after two strong weeks of gains, as traders awaited details of Treasury Secretary Bessent's 'Operation Economic Outcast' sanctions package and Iran's rial hit a record low (~2.02M/$1 market rate). Aug 21 (Day 175): Brent closed at $94.39/bbl, a second straight weekly gain of over 5%, though CNBC described prices as 'little changed' intraday after President Pezeshkian said Iran should end the war now from a 'position of power and dignity.' Aug 19 (Day 173): Brent rose toward $92/bbl, extending gains for a fourth straight session, after the UAE suspended trade with Iran over alleged missile fire, three China-linked supertankers turned back mid-transit, and the bulker Minoan Dignity was struck near the Strait of Hormuz. Aug 17 (Day 171): Brent rose 2.7% to $90.87/bbl as the 60-day US-Iran MOU deadline lapsed without a deal. Jul 16 (Day 139): Brent ~$84.63/bbl (TradingEconomics), up 6.39% month-over-month as fighting resumed Jul 6-16. Jul 10: ~$76.80/bbl low. Jun 19 (Day 112): ~$80.57/bbl after Geneva/Lucerne talks postponed. Jun 6-7 (Day 99-100): ~$97/bbl peak on drone/missile exchange. Pre-war baseline Feb 27: $77.74/bbl."
   },
   {
     "id": "hormuz_corridor_status",
     "label": "Hormuz Corridor Status",
-    "value": "Temporary Iran-Oman Corridor Agreed",
+    "value": "Contested — IRGC 'Decisive Control' vs US Blockade",
     "color": "amber",
-    "source": "Al Jazeera / Bloomberg / Insurance Journal",
-    "contested": false,
-    "delta": "New (Aug 26)",
-    "trend": "up",
-    "lastUpdated": "2026-08-26T18:30:00.000Z",
-    "deltaNote": "Aug 26 (Day 180): Iran and Oman agreed a temporary ~7-mile-wide joint navigation corridor through the Strait of Hormuz plus a mine-clearing project, with 30-60 days of further talks toward a permanent route — the first concrete easing of the Hormuz blockade since the June MOU's safe-passage window lapsed in mid-August. Iran says full reopening still requires US sanctions relief and release of frozen assets; commercial shipping has not yet resumed and no timeline for first transits has been announced."
+    "source": "Al Jazeera / Middle East Eye / CNBC / The National / Bloomberg",
+    "contested": true,
+    "contestNote": "IRGC Navy (Aug 28-29): claims 'decisive control' of the strait, says it remains closed to any ship not coordinating with Iran, accuses US of lying about its status. White House / CENTCOM (Aug 27-29): say the strait is open and cleared of mines, the naval blockade remains fully active, and Iran has exported zero oil since mid-July. Both claims cannot be simultaneously true; independent shipping data shows traffic still near-collapsed (~10 vessels/day vs 130-140/day pre-war).",
+    "delta": "Iran names reopening conditions (Aug 28)",
+    "trend": "stable",
+    "lastUpdated": "2026-08-29T19:00:00.000Z",
+    "deltaNote": "Aug 28-29 (Day 182-183): Iran's SNSC secretary Rezaei said Tehran is compiling formal conditions for reopening Hormuz — ending the regional war, lifting the US naval blockade, war-damage compensation, and sanctions removal — while the IRGC separately claimed 'decisive control' of the strait, directly contradicting CENTCOM's Aug 27-28 announcement that shipping lanes were cleared of Iranian mines and 1,500 vessels/750M barrels had transited under blockade since mid-July. Aug 26 (Day 180): Iran and Oman agreed a temporary ~7-mile-wide joint navigation corridor plus a mine-clearing project, with 30-60 days of further talks toward a permanent route — the first concrete easing of the Hormuz blockade since the June MOU's safe-passage window lapsed in mid-August. Commercial shipping has not resumed via the corridor and no transit timeline has been announced."
   },
   {
     "id": "flights_cancelled",
