@@ -24,13 +24,24 @@
   {
     "id": "rial-exchange-rate",
     "label": "Rial to USD (Free Market)",
-    "value": "~1,854,000 IRR/USD",
-    "change": "New all-time low; basic goods prices up 400%+ since the conflict began",
+    "value": "~2,020,000 IRR/USD",
+    "change": "New all-time low set Aug 24 as markets priced in 'Operation Economic Outcast' sanctions; basic goods prices up 400%+ since the conflict began",
     "direction": "down",
-    "sparkData": [42000, 80000, 250000, 420000, 500000, 560000, 900000, 1800000, 1830000, 1854000],
+    "sparkData": [42000, 80000, 250000, 420000, 500000, 560000, 900000, 1800000, 1854000, 2020000],
     "color": "#e74c3c",
-    "source": "Alanchand / CNBC / IranWarRoom market data (Aug 9, 2026)",
-    "lastUpdated": "2026-08-09"
+    "source": "Washington Post / The National market data (Aug 24-25, 2026)",
+    "lastUpdated": "2026-08-25"
+  },
+  {
+    "id": "gasoline-shortage",
+    "label": "Daily Gasoline Deficit",
+    "value": "14-15 million liters/day",
+    "change": "Nationwide shortage against ~135M liters/day demand; queues spread from Tehran to Kerman and Mashhad, panic buying ~30% above normal",
+    "direction": "up",
+    "sparkData": [2, 4, 6, 8, 10, 12, 14, 15],
+    "color": "#e74c3c",
+    "source": "The Washington Post / The National (Aug 25-26, 2026)",
+    "lastUpdated": "2026-08-26"
   },
   {
     "id": "gdp-ppp",
