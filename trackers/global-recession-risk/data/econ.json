@@ -48,8 +48,8 @@
   {
     "id": "us-core-pce",
     "label": "US Core PCE Inflation",
-    "value": "3.4% Core / 4.1% Headline (May 2026 — Highest Since 2023)",
-    "change": "May PCE (released June 25): Headline 4.1% YoY (+0.4% MoM) — highest since April 2023; Core 3.4% YoY (vs 3.3% forecast). Personal income/spending each +0.7% MoM; saving rate held at 3%. Subsequent June CPI (Jul 14) cooled to 3.5%, suggesting May PCE may mark the cycle peak.",
+    "value": "3.3% Core / 3.7% Headline (July 2026)",
+    "change": "JULY PCE (released Aug 26): Headline 3.7% YoY (+0.2% MoM), 0.1pp above the Dow Jones consensus; Core 3.3% YoY (+0.2% MoM), matching consensus and holding flat vs June. Personal income +0.4% MoM ($115.1B); spending +0.2% MoM ($36.3B, services +$86.2B offset by goods -$49.9B); saving rate 3.0%. Warsh cited the 3.7%/4.1% (12mo/6mo) PCE readings directly in his Aug 28 Jackson Hole keynote as justification for a possible September hike, stressing 54% of the consumption basket is still rising faster than 3%.",
     "direction": "up",
     "sparkData": [
       4.9,
@@ -62,17 +62,19 @@
       3.06,
       3.2,
       3.3,
-      3.4
+      3.4,
+      3.3,
+      3.3
     ],
     "color": "red",
-    "source": "BEA PCE Release, May 2026 (released June 25, 2026)",
-    "lastUpdated": "2026-06-25T13:30:00Z"
+    "source": "BEA Personal Income and Outlays, July 2026 (released August 26, 2026)",
+    "lastUpdated": "2026-08-26T12:30:00Z"
   },
   {
     "id": "fed-funds-rate-history",
     "label": "Fed Funds Rate",
-    "value": "3.50-3.75% (held July 29 — 3 hawkish dissents)",
-    "change": "July 28-29 FOMC (non-SEP meeting) held rates unchanged at 3.50-3.75%; three members dissented in favor of a hike, an unusually large hawkish dissent bloc after the July 23 oil shock. Warsh called the internal debate a 'good family fight.' Reuters poll (Aug 12-17, 104 economists): 94 expect a September hold, 80 see no change through year-end; market pricing ~70% odds of a hold, though futures still price one hike by December.",
+    "value": "3.50-3.75% (held July 29); September Hike Odds Jump to 57% After Warsh's Aug 28 Jackson Hole Keynote",
+    "change": "AUG 28 UPDATE: Warsh's debut Jackson Hole keynote turned hawkish — inflation 'above our 2 percent target,' price stability the Fed's 'predominant focus,' central bank 'may have work to do' on rates. CME FedWatch September 15-16 hike odds jumped to ~57% (from ~35% pre-speech); the 2-year Treasury yield rose to ~4.32%, its highest since July. Prior: July 28-29 FOMC (non-SEP) held rates unchanged at 3.50-3.75% with three hawkish dissents; a Reuters poll of 104 economists (Aug 12-17) had found 94 expecting a September hold before the Jackson Hole speech shifted the outlook.",
     "direction": "up",
     "sparkData": [
       5.5,
@@ -86,8 +88,8 @@
       3.75
     ],
     "color": "blue",
-    "source": "Federal Reserve FOMC Statement, July 29, 2026",
-    "lastUpdated": "2026-07-29T18:00:00Z"
+    "source": "Federal Reserve FOMC Statement, July 29, 2026; Warsh Jackson Hole Keynote, August 28, 2026",
+    "lastUpdated": "2026-08-28T14:00:00Z"
   },
   {
     "id": "ecb-deposit-rate",
@@ -179,9 +181,9 @@
   {
     "id": "us-10y-treasury-yield",
     "label": "US 10Y / 30Y / 2Y Treasury Yield",
-    "value": "10Y ~4.625% (Aug 25, -7bps); 30Y 5.31-5.32% (Aug 17 peak) — highest since 2007",
-    "change": "Aug 25: 10Y Treasury yield fell over 7bps to 4.625% as a chip-sector rally and easing near-term hike bets outweighed the Canada retaliatory-tariff announcement, extending the pullback from Aug 17's 19-year 30Y high.",
-    "direction": "down",
+    "value": "10Y Near Highest Since Jan 2025 (Aug 31); 2Y ~4.32% (Aug 28 Post-Warsh); 30Y 5.31-5.32% (Aug 17 Peak) — Highest Since 2007",
+    "change": "AUG 28-31: Warsh's hawkish Jackson Hole keynote (Aug 28) pushed the 2-year yield to ~4.32%, its highest since July, as September hike odds jumped to ~57%. Renewed US strikes near the Strait of Hormuz on Aug 31 lifted oil prices further and pushed the 10-year yield toward its highest level since January 2025.",
+    "direction": "up",
     "sparkData": [
       2.8,
       4.0,
@@ -203,13 +205,14 @@
       4.6,
       4.65,
       4.73,
-      4.625
+      4.625,
+      4.7
     ],
     "color": "red",
-    "source": "CNBC / FRED; July 23 - August 25, 2026",
-    "lastUpdated": "2026-08-25T20:00:00Z",
-    "delta": "AUG 25: 10Y fell over 7bps to 4.625% as markets rotated into chip stocks ahead of Nvidia earnings and looked past the Canada tariff escalation.",
-    "deltaNote": "JULY 23-AUG 25 ARC: The Red Sea/Hormuz oil shock (Brent >$100, July 23) pushed yields to a multi-month high as September Fed-hike odds jumped to ~82%. The Aug 7 jobs report and Aug 12-13 CPI/PPI prints both cooled, pulling the 10Y down to 4.65% and September hike odds under 35%. The Aug 14 Hormuz tanker attacks and the Aug 17 expiration of the US-Iran MOU then pushed the 30-year Treasury yield to 5.31-5.32% — its highest level since June 2007. Yields have since eased again: 10Y at 4.625% on Aug 25, even as the US-Canada trade war escalated (Section 338 tariffs took effect Aug 22; Canada's retaliatory tariffs announced Aug 25, effective Sept 8) — underlying debt/inflation concerns remain the structural floor under long-end yields."
+    "source": "CNBC / FRED / Yahoo Finance; July 23 - August 31, 2026",
+    "lastUpdated": "2026-08-31T20:00:00Z",
+    "delta": "AUG 31: 10Y yield rose toward its highest level since January 2025 as US strikes on Iranian rocket launchers near the Strait of Hormuz drove Brent crude back above $90/bbl.",
+    "deltaNote": "JULY 23-AUG 31 ARC: The Red Sea/Hormuz oil shock (Brent >$100, July 23) pushed yields to a multi-month high as September Fed-hike odds jumped to ~82%. The Aug 7 jobs report and Aug 12-13 CPI/PPI prints both cooled, pulling the 10Y down to 4.65% and September hike odds under 35%. The Aug 14 Hormuz tanker attacks and the Aug 17 expiration of the US-Iran MOU then pushed the 30-year Treasury yield to 5.31-5.32% — its highest level since June 2007. Yields eased through Aug 25 (10Y 4.625%) even as the US-Canada trade war escalated, then turned back up: Warsh's Aug 28 hawkish Jackson Hole keynote lifted the 2-year to ~4.32% and September hike odds to 57%, and an Aug 31 US strike near the Strait of Hormuz pushed oil and long-end yields higher still — underlying debt/inflation concerns remain the structural floor under long-end yields."
   },
   {
     "id": "us-ppi-yoy-april-2026",
@@ -303,8 +306,8 @@
   {
     "id": "us-consumer-confidence",
     "label": "US Consumer Confidence (CB / Michigan)",
-    "value": "CB May: 93.1 (Beat; Released May 26); Michigan May Final: 44.8 (All-Time Record Low); 16th Month Expectations Below 80 Recession Threshold",
-    "change": "CB May 2026: 93.1 (released May 26; beat ~91.9 forecast; first monthly decline in 4 months; Present Situation 121.2 -3.2 pts; Expectations 74.4, 16th month below 80 recession threshold; two-thirds of consumers cutting spending). Michigan May 2026 FINAL 44.8: shatters April's 47.6; below 1980 nadir 51.7; deepest in 70+ year survey history.",
+    "value": "Michigan August Final: 51.7 (Revised Up From 51.0 Preliminary, Still -6.3% MoM); CB May: 93.1",
+    "change": "AUG 28 UPDATE: Michigan's final August reading was revised up to 51.7 from the 51.0 preliminary, but still down about 6.3% from July's 55.2 and roughly 11% below a year ago. Current Conditions fell 5.3% to 51.9; Expectations fell 7.0% to 51.5. One-year inflation expectations eased to 4.0% (from 4.2% prelim); long-run expectations held at 3.3% for a third straight month. Sentiment fell across all political groups, sharpest among Republicans, older, and lower/middle-income consumers. Prior: CB May 2026 93.1 (released May 26; beat ~91.9 forecast); Michigan May 2026 final 44.8 (all-time record low in 70+ year survey history).",
     "direction": "down",
     "sparkData": [
       107,
@@ -319,8 +322,8 @@
       93.1
     ],
     "color": "red",
-    "source": "Conference Board May 2026 (released May 26); University of Michigan May 2026 Final (May 22, 2026)",
-    "lastUpdated": "2026-05-26T15:00:00Z"
+    "source": "University of Michigan August 2026 Final (released August 28, 2026); Conference Board May 2026 (released May 26, 2026)",
+    "lastUpdated": "2026-08-28T14:00:00Z"
   },
   {
     "id": "global-debt-to-gdp",

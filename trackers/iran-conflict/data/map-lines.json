@@ -7237,5 +7237,105 @@
     "casualties": "None reported; crew safe",
     "notes": "UKMTO Advisory 121-26 (reported Aug 27). Second unclaimed tanker strike in the strait within 24 hours, following the Metro Venetian incident near Ash Shishah on Aug 24.",
     "lastUpdated": "2026-08-28T18:30:00.000Z"
+  },
+  {
+    "id": "us-strikes-larak-island-aug30",
+    "from": [
+      61.0,
+      21.5
+    ],
+    "to": [
+      56.36,
+      26.85
+    ],
+    "cat": "strike",
+    "label": "US → Larak Island, Iran (Rocket/Mine Launchers — Day 184)",
+    "date": "2026-08-30",
+    "weaponType": "cruise",
+    "platform": "US Naval Aviation / Carrier Strike Group",
+    "launched": 2,
+    "intercepted": 0,
+    "confidence": "high",
+    "time": "06:00",
+    "status": "hit",
+    "damage": "Two IRGC rocket launchers preparing to fire sea mines into the Strait of Hormuz destroyed on Larak Island; IRGC reports fighters and civilians killed/wounded, no precise toll given",
+    "casualties": "IRGC: 'several' fighters and civilians killed/wounded (no precise figure released)",
+    "notes": "Aug 30 (Day 184): First publicly acknowledged US strike on Iranian territory since late July. CENTCOM spokesman Cdr. Tim Hawkins called it 'limited, precise action' to stop IRGC forces from mining the strait; denied it was an 'act of aggression.' Triggered IRGC's 'Punishment of the Aggressor' retaliation against Jordan and the UAE. Exact strike time not disclosed by CENTCOM; 06:00 is an approximate local-morning estimate. Sources: Al Jazeera, CBS News, Reuters (via Investing.com).",
+    "lastUpdated": "2026-08-31T20:00:00.000Z"
+  },
+  {
+    "id": "irgc-punishment-aggressor-jordan-aug30",
+    "from": [
+      51.39,
+      35.69
+    ],
+    "to": [
+      32.36,
+      36.26
+    ],
+    "cat": "retaliation",
+    "label": "IRGC 'Punishment of the Aggressor' → King Hussein & Al Azraq AB, Jordan (8 Intercepted — Day 184)",
+    "date": "2026-08-30",
+    "weaponType": "mixed",
+    "platform": "IRGC Aerospace Force (missiles + drones)",
+    "launched": 8,
+    "intercepted": 8,
+    "confidence": "high",
+    "time": "22:00",
+    "status": "intercepted",
+    "damage": "No damage reported; Jordan's Armed Forces intercepted all 8 missiles before they reached King Hussein Air Base (Mafraq) or Al Azraq/Muwaffaq Salti Air Base",
+    "casualties": "No injuries reported",
+    "notes": "Aug 30 (Day 184): IRGC combined missile/drone operation 'Punishment of the Aggressor' launched hours after the US strike on Larak Island, targeting two Jordanian air bases that have hosted US forces. IRGC claimed to have destroyed 'technical and maintenance infrastructure' and jet deployment sites; Jordan says all 8 missiles were intercepted and no damage occurred. Part of a wider salvo that also reached the UAE. Trump called Iran's decision to hit multiple Gulf states 'a very good thing' for costing Tehran regional support. Sources: Al Jazeera, CBS News.",
+    "lastUpdated": "2026-08-31T20:00:00.000Z"
+  },
+  {
+    "id": "iran-drone-al-minhad-uae-aug31",
+    "from": [
+      56.36,
+      26.85
+    ],
+    "to": [
+      55.366,
+      25.027
+    ],
+    "cat": "retaliation",
+    "label": "Iran Drone → Al Minhad Air Base, UAE (Intercepted — Day 185)",
+    "date": "2026-08-31",
+    "weaponType": "drone_loitering",
+    "platform": "Iranian Army (claimed)",
+    "launched": 1,
+    "intercepted": 1,
+    "confidence": "medium",
+    "time": "01:00",
+    "status": "intercepted",
+    "damage": "UAE denies any damage; confirms only that a drone approaching from Iran over territorial waters was intercepted",
+    "casualties": "None reported",
+    "notes": "Early Aug 31 (Day 185): Iran's army said it struck Al Minhad Air Base near Dubai with drones, targeting US forces/helicopters, as part of the same retaliatory wave following the Larak Island strike. UAE Ministry of Defence confirmed intercepting a drone over its territorial waters but denied 'false media reports' of a missile attack on the base; UAE Foreign Ministry called it a 'dangerous escalation' and held Iran 'fully responsible.' Sources: Khaleej Times, The Tribune.",
+    "lastUpdated": "2026-08-31T20:00:00.000Z"
+  },
+  {
+    "id": "irgc-shoots-down-mq9-hormuz-aug31",
+    "from": [
+      56.27,
+      26.95
+    ],
+    "to": [
+      58.0,
+      25.5
+    ],
+    "cat": "retaliation",
+    "label": "IRGC Air Defense Downs US MQ-9 Reaper East of Strait of Hormuz (Claimed — Day 185)",
+    "date": "2026-08-31",
+    "weaponType": "unknown",
+    "platform": "IRGC Aerospace Force air-defense unit (domestic mobile system, claimed)",
+    "launched": 1,
+    "intercepted": 1,
+    "confidence": "low",
+    "time": "05:30",
+    "status": "hit",
+    "damage": "IRGC says the MQ-9 crashed into the Persian Gulf; wreckage location and US confirmation not available",
+    "casualties": "None (unmanned aircraft)",
+    "notes": "Aug 31 (Day 185): IRGC claims its air-defense units shot down a US MQ-9 Reaper drone east of the Strait of Hormuz around 05:30 local time using a domestically developed mobile air-defense system. Unconfirmed by US officials. Roughly the 30th MQ-9 loss Iran has claimed in the region since Feb 28. weaponType logged as 'unknown' — schema's enumerated weapon types do not include a surface-to-air missile category. Sources: PressTV, Xinhua.",
+    "lastUpdated": "2026-08-31T20:00:00.000Z"
   }
 ]

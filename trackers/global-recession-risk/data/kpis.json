@@ -50,27 +50,27 @@
   },
   {
     "id": "us-core-pce",
-    "label": "US PCE Inflation (May 2026 — Highest Since 2023)",
-    "value": "3.4% Core / 4.1% Headline",
+    "label": "US PCE Inflation (July 2026)",
+    "value": "3.3% Core / 3.7% Headline",
     "color": "red",
-    "source": "BEA PCE Release, May 2026 (released June 25, 2026)",
+    "source": "BEA Personal Income and Outlays, July 2026 (released August 26, 2026)",
     "contested": false,
-    "delta": "+0.1pp core / +0.3pp headline vs April",
-    "deltaNote": "MAY 2026 (released June 25): Headline PCE 4.1% YoY (+0.4% MoM) — highest since April 2023. Core PCE 3.4% YoY (vs 3.3% forecast). Personal income and spending each +0.7% MoM; saving rate held at 3%. Released just over a week after Warsh's hawkish dot plot, complicating the disinflation narrative even as Iran-deal oil relief began working through the data. June CPI (July 14) subsequently cooled to 3.5%, suggesting May PCE may mark the cycle high.",
+    "delta": "Core flat vs June (3.3%); headline +0.1pp above consensus",
+    "deltaNote": "JULY 2026 (released Aug 26): Headline PCE 3.7% YoY (+0.2% MoM), 0.1pp above the Dow Jones consensus. Core PCE 3.3% YoY (+0.2% MoM), matching consensus and flat vs June's 3.3% (down from May's cycle-high 3.4%). Personal income +0.4% MoM; spending +0.2% MoM; saving rate 3.0%. Warsh cited these exact 3.7%/4.1% (12mo/6mo) readings in his Aug 28 Jackson Hole keynote as evidence 'underlying trends have [not] meaningfully improved,' noting 54% of the consumption basket is still rising faster than 3% — a key justification for the hawkish tilt that pushed September hike odds to 57%.",
     "trend": "up",
-    "lastUpdated": "2026-06-25T13:30:00Z"
+    "lastUpdated": "2026-08-26T12:30:00Z"
   },
   {
     "id": "fed-funds-rate",
     "label": "Fed Funds Rate",
-    "value": "3.50–3.75%",
+    "value": "3.50–3.75%; September Hike Odds at 57% After Warsh's Hawkish Jackson Hole Debut",
     "color": "blue",
-    "source": "Federal Reserve FOMC, July 29 2026 (held; 3 hawkish dissents)",
+    "source": "Federal Reserve FOMC, July 29 2026 (held); Warsh Jackson Hole Keynote, Aug 28 2026",
     "contested": false,
-    "delta": "Held at 3.50-3.75%; 3 dissents wanted a hike",
-    "deltaNote": "July 28-29: FOMC held at 3.50-3.75% despite the July 23 oil-driven inflation scare that had pushed September hike odds to ~82%. Three members dissented in favor of a hike — Warsh called it a 'good family fight.' The Aug 7 jobs miss (NFP -23K) subsequently cooled hike expectations for September. AUG 12-17 UPDATE: A Reuters poll of 104 economists found 94 expect the Fed to hold at 3.50-3.75% in September and 80 see no change through year-end; market pricing implies roughly 70% odds of a September hold, though futures still price in one hike by December. The Aug 17 expiration of the US-Iran MOU (no deal) and the resulting oil/yield jump added modest upside risk to hike bets even as the underlying data flow favors a hold.",
-    "trend": "stable",
-    "lastUpdated": "2026-08-17T18:00:00Z"
+    "delta": "Held at 3.50-3.75% since July 29; Sept 15-16 hike odds jumped to ~57% (from ~35%) after Warsh's Aug 28 speech",
+    "deltaNote": "AUG 28 UPDATE: Warsh's first Jackson Hole keynote as Chair (his 100th day in the role) turned notably hawkish — he said inflation remains 'above our 2 percent target,' called price stability the Fed's 'predominant focus,' and said the Fed 'may have work to do' on rates, while also stepping back from forward guidance ('you can call it an outline, you can call it a trail map, just don't call it forward guidance'). CME FedWatch September hike odds jumped to ~57% from ~35% pre-speech; the 2-year Treasury yield rose to ~4.32%, its highest since July. The S&P 500 and Nasdaq slipped modestly on the news (-0.25%/-0.52%) though the week still closed higher. Prior: July 28-29 FOMC held at 3.50-3.75% with 3 hawkish dissents; a Reuters poll (Aug 12-17, 104 economists) had found 94 expecting a September hold before the speech shifted the outlook.",
+    "trend": "up",
+    "lastUpdated": "2026-08-28T14:00:00Z"
   },
   {
     "id": "ecb-deposit-rate",
@@ -87,14 +87,14 @@
   {
     "id": "us-10y-treasury-yield",
     "label": "US 10Y / 30Y Treasury Yield",
-    "value": "10Y ~4.625% (Aug 25, -7bps); 30Y 5.31-5.32% (Aug 17 peak) — Highest Since 2007",
+    "value": "10Y Near Highest Since Jan 2025 (Aug 31); 30Y 5.31-5.32% (Aug 17 Peak) — Highest Since 2007",
     "color": "red",
-    "source": "CNBC / Federal Reserve H.15 / FRED; July 23 - August 25, 2026",
+    "source": "CNBC / Federal Reserve H.15 / FRED / Yahoo Finance; July 23 - August 31, 2026",
     "contested": false,
-    "delta": "Eased again: 10Y fell more than 7bps to 4.625% Aug 25 as markets looked past the Canada tariff escalation toward Nvidia earnings and Warsh's Aug 28 Jackson Hole keynote.",
-    "deltaNote": "AUG 25 UPDATE: The 10-year Treasury yield fell over 7bps to 4.625% as a chip-sector rebound and easing near-term rate-hike bets outweighed the Canada retaliatory-tariff announcement. This continues the round-trip pattern since the Aug 17 peak: the 30-year hit 5.31-5.32% (highest since June 2007) when the US-Iran MOU expired without a deal, then eased through Aug 13's flat PPI before this latest pullback. National debt concerns (nearing $40T) and stubborn above-target inflation remain the structural floor under long-end yields even as near-term data (Aug 7 jobs miss, Aug 13 PPI) argues for a September Fed hold — a Reuters poll of 104 economists (Aug 12-17) found 94 expect a hold.",
-    "trend": "down",
-    "lastUpdated": "2026-08-25T20:00:00Z"
+    "delta": "Reversed higher: Warsh's hawkish Aug 28 Jackson Hole keynote and an Aug 31 US strike near the Strait of Hormuz (oil back above $90) both pushed yields up off the Aug 25 low.",
+    "deltaNote": "AUG 25-31 ARC: The 10-year eased to 4.625% Aug 25 as a chip-sector rebound and easing near-term hike bets outweighed the Canada tariff escalation. Yields then reversed: Warsh's Aug 28 Jackson Hole keynote pushed September hike odds to ~57% and the 2-year to ~4.32% (highest since July), and an Aug 31 US strike on Iranian rocket launchers near the Strait of Hormuz sent Brent crude back above $90/bbl, pushing the 10-year toward its highest level since January 2025. The 30-year's Aug 17 peak of 5.31-5.32% (highest since June 2007, when the US-Iran MOU expired without a deal) remains the cycle high. National debt concerns (nearing $40T) and stubborn above-target inflation remain the structural floor under long-end yields.",
+    "trend": "up",
+    "lastUpdated": "2026-08-31T20:00:00Z"
   },
   {
     "id": "us-consumer-confidence",
@@ -110,15 +110,15 @@
   },
   {
     "id": "michigan-consumer-sentiment",
-    "label": "Michigan Consumer Sentiment (August 2026 Preliminary)",
-    "value": "51.0",
+    "label": "Michigan Consumer Sentiment (August 2026 Final)",
+    "value": "51.7",
     "color": "red",
-    "source": "University of Michigan, August 14 2026 (Preliminary Release)",
+    "source": "University of Michigan, August 28 2026 (Final Release)",
     "contested": false,
-    "delta": "-4.2 (from July Final 55.2); -7.6% MoM, -12.4% YoY",
-    "deltaNote": "AUG 2026 PRELIMINARY (released Aug 14): 51.0, badly missing the 54.5 consensus and down from July's final 55.2. Index of Consumer Expectations fell more sharply than Current Conditions; short-term expectations -11%, long-term projections -17%. Only 8% of consumers expect income growth to outpace inflation. Year-ahead inflation expectations rose to 4.3%. Sentiment fell across demographic and political lines, sharpest among Republicans, older consumers, lower-income households, and those without college degrees. Still well above May 2026's all-time record low of 44.8, but the renewed slide — alongside July retail sales' steepest drop in over a year (Aug 14) — marks the clearest crack yet in the 'resilient consumer' narrative. Final August reading due Aug 28.",
+    "delta": "+0.7 vs preliminary (51.0); still -6.3% vs July final (55.2)",
+    "deltaNote": "AUG 2026 FINAL (released Aug 28): 51.7, revised up from the 51.0 preliminary but still down 6.3% from July's final 55.2 and roughly 11% below a year ago. Current Economic Conditions fell 5.3% to 51.9; Consumer Expectations fell 7.0% to 51.5. One-year inflation expectations eased to 4.0% (from 4.2% preliminary); long-run expectations held at 3.3% for a third straight month. Sentiment fell across all political groups, sharpest among Republicans, older consumers, and lower/middle-income households. Still well above May 2026's all-time record low of 44.8, but the reading — alongside July retail sales' steepest drop in over a year — underscores the crack in the 'resilient consumer' narrative that Warsh's same-day hawkish Jackson Hole keynote did nothing to ease.",
     "trend": "down",
-    "lastUpdated": "2026-08-14T14:00:00Z"
+    "lastUpdated": "2026-08-28T14:00:00Z"
   },
   {
     "id": "vix-fear-gauge",
