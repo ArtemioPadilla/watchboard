@@ -2,27 +2,27 @@
   {
     "id": "kpi-confirmed-cases-national",
     "label": "Lab-Confirmed Cases (Season, Since May 1)",
-    "value": "17,180",
+    "value": "18,445",
     "color": "red",
-    "source": "CDC / Food Safety News",
+    "source": "CDC",
     "contested": false,
-    "delta": "+1,464",
-    "deltaNote": "since Aug 18 (15,716)",
+    "delta": "+1,265",
+    "deltaNote": "since Aug 25 (17,180)",
     "trend": "up",
-    "lastUpdated": "2026-08-25T00:00:00Z"
+    "lastUpdated": "2026-09-01T00:00:00Z"
   },
   {
     "id": "kpi-total-reported-combined",
     "label": "Total Reported Cases (Confirmed + Probable)",
-    "value": "29,024",
+    "value": "31,950",
     "color": "red",
-    "source": "CDC / Food Poisoning Bulletin",
+    "source": "CDC",
     "contested": true,
-    "contestNote": "Combines confirmed and probable cases across all active clusters; distinct from the narrower multistate outbreak count of 11,458.",
-    "delta": "+1,467",
-    "deltaNote": "since Aug 18 (27,557)",
+    "contestNote": "Combines 18,445 lab-confirmed cases with 13,505 additional non-lab-confirmed/pending cases per CDC's Sept 1 update; distinct from the narrower multistate outbreak count of 11,458. A further 3,491 cases await classification of domestic vs. international acquisition and are not included in this total.",
+    "delta": "+2,926",
+    "deltaNote": "since Aug 25 (29,024)",
     "trend": "up",
-    "lastUpdated": "2026-08-25T00:00:00Z"
+    "lastUpdated": "2026-09-01T00:00:00Z"
   },
   {
     "id": "kpi-multistate-outbreak-cases",
@@ -76,14 +76,14 @@
   {
     "id": "kpi-states-surveillance-wide",
     "label": "States With Any Reported Case (Season-Wide)",
-    "value": "48",
+    "value": "49",
     "color": "blue",
-    "source": "CDC / Food Poisoning Bulletin",
+    "source": "CDC",
     "contested": false,
     "delta": "+1",
-    "deltaNote": "from 47 states as of Aug 19",
+    "deltaNote": "from 48 states as of Aug 25; now 49 states plus DC",
     "trend": "up",
-    "lastUpdated": "2026-08-25T00:00:00Z"
+    "lastUpdated": "2026-09-01T00:00:00Z"
   },
   {
     "id": "kpi-recall-distribution-states",

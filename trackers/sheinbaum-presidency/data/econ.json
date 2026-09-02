@@ -2,8 +2,8 @@
   {
     "id": "gdp-growth-rate",
     "label": "GDP Growth (Q1 2026 / Q2 2026 / 2026 forecast)",
-    "value": "-0.8% QoQ / +1.5% QoQ / 0.8-1.6%",
-    "change": "Q1 2026: -0.8% QoQ, +0.2% annual (all sectors declined). Q2 2026 (July 30 release): +2.1% YoY, +1.5% QoQ seasonally adjusted — strongest quarterly rebound since Q4 2020, boosted by World Cup-related spending; services +1.5% QoQ, industry +1.6% QoQ, primary +3.3% QoQ. Full-year 2026 forecasts remain cautious: OECD 0.8% (most pessimistic), Citi 1.1%, IMF 1.6%, BBVA 1.8%, govt target 1.5%.",
+    "value": "-0.8% QoQ / +1.4% QoQ / 0.8-1.6%",
+    "change": "Q1 2026: -0.8% QoQ, +0.2% annual (all sectors declined). Q2 2026 preliminary release (July 30): +2.1% YoY, +1.5% QoQ seasonally adjusted. Sheinbaum's Sept 1 Second Government Report cited a revised +1.9% YoY / +1.4% QoQ for the same quarter — still the strongest quarterly rebound since Q4 2020, boosted by World Cup-related spending. Full-year 2026 forecasts remain cautious: OECD 0.8% (most pessimistic), Citi 1.1%, IMF 1.6%, BBVA 1.8%, govt target 1.5%. PAN opposition noted Sheinbaum's term-average growth (0.8%) trails AMLO's (1.1%).",
     "direction": "up",
     "sparkData": [
       4.6,
@@ -14,11 +14,11 @@
       0.4,
       0.2,
       0.08,
-      2.1
+      1.9
     ],
     "color": "#27ae60",
-    "source": "INEGI preliminary Q2 2026, July 30; OECD Economic Outlook June 3, 2026; Citi Encuesta de Expectativas May 21, 2026",
-    "lastUpdated": "2026-07-30T14:00:00Z"
+    "source": "INEGI preliminary Q2 2026, July 30, as revised in Sheinbaum's Second Government Report, Sept 1, 2026; OECD Economic Outlook June 3, 2026; Citi Encuesta de Expectativas May 21, 2026",
+    "lastUpdated": "2026-09-01T16:00:00Z"
   },
   {
     "id": "annual-inflation",
@@ -115,7 +115,7 @@
     "id": "fdi-inflows",
     "label": "Foreign Direct Investment (Q1 2026 Record)",
     "value": "$23.6B",
-    "change": "Q1 2026 record: $23.591B (+10.4% vs Q1 2025). Highest single-quarter FDI ever. USA top investor ($10.21B). Mining +39.7%, vehicle manufacturing +20.4%. Attributed to Plan México nearshoring strategy and EU-Mexico trade agreement. Full-year 2025: $40.9B (+11% vs 2024).",
+    "change": "Q1 2026 record: $23.591B (+10.4% vs Q1 2025). Highest single-quarter FDI ever. USA top investor ($10.21B). Mining +39.7%, vehicle manufacturing +20.4%. Attributed to Plan México nearshoring strategy and EU-Mexico trade agreement. Full-year 2025: $40.9B (+11% vs 2024). Sheinbaum's Sept 1 Second Government Report cited H1 2026 FDI of approximately $34.97B, up modestly year-on-year.",
     "direction": "up",
     "sparkData": [
       28.0,
@@ -152,9 +152,9 @@
   {
     "id": "unemployment-rate",
     "label": "Unemployment Rate",
-    "value": "2.5%",
-    "change": "Improved from 2.7% (Jan 2026) — near historic low. Announced Sheinbaum mañanera economic indicators, May 28, 2026.",
-    "direction": "down",
+    "value": "2.7%",
+    "change": "Cited at 2.7% in Sheinbaum's Sept 1 Second Government Report — second-lowest among OECD countries — alongside ~60 million people employed and 86,765 net new formal jobs (August vs. July). Up slightly from the 2.5% figure cited at the May 28 mañanera; independent analysts have previously disputed the government's \"historic minimum\" framing against INEGI's underlying series.",
+    "direction": "up",
     "sparkData": [
       3.5,
       3.1,
@@ -162,11 +162,12 @@
       2.6,
       2.4,
       2.7,
-      2.5
+      2.5,
+      2.7
     ],
     "color": "#27ae60",
-    "source": "INEGI / Sheinbaum mañanera, May 28, 2026",
-    "lastUpdated": "2026-05-28T18:15:00Z"
+    "source": "Sheinbaum Second Government Report, September 1, 2026; INEGI",
+    "lastUpdated": "2026-09-01T16:00:00Z"
   },
   {
     "id": "labor-poverty-rate",

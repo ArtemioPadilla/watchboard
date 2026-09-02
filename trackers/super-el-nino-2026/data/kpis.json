@@ -2,13 +2,14 @@
   {
     "id": "nino34-anomaly",
     "label": "Niño 3.4 SST Anomaly",
-    "value": "+1.8°C (wk of Aug 10–16)",
+    "value": "+2.6°C (wk of Aug 20–26)",
     "color": "red",
-    "source": "NOAA CPC (via Action News 5)",
+    "source": "NOAA CPC weekly ENSO SST index",
     "contested": false,
-    "delta": "+0.8°C vs May–Jul avg",
+    "delta": "+0.8°C vs wk of Aug 10–16",
+    "deltaNote": "Now firmly in 'very strong' territory — a level reached previously only by the 1982-83, 1997-98, and 2015-16 events. IRI/Columbia's own weekly product independently put the anomaly at +2.7°C for the week centered Aug 12, 2026.",
     "trend": "up",
-    "lastUpdated": "2026-08-19T14:43:33.000Z"
+    "lastUpdated": "2026-09-02T20:15:00.000Z"
   },
   {
     "id": "very-strong-el-nino-probability",
@@ -85,13 +86,25 @@
   {
     "id": "cocoa-price-kpi",
     "label": "Cocoa Price",
-    "value": "$6,634/tonne",
+    "value": "$6,437/tonne",
     "color": "red",
-    "source": "Barchart / ICE Futures (Aug 28, 2026)",
+    "source": "Trading Economics / ICE Futures (Sep 2, 2026)",
     "contested": false,
-    "delta": "+30% in 2 sessions (Aug 27-28)",
-    "deltaNote": "Rally driven by below-average cherelle formation and spreading black pod disease across Ivory Coast and Ghana, compounded by El Niño-linked dry stress.",
-    "trend": "up",
-    "lastUpdated": "2026-08-28T00:00:00.000Z"
+    "delta": "-2.0% Sep 1→2, but still +8.4% over the past month",
+    "deltaNote": "Pulled back off its Aug 28 rally high as West Africa saw better late-August rainfall, though Ghana's 2026/27 crop forecast remains sharply cut on El Niño-linked dry stress earlier in the season.",
+    "trend": "down",
+    "lastUpdated": "2026-09-02T20:15:00.000Z"
+  },
+  {
+    "id": "peru-anchovy-job-losses",
+    "label": "Peru Anchovy Industry Jobs Projected Lost (by 2027)",
+    "value": "122,000",
+    "color": "red",
+    "source": "Peru National Fisheries Society (SNP), via France 24 (Sep 1, 2026)",
+    "contested": false,
+    "delta": "of ~250,000 jobs the sector normally creates",
+    "deltaNote": "SNP president Jessica Luna: 'It's a devastating blow to the sector.' Fishing's share of Peru's GDP has fallen to an estimated 1.1% in 2026 from 2.1% in 2025.",
+    "trend": "down",
+    "lastUpdated": "2026-09-02T20:15:00.000Z"
   }
 ]
