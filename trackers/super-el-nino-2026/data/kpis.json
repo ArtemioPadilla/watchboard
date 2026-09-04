@@ -86,14 +86,38 @@
   {
     "id": "cocoa-price-kpi",
     "label": "Cocoa Price",
-    "value": "$6,437/tonne",
+    "value": "$6,171/tonne",
     "color": "red",
-    "source": "Trading Economics / ICE Futures (Sep 2, 2026)",
+    "source": "Trading Economics / ICE Futures (Sep 4, 2026)",
     "contested": false,
-    "delta": "-2.0% Sep 1→2, but still +8.4% over the past month",
-    "deltaNote": "Pulled back off its Aug 28 rally high as West Africa saw better late-August rainfall, though Ghana's 2026/27 crop forecast remains sharply cut on El Niño-linked dry stress earlier in the season.",
+    "delta": "-0.05% Sep 3→4, down from $6,437 Sep 2",
+    "deltaNote": "Continues easing off its Aug 28 rally high, though a Sep 3 Bloomberg report citing Cocoa Marketing Company Ghana Ltd. warned Ghana's 2026/27 output could sink by more than a third (470,000-620,000 tonnes vs. 760,000 last year) on old trees, disease, and pollination failures — a steeper cut than COCOBOD's own 13% estimate — leaving the price pullback at odds with a darkening supply outlook.",
     "trend": "down",
-    "lastUpdated": "2026-09-02T20:15:00.000Z"
+    "lastUpdated": "2026-09-04T18:00:00.000Z"
+  },
+  {
+    "id": "wmo-el-nino-persistence-probability",
+    "label": "WMO Probability El Niño Persists Through Feb 2027",
+    "value": "~100%",
+    "color": "red",
+    "source": "World Meteorological Organization (Sep 3, 2026)",
+    "contested": false,
+    "delta": "Most definitive ENSO certainty WMO has ever issued",
+    "deltaNote": "WMO Secretary-General Celeste Saulo: event could be 'literally off the charts' if the current trajectory continues, exceeding anything since WMO monitoring began 50 years ago.",
+    "trend": "up",
+    "lastUpdated": "2026-09-04T18:00:00.000Z"
+  },
+  {
+    "id": "india-monsoon-seasonal-deficit",
+    "label": "India Monsoon Rainfall Deficit (Jun-Aug 2026 cumulative)",
+    "value": "-13.8%",
+    "color": "amber",
+    "source": "IMD, via Business Standard (Sep 1, 2026)",
+    "contested": false,
+    "delta": "47% of districts (~350) deficient or very deficient as of Aug 31",
+    "deltaNote": "Distinct from the earlier-reported -40% June-specific shortfall; this is the cumulative June-August seasonal deficit. India also recorded its warmest August since 1901, and IMD forecasts September rainfall will stay below 91% of the long-period average.",
+    "trend": "down",
+    "lastUpdated": "2026-09-04T18:00:00.000Z"
   },
   {
     "id": "peru-anchovy-job-losses",

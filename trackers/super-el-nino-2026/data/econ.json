@@ -2,8 +2,8 @@
   {
     "id": "cocoa-price",
     "label": "Cocoa Price (USD/tonne)",
-    "value": "$6,437",
-    "change": "-2.0% Sep 1→2, still +8.4% over past month",
+    "value": "$6,171",
+    "change": "-0.05% Sep 3→4, down from $6,437 on Sep 2",
     "direction": "down",
     "sparkData": [
       3200,
@@ -14,11 +14,12 @@
       5000,
       5120,
       6634,
-      6437
+      6437,
+      6171
     ],
     "color": "red",
     "source": "Trading Economics",
-    "lastUpdated": "2026-09-02T20:15:00.000Z"
+    "lastUpdated": "2026-09-04T18:00:00.000Z"
   },
   {
     "id": "peru-fishmeal-exports",
@@ -57,8 +58,8 @@
   {
     "id": "panama-canal-draft",
     "label": "Panama Canal Neopanamax Draft Limit",
-    "value": "48.5 ft",
-    "change": "-1.5 ft since Jul 3 (3 consecutive cuts)",
+    "value": "48.0 ft",
+    "change": "-2.0 ft since Jul 3 (6th cut); daily transit slots now cut too",
     "direction": "down",
     "sparkData": [
       50,
@@ -66,11 +67,28 @@
       50,
       49.5,
       49,
-      48.5
+      48.5,
+      48
     ],
     "color": "red",
     "source": "Panama Canal Authority",
-    "lastUpdated": "2026-08-19T14:43:33.000Z"
+    "lastUpdated": "2026-09-04T18:00:00.000Z"
+  },
+  {
+    "id": "panama-canal-transit-slots",
+    "label": "Panama Canal Daily Transit Slots (Neopanamax + Panamax)",
+    "value": "34/day",
+    "change": "-2/day effective Sep 3 (from 36); falls to 32/day on Sep 15",
+    "direction": "down",
+    "sparkData": [
+      36,
+      36,
+      36,
+      34
+    ],
+    "color": "red",
+    "source": "Panama Canal Authority (Advisories A-28/A-29-2026)",
+    "lastUpdated": "2026-09-04T18:00:00.000Z"
   },
   {
     "id": "global-insured-cat-losses-h1",

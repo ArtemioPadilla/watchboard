@@ -2,15 +2,15 @@
   {
     "id": "kpi-2026-national-cases",
     "label": "2026 confirmed measles cases (US)",
-    "value": "2,777",
+    "value": "3,134",
     "color": "red",
-    "source": "CDC national measles dashboard, Aug 20, 2026 weekly update",
+    "source": "CDC national measles dashboard, Sept 3-4, 2026 update",
     "contested": true,
-    "contestNote": "CDC publishes only lab-confirmed cases as of a weekly Thursday cutoff; state dashboards and independent trackers (e.g. CNN) often run higher — e.g. Florida cited at 64 (CDC) vs 92 (CNN tracker).",
-    "delta": "+211",
-    "deltaNote": "vs prior week's tally of 2,566 — more than double the prior week's +101 gain, driven mostly by Pennsylvania and Ohio",
+    "contestNote": "3,118 of the total are domestic cases across 47 jurisdictions, plus 16 among international visitors. CDC publishes only lab-confirmed cases as of a weekly cutoff; state dashboards and independent trackers often run higher.",
+    "delta": "+357",
+    "deltaNote": "vs 2,777 in the Aug 20, 2026 update, continuing the fastest growth of the year",
     "trend": "up",
-    "lastUpdated": "2026-08-28T00:57:58Z"
+    "lastUpdated": "2026-09-04T18:44:38Z"
   },
   {
     "id": "kpi-2025-national-cases",
@@ -37,25 +37,25 @@
   {
     "id": "kpi-outbreak-associated-share",
     "label": "Cases outbreak-associated (2026)",
-    "value": "94%",
+    "value": "95%",
     "color": "red",
-    "source": "CDC, Aug 20, 2026 (2,614 of 2,777)",
+    "source": "CDC, Sept 3-4, 2026 (2,969 of 3,134)",
     "contested": false,
     "trend": "stable",
-    "lastUpdated": "2026-08-28T00:57:58Z"
+    "lastUpdated": "2026-09-04T18:44:38Z"
   },
   {
     "id": "kpi-deaths-total",
     "label": "Confirmed measles deaths",
-    "value": "5",
+    "value": "5 (3 on CDC's federal tally)",
     "color": "red",
-    "source": "CDC / Texas DSHS / New Mexico DOH / Pennsylvania DOH — 2 children (TX) + 1 adult (NM) in 2025, all unvaccinated; 2 unvaccinated Lancaster County, PA residents in Aug 2026 (causation disputed by CDC)",
+    "source": "CDC / Texas DSHS / New Mexico DOH / Pennsylvania DOH — 2 children (TX) + 1 adult (NM) in 2025, all unvaccinated; 2 unvaccinated Lancaster County, PA residents in Aug 2026 (removed from CDC's national tally in Sept 2026 at HHS Secretary Kennedy's request)",
     "contested": true,
-    "contestNote": "Pennsylvania calls its 2 residents 'measles-associated' deaths (lab/epi evidence of measles present); CDC publicly disputed the framing, saying PA has not shared underlying case data, and the county coroner has not confirmed either death was caused BY measles.",
-    "delta": "+2",
-    "deltaNote": "first 2026 deaths, both in Lancaster County, PA (Aug 25, 2026)",
+    "contestNote": "Pennsylvania calls its 2 residents 'measles-associated' deaths and continues to count them; CDC struck them from its official tally after Kennedy told Director Schwartz he doubted the deaths, adding a note that available information 'does not establish' measles as cause or contributor. The county coroner has not issued a final cause-of-death determination.",
+    "delta": "removed from federal count",
+    "deltaNote": "CDC's Sept 2026 tally now shows 3 deaths (2025 only); Pennsylvania's own count still shows 5 total",
     "trend": "up",
-    "lastUpdated": "2026-08-28T00:57:58Z"
+    "lastUpdated": "2026-09-04T18:44:38Z"
   },
   {
     "id": "kpi-mmr-kindergarten-coverage",
@@ -84,13 +84,13 @@
   {
     "id": "kpi-hospitalization-rate-2026",
     "label": "2026 hospitalization rate",
-    "value": "6%",
+    "value": "8%",
     "color": "blue",
-    "source": "U.S. News, Aug 25, 2026 (169 hospitalizations of 2,777 cases) via CDC surveillance data",
+    "source": "CDC surveillance data via GV Wire, Sept 4, 2026 (248 hospitalizations of 3,134 cases)",
     "contested": false,
-    "delta": "-5pp",
-    "deltaNote": "vs 11% in 2025 (243 of 2,289 cases)",
+    "delta": "-3pp",
+    "deltaNote": "vs 11% in 2025 (243 of 2,289 cases); absolute hospitalizations still climbing with case count",
     "trend": "down",
-    "lastUpdated": "2026-08-28T00:57:58Z"
+    "lastUpdated": "2026-09-04T18:44:38Z"
   }
 ]
