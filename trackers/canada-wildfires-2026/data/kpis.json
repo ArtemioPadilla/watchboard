@@ -37,7 +37,7 @@
     "label": "People Evacuated (Season Total)",
     "value": "~23,000 total (~11,000 still under evacuation order)",
     "color": "amber",
-    "source": "Public Safety Canada \u2014 Aug 18 federal update",
+    "source": "Public Safety Canada — Aug 18 federal update",
     "contested": false,
     "deltaNote": "8,600 Indigenous people affected; 4,294 evacuated from 25 First Nations communities as of Aug 18",
     "trend": "down",
@@ -58,12 +58,12 @@
     "label": "Largest Single Fire (Thunder Bay 36)",
     "value": "301,240 ha",
     "color": "red",
-    "source": "Ontario Aviation, Forest Fire and Emergency Services, as of Sep 3",
+    "source": "Ontario Aviation, Forest Fire and Emergency Services, as of Sep 5",
     "contested": false,
-    "delta": "Unchanged vs Aug 24 estimate \u2014 activity across the complex remains low",
-    "deltaNote": "Still not under control; largest wildfire ever recorded in Ontario. Part of the Rinker Lake Complex alongside Dryden 34 (45,800 ha) and Dryden 35 (30,158 ha) \u2014 combined complex now 377,240 ha; NOTAM remains in effect",
+    "delta": "Unchanged vs Sep 3 estimate — activity across the complex remains low as of Sep 5",
+    "deltaNote": "Still not under control; largest wildfire ever recorded in Ontario. Part of the Rinker Lake Complex alongside Dryden 34 (45,800 ha) and Dryden 35 (30,158 ha) — combined complex now 377,240 ha; NOTAM remains in effect",
     "trend": "stable",
-    "lastUpdated": "2026-09-04T18:30:00Z"
+    "lastUpdated": "2026-09-06T16:54:33Z"
   },
   {
     "id": "milwaukee-record-aqi",
@@ -82,7 +82,7 @@
     "color": "blue",
     "source": "US National Weather Service / EPA AirNow",
     "contested": false,
-    "deltaNote": "16+ US states under alerts, July 14\u201320",
+    "deltaNote": "16+ US states under alerts, July 14–20",
     "lastUpdated": "2026-08-20T04:20:00Z"
   },
   {
@@ -90,12 +90,12 @@
     "label": "Bald Range Fire Size (Summerland, BC)",
     "value": "25,000+ ha",
     "color": "amber",
-    "source": "BC Wildfire Service / Penticton Western News, as of Sep 4",
+    "source": "BC Wildfire Service / CBC News, as of Sep 4",
     "contested": false,
     "delta": "Growth has stalled since Aug 28 estimate",
-    "deltaNote": "Area restriction order rescinded Sep 4 as fire behaviour and activity decreased; crews no longer need to restrict public access. BC's provincial state of emergency (declared Aug 8) ended Aug 27",
+    "deltaNote": "Classified 'under control' as of Aug 31 — its most advanced status tier since the Aug 7 outbreak; area restriction order rescinded Sep 4. Regional district approved 5-year RV housing allowances and halved rebuild permit fees for ~150 destroyed structures.",
     "trend": "stable",
-    "lastUpdated": "2026-09-04T18:30:00Z"
+    "lastUpdated": "2026-09-06T16:54:33Z"
   },
   {
     "id": "pear-lake-fire-size",
@@ -104,10 +104,10 @@
     "color": "red",
     "source": "BC Wildfire Service / CFJC Today, as of Sep 3",
     "contested": false,
-    "delta": "+21 ha vs Aug 30 estimate \u2014 growth has nearly stalled",
-    "deltaNote": "Removed from BC's 'wildfires of note' list Sep 3 as much of the perimeter became secure, though heat remains within it; still officially out of control amid extreme drought. 355 firefighters, 48 heavy equipment units, 10 helicopters assigned. No new evacuation orders reported",
+    "delta": "+21 ha vs Aug 30 estimate — growth has nearly stalled",
+    "deltaNote": "Removed from BC's 'wildfires of note' list Sep 3; heat remains within it and it is still officially out of control amid extreme drought. TNRD and SLRD downgraded remaining evacuation orders to alerts Sep 3, though Whispering Pines/Clinton Indian Band and Stswecem'c Xget'tem First Nation evacuation orders remain in effect. 355 firefighters, 48 heavy equipment units, 10 helicopters assigned.",
     "trend": "stable",
-    "lastUpdated": "2026-09-04T18:30:00Z"
+    "lastUpdated": "2026-09-06T16:54:33Z"
   },
   {
     "id": "ainslie-creek-fire-size",
@@ -125,11 +125,22 @@
     "label": "Northwest Territories Wildfire Total (Season)",
     "value": "1,694,001 ha across 288 fires",
     "color": "amber",
-    "source": "NWT Environment and Climate Change, as of Sep 2",
+    "source": "NWT Environment and Climate Change, as of Sep 6",
     "contested": false,
     "deltaNote": "219 active (210 out of control, 3 held, 6 under control, 69 declared out); NWT accounts for more than a quarter of Canada's total burn area this season",
-    "trend": "up",
-    "lastUpdated": "2026-09-02T17:57:19Z",
-    "delta": "+107,769 ha vs Aug 24 estimate (+4 fires)"
+    "trend": "stable",
+    "lastUpdated": "2026-09-06T16:54:33Z",
+    "delta": "Unchanged vs Sep 2 estimate — no new fires confirmed"
+  },
+  {
+    "id": "bc-active-fires-outofcontrol-share",
+    "label": "BC Active Wildfires / Share Out of Control",
+    "value": "150 active / <10% out of control",
+    "color": "green",
+    "source": "BC Wildfire Service / CBC News, as of Sep 3",
+    "contested": false,
+    "deltaNote": "Down sharply from ~45% out of control the previous week as fall weather arrives; Bald Range and Ainslie Creek fires both downgraded from BC's wildfires-of-note list this week",
+    "trend": "down",
+    "lastUpdated": "2026-09-06T16:54:33Z"
   }
 ]

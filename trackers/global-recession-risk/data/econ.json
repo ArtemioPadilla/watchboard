@@ -73,8 +73,8 @@
   {
     "id": "fed-funds-rate-history",
     "label": "Fed Funds Rate",
-    "value": "3.50-3.75% (held July 29); September Hike Odds Jump to 57% After Warsh's Aug 28 Jackson Hole Keynote",
-    "change": "AUG 28 UPDATE: Warsh's debut Jackson Hole keynote turned hawkish — inflation 'above our 2 percent target,' price stability the Fed's 'predominant focus,' central bank 'may have work to do' on rates. CME FedWatch September 15-16 hike odds jumped to ~57% (from ~35% pre-speech); the 2-year Treasury yield rose to ~4.32%, its highest since July. Prior: July 28-29 FOMC (non-SEP) held rates unchanged at 3.50-3.75% with three hawkish dissents; a Reuters poll of 104 economists (Aug 12-17) had found 94 expecting a September hold before the Jackson Hole speech shifted the outlook.",
+    "value": "3.50-3.75% (held July 29); September Hike Odds ~58% After a Dovish Waller Speech Was Reversed by a Blowout Jobs Report",
+    "change": "SEPT 3-4 WHIPSAW: Fed Governor Waller signaled openness to a September hold if disinflation continued, cutting hike odds to ~48-55% (Sept 3); the August jobs report (+162,000 vs ~53-56K expected, unemployment steady 4.1%) reversed that within a day, pushing CME FedWatch hike odds back to ~58% (Sept 4). Prior: Warsh's Aug 28 Jackson Hole keynote turned hawkish, lifting hike odds to ~57% from ~35%; July 28-29 FOMC held at 3.50-3.75% with three hawkish dissents.",
     "direction": "up",
     "sparkData": [
       5.5,
@@ -88,8 +88,8 @@
       3.75
     ],
     "color": "blue",
-    "source": "Federal Reserve FOMC Statement, July 29, 2026; Warsh Jackson Hole Keynote, August 28, 2026",
-    "lastUpdated": "2026-08-28T14:00:00Z"
+    "source": "Federal Reserve FOMC Statement, July 29, 2026; Waller Speech, Sept 3, 2026; BLS Employment Situation, Aug 2026 (released Sept 4)",
+    "lastUpdated": "2026-09-04T14:00:00Z"
   },
   {
     "id": "ecb-deposit-rate",
@@ -159,9 +159,9 @@
   },
   {
     "id": "us-unemployment-rate",
-    "label": "US Unemployment Rate / July 2026 NFP",
-    "value": "4.1% (July 2026, released Aug 7)",
-    "change": "July NFP fell 23,000 (vs +83K expected); May+June revised down a combined 103,000; unemployment eased to 4.1% from 4.2% on lower participation.",
+    "label": "US Unemployment Rate / August 2026 NFP",
+    "value": "4.1% (August 2026, released Sept 4, unchanged)",
+    "change": "August NFP rose 162,000 (vs ~53-56K expected — a ~3x beat); June+July revised up a combined 55,000; unemployment held steady at 4.1%. CME hike odds jumped to ~58% on the print, reversing Waller's Sept 3 dovish signal within a day.",
     "direction": "down",
     "sparkData": [
       3.4,
@@ -172,17 +172,18 @@
       4.3,
       4.3,
       4.2,
+      4.1,
       4.1
     ],
     "color": "amber",
-    "source": "BLS Employment Situation, July 2026 (released August 7, 2026)",
-    "lastUpdated": "2026-08-07T13:30:00Z"
+    "source": "BLS Employment Situation, August 2026 (released September 4, 2026)",
+    "lastUpdated": "2026-09-04T13:30:00Z"
   },
   {
     "id": "us-10y-treasury-yield",
     "label": "US 10Y / 30Y / 2Y Treasury Yield",
-    "value": "10Y Hits 4.814% (Sept 2) — Highest Since Nov 2023; 2Y ~4.32% (Aug 28 Post-Warsh); 30Y 5.31-5.32% (Aug 17 Peak) — Highest Since 2007",
-    "change": "AUG 31-SEPT 2: Renewed US-Iran strikes and tanker attacks near the Strait of Hormuz drove oil and yields sharply higher into a synchronized global bond rout — the 10Y touched 4.814% intraday Sept 2, its highest since November 2023, as Japan's 10Y crossed 3% for the first time since 1996 and German/UK yields hit multi-year highs.",
+    "value": "10Y at 4.79% (Sept 4) — Retested the Sept 2 Cycle High of 4.814% on the August Jobs Blowout; 30Y 5.31-5.32% (Aug 17 Peak) — Highest Since 2007",
+    "change": "SEPT 3-4: Fed Governor Waller's dovish Sept 3 remarks pulled yields off the Sept 2 high, but the Sept 4 blowout August jobs report (+162,000 vs ~53-56K expected) reversed the move, sending the 10Y back up nearly 3bps to 4.79% — within 3bps of the Sept 2 cycle high — as CME FedWatch hike odds jumped to ~58%.",
     "direction": "up",
     "sparkData": [
       2.8,
@@ -208,13 +209,14 @@
       4.625,
       4.7,
       4.792,
-      4.814
+      4.814,
+      4.79
     ],
     "color": "red",
-    "source": "CNBC / FRED / Yahoo Finance; July 23 - September 2, 2026",
-    "lastUpdated": "2026-09-02T18:00:00Z",
-    "delta": "SEPT 2: 10Y yield touched 4.814% intraday, its highest since November 2023, as part of a synchronized global bond selloff.",
-    "deltaNote": "JULY 23-SEPT 2 ARC: The Red Sea/Hormuz oil shock (Brent >$100, July 23) pushed yields to a multi-month high as September Fed-hike odds jumped to ~82%. The Aug 7 jobs report and Aug 12-13 CPI/PPI prints both cooled, pulling the 10Y down to 4.65% and September hike odds under 35%. The Aug 14 Hormuz tanker attacks and the Aug 17 expiration of the US-Iran MOU then pushed the 30-year Treasury yield to 5.31-5.32% — its highest level since June 2007. Yields eased through Aug 25 (10Y 4.625%) even as the US-Canada trade war escalated, then turned back up: Warsh's Aug 28 hawkish Jackson Hole keynote lifted the 2-year to ~4.32% and September hike odds to 57%, and an Aug 31 US strike near the Strait of Hormuz pushed oil and long-end yields higher still. Overnight Aug 31-Sept 1, two oil tankers were struck in the Strait of Hormuz, sending the 10Y to a 20-month high of 4.792% on Sept 1. The rout went fully global Sept 2: the 10Y touched 4.814% (highest since Nov 2023), Japan's 10Y crossed 3% for the first time since 1996, Germany's Bund hit 3.375% (highest since 2011), and UK gilts extended a post-2008 high to 5.25% — underlying debt/inflation concerns remain the structural floor under long-end yields even as equities shrugged off the move."
+    "source": "CNBC / FRED / Yahoo Finance; July 23 - September 4, 2026",
+    "lastUpdated": "2026-09-04T18:00:00Z",
+    "delta": "SEPT 4: 10Y yield rose nearly 3bps to 4.79% after the August jobs blowout, reversing Waller's Sept 3 dovish-driven dip.",
+    "deltaNote": "JULY 23-SEPT 4 ARC: The Red Sea/Hormuz oil shock (Brent >$100, July 23) pushed yields to a multi-month high as September Fed-hike odds jumped to ~82%. The Aug 7 jobs report and Aug 12-13 CPI/PPI prints both cooled, pulling the 10Y down to 4.65%. The Aug 14 Hormuz tanker attacks and Aug 17 MOU expiration pushed the 30-year to 5.31-5.32% (highest since June 2007). Warsh's Aug 28 hawkish Jackson Hole keynote and an Aug 31 Hormuz strike pushed yields higher again, and the rout went fully global Sept 2 (10Y 4.814%, highest since Nov 2023; Japan 10Y above 3% for the first time since 1996; German Bund and UK gilts at multi-year highs). Fed Governor Waller's Sept 3 remarks signaling openness to a September hold pulled yields down briefly, but the Sept 4 jobs blowout (+162,000, June/July revised up 55,000 combined) reversed that within a day, sending the 10Y back to 4.79% as hike odds jumped to ~58%. A renewed US-Iran Gulf conflict (Sept 1-6, spreading to Kuwait, the UAE, and mutual Strait of Hormuz tanker strikes) keeps an oil-driven inflation premium under the long end heading into the Sept 16-17 FOMC."
   },
   {
     "id": "us-ppi-yoy-april-2026",
@@ -262,8 +264,8 @@
   {
     "id": "wti-crude-oil",
     "label": "WTI / Brent Crude Oil (USD/bbl)",
-    "value": "Brent ~$94.65 / WTI ~$91.18 (Sept 2) — Renewed Tanker Strikes in the Strait of Hormuz Push Oil to a 5-Week High",
-    "change": "After easing from the Aug 17 US-Iran MOU expiration spike, oil jumped again Aug 31-Sept 1 as US forces struck Iranian rocket launchers near the Strait of Hormuz and two oil tankers were hit by projectiles overnight — Brent rose 4.6% to $94.65 and WTI surged 5.2% to $90.22 on Sept 1, a 5-week high. Oil held elevated Sept 2 (WTI +1.06% to $91.18) as the tanker strikes fed into a broader global bond yield rout.",
+    "value": "Brent ~$97.36 / WTI ~$92.39 (Sept 4) — On Track for an ~8% Weekly Gain as the US-Iran Gulf Conflict Widens to Kuwait, the UAE, and Mutual Tanker Strikes",
+    "change": "The Sept 1-6 US-Iran exchange widened well beyond the Strait of Hormuz: after the Sept 1 US strikes on IRGC targets, Iran hit US-linked positions in Jordan, Kuwait, and the UAE (Sept 2-3); Brent rose to $97.36 and WTI to $92.39 on Sept 4. The conflict escalated further Sept 5 as the IRGC fired ballistic missiles at a US carrier group and the US destroyed three Iranian tankers in response, with Iran hitting six more vessels in reprisal; further IRGC attacks on US warships were claimed Sept 6. Brent is on track for roughly an 8% weekly gain as Hormuz shipping stays well below its pre-crisis baseline.",
     "direction": "up",
     "sparkData": [
       96.42,
@@ -280,11 +282,12 @@
       88.52,
       90.87,
       90.22,
-      91.18
+      91.18,
+      97.36
     ],
     "color": "red",
-    "source": "CNBC / Fortune / Al Jazeera / The Star (AseanPlus) / AOL / Yahoo Finance; July 23 - September 2, 2026",
-    "lastUpdated": "2026-09-02T18:00:00Z"
+    "source": "CNBC / Fortune / Al Jazeera / Vantage Markets / Euronews / AOL / Yahoo Finance; July 23 - September 6, 2026",
+    "lastUpdated": "2026-09-06T12:00:00Z"
   },
   {
     "id": "eurozone-cpi",

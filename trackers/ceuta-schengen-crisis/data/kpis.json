@@ -13,14 +13,14 @@
   {
     "id": "confirmed_deaths",
     "label": "Confirmed Deaths",
-    "value": "111",
+    "value": "141",
     "color": "red",
-    "source": "House of Commons Library / Fortune",
+    "source": "PM Sánchez, Congress address (Sep 3) / House of Commons Library",
     "contested": true,
-    "contestNote": "Rose from an initial 72 (Aug 2) to 86 (Sky News) to 111 (100 in Ceuta, 11 in Fnideq) by Aug 4; some later-recovered bodies not definitively linked to the crisis. NGO Caminando Fronteras separately tallies 141 (Aug 5), a figure Spanish officials confirmed to media without formally adopting as the state count. A one-month retrospective by The Olive Press (Aug 30) cites 'more than 150' deaths, the highest figure yet reported, though without a new recovery operation or itemised count to explain the increase over the NGO tally.",
-    "delta": "+39",
+    "contestNote": "Rose from an initial 72 (Aug 2) to 86 (Sky News) to 111 (100 in Ceuta, 11 in Fnideq) by Aug 4; some later-recovered bodies not definitively linked to the crisis. PM Sánchez cited an official cumulative toll of 141 in his Sep 3 Congress address without detailing the new count's methodology — coincidentally matching NGO Caminando Fronteras' Aug 5 tally (78 in Spanish waters, 63 in Moroccan waters), though officials have not confirmed the figures share the same underlying data. A one-month retrospective by The Olive Press (Aug 30) had already cited 'more than 150' deaths, the highest figure reported to date.",
+    "delta": "+30",
     "trend": "up",
-    "lastUpdated": "2026-08-30T18:08:58Z"
+    "lastUpdated": "2026-09-06T16:59:50Z"
   },
   {
     "id": "voluntary_returns",
@@ -35,13 +35,13 @@
   {
     "id": "migrants_remaining",
     "label": "Migrants Still in Ceuta",
-    "value": "5,000-9,000",
+    "value": "5,000-11,000",
     "color": "amber",
-    "source": "Spanish government / Ceuta city officials (Aug 30)",
+    "source": "Spanish government / Mayor Vivas / Reuters (Sep 5)",
     "contested": true,
-    "contestNote": "Spain's government puts the figure at roughly 5,000 as of Aug 30 (1,827 already housed at the Loma Margarita and El Embolsamiento centres, out of ~72,000 who entered irregularly in late July); Ceuta city and other estimates range 6,500-9,000. Ceuta's Assembly unanimously declared the city in an 'extreme situation, on the verge of collapse' on Aug 28, and Madrid asked Frontex, Europol and the EUAA to reinforce migrant triage. On Aug 30, Secretary of State for Security Aina Calvo relocated to Ceuta to directly oversee the operation, with a two-week target to move remaining migrants off the streets.",
+    "contestNote": "Spain's government puts the figure at roughly 5,000 (1,827 already housed at the Loma Margarita and El Embolsamiento centres, out of ~72,000 who entered irregularly in late July); Ceuta president Vivas and Reuters both cite figures above 10,000, with Vivas previously ranging 8,000-11,000. Ceuta's Assembly unanimously declared the city in an 'extreme situation, on the verge of collapse' on Aug 28. On Sep 5, the Transport Ministry authorised 16,000 m² of Ceuta's port for tents housing 1,000+ more migrants, overriding the Port Authority's own objection.",
     "trend": "stable",
-    "lastUpdated": "2026-08-30T18:08:58Z"
+    "lastUpdated": "2026-09-06T16:59:50Z"
   },
   {
     "id": "el_trampolin_relocation",
@@ -149,8 +149,30 @@
     "color": "blue",
     "source": "Spanish government via Euronews / Libertad Digital (Aug 24)",
     "contested": false,
-    "contestNote": "Requested from the EU's FAMI (Asylum, Migration and Integration Fund) and IGFV (Borders and Visa Instrument) to help cover Ceuta's reception, triage and border-management costs.",
+    "contestNote": "Requested from the EU's FAMI (Asylum, Migration and Integration Fund) and IGFV (Borders and Visa Instrument) to help cover Ceuta's reception, triage and border-management costs. Brussels confirmed Sep 4 it will send a technical mission to Ceuta to convert the request into specific measures, following a Marlaska-Brunner call citing 'important progress.'",
     "trend": "up",
-    "lastUpdated": "2026-08-30T18:08:58Z"
+    "lastUpdated": "2026-09-06T16:59:50Z"
+  },
+  {
+    "id": "port_reception_tents_capacity",
+    "label": "New Port Reception Capacity (Tents)",
+    "value": "1,000+",
+    "color": "blue",
+    "source": "Ministry of Transport via Moncloa.com (Sep 5)",
+    "contested": true,
+    "contestNote": "16,000 m² of Ceuta port's Poniente dock authorised for temporary migrant tents after the Ceuta Port Authority's own board voted against the installation; Madrid invoked Article 73.3 of the State Ports and Merchant Marine Act to proceed regardless.",
+    "trend": "up",
+    "lastUpdated": "2026-09-06T16:59:50Z"
+  },
+  {
+    "id": "land_arrivals_2026_yoy",
+    "label": "Ceuta Land Arrivals 2026 (Jan-Aug, excl. Jul crossing)",
+    "value": "4,076 (+102%)",
+    "color": "amber",
+    "source": "Spanish Interior Ministry via Moncloa.com (Sep 3)",
+    "contested": false,
+    "contestNote": "Up 102.3% versus the same period in 2025, explicitly excluding the ~72,000 people from the July 30-31 mass crossing, which the ministry has deferred recording pending completion of triage.",
+    "trend": "up",
+    "lastUpdated": "2026-09-06T16:59:50Z"
   }
 ]

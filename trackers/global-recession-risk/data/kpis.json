@@ -39,14 +39,14 @@
   {
     "id": "us-unemployment",
     "label": "US Unemployment Rate",
-    "value": "4.1%",
+    "value": "4.1% (August 2026, unchanged)",
     "color": "amber",
-    "source": "BLS July 2026 Employment Situation (released August 7, 2026)",
+    "source": "BLS August 2026 Employment Situation (released September 4, 2026)",
     "contested": false,
-    "delta": "-0.1pp vs June (4.2%)",
-    "deltaNote": "July 2026 (Aug 7): NFP fell 23,000 — a sharp miss vs the ~83,000 gain expected — with May and June revised down a combined 103,000. Unemployment eased to 4.1%, largely on lower labor-force participation rather than underlying strength. Markets read the report as reducing Fed hike risk; S&P 500 closed at a record high same day.",
+    "delta": "Unchanged vs July (4.1%); NFP beat consensus by ~3x",
+    "deltaNote": "AUG 2026 (Sept 4): NFP rose 162,000 — a large beat vs the ~53,000-56,000 gain expected — with June and July both revised up a combined 55,000. Unemployment held steady at 4.1%. Markets read the report as increasing Fed hike risk (CME odds to ~58%), reversing Fed Governor Waller's dovish Sept 3 signal within a day; the Dow, S&P 500, and Nasdaq all fell on the print. Prior: July 2026 (Aug 7) NFP fell 23,000, a sharp miss, with May/June revised down a combined 103,000.",
     "trend": "down",
-    "lastUpdated": "2026-08-07T13:30:00Z"
+    "lastUpdated": "2026-09-04T13:30:00Z"
   },
   {
     "id": "us-core-pce",
@@ -63,14 +63,14 @@
   {
     "id": "fed-funds-rate",
     "label": "Fed Funds Rate",
-    "value": "3.50–3.75%; September 15-16 Hike Odds at ~57.5% as Bond Rout and Soft ADP Data Pull in Opposite Directions",
+    "value": "3.50–3.75%; September 15-16 Hike Odds ~58% After Waller's Dovish Signal Was Reversed by a Blowout August Jobs Report",
     "color": "blue",
-    "source": "Federal Reserve FOMC, July 29 2026 (held); Warsh Jackson Hole Keynote, Aug 28 2026; CME FedWatch, Sept 2 2026",
+    "source": "Federal Reserve FOMC, July 29 2026 (held); Waller Speech, Sept 3 2026; BLS Employment Situation, Aug 2026 (released Sept 4); CME FedWatch, Sept 4 2026",
     "contested": false,
-    "delta": "Held at 3.50-3.75% since July 29; Sept 15-16 hike odds held near ~57.5% into Sept 2 even as ADP showed private payrolls slowing sharply to 38,000 in August",
-    "deltaNote": "AUG 28 UPDATE: Warsh's first Jackson Hole keynote as Chair (his 100th day in the role) turned notably hawkish — he said inflation remains 'above our 2 percent target,' called price stability the Fed's 'predominant focus,' and said the Fed 'may have work to do' on rates, while also stepping back from forward guidance ('you can call it an outline, you can call it a trail map, just don't call it forward guidance'). CME FedWatch September hike odds jumped to ~57% from ~35% pre-speech; the 2-year Treasury yield rose to ~4.32%, its highest since July. SEPT 2 UPDATE: ADP's National Employment Report showed private payrolls rose just 38,000 in August (vs 48,000 forecast, down from July's revised 46,000) — the slowest pace since January — a labor-softening signal that would normally cool hike bets, but September odds held near 57.5% as the global bond yield rout (10Y at 4.814%, highest since Nov 2023) and renewed Mideast-driven oil spike kept inflation-hawk pressure on the Fed ahead of the Sept 16-17 FOMC. Prior: July 28-29 FOMC held at 3.50-3.75% with 3 hawkish dissents.",
+    "delta": "Waller's Sept 3 dovish remarks briefly cut hike odds to ~48-55%; the Sept 4 jobs blowout (+162K vs +53K expected) reversed that, pushing odds back to ~58%",
+    "deltaNote": "SEPT 3 UPDATE: Fed Governor Christopher Waller said in a speech that if incoming data continued to show disinflation over the next two weeks, he would 'be inclined to support holding' rates at the Sept 15-16 meeting — a notably more dovish read than Chair Warsh's hawkish Aug 28 Jackson Hole keynote. CME FedWatch hike odds fell roughly 9-18 points (estimates ranged ~48.4%-54.6%) from the prior day's ~66%. SEPT 4 UPDATE: The August jobs report reversed the dovish move within 24 hours — nonfarm payrolls surged 162,000 (vs ~53,000-56,000 expected), unemployment held at 4.1%, and June/July were both revised up a combined 55,000. CME FedWatch hike odds jumped back to ~58% (up ~9 points on the day); the 10-year Treasury yield rose nearly 3bps to 4.79%, back near its Sept 2 cycle high of 4.814%. Compounding the hawkish inflation risk, renewed US-Iran strikes across the Gulf (Sept 1-6 — Kuwait, UAE, and mutual Strait of Hormuz tanker strikes) kept Brent crude on track for an ~8% weekly gain, reinforcing the 'higher-for-longer' case into the Sept 16-17 FOMC. Prior: Aug 28 Jackson Hole keynote turned hawkish, pushing hike odds to ~57% from ~35%; July 28-29 FOMC held at 3.50-3.75% with 3 hawkish dissents.",
     "trend": "up",
-    "lastUpdated": "2026-09-02T18:00:00Z"
+    "lastUpdated": "2026-09-04T18:00:00Z"
   },
   {
     "id": "ecb-deposit-rate",
@@ -87,14 +87,14 @@
   {
     "id": "us-10y-treasury-yield",
     "label": "US 10Y / 30Y Treasury Yield",
-    "value": "10Y Hits 4.814% (Sept 2) — Highest Since Nov 2023; 30Y 5.31-5.32% (Aug 17 Peak) — Highest Since 2007",
+    "value": "10Y at 4.79% (Sept 4) — Retested the Sept 2 Cycle High of 4.814% (Highest Since Nov 2023) on the August Jobs Blowout",
     "color": "red",
-    "source": "CNBC / Federal Reserve H.15 / FRED / Yahoo Finance; July 23 - September 2, 2026",
+    "source": "CNBC / Federal Reserve H.15 / FRED / Yahoo Finance; July 23 - September 4, 2026",
     "contested": false,
-    "delta": "Renewed US-Iran strikes near the Strait of Hormuz (Aug 31-Sept 1) pushed oil and yields sharply higher; the 10Y hit 4.814% intraday Sept 2 as part of a synchronized global bond rout (Japan 10Y >3% for the first time since 1996, German Bund highest since 2011, UK gilts highest since 2008).",
-    "deltaNote": "AUG 31-SEPT 2 ARC: Warsh's Aug 28 hawkish Jackson Hole keynote lifted the 2-year to ~4.32%; an Aug 31 US strike on Iranian rocket launchers near the Strait of Hormuz then sent Brent back above $90 and yields toward their highest since January 2025. Overnight Aug 31-Sept 1, two oil tankers were struck by projectiles in the Strait of Hormuz, driving Brent to $94.65 (+4.6%) and WTI to $90.22 (+5.2%) on Sept 1 — the 10Y rose to 4.792%, a 20-month high, its fifth straight session of gains. The selloff extended Sept 2: the 10Y touched 4.814% intraday (highest since Nov 2023) as the rout went global — Japan's 10Y crossed 3% for the first time since 1996, Germany's Bund hit 3.375% (highest since 2011), and UK gilts extended a post-2008 high to 5.25%. The 30-year's Aug 17 peak of 5.31-5.32% (highest since June 2007) remains the cycle high. National debt concerns (nearing $40T) and stubborn above-target inflation remain the structural floor under long-end yields; equities shrugged off the rout Sept 2, with the S&P 500 and Dow each rebounding ~0.47%.",
+    "delta": "Waller's Sept 3 dovish remarks pulled yields down briefly, but the Sept 4 jobs blowout reversed the move — the 10Y rose nearly 3bps to 4.79%, back near its Sept 2 high, while renewed Gulf strikes (Sept 1-6) kept an oil-driven inflation premium under the long end.",
+    "deltaNote": "SEPT 2-4 ARC: The 10Y touched 4.814% intraday Sept 2 (highest since Nov 2023) as a synchronized global bond rout — Japan's 10Y above 3% for the first time since 1996, Germany's Bund at 3.375% (highest since 2011), UK gilts at 5.25% (highest since 2008) — combined with renewed Strait of Hormuz tanker strikes. Fed Governor Waller's Sept 3 remarks, signaling openness to a September hold if disinflation continued, pulled yields off that high. The move reversed within a day: BLS's Aug jobs report (Sept 4, released same day) showed nonfarm payrolls +162,000 (vs ~53-56K expected) and June/July revised up a combined 55,000 — sending the 10Y back up nearly 3bps to 4.79%, within striking distance of the Sept 2 cycle high, as CME FedWatch hike odds jumped to ~58%. The 30-year's Aug 17 peak of 5.31-5.32% (highest since June 2007) remains the cycle high. National debt concerns (nearing $40T), stubborn above-target inflation, and a still-unresolved US-Iran Gulf conflict (renewed strikes Sept 1-6 across Kuwait, UAE, and the Strait of Hormuz) remain the structural floor under long-end yields heading into the Sept 16-17 FOMC.",
     "trend": "up",
-    "lastUpdated": "2026-09-02T18:00:00Z"
+    "lastUpdated": "2026-09-04T18:00:00Z"
   },
   {
     "id": "us-consumer-confidence",
@@ -123,14 +123,14 @@
   {
     "id": "vix-fear-gauge",
     "label": "S&P 500 / Market Risk Gauge",
-    "value": "S&P 500 Rebounds +0.47% (Sept 2) After a Two-Day Slide on Renewed Mideast Strikes and a Global Bond Rout",
+    "value": "S&P 500 Holds Within ~1% of Record Highs (7,718.60, Sept 4) Despite the Jobs-Driven Yield Spike and an Unresolved Gulf Conflict",
     "color": "amber",
-    "source": "AP / Yahoo Finance / The Motley Fool / Federal Reserve; July 23 – September 2, 2026",
+    "source": "AP / Yahoo Finance / CNBC / The Motley Fool / Federal Reserve; July 23 – September 5, 2026",
     "contested": false,
-    "delta": "SEPT 1-2: Stocks fell Sept 1 (S&P -0.71% to 7,631.47) as renewed US-Iran tanker strikes near the Strait of Hormuz spiked oil and yields, then rebounded Sept 2 (S&P +0.47%, Dow +0.47%, Nasdaq +0.37%, Russell 2000 +1.10%) even as global bond yields hit multi-decade highs.",
-    "deltaNote": "AUG 27-SEPT 2 ARC: The market's Aug 27 record run (S&P 7,730.99 on Nvidia's earnings beat) gave way to Warsh's hawkish Aug 28 Jackson Hole keynote (S&P -0.25%) and an Aug 31 Mideast strike near the Strait of Hormuz (S&P -0.33%). The selloff deepened Sept 1 after two tankers were struck in the Strait of Hormuz overnight — Dow -0.79%, S&P -0.71%, Nasdaq -1.03% — alongside a soft ISM Manufacturing PMI (54.6%, down from 55.6%) and a 20-month-high 10-year Treasury yield (4.792%). Equities then shrugged off a synchronized global bond yield rout on Sept 2 (US 10Y to 4.814%, highest since Nov 2023; Japan 10Y above 3% for the first time since 1996; German Bund and UK gilts at multi-year highs) to close broadly higher, even as ADP showed private payrolls slowing sharply to 38,000 in August.",
+    "delta": "SEPT 3-5: Stocks rallied Sept 3 on Waller's dovish signal (S&P +1.1%, Dow +1.2%, Nasdaq +1.4%), then slipped Sept 4 (Dow -0.51% to 53,414.25, S&P -0.38% to 7,718.60, Nasdaq -0.29%) as the blowout jobs report revived hike bets; the VIX remained low (~14.5) into the weekend even as the US-Iran Gulf conflict escalated further.",
+    "deltaNote": "AUG 27-SEPT 4 ARC: The market's Aug 27 record run gave way to a hawkish Jackson Hole keynote, an Aug 31 Mideast strike, and a two-day Sept 1-2 slide/rebound around a global bond rout. Sept 3 brought a broad rally (S&P 500 +1.1% to ~7,750, Dow +1.2% to ~53,685, Nasdaq +1.4% to ~26,584 — the best day in weeks) after Fed Governor Waller signaled openness to a September hold, even as Iran launched a second night of retaliatory strikes on Kuwait and the UAE. That reversed Sept 4: the blowout August jobs report (+162,000 vs ~53-56K expected) sent the Dow down 271.86 points (-0.51%) to 53,414.25, the S&P 500 down 0.38% to 7,718.60, and the Nasdaq down 0.29% to 26,506.99, with CME hike odds back to ~58%. Despite the whipsaw, the S&P 500 remained within about 1% of its all-time high and the VIX stayed low (~14.5), even as the Gulf conflict widened further over the weekend (US tanker strikes and Iranian reprisals, Sept 5-6) — a striking calm relative to the stacked macro and geopolitical risks.",
     "trend": "down",
-    "lastUpdated": "2026-09-02T21:00:00Z"
+    "lastUpdated": "2026-09-05T21:00:00Z"
   },
   {
     "id": "us-effective-tariff-rate",
@@ -159,14 +159,14 @@
   {
     "id": "global-policy-uncertainty",
     "label": "Global Policy Uncertainty / Recession Risk",
-    "value": "SEPT 2: Global Bond Yield Rout Hits Multi-Decade Highs (US, Japan, Germany, UK) as Mideast Strikes Reignite and ADP Shows Hiring Slowdown",
+    "value": "SEPT 6: Gulf War Escalates Further (Tanker Strikes, Naval Blockade Clashes) as a Blowout Jobs Report Reverses a One-Day Dovish Fed Signal",
     "color": "red",
-    "source": "Federal Reserve / ADP / ISM / China NBS / Census Bureau / U. Michigan; July 17 – September 2, 2026",
+    "source": "Federal Reserve / BLS / ADP / ISM / China NBS / Census Bureau / U. Michigan; July 17 – September 6, 2026",
     "contested": false,
-    "delta": "AUG 31-SEPT 2 ARC: Renewed US-Iran strikes and tanker attacks near the Strait of Hormuz reignited the oil/inflation channel, driving a synchronized global government bond selloff to multi-decade highs even as ADP flagged a sharp US private-hiring slowdown — a stagflation-adjacent combination that raises, rather than lowers, near-term recession risk.",
-    "deltaNote": "SEPT 2 RECESSION RISK SNAPSHOT: The dominant new risk channel is a globally synchronized bond yield rout — US 10Y at 4.814% (highest since Nov 2023), Japan's 10Y above 3% for the first time since 1996, Germany's Bund at 3.375% (highest since 2011), and UK gilts at 5.25% (highest since 2008) — driven by renewed Strait of Hormuz strikes (oil tankers hit Aug 31-Sept 1, Brent to $94.65) reigniting inflation fears just as ADP showed private payrolls slowing to 38,000 in August (from 46,000) and the ISM Manufacturing PMI cooled to 54.6%. Tightening financial conditions (higher yields) combined with softening labor and manufacturing data is the classic pre-recession mix analysts flag as most concerning. Also in play: an active US-Canada trade war (Canada's retaliatory tariffs effective Sept 8), a deepening China slowdown, and elevated equity valuations that shrugged off the yield spike Sept 2. Next catalysts: BLS August jobs report (Friday Sept 4) and the September 16-17 FOMC meeting.",
+    "delta": "SEPT 3-6 ARC: Fed Governor Waller's dovish Sept 3 signal was reversed within a day by a blowout August jobs report (Sept 4), while the US-Iran Gulf conflict widened into a multi-country exchange (Kuwait, UAE, mutual Hormuz tanker strikes) with no sign of de-escalation into the weekend — reinforcing both the inflation-hawk case for the Fed and the oil-supply-shock risk to growth.",
+    "deltaNote": "SEPT 6 RECESSION RISK SNAPSHOT: Two risk channels are now moving in the same direction. (1) LABOR/FED: Waller's Sept 3 remarks briefly cut September hike odds to ~48-55%, but the Sept 4 BLS report (nonfarm payrolls +162,000 vs ~53-56K expected, unemployment steady at 4.1%, June/July revised up 55,000 combined) reversed that to ~58%, with the 10Y Treasury back near its Sept 2 cycle high (4.79% vs 4.814%). (2) GULF CONFLICT: The Sept 1 US strikes near the Strait of Hormuz triggered a widening Iranian response — retaliatory strikes on US-linked bases in Jordan, Kuwait, and the UAE (Sept 2-3), then a direct IRGC ballistic-missile attack on a US carrier group answered by the US destroying three Iranian tankers, with Iran hitting six more vessels in reprisal (Sept 5), and further IRGC attacks on US warships claimed Sept 6 alongside a harsher Iranian rhetorical line ('the era of proportionate responses is over'). Brent crude is on track for roughly an 8% weekly gain. Despite the stacked risks, US equities remain within ~1% of record highs and the VIX stayed low (~14.5) — a resilience that could unwind quickly if the Gulf conflict or the Sept 16-17 FOMC surprises to the hawkish side. Also in play: Canada's retaliatory tariffs take effect Sept 8, and China's slowdown remains unresolved. Next catalysts: Canada tariff effective date (Sept 8) and the September 16-17 FOMC meeting.",
     "trend": "down",
-    "lastUpdated": "2026-09-02T21:00:00Z"
+    "lastUpdated": "2026-09-06T12:00:00Z"
   },
   {
     "id": "boj-policy-rate",

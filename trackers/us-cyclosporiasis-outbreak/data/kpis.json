@@ -18,11 +18,23 @@
     "color": "red",
     "source": "CDC",
     "contested": true,
-    "contestNote": "Combines 18,445 lab-confirmed cases with 13,505 additional non-lab-confirmed/pending cases per CDC's Sept 1 update; distinct from the narrower multistate outbreak count of 11,458. A further 3,491 cases await classification of domestic vs. international acquisition and are not included in this total. Food-safety attorney Bill Marler's independent fifty-state tally, published Sept 1 as the official season closed, put the combined figure at 32,857 — and flagged that Virginia, New York, and Ohio have since stopped publishing public case updates, meaning CDC's own combined total may understate the true count going forward.",
+    "contestNote": "Combines 18,445 lab-confirmed cases with 13,505 additional non-lab-confirmed/pending cases per CDC's Sept 1 update; distinct from the narrower multistate outbreak count of 11,458. A further 3,491 cases await classification of domestic vs. international acquisition and are not included in this total. Food-safety attorney Bill Marler's independent fifty-state tally has since climbed to roughly 33,525 as of Sept 4 (from 32,857 on Sept 1), even as CDC announced Sept 4 it is reducing update frequency and only 13 of the 41 states that ever published case data still maintain a public page — meaning CDC's own combined total likely understates the true count going forward.",
     "delta": "+2,926",
-    "deltaNote": "since Aug 25 (29,024)",
+    "deltaNote": "since Aug 25 (29,024); no official CDC refresh since Sept 1",
     "trend": "up",
-    "lastUpdated": "2026-09-01T00:00:00Z"
+    "lastUpdated": "2026-09-04T00:00:00Z"
+  },
+  {
+    "id": "kpi-states-still-publishing",
+    "label": "States Still Publishing Public Case Data",
+    "value": "13 of 41",
+    "color": "amber",
+    "source": "Marler Blog",
+    "contested": false,
+    "delta": "down",
+    "deltaNote": "Only 13 of the 41 states that published a Cyclospora case count at some point this season still maintain an active public dashboard, as of Sept 4",
+    "trend": "down",
+    "lastUpdated": "2026-09-04T00:00:00Z"
   },
   {
     "id": "kpi-multistate-outbreak-cases",

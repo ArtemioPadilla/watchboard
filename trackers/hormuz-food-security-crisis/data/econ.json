@@ -2,8 +2,8 @@
   {
     "id": "brent_crude_price",
     "label": "Brent Crude Oil",
-    "value": "$96.20/bbl",
-    "change": "Extended gains to $96.20 (intraday high $99.38) on Sep 3 after Iran fired missiles and drones at Ahmad al-Jaber airbase (Kuwait) and Al Minhad airbase (UAE); oil is up more than 7% for the week, its steepest weekly rise since July",
+    "value": "$96.28/bbl (Fri close)",
+    "change": "Closed the week at $96.28, oil's biggest weekly gain since July, just before the US destroyed three Iranian oil tankers near Kharg Island, Jask and the Gulf of Oman on Sep 5 and the IRGC retaliated by striking three more tankers and three US-linked vessels on Sep 6 -- escalating the standoff from strikes on shore bases into direct tanker-on-tanker warfare",
     "direction": "up",
     "sparkData": [
       71.6,
@@ -24,11 +24,12 @@
       93.03,
       94.11,
       96.11,
-      96.2
+      96.2,
+      96.28
     ],
     "color": "#e74c3c",
-    "source": "CNBC / Fortune / Al Jazeera",
-    "lastUpdated": "2026-09-03T22:10:00Z"
+    "source": "CNBC / Fortune / Al Jazeera / Bloomberg",
+    "lastUpdated": "2026-09-06T20:00:00Z"
   },
   {
     "id": "fao_food_price_index_econ",
@@ -52,8 +53,8 @@
   {
     "id": "wheat_futures",
     "label": "Global Wheat Price",
-    "value": "$729.00/bu",
-    "change": "Fell to a one-month low near $7.29/bushel on Sep 3, extending the pullback from the Aug 28 3-year peak as Turkey pushed Black Sea grain-corridor talks with Russia/Ukraine -- even as Ukrainian exports stayed down ~58% y/y and Iran struck Kuwait and UAE bases the same day, showing the Black Sea diplomacy is outweighing renewed Gulf tension for now",
+    "value": "$716.00/bu",
+    "change": "Fell further to a fresh one-month low near $7.16/bushel on Sep 4 as Russia-Ukraine ceasefire talk optimism eased Black Sea supply worries, even as Ukrainian exports stayed down ~58% y/y -- the Black Sea diplomacy channel continued to outweigh the same week's renewed Gulf tension and the Sep 5-6 US-Iran tanker strikes",
     "direction": "down",
     "sparkData": [
       100,
@@ -66,7 +67,8 @@
       128,
       130,
       129.5,
-      121.7
+      121.7,
+      119.5
     ],
     "color": "#f1c40f",
     "source": "FAO / CNBC / TradingPedia",
@@ -129,8 +131,8 @@
   {
     "id": "hormuz_transit_volume",
     "label": "Hormuz Tanker Transits",
-    "value": "~5-10/day (Sep 1-3)",
-    "change": "Vessel crossings (excl. container ships) fell to as few as 5 on Sep 2 from 23-25/day the prior week, even as US Energy Secretary Chris Wright touted a wartime-record 17 million barrels transiting under US military escort on Sep 1. Iran's Sep 3 missile/drone strikes on Kuwait's Ahmad al-Jaber airbase and the UAE's Al Minhad airbase renew doubt that the Aug 26 Iran-Oman corridor deal will yield a durable traffic recovery",
+    "value": "~4/day (Sep 3, Kpler)",
+    "change": "Kpler counted just 4 commodity vessels transiting Hormuz on Sep 3, well below its own 10-day average of ~13-15/day, even as US officials claimed 30-40 nightly transits and 15-17 million barrels/day under military escort -- a gap Al Jazeera's review attributes to the US including naval-escort and support vessels excluded from commercial tracking data. The standoff escalated further Sep 5-6 as the US and IRGC began striking each other's oil tankers directly",
     "direction": "down",
     "sparkData": [
       135,
@@ -143,7 +145,8 @@
       10.4,
       3,
       3,
-      6
+      6,
+      4
     ],
     "color": "#2980b9",
     "source": "PortWatch / Vortexa / Straits Daily Brief / CNBC",

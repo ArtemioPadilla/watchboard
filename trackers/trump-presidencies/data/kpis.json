@@ -92,28 +92,28 @@
   },
   {
     "id": "unemployment-rate-2025",
-    "label": "US Unemployment Rate (Jul 2026)",
+    "label": "US Unemployment Rate (Aug 2026 — Payrolls Surge 162K, Triple Forecasts)",
     "value": "4.1%",
     "color": "amber",
-    "source": "Bureau of Labor Statistics",
+    "source": "Bureau of Labor Statistics / CNBC",
     "contested": false,
-    "delta": "-23,000 jobs in Jul 2026",
-    "deltaNote": "July 2026 NFP report (released Aug 7, 2026 by BLS): payrolls fell 23,000 (vs. ~90K expected) — first negative monthly reading; unemployment rate ticked down to 4.1% from 4.2% mainly due to shrinking labor force; May revised down 66,000 to +63,000, June revised down 37,000 to +20,000 (combined -103,000); labor force participation fell to 61.4%, lowest in 5+ years; wage growth slowed to 3.2% y/y, lowest since May 2021. Report landed the same day the Senate confirmed Brett Matsumoto as the first permanent BLS commissioner since Trump fired Erika McEntarfer in Aug 2025.",
-    "trend": "down",
-    "lastUpdated": "2026-08-10T00:00:00.000Z"
+    "delta": "+162,000 jobs in Aug 2026",
+    "deltaNote": "August 2026 NFP report (released Sep 4, 2026 by BLS): payrolls jumped 162,000, nearly triple the ~56K consensus forecast; unemployment held steady at 4.1%. June revised up 11,000 to +31,000 and July revised up 44,000 to +21,000 — a combined +55,000 upward revision reversing July's negative reading. Bars/restaurants led job gains; information-sector jobs fell, possibly reflecting AI-driven hiring pullback. Trump called it a 'great jobs number' on Truth Social and pressed the Fed to cut rates rather than hike.",
+    "trend": "stable",
+    "lastUpdated": "2026-09-04T00:00:00.000Z"
   },
   {
     "id": "trump-approval-rating",
-    "label": "Trump Approval Rating (Sep 3, 2026 — FiftyPlusOne Average: Disapproval Near 60%, Lutnick Iran-Deaths Gaffe Weighs)",
-    "value": "~36% approve / ~59.5% disapprove",
+    "label": "Trump Approval Rating (Sep 6, 2026 — Polling Average ~38% Approve / ~58% Disapprove Amid Renewed Iran Tanker Strikes)",
+    "value": "~38.3% approve / ~58.3% disapprove",
     "color": "red",
-    "source": "FiftyPlusOne / Reuters/Ipsos / YouGov/Economist / Gallup",
+    "source": "USPollingData aggregate / Silver Bulletin / FiftyPlusOne / Reuters/Ipsos / Gallup",
     "contested": true,
-    "contestNote": "FiftyPlusOne's polling average as of Sep 3, 2026 put approval at roughly 36.0% and disapproval at 59.5% (net -23.5), essentially flat from the Sep 2 read of 35.9% approve / 59.8% disapprove. The day's news cycle was dominated by Commerce Secretary Lutnick's falsely claiming no Americans died in the Iran war (Trump corrected him publicly: 18 US troops killed) and a federal judge blocking Trump's latest birthright citizenship order. Reuters/Ipsos (Aug 21-24) had approval at 33% and disapproval at a second-term-high 65%. Gallup's Aug 1-20 poll remained the outlier at 40% approve, with 93% Republican approval vs 35% independent and 1% Democratic.",
-    "delta": "+0.1pp approve vs Sep 2 reading",
+    "contestNote": "A multi-aggregator polling average (compiling FiftyPlusOne, Silver Bulletin, and other trackers) put approval at roughly 38.3% and disapproval at 58.3% (net -20.0) as of the September 2026 average, up modestly from Silver Bulletin's all-time-low net of -20.6 in late August. The news cycle Sep 5-6 was dominated by CENTCOM sinking Iranian oil tankers in the Gulf of Oman, Trump calling the six-month Iran war 'small potatoes,' and a Vance-championed draft rule to pay married stay-at-home parents from working-parent childcare funds. Reuters/Ipsos (Aug 21-24) had approval at 33% and disapproval at a second-term-high 65%; Gallup's Aug 1-20 poll remained the outlier at 40% approve.",
+    "delta": "+2.3pp approve vs Sep 3 FiftyPlusOne reading",
     "trend": "down",
-    "lastUpdated": "2026-09-03T00:00:00.000Z",
-    "deltaNote": "Polling average roughly flat day-over-day; disapproval remains near a second-term high as the Iran war approaches its seventh month."
+    "lastUpdated": "2026-09-06T17:54:18.000Z",
+    "deltaNote": "Modest uptick in the aggregate approval share, but disapproval remains near a second-term high as the Iran war enters its seventh month with renewed strikes on Iranian tankers."
   },
   {
     "id": "iran-war-casualties",
