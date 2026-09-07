@@ -74,6 +74,21 @@ The old Google Sheet toolkit (bit.ly/bcattools) is deprecated. The new toolkit a
 
 ---
 
+## 6. awesome-selfhosted (github.com/awesome-selfhosted/awesome-selfhosted)
+
+**Category:** News / Feed readers (or "Miscellaneous" if the maintainers prefer)
+**Requirements met:** MIT license, Docker image on GHCR (`ghcr.io/artemiopadilla/watchboard`), amd64 + arm64, `docker-compose.yml`, documented in `docs/self-hosting.md`, no accounts or external services required to run.
+**Proposed entry:**
+
+> - [Watchboard](https://watchboard.dev/) - AI-curated intelligence dashboards for 100+ topics (conflicts, science, politics) with timelines, source tiers, interactive maps and a 3D globe. Static site served by nginx. ([Source Code](https://github.com/ArtemioPadilla/watchboard)) `MIT` `Docker`
+
+**Blocker:** awesome-selfhosted asks for a project age of at least 4 months and an actively maintained repo; both hold. Submit once the first `v*` tag exists so the image has a stable version tag.
+
+## 7. CasaOS / Umbrel app stores
+
+**CasaOS:** `docker-compose.yml` already carries the `x-casaos` block (title, description, icon, port map). Submit a PR to `IceWhaleTech/CasaOS-AppStore` with that compose file under `Apps/Watchboard/`.
+**Umbrel:** needs an `umbrel-app.yml` manifest plus a compose file with the `app_proxy` service; the image is compatible (single container, port 8080). Do after CasaOS.
+
 ## Submission Checklist
 
 - [x] awesome-osint PR — [jivoi/awesome-osint#855](https://github.com/jivoi/awesome-osint/pull/855)
@@ -86,3 +101,6 @@ The old Google Sheet toolkit (bit.ly/bcattools) is deprecated. The new toolkit a
 - For awesome-* PRs: read their contributing guide, follow alphabetical sorting, keep description under 2 lines
 - For Astro showcase: include a screenshot if they have a field for it
 - Space submissions 2-3 days apart so you don't hit spam filters
+- [ ] awesome-selfhosted PR (blocked on first `v*` tag: the list requires a tagged release)
+- [ ] CasaOS app-store PR (`docker-compose.yml` carries the `x-casaos` block)
+- [ ] Umbrel app-store PR

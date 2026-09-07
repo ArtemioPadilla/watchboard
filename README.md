@@ -165,6 +165,18 @@ Weekly digest summarizing the most significant events across all active trackers
 
 ---
 
+## Self-host
+
+```bash
+docker run -d -p 8080:8080 ghcr.io/artemiopadilla/watchboard:latest
+```
+
+A static nginx image (amd64 + arm64) with the full site inside; no
+accounts, no database, no required environment variables. Compose file
+with CasaOS metadata at `docker-compose.yml`; details, data-freshness
+caveats and the generated list of environment variables in
+[docs/self-hosting.md](docs/self-hosting.md).
+
 ## Quick Start
 
 ```bash

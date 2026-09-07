@@ -1,0 +1,43 @@
+# Self-host Watchboard with one command:  docker compose up -d
+# Then open http://localhost:${WATCHBOARD_PORT:-8080}/
+#
+# The image is a static site; there are no secrets and no database. To serve
+# newer tracker data, pull a newer image or rebuild from source
+# (docker compose build). See docs/self-hosting.md.
+
+services:
+  watchboard:
+    image: ghcr.io/artemiopadilla/watchboard:latest
+    build: .
+    container_name: watchboard
+    restart: unless-stopped
+    ports:
+      - "${WATCHBOARD_PORT:-8080}:8080"
+    read_only: true
+    tmpfs:
+      - /var/cache/nginx
+      - /run
+      - /tmp
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:8080/healthz"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+# CasaOS app-store metadata (ignored by Docker itself).
+x-casaos:
+  architectures:
+    - amd64
+    - arm64
+  main: watchboard
+  author: ArtemioPadilla
+  category: News
+  title:
+    en_us: Watchboard
+  description:
+    en_us: AI-curated intelligence dashboards for 100+ topics — conflicts, science, politics — with maps and a 3D globe. Static site, no accounts, no telemetry required.
+  tagline:
+    en_us: Multi-topic intelligence dashboards
+  icon: https://raw.githubusercontent.com/ArtemioPadilla/watchboard/main/public/icons/icon-192.png
+  port_map: "8080"
+  index: /

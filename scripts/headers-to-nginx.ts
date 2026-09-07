@@ -1,0 +1,146 @@
+#!/usr/bin/env tsx
+/**
+ * headers-to-nginx.ts — turns public/_headers into nginx location blocks.
+ *
+ * `public/_headers` is the single statement of the site's HTTP headers
+ * (CSP, cache lifetimes, CORS on the JSON API). GitHub Pages ignores it;
+ * the self-host image must not. Copying the rules into nginx by hand is
+ * how OSIRIS ended up with three drifting copies of its configuration, so
+ * this script generates them and the Docker build runs it every time.
+ *
+ * nginx quirk that shapes the output: `add_header` inside a `location`
+ * replaces every header inherited from the server block. Each generated
+ * location therefore repeats the `/*` headers, overridden by its own.
+ *
+ * Usage:
+ *   npx tsx scripts/headers-to-nginx.ts [public/_headers] [docker/headers.conf]
+ */
+import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+export interface HeaderRule {
+  /** Netlify-style path pattern, e.g. `/*`, `/_astro/*`, `/api/v1/*`. */
+  path: string;
+  headers: Record<string, string>;
+}
+
+/** Parses the Netlify/Cloudflare `_headers` format. Comments and blanks ignored. */
+export function parseHeadersFile(body: string): HeaderRule[] {
+  const rules: HeaderRule[] = [];
+  let current: HeaderRule | null = null;
+  for (const raw of body.split('\n')) {
+    const line = raw.replace(/\r$/, '');
+    if (!line.trim() || line.trim().startsWith('#')) continue;
+    if (!/^\s/.test(line)) {
+      current = { path: line.trim(), headers: {} };
+      rules.push(current);
+      continue;
+    }
+    if (!current) continue;
+    const idx = line.indexOf(':');
+    if (idx === -1) continue;
+    const name = line.slice(0, idx).trim();
+    const value = line.slice(idx + 1).trim();
+    if (name) current.headers[name] = value;
+  }
+  return rules;
+}
+
+/** `/*` → `/`, `/_astro/*` → `/_astro/`. Only prefix wildcards are supported. */
+export function patternToLocation(pattern: string): { kind: 'root' | 'prefix' | 'exact'; path: string } {
+  if (pattern === '/*') return { kind: 'root', path: '/' };
+  if (pattern.endsWith('/*')) return { kind: 'prefix', path: pattern.slice(0, -1) };
+  if (pattern.includes('*')) throw new Error(`Unsupported wildcard pattern: ${pattern}`);
+  return { kind: 'exact', path: pattern };
+}
+
+function nginxQuote(value: string): string {
+  // nginx interpolates `$name` inside double-quoted strings and has no
+  // escape for a literal dollar; none of our headers need one, so refuse
+  // rather than emit a config nginx will reject at startup.
+  if (value.includes('$')) throw new Error(`header value contains "$", which nginx cannot quote: ${value}`);
+  return `"${value.replace(/\\/g, '\\\\').replace(/"/g, '\\"')}"`;
+}
+
+/** Case-insensitive override: a rule's `cache-control` replaces the root's `Cache-Control`. */
+export function mergeHeaders(base: Record<string, string>, override: Record<string, string>): Record<string, string> {
+  const out: Record<string, string> = { ...base };
+  for (const [k, v] of Object.entries(override)) {
+    const existing = Object.keys(out).find(n => n.toLowerCase() === k.toLowerCase());
+    if (existing && existing !== k) delete out[existing];
+    out[k] = v;
+  }
+  return out;
+}
+
+/**
+ * A rule that opts a path into being framed (X-Frame-Options: ALLOWALL, as
+ * /embed/* does) must also drop `frame-ancestors` from the CSP it inherits
+ * from `/*`, or the CSP wins and the embed is blocked anyway. Netlify-style
+ * hosts merge headers the same way, so this mirrors what the file means.
+ */
+export function reconcileFraming(headers: Record<string, string>): Record<string, string> {
+  const xfo = Object.entries(headers).find(([k]) => k.toLowerCase() === 'x-frame-options')?.[1];
+  if (!xfo || xfo.trim().toUpperCase() !== 'ALLOWALL') return headers;
+  const out: Record<string, string> = {};
+  for (const [k, v] of Object.entries(headers)) {
+    if (k.toLowerCase() === 'content-security-policy') {
+      const kept = v.split(';').map(d => d.trim()).filter(d => d && !/^frame-ancestors\b/i.test(d));
+      out[k] = kept.join('; ');
+    } else if (k.toLowerCase() !== 'x-frame-options') {
+      out[k] = v;
+    }
+    // X-Frame-Options: ALLOWALL is not a real value; browsers ignore it.
+    // Dropping frame-ancestors is what actually allows framing.
+  }
+  return out;
+}
+
+/**
+ * Renders location blocks. Headers from `/*` apply everywhere; more
+ * specific rules override per header name. `Content-Type` is not emitted
+ * as `add_header` (nginx sets it from the MIME map, and forcing it would
+ * mislabel `.json` served under `/api/v1/` only when it already is JSON).
+ */
+export function renderNginxLocations(rules: HeaderRule[]): string {
+  const root = rules.find(r => r.path === '/*')?.headers ?? {};
+  const emit = (headers: Record<string, string>, indent: string): string =>
+    Object.entries(headers)
+      .filter(([name]) => name.toLowerCase() !== 'content-type')
+      .map(([name, value]) => `${indent}add_header ${name} ${nginxQuote(value)} always;`)
+      .join('\n');
+
+  const blocks: string[] = [];
+  blocks.push(`# Generated by scripts/headers-to-nginx.ts from public/_headers. Do not edit.`);
+  blocks.push(`location / {\n${emit(root, '    ')}\n    try_files $uri $uri/ $uri.html =404;\n}`);
+
+  for (const rule of rules) {
+    if (rule.path === '/*') continue;
+    const loc = patternToLocation(rule.path);
+    const merged = reconcileFraming(mergeHeaders(root, rule.headers));
+    const selector = loc.kind === 'prefix' ? `location ^~ ${loc.path}` : `location = ${loc.path}`;
+    const tryFiles = loc.kind === 'prefix' ? `\n    try_files $uri $uri/ $uri.html =404;` : '';
+    blocks.push(`${selector} {\n${emit(merged, '    ')}${tryFiles}\n}`);
+  }
+  return blocks.join('\n\n') + '\n';
+}
+
+function main(): void {
+  const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+  const inPath = resolve(process.argv[2] ?? resolve(ROOT, 'public/_headers'));
+  const outPath = resolve(process.argv[3] ?? resolve(ROOT, 'docker/headers.conf'));
+  const rules = parseHeadersFile(readFileSync(inPath, 'utf8'));
+  const out = renderNginxLocations(rules);
+  mkdirSync(dirname(outPath), { recursive: true });
+  writeFileSync(outPath, out);
+  const count = (out.match(/^location /gm) ?? []).length;
+  console.log(`[headers-to-nginx] ${rules.length} rules → ${count} location blocks → ${outPath}`);
+  if (count < 2) {
+    console.error('[headers-to-nginx] fewer than two location blocks; refusing to emit a config that would drop the site headers');
+    process.exit(1);
+  }
+}
+
+const invokedDirectly = process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+if (invokedDirectly) main();

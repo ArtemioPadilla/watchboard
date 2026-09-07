@@ -32,3 +32,5 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm test
+      - name: Env-var table in docs/self-hosting.md matches the code
+        run: npx tsx scripts/list-env-vars.ts --check docs/self-hosting.md
