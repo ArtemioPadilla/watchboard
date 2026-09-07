@@ -96,12 +96,18 @@ function IntelMapInner({ points, lines, events, categories, mapCenter, mapBounds
       ? { lat: urlView.lat, lon: urlView.lon, zoom: urlView.zoom }
       : {},
   );
+  // Refs keep handleViewChange's identity stable so LeafletMap's moveend
+  // listener is registered once, not on every layer/date change.
+  const layersRef = useRef(layers);
+  layersRef.current = layers;
+  const dateRef = useRef(currentDate);
+  dateRef.current = currentDate;
   const buildViewState = useCallback((): ViewState => ({
     ...cameraRef.current,
-    layers: MAP_LAYER_KEYS.filter(k => layers[k]),
-    date: currentDate,
-  }), [layers, currentDate]);
-  useEffect(() => { viewWriter.write(buildViewState()); }, [buildViewState, viewWriter]);
+    layers: MAP_LAYER_KEYS.filter(k => layersRef.current[k]),
+    date: dateRef.current,
+  }), []);
+  useEffect(() => { viewWriter.write(buildViewState()); }, [layers, currentDate, buildViewState, viewWriter]);
   useEffect(() => () => viewWriter.cancel(), [viewWriter]);
   const handleViewChange = useCallback((lat: number, lon: number, zoom: number) => {
     cameraRef.current = { lat, lon, zoom };

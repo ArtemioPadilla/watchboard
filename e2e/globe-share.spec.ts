@@ -12,11 +12,11 @@ test.describe('Globe shareable view state', () => {
   test('restores camera and layers from the URL and keeps them in sync', async ({ page }) => {
     await page.goto('./iran-conflict/globe/?lat=33.3&lon=44.4&alt=250000&heading=90&pitch=-45&layers=flights,quakes');
 
-    // The toolbar only renders once the Cesium viewer is ready.
     await expect(page.locator('.globe-toolbar')).toBeVisible({ timeout: 45_000 });
 
-    // Wait for the debounced writer (500 ms) plus a margin.
-    await page.waitForFunction(() => new URLSearchParams(location.search).has('layers'), null, { timeout: 15_000 });
+    // The writer only runs once the Cesium viewer exists, and it adds `date`,
+    // which the navigation URL did not carry: that is the real readiness gate.
+    await page.waitForFunction(() => new URLSearchParams(location.search).has('date'), null, { timeout: 45_000 });
     await page.waitForTimeout(800);
 
     const params = new URLSearchParams(new URL(page.url()).search);
@@ -33,7 +33,8 @@ test.describe('Globe shareable view state', () => {
   test('a broken parameter does not break the page', async ({ page }) => {
     await page.goto('./iran-conflict/globe/?lat=abc&lon=999&layers=bogus');
     await expect(page.locator('.globe-toolbar')).toBeVisible({ timeout: 45_000 });
-    await page.waitForTimeout(1200);
+    await page.waitForFunction(() => new URLSearchParams(location.search).has('date'), null, { timeout: 45_000 });
+    await page.waitForTimeout(800);
     const params = new URLSearchParams(new URL(page.url()).search);
     // The writer replaced the junk with the real camera and dropped the unknown layer.
     expect(Number.isFinite(Number(params.get('lat')))).toBe(true);

@@ -3781,3 +3781,6 @@ body::before {
 .source-summary-list li { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 0.55rem; }
 .source-summary-label { color: var(--text-secondary, #c9d1d9); }
 @media (max-width: 900px) { .source-summary .freshness-indicator { display: inline-flex; } }
+.globe-toolbar-icon.share-view-btn--copied { color: var(--accent-green, #3fb950); border-color: var(--accent-green, #3fb950); }
+.globe-toolbar-icon.share-view-btn--failed { color: var(--accent-amber, #d29922); border-color: var(--accent-amber, #d29922); }
+.mobile-sheet-share { margin: 0 4px; padding: 4px 6px; align-self: center; }
