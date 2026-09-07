@@ -8,10 +8,18 @@ test.describe('2D map shareable view state', () => {
     await map.scrollIntoViewIfNeeded();
     await page.waitForTimeout(1200);
 
+    // Reading: the two layers named in the URL are the active ones.
+    await page.locator('.map-layers-toggle:visible').first().click();
+    await expect(page.locator('.map-layers-panel:visible .map-layer-item.active')).toHaveCount(2);
+    await expect(page.locator('.map-layers-panel:visible .map-layer-item.active').nth(0)).toContainText(/Earthquakes/i);
+
+    // Writing: a real zoom changes the URL to the new zoom (not the value we typed).
+    await page.locator('.leaflet-control-zoom-in:visible').first().click();
+    await page.waitForFunction(() => new URLSearchParams(location.search).get('zoom') === '7', null, { timeout: 5_000 });
     const params = new URLSearchParams(new URL(page.url()).search);
+    expect(Number(params.get('zoom'))).toBe(7);
     expect(Math.abs(Number(params.get('lat')) - 30)).toBeLessThan(0.3);
     expect(Math.abs(Number(params.get('lon')) - 50)).toBeLessThan(0.5);
-    expect(Number(params.get('zoom'))).toBe(6);
     expect(params.get('layers')).toBe('earthquakes,terminator');
   });
 

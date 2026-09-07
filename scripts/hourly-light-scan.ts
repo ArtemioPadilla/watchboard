@@ -27,18 +27,13 @@ import {
   saveState,
   normalizeCandidate,
 } from './hourly-types.js';
-import { buildKeywordIndices, scoreCandidateDetailed, hasSubstance as hasSubstanceFor } from '../src/lib/keyword-match.js';
+import { buildKeywordIndices, scoreCandidateDetailed, hasSubstance as hasSubstanceFor, HIGH_THRESHOLD, MODERATE_THRESHOLD } from '../src/lib/keyword-match.js';
 import { pollRealtimeSources } from '../src/lib/realtime-sources.js';
 import { appendTriageEntries, readTriageLog } from '../src/lib/triage-log.js';
 import { buildAlertsFile } from '../src/lib/alerts-file.js';
 import { loadAllTrackers } from './lib/load-trackers-node.js';
 
-const HIGH_THRESHOLD     = 0.85;
-// Defer threshold is intentionally low — the new matcher discards aggressively,
-// and we want even single-hit borderline cases to reach the heavy scan's AI
-// triage rather than being lost. The substance gate above keeps direct posts
-// strict; the deferred queue is the heavy scan's input, not a publish channel.
-const MODERATE_THRESHOLD = 0.25;
+// HIGH_THRESHOLD / MODERATE_THRESHOLD live in src/lib/keyword-match.ts (shared with alert-severity).
 
 // ── Telegram noise control ───────────────────────────────────────────────────
 // This scan runs every 15 minutes and, until now, posted every candidate that

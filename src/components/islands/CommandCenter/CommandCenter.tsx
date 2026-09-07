@@ -216,28 +216,6 @@ function CommandCenterInner({
     }
   }, [viewMode]);
 
-  // ── Shareable selection: ?tracker=slug (ADR-0001). Applied after mount so
-  // the hydrated first render matches the server HTML.
-  const viewWriterRef = useRef(createViewStateWriter(300));
-  const [shareTrigger, setShareTrigger] = useState(0);
-  const urlTrackerApplied = useRef(false);
-  useEffect(() => {
-    if (urlTrackerApplied.current) return;
-    urlTrackerApplied.current = true;
-    const { tracker } = readViewState();
-    if (tracker && trackers.some(t => t.slug === tracker)) {
-      setActiveTracker(tracker);
-      setSidebarCollapsed(false);
-    }
-  }, [trackers]);
-  useEffect(() => {
-    if (!urlTrackerApplied.current) return;
-    viewWriterRef.current.write(activeTracker ? { tracker: activeTracker } : {});
-  }, [activeTracker]);
-  const buildShareUrl = useCallback(
-    () => viewWriterRef.current.flush(activeTracker ? { tracker: activeTracker } : {}),
-    [activeTracker],
-  );
 
   // Lazy-load country GeoJSON when entering geographic mode
   useEffect(() => {
@@ -343,6 +321,32 @@ function CommandCenterInner({
       }
     }
   }, [broadcastOff]);
+
+  // ── Shareable selection: ?tracker=slug (ADR-0001). Applied after mount so
+  // the hydrated first render matches the server HTML.
+  const viewWriterRef = useRef(createViewStateWriter(300));
+  const [shareTrigger, setShareTrigger] = useState(0);
+  const urlTrackerApplied = useRef(false);
+  useEffect(() => {
+    if (urlTrackerApplied.current) return;
+    urlTrackerApplied.current = true;
+    const { tracker } = readViewState();
+    if (tracker && trackers.some(t => t.slug === tracker)) {
+      // Same path as a click: selects, and in broadcast mode jumps the
+      // globe to the tracker (the only fly-to path that is live by default).
+      handleSelect(tracker);
+      setSidebarCollapsed(false);
+    }
+  }, [trackers, handleSelect]);
+  useEffect(() => () => viewWriterRef.current.cancel(), []);
+  useEffect(() => {
+    if (!urlTrackerApplied.current) return;
+    viewWriterRef.current.write(activeTracker ? { tracker: activeTracker } : {});
+  }, [activeTracker]);
+  const buildShareUrl = useCallback(
+    () => viewWriterRef.current.flush(activeTracker ? { tracker: activeTracker } : {}),
+    [activeTracker],
+  );
 
   const handleHover = useCallback((slug: string | null) => {
     setHoveredTracker(slug);

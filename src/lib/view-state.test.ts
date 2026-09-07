@@ -82,6 +82,9 @@ describe('decodeViewState validation (BVA)', () => {
   it('rejects malformed event/date/tracker', () => {
     expect(decodeViewState('event=<script>')).toEqual({});
     expect(decodeViewState('date=2026-1-2')).toEqual({});
+    expect(decodeViewState('date=2026-02-31')).toEqual({});
+    expect(decodeViewState('date=2026-13-01')).toEqual({});
+    expect(decodeViewState('date=2024-02-29')).toEqual({ date: '2024-02-29' });
     expect(decodeViewState('tracker=Iran_Conflict')).toEqual({});
     expect(decodeViewState('tracker=iran-conflict')).toEqual({ tracker: 'iran-conflict' });
   });
