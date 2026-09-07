@@ -4,6 +4,7 @@ import { loadAllTrackers } from '../lib/tracker-registry';
 import { loadTrackerData } from '../lib/data';
 import CommandCenter from '../components/islands/CommandCenter/CommandCenter';
 import { jsonLd } from '../lib/json-ld';
+import { firstThumbnail } from '../lib/media-utils';
 
 const trackers = loadAllTrackers();
 const nonDraft = trackers.filter(t => t.status !== 'draft');
@@ -57,7 +58,7 @@ const serializedTrackers = nonDraft.map(t => {
         .filter(s => s.tier <= 2)
         .sort((a, b) => a.tier - b.tier)[0];
       if (!bestSource) continue;
-      const image = evt.media.find(m => m.thumbnail);
+      const image = firstThumbnail(evt.media);
       if (image) {
         latestEventMedia = {
           url: image.thumbnail!,

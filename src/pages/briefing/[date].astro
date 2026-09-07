@@ -14,11 +14,14 @@ import { eventPermalink } from '../../lib/event-slug';
 import type { TrackerConfig } from '../../lib/tracker-config';
 import type { FlatEvent } from '../../lib/timeline-utils';
 import { jsonLd } from '../../lib/json-ld';
+import ProvenanceBadge from '../../components/static/ProvenanceBadge.astro';
+import type { Provenance } from '../../lib/schemas';
 
 interface DayTrackerGroup {
   config: TrackerConfig;
   events: FlatEvent[];
   digestSummary?: string;
+  digestProvenance?: Provenance | null;
 }
 
 export function getStaticPaths() {
@@ -53,6 +56,7 @@ export function getStaticPaths() {
         config,
         events,
         digestSummary: digestEntry?.summary,
+        digestProvenance: digestEntry ? digestEntry.provenance ?? null : undefined,
       };
       const existing = dayMap.get(date) ?? [];
       existing.push(group);
@@ -225,7 +229,7 @@ const newsArticleSchema = {
                 </span>
               </div>
               {group.digestSummary && (
-                <p class="group-digest">{group.digestSummary}</p>
+                <p class="group-digest">{group.digestSummary} <ProvenanceBadge provenance={group.digestProvenance} /></p>
               )}
             </header>
 

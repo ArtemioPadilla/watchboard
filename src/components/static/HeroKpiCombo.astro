@@ -1,5 +1,7 @@
 ---
-import type { KpiItem } from '../../lib/schemas';
+import type { KpiItem, Provenance } from '../../lib/schemas';
+import ProvenanceBadge from './ProvenanceBadge.astro';
+import type { Locale } from '../../i18n/translations';
 
 interface Props {
   meta: {
@@ -9,11 +11,13 @@ interface Props {
     lastUpdated?: string;
     operationName?: string;
     dayCount?: string | number;
+    provenance?: Provenance | null;
   };
   kpis: KpiItem[];
+  locale?: Locale;
 }
 
-const { meta, kpis } = Astro.props;
+const { meta, kpis, locale = 'en' } = Astro.props;
 
 const cleanText = (s: string) =>
   s.replace(/<[^>]+>/g, ' ')
@@ -24,6 +28,7 @@ const cleanText = (s: string) =>
 <div class="hero-kpi-combo hero-kpi-strip">
   <h1 class="hero-kpi-headline" title={cleanText(meta.heroHeadline)}>
     {cleanText(meta.heroHeadline)}
+    <ProvenanceBadge provenance={meta.provenance} locale={locale} class="hero-kpi-provenance" />
   </h1>
   <div class="hero-kpi-right">
     {kpis.slice(0, 7).map(k => (
@@ -58,6 +63,10 @@ const cleanText = (s: string) =>
     overflow: hidden;
     text-overflow: ellipsis;
   }
+  .hero-kpi-strip .hero-kpi-provenance {
+    margin-left: 0.6rem;
+    vertical-align: middle;
+  }
   .hero-kpi-strip .hero-kpi-right {
     display: flex !important;
     flex-direction: row !important;
@@ -75,6 +84,10 @@ const cleanText = (s: string) =>
   @media (max-width: 768px) {
     .hero-kpi-strip { padding: 0.3rem 0.5rem !important; }
     .hero-kpi-strip .hero-kpi-headline { font-size: 0.75rem; }
-    .hero-kpi-strip .hero-kpi-right { max-height: 50px; gap: 0.75rem !important; }
+    .hero-kpi-strip .hero-kpi-provenance {
+    margin-left: 0.6rem;
+    vertical-align: middle;
+  }
+  .hero-kpi-strip .hero-kpi-right { max-height: 50px; gap: 0.75rem !important; }
   }
 </style>

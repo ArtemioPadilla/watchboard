@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import type { FlatEvent } from '../../lib/timeline-utils';
+import { usableMedia } from '../../lib/media-utils';
 
 interface Props {
   events: FlatEvent[];
@@ -168,9 +169,9 @@ export default function MapEventsPanel({ events, currentDate, isOpen, onToggle }
                       ))}
                     </div>
 
-                    {ev.media && ev.media.length > 0 && (
+                    {usableMedia(ev.media).length > 0 && (
                       <div className="map-event-media">
-                        {ev.media.map((m, i) => (
+                        {usableMedia(ev.media).map((m, i) => (
                           <a
                             key={i}
                             href={m.url}

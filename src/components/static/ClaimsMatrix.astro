@@ -1,5 +1,6 @@
 ---
 import type { Claim } from '../../lib/schemas';
+import { claimStatusMeta } from '../../lib/claim-status';
 
 interface Props {
   claims: Claim[];
@@ -14,9 +15,14 @@ const { claims } = Astro.props;
     <span class="section-count">{claims.length} claims &middot; click to expand</span>
   </div>
   <div class="claims-list">
-    {claims.map((c, i) => (
-      <details class="claim-card-collapsible" open={i === 0}>
+    {claims.map((c, i) => {
+      const st = claimStatusMeta(c);
+      return (
+      <details class="claim-card-collapsible" open={i === 0} data-claim-status={st.status}>
         <summary class="claim-summary">
+          <span class={`claim-status claim-status-${st.tone}`} title={`Status: ${st.label}${c.status ? '' : ' (inferred)'}`} aria-label={`Status: ${st.label}`}>
+            <span aria-hidden="true">{st.icon}</span> {st.label}
+          </span>
           <span class="claim-question-text">{c.question}</span>
           <span class="claim-expand-icon" aria-hidden="true"></span>
         </summary>
@@ -34,6 +40,7 @@ const { claims } = Astro.props;
           <div class="claim-resolution">&#9878; RESOLUTION: {c.resolution}</div>
         </div>
       </details>
-    ))}
+      );
+    })}
   </div>
 </section>

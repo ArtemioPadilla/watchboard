@@ -1,5 +1,6 @@
 ---
 import type { Meta } from '../../lib/schemas';
+import ProvenanceBadge from './ProvenanceBadge.astro';
 
 interface Props {
   meta: Meta;
@@ -40,5 +41,5 @@ const formattedDate = updatedDate.toISOString().split('T')[0];
     </span>
   </div>
   <h1>{cleanText(meta.heroHeadline)}</h1>
-  <p class="hero-subtitle">{meta.heroSubtitle}</p>
+  <p class="hero-subtitle">{meta.heroSubtitle} <ProvenanceBadge provenance={meta.provenance} /></p>
 </section>

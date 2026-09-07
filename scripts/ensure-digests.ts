@@ -33,6 +33,8 @@ interface DigestEntry {
   title: string;
   summary: string;
   sectionsUpdated?: string[];
+  source?: string;
+  provenance?: { method: 'llm' | 'heuristic' | 'human'; model?: string; generatedAt?: string; pipeline?: string };
 }
 
 // ── Constants ──
@@ -207,6 +209,8 @@ function main(): void {
         title: `${trackerName} Update — ${formattedDate}`,
         summary: generateSummary(events),
         sectionsUpdated: ['events'],
+        source: 'freshness',
+        provenance: { method: 'heuristic', generatedAt: new Date().toISOString(), pipeline: 'ensure-digests' },
       };
 
       newEntries.push(entry);

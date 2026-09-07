@@ -3866,3 +3866,94 @@ body::before {
 @media (max-width: 767px) {
   .cc-dossier, .map-dossier { top: auto; bottom: 0; left: 0; right: 0; width: 100%; max-height: 60vh; border-radius: 12px 12px 0 0; }
 }
+
+/* ─── PROVENANCE BADGE (E9.H1) ─── */
+.provenance-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.15rem 0.45rem;
+  border-radius: 3px;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  background: var(--bg-card);
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: help;
+}
+.provenance-badge.provenance-ai { color: var(--accent-purple); border-color: rgba(155, 89, 182, 0.35); }
+.provenance-badge.provenance-heuristic { color: var(--accent-amber); border-color: rgba(243, 156, 18, 0.3); }
+.provenance-badge.provenance-editorial { color: var(--accent-green); border-color: rgba(46, 204, 113, 0.3); }
+.provenance-badge.provenance-unknown { color: var(--text-muted); border-style: dashed; }
+
+/* ─── DEGRADED SOURCES (E9.H2) ─── */
+.degraded-sources {
+  max-width: 900px;
+  margin: 0 auto 1rem;
+  padding: 0 1rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+}
+.degraded-summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  color: var(--accent-amber);
+  padding: 0.3rem 0.6rem;
+  border: 1px solid rgba(243, 156, 18, 0.3);
+  border-radius: 4px;
+  background: var(--accent-amber-dim);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  list-style: none;
+}
+.degraded-summary::-webkit-details-marker { display: none; }
+.degraded-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent-amber);
+  animation: pulse 2s ease-in-out infinite;
+}
+.degraded-list { list-style: none; margin: 0.5rem 0 0; padding: 0; display: grid; gap: 0.3rem; }
+.degraded-item {
+  display: grid;
+  grid-template-columns: minmax(8rem, 1fr) auto auto;
+  gap: 0.75rem;
+  align-items: baseline;
+  padding: 0.35rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg-card);
+  color: var(--text-secondary);
+}
+.degraded-item .degraded-status { text-transform: uppercase; letter-spacing: 0.05em; }
+.degraded-item.degraded-error .degraded-status { color: var(--accent-red); }
+.degraded-item.degraded-stale .degraded-status,
+.degraded-item.degraded-rate-limited .degraded-status,
+.degraded-item.degraded-gap .degraded-status { color: var(--accent-amber); }
+.degraded-item .degraded-last { color: var(--text-muted); }
+.degraded-item .degraded-detail { grid-column: 1 / -1; color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ─── CLAIM STATUS (E9.H4) ─── */
+.claim-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.15rem 0.45rem;
+  border-radius: 3px;
+  border: 1px solid var(--border);
+  margin-right: 0.6rem;
+  flex-shrink: 0;
+}
+.claim-status-green { color: var(--accent-green); border-color: rgba(46, 204, 113, 0.3); }
+.claim-status-amber { color: var(--accent-amber); border-color: rgba(243, 156, 18, 0.3); }
+.claim-status-red { color: var(--accent-red); border-color: rgba(231, 76, 60, 0.3); }
+.claim-status-muted { color: var(--text-muted); border-style: dashed; }

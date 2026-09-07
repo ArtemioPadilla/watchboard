@@ -15,6 +15,7 @@ import type { APIRoute, GetStaticPaths } from 'astro';
 import { loadAllTrackers } from '../../../lib/tracker-registry';
 import { loadTrackerData } from '../../../lib/data';
 import type { TrackerCardDetail } from '../../../lib/tracker-directory-utils';
+import { firstThumbnail } from '../../../lib/media-utils';
 
 export const getStaticPaths: GetStaticPaths = () => {
   const trackers = loadAllTrackers();
@@ -53,7 +54,7 @@ export const GET: APIRoute = ({ props }) => {
         .filter(s => s.tier <= 2)
         .sort((a, b) => a.tier - b.tier)[0];
       if (!bestSource) continue;
-      const image = evt.media.find(m => m.thumbnail);
+      const image = firstThumbnail(evt.media);
       if (image) {
         eventImages.push({
           url: image.thumbnail!,

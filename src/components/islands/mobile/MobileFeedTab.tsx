@@ -8,6 +8,7 @@ import { t, type Locale } from '../../../i18n/translations';
 import { useLocale } from '../../../i18n/useLocale';
 import AlertsList from '../shared/AlertsList';
 import { useAlerts } from '../shared/useAlerts';
+import { firstThumbnail } from '../../../lib/media-utils';
 
 interface Props {
   heroSubtitle: string;
@@ -245,7 +246,7 @@ export default function MobileFeedTab({ heroSubtitle, events, trackerSlug }: Pro
 }
 
 function FeedEventCard({ event: ev, onTap }: { event: FlatEvent; onTap: (ev: FlatEvent) => void }) {
-  const thumb = ev.media?.find(m => m.thumbnail)?.thumbnail;
+  const thumb = firstThumbnail(ev.media)?.thumbnail;
   const [imgFailed, setImgFailed] = useState(false);
 
   return (

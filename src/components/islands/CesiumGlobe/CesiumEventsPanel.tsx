@@ -1,5 +1,6 @@
 import { useMemo, useState, useRef, useEffect } from 'react';
 import type { FlatEvent } from '../../../lib/timeline-utils';
+import { usableMedia } from '../../../lib/media-utils';
 
 interface Props {
   events: FlatEvent[];
@@ -175,9 +176,9 @@ export default function CesiumEventsPanel({ events, currentDate, isOpen, onToggl
                     </div>
 
                     {/* Media (future support) */}
-                    {ev.media && ev.media.length > 0 && (
+                    {usableMedia(ev.media).length > 0 && (
                       <div className="globe-event-media">
-                        {ev.media.map((m, i) => (
+                        {usableMedia(ev.media).map((m, i) => (
                           <a
                             key={i}
                             href={m.url}

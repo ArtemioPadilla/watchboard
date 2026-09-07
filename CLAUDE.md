@@ -242,6 +242,13 @@ AI-curated social media posting system. Replaces the old `generate-social-drafts
 - `triage-log.ts` — append + 14-day prune helpers backing the audit page.
 - `realtime-sources.ts` — `pollBluesky()` + `pollTelegram()` returning the same `Candidate` shape as RSS.
 
+### Provenance and honesty surfaces (E9)
+
+- `ProvenanceSchema` (`src/lib/schemas.ts`) — `{ method: 'llm'|'heuristic'|'human', model?, generatedAt?, pipeline? }`, optional on `DigestEntrySchema` and `MetaSchema`. `src/components/static/ProvenanceBadge.astro` renders "AI · Claude · 6 Sep", "Editorial" or "No provenance recorded" (a missing value is shown, never hidden) in the hero (`Hero.astro`, `HeroKpiCombo.astro`) and next to each digest on `/briefing/[date]`. Pure helpers in `src/lib/provenance.ts`. The nightly prompt asks the model for the field and `scripts/stamp-provenance.ts` fills it in for the trackers a run touched; `ensure-digests.ts`, `local-hourly.ts` and the hourly-scan digest writer stamp their own.
+- `src/components/islands/shared/DegradedSources.tsx` — collapsed block under the KPI strip listing live layers in `stale|error|rate-limited` (from `listLiveSources()`) and a digest gap ≥ 3 days from `_health/status.json`. Renders nothing when all is well. Pure collector in `src/lib/degraded-sources.ts`.
+- Media fingerprints — `scripts/backfill-media.ts` records `hash` (sha1 of the first 64 KB), `etag`, `contentLength`, `fetchedAt` on each thumbnail it writes; `scripts/check-media-fingerprints.ts` (nightly finalize, before the data commit, time-boxed, non-blocking) HEAD-probes items with a record and sets `suspect: true` when ETag/Content-Length disagree. Every surface reads media through `usableMedia()`/`firstThumbnail()` in `src/lib/media-utils.ts`, so a suspect thumbnail degrades to the next fallback tier instead of pairing a confident caption with a photo nobody has seen. Never hand-edit those fields.
+- `ClaimSchema.status` — `confirmed|contested|unverifiable|retracted`, optional; `src/lib/claim-status.ts` infers `contested` for legacy rows and `ClaimsMatrix.astro` shows the icon + label (`data-claim-status` on each card).
+
 ### Scripts (`scripts/`)
 
 - `update-data.ts` — legacy AI data updater (direct API keys)
