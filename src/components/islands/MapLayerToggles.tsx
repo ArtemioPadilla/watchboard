@@ -5,6 +5,8 @@ import SourceStatusSummary, { SourceStatusChip, type SourceStatusItem } from './
 import type { OverlayStatuses } from './useMapOverlays';
 import type { LiveStatus } from '../../lib/live-source';
 import { getLiveLayer } from '../../lib/live-layers';
+import { t, type TranslationKey } from '../../i18n/translations';
+import { useLocale } from '../../i18n/useLocale';
 
 // ────────────────────────────────────────────
 //  Layer metadata
@@ -43,11 +45,15 @@ interface Props {
   statuses?: OverlayStatuses & { flights?: { status: LiveStatus; updatedAt: number | null; error?: string } };
   /** Layer ids (live-layers.ts) offered to this tracker; snapshot layers outside it are hidden. */
   scopedLayerIds?: string[];
+  /** E5 layers (frontline / GDACS / static GeoJSON) offered on this tracker. */
+  extraLayers?: { id: string; label: string; count: number; on: boolean; status: string; updatedAt: number | null; error?: string; snapshotDate?: string }[];
+  onToggleExtraLayer?: (id: string) => void;
 }
 
 // ────────────────────────────────────────────
 //  Component
 // ────────────────────────────────────────────
+
 
 /** Map toggle keys to registry ids so scope and snapshot dates come from one place. */
 const REGISTRY_ID: Partial<Record<keyof LayerState, string>> = {
@@ -55,11 +61,13 @@ const REGISTRY_ID: Partial<Record<keyof LayerState, string>> = {
   earthquakes: 'earthquakes', weather: 'weather', flights: 'flights',
 };
 
-export default function MapLayerToggles({ layers, onToggle, counts, onShareView, statuses = {}, scopedLayerIds }: Props) {
+export default function MapLayerToggles({ layers, onToggle, counts, onShareView, statuses = {}, scopedLayerIds, extraLayers = [], onToggleExtraLayer }: Props) {
+  const locale = useLocale();
   const visibleDefs = LAYER_DEFS.filter(def => {
     const rid = REGISTRY_ID[def.key];
     return !rid || !scopedLayerIds || scopedLayerIds.includes(rid);
   });
+  const extraItems: SourceStatusItem[] = extraLayers.filter(l => l.on).map(l => l.snapshotDate ? { id: l.id, label: l.label, status: 'ok' as LiveStatus, snapshotDate: l.snapshotDate } : { id: l.id, label: l.label, status: l.status as LiveStatus, updatedAt: l.updatedAt, error: l.error });
   const items: SourceStatusItem[] = visibleDefs.flatMap((def): SourceStatusItem[] => {
     if (!layers[def.key]) return [];
     const rid = REGISTRY_ID[def.key];
@@ -97,7 +105,7 @@ export default function MapLayerToggles({ layers, onToggle, counts, onShareView,
     <div className="map-layers-panel">
       <div className="map-layers-header">
         <span className="map-layers-title">OVERLAY LAYERS</span>
-        {items.length > 0 && <SourceStatusSummary items={items} className="map-layers-sources" />}
+        {(items.length + extraItems.length) > 0 && <SourceStatusSummary items={[...items, ...extraItems]} className="map-layers-sources" />}
         {onShareView && <ShareViewButton buildUrl={onShareView} compact className="map-layers-share" />}
         <button
           className="map-layers-close"
@@ -108,6 +116,19 @@ export default function MapLayerToggles({ layers, onToggle, counts, onShareView,
         </button>
       </div>
       <div className="map-layers-list">
+        {extraLayers.map(l => {
+          const color = l.id === 'gdacs-alerts' ? '#ff9100' : l.id === 'deepstate-frontline' ? '#c62828' : '#4fc3f7';
+          const chip = extraItems.find(i => i.id === l.id);
+          return (
+            <button key={l.id} className={`map-layer-item${l.on ? ' active' : ''}`} onClick={() => onToggleExtraLayer?.(l.id)} aria-pressed={l.on} data-layer={l.id}>
+              <span className="map-layer-dot" style={{ background: l.on ? color : 'transparent', borderColor: color }} />
+              <span className="map-layer-icon" style={{ color: l.on ? color : 'var(--text-muted)' }}>{'\u25C8'}</span>
+              <span className="map-layer-label">{l.label.startsWith('layers.') ? t(l.label as TranslationKey, locale) : l.label}</span>
+              {chip && <SourceStatusChip item={chip} compact />}
+              {l.on && l.count > 0 && <span className="map-layer-count">{l.count}</span>}
+            </button>
+          );
+        })}
         {visibleDefs.map(def => {
           const active = layers[def.key];
           const count = counts[def.key];

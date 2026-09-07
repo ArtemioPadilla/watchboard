@@ -31,6 +31,7 @@ import { buildKeywordIndices, scoreCandidateDetailed, hasSubstance as hasSubstan
 import { pollRealtimeSources } from '../src/lib/realtime-sources.js';
 import { appendTriageEntries, readTriageLog } from '../src/lib/triage-log.js';
 import { buildAlertsFile } from '../src/lib/alerts-file.js';
+import { parseGdacsRss, buildGdacsFile, gdacsToCandidates, GDACS_RSS_URL } from './lib/gdacs.js';
 import { loadAllTrackers } from './lib/load-trackers-node.js';
 
 // HIGH_THRESHOLD / MODERATE_THRESHOLD live in src/lib/keyword-match.ts (shared with alert-severity).
@@ -221,6 +222,31 @@ async function postTelegram(title: string, url: string, score: number, trackerSl
   }
 }
 
+/**
+ * GDACS phase (plan E5.H2): one fetch, 10 s budget, writes the layer file
+ * for the globe/map and returns Orange/Red alerts as geo-tagged
+ * candidates. On failure the previous gdacs.json is left untouched and
+ * the failure is logged, never swallowed.
+ */
+async function pollGdacs(): Promise<Candidate[]> {
+  const ac = new AbortController();
+  const t = setTimeout(() => ac.abort(), 10_000);
+  try {
+    const res = await fetch(GDACS_RSS_URL, { headers: { 'User-Agent': 'WatchboardLightScan/1.0' }, signal: ac.signal });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const alerts = parseGdacsRss(await res.text());
+    const file = buildGdacsFile(alerts);
+    writeFileSync(PATHS.gdacs, JSON.stringify(file, null, 2), 'utf8');
+    console.log(`[light-scan] gdacs: ${alerts.length} items, ${file.alerts.length} orange/red in window`);
+    return gdacsToCandidates(alerts);
+  } catch (err) {
+    console.warn('[light-scan] gdacs fetch failed, keeping previous gdacs.json:', (err as Error).message);
+    return [];
+  } finally {
+    clearTimeout(t);
+  }
+}
+
 async function main() {
   const state = loadState();
   const seenUrls = new Set(state.seen.map((s) => s.url));
@@ -257,8 +283,18 @@ async function main() {
   const indexMap = buildKeywordIndices(inputs.map((i) => i.config));
   const indexes = inputs.map((i) => ({ tracker: i.tracker, index: indexMap.get(i.tracker.slug)! }));
 
-  const [rss, realtime] = await Promise.all([pollLightFeeds(), pollRealtimeSources()]);
-  const fresh = dedup([...rss, ...realtime], seenUrls);
+  const [rss, realtime, gdacs] = await Promise.all([pollLightFeeds(), pollRealtimeSources(), pollGdacs()]);
+  // GDACS: the first run after deployment only seeds `seen` (principle 7 of
+  // the plan: a new source's first pass is not an event), so a week of
+  // existing alerts does not fire as breaking news at once.
+  let gdacsFresh: Candidate[] = gdacs;
+  if (!state.gdacsSeeded && gdacs.length > 0) {
+    for (const c of gdacs) state.seen.push({ url: c.url, tracker: '', eventId: '', ts: new Date().toISOString() });
+    state.gdacsSeeded = true;
+    console.log(`[light-scan] gdacs: seeded ${gdacs.length} existing alerts without alerting (first run)`);
+    gdacsFresh = [];
+  }
+  const fresh = dedup([...rss, ...realtime, ...gdacsFresh], seenUrls);
   console.log(`[light-scan] ${fresh.length} fresh candidates after dedup`);
 
   const pending = loadPending(PATHS.pendingCandidates);

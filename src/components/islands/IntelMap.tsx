@@ -15,6 +15,9 @@ import { readViewState, createViewStateWriter, type ViewState } from '../../lib/
 import { layersForTracker } from '../../lib/live-layers';
 import DossierPanel from './shared/DossierPanel';
 import { useDossier } from './shared/useDossier';
+import GeoLayersLeaflet from './GeoLayersLeaflet';
+import { useFrontlineData, useGdacsData, useStaticGeoLayerData, DEEPSTATE_ENABLED } from './useGeoLayersData';
+import { staticLayerMeta } from '../../lib/geo-layer-schema';
 
 /** Layer keys accepted in the `layers` URL parameter (ADR-0001). */
 export const MAP_LAYER_KEYS = [
@@ -36,6 +39,8 @@ interface Props {
   weatherPoints?: { lat: number; lon: number; label: string }[];
   /** Used to scope snapshot layers (live-layers.ts). */
   trackerSlug?: string;
+  liveLayers?: string[];
+  staticLayers?: string[];
 }
 
 export default function IntelMap(props: Props) {
@@ -48,7 +53,7 @@ export default function IntelMap(props: Props) {
   );
 }
 
-function IntelMapInner({ points, lines, events, categories, mapCenter, mapBounds, weatherPoints, trackerSlug }: Props) {
+function IntelMapInner({ points, lines, events, categories, mapCenter, mapBounds, weatherPoints, trackerSlug, liveLayers = [], staticLayers = [] }: Props) {
   // Use prop categories with fallback to hardcoded defaults. Passed down to
   // LeafletMap so catColor() resolves dot colors without a module singleton.
   const mapCategories = categories && categories.length > 0 ? categories : MAP_CATEGORIES;
@@ -71,7 +76,7 @@ function IntelMapInner({ points, lines, events, categories, mapCenter, mapBounds
   }, [points, lines]);
 
   // Shareable view state: client:only island, so reading window is safe.
-  const urlView = useMemo(() => readViewState(MAP_LAYER_KEYS), []);
+  const urlView = useMemo(() => readViewState([...MAP_LAYER_KEYS, 'deepstate-frontline', 'gdacs-alerts', ...staticLayers]), [staticLayers]);
   const viewWriter = useMemo(() => createViewStateWriter(500), []);
   const [currentDate, setCurrentDate] = useState(
     urlView.date && urlView.date >= dateRange.min && urlView.date <= dateRange.max ? urlView.date : dateRange.max,
@@ -99,18 +104,37 @@ function IntelMapInner({ points, lines, events, categories, mapCenter, mapBounds
       ? { lat: urlView.lat, lon: urlView.lon, zoom: urlView.zoom }
       : {},
   );
+  // E5 layers live in their own state (declared here so the view-state
+  // builder can include them; the hooks that consume it come further down).
+  const wantFrontline = liveLayers.includes('deepstate-frontline') && DEEPSTATE_ENABLED;
+  const [extraLayers, setExtraLayers] = useState<Record<string, boolean>>(() => {
+    const init: Record<string, boolean> = { 'gdacs-alerts': false };
+    if (wantFrontline) init['deepstate-frontline'] = true;
+    for (const id of staticLayers) init[id] = false;
+    if (urlView.layers) for (const k of Object.keys(init)) init[k] = urlView.layers.includes(k);
+    return init;
+  });
   // Refs keep handleViewChange's identity stable so LeafletMap's moveend
   // listener is registered once, not on every layer/date change.
   const layersRef = useRef(layers);
   layersRef.current = layers;
+  const extraLayersRef = useRef(extraLayers);
+  extraLayersRef.current = extraLayers;
   const dateRef = useRef(currentDate);
   dateRef.current = currentDate;
   const buildViewState = useCallback((): ViewState => ({
     ...cameraRef.current,
-    layers: MAP_LAYER_KEYS.filter(k => layersRef.current[k]),
+    // Built-in layers first, then every E5 layer that is on, so a shared
+    // link reproduces the frontline / GDACS / static layers too.
+    layers: [...MAP_LAYER_KEYS.filter(k => layersRef.current[k]), ...Object.keys(extraLayersRef.current).filter(id => extraLayersRef.current[id])],
     date: dateRef.current,
   }), []);
-  useEffect(() => { viewWriter.write(buildViewState()); }, [layers, currentDate, buildViewState, viewWriter]);
+  // The tracker page mounts this island twice (desktop layout + mobile tab
+  // shell) and CSS hides one; only the visible instance may write the URL,
+  // or the hidden one (with different props) overwrites the visible state.
+  const rootRef = useRef<HTMLDivElement>(null);
+  const isHiddenInstance = () => { const el = rootRef.current; return !!el && (el.offsetParent === null || el.clientWidth === 0); };
+  useEffect(() => { if (!isHiddenInstance()) viewWriter.write(buildViewState()); }, [layers, extraLayers, currentDate, buildViewState, viewWriter]);
   useEffect(() => () => viewWriter.cancel(), [viewWriter]);
   // Live viewport for the flights bbox (E2.H2: "bbox de map.getBounds()").
   // Kept in state, not a ref, because the bbox is a hook input.
@@ -118,13 +142,29 @@ function IntelMapInner({ points, lines, events, categories, mapCenter, mapBounds
   const handleViewChange = useCallback((lat: number, lon: number, zoom: number, bounds?: ViewBounds) => {
     cameraRef.current = { lat, lon, zoom };
     if (bounds) setViewBounds(prev => (prev && prev.latMin === bounds.latMin && prev.latMax === bounds.latMax && prev.lonMin === bounds.lonMin && prev.lonMax === bounds.lonMax) ? prev : bounds);
-    viewWriter.write(buildViewState());
+    if (!isHiddenInstance()) viewWriter.write(buildViewState());
   }, [buildViewState, viewWriter]);
   const buildShareUrl = useCallback(() => viewWriter.flush(buildViewState()), [buildViewState, viewWriter]);
 
   const toggleLayer = useCallback((layer: keyof LayerState) => {
     setLayers(prev => ({ ...prev, [layer]: !prev[layer] }));
   }, []);
+
+  // ── E5 layers ──
+  const toggleExtraLayer = useCallback((id: string) => setExtraLayers(prev => ({ ...prev, [id]: !prev[id] })), []);
+  const frontline = useFrontlineData(wantFrontline && !!extraLayers['deepstate-frontline']);
+  const gdacs = useGdacsData(!!extraLayers['gdacs-alerts']);
+  const s0 = useStaticGeoLayerData(staticLayers[0] ?? null, !!extraLayers[staticLayers[0] ?? '']);
+  const s1 = useStaticGeoLayerData(staticLayers[1] ?? null, !!extraLayers[staticLayers[1] ?? '']);
+  const s2 = useStaticGeoLayerData(staticLayers[2] ?? null, !!extraLayers[staticLayers[2] ?? '']);
+  const staticData = useMemo(() => [s0, s1, s2].map((r, i) => ({ id: staticLayers[i], r })).filter(x => x.id && extraLayers[x.id] && x.r.data).map(x => ({ id: x.id!, layer: x.r.data! })), [s0, s1, s2, staticLayers, extraLayers]);
+  const extraLayerDefs = useMemo(() => {
+    const defs: { id: string; label: string; count: number; on: boolean; status: string; updatedAt: number | null; error?: string; snapshotDate?: string }[] = [];
+    if (wantFrontline) defs.push({ id: 'deepstate-frontline', label: 'Frontline (DeepStateMAP)', count: frontline.data?.polygons.length ?? 0, on: !!extraLayers['deepstate-frontline'], status: frontline.status, updatedAt: frontline.updatedAt, error: frontline.error });
+    defs.push({ id: 'gdacs-alerts', label: 'Disasters (GDACS)', count: gdacs.data?.alerts.length ?? 0, on: !!extraLayers['gdacs-alerts'], status: gdacs.status, updatedAt: gdacs.updatedAt, error: gdacs.error });
+    [s0, s1, s2].forEach((r, i) => { const id = staticLayers[i]; const meta = id ? staticLayerMeta(id) : undefined; if (id && meta) defs.push({ id, label: meta.label, count: r.data?.features.length ?? 0, on: !!extraLayers[id], status: r.status, updatedAt: r.updatedAt, error: r.error, snapshotDate: r.data?._provenance.retrievedAt.slice(0, 10) }); });
+    return defs;
+  }, [wantFrontline, frontline, gdacs, s0, s1, s2, staticLayers, extraLayers]);
 
   const dossier = useDossier();
   const handleGroundClick = useCallback((lat: number, lon: number) => dossier.open({ lat, lon }), [dossier.open]);
@@ -238,11 +278,12 @@ function IntelMapInner({ points, lines, events, categories, mapCenter, mapBounds
         <span className="section-count">{filteredPoints.length} locations &middot; {filteredLines.length} vectors</span>
       </div>
 
-      <div className="map-container">
+      <div className="map-container" ref={rootRef}>
         <LeafletMap
           initialView={urlView.lat !== undefined && urlView.lon !== undefined ? { lat: urlView.lat, lon: urlView.lon, zoom: urlView.zoom ?? 5 } : undefined}
           onViewChange={handleViewChange}
           onGroundClick={handleGroundClick}
+          geoLayers={<GeoLayersLeaflet frontline={extraLayers['deepstate-frontline'] ? frontline.data : null} gdacs={extraLayers['gdacs-alerts'] ? gdacs.data : null} statics={staticData} />}
           points={filteredPoints}
           lines={filteredLines}
           categories={mapCategories}
@@ -285,6 +326,8 @@ function IntelMapInner({ points, lines, events, categories, mapCenter, mapBounds
           onShareView={buildShareUrl}
           statuses={{ ...overlayStatuses, flights: layers.flights ? { status: flightStatus, updatedAt: flightUpdatedAt, error: flightError } : undefined }}
           scopedLayerIds={scopedLayerIds}
+          extraLayers={extraLayerDefs}
+          onToggleExtraLayer={toggleExtraLayer}
         />
 
         {dossier.target && (

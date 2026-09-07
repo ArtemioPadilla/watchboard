@@ -126,7 +126,7 @@ const faqSchema = {
       <div class="theater-layout">
         {config.sections.includes('map') && (
           <div class="theater-map">
-            <IntelMapLoader client:only="react" trackerSlug={config.slug} categories={categories} mapCenter={config.map?.center} mapBounds={config.map?.bounds} weatherPoints={config.globe?.weatherPoints} />
+            <IntelMapLoader client:only="react" trackerSlug={config.slug} categories={categories} mapCenter={config.map?.center} mapBounds={config.map?.bounds} weatherPoints={config.globe?.weatherPoints} liveLayers={config.map?.liveLayers} staticLayers={config.map?.staticLayers} />
           </div>
         )}
         <div class={config.sections.includes('map') ? 'theater-scroll' : 'theater-scroll full-width'}>
@@ -158,6 +158,8 @@ const faqSchema = {
       categories={categories}
       mapCenter={config.map?.center}
       mapBounds={config.map?.bounds}
+      liveLayers={config.map?.liveLayers}
+      staticLayers={config.map?.staticLayers}
       cameraPresets={config.globe?.cameraPresets}
       endDate={config.endDate}
       clocks={config.globe?.clocks}

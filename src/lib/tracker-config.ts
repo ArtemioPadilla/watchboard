@@ -40,6 +40,10 @@ const MapConfigSchema = z.object({
   }),
   center: z.object({ lon: z.number(), lat: z.number() }),
   categories: z.array(MapCategorySchema),
+  /** Feed layers from src/lib/live-layers.ts offered on this tracker's map and globe (e.g. 'deepstate-frontline'). */
+  liveLayers: z.array(z.string().regex(/^[a-z0-9-]+$/)).optional(),
+  /** Static GeoJSON layers from public/geo/layers/{id}.geojson (e.g. 'submarine-cables'). */
+  staticLayers: z.array(z.string().regex(/^[a-z0-9-]+$/)).optional(),
 });
 
 // ── Clock definition ──

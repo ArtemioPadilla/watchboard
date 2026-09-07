@@ -29,6 +29,9 @@ interface Props {
   categories: MapCategory[];
   mapCenter?: { lon: number; lat: number };
   mapBounds?: { lonMin: number; lonMax: number; latMin: number; latMax: number };
+  /** E5 layers offered on this tracker (registry ids / static layer ids). */
+  liveLayers?: string[];
+  staticLayers?: string[];
   // KPIs
   kpis: KpiItem[];
   // Globe-specific (optional)
@@ -158,6 +161,8 @@ export default function MobileTabShell(props: Props) {
             kpis={props.kpis}
             mapCenter={props.mapCenter}
             mapBounds={props.mapBounds}
+            liveLayers={props.liveLayers}
+            staticLayers={props.staticLayers}
             trackerSlug={props.trackerSlug}
             meta={props.meta}
             cameraPresets={props.cameraPresets}

@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import type React from 'react';
 import { MapContainer, TileLayer, CircleMarker, Polyline, Tooltip, ZoomControl, Circle, Marker, Polygon, Pane, useMap } from 'react-leaflet';
 import type { LatLngExpression } from 'leaflet';
 import L from 'leaflet';
@@ -43,6 +44,8 @@ interface Props {
   onViewChange?: (lat: number, lon: number, zoom: number, bounds?: ViewBounds) => void;
   /** Right-click / long-press on the map background (E4 dossier). */
   onGroundClick?: (lat: number, lon: number) => void;
+  /** Extra react-leaflet children (E5 GeoLayersLeaflet). */
+  geoLayers?: React.ReactNode;
 }
 
 // ────────────────────────────────────────────
@@ -237,7 +240,7 @@ function ViewReporter({ onViewChange }: { onViewChange?: (lat: number, lon: numb
 export default function LeafletMap({
   points, lines, categories, onSelectPoint, onSelectLine, overlays,
   flights, terminatorPolygon, currentDate, isPlaying,
-  events, showFactCards, mapCenter, mapBounds, initialView, onViewChange, onGroundClick,
+  events, showFactCards, mapCenter, mapBounds, initialView, onViewChange, onGroundClick, geoLayers,
 }: Props) {
   const locale = useLocale();
   const center: LatLngExpression = mapCenter ? [mapCenter.lat, mapCenter.lon] : [29, 49];
@@ -267,6 +270,7 @@ export default function LeafletMap({
       <ScrollZoomGuard />
       <ViewReporter onViewChange={onViewChange} />
       <GroundClickReporter onGroundClick={onGroundClick} />
+      {geoLayers}
       <ZoomControl position="topright" />
       <TileLayer
         url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"

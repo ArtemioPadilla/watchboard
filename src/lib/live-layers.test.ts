@@ -25,7 +25,8 @@ describe('LIVE_LAYERS registry', () => {
         expect(layer.snapshotDate).toMatch(/^\d{4}-\d{2}-\d{2}$/);
         expect(layer.scope.length, `${layer.id} snapshot must be scoped`).toBeGreaterThan(0);
       } else {
-        expect(layer.url).toMatch(/^(https|wss):\/\//);
+        if (layer.cors === 'same-origin') expect(layer.url).toMatch(/^\//);
+        else expect(layer.url).toMatch(/^(https|wss):\/\//);
         expect(layer.ttlMs).toBeGreaterThan(0);
       }
     }

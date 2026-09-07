@@ -3871,6 +3871,7 @@ body::before {
 @media (max-width: 767px) {
   .cc-dossier, .map-dossier { top: auto; bottom: 0; left: 0; right: 0; width: 100%; max-height: 60vh; border-radius: 12px 12px 0 0; }
 }
+.source-summary-more { justify-content: flex-end !important; } .source-summary-more a { color: var(--accent-blue); text-decoration: none; font-size: 0.55rem; }
 
 /* Dossier extract (E4 review) */
 .dossier-extract { font-family: 'DM Sans', sans-serif; font-size: 0.72rem; line-height: 1.45; color: var(--text-secondary); margin: 6px 0 8px; }
