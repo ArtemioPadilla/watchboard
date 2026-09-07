@@ -218,6 +218,7 @@ AI-curated social media posting system. Replaces the old `generate-social-drafts
 ### Utilities (`src/lib/`)
 
 - `tracker-config.ts` — TrackerConfigSchema + types
+- `live-layers.ts` — `LIVE_LAYERS` registry (Zod `LiveLayerSpecSchema`): every external globe/map layer with kind (`feed` | `snapshot`), URL, TTL, CORS mode, license and tracker `scope`. `live-layers.test.ts` fails CI if a feed host is missing from `connect-src` in `BaseLayout.astro` or `public/_headers` (parser in `scripts/lib/csp-hosts.ts`). Rationale: `docs/adr/0002-live-layer-registry.md`.
 - `tracker-registry.ts` — discovers and loads tracker configs
 - `data.ts` — `loadTrackerData(slug)` parameterized data loader
 - `map-utils.ts` — `geoToSVG()`, `MAP_CATEGORIES`, `generateSparkline()`
@@ -317,6 +318,16 @@ Casualty figures use a `contested` field (`'yes'`/`'no'`/`'evolving'`/`'heavily'
 Global stylesheet at `src/styles/global.css`. Dark theme via CSS custom properties on `:root`. Key color semantics: `--accent-red`, `--accent-amber`, `--accent-blue`, `--accent-green`, `--accent-purple`. Tier colors: `--tier-1` through `--tier-4`. Fonts live under `public/fonts/` and are served from `/fonts/` — the base path is configured in `astro.config.mjs` (`base: '/'`), so always build font/asset URLs from `import.meta.env.BASE_URL` rather than hardcoding a prefix.
 
 Broadcast styles in `src/styles/broadcast.css`. Mobile story carousel in `src/styles/mobile-stories.css`.
+
+## Architecture decisions
+
+`docs/adr/` holds ADRs (template `0000-template.md`). ADR-0001 settles that
+shareable URL view state is island-local (no nanostores needed for BL-003);
+ADR-0002 defines the live-layer registry. Write one before changing shared
+state, data contracts, or external sources.
+
+Tests that hit the network use `liveIt`/`liveDescribe` from
+`tests/helpers/live.ts` and only run under `npm run test:live`.
 
 ## Failure modes
 

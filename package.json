@@ -20,7 +20,8 @@
     "backfill-wikimedia": "tsx scripts/backfill-wikimedia.ts",
     "test": "vitest run",
     "test:e2e": "playwright test",
-    "generate-vapid-keys": "tsx scripts/generate-vapid-keys.ts"
+    "generate-vapid-keys": "tsx scripts/generate-vapid-keys.ts",
+    "test:live": "RUN_LIVE_TESTS=1 vitest run"
   },
   "dependencies": {
     "@astrojs/react": "^4.4.2",
