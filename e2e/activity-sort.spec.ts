@@ -1,9 +1,16 @@
 import { test, expect } from '@playwright/test';
 
 // E7.H2: the sidebar exposes the activity index and can order by it.
+const TOUR_DONE = () => {
+  const done = JSON.stringify({ completed: true, completedAt: '2026-01-01T00:00:00.000Z', replayCount: 0 });
+  localStorage.setItem('watchboard-tour-desktop-v1', done);
+  localStorage.setItem('watchboard-tour-mobile-v1', done);
+};
+
 test.describe('Activity index in the sidebar', () => {
+  test.beforeEach(async ({ page }) => { await page.addInitScript(TOUR_DONE); });
   test('rows carry an activity badge with the factors in the tooltip', async ({ page }) => {
-    await page.goto('./', { waitUntil: 'networkidle' });
+    await page.goto('./', { waitUntil: 'load' });
     await expect(page.locator('.cc-search-input')).toBeVisible();
     const badges = page.locator('.cc-sidebar [data-testid="activity-badge"]');
     expect(await badges.count()).toBeGreaterThan(5);
@@ -15,7 +22,7 @@ test.describe('Activity index in the sidebar', () => {
   });
 
   test('switching to Activity orders rows by descending score and persists', async ({ page }) => {
-    await page.goto('./', { waitUntil: 'networkidle' });
+    await page.goto('./', { waitUntil: 'load' });
     const toggle = page.getByTestId('sidebar-sort');
     await expect(toggle).toBeVisible();
     await toggle.locator('[data-sort="activity"]').click();
@@ -23,7 +30,7 @@ test.describe('Activity index in the sidebar', () => {
     const scores = await page.locator('.cc-sidebar .cc-feed-row [data-testid="activity-badge"]').allTextContents();
     const nums = scores.slice(0, 15).map(Number);
     for (let i = 1; i < nums.length; i++) expect(nums[i]).toBeLessThanOrEqual(nums[i - 1]);
-    await page.reload({ waitUntil: 'networkidle' });
+    await page.reload({ waitUntil: 'load' });
     await expect(page.getByTestId('sidebar-sort').locator('[data-sort="activity"]')).toHaveAttribute('aria-checked', 'true');
   });
 
