@@ -47,6 +47,8 @@ interface Props {
   activeCountry?: string | null;
   onPolygonClick?: (isoA2: string) => void;
   onPolygonHover?: (isoA2: string | null) => void;
+  /** Right-click anywhere on the globe (E4 dossier). */
+  onGlobeRightClick?: (lat: number, lng: number) => void;
 }
 
 function hexToRgb(hex: string): string {
@@ -206,6 +208,7 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
   hoveredCountry,
   activeCountry,
   onPolygonClick,
+  onGlobeRightClick,
   onPolygonHover,
 }, ref) {
   const locale = useLocale();
@@ -227,6 +230,7 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
   const activeCountryRef = useRef(activeCountry);
   const countryDensityRef = useRef(countryDensity);
   const onPolygonClickRef = useRef(onPolygonClick);
+  const onGlobeRightClickRef = useRef(onGlobeRightClick);
   const onPolygonHoverRef = useRef(onPolygonHover);
   const pointClickedRef = useRef(false);
 
@@ -234,6 +238,7 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
   activeCountryRef.current = activeCountry;
   countryDensityRef.current = countryDensity;
   onPolygonClickRef.current = onPolygonClick;
+  onGlobeRightClickRef.current = onGlobeRightClick;
   onPolygonHoverRef.current = onPolygonHover;
 
   // Compute maxDensity for polygon opacity formula
@@ -449,6 +454,15 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
         .onGlobeClick(() => {
           onSelectRef.current(null);
         })
+        .onGlobeRightClick(({ lat, lng }: { lat: number; lng: number }) => {
+          onGlobeRightClickRef.current?.(lat, lng);
+        })
+        // In geographic view the choropleth polygons sit above the globe
+        // mesh and swallow the raycast, so land right-clicks never reach
+        // onGlobeRightClick: forward them with the same coordinates.
+        .onPolygonRightClick((_poly: any, _ev: MouseEvent, coords: { lat: number; lng: number }) => {
+          if (coords) onGlobeRightClickRef.current?.(coords.lat, coords.lng);
+        })
         // Animated rings on fresh/recent tracker hubs
         .ringsData(ringsRef.current)
         .ringLat('lat')
@@ -647,7 +661,7 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
           <div style={styles.loadingText}>{t('cc.initGlobe', locale)}</div>
         </div>
       )}
-      <div ref={containerRef} style={styles.globeWrap} />
+      <div ref={containerRef} style={styles.globeWrap} data-testid="globe-canvas-wrap" />
       {!broadcastMode && (
         <div style={styles.statusBar}>
           <span>{t('cc.globeHint', locale)}</span>

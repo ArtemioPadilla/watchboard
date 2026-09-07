@@ -52,6 +52,8 @@ import { eventToSlug } from '../../../lib/event-slug';
 import { trackerBbox } from '../../../lib/geo-sources';
 import { layersForTracker } from '../../../lib/live-layers';
 import type { SourceStatusItem } from '../shared/SourceStatusChip';
+import DossierPanel from '../shared/DossierPanel';
+import { useDossier } from '../shared/useDossier';
 import { IslandErrorFallback } from '../shared/IslandErrorFallback';
 
 interface Props {
@@ -572,7 +574,12 @@ function CesiumGlobeInner({ points, lines, kpis, meta, events = [], cameraPreset
     });
     setEventsOpen(false);
   }, []);
-  useConflictData(cesiumViewer, filteredPoints, pastLines, handlePointSelect, handleEntitySelect);
+  // ── Click dossier (E4): right-click / long-press on terrain ──
+  const dossier = useDossier();
+  const handleGroundClick = useCallback((pos: { lat: number; lon: number }) => {
+    dossier.open({ lat: pos.lat, lon: pos.lon });
+  }, [dossier.open]);
+  useConflictData(cesiumViewer, filteredPoints, pastLines, handlePointSelect, handleEntitySelect, handleGroundClick);
 
   // ── Current-date arcs + animated missiles ──
   useMissiles(cesiumViewer, currentLines, currentDate, isPlaying);
@@ -651,13 +658,14 @@ function CesiumGlobeInner({ points, lines, kpis, meta, events = [], cameraPreset
         setShareTrigger(n => n + 1);
         return;
       }
+      if (e.key === 'Escape' && dossier.target) { dossier.close(); return; }
       if (e.key === 'Escape' && carouselEntities.length > 0) {
         setCarouselEntities([]);
       }
     };
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
-  }, [carouselEntities.length]);
+  }, [carouselEntities.length, dossier.target, dossier.close]);
 
   // ── Sync Cesium clock for day/night terminator ──
   useEffect(() => {
@@ -781,6 +789,16 @@ function CesiumGlobeInner({ points, lines, kpis, meta, events = [], cameraPreset
 
       {/* Right column — stacked panels */}
       <div className="globe-slot globe-slot--right">
+        {dossier.target && (
+          <DossierPanel
+            loading={dossier.loading}
+            error={dossier.error}
+            dossier={dossier.dossier}
+            onClose={dossier.close}
+            basePath={(import.meta as any).env?.BASE_URL ?? '/'}
+            className="globe-dossier"
+          />
+        )}
         {/* Intel feed */}
         {hasPanelInSlot('right', 'intel') && (
           <CollapsiblePanel id="intel" icon={'\u2630'} label="Intel" defaultExpanded={false}>

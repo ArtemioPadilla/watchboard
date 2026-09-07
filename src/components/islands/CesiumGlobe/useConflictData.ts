@@ -57,12 +57,22 @@ export interface GenericEntityInfo {
   position?: { lat: number; lon: number };
 }
 
+export interface GroundClick { lat: number; lon: number }
+
+/** Long-press duration that counts as a right-click on touch screens. */
+const LONG_PRESS_MS = 600;
+const LONG_PRESS_MOVE_PX = 12;
+/** Camera displacement during the hold beyond which the press is discarded. */
+const LONG_PRESS_CAMERA_MOVE_M = 500;
+
 export function useConflictData(
   viewer: CesiumViewer | null,
   points: MapPoint[],
   lines: MapLine[],
   onSelect: (pt: MapPoint) => void,
   onEntitySelect?: (info: GenericEntityInfo) => void,
+  /** Right-click / long-press on terrain with no entity under the cursor (E4). */
+  onGroundClick?: (pos: GroundClick) => void,
 ): void {
   const pointEntitiesRef = useRef<Entity[]>([]);
   const arcEntitiesRef = useRef<Entity[]>([]);
@@ -70,6 +80,8 @@ export function useConflictData(
   const pointMapRef = useRef<Map<Entity, MapPoint>>(new Map());
   const onSelectRef = useRef(onSelect);
   onSelectRef.current = onSelect;
+  const onGroundClickRef = useRef(onGroundClick);
+  onGroundClickRef.current = onGroundClick;
   const onEntitySelectRef = useRef(onEntitySelect);
   onEntitySelectRef.current = onEntitySelect;
 
@@ -213,7 +225,60 @@ export function useConflictData(
       }
     }, ScreenSpaceEventType.LEFT_CLICK);
 
+    // Ground click → lat/lon for the dossier. Entities keep their left-click
+    // behaviour; a right-click on an entity is ignored on purpose.
+    const groundAt = (pos: { x: number; y: number }): GroundClick | null => {
+      const picked = viewer.scene.pick(pos as any);
+      if (defined(picked) && picked.id instanceof Object) return null;
+      const cart = viewer.camera.pickEllipsoid(pos as any, viewer.scene.globe.ellipsoid);
+      if (!cart) return null;
+      const c = Cartographic.fromCartesian(cart);
+      return { lat: CesiumMath.toDegrees(c.latitude), lon: CesiumMath.toDegrees(c.longitude) };
+    };
+    handler.setInputAction((click: any) => {
+      const g = groundAt(click.position);
+      if (g) onGroundClickRef.current?.(g);
+    }, ScreenSpaceEventType.RIGHT_CLICK);
+
+    // Touch: long-press without moving.
+    const canvas = viewer.scene.canvas;
+    let pressTimer: ReturnType<typeof setTimeout> | null = null;
+    let start: { x: number; y: number } | null = null;
+    let cameraAtStart: Cartesian3 | null = null;
+    const clear = () => { if (pressTimer) clearTimeout(pressTimer); pressTimer = null; start = null; cameraAtStart = null; };
+    const onTouchStart = (e: TouchEvent) => {
+      if (e.touches.length !== 1) { clear(); return; }
+      const rect = canvas.getBoundingClientRect();
+      start = { x: e.touches[0].clientX - rect.left, y: e.touches[0].clientY - rect.top };
+      cameraAtStart = viewer.camera.positionWC.clone();
+      pressTimer = setTimeout(() => {
+        if (!start) return;
+        // Cesium keeps rotating the camera under a held finger; if it moved
+        // the screen point no longer maps to the place first touched.
+        const moved = cameraAtStart ? Cartesian3.distance(cameraAtStart, viewer.camera.positionWC) > LONG_PRESS_CAMERA_MOVE_M : false;
+        const g = moved ? null : groundAt(start);
+        clear();
+        if (g) onGroundClickRef.current?.(g);
+      }, LONG_PRESS_MS);
+    };
+    const onTouchMove = (e: TouchEvent) => {
+      if (!start || e.touches.length !== 1) { clear(); return; }
+      const rect = canvas.getBoundingClientRect();
+      const dx = e.touches[0].clientX - rect.left - start.x;
+      const dy = e.touches[0].clientY - rect.top - start.y;
+      if (Math.hypot(dx, dy) > LONG_PRESS_MOVE_PX) clear();
+    };
+    canvas.addEventListener('touchstart', onTouchStart, { passive: true });
+    canvas.addEventListener('touchmove', onTouchMove, { passive: true });
+    canvas.addEventListener('touchend', clear);
+    canvas.addEventListener('touchcancel', clear);
+
     return () => {
+      clear();
+      canvas.removeEventListener('touchstart', onTouchStart);
+      canvas.removeEventListener('touchmove', onTouchMove);
+      canvas.removeEventListener('touchend', clear);
+      canvas.removeEventListener('touchcancel', clear);
       if (handlerRef.current && !handlerRef.current.isDestroyed()) {
         handlerRef.current.destroy();
       }
