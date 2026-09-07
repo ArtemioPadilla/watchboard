@@ -172,6 +172,7 @@ export default function MobileTabShell(props: Props) {
             <MobileFeedTab
               heroSubtitle={props.heroSubtitle}
               events={props.events}
+              trackerSlug={props.trackerSlug}
             />
           </div>
         )}

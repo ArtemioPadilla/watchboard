@@ -6,10 +6,14 @@ import { haptic } from '../../../lib/haptic';
 import { eventTypeColor, relativeTime } from '../../../lib/event-utils';
 import { t, type Locale } from '../../../i18n/translations';
 import { useLocale } from '../../../i18n/useLocale';
+import AlertsList from '../shared/AlertsList';
+import { useAlerts } from '../shared/useAlerts';
 
 interface Props {
   heroSubtitle: string;
   events: FlatEvent[];
+  /** Filters the light-scan alert feed to this tracker (E3). */
+  trackerSlug?: string;
 }
 
 const PULL_TRIGGER = 80;
@@ -22,8 +26,9 @@ function formatDate(iso: string, locale: Locale = 'en'): string {
   return `${m} ${parseInt(day, 10)}, ${year}`;
 }
 
-export default function MobileFeedTab({ heroSubtitle, events }: Props) {
+export default function MobileFeedTab({ heroSubtitle, events, trackerSlug }: Props) {
   const locale = useLocale();
+  const alerts = useAlerts(!!trackerSlug, trackerSlug ?? null);
   const [selectedEvent, setSelectedEvent] = useState<FlatEvent | null>(null);
 
   // ── Pull-to-refresh (#2) — C1 fix: use ref for pull distance ──
@@ -133,6 +138,13 @@ export default function MobileFeedTab({ heroSubtitle, events }: Props) {
             {refreshing ? t('feed.refreshing', locale) : pullY >= PULL_TRIGGER * 0.5 ? t('feed.releaseToRefresh', locale) : t('feed.pullToRefresh', locale)}
           </span>
         </div>
+      )}
+
+      {trackerSlug && alerts.entries.length > 0 && (
+        <section className="mtab-alerts" aria-label={t('alerts.forTracker', locale)}>
+          <div className="mtab-alerts-title">⚠ {t('alerts.forTracker', locale)} · {alerts.entries.length}</div>
+          <AlertsList entries={alerts.entries} filter="all" onFilter={() => {}} compact />
+        </section>
       )}
 
       <div className="mtab-brief">

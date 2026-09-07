@@ -29,7 +29,7 @@ jobs:
       - run: npm ci
       - run: npx playwright install --with-deps chromium
       - name: Run shareable-view specs
-        run: npx playwright test e2e/globe-share.spec.ts e2e/map-share.spec.ts e2e/home-share.spec.ts --reporter=list
+        run: npx playwright test e2e/globe-share.spec.ts e2e/map-share.spec.ts e2e/home-share.spec.ts e2e/alerts-panel.spec.ts --reporter=list
       - name: Upload traces on failure
         if: failure()
         uses: actions/upload-artifact@v4

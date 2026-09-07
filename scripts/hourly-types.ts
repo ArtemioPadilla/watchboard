@@ -155,6 +155,8 @@ export const PATHS = {
   socialHistory: join(ROOT, 'public', '_social', 'history.json'),
   pendingCandidates: join(ROOT, 'scripts', 'state', 'pending-candidates.json'),
   triageLog:         join(ROOT, 'public', '_hourly', 'triage-log.json'),
+  /** Homepage alert feed: actionable light-scan decisions, last 72 h, capped (src/lib/alerts-file.ts). */
+  alerts:            join(ROOT, 'public', '_hourly', 'alerts.json'),
   realtimeState:     join(ROOT, 'public', '_hourly', 'realtime-state.json'),
 };
 

@@ -13,6 +13,8 @@ import SidebarPanel from './SidebarPanel';
 import type { ViewMode } from './ViewModeToggle';
 import MobileStoryCarousel from './MobileStoryCarousel';
 import ComparePanel from './ComparePanel';
+import AlertsPanel from './AlertsPanel';
+import { useAlerts } from '../shared/useAlerts';
 import NotificationManager from './NotificationManager';
 import { useBroadcastMode } from './useBroadcastMode';
 import BroadcastOverlay from './BroadcastOverlay';
@@ -51,6 +53,7 @@ const SHORTCUTS = [
   { key: 'O', tKey: 'shortcuts.openSelected' },
   { key: 'Esc', tKey: 'shortcuts.deselect' },
   { key: 'S', tKey: 'shortcuts.share' },
+  { key: 'A', tKey: 'shortcuts.alerts' },
   { key: '?', tKey: 'shortcuts.help' },
 ] as const;
 
@@ -155,6 +158,11 @@ function CommandCenterInner({
   });
   const [locale, setLocale] = useState<Locale>(initialLocale ?? 'en');
   const [showHelp, setShowHelp] = useState(false);
+  const [showAlerts, setShowAlerts] = useState(false);
+  // Count for the nav button; the panel re-uses the same cached file.
+  const alertsFeed = useAlerts(true);
+  const knownSlugs = useMemo(() => new Set(trackers.map(t => t.slug)), [trackers]);
+  const criticalCount = alertsFeed.entries.filter(e => e.severity === 'critical').length;
   const [isMobile, setIsMobile] = useState(() =>
     typeof window !== 'undefined' && window.innerWidth < 768,
   );
@@ -467,6 +475,7 @@ function CommandCenterInner({
 
       if (e.key === 'Escape') {
         if (showHelp) { setShowHelp(false); return; }
+        if (showAlerts) { setShowAlerts(false); return; }
         if (compareSlugs.length > 0) { setCompareSlugs([]); return; }
         if (isInput) { (target as HTMLInputElement).blur(); return; }
         setActiveTracker(null);
@@ -525,6 +534,13 @@ function CommandCenterInner({
             setShareTrigger(n => n + 1);
           }
           break;
+        case 'a':
+        case 'A':
+          if (!e.metaKey && !e.ctrlKey && !e.altKey) {
+            e.preventDefault();
+            setShowAlerts(prev => !prev);
+          }
+          break;
         case 'o':
         case 'O':
           if (activeTracker) {
@@ -537,7 +553,7 @@ function CommandCenterInner({
     };
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
-  }, [activeTracker, showHelp, compareSlugs.length, handleToggleFollow, handleToggleCompare, basePath, locale]);
+  }, [activeTracker, showHelp, showAlerts, compareSlugs.length, handleToggleFollow, handleToggleCompare, basePath, locale]);
 
   const sidebarStyle: React.CSSProperties = isMobile
     ? mobileTab === 'trackers' ? styles.sidebar : { ...styles.sidebar, display: 'none' }
@@ -559,6 +575,17 @@ function CommandCenterInner({
       }} role="banner" aria-label="Watchboard navigation">
         <div style={styles.overlayNavLogo}>WATCHBOARD</div>
         <div style={styles.overlayNavBadges}>
+          <button
+            type="button"
+            className={`cc-alerts-btn${showAlerts ? ' active' : ''}${criticalCount > 0 ? ' has-critical' : ''}`}
+            onClick={() => setShowAlerts(prev => !prev)}
+            aria-pressed={showAlerts}
+            title={t('alerts.title', locale)}
+            data-testid="alerts-toggle"
+          >
+            <span aria-hidden="true">⚠</span>
+            <span className="cc-alerts-count" data-testid="alerts-count">{alertsFeed.entries.length}</span>
+          </button>
           <ShareViewButton buildUrl={buildShareUrl} trigger={shareTrigger} compact className="cc-share-btn" />
           {isMobile ? (
             <>
@@ -918,6 +945,17 @@ function CommandCenterInner({
           </div>
         </div>
       )}
+
+      {/* Light-scan alerts panel (E3) */}
+      <AlertsPanel
+        open={showAlerts}
+        onClose={() => setShowAlerts(false)}
+        onSelectTracker={(slug) => { handleSelect(slug); setSidebarCollapsed(false); }}
+        onLocate={(lat, lng) => globeRef.current?.flyTo?.(lat, lng, 1.2, 1200)}
+        locale={locale}
+        knownSlugs={knownSlugs}
+        auditHref={`${basePath}breaking-news-audit/`}
+      />
 
       {/* Tracker comparison panel */}
       {compareSlugs.length >= 2 && (

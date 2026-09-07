@@ -27,17 +27,13 @@ import {
   saveState,
   normalizeCandidate,
 } from './hourly-types.js';
-import { buildKeywordIndices, scoreCandidateDetailed, hasSubstance as hasSubstanceFor } from '../src/lib/keyword-match.js';
+import { buildKeywordIndices, scoreCandidateDetailed, hasSubstance as hasSubstanceFor, HIGH_THRESHOLD, MODERATE_THRESHOLD } from '../src/lib/keyword-match.js';
 import { pollRealtimeSources } from '../src/lib/realtime-sources.js';
-import { appendTriageEntries } from '../src/lib/triage-log.js';
+import { appendTriageEntries, readTriageLog } from '../src/lib/triage-log.js';
+import { buildAlertsFile } from '../src/lib/alerts-file.js';
 import { loadAllTrackers } from './lib/load-trackers-node.js';
 
-const HIGH_THRESHOLD     = 0.85;
-// Defer threshold is intentionally low — the new matcher discards aggressively,
-// and we want even single-hit borderline cases to reach the heavy scan's AI
-// triage rather than being lost. The substance gate above keeps direct posts
-// strict; the deferred queue is the heavy scan's input, not a publish channel.
-const MODERATE_THRESHOLD = 0.25;
+// HIGH_THRESHOLD / MODERATE_THRESHOLD live in src/lib/keyword-match.ts (shared with alert-severity).
 
 // ── Telegram noise control ───────────────────────────────────────────────────
 // This scan runs every 15 minutes and, until now, posted every candidate that
@@ -404,6 +400,12 @@ async function main() {
   // triage-log-YYYY-Www.json files (incl. the one-time legacy migration).
   const archivedFromLog = appendTriageEntries(logEntries, PATHS.triageLog);
   if (archivedFromLog > 0) console.log(`[light-scan] archived ${archivedFromLog} log entries to weekly files`);
+  // Small feed for the homepage alerts panel (plan E3.H1): the actionable
+  // decisions of the last 72 h, capped, from the log we just wrote. Written
+  // every run, even when empty, so a stale file cannot pass for a fresh one.
+  const alertsFile = buildAlertsFile(readTriageLog(PATHS.triageLog).entries);
+  writeFileSync(PATHS.alerts, JSON.stringify(alertsFile, null, 2), 'utf8');
+  console.log(`[light-scan] alerts.json: ${alertsFile.entries.length} entries (${Buffer.byteLength(JSON.stringify(alertsFile))} bytes)`);
   state.lastScan = new Date().toISOString();
   saveState(state);
 
