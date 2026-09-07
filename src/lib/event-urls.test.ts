@@ -17,13 +17,23 @@ function tree(): string {
   mk('a', '2026-08-01', [{ id: 'old', sources: [{ url: 'https://r.test/old' }] }]);
   mk('b', '2026-09-07', { not: 'an array' });
   mkdirSync(join(root, 'c', 'data'), { recursive: true });
+  // Timeline-only tracker: era-grouped events dated by a human year string.
+  writeFileSync(join(root, 'c', 'data', 'timeline.json'), JSON.stringify([{ era: 'x', events: [
+    { id: 't1', year: 'Sep 5, 2026', sources: [{ url: 'https://tl.test/recent' }] },
+    { id: 't2', year: 'Aug 1, 2026', sources: [{ url: 'https://tl.test/old' }] },
+    { id: 't3', year: 'Aug 31, 2026', sources: [{ url: 'https://tl.test/boundary' }] },
+  ] }]));
   return root;
 }
 
 describe('collectRecentEventUrls', () => {
   it('collects string and object sources within the window only', () => {
     const urls = collectRecentEventUrls(tree(), 7, new Date('2026-09-07T12:00:00Z'));
-    expect([...urls].sort()).toEqual(['https://r.test/1', 'https://r.test/2']);
+    expect([...urls].sort()).toEqual(['https://r.test/1', 'https://r.test/2', 'https://tl.test/recent', 'https://tl.test/boundary'].sort());
+  });
+  it('the cutoff is inclusive of the boundary day and exclusive of the day before', () => {
+    expect(collectRecentEventUrls(tree(), 7, new Date('2026-09-07T12:00:00Z')).has('https://tl.test/boundary')).toBe(true); // 2026-08-31 = today − 7
+    expect(collectRecentEventUrls(tree(), 6, new Date('2026-09-07T12:00:00Z')).has('https://tl.test/boundary')).toBe(false);
   });
   it('returns an empty set for a missing directory', () => {
     expect(collectRecentEventUrls('/nonexistent/path').size).toBe(0);

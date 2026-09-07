@@ -28,10 +28,17 @@ const FIXTURE = {
   ],
 };
 
+const TOUR_DONE = () => {
+  const done = JSON.stringify({ completed: true, completedAt: '2026-01-01T00:00:00.000Z', replayCount: 0 });
+  localStorage.setItem('watchboard-tour-desktop-v1', done);
+  localStorage.setItem('watchboard-tour-mobile-v1', done);
+};
+
 test.describe('Pending candidate pins on the globe', () => {
+  test.beforeEach(async ({ page }) => { await page.addInitScript(TOUR_DONE); });
   test('only unresolved geolocated alerts become dotted unverified pins', async ({ page }) => {
     await page.route('**/_hourly/alerts.json', route => route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(FIXTURE) }));
-    await page.goto('./', { waitUntil: 'networkidle' });
+    await page.goto('./', { waitUntil: 'load' });
     await expect(page.locator('.cc-search-input')).toBeVisible();
     const pins = page.locator('.cc-pending-pin');
     await expect(pins).toHaveCount(1, { timeout: 60_000 });
@@ -46,7 +53,7 @@ test.describe('Pending candidate pins on the globe', () => {
 
   test('the alerts panel offers the pin fly-to for the same entry', async ({ page }) => {
     await page.route('**/_hourly/alerts.json', route => route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(FIXTURE) }));
-    await page.goto('./', { waitUntil: 'networkidle' });
+    await page.goto('./', { waitUntil: 'load' });
     await page.getByTestId('alerts-toggle').click();
     const items = page.getByTestId('alerts-panel').locator('.alerts-item');
     await expect(items).toHaveCount(3);

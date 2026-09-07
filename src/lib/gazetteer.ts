@@ -69,6 +69,29 @@ export const GAZETTEER_STOPWORDS = new Set<string>([
   'headquarters', 'ministry', 'embassy', 'embajada', 'station', 'estación', 'plant', 'refinery', 'dam',
 ]);
 
+/**
+ * Ordinary words of the four site languages that also occur as map-point
+ * labels or aliases; never matched on their own.
+ */
+export const COMMON_WORDS = new Set<string>([
+  'este', 'esta', 'esto', 'para', 'pero', 'como', 'todo', 'toda', 'nada', 'cada', 'sobre', 'entre', 'desde', 'hasta', 'donde', 'cuando', 'mucho', 'poco',
+  'with', 'from', 'that', 'this', 'they', 'them', 'have', 'will', 'were', 'been', 'more', 'most', 'some', 'into', 'over', 'after', 'before', 'about', 'their', 'there', 'where', 'while',
+  'avec', 'dans', 'pour', 'mais', 'tout', 'tous', 'plus', 'sans', 'sous', 'vers', 'chez', 'entre', 'apres', 'avant', 'comme', 'elle', 'nous', 'vous', 'leur',
+  'como', 'para', 'pelo', 'pela', 'mais', 'muito', 'pouco', 'onde', 'quando', 'sobre', 'entre', 'desde', 'todos', 'todas',
+  'south', 'north', 'east', 'west', 'central', 'union', 'state', 'states', 'city', 'general', 'national', 'international', 'republic', 'kingdom',
+]);
+
+/**
+ * Words that mark a map-point label as an event title or an institution
+ * rather than a place. Compared per word after normalisation.
+ */
+export const NON_PLACE_WORDS = new Set<string>([
+  'strike', 'strikes', 'struck', 'attack', 'attacks', 'ataque', 'explosion', 'blast', 'raid', 'talks', 'summit', 'ceasefire', 'election', 'elections',
+  'protest', 'protests', 'march', 'rally', 'vessel', 'cargo', 'tanker', 'ship', 'court', 'ministry', 'embassy', 'headquarters', 'company', 'corporation',
+  'institute', 'university', 'hospital', 'school', 'center', 'centre', 'agency', 'commission', 'council', 'parliament', 'assembly', 'office', 'bank',
+  'launch', 'launched', 'landing', 'test', 'tests', 'drill', 'exercise', 'deal', 'meeting', 'visit', 'report', 'verdict', 'trial', 'arrest', 'detention',
+]);
+
 /** Lowercase, strip diacritics and punctuation, collapse whitespace. */
 export function normalizeName(s: string): string {
   return s
@@ -94,9 +117,13 @@ export function placeNameFromLabel(label: string): string | null {
   if (!s) return null;
   const norm = normalizeName(s);
   if (norm.length < MIN_NAME_LENGTH) return null;
-  if (norm.split(' ').length > MAX_NAME_WORDS) return null;
-  if (GAZETTEER_STOPWORDS.has(norm)) return null;
+  const words = norm.split(' ');
+  if (words.length > MAX_NAME_WORDS) return null;
+  if (GAZETTEER_STOPWORDS.has(norm) || COMMON_WORDS.has(norm)) return null;
   if (/^\d/.test(norm)) return null;
+  // Event titles and institutions ("US Supreme Court", "Cargo Vessel Struck",
+  // "Ceasefire Talks") are not places: any non-place word disqualifies the label.
+  if (words.some(w => NON_PLACE_WORDS.has(w))) return null;
   return s;
 }
 
@@ -162,7 +189,7 @@ function compile(gz: Gazetteer): Compiled[] {
   for (const entry of gz.entries) {
     const names = new Set<string>([entry.normalized, ...entry.aliases.map(normalizeName)]);
     for (const alias of names) {
-      if (alias.length < MIN_NAME_LENGTH || GAZETTEER_STOPWORDS.has(alias)) continue;
+      if (alias.length < MIN_NAME_LENGTH || GAZETTEER_STOPWORDS.has(alias) || COMMON_WORDS.has(alias)) continue;
       c.push({ entry, alias });
     }
   }
@@ -191,6 +218,24 @@ function containsWord(haystack: string, needle: string): boolean {
  * beats a country when both are mentioned. Returns undefined when nothing
  * known appears.
  */
+/**
+ * Confidence of one candidate. Ownership by the matched tracker is the
+ * primary signal: an owned entry of any kind outranks every foreign one, so
+ * "Georgia" with matchedTracker 'georgia-crisis' is the country, not a US
+ * state map point from another tracker. Among candidates of the same
+ * ownership a point beats a centre beats a country.
+ */
+export function candidateConfidence(entry: GazetteerEntry, matchedTracker: string | null | undefined): number {
+  const own = !!matchedTracker && entry.trackers.includes(matchedTracker);
+  const base = KIND_CONFIDENCE[entry.kind];
+  if (own) return Math.max(base, 0.8);
+  // Foreign-tracker points and centres are real coordinates but weak
+  // evidence about *this* headline: they drop below a country centroid, so a
+  // plain "Mexico" resolves to the country, not to another tracker's
+  // "Mexico" map point, when nobody owns the name.
+  return entry.kind === 'country' ? base : base - 0.4;
+}
+
 export function geoparse(text: string, matchedTracker: string | null | undefined, gz: Gazetteer): GeoparseResult | undefined {
   const hay = ` ${normalizeName(text)} `;
   if (hay.trim().length < MIN_NAME_LENGTH) return undefined;
@@ -198,16 +243,13 @@ export function geoparse(text: string, matchedTracker: string | null | undefined
   for (const c of compile(gz)) {
     if (!containsWord(hay, c.alias)) continue;
     const own = !!matchedTracker && c.entry.trackers.includes(matchedTracker);
-    const base = KIND_CONFIDENCE[c.entry.kind];
-    // Foreign-tracker points are still real coordinates, just less certain.
-    const conf = own ? base : c.entry.kind === 'country' ? base : base - 0.2;
-    // Rank: confidence, then alias length (specificity).
-    const score = conf * 1000 + c.alias.length;
+    const conf = candidateConfidence(c.entry, matchedTracker);
+    // Rank: ownership, then confidence, then alias length (specificity).
+    const score = (own ? 10_000 : 0) + conf * 1000 + c.alias.length;
     if (!best || score > best.score) best = { c, score };
   }
   if (!best) return undefined;
   const e = best.c.entry;
-  const own = !!matchedTracker && e.trackers.includes(matchedTracker);
-  const conf = own ? KIND_CONFIDENCE[e.kind] : e.kind === 'country' ? KIND_CONFIDENCE.country : KIND_CONFIDENCE[e.kind] - 0.2;
+  const conf = candidateConfidence(e, matchedTracker);
   return { lat: e.lat, lon: e.lon, place: e.name, confidence: Math.round(conf * 100) / 100, method: 'gazetteer', kind: e.kind };
 }

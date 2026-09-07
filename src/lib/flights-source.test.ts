@@ -1,5 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import { parseOpenSky, isMilitaryCallsign, quantizeBbox, padBbox, bboxAround, openSkyUrl, bboxKey } from './flights-source';
+import { parseOpenSky, isMilitaryCallsign, quantizeBbox, padBbox, bboxAround, openSkyUrl, bboxKey,
+  openSkyCredits, pollIntervalForBbox, FLIGHTS_POLL_MS,
+} from './flights-source';
 
 describe('parseOpenSky', () => {
   const row = (over: Partial<Record<number, unknown>> = {}) => {
@@ -54,5 +56,22 @@ describe('bbox helpers', () => {
     const b = { latMin: 12, latMax: 42, lonMin: 24, lonMax: 65 };
     expect(bboxKey(b)).toBe('12,42,24,65');
     expect(openSkyUrl(b)).toBe('https://opensky-network.org/api/states/all?lamin=12&lamax=42&lomin=24&lomax=65');
+  });
+});
+
+describe('quota-aware polling', () => {
+  it('maps bbox area to OpenSky credit tiers', () => {
+    expect(openSkyCredits({ latMin: 0, latMax: 5, lonMin: 0, lonMax: 5 })).toBe(1);
+    expect(openSkyCredits({ latMin: 0, latMax: 10, lonMin: 0, lonMax: 10 })).toBe(2);
+    expect(openSkyCredits({ latMin: 0, latMax: 20, lonMin: 0, lonMax: 20 })).toBe(3);
+    expect(openSkyCredits({ latMin: 0, latMax: 30, lonMin: 0, lonMax: 30 })).toBe(4);
+  });
+  it('slows the poll for wide views so a day of viewing stays under 400 credits', () => {
+    const wide = { latMin: 10, latMax: 40, lonMin: 30, lonMax: 60 };
+    const interval = pollIntervalForBbox(wide);
+    expect(interval).toBe(FLIGHTS_POLL_MS * 4);
+    const creditsPerDay = (86_400_000 / interval) * openSkyCredits(wide);
+    expect(creditsPerDay).toBeLessThanOrEqual(400 * 8); // 8 h of continuous viewing
+    expect(pollIntervalForBbox(null)).toBe(FLIGHTS_POLL_MS);
   });
 });

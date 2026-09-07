@@ -1514,6 +1514,9 @@ export default function MetricsDashboard() {
       {/* Section 1: System Status Banner */}
       <SystemStatusBanner summary={summary} />
 
+      {/* Build health from _health/status.json (E2.H6): digest gaps + last build */}
+      {health && <HealthStrip health={health} />}
+
       {/* Pipeline filter pills */}
       <div style={{
         display: 'flex',

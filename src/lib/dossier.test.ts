@@ -1,11 +1,14 @@
 import { describe, it, expect } from 'vitest';
 import {
   reverseGeocode, countryFacts, trackersForCountry, eventsNear, buildDossier, haversineKm, geocodeKey,
-  parseNominatim, parseWikidataFacts, _internal, NOMINATIM_URL, WIKIDATA_SPARQL_URL,
+  parseNominatim, parseWikidataFacts, parseWikipediaSummary, wikipediaTitle, wikipediaExtract, countryFactsQuery,
+  _internal, NOMINATIM_URL, WIKIDATA_SPARQL_URL, WIKIPEDIA_SUMMARY_URL,
 } from './dossier';
 import { createRateLimiter } from './rate-limiter';
 
-const NOMINATIM_OK = { display_name: 'Baghdad, Iraq', address: { city: 'Baghdad', country: 'Iraq', country_code: 'iq' } };
+// jsonv2 at zoom 10 (city level): address carries city, state and country.
+const NOMINATIM_OK = { display_name: 'Baghdad, Baghdad Governorate, Iraq', address: { city: 'Baghdad', state: 'Baghdad Governorate', country: 'Iraq', country_code: 'iq' } };
+const WIKI_OK = { title: 'Iraq', extract: 'Iraq is a country in West Asia.' };
 const WD_OK = { results: { bindings: [{ countryLabel: { value: 'Iraq' }, capitalLabel: { value: 'Baghdad' }, population: { value: '43533592' }, headOfStateLabel: { value: 'Abdul Latif Rashid' }, flag: { value: 'https://commons/flag.svg' }, article: { value: 'https://en.wikipedia.org/wiki/Iraq' } }] } };
 
 function fetchFor(map: Record<string, { status: number; body?: unknown }>, calls: string[] = []) {
@@ -32,7 +35,7 @@ const POINTS = [
 
 describe('parsers', () => {
   it('parses Nominatim and Wikidata payloads and tolerates junk', () => {
-    expect(parseNominatim(NOMINATIM_OK)).toEqual({ countryCode: 'IQ', country: 'Iraq', state: null, city: 'Baghdad', displayName: 'Baghdad, Iraq' });
+    expect(parseNominatim(NOMINATIM_OK)).toEqual({ countryCode: 'IQ', country: 'Iraq', state: 'Baghdad Governorate', city: 'Baghdad', displayName: 'Baghdad, Baghdad Governorate, Iraq' });
     expect(parseNominatim({})).toBeNull();
     expect(parseNominatim({ address: { country_code: 'xyz' } })?.countryCode).toBeNull();
     expect(parseWikidataFacts(WD_OK, 'IQ')).toMatchObject({ code: 'IQ', name: 'Iraq', capital: 'Baghdad', population: 43533592, headOfState: 'Abdul Latif Rashid' });
@@ -42,7 +45,7 @@ describe('parsers', () => {
 });
 
 describe('reverseGeocode', () => {
-  it('calls Nominatim with zoom 5, caches by 0.1° cell for 24 h', async () => {
+  it('calls Nominatim with zoom 10, caches by 0.1° cell for 24 h', async () => {
     const store = _internal.memoryStore();
     let t = 1_000_000;
     const f = fetchFor({ [NOMINATIM_URL]: { status: 200, body: NOMINATIM_OK } });
@@ -52,7 +55,7 @@ describe('reverseGeocode', () => {
     expect(a.countryCode).toBe('IQ');
     expect(b).toEqual(a);
     expect(f.calls).toHaveLength(1);
-    expect(f.calls[0]).toContain('zoom=5');
+    expect(f.calls[0]).toContain('zoom=10');
     expect(f.calls[0]).toContain('format=jsonv2');
     t += 25 * 3_600_000;
     await reverseGeocode(33.31, 44.37, deps);
@@ -107,20 +110,24 @@ describe('trackersForCountry / eventsNear', () => {
 
 describe('buildDossier', () => {
   it('composes place, facts, trackers and nearby events', async () => {
-    const f = fetchFor({ [NOMINATIM_URL]: { status: 200, body: NOMINATIM_OK }, [WIKIDATA_SPARQL_URL]: { status: 200, body: WD_OK } });
-    const d = await buildDossier(33.31, 44.37, { trackers: TRACKERS, points: POINTS }, { fetchImpl: f.impl, geocodeCache: null, factsCache: null, limiter: noWait, now: () => 9 });
+    const f = fetchFor({ [NOMINATIM_URL]: { status: 200, body: NOMINATIM_OK }, [WIKIDATA_SPARQL_URL]: { status: 200, body: WD_OK }, [WIKIPEDIA_SUMMARY_URL]: { status: 200, body: WIKI_OK } });
+    const d = await buildDossier(33.31, 44.37, { trackers: TRACKERS, points: POINTS }, { fetchImpl: f.impl, geocodeCache: null, factsCache: null, extractCache: null, limiter: noWait, wikidataLimiter: noWait, now: () => 9 });
     expect(d.place?.countryCode).toBe('IQ');
     expect(d.facts?.capital).toBe('Baghdad');
+    expect(d.extract).toBe('Iraq is a country in West Asia.');
     expect(d.trackers.map(t => t.slug)).toEqual(['iran-conflict', 'iraq-history']);
     expect(d.nearby[0].id).toBe('a');
     expect(d.degraded).toEqual([]);
     expect(d.fetchedAt).toBe(9);
   });
 
-  it('degrades gracefully: no geocode → uses the given country code; no facts → names it', async () => {
+  it('degrades gracefully: geocoder down → named; no facts → named; known code → no geocode attempted', async () => {
     const f = fetchFor({ [NOMINATIM_URL]: { status: 503 }, [WIKIDATA_SPARQL_URL]: { status: 500 } });
-    const d = await buildDossier(33.31, 44.37, { trackers: TRACKERS, points: POINTS, countryCode: 'IQ' }, { fetchImpl: f.impl, geocodeCache: null, factsCache: null, limiter: noWait });
-    expect(d.degraded).toEqual(['geocode', 'facts']);
+    const d0 = await buildDossier(33.31, 44.37, { trackers: TRACKERS, points: POINTS }, { fetchImpl: f.impl, geocodeCache: null, factsCache: null, limiter: noWait, wikidataLimiter: noWait });
+    expect(d0.degraded).toEqual(['geocode']);
+    expect(d0.place).toBeNull();
+    const d = await buildDossier(33.31, 44.37, { trackers: TRACKERS, points: POINTS, countryCode: 'IQ' }, { fetchImpl: f.impl, geocodeCache: null, factsCache: null, limiter: noWait, wikidataLimiter: noWait });
+    expect(d.degraded).toEqual(['facts']);
     expect(d.place?.countryCode).toBe('IQ');
     expect(d.place?.country).toBe('Iraq');
     expect(d.trackers).toHaveLength(2);
@@ -129,11 +136,62 @@ describe('buildDossier', () => {
 
   it('with nothing resolvable still returns nearby events', async () => {
     const f = fetchFor({});
-    const d = await buildDossier(33.31, 44.37, { trackers: TRACKERS, points: POINTS }, { fetchImpl: f.impl, geocodeCache: null, factsCache: null, limiter: noWait });
+    const d = await buildDossier(33.31, 44.37, { trackers: TRACKERS, points: POINTS }, { fetchImpl: f.impl, geocodeCache: null, factsCache: null, limiter: noWait, wikidataLimiter: noWait });
     expect(d.place).toBeNull();
     expect(d.facts).toBeNull();
     expect(d.trackers).toEqual([]);
     expect(d.nearby).toHaveLength(1);
     expect(d.degraded).toEqual(['geocode']);
+  });
+});
+
+describe('E4 review fixes', () => {
+  it('requests Nominatim at city zoom', async () => {
+    const { impl, calls } = fetchFor({ [NOMINATIM_URL]: { status: 200, body: NOMINATIM_OK } });
+    await reverseGeocode(33.3, 44.4, { fetchImpl: impl, geocodeCache: null, limiter: noWait });
+    expect(calls[0]).toContain('zoom=10');
+  });
+
+  it('a known country code spends no geocoding request and is never overridden', async () => {
+    const wrong = { display_name: 'Somewhere, France', address: { country: 'France', country_code: 'fr' } };
+    const { impl, calls } = fetchFor({ [NOMINATIM_URL]: { status: 200, body: wrong }, [WIKIDATA_SPARQL_URL]: { status: 200, body: WD_OK }, [WIKIPEDIA_SUMMARY_URL]: { status: 200, body: WIKI_OK } });
+    const d = await buildDossier(0, 179.9, { trackers: TRACKERS, points: POINTS, countryCode: 'iq' }, { fetchImpl: impl, geocodeCache: null, factsCache: null, extractCache: null, limiter: noWait, wikidataLimiter: noWait });
+    expect(calls.some(u => u.startsWith(NOMINATIM_URL))).toBe(false);
+    expect(d.place?.countryCode).toBe('IQ');
+    expect(d.degraded).not.toContain('geocode');
+    expect(d.trackers.map(t => t.slug)).toEqual(['iran-conflict', 'iraq-history']);
+  });
+
+  it('merges Wikidata rows deterministically instead of trusting the first row', () => {
+    const rows = { results: { bindings: [
+      { countryLabel: { value: 'Iraq' }, flag: { value: 'https://commons/flag-a.svg' } },
+      { countryLabel: { value: 'Iraq' }, capitalLabel: { value: 'Baghdad' }, headOfStateLabel: { value: 'Abdul Latif Rashid' } },
+      { countryLabel: { value: 'Iraq' }, capitalLabel: { value: 'Other Capital' }, population: { value: '43533592' } },
+    ] } };
+    const f = parseWikidataFacts(rows, 'IQ')!;
+    expect(f).toMatchObject({ capital: 'Baghdad', headOfState: 'Abdul Latif Rashid', population: 43533592, flagUrl: 'https://commons/flag-a.svg' });
+    expect(countryFactsQuery('IQ')).toContain('LIMIT 20');
+  });
+
+  it('rate-limits Wikidata through the injected limiter', async () => {
+    const scheduled: number[] = [];
+    const limiter = { schedule: async <T,>(fn: () => Promise<T>) => { scheduled.push(1); return fn(); } };
+    const { impl } = fetchFor({ [WIKIDATA_SPARQL_URL]: { status: 200, body: WD_OK } });
+    await countryFacts('IQ', { fetchImpl: impl, factsCache: null, wikidataLimiter: limiter as never });
+    expect(scheduled).toHaveLength(1);
+  });
+
+  it('fetches the Wikipedia extract and degrades when it fails', async () => {
+    expect(wikipediaTitle('https://en.wikipedia.org/wiki/Iraq')).toBe('Iraq');
+    expect(wikipediaTitle('https://es.wikipedia.org/wiki/Irak')).toBeNull();
+    expect(parseWikipediaSummary({ extract: '  ' })).toBeNull();
+    const ok = fetchFor({ [WIKIPEDIA_SUMMARY_URL]: { status: 200, body: WIKI_OK } });
+    expect(await wikipediaExtract('https://en.wikipedia.org/wiki/Iraq', { fetchImpl: ok.impl, extractCache: null })).toBe('Iraq is a country in West Asia.');
+    expect(ok.calls[0]).toBe(`${WIKIPEDIA_SUMMARY_URL}/Iraq`);
+    const down = fetchFor({ [NOMINATIM_URL]: { status: 200, body: NOMINATIM_OK }, [WIKIDATA_SPARQL_URL]: { status: 200, body: WD_OK }, [WIKIPEDIA_SUMMARY_URL]: { status: 503 } });
+    const d = await buildDossier(33.3, 44.4, { trackers: TRACKERS, points: POINTS }, { fetchImpl: down.impl, geocodeCache: null, factsCache: null, extractCache: null, limiter: noWait, wikidataLimiter: noWait });
+    expect(d.extract).toBeNull();
+    expect(d.degraded).toEqual(['extract']);
+    expect(d.facts?.capital).toBe('Baghdad');
   });
 });

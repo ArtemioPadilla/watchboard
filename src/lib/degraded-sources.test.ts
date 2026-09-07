@@ -44,6 +44,21 @@ describe('collectDegraded', () => {
     expect(flights.detail).toBe('HTTP 502');
     expect(flights.labelKey).toBe('layers.flights');
   });
+  it('same layer at equal severity keeps one item with the newest good timestamp and the first error text', () => {
+    const out = collectDegraded([
+      { key: 'flights:a', result: r('stale', 100, 'first') },
+      { key: 'flights:b', result: r('stale', 300, 'second') },
+      { key: 'flights:c', result: r('stale', 200) },
+    ], null, 't');
+    expect(out).toHaveLength(1);
+    expect(out[0]).toMatchObject({ id: 'flights', status: 'stale', lastGoodAt: 300, detail: 'first' });
+    // A worse status replaces the entry but never loses the best timestamp.
+    const worse = collectDegraded([
+      { key: 'flights:a', result: r('stale', 900) },
+      { key: 'flights:b', result: r('error', 10, 'HTTP 500') },
+    ], null, 't');
+    expect(worse[0]).toMatchObject({ status: 'error', lastGoodAt: 900, detail: 'HTTP 500' });
+  });
   it('adds a digest-gap item from health for this tracker only', () => {
     const iran = collectDegraded([], health, 'iran-conflict');
     expect(iran).toHaveLength(1);

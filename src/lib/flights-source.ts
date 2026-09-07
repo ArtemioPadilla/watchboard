@@ -128,3 +128,26 @@ export function parseOpenSky(payload: unknown): FlightRecord[] {
   }
   return out;
 }
+
+/** OpenSky public credit tiers by requested area (square degrees). */
+export function openSkyCredits(b: Bbox): 1 | 2 | 3 | 4 {
+  const area = Math.max(0, b.latMax - b.latMin) * Math.max(0, b.lonMax - b.lonMin);
+  if (area <= 25) return 1;
+  if (area <= 100) return 2;
+  if (area <= 400) return 3;
+  return 4;
+}
+
+export const FLIGHTS_POLL_MS = 30_000;
+export const FLIGHTS_TTL_MS = 25_000;
+
+/**
+ * Poll cadence that keeps a continuous session inside the anonymous
+ * 400-credit/day quota whatever the zoom: the interval scales with the
+ * credit tier so a theatre-wide view (4 credits) polls every 2 minutes
+ * while a city-scale view keeps the 30 s cadence.
+ */
+export function pollIntervalForBbox(b: Bbox | null): number {
+  if (!b) return FLIGHTS_POLL_MS;
+  return FLIGHTS_POLL_MS * openSkyCredits(b);
+}

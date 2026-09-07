@@ -62,6 +62,8 @@ export interface GroundClick { lat: number; lon: number }
 /** Long-press duration that counts as a right-click on touch screens. */
 const LONG_PRESS_MS = 600;
 const LONG_PRESS_MOVE_PX = 12;
+/** Camera displacement during the hold beyond which the press is discarded. */
+const LONG_PRESS_CAMERA_MOVE_M = 500;
 
 export function useConflictData(
   viewer: CesiumViewer | null,
@@ -242,14 +244,19 @@ export function useConflictData(
     const canvas = viewer.scene.canvas;
     let pressTimer: ReturnType<typeof setTimeout> | null = null;
     let start: { x: number; y: number } | null = null;
-    const clear = () => { if (pressTimer) clearTimeout(pressTimer); pressTimer = null; start = null; };
+    let cameraAtStart: Cartesian3 | null = null;
+    const clear = () => { if (pressTimer) clearTimeout(pressTimer); pressTimer = null; start = null; cameraAtStart = null; };
     const onTouchStart = (e: TouchEvent) => {
       if (e.touches.length !== 1) { clear(); return; }
       const rect = canvas.getBoundingClientRect();
       start = { x: e.touches[0].clientX - rect.left, y: e.touches[0].clientY - rect.top };
+      cameraAtStart = viewer.camera.positionWC.clone();
       pressTimer = setTimeout(() => {
         if (!start) return;
-        const g = groundAt(start);
+        // Cesium keeps rotating the camera under a held finger; if it moved
+        // the screen point no longer maps to the place first touched.
+        const moved = cameraAtStart ? Cartesian3.distance(cameraAtStart, viewer.camera.positionWC) > LONG_PRESS_CAMERA_MOVE_M : false;
+        const g = moved ? null : groundAt(start);
         clear();
         if (g) onGroundClickRef.current?.(g);
       }, LONG_PRESS_MS);
@@ -265,8 +272,6 @@ export function useConflictData(
     canvas.addEventListener('touchmove', onTouchMove, { passive: true });
     canvas.addEventListener('touchend', clear);
     canvas.addEventListener('touchcancel', clear);
-    const onContextMenu = (e: Event) => e.preventDefault();
-    canvas.addEventListener('contextmenu', onContextMenu);
 
     return () => {
       clear();
@@ -274,7 +279,6 @@ export function useConflictData(
       canvas.removeEventListener('touchmove', onTouchMove);
       canvas.removeEventListener('touchend', clear);
       canvas.removeEventListener('touchcancel', clear);
-      canvas.removeEventListener('contextmenu', onContextMenu);
       if (handlerRef.current && !handlerRef.current.isDestroyed()) {
         handlerRef.current.destroy();
       }

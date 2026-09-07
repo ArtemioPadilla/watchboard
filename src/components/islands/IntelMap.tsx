@@ -5,6 +5,7 @@ import type { FlatEvent } from '../../lib/timeline-utils';
 import { MAP_CATEGORIES, type MapCategory } from '../../lib/map-utils';
 import { tierLabelFull, tierClass } from './map-helpers';
 import LeafletMap from './LeafletMap';
+import type { ViewBounds } from './LeafletMap';
 import UnifiedTimelineBar from './UnifiedTimelineBar';
 import MapEventsPanel from './MapEventsPanel';
 import MapLayerToggles from './MapLayerToggles';
@@ -103,24 +104,8 @@ function IntelMapInner({ points, lines, events, categories, mapCenter, mapBounds
       ? { lat: urlView.lat, lon: urlView.lon, zoom: urlView.zoom }
       : {},
   );
-  const buildViewState = useCallback((): ViewState => ({
-    ...cameraRef.current,
-    layers: MAP_LAYER_KEYS.filter(k => layers[k]),
-    date: currentDate,
-  }), [layers, currentDate]);
-  useEffect(() => { viewWriter.write(buildViewState()); }, [buildViewState, viewWriter]);
-  useEffect(() => () => viewWriter.cancel(), [viewWriter]);
-  const handleViewChange = useCallback((lat: number, lon: number, zoom: number) => {
-    cameraRef.current = { lat, lon, zoom };
-    viewWriter.write(buildViewState());
-  }, [buildViewState, viewWriter]);
-  const buildShareUrl = useCallback(() => viewWriter.flush(buildViewState()), [buildViewState, viewWriter]);
-
-  const toggleLayer = useCallback((layer: keyof LayerState) => {
-    setLayers(prev => ({ ...prev, [layer]: !prev[layer] }));
-  }, []);
-
-  // ── E5 layers ──
+  // E5 layers live in their own state (declared here so the view-state
+  // builder can include them; the hooks that consume it come further down).
   const wantFrontline = liveLayers.includes('deepstate-frontline') && DEEPSTATE_ENABLED;
   const [extraLayers, setExtraLayers] = useState<Record<string, boolean>>(() => {
     const init: Record<string, boolean> = { 'gdacs-alerts': false };
@@ -129,6 +114,43 @@ function IntelMapInner({ points, lines, events, categories, mapCenter, mapBounds
     if (urlView.layers) for (const k of Object.keys(init)) init[k] = urlView.layers.includes(k);
     return init;
   });
+  // Refs keep handleViewChange's identity stable so LeafletMap's moveend
+  // listener is registered once, not on every layer/date change.
+  const layersRef = useRef(layers);
+  layersRef.current = layers;
+  const extraLayersRef = useRef(extraLayers);
+  extraLayersRef.current = extraLayers;
+  const dateRef = useRef(currentDate);
+  dateRef.current = currentDate;
+  const buildViewState = useCallback((): ViewState => ({
+    ...cameraRef.current,
+    // Built-in layers first, then every E5 layer that is on, so a shared
+    // link reproduces the frontline / GDACS / static layers too.
+    layers: [...MAP_LAYER_KEYS.filter(k => layersRef.current[k]), ...Object.keys(extraLayersRef.current).filter(id => extraLayersRef.current[id])],
+    date: dateRef.current,
+  }), []);
+  // The tracker page mounts this island twice (desktop layout + mobile tab
+  // shell) and CSS hides one; only the visible instance may write the URL,
+  // or the hidden one (with different props) overwrites the visible state.
+  const rootRef = useRef<HTMLDivElement>(null);
+  const isHiddenInstance = () => { const el = rootRef.current; return !!el && (el.offsetParent === null || el.clientWidth === 0); };
+  useEffect(() => { if (!isHiddenInstance()) viewWriter.write(buildViewState()); }, [layers, extraLayers, currentDate, buildViewState, viewWriter]);
+  useEffect(() => () => viewWriter.cancel(), [viewWriter]);
+  // Live viewport for the flights bbox (E2.H2: "bbox de map.getBounds()").
+  // Kept in state, not a ref, because the bbox is a hook input.
+  const [viewBounds, setViewBounds] = useState<ViewBounds | null>(null);
+  const handleViewChange = useCallback((lat: number, lon: number, zoom: number, bounds?: ViewBounds) => {
+    cameraRef.current = { lat, lon, zoom };
+    if (bounds) setViewBounds(prev => (prev && prev.latMin === bounds.latMin && prev.latMax === bounds.latMax && prev.lonMin === bounds.lonMin && prev.lonMax === bounds.lonMax) ? prev : bounds);
+    if (!isHiddenInstance()) viewWriter.write(buildViewState());
+  }, [buildViewState, viewWriter]);
+  const buildShareUrl = useCallback(() => viewWriter.flush(buildViewState()), [buildViewState, viewWriter]);
+
+  const toggleLayer = useCallback((layer: keyof LayerState) => {
+    setLayers(prev => ({ ...prev, [layer]: !prev[layer] }));
+  }, []);
+
+  // ── E5 layers ──
   const toggleExtraLayer = useCallback((id: string) => setExtraLayers(prev => ({ ...prev, [id]: !prev[id] })), []);
   const frontline = useFrontlineData(wantFrontline && !!extraLayers['deepstate-frontline']);
   const gdacs = useGdacsData(!!extraLayers['gdacs-alerts']);
@@ -152,7 +174,7 @@ function IntelMapInner({ points, lines, events, categories, mapCenter, mapBounds
 
   // ── Live flights ──
   const isLatestDate = currentDate === dateRange.max;
-  const { flights, flightCount, status: flightStatus, updatedAt: flightUpdatedAt, error: flightError } = useMapFlights(layers.flights, isLatestDate, mapBounds ?? null, mapCenter ?? null);
+  const { flights, flightCount, status: flightStatus, updatedAt: flightUpdatedAt, error: flightError } = useMapFlights(layers.flights, isLatestDate, viewBounds ?? mapBounds ?? null, mapCenter ?? null);
 
   // ── Day/night terminator ──
   const terminatorPolygon = useTerminator(layers.terminator, currentDate);
@@ -256,7 +278,7 @@ function IntelMapInner({ points, lines, events, categories, mapCenter, mapBounds
         <span className="section-count">{filteredPoints.length} locations &middot; {filteredLines.length} vectors</span>
       </div>
 
-      <div className="map-container">
+      <div className="map-container" ref={rootRef}>
         <LeafletMap
           initialView={urlView.lat !== undefined && urlView.lon !== undefined ? { lat: urlView.lat, lon: urlView.lon, zoom: urlView.zoom ?? 5 } : undefined}
           onViewChange={handleViewChange}

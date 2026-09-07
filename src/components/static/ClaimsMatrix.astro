@@ -20,10 +20,12 @@ const { claims } = Astro.props;
       return (
       <details class="claim-card-collapsible" open={i === 0} data-claim-status={st.status}>
         <summary class="claim-summary">
-          <span class={`claim-status claim-status-${st.tone}`} title={`Status: ${st.label}${c.status ? '' : ' (inferred)'}`} aria-label={`Status: ${st.label}`}>
-            <span aria-hidden="true">{st.icon}</span> {st.label}
+          <span class="claim-summary-main">
+            <span class={`claim-status claim-status-${st.tone}`} title={`Status: ${st.label}${c.status ? '' : ' (inferred)'}`} aria-label={`Status: ${st.label}`}>
+              <span aria-hidden="true">{st.icon}</span> {st.label}
+            </span>
+            <span class="claim-question-text">{c.question}</span>
           </span>
-          <span class="claim-question-text">{c.question}</span>
           <span class="claim-expand-icon" aria-hidden="true"></span>
         </summary>
         <div class="claim-body">

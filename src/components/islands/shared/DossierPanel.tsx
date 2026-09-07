@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { t } from '../../../i18n/translations';
 import { useLocale } from '../../../i18n/useLocale';
 import type { Dossier } from '../../../lib/dossier';
@@ -26,6 +27,13 @@ function fmtPop(n: number | null, locale: string): string {
  */
 export default function DossierPanel({ loading, error, dossier, onClose, onSelectTracker, basePath, className = '' }: Props) {
   const locale = useLocale();
+  // Escape closes on every surface (globe, 2D map, homepage) without each
+  // host having to wire it; the homepage's own handler closing it too is harmless.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [onClose]);
   const place = dossier?.place;
   const facts = dossier?.facts;
   const title = place?.city && place.country ? `${place.country} · ${place.city}` : place?.country ?? (facts?.name ?? t('dossier.unknownPlace', locale));
@@ -55,6 +63,14 @@ export default function DossierPanel({ loading, error, dossier, onClose, onSelec
             <div className="dossier-note">{t('dossier.noFacts', locale)}</div>
           ) : null}
           {dossier.degraded.includes('geocode') && <div className="dossier-note">{t('dossier.noGeocode', locale)}</div>}
+          {dossier.extract ? (
+            <p className="dossier-extract" data-testid="dossier-extract">
+              {dossier.extract}
+              {facts?.wikipediaUrl && <> <a href={facts.wikipediaUrl} target="_blank" rel="noopener noreferrer" className="dossier-extract-src">Wikipedia · CC BY-SA</a></>}
+            </p>
+          ) : dossier.degraded.includes('extract') ? (
+            <div className="dossier-note">{t('dossier.noExtract', locale)}</div>
+          ) : null}
 
           <section className="dossier-section">
             <h4>{t('dossier.trackers', locale)} · {dossier.trackers.length}</h4>

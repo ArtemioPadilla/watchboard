@@ -29,17 +29,30 @@ test.describe('Provenance and honesty UI', () => {
     }
   });
 
-  test('degraded-sources block is absent or lists at least one item', async ({ page }) => {
+  test('a digest gap reported by the health file shows the degraded-sources block', async ({ page }) => {
+    const health = {
+      lastBuild: new Date().toISOString(), healthy: false, digestGaps: ['iran-conflict'],
+      trackers: { 'iran-conflict': { lastEvent: '2026-09-06', lastDigest: '2026-09-01', digestGap: 5, lastUpdated: '2026-09-06T00:00:00Z' } },
+    };
+    await page.route('**/_health/status.json', route => route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(health) }));
     await page.goto('./iran-conflict/');
-    // Let live layers settle enough for the island to render its first tick.
-    await page.waitForTimeout(1500);
     const block = page.getByTestId('degraded-sources');
-    if (await block.count()) {
-      await expect(block.locator('.degraded-item').first()).toBeAttached();
-      await expect(block.locator('.degraded-summary')).toContainText(/degraded sources/i);
-    } else {
-      expect(await block.count()).toBe(0);
-    }
+    await expect(block).toBeVisible({ timeout: 30_000 });
+    await expect(block.locator('.degraded-summary')).toContainText(/degraded sources/i);
+    await block.locator('summary').click();
+    const digest = block.locator('.degraded-item[data-layer="digest"]');
+    await expect(digest).toBeVisible();
+    await expect(digest).toContainText(/gap/i);
+    await expect(digest).toContainText(/5 days/);
+  });
+
+  test('a healthy tracker with no failing layer shows no degraded-sources block', async ({ page }) => {
+    const health = { lastBuild: new Date().toISOString(), healthy: true, digestGaps: [], trackers: { 'iran-conflict': { lastEvent: '2026-09-07', lastDigest: '2026-09-07', digestGap: 0, lastUpdated: '2026-09-07T00:00:00Z' } } };
+    await page.route('**/_health/status.json', route => route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(health) }));
+    // Live layers are off by default on the tracker page; nothing can be degraded.
+    await page.goto('./iran-conflict/');
+    await page.waitForTimeout(2000);
+    await expect(page.getByTestId('degraded-sources')).toHaveCount(0);
   });
 
   test('daily briefing shows provenance next to each digest summary', async ({ page }) => {

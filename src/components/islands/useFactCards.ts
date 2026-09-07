@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import type { MapPoint, MapLine } from '../../lib/schemas';
 import type { FlatEvent } from '../../lib/timeline-utils';
+import { firstThumbnail } from '../../lib/media-utils';
 
 // ────────────────────────────────────────────
 //  Types
@@ -100,13 +101,13 @@ export function buildFactCards(
         return overlap >= 2;
       }) ||
       // Strategy 3: first event from that date with a thumbnail
-      dayEvents.find(e => e.media?.some(m => m.thumbnail));
+      dayEvents.find(e => !!firstThumbnail(e.media));
 
     const utcTime = matchingLine?.time
       ? `${matchingLine.time} UTC`
       : '';
 
-    const thumbnail = matchingEvent?.media?.find(m => m.thumbnail)?.thumbnail;
+    const thumbnail = firstThumbnail(matchingEvent?.media)?.thumbnail;
 
     const category = catToCategory(pt.cat);
 

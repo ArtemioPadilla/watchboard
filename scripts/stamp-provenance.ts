@@ -10,7 +10,8 @@
  * Rules (only when `provenance` is absent):
  *   - digests dated today, source daily|breaking|seed → llm / claude
  *   - digests with source `freshness` → heuristic (written by ensure-digests)
- *   - meta.json whose lastUpdated is today → llm / claude
+ *   - meta.json whose lastUpdated is today AND whose heroHeadline differs
+ *     from HEAD → llm / claude (a lastUpdated-only touch keeps its provenance)
  *
  * Usage:
  *   npx tsx scripts/stamp-provenance.ts --trackers a,b,c [--pipeline update-data] [--dry-run]
@@ -18,6 +19,7 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import { execFileSync } from 'node:child_process';
 import { makeProvenance } from '../src/lib/provenance';
 
 const args = process.argv.slice(2);
@@ -34,6 +36,18 @@ const today = (process.env.STAMP_TODAY ?? new Date().toISOString()).slice(0, 10)
 if (!all && trackers.length === 0) {
   console.log('stamp-provenance: nothing to do (pass --trackers a,b or --all)');
   process.exit(0);
+}
+
+/** True when HEAD has no meta.json for this path or its heroHeadline differs. */
+function headlineChanged(metaPath: string, current: string): boolean {
+  try {
+    const rel = path.relative(process.cwd(), metaPath).split(path.sep).join('/');
+    const prev = execFileSync('git', ['show', `HEAD:${rel}`], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] });
+    const before = JSON.parse(prev) as Meta;
+    return before.heroHeadline !== current;
+  } catch {
+    return true; // new file or no git: nothing to compare against
+  }
 }
 
 function readJson<T>(p: string): T | null {
@@ -66,7 +80,9 @@ for (const slug of slugs) {
   }
   const metaPath = path.join(dataDir, 'meta.json');
   const meta = readJson<Meta>(metaPath);
-  if (meta && !meta.provenance && meta.heroHeadline && typeof meta.lastUpdated === 'string' && meta.lastUpdated.slice(0, 10) === today) {
+  // Only a headline that actually changed in this run is model-written now;
+  // a meta.json touched for lastUpdated alone keeps whatever provenance it had.
+  if (meta && !meta.provenance && meta.heroHeadline && typeof meta.lastUpdated === 'string' && meta.lastUpdated.slice(0, 10) === today && headlineChanged(metaPath, meta.heroHeadline)) {
     meta.provenance = makeProvenance('llm', { pipeline });
     stampedMeta++;
     if (!dryRun) fs.writeFileSync(metaPath, JSON.stringify(meta, null, 2) + '\n');
