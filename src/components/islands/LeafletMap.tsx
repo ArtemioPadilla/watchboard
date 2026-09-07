@@ -38,6 +38,8 @@ interface Props {
   initialView?: { lat: number; lon: number; zoom: number };
   /** Called after every moveend with the new centre and zoom. */
   onViewChange?: (lat: number, lon: number, zoom: number) => void;
+  /** Right-click / long-press on the map background (E4 dossier). */
+  onGroundClick?: (lat: number, lon: number) => void;
 }
 
 // ────────────────────────────────────────────
@@ -189,6 +191,21 @@ function ScrollZoomGuard() {
  * Reports centre/zoom to the parent after each move so the URL can be kept
  * in sync (ADR-0001). Emits once on mount so a fresh page has a URL too.
  */
+/** Leaflet fires `contextmenu` for right-click and for long-press on touch. */
+function GroundClickReporter({ onGroundClick }: { onGroundClick?: (lat: number, lon: number) => void }) {
+  const map = useMap();
+  useEffect(() => {
+    if (!onGroundClick) return;
+    const handler = (e: L.LeafletMouseEvent) => {
+      e.originalEvent?.preventDefault?.();
+      onGroundClick(e.latlng.lat, e.latlng.lng);
+    };
+    map.on('contextmenu', handler);
+    return () => { map.off('contextmenu', handler); };
+  }, [map, onGroundClick]);
+  return null;
+}
+
 function ViewReporter({ onViewChange }: { onViewChange?: (lat: number, lon: number, zoom: number) => void }) {
   const map = useMap();
   useEffect(() => {
@@ -216,7 +233,7 @@ function ViewReporter({ onViewChange }: { onViewChange?: (lat: number, lon: numb
 export default function LeafletMap({
   points, lines, categories, onSelectPoint, onSelectLine, overlays,
   flights, terminatorPolygon, currentDate, isPlaying,
-  events, showFactCards, mapCenter, mapBounds, initialView, onViewChange,
+  events, showFactCards, mapCenter, mapBounds, initialView, onViewChange, onGroundClick,
 }: Props) {
   const locale = useLocale();
   const center: LatLngExpression = mapCenter ? [mapCenter.lat, mapCenter.lon] : [29, 49];
@@ -245,6 +262,7 @@ export default function LeafletMap({
     >
       <ScrollZoomGuard />
       <ViewReporter onViewChange={onViewChange} />
+      <GroundClickReporter onGroundClick={onGroundClick} />
       <ZoomControl position="topright" />
       <TileLayer
         url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"

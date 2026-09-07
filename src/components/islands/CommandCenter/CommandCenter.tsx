@@ -15,6 +15,8 @@ import MobileStoryCarousel from './MobileStoryCarousel';
 import ComparePanel from './ComparePanel';
 import AlertsPanel from './AlertsPanel';
 import { useAlerts } from '../shared/useAlerts';
+import DossierPanel from '../shared/DossierPanel';
+import { useDossier } from '../shared/useDossier';
 import NotificationManager from './NotificationManager';
 import { useBroadcastMode } from './useBroadcastMode';
 import BroadcastOverlay from './BroadcastOverlay';
@@ -159,6 +161,8 @@ function CommandCenterInner({
   const [locale, setLocale] = useState<Locale>(initialLocale ?? 'en');
   const [showHelp, setShowHelp] = useState(false);
   const [showAlerts, setShowAlerts] = useState(false);
+  const dossierTrackers = useMemo(() => trackers.map(t => ({ slug: t.slug, name: t.name, country: t.country, geoPath: t.geoPath, region: t.region, lastUpdated: t.lastUpdated })), [trackers]);
+  const dossier = useDossier(dossierTrackers);
   // Count for the nav button; the panel re-uses the same cached file.
   const alertsFeed = useAlerts(true);
   const knownSlugs = useMemo(() => new Set(trackers.map(t => t.slug)), [trackers]);
@@ -369,10 +373,18 @@ function CommandCenterInner({
           const { centroid, altitude } = computeFeatureCentroidAndAltitude(feature);
           globeRef.current?.flyTo?.(centroid.lat, centroid.lng, altitude, 1200);
           globeRef.current?.setAutoRotate?.(false);
+          // Country click also opens the dossier; the code is known, so no
+          // geocoding request is spent on it.
+          dossier.open({ lat: centroid.lat, lon: centroid.lng, countryCode: isoA2 });
         }
       }
     }
-  }, [trackers, countriesGeoJSON]);
+  }, [trackers, countriesGeoJSON, dossier.open]);
+
+  const handleGlobeRightClick = useCallback((lat: number, lng: number) => {
+    dossier.open({ lat, lon: lng });
+    globeRef.current?.setAutoRotate?.(false);
+  }, [dossier.open]);
 
   // Sidebar hover -> globe highlight
   const handleHoverGeoNode = useCallback((nodeId: string, level: string) => {
@@ -472,6 +484,7 @@ function CommandCenterInner({
       if (e.key === 'Escape') {
         if (showHelp) { setShowHelp(false); return; }
         if (showAlerts) { setShowAlerts(false); return; }
+        if (dossier.target) { dossier.close(); return; }
         if (compareSlugs.length > 0) { setCompareSlugs([]); return; }
         if (isInput) { (target as HTMLInputElement).blur(); return; }
         setActiveTracker(null);
@@ -549,7 +562,7 @@ function CommandCenterInner({
     };
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
-  }, [activeTracker, showHelp, showAlerts, compareSlugs.length, handleToggleFollow, handleToggleCompare, basePath, locale]);
+  }, [activeTracker, showHelp, showAlerts, dossier.target, dossier.close, compareSlugs.length, handleToggleFollow, handleToggleCompare, basePath, locale]);
 
   const sidebarStyle: React.CSSProperties = isMobile
     ? mobileTab === 'trackers' ? styles.sidebar : { ...styles.sidebar, display: 'none' }
@@ -721,6 +734,7 @@ function CommandCenterInner({
             hoveredCountry={hoveredCountry}
             activeCountry={activeCountry}
             onPolygonClick={handleGeoClick}
+            onGlobeRightClick={handleGlobeRightClick}
             onPolygonHover={setHoveredCountry}
           />
         </Suspense>
@@ -940,6 +954,19 @@ function CommandCenterInner({
             </div>
           </div>
         </div>
+      )}
+
+      {/* Click dossier (E4) */}
+      {dossier.target && (
+        <DossierPanel
+          loading={dossier.loading}
+          error={dossier.error}
+          dossier={dossier.dossier}
+          onClose={dossier.close}
+          onSelectTracker={(slug) => { handleSelect(slug); setSidebarCollapsed(false); }}
+          basePath={basePath}
+          className="cc-dossier"
+        />
       )}
 
       {/* Light-scan alerts panel (E3) */}

@@ -47,6 +47,8 @@ interface Props {
   activeCountry?: string | null;
   onPolygonClick?: (isoA2: string) => void;
   onPolygonHover?: (isoA2: string | null) => void;
+  /** Right-click anywhere on the globe (E4 dossier). */
+  onGlobeRightClick?: (lat: number, lng: number) => void;
 }
 
 function hexToRgb(hex: string): string {
@@ -206,6 +208,7 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
   hoveredCountry,
   activeCountry,
   onPolygonClick,
+  onGlobeRightClick,
   onPolygonHover,
 }, ref) {
   const locale = useLocale();
@@ -227,6 +230,7 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
   const activeCountryRef = useRef(activeCountry);
   const countryDensityRef = useRef(countryDensity);
   const onPolygonClickRef = useRef(onPolygonClick);
+  const onGlobeRightClickRef = useRef(onGlobeRightClick);
   const onPolygonHoverRef = useRef(onPolygonHover);
   const pointClickedRef = useRef(false);
 
@@ -234,6 +238,7 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
   activeCountryRef.current = activeCountry;
   countryDensityRef.current = countryDensity;
   onPolygonClickRef.current = onPolygonClick;
+  onGlobeRightClickRef.current = onGlobeRightClick;
   onPolygonHoverRef.current = onPolygonHover;
 
   // Compute maxDensity for polygon opacity formula
@@ -448,6 +453,9 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
         })
         .onGlobeClick(() => {
           onSelectRef.current(null);
+        })
+        .onGlobeRightClick(({ lat, lng }: { lat: number; lng: number }) => {
+          onGlobeRightClickRef.current?.(lat, lng);
         })
         // Animated rings on fresh/recent tracker hubs
         .ringsData(ringsRef.current)

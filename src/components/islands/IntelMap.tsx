@@ -12,6 +12,8 @@ import { useMapOverlays } from './useMapOverlays';
 import type { LayerState } from './useMapOverlays';
 import { readViewState, createViewStateWriter, type ViewState } from '../../lib/view-state';
 import { layersForTracker } from '../../lib/live-layers';
+import DossierPanel from './shared/DossierPanel';
+import { useDossier } from './shared/useDossier';
 
 /** Layer keys accepted in the `layers` URL parameter (ADR-0001). */
 export const MAP_LAYER_KEYS = [
@@ -113,6 +115,8 @@ function IntelMapInner({ points, lines, events, categories, mapCenter, mapBounds
     setLayers(prev => ({ ...prev, [layer]: !prev[layer] }));
   }, []);
 
+  const dossier = useDossier();
+  const handleGroundClick = useCallback((lat: number, lon: number) => dossier.open({ lat, lon }), [dossier.open]);
   const scopedLayerIds = useMemo(() => layersForTracker(trackerSlug ?? '').map(l => l.id), [trackerSlug]);
   const overlayGeo = useMemo(() => ({ bounds: mapBounds ?? null, center: mapCenter ?? null, weatherPoints: weatherPoints ?? null }), [mapBounds, mapCenter, weatherPoints]);
   const { overlays, counts, statuses: overlayStatuses } = useMapOverlays(layers, currentDate, overlayGeo);
@@ -227,6 +231,7 @@ function IntelMapInner({ points, lines, events, categories, mapCenter, mapBounds
         <LeafletMap
           initialView={urlView.lat !== undefined && urlView.lon !== undefined ? { lat: urlView.lat, lon: urlView.lon, zoom: urlView.zoom ?? 5 } : undefined}
           onViewChange={handleViewChange}
+          onGroundClick={handleGroundClick}
           points={filteredPoints}
           lines={filteredLines}
           categories={mapCategories}
@@ -270,6 +275,17 @@ function IntelMapInner({ points, lines, events, categories, mapCenter, mapBounds
           statuses={{ ...overlayStatuses, flights: layers.flights ? { status: flightStatus, updatedAt: flightUpdatedAt, error: flightError } : undefined }}
           scopedLayerIds={scopedLayerIds}
         />
+
+        {dossier.target && (
+          <DossierPanel
+            loading={dossier.loading}
+            error={dossier.error}
+            dossier={dossier.dossier}
+            onClose={dossier.close}
+            basePath={(import.meta as any).env?.BASE_URL ?? '/'}
+            className="map-dossier"
+          />
+        )}
 
         {/* Overlay: info panel (right side) */}
         {selectedPoint && selectedCategory && (
