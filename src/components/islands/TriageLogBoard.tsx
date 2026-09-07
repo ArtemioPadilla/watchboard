@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState, type CSSProperties } from 'react';
 import type { TriageLog, TriageLogEntry } from '../../../scripts/hourly-types';
 import FreshnessBadge from './FreshnessBadge';
 import { severityFromScore, SEVERITY_COLORS } from '../../lib/alert-severity';
+import { safeHref } from '../../lib/alerts-file';
 
 type Decision = TriageLogEntry['decision'];
 
@@ -149,9 +150,13 @@ export default function TriageLogBoard({ logUrl }: Props) {
               </span>
             </div>
             <div style={{ marginBottom: 2 }}>
-              <a href={e.candidate.url} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-primary, #e6edf3)' }}>
-                {e.candidate.title}
-              </a>
+              {safeHref(e.candidate.url) ? (
+                <a href={safeHref(e.candidate.url)} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-primary, #e6edf3)' }}>
+                  {e.candidate.title}
+                </a>
+              ) : (
+                <span style={{ color: 'var(--text-primary, #e6edf3)' }}>{e.candidate.title}</span>
+              )}
             </div>
             <div style={{ fontSize: '0.7rem', color: 'var(--text-muted, #8b949e)' }}>
               {e.candidate.source} · {e.candidate.feedOrigin} · {e.reason}

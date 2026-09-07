@@ -1,5 +1,5 @@
-import { useMemo, useState } from 'react';
-import type { AlertEntry } from '../../../lib/alerts-file';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { safeHref, type AlertEntry } from '../../../lib/alerts-file';
 import { SEVERITY_COLORS, SEVERITY_ORDER, type AlertSeverity } from '../../../lib/alert-severity';
 import { t } from '../../../i18n/translations';
 import { useLocale } from '../../../i18n/useLocale';
@@ -52,6 +52,20 @@ function quakeSeverity(mag: number): AlertSeverity {
 export default function AlertsList({ entries, quakes = [], filter, onFilter, onSelect, onLocate, compact = false, now = Date.now() }: Props) {
   const locale = useLocale();
   const [expanded, setExpanded] = useState<string | null>(null);
+  // Ids seen at mount; anything that arrives later (5-min poll) is "new" and
+  // gets a brief highlight so the reader notices the list changed.
+  const seenRef = useRef<Set<string> | null>(null);
+  const [newIds, setNewIds] = useState<Set<string>>(() => new Set());
+  useEffect(() => {
+    const ids = entries.map(e => e.id);
+    if (seenRef.current === null) { seenRef.current = new Set(ids); return; }
+    const fresh = ids.filter(id => !seenRef.current!.has(id));
+    if (fresh.length === 0) return;
+    for (const id of fresh) seenRef.current.add(id);
+    setNewIds(prev => new Set([...prev, ...fresh]));
+    const timer = setTimeout(() => setNewIds(prev => { const n = new Set(prev); for (const id of fresh) n.delete(id); return n; }), 4000);
+    return () => clearTimeout(timer);
+  }, [entries]);
 
   const visible = useMemo(() => {
     if (filter === 'quakes') return [];
@@ -114,11 +128,16 @@ export default function AlertsList({ entries, quakes = [], filter, onFilter, onS
           {visible.map(e => {
             const open = expanded === e.id;
             return (
-              <li key={e.id} className={`alerts-item sev-${e.severity}`} style={{ borderLeftColor: SEVERITY_COLORS[e.severity] }} data-severity={e.severity}>
+              <li key={e.id} className={`alerts-item sev-${e.severity}${newIds.has(e.id) ? ' alerts-item-new' : ''}`} style={{ borderLeftColor: SEVERITY_COLORS[e.severity] }} data-severity={e.severity} data-new={newIds.has(e.id) ? 'true' : undefined}>
                 <button
                   type="button"
                   className="alerts-item-main"
-                  onClick={() => { setExpanded(open ? null : e.id); onSelect?.(e); }}
+                  onClick={() => {
+                    setExpanded(open ? null : e.id);
+                    onSelect?.(e);
+                    // An alert with coordinates flies to the point, not just the tracker centre.
+                    if (e.geo && onLocate) onLocate(e.geo.lat, e.geo.lon, e.geo.place ?? e.title);
+                  }}
                   aria-expanded={open}
                 >
                   <span className="alerts-sev" style={{ color: SEVERITY_COLORS[e.severity] }}>
@@ -136,7 +155,9 @@ export default function AlertsList({ entries, quakes = [], filter, onFilter, onS
                       ◎
                     </button>
                   )}
-                  <a className="alerts-action" href={e.url} target="_blank" rel="noopener noreferrer" title={t('alerts.openSource', locale)}>↗</a>
+                  {safeHref(e.url) && (
+                    <a className="alerts-action" href={safeHref(e.url)} target="_blank" rel="noopener noreferrer" title={t('alerts.openSource', locale)} data-testid="alert-open-source">↗</a>
+                  )}
                 </div>
                 {open && (
                   <div className="alerts-item-detail">
