@@ -1,3 +1,4 @@
+import { useLiveSource } from '../../../lib/use-live-source';
 import { useState, useEffect, useRef } from 'react';
 import {
   Cartesian3,
@@ -245,46 +246,48 @@ export function useSatellites(
   const entitiesRef = useRef<Entity[]>([]);
   const fovEntitiesRef = useRef<Entity[]>([]);
   const animRef = useRef<number>(0);
-  const fetchedRef = useRef(false);
-  // Fetch TLE data from all satellite groups
-  useEffect(() => {
-    if (!enabled) {
-      fetchedRef.current = false;
-      return;
-    }
-    if (fetchedRef.current) return;
-    fetchedRef.current = true;
-
-    const fetchAllGroups = async () => {
-      try {
+  // TLE catalogue through the shared live-source cache: 6 h TTL, one
+  // request per group across every globe on the page, stale-on-error, and
+  // a per-group status so a failed group is reported instead of dropped.
+  const { data: tleData, status: tleStatus, updatedAt: tleUpdatedAt, error: tleError } = useLiveSource<SatRecord[]>(
+    {
+      key: 'satellites:tle',
+      url: SAT_GROUPS[0].url,
+      ttlMs: 6 * 60 * 60_000,
+      // One logical fetch covering all groups; live-source only sees the
+      // aggregate, so a single dead group still yields data (with a note).
+      parse: async () => {
         const results = await Promise.allSettled(
           SAT_GROUPS.map(async g => {
             const res = await fetch(g.url);
-            if (!res.ok) return [];
-            const text = await res.text();
-            return parseTLE(text, g.group);
+            if (!res.ok) throw new Error(`${g.group}: HTTP ${res.status}`);
+            return parseTLE(await res.text(), g.group);
           }),
         );
+        const all: SatRecord[] = [];
+        const failed: string[] = [];
+        results.forEach((r, i) => {
+          if (r.status === 'fulfilled') all.push(...r.value);
+          else failed.push(SAT_GROUPS[i].group);
+        });
+        if (all.length === 0) throw new Error(`All TLE groups failed (${failed.join(', ')})`);
+        if (failed.length) console.warn('[satellites] groups failed:', failed.join(', '));
+        return all;
+      },
+    },
+    { enabled },
+  );
 
-        const allSats: SatRecord[] = [];
-        for (const r of results) {
-          if (r.status === 'fulfilled') allSats.push(...r.value);
-        }
-
-        // GPS: keep all (~31 operational)
+  useEffect(() => {
+    if (!enabled || !tleData) return;
+    const allSats = tleData;
         const gps = allSats.filter(s => s.group === 'gps');
-        // Military: keep all (no cap)
         const mil = allSats.filter(s => s.group === 'military');
-        // Recon/EO: keep all (no cap)
         const recon = allSats.filter(s => s.group === 'recon');
-        // Starlink: filter to theater bbox, cap at 200
         const starlinkAll = allSats.filter(s => s.group === 'starlink');
         const starlinkFiltered = filterToTheater(starlinkAll);
-        // GEO: keep all (~400 total, many defense-relevant)
         const geo = allSats.filter(s => s.group === 'geo');
-        // GNSS: keep all (GPS + GLONASS + Galileo + BeiDou)
         const gnss = allSats.filter(s => s.group === 'gnss');
-
         const combined = [...gps, ...mil, ...recon, ...starlinkFiltered, ...geo, ...gnss];
         satsRef.current = combined;
         setCount(combined.length);
@@ -298,13 +301,7 @@ export function useSatellites(
           gnss: gnss.length,
         };
         setGroupCounts(counts);
-      } catch (err) {
-        console.warn('Failed to fetch TLE data:', err);
-      }
-    };
-
-    fetchAllGroups();
-  }, [enabled]);
+  }, [enabled, tleData]);
 
   // Propagate positions in animation loop
   useEffect(() => {
@@ -562,5 +559,5 @@ export function useSatellites(
     };
   }, [showFov, enabled, viewer, count, targets]);
 
-  return { count, groupCounts, fovCount };
+  return { count, groupCounts, fovCount, status: enabled ? tleStatus : 'idle' as const, updatedAt: tleUpdatedAt, error: tleError };
 }

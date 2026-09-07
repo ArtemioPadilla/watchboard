@@ -126,7 +126,7 @@ const faqSchema = {
       <div class="theater-layout">
         {config.sections.includes('map') && (
           <div class="theater-map">
-            <IntelMapLoader client:only="react" trackerSlug={config.slug} categories={categories} mapCenter={config.map?.center} mapBounds={config.map?.bounds} />
+            <IntelMapLoader client:only="react" trackerSlug={config.slug} categories={categories} mapCenter={config.map?.center} mapBounds={config.map?.bounds} weatherPoints={config.globe?.weatherPoints} />
           </div>
         )}
         <div class={config.sections.includes('map') ? 'theater-scroll' : 'theater-scroll full-width'}>

@@ -1,0 +1,183 @@
+{
+  "_provenance": {
+    "source": "NetBlocks / IODA / Cloudflare Radar public reports, hand-curated",
+    "license": "Watchboard curated data (MIT)",
+    "snapshotDate": "2026-03-01",
+    "scope": [
+      "iran-conflict"
+    ],
+    "note": "Province-level rectangles for reported connectivity disruptions. Not a live feed."
+  },
+  "items": [
+    {
+      "id": "blackout-tehran",
+      "label": "TEHRAN\nINTERNET BLACKOUT",
+      "region": "Tehran Province",
+      "polygon": [
+        [
+          50.5,
+          36.2
+        ],
+        [
+          52.5,
+          36.2
+        ],
+        [
+          52.5,
+          35
+        ],
+        [
+          50.5,
+          35
+        ],
+        [
+          50.5,
+          36.2
+        ]
+      ],
+      "center": [
+        51.4,
+        35.7
+      ],
+      "startDate": "2026-02-28",
+      "severity": "total",
+      "source": "NetBlocks / IODA"
+    },
+    {
+      "id": "blackout-isfahan",
+      "label": "ISFAHAN\nINTERNET DISRUPTION",
+      "region": "Isfahan Province",
+      "polygon": [
+        [
+          50.5,
+          33.5
+        ],
+        [
+          52.5,
+          33.5
+        ],
+        [
+          52.5,
+          32
+        ],
+        [
+          50.5,
+          32
+        ],
+        [
+          50.5,
+          33.5
+        ]
+      ],
+      "center": [
+        51.7,
+        32.7
+      ],
+      "startDate": "2026-02-28",
+      "severity": "major",
+      "source": "NetBlocks / Cloudflare Radar"
+    },
+    {
+      "id": "blackout-shiraz",
+      "label": "SHIRAZ\nINTERNET DISRUPTION",
+      "region": "Fars Province",
+      "polygon": [
+        [
+          51.5,
+          30.2
+        ],
+        [
+          53,
+          30.2
+        ],
+        [
+          53,
+          29
+        ],
+        [
+          51.5,
+          29
+        ],
+        [
+          51.5,
+          30.2
+        ]
+      ],
+      "center": [
+        52.5,
+        29.6
+      ],
+      "startDate": "2026-03-01",
+      "severity": "major",
+      "source": "NetBlocks"
+    },
+    {
+      "id": "blackout-mashhad",
+      "label": "MASHHAD\nPARTIAL BLACKOUT",
+      "region": "Khorasan Razavi",
+      "polygon": [
+        [
+          58.5,
+          37
+        ],
+        [
+          60,
+          37
+        ],
+        [
+          60,
+          35.8
+        ],
+        [
+          58.5,
+          35.8
+        ],
+        [
+          58.5,
+          37
+        ]
+      ],
+      "center": [
+        59.6,
+        36.3
+      ],
+      "startDate": "2026-03-01",
+      "severity": "partial",
+      "source": "IODA / Kentik"
+    },
+    {
+      "id": "blackout-tabriz",
+      "label": "TABRIZ\nPARTIAL BLACKOUT",
+      "region": "East Azerbaijan",
+      "polygon": [
+        [
+          45.5,
+          38.5
+        ],
+        [
+          47,
+          38.5
+        ],
+        [
+          47,
+          37.5
+        ],
+        [
+          45.5,
+          37.5
+        ],
+        [
+          45.5,
+          38.5
+        ]
+      ],
+      "center": [
+        46.3,
+        38.1
+      ],
+      "startDate": "2026-03-01",
+      "severity": "partial",
+      "source": "NetBlocks"
+    }
+  ]
+}

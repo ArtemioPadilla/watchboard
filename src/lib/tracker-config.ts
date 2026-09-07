@@ -51,9 +51,13 @@ const ClockSchema = z.object({
 // ── Globe config ──
 const GlobeLayoutSchema = z.enum(['default', 'mission', 'disaster']);
 
+const WeatherPointSchema = z.object({ lat: z.number(), lon: z.number(), label: z.string() });
+
 const GlobeConfigSchema = z.object({
   enabled: z.boolean(),
   layout: GlobeLayoutSchema.optional().default('default'),
+  /** Named weather sample points; defaults to a 3x3 grid over map.bounds. */
+  weatherPoints: z.array(WeatherPointSchema).optional(),
   layoutOverrides: z.record(z.string(), z.array(z.string())).optional(),
   cameraPresets: z.record(z.string(), CameraPresetSchema).optional(),
   clocks: z.array(ClockSchema).optional(),

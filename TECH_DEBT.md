@@ -27,7 +27,7 @@ Last updated: 2026-03-09 by Forja (Dev Agent) — resolved TD-006, TD-007, TD-00
 | TD-012 | P3 (Low) | `EconItemSchema.sparkData` has no `min(2)` constraint | `src/lib/schemas.ts:144` | Invalid sparkline data passes Zod but breaks SVG rendering | Low | Resolved |
 | TD-013 | P3 (Low) | `writeFileSync` in update script is non-atomic | `scripts/update-data.ts:67` | Partial write on crash leaves corrupt JSON | Medium | Resolved |
 | TD-014 | P3 (Low) | No test framework or test coverage | Entire codebase | Regressions undetected; blocks release readiness | High | Open |
-| TD-024 | P3 (Low) | Duplicate data in `src/data/` and `trackers/iran-conflict/data/` | `src/data/`, `trackers/iran-conflict/data/` | Two copies of same data; update script still writes to `src/data/`; delete `src/data/` after update script migration completes | Low | Open |
+| TD-024 | P3 (Low) | Duplicate data in `src/data/` and `trackers/iran-conflict/data/` | `src/data/`, `trackers/iran-conflict/data/` | Two copies of same data; update script still writes to `src/data/`; delete `src/data/` after update script migration completes | Low | Open — the sibling duplication of overlay arrays (NFZ / GPS jamming / blackouts) between `CesiumGlobe/*.ts` and `MapOverlayData.ts` was resolved 2026-09-07 into `src/data/snapshots/` (plan E2.H5); the `src/data/` vs `trackers/iran-conflict/data/` copy remains |
 | TD-025 | P3 (Low) | GitHub Actions workflows still reference `src/data/` paths | `.github/workflows/update-data.yml`, `.github/workflows/backfill.yml` | Workflows will need path updates when `src/data/` is removed | Low | Open |
 | TD-015 | P3 (Low) | No CHANGELOG.md | Root | Release tracking impossible | Low | Resolved |
 

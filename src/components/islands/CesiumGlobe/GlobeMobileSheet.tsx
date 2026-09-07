@@ -75,6 +75,8 @@ interface Props {
   onToggleLayer: (layer: 'satellites' | 'flights' | 'quakes' | 'weather' | 'nfz' | 'ships' | 'gpsJam' | 'internetBlackout' | 'groundTruth') => void;
   onShareView?: () => string;
   shareTrigger?: number;
+  sources?: import('../shared/SourceStatusChip').SourceStatusItem[];
+  scopedLayerIds?: string[];
   persistLines: boolean;
   onTogglePersist: () => void;
 
@@ -170,7 +172,7 @@ export default function GlobeMobileSheet(props: Props) {
     events, currentDate, activeEventId,
     activeFilters, onToggleFilter, pointCounts, categories,
     visualMode, onVisualMode,
-    layers, onToggleLayer, onShareView, shareTrigger,
+    layers, onToggleLayer, onShareView, shareTrigger, sources, scopedLayerIds,
     persistLines, onTogglePersist,
     missionTrajectory, telemetryRef, vectorsRef, vectorToggles, onToggleVector, onTrackSpacecraft,
     carouselEntities, activeCardIndex, onCloseCard,
@@ -388,7 +390,10 @@ export default function GlobeMobileSheet(props: Props) {
           { key: 'gpsJam' as const, label: 'globe.gpsJam' as const, color: '#ff2244' },
           { key: 'internetBlackout' as const, label: 'globe.internet' as const, color: '#ff6644' },
           { key: 'groundTruth' as const, label: 'globe.factCards' as const, color: '#ffaa00' },
-        ]).map(l => (
+        ]).filter(l => {
+          const rid = ({ nfz: 'nfz', gpsJam: 'gps-jamming', internetBlackout: 'internet-blackouts' } as Record<string, string>)[l.key];
+          return !rid || !scopedLayerIds || scopedLayerIds.includes(rid);
+        }).map(l => (
           <button
             key={l.key}
             className={`mobile-sheet-filter-btn${layers[l.key] ? ' active' : ''}`}

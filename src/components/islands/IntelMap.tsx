@@ -11,6 +11,7 @@ import MapLayerToggles from './MapLayerToggles';
 import { useMapOverlays } from './useMapOverlays';
 import type { LayerState } from './useMapOverlays';
 import { readViewState, createViewStateWriter, type ViewState } from '../../lib/view-state';
+import { layersForTracker } from '../../lib/live-layers';
 
 /** Layer keys accepted in the `layers` URL parameter (ADR-0001). */
 export const MAP_LAYER_KEYS = [
@@ -28,6 +29,10 @@ interface Props {
   categories?: MapCategory[];
   mapCenter?: { lon: number; lat: number };
   mapBounds?: { lonMin: number; lonMax: number; latMin: number; latMax: number };
+  /** Optional named weather sample points from tracker.json (globe.weatherPoints). */
+  weatherPoints?: { lat: number; lon: number; label: string }[];
+  /** Used to scope snapshot layers (live-layers.ts). */
+  trackerSlug?: string;
 }
 
 export default function IntelMap(props: Props) {
@@ -40,7 +45,7 @@ export default function IntelMap(props: Props) {
   );
 }
 
-function IntelMapInner({ points, lines, events, categories, mapCenter, mapBounds }: Props) {
+function IntelMapInner({ points, lines, events, categories, mapCenter, mapBounds, weatherPoints, trackerSlug }: Props) {
   // Use prop categories with fallback to hardcoded defaults. Passed down to
   // LeafletMap so catColor() resolves dot colors without a module singleton.
   const mapCategories = categories && categories.length > 0 ? categories : MAP_CATEGORIES;
@@ -108,11 +113,13 @@ function IntelMapInner({ points, lines, events, categories, mapCenter, mapBounds
     setLayers(prev => ({ ...prev, [layer]: !prev[layer] }));
   }, []);
 
-  const { overlays, counts } = useMapOverlays(layers, currentDate);
+  const scopedLayerIds = useMemo(() => layersForTracker(trackerSlug ?? '').map(l => l.id), [trackerSlug]);
+  const overlayGeo = useMemo(() => ({ bounds: mapBounds ?? null, center: mapCenter ?? null, weatherPoints: weatherPoints ?? null }), [mapBounds, mapCenter, weatherPoints]);
+  const { overlays, counts, statuses: overlayStatuses } = useMapOverlays(layers, currentDate, overlayGeo);
 
   // ── Live flights ──
   const isLatestDate = currentDate === dateRange.max;
-  const { flights, flightCount } = useMapFlights(layers.flights, isLatestDate);
+  const { flights, flightCount, status: flightStatus, updatedAt: flightUpdatedAt, error: flightError } = useMapFlights(layers.flights, isLatestDate, mapBounds ?? null, mapCenter ?? null);
 
   // ── Day/night terminator ──
   const terminatorPolygon = useTerminator(layers.terminator, currentDate);
@@ -260,6 +267,8 @@ function IntelMapInner({ points, lines, events, categories, mapCenter, mapBounds
           onToggle={toggleLayer}
           counts={mergedCounts}
           onShareView={buildShareUrl}
+          statuses={{ ...overlayStatuses, flights: layers.flights ? { status: flightStatus, updatedAt: flightUpdatedAt, error: flightError } : undefined }}
+          scopedLayerIds={scopedLayerIds}
         />
 
         {/* Overlay: info panel (right side) */}

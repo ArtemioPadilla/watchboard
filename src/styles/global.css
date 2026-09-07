@@ -3764,3 +3764,20 @@ body::before {
 .map-layers-share { margin-left: auto; margin-right: 8px; padding: 2px 6px; border-color: transparent; }
 .cc-share-btn { padding: 2px 6px; font-size: 0.5rem; }
 .globe-toolbar-icon.share-view-btn { padding: 0; gap: 0; border-radius: 8px; }
+
+/* ── Source status chips (islands/shared/SourceStatusChip.tsx) ── */
+.source-chip { display: inline-flex; align-items: center; gap: 5px; }
+.source-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+.freshness-indicator.down { color: var(--accent-red); border-color: rgba(231, 76, 60, 0.35); background: rgba(231, 76, 60, 0.08); }
+.source-chip--snapshot { color: var(--text-muted); font-family: 'JetBrains Mono', monospace; font-size: 0.55rem; letter-spacing: 0.05em; }
+.source-chip--snapshot .source-dot { background: transparent; border: 1px solid currentColor; }
+.source-summary { position: relative; font-family: 'JetBrains Mono', monospace; }
+.source-summary-btn { cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.source-summary-list {
+  list-style: none; margin: 6px 0 0; padding: 6px 8px;
+  background: rgba(10, 11, 14, 0.92); border: 1px solid var(--border); border-radius: 6px;
+  display: grid; gap: 4px; min-width: 200px; z-index: 40; position: absolute; right: 0;
+}
+.source-summary-list li { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 0.55rem; }
+.source-summary-label { color: var(--text-secondary, #c9d1d9); }
+@media (max-width: 900px) { .source-summary .freshness-indicator { display: inline-flex; } }

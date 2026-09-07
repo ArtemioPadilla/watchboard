@@ -9,83 +9,10 @@ import {
   type Viewer as CesiumViewer,
   type Entity,
 } from 'cesium';
+import { NO_FLY_ZONES } from '../../../lib/snapshots';
 
-interface NoFlyZone {
-  id: string;
-  label: string;
-  startDate: string;       // Airspace closed from this date
-  endDate?: string;         // Airspace reopened (undefined = still closed)
-  polygon: [number, number][];  // [lon, lat] pairs
-  center: [number, number];     // label position
-  color: string;
-}
 
-// Simplified country airspace boundaries and conflict closure dates
-const NO_FLY_ZONES: NoFlyZone[] = [
-  {
-    id: 'nfz-iran',
-    label: 'IRAN\nAIRSPACE CLOSED',
-    startDate: '2026-02-28',
-    polygon: [
-      [44.0, 39.5], [48.5, 38.5], [54.0, 37.5], [60.5, 36.5], [63.0, 34.0],
-      [63.5, 27.0], [61.5, 25.3], [57.5, 25.5], [54.0, 26.5], [51.5, 27.8],
-      [49.0, 29.5], [48.0, 30.5], [45.5, 33.5], [44.0, 35.5], [44.0, 39.5],
-    ],
-    center: [54, 33],
-    color: '#e74c3c',
-  },
-  {
-    id: 'nfz-iraq',
-    label: 'IRAQ\nAIRSPACE CLOSED',
-    startDate: '2026-02-28',
-    polygon: [
-      [38.8, 37.2], [42.0, 37.3], [44.8, 37.1], [46.0, 35.0], [48.0, 30.5],
-      [47.5, 29.5], [44.5, 29.0], [39.0, 32.5], [38.8, 37.2],
-    ],
-    center: [43.5, 33],
-    color: '#e74c3c',
-  },
-  {
-    id: 'nfz-kuwait',
-    label: 'KUWAIT\nCLOSED',
-    startDate: '2026-03-01',
-    polygon: [
-      [46.5, 30.1], [48.5, 30.1], [48.5, 28.5], [46.5, 28.5], [46.5, 30.1],
-    ],
-    center: [47.5, 29.3],
-    color: '#f39c12',
-  },
-  {
-    id: 'nfz-bahrain',
-    label: 'BAHRAIN\nRESTRICTED',
-    startDate: '2026-03-01',
-    polygon: [
-      [50.2, 26.4], [50.8, 26.4], [50.8, 25.8], [50.2, 25.8], [50.2, 26.4],
-    ],
-    center: [50.5, 26.1],
-    color: '#f39c12',
-  },
-  {
-    id: 'nfz-qatar',
-    label: 'QATAR\nRESTRICTED',
-    startDate: '2026-03-01',
-    polygon: [
-      [50.7, 26.2], [51.7, 26.2], [51.7, 24.5], [50.7, 24.5], [50.7, 26.2],
-    ],
-    center: [51.2, 25.3],
-    color: '#f39c12',
-  },
-  {
-    id: 'nfz-uae',
-    label: 'UAE\nRESTRICTED',
-    startDate: '2026-03-01',
-    polygon: [
-      [51.5, 26.1], [56.4, 26.1], [56.4, 22.6], [52.0, 22.6], [51.5, 24.0], [51.5, 26.1],
-    ],
-    center: [54.5, 24.5],
-    color: '#f39c12',
-  },
-];
+
 
 /** Render no-fly zone overlays synced to the timeline date */
 export function useNoFlyZones(

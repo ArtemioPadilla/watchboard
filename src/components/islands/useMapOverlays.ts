@@ -1,9 +1,14 @@
-import { useState, useEffect, useMemo, useRef } from 'react';
+import { useMemo } from 'react';
+import { useLiveSource } from '../../lib/use-live-source';
+import type { LiveStatus } from '../../lib/live-source';
+import {
+  usgsUrl, parseUsgs, openMeteoUrl, parseOpenMeteo, weatherGridFromBounds, trackerBbox,
+  type Earthquake, type WeatherReading, type WeatherGridPoint,
+} from '../../lib/geo-sources';
 import {
   NO_FLY_ZONES,
   GPS_JAMMING_ZONES,
   INTERNET_BLACKOUTS,
-  WEATHER_GRID,
   GPS_SEVERITY_COLORS,
   GPS_SEVERITY_ALPHA,
   BLACKOUT_STYLES,
@@ -80,25 +85,19 @@ export interface OverlayData {
 }
 
 // ────────────────────────────────────────────
-//  Helpers
-// ────────────────────────────────────────────
-
-function nextDay(d: string): string {
-  const dt = new Date(d + 'T00:00:00Z');
-  dt.setUTCDate(dt.getUTCDate() + 1);
-  return dt.toISOString().split('T')[0];
-}
-
-// ────────────────────────────────────────────
 //  Hook
 // ────────────────────────────────────────────
 
-export function useMapOverlays(layers: LayerState, currentDate: string) {
-  const [earthquakes, setEarthquakes] = useState<EarthquakeOverlay[]>([]);
-  const lastQuakeDate = useRef('');
+export interface MapOverlayGeo {
+  bounds?: { lonMin: number; lonMax: number; latMin: number; latMax: number } | null;
+  center?: { lon: number; lat: number } | null;
+  weatherPoints?: WeatherGridPoint[] | null;
+}
 
-  const [weather, setWeather] = useState<WeatherOverlay[]>([]);
-  const lastWeatherDate = useRef('');
+export type OverlayStatuses = Partial<Record<keyof LayerState, { status: LiveStatus; updatedAt: number | null; error?: string }>>;
+
+export function useMapOverlays(layers: LayerState, currentDate: string, geo: MapOverlayGeo = {}) {
+  const bbox = useMemo(() => trackerBbox(geo.bounds, geo.center), [geo.bounds, geo.center]);
 
   // ── No-fly zones (filter by date, flip coords) ──
   const noFlyZones = useMemo<NoFlyOverlay[]>(() => {
@@ -107,7 +106,7 @@ export function useMapOverlays(layers: LayerState, currentDate: string) {
       .filter(z => currentDate >= z.startDate && (!z.endDate || currentDate <= z.endDate))
       .map(z => ({
         id: z.id,
-        label: z.label,
+        label: z.label.replace(/\n/g, ' '),
         polygon: z.polygon.map(([lon, lat]) => [lat, lon] as [number, number]),
         center: [z.center[1], z.center[0]] as [number, number],
         color: z.color,
@@ -121,7 +120,7 @@ export function useMapOverlays(layers: LayerState, currentDate: string) {
       .filter(z => currentDate >= z.startDate && (!z.endDate || currentDate <= z.endDate))
       .map(z => ({
         id: z.id,
-        label: `${z.label}${z.source ? ` (${z.source})` : ''}`,
+        label: `${z.label.replace(/\n/g, ' ')}${z.source ? ` (${z.source})` : ''}`,
         hexLatLngs: hexagonLatLngs(z.center[0], z.center[1], z.radiusKm),
         center: [z.center[1], z.center[0]] as [number, number],
         color: GPS_SEVERITY_COLORS[z.severity] || '#ff4444',
@@ -138,7 +137,7 @@ export function useMapOverlays(layers: LayerState, currentDate: string) {
         const style = BLACKOUT_STYLES[z.severity] || BLACKOUT_STYLES.partial;
         return {
           id: z.id,
-          label: `${z.label}${z.source ? ` (${z.source})` : ''}`,
+          label: `${z.label.replace(/\n/g, ' ')}${z.source ? ` (${z.source})` : ''}`,
           polygon: z.polygon.map(([lon, lat]) => [lat, lon] as [number, number]),
           center: [z.center[1], z.center[0]] as [number, number],
           color: style.color,
@@ -148,87 +147,57 @@ export function useMapOverlays(layers: LayerState, currentDate: string) {
       });
   }, [layers.internetBlackout, currentDate]);
 
-  // ── Earthquake fetching (USGS FDSNWS) ──
-  useEffect(() => {
-    if (!layers.earthquakes) {
-      setEarthquakes([]);
-      return;
-    }
-    if (currentDate === lastQuakeDate.current && earthquakes.length > 0) return;
+  // ── Earthquakes (USGS FDSNWS) via the shared live-source cache ──
+  const quakeSpec = {
+    key: `quakes:${currentDate}:${bbox ? `${bbox.latMin},${bbox.latMax},${bbox.lonMin},${bbox.lonMax}` : 'world'}`,
+    url: usgsUrl(currentDate, bbox),
+    ttlMs: 5 * 60_000,
+    parse: async (res: Response) => parseUsgs(await res.json()),
+    isEmpty: () => false, // a quiet day is data, not an outage
+  };
+  const quakes = useLiveSource<Earthquake[]>(quakeSpec, { enabled: layers.earthquakes });
+  const earthquakes = useMemo<EarthquakeOverlay[]>(() => {
+    if (!layers.earthquakes || !quakes.data) return [];
+    return quakes.data.map(q => ({
+      id: q.id,
+      label: `M${q.mag.toFixed(1)} - ${q.place}`,
+      lat: q.lat,
+      lon: q.lon,
+      mag: q.mag,
+      depth: q.depth,
+    }));
+  }, [layers.earthquakes, quakes.data]);
 
-    const url =
-      `https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson` +
-      `&starttime=${currentDate}&endtime=${nextDay(currentDate)}` +
-      `&minmagnitude=2.5&minlatitude=12&maxlatitude=42&minlongitude=24&maxlongitude=65`;
+  // ── Weather (Open-Meteo archive) on the tracker's grid ──
+  const grid = useMemo<WeatherGridPoint[]>(() => {
+    if (geo.weatherPoints && geo.weatherPoints.length > 0) return geo.weatherPoints;
+    return bbox ? weatherGridFromBounds(bbox) : [];
+  }, [geo.weatherPoints, bbox]);
+  const gridKey = grid.map(p => `${p.lat},${p.lon}`).join(';');
+  const weatherSpec = grid.length > 0
+    ? {
+        key: `weather:${currentDate}:${gridKey}`,
+        url: openMeteoUrl(grid, currentDate),
+        ttlMs: 60 * 60_000,
+        parse: async (res: Response) => parseOpenMeteo(await res.json(), grid),
+      }
+    : null;
+  const wx = useLiveSource<WeatherReading[]>(weatherSpec, { enabled: layers.weather });
+  const weather = useMemo<WeatherOverlay[]>(() => {
+    if (!layers.weather || !wx.data) return [];
+    return wx.data.map(r => ({
+      label: r.label,
+      lat: r.lat,
+      lon: r.lon,
+      cloudCover: r.cloudCover,
+      windText: `${WIND_ARROWS[windDirLabel(r.windDir)] || ''} ${Math.round(r.windSpeed)} km/h`,
+    }));
+  }, [layers.weather, wx.data]);
 
-    fetch(url)
-      .then(r => (r.ok ? r.json() : null))
-      .then(data => {
-        if (!data?.features) return;
-        const quakes: EarthquakeOverlay[] = data.features.map((f: any) => ({
-          id: f.id as string,
-          label: `M${(f.properties.mag as number)?.toFixed(1)} - ${f.properties.place as string}`,
-          lat: f.geometry.coordinates[1] as number,
-          lon: f.geometry.coordinates[0] as number,
-          mag: (f.properties.mag as number) || 0,
-          depth: (f.geometry.coordinates[2] as number) || 0,
-        }));
-        setEarthquakes(quakes);
-        lastQuakeDate.current = currentDate;
-      })
-      .catch(() => {
-        /* network errors are non-fatal */
-      });
-  }, [layers.earthquakes, currentDate]);
-
-  // ── Weather fetching (Open-Meteo archive API) ──
-  useEffect(() => {
-    if (!layers.weather) {
-      setWeather([]);
-      return;
-    }
-    if (currentDate === lastWeatherDate.current && weather.length > 0) return;
-
-    const lats = WEATHER_GRID.map(p => p.lat).join(',');
-    const lons = WEATHER_GRID.map(p => p.lon).join(',');
-    const url =
-      `https://archive-api.open-meteo.com/v1/archive` +
-      `?latitude=${lats}&longitude=${lons}` +
-      `&start_date=${currentDate}&end_date=${currentDate}` +
-      `&hourly=cloudcover,windspeed_10m,winddirection_10m&timezone=UTC`;
-
-    fetch(url)
-      .then(r => (r.ok ? r.json() : null))
-      .then(data => {
-        if (!data) return;
-        // Open-Meteo returns an array for multi-location queries, or a single object for one
-        const results: any[] = Array.isArray(data) ? data : [data];
-        const points: WeatherOverlay[] = [];
-        for (let i = 0; i < Math.min(results.length, WEATHER_GRID.length); i++) {
-          const r = results[i];
-          const grid = WEATHER_GRID[i];
-          if (!r?.hourly) continue;
-          const hourIdx = 12; // noon UTC
-          const cloudCover = (r.hourly.cloudcover?.[hourIdx] as number) ?? 0;
-          const windSpeed = (r.hourly.windspeed_10m?.[hourIdx] as number) ?? 0;
-          const windDir = (r.hourly.winddirection_10m?.[hourIdx] as number) ?? 0;
-          const dir = windDirLabel(windDir);
-          const arrow = WIND_ARROWS[dir] || '';
-          points.push({
-            label: grid.label,
-            lat: grid.lat,
-            lon: grid.lon,
-            cloudCover,
-            windText: `${arrow} ${Math.round(windSpeed)} km/h`,
-          });
-        }
-        setWeather(points);
-        lastWeatherDate.current = currentDate;
-      })
-      .catch(() => {
-        /* network errors are non-fatal */
-      });
-  }, [layers.weather, currentDate]);
+  const statuses: OverlayStatuses = {
+    earthquakes: layers.earthquakes ? { status: quakes.status, updatedAt: quakes.updatedAt, error: quakes.error } : undefined,
+    weather: layers.weather ? { status: wx.status, updatedAt: wx.updatedAt, error: wx.error } : undefined,
+  };
 
   // ── Counts for layer toggles ──
   // Flights and terminator counts are managed externally (useMapFlights / useTerminator)
@@ -247,5 +216,6 @@ export function useMapOverlays(layers: LayerState, currentDate: string) {
   return {
     overlays: { noFlyZones, gpsJamming, internetBlackout, earthquakes, weather } as OverlayData,
     counts,
+    statuses,
   };
 }
