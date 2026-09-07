@@ -12,7 +12,11 @@
 # updated by GitHub Actions committing JSON; a self-hosted copy refreshes by
 # rebuilding (or by mounting your own `dist/`). See docs/self-hosting.md.
 
-FROM node:22-alpine AS build
+# --platform=$BUILDPLATFORM: the site is static, so the build stage runs once,
+# natively on the builder, and only the nginx stage below is built per target
+# architecture. Without it the whole Astro build ran a second time under QEMU
+# for linux/arm64, which alone exceeded the job's time budget.
+FROM --platform=$BUILDPLATFORM node:22-alpine AS build
 WORKDIR /app
 ENV CI=1 \
     PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 \
