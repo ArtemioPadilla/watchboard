@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { parseHeadersFile, patternToLocation, renderNginxLocations, reconcileFraming } from './headers-to-nginx';
+import { parseHeadersFile, patternToLocation, renderNginxLocations, reconcileFraming, mergeHeaders } from './headers-to-nginx';
 
 const SAMPLE = `# comment
 /*
@@ -55,6 +55,10 @@ describe('renderNginxLocations', () => {
     expect(embed).not.toContain('frame-ancestors');
     expect(embed).not.toContain('X-Frame-Options');
     expect(reconcileFraming({ 'X-Frame-Options': 'SAMEORIGIN', 'Content-Security-Policy': "frame-ancestors 'none'" })).toEqual({ 'X-Frame-Options': 'SAMEORIGIN', 'Content-Security-Policy': "frame-ancestors 'none'" });
+  });
+  it('merges header names case-insensitively', () => {
+    expect(mergeHeaders({ 'Cache-Control': 'a' }, { 'cache-control': 'b' })).toEqual({ 'cache-control': 'b' });
+    expect(mergeHeaders({ 'X-A': '1' }, { 'X-B': '2' })).toEqual({ 'X-A': '1', 'X-B': '2' });
   });
   it('refuses header values containing a dollar sign', () => {
     expect(() => renderNginxLocations([{ path: '/*', headers: { 'X-Test': 'a$b' } }])).toThrow(/\$/);

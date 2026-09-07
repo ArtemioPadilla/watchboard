@@ -700,10 +700,10 @@ GHCR, con compose y documentación honesta de variables.
 
 **Criterios de aceptación**
 
-- GIVEN `docker build -t watchboard .` THEN la imagen final es `nginx:alpine` + `dist/`, < 150 MB, sin `node_modules`, usuario no root, `HEALTHCHECK` sobre `/`.
+- GIVEN `docker build -t watchboard .` THEN la imagen final es `nginx:alpine` + `dist/`, < 150 MB, sin `node_modules`, usuario no root, `HEALTHCHECK` sobre `/healthz`.
 - GIVEN la etapa de build THEN ejecuta `npm ci && npm run build` (incluye `generate-api`, `copy-cesium`, pagefind, `csp-hashes`).
 - GIVEN `nginx.conf` THEN aplica las mismas cabeceras que `public/_headers` (generadas por un script, no copiadas a mano), gzip para `application/json` y `Cache-Control` largo para `/cesium/` y `/_astro/`.
-- GIVEN `docker run -p 8080:80` THEN `/`, `/iran-conflict/`, `/api/v1/trackers.json` y `/_hourly/alerts.json` responden 200.
+- GIVEN `docker run -p 8080:8080` (nginx escucha en 8080 como usuario no root) THEN `/`, `/iran-conflict/`, `/api/v1/trackers.json`, `/rss.xml` y un archivo de `/_hourly/` responden 200 y una ruta inexistente responde 404 con la página personalizada.
 
 **Tareas** (S)
 

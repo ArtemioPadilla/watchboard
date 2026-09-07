@@ -19,23 +19,29 @@ done
 
 fail=0
 : > smoke-summary.md
+# check PATH EXPECTED_STATUS EXPECTED_SUBSTRING LABEL — asserts the status
+# code AND a body substring; both must hold or the run fails.
 check() {
-  local path="$1" expect="$2" label="$3"
-  local body code
-  body=$(curl -sS -o /tmp/smoke-body -w '%{http_code}' "http://127.0.0.1:${PORT}${path}") || body=000
-  code="$body"
-  if [ "$code" = "200" ] && grep -q "$expect" /tmp/smoke-body; then
-    echo "| $label ($path) | ✅ 200, contains \`$expect\` |" >> smoke-summary.md
+  local path="$1" want="$2" expect="$3" label="$4"
+  local code
+  code=$(curl -sS -o /tmp/smoke-body -w '%{http_code}' "http://127.0.0.1:${PORT}${path}") || code=000
+  if [ "$code" = "$want" ] && grep -q -- "$expect" /tmp/smoke-body; then
+    echo "| $label ($path) | ✅ $code, contains \`$expect\` |" >> smoke-summary.md
   else
-    echo "| $label ($path) | ❌ HTTP $code, expected \`$expect\` |" >> smoke-summary.md
+    echo "| $label ($path) | ❌ HTTP $code (wanted $want), expected \`$expect\` |" >> smoke-summary.md
     fail=1
   fi
 }
-check "/" "<title" "homepage"
-check "/iran-conflict/" "hero" "tracker page"
-check "/api/v1/trackers.json" '"trackers"' "JSON API"
-check "/rss.xml" "<rss" "RSS"
-check "/404-does-not-exist" "" "404 page" || true
+check "/" 200 "<title" "homepage"
+check "/iran-conflict/" 200 "hero" "tracker page"
+check "/api/v1/trackers.json" 200 '"trackers"' "JSON API"
+check "/rss.xml" 200 "<rss" "RSS"
+# The plan (E8.H1) names /_hourly/alerts.json; that file is produced by the
+# E3 branch. Until it merges, the light-scan state file proves /_hourly/
+# static passthrough works.
+check "/_hourly/state.json" 200 '"seen"' "_hourly passthrough"
+# A missing path must be a real 404 that still renders the custom page.
+check "/404-does-not-exist" 404 "<title" "404 page"
 
 # Headers actually applied (the whole point of headers-to-nginx.ts).
 hdrs=$(curl -sSI "http://127.0.0.1:${PORT}/api/v1/trackers.json")

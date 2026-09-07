@@ -101,3 +101,6 @@ The old Google Sheet toolkit (bit.ly/bcattools) is deprecated. The new toolkit a
 - For awesome-* PRs: read their contributing guide, follow alphabetical sorting, keep description under 2 lines
 - For Astro showcase: include a screenshot if they have a field for it
 - Space submissions 2-3 days apart so you don't hit spam filters
+- [ ] awesome-selfhosted PR (blocked on first `v*` tag: the list requires a tagged release)
+- [ ] CasaOS app-store PR (`docker-compose.yml` carries the `x-casaos` block)
+- [ ] Umbrel app-store PR

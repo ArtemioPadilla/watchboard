@@ -63,6 +63,17 @@ function nginxQuote(value: string): string {
   return `"${value.replace(/\\/g, '\\\\').replace(/"/g, '\\"')}"`;
 }
 
+/** Case-insensitive override: a rule's `cache-control` replaces the root's `Cache-Control`. */
+export function mergeHeaders(base: Record<string, string>, override: Record<string, string>): Record<string, string> {
+  const out: Record<string, string> = { ...base };
+  for (const [k, v] of Object.entries(override)) {
+    const existing = Object.keys(out).find(n => n.toLowerCase() === k.toLowerCase());
+    if (existing && existing !== k) delete out[existing];
+    out[k] = v;
+  }
+  return out;
+}
+
 /**
  * A rule that opts a path into being framed (X-Frame-Options: ALLOWALL, as
  * /embed/* does) must also drop `frame-ancestors` from the CSP it inherits
@@ -107,7 +118,7 @@ export function renderNginxLocations(rules: HeaderRule[]): string {
   for (const rule of rules) {
     if (rule.path === '/*') continue;
     const loc = patternToLocation(rule.path);
-    const merged = reconcileFraming({ ...root, ...rule.headers });
+    const merged = reconcileFraming(mergeHeaders(root, rule.headers));
     const selector = loc.kind === 'prefix' ? `location ^~ ${loc.path}` : `location = ${loc.path}`;
     const tryFiles = loc.kind === 'prefix' ? `\n    try_files $uri $uri/ $uri.html =404;` : '';
     blocks.push(`${selector} {\n${emit(merged, '    ')}${tryFiles}\n}`);
