@@ -16,6 +16,8 @@ import { loadAllTrackers } from '../../../lib/tracker-registry';
 import { loadTrackerData } from '../../../lib/data';
 import type { TrackerCardDetail } from '../../../lib/tracker-directory-utils';
 import { firstThumbnail } from '../../../lib/media-utils';
+import { computeActivity, countKpiDeltas } from '../../../lib/activity-index';
+import { resolveEventDate } from '../../../lib/timeline-utils';
 
 export const getStaticPaths: GetStaticPaths = () => {
   const trackers = loadAllTrackers();
@@ -35,6 +37,7 @@ export const GET: APIRoute = ({ props }) => {
   const eventImages: NonNullable<TrackerCardDetail['eventImages']> = [];
   let descriptionEs: string | undefined;
   let topKpisEs: TrackerCardDetail['topKpisEs'] = [];
+  let activityFactors: TrackerCardDetail['activityFactors'];
 
   try {
     const data = loadTrackerData(config.slug, config.eraLabel);
@@ -47,6 +50,16 @@ export const GET: APIRoute = ({ props }) => {
     // Up to 5 recent event images from T1-T2 sources (most recent first) —
     // mirrors the same logic that index.astro used to inline.
     const allEvents = data.timeline.flatMap(era => era.events).reverse();
+    activityFactors = computeActivity({
+      events: allEvents.map(e => ({ date: resolveEventDate(e.year) ?? '', sources: e.sources })),
+      breaking: data.meta.breaking,
+      lastUpdated: data.meta.lastUpdated,
+      sectionsUpdatedCount: latestDigest?.sectionsUpdated?.length ?? 0,
+      kpiDeltaCount: countKpiDeltas(data.kpis),
+      latestDigestDate: latestDigest?.date ?? null,
+      temporal: config.temporal,
+      updateIntervalDays: config.updateIntervalDays,
+    }).factors;
     for (const evt of allEvents) {
       if (eventImages.length >= 5) break;
       if (!evt.media?.length) continue;
@@ -87,6 +100,7 @@ export const GET: APIRoute = ({ props }) => {
     eventImages,
     descriptionEs,
     topKpisEs,
+    activityFactors,
   };
 
   return new Response(JSON.stringify(payload), {

@@ -2,6 +2,7 @@ import { memo, useRef, useEffect } from 'react';
 import type { TrackerCardData } from '../../../lib/tracker-directory-utils';
 import { relativeTime } from '../../../lib/event-utils';
 import { t, type Locale } from '../../../i18n/translations';
+import { describeFactors } from '../../../lib/activity-index';
 
 interface Props {
   tracker: TrackerCardData;
@@ -79,6 +80,16 @@ export default memo(function FeedRow({
         <span className="cc-feed-time" suppressHydrationWarning>
           {relativeTime(tracker.lastUpdated)}
         </span>
+        {tracker.activity && (
+          <span
+            className={`cc-feed-activity${tracker.activity.score >= 60 ? ' hot' : tracker.activity.score >= 30 ? ' warm' : ''}`}
+            title={`${t('sidebar.activity', locale)} ${tracker.activity.score}/100${tracker.activityFactors ? ` · ${describeFactors({ factors: tracker.activityFactors as never, windowDays: tracker.activity.windowDays }) || '—'}` : ''}`}
+            aria-label={`${t('sidebar.activity', locale)} ${tracker.activity.score}`}
+            data-testid="activity-badge"
+          >
+            {tracker.activity.score}
+          </span>
+        )}
         <div className="cc-feed-actions">
           <button
             type="button"

@@ -24,6 +24,11 @@ const { kpis } = Astro.props;
           {k.delta && (
             <span class={`kpi-delta ${k.trend || ''}`} title={k.deltaNote || undefined}>{k.delta}</span>
           )}
+          {!k.delta && k.deltaDetail && k.deltaDetail.value !== 0 && (
+            <span class={`kpi-delta ${k.deltaDetail.direction === 'up' ? 'up' : k.deltaDetail.direction === 'down' ? 'down' : ''}`} title={k.deltaNote || `Change over ${k.deltaDetail.period}`} data-testid="kpi-delta">
+              {k.deltaDetail.direction === 'up' ? '\u25B2' : k.deltaDetail.direction === 'down' ? '\u25BC' : '\u25AC'} {k.deltaDetail.value > 0 ? '+' : ''}{k.deltaDetail.value} / {k.deltaDetail.period}
+            </span>
+          )}
           {k.source}
           {k.contested && <span class="kpi-contested" title={k.contestNote || undefined}>CONTESTED</span>}
         </div>

@@ -666,8 +666,8 @@ que devuelva 0-100 y los factores.
 
 **Tareas** (S-M)
 
-- [ ] `src/lib/activity-index.ts` + test
-- [ ] `KpiSchema`: campo opcional `delta: {value, direction, period}` (BL-024) en `schemas.ts`; el updater nocturno lo rellena (instrucción en `update-data.yml` STEP 3)
+- [x] `src/lib/activity-index.ts` + test
+- [x] `KpiSchema`: campo opcional `deltaDetail: {value, direction, period}` (BL-024) en `schemas.ts` — se llama `deltaDetail` porque `delta` ya existe como cadena de display; el updater nocturno lo rellena (instrucción en `update-data.yml` STEP 3)
 
 ### E7.H2 — Exponer y usar el índice
 
@@ -680,12 +680,12 @@ que devuelva 0-100 y los factores.
 
 **Tareas** (S-M)
 
-- [ ] `generate-api.ts:319-338`: añadir `activity`
-- [ ] `index.astro:26-146`: añadir `activity.score`
-- [ ] `SidebarPanel.tsx`: orden y badge; `FeedRow.tsx` tooltip
-- [ ] `hero-selection.ts`, `video/render.ts`: consumir
-- [ ] `mcp/server.ts:230`: parámetro `sort`
-- [ ] `KpiStrip.astro`: mostrar `delta` (BL-024)
+- [x] `generate-api.ts:319-338`: añadir `activity`
+- [x] `index.astro:26-146`: añadir `activity.score`
+- [x] `SidebarPanel.tsx`: orden y badge; `FeedRow.tsx` tooltip
+- [x] `hero-selection.ts`, `video/render.ts`: consumir
+- [x] `mcp/server.ts:230`: parámetro `sort`
+- [x] `KpiStrip.astro`: mostrar `delta` (BL-024)
 
 ---
 

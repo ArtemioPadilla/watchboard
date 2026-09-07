@@ -2,6 +2,8 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { loadAllTrackers } from '../lib/tracker-registry';
 import { loadTrackerData } from '../lib/data';
+import { computeActivity, countKpiDeltas } from '../lib/activity-index';
+import { resolveEventDate } from '../lib/timeline-utils';
 import CommandCenter from '../components/islands/CommandCenter/CommandCenter';
 import { jsonLd } from '../lib/json-ld';
 import { firstThumbnail } from '../lib/media-utils';
@@ -35,6 +37,7 @@ const serializedTrackers = nonDraft.map(t => {
   let recentEventCount = 0;
   let avgSourceTier = 0;
   let sectionsUpdatedCount = 0;
+  let activity: ReturnType<typeof computeActivity> | undefined;
 
   try {
     const data = loadTrackerData(t.slug, t.eraLabel);
@@ -91,6 +94,18 @@ const serializedTrackers = nonDraft.map(t => {
       }
     }
     avgSourceTier = recentTierCount > 0 ? recentTierSum / recentTierCount : 4;
+    activity = computeActivity({
+      // Timeline events carry a human `year` string, not a date: resolve it
+      // the same way generate-api does or every event falls outside the window.
+      events: allEvents.map(e => ({ date: resolveEventDate(e.year) ?? '', sources: e.sources })),
+      breaking: data.meta.breaking,
+      lastUpdated: data.meta.lastUpdated,
+      sectionsUpdatedCount,
+      kpiDeltaCount: countKpiDeltas(data.kpis),
+      latestDigestDate: latestDigest?.date ?? null,
+      temporal: t.temporal,
+      updateIntervalDays: t.updateIntervalDays,
+    });
     // Explicit breaking flag from meta takes precedence; fall back to heuristic
     isBreaking = data.meta.breaking ?? (last24hCount >= 3 && hasT1InLast24h);
   } catch {
@@ -145,6 +160,9 @@ const serializedTrackers = nonDraft.map(t => {
     recentEventCount,
     avgSourceTier,
     sectionsUpdatedCount,
+    // Score + window only: the factor breakdown rides in /api/cards/{slug}.json
+    // so the homepage HTML does not grow by 125 × factors (BL-026).
+    activity: activity ? { score: activity.score, windowDays: activity.windowDays } : undefined,
   };
 });
 

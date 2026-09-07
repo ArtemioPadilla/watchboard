@@ -14,6 +14,7 @@
  *        VIDEO_MODE=positive npx tsx video/src/data/fetch-breaking.ts
  */
 import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync } from 'node:fs';
+import { computeActivity, countKpiDeltas } from '../../../src/lib/activity-index.js';
 import { join, resolve } from 'node:path';
 import { SAMPLE_DATA, type BreakingData, type BreakingTracker } from './types.js';
 
@@ -108,6 +109,7 @@ export type VideoMode = 'conflict' | 'positive';
 
 interface TrackerConfig {
   slug: string;
+  updateIntervalDays?: number;
   name: string;
   shortName?: string;
   icon: string;
@@ -131,6 +133,8 @@ interface KpiItem {
   label: string;
   value: string;
   source: string;
+  /** Structured change (BL-024 / plan E7); feeds the activity index. */
+  deltaDetail?: { value: number; direction: 'up' | 'down' | 'flat'; period: string };
 }
 
 export interface ScoredCandidate {
@@ -138,6 +142,8 @@ export interface ScoredCandidate {
   score: number;
   breaking: boolean;
   lastUpdated: string;
+  /** 0-100 activity index (src/lib/activity-index.ts); adds up to ACTIVITY_BONUS_MAX. */
+  activity?: number;
   tone?: string;
   domain?: string;
   temporal?: string;
@@ -417,6 +423,9 @@ export function escalationScore(
  * Cooldown/novelty penalties and bonuses from TrackerHistory are applied in both
  * conflict and positive modes when history is provided.
  */
+/** Maximum points the activity index can add in conflict mode. */
+export const ACTIVITY_BONUS_MAX = 25;
+
 export function scoreCandidate(
   candidate: ScoredCandidate,
   mode: VideoMode,
@@ -449,6 +458,9 @@ export function scoreCandidate(
   // conflict mode (default)
   let score = 0;
   if (candidate.breaking) score += 100;
+  // Shared activity index (plan E7): the same number the homepage ranks on,
+  // scaled so it can reorder non-breaking trackers but never outrank breaking.
+  if (typeof candidate.activity === 'number') score += Math.round((Math.max(0, Math.min(100, candidate.activity)) / 100) * ACTIVITY_BONUS_MAX);
   if (age <= 1) score += 30;
   else if (age <= 7) score += 15;
   else if (age <= 30) score += 5;
@@ -467,6 +479,32 @@ export function scoreCandidate(
   return score;
 }
 
+/** Newest digest date and its sections, so the video's activity matches the homepage's. */
+function loadDigestInputs(slug: string): { latestDigestDate: string | null; sectionsUpdatedCount: number } {
+  try {
+    const digests = JSON.parse(readFileSync(join(TRACKERS_DIR, slug, 'data', 'digests.json'), 'utf-8'));
+    const d = Array.isArray(digests) ? digests[0] : null;
+    return { latestDigestDate: typeof d?.date === 'string' ? d.date : null, sectionsUpdatedCount: Array.isArray(d?.sectionsUpdated) ? d.sectionsUpdated.length : 0 };
+  } catch {
+    return { latestDigestDate: null, sectionsUpdatedCount: 0 };
+  }
+}
+
+/** Events of the last 60 daily files, enough for any activity window. */
+function loadRecentEventsForActivity(slug: string): { date: string; sources?: { tier: number }[] }[] {
+  const eventsDir = join(TRACKERS_DIR, slug, 'data', 'events');
+  if (!existsSync(eventsDir)) return [];
+  const out: { date: string; sources?: { tier: number }[] }[] = [];
+  for (const file of readdirSync(eventsDir).filter((f) => /^\d{4}-\d{2}-\d{2}\.json$/.test(f)).sort().reverse().slice(0, 60)) {
+    try {
+      const events = JSON.parse(readFileSync(join(eventsDir, file), 'utf-8'));
+      if (!Array.isArray(events)) continue;
+      for (const ev of events) out.push({ date: file.slice(0, 10), sources: Array.isArray(ev?.sources) ? ev.sources : [] });
+    } catch { /* skip unreadable partition */ }
+  }
+  return out;
+}
+
 interface LoadedTrackerData {
   tracker: BreakingTracker;
   breaking: boolean;
@@ -476,6 +514,8 @@ interface LoadedTrackerData {
   temporal?: string;
   tags?: string[];
   dayCount: number;
+  /** 0-100 activity index (plan E7). */
+  activity?: number;
 }
 
 function loadTrackerBreaking(slug: string): LoadedTrackerData | null {
@@ -483,6 +523,7 @@ function loadTrackerBreaking(slug: string): LoadedTrackerData | null {
   const configPath = join(trackerDir, 'tracker.json');
   const metaPath = join(trackerDir, 'data', 'meta.json');
   const kpisPath = join(trackerDir, 'data', 'kpis.json');
+  let kpisForActivity: KpiItem[] = [];
 
   if (!existsSync(configPath) || !existsSync(metaPath)) return null;
 
@@ -503,6 +544,7 @@ function loadTrackerBreaking(slug: string): LoadedTrackerData | null {
 
     if (existsSync(kpisPath)) {
       const kpis: KpiItem[] = JSON.parse(readFileSync(kpisPath, 'utf-8'));
+      if (Array.isArray(kpis)) kpisForActivity = kpis;
       if (kpis.length > 0) {
         const topKpi = kpis[0];
         kpiLabel = topKpi.label.toUpperCase();
@@ -545,6 +587,15 @@ function loadTrackerBreaking(slug: string): LoadedTrackerData | null {
       temporal: config.temporal,
       tags: config.tags,
       dayCount: meta.dayCount ?? 0,
+      activity: computeActivity({
+        events: loadRecentEventsForActivity(slug),
+        breaking: meta.breaking === true,
+        lastUpdated: meta.lastUpdated ?? null,
+        kpiDeltaCount: countKpiDeltas(kpisForActivity),
+        ...loadDigestInputs(slug),
+        temporal: config.temporal,
+        updateIntervalDays: config.updateIntervalDays,
+      }).score,
     };
   } catch {
     console.warn(`Failed to load tracker: ${slug}`);
@@ -645,6 +696,7 @@ export function fetchBreakingData(options: FetchBreakingOptions = {}): BreakingD
       temporal: loaded.temporal,
       tags: loaded.tags,
       dayCount: loaded.dayCount,
+      activity: loaded.activity,
     };
 
     const calculatedScore = scoreCandidate(candidate, mode, trackerHistory);

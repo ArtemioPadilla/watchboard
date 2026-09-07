@@ -14,7 +14,7 @@ import GeoAccordion from './GeoAccordion';
 import FeedRow from './FeedRow';
 import HeroCard from './HeroCard';
 import { selectHeroTracker } from '../../../lib/hero-selection';
-import { sortByRelevance } from '../../../lib/relevance';
+import { sortByRelevance, sortByActivity } from '../../../lib/relevance';
 import { useTrackerDetail } from './useTrackerDetail';
 
 /** OSM tile fallback for the expanded-row thumbnail (media → tile → hidden). */
@@ -337,6 +337,8 @@ interface FeedListProps {
   onToggleFollow: (slug: string) => void;
   onToggleCompare: (slug: string) => void;
   isSearching: boolean;
+  /** Render the list in the given order with no recency buckets (activity sort). */
+  flat?: boolean;
 }
 
 const FeedList = memo(function FeedList({
@@ -354,6 +356,7 @@ const FeedList = memo(function FeedList({
   onToggleFollow,
   onToggleCompare,
   isSearching,
+  flat = false,
 }: FeedListProps) {
   const now = Date.now();
   const followed = useMemo(() => new Set(followedSlugs), [followedSlugs]);
@@ -436,6 +439,11 @@ const FeedList = memo(function FeedList({
     );
   }
 
+  // Activity sort: the order *is* the information; no recency buckets.
+  if (flat) {
+    return <>{trackers.map(tr => renderOne(tr, false))}</>;
+  }
+
   // OPS view: followed first, then recent, then older (dimmed), separated by
   // 1px dividers (no text labels).
   const followedTrackers: TrackerCardData[] = [];
@@ -497,6 +505,17 @@ export default function SidebarPanel({
   featuredSlug,
 }: Props) {
   const [searchQuery, setSearchQuery] = useState('');
+  // Sidebar order: relevance (breaking/followed/activity/recency) or the raw
+  // activity index (plan E7.H2). Remembered per browser.
+  const [sortMode, setSortMode] = useState<'relevance' | 'activity'>('relevance');
+  // Read the saved choice after mount so server and first client render agree.
+  useEffect(() => {
+    try { if (localStorage.getItem('watchboard:sidebar-sort') === 'activity') setSortMode('activity'); } catch { /* private mode */ }
+  }, []);
+  const changeSort = useCallback((m: 'relevance' | 'activity') => {
+    setSortMode(m);
+    try { localStorage.setItem('watchboard:sidebar-sort', m); } catch { /* private mode */ }
+  }, []);
 
   const filtered = useMemo(
     () => filterTrackers(trackers, null, searchQuery),
@@ -504,8 +523,8 @@ export default function SidebarPanel({
   );
 
   const sortedFiltered = useMemo(
-    () => sortByRelevance(filtered, followedSlugs),
-    [filtered, followedSlugs],
+    () => sortMode === 'activity' ? sortByActivity(filtered) : sortByRelevance(filtered, followedSlugs),
+    [filtered, followedSlugs, sortMode],
   );
 
   const groups = useMemo(() => groupTrackers(sortedFiltered), [sortedFiltered]);
@@ -655,6 +674,24 @@ export default function SidebarPanel({
         <ViewModeToggle mode={viewMode || 'operations'} onChange={onChangeViewMode} />
       )}
 
+      {/* Sort order (E7) */}
+      <div className="cc-sort-toggle" role="radiogroup" aria-label={t('sidebar.sortBy', locale)} data-testid="sidebar-sort">
+        <span className="cc-sort-label">{t('sidebar.sortBy', locale)}</span>
+        {(['relevance', 'activity'] as const).map(m => (
+          <button
+            key={m}
+            type="button"
+            role="radio"
+            aria-checked={sortMode === m}
+            className={`cc-sort-option${sortMode === m ? ' active' : ''}`}
+            onClick={() => changeSort(m)}
+            data-sort={m}
+          >
+            {t(m === 'relevance' ? 'sidebar.sortRelevance' : 'sidebar.sortActivity', locale)}
+          </button>
+        ))}
+      </div>
+
       {/* Hero — hidden during search */}
       {!isSearching && heroTracker && (
         <HeroCard
@@ -693,6 +730,7 @@ export default function SidebarPanel({
             basePath={basePath}
             locale={locale}
             viewMode={(viewMode || 'operations') as ViewMode}
+            flat={sortMode === 'activity'}
             onSelectTracker={onSelectTracker}
             onHoverTracker={onHoverTracker}
             onToggleFollow={onToggleFollow}

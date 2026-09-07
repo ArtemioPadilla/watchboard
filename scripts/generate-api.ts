@@ -20,6 +20,7 @@ import {
   rmSync,
   statSync,
 } from 'fs';
+import { computeActivity, countKpiDeltas, type ActivityIndex } from '../src/lib/activity-index.js';
 import { join, basename, dirname } from 'path';
 
 const TRACKERS_DIR = join(process.cwd(), 'trackers');
@@ -40,6 +41,7 @@ function writeOut(relPath: string, data: unknown): void {
 
 interface TrackerConfig {
   slug: string;
+  updateIntervalDays?: number;
   name: string;
   shortName: string;
   description: string;
@@ -245,6 +247,8 @@ function generate(): void {
     lastUpdated?: string;
     dayCount?: number;
     breaking?: boolean;
+    /** Activity index (plan E7): 0-100 plus the factors behind it. */
+    activity?: ActivityIndex;
   }> = [];
 
   const breakingItems: Array<{
@@ -334,6 +338,16 @@ function generate(): void {
       lastUpdated: meta.lastUpdated ?? undefined,
       dayCount: meta.dayCount ?? undefined,
       breaking: meta.breaking ?? undefined,
+      activity: computeActivity({
+        events: allEvents,
+        breaking: meta.breaking,
+        lastUpdated: meta.lastUpdated ?? null,
+        sectionsUpdatedCount: digests[0]?.sectionsUpdated?.length ?? 0,
+        kpiDeltaCount: countKpiDeltas(Array.isArray(kpis) ? kpis : []),
+        latestDigestDate: digests[0]?.date ?? null,
+        temporal: config.temporal,
+        updateIntervalDays: config.updateIntervalDays,
+      }),
     });
 
     // ── Breaking

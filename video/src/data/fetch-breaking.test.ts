@@ -9,6 +9,7 @@ import {
   parseKpiDisplay,
   type TrackerHistory,
   type ScoredCandidate,
+  ACTIVITY_BONUS_MAX,
 } from './fetch-breaking.js';
 import type { VideoMode } from './fetch-breaking.js';
 import { existsSync, readFileSync, writeFileSync, mkdirSync, rmSync } from 'node:fs';
@@ -327,5 +328,23 @@ describe('parseKpiDisplay', () => {
 
   it('handles × multiplier suffix', () => {
     expect(parseKpiDisplay('4×')).toEqual({ prefix: '', suffix: '×' });
+  });
+});
+
+describe('activity bonus (plan E7)', () => {
+  it('adds up to ACTIVITY_BONUS_MAX in conflict mode and never outranks breaking', () => {
+    const base = makeCandidate({ breaking: false });
+    const quiet = scoreCandidate({ ...base, activity: 0 }, 'conflict')!;
+    const busy = scoreCandidate({ ...base, activity: 100 }, 'conflict')!;
+    const none = scoreCandidate(base, 'conflict')!;
+    expect(busy - quiet).toBe(ACTIVITY_BONUS_MAX);
+    expect(none).toBe(quiet);
+    expect(scoreCandidate({ ...base, activity: 250 }, 'conflict')).toBe(busy); // clamped
+    const breaking = scoreCandidate(makeCandidate({ breaking: true, activity: 0 }), 'conflict')!;
+    expect(breaking).toBeGreaterThan(busy);
+  });
+  it('leaves positive mode untouched', () => {
+    const c = makeCandidate({ tone: 'progress' });
+    expect(scoreCandidate({ ...c, activity: 100 }, 'positive')).toBe(scoreCandidate(c, 'positive'));
   });
 });

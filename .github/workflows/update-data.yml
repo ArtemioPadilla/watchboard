@@ -290,6 +290,12 @@ jobs:
             You MUST update ALL enabled sections, not just events. Map-lines and map-points
             are CRITICAL — every military event needs a corresponding map entry with coordinates.
 
+            KPI DELTAS (kpis.json): when a KPI value changes, also set
+            "deltaDetail": { "value": <signed number, the change since the previous value>, "direction": "up"|"down"|"flat", "period": "24h" }
+            (period is the span the change covers: "24h", "7d", or "since <date>"). Keep `delta`
+            as the short display string if it already exists. Never invent a delta for a value
+            that did not change — leave deltaDetail out.
+
             MAP DATA IS HIGHEST PRIORITY — update map-lines.json FIRST:
             For each new military strike or retaliation event:
             - Add to map-lines.json: from/to coords, cat (strike/retaliation), weaponType, launched, intercepted, confidence, time (HH:MM), platform, status
