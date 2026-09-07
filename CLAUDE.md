@@ -31,6 +31,10 @@ make video-render-progress  # Render the daily progress brief MP4
 make help            # List all Make targets
 ```
 
+## Self-hosting
+
+`Dockerfile` (multi-stage: `node:22-alpine` build → `nginx:1.27-alpine` serving `dist/` on 8080 as the `nginx` user) and `docker-compose.yml` (with CasaOS metadata). `scripts/headers-to-nginx.ts` converts `public/_headers` into nginx `location` blocks at image build time so headers are declared once. `scripts/list-env-vars.ts` greps every `process.env.*` / `import.meta.env.*` and embeds the table in `docs/self-hosting.md` (`--check` in CI). `.github/workflows/docker-publish.yml` builds amd64+arm64, runs `tests/docker-smoke.sh` (verifies routes, CORS and CSP headers on the running container) and pushes to GHCR on `main` and `v*` tags.
+
 ## Deployment & Workflows
 
 - **Build + deploy**: `.github/workflows/deploy.yml` — triggers on push to `main`, builds Astro, deploys `dist/` to GitHub Pages
@@ -41,6 +45,7 @@ make help            # List all Make targets
 - **Init new tracker**: `.github/workflows/init-tracker.yml` — manual dispatch with slug, topic, start_date, region. Claude Code generates `tracker.json` + empty data files. Auto-chains into seed job.
 - **Seed tracker data**: `.github/workflows/seed-tracker.yml` — manual dispatch for comprehensive historical backfill. Claude Code does deep web research and populates all sections.
 - **Credential canary**: `.github/workflows/credential-canary.yml` — daily liveness check on Telegram, Bluesky, Claude OAuth and PostHog. Built after a revoked token took seven workflows down for two weeks unnoticed. Infra alerts go to `TELEGRAM_ALERT_CHAT_ID` (private ops chat), **never** `TELEGRAM_CHANNEL_ID` (public content channel with outside subscribers)
+- **Docker image**: `.github/workflows/docker-publish.yml` — build + smoke test on PRs touching the image, publish to GHCR on `main`/tags
 - **Tests**: `.github/workflows/test.yml` — runs the vitest suite on every PR. Added after finding 225 tests that no workflow had ever executed
 - **X API check**: `.github/workflows/x-api-check.yml` — manual dispatch, `verify` (read-only) or `post-test`
 - All data workflows use `claude-code-action` with `CLAUDE_CODE_OAUTH_TOKEN` (Max subscription) — no per-token API costs

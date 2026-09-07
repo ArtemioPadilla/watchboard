@@ -1,0 +1,104 @@
+name: Docker image
+
+# Builds the self-host image on every push to main and on version tags,
+# smoke-tests it (a container that starts but serves nothing is the silent
+# failure this repo keeps finding), then publishes to GHCR for amd64+arm64.
+# Pull requests build and smoke-test only.
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+    paths:
+      - Dockerfile
+      - .dockerignore
+      - docker/**
+      - docker-compose.yml
+      - scripts/headers-to-nginx.ts
+      - public/_headers
+      - package.json
+      - package-lock.json
+      - .github/workflows/docker-publish.yml
+  workflow_dispatch:
+
+# Two quick pushes must not race to overwrite the `latest` tag.
+concurrency:
+  group: docker-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  IMAGE: ghcr.io/${{ github.repository_owner }}/watchboard
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: docker/setup-qemu-action@v3
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Build amd64 image for the smoke test
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          load: true
+          tags: watchboard:smoke
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Smoke test (verify the artefact, not the exit code)
+        run: bash tests/docker-smoke.sh watchboard:smoke
+
+      - name: Log in to GHCR
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Image tags
+        if: github.event_name != 'pull_request'
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.IMAGE }}
+          tags: |
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=sha,prefix=sha-
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+
+      - name: Build and push (amd64 + arm64)
+        if: github.event_name != 'pull_request'
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Summary
+        if: always()
+        run: |
+          {
+            echo "## Docker image"
+            echo
+            echo "| Check | Result |"
+            echo "|---|---|"
+            if [ -f smoke-summary.md ]; then cat smoke-summary.md; else echo "| smoke test | not run |"; fi
+            echo
+            if [ "${{ github.event_name }}" != "pull_request" ]; then
+              echo "Pushed tags:"; echo '```'; echo "${{ steps.meta.outputs.tags }}"; echo '```'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
