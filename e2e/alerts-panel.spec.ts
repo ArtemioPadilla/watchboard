@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { TOUR_DONE, waitForCommandCenter } from './helpers/hydration';
 
 const FIXTURE = {
   version: 1,
@@ -24,20 +25,12 @@ const FIXTURE = {
   ],
 };
 
-// The first-visit tour is a modal that intercepts every click; mark it done
-// before the page scripts run (same keys as src/lib/onboarding.ts).
-const TOUR_DONE = () => {
-  const done = JSON.stringify({ completed: true, completedAt: '2026-01-01T00:00:00.000Z', replayCount: 0 });
-  localStorage.setItem('watchboard-tour-desktop-v1', done);
-  localStorage.setItem('watchboard-tour-mobile-v1', done);
-};
-
 test.describe('Alerts panel', () => {
   test.beforeEach(async ({ page }) => {
     await page.addInitScript(TOUR_DONE);
     await page.route('**/_hourly/alerts.json', route => route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(FIXTURE) }));
     await page.goto('./', { waitUntil: 'load' });
-    await expect(page.locator('.cc-search-input')).toBeVisible();
+    await waitForCommandCenter(page);
   });
 
   test('nav button shows the count and opens the panel with severities and filters', async ({ page }) => {
@@ -74,6 +67,7 @@ test.describe('Alerts panel', () => {
     const bad = { ...FIXTURE, entries: [{ ...FIXTURE.entries[0], id: 'js', url: 'javascript:alert(1)' }, FIXTURE.entries[1]] };
     await page.route('**/_hourly/alerts.json', route => route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(bad) }));
     await page.reload({ waitUntil: 'load' });
+    await waitForCommandCenter(page);
     await page.getByTestId('alerts-toggle').click();
     const items = page.getByTestId('alerts-panel').locator('.alerts-item');
     await expect(items).toHaveCount(2);
@@ -132,6 +126,7 @@ test.describe('Alerts panel', () => {
       return route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(body) });
     });
     await page.reload({ waitUntil: 'load' });
+    await waitForCommandCenter(page);
     await page.getByTestId('alerts-toggle').click();
     await expect(page.getByTestId('alerts-panel').locator('.alerts-item')).toHaveCount(3);
     await expect(page.getByTestId('alerts-count')).toHaveText('3');
@@ -148,6 +143,7 @@ test.describe('Alerts panel', () => {
   test('a broken feed shows an honest error instead of an empty panel', async ({ page }) => {
     await page.route('**/_hourly/alerts.json', route => route.fulfill({ status: 503, body: 'nope' }));
     await page.reload({ waitUntil: 'load' });
+    await waitForCommandCenter(page);
     await page.getByTestId('alerts-toggle').click();
     await expect(page.getByTestId('alerts-error')).toBeVisible();
   });
