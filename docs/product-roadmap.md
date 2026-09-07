@@ -1,6 +1,6 @@
 # Watchboard Product Roadmap
 
-Last updated: 2026-04-28 (post-#135)
+Last updated: 2026-09-07 (post-#135)
 
 This is the **platform** roadmap — performance, growth, content, accessibility, infrastructure, UX. New tracker requests live in [`docs/tracker-roadmap.md`](./tracker-roadmap.md) and the community vote at `/vote`.
 
@@ -74,7 +74,7 @@ The interactive view is at **[/roadmap/](https://watchboard.dev/roadmap/)** (kan
 |---|---|---|---|---|
 | Cross-tracker search & filter | UX | P1 | XL | Needs ADR on cross-island state (nanostores) before coding |
 | "What changed today" view | Growth | P1 | M | Diff/changelog for returning users — primary retention driver |
-| Shareable deep links | Growth | P2 | M | Depends on cross-island state from search |
+| Shareable deep links | Growth | P2 | S | 🚧 in progress — island-local per ADR-0001, no cross-island state needed. `src/lib/view-state.ts`; plan E1 |
 | Tree-shake Cesium bundle | Performance | P2 | L | 4.3 MB → ~1.5-2 MB; mobile parse 5s → ~2s |
 | Zod validation in CI workflow | Reliability | **P0** | S | Schema-valid-but-corrupt data can break the build today |
 | Build / nightly failure alerting | Reliability | **P0** | S | Site silently serves stale data on pipeline failure |

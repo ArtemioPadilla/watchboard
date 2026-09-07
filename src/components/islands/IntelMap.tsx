@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { trackEvent } from '../../lib/analytics';
 import type { MapPoint, MapLine } from '../../lib/schemas';
 import type { FlatEvent } from '../../lib/timeline-utils';
@@ -10,6 +10,12 @@ import MapEventsPanel from './MapEventsPanel';
 import MapLayerToggles from './MapLayerToggles';
 import { useMapOverlays } from './useMapOverlays';
 import type { LayerState } from './useMapOverlays';
+import { readViewState, createViewStateWriter, type ViewState } from '../../lib/view-state';
+
+/** Layer keys accepted in the `layers` URL parameter (ADR-0001). */
+export const MAP_LAYER_KEYS = [
+  'noFlyZones', 'gpsJamming', 'internetBlackout', 'earthquakes', 'weather', 'flights', 'terminator', 'factCards',
+] as const satisfies readonly (keyof LayerState)[];
 import { useMapFlights } from './useMapFlights';
 import { useTerminator } from './useTerminator';
 import IslandErrorBoundary from './shared/IslandErrorBoundary';
@@ -56,23 +62,53 @@ function IntelMapInner({ points, lines, events, categories, mapCenter, mapBounds
     };
   }, [points, lines]);
 
-  const [currentDate, setCurrentDate] = useState(dateRange.max);
+  // Shareable view state: client:only island, so reading window is safe.
+  const urlView = useMemo(() => readViewState(MAP_LAYER_KEYS), []);
+  const viewWriter = useMemo(() => createViewStateWriter(500), []);
+  const [currentDate, setCurrentDate] = useState(
+    urlView.date && urlView.date >= dateRange.min && urlView.date <= dateRange.max ? urlView.date : dateRange.max,
+  );
   const [isPlaying, setIsPlaying] = useState(false);
   const [playbackSpeed, setPlaybackSpeed] = useState(200);
   const [eventsOpen, setEventsOpen] = useState(false);
   const [persistLines, setPersistLines] = useState(false);
 
   // ── Overlay layers ──
-  const [layers, setLayers] = useState<LayerState>({
-    noFlyZones: false,
-    gpsJamming: false,
-    internetBlackout: false,
-    earthquakes: false,
-    weather: false,
-    flights: false,
-    terminator: false,
-    factCards: false,
+  const [layers, setLayers] = useState<LayerState>(() => {
+    const defaults: LayerState = {
+      noFlyZones: false, gpsJamming: false, internetBlackout: false, earthquakes: false,
+      weather: false, flights: false, terminator: false, factCards: false,
+    };
+    if (!urlView.layers) return defaults;
+    const chosen = { ...defaults };
+    for (const k of MAP_LAYER_KEYS) chosen[k] = urlView.layers.includes(k);
+    return chosen;
   });
+
+  // Camera (centre + zoom) reported by LeafletMap on every moveend.
+  const cameraRef = useRef<Pick<ViewState, 'lat' | 'lon' | 'zoom'>>(
+    urlView.lat !== undefined && urlView.lon !== undefined
+      ? { lat: urlView.lat, lon: urlView.lon, zoom: urlView.zoom }
+      : {},
+  );
+  // Refs keep handleViewChange's identity stable so LeafletMap's moveend
+  // listener is registered once, not on every layer/date change.
+  const layersRef = useRef(layers);
+  layersRef.current = layers;
+  const dateRef = useRef(currentDate);
+  dateRef.current = currentDate;
+  const buildViewState = useCallback((): ViewState => ({
+    ...cameraRef.current,
+    layers: MAP_LAYER_KEYS.filter(k => layersRef.current[k]),
+    date: dateRef.current,
+  }), []);
+  useEffect(() => { viewWriter.write(buildViewState()); }, [layers, currentDate, buildViewState, viewWriter]);
+  useEffect(() => () => viewWriter.cancel(), [viewWriter]);
+  const handleViewChange = useCallback((lat: number, lon: number, zoom: number) => {
+    cameraRef.current = { lat, lon, zoom };
+    viewWriter.write(buildViewState());
+  }, [buildViewState, viewWriter]);
+  const buildShareUrl = useCallback(() => viewWriter.flush(buildViewState()), [buildViewState, viewWriter]);
 
   const toggleLayer = useCallback((layer: keyof LayerState) => {
     setLayers(prev => ({ ...prev, [layer]: !prev[layer] }));
@@ -188,6 +224,8 @@ function IntelMapInner({ points, lines, events, categories, mapCenter, mapBounds
 
       <div className="map-container">
         <LeafletMap
+          initialView={urlView.lat !== undefined && urlView.lon !== undefined ? { lat: urlView.lat, lon: urlView.lon, zoom: urlView.zoom ?? 5 } : undefined}
+          onViewChange={handleViewChange}
           points={filteredPoints}
           lines={filteredLines}
           categories={mapCategories}
@@ -227,6 +265,7 @@ function IntelMapInner({ points, lines, events, categories, mapCenter, mapBounds
           layers={layers}
           onToggle={toggleLayer}
           counts={mergedCounts}
+          onShareView={buildShareUrl}
         />
 
         {/* Overlay: info panel (right side) */}

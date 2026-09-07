@@ -21,6 +21,8 @@ import DesktopStoryStrip from './DesktopStoryStrip';
 import { getDiscoveredFeatures, markFeatureDiscovered, getNextCoachHint, getTourState, resetTour } from '../../../lib/onboarding';
 import OnboardingTour, { TOUR_REPLAY_EVENT } from '../Onboarding/OnboardingTour';
 import IslandErrorBoundary from '../shared/IslandErrorBoundary';
+import ShareViewButton from '../shared/ShareViewButton';
+import { readViewState, createViewStateWriter } from '../../../lib/view-state';
 import { IslandErrorFallback } from '../shared/IslandErrorFallback';
 
 const FOLLOWS_KEY = 'watchboard-follows';
@@ -48,6 +50,7 @@ const SHORTCUTS = [
   { key: 'L', tKey: 'shortcuts.cityLights' },
   { key: 'O', tKey: 'shortcuts.openSelected' },
   { key: 'Esc', tKey: 'shortcuts.deselect' },
+  { key: 'S', tKey: 'shortcuts.share' },
   { key: '?', tKey: 'shortcuts.help' },
 ] as const;
 
@@ -191,13 +194,16 @@ function CommandCenterInner({
   broadcastRef.current = broadcast;
 
   useEffect(() => {
+    // Keep the query string (?tracker=, utm_*) when switching the view hash.
     const hash = viewMode === 'operations' ? '' : viewMode === 'geographic' ? '#geo' : '#domain';
+    const base = window.location.pathname + window.location.search;
     if (hash) {
-      window.history.replaceState(null, '', hash);
+      window.history.replaceState(null, '', base + hash);
     } else if (window.location.hash) {
-      window.history.replaceState(null, '', window.location.pathname);
+      window.history.replaceState(null, '', base);
     }
   }, [viewMode]);
+
 
   // Lazy-load country GeoJSON when entering geographic mode
   useEffect(() => {
@@ -303,6 +309,32 @@ function CommandCenterInner({
       }
     }
   }, [broadcastOff]);
+
+  // ── Shareable selection: ?tracker=slug (ADR-0001). Applied after mount so
+  // the hydrated first render matches the server HTML.
+  const viewWriterRef = useRef(createViewStateWriter(300));
+  const [shareTrigger, setShareTrigger] = useState(0);
+  const urlTrackerApplied = useRef(false);
+  useEffect(() => {
+    if (urlTrackerApplied.current) return;
+    urlTrackerApplied.current = true;
+    const { tracker } = readViewState();
+    if (tracker && trackers.some(t => t.slug === tracker)) {
+      // Same path as a click: selects, and in broadcast mode jumps the
+      // globe to the tracker (the only fly-to path that is live by default).
+      handleSelect(tracker);
+      setSidebarCollapsed(false);
+    }
+  }, [trackers, handleSelect]);
+  useEffect(() => () => viewWriterRef.current.cancel(), []);
+  useEffect(() => {
+    if (!urlTrackerApplied.current) return;
+    viewWriterRef.current.write(activeTracker ? { tracker: activeTracker } : {});
+  }, [activeTracker]);
+  const buildShareUrl = useCallback(
+    () => viewWriterRef.current.flush(activeTracker ? { tracker: activeTracker } : {}),
+    [activeTracker],
+  );
 
   const handleHover = useCallback((slug: string | null) => {
     setHoveredTracker(slug);
@@ -486,6 +518,13 @@ function CommandCenterInner({
             handleToggleCompare(activeTracker);
           }
           break;
+        case 's':
+        case 'S':
+          if (!e.metaKey && !e.ctrlKey && !e.altKey) {
+            e.preventDefault();
+            setShareTrigger(n => n + 1);
+          }
+          break;
         case 'o':
         case 'O':
           if (activeTracker) {
@@ -520,6 +559,7 @@ function CommandCenterInner({
       }} role="banner" aria-label="Watchboard navigation">
         <div style={styles.overlayNavLogo}>WATCHBOARD</div>
         <div style={styles.overlayNavBadges}>
+          <ShareViewButton buildUrl={buildShareUrl} trigger={shareTrigger} compact className="cc-share-btn" />
           {isMobile ? (
             <>
               <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '0.5rem', color: 'var(--accent-green)' }}>

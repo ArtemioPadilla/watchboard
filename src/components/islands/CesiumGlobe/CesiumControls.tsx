@@ -6,6 +6,7 @@ import type { VisualMode } from './cesium-shaders';
 import type { OrbitMode } from './useCesiumCamera';
 import { SAT_GROUPS, type SatGroupCounts } from './useSatellites';
 import type { VectorToggles } from './useMissionVectors';
+import ShareViewButton from '../shared/ShareViewButton';
 
 interface Props {
   activeFilters: Set<string>;
@@ -19,6 +20,10 @@ interface Props {
     nfz: boolean; ships: boolean; gpsJam: boolean; internetBlackout: boolean; groundTruth: boolean;
   };
   onToggleLayer: (layer: 'satellites' | 'flights' | 'quakes' | 'weather' | 'nfz' | 'ships' | 'gpsJam' | 'internetBlackout' | 'groundTruth') => void;
+  /** Returns the shareable URL for the current view (E1). */
+  onShareView?: () => string;
+  /** Bumped by the `S` shortcut to copy without clicking. */
+  shareTrigger?: number;
   persistLines: boolean;
   onTogglePersist: () => void;
   satGroupCounts?: SatGroupCounts;
@@ -83,6 +88,8 @@ export default function CesiumControls({
   onToggleCinematic,
   vectorToggles,
   onToggleVector,
+  onShareView,
+  shareTrigger,
 }: Props) {
   const [activeSection, setActiveSection] = useState<ToolbarSection | null>(null);
   const [aisKeyDraft, setAisKeyDraft] = useState('');
@@ -395,6 +402,9 @@ export default function CesiumControls({
         >
           <svg viewBox="0 0 16 16" width="16" height="16"><path d="M8 1L1 5l7 4 7-4zM1 8l7 4 7-4M1 11l7 4 7-4" fill="none" stroke="currentColor" strokeWidth="1.5"/></svg>
         </button>
+        {onShareView && (
+          <ShareViewButton buildUrl={onShareView} trigger={shareTrigger} compact className="globe-toolbar-icon" />
+        )}
         {onToggleCinematic && (
           <button
             className={`globe-toolbar-icon${cinematicMode ? ' active cinematic-active' : ''}`}

@@ -253,9 +253,9 @@ export const ROADMAP_ITEMS: RoadmapItem[] = [
     id: 'rm-shareable-deeplinks',
     title: 'Shareable deep links',
     description:
-      'URL parameters for date / event / view state so a link to a specific event in a specific tracker reopens with that exact view. Depends on the cross-island state shipped with rm-search-filter.',
-    status: 'planned', area: 'growth', priority: 'P2', effort: 'M', milestone: 'M3',
-    date: '2026-04-26', dependsOn: ['rm-search-filter'],
+      'URL parameters for camera, zoom, layers, date, event and selected tracker so a link reopens the exact view on the globe, the 2D map and the homepage. Island-local per ADR-0001 (docs/adr/0001-url-view-state-is-island-local.md), so it no longer waits for cross-island search state.',
+    status: 'in-progress', area: 'growth', priority: 'P2', effort: 'S', milestone: 'M3',
+    date: '2026-09-07',
   },
   {
     id: 'rm-tree-shake-cesium',

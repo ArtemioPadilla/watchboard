@@ -80,6 +80,10 @@ const en = {
   'shortcuts.openSelected': 'Open selected tracker',
   'shortcuts.deselect': 'Deselect / close',
   'shortcuts.help': 'Show this help',
+  'shortcuts.share': 'Copy link to this view',
+  'share.copyView': 'Share view',
+  'share.copied': 'Link copied',
+  'share.copyFailed': 'Could not copy',
   'shortcuts.close': 'to close',
 
   // Time
@@ -665,6 +669,10 @@ const es: TranslationKeys = {
   'shortcuts.openSelected': 'Abrir rastreador seleccionado',
   'shortcuts.deselect': 'Deseleccionar / cerrar',
   'shortcuts.help': 'Mostrar esta ayuda',
+  'shortcuts.share': 'Copiar enlace a esta vista',
+  'share.copyView': 'Compartir vista',
+  'share.copied': 'Enlace copiado',
+  'share.copyFailed': 'No se pudo copiar',
   'shortcuts.close': 'para cerrar',
 
   'broadcast.live': 'EN VIVO',
@@ -1232,6 +1240,10 @@ const fr: TranslationKeys = {
   'shortcuts.openSelected': 'Ouvrir le tracker sélectionné',
   'shortcuts.deselect': 'Désélectionner / fermer',
   'shortcuts.help': 'Afficher cette aide',
+  'shortcuts.share': 'Copier le lien vers cette vue',
+  'share.copyView': 'Partager la vue',
+  'share.copied': 'Lien copié',
+  'share.copyFailed': 'Copie impossible',
   'shortcuts.close': 'pour fermer',
 
   'broadcast.live': 'EN DIRECT',
@@ -1799,6 +1811,10 @@ const pt: TranslationKeys = {
   'shortcuts.openSelected': 'Abrir tracker selecionado',
   'shortcuts.deselect': 'Desselecionar / fechar',
   'shortcuts.help': 'Mostrar esta ajuda',
+  'shortcuts.share': 'Copiar link para esta vista',
+  'share.copyView': 'Compartilhar vista',
+  'share.copied': 'Link copiado',
+  'share.copyFailed': 'Não foi possível copiar',
   'shortcuts.close': 'para fechar',
 
   'broadcast.live': 'AO VIVO',
