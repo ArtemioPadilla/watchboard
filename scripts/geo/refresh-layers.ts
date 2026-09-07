@@ -20,6 +20,44 @@ const OUT_DIR = resolve(ROOT, 'public/geo/layers');
 
 type Adapter = { id: string; run: (now: string) => Promise<GeoLayer> };
 
+
+/** Pure: Wikidata SPARQL bindings → point features, deduped by QID, rows without a parsable point dropped. */
+export function wikidataPlantsToFeatures(rows: any[]): GeoLayer['features'] {
+  const seen = new Set<string>();
+  return rows.flatMap(r => {
+    const qid = String(r.plant?.value ?? '').split('/').pop() ?? '';
+    const m = /Point\(([-\d.]+) ([-\d.]+)\)/.exec(r.coord?.value ?? '');
+    if (!qid || !m || seen.has(qid)) return [];
+    seen.add(qid);
+    return [{
+      type: 'Feature' as const,
+      id: qid,
+      properties: {
+        name: r.plantLabel?.value ?? qid,
+        country: r.countryLabel?.value ?? null,
+        capacityMW: r.capacity?.value ? Number(r.capacity.value) : null,
+        status: r.statusLabel?.value ?? null,
+        opened: r.opened?.value ? String(r.opened.value).slice(0, 10) : null,
+        wikidata: `https://www.wikidata.org/wiki/${qid}`,
+      },
+      geometry: { type: 'Point' as const, coordinates: [Number(m[1]), Number(m[2])] },
+    }];
+  });
+}
+
+/** Pure: submarinecablemap.com cable-geo payload → line features (landing points and other geometries dropped). */
+export function cableGeoToFeatures(fc: any): GeoLayer['features'] {
+  if (!Array.isArray(fc?.features)) throw new Error('unexpected cable payload');
+  return fc.features
+    .filter((f: any) => f?.geometry?.type === 'MultiLineString' || f?.geometry?.type === 'LineString')
+    .map((f: any) => ({
+      type: 'Feature' as const,
+      id: f.properties?.id ?? f.id,
+      properties: { name: f.properties?.name ?? null, color: f.properties?.color ?? null, slug: f.properties?.slug ?? null },
+      geometry: f.geometry,
+    }));
+}
+
 /** Wikidata: every item that is an instance of "nuclear power plant" (Q134447) with coordinates. */
 const nuclearPlants: Adapter = {
   id: 'nuclear-plants',
@@ -36,26 +74,7 @@ const nuclearPlants: Adapter = {
     const res = await fetch(url, { headers: { Accept: 'application/sparql-results+json', 'User-Agent': 'Watchboard/geo-refresh (https://watchboard.dev)' } });
     if (!res.ok) throw new Error(`Wikidata HTTP ${res.status}`);
     const rows: any[] = (await res.json()).results.bindings;
-    const seen = new Set<string>();
-    const features = rows.flatMap(r => {
-      const qid = String(r.plant?.value ?? '').split('/').pop() ?? '';
-      const m = /Point\(([-\d.]+) ([-\d.]+)\)/.exec(r.coord?.value ?? '');
-      if (!qid || !m || seen.has(qid)) return [];
-      seen.add(qid);
-      return [{
-        type: 'Feature' as const,
-        id: qid,
-        properties: {
-          name: r.plantLabel?.value ?? qid,
-          country: r.countryLabel?.value ?? null,
-          capacityMW: r.capacity?.value ? Number(r.capacity.value) : null,
-          status: r.statusLabel?.value ?? null,
-          opened: r.opened?.value ? String(r.opened.value).slice(0, 10) : null,
-          wikidata: `https://www.wikidata.org/wiki/${qid}`,
-        },
-        geometry: { type: 'Point' as const, coordinates: [Number(m[1]), Number(m[2])] },
-      }];
-    });
+    const features = wikidataPlantsToFeatures(rows);
     return {
       type: 'FeatureCollection',
       _provenance: {
@@ -77,15 +96,7 @@ const submarineCables: Adapter = {
     const res = await fetch(url, { headers: { 'User-Agent': 'Watchboard/geo-refresh (https://watchboard.dev)' } });
     if (!res.ok) throw new Error(`submarinecablemap HTTP ${res.status}`);
     const fc = await res.json();
-    if (!Array.isArray(fc?.features)) throw new Error('unexpected cable payload');
-    const features = fc.features
-      .filter((f: any) => f?.geometry?.type === 'MultiLineString' || f?.geometry?.type === 'LineString')
-      .map((f: any) => ({
-        type: 'Feature' as const,
-        id: f.properties?.id ?? f.id,
-        properties: { name: f.properties?.name ?? null, color: f.properties?.color ?? null, slug: f.properties?.slug ?? null },
-        geometry: f.geometry,
-      }));
+    const features = cableGeoToFeatures(fc);
     return {
       type: 'FeatureCollection',
       _provenance: {

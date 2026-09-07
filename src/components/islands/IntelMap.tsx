@@ -103,11 +103,23 @@ function IntelMapInner({ points, lines, events, categories, mapCenter, mapBounds
       ? { lat: urlView.lat, lon: urlView.lon, zoom: urlView.zoom }
       : {},
   );
+  // E5 layers live in their own state (declared here so the view-state
+  // builder can include them; the hooks that consume it come further down).
+  const wantFrontline = liveLayers.includes('deepstate-frontline') && DEEPSTATE_ENABLED;
+  const [extraLayers, setExtraLayers] = useState<Record<string, boolean>>(() => {
+    const init: Record<string, boolean> = { 'gdacs-alerts': false };
+    if (wantFrontline) init['deepstate-frontline'] = true;
+    for (const id of staticLayers) init[id] = false;
+    if (urlView.layers) for (const k of Object.keys(init)) init[k] = urlView.layers.includes(k);
+    return init;
+  });
   const buildViewState = useCallback((): ViewState => ({
     ...cameraRef.current,
-    layers: MAP_LAYER_KEYS.filter(k => layers[k]),
+    // Built-in layers first, then every E5 layer that is on, so a shared
+    // link reproduces the frontline / GDACS / static layers too.
+    layers: [...MAP_LAYER_KEYS.filter(k => layers[k]), ...Object.keys(extraLayers).filter(id => extraLayers[id])],
     date: currentDate,
-  }), [layers, currentDate]);
+  }), [layers, extraLayers, currentDate]);
   useEffect(() => { viewWriter.write(buildViewState()); }, [buildViewState, viewWriter]);
   useEffect(() => () => viewWriter.cancel(), [viewWriter]);
   const handleViewChange = useCallback((lat: number, lon: number, zoom: number) => {
@@ -121,14 +133,6 @@ function IntelMapInner({ points, lines, events, categories, mapCenter, mapBounds
   }, []);
 
   // ── E5 layers ──
-  const wantFrontline = liveLayers.includes('deepstate-frontline') && DEEPSTATE_ENABLED;
-  const [extraLayers, setExtraLayers] = useState<Record<string, boolean>>(() => {
-    const init: Record<string, boolean> = { 'gdacs-alerts': false };
-    if (wantFrontline) init['deepstate-frontline'] = true;
-    for (const id of staticLayers) init[id] = false;
-    if (urlView.layers) for (const k of Object.keys(init)) init[k] = urlView.layers.includes(k);
-    return init;
-  });
   const toggleExtraLayer = useCallback((id: string) => setExtraLayers(prev => ({ ...prev, [id]: !prev[id] })), []);
   const frontline = useFrontlineData(wantFrontline && !!extraLayers['deepstate-frontline']);
   const gdacs = useGdacsData(!!extraLayers['gdacs-alerts']);

@@ -118,6 +118,9 @@ export default function SourceStatusSummary({ items, className = '' }: { items: 
               <SourceStatusChip item={i} />
             </li>
           ))}
+          <li className="source-summary-more">
+            <a href={`${((import.meta as any).env?.BASE_URL ?? '/').replace(/\/?$/, '/')}sources/`} data-testid="sources-link">{t('source.aboutSources', locale)} ↗</a>
+          </li>
         </ul>
       )}
     </div>
