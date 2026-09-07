@@ -60,7 +60,9 @@ export function useDossier(overrideTrackers?: DossierTracker[]) {
     let idx = indexRef.current;
     // Stop waiting as soon as the request has settled: a failed index must
     // not cost every dossier a fixed 3 s stall.
-    for (let i = 0; !idx && i < 20 && (indexStatusRef.current === 'loading' || indexStatusRef.current === 'idle'); i++) {
+    // Right after open() the index hook may not have enabled itself yet
+    // ('disabled'/'idle'), so only a definite failure ends the wait early.
+    for (let i = 0; !idx && i < 20 && indexStatusRef.current !== 'error'; i++) {
       await new Promise(r => setTimeout(r, 150));
       idx = indexRef.current;
     }
