@@ -76,11 +76,10 @@ const HOUR = 60 * MINUTE;
 /**
  * Registered layers. Order is display order in toggles.
  *
- * Snapshot entries reflect what the hooks contain today: hand-written
- * arrays scoped to the Iran conflict. `snapshotDate` is the capture date
- * (2026-03-01, the latest `startDate` any of them carries), not the
- * earliest event. Registering them is the first step of E2.H5, which
- * moves the data into `src/data/snapshots/` and deletes the duplicates.
+ * Snapshot entries point at src/data/snapshots/*.json (validated by
+ * src/lib/snapshots.ts). `snapshotDate` is the capture date (on or after
+ * every item's own `startDate`) and must match the file's provenance,
+ * which snapshots.test.ts enforces.
  */
 export const LIVE_LAYERS: LiveLayerSpec[] = [
   {
@@ -174,7 +173,7 @@ export const LIVE_LAYERS: LiveLayerSpec[] = [
     kind: 'snapshot',
     renderer: 'both',
     snapshotDate: '2026-03-01',
-    dataPath: 'src/components/islands/CesiumGlobe/useNoFlyZones.ts',
+    dataPath: 'src/data/snapshots/nfz.json',
     attribution: {
       source: 'NOTAM summaries, hand-curated',
       license: 'Watchboard curated data (MIT)',
@@ -188,7 +187,7 @@ export const LIVE_LAYERS: LiveLayerSpec[] = [
     kind: 'snapshot',
     renderer: 'both',
     snapshotDate: '2026-03-01',
-    dataPath: 'src/components/islands/CesiumGlobe/useGpsJamming.ts',
+    dataPath: 'src/data/snapshots/gps-jamming.json',
     attribution: {
       source: 'ADS-B anomaly reports, hand-curated',
       license: 'Watchboard curated data (MIT)',
@@ -202,7 +201,7 @@ export const LIVE_LAYERS: LiveLayerSpec[] = [
     kind: 'snapshot',
     renderer: 'both',
     snapshotDate: '2026-03-01',
-    dataPath: 'src/components/islands/CesiumGlobe/useInternetBlackout.ts',
+    dataPath: 'src/data/snapshots/blackouts.json',
     attribution: {
       source: 'NetBlocks / IODA reports, hand-curated',
       license: 'Watchboard curated data (MIT)',

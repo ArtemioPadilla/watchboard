@@ -9,75 +9,10 @@ import {
   type Viewer as CesiumViewer,
   type Entity,
 } from 'cesium';
+import { GPS_JAMMING_ZONES } from '../../../lib/snapshots';
 
-interface GpsJammingZone {
-  id: string;
-  label: string;
-  center: [number, number]; // [lon, lat]
-  radiusKm: number;
-  startDate: string;
-  endDate?: string;
-  severity: 'high' | 'medium' | 'low';
-  source?: string;
-}
 
-// Known GPS jamming / spoofing zones in the theater
-const GPS_JAMMING_ZONES: GpsJammingZone[] = [
-  {
-    id: 'jam-tehran',
-    label: 'GPS JAMMING\nTEHRAN REGION',
-    center: [51.4, 35.7],
-    radiusKm: 80,
-    startDate: '2026-02-28',
-    severity: 'high',
-    source: 'ADSB anomaly reports',
-  },
-  {
-    id: 'jam-isfahan',
-    label: 'GPS JAMMING\nISFAHAN/NATANZ',
-    center: [51.7, 32.8],
-    radiusKm: 60,
-    startDate: '2026-02-28',
-    severity: 'high',
-    source: 'ADSB anomaly reports',
-  },
-  {
-    id: 'jam-bushehr',
-    label: 'GPS SPOOFING\nBUSHEHR NUCLEAR',
-    center: [50.8, 28.9],
-    radiusKm: 45,
-    startDate: '2026-02-28',
-    severity: 'medium',
-    source: 'Maritime GPS disruption',
-  },
-  {
-    id: 'jam-hormuz',
-    label: 'GPS DISRUPTION\nSTRAIT OF HORMUZ',
-    center: [56.3, 26.6],
-    radiusKm: 70,
-    startDate: '2026-03-01',
-    severity: 'medium',
-    source: 'IRGCN electronic warfare',
-  },
-  {
-    id: 'jam-tabriz',
-    label: 'GPS JAMMING\nTABRIZ AD',
-    center: [46.3, 38.1],
-    radiusKm: 40,
-    startDate: '2026-03-01',
-    severity: 'low',
-    source: 'Air defense EW activity',
-  },
-  {
-    id: 'jam-bandar',
-    label: 'GPS SPOOFING\nBANDAR ABBAS',
-    center: [56.3, 27.2],
-    radiusKm: 50,
-    startDate: '2026-02-28',
-    severity: 'high',
-    source: 'IRGCN naval EW',
-  },
-];
+
 
 const SEVERITY_COLORS: Record<string, string> = {
   high: '#ff2244',

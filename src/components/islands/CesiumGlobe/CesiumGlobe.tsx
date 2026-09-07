@@ -49,6 +49,9 @@ import { resolveLayout, type PanelId } from './layout-presets';
 import IslandErrorBoundary from '../shared/IslandErrorBoundary';
 import { readViewState, createViewStateWriter, type ViewState } from '../../../lib/view-state';
 import { eventToSlug } from '../../../lib/event-slug';
+import { trackerBbox } from '../../../lib/geo-sources';
+import { layersForTracker } from '../../../lib/live-layers';
+import type { SourceStatusItem } from '../shared/SourceStatusChip';
 import { IslandErrorFallback } from '../shared/IslandErrorFallback';
 
 interface Props {
@@ -60,6 +63,9 @@ interface Props {
   cameraPresets?: Record<string, { lon: number; lat: number; alt: number; pitch: number; heading: number; label?: string }>;
   categories?: { id: string; label: string; color: string }[];
   mapCenter?: { lon: number; lat: number };
+  mapBounds?: { lonMin: number; lonMax: number; latMin: number; latMax: number };
+  weatherPoints?: { lat: number; lon: number; label: string }[];
+  trackerSlug?: string;
   isHistorical?: boolean;
   endDate?: string;
   clocks?: { label: string; offsetHours: number }[];
@@ -110,7 +116,9 @@ export default function CesiumGlobe(props: Props) {
   );
 }
 
-function CesiumGlobeInner({ points, lines, kpis, meta, events = [], cameraPresets = {}, categories = [], mapCenter, isHistorical = false, endDate, clocks, missionTrajectory, globeLayout, layoutOverrides }: Props) {
+function CesiumGlobeInner({ points, lines, kpis, meta, events = [], cameraPresets = {}, categories = [], mapCenter, mapBounds, weatherPoints, trackerSlug, isHistorical = false, endDate, clocks, missionTrajectory, globeLayout, layoutOverrides }: Props) {
+  const trackerBboxMemo = useMemo(() => trackerBbox(mapBounds ?? null, mapCenter ?? null), [mapBounds, mapCenter]);
+  const flightFallback = useMemo(() => (mapCenter ? { lat: mapCenter.lat, lon: mapCenter.lon } : undefined), [mapCenter]);
   const layout = resolveLayout(globeLayout, layoutOverrides);
   const hasPanelInSlot = (slot: string, panel: PanelId) =>
     (layout.slots[slot as keyof typeof layout.slots] ?? []).includes(panel);
@@ -578,10 +586,10 @@ function CesiumGlobeInner({ points, lines, kpis, meta, events = [], cameraPreset
   );
 
   // ── External data layers (synced to timeline) ──
-  const { count: satCount, groupCounts: satGroupCounts, fovCount: satFovCount } = useSatellites(cesiumViewer, layers.satellites, simTimeRef, showFov, satTargets);
-  const { count: flightCount, status: flightStatus } = useFlights(cesiumViewer, layers.flights && mode === 'live' && playbackSpeed <= 1);
-  const { count: quakeCount } = useEarthquakes(cesiumViewer, layers.quakes, currentDate);
-  const { count: weatherCount } = useWeather(cesiumViewer, layers.weather, currentDate);
+  const { count: satCount, groupCounts: satGroupCounts, fovCount: satFovCount, status: satStatus, updatedAt: satUpdatedAt, error: satError } = useSatellites(cesiumViewer, layers.satellites, simTimeRef, showFov, satTargets);
+  const { count: flightCount, status: flightStatus, updatedAt: flightUpdatedAt, error: flightError } = useFlights(cesiumViewer, layers.flights && mode === 'live' && playbackSpeed <= 1, flightFallback);
+  const { count: quakeCount, status: quakeStatus, updatedAt: quakeUpdatedAt, error: quakeError } = useEarthquakes(cesiumViewer, layers.quakes, currentDate, trackerBboxMemo);
+  const { count: weatherCount, status: weatherStatus, updatedAt: weatherUpdatedAt, error: weatherError } = useWeather(cesiumViewer, layers.weather, currentDate, trackerBboxMemo, weatherPoints ?? null);
   const { count: nfzCount } = useNoFlyZones(cesiumViewer, layers.nfz, currentDate);
   const { count: shipCount } = useShips(cesiumViewer, layers.ships && mode === 'live' && playbackSpeed <= 1, aisApiKey);
   const { count: gpsJamCount } = useGpsJamming(cesiumViewer, layers.gpsJam, currentDate);
@@ -679,6 +687,26 @@ function CesiumGlobeInner({ points, lines, kpis, meta, events = [], cameraPreset
     historical: mode === 'historical',
   }), [filteredPoints.length, totalLines, layers, satCount, satFovCount, showFov, flightCount, flightStatus, quakeCount, weatherCount, nfzCount, shipCount, aisApiKey, gpsJamCount, internetBlackoutCount, groundTruthCount, mode]);
 
+  // Per-source status for the HUD chip and the degraded-sources list.
+  const scopedLayers = useMemo(() => layersForTracker(trackerSlug ?? ''), [trackerSlug]);
+  const sourceItems = useMemo<SourceStatusItem[]>(() => {
+    const items: SourceStatusItem[] = [];
+    const push = (id: string, label: string, on: boolean, st: { status: string; updatedAt: number | null; error?: string }) => {
+      if (!on) return;
+      items.push({ id, label, status: st.status as SourceStatusItem['status'], updatedAt: st.updatedAt, error: st.error });
+    };
+    push('satellites', 'Satellites', layers.satellites, { status: satStatus, updatedAt: satUpdatedAt, error: satError });
+    push('flights', 'Flights', layers.flights && mode === 'live', { status: flightStatus, updatedAt: flightUpdatedAt, error: flightError });
+    push('earthquakes', 'Earthquakes', layers.quakes, { status: quakeStatus, updatedAt: quakeUpdatedAt, error: quakeError });
+    push('weather', 'Weather', layers.weather, { status: weatherStatus, updatedAt: weatherUpdatedAt, error: weatherError });
+    for (const spec of scopedLayers) {
+      if (spec.kind !== 'snapshot') continue;
+      const on = (spec.id === 'nfz' && layers.nfz) || (spec.id === 'gps-jamming' && layers.gpsJam) || (spec.id === 'internet-blackouts' && layers.internetBlackout);
+      if (on) items.push({ id: spec.id, label: spec.attribution.source, status: 'ok', snapshotDate: spec.snapshotDate });
+    }
+    return items;
+  }, [scopedLayers, layers, mode, satStatus, satUpdatedAt, satError, flightStatus, flightUpdatedAt, flightError, quakeStatus, quakeUpdatedAt, quakeError, weatherStatus, weatherUpdatedAt, weatherError]);
+
   return (
     <div className="globe-wrapper">
       {/* Operation header */}
@@ -727,6 +755,7 @@ function CesiumGlobeInner({ points, lines, kpis, meta, events = [], cameraPreset
         hudMode={layout.hudMode}
         hideBottomLeftHud={(layout.slots['bottom-left'] ?? []).length > 0}
         hideTopRightHud={(layout.slots['top-right'] ?? []).length > 0}
+        sources={sourceItems}
       />
 
       {/* Mission Identity — bottom-left (mission preset only) */}
@@ -856,6 +885,8 @@ function CesiumGlobeInner({ points, lines, kpis, meta, events = [], cameraPreset
             layers={layers}
             onToggleLayer={toggleLayer}
           onShareView={buildShareUrl}
+          sources={sourceItems}
+          scopedLayerIds={scopedLayers.map(l => l.id)}
           shareTrigger={shareTrigger}
             persistLines={persistLines}
             onTogglePersist={() => setPersistLines(prev => !prev)}
@@ -919,6 +950,8 @@ function CesiumGlobeInner({ points, lines, kpis, meta, events = [], cameraPreset
           layers={layers}
           onToggleLayer={toggleLayer}
           onShareView={buildShareUrl}
+          sources={sourceItems}
+          scopedLayerIds={scopedLayers.map(l => l.id)}
           shareTrigger={shareTrigger}
           persistLines={persistLines}
           onTogglePersist={() => setPersistLines(prev => !prev)}

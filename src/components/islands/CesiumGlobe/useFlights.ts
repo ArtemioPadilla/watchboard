@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import {
   Cartesian2,
   Cartesian3,
@@ -12,251 +12,199 @@ import {
   type Viewer as CesiumViewer,
   type Entity,
 } from 'cesium';
+import { useLiveSource } from '../../../lib/use-live-source';
+import type { LiveStatus } from '../../../lib/live-source';
+import {
+  parseOpenSky, openSkyUrl, quantizeBbox, padBbox, bboxAround, bboxKey,
+  pollIntervalForBbox, FLIGHTS_TTL_MS,
+  type Bbox, type FlightRecord,
+} from '../../../lib/flights-source';
 import { getIconDataUri } from './cesium-icons';
 
-interface FlightState {
-  icao24: string;
-  callsign: string | null;
-  origin_country: string;
-  longitude: number | null;
-  latitude: number | null;
-  baro_altitude: number | null;
-  velocity: number | null;
-  true_track: number | null;
-  on_ground: boolean;
+/**
+ * Poll cadence. OpenSky's anonymous quota is 400 credits/day and a request
+ * costs 1-4 credits by area (≤25 / ≤100 / ≤400 / >400 sq deg). The default
+ * theatre camera sees ~900 sq deg (4 credits), so the interval scales with
+ * the tier (pollIntervalForBbox: 30 s → 2 min) and the tab-hidden pause in
+ * useLiveSource stops the meter when nobody is looking. Rate limiting still
+ * degrades to a visible 'rate-limited' status rather than a blank layer.
+ */
+export { FLIGHTS_POLL_MS } from '../../../lib/flights-source';
+
+export type FlightStatus = LiveStatus;
+
+/** Bbox of what the camera sees, quantised; null when looking at space. */
+function viewBbox(viewer: CesiumViewer): Bbox | null {
+  const rect = viewer.camera.computeViewRectangle(viewer.scene.globe.ellipsoid);
+  if (!rect) return null;
+  const b = {
+    latMin: CesiumMath.toDegrees(rect.south), latMax: CesiumMath.toDegrees(rect.north),
+    lonMin: CesiumMath.toDegrees(rect.west), lonMax: CesiumMath.toDegrees(rect.east),
+  };
+  // A view spanning more than a hemisphere is "the whole planet"; OpenSky
+  // charges 4 credits for that and returns ~10k rows, so cap the request.
+  if (b.latMax - b.latMin > 60 || b.lonMax - b.lonMin > 90) return null;
+  return quantizeBbox(padBbox(b, 0.1));
 }
 
-/** Military callsign patterns — US/NATO military aircraft often use these prefixes */
-const MIL_CALLSIGN_PATTERNS = [
-  /^RCH/i,    // USAF AMC (Reach)
-  /^DUKE/i,   // USAF tankers
-  /^ETHYL/i,  // USAF EW
-  /^TOPCAT/i, // US Navy
-  /^NAVY/i,   // US Navy
-  /^EVAC/i,   // Medevac
-  /^RRR/i,    // USAF air refueling
-  /^JAKE/i,   // Marine Corps
-  /^DOOM/i,   // B-2
-  /^DEATH/i,  // Reaper drones
-  /^FORTE/i,  // Global Hawk
-  /^HOMER/i,  // P-8 Poseidon
-  /^LAGR/i,   // C-17 Globemaster
-  /^IAF/i,    // Israeli Air Force
-  /^ISR/i,    // Israeli
-];
-
-function isMilitaryFlight(f: FlightState): boolean {
-  if (!f.callsign) return false;
-  const cs = f.callsign.trim();
-  return MIL_CALLSIGN_PATTERNS.some(p => p.test(cs));
-}
-
-export type FlightStatus = 'idle' | 'loading' | 'ok' | 'rate-limited' | 'error';
-
-/** Fetch live flight data from OpenSky Network (free tier) with backoff */
-export function useFlights(viewer: CesiumViewer | null, enabled: boolean) {
+/**
+ * Live flights from OpenSky, drawn where the camera is looking.
+ * `fallbackCenter` (the tracker's map centre) is used when the camera view
+ * does not intersect the globe or is too wide to be useful.
+ */
+export function useFlights(
+  viewer: CesiumViewer | null,
+  enabled: boolean,
+  fallbackCenter?: { lat: number; lon: number },
+) {
   const [count, setCount] = useState(0);
-  const [status, setStatus] = useState<FlightStatus>('idle');
   const entitiesRef = useRef<Map<string, Entity>>(new Map());
   const trailEntitiesRef = useRef<Map<string, Entity>>(new Map());
-  const timerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
-  const backoffRef = useRef(15_000);
-  const consecutiveFailsRef = useRef(0);
+
+  // Bbox follows the camera, debounced, keyed so the cache dedupes.
+  const [bbox, setBbox] = useState<Bbox | null>(null);
+  const recompute = useCallback(() => {
+    if (!viewer || viewer.isDestroyed()) return;
+    const next = viewBbox(viewer) ?? (fallbackCenter ? bboxAround(fallbackCenter) : null);
+    setBbox(prev => (prev && next && bboxKey(prev) === bboxKey(next) ? prev : next));
+  }, [viewer, fallbackCenter]);
 
   useEffect(() => {
-    if (!enabled || !viewer) {
-      setStatus('idle');
+    if (!viewer || !enabled) return;
+    recompute();
+    let t: ReturnType<typeof setTimeout> | null = null;
+    const onMoveEnd = () => { if (t) clearTimeout(t); t = setTimeout(recompute, 400); };
+    viewer.camera.moveEnd.addEventListener(onMoveEnd);
+    return () => {
+      viewer.camera.moveEnd.removeEventListener(onMoveEnd);
+      if (t) clearTimeout(t);
+    };
+  }, [viewer, enabled, recompute]);
+
+  const spec = bbox
+    ? {
+        key: `flights:${bboxKey(bbox)}`,
+        url: openSkyUrl(bbox),
+        ttlMs: FLIGHTS_TTL_MS,
+        parse: async (res: Response) => parseOpenSky(await res.json()),
+        // An empty sky over a bbox is real data (the ocean at night), not a
+        // failed refresh: never freeze stale aircraft in its place.
+        isEmpty: () => false,
+      }
+    : null;
+  const { data, status, updatedAt, error } = useLiveSource<FlightRecord[]>(spec, {
+    enabled: enabled && !!viewer,
+    intervalMs: pollIntervalForBbox(bbox),
+  });
+
+  // Render whatever the cache holds; stale data stays on screen (marked
+  // stale in the HUD) rather than vanishing.
+  useEffect(() => {
+    if (!viewer || viewer.isDestroyed()) return;
+    if (!enabled || !data) {
+      clearEntities();
       return;
     }
-    let disposed = false;
+    draw(data);
+    return undefined;
 
-    const scheduleNext = () => {
-      if (disposed) return;
-      timerRef.current = setTimeout(fetchFlights, backoffRef.current);
-    };
-
-    const fetchFlights = async () => {
-      if (disposed || viewer.isDestroyed()) return;
-      setStatus('loading');
-
-      try {
-        // Middle East bounding box
-        const url =
-          'https://opensky-network.org/api/states/all?lamin=12&lamax=42&lomin=24&lomax=65';
-        const res = await fetch(url);
-        if (disposed || viewer.isDestroyed()) return;
-
-        if (res.status === 429) {
-          consecutiveFailsRef.current++;
-          backoffRef.current = Math.min(
-            15_000 * Math.pow(2, consecutiveFailsRef.current),
-            120_000,
-          );
-          console.warn(`OpenSky 429 — retry in ${Math.round(backoffRef.current / 1000)}s`);
-          setStatus('rate-limited');
-          scheduleNext();
-          return;
-        }
-
-        if (!res.ok) {
-          consecutiveFailsRef.current++;
-          backoffRef.current = Math.min(30_000 * consecutiveFailsRef.current, 120_000);
-          setStatus('error');
-          scheduleNext();
-          return;
-        }
-
-        const data = await res.json();
-        if (!data.states || disposed || viewer.isDestroyed()) {
-          scheduleNext();
-          return;
-        }
-
-        // Reset backoff on success
-        consecutiveFailsRef.current = 0;
-        backoffRef.current = 15_000;
-
-        const flights: FlightState[] = data.states.map((s: any[]) => ({
-          icao24: s[0],
-          callsign: s[1]?.trim() || null,
-          origin_country: s[2],
-          longitude: s[5],
-          latitude: s[6],
-          baro_altitude: s[7],
-          velocity: s[9],
-          true_track: s[10],
-          on_ground: s[8],
-        }));
-
-        const airborne = flights.filter(
-          f => !f.on_ground && f.longitude != null && f.latitude != null,
-        );
-
-        // Track which IDs we've seen this update
-        const seenIds = new Set<string>();
-
-        // Remove old trail entities (recreated each cycle)
-        trailEntitiesRef.current.forEach(e => {
-          try { viewer.entities.remove(e); } catch { /* ok */ }
-        });
-        trailEntitiesRef.current.clear();
-
-        airborne.forEach(f => {
-          seenIds.add(f.icao24);
-          const alt = (f.baro_altitude || 10000) * 1; // meters
-          const pos = Cartesian3.fromDegrees(f.longitude!, f.latitude!, alt);
-          const isMil = isMilitaryFlight(f);
-          const cs = f.callsign?.trim() || '';
-
-          const rotation = f.true_track != null
-            ? CesiumMath.toRadians(f.true_track) : 0;
-          // Compute aligned axis from position for geographic heading
-          const alignedAxis = Cartesian3.normalize(pos, new Cartesian3());
-
-          const existing = entitiesRef.current.get(f.icao24);
-          if (existing) {
-            existing.position = pos as any;
-            if (existing.billboard) {
-              if (f.true_track != null) {
-                (existing.billboard.rotation as any) = rotation;
-              }
-              (existing.billboard.alignedAxis as any) = alignedAxis;
-            }
-          } else {
-            const iconUri = getIconDataUri(isMil ? 'aircraft_mil' : 'aircraft_civ');
-
-            const entity = viewer.entities.add({
-              name: `${cs || f.icao24} (${f.origin_country})${isMil ? ' [MIL]' : ''}`,
-              description: `Callsign: ${cs || 'N/A'}\nOrigin: ${f.origin_country}\nAltitude: ${f.baro_altitude != null ? Math.round(f.baro_altitude) + 'm' : 'N/A'}\nSpeed: ${f.velocity != null ? Math.round(f.velocity) + ' m/s' : 'N/A'}\nHeading: ${f.true_track != null ? Math.round(f.true_track) + '\u00b0' : 'N/A'}${isMil ? '\nType: MILITARY' : ''}`,
-              position: pos,
-              billboard: {
-                image: iconUri,
-                width: isMil ? 26 : 18,
-                height: isMil ? 26 : 18,
-                rotation,
-                alignedAxis,
-                scaleByDistance: new NearFarScalar(1e4, 2.0, 5e6, 0.7),
-                verticalOrigin: VerticalOrigin.CENTER,
-                horizontalOrigin: HorizontalOrigin.CENTER,
-              },
-              label: isMil && cs ? {
-                text: cs,
-                font: "10px 'JetBrains Mono', monospace",
-                fillColor: Color.fromCssColorString('#ffdd00'),
-                outlineColor: Color.BLACK,
-                outlineWidth: 2,
-                style: LabelStyle.FILL_AND_OUTLINE,
-                verticalOrigin: VerticalOrigin.TOP,
-                pixelOffset: new Cartesian2(0, 16),
-                scaleByDistance: new NearFarScalar(1e4, 1.0, 3e6, 0.3),
-                distanceDisplayCondition: new DistanceDisplayCondition(0, 1e7),
-              } : undefined,
-            });
-            entitiesRef.current.set(f.icao24, entity);
-          }
-
-          // Heading trail line for all flights (fallback to 0 if no true_track)
-          {
-            const headingRad = f.true_track != null
-              ? CesiumMath.toRadians(f.true_track) : 0;
-            const trailM = isMil ? 40000 : 20000;
-            const behindLat = f.latitude! - (trailM / 111000) * Math.cos(headingRad);
-            const behindLon = f.longitude! - (trailM / (111000 * Math.cos(f.latitude! * Math.PI / 180))) * Math.sin(headingRad);
-            const trailStart = Cartesian3.fromDegrees(behindLon, behindLat, alt);
-
-            const trailColor = isMil
-              ? Color.fromCssColorString('#ffdd00').withAlpha(0.35)
-              : Color.fromCssColorString('#00aaff').withAlpha(0.18);
-
-            const trailEntity = viewer.entities.add({
-              polyline: {
-                positions: [trailStart, pos],
-                width: isMil ? 1.5 : 1.0,
-                material: trailColor,
-              },
-            });
-            trailEntitiesRef.current.set(f.icao24, trailEntity);
-          }
-        });
-
-        // Remove stale entities
-        for (const [id, entity] of entitiesRef.current) {
-          if (!seenIds.has(id)) {
-            viewer.entities.remove(entity);
-            entitiesRef.current.delete(id);
-          }
-        }
-
-        setCount(airborne.length);
-        setStatus('ok');
-      } catch (err) {
-        console.warn('Failed to fetch flight data:', err);
-        consecutiveFailsRef.current++;
-        backoffRef.current = Math.min(30_000 * consecutiveFailsRef.current, 120_000);
-        setStatus('error');
-      }
-
-      scheduleNext();
-    };
-
-    fetchFlights();
-
-    return () => {
-      disposed = true;
-      clearTimeout(timerRef.current);
-      if (!viewer.isDestroyed()) {
-        entitiesRef.current.forEach((entity) => {
-          try { viewer.entities.remove(entity); } catch { /* already removed */ }
-        });
-        trailEntitiesRef.current.forEach((entity) => {
-          try { viewer.entities.remove(entity); } catch { /* ok */ }
-        });
-      }
+    function clearEntities() {
+      if (!viewer || viewer.isDestroyed()) return;
+      entitiesRef.current.forEach(e => { try { viewer.entities.remove(e); } catch { /* ok */ } });
+      trailEntitiesRef.current.forEach(e => { try { viewer.entities.remove(e); } catch { /* ok */ } });
       entitiesRef.current.clear();
       trailEntitiesRef.current.clear();
       setCount(0);
-    };
-  }, [enabled, viewer]);
+    }
 
-  return { count, status };
+    function draw(flights: FlightRecord[]) {
+      if (!viewer || viewer.isDestroyed()) return;
+      const seenIds = new Set<string>();
+      trailEntitiesRef.current.forEach(e => { try { viewer.entities.remove(e); } catch { /* ok */ } });
+      trailEntitiesRef.current.clear();
+
+      for (const f of flights) {
+        seenIds.add(f.icao24);
+        const alt = f.altitude || 10000;
+        const pos = Cartesian3.fromDegrees(f.lon, f.lat, alt);
+        const isMil = f.isMilitary;
+        const cs = f.callsign;
+        const rotation = CesiumMath.toRadians(f.heading);
+        const alignedAxis = Cartesian3.normalize(pos, new Cartesian3());
+
+        const existing = entitiesRef.current.get(f.icao24);
+        if (existing) {
+          existing.position = pos as any;
+          if (existing.billboard) {
+            (existing.billboard.rotation as any) = rotation;
+            (existing.billboard.alignedAxis as any) = alignedAxis;
+          }
+        } else {
+          const iconUri = getIconDataUri(isMil ? 'aircraft_mil' : 'aircraft_civ');
+          const entity = viewer.entities.add({
+            name: `${cs || f.icao24} (${f.country})${isMil ? ' [MIL]' : ''}`,
+            description: `Callsign: ${cs || 'N/A'}\nOrigin: ${f.country}\nAltitude: ${Math.round(f.altitude)}m\nSpeed: ${Math.round(f.velocity)} m/s\nHeading: ${Math.round(f.heading)}\u00b0${isMil ? '\nType: MILITARY' : ''}`,
+            position: pos,
+            billboard: {
+              image: iconUri,
+              width: isMil ? 26 : 18,
+              height: isMil ? 26 : 18,
+              rotation,
+              alignedAxis,
+              scaleByDistance: new NearFarScalar(1e4, 2.0, 5e6, 0.7),
+              verticalOrigin: VerticalOrigin.CENTER,
+              horizontalOrigin: HorizontalOrigin.CENTER,
+            },
+            label: isMil && cs ? {
+              text: cs,
+              font: "10px 'JetBrains Mono', monospace",
+              fillColor: Color.fromCssColorString('#ffdd00'),
+              outlineColor: Color.BLACK,
+              outlineWidth: 2,
+              style: LabelStyle.FILL_AND_OUTLINE,
+              verticalOrigin: VerticalOrigin.TOP,
+              pixelOffset: new Cartesian2(0, 16),
+              scaleByDistance: new NearFarScalar(1e4, 1.0, 3e6, 0.3),
+              distanceDisplayCondition: new DistanceDisplayCondition(0, 1e7),
+            } : undefined,
+          });
+          entitiesRef.current.set(f.icao24, entity);
+        }
+
+        // Heading trail
+        const headingRad = CesiumMath.toRadians(f.heading);
+        const trailM = isMil ? 40000 : 20000;
+        const behindLat = f.lat - (trailM / 111000) * Math.cos(headingRad);
+        const behindLon = f.lon - (trailM / (111000 * Math.cos(f.lat * Math.PI / 180))) * Math.sin(headingRad);
+        const trailStart = Cartesian3.fromDegrees(behindLon, behindLat, alt);
+        const trailColor = isMil
+          ? Color.fromCssColorString('#ffdd00').withAlpha(0.35)
+          : Color.fromCssColorString('#00aaff').withAlpha(0.18);
+        const trailEntity = viewer.entities.add({
+          polyline: { positions: [trailStart, pos], width: isMil ? 1.5 : 1.0, material: trailColor },
+        });
+        trailEntitiesRef.current.set(f.icao24, trailEntity);
+      }
+
+      for (const [id, entity] of entitiesRef.current) {
+        if (!seenIds.has(id)) {
+          viewer.entities.remove(entity);
+          entitiesRef.current.delete(id);
+        }
+      }
+      setCount(flights.length);
+    }
+  }, [viewer, enabled, data]);
+
+  // Cleanup on unmount / viewer change.
+  useEffect(() => () => {
+    if (viewer && !viewer.isDestroyed()) {
+      entitiesRef.current.forEach(e => { try { viewer.entities.remove(e); } catch { /* ok */ } });
+      trailEntitiesRef.current.forEach(e => { try { viewer.entities.remove(e); } catch { /* ok */ } });
+    }
+    entitiesRef.current.clear();
+    trailEntitiesRef.current.clear();
+  }, [viewer]);
+
+  return { count, status: enabled ? status : ('idle' as LiveStatus), updatedAt, error, bbox };
 }

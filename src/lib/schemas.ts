@@ -253,7 +253,8 @@ export const MetricsInventorySchema = z.object({
 
 export const MetricsRunSchema = z.object({
   timestamp: z.string(),
-  status: z.enum(['success', 'failure']),
+  /** `degraded`: the run committed data, but only after the fix agent repaired schema errors. */
+  status: z.enum(['success', 'failure', 'degraded']),
   trigger: z.enum(['schedule', 'workflow_dispatch']),
   trackersResolved: z.array(z.string()),
   validation: z.object({
@@ -271,7 +272,7 @@ export const MetricsRunSchema = z.object({
 export const MetricsIndexEntrySchema = z.object({
   file: z.string(),
   timestamp: z.string(),
-  status: z.enum(['success', 'failure']),
+  status: z.enum(['success', 'failure', 'degraded']),
   trackerCount: z.number(),
   errorCount: z.number(),
   pipeline: z.enum(['nightly', 'hourly', 'seed', 'init']).optional().default('nightly'),

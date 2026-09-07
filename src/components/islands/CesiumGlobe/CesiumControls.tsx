@@ -7,6 +7,7 @@ import type { OrbitMode } from './useCesiumCamera';
 import { SAT_GROUPS, type SatGroupCounts } from './useSatellites';
 import type { VectorToggles } from './useMissionVectors';
 import ShareViewButton from '../shared/ShareViewButton';
+import SourceStatusSummary, { SourceStatusChip, type SourceStatusItem } from '../shared/SourceStatusChip';
 
 interface Props {
   activeFilters: Set<string>;
@@ -24,6 +25,10 @@ interface Props {
   onShareView?: () => string;
   /** Bumped by the `S` shortcut to copy without clicking. */
   shareTrigger?: number;
+  /** Live-layer statuses (E2). */
+  sources?: SourceStatusItem[];
+  /** Layer ids offered to this tracker (live-layers.ts scope). */
+  scopedLayerIds?: string[];
   persistLines: boolean;
   onTogglePersist: () => void;
   satGroupCounts?: SatGroupCounts;
@@ -90,7 +95,11 @@ export default function CesiumControls({
   onToggleVector,
   onShareView,
   shareTrigger,
+  sources = [],
+  scopedLayerIds,
 }: Props) {
+  const inScope = (id: string) => !scopedLayerIds || scopedLayerIds.includes(id);
+  const chipFor = (id: string) => { const it = sources.find(x => x.id === id); return it ? <SourceStatusChip item={it} compact /> : null; };
   const [activeSection, setActiveSection] = useState<ToolbarSection | null>(null);
   const [aisKeyDraft, setAisKeyDraft] = useState('');
   const hasAisKey = !!aisApiKey;
@@ -203,10 +212,12 @@ export default function CesiumControls({
   const renderLayers = () => (
     <div className="globe-toolbar-flyout">
       <div className="globe-control-label">{t('globe.intelLayers', locale)}</div>
+      {sources.length > 0 && <SourceStatusSummary items={sources} className="globe-sources" />}
       <button
         className={`globe-filter${layers.satellites ? ' active' : ''}`}
         onClick={() => onToggleLayer('satellites')}
       >
+        {chipFor('satellites')}
         <span className="globe-fdot" style={{ background: '#00ffcc' }} />
         {t('globe.satellites', locale)}
       </button>
@@ -242,6 +253,7 @@ export default function CesiumControls({
         className={`globe-filter${layers.flights ? ' active' : ''}`}
         onClick={() => onToggleLayer('flights')}
       >
+        {chipFor('flights')}
         <span className="globe-fdot" style={{ background: '#00aaff' }} />
         {t('globe.flights', locale)}
       </button>
@@ -307,6 +319,7 @@ export default function CesiumControls({
 
       {/* SIGINT / EW Layers */}
       <div className="globe-control-label" style={{ marginTop: '6px' }}>{t('globe.sigintEw', locale)}</div>
+      {inScope('gps-jamming') && (
       <button
         className={`globe-filter${layers.gpsJam ? ' active' : ''}`}
         onClick={() => onToggleLayer('gpsJam')}
@@ -314,6 +327,8 @@ export default function CesiumControls({
         <span className="globe-fdot" style={{ background: '#ff2244' }} />
         {t('globe.gpsJamming', locale)}
       </button>
+      )}
+      {inScope('internet-blackouts') && (
       <button
         className={`globe-filter${layers.internetBlackout ? ' active' : ''}`}
         onClick={() => onToggleLayer('internetBlackout')}
@@ -321,6 +336,7 @@ export default function CesiumControls({
         <span className="globe-fdot" style={{ background: '#ff6644' }} />
         {t('globe.internetBlackout', locale)}
       </button>
+      )}
 
       {/* Fact Cards */}
       <div className="globe-control-label" style={{ marginTop: '6px' }}>{t('globe.intelOverlays', locale)}</div>
@@ -338,6 +354,7 @@ export default function CesiumControls({
         className={`globe-filter${layers.quakes ? ' active' : ''}`}
         onClick={() => onToggleLayer('quakes')}
       >
+        {chipFor('earthquakes')}
         <span className="globe-fdot" style={{ background: '#ff6644' }} />
         {t('globe.seismic', locale)}
       </button>
@@ -345,6 +362,7 @@ export default function CesiumControls({
         className={`globe-filter${layers.weather ? ' active' : ''}`}
         onClick={() => onToggleLayer('weather')}
       >
+        {chipFor('weather')}
         <span className="globe-fdot" style={{ background: '#88ccff' }} />
         {t('globe.weather', locale)}
       </button>
@@ -354,6 +372,7 @@ export default function CesiumControls({
           <span style={{ color: '#88ccff' }}>&#9679; {t('globe.wind', locale)}</span>
         </div>
       )}
+      {inScope('nfz') && (
       <button
         className={`globe-filter${layers.nfz ? ' active' : ''}`}
         onClick={() => onToggleLayer('nfz')}
@@ -361,6 +380,7 @@ export default function CesiumControls({
         <span className="globe-fdot" style={{ background: '#e74c3c' }} />
         {t('globe.airspaceClosures', locale)}
       </button>
+      )}
     </div>
   );
 

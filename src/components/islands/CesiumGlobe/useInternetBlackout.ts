@@ -9,81 +9,10 @@ import {
   type Viewer as CesiumViewer,
   type Entity,
 } from 'cesium';
+import { INTERNET_BLACKOUTS } from '../../../lib/snapshots';
 
-interface InternetBlackout {
-  id: string;
-  label: string;
-  region: string;
-  polygon: [number, number][]; // [lon, lat] pairs
-  center: [number, number];
-  startDate: string;
-  endDate?: string;
-  severity: 'total' | 'major' | 'partial';
-  source?: string;
-}
 
-const INTERNET_BLACKOUTS: InternetBlackout[] = [
-  {
-    id: 'blackout-tehran',
-    label: 'TEHRAN\nINTERNET BLACKOUT',
-    region: 'Tehran Province',
-    polygon: [
-      [50.5, 36.2], [52.5, 36.2], [52.5, 35.0], [50.5, 35.0], [50.5, 36.2],
-    ],
-    center: [51.4, 35.7],
-    startDate: '2026-02-28',
-    severity: 'total',
-    source: 'NetBlocks / IODA',
-  },
-  {
-    id: 'blackout-isfahan',
-    label: 'ISFAHAN\nINTERNET DISRUPTION',
-    region: 'Isfahan Province',
-    polygon: [
-      [50.5, 33.5], [52.5, 33.5], [52.5, 32.0], [50.5, 32.0], [50.5, 33.5],
-    ],
-    center: [51.7, 32.7],
-    startDate: '2026-02-28',
-    severity: 'major',
-    source: 'NetBlocks / Cloudflare Radar',
-  },
-  {
-    id: 'blackout-shiraz',
-    label: 'SHIRAZ\nINTERNET DISRUPTION',
-    region: 'Fars Province',
-    polygon: [
-      [51.5, 30.2], [53.0, 30.2], [53.0, 29.0], [51.5, 29.0], [51.5, 30.2],
-    ],
-    center: [52.5, 29.6],
-    startDate: '2026-03-01',
-    severity: 'major',
-    source: 'NetBlocks',
-  },
-  {
-    id: 'blackout-mashhad',
-    label: 'MASHHAD\nPARTIAL BLACKOUT',
-    region: 'Khorasan Razavi',
-    polygon: [
-      [58.5, 37.0], [60.0, 37.0], [60.0, 35.8], [58.5, 35.8], [58.5, 37.0],
-    ],
-    center: [59.6, 36.3],
-    startDate: '2026-03-01',
-    severity: 'partial',
-    source: 'IODA / Kentik',
-  },
-  {
-    id: 'blackout-tabriz',
-    label: 'TABRIZ\nPARTIAL BLACKOUT',
-    region: 'East Azerbaijan',
-    polygon: [
-      [45.5, 38.5], [47.0, 38.5], [47.0, 37.5], [45.5, 37.5], [45.5, 38.5],
-    ],
-    center: [46.3, 38.1],
-    startDate: '2026-03-01',
-    severity: 'partial',
-    source: 'NetBlocks',
-  },
-];
+
 
 const SEVERITY_STYLES: Record<string, { color: string; fillAlpha: number; outlineAlpha: number; fontSize: string }> = {
   total: { color: '#ff2244', fillAlpha: 0.15, outlineAlpha: 0.6, fontSize: '14px' },

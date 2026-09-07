@@ -48,6 +48,9 @@ const basePath = base.endsWith('/') ? base : `${base}/`;
       cameraPresets={config.globe?.cameraPresets ?? {}}
       categories={config.map?.categories ?? []}
       mapCenter={config.map?.center ?? { lon: 0, lat: 0 }}
+      mapBounds={config.map?.bounds}
+      weatherPoints={config.globe?.weatherPoints}
+      trackerSlug={config.slug}
       isHistorical={config.temporal === 'historical'}
       endDate={config.endDate}
       clocks={config.globe?.clocks}

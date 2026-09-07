@@ -7,7 +7,7 @@ import { useLocale } from '../../i18n/useLocale';
 interface MetricsIndexEntry {
   file: string;
   timestamp: string;
-  status: 'success' | 'failure';
+  status: 'success' | 'failure' | 'degraded';
   trackerCount: number;
   errorCount: number;
   pipeline?: 'nightly' | 'hourly' | 'seed' | 'init';
@@ -33,7 +33,7 @@ interface InventoryRow {
 
 interface MetricsRun {
   timestamp: string;
-  status: 'success' | 'failure';
+  status: 'success' | 'failure' | 'degraded';
   trigger: 'schedule' | 'workflow_dispatch';
   trackersResolved: string[];
   validation: {
@@ -1327,7 +1327,48 @@ function ErrorTrendChart({ entries }: { entries: MetricsIndexEntry[] }) {
    Main Component
    ══════════════════════════════════════════════════ */
 
+
+// ── Build health (public/_health/status.json, written by scripts/generate-health.ts on every deploy) ──
+// The file existed since the health script shipped and nothing read it; a
+// write-only artefact is the pattern docs/silent-failure-patterns.md warns
+// about. This strip is its first consumer.
+interface HealthStatus {
+  lastBuild: string;
+  trackers: Record<string, { lastEvent: string | null; lastDigest: string | null; digestGap: number; lastUpdated: string | null }>;
+  digestGaps: string[];
+  healthy: boolean;
+}
+
+function HealthStrip({ health }: { health: HealthStatus }) {
+  const trackerCount = Object.keys(health.trackers).length;
+  const gaps = health.digestGaps.length;
+  const built = new Date(health.lastBuild);
+  const builtLabel = Number.isNaN(built.getTime()) ? health.lastBuild : built.toISOString().replace('T', ' ').slice(0, 16) + ' UTC';
+  const color = health.healthy ? 'var(--accent-green)' : 'var(--accent-amber)';
+  return (
+    <div
+      data-testid="health-strip"
+      style={{
+        display: 'flex', flexWrap: 'wrap', gap: '1.25rem', alignItems: 'center',
+        padding: '0.6rem 1.25rem', marginBottom: '1rem',
+        background: 'var(--bg-card)', border: '1px solid var(--border)', borderLeft: `3px solid ${color}`,
+        fontFamily: "'JetBrains Mono', monospace", fontSize: '0.65rem', color: 'var(--text-secondary)',
+      }}
+    >
+      <span style={{ color, fontWeight: 700, letterSpacing: '0.08em' }}>
+        {health.healthy ? '● BUILD HEALTHY' : '● DIGEST GAPS'}
+      </span>
+      <span>Last build: {builtLabel}</span>
+      <span>{trackerCount} trackers checked</span>
+      <span style={{ color: gaps > 0 ? 'var(--accent-amber)' : undefined }}>
+        {gaps} with digest gap{gaps === 1 ? '' : 's'}{gaps > 0 ? `: ${health.digestGaps.slice(0, 5).join(', ')}${gaps > 5 ? '…' : ''}` : ''}
+      </span>
+    </div>
+  );
+}
+
 export default function MetricsDashboard() {
+  const [health, setHealth] = useState<HealthStatus | null>(null);
   const locale = useLocale();
   const [index, setIndex] = useState<MetricsIndexEntry[]>([]);
   const [loading, setLoading] = useState(true);
@@ -1341,6 +1382,18 @@ export default function MetricsDashboard() {
   useEffect(() => {
     ensureKeyframes();
     return () => { mountedRef.current = false; };
+  }, []);
+
+  // Fetch build health; absent on deploys older than generate-health.ts, and
+  // that is fine: the strip simply does not render.
+  useEffect(() => {
+    fetch(`${BASE}/_health/status.json`)
+      .then(r => (r.ok ? r.json() : null))
+      .then((h: HealthStatus | null) => {
+        if (!mountedRef.current || !h || typeof h !== 'object' || !('trackers' in h)) return;
+        setHealth(h);
+      })
+      .catch(() => { /* strip stays hidden */ });
   }, []);
 
   // Fetch index
@@ -1460,6 +1513,9 @@ export default function MetricsDashboard() {
     <div style={{ fontFamily: FONT_SANS }}>
       {/* Section 1: System Status Banner */}
       <SystemStatusBanner summary={summary} />
+
+      {/* Build health from _health/status.json (E2.H6): digest gaps + last build */}
+      {health && <HealthStrip health={health} />}
 
       {/* Pipeline filter pills */}
       <div style={{

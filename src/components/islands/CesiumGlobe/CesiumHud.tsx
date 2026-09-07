@@ -5,6 +5,7 @@ import {
   Cartesian3,
 } from 'cesium';
 import type { VisualMode } from './cesium-shaders';
+import SourceStatusSummary, { type SourceStatusItem } from '../shared/SourceStatusChip';
 
 interface Props {
   viewer: CesiumViewer | null;
@@ -15,6 +16,8 @@ interface Props {
   hudMode?: 'military' | 'civilian';
   hideBottomLeftHud?: boolean;
   hideTopRightHud?: boolean;
+  /** Live-layer statuses for the source chip (E2). */
+  sources?: SourceStatusItem[];
 }
 
 /** Convert decimal degrees to DMS string */
@@ -108,7 +111,7 @@ const VISUAL_MODE_LABELS: Record<VisualMode, string> = {
 };
 
 /** Military-grade HUD overlay — MGRS, GSD, NIIRS, sun elevation, classification banner */
-export default function CesiumHud({ viewer, visible, visualMode, simTimeRef, currentDate, hudMode, hideBottomLeftHud, hideTopRightHud }: Props) {
+export default function CesiumHud({ viewer, visible, visualMode, simTimeRef, currentDate, hudMode, hideBottomLeftHud, hideTopRightHud, sources = [] }: Props) {
   const [hudData, setHudData] = useState({
     mgrs: '',
     latDms: '',
@@ -220,6 +223,7 @@ export default function CesiumHud({ viewer, visible, visualMode, simTimeRef, cur
       {/* Top-right — timestamp (hidden when KPI strip occupies that corner) */}
       {!hideTopRightHud && (
         <div className="hud-top-right">
+          {sources.length > 0 && <SourceStatusSummary items={sources} className="hud-sources" />}
           <div className="hud-rec">
             <span className="hud-rec-dot" />
             {hudData.recTime}
