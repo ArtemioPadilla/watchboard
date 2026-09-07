@@ -46,6 +46,22 @@ describe('LIVE_LAYERS registry', () => {
     ).toBe(false);
   });
 
+  it('rejects cross-kind fields instead of stripping them', () => {
+    const attribution = { source: 's', license: 'l' };
+    expect(
+      LiveLayerSpecSchema.safeParse({
+        id: 'x', label: 'x', kind: 'snapshot', renderer: 'both', snapshotDate: '2026-01-01', dataPath: 'p', attribution,
+        url: 'https://a.b', ttlMs: 1000,
+      }).success,
+    ).toBe(false);
+    expect(
+      LiveLayerSpecSchema.safeParse({
+        id: 'x', label: 'x', kind: 'feed', renderer: 'both', url: 'https://a.b', ttlMs: 1000, cors: true, attribution,
+        snapshotDate: '2026-01-01',
+      }).success,
+    ).toBe(false);
+  });
+
   it('scopes snapshot layers to their trackers', () => {
     const iran = layersForTracker('iran-conflict').map((l) => l.id);
     const mexico = layersForTracker('mexico-history').map((l) => l.id);

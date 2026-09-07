@@ -13,6 +13,14 @@
  * read the files.
  */
 
+/**
+ * The CSP `<meta>` tag as Astro emits it. Three capture groups (prefix,
+ * policy, suffix) so `scripts/csp-hashes.ts` can rewrite the policy in
+ * place with the same pattern this module uses to read it; two regexes
+ * for one tag would drift.
+ */
+export const CSP_META_RE = /(<meta\s+http-equiv="Content-Security-Policy"\s+content=")([^"]*)(")/i;
+
 /** Extracts the `connect-src` directive's source list from a CSP string. */
 export function extractConnectSrc(csp: string): string[] {
   const m = csp.match(/connect-src\s+([^;]+)/i);
@@ -30,8 +38,8 @@ export function extractConnectSrc(csp: string): string[] {
  */
 export function extractPolicies(fileBody: string): string[] {
   const policies: string[] = [];
-  for (const m of fileBody.matchAll(/http-equiv="Content-Security-Policy"\s+content="([^"]+)"/g)) {
-    policies.push(m[1]);
+  for (const m of fileBody.matchAll(new RegExp(CSP_META_RE.source, 'gi'))) {
+    if (m[2]) policies.push(m[2]);
   }
   for (const m of fileBody.matchAll(/Content-Security-Policy:\s*([^\n]+)/g)) {
     policies.push(m[1].trim());
@@ -46,6 +54,13 @@ export function extractPolicies(fileBody: string): string[] {
  * like `'self'` are handled by the caller because they depend on the
  * deploying origin.
  */
+const DEFAULT_PORTS: Record<string, string> = { https: '443', http: '80', wss: '443', ws: '80' };
+
+/** Port a URL actually connects to: explicit port, else the scheme default. */
+export function effectivePort(u: URL): string {
+  return u.port || DEFAULT_PORTS[u.protocol.replace(':', '')] || '';
+}
+
 export function hostAllowed(url: string, allowlist: string[]): boolean {
   let target: URL;
   try {
@@ -55,6 +70,7 @@ export function hostAllowed(url: string, allowlist: string[]): boolean {
   }
   const scheme = target.protocol.replace(':', '');
   const host = target.hostname.toLowerCase();
+  const port = effectivePort(target);
 
   for (const entry of allowlist) {
     if (entry.startsWith("'")) continue; // keywords
@@ -71,6 +87,9 @@ export function hostAllowed(url: string, allowlist: string[]): boolean {
     }
     const entryScheme = entryUrl.protocol.replace(':', '');
     if (entryScheme !== scheme) continue;
+    // CSP host-sources match on port too: `https://api.example.com` means
+    // 443 only, and `https://api.example.com:8443` only that port.
+    if (effectivePort(entryUrl) !== port) continue;
     const entryHost = entryUrl.hostname.toLowerCase();
     if (entryHost.startsWith('*.')) {
       const suffix = entryHost.slice(1); // ".example.com"

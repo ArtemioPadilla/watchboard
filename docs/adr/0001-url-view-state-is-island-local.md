@@ -19,8 +19,10 @@ tiene que capturar ya es local a una sola isla en cada página:
   `viewer.camera`), los toggles de capa en un `useState` en
   `CesiumGlobe.tsx` (bloque de estado de vista, alrededor de las líneas
   119-166), la fecha del scrubber en `currentDate` de la misma isla.
-- Mapa 2D: `IntelMap.tsx` mantiene sus ocho booleanos de capa (líneas
-  66-75) y el centro/zoom los tiene `LeafletMap`.
+- Mapa 2D: `IntelMap.tsx` mantiene todo su estado de vista en un bloque
+  contiguo (líneas 42-77): filtros de categoría, punto seleccionado,
+  fecha del scrubber, reproducción y velocidad, y los ocho booleanos de
+  capa; el centro/zoom los tiene `LeafletMap`.
 - Homepage: `CommandCenter.tsx` ya escribe `#geo` / `#domain` con
   `history.replaceState` (líneas 196-198) y los lee en el inicializador
   de `viewMode` (145-150). Es el único escritor de URL del sitio.
