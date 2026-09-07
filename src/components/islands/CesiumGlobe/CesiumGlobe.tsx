@@ -144,6 +144,7 @@ function CesiumGlobeInner({ points, lines, kpis, meta, events = [], cameraPreset
   const urlViewRef = useRef<ViewState>(readViewState([...GLOBE_LAYER_KEYS, 'deepstate-frontline', 'gdacs-alerts', ...staticLayers]));
   const viewWriterRef = useRef(createViewStateWriter(500));
   const [urlEventSlug, setUrlEventSlug] = useState<string | undefined>(urlViewRef.current.event);
+  const [urlEventId, setUrlEventId] = useState<string | null>(null);
   const [shareTrigger, setShareTrigger] = useState(0);
 
   // ── Filters ──
@@ -538,6 +539,8 @@ function CesiumGlobeInner({ points, lines, kpis, meta, events = [], cameraPreset
     if (!ev) { setUrlEventSlug(undefined); return; }
     setCurrentDate(ev.resolvedDate);
     setEventsOpen(true);
+    setUrlEventSlug(slug);
+    setUrlEventId(ev.id);
     const pt = points.find(p => p.id === ev.id);
     if (pt && urlViewRef.current.lat === undefined) {
       flyToPosition({ lon: pt.lon, lat: pt.lat, alt: 400_000, duration: 1.5 });
@@ -670,8 +673,15 @@ function CesiumGlobeInner({ points, lines, kpis, meta, events = [], cameraPreset
     });
   }, [handleOrbitMode]);
 
+  // Drop the event from the URL only when the user closes the intel panel,
+  // not on mount (the panel starts closed before the ?event= effect runs).
+  const prevEventsOpen = useRef(eventsOpen);
   useEffect(() => {
-    if (!eventsOpen && urlEventSlug) setUrlEventSlug(undefined);
+    if (prevEventsOpen.current && !eventsOpen && urlEventSlug) {
+      setUrlEventSlug(undefined);
+      setUrlEventId(null);
+    }
+    prevEventsOpen.current = eventsOpen;
   }, [eventsOpen, urlEventSlug]);
 
   // ── Escape key to dismiss floating card ──
@@ -843,7 +853,7 @@ function CesiumGlobeInner({ points, lines, kpis, meta, events = [], cameraPreset
                   return !prev;
                 });
               }}
-              activeEventId={cinematicMode ? cinematicEventId : undefined}
+              activeEventId={cinematicMode ? cinematicEventId : urlEventId ?? undefined}
             />
           </CollapsiblePanel>
         )}
@@ -991,7 +1001,7 @@ function CesiumGlobeInner({ points, lines, kpis, meta, events = [], cameraPreset
           onTrackSpacecraft={trackSpacecraft}
           eventsOpen={eventsOpen}
           onToggleEvents={() => setEventsOpen(prev => !prev)}
-          activeEventId={cinematicMode ? cinematicEventId : undefined}
+          activeEventId={cinematicMode ? cinematicEventId : urlEventId ?? undefined}
           activeFilters={activeFilters}
           onToggleFilter={toggleFilter}
           pointCounts={pointCounts}

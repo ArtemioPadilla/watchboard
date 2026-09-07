@@ -9,6 +9,10 @@ describe('resolveClaimStatus', () => {
     expect(resolveClaimStatus({})).toBe('contested');
     expect(resolveClaimStatus({ status: undefined })).toBe('contested');
   });
+  it('treats an unknown string as contested rather than trusting it', () => {
+    expect(resolveClaimStatus({ status: 'maybe' as never })).toBe('contested');
+    expect(claimStatusMeta({ status: 'MAYBE' as never }).status).toBe('contested');
+  });
   it('passes through every known status', () => {
     for (const s of CLAIM_STATUSES) expect(resolveClaimStatus({ status: s })).toBe(s);
   });

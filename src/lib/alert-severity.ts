@@ -11,19 +11,25 @@
  * what the number and the tier say, nothing more.
  */
 
+import { HIGH_THRESHOLD, MODERATE_THRESHOLD } from './keyword-match';
+
 export type AlertSeverity = 'critical' | 'high' | 'elevated' | 'low';
 
-/** Mirrors HIGH_THRESHOLD / MODERATE_THRESHOLD in scripts/hourly-light-scan.ts. */
+/** The light scan's own thresholds — imported, not copied, so they cannot drift. */
 export const ALERT_THRESHOLDS = {
-  high: 0.85,
-  moderate: 0.25,
+  high: HIGH_THRESHOLD,
+  moderate: MODERATE_THRESHOLD,
 } as const;
 
+/**
+ * critical ≥ high & tier ≤ 2 | high ≥ high | elevated ≥ moderate | low.
+ * Anything that cleared the actionable (moderate) threshold is "elevated":
+ * it was worth queueing for the heavy scan, so it is worth a colour.
+ */
 export function severityFromScore(score: number, sourceTier?: number | null): AlertSeverity {
   if (!Number.isFinite(score)) return 'low';
   if (score >= ALERT_THRESHOLDS.high) return sourceTier != null && sourceTier <= 2 ? 'critical' : 'high';
-  if (score >= 0.6) return 'elevated';
-  if (score >= ALERT_THRESHOLDS.moderate) return 'low';
+  if (score >= ALERT_THRESHOLDS.moderate) return 'elevated';
   return 'low';
 }
 

@@ -49,3 +49,28 @@ describe('gdacsToCandidates', () => {
     expect(c.length).toBe(parseGdacsRss(XML).filter(a => a.level !== 'Green').length);
   });
 });
+
+describe('E5 review fixes', () => {
+  it('escalations become new candidates: the level is part of the URL', () => {
+    const alerts = parseGdacsRss(readFileSync(resolve(__dirname, '../../tests/fixtures/gdacs-sample.xml'), 'utf8'));
+    const a = alerts.find(x => x.level !== 'Green')!;
+    const orange = gdacsToCandidates([{ ...a, level: 'Orange' }])[0];
+    const red = gdacsToCandidates([{ ...a, level: 'Red' }])[0];
+    expect(orange.url).not.toBe(red.url);
+    expect(red.url.startsWith(a.url)).toBe(true);
+    expect(red.url.endsWith('#red')).toBe(true);
+  });
+  it('falls back to geo:Point when georss:point is absent', () => {
+    const xml = `<?xml version="1.0"?><rss><channel><item>
+      <title>Fallback quake</title><link>https://www.gdacs.org/report.aspx?eventid=9</link><guid>EQ9</guid>
+      <pubDate>Mon, 07 Sep 2026 00:00:00 GMT</pubDate>
+      <gdacs:eventid xmlns:gdacs="x">9</gdacs:eventid><gdacs:eventtype xmlns:gdacs="x">EQ</gdacs:eventtype><gdacs:alertlevel xmlns:gdacs="x">Orange</gdacs:alertlevel>
+      <geo:Point xmlns:geo="x"><geo:lat>49.84</geo:lat><geo:long>24.03</geo:long></geo:Point>
+    </item></channel></rss>`;
+    const out = parseGdacsRss(xml);
+    expect(out).toHaveLength(1);
+    expect(out[0]).toMatchObject({ id: 'EQ9', lat: 49.84, lon: 24.03, level: 'Orange' });
+    // No coordinates at all → the item is skipped, not placed at 0,0.
+    expect(parseGdacsRss(xml.replace(/<geo:Point[\s\S]*?<\/geo:Point>/, ''))).toHaveLength(0);
+  });
+});

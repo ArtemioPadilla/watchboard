@@ -67,6 +67,8 @@ interface Entry<T = unknown> {
   lastOutcome: 'ok' | 'fail' | 'rate-limited' | null;
   error?: string;
   failures: number;
+  /** Consecutive 429 outcomes; drives the rate-limit backoff, reset by any other outcome. */
+  rateLimitStreak: number;
   retryAt: number;
   ttlMs: number;
   inflight: Promise<LiveResult<T>> | null;
@@ -90,18 +92,26 @@ function getEntry<T>(key: string, ttlMs: number): Entry<T> {
   let e = store.get(key) as Entry<T> | undefined;
   if (!e) {
     if (store.size >= MAX_ENTRIES) {
-      // Insertion-order eviction; never evict something still loading.
-      for (const [k, v] of store) {
-        if (!v.inflight) { store.delete(k); break; }
-      }
+      // Insertion-order eviction, preferring an idle entry; if every entry
+      // is in flight the oldest one goes anyway so the cap is a hard
+      // invariant (its pending fetch completes into a detached entry and
+      // notifies nobody).
+      let victim: string | null = null;
+      for (const [k, v] of store) { if (!v.inflight) { victim = k; break; } }
+      if (victim === null) victim = store.keys().next().value ?? null;
+      if (victim !== null) store.delete(victim);
     }
     e = {
       data: null, updatedAt: null, lastAttemptAt: null, lastOutcome: null,
-      failures: 0, retryAt: 0, ttlMs, inflight: null, subscribers: new Set(),
+      failures: 0, rateLimitStreak: 0, retryAt: 0, ttlMs, inflight: null, subscribers: new Set(),
     };
     store.set(key, e as Entry);
+  } else if (e.ttlMs !== ttlMs && typeof console !== 'undefined' && (import.meta as { env?: { DEV?: boolean } }).env?.DEV) {
+    // The TTL belongs to the entry, not to whoever called last: two surfaces
+    // sharing a key must agree, otherwise one silently rewrites the other's
+    // staleness window. Keep the first value and say so in dev.
+    console.warn(`[live-source] key "${key}" already has ttlMs=${e.ttlMs}; ignoring ${ttlMs}`);
   }
-  e.ttlMs = ttlMs;
   return e;
 }
 
@@ -184,11 +194,15 @@ export function fetchLiveSource<T>(spec: LiveFetchSpec<T>): Promise<LiveResult<T
         // fall through: nothing recorded
       } else if (res.status === 429) {
         e.failures += 1;
+        e.rateLimitStreak += 1;
         e.lastOutcome = 'rate-limited';
         e.error = `HTTP 429 from ${hostOf()}`;
-        e.retryAt = now() + Math.min(RATE_LIMIT_BASE_MS * 2 ** (e.failures - 1), RATE_LIMIT_MAX_MS);
+        // 30 s, 60 s, 120 s for consecutive 429s; a plain failure in
+        // between restarts the ladder (it is a different problem).
+        e.retryAt = now() + Math.min(RATE_LIMIT_BASE_MS * 2 ** (e.rateLimitStreak - 1), RATE_LIMIT_MAX_MS);
       } else if (!res.ok) {
         e.failures += 1;
+        e.rateLimitStreak = 0;
         e.lastOutcome = 'fail';
         e.error = `HTTP ${res.status} from ${hostOf()}`;
         e.retryAt = now() + FAIL_RETRY_MS;
@@ -201,6 +215,7 @@ export function fetchLiveSource<T>(spec: LiveFetchSpec<T>): Promise<LiveResult<T
           // the previous layer rather than blanking it. With no previous
           // layer the empty result is stored so the UI can honestly say "0".
           e.failures += 1;
+          e.rateLimitStreak = 0;
           e.error = 'Upstream returned no data';
           e.retryAt = now() + FAIL_RETRY_MS;
           if (e.data === null) {
@@ -214,6 +229,7 @@ export function fetchLiveSource<T>(spec: LiveFetchSpec<T>): Promise<LiveResult<T
           e.data = data;
           e.updatedAt = now();
           e.failures = 0;
+          e.rateLimitStreak = 0;
           e.retryAt = 0;
           e.lastOutcome = 'ok';
           e.error = undefined;
@@ -222,6 +238,7 @@ export function fetchLiveSource<T>(spec: LiveFetchSpec<T>): Promise<LiveResult<T
     } catch (err) {
       if (!spec.signal?.aborted) {
         e.failures += 1;
+        e.rateLimitStreak = 0;
         e.lastOutcome = 'fail';
         e.error = err instanceof Error ? err.message : String(err);
         e.retryAt = now() + FAIL_RETRY_MS;

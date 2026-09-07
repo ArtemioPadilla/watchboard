@@ -222,28 +222,6 @@ function CommandCenterInner({
     }
   }, [viewMode]);
 
-  // ── Shareable selection: ?tracker=slug (ADR-0001). Applied after mount so
-  // the hydrated first render matches the server HTML.
-  const viewWriterRef = useRef(createViewStateWriter(300));
-  const [shareTrigger, setShareTrigger] = useState(0);
-  const urlTrackerApplied = useRef(false);
-  useEffect(() => {
-    if (urlTrackerApplied.current) return;
-    urlTrackerApplied.current = true;
-    const { tracker } = readViewState();
-    if (tracker && trackers.some(t => t.slug === tracker)) {
-      setActiveTracker(tracker);
-      setSidebarCollapsed(false);
-    }
-  }, [trackers]);
-  useEffect(() => {
-    if (!urlTrackerApplied.current) return;
-    viewWriterRef.current.write(activeTracker ? { tracker: activeTracker } : {});
-  }, [activeTracker]);
-  const buildShareUrl = useCallback(
-    () => viewWriterRef.current.flush(activeTracker ? { tracker: activeTracker } : {}),
-    [activeTracker],
-  );
 
   // Lazy-load country GeoJSON when entering geographic mode
   useEffect(() => {
@@ -350,6 +328,32 @@ function CommandCenterInner({
     }
   }, [broadcastOff]);
 
+  // ── Shareable selection: ?tracker=slug (ADR-0001). Applied after mount so
+  // the hydrated first render matches the server HTML.
+  const viewWriterRef = useRef(createViewStateWriter(300));
+  const [shareTrigger, setShareTrigger] = useState(0);
+  const urlTrackerApplied = useRef(false);
+  useEffect(() => {
+    if (urlTrackerApplied.current) return;
+    urlTrackerApplied.current = true;
+    const { tracker } = readViewState();
+    if (tracker && trackers.some(t => t.slug === tracker)) {
+      // Same path as a click: selects, and in broadcast mode jumps the
+      // globe to the tracker (the only fly-to path that is live by default).
+      handleSelect(tracker);
+      setSidebarCollapsed(false);
+    }
+  }, [trackers, handleSelect]);
+  useEffect(() => () => viewWriterRef.current.cancel(), []);
+  useEffect(() => {
+    if (!urlTrackerApplied.current) return;
+    viewWriterRef.current.write(activeTracker ? { tracker: activeTracker } : {});
+  }, [activeTracker]);
+  const buildShareUrl = useCallback(
+    () => viewWriterRef.current.flush(activeTracker ? { tracker: activeTracker } : {}),
+    [activeTracker],
+  );
+
   const handleHover = useCallback((slug: string | null) => {
     setHoveredTracker(slug);
   }, []);
@@ -381,6 +385,7 @@ function CommandCenterInner({
           globeRef.current?.setAutoRotate?.(false);
           // Country click also opens the dossier; the code is known, so no
           // geocoding request is spent on it.
+          setShowAlerts(false);
           dossier.open({ lat: centroid.lat, lon: centroid.lng, countryCode: isoA2 });
         }
       }
@@ -388,6 +393,7 @@ function CommandCenterInner({
   }, [trackers, countriesGeoJSON, dossier.open]);
 
   const handleGlobeRightClick = useCallback((lat: number, lng: number) => {
+    setShowAlerts(false); // both are right-side sheets; never stack them
     dossier.open({ lat, lon: lng });
     globeRef.current?.setAutoRotate?.(false);
   }, [dossier.open]);
@@ -553,6 +559,7 @@ function CommandCenterInner({
         case 'A':
           if (!e.metaKey && !e.ctrlKey && !e.altKey) {
             e.preventDefault();
+            dossier.close();
             setShowAlerts(prev => !prev);
           }
           break;
@@ -593,7 +600,7 @@ function CommandCenterInner({
           <button
             type="button"
             className={`cc-alerts-btn${showAlerts ? ' active' : ''}${criticalCount > 0 ? ' has-critical' : ''}`}
-            onClick={() => setShowAlerts(prev => !prev)}
+            onClick={() => { dossier.close(); setShowAlerts(prev => !prev); }}
             aria-pressed={showAlerts}
             title={t('alerts.title', locale)}
             data-testid="alerts-toggle"

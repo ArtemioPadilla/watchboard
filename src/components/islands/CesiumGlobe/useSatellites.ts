@@ -1,5 +1,6 @@
-import { useLiveSource } from '../../../lib/use-live-source';
-import { useState, useEffect, useRef } from 'react';
+import { useLiveSource, worstStatus } from '../../../lib/use-live-source';
+import type { LiveStatus } from '../../../lib/live-source';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import {
   Cartesian3,
   CallbackProperty,
@@ -232,6 +233,50 @@ export interface SatTarget {
 }
 
 /** Fetch military-relevant satellite TLEs and propagate orbits */
+const TLE_TTL_MS = 6 * 60 * 60_000;
+
+function tleSpec(g: SatGroupInfo) {
+  return {
+    key: `satellites:tle:${g.group}`,
+    url: g.url,
+    ttlMs: TLE_TTL_MS,
+    parse: async (res: Response) => parseTLE(await res.text(), g.group),
+  };
+}
+
+/**
+ * Six independent live-source entries, one per catalogue group, merged
+ * into a single record list plus the worst status. Hooks are called in a
+ * fixed order (SAT_GROUPS is constant) so the rules of hooks hold.
+ */
+function useSatelliteGroups(enabled: boolean): { data: SatRecord[] | null; status: LiveStatus; updatedAt: number | null; error?: string } {
+  const r0 = useLiveSource<SatRecord[]>(tleSpec(SAT_GROUPS[0]), { enabled });
+  const r1 = useLiveSource<SatRecord[]>(tleSpec(SAT_GROUPS[1]), { enabled });
+  const r2 = useLiveSource<SatRecord[]>(tleSpec(SAT_GROUPS[2]), { enabled });
+  const r3 = useLiveSource<SatRecord[]>(tleSpec(SAT_GROUPS[3]), { enabled });
+  const r4 = useLiveSource<SatRecord[]>(tleSpec(SAT_GROUPS[4]), { enabled });
+  const r5 = useLiveSource<SatRecord[]>(tleSpec(SAT_GROUPS[5]), { enabled });
+  const results = [r0, r1, r2, r3, r4, r5];
+  return useMemo(() => {
+    const all: SatRecord[] = [];
+    const failed: string[] = [];
+    let updatedAt: number | null = null;
+    results.forEach((r, i) => {
+      if (r.data) all.push(...r.data);
+      if (r.status === 'error' || r.status === 'rate-limited') failed.push(SAT_GROUPS[i].group);
+      if (r.updatedAt !== null && (updatedAt === null || r.updatedAt > updatedAt)) updatedAt = r.updatedAt;
+    });
+    const withData = results.filter(r => r.data);
+    // Any data at all: status is the worst among groups that have data
+    // (stale beats ok); groups that never loaded are named in `error`.
+    // No data anywhere: the worst status overall (loading/error/rate-limited).
+    const status = withData.length > 0 ? worstStatus(withData.map(r => r.status)) : worstStatus(results.map(r => r.status));
+    const error = failed.length ? `groups unavailable: ${failed.join(', ')}` : results.find(r => r.error)?.error;
+    return { data: all.length > 0 ? all : null, status, updatedAt, ...(error ? { error } : {}) };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [r0.data, r0.status, r1.data, r1.status, r2.data, r2.status, r3.data, r3.status, r4.data, r4.status, r5.data, r5.status, r0.updatedAt, r1.updatedAt, r2.updatedAt, r3.updatedAt, r4.updatedAt, r5.updatedAt]);
+}
+
 export function useSatellites(
   viewer: CesiumViewer | null,
   enabled: boolean,
@@ -246,37 +291,15 @@ export function useSatellites(
   const entitiesRef = useRef<Entity[]>([]);
   const fovEntitiesRef = useRef<Entity[]>([]);
   const animRef = useRef<number>(0);
-  // TLE catalogue through the shared live-source cache: 6 h TTL, one
-  // request per group across every globe on the page, stale-on-error, and
-  // a per-group status so a failed group is reported instead of dropped.
-  const { data: tleData, status: tleStatus, updatedAt: tleUpdatedAt, error: tleError } = useLiveSource<SatRecord[]>(
-    {
-      key: 'satellites:tle',
-      url: SAT_GROUPS[0].url,
-      ttlMs: 6 * 60 * 60_000,
-      // One logical fetch covering all groups; live-source only sees the
-      // aggregate, so a single dead group still yields data (with a note).
-      parse: async () => {
-        const results = await Promise.allSettled(
-          SAT_GROUPS.map(async g => {
-            const res = await fetch(g.url);
-            if (!res.ok) throw new Error(`${g.group}: HTTP ${res.status}`);
-            return parseTLE(await res.text(), g.group);
-          }),
-        );
-        const all: SatRecord[] = [];
-        const failed: string[] = [];
-        results.forEach((r, i) => {
-          if (r.status === 'fulfilled') all.push(...r.value);
-          else failed.push(SAT_GROUPS[i].group);
-        });
-        if (all.length === 0) throw new Error(`All TLE groups failed (${failed.join(', ')})`);
-        if (failed.length) console.warn('[satellites] groups failed:', failed.join(', '));
-        return all;
-      },
-    },
-    { enabled },
-  );
+  // TLE catalogue through the shared live-source cache: one entry per
+  // group (6 h TTL, one request per group across every globe on the page,
+  // stale-on-error). Groups are independent: a dead group is reported by
+  // name and the others still render — no bootstrap request gates the rest.
+  const groups = useSatelliteGroups(enabled);
+  const tleData = groups.data;
+  const tleStatus = groups.status;
+  const tleUpdatedAt = groups.updatedAt;
+  const tleError = groups.error;
 
   useEffect(() => {
     if (!enabled || !tleData) return;

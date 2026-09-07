@@ -35,7 +35,8 @@ export default function AlertsPanel({ open, onClose, onSelectTracker, onLocate, 
     parse: async (res: Response) => parseUsgs(await res.json()),
     isEmpty: () => false,
   }), [today]);
-  const quakesRes = useLiveSource<Earthquake[]>(quakeSpec, { enabled: open && filter === 'quakes' });
+  // Fetched whenever the panel is open (10-min TTL) so the chip count is right before the tab is picked.
+  const quakesRes = useLiveSource<Earthquake[]>(quakeSpec, { enabled: open });
   const quakes: QuakeAlert[] = useMemo(() => (quakesRes.data ?? []).map(q => ({ id: q.id, mag: q.mag, place: q.place, time: q.time, lat: q.lat, lon: q.lon })), [quakesRes.data]);
 
   if (!open) return null;

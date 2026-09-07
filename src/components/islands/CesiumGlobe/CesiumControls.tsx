@@ -377,7 +377,7 @@ export default function CesiumControls({
           <span style={{ color: '#88ccff' }}>&#9679; {t('globe.wind', locale)}</span>
         </div>
       )}
-      {inScope('nfz') && (
+      {/* E5 layers (frontline / GDACS / static GeoJSON) offered on this tracker */}
       {extraLayers.map(l => (
         <button
           key={l.id}
@@ -392,13 +392,14 @@ export default function CesiumControls({
           {l.on && l.count > 0 && <span className="globe-filter-count">{l.count}</span>}
         </button>
       ))}
-      <button
-        className={`globe-filter${layers.nfz ? ' active' : ''}`}
-        onClick={() => onToggleLayer('nfz')}
-      >
-        <span className="globe-fdot" style={{ background: '#e74c3c' }} />
-        {t('globe.airspaceClosures', locale)}
-      </button>
+      {inScope('nfz') && (
+        <button
+          className={`globe-filter${layers.nfz ? ' active' : ''}`}
+          onClick={() => onToggleLayer('nfz')}
+        >
+          <span className="globe-fdot" style={{ background: '#e74c3c' }} />
+          {t('globe.airspaceClosures', locale)}
+        </button>
       )}
     </div>
   );

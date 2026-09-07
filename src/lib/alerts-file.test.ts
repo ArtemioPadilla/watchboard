@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import { buildAlertsFile, ALERTS_MAX_ENTRIES, alertId } from './alerts-file';
-import { severityFromScore } from './alert-severity';
+import { buildAlertsFile, ALERTS_MAX_ENTRIES, alertId, safeHref } from './alerts-file';
+import { severityFromScore, ALERT_THRESHOLDS } from './alert-severity';
+import { HIGH_THRESHOLD, MODERATE_THRESHOLD } from './keyword-match';
 import type { TriageLogEntry } from '../../scripts/hourly-types';
 
 const NOW = new Date('2026-09-07T12:00:00Z');
@@ -18,12 +19,20 @@ function entry(over: Partial<TriageLogEntry> & { url?: string; hoursAgo?: number
 }
 
 describe('severityFromScore', () => {
+  it('uses the light scan thresholds, not copies', () => {
+    expect(ALERT_THRESHOLDS.high).toBe(HIGH_THRESHOLD);
+    expect(ALERT_THRESHOLDS.moderate).toBe(MODERATE_THRESHOLD);
+  });
   it('maps thresholds and tier', () => {
     expect(severityFromScore(0.95, 2)).toBe('critical');
     expect(severityFromScore(0.95, 3)).toBe('high');
     expect(severityFromScore(0.85, null)).toBe('high');
     expect(severityFromScore(0.7, 1)).toBe('elevated');
-    expect(severityFromScore(0.3, 1)).toBe('low');
+    // Everything that cleared MODERATE (queued for the heavy scan) is elevated,
+    // including the 0.3167 single-token score the light scan documents.
+    expect(severityFromScore(0.3167, 2)).toBe('elevated');
+    expect(severityFromScore(0.25, 2)).toBe('elevated');
+    expect(severityFromScore(0.2499, 1)).toBe('low');
     expect(severityFromScore(NaN, 1)).toBe('low');
   });
 });
@@ -73,5 +82,16 @@ describe('buildAlertsFile', () => {
     const e = entry({ url: 'https://example.test/a?b=1' });
     expect(alertId(e)).toBe(alertId(e));
     expect(alertId(e)).toMatch(/^\d{14}-example-test-a-b-1$/);
+  });
+});
+
+describe('safeHref', () => {
+  it('allows http(s) only', () => {
+    expect(safeHref('https://example.test/a')).toBe('https://example.test/a');
+    expect(safeHref('http://example.test/a')).toBe('http://example.test/a');
+    expect(safeHref('javascript:alert(1)')).toBeUndefined();
+    expect(safeHref('data:text/html,hi')).toBeUndefined();
+    expect(safeHref('not a url')).toBeUndefined();
+    expect(safeHref(undefined)).toBeUndefined();
   });
 });

@@ -37,6 +37,21 @@ export interface AlertsFile {
   entries: AlertEntry[];
 }
 
+/**
+ * Only http(s) URLs may become a clickable link. Feed `<guid>` fallbacks
+ * and realtime sources are external input; `rel="noopener"` does nothing
+ * against a `javascript:` scheme.
+ */
+export function safeHref(url: string | null | undefined): string | undefined {
+  if (!url) return undefined;
+  try {
+    const u = new URL(url);
+    return u.protocol === 'http:' || u.protocol === 'https:' ? u.toString() : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
 export const ALERTS_MAX_ENTRIES = 60;
 export const ALERTS_WINDOW_HOURS = 72;
 

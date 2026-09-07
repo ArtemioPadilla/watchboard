@@ -55,6 +55,13 @@ describe('fingerprintUrl', () => {
     const fp = await fingerprintUrl('https://x/img.jpg', { fetchImpl: fetchImpl as never });
     expect(fp?.contentLength).toBe(5000);
   });
+  it('records validators but no hash for an empty body', async () => {
+    const fetchImpl = async () => ({ response: fakeResponse(new Uint8Array(0), { etag: '"e"', 'content-length': '0' }), finalUrl: 'u' });
+    const fp = await fingerprintUrl('https://x/img.jpg', { fetchImpl: fetchImpl as never });
+    expect(fp?.hash).toBeUndefined();
+    expect(fp?.etag).toBe('e');
+    expect(fp?.contentLength).toBe(0);
+  });
   it('returns undefined on failure', async () => {
     const fetchImpl = async () => ({ response: fakeResponse(new Uint8Array(0), {}, 403), finalUrl: 'u' });
     expect(await fingerprintUrl('https://x/img.jpg', { fetchImpl: fetchImpl as never })).toBeUndefined();

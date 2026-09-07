@@ -75,7 +75,8 @@ export default function ShareViewButton({ buildUrl, trigger, className = '', com
       type="button"
       className={`share-view-btn${status !== 'idle' ? ` share-view-btn--${status}` : ''} ${className}`.trim()}
       onClick={() => void copy()}
-      title={t('share.copyView', locale)}
+      title={`${t('share.copyView', locale)} (S)`}
+      aria-label={label}
       aria-live="polite"
       data-status={status}
     >
