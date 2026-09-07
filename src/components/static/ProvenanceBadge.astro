@@ -1,0 +1,29 @@
+---
+/**
+ * Discreet "who wrote this" badge for AI-generated copy (plan E9.H1).
+ * Renders "AI · Claude · 6 Sep", "Editorial", or "No provenance recorded";
+ * a missing value is shown, never hidden.
+ */
+import type { Provenance } from '../../lib/schemas';
+import { describeProvenance } from '../../lib/provenance';
+import { t, type Locale } from '../../i18n/translations';
+
+interface Props {
+  provenance?: Provenance | null;
+  locale?: Locale;
+  /** Optional extra class for placement. */
+  class?: string;
+}
+
+const { provenance, locale = 'en', class: extra = '' } = Astro.props;
+const label = describeProvenance(provenance);
+const parts = [t(label.labelKey, locale)];
+if (label.model) parts.push(label.model);
+if (label.date) parts.push(label.date);
+const title = label.generatedAt
+  ? `${t('provenance.title', locale)}: ${parts.join(' · ')} (${label.generatedAt})`
+  : `${t('provenance.title', locale)}: ${parts.join(' · ')}`;
+---
+<span class={`provenance-badge provenance-${label.kind} ${extra}`.trim()} title={title} data-provenance={label.kind}>
+  {parts.join(' · ')}
+</span>

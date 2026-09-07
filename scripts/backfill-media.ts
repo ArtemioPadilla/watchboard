@@ -10,6 +10,7 @@
 import fs from 'fs';
 import path from 'path';
 import { validateThumbnail, resolveSourceUrl } from './thumbnail-utils.js';
+import { fingerprintUrl } from './lib/media-fingerprint.js';
 
 // ── CLI Flags ──
 
@@ -175,6 +176,28 @@ interface MediaItem {
   caption?: string;
   source?: string;
   thumbnail?: string;
+  /** Fingerprint of the thumbnail body at fetch time (plan E9.H3). */
+  hash?: string;
+  fetchedAt?: string;
+  etag?: string;
+  contentLength?: number;
+  suspect?: boolean;
+  suspectReason?: string;
+}
+
+/** Record what the thumbnail looked like so the nightly check can spot a recycled URL. */
+async function stampFingerprint(items: MediaItem[], thumbnailUrl: string): Promise<void> {
+  const fp = await fingerprintUrl(thumbnailUrl);
+  if (!fp) return;
+  for (const m of items) {
+    if (m.thumbnail !== thumbnailUrl) continue;
+    m.fetchedAt = fp.fetchedAt;
+    if (fp.hash) m.hash = fp.hash;
+    if (fp.etag) m.etag = fp.etag;
+    if (typeof fp.contentLength === 'number') m.contentLength = fp.contentLength;
+    delete m.suspect;
+    delete m.suspectReason;
+  }
 }
 
 interface TimelineEvent {
@@ -278,6 +301,7 @@ async function main() {
                   totalWouldEnrich++;
                 } else {
                   m.thumbnail = ogImage;
+                  await stampFingerprint([m], ogImage);
                   console.log(`  [${slug}/${file}] Filled thumbnail for "${event.id}"`);
                   fileModified = true;
                   totalEnriched++;
@@ -338,6 +362,7 @@ async function main() {
               console.log(`    og:image: ${ogImage}${ogVideo ? `\n    og:video: ${ogVideo}` : ''}`);
               totalWouldEnrich++;
             } else {
+              await stampFingerprint(entries, ogImage);
               event.media = entries;
               console.log(`  [${slug}/${file}] Fetched og:image${ogVideo ? '+og:video' : ''} from ${source.url} for event "${event.id}"`);
               fileModified = true;
@@ -418,6 +443,7 @@ async function main() {
                 console.log(`  [${slug}/timeline.json] Would add media${ogVideo ? '+video' : ''} for "${event.id}" from ${source.name}`);
                 totalWouldEnrich++;
               } else {
+                await stampFingerprint(entries, validation.url);
                 event.media = entries;
                 timelineModified = true;
                 console.log(`  [${slug}/timeline.json] Added media${ogVideo ? '+video' : ''} for "${event.id}" from ${source.name}`);

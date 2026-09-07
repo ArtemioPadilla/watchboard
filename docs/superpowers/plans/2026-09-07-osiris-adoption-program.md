@@ -756,10 +756,10 @@ fuente degradada se vean como lo que son.
 
 **Tareas** (S)
 
-- [ ] `schemas.ts`: `ProvenanceSchema`
-- [ ] Prompts de `update-data.yml` y `hourly-triage.ts`: emitir `provenance`
-- [ ] `src/components/static/ProvenanceBadge.astro`; montar en `Hero.astro` y en la vista de digest
-- [ ] i18n
+- [x] `schemas.ts`: `ProvenanceSchema`
+- [x] Prompts de `update-data.yml` y `hourly-triage.ts`: emitir `provenance`
+- [x] `src/components/static/ProvenanceBadge.astro`; montar en `Hero.astro` y en la vista de digest
+- [x] i18n
 
 ### E9.H2 — Bloque "Fuentes degradadas" en la página del tracker
 
@@ -770,8 +770,8 @@ fuente degradada se vean como lo que son.
 
 **Tareas** (S)
 
-- [ ] `src/components/islands/shared/DegradedSources.tsx` consumiendo `getLiveStatus` y `_health`
-- [ ] Montar en `[tracker]/index.astro`
+- [x] `src/components/islands/shared/DegradedSources.tsx` consumiendo `getLiveStatus` y `_health`
+- [x] Montar en `[tracker]/index.astro`
 
 ### E9.H3 — Verificación de thumbnails reciclados
 
@@ -787,9 +787,9 @@ confiado.
 
 **Tareas** (S)
 
-- [ ] `MediaItemSchema`: `hash?`, `fetchedAt?`, `suspect?`
-- [ ] `backfill-media.ts` y el paso de validación de `update-data.yml`
-- [ ] Fallback en `MobileStoryCarousel.tsx`, `TrackerDirectory.tsx`, `BroadcastOverlay.tsx`
+- [x] `MediaItemSchema`: `hash?`, `fetchedAt?`, `suspect?`
+- [x] `backfill-media.ts` y el paso de validación de `update-data.yml`
+- [x] Fallback en `MobileStoryCarousel.tsx`, `TrackerDirectory.tsx`, `BroadcastOverlay.tsx`
 
 ### E9.H4 — Taxonomía epistémica en claims
 
@@ -800,7 +800,7 @@ confiado.
 
 **Tareas** (XS-S)
 
-- [ ] `schemas.ts`, `ClaimsMatrix.astro`, prompt del updater
+- [x] `schemas.ts`, `ClaimsMatrix.astro`, prompt del updater
 
 ---
 

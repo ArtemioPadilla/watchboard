@@ -21,6 +21,7 @@ import type { VectorToggles } from './useMissionVectors';
 import type { VectorSet } from './mission-vectors';
 import type { CarouselEntity } from './FloatingFactCard';
 import type { TimelineZoomLevel, StatsData } from '../../../lib/timeline-bar-utils';
+import { firstThumbnail } from '../../../lib/media-utils';
 
 /* ── Types ─────────────────────────────────────────── */
 
@@ -645,7 +646,7 @@ function MissionCompact({
 /** Compact mobile event card */
 function MobileEventCard({ event, isActive }: { event: FlatEvent; isActive: boolean }) {
   const [expanded, setExpanded] = useState(false);
-  const thumb = event.media?.find(m => m.thumbnail)?.thumbnail;
+  const thumb = firstThumbnail(event.media)?.thumbnail;
   const [imgFailed, setImgFailed] = useState(false);
 
   return (

@@ -12,6 +12,7 @@ import Footer from '../../../components/static/Footer.astro';
 import TimelineSection from '../../../components/islands/TimelineSection';
 import IntelMap from '../../../components/islands/IntelMap';
 import MilitaryTabs from '../../../components/islands/MilitaryTabs';
+import DegradedSources from '../../../components/islands/shared/DegradedSources';
 import LatestEvents from '../../../components/islands/LatestEvents';
 import MobileTabShell from '../../../components/islands/mobile/MobileTabShell';
 
@@ -60,7 +61,9 @@ const statusLabel = `${temporalLabel} ${domainLabel}`;
   <div class="desktop-layout">
     <Header meta={data.meta} navSections={config.navSections} trackerSlug={config.slug} globeEnabled={config.globe?.enabled} statusLabel={statusLabel} />
     <main id="main-content">
-      <HeroKpiCombo meta={data.meta} kpis={data.kpis} />
+      <HeroKpiCombo meta={data.meta} kpis={data.kpis} locale="es" />
+
+      <DegradedSources client:idle trackerSlug={config.slug} />
 
       <div class="theater-layout">
         {config.sections.includes('map') && (

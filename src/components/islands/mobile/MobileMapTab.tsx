@@ -6,6 +6,7 @@ import type { MapPoint, MapLine, KpiItem, Meta } from '../../../lib/schemas';
 import type { FlatEvent } from '../../../lib/timeline-utils';
 import type { MapCategory } from '../../../lib/map-utils';
 import IslandErrorBoundary from '../shared/IslandErrorBoundary';
+import { firstThumbnail } from '../../../lib/media-utils';
 
 // Lazy-load CesiumGlobe — only imported when user confirms
 const CesiumGlobe = lazy(() => import('../CesiumGlobe/CesiumGlobe'));
@@ -174,7 +175,7 @@ export default function MobileMapTab({
 }
 
 function MapEventCard({ event, onDismiss }: { event: FlatEvent; onDismiss: () => void }) {
-  const thumb = event.media?.find(m => m.thumbnail)?.thumbnail;
+  const thumb = firstThumbnail(event.media)?.thumbnail;
   const [imgFailed, setImgFailed] = useState(false);
 
   return (

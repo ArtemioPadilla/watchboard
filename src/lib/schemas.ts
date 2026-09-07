@@ -28,6 +28,23 @@ export const KpiSchema = z.object({
   lastUpdated: z.string().optional(),
 });
 
+// ── Provenance ──
+/**
+ * Who produced a piece of generated text and when. Attached to AI-written
+ * fields (digest entries, heroHeadline) so the UI can label them honestly
+ * instead of presenting model output as editorial copy.
+ */
+export const ProvenanceMethodSchema = z.enum(['llm', 'heuristic', 'human']);
+export const ProvenanceSchema = z.object({
+  method: ProvenanceMethodSchema,
+  /** Model family or id for `llm` (e.g. "claude"); omitted for human copy. */
+  model: z.string().optional(),
+  /** ISO timestamp of generation. */
+  generatedAt: z.string().optional(),
+  /** Pipeline that wrote the value (workflow or script name). */
+  pipeline: z.string().optional(),
+});
+
 // ── Media ──
 export const MediaItemSchema = z.object({
   type: z.enum(['image', 'video', 'article']),
@@ -35,6 +52,19 @@ export const MediaItemSchema = z.object({
   caption: z.string().optional(),
   source: z.string().optional(),
   thumbnail: z.string().optional(),
+  /** sha1 of the first 64 KB of the thumbnail body when it was fetched. */
+  hash: z.string().optional(),
+  /** ISO timestamp of the fetch that produced `hash`/`etag`/`contentLength`. */
+  fetchedAt: z.string().optional(),
+  /** Response headers observed at fetch time; compared by the nightly check. */
+  etag: z.string().optional(),
+  contentLength: z.number().int().nonnegative().optional(),
+  /**
+   * Set by the nightly fingerprint check when the URL now serves a different
+   * body than the one we captioned. Surfaces fall back to a placeholder.
+   */
+  suspect: z.boolean().optional(),
+  suspectReason: z.string().optional(),
 });
 
 // ── OSINT Enums ──
@@ -191,12 +221,18 @@ export const EconItemSchema = z.object({
 });
 
 // ── Claims ──
+/**
+ * Epistemic status of a contested claim. Missing = `contested` (legacy data
+ * predates the field and every existing row is, by construction, a dispute).
+ */
+export const ClaimStatusSchema = z.enum(['confirmed', 'contested', 'unverifiable', 'retracted']);
 export const ClaimSchema = z.object({
   id: z.string(),
   question: z.string(),
   sideA: z.object({ label: z.string(), text: z.string() }),
   sideB: z.object({ label: z.string(), text: z.string() }),
   resolution: z.string(),
+  status: ClaimStatusSchema.optional(),
   lastUpdated: z.string().optional(),
 });
 
@@ -221,6 +257,8 @@ export const MetaSchema = z.object({
   footerNote: z.string(),
   lastUpdated: z.string(),
   breaking: z.boolean().optional(),
+  /** Provenance of heroHeadline/heroSubtitle. */
+  provenance: ProvenanceSchema.optional(),
 });
 
 // ── Digest (RSS feed items) ──
@@ -230,6 +268,7 @@ export const DigestEntrySchema = z.object({
   summary: z.string(),
   sectionsUpdated: z.array(z.string()).optional(),
   source: z.enum(['daily', 'breaking', 'seed', 'freshness']).optional().default('daily'),
+  provenance: ProvenanceSchema.optional(),
 });
 
 // ── Ingestion Metrics ──
@@ -280,6 +319,9 @@ export const MetricsIndexEntrySchema = z.object({
 
 // ── Inferred types ──
 export type MediaItem = z.infer<typeof MediaItemSchema>;
+export type Provenance = z.infer<typeof ProvenanceSchema>;
+export type ProvenanceMethod = z.infer<typeof ProvenanceMethodSchema>;
+export type ClaimStatus = z.infer<typeof ClaimStatusSchema>;
 export type Source = z.infer<typeof SourceSchema>;
 export type KpiItem = z.infer<typeof KpiSchema>;
 export type TimelineEvent = z.infer<typeof TimelineEventSchema>;

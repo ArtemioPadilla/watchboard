@@ -508,7 +508,10 @@ function writeTrackerUpdate(tracker: string, result: DataUpdateResult): string[]
     if (existsSync(metaPath)) {
       try { meta = JSON.parse(readFileSync(metaPath, 'utf8')); } catch {}
     }
-    if (result.meta.heroHeadline) meta.heroHeadline = result.meta.heroHeadline;
+    if (result.meta.heroHeadline) {
+      meta.heroHeadline = result.meta.heroHeadline;
+      meta.provenance = { method: 'llm', model: 'claude', generatedAt: new Date().toISOString(), pipeline: 'local-hourly' };
+    }
     meta.lastUpdated = result.meta.lastUpdated || new Date().toISOString();
     writeFileSync(metaPath, JSON.stringify(meta, null, 2));
     sections.push('meta');
@@ -567,6 +570,7 @@ function writeDigestEntry(tracker: string, summary: string): void {
     summary: summary.substring(0, 200),
     sectionsUpdated: ['events', 'meta'],
     source: 'breaking',
+    provenance: { method: 'llm', model: 'claude', generatedAt: new Date().toISOString(), pipeline: 'local-hourly' },
   };
 
   if (existing >= 0) {

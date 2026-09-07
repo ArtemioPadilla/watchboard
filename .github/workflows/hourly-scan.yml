@@ -484,7 +484,7 @@ jobs:
 
             IMPORTANT: If the triage data below says "Freshness refresh" with empty sources [], this is a keepalive — NOT real news. For freshness refreshes:
             - Use media: [] on the event
-            - Still update meta.json lastUpdated (keep existing heroHeadline)
+            - Still update meta.json lastUpdated (keep existing heroHeadline AND its existing provenance untouched — nothing was written by you)
             - Events MUST still have ALL required fields: id, year (string like "Apr 13, 2026"), title, type (e.g. "freshness"), detail (e.g. "Automated freshness refresh — no new developments"), sources: []
             - Complete in under 5 turns — be efficient
 
@@ -507,7 +507,8 @@ jobs:
             - Update trackers/${{ matrix.entry.tracker }}/data/map-points.json if event has a location
             - Update trackers/${{ matrix.entry.tracker }}/data/map-lines.json if event involves movement/strike
             - Update trackers/${{ matrix.entry.tracker }}/data/kpis.json if metrics changed
-            - Update trackers/${{ matrix.entry.tracker }}/data/meta.json: set heroHeadline and lastUpdated
+            - Update trackers/${{ matrix.entry.tracker }}/data/meta.json: set heroHeadline and lastUpdated; only when you
+              rewrite heroHeadline, also set "provenance": { "method": "llm", "model": "claude", "generatedAt": "<ISO now>", "pipeline": "hourly-scan" }
             - For each event, populate the `media` array using the pre-fetched thumbnails above:
               { "type": "image", "url": "<article-url>", "caption": "<brief description>", "source": "<outlet-name>", "thumbnail": "<from-prefetch>" }
 
@@ -568,7 +569,8 @@ jobs:
               title: 'Breaking: ' + (event.summary || '').substring(0, 80),
               summary: (event.summary || '').substring(0, 200),
               sectionsUpdated: ['events', 'meta'],
-              source: 'breaking'
+              source: 'breaking',
+              provenance: { method: 'llm', model: 'claude', generatedAt: new Date().toISOString(), pipeline: 'hourly-scan' }
             };
             if (existing >= 0) { digests[existing] = entry; } else { digests.unshift(entry); }
             fs.writeFileSync(digestPath, JSON.stringify(digests, null, 2));

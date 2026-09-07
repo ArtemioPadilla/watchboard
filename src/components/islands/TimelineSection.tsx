@@ -6,6 +6,7 @@ import { t } from '../../i18n/translations';
 import { useLocale } from '../../i18n/useLocale';
 import IslandErrorBoundary from './shared/IslandErrorBoundary';
 import { IslandErrorFallback } from './shared/IslandErrorFallback';
+import { usableMedia } from '../../lib/media-utils';
 
 function poleLabel(pole?: string): string | null {
   if (!pole) return null;
@@ -123,9 +124,9 @@ function TimelineSectionInner({ timeline }: Props) {
           <div className="tl-detail-date">{selected.year}</div>
           <div className="tl-detail-title">{selected.title}</div>
           <div className="tl-detail-body">{selected.detail}</div>
-          {selected.media && selected.media.length > 0 && (
+          {usableMedia(selected.media).length > 0 && (
             <div className="tl-detail-media">
-              {selected.media.filter(m => m.thumbnail).map((m, i) => (
+              {usableMedia(selected.media).filter(m => m.thumbnail).map((m, i) => (
                 <a key={i} href={m.url} target="_blank" rel="noopener noreferrer" className="tl-detail-media-link">
                   <img
                     src={m.thumbnail!}

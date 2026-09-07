@@ -331,9 +331,13 @@ jobs:
               "date": "YYYY-MM-DD",
               "title": "{Tracker Name} Update — Mon DD, YYYY",
               "summary": "3-5 sentence summary of what changed.",
-              "sectionsUpdated": ["only", "sections", "you", "actually", "changed"]
+              "sectionsUpdated": ["only", "sections", "you", "actually", "changed"],
+              "provenance": { "method": "llm", "model": "claude", "generatedAt": "<current ISO timestamp>", "pipeline": "update-data" }
             }
             Keep only the latest 50 entries.
+            When you rewrite heroHeadline or heroSubtitle in meta.json, set the same
+            "provenance" object on meta.json. Generated text is labelled as such in the UI;
+            never present model output as editorial copy.
 
             CRITICAL — CONTENT ISOLATION:
             The heroHeadline, heroSubtitle, and digest summary MUST describe ONLY events
@@ -366,6 +370,8 @@ jobs:
             - map-lines `status` MUST be one of: "hit", "intercepted", "partial", "unknown".
             - event `media` items MUST have `type` ("image", "video", or "article"), `url` (string), and `thumbnail` (string — direct image URL, NOT an article URL). `caption` and `source` are optional strings.
             - `thumbnail` is REQUIRED for type "image" — it must be a direct URL to an image file (containing .jpg, .jpeg, .png, .webp, or from a known image CDN like dims.apnews.com, d3i6fh83elv35t.cloudfront.net, etc.)
+            - claims.json entries MAY carry `status`: one of "confirmed", "contested", "unverifiable", "retracted". Omit it rather than inventing another value; a missing status renders as "contested".
+            - Never edit `hash`, `etag`, `contentLength`, `fetchedAt` or `suspect` on media items — the fingerprint check owns them.
 
             After updating, verify changes by reading back modified files to confirm valid JSON.
 
@@ -492,9 +498,19 @@ jobs:
             "
           done
 
+      - name: Check media fingerprints
+        # Flags thumbnails whose body changed under the same URL (plan E9.H3)
+        # so surfaces fall back instead of captioning a photo nobody has seen.
+        # Non-blocking and time-boxed; its edits ride the data commit below.
+        continue-on-error: true
+        run: npx tsx scripts/check-media-fingerprints.ts --budget-ms 240000
+
       - name: Check for changes
         id: changes
-        if: steps.apply.outputs.changed == 'true'
+        # Runs even on a night with no eligible tracker: the fingerprint
+        # check above edits tracker files on its own, and those edits must
+        # reach the commit gate or they die with the runner (see
+        # docs/silent-failure-patterns.md).
         run: |
           git add trackers/
           if git diff --cached --quiet trackers/; then
@@ -826,6 +842,13 @@ jobs:
         if: |
           steps.build_check.outputs.build_ok == 'true'
         run: npx tsx scripts/ensure-digests.ts
+
+      - name: Stamp provenance on generated copy
+        # The prompt asks for `provenance`; models forget fields. Fill in what
+        # is missing for the trackers this run touched (plan E9.H1).
+        if: |
+          steps.build_check.outputs.build_ok == 'true'
+        run: npx tsx scripts/stamp-provenance.ts --trackers "${{ needs.resolve.outputs.slugs }}" --pipeline update-data
 
       - name: Commit and push data
         if: |

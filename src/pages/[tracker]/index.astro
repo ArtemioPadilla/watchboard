@@ -14,6 +14,7 @@ import GeoBreadcrumb from '../../components/static/GeoBreadcrumb.astro';
 import TimelineSection from '../../components/islands/TimelineSection';
 import IntelMapLoader from '../../components/islands/IntelMapLoader';
 import MilitaryTabs from '../../components/islands/MilitaryTabs';
+import DegradedSources from '../../components/islands/shared/DegradedSources';
 import LatestEvents from '../../components/islands/LatestEvents';
 import MobileTabShellLoader from '../../components/islands/mobile/MobileTabShellLoader';
 
@@ -106,6 +107,8 @@ const faqSchema = {
       />
 
       <HeroKpiCombo meta={data.meta} kpis={data.kpis} />
+
+      <DegradedSources client:idle trackerSlug={config.slug} />
 
       <!-- Server-rendered event previews for SEO crawlability -->
       <div class="seo-event-previews">
