@@ -1,13 +1,9 @@
 import { test, expect } from '@playwright/test';
+import { TOUR_DONE, waitForCommandCenter } from './helpers/hydration';
 
 const NOMINATIM = { display_name: 'Baghdad, Iraq', address: { city: 'Baghdad', country: 'Iraq', country_code: 'iq' } };
 const WIKIDATA = { results: { bindings: [{ countryLabel: { value: 'Iraq' }, capitalLabel: { value: 'Baghdad' }, population: { value: '43533592' }, headOfStateLabel: { value: 'Test Head' }, article: { value: 'https://en.wikipedia.org/wiki/Iraq' } }] } };
 const WIKI = { title: 'Iraq', extract: 'Fixture: Iraq is a country in West Asia.' };
-const TOUR_DONE = () => {
-  const done = JSON.stringify({ completed: true, completedAt: '2026-01-01T00:00:00.000Z', replayCount: 0 });
-  localStorage.setItem('watchboard-tour-desktop-v1', done);
-  localStorage.setItem('watchboard-tour-mobile-v1', done);
-};
 
 test.describe('Place dossier (E4)', () => {
   test.beforeEach(async ({ page }) => {
@@ -53,7 +49,7 @@ test.describe('Place dossier (E4)', () => {
 
   test('right-click on the homepage globe opens the dossier and closes the alerts panel', async ({ page }) => {
     await page.goto('./', { waitUntil: 'load' });
-    await expect(page.locator('.cc-search-input')).toBeVisible();
+    await waitForCommandCenter(page);
     const globe = page.getByTestId('globe-canvas-wrap').locator('canvas').first();
     await expect(globe).toBeVisible({ timeout: 120_000 });
     await page.getByTestId('alerts-toggle').click();
