@@ -54,6 +54,31 @@ Each tracker has JSON data files validated by Zod schemas in `src/lib/schemas.ts
 4. Add conditional render in `src/pages/[tracker]/index.astro`
 5. Add update logic in `scripts/update-data.ts`
 
+## Architecture Decisions (ADRs)
+
+Decisions that change how the code is structured (shared state, data
+contracts, external sources) are recorded in `docs/adr/`. Copy
+`docs/adr/0000-template.md`, number it sequentially, and link it from
+the PR. Existing ADRs:
+
+- `0001-url-view-state-is-island-local.md` — shareable view state lives in each island, no global store
+- `0002-live-layer-registry.md` — every external map layer is declared in `src/lib/live-layers.ts`
+
+## Tests
+
+```bash
+npm test            # unit tests (vitest), no network
+npm run test:live   # also runs tests marked liveIt/liveDescribe (RUN_LIVE_TESTS=1)
+npm run test:e2e    # Playwright
+```
+
+Tests that talk to a third-party API must use `liveIt` / `liveDescribe`
+from `tests/helpers/live.ts` so `npm test` stays green offline.
+
+Adding a live data source? Register it in `src/lib/live-layers.ts` and
+add its host to `connect-src` in both `src/layouts/BaseLayout.astro` and
+`public/_headers`; `src/lib/live-layers.test.ts` fails otherwise.
+
 ## Code Style
 
 - TypeScript strict mode

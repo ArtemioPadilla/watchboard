@@ -32,7 +32,7 @@ Reviewed by: Prometeo (PM), Forja (Dev), Centinela (QA) — second-pass consensu
 | ID | Title | Description | Effort | Notes |
 |---|---|---|---|---|
 | BL-002 | RSS/Atom feed | Auto-generated `/feed.xml` via `@astrojs/rss`. Must use proper XML encoding for AI-generated content | S | QA: plan XML injection prevention from start |
-| BL-003 | Shareable deep links | URL params for date/event/view state. Depends on BL-001's cross-island state infrastructure | M-H | Dev: underestimated — do after BL-001 |
+| BL-003 | Shareable deep links | URL params for camera/zoom, layers, event, date, tracker. Island-local per ADR-0001 (`docs/adr/0001-url-view-state-is-island-local.md`): no cross-island store needed. Plan: `docs/superpowers/plans/2026-09-07-osiris-adoption-program.md` E1 | S | Dev: dependency on BL-001 removed 2026-09-07 after code review; format lives in `src/lib/view-state.ts` |
 | BL-004 | Data export (CSV/JSON) | Download buttons on military, casualty, econ sections. Escape formula-injection chars for Excel | S | QA: check CSV formula injection |
 | BL-018 | Bundle analysis & performance baseline | Add rollup-plugin-visualizer, Lighthouse CI budget. CesiumJS + Leaflet + React likely >500KB gzipped | S | Dev: missing technical hygiene item |
 | BL-019 | Content Security Policy | CSP meta tag allowlisting Cesium Ion, Carto, OpenSky, USGS, Open-Meteo. Ship before/alongside OG meta and RSS | S | QA: defense-in-depth for AI-generated content. PM: moved earlier in build order |
@@ -94,7 +94,7 @@ Phase 3 — Quick Wins
 
 Phase 4 — Architecture
   BL-001  Search & filter (nanostores ADR) [H]
-  BL-003  Deep links (reuses BL-001 state) [M-H]
+  BL-003  Deep links (island-local, ADR-0001) [S]
 
 Phase 5 — Polish & Quality
   BL-008  Accessibility audit              [M-H]
