@@ -83,6 +83,7 @@ The table is generated from the source by `scripts/list-env-vars.ts`
 | `FRESHNESS_GLOBAL_STALE_DAYS` | CI scripts | `scripts/check-data-freshness.ts` |
 | `FRESHNESS_STALE_RATIO` | CI scripts | `scripts/check-data-freshness.ts` |
 | `GITHUB_OUTPUT` | CI scripts | `scripts/check-data-freshness.ts` |
+| `GITHUB_STEP_SUMMARY` | CI scripts | `scripts/check-media-fingerprints.ts` |
 | `LINKEDIN_ACCESS_TOKEN` | CI scripts | `scripts/post-social.ts` |
 | `LINKEDIN_ORG_ID` | CI scripts | `scripts/post-social.ts` |
 | `MAX_BACKFILL_GAPS` | CI scripts | `scripts/backfill-gaps.ts` |
@@ -93,6 +94,7 @@ The table is generated from the source by `scripts/list-env-vars.ts`
 | `REVIEW_WINDOW_MAX_DAYS` | CI scripts | `scripts/generate-review-manifest.ts` |
 | `SITE` | site build | `src/layouts/BaseLayout.astro`, `src/pages/[tracker]/events/[...slug].astro`, `src/pages/[tracker]/index.astro`, `src/pages/briefing/[date].astro`, `src/pages/briefing/index.astro` |
 | `SKIP_FETCH` | video render | `video/render.ts` |
+| `STAMP_TODAY` | CI scripts | `scripts/stamp-provenance.ts` |
 | `TELEGRAM_BOT_TOKEN` | CI scripts | `scripts/hourly-light-scan.ts`, `scripts/repost-daily-telegram.ts`, `scripts/telegram-channel.ts` |
 | `TELEGRAM_CHANNEL_ID` | CI scripts | `scripts/repost-daily-telegram.ts`, `scripts/telegram-channel.ts` |
 | `TELEGRAM_CHAT_ID` | CI scripts | `scripts/hourly-light-scan.ts` |
