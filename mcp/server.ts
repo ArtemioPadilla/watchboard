@@ -168,6 +168,22 @@ function loadTrackerEvents(slug: string, limit: number = DEFAULT_EVENT_LIMIT): T
   return events;
 }
 
+/** Activity scores from the generated public API (scripts/generate-api.ts, plan E7). */
+function loadActivityIndex(): Map<string, number> {
+  const out = new Map<string, number>();
+  try {
+    const raw = JSON.parse(readFileSync(join(REPO_ROOT, "public", "api", "v1", "trackers.json"), "utf8"));
+    const list = Array.isArray(raw) ? raw : Array.isArray(raw?.trackers) ? raw.trackers : [];
+    for (const t of list) {
+      const score = t?.activity?.score;
+      if (typeof t?.slug === "string" && typeof score === "number") out.set(t.slug, score);
+    }
+  } catch {
+    // API not generated yet — activity is reported as null.
+  }
+  return out;
+}
+
 function getLastUpdated(slug: string): string | undefined {
   const meta = loadTrackerMeta(slug);
   if (meta?.lastUpdated) return meta.lastUpdated;
@@ -235,12 +251,19 @@ Domains include: conflict, politics, culture, science, economics, history, space
 Status values: active (updated regularly), archived (historical, no longer updated), draft (incomplete).
 
 Returns:
-  Array of { slug, name, shortName, domain, status, region, country, lastUpdated, tags }
+  Array of { slug, name, shortName, domain, status, region, country, lastUpdated, tags, activity }
+  activity is the 0-100 activity index from public/api/v1/trackers.json (null when the API has not been generated).
+
+Args:
+  - sort (optional): "name" (default) | "lastUpdated" | "activity" (most active first)
 
 Examples:
   - "Show me all active conflict trackers" → filter by domain="conflict", status="active"
-  - "What trackers cover Mexico?" → filter by country or region`,
-    inputSchema: {},
+  - "What trackers cover Mexico?" → filter by country or region
+  - "What is moving right now?" → sort="activity"`,
+    inputSchema: {
+      sort: z.enum(["name", "lastUpdated", "activity"]).optional().describe("Order of the result: name (default), lastUpdated (newest first) or activity (highest activity index first)"),
+    },
     annotations: {
       readOnlyHint: true,
       destructiveHint: false,
@@ -248,8 +271,9 @@ Examples:
       openWorldHint: false,
     },
   },
-  async () => {
+  async ({ sort }) => {
     const configs = loadAllTrackerConfigs().filter((t) => t.status !== "draft");
+    const activityBySlug = loadActivityIndex();
     const trackers = configs.map((t) => ({
       slug: t.slug,
       name: t.name,
@@ -260,7 +284,15 @@ Examples:
       country: t.country,
       tags: t.tags,
       lastUpdated: getLastUpdated(t.slug),
+      activity: activityBySlug.get(t.slug) ?? null,
     }));
+    if (sort === "activity") {
+      trackers.sort((a, b) => (b.activity ?? -1) - (a.activity ?? -1) || a.name.localeCompare(b.name));
+    } else if (sort === "lastUpdated") {
+      trackers.sort((a, b) => (b.lastUpdated ?? "").localeCompare(a.lastUpdated ?? "") || a.name.localeCompare(b.name));
+    } else {
+      trackers.sort((a, b) => a.name.localeCompare(b.name));
+    }
 
     const output = JSON.stringify(trackers, null, 2);
     return {

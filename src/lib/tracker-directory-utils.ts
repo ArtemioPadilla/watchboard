@@ -64,6 +64,8 @@ export interface TrackerCardShell {
   recentEventCount?: number;
   avgSourceTier?: number;
   sectionsUpdatedCount?: number;
+  /** Activity index (E7): 0-100 with the factors behind it. */
+  activity?: { score: number; factors: { name: string; value: number; contribution: number; weight: number }[]; windowDays: number };
 }
 
 /**

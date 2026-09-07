@@ -24,6 +24,17 @@ export const KpiSchema = z.object({
   contestNote: z.string().optional(),
   delta: z.string().optional(),
   deltaNote: z.string().optional(),
+  /**
+   * Structured change since the previous update (BL-024 / plan E7). `delta`
+   * above stays the free-text display string for backwards compatibility;
+   * this one feeds the activity index and the arrow/period rendering.
+   */
+  deltaDetail: z.object({
+    value: z.number(),
+    direction: z.enum(['up', 'down', 'flat']),
+    /** Human period the change covers, e.g. "24h", "7d", "since Sep 1". */
+    period: z.string(),
+  }).optional(),
   trend: z.enum(['up', 'down', 'stable']).optional(),
   lastUpdated: z.string().optional(),
 });

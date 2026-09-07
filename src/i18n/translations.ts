@@ -457,6 +457,10 @@ const en = {
   'metrics.daysAgo': 'days ago',
 
   // Sidebar
+  'sidebar.sortBy': 'Sort',
+  'sidebar.sortRelevance': 'Relevance',
+  'sidebar.sortActivity': 'Activity',
+  'sidebar.activity': 'Activity',
   'sidebar.follow': 'Follow',
   'sidebar.unfollow': 'Unfollow',
   'sidebar.addToComparison': 'Add to comparison',
@@ -1104,6 +1108,10 @@ const es: TranslationKeys = {
   'metrics.dayAgo': 'día',
   'metrics.daysAgo': 'días',
 
+  'sidebar.sortBy': 'Orden',
+  'sidebar.sortRelevance': 'Relevancia',
+  'sidebar.sortActivity': 'Actividad',
+  'sidebar.activity': 'Actividad',
   'sidebar.follow': 'Seguir',
   'sidebar.unfollow': 'Dejar de seguir',
   'sidebar.addToComparison': 'Agregar a comparación',
@@ -1744,6 +1752,10 @@ const fr: TranslationKeys = {
   'metrics.dayAgo': 'jour',
   'metrics.daysAgo': 'jours',
 
+  'sidebar.sortBy': 'Tri',
+  'sidebar.sortRelevance': 'Pertinence',
+  'sidebar.sortActivity': 'Activité',
+  'sidebar.activity': 'Activité',
   'sidebar.follow': 'Suivre',
   'sidebar.unfollow': 'Ne plus suivre',
   'sidebar.addToComparison': 'Ajouter à la comparaison',
@@ -2384,6 +2396,10 @@ const pt: TranslationKeys = {
   'metrics.dayAgo': 'dia',
   'metrics.daysAgo': 'dias',
 
+  'sidebar.sortBy': 'Ordem',
+  'sidebar.sortRelevance': 'Relevância',
+  'sidebar.sortActivity': 'Atividade',
+  'sidebar.activity': 'Atividade',
   'sidebar.follow': 'Seguir',
   'sidebar.unfollow': 'Deixar de seguir',
   'sidebar.addToComparison': 'Adicionar à comparação',

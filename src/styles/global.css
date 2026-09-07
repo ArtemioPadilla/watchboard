@@ -3957,3 +3957,12 @@ body::before {
 .claim-status-amber { color: var(--accent-amber); border-color: rgba(243, 156, 18, 0.3); }
 .claim-status-red { color: var(--accent-red); border-color: rgba(231, 76, 60, 0.3); }
 .claim-status-muted { color: var(--text-muted); border-style: dashed; }
+
+/* ─── ACTIVITY INDEX (E7) ─── */
+.cc-sort-toggle { display: flex; align-items: center; gap: 4px; padding: 4px 12px 0; font-family: 'JetBrains Mono', monospace; font-size: 0.55rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); }
+.cc-sort-label { margin-right: 4px; }
+.cc-sort-option { background: none; border: 1px solid var(--border); border-radius: 3px; color: var(--text-muted); padding: 2px 7px; cursor: pointer; font: inherit; letter-spacing: inherit; text-transform: inherit; }
+.cc-sort-option.active { color: var(--accent-blue); border-color: var(--accent-blue); }
+.cc-feed-activity { font-family: 'JetBrains Mono', monospace; font-size: 0.55rem; min-width: 1.6rem; text-align: center; padding: 1px 4px; border-radius: 3px; border: 1px solid var(--border); color: var(--text-muted); cursor: help; }
+.cc-feed-activity.warm { color: var(--accent-amber); border-color: rgba(243,156,18,0.35); }
+.cc-feed-activity.hot { color: var(--accent-red); border-color: rgba(231,76,60,0.4); }

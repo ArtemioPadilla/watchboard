@@ -242,6 +242,12 @@ AI-curated social media posting system. Replaces the old `generate-social-drafts
 - `triage-log.ts` — append + 14-day prune helpers backing the audit page.
 - `realtime-sources.ts` — `pollBluesky()` + `pollTelegram()` returning the same `Candidate` shape as RSS.
 
+### Activity index (E7)
+
+- `src/lib/activity-index.ts` — `computeActivity(input, now)` returns `{score 0-100, factors[], windowDays}` from real data: events in the window (35), `meta.breaking` (20), digest freshness (15), sections updated (10), KPI deltas (10), mean source tier (10); weights live in `ACTIVITY_WEIGHTS` and every factor reports value + contribution so badges can say why. Historical trackers use a window of twice their `updateIntervalDays` (minimum 7 days) so slow cadence is not penalised. Deterministic for a fixed clock.
+- Consumers: `index.astro` (all locales) puts `activity` on every serialized tracker; `scripts/generate-api.ts` adds it to `public/api/v1/trackers.json`; `relevance.ts` uses `activityScore × 0.3` for its editorial block when present (legacy heuristic otherwise) so hero selection, stories and broadcast follow it; `SidebarPanel` offers Relevance | Activity ordering (persisted in `localStorage`, `sortByActivity`) and `FeedRow` shows the score with a factor tooltip; `mcp/server.ts` `list_trackers` accepts `sort: name|lastUpdated|activity` and reads scores from the generated API; the video scorer adds up to `ACTIVITY_BONUS_MAX` points in conflict mode.
+- `KpiSchema.deltaDetail {value, direction, period}` (BL-024) is the structured change the nightly updater fills when a value moves; `delta` stays the free-text display string. `KpiStrip.astro` renders `deltaDetail` when there is no `delta`.
+
 ### Gazetteer geoparsing (E6)
 
 - `src/lib/gazetteer.ts` — `buildGazetteer(trackers)` turns every `map-points.json` label (cleaned of "— Strike (Day 96)" suffixes), each tracker's `city`/`state` at `map.center`, and the country table (`COUNTRY_NAMES` + multilingual `COUNTRY_ALIASES` + `COUNTRY_CENTROIDS` in `country-names.ts`) into `{name, normalized, lat, lon, trackers[], kind: point|center|country, aliases[]}`. `geoparse(text, matchedTracker, gz)` is longest-match first with word boundaries, minimum 4 characters and a stopword list; entries of the matched tracker win, a point beats a centre beats a country, and no match returns `undefined`, never a default centre. Same name in two trackers stays as two entries.

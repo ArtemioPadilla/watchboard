@@ -1,0 +1,41 @@
+import { test, expect } from '@playwright/test';
+
+// E7.H2: the sidebar exposes the activity index and can order by it.
+test.describe('Activity index in the sidebar', () => {
+  test('rows carry an activity badge with the factors in the tooltip', async ({ page }) => {
+    await page.goto('./', { waitUntil: 'networkidle' });
+    await expect(page.locator('.cc-search-input')).toBeVisible();
+    const badges = page.locator('.cc-sidebar [data-testid="activity-badge"]');
+    expect(await badges.count()).toBeGreaterThan(5);
+    const first = badges.first();
+    const text = (await first.textContent())?.trim() ?? '';
+    expect(Number(text)).toBeGreaterThanOrEqual(0);
+    expect(Number(text)).toBeLessThanOrEqual(100);
+    await expect(first).toHaveAttribute('title', /\/100/);
+  });
+
+  test('switching to Activity orders rows by descending score and persists', async ({ page }) => {
+    await page.goto('./', { waitUntil: 'networkidle' });
+    const toggle = page.getByTestId('sidebar-sort');
+    await expect(toggle).toBeVisible();
+    await toggle.locator('[data-sort="activity"]').click();
+    await expect(toggle.locator('[data-sort="activity"]')).toHaveAttribute('aria-checked', 'true');
+    const scores = await page.locator('.cc-sidebar .cc-feed-row [data-testid="activity-badge"]').allTextContents();
+    const nums = scores.slice(0, 15).map(Number);
+    for (let i = 1; i < nums.length; i++) expect(nums[i]).toBeLessThanOrEqual(nums[i - 1]);
+    await page.reload({ waitUntil: 'networkidle' });
+    await expect(page.getByTestId('sidebar-sort').locator('[data-sort="activity"]')).toHaveAttribute('aria-checked', 'true');
+  });
+
+  test('the public API index carries activity for every tracker', async ({ request }) => {
+    const res = await request.get('./api/v1/trackers.json');
+    test.skip(!res.ok(), 'API not generated in this environment');
+    const body = await res.json();
+    const list = Array.isArray(body) ? body : body.trackers;
+    expect(list.length).toBeGreaterThan(0);
+    for (const t of list.slice(0, 10)) {
+      expect(typeof t.activity?.score).toBe('number');
+      expect(Array.isArray(t.activity?.factors)).toBe(true);
+    }
+  });
+});
