@@ -620,10 +620,10 @@ servicio externo.
 
 **Tareas** (M)
 
-- [ ] `scripts/lib/gazetteer.ts`: `buildGazetteer`, `normalizeName`, `geoparse(text, matchedTracker)`; longest-match primero, mínimo 4 caracteres, lista de stopwords (nombres como "Centro", "Norte")
-- [ ] Tests con 20 frases en es/en/fr/pt
-- [ ] `hourly-light-scan.ts`: llamar `geoparse` tras `scoreCandidate`; propagar a `PendingCandidate` y `TriageLogEntry` (`hourly-types.ts:112-134`)
-- [ ] Regenerar gazetteer al inicio de cada scan (barato) o en `generate-api.ts`
+- [x] `scripts/lib/gazetteer.ts`: `buildGazetteer`, `normalizeName`, `geoparse(text, matchedTracker)`; longest-match primero, mínimo 4 caracteres, lista de stopwords (nombres como "Centro", "Norte")
+- [x] Tests con 20 frases en es/en/fr/pt
+- [x] `hourly-light-scan.ts`: llamar `geoparse` tras `scoreCandidate`; propagar a `PendingCandidate` y `TriageLogEntry` (`hourly-types.ts:112-134`)
+- [x] Regenerar gazetteer al inicio de cada scan (barato) o en `generate-api.ts`
 
 ### E6.H2 — Candidatos pendientes en el globo
 
@@ -637,9 +637,9 @@ aún no han pasado triage, marcados como no verificados.
 
 **Tareas** (S)
 
-- [ ] Capa `pending-candidates` en `LIVE_LAYERS` (`url: '/_hourly/alerts.json'`)
-- [ ] Render en `GlobePanel.tsx` (globe.gl) con estilo tier-4
-- [ ] Dedupe contra eventos por `url` en `hourly-scan.ts`
+- [x] Capa `pending-candidates` en `LIVE_LAYERS` (`url: '/_hourly/alerts.json'`)
+- [x] Render en `GlobePanel.tsx` (globe.gl) con estilo tier-4
+- [x] Dedupe contra eventos por `url` en `hourly-scan.ts`
 
 ---
 

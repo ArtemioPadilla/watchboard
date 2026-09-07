@@ -26,6 +26,8 @@ export interface AlertEntry {
   scanType: TriageLogEntry['scanType'];
   /** Filled by E6 geoparsing when a place was resolved. */
   geo?: { lat: number; lon: number; place?: string };
+  /** True once a tracker event cites this URL: the pin yields to the event. */
+  resolved?: boolean;
 }
 
 export interface AlertsFile {
@@ -69,7 +71,7 @@ export function toAlertEntry(e: TriageLogEntry & { geo?: AlertEntry['geo'] }): A
  * Newest first, actionable decisions only, within the window, capped.
  * Duplicate URLs keep the newest occurrence.
  */
-export function buildAlertsFile(entries: TriageLogEntry[], now: Date = new Date()): AlertsFile {
+export function buildAlertsFile(entries: TriageLogEntry[], now: Date = new Date(), resolvedUrls: ReadonlySet<string> = new Set()): AlertsFile {
   const cutoff = now.getTime() - ALERTS_WINDOW_HOURS * 3_600_000;
   const seen = new Set<string>();
   const picked: AlertEntry[] = [];
@@ -83,7 +85,9 @@ export function buildAlertsFile(entries: TriageLogEntry[], now: Date = new Date(
   for (const e of sorted) {
     if (seen.has(e.candidate.url)) continue;
     seen.add(e.candidate.url);
-    picked.push(toAlertEntry(e));
+    const entry = toAlertEntry(e);
+    if (resolvedUrls.has(entry.url)) entry.resolved = true;
+    picked.push(entry);
     if (picked.length >= ALERTS_MAX_ENTRIES) break;
   }
   return { version: 1, generated: now.toISOString(), windowHours: ALERTS_WINDOW_HOURS, entries: picked };
