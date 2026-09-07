@@ -1,0 +1,39 @@
+name: E2E (Playwright)
+
+# Two Playwright specs existed for months without any workflow running them
+# (BACKLOG BL-022). This runs the shareable-view specs added by E1 on every
+# PR; the older specs are opted in once they are known to pass in CI.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: e2e-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  playwright:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Run shareable-view specs
+        run: npx playwright test e2e/globe-share.spec.ts e2e/map-share.spec.ts e2e/home-share.spec.ts --reporter=list
+      - name: Upload traces on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: test-results/
+          retention-days: 7

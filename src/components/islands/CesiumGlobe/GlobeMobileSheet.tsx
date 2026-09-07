@@ -8,6 +8,7 @@
  * Tabs: Timeline | Mission | Intel | Filters
  * Mission tab only appears when missionTrajectory is provided.
  */
+import ShareViewButton from '../shared/ShareViewButton';
 import { useState, useRef, useCallback, useEffect, useMemo, type MutableRefObject, type ReactNode } from 'react';
 import { t } from '../../../i18n/translations';
 import { useLocale } from '../../../i18n/useLocale';
@@ -72,6 +73,8 @@ interface Props {
     nfz: boolean; ships: boolean; gpsJam: boolean; internetBlackout: boolean; groundTruth: boolean;
   };
   onToggleLayer: (layer: 'satellites' | 'flights' | 'quakes' | 'weather' | 'nfz' | 'ships' | 'gpsJam' | 'internetBlackout' | 'groundTruth') => void;
+  onShareView?: () => string;
+  shareTrigger?: number;
   persistLines: boolean;
   onTogglePersist: () => void;
 
@@ -167,7 +170,7 @@ export default function GlobeMobileSheet(props: Props) {
     events, currentDate, activeEventId,
     activeFilters, onToggleFilter, pointCounts, categories,
     visualMode, onVisualMode,
-    layers, onToggleLayer,
+    layers, onToggleLayer, onShareView, shareTrigger,
     persistLines, onTogglePersist,
     missionTrajectory, telemetryRef, vectorsRef, vectorToggles, onToggleVector, onTrackSpacecraft,
     carouselEntities, activeCardIndex, onCloseCard,

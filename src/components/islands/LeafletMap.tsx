@@ -34,6 +34,10 @@ interface Props {
   showFactCards?: boolean;
   mapCenter?: { lon: number; lat: number };
   mapBounds?: { lonMin: number; lonMax: number; latMin: number; latMax: number };
+  /** Camera from a shared URL; wins over mapBounds when present. */
+  initialView?: { lat: number; lon: number; zoom: number };
+  /** Called after every moveend with the new centre and zoom. */
+  onViewChange?: (lat: number, lon: number, zoom: number) => void;
 }
 
 // ────────────────────────────────────────────
@@ -181,6 +185,30 @@ function ScrollZoomGuard() {
   return null;
 }
 
+/**
+ * Reports centre/zoom to the parent after each move so the URL can be kept
+ * in sync (ADR-0001). Emits once on mount so a fresh page has a URL too.
+ */
+function ViewReporter({ onViewChange }: { onViewChange?: (lat: number, lon: number, zoom: number) => void }) {
+  const map = useMap();
+  useEffect(() => {
+    if (!onViewChange) return;
+    const report = () => {
+      // The tracker page mounts the map twice (desktop layout + mobile tab
+      // shell) and CSS hides one. A hidden Leaflet has a 0x0 container and
+      // a meaningless centre; it must never write the URL.
+      const el = map.getContainer();
+      if (el.offsetParent === null || el.clientWidth === 0) return;
+      const c = map.getCenter();
+      onViewChange(c.lat, c.lng, map.getZoom());
+    };
+    map.on('moveend', report);
+    report();
+    return () => { map.off('moveend', report); };
+  }, [map, onViewChange]);
+  return null;
+}
+
 // ────────────────────────────────────────────
 //  Component
 // ────────────────────────────────────────────
@@ -188,7 +216,7 @@ function ScrollZoomGuard() {
 export default function LeafletMap({
   points, lines, categories, onSelectPoint, onSelectLine, overlays,
   flights, terminatorPolygon, currentDate, isPlaying,
-  events, showFactCards, mapCenter, mapBounds,
+  events, showFactCards, mapCenter, mapBounds, initialView, onViewChange,
 }: Props) {
   const locale = useLocale();
   const center: LatLngExpression = mapCenter ? [mapCenter.lat, mapCenter.lon] : [29, 49];
@@ -206,7 +234,9 @@ export default function LeafletMap({
 
   return (
     <MapContainer
-      {...(bounds ? { bounds } : { center, zoom: 5 })}
+      {...(initialView
+        ? { center: [initialView.lat, initialView.lon] as LatLngExpression, zoom: initialView.zoom }
+        : bounds ? { bounds } : { center, zoom: 5 })}
       minZoom={3}
       maxZoom={12}
       style={{ width: '100%', height: '100%', background: '#0d0f14' }}
@@ -214,6 +244,7 @@ export default function LeafletMap({
       zoomControl={false}
     >
       <ScrollZoomGuard />
+      <ViewReporter onViewChange={onViewChange} />
       <ZoomControl position="topright" />
       <TileLayer
         url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"

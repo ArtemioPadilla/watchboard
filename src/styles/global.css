@@ -3727,3 +3727,40 @@ body::before {
   border-top: none;
   margin-top: 0;
 }
+
+/* ── Share view button (src/components/islands/shared/ShareViewButton.tsx) ── */
+.share-view-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  color: var(--text-muted, #8b949e);
+  cursor: pointer;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.06em;
+  padding: 4px 8px;
+  transition: color 0.15s, border-color 0.15s;
+}
+.share-view-btn:hover { color: var(--text-primary, #e6edf3); border-color: rgba(255, 255, 255, 0.35); }
+.share-view-btn--copied { color: var(--accent-green, #3fb950); border-color: var(--accent-green, #3fb950); }
+.share-view-btn--failed { color: var(--accent-amber, #d29922); border-color: var(--accent-amber, #d29922); }
+.share-view-toast {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  white-space: nowrap;
+  background: rgba(10, 11, 14, 0.95);
+  border: 1px solid currentColor;
+  border-radius: 4px;
+  padding: 3px 8px;
+  font-size: 0.55rem;
+  z-index: 50;
+  pointer-events: none;
+}
+.map-layers-share { margin-left: auto; margin-right: 8px; padding: 2px 6px; border-color: transparent; }
+.cc-share-btn { padding: 2px 6px; font-size: 0.5rem; }
+.globe-toolbar-icon.share-view-btn { padding: 0; gap: 0; border-radius: 8px; }

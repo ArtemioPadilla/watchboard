@@ -47,6 +47,8 @@ import GlobeMobileSheet from './GlobeMobileSheet';
 import type { MissionTrajectory } from '../../../lib/schemas';
 import { resolveLayout, type PanelId } from './layout-presets';
 import IslandErrorBoundary from '../shared/IslandErrorBoundary';
+import { readViewState, createViewStateWriter, type ViewState } from '../../../lib/view-state';
+import { eventToSlug } from '../../../lib/event-slug';
 import { IslandErrorFallback } from '../shared/IslandErrorFallback';
 
 interface Props {
@@ -76,6 +78,12 @@ const KPI_COLORS: Record<string, string> = {
 
 // Today's date for mode detection
 const TODAY = new Date().toISOString().split('T')[0];
+
+/** Layer keys accepted in the `layers` URL parameter (ADR-0001). */
+export const GLOBE_LAYER_KEYS = [
+  'satellites', 'flights', 'quakes', 'weather', 'nfz', 'ships', 'gpsJam', 'internetBlackout', 'groundTruth',
+] as const;
+type GlobeLayerKey = typeof GLOBE_LAYER_KEYS[number];
 
 // ── Time helpers ──
 
@@ -115,6 +123,13 @@ function CesiumGlobeInner({ points, lines, kpis, meta, events = [], cameraPreset
   const [cesiumViewer, setCesiumViewer] = useState<CesiumViewer | null>(null);
   const { flyTo, flyToPosition, startOrbit, stopOrbit, orbitModeRef } = useCesiumCamera(viewerRef, cameraPresets);
 
+  // ── Shareable view state (URL) — read once on mount, written debounced ──
+  // client:only island, so reading window here cannot cause a hydration mismatch.
+  const urlViewRef = useRef<ViewState>(readViewState(GLOBE_LAYER_KEYS));
+  const viewWriterRef = useRef(createViewStateWriter(500));
+  const [urlEventSlug, setUrlEventSlug] = useState<string | undefined>(urlViewRef.current.event);
+  const [shareTrigger, setShareTrigger] = useState(0);
+
   // ── Filters ──
   const [activeFilters, setActiveFilters] = useState<Set<string>>(
     () => new Set(categories.map(c => c.id)),
@@ -128,10 +143,16 @@ function CesiumGlobeInner({ points, lines, kpis, meta, events = [], cameraPreset
   // ── Live data layer toggles ──
   const [layers, setLayers] = useState(() => {
     const mil = categories.some(c => c.id === 'strike' || c.id === 'retaliation');
-    return {
+    const defaults: Record<GlobeLayerKey, boolean> = {
       satellites: true, flights: true, quakes: false, weather: false, nfz: mil, ships: mil,
       gpsJam: mil, internetBlackout: mil, groundTruth: true,
     };
+    const fromUrl = urlViewRef.current.layers;
+    if (!fromUrl) return defaults;
+    // `layers=` present means the sender chose exactly these (possibly none).
+    const chosen: Record<GlobeLayerKey, boolean> = { ...defaults };
+    for (const k of GLOBE_LAYER_KEYS) chosen[k] = fromUrl.includes(k);
+    return chosen;
   });
 
   // ── Events panel (default collapsed) ──
@@ -195,7 +216,9 @@ function CesiumGlobeInner({ points, lines, kpis, meta, events = [], cameraPreset
     };
   }, [points, lines, isHistorical, endDate]);
 
-  const initialDate = isHistorical ? dateRange.min : dateRange.max;
+  const defaultDate = isHistorical ? dateRange.min : dateRange.max;
+  const urlDate = urlViewRef.current.date;
+  const initialDate = urlDate && urlDate >= dateRange.min && urlDate <= dateRange.max ? urlDate : defaultDate;
   const [currentDate, setCurrentDate] = useState(initialDate);
   const currentDateRef = useRef(currentDate);
   currentDateRef.current = currentDate;
@@ -414,18 +437,84 @@ function CesiumGlobeInner({ points, lines, kpis, meta, events = [], cameraPreset
     viewer.scene.fog.enabled = true;
     viewer.scene.fog.density = 0.0002;
 
-    // Fly to initial position
+    // Initial position: a shared URL wins over the tracker's first preset.
+    const u = urlViewRef.current;
+    const hasUrlCamera = u.lat !== undefined && u.lon !== undefined;
     viewer.camera.setView({
-      destination: Cartesian3.fromDegrees(initLon, initLat, initAlt),
+      destination: hasUrlCamera
+        ? Cartesian3.fromDegrees(u.lon!, u.lat!, u.alt ?? initAlt)
+        : Cartesian3.fromDegrees(initLon, initLat, initAlt),
       orientation: {
-        heading: CesiumMath.toRadians(firstPreset?.heading ?? 0),
-        pitch: CesiumMath.toRadians(firstPreset?.pitch ?? -90),
+        heading: CesiumMath.toRadians(hasUrlCamera ? (u.heading ?? 0) : (firstPreset?.heading ?? 0)),
+        pitch: CesiumMath.toRadians(hasUrlCamera ? (u.pitch ?? -90) : (firstPreset?.pitch ?? -90)),
         roll: 0,
       },
     });
 
     setCesiumViewer(viewer);
   }, [cameraPresets, mapCenter]);
+
+  /** Current camera as view-state fields; undefined before the viewer exists. */
+  const readCamera = useCallback((): Pick<ViewState, 'lat' | 'lon' | 'alt' | 'heading' | 'pitch'> => {
+    const viewer = viewerRef.current?.cesiumElement;
+    if (!viewer || viewer.isDestroyed()) return {};
+    const c = viewer.camera.positionCartographic;
+    return {
+      lat: CesiumMath.toDegrees(c.latitude),
+      lon: CesiumMath.toDegrees(c.longitude),
+      alt: c.height,
+      heading: CesiumMath.toDegrees(viewer.camera.heading),
+      pitch: CesiumMath.toDegrees(viewer.camera.pitch),
+    };
+  }, []);
+
+  const layersRef = useRef(layers);
+  layersRef.current = layers;
+  const urlEventRef = useRef(urlEventSlug);
+  urlEventRef.current = urlEventSlug;
+
+  const buildViewState = useCallback((): ViewState => ({
+    ...readCamera(),
+    layers: GLOBE_LAYER_KEYS.filter(k => layersRef.current[k]),
+    date: currentDateRef.current,
+    ...(urlEventRef.current ? { event: urlEventRef.current } : {}),
+  }), [readCamera]);
+
+  // Write the URL after the camera settles.
+  useEffect(() => {
+    if (!cesiumViewer) return;
+    const writer = viewWriterRef.current;
+    const onMoveEnd = () => writer.write(buildViewState());
+    cesiumViewer.camera.moveEnd.addEventListener(onMoveEnd);
+    onMoveEnd();
+    return () => {
+      cesiumViewer.camera.moveEnd.removeEventListener(onMoveEnd);
+      writer.cancel();
+    };
+  }, [cesiumViewer, buildViewState]);
+
+  // ...and when layers, date or the open event change.
+  useEffect(() => {
+    if (!cesiumViewer) return;
+    viewWriterRef.current.write(buildViewState());
+  }, [cesiumViewer, layers, currentDate, urlEventSlug, buildViewState]);
+
+  // `?event=` opens that event: jump the scrubber to its date, open the
+  // intel panel, and fly to its map point when one shares the event id.
+  useEffect(() => {
+    if (!cesiumViewer || !urlViewRef.current.event) return;
+    const slug = urlViewRef.current.event;
+    const ev = events.find(e => eventToSlug(e.resolvedDate, e.id) === slug);
+    if (!ev) { setUrlEventSlug(undefined); return; }
+    setCurrentDate(ev.resolvedDate);
+    setEventsOpen(true);
+    const pt = points.find(p => p.id === ev.id);
+    if (pt && urlViewRef.current.lat === undefined) {
+      flyToPosition({ lon: pt.lon, lat: pt.lat, alt: 400_000, duration: 1.5 });
+    }
+  }, [cesiumViewer, events, points, flyToPosition]);
+
+  const buildShareUrl = useCallback(() => viewWriterRef.current.flush(buildViewState()), [buildViewState]);
 
   // ── Conflict data (imperative entities) — points + past arcs ──
   const handlePointSelect = useCallback((point: MapPoint | null) => {
@@ -530,9 +619,20 @@ function CesiumGlobeInner({ points, lines, kpis, meta, events = [], cameraPreset
     });
   }, [handleOrbitMode]);
 
+  useEffect(() => {
+    if (!eventsOpen && urlEventSlug) setUrlEventSlug(undefined);
+  }, [eventsOpen, urlEventSlug]);
+
   // ── Escape key to dismiss floating card ──
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
+      const tgt = e.target as HTMLElement | null;
+      const isInput = !!tgt && (tgt.tagName === 'INPUT' || tgt.tagName === 'TEXTAREA' || tgt.isContentEditable);
+      if (!isInput && (e.key === 's' || e.key === 'S') && !e.metaKey && !e.ctrlKey && !e.altKey) {
+        e.preventDefault();
+        setShareTrigger(n => n + 1);
+        return;
+      }
       if (e.key === 'Escape' && carouselEntities.length > 0) {
         setCarouselEntities([]);
       }
@@ -745,6 +845,8 @@ function CesiumGlobeInner({ points, lines, kpis, meta, events = [], cameraPreset
             onVisualMode={setVisualMode}
             layers={layers}
             onToggleLayer={toggleLayer}
+          onShareView={buildShareUrl}
+          shareTrigger={shareTrigger}
             persistLines={persistLines}
             onTogglePersist={() => setPersistLines(prev => !prev)}
             satGroupCounts={satGroupCounts}
@@ -806,6 +908,8 @@ function CesiumGlobeInner({ points, lines, kpis, meta, events = [], cameraPreset
           onVisualMode={setVisualMode}
           layers={layers}
           onToggleLayer={toggleLayer}
+          onShareView={buildShareUrl}
+          shareTrigger={shareTrigger}
           persistLines={persistLines}
           onTogglePersist={() => setPersistLines(prev => !prev)}
           carouselEntities={carouselEntities}

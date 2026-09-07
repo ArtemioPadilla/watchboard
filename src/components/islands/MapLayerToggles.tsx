@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import type { LayerState } from './useMapOverlays';
+import ShareViewButton from './shared/ShareViewButton';
 
 // ────────────────────────────────────────────
 //  Layer metadata
@@ -32,13 +33,15 @@ interface Props {
   layers: LayerState;
   onToggle: (layer: keyof LayerState) => void;
   counts: Record<keyof LayerState, number>;
+  /** Returns the shareable URL for the current map view (E1). */
+  onShareView?: () => string;
 }
 
 // ────────────────────────────────────────────
 //  Component
 // ────────────────────────────────────────────
 
-export default function MapLayerToggles({ layers, onToggle, counts }: Props) {
+export default function MapLayerToggles({ layers, onToggle, counts, onShareView }: Props) {
   const [expanded, setExpanded] = useState(false);
 
   const toggleExpanded = useCallback(() => {
@@ -68,6 +71,7 @@ export default function MapLayerToggles({ layers, onToggle, counts }: Props) {
     <div className="map-layers-panel">
       <div className="map-layers-header">
         <span className="map-layers-title">OVERLAY LAYERS</span>
+        {onShareView && <ShareViewButton buildUrl={onShareView} compact className="map-layers-share" />}
         <button
           className="map-layers-close"
           onClick={toggleExpanded}

@@ -218,6 +218,7 @@ AI-curated social media posting system. Replaces the old `generate-social-drafts
 ### Utilities (`src/lib/`)
 
 - `tracker-config.ts` — TrackerConfigSchema + types
+- `view-state.ts` — `encodeViewState` / `decodeViewState` / `mergeIntoUrl` / `createViewStateWriter`: the one URL format for shareable views (`lat, lon, alt|zoom, heading, pitch, layers, event, date, tracker`). Each island reads it on mount and writes it debounced with `replaceState`; see ADR-0001. Share button: `islands/shared/ShareViewButton.tsx`; `S` copies the link on globe and homepage.
 - `live-layers.ts` — `LIVE_LAYERS` registry (Zod `LiveLayerSpecSchema`): every external globe/map layer with kind (`feed` | `snapshot`), URL, TTL, CORS mode, license and tracker `scope`. `live-layers.test.ts` fails CI if a feed host is missing from `connect-src` in `BaseLayout.astro` or `public/_headers` (parser in `scripts/lib/csp-hosts.ts`). Rationale: `docs/adr/0002-live-layer-registry.md`.
 - `tracker-registry.ts` — discovers and loads tracker configs
 - `data.ts` — `loadTrackerData(slug)` parameterized data loader
