@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState, type CSSProperties } from 'react';
 import type { TriageLog, TriageLogEntry } from '../../../scripts/hourly-types';
 import FreshnessBadge from './FreshnessBadge';
+import { severityFromScore, SEVERITY_COLORS } from '../../lib/alert-severity';
 
 type Decision = TriageLogEntry['decision'];
 
@@ -134,6 +135,10 @@ export default function TriageLogBoard({ logUrl }: Props) {
               <span style={{ ...badge, color: 'var(--accent-blue, #58a6ff)' }}>
                 {e.confidence.toFixed(2)}
               </span>
+              {(e.decision === 'update' || e.decision === 'new_tracker') && (() => {
+                const sev = severityFromScore(e.confidence, e.candidate.sourceTier ?? null);
+                return <span style={{ ...badge, color: SEVERITY_COLORS[sev], borderColor: SEVERITY_COLORS[sev] }} title="Severity as shown in the homepage alerts panel">{sev}</span>;
+              })()}
               {e.candidate.matchedTracker && (
                 <span style={{ ...badge, color: 'var(--text-muted, #8b949e)' }}>
                   → {e.candidate.matchedTracker}

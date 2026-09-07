@@ -29,7 +29,8 @@ import {
 } from './hourly-types.js';
 import { buildKeywordIndices, scoreCandidateDetailed, hasSubstance as hasSubstanceFor } from '../src/lib/keyword-match.js';
 import { pollRealtimeSources } from '../src/lib/realtime-sources.js';
-import { appendTriageEntries } from '../src/lib/triage-log.js';
+import { appendTriageEntries, readTriageLog } from '../src/lib/triage-log.js';
+import { buildAlertsFile } from '../src/lib/alerts-file.js';
 import { loadAllTrackers } from './lib/load-trackers-node.js';
 
 const HIGH_THRESHOLD     = 0.85;
@@ -404,6 +405,12 @@ async function main() {
   // triage-log-YYYY-Www.json files (incl. the one-time legacy migration).
   const archivedFromLog = appendTriageEntries(logEntries, PATHS.triageLog);
   if (archivedFromLog > 0) console.log(`[light-scan] archived ${archivedFromLog} log entries to weekly files`);
+  // Small feed for the homepage alerts panel (plan E3.H1): the actionable
+  // decisions of the last 72 h, capped, from the log we just wrote. Written
+  // every run, even when empty, so a stale file cannot pass for a fresh one.
+  const alertsFile = buildAlertsFile(readTriageLog(PATHS.triageLog).entries);
+  writeFileSync(PATHS.alerts, JSON.stringify(alertsFile, null, 2), 'utf8');
+  console.log(`[light-scan] alerts.json: ${alertsFile.entries.length} entries (${Buffer.byteLength(JSON.stringify(alertsFile))} bytes)`);
   state.lastScan = new Date().toISOString();
   saveState(state);
 

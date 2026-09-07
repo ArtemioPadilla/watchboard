@@ -21,6 +21,9 @@
 /fonts/*
   Cache-Control: public, max-age=31536000, immutable
 
+/_hourly/alerts.json
+  Cache-Control: public, max-age=300, stale-while-revalidate=600
+
 /api/data/*
   Cache-Control: public, max-age=3600, stale-while-revalidate=86400
 

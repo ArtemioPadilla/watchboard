@@ -49,10 +49,14 @@ jobs:
           # main log points at files that were never pushed -- which is why the
           # audit page's archive loader has always had nothing to load.
           for f in public/_hourly/triage-log.json public/_hourly/state.json \
-                   public/_hourly/triage-log-[0-9]*.json; do
+                   public/_hourly/alerts.json public/_hourly/triage-log-[0-9]*.json; do
             [ -f "$f" ] && git add "$f"
           done
           if ! git diff --cached --quiet; then
+            # Verify the artefact, not the exit code: the alerts feed must be
+            # in this commit with a timestamp from this run.
+            git diff --cached --name-only | grep -q '^public/_hourly/alerts.json$' \
+              || { echo '::error::public/_hourly/alerts.json was not staged'; exit 1; }
             git commit -m "chore(light-scan): update pending + audit + state $(date -u +%Y-%m-%dT%H:%M:%SZ)"
             for i in 1 2 3; do
               if git pull --rebase origin main && git push origin main; then break; fi
