@@ -1,4 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
+import { listLiveSources } from './live-source';
 import {
   fetchLiveSource, peekLiveSource, clearLiveSources, subscribeLiveSource, isDue,
   FAIL_RETRY_MS, RATE_LIMIT_BASE_MS, RATE_LIMIT_MAX_MS, MAX_ENTRIES,
@@ -186,5 +187,52 @@ describe('fetchLiveSource', () => {
     }
     expect(peekLiveSource('k0', clock.now()).status).toBe('idle');
     expect(peekLiveSource(`k${MAX_ENTRIES}`, clock.now()).status).toBe('ok');
+  });
+});
+
+describe('shared-key contract (E2 review)', () => {
+  it('keeps the TTL of the entry that created it when another caller passes a different one', async () => {
+    clearLiveSources();
+    let t = 0;
+    const now = () => t;
+    const fetchImpl = async () => new Response(JSON.stringify([1]), { status: 200 });
+    await fetchLiveSource({ key: 'shared', url: 'https://x/a', ttlMs: 25_000, parse: r => r.json(), now, fetchImpl });
+    t = 40_000;
+    expect(peekLiveSource('shared', t).status).toBe('ok');
+    const unsub = subscribeLiveSource('shared', 5_000, () => {});
+    expect(peekLiveSource('shared', t).status).toBe('ok');
+    unsub();
+  });
+
+  it('starts the 429 ladder at 30 s even after a plain failure', async () => {
+    clearLiveSources();
+    let t = 0;
+    const now = () => t;
+    const responses = [
+      new Response(JSON.stringify([1]), { status: 200 }),
+      new Response('', { status: 503 }),
+      new Response('', { status: 429 }),
+      new Response('', { status: 429 }),
+    ];
+    const fetchImpl = async () => responses.shift()!;
+    const spec = { key: 'ladder', url: 'https://x/a', ttlMs: 1_000, parse: (r: Response) => r.json(), now, fetchImpl };
+    await fetchLiveSource(spec);
+    t = 70_000; await fetchLiveSource(spec);           // 503 → fail
+    t = 140_000; const r1 = await fetchLiveSource(spec); // first 429
+    expect(r1.retryAt).toBe(140_000 + 30_000);
+    t = 200_000; const r2 = await fetchLiveSource(spec); // second consecutive 429
+    expect(r2.retryAt).toBe(200_000 + 60_000);
+  });
+
+  it('never exceeds MAX_ENTRIES even when every entry is in flight', async () => {
+    clearLiveSources();
+    const hang = () => new Promise<Response>(() => {});
+    for (let i = 0; i < MAX_ENTRIES; i++) {
+      void fetchLiveSource({ key: `k${i}`, url: 'https://x/a', ttlMs: 1000, parse: r => r.json(), fetchImpl: hang });
+    }
+    expect(listLiveSources().length).toBe(MAX_ENTRIES);
+    void fetchLiveSource({ key: 'one-more', url: 'https://x/a', ttlMs: 1000, parse: r => r.json(), fetchImpl: hang });
+    expect(listLiveSources().length).toBe(MAX_ENTRIES);
+    expect(listLiveSources().some(s => s.key === 'one-more')).toBe(true);
   });
 });

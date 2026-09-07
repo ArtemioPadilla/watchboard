@@ -80,9 +80,29 @@ export const NoFlyZoneFileSchema = snapshotFile(NoFlyZoneSchema);
 export const GpsJammingFileSchema = snapshotFile(GpsJammingZoneSchema);
 export const InternetBlackoutFileSchema = snapshotFile(InternetBlackoutSchema);
 
-const nfzFile = NoFlyZoneFileSchema.parse(nfzJson);
-const jamFile = GpsJammingFileSchema.parse(jamJson);
-const blackoutFile = InternetBlackoutFileSchema.parse(blackoutJson);
+/**
+ * Load one snapshot file without letting a bad edit take the whole island
+ * down: the three modules are imported synchronously by every globe and
+ * 2D-map bundle, so a throw here would kill flights/quakes/weather too.
+ * A malformed file yields an empty, visibly degraded layer instead.
+ */
+export function loadSnapshot<T extends { items: unknown[]; _provenance: SnapshotProvenance }>(
+  schema: { safeParse: (v: unknown) => { success: true; data: T } | { success: false; error: unknown } },
+  raw: unknown,
+  name: string,
+): T {
+  const r = schema.safeParse(raw);
+  if (r.success) return r.data;
+  if (typeof console !== 'undefined') console.error(`[snapshots] ${name} failed validation; layer disabled`, r.error);
+  return {
+    items: [],
+    _provenance: { source: `${name} (invalid — layer disabled)`, snapshotDate: '1970-01-01', license: 'n/a', url: '', notice: `${name} failed schema validation; nothing is shown.` },
+  } as unknown as T;
+}
+
+const nfzFile = loadSnapshot(NoFlyZoneFileSchema, nfzJson, 'nfz.json');
+const jamFile = loadSnapshot(GpsJammingFileSchema, jamJson, 'gps-jamming.json');
+const blackoutFile = loadSnapshot(InternetBlackoutFileSchema, blackoutJson, 'blackouts.json');
 
 export const NO_FLY_ZONES: NoFlyZone[] = nfzFile.items;
 export const NO_FLY_ZONES_PROVENANCE: SnapshotProvenance = nfzFile._provenance;
