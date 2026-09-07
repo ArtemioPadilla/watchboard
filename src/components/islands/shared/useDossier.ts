@@ -51,12 +51,16 @@ export function useDossier(overrideTrackers?: DossierTracker[]) {
   const index = useLiveSource<GeoIndex>(indexSpec, { enabled: state.target !== null });
   const indexRef = useRef(index.data);
   indexRef.current = index.data;
+  const indexStatusRef = useRef(index.status);
+  indexStatusRef.current = index.status;
 
   const run = useCallback(async (target: DossierTarget, mySeq: number) => {
     // Wait briefly for the index if it is still loading; the dossier can
     // still be built without it (fewer trackers/nearby events).
     let idx = indexRef.current;
-    for (let i = 0; !idx && i < 20; i++) {
+    // Stop waiting as soon as the request has settled: a failed index must
+    // not cost every dossier a fixed 3 s stall.
+    for (let i = 0; !idx && i < 20 && (indexStatusRef.current === 'loading' || indexStatusRef.current === 'idle'); i++) {
       await new Promise(r => setTimeout(r, 150));
       idx = indexRef.current;
     }

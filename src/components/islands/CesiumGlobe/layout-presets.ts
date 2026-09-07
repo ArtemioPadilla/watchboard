@@ -9,7 +9,6 @@ export type PanelId =
   | 'kpi-strip'
   | 'toolbar'
   | 'intel'
-  | 'dossier'
   | 'telemetry'
   | 'mission-identity'
   | 'timeline';

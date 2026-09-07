@@ -55,6 +55,14 @@ export default function DossierPanel({ loading, error, dossier, onClose, onSelec
             <div className="dossier-note">{t('dossier.noFacts', locale)}</div>
           ) : null}
           {dossier.degraded.includes('geocode') && <div className="dossier-note">{t('dossier.noGeocode', locale)}</div>}
+          {dossier.extract ? (
+            <p className="dossier-extract" data-testid="dossier-extract">
+              {dossier.extract}
+              {facts?.wikipediaUrl && <> <a href={facts.wikipediaUrl} target="_blank" rel="noopener noreferrer" className="dossier-extract-src">Wikipedia · CC BY-SA</a></>}
+            </p>
+          ) : dossier.degraded.includes('extract') ? (
+            <div className="dossier-note">{t('dossier.noExtract', locale)}</div>
+          ) : null}
 
           <section className="dossier-section">
             <h4>{t('dossier.trackers', locale)} · {dossier.trackers.length}</h4>
