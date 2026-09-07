@@ -1,12 +1,12 @@
 import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { parseHeadersFile, patternToLocation, renderNginxLocations } from './headers-to-nginx';
+import { parseHeadersFile, patternToLocation, renderNginxLocations, reconcileFraming } from './headers-to-nginx';
 
 const SAMPLE = `# comment
 /*
   X-Frame-Options: SAMEORIGIN
-  Content-Security-Policy: default-src 'self'; connect-src https://a.b
+  Content-Security-Policy: default-src 'self'; connect-src https://a.b; frame-ancestors 'none'
 
 /_astro/*
   Cache-Control: public, max-age=31536000, immutable
@@ -44,10 +44,20 @@ describe('patternToLocation', () => {
 describe('renderNginxLocations', () => {
   const out = renderNginxLocations(parseHeadersFile(SAMPLE));
   it('repeats root headers in every location (nginx add_header inheritance)', () => {
+    const astro = out.slice(out.indexOf('location ^~ /_astro/'), out.indexOf('location ^~ /api/v1/'));
+    expect(astro).toContain('add_header Content-Security-Policy');
+    expect(astro).toContain('add_header X-Frame-Options "SAMEORIGIN" always;');
+    expect(astro).toContain("frame-ancestors 'none'");
+  });
+  it('an ALLOWALL rule drops frame-ancestors and the bogus X-Frame-Options', () => {
     const embed = out.slice(out.indexOf('location ^~ /embed/'));
     expect(embed).toContain('add_header Content-Security-Policy');
-    expect(embed).toContain('add_header X-Frame-Options "ALLOWALL" always;');
-    expect(embed).not.toContain('"SAMEORIGIN"');
+    expect(embed).not.toContain('frame-ancestors');
+    expect(embed).not.toContain('X-Frame-Options');
+    expect(reconcileFraming({ 'X-Frame-Options': 'SAMEORIGIN', 'Content-Security-Policy': "frame-ancestors 'none'" })).toEqual({ 'X-Frame-Options': 'SAMEORIGIN', 'Content-Security-Policy': "frame-ancestors 'none'" });
+  });
+  it('refuses header values containing a dollar sign', () => {
+    expect(() => renderNginxLocations([{ path: '/*', headers: { 'X-Test': 'a$b' } }])).toThrow(/\$/);
   });
   it('quotes values with semicolons and never emits Content-Type', () => {
     expect(out).toContain(`add_header Content-Security-Policy "default-src 'self'; connect-src https://a.b" always;`);

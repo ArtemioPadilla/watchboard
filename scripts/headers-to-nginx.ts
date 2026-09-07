@@ -56,7 +56,34 @@ export function patternToLocation(pattern: string): { kind: 'root' | 'prefix' | 
 }
 
 function nginxQuote(value: string): string {
+  // nginx interpolates `$name` inside double-quoted strings and has no
+  // escape for a literal dollar; none of our headers need one, so refuse
+  // rather than emit a config nginx will reject at startup.
+  if (value.includes('$')) throw new Error(`header value contains "$", which nginx cannot quote: ${value}`);
   return `"${value.replace(/\\/g, '\\\\').replace(/"/g, '\\"')}"`;
+}
+
+/**
+ * A rule that opts a path into being framed (X-Frame-Options: ALLOWALL, as
+ * /embed/* does) must also drop `frame-ancestors` from the CSP it inherits
+ * from `/*`, or the CSP wins and the embed is blocked anyway. Netlify-style
+ * hosts merge headers the same way, so this mirrors what the file means.
+ */
+export function reconcileFraming(headers: Record<string, string>): Record<string, string> {
+  const xfo = Object.entries(headers).find(([k]) => k.toLowerCase() === 'x-frame-options')?.[1];
+  if (!xfo || xfo.trim().toUpperCase() !== 'ALLOWALL') return headers;
+  const out: Record<string, string> = {};
+  for (const [k, v] of Object.entries(headers)) {
+    if (k.toLowerCase() === 'content-security-policy') {
+      const kept = v.split(';').map(d => d.trim()).filter(d => d && !/^frame-ancestors\b/i.test(d));
+      out[k] = kept.join('; ');
+    } else if (k.toLowerCase() !== 'x-frame-options') {
+      out[k] = v;
+    }
+    // X-Frame-Options: ALLOWALL is not a real value; browsers ignore it.
+    // Dropping frame-ancestors is what actually allows framing.
+  }
+  return out;
 }
 
 /**
@@ -80,7 +107,7 @@ export function renderNginxLocations(rules: HeaderRule[]): string {
   for (const rule of rules) {
     if (rule.path === '/*') continue;
     const loc = patternToLocation(rule.path);
-    const merged = { ...root, ...rule.headers };
+    const merged = reconcileFraming({ ...root, ...rule.headers });
     const selector = loc.kind === 'prefix' ? `location ^~ ${loc.path}` : `location = ${loc.path}`;
     const tryFiles = loc.kind === 'prefix' ? `\n    try_files $uri $uri/ $uri.html =404;` : '';
     blocks.push(`${selector} {\n${emit(merged, '    ')}${tryFiles}\n}`);
