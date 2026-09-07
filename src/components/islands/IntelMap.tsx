@@ -129,7 +129,12 @@ function IntelMapInner({ points, lines, events, categories, mapCenter, mapBounds
     layers: [...MAP_LAYER_KEYS.filter(k => layersRef.current[k]), ...Object.keys(extraLayersRef.current).filter(id => extraLayersRef.current[id])],
     date: dateRef.current,
   }), []);
-  useEffect(() => { viewWriter.write(buildViewState()); }, [layers, extraLayers, currentDate, buildViewState, viewWriter]);
+  // The tracker page mounts this island twice (desktop layout + mobile tab
+  // shell) and CSS hides one; only the visible instance may write the URL,
+  // or the hidden one (with different props) overwrites the visible state.
+  const rootRef = useRef<HTMLDivElement>(null);
+  const isHiddenInstance = () => { const el = rootRef.current; return !!el && (el.offsetParent === null || el.clientWidth === 0); };
+  useEffect(() => { if (!isHiddenInstance()) viewWriter.write(buildViewState()); }, [layers, extraLayers, currentDate, buildViewState, viewWriter]);
   useEffect(() => () => viewWriter.cancel(), [viewWriter]);
   // Live viewport for the flights bbox (E2.H2: "bbox de map.getBounds()").
   // Kept in state, not a ref, because the bbox is a hook input.
@@ -137,7 +142,7 @@ function IntelMapInner({ points, lines, events, categories, mapCenter, mapBounds
   const handleViewChange = useCallback((lat: number, lon: number, zoom: number, bounds?: ViewBounds) => {
     cameraRef.current = { lat, lon, zoom };
     if (bounds) setViewBounds(prev => (prev && prev.latMin === bounds.latMin && prev.latMax === bounds.latMax && prev.lonMin === bounds.lonMin && prev.lonMax === bounds.lonMax) ? prev : bounds);
-    viewWriter.write(buildViewState());
+    if (!isHiddenInstance()) viewWriter.write(buildViewState());
   }, [buildViewState, viewWriter]);
   const buildShareUrl = useCallback(() => viewWriter.flush(buildViewState()), [buildViewState, viewWriter]);
 
@@ -273,7 +278,7 @@ function IntelMapInner({ points, lines, events, categories, mapCenter, mapBounds
         <span className="section-count">{filteredPoints.length} locations &middot; {filteredLines.length} vectors</span>
       </div>
 
-      <div className="map-container">
+      <div className="map-container" ref={rootRef}>
         <LeafletMap
           initialView={urlView.lat !== undefined && urlView.lon !== undefined ? { lat: urlView.lat, lon: urlView.lon, zoom: urlView.zoom ?? 5 } : undefined}
           onViewChange={handleViewChange}

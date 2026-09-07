@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { GeoJSON, Pane, CircleMarker, Tooltip } from 'react-leaflet';
+import L from 'leaflet';
 import type { Frontline } from '../../lib/deepstate';
 import type { GdacsFile } from '../../../scripts/lib/gdacs';
 import type { GeoLayer } from '../../lib/geo-layer-schema';
@@ -27,7 +28,7 @@ export default function GeoLayersLeaflet({ frontline, gdacs, statics = [] }: Pro
   return (
     <>
       {frontlineFc && (
-        <Pane name="frontline-pane" style={{ zIndex: 350 }}>
+        <Pane name="frontline" style={{ zIndex: 350 }}>
           <GeoJSON
             key={`fl-${frontline?.id}`}
             data={frontlineFc as any}
@@ -45,7 +46,7 @@ export default function GeoLayersLeaflet({ frontline, gdacs, statics = [] }: Pro
               key={`${id}-${layer._provenance.retrievedAt}`}
               data={layer as any}
               style={() => ({ color, weight: 1.2, opacity: 0.7, fillColor: color, fillOpacity: 0.2 })}
-              pointToLayer={(_f: any, latlng: any) => (window as any).L.circleMarker(latlng, { radius: 4, color: '#000', weight: 1, fillColor: color, fillOpacity: 0.9 })}
+              pointToLayer={(_f: any, latlng: any) => L.circleMarker(latlng, { pane: `static-${id}`, radius: 4, color: '#000', weight: 1, fillColor: color, fillOpacity: 0.9 })}
               onEachFeature={(f: any, l: any) => { const n = f?.properties?.name; if (n) l.bindTooltip(String(n), { className: 'dark-tooltip', sticky: true }); }}
             />
           </Pane>

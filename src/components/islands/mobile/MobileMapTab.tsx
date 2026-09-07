@@ -19,6 +19,9 @@ interface Props {
   kpis: KpiItem[];
   mapCenter?: { lon: number; lat: number };
   mapBounds?: { lonMin: number; lonMax: number; latMin: number; latMax: number };
+  /** E5 layers offered on this tracker (registry ids / static layer ids). */
+  liveLayers?: string[];
+  staticLayers?: string[];
   trackerSlug: string;
   // Globe-specific props (optional, only needed when globe is enabled)
   meta?: Meta;
@@ -32,7 +35,7 @@ type GlobeState = 'prompt' | 'loading' | 'loaded' | 'error';
 
 export default function MobileMapTab({
   mode, points, lines, events, categories, kpis,
-  mapCenter, mapBounds, trackerSlug,
+  mapCenter, mapBounds, trackerSlug, liveLayers, staticLayers,
   meta, cameraPresets, isHistorical, endDate, clocks,
 }: Props) {
   const topKpis = kpis.slice(0, 5);
@@ -99,6 +102,9 @@ export default function MobileMapTab({
             categories={categories}
             mapCenter={mapCenter}
             mapBounds={mapBounds}
+            trackerSlug={trackerSlug}
+            liveLayers={liveLayers}
+            staticLayers={staticLayers}
           />
         </div>
       ) : (
