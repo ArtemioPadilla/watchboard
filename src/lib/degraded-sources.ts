@@ -47,6 +47,7 @@ export function layerIdForKey(key: string): string {
     case 'satellites': return 'satellites';
     case 'deepstate': return 'deepstate-frontline';
     case 'gdacs': return 'gdacs-alerts';
+    case 'alerts': return 'pending-candidates';
     case 'static-geo': return key.slice('static-geo:'.length) || key;
     default: return prefix;
   }

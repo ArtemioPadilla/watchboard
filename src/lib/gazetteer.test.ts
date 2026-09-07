@@ -26,6 +26,10 @@ const TRACKERS: GazetteerTrackerInput[] = [
   },
   { slug: 'cdmx', country: 'MX', city: 'Ciudad de México', state: 'CDMX', map: { center: { lat: 19.43, lon: -99.13 } }, points: [{ label: 'Zócalo', lat: 19.4326, lon: -99.1332 }] },
   { slug: 'gaza-war', country: 'PS', map: { center: { lat: 31.4, lon: 34.4 } }, points: [{ label: 'Rafah', lat: 31.29, lon: 34.25 }, { label: 'Gaza City', lat: 31.5, lon: 34.47 }] },
+  // Foreign map points that collide with country names and ordinary words.
+  { slug: 'us-outbreak', country: 'US', points: [{ label: 'Georgia', lat: 32.75, lon: -83.6 }, { label: 'China', lat: 40.5, lon: 105 }, { label: 'US Supreme Court', lat: 38.89, lon: -77.0 }, { label: 'Cargo Vessel Struck', lat: 0, lon: 0 }, { label: 'Este', lat: 1, lon: 1 }, { label: 'With', lat: 2, lon: 2 }] },
+  { slug: 'georgia-crisis', country: 'GE', map: { center: { lat: 41.7, lon: 44.8 } }, city: 'Tbilisi', points: [] },
+  { slug: 'mexico-history', country: 'MX', points: [{ label: 'Mexico', lat: 20.6, lon: -87.1 }] },
 ];
 
 const GZ = buildGazetteer(TRACKERS, new Date('2026-09-07T00:00:00Z'));
@@ -94,6 +98,26 @@ describe('geoparse', () => {
     });
   }
 
+  it('an owned country outranks a foreign map point of the same name', () => {
+    const ge = geoparse('Georgia protests continue', 'georgia-crisis', GZ)!;
+    expect(ge).toMatchObject({ kind: 'country', place: 'Georgia' });
+    expect(ge.lat).toBeCloseTo(42.3, 0);
+    expect(ge.confidence).toBeGreaterThanOrEqual(0.8);
+    const cn = geoparse("China's tech sector booms", 'cdmx', GZ)!; // no owner: the foreign point still loses to the country
+    expect(cn.kind).toBe('country');
+    // With no matched tracker, the plain country name resolves to the country centroid.
+    const mx = geoparse('Mexico announces new tariffs', null, GZ)!;
+    expect(mx.kind).toBe('country');
+    expect(mx.lat).toBeCloseTo(23.6, 0);
+  });
+  it('never geolocates ordinary words or event-title labels', () => {
+    expect(GZ.entries.find(e => e.normalized === 'este')).toBeUndefined();
+    expect(GZ.entries.find(e => e.normalized === 'with')).toBeUndefined();
+    expect(GZ.entries.find(e => e.normalized === 'us supreme court')).toBeUndefined();
+    expect(GZ.entries.find(e => e.normalized === 'cargo vessel struck')).toBeUndefined();
+    expect(geoparse('Este es un texto con palabras comunes', 'us-outbreak', GZ)).toBeUndefined();
+    expect(geoparse('They left with nothing after the talks', 'us-outbreak', GZ)).toBeUndefined();
+  });
   it('prefers the matched tracker for an ambiguous name', () => {
     expect(geoparse('Blast in Kharkiv', 'ukraine-war', GZ)?.lat).toBeCloseTo(49.99);
     expect(geoparse('Blast in Kharkiv', 'iran-conflict', GZ)?.lat).toBe(0);

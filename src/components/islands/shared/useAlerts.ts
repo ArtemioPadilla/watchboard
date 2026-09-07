@@ -1,9 +1,12 @@
 import { useMemo } from 'react';
 import { useLiveSource } from '../../../lib/use-live-source';
+import { getLiveLayer } from '../../../lib/live-layers';
 import type { AlertsFile, AlertEntry } from '../../../lib/alerts-file';
 
-export const ALERTS_PATH = '_hourly/alerts.json';
-const ALERTS_TTL_MS = 5 * 60_000;
+// URL and TTL come from the registry entry so the layer is declared once.
+const PENDING = getLiveLayer('pending-candidates');
+export const ALERTS_PATH = (PENDING?.kind === 'feed' ? PENDING.url : '/_hourly/alerts.json').replace(/^\//, '');
+const ALERTS_TTL_MS = PENDING?.kind === 'feed' ? PENDING.ttlMs : 5 * 60_000;
 
 function basePath(): string {
   const raw = (import.meta as any).env?.BASE_URL ?? '/';

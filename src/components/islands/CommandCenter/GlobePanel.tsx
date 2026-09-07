@@ -563,16 +563,23 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
   // Pending light-scan candidates (E6.H2): DOM pins so they can be dotted,
   // labelled "unverified" and found by tests; separate from pointsData so a
   // candidate can never be mistaken for a verified event.
+  const pendingLabelRef = useRef(t('globe.pendingCandidate', locale));
+  pendingLabelRef.current = t('globe.pendingCandidate', locale);
+  const pendingConfiguredRef = useRef(false);
   useEffect(() => {
     const globe = globeRef.current;
     if (!globe || loading) return;
-    const label = t('globe.pendingCandidate', locale);
-    globe
-      .htmlElementsData(pendingCandidates)
+    // Configure the element factory once: globe.gl rebuilds every DOM pin
+    // whenever the accessor identity changes, so a new closure per poll
+    // would re-render the whole layer every five minutes.
+    if (!pendingConfiguredRef.current) {
+      pendingConfiguredRef.current = true;
+      globe
       .htmlLat('lat')
       .htmlLng('lon')
       .htmlAltitude(0.012)
       .htmlElement((d: any) => {
+        const label = pendingLabelRef.current;
         const el = document.createElement('div');
         el.className = 'cc-pending-pin';
         el.dataset.testid = 'pending-pin';
@@ -583,7 +590,9 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
         el.addEventListener('click', (ev) => { ev.stopPropagation(); if (d.tracker) onSelectRef.current(d.tracker); });
         return el;
       });
-  }, [pendingCandidates, loading, locale]);
+    }
+    globe.htmlElementsData(pendingCandidates);
+  }, [pendingCandidates, loading]);
 
   // Update visuals when selection/hover/broadcast changes
   useEffect(() => {
