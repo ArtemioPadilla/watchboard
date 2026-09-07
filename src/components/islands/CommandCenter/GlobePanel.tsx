@@ -49,6 +49,19 @@ interface Props {
   onPolygonHover?: (isoA2: string | null) => void;
   /** Right-click anywhere on the globe (E4 dossier). */
   onGlobeRightClick?: (lat: number, lng: number) => void;
+  /** Geolocated light-scan candidates awaiting triage (E6.H2): dotted tier-4 pins. */
+  pendingCandidates?: PendingPin[];
+}
+
+export interface PendingPin {
+  id: string;
+  lat: number;
+  lon: number;
+  title: string;
+  source: string;
+  tracker: string | null;
+  url: string;
+  place?: string;
 }
 
 function hexToRgb(hex: string): string {
@@ -210,6 +223,7 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
   onPolygonClick,
   onGlobeRightClick,
   onPolygonHover,
+  pendingCandidates = [],
 }, ref) {
   const locale = useLocale();
   const [loading, setLoading] = useState(true);
@@ -551,6 +565,40 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
       globeRef.current.pointsData(hubPoints);
     }
   }, [trackers]);
+
+  // Pending light-scan candidates (E6.H2): DOM pins so they can be dotted,
+  // labelled "unverified" and found by tests; separate from pointsData so a
+  // candidate can never be mistaken for a verified event.
+  const pendingLabelRef = useRef(t('globe.pendingCandidate', locale));
+  pendingLabelRef.current = t('globe.pendingCandidate', locale);
+  const pendingConfiguredRef = useRef(false);
+  useEffect(() => {
+    const globe = globeRef.current;
+    if (!globe || loading) return;
+    // Configure the element factory once: globe.gl rebuilds every DOM pin
+    // whenever the accessor identity changes, so a new closure per poll
+    // would re-render the whole layer every five minutes.
+    if (!pendingConfiguredRef.current) {
+      pendingConfiguredRef.current = true;
+      globe
+      .htmlLat('lat')
+      .htmlLng('lon')
+      .htmlAltitude(0.012)
+      .htmlElement((d: any) => {
+        const label = pendingLabelRef.current;
+        const el = document.createElement('div');
+        el.className = 'cc-pending-pin';
+        el.dataset.testid = 'pending-pin';
+        el.dataset.alertId = d.id;
+        el.title = `${label} · ${d.source}${d.place ? ` · ${d.place}` : ''}\n${d.title}`;
+        el.setAttribute('aria-label', `${label}: ${d.title}`);
+        el.style.cssText = 'width:12px;height:12px;border-radius:50%;border:2px dotted var(--tier-4, #8b949e);background:rgba(139,148,158,0.15);box-shadow:0 0 6px rgba(139,148,158,0.5);pointer-events:auto;cursor:help;transform:translate(-50%,-50%);';
+        el.addEventListener('click', (ev) => { ev.stopPropagation(); if (d.tracker) onSelectRef.current(d.tracker); });
+        return el;
+      });
+    }
+    globe.htmlElementsData(pendingCandidates);
+  }, [pendingCandidates, loading]);
 
   // Update visuals when selection/hover/broadcast changes
   useEffect(() => {

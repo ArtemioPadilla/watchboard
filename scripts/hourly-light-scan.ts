@@ -33,6 +33,9 @@ import { appendTriageEntries, readTriageLog } from '../src/lib/triage-log.js';
 import { buildAlertsFile } from '../src/lib/alerts-file.js';
 import { parseGdacsRss, buildGdacsFile, gdacsToCandidates, GDACS_RSS_URL } from './lib/gdacs.js';
 import { loadAllTrackers } from './lib/load-trackers-node.js';
+import { refreshGazetteerFile } from './lib/gazetteer-node.js';
+import { collectRecentEventUrls } from './lib/event-urls-node.js';
+import { geoparse } from '../src/lib/gazetteer.js';
 
 // HIGH_THRESHOLD / MODERATE_THRESHOLD live in src/lib/keyword-match.ts (shared with alert-severity).
 
@@ -282,6 +285,10 @@ async function main() {
   }));
   const indexMap = buildKeywordIndices(inputs.map((i) => i.config));
   const indexes = inputs.map((i) => ({ tracker: i.tracker, index: indexMap.get(i.tracker.slug)! }));
+  // Gazetteer from our own map points (plan E6.H1): rebuilt every scan, it
+  // is cheap and tracks whatever the nightly update added.
+  const gazetteer = refreshGazetteerFile();
+  console.log(`[light-scan] gazetteer: ${gazetteer.entries.length} place names`);
 
   const [rss, realtime, gdacs] = await Promise.all([pollLightFeeds(), pollRealtimeSources(), pollGdacs()]);
   // GDACS: the first run after deployment only seeds `seen` (principle 7 of
@@ -323,6 +330,12 @@ async function main() {
         bestSlug = tracker.slug;
         bestDetail = d;
       }
+    }
+    // Geoparse once per candidate against the best tracker; GDACS georss
+    // coordinates (already on the candidate) are kept as-is.
+    if (!cand.geo) {
+      const g = geoparse(cand.title, bestSlug || null, gazetteer);
+      if (g) cand.geo = { lat: g.lat, lon: g.lon, place: g.place, method: 'gazetteer' };
     }
 
     // Substance gate: a single matched token is not evidence, whatever the
@@ -439,7 +452,10 @@ async function main() {
   // Small feed for the homepage alerts panel (plan E3.H1): the actionable
   // decisions of the last 72 h, capped, from the log we just wrote. Written
   // every run, even when empty, so a stale file cannot pass for a fresh one.
-  const alertsFile = buildAlertsFile(readTriageLog(PATHS.triageLog).entries);
+  // Alerts whose URL a tracker event now cites are marked resolved so the
+  // globe's dotted pin yields to the real event (plan E6.H2).
+  const resolvedUrls = collectRecentEventUrls(PATHS.trackersDir, 7);
+  const alertsFile = buildAlertsFile(readTriageLog(PATHS.triageLog).entries, new Date(), resolvedUrls);
   writeFileSync(PATHS.alerts, JSON.stringify(alertsFile, null, 2), 'utf8');
   console.log(`[light-scan] alerts.json: ${alertsFile.entries.length} entries (${Buffer.byteLength(JSON.stringify(alertsFile))} bytes)`);
   state.lastScan = new Date().toISOString();

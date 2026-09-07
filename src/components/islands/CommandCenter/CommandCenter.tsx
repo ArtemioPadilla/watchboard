@@ -165,6 +165,12 @@ function CommandCenterInner({
   const dossier = useDossier(dossierTrackers);
   // Count for the nav button; the panel re-uses the same cached file.
   const alertsFeed = useAlerts(true);
+  // Geolocated candidates awaiting triage → dotted tier-4 pins on the globe
+  // (E6.H2). Resolved ones (a tracker event now cites the URL) drop out.
+  const pendingPins = useMemo(() => alertsFeed.entries
+    .filter(e => e.geo && !e.resolved)
+    .map(e => ({ id: e.id, lat: e.geo!.lat, lon: e.geo!.lon, title: e.title, source: e.source, tracker: e.tracker, url: e.url, place: e.geo!.place })),
+  [alertsFeed.entries]);
   const knownSlugs = useMemo(() => new Set(trackers.map(t => t.slug)), [trackers]);
   const criticalCount = alertsFeed.entries.filter(e => e.severity === 'critical').length;
   const [isMobile, setIsMobile] = useState(() =>
@@ -743,6 +749,7 @@ function CommandCenterInner({
             onPolygonClick={handleGeoClick}
             onGlobeRightClick={handleGlobeRightClick}
             onPolygonHover={setHoveredCountry}
+            pendingCandidates={pendingPins}
           />
         </Suspense>
         {broadcastEnabled && (
