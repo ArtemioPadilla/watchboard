@@ -132,6 +132,11 @@ const en = {
   'dossier.nearby': 'Nearby events (300 km)',
   'dossier.noNearby': 'No curated events within 300 km',
   'dossier.hint': 'Right-click or long-press the map for a place dossier',
+  'layers.frontline': 'Frontline (DeepStateMAP)',
+  'layers.gdacs': 'Disasters (GDACS)',
+  'layers.nuclearPlants': 'Nuclear plants',
+  'layers.submarineCables': 'Submarine cables',
+  'layers.chokepoints': 'Maritime chokepoints',
   'shortcuts.close': 'to close',
 
   // Time
@@ -769,6 +774,11 @@ const es: TranslationKeys = {
   'dossier.nearby': 'Eventos cercanos (300 km)',
   'dossier.noNearby': 'Sin eventos curados a menos de 300 km',
   'dossier.hint': 'Clic derecho o pulsación larga en el mapa para el dossier del lugar',
+  'layers.frontline': 'Frente (DeepStateMAP)',
+  'layers.gdacs': 'Desastres (GDACS)',
+  'layers.nuclearPlants': 'Plantas nucleares',
+  'layers.submarineCables': 'Cables submarinos',
+  'layers.chokepoints': 'Chokepoints marítimos',
   'shortcuts.close': 'para cerrar',
 
   'broadcast.live': 'EN VIVO',
@@ -1388,6 +1398,11 @@ const fr: TranslationKeys = {
   'dossier.nearby': 'Événements proches (300 km)',
   'dossier.noNearby': 'Aucun événement à moins de 300 km',
   'dossier.hint': 'Clic droit ou appui long sur la carte pour le dossier du lieu',
+  'layers.frontline': 'Ligne de front (DeepStateMAP)',
+  'layers.gdacs': 'Catastrophes (GDACS)',
+  'layers.nuclearPlants': 'Centrales nucléaires',
+  'layers.submarineCables': 'Câbles sous-marins',
+  'layers.chokepoints': 'Points de passage maritimes',
   'shortcuts.close': 'pour fermer',
 
   'broadcast.live': 'EN DIRECT',
@@ -2007,6 +2022,11 @@ const pt: TranslationKeys = {
   'dossier.nearby': 'Eventos próximos (300 km)',
   'dossier.noNearby': 'Sem eventos a menos de 300 km',
   'dossier.hint': 'Clique direito ou toque longo no mapa para o dossiê do local',
+  'layers.frontline': 'Linha de frente (DeepStateMAP)',
+  'layers.gdacs': 'Desastres (GDACS)',
+  'layers.nuclearPlants': 'Usinas nucleares',
+  'layers.submarineCables': 'Cabos submarinos',
+  'layers.chokepoints': 'Chokepoints marítimos',
   'shortcuts.close': 'para fechar',
 
   'broadcast.live': 'AO VIVO',

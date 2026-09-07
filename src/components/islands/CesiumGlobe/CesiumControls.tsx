@@ -29,6 +29,9 @@ interface Props {
   sources?: SourceStatusItem[];
   /** Layer ids offered to this tracker (live-layers.ts scope). */
   scopedLayerIds?: string[];
+  /** E5 layers (frontline / GDACS / static GeoJSON) offered on this tracker. */
+  extraLayers?: { id: string; label: string; count: number; on: boolean }[];
+  onToggleExtraLayer?: (id: string) => void;
   persistLines: boolean;
   onTogglePersist: () => void;
   satGroupCounts?: SatGroupCounts;
@@ -97,6 +100,8 @@ export default function CesiumControls({
   shareTrigger,
   sources = [],
   scopedLayerIds,
+  extraLayers = [],
+  onToggleExtraLayer,
 }: Props) {
   const inScope = (id: string) => !scopedLayerIds || scopedLayerIds.includes(id);
   const chipFor = (id: string) => { const it = sources.find(x => x.id === id); return it ? <SourceStatusChip item={it} compact /> : null; };
@@ -373,6 +378,20 @@ export default function CesiumControls({
         </div>
       )}
       {inScope('nfz') && (
+      {extraLayers.map(l => (
+        <button
+          key={l.id}
+          className={`globe-filter${l.on ? ' active' : ''}`}
+          onClick={() => onToggleExtraLayer?.(l.id)}
+          aria-pressed={l.on}
+          data-layer={l.id}
+        >
+          {chipFor(l.id)}
+          <span className="globe-fdot" style={{ background: l.id === 'gdacs-alerts' ? '#ff9100' : l.id === 'deepstate-frontline' ? '#c62828' : '#4fc3f7' }} />
+          {t(l.label as any, locale)}
+          {l.on && l.count > 0 && <span className="globe-filter-count">{l.count}</span>}
+        </button>
+      ))}
       <button
         className={`globe-filter${layers.nfz ? ' active' : ''}`}
         onClick={() => onToggleLayer('nfz')}

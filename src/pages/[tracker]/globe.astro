@@ -51,6 +51,8 @@ const basePath = base.endsWith('/') ? base : `${base}/`;
       mapBounds={config.map?.bounds}
       weatherPoints={config.globe?.weatherPoints}
       trackerSlug={config.slug}
+      liveLayers={config.map?.liveLayers}
+      staticLayers={config.map?.staticLayers}
       isHistorical={config.temporal === 'historical'}
       endDate={config.endDate}
       clocks={config.globe?.clocks}

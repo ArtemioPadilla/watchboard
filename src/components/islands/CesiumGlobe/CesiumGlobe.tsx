@@ -54,6 +54,8 @@ import { layersForTracker } from '../../../lib/live-layers';
 import type { SourceStatusItem } from '../shared/SourceStatusChip';
 import DossierPanel from '../shared/DossierPanel';
 import { useDossier } from '../shared/useDossier';
+import { useFrontline, useGdacs, useStaticGeoLayer, DEEPSTATE_ENABLED } from './useGeoLayers';
+import { staticLayerMeta } from '../../../lib/geo-layer-schema';
 import { IslandErrorFallback } from '../shared/IslandErrorFallback';
 
 interface Props {
@@ -68,6 +70,10 @@ interface Props {
   mapBounds?: { lonMin: number; lonMax: number; latMin: number; latMax: number };
   weatherPoints?: { lat: number; lon: number; label: string }[];
   trackerSlug?: string;
+  /** Feed layer ids from tracker.json map.liveLayers (E5). */
+  liveLayers?: string[];
+  /** Static GeoJSON layer ids from tracker.json map.staticLayers (E5). */
+  staticLayers?: string[];
   isHistorical?: boolean;
   endDate?: string;
   clocks?: { label: string; offsetHours: number }[];
@@ -118,7 +124,7 @@ export default function CesiumGlobe(props: Props) {
   );
 }
 
-function CesiumGlobeInner({ points, lines, kpis, meta, events = [], cameraPresets = {}, categories = [], mapCenter, mapBounds, weatherPoints, trackerSlug, isHistorical = false, endDate, clocks, missionTrajectory, globeLayout, layoutOverrides }: Props) {
+function CesiumGlobeInner({ points, lines, kpis, meta, events = [], cameraPresets = {}, categories = [], mapCenter, mapBounds, weatherPoints, trackerSlug, liveLayers = [], staticLayers = [], isHistorical = false, endDate, clocks, missionTrajectory, globeLayout, layoutOverrides }: Props) {
   const trackerBboxMemo = useMemo(() => trackerBbox(mapBounds ?? null, mapCenter ?? null), [mapBounds, mapCenter]);
   const flightFallback = useMemo(() => (mapCenter ? { lat: mapCenter.lat, lon: mapCenter.lon } : undefined), [mapCenter]);
   const layout = resolveLayout(globeLayout, layoutOverrides);
@@ -135,7 +141,7 @@ function CesiumGlobeInner({ points, lines, kpis, meta, events = [], cameraPreset
 
   // ── Shareable view state (URL) — read once on mount, written debounced ──
   // client:only island, so reading window here cannot cause a hydration mismatch.
-  const urlViewRef = useRef<ViewState>(readViewState(GLOBE_LAYER_KEYS));
+  const urlViewRef = useRef<ViewState>(readViewState([...GLOBE_LAYER_KEYS, 'deepstate-frontline', 'gdacs-alerts', ...staticLayers]));
   const viewWriterRef = useRef(createViewStateWriter(500));
   const [urlEventSlug, setUrlEventSlug] = useState<string | undefined>(urlViewRef.current.event);
   const [shareTrigger, setShareTrigger] = useState(0);
@@ -164,6 +170,18 @@ function CesiumGlobeInner({ points, lines, kpis, meta, events = [], cameraPreset
     for (const k of GLOBE_LAYER_KEYS) chosen[k] = fromUrl.includes(k);
     return chosen;
   });
+
+  // ── E5 layers: frontline (per tracker), GDACS (global), static GeoJSON (per tracker) ──
+  const wantFrontline = liveLayers.includes('deepstate-frontline') && DEEPSTATE_ENABLED;
+  const [extraLayers, setExtraLayers] = useState<Record<string, boolean>>(() => {
+    const init: Record<string, boolean> = { 'gdacs-alerts': false };
+    if (wantFrontline) init['deepstate-frontline'] = true;
+    for (const id of staticLayers) init[id] = false;
+    const fromUrl = urlViewRef.current.layers;
+    if (fromUrl) for (const k of Object.keys(init)) init[k] = fromUrl.includes(k);
+    return init;
+  });
+  const toggleExtraLayer = useCallback((id: string) => setExtraLayers(prev => ({ ...prev, [id]: !prev[id] })), []);
 
   // ── Events panel (default collapsed) ──
   const [eventsOpen, setEventsOpen] = useState(false);
@@ -480,12 +498,14 @@ function CesiumGlobeInner({ points, lines, kpis, meta, events = [], cameraPreset
 
   const layersRef = useRef(layers);
   layersRef.current = layers;
+  const extraLayersRef = useRef(extraLayers);
+  extraLayersRef.current = extraLayers;
   const urlEventRef = useRef(urlEventSlug);
   urlEventRef.current = urlEventSlug;
 
   const buildViewState = useCallback((): ViewState => ({
     ...readCamera(),
-    layers: GLOBE_LAYER_KEYS.filter(k => layersRef.current[k]),
+    layers: [...GLOBE_LAYER_KEYS.filter(k => layersRef.current[k]), ...Object.keys(extraLayersRef.current).filter(k => extraLayersRef.current[k])],
     date: currentDateRef.current,
     ...(urlEventRef.current ? { event: urlEventRef.current } : {}),
   }), [readCamera]);
@@ -507,7 +527,7 @@ function CesiumGlobeInner({ points, lines, kpis, meta, events = [], cameraPreset
   useEffect(() => {
     if (!cesiumViewer) return;
     viewWriterRef.current.write(buildViewState());
-  }, [cesiumViewer, layers, currentDate, urlEventSlug, buildViewState]);
+  }, [cesiumViewer, layers, extraLayers, currentDate, urlEventSlug, buildViewState]);
 
   // `?event=` opens that event: jump the scrubber to its date, open the
   // intel panel, and fly to its map point when one shares the event id.
@@ -599,6 +619,22 @@ function CesiumGlobeInner({ points, lines, kpis, meta, events = [], cameraPreset
   const { count: gpsJamCount } = useGpsJamming(cesiumViewer, layers.gpsJam, currentDate);
   const { count: internetBlackoutCount } = useInternetBlackout(cesiumViewer, layers.internetBlackout, currentDate);
   const { count: groundTruthCount } = useGroundTruth(cesiumViewer, layers.groundTruth, points, events, currentDate);
+  const frontline = useFrontline(cesiumViewer, wantFrontline && !!extraLayers['deepstate-frontline']);
+  const gdacs = useGdacs(cesiumViewer, !!extraLayers['gdacs-alerts']);
+  const static0 = useStaticGeoLayer(cesiumViewer, staticLayers[0] ?? null, !!extraLayers[staticLayers[0] ?? '']);
+  const static1 = useStaticGeoLayer(cesiumViewer, staticLayers[1] ?? null, !!extraLayers[staticLayers[1] ?? '']);
+  const static2 = useStaticGeoLayer(cesiumViewer, staticLayers[2] ?? null, !!extraLayers[staticLayers[2] ?? '']);
+  const staticResults = [static0, static1, static2];
+  const extraLayerDefs = useMemo(() => {
+    const defs: { id: string; label: string; count: number; status: string; updatedAt: number | null; error?: string; dateLabel?: string; snapshotDate?: string }[] = [];
+    if (wantFrontline) defs.push({ id: 'deepstate-frontline', label: 'layers.frontline', count: frontline.count, status: frontline.status, updatedAt: frontline.updatedAt, error: frontline.error, dateLabel: frontline.label });
+    defs.push({ id: 'gdacs-alerts', label: 'layers.gdacs', count: gdacs.count, status: gdacs.status, updatedAt: gdacs.updatedAt, error: gdacs.error, dateLabel: gdacs.label });
+    staticLayers.slice(0, 3).forEach((id, i) => {
+      const meta = staticLayerMeta(id);
+      if (meta) defs.push({ id, label: meta.label, count: staticResults[i].count, status: staticResults[i].status, updatedAt: staticResults[i].updatedAt, error: staticResults[i].error, snapshotDate: staticResults[i].label });
+    });
+    return defs;
+  }, [wantFrontline, frontline, gdacs, staticLayers, static0, static1, static2]);
 
   // ── Cinematic mode ──
   const {
@@ -697,13 +733,18 @@ function CesiumGlobeInner({ points, lines, kpis, meta, events = [], cameraPreset
     push('flights', 'Flights', layers.flights && mode === 'live', { status: flightStatus, updatedAt: flightUpdatedAt, error: flightError });
     push('earthquakes', 'Earthquakes', layers.quakes, { status: quakeStatus, updatedAt: quakeUpdatedAt, error: quakeError });
     push('weather', 'Weather', layers.weather, { status: weatherStatus, updatedAt: weatherUpdatedAt, error: weatherError });
+    for (const d of extraLayerDefs) {
+      if (!extraLayers[d.id]) continue;
+      if (d.snapshotDate) items.push({ id: d.id, label: d.label, status: 'ok', snapshotDate: d.snapshotDate });
+      else items.push({ id: d.id, label: d.label, status: d.status as SourceStatusItem['status'], updatedAt: d.updatedAt, error: d.error });
+    }
     for (const spec of scopedLayers) {
       if (spec.kind !== 'snapshot') continue;
       const on = (spec.id === 'nfz' && layers.nfz) || (spec.id === 'gps-jamming' && layers.gpsJam) || (spec.id === 'internet-blackouts' && layers.internetBlackout);
       if (on) items.push({ id: spec.id, label: spec.attribution.source, status: 'ok', snapshotDate: spec.snapshotDate });
     }
     return items;
-  }, [scopedLayers, layers, mode, satStatus, satUpdatedAt, satError, flightStatus, flightUpdatedAt, flightError, quakeStatus, quakeUpdatedAt, quakeError, weatherStatus, weatherUpdatedAt, weatherError]);
+  }, [scopedLayers, layers, extraLayers, extraLayerDefs, mode, satStatus, satUpdatedAt, satError, flightStatus, flightUpdatedAt, flightError, quakeStatus, quakeUpdatedAt, quakeError, weatherStatus, weatherUpdatedAt, weatherError]);
 
   return (
     <div className="globe-wrapper">
@@ -895,6 +936,8 @@ function CesiumGlobeInner({ points, lines, kpis, meta, events = [], cameraPreset
           onShareView={buildShareUrl}
           sources={sourceItems}
           scopedLayerIds={scopedLayers.map(l => l.id)}
+          extraLayers={extraLayerDefs.map(d => ({ id: d.id, label: d.label, count: d.count, on: !!extraLayers[d.id] }))}
+          onToggleExtraLayer={toggleExtraLayer}
           shareTrigger={shareTrigger}
             persistLines={persistLines}
             onTogglePersist={() => setPersistLines(prev => !prev)}
@@ -960,6 +1003,8 @@ function CesiumGlobeInner({ points, lines, kpis, meta, events = [], cameraPreset
           onShareView={buildShareUrl}
           sources={sourceItems}
           scopedLayerIds={scopedLayers.map(l => l.id)}
+          extraLayers={extraLayerDefs.map(d => ({ id: d.id, label: d.label, count: d.count, on: !!extraLayers[d.id] }))}
+          onToggleExtraLayer={toggleExtraLayer}
           shareTrigger={shareTrigger}
           persistLines={persistLines}
           onTogglePersist={() => setPersistLines(prev => !prev)}

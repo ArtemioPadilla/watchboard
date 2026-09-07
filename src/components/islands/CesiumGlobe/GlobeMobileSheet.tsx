@@ -77,6 +77,8 @@ interface Props {
   shareTrigger?: number;
   sources?: import('../shared/SourceStatusChip').SourceStatusItem[];
   scopedLayerIds?: string[];
+  extraLayers?: { id: string; label: string; count: number; on: boolean }[];
+  onToggleExtraLayer?: (id: string) => void;
   persistLines: boolean;
   onTogglePersist: () => void;
 
@@ -172,7 +174,7 @@ export default function GlobeMobileSheet(props: Props) {
     events, currentDate, activeEventId,
     activeFilters, onToggleFilter, pointCounts, categories,
     visualMode, onVisualMode,
-    layers, onToggleLayer, onShareView, shareTrigger, sources, scopedLayerIds,
+    layers, onToggleLayer, onShareView, shareTrigger, sources, scopedLayerIds, extraLayers = [], onToggleExtraLayer,
     persistLines, onTogglePersist,
     missionTrajectory, telemetryRef, vectorsRef, vectorToggles, onToggleVector, onTrackSpacecraft,
     carouselEntities, activeCardIndex, onCloseCard,
@@ -400,6 +402,16 @@ export default function GlobeMobileSheet(props: Props) {
             onClick={() => onToggleLayer(l.key)}
           >
             <span className="mobile-sheet-fdot" style={{ background: l.color }} />
+            {t(l.label as any, locale)}
+          </button>
+        ))}
+        {extraLayers.map(l => (
+          <button
+            key={l.id}
+            className={`mobile-sheet-filter-btn${l.on ? ' active' : ''}`}
+            onClick={() => onToggleExtraLayer?.(l.id)}
+          >
+            <span className="mobile-sheet-fdot" style={{ background: l.id === 'gdacs-alerts' ? '#ff9100' : l.id === 'deepstate-frontline' ? '#c62828' : '#4fc3f7' }} />
             {t(l.label as any, locale)}
           </button>
         ))}

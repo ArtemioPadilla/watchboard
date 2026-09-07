@@ -1,0 +1,75 @@
+---
+/**
+ * /sources — every external layer the globe and the map can draw, with
+ * kind, cadence, license and attribution, generated from the registries so
+ * this page cannot drift from the code (plan E5.H4).
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { LIVE_LAYERS } from '../lib/live-layers';
+import { STATIC_LAYERS } from '../lib/geo-layer-schema';
+import { readFileSync, existsSync } from 'node:fs';
+import { resolve } from 'node:path';
+
+const basePath = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+const staticRows = STATIC_LAYERS.map((l) => {
+  const p = resolve('public/geo/layers', `${l.id}.geojson`);
+  let prov: any = null;
+  if (existsSync(p)) { try { prov = JSON.parse(readFileSync(p, 'utf8'))._provenance; } catch { prov = null; } }
+  return { ...l, prov };
+});
+const fmtTtl = (ms: number) => ms >= 3_600_000 ? `${Math.round(ms / 3_600_000)} h` : `${Math.round(ms / 60_000)} min`;
+---
+<BaseLayout title="Data sources — Watchboard" description="Every live feed and static layer Watchboard draws, with cadence, license and attribution.">
+  <main class="sources-page">
+    <h1>Data sources</h1>
+    <p class="sources-intro">Every external layer the globe and the maps can draw. Feeds are fetched in the browser through a shared cache (stale data is kept and labelled when a source fails); snapshots and static layers ship with the site and show their capture date.</p>
+
+    <h2>Live feeds and snapshots</h2>
+    <div class="sources-table-wrap">
+      <table class="sources-table">
+        <thead><tr><th>Layer</th><th>Kind</th><th>Source</th><th>Cadence / date</th><th>License</th><th>Scope</th></tr></thead>
+        <tbody>
+          {LIVE_LAYERS.map((l) => (
+            <tr>
+              <td><code>{l.id}</code></td>
+              <td>{l.kind === 'feed' ? (l.transport === 'websocket' ? 'feed (push)' : 'feed') : 'snapshot'}</td>
+              <td>{l.attribution.url ? <a href={l.attribution.url} rel="noopener noreferrer" target="_blank">{l.attribution.source}</a> : l.attribution.source}</td>
+              <td>{l.kind === 'feed' ? `TTL ${fmtTtl(l.ttlMs)}` : `captured ${l.snapshotDate}`}</td>
+              <td>{l.attribution.license}{l.requiresKey ? ' · user key' : ''}</td>
+              <td>{l.scope.length ? l.scope.join(', ') : 'all trackers'}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Static GeoJSON layers</h2>
+    <div class="sources-table-wrap">
+      <table class="sources-table">
+        <thead><tr><th>Layer</th><th>Source</th><th>Retrieved</th><th>Features</th><th>License</th></tr></thead>
+        <tbody>
+          {staticRows.map((l) => (
+            <tr>
+              <td><code>{l.id}</code> <a href={`${basePath}geo/layers/${l.id}.geojson`}>geojson</a></td>
+              <td>{l.prov ? <a href={l.prov.url} rel="noopener noreferrer" target="_blank">{l.prov.source}</a> : '—'}</td>
+              <td>{l.prov ? l.prov.retrievedAt.slice(0, 10) : 'not generated'}</td>
+              <td>{l.prov ? l.prov.featureCount : '—'}</td>
+              <td>{l.prov ? l.prov.license : '—'}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p class="sources-note">Attribution notices are shown on the layer toggles. License records live in <code>docs/licenses/</code>. Regenerate static layers with <code>npx tsx scripts/geo/refresh-layers.ts</code>.</p>
+  </main>
+</BaseLayout>
+
+<style>
+  .sources-page { max-width: 1100px; margin: 0 auto; padding: 2rem 1.25rem 4rem; color: var(--text-primary); }
+  .sources-intro, .sources-note { color: var(--text-muted); font-size: 0.85rem; }
+  .sources-table-wrap { overflow-x: auto; margin: 0.5rem 0 2rem; }
+  .sources-table { width: 100%; border-collapse: collapse; font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; }
+  .sources-table th, .sources-table td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .sources-table th { color: var(--accent-amber); letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.6rem; }
+  .sources-table a { color: var(--accent-blue); text-decoration: none; }
+</style>

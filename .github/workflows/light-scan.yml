@@ -49,7 +49,7 @@ jobs:
           # main log points at files that were never pushed -- which is why the
           # audit page's archive loader has always had nothing to load.
           for f in public/_hourly/triage-log.json public/_hourly/state.json \
-                   public/_hourly/alerts.json public/_hourly/triage-log-[0-9]*.json; do
+                   public/_hourly/alerts.json public/_hourly/gdacs.json public/_hourly/triage-log-[0-9]*.json; do
             [ -f "$f" ] && git add "$f"
           done
           if ! git diff --cached --quiet; then

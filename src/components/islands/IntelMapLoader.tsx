@@ -12,12 +12,14 @@ const IntelMap = lazy(() => import('./IntelMap'));
 interface Props {
   trackerSlug: string;
   weatherPoints?: { lat: number; lon: number; label: string }[];
+  liveLayers?: string[];
+  staticLayers?: string[];
   categories?: MapCategory[];
   mapCenter?: { lon: number; lat: number };
   mapBounds?: { lonMin: number; lonMax: number; latMin: number; latMax: number };
 }
 
-export default function IntelMapLoader({ trackerSlug, categories, mapCenter, mapBounds, weatherPoints }: Props) {
+export default function IntelMapLoader({ trackerSlug, categories, mapCenter, mapBounds, weatherPoints, liveLayers, staticLayers }: Props) {
   const [data, setData] = useState<{ points: any[]; lines: any[]; events: any[] } | null>(null);
 
   useEffect(() => {
@@ -42,6 +44,8 @@ export default function IntelMapLoader({ trackerSlug, categories, mapCenter, map
         mapBounds={mapBounds}
         weatherPoints={weatherPoints}
         trackerSlug={trackerSlug}
+        liveLayers={liveLayers}
+        staticLayers={staticLayers}
       />
     </Suspense>
   );

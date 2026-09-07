@@ -35,6 +35,8 @@ export interface HourlyState {
    * what a post was *about* so the next one can be suppressed.
    */
   alerted?: AlertedEntry[];
+  /** Set after the first light scan that saw GDACS alerts; that run seeds `seen` without alerting. */
+  gdacsSeeded?: boolean;
 }
 
 export interface AlertedEntry {
@@ -66,7 +68,9 @@ export interface Candidate {
   source: string;
   timestamp: string;
   matchedTracker: string | null;
-  feedOrigin: 'rss' | 'gdelt' | 'bluesky' | 'telegram';
+  feedOrigin: 'rss' | 'gdelt' | 'bluesky' | 'telegram' | 'gdacs';
+  /** Coordinates when the source supplied them (GDACS georss) or geoparsing resolved them (E6). */
+  geo?: { lat: number; lon: number; place?: string; method: 'georss' | 'gazetteer' };
   /** Source-tier hint propagated from the feed registry; 1 = official, 2 = major outlet, 3 = institutional. */
   sourceTier?: 1 | 2 | 3;
   /** ISO 639-1 language code from the source feed (informational; matching is language-agnostic). */
@@ -157,6 +161,8 @@ export const PATHS = {
   triageLog:         join(ROOT, 'public', '_hourly', 'triage-log.json'),
   /** Homepage alert feed: actionable light-scan decisions, last 72 h, capped (src/lib/alerts-file.ts). */
   alerts:            join(ROOT, 'public', '_hourly', 'alerts.json'),
+  /** GDACS Orange/Red alerts of the last 7 days (scripts/lib/gdacs.ts). */
+  gdacs:             join(ROOT, 'public', '_hourly', 'gdacs.json'),
   realtimeState:     join(ROOT, 'public', '_hourly', 'realtime-state.json'),
 };
 
