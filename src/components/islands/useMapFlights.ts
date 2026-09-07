@@ -2,9 +2,8 @@ import { useMemo } from 'react';
 import { useLiveSource } from '../../lib/use-live-source';
 import type { LiveStatus } from '../../lib/live-source';
 import {
-  parseOpenSky, openSkyUrl, quantizeBbox, padBbox, bboxAround, bboxKey, type Bbox,
+  parseOpenSky, openSkyUrl, quantizeBbox, padBbox, bboxAround, bboxKey, FLIGHTS_TTL_MS, pollIntervalForBbox, type Bbox,
 } from '../../lib/flights-source';
-import { FLIGHTS_POLL_MS } from './CesiumGlobe/useFlights';
 
 // ────────────────────────────────────────────
 //  Types
@@ -26,11 +25,10 @@ export interface FlightData {
 
 const METERS_TO_FEET = 3.28084;
 const MPS_TO_KNOTS = 1.94384;
-const TTL_MS = 25_000;
 
 /**
- * Live flights for the 2D map, within the tracker's bounds (or a 10° box
- * around its centre). Shares the cache, parser and quota discipline with
+ * Live flights for the 2D map, within the current Leaflet viewport when the
+ * map reports it, else the tracker's bounds (or a 10° box around its centre). Shares the cache, parser and quota discipline with
  * the globe's useFlights via live-source.ts; only active at the latest date.
  */
 export function useMapFlights(
@@ -49,12 +47,13 @@ export function useMapFlights(
     ? {
         key: `flights:${bboxKey(bbox)}`,
         url: openSkyUrl(bbox),
-        ttlMs: TTL_MS,
+        ttlMs: FLIGHTS_TTL_MS,
         parse: async (res: Response) => parseOpenSky(await res.json()),
+        isEmpty: () => false,
       }
     : null;
   const active = enabled && isLatestDate;
-  const { data, status, updatedAt, error } = useLiveSource(spec, { enabled: active, intervalMs: FLIGHTS_POLL_MS });
+  const { data, status, updatedAt, error } = useLiveSource(spec, { enabled: active, intervalMs: pollIntervalForBbox(bbox) });
 
   const flights: FlightData[] = useMemo(() => {
     if (!active || !data) return [];

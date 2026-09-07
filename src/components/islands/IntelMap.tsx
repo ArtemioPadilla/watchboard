@@ -5,6 +5,7 @@ import type { FlatEvent } from '../../lib/timeline-utils';
 import { MAP_CATEGORIES, type MapCategory } from '../../lib/map-utils';
 import { tierLabelFull, tierClass } from './map-helpers';
 import LeafletMap from './LeafletMap';
+import type { ViewBounds } from './LeafletMap';
 import UnifiedTimelineBar from './UnifiedTimelineBar';
 import MapEventsPanel from './MapEventsPanel';
 import MapLayerToggles from './MapLayerToggles';
@@ -96,15 +97,25 @@ function IntelMapInner({ points, lines, events, categories, mapCenter, mapBounds
       ? { lat: urlView.lat, lon: urlView.lon, zoom: urlView.zoom }
       : {},
   );
+  // Refs keep handleViewChange's identity stable so LeafletMap's moveend
+  // listener is registered once, not on every layer/date change.
+  const layersRef = useRef(layers);
+  layersRef.current = layers;
+  const dateRef = useRef(currentDate);
+  dateRef.current = currentDate;
   const buildViewState = useCallback((): ViewState => ({
     ...cameraRef.current,
-    layers: MAP_LAYER_KEYS.filter(k => layers[k]),
-    date: currentDate,
-  }), [layers, currentDate]);
-  useEffect(() => { viewWriter.write(buildViewState()); }, [buildViewState, viewWriter]);
+    layers: MAP_LAYER_KEYS.filter(k => layersRef.current[k]),
+    date: dateRef.current,
+  }), []);
+  useEffect(() => { viewWriter.write(buildViewState()); }, [layers, currentDate, buildViewState, viewWriter]);
   useEffect(() => () => viewWriter.cancel(), [viewWriter]);
-  const handleViewChange = useCallback((lat: number, lon: number, zoom: number) => {
+  // Live viewport for the flights bbox (E2.H2: "bbox de map.getBounds()").
+  // Kept in state, not a ref, because the bbox is a hook input.
+  const [viewBounds, setViewBounds] = useState<ViewBounds | null>(null);
+  const handleViewChange = useCallback((lat: number, lon: number, zoom: number, bounds?: ViewBounds) => {
     cameraRef.current = { lat, lon, zoom };
+    if (bounds) setViewBounds(prev => (prev && prev.latMin === bounds.latMin && prev.latMax === bounds.latMax && prev.lonMin === bounds.lonMin && prev.lonMax === bounds.lonMax) ? prev : bounds);
     viewWriter.write(buildViewState());
   }, [buildViewState, viewWriter]);
   const buildShareUrl = useCallback(() => viewWriter.flush(buildViewState()), [buildViewState, viewWriter]);
@@ -119,7 +130,7 @@ function IntelMapInner({ points, lines, events, categories, mapCenter, mapBounds
 
   // ── Live flights ──
   const isLatestDate = currentDate === dateRange.max;
-  const { flights, flightCount, status: flightStatus, updatedAt: flightUpdatedAt, error: flightError } = useMapFlights(layers.flights, isLatestDate, mapBounds ?? null, mapCenter ?? null);
+  const { flights, flightCount, status: flightStatus, updatedAt: flightUpdatedAt, error: flightError } = useMapFlights(layers.flights, isLatestDate, viewBounds ?? mapBounds ?? null, mapCenter ?? null);
 
   // ── Day/night terminator ──
   const terminatorPolygon = useTerminator(layers.terminator, currentDate);

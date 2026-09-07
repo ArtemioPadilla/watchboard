@@ -3838,3 +3838,6 @@ body::before {
 @media (max-width: 767px) {
   .alerts-panel { top: auto; bottom: 0; right: 0; left: 0; width: 100%; max-height: 70vh; border-radius: 12px 12px 0 0; }
 }
+.globe-toolbar-icon.share-view-btn--copied { color: var(--accent-green, #3fb950); border-color: var(--accent-green, #3fb950); }
+.globe-toolbar-icon.share-view-btn--failed { color: var(--accent-amber, #d29922); border-color: var(--accent-amber, #d29922); }
+.mobile-sheet-share { margin: 0 4px; padding: 4px 6px; align-self: center; }
