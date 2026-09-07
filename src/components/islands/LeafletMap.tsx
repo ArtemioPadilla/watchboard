@@ -9,6 +9,9 @@ import type { MapCategory } from '../../lib/map-utils';
 import { catColor, lineColor, WEAPON_TYPE_WEIGHTS, WEAPON_TYPE_LABELS, STATUS_LABELS, computeArcPositions } from './map-helpers';
 import type { OverlayData } from './useMapOverlays';
 import type { FlightData } from './useMapFlights';
+
+/** Visible extent reported alongside the centre (feeds the flights bbox). */
+export interface ViewBounds { latMin: number; latMax: number; lonMin: number; lonMax: number }
 import MapArcAnimator from './MapArcAnimator';
 import MapFactCards from './MapFactCards';
 import type { FlatEvent } from '../../lib/timeline-utils';
@@ -38,7 +41,7 @@ interface Props {
   /** Camera from a shared URL; wins over mapBounds when present. */
   initialView?: { lat: number; lon: number; zoom: number };
   /** Called after every moveend with the new centre and zoom. */
-  onViewChange?: (lat: number, lon: number, zoom: number) => void;
+  onViewChange?: (lat: number, lon: number, zoom: number, bounds?: ViewBounds) => void;
   /** Right-click / long-press on the map background (E4 dossier). */
   onGroundClick?: (lat: number, lon: number) => void;
   /** Extra react-leaflet children (E5 GeoLayersLeaflet). */
@@ -209,7 +212,7 @@ function GroundClickReporter({ onGroundClick }: { onGroundClick?: (lat: number, 
   return null;
 }
 
-function ViewReporter({ onViewChange }: { onViewChange?: (lat: number, lon: number, zoom: number) => void }) {
+function ViewReporter({ onViewChange }: { onViewChange?: (lat: number, lon: number, zoom: number, bounds?: ViewBounds) => void }) {
   const map = useMap();
   useEffect(() => {
     if (!onViewChange) return;
@@ -220,7 +223,8 @@ function ViewReporter({ onViewChange }: { onViewChange?: (lat: number, lon: numb
       const el = map.getContainer();
       if (el.offsetParent === null || el.clientWidth === 0) return;
       const c = map.getCenter();
-      onViewChange(c.lat, c.lng, map.getZoom());
+      const b = map.getBounds();
+      onViewChange(c.lat, c.lng, map.getZoom(), { latMin: b.getSouth(), latMax: b.getNorth(), lonMin: b.getWest(), lonMax: b.getEast() });
     };
     map.on('moveend', report);
     report();

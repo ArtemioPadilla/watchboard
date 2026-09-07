@@ -23,6 +23,13 @@
 import { z } from 'zod';
 
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
+
+/** `2026-02-31` matches the regex and would still throw downstream. */
+function isCalendarDate(s: string): boolean {
+  if (!ISO_DATE.test(s)) return false;
+  const d = new Date(`${s}T00:00:00Z`);
+  return !Number.isNaN(d.getTime()) && d.toISOString().slice(0, 10) === s;
+}
 const SLUG = /^[a-z0-9][a-z0-9-]*$/;
 
 export const ViewStateSchema = z
@@ -42,7 +49,7 @@ export const ViewStateSchema = z
     /** Event slug from event-slug.ts ({YYYY-MM-DD}-{kebab-id}). */
     event: z.string().regex(SLUG).max(200),
     /** Scrubber date. */
-    date: z.string().regex(ISO_DATE),
+    date: z.string().regex(ISO_DATE).refine(isCalendarDate, 'not a calendar date'),
     /** Selected tracker slug (homepage). */
     tracker: z.string().regex(SLUG).max(100),
   })

@@ -9,6 +9,7 @@
  * Mission tab only appears when missionTrajectory is provided.
  */
 import ShareViewButton from '../shared/ShareViewButton';
+import SourceStatusSummary from '../shared/SourceStatusChip';
 import { useState, useRef, useCallback, useEffect, useMemo, type MutableRefObject, type ReactNode } from 'react';
 import { t } from '../../../i18n/translations';
 import { useLocale } from '../../../i18n/useLocale';
@@ -381,6 +382,11 @@ export default function GlobeMobileSheet(props: Props) {
       </div>
 
       <div className="mobile-sheet-section-title" style={{ marginTop: 16 }}>{t('globe.intelLayers', locale)}</div>
+      {sources && sources.length > 0 && (
+        <div className="mobile-sheet-sources" data-testid="mobile-source-status">
+          <SourceStatusSummary items={sources} />
+        </div>
+      )}
       <div className="mobile-sheet-filter-grid">
         {([
           { key: 'satellites' as const, label: 'globe.satellites' as const, color: '#00ffcc' },
@@ -518,6 +524,9 @@ export default function GlobeMobileSheet(props: Props) {
 
       {/* Tab bar */}
       <div className="mobile-sheet-tabs">
+        {onShareView && (
+          <ShareViewButton buildUrl={onShareView} trigger={shareTrigger} compact className="mobile-sheet-share" />
+        )}
         {tabs.map(tab => (
           <button
             key={tab}
