@@ -3957,3 +3957,6 @@ body::before {
 .claim-status-amber { color: var(--accent-amber); border-color: rgba(243, 156, 18, 0.3); }
 .claim-status-red { color: var(--accent-red); border-color: rgba(231, 76, 60, 0.3); }
 .claim-status-muted { color: var(--text-muted); border-style: dashed; }
+.claim-summary-main { display: flex; align-items: center; gap: 0.6rem; min-width: 0; flex: 1 1 auto; }
+.claim-summary-main .claim-question-text { min-width: 0; }
+.hero-provenance { margin-top: 0.4rem; }

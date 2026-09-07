@@ -57,8 +57,12 @@ export function layerLabelKey(layerId: string): string | undefined {
   return LIVE_LAYERS.find((l) => l.id === layerId)?.label;
 }
 
-/** Digest-gap threshold in days; below this the tracker is considered current. */
-export const DIGEST_GAP_DAYS = 3;
+/**
+ * Fallback digest-gap threshold in days when the health file carries no
+ * `digestGaps` list; generate-health flags a gap after one missed day, so
+ * two days is a gap here too.
+ */
+export const DIGEST_GAP_DAYS = 2;
 
 export function collectDegraded(
   sources: { key: string; result: LiveResult<unknown> }[],
@@ -89,7 +93,8 @@ export function collectDegraded(
   const items = [...byLayer.values()].sort((a, b) => a.id.localeCompare(b.id));
 
   const th = health?.trackers?.[trackerSlug];
-  if (th && typeof th.digestGap === 'number' && th.digestGap >= DIGEST_GAP_DAYS) {
+  const flaggedByHealth = Array.isArray(health?.digestGaps) && health!.digestGaps.includes(trackerSlug);
+  if (th && (flaggedByHealth || (typeof th.digestGap === 'number' && th.digestGap >= DIGEST_GAP_DAYS))) {
     const lastGood = th.lastDigest ? Date.parse(th.lastDigest) : NaN;
     items.push({
       id: 'digest',

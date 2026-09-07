@@ -507,7 +507,10 @@ jobs:
 
       - name: Check for changes
         id: changes
-        if: steps.apply.outputs.changed == 'true'
+        # Runs even on a night with no eligible tracker: the fingerprint
+        # check above edits tracker files on its own, and those edits must
+        # reach the commit gate or they die with the runner (see
+        # docs/silent-failure-patterns.md).
         run: |
           git add trackers/
           if git diff --cached --quiet trackers/; then
