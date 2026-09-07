@@ -3764,3 +3764,6 @@ body::before {
 .map-layers-share { margin-left: auto; margin-right: 8px; padding: 2px 6px; border-color: transparent; }
 .cc-share-btn { padding: 2px 6px; font-size: 0.5rem; }
 .globe-toolbar-icon.share-view-btn { padding: 0; gap: 0; border-radius: 8px; }
+.globe-toolbar-icon.share-view-btn--copied { color: var(--accent-green, #3fb950); border-color: var(--accent-green, #3fb950); }
+.globe-toolbar-icon.share-view-btn--failed { color: var(--accent-amber, #d29922); border-color: var(--accent-amber, #d29922); }
+.mobile-sheet-share { margin: 0 4px; padding: 4px 6px; align-self: center; }

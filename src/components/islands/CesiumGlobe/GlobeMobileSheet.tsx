@@ -501,6 +501,9 @@ export default function GlobeMobileSheet(props: Props) {
 
       {/* Tab bar */}
       <div className="mobile-sheet-tabs">
+        {onShareView && (
+          <ShareViewButton buildUrl={onShareView} trigger={shareTrigger} compact className="mobile-sheet-share" />
+        )}
         {tabs.map(tab => (
           <button
             key={tab}
