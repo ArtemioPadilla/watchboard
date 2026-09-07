@@ -20,7 +20,7 @@ Reviewed by: Prometeo (PM), Forja (Dev), Centinela (QA) — second-pass consensu
 
 | ID | Title | Description | Effort | Notes |
 |---|---|---|---|---|
-| BL-001 | Search & filter across events | Keyword search + filter chips (weapon type, region, date). Requires cross-island state (nanostores). Build search index at build time. **Needs ADR before coding** | H | Dev: biggest arch decision; do after tests. Requires nanostores ADR |
+| BL-001 | Search & filter across events | Keyword search + filter chips (weapon type, region, date). Requires cross-island state (nanostores). Build search index at build time. **Needs ADR before coding** — write it from `docs/adr/0000-template.md`, using `docs/adr/0001-url-view-state-is-island-local.md` as the model (same sections, cites the code that forces the decision) | H | Dev: biggest arch decision; do after tests. Requires nanostores ADR |
 | BL-008 | Accessibility audit | Keyboard nav on maps, ARIA attributes, screen reader support. WCAG 2.1 AA target. **Risk: scope may expand to H if SVG map + CesiumJS screen reader support is included — spec should define which components get full a11y vs text alternatives** | M-H | PM: upgraded from P2 — legal/ethical for public product. Dev: scope risk flagged |
 | BL-014 | OG meta tags / social sharing | Twitter/X card previews, Open Graph meta — highest effort-to-impact ratio for organic reach | S | PM: only growth vector for open-source project |
 | BL-015 | "What changed today" view | Diff/changelog view for returning users showing what updated since last visit. Uses daily event partitions + localStorage last-visit timestamp — does NOT require nanostores | M | PM: primary retention driver for live tracker. Moved from Phase 4 to Phase 2 |

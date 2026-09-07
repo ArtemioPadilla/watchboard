@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { extractConnectSrc, extractPolicies, hostAllowed } from './csp-hosts';
+import { extractConnectSrc, extractPolicies, hostAllowed, effectivePort, CSP_META_RE } from './csp-hosts';
 
 const CSP = "default-src 'self'; connect-src 'self' https://api.example.com https://*.tiles.example.org wss://stream.example.net https:; img-src *";
 
@@ -48,5 +48,19 @@ describe('hostAllowed', () => {
   });
   it('returns false for unparsable input', () => {
     expect(hostAllowed('not a url', allow)).toBe(false);
+  });
+  it('matches on the effective port', () => {
+    expect(hostAllowed('https://api.example.com:443/', allow)).toBe(true);
+    expect(hostAllowed('https://api.example.com:8443/', allow)).toBe(false);
+    expect(hostAllowed('https://api.example.com:8443/', ['https://api.example.com:8443'])).toBe(true);
+    expect(hostAllowed('https://api.example.com/', ['https://api.example.com:8443'])).toBe(false);
+    expect(hostAllowed('https://a.tiles.example.org:9000/', allow)).toBe(false);
+    expect(effectivePort(new URL('wss://x.y'))).toBe('443');
+    expect(effectivePort(new URL('http://x.y'))).toBe('80');
+    expect(effectivePort(new URL('http://x.y:8080'))).toBe('8080');
+  });
+  it('exports the meta regex csp-hashes.ts rewrites with', () => {
+    const m = `<meta http-equiv="Content-Security-Policy" content="default-src 'self'">`.match(CSP_META_RE);
+    expect(m?.[2]).toBe("default-src 'self'");
   });
 });
