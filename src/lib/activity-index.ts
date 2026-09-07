@@ -75,13 +75,14 @@ function parseTime(s: string | null | undefined): number | null {
 }
 
 /**
- * Window for "recent": 7 days for live trackers; for historical ones twice
- * the cadence, never less than 7 days. A weekly tracker gets 14 days.
+ * Window for "recent": 7 days for live trackers (the AC's window, whatever
+ * their cadence); for historical ones twice the cadence, never less than
+ * 7 days, so a monthly tracker is judged over 60 days.
  */
 export function activityWindowDays(input: Pick<ActivityInput, 'temporal' | 'updateIntervalDays'>): number {
+  if (input.temporal !== 'historical') return BASE_WINDOW_DAYS;
   const interval = Math.max(1, Math.floor(input.updateIntervalDays ?? 1));
-  if (input.temporal === 'historical') return Math.max(BASE_WINDOW_DAYS, interval * 2);
-  return Math.max(BASE_WINDOW_DAYS, interval);
+  return Math.max(BASE_WINDOW_DAYS, interval * 2);
 }
 
 export function computeActivity(input: ActivityInput, now: Date = new Date()): ActivityIndex {

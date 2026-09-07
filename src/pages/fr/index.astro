@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { loadAllTrackers } from '../../lib/tracker-registry';
 import { loadTrackerData } from '../../lib/data';
 import { computeActivity, countKpiDeltas } from '../../lib/activity-index';
+import { resolveEventDate } from '../../lib/timeline-utils';
 import CommandCenter from '../../components/islands/CommandCenter/CommandCenter';
 import { jsonLd } from '../../lib/json-ld';
 
@@ -93,7 +94,9 @@ const serializedTrackers = nonDraft.map(t => {
     }
     avgSourceTier = recentTierCount > 0 ? recentTierSum / recentTierCount : 4;
     activity = computeActivity({
-      events: allEvents,
+      // Timeline events carry a human `year` string, not a date: resolve it
+      // the same way generate-api does or every event falls outside the window.
+      events: allEvents.map(e => ({ date: resolveEventDate(e.year) ?? '', sources: e.sources })),
       breaking: data.meta.breaking,
       lastUpdated: data.meta.lastUpdated,
       sectionsUpdatedCount,
@@ -156,7 +159,9 @@ const serializedTrackers = nonDraft.map(t => {
     recentEventCount,
     avgSourceTier,
     sectionsUpdatedCount,
-    activity,
+    // Score + window only: the factor breakdown rides in /api/cards/{slug}.json
+    // so the homepage HTML does not grow by 125 × factors (BL-026).
+    activity: activity ? { score: activity.score, windowDays: activity.windowDays } : undefined,
   };
 });
 

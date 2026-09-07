@@ -11,6 +11,8 @@ const FIXTURES: Record<string, ActivityInput> = {
   historical: { events: [ev(10, 3), ev(25, 3)], breaking: false, lastUpdated: day(10), sectionsUpdatedCount: 2, kpiDeltaCount: 1, latestDigestDate: day(10), temporal: 'historical', updateIntervalDays: 14 },
   noDigest: { events: [ev(1), ev(2)], breaking: false, lastUpdated: day(1), sectionsUpdatedCount: 1, latestDigestDate: null, temporal: 'live', updateIntervalDays: 1 },
   noEvents: { events: [], breaking: false, lastUpdated: null, latestDigestDate: day(0), temporal: 'live', updateIntervalDays: 1 },
+  // Nothing saturates here, so every weight shows through in the exact score.
+  mid: { events: [ev(1, 2), ev(3, 3), ev(5, 1), ev(2, 2)], breaking: false, lastUpdated: day(1), sectionsUpdatedCount: 2, kpiDeltaCount: 1, latestDigestDate: day(3), temporal: 'live', updateIntervalDays: 1 },
 };
 
 describe('ACTIVITY_WEIGHTS', () => {
@@ -26,6 +28,17 @@ describe('computeActivity', () => {
     expect(a.factors.map((f) => f.name)).toEqual(['recentEvents', 'breaking', 'digestFreshness', 'sectionsUpdated', 'kpiDeltas', 'sourceQuality']);
     for (const f of a.factors) expect(f.contribution).toBeLessThanOrEqual(f.weight);
     expect(a.factors.find((f) => f.name === 'breaking')!.contribution).toBe(20);
+  });
+  it('pins exact contributions for a mid-activity tracker (weight changes fail here)', () => {
+    const a = computeActivity(FIXTURES.mid, NOW);
+    const byName = Object.fromEntries(a.factors.map((f) => [f.name, f]));
+    expect(byName.recentEvents).toMatchObject({ value: 4, contribution: 14 });          // 4/10 × 35
+    expect(byName.breaking.contribution).toBe(0);
+    expect(byName.digestFreshness.contribution).toBeCloseTo(15 * (1 - (3.5 - 1) / 7), 1); // bare date = UTC midnight → 3.5 d old at noon; 1 d cadence, 7 d window
+    expect(byName.sectionsUpdated).toMatchObject({ value: 2, contribution: 4 });        // 2/5 × 10
+    expect(byName.kpiDeltas).toMatchObject({ value: 1, contribution: 3.33 });           // 1/3 × 10
+    expect(byName.sourceQuality).toMatchObject({ value: 2, contribution: 6.67 });       // mean tier 2 → (4-2)/3 × 10
+    expect(a.score).toBe(38); // 14 + 0 + 9.64 + 4 + 3.33 + 6.67
   });
   it('quiet tracker scores low', () => {
     const a = computeActivity(FIXTURES.quiet, NOW);
@@ -69,7 +82,7 @@ describe('computeActivity', () => {
 describe('helpers', () => {
   it('activityWindowDays floors at 7', () => {
     expect(activityWindowDays({ temporal: 'live', updateIntervalDays: 1 })).toBe(7);
-    expect(activityWindowDays({ temporal: 'live', updateIntervalDays: 10 })).toBe(10);
+    expect(activityWindowDays({ temporal: 'live', updateIntervalDays: 10 })).toBe(7);
     expect(activityWindowDays({ temporal: 'historical', updateIntervalDays: 3 })).toBe(7);
     expect(activityWindowDays({ temporal: 'historical', updateIntervalDays: 30 })).toBe(60);
   });

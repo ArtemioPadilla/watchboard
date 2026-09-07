@@ -64,8 +64,8 @@ export interface TrackerCardShell {
   recentEventCount?: number;
   avgSourceTier?: number;
   sectionsUpdatedCount?: number;
-  /** Activity index (E7): 0-100 with the factors behind it. */
-  activity?: { score: number; factors: { name: string; value: number; contribution: number; weight: number }[]; windowDays: number };
+  /** Activity index (E7): score and window; the factor breakdown lives in the detail payload. */
+  activity?: { score: number; windowDays: number };
 }
 
 /**
@@ -83,6 +83,8 @@ export interface TrackerCardDetail {
   eventImages?: Array<{ url: string; source: string; tier: number; eventTitle?: string; eventDetail?: string }>;
   descriptionEs?: string;
   topKpisEs?: Array<{ value: string; label: string }>;
+  /** Activity factors (E7) for the badge tooltip; fetched with the rest of the detail. */
+  activityFactors?: { name: string; value: number; contribution: number; weight: number }[];
 }
 
 /**

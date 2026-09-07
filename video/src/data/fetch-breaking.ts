@@ -479,6 +479,17 @@ export function scoreCandidate(
   return score;
 }
 
+/** Newest digest date and its sections, so the video's activity matches the homepage's. */
+function loadDigestInputs(slug: string): { latestDigestDate: string | null; sectionsUpdatedCount: number } {
+  try {
+    const digests = JSON.parse(readFileSync(join(TRACKERS_DIR, slug, 'data', 'digests.json'), 'utf-8'));
+    const d = Array.isArray(digests) ? digests[0] : null;
+    return { latestDigestDate: typeof d?.date === 'string' ? d.date : null, sectionsUpdatedCount: Array.isArray(d?.sectionsUpdated) ? d.sectionsUpdated.length : 0 };
+  } catch {
+    return { latestDigestDate: null, sectionsUpdatedCount: 0 };
+  }
+}
+
 /** Events of the last 60 daily files, enough for any activity window. */
 function loadRecentEventsForActivity(slug: string): { date: string; sources?: { tier: number }[] }[] {
   const eventsDir = join(TRACKERS_DIR, slug, 'data', 'events');
@@ -581,6 +592,7 @@ function loadTrackerBreaking(slug: string): LoadedTrackerData | null {
         breaking: meta.breaking === true,
         lastUpdated: meta.lastUpdated ?? null,
         kpiDeltaCount: countKpiDeltas(kpisForActivity),
+        ...loadDigestInputs(slug),
         temporal: config.temporal,
         updateIntervalDays: config.updateIntervalDays,
       }).score,

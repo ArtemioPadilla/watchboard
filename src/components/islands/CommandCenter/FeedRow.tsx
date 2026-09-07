@@ -83,7 +83,7 @@ export default memo(function FeedRow({
         {tracker.activity && (
           <span
             className={`cc-feed-activity${tracker.activity.score >= 60 ? ' hot' : tracker.activity.score >= 30 ? ' warm' : ''}`}
-            title={`${t('sidebar.activity', locale)} ${tracker.activity.score}/100 · ${describeFactors(tracker.activity) || '—'}`}
+            title={`${t('sidebar.activity', locale)} ${tracker.activity.score}/100${tracker.activityFactors ? ` · ${describeFactors({ factors: tracker.activityFactors as never, windowDays: tracker.activity.windowDays }) || '—'}` : ''}`}
             aria-label={`${t('sidebar.activity', locale)} ${tracker.activity.score}`}
             data-testid="activity-badge"
           >

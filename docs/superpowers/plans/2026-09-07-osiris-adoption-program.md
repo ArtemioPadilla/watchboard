@@ -667,7 +667,7 @@ que devuelva 0-100 y los factores.
 **Tareas** (S-M)
 
 - [x] `src/lib/activity-index.ts` + test
-- [x] `KpiSchema`: campo opcional `delta: {value, direction, period}` (BL-024) en `schemas.ts`; el updater nocturno lo rellena (instrucción en `update-data.yml` STEP 3)
+- [x] `KpiSchema`: campo opcional `deltaDetail: {value, direction, period}` (BL-024) en `schemas.ts` — se llama `deltaDetail` porque `delta` ya existe como cadena de display; el updater nocturno lo rellena (instrucción en `update-data.yml` STEP 3)
 
 ### E7.H2 — Exponer y usar el índice
 

@@ -337,6 +337,8 @@ interface FeedListProps {
   onToggleFollow: (slug: string) => void;
   onToggleCompare: (slug: string) => void;
   isSearching: boolean;
+  /** Render the list in the given order with no recency buckets (activity sort). */
+  flat?: boolean;
 }
 
 const FeedList = memo(function FeedList({
@@ -354,6 +356,7 @@ const FeedList = memo(function FeedList({
   onToggleFollow,
   onToggleCompare,
   isSearching,
+  flat = false,
 }: FeedListProps) {
   const now = Date.now();
   const followed = useMemo(() => new Set(followedSlugs), [followedSlugs]);
@@ -436,6 +439,11 @@ const FeedList = memo(function FeedList({
     );
   }
 
+  // Activity sort: the order *is* the information; no recency buckets.
+  if (flat) {
+    return <>{trackers.map(tr => renderOne(tr, false))}</>;
+  }
+
   // OPS view: followed first, then recent, then older (dimmed), separated by
   // 1px dividers (no text labels).
   const followedTrackers: TrackerCardData[] = [];
@@ -499,9 +507,11 @@ export default function SidebarPanel({
   const [searchQuery, setSearchQuery] = useState('');
   // Sidebar order: relevance (breaking/followed/activity/recency) or the raw
   // activity index (plan E7.H2). Remembered per browser.
-  const [sortMode, setSortMode] = useState<'relevance' | 'activity'>(() => {
-    try { return localStorage.getItem('watchboard:sidebar-sort') === 'activity' ? 'activity' : 'relevance'; } catch { return 'relevance'; }
-  });
+  const [sortMode, setSortMode] = useState<'relevance' | 'activity'>('relevance');
+  // Read the saved choice after mount so server and first client render agree.
+  useEffect(() => {
+    try { if (localStorage.getItem('watchboard:sidebar-sort') === 'activity') setSortMode('activity'); } catch { /* private mode */ }
+  }, []);
   const changeSort = useCallback((m: 'relevance' | 'activity') => {
     setSortMode(m);
     try { localStorage.setItem('watchboard:sidebar-sort', m); } catch { /* private mode */ }
@@ -720,6 +730,7 @@ export default function SidebarPanel({
             basePath={basePath}
             locale={locale}
             viewMode={(viewMode || 'operations') as ViewMode}
+            flat={sortMode === 'activity'}
             onSelectTracker={onSelectTracker}
             onHoverTracker={onHoverTracker}
             onToggleFollow={onToggleFollow}
