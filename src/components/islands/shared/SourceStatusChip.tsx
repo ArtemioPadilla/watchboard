@@ -24,6 +24,17 @@ function ageLabel(updatedAt: number | null | undefined, now: number, locale: str
   return `${h} h`;
 }
 
+/** "1 Mar 2026" from an ISO date; the raw string when unparseable. */
+export function formatSnapshotDate(iso: string, locale: string): string {
+  const d = new Date(/^\d{4}-\d{2}-\d{2}$/.test(iso) ? `${iso}T00:00:00Z` : iso);
+  if (Number.isNaN(d.getTime())) return iso;
+  try {
+    return d.toLocaleDateString(locale, { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' });
+  } catch {
+    return iso;
+  }
+}
+
 /** Colour class for a status; reuses .freshness-indicator tokens from global.css. */
 export function statusClass(status: LiveStatus): string {
   switch (status) {
@@ -49,10 +60,11 @@ export function SourceStatusChip({ item, compact = false }: { item: SourceStatus
   }, []);
 
   if (item.snapshotDate) {
+    const shown = formatSnapshotDate(item.snapshotDate, locale);
     return (
-      <span className="source-chip source-chip--snapshot" title={`${t('source.snapshot', locale)} · ${item.snapshotDate}`} data-status="snapshot">
+      <span className="source-chip source-chip--snapshot" title={`${t('source.snapshot', locale)} · ${shown} (${item.snapshotDate})`} data-status="snapshot">
         <span className="source-dot" />
-        {!compact && <span>{t('source.snapshot', locale)} · {item.snapshotDate}</span>}
+        {!compact && <span>{t('source.snapshot', locale)} · {shown}</span>}
       </span>
     );
   }
@@ -118,6 +130,9 @@ export default function SourceStatusSummary({ items, className = '' }: { items: 
               <SourceStatusChip item={i} />
             </li>
           ))}
+          <li className="source-summary-more">
+            <a href={`${((import.meta as any).env?.BASE_URL ?? '/').replace(/\/?$/, '/')}sources/`} data-testid="sources-link">{t('source.aboutSources', locale)} ↗</a>
+          </li>
         </ul>
       )}
     </div>

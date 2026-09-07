@@ -457,6 +457,12 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
         .onGlobeRightClick(({ lat, lng }: { lat: number; lng: number }) => {
           onGlobeRightClickRef.current?.(lat, lng);
         })
+        // In geographic view the choropleth polygons sit above the globe
+        // mesh and swallow the raycast, so land right-clicks never reach
+        // onGlobeRightClick: forward them with the same coordinates.
+        .onPolygonRightClick((_poly: any, _ev: MouseEvent, coords: { lat: number; lng: number }) => {
+          if (coords) onGlobeRightClickRef.current?.(coords.lat, coords.lng);
+        })
         // Animated rings on fresh/recent tracker hubs
         .ringsData(ringsRef.current)
         .ringLat('lat')
@@ -655,7 +661,7 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
           <div style={styles.loadingText}>{t('cc.initGlobe', locale)}</div>
         </div>
       )}
-      <div ref={containerRef} style={styles.globeWrap} />
+      <div ref={containerRef} style={styles.globeWrap} data-testid="globe-canvas-wrap" />
       {!broadcastMode && (
         <div style={styles.statusBar}>
           <span>{t('cc.globeHint', locale)}</span>

@@ -55,7 +55,7 @@ export interface GdacsFile {
 export const GDACS_RSS_URL = 'https://www.gdacs.org/xml/rss.xml';
 export const GDACS_WINDOW_DAYS = 7;
 export const GDACS_MAX_ALERTS = 100;
-export const GDACS_ATTRIBUTION = 'GDACS · European Commission Joint Research Centre · CC BY 4.0';
+export const GDACS_ATTRIBUTION = 'GDACS · European Union · CC BY 4.0';
 
 const parser = new XMLParser({ ignoreAttributes: false, attributeNamePrefix: '@_', textNodeName: '#text' });
 
@@ -148,7 +148,10 @@ export function gdacsToCandidates(alerts: GdacsAlert[]): (Candidate & { geo: { l
     .filter(a => a.level !== 'Green')
     .map(a => ({
       title: `GDACS ${a.level} ${TYPE_WORD[a.eventType]} alert${a.country ? ` · ${a.country}` : ''}: ${a.title}`,
-      url: a.url,
+      // The report URL is stable across the event's life, and the light scan
+      // dedupes by URL: an Orange→Red escalation must be a new candidate, so
+      // the level rides in the fragment (still a valid link to the report).
+      url: `${a.url}#${a.level.toLowerCase()}`,
       source: 'gdacs',
       timestamp: a.published,
       matchedTracker: null,

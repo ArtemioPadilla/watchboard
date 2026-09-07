@@ -16,15 +16,20 @@ import { useLiveSource } from '../../../lib/use-live-source';
 import type { LiveStatus } from '../../../lib/live-source';
 import {
   parseOpenSky, openSkyUrl, quantizeBbox, padBbox, bboxAround, bboxKey,
+  pollIntervalForBbox, FLIGHTS_TTL_MS,
   type Bbox, type FlightRecord,
 } from '../../../lib/flights-source';
 import { getIconDataUri } from './cesium-icons';
 
-/** Poll cadence. OpenSky anonymous quota is 400 credits/day; 30 s on a
- *  small bbox is 1 credit per call, and the tab-hidden pause in
- *  useLiveSource stops the meter when nobody is looking. */
-export const FLIGHTS_POLL_MS = 30_000;
-const FLIGHTS_TTL_MS = 25_000;
+/**
+ * Poll cadence. OpenSky's anonymous quota is 400 credits/day and a request
+ * costs 1-4 credits by area (≤25 / ≤100 / ≤400 / >400 sq deg). The default
+ * theatre camera sees ~900 sq deg (4 credits), so the interval scales with
+ * the tier (pollIntervalForBbox: 30 s → 2 min) and the tab-hidden pause in
+ * useLiveSource stops the meter when nobody is looking. Rate limiting still
+ * degrades to a visible 'rate-limited' status rather than a blank layer.
+ */
+export { FLIGHTS_POLL_MS } from '../../../lib/flights-source';
 
 export type FlightStatus = LiveStatus;
 
@@ -82,11 +87,14 @@ export function useFlights(
         url: openSkyUrl(bbox),
         ttlMs: FLIGHTS_TTL_MS,
         parse: async (res: Response) => parseOpenSky(await res.json()),
+        // An empty sky over a bbox is real data (the ocean at night), not a
+        // failed refresh: never freeze stale aircraft in its place.
+        isEmpty: () => false,
       }
     : null;
   const { data, status, updatedAt, error } = useLiveSource<FlightRecord[]>(spec, {
     enabled: enabled && !!viewer,
-    intervalMs: FLIGHTS_POLL_MS,
+    intervalMs: pollIntervalForBbox(bbox),
   });
 
   // Render whatever the cache holds; stale data stays on screen (marked

@@ -5,6 +5,8 @@ import SourceStatusSummary, { SourceStatusChip, type SourceStatusItem } from './
 import type { OverlayStatuses } from './useMapOverlays';
 import type { LiveStatus } from '../../lib/live-source';
 import { getLiveLayer } from '../../lib/live-layers';
+import { t, type TranslationKey } from '../../i18n/translations';
+import { useLocale } from '../../i18n/useLocale';
 
 // ────────────────────────────────────────────
 //  Layer metadata
@@ -52,7 +54,6 @@ interface Props {
 //  Component
 // ────────────────────────────────────────────
 
-const LABELS: Record<string, string> = { 'layers.nuclearPlants': 'Nuclear plants', 'layers.submarineCables': 'Submarine cables', 'layers.chokepoints': 'Maritime chokepoints', 'layers.frontline': 'Frontline (DeepStateMAP)', 'layers.gdacs': 'Disasters (GDACS)' };
 
 /** Map toggle keys to registry ids so scope and snapshot dates come from one place. */
 const REGISTRY_ID: Partial<Record<keyof LayerState, string>> = {
@@ -61,6 +62,7 @@ const REGISTRY_ID: Partial<Record<keyof LayerState, string>> = {
 };
 
 export default function MapLayerToggles({ layers, onToggle, counts, onShareView, statuses = {}, scopedLayerIds, extraLayers = [], onToggleExtraLayer }: Props) {
+  const locale = useLocale();
   const visibleDefs = LAYER_DEFS.filter(def => {
     const rid = REGISTRY_ID[def.key];
     return !rid || !scopedLayerIds || scopedLayerIds.includes(rid);
@@ -121,7 +123,7 @@ export default function MapLayerToggles({ layers, onToggle, counts, onShareView,
             <button key={l.id} className={`map-layer-item${l.on ? ' active' : ''}`} onClick={() => onToggleExtraLayer?.(l.id)} aria-pressed={l.on} data-layer={l.id}>
               <span className="map-layer-dot" style={{ background: l.on ? color : 'transparent', borderColor: color }} />
               <span className="map-layer-icon" style={{ color: l.on ? color : 'var(--text-muted)' }}>{'\u25C8'}</span>
-              <span className="map-layer-label">{l.label.startsWith('layers.') ? LABELS[l.label] ?? l.label : l.label}</span>
+              <span className="map-layer-label">{l.label.startsWith('layers.') ? t(l.label as TranslationKey, locale) : l.label}</span>
               {chip && <SourceStatusChip item={chip} compact />}
               {l.on && l.count > 0 && <span className="map-layer-count">{l.count}</span>}
             </button>

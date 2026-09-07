@@ -29,6 +29,8 @@ jobs:
       - run: npm ci
       - run: npx playwright install --with-deps chromium
       - name: Run shareable-view specs
+        env:
+          PUBLIC_ENABLE_DEEPSTATE: 'true'
         run: npx playwright test e2e/globe-share.spec.ts e2e/map-share.spec.ts e2e/home-share.spec.ts e2e/alerts-panel.spec.ts e2e/dossier.spec.ts e2e/geo-layers.spec.ts --reporter=list
       - name: Upload traces on failure
         if: failure()

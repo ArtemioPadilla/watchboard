@@ -69,14 +69,34 @@ export const DeepStateResponseSchema = z.object({
 const HEX = /^#[0-9a-fA-F]{6}$/;
 const DEFAULT_COLORS: Record<FrontlineStatus, string> = { occupied: '#c62828', liberated: '#2e7d32', unknown: '#bcaaa4', other: '#757575' };
 
+/**
+ * DeepState names are trilingual: "<uk> /// <en> /// <taxonomy key>". The
+ * third segment is authoritative: `geoJSON.status.*` is the moving
+ * frontline (occupied / liberated / unknown), `geoJSON.territories.*` is a
+ * separate, static layer of historical and geopolitical claims (Crimea,
+ * Abkhazia, the Kurils, Transnistria…) that must never be counted as the
+ * war's "occupied" polygons however its English label starts. The label
+ * prefix is only a fallback for payloads without the key.
+ */
 export function classifyName(name: string): { status: FrontlineStatus; label: string } {
   const parts = name.split('///').map(s => s.replace(/\s+/g, ' ').trim()).filter(Boolean);
   const english = parts[1] ?? parts[0] ?? '';
+  const key = (parts.find(p => /^geojson\./i.test(p)) ?? '').toLowerCase();
+  const label = english || 'Territory';
+  if (key.startsWith('geojson.territories')) return { status: 'other', label };
+  if (key.startsWith('geojson.status.')) {
+    const k = key.slice('geojson.status.'.length);
+    if (k.startsWith('occupied')) return { status: 'occupied', label };
+    if (k.startsWith('liberated')) return { status: 'liberated', label };
+    if (k.startsWith('unknown')) return { status: 'unknown', label };
+    return { status: 'other', label };
+  }
+  if (key) return { status: 'other', label };
   const l = english.toLowerCase();
-  if (l.startsWith('occupied')) return { status: 'occupied', label: english };
-  if (l.startsWith('liberated')) return { status: 'liberated', label: english };
-  if (l.startsWith('unknown')) return { status: 'unknown', label: english };
-  return { status: 'other', label: english || 'Territory' };
+  if (l.startsWith('occupied')) return { status: 'occupied', label };
+  if (l.startsWith('liberated')) return { status: 'liberated', label };
+  if (l.startsWith('unknown')) return { status: 'unknown', label };
+  return { status: 'other', label };
 }
 
 /** Throws on a payload that does not look like DeepState's export. */
@@ -86,23 +106,33 @@ export function parseDeepState(payload: unknown): Frontline {
   const counts: Record<FrontlineStatus, number> = { occupied: 0, liberated: 0, unknown: 0, other: 0 };
   res.map.features.forEach((f, i) => {
     const g = f.geometry as { type: string; coordinates: unknown };
-    let rings: [number, number][][] = [];
-    if (g.type === 'Polygon') rings = (g.coordinates as number[][][]).map(r => r.map(p => [p[0], p[1]] as [number, number]));
-    else if (g.type === 'MultiPolygon') rings = (g.coordinates as number[][][][]).flat().map(r => r.map(p => [p[0], p[1]] as [number, number]));
+    // One FrontlinePolygon per area: a MultiPolygon's parts stay separate
+    // (flattening them would turn one part's exterior into another's hole).
+    let parts: [number, number][][][] = [];
+    const toRings = (poly: number[][][]) => poly.map(r => r.map(p => [p[0], p[1]] as [number, number]));
+    if (g.type === 'Polygon') parts = [toRings(g.coordinates as number[][][])];
+    else if (g.type === 'MultiPolygon') parts = (g.coordinates as number[][][][]).map(toRings);
     else return; // points and lines are not frontline
     const { status, label } = classifyName(f.properties.name);
     counts[status] += 1;
-    polygons.push({
-      id: `ds-${res.id}-${i}`,
-      status,
-      label,
-      fill: f.properties.fill && HEX.test(f.properties.fill) ? f.properties.fill : DEFAULT_COLORS[status],
-      fillOpacity: typeof f.properties['fill-opacity'] === 'number' ? Math.min(1, Math.max(0, f.properties['fill-opacity'])) : 0.35,
-      stroke: f.properties.stroke && HEX.test(f.properties.stroke) ? f.properties.stroke : DEFAULT_COLORS[status],
-      rings,
+    parts.forEach((rings, k) => {
+      polygons.push({
+        id: parts.length === 1 ? `ds-${res.id}-${i}` : `ds-${res.id}-${i}-p${k}`,
+        status,
+        label,
+        fill: f.properties.fill && HEX.test(f.properties.fill) ? f.properties.fill : DEFAULT_COLORS[status],
+        fillOpacity: typeof f.properties['fill-opacity'] === 'number' ? Math.min(1, Math.max(0, f.properties['fill-opacity'])) : 0.35,
+        stroke: f.properties.stroke && HEX.test(f.properties.stroke) ? f.properties.stroke : DEFAULT_COLORS[status],
+        rings,
+      });
     });
   });
   return { id: String(res.id), datetime: res.datetime, polygons, counts };
+}
+
+/** UTF-8 size of a string (Cyrillic names are two bytes per character). */
+export function byteLength(text: string): number {
+  return typeof TextEncoder !== 'undefined' ? new TextEncoder().encode(text).length : Buffer.byteLength(text, 'utf8');
 }
 
 /** Reads the response with a byte cap before parsing. */
@@ -110,6 +140,7 @@ export async function parseDeepStateResponse(res: Response): Promise<Frontline> 
   const len = Number(res.headers.get('content-length') ?? 0);
   if (len > DEEPSTATE_MAX_BYTES) throw new Error(`DeepState payload too large (${len} bytes)`);
   const text = await res.text();
-  if (text.length > DEEPSTATE_MAX_BYTES) throw new Error(`DeepState payload too large (${text.length} chars)`);
+  const bytes = byteLength(text);
+  if (bytes > DEEPSTATE_MAX_BYTES) throw new Error(`DeepState payload too large (${bytes} bytes)`);
   return parseDeepState(JSON.parse(text));
 }

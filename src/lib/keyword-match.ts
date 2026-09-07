@@ -33,6 +33,20 @@ const TIER_MULT: Record<NonNullable<Candidate['sourceTier']> | 'unknown', number
   unknown: 0.75,
 };
 
+/**
+ * Action thresholds on the deterministic score. One place, three consumers:
+ * the light scan (post / queue / discard), the alerts severity mapping and
+ * the audit page. Shared so they cannot drift.
+ */
+export const HIGH_THRESHOLD = 0.85;
+/**
+ * Defer threshold is intentionally low — the matcher discards aggressively,
+ * and even single-hit borderline cases should reach the heavy scan's AI
+ * triage rather than being lost. The substance gate keeps direct posts
+ * strict; the deferred queue is the heavy scan's input, not a publish channel.
+ */
+export const MODERATE_THRESHOLD = 0.25;
+
 export interface KeywordIndex {
   trackerSlug: string;
   /** All tokens drawn from keywords + searchContext. */

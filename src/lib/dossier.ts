@@ -59,7 +59,7 @@ export interface NearbyEvent extends GeoIndexPoint {
   distanceKm: number;
 }
 
-export type DossierProvider = 'geocode' | 'facts';
+export type DossierProvider = 'geocode' | 'facts' | 'extract';
 
 export interface Dossier {
   lat: number;
@@ -70,6 +70,8 @@ export interface Dossier {
   nearby: NearbyEvent[];
   degraded: DossierProvider[];
   fetchedAt: number;
+  /** First paragraph of the country's English Wikipedia article, or null. */
+  extract: string | null;
 }
 
 export interface KeyValueStore {
@@ -87,17 +89,25 @@ export interface DossierDeps {
   limiter?: RateLimiter;
   /** Sent as the `email` parameter Nominatim asks large sites to include. */
   contact?: string;
+  wikidataLimiter?: RateLimiter;
+  extractCache?: KeyValueStore | null;
 }
 
 export const NOMINATIM_URL = 'https://nominatim.openstreetmap.org/reverse';
 export const WIKIDATA_SPARQL_URL = 'https://query.wikidata.org/sparql';
 export const GEOCODE_TTL_MS = 24 * 3_600_000;
 export const FACTS_TTL_MS = 7 * 24 * 3_600_000;
+export const WIKIPEDIA_SUMMARY_URL = 'https://en.wikipedia.org/api/rest_v1/page/summary';
+/** Nominatim zoom 10 = city level; zoom 5 only ever returned the state. */
+export const NOMINATIM_ZOOM = '10';
 export const NEARBY_RADIUS_KM = 300;
 export const NEARBY_LIMIT = 5;
 
 /** Shared limiter: one Nominatim request per second per page. */
 const defaultLimiter = createRateLimiter(1100);
+// Wikidata's query service asks for well-behaved clients too; one request
+// per second is far below their limits and stops a click storm.
+const defaultWikidataLimiter = createRateLimiter(1000);
 
 function memoryStore(): KeyValueStore {
   const m = new Map<string, string>();
@@ -161,7 +171,8 @@ export function parseNominatim(payload: unknown): GeoPlace | null {
 }
 
 /**
- * Reverse geocodes with Nominatim at zoom 5 (country/state level). The
+ * Reverse geocodes with Nominatim at zoom 10 (city level; state and
+ * country come back in the same address). The
  * browser sets its own User-Agent (Nominatim's docs ask for one, but the
  * header is forbidden to scripts); the Referer identifies the site.
  */
@@ -173,7 +184,7 @@ export async function reverseGeocode(lat: number, lon: number, deps: DossierDeps
   if (cached) return cached;
   const limiter = deps.limiter ?? defaultLimiter;
   const fetchImpl = deps.fetchImpl ?? globalThis.fetch;
-  const params = new URLSearchParams({ format: 'jsonv2', lat: lat.toFixed(4), lon: lon.toFixed(4), zoom: '5', 'accept-language': 'en' });
+  const params = new URLSearchParams({ format: 'jsonv2', lat: lat.toFixed(4), lon: lon.toFixed(4), zoom: NOMINATIM_ZOOM, 'accept-language': 'en' });
   if (deps.contact) params.set('email', deps.contact);
   const res = await limiter.schedule(() => fetchImpl(`${NOMINATIM_URL}?${params}`, { headers: { Accept: 'application/json' } }));
   if (!res.ok) throw new Error(`Nominatim HTTP ${res.status}`);
@@ -193,14 +204,25 @@ export function countryFactsQuery(code: string): string {
   OPTIONAL { ?country wdt:P41 ?flag . }
   OPTIONAL { ?article schema:about ?country ; schema:isPartOf <https://en.wikipedia.org/> . }
   SERVICE wikibase:label { bd:serviceParam wikibase:language "en" . }
-} LIMIT 1`;
+} LIMIT 20`;
 }
 
+/**
+ * Several independent OPTIONALs multiply rows (two capitals × two flags…),
+ * so a single row can pair values from different statements. Merge across
+ * rows in order: the first non-empty value per field wins, which is stable
+ * for a given response.
+ */
 export function parseWikidataFacts(payload: unknown, code: string): CountryFacts | null {
   const rows = (payload as any)?.results?.bindings;
   if (!Array.isArray(rows) || rows.length === 0) return null;
-  const r = rows[0];
-  const v = (k: string): string | null => (typeof r?.[k]?.value === 'string' ? r[k].value : null);
+  const v = (k: string): string | null => {
+    for (const row of rows) {
+      const val = row?.[k]?.value;
+      if (typeof val === 'string' && val.trim()) return val;
+    }
+    return null;
+  };
   const pop = v('population');
   return {
     code,
@@ -222,12 +244,45 @@ export async function countryFacts(code: string, deps: DossierDeps = {}): Promis
   const cached = readCache<CountryFacts>(store, key, FACTS_TTL_MS, now());
   if (cached) return cached;
   const fetchImpl = deps.fetchImpl ?? globalThis.fetch;
+  const limiter = deps.wikidataLimiter ?? defaultWikidataLimiter;
   const url = `${WIKIDATA_SPARQL_URL}?format=json&query=${encodeURIComponent(countryFactsQuery(code))}`;
-  const res = await fetchImpl(url, { headers: { Accept: 'application/sparql-results+json' } });
+  const res = await limiter.schedule(() => fetchImpl(url, { headers: { Accept: 'application/sparql-results+json' } }));
   if (!res.ok) throw new Error(`Wikidata HTTP ${res.status}`);
   const facts = parseWikidataFacts(await res.json(), code);
   if (facts) writeCache(store, key, facts, now());
   return facts;
+}
+
+/** Title of the English Wikipedia article from its URL, or null. */
+export function wikipediaTitle(url: string | null | undefined): string | null {
+  if (!url) return null;
+  const m = /^https:\/\/en\.wikipedia\.org\/wiki\/([^#?]+)/.exec(url);
+  return m ? decodeURIComponent(m[1]) : null;
+}
+
+export function parseWikipediaSummary(payload: unknown): string | null {
+  const ex = (payload as any)?.extract;
+  return typeof ex === 'string' && ex.trim() ? ex.trim() : null;
+}
+
+/**
+ * First paragraph of the country's Wikipedia article (REST summary
+ * endpoint, CORS-enabled, CC BY-SA). Cached 7 days alongside the facts.
+ */
+export async function wikipediaExtract(articleUrl: string, deps: DossierDeps = {}): Promise<string | null> {
+  const title = wikipediaTitle(articleUrl);
+  if (!title) return null;
+  const now = deps.now ?? Date.now;
+  const store = deps.extractCache === undefined ? safeStore('local') : deps.extractCache;
+  const key = `wb:extract:${title}`;
+  const cached = readCache<string>(store, key, FACTS_TTL_MS, now());
+  if (cached) return cached;
+  const fetchImpl = deps.fetchImpl ?? globalThis.fetch;
+  const res = await fetchImpl(`${WIKIPEDIA_SUMMARY_URL}/${encodeURIComponent(title)}`, { headers: { Accept: 'application/json' } });
+  if (!res.ok) throw new Error(`Wikipedia HTTP ${res.status}`);
+  const extract = parseWikipediaSummary(await res.json());
+  if (extract) writeCache(store, key, extract, now());
+  return extract;
 }
 
 /** Trackers whose `country` or `geoPath` names the country; most active first. */
@@ -265,14 +320,22 @@ export async function buildDossier(
   const now = deps.now ?? Date.now;
   const degraded: DossierProvider[] = [];
   let place: GeoPlace | null = null;
-  try {
-    place = await reverseGeocode(lat, lon, deps);
-  } catch {
-    degraded.push('geocode');
+  const known = ctx.countryCode && /^[A-Za-z]{2}$/.test(ctx.countryCode) ? ctx.countryCode.toUpperCase() : null;
+  if (known) {
+    // A country-polygon click already knows the country: no geocoding
+    // request is spent, and a bbox-centroid landing in the wrong place can
+    // never override the code the reader actually clicked.
+    place = { countryCode: known, country: countryName(known), state: null, city: null, displayName: null };
+  } else {
+    try {
+      place = await reverseGeocode(lat, lon, deps);
+    } catch {
+      degraded.push('geocode');
+    }
   }
-  const code = place?.countryCode ?? ctx.countryCode ?? null;
-  if (!place && code) place = { countryCode: code, country: countryName(code), state: null, city: null, displayName: null };
+  const code = known ?? place?.countryCode ?? null;
   let facts: CountryFacts | null = null;
+  let extract: string | null = null;
   if (code) {
     try {
       facts = await countryFacts(code, deps);
@@ -280,9 +343,17 @@ export async function buildDossier(
     } catch {
       degraded.push('facts');
     }
+    if (facts?.wikipediaUrl) {
+      try {
+        extract = await wikipediaExtract(facts.wikipediaUrl, deps);
+        if (!extract) degraded.push('extract');
+      } catch {
+        degraded.push('extract');
+      }
+    }
   }
   return {
-    lat, lon, place, facts,
+    lat, lon, place, facts, extract,
     trackers: trackersForCountry(code, ctx.trackers),
     nearby: eventsNear(lat, lon, ctx.points),
     degraded,
