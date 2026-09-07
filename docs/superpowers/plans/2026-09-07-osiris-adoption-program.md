@@ -135,7 +135,7 @@ estado, el CSP y la página de fuentes se deriven de un solo lugar.
 **Tareas** (S)
 
 - [ ] Crear `src/lib/live-layers.ts` con `LiveLayerSpecSchema`, tipo `LiveLayerSpec`, `LIVE_LAYERS` (inicialmente: flights, earthquakes, satellites, weather, ships, nfz, gps-jamming, blackouts)
-- [ ] Marcar nfz / gps-jamming / blackouts / weather-grid como `kind: 'snapshot'` con `snapshotDate: '2026-02-28'` y `scope: ['iran-conflict']`
+- [x] Marcar nfz / gps-jamming / blackouts como `kind: 'snapshot'` con `snapshotDate: '2026-03-01'` (fecha de captura, igual o posterior a todo `startDate`) y `scope: ['iran-conflict']`. El clima sigue siendo `feed` (sí consulta Open-Meteo); su grilla hardcodeada se sustituye en E2.H3
 - [ ] Crear `src/lib/live-layers.test.ts` incluyendo la comprobación de CSP contra `BaseLayout.astro` y `public/_headers`
 - [ ] Extraer a `scripts/lib/csp-hosts.ts` una función que lea los hosts del meta CSP para reutilizarla en el test y en `csp-hashes.ts`
 

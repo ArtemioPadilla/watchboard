@@ -25,6 +25,7 @@ import { createHash } from 'node:crypto';
 import { readFileSync, writeFileSync, readdirSync, statSync } from 'node:fs';
 import { join, resolve, dirname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { CSP_META_RE } from './lib/csp-hosts';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -58,7 +59,9 @@ export function collectHashes(html: string): string[] {
 
 /** Rewrites the page's CSP meta: drops 'unsafe-inline', adds the hashes. */
 export function rewriteCsp(html: string, hashes: string[]): { html: string; changed: boolean } {
-  const metaRe = /(<meta\s+http-equiv="Content-Security-Policy"\s+content=")([^"]*)(")/i;
+  // Shared with scripts/lib/csp-hosts.ts (which the live-layer CSP test
+  // reads with) so reader and writer can never disagree on the tag shape.
+  const metaRe = CSP_META_RE;
   const m = html.match(metaRe);
   if (!m) return { html, changed: false };
 

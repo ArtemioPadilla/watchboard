@@ -40,6 +40,9 @@ const BaseSpec = z.object({
   requiresKey: z.boolean().default(false),
 });
 
+// `.strict()` on each branch: a snapshot carrying `url`/`ttlMs`, or a feed
+// carrying `snapshotDate`, is a category error and must fail, not be
+// silently stripped by Zod's default object mode.
 const FeedSpec = BaseSpec.extend({
   kind: z.literal('feed'),
   /** Fully-qualified URL, or a template with `{bbox}` / `{date}` tokens. */
@@ -52,15 +55,16 @@ const FeedSpec = BaseSpec.extend({
   cors: z.union([z.literal(true), z.literal('proxy'), z.literal('same-origin')]),
   /** WebSocket feeds are push, not polled. */
   transport: z.enum(['http', 'websocket']).default('http'),
-});
+}).strict();
 
 const SnapshotSpec = BaseSpec.extend({
   kind: z.literal('snapshot'),
-  /** ISO date of the capture, shown next to the toggle. */
+  /** ISO date the data was captured (on or after every item's own
+   *  `startDate`); shown next to the toggle instead of a live dot. */
   snapshotDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
   /** Where the checked-in data lives, for maintainers. */
   dataPath: z.string().min(1),
-});
+}).strict();
 
 export const LiveLayerSpecSchema = z.discriminatedUnion('kind', [FeedSpec, SnapshotSpec]);
 export type LiveLayerSpec = z.infer<typeof LiveLayerSpecSchema>;
@@ -73,9 +77,10 @@ const HOUR = 60 * MINUTE;
  * Registered layers. Order is display order in toggles.
  *
  * Snapshot entries reflect what the hooks contain today: hand-written
- * arrays scoped to the Iran conflict, dated by their own `startDate`
- * fields. Registering them is the first step of E2.H5, which moves the
- * data into `src/data/snapshots/` and deletes the duplicates.
+ * arrays scoped to the Iran conflict. `snapshotDate` is the capture date
+ * (2026-03-01, the latest `startDate` any of them carries), not the
+ * earliest event. Registering them is the first step of E2.H5, which
+ * moves the data into `src/data/snapshots/` and deletes the duplicates.
  */
 export const LIVE_LAYERS: LiveLayerSpec[] = [
   {
@@ -182,7 +187,7 @@ export const LIVE_LAYERS: LiveLayerSpec[] = [
     label: 'layers.gpsJam',
     kind: 'snapshot',
     renderer: 'both',
-    snapshotDate: '2026-02-28',
+    snapshotDate: '2026-03-01',
     dataPath: 'src/components/islands/CesiumGlobe/useGpsJamming.ts',
     attribution: {
       source: 'ADS-B anomaly reports, hand-curated',
@@ -196,7 +201,7 @@ export const LIVE_LAYERS: LiveLayerSpec[] = [
     label: 'layers.internetBlackout',
     kind: 'snapshot',
     renderer: 'both',
-    snapshotDate: '2026-02-28',
+    snapshotDate: '2026-03-01',
     dataPath: 'src/components/islands/CesiumGlobe/useInternetBlackout.ts',
     attribution: {
       source: 'NetBlocks / IODA reports, hand-curated',

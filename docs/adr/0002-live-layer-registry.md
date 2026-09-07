@@ -6,15 +6,19 @@
 
 ## Contexto
 
-El globo Cesium y el mapa Leaflet dibujan nueve capas "externas". Cinco
-de ellas no hacen red: `useNoFlyZones`, `useGpsJamming`,
-`useInternetBlackout` y la grilla de clima son arrays literales con
-`startDate: '2026-02-28'` específicos del tracker de Irán, duplicados
-entre `src/components/islands/CesiumGlobe/*.ts` y
-`src/components/islands/MapOverlayData.ts`. Las cuatro que sí hacen red
-(OpenSky, USGS, Celestrak, Open-Meteo, más el WebSocket de AIS) tienen
-cada una su propia URL, su propia cadencia y su propio manejo de error,
-y ninguna declara licencia ni atribución en un lugar consultable.
+El globo Cesium y el mapa Leaflet dibujan ocho capas "externas". Cinco
+hacen red (OpenSky para vuelos, USGS para sismos, CelesTrak para
+satélites, Open-Meteo para clima y el WebSocket de AISStream para
+barcos), cada una con su propia URL, su propia cadencia y su propio
+manejo de error, y ninguna declara licencia ni atribución en un lugar
+consultable. Tres no hacen red: `useNoFlyZones`, `useGpsJamming` y
+`useInternetBlackout` son arrays literales con fechas de febrero y marzo
+de 2026 específicos del tracker de Irán, duplicados entre
+`src/components/islands/CesiumGlobe/*.ts` y
+`src/components/islands/MapOverlayData.ts`. El clima es un caso
+intermedio: sí consulta Open-Meteo, pero sobre una grilla de 14 ciudades
+del Golfo escrita a mano, así que se registra como feed y la grilla se
+deriva de los límites del tracker en la épica E2.
 
 Consecuencias visibles hoy:
 
@@ -37,8 +41,10 @@ licencia por ruta. No tiene registro central.
 2. Contrato de `LiveLayerSpec`:
    - `id`, `label` (clave i18n), `renderer` (`cesium | leaflet | both | globe-home`).
    - `kind: 'feed'` obliga `url` (o `urlTemplate`), `ttlMs`, `cors: true | 'proxy'`.
-   - `kind: 'snapshot'` obliga `snapshotDate` y `scope` (slugs de tracker
-     donde aplica) y prohíbe `url` de red.
+   - `kind: 'snapshot'` obliga `snapshotDate` (fecha de captura, igual o
+     posterior a todo `startDate` del archivo) y `scope` (slugs de tracker
+     donde aplica). Cada rama es `.strict()`: un snapshot con `url` o un
+     feed con `snapshotDate` falla la validación en vez de perder el campo.
    - `attribution` con `source`, `license`, `url` opcional, `requiresKey` opcional.
 3. Un test (`src/lib/live-layers.test.ts`) comprueba que el host de cada
    `url` de un feed está permitido por el `connect-src` de
@@ -56,8 +62,9 @@ licencia por ruta. No tiene registro central.
   los datos duplicados (E2.H5).
 - Un tracker puede restringir capas por `scope`; las capas de Irán
   dejan de aparecer en trackers de otras regiones.
-- La ubicación del parser de CSP (`scripts/lib/csp-hosts.ts`) se
-  comparte con `scripts/csp-hashes.ts`.
+- El parser de CSP vive en `scripts/lib/csp-hosts.ts`; `csp-hashes.ts`
+  reescribe la etiqueta con la misma expresión (`CSP_META_RE`) que el
+  test usa para leerla, así que lector y escritor no pueden divergir.
 
 ## Alternativas consideradas
 
