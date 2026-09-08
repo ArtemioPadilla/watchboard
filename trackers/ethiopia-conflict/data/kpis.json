@@ -2,22 +2,34 @@
   {
     "id": "days-since-war-restart",
     "label": "Days Since Election Crisis / War Restart Began",
-    "value": "203",
+    "value": "222",
     "color": "red",
     "source": "Watchboard calculation from Jan 29, 2026 Tselemt clashes",
     "contested": false,
+    "deltaDetail": { "value": 19, "direction": "up", "period": "since Aug 20" },
     "trend": "up",
-    "lastUpdated": "2026-08-20T00:00:00Z"
+    "lastUpdated": "2026-09-08T14:45:00Z"
   },
   {
     "id": "shererina-days-since",
     "label": "Days Since Shererina Battle",
-    "value": "19",
+    "value": "38",
     "color": "amber",
     "source": "Watchboard calculation from Aug 1, 2026 clash",
     "contested": false,
-    "trend": "stable",
-    "lastUpdated": "2026-08-20T00:00:00Z"
+    "deltaDetail": { "value": 19, "direction": "up", "period": "since Aug 20" },
+    "trend": "up",
+    "lastUpdated": "2026-09-08T14:45:00Z"
+  },
+  {
+    "id": "acled-drone-strikes-2026-tigray",
+    "label": "Drone Strikes Recorded in Tigray (2026, ACLED)",
+    "value": "14",
+    "color": "red",
+    "source": "ACLED, cited via AFP/Arab News, Sep 8, 2026",
+    "contested": false,
+    "trend": "up",
+    "lastUpdated": "2026-09-08T14:45:00Z"
   },
   {
     "id": "election-voters-disenfranchised",
