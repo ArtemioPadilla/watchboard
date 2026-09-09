@@ -104,16 +104,21 @@
   },
   {
     "id": "trump-approval-rating",
-    "label": "Trump Approval Rating (Sep 6, 2026 — Polling Average ~38% Approve / ~58% Disapprove Amid Renewed Iran Tanker Strikes)",
-    "value": "~38.3% approve / ~58.3% disapprove",
+    "label": "Trump Approval Rating (Sep 8, 2026 — Focaldata/FT Poll Hits New Record Low of 32%, Aggregates Hold Near 38-39%)",
+    "value": "~38-39.6% approve / ~57-58.4% disapprove (aggregate); 32% in Focaldata/FT record-low reading",
     "color": "red",
-    "source": "USPollingData aggregate / Silver Bulletin / FiftyPlusOne / Reuters/Ipsos / Gallup",
+    "source": "RealClearPolitics / Silver Bulletin / NYT aggregate / Focaldata-Financial Times / Reuters/Ipsos",
     "contested": true,
-    "contestNote": "A multi-aggregator polling average (compiling FiftyPlusOne, Silver Bulletin, and other trackers) put approval at roughly 38.3% and disapproval at 58.3% (net -20.0) as of the September 2026 average, up modestly from Silver Bulletin's all-time-low net of -20.6 in late August. The news cycle Sep 5-6 was dominated by CENTCOM sinking Iranian oil tankers in the Gulf of Oman, Trump calling the six-month Iran war 'small potatoes,' and a Vance-championed draft rule to pay married stay-at-home parents from working-parent childcare funds. Reuters/Ipsos (Aug 21-24) had approval at 33% and disapproval at a second-term-high 65%; Gallup's Aug 1-20 poll remained the outlier at 40% approve.",
-    "delta": "+2.3pp approve vs Sep 3 FiftyPlusOne reading",
+    "contestNote": "As of Sep 8, 2026, the major polling averages (RealClearPolitics 39.7%, plus NYT and Silver Bulletin trackers) put approval in a 38-39.6% range against 57-58.4% disapproval — little changed from the Sep 6 reading. A Focaldata/Financial Times poll released over Labor Day weekend (fieldwork Aug 28-Sep 2, n=2,180) found just 32% approval, a 3-point drop from August and the lowest in that tracker's polling since it began in May 2026; Republican approval within the same poll fell 2 points to a new low of 72%, and only 17% approved of Trump's handling of inflation/cost of living (69% disapprove). Quinnipiac (32%) and Economist/YouGov (33%) posted similarly low individual readings; ABC/WaPo/Ipsos had 37%. Reuters/Ipsos (Aug 21-24) had approval at 33% and disapproval at a second-term-high 65%; Gallup's Aug 1-20 poll remained the outlier at 40% approve.",
+    "delta": "Aggregate roughly flat since Sep 6; individual pollsters (Focaldata/FT, Quinnipiac) posting new second-term lows",
+    "deltaDetail": {
+      "value": 0,
+      "direction": "flat",
+      "period": "since Sep 6"
+    },
     "trend": "down",
-    "lastUpdated": "2026-09-06T17:54:18.000Z",
-    "deltaNote": "Modest uptick in the aggregate approval share, but disapproval remains near a second-term high as the Iran war enters its seventh month with renewed strikes on Iranian tankers."
+    "lastUpdated": "2026-09-09T00:00:00.000Z",
+    "deltaNote": "The multi-aggregator average held roughly steady, but several individual pollsters — Focaldata/FT, Quinnipiac, Economist/YouGov — posted new second-term-low approval readings around 32-33% ahead of the Dallas midterm convention."
   },
   {
     "id": "iran-war-casualties",

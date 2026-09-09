@@ -1,0 +1,42 @@
+[
+  {
+    "id": "cisa-nsa-fbi-china-ai-distillation-advisory-sep8-2026",
+    "date": "2026-09-08",
+    "year": "2026",
+    "title": "NSA, CISA, and FBI Accuse Six Chinese AI Firms of Industrial-Scale Distillation of US Frontier Models",
+    "type": "regulatory",
+    "detail": "The NSA, CISA, and FBI issued a joint cybersecurity advisory (AA26-251A) on September 8 accusing six Chinese AI companies — DeepSeek, Moonshot AI, Alibaba, MiniMax, StepFun, and Z.AI — of running \"industrial-scale\" knowledge-distillation campaigns against US frontier models since late 2024, likely with the Chinese government's knowledge. The agencies said the firms pulled billions of tokens across millions of queries from Anthropic's Claude (including Claude 3.7, Sonnet 4/4.5, and Opus 4.1), OpenAI's GPT models, Google's Gemini, and xAI's Grok, using fraudulent accounts, bulk premium subscriptions spread across teams, gray-market API proxy \"transfer stations,\" and prompt-injection techniques to extract hidden chain-of-thought reasoning while evading detection. DeepSeek is specifically accused of using distillation to generate synthetic training data for its R1 and V3 models, which the advisory says undercuts the company's public narrative of minimal training compute; Moonshot AI is accused of distilling Claude and GPT output to improve its Kimi K2 and K3 models. CISA Acting Director Nick Andersen urged AI companies to \"take immediate steps to safeguard their platforms against knowledge distillation campaigns.\" China has not substantively responded to requests for comment and has previously countered that US companies distill Chinese models as well, with veiled threats of retaliation against any US bans.",
+    "sources": [
+      {
+        "name": "CISA / NSA / FBI (Advisory AA26-251A)",
+        "tier": 1,
+        "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa26-251a",
+        "pole": "western"
+      },
+      {
+        "name": "The Register",
+        "tier": 2,
+        "url": "https://www.theregister.com/ai-and-ml/2026/09/09/us-claims-chinese-ai-companies-core-ai-strategy-is-distilling-american-models/5295171",
+        "pole": "western"
+      },
+      {
+        "name": "Engadget",
+        "tier": 2,
+        "url": "https://www.engadget.com/2253604/us-authorities-accuse-chinese-ai-companies-of-industrial-scale-campaigns-to-copy-american-models/",
+        "pole": "western"
+      }
+    ],
+    "media": [
+      {
+        "type": "image",
+        "url": "https://www.engadget.com/2253604/us-authorities-accuse-chinese-ai-companies-of-industrial-scale-campaigns-to-copy-american-models/",
+        "caption": "NSA, CISA, and FBI jointly accused DeepSeek, Moonshot AI, Alibaba, MiniMax, StepFun, and Z.AI of industrial-scale distillation of US frontier AI models",
+        "source": "Engadget",
+        "thumbnail": "https://www.engadget.com/img/gallery/us-authorities-accuse-chinese-ai-companies-of-industrial-scale-campaigns-to-copy-american-models/intro-1788952256.jpg"
+      }
+    ],
+    "confidence": "high",
+    "eventConfidence": "official_claim",
+    "confidenceReason": "US government advisory presents named allegations against Chinese AI firms; the firms and Beijing have not substantively responded, and the underlying evidence has not been independently verified by third parties."
+  }
+]

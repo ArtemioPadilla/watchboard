@@ -55,9 +55,9 @@
     "source": "Ministry of Defense Japan, FY2026 Budget",
     "contested": false,
     "delta": "~1.7% of GDP",
-    "deltaNote": "12th consecutive record high; first year exceeding ¥9T. Ministry requested a further ¥8.9T (~$56B) for FY2027 alongside the Aug 4, 2026 'Defense of Japan 2026' white paper, which codified counterstrike, hypersonic and unmanned-systems buildup. Targeting 2.0% GDP by FY2027 under 2022 National Security Strategy",
+    "deltaNote": "12th consecutive record high; first year exceeding ¥9T. Ministry requested a further ¥8.9T (~$56B) for FY2027, the final year of the 5-year ¥43T buildup plan; on Aug 31, 2026 it detailed the request as centered on an 'AI orchestrator' command platform, submarine-launched hypersonic missiles and mass-produced attack drones, following the Aug 4 'Defense of Japan 2026' white paper. Targeting 2.0% GDP by FY2027 under 2022 National Security Strategy",
     "trend": "up",
-    "lastUpdated": "2026-08-04T00:00:00Z"
+    "lastUpdated": "2026-08-31T00:00:00Z"
   },
   {
     "id": "cpi-inflation",
@@ -102,21 +102,22 @@
     "color": "amber",
     "source": "Bank of Japan, July 31, 2026",
     "contested": false,
-    "delta": "Held at 1.00%",
-    "deltaNote": "Highest since September 1995. BOJ held rate at its July 31 meeting, citing yen volatility, AI investment trends, and Iran-war energy costs as watch factors",
+    "delta": "Held at 1.00%; Sept 18 hike widely expected",
+    "deltaNote": "Highest since September 1995. BOJ held rate at its July 31 meeting; after Q2 GDP was revised up to an annualized 1.4% (from 1.1%) on Sept 7, swap markets priced a ~98% probability of a 25bp hike to 1.25% at the Sept 18, 2026 meeting, with a further move to 1.5% largely priced in by January 2027",
     "trend": "up",
-    "lastUpdated": "2026-07-31T00:00:00Z"
+    "lastUpdated": "2026-09-07T00:00:00Z"
   },
   {
     "id": "yen-exchange-rate",
     "label": "Yen / US Dollar",
-    "value": "¥157.6",
+    "value": "¥153.6",
     "color": "amber",
-    "source": "Bloomberg/CNBC, August 3, 2026",
+    "source": "Reuters/Bloomberg, September 7-9, 2026",
     "contested": false,
-    "delta": "Rebounded from ¥163.7 (Dec. 1986 low)",
-    "deltaNote": "First joint US-Japan yen-buying intervention since 1998 after the yen hit a 4-decade low; Finance Minister Katayama cited 'excessive volatility.' Trump called it 'a sign of friendship'",
-    "trend": "up",
-    "lastUpdated": "2026-08-03T00:00:00Z"
+    "delta": "Strengthened from ¥157.6 (Aug 3 post-intervention level)",
+    "deltaNote": "Yen strengthened roughly 3.6% over the past month to its firmest level in about 7 months, as markets priced a near-certain BOJ rate hike on Sept 18 following the upward Q2 GDP revision. A stronger yen weighed on exporters, pulling the Nikkei 225 down modestly to ~65,143 on Sept 9",
+    "deltaDetail": { "value": -4.0, "direction": "down", "period": "since Aug 3" },
+    "trend": "down",
+    "lastUpdated": "2026-09-09T00:00:00Z"
   }
 ]

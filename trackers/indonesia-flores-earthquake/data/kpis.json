@@ -1,13 +1,140 @@
 [
-  { "id": "deaths-confirmed", "label": "Confirmed Deaths", "value": "135", "color": "red", "source": "BNPB", "contested": true, "contestNote": "Toll held flat at 127 for four days (3-6 Sep) before BNPB chief Suharyanto reported it to President Prabowo as 135 on 7 September — split for the first time into 48 direct deaths (structural collapse, falling debris) and 87 indirect deaths (health complications, pre-existing conditions, other natural causes). BNPB has not published case-by-case documentation for the indirect-death classification. The figure remains unreconciled with BPBD NTT's competing 130 count from 5 September.", "trend": "up", "delta": "+8 since 3 Sep (127→135, 7 Sep)", "lastUpdated": "2026-09-07T19:00:00Z" },
-  { "id": "injured-total", "label": "Injured", "value": "1,752", "color": "amber", "source": "BNPB", "contested": false, "trend": "up", "delta": "+40 since 3 Sep (1,712→1,752, 7 Sep)", "lastUpdated": "2026-09-07T19:00:00Z" },
-  { "id": "displaced-total", "label": "Displaced / Sheltering", "value": "72,864", "color": "blue", "source": "BNPB", "contested": true, "contestNote": "BNPB chief Suharyanto reported displacement at just 72,864 to President Prabowo on 7 September — a sharp drop from BNPB's own 166,829 figure (3-5 Sep) and well below even BPBD NTT's competing 96,385 count from 5 September. No agency has published a methodology explaining the scale or speed of the decline; treated as the tracker's current best figure since it is BNPB's own latest report, but with the caveat that neither prior figure has been formally reconciled.", "trend": "down", "delta": "-93,965 since 3 Sep (166,829→72,864, per BNPB briefing to President Prabowo, 7 Sep)", "lastUpdated": "2026-09-07T19:00:00Z" },
-  { "id": "homes-damaged", "label": "Homes Damaged", "value": "102,384", "color": "red", "source": "BNPB", "contested": true, "contestNote": "BNPB's Data Center now puts total identified damaged housing units at 102,384, of which 51,591 (50.39%) have completed field verification as of 7 September: 2,382 severely damaged, 7,276 moderately damaged, 14,177 lightly damaged and 27,756 confirmed undamaged after inspection. This supersedes BPBD NTT's narrower 99,568 provincial tally (4 Sep); verification remains ongoing and figures are described by BNPB as dynamic.", "trend": "up", "delta": "+2,816 since 4 Sep (99,568→102,384, BNPB, 7 Sep)", "lastUpdated": "2026-09-07T19:00:00Z" },
-  { "id": "aftershocks-recorded", "label": "Aftershocks Recorded", "value": "13,156+", "color": "amber", "source": "BMKG / BPBD NTT", "contested": false, "trend": "up", "deltaNote": "M0.6–M6.2 range; 12,438 (BPBD NTT) / 12,064 (BNPB) by 5 September, rising to a cumulative 13,156 by 7 September. Weekly activity has fallen sharply — only 364 tremors recorded in the fourth week that were not significantly felt by residents — the clearest sign yet of the decay trend BMKG forecast tapering out within 21-30 days of the mainshock, a window now largely elapsed.", "lastUpdated": "2026-09-07T19:00:00Z" },
-  { "id": "presidential-visit-status", "label": "Presidential Visit Status", "value": "Completed 26 Aug", "color": "green", "source": "Sekretariat Presiden RI", "contested": false, "trend": "stable", "deltaNote": "Twice-postponed visit finally took place on Day 11 (26 Aug); Prabowo distributed Rp200 billion in aid at a Nagekeo Regency command post.", "lastUpdated": "2026-08-28T15:10:00Z" },
-  { "id": "personnel-deployed", "label": "Personnel Deployed", "value": "6,973+", "color": "blue", "source": "TNI / Polri / Volunteers", "contested": false, "trend": "up", "delta": "5,832 TNI + 238 Polri + 903 volunteers as of 22-23 Aug (up from 3,500+ TNI/Polri on 17 Aug)", "lastUpdated": "2026-08-23T15:16:00Z" },
-  { "id": "state-of-emergency", "label": "State of Emergency", "value": "Extended to 12 Sep 2026", "color": "amber", "source": "NTT Governor's Office", "contested": false, "trend": "stable", "deltaNote": "Governor Emanuel Melkiades Laka Lena extended the province-wide emergency response status by 14 days beyond its original 28 August expiry, citing forecast aftershock activity continuing another 2-3 weeks; Nagekeo Regency received a separate 3-month extension.", "lastUpdated": "2026-08-30T16:00:00Z" },
-  { "id": "mainshock-magnitude", "label": "Mainshock Magnitude", "value": "M7.7", "color": "red", "source": "USGS / BMKG", "contested": true, "contestNote": "GFZ Potsdam measured Mw 7.61 at 25 km depth vs. USGS/BMKG's M7.7 at 10 km; BMKG's own first report was M7.0 before revising upward.", "lastUpdated": "2026-08-20T04:15:00Z" },
-  { "id": "schools-damaged", "label": "Schools Damaged", "value": "2,633", "color": "amber", "source": "BPBD NTT / Kemendikdasmen", "contested": true, "contestNote": "BPBD NTT's provincial tally rose to 2,633 education units damaged as of 4 September (up from 2,310 on 2 September), still higher than Kemendikdasmen's own 1,918-unit assessment from 31 August (665 schools severely damaged, ~141,207 students affected, only 37 back to in-person classes and 295 on distance learning). A companion Kemendikdasmen breakdown put severely damaged classrooms at 6,927, with 418 laboratories, 1,928 toilets and 370 teacher residences also damaged, and 48,164 school-community members displaced; 785 schools had requested emergency classroom units (2,908 needed), only 89 emergency tents were installed as of 30 August, and 1,221 schools remained halted from in-person learning. Provincial and ministry counts have not yet been reconciled.", "trend": "up", "lastUpdated": "2026-09-05T14:28:00Z" },
-  { "id": "aid-distributed-total", "label": "Aid Distributed (Cumulative)", "value": "2,142 tons", "color": "green", "source": "BNPB", "contested": false, "trend": "up", "deltaNote": "Up from 1,954 tons (31 Aug); now distributed through the Labuan Bajo and Maumere entry points as the response shifts from emergency relief into the rehabilitation-reconstruction phase.", "lastUpdated": "2026-09-07T19:00:00Z" }
+  {
+    "id": "deaths-confirmed",
+    "label": "Confirmed Deaths",
+    "value": "135",
+    "color": "red",
+    "source": "BNPB",
+    "contested": true,
+    "contestNote": "Toll held flat at 127 for four days (3-6 Sep) before BNPB chief Suharyanto reported it to President Prabowo as 135 on 7 September — split for the first time into 48 direct deaths (structural collapse, falling debris) and 87 indirect deaths (health complications, pre-existing conditions, other natural causes). BNPB has not published case-by-case documentation for the indirect-death classification. The figure remains unreconciled with BPBD NTT's competing 130 count from 5 September.",
+    "trend": "up",
+    "delta": "+8 since 3 Sep (127→135, 7 Sep)",
+    "lastUpdated": "2026-09-07T19:00:00Z"
+  },
+  {
+    "id": "injured-total",
+    "label": "Injured",
+    "value": "1,763",
+    "color": "amber",
+    "source": "BNPB",
+    "contested": false,
+    "trend": "up",
+    "delta": "+11 since 7 Sep (1,752→1,763, 8 Sep)",
+    "lastUpdated": "2026-09-09T18:20:00Z",
+    "deltaDetail": {
+      "value": 11,
+      "direction": "up",
+      "period": "24h"
+    }
+  },
+  {
+    "id": "displaced-total",
+    "label": "Displaced / Sheltering",
+    "value": "70,382",
+    "color": "blue",
+    "source": "BNPB",
+    "contested": true,
+    "contestNote": "BNPB's own figure moved twice on 8 September: its public data portal still listed 72,864 that morning before acting Data Center head Berton SP Panjaitan revised it down to 70,382 that evening, attributing the drop to residents from lightly/moderately damaged homes returning home. Neither figure has been formally reconciled with the other, nor with BPBD NTT's competing 96,385 count from 5 September.",
+    "trend": "down",
+    "delta": "-2,482 since 7 Sep (72,864→70,382, 8 Sep)",
+    "lastUpdated": "2026-09-09T18:20:00Z",
+    "deltaDetail": {
+      "value": -2482,
+      "direction": "down",
+      "period": "24h"
+    }
+  },
+  {
+    "id": "homes-damaged",
+    "label": "Homes Damaged",
+    "value": "102,384",
+    "color": "red",
+    "source": "BNPB",
+    "contested": true,
+    "contestNote": "BNPB's Data Center now puts total identified damaged housing units at 102,384, of which 51,591 (50.39%) have completed field verification as of 7 September: 2,382 severely damaged, 7,276 moderately damaged, 14,177 lightly damaged and 27,756 confirmed undamaged after inspection. This supersedes BPBD NTT's narrower 99,568 provincial tally (4 Sep); verification remains ongoing and figures are described by BNPB as dynamic.",
+    "trend": "up",
+    "delta": "+2,816 since 4 Sep (99,568→102,384, BNPB, 7 Sep)",
+    "lastUpdated": "2026-09-07T19:00:00Z"
+  },
+  {
+    "id": "aftershocks-recorded",
+    "label": "Aftershocks Recorded",
+    "value": "13,863+",
+    "color": "amber",
+    "source": "BMKG / BPBD NTT",
+    "contested": false,
+    "trend": "up",
+    "deltaNote": "M0.9–M6.2 range; cumulative count reached 13,863 by 05:00 WIB on 9 September (up from 13,156 on 7 September), with 38 events above M5.0 and 183 felt by residents. Latest notable tremors: a M5.1 aftershock 57km NE of Ruteng, Manggarai (10km depth, MMI III) on the evening of 8 September, followed by a M4.8 aftershock at the same intensity on the morning of 9 September — BNPB confirmed neither caused casualties or damage. BMKG maintains its decay-curve forecast of another 3-4 weeks of tapering activity.",
+    "lastUpdated": "2026-09-09T18:20:00Z"
+  },
+  {
+    "id": "presidential-visit-status",
+    "label": "Presidential Visit Status",
+    "value": "Completed 26 Aug",
+    "color": "green",
+    "source": "Sekretariat Presiden RI",
+    "contested": false,
+    "trend": "stable",
+    "deltaNote": "Twice-postponed visit finally took place on Day 11 (26 Aug); Prabowo distributed Rp200 billion in aid at a Nagekeo Regency command post.",
+    "lastUpdated": "2026-08-28T15:10:00Z"
+  },
+  {
+    "id": "personnel-deployed",
+    "label": "Personnel Deployed",
+    "value": "6,973+",
+    "color": "blue",
+    "source": "TNI / Polri / Volunteers",
+    "contested": false,
+    "trend": "up",
+    "delta": "5,832 TNI + 238 Polri + 903 volunteers as of 22-23 Aug (up from 3,500+ TNI/Polri on 17 Aug)",
+    "lastUpdated": "2026-08-23T15:16:00Z"
+  },
+  {
+    "id": "state-of-emergency",
+    "label": "State of Emergency",
+    "value": "Extended to 12 Sep 2026",
+    "color": "amber",
+    "source": "NTT Governor's Office",
+    "contested": false,
+    "trend": "stable",
+    "deltaNote": "Governor Emanuel Melkiades Laka Lena extended the province-wide emergency response status by 14 days beyond its original 28 August expiry, citing forecast aftershock activity continuing another 2-3 weeks; Nagekeo Regency received a separate 3-month extension.",
+    "lastUpdated": "2026-08-30T16:00:00Z"
+  },
+  {
+    "id": "mainshock-magnitude",
+    "label": "Mainshock Magnitude",
+    "value": "M7.7",
+    "color": "red",
+    "source": "USGS / BMKG",
+    "contested": true,
+    "contestNote": "GFZ Potsdam measured Mw 7.61 at 25 km depth vs. USGS/BMKG's M7.7 at 10 km; BMKG's own first report was M7.0 before revising upward.",
+    "lastUpdated": "2026-08-20T04:15:00Z"
+  },
+  {
+    "id": "schools-damaged",
+    "label": "Schools Damaged",
+    "value": "2,633",
+    "color": "amber",
+    "source": "BPBD NTT / Kemendikdasmen",
+    "contested": true,
+    "contestNote": "BPBD NTT's provincial tally rose to 2,633 education units damaged as of 4 September (up from 2,310 on 2 September), still higher than Kemendikdasmen's own 1,918-unit assessment from 31 August (665 schools severely damaged, ~141,207 students affected, only 37 back to in-person classes and 295 on distance learning). A companion Kemendikdasmen breakdown put severely damaged classrooms at 6,927, with 418 laboratories, 1,928 toilets and 370 teacher residences also damaged, and 48,164 school-community members displaced; 785 schools had requested emergency classroom units (2,908 needed), only 89 emergency tents were installed as of 30 August, and 1,221 schools remained halted from in-person learning. Provincial and ministry counts have not yet been reconciled.",
+    "trend": "up",
+    "lastUpdated": "2026-09-05T14:28:00Z"
+  },
+  {
+    "id": "aid-distributed-total",
+    "label": "Aid Distributed (Cumulative)",
+    "value": "2,165 tons",
+    "color": "green",
+    "source": "BNPB",
+    "contested": false,
+    "trend": "up",
+    "deltaNote": "Up from 2,142 tons (7 Sep), distributed via the Frans Seda (Maumere) and Komodo (Labuan Bajo) airports.",
+    "lastUpdated": "2026-09-09T18:20:00Z",
+    "deltaDetail": {
+      "value": 23,
+      "direction": "up",
+      "period": "24h"
+    }
+  }
 ]

@@ -121,14 +121,15 @@
   {
     "id": "fda-oncology-approvals-2026-ytd",
     "label": "FDA Oncology Approvals in 2026 (Year-to-Date)",
-    "value": "25+",
+    "value": "28+",
     "color": "green",
-    "source": "FDA CDER/CBER Drug Approval Databases — cumulative through August 25, 2026",
+    "source": "FDA CDER/CBER Drug Approval Databases — cumulative through September 4, 2026",
     "contested": false,
-    "delta": "July-August additions: Tudriqev oncolytic virus + nivolumab melanoma (Aug 6), Zenbexus (iberdomide) — first CELMoD, multiple myeloma (Aug 13), Ziihera (zanidatamab) first-line HER2+ gastroesophageal cancer (Aug 25)",
-    "deltaNote": "ASCO 2026 (May 29–June 2) produced 5 Plenary Session results: daraxonrasib/RASolute 302 (pancreatic cancer, OS HR 0.40), adjuvant selpercatinib/LIBRETTO-432 (RET+ NSCLC, EFS HR 0.172), perioperative apalutamide/PROTEUS (high-risk prostate), abemaciclib/SARC041 (liposarcoma), plus intismeran autogene 5-year melanoma data (HR 0.51); pace continued through summer with approvals across kidney, prostate, sarcoma, transplant, breast, melanoma, myeloma, and gastroesophageal cancer",
+    "delta": "Late Aug-early Sep additions: RASONQUE (daraxonrasib) first RAS(ON) inhibitor, pancreatic cancer (Aug 26), MIMRYLO (rusfertide) first hepcidin mimetic, polycythemia vera (Aug 28), Etcamah (camizestrant) first ctDNA-guided treatment switch, breast cancer (Sep 4)",
+    "deltaNote": "ASCO 2026 (May 29–June 2) produced 5 Plenary Session results: daraxonrasib/RASolute 302 (pancreatic cancer, OS HR 0.40), adjuvant selpercatinib/LIBRETTO-432 (RET+ NSCLC, EFS HR 0.172), perioperative apalutamide/PROTEUS (high-risk prostate), abemaciclib/SARC041 (liposarcoma), plus intismeran autogene 5-year melanoma data (HR 0.51); pace continued through summer with approvals across kidney, prostate, sarcoma, transplant, breast, melanoma, myeloma, gastroesophageal, pancreatic, and blood cancer",
+    "deltaDetail": { "value": 3, "direction": "up", "period": "since Aug 25" },
     "trend": "up",
-    "lastUpdated": "2026-08-25"
+    "lastUpdated": "2026-09-04"
   },
   {
     "id": "zenbexus-celmod-mrd-response",
@@ -148,12 +149,12 @@
     "label": "Daraxonrasib OS Hazard Ratio vs. Chemo in 2L Pancreatic Cancer",
     "value": "HR 0.40",
     "color": "green",
-    "source": "RASolute 302 Phase 3, NEJM / ASCO 2026 Plenary Session (June 1, 2026)",
+    "source": "RASolute 302 Phase 3, NEJM / ASCO 2026 Plenary Session (June 1, 2026); FDA approval Aug 26, 2026",
     "contested": false,
     "delta": "13.2 months vs. 6.7 months median OS — first drug to nearly double survival in 2nd-line pancreatic cancer",
-    "deltaNote": "Largest OS benefit ever demonstrated in a Phase 3 trial for pancreatic ductal adenocarcinoma. RAS mutations (primarily KRAS G12D, G12V) drive ~90% of PDAC; daraxonrasib is an oral pan-RAS(ON) inhibitor. FDA expanded access authorized; NDA filing accelerated for 2026 submission.",
+    "deltaNote": "Largest OS benefit ever demonstrated in a Phase 3 trial for pancreatic ductal adenocarcinoma. RAS mutations (primarily KRAS G12D, G12V) drive ~90% of PDAC; daraxonrasib is an oral pan-RAS(ON) inhibitor. UPDATE (Aug 26, 2026): FDA approved daraxonrasib as RASONQUE, the first RAS(ON)-targeted medicine to reach the US market for any cancer.",
     "trend": "up",
-    "lastUpdated": "2026-06-01"
+    "lastUpdated": "2026-08-26"
   },
   {
     "id": "compass-ai-immunotherapy-accuracy-gain",
@@ -178,5 +179,18 @@
     "deltaNote": "Only approved inhibitor of all class I PI3K isoforms (alpha, beta, delta, gamma) plus mTORC1 and mTORC2; approved with fulvestrant +/- palbociclib for PIK3CA-wild-type HR+/HER2- advanced breast cancer",
     "trend": "up",
     "lastUpdated": "2026-07-14"
+  },
+  {
+    "id": "etcamah-ctdna-guided-approval",
+    "label": "Cancer Therapy Approved on ctDNA-Guided Early Treatment Switch (First Ever)",
+    "value": "1 (First Ever)",
+    "color": "green",
+    "source": "FDA — AstraZeneca Etcamah (camizestrant) accelerated approval, Sept 4, 2026",
+    "contested": true,
+    "contestNote": "FDA's Oncologic Drugs Advisory Committee voted 6-3 against approval, arguing SERENA-6 did not prove that switching therapy at ctDNA-detected molecular progression is superior to switching at radiologic progression. The FDA granted accelerated approval anyway, citing patient-reported quality-of-life benefits in the early-switch arm.",
+    "delta": "SERENA-6: 16.0 vs. 9.2 months median PFS (56% reduction in risk of progression or death)",
+    "deltaNote": "First FDA approval of any cancer therapy guided by blood-based circulating tumor DNA (ctDNA) detection of a resistance mutation before imaging shows progression; Guardant360 CDx approved as companion diagnostic. Could open a new liquid-biopsy-guided treatment paradigm across solid tumors if confirmatory data hold up.",
+    "trend": "up",
+    "lastUpdated": "2026-09-04"
   }
 ]

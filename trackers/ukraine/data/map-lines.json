@@ -3259,7 +3259,7 @@
       48.5107
     ],
     "cat": "strike",
-    "label": "Kamianske — Ballistic Missile Strike on Kametstal Steel Plant",
+    "label": "Kamianske \u2014 Ballistic Missile Strike on Kametstal Steel Plant",
     "date": "2026-09-05",
     "weaponType": "ballistic",
     "confidence": "high",
@@ -3305,7 +3305,7 @@
       46.64
     ],
     "cat": "strike",
-    "label": "Kherson — Artillery and Drone Strikes Kill 1, Wound 9",
+    "label": "Kherson \u2014 Artillery and Drone Strikes Kill 1, Wound 9",
     "date": "2026-09-07",
     "weaponType": "mixed",
     "confidence": "high",
@@ -3328,7 +3328,7 @@
       47.84
     ],
     "cat": "strike",
-    "label": "Zaporizhzhia — Drones Torch Shopping Mall",
+    "label": "Zaporizhzhia \u2014 Drones Torch Shopping Mall",
     "date": "2026-09-07",
     "weaponType": "drone_loitering",
     "confidence": "high",
@@ -3339,5 +3339,53 @@
     "platform": "Loitering attack drones",
     "status": "hit",
     "lastUpdated": "2026-09-07"
+  },
+  {
+    "id": "strike-kyiv-nationwide-post-pause-sep8-2026",
+    "from": [
+      35.0,
+      52.0
+    ],
+    "to": [
+      30.52,
+      50.45
+    ],
+    "cat": "strike",
+    "label": "Kyiv \u2014 Mass Strikes Resume as Truce Ends",
+    "date": "2026-09-08",
+    "weaponType": "mixed",
+    "launched": 198,
+    "intercepted": 175,
+    "confidence": "high",
+    "time": "05:00",
+    "damage": "Residential buildings, a school, and warehouses damaged across Darnytskyi, Holosiivskyi, Podilskyi, Shevchenkivskyi and Solomianskyi districts; drone wreckage hit a four-story office building in Solomianskyi",
+    "casualties": "3 killed, 25 injured in Kyiv (5 killed, ~70 injured nationwide)",
+    "notes": "Struck hours after the reciprocal 72-hour pause tied to US envoys Witkoff and Kushner's Moscow/Kyiv shuttle diplomacy expired; combined ballistic, cruise, and anti-ship missiles with Shahed-type drones.",
+    "platform": "Ballistic/cruise/anti-ship missiles and Shahed-type drones",
+    "status": "hit",
+    "lastUpdated": "2026-09-08"
+  },
+  {
+    "id": "strike-kyiv-darnytskyi-highrise-sep9-2026",
+    "from": [
+      35.0,
+      52.0
+    ],
+    "to": [
+      30.62,
+      50.4
+    ],
+    "cat": "strike",
+    "label": "Kyiv \u2014 Drone Hits Darnytskyi High-Rise",
+    "date": "2026-09-09",
+    "weaponType": "drone_loitering",
+    "confidence": "high",
+    "time": "08:00",
+    "damage": "24-story residential building hit at 11th\u201312th floors, fire on 12th floor; 23 residents evacuated",
+    "casualties": "1 killed, 16 injured citywide (5 injured, 3 hospitalized in the struck building) including 2 children",
+    "notes": "Daytime strike a day after the nationwide post-pause barrage; part of continued Russian drone pressure on the capital.",
+    "platform": "Shahed-type attack drone",
+    "status": "hit",
+    "lastUpdated": "2026-09-09"
   }
 ]

@@ -2,8 +2,8 @@
   {
     "id": "brent_crude_price",
     "label": "Brent Crude Oil",
-    "value": "$97.68/bbl (Mon close)",
-    "change": "Rose to $97.68/bbl (+1.45%) Monday, its highest close of the crisis, after Iran's Mohsen Rezaei threatened a new 'restricted zone' beyond Hormuz on top of the Sep 5-6 tanker-on-tanker strikes between the US and IRGC",
+    "value": "$100.29/bbl intraday (Wed)",
+    "change": "Breached $100/bbl intraday Wednesday for the first time since Jul 24, up from a $97.89 Tuesday close, after the US destroyed five more Iranian tankers Sep 8, Iran fired on a Jordan air base and claimed (unconfirmed) strikes on two US destroyers and eight tankers, and Houthis wounded 73 in a strike on Saudi Aramco's Jizan refinery",
     "direction": "up",
     "sparkData": [
       71.6,
@@ -26,11 +26,13 @@
       96.11,
       96.2,
       96.28,
-      97.68
+      97.68,
+      97.89,
+      100.29
     ],
     "color": "#e74c3c",
     "source": "CNBC / Fortune / Al Jazeera / Bloomberg",
-    "lastUpdated": "2026-09-07T19:00:10Z"
+    "lastUpdated": "2026-09-09T18:30:00Z"
   },
   {
     "id": "fao_food_price_index_econ",
@@ -132,8 +134,8 @@
   {
     "id": "hormuz_transit_volume",
     "label": "Hormuz Tanker Transits",
-    "value": "~4/day (Kpler) vs ~9M bbl/day claimed (US)",
-    "change": "Kpler counted just 4 commodity vessels transiting Hormuz on Sep 3, well below its own 10-day average of ~13-15/day; on Sep 7 Energy Secretary Chris Wright said roughly 9 million barrels/day (about two-thirds of pre-war flow) were moving under the US-led escort regime -- a gap Al Jazeera attributes to the US including naval-escort and support vessels excluded from commercial tracking data. Iran's Sep 7 threat of a new 'restricted zone' beyond the strait adds fresh uncertainty on top of the Sep 5-6 tanker-on-tanker strikes",
+    "value": "~5-11/day (Kpler) vs ~9M bbl/day claimed (US)",
+    "change": "Kpler counted single-digit-to-low-teens vessels crossing daily in early September (10-day average ~13/day), well below the pre-war 130-140/day baseline; on Sep 7 Energy Secretary Chris Wright said roughly 9 million barrels/day (about two-thirds of pre-war flow) were moving under the US-led escort regime -- a gap Al Jazeera attributes to the US including naval-escort and support vessels excluded from commercial tracking data. The Sep 8-9 tanker destructions and IRGC's unconfirmed claim of enforcing Iran's new 'restricted zone' add fresh uncertainty",
     "direction": "down",
     "sparkData": [
       135,
@@ -147,11 +149,13 @@
       3,
       3,
       6,
-      4
+      4,
+      6,
+      11
     ],
     "color": "#2980b9",
     "source": "PortWatch / Vortexa / Straits Daily Brief / CNBC",
-    "lastUpdated": "2026-09-07T19:00:10Z"
+    "lastUpdated": "2026-09-09T18:30:00Z"
   },
   {
     "id": "fertilizer_urea_price",
@@ -210,8 +214,8 @@
   {
     "id": "us_gasoline_price",
     "label": "US National Avg. Gasoline",
-    "value": "$4.06/gal",
-    "change": "Highest-ever mid-August level, +92¢ YoY",
+    "value": "$4.15/gal",
+    "change": "Nearly $1/gallon above last year's Labor Day level, as the Sep 8-9 tanker strikes and Houthi attack on Saudi Aramco's Jizan refinery pushed Brent toward $100/bbl",
     "direction": "up",
     "sparkData": [
       2.31,
@@ -220,11 +224,12 @@
       3.47,
       3.6,
       3.5,
-      4.06
+      4.06,
+      4.15
     ],
     "color": "#d35400",
-    "source": "AAA / GasBuddy (Aug 21, 2026)",
-    "lastUpdated": "2026-08-23T14:47:27Z"
+    "source": "AAA / GasBuddy via CBS News (Sep 8, 2026)",
+    "lastUpdated": "2026-09-09T18:30:00Z"
   },
   {
     "id": "cape_route_dwt",

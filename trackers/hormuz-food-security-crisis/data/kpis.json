@@ -2,13 +2,14 @@
   {
     "id": "brent_crude",
     "label": "Brent Crude",
-    "value": "$97.68/bbl (Mon close)",
+    "value": "$100.29/bbl intraday (Wed, first time since Jul 24)",
     "color": "red",
-    "source": "CNBC (Sep 7, 2026)",
+    "source": "Al Jazeera / CNBC (Sep 9, 2026)",
     "contested": false,
-    "delta": "Rose to $97.68/bbl (+1.45%) Monday -- its highest close of the crisis -- after Iran's Mohsen Rezaei threatened a new 'restricted zone' beyond Hormuz on top of the Sep 5-6 tanker-on-tanker strikes between the US and IRGC",
+    "delta": "Breached $100/bbl intraday Wednesday for the first time in about six weeks, up from a $97.89 Tuesday close, after the US destroyed five more Iranian tankers Sep 8, Iran fired on a Jordan air base and claimed (unconfirmed) strikes on two US destroyers and eight tankers, and Houthis wounded 73 in a strike on Saudi Aramco's Jizan refinery",
+    "deltaDetail": { "value": 2.61, "direction": "up", "period": "48h" },
     "trend": "up",
-    "lastUpdated": "2026-09-07T19:00:10Z"
+    "lastUpdated": "2026-09-09T18:30:00Z"
   },
   {
     "id": "fao_food_price_index",
@@ -24,15 +25,15 @@
   {
     "id": "hormuz_daily_transits",
     "label": "Hormuz Daily Tanker Transits",
-    "value": "~4-11/day (Kpler) vs ~9M bbl/day claimed (US)",
+    "value": "~5-11/day (Kpler, 10-day avg ~13) vs ~9M bbl/day claimed (US)",
     "color": "red",
-    "source": "Kpler via Al Jazeera / US Energy Secretary Chris Wright via PBS-Reuters (Sep 3-7, 2026)",
+    "source": "Kpler via Al Jazeera / US Energy Secretary Chris Wright via PBS-Reuters (Sep 3-9, 2026)",
     "contested": true,
-    "contestNote": "Kpler counted just 4 commodity vessels transiting Sep 3, well below its own 10-day average of ~13-15/day; on Sep 7 Energy Secretary Chris Wright said roughly 9 million barrels/day (about two-thirds of pre-war flow) were moving under the US-led escort regime -- a gap Al Jazeera attributes to the US including naval-escort and support vessels excluded from commercial tracking data",
+    "contestNote": "Kpler counted single-digit-to-low-teens vessels crossing per day in early September, well below its own 10-day average of ~13/day; on Sep 7 Energy Secretary Chris Wright said roughly 9 million barrels/day (about two-thirds of pre-war flow) were moving under the US-led escort regime -- a gap Al Jazeera attributes to the US including naval-escort and support vessels excluded from commercial tracking data",
     "delta": "vs 130-140/day pre-war",
-    "deltaNote": "Traffic remains far below pre-war levels; Iran's Sep 7 threat of a new 'restricted zone' beyond the strait adds fresh uncertainty on top of the Sep 5-6 tanker-on-tanker strikes",
+    "deltaNote": "Traffic remains far below pre-war levels; the Sep 8-9 tanker destructions, IRGC's unconfirmed claim of enforcing Iran's new 'restricted zone,' and the Houthi strike on Saudi Aramco's Jizan refinery add fresh uncertainty",
     "trend": "down",
-    "lastUpdated": "2026-09-07T19:00:10Z"
+    "lastUpdated": "2026-09-09T18:30:00Z"
   },
   {
     "id": "war_risk_insurance",

@@ -2,15 +2,16 @@
   {
     "id": "total-homicides",
     "label": "Homicides Since Sep 9, 2024",
-    "value": "3,353+",
+    "value": "3,724+",
     "color": "red",
-    "source": "Noroeste cumulative tally / ACLED",
+    "source": "Infobae cumulative tally / Noroeste / ACLED",
     "contested": true,
-    "contestNote": "Noroeste updated its cumulative conflict tally (June 6, 2026) to 3,353 homicides, 3,957 kidnappings, and 11,423 vehicle thefts since Sep 9, 2024 — attributed to the Guzmán-Zambada faction dispute. This figure is higher than the previous 2,560 count (which reflected only battlefield-classified deaths) and now aligns with the WSJ's May 17 estimate of 3,000+ killed. Official SNSP data remains lower. NGO Sabuesos Unidas: ~5,800 disappearances since Sep 2024. June 3: Culiacán records 10 homicides in one day; 30 in 72 hours — Army airlifts 90 Murciélagos. June 4: Defense Secretary + National Guard Commander emergency visit to Culiacán. June 5: FGR contradicts Sheinbaum on Interpol Red Notice for Rocha Moya. June 6: Two more targeted killings in Culiacán; Escuinapa enters 14th consecutive day of gunfire.",
+    "contestNote": "Infobae (Sep 9, 2026) cites a cumulative tally of 3,724 homicides in Sinaloa since Sep 9, 2024 through Sep 7, 2026 — up from Noroeste's June 6 count of 3,353. Separately, Infobae reports Sinaloa ranked 4th nationally in intentional homicides Jan–Aug 2026 (866 cases, 7.5% of the national total), behind Guanajuato, Baja California and Chihuahua, even as its daily average fell 26.1% year-over-year (2025 vs 2026) — a discrepancy researchers attribute to undercounting of conflict-linked disappearances as homicides. NGO Sabuesos Unidas: ~5,800 disappearances since Sep 2024. Official SNSP data remains lower than independent tallies.",
     "trend": "up",
-    "delta": "+793 (revised methodology)",
-    "deltaNote": "Noroeste June 6 cumulative count: 3,353 homicides since Sep 9, 2024 — revised upward from 2,560 to include all violence classified as faction-dispute-attributable. Monthly 2026: Jan 159, Feb 146, Mar 79–121, Apr ~112, May 123–135 (highest of 2026), Jun 116 (2nd-highest of 2026), Jul 138 statewide violent deaths (avg 4.5/day) per Noroeste's Ejecutómetro tally. July also closed as the most violent month of 2026 for women, with 12 femicide investigations statewide. Aug 1–13: 49 more murders statewide, with Sinaloa accounting for 35% of Mexico's national homicide count on Aug 13 alone — Infobae (Aug 15) reports the state on pace for a record homicide year.",
-    "lastUpdated": "2026-08-18T14:06:30.000Z"
+    "delta": "+371",
+    "deltaNote": "Cumulative tally rose from 3,353 (Noroeste, Jun 6, 2026) to 3,724 (Infobae, through Sep 7, 2026). Sep 4: Tepuche municipal syndic David Guadalupe Ramírez González and his brother kidnapped and killed — the second consecutive Tepuche official slain in 2026. Sep 5: three killed in Prados del Sur (incl. a 1-year-old) and Las Estancias attacks. Sep 8: gunmen ambush a Federal Protection Force patrol on Highway Mexico 15 (4 captured); a separate overnight wave of shootings and vehicle fires hits multiple Culiacán neighborhoods.",
+    "deltaDetail": { "value": 371, "direction": "up", "period": "since Jun 6" },
+    "lastUpdated": "2026-09-09T00:00:00.000Z"
   },
   {
     "id": "families-displaced",
@@ -86,11 +87,12 @@
   {
     "id": "days-of-war",
     "label": "Days of Open Civil War",
-    "value": "776+",
+    "value": "778+",
     "color": "red",
     "source": "Watchboard / Noroeste",
     "contested": false,
-    "lastUpdated": "2026-09-07T18:30:00.000Z"
+    "deltaDetail": { "value": 2, "direction": "up", "period": "48h" },
+    "lastUpdated": "2026-09-09T00:00:00.000Z"
   },
   {
     "id": "drugs-seized-20mo",

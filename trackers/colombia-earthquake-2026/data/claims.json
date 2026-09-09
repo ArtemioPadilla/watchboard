@@ -2,121 +2,225 @@
   {
     "id": "death-toll-accuracy",
     "question": "Is the official death toll of 329 an accurate reflection of the true impact?",
-    "sideA": { "label": "Government / UNGRD", "text": "329 confirmed deaths, holding steady across the Aug 21 presidential balance and UNGRD's Aug 23, 18:30 balance, with missing narrowed to 234 as identification work concludes." },
-    "sideB": { "label": "Local officials & regional press", "text": "Early regional tallies from Cali and Pereira alone at times exceeded national figures reported in Bogotá, and missing-person estimates ran as high as 420 before narrowing — the missing count has since fluctuated (234 on Aug 23, back up to 240 on Aug 25), and critics argue the true toll may still be undercounted." },
+    "sideA": {
+      "label": "Government / UNGRD",
+      "text": "329 confirmed deaths, holding steady across the Aug 21 presidential balance and UNGRD's Aug 23, 18:30 balance, with missing narrowed to 234 as identification work concludes."
+    },
+    "sideB": {
+      "label": "Local officials & regional press",
+      "text": "Early regional tallies from Cali and Pereira alone at times exceeded national figures reported in Bogotá, and missing-person estimates ran as high as 420 before narrowing — the missing count has since fluctuated (234 on Aug 23, back up to 240 on Aug 25), and critics argue the true toll may still be undercounted."
+    },
     "resolution": "Largely resolved. The death toll has held flat at 331 since Aug 25 through UNGRD's Sept 3, 06:30 balance — over a week without change. Missing cases have narrowed further: Medicina Legal's Aug 29 forensic reconciliation put active cases at 152 (adopted by the presidency Aug 30), and UNGRD's own Sept 3 balance now reports 122, its lowest figure to date.",
     "lastUpdated": "2026-09-06T16:57:41.000Z"
   },
   {
     "id": "international-aid-rejection",
     "question": "Did declining international rescue teams in the first 48 hours cost lives?",
-    "sideA": { "label": "Javier Pava (former UNGRD director)", "text": "Colombia had sufficient domestic search-and-rescue capacity in the first hours; the priority was logistics, food and field hospitals, not additional foreign personnel — and the position changed the same day it was issued." },
-    "sideB": { "label": "Critics / opposition", "text": "Restricting foreign rescue teams to just four countries during the critical 72-hour survival window was a politically motivated and dangerous delay that likely reduced the number of survivors pulled from rubble." },
+    "sideA": {
+      "label": "Javier Pava (former UNGRD director)",
+      "text": "Colombia had sufficient domestic search-and-rescue capacity in the first hours; the priority was logistics, food and field hospitals, not additional foreign personnel — and the position changed the same day it was issued."
+    },
+    "sideB": {
+      "label": "Critics / opposition",
+      "text": "Restricting foreign rescue teams to just four countries during the critical 72-hour survival window was a politically motivated and dangerous delay that likely reduced the number of survivors pulled from rubble."
+    },
     "resolution": "Unresolved. Pava was removed from UNGRD on Aug 14 and the policy was reversed, but no independent inquiry has quantified any resulting difference in survivor outcomes.",
     "lastUpdated": "2026-08-20T12:00:00Z"
   },
   {
     "id": "magnitude-revision",
     "question": "Why did Colombia's Servicio Geológico Colombiano initially report a lower magnitude than USGS?",
-    "sideA": { "label": "USGS", "text": "Measured the event at Mw 7.4–7.5 from the outset, consistent with international seismic monitoring networks." },
-    "sideB": { "label": "Servicio Geológico Colombiano (initial reading)", "text": "Initially reported the quake at magnitude 6.7 before revising upward to 7.4, reflecting the technical difficulty of rapidly characterizing an unusual intermediate-depth intraslab rupture." },
+    "sideA": {
+      "label": "USGS",
+      "text": "Measured the event at Mw 7.4–7.5 from the outset, consistent with international seismic monitoring networks."
+    },
+    "sideB": {
+      "label": "Servicio Geológico Colombiano (initial reading)",
+      "text": "Initially reported the quake at magnitude 6.7 before revising upward to 7.4, reflecting the technical difficulty of rapidly characterizing an unusual intermediate-depth intraslab rupture."
+    },
     "resolution": "Resolved. SGC revised its figure to align with USGS within hours; both agencies now report Mw 7.4.",
     "lastUpdated": "2026-08-20T12:00:00Z"
   },
   {
     "id": "reconstruction-cost-estimate",
     "question": "What will the earthquake actually cost Colombia?",
-    "sideA": { "label": "Colombian government / UNDP-UNGRD joint assessment", "text": "A formal joint damage assessment by UNDP and UNGRD, published Aug 30, puts direct physical damage at COP 42.1 trillion (2.3% of GDP) — COP 37.4T in housing and COP 4.8T in health, education and community infrastructure — up from the government's earlier COP 30 trillion (~US$9.6B) preliminary estimate." },
-    "sideB": { "label": "Independent analysts (Oxford Economics / USGS)", "text": "Oxford Economics projects a much smaller direct GDP hit of $990M–$1.98B (0.2–0.4% of GDP), while USGS's automated loss model estimates costs as high as $40B (~7% of GDP) — a spread that persists even against the new joint government assessment." },
+    "sideA": {
+      "label": "Colombian government / UNDP-UNGRD joint assessment",
+      "text": "A formal joint damage assessment by UNDP and UNGRD, published Aug 30, puts direct physical damage at COP 42.1 trillion (2.3% of GDP) — COP 37.4T in housing and COP 4.8T in health, education and community infrastructure — up from the government's earlier COP 30 trillion (~US$9.6B) preliminary estimate."
+    },
+    "sideB": {
+      "label": "Independent analysts (Oxford Economics / USGS)",
+      "text": "Oxford Economics projects a much smaller direct GDP hit of $990M–$1.98B (0.2–0.4% of GDP), while USGS's automated loss model estimates costs as high as $40B (~7% of GDP) — a spread that persists even against the new joint government assessment."
+    },
     "resolution": "Partially resolved on the government side: the formal UNDP-UNGRD joint assessment (COP 42.1T / 2.3% GDP) supersedes the earlier preliminary COP 30T figure. But the gap with independent Oxford Economics and USGS estimates remains unresolved and will not converge until insurance claims are finalized, likely over months.",
     "lastUpdated": "2026-09-06T16:57:41.000Z"
   },
   {
     "id": "corruption-in-aid-collection",
     "question": "Is donated relief money at risk of being diverted or mismanaged?",
-    "sideA": { "label": "President de la Espriella", "text": "Publicly promised 'austerity and transparency,' warning that anyone found diverting Fondo Milagro donations 'se las verá conmigo' (will answer to him)." },
-    "sideB": { "label": "Civil society watchdogs", "text": "Colombia's history of disaster-relief corruption scandals (including prior UNGRD contracting scandals) means oversight mechanisms for the new Fondo Milagro need independent auditing, not just presidential assurances." },
+    "sideA": {
+      "label": "President de la Espriella",
+      "text": "Publicly promised 'austerity and transparency,' warning that anyone found diverting Fondo Milagro donations 'se las verá conmigo' (will answer to him)."
+    },
+    "sideB": {
+      "label": "Civil society watchdogs",
+      "text": "Colombia's history of disaster-relief corruption scandals (including prior UNGRD contracting scandals) means oversight mechanisms for the new Fondo Milagro need independent auditing, not just presidential assurances."
+    },
     "resolution": "Unresolved. No corruption cases have been confirmed as of Aug 20; the Fondo Milagro's audit framework is still being established.",
     "lastUpdated": "2026-08-20T12:00:00Z"
   },
   {
     "id": "depth-estimate-discrepancy",
     "question": "How deep was the earthquake, and does it matter?",
-    "sideA": { "label": "USGS", "text": "Measured hypocentral depth at 110.3 km, characterizing it as an intermediate-depth intraslab event within the Nazca Plate." },
-    "sideB": { "label": "Servicio Geológico Colombiano", "text": "Measured depth at 96–103 km — a meaningful difference for hazard modeling since shallower ruptures generally produce stronger surface shaking for a given magnitude." },
+    "sideA": {
+      "label": "USGS",
+      "text": "Measured hypocentral depth at 110.3 km, characterizing it as an intermediate-depth intraslab event within the Nazca Plate."
+    },
+    "sideB": {
+      "label": "Servicio Geológico Colombiano",
+      "text": "Measured depth at 96–103 km — a meaningful difference for hazard modeling since shallower ruptures generally produce stronger surface shaking for a given magnitude."
+    },
     "resolution": "Unresolved technical discrepancy typical of rapid post-event seismic analysis; both agencies agree the event was unusually deep for its damage footprint.",
     "lastUpdated": "2026-08-20T12:00:00Z"
   },
   {
     "id": "gdp-impact-scale",
     "question": "Will the earthquake meaningfully dent Colombia's GDP?",
-    "sideA": { "label": "Oxford Economics", "text": "Direct economic impact is moderate — 0.2–0.4% of GDP — and the firm has kept its 2026/2027 growth forecasts unchanged." },
-    "sideB": { "label": "USGS economic loss model / Goldman Sachs", "text": "USGS's automated estimate implies losses near 7% of GDP, and Goldman Sachs has already cut its 2026 growth forecast for Colombia, citing the quake's disruption to the newly-inaugurated government's fiscal plans." },
+    "sideA": {
+      "label": "Oxford Economics",
+      "text": "Direct economic impact is moderate — 0.2–0.4% of GDP — and the firm has kept its 2026/2027 growth forecasts unchanged."
+    },
+    "sideB": {
+      "label": "USGS economic loss model / Goldman Sachs",
+      "text": "USGS's automated estimate implies losses near 7% of GDP, and Goldman Sachs has already cut its 2026 growth forecast for Colombia, citing the quake's disruption to the newly-inaugurated government's fiscal plans."
+    },
     "resolution": "Unresolved. The gap reflects different modeling methodologies (bottom-up damage assessment vs. automated seismic-loss estimation) rather than new data.",
     "lastUpdated": "2026-08-20T12:00:00Z"
   },
   {
     "id": "rescue-team-selection",
     "question": "Why were only four countries' rescue teams formally accepted?",
-    "sideA": { "label": "Colombian government", "text": "The US, Ecuador, El Salvador and Israel were selected based on rapid deployment capacity, technical expertise and existing bilateral coordination channels." },
-    "sideB": { "label": "Excluded/self-deployed teams (e.g. Mexico's Topos)", "text": "Independent Mexican rescue brigades deployed anyway, arguing humanitarian access should not be limited by a formal government list — especially once the Pava letter controversy revealed the initial policy had been overly restrictive." },
+    "sideA": {
+      "label": "Colombian government",
+      "text": "The US, Ecuador, El Salvador and Israel were selected based on rapid deployment capacity, technical expertise and existing bilateral coordination channels."
+    },
+    "sideB": {
+      "label": "Excluded/self-deployed teams (e.g. Mexico's Topos)",
+      "text": "Independent Mexican rescue brigades deployed anyway, arguing humanitarian access should not be limited by a formal government list — especially once the Pava letter controversy revealed the initial policy had been overly restrictive."
+    },
     "resolution": "Unresolved. The formal criteria for the four-country list were never fully published.",
     "lastUpdated": "2026-08-20T12:00:00Z"
   },
   {
     "id": "choco-historical-neglect",
     "question": "Does Chocó's disaster response reflect longstanding regional neglect?",
-    "sideA": { "label": "President de la Espriella / national government", "text": "Announced Chocó would be treated with priority ('estará de primeras') and floated a dedicated 'Marshall Plan' to address the department's historic infrastructure gap, despite its comparatively lower monetary damage total." },
-    "sideB": { "label": "Chocó civil society & regional advocates", "text": "Chocó has historically received disproportionately little state infrastructure investment relative to wealthier departments, and residents are skeptical that post-disaster pledges will translate into sustained funding once national attention moves on." },
+    "sideA": {
+      "label": "President de la Espriella / national government",
+      "text": "Announced Chocó would be treated with priority ('estará de primeras') and floated a dedicated 'Marshall Plan' to address the department's historic infrastructure gap, despite its comparatively lower monetary damage total."
+    },
+    "sideB": {
+      "label": "Chocó civil society & regional advocates",
+      "text": "Chocó has historically received disproportionately little state infrastructure investment relative to wealthier departments, and residents are skeptical that post-disaster pledges will translate into sustained funding once national attention moves on."
+    },
     "resolution": "Unresolved. The Marshall Plan for Chocó remains a stated intention without a published, funded implementation timeline.",
     "lastUpdated": "2026-08-20T12:00:00Z"
   },
   {
     "id": "mexican-topos-unauthorized",
     "question": "Was it appropriate for Mexican rescue teams to deploy despite Colombian government restrictions?",
-    "sideA": { "label": "Colombian officials (early policy)", "text": "Foreign rescue personnel outside the approved four-country list should coordinate through official channels rather than self-deploy, to avoid duplicating effort and straining local logistics." },
-    "sideB": { "label": "Topos de Tlatelolco / Topos Aztecas", "text": "Time-critical search and rescue work justified independent deployment, especially given the brigades' proven experience (including recent operations in Venezuela) and the narrowing survival window." },
+    "sideA": {
+      "label": "Colombian officials (early policy)",
+      "text": "Foreign rescue personnel outside the approved four-country list should coordinate through official channels rather than self-deploy, to avoid duplicating effort and straining local logistics."
+    },
+    "sideB": {
+      "label": "Topos de Tlatelolco / Topos Aztecas",
+      "text": "Time-critical search and rescue work justified independent deployment, especially given the brigades' proven experience (including recent operations in Venezuela) and the narrowing survival window."
+    },
     "resolution": "De facto resolved in favor of access — the Topos teams operated in Cali without being turned away, though never formally added to Colombia's approved list.",
     "lastUpdated": "2026-08-20T12:00:00Z"
   },
   {
     "id": "curfew-public-order",
     "question": "Were military deployments and curfews in Cali and Pereira a necessary security measure or an overreach?",
-    "sideA": { "label": "National government", "text": "Deployed 1,000+ soldiers and enforced curfews in Cali and Pereira to prevent looting of damaged and abandoned properties in the chaotic aftermath." },
-    "sideB": { "label": "Civil liberties advocates", "text": "Heavy militarization of disaster zones risks restricting displaced residents' movement and access to aid distribution points at the moment they most need freedom to seek shelter and services." },
+    "sideA": {
+      "label": "National government",
+      "text": "Deployed 1,000+ soldiers and enforced curfews in Cali and Pereira to prevent looting of damaged and abandoned properties in the chaotic aftermath."
+    },
+    "sideB": {
+      "label": "Civil liberties advocates",
+      "text": "Heavy militarization of disaster zones risks restricting displaced residents' movement and access to aid distribution points at the moment they most need freedom to seek shelter and services."
+    },
     "resolution": "Unresolved. No documented incidents of rights abuses reported as of Aug 20, but the curfews remain controversial among local advocacy groups.",
     "lastUpdated": "2026-08-20T12:00:00Z"
   },
   {
     "id": "tax-relief-adequacy",
     "question": "Are the government's tax and rental relief measures sufficient for displaced households and businesses?",
-    "sideA": { "label": "Government", "text": "Extended the income tax filing deadline by one month, suspended utility billing and tax filings for affected families, and introduced rental subsidies under the economic emergency decree." },
-    "sideB": { "label": "Small business associations", "text": "A one-month tax extension and rental subsidy does little for businesses with destroyed inventory and no revenue; longer-term debt relief and reconstruction financing are needed before the underlying decrees expire in three months." },
+    "sideA": {
+      "label": "Government",
+      "text": "Extended the income tax filing deadline by one month, suspended utility billing and tax filings for affected families, and introduced rental subsidies under the economic emergency decree."
+    },
+    "sideB": {
+      "label": "Small business associations",
+      "text": "A one-month tax extension and rental subsidy does little for businesses with destroyed inventory and no revenue; longer-term debt relief and reconstruction financing are needed before the underlying decrees expire in three months."
+    },
     "resolution": "Unresolved. Additional decrees are still being issued under the economic emergency's three-month window.",
     "lastUpdated": "2026-08-20T12:00:00Z"
   },
   {
     "id": "shelter-conditions",
     "question": "Are emergency shelter conditions adequate for the scale of displacement?",
-    "sideA": { "label": "Municipal authorities (Pereira, Cali, Quibdó)", "text": "Established shelters at parks, stadiums and sports facilities providing food, water, clothing and sanitation for displaced families within days of the quake." },
-    "sideB": { "label": "Displaced residents / volunteers", "text": "Reports from Pereira describe over 1,200 people sleeping in tents at Olaya Herrera park, and more than 500 untrained volunteers searching for survivors without proper equipment — evidence that early response capacity was stretched thin." },
+    "sideA": {
+      "label": "Municipal authorities (Pereira, Cali, Quibdó)",
+      "text": "Established shelters at parks, stadiums and sports facilities providing food, water, clothing and sanitation for displaced families within days of the quake."
+    },
+    "sideB": {
+      "label": "Displaced residents / volunteers",
+      "text": "Reports from Pereira describe over 1,200 people sleeping in tents at Olaya Herrera park, and more than 500 untrained volunteers searching for survivors without proper equipment — evidence that early response capacity was stretched thin."
+    },
     "resolution": "Unresolved. Conditions have reportedly improved with international aid inflows since mid-August, but no formal shelter-adequacy audit has been published.",
     "lastUpdated": "2026-08-20T12:00:00Z"
   },
   {
     "id": "aftershock-return-risk",
     "question": "Is it safe for residents to return to damaged homes given ongoing aftershock activity?",
-    "sideA": { "label": "Servicio Geológico Colombiano", "text": "325+ aftershocks recorded since Aug 10 mean structural risk assessments must precede any return to damaged buildings, particularly in the epicentral Chocó region." },
-    "sideB": { "label": "Displaced residents", "text": "Many families are eager to return home despite risk warnings, citing overcrowded shelters and the need to protect remaining property from looting or further weather damage." },
+    "sideA": {
+      "label": "Servicio Geológico Colombiano",
+      "text": "325+ aftershocks recorded since Aug 10 mean structural risk assessments must precede any return to damaged buildings, particularly in the epicentral Chocó region."
+    },
+    "sideB": {
+      "label": "Displaced residents",
+      "text": "Many families are eager to return home despite risk warnings, citing overcrowded shelters and the need to protect remaining property from looting or further weather damage."
+    },
     "resolution": "Unresolved. Structural inspections of the 14,493 destroyed and 134,000+ damaged structures are still underway.",
     "lastUpdated": "2026-08-20T12:00:00Z"
   },
   {
     "id": "departments-affected-count",
     "question": "How many departments were actually affected by the earthquake?",
-    "sideA": { "label": "Presidential address (Aug 17)", "text": "Cited 12 departments affected in the official briefing on damage and casualties." },
-    "sideB": { "label": "UNGRD municipal data", "text": "UNGRD's underlying municipal-level data references 476 municipios across 15 departments — a broader footprint than the president's public figure." },
+    "sideA": {
+      "label": "Presidential address (Aug 17)",
+      "text": "Cited 12 departments affected in the official briefing on damage and casualties."
+    },
+    "sideB": {
+      "label": "UNGRD municipal data",
+      "text": "UNGRD's underlying municipal-level data references 476 municipios across 15 departments — a broader footprint than the president's public figure."
+    },
     "resolution": "Still reopened. Decree 1261 of 2026 (signed Aug 19) formally named 15 departments — Antioquia, Caldas, Cauca, Chocó, Quindío, Cundinamarca, Risaralda, Huila, Valle del Cauca, Tolima, Putumayo, Norte de Santander, Bolívar, Nariño and Sucre — but official balances since Aug 21 have consistently referenced 16 departments, with the municipio count widening further from 481 (Aug 21) to 494 (Aug 25) to 496 (Aug 27) to 497 (Aug 30) to 498 in UNGRD's Sept 3, 06:30 balance, still without specifying which 16th department was added.",
     "lastUpdated": "2026-09-06T16:57:41.000Z"
+  },
+  {
+    "id": "marshall-plan-package-value",
+    "question": "How large is the government's Chocó infrastructure package — $1 billion or $320 million?",
+    "sideA": {
+      "label": "English-language coverage (initial)",
+      "text": "Multiple English-language outlets reported the government's Sept 7 Chocó infrastructure package as worth 'US$1 billion.'"
+    },
+    "sideB": {
+      "label": "Rio Times Online (correction)",
+      "text": "The package is actually 1 trillion Colombian pesos — about US$320 million at the Sept 8 exchange rate of COP 3,126/USD — roughly a third of the reported figure. The error stems from a false-friend translation of Spanish 'billón' (one million million) as English 'billion' (one thousand million)."
+    },
+    "resolution": "Resolved as a reporting error, not a factual dispute over the underlying package. The government package is COP 1 trillion (~$320M): COP 500 billion in tax-offset public works and COP 500 billion contingent on private investment, funding five road corridors, Bahía Solano airport upgrades, 100 scholarships and a small entrepreneur seed fund. It sits alongside a separate COP 2 trillion (~$640M) private-sector pledge from the same Sept 7 summit, for a combined COP 3 trillion package.",
+    "lastUpdated": "2026-09-09T00:00:00.000Z"
   }
 ]

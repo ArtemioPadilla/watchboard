@@ -2,27 +2,28 @@
   {
     "id": "kpi-confirmed-cases-national",
     "label": "Lab-Confirmed Cases (Season, Since May 1)",
-    "value": "18,445",
+    "value": "19,595",
     "color": "red",
     "source": "CDC",
     "contested": false,
-    "delta": "+1,265",
-    "deltaNote": "since Aug 25 (17,180)",
+    "delta": "+1,150",
+    "deltaDetail": { "value": 1150, "direction": "up", "period": "7d" },
+    "deltaNote": "since Sept 1 (18,445)",
     "trend": "up",
-    "lastUpdated": "2026-09-01T00:00:00Z"
+    "lastUpdated": "2026-09-08T00:00:00Z"
   },
   {
     "id": "kpi-total-reported-combined",
-    "label": "Total Reported Cases (Confirmed + Probable)",
-    "value": "31,950",
+    "label": "Total Reported Cases (Confirmed + Probable + Pending)",
+    "value": "35,099",
     "color": "red",
     "source": "CDC",
     "contested": true,
-    "contestNote": "Combines 18,445 lab-confirmed cases with 13,505 additional non-lab-confirmed/pending cases per CDC's Sept 1 update; distinct from the narrower multistate outbreak count of 11,458. A further 3,491 cases await classification of domestic vs. international acquisition and are not included in this total. Food-safety attorney Bill Marler's independent fifty-state tally has since climbed to roughly 33,525 as of Sept 4 (from 32,857 on Sept 1), even as CDC announced Sept 4 it is reducing update frequency and only 13 of the 41 states that ever published case data still maintain a public page — meaning CDC's own combined total likely understates the true count going forward.",
-    "delta": "+2,926",
-    "deltaNote": "since Aug 25 (29,024); no official CDC refresh since Sept 1",
+    "contestNote": "Combines CDC's Sept 8 domestic figures: 19,595 lab-confirmed, 9,355 additional lab-confirmed cases still awaiting domestic-vs-international classification (up sharply from 3,491 on Sept 1), and 6,149 further non-lab-confirmed/pending-interview cases; distinct from the narrower multistate outbreak count of 11,458. CDC restructured its case-data categories between the Sept 1 and Sept 8 updates, so this total is not directly comparable to the prior 31,950 figure — much of the apparent shift reflects cases moving between the 'pending classification' and 'pending interview' buckets, not a real change in growth rate. Food-safety attorney Bill Marler's independent fifty-state tally stood at roughly 33,525 as of Sept 4, even as CDC said Sept 4 it is reducing update frequency and only 13 of the 41 states that ever published case data still maintain a public page.",
+    "delta": "n/a",
+    "deltaNote": "CDC changed its case-category breakdown between Sept 1 and Sept 8; not a like-for-like comparison to the prior 31,950 figure",
     "trend": "up",
-    "lastUpdated": "2026-09-04T00:00:00Z"
+    "lastUpdated": "2026-09-08T00:00:00Z"
   },
   {
     "id": "kpi-states-still-publishing",
