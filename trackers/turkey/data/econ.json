@@ -24,8 +24,8 @@
   {
     "id": "inflation-cpi",
     "label": "Annual Inflation (CPI)",
-    "value": "31.75% (Jul 2026)",
-    "change": "Eased from 32.11% in June 2026 — lowest since March; down from 85.5% peak (Oct 2022); central bank raised its end-2026 forecast to 28% (from 26%) on Aug 13, 2026 citing lira import-price and energy assumptions, while leaving its 24% interim target and 37% policy rate unchanged; independent ENAG group estimates run higher",
+    "value": "31.51% (Aug 2026)",
+    "change": "Eased further from 31.75% in July 2026 — down from 85.5% peak (Oct 2022); central bank's end-2026 forecast stands at 28% amid elevated energy prices tied to regional geopolitical risk; independent ENAG group estimates run higher",
     "direction": "down",
     "sparkData": [
       19,
@@ -38,17 +38,23 @@
       48,
       42,
       32.11,
-      31.75
+      31.75,
+      31.51
     ],
     "color": "#e74c3c",
-    "source": "TCMB Governor Fatih Karahan / Reuters Aug 13 2026",
-    "lastUpdated": "2026-09-02T00:00:00.000Z"
+    "source": "TCMB / Xinhua Sep 10 2026",
+    "deltaDetail": {
+      "value": -0.24,
+      "direction": "down",
+      "period": "1mo"
+    },
+    "lastUpdated": "2026-09-10T14:30:00.000Z"
   },
   {
     "id": "lira-usd-exchange",
     "label": "TRY/USD Exchange Rate",
-    "value": "~47.70 TRY per USD (Aug 9, 2026)",
-    "change": "From 3.7 in 2017 — lost ~93% of value; weakened ~1.8% over the past month and ~17.3% over 12 months; managed depreciation continues post-NATO summit",
+    "value": "~48.48 TRY per USD (Sep 9, 2026)",
+    "change": "From 3.7 in 2017 — lost ~93% of value; weakened ~1.6% over the past month and ~17.5% over 12 months; managed depreciation continues amid regional geopolitical risk",
     "direction": "down",
     "sparkData": [
       3.7,
@@ -61,17 +67,23 @@
       32.5,
       38.0,
       47.04,
-      47.7
+      47.7,
+      48.48
     ],
     "color": "#e74c3c",
-    "source": "Turkish Central Bank (TCMB) / Trading Economics Jul 15 2026",
-    "lastUpdated": "2026-08-10T00:00:00.000Z"
+    "source": "Turkish Central Bank (TCMB) / Trading Economics Sep 9 2026",
+    "deltaDetail": {
+      "value": 0.78,
+      "direction": "down",
+      "period": "since Aug 9"
+    },
+    "lastUpdated": "2026-09-10T14:30:00.000Z"
   },
   {
     "id": "policy-interest-rate",
     "label": "Central Bank Policy Rate",
-    "value": "37% (held through Jul 2026)",
-    "change": "Cut from peak 50% (early 2024); raised from 8.5% post-2023 election; CBRT held rate steady, next MPC meeting Jul 23 2026, analysts expect no change to protect the lira",
+    "value": "37% (held through Sep 2026)",
+    "change": "Cut from peak 50% (early 2024); raised from 8.5% post-2023 election; CBRT held rate steady for a 5th straight meeting on Sep 10, 2026 — its first pause since a January cut — citing elevated energy prices tied to regional geopolitical risk",
     "direction": "down",
     "sparkData": [
       8.5,
@@ -86,8 +98,8 @@
       37.0
     ],
     "color": "#3498db",
-    "source": "Turkish Central Bank (TCMB) Jul 2026",
-    "lastUpdated": "2026-07-16T00:00:00.000Z"
+    "source": "Turkish Central Bank (TCMB) Sep 2026",
+    "lastUpdated": "2026-09-10T14:30:00.000Z"
   },
   {
     "id": "unemployment-rate",

@@ -37,14 +37,19 @@
   {
     "id": "mobile-broadband-coverage",
     "label": "4G+ Mobile Coverage (% population)",
-    "value": "95%",
+    "value": "96%",
     "color": "green",
-    "source": "GSMA Intelligence State of Connectivity 2024",
+    "source": "GSMA Intelligence / Huawei — Bridging the Divide: Enhancing Digital Literacy in the AI Era, September 10, 2026",
     "contested": false,
-    "delta": "+2 pp",
-    "deltaNote": "coverage growing but adoption still lags at ~57%",
+    "delta": "+1 pp",
+    "deltaNote": "GSMA's September 10, 2026 report puts mobile broadband coverage at 96% of the global population, but finds 3.1 billion people within that footprint (38%) remain offline — reframing the divide as a literacy/usage gap rather than a coverage gap",
+    "deltaDetail": {
+      "value": 1,
+      "direction": "up",
+      "period": "since Apr 2026"
+    },
     "trend": "up",
-    "lastUpdated": "2026-04-14T00:00:00Z"
+    "lastUpdated": "2026-09-10T00:00:00Z"
   },
   {
     "id": "gender-digital-gap",
@@ -96,13 +101,18 @@
   {
     "id": "amazon-kuiper-satellites-deployed",
     "label": "Amazon Leo Satellites Deployed",
-    "value": "375+",
+    "value": "396+",
     "color": "blue",
-    "source": "CNBC / About Amazon — 14th mission (Atlas V), July 2, 2026",
+    "source": "About Amazon — Project Kuiper Satellite & Rocket Launch Progress Updates (LA-08 mission, July 2, 2026)",
     "contested": false,
-    "delta": "+44 since May 29",
-    "deltaNote": "375+ satellites in orbit after 14th launch on July 2, 2026 — Amazon says this is enough to begin initial commercial service later in 2026; FCC waived the July 30, 2026 half-constellation deadline in June 2026 after Amazon's extension request; enterprise beta active with Verizon, AT&T, Vodafone and Vodacom; Herotel partnership signed for South Africa's 'evry' rural service (2027 launch)",
+    "delta": "+21 since Jul 2",
+    "deltaNote": "Amazon's own mission tracker now lists 396 satellites in orbit following the LA-08 Atlas V launch (July 2, 2026), the final Atlas V mission in the campaign; Amazon is transitioning to ULA's Vulcan Centaur for subsequent launches, with the first Vulcan-launched Amazon Leo mission (LV-01, 45 satellites) targeted for September 2026; FCC waived the July 30, 2026 half-constellation deadline in June 2026; enterprise beta active with Verizon, AT&T, Vodafone and Vodacom",
+    "deltaDetail": {
+      "value": 21,
+      "direction": "up",
+      "period": "since Jul 2"
+    },
     "trend": "up",
-    "lastUpdated": "2026-07-16T12:00:00Z"
+    "lastUpdated": "2026-09-10T00:00:00Z"
   }
 ]

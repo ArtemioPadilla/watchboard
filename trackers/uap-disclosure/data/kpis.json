@@ -13,14 +13,15 @@
   {
     "id": "congressional_hearings",
     "label": "Congressional Hearings",
-    "value": "7",
+    "value": "8",
     "color": "blue",
-    "source": "Congress.gov / C-SPAN",
+    "source": "Congress.gov / C-SPAN / House Oversight",
     "contested": false,
-    "delta": "+2",
-    "deltaNote": "FY2026 cycle added 2 hearings (House Oversight Sep 2025, Senate Armed Services Nov 2024)",
+    "delta": "+1",
+    "deltaNote": "Sept 9, 2026: Task Force on the Declassification of Federal Secrets held 'Restoring Public Trust Through UAP Transparency and Whistleblower Protection' — its first UAP-focused hearing.",
+    "deltaDetail": { "value": 1, "direction": "up", "period": "since Apr 5" },
     "trend": "up",
-    "lastUpdated": "2026-04-05T00:00:00.000Z"
+    "lastUpdated": "2026-09-09T00:00:00.000Z"
   },
   {
     "id": "aaro_cases",
@@ -38,13 +39,16 @@
   {
     "id": "whistleblowers",
     "label": "Public Whistleblowers",
-    "value": "4+",
+    "value": "7+",
     "color": "amber",
     "source": "Congressional testimony / NewsNation",
     "contested": true,
-    "contestNote": "Grusch, Graves, Fravor, and Herrera testified publicly. Grusch claims 40+ additional witnesses provided classified testimony to the ICIG. AARO Historical Report Vol. 1 found 'no evidence' supporting retrieval program claims. July 31, 2026: ODNI issued formal guidance waiving prior NDAs and secrecy oaths for current/former officials disclosing UAP information through AARO or PURSUE channels — intended to remove the legal deterrent that kept additional witnesses silent, though it does not authorize public disclosure.",
-    "trend": "stable",
-    "lastUpdated": "2026-07-31T00:00:00.000Z"
+    "contestNote": "Grusch, Graves, Fravor, and Herrera testified publicly through mid-2026. Sept 9, 2026: Air Force veterans Jeffrey Nuccetelli and Dylan Borland and active-duty Navy Chief Alexandro Wiggins added sworn testimony before the House Task Force on the Declassification of Federal Secrets — Wiggins the first active-duty Navy witness to testify publicly. Grusch separately claims 40+ additional witnesses provided classified testimony to the ICIG. AARO Historical Report Vol. 1 found 'no evidence' supporting retrieval program claims; Borland told Congress AARO's public position is 'a misrepresentation of the truth.'",
+    "delta": "+3",
+    "deltaNote": "Sept 9, 2026 hearing added 3 new sworn public witnesses (Nuccetelli, Borland, Wiggins).",
+    "deltaDetail": { "value": 3, "direction": "up", "period": "since Jul 31" },
+    "trend": "up",
+    "lastUpdated": "2026-09-09T00:00:00.000Z"
   },
   {
     "id": "disclosure_laws",
