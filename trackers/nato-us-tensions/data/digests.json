@@ -1,5 +1,38 @@
 [
   {
+    "date": "2026-09-11",
+    "title": "NATO-US Tensions Tracker Update — Fri Sep 11, 2026",
+    "summary": "Filled two gap days in the review window: on September 8, Pentagon Under Secretary Colby told the virtual Ramstein-36 Ukraine Defense Contact Group that Europe must take primary responsibility for funding and arming Ukraine's defense, warning of a 'protracted war'; on September 10, NATO Secretary General Rutte told Germany's Heads of Mission Conference in Berlin that 'NATO 3.0' is the alliance's biggest shift since the Cold War, citing Germany's new Lithuania brigade and reaffirming solidarity after the alleged Leipzig hybrid attack. Added both events with map points, refreshed the Article 5 reliability KPI, the force-posture-review claim, and the Rutte/Colby quotes in political.json, and rewrote the hero headline/subtitle and dateline.",
+    "sectionsUpdated": [
+      "events",
+      "mapPoints",
+      "kpis",
+      "claims",
+      "political",
+      "meta"
+    ],
+    "provenance": {
+      "method": "llm",
+      "model": "claude",
+      "generatedAt": "2026-09-11T19:15:00.000Z",
+      "pipeline": "update-data"
+    }
+  },
+  {
+    "date": "2026-09-10",
+    "title": "NATO-US Tensions Tracker Update — Thu Sep 10, 2026",
+    "summary": "NATO's Rutte Tells Berlin Conference 'NATO 3.0' Is Alliance's Biggest Shift Since the Cold War.",
+    "sectionsUpdated": [
+      "events"
+    ],
+    "source": "freshness",
+    "provenance": {
+      "method": "heuristic",
+      "generatedAt": "2026-09-11T19:06:35.575Z",
+      "pipeline": "ensure-digests"
+    }
+  },
+  {
     "date": "2026-09-09",
     "title": "NATO-US Tensions Tracker Update — Wed Sep 9, 2026",
     "summary": "Dutch Nationwide 24-Hour Transport Strike Halts Trains, Buses and Trams Over Welfare Cuts Tied to NATO Spending Pledge.",
@@ -10,6 +43,20 @@
     "provenance": {
       "method": "heuristic",
       "generatedAt": "2026-09-09T19:38:09.661Z",
+      "pipeline": "ensure-digests"
+    }
+  },
+  {
+    "date": "2026-09-08",
+    "title": "NATO-US Tensions Tracker Update — Tue Sep 8, 2026",
+    "summary": "Pentagon's Colby Tells Ramstein-36 Ukraine Contact Group Europe Must Fund and Lead Ukraine's Defense.",
+    "sectionsUpdated": [
+      "events"
+    ],
+    "source": "freshness",
+    "provenance": {
+      "method": "heuristic",
+      "generatedAt": "2026-09-11T19:06:35.575Z",
       "pipeline": "ensure-digests"
     }
   },
@@ -447,38 +494,6 @@
       "kpis",
       "mapPoints",
       "political",
-      "meta"
-    ],
-    "source": "daily"
-  },
-  {
-    "date": "2026-05-24",
-    "title": "Breaking: US Secretary of State Rubio clarifies that Washington's troop redeployments in E",
-    "summary": "US Secretary of State Rubio clarifies that Washington's troop redeployments in Europe are not aimed at punishing allies for insufficient support over Iran — partial reassurance to NATO partners alarme",
-    "sectionsUpdated": [
-      "events",
-      "meta"
-    ],
-    "source": "breaking"
-  },
-  {
-    "date": "2026-05-23",
-    "title": "NATO-US Tensions Tracker Update — Sat May 23, 2026",
-    "summary": "Post-Helsingborg: Rubio Warns Baltic Escalation 'Concerning'; US Troop Drawdown Confirmed Structural; Allies Bewildered by Contradictory Signals.",
-    "sectionsUpdated": [
-      "events"
-    ]
-  },
-  {
-    "date": "2026-05-22",
-    "title": "NATO-US Tensions Tracker Update — Fri May 22, 2026",
-    "summary": "The Helsingborg emergency NATO Foreign Ministers Meeting concluded on Day 2 (May 22) with a Rutte-Rubio bilateral meeting and joint appearance. Rubio delivered a conditional framing: 'Like any alliance, it has to be good for everyone who's involved' — and noted Trump remains 'very disappointed' with NATO over the Iran war and Spain's base-access refusal. NATO's Supreme Allied Commander Europe confirmed that additional US troop withdrawals from Europe are expected beyond the confirmed 10,200+. The contested 0.25% GDP Ukraine military pledge was NOT adopted — France, the UK, and western European allies blocked the mandatory format; it will be repackaged as non-binding language for the Ankara Leaders' Summit (July 7–8, 2026). Rutte's closing statement: 'The question is not whether we need to do more — it's how quickly we turn commitments into capabilities.' KPIs, map, political, and claims sections updated to reflect Helsingborg Day 2 outcomes.",
-    "sectionsUpdated": [
-      "events",
-      "kpis",
-      "mapPoints",
-      "political",
-      "claims",
       "meta"
     ],
     "source": "daily"

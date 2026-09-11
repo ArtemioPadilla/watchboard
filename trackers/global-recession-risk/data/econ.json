@@ -24,9 +24,9 @@
   {
     "id": "us-cpi-yoy",
     "label": "US CPI (Year-over-Year)",
-    "value": "3.5% (June 2026) — Cooling From May's 4.2%",
-    "change": "-0.7pp from May 2026 (4.2%); Core 2.6% YoY flat MoM (vs 2.9% expected/prior); Energy -5.7% MoM (biggest drop since Apr 2020) but still +15.7% YoY; headline -0.4% MoM",
-    "direction": "down",
+    "value": "3.4% (August 2026) — In Line With Consensus; Core Ran Hot at 0.3% MoM",
+    "change": "+0.4% MoM headline (3.4% YoY), matching the Dow Jones consensus; core CPI +0.3% MoM (0.1pp above the 0.2% forecast), core YoY 2.4% in line. Gasoline +3.9% MoM drove over a third of the headline gain; shelter +0.3%, communication +2.3%, airline fares +2.7% added to core. Medical care -0.2% and auto insurance -0.8% partially offset.",
+    "direction": "up",
     "sparkData": [
       9.1,
       6.5,
@@ -39,11 +39,12 @@
       3.3,
       3.8,
       4.2,
-      3.5
+      3.5,
+      3.4
     ],
     "color": "amber",
-    "source": "BLS CPI Release, June 2026 (released July 14, 2026)",
-    "lastUpdated": "2026-07-14T13:30:00Z"
+    "source": "BLS CPI Release, August 2026 (released September 11, 2026)",
+    "lastUpdated": "2026-09-11T13:30:00Z"
   },
   {
     "id": "us-core-pce",
@@ -73,8 +74,8 @@
   {
     "id": "fed-funds-rate-history",
     "label": "Fed Funds Rate",
-    "value": "3.50-3.75% (held July 29); September Hike Odds ~58% After a Dovish Waller Speech Was Reversed by a Blowout Jobs Report",
-    "change": "SEPT 3-4 WHIPSAW: Fed Governor Waller signaled openness to a September hold if disinflation continued, cutting hike odds to ~48-55% (Sept 3); the August jobs report (+162,000 vs ~53-56K expected, unemployment steady 4.1%) reversed that within a day, pushing CME FedWatch hike odds back to ~58% (Sept 4). Prior: Warsh's Aug 28 Jackson Hole keynote turned hawkish, lifting hike odds to ~57% from ~35%; July 28-29 FOMC held at 3.50-3.75% with three hawkish dissents.",
+    "value": "3.50-3.75% (held July 29); September Hike Odds ~87% After Hot August CPI/PPI",
+    "change": "SEPT 8-11 ARC: Canada's retaliatory tariffs took effect (Sept 8); the Aug PPI (Sept 10) accelerated to 5.4% YoY on an oil-driven energy spike, and the Aug CPI (Sept 11) ran hot on core (0.3% MoM) even as headline matched consensus — pushing CME FedWatch Sept 15-16 hike odds to ~87% from ~58% (Sept 4). Prior: Waller's Sept 3 dovish signal briefly cut odds to ~48-55%, reversed within a day by the Sept 4 jobs blowout (+162,000 vs ~53-56K expected).",
     "direction": "up",
     "sparkData": [
       5.5,
@@ -88,8 +89,8 @@
       3.75
     ],
     "color": "blue",
-    "source": "Federal Reserve FOMC Statement, July 29, 2026; Waller Speech, Sept 3, 2026; BLS Employment Situation, Aug 2026 (released Sept 4)",
-    "lastUpdated": "2026-09-04T14:00:00Z"
+    "source": "Federal Reserve FOMC Statement, July 29, 2026; BLS PPI (Sept 10) and CPI (Sept 11) August releases; CME FedWatch, Sept 11 2026",
+    "lastUpdated": "2026-09-11T14:00:00Z"
   },
   {
     "id": "ecb-deposit-rate",
@@ -182,8 +183,8 @@
   {
     "id": "us-10y-treasury-yield",
     "label": "US 10Y / 30Y / 2Y Treasury Yield",
-    "value": "10Y at 4.79% (Sept 4) — Retested the Sept 2 Cycle High of 4.814% on the August Jobs Blowout; 30Y 5.31-5.32% (Aug 17 Peak) — Highest Since 2007",
-    "change": "SEPT 3-4: Fed Governor Waller's dovish Sept 3 remarks pulled yields off the Sept 2 high, but the Sept 4 blowout August jobs report (+162,000 vs ~53-56K expected) reversed the move, sending the 10Y back up nearly 3bps to 4.79% — within 3bps of the Sept 2 cycle high — as CME FedWatch hike odds jumped to ~58%.",
+    "value": "10Y at ~4.97% (Sept 10) — New Cycle High, Highest Since October 2023; 30Y 5.31-5.32% (Aug 17 Peak) — Highest Since 2007",
+    "change": "SEPT 8-11: A fourth-straight losing session for stocks (Sept 9) came alongside the 10Y touching its highest since 2023, even after Treasury Secretary Bessent's $6B bond buyback plan. The Sept 10 PPI (Aug data, +5.4% YoY) and a fresh oil surge (Brent >$105) pushed the 10Y to ~4.97%, its firmest level since October 2023, before easing modestly Sept 11 as the CPI read 'in line enough' and oil pulled back.",
     "direction": "up",
     "sparkData": [
       2.8,
@@ -210,13 +211,14 @@
       4.7,
       4.792,
       4.814,
-      4.79
+      4.79,
+      4.97
     ],
     "color": "red",
-    "source": "CNBC / FRED / Yahoo Finance; July 23 - September 4, 2026",
-    "lastUpdated": "2026-09-04T18:00:00Z",
-    "delta": "SEPT 4: 10Y yield rose nearly 3bps to 4.79% after the August jobs blowout, reversing Waller's Sept 3 dovish-driven dip.",
-    "deltaNote": "JULY 23-SEPT 4 ARC: The Red Sea/Hormuz oil shock (Brent >$100, July 23) pushed yields to a multi-month high as September Fed-hike odds jumped to ~82%. The Aug 7 jobs report and Aug 12-13 CPI/PPI prints both cooled, pulling the 10Y down to 4.65%. The Aug 14 Hormuz tanker attacks and Aug 17 MOU expiration pushed the 30-year to 5.31-5.32% (highest since June 2007). Warsh's Aug 28 hawkish Jackson Hole keynote and an Aug 31 Hormuz strike pushed yields higher again, and the rout went fully global Sept 2 (10Y 4.814%, highest since Nov 2023; Japan 10Y above 3% for the first time since 1996; German Bund and UK gilts at multi-year highs). Fed Governor Waller's Sept 3 remarks signaling openness to a September hold pulled yields down briefly, but the Sept 4 jobs blowout (+162,000, June/July revised up 55,000 combined) reversed that within a day, sending the 10Y back to 4.79% as hike odds jumped to ~58%. A renewed US-Iran Gulf conflict (Sept 1-6, spreading to Kuwait, the UAE, and mutual Strait of Hormuz tanker strikes) keeps an oil-driven inflation premium under the long end heading into the Sept 16-17 FOMC."
+    "source": "CNBC / FRED / Yahoo Finance; July 23 - September 10, 2026",
+    "lastUpdated": "2026-09-10T18:00:00Z",
+    "delta": "SEPT 4-10: 10Y yield rose ~18bps from 4.79% to ~4.97%, a fresh cycle high, as the Aug PPI ran hot and oil surged past $105.",
+    "deltaNote": "JULY 23-SEPT 10 ARC: The Red Sea/Hormuz oil shock (Brent >$100, July 23) pushed yields to a multi-month high as September Fed-hike odds jumped to ~82%. The Aug 7 jobs report and Aug 12-13 CPI/PPI prints both cooled, pulling the 10Y down to 4.65%. The Aug 14 Hormuz tanker attacks and Aug 17 MOU expiration pushed the 30-year to 5.31-5.32% (highest since June 2007). Warsh's Aug 28 hawkish Jackson Hole keynote and an Aug 31 Hormuz strike pushed yields higher again, and the rout went fully global Sept 2 (10Y 4.814%, highest since Nov 2023). The Sept 4 jobs blowout sent the 10Y back to 4.79% as hike odds jumped to ~58%. Yields then climbed through the Sept 8-10 window: Canada's retaliatory tariffs took effect Sept 8, stocks fell a fourth straight day Sept 9 despite a $6B Treasury bond buyback plan, and the Sept 10 PPI (wholesale inflation +5.4% YoY on a diesel-led energy spike) landed the same day Brent topped $105-107 — sending the 10Y to ~4.97%, the highest since October 2023. The Sept 11 CPI (core hot, headline in line) pushed Fed hike odds to ~87% but yields eased slightly as oil cooled and stocks rallied. A still-unresolved US-Iran Gulf conflict keeps an oil-driven inflation premium under the long end heading into the Sept 16-17 FOMC."
   },
   {
     "id": "us-ppi-yoy-april-2026",
@@ -264,8 +266,8 @@
   {
     "id": "wti-crude-oil",
     "label": "WTI / Brent Crude Oil (USD/bbl)",
-    "value": "Brent ~$97.36 / WTI ~$92.39 (Sept 4) — On Track for an ~8% Weekly Gain as the US-Iran Gulf Conflict Widens to Kuwait, the UAE, and Mutual Tanker Strikes",
-    "change": "The Sept 1-6 US-Iran exchange widened well beyond the Strait of Hormuz: after the Sept 1 US strikes on IRGC targets, Iran hit US-linked positions in Jordan, Kuwait, and the UAE (Sept 2-3); Brent rose to $97.36 and WTI to $92.39 on Sept 4. The conflict escalated further Sept 5 as the IRGC fired ballistic missiles at a US carrier group and the US destroyed three Iranian tankers in response, with Iran hitting six more vessels in reprisal; further IRGC attacks on US warships were claimed Sept 6. Brent is on track for roughly an 8% weekly gain as Hormuz shipping stays well below its pre-crisis baseline.",
+    "value": "Brent ~$105-107 / WTI ~$100 (Sept 10) — Highest in Nearly Four Months as the Unresolved US-Iran Gulf Conflict Keeps a War-Risk Premium in Crude",
+    "change": "Oil kept climbing through the Sept 8-10 window as the US-Iran Gulf conflict remained unresolved: Brent, at $97.36 on Sept 4, pushed through $100 and on to $105-107/bbl by Sept 10 — its highest level in nearly four months — while diesel hit a record $5.94/gallon. The Aug PPI (released Sept 10) confirmed the pass-through, showing final-demand energy prices up 4.2% MoM with diesel alone up 24.1%. Oil pulled back modestly Sept 11 as the CPI read 'in line enough,' helping stocks rally.",
     "direction": "up",
     "sparkData": [
       96.42,
@@ -283,11 +285,35 @@
       90.87,
       90.22,
       91.18,
-      97.36
+      97.36,
+      106
     ],
     "color": "red",
-    "source": "CNBC / Fortune / Al Jazeera / Vantage Markets / Euronews / AOL / Yahoo Finance; July 23 - September 6, 2026",
-    "lastUpdated": "2026-09-06T12:00:00Z"
+    "source": "CNBC / Fortune / Al Jazeera / Vantage Markets / Euronews / AOL / Yahoo Finance; July 23 - September 10, 2026",
+    "lastUpdated": "2026-09-10T12:00:00Z"
+  },
+  {
+    "id": "us-ppi-yoy-august-2026",
+    "label": "US PPI (Year-over-Year) — August 2026",
+    "value": "+5.4% YoY; +0.4% MoM — Accelerating on an Oil-Driven Energy Spike",
+    "change": "+0.4% MoM (seasonally adjusted); unadjusted 12-month rate 5.4%, up from July's 4.7%. Final-demand goods +1.1%, services +0.1%. Energy +4.2% MoM accounted for over three-quarters of the broad-based rise; diesel fuel alone surged 24.1%, over a third of the goods increase, as the unresolved US-Iran Gulf conflict kept a war-risk premium in crude and refined products.",
+    "direction": "up",
+    "sparkData": [
+      11.7,
+      6.3,
+      3.0,
+      2.0,
+      2.2,
+      2.5,
+      3.0,
+      4.2,
+      6.0,
+      4.7,
+      5.4
+    ],
+    "color": "red",
+    "source": "BLS PPI Release, August 2026 (released September 10, 2026)",
+    "lastUpdated": "2026-09-10T12:30:00Z"
   },
   {
     "id": "eurozone-cpi",
@@ -377,8 +403,8 @@
   {
     "id": "shiller-cape-ratio",
     "label": "S&P 500 / CAPE Ratio",
-    "value": "S&P 500 +0.3% to 7,677.28 (Aug 25) as Chip Rebound Offsets Canada Tariff Escalation Ahead of Nvidia Earnings",
-    "change": "AUG 17: Dow -0.5%, S&P -0.5%, Nasdaq -0.3% as the US-Iran MOU expired, oil jumped to ~$91, and the 30-year Treasury yield hit 5.31-5.32% (highest since 2007). AUG 25: S&P 500 +0.3% (7,677.28), Dow +0.3% (53,577.40), Nasdaq +0.7% (26,151.30) as Nvidia gained ~2% (snapping a 7-day losing streak) and investors looked past Canada's newly announced $20B retaliatory-tariff package.",
+    "value": "S&P 500 at 7,672.80 (Sept 11) — +1.07% to End a Four-Session Losing Streak Driven by Oil and Treasury-Yield Surges",
+    "change": "SEPT 9-10: Stocks fell for a fourth (Sept 9, Dow -~300pts) and fifth (Sept 10, S&P -0.58% to ~7,592) straight session as the 10Y Treasury yield hit a fresh cycle high (~4.97%) and Brent oil topped $105-107, its highest in nearly four months. SEPT 11: The Aug CPI's in-line headline (core ran hot) and a pullback in oil drove a sharp rebound — Dow +1.03% to 52,602.74, S&P 500 +1.07% to 7,672.80, Nasdaq +1.23% to 26,403.77 — even as Fed hike odds for Sept 15-16 jumped to ~87%.",
     "direction": "up",
     "sparkData": [
       27,
@@ -401,11 +427,12 @@
       40.8,
       41.2,
       40.9,
-      41.1
+      41.1,
+      40.7
     ],
     "color": "amber",
-    "source": "AP / Yahoo Finance / The Motley Fool; August 13-25, 2026",
-    "lastUpdated": "2026-08-25T21:00:00Z"
+    "source": "AP / Yahoo Finance / CNBC / TheStreet; August 13 - September 11, 2026",
+    "lastUpdated": "2026-09-11T21:00:00Z"
   },
   {
     "id": "ism-services-pmi-april-2026",

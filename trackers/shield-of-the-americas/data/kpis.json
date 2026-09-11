@@ -5,10 +5,11 @@
     "value": "19",
     "color": "blue",
     "source": "Newsweek, Wikipedia",
-    "contested": false,
+    "contested": true,
     "delta": "+2 since founding",
     "trend": "up",
-    "lastUpdated": "2026-08-20T00:00:00Z"
+    "lastUpdated": "2026-09-11T18:35:00Z",
+    "contestNote": "Wire coverage of Secretary Rubio's 10 Sep 2026 Lima meeting with President Fujimori (Al Jazeera, MercoPress, UPI) framed Peru's coalition participation as a new accession, but the tracker's own Newsweek/Wikipedia-sourced count already listed Peru as the 18th member from 5 Aug 2026 \u2014 the coalition's informal, communiqu\u00e9-driven accession process makes a single authoritative join date hard to pin down. See the 'peru-membership-accession-date' claim."
   },
   {
     "id": "founding-signatories",
@@ -36,20 +37,25 @@
     "color": "amber",
     "source": "MyChesCo, Forth News",
     "contested": false,
-    "contestNote": "SCHEDULED — plan not yet drafted or approved as of 20 Aug 2026.",
+    "contestNote": "SCHEDULED \u2014 plan not yet drafted or approved as of 20 Aug 2026.",
     "lastUpdated": "2026-08-20T00:00:00Z"
   },
   {
     "id": "southern-spear-toll",
     "label": "Southern Spear Strikes / Killed",
-    "value": "70 strikes / 227+ killed (1-yr tally)",
+    "value": "71 strikes / 230+ killed (1-yr+ tally)",
     "color": "red",
     "source": "Fox News, Stars and Stripes, Military.com, Wikipedia, Associated Press, Al Jazeera, CBS News, Human Rights Watch, The Intercept, Seapower Magazine",
     "contested": true,
     "contestNote": "CNN reporting questions the campaign's effectiveness at reducing trafficking; rights groups dispute the legality of strikes without capture or trial. Sen. Tim Kaine says classified intel shows strikes have likely killed people uninvolved in trafficking, calling them 'murder victims'; Pentagon IG is reviewing targeting procedures. 2 Sep 2026 one-year-anniversary reports (HRW, The Intercept) find only 26 of 227 victims (11%) publicly named and none formally charged. House Armed Services ranking member Adam Smith (2 Sep 2026) calls the administration's transparency on the campaign the worst he's seen in 20+ years on the committee. Families of 28 Ecuadorian crew from three fishing boats sunk as alleged 'refueling stations' (28 Aug-3 Sep 2026) dispute the narco-trafficking characterization; no charges filed.",
-    "delta": "1-year anniversary (2 Sep 2026) Pentagon briefing puts the full first-year tally at 70 vessels destroyed / 227 killed and claims a 65%/60%/~50% drop in illicit maritime activity across the Western Caribbean, Eastern Caribbean and Eastern Pacific, respectively (uncorroborated by independent data); no new lethal strikes since 25 Aug 2026 — four consecutive non-lethal 'floating refueling station' interdictions instead (28 Aug, 2 Sep, 3 Sep, 5 Sep 2026)",
+    "delta": "JTF-WHEM's first lethal strike since 25 August killed 3 in the Caribbean on 9 Sep 2026, ending a roughly two-week run of six non-lethal refueling-vessel interdictions (28 Aug-8 Sep) off Ecuador.",
     "trend": "up",
-    "lastUpdated": "2026-09-07T00:00:00Z"
+    "lastUpdated": "2026-09-11T18:35:00Z",
+    "deltaDetail": {
+      "value": 3,
+      "direction": "up",
+      "period": "since 2 Sep 2026"
+    }
   },
   {
     "id": "maritime-activity-reduction",
@@ -96,7 +102,7 @@
     "color": "amber",
     "source": "Associated Press",
     "contested": true,
-    "contestNote": "Guatemala's Pres. Arévalo explicitly denies any joint ground-operations agreement, citing a constitutional bar on foreign joint military action; Honduras and Colombia have not confirmed Hegseth's 17 Aug 2026 claim.",
+    "contestNote": "Guatemala's Pres. Ar\u00e9valo explicitly denies any joint ground-operations agreement, citing a constitutional bar on foreign joint military action; Honduras and Colombia have not confirmed Hegseth's 17 Aug 2026 claim.",
     "delta": "+3 since Ecuador (Mar 2026)",
     "trend": "up",
     "lastUpdated": "2026-08-21T15:08:46Z"
@@ -112,13 +118,14 @@
   },
   {
     "id": "ecuador-basing-footprint",
-    "label": "Confirmed US Basing Assets — Ecuador",
-    "value": "7th SFG + 3 Black Hawks + 2 warships",
+    "label": "Confirmed US Basing Assets \u2014 Ecuador",
+    "value": "7th SFG + 3 Black Hawks + 2 warships + USCG cutter + 5 interceptor boats (pledged)",
     "color": "blue",
     "source": "UPI, Diario Expreso",
     "contested": false,
-    "contestNote": "Confirmed on the record by Ecuador's Esmeraldas governor and Defense Minister (21 Aug 2026); troop numbers and deployment duration undisclosed.",
-    "lastUpdated": "2026-08-23T15:04:23Z"
+    "contestNote": "Confirmed on the record by Ecuador's Esmeraldas governor and Defense Minister (21 Aug 2026); troop numbers and deployment duration undisclosed. The 9-10 Sep pledge is an announced commitment; delivery timeline and interceptor specifications are undisclosed.",
+    "lastUpdated": "2026-09-11T18:35:00Z",
+    "delta": "Rubio pledged a US Coast Guard cutter and five interceptor boats to Ecuador during his 9-10 Sep Quito visit, alongside a $45M additional counter-narcotics funding request to Congress."
   },
   {
     "id": "ecuador-covert-boat-attacks",

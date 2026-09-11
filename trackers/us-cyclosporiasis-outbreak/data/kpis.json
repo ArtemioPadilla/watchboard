@@ -1,5 +1,17 @@
 [
   {
+    "id": "kpi-outbreak-status",
+    "label": "Taylor Farms Multistate Outbreak Status",
+    "value": "Declared Over",
+    "color": "green",
+    "source": "CDC / FDA",
+    "contested": false,
+    "delta": "changed",
+    "deltaNote": "CDC and FDA declared the outbreak over Sept 11, 2026 at 12,883 illnesses, 570 hospitalizations, 2 deaths, 21 states; FDA's root-cause contamination investigation remains open",
+    "trend": "stable",
+    "lastUpdated": "2026-09-11T00:00:00Z"
+  },
+  {
     "id": "kpi-confirmed-cases-national",
     "label": "Lab-Confirmed Cases (Season, Since May 1)",
     "value": "19,595",
@@ -39,28 +51,30 @@
   },
   {
     "id": "kpi-multistate-outbreak-cases",
-    "label": "Multistate Outbreak Cases (Taylor Farms Lettuce)",
-    "value": "11,458",
+    "label": "Multistate Outbreak Cases (Taylor Farms Lettuce) — Outbreak Closed",
+    "value": "12,883",
     "color": "amber",
     "source": "CDC",
     "contested": true,
-    "contestNote": "Michigan's own state dashboard separately reported 14,277 cumulative cases as of Aug 20 using a broader counting methodology.",
-    "delta": "+528",
-    "deltaNote": "since Aug 20 (10,930); Georgia, Tennessee, and Texas newly added, bringing the outbreak to 20 states",
-    "trend": "up",
-    "lastUpdated": "2026-08-27T00:00:00Z"
+    "contestNote": "Michigan's own state dashboard separately reported 14,277 cumulative cases as of Aug 20 using a broader counting methodology. CDC and FDA declared this specific multistate outbreak over Sept 11, 2026, though the season-wide surveillance total (separate KPI) continues.",
+    "delta": "+1,425",
+    "deltaDetail": { "value": 1425, "direction": "up", "period": "since Aug 27" },
+    "deltaNote": "since Aug 27 (11,458); outbreak declared over Sept 11 at 21 states, final count 12,883",
+    "trend": "stable",
+    "lastUpdated": "2026-09-11T00:00:00Z"
   },
   {
     "id": "kpi-hospitalizations",
-    "label": "Hospitalizations (Multistate Outbreak)",
-    "value": "495",
+    "label": "Hospitalizations (Multistate Outbreak) — Outbreak Closed",
+    "value": "570",
     "color": "amber",
     "source": "CDC",
     "contested": false,
-    "delta": "+41",
-    "deltaNote": "since Aug 20 (454)",
-    "trend": "up",
-    "lastUpdated": "2026-08-27T00:00:00Z"
+    "delta": "+75",
+    "deltaDetail": { "value": 75, "direction": "up", "period": "since Aug 27" },
+    "deltaNote": "since Aug 27 (495); final figure as outbreak declared over Sept 11",
+    "trend": "stable",
+    "lastUpdated": "2026-09-11T00:00:00Z"
   },
   {
     "id": "kpi-deaths",
@@ -76,15 +90,16 @@
   },
   {
     "id": "kpi-states-affected-outbreak",
-    "label": "States in Multistate Outbreak",
-    "value": "20",
+    "label": "States in Multistate Outbreak — Final",
+    "value": "21",
     "color": "amber",
     "source": "CDC",
     "contested": false,
-    "delta": "+3",
-    "deltaNote": "Georgia, Tennessee, and Texas added Aug 27; up from 17 states since Aug 13",
-    "trend": "up",
-    "lastUpdated": "2026-08-27T00:00:00Z"
+    "delta": "+1",
+    "deltaDetail": { "value": 1, "direction": "up", "period": "since Aug 27" },
+    "deltaNote": "up from 20 states since Aug 27; final count as outbreak declared over Sept 11",
+    "trend": "stable",
+    "lastUpdated": "2026-09-11T00:00:00Z"
   },
   {
     "id": "kpi-states-surveillance-wide",

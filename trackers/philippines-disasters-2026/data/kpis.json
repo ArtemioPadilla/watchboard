@@ -2,14 +2,15 @@
   {
     "id": "cascade-total-deaths",
     "label": "Cumulative Deaths Across Cascade (Earthquake + Bavi + Aug Storms)",
-    "value": "172+",
+    "value": "173+",
     "color": "red",
-    "source": "PHIVOLCS / NDRRMC / OCD aggregate, Sept 7, 2026",
+    "source": "PHIVOLCS / NDRRMC / OCD aggregate, Sept 10, 2026",
     "contested": true,
-    "contestNote": "Aggregates three distinct NDRRMC/PHIVOLCS tallies (106-107 earthquake, 23+ Bavi, 43 Aug-Sept storms); the national storm-sequence toll's '5 missing' figure (spread across Quezon City, Manila, Batangas, Rizal and Pampanga) has not visibly folded in the 2 people still missing from the Aug 29 Agana Bridge collapse in Tarlac, where PCG suspended the search Sept 1 over strong currents and low visibility; local government counts in Sarangani and Lanao del Sur run higher than national totals in places",
-    "delta": "+43 since Aug 9 storm tally began; toll rose from 39 to 43 between Sept 2 and Sept 6, holding steady through Sept 7 even as calamity-declared areas climbed to 188",
+    "contestNote": "Aggregates three distinct NDRRMC/PHIVOLCS tallies (106-107 earthquake, 23+ Bavi, 44 Aug-Sept storms); the national storm-sequence toll's '5 missing' figure (spread across Quezon City, Manila, Batangas, Rizal and Pampanga) has not visibly folded in the 2 people still missing from the Aug 29 Agana Bridge collapse in Tarlac, where PCG suspended the search Sept 1 over strong currents and low visibility; local government counts in Sarangani and Lanao del Sur run higher than national totals in places",
+    "delta": "+44 since Aug 9 storm tally began; toll rose from 43 to 44 between Sept 7 and Sept 10 as PAGASA said the habagat itself was beginning to weaken",
+    "deltaDetail": { "value": 1, "direction": "up", "period": "since Sept 7" },
     "trend": "up",
-    "lastUpdated": "2026-09-07T19:26:38Z"
+    "lastUpdated": "2026-09-10T06:00:00Z"
   },
   {
     "id": "eq-magnitude",
@@ -48,13 +49,14 @@
   {
     "id": "people-affected-aug-storms",
     "label": "People Affected by Aug Storm/Habagat Sequence",
-    "value": "10.2 million+",
+    "value": "10.4 million+",
     "color": "amber",
-    "source": "OCD, Sept 7, 2026",
+    "source": "NDRRMC, Sept 10, 2026 (6am report)",
     "contested": false,
-    "delta": "2.9M+ families across 6,900 barangays; 188 cities/municipalities now under state of calamity (up from 180), 385 areas in Luzon still flooded, ₱2.29 billion in government assistance disbursed, 4,500 houses damaged",
+    "delta": "Close to 3M families across 6,900 barangays; 188 cities/municipalities under state of calamity (unchanged since Sept 7), 434 areas flooded (up from 385, now spanning Ilocos, Central Luzon and Calabarzon), ₱2.46 billion in government assistance disbursed, 4,600 houses damaged, 60,900 people in 654 evacuation centers",
+    "deltaDetail": { "value": 200000, "direction": "up", "period": "since Sept 7" },
     "trend": "up",
-    "lastUpdated": "2026-09-07T19:26:38Z"
+    "lastUpdated": "2026-09-10T06:00:00Z"
   },
   {
     "id": "eq-economic-loss",
@@ -85,8 +87,8 @@
     "color": "amber",
     "source": "Office of the President, Executive Order 110",
     "contested": false,
-    "delta": "In effect since March 24, 2026; Visayas logged red/yellow alerts again Sept 8 (5-8pm red, 2,400MW available vs 2,507MW peak) with Mindanao on yellow alert, extending the recurring pattern since the Sept 5/7 red alerts; ~800MW+ has stayed unavailable nationwide from forced plant outages and derated units. DOE Secretary Garin still targets a stabilized Visayas grid by October via 2 Luzon power barges (Cebu, Panay) arriving in September and ~170MW of new battery storage across Cebu, Negros and Panay, plus a 60MW Naga City battery project under construction. Separately, a big-time fuel price hike hit Sept 8 (diesel +₱5.18/L, gasoline +₱4.69/L, kerosene +₱5.58/L) driven by Iran-US tensions on Strait of Hormuz tanker traffic, erasing the Sept 1 rollback",
+    "delta": "In effect since March 24, 2026; Visayas logged yellow/red alerts again Sept 11 (yellow 1-3pm & 9-10pm, red 3-9pm, 2,002MW demand vs 2,320MW supply) with Mindanao on yellow alert 1-8pm (2,545MW vs 2,652MW supply), extending the recurring pattern since the Sept 5/7/8 alerts; 31 Visayas plants and 29 Mindanao plants remain on forced outage or derated. DOE's four-pronged plan (unit restorations through Oct 3, ~253MW of new battery storage across Cebu/Panay/Leyte/Negros, transmission fixes, generator accountability) still targets a stabilized Visayas grid by October. Separately, a big-time fuel price hike hit Sept 8 (diesel +₱5.18/L, gasoline +₱4.69/L, kerosene +₱5.58/L) driven by Iran-US tensions on Strait of Hormuz tanker traffic, erasing the Sept 1 rollback",
     "trend": "stable",
-    "lastUpdated": "2026-09-09T12:00:00Z"
+    "lastUpdated": "2026-09-11T18:00:00Z"
   }
 ]

@@ -1,5 +1,38 @@
 [
   {
+    "date": "2026-09-11",
+    "title": "Ukraine History Tracker Update — Fri Sep 11, 2026",
+    "summary": "A Russian drone-and-guided-bomb strike on a Pavlohrad shopping center killed 4 and injured over 60 on September 10. Overnight, Ukraine's General Staff confirmed strikes on Russia's Makhachkala Caspian port and three warships near Novorossiysk, followed by a September 11 drone strike on the Saratov oil refinery and an Ozon warehouse. Donetsk Oblast prosecutors reported that Russian troops executed two captured Ukrainian National Guard soldiers near Dobropillia. Russian military losses reached ~1,503,880 per the Ukrainian General Staff.",
+    "sectionsUpdated": [
+      "events",
+      "mapPoints",
+      "mapLines",
+      "kpis",
+      "casualties"
+    ],
+    "source": "daily",
+    "provenance": {
+      "method": "llm",
+      "model": "claude",
+      "generatedAt": "2026-09-11T18:45:51.000Z",
+      "pipeline": "update-data"
+    }
+  },
+  {
+    "date": "2026-09-10",
+    "title": "Ukraine History Tracker Update — Thu Sep 10, 2026",
+    "summary": "Russian Strike on Pavlohrad Shopping Center Kills 4, Injures Over 60. Ukraine Strikes Russia's Caspian Port at Makhachkala and Warships Near Novorossiysk.",
+    "sectionsUpdated": [
+      "events"
+    ],
+    "source": "freshness",
+    "provenance": {
+      "method": "heuristic",
+      "generatedAt": "2026-09-11T19:06:35.615Z",
+      "pipeline": "ensure-digests"
+    }
+  },
+  {
     "date": "2026-09-09",
     "title": "Ukraine History Tracker Update — Wed Sep 9, 2026",
     "summary": "Russian Drone Strikes Hit Kyiv Again, Killing 1 and Injuring 16 Including Children.",
@@ -428,32 +461,5 @@
       "meta"
     ],
     "source": "breaking"
-  },
-  {
-    "date": "2026-06-20",
-    "title": "Breaking: Zelensky returns Poland's highest state honor after Polish authorities stripped ",
-    "summary": "Zelensky returns Poland's highest state honor after Polish authorities stripped the award, marking a new diplomatic rift between Kyiv and Warsaw.",
-    "sectionsUpdated": [
-      "events",
-      "meta"
-    ],
-    "source": "breaking"
-  },
-  {
-    "date": "2026-06-07",
-    "title": "Ukraine History Tracker Update — Sun Jun 7, 2026",
-    "summary": "On Day 1,564, Russia struck the Chornobyl spent nuclear fuel storage building with a Shahed drone (~02:00 local), causing structural damage and fire but no radiation release — the IAEA announced an emergency site visit and Zelensky called the attack 'extremely vile.' Russia also launched 236 drones against Ukraine (215 intercepted), killing 4 people. Ukraine struck Kronstadt Naval Base again overnight June 5–6 with ~376 drones targeting the Baltic Fleet's 15th Arsenal and submarine weapons R&D institute. In a coordinated Crimea logistics attrition campaign, Ukrainian SOF struck the Feodosia maritime oil terminal (7 tanks ablaze) and Semykolodezyanska oil depot in Kerch district (9 tanks) on June 7, while a drone also damaged the Chonhar bridge — suspending the critical supply crossing. Putin met Schröder at the Kremlin as proposed mediator; both the EU and Ukraine rejected the candidacy. A 500-POW exchange proceeded as part of the June 2 direct talks agreement. Russian cumulative losses reached ~1,373,500; Ukraine's 2026 energy strike campaign total now exceeds $11B in Russian losses.",
-    "sectionsUpdated": [
-      "events",
-      "mapLines",
-      "mapPoints",
-      "kpis",
-      "econ",
-      "claims",
-      "political",
-      "strikeTargets",
-      "meta"
-    ],
-    "source": "daily"
   }
 ]

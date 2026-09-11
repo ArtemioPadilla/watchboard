@@ -2,46 +2,51 @@
   {
     "id": "deaths-confirmed",
     "label": "Confirmed Deaths",
-    "value": "135",
+    "value": "136",
     "color": "red",
     "source": "BNPB",
     "contested": true,
-    "contestNote": "Toll held flat at 127 for four days (3-6 Sep) before BNPB chief Suharyanto reported it to President Prabowo as 135 on 7 September — split for the first time into 48 direct deaths (structural collapse, falling debris) and 87 indirect deaths (health complications, pre-existing conditions, other natural causes). BNPB has not published case-by-case documentation for the indirect-death classification. The figure remains unreconciled with BPBD NTT's competing 130 count from 5 September.",
+    "contestNote": "Toll held flat at 127 for four days (3-6 Sep), jumped to 135 on 7 September (48 direct, 87 indirect), then rose by one more to 136 on 10 September (48 direct, 88 indirect) per Ministry of Health case reporting relayed by BNPB chief Suharyanto. BNPB has not published case-by-case documentation for the indirect-death classification. The figure remains unreconciled with BPBD NTT's competing 130 count from 5 September.",
     "trend": "up",
-    "delta": "+8 since 3 Sep (127→135, 7 Sep)",
-    "lastUpdated": "2026-09-07T19:00:00Z"
+    "delta": "+1 since 7 Sep (135→136, 10 Sep)",
+    "lastUpdated": "2026-09-10T19:13:00Z",
+    "deltaDetail": {
+      "value": 1,
+      "direction": "up",
+      "period": "since 7 Sep"
+    }
   },
   {
     "id": "injured-total",
     "label": "Injured",
-    "value": "1,763",
+    "value": "1,762",
     "color": "amber",
     "source": "BNPB",
     "contested": false,
-    "trend": "up",
-    "delta": "+11 since 7 Sep (1,752→1,763, 8 Sep)",
-    "lastUpdated": "2026-09-09T18:20:00Z",
+    "trend": "down",
+    "delta": "-1 since 8 Sep (1,763→1,762, 10 Sep)",
+    "lastUpdated": "2026-09-10T19:13:00Z",
     "deltaDetail": {
-      "value": 11,
-      "direction": "up",
-      "period": "24h"
+      "value": -1,
+      "direction": "down",
+      "period": "since 8 Sep"
     }
   },
   {
     "id": "displaced-total",
     "label": "Displaced / Sheltering",
-    "value": "70,382",
+    "value": "60,572",
     "color": "blue",
     "source": "BNPB",
     "contested": true,
-    "contestNote": "BNPB's own figure moved twice on 8 September: its public data portal still listed 72,864 that morning before acting Data Center head Berton SP Panjaitan revised it down to 70,382 that evening, attributing the drop to residents from lightly/moderately damaged homes returning home. Neither figure has been formally reconciled with the other, nor with BPBD NTT's competing 96,385 count from 5 September.",
+    "contestNote": "BNPB's own figure moved twice on 8 September (72,864 morning portal figure revised down to 70,382 that evening by acting Data Center head Berton SP Panjaitan), then continued falling to 60,572 by 10 September as verified light/moderate-damage households returned home. None of these figures have been formally reconciled with BPBD NTT's competing 96,385 count from 5 September.",
     "trend": "down",
-    "delta": "-2,482 since 7 Sep (72,864→70,382, 8 Sep)",
-    "lastUpdated": "2026-09-09T18:20:00Z",
+    "delta": "-9,810 since 8 Sep (70,382→60,572, 10 Sep)",
+    "lastUpdated": "2026-09-10T19:13:00Z",
     "deltaDetail": {
-      "value": -2482,
+      "value": -9810,
       "direction": "down",
-      "period": "24h"
+      "period": "48h"
     }
   },
   {
@@ -51,10 +56,10 @@
     "color": "red",
     "source": "BNPB",
     "contested": true,
-    "contestNote": "BNPB's Data Center now puts total identified damaged housing units at 102,384, of which 51,591 (50.39%) have completed field verification as of 7 September: 2,382 severely damaged, 7,276 moderately damaged, 14,177 lightly damaged and 27,756 confirmed undamaged after inspection. This supersedes BPBD NTT's narrower 99,568 provincial tally (4 Sep); verification remains ongoing and figures are described by BNPB as dynamic.",
-    "trend": "up",
-    "delta": "+2,816 since 4 Sep (99,568→102,384, BNPB, 7 Sep)",
-    "lastUpdated": "2026-09-07T19:00:00Z"
+    "contestNote": "BNPB's Data Center puts total identified damaged housing units at 102,384, unchanged since 7 September. Field verification progress has accelerated sharply, from 51,591 units (50.39%) on 7 September to 70% by 10 September; Berton SP Panjaitan said verification is targeted for completion the following week to enable reconstruction-aid disbursement. This supersedes BPBD NTT's narrower 99,568 provincial tally (4 Sep); figures are described by BNPB as dynamic.",
+    "trend": "stable",
+    "delta": "Verification progress: 50.39%→70% (7→10 Sep); total unchanged at 102,384",
+    "lastUpdated": "2026-09-10T19:13:00Z"
   },
   {
     "id": "aftershocks-recorded",
@@ -124,15 +129,15 @@
   {
     "id": "aid-distributed-total",
     "label": "Aid Distributed (Cumulative)",
-    "value": "2,165 tons",
+    "value": "2,178 tons",
     "color": "green",
     "source": "BNPB",
     "contested": false,
     "trend": "up",
-    "deltaNote": "Up from 2,142 tons (7 Sep), distributed via the Frans Seda (Maumere) and Komodo (Labuan Bajo) airports.",
-    "lastUpdated": "2026-09-09T18:20:00Z",
+    "deltaNote": "Up from 2,165 tons (9 Sep); 1,379 tons via Labuan Bajo (West Manggarai) and 664 tons via Maumere (Sikka), with the remainder via other channels.",
+    "lastUpdated": "2026-09-10T19:13:00Z",
     "deltaDetail": {
-      "value": 23,
+      "value": 13,
       "direction": "up",
       "period": "24h"
     }

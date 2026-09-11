@@ -2,35 +2,38 @@
   {
     "id": "hectares-burned-national",
     "label": "Hectares Burned Nationally",
-    "value": "~4.49M ha (4,492,283)",
+    "value": "~4.48M ha",
     "color": "red",
-    "source": "CIFFC, as of Aug 31",
+    "source": "CIFFC, as of Sep 5",
     "contested": true,
-    "contestNote": "CIFFC and provincial agencies update tallies independently and frequently; figures can lag or diverge by a day or more. Season remains below the five-year average and below 2025's pace (7.7M ha by mid-August).",
-    "delta": "+~392,000 ha vs Aug 18 estimate",
-    "trend": "up",
-    "lastUpdated": "2026-09-04T18:30:00Z"
+    "contestNote": "CIFFC and provincial agencies update tallies independently and frequently; figures can lag, diverge, or be revised downward on remapping. About 1.6% above the 10-year average (4.41M ha) but well below the 5-year average (7.1M+ ha) and 2025's pace (7.7M ha by mid-August).",
+    "delta": "~Flat vs Aug 31 estimate (4,492,283 ha) — apparent dip reflects remapping revisions, not fire reduction",
+    "trend": "stable",
+    "lastUpdated": "2026-09-11T00:00:00Z"
   },
   {
     "id": "total-fires-national",
     "label": "Total Wildfires This Season",
-    "value": "5,248",
+    "value": "5,289",
     "color": "amber",
-    "source": "CIFFC, as of Aug 31",
+    "source": "CIFFC, as of Sep 5",
     "contested": false,
-    "delta": "+455 vs Aug 18",
+    "delta": "+41 vs Aug 31",
+    "deltaDetail": { "value": 41, "direction": "up", "period": "since Aug 31" },
     "trend": "up",
-    "lastUpdated": "2026-09-04T18:30:00Z"
+    "lastUpdated": "2026-09-11T00:00:00Z"
   },
   {
     "id": "active-fires-current",
     "label": "Active Wildfires (incl. Out of Control)",
-    "value": "582 active / 31 out of control",
+    "value": "531 active (National Preparedness Level 3)",
     "color": "amber",
-    "source": "Public Safety Canada, as of Aug 18",
+    "source": "CIFFC, as of Sep 5",
     "contested": false,
+    "delta": "Down from 582 active on Aug 18",
+    "deltaDetail": { "value": -51, "direction": "down", "period": "since Aug 18" },
     "trend": "down",
-    "lastUpdated": "2026-08-20T04:20:00Z"
+    "lastUpdated": "2026-09-11T00:00:00Z"
   },
   {
     "id": "total-evacuated",

@@ -14,23 +14,28 @@
   {
     "id": "very-strong-el-nino-probability",
     "label": "Probability of Very Strong 'Super' El Niño (Oct–Dec 2026 peak)",
-    "value": "95%",
+    "value": "98%",
     "color": "red",
-    "source": "NOAA Climate Prediction Center (Aug 17, 2026)",
+    "source": "NOAA Climate Prediction Center (Sep 10, 2026)",
     "contested": false,
-    "delta": "+32pts vs prior estimate",
-    "deltaNote": "Prior 63% figure was from IRI Columbia's earlier-season outlook. NOAA's own Aug 13 assessment put the threshold at 'greater than 90%'.",
+    "delta": "+3pts vs Aug 17 estimate",
+    "deltaNote": "CPC's Sept 10 ENSO Diagnostic Discussion raised the very-strong-event probability from 95% after the coupled ocean-atmosphere event strengthened further across the tropical Pacific.",
+    "deltaDetail": { "value": 3, "direction": "up", "period": "since Aug 17" },
     "trend": "up",
-    "lastUpdated": "2026-08-23T14:00:00.000Z"
+    "lastUpdated": "2026-09-10T00:00:00.000Z"
   },
   {
     "id": "historic-event-probability",
     "label": "Probability of Historic Event Exceeding 1950–Present Record",
-    "value": "69%",
+    "value": "75%",
     "color": "red",
-    "source": "NOAA Climate Prediction Center (Aug 14, 2026)",
+    "source": "NOAA Climate Prediction Center (Sep 10, 2026)",
     "contested": false,
-    "lastUpdated": "2026-08-23T14:00:00.000Z"
+    "delta": "+6pts vs Aug 14 estimate",
+    "deltaNote": "CPC defines a historic event as an Oct-Dec three-month RONI reading of +2.5°C or higher, exceeding every El Niño in its record dating to 1950. NOAA cautioned that with an event of this magnitude, 'the chances of experiencing impacts consistent with El Niño are larger, though not guaranteed.'",
+    "deltaDetail": { "value": 6, "direction": "up", "period": "since Aug 14" },
+    "trend": "up",
+    "lastUpdated": "2026-09-10T00:00:00.000Z"
   },
   {
     "id": "uk-metoffice-el-nino-superlative",
@@ -86,14 +91,15 @@
   {
     "id": "cocoa-price-kpi",
     "label": "Cocoa Price",
-    "value": "$6,171/tonne",
+    "value": "$6,290/tonne",
     "color": "red",
-    "source": "Trading Economics / ICE Futures (Sep 4, 2026)",
+    "source": "Investing.com / ICE Futures (Sep 11, 2026)",
     "contested": false,
-    "delta": "-0.05% Sep 3→4, down from $6,437 Sep 2",
-    "deltaNote": "Continues easing off its Aug 28 rally high, though a Sep 3 Bloomberg report citing Cocoa Marketing Company Ghana Ltd. warned Ghana's 2026/27 output could sink by more than a third (470,000-620,000 tonnes vs. 760,000 last year) on old trees, disease, and pollination failures — a steeper cut than COCOBOD's own 13% estimate — leaving the price pullback at odds with a darkening supply outlook.",
-    "trend": "down",
-    "lastUpdated": "2026-09-04T18:00:00.000Z"
+    "delta": "+1.9% vs $6,175 on Sep 7",
+    "deltaNote": "Ticked back up despite rising Ivory Coast port arrivals (2.14M tonnes shipped through Aug 30, +19% YoY), as the market continues to weigh record shipment volumes against Ghana's darkening 2026/27 output forecast.",
+    "deltaDetail": { "value": 115, "direction": "up", "period": "since Sep 7" },
+    "trend": "up",
+    "lastUpdated": "2026-09-11T00:00:00.000Z"
   },
   {
     "id": "wmo-el-nino-persistence-probability",
