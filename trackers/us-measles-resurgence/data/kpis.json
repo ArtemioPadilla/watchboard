@@ -2,15 +2,16 @@
   {
     "id": "kpi-2026-national-cases",
     "label": "2026 confirmed measles cases (US)",
-    "value": "3,134",
+    "value": "3,294",
     "color": "red",
-    "source": "CDC national measles dashboard, Sept 3-4, 2026 update",
+    "source": "CDC national measles dashboard via CIDRAP, Sept 10, 2026 update",
     "contested": true,
-    "contestNote": "3,118 of the total are domestic cases across 47 jurisdictions, plus 16 among international visitors. CDC publishes only lab-confirmed cases as of a weekly cutoff; state dashboards and independent trackers often run higher.",
-    "delta": "+357",
-    "deltaNote": "vs 2,777 in the Aug 20, 2026 update, continuing the fastest growth of the year",
+    "contestNote": "CDC publishes only lab-confirmed cases as of a weekly cutoff; state dashboards and independent trackers often run higher.",
+    "delta": "+160",
+    "deltaNote": "vs 3,134 in the Sept 3-4, 2026 update — the fifth straight week of triple-digit gains, driven mainly by Pennsylvania's outbreak overtaking South Carolina's as the year's largest",
+    "deltaDetail": { "value": 160, "direction": "up", "period": "7d" },
     "trend": "up",
-    "lastUpdated": "2026-09-04T18:44:38Z"
+    "lastUpdated": "2026-09-12T16:59:14Z"
   },
   {
     "id": "kpi-2025-national-cases",
@@ -39,23 +40,23 @@
     "label": "Cases outbreak-associated (2026)",
     "value": "95%",
     "color": "red",
-    "source": "CDC, Sept 3-4, 2026 (2,969 of 3,134)",
+    "source": "CDC via CIDRAP, Sept 10, 2026 (3,123 of 3,294)",
     "contested": false,
     "trend": "stable",
-    "lastUpdated": "2026-09-04T18:44:38Z"
+    "lastUpdated": "2026-09-12T16:59:14Z"
   },
   {
     "id": "kpi-deaths-total",
     "label": "Confirmed measles deaths",
-    "value": "5 (3 on CDC's federal tally)",
+    "value": "5 (state 'measles-associated' count) / 4 (coroner cause-of-death) / 3 (CDC federal tally)",
     "color": "red",
-    "source": "CDC / Texas DSHS / New Mexico DOH / Pennsylvania DOH — 2 children (TX) + 1 adult (NM) in 2025, all unvaccinated; 2 unvaccinated Lancaster County, PA residents in Aug 2026 (removed from CDC's national tally in Sept 2026 at HHS Secretary Kennedy's request)",
+    "source": "CDC / Texas DSHS / New Mexico DOH / Pennsylvania DOH / Lancaster County Coroner — 2 children (TX) + 1 adult (NM) in 2025, all unvaccinated; 2 unvaccinated Lancaster County, PA infants in Aug 2026 (both excluded from CDC's national tally in Sept 2026 at HHS Secretary Kennedy's request)",
     "contested": true,
-    "contestNote": "Pennsylvania calls its 2 residents 'measles-associated' deaths and continues to count them; CDC struck them from its official tally after Kennedy told Director Schwartz he doubted the deaths, adding a note that available information 'does not establish' measles as cause or contributor. The county coroner has not issued a final cause-of-death determination.",
-    "delta": "removed from federal count",
-    "deltaNote": "CDC's Sept 2026 tally now shows 3 deaths (2025 only); Pennsylvania's own count still shows 5 total",
-    "trend": "up",
-    "lastUpdated": "2026-09-04T18:44:38Z"
+    "contestNote": "Lancaster County Coroner Dr. Stephen Diamantoni ruled Sept 9, 2026 that measles killed 6-week-old Mary Stoltzfus, but that newborn Ivan Miller's death was an unrelated ruptured spleen. Pennsylvania still classifies both as 'measles-associated' (positive test, regardless of immediate cause), while CDC's federal tally excludes both.",
+    "delta": "coroner confirms 1 of 2 PA deaths",
+    "deltaNote": "Coroner determination narrows the state's 2 'associated' PA deaths to 1 medically-confirmed measles death; CDC's federal tally is unchanged at 3 (2025 only)",
+    "trend": "stable",
+    "lastUpdated": "2026-09-12T16:59:14Z"
   },
   {
     "id": "kpi-mmr-kindergarten-coverage",
@@ -86,11 +87,11 @@
     "label": "2026 hospitalization rate",
     "value": "8%",
     "color": "blue",
-    "source": "CDC surveillance data via GV Wire, Sept 4, 2026 (248 hospitalizations of 3,134 cases)",
+    "source": "CDC surveillance data via CIDRAP, Sept 10, 2026 (~264 hospitalizations of 3,294 cases)",
     "contested": false,
     "delta": "-3pp",
     "deltaNote": "vs 11% in 2025 (243 of 2,289 cases); absolute hospitalizations still climbing with case count",
     "trend": "down",
-    "lastUpdated": "2026-09-04T18:44:38Z"
+    "lastUpdated": "2026-09-12T16:59:14Z"
   }
 ]

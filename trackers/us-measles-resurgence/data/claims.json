@@ -115,17 +115,18 @@
     "id": "claim-pa-death-causation",
     "question": "Did measles directly cause the two Lancaster County, Pennsylvania deaths announced in August 2026?",
     "sideA": { "label": "Pennsylvania Dept. of Health / Gov. Josh Shapiro", "text": "The state announced the deaths of 2 unvaccinated Lancaster County residents as the first 'measles-associated' deaths in Pennsylvania in 35 years, saying this terminology reflects standard practice when lab or epidemiologic evidence of measles is present, regardless of whether a medical examiner has separately assessed measles as the immediate cause of death." },
-    "sideB": { "label": "CDC / HHS under Trump and RFK Jr.", "text": "CDC publicly cast doubt on the state's framing, saying 'these discrepancies raise important questions, particularly because the Governor's Office has not provided CDC with information relevant to the outbreak and has declined our offers of assistance,' and that it 'will follow the facts and tell the American people the truth.' The Lancaster County coroner's office said it had not confirmed either death was caused BY measles, only that it was reviewing an infant death with a positive measles test." },
-    "resolution": "Unresolved. Pennsylvania has declined to release identifying details (ages, locations, community) citing privacy, and the county coroner had not issued a final cause-of-death determination as of Aug 27, 2026, leaving the federal-state dispute over terminology and data-sharing unsettled.",
-    "lastUpdated": "2026-08-28T00:57:58Z"
+    "sideB": { "label": "CDC / HHS under Trump and RFK Jr.", "text": "CDC publicly cast doubt on the state's framing, saying 'these discrepancies raise important questions, particularly because the Governor's Office has not provided CDC with information relevant to the outbreak and has declined our offers of assistance,' and that it 'will follow the facts and tell the American people the truth.'" },
+    "resolution": "Resolved with a split answer. On Sept 9, 2026 Lancaster County Coroner Dr. Stephen Diamantoni issued his findings: 6-week-old Mary Stoltzfus, born with the rare condition Amish lethal microcephaly, died Aug 18 of a measles infection; newborn Ivan Miller, who died Aug 14, died of a ruptured spleen the autopsy pathologist said was unrelated to measles. Pennsylvania's health department says it will keep classifying both as 'measles-associated' regardless, since both tested positive for measles.",
+    "status": "confirmed",
+    "lastUpdated": "2026-09-12T16:59:14Z"
   },
   {
     "id": "claim-rfk-cdc-tally-interference",
     "question": "Was HHS Secretary Kennedy's directive to remove Pennsylvania's measles deaths from CDC's national tally a legitimate data-quality correction or improper political interference?",
     "sideA": { "label": "HHS / Kennedy allies", "text": "HHS said it had 'requested details necessary to determine whether measles caused or contributed to the deaths' before counting them, framing the removal as normal verification given that the Lancaster County coroner has not certified either death as measles-caused." },
     "sideB": { "label": "APHA / Gov. Shapiro / public health leaders", "text": "Former American Public Health Association CEO Georges Benjamin called the intervention 'unheard of,' saying 'the secretary had no business interfering in the normal process.' Gov. Josh Shapiro criticized Kennedy for suggesting on X the deaths might be 'altogether fabricated,' and CDC staff had reportedly already accepted Pennsylvania's characterization before Kennedy's request reversed that decision." },
-    "resolution": "Unresolved. Reuters reported CDC career staff had accepted the state's death classification before Kennedy intervened and Director Schwartz complied without objection — a sequence public health leaders say represents unprecedented political interference in outbreak surveillance data, while HHS maintains it was a legitimate request for verification.",
-    "lastUpdated": "2026-09-04T18:44:38Z"
+    "resolution": "Unresolved. Reuters reported CDC career staff had accepted the state's death classification before Kennedy intervened and Director Schwartz complied without objection — a sequence public health leaders say represents unprecedented political interference in outbreak surveillance data, while HHS maintains it was a legitimate request for verification. The Lancaster County coroner's Sept 9, 2026 ruling that measles did cause one of the two deaths (Mary Stoltzfus) undercuts HHS's stated rationale for excluding it, but as of this update CDC's federal tally has not been revised to add her back.",
+    "lastUpdated": "2026-09-12T16:59:14Z"
   },
   {
     "id": "claim-hospitalization-rate-decline-meaning",
@@ -134,5 +135,14 @@
     "sideB": { "label": "Pediatric epidemiologists", "text": "Researchers note the under-5 hospitalization rate (10%) remains meaningfully higher than the overall rate, and that a falling rate amid a rising absolute case count still means a growing absolute number of hospitalizations and continued risk to the most vulnerable age group." },
     "resolution": "Both trends are real: the population-wide hospitalization rate has fallen, but total hospitalizations have risen in absolute terms alongside the record case count, and young children remain disproportionately affected.",
     "lastUpdated": "2026-08-20T04:28:03Z"
+  },
+  {
+    "id": "claim-breakthrough-case-significance",
+    "question": "Do Pennsylvania's 4 vaccinated 'breakthrough' measles cases, announced Sept 11, 2026, undermine confidence in the MMR vaccine?",
+    "sideA": { "label": "Vaccine-skeptic commentary", "text": "Some vaccine-skeptic voices have pointed to breakthrough infections in vaccinated individuals as evidence the MMR vaccine's protection is less reliable than officials claim." },
+    "sideB": { "label": "Pennsylvania Dept. of Health / CDC", "text": "The department said the 4 breakthrough cases (3 adults, 1 child, across Centre, Jefferson, Lancaster, and Lycoming counties) are expected, rare events — consistent with the two-dose MMR vaccine's well-documented ~97% (not 100%) efficacy — and represent under 1% of the state's 676 confirmed 2026 cases. None of the 4 required hospitalization." },
+    "resolution": "Breakthrough infections at this rate are statistically consistent with a vaccine known to be ~97%, not 100%, effective, and are not evidence of declining vaccine performance; the overwhelming majority of Pennsylvania's cases remain in unvaccinated or unknown-status individuals.",
+    "status": "confirmed",
+    "lastUpdated": "2026-09-12T16:59:14Z"
   }
 ]
