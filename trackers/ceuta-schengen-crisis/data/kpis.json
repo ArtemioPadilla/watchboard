@@ -35,13 +35,13 @@
   {
     "id": "migrants_remaining",
     "label": "Migrants Still in Ceuta",
-    "value": "5,000-11,000",
+    "value": "5,000-13,000",
     "color": "amber",
-    "source": "Spanish government / Mayor Vivas / Reuters (Sep 5)",
+    "source": "Spanish government / Mayor Vivas (Sep 13)",
     "contested": true,
-    "contestNote": "Spain's government puts the figure at roughly 5,000 (1,827 already housed at the Loma Margarita and El Embolsamiento centres, out of ~72,000 who entered irregularly in late July); Ceuta president Vivas and Reuters both cite figures above 10,000, with Vivas previously ranging 8,000-11,000. Ceuta's Assembly unanimously declared the city in an 'extreme situation, on the verge of collapse' on Aug 28. On Sep 5, the Transport Ministry authorised 16,000 m² of Ceuta's port for tents housing 1,000+ more migrants, overriding the Port Authority's own objection.",
+    "contestNote": "Ceuta president Vivas raised his estimate to around 13,000 migrants remaining in irregular status or reception facilities as of Sep 13, up from his earlier 8,000-11,000 range; the Spanish government's own figures remain far lower, citing 5,321 voluntary returns to Morocco since Aug 10 plus roughly 1,000 more being processed for return. Ceuta's Assembly unanimously declared the city in an 'extreme situation, on the verge of collapse' on Aug 28.",
     "trend": "stable",
-    "lastUpdated": "2026-09-06T16:59:50Z"
+    "lastUpdated": "2026-09-13T00:00:00Z"
   },
   {
     "id": "el_trampolin_relocation",
@@ -111,13 +111,26 @@
   {
     "id": "reception_places_expansion",
     "label": "New Urgent Reception Places Approved",
-    "value": "3,400+ / 6,000 target",
+    "value": "4,300+ / 6,000 target",
     "color": "blue",
-    "source": "Spanish government situation committee (Aug 29)",
+    "source": "Spanish government via Morocco World News (Sep 13)",
     "contested": false,
-    "contestNote": "Capacity more than doubled from 1,800 to over 3,400 places within a week (as of Sept 1), per government officials, who ruled out mainland transfer as the primary response; 6,000-bed target unchanged.",
+    "contestNote": "Capacity more than doubled from 1,800 to over 3,400 places by Sept 1, then rose to roughly 4,300 by Sept 13 with the opening of the Los Rosales tent facility (864 places) for migrants relocated from Loma Colmenar streets, plus a planned Sidi Embarek Mosque site for 300+ women with children; government still targets 6,000+ places in the coming days.",
+    "delta": "+900",
+    "deltaDetail": { "value": 900, "direction": "up", "period": "since Sep 1" },
     "trend": "up",
-    "lastUpdated": "2026-09-02T17:58:38Z"
+    "lastUpdated": "2026-09-13T00:00:00Z"
+  },
+  {
+    "id": "voluntary_returns_program_aug10",
+    "label": "Voluntary Returns to Morocco (Since Aug 10 Program)",
+    "value": "5,321",
+    "color": "blue",
+    "source": "Minister Ángel Víctor Torres via The New Arab (Sep 13)",
+    "contested": false,
+    "contestNote": "Distinct from the earlier '~70,000 returned' KPI, which captured the mass same-day/same-week turnbacks immediately after the Jul 30-31 crossing. This figure tracks a formal government return program for migrants who remained in Ceuta, running since Aug 10: 5,321 voluntary returns to date, ~90 people who abandoned international protection requests, and nearly 1,000 more being registered for return proceedings.",
+    "trend": "up",
+    "lastUpdated": "2026-09-13T00:00:00Z"
   },
   {
     "id": "ceuta_business_losses",

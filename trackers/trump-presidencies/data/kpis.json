@@ -116,34 +116,39 @@
   },
   {
     "id": "trump-approval-rating",
-    "label": "Trump Approval Rating (Sep 8, 2026 — Focaldata/FT Poll Hits New Record Low of 32%, Aggregates Hold Near 38-39%)",
-    "value": "~38-39.6% approve / ~57-58.4% disapprove (aggregate); 32% in Focaldata/FT record-low reading",
+    "label": "Trump Approval Rating (Sep 13, 2026 — CBS/YouGov Puts Approval at 39%, Weighted Aggregate ~37.7%)",
+    "value": "~37.7-39% approve / ~58.4-61% disapprove (aggregate); CBS News/YouGov 39%/61% (Sep 13)",
     "color": "red",
-    "source": "RealClearPolitics / Silver Bulletin / NYT aggregate / Focaldata-Financial Times / Reuters/Ipsos",
+    "source": "CBS News/YouGov / FiftyPlusOne aggregate / RealClearPolitics / Silver Bulletin",
     "contested": true,
-    "contestNote": "As of Sep 8, 2026, the major polling averages (RealClearPolitics 39.7%, plus NYT and Silver Bulletin trackers) put approval in a 38-39.6% range against 57-58.4% disapproval — little changed from the Sep 6 reading. A Focaldata/Financial Times poll released over Labor Day weekend (fieldwork Aug 28-Sep 2, n=2,180) found just 32% approval, a 3-point drop from August and the lowest in that tracker's polling since it began in May 2026; Republican approval within the same poll fell 2 points to a new low of 72%, and only 17% approved of Trump's handling of inflation/cost of living (69% disapprove). Quinnipiac (32%) and Economist/YouGov (33%) posted similarly low individual readings; ABC/WaPo/Ipsos had 37%. Reuters/Ipsos (Aug 21-24) had approval at 33% and disapproval at a second-term-high 65%; Gallup's Aug 1-20 poll remained the outlier at 40% approve.",
-    "delta": "Aggregate roughly flat since Sep 6; individual pollsters (Focaldata/FT, Quinnipiac) posting new second-term lows",
+    "contestNote": "A CBS News/YouGov poll released Sep 13, 2026 put approval at 39% against 61% disapproval. FiftyPlusOne's aggregate had approval at 35.7% / disapproval 60.4% as of Sep 12; a separate weighted average of Gallup, Reuters/Ipsos, YouGov, Quinnipiac and Morning Consult put Sep 2026 approval at 37.7% / disapproval 58.4%. As of Sep 8, the RealClearPolitics/NYT/Silver Bulletin trackers had approval in a 38-39.6% range against 57-58.4% disapproval; a Focaldata/Financial Times poll found a second-term-low 32% approval over Labor Day weekend, with Quinnipiac (32%) and Economist/YouGov (33%) posting similarly low individual readings.",
+    "delta": "Aggregate down slightly since Sep 8-9 reading",
     "deltaDetail": {
-      "value": 0,
-      "direction": "flat",
-      "period": "since Sep 6"
+      "value": -1,
+      "direction": "down",
+      "period": "since Sep 9"
     },
     "trend": "down",
-    "lastUpdated": "2026-09-09T00:00:00.000Z",
-    "deltaNote": "The multi-aggregator average held roughly steady, but several individual pollsters — Focaldata/FT, Quinnipiac, Economist/YouGov — posted new second-term-low approval readings around 32-33% ahead of the Dallas midterm convention."
+    "lastUpdated": "2026-09-13T00:00:00.000Z",
+    "deltaNote": "Individual pollsters continue posting readings in the low-to-mid 30s to high 30s; the multi-aggregator average has drifted about a point lower since the Sep 8-9 reading ahead of the Dallas midterm convention."
   },
   {
     "id": "iran-war-casualties",
-    "label": "US Iran War Casualties (Sep 3, 2026 — Lutnick Falsely Claims No US Deaths; Trump Corrects: 18 Killed)",
-    "value": "18 US KIA / 750+ WIA",
+    "label": "US Iran War Casualties (Sep 2026 — 19 KIA + 1 Contractor, 757+ Wounded)",
+    "value": "19 US KIA + 1 contractor / 757+ WIA",
     "color": "red",
-    "source": "Pentagon (DCAS) / Washington Post / CNN / The Hill",
+    "source": "Pentagon (DCAS) / Wikipedia (DoD-sourced) / Washington Post / CNN / The Hill",
     "contested": true,
-    "contestNote": "Sep 3: Commerce Secretary Lutnick told CNBC 'there haven't been American deaths' in the Iran war, prompting Trump to publicly correct him via Truth Social ('18 people were killed in Iran!') before Lutnick apologized, saying he had confused Iran with the earlier Venezuela operation. Pentagon's official DCAS count puts wounded above 750 (combining Operation Epic Fury and related overseas operations); independent trackers cite higher unofficial wounded tallies. Separately, overall Iran-side and regional casualty figures from the war (which began Feb 28, 2026) are tracked in more detail on the Iran Conflict tracker.",
-    "delta": "War began Feb 28, 2026",
-    "deltaNote": "Sep 3: Lutnick gaffe forces Trump to publicly restate the 18 US KIA figure amid renewed CENTCOM-IRGC strikes Aug 30-Sep 3.",
+    "contestNote": "Tallies compiled from Pentagon DCAS releases now put US military deaths at 19 (plus 1 contractor killed) and 757+ wounded (plus 5 contractors injured), up from the 18 KIA figure Trump publicly cited Sep 3 after correcting Commerce Secretary Lutnick's on-air claim that there had been no American deaths. Independent trackers cite higher unofficial wounded tallies; overall Iran-side and regional casualty figures from the war (which began Feb 28, 2026) are tracked in more detail on the Iran Conflict tracker.",
+    "delta": "+1 US KIA since Sep 3",
+    "deltaDetail": {
+      "value": 1,
+      "direction": "up",
+      "period": "since Sep 3"
+    },
+    "deltaNote": "Confirmed US KIA count rose from 18 to 19 (plus 1 contractor) as the war continued past its six-month mark.",
     "trend": "up",
-    "lastUpdated": "2026-09-03T00:00:00.000Z"
+    "lastUpdated": "2026-09-13T00:00:00.000Z"
   },
   {
     "id": "foreign-born-population-decline",
