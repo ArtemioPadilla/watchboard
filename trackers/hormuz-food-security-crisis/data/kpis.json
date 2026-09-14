@@ -2,14 +2,14 @@
   {
     "id": "brent_crude",
     "label": "Brent Crude",
-    "value": "$104.61/bbl Fri close (-2.8% d/d), markets shut over the weekend's escalation",
+    "value": "$107.54/bbl Nov futures (+2.8%), spot $106.69 (+1.99%), intraday high $107.82",
     "color": "red",
-    "source": "CNBC / TradingEconomics (Sep 11, 2026 close)",
+    "source": "TradingEconomics / FinanceFeeds / Al Jazeera (Sep 14, 2026)",
     "contested": false,
-    "delta": "Settled Friday down from Thursday's ~$107.63 close but still up roughly 9% on the week; markets were closed Sep 12-13 as Saudi Arabia's East-West pipeline stayed shut, an Iranian vessel was struck off Qeshm Island (1 killed), and Houthis completed their takeover of Bab el-Mandeb -- all setting up a volatile Monday open around the same-day Oman summit",
-    "deltaDetail": { "value": -3.02, "direction": "down", "period": "24h" },
+    "delta": "Jumped Monday after Oman postponed the planned Sep 14 Iran-Gulf Hormuz talks in Salalah, wiping out the modest de-escalation discount markets had priced in over the weekend; Saudi Arabia's East-West pipeline remained shut and US claims of near-normal Hormuz flow were undercut by tanker-tracking data showing just 14 transits over the weekend",
+    "deltaDetail": { "value": 2.93, "direction": "up", "period": "since Fri close" },
     "trend": "up",
-    "lastUpdated": "2026-09-13T20:45:00Z"
+    "lastUpdated": "2026-09-14T19:30:00Z"
   },
   {
     "id": "saudi_pipeline_status",
@@ -60,15 +60,15 @@
   {
     "id": "hormuz_daily_transits",
     "label": "Hormuz Daily Tanker Transits",
-    "value": "~5-11/day (Kpler, 10-day avg ~13) vs ~9M bbl/day claimed (US)",
+    "value": "14 vessels over the weekend (tanker-tracking data) vs ~10M bbl/day claimed (US)",
     "color": "red",
-    "source": "Kpler via Al Jazeera / US Energy Secretary Chris Wright via PBS-Reuters (Sep 3-9, 2026)",
+    "source": "Tanker-tracking data via Al Jazeera / President Trump & Energy Secretary Chris Wright (Sep 14, 2026)",
     "contested": true,
-    "contestNote": "Kpler counted single-digit-to-low-teens vessels crossing per day in early September, well below its own 10-day average of ~13/day; on Sep 7 Energy Secretary Chris Wright said roughly 9 million barrels/day (about two-thirds of pre-war flow) were moving under the US-led escort regime -- a gap Al Jazeera attributes to the US including naval-escort and support vessels excluded from commercial tracking data",
-    "delta": "vs 130-140/day pre-war",
-    "deltaNote": "Traffic remains far below pre-war levels; the Sep 8-9 tanker destructions, IRGC's unconfirmed claim of enforcing Iran's new 'restricted zone,' and the Houthi strike on Saudi Aramco's Jizan refinery add fresh uncertainty",
+    "contestNote": "President Trump said the US maintains \"total control\" of the strait and Energy Secretary Chris Wright said roughly 10 million barrels/day -- \"two-thirds or north of two-thirds\" of pre-war flow -- were moving under the US-led escort regime; independent tanker trackers instead counted just 14 vessel transits over the entire weekend, against a pre-war daily average of over 100 ships carrying roughly 20 million barrels",
+    "delta": "vs 130-140/day (100+ ships) pre-war",
+    "deltaNote": "Traffic remains far below pre-war levels even as the US insists flows are largely restored; the gap has widened US-Gulf messaging tension just as the Sep 14 Salalah talks were postponed",
     "trend": "down",
-    "lastUpdated": "2026-09-09T18:30:00Z"
+    "lastUpdated": "2026-09-14T19:30:00Z"
   },
   {
     "id": "war_risk_insurance",

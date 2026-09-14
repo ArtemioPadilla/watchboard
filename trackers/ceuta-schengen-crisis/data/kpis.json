@@ -90,12 +90,12 @@
   {
     "id": "schengen_suspension_deadline",
     "label": "Italy-Spain Schengen Suspension Runs Until",
-    "value": "Sep 15 (Italy) / Sep 16 (Spain), 2026",
+    "value": "Sep 16 (Italy) / Sep 22 (Spain), 2026",
     "color": "blue",
-    "source": "The Local",
+    "source": "The Local / BOE via Moncloa.com",
     "contested": false,
-    "contestNote": "Both sides extended a second time on Aug 31: Italy's Interior Ministry notified the EU it is prolonging checks on Spanish arrivals another 15 days (from the original Sep 1 expiry) to roughly Sep 15, citing 5,000-10,000 irregular migrants still in Ceuta; Spain reciprocated, extending its checks on Italian arrivals (previously to Sep 7) a further 15 days to Sep 16. Madrid calls the Italian measure an 'unjustified affront'; Rome says the situation 'is anything but improved.'",
-    "lastUpdated": "2026-08-31T20:15:00Z"
+    "contestNote": "Extended a third time in early September: Italy's Interior Ministry renewed its checks on Spanish arrivals through Sep 16 after a fresh national-security assessment; Spain's Interior Ministry published a BOE order extending its reciprocal checks on Italian arrivals, which had been due to expire Sep 7, through 24:00 on Sep 22 — a further 15-day extension that cannot renew automatically and would require a new, separately justified order to continue past that date. Foreign Minister Albares says 'the integrity of the Schengen area is absolutely guaranteed. Enough of this deliberate confusion'; Italy cites 'the persistence of the factors that had led to the reintroduction of measures.'",
+    "lastUpdated": "2026-09-14T18:30:00Z"
   },
   {
     "id": "hate_speech_incidents",
@@ -187,5 +187,26 @@
     "contestNote": "Up 102.3% versus the same period in 2025, explicitly excluding the ~72,000 people from the July 30-31 mass crossing, which the ministry has deferred recording pending completion of triage.",
     "trend": "up",
     "lastUpdated": "2026-09-06T16:59:50Z"
+  },
+  {
+    "id": "sanchez_ceuta_handling_approval",
+    "label": "Approval of Sánchez's Ceuta Crisis Handling",
+    "value": "14.2% positive (40dB, Sep 7)",
+    "color": "red",
+    "source": "40dB poll for El País / Cadena SER (Sep 7)",
+    "contested": false,
+    "contestNote": "Two-thirds of the 2,000 respondents said the government's response was too slow; combined PP+Vox voting intention reached 50.2% in the same poll, the first time the potential right-wing bloc has broken 50% this legislature.",
+    "trend": "down",
+    "lastUpdated": "2026-09-14T18:30:00Z"
+  },
+  {
+    "id": "public_blame_attribution_divergence",
+    "label": "Who the Public Blames for the Crossing",
+    "value": "~90% Morocco (40dB) vs. 49.1% US / 38.1% Morocco (CIS)",
+    "color": "amber",
+    "source": "40dB poll (Sep 7) vs. Spain's state-run CIS poll under José Félix Tezanos (Sep 14)",
+    "contested": true,
+    "contestNote": "The independent 40dB poll for El País/Cadena SER (Sep 7) found roughly nine in ten Spaniards blaming Morocco. Spain's own CIS institute, led by a Sánchez appointee, instead found 49.1% blaming the United States and 15.2% Israel, against just 38.1% for Morocco and 1.4% for King Mohammed VI — a divergence critics attribute to CIS's framing under Tezanos rather than a genuine shift in public opinion. Both polls agree on border policy: 82%+ back strengthening the Ceuta/Melilla borders.",
+    "lastUpdated": "2026-09-14T18:30:00Z"
   }
 ]
