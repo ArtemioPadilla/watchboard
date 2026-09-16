@@ -38,13 +38,15 @@
   {
     "id": "total-evacuated",
     "label": "People Evacuated (Season Total)",
-    "value": "~23,000 total (~11,000 still under evacuation order)",
+    "value": "~23,000 total (~11,000 still under evacuation order as of Aug 18)",
     "color": "amber",
-    "source": "Public Safety Canada — Aug 18 federal update",
+    "source": "Public Safety Canada — Aug 18 federal update; Indigenous Services Canada, as of Sep 14",
     "contested": false,
-    "deltaNote": "8,600 Indigenous people affected; 4,294 evacuated from 25 First Nations communities as of Aug 18",
+    "delta": "First Nations evacuees down to 178 individuals (17 communities impacted) as of Sep 14, from 4,294 across 25 communities on Aug 18",
+    "deltaDetail": { "value": -4116, "direction": "down", "period": "since Aug 18" },
+    "deltaNote": "8,600 Indigenous people affected nationally as of Aug 18; by Sep 14 only 17 First Nations communities remained impacted (16 BC, 1 SK, 1 ON) with 5 under active evacuation and 178 individuals displaced",
     "trend": "down",
-    "lastUpdated": "2026-08-21T14:45:21Z"
+    "lastUpdated": "2026-09-14T00:00:00Z"
   },
   {
     "id": "total-deaths",

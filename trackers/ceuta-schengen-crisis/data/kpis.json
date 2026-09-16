@@ -35,13 +35,13 @@
   {
     "id": "migrants_remaining",
     "label": "Migrants Still in Ceuta",
-    "value": "5,000-13,000",
+    "value": "5,000-16,000",
     "color": "amber",
-    "source": "Spanish government / Mayor Vivas (Sep 13)",
+    "source": "Spanish government / Mayor Vivas / security-force sources (Sep 15)",
     "contested": true,
-    "contestNote": "Ceuta president Vivas raised his estimate to around 13,000 migrants remaining in irregular status or reception facilities as of Sep 13, up from his earlier 8,000-11,000 range; the Spanish government's own figures remain far lower, citing 5,321 voluntary returns to Morocco since Aug 10 plus roughly 1,000 more being processed for return. Ceuta's Assembly unanimously declared the city in an 'extreme situation, on the verge of collapse' on Aug 28.",
-    "trend": "stable",
-    "lastUpdated": "2026-09-13T00:00:00Z"
+    "contestNote": "Ceuta president Vivas raised his estimate to around 13,000 as of Sep 13; security-force sources cited by El País's El Español (Sep 15) put the true figure closer to 16,000, arguing that Sánchez's own Sep 14 announcement of a 10,000-place reception target is inconsistent with the government's claim that ~90% of arrivals were returned within 72 hours and that 200 people leave daily — actual voluntary returns average only ~155/day. Ceuta's Assembly unanimously declared the city in an 'extreme situation, on the verge of collapse' on Aug 28.",
+    "trend": "up",
+    "lastUpdated": "2026-09-15T00:00:00Z"
   },
   {
     "id": "el_trampolin_relocation",
@@ -90,12 +90,12 @@
   {
     "id": "schengen_suspension_deadline",
     "label": "Italy-Spain Schengen Suspension Runs Until",
-    "value": "Sep 16 (Italy) / Sep 22 (Spain), 2026",
+    "value": "~Sep 30 (Italy) / Oct 8 (Spain), 2026",
     "color": "blue",
-    "source": "The Local / BOE via Moncloa.com",
+    "source": "Moncloa.com / Infobae (Sep 15-16)",
     "contested": false,
-    "contestNote": "Extended a third time in early September: Italy's Interior Ministry renewed its checks on Spanish arrivals through Sep 16 after a fresh national-security assessment; Spain's Interior Ministry published a BOE order extending its reciprocal checks on Italian arrivals, which had been due to expire Sep 7, through 24:00 on Sep 22 — a further 15-day extension that cannot renew automatically and would require a new, separately justified order to continue past that date. Foreign Minister Albares says 'the integrity of the Schengen area is absolutely guaranteed. Enough of this deliberate confusion'; Italy cites 'the persistence of the factors that had led to the reintroduction of measures.'",
-    "lastUpdated": "2026-09-14T18:30:00Z"
+    "contestNote": "Extended a fourth time: Italy's Interior Ministry under Matteo Piantedosi pushed its checks on Spanish arrivals to roughly end of September, citing 'high internal security risks' and possible terrorist infiltration; Spain replied within hours with a reciprocal 15-day extension of checks on Italian arrivals, moving its own deadline from Sep 22 to Oct 8. Foreign Minister Albares called Rome's move 'absurd, useless and a disgrace,' saying there is 'no risk or threat to the integrity of the Schengen area arising from Ceuta and Melilla.'",
+    "lastUpdated": "2026-09-16T20:00:00Z"
   },
   {
     "id": "hate_speech_incidents",
@@ -111,26 +111,28 @@
   {
     "id": "reception_places_expansion",
     "label": "New Urgent Reception Places Approved",
-    "value": "4,300+ / 6,000 target",
+    "value": "~6,000 activated / 10,000 target",
     "color": "blue",
-    "source": "Spanish government via Morocco World News (Sep 13)",
+    "source": "PM Sánchez, 'El Intermedio' interview via El Español (Sep 14)",
     "contested": false,
-    "contestNote": "Capacity more than doubled from 1,800 to over 3,400 places by Sept 1, then rose to roughly 4,300 by Sept 13 with the opening of the Los Rosales tent facility (864 places) for migrants relocated from Loma Colmenar streets, plus a planned Sidi Embarek Mosque site for 300+ women with children; government still targets 6,000+ places in the coming days.",
-    "delta": "+900",
-    "deltaDetail": { "value": 900, "direction": "up", "period": "since Sep 1" },
+    "contestNote": "Capacity rose from 1,800 (Sept 1) to roughly 4,300-4,500 by Sept 13-14 with the Los Rosales tent facility (864 places), then Sánchez raised the target sharply on Sep 14, saying the government aims for close to 10,000 activated places with ~6,000 expected by week's end — up from the 500 places available when the crisis began. Analysts note the higher target sits awkwardly with the government's parallel claim that most arrivals have already been returned to Morocco.",
+    "delta": "+4,000 (target)",
+    "deltaDetail": { "value": 4000, "direction": "up", "period": "since Sep 13" },
     "trend": "up",
-    "lastUpdated": "2026-09-13T00:00:00Z"
+    "lastUpdated": "2026-09-16T20:00:00Z"
   },
   {
     "id": "voluntary_returns_program_aug10",
     "label": "Voluntary Returns to Morocco (Since Aug 10 Program)",
-    "value": "5,321",
+    "value": "5,482",
     "color": "blue",
-    "source": "Minister Ángel Víctor Torres via The New Arab (Sep 13)",
+    "source": "Minister Ángel Víctor Torres via El Español (Sep 15)",
     "contested": false,
-    "contestNote": "Distinct from the earlier '~70,000 returned' KPI, which captured the mass same-day/same-week turnbacks immediately after the Jul 30-31 crossing. This figure tracks a formal government return program for migrants who remained in Ceuta, running since Aug 10: 5,321 voluntary returns to date, ~90 people who abandoned international protection requests, and nearly 1,000 more being registered for return proceedings.",
+    "contestNote": "Distinct from the earlier '~70,000 returned' KPI, which captured the mass same-day/same-week turnbacks immediately after the Jul 30-31 crossing. This figure tracks a formal government return program for migrants who remained in Ceuta, running since Aug 10: 5,482 voluntary returns to date, averaging ~155/day — well below the 200/day pace Sánchez cited on Sep 14, which security-force sources say is exaggerated (most days see just 10-20 departures).",
+    "delta": "+161",
+    "deltaDetail": { "value": 161, "direction": "up", "period": "since Sep 13" },
     "trend": "up",
-    "lastUpdated": "2026-09-13T00:00:00Z"
+    "lastUpdated": "2026-09-15T00:00:00Z"
   },
   {
     "id": "ceuta_business_losses",

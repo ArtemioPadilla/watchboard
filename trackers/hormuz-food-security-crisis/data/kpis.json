@@ -2,25 +2,26 @@
   {
     "id": "brent_crude",
     "label": "Brent Crude",
-    "value": "$107.54/bbl Nov futures (+2.8%), spot $106.69 (+1.99%), intraday high $107.82",
+    "value": "$108.75/bbl Sep 15 close (+2.9%, intraday high $109.20); pulled back toward $108 Sep 16 on a surprise US inventory build",
     "color": "red",
-    "source": "TradingEconomics / FinanceFeeds / Al Jazeera (Sep 14, 2026)",
+    "source": "Rigzone / OilPrice.com / FXStreet / Bloomberg (Sep 15-16, 2026)",
     "contested": false,
-    "delta": "Jumped Monday after Oman postponed the planned Sep 14 Iran-Gulf Hormuz talks in Salalah, wiping out the modest de-escalation discount markets had priced in over the weekend; Saudi Arabia's East-West pipeline remained shut and US claims of near-normal Hormuz flow were undercut by tanker-tracking data showing just 14 transits over the weekend",
-    "deltaDetail": { "value": 2.93, "direction": "up", "period": "since Fri close" },
+    "delta": "Hit a fresh crisis-high after Aramco suspended Yanbu loadings and Libya's Hamada-Zawiya pipeline outage added a second supply shock; eased Sep 16 after the API reported a surprise 7.14M-barrel US crude stockpile build (vs. an expected 1.8M-barrel draw), though Yanbu and the East-West pipeline remained shut",
+    "deltaDetail": { "value": 1.21, "direction": "up", "period": "24h" },
     "trend": "up",
-    "lastUpdated": "2026-09-14T19:30:00Z"
+    "lastUpdated": "2026-09-16T18:00:00Z"
   },
   {
     "id": "saudi_pipeline_status",
     "label": "Saudi East-West Pipeline",
-    "value": "Shut since Sep 11 (~4-5M bpd, 4-5% of global supply)",
+    "value": "Shut since Sep 11; Yanbu Red Sea loadings also suspended Sep 15 (~4-5M bpd, 4-5% of global supply)",
     "color": "red",
-    "source": "CNBC / Al Jazeera / Anadolu Agency (Sep 11-12, 2026)",
-    "contested": false,
-    "delta": "Iraq-origin drone strikes forced a precautionary shutdown of Saudi Arabia's main Hormuz-bypass pipeline; industry sources say Yanbu's Red Sea export stocks cover only 5-7 days before exports must be curtailed",
+    "source": "The Times of Israel / Business Recorder / CNBC (Sep 15-16, 2026)",
+    "contested": true,
+    "contestNote": "US Energy Secretary Chris Wright says the outage will be 'measured in days'; UK officials and some industry sources cite repair estimates of five to six weeks",
+    "delta": "Aramco suspended crude loadings at Yanbu and cancelled some September cargoes to European customers; Wright says Saudi Arabia is rerouting additional crude through Hormuz with US military assistance in the meantime",
     "trend": "up",
-    "lastUpdated": "2026-09-13T20:45:00Z"
+    "lastUpdated": "2026-09-16T18:00:00Z"
   },
   {
     "id": "bab_el_mandeb_transits",

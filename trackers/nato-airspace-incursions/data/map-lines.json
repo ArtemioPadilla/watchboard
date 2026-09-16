@@ -508,8 +508,14 @@
   },
   {
     "id": "line-moldova-drone-track-sep8",
-    "from": [27.85, 48.15],
-    "to": [27.58, 47.9],
+    "from": [
+      27.85,
+      48.15
+    ],
+    "to": [
+      27.58,
+      47.9
+    ],
     "cat": "incursion",
     "label": "Suspected Russian Geran-4 track, Ukraine into Moldova, crash near Mihăilenii Vechi (Sep 8)",
     "date": "2026-09-08",
@@ -523,8 +529,14 @@
   },
   {
     "id": "line-romania-mk-airbase-f18-intercept-sep8",
-    "from": [28.4883, 44.3622],
-    "to": [27.55, 47.2],
+    "from": [
+      28.4883,
+      44.3622
+    ],
+    "to": [
+      27.55,
+      47.2
+    ],
     "cat": "intercept",
     "label": "Spanish F/A-18 monitoring track from Mihail Kogălniceanu Air Base (Sep 8)",
     "date": "2026-09-08",
@@ -537,8 +549,14 @@
   },
   {
     "id": "line-romania-snake-island-scramble-sep11",
-    "from": [30.2, 45.255],
-    "to": [29.4, 45.3],
+    "from": [
+      30.2,
+      45.255
+    ],
+    "to": [
+      29.4,
+      45.3
+    ],
     "cat": "intercept",
     "label": "Spanish F/A-18 + helicopter scramble, Snake Island approach (Sep 11)",
     "date": "2026-09-11",
@@ -550,8 +568,14 @@
   },
   {
     "id": "line-romania-suceava-botosenita-sep12",
-    "from": [26.85, 47.98],
-    "to": [26.117, 47.867],
+    "from": [
+      26.85,
+      47.98
+    ],
+    "to": [
+      26.117,
+      47.867
+    ],
     "cat": "incursion",
     "label": "Drone track from Moldova/Ukraine border to Botoșenița Mare, Suceava (Sep 12)",
     "date": "2026-09-12",
@@ -561,5 +585,48 @@
     "damage": "1m-wide, 30cm-deep crater; small self-extinguished fire",
     "notes": "Ukraine and Moldova Air Operations Control Centres flagged the drone crossing toward north-eastern Romania; two Romanian F-16s from Borcea AB 86 monitored before the object crashed in a cornfield near Botoșenița Mare, Calafindești commune.",
     "lastUpdated": "2026-09-14T19:49:24.000Z"
+  },
+  {
+    "id": "line-lithuania-pratkunai-shotdown-sep15",
+    "from": [
+      25.38,
+      54.31
+    ],
+    "to": [
+      24.2081,
+      54.7781
+    ],
+    "cat": "shootdown",
+    "label": "Drone track from Belarus border to Pratkūnai shootdown (Sep 15)",
+    "date": "2026-09-15",
+    "weaponType": "drone_loitering",
+    "launched": 1,
+    "intercepted": 1,
+    "confidence": "high",
+    "time": "00:15",
+    "platform": "Italian Eurofighter Typhoon (NATO Baltic Air Policing, Šiauliai AB)",
+    "status": "intercepted",
+    "notes": "Russian 'Gerbera'-type drone entered from Belarus, flew ~100km over ~30 minutes before being shot down near Pratkūnai; explosive device neutralized by bomb-disposal specialists. President Nausėda said Sep 16 the drone was likely bound for Ukraine and diverted by Ukrainian EW jamming.",
+    "lastUpdated": "2026-09-16T12:00:00.000Z"
+  },
+  {
+    "id": "line-romania-chilia-periprava-sep15",
+    "from": [
+      29.7,
+      45.55
+    ],
+    "to": [
+      29.475,
+      45.45
+    ],
+    "cat": "intercept",
+    "label": "Radar tracks near Chilia and Periprava monitored by Romanian F-16s (Sep 15)",
+    "date": "2026-09-15",
+    "confidence": "high",
+    "time": "03:10",
+    "platform": "Romanian F-16 (86th Air Base, Borcea)",
+    "status": "unknown",
+    "notes": "Two aerial targets detected north of Chilia (03:10) and Periprava (04:20) during a Russian jet-drone strike wave on Ukraine; Romania's Defence Ministry confirmed no breach of national airspace.",
+    "lastUpdated": "2026-09-16T12:00:00.000Z"
   }
 ]

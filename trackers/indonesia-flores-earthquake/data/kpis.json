@@ -2,51 +2,51 @@
   {
     "id": "deaths-confirmed",
     "label": "Confirmed Deaths",
-    "value": "136",
+    "value": "142",
     "color": "red",
     "source": "BNPB",
     "contested": true,
-    "contestNote": "Toll held flat at 127 for four days (3-6 Sep), jumped to 135 on 7 September (48 direct, 87 indirect), then rose by one more to 136 on 10 September (48 direct, 88 indirect) per Ministry of Health case reporting relayed by BNPB chief Suharyanto. BNPB has not published case-by-case documentation for the indirect-death classification. The figure remains unreconciled with BPBD NTT's competing 130 count from 5 September.",
+    "contestNote": "Toll held flat at 127 for four days (3-6 Sep), jumped to 135 on 7 September (48 direct, 87 indirect), rose to 136 on 10 September (48 direct, 88 indirect), then jumped again to 142 on 15 September (48 direct, 94 indirect) — a 6-person rise in the indirect count in five days — per acting BNPB Data Center head Berton SP Panjaitan. BNPB has still not published case-by-case documentation for the indirect-death classification. The figure remains unreconciled with BPBD NTT's competing 130 count from 5 September.",
     "trend": "up",
-    "delta": "+1 since 7 Sep (135→136, 10 Sep)",
-    "lastUpdated": "2026-09-10T19:13:00Z",
+    "delta": "+6 since 10 Sep (136→142, 15 Sep)",
+    "lastUpdated": "2026-09-15T00:00:00Z",
     "deltaDetail": {
-      "value": 1,
+      "value": 6,
       "direction": "up",
-      "period": "since 7 Sep"
+      "period": "since 10 Sep"
     }
   },
   {
     "id": "injured-total",
     "label": "Injured",
-    "value": "1,762",
+    "value": "1,776",
     "color": "amber",
     "source": "BNPB",
     "contested": false,
-    "trend": "down",
-    "delta": "-1 since 8 Sep (1,763→1,762, 10 Sep)",
-    "lastUpdated": "2026-09-10T19:13:00Z",
+    "trend": "up",
+    "delta": "+14 since 10 Sep (1,762→1,776, 11 Sep)",
+    "lastUpdated": "2026-09-11T00:00:00Z",
     "deltaDetail": {
-      "value": -1,
-      "direction": "down",
-      "period": "since 8 Sep"
+      "value": 14,
+      "direction": "up",
+      "period": "since 10 Sep"
     }
   },
   {
     "id": "displaced-total",
     "label": "Displaced / Sheltering",
-    "value": "60,572",
+    "value": "46,461",
     "color": "blue",
     "source": "BNPB",
     "contested": true,
-    "contestNote": "BNPB's own figure moved twice on 8 September (72,864 morning portal figure revised down to 70,382 that evening by acting Data Center head Berton SP Panjaitan), then continued falling to 60,572 by 10 September as verified light/moderate-damage households returned home. None of these figures have been formally reconciled with BPBD NTT's competing 96,385 count from 5 September.",
+    "contestNote": "BNPB's own figure moved twice on 8 September (72,864 morning portal figure revised down to 70,382 that evening by acting Data Center head Berton SP Panjaitan), then continued falling — 60,572 (10 Sep), 46,461 (15 Sep) — as verified light/moderate-damage households returned home. None of these figures have been formally reconciled with BPBD NTT's competing 96,385 count from 5 September.",
     "trend": "down",
-    "delta": "-9,810 since 8 Sep (70,382→60,572, 10 Sep)",
-    "lastUpdated": "2026-09-10T19:13:00Z",
+    "delta": "-14,111 since 10 Sep (60,572→46,461, 15 Sep)",
+    "lastUpdated": "2026-09-15T00:00:00Z",
     "deltaDetail": {
-      "value": -9810,
+      "value": -14111,
       "direction": "down",
-      "period": "48h"
+      "period": "since 10 Sep"
     }
   },
   {
@@ -56,25 +56,25 @@
     "color": "red",
     "source": "BNPB",
     "contested": true,
-    "contestNote": "BNPB's Data Center puts total identified damaged housing units at 102,384, unchanged since 7 September. Field verification progress has accelerated sharply, from 51,591 units (50.39%) on 7 September to 70% by 10 September; Berton SP Panjaitan said verification is targeted for completion the following week to enable reconstruction-aid disbursement. This supersedes BPBD NTT's narrower 99,568 provincial tally (4 Sep); figures are described by BNPB as dynamic.",
+    "contestNote": "BNPB's Data Center puts total identified damaged housing units at 102,384, unchanged since 7 September. National field verification progress reached 70% by 10 September, but pace varies sharply by regency: BNPB technical expert Jahidin Chilo said Ende district — where the emergency response period closed on 12 September — verified only 1,723 of its 7,030-unit first-phase target (24.51%) in the preceding 10 days, calling the district's pace far behind schedule. This supersedes BPBD NTT's narrower 99,568 provincial tally (4 Sep); figures are described by BNPB as dynamic.",
     "trend": "stable",
-    "delta": "Verification progress: 50.39%→70% (7→10 Sep); total unchanged at 102,384",
-    "lastUpdated": "2026-09-10T19:13:00Z"
+    "delta": "Verification progress: 50.39%→70% (7→10 Sep); Ende lagging at 24.51% of its own target (12 Sep); total unchanged at 102,384",
+    "lastUpdated": "2026-09-12T00:00:00Z"
   },
   {
     "id": "aftershocks-recorded",
     "label": "Aftershocks Recorded",
-    "value": "15,156+",
+    "value": "15,722",
     "color": "amber",
     "source": "BMKG / BPBD NTT",
     "contested": false,
     "trend": "up",
-    "deltaNote": "M0.9–M6.2 range; cumulative count reached 15,156 by 05:00 WIB on 13 September (up from 13,863 on 9 September), with 38 events above M5.0 and 187 felt by residents. Latest recorded tremor: a minor M2.0 event 41km NW of Mbay, Nagekeo (22km depth) overnight 12-13 September. BMKG's Earthquake and Tsunami Mitigation Director reaffirmed the decay-curve forecast of tapering activity by late September and urged residents to avoid unverified information and damaged structures.",
-    "lastUpdated": "2026-09-13T05:00:00Z",
+    "deltaNote": "M0.9–M6.2 range; cumulative count reached 15,722 by 05:00 WIB on 15 September, the 30-day mark since the mainshock (up from 15,156 on 13 September), with ~190 felt by residents. BMKG says M5+ aftershocks (26 events total, 0.2% of the sequence) have ceased entirely over the past week; M4-5 events (476, 3%) are expected to fade in the coming weeks, while sub-M3 events (11,993, 75.9%) may continue for months at instrument-detection level only. Weekly frequency fell from 5,011 events in week 1 to 864 in week 5, confirming the decay-curve forecast.",
+    "lastUpdated": "2026-09-15T05:00:00Z",
     "deltaDetail": {
-      "value": 1293,
+      "value": 566,
       "direction": "up",
-      "period": "since 9 Sep"
+      "period": "since 13 Sep"
     }
   },
   {
@@ -107,7 +107,7 @@
     "source": "NTT Provincial Government / Basarnas",
     "contested": false,
     "trend": "stable",
-    "deltaNote": "NTT's twice-extended emergency response status expired on schedule on 12 September; Basarnas formally closed its Flores earthquake SAR operation the same day at 18:00 WITA as the province and all seven affected regencies transitioned into the rehabilitation-reconstruction (pemulihan) phase. Basarnas said the SAR operation can reopen if new evacuation requests or victim discoveries arise.",
+    "deltaNote": "NTT's twice-extended emergency response status expired on schedule on 12 September; Basarnas formally closed its Flores earthquake SAR operation the same day at 18:00 WITA as the province and all seven affected regencies transitioned into the rehabilitation-reconstruction (pemulihan) phase. Basarnas said the SAR operation can reopen if new evacuation requests or victim discoveries arise. In Ende, BNPB technical expert Jahidin Chilo flagged the district's transition as premature given its home-damage verification stood at only 24.51% of target.",
     "lastUpdated": "2026-09-13T05:00:00Z"
   },
   {

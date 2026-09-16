@@ -13,36 +13,38 @@
   {
     "id": "state-of-emergency-status",
     "label": "State of Emergency",
-    "value": "90-day (exp. Sep 18); govt sending 90-day extension decree",
-    "color": "amber",
-    "source": "Government of Bolivia / Interior Minister Marco Oviedo, Sep 13, 2026",
-    "contested": false,
+    "value": "Decree 5707 (90-day extension) awaiting ALP vote, Sep 16; govt floats possible estado de sitio",
+    "color": "red",
+    "source": "Government of Bolivia / Defense Minister Ernesto Justiniano, Sep 14-16, 2026",
+    "contested": true,
+    "contestNote": "COB calls the extension \"an attack on democracy\"; the Morales-aligned CSUTCB has declared \"permanent mobilization\" against it; the government disputes it and cites ongoing mobilization risk.",
     "trend": "up",
-    "lastUpdated": "2026-09-14T18:00:00.000Z",
-    "deltaNote": "The original 90-day decree expires Sep 18, 2026. After the Chamber of Deputies' Plural Justice Commission unanimously approved a resolution Sep 10 to extend it 90 more days, Interior Minister Marco Oviedo announced Sep 13 the executive will formally send the Legislative Assembly a decree for the extension, citing \"gran consenso ciudadano.\" Opposition mounted quickly Sep 14: the Senate's Libre bloc said it would oppose the measure and the National Congress of Free Transport rejected it, arguing a state of exception \"should not be used to limit social protest\"; a floor vote in the Chamber and a joint session with the Senate are expected the following week. Evo Morales called the measure already ineffective Sep 12, accusing Defense Minister Justiniano of negotiating directly with Beni blockaders rather than enforcing it, and warned an extension would be \"worse.\""
+    "lastUpdated": "2026-09-16T18:00:00.000Z",
+    "deltaDetail": { "value": 1, "direction": "up", "period": "since Sep 13" },
+    "deltaNote": "The cabinet formally approved Decree 5707 on Sep 14, extending the state of exception (in force since Jun 20) by 90 more days; the decree was sent to the Legislative Assembly Sep 15, and VP Lara convened a plenary session for Sep 16 at 16:00 to vote on it before the original term lapses around Sep 18-19. COB executive secretary Mario Argollo called an extension \"un atentado a la democracia,\" and the CSUTCB declared \"estado de emergencia y movilización permanente\" Sep 15, setting a Sep 26 national assembly in Lauca Ñ to plan its response. Political blocs remain split: Súmate and a PDC faction signal likely support, while Libre and COD Chuquisaca oppose. Separately, presidential spokesperson José Luis Gálvez said Sep 16 the government could escalate further to a state of siege, including possible curfews, if new blockades materialize."
   },
   {
     "id": "active-blockades",
     "label": "Active Blockades",
-    "value": "0 confirmed active; moto-taxi 'recess' to Oct 10",
+    "value": "0 confirmed active; moto-taxi 'recess' to Oct 10; govt warns of estado de sitio if blockades resume",
     "color": "amber",
-    "source": "La Razón / FM La Paz, Sep 11, 2026",
+    "source": "La Razón / FM La Paz, Sep 11, 2026; Infobae, Sep 16, 2026",
     "contested": false,
     "trend": "down",
-    "deltaNote": "San Pablo bridge (Marbán province, Beni) blockade was lifted Aug 30 after a 4-day standoff, with the government pledging Bs. 9.80/L diesel capped at 120L weekly for the province. Seven Santa Cruz moto-taxi federations set an indefinite blockade at 13+ points for Sep 11 over fuel shortages and price increases, then called it off after overnight talks with Hydrocarbons Minister Marcelo Blanco and YPFB — organizers call it a 'recess,' not a resolution, and set Oct 10 as their checkpoint. Yapacaní's status as of Sept 3 was unconfirmed since; Decree 5676's Bs. 18/liter large-consumer tier remains unrepealed. Evo Morales said Sep 12 the lack of security-force enforcement at San Pablo shows the state of exception is no longer being applied.",
-    "lastUpdated": "2026-09-12T18:00:00.000Z"
+    "deltaNote": "San Pablo bridge (Marbán province, Beni) blockade was lifted Aug 30 after a 4-day standoff, with the government pledging Bs. 9.80/L diesel capped at 120L weekly for the province. Seven Santa Cruz moto-taxi federations set an indefinite blockade at 13+ points for Sep 11 over fuel shortages and price increases, then called it off after overnight talks with Hydrocarbons Minister Marcelo Blanco and YPFB — organizers call it a 'recess,' not a resolution, and set Oct 10 as their checkpoint. Yapacaní's status as of Sept 3 was unconfirmed since; Decree 5676's Bs. 18/liter large-consumer tier remains unrepealed. No blockades were confirmed active as of Sep 16, but presidential spokesperson José Luis Gálvez said the same day the government could declare a state of siege, with possible curfews, if new mobilizations start, and the Morales-aligned CSUTCB declared 'permanent mobilization' Sep 15 against the state-of-exception extension, planning a Sep 26 national assembly to set its next moves.",
+    "lastUpdated": "2026-09-16T18:00:00.000Z"
   },
   {
     "id": "usd-exchange-rate",
     "label": "USD Exchange Rate (floated)",
-    "value": "Bs. 11.53 / $1",
-    "color": "red",
-    "source": "Central Bank of Bolivia (official TCO, Sep 12, 2026)",
+    "value": "Bs. 10.99 / $1",
+    "color": "amber",
+    "source": "Central Bank of Bolivia (official TCO, Sep 15, 2026)",
     "contested": false,
     "trend": "down",
-    "deltaDetail": { "value": -0.92, "direction": "down", "period": "since Sep 4" },
-    "deltaNote": "Rate climbed further from Sep 4's Bs. 12.45 to a new record Bs. 12.64 around Sep 9-10, then eased for three straight sessions — Bs. 12.42 (Sep 10), Bs. 12.04 (Sep 11), Bs. 11.53 (Sep 12) — after the BCB suspended new dollar-purchase operations (Sep 7), created a Restricted Monetary Reserve under Resolution RD Nº 131/2026 (Sep 8), and began direct dollar distribution to private financial-system entities (Sep 9) to curb what it called 'unnecessary shocks' in the currency market. Still up sharply from the 15-year peg of Bs. 6.96 before the Jun 29 float.",
-    "lastUpdated": "2026-09-12T18:00:00.000Z"
+    "deltaDetail": { "value": -0.54, "direction": "down", "period": "since Sep 12" },
+    "deltaNote": "Rate climbed further from Sep 4's Bs. 12.45 to a new record Bs. 12.655 around Sep 9-10, then eased for five straight sessions — Bs. 12.42 (Sep 10), Bs. 12.04 (Sep 11), Bs. 11.53 (Sep 12), continuing down to Bs. 10.99 by Sep 15 — after the BCB suspended new dollar-purchase operations (Sep 7), created a Restricted Monetary Reserve under Resolution RD Nº 131/2026 (Sep 8), and began direct dollar distribution to private financial-system entities (Sep 9) to curb what it called 'unnecessary shocks' in the currency market. A parallel-market gap persists (Bs. 11.77-11.87 on Sep 14 versus the day's Bs. 11.53 official rate). Still up from the 15-year peg of Bs. 6.96 before the Jun 29 float.",
+    "lastUpdated": "2026-09-15T18:00:00.000Z"
   },
   {
     "id": "inflation-rate",
@@ -89,13 +91,13 @@
   {
     "id": "cerimedo-case-detentions",
     "label": "Cerimedo-Linked Detentions",
-    "value": "4 held + 1 arrest ordered; Cerimedo faces 3 investigations",
+    "value": "4 held + 1 arrest ordered; Cerimedo faces 4 investigations",
     "color": "amber",
-    "source": "El Imparcial / La Razón, Sep 8, 2026",
+    "source": "Attorney General Roger Mariaca / Infobae, Sep 9, 2026",
     "contested": false,
     "trend": "up",
-    "deltaNote": "Protected witness Nadia Beller testified Aug 30 alleging Cerimedo and First Lady Urquidi ran a scheme diverting ~2 million liters/day of fuel from YPFB (~Bs. 1M/day on the black market), linking Cerimedo to a Jul 23 attempt to fly 189kg of gold (~$25M) out of Viru Viru airport to Dubai, and to suspected drug trafficking via Beni airstrips — none of these specific allegations have resulted in charges yet. Separately, VP Lara announced Sep 8 he will formally propose President Paz as a witness in the case and challenged him to a face-to-face confrontation, saying he personally saw Cerimedo giving orders to ministers in two cabinet meetings; Paz has not accepted. Santa Cruz prosecutors ordered the Aug 31 arrest of María Argentina Rojas Roca, a former Viru Viru Customs chief, as an alleged coordinator/paymaster of the gunmen who shot Beller; Cerimedo remains under two preventive detention orders (attempted femicide at Palmasola, illicit enrichment at Chonchocoro).",
-    "lastUpdated": "2026-09-08T18:00:00.000Z"
+    "deltaNote": "Attorney General Roger Mariaca announced Sep 9 that prosecutors added usurpation-of-functions and money-laundering charges to Cerimedo's illicit-enrichment case, bringing his concurrent legal exposure to four matters: illicit enrichment/money laundering, attempted femicide against Nadia Beller, domestic violence, and the Beni drug-trafficking-flights probe opened in late August. Beller was summoned Sep 12 (with businessman Robin Jofré Azzarini) as a witness in the illicit-enrichment case; because she cannot travel to La Paz for health reasons, her testimony will be taken via advance-proof procedure in Santa Cruz. She expanded her declaration Sep 9, alleging Cerimedo \"coordinated with law enforcement forces\" during his informal advisory role. Cerimedo remains held at the high-security Chonchocoro facility after transfer from Palmasola.",
+    "lastUpdated": "2026-09-12T18:00:00.000Z"
   },
   {
     "id": "gdp-impact",
