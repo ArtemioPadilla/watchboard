@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "lastPruned": "2026-09-16T21:50:32.541Z",
+  "lastPruned": "2026-09-17T00:00:27.472Z",
   "entries": [
     {
       "timestamp": "2026-09-07T01:18:04.040Z",
@@ -69301,6 +69301,837 @@
       "decision": "defer",
       "reason": "deferred to next heavy scan (score 0.57)",
       "confidence": 0.5666666666666667,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-17T00:00:27.422Z",
+      "candidate": {
+        "title": "Handbags, jewels, watches: Inside Singapore's dirty money auction",
+        "url": "https://www.bbc.co.uk/news/videos/cmew984dq92lo?at_medium=RSS&at_campaign=rss",
+        "source": "bbc",
+        "timestamp": "2026-09-17T00:00:24.827Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 1.35,
+          "lon": 103.82,
+          "place": "Singapore",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched argentina on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-17T00:00:27.424Z",
+      "candidate": {
+        "title": "US lawmakers pass bill giving Trump more power to sanction Russia and its enablers - The Guardian",
+        "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxNQkVhdTV0a0NXWWVLZGpMY3FvRURlX0p5SEkxMEtiS2RFc1U4N0NRYnpJS0Z3aFVTSUNtaDBJcWg4R2RpZzJhNzByWmNxaVZlSjlfRTNoTW14d09QVmJISlFMenhKYkllMVZxZ2loYjJoUHduRnZFX19hY2lwM2x4cENDcE9PU1dHcTZyQkRIZkZJLUJBbUZ6VVhtRGhBWHgwYVpTakdqMzUyUnRUSUNkN3Y0VXY1a21uelJCZHAwa3RsZHIySnhUOE5n?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-09-17T00:00:24.881Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 61.5,
+          "lon": 105.3,
+          "place": "Russia",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched russia on a single token — no substance (score 0.34)",
+      "confidence": 0.34041666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-17T00:00:27.425Z",
+      "candidate": {
+        "title": "US House votes to hold billionaire Epstein associate Leon Black in contempt of Congress - BBC",
+        "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1oT0JncGljNWdoZlA5aHN6Vk82VnVXYnlwbUtJMDZSTDlZTnMzdmFlb1ZuOTV1bzQxMHc5WlFLc1NOenlrQjdwWjNyMXJUUjczSjB0ZmpzTzZxMzQ?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-09-17T00:00:24.881Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 21.122,
+          "lon": -101.686,
+          "place": "León",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched uap-disclosure on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-17T00:00:27.426Z",
+      "candidate": {
+        "title": "House to adjourn early, stave off Hegseth impeachment vote - CNN",
+        "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxOdzdGSHl2cnZBOVlFazJmaENSTEdQc1IyS2wtUHg4bXFxaVlER2VWdE9XU1VrbUtyYnQ1aVo3QlljWGpZNFhGbk10ZVFfX19ZWFMweEpvUHE2Ty1LMTQ2NGhtWkxqV1VNN3BuNVlEMkdlQnRmQk80US0tdmNyUnNFWkpvT1k?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-09-17T00:00:24.881Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched cancer-breakthroughs on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-17T00:00:27.427Z",
+      "candidate": {
+        "title": "House passes bill to shield consumers from data center price hikes on energy - nbcnews.com",
+        "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxQNm55NWc5clprS0E1SVQzX2xBNjlxd014QlRBN1ViSkY0Q3dNZmZVYVRfQlJFNnNSY2NYQnR0Y3lvb2lzTFk2SnVvbXVyMHp5OGRXeUJWeE92VkNwNHlFQXNia3JWVXMzUFpjYzhHWEJLcFZQQzdocVpVLWhuTlVKUlMtQlpFUlBLUDFOSGx2Y1pNdVBpYzNUOGlOTlR5N2tmV3dtdkFCWWIwQXhwM25naVdobzNTb29yclE?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-09-17T00:00:24.881Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched september-11 on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-17T00:00:27.428Z",
+      "candidate": {
+        "title": "Gov. Newsom signs SB 1392, dubbed Leno's Law, exempting more classic cars from smog tests - ABC7 Los Angeles",
+        "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQVzRMbnVkWkNROFA3SHFyZVlpQ0FUdTVVQWoyVUFnZHJST0lTbVZZVF9rRnhXdjJHdE1RbGFrSE9rdl91Nm1tQmd1U2JqQ2JNaVFtSENXNUlkSWpjeXF2dnphOTIzUkFVcjNwaGIwN3lWNktRRm9ESzlTbG85em5MQlU2ZWI3ZGR4a196QVVPYjVyN1ZncWRodDk1YTBYLV9UVmxDb0JLbldVck82UlozWml30gG3AUFVX3lxTE5CQkc2VGJ5VnJYRnFpZmxLaW1CaW1sVUJoSXYwYVZFRl85cHdEc3lnUHN1VEFVZTUtZnBfUkYtTDUtZG1TWk00VUZFQnpyci12LWZ2bFlYU3ZDSGVDNlBPYnVYbWwzUEV2bjVBQ1V6X2U5RVJhbmc5TFV1X3k0V0ZjRzR0VUhfXzlKSVM3WUg3ZzFUV3ZmZlBfdThTdWVnVC1MQ01QR25RR3B0OTViY1dCQzBCV2JuSQ?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-09-17T00:00:24.881Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 34.05,
+          "lon": -118.24,
+          "place": "Angeles",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched ecuador-narco-conflict on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-17T00:00:27.430Z",
+      "candidate": {
+        "title": "English village votes to 'secede' from UK over asylum centre plan - Euronews.com",
+        "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxPV2p6QkpzVUNCSmZfTkxBa3p4akpaSmNTSksybFY0dXBqekdxa2NQanBuc2F2Q2xsWENYZ0lwbHhzcTBVR2pVRzBEOGJXb2t5NnAzMEJTZkVMVzZaYTJkT1VJTjBUYUY3d0hBYThiVmw1OXFuM0U5N1l2V29ieTI4MlZoQmxmbXNycnB5U0RFR2hnX3J0MzVIRGZsWUhfVXFOd0g4SFUzTV9zNnY5cmc?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-09-17T00:00:24.881Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-17T00:00:27.430Z",
+      "candidate": {
+        "title": "Andy Burnham rejects 'tax and spend socialist' comments - BBC",
+        "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE5pSlVfa3VUejhsTVNHUFhGQUlMdzVTUzVVd1cyV09GNHNmOFh0OWtzTlpnMkh2T3VvTEFPY3ZYeENhSTFmNnIzSkt2clA5M0RjcWVreEl3LXo4V28?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-09-17T00:00:24.881Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-17T00:00:27.431Z",
+      "candidate": {
+        "title": "Global Oil Prices Could Hit Highest Levels in Months After Saudi Pipeline Attacks - The New York Times",
+        "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxQTzVjMkh4M1lsaEJyZkV0a3lzMlhVNHVsZVNoV1A4d0VkTjluTFgwc0JXTHpPNWRFMjlfdThqMmxlLTI4dGRaalR4SnBEZmZ6aDBxTGNRNzZMX0VzVk9tcmIyR1pvS0l4ZlNBbjctU0hWWUJIYXRIdTFNc1NhVFRnLUVwY2E?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-09-17T00:00:24.881Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 40.84,
+          "lon": -73.94,
+          "place": "New York",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched hormuz-food-security-crisis on a single token — no substance (score 0.34)",
+      "confidence": 0.34041666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-17T00:00:27.432Z",
+      "candidate": {
+        "title": "Here’s what a Fed rate hike means for your mortgage, car loan and credit cards - The Washington Post",
+        "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxNX0ZGMzFyTlA5aVNBbUljNzB3cS1lUVc4d3o4T3pPdGdqd2xJVGZZMXdvd1JySWVmLUFfVnRFeTdld2xwOGtYNThqUUtvWjFIQ1JCZGtNd1FqWGRQcDdGeEhVNXU0aW54X0FuWXpJdnBvd1ROdDFzQnlrMkpnYmZNS0RMaWVJWENVQVZpRUdHbjVvd1R4djdoeWt3dkxkRzlIRnRySUtWRC1ITkZ0WDBDZlRVVjJRMDBnYVE?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-09-17T00:00:24.881Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched cancer-breakthroughs on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-17T00:00:27.432Z",
+      "candidate": {
+        "title": "U.S. Markets Sell Off After Fed’s Warsh Says Inflation Is Still ‘Too High’ - WSJ",
+        "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxOWXpmRks3Sk0xbFZuU01XWVltWmRBU1pHbUFQdnhUQmlZNWNzR2J4Y2huaURKOWpJckkyMHY0ZkNxeU04Q0ZwaDJVd21sMFEtNHBBdS1CSFZ2QXdDNzc1elZwdERMdmliWkFobC15d2ltVlliaVBVZXpjU1RIVGhHWnMtQ1QxUk5KOGh1UFBiUkhudmNGNko3Tmd2QWd4NEt3MGllRjRGY09BM0JHeFJnVm1uWWdITUZq?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-09-17T00:00:24.881Z",
+        "matchedTracker": "global-recession-risk",
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.63)",
+      "confidence": 0.6333333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-17T00:00:27.433Z",
+      "candidate": {
+        "title": "iOS 27.2 Could Save Your Marriage - macrumors.com",
+        "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE1rb2paRk5GVXdyZkJIY3BzbnVlaGViLU9RWnU0OFpNQl9aX3g1aU44alR1QXV6Xzhab0p3ODM3cDVSZS1KZ3gyZmE4SV9WZlRiOTJUNXJWMTI3ZkFPUjZ5NjlIQzA0djZBT0ZXWXNOczdGS3dMbUxQMnVvMA?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-09-17T00:00:24.881Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-17T00:00:27.435Z",
+      "candidate": {
+        "title": "After accusations of selling ‘perv glasses,’ Meta prepares to sell a pair without a camera - TechCrunch",
+        "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxOZG5hQzk0OS1pYnE1M0R5YWFWYnh5bjlrQVNLbm9lWHR2SDhHRFpWNF9YOFJ6d2hFbWN0aW93ZXh4VWN5cU5ZeWhkcG9wc3RJX285OV9mZndQYm1Fd3RVU2xDZk82SWRqR0hvY0c4cFowSTlXNThmdEFhb1VZd1R0ZzdIdWN1Sl9XeDh4OEhlSmFreDRZbDVQdVd3U01lZjIzLWU5VlBhV2FBNWhmWnBLOWlNcXVRaENJRkc2My1aUQ?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-09-17T00:00:24.881Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 3.99,
+          "lon": -73.64,
+          "place": "Meta",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-17T00:00:27.435Z",
+      "candidate": {
+        "title": "Macklemore pledges his $1m Ed Sheeran tour salary to Palestine - The Guardian",
+        "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxPUGF6WE5pREdvbDdDc1EwSjVhaWpFMU4yRGJQMkNPZnFrbWVYeVNIMmZqYkNReDhTX1MzcmE1YnZrSzNXSFBEUHY1bTZjcnJmMWNyTWw3bEIwMXRzbGtqcm1GaVM1aEN3UTV3bEQzYUFRRmxad2NZbDUzcVhyTE1QOWdWTlp4ZE1JOFNJZ1BnTGpHSjQ?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-09-17T00:00:24.881Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 31.9,
+          "lon": 35.2,
+          "place": "Palestine",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched israel-palestine on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-17T00:00:27.436Z",
+      "candidate": {
+        "title": "Box Office: ‘Resident Evil’ Reboot Targets Franchise-Best $45 Million Debut - Variety",
+        "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPMnlDUGxWOEh0OHdjRzJzNTRDb3MzT2V0NGhrUHBmYUlaOUxZMEZJLTJ0V0VTem9sZHV2M1h1S2piOGdMblB5WU9BRzlGM2d1WmRHcjZpaWZtX09NX1Q1ZnFEMUNNdVdCSmRfRUN3LUZBRlZQVEdBWFlCOVl1ZWhUUVY0cmxqSVVMdl9oNXdQc3hwb1NBcUJ3RlBaT29ReFZmYXRaeDFIdWFvVTlOMXJGWg?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-09-17T00:00:24.881Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-17T00:00:27.437Z",
+      "candidate": {
+        "title": "Urge Trump a México ir por funcionarios que ayudan a narco - Reforma",
+        "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxPMm16X1pteUdyaXczaG81T0pBbjJGcXVybVpVUC1DWXlnVkNHVzNwd2Fic3RtNHVfY1ZyYUUxdDg2QlJCbWphNHhxekpEWW5Ya056LUFQWjZjWlN6RjVXM01JOE5mbmltRnlwdk52bDZQcC1WZVFUWmdQYzMySGotTGZkWFBjTlZuaWpOcmx4ZXBLendNaURz?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-09-17T00:00:25.263Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 23.6,
+          "lon": -102.6,
+          "place": "Mexico",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched cdmx on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-17T00:00:27.437Z",
+      "candidate": {
+        "title": "Muere Vicente López Rodea, pilar fundador de La Costeña - Reforma",
+        "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQRWt0WmZMSlRMcDNZNlNzMWlzWllDVS1ZTUtIb2VzdGFWV1Vabi1HcTBuVVZsalpBS0hIbjdFR2tubzFtcjJSSEpjZGRaSERYRzhlYllITXNKcWlHdmRkSFp4Sk45S09jZ2xqTHpwTG83d0x3czBKZXZRc0MzRlF5MjlKYWdvX1Fsb3lFSjRkcE9GQQ?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-09-17T00:00:25.263Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched fox-presidency on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-17T00:00:27.437Z",
+      "candidate": {
+        "title": "Godoy niega que exista orden de aprehensión contra Jorge Amílcar, amigo de hijos de AMLO - El Universal",
+        "url": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxOSVB6RV9ZNnM2TU01dHZDTG5aSFE0SFBpdVZoVnkxSlpHMkZfS0NVQUVwcFQ3TndtR3Zjb25XbzNEOEQwcC1nRUg1aVB3UV9vY1RteVNHWUpxNjZMR2RTYXRZemh1SEpzZ2taTnVfbDlOdjcxOWJjQVV0djhoTVdDMEQxZHhocml4NjNIclg3MWlqMDV2OEh5OUpRWThVa2pzUS1rVDRqMFlfb2FVZm9QTDNzcEdnT2dQNWRRS0JpYk8telp6MUM2by1MUnFBdmJuZ3R1MUFfcjdFN0FRdnJNWklXTQ?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-09-17T00:00:25.263Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched amlo-presidency on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-17T00:00:27.438Z",
+      "candidate": {
+        "title": "Los militares israelíes de ‘NAZA’ estremecen Venecia: “Los nazis eran el diablo, pero ¿qué soy yo?” - EL PAÍS",
+        "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxQb2VWdlF0UjZ3VjFVUTBtcWh4OXIxNElsejhKTWUwaWFuMnAyV3U4RjBranlucXhLVTZqMWkyTC0taWdkaC1NaWxGbWdGLXRjOHlWTWdMMGdWX1dVMWd1aWNFV1BOOFdaMjk3dUtmNlFYWDQtVkdaSWxPYk12QzRFSE9yMFZWM3JQMnd4VVhDSUg3ZFlBUmh0ZFNfYTc0RlhVcGhmSC1xX2hlWnRrcEptZEwxWmdtc1lxUXRuSEUwYUtwTVdmVVUxb2lYXzNvTThLRzVvQ2FB0gHqAUFVX3lxTE8wczlMUzVGQ0VreGxCUldZakxkNU52M2FKX3lSSkxDbDlLNGxtbWk1THdYYkRhM3lDLXEtT0FyWFNaVVlwc2o0Q3IxNndDVzdJNk5TemMxRkhnYVV6V2V4Rm94Xy01MDVvSWxJQUpZMUV1dTlGclF1R2YzbmZkNkxxVVFGY1lnVXIwNklFS0lqWlVxQURCWmFncEVJcnZqV1B0U1hscjFuQkhoZHU1MktCbmZ4LVNHdHNWNEtrYlVDNWg2X3VWaDNrbFdlbmhnRDVDVU9KRThBNy1fMmlJMVBGVkNGb2tuV3pwUQ?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-09-17T00:00:25.263Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched ecuador-narco-conflict on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-17T00:00:27.438Z",
+      "candidate": {
+        "title": "La Fed sube la tasa de referencia y mueve avispero en los mercados financieros - La Jornada",
+        "url": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxQRER4Y1Z4ZGF5Z0xSa1ZjWVhZdkVucldXLVdVWmxxUmV0WVl1NlRpMGM0NnZFeVo3WHdLWWd1c3NyTjRBT21SZzlhZkRkNVE5U1ZvSDJ4VHpuZ2I3NnhHem5CbXRpUnhhY2ttcWdITlc0dzJGeVdaNzN3dnVFbF95TVg4c1dXZWhiRWxYNVEzMDhHTzAtZXN1YXJCRGFWXzJVY1ZTNG1pdHdyc21FQ3FxcFZFc0VRbVpnN2szd1R1Vy1VUGtrNlVpWHRMWk1VaU44NHlQOXNXaVJILWVwbGc?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-09-17T00:00:25.263Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched ecuador-narco-conflict on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-17T00:00:27.439Z",
+      "candidate": {
+        "title": "Resultados de la Lotería Nacional en vivo hoy, miércoles 16 de septiembre 2026: qué números cayeron en Sorteo Magno 392 y otros sorteos electrónicos - Ambito",
+        "url": "https://news.google.com/rss/articles/CBMinAJBVV95cUxNVXdZLWRLV3daX1RyVmY5cF9kZ0Z0bE1kVm5nVzJLb1BlZnI0eWhIR0pucnBmODU0X1gwNkFCTnNnemF1Q1pKaG12UXQtMk5CSjNJa3lRM01sZVJaZDF6VVlLdV90NUVobHdCSnc2MVhxN0doejZlOHJxU3c3ejBfbVFXd1hNWGZ2Um9iODI1VGFQdFBJcHNsNHBwWnFFTWpiMndVVmdCREppODdiM29HXzlpcGlaRlZzOVoxa2s0Q3JudFdhLW9LU1U2WmxFTUl5RnpGdGpDekRuTmhTakJDYV8wVzlCSnkzaTVieXhDa0FMZ3hWLXJvbjkwNjZUVFJpR05OLWlBVGg5bFhCWmtFSzJwM1JiZWRUemQwZQ?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-09-17T00:00:25.263Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-17T00:00:27.440Z",
+      "candidate": {
+        "title": "Valentina Ferrer y J Balvin acaban de anunciar su separación - TV Azteca",
+        "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxObnhtNERIelpsRFV3TExycHZLYXhnQUxrZjVkalNQdjBTVm42Rkw4MWVxR0dRRmNKT21RMGVMcXdRZzFFTUZVT256SnBzY3p6RU5RWlk2QkZTNlF4QnEwQTdMRktPWGxrNlFmUmViWkdtaXZYZVBab2doWHUyN0hudnhhVHVENUN2allHVEtuazBTYjU5WDVqRTBlQXI2bnQ3bDBj0gGwAUFVX3lxTE81amV4WGlIdnE1ODNWMVpjQXBtVWdQUVdFazZnUms2YjRDdzhBQ1pMTmlBMHhHOTlPSGNiSUN2MGNWbmJTNzhjNklKT3lYYkVsQmF5d3R0U21QWS1Qdl9KN2tJMTNJaU95djFJOEhpZldkQUh0RktzZnRWUWN0a09rbFhQbVBQSi01YTlRV2x0MTZjY05ZLU1Ud25LbjhmdV9kWWNZaDlwSlpfd29BUEZ6?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-09-17T00:00:25.263Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-17T00:00:27.441Z",
+      "candidate": {
+        "title": "Ed Sheeran: cómo cultivar la imagen del \"chico bueno\" de la música contribuyó a la peor crisis de su carrera - BBC",
+        "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE9FMXhDZWd3M1VZVmJvV2lsVXROeGI5RHRYNWFFNmcyNW5qdnltMFc4QTdSX2NjOWRGRHVqUTZYT2dxdi1wTTc2MVM4ckNlb3h1TXc0UVdmbnBrZmtm0gFiQVVfeXFMTkQxRjRSRVRkS3Z2WXRENUlPRm14bFRVY0ZwNnZGZ05nWThydDVzeXNrNmJPRlNZY3hMZWFvTHlNYUJoTTdReTlRREh0Q2I3cFcwSGJLSjB0WGhXbFFqRmNxVWc?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-09-17T00:00:25.263Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-17T00:00:27.441Z",
+      "candidate": {
+        "title": "Revolut says no direct demand received over alleged data breach reut.rs/4dnsijr",
+        "url": "https://bsky.app/profile/reuters.com/post/3mvode3yxtl2y",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-09-16T23:50:14Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched vera-rubin-lsst on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-17T00:00:27.442Z",
+      "candidate": {
+        "title": "MMG hit with EU antitrust warning over nickel deal with Anglo American reut.rs/3SSVVCp",
+        "url": "https://bsky.app/profile/reuters.com/post/3mvod3555we2v",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-09-16T23:45:13Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched mexico-us-conflict on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-17T00:00:27.442Z",
+      "candidate": {
+        "title": "VIEW Stocks pull back after Fed raises rates, points to another hike this year reut.rs/4h9Gm1g",
+        "url": "https://bsky.app/profile/reuters.com/post/3mvocs65w2b27",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-09-16T23:40:12Z",
+        "matchedTracker": "global-recession-risk",
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.63)",
+      "confidence": 0.6333333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-17T00:00:27.443Z",
+      "candidate": {
+        "title": "Devils sign F Luke Evangelista to 5-year, $36.25M deal reut.rs/4xwlNCh",
+        "url": "https://bsky.app/profile/reuters.com/post/3mvocj6immh2m",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-09-16T23:35:10Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched iran on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-17T00:00:27.443Z",
+      "candidate": {
+        "title": "What do higher rates mean for borrowers and savers? reut.rs/4ixTu2z",
+        "url": "https://bsky.app/profile/reuters.com/post/3mvocaq7daj2q",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-09-16T23:30:27Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched global-recession-risk on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-17T00:00:27.443Z",
+      "candidate": {
+        "title": "Warsh says US economy has strengthened, inflation is the problem reut.rs/4hwHsW1",
+        "url": "https://bsky.app/profile/reuters.com/post/3mvobxdwgme2v",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-09-16T23:25:12Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched argentina on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-17T00:00:27.444Z",
+      "candidate": {
+        "title": "Longeveron explores strategic options after therapy fails mid-stage trial for infant heart condition reut.rs/4yKzdvx",
+        "url": "https://bsky.app/profile/reuters.com/post/3mvobfiiq2t2d",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-09-16T23:15:13Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched crispr-gene-therapy on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-17T00:00:27.444Z",
+      "candidate": {
+        "title": "US House advances first bill addressing economic impacts of data center boom reut.rs/4yHyYBo",
+        "url": "https://bsky.app/profile/reuters.com/post/3mvob4jndtd2d",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-09-16T23:10:12Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched sheinbaum-presidency on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-17T00:00:27.445Z",
+      "candidate": {
+        "title": "OpenAI plans regular reports on unexpected AI behavior reut.rs/3USlbcA",
+        "url": "https://bsky.app/profile/reuters.com/post/3mvoatiuuu327",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-09-16T23:05:09Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-17T00:00:27.445Z",
+      "candidate": {
+        "title": "Scientists challenge US NIH grant screening as unconstitutional reut.rs/4rirvGf",
+        "url": "https://bsky.app/profile/reuters.com/post/3mvoalkhe532w",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-09-16T23:00:43Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-17T00:00:27.446Z",
+      "candidate": {
+        "title": "Online behemoth Amazon said it's increasing the minimum starting hourly wage for its U.S. full-time core operations employees to $20 ahead of the holiday shopping season.",
+        "url": "https://bsky.app/profile/apnews.com/post/3mvodw4vwrp26",
+        "source": "bsky:apnews.com",
+        "timestamp": "2026-09-17T00:00:19Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2,
+        "geo": {
+          "lat": -3.1,
+          "lon": -63,
+          "place": "Amazon",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched brazil on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-17T00:00:27.446Z",
+      "candidate": {
+        "title": "A new study has found that the T. rex's body temperature was similar to humans.",
+        "url": "https://bsky.app/profile/apnews.com/post/3mvoakolzdh2o",
+        "source": "bsky:apnews.com",
+        "timestamp": "2026-09-16T23:00:13Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched mexico on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-17T00:00:27.447Z",
+      "candidate": {
+        "title": "The House approved a sweeping sanctions bill targeting Russia, sending it to President Trump to be signed into law.",
+        "url": "https://bsky.app/profile/apnews.com/post/3mvoafvv5ur2z",
+        "source": "bsky:apnews.com",
+        "timestamp": "2026-09-16T22:57:33Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 61.5,
+          "lon": 105.3,
+          "place": "Russia",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched sheinbaum-presidency on a single token — no substance (score 0.34)",
+      "confidence": 0.34041666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-17T00:00:27.447Z",
+      "candidate": {
+        "title": "Scientists have discovered a crater on the moon that's bigger than the Roman Colosseum, the result of a powerful impact two years ago.",
+        "url": "https://bsky.app/profile/apnews.com/post/3mvo57itvqg2a",
+        "source": "bsky:apnews.com",
+        "timestamp": "2026-09-16T22:00:17Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched ai-for-good on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-17T00:00:27.448Z",
+      "candidate": {
+        "title": "What to know about US Federal Reserve’s first interest rate hike in 3 years https://aje.news/rx46fg",
+        "url": "https://bsky.app/profile/aljazeera.com/post/3mvodvq6cuc2q",
+        "source": "bsky:aljazeera.com",
+        "timestamp": "2026-09-17T00:00:05.574Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched argentina on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-17T00:00:27.448Z",
+      "candidate": {
+        "title": "The Trump administration said more releases would be secured soon amid improved US-Belarus relations.",
+        "url": "https://bsky.app/profile/aljazeera.com/post/3mvoc7zu74l2s",
+        "source": "bsky:aljazeera.com",
+        "timestamp": "2026-09-16T23:30:04.014Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 53.7,
+          "lon": 27.9,
+          "place": "Belarus",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched sheinbaum-presidency on a single token — no substance (score 0.34)",
+      "confidence": 0.34041666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-17T00:00:27.449Z",
+      "candidate": {
+        "title": "The rapper also challenged Robert Kraft to match the donation as fallout from his removal from Ed Sheeran’s tour grows.",
+        "url": "https://bsky.app/profile/aljazeera.com/post/3mvoakeusgh2b",
+        "source": "bsky:aljazeera.com",
+        "timestamp": "2026-09-16T23:00:03.605Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched chernobyl-disaster on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-17T00:00:27.449Z",
+      "candidate": {
+        "title": "Farmers in the Netherlands have taken action in the past, protesting against the government’s nitrogen policy.",
+        "url": "https://bsky.app/profile/aljazeera.com/post/3mvo6uqrri724",
+        "source": "bsky:aljazeera.com",
+        "timestamp": "2026-09-16T22:30:04.176Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.02)",
+      "confidence": 0.02375,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-17T00:00:27.450Z",
+      "candidate": {
+        "title": "The DRC faces a growing Ebola threat as cases soar in North Kivu, despite progress in other regions, says Tedros",
+        "url": "https://bsky.app/profile/aljazeera.com/post/3mvo574fqcf2b",
+        "source": "bsky:aljazeera.com",
+        "timestamp": "2026-09-16T22:00:04.566Z",
+        "matchedTracker": "drc-conflict",
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.66)",
+      "confidence": 0.6570833333333332,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-17T00:00:27.451Z",
+      "candidate": {
+        "title": "Humpback whale apparently grieves stillborn calf in rare footage  bit.ly/4xrcO5i   Follow  @InsiderPaper  for more news",
+        "url": "https://t.me/insiderpaper/44625",
+        "source": "tg:insiderpaper",
+        "timestamp": "2026-09-17T00:00:25.955Z",
+        "matchedTracker": "species-recovery",
+        "feedOrigin": "telegram",
+        "sourceTier": 3
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.57)",
+      "confidence": 0.5666666666666667,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-17T00:00:27.453Z",
+      "candidate": {
+        "title": "More than 20 countries around the world have now taken steps to block or restrict children going online on social media: AFP  READ:  https://t.co/dBr9allfD9   Follow  @InsiderPaper  for more news",
+        "url": "https://t.me/insiderpaper/44626",
+        "source": "tg:insiderpaper",
+        "timestamp": "2026-09-17T00:00:25.955Z",
+        "matchedTracker": null,
+        "feedOrigin": "telegram",
+        "sourceTier": 3
+      },
+      "decision": "discard",
+      "reason": "low score (0.02)",
+      "confidence": 0.02125,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-17T00:00:27.455Z",
+      "candidate": {
+        "title": "BREAKING: Fed raises interest rates by 25 basis points over high inflation  US Fed projects one more rate hike by end of year  Follow  @InsiderPaper  for more news",
+        "url": "https://t.me/insiderpaper/44627",
+        "source": "tg:insiderpaper",
+        "timestamp": "2026-09-17T00:00:25.955Z",
+        "matchedTracker": "global-recession-risk",
+        "feedOrigin": "telegram",
+        "sourceTier": 3
+      },
+      "decision": "update",
+      "reason": "light-scan posted directly + queued for heavy scan (score 0.85)",
+      "confidence": 0.85,
       "model": null,
       "scanType": "light"
     }
