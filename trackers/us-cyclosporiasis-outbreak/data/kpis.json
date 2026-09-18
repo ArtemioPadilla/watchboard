@@ -14,15 +14,28 @@
   {
     "id": "kpi-confirmed-cases-national",
     "label": "Lab-Confirmed Cases (Season, Since May 1)",
-    "value": "19,595",
+    "value": "19,883",
     "color": "red",
     "source": "CDC",
     "contested": false,
-    "delta": "+1,150",
-    "deltaDetail": { "value": 1150, "direction": "up", "period": "7d" },
-    "deltaNote": "since Sept 1 (18,445)",
+    "delta": "+288",
+    "deltaDetail": { "value": 288, "direction": "up", "period": "7d" },
+    "deltaNote": "since Sept 8 (19,595); CDC says this Sept 15 refresh is its last scheduled weekly update as new infections decline",
     "trend": "up",
-    "lastUpdated": "2026-09-08T00:00:00Z"
+    "lastUpdated": "2026-09-15T00:00:00Z"
+  },
+  {
+    "id": "kpi-unattributed-cases",
+    "label": "Confirmed Cases With No Identified Source (Season-Wide)",
+    "value": "7,000",
+    "color": "amber",
+    "source": "CDC / Marler Blog",
+    "contested": false,
+    "delta": "-1,137",
+    "deltaDetail": { "value": -1137, "direction": "down", "period": "7d" },
+    "deltaNote": "down from 8,137 the prior week as 1,137 cases were reclassified through completed patient interviews; only 312 have an open FDA investigative file",
+    "trend": "down",
+    "lastUpdated": "2026-09-15T00:00:00Z"
   },
   {
     "id": "kpi-total-reported-combined",

@@ -25,15 +25,16 @@
   },
   {
     "id": "active-fires-current",
-    "label": "Active Wildfires (incl. Out of Control)",
-    "value": "531 active (National Preparedness Level 3)",
-    "color": "amber",
-    "source": "CIFFC, as of Sep 5",
+    "label": "National Preparedness Level",
+    "value": "Level 2 — no priority fires",
+    "color": "green",
+    "source": "CIFFC National Situation Report, Sep 16",
     "contested": false,
-    "delta": "Down from 582 active on Aug 18",
-    "deltaDetail": { "value": -51, "direction": "down", "period": "since Aug 18" },
+    "delta": "Down from Level 3 (531 active fires) on Sep 5 — the season's final weekly national situation report",
+    "deltaDetail": { "value": -1, "direction": "down", "period": "since Sep 5" },
+    "deltaNote": "CIFFC's Sep 16 report found fire count and area burned nationally near or below the 10-year average, with agency resources adequate for light-to-moderate demand. It is the last weekly report of 2026; a full season summary follows later in the fall and weekly reporting resumes spring 2027.",
     "trend": "down",
-    "lastUpdated": "2026-09-11T00:00:00Z"
+    "lastUpdated": "2026-09-18T17:40:10Z"
   },
   {
     "id": "total-evacuated",

@@ -262,8 +262,9 @@
       "label": "Outside Observers",
       "text": "Classifying nearly two-thirds of the current toll (87 of 135) as 'indirect' without case-by-case documentation is a significant, undisclosed methodology shift from earlier tallies that counted deaths without this split, raising questions about transparency and comparability with the toll's earlier trajectory."
     },
-    "resolution": "Unresolved; this is the first time BNPB has published a direct/indirect breakdown for this disaster, and no supporting case documentation has been released.",
-    "lastUpdated": "2026-09-07T19:00:00Z"
+    "resolution": "Partially addressed. On 17 September, BNPB and the Ministry of Health said joint medical-team review found the 94 indirect deaths mostly involved elderly evacuees dying of pre-existing chronic-disease complications (stroke, diabetes) in shelters rather than trauma or shock. This is the first substantive explanation offered, but still no individual case-by-case documentation has been published, so independent verification remains impossible.",
+    "status": "contested",
+    "lastUpdated": "2026-09-17T00:00:00Z"
   },
   {
     "id": "presidential-visit-delay",
@@ -293,5 +294,35 @@
     "resolution": "Unresolved. Both figures are BNPB-attributed and from the same day; no public reconciliation or corrected portal timestamp has been issued. The tracker uses the later 70,382 figure as its current best estimate.",
     "status": "contested",
     "lastUpdated": "2026-09-09T18:20:00Z"
+  },
+  {
+    "id": "three-way-casualty-data-divergence-sep17",
+    "question": "Which casualty and displacement count is correct as recovery planning begins — BNPB's national figure, BPBD NTT's own Inatana app count, or the aggregate cited by recovery planners?",
+    "sideA": {
+      "label": "BNPB / National Data Center",
+      "text": "BNPB's by-name-by-address national count put the toll at 142 (48 direct, 94 indirect), 1,776 injured and displacement down sharply to 46,461 as of 15 September, consistent with its own reporting trend since 7 September."
+    },
+    "sideB": {
+      "label": "BPBD NTT (Inatana App) / R3P Planners",
+      "text": "The province's own Inatana disaster-data app recorded a lower 120 deaths and 1,191 injured but a far higher 136,642 displaced and 86,018 damaged homes for the same date, while a third figure used in recovery-planning coverage cited 129 deaths, ~1,210 injured, ~87,000 displaced, 99,398 damaged homes and 3,886 damaged facilities (Rp2.59 trillion estimated rehab-recon cost) — meaning the province's own planning tools disagree with each other as well as with BNPB."
+    },
+    "resolution": "Unresolved; NTT convened a data-consolidation forum on 17 September in Kupang, backed by the Australia-Indonesia Partnership's SIAP SIAGA program, explicitly to reconcile these figures before finalizing the Jitupasna-based R3P plan, targeted for mid-November. Bapperida NTT's Yohanes Paut said the plan 'risks not matching real needs' without accurate data.",
+    "status": "contested",
+    "lastUpdated": "2026-09-17T00:00:00Z"
+  },
+  {
+    "id": "manggarai-emergency-extension-vs-provincial-recovery-sep14",
+    "question": "Was the province's 12 September transition to a province-wide 'recovery phase' premature given Manggarai Regency's own 14-day emergency extension?",
+    "sideA": {
+      "label": "NTT Provincial Government",
+      "text": "The province's overall emergency response status expired on schedule on 12 September, with all seven affected regencies formally transitioning into the rehabilitation-reconstruction (pemulihan) phase."
+    },
+    "sideB": {
+      "label": "Manggarai Regency Government",
+      "text": "Bupati Herybertus Geradus Laju Nabit extended Manggarai's own tanggap darurat (emergency response) status by Decree No. 342/2026, effective 15-28 September, citing continuing aftershocks in 'fluctuating patterns' and incomplete temporary-housing construction — one of the hardest-hit regencies judging itself not yet ready for the province's declared recovery phase."
+    },
+    "resolution": "Unresolved; this is the second documented case of a district's own conditions diverging from the province's recovery timeline, echoing Ende's home-verification lag flagged at the 12 September transition.",
+    "status": "contested",
+    "lastUpdated": "2026-09-15T00:00:00Z"
   }
 ]

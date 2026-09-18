@@ -2,9 +2,9 @@
   {
     "id": "brent_crude_price",
     "label": "Brent Crude Oil",
-    "value": "$108.75/bbl Sep 15 close (+2.9%, intraday high $109.20); pulled back toward $108 Sep 16",
-    "change": "Jumped to a fresh crisis-high Sep 15 after Aramco suspended Yanbu Red Sea loadings and Libya's Hamada-Zawiya pipeline outage compounded the Saudi supply shock -- Dated Brent, pricing physical cargoes, briefly topped $130 for the first time since April; eased Sep 16 as a surprise 7.14M-barrel US crude inventory build (API) offset ongoing Middle East supply fears, with the East-West pipeline and Yanbu still shut",
-    "direction": "up",
+    "value": "$104.33/bbl Sep 18 (+$0.35), after tumbling ~4% to $103.98 Sep 17 on Saudi's partial pipeline-restart signal",
+    "change": "Fell sharply Sep 17 as Saudi Arabia indicated it could restore about half of the East-West pipeline's lost capacity within days, offsetting the crisis's underlying supply risk; ticked back up marginally Sep 18 after Saudi Arabia and the Houthis traded fresh cross-border attacks, opening a new escalation front even as Yanbu Red Sea loadings and the pipeline itself remained shut",
+    "direction": "down",
     "sparkData": [
       71.6,
       80,
@@ -32,11 +32,13 @@
       108,
       106.11,
       107.54,
-      108.75
+      108.75,
+      103.98,
+      104.33
     ],
     "color": "#e74c3c",
     "source": "CNBC / Fortune / Al Jazeera / Bloomberg / Rigzone / TradingEconomics",
-    "lastUpdated": "2026-09-16T18:00:00Z"
+    "lastUpdated": "2026-09-18T18:30:00Z"
   },
   {
     "id": "bab_el_mandeb_transits",
@@ -155,7 +157,7 @@
     "id": "war_risk_insurance_econ",
     "label": "Hormuz War-Risk Insurance",
     "value": "7.5-10% hull value",
-    "change": "vs 0.125% pre-crisis",
+    "change": "vs 0.125-0.25% pre-crisis; container surcharges now $1,800-3,800/box plus a $1,000/container Hormuz transit fee",
     "direction": "up",
     "sparkData": [
       0.125,
@@ -166,14 +168,14 @@
       9
     ],
     "color": "#c0392b",
-    "source": "Lloyd's List",
-    "lastUpdated": "2026-08-20T04:00:00Z"
+    "source": "Lloyd's List / Aju Press (Sep 15, 2026)",
+    "lastUpdated": "2026-09-15T00:00:00Z"
   },
   {
     "id": "hormuz_transit_volume",
     "label": "Hormuz Tanker Transits",
-    "value": "14 vessels over the weekend vs ~10M bbl/day claimed (US)",
-    "change": "Independent tanker-tracking data counted just 14 vessel transits through the strait over the Sep 12-13 weekend, versus a pre-war daily average of over 100 ships carrying roughly 20 million barrels. President Trump said the US maintains \"total control\" of the strait and Energy Secretary Chris Wright said roughly 10 million barrels/day -- \"two-thirds or north of two-thirds\" of pre-war flow -- were moving under the US-led escort regime, a claim Al Jazeera says the tracking data does not support",
+    "value": "3 vessels Sep 17 (record low) vs ~10M bbl/day claimed (US)",
+    "change": "Independent tanker-tracking data counted just three vessel transits through the strait on Sep 17, the lowest of the crisis, down from 14 over the Sep 12-13 weekend and against a pre-war daily average of over 100 ships carrying roughly 20 million barrels. President Trump said the US maintains \"total control\" of the strait and Energy Secretary Chris Wright said roughly 10 million barrels/day -- \"two-thirds or north of two-thirds\" of pre-war flow -- were moving under the US-led escort regime, a claim independent trackers say the data does not support",
     "direction": "down",
     "sparkData": [
       135,
@@ -190,11 +192,12 @@
       4,
       6,
       11,
-      14
+      14,
+      3
     ],
     "color": "#2980b9",
-    "source": "PortWatch / Vortexa / Straits Daily Brief / Al Jazeera",
-    "lastUpdated": "2026-09-14T19:30:00Z"
+    "source": "PortWatch / Vortexa / Straits Daily Brief / Al Arabiya",
+    "lastUpdated": "2026-09-17T20:00:00Z"
   },
   {
     "id": "fertilizer_urea_price",

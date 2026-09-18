@@ -6,10 +6,10 @@
     "color": "red",
     "source": "BNPB",
     "contested": true,
-    "contestNote": "Toll held flat at 127 for four days (3-6 Sep), jumped to 135 on 7 September (48 direct, 87 indirect), rose to 136 on 10 September (48 direct, 88 indirect), then jumped again to 142 on 15 September (48 direct, 94 indirect) — a 6-person rise in the indirect count in five days — per acting BNPB Data Center head Berton SP Panjaitan. BNPB has still not published case-by-case documentation for the indirect-death classification. The figure remains unreconciled with BPBD NTT's competing 130 count from 5 September.",
+    "contestNote": "Toll held flat at 127 for four days (3-6 Sep), jumped to 135 on 7 September (48 direct, 87 indirect), rose to 136 on 10 September (48 direct, 88 indirect), then jumped again to 142 on 15 September (48 direct, 94 indirect) — a 6-person rise in the indirect count in five days — per acting BNPB Data Center head Berton SP Panjaitan. On 17 September BNPB and the Ministry of Health clarified that the 94 indirect deaths mostly involved elderly evacuees dying of pre-existing chronic-disease complications (stroke, diabetes) in shelters rather than trauma or shock — the first substantive explanation offered, though still without published case-by-case documentation. The figure also remains unreconciled with BPBD NTT's own Inatana app count of 120 deaths as of the same 15 September date.",
     "trend": "up",
     "delta": "+6 since 10 Sep (136→142, 15 Sep)",
-    "lastUpdated": "2026-09-15T00:00:00Z",
+    "lastUpdated": "2026-09-17T00:00:00Z",
     "deltaDetail": {
       "value": 6,
       "direction": "up",
@@ -102,13 +102,25 @@
   {
     "id": "state-of-emergency",
     "label": "State of Emergency",
-    "value": "Ended 12 Sep 2026 — Recovery Phase",
-    "color": "green",
-    "source": "NTT Provincial Government / Basarnas",
-    "contested": false,
+    "value": "Recovery Phase (Province) — Manggarai Extended to 28 Sep",
+    "color": "amber",
+    "source": "NTT Provincial Government / Basarnas / Manggarai Regency",
+    "contested": true,
+    "contestNote": "NTT's province-wide emergency response status expired on schedule on 12 September, with Basarnas closing its Flores SAR operation and all seven regencies formally entering the rehabilitation-reconstruction (pemulihan) phase. But Manggarai Regency's own Bupati Herybertus Geradus Laju Nabit signed Decree No. 342/2026 on 14 September extending the regency's own emergency status a further 14 days, through 28 September, citing continuing aftershocks and incomplete temporary-housing construction — the second regency (after Ende's flagged verification lag) whose own conditions diverged from the province's declared timeline.",
     "trend": "stable",
-    "deltaNote": "NTT's twice-extended emergency response status expired on schedule on 12 September; Basarnas formally closed its Flores earthquake SAR operation the same day at 18:00 WITA as the province and all seven affected regencies transitioned into the rehabilitation-reconstruction (pemulihan) phase. Basarnas said the SAR operation can reopen if new evacuation requests or victim discoveries arise. In Ende, BNPB technical expert Jahidin Chilo flagged the district's transition as premature given its home-damage verification stood at only 24.51% of target.",
-    "lastUpdated": "2026-09-13T05:00:00Z"
+    "deltaNote": "In Ende, BNPB technical expert Jahidin Chilo had earlier flagged the district's 12 September transition as premature given its home-damage verification stood at only 24.51% of target.",
+    "lastUpdated": "2026-09-15T00:00:00Z"
+  },
+  {
+    "id": "temporary-shelters-huntara",
+    "label": "Temporary Shelters (Huntara) Under Construction",
+    "value": "2,029 (East Manggarai)",
+    "color": "blue",
+    "source": "BNPB / Manggarai Timur Regency",
+    "contested": false,
+    "trend": "up",
+    "deltaNote": "Construction began 17 September in Kampung Bugis (Kota Ndora, Borong); first unit handed over the same day; roughly 2-3 days per unit. Residents may also self-build to BNPB's minimum spec (4x6m) for reimbursement, per Brigjen TNI Mochamad Arief Hidayat, BNPB's Director of Housing Rehabilitation and Reconstruction.",
+    "lastUpdated": "2026-09-17T00:00:00Z"
   },
   {
     "id": "mainshock-magnitude",

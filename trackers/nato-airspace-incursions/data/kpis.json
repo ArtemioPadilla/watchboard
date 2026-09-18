@@ -2,16 +2,16 @@
   {
     "id": "kpi-total-incursions",
     "label": "Confirmed Incursion Incidents",
-    "value": "32+",
+    "value": "34+",
     "color": "amber",
-    "source": "Aggregated NATO member-state defence ministry reports, Mar 23 – Sep 12, 2026",
+    "source": "Aggregated NATO member-state defence ministry reports, Mar 23 – Sep 18, 2026",
     "contested": true,
-    "contestNote": "Counting methodology varies by government; Romania's own incident dashboard reports 25 drone violations of its airspace in 2026 as of Aug 25 (nearly triple the 9 in all of 2025), plus 47 fighter-scramble situations this year vs 21 in 2025 — not all scrambles confirm an actual incursion. Romania's Foreign Ministry separately cited 44 unauthorized drone incursions 'since the start of the war' as of Sep 2, a cumulative-since-2022 figure that is not directly comparable to the 2026-only tally. Poland's repeated Il-20 reconnaissance-flight intercepts (9th and 10th of 2026, Aug 31 and Sep 3) and its Sep 14 Rusinowo drone recovery are excluded from this count since officials confirmed no airspace violation occurred.",
+    "contestNote": "Counting methodology varies by government; per AP reporting Sep 17 citing Romania's Ministry of National Defence, Romania's own dashboard now counts 27 confirmed drone incursions in 2026 (up from 25 on Aug 25, and nearly triple the 9 in all of 2025), 37 drones/fragments found on Romanian territory (vs 16 in 2025), 73 Russian strikes near the border (vs 28 in 2025), and 56 aircraft scrambles (vs 21 in 2025) — not all scrambles confirm an actual incursion. Romania's Foreign Ministry separately cited 44 unauthorized drone incursions 'since the start of the war' as of Sep 2, a cumulative-since-2022 figure not directly comparable to the 2026-only tally. Poland's repeated Il-20 reconnaissance-flight intercepts and its Sep 14 Rusinowo drone recovery are excluded from this count since officials confirmed no airspace violation occurred.",
     "trend": "up",
-    "delta": "+3 since Sep 1",
-    "deltaDetail": { "value": 3, "direction": "up", "period": "since Sep 1" },
-    "deltaNote": "Moldova/Romania Zelenskyy-flight drone (Sep 8), Black Sea debris/Snake Island incident (Sep 11), Botoșenița Mare crash (Sep 12)",
-    "lastUpdated": "2026-09-14T19:49:24.000Z"
+    "delta": "+2 since Sep 12",
+    "deltaDetail": { "value": 2, "direction": "up", "period": "since Sep 12" },
+    "deltaNote": "Romania's own incursion dashboard rose from 25 to 27 confirmed 2026 incursions per Sep 17 AP reporting",
+    "lastUpdated": "2026-09-18T19:20:00.000Z"
   },
   {
     "id": "kpi-nato-shootdowns",
@@ -38,12 +38,14 @@
   {
     "id": "kpi-days-since-first-incursion",
     "label": "Days Since First Confirmed Incursion",
-    "value": "176",
+    "value": "180",
     "color": "blue",
     "source": "First incident: Lithuania, March 23, 2026",
     "contested": false,
     "trend": "up",
-    "lastUpdated": "2026-09-14T19:49:24.000Z"
+    "delta": "+4 since Sep 14",
+    "deltaDetail": { "value": 4, "direction": "up", "period": "since Sep 14" },
+    "lastUpdated": "2026-09-18T19:20:00.000Z"
   },
   {
     "id": "kpi-governments-destabilized",

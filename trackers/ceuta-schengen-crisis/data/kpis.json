@@ -35,13 +35,14 @@
   {
     "id": "migrants_remaining",
     "label": "Migrants Still in Ceuta",
-    "value": "5,000-16,000",
-    "color": "amber",
-    "source": "Spanish government / Mayor Vivas / security-force sources (Sep 15)",
+    "value": "9,000-10,000",
+    "color": "red",
+    "source": "Spanish government officials via port-transfer operation coverage (Sep 18)",
     "contested": true,
-    "contestNote": "Ceuta president Vivas raised his estimate to around 13,000 as of Sep 13; security-force sources cited by El País's El Español (Sep 15) put the true figure closer to 16,000, arguing that Sánchez's own Sep 14 announcement of a 10,000-place reception target is inconsistent with the government's claim that ~90% of arrivals were returned within 72 hours and that 200 people leave daily — actual voluntary returns average only ~155/day. Ceuta's Assembly unanimously declared the city in an 'extreme situation, on the verge of collapse' on Aug 28.",
+    "contestNote": "Officials revised the working estimate sharply upward on Sep 18, roughly doubling the previous 5,000 figure, after the Poniente port camp transfer exposed a larger-than-assumed street population; ~6,000 are now in official facilities and 3,000-4,000 remain on streets or beaches. Ceuta president Vivas had already put his own estimate around 13,000 as of Sep 13, while security-force sources cited Sep 15 put it closer to 16,000. Ceuta's Assembly unanimously declared the city in an 'extreme situation, on the verge of collapse' on Aug 28.",
+    "delta": "revised up (~2x)",
     "trend": "up",
-    "lastUpdated": "2026-09-15T00:00:00Z"
+    "lastUpdated": "2026-09-18T20:00:00Z"
   },
   {
     "id": "el_trampolin_relocation",
@@ -171,13 +172,15 @@
   {
     "id": "port_reception_tents_capacity",
     "label": "New Port Reception Capacity (Tents)",
-    "value": "1,000+",
-    "color": "blue",
-    "source": "Ministry of Transport via Moncloa.com (Sep 5)",
+    "value": "1,700 capacity / 3,000+ transferred in",
+    "color": "red",
+    "source": "The Objective / COPE / El Español (Sep 17-18)",
     "contested": true,
-    "contestNote": "16,000 m² of Ceuta port's Poniente dock authorised for temporary migrant tents after the Ceuta Port Authority's own board voted against the installation; Madrid invoked Article 73.3 of the State Ports and Merchant Marine Act to proceed regardless.",
+    "contestNote": "16,000 m² of Ceuta port's Poniente dock authorised for temporary migrant tents after the Ceuta Port Authority's own board voted against the installation; Madrid invoked Article 73.3 of the State Ports and Merchant Marine Act to proceed regardless. Spain's National Court rejected a police union's bid to block the camp's opening on Sep 17. It opened Sep 18 with roughly 1,700 places but over 3,000 people were moved from the Trampolín/Benítez beach camps, producing chaotic overcrowded scenes.",
+    "delta": "+700 capacity (confirmed)",
+    "deltaDetail": { "value": 700, "direction": "up", "period": "since Sep 5" },
     "trend": "up",
-    "lastUpdated": "2026-09-06T16:59:50Z"
+    "lastUpdated": "2026-09-18T20:00:00Z"
   },
   {
     "id": "land_arrivals_2026_yoy",
