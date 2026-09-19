@@ -13,36 +13,37 @@
   {
     "id": "kpi-peak-displaced",
     "label": "Peak Displacement (Dec 2025)",
-    "value": "500,000+",
+    "value": "644,589",
     "color": "amber",
-    "source": "Reuters/AP aggregated reporting",
+    "source": "Cambodia National Committee for Disaster Management (NCDM)",
     "contested": true,
-    "contestNote": "Estimates range from ~300,000 (July) to 500,000+ (December peak) depending on source and date.",
-    "delta": "409,000 as of Jan 1, 2026",
+    "contestNote": "NCDM's official peak (Dec 25-27, 2025) is higher than earlier Reuters/AP aggregated estimates of 500,000+; roughly 85% of the peak total had returned home by the time of the July 2026 World Vision situation report.",
+    "delta": "20,923 still unable to return as of Jul 8, 2026",
     "deltaNote": "Gradual decline since the Dec 27, 2025 ceasefire",
     "trend": "down",
-    "lastUpdated": "2026-08-20T12:00:00.000Z"
+    "lastUpdated": "2026-09-19T00:00:00.000Z"
   },
   {
     "id": "kpi-still-displaced",
-    "label": "Still Displaced (Jan 2026)",
-    "value": "409,000",
+    "label": "Still Unable to Return (Jul 2026)",
+    "value": "20,923",
     "color": "amber",
-    "source": "World Vision International",
+    "source": "World Vision International Situation Report #25",
     "contested": false,
+    "deltaDetail": { "value": -388077, "direction": "down", "period": "since Jan 1, 2026" },
     "trend": "down",
-    "lastUpdated": "2026-08-20T12:00:00.000Z"
+    "lastUpdated": "2026-09-19T00:00:00.000Z"
   },
   {
     "id": "kpi-ceasefire-day-count",
     "label": "Days Since Dec 27 Ceasefire",
-    "value": "263",
+    "value": "266",
     "color": "blue",
     "source": "Watchboard calculation",
     "contested": false,
-    "deltaDetail": { "value": 6, "direction": "up", "period": "6d" },
+    "deltaDetail": { "value": 3, "direction": "up", "period": "3d" },
     "trend": "stable",
-    "lastUpdated": "2026-09-16T19:01:06.000Z"
+    "lastUpdated": "2026-09-19T00:00:00.000Z"
   },
   {
     "id": "kpi-displaced-children",
@@ -92,12 +93,12 @@
   {
     "id": "kpi-conflict-day-count",
     "label": "Days Since May 28, 2025 Flashpoint",
-    "value": "476",
+    "value": "479",
     "color": "red",
     "source": "Watchboard calculation",
     "contested": false,
-    "deltaDetail": { "value": 6, "direction": "up", "period": "6d" },
+    "deltaDetail": { "value": 3, "direction": "up", "period": "3d" },
     "trend": "stable",
-    "lastUpdated": "2026-09-16T19:01:06.000Z"
+    "lastUpdated": "2026-09-19T00:00:00.000Z"
   }
 ]
