@@ -121,7 +121,7 @@
     "color": "red",
     "source": "Silver Bulletin / FiftyPlusOne aggregate / CBS News/YouGov / Quinnipiac / RealClearPolitics",
     "contested": true,
-    "contestNote": "Nate Silver's Silver Bulletin aggregate put approval at 37.8% / disapproval 58.4% (net -20.6) as of Sep 15, 2026, up slightly from an all-time-low net of -20.6 hit earlier in the week; Republicans approve at 87%, Independents at 34% (down 14 points from Trump's 48% inaugural-period independent approval), Democrats at 7%. FiftyPlusOne's separate weighted aggregate put approval at 36.0% / disapproval 60.4% as of Sep 14, essentially flat from Sep 12. NPR cited a Quinnipiac poll putting approval as low as 33% as Trump returned from Ireland to campaign for midterm candidates. A CBS News/YouGov poll released Sep 13 put approval at 39% against 61% disapproval. A Focaldata/Financial Times poll found a second-term-low 32% approval over Labor Day weekend. Independent approval sits around 34%, a level associated with wave midterm losses in past cycles.",
+    "contestNote": "Nate Silver's Silver Bulletin aggregate put approval at 37.8% / disapproval 58.4% (net -20.6) as of Sep 15, 2026, up slightly from an all-time-low net of -20.6 hit earlier in the week; Republicans approve at 87%, Independents at 34% (down 14 points from Trump's 48% inaugural-period independent approval), Democrats at 7%. FiftyPlusOne's separate weighted aggregate put approval at 36.0% / disapproval 60.4% as of Sep 14, essentially flat from Sep 12. NPR cited a Quinnipiac poll putting approval as low as 33% as Trump returned from Ireland to campaign for midterm candidates. A CBS News/YouGov poll released Sep 13 put approval at 39% against 61% disapproval. A Focaldata/Financial Times poll found a second-term-low 32% approval over Labor Day weekend. Independent approval sits around 34%, a level associated with wave midterm losses in past cycles. A Fox News poll fielded Sep 11-14 (Beacon Research/Shaw & Company) put approval at 39%, found 63% of voters — including a quarter of Republicans — say the administration has made the economy worse, and showed Democrats leading the generic congressional ballot 51-44 (54-43 among certain voters).",
     "delta": "Aggregate roughly flat since Sep 12-14",
     "trend": "down",
     "lastUpdated": "2026-09-15T00:00:00.000Z",
@@ -173,15 +173,20 @@
   },
   {
     "id": "oil-price-iran-war",
-    "label": "Brent Crude / US Gas Price (Aug 27, 2026 — Trump 'Not in a Hurry' for Iran Talks; Oil ~$87/bbl; Gas Near Record for the Date)",
-    "value": "~$87/bbl; $4.10/gal avg",
+    "label": "Brent Crude / US Gas Price (Sep 17, 2026 — Gas Climbs to $4.44/gal as Fed Cites Fuel Costs in Rate Hike)",
+    "value": "~$87/bbl; $4.44/gal avg",
     "color": "amber",
-    "source": "Trading Economics / Eastern Herald / AAA / Al Jazeera",
+    "source": "Trading Economics / AAA / Al Jazeera / Fox News",
     "contested": false,
-    "delta": "+10%+ since Iran war began Feb 28",
-    "deltaNote": "Aug 27: Brent settled around $86.93-$87.65/bbl, down about 1% on the day but up nearly 6% over the past month. AAA's national gas average sat near $4.10/gal as of Aug 20 — the highest on record for that date. Trump told Al Jazeera on Aug 26 he is 'not in a hurry' to resume Iran talks and has 'no time schedule,' with Press Secretary Karoline Leavitt confirming no active negotiations are underway; the administration is instead leaning on Bessent's 'economic D-Day' sanctions campaign.",
-    "trend": "down",
-    "lastUpdated": "2026-08-27T00:00:00.000Z"
+    "delta": "+$0.14/gal since Sep 10",
+    "deltaDetail": {
+      "value": 0.14,
+      "direction": "up",
+      "period": "since Sep 10"
+    },
+    "deltaNote": "AAA's national gas average rose to $4.44/gal on Sep 17, 2026, up from $4.30 on Sep 10 (California highest at $6.09, Indiana cheapest at $3.92). A Sep 11-14 Fox News poll found 61% of voters call gas prices a major problem, up from 48% two years ago. The Fed cited fuel-price pressure from the Iran war among its reasons for raising rates Sep 16 to 3.75-4.00%. Trump told Al Jazeera on Aug 26 he is 'not in a hurry' to resume Iran talks and has 'no time schedule,' with Press Secretary Karoline Leavitt confirming no active negotiations are underway; the administration is instead leaning on Bessent's 'economic D-Day' sanctions campaign.",
+    "trend": "up",
+    "lastUpdated": "2026-09-17T00:00:00.000Z"
   },
   {
     "id": "obbba-deficit-impact",

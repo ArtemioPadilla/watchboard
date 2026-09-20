@@ -34,14 +34,15 @@
   {
     "id": "political-prisoners-2021-protests",
     "label": "Political Prisoners (post-July 2021)",
-    "value": "1,306",
+    "value": "1,339",
     "color": "red",
-    "source": "Cubalex — Jun 30, 2026",
+    "source": "Prisoners Defenders — Aug 31, 2026",
     "contested": true,
-    "contestNote": "Cuba denies political prisoner status; calls them criminals. Highest total ever documented, incl. 40 minors and 338 still held from the original 2021 crackdown.",
+    "contestNote": "Cuba denies political prisoner status; calls them criminals. New record total, incl. 155 women (a record) and 38 minors (14 still held); figure now sourced from Prisoners Defenders rather than Cubalex.",
     "trend": "up",
-    "delta": "Up from ~1,042 in March 2026; 32 new political prisoners added in June alone",
-    "lastUpdated": "2026-07-15T00:00:00Z"
+    "delta": "Up from 1,306 in June 2026; 19 new cases added in August, 281 over the prior 12 months",
+    "deltaDetail": { "value": 33, "direction": "up", "period": "since Jun 30, 2026" },
+    "lastUpdated": "2026-09-10T00:00:00Z"
   },
   {
     "id": "infant-mortality-rate-2026",
@@ -57,13 +58,15 @@
   {
     "id": "nationwide-blackouts-2026",
     "label": "Total Nationwide Grid Collapses (2026)",
-    "value": "6",
+    "value": "8",
     "color": "red",
-    "source": "Cuba Electric Union (UNE) / US Embassy Havana / Al Jazeera",
-    "contested": false,
+    "source": "Cuba Electric Union (UNE) / Associated Press / UPI",
+    "contested": true,
+    "contestNote": "Wire counts diverge — most English-language and official accounts put the Sep 18 collapse as the 8th of 2026; some Spanish-language outlets count it as the 7th",
     "trend": "up",
-    "delta": "6th collapse hit Aug 2–3, 2026; grid failed twice within 24 hours after storms disrupted restoration",
-    "lastUpdated": "2026-08-03T00:00:00Z"
+    "delta": "8th collapse hit Sep 18, 2026; transmission-line failure cut power to 9M+ people nationwide",
+    "deltaDetail": { "value": 2, "direction": "up", "period": "since Aug 3, 2026" },
+    "lastUpdated": "2026-09-18T18:00:00Z"
   },
   {
     "id": "repressive-actions-h1-2026",

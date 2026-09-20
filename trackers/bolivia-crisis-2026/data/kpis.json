@@ -20,30 +20,43 @@
     "contestNote": "COB and FENCOMIN both reject the extension as legally unjustified given no active blockades and have each announced (undated) national assemblies to plan a response; the Morales-aligned CSUTCB has separately declared \"permanent mobilization\" ahead of its own Sep 26 assembly; the government cites the risk of renewed mobilization across ~20 conflict points in 8 departments.",
     "trend": "up",
     "lastUpdated": "2026-09-18T18:00:00.000Z",
-    "deltaDetail": { "value": 1, "direction": "up", "period": "since Sep 16" },
+    "deltaDetail": {
+      "value": 1,
+      "direction": "up",
+      "period": "since Sep 16"
+    },
     "deltaNote": "The Legislative Assembly's session, convened by VP Lara for 16:00 on Sep 16, ran past 01:00 on Sep 17 before approving Decree 5707's 90-day extension 100-58 (122 deputies and 36 senators participating), 21 votes above the required threshold. COB executive secretary Mario Argollo and FENCOMIN president Josué Caricari both rejected the measure the same day and each announced a national assembly (ampliado nacional) without setting a date; protesters gathered peacefully at the Casa Social del Maestro near Plaza Murillo during the session with no reported clashes. Separately, the Senate activated a six-member special commission Sep 18 to investigate corruption allegations tied to presidential adviser Fernando Cerimedo, with a three-month mandate."
   },
   {
     "id": "active-blockades",
     "label": "Active Blockades",
-    "value": "0 confirmed active; moto-taxi 'recess' to Oct 10; state of exception extended 90 days regardless",
+    "value": "0 confirmed active Sep 20; La Paz interprovincial transport + Confederación de Choferes both threaten blockades from Mon, Sep 21",
     "color": "amber",
     "source": "La Razón / FM La Paz, Sep 11, 2026; Infobae, Sep 17, 2026",
     "contested": false,
-    "trend": "down",
-    "deltaNote": "San Pablo bridge (Marbán province, Beni) blockade was lifted Aug 30 after a 4-day standoff, with the government pledging Bs. 9.80/L diesel capped at 120L weekly for the province. Seven Santa Cruz moto-taxi federations set an indefinite blockade at 13+ points for Sep 11 over fuel shortages and price increases, then called it off after overnight talks with Hydrocarbons Minister Marcelo Blanco and YPFB — organizers call it a 'recess,' not a resolution, and set Oct 10 as their checkpoint. Yapacaní's status as of Sept 3 was unconfirmed since; Decree 5676's Bs. 18/liter large-consumer tier remains unrepealed. No blockades were confirmed active as of Sep 18, but the Legislative Assembly extended the state of exception 90 more days anyway on Sep 16-17 (100-58) over COB and FENCOMIN objections that no active mobilization justified it; both federations, plus the Morales-aligned CSUTCB (target date Sep 26), have announced undated national assemblies to plan a response.",
-    "lastUpdated": "2026-09-18T18:00:00.000Z"
+    "trend": "up",
+    "deltaNote": "No blockades were confirmed active as of Sep 20, but pressure escalated sharply after Decree 5716 eliminated the diesel subsidy (Sep 19-20): the Confederación de Choferes declared a state of emergency and set a national assembly for Mon, Sep 21 to decide on measures; La Paz's interprovincial transport federation separately announced a departmental road blockade starting that same Monday; cisterneros (tanker operators) suspended fuel loading/unloading indefinitely; and COB convened its own undated national emergency assembly. Government ministers said they remain open to dialogue with any sector that requests it.",
+    "lastUpdated": "2026-09-18T18:00:00.000Z",
+    "deltaDetail": {
+      "value": 1,
+      "direction": "up",
+      "period": "since Sep 18"
+    }
   },
   {
     "id": "usd-exchange-rate",
     "label": "USD Exchange Rate (floated)",
-    "value": "Bs. 10.01 / $1",
+    "value": "Bs. 11.00 / $1",
     "color": "amber",
-    "source": "Central Bank of Bolivia (official TCO, Sep 18, 2026)",
+    "source": "Central Bank of Bolivia (official TCO, Sep 20, 2026)",
     "contested": false,
-    "trend": "down",
-    "deltaDetail": { "value": -0.98, "direction": "down", "period": "since Sep 15" },
-    "deltaNote": "Rate climbed further from Sep 4's Bs. 12.45 to a new record Bs. 12.655 around Sep 9-10, then eased for five straight sessions to Bs. 10.99 by Sep 15, dipped further to Bs. 9.83 on Sep 17, then edged back up to Bs. 10.01 on Sep 18 — after the BCB suspended new dollar-purchase operations (Sep 7), created a Restricted Monetary Reserve under Resolution RD Nº 131/2026 (Sep 8), and began direct dollar distribution to private financial-system entities (Sep 9) to curb what it called 'unnecessary shocks' in the currency market. Still up from the 15-year peg of Bs. 6.96 before the Jun 29 float.",
+    "trend": "up",
+    "deltaDetail": {
+      "value": 0.99,
+      "direction": "up",
+      "period": "since Sep 18"
+    },
+    "deltaNote": "Rose from Bs. 10.01 on Sep 18 to Bs. 11.00 by Sep 20, after President Paz announced the total elimination of the diesel subsidy (Decree 5716, Sep 19) alongside congressional ratification of the $1.9B IMF financing deal; the boliviano remains well below the Sep 9-10 record of Bs. 12.655 struck before the BCB's dollar-distribution interventions.",
     "lastUpdated": "2026-09-18T18:00:00.000Z"
   },
   {
@@ -59,24 +72,36 @@
   },
   {
     "id": "diesel-gracos-price",
-    "label": "Diesel Price — Large Consumers (GRACOS)",
-    "value": "Bs. 18.00 / L (+84%)",
+    "label": "Diesel Price (subsidy fully eliminated)",
+    "value": "Bs. 17.95 / L for all consumers (+83%)",
     "color": "amber",
-    "source": "Supreme Decree 5676, Aug 17, 2026 / YPFB",
+    "source": "Supreme Decree 5716, Sep 19-20, 2026 / YPFB",
     "contested": true,
     "trend": "up",
-    "deltaNote": "Up from the prior Bs. 9.80-9.90/L rate; the subsidized Bs. 9.80/L price is unchanged for transport operators and individual consumers",
+    "deltaNote": "Decree 5716 replaced Decree 5676's two-tier pricing (Bs. 9.80/L subsidized, Bs. 18.00/L for large 'GRACOS' consumers) with a single international-reference price of Bs. 17.95/L for all consumers, effective Sep 20 — an ~83% jump for previously subsidized transporters, small businesses and individual consumers. Announced hours after Congress ratified the $1.9B IMF financing deal; the government paired it with an expanded PEPE cash bonus (~2.9 million recipients, ~$79M) and Bs. 800 million in preferential credit for transporters and small merchants. Gasoline subsidy decisions were deferred.",
     "lastUpdated": "2026-08-29T17:42:58.000Z",
-    "contestNote": "Facing backlash over the 84% hike, Deputy Hydrocarbons Minister Hernán Paredes said Aug 25 the decree \"has to be modified\" toward a more competitive price. But Minister of the Presidency Fernando Aramayo rejected repeal on Aug 27, attributing the decree to IMF conditionality; new blockades against it began Aug 26 in Beni and Oruro. New Economy Minister Christian Morales Burgos, sworn in Aug 25 replacing interim minister Óscar Mario Justiniano, said Aug 26 the decree needs adjustments \"to minimize risks\" from producer mobilizations; the Pro Santa Cruz Civic Committee set a 72-hour ultimatum (deadline Sun Aug 30) to repeal it before escalating to a region-wide Asamblea de la Cruceñidad."
+    "contestNote": "COB, the Confederación de Choferes, cisterneros (tanker operators) and Yapacaní producers all rejected the decree as an unaffordable 'dieselazo' and moved toward mobilization; the government frames it as an unavoidable IMF condition to end an estimated $55M/week subsidy cost and curb cross-border smuggling.",
+    "deltaDetail": {
+      "value": 8.15,
+      "direction": "up",
+      "period": "since Sep 19"
+    }
   },
   {
     "id": "imf-loan-package",
     "label": "IMF Extended Fund Facility",
-    "value": "$1.9B pending Congress",
+    "value": "$1.9B ratified by Congress, pending IMF Executive Board (exp. Oct 2)",
     "color": "blue",
-    "source": "IMF staff-level agreement, Jul 29, 2026",
+    "source": "Plurinational Legislative Assembly (Law 723) / IMF, Sep 18-19, 2026",
     "contested": false,
-    "lastUpdated": "2026-08-20T12:00:00.000Z"
+    "lastUpdated": "2026-09-20T18:30:00.000Z",
+    "trend": "up",
+    "deltaDetail": {
+      "value": 1,
+      "direction": "up",
+      "period": "since Jul 29"
+    },
+    "deltaNote": "The Chamber of Deputies approved the 36-month Extended Fund Facility financing law Sep 18 with support well above two-thirds; the Senate sanctioned it via a waived-procedure vote (Law 723) on Sep 19, completing congressional ratification of the SDR 1.369 billion (~$1.9B) program first agreed at staff level Jul 29. Terms: up to 10-year repayment per disbursement, a 4.5-year grace period, and a variable interest rate of 3.47% tied to SDR rates. Final approval from the IMF's Executive Board is expected around Oct 2, with a first disbursement of roughly $250 million anticipated shortly after."
   },
   {
     "id": "total-arrests",
@@ -96,7 +121,11 @@
     "source": "Attorney General Roger Mariaca / Senate of Bolivia, Sep 9-18, 2026",
     "contested": false,
     "trend": "up",
-    "deltaDetail": { "value": 1, "direction": "up", "period": "since Sep 12" },
+    "deltaDetail": {
+      "value": 1,
+      "direction": "up",
+      "period": "since Sep 12"
+    },
     "deltaNote": "The Senate activated a six-member, three-party special commission Sep 18 (Paola López and Marcelino Flores of PDC; Leonardo Roca and José Sánchez of Libre; Eliana Acosta and Marcelo Cardona of Unidad) with a three-month mandate to investigate corruption allegations tied to Cerimedo, on top of his four existing criminal matters (illicit enrichment/money laundering, attempted femicide against Nadia Beller, domestic violence, and the Beni drug-trafficking-flights probe). The same day, Beller testified roughly three hours to prosecutors in a Gesell chamber in Santa Cruz, answering ~100 questions, formally requested protected-witness status citing safety fears, and said the Aug 17 attack on her was meant to prevent her from denouncing corruption; a virtual hearing was set for Sep 19 to seek seizure of Cerimedo's digital devices. Cerimedo remains held at the high-security Chonchocoro facility.",
     "lastUpdated": "2026-09-18T18:00:00.000Z"
   },
