@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "lastPruned": "2026-09-21T13:06:31.804Z",
+  "lastPruned": "2026-09-21T18:40:13.314Z",
   "entries": [
     {
       "timestamp": "2026-09-14T00:02:40.611Z",
@@ -52093,6 +52093,1193 @@
       "decision": "discard",
       "reason": "matched ukraine on a single token — no substance (score 0.33)",
       "confidence": 0.3258333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:12.769Z",
+      "candidate": {
+        "title": "Yemenis flee across Red Sea as Houthis and Saudi-backed forces escalate war",
+        "url": "https://www.bbc.co.uk/news/articles/cw4gm7l742dmo?at_medium=RSS&at_campaign=rss",
+        "source": "bbc",
+        "timestamp": "2026-09-21T18:40:10.010Z",
+        "matchedTracker": "yemen-conflict",
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 14.5,
+          "lon": 42.5,
+          "place": "Red Sea",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "update",
+      "reason": "light-scan posted directly + queued for heavy scan (score 0.95)",
+      "confidence": 0.95,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:12.770Z",
+      "candidate": {
+        "title": "Millions urged to evacuate as powerful Typhoon Dujuan hits Japan ",
+        "url": "https://www.bbc.co.uk/news/articles/cm3wj2lexl97o?at_medium=RSS&at_campaign=rss",
+        "source": "bbc",
+        "timestamp": "2026-09-21T18:40:10.010Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 36.2,
+          "lon": 138.3,
+          "place": "Japan",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched fukushima-disaster on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:12.771Z",
+      "candidate": {
+        "title": "Google hit with €403m fine by Irish data watchdog over GDPR violations",
+        "url": "https://www.bbc.co.uk/news/articles/ck1e52v16ngxo?at_medium=RSS&at_campaign=rss",
+        "source": "bbc",
+        "timestamp": "2026-09-21T18:40:10.010Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched vera-rubin-lsst on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:12.771Z",
+      "candidate": {
+        "title": "Merz's political crisis threatens Germany's obsession with stability",
+        "url": "https://www.bbc.co.uk/news/articles/c6vgyz1n0v1xo?at_medium=RSS&at_campaign=rss",
+        "source": "bbc",
+        "timestamp": "2026-09-21T18:40:10.010Z",
+        "matchedTracker": "germany",
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 51.2,
+          "lon": 10.4,
+          "place": "Germany",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.63)",
+      "confidence": 0.6333333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:12.772Z",
+      "candidate": {
+        "title": "Trump Allegedly Banned News Outlets After Natalie Harp Showed Him Negative Coverage - Forbes",
+        "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxOU05tdDRmNnlwUTdsQmNPclZibDZTS0h5OXN5cmJCRkdMeVJfOGpaVWExWlZ3R0kyZF9YRUdZY0VpZ2VSMGp5M0hDU0F4a0c0X05Zem8zYUZ0MWRmREpMYUxuX2t4OWFOWlNVemhoN0VvRjctSjc2c3lTdjdqa0c4Qm5RRERUbkxaNS02aWhwWXJvaFZDS0F6S0hmZUJVSE1YaTVZT1ZEZ2FFMm4xUGliSUhucVFQS0FQeWhMQlZUR2t1SWdH?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-09-21T18:40:10.172Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.02)",
+      "confidence": 0.02375,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:12.773Z",
+      "candidate": {
+        "title": "Houthis move to seize strategic terrain after Trump calls off airstrikes at last minute - The Guardian",
+        "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxNTjlZVF83amhsMWNiQjBfMGJTRlBqT1laZUN0NHBPU1lveU91YWxiTF95Qnkzc0ZSVE1SSXg0bFB1aXBJVG42YlkwakFESXV4OWF2YU53NHk2MC16Rk95WXhaTEVTeUEzMmhUZV8tRURvZ2hGeDlyb0ltUjZRbjIxbnQwVHRFejN0VkppeGZjR1lES2ptQ3M3WjZiaEk3eUNHc3FGVTZVcG1rQXFqcU9STlZ0OXlPS3dTb2JxS3dlWQ?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-09-21T18:40:10.172Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.02)",
+      "confidence": 0.02375,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:12.774Z",
+      "candidate": {
+        "title": "More than 1.9 million urged to evacuate as powerful typhoon batters Japan - BBC",
+        "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1IWlBTWFM4RWdLb3diMWZNanB6NTFFeGh0TUlwR0tmWENzS1dwTzNRQUMyNDJzbURnT2N4bXc0U2ZaMGNrR1dUb2x2clpzaFJlUXRDQlRn?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-09-21T18:40:10.172Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 36.2,
+          "lon": 138.3,
+          "place": "Japan",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched fukushima-disaster on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:12.775Z",
+      "candidate": {
+        "title": "Rare September nor’easter could bring rain, wind and waves to East Coast - The Washington Post",
+        "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNNDBkNUkycUgtU1ZqX29mMHZ6ZGI1WG91TWROX3dwclVRTkhxeGF4U3Q2R01nSW81VC1YNVRHSmlrMmhwV3dOUHd6TjJGQzJfZ2JtN19pc3ljZzg0VlpSRnFjd0dJTGlMX2tvVTVLZWZPbG5iN3l1SVBwOU96M3ZBMlJjNGY1YzdhYkFzc1NNSUY2OEZ5TEVwTGswVjNzU0lXd1p5UVlSRGNlUGs5cGRXeG1HSGI?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-09-21T18:40:10.172Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched september-11 on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:12.775Z",
+      "candidate": {
+        "title": "Man shot by ICE officer is detained in Texas with a bullet still in his back, attorney's office says - AP News",
+        "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxQWndXaHZpVWNGdHVSNkdRRFU1NGYycEExTGI2Nlc4UDUtTHdZV0hUV0dkRWY0bDQzX3FGVV9Ia3NvT0k2WTBkSXljWlVTeU1uVHJpdEpCWXl6d2ZVVHI4Tkg4ckFVdUNhSFhWLWZSVXVQYnVwN0FPcTVaVlFWa1JNdWM5YXg0bkhvN3JiTm94RmVVRjBkejJTWkFZMHIxclZzajZGSkFyVXE?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-09-21T18:40:10.172Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 31.4,
+          "lon": -99.9,
+          "place": "Texas",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched ice-history on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:12.776Z",
+      "candidate": {
+        "title": "Senior GOP appropriator pours cold water on funding Trump’s arch - Politico",
+        "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxNV181OGREaS1yV1ZKcXRkMGZJU2F0SDJkTUJJUldFS195dGtXRHFiWWxQZDR0MnpRMVdMTmhSMDlJU1VuenNWNU5iWW5hWUtMLXZhc0hQQ2s4SFVSVDZlRm9lS2pyMnlPQXktVkk3V29HU2psekRPMkprX1BDODcySkVjVUJKRHhBRVRGZ0ZVRQ?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-09-21T18:40:10.172Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched united-states on a single token — no substance (score 0.34)",
+      "confidence": 0.34041666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:12.776Z",
+      "candidate": {
+        "title": "Sizing Up a 2028 Bid, He Used a Weight-Loss Drug to Drop 80 Pounds - The New York Times",
+        "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQQ1RrT2ROWlE0alBFY2h0SEhDOU1oZ3RjaE55Q1ZDY2JuRkJpT2tkM3I0QmNEMjczUTFyZE84SElvb2tDaml1T012Q1dfNzdQNTlHOU1lN1hKTkNKNEs0ZUVRNmhBeUZ5cV9XaWRkTFdBMWdhaHhEQVFmNVoyWDhTN3Q5RW9YTVVidUViR21kZTJPNHZSaXM2c0hTd3BfbnU4dGc?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-09-21T18:40:10.172Z",
+        "matchedTracker": "mexico",
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 40.84,
+          "lon": -73.94,
+          "place": "New York",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.63)",
+      "confidence": 0.6333333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:12.777Z",
+      "candidate": {
+        "title": "Pro-Putin party gets record 355 parliamentary seats, anti-war party a tiny regional foothold - Reuters",
+        "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxPTU1fNXJKdjF2TkdlSEtWS1hEXzBTM2JIR2lSUHVhZTdBWmNnWk9yLTV4aG9HbFdtTU4weHRxakoxSUJQd2tCT3NadjZQTUdZbHBPQlFUaVRfM2VxU3NweTlJZThveGhJT1JVcFpzN20tMzJKcjVPUEpabVhkNlFBNDdjc1o4ZkRLdzlSWllkdk1ESlRILUdzdVFNOGxCLTI2OHhSdUd3cHhkeWcyejEzOXBOUVVKNmJkenI2MGRn?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-09-21T18:40:10.172Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched mecca-defense-pact on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:12.777Z",
+      "candidate": {
+        "title": "Elif Eralp: A leftist leader with Turkish roots dubbed ‘Germany’s Mamdani’ - Al Jazeera",
+        "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQRkdLcTZwN0JDTkpUODRWbWM4SDN0SkZHWHhjUlpUcVExbzllWlFhd1JZcFp5LU5wS21IMzVoYXJkQ01JTEdiTkhuRldHR0ZtYTI2SDdOTXdFcTY4OC1UV2Y0bDFFR0g4cHdjQ0U0aVlSLXpoVVUyakFuZFRQY3poaDYwejVyVEk0RENVdG1XaFQ5TUhtc0RXMmtQOXhxYUctWmlLVXJOdmMzZE8ya0hwTnI3b9IBuAFBVV95cUxOTnBVeTluU1pQeDYyME04QjZrX0Z6eXFwNEFrMDd0Z2tuNHlXNkVQMXpHT0s2MXNpN0FSaGhORHg5c1JMeTRBU2E2UTJadXhyM3FLdlNxVmIwdFd5bFVmbE1IMzg0MFdpcWF0UEoybnZYSm1aajNIbFJNRi0zSnFHclA4eUtuZlZvTWhneFNVTEkwNFJYc0dBeFVVMDVRZEFyaFYyMGNzcjBuNHVBVGNjU3JoSGlmdGJ6?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-09-21T18:40:10.172Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 51.2,
+          "lon": 10.4,
+          "place": "Germany",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched germany on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:13.287Z",
+      "candidate": {
+        "title": "Why the Iran-Backed Houthis in Yemen and Saudi Arabia Are Back at War - The New York Times",
+        "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxQa3ZvZG1DVHkwY2JmZkZlVjJLeFRCTE1udWpqdnZKcEJwWjQ4eW5RUTR0dGp1ak1uODluWFY4YlNWakV3SmxMQi02OWprNHhyT252RHprcjRIVDhGTHRMRUx0VEs0c1UtLXdlZ3huMGJxNTJPMkhfYXdQdlZ6aWFoR21aZks5amM?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-09-21T18:40:10.172Z",
+        "matchedTracker": "saudi-arabia",
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 23.9,
+          "lon": 45.1,
+          "place": "Saudi Arabia",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "update",
+      "reason": "light-scan posted directly + queued for heavy scan (score 0.95)",
+      "confidence": 0.95,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:13.287Z",
+      "candidate": {
+        "title": "Paramount Settles Antitrust Case With State AGs, Removing Obstacle to Warner Bros. Deal - Variety",
+        "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxPVndrbEY1RlNJdHpUR1JmY2pnazB0RWtZQ3FXT1pKa3kxVUdZMm5qY1ZNMVZYVjZqc0o1RFBwaGZVVm1VY2RkOTF2cGI1Zm9RNHNKQ2M1cEcwSm5GWmVwY1ZMajdBOUVHMGZLYlRGNUxRem4taW9HYUx3Si1FT1lYXzQ2VHFmaUFCOUh5ZFV3SQ?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-09-21T18:40:10.172Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched ayotzinapa on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:13.288Z",
+      "candidate": {
+        "title": "Air travel nightmare: Newark ground stop nears 6th hour; JFK, LGA pause flights - NBC New York",
+        "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxPaHhQMzlod1pOY3FxRVBhY20waURSQVBnQWU0YTI3ODM1ZUY0MWNfYUw0WEJhanZvbUU3b1YzZlJBUTNNNTdSU0o2YzZSSVNqbWRMekdZRjdBTWQzeTdpYWtoSzliV05YSHlUOXFIRzZsY3dMcnhZd1lSNXhpSS1ZbUswNXo5LUxfMml3M3ptQmltclFa0gGcAUFVX3lxTE16ZGtzQk1NU1FZRS1nWktDUUhlbXhlMmJyN2RaajZFNmZSbTM5OXNGNEdfaFR0TEtVT3FQVW1vNm5ndzdUU0tONk1SeVZraTN6YkR1STVuRlVpWlhtV1RnZVhieWlfYkRNVmhRMnBvREhOQmRKSWoxdDQ5MEN5QnROTW1HQk51dWN3Q3dtaVBNOF9nSHRWdTZfbEZGbQ?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-09-21T18:40:10.172Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 40.84,
+          "lon": -73.94,
+          "place": "New York",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched canada-wildfires-2026 on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:13.288Z",
+      "candidate": {
+        "title": "S&P 500 rises 1% as AI-related stocks surge, oil and yields slide: Live updates - CNBC",
+        "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE9PV3BMZGlwWktIQVdmYWdJMWl3eVJHMUFfR2pPNUQ3dVk5OVROd2ZYQ3BzNEdSbElpSW5UREJmLVJxbVdJUzdITzNTM2QyM3FlV1hlZUp6anc5MFd6cEtPeW84WWNzZHZGaXVjd0Q3STRJRUFERmFN0gF8QVVfeXFMT1JBRmVDRWpaTXhKZDhZSTVWbllXZ3dZNzVhQVlPdjExaXNsY3daUVF1ZmFIOFNsQlJzeXpTc0plejhnNGhvRjdaZWlyYlp5QlFmMVFncmZvNEJNQjNUZTdLUldiMWJfS2JMYm5YaUJaNWRHekNLX1FqeXl6dw?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-09-21T18:40:10.172Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched ceuta-schengen-crisis on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:13.288Z",
+      "candidate": {
+        "title": "Major Wendy's franchisee files for bankruptcy - foxbusiness.com",
+        "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPcGZwSmx6cmFMci1fZzM3cGN0WDVGUmhYRlRRaG1IYTd0am10cUpDMmZNemFxNlNVM0F2V2dsa0U4UC1oT2xoRmhPZ1lES2dJaWR0NXFZS2txUmg2dEwyaXFfUXFLdjcxRFQ4YmxhRmtsdW1kTkt2YTBPd2hhNU9JTWJ2RHbSAYoBQVVfeXFMTzVZeE9GSlpsMGxacXpEZ3VRX3paN3R6bGk1eFluVkduSl9PUFpkUGJRMTAtNlZ2emJ0RjU4d0Q4NVR6LU43enJZNVFNV25id1V1Zzlqa1BvZUF4UHdIUXc2MEgyd3VTVEIwdnRHcmxaMFh3dFFHWmtHYUpYVWJQNGMwUjB4N19haHp3?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-09-21T18:40:10.172Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:13.289Z",
+      "candidate": {
+        "title": "Google Rolls Out $899-Plus ‘Googlebook’ AI Laptops With Hardware Partners - Bloomberg.com",
+        "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxNdmVaZWMyYUUzb0wxYjh2NmFpbHVZTmVvSDkwOEZ2SzBRdDU2YXQ2TXRRdmRhOUpVSzFjYWEwVWpRaGhjUGR4cHpRNjF3TjRmeFVwM01MZ0Vnb3FuRjVqNmN0TnlFQWQ3X3ZEVE13OHhia2VZVEw0M1lXbVJtWWRMcUpZRWFCZ0VKQmxBbDdDeENYc2w0U3JSX3FpU2xvSy1aZkwtcXdSOXllaHQwdE1Ec05mYlVWMlhsVVE?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-09-21T18:40:10.172Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:13.289Z",
+      "candidate": {
+        "title": "The M5 Ultra Mac Studio tears through our benchmark tests - The Verge",
+        "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxOekJHZ2xuSnpMV1h6QnN3X2pQM1NvY0xtMFJ6dE13Sno4NDQxRnZCdXBZTjA0Nzg2UVlmYmREcDk2S041QXpGSU1GWUlPcVJQUHd1Zzh4SFAyYkR1bmpvQVZ1amtRMjBtaEVmRDA5c0Y1Wkh1Ukp3MmFCSUJjeUdndmxESzdNMUhna3VqVFV1STdwbmlaSEdVTDRhaDYydw?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-09-21T18:40:10.172Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:13.289Z",
+      "candidate": {
+        "title": "Bungie says it’s “not done with Destiny” and will bring back vaulted content - The Verge",
+        "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxQUjd2TjlsMDZOX09Ia0J0eXB5UWdOakk3WXBvdDFWeWdSMUdpb1dIUHZQNzBJZDlCZWxEcWpaRlJGY2NuRml5dDhPLU5PLWhGQTJyendmcXhGMGJOdndtR1VsWUhhWjZncEhIeVNvYWZ6TTVIR3NKY2RBcTliYUg2bGQ5N280dGR3NFRMWmhfU2dFTDQtbzlv?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-09-21T18:40:10.172Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched mexico-us-conflict on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:13.290Z",
+      "candidate": {
+        "title": "Taylor Swift caught celebrating husband Travis Kelce's touchdown - USA Today",
+        "url": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxOOWRXUDRpcldoTURLcXlOWXJhLW1HcDNXS0djTkxjSEZrN1RIdFlTZWpKWTdzTkw2aUJXbG5kT0pQeUo0WDBWNjM2Zy15aDM5T01jQ3FkNFI1YU93R1ZXSWttOEJpMWdlZGNMaXhpV1IwTGU2ZlExMlZFU05tSGtIVUZBUFpSRXpxR1BtbG5PY3lua3RfR0FCelZQZ1NXd1dUMERhSVZDRnhCSmFKNlMycWlZbjgxTlU4SDNycVZKN2xqS1o0bjd5VjVxRXZ2Z0xkcjBvd2MwQQ?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-09-21T18:40:10.172Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched world-cup-2026 on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:13.290Z",
+      "candidate": {
+        "title": "Lucas Museum of Narrative Art celebrates opening night with star-studded gala in Exposition Park ahead of public debut - ABC7 Los Angeles",
+        "url": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxOSjY2MmVwRTI5TG1DZFNnN1hTaGt0bEM0Nk5ERnJvZE81V3JuOUJDT2doVkw0ZHJ6RW96Xzh2WERsSGpXQ3QwV21OWTJDM2p0N1FuRWpJc3MxUVVYOXU3a3N5ZXAxUURJbkIxdUJPZTdDRVFWck1iSzEzX0JnM3hlUXVvMk4wb2l5OU5zejVvaGhQc2pFVWp4emdaSnZBMXN5YlpZYmFUV1FrUEExdXgzVnV0WWdCa2RobWdJVHF0VVBvcUxIOEI4YzRFQWpEX1Y3QmfSAdcBQVVfeXFMTlg0LTVfc01CU0VROS13U2xSa0pQNjdxUlYxUFotRFhGZzFJZHJuRXdpdU16WlRrZVgzaUZCLXRaa2lOWm5uRVl1Y0RSd2p6d1dkVmluZlIwTDJ3V1JBV3VtVDJ1T21maURmT3RRQnU3YVdZRDM1MDh5NTV5YTlXZFVPYkdFWTZhaktVM29hbzBlekN6dDg5cHhrbFZ5S0ZXRjE3UFZWcy1iYmplWVFpcVh4UFVzV3l0UFZWNGRmaU5vWGhZX0wxR3BoalJsVGI5bW1vd1NFOEE?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-09-21T18:40:10.172Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 34.05,
+          "lon": -118.24,
+          "place": "Angeles",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched ebola-outbreak on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:13.290Z",
+      "candidate": {
+        "title": "Desde el 3 de noviembre se restringirá uso de celulares en todas las primarias y secundarias de México - La Jornada",
+        "url": "https://news.google.com/rss/articles/CBMi7gFBVV95cUxOZ19OMzgtVG9sMXNxYW5JQ1RVRUxSZXdsM2NlMEI0SVF2WGdCME1DMzA1NGx3eWhjaFNIU3IzbDkyRWV4WWNzajhhUWk3ZW5DSDhweUNXN3lUWWNCME9qS3BlcHJ0MWZFTGRBWDBQOU90ekxwa0p1OXlvVXlLdHVQM2p3OERRZFFPOFNzdUlZSzZ5WU5wa3h4VnBvSVdKY3B6aDFzU2JJYmtUc252Q3dZcTlFZ0s5TGxQWmE4cjY3MTByeXlFVXBDdG16VGVobXk1VzQwNnZZUW9iRzRVamZfcW5EdC04M2UxN3dibW9B?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-09-21T18:40:10.672Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 23.6,
+          "lon": -102.6,
+          "place": "Mexico",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched cdmx on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:13.291Z",
+      "candidate": {
+        "title": "Sheinbaum, Sinaloa e injerencismo // De El Mayo a Rocha Moya // Guerrero, ¿todo arreglado? // Doce años de los 43 - Astillero - La Jornada",
+        "url": "https://news.google.com/rss/articles/CBMi-AFBVV95cUxQczdkVWNfc0gwN1dzV01PbnFfUW9mTWFtc29rcElfUEF0cjZoWFNLSWg2c0dWb1dDM0kzS1M2Z0c5MEhDOVJfUTNMWi1RQ1IybmhSWVVYOHh6VGYtUWd5d3BFaFJZNHdsTW9GVjZoMXVTLVhTRnFtMHdITHpJYzd3YU9CS3JOVEtoQi1yYm53ZHdOejdrbEcwWG1wamI2LVE5TGNhdHVUS0RvZDdrdGJoS1FFOERaQ0xueFBYd0xsRklWQ2FiR0ZSTnlBNXQ4QmZmNXJlUEI5MEJGUVV1ZTJfZW1ZcVFyNFB2Y3pzc3RzcmpCRGltR1pGUA?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-09-21T18:40:10.672Z",
+        "matchedTracker": "sinaloa-fragmentation",
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 25.5,
+          "lon": -107.4,
+          "place": "Sinaloa",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.63)",
+      "confidence": 0.6333333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:13.291Z",
+      "candidate": {
+        "title": "Se forma la tormenta tropical Polo frente al suroeste de México - CNN en Español",
+        "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQNEZkZ2gxTElUNVlrVjdERndjVExZMy1scjNsUHN0UjZlY3FNMERTVUNsbkM4UTJrREc3ZllpNTZwb0hwSUVxNUJoZTRJSC1ObVMwczhiN3ltb3RBRlRjb1BmS0FHQjVfcU10S2s1LXduS3FENWhVNlVhVGNPUWRfU29aU0hnaEJLNXlxbzFsYzJLSS1xYW84ZzJR?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-09-21T18:40:10.672Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 23.6,
+          "lon": -102.6,
+          "place": "Mexico",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched cdmx on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:13.291Z",
+      "candidate": {
+        "title": "Detienen a 7 presuntos secuestradores en Sonora: Liberan a 3 víctimas y decomisan 40 armas largas - El Financiero",
+        "url": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxPNjN0X0Mzc2F2TUNJNm9kQ1gxdy1BM1hPNnk1TW9jcTZRREpvbXM2bWlCMG11anZHQnU0SjVETlZmeFFJanE5RGh2b0p1aFU0ZzVhalZKc3ZibTJkSHViVUlWRlNVaE05cTBRb3dBRkxqOHZNZ2kyT2ZSbTEwM2d0dlNKNEtxanBJVE53Tm9Kdm1JSHZ0dlZDb0h3SVF5cFY0X1BGX0RuNzZ6N0FiODNVcHVVR0szdEpwS0xDY2JBNmdPUzBpbkU5WmtfbC1pLW1ENWpSTFNNTnN4RW4xeTdYTnN3NA?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-09-21T18:40:10.672Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 29.0729,
+          "lon": -110.9559,
+          "place": "Sonora",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:13.292Z",
+      "candidate": {
+        "title": "Confirman Suspensión de Clases SEP del 21 a 25 de Septiembre: ¿Qué Día y Quiénes Descansan? - N+",
+        "url": "https://news.google.com/rss/articles/CBMizwFBVV95cUxPRGFZMlRPTDZRZy1SbDNXN1otOFNqRmwyaWc2WUdKRWw4WGtDa1hLTElaQ1NqV3d1bFZxM3d0Skl4R1VXQW1xVlB4d2dhNmIxd0I0bXQ1XzhiLUhiRllkd1Z3T1BJbVdHRmJpZjgtTGp6N3lXOURCVTA2UVhjMUw4MktUTWdOM3BrVDA4ZmFZaGNmZ3lhaWZSZW9BbjcxZldXYnktLVQ1OTFRUmlCdjVXMlJoV243OElnZVFzTVJ6aXhJcGJTY1YzV0hxbk5UQUU?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-09-21T18:40:10.672Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:13.292Z",
+      "candidate": {
+        "title": "\"Voy a quitarme la investidura presidencial, pero creo que vale la pena\", Sheinbaum al defender a coordinadores de la 4T elegidos por Morena - La Jornada",
+        "url": "https://news.google.com/rss/articles/CBMi7gFBVV95cUxNQVlYMWkyUGJFVVRSODJmTXNsN2VvSEpGa1JuM2dEWEJPWTBUcHpCUWZodXgzNXlobWJZdHJQWDliWXNZYlljWmxoX05NR21VQmgwc2pkaFVpUFdwZDd0cjc4ZXJUalRwdW53aEZUTHI3VUFGX2J6OE5UOFVKbDJMaDROaTg4RDU5RU1weHQ3U254VzNFUGNsR19ybFJQMVJMSGpjVGxrUzBLdXBoUEVicUNCWE9INTdiQUFfVVpzN2RmaHE4SkNmd0lGRUg2UmYwT0dBQjQ1R2FDRHN0bExLUy1IWTBHVUNRNExiYkJR?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-09-21T18:40:10.672Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched sheinbaum-presidency on a single token — no substance (score 0.34)",
+      "confidence": 0.34041666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:13.292Z",
+      "candidate": {
+        "title": "El PT se “endurece” ante la ‘4T’ - El Financiero",
+        "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNVnJUVzVycnhVa0xzaWtySEx0SGliUVVuNVlGdDFlbUNYNkdGNHliYUVlSHRiQ0VOX1lsSW43S2lPd29XZ1BHQU5NNThhX3pIS1pPQ19mWUI5cEdZZGhfWHlmOHMwbG1JRHl1MnF0ZXZnSUhISmdHUnVEVVVIT1NzbHZiTkhtOXlJdUpIUEoybXBZRTZpWVlFMQ?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-09-21T18:40:10.672Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:13.293Z",
+      "candidate": {
+        "title": "Blanche Petrich, víctima de infame ultraje en un aeropuerto de Honduras - La Jornada",
+        "url": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxNYXhmem5VQ2o5SjI5RFlORHZMUDVQaml4dDl4RFZOVDVNYXA1enZaeHF4TUVOT1BqMV85SG5oX05RbENobXhzRFkzaVdmQnZ2dkI4UHlDdXFfeEFZYWIzUGN4RDRnd3FSU3lBMHJmMEhoWmp1bXJiRnVPYXhqVjhBYnRvMjBpNkgxZm9SeVVEQnU3dTNLQjYzTmNySUFxejlBY0NkTzEzWXAtSUdDcEtZYzdLOGN2YUJzSnJBbXByVndCc0U?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-09-21T18:40:10.672Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 14.0723,
+          "lon": -87.2068,
+          "place": "Honduras",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:13.293Z",
+      "candidate": {
+        "title": "Morena, uso de celulares en escuelas y caso de Claudia Tacoronte, los temas de La Mañanera de Sheinbaum HOY 21 - MILENIO",
+        "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxOeHUyVnRtYkdSMzRsdXhKbDV3Q0k4MnB3RVhrNVBLVF9Tbzk3OWE2NVY5cVVsWVB2WnpkRjJlcTdUSkRpUVFDR3Z5aG91eGxTT2tXYjVKbGtrN3k2Q2RkY3VDRlB2UHhVYUprWDdfa3lROWxsSU1FVUFjZ2Zjd0Vndk9nVV9SZWI4RVJPNlJMckswaXFQT1VacWJndGpUNFprZ3fSAaIBQVVfeXFMUE1vY0QtM1FEaWhFeWxRSFppdVBVbkZMZDVTQm9aemRPTmpKRjBZcXFqbGJRU0tyUFhNNThFT3hvOHZzeGx6NG4wak9MeFhMM1JDR2RLdllSOGw3U2REWi1RU2JIN3VHSURnZVNTbUREMjdxcFZDblZ6VzVGZ0hIMm1CSmJsV1ZSWGFMdXNDS3NDNUJ2Zk5ERnpmNlIxU2luU1pR?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-09-21T18:40:10.672Z",
+        "matchedTracker": "sheinbaum-presidency",
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.66)",
+      "confidence": 0.6570833333333332,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:13.294Z",
+      "candidate": {
+        "title": "Natalie Harp le mostró a Trump fragmentos de cobertura antes de que él impusiera la prohibición a CNN, Politico y MS NOW - CNN en Español",
+        "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxPYVdqU1AwMDcwNWF2QjF3X3ZBRnFJdnRLMjZWU3NROGgtOHVMbEE0Qzc3a2w5VUhSUHQzSHpBRl9ySEhQcnpIOUszT0p6andVUGhDVEhkd2dscnd1VjBHb00wOVpibnFuV0ZqQ0Z3M3VYaDBDck0tQ01fdDllQzBGc2lwSUxGTl9CT29XMHhn?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-09-21T18:40:10.672Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.02)",
+      "confidence": 0.02375,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:13.294Z",
+      "candidate": {
+        "title": "Trump amenaza con “volar” Irán; “más le vale comportarse”, advierte - La Jornada",
+        "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTFBWUlZJWXdaQkMzZ1dJYlBtWWNhaXQ2VVRuQ0U5Qm81VnJQV3pvdldaakpTOU1hX1hOR09aZTFVWGZtSVZZY1dBS1h3UDc4Vko4Y19zME9rV0hOdzQ4ZjdPRFpB?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-09-21T18:40:10.672Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 32.4,
+          "lon": 53.7,
+          "place": "Iran",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "low score (0.02)",
+      "confidence": 0.02375,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:13.294Z",
+      "candidate": {
+        "title": "Asesinan a Susy Aponte, periodista y candidata a elecciones regionales en Perú - La Jornada",
+        "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxNc2dNa2NVWmJpZHU3VExqcldJeTN2UkI3SC12dEg1NGlLajlSeWZMVzU1V0JXdGNBb1NPM0NieWx3MlZLT1hfdUMyNWlzeGhvU2Jsa3FVa3otZXFMYlRWV3RJSFRXb2VrOG9FYXpiTEpRYlRFOHFUTWVFb1dOS2tBVUlFWl9nXzk1bW9GUlVUV1BkbVM1dzN2VllkOHdabDViRFN6dGdwNGs0RzhrTUpKM3pWaFpxanpfWUdFNll1Qi1PRDRVd0VaYg?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-09-21T18:40:10.672Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": -12.0464,
+          "lon": -77.0428,
+          "place": "Peru",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:13.295Z",
+      "candidate": {
+        "title": "TELMEX incrementa velocidad de internet con el mismo precio - puentelibre.mx",
+        "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxOUm5yLUlURmFSYWUxeldlUWpBLXNiS2JPSWExSEtlWkEtM09GaFBCTUN3NGtpeW05a3dQdmRQMWpmWVBIaDJfWjE5dkJrdS1wZXdrM2ZvRzN0SGZrMVNfM0FtbTE3TFYtZkN5emFZV25Ra1lxQm5YY2h6ZjJLdFlidjVFSnU5aFNJczB1bmt6b1duZ3ds?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-09-21T18:40:10.672Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched digital-inclusion on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:13.295Z",
+      "candidate": {
+        "title": "Precio del dólar sube mientras el peso mexicano cede y así cotiza el tipo de cambio este domingo 20 de septiembre - El Imparcial",
+        "url": "https://news.google.com/rss/articles/CBMi8gFBVV95cUxOTDN4UWI5MTJNRkZ0RHNoZks2UVpxWjRqZE53WlEyVjNQTjkxTVh3UUdFZTVURUt6ODlINzFsTVpLdERxZ1U4NGVmWWFSME12V0JJWW4yVmVxY2Q0RzJWemNTV1dLRlhndjZlTksxZW9YTWNCMVpRZ2V2Umc1MHRORno5MzNCMXpkajZ5aGxfN3ZLNWhiUVdjTUtjZXVqLTBDeVBldmw5NkxQT2tiLVpJR3dtZGx3ZmJFZkF3TFV5bkV6d0pyUzVKdElnU3ZSdGI1ZnFsQUNXYU9DNVJTX3I4Vm4tQlZ6cHdGbHR5Mnc0WnRQd9IBjAJBVV95cUxPc2JyTkpZZnBpMVNNSmIwX1BjdVRGRVdaLThma184bUNpNmM1ckNYN3Y2ZGNrakszZkpiQXNpWWswZVpfSEJIZEstRU81RjNQS2U5VUE5bVpPVzZTclFqRTlDb0FZczYwS1JfdlJJTXFsaUtXclBla05xZ21QY0hfTE1SSXpVOERxajR0Qkd2RnN4UXFDQmVDS0tnYkVtallRbTV5cVpCam9lNzIteWE5SzJmYkRmUWdPdmZqOWdlNG9oLUJVeUR4aTdmeGdmQTZfR3lmNEwxZlFKc2s4OVk2ek1HQ3R2Si1BNmZ1VXVZMVBla3d6Wm1WUUdySWs5V3pIT1JQcnR6cl9VYnM5?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-09-21T18:40:10.672Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched argentina on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:13.295Z",
+      "candidate": {
+        "title": "Xiaomi acaba de matar a IKEA: así es su nueva mesita de noche con hilo musical, cargadores y mucho más - Hipertextual",
+        "url": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxNeTNuNHJOVmxobE1oNlduWkY0UEVCWVZnelZxbjRXNEN5RkFyMTN1eUhiQzNMb1VwZmhmSGhsS3p2NmdLb1pRNjR2VHdMV0RZLXo1dVloRFpMREpTcFVmVGI5SVU1X2tFemd4dURqLVg4ZVRtMC14ajRhWGdCdVM0eWtVdG5RWTlJanZzaDhlbkVmQWh6YUNUYi1FRklFYWV2dGcyOHE5MXRoQ0hMZnFPOFJRUldoTkRlR05WQ295SndHZHB5elpMZ2JlNko0eGRBUk5z?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-09-21T18:40:10.672Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:13.296Z",
+      "candidate": {
+        "title": "Samsung anuncia fechas de actualización de One UI 9 para estos Galaxy - laverdadnoticias.com",
+        "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxQTDNmdFNXWEZXaDdmMkxVVE4tdU9OM3BhTUhad0g2VU9zeXBKQ0U2SDZhTDlMeG5vb0FSbXM5Sm1WdzV0VXN6SEItTl9NbU8tNjZzQms0WDlUd0hLVmtndkhDeEVrSFNkekJiN3JXSV93ZnoxUlEzZjl1alFfWkVDRno5VVdobUh6MEppbDhrbWYzd2libS1OUdIBoAFBVV95cUxOWFctVzREajVaRDQwV0xxdXpveWs3Q0oxUVF5aXBERkF4VDJPdjRxNFc1Tk4wRXJDbExBZ0VFcm1uRlk5UzltOV81eEZGNFY0QnVEYzZUT201cmF3Smp2ckpDcXlHMG1fRUFMbjhGTUNYeHFyM0g0TDZPd1NQUmw0WFNPcnI1RDY4dzlOdnREZXE5UFpjVGZERlItMDVFQVBn?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-09-21T18:40:10.672Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched south-korea on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:13.296Z",
+      "candidate": {
+        "title": "Revela ahora Google vulneraciones de seguridad hechas por IA - Reforma",
+        "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxNTE1xWDVMaVlQbDNiOV9PYk56eTRPaUJKZGtXRzV1dHN1c0NqQVZLbmd2RFd6Y1J1Zmo0enJ2OHBrS0FMQnh0QmZ1b1k0WWltQzBXRHlJZ3JBN2J6RUU3ci11N1NTcG1UX0Zla0tfaDRfU3FkR2tlOGZfd1l3WlEwLUdib2lQYUNlVkM0VW5iU2xKZVRlRWJ1RHNB?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-09-21T18:40:10.672Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:13.296Z",
+      "candidate": {
+        "title": "Muere a los 27 años Presley Gerber, hijo de la modelo Cindy Crawford - BBC",
+        "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFBmR0JqNHFLT3lmakFLamdfVWpRbzhkcVdzZXJiRmdsblY5UDhKVkFOckxCbWNrTmY5Y0l5UVA5M21OVHRISVdCYjNpQ1RUNmh6bVJ5MlhkcjhkVjgt0gFiQVVfeXFMUExkZUdCdWtFajVsTVY3WjhEQXl1VGVURVJ5MzZETl8tU2xMRjB6WkR3Z3Iyd253ZGpma2RIalNHb0M1R3pwRlJoTkhxbmRRUnNRUl9reVhhNThsN0VWUkpoeGc?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-09-21T18:40:10.672Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched ecuador-narco-conflict on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:13.297Z",
+      "candidate": {
+        "title": "¿Por qué se regalan flores amarillas el 21 de septiembre?🎦 - puentelibre.mx",
+        "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNelRCYl9yZ05aT0JlV0NmdnQwN3gzNVZGc2drYmVrSGhURlhudTdjd3R3N0JiS3ZPY0JWWHdtbjlTSGgyZUlTYm5XUS0xYUxDNHJsOXk4LUVEeGptSm5jM1duWGUzUVBqcGlnU1h5S3pXSmZSMnFHcGd1NGo4V0FJNmdMalBad01YX0s2Mk5R?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-09-21T18:40:10.672Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched indonesia-flores-earthquake on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:13.298Z",
+      "candidate": {
+        "title": "EXCLUSIVE: Fed's Musalem says more rate hikes likely needed to quell inflation reut.rs/4hon7kJ",
+        "url": "https://bsky.app/profile/reuters.com/post/3mw2e37dxhp2e",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-09-21T18:35:06Z",
+        "matchedTracker": "global-recession-risk",
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.63)",
+      "confidence": 0.6333333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:13.298Z",
+      "candidate": {
+        "title": "Porsche's decline from crown jewel to millstone for parent Volkswagen reut.rs/4yJ3ZES",
+        "url": "https://bsky.app/profile/reuters.com/post/3mw2dsqawrr23",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-09-21T18:30:22Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:13.298Z",
+      "candidate": {
+        "title": "Trump administration sued over withheld federal grants for US community lenders reut.rs/4jfHJhh",
+        "url": "https://bsky.app/profile/reuters.com/post/3mw2djdedkt2g",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-09-21T18:25:06Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched germany on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:13.299Z",
+      "candidate": {
+        "title": "Exclusive: President Trump's approval rating fell to 32% — the lowest of his political career — as fellow Republicans soured on his handling of the cost of living amid the unpopular Iran war, a new Reuters/Ipsos poll found reut.rs/3T10ZES",
+        "url": "https://bsky.app/profile/reuters.com/post/3mw2dfhqdwc25",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-09-21T18:22:57.158Z",
+        "matchedTracker": "kenya-genz-protests",
+        "feedOrigin": "bluesky",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 32.4,
+          "lon": 53.7,
+          "place": "Iran",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.63)",
+      "confidence": 0.6333333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:13.299Z",
+      "candidate": {
+        "title": "Vestas to launch onshore wind turbine designed for lower wind speeds reut.rs/478ylVx",
+        "url": "https://bsky.app/profile/reuters.com/post/3mw2cxk6zzu2b",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-09-21T18:15:09Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched spacex-history on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:13.300Z",
+      "candidate": {
+        "title": "A carbon-credit land rush is hollowing out New Zealand farm country reut.rs/3Tcdgq4",
+        "url": "https://bsky.app/profile/reuters.com/post/3mw2conxiow2b",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-09-21T18:10:11Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched climate-solutions on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:13.300Z",
+      "candidate": {
+        "title": "Gabon targets $2 billion in international borrowing for 2027 budget reut.rs/3UYROp3",
+        "url": "https://bsky.app/profile/reuters.com/post/3mw2cfknrak2y",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-09-21T18:05:06Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:13.300Z",
+      "candidate": {
+        "title": "China's GAC plans to launch 12 electric and hybrid models in France by 2030 reut.rs/4xFChbh",
+        "url": "https://bsky.app/profile/reuters.com/post/3mw2c5h5ttv2v",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-09-21T18:00:34Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 46.2,
+          "lon": 2.2,
+          "place": "France",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched europe-climate-crisis-2026 on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:13.301Z",
+      "candidate": {
+        "title": "EXCLUSIVE: IDB drafts two-year Venezuela plan, says electricity and social needs are key reut.rs/4hdrzCA",
+        "url": "https://bsky.app/profile/reuters.com/post/3mw2bkvjv3o2b",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-09-21T17:50:11Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 6.4,
+          "lon": -66.6,
+          "place": "Venezuela",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched iran on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:13.301Z",
+      "candidate": {
+        "title": "EXCLUSIVE: Russia adapts fertilizer, coal terminals in Baltic, Arctic ports to export Black Sea grain reut.rs/46B3O2C",
+        "url": "https://bsky.app/profile/reuters.com/post/3mw2bbuw3ev2d",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-09-21T17:45:09Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 61.5,
+          "lon": 105.3,
+          "place": "Russia",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched nato-airspace-incursions on a single token — no substance (score 0.34)",
+      "confidence": 0.34041666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:13.302Z",
+      "candidate": {
+        "title": "Sharlene Whyte says \"you can see menopause as the adult puberty.\" She appears in the new series “Youth.”\n\n#SharleneWhyte #Youth",
+        "url": "https://bsky.app/profile/apnews.com/post/3mw2dix63jv2i",
+        "source": "bsky:apnews.com",
+        "timestamp": "2026-09-21T18:24:53Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched india-youth-uprising on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:13.302Z",
+      "candidate": {
+        "title": "Two games into the season, the returns aren’t promising for the Chargers and quarterback Justin Herbert under new offensive coordinator Mike McDaniel.",
+        "url": "https://bsky.app/profile/apnews.com/post/3mw2c4wrci526",
+        "source": "bsky:apnews.com",
+        "timestamp": "2026-09-21T18:00:17Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched mexico on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:13.303Z",
+      "candidate": {
+        "title": "A jury convicted a Vermont man of attempted murder in the shootings of three Palestinian college students who were walking near his home, rejecting an insanity defense. ",
+        "url": "https://bsky.app/profile/apnews.com/post/3mw2bu37xal2o",
+        "source": "bsky:apnews.com",
+        "timestamp": "2026-09-21T17:55:19Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched ayotzinapa on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:13.303Z",
+      "candidate": {
+        "title": "Treasury Secretary says airports and companies servicing Iranian carriers risk being cut off from the US dollar system.",
+        "url": "https://bsky.app/profile/aljazeera.com/post/3mw2ds6saal2b",
+        "source": "bsky:aljazeera.com",
+        "timestamp": "2026-09-21T18:30:03.771Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched brics on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:13.304Z",
+      "candidate": {
+        "title": "China expels two top ‘disloyal’ military leaders from Communist Party https://aje.news/6qboxq",
+        "url": "https://bsky.app/profile/aljazeera.com/post/3mw2c4lfl6i2i",
+        "source": "bsky:aljazeera.com",
+        "timestamp": "2026-09-21T18:00:05.127Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 35.9,
+          "lon": 104.2,
+          "place": "China",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "low score (0.02)",
+      "confidence": 0.02375,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:13.304Z",
+      "candidate": {
+        "title": "State of world getting worse as UN Security Council paralysed: Guterres https://aje.news/tz7bpn",
+        "url": "https://bsky.app/profile/aljazeera.com/post/3mw2agweuxe2q",
+        "source": "bsky:aljazeera.com",
+        "timestamp": "2026-09-21T17:30:04.628Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched battery-revolution on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:13.305Z",
+      "candidate": {
+        "title": "BREAKING: President Trump denies that the White House is attacking the free press, saying it is targeting “fake news,” which he calls a coordinated threat to U.S. national security that “must be stopped.”   @insiderpaper",
+        "url": "https://t.me/insiderpaper/44691",
+        "source": "tg:insiderpaper",
+        "timestamp": "2026-09-21T18:40:10.913Z",
+        "matchedTracker": null,
+        "feedOrigin": "telegram",
+        "sourceTier": 3,
+        "geo": {
+          "lat": 38.897,
+          "lon": -77.037,
+          "place": "White House",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched sheinbaum-presidency on a single token — no substance (score 0.30)",
+      "confidence": 0.3045833333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:13.305Z",
+      "candidate": {
+        "title": "BREAKING: US Treasury chief says all Iranian airlines to be ‘shut down’ September 23  READ:  https://t.co/koRTlleMEE",
+        "url": "https://t.me/insiderpaper/44692",
+        "source": "tg:insiderpaper",
+        "timestamp": "2026-09-21T18:40:10.913Z",
+        "matchedTracker": null,
+        "feedOrigin": "telegram",
+        "sourceTier": 3,
+        "geo": {
+          "lat": 38.8988,
+          "lon": -77.034,
+          "place": "US Treasury",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched mh17-shootdown on a single token — no substance (score 0.28)",
+      "confidence": 0.2833333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-09-21T18:40:13.306Z",
+      "candidate": {
+        "title": "BREAKING - Leading US broadcasters suspended TV  pool  coverage of President Donald Trump on Monday in solidarity with CNN which has been banned from the White House.  READ:  https://t.co/Q4OcdA6ZJA   Follow  @InsiderPaper  for more news",
+        "url": "https://t.me/insiderpaper/44693",
+        "source": "tg:insiderpaper",
+        "timestamp": "2026-09-21T18:40:10.913Z",
+        "matchedTracker": null,
+        "feedOrigin": "telegram",
+        "sourceTier": 3,
+        "geo": {
+          "lat": 38.897,
+          "lon": -77.037,
+          "place": "White House",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched sheinbaum-presidency on a single token — no substance (score 0.30)",
+      "confidence": 0.3045833333333333,
       "model": null,
       "scanType": "light"
     }
