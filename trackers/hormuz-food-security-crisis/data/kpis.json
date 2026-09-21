@@ -2,14 +2,14 @@
   {
     "id": "brent_crude",
     "label": "Brent Crude",
-    "value": "$104.33/bbl Sep 18 (+$0.35), after tumbling ~4% to $103.98 Sep 17 on Saudi's partial-restart signal, down from the $108.75 Sep 15 crisis-high",
+    "value": "$101.61/bbl Sep 21 (9:35am ET, -$2.72), down further from the $104.33 Sep 18 close after a new Hormuz tanker strike and a weekend transit collapse",
     "color": "red",
-    "source": "Fortune / CNBC / TradingEconomics (Sep 17-18, 2026)",
+    "source": "Fortune / Reuters (Sep 20-21, 2026)",
     "contested": false,
-    "delta": "Fell sharply Sep 17 as Saudi Arabia indicated it could restore about half of the East-West pipeline's lost capacity within days; ticked back up Sep 18 after Saudi Arabia and the Houthis traded fresh cross-border attacks, a new front beyond the pipeline and Yanbu disruptions",
-    "deltaDetail": { "value": -4.42, "direction": "down", "period": "48h" },
+    "delta": "Fell further Sep 21 as shipping data showed just 17 commodity vessels transited Hormuz over the weekend, down from 37 the week before, even as a fresh unidentified-projectile strike hit an inbound tanker in the strait Monday",
+    "deltaDetail": { "value": -2.72, "direction": "down", "period": "3d" },
     "trend": "down",
-    "lastUpdated": "2026-09-18T18:30:00Z"
+    "lastUpdated": "2026-09-21T13:35:00Z"
   },
   {
     "id": "saudi_pipeline_status",
@@ -72,16 +72,16 @@
   {
     "id": "hormuz_daily_transits",
     "label": "Hormuz Daily Tanker Transits",
-    "value": "3 vessels Sep 17 (record low) vs ~10M bbl/day claimed (US)",
+    "value": "17 vessels over the Sep 19-20 weekend (down from 37 the week before) vs ~10M bbl/day and a 'six-month high' claimed (US)",
     "color": "red",
-    "source": "Tanker-tracking data via Al Arabiya / Straits Daily Brief (Sep 17, 2026)",
+    "source": "Reuters / Kpler via KELO / US News (Sep 20-21, 2026)",
     "contested": true,
-    "contestNote": "President Trump said the US maintains \"total control\" of the strait and Energy Secretary Chris Wright said roughly 10 million barrels/day -- \"two-thirds or north of two-thirds\" of pre-war flow -- were moving under the US-led escort regime; independent tanker trackers counted just three vessel transits on Sep 17, the lowest of the crisis, against a 10-day average of roughly 17 and a pre-war daily average of over 100 ships",
-    "delta": "vs 14 over the Sep 12-13 weekend and 130-140/day (100+ ships) pre-war",
-    "deltaDetail": { "value": -11, "direction": "down", "period": "3d" },
-    "deltaNote": "Traffic fell further to a fresh record low even as the US insists flows are largely restored; only an empty dry-bulk carrier and a 'dark' tanker with disabled AIS crossed on Sep 17",
+    "contestNote": "CENTCOM commander Adm. Brad Cooper said oil and LNG shipments through the strait hit a six-month high over the preceding two weeks, topping 1 billion barrels; independent Kpler-based tracking counted just 17 trackable commodity vessels crossing over the Sep 19-20 weekend, down from 37 the prior weekend, against a pre-war daily average of roughly 125 large commercial vessels",
+    "delta": "vs 3 vessels on Sep 17 (single-day record low) and 130-140/day (100+ ships) pre-war",
+    "deltaDetail": { "value": -20, "direction": "down", "period": "7d" },
+    "deltaNote": "Weekend count roughly halved week-on-week even as the US cites a six-month shipment high; Middle Eastern producers continue exporting on tankers with transponders disabled, which trackable counts miss",
     "trend": "down",
-    "lastUpdated": "2026-09-17T20:00:00Z"
+    "lastUpdated": "2026-09-21T01:36:00Z"
   },
   {
     "id": "war_risk_insurance",

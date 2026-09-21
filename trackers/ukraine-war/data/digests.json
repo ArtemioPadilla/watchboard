@@ -1,5 +1,39 @@
 [
   {
+    "date": "2026-09-21",
+    "title": "Ukraine War Tracker Update — Mon Sep 21, 2026",
+    "summary": "Ukraine carried out its largest-ever drone/missile attack on a Moscow Oblast oil refinery and logistics facility overnight Sept 19-20, on the final day of Russia's Duma elections, killing 3 and injuring 20. The same day, Ukraine's 3rd Army Corps liberated Shandryholove and Derylove and took full control of Drobysheve in Operation Vivaldi's second phase in Donetsk Oblast. Russian drone strikes killed a mother and two children in Kyiv Oblast's Fastiv district and, separately, a woman near an apartment building in Sumy. The UN documented 1,004 verified cases of conflict-related sexual violence since 2022 (89% attributed to Russia), and the US State Department approved a $2.7 billion air-defense sale to Ukraine.",
+    "sectionsUpdated": [
+      "events",
+      "kpis",
+      "mapPoints",
+      "mapLines",
+      "casualties",
+      "meta"
+    ],
+    "source": "daily",
+    "provenance": {
+      "method": "llm",
+      "model": "claude",
+      "generatedAt": "2026-09-21T20:09:34Z",
+      "pipeline": "update-data"
+    }
+  },
+  {
+    "date": "2026-09-20",
+    "title": "Ukraine War Tracker Update — Sun Sep 20, 2026",
+    "summary": "Ukraine Launches Largest-Ever Drone Attack on Moscow Oblast Amid Duma Elections. Ukraine Liberates Shandryholove, Derylove in Operation Vivaldi's Second Phase. Russian Drone Strikes Kill Mother, Two Children and Another Girl in Kyiv Region.",
+    "sectionsUpdated": [
+      "events"
+    ],
+    "source": "freshness",
+    "provenance": {
+      "method": "heuristic",
+      "generatedAt": "2026-09-21T20:32:27.397Z",
+      "pipeline": "ensure-digests"
+    }
+  },
+  {
     "date": "2026-09-19",
     "title": "Breaking: Russia warns that Trump's newly signed sweeping sanctions law will undermine his",
     "summary": "Russia warns that Trump's newly signed sweeping sanctions law will undermine his own peace efforts, framing the bill as an obstacle to negotiations.",
@@ -481,41 +515,5 @@
     "sectionsUpdated": [
       "events"
     ]
-  },
-  {
-    "date": "2026-07-06",
-    "title": "Breaking: Ukraine drones strike Russian military training ground in retaliation after Russ",
-    "summary": "Ukraine drones strike Russian military training ground in retaliation after Russia's blitz attack on Kyiv on the eve of the NATO summit.",
-    "sectionsUpdated": [
-      "events",
-      "meta"
-    ],
-    "source": "breaking"
-  },
-  {
-    "date": "2026-06-27",
-    "title": "Breaking: Ukraine strikes an industrial facility in Russia's Volgograd region while a Russ",
-    "summary": "Ukraine strikes an industrial facility in Russia's Volgograd region while a Russian drone attack kills at least one person in Ukraine's Dnipropetrovsk region.",
-    "sectionsUpdated": [
-      "events",
-      "meta"
-    ],
-    "source": "breaking"
-  },
-  {
-    "date": "2026-06-07",
-    "title": "Ukraine War Tracker Update — Sun Jun 7, 2026",
-    "summary": "Putin rejected Zelensky's June 4 open letter as 'rude' and declared 'no point' in a direct meeting — collapsing the war's most dramatic diplomatic initiative within 48 hours. Putin simultaneously held a private Kremlin meeting with former German Chancellor Schröder (potential backchannel), which EU foreign policy chief Kallas immediately rejected as compromised. Ukraine struck St. Petersburg and Kronstadt naval base for the second time in one week on June 6, with Russia claiming 376 drones intercepted — potentially the largest single Ukrainian drone operation of the war. Russia launched 272 drones at Ukraine overnight (249 downed), killing 3 and wounding 4+ across Zaporizhzhia and Dnipropetrovsk. ISW confirmed Russian advances in Pokrovsk and Slovyansk while Ukraine held ground in Kostiantynivka. The US House advanced the Ukraine Support Act ($8B military financing); Germany announced an €11.5B package; Russian cumulative losses reached ~1,373,620 by June 7.",
-    "sectionsUpdated": [
-      "events",
-      "mapLines",
-      "mapPoints",
-      "kpis",
-      "casualties",
-      "econ",
-      "political",
-      "meta"
-    ],
-    "source": "daily"
   }
 ]
