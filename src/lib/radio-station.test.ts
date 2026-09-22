@@ -24,9 +24,12 @@ describe('radio privacy consent (localStorage, try/catch)', () => {
   });
 
   it('degrades to false instead of throwing when localStorage is unavailable', () => {
-    const spy = vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => { throw new Error('blocked'); });
+    vi.stubGlobal('localStorage', {
+      getItem: () => { throw new Error('SecurityError'); },
+      setItem: () => {},
+      clear: () => {},
+    });
     expect(hasAcceptedRadioPrivacyNotice()).toBe(false);
-    spy.mockRestore();
   });
 });
 
