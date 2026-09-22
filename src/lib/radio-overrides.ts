@@ -43,7 +43,14 @@ export function applyRadioOverrides(features: GeoLayer['features'], overrides: R
     if (ov.action === 'remove') {
       out = out.filter((f) => f.id !== ov.stationUuid);
     } else if (ov.action === 'correct') {
-      out = out.map((f) => (f.id === ov.stationUuid ? { ...f, properties: { ...f.properties, ...ov.patch } } : f));
+      out = out.map((f) => {
+        if (f.id !== ov.stationUuid) return f;
+        const { lat, lon, ...rest } = ov.patch ?? {};
+        const geometry = typeof lat === 'number' && typeof lon === 'number'
+          ? { type: 'Point' as const, coordinates: [lon, lat] }
+          : f.geometry;
+        return { ...f, properties: { ...f.properties, ...rest }, geometry };
+      });
     } else if (ov.action === 'add') {
       const p = ov.patch ?? {};
       if (typeof p.lat !== 'number' || typeof p.lon !== 'number') continue; // can't place it without coordinates

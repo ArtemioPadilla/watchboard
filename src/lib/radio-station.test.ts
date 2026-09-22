@@ -31,6 +31,15 @@ describe('radio privacy consent (localStorage, try/catch)', () => {
     });
     expect(hasAcceptedRadioPrivacyNotice()).toBe(false);
   });
+
+  it('does not throw when setItem is unavailable (private browsing / quota exceeded)', () => {
+    vi.stubGlobal('localStorage', {
+      getItem: () => null,
+      setItem: () => { throw new Error('QuotaExceededError'); },
+      clear: () => {},
+    });
+    expect(() => setAcceptedRadioPrivacyNotice()).not.toThrow();
+  });
 });
 
 describe('buildRadioStreamIssueUrl', () => {

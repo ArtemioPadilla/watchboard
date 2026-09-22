@@ -55,7 +55,8 @@ describe('adapters (pure parsing)', () => {
       node(1, 47.2, 27.9, { name: 'Cetireni', height: '235', 'communication:radio': 'fm' }),
       node(1, 47.2, 27.9, { name: 'Cetireni', height: '235', 'communication:radio': 'fm' }), // duplicate id
       node(2, 50.1, 30.5, { 'communication:radio': 'am;shortwave' }), // no name
-      { type: 'way', id: 3, tags: { 'communication:radio': 'fm' } }, // no lat/lon
+      { type: 'way', id: 3, tags: { 'communication:radio': 'fm' } }, // no lat/lon, wrong type
+      { type: 'node', id: 4, tags: { 'communication:radio': 'fm' } }, // node type, but missing lat/lon
     ]);
     expect(feats).toHaveLength(2);
     expect(feats[0]).toMatchObject({

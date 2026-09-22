@@ -189,7 +189,7 @@ const radioTowers: Adapter = {
     if (boundsList.length === 0) throw new Error('no tracker has "radio-towers" in map.staticLayers');
     const seen = new Map<string, any>();
     for (const b of boundsList) {
-      const query = `[out:json][timeout:90];(node["man_made"~"^(tower|mast)$"]["communication:radio"](${b.latMin},${b.lonMin},${b.latMax},${b.lonMax}););out body;`;
+      const query = `[out:json][timeout:90];(node["man_made"~"^(tower|mast)$"]["communication:radio"]["communication:radio"!~"^no$"](${b.latMin},${b.lonMin},${b.latMax},${b.lonMax}););out body;`;
       const res = await fetch('https://overpass-api.de/api/interpreter', {
         method: 'POST',
         headers: { 'User-Agent': 'Watchboard/geo-refresh (https://watchboard.dev)', 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -271,7 +271,7 @@ const radioStations: Adapter = {
     if (codes.length === 0) throw new Error('no tracker declares map.radioCountryCodes for "radio-stations"');
     const rows: any[] = [];
     for (const cc of codes) {
-      const res = await fetch(`https://de1.api.radio-browser.info/json/stations/bycountrycodeexact/${cc}?hidebroken=true&is_https=true`, {
+      const res = await fetch(`https://all.api.radio-browser.info/json/stations/bycountrycodeexact/${cc}?hidebroken=true&is_https=true`, {
         headers: { 'User-Agent': 'Watchboard/geo-refresh (https://watchboard.dev)' },
       });
       if (!res.ok) throw new Error(`radio-browser HTTP ${res.status} for ${cc}`);

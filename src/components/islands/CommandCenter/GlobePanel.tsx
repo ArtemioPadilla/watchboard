@@ -586,6 +586,8 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
   // candidate can never be mistaken for a verified event.
   const pendingLabelRef = useRef(t('globe.pendingCandidate', locale));
   pendingLabelRef.current = t('globe.pendingCandidate', locale);
+  const radioLabelRef = useRef(t('layers.radioStations', locale));
+  radioLabelRef.current = t('layers.radioStations', locale);
   const pendingConfiguredRef = useRef(false);
   const htmlPins = useMemo(() => [
     ...pendingCandidates.map(p => ({ kind: 'pending' as const, ...p })),
@@ -609,7 +611,7 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
           el.className = 'cc-radio-pin';
           el.dataset.testid = 'radio-pin';
           el.title = d.title;
-          el.setAttribute('aria-label', `${t('layers.radioStations', locale)}: ${d.title}`);
+          el.setAttribute('aria-label', `${radioLabelRef.current}: ${d.title}`);
           el.style.cssText = 'width:10px;height:10px;border-radius:50%;border:1.5px solid #ff66cc;background:rgba(255,102,204,0.25);box-shadow:0 0 5px rgba(255,102,204,0.5);pointer-events:auto;cursor:pointer;transform:translate(-50%,-50%);';
           el.addEventListener('click', (ev) => { ev.stopPropagation(); onSelectRadioRef.current?.(d.station); });
           return el;

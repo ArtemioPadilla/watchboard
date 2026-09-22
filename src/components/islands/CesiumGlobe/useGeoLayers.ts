@@ -148,14 +148,21 @@ export function useStaticGeoLayer(viewer: CesiumViewer | null, id: string | null
     const color = Color.fromCssColorString(meta?.color ?? '#ffffff');
     for (const f of data.features) {
       const g = f.geometry;
-      const name = String((f.properties as any)?.name ?? id);
+      // Fall back to the layer id (e.g. "radio-towers") only for the entity's
+      // internal `name`, which Cesium doesn't render. The visible `label`
+      // must stay unset when a feature has no real name of its own —
+      // otherwise every unnamed feature in a layer gets the same, meaningless
+      // label carpeting the globe (most radio towers have no OSM name tag).
+      const rawName = (f.properties as any)?.name;
+      const hasName = typeof rawName === 'string' && rawName.length > 0;
+      const name = hasName ? rawName : id;
       if (g.type === 'Point') {
         const [lon, lat] = g.coordinates as number[];
         entitiesRef.current.push(viewer.entities.add({
           name, description: JSON.stringify(f.properties),
           position: Cartesian3.fromDegrees(lon, lat, 0),
           point: { pixelSize: 6, color: color.withAlpha(0.85), outlineColor: Color.BLACK, outlineWidth: 1 },
-          label: { text: name, font: "9px 'JetBrains Mono', monospace", fillColor: color, outlineColor: Color.BLACK, outlineWidth: 2, style: LabelStyle.FILL_AND_OUTLINE, verticalOrigin: VerticalOrigin.BOTTOM, pixelOffset: new Cartesian2(0, -8), distanceDisplayCondition: new DistanceDisplayCondition(0, 3e6) },
+          label: hasName ? { text: name, font: "9px 'JetBrains Mono', monospace", fillColor: color, outlineColor: Color.BLACK, outlineWidth: 2, style: LabelStyle.FILL_AND_OUTLINE, verticalOrigin: VerticalOrigin.BOTTOM, pixelOffset: new Cartesian2(0, -8), distanceDisplayCondition: new DistanceDisplayCondition(0, 3e6) } : undefined,
         }));
       } else if (g.type === 'LineString' || g.type === 'MultiLineString') {
         const lines = g.type === 'LineString' ? [g.coordinates as number[][]] : (g.coordinates as number[][][]);
