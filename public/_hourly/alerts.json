@@ -1,8 +1,48 @@
 {
   "version": 1,
-  "generated": "2026-09-22T15:05:40.966Z",
+  "generated": "2026-09-22T18:52:35.892Z",
   "windowHours": 72,
   "entries": [
+    {
+      "id": "20260922185235-t-me-insiderpaper-44718",
+      "timestamp": "2026-09-22T18:52:35.812Z",
+      "tracker": "north-korea",
+      "title": "North Korea’s Kim Jong Un hails ‘new-type weapon’  READ:  https://t.co/QMtLbXyIUH",
+      "url": "https://t.me/insiderpaper/44718",
+      "source": "tg:insiderpaper",
+      "sourceTier": 3,
+      "score": 0.85,
+      "severity": "high",
+      "decision": "update",
+      "feedOrigin": "telegram",
+      "scanType": "light",
+      "geo": {
+        "lat": 40.3,
+        "lon": 127.5,
+        "place": "North Korea",
+        "method": "gazetteer"
+      }
+    },
+    {
+      "id": "20260922185235-bsky-app-profile-reuters-com-post-3mw4smcr54e2b",
+      "timestamp": "2026-09-22T18:52:35.314Z",
+      "tracker": "mecca-defense-pact",
+      "title": "Turkey, Saudi Arabia, Pakistan, Egypt affirm Riyadh's right to defend itself reut.rs/4h7a9sz",
+      "url": "https://bsky.app/profile/reuters.com/post/3mw4smcr54e2b",
+      "source": "bsky:reuters.com",
+      "sourceTier": 2,
+      "score": 0.95,
+      "severity": "critical",
+      "decision": "update",
+      "feedOrigin": "bluesky",
+      "scanType": "light",
+      "geo": {
+        "lat": 23.9,
+        "lon": 45.1,
+        "place": "Saudi Arabia",
+        "method": "gazetteer"
+      }
+    },
     {
       "id": "20260922150540-t-me-insiderpaper-44706",
       "timestamp": "2026-09-22T15:05:40.851Z",
@@ -314,26 +354,6 @@
         "lat": 23.9,
         "lon": 45.1,
         "place": "Saudi Arabia",
-        "method": "gazetteer"
-      }
-    },
-    {
-      "id": "20260919171649-news-google-com-rss-articles-CBMiigFBVV95cUxQMmRhNmVVVFpMNXJ",
-      "timestamp": "2026-09-19T17:16:49.002Z",
-      "tracker": "israel-palestine",
-      "title": "Inside the Breakdown of U.K.-Israel Relations Over West Bank Settlements - The New York Times",
-      "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxQMmRhNmVVVFpMNXJvUk85YkdDbkRfSmhKTVYzeGc4Z2hFRVF6MmhrZnNoVlgzdmxaVGdEdEVVaTdxNHJmV3RLcXBtZjBlcXV1YlJDVFVEZmhqTXZWakNEX201R0t0RF9IeTNKdi1RWVZ5QWp3d1NPR3pYNUFIVmtTQU5TVEZXV205enc?oc=5",
-      "source": "google-news-en",
-      "sourceTier": 2,
-      "score": 0.95,
-      "severity": "critical",
-      "decision": "update",
-      "feedOrigin": "rss",
-      "scanType": "light",
-      "geo": {
-        "lat": 31,
-        "lon": 34.9,
-        "place": "Israel",
         "method": "gazetteer"
       }
     }
