@@ -394,22 +394,45 @@ jobs:
         # Stamping it here rather than asking the model — the hourly scan has
         # always done it this way. Only lastRun is written; per-section status
         # stays the agent's to report, since only it knows what it touched.
+        #
+        # meta.json's own lastUpdated (the FreshnessBadge's source field) gets
+        # the same treatment and for the same reason: the prompt instructs the
+        # agent to write "the EXACT current UTC time... NOT a rounded or
+        # hardcoded time", and a repo-wide audit on 2026-09-21 found 114 of
+        # ~130 trackers non-compliant — rounded timestamps (":30:00.000Z",
+        # ":00:00Z") or a lastUpdated left over from a prior run despite this
+        # run's own update-log showing real sections updated. The badge then
+        # reports a tracker as stale while fresh events sit right below it.
+        # Same fix as lastRun: stop trusting the model to self-report a
+        # timestamp, stamp it deterministically instead.
         if: success()
         run: |
           LOG="trackers/${{ matrix.slug }}/data/update-log.json"
           [ -d "$(dirname "$LOG")" ] || exit 0
+          NOW=$(node -e "console.log(new Date().toISOString())")
           node -e "
             const fs = require('fs');
             const p = '$LOG';
             let log = {};
             try { log = JSON.parse(fs.readFileSync(p, 'utf8')); } catch {}
             if (!log || typeof log !== 'object') log = {};
-            log.lastRun = new Date().toISOString();
+            log.lastRun = '$NOW';
             log.tracker = '${{ matrix.slug }}';
             if (!log.sections || typeof log.sections !== 'object') log.sections = {};
             fs.writeFileSync(p, JSON.stringify(log, null, 2));
             console.log('Stamped lastRun=' + log.lastRun);
           "
+          META="trackers/${{ matrix.slug }}/data/meta.json"
+          if [ -f "$META" ]; then
+            node -e "
+              const fs = require('fs');
+              const p = '$META';
+              const meta = JSON.parse(fs.readFileSync(p, 'utf8'));
+              meta.lastUpdated = '$NOW';
+              fs.writeFileSync(p, JSON.stringify(meta, null, 2) + '\n');
+              console.log('Stamped meta.lastUpdated=' + meta.lastUpdated);
+            "
+          fi
 
       - name: Upload tracker changes
         if: always()
