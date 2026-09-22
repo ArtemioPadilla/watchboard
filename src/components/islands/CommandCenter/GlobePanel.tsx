@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, useMemo, forwardRef, useImperativeHandle }
 import { t } from '../../../i18n/translations';
 import { useLocale } from '../../../i18n/useLocale';
 import type { TrackerCardData } from '../../../lib/tracker-directory-utils';
+import type { RadioStationProperties } from '../../../lib/radio-station';
 
 interface GlobePoint {
   type: 'hub' | 'event';
@@ -51,6 +52,9 @@ interface Props {
   onGlobeRightClick?: (lat: number, lng: number) => void;
   /** Geolocated light-scan candidates awaiting triage (E6.H2): dotted tier-4 pins. */
   pendingCandidates?: PendingPin[];
+  /** Capped radio-station pins (Task 9): pink dots, click opens RadioStationCard. */
+  radioStations?: GlobeRadioStation[];
+  onSelectRadioStation?: (s: RadioStationProperties) => void;
 }
 
 export interface PendingPin {
@@ -63,6 +67,13 @@ export interface PendingPin {
   url: string;
   place?: string;
 }
+
+/**
+ * `RadioStationProperties` has no coordinates — those live in the GeoJSON
+ * `geometry`, not `properties`. This carries both, so CommandCenter's state
+ * and this component's props can pass a self-contained pin.
+ */
+export type GlobeRadioStation = RadioStationProperties & { lat: number; lon: number };
 
 function hexToRgb(hex: string): string {
   const h = hex.replace('#', '');
@@ -224,6 +235,8 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
   onGlobeRightClick,
   onPolygonHover,
   pendingCandidates = [],
+  radioStations = [],
+  onSelectRadioStation,
 }, ref) {
   const locale = useLocale();
   const [loading, setLoading] = useState(true);
@@ -334,6 +347,8 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
   onSelectRef.current = onSelectTracker;
   const onHoverRef = useRef(onHoverTracker);
   onHoverRef.current = onHoverTracker;
+  const onSelectRadioRef = useRef(onSelectRadioStation);
+  onSelectRadioRef.current = onSelectRadioStation;
 
   useImperativeHandle(ref, () => ({
     toggleRotation: () => {
@@ -571,7 +586,13 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
   // candidate can never be mistaken for a verified event.
   const pendingLabelRef = useRef(t('globe.pendingCandidate', locale));
   pendingLabelRef.current = t('globe.pendingCandidate', locale);
+  const radioLabelRef = useRef(t('layers.radioStations', locale));
+  radioLabelRef.current = t('layers.radioStations', locale);
   const pendingConfiguredRef = useRef(false);
+  const htmlPins = useMemo(() => [
+    ...pendingCandidates.map(p => ({ kind: 'pending' as const, ...p })),
+    ...radioStations.map(s => ({ kind: 'radio' as const, id: s.stationUuid, lat: s.lat, lon: s.lon, title: s.name, station: s })),
+  ], [pendingCandidates, radioStations]);
   useEffect(() => {
     const globe = globeRef.current;
     if (!globe || loading) return;
@@ -585,6 +606,16 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
       .htmlLng('lon')
       .htmlAltitude(0.012)
       .htmlElement((d: any) => {
+        if (d.kind === 'radio') {
+          const el = document.createElement('div');
+          el.className = 'cc-radio-pin';
+          el.dataset.testid = 'radio-pin';
+          el.title = d.title;
+          el.setAttribute('aria-label', `${radioLabelRef.current}: ${d.title}`);
+          el.style.cssText = 'width:10px;height:10px;border-radius:50%;border:1.5px solid #ff66cc;background:rgba(255,102,204,0.25);box-shadow:0 0 5px rgba(255,102,204,0.5);pointer-events:auto;cursor:pointer;transform:translate(-50%,-50%);';
+          el.addEventListener('click', (ev) => { ev.stopPropagation(); onSelectRadioRef.current?.(d.station); });
+          return el;
+        }
         const label = pendingLabelRef.current;
         const el = document.createElement('div');
         el.className = 'cc-pending-pin';
@@ -597,8 +628,8 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
         return el;
       });
     }
-    globe.htmlElementsData(pendingCandidates);
-  }, [pendingCandidates, loading]);
+    globe.htmlElementsData(htmlPins);
+  }, [htmlPins, loading]);
 
   // Update visuals when selection/hover/broadcast changes
   useEffect(() => {

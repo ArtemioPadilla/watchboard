@@ -15,6 +15,7 @@ import { readViewState, createViewStateWriter, type ViewState } from '../../lib/
 import { layersForTracker } from '../../lib/live-layers';
 import DossierPanel from './shared/DossierPanel';
 import { useDossier } from './shared/useDossier';
+import RadioStationCard from './shared/RadioStationCard';
 import GeoLayersLeaflet from './GeoLayersLeaflet';
 import { useFrontlineData, useGdacsData, useStaticGeoLayerData, DEEPSTATE_ENABLED } from './useGeoLayersData';
 import { staticLayerMeta } from '../../lib/geo-layer-schema';
@@ -62,6 +63,7 @@ function IntelMapInner({ points, lines, events, categories, mapCenter, mapBounds
     new Set(mapCategories.map(c => c.id)),
   );
   const [selectedPoint, setSelectedPoint] = useState<MapPoint | null>(null);
+  const [selectedRadioFeature, setSelectedRadioFeature] = useState<any | null>(null);
 
   // ── Timeline ──
   const dateRange = useMemo(() => {
@@ -283,7 +285,7 @@ function IntelMapInner({ points, lines, events, categories, mapCenter, mapBounds
           initialView={urlView.lat !== undefined && urlView.lon !== undefined ? { lat: urlView.lat, lon: urlView.lon, zoom: urlView.zoom ?? 5 } : undefined}
           onViewChange={handleViewChange}
           onGroundClick={handleGroundClick}
-          geoLayers={<GeoLayersLeaflet frontline={extraLayers['deepstate-frontline'] ? frontline.data : null} gdacs={extraLayers['gdacs-alerts'] ? gdacs.data : null} statics={staticData} />}
+          geoLayers={<GeoLayersLeaflet frontline={extraLayers['deepstate-frontline'] ? frontline.data : null} gdacs={extraLayers['gdacs-alerts'] ? gdacs.data : null} statics={staticData} onSelectRadioFeature={setSelectedRadioFeature} />}
           points={filteredPoints}
           lines={filteredLines}
           categories={mapCategories}
@@ -378,6 +380,10 @@ function IntelMapInner({ points, lines, events, categories, mapCenter, mapBounds
           isOpen={eventsOpen}
           onToggle={toggleEventsPanel}
         />
+
+        {selectedRadioFeature && (
+          <RadioStationCard station={selectedRadioFeature} onClose={() => setSelectedRadioFeature(null)} className="map-radio-card" />
+        )}
 
         {/* Enhanced timeline bar (bottom bar) */}
         <UnifiedTimelineBar

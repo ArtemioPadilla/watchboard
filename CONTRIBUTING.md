@@ -28,6 +28,22 @@ Found incorrect data? [Open a Data Correction](https://github.com/ArtemioPadilla
 
 Or submit a PR directly — data lives in `trackers/{slug}/data/`.
 
+### Fix a Radio Station or Tower
+
+The radio-stations map/globe layer is regenerated weekly from
+radio-browser.info and OpenStreetMap, so a fix to the upstream directory
+doesn't help until the next refresh — and some fixes (a dead stream that
+still passes its own health check, a mis-geocoded pin) need to be corrected
+by hand regardless. `src/data/radio-stations-overrides.json` is a curated
+list of corrections layered on top of every refresh. Each entry needs:
+`stationUuid` (the radio-browser.info id, prefilled by the "Report broken
+stream" link in the player), `action` (`add`, `remove`, or `correct`),
+`note` (why), and `source` (an issue link or other evidence). A `correct`
+entry takes a `patch` with just the fields to change — including `lat`/`lon`
+to move the pin. Changes take effect on the next scheduled or manual run of
+`refresh-radio-layers.yml`, or locally via
+`npx tsx scripts/geo/refresh-layers.ts --layer radio-stations`.
+
 ### Improve Code
 
 1. Fork the repo

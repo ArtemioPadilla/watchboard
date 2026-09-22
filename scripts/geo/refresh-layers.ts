@@ -14,6 +14,10 @@ import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { GeoLayerSchema, type GeoLayer } from '../../src/lib/geo-layer-schema';
+// Node-only loader (see scripts/lib/load-trackers-node.ts): src/lib/tracker-registry.ts
+// uses import.meta.glob, which is Vite-only and throws under plain `tsx` execution.
+import { loadAllTrackers } from '../lib/load-trackers-node';
+import { loadRadioOverrides, applyRadioOverrides } from '../../src/lib/radio-overrides';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const OUT_DIR = resolve(ROOT, 'public/geo/layers');
@@ -56,6 +60,29 @@ export function cableGeoToFeatures(fc: any): GeoLayer['features'] {
       properties: { name: f.properties?.name ?? null, color: f.properties?.color ?? null, slug: f.properties?.slug ?? null },
       geometry: f.geometry,
     }));
+}
+
+/** Pure: Overpass node elements tagged communication:radio → point features, deduped by id, elements without lat/lon dropped. */
+export function overpassTowersToFeatures(elements: any[]): GeoLayer['features'] {
+  const seen = new Set<string>();
+  return elements.flatMap((el) => {
+    if (el?.type !== 'node' || typeof el.lat !== 'number' || typeof el.lon !== 'number') return [];
+    const id = String(el.id);
+    if (seen.has(id)) return [];
+    seen.add(id);
+    const tags = el.tags ?? {};
+    return [{
+      type: 'Feature' as const,
+      id,
+      properties: {
+        osmId: id,
+        name: tags.name ?? null,
+        heightM: tags.height ? Number.parseFloat(tags.height) || null : null,
+        radioBand: String(tags['communication:radio'] ?? ''),
+      },
+      geometry: { type: 'Point' as const, coordinates: [el.lon, el.lat] },
+    }];
+  });
 }
 
 /** Wikidata: every item that is an instance of "nuclear power plant" (Q134447) with coordinates. */
@@ -147,7 +174,124 @@ const chokepoints: Adapter = {
   },
 };
 
-const ADAPTERS: Adapter[] = [nuclearPlants, submarineCables, chokepoints];
+/** Bounding boxes of every tracker that opted into the radio layer. */
+function radioTrackerBounds(): { lonMin: number; lonMax: number; latMin: number; latMax: number }[] {
+  return loadAllTrackers()
+    .filter((t) => t.map?.staticLayers?.includes('radio-towers') && t.map?.bounds)
+    .map((t) => t.map!.bounds);
+}
+
+/** Overpass: communication towers/masts (radio broadcast, not generic cell masts — communication:radio must be set) inside every radio-enabled tracker's bounds. */
+const radioTowers: Adapter = {
+  id: 'radio-towers',
+  async run(now) {
+    const boundsList = radioTrackerBounds();
+    if (boundsList.length === 0) throw new Error('no tracker has "radio-towers" in map.staticLayers');
+    const seen = new Map<string, any>();
+    for (const b of boundsList) {
+      const query = `[out:json][timeout:90];(node["man_made"~"^(tower|mast)$"]["communication:radio"]["communication:radio"!~"^no$"](${b.latMin},${b.lonMin},${b.latMax},${b.lonMax}););out body;`;
+      const res = await fetch('https://overpass-api.de/api/interpreter', {
+        method: 'POST',
+        headers: { 'User-Agent': 'Watchboard/geo-refresh (https://watchboard.dev)', 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `data=${encodeURIComponent(query)}`,
+      });
+      if (!res.ok) throw new Error(`Overpass HTTP ${res.status}`);
+      const j = await res.json();
+      for (const el of j.elements ?? []) seen.set(`${el.type}:${el.id}`, el);
+    }
+    const features = overpassTowersToFeatures([...seen.values()]);
+    return {
+      type: 'FeatureCollection',
+      _provenance: {
+        id: 'radio-towers', source: 'OpenStreetMap (Overpass API)', url: 'https://overpass-api.de/api/interpreter',
+        license: 'ODbL 1.0', attribution: 'Radio towers: © OpenStreetMap contributors, ODbL', retrievedAt: now,
+        transform: `Nodes tagged man_made=tower|mast with communication:radio set, inside the bounds of every tracker with "radio-towers" in map.staticLayers (${boundsList.length} tracker(s))`,
+        featureCount: features.length,
+      },
+      features,
+    };
+  },
+};
+
+// Two-part match (not a single regex): station names put the unit word
+// ("FM"/"MHz") after other text, e.g. "101.5 Kiss FM" — a single regex
+// requiring the unit immediately after the number misses that case.
+const FREQ_NUM_RE = /\b(\d{2,3}(?:\.\d{1,2})?)\b/;
+const FREQ_UNIT_RE = /\b(?:fm|mhz)\b/i;
+
+/** Pure: radio-browser.info station rows → point features. Drops non-HTTPS streams, unsupported codecs, stations without geo coordinates or failing their last check; dedupes by stationuuid. */
+export function radioBrowserToFeatures(rows: any[]): GeoLayer['features'] {
+  const seen = new Set<string>();
+  return rows.flatMap((r) => {
+    const uuid = String(r.stationuuid ?? '');
+    if (!uuid || seen.has(uuid)) return [];
+    if (r.lastcheckok !== 1) return [];
+    if (typeof r.geo_lat !== 'number' || typeof r.geo_long !== 'number') return [];
+    const url = String(r.url_resolved ?? '');
+    if (!url.startsWith('https://')) return [];
+    const codec = String(r.codec ?? '').toUpperCase();
+    if (codec !== 'MP3' && codec !== 'AAC') return [];
+    seen.add(uuid);
+    const name = String(r.name ?? '');
+    const numMatch = FREQ_NUM_RE.exec(name);
+    const freqLabel = numMatch && FREQ_UNIT_RE.test(name) ? `${numMatch[1]} FM` : null;
+    return [{
+      type: 'Feature' as const,
+      id: uuid,
+      properties: {
+        stationUuid: uuid,
+        name: r.name ?? uuid,
+        country: r.country ?? null,
+        countryCode: r.countrycode ?? null,
+        language: r.language || null,
+        freqLabel,
+        streamUrl: url,
+        codec,
+        votes: typeof r.votes === 'number' ? r.votes : 0,
+      },
+      geometry: { type: 'Point' as const, coordinates: [r.geo_long, r.geo_lat] },
+    }];
+  });
+}
+
+/** Country codes every radio-enabled tracker asks radio-browser.info for. */
+function radioCountryCodes(): string[] {
+  const codes = new Set<string>();
+  for (const t of loadAllTrackers()) {
+    if (!t.map?.staticLayers?.includes('radio-stations')) continue;
+    for (const c of t.map.radioCountryCodes ?? []) codes.add(c);
+  }
+  return [...codes];
+}
+
+const radioStations: Adapter = {
+  id: 'radio-stations',
+  async run(now) {
+    const codes = radioCountryCodes();
+    if (codes.length === 0) throw new Error('no tracker declares map.radioCountryCodes for "radio-stations"');
+    const rows: any[] = [];
+    for (const cc of codes) {
+      const res = await fetch(`https://all.api.radio-browser.info/json/stations/bycountrycodeexact/${cc}?hidebroken=true&is_https=true`, {
+        headers: { 'User-Agent': 'Watchboard/geo-refresh (https://watchboard.dev)' },
+      });
+      if (!res.ok) throw new Error(`radio-browser HTTP ${res.status} for ${cc}`);
+      rows.push(...(await res.json()));
+    }
+    const features = applyRadioOverrides(radioBrowserToFeatures(rows), loadRadioOverrides());
+    return {
+      type: 'FeatureCollection',
+      _provenance: {
+        id: 'radio-stations', source: 'radio-browser.info', url: 'https://www.radio-browser.info/',
+        license: 'PDDL 1.0 (directory); each stream is subject to its own broadcaster terms', attribution: 'Stations: radio-browser.info community directory (PDDL 1.0)', retrievedAt: now,
+        transform: `Country codes from every tracker's map.radioCountryCodes (${codes.join(', ')}); HTTPS MP3/AAC streams with geo coordinates and a passing last check only`,
+        featureCount: features.length,
+      },
+      features,
+    };
+  },
+};
+
+const ADAPTERS: Adapter[] = [nuclearPlants, submarineCables, chokepoints, radioTowers, radioStations];
 
 export function validateLayerFile(path: string): GeoLayer {
   return GeoLayerSchema.parse(JSON.parse(readFileSync(path, 'utf8')));

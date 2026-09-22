@@ -10,12 +10,13 @@ interface Props {
   frontline?: Frontline | null;
   gdacs?: GdacsFile | null;
   statics?: { id: string; layer: GeoLayer }[];
+  onSelectRadioFeature?: (properties: any) => void;
 }
 
 const GDACS_COLORS: Record<string, string> = { Red: '#ff1744', Orange: '#ff9100' };
 
 /** Leaflet renderers for the E5 layers; data comes from the same hooks as the globe. */
-export default function GeoLayersLeaflet({ frontline, gdacs, statics = [] }: Props) {
+export default function GeoLayersLeaflet({ frontline, gdacs, statics = [], onSelectRadioFeature }: Props) {
   const frontlineFc = useMemo(() => frontline ? ({
     type: 'FeatureCollection' as const,
     features: frontline.polygons.map(p => ({
@@ -47,7 +48,13 @@ export default function GeoLayersLeaflet({ frontline, gdacs, statics = [] }: Pro
               data={layer as any}
               style={() => ({ color, weight: 1.2, opacity: 0.7, fillColor: color, fillOpacity: 0.2 })}
               pointToLayer={(_f: any, latlng: any) => L.circleMarker(latlng, { pane: `static-${id}`, radius: 4, color: '#000', weight: 1, fillColor: color, fillOpacity: 0.9 })}
-              onEachFeature={(f: any, l: any) => { const n = f?.properties?.name; if (n) l.bindTooltip(String(n), { className: 'dark-tooltip', sticky: true }); }}
+              onEachFeature={(f: any, l: any) => {
+                const n = f?.properties?.name;
+                if (n) l.bindTooltip(String(n), { className: 'dark-tooltip', sticky: true });
+                if ((id === 'radio-stations' || id === 'radio-towers') && onSelectRadioFeature) {
+                  l.on('click', () => onSelectRadioFeature(f.properties));
+                }
+              }}
             />
           </Pane>
         );
