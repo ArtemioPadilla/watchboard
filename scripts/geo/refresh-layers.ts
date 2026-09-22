@@ -17,6 +17,7 @@ import { GeoLayerSchema, type GeoLayer } from '../../src/lib/geo-layer-schema';
 // Node-only loader (see scripts/lib/load-trackers-node.ts): src/lib/tracker-registry.ts
 // uses import.meta.glob, which is Vite-only and throws under plain `tsx` execution.
 import { loadAllTrackers } from '../lib/load-trackers-node';
+import { loadRadioOverrides, applyRadioOverrides } from '../../src/lib/radio-overrides';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const OUT_DIR = resolve(ROOT, 'public/geo/layers');
@@ -276,7 +277,7 @@ const radioStations: Adapter = {
       if (!res.ok) throw new Error(`radio-browser HTTP ${res.status} for ${cc}`);
       rows.push(...(await res.json()));
     }
-    const features = radioBrowserToFeatures(rows);
+    const features = applyRadioOverrides(radioBrowserToFeatures(rows), loadRadioOverrides());
     return {
       type: 'FeatureCollection',
       _provenance: {
