@@ -39,6 +39,8 @@ import { useLunarMission } from './useLunarMission';
 import { useMissionVectors, DEFAULT_VECTOR_TOGGLES, type VectorToggles } from './useMissionVectors';
 import { useEngineExhaust } from './useEngineExhaust';
 import FloatingFactCard, { type CarouselEntity } from './FloatingFactCard';
+import RadioStationCard from '../shared/RadioStationCard';
+import { isRadioStationProperties, type RadioStationProperties } from '../../../lib/radio-station';
 import MissionIdentity from './MissionIdentity';
 import MissionTelemetry from './MissionTelemetry';
 import MissionPhaseBar from './MissionPhaseBar';
@@ -153,6 +155,7 @@ function CesiumGlobeInner({ points, lines, kpis, meta, events = [], cameraPreset
   );
   const [carouselEntities, setCarouselEntities] = useState<CarouselEntity[]>([]);
   const [activeCardIndex, setActiveCardIndex] = useState(0);
+  const [selectedRadioFeature, setSelectedRadioFeature] = useState<RadioStationProperties | { osmId: string; name: string | null; heightM: number | null; radioBand: string } | null>(null);
 
   // ── Visual mode ──
   const [visualMode, setVisualMode] = useState<VisualMode>('normal');
@@ -574,6 +577,15 @@ function CesiumGlobeInner({ points, lines, kpis, meta, events = [], cameraPreset
   }, []);
 
   const handleEntitySelect = useCallback((info: GenericEntityInfo) => {
+    if (info.description) {
+      try {
+        const props = JSON.parse(info.description);
+        if (isRadioStationProperties(props) || typeof props.osmId === 'string') {
+          setSelectedRadioFeature(props);
+          return;
+        }
+      } catch { /* not a static-layer entity description; fall through */ }
+    }
     const entity: CarouselEntity = {
       id: `entity-${info.name}`,
       type: 'generic',
@@ -875,6 +887,10 @@ function CesiumGlobeInner({ points, lines, kpis, meta, events = [], cameraPreset
           onClose={() => setCarouselEntities([])}
           onNavigate={setActiveCardIndex}
         />
+      )}
+
+      {selectedRadioFeature && (
+        <RadioStationCard station={selectedRadioFeature} onClose={() => setSelectedRadioFeature(null)} className="globe-radio-card" />
       )}
 
       {/* Enhanced Timeline — desktop only */}
