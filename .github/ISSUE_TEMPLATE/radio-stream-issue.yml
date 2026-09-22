@@ -1,0 +1,41 @@
+name: Radio Stream Issue
+description: Report a broken or misbehaving radio stream on the radio layer
+title: "[Radio] "
+labels: ["radio-stream-broken"]
+body:
+  - type: input
+    id: station-uuid
+    attributes:
+      label: Station UUID
+      description: radio-browser.info station identifier (prefilled from the player)
+    validations:
+      required: true
+  - type: input
+    id: station-name
+    attributes:
+      label: Station name
+    validations:
+      required: false
+  - type: input
+    id: stream-url
+    attributes:
+      label: Stream URL
+    validations:
+      required: true
+  - type: dropdown
+    id: problem
+    attributes:
+      label: What's wrong?
+      options:
+        - Stream does not play / connection error
+        - Stream plays but is silent or wrong content
+        - Wrong location on the map
+        - Station should be removed (offline permanently)
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: Anything else that helps a maintainer verify and fix this (a src/data/radio-stations-overrides.json PR closes most of these)
