@@ -1,7 +1,7 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, afterEach, vi } from 'vitest';
 import { existsSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { validateLayerFile, wikidataPlantsToFeatures, cableGeoToFeatures, overpassTowersToFeatures, radioBrowserToFeatures, capTowersPerCountry } from './refresh-layers';
+import { validateLayerFile, wikidataPlantsToFeatures, cableGeoToFeatures, overpassTowersToFeatures, radioBrowserToFeatures, capTowersPerCountry, fetchOverpassCountryTowers } from './refresh-layers';
 import { STATIC_LAYERS, GeoLayerSchema } from '../../src/lib/geo-layer-schema';
 
 const DIR = resolve(__dirname, '../../public/geo/layers');
@@ -125,5 +125,43 @@ describe('adapters (pure parsing)', () => {
     expect(feats.map(f => f.id)).toEqual(['a', 'f']);
     expect(feats[0].properties).toMatchObject({ stationUuid: 'a', streamUrl: 'https://stream.example/a', codec: 'MP3', votes: 10, freqLabel: null });
     expect(feats[1].properties).toMatchObject({ freqLabel: '101.5 FM' });
+  });
+
+  describe('fetchOverpassCountryTowers', () => {
+    afterEach(() => {
+      vi.unstubAllGlobals();
+    });
+
+    const jsonRes = (body: any, status = 200) => ({ ok: status >= 200 && status < 300, status, json: async () => body });
+
+    it('treats an HTTP 200 "runtime error" remark (Overpass\'s own [timeout:…] exceeded) as retryable, and throws if it recurs — never returning it as zero towers', async () => {
+      const timeoutBody = { remark: 'runtime error: Query timed out in "query" at line 1 after 120 s.', elements: [] };
+      const fetchMock = vi.fn()
+        .mockResolvedValueOnce(jsonRes(timeoutBody))
+        .mockResolvedValueOnce(jsonRes(timeoutBody));
+      vi.stubGlobal('fetch', fetchMock);
+      const sleeps: number[] = [];
+      const fakeSleep = async (ms: number) => { sleeps.push(ms); };
+
+      await expect(fetchOverpassCountryTowers('IR', fakeSleep)).rejects.toThrow(/runtime error/i);
+      expect(fetchMock).toHaveBeenCalledTimes(2);
+      expect(sleeps).toEqual([30_000]);
+    });
+
+    it('retries once on a runtime-error remark and returns the elements when the retry succeeds', async () => {
+      const timeoutBody = { remark: 'runtime error: Query timed out in "query" at line 1 after 120 s.', elements: [] };
+      const goodElements = [{ type: 'node', id: 1, lat: 47.2, lon: 27.9, tags: { 'communication:radio': 'fm' } }];
+      const fetchMock = vi.fn()
+        .mockResolvedValueOnce(jsonRes(timeoutBody))
+        .mockResolvedValueOnce(jsonRes({ elements: goodElements }));
+      vi.stubGlobal('fetch', fetchMock);
+      const sleeps: number[] = [];
+      const fakeSleep = async (ms: number) => { sleeps.push(ms); };
+
+      const elements = await fetchOverpassCountryTowers('IR', fakeSleep);
+      expect(elements).toEqual(goodElements);
+      expect(fetchMock).toHaveBeenCalledTimes(2);
+      expect(sleeps).toEqual([30_000]);
+    });
   });
 });

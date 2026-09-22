@@ -220,22 +220,46 @@ function sleep(ms: number): Promise<void> {
   return new Promise((r) => setTimeout(r, ms));
 }
 
-/** One Overpass area query for a country's ISO 3166-1 code; one 30s retry on 429/504, otherwise throws. */
-async function fetchOverpassCountryTowers(cc: string): Promise<any[]> {
+/** True when an Overpass response body is a 200 carrying a server-side timeout, e.g. `{"remark":"runtime error: Query timed out in ... after 120 s.","elements":[]}`. Overpass answers these with HTTP 200, so status alone can't detect them. */
+function isOverpassRuntimeError(body: any): boolean {
+  return typeof body?.remark === 'string' && body.remark.includes('runtime error');
+}
+
+/**
+ * One Overpass area query for a country's ISO 3166-1 code. Retries once
+ * after 30s when the response is HTTP 429/504, *or* HTTP 200 with a
+ * `remark` reporting a server-side "runtime error" (Overpass's own
+ * [timeout:…] budget exceeded) — that shape is a failure disguised as
+ * success and must not be read as "zero towers". If it still fails after
+ * the retry, throws (the caller then fails the whole adapter, leaving the
+ * previous file untouched). `sleepFn` is injectable so tests don't wait 30s.
+ */
+export async function fetchOverpassCountryTowers(cc: string, sleepFn: (ms: number) => Promise<void> = sleep): Promise<any[]> {
   const query = `[out:json][timeout:120];area["ISO3166-1"="${cc}"][admin_level=2]->.a;node["man_made"~"^(tower|mast)$"]["communication:radio"]["communication:radio"!~"^no$"](area.a);out body;`;
   const doFetch = () => fetch('https://overpass-api.de/api/interpreter', {
     method: 'POST',
     headers: { 'User-Agent': 'Watchboard/geo-refresh (https://watchboard.dev)', 'Content-Type': 'application/x-www-form-urlencoded' },
     body: `data=${encodeURIComponent(query)}`,
   });
-  let res = await doFetch();
-  if (res.status === 429 || res.status === 504) {
-    await sleep(30_000);
-    res = await doFetch();
+
+  // One attempt: returns the parsed elements, or a retryable reason string when
+  // the response is a 429/504 or a disguised-as-200 Overpass runtime error.
+  const attempt = async (): Promise<{ elements: any[] } | { retryReason: string }> => {
+    const res = await doFetch();
+    if (res.status === 429 || res.status === 504) return { retryReason: `HTTP ${res.status}` };
+    if (!res.ok) throw new Error(`Overpass HTTP ${res.status} for ${cc}`);
+    const body = await res.json();
+    if (isOverpassRuntimeError(body)) return { retryReason: `runtime error: ${body.remark}` };
+    return { elements: body.elements ?? [] };
+  };
+
+  let result = await attempt();
+  if ('retryReason' in result) {
+    await sleepFn(30_000);
+    result = await attempt();
+    if ('retryReason' in result) throw new Error(`Overpass failed for ${cc} after retry (${result.retryReason})`);
   }
-  if (!res.ok) throw new Error(`Overpass HTTP ${res.status} for ${cc}`);
-  const j = await res.json();
-  return j.elements ?? [];
+  return result.elements;
 }
 
 /**
