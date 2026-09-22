@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { existsSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { validateLayerFile, wikidataPlantsToFeatures, cableGeoToFeatures, overpassTowersToFeatures, radioBrowserToFeatures } from './refresh-layers';
+import { validateLayerFile, wikidataPlantsToFeatures, cableGeoToFeatures, overpassTowersToFeatures, radioBrowserToFeatures, capTowersPerCountry } from './refresh-layers';
 import { STATIC_LAYERS, GeoLayerSchema } from '../../src/lib/geo-layer-schema';
 
 const DIR = resolve(__dirname, '../../public/geo/layers');
@@ -65,6 +65,45 @@ describe('adapters (pure parsing)', () => {
       geometry: { type: 'Point', coordinates: [27.9, 47.2] },
     });
     expect(feats[1].properties).toMatchObject({ osmId: '2', name: null, heightM: null, radioBand: 'am;shortwave' });
+  });
+
+  it('overpassTowersToFeatures tags features with the supplied country code, defaulting to null', () => {
+    const node = (id: number, lat: number, lon: number) => ({ type: 'node', id, lat, lon, tags: { 'communication:radio': 'fm' } });
+    const tagged = overpassTowersToFeatures([node(1, 35.7, 51.4)], 'IR');
+    expect(tagged[0].properties).toMatchObject({ countryCode: 'IR' });
+    const untagged = overpassTowersToFeatures([node(2, 35.7, 51.4)]);
+    expect(untagged[0].properties).toMatchObject({ countryCode: null });
+  });
+
+  it('capTowersPerCountry keeps named-first then tallest per country, never mixing countries, cap applied per country', () => {
+    const tower = (id: string, cc: string, name: string | null, heightM: number | null) => ({
+      type: 'Feature' as const,
+      id,
+      properties: { osmId: id, name, heightM, radioBand: 'fm', countryCode: cc },
+      geometry: { type: 'Point' as const, coordinates: [0, 0] },
+    });
+    const features = [
+      tower('10', 'IR', null, 50),
+      tower('2', 'IR', 'Named A', 100),
+      tower('3', 'IR', 'Named B', 200),
+      tower('20', 'UA', null, 300),
+      tower('21', 'UA', 'Named C', 10),
+    ];
+    const result = capTowersPerCountry(features, 2);
+    expect(result.map((f) => f.id)).toEqual(['3', '2', '21', '20']);
+    expect(result.slice(0, 2).every((f) => (f.properties as any).countryCode === 'IR')).toBe(true);
+    expect(result.slice(2, 4).every((f) => (f.properties as any).countryCode === 'UA')).toBe(true);
+  });
+
+  it('capTowersPerCountry breaks ties by osmId ascending', () => {
+    const tower = (id: string) => ({
+      type: 'Feature' as const,
+      id,
+      properties: { osmId: id, name: 'Same', heightM: 100, radioBand: 'fm', countryCode: 'IR' },
+      geometry: { type: 'Point' as const, coordinates: [0, 0] },
+    });
+    const result = capTowersPerCountry([tower('5'), tower('2'), tower('9')], 2);
+    expect(result.map((f) => f.id)).toEqual(['2', '5']);
   });
 
   it('radioBrowserToFeatures keeps HTTPS MP3/AAC stations with geo coordinates, drops the rest, dedupes by uuid', () => {

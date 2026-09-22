@@ -18,10 +18,11 @@ concurrency:
 jobs:
   refresh:
     runs-on: ubuntu-latest
-    # npm ci without a cache, an Overpass query with a 90 s server budget
-    # and a radio-browser fetch don't reliably fit the 5 min sibling
-    # workflows use.
-    timeout-minutes: 15
+    # npm ci without a cache and 34 spaced (5s+) per-country Overpass area
+    # queries for radio-towers take 6-12 min on their own, plus the
+    # radio-stations and radio-stations-global radio-browser fetches —
+    # doesn't reliably fit the 5 min sibling workflows use.
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
@@ -30,12 +31,13 @@ jobs:
       - run: npm ci
       - run: npx tsx scripts/geo/refresh-layers.ts --layer radio-towers
       - run: npx tsx scripts/geo/refresh-layers.ts --layer radio-stations
+      - run: npx tsx scripts/geo/refresh-layers.ts --layer radio-stations-global
       - run: npx vitest run scripts/geo/refresh-layers.test.ts
       - name: Commit if changed
         run: |
           git config user.name "watchboard-bot"
           git config user.email "bot@watchboard.dev"
-          git add public/geo/layers/radio-towers.geojson public/geo/layers/radio-stations.geojson
+          git add public/geo/layers/radio-towers.geojson public/geo/layers/radio-stations.geojson public/geo/layers/radio-stations-global.geojson
           if ! git diff --staged --quiet; then
             git commit -m "chore(radio): weekly refresh $(date -u +%Y-%m-%dT%H-%M-%SZ)"
             for i in 1 2 3; do

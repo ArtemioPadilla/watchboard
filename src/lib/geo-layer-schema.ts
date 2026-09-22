@@ -59,6 +59,7 @@ export const STATIC_LAYERS: StaticLayerMeta[] = [
   { id: 'maritime-chokepoints', label: 'layers.chokepoints', color: '#ff8a65', kind: 'point' },
   { id: 'radio-towers', label: 'layers.radioTowers', color: '#66ffcc', kind: 'point' },
   { id: 'radio-stations', label: 'layers.radioStations', color: '#ff66cc', kind: 'point' },
+  { id: 'radio-stations-global', label: 'layers.radioStationsGlobal', color: '#ff66cc', kind: 'point' },
 ];
 
 export function staticLayerMeta(id: string): StaticLayerMeta | undefined {
