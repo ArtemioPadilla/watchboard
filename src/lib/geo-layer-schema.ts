@@ -57,6 +57,8 @@ export const STATIC_LAYERS: StaticLayerMeta[] = [
   { id: 'nuclear-plants', label: 'layers.nuclearPlants', color: '#ffcc00', kind: 'point' },
   { id: 'submarine-cables', label: 'layers.submarineCables', color: '#4fc3f7', kind: 'line' },
   { id: 'maritime-chokepoints', label: 'layers.chokepoints', color: '#ff8a65', kind: 'point' },
+  { id: 'radio-towers', label: 'layers.radioTowers', color: '#66ffcc', kind: 'point' },
+  { id: 'radio-stations', label: 'layers.radioStations', color: '#ff66cc', kind: 'point' },
 ];
 
 export function staticLayerMeta(id: string): StaticLayerMeta | undefined {

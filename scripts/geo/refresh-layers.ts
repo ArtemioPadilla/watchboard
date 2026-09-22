@@ -14,6 +14,9 @@ import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { GeoLayerSchema, type GeoLayer } from '../../src/lib/geo-layer-schema';
+// Node-only loader (see scripts/lib/load-trackers-node.ts): src/lib/tracker-registry.ts
+// uses import.meta.glob, which is Vite-only and throws under plain `tsx` execution.
+import { loadAllTrackers } from '../lib/load-trackers-node';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const OUT_DIR = resolve(ROOT, 'public/geo/layers');
@@ -56,6 +59,29 @@ export function cableGeoToFeatures(fc: any): GeoLayer['features'] {
       properties: { name: f.properties?.name ?? null, color: f.properties?.color ?? null, slug: f.properties?.slug ?? null },
       geometry: f.geometry,
     }));
+}
+
+/** Pure: Overpass node elements tagged communication:radio → point features, deduped by id, elements without lat/lon dropped. */
+export function overpassTowersToFeatures(elements: any[]): GeoLayer['features'] {
+  const seen = new Set<string>();
+  return elements.flatMap((el) => {
+    if (el?.type !== 'node' || typeof el.lat !== 'number' || typeof el.lon !== 'number') return [];
+    const id = String(el.id);
+    if (seen.has(id)) return [];
+    seen.add(id);
+    const tags = el.tags ?? {};
+    return [{
+      type: 'Feature' as const,
+      id,
+      properties: {
+        osmId: id,
+        name: tags.name ?? null,
+        heightM: tags.height ? Number.parseFloat(tags.height) || null : null,
+        radioBand: String(tags['communication:radio'] ?? ''),
+      },
+      geometry: { type: 'Point' as const, coordinates: [el.lon, el.lat] },
+    }];
+  });
 }
 
 /** Wikidata: every item that is an instance of "nuclear power plant" (Q134447) with coordinates. */
@@ -147,7 +173,46 @@ const chokepoints: Adapter = {
   },
 };
 
-const ADAPTERS: Adapter[] = [nuclearPlants, submarineCables, chokepoints];
+/** Bounding boxes of every tracker that opted into the radio layer. */
+function radioTrackerBounds(): { lonMin: number; lonMax: number; latMin: number; latMax: number }[] {
+  return loadAllTrackers()
+    .filter((t) => t.map?.staticLayers?.includes('radio-towers') && t.map?.bounds)
+    .map((t) => t.map!.bounds);
+}
+
+/** Overpass: communication towers/masts (radio broadcast, not generic cell masts — communication:radio must be set) inside every radio-enabled tracker's bounds. */
+const radioTowers: Adapter = {
+  id: 'radio-towers',
+  async run(now) {
+    const boundsList = radioTrackerBounds();
+    if (boundsList.length === 0) throw new Error('no tracker has "radio-towers" in map.staticLayers');
+    const seen = new Map<string, any>();
+    for (const b of boundsList) {
+      const query = `[out:json][timeout:90];(node["man_made"~"^(tower|mast)$"]["communication:radio"](${b.latMin},${b.lonMin},${b.latMax},${b.lonMax}););out body;`;
+      const res = await fetch('https://overpass-api.de/api/interpreter', {
+        method: 'POST',
+        headers: { 'User-Agent': 'Watchboard/geo-refresh (https://watchboard.dev)', 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `data=${encodeURIComponent(query)}`,
+      });
+      if (!res.ok) throw new Error(`Overpass HTTP ${res.status}`);
+      const j = await res.json();
+      for (const el of j.elements ?? []) seen.set(`${el.type}:${el.id}`, el);
+    }
+    const features = overpassTowersToFeatures([...seen.values()]);
+    return {
+      type: 'FeatureCollection',
+      _provenance: {
+        id: 'radio-towers', source: 'OpenStreetMap (Overpass API)', url: 'https://overpass-api.de/api/interpreter',
+        license: 'ODbL 1.0', attribution: 'Radio towers: © OpenStreetMap contributors, ODbL', retrievedAt: now,
+        transform: `Nodes tagged man_made=tower|mast with communication:radio set, inside the bounds of every tracker with "radio-towers" in map.staticLayers (${boundsList.length} tracker(s))`,
+        featureCount: features.length,
+      },
+      features,
+    };
+  },
+};
+
+const ADAPTERS: Adapter[] = [nuclearPlants, submarineCables, chokepoints, radioTowers];
 
 export function validateLayerFile(path: string): GeoLayer {
   return GeoLayerSchema.parse(JSON.parse(readFileSync(path, 'utf8')));

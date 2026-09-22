@@ -13,3 +13,4 @@ Registry: `src/lib/live-layers.ts` (feeds) and `src/lib/geo-layer-schema.ts`
 | Wikidata nuclear plants | CC0 1.0 | attribution shown | `wikidata.md` |
 | TeleGeography submarine cables | CC BY-NC-SA 3.0 | attribution shown; non-commercial use only | `telegeography.md` |
 | Nominatim / OpenStreetMap (dossier) | ODbL; Nominatim usage policy | 1 req/s, cached | `openstreetmap.md` |
+| OSM communication towers (Overpass) | ODbL 1.0 | attribution shown | `openstreetmap.md` |

@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { existsSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { validateLayerFile, wikidataPlantsToFeatures, cableGeoToFeatures } from './refresh-layers';
+import { validateLayerFile, wikidataPlantsToFeatures, cableGeoToFeatures, overpassTowersToFeatures } from './refresh-layers';
 import { STATIC_LAYERS, GeoLayerSchema } from '../../src/lib/geo-layer-schema';
 
 const DIR = resolve(__dirname, '../../public/geo/layers');
@@ -48,5 +48,21 @@ describe('adapters (pure parsing)', () => {
     expect(feats[0].properties).toEqual({ name: 'Cable One', color: '#abc', slug: 'cable-one' });
     expect(feats[1].properties).toEqual({ name: null, color: null, slug: null });
     expect(() => cableGeoToFeatures({ nope: true })).toThrow(/unexpected cable payload/);
+  });
+  it('overpassTowersToFeatures maps nodes with communication:radio, drops nodes without lat/lon, dedupes ids', () => {
+    const node = (id: number, lat: number, lon: number, tags: Record<string, string>) => ({ type: 'node', id, lat, lon, tags });
+    const feats = overpassTowersToFeatures([
+      node(1, 47.2, 27.9, { name: 'Cetireni', height: '235', 'communication:radio': 'fm' }),
+      node(1, 47.2, 27.9, { name: 'Cetireni', height: '235', 'communication:radio': 'fm' }), // duplicate id
+      node(2, 50.1, 30.5, { 'communication:radio': 'am;shortwave' }), // no name
+      { type: 'way', id: 3, tags: { 'communication:radio': 'fm' } }, // no lat/lon
+    ]);
+    expect(feats).toHaveLength(2);
+    expect(feats[0]).toMatchObject({
+      id: '1',
+      properties: { osmId: '1', name: 'Cetireni', heightM: 235, radioBand: 'fm' },
+      geometry: { type: 'Point', coordinates: [27.9, 47.2] },
+    });
+    expect(feats[1].properties).toMatchObject({ osmId: '2', name: null, heightM: null, radioBand: 'am;shortwave' });
   });
 });
