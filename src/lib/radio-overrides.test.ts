@@ -23,7 +23,7 @@ describe('applyRadioOverrides', () => {
     expect(out[0].properties.name).toBe('Renamed');
   });
   it('adds a station not present in the upstream fetch', () => {
-    const added = { stationUuid: 'z', action: 'add' as const, note: 'curated', source: 'issue #3', patch: { name: 'Manual', stationUuid: 'z', streamUrl: 'https://s.example/z', codec: 'MP3', votes: 0, country: null, countryCode: null, language: null, freqLabel: null } };
+    const added = { stationUuid: 'z', action: 'add' as const, note: 'curated', source: 'issue #3', patch: { name: 'Manual', stationUuid: 'z', streamUrl: 'https://s.example/z', codec: 'MP3', votes: 0, country: null, countryCode: null, language: null, freqLabel: null, lat: 50.1, lon: 30.5 } };
     const out = applyRadioOverrides([feature('a')], [added]);
     expect(out.map(f => f.id)).toEqual(['a', 'z']);
     expect(out[1].geometry.type).toBe('Point');

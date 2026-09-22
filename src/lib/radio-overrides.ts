@@ -46,15 +46,11 @@ export function applyRadioOverrides(features: GeoLayer['features'], overrides: R
       out = out.map((f) => (f.id === ov.stationUuid ? { ...f, properties: { ...f.properties, ...ov.patch } } : f));
     } else if (ov.action === 'add') {
       const p = ov.patch ?? {};
-      // Coordinates default to [0, 0] (null island) when omitted from the patch,
-      // rather than skipping the addition outright — a curator adding a station
-      // without precise coordinates still wants it in the directory.
-      const lat = typeof p.lat === 'number' ? p.lat : 0;
-      const lon = typeof p.lon === 'number' ? p.lon : 0;
+      if (typeof p.lat !== 'number' || typeof p.lon !== 'number') continue; // can't place it without coordinates
       out.push({
         type: 'Feature', id: ov.stationUuid,
         properties: { stationUuid: ov.stationUuid, name: p.name ?? ov.stationUuid, country: p.country ?? null, countryCode: p.countryCode ?? null, language: p.language ?? null, freqLabel: p.freqLabel ?? null, streamUrl: p.streamUrl ?? '', codec: p.codec ?? 'MP3', votes: p.votes ?? 0 },
-        geometry: { type: 'Point', coordinates: [lon, lat] },
+        geometry: { type: 'Point', coordinates: [p.lon, p.lat] },
       });
     }
   }
