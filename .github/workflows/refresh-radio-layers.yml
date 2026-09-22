@@ -1,0 +1,26 @@
+name: Refresh Radio Layers
+
+on:
+  schedule:
+    - cron: '0 6 * * 1' # Mondays 06:00 UTC — stations and towers change slowly; weekly avoids hammering Overpass/radio-browser
+  workflow_dispatch: {}
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+      - run: npx tsx scripts/geo/refresh-layers.ts --layer radio-towers
+      - run: npx tsx scripts/geo/refresh-layers.ts --layer radio-stations
+      - run: npx vitest run scripts/geo/refresh-layers.test.ts
+      - name: Commit if changed
+        run: |
+          git config user.name "watchboard-bot"
+          git config user.email "actions@github.com"
+          git add public/geo/layers/radio-towers.geojson public/geo/layers/radio-stations.geojson
+          git diff --staged --quiet || git commit -m "chore(radio): weekly refresh $(date -u +%Y-%m-%dT%H-%M-%SZ)"
+          git diff --staged --quiet || git push
