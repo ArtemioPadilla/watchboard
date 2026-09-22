@@ -3889,6 +3889,7 @@ body::before {
 
 .map-radio-card { position: absolute; bottom: 68px; left: 12px; z-index: 1000; }
 .globe-radio-card { position: absolute; bottom: 68px; left: 12px; z-index: 1000; }
+.home-radio-card { position: absolute; bottom: 48px; left: 12px; z-index: 60; }
 
 .radio-card-close {
   position: absolute;
@@ -3972,7 +3973,7 @@ body::before {
 .radio-card-error a { color: var(--accent-blue); }
 
 @media (max-width: 767px) {
-  .map-radio-card, .globe-radio-card { top: auto; bottom: 0; left: 0; right: 0; width: 100%; border-radius: 12px 12px 0 0; }
+  .map-radio-card, .globe-radio-card, .home-radio-card { top: auto; bottom: 0; left: 0; right: 0; width: 100%; border-radius: 12px 12px 0 0; z-index: 1000; }
 }
 
 /* ─── PROVENANCE BADGE (E9.H1) ─── */
