@@ -44,6 +44,8 @@ const MapConfigSchema = z.object({
   liveLayers: z.array(z.string().regex(/^[a-z0-9-]+$/)).optional(),
   /** Static GeoJSON layers from public/geo/layers/{id}.geojson (e.g. 'submarine-cables'). */
   staticLayers: z.array(z.string().regex(/^[a-z0-9-]+$/)).optional(),
+  /** ISO 3166-1 alpha-2 codes queried against radio-browser.info when this tracker opts into the 'radio-stations' layer. */
+  radioCountryCodes: z.array(z.string().regex(/^[A-Z]{2}$/)).optional(),
 });
 
 // ── Clock definition ──

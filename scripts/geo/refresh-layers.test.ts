@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { existsSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { validateLayerFile, wikidataPlantsToFeatures, cableGeoToFeatures, overpassTowersToFeatures } from './refresh-layers';
+import { validateLayerFile, wikidataPlantsToFeatures, cableGeoToFeatures, overpassTowersToFeatures, radioBrowserToFeatures } from './refresh-layers';
 import { STATIC_LAYERS, GeoLayerSchema } from '../../src/lib/geo-layer-schema';
 
 const DIR = resolve(__dirname, '../../public/geo/layers');
@@ -64,5 +64,26 @@ describe('adapters (pure parsing)', () => {
       geometry: { type: 'Point', coordinates: [27.9, 47.2] },
     });
     expect(feats[1].properties).toMatchObject({ osmId: '2', name: null, heightM: null, radioBand: 'am;shortwave' });
+  });
+
+  it('radioBrowserToFeatures keeps HTTPS MP3/AAC stations with geo coordinates, drops the rest, dedupes by uuid', () => {
+    const row = (uuid: string, overrides: Record<string, unknown> = {}) => ({
+      stationuuid: uuid, name: `Station ${uuid}`, url_resolved: `https://stream.example/${uuid}`,
+      countrycode: 'UA', country: 'Ukraine', language: 'ukrainian', votes: 10, codec: 'MP3',
+      lastcheckok: 1, geo_lat: 50.1, geo_long: 30.5,
+      ...overrides,
+    });
+    const feats = radioBrowserToFeatures([
+      row('a'),
+      row('a'), // duplicate uuid
+      row('b', { url_resolved: 'http://stream.example/b' }), // not https
+      row('c', { geo_lat: null, geo_long: null }), // no geo
+      row('d', { codec: 'OGG' }), // unsupported codec
+      row('e', { lastcheckok: 0 }), // marked broken
+      row('f', { name: '101.5 Kiss FM' }),
+    ]);
+    expect(feats.map(f => f.id)).toEqual(['a', 'f']);
+    expect(feats[0].properties).toMatchObject({ stationUuid: 'a', streamUrl: 'https://stream.example/a', codec: 'MP3', votes: 10, freqLabel: null });
+    expect(feats[1].properties).toMatchObject({ freqLabel: '101.5 FM' });
   });
 });

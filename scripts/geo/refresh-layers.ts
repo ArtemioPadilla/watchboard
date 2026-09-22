@@ -212,7 +212,85 @@ const radioTowers: Adapter = {
   },
 };
 
-const ADAPTERS: Adapter[] = [nuclearPlants, submarineCables, chokepoints, radioTowers];
+// Two-part match (not a single regex): station names put the unit word
+// ("FM"/"MHz") after other text, e.g. "101.5 Kiss FM" — a single regex
+// requiring the unit immediately after the number misses that case.
+const FREQ_NUM_RE = /\b(\d{2,3}(?:\.\d{1,2})?)\b/;
+const FREQ_UNIT_RE = /\b(?:fm|mhz)\b/i;
+
+/** Pure: radio-browser.info station rows → point features. Drops non-HTTPS streams, unsupported codecs, stations without geo coordinates or failing their last check; dedupes by stationuuid. */
+export function radioBrowserToFeatures(rows: any[]): GeoLayer['features'] {
+  const seen = new Set<string>();
+  return rows.flatMap((r) => {
+    const uuid = String(r.stationuuid ?? '');
+    if (!uuid || seen.has(uuid)) return [];
+    if (r.lastcheckok !== 1) return [];
+    if (typeof r.geo_lat !== 'number' || typeof r.geo_long !== 'number') return [];
+    const url = String(r.url_resolved ?? '');
+    if (!url.startsWith('https://')) return [];
+    const codec = String(r.codec ?? '').toUpperCase();
+    if (codec !== 'MP3' && codec !== 'AAC') return [];
+    seen.add(uuid);
+    const name = String(r.name ?? '');
+    const numMatch = FREQ_NUM_RE.exec(name);
+    const freqLabel = numMatch && FREQ_UNIT_RE.test(name) ? `${numMatch[1]} FM` : null;
+    return [{
+      type: 'Feature' as const,
+      id: uuid,
+      properties: {
+        stationUuid: uuid,
+        name: r.name ?? uuid,
+        country: r.country ?? null,
+        countryCode: r.countrycode ?? null,
+        language: r.language || null,
+        freqLabel,
+        streamUrl: url,
+        codec,
+        votes: typeof r.votes === 'number' ? r.votes : 0,
+      },
+      geometry: { type: 'Point' as const, coordinates: [r.geo_long, r.geo_lat] },
+    }];
+  });
+}
+
+/** Country codes every radio-enabled tracker asks radio-browser.info for. */
+function radioCountryCodes(): string[] {
+  const codes = new Set<string>();
+  for (const t of loadAllTrackers()) {
+    if (!t.map?.staticLayers?.includes('radio-stations')) continue;
+    for (const c of t.map.radioCountryCodes ?? []) codes.add(c);
+  }
+  return [...codes];
+}
+
+const radioStations: Adapter = {
+  id: 'radio-stations',
+  async run(now) {
+    const codes = radioCountryCodes();
+    if (codes.length === 0) throw new Error('no tracker declares map.radioCountryCodes for "radio-stations"');
+    const rows: any[] = [];
+    for (const cc of codes) {
+      const res = await fetch(`https://de1.api.radio-browser.info/json/stations/bycountrycodeexact/${cc}?hidebroken=true&is_https=true`, {
+        headers: { 'User-Agent': 'Watchboard/geo-refresh (https://watchboard.dev)' },
+      });
+      if (!res.ok) throw new Error(`radio-browser HTTP ${res.status} for ${cc}`);
+      rows.push(...(await res.json()));
+    }
+    const features = radioBrowserToFeatures(rows);
+    return {
+      type: 'FeatureCollection',
+      _provenance: {
+        id: 'radio-stations', source: 'radio-browser.info', url: 'https://www.radio-browser.info/',
+        license: 'PDDL 1.0 (directory); each stream is subject to its own broadcaster terms', attribution: 'Stations: radio-browser.info community directory (PDDL 1.0)', retrievedAt: now,
+        transform: `Country codes from every tracker's map.radioCountryCodes (${codes.join(', ')}); HTTPS MP3/AAC streams with geo coordinates and a passing last check only`,
+        featureCount: features.length,
+      },
+      features,
+    };
+  },
+};
+
+const ADAPTERS: Adapter[] = [nuclearPlants, submarineCables, chokepoints, radioTowers, radioStations];
 
 export function validateLayerFile(path: string): GeoLayer {
   return GeoLayerSchema.parse(JSON.parse(readFileSync(path, 'utf8')));
