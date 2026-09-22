@@ -18,7 +18,10 @@ concurrency:
 jobs:
   refresh:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    # npm ci without a cache, an Overpass query with a 90 s server budget
+    # and a radio-browser fetch don't reliably fit the 5 min sibling
+    # workflows use.
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
