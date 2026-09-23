@@ -58,11 +58,13 @@ export function interestOptions(trackers: { domain?: string; region?: string }[]
 export function loadInterests(): Interests {
   try {
     const raw = localStorage.getItem(INTERESTS_KEY);
-    return raw ? parseInterests(JSON.parse(raw)) : { domains: [], regions: [] };
-  } catch { return { domains: [], regions: [] }; }
+    return raw ? parseInterests(JSON.parse(raw)) : EMPTY_INTERESTS;
+  } catch { return EMPTY_INTERESTS; }
 }
 
 export function saveInterests(i: Interests): void {
   try { localStorage.setItem(INTERESTS_KEY, JSON.stringify(i)); } catch {}
+  // Dispatched even if setItem threw above, on purpose: the session keeps working off in-memory
+  // state and other mounts should still sync, storage or no storage.
   try { window.dispatchEvent(new CustomEvent(INTERESTS_CHANGED_EVENT, { detail: i })); } catch {}
 }

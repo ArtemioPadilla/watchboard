@@ -720,16 +720,18 @@ export default function SidebarPanel({
           </button>
         )}
       </div>
-      {showInterests && onToggleInterest && interestOptions && (
-        <div id="cc-interest-chips">
-          <InterestChips
-            compact
-            interests={interests}
-            options={interestOptions}
-            locale={locale}
-            onToggle={onToggleInterest}
-            onClear={onClearInterests}
-          />
+      {onToggleInterest && interestOptions && (
+        <div id="cc-interest-chips" hidden={!showInterests}>
+          {showInterests && (
+            <InterestChips
+              compact
+              interests={interests}
+              options={interestOptions}
+              locale={locale}
+              onToggle={onToggleInterest}
+              onClear={onClearInterests}
+            />
+          )}
         </div>
       )}
 
