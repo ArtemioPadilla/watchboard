@@ -345,15 +345,21 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git add "trackers/${SLUG}/" README.md
           git commit -m "feat(tracker): initialize ${SLUG} tracker $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          pushed=false
           for i in $(seq 1 10); do
             if git pull --rebase origin main && git push; then
               echo "Push succeeded on attempt $i"
+              pushed=true
               break
             fi
             git rebase --abort 2>/dev/null || true
             echo "Push attempt $i failed, retrying with jitter..."
             sleep $(( (RANDOM % 8) + 3 ))
           done
+          if [ "$pushed" != "true" ]; then
+            echo "::error::Failed to push tracker init commit after 10 attempts"
+            exit 1
+          fi
 
       - name: Job summary
         if: always()
@@ -553,15 +559,21 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git add "trackers/${SLUG}/"
           git commit -m "chore(data): seed ${SLUG} tracker data $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          pushed=false
           for i in $(seq 1 10); do
             if git pull --rebase origin main && git push; then
               echo "Push succeeded on attempt $i"
+              pushed=true
               break
             fi
             git rebase --abort 2>/dev/null || true
             echo "Push attempt $i failed, retrying with jitter..."
             sleep $(( (RANDOM % 8) + 3 ))
           done
+          if [ "$pushed" != "true" ]; then
+            echo "::error::Failed to push seed data for ${SLUG} after 10 attempts"
+            exit 1
+          fi
 
       - name: Seed summary
         if: always()

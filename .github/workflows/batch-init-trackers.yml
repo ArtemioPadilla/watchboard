@@ -181,15 +181,21 @@ jobs:
           git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git"
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
+          pushed=false
           for i in $(seq 1 10); do
             if git pull --rebase origin main && git push; then
               echo "Push succeeded on attempt $i"
+              pushed=true
               break
             fi
             git rebase --abort 2>/dev/null || true
             echo "Push attempt $i failed, retrying..."
             sleep $(( (RANDOM % 8) + 3 ))
           done
+          if [ "$pushed" != "true" ]; then
+            echo "::error::Failed to push batch tracker init commits after 10 attempts"
+            exit 1
+          fi
 
       - name: Dispatch seed workflows
         if: steps.changes.outputs.changed == 'true' && github.event.inputs.auto_seed == 'true'

@@ -313,10 +313,18 @@ jobs:
             echo "No state changes"
           else
             git commit -m "chore(hourly): update scan state $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            pushed=false
             for _ in 1 2 3; do
-              git pull --rebase origin main && git push && break
+              if git pull --rebase origin main && git push; then
+                pushed=true
+                break
+              fi
               sleep $((RANDOM % 5 + 2))
             done
+            if [ "$pushed" != "true" ]; then
+              echo "::error::Failed to push hourly scan state after 3 attempts"
+              exit 1
+            fi
           fi
 
       - name: Ensure action plan artifact exists
@@ -1014,9 +1022,13 @@ jobs:
             MSG="chore(hourly): update $TRACKER $(date -u +%Y-%m-%dT%H:%M:%SZ)"
           fi
           git commit -m "$MSG"
+          pushed=false
           for i in 1 2 3 4 5; do
             if git pull --rebase origin main; then
-              git push && break
+              if git push; then
+                pushed=true
+                break
+              fi
             else
               echo "Rebase conflict on attempt $i — resolving..."
               # Accept theirs for metrics (non-essential), ours for tracker data
@@ -1033,6 +1045,10 @@ jobs:
             fi
             sleep $((RANDOM % 5 + 2))
           done
+          if [ "$pushed" != "true" ]; then
+            echo "::error::Failed to push hourly update for $TRACKER after 5 attempts"
+            exit 1
+          fi
 
       - name: Job summary
         if: always()

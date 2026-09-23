@@ -58,10 +58,18 @@ jobs:
             git diff --cached --name-only | grep -q '^public/_hourly/alerts.json$' \
               || { echo '::error::public/_hourly/alerts.json was not staged'; exit 1; }
             git commit -m "chore(light-scan): update pending + audit + state $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            pushed=false
             for i in 1 2 3; do
-              if git pull --rebase origin main && git push origin main; then break; fi
+              if git pull --rebase origin main && git push origin main; then
+                pushed=true
+                break
+              fi
               echo "retry $i"; sleep 5
             done
+            if [ "$pushed" != "true" ]; then
+              echo "::error::Failed to push light-scan state after 3 attempts"
+              exit 1
+            fi
           fi
 
   # ── Notify Telegram on failure (deduped: only first failure in a streak) ──
