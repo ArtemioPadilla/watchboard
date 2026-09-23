@@ -9,7 +9,8 @@ import { deferImport } from '../../../lib/defer-load';
 // rest of the homepage can paint and hydrate first. Suspense fallback covers
 // the wait with the existing starfield skeleton.
 const GlobePanel = lazy(() => deferImport(() => import('./GlobePanel')));
-import type { GlobeRadioStation } from './GlobePanel';
+import type { GlobeRadioStation, RadioLayerStatus } from './GlobePanel';
+import { fetchGlobalRadioStations, readRadioLayerPref, writeRadioLayerPref } from '../../../lib/radio-global';
 import type { RadioStationProperties } from '../../../lib/radio-station';
 import RadioStationCard from '../shared/RadioStationCard';
 import SidebarPanel from './SidebarPanel';
@@ -33,6 +34,9 @@ import { readViewState, createViewStateWriter } from '../../../lib/view-state';
 import { IslandErrorFallback } from '../shared/IslandErrorFallback';
 
 const FOLLOWS_KEY = 'watchboard-follows';
+// Stable reference while the radio layer is off: a fresh [] per render would
+// make GlobePanel rebuild every DOM pin on the globe each time.
+const NO_RADIO_STATIONS: GlobeRadioStation[] = [];
 const SIDEBAR_PREF_KEY = 'watchboard-sidebar-pref'; // 'expanded' | 'collapsed'
 
 function loadFollows(): string[] {
@@ -55,6 +59,7 @@ const SHORTCUTS = [
   { key: 'B', tKey: 'shortcuts.broadcast' },
   { key: 'G', tKey: 'shortcuts.rotate' },
   { key: 'L', tKey: 'shortcuts.cityLights' },
+  { key: 'R', tKey: 'shortcuts.radio' },
   { key: 'O', tKey: 'shortcuts.openSelected' },
   { key: 'Esc', tKey: 'shortcuts.deselect' },
   { key: 'S', tKey: 'shortcuts.share' },
@@ -176,22 +181,40 @@ function CommandCenterInner({
   [alertsFeed.entries]);
   const knownSlugs = useMemo(() => new Set(trackers.map(t => t.slug)), [trackers]);
   // Capped radio-station pins (Task 9): top 300 by votes, sourced from the
-  // static GeoJSON layer generated in prior tasks.
-  const [radioStations, setRadioStations] = useState<GlobeRadioStation[]>([]);
-  useEffect(() => {
-    fetch(`${basePath}geo/layers/radio-stations-global.geojson`)
-      .then(r => r.ok ? r.json() : null)
-      .then((fc: any) => {
-        if (!fc?.features) return;
-        const top = [...fc.features]
-          .sort((a: any, b: any) => (b.properties.votes ?? 0) - (a.properties.votes ?? 0))
-          .slice(0, 300)
-          .map((f: any): GlobeRadioStation => ({ ...f.properties, lat: f.geometry.coordinates[1], lon: f.geometry.coordinates[0] }));
-        setRadioStations(top);
-      })
-      .catch(() => { /* home globe still works without the radio layer */ });
-  }, []);
+  // static GeoJSON layer. Off by default; the file is only fetched the first
+  // time the viewer turns the layer on, then kept for later toggles. A failed
+  // fetch is shown on the toggle with a retry, never as an empty globe.
   const [selectedRadioStation, setSelectedRadioStation] = useState<RadioStationProperties | null>(null);
+  const [radioLayerOn, setRadioLayerOn] = useState(false);
+  const [radioLayerStatus, setRadioLayerStatus] = useState<RadioLayerStatus>('idle');
+  const [radioStations, setRadioStations] = useState<GlobeRadioStation[]>([]);
+  const [radioRetry, setRadioRetry] = useState(0);
+  // Read after mount: SSR always renders the layer off.
+  useEffect(() => { if (readRadioLayerPref()) setRadioLayerOn(true); }, []);
+  useEffect(() => {
+    if (!radioLayerOn || radioLayerStatus === 'ready' || radioLayerStatus === 'loading') return;
+    setRadioLayerStatus('loading');
+    fetchGlobalRadioStations(basePath)
+      .then(top => { setRadioStations(top); setRadioLayerStatus('ready'); })
+      .catch(err => {
+        console.warn('[radio] global station layer unavailable:', err);
+        setRadioLayerStatus('error');
+      });
+  // radioLayerStatus is read, not a trigger: the effect's own status writes
+  // must not re-run it. Turning the layer on again or Retry does.
+  }, [radioLayerOn, radioRetry, basePath]);
+  const handleToggleRadioLayer = useCallback(() => {
+    const next = !radioLayerOn;
+    setRadioLayerOn(next);
+    writeRadioLayerPref(next);
+    trackEvent('radio_layer_toggled', { enabled: next });
+    // Turning the layer off closes the card, whose unmount releases the stream.
+    if (!next) setSelectedRadioStation(null);
+  }, [radioLayerOn]);
+  const handleRetryRadioLayer = useCallback(() => {
+    setRadioLayerStatus('idle');
+    setRadioRetry(n => n + 1);
+  }, []);
   const criticalCount = alertsFeed.entries.filter(e => e.severity === 'critical').length;
   const [isMobile, setIsMobile] = useState(() =>
     typeof window !== 'undefined' && window.innerWidth < 768,
@@ -561,6 +584,13 @@ function CommandCenterInner({
           e.preventDefault();
           globeRef.current?.toggleCityLights?.();
           break;
+        case 'r':
+        case 'R':
+          if (!e.metaKey && !e.ctrlKey && !e.altKey) {
+            e.preventDefault();
+            handleToggleRadioLayer();
+          }
+          break;
         case 'c':
         case 'C':
           if (activeTracker) {
@@ -595,7 +625,7 @@ function CommandCenterInner({
     };
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
-  }, [activeTracker, showHelp, showAlerts, dossier.target, dossier.close, compareSlugs.length, handleToggleFollow, handleToggleCompare, basePath, locale]);
+  }, [activeTracker, showHelp, showAlerts, dossier.target, dossier.close, compareSlugs.length, handleToggleFollow, handleToggleCompare, handleToggleRadioLayer, basePath, locale]);
 
   const sidebarStyle: React.CSSProperties = isMobile
     ? mobileTab === 'trackers' ? styles.sidebar : { ...styles.sidebar, display: 'none' }
@@ -770,8 +800,12 @@ function CommandCenterInner({
             onGlobeRightClick={handleGlobeRightClick}
             onPolygonHover={setHoveredCountry}
             pendingCandidates={pendingPins}
-            radioStations={radioStations}
+            radioStations={radioLayerOn ? radioStations : NO_RADIO_STATIONS}
             onSelectRadioStation={setSelectedRadioStation}
+            radioLayerOn={radioLayerOn}
+            radioLayerStatus={radioLayerStatus}
+            onToggleRadioLayer={handleToggleRadioLayer}
+            onRetryRadioLayer={handleRetryRadioLayer}
           />
         </Suspense>
         {broadcastEnabled && (

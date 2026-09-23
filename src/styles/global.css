@@ -3432,6 +3432,44 @@ body::before {
     opacity: 0;
   }
 }
+/* Radio layer status line (GlobePanel), left of the toggle button: loading,
+   attribution once loaded, or the error with a retry. */
+.cc-radio-layer-status {
+  position: absolute;
+  top: 44px;
+  right: 44px;
+  z-index: 15;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  max-width: calc(100% - 60px);
+  height: 28px;
+  padding: 0 8px;
+  background: rgba(13, 17, 23, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  backdrop-filter: blur(4px);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.56rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  animation: fadeSlideIn 0.2s ease;
+}
+.cc-radio-layer-error { color: var(--accent-red); border-color: rgba(231, 76, 60, 0.4); }
+.cc-radio-layer-status button {
+  font: inherit;
+  color: var(--accent-blue);
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cc-radio-layer-status { animation: none; }
+}
 .cc-tracker-live-badge {
   display: inline-flex;
   align-items: center;

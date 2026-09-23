@@ -3,7 +3,7 @@ import { t } from '../../../i18n/translations';
 import { useLocale } from '../../../i18n/useLocale';
 import {
   type RadioStationProperties, isRadioStationProperties,
-  hasAcceptedRadioPrivacyNotice, setAcceptedRadioPrivacyNotice, buildRadioStreamIssueUrl,
+  hasAcceptedRadioPrivacyNotice, setAcceptedRadioPrivacyNotice, buildRadioStreamIssueUrl, releaseAudio,
 } from '../../../lib/radio-station';
 
 interface TowerProperties { osmId: string; name: string | null; heightM: number | null; radioBand: string }
@@ -23,14 +23,22 @@ export default function RadioStationCard({ station, onClose, className = '' }: P
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const connectTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  // Detach the ref *before* releasing: every pending callback (the 1.5 s
+  // retry, the 9 s connect timeout, late 'playing'/'error' events and the
+  // play() rejection that load() itself triggers) checks
+  // `audioRef.current === audio`, so none of them can restart playback or
+  // flip the state once the stream is stopped.
+  function releaseCurrentAudio() {
+    const audio = audioRef.current;
+    audioRef.current = null;
+    if (connectTimeoutRef.current) { clearTimeout(connectTimeoutRef.current); connectTimeoutRef.current = null; }
+    releaseAudio(audio);
+  }
+
   useEffect(() => {
     setPlayback('idle');
     setNeedsConsent(false);
-    return () => {
-      audioRef.current?.pause();
-      audioRef.current = null;
-      if (connectTimeoutRef.current) { clearTimeout(connectTimeoutRef.current); connectTimeoutRef.current = null; }
-    };
+    return releaseCurrentAudio;
   }, [station]);
 
   if (!station) return null;
@@ -61,9 +69,9 @@ export default function RadioStationCard({ station, onClose, className = '' }: P
   function startPlayback(isRetry = false) {
     if (!isRadioStationProperties(station)) return;
     setPlayback('connecting');
+    releaseCurrentAudio(); // the failed first attempt, on a retry
     const audio = new Audio(station.streamUrl);
     audioRef.current = audio;
-    if (connectTimeoutRef.current) clearTimeout(connectTimeoutRef.current);
     // The common real-world failure for internet radio is a socket that opens
     // and then sends nothing — neither the 'error' event nor the play()
     // rejection fires, so without this the UI is stuck on "Connecting…"
@@ -72,23 +80,21 @@ export default function RadioStationCard({ station, onClose, className = '' }: P
       if (audioRef.current === audio) setPlayback('error');
     }, 9000);
     audio.addEventListener('playing', () => {
+      if (audioRef.current !== audio) return;
       if (connectTimeoutRef.current) { clearTimeout(connectTimeoutRef.current); connectTimeoutRef.current = null; }
       setPlayback('playing');
     });
-    audio.addEventListener('error', () => {
+    const onFailure = () => {
+      if (audioRef.current !== audio) return; // stopped, closed or superseded
       if (isRetry) { setPlayback('error'); return; }
       setTimeout(() => { if (audioRef.current === audio) startPlayback(true); }, 1500);
-    });
-    audio.play().catch(() => {
-      if (isRetry) { setPlayback('error'); return; }
-      setTimeout(() => { if (audioRef.current === audio) startPlayback(true); }, 1500);
-    });
+    };
+    audio.addEventListener('error', onFailure);
+    audio.play().catch(onFailure);
   }
 
   function stop() {
-    audioRef.current?.pause();
-    audioRef.current = null;
-    if (connectTimeoutRef.current) { clearTimeout(connectTimeoutRef.current); connectTimeoutRef.current = null; }
+    releaseCurrentAudio();
     setPlayback('idle');
   }
 

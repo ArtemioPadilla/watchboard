@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { hasAcceptedRadioPrivacyNotice, setAcceptedRadioPrivacyNotice, buildRadioStreamIssueUrl, isRadioStationProperties } from './radio-station';
+import { hasAcceptedRadioPrivacyNotice, setAcceptedRadioPrivacyNotice, buildRadioStreamIssueUrl, isRadioStationProperties, releaseAudio } from './radio-station';
 
 describe('radio privacy consent (localStorage, try/catch)', () => {
   let mockStorage: Record<string, string> = {};
@@ -57,5 +57,22 @@ describe('isRadioStationProperties', () => {
     expect(isRadioStationProperties({ stationUuid: 'x', name: 'n', streamUrl: 'https://a', codec: 'MP3', votes: 0, country: null, countryCode: null, language: null, freqLabel: null })).toBe(true);
     expect(isRadioStationProperties({ osmId: '1', radioBand: 'fm' })).toBe(false);
     expect(isRadioStationProperties(null)).toBe(false);
+  });
+});
+
+describe('releaseAudio', () => {
+  it('pauses, drops src and reloads so the stream socket closes', () => {
+    const calls: string[] = [];
+    const audio = {
+      pause: () => { calls.push('pause'); },
+      removeAttribute: (name: string) => { calls.push(`remove:${name}`); },
+      load: () => { calls.push('load'); },
+    };
+    releaseAudio(audio);
+    expect(calls).toEqual(['pause', 'remove:src', 'load']);
+  });
+
+  it('is a no-op without an element', () => {
+    expect(() => releaseAudio(null)).not.toThrow();
   });
 });

@@ -43,3 +43,15 @@ export function buildRadioStreamIssueUrl(station: RadioStationProperties): strin
   });
   return `${REPO}/issues/new?${params.toString()}`;
 }
+
+/**
+ * `pause()` alone keeps the stream's socket open — the browser goes on
+ * buffering a live broadcast nobody hears. Dropping `src` and calling
+ * `load()` resets the element and closes the connection.
+ */
+export function releaseAudio(audio: Pick<HTMLAudioElement, 'pause' | 'removeAttribute' | 'load'> | null | undefined): void {
+  if (!audio) return;
+  audio.pause();
+  audio.removeAttribute('src');
+  audio.load();
+}
