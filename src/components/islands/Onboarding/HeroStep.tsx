@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import { useFocusTrap } from './useFocusTrap';
 
 interface HeroStepProps {
-  variant: 'intro' | 'tiers' | 'closing' | 'mobile';
+  variant: 'intro' | 'tiers' | 'closing' | 'mobile' | 'interests';
   title: string;
   body: string;
   stepLabel?: string;
@@ -15,6 +15,7 @@ interface HeroStepProps {
   onPrimary: () => void;
   onBack: () => void;
   onSkip: () => void;
+  children?: React.ReactNode;
 }
 
 export default function HeroStep({
@@ -30,6 +31,7 @@ export default function HeroStep({
   onPrimary,
   onBack,
   onSkip,
+  children,
 }: HeroStepProps) {
   const primaryRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -69,6 +71,7 @@ export default function HeroStep({
         )}
         <h2 id="watchboard-tour-hero-title" style={styles.title}>{title}</h2>
         <p style={styles.body}>{body}</p>
+        {children}
         <div style={styles.footer}>
           {!isFirst && !isMobileSheet && (
             <button type="button" onClick={onBack} style={styles.secondary}>

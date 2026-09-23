@@ -1,6 +1,6 @@
 # Diseño: ranking de relevancia en la vista de directorio + intereses de usuario
 
-**Estado:** Propuesto
+**Estado:** Implementado
 **Fecha:** 2026-09-22
 **Contexto:** el homepage tiene dos vistas — la del globo/broadcast
 (`CommandCenter`) y la cuadrícula de directorio (`TrackerDirectory.tsx`).
@@ -45,6 +45,11 @@ plan si vale la pena replicar el toggle o si un solo modo por defecto
 basta para esta vista) antes de agrupar, igual que ya hace
 `SidebarPanel.tsx:526`. Reutiliza exactamente las mismas funciones — no
 hay lógica nueva de scoring en esta pieza.
+
+> **Nota (implementación):** `TrackerDirectory.tsx` no está montado en
+> ningún lugar del sitio y el sidebar (`SidebarPanel.tsx`) ya ordena por
+> relevancia, así que esta pieza (§1) se descartó — no había nada que
+> cablear (ver plan).
 
 ## 2. Intereses de usuario (tema/región)
 

@@ -1,6 +1,6 @@
 import type { TranslationKey } from '../i18n/translations';
 
-export type StepType = 'hero' | 'spotlight' | 'closing';
+export type StepType = 'hero' | 'spotlight' | 'closing' | 'interests';
 
 export interface OnboardingStep {
   id: string;
@@ -14,6 +14,7 @@ export const DESKTOP_STEPS: OnboardingStep[] = [
   { id: 'hero-intro',        type: 'hero',      titleKey: 'tour.intro.title',     bodyKey: 'tour.intro.body' },
   { id: 'spotlight-globe',   type: 'spotlight', anchor: '#tour-globe',    titleKey: 'tour.globe.title',     bodyKey: 'tour.globe.body' },
   { id: 'spotlight-sidebar', type: 'spotlight', anchor: '#tour-sidebar',  titleKey: 'tour.sidebar.title',   bodyKey: 'tour.sidebar.body' },
+  { id: 'hero-interests',    type: 'interests', titleKey: 'tour.interests.title', bodyKey: 'tour.interests.body' },
   { id: 'spotlight-ticker',  type: 'spotlight', anchor: '#tour-ticker',   titleKey: 'tour.ticker.title',    bodyKey: 'tour.ticker.body' },
   { id: 'hero-tiers',        type: 'hero',      titleKey: 'tour.tiers.title',     bodyKey: 'tour.tiers.body' },
   { id: 'hero-closing',      type: 'closing',   titleKey: 'tour.closing.title',   bodyKey: 'tour.closing.body' },

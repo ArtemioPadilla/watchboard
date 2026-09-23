@@ -1133,7 +1133,7 @@ function CommandCenterInner({
         <CoachMark hint={coachHint} onDismiss={handleDismissCoachHint} />
       )}
 
-      {!isMobile && <OnboardingTour />}
+      {!isMobile && <OnboardingTour interestOptions={options} />}
     </div>
   );
 }
