@@ -32,6 +32,7 @@ interface Props {
   /** E5 layers offered on this tracker (registry ids / static layer ids). */
   liveLayers?: string[];
   staticLayers?: string[];
+  radioCountryCodes?: string[];
   // KPIs
   kpis: KpiItem[];
   // Globe-specific (optional)
@@ -163,6 +164,7 @@ export default function MobileTabShell(props: Props) {
             mapBounds={props.mapBounds}
             liveLayers={props.liveLayers}
             staticLayers={props.staticLayers}
+            radioCountryCodes={props.radioCountryCodes}
             trackerSlug={props.trackerSlug}
             meta={props.meta}
             cameraPresets={props.cameraPresets}

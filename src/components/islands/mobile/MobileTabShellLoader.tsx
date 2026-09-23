@@ -18,6 +18,7 @@ interface Props {
   /** E5 layers offered on this tracker (registry ids / static layer ids). */
   liveLayers?: string[];
   staticLayers?: string[];
+  radioCountryCodes?: string[];
   cameraPresets?: Record<string, { lon: number; lat: number; alt: number; pitch: number; heading: number; label?: string }>;
   endDate?: string;
   clocks?: { label: string; offsetHours: number }[];
@@ -57,6 +58,7 @@ export default function MobileTabShellLoader(props: Props) {
         mapBounds={props.mapBounds}
         liveLayers={props.liveLayers}
         staticLayers={props.staticLayers}
+        radioCountryCodes={props.radioCountryCodes}
         kpis={data.kpis}
         meta={data.meta}
         cameraPresets={props.cameraPresets}

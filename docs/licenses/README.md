@@ -14,4 +14,4 @@ Registry: `src/lib/live-layers.ts` (feeds) and `src/lib/geo-layer-schema.ts`
 | TeleGeography submarine cables | CC BY-NC-SA 3.0 | attribution shown; non-commercial use only | `telegeography.md` |
 | Nominatim / OpenStreetMap (dossier) | ODbL; Nominatim usage policy | 1 req/s, cached | `openstreetmap.md` |
 | OSM communication towers (Overpass) | ODbL 1.0 | attribution shown | `openstreetmap.md` |
-| radio-browser.info stations | PDDL 1.0 (directory); streams are third-party | attribution shown; IP exposure disclosed to listener | `radio-browser.md` |
+| radio-browser.info stations (`radio-stations` per-tracker + `radio-stations-global` homepage) | PDDL 1.0 (directory); streams are third-party | attribution shown; IP exposure disclosed to listener | `radio-browser.md` |

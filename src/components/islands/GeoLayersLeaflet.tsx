@@ -5,10 +5,12 @@ import type { Frontline } from '../../lib/deepstate';
 import type { GdacsFile } from '../../../scripts/lib/gdacs';
 import type { GeoLayer } from '../../lib/geo-layer-schema';
 import { staticLayerMeta } from '../../lib/geo-layer-schema';
+import { radioIconSvgFor } from '../../lib/radio-icons';
 
 interface Props {
   frontline?: Frontline | null;
   gdacs?: GdacsFile | null;
+  /** Already scoped to the tracker's radioCountryCodes by the caller (IntelMap.tsx `scopedStatics`) — this component renders `statics` as-is, so there is one place that filters, not two. */
   statics?: { id: string; layer: GeoLayer }[];
   onSelectRadioFeature?: (properties: any) => void;
 }
@@ -41,13 +43,16 @@ export default function GeoLayersLeaflet({ frontline, gdacs, statics = [], onSel
       {statics.map(({ id, layer }) => {
         const meta = staticLayerMeta(id);
         const color = meta?.color ?? '#ffffff';
+        const radioSvg = radioIconSvgFor(id);
         return (
           <Pane key={id} name={`static-${id}`} style={{ zIndex: 360 }}>
             <GeoJSON
               key={`${id}-${layer._provenance.retrievedAt}`}
               data={layer as any}
               style={() => ({ color, weight: 1.2, opacity: 0.7, fillColor: color, fillOpacity: 0.2 })}
-              pointToLayer={(_f: any, latlng: any) => L.circleMarker(latlng, { pane: `static-${id}`, radius: 4, color: '#000', weight: 1, fillColor: color, fillOpacity: 0.9 })}
+              pointToLayer={(_f: any, latlng: any) => radioSvg
+                ? L.marker(latlng, { icon: L.divIcon({ html: radioSvg, className: 'radio-map-icon', iconSize: [22, 22], iconAnchor: [11, 11] }), pane: `static-${id}` })
+                : L.circleMarker(latlng, { pane: `static-${id}`, radius: 4, color: '#000', weight: 1, fillColor: color, fillOpacity: 0.9 })}
               onEachFeature={(f: any, l: any) => {
                 const n = f?.properties?.name;
                 if (n) l.bindTooltip(String(n), { className: 'dark-tooltip', sticky: true });

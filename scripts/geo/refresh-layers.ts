@@ -62,8 +62,8 @@ export function cableGeoToFeatures(fc: any): GeoLayer['features'] {
     }));
 }
 
-/** Pure: Overpass node elements tagged communication:radio → point features, deduped by id, elements without lat/lon dropped. */
-export function overpassTowersToFeatures(elements: any[]): GeoLayer['features'] {
+/** Pure: Overpass node elements tagged communication:radio → point features, deduped by id, elements without lat/lon dropped. `countryCode` (when supplied) is the ISO code of the area query that produced the elements. */
+export function overpassTowersToFeatures(elements: any[], countryCode?: string): GeoLayer['features'] {
   const seen = new Set<string>();
   return elements.flatMap((el) => {
     if (el?.type !== 'node' || typeof el.lat !== 'number' || typeof el.lon !== 'number') return [];
@@ -79,10 +79,42 @@ export function overpassTowersToFeatures(elements: any[]): GeoLayer['features'] 
         name: tags.name ?? null,
         heightM: tags.height ? Number.parseFloat(tags.height) || null : null,
         radioBand: String(tags['communication:radio'] ?? ''),
+        countryCode: countryCode ?? null,
       },
       geometry: { type: 'Point' as const, coordinates: [el.lon, el.lat] },
     }];
   });
+}
+
+/**
+ * Pure: caps towers at `cap` per `properties.countryCode`, never mixing
+ * countries into one another's slice. Within a country, named towers sort
+ * before unnamed ones, then by `heightM` descending, then `osmId` ascending
+ * (deterministic tie-break). Country groups appear in first-seen order.
+ */
+export function capTowersPerCountry(features: GeoLayer['features'], cap: number): GeoLayer['features'] {
+  const groups = new Map<string, GeoLayer['features']>();
+  for (const f of features) {
+    const cc = String((f.properties as any)?.countryCode ?? '');
+    if (!groups.has(cc)) groups.set(cc, []);
+    groups.get(cc)!.push(f);
+  }
+  const compare = (a: GeoLayer['features'][number], b: GeoLayer['features'][number]) => {
+    const ap = a.properties as any;
+    const bp = b.properties as any;
+    const aNamed = ap.name != null;
+    const bNamed = bp.name != null;
+    if (aNamed !== bNamed) return aNamed ? -1 : 1;
+    const aHeight = typeof ap.heightM === 'number' ? ap.heightM : -Infinity;
+    const bHeight = typeof bp.heightM === 'number' ? bp.heightM : -Infinity;
+    if (aHeight !== bHeight) return bHeight - aHeight;
+    return Number(ap.osmId) - Number(bp.osmId);
+  };
+  const result: GeoLayer['features'] = [];
+  for (const feats of groups.values()) {
+    result.push(...[...feats].sort(compare).slice(0, cap));
+  }
+  return result;
 }
 
 /** Wikidata: every item that is an instance of "nuclear power plant" (Q134447) with coordinates. */
@@ -174,38 +206,146 @@ const chokepoints: Adapter = {
   },
 };
 
-/** Bounding boxes of every tracker that opted into the radio layer. */
-function radioTrackerBounds(): { lonMin: number; lonMax: number; latMin: number; latMax: number }[] {
-  return loadAllTrackers()
-    .filter((t) => t.map?.staticLayers?.includes('radio-towers') && t.map?.bounds)
-    .map((t) => t.map!.bounds);
+/** Union of `map.radioCountryCodes` from every tracker that opted into the "radio-towers" layer. */
+function radioTowerCountryCodes(): string[] {
+  const codes = new Set<string>();
+  for (const t of loadAllTrackers()) {
+    if (!t.map?.staticLayers?.includes('radio-towers')) continue;
+    for (const c of t.map.radioCountryCodes ?? []) codes.add(c);
+  }
+  return [...codes];
 }
 
-/** Overpass: communication towers/masts (radio broadcast, not generic cell masts — communication:radio must be set) inside every radio-enabled tracker's bounds. */
+function sleep(ms: number): Promise<void> {
+  return new Promise((r) => setTimeout(r, ms));
+}
+
+/** True when an Overpass response body is a 200 carrying a server-side timeout, e.g. `{"remark":"runtime error: Query timed out in ... after 120 s.","elements":[]}`. Overpass answers these with HTTP 200, so status alone can't detect them. */
+function isOverpassRuntimeError(body: any): boolean {
+  return typeof body?.remark === 'string' && body.remark.includes('runtime error');
+}
+
+/**
+ * Builds the combined query: resolve the country's ISO3166-1 area, count it
+ * (`.a out count;`, so a caller can tell "area matched, zero towers" apart
+ * from "area didn't match at all" in the same request), then the tower
+ * nodes within it. `strict` includes `[admin_level=2]`; some ISO codes
+ * (e.g. Palestine: `boundary=disputed`, no `admin_level` tag) only resolve
+ * without it.
+ */
+function buildTowerAreaQuery(cc: string, strict: boolean): string {
+  const areaFilter = strict ? `["ISO3166-1"="${cc}"][admin_level=2]` : `["ISO3166-1"="${cc}"]`;
+  return `[out:json][timeout:120];area${areaFilter}->.a;.a out count;node["man_made"~"^(tower|mast)$"]["communication:radio"]["communication:radio"!~"^no$"](area.a);out body;`;
+}
+
+/**
+ * Splits an Overpass response's `elements` into the `.a out count;` result
+ * and the actual node elements. `areaCount` is `null` (not `0`) when no
+ * `type: "count"` element is present — e.g. a query that never asked for a
+ * count — so callers only treat an explicit, measured zero as "no area
+ * matched", never the absence of the question.
+ */
+function splitAreaCountAndNodes(elements: any[]): { areaCount: number | null; nodes: any[] } {
+  let areaCount: number | null = null;
+  const nodes: any[] = [];
+  for (const el of elements) {
+    if (el?.type === 'count') areaCount = Number(el.tags?.areas ?? el.tags?.total ?? 0);
+    else nodes.push(el);
+  }
+  return { areaCount, nodes };
+}
+
+/**
+ * One Overpass area+count+nodes query for a country's ISO 3166-1 code.
+ * Retries once after 30s when the response is HTTP 429/504, *or* HTTP 200
+ * with a `remark` reporting a server-side "runtime error" (Overpass's own
+ * [timeout:…] budget exceeded) — that shape is a failure disguised as
+ * success and must not be read as "zero towers". If it still fails after
+ * the retry, throws (the caller then fails the whole adapter, leaving the
+ * previous file untouched).
+ *
+ * Separately: `["ISO3166-1"="<cc>"][admin_level=2]` can match *zero areas*
+ * with a clean HTTP 200 — the query succeeds, it just resolved nothing (e.g.
+ * Palestine's OSM relation is `boundary=disputed` without an `admin_level`
+ * tag). That is a failed lookup, not "the country has zero towers", so when
+ * the strict selector's measured area count is 0, this retries once more
+ * with the country code alone (no `admin_level` filter); if that also
+ * measures zero areas, it throws instead of silently returning `[]`.
+ *
+ * `sleepFn` is injectable so tests don't wait 30s.
+ */
+export async function fetchOverpassCountryTowers(cc: string, sleepFn: (ms: number) => Promise<void> = sleep): Promise<any[]> {
+  const doFetch = (query: string) => fetch('https://overpass-api.de/api/interpreter', {
+    method: 'POST',
+    headers: { 'User-Agent': 'Watchboard/geo-refresh (https://watchboard.dev)', 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: `data=${encodeURIComponent(query)}`,
+  });
+
+  // One attempt for a given query: returns the area count + node elements,
+  // or a retryable reason string when the response is a 429/504 or a
+  // disguised-as-200 Overpass runtime error.
+  const attempt = async (query: string): Promise<{ areaCount: number | null; nodes: any[] } | { retryReason: string }> => {
+    const res = await doFetch(query);
+    if (res.status === 429 || res.status === 504) return { retryReason: `HTTP ${res.status}` };
+    if (!res.ok) throw new Error(`Overpass HTTP ${res.status} for ${cc}`);
+    const body = await res.json();
+    if (isOverpassRuntimeError(body)) return { retryReason: `runtime error: ${body.remark}` };
+    return splitAreaCountAndNodes(body.elements ?? []);
+  };
+
+  // One area selector (strict or fallback), with the 429/504/runtime-error
+  // retry-once behavior above — independent of the area-empty fallback below.
+  const runSelector = async (strict: boolean): Promise<{ areaCount: number | null; nodes: any[] }> => {
+    const query = buildTowerAreaQuery(cc, strict);
+    let result = await attempt(query);
+    if ('retryReason' in result) {
+      await sleepFn(30_000);
+      result = await attempt(query);
+      if ('retryReason' in result) throw new Error(`Overpass failed for ${cc} after retry (${result.retryReason})`);
+    }
+    return result;
+  };
+
+  let { areaCount, nodes } = await runSelector(true);
+  if (areaCount === 0) {
+    ({ areaCount, nodes } = await runSelector(false));
+    if (areaCount === 0) throw new Error(`Overpass matched no area for ISO3166-1=${cc} (tried with and without admin_level=2) — a code that matches no area is a failed lookup, not zero towers`);
+  }
+  return nodes;
+}
+
+/**
+ * Overpass: communication towers/masts (radio broadcast, not generic cell
+ * masts — communication:radio must be set), one area query per country code
+ * declared by every tracker with "radio-towers" in map.staticLayers. Queries
+ * are spaced ≥5s apart; a country whose query still fails after one 30s
+ * retry fails the whole adapter (main() then leaves the previous file
+ * untouched). Deduped by OSM id (first country wins), then capped at 800
+ * towers per country.
+ */
 const radioTowers: Adapter = {
   id: 'radio-towers',
   async run(now) {
-    const boundsList = radioTrackerBounds();
-    if (boundsList.length === 0) throw new Error('no tracker has "radio-towers" in map.staticLayers');
-    const seen = new Map<string, any>();
-    for (const b of boundsList) {
-      const query = `[out:json][timeout:90];(node["man_made"~"^(tower|mast)$"]["communication:radio"]["communication:radio"!~"^no$"](${b.latMin},${b.lonMin},${b.latMax},${b.lonMax}););out body;`;
-      const res = await fetch('https://overpass-api.de/api/interpreter', {
-        method: 'POST',
-        headers: { 'User-Agent': 'Watchboard/geo-refresh (https://watchboard.dev)', 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `data=${encodeURIComponent(query)}`,
-      });
-      if (!res.ok) throw new Error(`Overpass HTTP ${res.status}`);
-      const j = await res.json();
-      for (const el of j.elements ?? []) seen.set(`${el.type}:${el.id}`, el);
+    const codes = radioTowerCountryCodes();
+    if (codes.length === 0) throw new Error('no tracker has "radio-towers" in map.staticLayers');
+    const seen = new Map<string, GeoLayer['features'][number]>();
+    for (let i = 0; i < codes.length; i++) {
+      if (i > 0) await sleep(5_000);
+      const cc = codes[i];
+      const elements = await fetchOverpassCountryTowers(cc);
+      for (const f of overpassTowersToFeatures(elements, cc)) {
+        const id = String(f.id);
+        if (!seen.has(id)) seen.set(id, f);
+      }
     }
-    const features = overpassTowersToFeatures([...seen.values()]);
+    const cap = 800;
+    const features = capTowersPerCountry([...seen.values()], cap);
     return {
       type: 'FeatureCollection',
       _provenance: {
         id: 'radio-towers', source: 'OpenStreetMap (Overpass API)', url: 'https://overpass-api.de/api/interpreter',
         license: 'ODbL 1.0', attribution: 'Radio towers: © OpenStreetMap contributors, ODbL', retrievedAt: now,
-        transform: `Nodes tagged man_made=tower|mast with communication:radio set, inside the bounds of every tracker with "radio-towers" in map.staticLayers (${boundsList.length} tracker(s))`,
+        transform: `Per-country Overpass area queries (ISO3166-1: ${codes.join(', ')}) for nodes tagged man_made=tower|mast with communication:radio set, deduped by OSM id, capped at ${cap} towers per country (named first, then heightM descending, then osmId ascending)`,
         featureCount: features.length,
       },
       features,
@@ -291,7 +431,29 @@ const radioStations: Adapter = {
   },
 };
 
-const ADAPTERS: Adapter[] = [nuclearPlants, submarineCables, chokepoints, radioTowers, radioStations];
+/** Worldwide station layer for the homepage globe: top 500 by votes, same HTTPS/MP3/AAC/geo filters as the per-tracker layer, no country scoping. */
+const radioStationsGlobal: Adapter = {
+  id: 'radio-stations-global',
+  async run(now) {
+    const url = 'https://all.api.radio-browser.info/json/stations/search?has_geo_info=true&is_https=true&hidebroken=true&order=votes&reverse=true&limit=500';
+    const res = await fetch(url, { headers: { 'User-Agent': 'Watchboard/geo-refresh (https://watchboard.dev)' } });
+    if (!res.ok) throw new Error(`radio-browser HTTP ${res.status}`);
+    const rows: any[] = await res.json();
+    const features = applyRadioOverrides(radioBrowserToFeatures(rows), loadRadioOverrides());
+    return {
+      type: 'FeatureCollection',
+      _provenance: {
+        id: 'radio-stations-global', source: 'radio-browser.info', url,
+        license: 'PDDL 1.0 (directory); each stream is subject to its own broadcaster terms', attribution: 'Stations: radio-browser.info community directory (PDDL 1.0)', retrievedAt: now,
+        transform: 'top 500 by votes worldwide, HTTPS MP3/AAC with geo coordinates',
+        featureCount: features.length,
+      },
+      features,
+    };
+  },
+};
+
+const ADAPTERS: Adapter[] = [nuclearPlants, submarineCables, chokepoints, radioTowers, radioStations, radioStationsGlobal];
 
 export function validateLayerFile(path: string): GeoLayer {
   return GeoLayerSchema.parse(JSON.parse(readFileSync(path, 'utf8')));

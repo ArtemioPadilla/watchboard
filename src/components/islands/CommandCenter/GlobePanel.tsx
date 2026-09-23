@@ -3,6 +3,7 @@ import { t } from '../../../i18n/translations';
 import { useLocale } from '../../../i18n/useLocale';
 import type { TrackerCardData } from '../../../lib/tracker-directory-utils';
 import type { RadioStationProperties } from '../../../lib/radio-station';
+import { RADIO_STATION_SVG } from '../../../lib/radio-icons';
 
 interface GlobePoint {
   type: 'hub' | 'event';
@@ -215,6 +216,13 @@ export interface GlobePanelHandle {
   setAutoRotate?: (enabled: boolean, speed?: number) => void;
   toggleCityLights?: () => void;
 }
+
+// Only the top N stations (by votes — radioStations arrives pre-sorted
+// descending from CommandCenter) get the pulse ring: 300 infinite CSS
+// animations stacked on top of globe.gl's own render loop is measurably
+// costly, and the ring is a "look here" affordance the busiest stations
+// don't need duplicated 300 times over.
+const RADIO_PULSE_TOP_N = 20;
 
 const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
   trackers,
@@ -591,7 +599,7 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
   const pendingConfiguredRef = useRef(false);
   const htmlPins = useMemo(() => [
     ...pendingCandidates.map(p => ({ kind: 'pending' as const, ...p })),
-    ...radioStations.map(s => ({ kind: 'radio' as const, id: s.stationUuid, lat: s.lat, lon: s.lon, title: s.name, station: s })),
+    ...radioStations.map((s, i) => ({ kind: 'radio' as const, id: s.stationUuid, lat: s.lat, lon: s.lon, title: s.name, station: s, pulse: i < RADIO_PULSE_TOP_N })),
   ], [pendingCandidates, radioStations]);
   useEffect(() => {
     const globe = globeRef.current;
@@ -608,11 +616,12 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
       .htmlElement((d: any) => {
         if (d.kind === 'radio') {
           const el = document.createElement('div');
-          el.className = 'cc-radio-pin';
+          el.className = d.pulse ? 'cc-radio-pin pulse' : 'cc-radio-pin';
           el.dataset.testid = 'radio-pin';
           el.title = d.title;
           el.setAttribute('aria-label', `${radioLabelRef.current}: ${d.title}`);
-          el.style.cssText = 'width:10px;height:10px;border-radius:50%;border:1.5px solid #ff66cc;background:rgba(255,102,204,0.25);box-shadow:0 0 5px rgba(255,102,204,0.5);pointer-events:auto;cursor:pointer;transform:translate(-50%,-50%);';
+          el.style.cssText = 'width:20px;height:20px;pointer-events:auto;cursor:pointer;transform:translate(-50%,-50%);position:relative;';
+          el.innerHTML = RADIO_STATION_SVG;
           el.addEventListener('click', (ev) => { ev.stopPropagation(); onSelectRadioRef.current?.(d.station); });
           return el;
         }

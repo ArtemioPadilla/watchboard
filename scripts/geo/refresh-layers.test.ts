@@ -1,7 +1,7 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, afterEach, vi } from 'vitest';
 import { existsSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { validateLayerFile, wikidataPlantsToFeatures, cableGeoToFeatures, overpassTowersToFeatures, radioBrowserToFeatures } from './refresh-layers';
+import { validateLayerFile, wikidataPlantsToFeatures, cableGeoToFeatures, overpassTowersToFeatures, radioBrowserToFeatures, capTowersPerCountry, fetchOverpassCountryTowers } from './refresh-layers';
 import { STATIC_LAYERS, GeoLayerSchema } from '../../src/lib/geo-layer-schema';
 
 const DIR = resolve(__dirname, '../../public/geo/layers');
@@ -67,6 +67,45 @@ describe('adapters (pure parsing)', () => {
     expect(feats[1].properties).toMatchObject({ osmId: '2', name: null, heightM: null, radioBand: 'am;shortwave' });
   });
 
+  it('overpassTowersToFeatures tags features with the supplied country code, defaulting to null', () => {
+    const node = (id: number, lat: number, lon: number) => ({ type: 'node', id, lat, lon, tags: { 'communication:radio': 'fm' } });
+    const tagged = overpassTowersToFeatures([node(1, 35.7, 51.4)], 'IR');
+    expect(tagged[0].properties).toMatchObject({ countryCode: 'IR' });
+    const untagged = overpassTowersToFeatures([node(2, 35.7, 51.4)]);
+    expect(untagged[0].properties).toMatchObject({ countryCode: null });
+  });
+
+  it('capTowersPerCountry keeps named-first then tallest per country, never mixing countries, cap applied per country', () => {
+    const tower = (id: string, cc: string, name: string | null, heightM: number | null) => ({
+      type: 'Feature' as const,
+      id,
+      properties: { osmId: id, name, heightM, radioBand: 'fm', countryCode: cc },
+      geometry: { type: 'Point' as const, coordinates: [0, 0] },
+    });
+    const features = [
+      tower('10', 'IR', null, 50),
+      tower('2', 'IR', 'Named A', 100),
+      tower('3', 'IR', 'Named B', 200),
+      tower('20', 'UA', null, 300),
+      tower('21', 'UA', 'Named C', 10),
+    ];
+    const result = capTowersPerCountry(features, 2);
+    expect(result.map((f) => f.id)).toEqual(['3', '2', '21', '20']);
+    expect(result.slice(0, 2).every((f) => (f.properties as any).countryCode === 'IR')).toBe(true);
+    expect(result.slice(2, 4).every((f) => (f.properties as any).countryCode === 'UA')).toBe(true);
+  });
+
+  it('capTowersPerCountry breaks ties by osmId ascending', () => {
+    const tower = (id: string) => ({
+      type: 'Feature' as const,
+      id,
+      properties: { osmId: id, name: 'Same', heightM: 100, radioBand: 'fm', countryCode: 'IR' },
+      geometry: { type: 'Point' as const, coordinates: [0, 0] },
+    });
+    const result = capTowersPerCountry([tower('5'), tower('2'), tower('9')], 2);
+    expect(result.map((f) => f.id)).toEqual(['2', '5']);
+  });
+
   it('radioBrowserToFeatures keeps HTTPS MP3/AAC stations with geo coordinates, drops the rest, dedupes by uuid', () => {
     const row = (uuid: string, overrides: Record<string, unknown> = {}) => ({
       stationuuid: uuid, name: `Station ${uuid}`, url_resolved: `https://stream.example/${uuid}`,
@@ -86,5 +125,81 @@ describe('adapters (pure parsing)', () => {
     expect(feats.map(f => f.id)).toEqual(['a', 'f']);
     expect(feats[0].properties).toMatchObject({ stationUuid: 'a', streamUrl: 'https://stream.example/a', codec: 'MP3', votes: 10, freqLabel: null });
     expect(feats[1].properties).toMatchObject({ freqLabel: '101.5 FM' });
+  });
+
+  describe('fetchOverpassCountryTowers', () => {
+    afterEach(() => {
+      vi.unstubAllGlobals();
+    });
+
+    const jsonRes = (body: any, status = 200) => ({ ok: status >= 200 && status < 300, status, json: async () => body });
+
+    it('treats an HTTP 200 "runtime error" remark (Overpass\'s own [timeout:…] exceeded) as retryable, and throws if it recurs — never returning it as zero towers', async () => {
+      const timeoutBody = { remark: 'runtime error: Query timed out in "query" at line 1 after 120 s.', elements: [] };
+      const fetchMock = vi.fn()
+        .mockResolvedValueOnce(jsonRes(timeoutBody))
+        .mockResolvedValueOnce(jsonRes(timeoutBody));
+      vi.stubGlobal('fetch', fetchMock);
+      const sleeps: number[] = [];
+      const fakeSleep = async (ms: number) => { sleeps.push(ms); };
+
+      await expect(fetchOverpassCountryTowers('IR', fakeSleep)).rejects.toThrow(/runtime error/i);
+      expect(fetchMock).toHaveBeenCalledTimes(2);
+      expect(sleeps).toEqual([30_000]);
+    });
+
+    it('retries once on a runtime-error remark and returns the elements when the retry succeeds', async () => {
+      const timeoutBody = { remark: 'runtime error: Query timed out in "query" at line 1 after 120 s.', elements: [] };
+      const goodElements = [{ type: 'node', id: 1, lat: 47.2, lon: 27.9, tags: { 'communication:radio': 'fm' } }];
+      const fetchMock = vi.fn()
+        .mockResolvedValueOnce(jsonRes(timeoutBody))
+        .mockResolvedValueOnce(jsonRes({ elements: goodElements }));
+      vi.stubGlobal('fetch', fetchMock);
+      const sleeps: number[] = [];
+      const fakeSleep = async (ms: number) => { sleeps.push(ms); };
+
+      const elements = await fetchOverpassCountryTowers('IR', fakeSleep);
+      expect(elements).toEqual(goodElements);
+      expect(fetchMock).toHaveBeenCalledTimes(2);
+      expect(sleeps).toEqual([30_000]);
+    });
+
+    /** Decodes the `data=<urlencoded overpass query>` body a mocked fetch call was made with. */
+    const queryFromCall = (fetchMock: ReturnType<typeof vi.fn>, callIndex: number): string => {
+      const body = fetchMock.mock.calls[callIndex][1].body as string;
+      return decodeURIComponent(body.slice('data='.length));
+    };
+
+    it('falls back to the selector without admin_level=2 when the strict selector measures zero areas (e.g. Palestine: boundary=disputed, no admin_level tag)', async () => {
+      const zeroAreaBody = { elements: [{ type: 'count', id: 0, tags: { nodes: '0', ways: '0', relations: '0', areas: '0', total: '0' } }] };
+      const nodeElements = [{ type: 'node', id: 7, lat: 31.9, lon: 35.2, tags: { 'communication:radio': 'fm' } }];
+      const matchedAreaBody = { elements: [{ type: 'count', id: 0, tags: { areas: '1', total: '1' } }, ...nodeElements] };
+      const fetchMock = vi.fn()
+        .mockResolvedValueOnce(jsonRes(zeroAreaBody))
+        .mockResolvedValueOnce(jsonRes(matchedAreaBody));
+      vi.stubGlobal('fetch', fetchMock);
+      const sleeps: number[] = [];
+      const fakeSleep = async (ms: number) => { sleeps.push(ms); };
+
+      const elements = await fetchOverpassCountryTowers('PS', fakeSleep);
+      expect(elements).toEqual(nodeElements);
+      expect(fetchMock).toHaveBeenCalledTimes(2);
+      expect(sleeps).toEqual([]); // area-empty fallback is not the 429/504/runtime-error retry path — no sleep
+      expect(queryFromCall(fetchMock, 0)).toContain('[admin_level=2]');
+      expect(queryFromCall(fetchMock, 1)).not.toContain('[admin_level=2]');
+      expect(queryFromCall(fetchMock, 1)).toContain('["ISO3166-1"="PS"]');
+    });
+
+    it('throws when the area still measures zero after the admin_level=2 fallback, instead of returning zero towers silently', async () => {
+      const zeroAreaBody = { elements: [{ type: 'count', id: 0, tags: { areas: '0', total: '0' } }] };
+      const fetchMock = vi.fn()
+        .mockResolvedValueOnce(jsonRes(zeroAreaBody))
+        .mockResolvedValueOnce(jsonRes(zeroAreaBody));
+      vi.stubGlobal('fetch', fetchMock);
+      const fakeSleep = async () => {};
+
+      await expect(fetchOverpassCountryTowers('XX', fakeSleep)).rejects.toThrow(/no area/i);
+      expect(fetchMock).toHaveBeenCalledTimes(2);
+    });
   });
 });

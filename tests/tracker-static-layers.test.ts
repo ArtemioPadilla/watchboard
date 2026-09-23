@@ -23,3 +23,33 @@ describe('map.staticLayers respects the 3-slot UI ceiling', () => {
     expect(offenders, `trackers exceeding the 3-slot static layer ceiling: ${offenders.join(', ')}`).toEqual([]);
   });
 });
+
+/**
+ * radio-towers/radio-stations are filtered by properties.countryCode against
+ * map.radioCountryCodes (src/lib/radio-icons.ts `filterByCountry`) — a
+ * tracker with the layer enabled but no radioCountryCodes gets zero radio
+ * pins by design (never "show every station on Earth"), which would look
+ * exactly like a silently broken layer to a reader. This guards against
+ * shipping that misconfiguration: the layer and the codes must be declared
+ * together.
+ */
+describe('radio-towers/radio-stations require map.radioCountryCodes', () => {
+  it('every tracker with radio-towers or radio-stations in map.staticLayers declares a non-empty map.radioCountryCodes', () => {
+    const offenders = trackers
+      .filter((t) => {
+        const sl = t.map?.staticLayers ?? [];
+        return sl.includes('radio-towers') || sl.includes('radio-stations');
+      })
+      .filter((t) => (t.map?.radioCountryCodes?.length ?? 0) === 0)
+      .map((t) => t.slug);
+    expect(offenders, `trackers with a radio layer but no map.radioCountryCodes (would render zero radio pins): ${offenders.join(', ')}`).toEqual([]);
+  });
+
+  it('loads a non-trivial radio-layer corpus, so the check above cannot pass vacuously', () => {
+    const radioTrackers = trackers.filter((t) => {
+      const sl = t.map?.staticLayers ?? [];
+      return sl.includes('radio-towers') || sl.includes('radio-stations');
+    });
+    expect(radioTrackers.length).toBeGreaterThan(15);
+  });
+});

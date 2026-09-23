@@ -18,24 +18,43 @@ concurrency:
 jobs:
   refresh:
     runs-on: ubuntu-latest
-    # npm ci without a cache, an Overpass query with a 90 s server budget
-    # and a radio-browser fetch don't reliably fit the 5 min sibling
-    # workflows use.
-    timeout-minutes: 15
+    # npm ci without a cache and 34 spaced (5s+) per-country Overpass area
+    # queries for radio-towers take 6-12 min on their own, plus the
+    # radio-stations and radio-stations-global radio-browser fetches —
+    # doesn't reliably fit the 5 min sibling workflows use.
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
         with:
           node-version: 22
       - run: npm ci
-      - run: npx tsx scripts/geo/refresh-layers.ts --layer radio-towers
+      # Stations first, towers last: the 34 spaced per-country Overpass area
+      # queries for radio-towers are the flakiest, slowest part of this run.
+      # If towers fails, the station layers (already fetched and cheap) should
+      # still get committed rather than the whole run bailing before anything
+      # is saved.
       - run: npx tsx scripts/geo/refresh-layers.ts --layer radio-stations
-      - run: npx vitest run scripts/geo/refresh-layers.test.ts
+      - run: npx tsx scripts/geo/refresh-layers.ts --layer radio-stations-global
+      - name: Refresh radio towers
+        id: towers
+        # Own budget separate from the job's 30 min, and allowed to fail
+        # without stopping the stations layers (already refreshed above) from
+        # being validated and committed. The "Fail the run if towers failed"
+        # step below still turns this run red — continue-on-error here is
+        # about not blocking the commit, not about hiding the failure.
+        timeout-minutes: 20
+        continue-on-error: true
+        run: npx tsx scripts/geo/refresh-layers.ts --layer radio-towers
+      - name: Validate layers
+        if: ${{ !cancelled() }}
+        run: npx vitest run scripts/geo/refresh-layers.test.ts
       - name: Commit if changed
+        if: ${{ !cancelled() }}
         run: |
           git config user.name "watchboard-bot"
           git config user.email "bot@watchboard.dev"
-          git add public/geo/layers/radio-towers.geojson public/geo/layers/radio-stations.geojson
+          git add public/geo/layers/radio-towers.geojson public/geo/layers/radio-stations.geojson public/geo/layers/radio-stations-global.geojson
           if ! git diff --staged --quiet; then
             git commit -m "chore(radio): weekly refresh $(date -u +%Y-%m-%dT%H-%M-%SZ)"
             pushed=false
@@ -51,4 +70,19 @@ jobs:
               echo "::error::Failed to push radio layer refresh after 3 attempts"
               exit 1
             fi
+          fi
+      - name: Fail the run if radio-towers failed
+        # "Refresh radio towers" runs with continue-on-error: true so a
+        # per-country Overpass failure doesn't block the (cheaper, less
+        # flaky) station layers from being validated and committed above —
+        # but that means its own failure can't turn the job red by itself.
+        # This step is the loud signal: it runs regardless of what happened
+        # above (if: always()) and fails the whole run when the towers step's
+        # outcome was failure, so a dropped towers refresh is visible instead
+        # of hiding behind a green run (same gate pattern as daily-video.yml).
+        if: always()
+        run: |
+          if [ "${{ steps.towers.outcome }}" = "failure" ]; then
+            echo "::error::radio-towers refresh failed — see 'Refresh radio towers' above. Station layers were still validated and committed (if changed)."
+            exit 1
           fi
