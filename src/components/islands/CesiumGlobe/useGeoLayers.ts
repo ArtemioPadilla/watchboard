@@ -176,7 +176,10 @@ export function useStaticGeoLayer(viewer: CesiumViewer | null, id: string | null
             ? { image: svgDataUri(radioSvg), width: 22, height: 22, verticalOrigin: VerticalOrigin.CENTER, scaleByDistance: new NearFarScalar(2e5, 1.1, 8e6, 0.55) }
             : undefined,
           point: radioSvg ? undefined : { pixelSize: 6, color: color.withAlpha(0.85), outlineColor: Color.BLACK, outlineWidth: 1 },
-          label: hasName ? { text: name, font: "9px 'JetBrains Mono', monospace", fillColor: color, outlineColor: Color.BLACK, outlineWidth: 2, style: LabelStyle.FILL_AND_OUTLINE, verticalOrigin: VerticalOrigin.BOTTOM, pixelOffset: new Cartesian2(0, -8), distanceDisplayCondition: new DistanceDisplayCondition(0, 3e6) } : undefined,
+          // pixelOffset lifts the label clear of the marker: -8px cleared the
+          // old 6px dot, but the 22px radio billboards need more headroom
+          // (~half the icon height) or the label overlaps the icon.
+          label: hasName ? { text: name, font: "9px 'JetBrains Mono', monospace", fillColor: color, outlineColor: Color.BLACK, outlineWidth: 2, style: LabelStyle.FILL_AND_OUTLINE, verticalOrigin: VerticalOrigin.BOTTOM, pixelOffset: new Cartesian2(0, radioSvg ? -14 : -8), distanceDisplayCondition: new DistanceDisplayCondition(0, 3e6) } : undefined,
         }));
       } else if (g.type === 'LineString' || g.type === 'MultiLineString') {
         const lines = g.type === 'LineString' ? [g.coordinates as number[][]] : (g.coordinates as number[][][]);

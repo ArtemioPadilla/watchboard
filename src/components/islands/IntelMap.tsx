@@ -19,6 +19,8 @@ import RadioStationCard from './shared/RadioStationCard';
 import GeoLayersLeaflet from './GeoLayersLeaflet';
 import { useFrontlineData, useGdacsData, useStaticGeoLayerData, DEEPSTATE_ENABLED } from './useGeoLayersData';
 import { staticLayerMeta } from '../../lib/geo-layer-schema';
+import type { GeoLayer } from '../../lib/geo-layer-schema';
+import { filterByCountry } from '../../lib/radio-icons';
 
 /** Layer keys accepted in the `layers` URL parameter (ADR-0001). */
 export const MAP_LAYER_KEYS = [
@@ -161,14 +163,31 @@ function IntelMapInner({ points, lines, events, categories, mapCenter, mapBounds
   const s0 = useStaticGeoLayerData(staticLayers[0] ?? null, !!extraLayers[staticLayers[0] ?? '']);
   const s1 = useStaticGeoLayerData(staticLayers[1] ?? null, !!extraLayers[staticLayers[1] ?? '']);
   const s2 = useStaticGeoLayerData(staticLayers[2] ?? null, !!extraLayers[staticLayers[2] ?? '']);
-  const staticData = useMemo(() => [s0, s1, s2].map((r, i) => ({ id: staticLayers[i], r })).filter(x => x.id && extraLayers[x.id] && x.r.data).map(x => ({ id: x.id!, layer: x.r.data! })), [s0, s1, s2, staticLayers, extraLayers]);
+  // Single source of filtering: radio layers (filterByCountry: true) are
+  // scoped to the tracker's own countries HERE, once, so both the rendered
+  // layer (staticData, below) and its layer-toggle count (extraLayerDefs)
+  // agree — a layer's displayed count must never be the pre-filter feature
+  // count (e.g. yemen-conflict showing "Radio stations 1327" over 1 marker).
+  const scopedStatics = useMemo(() => [s0, s1, s2].map((r, i) => {
+    const id = staticLayers[i];
+    const meta = id ? staticLayerMeta(id) : undefined;
+    if (!id || !r.data) return { id, meta, layer: undefined as GeoLayer | undefined };
+    const layer = meta?.filterByCountry ? { ...r.data, features: filterByCountry(r.data.features, radioCountryCodes) } : r.data;
+    return { id, meta, layer };
+  }), [s0, s1, s2, staticLayers, radioCountryCodes]);
+  const staticData = useMemo(() => scopedStatics
+    .filter((x): x is { id: string; meta: ReturnType<typeof staticLayerMeta>; layer: GeoLayer } => !!x.id && !!extraLayers[x.id] && !!x.layer)
+    .map(x => ({ id: x.id, layer: x.layer })), [scopedStatics, extraLayers]);
   const extraLayerDefs = useMemo(() => {
     const defs: { id: string; label: string; count: number; on: boolean; status: string; updatedAt: number | null; error?: string; snapshotDate?: string }[] = [];
     if (wantFrontline) defs.push({ id: 'deepstate-frontline', label: 'Frontline (DeepStateMAP)', count: frontline.data?.polygons.length ?? 0, on: !!extraLayers['deepstate-frontline'], status: frontline.status, updatedAt: frontline.updatedAt, error: frontline.error });
     defs.push({ id: 'gdacs-alerts', label: 'Disasters (GDACS)', count: gdacs.data?.alerts.length ?? 0, on: !!extraLayers['gdacs-alerts'], status: gdacs.status, updatedAt: gdacs.updatedAt, error: gdacs.error });
-    [s0, s1, s2].forEach((r, i) => { const id = staticLayers[i]; const meta = id ? staticLayerMeta(id) : undefined; if (id && meta) defs.push({ id, label: meta.label, count: r.data?.features.length ?? 0, on: !!extraLayers[id], status: r.status, updatedAt: r.updatedAt, error: r.error, snapshotDate: r.data?._provenance.retrievedAt.slice(0, 10) }); });
+    [s0, s1, s2].forEach((r, i) => {
+      const { id, meta, layer } = scopedStatics[i];
+      if (id && meta) defs.push({ id, label: meta.label, count: layer?.features.length ?? 0, on: !!extraLayers[id], status: r.status, updatedAt: r.updatedAt, error: r.error, snapshotDate: r.data?._provenance.retrievedAt.slice(0, 10) });
+    });
     return defs;
-  }, [wantFrontline, frontline, gdacs, s0, s1, s2, staticLayers, extraLayers]);
+  }, [wantFrontline, frontline, gdacs, s0, s1, s2, scopedStatics, extraLayers]);
 
   const dossier = useDossier();
   const handleGroundClick = useCallback((lat: number, lon: number) => dossier.open({ lat, lon }), [dossier.open]);
@@ -287,7 +306,7 @@ function IntelMapInner({ points, lines, events, categories, mapCenter, mapBounds
           initialView={urlView.lat !== undefined && urlView.lon !== undefined ? { lat: urlView.lat, lon: urlView.lon, zoom: urlView.zoom ?? 5 } : undefined}
           onViewChange={handleViewChange}
           onGroundClick={handleGroundClick}
-          geoLayers={<GeoLayersLeaflet frontline={extraLayers['deepstate-frontline'] ? frontline.data : null} gdacs={extraLayers['gdacs-alerts'] ? gdacs.data : null} statics={staticData} onSelectRadioFeature={setSelectedRadioFeature} radioCountryCodes={radioCountryCodes} />}
+          geoLayers={<GeoLayersLeaflet frontline={extraLayers['deepstate-frontline'] ? frontline.data : null} gdacs={extraLayers['gdacs-alerts'] ? gdacs.data : null} statics={staticData} onSelectRadioFeature={setSelectedRadioFeature} />}
           points={filteredPoints}
           lines={filteredLines}
           categories={mapCategories}

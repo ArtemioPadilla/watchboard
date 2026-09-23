@@ -29,11 +29,28 @@ jobs:
         with:
           node-version: 22
       - run: npm ci
-      - run: npx tsx scripts/geo/refresh-layers.ts --layer radio-towers
+      # Stations first, towers last: the 34 spaced per-country Overpass area
+      # queries for radio-towers are the flakiest, slowest part of this run.
+      # If towers fails, the station layers (already fetched and cheap) should
+      # still get committed rather than the whole run bailing before anything
+      # is saved.
       - run: npx tsx scripts/geo/refresh-layers.ts --layer radio-stations
       - run: npx tsx scripts/geo/refresh-layers.ts --layer radio-stations-global
-      - run: npx vitest run scripts/geo/refresh-layers.test.ts
+      - name: Refresh radio towers
+        id: towers
+        # Own budget separate from the job's 30 min, and allowed to fail
+        # without stopping the stations layers (already refreshed above) from
+        # being validated and committed. The "Fail the run if towers failed"
+        # step below still turns this run red — continue-on-error here is
+        # about not blocking the commit, not about hiding the failure.
+        timeout-minutes: 20
+        continue-on-error: true
+        run: npx tsx scripts/geo/refresh-layers.ts --layer radio-towers
+      - name: Validate layers
+        if: ${{ !cancelled() }}
+        run: npx vitest run scripts/geo/refresh-layers.test.ts
       - name: Commit if changed
+        if: ${{ !cancelled() }}
         run: |
           git config user.name "watchboard-bot"
           git config user.email "bot@watchboard.dev"
@@ -53,4 +70,19 @@ jobs:
               echo "::error::Failed to push radio layer refresh after 3 attempts"
               exit 1
             fi
+          fi
+      - name: Fail the run if radio-towers failed
+        # "Refresh radio towers" runs with continue-on-error: true so a
+        # per-country Overpass failure doesn't block the (cheaper, less
+        # flaky) station layers from being validated and committed above —
+        # but that means its own failure can't turn the job red by itself.
+        # This step is the loud signal: it runs regardless of what happened
+        # above (if: always()) and fails the whole run when the towers step's
+        # outcome was failure, so a dropped towers refresh is visible instead
+        # of hiding behind a green run (same gate pattern as daily-video.yml).
+        if: always()
+        run: |
+          if [ "${{ steps.towers.outcome }}" = "failure" ]; then
+            echo "::error::radio-towers refresh failed — see 'Refresh radio towers' above. Station layers were still validated and committed (if changed)."
+            exit 1
           fi

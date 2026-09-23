@@ -3401,8 +3401,12 @@ body::before {
   animation: none; /* the inline live-dot pulses on its own; avoid pulsing the whole row */
 }
 
-/* ── CommandCenter: homepage radio-station pin (E5 icons, 2026-09-22 plan) ── */
-.cc-radio-pin.pulse svg {
+/* ── CommandCenter: homepage radio-station pin (E5 icons, 2026-09-22 plan) ──
+   Sizing applies to every radio pin (the SVG itself now carries width/height=32
+   attributes for Cesium's data-URI rasterization, so the DOM use must override
+   them back down to the wrapper's size); only the top-N-by-votes pins get
+   `.pulse` for the ring animation. */
+.cc-radio-pin svg {
   position: relative;
   z-index: 1;
   display: block;
