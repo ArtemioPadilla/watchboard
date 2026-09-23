@@ -2,61 +2,170 @@ name: Refresh Radio Layers
 
 on:
   schedule:
-    - cron: '0 6 * * 1' # Mondays 06:00 UTC — stations and towers change slowly; weekly avoids hammering Overpass/radio-browser
-  workflow_dispatch: {}
+    - cron: '0 6 * * 1'  # Mondays 06:00 UTC — radio-stations + radio-stations-global (weekly)
+    - cron: '0 7 1 * *'  # 1st of month 07:00 UTC — radio-towers (monthly; the flaky, slow Overpass fetch)
+  workflow_dispatch:
+    inputs:
+      stations:
+        description: 'Refresh radio-stations + radio-stations-global'
+        type: boolean
+        default: true
+      towers:
+        description: 'Refresh radio-towers'
+        type: boolean
+        default: false
+      accept_drop:
+        description: 'RADIO_TOWERS_ACCEPT_DROP escape hatch: comma-separated ISO2 codes to skip the suspicious-drop check for on this run (e.g. a verified drop from towers actually destroyed). Leave empty for normal behavior.'
+        type: string
+        default: ''
 
 permissions:
   contents: write
 
-# Shared group serializes the small state-commit workflows against each other
-# (post-social-queue, weekly-digest, tally-tracker-votes, backfill, daily-video)
-# so they don't race pushes to main.
-concurrency:
-  group: main-commits
-  cancel-in-progress: false
-
 jobs:
-  refresh:
+  # No concurrency lock: both fetch jobs only write to their own workspace
+  # checkout and upload artifacts. They never touch main directly, so they
+  # can run back-to-back (or overlap with other main-commits workflows)
+  # without racing a push. Only the commit job below needs the shared lock.
+  fetch-stations:
+    if: ${{ (github.event_name == 'schedule' && github.event.schedule == '0 6 * * 1') || (github.event_name == 'workflow_dispatch' && inputs.stations == true) }}
     runs-on: ubuntu-latest
-    # npm ci without a cache and 34 spaced (5s+) per-country Overpass area
-    # queries for radio-towers take 6-12 min on their own, plus the
-    # radio-stations and radio-stations-global radio-browser fetches —
-    # doesn't reliably fit the 5 min sibling workflows use.
-    timeout-minutes: 30
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
         with:
           node-version: 22
+          cache: npm
       - run: npm ci
-      # Stations first, towers last: the 34 spaced per-country Overpass area
-      # queries for radio-towers are the flakiest, slowest part of this run.
-      # If towers fails, the station layers (already fetched and cheap) should
-      # still get committed rather than the whole run bailing before anything
-      # is saved.
       - run: npx tsx scripts/geo/refresh-layers.ts --layer radio-stations
       - run: npx tsx scripts/geo/refresh-layers.ts --layer radio-stations-global
+      - name: Validate layers
+        run: |
+          npx tsx scripts/geo/refresh-layers.ts --check --layer radio-stations
+          npx tsx scripts/geo/refresh-layers.ts --check --layer radio-stations-global
+      - name: Upload station layers
+        uses: actions/upload-artifact@v4
+        with:
+          name: radio-stations-layers
+          path: |
+            public/geo/layers/radio-stations.geojson
+            public/geo/layers/radio-stations-global.geojson
+          retention-days: 1
+
+  fetch-towers:
+    if: ${{ (github.event_name == 'schedule' && github.event.schedule == '0 7 1 * *') || (github.event_name == 'workflow_dispatch' && inputs.towers == true) }}
+    runs-on: ubuntu-latest
+    # 34 spaced (5s+) per-country Overpass area queries take 6-12 min on
+    # their own, plus the mirror retry on failures, plus each request now
+    # carries its own 150s AbortSignal.timeout — a run with several slow/
+    # timed-out countries can take meaningfully longer than the 6-12 min
+    # happy path, so 40 min of headroom instead of 30.
+    timeout-minutes: 40
+    # Only this job needs a lock: two towers runs racing (a manual dispatch
+    # landing mid-schedule) would both read the same previous file and could
+    # each write a merge that clobbers the other's freshly-fetched countries.
+    # cancel-in-progress: false queues rather than cancels — see
+    # docs/silent-failure-patterns.md for why a *pending* run in a
+    # cancel-in-progress: false group still gets silently cancelled when a
+    # third run queues behind it.
+    concurrency:
+      group: radio-towers-fetch
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
       - name: Refresh radio towers
         id: towers
-        # Own budget separate from the job's 30 min, and allowed to fail
-        # without stopping the stations layers (already refreshed above) from
-        # being validated and committed. The "Fail the run if towers failed"
-        # step below still turns this run red — continue-on-error here is
-        # about not blocking the commit, not about hiding the failure.
-        timeout-minutes: 20
+        env:
+          # Escape hatch for a genuine, verified drop (e.g. towers actually
+          # destroyed) that would otherwise keep tripping the suspicious-drop
+          # check run after run. Empty on every scheduled run; only ever
+          # non-empty when someone deliberately dispatches with accept_drop
+          # set. See scripts/geo/refresh-layers.ts's header comment.
+          RADIO_TOWERS_ACCEPT_DROP: ${{ inputs.accept_drop }}
+        # The script writes the merged file (per-country fallback to the
+        # previous data) even when the run is unhealthy, then exits non-zero
+        # with a ::error:: line naming the offending countries. Don't let
+        # that abort the job before the file is validated and uploaded —
+        # continue-on-error here is about not skipping those steps, not
+        # about hiding the failure. The "Fail the job" step below still
+        # turns this job (and therefore the run) red.
         continue-on-error: true
         run: npx tsx scripts/geo/refresh-layers.ts --layer radio-towers
       - name: Validate layers
-        if: ${{ !cancelled() }}
-        run: npx vitest run scripts/geo/refresh-layers.test.ts
+        run: npx tsx scripts/geo/refresh-layers.ts --check --layer radio-towers
+      - name: Upload towers layer
+        uses: actions/upload-artifact@v4
+        with:
+          name: radio-towers-layer
+          path: public/geo/layers/radio-towers.geojson
+          retention-days: 1
+      - name: Fail the job if radio-towers refresh was unhealthy
+        if: always()
+        run: |
+          if [ "${{ steps.towers.outcome }}" = "failure" ]; then
+            echo "::error::radio-towers refresh reported unhealthy — see 'Refresh radio towers' above. The merged file was still validated and uploaded for the commit job."
+            exit 1
+          fi
+
+  commit:
+    needs: [fetch-stations, fetch-towers]
+    # Runs even when a fetch job failed (towers unhealthy, or a stations
+    # fetch error) so whatever data WAS produced still gets committed —
+    # and even when a fetch job was skipped (off-schedule dispatch, or the
+    # sibling cron), since only one of the two runs on any given schedule.
+    # Only a cancelled workflow run skips this job.
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    # Shared group serializes the small state-commit workflows against each
+    # other (post-social-queue, weekly-digest, tally-tracker-votes,
+    # backfill, daily-video) so they don't race pushes to main. Only this
+    # job needs it — the fetch jobs above never push.
+    concurrency:
+      group: main-commits
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Download station layers
+        # Skips only when fetch-stations itself was skipped (nothing was
+        # ever produced). continue-on-error is a safety net for any other
+        # reason the artifact might be missing (e.g. the fetch job failed
+        # before it could upload) — the git add step below only stages
+        # files that actually exist, so a missing download never silently
+        # drops a file that WAS produced.
+        if: needs.fetch-stations.result != 'skipped'
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          name: radio-stations-layers
+          path: public/geo/layers
+
+      - name: Download towers layer
+        if: needs.fetch-towers.result != 'skipped'
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          name: radio-towers-layer
+          path: public/geo/layers
+
       - name: Commit if changed
-        if: ${{ !cancelled() }}
         run: |
           git config user.name "watchboard-bot"
           git config user.email "bot@watchboard.dev"
-          git add public/geo/layers/radio-towers.geojson public/geo/layers/radio-stations.geojson public/geo/layers/radio-stations-global.geojson
+          for f in public/geo/layers/radio-stations.geojson \
+                   public/geo/layers/radio-stations-global.geojson \
+                   public/geo/layers/radio-towers.geojson; do
+            [ -f "$f" ] && git add "$f"
+          done
           if ! git diff --staged --quiet; then
-            git commit -m "chore(radio): weekly refresh $(date -u +%Y-%m-%dT%H-%M-%SZ)"
+            git commit -m "chore(radio): refresh $(date -u +%Y-%m-%dT%H-%M-%SZ)"
             pushed=false
             for i in 1 2 3; do
               if git pull --rebase origin main && git push; then
@@ -70,19 +179,35 @@ jobs:
               echo "::error::Failed to push radio layer refresh after 3 attempts"
               exit 1
             fi
+          else
+            echo "No radio layer changes to commit."
           fi
-      - name: Fail the run if radio-towers failed
-        # "Refresh radio towers" runs with continue-on-error: true so a
-        # per-country Overpass failure doesn't block the (cheaper, less
-        # flaky) station layers from being validated and committed above —
-        # but that means its own failure can't turn the job red by itself.
-        # This step is the loud signal: it runs regardless of what happened
-        # above (if: always()) and fails the whole run when the towers step's
-        # outcome was failure, so a dropped towers refresh is visible instead
-        # of hiding behind a green run (same gate pattern as daily-video.yml).
-        if: always()
+
+  notify-failure:
+    needs: [fetch-stations, fetch-towers, commit]
+    if: ${{ failure() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Alert Telegram
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          # Infra alerts go to TELEGRAM_ALERT_CHAT_ID (private ops chat), NEVER to
+          # TELEGRAM_CHANNEL_ID — that is the public content channel with
+          # outside subscribers. If the alert secret is unset the guard below
+          # exits quietly rather than falling back to the public channel.
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_ALERT_CHAT_ID }}
         run: |
-          if [ "${{ steps.towers.outcome }}" = "failure" ]; then
-            echo "::error::radio-towers refresh failed — see 'Refresh radio towers' above. Station layers were still validated and committed (if changed)."
-            exit 1
+          if [ -z "$TELEGRAM_BOT_TOKEN" ] || [ -z "$TELEGRAM_CHAT_ID" ]; then
+            echo "TELEGRAM_BOT_TOKEN/CHAT_ID missing; skipping Telegram alert"
+            exit 0
           fi
+
+          RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          TEXT=$(printf '🚨 Refresh Radio Layers FAILED\nstations: %s | towers: %s | commit: %s\n%s' \
+            "${{ needs.fetch-stations.result }}" "${{ needs.fetch-towers.result }}" "${{ needs.commit.result }}" "$RUN_URL")
+          PAYLOAD=$(jq -n --arg c "$TELEGRAM_CHAT_ID" --arg t "$TEXT" \
+            '{chat_id: $c, text: $t, disable_web_page_preview: false}')
+          curl -sS -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+            -H "Content-Type: application/json" \
+            -d "$PAYLOAD" || echo "Telegram post failed (non-blocking)"

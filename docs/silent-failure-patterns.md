@@ -79,6 +79,16 @@ whether a workflow ran.
   for genuinely optional steps and dangerous everywhere else. AWS Polly errors
   on unsupported SSML tags, and `<emphasis>` is unsupported on every engine —
   adopting it would have dropped narration from every video silently.
+- **A *pending* job in a concurrency group is cancelled when another job
+  queues behind it in the same group — regardless of `cancel-in-progress:
+  false`.** That setting only protects a job that is already *running*; a
+  third run queuing behind a second one still cancels the second before it
+  ever starts. A cancelled pending job is not a failure: `needs.<job>.result`
+  is `cancelled`, `failure()` is false, so `notify-failure` (which gates on
+  `if: failure()`) stays silent and the run simply never happened. This
+  affects every workflow with a `main-commits`-style shared group — the fix
+  isn't in the group, it's remembering that "queued, not cancelled-in-place"
+  is still a silent gap.
 
 ## Fixing one layer can move the failure rather than remove it
 

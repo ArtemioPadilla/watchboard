@@ -26,6 +26,21 @@ describe('GeoLayerSchema', () => {
     expect(GeoLayerSchema.safeParse({ type: 'FeatureCollection', _provenance: { ...prov, featureCount: 2 }, features: [feature] }).success).toBe(false);
     expect(GeoLayerSchema.safeParse({ type: 'FeatureCollection', _provenance: prov, features: [{ ...feature, geometry: { type: 'Circle', coordinates: [1, 2] } }] }).success).toBe(false);
   });
+  it('accepts an optional per-country provenance map and keeps it through parse (not stripped)', () => {
+    const countries = {
+      IR: { retrievedAt: '2026-01-01T00:00:00Z', count: 12, status: 'fresh' },
+      IQ: { retrievedAt: null, count: 0, status: 'stale' },
+    };
+    const parsed = GeoLayerSchema.parse({ type: 'FeatureCollection', _provenance: { ...prov, countries }, features: [feature] });
+    expect(parsed._provenance.countries).toEqual(countries);
+  });
+  it('rejects an unknown country status and an unknown key inside a country entry', () => {
+    expect(GeoLayerSchema.safeParse({ type: 'FeatureCollection', _provenance: { ...prov, countries: { IR: { retrievedAt: null, count: 0, status: 'unknown' } } }, features: [feature] }).success).toBe(false);
+    expect(GeoLayerSchema.safeParse({ type: 'FeatureCollection', _provenance: { ...prov, countries: { IR: { retrievedAt: null, count: 0, status: 'stale', extra: true } } }, features: [feature] }).success).toBe(false);
+  });
+  it('layers without countries still validate (existing committed files predate the field)', () => {
+    expect(GeoLayerSchema.safeParse({ type: 'FeatureCollection', _provenance: prov, features: [feature] }).success).toBe(true);
+  });
 });
 
 describe('STATIC_LAYERS', () => {
