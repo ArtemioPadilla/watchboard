@@ -4,7 +4,7 @@ import { resolve } from 'node:path';
 import {
   validateLayerFile, wikidataPlantsToFeatures, cableGeoToFeatures, overpassTowersToFeatures,
   radioBrowserToFeatures, capTowersPerCountry, fetchOverpassCountryTowers,
-  isSuspiciousDrop, mergeCountryTowers, assessRadioTowerHealth, runRadioTowers,
+  isSuspiciousDrop, mergeCountryTowers, assessRadioTowerHealth, runRadioTowers, dedupeByOsmId,
   OVERPASS_PRIMARY_URL, OVERPASS_FALLBACK_URL,
   type CountryFetchResult,
 } from './refresh-layers';
@@ -320,6 +320,58 @@ describe('mergeCountryTowers', () => {
     expect(merged.countries.IR.status).toBe('stale');
     expect(merged.staleReasons.IR).toBe('time budget exhausted');
   });
+
+  it('caps the new count to RADIO_TOWERS_CAP before the suspicious-drop comparison, so a raw fetch above the cap cannot dodge the check by looking artificially large', () => {
+    // prevCount 5000 (hypothetical, e.g. a legacy/uncapped record) → 20% threshold is 1000.
+    // A raw new count of 2000 alone would clear that threshold. Capped to 800, it doesn't.
+    const previous = previousLayer(
+      { IR: { retrievedAt: '2026-01-01T00:00:00Z', count: 5000, status: 'fresh' } },
+      [],
+    );
+    const results = new Map<string, CountryFetchResult>([
+      ['IR', { ok: true, features: Array.from({ length: 2000 }, (_, i) => feat('IR', `new-${i}`)) }],
+    ]);
+    const merged = mergeCountryTowers({ previous, results, codes: ['IR'], now: '2026-02-01T00:00:00Z' });
+    expect(merged.countries.IR.status).toBe('stale');
+    expect(merged.staleReasons.IR).toMatch(/suspicious drop: 5000 → 800/);
+  });
+
+  describe('migration: previous layer predates _provenance.countries', () => {
+    const legacyPreviousLayer = (features: GeoLayer['features']): GeoLayer => ({
+      type: 'FeatureCollection',
+      _provenance: { id: 'radio-towers', source: 's', url: 'https://a.b/', license: 'l', attribution: 'a', retrievedAt: '2026-01-10T00:00:00Z', featureCount: features.length },
+      features,
+    });
+
+    it('a stale country with >=1 previous feature inherits the legacy file\'s top-level retrievedAt, not null', () => {
+      const previous = legacyPreviousLayer([feat('IR', 'old-1'), feat('IR', 'old-2')]);
+      const results = new Map<string, CountryFetchResult>([['IR', { ok: false, reason: 'Overpass HTTP 504 for IR' }]]);
+      const merged = mergeCountryTowers({ previous, results, codes: ['IR'], now: '2026-02-01T00:00:00Z' });
+      expect(merged.countries.IR).toEqual({ retrievedAt: '2026-01-10T00:00:00Z', count: 2, status: 'stale' });
+    });
+
+    it('a stale country with 0 previous features gets retrievedAt: null even from a legacy file', () => {
+      const previous = legacyPreviousLayer([feat('IR', 'old-1')]); // IQ never appeared in the legacy file
+      const results = new Map<string, CountryFetchResult>([['IQ', { ok: false, reason: 'Overpass matched no area' }]]);
+      const merged = mergeCountryTowers({ previous, results, codes: ['IQ'], now: '2026-02-01T00:00:00Z' });
+      expect(merged.countries.IQ).toEqual({ retrievedAt: null, count: 0, status: 'stale' });
+    });
+  });
+});
+
+describe('dedupeByOsmId', () => {
+  const feat = (cc: string, id: string): GeoLayer['features'][number] => ({
+    type: 'Feature', id, properties: { osmId: id, name: null, heightM: null, radioBand: 'fm', countryCode: cc },
+    geometry: { type: 'Point', coordinates: [0, 0] },
+  });
+  it('keeps only the first occurrence of a duplicated id, regardless of which country it is tagged with', () => {
+    const result = dedupeByOsmId([feat('IN', '99'), feat('PK', '99'), feat('PK', '5')]);
+    expect(result.map(f => [f.id, (f.properties as any).countryCode])).toEqual([['99', 'IN'], ['5', 'PK']]);
+  });
+  it('passes through features with no duplicates unchanged', () => {
+    const input = [feat('IR', '1'), feat('IR', '2')];
+    expect(dedupeByOsmId(input)).toEqual(input);
+  });
 });
 
 describe('assessRadioTowerHealth', () => {
@@ -409,5 +461,55 @@ describe('runRadioTowers (budget + orchestration)', () => {
     expect(layer.features).toHaveLength(5);
     expect(layer._provenance.countries?.IR.count).toBe(5);
     expect(GeoLayerSchema.safeParse(layer).success).toBe(true);
+  });
+
+  it('dedupes an OSM id returned by two countries\' fresh results, first country in codes order wins', async () => {
+    const fetchFn = async (cc: string) => {
+      // Both IN and PK report a node with the same OSM id, e.g. a shared-border tower.
+      if (cc === 'IN') return [{ type: 'node', id: 99, lat: 1, lon: 1, tags: { 'communication:radio': 'fm', name: 'Shared' } }];
+      return [{ type: 'node', id: 99, lat: 1, lon: 1, tags: { 'communication:radio': 'fm', name: 'Shared (PK side)' } }];
+    };
+    const layer = await runRadioTowers('2026-02-01T00:00:00Z', {
+      codes: ['IN', 'PK'],
+      previous: null,
+      fetchFn,
+      sleepFn: async () => {},
+      clock: () => 0,
+      gapMs: 0,
+    });
+    const shared = layer.features.filter(f => String(f.id) === '99');
+    expect(shared).toHaveLength(1);
+    expect((shared[0].properties as any).countryCode).toBe('IN'); // IN comes first in codes
+    expect(layer._provenance.countries?.IN.count).toBe(1);
+    expect(layer._provenance.countries?.PK.count).toBe(0);
+  });
+
+  it('dedupes an OSM id shared between a fresh country and a stale carried-over country', async () => {
+    const previous: GeoLayer = {
+      type: 'FeatureCollection',
+      _provenance: {
+        id: 'radio-towers', source: 's', url: 'https://a.b/', license: 'l', attribution: 'a', retrievedAt: '2026-01-01T00:00:00Z', featureCount: 1,
+        countries: { MD: { retrievedAt: '2026-01-01T00:00:00Z', count: 1, status: 'fresh' } },
+      },
+      features: [{ type: 'Feature', id: '50', properties: { osmId: '50', name: null, heightM: null, radioBand: 'fm', countryCode: 'MD' }, geometry: { type: 'Point', coordinates: [0, 0] } }],
+    };
+    const fetchFn = async (cc: string) => {
+      if (cc === 'MD') throw new Error('Overpass HTTP 504 for MD'); // MD stays stale, carries over id 50
+      return [{ type: 'node', id: 50, lat: 1, lon: 1, tags: { 'communication:radio': 'fm' } }]; // UA freshly reports the same id
+    };
+    const layer = await runRadioTowers('2026-02-01T00:00:00Z', {
+      codes: ['MD', 'UA'], // MD first in codes order, so its carried-over id 50 wins
+      previous,
+      fetchFn,
+      sleepFn: async () => {},
+      clock: () => 0,
+      gapMs: 0,
+    });
+    const shared = layer.features.filter(f => String(f.id) === '50');
+    expect(shared).toHaveLength(1);
+    expect((shared[0].properties as any).countryCode).toBe('MD');
+    expect(layer._provenance.countries?.MD.status).toBe('stale');
+    expect(layer._provenance.countries?.MD.count).toBe(1);
+    expect(layer._provenance.countries?.UA.count).toBe(0);
   });
 });

@@ -341,6 +341,11 @@ export type CountryFetchResult =
   | { ok: true; features: GeoLayer['features'] }
   | { ok: false; reason: string };
 
+// Declared here (not down by runRadioTowers) so mergeCountryTowers's
+// suspicious-drop comparison and runRadioTowers's capTowersPerCountry call
+// share one constant.
+const RADIO_TOWERS_CAP = 800;
+
 /**
  * Per-country merge: a country's new data replaces the old only when the
  * fetch succeeded *and* the new count isn't a suspicious drop. Every other
@@ -350,6 +355,11 @@ export type CountryFetchResult =
  * has never succeeded) and is marked `stale`. A country's data is never
  * dropped because of a failed fetch; the worst case is "unchanged from last
  * time", never "gone".
+ *
+ * `previous` features are NOT deduped against fresh results here (see
+ * `dedupeByOsmId` in `runRadioTowers`, which runs on the full merged set —
+ * a duplicate OSM id split across a fresh country and a stale carried-over
+ * country still needs first-country-wins treatment).
  */
 export function mergeCountryTowers(args: {
   previous: GeoLayer | null;
@@ -359,6 +369,12 @@ export function mergeCountryTowers(args: {
 }): { features: GeoLayer['features']; countries: Record<string, CountryProvenance>; staleReasons: Record<string, string> } {
   const { previous, results, codes, now } = args;
   const prevCountries = (previous?._provenance.countries ?? {}) as Record<string, CountryProvenance>;
+  // Migration: a previous file written before _provenance.countries existed
+  // has no per-country record at all. Without this, every country in that
+  // file would look "never retrieved" (null) the first time this code runs
+  // against it, turning the very first post-migration run red even though
+  // the underlying data is only as old as the whole file's retrievedAt.
+  const legacyPrevious = previous != null && previous._provenance.countries == null;
   const prevFeaturesByCountry = new Map<string, GeoLayer['features']>();
   for (const f of previous?.features ?? []) {
     const cc = String((f.properties as any)?.countryCode ?? '');
@@ -372,7 +388,16 @@ export function mergeCountryTowers(args: {
 
   const keepStale = (cc: string, reason: string) => {
     const prevFeats = prevFeaturesByCountry.get(cc) ?? [];
-    const prevRetrievedAt = prevCountries[cc]?.retrievedAt ?? null;
+    let prevRetrievedAt: string | null;
+    if (prevCountries[cc]) {
+      prevRetrievedAt = prevCountries[cc].retrievedAt;
+    } else if (legacyPrevious && prevFeats.length > 0) {
+      // This country has data in the legacy file but no per-country record —
+      // inherit the file's own retrievedAt rather than null.
+      prevRetrievedAt = previous!._provenance.retrievedAt;
+    } else {
+      prevRetrievedAt = null;
+    }
     features.push(...prevFeats);
     countries[cc] = { retrievedAt: prevRetrievedAt, count: prevFeats.length, status: 'stale' };
     staleReasons[cc] = reason;
@@ -391,8 +416,12 @@ export function mergeCountryTowers(args: {
     const prevFeats = prevFeaturesByCountry.get(cc) ?? [];
     const prevCount = prevCountries[cc]?.count ?? prevFeats.length;
     const nextCount = result.features.length;
-    if (isSuspiciousDrop(prevCount, nextCount)) {
-      keepStale(cc, `suspicious drop: ${prevCount} → ${nextCount} (< 20% of previous)`);
+    // prevCount is always post-cap (see runRadioTowers), so cap nextCount
+    // the same way before comparing — apples-to-apples by construction,
+    // rather than an uncapped raw fetch size against a capped baseline.
+    const nextCountForDrop = Math.min(nextCount, RADIO_TOWERS_CAP);
+    if (isSuspiciousDrop(prevCount, nextCountForDrop)) {
+      keepStale(cc, `suspicious drop: ${prevCount} → ${nextCountForDrop} (< 20% of previous)`);
       continue;
     }
     features.push(...result.features);
@@ -439,7 +468,28 @@ export function assessRadioTowerHealth(countries: Record<string, CountryProvenan
 
 const RADIO_TOWERS_BUDGET_MS = 20 * 60 * 1000;
 const RADIO_TOWERS_GAP_MS = 5_000;
-const RADIO_TOWERS_CAP = 800;
+
+/**
+ * Global OSM-id dedup across every country's contribution to the merged set
+ * (fresh results and stale carried-over features alike) — first occurrence
+ * wins. `mergeCountryTowers` iterates `codes` in order and pushes each
+ * country's features exactly once, so "first occurrence in the array" is
+ * exactly "first country in `codes` order": a node returned by two
+ * countries' area queries (plausible at contested/shared borders, e.g.
+ * SD/SS, IN/PK, MD/UA, IR/IQ) is kept only for whichever country comes
+ * first in `codes`, instead of being counted — and capped against — twice.
+ */
+export function dedupeByOsmId(features: GeoLayer['features']): GeoLayer['features'] {
+  const seen = new Set<string>();
+  const result: GeoLayer['features'] = [];
+  for (const f of features) {
+    const id = String(f.id);
+    if (seen.has(id)) continue;
+    seen.add(id);
+    result.push(f);
+  }
+  return result;
+}
 
 export interface RadioTowersRunDeps {
   codes: string[];
@@ -461,11 +511,17 @@ export interface RadioTowersRunDeps {
  * exhausted" and keeps their previous data — the run still produces a file,
  * just a partially-refreshed one.
  *
- * Country counts in the returned provenance are recomputed after
+ * Applies `dedupeByOsmId` across the whole merged set (fresh and stale
+ * carried-over features together, first country in `codes` order wins)
+ * before `capTowersPerCountry`, so a node claimed by two countries' area
+ * queries at a shared border is never double-counted or double-capped.
+ *
+ * Country counts in the returned provenance are recomputed after dedup and
  * `capTowersPerCountry` so `_provenance.countries[cc].count` always matches
- * the features actually shipped for that country (not the pre-cap fetch
- * size) — otherwise a country with a very active OSM community could report
- * a count larger than what a reader (or the health check's next run) can
+ * the features actually shipped for that country (not the pre-cap,
+ * pre-dedup fetch size) — otherwise a country with a very active OSM
+ * community, or one sharing border nodes with a neighbor, could report a
+ * count larger than what a reader (or the health check's next run) can
  * actually see in the file.
  */
 export async function runRadioTowers(now: string, deps: RadioTowersRunDeps): Promise<GeoLayer> {
@@ -493,7 +549,8 @@ export async function runRadioTowers(now: string, deps: RadioTowersRunDeps): Pro
   }
 
   const merged = mergeCountryTowers({ previous, results, codes, now });
-  const features = capTowersPerCountry(merged.features, RADIO_TOWERS_CAP);
+  const deduped = dedupeByOsmId(merged.features);
+  const features = capTowersPerCountry(deduped, RADIO_TOWERS_CAP);
 
   const cappedCounts = new Map<string, number>();
   for (const f of features) {
