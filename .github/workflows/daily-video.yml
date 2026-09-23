@@ -281,13 +281,25 @@ jobs:
             fi
           done
           if [ $changed -eq 1 ]; then
-            git diff --cached --quiet || git commit -m "chore(video): update tracker history + daily log $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-            for _ in 1 2 3; do
-              git pull --rebase origin main && git push && break
-              git rebase --abort || true
-              git reset --hard HEAD || true
-              sleep 2
-            done
+            if git diff --cached --quiet; then
+              echo "No video state to commit"
+            else
+              git commit -m "chore(video): update tracker history + daily log $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+              pushed=false
+              for _ in 1 2 3; do
+                if git pull --rebase origin main && git push; then
+                  pushed=true
+                  break
+                fi
+                git rebase --abort || true
+                git reset --hard HEAD || true
+                sleep 2
+              done
+              if [ "$pushed" != "true" ]; then
+                echo "::error::Failed to push tracker history + daily log after 3 attempts"
+                exit 1
+              fi
+            fi
           else
             echo "No video state to commit"
           fi
@@ -508,9 +520,16 @@ jobs:
             git config user.name "github-actions[bot]"
             git config user.email "github-actions[bot]@users.noreply.github.com"
             git add "public/_social/video-post-progress-${DATE}.json"
-            git diff --cached --quiet || git commit -m "chore(social): progress video post record ${DATE}"
-            git pull --rebase origin main || true
-            git push || echo "Push failed (non-fatal)"
+            if git diff --cached --quiet; then
+              echo "No progress video post record to commit"
+            else
+              git commit -m "chore(social): progress video post record ${DATE}"
+              git pull --rebase origin main || true
+              if ! git push; then
+                echo "::error::Failed to push progress video post record"
+                exit 1
+              fi
+            fi
           fi
 
       - name: Upload progress video artifacts

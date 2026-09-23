@@ -295,11 +295,19 @@ jobs:
           git add trackers/
           git commit -m "chore(i18n): translate tracker data to ${LOCALE} $(date -u +%Y-%m-%dT%H:%M:%SZ)"
           # Retry up to 3 times in case remote has new commits
+          pushed=false
           for i in 1 2 3; do
-            git pull --rebase origin main && git push && break
+            if git pull --rebase origin main && git push; then
+              pushed=true
+              break
+            fi
             echo "Push attempt $i failed, retrying..."
             sleep 2
           done
+          if [ "$pushed" != "true" ]; then
+            echo "::error::Failed to push translated tracker data after 3 attempts"
+            exit 1
+          fi
 
       - name: Job summary
         if: always()

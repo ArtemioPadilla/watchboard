@@ -51,8 +51,16 @@ jobs:
             exit 0
           fi
           git commit -m "chore(social): post queue $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          pushed=false
           for i in 1 2 3; do
-            git pull --rebase origin main && git push && break
+            if git pull --rebase origin main && git push; then
+              pushed=true
+              break
+            fi
             echo "Push attempt $i failed, retrying..."
             sleep 2
           done
+          if [ "$pushed" != "true" ]; then
+            echo "::error::Failed to push social post history after 3 attempts — posted tweets/budget will be re-processed on next run"
+            exit 1
+          fi
