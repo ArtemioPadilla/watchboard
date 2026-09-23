@@ -3,14 +3,19 @@
  * Replaces simple lastUpdated sort with a layered priority system:
  * 1. Breaking / high-severity (+40)
  * 2. Followed trackers (+15)
+ * 2b. Declared interests (+10): domain or region match (src/lib/interests.ts)
  * 3. Editorial score (0-30): the activity index (src/lib/activity-index.ts,
  *    0-100) scaled by ACTIVITY_WEIGHT when present; otherwise the legacy
  *    event count / source tier / sections-updated heuristic
  * 4. Recency as tiebreaker (0-15)
  */
+import { EMPTY_INTERESTS, matchesInterests, type Interests } from './interests';
 
 /** Share of the 0-30 editorial block taken from the activity index. */
 export const ACTIVITY_WEIGHT = 0.3;
+
+/** Flat bonus for a tracker whose domain/region matches a declared interest. */
+export const INTEREST_BONUS = 10;
 
 export interface RelevanceInput {
   lastUpdated: string;
@@ -21,6 +26,8 @@ export interface RelevanceInput {
   sectionsUpdatedCount?: number;
   /** 0-100 from computeActivity(); replaces the legacy editorial heuristic. */
   activityScore?: number;
+  /** Tracker domain/region matches a declared interest. */
+  matchesInterest?: boolean;
 }
 
 export function computeRelevanceScore(input: RelevanceInput): number {
@@ -31,6 +38,9 @@ export function computeRelevanceScore(input: RelevanceInput): number {
 
   // Followed: +15
   if (input.isFollowed) score += 15;
+
+  // Declared interest match: +10
+  if (input.matchesInterest) score += INTEREST_BONUS;
 
   // Editorial score: 0-30
   if (typeof input.activityScore === 'number' && Number.isFinite(input.activityScore)) {
@@ -61,6 +71,8 @@ interface SortableTracker {
   avgSourceTier?: number;
   sectionsUpdatedCount?: number;
   activity?: { score: number };
+  domain?: string;
+  region?: string;
 }
 
 /** Pure activity order (highest first), ties by recency. */
@@ -74,6 +86,7 @@ export function sortByActivity<T extends SortableTracker>(trackers: T[]): T[] {
 export function sortByRelevance<T extends SortableTracker>(
   trackers: T[],
   followedSlugs: string[],
+  interests: Interests = EMPTY_INTERESTS,
 ): T[] {
   const followedSet = new Set(followedSlugs);
   return [...trackers].sort((a, b) => {
@@ -85,6 +98,7 @@ export function sortByRelevance<T extends SortableTracker>(
       avgSourceTier: a.avgSourceTier,
       sectionsUpdatedCount: a.sectionsUpdatedCount,
       activityScore: a.activity?.score,
+      matchesInterest: matchesInterests(a, interests),
     });
     const scoreB = computeRelevanceScore({
       lastUpdated: b.lastUpdated,
@@ -94,6 +108,7 @@ export function sortByRelevance<T extends SortableTracker>(
       avgSourceTier: b.avgSourceTier,
       sectionsUpdatedCount: b.sectionsUpdatedCount,
       activityScore: b.activity?.score,
+      matchesInterest: matchesInterests(b, interests),
     });
     return scoreB - scoreA;
   });
