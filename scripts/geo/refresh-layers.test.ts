@@ -1,8 +1,14 @@
 import { describe, it, expect, afterEach, vi } from 'vitest';
 import { existsSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { validateLayerFile, wikidataPlantsToFeatures, cableGeoToFeatures, overpassTowersToFeatures, radioBrowserToFeatures, capTowersPerCountry, fetchOverpassCountryTowers } from './refresh-layers';
-import { STATIC_LAYERS, GeoLayerSchema } from '../../src/lib/geo-layer-schema';
+import {
+  validateLayerFile, wikidataPlantsToFeatures, cableGeoToFeatures, overpassTowersToFeatures,
+  radioBrowserToFeatures, capTowersPerCountry, fetchOverpassCountryTowers,
+  isSuspiciousDrop, mergeCountryTowers, assessRadioTowerHealth, runRadioTowers,
+  OVERPASS_PRIMARY_URL, OVERPASS_FALLBACK_URL,
+  type CountryFetchResult,
+} from './refresh-layers';
+import { STATIC_LAYERS, GeoLayerSchema, type GeoLayer, type CountryProvenance } from '../../src/lib/geo-layer-schema';
 
 const DIR = resolve(__dirname, '../../public/geo/layers');
 
@@ -201,5 +207,207 @@ describe('adapters (pure parsing)', () => {
       await expect(fetchOverpassCountryTowers('XX', fakeSleep)).rejects.toThrow(/no area/i);
       expect(fetchMock).toHaveBeenCalledTimes(2);
     });
+
+    it('retries a 429 against the fallback mirror host, not the primary host again', async () => {
+      const goodElements = [{ type: 'node', id: 1, lat: 47.2, lon: 27.9, tags: { 'communication:radio': 'fm' } }];
+      const fetchMock = vi.fn()
+        .mockResolvedValueOnce(jsonRes({}, 429))
+        .mockResolvedValueOnce(jsonRes({ elements: goodElements }));
+      vi.stubGlobal('fetch', fetchMock);
+      const fakeSleep = async () => {};
+
+      const elements = await fetchOverpassCountryTowers('IR', fakeSleep);
+      expect(elements).toEqual(goodElements);
+      expect(fetchMock).toHaveBeenCalledTimes(2);
+      expect(fetchMock.mock.calls[0][0]).toBe(OVERPASS_PRIMARY_URL);
+      expect(fetchMock.mock.calls[1][0]).toBe(OVERPASS_FALLBACK_URL);
+    });
+
+    it('throws after the mirror retry also fails, without ever hitting a third host', async () => {
+      const fetchMock = vi.fn()
+        .mockResolvedValueOnce(jsonRes({}, 504))
+        .mockResolvedValueOnce(jsonRes({}, 504));
+      vi.stubGlobal('fetch', fetchMock);
+      const fakeSleep = async () => {};
+
+      await expect(fetchOverpassCountryTowers('IR', fakeSleep)).rejects.toThrow(/after retry/i);
+      expect(fetchMock).toHaveBeenCalledTimes(2);
+      expect(fetchMock.mock.calls[1][0]).toBe(OVERPASS_FALLBACK_URL);
+    });
+  });
+});
+
+describe('isSuspiciousDrop', () => {
+  it('is never true below a previous count of 10', () => {
+    expect(isSuspiciousDrop(9, 0)).toBe(false);
+    expect(isSuspiciousDrop(0, 0)).toBe(false);
+    expect(isSuspiciousDrop(9, 1)).toBe(false);
+  });
+  it('is true under 20% of a previous count of 100, false at exactly 20%', () => {
+    expect(isSuspiciousDrop(100, 19)).toBe(true);
+    expect(isSuspiciousDrop(100, 20)).toBe(false);
+    expect(isSuspiciousDrop(100, 21)).toBe(false);
+  });
+  it('boundary at exactly a previous count of 10', () => {
+    expect(isSuspiciousDrop(10, 1)).toBe(true); // 1 < 2
+    expect(isSuspiciousDrop(10, 2)).toBe(false); // 2 == 20%, not < 20%
+  });
+});
+
+describe('mergeCountryTowers', () => {
+  const feat = (cc: string, id: string): GeoLayer['features'][number] => ({
+    type: 'Feature', id, properties: { osmId: id, name: null, heightM: null, radioBand: 'fm', countryCode: cc },
+    geometry: { type: 'Point', coordinates: [0, 0] },
+  });
+  const previousLayer = (countries: Record<string, CountryProvenance>, features: GeoLayer['features']): GeoLayer => ({
+    type: 'FeatureCollection',
+    _provenance: { id: 'radio-towers', source: 's', url: 'https://a.b/', license: 'l', attribution: 'a', retrievedAt: '2026-01-01T00:00:00Z', featureCount: features.length, countries },
+    features,
+  });
+
+  it('replaces a fresh (successful, non-suspicious) country with new features and now as retrievedAt', () => {
+    const previous = previousLayer(
+      { IR: { retrievedAt: '2026-01-01T00:00:00Z', count: 1, status: 'fresh' } },
+      [feat('IR', 'old-1')],
+    );
+    const results = new Map<string, CountryFetchResult>([['IR', { ok: true, features: [feat('IR', 'new-1'), feat('IR', 'new-2')] }]]);
+    const merged = mergeCountryTowers({ previous, results, codes: ['IR'], now: '2026-02-01T00:00:00Z' });
+    expect(merged.features.map(f => f.id)).toEqual(['new-1', 'new-2']);
+    expect(merged.countries.IR).toEqual({ retrievedAt: '2026-02-01T00:00:00Z', count: 2, status: 'fresh' });
+    expect(merged.staleReasons.IR).toBeUndefined();
+  });
+
+  it('a failed fetch keeps the previous features and previous retrievedAt, marked stale with the failure reason', () => {
+    const previous = previousLayer(
+      { IR: { retrievedAt: '2026-01-01T00:00:00Z', count: 1, status: 'fresh' } },
+      [feat('IR', 'old-1')],
+    );
+    const results = new Map<string, CountryFetchResult>([['IR', { ok: false, reason: 'Overpass HTTP 504 for IR' }]]);
+    const merged = mergeCountryTowers({ previous, results, codes: ['IR'], now: '2026-02-01T00:00:00Z' });
+    expect(merged.features.map(f => f.id)).toEqual(['old-1']);
+    expect(merged.countries.IR).toEqual({ retrievedAt: '2026-01-01T00:00:00Z', count: 1, status: 'stale' });
+    expect(merged.staleReasons.IR).toBe('Overpass HTTP 504 for IR');
+  });
+
+  it('a country that has never succeeded gets retrievedAt: null and 0 features when its fetch fails', () => {
+    const results = new Map<string, CountryFetchResult>([['XX', { ok: false, reason: 'Overpass matched no area' }]]);
+    const merged = mergeCountryTowers({ previous: null, results, codes: ['XX'], now: '2026-02-01T00:00:00Z' });
+    expect(merged.features).toEqual([]);
+    expect(merged.countries.XX).toEqual({ retrievedAt: null, count: 0, status: 'stale' });
+    expect(merged.staleReasons.XX).toBe('Overpass matched no area');
+  });
+
+  it('a suspicious drop (new count < 20% of previous, previous >= 10) is treated as a failure and keeps the old data', () => {
+    const oldFeatures = Array.from({ length: 12 }, (_, i) => feat('IR', `old-${i}`));
+    const previous = previousLayer(
+      { IR: { retrievedAt: '2026-01-01T00:00:00Z', count: 12, status: 'fresh' } },
+      oldFeatures,
+    );
+    const results = new Map<string, CountryFetchResult>([['IR', { ok: true, features: [feat('IR', 'new-1')] }]]); // 1 < 20% of 12
+    const merged = mergeCountryTowers({ previous, results, codes: ['IR'], now: '2026-02-01T00:00:00Z' });
+    expect(merged.features).toHaveLength(12);
+    expect(merged.countries.IR).toEqual({ retrievedAt: '2026-01-01T00:00:00Z', count: 12, status: 'stale' });
+    expect(merged.staleReasons.IR).toMatch(/suspicious drop/);
+  });
+
+  it('a code missing from results (time budget exhausted) is stale with that reason, previous data kept', () => {
+    const previous = previousLayer(
+      { IR: { retrievedAt: '2026-01-01T00:00:00Z', count: 1, status: 'fresh' } },
+      [feat('IR', 'old-1')],
+    );
+    const merged = mergeCountryTowers({ previous, results: new Map(), codes: ['IR'], now: '2026-02-01T00:00:00Z' });
+    expect(merged.features.map(f => f.id)).toEqual(['old-1']);
+    expect(merged.countries.IR.status).toBe('stale');
+    expect(merged.staleReasons.IR).toBe('time budget exhausted');
+  });
+});
+
+describe('assessRadioTowerHealth', () => {
+  const now = '2026-06-01T00:00:00Z';
+  it('a country stale for 36 days is unhealthy', () => {
+    const health = assessRadioTowerHealth({ IR: { retrievedAt: '2026-04-26T00:00:00Z', count: 5, status: 'stale' } }, now);
+    expect(health.ok).toBe(false);
+    expect(health.problems.some(p => p.includes('IR'))).toBe(true);
+  });
+  it('a country retrievedAt: null is unhealthy', () => {
+    const health = assessRadioTowerHealth({ IR: { retrievedAt: null, count: 0, status: 'stale' } }, now);
+    expect(health.ok).toBe(false);
+    expect(health.problems.some(p => p.includes('never retrieved'))).toBe(true);
+  });
+  it('1 of 5 countries stale (20%) is healthy', () => {
+    const fresh = (): CountryProvenance => ({ retrievedAt: now, count: 5, status: 'fresh' });
+    const countries: Record<string, CountryProvenance> = { A: fresh(), B: fresh(), C: fresh(), D: fresh(), E: { retrievedAt: now, count: 5, status: 'stale' } };
+    expect(assessRadioTowerHealth(countries, now).ok).toBe(true);
+  });
+  it('2 of 5 countries stale (40%) is unhealthy', () => {
+    const fresh = (): CountryProvenance => ({ retrievedAt: now, count: 5, status: 'fresh' });
+    const stale = (): CountryProvenance => ({ retrievedAt: now, count: 5, status: 'stale' });
+    const countries: Record<string, CountryProvenance> = { A: fresh(), B: fresh(), C: fresh(), D: stale(), E: stale() };
+    const health = assessRadioTowerHealth(countries, now);
+    expect(health.ok).toBe(false);
+    expect(health.problems.some(p => p.includes('2/5'))).toBe(true);
+  });
+  it('a fully fresh, recent set of countries is healthy', () => {
+    const countries: Record<string, CountryProvenance> = { A: { retrievedAt: now, count: 5, status: 'fresh' } };
+    expect(assessRadioTowerHealth(countries, now)).toEqual({ ok: true, problems: [] });
+  });
+});
+
+describe('runRadioTowers (budget + orchestration)', () => {
+  it('stops starting new countries once the injectable clock reports the budget elapsed, leaving the rest stale', async () => {
+    const codes = ['A', 'B', 'C'];
+    let calls = 0;
+    let clockMs = 0;
+    const fetchFn = async () => {
+      calls++;
+      clockMs += 2000; // each fetch "takes" time
+      return [{ type: 'node', id: calls, lat: 1, lon: 1, tags: { 'communication:radio': 'fm' } }];
+    };
+    const layer = await runRadioTowers('2026-02-01T00:00:00Z', {
+      codes,
+      previous: null,
+      fetchFn,
+      sleepFn: async () => {},
+      clock: () => clockMs,
+      budgetMs: 1500, // enough for one country's fetch, not a second
+      gapMs: 0,
+    });
+    expect(calls).toBe(1);
+    expect(layer._provenance.countries?.A.status).toBe('fresh');
+    expect(layer._provenance.countries?.B.status).toBe('stale');
+    expect(layer._provenance.countries?.C.status).toBe('stale');
+  });
+
+  it('a country whose fetch throws is recorded as a failed result and kept stale, other countries unaffected', async () => {
+    const fetchFn = async (cc: string) => {
+      if (cc === 'BAD') throw new Error('Overpass HTTP 504 for BAD');
+      return [{ type: 'node', id: 1, lat: 1, lon: 1, tags: { 'communication:radio': 'fm' } }];
+    };
+    const layer = await runRadioTowers('2026-02-01T00:00:00Z', {
+      codes: ['GOOD', 'BAD'],
+      previous: null,
+      fetchFn,
+      sleepFn: async () => {},
+      clock: () => 0,
+      gapMs: 0,
+    });
+    expect(layer._provenance.countries?.GOOD.status).toBe('fresh');
+    expect(layer._provenance.countries?.BAD).toEqual({ retrievedAt: null, count: 0, status: 'stale' });
+  });
+
+  it('recomputes per-country counts after capTowersPerCountry so provenance matches what is actually shipped', async () => {
+    const fetchFn = async () => Array.from({ length: 5 }, (_, i) => ({ type: 'node', id: i + 1, lat: 1, lon: 1, tags: { 'communication:radio': 'fm', name: `T${i}` } }));
+    const layer = await runRadioTowers('2026-02-01T00:00:00Z', {
+      codes: ['IR'],
+      previous: null,
+      fetchFn,
+      sleepFn: async () => {},
+      clock: () => 0,
+      gapMs: 0,
+    });
+    // cap isn't exercised at 5 features (well under 800), so count should equal actual features for IR
+    expect(layer.features).toHaveLength(5);
+    expect(layer._provenance.countries?.IR.count).toBe(5);
+    expect(GeoLayerSchema.safeParse(layer).success).toBe(true);
   });
 });

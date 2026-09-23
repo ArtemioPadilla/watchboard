@@ -9,6 +9,21 @@
  */
 import { z } from 'zod';
 
+/**
+ * Per-country retrieval state for layers built from many per-country
+ * queries (currently `radio-towers`). `retrievedAt` is the last successful
+ * fetch for that country — carried forward unchanged while stale, `null` if
+ * it has never succeeded. `.strict()` so an unknown status value (a typo,
+ * or a future status nobody wired up validation for) fails loudly instead
+ * of being silently accepted.
+ */
+export const CountryProvenanceSchema = z.object({
+  retrievedAt: z.string().nullable(),
+  count: z.number().int().nonnegative(),
+  status: z.enum(['fresh', 'stale']),
+}).strict();
+export type CountryProvenance = z.infer<typeof CountryProvenanceSchema>;
+
 export const GeoLayerProvenanceSchema = z.object({
   id: z.string().regex(/^[a-z0-9-]+$/),
   source: z.string().min(1),
@@ -18,6 +33,8 @@ export const GeoLayerProvenanceSchema = z.object({
   retrievedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T/),
   transform: z.string().optional(),
   featureCount: z.number().int().nonnegative(),
+  /** ISO2 → per-country retrieval state, populated by the radio-towers adapter's per-country merge. Optional: every other layer, and any radio-towers file written before this field existed, omits it. */
+  countries: z.record(z.string(), CountryProvenanceSchema).optional(),
 });
 export type GeoLayerProvenance = z.infer<typeof GeoLayerProvenanceSchema>;
 

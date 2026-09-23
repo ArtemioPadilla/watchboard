@@ -13,7 +13,7 @@
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { GeoLayerSchema, type GeoLayer } from '../../src/lib/geo-layer-schema';
+import { GeoLayerSchema, type GeoLayer, type CountryProvenance } from '../../src/lib/geo-layer-schema';
 // Node-only loader (see scripts/lib/load-trackers-node.ts): src/lib/tracker-registry.ts
 // uses import.meta.glob, which is Vite-only and throws under plain `tsx` execution.
 import { loadAllTrackers } from '../lib/load-trackers-node';
@@ -272,20 +272,37 @@ function splitAreaCountAndNodes(elements: any[]): { areaCount: number | null; no
  * with the country code alone (no `admin_level` filter); if that also
  * measures zero areas, it throws instead of silently returning `[]`.
  *
+ * The retry targets a fallback mirror (`OVERPASS_FALLBACK_URL`), not the
+ * primary host again — a 429/504/runtime-error is often the primary host
+ * itself being overloaded, so retrying the same host tends to repeat the
+ * failure. `opts` overrides both URLs for tests.
+ *
  * `sleepFn` is injectable so tests don't wait 30s.
  */
-export async function fetchOverpassCountryTowers(cc: string, sleepFn: (ms: number) => Promise<void> = sleep): Promise<any[]> {
-  const doFetch = (query: string) => fetch('https://overpass-api.de/api/interpreter', {
+export const OVERPASS_PRIMARY_URL = 'https://overpass-api.de/api/interpreter';
+// Verified live 2026-09-22. overpass.kumi.systems and overpass.private.coffee
+// were tried and failed — do not swap in either of those.
+export const OVERPASS_FALLBACK_URL = 'https://maps.mail.ru/osm/tools/overpass/api/interpreter';
+
+export interface OverpassUrlOpts {
+  primaryUrl?: string;
+  fallbackUrl?: string;
+}
+
+export async function fetchOverpassCountryTowers(cc: string, sleepFn: (ms: number) => Promise<void> = sleep, opts: OverpassUrlOpts = {}): Promise<any[]> {
+  const primaryUrl = opts.primaryUrl ?? OVERPASS_PRIMARY_URL;
+  const fallbackUrl = opts.fallbackUrl ?? OVERPASS_FALLBACK_URL;
+  const doFetch = (query: string, url: string) => fetch(url, {
     method: 'POST',
     headers: { 'User-Agent': 'Watchboard/geo-refresh (https://watchboard.dev)', 'Content-Type': 'application/x-www-form-urlencoded' },
     body: `data=${encodeURIComponent(query)}`,
   });
 
-  // One attempt for a given query: returns the area count + node elements,
-  // or a retryable reason string when the response is a 429/504 or a
-  // disguised-as-200 Overpass runtime error.
-  const attempt = async (query: string): Promise<{ areaCount: number | null; nodes: any[] } | { retryReason: string }> => {
-    const res = await doFetch(query);
+  // One attempt for a given query against a given host: returns the area
+  // count + node elements, or a retryable reason string when the response
+  // is a 429/504 or a disguised-as-200 Overpass runtime error.
+  const attempt = async (query: string, url: string): Promise<{ areaCount: number | null; nodes: any[] } | { retryReason: string }> => {
+    const res = await doFetch(query, url);
     if (res.status === 429 || res.status === 504) return { retryReason: `HTTP ${res.status}` };
     if (!res.ok) throw new Error(`Overpass HTTP ${res.status} for ${cc}`);
     const body = await res.json();
@@ -294,13 +311,14 @@ export async function fetchOverpassCountryTowers(cc: string, sleepFn: (ms: numbe
   };
 
   // One area selector (strict or fallback), with the 429/504/runtime-error
-  // retry-once behavior above — independent of the area-empty fallback below.
+  // retry-once-against-the-mirror behavior above — independent of the
+  // area-empty fallback below.
   const runSelector = async (strict: boolean): Promise<{ areaCount: number | null; nodes: any[] }> => {
     const query = buildTowerAreaQuery(cc, strict);
-    let result = await attempt(query);
+    let result = await attempt(query, primaryUrl);
     if ('retryReason' in result) {
       await sleepFn(30_000);
-      result = await attempt(query);
+      result = await attempt(query, fallbackUrl);
       if ('retryReason' in result) throw new Error(`Overpass failed for ${cc} after retry (${result.retryReason})`);
     }
     return result;
@@ -314,42 +332,218 @@ export async function fetchOverpassCountryTowers(cc: string, sleepFn: (ms: numbe
   return nodes;
 }
 
+/** True when a country's new tower count looks like a bad fetch rather than a real drop: the previous count was at least 10 and the new count is under 20% of it. Below 10, small absolute swings (e.g. 3 → 1) are not evidence of anything. */
+export function isSuspiciousDrop(prevCount: number, nextCount: number): boolean {
+  return prevCount >= 10 && nextCount < prevCount * 0.2;
+}
+
+export type CountryFetchResult =
+  | { ok: true; features: GeoLayer['features'] }
+  | { ok: false; reason: string };
+
+/**
+ * Per-country merge: a country's new data replaces the old only when the
+ * fetch succeeded *and* the new count isn't a suspicious drop. Every other
+ * case — fetch failure, suspicious drop, or the code missing from `results`
+ * entirely because the time budget ran out before reaching it — keeps that
+ * country's previous features and previous `retrievedAt` (or `null` if it
+ * has never succeeded) and is marked `stale`. A country's data is never
+ * dropped because of a failed fetch; the worst case is "unchanged from last
+ * time", never "gone".
+ */
+export function mergeCountryTowers(args: {
+  previous: GeoLayer | null;
+  results: Map<string, CountryFetchResult>;
+  codes: string[];
+  now: string;
+}): { features: GeoLayer['features']; countries: Record<string, CountryProvenance>; staleReasons: Record<string, string> } {
+  const { previous, results, codes, now } = args;
+  const prevCountries = (previous?._provenance.countries ?? {}) as Record<string, CountryProvenance>;
+  const prevFeaturesByCountry = new Map<string, GeoLayer['features']>();
+  for (const f of previous?.features ?? []) {
+    const cc = String((f.properties as any)?.countryCode ?? '');
+    if (!prevFeaturesByCountry.has(cc)) prevFeaturesByCountry.set(cc, []);
+    prevFeaturesByCountry.get(cc)!.push(f);
+  }
+
+  const features: GeoLayer['features'] = [];
+  const countries: Record<string, CountryProvenance> = {};
+  const staleReasons: Record<string, string> = {};
+
+  const keepStale = (cc: string, reason: string) => {
+    const prevFeats = prevFeaturesByCountry.get(cc) ?? [];
+    const prevRetrievedAt = prevCountries[cc]?.retrievedAt ?? null;
+    features.push(...prevFeats);
+    countries[cc] = { retrievedAt: prevRetrievedAt, count: prevFeats.length, status: 'stale' };
+    staleReasons[cc] = reason;
+  };
+
+  for (const cc of codes) {
+    const result = results.get(cc);
+    if (!result) {
+      keepStale(cc, 'time budget exhausted');
+      continue;
+    }
+    if (!result.ok) {
+      keepStale(cc, result.reason);
+      continue;
+    }
+    const prevFeats = prevFeaturesByCountry.get(cc) ?? [];
+    const prevCount = prevCountries[cc]?.count ?? prevFeats.length;
+    const nextCount = result.features.length;
+    if (isSuspiciousDrop(prevCount, nextCount)) {
+      keepStale(cc, `suspicious drop: ${prevCount} → ${nextCount} (< 20% of previous)`);
+      continue;
+    }
+    features.push(...result.features);
+    countries[cc] = { retrievedAt: now, count: nextCount, status: 'fresh' };
+  }
+
+  return { features, countries, staleReasons };
+}
+
+const RADIO_TOWERS_MAX_AGE_MS = 35 * 24 * 60 * 60 * 1000;
+const RADIO_TOWERS_MAX_STALE_RATIO = 0.2;
+
+/**
+ * Health rule: unhealthy if any country has never succeeded (`retrievedAt`
+ * `null`) or is older than 35 days, or if more than 20% of countries are
+ * `stale` in this run. `problems` names every offending country so the
+ * `::error::` line in main() is actionable, not just "something's wrong".
+ */
+export function assessRadioTowerHealth(countries: Record<string, CountryProvenance>, now: string): { ok: boolean; problems: string[] } {
+  const problems: string[] = [];
+  const codes = Object.keys(countries).sort();
+  const nowMs = new Date(now).getTime();
+  let staleCount = 0;
+  for (const cc of codes) {
+    const c = countries[cc];
+    if (c.status === 'stale') staleCount++;
+    if (c.retrievedAt === null) {
+      problems.push(`${cc}: never retrieved`);
+      continue;
+    }
+    const ageMs = nowMs - new Date(c.retrievedAt).getTime();
+    if (ageMs > RADIO_TOWERS_MAX_AGE_MS) {
+      problems.push(`${cc}: stale for ${Math.floor(ageMs / (24 * 60 * 60 * 1000))} days`);
+    }
+  }
+  if (codes.length > 0) {
+    const staleRatio = staleCount / codes.length;
+    if (staleRatio > RADIO_TOWERS_MAX_STALE_RATIO) {
+      problems.push(`${staleCount}/${codes.length} countries stale (${Math.round(staleRatio * 100)}%)`);
+    }
+  }
+  return { ok: problems.length === 0, problems };
+}
+
+const RADIO_TOWERS_BUDGET_MS = 20 * 60 * 1000;
+const RADIO_TOWERS_GAP_MS = 5_000;
+const RADIO_TOWERS_CAP = 800;
+
+export interface RadioTowersRunDeps {
+  codes: string[];
+  previous: GeoLayer | null;
+  fetchFn?: (cc: string, sleepFn?: (ms: number) => Promise<void>) => Promise<any[]>;
+  sleepFn?: (ms: number) => Promise<void>;
+  /** Wall clock in ms, injectable so the 20-minute budget never makes a test wait. */
+  clock?: () => number;
+  budgetMs?: number;
+  gapMs?: number;
+}
+
+/**
+ * The per-country fetch loop, pulled out of the `Adapter` so the budget
+ * clock, sleep and fetch function are all injectable for tests. Stops
+ * *starting* new country queries once `budgetMs` of wall time has elapsed
+ * since the loop began; codes not yet reached are simply absent from
+ * `results`, so `mergeCountryTowers` marks them stale with "time budget
+ * exhausted" and keeps their previous data — the run still produces a file,
+ * just a partially-refreshed one.
+ *
+ * Country counts in the returned provenance are recomputed after
+ * `capTowersPerCountry` so `_provenance.countries[cc].count` always matches
+ * the features actually shipped for that country (not the pre-cap fetch
+ * size) — otherwise a country with a very active OSM community could report
+ * a count larger than what a reader (or the health check's next run) can
+ * actually see in the file.
+ */
+export async function runRadioTowers(now: string, deps: RadioTowersRunDeps): Promise<GeoLayer> {
+  const {
+    codes, previous,
+    fetchFn = fetchOverpassCountryTowers,
+    sleepFn = sleep,
+    clock = Date.now,
+    budgetMs = RADIO_TOWERS_BUDGET_MS,
+    gapMs = RADIO_TOWERS_GAP_MS,
+  } = deps;
+
+  const start = clock();
+  const results = new Map<string, CountryFetchResult>();
+  for (let i = 0; i < codes.length; i++) {
+    if (clock() - start >= budgetMs) break; // remaining codes stay out of `results` → stale, "time budget exhausted"
+    if (i > 0) await sleepFn(gapMs);
+    const cc = codes[i];
+    try {
+      const elements = await fetchFn(cc, sleepFn);
+      results.set(cc, { ok: true, features: overpassTowersToFeatures(elements, cc) });
+    } catch (e) {
+      results.set(cc, { ok: false, reason: (e as Error).message });
+    }
+  }
+
+  const merged = mergeCountryTowers({ previous, results, codes, now });
+  const features = capTowersPerCountry(merged.features, RADIO_TOWERS_CAP);
+
+  const cappedCounts = new Map<string, number>();
+  for (const f of features) {
+    const cc = String((f.properties as any)?.countryCode ?? '');
+    cappedCounts.set(cc, (cappedCounts.get(cc) ?? 0) + 1);
+  }
+  const countries: Record<string, CountryProvenance> = {};
+  for (const [cc, prov] of Object.entries(merged.countries)) {
+    countries[cc] = { ...prov, count: cappedCounts.get(cc) ?? 0 };
+  }
+
+  return {
+    type: 'FeatureCollection',
+    _provenance: {
+      id: 'radio-towers', source: 'OpenStreetMap (Overpass API)', url: 'https://overpass-api.de/api/interpreter',
+      license: 'ODbL 1.0', attribution: 'Radio towers: © OpenStreetMap contributors, ODbL', retrievedAt: now,
+      transform: `Per-country Overpass area queries (ISO3166-1: ${codes.join(', ')}) for nodes tagged man_made=tower|mast with communication:radio set, capped at ${RADIO_TOWERS_CAP} towers per country (named first, then heightM descending, then osmId ascending). A country whose fetch failed, whose new count looked suspiciously low, or that fell outside the 20-minute time budget keeps its previous data — see _provenance.countries for per-country freshness.`,
+      featureCount: features.length,
+      countries,
+    },
+    features,
+  };
+}
+
+function readPreviousLayer(id: string): GeoLayer | null {
+  const p = resolve(OUT_DIR, `${id}.geojson`);
+  if (!existsSync(p)) return null;
+  try {
+    return validateLayerFile(p);
+  } catch (e) {
+    console.warn(`[geo] previous ${id}.geojson failed to validate, treating as no prior data: ${(e as Error).message}`);
+    return null;
+  }
+}
+
 /**
  * Overpass: communication towers/masts (radio broadcast, not generic cell
  * masts — communication:radio must be set), one area query per country code
  * declared by every tracker with "radio-towers" in map.staticLayers. Queries
- * are spaced ≥5s apart; a country whose query still fails after one 30s
- * retry fails the whole adapter (main() then leaves the previous file
- * untouched). Deduped by OSM id (first country wins), then capped at 800
- * towers per country.
+ * are spaced ≥5s apart. Per-country merge means a single country's failure
+ * never takes down the whole layer — see `mergeCountryTowers` and
+ * `runRadioTowers`.
  */
 const radioTowers: Adapter = {
   id: 'radio-towers',
   async run(now) {
     const codes = radioTowerCountryCodes();
     if (codes.length === 0) throw new Error('no tracker has "radio-towers" in map.staticLayers');
-    const seen = new Map<string, GeoLayer['features'][number]>();
-    for (let i = 0; i < codes.length; i++) {
-      if (i > 0) await sleep(5_000);
-      const cc = codes[i];
-      const elements = await fetchOverpassCountryTowers(cc);
-      for (const f of overpassTowersToFeatures(elements, cc)) {
-        const id = String(f.id);
-        if (!seen.has(id)) seen.set(id, f);
-      }
-    }
-    const cap = 800;
-    const features = capTowersPerCountry([...seen.values()], cap);
-    return {
-      type: 'FeatureCollection',
-      _provenance: {
-        id: 'radio-towers', source: 'OpenStreetMap (Overpass API)', url: 'https://overpass-api.de/api/interpreter',
-        license: 'ODbL 1.0', attribution: 'Radio towers: © OpenStreetMap contributors, ODbL', retrievedAt: now,
-        transform: `Per-country Overpass area queries (ISO3166-1: ${codes.join(', ')}) for nodes tagged man_made=tower|mast with communication:radio set, deduped by OSM id, capped at ${cap} towers per country (named first, then heightM descending, then osmId ascending)`,
-        featureCount: features.length,
-      },
-      features,
-    };
+    const previous = readPreviousLayer('radio-towers');
+    return runRadioTowers(now, { codes, previous });
   },
 };
 
@@ -475,6 +669,7 @@ async function main(): Promise<void> {
   }
   const now = new Date().toISOString();
   let failed = 0;
+  let unhealthy = false;
   for (const a of ADAPTERS) {
     if (only && a.id !== only) continue;
     try {
@@ -483,12 +678,23 @@ async function main(): Promise<void> {
       const out = resolve(OUT_DIR, `${a.id}.geojson`);
       writeFileSync(out, JSON.stringify(layer) + '\n');
       console.log(`[geo] wrote ${a.id}: ${layer.features.length} features → ${out} (${(Buffer.byteLength(JSON.stringify(layer)) / 1024).toFixed(0)} KB)`);
+      // Per-country merge means radio-towers writes a file even when some
+      // countries are stale — the file is still strictly better than the
+      // old one. Health is assessed after the write, not instead of it, and
+      // a bad result fails the run loudly without blocking other adapters.
+      if (a.id === 'radio-towers' && layer._provenance.countries) {
+        const health = assessRadioTowerHealth(layer._provenance.countries, now);
+        if (!health.ok) {
+          console.error(`::error::radio-towers unhealthy: ${health.problems.join('; ')}`);
+          unhealthy = true;
+        }
+      }
     } catch (e) {
       console.error(`[geo] ${a.id} failed: ${(e as Error).message}`);
       failed++;
     }
   }
-  process.exit(failed ? 1 : 0);
+  process.exit(failed || unhealthy ? 1 : 0);
 }
 
 const invokedDirectly = process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url);
