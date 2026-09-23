@@ -13,7 +13,7 @@
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { GeoLayerSchema, type GeoLayer, type CountryProvenance } from '../../src/lib/geo-layer-schema';
+import { GeoLayerSchema, RADIO_TOWERS_MAX_AGE_DAYS, type GeoLayer, type CountryProvenance } from '../../src/lib/geo-layer-schema';
 // Node-only loader (see scripts/lib/load-trackers-node.ts): src/lib/tracker-registry.ts
 // uses import.meta.glob, which is Vite-only and throws under plain `tsx` execution.
 import { loadAllTrackers } from '../lib/load-trackers-node';
@@ -431,7 +431,7 @@ export function mergeCountryTowers(args: {
   return { features, countries, staleReasons };
 }
 
-const RADIO_TOWERS_MAX_AGE_MS = 35 * 24 * 60 * 60 * 1000;
+const RADIO_TOWERS_MAX_AGE_MS = RADIO_TOWERS_MAX_AGE_DAYS * 24 * 60 * 60 * 1000;
 const RADIO_TOWERS_MAX_STALE_RATIO = 0.2;
 
 /**

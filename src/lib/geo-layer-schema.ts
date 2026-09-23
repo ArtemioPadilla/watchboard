@@ -24,6 +24,15 @@ export const CountryProvenanceSchema = z.object({
 }).strict();
 export type CountryProvenance = z.infer<typeof CountryProvenanceSchema>;
 
+/**
+ * A country is unhealthy when its `retrievedAt` is `null` or older than
+ * this many days (Global Constraints, "Health rule" — radio-refresh-hardening
+ * plan). Single source of truth shared by `scripts/geo/refresh-layers.ts`
+ * (`assessRadioTowerHealth`) and `src/lib/radio-freshness.ts` (the
+ * `/sources` page) so the two never drift apart.
+ */
+export const RADIO_TOWERS_MAX_AGE_DAYS = 35;
+
 export const GeoLayerProvenanceSchema = z.object({
   id: z.string().regex(/^[a-z0-9-]+$/),
   source: z.string().min(1),
