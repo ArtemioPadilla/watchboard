@@ -4,6 +4,10 @@ import { useLocale } from '../../../i18n/useLocale';
 import type { TrackerCardData } from '../../../lib/tracker-directory-utils';
 import type { RadioStationProperties } from '../../../lib/radio-station';
 import { RADIO_STATION_SVG } from '../../../lib/radio-icons';
+import type { GlobeRadioStation } from '../../../lib/radio-global';
+
+export type { GlobeRadioStation };
+export type RadioLayerStatus = 'idle' | 'loading' | 'ready' | 'error';
 
 interface GlobePoint {
   type: 'hub' | 'event';
@@ -56,6 +60,11 @@ interface Props {
   /** Capped radio-station pins (Task 9): pink dots, click opens RadioStationCard. */
   radioStations?: GlobeRadioStation[];
   onSelectRadioStation?: (s: RadioStationProperties) => void;
+  /** Radio layer toggle (off by default, owned by CommandCenter). */
+  radioLayerOn?: boolean;
+  radioLayerStatus?: RadioLayerStatus;
+  onToggleRadioLayer?: () => void;
+  onRetryRadioLayer?: () => void;
 }
 
 export interface PendingPin {
@@ -68,13 +77,6 @@ export interface PendingPin {
   url: string;
   place?: string;
 }
-
-/**
- * `RadioStationProperties` has no coordinates — those live in the GeoJSON
- * `geometry`, not `properties`. This carries both, so CommandCenter's state
- * and this component's props can pass a self-contained pin.
- */
-export type GlobeRadioStation = RadioStationProperties & { lat: number; lon: number };
 
 function hexToRgb(hex: string): string {
   const h = hex.replace('#', '');
@@ -245,6 +247,10 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
   pendingCandidates = [],
   radioStations = [],
   onSelectRadioStation,
+  radioLayerOn = false,
+  radioLayerStatus = 'idle',
+  onToggleRadioLayer,
+  onRetryRadioLayer,
 }, ref) {
   const locale = useLocale();
   const [loading, setLoading] = useState(true);
@@ -770,6 +776,42 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
           <path d="M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/>
         </svg>
       </button>
+      {onToggleRadioLayer && (
+        <button
+          className="globe-radio-toggle"
+          data-testid="radio-layer-toggle"
+          onClick={onToggleRadioLayer}
+          title={`${t('layers.radioStations', locale)}: ${radioLayerOn ? 'ON' : 'OFF'} (R)`}
+          style={{
+            ...styles.lightsToggle,
+            top: 44,
+            opacity: radioLayerOn ? 0.9 : 0.4,
+            color: radioLayerOn ? '#ff66cc' : styles.lightsToggle.color,
+          }}
+          aria-pressed={radioLayerOn}
+          aria-label={t('layers.radioStations', locale)}
+        >
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="12" r="2"/>
+            <path d="M16.24 7.76a6 6 0 0 1 0 8.49"/><path d="M7.76 16.24a6 6 0 0 1 0-8.49"/>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M4.93 19.07a10 10 0 0 1 0-14.14"/>
+          </svg>
+        </button>
+      )}
+      {onToggleRadioLayer && radioLayerOn && (
+        <div className={`cc-radio-layer-status cc-radio-layer-${radioLayerStatus}`} data-testid="radio-layer-status" role="status">
+          {radioLayerStatus === 'error' ? (
+            <>
+              {t('radio.layerError', locale)}
+              {onRetryRadioLayer && (
+                <button type="button" onClick={onRetryRadioLayer}>{t('radio.layerRetry', locale)}</button>
+              )}
+            </>
+          ) : radioLayerStatus === 'ready'
+            ? t('radio.layerAttribution', locale)
+            : t('radio.layerLoading', locale)}
+        </div>
+      )}
     </div>
   );
 });
