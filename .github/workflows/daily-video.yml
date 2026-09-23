@@ -191,6 +191,7 @@ jobs:
           fi
 
       - name: Commit social post record
+        id: commit_social
         continue-on-error: true
         run: |
           DATE=$(date -u +%Y-%m-%d)
@@ -269,6 +270,7 @@ jobs:
           "
 
       - name: Commit tracker history + daily log
+        id: commit_video_state
         continue-on-error: true
         run: |
           git config user.name "github-actions[bot]"
@@ -364,6 +366,23 @@ jobs:
             -F "supports_streaming=true" \
             && echo "✅ Video posted to Telegram" \
             || echo "⚠️ Telegram video post failed (non-fatal)"
+
+      - name: Fail job if a state commit/push failed
+        # The two commit steps above run with continue-on-error: true so that
+        # artifact upload and the Telegram post still happen even when the git
+        # push fails — but that means their own `exit 1` never turns the job
+        # red on its own. This step is the loud signal: it runs regardless of
+        # what happened above (if: always()) and fails the whole run when
+        # either commit/push step's outcome was failure, so a silently-dropped
+        # push (video-post record or tracker-history/daily-log) is visible
+        # instead of hiding behind a green run. There is no notify-failure job
+        # in this workflow, so a red run here is the only alert.
+        if: always()
+        run: |
+          if [ "${{ steps.commit_social.outcome }}" = "failure" ] || [ "${{ steps.commit_video_state.outcome }}" = "failure" ]; then
+            echo "::error::A state commit/push step failed — see 'Commit social post record' and/or 'Commit tracker history + daily log' above. The video itself may have rendered and posted fine, but bot state was not saved to main."
+            exit 1
+          fi
 
   video-progress:
     name: Daily Progress Video (positive mode)
@@ -513,6 +532,7 @@ jobs:
           fi
 
       - name: Commit social post record
+        id: commit_progress_social
         continue-on-error: true
         run: |
           DATE=$(date -u +%Y-%m-%d)
@@ -593,3 +613,18 @@ jobs:
           ls -lh video/output/*.mp4 2>/dev/null | while read line; do
             echo "- ${line}" >> $GITHUB_STEP_SUMMARY
           done
+
+      - name: Fail job if a state commit/push failed
+        # Same reasoning as the "video" job's equivalent gate: "Commit social
+        # post record" above runs with continue-on-error: true so artifact
+        # upload / Telegram post still happen when the git push fails, which
+        # means its own `exit 1` cannot turn the job red by itself. This step
+        # runs regardless (if: always()) and fails the run when that step's
+        # outcome was failure. No notify-failure job exists in this workflow,
+        # so a red run here is the only alert.
+        if: always()
+        run: |
+          if [ "${{ steps.commit_progress_social.outcome }}" = "failure" ]; then
+            echo "::error::Progress video social post record failed to push to main — see 'Commit social post record' above. The next run will not know this was already posted."
+            exit 1
+          fi
