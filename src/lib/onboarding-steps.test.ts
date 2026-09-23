@@ -2,16 +2,23 @@ import { describe, it, expect } from 'vitest';
 import { DESKTOP_STEPS, MOBILE_STEPS } from './onboarding-steps';
 
 describe('onboarding step configs', () => {
-  it('has 6 desktop steps in spec order', () => {
-    expect(DESKTOP_STEPS).toHaveLength(6);
+  it('has 7 desktop steps in spec order', () => {
+    expect(DESKTOP_STEPS).toHaveLength(7);
     expect(DESKTOP_STEPS.map((s) => s.id)).toEqual([
       'hero-intro',
       'spotlight-globe',
       'spotlight-sidebar',
+      'hero-interests',
       'spotlight-ticker',
       'hero-tiers',
       'hero-closing',
     ]);
+  });
+
+  it('the interests step is a non-final, typed step', () => {
+    const idx = DESKTOP_STEPS.findIndex(s => s.id === 'hero-interests');
+    expect(DESKTOP_STEPS[idx].type).toBe('interests');
+    expect(idx).toBeLessThan(DESKTOP_STEPS.length - 1);
   });
 
   it('has 3 mobile steps in spec order', () => {

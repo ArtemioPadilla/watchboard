@@ -2,13 +2,21 @@ import { DESKTOP_STEPS } from '../../../lib/onboarding-steps';
 import { t } from '../../../i18n/translations';
 import { useLocale } from '../../../i18n/useLocale';
 import { useOnboardingController } from './useOnboardingController';
+import { useInterests } from '../shared/useInterests';
+import InterestChips from '../shared/InterestChips';
 import HeroStep from './HeroStep';
 import SpotlightStep from './SpotlightStep';
+import type { interestOptions } from '../../../lib/interests';
 
 export const TOUR_REPLAY_EVENT = 'watchboard:start-tour';
 
-export default function OnboardingTour() {
+interface OnboardingTourProps {
+  interestOptions?: ReturnType<typeof interestOptions>;
+}
+
+export default function OnboardingTour({ interestOptions: options }: OnboardingTourProps = {}) {
   const locale = useLocale();
+  const { interests, toggle } = useInterests();
   const { active, stepIdx, showCompletionToast, finish, goNext, goBack } =
     useOnboardingController(DESKTOP_STEPS.length, 'desktop', TOUR_REPLAY_EVENT);
 
@@ -44,6 +52,34 @@ export default function OnboardingTour() {
         onNext={goNext}
         onSkip={finish}
       />
+    );
+  }
+
+  if (step.type === 'interests') {
+    const primaryLabel = t('tour.next', locale);
+    return (
+      <HeroStep
+        variant="interests"
+        title={title}
+        body={body}
+        stepLabel={stepLabel}
+        isFirst={isFirst}
+        isLast={isLast}
+        primaryLabel={primaryLabel}
+        backLabel={t('tour.back', locale)}
+        skipLabel={t('tour.skip', locale)}
+        onPrimary={goNext}
+        onBack={goBack}
+        onSkip={finish}
+      >
+        <InterestChips
+          compact
+          interests={interests}
+          options={options ?? { domains: [], regions: [] }}
+          locale={locale}
+          onToggle={toggle}
+        />
+      </HeroStep>
     );
   }
 

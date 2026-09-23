@@ -1,15 +1,17 @@
 import type { TrackerCardData } from './tracker-directory-utils';
 import { sortByRelevance } from './relevance';
+import type { Interests } from './interests';
 
 /**
  * Pick the hero tracker for the sidebar: the highest-relevance active tracker
  * that has a headline and at least one usable image. Returns null if none qualify.
  *
- * Stable for a given (trackers, followedSlugs) pair.
+ * Stable for a given (trackers, followedSlugs, interests) pair.
  */
 export function selectHeroTracker(
   trackers: TrackerCardData[],
   followedSlugs: string[],
+  interests?: Interests,
 ): TrackerCardData | null {
   const eligible = trackers.filter(t =>
     t.status === 'active' &&
@@ -18,6 +20,6 @@ export function selectHeroTracker(
     (t.latestEventMedia != null || (t.eventImages?.length ?? 0) > 0)
   );
   if (eligible.length === 0) return null;
-  const sorted = sortByRelevance(eligible, followedSlugs);
+  const sorted = sortByRelevance(eligible, followedSlugs, interests);
   return sorted[0] ?? null;
 }

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { computeRelevanceScore, sortByRelevance, sortByActivity, ACTIVITY_WEIGHT } from './relevance';
+import { computeRelevanceScore, sortByRelevance, sortByActivity, ACTIVITY_WEIGHT, INTEREST_BONUS } from './relevance';
 
 const NOW = new Date().toISOString();
 
@@ -36,5 +36,32 @@ describe('sorting', () => {
   it('sortByRelevance folds activity in', () => {
     const out = sortByRelevance([t('low', 5), t('high', 95)], []);
     expect(out[0].slug).toBe('high');
+  });
+});
+
+describe('interests', () => {
+  const base = { lastUpdated: NOW, isFollowed: false, activityScore: 50 };
+  it('adds INTEREST_BONUS only on a match', () => {
+    expect(INTEREST_BONUS).toBe(10);
+    expect(computeRelevanceScore({ ...base, matchesInterest: true }) - computeRelevanceScore(base))
+      .toBeCloseTo(INTEREST_BONUS, 5);
+    expect(computeRelevanceScore({ ...base, matchesInterest: false })).toBeCloseTo(computeRelevanceScore(base), 5);
+  });
+  it('ranks a matching tracker above an otherwise equal one', () => {
+    const a = { slug: 'a', lastUpdated: NOW, activity: { score: 50 }, domain: 'conflict' };
+    const b = { slug: 'b', lastUpdated: NOW, activity: { score: 50 }, domain: 'science' };
+    expect(sortByRelevance([a, b], [], { domains: ['science'], regions: [] }).map(t => t.slug)).toEqual(['b', 'a']);
+  });
+  it('is identical to today without interests', () => {
+    const list = [
+      { slug: 'a', lastUpdated: NOW, activity: { score: 10 }, domain: 'science' },
+      { slug: 'b', lastUpdated: NOW, activity: { score: 90 }, domain: 'conflict' },
+    ];
+    expect(sortByRelevance(list, [], { domains: [], regions: [] })).toEqual(sortByRelevance(list, []));
+  });
+  it('keeps follow (+15) above interest (+10)', () => {
+    const followed = { slug: 'f', lastUpdated: NOW, activity: { score: 50 }, domain: 'conflict' };
+    const interesting = { slug: 'i', lastUpdated: NOW, activity: { score: 50 }, domain: 'science' };
+    expect(sortByRelevance([interesting, followed], ['f'], { domains: ['science'], regions: [] })[0].slug).toBe('f');
   });
 });

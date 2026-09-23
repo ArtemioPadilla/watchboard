@@ -21,6 +21,9 @@ import AlertsPanel from './AlertsPanel';
 import { useAlerts } from '../shared/useAlerts';
 import DossierPanel from '../shared/DossierPanel';
 import { useDossier } from '../shared/useDossier';
+import { useInterests } from '../shared/useInterests';
+import InterestChips from '../shared/InterestChips';
+import { interestOptions } from '../../../lib/interests';
 import NotificationManager from './NotificationManager';
 import { useBroadcastMode } from './useBroadcastMode';
 import BroadcastOverlay from './BroadcastOverlay';
@@ -155,6 +158,9 @@ function CommandCenterInner({
   const [activeTracker, setActiveTracker] = useState<string | null>(null);
   const [hoveredTracker, setHoveredTracker] = useState<string | null>(null);
   const [followedSlugs, setFollowedSlugs] = useState<string[]>([]);
+  const { interests, toggle: toggleInterestChip, clear: clearInterests } = useInterests();
+  // Chip options (only domains/regions some tracker has, with counts); shared by sidebar, ? overlay and tour.
+  const options = useMemo(() => interestOptions(trackers), [trackers]);
   const [compareSlugs, setCompareSlugs] = useState<string[]>([]);
   const [broadcastOff, setBroadcastOff] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
@@ -249,6 +255,7 @@ function CommandCenterInner({
     broadcastEnabled,
     (slug) => setHoveredTracker(slug),
     followedSlugs,
+    interests,
   );
 
   const broadcastRef = useRef(broadcast);
@@ -868,6 +875,7 @@ function CommandCenterInner({
           trackers={trackers}
           basePath={basePath}
           followedSlugs={followedSlugs}
+          interests={interests}
           onTrackerChange={handleStoryTrackerChange}
           enabled={isMobile && mobileTab === 'live'}
         />
@@ -971,6 +979,10 @@ function CommandCenterInner({
               activeTracker={activeTracker}
               hoveredTracker={hoveredTracker}
               followedSlugs={followedSlugs}
+              interests={interests}
+              interestOptions={options}
+              onToggleInterest={toggleInterestChip}
+              onClearInterests={clearInterests}
               liveCount={liveCount}
               historicalCount={historicalCount}
               onSelectTracker={handleSelect}
@@ -1092,6 +1104,16 @@ function CommandCenterInner({
                 ▶ {t('tour.replay', locale)}
               </button>
             </div>
+            <div style={styles.helpTitle}>{t('interests.title', locale)}</div>
+            <div style={styles.helpInterests}>
+              <InterestChips
+                interests={interests}
+                options={options}
+                locale={locale}
+                onToggle={toggleInterestChip}
+                onClear={clearInterests}
+              />
+            </div>
             <div style={styles.helpTitle}>{t('shortcuts.title', locale)}</div>
             <div style={styles.helpGrid}>
               {SHORTCUTS.map(s => (
@@ -1111,7 +1133,7 @@ function CommandCenterInner({
         <CoachMark hint={coachHint} onDismiss={handleDismissCoachHint} />
       )}
 
-      {!isMobile && <OnboardingTour />}
+      {!isMobile && <OnboardingTour interestOptions={options} />}
     </div>
   );
 }
@@ -1389,6 +1411,9 @@ const styles = {
     padding: '1.5rem 2rem',
     maxWidth: 340,
     width: '90%',
+    // Interest chips made the panel taller than short viewports.
+    maxHeight: '90vh',
+    overflowY: 'auto' as const,
   } as React.CSSProperties,
 
   helpTitle: {
@@ -1398,6 +1423,10 @@ const styles = {
     letterSpacing: '0.12em',
     color: 'var(--accent-blue, #58a6ff)',
     marginBottom: '1rem',
+  } as React.CSSProperties,
+
+  helpInterests: {
+    margin: '-0.5rem -12px 1rem',
   } as React.CSSProperties,
 
   helpGrid: {

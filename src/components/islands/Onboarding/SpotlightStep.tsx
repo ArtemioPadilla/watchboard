@@ -13,7 +13,7 @@ interface SpotlightStepProps {
   anchor: string;
   title: string;
   body: string;
-  stepLabel: string;          // e.g. "2 / 6"
+  stepLabel: string;          // e.g. "2 / 7"
   isFirst: boolean;
   backLabel: string;
   nextLabel: string;
