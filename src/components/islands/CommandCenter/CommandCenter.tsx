@@ -179,7 +179,7 @@ function CommandCenterInner({
   // static GeoJSON layer generated in prior tasks.
   const [radioStations, setRadioStations] = useState<GlobeRadioStation[]>([]);
   useEffect(() => {
-    fetch(`${basePath}geo/layers/radio-stations.geojson`)
+    fetch(`${basePath}geo/layers/radio-stations-global.geojson`)
       .then(r => r.ok ? r.json() : null)
       .then((fc: any) => {
         if (!fc?.features) return;

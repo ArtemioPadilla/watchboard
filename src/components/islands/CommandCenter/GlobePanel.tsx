@@ -3,6 +3,7 @@ import { t } from '../../../i18n/translations';
 import { useLocale } from '../../../i18n/useLocale';
 import type { TrackerCardData } from '../../../lib/tracker-directory-utils';
 import type { RadioStationProperties } from '../../../lib/radio-station';
+import { RADIO_STATION_SVG } from '../../../lib/radio-icons';
 
 interface GlobePoint {
   type: 'hub' | 'event';
@@ -608,11 +609,12 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
       .htmlElement((d: any) => {
         if (d.kind === 'radio') {
           const el = document.createElement('div');
-          el.className = 'cc-radio-pin';
+          el.className = 'cc-radio-pin pulse';
           el.dataset.testid = 'radio-pin';
           el.title = d.title;
           el.setAttribute('aria-label', `${radioLabelRef.current}: ${d.title}`);
-          el.style.cssText = 'width:10px;height:10px;border-radius:50%;border:1.5px solid #ff66cc;background:rgba(255,102,204,0.25);box-shadow:0 0 5px rgba(255,102,204,0.5);pointer-events:auto;cursor:pointer;transform:translate(-50%,-50%);';
+          el.style.cssText = 'width:20px;height:20px;pointer-events:auto;cursor:pointer;transform:translate(-50%,-50%);position:relative;';
+          el.innerHTML = RADIO_STATION_SVG;
           el.addEventListener('click', (ev) => { ev.stopPropagation(); onSelectRadioRef.current?.(d.station); });
           return el;
         }

@@ -636,9 +636,9 @@ function CesiumGlobeInner({ points, lines, kpis, meta, events = [], cameraPreset
   const { count: groundTruthCount } = useGroundTruth(cesiumViewer, layers.groundTruth, points, events, currentDate);
   const frontline = useFrontline(cesiumViewer, wantFrontline && !!extraLayers['deepstate-frontline']);
   const gdacs = useGdacs(cesiumViewer, !!extraLayers['gdacs-alerts']);
-  const static0 = useStaticGeoLayer(cesiumViewer, staticLayers[0] ?? null, !!extraLayers[staticLayers[0] ?? '']);
-  const static1 = useStaticGeoLayer(cesiumViewer, staticLayers[1] ?? null, !!extraLayers[staticLayers[1] ?? '']);
-  const static2 = useStaticGeoLayer(cesiumViewer, staticLayers[2] ?? null, !!extraLayers[staticLayers[2] ?? '']);
+  const static0 = useStaticGeoLayer(cesiumViewer, staticLayers[0] ?? null, !!extraLayers[staticLayers[0] ?? ''], mapBounds ?? null);
+  const static1 = useStaticGeoLayer(cesiumViewer, staticLayers[1] ?? null, !!extraLayers[staticLayers[1] ?? ''], mapBounds ?? null);
+  const static2 = useStaticGeoLayer(cesiumViewer, staticLayers[2] ?? null, !!extraLayers[staticLayers[2] ?? ''], mapBounds ?? null);
   const staticResults = [static0, static1, static2];
   const extraLayerDefs = useMemo(() => {
     const defs: { id: string; label: string; count: number; status: string; updatedAt: number | null; error?: string; dateLabel?: string; snapshotDate?: string }[] = [];

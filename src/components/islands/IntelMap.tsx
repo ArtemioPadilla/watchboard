@@ -285,7 +285,7 @@ function IntelMapInner({ points, lines, events, categories, mapCenter, mapBounds
           initialView={urlView.lat !== undefined && urlView.lon !== undefined ? { lat: urlView.lat, lon: urlView.lon, zoom: urlView.zoom ?? 5 } : undefined}
           onViewChange={handleViewChange}
           onGroundClick={handleGroundClick}
-          geoLayers={<GeoLayersLeaflet frontline={extraLayers['deepstate-frontline'] ? frontline.data : null} gdacs={extraLayers['gdacs-alerts'] ? gdacs.data : null} statics={staticData} onSelectRadioFeature={setSelectedRadioFeature} />}
+          geoLayers={<GeoLayersLeaflet frontline={extraLayers['deepstate-frontline'] ? frontline.data : null} gdacs={extraLayers['gdacs-alerts'] ? gdacs.data : null} statics={staticData} onSelectRadioFeature={setSelectedRadioFeature} bounds={mapBounds ?? null} />}
           points={filteredPoints}
           lines={filteredLines}
           categories={mapCategories}

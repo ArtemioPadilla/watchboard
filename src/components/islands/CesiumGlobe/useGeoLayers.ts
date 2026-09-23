@@ -20,6 +20,7 @@ import { DEEPSTATE_URL, parseDeepStateResponse, type Frontline } from '../../../
 import type { GdacsFile } from '../../../../scripts/lib/gdacs';
 import { GeoLayerSchema, staticLayerMeta, type GeoLayer } from '../../../lib/geo-layer-schema';
 import { getLiveLayer } from '../../../lib/live-layers';
+import { radioIconSvgFor, svgDataUri, withinBounds, type LonLatBounds } from '../../../lib/radio-icons';
 
 function basePath(): string {
   const raw = (import.meta as any).env?.BASE_URL ?? '/';
@@ -126,11 +127,13 @@ export function useGdacs(viewer: CesiumViewer | null, enabled: boolean): LayerRe
   return { count, status: enabled ? status : 'disabled', updatedAt, error, label: data?.generated?.slice(0, 10) };
 }
 
-/** Points as billboards-free dots, lines as polylines; polygons as fills. */
-export function useStaticGeoLayer(viewer: CesiumViewer | null, id: string | null, enabled: boolean): LayerResult {
+/** Points as dots (radio layers get SVG billboards instead), lines as polylines; polygons as fills.
+ *  `bounds` (the tracker's map.bounds) clips radio-towers/radio-stations to the theater, padded 2°. */
+export function useStaticGeoLayer(viewer: CesiumViewer | null, id: string | null, enabled: boolean, bounds?: LonLatBounds | null): LayerResult {
   const entitiesRef = useRef<Entity[]>([]);
   const [count, setCount] = useState(0);
   const meta = id ? staticLayerMeta(id) : undefined;
+  const radioSvg = id ? radioIconSvgFor(id) : null;
   const spec = useMemo(() => (id ? {
     key: `static-geo:${id}`,
     url: `${basePath()}geo/layers/${id}.geojson`,
@@ -158,10 +161,14 @@ export function useStaticGeoLayer(viewer: CesiumViewer | null, id: string | null
       const name = hasName ? rawName : id;
       if (g.type === 'Point') {
         const [lon, lat] = g.coordinates as number[];
+        if (meta?.clipToBounds && bounds && !withinBounds(lon, lat, bounds)) continue;
         entitiesRef.current.push(viewer.entities.add({
           name, description: JSON.stringify(f.properties),
           position: Cartesian3.fromDegrees(lon, lat, 0),
-          point: { pixelSize: 6, color: color.withAlpha(0.85), outlineColor: Color.BLACK, outlineWidth: 1 },
+          billboard: radioSvg
+            ? { image: svgDataUri(radioSvg), width: 22, height: 22, verticalOrigin: VerticalOrigin.CENTER, scaleByDistance: new NearFarScalar(2e5, 1.1, 8e6, 0.55) }
+            : undefined,
+          point: radioSvg ? undefined : { pixelSize: 6, color: color.withAlpha(0.85), outlineColor: Color.BLACK, outlineWidth: 1 },
           label: hasName ? { text: name, font: "9px 'JetBrains Mono', monospace", fillColor: color, outlineColor: Color.BLACK, outlineWidth: 2, style: LabelStyle.FILL_AND_OUTLINE, verticalOrigin: VerticalOrigin.BOTTOM, pixelOffset: new Cartesian2(0, -8), distanceDisplayCondition: new DistanceDisplayCondition(0, 3e6) } : undefined,
         }));
       } else if (g.type === 'LineString' || g.type === 'MultiLineString') {
@@ -184,7 +191,7 @@ export function useStaticGeoLayer(viewer: CesiumViewer | null, id: string | null
     }
     setCount(data.features.length);
     return clear;
-  }, [viewer, enabled, data, meta?.color, id]);
+  }, [viewer, enabled, data, meta?.color, meta?.clipToBounds, id, radioSvg, bounds]);
   useEntityCleanup(viewer, entitiesRef);
 
   return { count, status: enabled && id ? status : 'disabled', updatedAt, error, label: data?._provenance.retrievedAt.slice(0, 10) };
