@@ -15,7 +15,8 @@ import FeedRow from './FeedRow';
 import HeroCard from './HeroCard';
 import { selectHeroTracker } from '../../../lib/hero-selection';
 import { sortByRelevance, sortByActivity } from '../../../lib/relevance';
-import { EMPTY_INTERESTS, type Interests } from '../../../lib/interests';
+import { EMPTY_INTERESTS, type Interests, type interestOptions as computeInterestOptions } from '../../../lib/interests';
+import InterestChips from '../shared/InterestChips';
 import { useTrackerDetail } from './useTrackerDetail';
 
 /** OSM tile fallback for the expanded-row thumbnail (media → tile → hidden). */
@@ -35,6 +36,10 @@ interface Props {
   hoveredTracker: string | null;
   followedSlugs: string[];
   interests?: Interests;
+  /** Chip options for the interests block; the block is hidden without it. */
+  interestOptions?: ReturnType<typeof computeInterestOptions>;
+  onToggleInterest?: (kind: 'domains' | 'regions', value: string) => void;
+  onClearInterests?: () => void;
   compareSlugs: string[];
   liveCount: number;
   historicalCount: number;
@@ -486,6 +491,9 @@ export default function SidebarPanel({
   hoveredTracker,
   followedSlugs,
   interests = EMPTY_INTERESTS,
+  interestOptions,
+  onToggleInterest,
+  onClearInterests,
   compareSlugs,
   liveCount,
   historicalCount,
@@ -511,6 +519,8 @@ export default function SidebarPanel({
   // Sidebar order: relevance (breaking/followed/activity/recency) or the raw
   // activity index (plan E7.H2). Remembered per browser.
   const [sortMode, setSortMode] = useState<'relevance' | 'activity'>('relevance');
+  const [showInterests, setShowInterests] = useState(false);
+  const activeInterestCount = interests.domains.length + interests.regions.length;
   // Read the saved choice after mount so server and first client render agree.
   useEffect(() => {
     try { if (localStorage.getItem('watchboard:sidebar-sort') === 'activity') setSortMode('activity'); } catch { /* private mode */ }
@@ -678,22 +688,50 @@ export default function SidebarPanel({
       )}
 
       {/* Sort order (E7) */}
-      <div className="cc-sort-toggle" role="radiogroup" aria-label={t('sidebar.sortBy', locale)} data-testid="sidebar-sort">
-        <span className="cc-sort-label">{t('sidebar.sortBy', locale)}</span>
-        {(['relevance', 'activity'] as const).map(m => (
+      <div className="cc-sort-toggle">
+        <div className="cc-sort-group" role="radiogroup" aria-label={t('sidebar.sortBy', locale)} data-testid="sidebar-sort">
+          <span className="cc-sort-label">{t('sidebar.sortBy', locale)}</span>
+          {(['relevance', 'activity'] as const).map(m => (
+            <button
+              key={m}
+              type="button"
+              role="radio"
+              aria-checked={sortMode === m}
+              className={`cc-sort-option${sortMode === m ? ' active' : ''}`}
+              onClick={() => changeSort(m)}
+              data-sort={m}
+            >
+              {t(m === 'relevance' ? 'sidebar.sortRelevance' : 'sidebar.sortActivity', locale)}
+            </button>
+          ))}
+        </div>
+        {/* Declared interests (spec 2026-09-22): outside the radiogroup, it is a disclosure, not a sort mode. */}
+        {onToggleInterest && interestOptions && (
           <button
-            key={m}
             type="button"
-            role="radio"
-            aria-checked={sortMode === m}
-            className={`cc-sort-option${sortMode === m ? ' active' : ''}`}
-            onClick={() => changeSort(m)}
-            data-sort={m}
+            className={`cc-sort-option cc-interests-toggle${activeInterestCount > 0 ? ' active' : ''}`}
+            aria-expanded={showInterests}
+            aria-controls="cc-interest-chips"
+            onClick={() => setShowInterests(v => !v)}
+            data-testid="sidebar-interests-toggle"
           >
-            {t(m === 'relevance' ? 'sidebar.sortRelevance' : 'sidebar.sortActivity', locale)}
+            {t('interests.button', locale)}
+            {activeInterestCount > 0 && ` · ${t('interests.active', locale).replace('{n}', String(activeInterestCount))}`}
           </button>
-        ))}
+        )}
       </div>
+      {showInterests && onToggleInterest && interestOptions && (
+        <div id="cc-interest-chips">
+          <InterestChips
+            compact
+            interests={interests}
+            options={interestOptions}
+            locale={locale}
+            onToggle={onToggleInterest}
+            onClear={onClearInterests}
+          />
+        </div>
+      )}
 
       {/* Hero — hidden during search */}
       {!isSearching && heroTracker && (
