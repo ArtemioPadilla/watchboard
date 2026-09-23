@@ -91,6 +91,7 @@ The table is generated from the source by `scripts/list-env-vars.ts`
 | `OPENAI_MODEL` | CI scripts | `scripts/backfill-osint.ts`, `scripts/backfill.ts`, `scripts/update-data.ts` |
 | `PUBLIC_POSTHOG_HOST` | site build | `src/layouts/BaseLayout.astro` |
 | `PUBLIC_POSTHOG_KEY` | site build | `src/layouts/BaseLayout.astro` |
+| `RADIO_TOWERS_ACCEPT_DROP` | CI scripts | `scripts/geo/refresh-layers.ts` |
 | `REVIEW_WINDOW_MAX_DAYS` | CI scripts | `scripts/generate-review-manifest.ts` |
 | `SITE` | site build | `src/layouts/BaseLayout.astro`, `src/pages/[tracker]/events/[...slug].astro`, `src/pages/[tracker]/index.astro`, `src/pages/briefing/[date].astro`, `src/pages/briefing/index.astro` |
 | `SKIP_FETCH` | video render | `video/render.ts` |
