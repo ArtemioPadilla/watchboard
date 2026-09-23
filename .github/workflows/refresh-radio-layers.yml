@@ -14,6 +14,10 @@ on:
         description: 'Refresh radio-towers'
         type: boolean
         default: false
+      accept_drop:
+        description: 'RADIO_TOWERS_ACCEPT_DROP escape hatch: comma-separated ISO2 codes to skip the suspicious-drop check for on this run (e.g. a verified drop from towers actually destroyed). Leave empty for normal behavior.'
+        type: string
+        default: ''
 
 permissions:
   contents: write
@@ -37,7 +41,9 @@ jobs:
       - run: npx tsx scripts/geo/refresh-layers.ts --layer radio-stations
       - run: npx tsx scripts/geo/refresh-layers.ts --layer radio-stations-global
       - name: Validate layers
-        run: npx tsx scripts/geo/refresh-layers.ts --check
+        run: |
+          npx tsx scripts/geo/refresh-layers.ts --check --layer radio-stations
+          npx tsx scripts/geo/refresh-layers.ts --check --layer radio-stations-global
       - name: Upload station layers
         uses: actions/upload-artifact@v4
         with:
@@ -51,8 +57,21 @@ jobs:
     if: ${{ (github.event_name == 'schedule' && github.event.schedule == '0 7 1 * *') || (github.event_name == 'workflow_dispatch' && inputs.towers == true) }}
     runs-on: ubuntu-latest
     # 34 spaced (5s+) per-country Overpass area queries take 6-12 min on
-    # their own, plus the mirror retry on failures.
-    timeout-minutes: 30
+    # their own, plus the mirror retry on failures, plus each request now
+    # carries its own 150s AbortSignal.timeout — a run with several slow/
+    # timed-out countries can take meaningfully longer than the 6-12 min
+    # happy path, so 40 min of headroom instead of 30.
+    timeout-minutes: 40
+    # Only this job needs a lock: two towers runs racing (a manual dispatch
+    # landing mid-schedule) would both read the same previous file and could
+    # each write a merge that clobbers the other's freshly-fetched countries.
+    # cancel-in-progress: false queues rather than cancels — see
+    # docs/silent-failure-patterns.md for why a *pending* run in a
+    # cancel-in-progress: false group still gets silently cancelled when a
+    # third run queues behind it.
+    concurrency:
+      group: radio-towers-fetch
+      cancel-in-progress: false
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
@@ -62,6 +81,13 @@ jobs:
       - run: npm ci
       - name: Refresh radio towers
         id: towers
+        env:
+          # Escape hatch for a genuine, verified drop (e.g. towers actually
+          # destroyed) that would otherwise keep tripping the suspicious-drop
+          # check run after run. Empty on every scheduled run; only ever
+          # non-empty when someone deliberately dispatches with accept_drop
+          # set. See scripts/geo/refresh-layers.ts's header comment.
+          RADIO_TOWERS_ACCEPT_DROP: ${{ inputs.accept_drop }}
         # The script writes the merged file (per-country fallback to the
         # previous data) even when the run is unhealthy, then exits non-zero
         # with a ::error:: line naming the offending countries. Don't let
@@ -72,7 +98,7 @@ jobs:
         continue-on-error: true
         run: npx tsx scripts/geo/refresh-layers.ts --layer radio-towers
       - name: Validate layers
-        run: npx tsx scripts/geo/refresh-layers.ts --check
+        run: npx tsx scripts/geo/refresh-layers.ts --check --layer radio-towers
       - name: Upload towers layer
         uses: actions/upload-artifact@v4
         with:
