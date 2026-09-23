@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import type { TrackerCardData } from '../../../lib/tracker-directory-utils';
 import { sortByRelevance } from '../../../lib/relevance';
+import { EMPTY_INTERESTS, type Interests } from '../../../lib/interests';
 
 // ── Constants ──
 
@@ -14,6 +15,7 @@ const PAUSE_DURATION_S = 15;
 export interface UseStoryStateOptions {
   trackers: TrackerCardData[];
   followedSlugs?: string[];
+  interests?: Interests;
   autoAdvanceMs?: number;
   enabled?: boolean;
   onTrackerChange?: (slug: string) => void;
@@ -51,9 +53,10 @@ function filterAndSort(
   trackers: TrackerCardData[],
   followedSlugs: string[] = [],
   seenSlugs: Set<string> = new Set(),
+  interests: Interests = EMPTY_INTERESTS,
 ): TrackerCardData[] {
   const eligible = trackers.filter((t) => t.status === 'active' && t.headline);
-  const sorted = sortByRelevance(eligible, followedSlugs);
+  const sorted = sortByRelevance(eligible, followedSlugs, interests);
   // Move already-seen stories to the end (like Instagram)
   const unseen = sorted.filter((t) => !seenSlugs.has(t.slug));
   const seen = sorted.filter((t) => seenSlugs.has(t.slug));
@@ -66,6 +69,7 @@ export function useStoryState(options: UseStoryStateOptions): StoryState {
   const {
     trackers,
     followedSlugs = [],
+    interests = EMPTY_INTERESTS,
     autoAdvanceMs = DEFAULT_AUTO_ADVANCE_MS,
     enabled = true,
     onTrackerChange,
@@ -87,8 +91,8 @@ export function useStoryState(options: UseStoryStateOptions): StoryState {
   const [initialSeenSlugs, setInitialSeenSlugs] = useState<Set<string>>(() => new Set());
 
   const eligible = useMemo(
-    () => filterAndSort(trackers, followedSlugs, initialSeenSlugs),
-    [trackers, followedSlugs, initialSeenSlugs],
+    () => filterAndSort(trackers, followedSlugs, initialSeenSlugs, interests),
+    [trackers, followedSlugs, initialSeenSlugs, interests],
   );
 
   const [seenSlugs, setSeenSlugs] = useState<Set<string>>(() => new Set());

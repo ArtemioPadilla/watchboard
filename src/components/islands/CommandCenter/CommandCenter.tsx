@@ -21,6 +21,7 @@ import AlertsPanel from './AlertsPanel';
 import { useAlerts } from '../shared/useAlerts';
 import DossierPanel from '../shared/DossierPanel';
 import { useDossier } from '../shared/useDossier';
+import { useInterests } from '../shared/useInterests';
 import NotificationManager from './NotificationManager';
 import { useBroadcastMode } from './useBroadcastMode';
 import BroadcastOverlay from './BroadcastOverlay';
@@ -155,6 +156,7 @@ function CommandCenterInner({
   const [activeTracker, setActiveTracker] = useState<string | null>(null);
   const [hoveredTracker, setHoveredTracker] = useState<string | null>(null);
   const [followedSlugs, setFollowedSlugs] = useState<string[]>([]);
+  const { interests, toggle: toggleInterestChip, clear: clearInterests } = useInterests();
   const [compareSlugs, setCompareSlugs] = useState<string[]>([]);
   const [broadcastOff, setBroadcastOff] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
@@ -249,6 +251,7 @@ function CommandCenterInner({
     broadcastEnabled,
     (slug) => setHoveredTracker(slug),
     followedSlugs,
+    interests,
   );
 
   const broadcastRef = useRef(broadcast);
@@ -868,6 +871,7 @@ function CommandCenterInner({
           trackers={trackers}
           basePath={basePath}
           followedSlugs={followedSlugs}
+          interests={interests}
           onTrackerChange={handleStoryTrackerChange}
           enabled={isMobile && mobileTab === 'live'}
         />
@@ -971,6 +975,7 @@ function CommandCenterInner({
               activeTracker={activeTracker}
               hoveredTracker={hoveredTracker}
               followedSlugs={followedSlugs}
+              interests={interests}
               liveCount={liveCount}
               historicalCount={historicalCount}
               onSelectTracker={handleSelect}

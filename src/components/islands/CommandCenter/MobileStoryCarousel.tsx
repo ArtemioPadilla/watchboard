@@ -9,6 +9,7 @@ import { useStoryState } from './useStoryState';
 import { resetTour } from '../../../lib/onboarding';
 import MobileOnboarding, { MOBILE_TOUR_REPLAY_EVENT } from '../Onboarding/MobileOnboarding';
 import { useTrackerDetail, prefetchTrackerDetail, getCachedDetail } from './useTrackerDetail';
+import type { Interests } from '../../../lib/interests';
 
 // ── Types ──
 
@@ -16,6 +17,7 @@ interface Props {
   trackers: TrackerCardData[];
   basePath: string;
   followedSlugs?: string[];
+  interests?: Interests;
   onTrackerChange?: (slug: string) => void;
   /** When false, suppresses rAF auto-advance + localStorage writes. Used so
    *  the SSR-rendered carousel doesn't waste CPU on desktop or hidden tabs. */
@@ -66,7 +68,7 @@ function domainGradient(domain?: string): string {
 
 // ── Component ──
 
-export default function MobileStoryCarousel({ trackers, basePath, followedSlugs = [], onTrackerChange, enabled = true }: Props) {
+export default function MobileStoryCarousel({ trackers, basePath, followedSlugs = [], interests, onTrackerChange, enabled = true }: Props) {
   const locale = useLocale();
 
   // Slide count source for the active story — useStoryState reads this in
@@ -75,6 +77,7 @@ export default function MobileStoryCarousel({ trackers, basePath, followedSlugs 
   const story = useStoryState({
     trackers,
     followedSlugs,
+    interests,
     onTrackerChange,
     enabled,
     getSlideCount: (slug) => getCachedDetail(slug)?.eventImages?.length,

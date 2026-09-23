@@ -1,5 +1,6 @@
 import { useRef, useState, useCallback, useEffect } from 'react';
 import { sortByRelevance } from '../../../lib/relevance';
+import { EMPTY_INTERESTS, type Interests } from '../../../lib/interests';
 
 interface TrackerForBroadcast {
   slug: string;
@@ -70,6 +71,7 @@ export function useBroadcastMode<T extends TrackerForBroadcast>(
   enabled: boolean,
   onFeatureTracker?: (slug: string | null) => void,
   followedSlugs: string[] = [],
+  interests: Interests = EMPTY_INTERESTS,
 ): BroadcastState<T> {
   const queue = useRef<T[]>([]);
   const [trackerQueueState, setTrackerQueueState] = useState<T[]>([]);
@@ -92,10 +94,10 @@ export function useBroadcastMode<T extends TrackerForBroadcast>(
   // Build queue: active trackers with mapCenter, sorted by relevance
   useEffect(() => {
     const eligible = trackers.filter(t => t.mapCenter && t.headline);
-    const sorted = sortByRelevance(eligible, followedSlugs);
+    const sorted = sortByRelevance(eligible, followedSlugs, interests);
     queue.current = sorted;
     setTrackerQueueState(sorted);
-  }, [trackers, followedSlugs]);
+  }, [trackers, followedSlugs, interests]);
 
   const setPhaseState = useCallback((p: BroadcastPhase) => {
     phaseRef.current = p;

@@ -15,6 +15,7 @@ import FeedRow from './FeedRow';
 import HeroCard from './HeroCard';
 import { selectHeroTracker } from '../../../lib/hero-selection';
 import { sortByRelevance, sortByActivity } from '../../../lib/relevance';
+import { EMPTY_INTERESTS, type Interests } from '../../../lib/interests';
 import { useTrackerDetail } from './useTrackerDetail';
 
 /** OSM tile fallback for the expanded-row thumbnail (media → tile → hidden). */
@@ -33,6 +34,7 @@ interface Props {
   activeTracker: string | null;
   hoveredTracker: string | null;
   followedSlugs: string[];
+  interests?: Interests;
   compareSlugs: string[];
   liveCount: number;
   historicalCount: number;
@@ -483,6 +485,7 @@ export default function SidebarPanel({
   activeTracker,
   hoveredTracker,
   followedSlugs,
+  interests = EMPTY_INTERESTS,
   compareSlugs,
   liveCount,
   historicalCount,
@@ -523,15 +526,15 @@ export default function SidebarPanel({
   );
 
   const sortedFiltered = useMemo(
-    () => sortMode === 'activity' ? sortByActivity(filtered) : sortByRelevance(filtered, followedSlugs),
-    [filtered, followedSlugs, sortMode],
+    () => sortMode === 'activity' ? sortByActivity(filtered) : sortByRelevance(filtered, followedSlugs, interests),
+    [filtered, followedSlugs, interests, sortMode],
   );
 
   const groups = useMemo(() => groupTrackers(sortedFiltered), [sortedFiltered]);
 
   const heroTracker = useMemo(
-    () => selectHeroTracker(trackers, followedSlugs),
-    [trackers, followedSlugs],
+    () => selectHeroTracker(trackers, followedSlugs, interests),
+    [trackers, followedSlugs, interests],
   );
 
   // Match FeedList's visible order so arrow-key nav lands on adjacent rows:
