@@ -2,8 +2,8 @@
   {
     "id": "brent_crude_price",
     "label": "Brent Crude Oil",
-    "value": "$101.61/bbl Sep 21 (9:35am ET, -$2.72), down further from the $104.33 Sep 18 close after a new Hormuz tanker strike and a weekend transit collapse",
-    "change": "Fell further Sep 21 as weekend shipping data showed just 17 commodity vessels transited the Strait of Hormuz, down from 37 the prior week, and a fresh unidentified-projectile strike hit an inbound tanker Monday, underscoring the risk to through-strait shipping even as Saudi Arabia's East-West pipeline remains shut",
+    "value": "$98.44/bbl Sep 23 (-0.82%), first sustained drop below $100 in weeks after Saudi Arabia restarted its East-West pipeline Sep 22, down from $101.61 at the Sep 21 close",
+    "change": "Fell below $100 for the first time in weeks after Saudi Arabia restarted the East-West pipeline Sep 22 and seven supertankers loaded 14M barrels via Hormuz over the weekend; extended the slide to $98.44 Sep 23 (WTI -1.34% to $89.31) as markets weighed Iran's roadmap for a phased Hormuz reopening presented to US envoys at the UN General Assembly",
     "direction": "down",
     "sparkData": [
       71.6,
@@ -35,11 +35,13 @@
       108.75,
       103.98,
       104.33,
-      101.61
+      101.61,
+      97.81,
+      98.44
     ],
     "color": "#e74c3c",
-    "source": "CNBC / Fortune / Al Jazeera / Bloomberg / Rigzone / TradingEconomics / Reuters",
-    "lastUpdated": "2026-09-21T13:35:00Z"
+    "source": "CNBC / Fortune / Al Jazeera / Bloomberg / Rigzone / TradingEconomics / Reuters / The National",
+    "lastUpdated": "2026-09-23T20:00:00Z"
   },
   {
     "id": "bab_el_mandeb_transits",
@@ -175,8 +177,8 @@
   {
     "id": "hormuz_transit_volume",
     "label": "Hormuz Tanker Transits",
-    "value": "17 vessels over the Sep 19-20 weekend (down from 37 the week before) vs ~10M bbl/day and a 'six-month high' claimed (US)",
-    "change": "Reuters/Kpler shipping data counted just 17 trackable commodity vessels crossing the strait over the Sep 19-20 weekend, down from 37 the prior weekend and against a pre-war daily average of roughly 125 large commercial vessels. CENTCOM commander Adm. Brad Cooper said oil and LNG shipments through the strait hit a six-month high over the preceding two weeks, topping 1 billion barrels, a claim independent tanker trackers say the visible transit data does not support -- though Middle Eastern producers continue exporting on tankers with transponders disabled, which trackable counts miss. A fresh unidentified-projectile strike injured two crew on an inbound tanker Sep 21",
+    "value": "2 vessels Mon Sep 21 (down from 10 Sun); Iran floats a phased reopening within a week if the US eases its naval blockade",
+    "change": "Preliminary data released Sep 22 showed transits collapsing to just two vessels Monday, down from 10 the day before, even as a tanker (LR Stephanie) and a separate LPG carrier (Al Maryah) were both struck by unidentified projectiles the same day. Iran's Foreign Ministry says the strait could reopen within a week if Washington lifts its naval blockade, per the roadmap Tehran presented US envoys Sep 23 -- a claim that stands against CENTCOM's Sep 19-20 assertion of a six-month shipping high",
     "direction": "down",
     "sparkData": [
       135,
@@ -195,11 +197,12 @@
       11,
       14,
       3,
-      17
+      17,
+      2
     ],
     "color": "#2980b9",
-    "source": "PortWatch / Vortexa / Kpler / Reuters",
-    "lastUpdated": "2026-09-21T01:36:00Z"
+    "source": "PortWatch / Vortexa / Kpler / Reuters / Emirates 24|7",
+    "lastUpdated": "2026-09-22T20:00:00Z"
   },
   {
     "id": "fertilizer_urea_price",

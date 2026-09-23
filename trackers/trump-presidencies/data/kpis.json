@@ -116,16 +116,33 @@
   },
   {
     "id": "trump-approval-rating",
-    "label": "Trump Approval Rating (Sep 15, 2026 — Silver Bulletin Net -20.6, 37.8%/58.4%)",
-    "value": "~36-39% approve / ~58.4-61% disapprove (aggregate); Silver Bulletin 37.8%/58.4% net -20.6 (Sep 15)",
+    "label": "Trump Approval Rating (Sep 23, 2026 — Reuters/Ipsos Career-Low 32%; Verasight/Morris 33%, Dems +10 Generic Ballot)",
+    "value": "~32-33% approve / ~58-63% disapprove (latest polls); Silver Bulletin aggregate ~37-38%/~58-59% net roughly -20 to -21 (mid-Sep)",
     "color": "red",
-    "source": "Silver Bulletin / FiftyPlusOne aggregate / CBS News/YouGov / Quinnipiac / RealClearPolitics",
+    "source": "Reuters/Ipsos / Verasight (G. Elliott Morris) / Silver Bulletin / FiftyPlusOne aggregate / CBS News/YouGov / Quinnipiac",
     "contested": true,
-    "contestNote": "Nate Silver's Silver Bulletin aggregate put approval at 37.8% / disapproval 58.4% (net -20.6) as of Sep 15, 2026, up slightly from an all-time-low net of -20.6 hit earlier in the week; Republicans approve at 87%, Independents at 34% (down 14 points from Trump's 48% inaugural-period independent approval), Democrats at 7%. FiftyPlusOne's separate weighted aggregate put approval at 36.0% / disapproval 60.4% as of Sep 14, essentially flat from Sep 12. NPR cited a Quinnipiac poll putting approval as low as 33% as Trump returned from Ireland to campaign for midterm candidates. A CBS News/YouGov poll released Sep 13 put approval at 39% against 61% disapproval. A Focaldata/Financial Times poll found a second-term-low 32% approval over Labor Day weekend. Independent approval sits around 34%, a level associated with wave midterm losses in past cycles. A Fox News poll fielded Sep 11-14 (Beacon Research/Shaw & Company) put approval at 39%, found 63% of voters — including a quarter of Republicans — say the administration has made the economy worse, and showed Democrats leading the generic congressional ballot 51-44 (54-43 among certain voters).",
-    "delta": "Aggregate roughly flat since Sep 12-14",
+    "contestNote": "A Reuters/Ipsos poll published Sep 21, 2026 put Trump approval at a career-low 32% as high costs weigh on voters. A Verasight poll released Sep 23 by G. Elliott Morris found approval at 33% (record low in that series) with Republicans souring on the economy and Democrats leading the generic House ballot by 10 points among likely voters. Nate Silver's Silver Bulletin aggregate had approval at 37.8% / disapproval 58.4% (net -20.6) as of Sep 15; FiftyPlusOne's separate weighted aggregate put approval at 36.0% / disapproval 60.4% as of Sep 14. A CBS News/YouGov poll (Sep 13) put approval at 39%/61%; a Focaldata/Financial Times poll found a second-term-low 32% over Labor Day weekend. A Fox News poll fielded Sep 11-14 found 63% of voters — including a quarter of Republicans — say the administration has made the economy worse.",
+    "delta": "-4 to -5pp on individual polls since Sep 15 aggregate; new career-low readings Sep 21 and Sep 23",
+    "deltaDetail": {
+      "value": -5,
+      "direction": "down",
+      "period": "since Sep 15"
+    },
     "trend": "down",
-    "lastUpdated": "2026-09-15T00:00:00.000Z",
-    "deltaNote": "Multi-pollster aggregates remain stuck in the mid-to-high 30s heading into the second half of September; individual polls continue to range from a record-low 32-33% (Focaldata/FT, Quinnipiac) to 39% (CBS/YouGov)."
+    "lastUpdated": "2026-09-23T00:00:00.000Z",
+    "deltaNote": "Two separate pollsters (Reuters/Ipsos Sep 21, Verasight Sep 23) put approval at new career/record lows of 32-33% in the same week Trump addressed the UN and launched Trump TV amid the press-ban fight; aggregates have not yet fully caught up to the individual-poll lows."
+  },
+  {
+    "id": "aca-enrollee-removal",
+    "label": "ACA Enrollees Removed Over Fraud Claims (Sep 23, 2026 — Vance Task Force, $2.2B Claimed Savings)",
+    "value": "760,000 people (~315,000 enrollments) removed; 419,000 more enrollments under review",
+    "color": "amber",
+    "source": "White House Task Force to Eliminate Fraud / NPR / The Hill / ABC News",
+    "contested": true,
+    "contestNote": "VP Vance said the task force cancelled roughly 315,000 ACA marketplace enrollments covering about 760,000 people it says were fraudulent, ineligible, or fictitious, plus a six-month freeze on new enrollment brokers, saving a claimed $2.2B. Democratic lawmakers and healthcare advocates dispute the fraud framing, warning eligible enrollees will lose coverage and premiums will rise; ~19.2M Americans are enrolled in ACA marketplace plans as of early 2026.",
+    "delta": "New action, first reported Sep 23, 2026",
+    "trend": "up",
+    "lastUpdated": "2026-09-23T00:00:00.000Z"
   },
   {
     "id": "iran-war-casualties",

@@ -6,7 +6,11 @@
     "color": "red",
     "source": "CNN, Al Jazeera (Jul 19, 2026 speech)",
     "contested": false,
-    "deltaDetail": { "value": 1, "direction": "up", "period": "since 2026-09-20" },
+    "deltaDetail": {
+      "value": 1,
+      "direction": "up",
+      "period": "since 2026-09-20"
+    },
     "trend": "up",
     "lastUpdated": "2026-09-21"
   },
@@ -88,15 +92,19 @@
   },
   {
     "id": "kpi-forced-disappearances",
-    "label": "Documented Enforced Disappearances",
-    "value": "23+",
+    "label": "Enforced Disappearances Still Unresolved (UN Count)",
+    "value": "29",
     "color": "red",
-    "source": "Colectivo de Derechos Humanos para la Memoria Histórica (Aug 31, 2026 Day of Victims report)",
+    "source": "UN Group of Human Rights Experts on Nicaragua (Sept 22, 2026 report)",
     "contested": true,
-    "contestNote": "Nicaraguan government has not commented on individual enforced-disappearance cases or the documented total.",
-    "deltaNote": "Corroborated Aug 31 by the Colectivo's International Day of Victims of Enforced Disappearance report, which counts 23 among 60 registered political prisoners",
+    "contestNote": "The Costa Rica-based Colectivo de Derechos Humanos para la Memoria Histórica counted 23 forcibly disappeared as of the same Aug. 31, 2026 cutoff; the government has not commented on either total. The UN report separately verified 161 enforced disappearances since April 2018.",
     "trend": "up",
-    "lastUpdated": "2026-08-31"
+    "lastUpdated": "2026-09-22",
+    "deltaDetail": {
+      "value": 6,
+      "direction": "up",
+      "period": "since 2026-08-31"
+    }
   },
   {
     "id": "kpi-civil-society-orgs-closed",
@@ -108,5 +116,15 @@
     "deltaNote": "Includes at least 56 media outlets forcibly closed over the same eight-year period",
     "trend": "up",
     "lastUpdated": "2026-09-18"
+  },
+  {
+    "id": "kpi-deaths-state-custody",
+    "label": "Deaths in State Custody Documented Since 2018",
+    "value": "8",
+    "color": "red",
+    "source": "UN Group of Human Rights Experts on Nicaragua (Sept 22, 2026 report)",
+    "contested": false,
+    "trend": "stable",
+    "lastUpdated": "2026-09-22"
   }
 ]

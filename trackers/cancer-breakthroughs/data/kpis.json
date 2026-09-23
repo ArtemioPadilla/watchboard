@@ -121,15 +121,28 @@
   {
     "id": "fda-oncology-approvals-2026-ytd",
     "label": "FDA Oncology Approvals in 2026 (Year-to-Date)",
-    "value": "28+",
+    "value": "29+",
     "color": "green",
-    "source": "FDA CDER/CBER Drug Approval Databases — cumulative through September 4, 2026",
+    "source": "FDA CDER/CBER Drug Approval Databases — cumulative through September 14, 2026",
     "contested": false,
-    "delta": "Late Aug-early Sep additions: RASONQUE (daraxonrasib) first RAS(ON) inhibitor, pancreatic cancer (Aug 26), MIMRYLO (rusfertide) first hepcidin mimetic, polycythemia vera (Aug 28), Etcamah (camizestrant) first ctDNA-guided treatment switch, breast cancer (Sep 4)",
-    "deltaNote": "ASCO 2026 (May 29–June 2) produced 5 Plenary Session results: daraxonrasib/RASolute 302 (pancreatic cancer, OS HR 0.40), adjuvant selpercatinib/LIBRETTO-432 (RET+ NSCLC, EFS HR 0.172), perioperative apalutamide/PROTEUS (high-risk prostate), abemaciclib/SARC041 (liposarcoma), plus intismeran autogene 5-year melanoma data (HR 0.51); pace continued through summer with approvals across kidney, prostate, sarcoma, transplant, breast, melanoma, myeloma, gastroesophageal, pancreatic, and blood cancer",
-    "deltaDetail": { "value": 3, "direction": "up", "period": "since Aug 25" },
+    "delta": "Sep additions: sevabertinib (Hyrnuo) expanded to first-line HER2-mutant NSCLC (Sep 9, 75% ORR), Pixclara (floretyrosine F 18) first-ever FET-PET glioma imaging agent (Sep 14)",
+    "deltaNote": "ASCO 2026 (May 29–June 2) produced 5 Plenary Session results: daraxonrasib/RASolute 302 (pancreatic cancer, OS HR 0.40), adjuvant selpercatinib/LIBRETTO-432 (RET+ NSCLC, EFS HR 0.172), perioperative apalutamide/PROTEUS (high-risk prostate), abemaciclib/SARC041 (liposarcoma), plus intismeran autogene 5-year melanoma data (HR 0.51); pace continued through summer with approvals across kidney, prostate, sarcoma, transplant, breast, melanoma, myeloma, gastroesophageal, pancreatic, and blood cancer, plus a first-in-category diagnostic (Pixclara) in September",
+    "deltaDetail": { "value": 1, "direction": "up", "period": "since Sep 4" },
     "trend": "up",
-    "lastUpdated": "2026-09-04"
+    "lastUpdated": "2026-09-14"
+  },
+  {
+    "id": "galleri-mced-fda-review-status",
+    "label": "Galleri Multi-Cancer Early Detection Test — FDA Advisory Panel Review",
+    "value": "Panel convened Sep 23",
+    "color": "amber",
+    "source": "FDA Molecular and Clinical Genetics Panel meeting, Sept 23, 2026",
+    "contested": true,
+    "contestNote": "FDA briefing documents showed the NHS-Galleri (140,000+ participants) and PATHFINDER 2 (35,000+ participants) trials missed their primary endpoint of reducing overall mortality and did not reduce combined Stage III/IV cancer diagnoses, though GRAIL notes Stage IV diagnoses alone fell over the 3-year study period. The panel's vote is non-binding and a final FDA decision had not been announced as of this update.",
+    "delta": "First-ever FDA review of a blood-based multi-cancer early detection test",
+    "deltaNote": "Approval would be a prerequisite for Medicare reimbursement of the $949 test, which is already sold as a lab-developed test.",
+    "trend": "stable",
+    "lastUpdated": "2026-09-23"
   },
   {
     "id": "zenbexus-celmod-mrd-response",
