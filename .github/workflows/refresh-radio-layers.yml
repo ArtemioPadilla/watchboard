@@ -38,9 +38,17 @@ jobs:
           git add public/geo/layers/radio-towers.geojson public/geo/layers/radio-stations.geojson
           if ! git diff --staged --quiet; then
             git commit -m "chore(radio): weekly refresh $(date -u +%Y-%m-%dT%H-%M-%SZ)"
+            pushed=false
             for i in 1 2 3; do
-              git pull --rebase origin main && git push && break
+              if git pull --rebase origin main && git push; then
+                pushed=true
+                break
+              fi
               echo "Push attempt $i failed, retrying..."
               sleep 5
             done
+            if [ "$pushed" != "true" ]; then
+              echo "::error::Failed to push radio layer refresh after 3 attempts"
+              exit 1
+            fi
           fi

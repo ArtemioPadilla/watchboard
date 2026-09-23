@@ -95,8 +95,16 @@ jobs:
             echo "No changes to commit"
           else
             git commit -m "chore(telegram): update sent log $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            pushed=false
             for _ in 1 2 3; do
-              git pull --rebase origin main && git push && break
+              if git pull --rebase origin main && git push; then
+                pushed=true
+                break
+              fi
               sleep $((RANDOM % 5 + 2))
             done
+            if [ "$pushed" != "true" ]; then
+              echo "::error::Failed to push telegram-sent.json after 3 attempts — next run will re-send these updates to the public channel"
+              exit 1
+            fi
           fi

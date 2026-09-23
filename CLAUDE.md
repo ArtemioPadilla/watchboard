@@ -52,6 +52,10 @@ make help            # List all Make targets
 - Each workflow produces a `$GITHUB_STEP_SUMMARY` with data inventory tables
 - Legacy: `scripts/update-data.ts` still works with direct API keys (`ANTHROPIC_API_KEY` / `OPENAI_API_KEY`)
 
+### Merging
+
+`main` has no branch protection and no required checks, and 14 bot workflows push straight to it with `GITHUB_TOKEN` — that's why branch protection is intentionally absent (it would block those pushes). The consequence: a PR's auto-merge fires the instant it's enabled, checks or no checks, because nothing gates the merge button. Enable auto-merge only once checks have already passed, and otherwise merge PRs by hand only after `gh pr checks <n> --watch --fail-fast` comes back green.
+
 ## Architecture
 
 ```
