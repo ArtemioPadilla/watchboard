@@ -76,6 +76,8 @@ interface Props {
   liveLayers?: string[];
   /** Static GeoJSON layer ids from tracker.json map.staticLayers (E5). */
   staticLayers?: string[];
+  /** tracker.json map.radioCountryCodes — scopes the radio-towers/radio-stations layers to these ISO codes. */
+  radioCountryCodes?: string[];
   isHistorical?: boolean;
   endDate?: string;
   clocks?: { label: string; offsetHours: number }[];
@@ -126,7 +128,7 @@ export default function CesiumGlobe(props: Props) {
   );
 }
 
-function CesiumGlobeInner({ points, lines, kpis, meta, events = [], cameraPresets = {}, categories = [], mapCenter, mapBounds, weatherPoints, trackerSlug, liveLayers = [], staticLayers = [], isHistorical = false, endDate, clocks, missionTrajectory, globeLayout, layoutOverrides }: Props) {
+function CesiumGlobeInner({ points, lines, kpis, meta, events = [], cameraPresets = {}, categories = [], mapCenter, mapBounds, weatherPoints, trackerSlug, liveLayers = [], staticLayers = [], radioCountryCodes, isHistorical = false, endDate, clocks, missionTrajectory, globeLayout, layoutOverrides }: Props) {
   const trackerBboxMemo = useMemo(() => trackerBbox(mapBounds ?? null, mapCenter ?? null), [mapBounds, mapCenter]);
   const flightFallback = useMemo(() => (mapCenter ? { lat: mapCenter.lat, lon: mapCenter.lon } : undefined), [mapCenter]);
   const layout = resolveLayout(globeLayout, layoutOverrides);
@@ -636,9 +638,9 @@ function CesiumGlobeInner({ points, lines, kpis, meta, events = [], cameraPreset
   const { count: groundTruthCount } = useGroundTruth(cesiumViewer, layers.groundTruth, points, events, currentDate);
   const frontline = useFrontline(cesiumViewer, wantFrontline && !!extraLayers['deepstate-frontline']);
   const gdacs = useGdacs(cesiumViewer, !!extraLayers['gdacs-alerts']);
-  const static0 = useStaticGeoLayer(cesiumViewer, staticLayers[0] ?? null, !!extraLayers[staticLayers[0] ?? ''], mapBounds ?? null);
-  const static1 = useStaticGeoLayer(cesiumViewer, staticLayers[1] ?? null, !!extraLayers[staticLayers[1] ?? ''], mapBounds ?? null);
-  const static2 = useStaticGeoLayer(cesiumViewer, staticLayers[2] ?? null, !!extraLayers[staticLayers[2] ?? ''], mapBounds ?? null);
+  const static0 = useStaticGeoLayer(cesiumViewer, staticLayers[0] ?? null, !!extraLayers[staticLayers[0] ?? ''], radioCountryCodes);
+  const static1 = useStaticGeoLayer(cesiumViewer, staticLayers[1] ?? null, !!extraLayers[staticLayers[1] ?? ''], radioCountryCodes);
+  const static2 = useStaticGeoLayer(cesiumViewer, staticLayers[2] ?? null, !!extraLayers[staticLayers[2] ?? ''], radioCountryCodes);
   const staticResults = [static0, static1, static2];
   const extraLayerDefs = useMemo(() => {
     const defs: { id: string; label: string; count: number; status: string; updatedAt: number | null; error?: string; dateLabel?: string; snapshotDate?: string }[] = [];

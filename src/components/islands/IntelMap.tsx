@@ -42,6 +42,8 @@ interface Props {
   trackerSlug?: string;
   liveLayers?: string[];
   staticLayers?: string[];
+  /** tracker.json map.radioCountryCodes — scopes the radio-towers/radio-stations layers to these ISO codes. */
+  radioCountryCodes?: string[];
 }
 
 export default function IntelMap(props: Props) {
@@ -54,7 +56,7 @@ export default function IntelMap(props: Props) {
   );
 }
 
-function IntelMapInner({ points, lines, events, categories, mapCenter, mapBounds, weatherPoints, trackerSlug, liveLayers = [], staticLayers = [] }: Props) {
+function IntelMapInner({ points, lines, events, categories, mapCenter, mapBounds, weatherPoints, trackerSlug, liveLayers = [], staticLayers = [], radioCountryCodes }: Props) {
   // Use prop categories with fallback to hardcoded defaults. Passed down to
   // LeafletMap so catColor() resolves dot colors without a module singleton.
   const mapCategories = categories && categories.length > 0 ? categories : MAP_CATEGORIES;
@@ -285,7 +287,7 @@ function IntelMapInner({ points, lines, events, categories, mapCenter, mapBounds
           initialView={urlView.lat !== undefined && urlView.lon !== undefined ? { lat: urlView.lat, lon: urlView.lon, zoom: urlView.zoom ?? 5 } : undefined}
           onViewChange={handleViewChange}
           onGroundClick={handleGroundClick}
-          geoLayers={<GeoLayersLeaflet frontline={extraLayers['deepstate-frontline'] ? frontline.data : null} gdacs={extraLayers['gdacs-alerts'] ? gdacs.data : null} statics={staticData} onSelectRadioFeature={setSelectedRadioFeature} bounds={mapBounds ?? null} />}
+          geoLayers={<GeoLayersLeaflet frontline={extraLayers['deepstate-frontline'] ? frontline.data : null} gdacs={extraLayers['gdacs-alerts'] ? gdacs.data : null} statics={staticData} onSelectRadioFeature={setSelectedRadioFeature} radioCountryCodes={radioCountryCodes} />}
           points={filteredPoints}
           lines={filteredLines}
           categories={mapCategories}

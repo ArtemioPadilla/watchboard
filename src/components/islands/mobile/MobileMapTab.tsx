@@ -23,6 +23,7 @@ interface Props {
   /** E5 layers offered on this tracker (registry ids / static layer ids). */
   liveLayers?: string[];
   staticLayers?: string[];
+  radioCountryCodes?: string[];
   trackerSlug: string;
   // Globe-specific props (optional, only needed when globe is enabled)
   meta?: Meta;
@@ -36,7 +37,7 @@ type GlobeState = 'prompt' | 'loading' | 'loaded' | 'error';
 
 export default function MobileMapTab({
   mode, points, lines, events, categories, kpis,
-  mapCenter, mapBounds, trackerSlug, liveLayers, staticLayers,
+  mapCenter, mapBounds, trackerSlug, liveLayers, staticLayers, radioCountryCodes,
   meta, cameraPresets, isHistorical, endDate, clocks,
 }: Props) {
   const topKpis = kpis.slice(0, 5);
@@ -106,6 +107,7 @@ export default function MobileMapTab({
             trackerSlug={trackerSlug}
             liveLayers={liveLayers}
             staticLayers={staticLayers}
+            radioCountryCodes={radioCountryCodes}
           />
         </div>
       ) : (

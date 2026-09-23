@@ -17,9 +17,10 @@ interface Props {
   categories?: MapCategory[];
   mapCenter?: { lon: number; lat: number };
   mapBounds?: { lonMin: number; lonMax: number; latMin: number; latMax: number };
+  radioCountryCodes?: string[];
 }
 
-export default function IntelMapLoader({ trackerSlug, categories, mapCenter, mapBounds, weatherPoints, liveLayers, staticLayers }: Props) {
+export default function IntelMapLoader({ trackerSlug, categories, mapCenter, mapBounds, weatherPoints, liveLayers, staticLayers, radioCountryCodes }: Props) {
   const [data, setData] = useState<{ points: any[]; lines: any[]; events: any[] } | null>(null);
 
   useEffect(() => {
@@ -46,6 +47,7 @@ export default function IntelMapLoader({ trackerSlug, categories, mapCenter, map
         trackerSlug={trackerSlug}
         liveLayers={liveLayers}
         staticLayers={staticLayers}
+        radioCountryCodes={radioCountryCodes}
       />
     </Suspense>
   );

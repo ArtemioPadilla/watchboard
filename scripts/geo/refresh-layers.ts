@@ -226,40 +226,92 @@ function isOverpassRuntimeError(body: any): boolean {
 }
 
 /**
- * One Overpass area query for a country's ISO 3166-1 code. Retries once
- * after 30s when the response is HTTP 429/504, *or* HTTP 200 with a
- * `remark` reporting a server-side "runtime error" (Overpass's own
+ * Builds the combined query: resolve the country's ISO3166-1 area, count it
+ * (`.a out count;`, so a caller can tell "area matched, zero towers" apart
+ * from "area didn't match at all" in the same request), then the tower
+ * nodes within it. `strict` includes `[admin_level=2]`; some ISO codes
+ * (e.g. Palestine: `boundary=disputed`, no `admin_level` tag) only resolve
+ * without it.
+ */
+function buildTowerAreaQuery(cc: string, strict: boolean): string {
+  const areaFilter = strict ? `["ISO3166-1"="${cc}"][admin_level=2]` : `["ISO3166-1"="${cc}"]`;
+  return `[out:json][timeout:120];area${areaFilter}->.a;.a out count;node["man_made"~"^(tower|mast)$"]["communication:radio"]["communication:radio"!~"^no$"](area.a);out body;`;
+}
+
+/**
+ * Splits an Overpass response's `elements` into the `.a out count;` result
+ * and the actual node elements. `areaCount` is `null` (not `0`) when no
+ * `type: "count"` element is present — e.g. a query that never asked for a
+ * count — so callers only treat an explicit, measured zero as "no area
+ * matched", never the absence of the question.
+ */
+function splitAreaCountAndNodes(elements: any[]): { areaCount: number | null; nodes: any[] } {
+  let areaCount: number | null = null;
+  const nodes: any[] = [];
+  for (const el of elements) {
+    if (el?.type === 'count') areaCount = Number(el.tags?.areas ?? el.tags?.total ?? 0);
+    else nodes.push(el);
+  }
+  return { areaCount, nodes };
+}
+
+/**
+ * One Overpass area+count+nodes query for a country's ISO 3166-1 code.
+ * Retries once after 30s when the response is HTTP 429/504, *or* HTTP 200
+ * with a `remark` reporting a server-side "runtime error" (Overpass's own
  * [timeout:…] budget exceeded) — that shape is a failure disguised as
  * success and must not be read as "zero towers". If it still fails after
  * the retry, throws (the caller then fails the whole adapter, leaving the
- * previous file untouched). `sleepFn` is injectable so tests don't wait 30s.
+ * previous file untouched).
+ *
+ * Separately: `["ISO3166-1"="<cc>"][admin_level=2]` can match *zero areas*
+ * with a clean HTTP 200 — the query succeeds, it just resolved nothing (e.g.
+ * Palestine's OSM relation is `boundary=disputed` without an `admin_level`
+ * tag). That is a failed lookup, not "the country has zero towers", so when
+ * the strict selector's measured area count is 0, this retries once more
+ * with the country code alone (no `admin_level` filter); if that also
+ * measures zero areas, it throws instead of silently returning `[]`.
+ *
+ * `sleepFn` is injectable so tests don't wait 30s.
  */
 export async function fetchOverpassCountryTowers(cc: string, sleepFn: (ms: number) => Promise<void> = sleep): Promise<any[]> {
-  const query = `[out:json][timeout:120];area["ISO3166-1"="${cc}"][admin_level=2]->.a;node["man_made"~"^(tower|mast)$"]["communication:radio"]["communication:radio"!~"^no$"](area.a);out body;`;
-  const doFetch = () => fetch('https://overpass-api.de/api/interpreter', {
+  const doFetch = (query: string) => fetch('https://overpass-api.de/api/interpreter', {
     method: 'POST',
     headers: { 'User-Agent': 'Watchboard/geo-refresh (https://watchboard.dev)', 'Content-Type': 'application/x-www-form-urlencoded' },
     body: `data=${encodeURIComponent(query)}`,
   });
 
-  // One attempt: returns the parsed elements, or a retryable reason string when
-  // the response is a 429/504 or a disguised-as-200 Overpass runtime error.
-  const attempt = async (): Promise<{ elements: any[] } | { retryReason: string }> => {
-    const res = await doFetch();
+  // One attempt for a given query: returns the area count + node elements,
+  // or a retryable reason string when the response is a 429/504 or a
+  // disguised-as-200 Overpass runtime error.
+  const attempt = async (query: string): Promise<{ areaCount: number | null; nodes: any[] } | { retryReason: string }> => {
+    const res = await doFetch(query);
     if (res.status === 429 || res.status === 504) return { retryReason: `HTTP ${res.status}` };
     if (!res.ok) throw new Error(`Overpass HTTP ${res.status} for ${cc}`);
     const body = await res.json();
     if (isOverpassRuntimeError(body)) return { retryReason: `runtime error: ${body.remark}` };
-    return { elements: body.elements ?? [] };
+    return splitAreaCountAndNodes(body.elements ?? []);
   };
 
-  let result = await attempt();
-  if ('retryReason' in result) {
-    await sleepFn(30_000);
-    result = await attempt();
-    if ('retryReason' in result) throw new Error(`Overpass failed for ${cc} after retry (${result.retryReason})`);
+  // One area selector (strict or fallback), with the 429/504/runtime-error
+  // retry-once behavior above — independent of the area-empty fallback below.
+  const runSelector = async (strict: boolean): Promise<{ areaCount: number | null; nodes: any[] }> => {
+    const query = buildTowerAreaQuery(cc, strict);
+    let result = await attempt(query);
+    if ('retryReason' in result) {
+      await sleepFn(30_000);
+      result = await attempt(query);
+      if ('retryReason' in result) throw new Error(`Overpass failed for ${cc} after retry (${result.retryReason})`);
+    }
+    return result;
+  };
+
+  let { areaCount, nodes } = await runSelector(true);
+  if (areaCount === 0) {
+    ({ areaCount, nodes } = await runSelector(false));
+    if (areaCount === 0) throw new Error(`Overpass matched no area for ISO3166-1=${cc} (tried with and without admin_level=2) — a code that matches no area is a failed lookup, not zero towers`);
   }
-  return result.elements;
+  return nodes;
 }
 
 /**

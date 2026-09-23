@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { RADIO_STATION_SVG, RADIO_TOWER_SVG, svgDataUri, radioIconSvgFor, withinBounds } from './radio-icons';
+import { RADIO_STATION_SVG, RADIO_TOWER_SVG, svgDataUri, radioIconSvgFor, filterByCountry } from './radio-icons';
+import type { GeoLayer } from './geo-layer-schema';
 
 describe('radioIconSvgFor', () => {
   it('returns the station glyph for radio-stations and radio-stations-global', () => {
@@ -34,34 +35,42 @@ describe('svgDataUri', () => {
   });
 });
 
-describe('withinBounds', () => {
-  const b = { lonMin: 20, lonMax: 40, latMin: 10, latMax: 30 };
-
-  it('is true for a point strictly inside the box', () => {
-    expect(withinBounds(30, 20, b)).toBe(true);
+describe('filterByCountry', () => {
+  const feature = (id: string, countryCode: unknown): GeoLayer['features'][number] => ({
+    type: 'Feature' as const,
+    id,
+    properties: countryCode === undefined ? {} : { countryCode },
+    geometry: { type: 'Point' as const, coordinates: [0, 0] },
   });
 
-  it('is true for a point exactly on the box edge', () => {
-    expect(withinBounds(20, 10, b)).toBe(true);
-    expect(withinBounds(40, 30, b)).toBe(true);
+  it('keeps features whose countryCode is in the allowed list', () => {
+    const features = [feature('a', 'UA'), feature('b', 'UA')];
+    expect(filterByCountry(features, ['UA']).map(f => f.id)).toEqual(['a', 'b']);
   });
 
-  it('is false for a point well outside the box and its default padding', () => {
-    expect(withinBounds(0, 0, b)).toBe(false);
+  it('drops features whose countryCode is not in the allowed list', () => {
+    const features = [feature('own', 'UA'), feature('foreign', 'RU')];
+    expect(filterByCountry(features, ['UA']).map(f => f.id)).toEqual(['own']);
   });
 
-  it('honors the default 2° padding: just outside the raw box but within pad is true', () => {
-    expect(withinBounds(41, 20, b)).toBe(true); // 1° past lonMax, within default 2° pad
-    expect(withinBounds(30, 9, b)).toBe(true); // 1° below latMin, within default 2° pad
+  it('drops features with a missing or null countryCode, even when the allowed list is non-empty', () => {
+    const features = [feature('has-code', 'UA'), feature('missing', undefined), feature('null-code', null)];
+    expect(filterByCountry(features, ['UA']).map(f => f.id)).toEqual(['has-code']);
   });
 
-  it('is false just past the padded edge', () => {
-    expect(withinBounds(42.5, 20, b)).toBe(false); // 2.5° past lonMax > 2° pad
-    expect(withinBounds(20, 7.5, b)).toBe(false); // 2.5° below latMin > 2° pad
+  it('returns empty for an empty codes list, even if features have matching-looking codes', () => {
+    const features = [feature('a', 'UA')];
+    expect(filterByCountry(features, [])).toEqual([]);
   });
 
-  it('honors a custom padDeg of 0 (no padding)', () => {
-    expect(withinBounds(40.5, 20, b, 0)).toBe(false);
-    expect(withinBounds(40, 20, b, 0)).toBe(true);
+  it('returns empty for an undefined/null codes list (no radioCountryCodes declared ≠ show everything)', () => {
+    const features = [feature('a', 'UA')];
+    expect(filterByCountry(features, undefined)).toEqual([]);
+    expect(filterByCountry(features, null)).toEqual([]);
+  });
+
+  it('matches against every code in a multi-code list', () => {
+    const features = [feature('il', 'IL'), feature('ps', 'PS'), feature('eg', 'EG')];
+    expect(filterByCountry(features, ['IL', 'PS']).map(f => f.id)).toEqual(['il', 'ps']);
   });
 });

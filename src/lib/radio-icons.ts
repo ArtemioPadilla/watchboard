@@ -5,7 +5,17 @@
  * broadcast waves in #ff66cc, tower glyph = lattice mast in #66ffcc.
  * Shared by Leaflet (L.divIcon html), Cesium (billboard data URI) and the
  * homepage globe pin (innerHTML).
+ *
+ * Also owns `filterByCountry`: per-tracker radio layers (radio-towers,
+ * radio-stations) are scoped by `properties.countryCode`, not by a padded
+ * map.bounds box. A bbox pad was measured to leak hundreds of foreign
+ * stations/towers into a tracker's radio layer (e.g. gaza-war showed 7 own
+ * vs 517 foreign stations under a 2° pad) — country filtering is exact
+ * because every radio feature already carries `properties.countryCode`
+ * (see scripts/geo/refresh-layers.ts). The homepage's radio-stations-global
+ * layer is intentionally worldwide and is never filtered.
  */
+import type { GeoLayer } from './geo-layer-schema';
 
 export const RADIO_STATION_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14.5" fill="#0d1117" fill-opacity=".9" stroke="#ff66cc" stroke-width="1.6"/><g fill="none" stroke="#ff66cc" stroke-width="1.8" stroke-linecap="round"><path d="M12.2 12.2a5.4 5.4 0 0 0 0 7.6"/><path d="M19.8 12.2a5.4 5.4 0 0 1 0 7.6"/><path d="M9.2 9.2a9.6 9.6 0 0 0 0 13.6" stroke-opacity=".75"/><path d="M22.8 9.2a9.6 9.6 0 0 1 0 13.6" stroke-opacity=".75"/></g><circle cx="16" cy="16" r="2.4" fill="#ff66cc"/></svg>`;
 
@@ -23,19 +33,18 @@ export function radioIconSvgFor(layerId: string): string | null {
   return null;
 }
 
-export interface LonLatBounds {
-  lonMin: number;
-  lonMax: number;
-  latMin: number;
-  latMax: number;
-}
-
-/** True when (lon, lat) falls inside `b`, padded by `padDeg` on every side (default 2°). */
-export function withinBounds(lon: number, lat: number, b: LonLatBounds, padDeg = 2): boolean {
-  return (
-    lon >= b.lonMin - padDeg &&
-    lon <= b.lonMax + padDeg &&
-    lat >= b.latMin - padDeg &&
-    lat <= b.latMax + padDeg
-  );
+/**
+ * Keeps only features whose `properties.countryCode` is in `codes`. A
+ * feature with no `countryCode` is dropped (never shown as "maybe ours"),
+ * and an empty/undefined `codes` list drops everything — a tracker that
+ * declares no `map.radioCountryCodes` gets no radio pins rather than
+ * falling back to "show every station on Earth".
+ */
+export function filterByCountry(features: GeoLayer['features'], codes: string[] | undefined | null): GeoLayer['features'] {
+  if (!codes || codes.length === 0) return [];
+  const allowed = new Set(codes);
+  return features.filter(f => {
+    const cc = (f.properties as any)?.countryCode;
+    return typeof cc === 'string' && allowed.has(cc);
+  });
 }

@@ -51,16 +51,16 @@ export interface StaticLayerMeta {
   label: string;
   color: string;
   kind: 'point' | 'line' | 'polygon';
-  /** When true, renderers filter features to the tracker's map.bounds (padded 2°) before drawing. Radio layers only — other static layers (nuclear plants, cables, chokepoints) render worldwide. */
-  clipToBounds?: boolean;
+  /** When true, renderers keep only features whose `properties.countryCode` is in the tracker's `map.radioCountryCodes` (src/lib/radio-icons.ts `filterByCountry`) before drawing — a bbox pad leaks hundreds of foreign stations/towers into a small theater, since every radio feature already carries an exact `countryCode`. Radio layers only — other static layers (nuclear plants, cables, chokepoints) render worldwide, and the homepage's radio-stations-global layer is also unfiltered. */
+  filterByCountry?: boolean;
 }
 
 export const STATIC_LAYERS: StaticLayerMeta[] = [
   { id: 'nuclear-plants', label: 'layers.nuclearPlants', color: '#ffcc00', kind: 'point' },
   { id: 'submarine-cables', label: 'layers.submarineCables', color: '#4fc3f7', kind: 'line' },
   { id: 'maritime-chokepoints', label: 'layers.chokepoints', color: '#ff8a65', kind: 'point' },
-  { id: 'radio-towers', label: 'layers.radioTowers', color: '#66ffcc', kind: 'point', clipToBounds: true },
-  { id: 'radio-stations', label: 'layers.radioStations', color: '#ff66cc', kind: 'point', clipToBounds: true },
+  { id: 'radio-towers', label: 'layers.radioTowers', color: '#66ffcc', kind: 'point', filterByCountry: true },
+  { id: 'radio-stations', label: 'layers.radioStations', color: '#ff66cc', kind: 'point', filterByCountry: true },
   { id: 'radio-stations-global', label: 'layers.radioStationsGlobal', color: '#ff66cc', kind: 'point' },
 ];
 

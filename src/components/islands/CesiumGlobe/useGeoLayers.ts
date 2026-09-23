@@ -20,7 +20,7 @@ import { DEEPSTATE_URL, parseDeepStateResponse, type Frontline } from '../../../
 import type { GdacsFile } from '../../../../scripts/lib/gdacs';
 import { GeoLayerSchema, staticLayerMeta, type GeoLayer } from '../../../lib/geo-layer-schema';
 import { getLiveLayer } from '../../../lib/live-layers';
-import { radioIconSvgFor, svgDataUri, withinBounds, type LonLatBounds } from '../../../lib/radio-icons';
+import { radioIconSvgFor, svgDataUri, filterByCountry } from '../../../lib/radio-icons';
 
 function basePath(): string {
   const raw = (import.meta as any).env?.BASE_URL ?? '/';
@@ -128,8 +128,10 @@ export function useGdacs(viewer: CesiumViewer | null, enabled: boolean): LayerRe
 }
 
 /** Points as dots (radio layers get SVG billboards instead), lines as polylines; polygons as fills.
- *  `bounds` (the tracker's map.bounds) clips radio-towers/radio-stations to the theater, padded 2°. */
-export function useStaticGeoLayer(viewer: CesiumViewer | null, id: string | null, enabled: boolean, bounds?: LonLatBounds | null): LayerResult {
+ *  `radioCountryCodes` (the tracker's map.radioCountryCodes) scopes radio-towers/radio-stations
+ *  to an exact properties.countryCode match — not a padded bounding box, which was measured to
+ *  leak hundreds of foreign stations/towers into a tracker's radio layer. */
+export function useStaticGeoLayer(viewer: CesiumViewer | null, id: string | null, enabled: boolean, radioCountryCodes?: string[]): LayerResult {
   const entitiesRef = useRef<Entity[]>([]);
   const [count, setCount] = useState(0);
   const meta = id ? staticLayerMeta(id) : undefined;
@@ -149,7 +151,12 @@ export function useStaticGeoLayer(viewer: CesiumViewer | null, id: string | null
     if (!enabled || !data) { clear(); setCount(0); return; }
     clear();
     const color = Color.fromCssColorString(meta?.color ?? '#ffffff');
-    for (const f of data.features) {
+    // Radio layers (filterByCountry: true) are scoped to the tracker's own
+    // countries by exact countryCode match; every other static layer
+    // (nuclear plants, cables, chokepoints) renders every feature.
+    const scopedFeatures = meta?.filterByCountry ? filterByCountry(data.features, radioCountryCodes) : data.features;
+    let rendered = 0;
+    for (const f of scopedFeatures) {
       const g = f.geometry;
       // Fall back to the layer id (e.g. "radio-towers") only for the entity's
       // internal `name`, which Cesium doesn't render. The visible `label`
@@ -159,9 +166,9 @@ export function useStaticGeoLayer(viewer: CesiumViewer | null, id: string | null
       const rawName = (f.properties as any)?.name;
       const hasName = typeof rawName === 'string' && rawName.length > 0;
       const name = hasName ? rawName : id;
+      rendered++;
       if (g.type === 'Point') {
         const [lon, lat] = g.coordinates as number[];
-        if (meta?.clipToBounds && bounds && !withinBounds(lon, lat, bounds)) continue;
         entitiesRef.current.push(viewer.entities.add({
           name, description: JSON.stringify(f.properties),
           position: Cartesian3.fromDegrees(lon, lat, 0),
@@ -189,9 +196,9 @@ export function useStaticGeoLayer(viewer: CesiumViewer | null, id: string | null
         }
       }
     }
-    setCount(data.features.length);
+    setCount(rendered);
     return clear;
-  }, [viewer, enabled, data, meta?.color, meta?.clipToBounds, id, radioSvg, bounds]);
+  }, [viewer, enabled, data, meta?.color, meta?.filterByCountry, id, radioSvg, radioCountryCodes]);
   useEntityCleanup(viewer, entitiesRef);
 
   return { count, status: enabled && id ? status : 'disabled', updatedAt, error, label: data?._provenance.retrievedAt.slice(0, 10) };

@@ -163,5 +163,43 @@ describe('adapters (pure parsing)', () => {
       expect(fetchMock).toHaveBeenCalledTimes(2);
       expect(sleeps).toEqual([30_000]);
     });
+
+    /** Decodes the `data=<urlencoded overpass query>` body a mocked fetch call was made with. */
+    const queryFromCall = (fetchMock: ReturnType<typeof vi.fn>, callIndex: number): string => {
+      const body = fetchMock.mock.calls[callIndex][1].body as string;
+      return decodeURIComponent(body.slice('data='.length));
+    };
+
+    it('falls back to the selector without admin_level=2 when the strict selector measures zero areas (e.g. Palestine: boundary=disputed, no admin_level tag)', async () => {
+      const zeroAreaBody = { elements: [{ type: 'count', id: 0, tags: { nodes: '0', ways: '0', relations: '0', areas: '0', total: '0' } }] };
+      const nodeElements = [{ type: 'node', id: 7, lat: 31.9, lon: 35.2, tags: { 'communication:radio': 'fm' } }];
+      const matchedAreaBody = { elements: [{ type: 'count', id: 0, tags: { areas: '1', total: '1' } }, ...nodeElements] };
+      const fetchMock = vi.fn()
+        .mockResolvedValueOnce(jsonRes(zeroAreaBody))
+        .mockResolvedValueOnce(jsonRes(matchedAreaBody));
+      vi.stubGlobal('fetch', fetchMock);
+      const sleeps: number[] = [];
+      const fakeSleep = async (ms: number) => { sleeps.push(ms); };
+
+      const elements = await fetchOverpassCountryTowers('PS', fakeSleep);
+      expect(elements).toEqual(nodeElements);
+      expect(fetchMock).toHaveBeenCalledTimes(2);
+      expect(sleeps).toEqual([]); // area-empty fallback is not the 429/504/runtime-error retry path — no sleep
+      expect(queryFromCall(fetchMock, 0)).toContain('[admin_level=2]');
+      expect(queryFromCall(fetchMock, 1)).not.toContain('[admin_level=2]');
+      expect(queryFromCall(fetchMock, 1)).toContain('["ISO3166-1"="PS"]');
+    });
+
+    it('throws when the area still measures zero after the admin_level=2 fallback, instead of returning zero towers silently', async () => {
+      const zeroAreaBody = { elements: [{ type: 'count', id: 0, tags: { areas: '0', total: '0' } }] };
+      const fetchMock = vi.fn()
+        .mockResolvedValueOnce(jsonRes(zeroAreaBody))
+        .mockResolvedValueOnce(jsonRes(zeroAreaBody));
+      vi.stubGlobal('fetch', fetchMock);
+      const fakeSleep = async () => {};
+
+      await expect(fetchOverpassCountryTowers('XX', fakeSleep)).rejects.toThrow(/no area/i);
+      expect(fetchMock).toHaveBeenCalledTimes(2);
+    });
   });
 });
