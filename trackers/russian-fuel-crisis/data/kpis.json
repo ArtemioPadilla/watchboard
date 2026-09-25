@@ -34,16 +34,20 @@
   {
     "id": "gasoline-retail-price",
     "label": "AI-95 retail price",
-    "value": "80.60 RUB/L (official) vs 155.96 RUB/L official avg / 200–350 RUB/L black market in Crimea",
+    "value": "80.79 RUB/L (official) vs 155.96 RUB/L official avg / 200–350 RUB/L black market in Crimea",
     "color": "amber",
-    "source": "Rosstat, Sep 9 2026 (week of Sep 1-7) / Meduza, Aug 27 2026",
+    "source": "Rosstat, Sep 25 2026 (week of Sep 15-21) / Meduza, Aug 27 2026",
     "contested": true,
     "contestNote": "Official Rosstat national averages remain well below independent-station and black-market prices; the gap is most extreme in occupied Crimea, where AI-95 averaged 155.96 RUB/L even at formally reporting stations, with unofficial black-market prices reported far higher still.",
-    "delta": "+0.52 RUB/L",
-    "deltaDetail": { "value": 0.52, "direction": "up", "period": "7d" },
-    "deltaNote": "Rosstat's weekly monitoring showed nationwide AI-95 up from 80.08 to 80.60 RUB/L over Sep 1-7, with gasoline prices rising in 49 regions (sharpest in Tyumen, +9.2%) and falling in 9 (sharpest in Sevastopol, -14.4%)",
+    "delta": "+0.19 RUB/L",
+    "deltaDetail": {
+      "value": 0.19,
+      "direction": "up",
+      "period": "7d"
+    },
+    "deltaNote": "Rosstat's weekly monitoring showed nationwide AI-95 up from 80.78 to 80.79 RUB/L over Sep 15-21 — a sharp slowdown to +0.05% overall basket growth, versus +0.36% the prior week",
     "trend": "up",
-    "lastUpdated": "2026-09-07T00:00:00Z"
+    "lastUpdated": "2026-09-21T00:00:00Z"
   },
   {
     "id": "crude-throughput",
@@ -179,5 +183,15 @@
     "contested": false,
     "trend": "up",
     "lastUpdated": "2026-09-23T00:00:00Z"
+  },
+  {
+    "id": "perm-novoshakhtinsk-refineries-struck-again",
+    "label": "Refineries struck again (Sep 25)",
+    "value": "Perm (Lukoil-PNOS, 6th strike since April) + Novoshakhtinsk (2nd in a month) both re-hit overnight",
+    "color": "red",
+    "source": "Militarnyi / The Moscow Times / Kyiv Post, Sep 25 2026",
+    "contested": false,
+    "trend": "up",
+    "lastUpdated": "2026-09-25T19:09:52Z"
   }
 ]

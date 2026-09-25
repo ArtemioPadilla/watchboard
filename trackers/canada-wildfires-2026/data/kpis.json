@@ -133,65 +133,71 @@
     }
   },
   {
-    "id": "ainslie-creek-fire-size",
-    "label": "Ainslie Creek Fire Size (Merritt/Fraser Canyon, BC)",
-    "value": "67,722 ha",
-    "color": "amber",
-    "source": "BC Wildfire Service / CFJC Today, as of Sep 3",
-    "contested": false,
-    "deltaNote": "Held since late Aug; removed from BC's 'wildfires of note' list Sep 3 alongside neighboring Brunswick Creek fire (9,267 ha, also held). Evacuation orders/alerts remain in a few areas. No structure losses reported",
-    "trend": "stable",
-    "lastUpdated": "2026-09-04T18:30:00Z"
-  },
-  {
     "id": "nwt-wildfire-total",
     "label": "Northwest Territories Wildfire Total (Season)",
-    "value": "1,692,911 ha across 289 fires",
-    "color": "amber",
-    "source": "NWT Environment and Climate Change, as of Sep 21",
+    "value": "1,694,210 ha across 289 fires",
+    "color": "green",
+    "source": "NWT Environment and Climate Change, as of Sep 25",
     "contested": false,
-    "deltaNote": "79 fires still active (71 out of control, 2 held, 6 under control), down from 219 active on Sep 6, as fall weather suppresses activity.",
+    "deltaNote": "Only 7 fires still active (5 out of control, 2 under control) and 282 now declared out, down from 79 active (71 out of control) on Sep 21, as fall weather effectively ends the active phase of the NWT season.",
     "trend": "down",
-    "lastUpdated": "2026-09-23T18:00:00Z",
-    "delta": "-1,090 ha vs Sep 6 estimate (minor remapping); active fire count fell from 219 to 79",
+    "lastUpdated": "2026-09-25T17:30:00Z",
+    "delta": "+1,299 ha vs Sep 21 estimate (minor remapping); active fire count fell from 79 to 7",
     "deltaDetail": {
-      "value": -1090,
+      "value": -72,
       "direction": "down",
-      "period": "since Sep 6"
+      "period": "since Sep 21"
     }
   },
   {
     "id": "bc-active-fires-outofcontrol-share",
     "label": "BC Active Wildfires / Share Out of Control",
-    "value": "105 active / 5 out of control",
+    "value": "100 active / 2 out of control",
     "color": "green",
-    "source": "BC Wildfire Service (via FireRisk.ai live feed), as of Sep 23",
+    "source": "BC Wildfire Service (via FireRisk.ai live feed), as of Sep 25",
     "contested": false,
-    "deltaNote": "22 being held, 78 under control. BC's fire season has been moderated by weeks of cooler, wetter weather, though above-average drought persists in the Chilcotin, Lower Thompson, Okanagan, Vancouver Island and the northeast.",
+    "deltaNote": "16 being held, 82 under control. BC's fire season continues to wind down; the Mount Jack fire near Sooke is now one of only two fires still classified out of control provincewide.",
     "trend": "down",
-    "lastUpdated": "2026-09-23T18:00:00Z",
-    "delta": "Down from 150 active fires on Sep 3; season total now 1,420 fires and 425,930-477,521 ha burned (province figures vary by snapshot)",
+    "lastUpdated": "2026-09-25T17:30:00Z",
+    "delta": "Down from 105 active / 5 out of control on Sep 23",
     "deltaDetail": {
-      "value": -45,
+      "value": -5,
       "direction": "down",
-      "period": "since Sep 3"
+      "period": "since Sep 23"
     }
   },
   {
     "id": "mount-jack-fire-size",
     "label": "Mount Jack Fire Size (Sooke, BC)",
-    "value": "210.4 ha",
+    "value": "276 ha",
     "color": "amber",
-    "source": "BC Wildfire Service, as of Sep 23",
+    "source": "BC Wildfire Service / CP24, as of Sep 24",
     "contested": false,
-    "delta": "Doubled twice this week: 35 ha (Sep 21) → 100 ha (Sep 22) → 210.4 ha (Sep 23)",
+    "delta": "Up from 210.4 ha (Sep 23) to 276 ha (Sep 24)",
     "deltaDetail": {
-      "value": 175,
+      "value": 65.6,
       "direction": "up",
-      "period": "since Sep 21"
+      "period": "since Sep 23"
     },
-    "deltaNote": "Out of control, discovered Sept 20 on southern Vancouver Island. No evacuation orders or alerts issued; BC Wildfire Service says it poses no threat to structures or critical infrastructure.",
+    "deltaNote": "Out of control, discovered Sept 20 on southern Vancouver Island; determined human-caused. No evacuation orders or alerts issued. Smoke has blanketed Greater Victoria and limited helicopter bucketing; ~60 personnel assigned.",
     "trend": "up",
-    "lastUpdated": "2026-09-23T18:00:00Z"
+    "lastUpdated": "2026-09-25T17:30:00Z"
+  },
+  {
+    "id": "ainslie-creek-fire-size",
+    "label": "Ainslie Creek Fire Size (Merritt/Fraser Canyon, BC)",
+    "value": "69,705 ha",
+    "color": "amber",
+    "source": "BC Wildfire Service (via FireRisk.ai live feed), as of Sep 25",
+    "contested": false,
+    "delta": "+1,983 ha vs Sep 3 estimate (67,722 ha) — still classified 'being held'",
+    "deltaDetail": {
+      "value": 1983,
+      "direction": "up",
+      "period": "since Sep 3"
+    },
+    "deltaNote": "Held since late Aug; removed from BC's 'wildfires of note' list Sep 3. No structure losses reported.",
+    "trend": "stable",
+    "lastUpdated": "2026-09-25T17:30:00Z"
   }
 ]

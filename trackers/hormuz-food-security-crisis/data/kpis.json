@@ -2,14 +2,14 @@
   {
     "id": "brent_crude",
     "label": "Brent Crude",
-    "value": "$98.44/bbl Sep 23 (-0.82%), first sustained drop below $100 in weeks after Saudi Arabia restarted its East-West pipeline Sep 22, down from $101.61 at the Sep 21 close",
-    "color": "amber",
-    "source": "Arbiterz / Bloomberg / The National (Sep 22-23, 2026)",
+    "value": "$106.60/bbl Sep 24 (+3.4%), spiked to a $108.23 intraday high after Houthi missile/drone attacks on Saudi Arabia's Yanbu export hub, eased to $105.77 in early Asian trade Sep 25",
+    "color": "red",
+    "source": "Al Jazeera / Bloomberg / The National (Sep 24-25, 2026)",
     "contested": false,
-    "delta": "Fell below $100 for the first time in weeks after Saudi Arabia restarted the East-West pipeline Sep 22 and seven supertankers loaded 14M barrels via Hormuz over the weekend; extended the slide to $98.44 Sep 23 (WTI -1.34% to $89.31) as markets weighed Iran's roadmap for a phased Hormuz reopening",
-    "deltaDetail": { "value": -3.17, "direction": "down", "period": "2d" },
-    "trend": "down",
-    "lastUpdated": "2026-09-23T20:00:00Z"
+    "delta": "Houthi missile/drone attacks on Saudi Arabia's Aramco export hub at Yanbu on Sep 24 reversed the prior two days' de-escalation rally, sending Brent to a $108.23 intraday high before it settled +3.4% at $106.60; eased slightly to $105.77 in early Asian trade Sep 25 as Iran hardened its preconditions for reopening the strait",
+    "deltaDetail": { "value": 8.16, "direction": "up", "period": "2d" },
+    "trend": "up",
+    "lastUpdated": "2026-09-25T18:39:15.000Z"
   },
   {
     "id": "saudi_pipeline_status",
@@ -72,16 +72,16 @@
   {
     "id": "hormuz_daily_transits",
     "label": "Hormuz Daily Tanker Transits",
-    "value": "2 vessels Mon Sep 21 (down from 10 Sun); Iran floats a phased reopening within a week if the US eases its naval blockade",
+    "value": "10 vessels Wed Sep 23 (10-day moving average ~17); still ~92% below the ~125/day pre-war baseline",
     "color": "red",
-    "source": "Emirates 24|7 / Reuters via KELO (Sep 22, 2026)",
+    "source": "MarineLink / Emirates 24|7 (Sep 22-24, 2026)",
     "contested": true,
-    "contestNote": "CENTCOM commander Adm. Brad Cooper said oil and LNG shipments through the strait hit a six-month high over the preceding two weeks, topping 1 billion barrels; independent tracking counted just two trackable commodity vessels crossing Sep 21, against a pre-war daily average of roughly 125 large commercial vessels",
-    "delta": "A tanker (LR Stephanie) and a separate LPG carrier (Al Maryah) were both struck by unidentified projectiles Sep 21, the same day transits collapsed to 2 vessels from 10 the day before",
-    "deltaDetail": { "value": -8, "direction": "down", "period": "24h" },
-    "deltaNote": "Iran's Foreign Ministry says the strait could reopen within a week if Washington lifts its naval blockade and eases military pressure, per the roadmap Tehran presented the US Sep 23",
-    "trend": "down",
-    "lastUpdated": "2026-09-22T20:00:00Z"
+    "contestNote": "CENTCOM commander Adm. Brad Cooper said oil and LNG shipments through the strait hit a six-month high over the preceding two weeks, topping 1 billion barrels; independent tracking puts daily transits in the single-to-low-teens range against a pre-war daily average of roughly 125 large commercial vessels",
+    "delta": "Ticked up to 10 vessels Wednesday Sep 23 (10-day moving average ~17) from the 2-vessel low recorded Sep 21, though still far below the pre-war baseline",
+    "deltaDetail": { "value": 8, "direction": "up", "period": "48h" },
+    "deltaNote": "Iran's seven-day roadmap presented Sep 25 ties any reopening to the US first lifting its naval blockade and easing military pressure",
+    "trend": "up",
+    "lastUpdated": "2026-09-24T00:00:00Z"
   },
   {
     "id": "war_risk_insurance",
