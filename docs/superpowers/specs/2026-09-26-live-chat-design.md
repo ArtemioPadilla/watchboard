@@ -1,7 +1,8 @@
 # Diseño: chat en vivo propio (Worker + Durable Objects)
 
 **Estado:** Propuesto — pendiente de las decisiones del dueño (sección 14)
-**Fecha:** 2026-09-26
+**Fecha:** 2026-09-26 (revisado el mismo día tras una revisión adversarial
+de 42 hallazgos; registro al final, "Adversarial review log")
 **Contexto:** decisión del dueño del 2026-09-25: construir un chat
 **propio** dentro de la app, alojado en el worker de Cloudflare que ya
 existe (`wrangler.toml`, `worker/index.ts`), con Durable Objects. Revierte
@@ -30,7 +31,9 @@ límites de tasa por identidad y por sala, modo lento automático ante
 picos, reportes de cualquier lector (aviso DSA art. 16), cola del dueño
 en `chat.watchboard.dev/admin` y alertas sin contenido a
 `TELEGRAM_ALERT_CHAT_ID`. Cuando nadie atiende, el sistema se degrada
-hacia lo seguro: sala en solo-lectura si la cola de reportes envejece.
+hacia lo seguro: un reporte grave oculta al instante el mensaje
+denunciado, y la sala pasa a solo-lectura si se acumulan varios sin
+revisar (4.5).
 
 Coste: **plan gratuito de Workers, techo duro de 0 USD** — en ese plan
 una operación que excede el límite diario falla en vez de facturarse
@@ -192,7 +195,14 @@ Worker watchboard-push  ── enruta por hostname ──►  handlers push/news
 - **Solo SQLite:** en el plan gratuito "only Durable Objects with SQLite
   storage backend are available" (Cloudflare, *Durable Objects pricing*
   y *limits*, consultados el 2026-09-26). Límite: 10 GB por objeto, 5 GB
-  por cuenta en Free.
+  por cuenta en Free (la página de *limits* da los 10 GB por objeto
+  también para Free; releído el 2026-09-26).
+- **Jurisdicción antes del primer objeto:** "Durable Objects do not
+  currently change locations after they are created" (*Data location*,
+  2026-09-26). Si el dueño quiere la jurisdicción UE
+  (`env.NS.jurisdiction('eu')`), tiene que decirlo **antes** de que el
+  paso 2 cree `ChatMod('global')`; todo `idFromName` pasa por un único
+  módulo (`worker/chat/stubs.ts`) que la aplica (P6, revisión #24).
 - `compatibility_date` pasa de `2024-09-01` (`wrangler.toml:6`) a una
   fecha actual verificada en el paso 0 (sección 12); el cambio se prueba
   contra push y newsletter, no solo contra el chat.
@@ -213,36 +223,63 @@ Worker watchboard-push  ── enruta por hostname ──►  handlers push/news
   los últimos 100 mensajes visibles. Escritura: solo si el handshake
   trae una sesión válida (sección 3.6).
 - Límites de sala (configurables, valores iniciales): 300 conexiones
-  simultáneas, 5.000 conexiones/día, 1.500 mensajes aceptados/día. Al
-  llegar a un límite diario la sala pasa a `readonly` con motivo
-  `daily_budget` hasta las 00:00 UTC (sección 7).
+  simultáneas, de las que como mucho 200 anónimas (las otras 100 quedan
+  para lectores con sesión); 1.000 mensajes aceptados/día (provisional
+  hasta medir filas por envío, 7.3). Al llegar al límite diario de
+  mensajes la sala pasa a `readonly` con motivo `daily_budget` hasta las
+  00:00 UTC. **No hay tope diario de conexiones:** un tope que cualquier
+  script alcanza cierra la sala a todos hasta medianoche (revisión #4);
+  el lector anónimo que excede el cupo concurrente recibe el historial y
+  un cierre `4004` ("sala llena").
+- **Sin `await` antes de escribir:** `onSend` comprueba modo, ban, tasa,
+  duplicados y filtros con datos de la propia sala (términos, bans y modo
+  global se copian a su SQLite y se sincronizan en cada conexión y
+  alarma) para que dos tramas seguidas no pasen ambas los límites
+  (revisión #6).
+- **Registro de salas:** cada sala se registra en `ChatMod` la primera
+  vez; supresión, bans y modo global llegan a todas las registradas,
+  incluidas las quitadas de `CHAT_ROOMS` (revisión #7). Si una sala no
+  puede sincronizar con `ChatMod`, rechaza escrituras hasta lograrlo
+  (revisión #31).
 
 ### 3.3 Esquema SQLite
 
 ```sql
--- ChatRoom
+-- ChatRoom (revisado tras la revisión adversarial: cada consulta caliente tiene índice,
+-- las tablas con clave de texto son WITHOUT ROWID, y no hay tabla `counters`)
 CREATE TABLE messages (
-  id         INTEGER PRIMARY KEY,           -- monótono por sala
+  id         INTEGER PRIMARY KEY,           -- monótono por sala (y creciente con ts)
   ts         INTEGER NOT NULL,              -- epoch ms, reloj del DO
-  uid        TEXT    NOT NULL,              -- 'gh:{id}' (o 'bsky:{did}' en fase 2)
-  handle     TEXT    NOT NULL,              -- copia al escribir; no se edita
+  uid        TEXT    NOT NULL,              -- 'gh:{id}'; se vacía al suprimir
+  handle     TEXT    NOT NULL,              -- copia al escribir; se vacía al suprimir
   body       TEXT    NOT NULL,              -- ≤ 500 caracteres tras normalizar
+  body_hash  TEXT    NOT NULL,              -- FNV-1a síncrono, para el filtro de brigadas
   lang       TEXT,                          -- declarado por el cliente, informativo
   state      TEXT    NOT NULL CHECK (state IN ('visible','held','removed','deleted')),
-  hold_code  TEXT,                          -- filtro que lo retuvo
+  hold_code  TEXT,                          -- filtro o reporte que lo retuvo
+  reason     TEXT,                          -- declaración de motivos visible para el autor
+  reported   INTEGER NOT NULL DEFAULT 0,    -- hay un reporte abierto: la retención no lo borra
   nonce      TEXT    NOT NULL UNIQUE        -- idempotencia de reintentos
 );
-CREATE INDEX messages_visible ON messages(state, id);
-CREATE TABLE counters (day TEXT, key TEXT, n INTEGER, PRIMARY KEY (day, key));
-CREATE TABLE room (k TEXT PRIMARY KEY, v TEXT);   -- modo, motivo, hasta
+CREATE INDEX messages_uid  ON messages(uid, ts);
+CREATE INDEX messages_hash ON messages(body_hash, ts);
+CREATE TABLE holds    (msg_id INTEGER PRIMARY KEY, ts INTEGER, grave INTEGER);  -- solo retenidos: pequeña
+CREATE TABLE evidence (msg_id INTEGER PRIMARY KEY, ts, uid, handle, body, saved_at);  -- texto bajo reporte abierto (6.2)
+CREATE TABLE usage    (uid TEXT PRIMARY KEY, last, hour, hour_n, day, day_n, rep_hour, rep_n) WITHOUT ROWID;
+CREATE TABLE room     (k TEXT PRIMARY KEY, v TEXT) WITHOUT ROWID;   -- modo, global, términos, stats:<día>, sync
+CREATE TABLE bans     (uid_hmac TEXT PRIMARY KEY, until INTEGER, ground TEXT) WITHOUT ROWID;
 
 -- ChatMod
-CREATE TABLE bans      (uid_hmac TEXT PRIMARY KEY, until INTEGER, ground TEXT, decision_id INTEGER);
-CREATE TABLE reports   (id INTEGER PRIMARY KEY, room TEXT, msg_id INTEGER, ts INTEGER,
-                        category TEXT, reporter_uid_hmac TEXT, notice_json TEXT, status TEXT);
-CREATE TABLE decisions (id INTEGER PRIMARY KEY, ts INTEGER, room TEXT, msg_id INTEGER,
-                        action TEXT, ground TEXT, automated INTEGER, facts TEXT);
-CREATE TABLE settings  (k TEXT PRIMARY KEY, v TEXT);  -- modo global, lista de términos, versión
+CREATE TABLE bans       (uid_hmac TEXT PRIMARY KEY, until INTEGER, ground TEXT, decision_id INTEGER) WITHOUT ROWID;
+CREATE TABLE reports    (id INTEGER PRIMARY KEY, room TEXT, msg_id INTEGER, ts INTEGER,
+                         category TEXT, reporter_uid_hmac TEXT, notice_json TEXT, status TEXT);
+CREATE INDEX reports_msg ON reports(room, msg_id);  CREATE INDEX reports_open ON reports(status, ts);
+CREATE TABLE decisions  (id INTEGER PRIMARY KEY, ts INTEGER, room TEXT, msg_id INTEGER,
+                         action TEXT, ground TEXT, automated INTEGER, facts TEXT, facts_until INTEGER);
+CREATE TABLE settings   (k TEXT PRIMARY KEY, v TEXT) WITHOUT ROWID;  -- modo global, términos, huella de clave, contadores
+CREATE TABLE users      (uid_hmac TEXT PRIMARY KEY, gen INTEGER, dismissed_reports INTEGER) WITHOUT ROWID;
+CREATE TABLE rooms      (slug TEXT PRIMARY KEY, first_seen INTEGER) WITHOUT ROWID;      -- registro de salas
+CREATE TABLE room_stats (slug TEXT PRIMARY KEY, at INTEGER, json TEXT) WITHOUT ROWID;  -- alimenta /health sin fan-out
 ```
 
 El tipo TypeScript `ChatMessage` vive en `src/lib/community/` (el módulo
@@ -252,8 +289,15 @@ tiene claves `tier`, `source`, `pole`, `contested` ni `media`
 
 ### 3.4 Protocolo del socket
 
-JSON, validado con Zod en ambos extremos (esquema compartido
-`src/lib/community/protocol.ts`, importado por el worker):
+JSON, validado en ambos extremos por un parser sin dependencias
+(`src/lib/community/protocol.ts`, importado por el worker; desviación D2
+del plan). Los parsers **ignoran las claves desconocidas** y construyen
+su salida solo con los campos conocidos: un cliente viejo sigue
+funcionando cuando el worker añade un campo, y ninguna clave inesperada
+(`tier`, `source`…) entra al estado. `hello` lleva `v` (versión del
+protocolo); el worker se despliega primero y nunca quita un campo en la
+misma versión que deja de usarlo. Un socket que no recibe `hello` en
+10 s cuenta como intento fallido (revisión #37).
 
 | Dirección | Tipo | Campos |
 |---|---|---|
@@ -265,7 +309,19 @@ JSON, validado con Zod en ambos extremos (esquema compartido
 | c→s | `report` | `id`, `category` |
 | c→s | `delete` | `id` (solo el autor) |
 | s→c | `mode` | `open` \| `slow` \| `readonly` \| `closed`, motivo, `until?` |
-| s→c | `err` | `code` estable (`rate_limited`, `too_long`, `banned`, `auth_required`, …) |
+| s→c | `err` | `code` estable (`rate_limited`, `too_long`, `banned`, `auth_required`, `daily_budget`, `room_full`, `chat_disabled`, …), `cooldownMs?`, y para `banned` `until` + `ground` |
+
+**Rechazos explicados (revisión #35).** Un navegador no puede leer el
+estado HTTP de un handshake fallido: todo lo ve como cierre 1006. Por eso
+los rechazos que el worker conoce se entregan **dentro** de un WebSocket
+aceptado — una trama `mode`/`err` y un cierre con código de aplicación —
+y el cliente los muestra sin reintentar: `4002` cerrado, `4003` chat
+apagado (palanca 3), `4004` sala llena, `4008` tramas malformadas
+("recarga la página"), `1008` baneado; `4009` = sesión revocada en otro
+dispositivo (reconecta al instante como lector). Solo las tramas
+malformadas cuentan para el cierre; un `rate_limited` o un `readonly`
+nunca cierran el socket, y el cliente desactiva el botón de enviar hasta
+que caduca el `cooldownMs` que recibió (revisión #36).
 
 Reglas anti-silencio del protocolo: el cliente muestra "enviando…" hasta
 recibir `ack`, y el `ack` se emite **después** de escribir en SQLite (la
@@ -310,9 +366,18 @@ recomendación para el piloto, **a confirmar por el dueño (P3)**:
 - Emite una cookie `__Host-wb_chat` (`Secure; HttpOnly; SameSite=Lax;
   Path=/`, 30 días) con un token firmado HMAC-SHA256 con el secreto
   `CHAT_SESSION_KEY`: `{uid, handle, iat, exp, gen}`. Sin tabla de
-  sesiones: la revocación es por `gen` (el ban o "cerrar sesión en todas
-  partes" incrementa la generación del usuario en `ChatMod`) y por
-  rotación de `CHAT_SESSION_KEY` (cierra todas las sesiones).
+  sesiones: la revocación es por `gen` y por rotación de
+  `CHAT_SESSION_KEY` (cierra todas las sesiones). **Cerrar sesión
+  siempre cierra en todos los dispositivos**: incrementa `gen` y
+  `ChatMod` cierra con `4009` los sockets abiertos de ese usuario, porque
+  un token copiado de 30 días seguiría valiendo (revisión #39). Un ban
+  **no** revoca la sesión: el baneado sigue leyendo y ve el motivo y la
+  fecha de fin (revisión #20).
+- **`CHAT_BAN_KEY` no se rota nunca:** bans, historial de reportes y
+  generaciones de sesión están indexados por `HMAC(CHAT_BAN_KEY, uid)`;
+  rotarla levantaría todos los bans y resucitaría sesiones revocadas.
+  `ChatMod` guarda su huella y, si cambia, ninguna identidad se acepta
+  (se lee, no se escribe) y `/health` da `keyOk:false` (revisión #32).
 - `watchboard.dev` y `chat.watchboard.dev` son el mismo *site*, así que
   la cookie viaja en el handshake del WebSocket sin cookies de terceros.
   En la imagen Docker (otro origen) sería de terceros y fallaría: una
@@ -339,14 +404,18 @@ la hibernación:
 | Identidad, día (todas las salas) | 100 mensajes | ídem hasta 00:00 UTC |
 | Identidad, reportes | 10 / hora | los siguientes se ignoran y se cuentan |
 | Sala, minuto | 40 mensajes | modo `slow` automático 15 min + alerta |
-| Sala, día | 1.500 mensajes, 5.000 conexiones | `readonly` motivo `daily_budget` |
-| Conexión | 3 mensajes rechazados seguidos | cierre 1008; reconexión con backoff |
+| Sala, día | 1.000 mensajes (provisional, 7.3) | `readonly` motivo `daily_budget` |
+| Sala, concurrencia | 300 sockets, ≤ 200 anónimos | `hello` + cierre `4004` |
+| Conexión | 3 tramas **malformadas** seguidas | cierre `4008`; los rechazos por tasa o modo no cierran |
 | Handshake | `Origin` válido, trama ≤ 4 KiB | 403 / 1009 |
 
 El límite por IP no se implementa en el código (la IP no se guarda; 6.3).
-Si hace falta, se usa una regla de *rate limiting* de Cloudflare en el
-host `chat.` — su disponibilidad y cupo en el plan gratuito se verifica
-en el paso 0 (P8).
+La única regla de *rate limiting* que da el plan gratuito de Cloudflare
+(consultado 2026-09-26) es **una** regla, con periodo de **10 s**,
+bloqueo de **10 s** y solo el campo **ruta** (ni host ni bloqueos de
+60 s): se usa, por IP, sobre `/room/`, `/notice` y `/auth/` (paso 4;
+revisión #5). Frena ráfagas, **no** un script lento: el riesgo residual
+sobre la cuota compartida con push se acepta en 7.2.
 
 El cliente reconecta con backoff exponencial con *jitter* (1 s → 60 s)
 y deja de intentar tras 10 fallos seguidos, mostrando "chat no
@@ -358,11 +427,13 @@ más rápida de agotar la cuota diaria (sección 7).
 | Dato | Dónde | Retención |
 |---|---|---|
 | Mensaje visible | `ChatRoom.messages` | 30 días, luego borrado físico por la `alarm` diaria de la sala |
-| Mensaje retenido por filtro | ídem, `state='held'` | 72 h si nadie lo revisa; luego borrado |
+| Mensaje retenido por filtro | ídem, `state='held'` | 72 h si nadie lo revisa; luego queda como fila sin texto con su motivo automático ("No publicado: filtro X, decisión automatizada") hasta los 30 días, visible solo para su autor (revisión #20) |
 | Mensaje retirado | ídem, cuerpo sustituido por `''` | fila de 30 días sin contenido; el motivo vive en `decisions` |
-| Mensaje borrado por su autor | ídem | cuerpo vaciado al instante |
+| Mensaje borrado por su autor | ídem | cuerpo vaciado al instante; si tenía un reporte abierto, el texto pasa a `evidence` hasta decidirlo (6.2) |
+| Mensaje con reporte abierto | ídem, `reported=1` | la retención no lo borra mientras el reporte siga abierto |
+| Evidencia (`evidence`) | `ChatRoom` | hasta la decisión; después se borra o pasa a `decisions.facts` |
 | Reporte | `ChatMod.reports` | 6 meses |
-| Decisión (declaración de motivos) | `ChatMod.decisions` | 6 meses, sin el texto del mensaje salvo contenido ilegal preservado por P6 |
+| Decisión (declaración de motivos) | `ChatMod.decisions` | 6 meses; `facts` (texto preservado para la autoridad, P6) con su propio vencimiento `facts_until` |
 | Ban | `ChatMod.bans` | hasta `until` (máx. 12 meses) |
 | IP | ninguna | no se guarda |
 
@@ -399,10 +470,18 @@ Orden de evaluación; el primero que dispara decide:
 5. **Datos personales (doxxing):** teléfonos, correos, IBAN/tarjetas
    (Luhn), direcciones postales con número, coordenadas con ≥ 4
    decimales, matrículas → retención `pii`.
-6. **Enlaces:** en el piloto, ningún enlace es clicable; el texto con
-   URL de una cuenta con < 3 mensajes aceptados se retiene `link`. Los
-   enlaces son el principal vector de spam y de material ilegal.
-7. **Mayúsculas / repetición** excesivas → rechazo con mensaje, no
+6. **Enlaces:** en el piloto, ningún enlace es clicable y **todo**
+   mensaje con URL o dominio — incluidas las formas ofuscadas (`hxxp`,
+   `t[.]me`, `ejemplo dot com`, `ejemplo . com`) — se retiene `link` para
+   revisión. La regla anterior (retener solo si la cuenta tenía < 3
+   mensajes aceptados) se esquivaba con tres líneas inocuas en 24 s
+   (revisión #21). Los enlaces son el principal vector de spam y de
+   material ilegal.
+7. **Idioma:** las normas limitan la sala a los cuatro idiomas del sitio;
+   un mensaje con ≥ 10 letras de las que más de la mitad no son de
+   escritura latina se retiene `language`. Las listas de términos y el
+   único moderador solo cubren en/es/fr/pt (revisión #23).
+8. **Mayúsculas / repetición** excesivas → rechazo con mensaje, no
    retención.
 
 **Fallo cerrado:** si la lista de términos no carga o su versión no es
@@ -432,6 +511,20 @@ evalúan como fase posterior (P9), no se suponen.
   que los reportes no sean a su vez un arma de brigada: los reportes de
   identidades cuyos reportes previos el dueño desestimó ≥ 3 veces dejan
   de contar para la ocultación (siguen en la cola).
+- **Reporte grave → se oculta el mensaje, no la sala (revisión #15):**
+  un reporte "ilegal" o "datos personales" de un lector con sesión, o un
+  aviso anónimo de tipo abuso sexual infantil, terrorismo o amenaza,
+  retiene **ese** mensaje al instante (`grave_report`), restaurable si el
+  reporte se desestima. Límites: los reportes del lector cuentan en su
+  cupo de 10/hora; los avisos anónimos pueden retener como mucho 5
+  mensajes por sala y hora (el resto se encola sin ocultar). Un aviso
+  anónimo "ilegal (otro)" solo se encola.
+- **Un reporte sobre un mensaje que no existe se rechaza** y no guarda
+  nada; varios reportes del mismo mensaje generan una sola alerta.
+- **"Sin objeto" (`moot`):** si el mensaje ya no está (lo borró su
+  autor, se suprimió la cuenta o caducó), el dueño cierra los reportes
+  como sin objeto, que no cuenta como desestimación contra quienes
+  reportaron (revisión #16).
 - Sin sesión: "Reportar" lleva al formulario de aviso DSA (6.1).
 
 ### 4.4 Herramientas del dueño
@@ -456,10 +549,16 @@ secreto `CHAT_ADMIN_IDS`. Diseñada para usarse desde el móvil:
 **nunca** `TELEGRAM_CHANNEL_ID`, que es público), enviadas por el
 worker con un secreto propio. **Nunca incluyen el texto del mensaje** —
 solo sala, categoría, recuento y enlace a `/admin` — para no copiar
-contenido ilegal o datos personales a Telegram. Disparadores: primer
-reporte de categoría "ilegal" o "datos personales" (inmediato), cola
-con elemento > 2 h, modo lento automático, presupuesto diario > 70 %,
-filtros no disponibles, cambio de modo global.
+contenido ilegal o datos personales a Telegram. Disparadores: reporte
+grave (el primero de una sala sale al instante; los siguientes se
+agrupan en una alerta con recuento cada 15 min, y los de terrorismo
+llevan "URGENT"; revisión #18), cola con elemento > 2 h, modo lento
+automático, presupuesto diario > 70 %, filtros no disponibles, cambio de
+modo global. Las alertas no entregadas se cuentan tanto en las salas
+como en `ChatMod`, y `ChatMod` comprueba cada hora, sin enviar nada
+(`getMe` + `getChat`), que la copia del token de Telegram que tiene el
+worker sigue valiendo; ambas cosas salen en `/health` y las vigila el
+canario (revisión #33).
 
 ### 4.5 Plantilla realista del dueño
 
@@ -469,9 +568,15 @@ Una persona, sin guardias nocturnas. Por eso:
   abierta solo en una franja diaria en la zona del dueño; fuera de ella
   la sala es `readonly` con el motivo visible ("el chat abre a las
   08:00"). Lo aplica una `alarm` de la sala, no una persona.
-- **Degradación automática:** si un reporte "ilegal" o "datos
-  personales" lleva > 60 min sin revisar, la sala pasa sola a
-  `readonly` hasta que el dueño lo resuelva.
+- **Degradación automática, por volumen:** el mensaje reportado como
+  grave ya está oculto (4.3). La sala pasa sola a `readonly` solo si
+  **3 o más** mensajes retenidos por reporte grave llevan > 60 min sin
+  revisar, y vuelve a abrirse cuando bajan de 3. La versión anterior
+  (un solo reporte de 60 min cerraba la sala) permitía a cualquiera, sin
+  cuenta, silenciar una sala con un `curl` por noche mientras el
+  contenido denunciado seguía visible (revisión #15). La comprobación
+  se programa a los 60 min del reporte, no en la siguiente hora
+  (revisión #8).
 - **Presupuesto de tiempo:** el dueño anota minutos de moderación por
   día durante el piloto; es la métrica que decide si se amplía
   (sección 12).
@@ -527,8 +632,12 @@ chat:
 |---|---|
 | Conectando | "Conectando…" |
 | Abierto, sin mensajes | "Aún no hay mensajes. Sé el primero en comentar." |
-| Solo lectura (horario, presupuesto, moderación) | Motivo concreto y hora de reapertura si la hay |
-| Cerrado (dueño o global) | "El chat está cerrado." |
+| Solo lectura (horario, presupuesto, moderación) | Motivo concreto y hora de reapertura si la hay ("En pausa: límite diario, vuelve a las 00:00 UTC") |
+| Cerrado (dueño o global) | "El chat está cerrado." — sin historial (cierre `4002`) |
+| Chat apagado (palanca 3) | "El chat no está disponible ahora." (cierre `4003`, sin reintentos) |
+| Sala llena para lectores sin sesión | "Sala llena — mostrando los últimos mensajes" (cierre `4004`) |
+| Versión antigua o tramas inválidas | "El chat necesita recargar la página." (cierre `4008`) |
+| Baneado | "No puedes escribir hasta el {fecha}. Motivo: {fundamento}." + vía de recurso |
 | Sin conexión tras reintentos | "No se pudo conectar al chat; mostrando lo último cargado" — nunca "0 mensajes" |
 | Mensaje propio retenido | "Pendiente de revisión — solo tú lo ves" |
 | Mensaje propio sin `ack` | "No enviado · Reintentar" |
@@ -588,12 +697,29 @@ la concreta:
   para material de abuso sexual infantil) y declaración de buena fe. Acuse
   de recibo automático si hay correo… **que hoy no puede enviarse** (no
   hay proveedor, sección 1): el acuse se muestra en pantalla con un
-  número de referencia y el correo queda como dependencia de P6.
+  número de referencia y el correo queda como dependencia de P6. El
+  formulario, sus errores, el acuse y la página de estado están en
+  en/es/fr/pt (`?lang=` o `Accept-Language`).
+- **Comunicación de la decisión al notificante (art. 16(5); revisión
+  #19):** `chat.watchboard.dev/notice/status?ref=N` muestra, sin cuenta
+  y sin el contenido, el estado del aviso (abierto, decidido,
+  desestimado, sin objeto) y el fundamento y la fecha de la decisión. El
+  acuse enlaza ahí.
+- **El canal de aviso no se puede bloquear (revisión #18):** los avisos
+  de abuso sexual infantil, terrorismo y amenaza no tienen tope; los de
+  "ilegal (otro)" tienen tope por mensaje (3/hora) y total (30/hora); la
+  protección contra inundaciones es la regla de Cloudflare por IP
+  (3.7), no un contador global que un atacante llena.
 - **Declaración de motivos (art. 17):** cada retirada o ban genera una
   fila en `ChatMod.decisions` (acción, fundamento — ilegal o normas —,
   hechos, si fue automatizada) y el autor la ve en el panel en el lugar
   del mensaje ("Retirado: datos personales de terceros · normas §3").
-  Las retenciones automáticas también la generan con `automated=1`.
+  Las retenciones automáticas también la generan con `automated=1`, y al
+  caducar (72 h) dejan una fila sin texto con su motivo automático. Un
+  ban llega con su fundamento y su fecha de fin, y el baneado los sigue
+  viendo al volver. Cada declaración lleva una frase de recurso
+  (art. 17(3)(f)): escribir al punto de contacto para pedir revisión, o
+  acudir a los tribunales (revisión #20).
 - **Amenaza a la vida o la seguridad (art. 18):** si un mensaje la
   sugiere, el dueño notifica a la autoridad competente; el procedimiento
   y el contacto van en el runbook (P6).
@@ -610,7 +736,40 @@ la concreta:
   inmediata, ban de 12 meses, notificación a la autoridad/línea de
   denuncia que fije P6. El contenido se **preserva** fuera de la sala
   solo si la ley lo exige para la autoridad, en `decisions.facts`, con
-  plazo; en ningún caso se copia a Telegram, al repo ni a logs.
+  plazo (`facts_until`, 6 meses); en ningún caso se copia a Telegram, al
+  repo ni a logs.
+- **La prueba no se puede destruir antes de revisarla (revisión #16):**
+  un mensaje con un reporte abierto queda congelado. Si su autor lo
+  borra, si suprime su cuenta o si caduca, desaparece de la vista pero su
+  texto pasa a la tabla `evidence` de la sala hasta que el dueño decide;
+  la retención nunca borra un mensaje con reporte abierto. Al decidir,
+  "preservar" (P6) lo mueve a `decisions.facts`; si no, se borra. Es la
+  excepción del RGPD art. 17(3)(b) y (e), registrada en el ADR. Una
+  decisión sobre un mensaje que ya no está es "sin objeto" y no
+  perjudica a quienes reportaron.
+
+### 6.2 bis Contenido terrorista (Reglamento (UE) 2021/784, "TCO")
+
+Ni este spec ni el del 09-24 lo trataban, y un chat de noticias de
+conflictos es su caso más probable (revisión #17):
+
+- **Órdenes de retirada (art. 3(3)):** el prestador debe retirar o
+  bloquear el acceso al contenido **en una hora** desde que recibe la
+  orden. **Punto de contacto (art. 15)** para recibirlas por medios
+  electrónicos: la dirección de P6, que el dueño recibe en el móvil.
+- **Camino de una hora con una persona:** abrir `/admin` en el móvil y
+  retirar el mensaje; o poner la sala en `closed`, que ahora **no sirve
+  historial** (bloquear el acceso cuenta); o la palanca 3 desde la app de
+  GitHub (sección 8). El ensayo del paso 4 cronometra este camino.
+- **Fuera del horario atendido** la sala está en `readonly`, que no
+  oculta lo ya publicado: el riesgo se acepta para salas piloto de baja
+  polarización y **no** para una sala de conflicto, que exigiría `closed`
+  fuera de horario y un simulacro de una hora superado (sección 12).
+- **Medidas específicas (art. 5)** si el servicio queda "expuesto" (dos o
+  más órdenes firmes en 12 meses): fuera del alcance del piloto; si
+  ocurre, el chat se apaga (palanca 3) y se replantea.
+- Los avisos de tipo "terrorismo" ocultan el mensaje al instante (4.3) y
+  su alerta va marcada como urgente.
 - **Menores** (09-24 `:604-610`): GitHub exige 13 años; las normas del
   chat fijan una edad mínima (P7: 16 por coherencia con el art. 8 del
   RGPD en varios Estados, o 13 como GitHub). No se piden datos de edad.
@@ -625,22 +784,34 @@ la concreta:
 | Texto del mensaje | ídem | 30 días (3.8) | |
 | Reportes, decisiones | obligación legal (DSA) / interés legítimo | 6 meses | |
 | `uid_hmac` de bans | interés legítimo (moderación) | ≤ 12 meses | HMAC con clave **secreta** del worker, a diferencia de la sal pública que el 09-24 rechazó (`:626-632`); no es reversible sin la clave |
-| IP | — | no se guarda | el worker la ve en tránsito; los registros del worker (*observability*) quedan **desactivados** para el host `chat.` |
+| IP | — | no se guarda | el worker la ve en tránsito; *observability* es un ajuste **por worker**, así que queda desactivado para todo `watchboard-push`, push incluido (no puede apagarse solo para el host `chat.`; revisión #14) |
 
 - **Supresión:** "Borrar mi cuenta" en el panel vacía todos los
-  mensajes del `uid` en todas las salas (`ChatMod` hace *fan-out* a las
-  salas habilitadas), elimina su generación de sesión y confirma en
-  pantalla con el número de mensajes borrados (el recuento se relee de
-  SQLite, no se supone). Se conservan decisiones y bans en los que
-  aparezca, con su base legal.
+  mensajes del `uid` en **todas las salas del registro** de `ChatMod`,
+  incluidas las ya quitadas de `CHAT_ROOMS` (revisión #7); vacía también
+  `handle` y el propio `uid` de cada fila (`gh:{id}` lleva a un perfil
+  público de GitHub; revisión #25); revoca sus sesiones y cierra sus
+  sockets; y confirma con el número de mensajes borrados, releído de
+  SQLite. Si alguna sala no responde, la respuesta es un error que la
+  nombra, nunca un éxito parcial. Se conservan decisiones y bans en los
+  que aparezca, con su base legal, y el texto bajo reporte abierto (6.2).
+- **Aviso de privacidad (art. 13; revisión #25):** el aviso legal del
+  panel (4 idiomas) y `/about` nombran al responsable y su contacto (P6),
+  cada plazo de conservación (mensajes 30 días, reportes y decisiones
+  6 meses, bans hasta 12 meses), la base legal de cada uno y la
+  transferencia a EE. UU. (Cloudflare, GitHub) con su mecanismo (Data
+  Privacy Framework si ambos figuran en la lista oficial; si no,
+  cláusulas contractuales tipo).
 - **Acceso/portabilidad:** "Descargar mis mensajes" devuelve JSON de las
   salas habilitadas.
 - **Encargados:** Cloudflare (alojamiento del worker y DO); GitHub
   (proveedor de identidad). Se declaran en `/about` junto a los
   destinatarios que ya figuran (OpenSky, Nominatim).
-- **Región de datos:** los DO se crean cerca del primer cliente; si el
-  dueño quiere fijar la jurisdicción UE, las *location hints* /
-  jurisdicción de DO se evalúan en el paso 0 (P6).
+- **Región de datos:** los DO se crean cerca del primer cliente y no se
+  mueven después; si el dueño quiere la jurisdicción UE, lo decide
+  **antes del paso 2** (P6-jurisdicción), porque cambiarla después
+  significa objetos nuevos y dejar huérfano el historial de moderación
+  (revisión #24).
 
 ### 6.4 Seguridad de la aplicación
 
@@ -715,6 +886,17 @@ de la cuenta**, y el worker de push y newsletter la comparte. Si el chat
 la agota, `push.watchboard.dev` también devuelve 1027 hasta las 00:00
 UTC. De ahí el presupuesto interno.
 
+**Lo que el presupuesto interno no puede hacer (revisiones #4, #27):** un
+script anónimo que abre conexiones o pide `/health` gasta peticiones de
+Worker y de DO **de la cuenta** aunque el chat las rechace; ningún
+contador dentro del worker lo evita, porque la petición ya se ha
+contado al llegar. Lo que hay: la regla gratuita de Cloudflare por IP
+(3.7) frena ráfagas; `/health` responde desde caché (60 s) sin despertar
+salas; el historial se sirve desde memoria a lectores anónimos; y la
+palanca 3. Un script lento y distribuido **puede tumbar push hasta
+medianoche**: es un riesgo aceptado del piloto, y el único aislamiento
+completo es mover el chat a otra cuenta de Cloudflare (9.5).
+
 ### 7.3 Presupuesto interno (por debajo del de Cloudflare)
 
 - **Salas permitidas:** el worker solo crea o abre DO para slugs de la
@@ -723,30 +905,44 @@ UTC. De ahí el presupuesto interno.
   cualquiera podría crear DO arbitrarios y llenar el almacenamiento.
 - **Máximo 5 salas** en Free. Un test de build falla si más de
   `CHAT_MAX_ROOMS = 5` trackers tienen `community.chat: true`.
-- **Por sala y día:** 5.000 conexiones y 1.500 mensajes aceptados
-  (3.2); al llegar, `readonly` con motivo `daily_budget`.
+- **Por sala y día:** 1.000 mensajes aceptados (3.2); al llegar,
+  `readonly` con motivo `daily_budget`. Las conexiones no tienen tope
+  diario (3.2) sino tope concurrente.
 
-Por qué esos números, en el peor caso (5 salas al máximo):
+Por qué esos números, en el peor caso (5 salas al máximo). **Corregido
+tras la revisión adversarial (#2, #3, #26):** la tabla anterior
+suponía lecturas indexadas que el código no tenía (el filtro de brigadas
+recorría toda la tabla en cada envío: 300 envíos × 9.000 filas ≈ 2,7 M
+filas leídas por sala y día solo en el piloto) y contaba ~5 filas
+escritas por mensaje cuando eran 12-15 ("every row update of an index
+counts as an additional row", *SQLite storage API*). Con el esquema de
+3.3 las cifras son estimaciones **provisionales**; el paso 2 mide
+`cursor.rowsRead`/`rowsWritten` por envío y por conexión en un test con
+10.000 filas y copia los valores medidos al ADR, bajando
+`roomMsgsPerDay` si el peor caso supera el 70 %.
 
 | Recurso | Cálculo del peor caso | Uso | % del límite |
 |---|---|---|---|
-| Peticiones Worker | 5 × 5.000 conexiones + push (~200) | ~25.200 | 25 % |
-| Peticiones DO | 25.000 conexiones + 7.500 mensajes / 20 + ~2.000 a `ChatMod` | ~27.400 | 27 % |
-| Filas leídas | 25.000 × 100 de historial (con índice) | ~2,5 M | 50 % |
-| Filas escritas | 7.500 mensajes × ~5 (fila, índice, contadores) | ~37.500 | 38 % |
-| Duración | 7.500 despertares × ~10 s despierta × 0,125 GB | ~9.400 GB-s | 72 % |
+| Peticiones Worker | conexiones de lectores legítimos (≈ 5 × 5.000) + push (~200); sin tope frente a un script (7.2) | ~25.200 | 25 % (legítimo) |
+| Peticiones DO | 25.000 conexiones + 5.000 mensajes / 20 + ~500 a `ChatMod` (reportes, sincronización, alarmas horarias) | ~25.800 | 26 % |
+| Filas leídas | conexiones: historial desde memoria con la sala despierta (≈ 5 filas), ~110 en frío; envíos ≤ 150 (test) | < 1 M | < 20 % |
+| Filas escritas | 5.000 mensajes × ~6 (fila + 3 entradas de índice + uso + estadística) + retención (borrar un mensaje ≈ 4 filas) ≈ 30.000 + 20.000 + `ChatMod` ≈ 5.000 | ~55.000 | 55 % |
+| Duración | 5.000 despertares × ~10 s despierta × 0,125 GB | ~6.300 GB-s | 48 % |
 
 La duración es el recurso más justo: **una sala con un mensaje cada
 pocos segundos no hiberna nunca** y consumiría ~10.800 GB-s/día sola
-(86.400 s × 0,125 GB). El límite de 40 mensajes/minuto y de 1.500/día
+(86.400 s × 0,125 GB). El límite de 40 mensajes/minuto y de 1.000/día
 por sala es lo que lo acota; el tiempo que un DO tarda en hibernar tras
 quedar inactivo y la memoria facturada se verifican en el paso 0 y, si
 difieren, se recalculan estas cifras antes de abrir salas. Las filas
-leídas son el segundo recurso: el historial de 100 (no 200) y una caché
-en memoria mientras la sala está despierta mantienen el margen.
+escritas son el segundo recurso (y el que antes se subestimaba): si se
+agotan, **toda** escritura de DO falla, incluidos reportes, decisiones
+y avisos DSA, así que el presupuesto interno se fija con el valor
+medido y margen para `ChatMod`.
 
 Piloto realista (2 salas, 1.000 aperturas y 300 mensajes al día cada
-una): < 10 % de todos los límites.
+una): ~6.000 filas escritas con la retención en régimen (6 %), < 0,5 M filas leídas (< 10 %),
+< 5 % de peticiones.
 
 ### 7.4 Observabilidad del presupuesto
 
@@ -768,9 +964,9 @@ antes del piloto (sección 12).
 |---|---|---|---|---|
 | 1 | Modo de sala | `/admin` → `slow`/`readonly`/`closed` | la sala emite `mode` a todos los sockets y rechaza `send` | segundos, sin deploy |
 | 2 | Modo global | `/admin` → global `closed` | `ChatMod` guarda el modo; el worker lo consulta en cada upgrade (caché de 30 s) y las salas despiertas reciben `mode` por *fan-out* | segundos, sin deploy |
-| 3 | Apagado del worker de chat | `wrangler secret put CHAT_ENABLED` = `false` (o variable + `deploy-worker.yml`) | el worker responde 503 en el host `chat.` **antes** de tocar cualquier DO; push sigue funcionando | 1-2 min |
+| 3 | Apagado de las salas | desde el móvil: app de GitHub → workflow `chat-kill-switch.yml` con `enabled=false` (verifica por valor en `/health`); de reserva, `wrangler secret put CHAT_ENABLED` = `false` desde el portátil | las salas rechazan con cierre `4003` **antes** de tocar cualquier DO y nadie nuevo inicia sesión; `/admin`, `/notice`, `/me/*` y `/health` **siguen** funcionando para moderar, recibir avisos y atender supresiones durante el incidente (revisión #30); push sigue funcionando | 1-2 min |
 | 4 | Panel fuera del sitio | `gh variable set PUBLIC_CHAT_ENABLED --body false && gh workflow run deploy.yml` | el build no monta el botón ni la pestaña | minutos (build + Pages) |
-| 5 | Nuclear | Cloudflare: quitar la ruta `chat.watchboard.dev` | nada responde en `chat.`; push intacto porque es otra ruta | minutos, manual |
+| 5 | Nuclear | primero `gh workflow disable deploy-worker.yml`, luego Cloudflare: quitar el dominio `chat.watchboard.dev`; después, un PR que quita la ruta de `wrangler.toml` antes de reactivar el workflow | nada responde en `chat.`; push intacto. Sin el primer paso, el siguiente despliegue vuelve a enganchar el dominio (`custom_domain = true`; revisión #11) | minutos, manual |
 
 Notas:
 
@@ -782,10 +978,20 @@ Notas:
 - La palanca 3 es la de emergencia real: no depende de que el código
   del DO funcione. Si el apagado de las palancas 1-2 falla (bug en
   `ChatMod`), la 3 sigue funcionando.
-- Apagar por tracker: quitar el slug de `CHAT_ROOMS` (palanca 3,
-  inmediato para ese tracker) y después `community.chat: false` en su
+- Apagar por tracker: al instante, `/admin` → esa sala → `closed`
+  (palanca 1, desde el móvil); después quitar el slug de `CHAT_ROOMS`
+  (PR + `deploy-worker.yml`) y `community.chat: false` en su
   `tracker.json` + `gh workflow run deploy.yml` (un merge en
-  `trackers/**` no despliega: `deploy.yml:20-21`).
+  `trackers/**` no despliega: `deploy.yml:20-21`). La sala sigue en el
+  registro de `ChatMod`, así que supresiones, bans y retención la
+  alcanzan hasta que sus datos caduquen.
+- Cada palanca va acompañada de `gh variable set CHAT_EXPECTED_ENABLED`
+  con el estado buscado: el canario compara `/health` con esa variable y
+  falla si difieren, así que un chat apagado por accidente (secreto
+  perdido en un redespliegue) no pasa por "apagado a propósito"
+  (revisiones #12, #34).
+- Un despliegue cuyo smoke falla hace `wrangler rollback` y verifica
+  push de nuevo; un job rojo no basta (revisión #11).
 - Ningún interruptor borra datos. Borrar el historial de una sala es una
   acción aparte en `/admin`, con confirmación.
 - El runbook (`docs/runbooks/chat.md`, nuevo) lista las cinco con los
@@ -866,8 +1072,8 @@ despliegue (sección 12).
 - Post-moderación pura: contenido ilegal visible horas.
 - **Post-moderación con retención automática (elegida, sección 4):** los
   filtros deterministas retienen lo probable; el dueño revisa lo
-  retenido y lo reportado; sin atención, la sala se degrada a
-  `readonly`.
+  retenido y lo reportado; sin atención, lo denunciado como grave queda
+  oculto y, si se acumula, la sala se degrada a `readonly` (4.5).
 - Clasificador LLM o Workers AI: fase posterior (P9), no supuesto.
 
 ## 10. Riesgos
@@ -880,7 +1086,7 @@ Nuevos o agravados por alojar el contenido:
 | Riesgo | Probabilidad | Impacto | Mitigación |
 |---|---|---|---|
 | Brigada coordinada en un tracker de conflicto (cuentas de GitHub envejecidas, mensajes casi idénticos) | Media | Alto | edad de cuenta ≥ 30 días; filtro de duplicados entre identidades (4.1.3); modo lento automático a 40/min; piloto sin trackers de conflicto (sección 12) |
-| Contenido ilegal o doxxing visible fuera del horario del dueño | Media | Alto: responsabilidad como prestador | horario atendido (4.5); filtro `pii` y enlaces retenidos; degradación a `readonly` a los 60 min de un reporte grave sin revisar |
+| Contenido ilegal o doxxing visible fuera del horario del dueño | Media | Alto: responsabilidad como prestador | horario atendido (4.5); filtro `pii`, todos los enlaces retenidos; un reporte grave oculta el mensaje al instante; `readonly` por volumen (4.5) |
 | Los filtros fallan abiertos (lista de términos vacía tras un deploy) | Baja | Alto | fallo cerrado → `readonly` + alerta (4.1); test que cuenta términos cargados > 0 |
 | El chat agota la cuota de la cuenta y tumba push/newsletter | Media en un pico | Medio | presupuesto interno por sala (7.3); `CHAT_ENABLED` (palanca 3); alerta al 70 % |
 | Bucle de reconexión de muchas pestañas | Media | Medio | backoff con jitter y abandono tras 10 fallos (3.7); socket cerrado en segundo plano (5.1) |
@@ -893,6 +1099,13 @@ Nuevos o agravados por alojar el contenido:
 | Captura de pantalla de un mensaje presentada como "Watchboard dice" | Media | Medio | cabecera fija "no es una fuente" visible en cualquier recorte del panel (5.2) |
 | Carga legal no prevista (DSA/RGPD) para una persona física | Media | Alto | P6 antes de abrir la primera sala; `decisions` guarda lo necesario para los arts. 17 y 24 |
 | Compromiso del secreto de sesión | Baja | Alto | rotación de `CHAT_SESSION_KEY` cierra todas las sesiones; nada del chat da acceso a push ni a datos del sitio |
+| Script anónimo que abre miles de conexiones o pide `/health` para cerrar la sala o gastar la cuota de la cuenta (revisiones #4, #9, #27) | Media | Alto: puede tumbar push hasta medianoche | sin tope diario de conexiones; tope concurrente anónimo con plazas reservadas a lectores con sesión; historial desde memoria; `/health` en caché sin *fan-out*; regla gratuita por IP; palanca 3. Riesgo residual aceptado (7.2) |
+| Avisos DSA falsos para silenciar salas, inundar al dueño o bloquear el canal (revisiones #15, #18, #29) | Media | Alto | se oculta el mensaje, no la sala; avisos sobre mensajes inexistentes rechazados; tope de retenciones anónimas por sala y hora; alertas agrupadas; tipos graves sin tope; regla por IP |
+| Destrucción de la prueba por el autor antes de revisar (revisión #16) | Media | Alto (legal) | texto a `evidence` mientras haya reporte abierto; retención no borra lo reportado; decisión "sin objeto" |
+| Orden de retirada TCO fuera de horario (revisión #17) | Baja en el piloto, alta en conflicto | Alto | punto de contacto en el móvil; `closed` sin historial; simulacro de una hora; sala de conflicto solo con spec propio (12) |
+| Rotar `CHAT_BAN_KEY` levanta bans y resucita sesiones (revisión #32) | Baja | Alto | no se rota nunca (runbook); huella guardada: si cambia, ninguna identidad escribe y el canario falla |
+| Cliente y worker con versiones distintas del protocolo (revisión #37) | Alta en cada despliegue | Medio | parsers que ignoran claves nuevas; `hello.v`; *timeout* de `hello`; el worker se despliega primero |
+| Mensajes en idiomas que nadie modera (revisión #23) | Alta en trackers de conflicto | Alto | normas en 4 idiomas; retención `language` de texto mayormente no latino; sala de conflicto exige listas y revisor para sus idiomas |
 
 ## 11. Testing
 
@@ -984,9 +1197,15 @@ Contra `npm run preview` y un `wrangler dev` local del chat:
   https://chat.watchboard.dev/health` devuelve la versión desplegada, el
   modo global, la versión de la lista de términos (> 0 términos) y el
   uso del día. Alerta a `TELEGRAM_ALERT_CHAT_ID` (como hoy,
-  `credential-canary.yml:142-146`) si falta, si los filtros no cargan o
-  si el uso supera el 70 %. Comprueba el resultado, no que el job
-  corrió.
+  `credential-canary.yml:142-146`) si falta, si los filtros no cargan,
+  si el uso supera el 70 %, si `enabled` no coincide con la variable
+  `CHAT_EXPECTED_ENABLED` (o el sitio monta el panel con el worker
+  apagado), si el token de Telegram **del worker** no pasa la sonda
+  horaria (`alertsOk`), si la huella de `CHAT_BAN_KEY` cambió (`keyOk`),
+  si la alarma de retención de una sala con mensajes no ha corrido en
+  2 h, si hay mensajes no reportados de más de 30 días + 2 h, o si una
+  sala no puede sincronizar con `ChatMod`. Comprueba el resultado, no
+  que el job corrió (revisiones #12, #33, #34, #38).
 - Sala canario (`CHAT_ROOMS` incluye `_canary`, no montada en el sitio)
   para que la prueba en vivo no escriba en salas reales.
 
@@ -1018,7 +1237,12 @@ respuesta en la sección 14.
   versión de `wrangler` en `devDependencies`, sube `compatibility_date`,
   despliega con un token de API de alcance mínimo y ejecuta un smoke de
   push (`GET /` lista los endpoints) y, más adelante, de chat
-  (`/health`). Un despliegue cuyo smoke falla es rojo.
+  (`/health`). Un despliegue cuyo smoke falla es rojo **y se revierte**
+  con `wrangler rollback`. Las pruebas de regresión de push cubren
+  también `POST /subscribe` y la ruta del cron, que son las que el cambio
+  de `compatibility_date` puede romper (revisión #11). La versión de
+  `@cloudflare/workers-types` se fija en `^5.20260815.1`, la que exige
+  `wrangler@4.124.0` como *peer* (revisión #1).
 - `vitest.config.ts` incluye `worker/**` (11.1).
 
 **Paso 1 — ADR-0003 "Comentarios de la comunidad sin tier y chat
@@ -1026,6 +1250,13 @@ propio" [dueño].** El número lo reservó el 09-24 (Paso 1). Registra: el
 contrato "sin tier" y sus tres capas, el nuevo host y estado compartido
 (DO), `renderer: 'panel'`, límites y techo de coste con fecha, retención,
 y enlaza el runbook `docs/runbooks/chat.md`.
+
+**Antes del paso 2 [dueño] (revisiones #22, #24):** P1 (trackers
+piloto), P2 **con números** (N y M) y la parte de P6 sobre jurisdicción
+UE. Sin ellas no se escribe código de chat: construir ~27 tareas antes
+de acordar qué resultado justificaría conservarlas es el error que la
+recomendación del 09-24 (enlace fuera) evitaba, y la jurisdicción no se
+puede cambiar después de crear los objetos.
 
 **Paso 2 — Backend oscuro.** `worker/chat/` (router por host, `ChatRoom`,
 `ChatMod`, filtros, OAuth, `/admin`, `/notice`, `/health`, alarmas y
@@ -1051,10 +1282,23 @@ aceptados/retenidos/retirados, reportes, minutos de moderación, uso de
 cuota y aperturas del panel (contadas en el worker, sin PostHog ni
 identificadores).
 
-**Paso 6 — Decisión [dueño].** Con el criterio de P2: retirar, mantener
-o ampliar a un tracker de conflicto. Ampliar a conflicto exige además:
-modo lento por defecto en esa sala, horario atendido y cero incidentes
-graves sin atender en el piloto.
+**Qué puede y qué no puede probar el piloto (revisión #22).** Con 1-2
+salas de baja polarización y sin anuncio, mide si alguien usa el chat
+(N de P2) y cuánta moderación cuesta cuando hay poca (M de P2). No dice
+nada sobre brigadas, doxxing o contenido terrorista en un tracker de
+conflicto, que es el riesgo principal. Además, antes del piloto: la
+regla gratuita de *rate limiting* por ruta activa y el simulacro TCO de
+una hora hecho (paso 4).
+
+**Paso 6 — Decisión [dueño].** Con el criterio de P2: retirar o
+mantener. Un tracker de conflicto **no** es una ampliación de este
+piloto: exige un spec y un plan propios, con al menos modo lento por
+defecto, horario atendido y la sala `closed` (sin historial) fuera de
+él, cero incidentes graves sin atender en el piloto, un simulacro TCO
+de una hora superado desde el móvil, los idiomas de la región excluidos
+por norma o cubiertos por listas **y** por un revisor que los lea, y un
+ensayo acotado en el tiempo con sus propios criterios de éxito y de
+aborto (revisiones #17, #22, #23).
 
 **Fases posteriores (fuera de este spec):** Bluesky OAuth (9.4);
 referencias a eventos dentro de la sala (9.3); evaluación de Workers AI
@@ -1088,7 +1332,8 @@ abajo es propia de este spec.
 2. **P2 — Criterio de éxito y retirada** a 30 días de piloto: p. ej.
    ≥ N mensajes aceptados/semana por sala **y** ≤ M minutos de
    moderación al día **y** cero reportes graves sin atender > 60 min.
-   ¿Qué N y M? Sin valor por defecto.
+   ¿Qué N y M? Sin valor por defecto. **Bloquea el paso 2** (junto con
+   P1), no solo el 5.
 3. **P3 — Identidad para escribir:** GitHub OAuth solo (propuesta, con
    el sesgo de audiencia reconocido en 9.4); GitHub + Bluesky desde el
    inicio (más audiencia, más trabajo); u otro proveedor. ¿Y la edad
@@ -1101,15 +1346,19 @@ abajo es propia de este spec.
 6. **P6 — Legal:** qué correo figura como punto de contacto (arts.
    11-12) y para avisos (art. 16); a qué autoridad o línea de denuncia
    se notifica el contenido ilegal grave (6.2) y las amenazas (art. 18);
-   si se fija la jurisdicción UE de los DO; si el proyecto se considera
-   micro/pequeña empresa a efectos del art. 19; si hay revisión legal
-   del texto antes del paso 5. **Bloquea el paso 5.**
+   qué nombre figura como responsable del tratamiento; cuál es el punto
+   de contacto para órdenes de retirada TCO (6.2 bis) y si el dueño lo
+   recibe en el móvil; si se fija la jurisdicción UE de los DO; si el
+   proyecto se considera micro/pequeña empresa a efectos del art. 19; si
+   hay revisión legal del texto antes del paso 5. **La jurisdicción
+   bloquea el paso 2; el resto, el paso 5.**
 7. **P7 — Edad mínima** en las normas: 16 (propuesta, por el art. 8 del
    RGPD) o 13 (la de GitHub).
-8. **P8 — Anti-bots:** si el paso 0 confirma que el plan gratuito
-   permite una regla de *rate limiting* por IP en `chat.`, ¿se activa?
-   ¿Turnstile en `/notice` y `/auth/start` (páginas del worker, no del
-   sitio) sí o no?
+8. **P8 — Anti-bots:** la regla gratuita de *rate limiting* por IP y
+   ruta ya no es opcional: es requisito del piloto (3.7; el plan gratuito
+   solo permite una regla de 10 s por ruta, verificado el 2026-09-26).
+   Queda por decidir: ¿Turnstile en `/notice` y `/auth/start` (páginas
+   del worker, no del sitio) sí o no?
 9. **P9 — Workers AI** como clasificador adicional tras el piloto: ¿se
    evalúa (añade un encargado dentro de Cloudflare y consumo de cuota)
    o se descarta?
@@ -1127,3 +1376,59 @@ abajo es propia de este spec.
 13. **P13 — Moderadores adicionales:** ¿el dueño es el único en
     `CHAT_ADMIN_IDS` durante el piloto (propuesta), o se nombra a una
     segunda persona de confianza para cubrir ausencias?
+
+## Adversarial review log
+
+Revisión adversarial del 2026-09-26 (lentes: *truth*, *safety*, *failure*).
+Cada hallazgo se verificó por separado antes de aceptarlo; los números
+`#n` que citan este spec y el plan son los de esta tabla. Verificaciones
+propias: `npm view wrangler@4.124.0 peerDependencies` y una instalación
+en limpio (#1); páginas de Cloudflare *WAF rate limiting rules*, *DO
+limits*, *DO pricing*, *SQLite storage API* y *Data location*
+consultadas el 2026-09-26 (#2, #3, #5, #14, #24); `.dockerignore` y
+`Makefile:57` del repo (#13); el código del plan en cada caso.
+
+| # | Lente | Severidad | Hallazgo | Veredicto | Acción / razón |
+|---|---|---|---|---|---|
+| 1 | truth | crítico | `@cloudflare/workers-types ^4` choca con el *peer* de `wrangler@4.124.0`: `npm install` falla (ERESOLVE) | Aceptado (reproducido: ERESOLVE con `^4`, instala con `^5.20260815.1`) | Plan T1 fija `^5.20260815.1`; el test de T2 lo comprueba; "Verified facts" corregido |
+| 2 | truth | crítico | El filtro de brigadas y la alarma recorren toda la tabla; el piloto supera 5 M filas leídas/día | Aceptado | Índices `messages_hash(body_hash, ts)` y `messages_uid(uid, ts)`; retención por rango de `id`; historial en dos consultas y en memoria; test de coste con 10.000 filas (≤ 150 leídas por envío); 7.3 recalculado |
+| 3 | truth | crítico | Filas escritas subestimadas (~12-15 por mensaje, no 5); al agotarse fallan también reportes y avisos DSA | Aceptado ("every row update of an index counts as an additional row") | Sin tabla `counters`; tablas `WITHOUT ROWID`; contadores de sala en memoria + una fila; UPSERT; test de techo (≤ 9 escritas por envío, 0 por conexión anónima); `roomMsgsPerDay` 1.000 provisional; valor medido al ADR (T13.8) |
+| 4 | truth | importante | 5.000 handshakes anónimos cierran la sala hasta medianoche | Aceptado | Sin tope diario de conexiones (D10); tope concurrente de 200 anónimos con 100 plazas para lectores con sesión; test; fila nueva en §10 |
+| 5 | truth | importante | La regla WAF del paso 26.6 no existe en Free (host, 60 s) | Aceptado (docs: 1 regla, 10 s, 10 s, campos "Path, Verified Bot") | T26.6 reescrita: regla por ruta `/room/`, `/notice`, `/auth/`, bloqueo 10 s; ADR registra que no para un script lento; §3.7 |
+| 6 | truth | importante | `await loadTerms`/RPC entre comprobaciones y escritura permite saltarse tasa y nonce | Aceptado (la compuerta de entrada se abre al esperar a otro objeto) | Términos, bans y modo global en el SQLite de la sala (D12); `onSend` sin `await` antes del INSERT; test de dos envíos en el mismo tick |
+| 7 | truth | importante | Supresión y bans solo llegan a `CHAT_ROOMS`: una sala retirada conserva datos y el éxito es parcial | Aceptado | Registro `rooms` en `ChatMod`; *fan-out* al registro; supresión con salas inalcanzables devuelve 502; test con una sala fuera de `CHAT_ROOMS` |
+| 8 | truth | importante | "Readonly a los 60 min" era en realidad 60-120 min | Aceptado | `markReported` programa la alarma de la sala a +60 min; test sobre `getAlarm()` |
+| 9 | truth | importante | `/health` público hace *fan-out* y `/auth/github/start` escribe: amplificadores de cuota | Aceptado | `/health` desde `room_stats` (empujado por las alarmas), caché 60 s en worker y en `ChatMod`, `Cache-Control: max-age=60`; sin contador `start`; test de 50 peticiones → 1 RPC |
+| 10 | truth | importante | El check Docker de ausencia de `data-chat-root` no puede fallar | Rechazado en su premisa, con cambio | Una isla `client:idle` se renderiza en el servidor, así que el atributo **sí** está en el HTML con el chat encendido y el check sí puede fallar; lo erróneo era la frase de T24.8 (ver #42). Se añade a T24.8 la demostración de que el check falla sobre un build encendido |
+| 11 | truth | importante | Un smoke fallido no revierte; la palanca 5 se deshace con el siguiente deploy; faltan pruebas de `POST /subscribe` y cron | Aceptado | Paso `wrangler rollback`; tests de `POST /subscribe` y `handleCron` con red simulada; palanca 5: desactivar `deploy-worker` primero y quitar la ruta del `wrangler.toml` |
+| 12 | truth | importante | El canario da por bueno `enabled:false` | Aceptado | Variable `CHAT_EXPECTED_ENABLED` (la fija cada palanca); el canario falla si difiere o si el sitio monta el panel con el worker apagado |
+| 13 | truth | menor | `npm test` falla sin `worker/node_modules`; `.dockerignore` no excluye `worker/node_modules` | Aceptado (`.dockerignore` solo lista `node_modules`, `video/…`, `mcp/…`) | Línea `worker/node_modules`; script `test:worker` con mensaje claro; test |
+| 14 | truth | menor | *Observability* es por worker; "10 GB por objeto en Free" no consta | Parcial | Aceptado lo de *observability* (§6.3: apagado para todo el worker). Rechazado lo del límite: la página *DO limits* (2026-09-26) da "Storage per Durable Object: 10 GB" también en Free; se cita la fecha |
+| 15 | safety | crítico | Un aviso anónimo pone cualquier sala en `readonly` y el contenido denunciado sigue visible | Aceptado | D13: el reporte grave oculta el mensaje, no la sala; avisos sobre mensajes inexistentes rechazados; tope de retenciones anónimas por sala/hora; `readonly` solo por volumen (≥ 3 graves > 60 min); test "un aviso no cambia el modo" |
+| 16 | safety | crítico | El autor puede destruir la prueba; no hay forma de preservarla; los reportadores salen penalizados | Aceptado | Tabla `evidence` y `reported=1`; retención no borra lo reportado; `decide` con `preserve` (→ `decisions.facts` con `facts_until`) y acción `moot` sin penalización; tests |
+| 17 | safety | importante | Falta el Reglamento TCO (UE) 2021/784: orden de retirada en una hora | Aceptado (el 09-24 solo lo menciona de pasada en `:615`) | §6.2 bis; P6 nombra el punto de contacto (art. 15); `closed` ya no sirve historial; simulacro de una hora (T26.3.6) como requisito; sala de conflicto con spec propio |
+| 18 | safety | importante | El tope global de 30 avisos/hora bloquea el canal DSA y cada aviso falso despierta al dueño | Aceptado | Sin tope para abuso infantil, terrorismo y amenaza; tope por mensaje (3/h) y total solo para "ilegal (otro)"; alertas agrupadas por sala cada 15 min; regla por IP |
+| 19 | safety | importante | El notificante nunca conoce la decisión (art. 16(5)); formulario solo en inglés | Aceptado | `/notice/status?ref=N` (estado, fundamento, fecha, sin contenido); formulario, errores y acuse en en/es/fr/pt; test |
+| 20 | safety | importante | Bans y retenciones caducadas sin declaración de motivos ni vía de recurso (art. 17) | Aceptado | `err banned` con `until` y `ground`; el baneado conserva la sesión y ve el motivo; la retención caducada deja fila con motivo automático; frase de recurso en 4 idiomas; tests |
+| 21 | safety | importante | El filtro de enlaces se esquiva con tres mensajes inocuos | Aceptado | Todo mensaje con enlace, incluidas formas ofuscadas, se retiene en el piloto; casos de prueba y de equipo rojo |
+| 22 | safety | importante | El piloto no puede producir la evidencia que decide la cuestión; N y M se fijan al final | Parcial | Aceptado: P1 y P2 con números bloquean el paso 2; §12 dice qué prueba y qué no el piloto; un tracker de conflicto exige spec propio con ensayo acotado. No se recorta la construcción: aviso DSA, declaración de motivos, supresión y `/admin` son obligatorios antes de abrir cualquier sala, sea cual sea la demanda, y sustituir `/admin` por la CLI no reduce esas obligaciones |
+| 23 | safety | importante | Filtros y moderador cubren 4 idiomas; la sala acepta cualquiera | Aceptado | Norma §6 (4 idiomas); retención `language` si > 50 % de letras no latinas; requisito de listas y revisor para salas de conflicto |
+| 24 | safety | menor | La jurisdicción UE se decide tarde y los DO no se mueven | Aceptado (docs *Data location*) | P6-jurisdicción bloquea el paso 2; `worker/chat/stubs.ts` único punto de `idFromName` con `.jurisdiction('eu')`; tests |
+| 25 | safety | menor | El aviso de privacidad no cumple el art. 13; la supresión deja `uid` en claro | Aceptado | `chat.legal` con plazos, bases legales y transferencias; responsable en `chat.legalContact`; `eraseUid` vacía `uid`; test |
+| 26 | failure | crítico | Escaneos completos en las consultas calientes; filas escritas subestimadas | Aceptado (duplica #2 y #3) | Ver #2 y #3 |
+| 27 | failure | crítico | Un script anónimo cierra o llena la sala y agota cuotas que comparte push | Aceptado en lo corregible | Ver #4 y #9; además historial desde memoria para anónimos y regla WAF como requisito. §7.2 dice ahora sin rodeos que un script lento puede tumbar push hasta medianoche y que solo otra cuenta lo aísla (riesgo aceptado del piloto) |
+| 28 | failure | importante | `/health` público despierta todas las salas | Aceptado (duplica #9) | Ver #9 |
+| 29 | failure | importante | Avisos falsos: sala en `readonly`, alertas en masa, tope global agotado | Aceptado (duplica #15 y #18) | Ver #15 y #18 |
+| 30 | failure | importante | `CHAT_ENABLED=false` también apaga `/admin`, `/notice` y `/me` | Aceptado | La palanca 3 solo bloquea salas y el inicio de sesión de lectores; el dueño puede entrar; test con `CHAT_ENABLED=false` |
+| 31 | failure | importante | Modo global y bans dependen de un *fan-out* sin reconciliación | Aceptado | La sala sincroniza con `ChatMod` al conectar (≥ 60 s) y en cada alarma; si no puede, rechaza escrituras; `bans_version`; test de sala que perdió el *fan-out* |
+| 32 | failure | importante | Rotar `CHAT_BAN_KEY` levanta bans y resucita sesiones | Aceptado | No se rota (runbook, ADR); huella guardada en `ChatMod`; si cambia, ninguna identidad escribe y `/health` da `keyOk:false` |
+| 33 | failure | importante | Alertas de `ChatMod` pueden fallar en silencio; nadie comprueba el token del worker | Aceptado | Alertas no entregadas contadas también en `ChatMod`; sonda horaria `getMe`+`getChat` → `alertsOk` en `/health` y canario; rotación de ambas copias en el runbook |
+| 34 | failure | importante | El canario da por bueno `enabled:false` | Aceptado (duplica #12) | Ver #12 |
+| 35 | failure | importante | Los rechazos en el handshake llegan como 1006 y el cliente no puede mostrar el estado | Aceptado | Rechazos explicados dentro de un socket aceptado con códigos 4002/4003/4004/4008; el cliente los muestra sin reintentar; tests |
+| 36 | failure | importante | Tres envíos en modo lento cierran con 1008 y el cliente no vuelve nunca | Aceptado | Solo las tramas malformadas cuentan (cierre 4008); 1008 queda para ban; el cliente sigue `cooldownMs` y desactiva el envío; tests |
+| 37 | failure | importante | Parsers estrictos + despliegues separados = clientes colgados en "Conectando…" | Aceptado | Parsers que ignoran claves desconocidas; `hello.v`; *timeout* de `hello` de 10 s; regla "worker primero, sin quitar campos"; tests |
+| 38 | failure | importante | Nada comprueba que la retención se cumple; un fallo de RPC la detiene | Aceptado | Retención antes de cualquier RPC; cada paso en `try`; reprogramación en `finally`; `lastAlarmAt` y edad del mensaje más antiguo no reportado en `/health`; el canario falla a > 2 h / > 30 d + 2 h |
+| 39 | failure | importante | Revocar la sesión no cierra sockets abiertos; cerrar sesión no revoca el token | Aceptado | Cerrar sesión siempre incrementa `gen` (D14) y cierra los sockets con 4009; supresión igual; test |
+| 40 | failure | menor | Las palancas de emergencia necesitan el portátil | Parcial | Aceptado: workflow `chat-kill-switch.yml` que se lanza desde la app de GitHub y se cronometra en el ensayo. Rechazado mover `CHAT_ROOMS` a `ChatMod`: la retirada inmediata de una sala ya es la palanca 1 (`closed`, ahora sin historial) desde el móvil, y una lista en `ChatMod` pondría una RPC delante de cada upgrade y rompería la garantía de 404 antes de `idFromName` |
+| 41 | failure | menor | Tests de DO con estado compartido y dependientes del orden | Parcial | Aceptado: comprobación registrada del aislamiento del pool (T1.3), salas de test dedicadas, `resetChat()` en `afterEach`, pruebas que restauran lo que cambian. No se inyecta un reloj en la sala: las pruebas usan tiempos relativos a `Date.now()`; el único test sensible a medianoche (presupuesto diario) calcula el día una vez y el riesgo residual se acepta |
+| 42 | failure | menor | T24.8 esperaba 0 `data-chat-root` en un build encendido | Aceptado | T24.8 espera 1 (SSR de `client:idle`), simétrico al 0 del build apagado de T24.7 |
