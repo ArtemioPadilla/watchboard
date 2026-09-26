@@ -49,6 +49,8 @@ export default memo(function FeedRow({
       ref={rowRef}
       className={`cc-feed-row${isLive ? ' cc-tracker-live' : ''}${isDimmed ? ' cc-feed-row-dim' : ''}`}
       data-tracker-slug={tracker.slug}
+      data-domain={tracker.domain ?? ''}
+      data-region={tracker.region ?? ''}
       onClick={(e) => {
         if (e.shiftKey) {
           onToggleCompare(tracker.slug);

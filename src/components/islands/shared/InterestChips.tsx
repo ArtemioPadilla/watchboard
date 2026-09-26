@@ -35,6 +35,8 @@ export default function InterestChips({ interests, options, locale, onToggle, on
                   key={value}
                   type="button"
                   aria-pressed={selected}
+                  data-kind={g.kind}
+                  data-value={value}
                   className={'interest-chip' + (selected ? ' active' : '')}
                   onClick={() => onToggle(g.kind, value)}
                 >

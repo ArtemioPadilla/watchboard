@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback, useRef, useEffect, memo } from 'react';
+import { useState, useMemo, useCallback, useRef, useEffect, memo, Fragment } from 'react';
 import type { CSSProperties } from 'react';
 import {
   type TrackerCardData,
@@ -15,6 +15,7 @@ import FeedRow from './FeedRow';
 import HeroCard from './HeroCard';
 import { selectHeroTracker } from '../../../lib/hero-selection';
 import { sortByRelevance, sortByActivity } from '../../../lib/relevance';
+import { bucketFeed, feedSegments, feedOrder, feedLayout, isOlder } from '../../../lib/feed-buckets';
 import { EMPTY_INTERESTS, type Interests, type interestOptions as computeInterestOptions } from '../../../lib/interests';
 import InterestChips from '../shared/InterestChips';
 import { useTrackerDetail } from './useTrackerDetail';
@@ -138,6 +139,8 @@ const TrackerRow = memo(function TrackerRow({
         ref={rowRef}
         className={`cc-tracker-expanded${isLive && !isActive ? ' cc-tracker-live' : ''}`}
         data-tracker-slug={tracker.slug}
+        data-domain={tracker.domain ?? ''}
+        data-region={tracker.region ?? ''}
         style={{
           ...S.expandedRow,
           borderColor: `${color}50`,
@@ -327,11 +330,11 @@ const SeriesStrip = memo(function SeriesStrip({
 
 // ── FeedList ──
 
-const OLDER_THRESHOLD_MS = 48 * 3600 * 1000;
-
 interface FeedListProps {
   trackers: TrackerCardData[];
   followedSlugs: string[];
+  /** Declared interests: in OPS + Relevance they form the bounded band (feed-buckets.ts). */
+  interests: Interests;
   activeTracker: string | null;
   hoveredTracker: string | null;
   compareSlugs: string[];
@@ -351,6 +354,7 @@ interface FeedListProps {
 const FeedList = memo(function FeedList({
   trackers,
   followedSlugs,
+  interests,
   activeTracker,
   hoveredTracker,
   compareSlugs,
@@ -451,33 +455,29 @@ const FeedList = memo(function FeedList({
     return <>{trackers.map(tr => renderOne(tr, false))}</>;
   }
 
-  // OPS view: followed first, then recent, then older (dimmed), separated by
-  // 1px dividers (no text labels).
-  const followedTrackers: TrackerCardData[] = [];
-  const recent: TrackerCardData[] = [];
-  const older: TrackerCardData[] = [];
-
-  for (const tr of trackers) {
-    if (followed.has(tr.slug)) {
-      followedTrackers.push(tr);
-      continue;
-    }
-    const age = now - new Date(tr.lastUpdated).getTime();
-    if (age > OLDER_THRESHOLD_MS) older.push(tr);
-    else recent.push(tr);
-  }
-
+  // OPS view: followed → interest band (≤ INTEREST_BAND_MAX) → recent → older
+  // (dimmed). Same order flatSlugs walks (both come from feed-buckets.ts).
+  // No band while searching (like the hero card): bandMax 0 = legacy layout.
+  const segments = feedSegments(bucketFeed(trackers, {
+    followedSlugs, interests, now, ...(isSearching ? { bandMax: 0 } : {}),
+  }));
+  const bandLabel = t('interests.title', locale).toUpperCase();
   return (
     <>
-      {followedTrackers.length > 0 && (
-        <>
-          {followedTrackers.map(tr => renderOne(tr, false))}
-          {(recent.length > 0 || older.length > 0) && <div className="cc-feed-divider" />}
-        </>
-      )}
-      {recent.map(tr => renderOne(tr, false))}
-      {older.length > 0 && <div className="cc-feed-divider" />}
-      {older.map(tr => renderOne(tr, true))}
+      {segments.map((seg, i) => {
+        if (seg.kind === 'divider') return <div key={`divider-${i}`} className="cc-feed-divider" />;
+        if (seg.kind === 'band') {
+          return (
+            // aria-labelledby, not aria-label: the visible divider is the name, announced once.
+            <div key="interest-band" role="group" aria-labelledby="cc-interest-band-label" data-testid="feed-interest-band">
+              <div id="cc-interest-band-label" className="cc-feed-group-divider">{bandLabel}</div>
+              {/* Older rows stay dimmed: the band lifts them, it does not make them fresh. */}
+              {seg.rows.map(tr => renderOne(tr, isOlder(tr.lastUpdated, now)))}
+            </div>
+          );
+        }
+        return <Fragment key={seg.bucket}>{seg.rows.map(tr => renderOne(tr, seg.bucket === 'older'))}</Fragment>;
+      })}
     </>
   );
 });
@@ -547,27 +547,21 @@ export default function SidebarPanel({
     [trackers, followedSlugs, interests],
   );
 
-  // Match FeedList's visible order so arrow-key nav lands on adjacent rows:
-  // followed → recent (≤48h) → older (>48h). In geographic view, arrow nav is
-  // already disabled by handleKeyDown's early return.
-  const flatSlugs = useMemo(() => {
-    const followed = new Set(followedSlugs);
-    const OLDER_MS = 48 * 3600 * 1000;
-    const now = Date.now();
-    const followedArr: string[] = [];
-    const recent: string[] = [];
-    const older: string[] = [];
-    for (const t of sortedFiltered) {
-      if (followed.has(t.slug)) {
-        followedArr.push(t.slug);
-      } else if (now - new Date(t.lastUpdated).getTime() > OLDER_MS) {
-        older.push(t.slug);
-      } else {
-        recent.push(t.slug);
-      }
-    }
-    return [...followedArr, ...recent, ...older];
-  }, [sortedFiltered, followedSlugs]);
+  // Arrow-key order = FeedList's visible order in every layout (OPS with the
+  // interest band, flat Activity, DOMAIN groups). Geographic view returns
+  // early in handleKeyDown. `isSearching` is declared further down, so
+  // derive it from searchQuery here with the same expression.
+  const searching = searchQuery.trim().length > 0;
+  const flatSlugs = useMemo(
+    () => feedOrder(sortedFiltered, {
+      followedSlugs,
+      interests,
+      now: Date.now(),
+      layout: feedLayout(viewMode || 'operations', sortMode),
+      ...(searching ? { bandMax: 0 } : {}),
+    }).map(t => t.slug),
+    [sortedFiltered, followedSlugs, interests, viewMode, sortMode, searching],
+  );
 
   // Auto-scroll the broadcast-featured tracker row into view when it changes
   useEffect(() => {
@@ -747,7 +741,7 @@ export default function SidebarPanel({
       )}
 
       {/* Tracker list */}
-      <div style={S.list}>
+      <div style={S.list} data-testid="sidebar-feed">
         {(viewMode || 'operations') === 'geographic' ? (
           <GeoAccordion
             trackers={filtered}
@@ -766,6 +760,7 @@ export default function SidebarPanel({
           <FeedList
             trackers={sortedFiltered}
             followedSlugs={followedSlugs}
+            interests={interests}
             activeTracker={activeTracker}
             hoveredTracker={hoveredTracker}
             compareSlugs={compareSlugs}
