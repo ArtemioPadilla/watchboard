@@ -18,12 +18,12 @@
     "lat": 15.4694,
     "cat": "ground-clash",
     "label": "Marib — Government-Held Oil City",
-    "sub": "Yemen's last major government-held city near the Houthi front line and home to over 2 million displaced people. Repeatedly struck by Houthi ballistic missiles and drones in August 2026 (Aug 6 offensive, Aug 15 residential strikes, Aug 16 camp strikes); site of a government counter-offensive claimed successful on Aug 18.",
+    "sub": "Yemen's last major government-held city near the Houthi front line and home to over 2 million displaced people. Repeatedly struck by Houthi ballistic missiles and drones in August 2026 (Aug 6 offensive, Aug 15 residential strikes, Aug 16 camp strikes); site of a government counter-offensive claimed successful on Aug 18. Renewed heavy clashes Sep 19-21, 2026 on the Al-Mashjah and Kahboub fronts left 50+ Houthi fighters reported killed in three days with no territorial change.",
     "tier": 2,
     "date": "2026-08-06",
     "base": true,
     "showLabel": true,
-    "lastUpdated": "2026-08-18T00:00:00.000Z"
+    "lastUpdated": "2026-09-21T00:00:00.000Z"
   },
   {
     "id": "hadramout-military-camps",
@@ -64,13 +64,25 @@
     "id": "al-makha-port",
     "lon": 43.247,
     "lat": 13.3233,
-    "cat": "humanitarian",
-    "label": "Al-Makha (Mokha) — Port Closed After Repeated Strikes",
-    "sub": "Red Sea port struck by Houthi missiles and drones at least three times in August 2026 (Aug 10, 7 killed; Aug 14, 4-8 killed; Aug 16 renewed attacks), targeting Saudi-backed forces and 'mercenary' buildups. Operations suspended around Aug 18; port director says the cumulative toll reached 16 killed, 22 injured and 1,500+ port workers jobless, with 30 shipping/customs agencies idled and traders rerouting via Aden.",
+    "cat": "ground-clash",
+    "label": "Al-Makha (Mocha) — Captured by Houthi Forces",
+    "sub": "Red Sea port struck by Houthi missiles and drones at least three times in August 2026 (Aug 10, 7 killed; Aug 14, 4-8 killed; Aug 16 renewed attacks). Captured by Houthi forces Sep 10, 2026 after National Resistance commander Tareq Saleh ordered a 'tactical withdrawal'; the last major port fully controlled by Yemen's internationally recognized government, ~75km north of Bab al-Mandeb, cutting supply lines to Taiz. Government air force has since bombed Houthi positions in and around Mocha and neighboring Dhubab.",
     "tier": 2,
-    "date": "2026-08-10",
+    "date": "2026-09-10",
     "showLabel": true,
-    "lastUpdated": "2026-08-21T00:00:00.000Z"
+    "lastUpdated": "2026-09-14T00:00:00.000Z"
+  },
+  {
+    "id": "mayyun-island",
+    "lon": 43.4083,
+    "lat": 12.6606,
+    "cat": "ground-clash",
+    "label": "Mayyun (Perim) Island — Seized by Houthi Forces",
+    "sub": "13 sq km volcanic island at the center of the Bab al-Mandeb Strait, seized by Houthi forces Sep 11, 2026 (confirmed by military officials Sep 12) along with the adjacent Greater and Lesser Hanish islands, after Saudi-backed government forces reportedly withdrew quickly. Gives the Houthis a direct military presence over a strait carrying roughly 12% of global trade.",
+    "tier": 2,
+    "date": "2026-09-11",
+    "showLabel": true,
+    "lastUpdated": "2026-09-12T00:00:00.000Z"
   },
   {
     "id": "bab-al-mandeb-strait",
@@ -90,10 +102,11 @@
     "lat": 13.5789,
     "cat": "ground-clash",
     "label": "Taiz — Besieged Government-Held City",
-    "sub": "Yemen's third-largest city, under Houthi siege since 2015 despite the 2018 Stockholm understanding. Remains a flashpoint front line as fighting resumed elsewhere in August 2026.",
-    "tier": 3,
+    "sub": "Yemen's third-largest city, under Houthi siege since 2015 despite the 2018 Stockholm understanding. Western Taiz saw a Houthi offensive repelled Sep 13, 2026 followed by a government advance backed by airstrikes; fighting since Sep 1 has displaced nearly 86,000 people, with 2,000+ crossing into Djibouti.",
+    "tier": 2,
     "date": "2015-01-01",
-    "lastUpdated": "2026-08-06T00:00:00.000Z"
+    "showLabel": true,
+    "lastUpdated": "2026-09-14T00:00:00.000Z"
   },
   {
     "id": "aden-interim-capital",
@@ -136,12 +149,12 @@
     "lon": 42.551,
     "lat": 16.8892,
     "cat": "oil-infrastructure",
-    "label": "Jazan Refinery — Twice-Struck Aramco Facility",
-    "sub": "Aramco's 400,000 bpd refinery, struck by Houthi drones/missiles on Jul 27, 2026 (gasification unit, tank farm) and again Aug 9, 2026 (fire, extinguished by dawn, no injuries). A third strike was claimed by the Houthis on Aug 13 but not independently confirmed.",
+    "label": "Jazan Refinery — Repeatedly Struck Aramco Facility",
+    "sub": "Aramco's 400,000 bpd refinery, struck by Houthi drones/missiles on Jul 27, 2026 (gasification unit, tank farm), Aug 9, 2026 (fire, extinguished by dawn, no injuries) and again Sep 8, 2026 as part of a coordinated broadside on Abha, Khamis Mushait and Najran that wounded 73 people. Taken offline again after the Sep 8 strike.",
     "tier": 2,
     "date": "2026-07-27",
     "showLabel": true,
-    "lastUpdated": "2026-08-14T00:00:00.000Z"
+    "lastUpdated": "2026-09-08T00:00:00.000Z"
   },
   {
     "id": "najran-border-city",
@@ -149,11 +162,11 @@
     "lat": 17.4933,
     "cat": "houthi-strike",
     "label": "Najran — Repeatedly Targeted Border City",
-    "sub": "Saudi border city struck by Houthi projectiles Aug 7, 2026, wounding 11 civilians including a 4-year-old — the Kingdom's highest civilian toll in over four years. On Aug 20, 2026 the Houthis claimed drone strikes on Najran Airport and an Aramco facility, unconfirmed by Saudi authorities. Historically a recurring Houthi cross-border target since 2015; home to a significant Ismaili Shia minority.",
+    "sub": "Saudi border city struck by Houthi projectiles Aug 7, 2026, wounding 11 civilians including a 4-year-old — the Kingdom's highest civilian toll in over four years. On Aug 20, 2026 the Houthis claimed drone strikes on Najran Airport and an Aramco facility, unconfirmed by Saudi authorities. Struck again Sep 8, 2026 as part of a coordinated broadside on four Saudi cities that wounded 73. Historically a recurring Houthi cross-border target since 2015; home to a significant Ismaili Shia minority.",
     "tier": 2,
     "date": "2026-08-07",
     "showLabel": true,
-    "lastUpdated": "2026-08-20T00:00:00.000Z"
+    "lastUpdated": "2026-09-08T00:00:00.000Z"
   },
   {
     "id": "yanbu-export-terminal",
@@ -172,12 +185,12 @@
     "lat": 24.7136,
     "cat": "coalition-response",
     "label": "Riyadh — Saudi Political & Military Command",
-    "sub": "Seat of MBS and the Saudi-led coalition command. Hosted the Aug 7, 2026 briefing where PLC Chairman al-Alimi told ambassadors the international community must address the 'sources and instruments' of the Houthi threat.",
+    "sub": "Seat of MBS and the Saudi-led coalition command. Hosted the Aug 7, 2026 briefing where PLC Chairman al-Alimi told ambassadors the international community must address the 'sources and instruments' of the Houthi threat. On Sep 19, 2026 a Houthi ballistic missile targeting the capital was intercepted at dawn — the first Riyadh air-raid alert of the war — while a separate fuel-tank fire near King Khalid International Airport disrupted flights.",
     "tier": 1,
     "date": "2026-08-07",
     "base": true,
     "showLabel": true,
-    "lastUpdated": "2026-08-08T00:00:00.000Z"
+    "lastUpdated": "2026-09-19T00:00:00.000Z"
   },
   {
     "id": "mecca-defence-pact-site",
@@ -242,10 +255,10 @@
     "lat": 18.3,
     "cat": "houthi-strike",
     "label": "Khamis Mushait — Air Base Near Abha",
-    "sub": "Major Saudi air base adjoining Abha, on heightened alert since the Jul 13, 2026 Houthi missile and drone attack on Abha International Airport.",
-    "tier": 3,
+    "sub": "Major Saudi air base adjoining Abha, on heightened alert since the Jul 13, 2026 Houthi missile and drone attack on Abha International Airport. Struck again Sep 8 and Sep 14, 2026 in coordinated Houthi broadsides; the group claimed hits on hangars, radar installations, runways and ammunition depots, calling it retaliation for Saudi airstrikes across Yemen.",
+    "tier": 2,
     "date": "2026-07-13",
-    "lastUpdated": "2026-07-16T00:00:00.000Z"
+    "lastUpdated": "2026-09-15T00:00:00.000Z"
   },
   {
     "id": "hajjah-governorate",

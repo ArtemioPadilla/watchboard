@@ -2,8 +2,8 @@
   {
     "id": "brent-crude-price",
     "label": "Brent Crude Oil",
-    "value": "$94/bbl",
-    "change": "+1 since Aug 24, one-month high, still -6 from Jul 23 peak",
+    "value": "$104/bbl",
+    "change": "+10 since Sep 1, peaked near $108 mid-September on the Sep 8 broadside and Mocha/Mayyun seizures",
     "direction": "up",
     "sparkData": [
       78,
@@ -14,11 +14,33 @@
       91,
       89,
       93,
-      94
+      94,
+      108,
+      104
     ],
     "color": "#c0392b",
-    "source": "Trading Economics — one-month high as regional Middle East strikes prolong export disruption",
-    "lastUpdated": "2026-09-01T00:00:00.000Z"
+    "source": "Trading Economics / Energy Connects — surged past $100 for the first time in nearly four months as the Houthis captured Mocha and Mayyun Island and struck Saudi Arabia",
+    "lastUpdated": "2026-09-25T00:00:00.000Z"
+  },
+  {
+    "id": "bab-al-mandeb-houthi-control",
+    "label": "Bab al-Mandeb Strait — Houthi Territorial Control",
+    "value": "Mocha + Mayyun/Hanish Islands",
+    "change": "New since Sep 10-11 captures",
+    "direction": "up",
+    "sparkData": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      1
+    ],
+    "color": "#e74c3c",
+    "source": "Al Jazeera / NPR / The National",
+    "lastUpdated": "2026-09-12T00:00:00.000Z"
   },
   {
     "id": "jazan-refinery-capacity-offline",

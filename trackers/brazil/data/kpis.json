@@ -39,26 +39,28 @@
   {
     "id": "unemployment-2026",
     "label": "Unemployment Rate",
-    "value": "5.4%",
+    "value": "5.3%",
     "color": "green",
-    "source": "IBGE — PNAD Contínua (quarter ended June 2026)",
+    "source": "IBGE — PNAD Contínua (quarter ended July 2026)",
     "contested": false,
-    "delta": "-0.2 pts",
-    "deltaNote": "Down from 5.6%; lowest June-quarter reading on record for PNAD Contínua",
+    "delta": "-0.1 pts",
+    "deltaNote": "Down from 5.4%; another record-low quarterly reading for PNAD Contínua",
+    "deltaDetail": { "value": -0.1, "direction": "down", "period": "since Jun 2026" },
     "trend": "down",
-    "lastUpdated": "2026-08-10"
+    "lastUpdated": "2026-08-27"
   },
   {
     "id": "inflation-ipca-2024",
     "label": "Inflation (IPCA)",
-    "value": "4.52%",
+    "value": "4.47%",
     "color": "amber",
-    "source": "IBGE — IPCA-15 preview (12-month, July 2026)",
+    "source": "IBGE — IPCA-15 preview (12-month, September 2026)",
     "contested": false,
-    "delta": "-0.12 pts",
-    "deltaNote": "IPCA-15 preview cools to 4.52% 12-month (from 4.64% in June); still above BC target ceiling",
+    "delta": "-0.05 pts",
+    "deltaNote": "IPCA-15 preview cools further to 4.47% 12-month (from 4.52% in July); still above BC target ceiling. Monthly print jumped 0.70% on an electricity tariff reset",
+    "deltaDetail": { "value": -0.05, "direction": "down", "period": "since Jul 2026" },
     "trend": "down",
-    "lastUpdated": "2026-08-10"
+    "lastUpdated": "2026-09-25"
   },
   {
     "id": "amazon-deforestation-2024",
