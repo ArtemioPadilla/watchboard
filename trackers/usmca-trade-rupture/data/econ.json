@@ -62,22 +62,23 @@
   {
     "id": "mexico-peso-usd",
     "label": "Mexican Peso (MXN/USD)",
-    "value": "17.15",
-    "change": "Banxico FIX Sept 16; appreciated from 16.94 on Sept 11 after Fed's Sept 16 rate hike to 3.75-4.00%",
-    "direction": "up",
+    "value": "17.06",
+    "change": "Weakened to 17.72 Sept 24 (-1.10%) after Banxico held its rate at 6.5% for a 4th straight meeting and said it would not mirror the Fed's Sept 16 hike to 3.75-4.00%; recovered to 17.06 by Sept 26",
+    "direction": "down",
     "sparkData": [
-      16.9,
       17.0,
       17.3,
       17.5,
       17.6,
       16.94,
       17.0,
-      17.15
+      17.15,
+      17.72,
+      17.06
     ],
     "color": "#9b59b6",
-    "source": "Banco de Mexico (Banxico) FIX rate",
-    "lastUpdated": "2026-09-20T15:00:00Z"
+    "source": "Banco de Mexico (Banxico) FIX rate / Rio Times",
+    "lastUpdated": "2026-09-26T00:00:00Z"
   },
   {
     "id": "canada-steel-exports",
@@ -202,41 +203,42 @@
   {
     "id": "tsx-composite-index",
     "label": "S&P/TSX Composite Index",
-    "value": "36,335.61",
-    "change": "+326.21 pts (+0.91%) Sept 22; gains in basic materials and technology stocks drove the rally after closing the prior week at 35,806.65",
+    "value": "35,800.89",
+    "change": "+94.43 pts (+0.26%) Sept 25, snapping a losing streak; fell to 35,706 (-45 pts) on Sept 24 amid surging oil prices, elevated bond yields and declining metals prices",
     "direction": "up",
     "sparkData": [
-      35906.56,
       35697.49,
       35582.07,
       35491.27,
       35874.26,
       35806.65,
       36009.4,
-      36335.61
+      36335.61,
+      35706,
+      35800.89
     ],
     "color": "#2ecc71",
-    "source": "BNN Bloomberg / CP24",
-    "lastUpdated": "2026-09-23T16:00:00Z"
+    "source": "BNN Bloomberg / The Motley Fool Canada",
+    "lastUpdated": "2026-09-25T21:00:00Z"
   },
   {
     "id": "usd-cad-exchange-rate",
     "label": "US Dollar to Canadian Dollar (USD/CAD)",
-    "value": "1.4067",
-    "change": "+0.48% Sept 22; loonie weakened to its lowest level in over a month",
+    "value": "1.4134",
+    "change": "+0.03% Sept 25; loonie continues to soften amid Fed-BoC policy divergence (Fed hiked Sept 16, BoC held at 2.25%)",
     "direction": "up",
     "sparkData": [
-      1.392,
       1.399,
       1.399,
       1.398,
       1.4,
       1.399,
-      1.4067
+      1.4067,
+      1.4134
     ],
     "color": "#e74c3c",
-    "source": "Federal Reserve H.10 / BNN Bloomberg",
-    "lastUpdated": "2026-09-23T16:00:00Z"
+    "source": "Federal Reserve H.10 / Trading Economics",
+    "lastUpdated": "2026-09-25T21:00:00Z"
   },
   {
     "id": "canada-cpi-inflation",
@@ -277,5 +279,24 @@
     "color": "#e74c3c",
     "source": "Peacock Tariff Consulting / Oxford Economics via Al Jazeera",
     "lastUpdated": "2026-09-02T19:18:33Z"
+  },
+  {
+    "id": "canada-retail-sales-rebound",
+    "label": "Canada Retail Sales (Monthly Change)",
+    "value": "+1.3% (Aug, advance est.)",
+    "change": "Rebounded from -0.7% in July, the first monthly decline in seven months; July's drop was led by general merchandise (-1.9%)",
+    "direction": "up",
+    "sparkData": [
+      0.4,
+      0.6,
+      -0.3,
+      0.9,
+      1.1,
+      -0.7,
+      1.3
+    ],
+    "color": "#3498db",
+    "source": "Statistics Canada",
+    "lastUpdated": "2026-09-24T13:30:00Z"
   }
 ]

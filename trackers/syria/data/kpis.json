@@ -38,11 +38,13 @@
   {
     "id": "days-since-regime-collapse",
     "label": "Days Since Assad Regime Fell",
-    "value": "626",
+    "value": "657",
     "color": "blue",
-    "source": "December 8, 2024 (regime collapse) to August 26, 2026",
+    "source": "December 8, 2024 (regime collapse) to September 26, 2026",
     "contested": false,
-    "lastUpdated": "2026-08-26"
+    "delta": "+31 since Aug 26, 2026",
+    "deltaDetail": { "value": 31, "direction": "up", "period": "31d" },
+    "lastUpdated": "2026-09-26"
   },
   {
     "id": "hts-territory-control",
@@ -122,6 +124,29 @@
     "delta": "Diesel +40%, petrol +25-28% (Sep 13); government rolled back to subsidized tiers (Sep 18) after protests spread to Aleppo, Idlib, Hama, Daraa, Damascus, Deir ez-Zor and Hasakah",
     "trend": "up",
     "lastUpdated": "2026-09-18"
+  },
+  {
+    "id": "israeli-strikes-incursions-since-assad-fall",
+    "label": "Israeli Strikes, Incursions & Detentions in Syria (Since Dec 2024)",
+    "value": "500 strikes / 1,200+ incursions / 300 detentions",
+    "color": "red",
+    "source": "President Ahmad al-Sharaa, UN General Assembly address, Sep 23, 2026",
+    "contested": true,
+    "contestNote": "Figures are Damascus's own tally, presented by al-Sharaa at the UN; Israel has not published a matching count and defends the operations as necessary security measures against what it calls persistent jihadist threats.",
+    "trend": "up",
+    "lastUpdated": "2026-09-23"
+  },
+  {
+    "id": "military-depot-explosions-2026",
+    "label": "Unexplained Ammunition Depot Explosions (Since Dec 2024)",
+    "value": "16+ (4 in September 2026 alone)",
+    "color": "amber",
+    "source": "Reuters tally via Al Jazeera, Sep 21, 2026",
+    "contested": true,
+    "contestNote": "Syrian authorities attribute some blasts to poor storage, fires or deteriorated ordnance; analysts say sabotage — including possible Israeli involvement — 'cannot be totally ruled out' given no public evidence either way.",
+    "delta": "+2 in the week of Sep 15-21 (Ayyash, Deir ez-Zor, Sep 19: 11 killed; Al-Eis, Aleppo, Sep 21: 4 injured)",
+    "trend": "up",
+    "lastUpdated": "2026-09-21"
   },
   {
     "id": "sdf-integration-status",
