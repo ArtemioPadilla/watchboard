@@ -24,7 +24,7 @@ function setup() {
 
 function run(cwd: string, env: Record<string, string>, args: string[]): Promise<{ code: number; out: string }> {
   return new Promise(res => {
-    const p = spawn('bash', [SCRIPT, ...args], { cwd, env: { ...process.env, PUSH_STATE_NO_SLEEP: '1', ...env } });
+    const p = spawn('bash', [SCRIPT, ...args], { cwd, env: { ...process.env, PUSH_STATE_NO_SLEEP: '1', GITHUB_REF: '', TELEGRAM_BOT_TOKEN: '', ...env } });
     let out = '';
     p.stdout.on('data', d => (out += d)); p.stderr.on('data', d => (out += d));
     p.on('close', code => res({ code: code ?? -1, out }));
@@ -121,5 +121,53 @@ describe('push-state.sh', () => {
     expect(out).toContain('::error::push-state: content conflict in a.txt');
     expect(out.match(/attempt/g)?.length ?? 0).toBeLessThanOrEqual(1);
     expect(git(r.job, 'log', '-1', '--format=%s').trim()).toBe('job');
+  });
+
+  describe('refuses to push anything but main', () => {
+    const mainSha = () => git(r.origin, 'rev-parse', 'main').trim();
+    const commitState = () => { writeFileSync(join(r.job, 'state.json'), '{"x":1}\n'); git(r.job, 'add', '.'); git(r.job, 'commit', '-qm', 'state'); };
+
+    it('when HEAD is on another branch', async () => {
+      git(r.job, 'switch', '-qc', 'feature'); commitState();
+      const before = mainSha();
+      const { code, out } = await run(r.job, {}, ['x', '2']);
+      expect(code).toBe(1);
+      expect(out).toContain('::error::push-state: refusing to push x to main: HEAD is on branch feature');
+      expect(mainSha()).toBe(before);
+    });
+
+    it('when GITHUB_REF is another branch, even with a local main', async () => {
+      commitState();
+      const before = mainSha();
+      const { code, out } = await run(r.job, { GITHUB_REF: 'refs/heads/feature' }, ['x', '2']);
+      expect(code).toBe(1);
+      expect(out).toContain('the run is for refs/heads/feature, not refs/heads/main');
+      expect(mainSha()).toBe(before);
+    });
+
+    it('when HEAD is detached and nothing vouches for main', async () => {
+      commitState(); git(r.job, 'switch', '-q', '--detach');
+      const before = mainSha();
+      const { code, out } = await run(r.job, {}, ['x', '2']);
+      expect(code).toBe(1);
+      expect(out).toContain('HEAD is detached');
+      expect(mainSha()).toBe(before);
+    });
+
+    it('but pushes from a detached HEAD when GITHUB_REF is refs/heads/main', async () => {
+      writeFileSync(join(r.seed, 'b.txt'), 'other bot\n'); git(r.seed, 'add', '.'); git(r.seed, 'commit', '-qm', 'other'); git(r.seed, 'push', '-q', 'origin', 'main');
+      commitState(); git(r.job, 'switch', '-q', '--detach');
+      const { code, out } = await run(r.job, { GITHUB_REF: 'refs/heads/main' }, ['x', '2']);
+      expect(code, out).toBe(0);
+      expect(git(r.origin, 'show', 'main:state.json')).toContain('"x":1');
+      expect(git(r.origin, 'show', 'main:b.txt')).toContain('other bot');
+    });
+
+    it('and pushes from branch main when GITHUB_REF is refs/heads/main (scheduled run)', async () => {
+      commitState();
+      const { code, out } = await run(r.job, { GITHUB_REF: 'refs/heads/main' }, ['x', '2']);
+      expect(code, out).toBe(0);
+      expect(git(r.origin, 'show', 'main:state.json')).toContain('"x":1');
+    });
   });
 });

@@ -23,6 +23,22 @@ alert() {
   fi
 }
 
+refuse() { echo "::error::push-state: refusing to push ${label} to main: $1"; alert; exit 1; }
+
+# `git push origin HEAD:main` would put another branch's commits on main.
+# actions/checkout on a schedule or a dispatch from main checks out the local
+# branch main; a detached HEAD is accepted only when GITHUB_REF vouches for main.
+branch="$(git symbolic-ref -q --short HEAD || true)"
+if [ -n "${GITHUB_REF:-}" ] && [ "${GITHUB_REF}" != "refs/heads/main" ]; then
+  refuse "the run is for ${GITHUB_REF}, not refs/heads/main"
+fi
+if [ -n "$branch" ] && [ "$branch" != "main" ]; then
+  refuse "HEAD is on branch ${branch}, not main"
+fi
+if [ -z "$branch" ] && [ "${GITHUB_REF:-}" != "refs/heads/main" ]; then
+  refuse "HEAD is detached and GITHUB_REF does not say refs/heads/main"
+fi
+
 autostash_count() { git stash list --format='%gs' | grep -c 'autostash' || true; }
 
 dirty="$(git status --porcelain --untracked-files=no)"
