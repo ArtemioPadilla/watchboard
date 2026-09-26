@@ -48,13 +48,13 @@ export async function fetchGlobalRadioStations(
   return selectTopRadioStations(await res.json(), limit);
 }
 
-const PREF_KEY = 'watchboard:home-radio-layer';
+export const RADIO_LAYER_PREF_KEY = 'watchboard:home-radio-layer';
 
 /** Off unless the viewer turned it on. Read after mount (SSR renders it off). */
 export function readRadioLayerPref(): boolean {
-  try { return localStorage.getItem(PREF_KEY) === 'on'; } catch { return false; }
+  try { return localStorage.getItem(RADIO_LAYER_PREF_KEY) === 'on'; } catch { return false; }
 }
 
 export function writeRadioLayerPref(on: boolean): void {
-  try { localStorage.setItem(PREF_KEY, on ? 'on' : 'off'); } catch { /* private mode: choice lasts this visit only */ }
+  try { localStorage.setItem(RADIO_LAYER_PREF_KEY, on ? 'on' : 'off'); } catch { /* private mode: choice lasts this visit only */ }
 }

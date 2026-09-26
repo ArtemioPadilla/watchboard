@@ -4168,6 +4168,44 @@ body::before {
 /* Interests nudge (spec 2026-09-23 §2): one line under the sort bar, shown once. */
 .cc-interests-nudge { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; padding: 6px 12px 0; font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; color: var(--text-secondary); }
 .cc-interests-nudge-text { flex: 1 1 12rem; min-width: 0; line-height: 1.4; }
+/* Tap targets (spec 2026-09-23 §3.1, WCAG 2.5.8): 24 px everywhere, 32 px on
+   phones. 32 not 44: up to 23 chips must leave the feed on the first 740 px
+   screen. Phones only (no `pointer: coarse` branch): wide touch devices keep
+   the 24 px base, so there is no second, untested desktop layout.
+   Covers the nudge buttons too (they are .cc-sort-option). */
+.cc-sort-option, .interest-chip { min-height: 24px; display: inline-flex; align-items: center; }
+/* Radio pill Retry: was padding 0 at 0.56rem (~11 px tall). */
+.cc-radio-layer-status button { min-height: 24px; padding: 0 6px; display: inline-flex; align-items: center; }
+@media (max-width: 767px) {
+  .cc-sort-option, .interest-chip { min-height: 32px; padding: 4px 10px; }
+  .cc-sort-toggle, .cc-sort-group, .interest-chips-row { gap: 6px; }
+  .cc-radio-layer-status button { min-height: 32px; }
+}
+/* Phones: the lights toggle moves to top:48px, 44×44, z 60 (src/pages/{,es/,fr/,pt/}index.astro:310-315).
+   Stack the radio toggle under it and keep its status pill clear of both.
+   !important only on the toggle: GlobePanel.tsx sets its geometry inline. */
+@media (max-width: 767px) {
+  .cc-globe .globe-radio-toggle {
+    top: 100px !important;
+    width: 44px !important;
+    height: 44px !important;
+    z-index: 60 !important;
+  }
+  /* May wrap to two lines: nowrap + overflow:hidden (global.css:3452-3454)
+     clipped the attribution and the pt/fr error + Retry at 280 px. */
+  .cc-globe .cc-radio-layer-status {
+    top: 106px;
+    right: 62px;
+    height: auto;
+    min-height: 32px;
+    max-width: calc(100% - 80px);
+    padding: 4px 8px;
+    line-height: 1.3;
+    white-space: normal;
+    flex-wrap: wrap;
+    z-index: 60;
+  }
+}
 .cc-feed-activity { font-family: 'JetBrains Mono', monospace; font-size: 0.55rem; min-width: 1.6rem; text-align: center; padding: 1px 4px; border-radius: 3px; border: 1px solid var(--border); color: var(--text-muted); cursor: help; }
 .cc-feed-activity.warm { color: var(--accent-amber); border-color: rgba(243,156,18,0.35); }
 .cc-feed-activity.hot { color: var(--accent-red); border-color: rgba(231,76,60,0.4); }

@@ -34,7 +34,16 @@ jobs:
       - name: Run shareable-view specs
         env:
           PUBLIC_ENABLE_DEEPSTATE: 'true'
-        run: npx playwright test e2e/globe-share.spec.ts e2e/map-share.spec.ts e2e/home-share.spec.ts e2e/alerts-panel.spec.ts e2e/dossier.spec.ts e2e/geo-layers.spec.ts e2e/provenance.spec.ts e2e/pending-pins.spec.ts e2e/activity-sort.spec.ts e2e/interests.spec.ts e2e/radio-layer.spec.ts --reporter=list
+        run: npx playwright test e2e/globe-share.spec.ts e2e/map-share.spec.ts e2e/home-share.spec.ts e2e/alerts-panel.spec.ts e2e/dossier.spec.ts e2e/geo-layers.spec.ts e2e/provenance.spec.ts e2e/pending-pins.spec.ts e2e/activity-sort.spec.ts e2e/interests.spec.ts e2e/radio-layer.spec.ts e2e/home-mobile.spec.ts --reporter=list
+      # No `if:`: runs only when the specs passed, and fails the job if they
+      # produced no screenshots (a mobile spec that silently skipped).
+      - name: Upload mobile QA screenshots
+        uses: actions/upload-artifact@v4
+        with:
+          name: mobile-qa-screenshots
+          path: test-results/**/mobile-*.png
+          if-no-files-found: error
+          retention-days: 14
       - name: Upload traces on failure
         if: failure()
         uses: actions/upload-artifact@v4

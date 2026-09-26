@@ -861,12 +861,14 @@ function CommandCenterInner({
       {isMobile && (
         <div style={styles.mobileTabBar}>
           <button
+            data-testid="mobile-tab-live"
             onClick={() => setMobileTab('live')}
             style={mobileTab === 'live' ? styles.mobileTabActive : styles.mobileTab}
           >
             ⚡ {t('cc.tabLive', locale)}
           </button>
           <button
+            data-testid="mobile-tab-trackers"
             onClick={() => setMobileTab('trackers')}
             style={mobileTab === 'trackers' ? styles.mobileTabActive : styles.mobileTab}
           >
