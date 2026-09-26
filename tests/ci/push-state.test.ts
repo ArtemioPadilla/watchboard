@@ -85,6 +85,34 @@ describe('push-state.sh', () => {
     expect(readFileSync(join(r.job, 'a.txt'), 'utf8')).toBe('dirty, never staged\n');
   });
 
+  it('fails (does not report success) when the autostash cannot be re-applied', async () => {
+    // main changes a.txt; the job commits an unrelated record but has a.txt
+    // modified and unstaged. The rebase succeeds, the autostash pop conflicts,
+    // and git still says "Successfully rebased" with exit 0.
+    writeFileSync(join(r.seed, 'a.txt'), 'MAIN\n'); git(r.seed, 'commit', '-qam', 'main'); git(r.seed, 'push', '-q', 'origin', 'main');
+    writeFileSync(join(r.job, 'state.json'), '{"posted":1}\n'); git(r.job, 'add', 'state.json'); git(r.job, 'commit', '-qm', 'record');
+    writeFileSync(join(r.job, 'a.txt'), 'DIRTY\n');
+    const hits: string[] = [];
+    const server = createServer((req, res) => { let b = ''; req.on('data', d => (b += d)); req.on('end', () => { hits.push(b); res.end('{"ok":true}'); }); });
+    await new Promise<void>(ok => server.listen(0, '127.0.0.1', () => ok()));
+    const port = (server.address() as { port: number }).port;
+    const { code, out } = await run(r.job, {
+      TELEGRAM_BOT_TOKEN: 'T', TELEGRAM_ALERT_CHAT_ID: '-100private', TELEGRAM_CHANNEL_ID: '-100public', TELEGRAM_API_BASE: `http://127.0.0.1:${port}`,
+    }, ['video-post', '3']);
+    server.close();
+    expect(code, out).toBe(1);
+    const stash = git(r.job, 'stash', 'list', '--format=%H %gs').trim();
+    expect(stash).toMatch(/^[0-9a-f]{40} .*autostash/);
+    expect(out).toContain(`::error::push-state: autostash`);
+    expect(out).toContain(stash.split(' ')[0]);
+    // No unmerged paths, no conflict markers left for a later `git add` + commit.
+    expect(git(r.job, 'diff', '--name-only', '--diff-filter=U')).toBe('');
+    expect(readFileSync(join(r.job, 'a.txt'), 'utf8')).toBe('MAIN\n');
+    expect(git(r.job, 'diff', '--cached', '--name-only')).toBe('');
+    expect(hits).toHaveLength(1);
+    expect(decodeURIComponent(hits[0])).toContain('chat_id=-100private');
+  });
+
   it('stops at once on a content conflict and names the file (retries cannot fix it)', async () => {
     writeFileSync(join(r.seed, 'a.txt'), 'MAIN\n'); git(r.seed, 'commit', '-qam', 'main'); git(r.seed, 'push', '-q', 'origin', 'main');
     writeFileSync(join(r.job, 'a.txt'), 'JOB\n'); git(r.job, 'commit', '-qam', 'job');
