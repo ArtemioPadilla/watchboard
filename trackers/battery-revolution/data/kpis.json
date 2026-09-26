@@ -37,26 +37,27 @@
   },
   {
     "id": "lithium-carbonate-price",
-    "label": "Lithium Carbonate (China spot)",
-    "value": "~¥160,500/tonne",
+    "label": "Lithium Carbonate (China spot, USD equiv.)",
+    "value": "~$19,830/tonne",
     "color": "amber",
-    "source": "Carbon Credits / Benchmark Mineral Intelligence, Aug 24, 2026",
+    "source": "Benchmark Mineral Intelligence / Carbon Credits, Sep 24, 2026",
     "contested": false,
-    "delta": "Fell to ~¥123,000 (~$18,310/tonne, Aug 12 low) then surged 5.39% in one session on Aug 24 to ¥160,500",
-    "deltaNote": "Lithium carbonate slid to a fresh low of roughly $18,310/tonne (CIF Asia) by August 12, 2026 on bearish 2027-oversupply sentiment and swelling cell/EV/BESS inventories, before jumping 5.39% in a single session on August 24 to $23.87/kg (~¥160,500/tonne) on robust downstream energy-storage demand — BESS lithium demand grew ~71% in 2025 with another ~55% growth forecast for 2026, increasingly decoupling price direction from EV demand alone.",
-    "trend": "up",
-    "lastUpdated": "2026-08-26"
+    "delta": "Down ~18% from the ~$24,086/tonne Aug 24 spike",
+    "deltaDetail": { "value": -4256, "direction": "down", "period": "since Aug 24" },
+    "deltaNote": "After the Aug 24 single-session spike to ~$24,086/tonne (~¥160,500) on energy-storage demand, lithium carbonate gave back most of the gain, falling ~18% to ~$19,830/tonne by Sep 24, 2026. The retreat tracks fading supply-disruption premium from CATL's Jianxiawo mine (China's largest lithium deposit, idled since an early-August environmental-permit revocation) alongside cooling near-term EV demand growth.",
+    "trend": "down",
+    "lastUpdated": "2026-09-26"
   },
   {
     "id": "solid-state-energy-density-lab",
     "label": "Best Solid-State Energy Density (production-stage)",
-    "value": "500 Wh/kg",
+    "value": "500 Wh/kg (small-batch); 381 Wh/kg (Giga-level mass production)",
     "color": "blue",
-    "source": "Ganfeng Lithium small-batch production (May 2026); GAC first solid-state production line (Jun–Jul 2026)",
+    "source": "Ganfeng Lithium small-batch production (May 2026); ProLogium Gen 3.5 mass production, TÜV-verified (Sep 2026)",
     "contested": true,
-    "contestNote": "Ganfeng's 500 Wh/kg cell remains the highest at production stage (dozens–hundreds of cells/day). GAC Group completed its first all-solid-state battery production line (>60 Ah cells, 400+ Wh/kg, 1,000+ km CLTC range) in mid-2026, targeting mass ramp 2027–2030. Separately, Max Planck Institute researchers published in Nature (Apr 2026, wider press pickup Jul 10) the first mechanical proof of how lithium dendrites fracture garnet solid electrolytes via hydrostatic stress — a safety-relevant finding for scaling any of these cells past small-batch volumes.",
+    "contestNote": "Ganfeng's 500 Wh/kg cell remains the highest at production stage but only at dozens–hundreds of cells/day. ProLogium began Giga-level mass production of its Gen 3.5 all-solid-state Lithium Ceramic Battery in Taiwan in September 2026 — a lower 381 Wh/kg (903 Wh/L) but the first all-solid-state cell independently verified (TÜV, UL) at true mass-manufacturing scale rather than pilot/small-batch volume. Li Auto separately said (Sep 22, 2026) it targets only small-batch solid-state vehicle integration by 2027–2028, with mature mass production not expected until 2032–2033 — underscoring that scale-up, not peak lab energy density, is now the binding constraint.",
     "trend": "up",
-    "lastUpdated": "2026-07-16"
+    "lastUpdated": "2026-09-26"
   },
   {
     "id": "world-largest-grid-battery",
