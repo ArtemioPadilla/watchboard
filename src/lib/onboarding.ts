@@ -64,6 +64,24 @@ export function getNextCoachHint(discovered: Set<string>): CoachHint | null {
   return null;
 }
 
+// ─── Interests nudge (spec 2026-09-23 §2) ───
+
+/** Stored in FEATURES_KEY like the coach hints, but never part of COACH_HINTS. */
+export const INTERESTS_FEATURE_KEY = 'interests';
+
+export interface InterestsNudgeInput {
+  discovered: ReadonlySet<string>;
+  hasInterests: boolean;
+  isMobile: boolean;
+  /** Read at mount: a first-time desktop visitor sees the tour's interests step instead. */
+  desktopTourCompleted: boolean;
+}
+
+export function shouldShowInterestsNudge(i: InterestsNudgeInput): boolean {
+  if (i.discovered.has(INTERESTS_FEATURE_KEY) || i.hasInterests) return false;
+  return i.isMobile || i.desktopTourCompleted;
+}
+
 // ─── Tour persistence (added by onboarding redesign) ───
 
 export const TOUR_KEY_DESKTOP = 'watchboard-tour-desktop-v1';

@@ -23,13 +23,13 @@ import DossierPanel from '../shared/DossierPanel';
 import { useDossier } from '../shared/useDossier';
 import { useInterests } from '../shared/useInterests';
 import InterestChips from '../shared/InterestChips';
-import { interestOptions } from '../../../lib/interests';
+import { interestOptions, hasInterests, loadInterests } from '../../../lib/interests';
 import NotificationManager from './NotificationManager';
 import { useBroadcastMode } from './useBroadcastMode';
 import BroadcastOverlay from './BroadcastOverlay';
 import CoachMark from './CoachMark';
 import DesktopStoryStrip from './DesktopStoryStrip';
-import { getDiscoveredFeatures, markFeatureDiscovered, getNextCoachHint, getTourState, resetTour } from '../../../lib/onboarding';
+import { getDiscoveredFeatures, markFeatureDiscovered, getNextCoachHint, getTourState, resetTour, isTourCompleted, shouldShowInterestsNudge, INTERESTS_FEATURE_KEY } from '../../../lib/onboarding';
 import OnboardingTour, { TOUR_REPLAY_EVENT } from '../Onboarding/OnboardingTour';
 import IslandErrorBoundary from '../shared/IslandErrorBoundary';
 import ShareViewButton from '../shared/ShareViewButton';
@@ -228,6 +228,17 @@ function CommandCenterInner({
   const [mobileTab, setMobileTab] = useState<'live' | 'trackers'>('live');
   const [coachHint, setCoachHint] = useState<ReturnType<typeof getNextCoachHint>>(null);
   const [discoveredFeatures, setDiscoveredFeatures] = useState<Set<string>>(new Set());
+  // Interests nudge (spec 2026-09-23 §2): resolved after mount so SSR and the first render match.
+  const [interestsNudge, setInterestsNudge] = useState<'pending' | 'show' | 'hide'>('pending');
+  const dismissInterestsNudge = useCallback(() => {
+    markFeatureDiscovered(INTERESTS_FEATURE_KEY);
+    setInterestsNudge('hide');
+  }, []);
+  // Any chip toggle counts as discovery, so clearing interests later never brings the nudge back.
+  const handleToggleInterest = useCallback((kind: 'domains' | 'regions', value: string) => {
+    dismissInterestsNudge();
+    toggleInterestChip(kind, value);
+  }, [dismissInterestsNudge, toggleInterestChip]);
 
   // Globe <-> GeoAccordion bidirectional state (geographic mode only)
   const [hoveredCountry, setHoveredCountry] = useState<string | null>(null);
@@ -302,6 +313,12 @@ function CommandCenterInner({
     const discovered = getDiscoveredFeatures();
     setDiscoveredFeatures(discovered);
     setCoachHint(getNextCoachHint(discovered));
+    setInterestsNudge(shouldShowInterestsNudge({
+      discovered,
+      hasInterests: hasInterests(loadInterests()),
+      isMobile: window.innerWidth < 768,
+      desktopTourCompleted: isTourCompleted('desktop'),
+    }) ? 'show' : 'hide');
 
     // Sidebar default: expanded on wide desktops (≥ 1280px), collapsed on narrow
     // screens. User's explicit preference in localStorage overrides the default.
@@ -888,13 +905,21 @@ function CommandCenterInner({
                 setSidebarCollapsed(false);
                 try { localStorage.setItem(SIDEBAR_PREF_KEY, 'expanded'); } catch {}
               }}
-              style={styles.sidebarToggleBtn}
-              aria-label="Expand sidebar"
+              style={{ ...styles.sidebarToggleBtn, position: 'relative' as const }}
+              aria-label={interestsNudge === 'show' ? `Expand sidebar. ${t('interests.nudge', locale)}` : 'Expand sidebar'}
               title="Expand sidebar"
+              data-interests-nudge={interestsNudge}
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="18" x2="21" y2="18" />
               </svg>
+              {interestsNudge === 'show' && (
+                <span
+                  data-testid="sidebar-expand-nudge-dot"
+                  aria-hidden="true"
+                  style={{ position: 'absolute', top: 2, right: 2, width: 7, height: 7, borderRadius: '50%', background: 'var(--accent-blue)' }}
+                />
+              )}
             </button>
             {broadcastEnabled ? (
               <DesktopStoryStrip
@@ -981,7 +1006,9 @@ function CommandCenterInner({
               followedSlugs={followedSlugs}
               interests={interests}
               interestOptions={options}
-              onToggleInterest={toggleInterestChip}
+              onToggleInterest={handleToggleInterest}
+              interestsNudge={interestsNudge === 'show' && hasInterests(interests) ? 'hide' : interestsNudge}
+              onDismissInterestsNudge={dismissInterestsNudge}
               onClearInterests={clearInterests}
               liveCount={liveCount}
               historicalCount={historicalCount}
@@ -1110,7 +1137,7 @@ function CommandCenterInner({
                 interests={interests}
                 options={options}
                 locale={locale}
-                onToggle={toggleInterestChip}
+                onToggle={handleToggleInterest}
                 onClear={clearInterests}
               />
             </div>

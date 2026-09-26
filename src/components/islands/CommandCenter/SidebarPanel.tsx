@@ -41,6 +41,9 @@ interface Props {
   interestOptions?: ReturnType<typeof computeInterestOptions>;
   onToggleInterest?: (kind: 'domains' | 'regions', value: string) => void;
   onClearInterests?: () => void;
+  /** 'pending' until CommandCenter reads storage after mount (SSR renders nothing). */
+  interestsNudge?: 'pending' | 'show' | 'hide';
+  onDismissInterestsNudge?: () => void;
   compareSlugs: string[];
   liveCount: number;
   historicalCount: number;
@@ -494,6 +497,8 @@ export default function SidebarPanel({
   interestOptions,
   onToggleInterest,
   onClearInterests,
+  interestsNudge,
+  onDismissInterestsNudge,
   compareSlugs,
   liveCount,
   historicalCount,
@@ -604,7 +609,7 @@ export default function SidebarPanel({
   const isSearching = searchQuery.trim().length > 0;
 
   return (
-    <div className="cc-sidebar-inner" style={S.sidebar} onKeyDown={handleKeyDown} tabIndex={-1}>
+    <div className="cc-sidebar-inner" style={S.sidebar} onKeyDown={handleKeyDown} tabIndex={-1} data-interests-nudge={interestsNudge ?? 'hide'}>
       {!isMobile && (
         <div style={S.header}>
           <div style={S.headerLeft}>
@@ -706,7 +711,10 @@ export default function SidebarPanel({
             className={`cc-sort-option cc-interests-toggle${activeInterestCount > 0 ? ' active' : ''}`}
             aria-expanded={showInterests}
             aria-controls="cc-interest-chips"
-            onClick={() => setShowInterests(v => !v)}
+            onClick={() => {
+              if (!showInterests) onDismissInterestsNudge?.();
+              setShowInterests(v => !v);
+            }}
             data-testid="sidebar-interests-toggle"
           >
             {t('interests.button', locale)}
@@ -714,6 +722,36 @@ export default function SidebarPanel({
           </button>
         )}
       </div>
+      {interestsNudge === 'show' && onToggleInterest && interestOptions && (
+        <div className="cc-interests-nudge" role="note" data-testid="interests-nudge">
+          <span className="cc-interests-nudge-text">{t('interests.nudge', locale)}</span>
+          <button
+            type="button"
+            className="cc-sort-option"
+            data-testid="interests-nudge-pick"
+            onClick={() => {
+              // The band only exists in OPS + Relevance (feedLayout); a visitor whose
+              // saved view is Activity/DOMAIN/GEOGRAPHIC would otherwise see no effect.
+              if (sortMode !== 'relevance') changeSort('relevance');
+              if ((viewMode || 'operations') !== 'operations') onChangeViewMode?.('operations');
+              setShowInterests(true);
+              onDismissInterestsNudge?.();
+            }}
+          >
+            {t('interests.nudgePick', locale)}
+          </button>
+          <button
+            type="button"
+            className="cc-sort-option"
+            data-testid="interests-nudge-dismiss"
+            aria-label={t('interests.nudgeDismiss', locale)}
+            title={t('interests.nudgeDismiss', locale)}
+            onClick={() => onDismissInterestsNudge?.()}
+          >
+            ×
+          </button>
+        </div>
+      )}
       {onToggleInterest && interestOptions && (
         <div id="cc-interest-chips" hidden={!showInterests}>
           {showInterests && (

@@ -1,6 +1,7 @@
 import { test, expect, type Page } from '@playwright/test';
 import { TOUR_DONE, waitForCommandCenter } from './helpers/hydration';
 import { INTEREST_BAND_MAX } from '../src/lib/feed-buckets';
+import { INTERESTS_KEY } from '../src/lib/interests';
 
 // Spec 2026-09-23 §1/§4: a declared interest lifts up to INTEREST_BAND_MAX
 // matching trackers above the recency buckets, survives a reload, and Clear
@@ -109,5 +110,80 @@ test.describe('Declared interests in the sidebar feed', () => {
       await expect(BAND(page)).toHaveCount(0);
       await expect.poll(async () => (await readRows(page)).map(r => r.slug)).toEqual(before.map(r => r.slug));
     });
+  });
+});
+
+test.describe('Interests nudge for returning visitors', () => {
+  const nudgeState = (page: Page) => page.locator('.cc-sidebar-inner');
+  const saveInterests = (page: Page) => page.addInitScript(
+    ([key, value]) => localStorage.setItem(key, value),
+    [INTERESTS_KEY, JSON.stringify({ domains: ['governance'], regions: [] })] as const,
+  );
+
+  test('shows after a completed tour; × hides it for good', async ({ page }) => {
+    await page.addInitScript(TOUR_DONE);
+    await page.goto('./', { waitUntil: 'load' });
+    await waitForCommandCenter(page);
+    await expect(nudgeState(page)).toHaveAttribute('data-interests-nudge', 'show');
+    await expect(page.getByTestId('interests-nudge')).toBeVisible();
+    await page.getByTestId('interests-nudge-dismiss').click();
+    await expect(page.getByTestId('interests-nudge')).toHaveCount(0);
+    await page.reload({ waitUntil: 'load' });
+    await waitForCommandCenter(page);
+    // Wait on the resolved state, not a sleep: 'pending' also renders nothing.
+    await expect(nudgeState(page)).toHaveAttribute('data-interests-nudge', 'hide');
+    await expect(page.getByTestId('interests-nudge')).toHaveCount(0);
+  });
+
+  test('Pick opens the chips and retires the nudge', async ({ page }) => {
+    await page.addInitScript(TOUR_DONE);
+    await page.goto('./', { waitUntil: 'load' });
+    await waitForCommandCenter(page);
+    await page.getByTestId('interests-nudge-pick').click();
+    await expect(page.getByTestId('sidebar-interests-toggle')).toHaveAttribute('aria-expanded', 'true');
+    await expect(page.locator('#cc-interest-chips .interest-chip').first()).toBeVisible();
+    await expect(page.getByTestId('interests-nudge')).toHaveCount(0);
+  });
+
+  test('stays hidden when interests are already saved', async ({ page }) => {
+    await page.addInitScript(TOUR_DONE);
+    await saveInterests(page);
+    await page.goto('./', { waitUntil: 'load' });
+    await waitForCommandCenter(page);
+    await expect(nudgeState(page)).toHaveAttribute('data-interests-nudge', 'hide');
+  });
+
+  test('stays hidden on a first desktop visit (the tour covers it)', async ({ page }) => {
+    await page.goto('./', { waitUntil: 'load' });
+    await waitForCommandCenter(page);
+    await expect(nudgeState(page)).toHaveAttribute('data-interests-nudge', 'hide');
+  });
+
+  test('Pick from a saved Activity sort switches back to Relevance, where the band lives', async ({ page }) => {
+    await page.addInitScript(TOUR_DONE);
+    await page.addInitScript(() => localStorage.setItem('watchboard:sidebar-sort', 'activity'));
+    await page.goto('./', { waitUntil: 'load' });
+    await waitForCommandCenter(page);
+    // Activity is flat: no recency dividers (activity-sort.spec.ts relies on the same signal).
+    await expect(page.locator(`${FEED} .cc-feed-divider`)).toHaveCount(0);
+    await page.getByTestId('interests-nudge-pick').click();
+    await expect(page.locator(`${FEED} .cc-feed-divider`).first()).toBeAttached();
+    expect(await page.evaluate(() => localStorage.getItem('watchboard:sidebar-sort'))).toBe('relevance');
+  });
+});
+
+test.describe('Interests nudge with the sidebar collapsed (768-1279 px)', () => {
+  test.use({ viewport: { width: 1024, height: 768 } });
+
+  test('the rail shows a dot; expanding reveals the nudge', async ({ page }) => {
+    await page.addInitScript(TOUR_DONE);
+    await page.goto('./', { waitUntil: 'load' });
+    // The search input lives in the (unmounted) sidebar, so wait on the island root.
+    await expect(page.locator('astro-island:not([ssr]) .command-center-root')).toBeAttached({ timeout: 90_000 });
+    const expand = page.getByRole('button', { name: /^Expand sidebar/ });
+    await expect(expand).toHaveAttribute('data-interests-nudge', 'show');
+    await expect(page.getByTestId('sidebar-expand-nudge-dot')).toBeVisible();
+    await expand.click();
+    await expect(page.getByTestId('interests-nudge')).toBeVisible();
   });
 });
