@@ -8,13 +8,15 @@ set -uo pipefail
 label="${1:?usage: push-state.sh <label> [attempts]}"
 attempts="${2:-5}"
 
+# alert <reason>: private ops chat only; the reason says why, so the human
+# knows whether to retry, rebase by hand or recover a stash.
 alert() {
   if [ -n "${TELEGRAM_BOT_TOKEN:-}" ] && [ -n "${TELEGRAM_ALERT_CHAT_ID:-}" ]; then
     if [ "${TELEGRAM_ALERT_CHAT_ID}" = "${TELEGRAM_CHANNEL_ID:-}" ]; then
       echo "::error::push-state: TELEGRAM_ALERT_CHAT_ID equals TELEGRAM_CHANNEL_ID — refusing to alert the public channel"
     else
       run_url="${GITHUB_SERVER_URL:-}/${GITHUB_REPOSITORY:-}/actions/runs/${GITHUB_RUN_ID:-}"
-      text="$(printf '⚠️ State push failed: %s\nPublished items are NOT recorded on main — do not re-run; commit the state by hand.\n%s\n%s' "$label" "${PUSH_STATE_DETAIL:-}" "$run_url")"
+      text="$(printf '⚠️ State push failed: %s\nReason: %s\nPublished items are NOT recorded on main — do not re-run; commit the state by hand.\n%s\n%s' "$label" "$1" "${PUSH_STATE_DETAIL:-}" "$run_url")"
       curl -sf -X POST "${TELEGRAM_API_BASE:-https://api.telegram.org}/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
         --data-urlencode "chat_id=${TELEGRAM_ALERT_CHAT_ID}" \
         --data-urlencode "text=${text}" >/dev/null \
@@ -23,7 +25,7 @@ alert() {
   fi
 }
 
-refuse() { echo "::error::push-state: refusing to push ${label} to main: $1"; alert; exit 1; }
+refuse() { echo "::error::push-state: refusing to push ${label} to main: $1"; alert "refused: $1"; exit 1; }
 
 # `git push origin HEAD:main` would put another branch's commits on main.
 # actions/checkout on a schedule or a dispatch from main checks out the local
@@ -46,41 +48,49 @@ dirty="$(git status --porcelain --untracked-files=no)"
 [ -n "$dirty" ] && printf 'push-state: dirty tree before pull: %s\n' "$(echo "$dirty" | sed 's/^ *//' | paste -sd ',' -)"
 stashes_before="$(autostash_count)"
 
+tried=0
+reason="no attempt made"
 for i in $(seq 1 "$attempts"); do
+  tried=$i
   if git pull --rebase --autostash origin main; then
     # When the autostash cannot be re-applied, git still prints "Successfully
     # rebased" and exits 0, leaving UU files and a stash entry behind.
     unmerged="$(git diff --name-only --diff-filter=U)"
     if [ -n "$unmerged" ] || [ "$(autostash_count)" -gt "$stashes_before" ]; then
       stash_sha="$(git rev-parse -q --verify 'stash@{0}' 2>/dev/null || echo unknown)"
-      echo "::error::push-state: autostash could not be re-applied after the rebase (conflicted: $(echo "${unmerged:-none}" | paste -sd ' ' -)); the uncommitted changes are kept in stash ${stash_sha}"
+      reason="autostash could not be re-applied after the rebase (conflicted: $(echo "${unmerged:-none}" | paste -sd ' ' -)); the uncommitted changes are kept in stash ${stash_sha}"
+      echo "::error::push-state: ${reason}"
       # No later step may commit conflict markers or a half-applied stash.
       while IFS= read -r f; do
         [ -n "$f" ] && git checkout HEAD -- "$f"
       done <<< "$unmerged"
       git reset -q
-      alert
+      alert "$reason"
       exit 1
     fi
     if git push origin HEAD:main; then
       echo "push-state: ${label} pushed on attempt ${i}"
       exit 0
     fi
+    reason="git push rejected (main moved, or auth/network failure)"
   else
     conflicted="$(git diff --name-only --diff-filter=U | paste -sd ' ' -)"
     git rebase --abort 2>/dev/null || true
     if [ -n "$conflicted" ]; then
       # A content conflict recurs identically on every retry: fail now, loudly.
-      echo "::error::push-state: content conflict in ${conflicted} — not retrying"
+      reason="content conflict in ${conflicted} — not retrying"
+      echo "::error::push-state: ${reason}"
       break
     fi
+    reason="git pull --rebase failed (network, auth or dirty tree)"
   fi
-  echo "push-state: attempt ${i} failed"
+  echo "push-state: attempt ${i} failed: ${reason}"
   if [ "$i" -lt "$attempts" ] && [ "${PUSH_STATE_NO_SLEEP:-}" != "1" ]; then
     sleep $(( (2 ** i) + RANDOM % 3 ))
   fi
 done
 
-echo "::error::push-state: failed to push ${label} after ${attempts} attempts"
-alert
+attempt_word="attempts"; [ "$tried" -eq 1 ] && attempt_word="attempt"
+echo "::error::push-state: failed to push ${label} after ${tried} ${attempt_word}: ${reason}"
+alert "$reason (after ${tried} ${attempt_word})"
 exit 1

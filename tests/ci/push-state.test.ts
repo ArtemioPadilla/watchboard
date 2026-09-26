@@ -62,6 +62,7 @@ describe('push-state.sh', () => {
     expect(hits[0]).toContain('/botT/sendMessage');
     expect(decodeURIComponent(hits[0])).toContain('chat_id=-100private');
     expect(decodeURIComponent(hits[0])).toContain('gaza-war::2026-09-24T01:00:00Z');
+    expect(decodeURIComponent(hits[0]).replace(/\+/g, ' ')).toContain('Reason: git pull --rebase failed');
   });
 
   it('refuses to alert when the alert chat is the public channel', async () => {
@@ -119,6 +120,8 @@ describe('push-state.sh', () => {
     const { code, out } = await run(r.job, {}, ['x', '5']);
     expect(code).toBe(1);
     expect(out).toContain('::error::push-state: content conflict in a.txt');
+    // The real count, not the configured 5.
+    expect(out).toContain('::error::push-state: failed to push x after 1 attempt: content conflict in a.txt');
     expect(out.match(/attempt/g)?.length ?? 0).toBeLessThanOrEqual(1);
     expect(git(r.job, 'log', '-1', '--format=%s').trim()).toBe('job');
   });
