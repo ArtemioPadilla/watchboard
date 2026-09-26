@@ -1022,33 +1022,8 @@ jobs:
             MSG="chore(hourly): update $TRACKER $(date -u +%Y-%m-%dT%H:%M:%SZ)"
           fi
           git commit -m "$MSG"
-          pushed=false
-          for i in 1 2 3 4 5; do
-            if git pull --rebase origin main; then
-              if git push; then
-                pushed=true
-                break
-              fi
-            else
-              echo "Rebase conflict on attempt $i — resolving..."
-              # Accept theirs for metrics (non-essential), ours for tracker data
-              git diff --name-only --diff-filter=U | while read f; do
-                if echo "$f" | grep -q "_metrics/"; then
-                  git checkout --theirs "$f" && git add "$f"
-                elif echo "$f" | grep -q "state.json"; then
-                  git checkout --theirs "$f" && git add "$f"
-                else
-                  git checkout --ours "$f" && git add "$f"
-                fi
-              done
-              git rebase --continue --no-edit || git rebase --abort
-            fi
-            sleep $((RANDOM % 5 + 2))
-          done
-          if [ "$pushed" != "true" ]; then
-            echo "::error::Failed to push hourly update for $TRACKER after 5 attempts"
-            exit 1
-          fi
+          # Loop lives in a script so tests/ci/hourly-push.test.ts can race it.
+          bash scripts/ci/hourly-push.sh "$TRACKER" 10
 
       - name: Job summary
         if: always()

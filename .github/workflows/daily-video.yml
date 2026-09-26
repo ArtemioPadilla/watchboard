@@ -193,6 +193,12 @@ jobs:
       - name: Commit social post record
         id: commit_social
         continue-on-error: true
+        env:
+          # push-state.sh alerts the PRIVATE ops chat on final failure;
+          # TELEGRAM_CHANNEL_ID is passed only so it can refuse if the two are equal.
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_ALERT_CHAT_ID: ${{ secrets.TELEGRAM_ALERT_CHAT_ID }}
+          TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
         run: |
           DATE=$(date -u +%Y-%m-%d)
           if [ -f "public/_social/video-post-${DATE}.json" ]; then
@@ -200,21 +206,10 @@ jobs:
             git config user.email "github-actions[bot]@users.noreply.github.com"
             git add "public/_social/video-post-${DATE}.json"
             git diff --cached --quiet || git commit -m "chore(social): video post record ${DATE}"
-            pushed=false
-            for i in $(seq 1 5); do
-              if git pull --rebase origin main && git push; then
-                echo "Push succeeded on attempt $i"
-                pushed=true
-                break
-              fi
-              git rebase --abort 2>/dev/null || true
-              echo "Push attempt $i failed, retrying with jitter..."
-              sleep $(( (RANDOM % 8) + 3 ))
-            done
-            if [ "$pushed" != "true" ]; then
-              echo "ERROR: failed to push video post record after 5 attempts"
-              exit 1
-            fi
+            # The render leaves tracked files modified (video/src/data/breaking.json,
+            # video/state/tracker-history.json); push-state.sh pulls with --autostash.
+            PUSH_STATE_DETAIL="record: public/_social/video-post-${DATE}.json" \
+              bash scripts/ci/push-state.sh "video-post-${DATE}" 5
           fi
 
       - name: Append to daily-log.json
@@ -272,6 +267,10 @@ jobs:
       - name: Commit tracker history + daily log
         id: commit_video_state
         continue-on-error: true
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_ALERT_CHAT_ID: ${{ secrets.TELEGRAM_ALERT_CHAT_ID }}
+          TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -287,20 +286,8 @@ jobs:
               echo "No video state to commit"
             else
               git commit -m "chore(video): update tracker history + daily log $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-              pushed=false
-              for _ in 1 2 3; do
-                if git pull --rebase origin main && git push; then
-                  pushed=true
-                  break
-                fi
-                git rebase --abort || true
-                git reset --hard HEAD || true
-                sleep 2
-              done
-              if [ "$pushed" != "true" ]; then
-                echo "::error::Failed to push tracker history + daily log after 3 attempts"
-                exit 1
-              fi
+              PUSH_STATE_DETAIL="files: video/state/tracker-history.json, video/state/daily-log.json" \
+                bash scripts/ci/push-state.sh "video-state" 5
             fi
           else
             echo "No video state to commit"
@@ -534,6 +521,10 @@ jobs:
       - name: Commit social post record
         id: commit_progress_social
         continue-on-error: true
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_ALERT_CHAT_ID: ${{ secrets.TELEGRAM_ALERT_CHAT_ID }}
+          TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
         run: |
           DATE=$(date -u +%Y-%m-%d)
           if [ -f "public/_social/video-post-progress-${DATE}.json" ]; then
@@ -544,11 +535,8 @@ jobs:
               echo "No progress video post record to commit"
             else
               git commit -m "chore(social): progress video post record ${DATE}"
-              git pull --rebase origin main || true
-              if ! git push; then
-                echo "::error::Failed to push progress video post record"
-                exit 1
-              fi
+              PUSH_STATE_DETAIL="record: public/_social/video-post-progress-${DATE}.json" \
+                bash scripts/ci/push-state.sh "video-post-progress-${DATE}" 5
             fi
           fi
 
