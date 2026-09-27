@@ -13,18 +13,18 @@
   {
     "id": "kpi-drone-incidents-9days",
     "label": "Moldovan Airspace Breaches (Since Aug 9, 2026)",
-    "value": "19",
+    "value": "23",
     "color": "red",
     "source": "Moldovan Army Air Operations Service / Moldova1 / Ukrinform / Anadolu Agency / Moldpres",
     "contested": false,
     "trend": "up",
-    "delta": "+1 since Sep 21 — a camera-equipped Gerbera drone (first of its type confirmed in Moldova) crashed near Cernița, Florești district on Sep 24, one of four incursions reported that morning; corrects the prior figure, which had drifted out of step with the tracker's own confirmed-incident count",
+    "delta": "+4 since Sep 24 — a second Geran-4 loitering munition was recovered near Cotiujeni, Briceni district, and a drone reportedly exploded near a cannery in Camenca, Transnistria, rounding out the four incursions reported that morning; a brief two-minute crossing near Novokotovsk, Transnistria followed on Sep 26, along with drone fragments found near Volintiri, Ștefan Vodă district the same evening",
     "deltaDetail": {
-      "value": 1,
+      "value": 4,
       "direction": "up",
-      "period": "since Sep 21"
+      "period": "since Sep 24"
     },
-    "lastUpdated": "2026-09-26T14:00:00.000Z"
+    "lastUpdated": "2026-09-27T14:00:00.000Z"
   },
   {
     "id": "kpi-border-crossings-struck",
@@ -144,6 +144,18 @@
       "direction": "up",
       "period": "vs. full year 2025"
     },
+    "deltaNote": "A narrower drone-specific count (STRATCOM/Sandu); the Defence Ministry's broader Sep 24 tally of all airspace-violation types (see kpi-defense-ministry-2026-airspace-tally) is not directly comparable",
     "lastUpdated": "2026-09-26T14:00:00.000Z"
+  },
+  {
+    "id": "kpi-defense-ministry-2026-airspace-tally",
+    "label": "Unauthorised Airspace Violations, All Types (2026 Defence Ministry Tally)",
+    "value": "44",
+    "color": "red",
+    "source": "Moldovan Ministry of National Defence, Sep 24, 2026",
+    "contested": false,
+    "trend": "up",
+    "delta": "81 total violations recorded since 2022 across drones, missiles and other aircraft; more than 10 instances have forced Moldova to close airspace to protect civil aviation",
+    "lastUpdated": "2026-09-27T14:00:00.000Z"
   }
 ]

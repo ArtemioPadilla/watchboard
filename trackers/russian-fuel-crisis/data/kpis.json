@@ -52,14 +52,19 @@
   {
     "id": "crude-throughput",
     "label": "Crude processing rate",
-    "value": "4.1M bbl/day (June 2026)",
+    "value": "3.6M bbl/day (Jul 2026, lowest since May 2002)",
     "color": "red",
-    "source": "Financial Times, Jul 9 2026",
+    "source": "Bloomberg via The Moscow Times, Aug 3 2026",
     "contested": false,
-    "delta": "-28%",
-    "deltaNote": "vs 5-year average; 35% below design capacity",
+    "delta": "-0.5M bbl/day",
+    "deltaDetail": {
+      "value": -0.5,
+      "direction": "down",
+      "period": "since Jun 2026"
+    },
+    "deltaNote": "Down from 4.1M bbl/day in June; roughly one-third below the 2020-2025 seasonal norm of 5.3-5.6M bbl/day, after 18 refineries were targeted in 30 attacks during July alone",
     "trend": "down",
-    "lastUpdated": "2026-08-20T00:00:00Z"
+    "lastUpdated": "2026-09-27T00:00:00Z"
   },
   {
     "id": "states-of-emergency",
@@ -193,5 +198,15 @@
     "contested": false,
     "trend": "up",
     "lastUpdated": "2026-09-25T19:09:52Z"
+  },
+  {
+    "id": "ilsky-refinery-struck",
+    "label": "Ilsky refinery struck (Sep 26) — 3 killed",
+    "value": "Krasnodar refinery halted, 17th strike since war began",
+    "color": "red",
+    "source": "Bloomberg / Kyiv Independent / Militarnyi, Sep 26 2026",
+    "contested": false,
+    "trend": "up",
+    "lastUpdated": "2026-09-27T00:00:00Z"
   }
 ]
