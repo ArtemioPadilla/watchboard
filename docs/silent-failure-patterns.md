@@ -79,6 +79,19 @@ whether a workflow ran.
   for genuinely optional steps and dangerous everywhere else. AWS Polly errors
   on unsupported SSML tags, and `<emphasis>` is unsupported on every engine —
   adopting it would have dropped narration from every video silently.
+  It then happened anyway, by a different route: the workflow never
+  configured AWS credentials, so every Polly call failed with `NoCredentials`
+  behind that same `|| echo`, and every video shipped silent for months while
+  the run stayed green. `daily-log.json` recorded `narratedFile: null` the
+  whole time — the artefact said so, nothing read it. The ElevenLabs
+  replacement (`scripts/narrate-elevenlabs.ts`) exits non-zero on any
+  failure, the step alerts the private ops chat, and the job's final gate
+  goes red.
+- **`actions/checkout` pins `github.sha`, not the branch tip.** A second job
+  that runs after a first job pushed to `main` starts N commits behind. If it
+  also modifies one of those files, `pull --rebase --autostash` conflicts on
+  every attempt. The progress video's post record failed to land this way
+  daily from April to September; the fix is `ref: main` on the dependent job.
 - **A *pending* job in a concurrency group is cancelled when another job
   queues behind it in the same group — regardless of `cancel-in-progress:
   false`.** That setting only protects a job that is already *running*; a

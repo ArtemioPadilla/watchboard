@@ -78,6 +78,10 @@ The table is generated from the source by `scripts/list-env-vars.ts`
 | `AWS_REGION` | CI scripts | `scripts/local-hourly.ts` |
 | `BLUESKY_HANDLE` | CI scripts | `scripts/bluesky-post.ts`, `scripts/post-video-social.ts` |
 | `BLUESKY_PASSWORD` | CI scripts | `scripts/bluesky-post.ts`, `scripts/post-video-social.ts` |
+| `ELEVENLABS_API_KEY` | CI scripts | `scripts/narrate-elevenlabs.ts` |
+| `ELEVENLABS_MODEL_ID` | CI scripts | `scripts/narrate-elevenlabs.ts` |
+| `ELEVENLABS_VOICE_EN` | CI scripts | `scripts/narrate-elevenlabs.ts` |
+| `ELEVENLABS_VOICE_ES` | CI scripts | `scripts/narrate-elevenlabs.ts` |
 | `ELIGIBLE_SLUGS` | CI scripts | `scripts/generate-review-manifest.ts` |
 | `FRESHNESS_CADENCE_FACTOR` | CI scripts | `scripts/check-data-freshness.ts` |
 | `FRESHNESS_GLOBAL_STALE_DAYS` | CI scripts | `scripts/check-data-freshness.ts` |
