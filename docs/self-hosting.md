@@ -87,10 +87,17 @@ The table is generated from the source by `scripts/list-env-vars.ts`
 | `FRESHNESS_GLOBAL_STALE_DAYS` | CI scripts | `scripts/check-data-freshness.ts` |
 | `FRESHNESS_STALE_RATIO` | CI scripts | `scripts/check-data-freshness.ts` |
 | `GITHUB_OUTPUT` | CI scripts | `scripts/check-data-freshness.ts` |
+| `GITHUB_REPOSITORY` | CI scripts | `scripts/ci/host-release-asset.ts` |
 | `GITHUB_STEP_SUMMARY` | CI scripts | `scripts/check-media-fingerprints.ts` |
+| `GITHUB_TOKEN` | CI scripts | `scripts/ci/host-release-asset.ts` |
 | `LINKEDIN_ACCESS_TOKEN` | CI scripts | `scripts/post-social.ts` |
 | `LINKEDIN_ORG_ID` | CI scripts | `scripts/post-social.ts` |
 | `MAX_BACKFILL_GAPS` | CI scripts | `scripts/backfill-gaps.ts` |
+| `META_FB_PAGE_ID` | CI scripts | `scripts/lib/meta-publish.ts` |
+| `META_GRAPH_API_VERSION` | CI scripts | `scripts/lib/meta-publish.ts` |
+| `META_IG_USER_ID` | CI scripts | `scripts/lib/meta-publish.ts` |
+| `META_PAGE_ACCESS_TOKEN` | CI scripts | `scripts/lib/meta-publish.ts` |
+| `META_VIDEO_URL` | CI scripts | `scripts/lib/meta-publish.ts` |
 | `OPENAI_API_KEY` | CI scripts | `scripts/backfill.ts`, `scripts/update-data.ts` |
 | `OPENAI_MODEL` | CI scripts | `scripts/backfill-osint.ts`, `scripts/backfill.ts`, `scripts/update-data.ts` |
 | `PUBLIC_POSTHOG_HOST` | site build | `src/layouts/BaseLayout.astro` |
@@ -109,6 +116,7 @@ The table is generated from the source by `scripts/list-env-vars.ts`
 | `VIDEO_TYPE` | CI scripts | `scripts/post-video-social.ts` |
 | `X_ACCESS_TOKEN` | CI scripts | `scripts/hourly-post.ts`, `scripts/post-social-queue.ts`, `scripts/post-social.ts`, `scripts/x-check.ts` |
 | `X_ACCESS_TOKEN_SECRET` | CI scripts | `scripts/hourly-post.ts`, `scripts/post-social-queue.ts`, `scripts/post-social.ts`, `scripts/x-check.ts` |
+| `X_ALLOW_AUTO_APPROVED` | CI scripts | `scripts/post-social-queue.ts` |
 | `X_API_KEY` | CI scripts | `scripts/hourly-post.ts`, `scripts/post-social-queue.ts`, `scripts/post-social.ts`, `scripts/x-check.ts` |
 | `X_API_SECRET` | CI scripts | `scripts/hourly-post.ts`, `scripts/post-social-queue.ts`, `scripts/post-social.ts`, `scripts/x-check.ts` |
 | `X_TEST_TEXT` | CI scripts | `scripts/x-check.ts` |

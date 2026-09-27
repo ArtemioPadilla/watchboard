@@ -37,6 +37,9 @@ interface QueueEntry {
   memegenUrl: string | null;
   publishAt: string;
   status: QueueStatus;
+  /** Per-platform post state; see scripts/lib/social-due.ts. */
+  postedTo?: Partial<Record<'bluesky' | 'x', { id: string; url?: string; at: string }>>;
+  approval?: 'manual' | 'auto';
   estimatedCost: number;
   judge: JudgeAssessment;
   threadTweets: string[] | null;
@@ -663,12 +666,14 @@ export default function SocialCommandCenter({ basePath, githubRepo }: Props) {
   const handlePublishNow = useCallback(async () => {
     if (!ghToken) return;
     const now = new Date();
-    const dueCount = queue.filter(
-      (e) =>
-        (e.status === 'approved' || e.status === 'auto_approved') &&
-        new Date(e.publishAt) <= now &&
-        !e.tweetId,
-    ).length;
+    // Mirrors scripts/lib/social-due.ts: an entry one platform already posted
+    // (status 'posted', postedTo set) is still due on the other.
+    const dueCount = queue.filter((e) => {
+      if (new Date(e.publishAt) > now) return false;
+      if (e.status === 'approved' || e.status === 'auto_approved') return !e.tweetId || Boolean(e.postedTo);
+      if (e.status === 'posted' && e.postedTo) return !(e.postedTo.bluesky && e.postedTo.x);
+      return false;
+    }).length;
     if (dueCount === 0) {
       alert(t('social.noTweetsDue', locale));
       return;

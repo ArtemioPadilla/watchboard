@@ -210,18 +210,18 @@ AI-curated social media posting system. Replaces the old `generate-social-drafts
 - `public/_social/history.json` — posted tweet archive with IDs and UTM click data
 - `src/components/islands/SocialCommandCenter.tsx` — React island dashboard at `/social/` (queue viewer, X preview, judge panel, batch approve, GitHub PAT auth)
 
-**Tweet types:** digest, breaking, hot_take, thread, data_viz, meme
-**Voices:** analyst, journalist, edgy, witty (mixed persona per tweet)
-**Languages:** en, es, fr, pt (synced with website i18n)
+**Tweet types:** digest, breaking, thread, data_viz, contested, stale_data, escalation, cross_tracker (`hot_take` and `meme` were removed after the April 2026 X suspension for "inauthentic behavior"; the last four never auto-approve)
+**Voices:** analyst only (one register per account, same reason)
+**Languages:** en, es (`social-config.json`; fr/pt dropped for X — four translations per tweet is the volume anti-spam systems weigh)
 **Judge:** score (0-1) + verdict (PUBLISH/REVIEW/HOLD/KILL) + fact checks against tracker data
 **Budget:** $1/month target, $0.01/tweet (text), $0.02/tweet (with image). AI is budget-aware.
 **Hashtags:** 2 max per tweet (1 topic + #Watchboard), threads last tweet only, memes none
-**Scheduling:** 4 slots/day (08:00, 13:00, 18:00, 22:00 UTC) via `.github/workflows/post-social-queue.yml`
+**Scheduling:** 4 slots/day (08:00, 13:00, 18:00, 22:00 UTC) via `.github/workflows/post-social-queue.yml`. Bluesky always; X only while the repo variable `X_POSTING_ENABLED` is `true`, and then only entries a human approved in `/social/` until `X_ALLOW_AUTO_APPROVED` is also `true` (#235). Per-platform state (`postedTo`, `approval`) in `scripts/lib/social-due.ts` lets both posters share one queue without starving each other
 **Images:** stat cards via satori, memes via memegen.link (free API, no upload needed)
 
 **Workflows:**
 - `update-data.yml` finalize phase calls `generate-social-queue.ts` to produce the daily queue
-- `post-social-queue.yml` runs 4x/day to post due tweets from the queue
+- `post-social-queue.yml` runs 4x/day: `bluesky-post.ts`, then `post-social-queue.ts` (X) behind the `X_POSTING_ENABLED` gate
 - `weekly-digest.yml` writes a thread entry into the queue format
 
 ### Utilities (`src/lib/`)
@@ -302,6 +302,7 @@ Each day a 30s vertical 1080×1920 video summarises the top breaking trackers an
 - **Renderer**: `video/render.ts` — fetches breaking news, downloads thumbnails as base64, loads GeoJSON + Earth texture, renders MP4 to `video/output/`. Run via `cd video && npx tsx render.ts` or `make video-render`.
 - **Workflow**: `.github/workflows/daily-video.yml` runs at 00:00 UTC, posts to Telegram with caption derived from `t.headline` (matches video on screen) and 5 hashtags max (4 topical + `#Watchboard`).
 - **Narration**: `scripts/narrate-elevenlabs.ts` (ElevenLabs, replaced AWS Polly — #244) composes the spoken script from `breaking.json` / `breaking-data-progress.json` (lead headline, other names, tracker count from the repo) and writes `video/output/narration-{en,es}.mp3` / `narration-progress-{en,es}.mp3`, which ffmpeg mixes under the music. Env: `ELEVENLABS_API_KEY` (secret; absent → video ships silent with a `::warning::`), `ELEVENLABS_VOICE_EN` / `ELEVENLABS_VOICE_ES` (repo variables, optional), `ELEVENLABS_MODEL_ID` (default `eleven_multilingual_v2`). Exit 3 = no key, 1 = failure. The workflow step alerts the private ops chat via `scripts/ci/ops-alert.sh` and the final gate turns the job red; the video still renders and posts. `--print` shows the text without calling the API. Text is plain with `<break time="0.7s" />` pauses — no SSML.
+- **Instagram Reels + Facebook Page** (#234): `scripts/lib/meta-publish.ts` (pure request builders, container poll, publish; fetch/sleep injectable, 17 tests) behind the `instagram` and `facebook` adapters in `post-video-social.ts`. Enabled only when `META_PAGE_ACCESS_TOKEN` (secret), `META_IG_USER_ID` / `META_FB_PAGE_ID` (repo variables) and `META_VIDEO_URL` are all set. Meta fetches the MP4 from a public URL, so `daily-video.yml` first uploads it as an asset on the rolling `daily-video` GitHub release (`scripts/ci/host-release-asset.ts`, keeps 14) and passes that URL; the whole path is a no-op until the secret exists. TikTok stays manual; YouTube Shorts is still a stub.
 - **Progress job state**: `video-progress` checks out `ref: main` (not `github.sha`, which is two commits stale once the `video` job has pushed) and commits `tracker-history.json` together with its post record, because `render.ts --mode positive` also calls `saveUsedTrackers()`.
 - **Daily log**: `video/state/daily-log.json` — appended each run with full per-day metadata (items, KPIs, source tiers, file size, run ID). Powers `/videos` archive page.
 - **Tracker history**: `video/state/tracker-history.json` — slugs+dates only, used to avoid the same trackers showing 2 days in a row.

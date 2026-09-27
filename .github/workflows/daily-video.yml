@@ -155,11 +155,40 @@ jobs:
               "video/output/watchboard-${DATE}-narrated-es.mp4" -y || echo "Merge failed"
           fi
 
+      # Meta (Instagram Reels / Facebook Page) cannot take a file upload: it
+      # fetches the MP4 from a public URL. Workflow artifacts are not public, so
+      # the file is uploaded as an asset on the rolling `daily-video` release
+      # (scripts/ci/host-release-asset.ts; assets older than 14 days pruned).
+      # Runs only once the Meta secret exists — nothing changes before that.
+      - name: Host video for Meta (release asset)
+        id: host_video
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          META_PAGE_ACCESS_TOKEN: ${{ secrets.META_PAGE_ACCESS_TOKEN }}
+        run: |
+          if [ -z "$META_PAGE_ACCESS_TOKEN" ]; then
+            echo "Meta not configured — no public hosting needed"
+            exit 0
+          fi
+          DATE=$(date -u +%Y-%m-%d)
+          VIDEO="video/output/watchboard-${DATE}.mp4"
+          NARRATED="video/output/watchboard-${DATE}-narrated-en.mp4"
+          FILE="$VIDEO"; [ -f "$NARRATED" ] && FILE="$NARRATED"
+          if [ ! -f "$FILE" ]; then echo "::warning::no video file to host"; exit 0; fi
+          URL=$(npx tsx scripts/ci/host-release-asset.ts --file "$FILE" --tag daily-video --keep 14)
+          echo "url=$URL" >> "$GITHUB_OUTPUT"
+          echo "Hosted at $URL"
+
       - name: Post to social media
         continue-on-error: true
         env:
           BLUESKY_HANDLE: ${{ secrets.BLUESKY_HANDLE }}
           BLUESKY_PASSWORD: ${{ secrets.BLUESKY_PASSWORD }}
+          META_PAGE_ACCESS_TOKEN: ${{ secrets.META_PAGE_ACCESS_TOKEN }}
+          META_IG_USER_ID: ${{ vars.META_IG_USER_ID }}
+          META_FB_PAGE_ID: ${{ vars.META_FB_PAGE_ID }}
+          META_VIDEO_URL: ${{ steps.host_video.outputs.url }}
         run: |
           DATE=$(date -u +%Y-%m-%d)
           VIDEO="video/output/watchboard-${DATE}.mp4"
@@ -496,12 +525,41 @@ jobs:
               "video/output/watchboard-${DATE}-progress-narrated-en.mp4" -y || echo "Merge failed"
           fi
 
+      # Meta (Instagram Reels / Facebook Page) cannot take a file upload: it
+      # fetches the MP4 from a public URL. Workflow artifacts are not public, so
+      # the file is uploaded as an asset on the rolling `daily-video` release
+      # (scripts/ci/host-release-asset.ts; assets older than 14 days pruned).
+      # Runs only once the Meta secret exists — nothing changes before that.
+      - name: Host video for Meta (release asset)
+        id: host_video_progress
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          META_PAGE_ACCESS_TOKEN: ${{ secrets.META_PAGE_ACCESS_TOKEN }}
+        run: |
+          if [ -z "$META_PAGE_ACCESS_TOKEN" ]; then
+            echo "Meta not configured — no public hosting needed"
+            exit 0
+          fi
+          DATE=$(date -u +%Y-%m-%d)
+          VIDEO="video/output/watchboard-${DATE}-progress.mp4"
+          NARRATED="video/output/watchboard-${DATE}-progress-narrated-en.mp4"
+          FILE="$VIDEO"; [ -f "$NARRATED" ] && FILE="$NARRATED"
+          if [ ! -f "$FILE" ]; then echo "::warning::no video file to host"; exit 0; fi
+          URL=$(npx tsx scripts/ci/host-release-asset.ts --file "$FILE" --tag daily-video --keep 14)
+          echo "url=$URL" >> "$GITHUB_OUTPUT"
+          echo "Hosted at $URL"
+
       - name: Post to social media (progress)
         continue-on-error: true
         env:
           BLUESKY_HANDLE: ${{ secrets.BLUESKY_HANDLE }}
           BLUESKY_PASSWORD: ${{ secrets.BLUESKY_PASSWORD }}
           VIDEO_TYPE: progress
+          META_PAGE_ACCESS_TOKEN: ${{ secrets.META_PAGE_ACCESS_TOKEN }}
+          META_IG_USER_ID: ${{ vars.META_IG_USER_ID }}
+          META_FB_PAGE_ID: ${{ vars.META_FB_PAGE_ID }}
+          META_VIDEO_URL: ${{ steps.host_video_progress.outputs.url }}
         run: |
           DATE=$(date -u +%Y-%m-%d)
           VIDEO="video/output/watchboard-${DATE}-progress.mp4"

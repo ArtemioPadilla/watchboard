@@ -3,22 +3,30 @@
  * post-video-social.ts
  *
  * Posts the daily Watchboard video brief to social platforms.
- * Extensible adapter architecture — currently auto-publishes to Bluesky,
- * with stubs for YouTube Shorts and Reddit. Always generates a manual
- * queue JSON for platforms that require human posting (TikTok, Instagram).
+ * Extensible adapter architecture — auto-publishes to Bluesky, and to
+ * Instagram Reels + a Facebook Page when the Meta credentials are set
+ * (scripts/lib/meta-publish.ts, #234). YouTube Shorts and Reddit are stubs.
+ * Always writes the post record JSON, which doubles as the manual queue for
+ * platforms still posted by hand (TikTok).
  *
  * Usage:
  *   npx tsx scripts/post-video-social.ts <video-path> [--dry-run]
  *
  * Environment:
- *   BLUESKY_HANDLE    — Bluesky handle (e.g. watchboard.bsky.social)
- *   BLUESKY_PASSWORD   — App password (not account password)
+ *   BLUESKY_HANDLE           — Bluesky handle (e.g. watchboard.bsky.social)
+ *   BLUESKY_PASSWORD         — App password (not account password)
+ *   META_PAGE_ACCESS_TOKEN   — long-lived Page token (instagram_content_publish + pages_manage_posts)
+ *   META_IG_USER_ID          — Instagram professional account id (enables the instagram adapter)
+ *   META_FB_PAGE_ID          — Facebook Page id (enables the facebook adapter)
+ *   META_VIDEO_URL           — public URL of this run's MP4; Meta fetches it (no file upload API for Reels).
+ *                              daily-video.yml sets it from scripts/ci/host-release-asset.ts.
  */
 import { BskyAgent, RichText } from '@atproto/api';
 import { readFileSync, writeFileSync, existsSync, mkdirSync, statSync } from 'fs';
 import { join, basename } from 'path';
 import { execSync } from 'child_process';
 import { todayDateString, PATHS } from './social-types.js';
+import { buildIgCaption, metaConfigFromEnv, publishFacebookVideo, publishInstagramReel } from './lib/meta-publish.js';
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -130,6 +138,13 @@ function buildCaptionEs(meta: VideoMeta): string {
   return `Resumen Diario Watchboard \u2014 ${meta.date}\n\nhttps://watchboard.dev`;
 }
 
+/** Hashtags for the post record and the Meta captions (same list, one place). */
+function videoHashtags(): string[] {
+  return VIDEO_TYPE === 'progress'
+    ? ['#science', '#progress', '#breakthroughs', '#Watchboard']
+    : ['#OSINT', '#geopolitics', '#Watchboard'];
+}
+
 // ── Post record (idempotency file) ───────────────────────────────────────────
 
 function postRecordPath(date: string): string {
@@ -153,7 +168,8 @@ function savePostRecord(record: VideoPostRecord): void {
 function buildInitialRecord(meta: VideoMeta, platforms: SocialPlatform[]): VideoPostRecord {
   const platformMap: Record<string, 'auto' | 'manual' | 'stub'> = {
     tiktok: 'manual',
-    instagram: 'manual',
+    instagram: 'manual', // becomes 'auto' below once the Meta adapter is enabled
+    facebook: 'manual',
   };
   for (const p of platforms) {
     if (p.enabled) {
@@ -172,9 +188,7 @@ function buildInitialRecord(meta: VideoMeta, platforms: SocialPlatform[]): Video
     narrationFile,
     caption_en: buildCaptionEn(meta),
     caption_es: buildCaptionEs(meta),
-    hashtags: VIDEO_TYPE === 'progress'
-      ? ['#science', '#progress', '#breakthroughs', '#Watchboard']
-      : ['#OSINT', '#geopolitics', '#Watchboard'],
+    hashtags: videoHashtags(),
     trackerSlugs: meta.trackers.map((t) => t.slug),
     trackerHeadlines: Object.fromEntries(meta.trackers.map((t) => [t.slug, t.headline])),
     platforms: platformMap,
@@ -445,6 +459,54 @@ async function createBlueskyPost(
   }
 }
 
+// ── Meta adapters: Instagram Reels + Facebook Page (scripts/lib/meta-publish.ts)
+
+function metaEnabled(kind: 'instagram' | 'facebook'): { enabled: boolean; reason?: string } {
+  const cfg = metaConfigFromEnv();
+  if (!cfg) return { enabled: false, reason: 'META_PAGE_ACCESS_TOKEN not set' };
+  const id = kind === 'instagram' ? cfg.igUserId : cfg.fbPageId;
+  if (!id) return { enabled: false, reason: `${kind === 'instagram' ? 'META_IG_USER_ID' : 'META_FB_PAGE_ID'} not set` };
+  if (!cfg.videoUrl) return { enabled: false, reason: 'META_VIDEO_URL not set — Meta needs a public URL for the MP4 (see host-release-asset.ts)' };
+  return { enabled: true };
+}
+
+function createInstagramAdapter(): SocialPlatform {
+  const gate = metaEnabled('instagram');
+  if (!gate.enabled) console.log(`[instagram] disabled: ${gate.reason}`);
+  return {
+    name: 'instagram',
+    enabled: gate.enabled,
+    async postVideo(_videoPath: string, meta: VideoMeta): Promise<{ url: string } | null> {
+      const cfg = metaConfigFromEnv();
+      if (!cfg?.videoUrl) return null;
+      const caption = buildIgCaption(buildCaptionEn(meta), videoHashtags());
+      const result = await publishInstagramReel(cfg, { videoUrl: cfg.videoUrl, caption }, {
+        fetch: fetch as never,
+        sleep,
+        log: (l) => console.log(l),
+      });
+      return { url: result.url };
+    },
+  };
+}
+
+function createFacebookAdapter(): SocialPlatform {
+  const gate = metaEnabled('facebook');
+  if (!gate.enabled) console.log(`[facebook] disabled: ${gate.reason}`);
+  return {
+    name: 'facebook',
+    enabled: gate.enabled,
+    async postVideo(_videoPath: string, meta: VideoMeta): Promise<{ url: string } | null> {
+      const cfg = metaConfigFromEnv();
+      if (!cfg?.videoUrl) return null;
+      const description = buildIgCaption(buildCaptionEn(meta), videoHashtags());
+      const title = VIDEO_TYPE === 'progress' ? `Watchboard Progress Brief — ${meta.date}` : `Watchboard Daily Brief — ${meta.date}`;
+      const result = await publishFacebookVideo(cfg, { videoUrl: cfg.videoUrl, description, title }, { fetch: fetch as never, log: (l) => console.log(l) });
+      return { url: result.url };
+    },
+  };
+}
+
 // ── YouTube Shorts stub ──────────────────────────────────────────────────────
 
 function createYouTubeAdapter(): SocialPlatform {
@@ -495,6 +557,8 @@ async function main(): Promise<void> {
   // Build platform adapters
   const platforms: SocialPlatform[] = [
     createBlueskyAdapter(),
+    createInstagramAdapter(),
+    createFacebookAdapter(),
     createYouTubeAdapter(),
     createRedditAdapter(),
   ];

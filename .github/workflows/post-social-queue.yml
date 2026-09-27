@@ -38,6 +38,23 @@ jobs:
           BLUESKY_PASSWORD: ${{ secrets.BLUESKY_PASSWORD }}
         run: npx tsx scripts/bluesky-post.ts
 
+      # X, staged restart after the April 2026 suspension (#235).
+      #   - Off until the repository variable X_POSTING_ENABLED is 'true'.
+      #   - Even then, only entries a human approved in /social/ are posted.
+      #     Set X_ALLOW_AUTO_APPROVED to 'true' once a week of output reads well.
+      #   - Languages come from social-config.json (en, es).
+      # Both posters share the queue; scripts/lib/social-due.ts keeps per-platform
+      # state so Bluesky posting first does not starve X or vice versa.
+      - name: Post due items from queue to X
+        if: vars.X_POSTING_ENABLED == 'true'
+        env:
+          X_API_KEY: ${{ secrets.X_API_KEY }}
+          X_API_SECRET: ${{ secrets.X_API_SECRET }}
+          X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
+          X_ACCESS_TOKEN_SECRET: ${{ secrets.X_ACCESS_TOKEN_SECRET }}
+          X_ALLOW_AUTO_APPROVED: ${{ vars.X_ALLOW_AUTO_APPROVED }}
+        run: npx tsx scripts/post-social-queue.ts
+
       - name: Commit and push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

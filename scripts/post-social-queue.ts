@@ -2,8 +2,14 @@
 /**
  * post-social-queue.ts
  *
- * Reads today's queue, posts due tweets (status approved/auto_approved + publishAt <= now),
- * updates budget and history.
+ * Reads today's queue, posts due tweets to X, updates budget and history.
+ *
+ * Staged restart after the April 2026 suspension (#235): by default only
+ * entries a human approved in /social/ are posted. Auto-approved entries are
+ * included only when X_ALLOW_AUTO_APPROVED=true. Languages follow
+ * social-config.json (`languages`). Per-platform state lives in
+ * scripts/lib/social-due.ts, so an entry Bluesky already posted is still due
+ * here and neither poster re-sends the other's.
  *
  * Usage: npx tsx scripts/post-social-queue.ts [--dry-run]
  */
@@ -13,6 +19,7 @@ import {
   type QueueEntry, type HistoryEntry,
 } from './social-types.js';
 import { TwitterApi } from 'twitter-api-v2';
+import { isDueOn, markPostedOn, type TrackedEntry } from './lib/social-due.js';
 
 function getTwitterClient(): TwitterApi | null {
   const appKey = process.env.X_API_KEY;
@@ -125,13 +132,13 @@ async function main(): Promise<void> {
     delete raw.trackerName;
   }
 
-  // Find due tweets
-  const due = queue.filter(entry =>
-    (entry.status === 'approved' || entry.status === 'auto_approved') &&
-    new Date(entry.publishAt) <= now &&
-    !entry.tweetId
+  // Find due tweets. Manual approval only unless X_ALLOW_AUTO_APPROVED=true.
+  const allowAutoApproved = process.env.X_ALLOW_AUTO_APPROVED === 'true';
+  const due = (queue as TrackedEntry[]).filter(entry =>
+    isDueOn(entry, 'x', now, { allowAutoApproved, languages: config.languages }),
   );
 
+  console.log(`[poster] gate: ${allowAutoApproved ? 'approved + auto_approved' : 'manually approved only'}; languages: ${config.languages.join(', ')}`);
   console.log(`[poster] ${due.length} tweets due for posting (${queue.length} total in queue)`);
 
   if (due.length === 0) return;
@@ -151,6 +158,7 @@ async function main(): Promise<void> {
 
   for (const entry of due) {
     try {
+      let xId: string | undefined;
       // Normalize hashtags — ensure # prefix
       const tags = entry.hashtags.map(t => t.startsWith('#') ? t : `#${t}`).join(' ');
 
@@ -175,7 +183,7 @@ async function main(): Promise<void> {
             mediaId: i === 0 ? (mediaId ?? undefined) : undefined,
           });
           if (id) {
-            if (!lastId) entry.tweetId = id;
+            if (!lastId) xId = id;
             lastId = id;
             threadPosted++;
           }
@@ -190,12 +198,16 @@ async function main(): Promise<void> {
         // Post single tweet
         const fullText = `${entry.text}\n\n${entry.link}\n\n${tags}`;
         const id = await postTweet(client, fullText, { mediaId: mediaId ?? undefined });
-        entry.tweetId = id;
+        xId = id ?? undefined;
         console.log(`[poster] Posted: ${entry.tracker}/${entry.type}/${entry.lang} → ${id}${mediaId ? ' (with image)' : ''}`);
       }
 
-      entry.status = 'posted';
-      entry.postedAt = new Date().toISOString();
+      if (!xId) throw new Error('X returned no tweet id');
+      markPostedOn(entry as TrackedEntry, 'x', {
+        id: xId,
+        url: `https://x.com/${config.handle.replace(/^@/, '')}/status/${xId}`,
+        at: new Date().toISOString(),
+      });
 
       // Update budget (round to avoid IEEE 754 float drift)
       budget.spent = Math.round((budget.spent + entry.estimatedCost) * 100) / 100;
@@ -204,7 +216,7 @@ async function main(): Promise<void> {
 
       // Add to history
       history.push({
-        tweetId: entry.tweetId ?? '',
+        tweetId: xId,
         date: today,
         tracker: entry.tracker,
         type: entry.type,
@@ -213,7 +225,7 @@ async function main(): Promise<void> {
         text: entry.text,
         cost: entry.estimatedCost,
         utmClicks: 0,
-        publishedAt: entry.postedAt,
+        publishedAt: entry.postedAt ?? new Date().toISOString(),
       });
 
       posted++;

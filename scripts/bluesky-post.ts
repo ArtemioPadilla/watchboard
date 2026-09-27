@@ -20,6 +20,7 @@ import {
   loadQueue, saveQueue, todayDateString,
   type QueueEntry, type HistoryEntry,
 } from './social-types.js';
+import { isDueOn, markPostedOn, type TrackedEntry } from './lib/social-due.js';
 import { BskyAgent, RichText } from '@atproto/api';
 import { readFileSync, existsSync, statSync } from 'fs';
 import { join, basename } from 'path';
@@ -419,11 +420,10 @@ async function postFromQueue(dryRun: boolean): Promise<void> {
     delete raw.trackerName;
   }
 
-  // Find due posts
-  const due = queue.filter(entry =>
-    (entry.status === 'approved' || entry.status === 'auto_approved') &&
-    new Date(entry.publishAt) <= now &&
-    !entry.tweetId  // reuse tweetId field for bluesky post URI
+  // Find due posts. Per-platform tracking (scripts/lib/social-due.ts): an
+  // entry X already posted is still due here, and vice versa.
+  const due = (queue as TrackedEntry[]).filter(entry =>
+    isDueOn(entry, 'bluesky', now, { allowAutoApproved: true }),
   );
 
   console.log(`[bluesky] ${due.length} posts due (${queue.length} total in queue)`);
@@ -506,9 +506,8 @@ async function postFromQueue(dryRun: boolean): Promise<void> {
         }
 
         // Only mark as posted if at least one thread post succeeded
-        if (threadPosted > 0) {
-          entry.status = 'posted';
-          entry.postedAt = new Date().toISOString();
+        if (threadPosted > 0 && rootRef) {
+          markPostedOn(entry as TrackedEntry, 'bluesky', { id: rootRef.uri, at: new Date().toISOString() });
 
           budget.spent = Math.round((budget.spent + entry.estimatedCost) * 100) / 100;
           budget.remaining = Math.round((budget.monthlyTarget - budget.spent) * 100) / 100;
@@ -524,7 +523,7 @@ async function postFromQueue(dryRun: boolean): Promise<void> {
             text: entry.text,
             cost: entry.estimatedCost,
             utmClicks: 0,
-            publishedAt: entry.postedAt,
+            publishedAt: entry.postedAt ?? new Date().toISOString(),
           });
 
           posted++;
@@ -552,20 +551,18 @@ async function postFromQueue(dryRun: boolean): Promise<void> {
         }
 
         const result = await postSkeet(agent, formatted, { embed });
-        entry.tweetId = result?.uri ?? null;
         console.log(`[bluesky] Posted: ${entry.tracker}/${entry.type}/${entry.lang} → ${result?.uri ?? 'FAILED'}${imageUrl ? ' (with image)' : ''}`);
 
         // Only mark as posted if the post succeeded
-        if (entry.tweetId) {
-          entry.status = 'posted';
-          entry.postedAt = new Date().toISOString();
+        if (result?.uri) {
+          markPostedOn(entry as TrackedEntry, 'bluesky', { id: result.uri, at: new Date().toISOString() });
 
           budget.spent = Math.round((budget.spent + entry.estimatedCost) * 100) / 100;
           budget.remaining = Math.round((budget.monthlyTarget - budget.spent) * 100) / 100;
           budget.tweetsPosted++;
 
           history.push({
-            tweetId: entry.tweetId,
+            tweetId: result.uri,
             date: today,
             tracker: entry.tracker,
             type: entry.type,
@@ -574,7 +571,7 @@ async function postFromQueue(dryRun: boolean): Promise<void> {
             text: entry.text,
             cost: entry.estimatedCost,
             utmClicks: 0,
-            publishedAt: entry.postedAt,
+            publishedAt: entry.postedAt ?? new Date().toISOString(),
           });
 
           posted++;
