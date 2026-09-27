@@ -93,62 +93,48 @@ jobs:
             }
           "
 
-      - name: Generate narration with Polly
+      # Root deps are needed here (tsx for the narration script) and again
+      # below for the social post; installing once, before both, changes nothing
+      # else in the order.
+      - name: Install root dependencies
+        run: npm ci
+
+      # Narration moved from AWS Polly to ElevenLabs (#244). Polly had failed
+      # with NoCredentials on every run — this workflow never configured AWS —
+      # and `continue-on-error` + `|| echo` kept the run green while every
+      # video shipped silent. The script writes the same files the merge step
+      # expects; the text lives in scripts/narrate-elevenlabs.ts so it is
+      # unit-tested and shell quoting cannot mangle a headline.
+      #
+      # Exit codes: 0 audio written · 3 no API key (ship without voice, warn) ·
+      # anything else is a real failure: private ops alert, and the final
+      # gate turns the job red. The video still renders and posts.
+      - name: Generate narration with ElevenLabs
+        id: narrate
         continue-on-error: true
         env:
-          AWS_REGION: us-east-1
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+          ELEVENLABS_VOICE_EN: ${{ vars.ELEVENLABS_VOICE_EN }}
+          ELEVENLABS_VOICE_ES: ${{ vars.ELEVENLABS_VOICE_ES }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_ALERT_CHAT_ID: ${{ secrets.TELEGRAM_ALERT_CHAT_ID }}
+          TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
         run: |
-          if ! command -v aws &>/dev/null; then
-            echo "AWS CLI not available — skipping narration"
+          set +e
+          npx tsx scripts/narrate-elevenlabs.ts --mode breaking --lang en --out video/output/narration-en.mp3
+          rc_en=$?
+          npx tsx scripts/narrate-elevenlabs.ts --mode breaking --lang es --out video/output/narration-es.mp3
+          rc_es=$?
+          set -e
+          if [ "$rc_en" -eq 3 ] && [ "$rc_es" -eq 3 ]; then
+            echo "::warning::ELEVENLABS_API_KEY is not set — the daily brief ships without narration"
             exit 0
           fi
-          # Lead story plus the other names. Reading a bare list of tracker
-          # names is an index, not a narration — the same flaw #157 identifies
-          # in the visual intro. The lead gets its actual headline.
-          LEAD=$(node -e "
-            const d=require('./video/src/data/breaking.json');
-            const t=d.trackers[0]||{};
-            console.log((t.headline||t.name||'Breaking').split(';')[0].trim());
-          ")
-          TRACKERS=$(node -e "const d=require('./video/src/data/breaking.json'); console.log(d.trackers.slice(1).map(t=>t.name).join('. '))")
-
-          # Tracker count was hardcoded as \"48 more\" and spoken aloud in every
-          # video. There are far more than 48 now, so the narration was stating
-          # a false figure daily. Counted from the repo instead.
-          TOTAL=$(node -e "
-            const fs=require('fs');
-            const n=fs.readdirSync('trackers').filter(d=>{
-              try { return JSON.parse(fs.readFileSync('trackers/'+d+'/tracker.json','utf8')).status==='active'; }
-              catch { return false; }
-            }).length;
-            console.log(Math.max(0, n-3));
-          ")
-          
-          # English narration
-          # SSML, limited to what the GENERATIVE engine actually supports:
-          # <break>, <s>, <p> are fully available and <prosody rate> partially.
-          # <emphasis> is NOT available on any engine — the example in #157
-          # uses it, and Polly errors on unsupported tags, which combined with
-          # this step's continue-on-error would have silently dropped narration
-          # from every video.
-          aws polly synthesize-speech \
-            --engine generative \
-            --voice-id Matthew \
-            --language-code en-US \
-            --output-format mp3 \
-            --text-type ssml \
-            --text "<speak><prosody rate='95%'>${LEAD}</prosody><break time='700ms'/>Also tracking today: ${TRACKERS}.<break time='500ms'/>These and ${TOTAL} more at watchboard dot dev.<break time='300ms'/>Free, open source intelligence dashboards, updated daily.</speak>" \
-            video/output/narration-en.mp3 || echo "Polly EN failed (non-fatal)"
-
-          # Spanish narration  
-          aws polly synthesize-speech \
-            --engine generative \
-            --voice-id Pedro \
-            --language-code es-US \
-            --output-format mp3 \
-            --text-type ssml \
-            --text "<speak><prosody rate='95%'>${LEAD}</prosody><break time='700ms'/>También seguimos hoy: ${TRACKERS}.<break time='500ms'/>Estas y ${TOTAL} más en watchboard punto dev.<break time='300ms'/>Paneles de inteligencia gratuitos y de código abierto, actualizados a diario.</speak>" \
-            video/output/narration-es.mp3 || echo "Polly ES failed (non-fatal)"
+          if [ "$rc_en" -ne 0 ] || [ "$rc_es" -ne 0 ]; then
+            bash scripts/ci/ops-alert.sh "⚠️ Daily video narration failed (breaking: en=${rc_en} es=${rc_es}). The video was still rendered and posted, without voice."
+            exit 1
+          fi
+          ls -la video/output/narration-*.mp3
 
       - name: Merge narration into video
         run: |
@@ -168,9 +154,6 @@ jobs:
               -map 0:v -map '[out]' -c:v copy \
               "video/output/watchboard-${DATE}-narrated-es.mp4" -y || echo "Merge failed"
           fi
-
-      - name: Install root dependencies
-        run: npm ci
 
       - name: Post to social media
         continue-on-error: true
@@ -362,14 +345,22 @@ jobs:
         # what happened above (if: always()) and fails the whole run when
         # either commit/push step's outcome was failure, so a silently-dropped
         # push (video-post record or tracker-history/daily-log) is visible
-        # instead of hiding behind a green run. There is no notify-failure job
-        # in this workflow, so a red run here is the only alert.
+        # instead of hiding behind a green run. The narration step is gated the
+        # same way: Polly failed silently for months behind continue-on-error.
+        # There is no notify-failure job in this workflow, so a red run here is
+        # the only alert.
         if: always()
         run: |
+          failed=0
           if [ "${{ steps.commit_social.outcome }}" = "failure" ] || [ "${{ steps.commit_video_state.outcome }}" = "failure" ]; then
             echo "::error::A state commit/push step failed — see 'Commit social post record' and/or 'Commit tracker history + daily log' above. The video itself may have rendered and posted fine, but bot state was not saved to main."
-            exit 1
+            failed=1
           fi
+          if [ "${{ steps.narrate.outcome }}" = "failure" ]; then
+            echo "::error::Narration failed — see 'Generate narration with ElevenLabs' above. The video posted without voice."
+            failed=1
+          fi
+          exit $failed
 
   video-progress:
     name: Daily Progress Video (positive mode)
@@ -378,7 +369,16 @@ jobs:
     if: github.event_name != 'push'
     timeout-minutes: 40
     steps:
+      # `ref: main`, not the default github.sha: the "video" job above has
+      # already pushed two commits (video-post record, tracker-history +
+      # daily-log) by the time this job starts. Checking out the SHA the run
+      # was triggered on left this job two commits behind on a file the
+      # progress render also modifies (tracker-history.json), so every
+      # `pull --rebase --autostash` in push-state.sh conflicted and the
+      # progress post record never reached main — daily, since April.
       - uses: actions/checkout@v5
+        with:
+          ref: main
 
       - name: Install ffmpeg
         run: sudo apt-get update && sudo apt-get install -y ffmpeg
@@ -453,37 +453,36 @@ jobs:
             }
           "
 
-      - name: Generate narration with Polly (progress tone)
+      - name: Install root dependencies
+        run: npm ci
+
+      # Same contract as the "video" job's narration step (see the comment there).
+      - name: Generate narration with ElevenLabs (progress tone)
+        id: narrate_progress
         continue-on-error: true
         env:
-          AWS_REGION: us-east-1
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+          ELEVENLABS_VOICE_EN: ${{ vars.ELEVENLABS_VOICE_EN }}
+          ELEVENLABS_VOICE_ES: ${{ vars.ELEVENLABS_VOICE_ES }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_ALERT_CHAT_ID: ${{ secrets.TELEGRAM_ALERT_CHAT_ID }}
+          TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
         run: |
-          if ! command -v aws &>/dev/null; then
-            echo "AWS CLI not available — skipping narration"
+          set +e
+          npx tsx scripts/narrate-elevenlabs.ts --mode progress --lang en --out video/output/narration-progress-en.mp3
+          rc_en=$?
+          npx tsx scripts/narrate-elevenlabs.ts --mode progress --lang es --out video/output/narration-progress-es.mp3
+          rc_es=$?
+          set -e
+          if [ "$rc_en" -eq 3 ] && [ "$rc_es" -eq 3 ]; then
+            echo "::warning::ELEVENLABS_API_KEY is not set — the progress brief ships without narration"
             exit 0
           fi
-          TRACKERS=$(node -e "
-            const fs = require('fs');
-            const p = fs.existsSync('./video/src/data/breaking-data-progress.json') ? './video/src/data/breaking-data-progress.json' : './video/src/data/breaking.json';
-            const d = require(p);
-            console.log(d.trackers.map(t=>t.name).join('. '));
-          ")
-
-          aws polly synthesize-speech \
-            --engine generative \
-            --voice-id Joanna \
-            --language-code en-US \
-            --output-format mp3 \
-            --text "Good news from Watchboard today. ${TRACKERS}. Track breakthroughs across science, space, and culture at watchboard dot dev. Free, open source intelligence dashboards." \
-            video/output/narration-progress-en.mp3 || echo "Polly EN failed (non-fatal)"
-
-          aws polly synthesize-speech \
-            --engine generative \
-            --voice-id Lupe \
-            --language-code es-US \
-            --output-format mp3 \
-            --text "Buenas noticias en Watchboard hoy. ${TRACKERS}. Sigue los avances en ciencia, espacio y cultura en watchboard punto dev. Paneles de inteligencia gratuitos y de código abierto." \
-            video/output/narration-progress-es.mp3 || echo "Polly ES failed (non-fatal)"
+          if [ "$rc_en" -ne 0 ] || [ "$rc_es" -ne 0 ]; then
+            bash scripts/ci/ops-alert.sh "⚠️ Daily video narration failed (progress: en=${rc_en} es=${rc_es}). The video was still rendered and posted, without voice."
+            exit 1
+          fi
+          ls -la video/output/narration-progress-*.mp3
 
       - name: Merge narration into progress video
         run: |
@@ -496,9 +495,6 @@ jobs:
               -map 0:v -map '[out]' -c:v copy \
               "video/output/watchboard-${DATE}-progress-narrated-en.mp4" -y || echo "Merge failed"
           fi
-
-      - name: Install root dependencies
-        run: npm ci
 
       - name: Post to social media (progress)
         continue-on-error: true
@@ -527,17 +523,22 @@ jobs:
           TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
         run: |
           DATE=$(date -u +%Y-%m-%d)
-          if [ -f "public/_social/video-post-progress-${DATE}.json" ]; then
-            git config user.name "github-actions[bot]"
-            git config user.email "github-actions[bot]@users.noreply.github.com"
-            git add "public/_social/video-post-progress-${DATE}.json"
-            if git diff --cached --quiet; then
-              echo "No progress video post record to commit"
-            else
-              git commit -m "chore(social): progress video post record ${DATE}"
-              PUSH_STATE_DETAIL="record: public/_social/video-post-progress-${DATE}.json" \
-                bash scripts/ci/push-state.sh "video-post-progress-${DATE}" 5
-            fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          # render.ts --mode positive calls saveUsedTrackers(), so the progress
+          # picks land in tracker-history.json and are needed for tomorrow's
+          # cooldown. Commit that file here instead of leaving it dirty for the
+          # autostash to trip over. breaking.json is the *breaking* job's data
+          # and is never committed by CI; restore it so the tree is clean.
+          git checkout -- video/src/data/breaking.json 2>/dev/null || true
+          [ -f "public/_social/video-post-progress-${DATE}.json" ] && git add "public/_social/video-post-progress-${DATE}.json"
+          [ -f video/state/tracker-history.json ] && git add video/state/tracker-history.json
+          if git diff --cached --quiet; then
+            echo "No progress video state to commit"
+          else
+            git commit -m "chore(social): progress video post record ${DATE}"
+            PUSH_STATE_DETAIL="record: public/_social/video-post-progress-${DATE}.json + video/state/tracker-history.json" \
+              bash scripts/ci/push-state.sh "video-post-progress-${DATE}" 5
           fi
 
       - name: Upload progress video artifacts
@@ -612,7 +613,13 @@ jobs:
         # so a red run here is the only alert.
         if: always()
         run: |
+          failed=0
           if [ "${{ steps.commit_progress_social.outcome }}" = "failure" ]; then
             echo "::error::Progress video social post record failed to push to main — see 'Commit social post record' above. The next run will not know this was already posted."
-            exit 1
+            failed=1
           fi
+          if [ "${{ steps.narrate_progress.outcome }}" = "failure" ]; then
+            echo "::error::Progress narration failed — see 'Generate narration with ElevenLabs (progress tone)' above. The video posted without voice."
+            failed=1
+          fi
+          exit $failed
