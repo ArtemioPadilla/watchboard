@@ -87,6 +87,16 @@ whether a workflow ran.
   replacement (`scripts/narrate-elevenlabs.ts`) exits non-zero on any
   failure, the step alerts the private ops chat, and the job's final gate
   goes red.
+- **An AI step that asks for permission in a job nobody watches.** The
+  nightly's "Generate social queue via Claude" step ran `claude-code-action`
+  with no `claude_args`, so Write was denied by default. Every night from
+  April to September Claude drafted the tweet queue, was refused the write,
+  answered "please approve the write when prompted" — to no one — and the
+  action reported `success`. The next step found no file, printed "No raw
+  queue file found — skipping" and exited 0. The only daily artefact was a
+  `permission_denials` array in a 100 KB log. Grep an unattended agent's log
+  for `permission_denied`, grant it the exact tools it needs, and make the
+  consumer of its artefact treat absence as an alert, not a skip.
 - **`actions/checkout` pins `github.sha`, not the branch tip.** A second job
   that runs after a first job pushed to `main` starts N commits behind. If it
   also modifies one of those files, `pull --rebase --autostash` conflicts on

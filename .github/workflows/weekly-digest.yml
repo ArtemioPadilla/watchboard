@@ -138,7 +138,13 @@ jobs:
             const outDir = 'public/_social';
             fs.mkdirSync(outDir, { recursive: true });
             const outPath = path.join(outDir, 'queue-' + todayStr + '.json');
-            fs.writeFileSync(outPath, JSON.stringify(output, null, 2));
+            // Append, never overwrite: on Sundays the nightly may already have
+            // written today's daily queue to this same file.
+            let existing = [];
+            try { existing = JSON.parse(fs.readFileSync(outPath, 'utf8')); } catch { existing = []; }
+            if (!Array.isArray(existing)) existing = [];
+            const merged = existing.filter(e => !(e && e.type === 'thread' && e.tracker === 'watchboard' && e.status !== 'posted')).concat(output);
+            fs.writeFileSync(outPath, JSON.stringify(merged, null, 2));
             console.log('Weekly digest written to ' + outPath);
             console.log('Trackers updated: ' + weeklyUpdates.length);
 
