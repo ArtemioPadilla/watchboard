@@ -1215,8 +1215,19 @@ jobs:
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           show_full_output: true
+          # This step had no claude_args, so it ran with the action's default
+          # permissions: Read allowed, Write denied. Every night since April
+          # Claude drafted the queue, was refused the write to raw-queue.json,
+          # replied "please approve the write" and the action still reported
+          # success — no daily queue for five months, ~$0.74 of quota a night.
+          # It only needs to read the prompt and write one file; nothing it
+          # writes outside public/_social/ is committed (the commit step adds
+          # public/_metrics/ and public/_social/ only). The other claude steps
+          # in this workflow use --dangerously-skip-permissions; this one does
+          # not need to.
           # timeout_minutes is not a valid input for this action; the
           # job-level timeout-minutes (above) bounds the run instead.
+          claude_args: '--max-turns 15 --allowedTools "Read,Write,Edit"'
           prompt: |
             Read the file public/_social/prompt-latest.txt — it contains a complete prompt for generating a social media queue.
 
@@ -1228,35 +1239,53 @@ jobs:
             The file must contain a valid JSON array of objects. Nothing else.
 
       - name: Post-process social queue
-        if: steps.social.outcome == 'success'
+        # Runs whenever a prompt was built, not only when the Claude step says
+        # "success": that step reported success for five months while writing
+        # nothing. Every path that ends without a queue now warns and alerts the
+        # private ops chat. Still exit 0 — drafting tweets must not turn the
+        # data pipeline red (see the comment on the step above).
+        if: steps.social_prompt.outputs.has_prompt == 'true'
+        env:
+          SOCIAL_OUTCOME: ${{ steps.social.outcome }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_ALERT_CHAT_ID: ${{ secrets.TELEGRAM_ALERT_CHAT_ID }}
+          TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
         run: |
           TODAY=$(date -u +%Y-%m-%d)
           RAW="public/_social/raw-queue.json"
 
-          # Claude agent might write to raw-queue.json, or YYYY-MM-DD.json, or queue-YYYY-MM-DD.json
-          # Find whichever file it actually wrote
-          if [ ! -f "$RAW" ]; then
-            # Check for date-named file without queue- prefix
-            for f in public/_social/${TODAY}.json public/_social/queue-${TODAY}.json; do
-              if [ -f "$f" ]; then
-                echo "Found queue at $f, moving to $RAW"
-                mv "$f" "$RAW"
-                break
-              fi
-            done
+          no_queue() {
+            echo "::warning::Social queue not generated: $1"
+            echo "- ⚠️ Social queue not generated: $1" >> "$GITHUB_STEP_SUMMARY"
+            bash scripts/ci/ops-alert.sh "⚠️ Nightly social queue not generated for ${TODAY}: $1"
+            exit 0
+          }
+
+          if [ "$SOCIAL_OUTCOME" != "success" ]; then
+            no_queue "the Claude step ended '${SOCIAL_OUTCOME}'"
+          fi
+
+          # Claude may name the file after the date instead. Never adopt
+          # queue-${TODAY}.json here: on Sundays that is the weekly digest's file.
+          if [ ! -f "$RAW" ] && [ -f "public/_social/${TODAY}.json" ]; then
+            echo "Found queue at public/_social/${TODAY}.json, moving to $RAW"
+            mv "public/_social/${TODAY}.json" "$RAW"
           fi
 
           if [ ! -f "$RAW" ]; then
-            echo "No raw queue file found — skipping post-processing"
-            exit 0
+            no_queue "Claude finished without writing $RAW (check the step log for permission_denied)"
           fi
 
           # Validate JSON
-          if ! node -e "JSON.parse(require('fs').readFileSync('$RAW','utf8'))"; then
-            echo "Invalid JSON in $RAW — skipping"
+          if ! node -e "const q=JSON.parse(require('fs').readFileSync('$RAW','utf8')); if(!Array.isArray(q)) process.exit(1)"; then
             rm -f "$RAW"
-            exit 0
+            no_queue "$RAW is not a JSON array"
           fi
+
+          # Entries already on main for today (weekly digest thread on Sundays,
+          # or an earlier run). The queue is merged by id, never overwritten.
+          git fetch -q origin main || true
+          git show "origin/main:public/_social/queue-${TODAY}.json" > /tmp/queue-on-main.json 2>/dev/null || echo '[]' > /tmp/queue-on-main.json
 
           # Post-process: filter, fix fields, assign statuses, write correct filename
           node -e "
@@ -1317,16 +1346,19 @@ jobs:
                   entry.status = 'held';
                 } else if (j && j.verdict === 'REVIEW') {
                   entry.status = 'pending_review';
-                } else if (entry.type === 'meme') {
-                  // Memes always require review
-                  entry.status = 'pending_review';
-                } else if (j && j.score >= 0.85 && j.verdict === 'PUBLISH') {
-                  entry.status = 'auto_approved';
-                } else if (j && j.score >= 0.5) {
+                } else if (['meme', 'contested', 'stale_data', 'escalation', 'cross_tracker'].includes(entry.type)) {
+                  // Mirrors assignStatus() in scripts/generate-social-queue.ts:
+                  // the four data-derived types assert a disputed or frozen
+                  // figure and never auto-approve, whatever the judge scores.
                   entry.status = 'pending_review';
                 } else if (!j) {
-                  // No judge at all — auto-approve non-meme
+                  // The prompt requires a judge; an entry without one gets a
+                  // human look instead of the auto-approval it used to get.
+                  entry.status = 'pending_review';
+                } else if (j.score >= 0.85 && j.verdict === 'PUBLISH') {
                   entry.status = 'auto_approved';
+                } else if (j.score >= 0.5) {
+                  entry.status = 'pending_review';
                 } else {
                   entry.status = 'rejected';
                 }
@@ -1337,14 +1369,32 @@ jobs:
               }
             }
             const outPath = 'public/_social/queue-' + today + '.json';
-            fs.writeFileSync(outPath, JSON.stringify(queue, null, 2));
+            // Merge by id with what main and the working tree already hold for
+            // today, so the weekly digest's thread (Sundays) survives whichever
+            // workflow writes second. Entries already present keep their state.
+            const readArr = (p) => { try { const a = JSON.parse(fs.readFileSync(p, 'utf8')); return Array.isArray(a) ? a : []; } catch { return []; } };
+            const existing = [...readArr('/tmp/queue-on-main.json'), ...readArr(outPath)];
+            const newIds = new Set(queue.map(e => e.id));
+            const seen = new Set();
+            const kept = existing.filter(e => e && e.id && !newIds.has(e.id) && !seen.has(e.id) && seen.add(e.id));
+            const merged = [...kept, ...queue];
+            fs.writeFileSync(outPath, JSON.stringify(merged, null, 2));
             const approved = queue.filter(e => e.status === 'auto_approved').length;
             const review = queue.filter(e => e.status === 'pending_review').length;
-            console.log('Wrote ' + queue.length + ' entries (' + approved + ' auto_approved, ' + review + ' pending_review) to ' + outPath);
+            console.log('Wrote ' + queue.length + ' new entries (' + approved + ' auto_approved, ' + review + ' pending_review) + ' + kept.length + ' kept to ' + outPath);
+            fs.writeFileSync('/tmp/social-new-count', String(queue.length));
           "
 
           # Clean up raw file
           rm -f "$RAW"
+
+          # Zero entries can be a legitimate editorial call ("curator, not a
+          # factory"), so warn without alerting.
+          NEW=$(cat /tmp/social-new-count 2>/dev/null || echo 0)
+          echo "- Social queue: ${NEW} new entries for ${TODAY}" >> "$GITHUB_STEP_SUMMARY"
+          if [ "$NEW" = "0" ]; then
+            echo "::warning::Claude returned an empty social queue for ${TODAY}"
+          fi
 
       - name: Commit and push metrics
         if: always() && steps.metrics.outcome == 'success'

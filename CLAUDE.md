@@ -220,9 +220,9 @@ AI-curated social media posting system. Replaces the old `generate-social-drafts
 **Images:** stat cards via satori, memes via memegen.link (free API, no upload needed)
 
 **Workflows:**
-- `update-data.yml` finalize phase calls `generate-social-queue.ts` to produce the daily queue
+- `update-data.yml` finalize phase: `generate-social-queue.ts --dry-run` writes `prompt-latest.txt`, a `claude-code-action` step (`--allowedTools "Read,Write,Edit"` — without it Write was denied and no daily queue existed from April to September) writes `raw-queue.json`, and the post-process step assigns statuses (the four data-derived types and judge-less entries never auto-approve) and **merges** into `queue-YYYY-MM-DD.json` by id. A missing or invalid raw file alerts the private ops chat
 - `post-social-queue.yml` runs 4x/day: `bluesky-post.ts`, then `post-social-queue.ts` (X) behind the `X_POSTING_ENABLED` gate
-- `weekly-digest.yml` writes a thread entry into the queue format
+- `weekly-digest.yml` appends a thread entry to the same day's queue file (merge, not overwrite — Sundays share the file with the nightly)
 
 ### Utilities (`src/lib/`)
 
