@@ -1615,7 +1615,9 @@
             "thumbnail": "https://images.euronews.com/articles/stories/09/92/01/88/1536x864_cmsv2_ced7e102-5411-5e29-95bd-6bbeddb9b3a1-9920188.jpg"
           }
         ],
-        "weaponTypes": ["unknown"],
+        "weaponTypes": [
+          "unknown"
+        ],
         "confidence": "medium",
         "eventConfidence": "official_claim",
         "confidenceReason": "SOUTHCOM's own account of the strike; no independent verification of the vessel's cargo, crew identity, or targeting basis has been published.",
@@ -1743,6 +1745,39 @@
         "eventConfidence": "unverified",
         "confidenceReason": "Single-source (Cuba Headlines, a Cuba-focused outlet not independently cross-checked here) account of both the Trump quote and the Díaz-Canel response; the Trump UN speech itself was widely covered, but this specific Cuba/Mexico line has not been separately confirmed against a Tier 1-2 wire transcript.",
         "lastUpdated": "2026-09-25T19:19:15.000Z"
+      },
+      {
+        "id": "ecuador-joint-raid-sep24",
+        "year": "2026-09-24",
+        "title": "US SOUTHCOM personnel and DEA join 320 Ecuadorian police in raids on CJNG-linked network; 30+ arrested",
+        "type": "military",
+        "detail": "Before dawn on 24 September 2026, roughly 320 Ecuadorian National Police officers, backed by about 50 US Southern Command personnel and DEA agents working alongside them in the field, raided targets across Guayas, Los Ríos and El Oro provinces. More than 30 people were arrested, including suspected leaders and financiers of a network that allegedly received drugs from Colombia, stored and moved them through Ecuador, and shipped them by sea to Central America, the US and Europe; authorities tied it to Mexico's Jalisco New Generation Cartel (CJNG) after an eight-month investigation. Coverage framed it as the first joint operation of its kind on Ecuadorian soil with US personnel beside police in the field rather than in a purely advisory role, extending the March 2026 US-Ecuador joint operations.",
+        "sources": [
+          {
+            "name": "UPI",
+            "tier": 2,
+            "url": "https://www.upi.com/Top_News/World-News/2026/09/24/latam-ecuador-drug-cartel-mexico-arrests/6331790263628",
+            "pole": "western"
+          },
+          {
+            "name": "Bloomberg",
+            "tier": 2,
+            "url": "https://www.bloomberg.com/news/articles/2026-09-24/ecuador-says-us-troops-helped-in-police-raid-against-drug-cartel",
+            "pole": "western"
+          }
+        ],
+        "media": [
+          {
+            "type": "article",
+            "url": "https://www.upi.com/Top_News/World-News/2026/09/24/latam-ecuador-drug-cartel-mexico-arrests/6331790263628",
+            "caption": "Ecuador, U.S. target cartel-linked drug network, arrest 30",
+            "source": "UPI",
+            "thumbnail": "https://www.upi.com/Top_News/World-News/2026/09/24/latam-ecuador-drug-cartel-mexico-arrests/6331790263628"
+          }
+        ],
+        "eventConfidence": "verified",
+        "confidenceReason": "Two independent Tier 2 outlets (UPI, Bloomberg) report the operation, with consistent figures.",
+        "lastUpdated": "2026-09-30T19:08:16.000Z"
       }
     ]
   }
