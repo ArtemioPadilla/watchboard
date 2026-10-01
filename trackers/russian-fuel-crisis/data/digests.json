@@ -1,5 +1,21 @@
 [
   {
+    "date": "2026-10-01",
+    "title": "Russian Fuel Crisis Tracker Update — Oct 01, 2026",
+    "summary": "Added a Sept 28 event: Putin signed a decree classifying refinery output, export contracts and tanker-route data, cutting independent visibility into the fuel balance. The diesel export ban (to Oct 31) and gasoline export ban (to January) remain in force, and regional purchase limits stay in place. No other sections changed.",
+    "sectionsUpdated": [
+      "events",
+      "meta"
+    ],
+    "source": "daily",
+    "provenance": {
+      "method": "llm",
+      "model": "claude",
+      "generatedAt": "2026-10-01T19:30:55.000Z",
+      "pipeline": "update-data"
+    }
+  },
+  {
     "date": "2026-09-30",
     "title": "Russian Fuel Crisis Tracker Update — Sep 30, 2026",
     "summary": "Russia extended its diesel export ban for fuel producers through Oct 31, citing harvest-season demand; the gasoline export ban remains in place through January 2027. Regions including Kaluga (odd-even plates), Zabaikalsky (15 L cap) and Leningrad (30 L cap) have reimposed purchase limits. The national average gasoline price is 78.51 RUB/L (+21% year to date) and the anti-monopoly service is probing 58 price-gouging cases.",
@@ -13,6 +29,20 @@
       "model": "claude",
       "generatedAt": "2026-09-30T19:07:11.117Z",
       "pipeline": "update-data"
+    }
+  },
+  {
+    "date": "2026-09-28",
+    "title": "Russian Fuel Crisis Tracker Update — Mon Sep 28, 2026",
+    "summary": "Putin decree classifies refinery output, export contracts and tanker-route data.",
+    "sectionsUpdated": [
+      "events"
+    ],
+    "source": "freshness",
+    "provenance": {
+      "method": "heuristic",
+      "generatedAt": "2026-10-01T19:48:55.736Z",
+      "pipeline": "ensure-digests"
     }
   },
   {

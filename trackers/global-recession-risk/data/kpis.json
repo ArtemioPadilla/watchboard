@@ -50,15 +50,20 @@
   },
   {
     "id": "us-core-pce",
-    "label": "US PCE Inflation (July 2026)",
-    "value": "3.3% Core / 3.7% Headline",
-    "color": "red",
-    "source": "BEA Personal Income and Outlays, July 2026 (released August 26, 2026)",
+    "label": "US PCE Inflation (August 2026)",
+    "value": "3.0% Core / 3.4% Headline",
+    "color": "amber",
+    "source": "BEA Personal Income and Outlays, August 2026 (released September 30, 2026)",
     "contested": false,
-    "delta": "Core flat vs June (3.3%); headline +0.1pp above consensus",
-    "deltaNote": "JULY 2026 (released Aug 26): Headline PCE 3.7% YoY (+0.2% MoM), 0.1pp above the Dow Jones consensus. Core PCE 3.3% YoY (+0.2% MoM), matching consensus and flat vs June's 3.3% (down from May's cycle-high 3.4%). Personal income +0.4% MoM; spending +0.2% MoM; saving rate 3.0%. Warsh cited these exact 3.7%/4.1% (12mo/6mo) readings in his Aug 28 Jackson Hole keynote as evidence 'underlying trends have [not] meaningfully improved,' noting 54% of the consumption basket is still rising faster than 3% — a key justification for the hawkish tilt that pushed September hike odds to 57%.",
-    "trend": "up",
-    "lastUpdated": "2026-08-26T12:30:00Z"
+    "delta": "Core -0.3pp vs July (3.3%); headline -0.3pp vs July (3.7%); both below consensus",
+    "deltaNote": "AUG 2026 (Sept 30): Headline 3.4% y/y (+0.3% m/m), core 3.0% y/y (+0.2% m/m), both below consensus of 3.7%/3.3%. October hike odds fell to ~35%. Prior: July headline 3.7%, core 3.3%. JULY 2026 (released Aug 26): Headline PCE 3.7% YoY (+0.2% MoM), 0.1pp above the Dow Jones consensus. Core PCE 3.3% YoY (+0.2% MoM), matching consensus and flat vs June's 3.3% (down from May's cycle-high 3.4%). Personal income +0.4% MoM; spending +0.2% MoM; saving rate 3.0%. Warsh cited these exact 3.7%/4.1% (12mo/6mo) readings in his Aug 28 Jackson Hole keynote as evidence 'underlying trends have [not] meaningfully improved,' noting 54% of the consumption basket is still rising faster than 3% — a key justification for the hawkish tilt that pushed September hike odds to 57%.",
+    "trend": "down",
+    "lastUpdated": "2026-09-30T12:30:00Z",
+    "deltaDetail": {
+      "value": -0.3,
+      "direction": "down",
+      "period": "since Aug 26"
+    }
   },
   {
     "id": "fed-funds-rate",
