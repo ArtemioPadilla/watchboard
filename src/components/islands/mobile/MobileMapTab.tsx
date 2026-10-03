@@ -7,6 +7,7 @@ import type { FlatEvent } from '../../../lib/timeline-utils';
 import type { MapCategory } from '../../../lib/map-utils';
 import IslandErrorBoundary from '../shared/IslandErrorBoundary';
 import { firstThumbnail } from '../../../lib/media-utils';
+import { pickLayerProps } from './mobile-layer-props';
 
 // Lazy-load CesiumGlobe — only imported when user confirms
 const CesiumGlobe = lazy(() => import('../CesiumGlobe/CesiumGlobe'));
@@ -43,6 +44,11 @@ export default function MobileMapTab({
   meta, cameraPresets, isHistorical, endDate, clocks,
 }: Props) {
   const topKpis = kpis.slice(0, 5);
+  // One object for both maps, so the lazy 3D globe gets the same E5 layers as the 2D map.
+  const layerProps = useMemo(
+    () => pickLayerProps({ trackerSlug, mapBounds, liveLayers, staticLayers, radioCountryCodes, emptyScopes }),
+    [trackerSlug, mapBounds, liveLayers, staticLayers, radioCountryCodes, emptyScopes],
+  );
   const [globeState, setGlobeState] = useState<GlobeState>('prompt');
   const [cardDismissed, setCardDismissed] = useState(false);
   const [legendOpen, setLegendOpen] = useState(false);
@@ -105,12 +111,7 @@ export default function MobileMapTab({
             events={events}
             categories={categories}
             mapCenter={mapCenter}
-            mapBounds={mapBounds}
-            trackerSlug={trackerSlug}
-            liveLayers={liveLayers}
-            staticLayers={staticLayers}
-            radioCountryCodes={radioCountryCodes}
-            emptyScopes={emptyScopes}
+            {...layerProps}
           />
         </div>
       ) : (
@@ -153,6 +154,7 @@ export default function MobileMapTab({
                     isHistorical={isHistorical}
                     endDate={endDate}
                     clocks={clocks}
+                    {...layerProps}
                   />
                 </div>
               </Suspense>
