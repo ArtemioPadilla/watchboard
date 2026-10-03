@@ -1,5 +1,8 @@
 import { describe, it, expect } from 'vitest';
-import { loadAllTrackers } from '../scripts/lib/load-trackers-node.js';
+import { readdirSync, readFileSync, existsSync } from 'node:fs';
+import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { TrackerConfigSchema } from '../src/lib/tracker-config.js';
 
 /**
  * IntelMap.tsx and CesiumGlobe.tsx hard-code exactly three static-layer
@@ -8,18 +11,58 @@ import { loadAllTrackers } from '../scripts/lib/load-trackers-node.js';
  * map.staticLayers would silently render nothing for it: no toggle, no
  * error, no failing test. This guards the ceiling so a future addition to
  * any tracker's staticLayers fails loudly here instead of shipping mute.
+ *
+ * The corpus is read straight off disk, NOT through loadAllTrackers(): both
+ * registries (src/lib/tracker-registry.ts, scripts/lib/load-trackers-node.ts)
+ * console.error and DROP a tracker whose config fails TrackerConfigSchema.
+ * Since the schema caps staticLayers at 3, a tracker with 4 would vanish from
+ * the registry (and from getStaticPaths, with a green build), and a
+ * registry-fed guard would pass for nothing.
  */
-const trackers = loadAllTrackers();
+type RawTracker = {
+  slug: string;
+  json: unknown;
+  map?: { staticLayers?: string[]; radioCountryCodes?: string[] };
+};
+
+const trackersDir = fileURLToPath(new URL('../trackers', import.meta.url));
+const trackers: RawTracker[] = readdirSync(trackersDir, { withFileTypes: true })
+  .filter((e) => e.isDirectory() && existsSync(join(trackersDir, e.name, 'tracker.json')))
+  .map((e) => {
+    const json = JSON.parse(readFileSync(join(trackersDir, e.name, 'tracker.json'), 'utf8')) as {
+      map?: RawTracker['map'];
+    };
+    return { slug: e.name, json, map: json.map };
+  });
+
+describe('every trackers/*/tracker.json passes TrackerConfigSchema', () => {
+  it('reads a non-trivial raw corpus, so this test cannot pass vacuously', () => {
+    expect(trackers.length).toBeGreaterThan(50);
+  });
+
+  it('no tracker.json would be silently dropped by loadAllTrackers()', () => {
+    const failures = trackers.flatMap((t) => {
+      const r = TrackerConfigSchema.safeParse(t.json);
+      return r.success
+        ? []
+        : [`${t.slug}: ${r.error.issues.map((i) => `${i.path.join('.')}: ${i.message}`).join('; ')}`];
+    });
+    expect(
+      failures,
+      `tracker.json files failing TrackerConfigSchema (the registries drop these without failing the build):\n${failures.join('\n')}`,
+    ).toEqual([]);
+  });
+});
 
 describe('map.staticLayers respects the 3-slot UI ceiling', () => {
-  it('loads a non-trivial corpus, so this test cannot pass vacuously', () => {
+  it('reads a non-trivial corpus, so this test cannot pass vacuously', () => {
     expect(trackers.length).toBeGreaterThan(50);
   });
 
   it('no tracker declares more than 3 entries in map.staticLayers', () => {
     const offenders = trackers
       .filter((t) => (t.map?.staticLayers?.length ?? 0) > 3)
-      .map((t) => `${t.slug} (${t.map!.staticLayers!.length})`);
+      .map((t) => `${t.slug} (${t.map?.staticLayers?.length})`);
     expect(offenders, `trackers exceeding the 3-slot static layer ceiling: ${offenders.join(', ')}`).toEqual([]);
   });
 });
