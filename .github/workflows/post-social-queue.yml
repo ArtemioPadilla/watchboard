@@ -23,7 +23,11 @@ jobs:
     if: github.event_name != 'push'
     timeout-minutes: 5
     steps:
+      # ref: main, not the run's SHA: a re-run reuses GITHUB_SHA and would not
+      # see the queue/history an earlier attempt pushed, so it would post again.
       - uses: actions/checkout@v5
+        with:
+          ref: main
 
       - uses: actions/setup-node@v5
         with:
@@ -56,8 +60,18 @@ jobs:
         run: npx tsx scripts/post-social-queue.ts
 
       - name: Commit and push
+        # always(): a poster that published and then failed has already saved
+        # the queue after each post; that record must land or the next run
+        # re-posts.
+        if: always()
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # push-state.sh alerts the PRIVATE ops chat on a final push failure.
+          # TELEGRAM_CHANNEL_ID is passed only so it can refuse to alert when
+          # the two secrets are ever the same chat.
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_ALERT_CHAT_ID: ${{ secrets.TELEGRAM_ALERT_CHAT_ID }}
+          TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
         run: |
           git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git"
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
@@ -68,16 +82,7 @@ jobs:
             exit 0
           fi
           git commit -m "chore(social): post queue $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-          pushed=false
-          for i in 1 2 3; do
-            if git pull --rebase origin main && git push; then
-              pushed=true
-              break
-            fi
-            echo "Push attempt $i failed, retrying..."
-            sleep 2
-          done
-          if [ "$pushed" != "true" ]; then
-            echo "::error::Failed to push social post history after 3 attempts — posted tweets/budget will be re-processed on next run"
-            exit 1
-          fi
+          # Rebase + retry + backoff; on final failure a PRIVATE ops alert
+          # (TELEGRAM_ALERT_CHAT_ID only) so the record is landed by hand.
+          PUSH_STATE_DETAIL="social queue/history/budget $(date -u +%F): Bluesky entries are re-found by the own-feed dedupe (24 h); X entries are not, so check the X account before any re-run" \
+            bash scripts/ci/push-state.sh social-queue 5

@@ -64,11 +64,10 @@ describe('hourly-scan push', () => {
   });
 });
 
-// Task 4 (light-scan half). telegram-notify.yml is held on owner question Q6;
-// post-social-queue.yml and daily-video.yml join these lists with their own
-// changes.
+// Task 4 (light-scan and post-social-queue halves) and Task 6 (daily-video).
+// telegram-notify.yml is held on owner question Q6.
 describe('workflows that publish to public channels', () => {
-  for (const name of ['light-scan.yml', 'daily-video.yml']) {
+  for (const name of ['light-scan.yml', 'post-social-queue.yml', 'daily-video.yml']) {
     it(`${name} checks out the live branch tip, not the run's original SHA (a re-run reuses GITHUB_SHA)`, () => {
       const checkouts = wf(name).match(/uses: actions\/checkout@v\d+(\n\s+with:\n(\s+\w+: [^\n]+\n)+)?/g) ?? [];
       expect(checkouts.length).toBeGreaterThan(0);
@@ -94,6 +93,14 @@ describe('workflows that publish to public channels', () => {
     expect(scan).toMatch(/\n\s+timeout-minutes: 4\n/);
     expect(commit).toMatch(/\n\s+if: always\(\)\n/);
     expect(commit).toMatch(/if \[ "\$\{\{ steps\.scan\.outcome \}\}" = "success" \]; then[^]*alerts\.json was not staged[^]*\n\s+fi\n/);
+  });
+
+  it('post-social-queue.yml commits its queue/history even when a poster step fails', () => {
+    const step = wf('post-social-queue.yml').split(/\n\s+- name: /).find(s => s.startsWith('Commit and push\n'));
+    expect(step, '"Commit and push" step').toBeDefined();
+    expect(step).toMatch(/\n\s+if: always\(\)\n/);
+    expect(step).toContain('bash scripts/ci/push-state.sh social-queue 5');
+    expect(step).toContain('TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}');
   });
 
   it('hourly-scan.yml does not use the rejected --no-edit flag', () => {
