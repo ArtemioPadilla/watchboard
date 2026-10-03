@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
+import { spawnSync } from 'node:child_process';
 
 const wf = (name: string) => readFileSync(`.github/workflows/${name}`, 'utf8');
 
@@ -51,6 +52,57 @@ describe('daily-video Telegram post', () => {
       expect(gate).toMatch(/if \[ "\$\{\{ steps\.telegram\.outcome \}\}" = "failure" \]; then/);
       expect(gate).toContain('a re-run is safe');
     });
+
+    it(`${job} job's Telegram step exposes its exit code as steps.telegram.outputs.rc`, () => {
+      const tg = jobs()[job].split(/\n\s+- name: /).find(s => s.includes('scripts/telegram-video-post.ts'))!;
+      expect(tg).toMatch(/--caption-file [^\n]+ \|\| rc=\$\?\n/);
+      expect(tg).toContain('echo "rc=$rc" >> "$GITHUB_OUTPUT"');
+      expect(tg).toMatch(/\n\s+exit \$rc(\n|$)/);
+    });
+
+    // Runs the gate's shell with the step outcomes substituted in.
+    describe(`${job} job gate advice`, () => {
+      const commitIds = job === 'video' ? ['commit_social', 'commit_video_state'] : ['commit_progress_social'];
+      const runGate = (o: { telegram: string; rc: string; commit: string }) => {
+        const gate = jobs()[job].split(/\n\s+- name: /).find(s => s.startsWith('Fail job if a state commit/push failed\n'))!;
+        const body = gate.slice(gate.indexOf('run: |\n') + 'run: |\n'.length);
+        const script = body.split('\n').map(l => l.replace(/^ {10}/, '')).join('\n')
+          .replace(/\$\{\{ steps\.(\w+)\.(outcome|outputs\.rc) \}\}/g, (_m, id: string, what: string) => {
+            if (id === 'telegram') return what === 'outcome' ? o.telegram : o.rc;
+            if (commitIds.includes(id)) return o.commit;
+            return 'success';
+          });
+        const r = spawnSync('bash', ['-c', script], { encoding: 'utf8' });
+        return { code: r.status, out: r.stdout };
+      };
+      const count = (s: string, re: RegExp) => (s.match(re) ?? []).length;
+
+      it('says a re-run is safe only for a rejection with the record on main', () => {
+        const r = runGate({ telegram: 'failure', rc: '1', commit: 'success' });
+        expect(r.code).toBe(1);
+        expect(r.out).toContain('a re-run is safe');
+        expect(r.out).not.toContain('DO NOT RE-RUN');
+      });
+      it('a rejection plus a failed record push: one DO NOT RE-RUN, never "re-run is safe"', () => {
+        const r = runGate({ telegram: 'failure', rc: '1', commit: 'failure' });
+        expect(r.code).toBe(1);
+        expect(r.out).not.toContain('a re-run is safe');
+        expect(count(r.out, /DO NOT RE-RUN/g)).toBe(1);
+      });
+      it('a non-rejection failure (crash after send, exit 2) says DO NOT RE-RUN even with the record pushed', () => {
+        for (const rc of ['2', '']) {
+          const r = runGate({ telegram: 'failure', rc, commit: 'success' });
+          expect(r.code).toBe(1);
+          expect(r.out).not.toContain('a re-run is safe');
+          expect(count(r.out, /DO NOT RE-RUN/g)).toBe(1);
+        }
+      });
+      it('all green passes silently', () => {
+        const r = runGate({ telegram: 'success', rc: '0', commit: 'success' });
+        expect(r.code).toBe(0);
+        expect(r.out).toBe('');
+      });
+    });
   }
 });
 
@@ -91,6 +143,12 @@ describe('workflows that publish to public channels', () => {
     expect(commit, 'commit step').toBeDefined();
     expect(scan).toMatch(/\n\s+id: scan\n/);
     expect(scan).toMatch(/\n\s+timeout-minutes: 4\n/);
+    // The commit step needs room after a slow scan: push-state.sh's backoff
+    // alone is 30-38 s over 5 attempts, plus setup, pull and push.
+    const job = wf('light-scan.yml').split('\n  notify-failure:\n')[0];
+    const jobTimeout = Number(job.match(/\n    timeout-minutes: (\d+)\n/)?.[1]);
+    const scanTimeout = Number(scan!.match(/\n\s+timeout-minutes: (\d+)\n/)?.[1]);
+    expect(jobTimeout).toBeGreaterThanOrEqual(scanTimeout + 3);
     expect(commit).toMatch(/\n\s+if: always\(\)\n/);
     expect(commit).toMatch(/if \[ "\$\{\{ steps\.scan\.outcome \}\}" = "success" \]; then[^]*alerts\.json was not staged[^]*\n\s+fi\n/);
   });

@@ -211,8 +211,8 @@ jobs:
       # Before "Commit social post record": telegram-video-post.ts writes
       # posted.telegram into the same video-post-<date>.json record, so the
       # commit below carries it and a re-run (which checks out main) skips the
-      # post. Response is checked (ok:true + message_id); a 4xx fails this step
-      # (nothing went public, a re-run is safe); an unknown outcome
+      # post. Response is checked (ok:true + message_id); a 4xx exits 1
+      # (nothing went public), any crash exits 2 (may be public); an unknown outcome
       # (timeout/5xx) is recorded, NOT retried, and alerted privately.
       - name: Post video to Telegram
         id: telegram
@@ -235,9 +235,14 @@ jobs:
           VIDEO="video/output/watchboard-${DATE}.mp4"
           # Caption snapshot taken right after the render, before any git
           # pull/rebase could revert the data file: it matches the video.
+          # Exit 1 = rejected (nothing public); 2 = may be public. The gate at
+          # the end of the job reads `rc` to tell the two apart.
+          rc=0
           npx tsx scripts/telegram-video-post.ts "$VIDEO" \
             --record "public/_social/video-post-${DATE}.json" \
-            --caption-file /tmp/telegram-caption-breaking.txt
+            --caption-file /tmp/telegram-caption-breaking.txt || rc=$?
+          echo "rc=$rc" >> "$GITHUB_OUTPUT"
+          exit $rc
 
       - name: Commit social post record
         id: commit_social
@@ -378,9 +383,13 @@ jobs:
         # the only alert.
         if: always()
         run: |
+          # "A re-run is safe" is printed only when Telegram exited 1
+          # (rejected: nothing public) AND every state commit reached main
+          # (so a re-run skips Bluesky). Anything else gets ONE "DO NOT RE-RUN".
           failed=0
+          dnr=""
           if [ "${{ steps.commit_social.outcome }}" = "failure" ] || [ "${{ steps.commit_video_state.outcome }}" = "failure" ]; then
-            echo "::error::DO NOT RE-RUN — the video is already public. A state commit/push step failed — see 'Commit social post record' and/or 'Commit tracker history + daily log' above. The video itself may have rendered and posted fine, but bot state was not saved to main."
+            dnr="${dnr} A state commit/push step failed — see 'Commit social post record' and/or 'Commit tracker history + daily log' above; bot state was not saved to main."
             failed=1
           fi
           if [ "${{ steps.narrate.outcome }}" = "failure" ]; then
@@ -388,8 +397,17 @@ jobs:
             failed=1
           fi
           if [ "${{ steps.telegram.outcome }}" = "failure" ]; then
-            echo "::error::Telegram rejected the daily video (4xx) — nothing was published there; a re-run is safe"
             failed=1
+            if [ "${{ steps.telegram.outputs.rc }}" = "1" ] && [ "${{ steps.commit_social.outcome }}" = "success" ] && [ "${{ steps.commit_video_state.outcome }}" = "success" ]; then
+              echo "::error::Telegram rejected the daily video (4xx) — nothing was published there and the post record is on main; a re-run is safe"
+            elif [ "${{ steps.telegram.outputs.rc }}" = "1" ]; then
+              dnr="${dnr} Telegram rejected the video (4xx, nothing published there), but the post record is not on main, so a re-run would post to Bluesky again."
+            else
+              dnr="${dnr} The Telegram step failed (exit '${{ steps.telegram.outputs.rc }}', not a rejection) — the video may already be public on Telegram without a record."
+            fi
+          fi
+          if [ -n "$dnr" ]; then
+            echo "::error::DO NOT RE-RUN — the video is already public.${dnr}"
           fi
           exit $failed
 
@@ -577,8 +595,8 @@ jobs:
       # Before "Commit social post record": telegram-video-post.ts writes
       # posted.telegram into the same video-post-progress-<date>.json record, so the
       # commit below carries it and a re-run (which checks out main) skips the
-      # post. Response is checked (ok:true + message_id); a 4xx fails this step
-      # (nothing went public, a re-run is safe); an unknown outcome
+      # post. Response is checked (ok:true + message_id); a 4xx exits 1
+      # (nothing went public), any crash exits 2 (may be public); an unknown outcome
       # (timeout/5xx) is recorded, NOT retried, and alerted privately.
       - name: Post progress video to Telegram
         id: telegram
@@ -603,9 +621,14 @@ jobs:
           [ -f "$NARRATED" ] && SEND="$NARRATED"
           # Caption snapshot taken right after the render, before any git
           # pull/rebase could revert the data file: it matches the video.
+          # Exit 1 = rejected (nothing public); 2 = may be public. The gate at
+          # the end of the job reads `rc` to tell the two apart.
+          rc=0
           npx tsx scripts/telegram-video-post.ts "$SEND" \
             --record "public/_social/video-post-progress-${DATE}.json" \
-            --caption-file /tmp/telegram-caption-progress.txt
+            --caption-file /tmp/telegram-caption-progress.txt || rc=$?
+          echo "rc=$rc" >> "$GITHUB_OUTPUT"
+          exit $rc
 
       - name: Commit social post record
         id: commit_progress_social
@@ -664,9 +687,13 @@ jobs:
         # so a red run here is the only alert.
         if: always()
         run: |
+          # "A re-run is safe" is printed only when Telegram exited 1
+          # (rejected: nothing public) AND the post record reached main (so a
+          # re-run skips Bluesky). Anything else gets ONE "DO NOT RE-RUN".
           failed=0
+          dnr=""
           if [ "${{ steps.commit_progress_social.outcome }}" = "failure" ]; then
-            echo "::error::DO NOT RE-RUN — the video is already public. Progress video social post record failed to push to main — see 'Commit social post record' above. The next run will not know this was already posted."
+            dnr="${dnr} Progress video social post record failed to push to main — see 'Commit social post record' above. The next run will not know this was already posted."
             failed=1
           fi
           if [ "${{ steps.narrate_progress.outcome }}" = "failure" ]; then
@@ -674,7 +701,16 @@ jobs:
             failed=1
           fi
           if [ "${{ steps.telegram.outcome }}" = "failure" ]; then
-            echo "::error::Telegram rejected the progress video (4xx) — nothing was published there; a re-run is safe"
             failed=1
+            if [ "${{ steps.telegram.outputs.rc }}" = "1" ] && [ "${{ steps.commit_progress_social.outcome }}" = "success" ]; then
+              echo "::error::Telegram rejected the progress video (4xx) — nothing was published there and the post record is on main; a re-run is safe"
+            elif [ "${{ steps.telegram.outputs.rc }}" = "1" ]; then
+              dnr="${dnr} Telegram rejected the video (4xx, nothing published there), but the post record is not on main, so a re-run would post to Bluesky again."
+            else
+              dnr="${dnr} The Telegram step failed (exit '${{ steps.telegram.outputs.rc }}', not a rejection) — the video may already be public on Telegram without a record."
+            fi
+          fi
+          if [ -n "$dnr" ]; then
+            echo "::error::DO NOT RE-RUN — the video is already public.${dnr}"
           fi
           exit $failed

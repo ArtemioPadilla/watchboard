@@ -21,7 +21,12 @@ jobs:
     # The job timeout cancels the whole job, and always() steps then share the
     # cancelled job's short grace period. The scan step carries its own,
     # shorter timeout so a slow scan fails its step and the commit still runs.
-    timeout-minutes: 5
+    # The job budget must cover setup (~25 s) + the scan's 4 min + the whole
+    # commit step: push-state.sh's 5 attempts sleep 30-38 s in backoff alone,
+    # before any pull/push time. With 5 min a slow scan left ~38 s, so the
+    # push of state.alerted could be cancelled and the next run re-post
+    # alerts that already went public. Keep job >= scan + 3.
+    timeout-minutes: 8
     steps:
       # ref: main, not the run's SHA: a re-run reuses GITHUB_SHA and would not
       # see the state.alerted an earlier attempt pushed.

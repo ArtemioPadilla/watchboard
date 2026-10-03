@@ -78,3 +78,66 @@ export async function postVideoOnce(deps: {
   saveRecord(recordPath, record);
   return outcome.status;
 }
+
+/**
+ * Exit codes of scripts/telegram-video-post.ts. The daily-video gate reads
+ * them to decide what to tell the operator, so they must stay distinct:
+ *  - 0: skipped / sent / unknown (recorded, never retried)
+ *  - 1: REJECTED only (Telegram returned 4xx: nothing went public)
+ *  - 2: anything else (usage error, corrupt record, saveRecord throwing after
+ *       a confirmed send...). The video MAY be public: do not re-run.
+ */
+export const EXIT_OK = 0;
+export const EXIT_REJECTED = 1;
+export const EXIT_MAY_BE_PUBLIC = 2;
+
+export async function runTelegramVideoPost(
+  args: string[],
+  env: Record<string, string | undefined>,
+  deps: {
+    post?: typeof postVideoOnce;
+    fileExists?: (p: string) => boolean;
+    readText?: (p: string) => string;
+    /** One line to the PRIVATE ops chat (scripts/ci/ops-alert.sh). */
+    alert?: (msg: string) => void;
+    log?: (msg: string) => void;
+    today?: () => string;
+  } = {},
+): Promise<number> {
+  const {
+    post = postVideoOnce, fileExists = existsSync, readText = (p: string) => readFileSync(p, 'utf8'),
+    alert = () => {}, log = console.log, today = () => new Date().toISOString().slice(0, 10),
+  } = deps;
+  const flag = (n: string) => { const i = args.indexOf(n); return i >= 0 ? args[i + 1] : undefined; };
+  const video = args.find((a, i) => !a.startsWith('--') && !args[i - 1]?.startsWith('--'));
+  const recordPath = flag('--record');
+  const captionFile = flag('--caption-file');
+  const token = env.TELEGRAM_BOT_TOKEN ?? '';
+  const chatId = env.TELEGRAM_CHANNEL_ID ?? '';
+  if (!token || !chatId) { log('Telegram secrets not configured — skipping'); return EXIT_OK; }
+  if (!video || !recordPath) {
+    log('::error::usage: telegram-video-post.ts <video> --record <path> [--caption-file <path>]');
+    return EXIT_MAY_BE_PUBLIC;
+  }
+  if (!fileExists(video)) { log(`No video file at ${video} — skipping Telegram`); return EXIT_OK; }
+
+  try {
+    const date = today();
+    const caption = captionFile && fileExists(captionFile)
+      ? readText(captionFile)
+      : `Watchboard Daily Brief — ${date}\n\nwatchboard.dev\n\n#Watchboard`;
+    const r = await post({ recordPath, date, videoPath: video, caption, chatId, token });
+    if (r === 'skipped') log(`Telegram: already posted per ${recordPath} — skipping`);
+    if (r === 'sent') log('✅ Video posted to Telegram');
+    if (r === 'unknown') {
+      log('::warning::Telegram video post outcome unknown — recorded as posted to avoid a duplicate; check the channel');
+      alert(`⚠️ Daily video Telegram post outcome unknown (timeout/network/5xx) — recorded in ${recordPath} and NOT retried. Check the channel.`);
+    }
+    if (r === 'rejected') { log('::error::Telegram rejected the video post'); return EXIT_REJECTED; }
+    return EXIT_OK;
+  } catch (err) {
+    log(`::error::DO NOT RE-RUN — telegram-video-post failed (${String(err)}); the video may already be public on Telegram and ${recordPath} may not record it`);
+    alert(`⚠️ Daily video Telegram step crashed (${String(err)}) — it may be public but unrecorded in ${recordPath}. Do NOT re-run; check the channel.`);
+    return EXIT_MAY_BE_PUBLIC;
+  }
+}
