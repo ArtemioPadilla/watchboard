@@ -818,3 +818,34 @@ describe('runAndWriteRadioTowers (write+health cycle, factored out of main())', 
     expect(Object.keys(written)).toHaveLength(0);
   });
 });
+
+describe('runRadioTowers zero-country notice', () => {
+  const node = (id: number) => ({ type: 'node', id, lat: 1, lon: 1, tags: { man_made: 'mast', 'communication:radio': 'fm' } });
+
+  it('emits one ::notice:: per country fetched fresh with zero towers, none for failures or non-empty countries', async () => {
+    const notices: string[] = [];
+    const warns: string[] = [];
+    await runRadioTowers('2026-09-24T00:00:00Z', {
+      codes: ['IL', 'UA', 'TH'], previous: null, sleepFn: async () => {}, clock: () => 0, gapMs: 0,
+      fetchFn: async (cc: string) => { if (cc === 'TH') throw new Error('HTTP 504'); return cc === 'UA' ? [node(1)] : []; },
+      noticeFn: m => notices.push(m), warnFn: m => warns.push(m),
+    });
+    expect(notices).toEqual(['::notice::radio-towers IL: 0 radio-tagged towers in OSM']);
+    expect(warns.some(w => w.includes('TH stale'))).toBe(true);
+  });
+
+  it('no notice for a zero fetch that the merge kept stale as a suspicious drop', async () => {
+    const notices: string[] = [];
+    const warns: string[] = [];
+    const previous = await runRadioTowers('2026-09-01T00:00:00Z', {
+      codes: ['IL'], previous: null, sleepFn: async () => {}, clock: () => 0, gapMs: 0,
+      fetchFn: async () => Array.from({ length: 20 }, (_, i) => node(i + 1)), noticeFn: () => {}, warnFn: () => {},
+    });
+    await runRadioTowers('2026-09-24T00:00:00Z', {
+      codes: ['IL'], previous: previous.layer, acceptDropCodes: new Set(), sleepFn: async () => {}, clock: () => 0, gapMs: 0,
+      fetchFn: async () => [], noticeFn: m => notices.push(m), warnFn: m => warns.push(m),
+    });
+    expect(warns.some(w => w.includes('IL') && w.includes('stale'))).toBe(true);
+    expect(notices.filter(n => n.includes('0 radio-tagged towers'))).toEqual([]);
+  });
+});

@@ -652,6 +652,9 @@ export interface RadioTowersRunResult {
  * country (unconditionally — a green run can still have individually stale
  * countries under the 20% ratio) and one `::notice::` line per country
  * whose suspicious-drop check was overridden by `RADIO_TOWERS_ACCEPT_DROP`.
+ * Prints one `::notice::` per country whose fetch succeeded with zero towers —
+ * a real, verified empty (IL/PS/YE/BF/NE on 2026-09-24), which the UI explains
+ * with `emptyScopeReason`.
  */
 export async function runRadioTowers(now: string, deps: RadioTowersRunDeps): Promise<RadioTowersRunResult> {
   const {
@@ -687,6 +690,14 @@ export async function runRadioTowers(now: string, deps: RadioTowersRunDeps): Pro
   }
   for (const cc of Object.keys(merged.staleReasons).sort()) {
     warnFn(`::warning::radio-towers ${cc} stale: ${merged.staleReasons[cc]}`);
+  }
+  // Keyed on the MERGED status: a zero fetch that mergeCountryTowers kept stale
+  // (suspicious drop, isSuspiciousDrop) gets only its warning above.
+  for (const cc of Object.keys(merged.countries).sort()) {
+    const c = merged.countries[cc];
+    if (c.status === 'fresh' && c.count === 0 && !(cc in merged.staleReasons)) {
+      noticeFn(`::notice::radio-towers ${cc}: 0 radio-tagged towers in OSM`);
+    }
   }
 
   const deduped = dedupeByOsmId(merged.features);
