@@ -880,35 +880,31 @@ jobs:
         run: npx tsx scripts/stamp-provenance.ts --trackers "${{ needs.resolve.outputs.slugs }}" --pipeline update-data
 
       - name: Commit and push data
+        id: push_data
         if: |
           steps.build_check.outputs.build_ok == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # push-state.sh alerts the PRIVATE ops chat on final failure; the
+          # channel id is passed only so it can refuse if the two are equal.
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_ALERT_CHAT_ID: ${{ secrets.TELEGRAM_ALERT_CHAT_ID }}
+          TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
+          PUSH_STATE_HINT: "The nightly data commit is NOT on main. Recover it from this run's tracker artifacts, or re-run once the conflicting path is fixed."
         run: |
           git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git"
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add trackers/
           git commit -m "chore(data): nightly AI update $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-          pushed=false
-          # Same backoff as the metrics push below — this one matters more,
-          # since losing it discards the night's data entirely.
-          delay=2
-          for i in 1 2 3 4 5; do
-            if git pull --rebase origin main && git push; then
-              pushed=true
-              break
-            fi
-            echo "Push attempt $i failed, retrying in ${delay}s..."
-            git rebase --abort || true
-            git reset --hard HEAD
-            sleep "$delay"
-            delay=$((delay * 2))
-          done
-          if [ "$pushed" != "true" ]; then
-            echo "Failed to push nightly data commit after 5 attempts"
-            exit 1
-          fi
+          # The hourly scan commits to the same trackers' events, digests, meta
+          # and update-log while this job runs. The old `pull --rebase` /
+          # `rebase --abort` x5 loop lost the whole night to such a conflict
+          # (run 36217453805, 2026-09-26). push-state.sh --resolve unions
+          # events by id and digests by date+title, takes the job's copy of any
+          # other tracker file with a ::warning::, pushes in the same attempt,
+          # and fails loudly (private alert only) on a path outside that policy.
+          bash scripts/ci/push-state.sh nightly-data 5 --resolve --all-trackers
 
       - name: Validate media URLs
         id: media_check
@@ -1400,6 +1396,11 @@ jobs:
         if: always() && steps.metrics.outcome == 'success'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Private ops chat only; the channel id feeds push-state's equality guard.
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_ALERT_CHAT_ID: ${{ secrets.TELEGRAM_ALERT_CHAT_ID }}
+          TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
+          PUSH_STATE_HINT: "The nightly metrics commit is NOT on main; /metrics/ will miss this run until it is committed by hand."
         run: |
           git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git"
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
@@ -1409,6 +1410,14 @@ jobs:
           # staged and would otherwise piggy-back into this metrics commit — that's how
           # broken tracker JSON ended up tagged as `chore(metrics): ... [failure]` and
           # silently shipped to main. Reset the index so this commit is metrics-only.
+          # A data commit whose push failed is not retried here: it would hit
+          # the same conflict and take the metrics down with it. push-state.sh
+          # already alerted; the night's data is in the run's artifacts.
+          if [ "${{ steps.push_data.outcome }}" = "failure" ] \
+             && git log -1 --format=%s | grep -q '^chore(data): nightly AI update'; then
+            echo "::warning::Data push failed; leaving the unpushed data commit out of the metrics push"
+            git reset -q --soft HEAD~1
+          fi
           git reset HEAD -- . >/dev/null
           git add public/_metrics/ public/_social/
           if git diff --cached --quiet; then
@@ -1418,27 +1427,23 @@ jobs:
           TIMESTAMP=$(date -u +%Y-%m-%dT%H:%M:%SZ)
           STATUS="${{ steps.validate.outputs.valid == 'true' && 'success' || (steps.revalidate.outputs.valid == 'true' && 'success' || 'failure') }}"
           git commit -m "chore(metrics): ingestion run $TIMESTAMP [$STATUS]"
-          pushed=false
-          # Exponential backoff over more attempts. Three tries two seconds
-          # apart lost this push on 2026-08-09: main is written by the hourly
-          # scan, the light scan and merges, so a fixed short retry keeps
-          # colliding with the same traffic it is waiting out.
-          delay=2
-          for i in 1 2 3 4 5; do
-            if git pull --rebase origin main && git push; then
-              pushed=true
-              break
-            fi
-            echo "Push attempt $i failed, retrying in ${delay}s..."
-            git rebase --abort || true
-            git reset --hard HEAD
-            sleep "$delay"
-            delay=$((delay * 2))
-          done
-          if [ "$pushed" != "true" ]; then
-            echo "Failed to push nightly metrics commit after 5 attempts"
-            exit 1
+          # Tracker changes left in the tree (data commit skipped or dropped
+          # above) are not part of any commit; the run's artifacts keep them.
+          # Left in place they would be autostashed and could conflict on pop,
+          # or (new event partitions, untracked) block the pull outright. The
+          # old loop discarded them implicitly with `reset --hard`; say so now.
+          left="$(git status --porcelain -- trackers/)"
+          if [ -n "$left" ]; then
+            echo "::notice::Discarding $(echo "$left" | wc -l | tr -d ' ') uncommitted tracker path(s) before the metrics push"
+            git checkout -- trackers/
+            git clean -fdq -- trackers/
           fi
+          # Same conflict policy as the data push (push-state.sh --resolve):
+          # metrics index merged by file, public/_metrics/* job-side, social
+          # queue merged by id with the poster's "posted" status winning.
+          # push-state.sh backs off between attempts (2026-08-09: fixed short
+          # retries kept colliding with the traffic they were waiting out).
+          bash scripts/ci/push-state.sh nightly-metrics 5 --resolve --all-trackers
 
       - name: Clean up old hourly manifests
         run: |

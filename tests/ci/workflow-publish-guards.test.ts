@@ -100,3 +100,50 @@ describe('workflows that publish to public channels', () => {
     expect(wf('hourly-scan.yml')).not.toContain('rebase --continue --no-edit');
   });
 });
+
+// Task N1-nightly: run 36217453805 (2026-09-26) lost the night to a rebase
+// conflict with hourly-scan commits on the same trackers. Both finalize pushes
+// go through push-state.sh with the structural resolver, the build gate still
+// runs before the data commit, and a failure alerts only the private chat.
+describe('update-data.yml finalize pushes', () => {
+  const steps = () => wf('update-data.yml').split(/\n\s+- name: /);
+  const step = (name: string) => {
+    const s = steps().find(x => x.startsWith(`${name}\n`));
+    expect(s, name).toBeDefined();
+    return s as string;
+  };
+
+  it('never uses the bare pull --rebase / rebase --abort loop', () => {
+    const src = wf('update-data.yml');
+    expect(src).not.toMatch(/git pull --rebase origin main && git push/);
+    expect(src).not.toMatch(/git rebase --abort/);
+  });
+
+  for (const [name, label] of [['Commit and push data', 'nightly-data'], ['Commit and push metrics', 'nightly-metrics']] as const) {
+    it(`${name} resolves conflicts for every tracker and alerts privately`, () => {
+      const s = step(name);
+      expect(s).toContain(`bash scripts/ci/push-state.sh ${label} 5 --resolve --all-trackers`);
+      expect(s).toContain('TELEGRAM_ALERT_CHAT_ID: ${{ secrets.TELEGRAM_ALERT_CHAT_ID }}');
+      // TELEGRAM_CHANNEL_ID is passed only for push-state's equality guard.
+      expect(s).toContain('TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}');
+      expect(s).toContain('PUSH_STATE_HINT:');
+    });
+  }
+
+  it('the metrics push never drags a failed data commit along, nor stray tracker files', () => {
+    expect(step('Commit and push data')).toMatch(/\n\s+id: push_data\n/);
+    const m = step('Commit and push metrics');
+    expect(m).toMatch(/steps\.push_data\.outcome \}\}" = "failure"[^]*git reset -q --soft HEAD~1/);
+    expect(m.indexOf('git reset -q --soft HEAD~1')).toBeLessThan(m.indexOf('git commit -m "chore(metrics)'));
+    expect(m).toMatch(/::notice::Discarding [^\n]+\n\s+git checkout -- trackers\/\n\s+git clean -fdq -- trackers\//);
+  });
+
+  it('keeps the build gate before the data commit', () => {
+    const all = steps();
+    const gate = all.findIndex(s => s.startsWith('Build gate (catch runtime errors Zod misses)\n'));
+    const commit = all.findIndex(s => s.startsWith('Commit and push data\n'));
+    expect(gate).toBeGreaterThan(0);
+    expect(commit).toBeGreaterThan(gate);
+    expect(all[commit]).toContain("steps.build_check.outputs.build_ok == 'true'");
+  });
+});
