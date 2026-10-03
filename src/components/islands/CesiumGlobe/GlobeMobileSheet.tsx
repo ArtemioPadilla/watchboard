@@ -10,7 +10,8 @@
  */
 import ShareViewButton from '../shared/ShareViewButton';
 import SourceStatusSummary from '../shared/SourceStatusChip';
-import { useState, useRef, useCallback, useEffect, useMemo, type MutableRefObject, type ReactNode } from 'react';
+import { emptyScopeText } from '../shared/empty-scope';
+import { useState, useRef, useCallback, useEffect, useMemo, useId, Fragment, type MutableRefObject, type ReactNode } from 'react';
 import { t } from '../../../i18n/translations';
 import { useLocale } from '../../../i18n/useLocale';
 import type { FlatEvent } from '../../../lib/timeline-utils';
@@ -79,7 +80,7 @@ interface Props {
   shareTrigger?: number;
   sources?: import('../shared/SourceStatusChip').SourceStatusItem[];
   scopedLayerIds?: string[];
-  extraLayers?: { id: string; label: string; count: number; on: boolean }[];
+  extraLayers?: { id: string; label: string; count: number; on: boolean; emptyCodes?: string[]; partialEmptyCodes?: string[]; emptyKey?: string }[];
   onToggleExtraLayer?: (id: string) => void;
   persistLines: boolean;
   onTogglePersist: () => void;
@@ -184,6 +185,7 @@ export default function GlobeMobileSheet(props: Props) {
   } = props;
 
   const locale = useLocale();
+  const idPrefix = useId();
   const [sheetState, setSheetState] = useState<SheetState>('half');
   const [activeTab, setActiveTab] = useState<TabId>('timeline');
   const [translateY, setTranslateY] = useState<number | null>(null); // null = snapped
@@ -412,16 +414,27 @@ export default function GlobeMobileSheet(props: Props) {
             {t(l.label as any, locale)}
           </button>
         ))}
-        {extraLayers.map(l => (
-          <button
-            key={l.id}
-            className={`mobile-sheet-filter-btn${l.on ? ' active' : ''}`}
-            onClick={() => onToggleExtraLayer?.(l.id)}
-          >
-            <span className="mobile-sheet-fdot" style={{ background: l.id === 'gdacs-alerts' ? '#ff9100' : l.id === 'deepstate-frontline' ? '#c62828' : '#4fc3f7' }} />
-            {t(l.label as any, locale)}
-          </button>
-        ))}
+        {extraLayers.map(l => {
+          // Same "none tagged" state as CesiumControls (phones render this sheet instead).
+          const empty = emptyScopeText(l, locale);
+          const emptyId = `${idPrefix}-sheet-empty-${l.id}`;
+          return (
+            <Fragment key={l.id}>
+              <button
+                className={`mobile-sheet-filter-btn${l.on ? ' active' : ''}`}
+                onClick={() => onToggleExtraLayer?.(l.id)}
+                aria-pressed={l.on}
+                data-layer={l.id}
+                aria-describedby={empty ? emptyId : undefined}
+              >
+                <span className="mobile-sheet-fdot" style={{ background: l.id === 'gdacs-alerts' ? '#ff9100' : l.id === 'deepstate-frontline' ? '#c62828' : '#4fc3f7' }} />
+                {t(l.label as any, locale)}
+                {empty && <span className={`globe-filter-empty${empty.partial ? ' globe-filter-empty--partial' : ''}`} title={empty.full} aria-hidden="true">{empty.short}</span>}
+              </button>
+              {empty && <span id={emptyId} className="sr-only">{empty.full}</span>}
+            </Fragment>
+          );
+        })}
       </div>
     </div>
   );

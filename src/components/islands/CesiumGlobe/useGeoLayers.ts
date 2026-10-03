@@ -18,7 +18,7 @@ import { useLiveSource } from '../../../lib/use-live-source';
 import type { LiveStatus } from '../../../lib/live-source';
 import { DEEPSTATE_URL, parseDeepStateResponse, type Frontline } from '../../../lib/deepstate';
 import type { GdacsFile } from '../../../../scripts/lib/gdacs';
-import { GeoLayerSchema, staticLayerMeta, type GeoLayer } from '../../../lib/geo-layer-schema';
+import { GeoLayerSchema, staticLayerMeta, emptyScopeReason, partialEmptyScope, type GeoLayer } from '../../../lib/geo-layer-schema';
 import { getLiveLayer } from '../../../lib/live-layers';
 import { radioIconSvgFor, svgDataUri, filterByCountry } from '../../../lib/radio-icons';
 
@@ -29,7 +29,14 @@ function basePath(): string {
 
 export const DEEPSTATE_ENABLED = String((import.meta as any).env?.PUBLIC_ENABLE_DEEPSTATE ?? '') === 'true';
 
-interface LayerResult { count: number; status: LiveStatus; updatedAt: number | null; error?: string; label?: string }
+interface LayerResult {
+  count: number; status: LiveStatus; updatedAt: number | null; error?: string; label?: string;
+  /** Every tracker country fetched fresh with 0 features (spec C2): the toggle says "none tagged".
+   *  `null` = the fetched layer was checked and is not empty; `undefined` = not fetched yet (callers fall back to the build-time scope). */
+  emptyCodes?: string[] | null;
+  /** Owner Q8: only some tracker countries are fresh zeros (sahel BF/NE): the toggle hints at them. */
+  partialEmptyCodes?: string[];
+}
 
 function useEntityCleanup(viewer: CesiumViewer | null, ref: React.MutableRefObject<Entity[]>) {
   useEffect(() => () => {
@@ -204,5 +211,10 @@ export function useStaticGeoLayer(viewer: CesiumViewer | null, id: string | null
   }, [viewer, enabled, data, meta?.color, meta?.filterByCountry, id, radioSvg, radioCountryCodes]);
   useEntityCleanup(viewer, entitiesRef);
 
-  return { count, status: enabled && id ? status : 'disabled', updatedAt, error, label: data?._provenance.retrievedAt.slice(0, 10) };
+  // Both take the UNFILTERED layer (they filter by country themselves). Null
+  // unless the layer declares an emptyStateKey (radio-towers only).
+  const emptyCodes = useMemo(() => (enabled && data ? emptyScopeReason(data, radioCountryCodes, meta) : undefined), [enabled, data, radioCountryCodes, meta]);
+  const partialEmptyCodes = useMemo(() => (enabled && data ? partialEmptyScope(data, radioCountryCodes, meta) ?? undefined : undefined), [enabled, data, radioCountryCodes, meta]);
+
+  return { count, status: enabled && id ? status : 'disabled', updatedAt, error, label: data?._provenance.retrievedAt.slice(0, 10), emptyCodes, partialEmptyCodes };
 }

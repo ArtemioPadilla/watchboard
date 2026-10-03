@@ -142,3 +142,51 @@ test.describe('E5 geo layers on the Cesium globe', () => {
     await page.waitForFunction(() => (new URLSearchParams(location.search).get('layers') ?? '').includes('gdacs-alerts'), null, { timeout: 5_000 });
   });
 });
+
+test.describe('E5 geo layers on the 3D globe', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.addInitScript(TOUR_DONE);
+    await routeEmptyTowers(page);
+  });
+
+  test('radio towers on the gaza-war globe say "none tagged" (none mapped)', async ({ page }) => {
+    // ?layers= turns the layer on at mount; it fetches once the viewer exists (slow under SwiftShader).
+    await page.goto('./gaza-war/globe/?layers=radio-towers');
+    await expect(page.locator('.globe-toolbar')).toBeVisible({ timeout: 60_000 });
+    await page.locator('.globe-toolbar-icon[title="Intel Layers"]').click();
+    const toggle = page.locator('.globe-toolbar .globe-filter[data-layer="radio-towers"]');
+    await expect(toggle.locator('.globe-filter-empty')).toHaveText('none tagged', { timeout: 30_000 });
+    await expect(toggle).toHaveAccessibleDescription(GAZA_EMPTY);
+    await expect(toggle.locator('.globe-filter-count')).toHaveCount(0);
+  });
+
+  test('radio towers on the sahel-insurgency globe hint at BF, NE (none mapped) while Mali draws', async ({ page }) => {
+    await page.goto('./sahel-insurgency/globe/?layers=radio-towers');
+    await expect(page.locator('.globe-toolbar')).toBeVisible({ timeout: 60_000 });
+    await page.locator('.globe-toolbar-icon[title="Intel Layers"]').click();
+    const toggle = page.locator('.globe-toolbar .globe-filter[data-layer="radio-towers"]');
+    await expect(toggle.locator('.globe-filter-count')).toHaveText('1', { timeout: 30_000 });
+    await expect(toggle.locator('.globe-filter-empty')).toHaveText('none tagged: BF, NE');
+    await expect(toggle).toHaveAccessibleDescription('No radio-tagged towers in OpenStreetMap for Burkina Faso, Niger');
+  });
+});
+
+test.describe('E5 geo layers on the 3D globe — phone', () => {
+  test.use({ viewport: { width: 390, height: 844 } });
+  test.beforeEach(async ({ page }) => {
+    await page.addInitScript(TOUR_DONE);
+    await routeEmptyTowers(page);
+  });
+
+  test('the mobile globe sheet shows the same "none tagged" (none mapped) state', async ({ page }) => {
+    await page.goto('./gaza-war/globe/?layers=radio-towers');
+    // On phones the globe renders GlobeMobileSheet, not CesiumControls; layers live on its Filters tab.
+    const filtersTab = page.locator('.mobile-sheet-tab', { hasText: 'Filters' });
+    await expect(filtersTab).toBeVisible({ timeout: 60_000 });
+    await filtersTab.click();
+    const btn = page.locator('.mobile-sheet-filter-btn[data-layer="radio-towers"]');
+    await btn.scrollIntoViewIfNeeded({ timeout: 30_000 });
+    await expect(btn.locator('.globe-filter-empty')).toHaveText('none tagged', { timeout: 30_000 });
+    await expect(btn).toHaveAccessibleDescription(GAZA_EMPTY);
+  });
+});

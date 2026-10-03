@@ -78,6 +78,8 @@ interface Props {
   staticLayers?: string[];
   /** tracker.json map.radioCountryCodes — scopes the radio-towers/radio-stations layers to these ISO codes. */
   radioCountryCodes?: string[];
+  /** Build-time `emptyScopeReason` per static layer id (Task 10b), so the toggle says "none tagged" before the layer is fetched; the fetched layer wins once loaded. */
+  emptyScopes?: Record<string, string[]>;
   isHistorical?: boolean;
   endDate?: string;
   clocks?: { label: string; offsetHours: number }[];
@@ -128,7 +130,7 @@ export default function CesiumGlobe(props: Props) {
   );
 }
 
-function CesiumGlobeInner({ points, lines, kpis, meta, events = [], cameraPresets = {}, categories = [], mapCenter, mapBounds, weatherPoints, trackerSlug, liveLayers = [], staticLayers = [], radioCountryCodes, isHistorical = false, endDate, clocks, missionTrajectory, globeLayout, layoutOverrides }: Props) {
+function CesiumGlobeInner({ points, lines, kpis, meta, events = [], cameraPresets = {}, categories = [], mapCenter, mapBounds, weatherPoints, trackerSlug, liveLayers = [], staticLayers = [], radioCountryCodes, emptyScopes, isHistorical = false, endDate, clocks, missionTrajectory, globeLayout, layoutOverrides }: Props) {
   const trackerBboxMemo = useMemo(() => trackerBbox(mapBounds ?? null, mapCenter ?? null), [mapBounds, mapCenter]);
   const flightFallback = useMemo(() => (mapCenter ? { lat: mapCenter.lat, lon: mapCenter.lon } : undefined), [mapCenter]);
   const layout = resolveLayout(globeLayout, layoutOverrides);
@@ -643,15 +645,20 @@ function CesiumGlobeInner({ points, lines, kpis, meta, events = [], cameraPreset
   const static2 = useStaticGeoLayer(cesiumViewer, staticLayers[2] ?? null, !!extraLayers[staticLayers[2] ?? ''], radioCountryCodes);
   const staticResults = [static0, static1, static2];
   const extraLayerDefs = useMemo(() => {
-    const defs: { id: string; label: string; count: number; status: string; updatedAt: number | null; error?: string; dateLabel?: string; snapshotDate?: string }[] = [];
+    const defs: { id: string; label: string; count: number; status: string; updatedAt: number | null; error?: string; dateLabel?: string; snapshotDate?: string; emptyCodes?: string[]; partialEmptyCodes?: string[]; emptyKey?: string }[] = [];
     if (wantFrontline) defs.push({ id: 'deepstate-frontline', label: 'layers.frontline', count: frontline.count, status: frontline.status, updatedAt: frontline.updatedAt, error: frontline.error, dateLabel: frontline.label });
     defs.push({ id: 'gdacs-alerts', label: 'layers.gdacs', count: gdacs.count, status: gdacs.status, updatedAt: gdacs.updatedAt, error: gdacs.error, dateLabel: gdacs.label });
     staticLayers.slice(0, 3).forEach((id, i) => {
       const meta = staticLayerMeta(id);
-      if (meta) defs.push({ id, label: meta.label, count: staticResults[i].count, status: staticResults[i].status, updatedAt: staticResults[i].updatedAt, error: staticResults[i].error, snapshotDate: staticResults[i].label });
+      // Fetched layer first; before the fetch, the build-time scope (Task 10b)
+      // marks the toggle so it says "none tagged" before it is clicked.
+      if (meta) defs.push({
+        id, label: meta.label, count: staticResults[i].count, status: staticResults[i].status, updatedAt: staticResults[i].updatedAt, error: staticResults[i].error, snapshotDate: staticResults[i].label,
+        emptyCodes: (staticResults[i].emptyCodes !== undefined ? staticResults[i].emptyCodes : emptyScopes?.[id]) ?? undefined, partialEmptyCodes: staticResults[i].partialEmptyCodes, emptyKey: meta.emptyStateKey,
+      });
     });
     return defs;
-  }, [wantFrontline, frontline, gdacs, staticLayers, static0, static1, static2]);
+  }, [wantFrontline, frontline, gdacs, staticLayers, static0, static1, static2, emptyScopes]);
 
   // ── Cinematic mode ──
   const {
@@ -964,7 +971,7 @@ function CesiumGlobeInner({ points, lines, kpis, meta, events = [], cameraPreset
           onShareView={buildShareUrl}
           sources={sourceItems}
           scopedLayerIds={scopedLayers.map(l => l.id)}
-          extraLayers={extraLayerDefs.map(d => ({ id: d.id, label: d.label, count: d.count, on: !!extraLayers[d.id] }))}
+          extraLayers={extraLayerDefs.map(d => ({ id: d.id, label: d.label, count: d.count, on: !!extraLayers[d.id], emptyCodes: d.emptyCodes, partialEmptyCodes: d.partialEmptyCodes, emptyKey: d.emptyKey }))}
           onToggleExtraLayer={toggleExtraLayer}
           shareTrigger={shareTrigger}
             persistLines={persistLines}
@@ -1031,7 +1038,7 @@ function CesiumGlobeInner({ points, lines, kpis, meta, events = [], cameraPreset
           onShareView={buildShareUrl}
           sources={sourceItems}
           scopedLayerIds={scopedLayers.map(l => l.id)}
-          extraLayers={extraLayerDefs.map(d => ({ id: d.id, label: d.label, count: d.count, on: !!extraLayers[d.id] }))}
+          extraLayers={extraLayerDefs.map(d => ({ id: d.id, label: d.label, count: d.count, on: !!extraLayers[d.id], emptyCodes: d.emptyCodes, partialEmptyCodes: d.partialEmptyCodes, emptyKey: d.emptyKey }))}
           onToggleExtraLayer={toggleExtraLayer}
           shareTrigger={shareTrigger}
           persistLines={persistLines}

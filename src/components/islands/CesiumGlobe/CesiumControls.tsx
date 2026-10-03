@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useId, Fragment } from 'react';
 import { MAP_CATEGORIES } from '../../../lib/map-utils';
 import { t } from '../../../i18n/translations';
 import { useLocale } from '../../../i18n/useLocale';
@@ -8,6 +8,7 @@ import { SAT_GROUPS, type SatGroupCounts } from './useSatellites';
 import type { VectorToggles } from './useMissionVectors';
 import ShareViewButton from '../shared/ShareViewButton';
 import SourceStatusSummary, { SourceStatusChip, type SourceStatusItem } from '../shared/SourceStatusChip';
+import { emptyScopeText } from '../shared/empty-scope';
 
 interface Props {
   activeFilters: Set<string>;
@@ -30,7 +31,7 @@ interface Props {
   /** Layer ids offered to this tracker (live-layers.ts scope). */
   scopedLayerIds?: string[];
   /** E5 layers (frontline / GDACS / static GeoJSON) offered on this tracker. */
-  extraLayers?: { id: string; label: string; count: number; on: boolean }[];
+  extraLayers?: { id: string; label: string; count: number; on: boolean; emptyCodes?: string[]; partialEmptyCodes?: string[]; emptyKey?: string }[];
   onToggleExtraLayer?: (id: string) => void;
   persistLines: boolean;
   onTogglePersist: () => void;
@@ -109,6 +110,7 @@ export default function CesiumControls({
   const [aisKeyDraft, setAisKeyDraft] = useState('');
   const hasAisKey = !!aisApiKey;
   const locale = useLocale();
+  const idPrefix = useId();
   const toolbarRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -378,20 +380,31 @@ export default function CesiumControls({
         </div>
       )}
       {/* E5 layers (frontline / GDACS / static GeoJSON) offered on this tracker */}
-      {extraLayers.map(l => (
-        <button
-          key={l.id}
-          className={`globe-filter${l.on ? ' active' : ''}`}
-          onClick={() => onToggleExtraLayer?.(l.id)}
-          aria-pressed={l.on}
-          data-layer={l.id}
-        >
-          {chipFor(l.id)}
-          <span className="globe-fdot" style={{ background: l.id === 'gdacs-alerts' ? '#ff9100' : l.id === 'deepstate-frontline' ? '#c62828' : '#4fc3f7' }} />
-          {t(l.label as any, locale)}
-          {l.on && l.count > 0 && <span className="globe-filter-count">{l.count}</span>}
-        </button>
-      ))}
+      {extraLayers.map(l => {
+        // "None mapped" (spec C2) / partial hint (owner Q8): visible short chip,
+        // full localized sentence as title and accessible description.
+        const empty = emptyScopeText(l, locale);
+        const emptyId = `${idPrefix}-globe-empty-${l.id}`;
+        return (
+          <Fragment key={l.id}>
+            <button
+              className={`globe-filter${l.on ? ' active' : ''}`}
+              onClick={() => onToggleExtraLayer?.(l.id)}
+              aria-pressed={l.on}
+              data-layer={l.id}
+              aria-describedby={empty ? emptyId : undefined}
+            >
+              {chipFor(l.id)}
+              <span className="globe-fdot" style={{ background: l.id === 'gdacs-alerts' ? '#ff9100' : l.id === 'deepstate-frontline' ? '#c62828' : '#4fc3f7' }} />
+              {t(l.label as any, locale)}
+              {l.on && l.count > 0 && <span className="globe-filter-count">{l.count}</span>}
+              {empty && <span className={`globe-filter-empty${empty.partial ? ' globe-filter-empty--partial' : ''}`} title={empty.full} aria-hidden="true">{empty.short}</span>}
+            </button>
+            {/* Outside the button so it describes the toggle without joining its accessible name. */}
+            {empty && <span id={emptyId} className="sr-only">{empty.full}</span>}
+          </Fragment>
+        );
+      })}
       {inScope('nfz') && (
         <button
           className={`globe-filter${layers.nfz ? ' active' : ''}`}

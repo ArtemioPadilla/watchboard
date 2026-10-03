@@ -191,6 +191,21 @@ body:has(.globe-wrapper) .tooltip {
   margin-left: auto;
 }
 
+/* "None mapped" chip on a country-scoped layer toggle (radio towers with no
+   radio-tagged OSM features in the tracker's countries). Dashed = absence,
+   not a count. Shared by CesiumControls and GlobeMobileSheet. */
+.globe-filter-empty {
+  border: 1px dashed rgba(255, 255, 255, 0.35);
+  color: rgba(255, 255, 255, 0.55);
+  padding: 0 4px;
+  border-radius: 8px;
+  font-size: 0.6rem;
+  margin-left: auto;
+  white-space: nowrap;
+  cursor: help;
+}
+.globe-filter-count + .globe-filter-empty { margin-left: 4px; }
+
 .globe-persist-toggle {
   margin-top: 4px;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
