@@ -1,5 +1,20 @@
 [
   {
+    "date": "2026-10-03",
+    "title": "Sahel Insurgency Update — Oct 03, 2026",
+    "summary": "A JNIM ambush on an Africa Corps–FAMa convoy near Niono (Ségou region) around Sept 27-28 reportedly killed at least seven soldiers, including three or four Russians. Reports differ on date and toll and rely on Tier 3 outlets. No other new verified incidents were found for Sept 29-Oct 3.",
+    "sectionsUpdated": [
+      "events",
+      "mapPoints"
+    ],
+    "provenance": {
+      "method": "llm",
+      "model": "claude",
+      "generatedAt": "2026-10-03T17:56:59.205Z",
+      "pipeline": "update-data"
+    }
+  },
+  {
     "date": "2026-10-01",
     "title": "Sahel Insurgency Tracker Update — Oct 01, 2026",
     "summary": "Burkina Faso's foreign minister told the UN General Assembly on Sept 28, on behalf of the AES, that unnamed states arm and finance Sahel jihadists, and said the three states have notified their ICC withdrawal. No evidence was offered. No other new verified incidents were found for Sept 24-Oct 1 in this run.",
@@ -24,6 +39,20 @@
     "provenance": {
       "method": "heuristic",
       "generatedAt": "2026-10-01T19:48:55.739Z",
+      "pipeline": "ensure-digests"
+    }
+  },
+  {
+    "date": "2026-09-27",
+    "title": "Sahel Insurgency Tracker Update — Sun Sep 27, 2026",
+    "summary": "Around September 27-28, 2026, JNIM militants ambushed a convoy near Niono in Mali's Ségou region.",
+    "sectionsUpdated": [
+      "events"
+    ],
+    "source": "freshness",
+    "provenance": {
+      "method": "heuristic",
+      "generatedAt": "2026-10-03T18:23:17.312Z",
       "pipeline": "ensure-digests"
     }
   },
@@ -481,28 +510,5 @@
       "meta"
     ],
     "source": "daily"
-  },
-  {
-    "date": "2026-05-31",
-    "title": "Sahel Insurgency Update — Sun May 31, 2026",
-    "summary": "Burkina Faso's jihadist crisis intensified over May 29–31 with three separate attacks: JNIM killed at least 15 civilians in a Titao-Sollé trading convoy ambush (May 29, Loroum Province); militants ambushed an ICRC-affiliated aid convoy near Barsalogho killing 13 including ICRC humanitarian workers in a grave IHL breach (May 29–30); and gunmen massacred approximately 30 civilians at the Kompienbiga livestock market during Eid al-Adha (May 31). The Traoré junta simultaneously closed Ouagadougou's Grand Mosque and detained ~100 protesters following the arrest of respected Islamic scholar Imam Mohamed Kindo. Mali's Bamako siege enters Day 33 with the post-Eid window (May 28–June 5) assessed as highest-risk for renewed blockade escalation; structural JNIM blockade capability persists with no truce obligation after the March 2026 fuel deal expired at Eid.",
-    "sectionsUpdated": [
-      "events",
-      "kpis",
-      "casualties",
-      "econ",
-      "mapPoints",
-      "mapLines",
-      "meta"
-    ],
-    "source": "daily"
-  },
-  {
-    "date": "2026-05-30",
-    "title": "Sahel Insurgency Tracker Update — Sat May 30, 2026",
-    "summary": "Armed militants attacked an aid convoy near Barsalogho in Sanmatenga Province, north-central Burkina Faso on approximately May 29–30, 2026.",
-    "sectionsUpdated": [
-      "events"
-    ]
   }
 ]
