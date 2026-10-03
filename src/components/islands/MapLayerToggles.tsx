@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useId, Fragment } from 'react';
 import type { LayerState } from './useMapOverlays';
 import ShareViewButton from './shared/ShareViewButton';
 import SourceStatusSummary, { SourceStatusChip, type SourceStatusItem } from './shared/SourceStatusChip';
@@ -7,6 +7,7 @@ import type { LiveStatus } from '../../lib/live-source';
 import { getLiveLayer } from '../../lib/live-layers';
 import { t, type TranslationKey } from '../../i18n/translations';
 import { useLocale } from '../../i18n/useLocale';
+import { countryListLabel } from '../../lib/geo-layer-schema';
 
 // ────────────────────────────────────────────
 //  Layer metadata
@@ -46,7 +47,7 @@ interface Props {
   /** Layer ids (live-layers.ts) offered to this tracker; snapshot layers outside it are hidden. */
   scopedLayerIds?: string[];
   /** E5 layers (frontline / GDACS / static GeoJSON) offered on this tracker. */
-  extraLayers?: { id: string; label: string; count: number; on: boolean; status: string; updatedAt: number | null; error?: string; snapshotDate?: string }[];
+  extraLayers?: { id: string; label: string; count: number; on: boolean; status: string; updatedAt: number | null; error?: string; snapshotDate?: string; emptyCodes?: string[]; partialEmptyCodes?: string[]; emptyKey?: string }[];
   onToggleExtraLayer?: (id: string) => void;
 }
 
@@ -63,6 +64,8 @@ const REGISTRY_ID: Partial<Record<keyof LayerState, string>> = {
 
 export default function MapLayerToggles({ layers, onToggle, counts, onShareView, statuses = {}, scopedLayerIds, extraLayers = [], onToggleExtraLayer }: Props) {
   const locale = useLocale();
+  // Two IntelMap instances (desktop + mobile) can share a page: ids must be per instance.
+  const idPrefix = useId();
   const visibleDefs = LAYER_DEFS.filter(def => {
     const rid = REGISTRY_ID[def.key];
     return !rid || !scopedLayerIds || scopedLayerIds.includes(rid);
@@ -119,14 +122,28 @@ export default function MapLayerToggles({ layers, onToggle, counts, onShareView,
         {extraLayers.map(l => {
           const color = l.id === 'gdacs-alerts' ? '#ff9100' : l.id === 'deepstate-frontline' ? '#c62828' : '#4fc3f7';
           const chip = extraItems.find(i => i.id === l.id);
+          // "None mapped" (spec C2): every tracker country fetched fresh with 0
+          // features. Owner Q8: a partial hint when only some are empty (sahel
+          // BF/NE). The short label is visible text (touch has no hover); the
+          // full sentence is the toggle's accessible description and its title.
+          const empty = l.emptyKey && l.count === 0 && l.emptyCodes?.length ? { codes: l.emptyCodes, partial: false }
+            : l.emptyKey && l.partialEmptyCodes?.length ? { codes: l.partialEmptyCodes, partial: true } : null;
+          const emptyFull = empty ? t(l.emptyKey as TranslationKey, locale).replace('{codes}', countryListLabel(empty.codes, locale)) : '';
+          const emptyId = `${idPrefix}-empty-${l.id}`;
+          const emptyShort = empty ? t('layers.radioTowersNoneShort', locale) + (empty.partial ? `: ${empty.codes.join(', ')}` : '') : '';
           return (
-            <button key={l.id} className={`map-layer-item${l.on ? ' active' : ''}`} onClick={() => onToggleExtraLayer?.(l.id)} aria-pressed={l.on} data-layer={l.id}>
+            <Fragment key={l.id}>
+            <button className={`map-layer-item${l.on ? ' active' : ''}`} onClick={() => onToggleExtraLayer?.(l.id)} aria-pressed={l.on} data-layer={l.id} aria-describedby={empty ? emptyId : undefined}>
               <span className="map-layer-dot" style={{ background: l.on ? color : 'transparent', borderColor: color }} />
               <span className="map-layer-icon" style={{ color: l.on ? color : 'var(--text-muted)' }}>{'\u25C8'}</span>
               <span className="map-layer-label">{l.label.startsWith('layers.') ? t(l.label as TranslationKey, locale) : l.label}</span>
               {chip && <SourceStatusChip item={chip} compact />}
               {l.on && l.count > 0 && <span className="map-layer-count">{l.count}</span>}
+              {empty && <span className={`map-layer-empty${empty.partial ? ' map-layer-empty--partial' : ''}`} title={emptyFull} aria-hidden="true">{emptyShort}</span>}
             </button>
+            {/* Outside the button so it describes the toggle without joining its accessible name. */}
+            {empty && <span id={emptyId} className="sr-only">{emptyFull}</span>}
+            </Fragment>
           );
         })}
         {visibleDefs.map(def => {

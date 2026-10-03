@@ -18,7 +18,7 @@ import { useDossier } from './shared/useDossier';
 import RadioStationCard from './shared/RadioStationCard';
 import GeoLayersLeaflet from './GeoLayersLeaflet';
 import { useFrontlineData, useGdacsData, useStaticGeoLayerData, DEEPSTATE_ENABLED } from './useGeoLayersData';
-import { staticLayerMeta } from '../../lib/geo-layer-schema';
+import { staticLayerMeta, emptyScopeReason, partialEmptyScope } from '../../lib/geo-layer-schema';
 import type { GeoLayer } from '../../lib/geo-layer-schema';
 import { filterByCountry } from '../../lib/radio-icons';
 
@@ -46,6 +46,8 @@ interface Props {
   staticLayers?: string[];
   /** tracker.json map.radioCountryCodes — scopes the radio-towers/radio-stations layers to these ISO codes. */
   radioCountryCodes?: string[];
+  /** Build-time `emptyScopeReason` per static layer id (Task 10b), so the toggle says "none tagged" before the layer is fetched; the fetched layer wins once loaded. */
+  emptyScopes?: Record<string, string[]>;
 }
 
 export default function IntelMap(props: Props) {
@@ -58,7 +60,7 @@ export default function IntelMap(props: Props) {
   );
 }
 
-function IntelMapInner({ points, lines, events, categories, mapCenter, mapBounds, weatherPoints, trackerSlug, liveLayers = [], staticLayers = [], radioCountryCodes }: Props) {
+function IntelMapInner({ points, lines, events, categories, mapCenter, mapBounds, weatherPoints, trackerSlug, liveLayers = [], staticLayers = [], radioCountryCodes, emptyScopes }: Props) {
   // Use prop categories with fallback to hardcoded defaults. Passed down to
   // LeafletMap so catColor() resolves dot colors without a module singleton.
   const mapCategories = categories && categories.length > 0 ? categories : MAP_CATEGORIES;
@@ -179,15 +181,23 @@ function IntelMapInner({ points, lines, events, categories, mapCenter, mapBounds
     .filter((x): x is { id: string; meta: ReturnType<typeof staticLayerMeta>; layer: GeoLayer } => !!x.id && !!extraLayers[x.id] && !!x.layer)
     .map(x => ({ id: x.id, layer: x.layer })), [scopedStatics, extraLayers]);
   const extraLayerDefs = useMemo(() => {
-    const defs: { id: string; label: string; count: number; on: boolean; status: string; updatedAt: number | null; error?: string; snapshotDate?: string }[] = [];
+    const defs: { id: string; label: string; count: number; on: boolean; status: string; updatedAt: number | null; error?: string; snapshotDate?: string; emptyCodes?: string[]; partialEmptyCodes?: string[]; emptyKey?: string }[] = [];
     if (wantFrontline) defs.push({ id: 'deepstate-frontline', label: 'Frontline (DeepStateMAP)', count: frontline.data?.polygons.length ?? 0, on: !!extraLayers['deepstate-frontline'], status: frontline.status, updatedAt: frontline.updatedAt, error: frontline.error });
     defs.push({ id: 'gdacs-alerts', label: 'Disasters (GDACS)', count: gdacs.data?.alerts.length ?? 0, on: !!extraLayers['gdacs-alerts'], status: gdacs.status, updatedAt: gdacs.updatedAt, error: gdacs.error });
     [s0, s1, s2].forEach((r, i) => {
       const { id, meta, layer } = scopedStatics[i];
-      if (id && meta) defs.push({ id, label: meta.label, count: layer?.features.length ?? 0, on: !!extraLayers[id], status: r.status, updatedAt: r.updatedAt, error: r.error, snapshotDate: r.data?._provenance.retrievedAt.slice(0, 10) });
+      // emptyScopeReason / partialEmptyScope take the UNFILTERED r.data (they
+      // filter by country themselves). Before the fetch, the build-time scope
+      // marks the toggle so it says "none tagged" before it is clicked.
+      if (id && meta) defs.push({
+        id, label: meta.label, count: layer?.features.length ?? 0, on: !!extraLayers[id], status: r.status, updatedAt: r.updatedAt, error: r.error, snapshotDate: r.data?._provenance.retrievedAt.slice(0, 10),
+        emptyCodes: (r.data ? emptyScopeReason(r.data, radioCountryCodes, meta) : emptyScopes?.[id]) ?? undefined,
+        partialEmptyCodes: (r.data ? partialEmptyScope(r.data, radioCountryCodes, meta) : null) ?? undefined,
+        emptyKey: meta.emptyStateKey,
+      });
     });
     return defs;
-  }, [wantFrontline, frontline, gdacs, s0, s1, s2, scopedStatics, extraLayers]);
+  }, [wantFrontline, frontline, gdacs, s0, s1, s2, scopedStatics, extraLayers, radioCountryCodes, emptyScopes]);
 
   const dossier = useDossier();
   const handleGroundClick = useCallback((lat: number, lon: number) => dossier.open({ lat, lon }), [dossier.open]);

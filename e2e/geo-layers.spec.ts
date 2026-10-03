@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
 import { readFileSync } from 'node:fs';
 
 const GDACS = {
@@ -62,7 +62,69 @@ test.describe('E5 geo layers on the 2D map', () => {
     await expect(frontPaths).toHaveCount(0);
     await page.waitForFunction(() => !(new URLSearchParams(location.search).get('layers') ?? '').includes('deepstate-frontline'), null, { timeout: 5_000 });
   });
+
+  test('radio towers on gaza-war say "none tagged" (none mapped), readable without hover, with country names', async ({ page }) => {
+    await routeEmptyTowers(page);
+    const toggle = await openRadioTowersToggle(page, './gaza-war/');
+    await toggle.click(); // runtime path: the fetched (fixture) layer decides
+    await expect(toggle.locator('.map-layer-empty')).toHaveText('none tagged', { timeout: 20_000 });
+    await expect(toggle).toHaveAccessibleDescription(GAZA_EMPTY);
+    await expect(toggle.locator('.map-layer-count')).toHaveCount(0);
+  });
+
+  test('radio towers on sahel-insurgency hint at the countries with none mapped (BF, NE) while Mali draws', async ({ page }) => {
+    await routeEmptyTowers(page);
+    const toggle = await openRadioTowersToggle(page, './sahel-insurgency/');
+    await toggle.click();
+    await expect(toggle.locator('.map-layer-count')).toHaveText('1', { timeout: 20_000 });
+    await expect(toggle.locator('.map-layer-empty')).toHaveText('none tagged: BF, NE');
+    await expect(toggle).toHaveAccessibleDescription('No radio-tagged towers in OpenStreetMap for Burkina Faso, Niger');
+  });
 });
+
+test.describe('E5 geo layers on the mobile 2D map', () => {
+  test.use({ viewport: { width: 390, height: 844 } });
+  test.beforeEach(async ({ page }) => {
+    await page.addInitScript(TOUR_DONE);
+    // The first-visit coach mark covers the tab bar (MobileTabShell, mtab-coach-{slug}).
+    await page.addInitScript(() => localStorage.setItem('mtab-coach-gaza-war', '1'));
+  });
+  test('radio towers on gaza-war say "none tagged" (none mapped) on the mobile MAP tab', async ({ page }) => {
+    await routeEmptyTowers(page);
+    await page.goto('./gaza-war/');
+    // A tracker with fresh events opens on FEED; switch to the MAP tab (MobileMapTab → IntelMap).
+    const mapTab = page.locator('#tab-map');
+    await expect(mapTab).toBeVisible({ timeout: 30_000 });
+    await expect(async () => {
+      await mapTab.click();
+      await expect(mapTab).toHaveAttribute('aria-selected', 'true', { timeout: 2_000 });
+    }).toPass({ timeout: 30_000 });
+    const toggle = await openRadioTowersToggle(page, null);
+    await toggle.click();
+    await expect(toggle.locator('.map-layer-empty')).toHaveText('none tagged', { timeout: 20_000 });
+    await expect(toggle).toHaveAccessibleDescription(GAZA_EMPTY);
+  });
+});
+
+// Localized names, not ISO codes. The region name for PS depends on the
+// browser's ICU ("Palestine" in Chromium, "Palestinian Territories" in some Node builds).
+const GAZA_EMPTY = /^No radio-tagged towers in OpenStreetMap for Israel, Palestin/;
+
+/** Serves the fixture layer (IL, PS, BF, NE fresh zeros; UA, ML one tower each), so the spec tests the UI contract, not live OSM data. */
+async function routeEmptyTowers(page: Page) {
+  await page.route('**/geo/layers/radio-towers.geojson', r => r.fulfill({ path: 'e2e/fixtures/radio-towers-empty.geojson', contentType: 'application/geo+json' }));
+}
+
+/** Opens the visible map's layer panel and returns the radio-towers toggle. */
+async function openRadioTowersToggle(page: Page, url: string | null) {
+  if (url) await page.goto(url);
+  const map = page.locator('.leaflet-container:visible').first();
+  await expect(map).toBeVisible({ timeout: 30_000 });
+  await map.scrollIntoViewIfNeeded();
+  await page.locator('.map-layers-toggle:visible').first().click();
+  const panel = page.locator('.map-layers-panel:visible').first();
+  return panel.locator('[data-layer="radio-towers"]');
+}
 
 test.describe('E5 geo layers on the Cesium globe', () => {
   test('GDACS alerts toggle on the Ukraine globe with a count', async ({ page }) => {

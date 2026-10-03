@@ -1,0 +1,25 @@
+{
+ "type": "FeatureCollection",
+ "_provenance": {
+  "id": "radio-towers",
+  "source": "OpenStreetMap (Overpass API)",
+  "url": "https://overpass-api.de/api/interpreter",
+  "license": "ODbL 1.0",
+  "attribution": "Radio towers: © OpenStreetMap contributors, ODbL",
+  "retrievedAt": "2026-09-24T00:00:00Z",
+  "transform": "e2e fixture: IL, PS, BF, NE fresh with 0 towers; UA and ML one tower each",
+  "featureCount": 2,
+  "countries": {
+   "IL": { "retrievedAt": "2026-09-24T00:00:00Z", "count": 0, "status": "fresh" },
+   "PS": { "retrievedAt": "2026-09-24T00:00:00Z", "count": 0, "status": "fresh" },
+   "BF": { "retrievedAt": "2026-09-24T00:00:00Z", "count": 0, "status": "fresh" },
+   "NE": { "retrievedAt": "2026-09-24T00:00:00Z", "count": 0, "status": "fresh" },
+   "UA": { "retrievedAt": "2026-09-24T00:00:00Z", "count": 1, "status": "fresh" },
+   "ML": { "retrievedAt": "2026-09-24T00:00:00Z", "count": 1, "status": "fresh" }
+  }
+ },
+ "features": [
+  { "type": "Feature", "id": "1", "properties": { "osmId": "1", "name": null, "heightM": null, "radioBand": "yes", "countryCode": "UA" }, "geometry": { "type": "Point", "coordinates": [30.52, 50.45] } },
+  { "type": "Feature", "id": "2", "properties": { "osmId": "2", "name": null, "heightM": null, "radioBand": "yes", "countryCode": "ML" }, "geometry": { "type": "Point", "coordinates": [-8.0, 12.65] } }
+ ]
+}

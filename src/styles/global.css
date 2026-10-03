@@ -3133,6 +3133,22 @@ body::before {
   flex-shrink: 0;
 }
 
+/* "None mapped" chip next to a country-scoped layer toggle (radio towers with
+   no radio-tagged OSM features for the tracker's countries). Dashed = absence,
+   not a count. The --partial variant names the empty country codes. */
+.map-layer-empty {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.42rem;
+  color: var(--text-muted);
+  border: 1px dashed var(--text-muted);
+  padding: 0 4px;
+  border-radius: 8px;
+  opacity: 0.8;
+  flex-shrink: 0;
+  white-space: nowrap;
+  cursor: help;
+}
+
 /* ─── OVERLAY TOOLTIPS ─── */
 .nfz-tooltip.leaflet-tooltip,
 .jam-tooltip.leaflet-tooltip,
