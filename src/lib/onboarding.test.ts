@@ -43,6 +43,9 @@ import {
   TOUR_KEY_DESKTOP,
   TOUR_KEY_MOBILE,
   __resetMigrationForTests,
+  shouldShowInterestsNudge,
+  INTERESTS_FEATURE_KEY,
+  getNextCoachHint,
 } from './onboarding';
 
 describe('onboarding tour persistence', () => {
@@ -106,5 +109,30 @@ describe('onboarding tour persistence', () => {
   it('uses the correct localStorage keys', () => {
     expect(TOUR_KEY_DESKTOP).toBe('watchboard-tour-desktop-v1');
     expect(TOUR_KEY_MOBILE).toBe('watchboard-tour-mobile-v1');
+  });
+});
+
+describe('shouldShowInterestsNudge', () => {
+  const base = { discovered: new Set<string>(), hasInterests: false, isMobile: false, desktopTourCompleted: true };
+  it.each([
+    ['desktop, tour completed, nothing declared', base, true],
+    ['desktop, tour not completed (the tour shows the step)', { ...base, desktopTourCompleted: false }, false],
+    ['mobile ignores the desktop tour (no mobile interests step)', { ...base, isMobile: true, desktopTourCompleted: false }, true],
+    ['already discovered', { ...base, discovered: new Set([INTERESTS_FEATURE_KEY]) }, false],
+    ['already discovered, mobile', { ...base, isMobile: true, discovered: new Set([INTERESTS_FEATURE_KEY]) }, false],
+    ['interests already declared', { ...base, hasInterests: true }, false],
+    ['interests already declared, mobile', { ...base, isMobile: true, hasInterests: true }, false],
+    ['other discovered features do not count', { ...base, discovered: new Set(['search', 'follow']) }, true],
+  ] as const)('%s', (_name, input, expected) => {
+    expect(shouldShowInterestsNudge(input)).toBe(expected);
+  });
+
+  it('is never queued as a floating coach hint', () => {
+    const seen = new Set<string>();
+    for (let h = getNextCoachHint(seen); h; h = getNextCoachHint(seen)) {
+      expect(h.featureKey).not.toBe(INTERESTS_FEATURE_KEY);
+      seen.add(h.featureKey);
+    }
+    expect(seen.size).toBeGreaterThan(0);
   });
 });

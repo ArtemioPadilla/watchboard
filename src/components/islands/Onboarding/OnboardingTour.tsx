@@ -1,4 +1,6 @@
+import { useEffect } from 'react';
 import { DESKTOP_STEPS } from '../../../lib/onboarding-steps';
+import { markFeatureDiscovered, INTERESTS_FEATURE_KEY } from '../../../lib/onboarding';
 import { t } from '../../../i18n/translations';
 import { useLocale } from '../../../i18n/useLocale';
 import { useOnboardingController } from './useOnboardingController';
@@ -19,6 +21,11 @@ export default function OnboardingTour({ interestOptions: options }: OnboardingT
   const { interests, toggle } = useInterests();
   const { active, stepIdx, showCompletionToast, finish, goNext, goBack } =
     useOnboardingController(DESKTOP_STEPS.length, 'desktop', TOUR_REPLAY_EVENT);
+
+  // Reaching the interests step is discovery: no sidebar nudge on the next visit.
+  useEffect(() => {
+    if (active && DESKTOP_STEPS[stepIdx]?.id === 'hero-interests') markFeatureDiscovered(INTERESTS_FEATURE_KEY);
+  }, [active, stepIdx]);
 
   if (!active && !showCompletionToast) return null;
 
