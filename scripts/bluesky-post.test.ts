@@ -24,12 +24,26 @@ describe('postFromQueue', () => {
   it('persists after each post, so a crash on the 2nd keeps the 1st recorded', async () => {
     store.queue = [entry('a', 'First headline\nbody'), entry('b', 'Second headline\nbody')];
     let calls = 0;
+    // What had been persisted when the 2nd post started. postSkeet swallows a thrown
+    // post() and the loop always reaches a final save, so checking store.saves after
+    // the run would pass even without the per-post persist. A real crash (runner
+    // killed mid-request) never reaches that final save: only what was on disk at
+    // this moment survives.
+    let savedBeforeSecondPost: string[][] | null = null;
     const agent: any = {
       session: { did: 'did:plc:bot' },
       getAuthorFeed: async () => ({ data: { feed: [] } }),
-      post: async () => { calls++; if (calls === 2) throw new Error('network'); return { uri: `at://${calls}`, cid: 'c' }; },
+      post: async () => {
+        calls++;
+        if (calls === 2) { savedBeforeSecondPost = store.saves.map(s => [...s]); throw new Error('network'); }
+        return { uri: `at://${calls}`, cid: 'c' };
+      },
     };
     await postFromQueue(false, { getAgent: async () => agent, sleep: async () => {} });
+    expect(calls).toBe(2);
+    expect(savedBeforeSecondPost).not.toBeNull();
+    expect(savedBeforeSecondPost!.length).toBeGreaterThanOrEqual(1);
+    expect(savedBeforeSecondPost!.at(-1)).toEqual(['a']);
     expect(store.saves[0]).toEqual(['a']);
     expect(store.queue[0].tweetId).toBe('at://1');
     expect(store.queue[1].status).toBe('approved');
