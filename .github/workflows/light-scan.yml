@@ -92,8 +92,8 @@ jobs:
             git commit -m "chore(light-scan): update pending + audit + state $(date -u +%Y-%m-%dT%H:%M:%SZ)"
             # Rebase + retry + backoff; on final failure a PRIVATE ops alert
             # (TELEGRAM_ALERT_CHAT_ID only) so the state is landed by hand.
-            export PUSH_STATE_DETAIL="light-scan state.alerted — $(git show --stat --format= HEAD | tail -1)"
-            bash scripts/ci/push-state.sh light-scan-state 5
+            PUSH_STATE_DETAIL="light-scan state.alerted — $(git show --stat --format= HEAD | tail -1)" \
+              bash scripts/ci/push-state.sh light-scan-state 5
           fi
 
   # ── Notify Telegram on failure (deduped: only first failure in a streak) ──
