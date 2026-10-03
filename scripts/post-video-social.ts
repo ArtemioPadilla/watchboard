@@ -565,7 +565,12 @@ async function main(): Promise<void> {
 
   // Load or create the post record for idempotency
   const existingRecord = loadPostRecord(meta.date);
-  const record = existingRecord ?? buildInitialRecord(meta, platforms);
+  // The Telegram step (scripts/telegram-video-post.ts) may have created the
+  // record first with only {date, posted}; fill the rest from the initial shape.
+  const initial = buildInitialRecord(meta, platforms);
+  const record: VideoPostRecord = existingRecord
+    ? { ...initial, ...existingRecord, posted: existingRecord.posted ?? {} }
+    : initial;
 
   // Merge any existing posted entries
   if (existingRecord) {

@@ -3,6 +3,8 @@
 // are lost (a whole-file --ours/--theirs silently drops the other side).
 //   metrics-index : key = file, sort by timestamp, drop entries older than 90 days
 //   by-id         : key = id; main's order first, then the job's new ids; job wins on a shared id
+//   by-id-main-wins: same, but main wins on a shared id (social queue: the poster's
+//                   "posted" status must never be overwritten by an older copy)
 //   digests       : key = date + '::' + title, sort by date descending
 // Usage: merge-json.mjs <mode> <ours(main)> <theirs(job)> <out>. Exit 2 on non-array input.
 import { readFileSync, writeFileSync } from 'node:fs';
@@ -11,11 +13,12 @@ const read = p => JSON.parse(readFileSync(p, 'utf8'));
 let main, job;
 try { main = read(oursPath); job = read(theirsPath); } catch (e) { console.error(`merge-json: ${e.message}`); process.exit(2); }
 if (!Array.isArray(main) || !Array.isArray(job)) { console.error('merge-json: both sides must be JSON arrays'); process.exit(2); }
-const keyOf = { 'metrics-index': e => e.file, 'by-id': e => e.id, digests: e => `${e.date}::${e.title}` }[mode];
+const keyOf = { 'metrics-index': e => e.file, 'by-id': e => e.id, 'by-id-main-wins': e => e.id, digests: e => `${e.date}::${e.title}` }[mode];
 if (!keyOf) { console.error(`merge-json: unknown mode ${mode}`); process.exit(2); }
 const merged = new Map();
 for (const e of main) merged.set(keyOf(e), e);
-for (const e of job) merged.set(keyOf(e), e); // Map keeps first-insertion order; job's value wins
+// Map keeps first-insertion order; job's value wins unless main must.
+for (const e of job) if (mode !== 'by-id-main-wins' || !merged.has(keyOf(e))) merged.set(keyOf(e), e);
 let out = [...merged.values()];
 if (mode === 'metrics-index') {
   const cutoff = new Date(Date.now() - 90 * 86400000).toISOString();

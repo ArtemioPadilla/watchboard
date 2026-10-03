@@ -5,9 +5,12 @@ on:
     - cron: '0,15,30,45 * * * *'   # every 15 minutes
   workflow_dispatch: {}
 
+# Never cancel: a cancelled run may already have alerted the public channel
+# but not yet pushed state.alerted; the next run would post again.
+# concurrency queues one pending run instead.
 concurrency:
   group: hourly-light-scan
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 permissions:
   contents: write
@@ -15,21 +18,51 @@ permissions:
 jobs:
   scan:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    # The job timeout cancels the whole job, and always() steps then share the
+    # cancelled job's short grace period. The scan step carries its own,
+    # shorter timeout so a slow scan fails its step and the commit still runs.
+    # The job budget must cover setup (~25 s) + the scan's 4 min + the whole
+    # commit step: push-state.sh's 5 attempts sleep 30-38 s in backoff alone,
+    # before any pull/push time. With 5 min a slow scan left ~38 s, so the
+    # push of state.alerted could be cancelled and the next run re-post
+    # alerts that already went public. Keep job >= scan + 3.
+    timeout-minutes: 8
     steps:
+      # ref: main, not the run's SHA: a re-run reuses GITHUB_SHA and would not
+      # see the state.alerted an earlier attempt pushed.
       - uses: actions/checkout@v5
+        with:
+          ref: main
       - uses: actions/setup-node@v5
         with:
           node-version: 22
       - run: npm ci
 
       - name: Run light scan
+        id: scan
+        timeout-minutes: 4
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID:   ${{ secrets.TELEGRAM_CHANNEL_ID }}
+          # A public send with an unknown outcome (timeout, 5xx) is recorded
+          # and never retried; the scan tells the PRIVATE ops chat instead.
+          # TELEGRAM_CHANNEL_ID is passed only so it can refuse when the two
+          # secrets are ever the same chat.
+          TELEGRAM_ALERT_CHAT_ID: ${{ secrets.TELEGRAM_ALERT_CHAT_ID }}
+          TELEGRAM_CHANNEL_ID:    ${{ secrets.TELEGRAM_CHANNEL_ID }}
         run: npx tsx scripts/hourly-light-scan.ts
 
       - name: Commit pending-candidates + triage-log + state
+        # always(): a scan that alerted the public channel and then failed must
+        # still push whatever state it saved, or the next run re-posts.
+        if: always()
+        env:
+          # push-state.sh alerts the PRIVATE ops chat on a final push failure.
+          # TELEGRAM_CHANNEL_ID is passed only so it can refuse to alert when
+          # the two secrets are ever the same chat.
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_ALERT_CHAT_ID: ${{ secrets.TELEGRAM_ALERT_CHAT_ID }}
+          TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
         run: |
           git config user.name  "watchboard-bot"
           git config user.email "bot@watchboard.dev"
@@ -54,22 +87,18 @@ jobs:
           done
           if ! git diff --cached --quiet; then
             # Verify the artefact, not the exit code: the alerts feed must be
-            # in this commit with a timestamp from this run.
-            git diff --cached --name-only | grep -q '^public/_hourly/alerts.json$' \
-              || { echo '::error::public/_hourly/alerts.json was not staged'; exit 1; }
-            git commit -m "chore(light-scan): update pending + audit + state $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-            pushed=false
-            for i in 1 2 3; do
-              if git pull --rebase origin main && git push origin main; then
-                pushed=true
-                break
-              fi
-              echo "retry $i"; sleep 5
-            done
-            if [ "$pushed" != "true" ]; then
-              echo "::error::Failed to push light-scan state after 3 attempts"
-              exit 1
+            # in this commit with a timestamp from this run. Only after a
+            # successful scan: a crashed scan never reaches the alerts.json
+            # write, and this guard must not stop its saved state landing.
+            if [ "${{ steps.scan.outcome }}" = "success" ]; then
+              git diff --cached --name-only | grep -q '^public/_hourly/alerts.json$' \
+                || { echo '::error::public/_hourly/alerts.json was not staged'; exit 1; }
             fi
+            git commit -m "chore(light-scan): update pending + audit + state $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            # Rebase + retry + backoff; on final failure a PRIVATE ops alert
+            # (TELEGRAM_ALERT_CHAT_ID only) so the state is landed by hand.
+            PUSH_STATE_DETAIL="light-scan state.alerted — $(git show --stat --format= HEAD | tail -1)" \
+              bash scripts/ci/push-state.sh light-scan-state 5
           fi
 
   # ── Notify Telegram on failure (deduped: only first failure in a streak) ──

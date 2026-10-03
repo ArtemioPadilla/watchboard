@@ -11,8 +11,8 @@ export interface SeenEntry {
   ts: string;
 }
 
-/** A high-confidence candidate whose Telegram alert failed to send.
- *  The next light scan retries the alert (the candidate is still queued to
+/** A high-confidence candidate whose Telegram alert Telegram rejected (4xx,
+ *  or never reached). The next light scan retries the alert (the candidate is still queued to
  *  pending for the heavy scan regardless). */
 export interface TelegramFailedEntry {
   url: string;
@@ -45,6 +45,9 @@ export interface AlertedEntry {
   /** Normalised significant words from the headline — the topic fingerprint. */
   topicKey: string;
   ts: string;
+  /** The send timed out or got a 5xx: it may have published. Recorded so it
+   *  counts toward cooldown and the daily cap, and is never re-sent. */
+  uncertain?: boolean;
 }
 
 export interface ManifestUpdate {

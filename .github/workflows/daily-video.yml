@@ -23,7 +23,13 @@ jobs:
     if: github.event_name != 'push'
     timeout-minutes: 40
     steps:
+      # `ref: main`, not the default github.sha: a GitHub re-run reuses the
+      # original SHA and would not see the video-post-<date>.json attempt 1
+      # pushed, so post-video-social.ts and telegram-video-post.ts would both
+      # post again.
       - uses: actions/checkout@v5
+        with:
+          ref: main
 
       - name: Install ffmpeg
         run: sudo apt-get update && sudo apt-get install -y ffmpeg
@@ -202,6 +208,42 @@ jobs:
             echo "No video file found — skipping social post"
           fi
 
+      # Before "Commit social post record": telegram-video-post.ts writes
+      # posted.telegram into the same video-post-<date>.json record, so the
+      # commit below carries it and a re-run (which checks out main) skips the
+      # post. Response is checked (ok:true + message_id); a 4xx exits 1
+      # (nothing went public), any crash exits 2 (may be public); an unknown outcome
+      # (timeout/5xx) is recorded, NOT retried, and alerted privately.
+      - name: Post video to Telegram
+        id: telegram
+        continue-on-error: true
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
+          # ops-alert.sh: PRIVATE ops chat only (refuses if equal to the channel).
+          TELEGRAM_ALERT_CHAT_ID: ${{ secrets.TELEGRAM_ALERT_CHAT_ID }}
+        run: |
+          # The `secrets` context is not available to step-level `if:`, so gate
+          # on the env vars here instead. Using it in `if:` made the whole
+          # workflow fail to start.
+          if [ -z "$TELEGRAM_BOT_TOKEN" ] || [ -z "$TELEGRAM_CHANNEL_ID" ]; then
+            echo "Telegram secrets not configured — skipping"
+            exit 0
+          fi
+          DATE=$(date -u +%Y-%m-%d)
+          # Base video (not the narrated cut), as before.
+          VIDEO="video/output/watchboard-${DATE}.mp4"
+          # Caption snapshot taken right after the render, before any git
+          # pull/rebase could revert the data file: it matches the video.
+          # Exit 1 = rejected (nothing public); 2 = may be public. The gate at
+          # the end of the job reads `rc` to tell the two apart.
+          rc=0
+          npx tsx scripts/telegram-video-post.ts "$VIDEO" \
+            --record "public/_social/video-post-${DATE}.json" \
+            --caption-file /tmp/telegram-caption-breaking.txt || rc=$?
+          echo "rc=$rc" >> "$GITHUB_OUTPUT"
+          exit $rc
+
       - name: Commit social post record
         id: commit_social
         continue-on-error: true
@@ -220,7 +262,7 @@ jobs:
             git diff --cached --quiet || git commit -m "chore(social): video post record ${DATE}"
             # The render leaves tracked files modified (video/src/data/breaking.json,
             # video/state/tracker-history.json); push-state.sh pulls with --autostash.
-            PUSH_STATE_DETAIL="record: public/_social/video-post-${DATE}.json" \
+            PUSH_STATE_DETAIL="Daily video already posted to Bluesky/Telegram — DO NOT re-run; commit by hand: public/_social/video-post-${DATE}.json" \
               bash scripts/ci/push-state.sh "video-post-${DATE}" 5
           fi
 
@@ -326,45 +368,6 @@ jobs:
           done
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "Download from the Artifacts section above." >> $GITHUB_STEP_SUMMARY
-      - name: Post video to Telegram
-        continue-on-error: true
-        env:
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
-        run: |
-          # The `secrets` context is not available to step-level `if:`, so gate
-          # on the env vars here instead. Using it in `if:` made the whole
-          # workflow fail to start.
-          if [ -z "$TELEGRAM_BOT_TOKEN" ] || [ -z "$TELEGRAM_CHANNEL_ID" ]; then
-            echo "Telegram secrets not configured — skipping"
-            exit 0
-          fi
-
-          DATE=$(date -u +%Y-%m-%d)
-          VIDEO="video/output/watchboard-${DATE}.mp4"
-          
-          if [ ! -f "$VIDEO" ]; then
-            echo "No video file — skipping Telegram"
-            exit 0
-          fi
-          
-          # Use the caption snapshot taken right after the render, BEFORE any
-          # git pull/rebase could revert breaking.json to an older committed
-          # version. This guarantees the caption matches the video on screen.
-          if [ -f /tmp/telegram-caption-breaking.txt ]; then
-            CAPTION=$(cat /tmp/telegram-caption-breaking.txt)
-          else
-            CAPTION=$(printf '🔴 Watchboard Daily Brief — %s\n\n🔗 watchboard.dev\n\n#Watchboard' "$DATE")
-          fi
-          
-          curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendVideo" \
-            -F "chat_id=${TELEGRAM_CHANNEL_ID}" \
-            -F "video=@${VIDEO}" \
-            --form-string "caption=${CAPTION}" \
-            -F "parse_mode=HTML" \
-            -F "supports_streaming=true" \
-            && echo "✅ Video posted to Telegram" \
-            || echo "⚠️ Telegram video post failed (non-fatal)"
 
       - name: Fail job if a state commit/push failed
         # The two commit steps above run with continue-on-error: true so that
@@ -380,14 +383,31 @@ jobs:
         # the only alert.
         if: always()
         run: |
+          # "A re-run is safe" is printed only when Telegram exited 1
+          # (rejected: nothing public) AND every state commit reached main
+          # (so a re-run skips Bluesky). Anything else gets ONE "DO NOT RE-RUN".
           failed=0
+          dnr=""
           if [ "${{ steps.commit_social.outcome }}" = "failure" ] || [ "${{ steps.commit_video_state.outcome }}" = "failure" ]; then
-            echo "::error::A state commit/push step failed — see 'Commit social post record' and/or 'Commit tracker history + daily log' above. The video itself may have rendered and posted fine, but bot state was not saved to main."
+            dnr="${dnr} A state commit/push step failed — see 'Commit social post record' and/or 'Commit tracker history + daily log' above; bot state was not saved to main."
             failed=1
           fi
           if [ "${{ steps.narrate.outcome }}" = "failure" ]; then
             echo "::error::Narration failed — see 'Generate narration with ElevenLabs' above. The video posted without voice."
             failed=1
+          fi
+          if [ "${{ steps.telegram.outcome }}" = "failure" ]; then
+            failed=1
+            if [ "${{ steps.telegram.outputs.rc }}" = "1" ] && [ "${{ steps.commit_social.outcome }}" = "success" ] && [ "${{ steps.commit_video_state.outcome }}" = "success" ]; then
+              echo "::error::Telegram rejected the daily video (4xx) — nothing was published there and the post record is on main; a re-run is safe"
+            elif [ "${{ steps.telegram.outputs.rc }}" = "1" ]; then
+              dnr="${dnr} Telegram rejected the video (4xx, nothing published there), but the post record is not on main, so a re-run would post to Bluesky again."
+            else
+              dnr="${dnr} The Telegram step failed (exit '${{ steps.telegram.outputs.rc }}', not a rejection) — the video may already be public on Telegram without a record."
+            fi
+          fi
+          if [ -n "$dnr" ]; then
+            echo "::error::DO NOT RE-RUN — the video is already public.${dnr}"
           fi
           exit $failed
 
@@ -572,6 +592,44 @@ jobs:
             echo "No progress video file found — skipping social post"
           fi
 
+      # Before "Commit social post record": telegram-video-post.ts writes
+      # posted.telegram into the same video-post-progress-<date>.json record, so the
+      # commit below carries it and a re-run (which checks out main) skips the
+      # post. Response is checked (ok:true + message_id); a 4xx exits 1
+      # (nothing went public), any crash exits 2 (may be public); an unknown outcome
+      # (timeout/5xx) is recorded, NOT retried, and alerted privately.
+      - name: Post progress video to Telegram
+        id: telegram
+        continue-on-error: true
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
+          # ops-alert.sh: PRIVATE ops chat only (refuses if equal to the channel).
+          TELEGRAM_ALERT_CHAT_ID: ${{ secrets.TELEGRAM_ALERT_CHAT_ID }}
+        run: |
+          # The `secrets` context is not available to step-level `if:`, so gate
+          # on the env vars here instead. Using it in `if:` made the whole
+          # workflow fail to start.
+          if [ -z "$TELEGRAM_BOT_TOKEN" ] || [ -z "$TELEGRAM_CHANNEL_ID" ]; then
+            echo "Telegram secrets not configured — skipping"
+            exit 0
+          fi
+          DATE=$(date -u +%Y-%m-%d)
+          VIDEO="video/output/watchboard-${DATE}-progress.mp4"
+          NARRATED="video/output/watchboard-${DATE}-progress-narrated-en.mp4"
+          SEND="$VIDEO"
+          [ -f "$NARRATED" ] && SEND="$NARRATED"
+          # Caption snapshot taken right after the render, before any git
+          # pull/rebase could revert the data file: it matches the video.
+          # Exit 1 = rejected (nothing public); 2 = may be public. The gate at
+          # the end of the job reads `rc` to tell the two apart.
+          rc=0
+          npx tsx scripts/telegram-video-post.ts "$SEND" \
+            --record "public/_social/video-post-progress-${DATE}.json" \
+            --caption-file /tmp/telegram-caption-progress.txt || rc=$?
+          echo "rc=$rc" >> "$GITHUB_OUTPUT"
+          exit $rc
+
       - name: Commit social post record
         id: commit_progress_social
         continue-on-error: true
@@ -595,7 +653,7 @@ jobs:
             echo "No progress video state to commit"
           else
             git commit -m "chore(social): progress video post record ${DATE}"
-            PUSH_STATE_DETAIL="record: public/_social/video-post-progress-${DATE}.json + video/state/tracker-history.json" \
+            PUSH_STATE_DETAIL="Progress video already posted to Bluesky/Telegram — DO NOT re-run; commit by hand: public/_social/video-post-progress-${DATE}.json + video/state/tracker-history.json" \
               bash scripts/ci/push-state.sh "video-post-progress-${DATE}" 5
           fi
 
@@ -607,48 +665,6 @@ jobs:
             video/output/*.mp4
             video/output/*.mp3
           retention-days: 30
-
-      - name: Post progress video to Telegram
-        continue-on-error: true
-        env:
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
-        run: |
-          # The `secrets` context is not available to step-level `if:`, so gate
-          # on the env vars here instead. Using it in `if:` made the whole
-          # workflow fail to start.
-          if [ -z "$TELEGRAM_BOT_TOKEN" ] || [ -z "$TELEGRAM_CHANNEL_ID" ]; then
-            echo "Telegram secrets not configured — skipping"
-            exit 0
-          fi
-
-          DATE=$(date -u +%Y-%m-%d)
-          VIDEO="video/output/watchboard-${DATE}-progress.mp4"
-          NARRATED="video/output/watchboard-${DATE}-progress-narrated-en.mp4"
-          SEND="$VIDEO"
-          [ -f "$NARRATED" ] && SEND="$NARRATED"
-
-          if [ ! -f "$SEND" ]; then
-            echo "No progress video file — skipping Telegram"
-            exit 0
-          fi
-
-          # Use the snapshot taken right after render, before any git pull/rebase
-          # could revert breaking.json. Guarantees caption matches the video.
-          if [ -f /tmp/telegram-caption-progress.txt ]; then
-            CAPTION=$(cat /tmp/telegram-caption-progress.txt)
-          else
-            CAPTION=$(printf '🌱 Watchboard Progress Brief — %s\n\n🔗 watchboard.dev\n\n#Watchboard' "$DATE")
-          fi
-
-          curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendVideo" \
-            -F "chat_id=${TELEGRAM_CHANNEL_ID}" \
-            -F "video=@${SEND}" \
-            --form-string "caption=${CAPTION}" \
-            -F "parse_mode=HTML" \
-            -F "supports_streaming=true" \
-            && echo "\u2705 Progress video posted to Telegram" \
-            || echo "\u26A0\uFE0F Telegram progress video post failed (non-fatal)"
 
       - name: Summary
         run: |
@@ -671,13 +687,30 @@ jobs:
         # so a red run here is the only alert.
         if: always()
         run: |
+          # "A re-run is safe" is printed only when Telegram exited 1
+          # (rejected: nothing public) AND the post record reached main (so a
+          # re-run skips Bluesky). Anything else gets ONE "DO NOT RE-RUN".
           failed=0
+          dnr=""
           if [ "${{ steps.commit_progress_social.outcome }}" = "failure" ]; then
-            echo "::error::Progress video social post record failed to push to main — see 'Commit social post record' above. The next run will not know this was already posted."
+            dnr="${dnr} Progress video social post record failed to push to main — see 'Commit social post record' above. The next run will not know this was already posted."
             failed=1
           fi
           if [ "${{ steps.narrate_progress.outcome }}" = "failure" ]; then
             echo "::error::Progress narration failed — see 'Generate narration with ElevenLabs (progress tone)' above. The video posted without voice."
             failed=1
+          fi
+          if [ "${{ steps.telegram.outcome }}" = "failure" ]; then
+            failed=1
+            if [ "${{ steps.telegram.outputs.rc }}" = "1" ] && [ "${{ steps.commit_progress_social.outcome }}" = "success" ]; then
+              echo "::error::Telegram rejected the progress video (4xx) — nothing was published there and the post record is on main; a re-run is safe"
+            elif [ "${{ steps.telegram.outputs.rc }}" = "1" ]; then
+              dnr="${dnr} Telegram rejected the video (4xx, nothing published there), but the post record is not on main, so a re-run would post to Bluesky again."
+            else
+              dnr="${dnr} The Telegram step failed (exit '${{ steps.telegram.outputs.rc }}', not a rejection) — the video may already be public on Telegram without a record."
+            fi
+          fi
+          if [ -n "$dnr" ]; then
+            echo "::error::DO NOT RE-RUN — the video is already public.${dnr}"
           fi
           exit $failed

@@ -107,9 +107,8 @@ The table is generated from the source by `scripts/list-env-vars.ts`
 | `SITE` | site build | `src/layouts/BaseLayout.astro`, `src/pages/[tracker]/events/[...slug].astro`, `src/pages/[tracker]/index.astro`, `src/pages/briefing/[date].astro`, `src/pages/briefing/index.astro` |
 | `SKIP_FETCH` | video render | `video/render.ts` |
 | `STAMP_TODAY` | CI scripts | `scripts/stamp-provenance.ts` |
-| `TELEGRAM_BOT_TOKEN` | CI scripts | `scripts/hourly-light-scan.ts`, `scripts/repost-daily-telegram.ts`, `scripts/telegram-channel.ts` |
+| `TELEGRAM_BOT_TOKEN` | CI scripts | `scripts/repost-daily-telegram.ts`, `scripts/telegram-channel.ts` |
 | `TELEGRAM_CHANNEL_ID` | CI scripts | `scripts/repost-daily-telegram.ts`, `scripts/telegram-channel.ts` |
-| `TELEGRAM_CHAT_ID` | CI scripts | `scripts/hourly-light-scan.ts` |
 | `TRACKER_SLUG` | CI scripts | `scripts/update-data.ts` |
 | `UPDATE_SECTIONS` | CI scripts | `scripts/update-data.ts` |
 | `VIDEO_MODE` | video render | `video/render.ts`, `video/src/data/fetch-breaking.ts` |
