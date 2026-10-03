@@ -39,6 +39,12 @@ jobs:
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID:   ${{ secrets.TELEGRAM_CHANNEL_ID }}
+          # A public send with an unknown outcome (timeout, 5xx) is recorded
+          # and never retried; the scan tells the PRIVATE ops chat instead.
+          # TELEGRAM_CHANNEL_ID is passed only so it can refuse when the two
+          # secrets are ever the same chat.
+          TELEGRAM_ALERT_CHAT_ID: ${{ secrets.TELEGRAM_ALERT_CHAT_ID }}
+          TELEGRAM_CHANNEL_ID:    ${{ secrets.TELEGRAM_CHANNEL_ID }}
         run: npx tsx scripts/hourly-light-scan.ts
 
       - name: Commit pending-candidates + triage-log + state

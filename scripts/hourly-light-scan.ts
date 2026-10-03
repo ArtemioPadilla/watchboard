@@ -195,59 +195,151 @@ function savePending(p: PendingCandidates, path: string): void {
   writeFileSync(path, JSON.stringify(p, null, 2), 'utf8');
 }
 
-/** Post one public alert and, on success, record it in `state.alerted` and
- *  write state.json at once. The record is durable before the next post, the
- *  triage I/O or the alerts.json write can fail, so a crash later in the scan
- *  (or a re-run) never re-sends an alert that already went out. */
+/** Outcome of one public Telegram send.
+ *  - `sent`: HTTP 2xx with a numeric `result.message_id`.
+ *  - `rejected`: Telegram did not publish (HTTP 4xx, missing credentials, or a
+ *    DNS / connection-refused error that never reached Telegram). Safe to retry.
+ *  - `unknown`: it may have published (timeout, reset, HTTP 5xx, 2xx with no
+ *    id). Never retried: a lost alert is better than a duplicate public post
+ *    (owner question 7 default). */
+export type SendOutcome = 'sent' | 'rejected' | 'unknown';
+
+const NEVER_REACHED = new Set(['ENOTFOUND', 'EAI_AGAIN', 'ECONNREFUSED']);
+const TELEGRAM_TIMEOUT_MS = 15_000;
+
+type FetchLike = (url: string, init: RequestInit) => Promise<Response>;
+type Env = Record<string, string | undefined>;
+
+/** Post one public alert and record it in `state.alerted`, writing state.json
+ *  at once. A `sent` post is recorded so a crash later in the scan (or a
+ *  re-run) never re-sends it. An `unknown` post is recorded too, flagged
+ *  `uncertain`, so it counts toward the cooldown and daily cap and is never
+ *  re-sent; `onUncertain` raises the private ops notice. Only `rejected`
+ *  leaves state untouched for the caller to queue a retry. */
 export async function alertAndRecord(
   state: HourlyState,
   cand: { title: string; url: string; score: number; tracker: string; topicKey: string },
   deps: {
-    post: (title: string, url: string, score: number, tracker: string) => Promise<boolean>;
+    post: (title: string, url: string, score: number, tracker: string) => Promise<SendOutcome>;
     save: (s: HourlyState) => void;
+    onUncertain?: (cand: { title: string; url: string; tracker: string }) => unknown;
     now?: () => Date;
   },
-): Promise<boolean> {
-  const ok = await deps.post(cand.title, cand.url, cand.score, cand.tracker);
-  if (!ok) return false;
+): Promise<SendOutcome> {
+  const outcome = await deps.post(cand.title, cand.url, cand.score, cand.tracker);
+  if (outcome === 'rejected') return outcome;
   (state.alerted ??= []).push({
     tracker: cand.tracker,
     topicKey: cand.topicKey,
     ts: (deps.now ?? (() => new Date()))().toISOString(),
+    ...(outcome === 'unknown' ? { uncertain: true } : {}),
   });
   deps.save(state);
-  return true;
+  if (outcome === 'unknown') await deps.onUncertain?.(cand);
+  return outcome;
 }
 
-/** Post a breaking alert to Telegram. Returns true on success — failures are
- *  recorded in state.telegramFailed so the next scan retries the alert. */
-async function postTelegram(title: string, url: string, score: number, trackerSlug: string): Promise<boolean> {
-  const token = process.env.TELEGRAM_BOT_TOKEN;
-  const chatId = process.env.TELEGRAM_CHAT_ID;
+/** Post a breaking alert to the public Telegram channel and classify the
+ *  outcome (see SendOutcome). Only `rejected` may be retried by a later scan. */
+export async function postTelegram(
+  title: string, url: string, score: number, trackerSlug: string,
+  opts: { fetchImpl?: FetchLike; env?: Env; timeoutMs?: number } = {},
+): Promise<SendOutcome> {
+  const env = opts.env ?? process.env;
+  const doFetch = opts.fetchImpl ?? (fetch as FetchLike);
+  const token = env.TELEGRAM_BOT_TOKEN;
+  const chatId = env.TELEGRAM_CHAT_ID;
   if (!token || !chatId) {
     console.warn('[light-scan] TELEGRAM_BOT_TOKEN/CHAT_ID missing; skipping post');
-    return false;
+    return 'rejected';
   }
   // Use plain text instead of Markdown to avoid escaping headache — headlines
   // routinely contain `_`, `*`, `[`, `]`, `(`, `)` which Telegram's Markdown
   // parser treats as formatting. Plain text + URL preview gives the same UX
   // without the breakage risk.
   const text = `⚡ Breaking (${trackerSlug}, score ${score.toFixed(2)})\n${title}\n${url}`;
+  const ac = new AbortController();
+  const timer = setTimeout(() => ac.abort(), opts.timeoutMs ?? TELEGRAM_TIMEOUT_MS);
   try {
-    const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+    const res = await doFetch(`${env.TELEGRAM_API_BASE || 'https://api.telegram.org'}/bot${token}/sendMessage`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ chat_id: chatId, text, disable_web_page_preview: false }),
+      signal: ac.signal,
     });
-    if (!res.ok) {
-      console.warn('[light-scan] telegram post failed:', await res.text());
-      return false;
+    if (res.ok) {
+      let id: unknown;
+      try { id = ((await res.json()) as { result?: { message_id?: unknown } })?.result?.message_id; } catch { /* unreadable body */ }
+      if (typeof id === 'number') return 'sent';
+      console.warn(`[light-scan] telegram HTTP ${res.status} without message_id — outcome unknown, not retrying`);
+      return 'unknown';
     }
-    return true;
+    const body = await res.text().catch(() => '');
+    if (res.status >= 400 && res.status < 500) {
+      console.warn(`[light-scan] telegram rejected the post (HTTP ${res.status}):`, body);
+      return 'rejected';
+    }
+    console.warn(`[light-scan] telegram HTTP ${res.status} — outcome unknown, not retrying:`, body);
+    return 'unknown';
   } catch (err) {
-    console.warn('[light-scan] telegram post failed:', (err as Error).message);
+    const code = (err as { cause?: { code?: string } }).cause?.code;
+    if (code && NEVER_REACHED.has(code)) {
+      console.warn(`[light-scan] telegram unreachable (${code}); will retry next scan`);
+      return 'rejected';
+    }
+    console.warn('[light-scan] telegram post outcome unknown, not retrying:', (err as Error).message);
+    return 'unknown';
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+/** One line to the PRIVATE ops chat (TELEGRAM_ALERT_CHAT_ID). Refuses when
+ *  that chat is the public channel, as scripts/ci/ops-alert.sh does. Never
+ *  throws: a missing notice is a warning, not a failed scan. */
+export async function sendOpsAlert(
+  text: string,
+  opts: { fetchImpl?: FetchLike; env?: Env } = {},
+): Promise<boolean> {
+  const env = opts.env ?? process.env;
+  const doFetch = opts.fetchImpl ?? (fetch as FetchLike);
+  const token = env.TELEGRAM_BOT_TOKEN;
+  const chat = env.TELEGRAM_ALERT_CHAT_ID;
+  if (!token || !chat) {
+    console.warn(`[light-scan] TELEGRAM_ALERT_CHAT_ID not set — ops alert not sent: ${text}`);
     return false;
   }
+  // TELEGRAM_CHAT_ID is the public channel in this script (light-scan.yml).
+  if (chat === env.TELEGRAM_CHANNEL_ID || chat === env.TELEGRAM_CHAT_ID) {
+    console.error('[light-scan] TELEGRAM_ALERT_CHAT_ID equals the public channel — refusing to send ops alert');
+    return false;
+  }
+  const runUrl = env.GITHUB_RUN_ID
+    ? `\n${env.GITHUB_SERVER_URL ?? ''}/${env.GITHUB_REPOSITORY ?? ''}/actions/runs/${env.GITHUB_RUN_ID}`
+    : '';
+  const ac = new AbortController();
+  const timer = setTimeout(() => ac.abort(), TELEGRAM_TIMEOUT_MS);
+  try {
+    const res = await doFetch(`${env.TELEGRAM_API_BASE || 'https://api.telegram.org'}/bot${token}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: chat, text: text + runUrl, disable_web_page_preview: true }),
+      signal: ac.signal,
+    });
+    if (!res.ok) console.warn(`[light-scan] ops alert HTTP ${res.status}`);
+    return res.ok;
+  } catch (err) {
+    console.warn('[light-scan] ops alert could not be sent:', (err as Error).message);
+    return false;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+function notifyUncertain(c: { title: string; url: string; tracker: string }): Promise<boolean> {
+  return sendOpsAlert(
+    `light-scan: public alert outcome unknown (timeout/5xx), recorded as sent and NOT retried — check the channel.\n${c.tracker}: ${c.title}\n${c.url}`,
+  );
 }
 
 /**
@@ -279,23 +371,28 @@ async function main() {
   const state = loadState();
   const seenUrls = new Set(state.seen.map((s) => s.url));
 
-  // Retry Telegram alerts that failed on a previous scan (the candidate was
-  // already queued to pending — only the alert was lost).
+  // Retry Telegram alerts that Telegram rejected on a previous scan (the
+  // candidate was already queued to pending — only the alert was lost). Only
+  // `rejected` sends are ever queued here; an `unknown` one may have
+  // published, so it is recorded and never re-sent.
   if (state.telegramFailed?.length) {
     const pending = [...state.telegramFailed];
     const stillFailed: typeof state.telegramFailed = [];
     for (let i = 0; i < pending.length; i++) {
       const f = pending[i];
-      const ok = await postTelegram(f.title, f.url, f.score, f.tracker);
-      if (ok) {
-        console.log(`[light-scan] retried telegram alert OK: ${f.url}`);
-        // Drop the sent entry and persist at once, so a crash later in this
-        // scan never re-sends a retried alert that already went public.
-        state.telegramFailed = [...stillFailed, ...pending.slice(i + 1)];
-        saveState(state);
-      } else {
-        stillFailed.push(f);
-      }
+      const outcome = await alertAndRecord(
+        state,
+        { title: f.title, url: f.url, score: f.score, tracker: f.tracker, topicKey: topicKeyOf(f.title) },
+        {
+          post: postTelegram,
+          // Drop the entry before saving, so a crash later in this scan never
+          // re-sends a retried alert that went (or may have gone) public.
+          save: (s) => { s.telegramFailed = [...stillFailed, ...pending.slice(i + 1)]; saveState(s); },
+          onUncertain: notifyUncertain,
+        },
+      );
+      if (outcome === 'sent') console.log(`[light-scan] retried telegram alert OK: ${f.url}`);
+      else if (outcome === 'rejected') stillFailed.push(f);
     }
     state.telegramFailed = stillFailed;
   }
@@ -410,13 +507,13 @@ async function main() {
       const today = new Date().toISOString().slice(0, 10);
       const sentToday = state.alerted.filter((a) => a.ts.slice(0, 10) === today).length;
 
-      let tgOk = true;
+      let outcome: SendOutcome | null = null;
       if (dupe) {
         console.log(`[light-scan] skip alert (same story as earlier post): ${cand.title.slice(0, 70)}`);
       } else if (sentToday >= ALERT_DAILY_CAP) {
         console.log(`[light-scan] daily alert cap reached (${ALERT_DAILY_CAP}) — queued only`);
       } else {
-        tgOk = await alertAndRecord(
+        outcome = await alertAndRecord(
           state,
           { title: cand.title, url: cand.url, score: bestScore, tracker: bestSlug, topicKey: key },
           {
@@ -425,13 +522,15 @@ async function main() {
             // the queue with it so a later crash cannot leave them "seen"
             // on disk but missing from pending-candidates.json.
             save: (s) => { saveState(s); savePending(pending, PATHS.pendingCandidates); },
+            onUncertain: notifyUncertain,
           },
         );
       }
 
-      if (!tgOk) {
-        // Record so the next scan retries the alert (URL is already in
-        // state.seen, so without this the alert would be lost forever).
+      if (outcome === 'rejected') {
+        // Telegram did not publish: record so the next scan retries the alert
+        // (URL is already in state.seen, so without this it would be lost).
+        // An `unknown` outcome is never queued here: it may be public.
         state.telegramFailed = state.telegramFailed ?? [];
         state.telegramFailed.push({
           url: cand.url, title: cand.title, tracker: bestSlug,
