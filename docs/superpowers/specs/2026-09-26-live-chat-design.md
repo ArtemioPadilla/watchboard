@@ -1321,6 +1321,33 @@ como filtro adicional (P9).
 
 ## 14. Preguntas abiertas para el dueño
 
+### Decisiones del dueño (2026-10-02)
+
+- **P1 (parcial) — Piloto:** solo trackers de ciencia/cultura de baja
+  polarización (de la propuesta: `fusion-energy`, `crispr-gene-therapy`,
+  `cdmx` u otros del mismo tipo). Ninguno de conflicto en el piloto; una
+  sala de conflicto requiere su propio spec. Siguen abiertos los slugs
+  concretos (1-2) y P2.
+- **P6-jurisdicción — Sin restricción.** Los DO **no** se crean con
+  `.jurisdiction('eu')`: Cloudflare ubica cada sala cerca de su primer
+  usuario. Se registra que la recomendación era UE y que la decisión es
+  irreversible para las salas ya creadas. `worker/chat/stubs.ts` sigue
+  siendo el único punto de `idFromName`, ahora sin jurisdicción; el
+  aviso de privacidad (6.3) debe decir que los mensajes pueden
+  almacenarse fuera de la UE.
+- **Riesgo residual de 7.2 aceptado para el piloto:** una sola cuenta de
+  Cloudflare compartida con push, con los límites del plan (200 sockets
+  anónimos, 1000 mensajes/sala/día, regla WAF). Se revisa si el chat
+  crece.
+- **P6 (parcial) — Contacto legal:** `info@cybere.co` como punto de
+  contacto (arts. 11-12 DSA), dirección para avisos (art. 16) y punto de
+  contacto para órdenes de retirada TCO (6.2 bis). Siguen abiertos:
+  nombre del responsable del tratamiento, autoridad/línea de denuncia,
+  estado del art. 19 y revisión legal.
+
+Siguen bloqueando el paso 2: **P2** (umbrales N y M) y los slugs del
+piloto.
+
 Las P del 09-24 se dan por cerradas con la decisión del 09-25, salvo su
 P9 (CSP de push), que este spec absorbe en el paso 0. La numeración de
 abajo es propia de este spec.
