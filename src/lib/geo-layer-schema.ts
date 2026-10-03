@@ -79,17 +79,66 @@ export interface StaticLayerMeta {
   kind: 'point' | 'line' | 'polygon';
   /** When true, renderers keep only features whose `properties.countryCode` is in the tracker's `map.radioCountryCodes` (src/lib/radio-icons.ts `filterByCountry`) before drawing — a bbox pad leaks hundreds of foreign stations/towers into a small theater, since every radio feature already carries an exact `countryCode`. Radio layers only — other static layers (nuclear plants, cables, chokepoints) render worldwide, and the homepage's radio-stations-global layer is also unfiltered. */
   filterByCountry?: boolean;
+  /** i18n key of the "none mapped" sentence (with a `{codes}` placeholder) shown when `emptyScopeReason` / `partialEmptyScope` name countries. Only a layer that declares it ever shows an empty state: radio-stations is country-scoped too, and a towers sentence would be wrong for it. */
+  emptyStateKey?: string;
 }
 
 export const STATIC_LAYERS: StaticLayerMeta[] = [
   { id: 'nuclear-plants', label: 'layers.nuclearPlants', color: '#ffcc00', kind: 'point' },
   { id: 'submarine-cables', label: 'layers.submarineCables', color: '#4fc3f7', kind: 'line' },
   { id: 'maritime-chokepoints', label: 'layers.chokepoints', color: '#ff8a65', kind: 'point' },
-  { id: 'radio-towers', label: 'layers.radioTowers', color: '#66ffcc', kind: 'point', filterByCountry: true },
-  { id: 'radio-stations', label: 'layers.radioStations', color: '#ff66cc', kind: 'point', filterByCountry: true },
+  { id: 'radio-towers', label: 'layers.radioTowers', color: '#66ffcc', kind: 'point', filterByCountry: true, emptyStateKey: 'layers.radioTowersNone' },
+  { id: 'radio-stations',label: 'layers.radioStations', color: '#ff66cc', kind: 'point', filterByCountry: true },
   { id: 'radio-stations-global', label: 'layers.radioStationsGlobal', color: '#ff66cc', kind: 'point' },
 ];
 
 export function staticLayerMeta(id: string): StaticLayerMeta | undefined {
   return STATIC_LAYERS.find(l => l.id === id);
+}
+
+/** Codes among `codes` that were fetched fresh with 0 features and draw nothing; null when the layer cannot show an empty state at all. */
+function freshZeroCodes(layer: GeoLayer | null | undefined, codes: string[] | null | undefined, meta: StaticLayerMeta | undefined): string[] | null {
+  if (!layer || !meta?.filterByCountry || !meta.emptyStateKey || !codes || codes.length === 0) return null;
+  const prov = layer._provenance.countries;
+  if (!prov) return null;
+  const drawn = new Set(layer.features.map(f => String((f.properties as Record<string, unknown> | null)?.countryCode ?? '')));
+  return [...new Set(codes)].filter(cc => {
+    const c = prov[cc];
+    return !!c && c.status === 'fresh' && c.count === 0 && !drawn.has(cc);
+  }).sort();
+}
+
+/**
+ * Why a country-scoped layer draws nothing for this tracker, when the reason
+ * is "OpenStreetMap has no such features there" (spec §3, option C2) — e.g.
+ * radio-towers for gaza-war (IL, PS). Returns the sorted codes only if every
+ * one of them was fetched fresh with count 0 and no feature matches any of
+ * them; a stale or never-fetched country is a data problem, not an empty map,
+ * and returns null so the UI doesn't claim something it hasn't verified.
+ */
+export function emptyScopeReason(layer: GeoLayer | null | undefined, codes: string[] | null | undefined, meta: StaticLayerMeta | undefined): string[] | null {
+  const zeros = freshZeroCodes(layer, codes, meta);
+  if (!zeros || !codes) return null;
+  return zeros.length === new Set(codes).size ? zeros : null;
+}
+
+/**
+ * Owner Q8: the layer draws something, but some of the tracker's countries
+ * were fetched fresh with 0 features (sahel-insurgency: ML has towers, BF/NE
+ * none). Returns those sorted codes for a hint; null when none or all of them
+ * are empty (the latter is `emptyScopeReason`'s case).
+ */
+export function partialEmptyScope(layer: GeoLayer | null | undefined, codes: string[] | null | undefined, meta: StaticLayerMeta | undefined): string[] | null {
+  const zeros = freshZeroCodes(layer, codes, meta);
+  if (!zeros || !codes || zeros.length === 0 || zeros.length === new Set(codes).size) return null;
+  return zeros;
+}
+
+/** Localized, human country list for the empty-state text ("Israel, Palestinian Territories"). */
+export function countryListLabel(codes: string[], locale: string): string {
+  let names: Intl.DisplayNames | null = null;
+  try { names = new Intl.DisplayNames([locale], { type: 'region' }); } catch { /* old runtime: codes */ }
+  return codes.map(cc => {
+    try { return names?.of(cc) ?? cc; } catch { return cc; }
+  }).join(', ');
 }

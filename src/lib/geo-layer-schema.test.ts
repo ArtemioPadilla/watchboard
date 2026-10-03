@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { GeoLayerSchema, GeoLayerProvenanceSchema, STATIC_LAYERS, staticLayerMeta } from './geo-layer-schema';
+import { GeoLayerSchema, GeoLayerProvenanceSchema, STATIC_LAYERS, staticLayerMeta, emptyScopeReason, partialEmptyScope, countryListLabel } from './geo-layer-schema';
 
 const prov = { id: 'x-y', source: 's', url: 'https://a.b/', license: 'CC0', attribution: 'a', retrievedAt: '2026-01-01T00:00:00Z', featureCount: 1 };
 const feature = { type: 'Feature', properties: { name: 'n' }, geometry: { type: 'Point', coordinates: [1, 2] } };
@@ -52,5 +52,62 @@ describe('STATIC_LAYERS', () => {
       expect(staticLayerMeta(l.id)).toBe(l);
     }
     expect(staticLayerMeta('nope')).toBeUndefined();
+  });
+  it('only radio-towers declares an empty-state text', () => {
+    expect(STATIC_LAYERS.filter(l => l.emptyStateKey).map(l => [l.id, l.emptyStateKey])).toEqual([['radio-towers', 'layers.radioTowersNone']]);
+  });
+});
+
+describe('emptyScopeReason', () => {
+  const towers = staticLayerMeta('radio-towers');
+  const layer = (countries: Record<string, { count: number; status: 'fresh' | 'stale' }>, features: Array<{ cc: string }> = []) => GeoLayerSchema.parse({
+    type: 'FeatureCollection',
+    _provenance: { ...prov, id: 'radio-towers', featureCount: features.length, countries: Object.fromEntries(Object.entries(countries).map(([cc, c]) => [cc, { ...c, retrievedAt: '2026-09-24T00:00:00Z' }])) },
+    features: features.map(f => ({ ...feature, properties: { countryCode: f.cc } })),
+  });
+
+  it('names the codes when every tracker country is fresh with 0 towers', () => {
+    expect(emptyScopeReason(layer({ IL: { count: 0, status: 'fresh' }, PS: { count: 0, status: 'fresh' }, UA: { count: 1, status: 'fresh' } }, [{ cc: 'UA' }]), ['PS', 'IL'], towers)).toEqual(['IL', 'PS']);
+  });
+  it('is null when any tracker country has features', () => {
+    expect(emptyScopeReason(layer({ ML: { count: 1, status: 'fresh' }, BF: { count: 0, status: 'fresh' } }, [{ cc: 'ML' }]), ['ML', 'BF'], towers)).toBeNull();
+  });
+  it('is null when a zero country is stale (old data is not "none mapped")', () => {
+    expect(emptyScopeReason(layer({ YE: { count: 0, status: 'stale' } }), ['YE'], towers)).toBeNull();
+  });
+  it('is null when a code has no provenance entry, for unscoped layers, and before data loads', () => {
+    expect(emptyScopeReason(layer({}), ['YE'], towers)).toBeNull();
+    expect(emptyScopeReason(layer({ YE: { count: 0, status: 'fresh' } }), ['YE'], staticLayerMeta('nuclear-plants'))).toBeNull();
+    expect(emptyScopeReason(null, ['YE'], towers)).toBeNull();
+    expect(emptyScopeReason(layer({}), [], towers)).toBeNull();
+  });
+  it('is null for a country-scoped layer without emptyStateKey (radio-stations)', () => {
+    expect(emptyScopeReason(layer({ YE: { count: 0, status: 'fresh' } }), ['YE'], staticLayerMeta('radio-stations'))).toBeNull();
+  });
+
+  describe('partialEmptyScope (owner Q8: hint when only some countries are empty)', () => {
+    it('names the fresh-zero codes when others have towers (sahel: ML has towers, BF/NE none)', () => {
+      expect(partialEmptyScope(layer({ ML: { count: 1, status: 'fresh' }, NE: { count: 0, status: 'fresh' }, BF: { count: 0, status: 'fresh' } }, [{ cc: 'ML' }]), ['ML', 'NE', 'BF'], towers)).toEqual(['BF', 'NE']);
+    });
+    it('is null when every country is empty (that is emptyScopeReason) or none is', () => {
+      expect(partialEmptyScope(layer({ IL: { count: 0, status: 'fresh' }, PS: { count: 0, status: 'fresh' } }), ['IL', 'PS'], towers)).toBeNull();
+      expect(partialEmptyScope(layer({ ML: { count: 1, status: 'fresh' } }, [{ cc: 'ML' }]), ['ML'], towers)).toBeNull();
+    });
+    it('skips stale and missing zeros, and needs emptyStateKey and loaded data', () => {
+      expect(partialEmptyScope(layer({ ML: { count: 1, status: 'fresh' }, BF: { count: 0, status: 'stale' } }, [{ cc: 'ML' }]), ['ML', 'BF', 'NE'], towers)).toBeNull();
+      expect(partialEmptyScope(layer({ ML: { count: 1, status: 'fresh' }, BF: { count: 0, status: 'fresh' } }, [{ cc: 'ML' }]), ['ML', 'BF'], staticLayerMeta('radio-stations'))).toBeNull();
+      expect(partialEmptyScope(null, ['ML', 'BF'], towers)).toBeNull();
+    });
+    it('does not name a country whose features are drawn even if its provenance says 0', () => {
+      expect(partialEmptyScope(layer({ ML: { count: 1, status: 'fresh' }, BF: { count: 0, status: 'fresh' } }, [{ cc: 'ML' }, { cc: 'BF' }]), ['ML', 'BF'], towers)).toBeNull();
+    });
+  });
+});
+
+describe('countryListLabel', () => {
+  it('uses localized country names, not ISO codes', () => {
+    expect(countryListLabel(['IL', 'PS'], 'en')).toBe('Israel, Palestinian Territories');
+    expect(countryListLabel(['YE'], 'es')).toBe('Yemen');
+    expect(countryListLabel(['XX'], 'en')).toBe('XX');
   });
 });
