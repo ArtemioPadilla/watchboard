@@ -22,6 +22,7 @@ import {
   type Candidate,
   type PendingCandidates,
   type TriageLogEntry,
+  type HourlyState,
   PATHS,
   loadState,
   saveState,
@@ -194,6 +195,30 @@ function savePending(p: PendingCandidates, path: string): void {
   writeFileSync(path, JSON.stringify(p, null, 2), 'utf8');
 }
 
+/** Post one public alert and, on success, record it in `state.alerted` and
+ *  write state.json at once. The record is durable before the next post, the
+ *  triage I/O or the alerts.json write can fail, so a crash later in the scan
+ *  (or a re-run) never re-sends an alert that already went out. */
+export async function alertAndRecord(
+  state: HourlyState,
+  cand: { title: string; url: string; score: number; tracker: string; topicKey: string },
+  deps: {
+    post: (title: string, url: string, score: number, tracker: string) => Promise<boolean>;
+    save: (s: HourlyState) => void;
+    now?: () => Date;
+  },
+): Promise<boolean> {
+  const ok = await deps.post(cand.title, cand.url, cand.score, cand.tracker);
+  if (!ok) return false;
+  (state.alerted ??= []).push({
+    tracker: cand.tracker,
+    topicKey: cand.topicKey,
+    ts: (deps.now ?? (() => new Date()))().toISOString(),
+  });
+  deps.save(state);
+  return true;
+}
+
 /** Post a breaking alert to Telegram. Returns true on success — failures are
  *  recorded in state.telegramFailed so the next scan retries the alert. */
 async function postTelegram(title: string, url: string, score: number, trackerSlug: string): Promise<boolean> {
@@ -257,11 +282,20 @@ async function main() {
   // Retry Telegram alerts that failed on a previous scan (the candidate was
   // already queued to pending — only the alert was lost).
   if (state.telegramFailed?.length) {
+    const pending = [...state.telegramFailed];
     const stillFailed: typeof state.telegramFailed = [];
-    for (const f of state.telegramFailed) {
+    for (let i = 0; i < pending.length; i++) {
+      const f = pending[i];
       const ok = await postTelegram(f.title, f.url, f.score, f.tracker);
-      if (ok) console.log(`[light-scan] retried telegram alert OK: ${f.url}`);
-      else stillFailed.push(f);
+      if (ok) {
+        console.log(`[light-scan] retried telegram alert OK: ${f.url}`);
+        // Drop the sent entry and persist at once, so a crash later in this
+        // scan never re-sends a retried alert that already went public.
+        state.telegramFailed = [...stillFailed, ...pending.slice(i + 1)];
+        saveState(state);
+      } else {
+        stillFailed.push(f);
+      }
     }
     state.telegramFailed = stillFailed;
   }
@@ -382,8 +416,17 @@ async function main() {
       } else if (sentToday >= ALERT_DAILY_CAP) {
         console.log(`[light-scan] daily alert cap reached (${ALERT_DAILY_CAP}) — queued only`);
       } else {
-        tgOk = await postTelegram(cand.title, cand.url, bestScore, bestSlug);
-        if (tgOk) state.alerted.push({ tracker: bestSlug, topicKey: key, ts: new Date().toISOString() });
+        tgOk = await alertAndRecord(
+          state,
+          { title: cand.title, url: cand.url, score: bestScore, tracker: bestSlug, topicKey: key },
+          {
+            post: postTelegram,
+            // state.seen already holds this scan's earlier candidates; write
+            // the queue with it so a later crash cannot leave them "seen"
+            // on disk but missing from pending-candidates.json.
+            save: (s) => { saveState(s); savePending(pending, PATHS.pendingCandidates); },
+          },
+        );
       }
 
       if (!tgOk) {
