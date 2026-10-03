@@ -190,3 +190,129 @@ test.describe('E5 geo layers on the 3D globe — phone', () => {
     await expect(btn).toHaveAccessibleDescription(GAZA_EMPTY);
   });
 });
+
+/**
+ * Evidence for the Task 12 owner phone-check gate (PR-2): screenshots of the
+ * mobile 3D globe on ukraine-war (the only tracker with 3 static layers), by the
+ * route a phone actually takes: dashboard → MAP tab → header "3D" link, which
+ * navigates to /{slug}/globe/ (MobileHeader.tsx). Screenshots are named
+ * mobile-*.png so e2e.yml uploads them as `mobile-qa-screenshots`.
+ * These are not a fluidity measurement; only a real phone answers that.
+ */
+test.describe('Mobile 3D globe — owner phone-check evidence (ukraine-war)', () => {
+  test.use({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, deviceScaleFactor: 2 });
+  const STATIC_IDS = ['nuclear-plants', 'radio-towers', 'radio-stations'];
+  test.beforeEach(async ({ page }) => {
+    await page.addInitScript(TOUR_DONE);
+    await page.addInitScript(() => {
+      localStorage.setItem('mtab-coach-ukraine-war', '1');
+      localStorage.setItem('globe-hint-ukraine-war', '1');
+    });
+    await page.route('https://deepstatemap.live/**', route => route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(DEEPSTATE) }));
+  });
+
+  async function openMapTab(page: Page) {
+    await page.goto('./ukraine-war/');
+    const mapTab = page.locator('#tab-map');
+    await expect(mapTab).toBeVisible({ timeout: 30_000 });
+    await expect(async () => {
+      await mapTab.click();
+      await expect(mapTab).toHaveAttribute('aria-selected', 'true', { timeout: 2_000 });
+    }).toPass({ timeout: 30_000 });
+  }
+
+  /** Taps the header 3D link and opens the globe sheet's Filters tab. */
+  async function openGlobeFilters(page: Page) {
+    await page.locator('.mtab-toggle a', { hasText: '3D' }).click();
+    await page.waitForURL(/\/ukraine-war\/globe\//, { timeout: 60_000 });
+    const filtersTab = page.locator('.mobile-sheet-tab', { hasText: 'Filters' });
+    await expect(filtersTab).toBeVisible({ timeout: 90_000 });
+    await filtersTab.click();
+    for (const id of STATIC_IDS) {
+      await expect(page.locator(`.mobile-sheet-filter-btn[data-layer="${id}"]`)).toBeAttached({ timeout: 30_000 });
+    }
+    // The sheet opens at "half"; Intel layers sit below the fold until it is swiped to "full", as on a phone.
+    await expect(async () => {
+      await swipeSheet(page, -300);
+      await expect(page.locator('.mobile-sheet-filter-btn[data-layer="radio-towers"]')).toBeInViewport({ timeout: 2_000 });
+    }).toPass({ timeout: 30_000 });
+  }
+
+  /** A fast swipe on the drag handle; GlobeMobileSheet snaps one state on velocity (up: half → full, down: full → half → peek). */
+  async function swipeSheet(page: Page, dy: number) {
+    const fire = (type: string, y: number) => page.evaluate(([type, y]) => {
+      const el = document.querySelector('.mobile-sheet-drag-area')!;
+      const touch = new Touch({ identifier: 1, target: el, clientX: 195, clientY: y as number });
+      const list = type === 'touchend' ? [] : [touch];
+      el.dispatchEvent(new TouchEvent(type as string, { touches: list, targetTouches: list, changedTouches: [touch], bubbles: true, cancelable: true }));
+    }, [type, y] as const);
+    const box = await page.locator('.mobile-sheet-drag-area').boundingBox();
+    const y0 = box ? box.y + box.height / 2 : 420;
+    await fire('touchstart', y0);
+    await fire('touchmove', y0 + dy / 2);
+    await fire('touchmove', y0 + dy);
+    await fire('touchend', y0 + dy);
+    await page.waitForTimeout(500); // 0.3 s snap transition
+  }
+
+  async function staticPressed(page: Page) {
+    const pressed: Record<string, string | null> = {};
+    for (const id of STATIC_IDS) pressed[id] = await page.locator(`.mobile-sheet-filter-btn[data-layer="${id}"]`).getAttribute('aria-pressed');
+    return pressed;
+  }
+
+  async function pan(page: Page) {
+    // ~10 s of panning, as the owner does on the phone.
+    for (let i = 0; i < 5; i++) {
+      await page.mouse.move(200, 250);
+      await page.mouse.down();
+      await page.mouse.move(i % 2 ? 260 : 140, i % 2 ? 300 : 200, { steps: 10 });
+      await page.mouse.up();
+      await page.waitForTimeout(2_000);
+    }
+  }
+
+  test('path A: layers start off at first load; radio towers then turn on in 3D', async ({ page }, testInfo) => {
+    await openMapTab(page);
+    await openGlobeFilters(page);
+    const pressed = await staticPressed(page);
+    testInfo.annotations.push({ type: 'path-A static layers aria-pressed at load', description: JSON.stringify(pressed) });
+    console.log('[phone-check] path A, static layers aria-pressed at load:', JSON.stringify(pressed));
+    for (const id of STATIC_IDS) expect(pressed[id]).toBe('false');
+    const towers = page.locator('.mobile-sheet-filter-btn[data-layer="radio-towers"]');
+    await page.screenshot({ path: testInfo.outputPath('mobile-globe-ukraine-A1-layers-off.png') });
+
+    await towers.click();
+    await expect(towers).toHaveAttribute('aria-pressed', 'true');
+    await page.screenshot({ path: testInfo.outputPath('mobile-globe-ukraine-A2-towers-on-sheet.png') });
+    // Swipe the sheet down to peek, so the globe itself is in frame.
+    await swipeSheet(page, 300);
+    await swipeSheet(page, 300);
+    await pan(page);
+    await page.screenshot({ path: testInfo.outputPath('mobile-globe-ukraine-A3-towers-on-globe.png') });
+  });
+
+  test('path B: radio towers turned on in 2D, then 3D opened', async ({ page }, testInfo) => {
+    await openMapTab(page);
+    const toggle = await openRadioTowersToggle(page, null);
+    await toggle.click();
+    await page.waitForFunction(() => (new URLSearchParams(location.search).get('layers') ?? '').includes('radio-towers'), null, { timeout: 10_000 });
+    await page.screenshot({ path: testInfo.outputPath('mobile-globe-ukraine-B1-2d-towers-on.png') });
+    testInfo.annotations.push({ type: 'path-B 2D url', description: page.url() });
+    // Close the layer panel (it replaces the LAYERS button) before tapping 3D.
+    await page.locator('.map-layers-panel:visible .map-layers-close').first().click();
+
+    await openGlobeFilters(page);
+    testInfo.annotations.push({ type: 'path-B globe url', description: page.url() });
+    // Recorded, not asserted: whether the 2D choice carries into 3D is the owner's call.
+    const arrival = await staticPressed(page);
+    testInfo.annotations.push({ type: 'path-B static layers aria-pressed on arrival', description: JSON.stringify(arrival) });
+    console.log('[phone-check] path B, 2D url:', testInfo.annotations.find(a => a.type === 'path-B 2D url')?.description);
+    console.log('[phone-check] path B, globe url:', page.url(), 'static layers aria-pressed on arrival:', JSON.stringify(arrival));
+    await page.screenshot({ path: testInfo.outputPath('mobile-globe-ukraine-B2-arrival-sheet.png') });
+    await swipeSheet(page, 300);
+    await swipeSheet(page, 300);
+    await pan(page);
+    await page.screenshot({ path: testInfo.outputPath('mobile-globe-ukraine-B3-arrival-globe.png') });
+  });
+});
