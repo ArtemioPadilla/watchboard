@@ -19,6 +19,8 @@ interface Props {
   liveLayers?: string[];
   staticLayers?: string[];
   radioCountryCodes?: string[];
+  /** Build-time `computeEmptyScopes()` result: layer id → country codes with no mapped features, so the toggle is marked before the layer is fetched. */
+  emptyScopes?: Record<string, string[]>;
   cameraPresets?: Record<string, { lon: number; lat: number; alt: number; pitch: number; heading: number; label?: string }>;
   endDate?: string;
   clocks?: { label: string; offsetHours: number }[];
@@ -59,6 +61,7 @@ export default function MobileTabShellLoader(props: Props) {
         liveLayers={props.liveLayers}
         staticLayers={props.staticLayers}
         radioCountryCodes={props.radioCountryCodes}
+        emptyScopes={props.emptyScopes}
         kpis={data.kpis}
         meta={data.meta}
         cameraPresets={props.cameraPresets}

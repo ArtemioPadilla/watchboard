@@ -22,6 +22,7 @@ import { loadTrackerData } from '../../lib/data';
 import { loadAllTrackers } from '../../lib/tracker-registry';
 import type { TrackerConfig } from '../../lib/tracker-config';
 import { flattenTimelineEvents } from '../../lib/timeline-utils';
+import { computeEmptyScopes } from '../../lib/empty-scopes-node';
 import { eventPermalink } from '../../lib/event-slug';
 import { countryName } from '../../lib/country-names';
 import { jsonLd } from '../../lib/json-ld';
@@ -44,6 +45,8 @@ const { config } = Astro.props;
 const data = loadTrackerData(config.slug, config.eraLabel);
 const flatEvents = flattenTimelineEvents(data.timeline);
 const categories = config.map?.categories ?? [];
+// Build-time empty scopes: an empty radio toggle is marked before it is clicked (the layer is fetched only when on).
+const emptyScopes = computeEmptyScopes(config.map?.staticLayers, config.map?.radioCountryCodes);
 
 // Build dynamic status label from temporal + domain
 const temporalLabel = config.temporal === 'historical' ? 'HISTORICAL' : 'ACTIVE';
@@ -129,7 +132,7 @@ const faqSchema = {
       <div class="theater-layout">
         {config.sections.includes('map') && (
           <div class="theater-map">
-            <IntelMapLoader client:only="react" trackerSlug={config.slug} categories={categories} mapCenter={config.map?.center} mapBounds={config.map?.bounds} weatherPoints={config.globe?.weatherPoints} liveLayers={config.map?.liveLayers} staticLayers={config.map?.staticLayers} radioCountryCodes={config.map?.radioCountryCodes} />
+            <IntelMapLoader client:only="react" trackerSlug={config.slug} categories={categories} mapCenter={config.map?.center} mapBounds={config.map?.bounds} weatherPoints={config.globe?.weatherPoints} liveLayers={config.map?.liveLayers} staticLayers={config.map?.staticLayers} radioCountryCodes={config.map?.radioCountryCodes} emptyScopes={emptyScopes} />
           </div>
         )}
         <div class={config.sections.includes('map') ? 'theater-scroll' : 'theater-scroll full-width'}>
@@ -164,6 +167,7 @@ const faqSchema = {
       liveLayers={config.map?.liveLayers}
       staticLayers={config.map?.staticLayers}
       radioCountryCodes={config.map?.radioCountryCodes}
+      emptyScopes={emptyScopes}
       cameraPresets={config.globe?.cameraPresets}
       endDate={config.endDate}
       clocks={config.globe?.clocks}

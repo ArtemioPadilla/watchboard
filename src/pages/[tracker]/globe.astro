@@ -5,6 +5,7 @@ import { loadTrackerData } from '../../lib/data';
 import { loadAllTrackers } from '../../lib/tracker-registry';
 import type { TrackerConfig } from '../../lib/tracker-config';
 import { flattenTimelineEvents } from '../../lib/timeline-utils';
+import { computeEmptyScopes } from '../../lib/empty-scopes-node';
 import '../../styles/globe.css';
 
 export function getStaticPaths() {
@@ -24,6 +25,8 @@ interface Props {
 const { config } = Astro.props;
 const data = loadTrackerData(config.slug, config.eraLabel);
 const events = flattenTimelineEvents(data.timeline);
+// Build-time empty scopes: an empty radio toggle is marked before it is clicked.
+const emptyScopes = computeEmptyScopes(config.map?.staticLayers, config.map?.radioCountryCodes);
 
 // Load mission trajectory if present — reuse data.ts loader
 const missionTrajectory = data.missionTrajectory ?? null;
@@ -54,6 +57,7 @@ const basePath = base.endsWith('/') ? base : `${base}/`;
       liveLayers={config.map?.liveLayers}
       staticLayers={config.map?.staticLayers}
       radioCountryCodes={config.map?.radioCountryCodes}
+      emptyScopes={emptyScopes}
       isHistorical={config.temporal === 'historical'}
       endDate={config.endDate}
       clocks={config.globe?.clocks}

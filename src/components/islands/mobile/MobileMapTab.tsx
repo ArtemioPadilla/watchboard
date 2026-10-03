@@ -24,6 +24,8 @@ interface Props {
   liveLayers?: string[];
   staticLayers?: string[];
   radioCountryCodes?: string[];
+  /** Build-time `computeEmptyScopes()` result: layer id → country codes with no mapped features, so the toggle is marked before the layer is fetched. */
+  emptyScopes?: Record<string, string[]>;
   trackerSlug: string;
   // Globe-specific props (optional, only needed when globe is enabled)
   meta?: Meta;
@@ -37,7 +39,7 @@ type GlobeState = 'prompt' | 'loading' | 'loaded' | 'error';
 
 export default function MobileMapTab({
   mode, points, lines, events, categories, kpis,
-  mapCenter, mapBounds, trackerSlug, liveLayers, staticLayers, radioCountryCodes,
+  mapCenter, mapBounds, trackerSlug, liveLayers, staticLayers, radioCountryCodes, emptyScopes,
   meta, cameraPresets, isHistorical, endDate, clocks,
 }: Props) {
   const topKpis = kpis.slice(0, 5);
@@ -108,6 +110,7 @@ export default function MobileMapTab({
             liveLayers={liveLayers}
             staticLayers={staticLayers}
             radioCountryCodes={radioCountryCodes}
+            emptyScopes={emptyScopes}
           />
         </div>
       ) : (

@@ -18,9 +18,11 @@ interface Props {
   mapCenter?: { lon: number; lat: number };
   mapBounds?: { lonMin: number; lonMax: number; latMin: number; latMax: number };
   radioCountryCodes?: string[];
+  /** Build-time `computeEmptyScopes()` result: layer id → country codes with no mapped features, so the toggle is marked before the layer is fetched. */
+  emptyScopes?: Record<string, string[]>;
 }
 
-export default function IntelMapLoader({ trackerSlug, categories, mapCenter, mapBounds, weatherPoints, liveLayers, staticLayers, radioCountryCodes }: Props) {
+export default function IntelMapLoader({ trackerSlug, categories, mapCenter, mapBounds, weatherPoints, liveLayers, staticLayers, radioCountryCodes, emptyScopes }: Props) {
   const [data, setData] = useState<{ points: any[]; lines: any[]; events: any[] } | null>(null);
 
   useEffect(() => {
@@ -48,6 +50,7 @@ export default function IntelMapLoader({ trackerSlug, categories, mapCenter, map
         liveLayers={liveLayers}
         staticLayers={staticLayers}
         radioCountryCodes={radioCountryCodes}
+        emptyScopes={emptyScopes}
       />
     </Suspense>
   );
