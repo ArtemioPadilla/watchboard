@@ -24,6 +24,8 @@ import { isDueOn, markPostedOn, type TrackedEntry } from './lib/social-due.js';
 import { BskyAgent, RichText } from '@atproto/api';
 import { readFileSync, existsSync, statSync } from 'fs';
 import { join, basename } from 'path';
+import { pathToFileURL } from 'url';
+import { postKey, recentOwnPostIndex, type FeedAgentLike } from './lib/bluesky-feed-dedupe.js';
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
@@ -391,7 +393,13 @@ function parseRSSItems(xmlText: string): RSSItem[] {
 
 // ── Queue mode (main) ─────────────────────────────────────────────────────────
 
-async function postFromQueue(dryRun: boolean): Promise<void> {
+export interface PostFromQueueDeps {
+  getAgent?: () => Promise<BskyAgent | null>;
+  sleep?: (ms: number) => Promise<void>;
+}
+
+export async function postFromQueue(dryRun: boolean, deps: PostFromQueueDeps = {}): Promise<void> {
+  const wait = deps.sleep ?? sleep;
   const today = todayDateString();
   const now = new Date();
   const config = loadConfig();
@@ -446,8 +454,25 @@ async function postFromQueue(dryRun: boolean): Promise<void> {
     return;
   }
 
-  const agent = await getBlueskyAgent();
+  const agent = await (deps.getAgent ?? getBlueskyAgent)();
   if (!agent) return;
+
+  // Persist after every post: a crash or a cancelled job between two posts
+  // must not lose the record of the first one (spec §6 F3c).
+  const persist = () => { saveQueue(today, queue); saveBudget(budget); saveHistory(history); };
+
+  // The account's own feed is the record of truth for "already posted": it
+  // survives a failed push of queue-*.json, which the file state does not.
+  const feedIndex = await recentOwnPostIndex(
+    agent as unknown as FeedAgentLike, agent.session?.did ?? '', Date.now(), 24 * 3600_000,
+  );
+  const firstPostText = (entry: QueueEntry, emoji: string): string =>
+    entry.threadTweets && entry.threadTweets.length > 0
+      ? truncateToGraphemes(
+        entry.threadTweets.length === 1 ? `${entry.threadTweets[0]}\n\n🔗 ${entry.link}` : entry.threadTweets[0],
+        BLUESKY_MAX_GRAPHEMES,
+      )
+      : formatBlueskyPost(entry.text.split('\n')[0], entry.text, entry.link, emoji);
 
   let posted = 0;
 
@@ -455,6 +480,16 @@ async function postFromQueue(dryRun: boolean): Promise<void> {
     try {
       const emoji = getTrackerEmoji(entry.tracker);
       const imageUrl = entry.image || entry.memegenUrl;
+
+      const existing = feedIndex.get(postKey(firstPostText(entry, emoji)));
+      if (existing) {
+        // Budget and history were counted (or not) by the run that published
+        // it; counting here would double-charge.
+        markPostedOn(entry as TrackedEntry, 'bluesky', { id: existing, at: new Date().toISOString() });
+        console.log(`::notice::[bluesky] ${entry.tracker}/${entry.type}/${entry.lang} already on the feed (${existing}) — marked posted, not re-posted`);
+        persist();
+        continue;
+      }
 
       if (entry.threadTweets && entry.threadTweets.length > 0) {
         // Post thread
@@ -494,7 +529,7 @@ async function postFromQueue(dryRun: boolean): Promise<void> {
             parentRef = result;
             threadPosted++;
           }
-          await sleep(THREAD_DELAY_MS);
+          await wait(THREAD_DELAY_MS);
         }
 
         if (threadPosted === 0) {
@@ -527,6 +562,7 @@ async function postFromQueue(dryRun: boolean): Promise<void> {
           });
 
           posted++;
+          persist();
         }
       } else {
         // Single post
@@ -575,9 +611,10 @@ async function postFromQueue(dryRun: boolean): Promise<void> {
           });
 
           posted++;
+          persist();
         }
       }
-      await sleep(POST_DELAY_MS);
+      await wait(POST_DELAY_MS);
     } catch (err) {
       console.error(`[bluesky] Failed: ${entry.tracker}/${entry.type}:`, err);
     }
@@ -711,7 +748,9 @@ async function main(): Promise<void> {
   }
 }
 
-main().catch(err => {
-  console.error('[bluesky] Fatal error:', err);
-  process.exit(1);
-});
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main().catch(err => {
+    console.error('[bluesky] Fatal error:', err);
+    process.exit(1);
+  });
+}
