@@ -27,6 +27,7 @@ import { join, basename } from 'path';
 import { execSync } from 'child_process';
 import { todayDateString, PATHS } from './social-types.js';
 import { buildIgCaption, metaConfigFromEnv, publishFacebookVideo, publishInstagramReel } from './lib/meta-publish.js';
+import { createWithRetry, makeTid } from './lib/bsky-retry.js';
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -447,7 +448,30 @@ async function createBlueskyPost(
       record.embed = embed;
     }
 
-    const result = await agent.post(record);
+    // createRecord with an rkey chosen up front instead of agent.post(): a
+    // retry after a lost response can then check whether the post landed
+    // before creating it again (see scripts/lib/bsky-retry.ts).
+    const did = agent.session?.did;
+    if (!did) throw new Error('no active session');
+    const collection = 'app.bsky.feed.post';
+    const postRkey = makeTid();
+    const result = await createWithRetry(
+      async () => (await agent.com.atproto.repo.createRecord({
+        repo: did,
+        collection,
+        rkey: postRkey,
+        record: { $type: collection, ...record },
+      })).data,
+      async () => {
+        try {
+          const r = await agent.com.atproto.repo.getRecord({ repo: did, collection, rkey: postRkey });
+          return { uri: r.data.uri, cid: r.data.cid ?? '' };
+        } catch {
+          return null;
+        }
+      },
+      { sleep, log: (line) => console.warn(`[bluesky] post: ${line}`) },
+    );
     // Convert AT URI to web URL: at://did/app.bsky.feed.post/rkey -> https://bsky.app/profile/handle/post/rkey
     const rkey = result.uri.split('/').pop();
     const url = `https://bsky.app/profile/${handle}/post/${rkey}`;
@@ -638,10 +662,18 @@ async function main(): Promise<void> {
   savePostRecord(record);
   console.log(`\n[video-social] Record saved: ${postRecordPath(meta.date)}`);
 
-  // Summary
-  const postedCount = Object.keys(record.posted).length;
-  const enabledCount = platforms.filter(p => p.enabled).length;
-  console.log(`[video-social] Done. ${postedCount}/${enabledCount} platforms posted.`);
+  // Summary — count only this script's enabled platforms: the record can also
+  // hold posted.telegram from an earlier run.
+  const enabled = platforms.filter(p => p.enabled);
+  const missing = enabled.filter(p => !record.posted[p.name]).map(p => p.name);
+  console.log(`[video-social] Done. ${enabled.length - missing.length}/${enabled.length} platforms posted.`);
+  if (missing.length > 0) {
+    // Exit 2 after the record is saved: the workflow step is continue-on-error,
+    // and its final gate turns the job red and alerts the private ops chat.
+    // A re-run retries only these platforms (the record skips the rest).
+    console.log(`::error::Video not posted to: ${missing.join(', ')}`);
+    process.exit(2);
+  }
 }
 
 main().catch(err => {
