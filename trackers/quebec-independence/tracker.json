@@ -1,0 +1,177 @@
+{
+  "slug": "quebec-independence",
+  "name": "Quebec Independence Movement",
+  "shortName": "Quebec Independence",
+  "description": "Intelligence dashboard tracking the Quebec independence movement following the Parti Québécois electoral victory in October 2026 — referendum prospects, constitutional negotiations, economic impacts, and political alignments.",
+  "icon": "⚜️",
+  "color": "#003DA5",
+  "status": "active",
+  "tone": "alert",
+  "temporal": "live",
+  "domain": "governance",
+  "region": "north-america",
+  "country": "CA",
+  "state": "Quebec",
+  "startDate": "2026-10-06",
+  "tags": [
+    "Quebec",
+    "Parti Québécois",
+    "independence",
+    "referendum",
+    "secession",
+    "Canada",
+    "sovereignty"
+  ],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": -80,
+      "lonMax": -57,
+      "latMin": 44,
+      "latMax": 63
+    },
+    "center": {
+      "lon": -71,
+      "lat": 52
+    },
+    "categories": [
+      {
+        "id": "political",
+        "label": "Political Events",
+        "color": "#003DA5"
+      },
+      {
+        "id": "referendum",
+        "label": "Referendum Activity",
+        "color": "#009A44"
+      },
+      {
+        "id": "indigenous",
+        "label": "Indigenous Territories",
+        "color": "#8B4513"
+      },
+      {
+        "id": "economic",
+        "label": "Economic Indicators",
+        "color": "#F0A500"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "theater": {
+        "lon": -71,
+        "lat": 52,
+        "alt": 2500000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Quebec Overview"
+      },
+      "quebec_city": {
+        "lon": -71.21,
+        "lat": 46.81,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Quebec City (National Assembly)"
+      },
+      "montreal": {
+        "lon": -73.57,
+        "lat": 45.51,
+        "alt": 100000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Montreal"
+      },
+      "ottawa": {
+        "lon": -75.70,
+        "lat": 45.42,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Ottawa (Federal Government)"
+      },
+      "north_shore": {
+        "lon": -70.5,
+        "lat": 49.5,
+        "alt": 400000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Côte-Nord / Northern Quebec"
+      }
+    }
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "politicalAvatars": [
+    "pq",
+    "liberal-federal",
+    "bloc-qc",
+    "indigenous",
+    "other"
+  ],
+  "eventTypes": [
+    "election",
+    "referendum",
+    "constitutional",
+    "diplomatic",
+    "economic",
+    "protest"
+  ],
+  "ai": {
+    "systemPrompt": "You are a political analyst updating the Quebec Independence Movement tracker.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose.\nEvery item must have an \"id\" field (lowercase_snake_case).\n\nSource tier classification:\n- Tier 1: Official (Elections Quebec, National Assembly of Quebec, Parliament of Canada, Supreme Court of Canada rulings, Clarity Act, Statistics Canada)\n- Tier 2: Major outlet (Reuters, AP, CBC, Radio-Canada, Le Devoir, La Presse, Globe and Mail, Toronto Star, Montreal Gazette, Al Jazeera)\n- Tier 3: Institutional (IRPP, Fraser Institute, C.D. Howe Institute, Montreal Economic Institute, academic researchers)\n- Tier 4: Unverified (social media, unattributed reports)\n\nOnly include information verifiable through search. Do not fabricate data.",
+    "searchContext": "Quebec independence Parti Québécois election 2026 referendum sovereignty Canada constitutional crisis",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": -82,
+      "lonMax": -55,
+      "latMin": 43,
+      "latMax": 65
+    },
+    "updateIntervalDays": 1,
+    "backfillTargets": {
+      "timeline": 10,
+      "mapPoints": 5,
+      "claims": 5,
+      "political": 5
+    },
+    "relatedTrackers": [
+      "canada-wildfires-2026"
+    ]
+  },
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": [
+    "CA"
+  ]
+}
