@@ -1,0 +1,189 @@
+[
+  {
+    "type": "breaking",
+    "voice": "analyst",
+    "tracker": "ukraine-war",
+    "lang": "en",
+    "text": "A Russian glide bomb struck buses carrying civilians near Kramatorsk on 8 Oct, killing at least 30 people. Kramatorsk is close to the frontline in Donetsk oblast. Casualty counts are preliminary and may change as recovery continues.",
+    "hashtags": [
+      "#Ukraine",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/ukraine-war/events/2026-10-08-russia-bus-attack-kramatorsk-civilians-oct-8-2026?utm_source=x&utm_medium=breaking&utm_campaign=2026-10-08",
+    "image": "https://watchboard.dev/og/ukraine-war/2026-10-08-russia-bus-attack-kramatorsk-civilians-oct-8-2026.png",
+    "memegenUrl": null,
+    "publishAt": "2026-10-08T08:00:00Z",
+    "estimatedCost": 0.02,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.86,
+      "verdict": "PUBLISH",
+      "comment": "Data-first, uses the event's floor figure ('at least 30') and flags the count as preliminary.",
+      "factChecks": [
+        {
+          "claim": "Russian glide bomb struck buses near Kramatorsk",
+          "status": "verified",
+          "source": "ukraine-war event russia-bus-attack-kramatorsk-civilians-oct-8-2026"
+        },
+        {
+          "claim": "At least 30 killed",
+          "status": "verified",
+          "source": "Event title and digest (30-33 range)"
+        },
+        {
+          "claim": "Kramatorsk is in Donetsk oblast near the frontline",
+          "status": "unverifiable",
+          "source": "Digest says 'near Kramatorsk frontline'; oblast not stated in tracker data"
+        }
+      ]
+    },
+    "id": "0b06f1f6-1890-40d2-bd5a-07cf6310251f",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "auto_approved"
+  },
+  {
+    "type": "breaking",
+    "voice": "analyst",
+    "tracker": "ebola-outbreak",
+    "lang": "en",
+    "text": "Ebola deaths in the 2026 outbreak have passed 4,100 (DRC, Uganda, Kenya). Kenya has confirmed the Bundibugyo strain, its first case of the variant and a spread to East Africa. Confirmed cases stand at 8,397; crude CFR ~48.4% as of 28 Sept.",
+    "hashtags": [
+      "#Ebola",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/ebola-outbreak/events/2026-10-08-ebola-deaths-4100-kenya-bundibugyo-oct2026?utm_source=x&utm_medium=breaking&utm_campaign=2026-10-08",
+    "image": "https://watchboard.dev/og/ebola-outbreak/2026-10-08-ebola-deaths-4100-kenya-bundibugyo-oct2026.png",
+    "memegenUrl": null,
+    "publishAt": "2026-10-08T13:00:00Z",
+    "estimatedCost": 0.02,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.85,
+      "verdict": "PUBLISH",
+      "comment": "All figures come straight from tracker KPIs and the 8 Oct event; the CFR carries its as-of date.",
+      "factChecks": [
+        {
+          "claim": "Deaths 4,100+ (DRC, Uganda, Kenya)",
+          "status": "verified",
+          "source": "ebola-outbreak KPI: Deaths (2026 Outbreak)"
+        },
+        {
+          "claim": "Kenya confirmed Bundibugyo strain",
+          "status": "verified",
+          "source": "Event ebola-deaths-4100-kenya-bundibugyo-oct2026"
+        },
+        {
+          "claim": "8,397 confirmed cases",
+          "status": "verified",
+          "source": "ebola-outbreak KPI: Confirmed Cases"
+        },
+        {
+          "claim": "Crude CFR ~48.4% as of 28 Sept",
+          "status": "verified",
+          "source": "ebola-outbreak KPI: Case Fatality Rate"
+        }
+      ]
+    },
+    "id": "f1601061-4288-45be-b0f9-2a641c9f40c3",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "auto_approved"
+  },
+  {
+    "type": "contested",
+    "voice": "analyst",
+    "tracker": "yemen-conflict",
+    "lang": "en",
+    "text": "How many Yemeni government troops died in the 6 Aug Marib/Hadramout offensive? The government confirmed at least 30. An unnamed military source told AFP the toll may have reached 58. The Houthis claim 45. No figure is independently verified.",
+    "hashtags": [
+      "#Yemen",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/yemen-conflict/?utm_source=x&utm_medium=contested&utm_campaign=2026-10-08",
+    "image": null,
+    "memegenUrl": null,
+    "publishAt": "2026-10-08T18:00:00Z",
+    "estimatedCost": 0.01,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.8,
+      "verdict": "REVIEW",
+      "comment": "Presents all three attributed figures without adjudicating; contested type requires human review.",
+      "factChecks": [
+        {
+          "claim": "Government confirmed at least 30 killed",
+          "status": "verified",
+          "source": "yemen-conflict disputed figures: Yemeni Government Forces (Marib/Hadramout, Aug 6)"
+        },
+        {
+          "claim": "Unnamed military source told AFP toll may have reached 58",
+          "status": "verified",
+          "source": "yemen-conflict disputed figures"
+        },
+        {
+          "claim": "Houthis claim 45 killed",
+          "status": "verified",
+          "source": "yemen-conflict unresolved disputes"
+        },
+        {
+          "claim": "No figure independently verified",
+          "status": "warning",
+          "source": "Inferred from tracker data; no independent source listed"
+        }
+      ]
+    },
+    "id": "37c388b6-b220-402a-a023-434e42e1ffa6",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
+  },
+  {
+    "type": "data_viz",
+    "voice": "analyst",
+    "tracker": "southeast-asia-escalation",
+    "lang": "en",
+    "text": "AFP monitored 101 Chinese vessels at West Philippine Sea features in September, up from 56 in August (+80%). The largest concentrations were at Bajo de Masinloc and Pag-asa. Source: AFP, reported 6 Oct 2026.",
+    "hashtags": [
+      "#SouthChinaSea",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/southeast-asia-escalation/?utm_source=x&utm_medium=data_viz&utm_campaign=2026-10-08",
+    "image": null,
+    "memegenUrl": null,
+    "publishAt": "2026-10-08T22:00:00Z",
+    "estimatedCost": 0.01,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.84,
+      "verdict": "PUBLISH",
+      "comment": "Month-over-month comparison with source and date; the percentage is simple arithmetic on the cited figures.",
+      "factChecks": [
+        {
+          "claim": "101 Chinese vessels in September",
+          "status": "verified",
+          "source": "Event afp-101-chinese-vessels-wps-september-2026"
+        },
+        {
+          "claim": "56 in August",
+          "status": "verified",
+          "source": "Event afp-101-chinese-vessels-wps-september-2026"
+        },
+        {
+          "claim": "+80% (101/56 = 1.80)",
+          "status": "verified",
+          "source": "Computed from cited figures"
+        },
+        {
+          "claim": "Largest concentrations at Bajo de Masinloc and Pag-asa",
+          "status": "verified",
+          "source": "southeast-asia-escalation digest"
+        }
+      ]
+    },
+    "id": "7d6d5ff6-614d-4541-a558-0fd765579e92",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
+  }
+]
