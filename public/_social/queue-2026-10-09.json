@@ -1,0 +1,131 @@
+[
+  {
+    "type": "breaking",
+    "voice": "analyst",
+    "tracker": "yemen-conflict",
+    "lang": "en",
+    "text": "Saudi Arabia confirms three citizens were killed in Houthi missile strikes on Riyadh's King Khalid International Airport. The airport has reopened after a brief closure. The UN, UK and Arab states issued a joint condemnation of the attacks on Saudi airports.",
+    "hashtags": [
+      "#Yemen",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/yemen-conflict/events/2026-10-09-saudi-confirms-3-killed-riyadh-airport-reopens-oct9-2026?utm_source=x&utm_medium=breaking&utm_campaign=2026-10-09",
+    "image": "https://watchboard.dev/og/yemen-conflict/2026-10-09-saudi-confirms-3-killed-riyadh-airport-reopens-oct9-2026.png",
+    "memegenUrl": null,
+    "publishAt": "2026-10-09T08:00:00Z",
+    "estimatedCost": 0.02,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.88,
+      "verdict": "PUBLISH",
+      "comment": "Official Saudi confirmation of casualties, stated without adjudicating Houthi claims. Matches the 9 Oct digest and events.",
+      "factChecks": [
+        {
+          "claim": "Saudi Arabia confirms three citizens killed in Houthi missile strikes on Riyadh's King Khalid International Airport",
+          "status": "verified",
+          "source": "yemen-conflict digest 2026-10-09; event saudi-confirms-3-killed-riyadh-airport-reopens-oct9-2026"
+        },
+        {
+          "claim": "Airport reopened after brief closure",
+          "status": "verified",
+          "source": "yemen-conflict digest 2026-10-09"
+        },
+        {
+          "claim": "UN, UK and Arab states issued a joint condemnation",
+          "status": "verified",
+          "source": "event un-uk-arab-condemn-houthi-saudi-airports-oct9-2026"
+        }
+      ]
+    },
+    "id": "f3023b5c-2009-4932-bd22-ed7de1d2d776",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "auto_approved"
+  },
+  {
+    "type": "contested",
+    "voice": "analyst",
+    "tracker": "ebola-outbreak",
+    "lang": "en",
+    "text": "Has the DRC Ebola outbreak peaked? On 15 Sept, Health Minister Kamba said daily deaths fell from ~50 to ~30. The same day, UN coordinator Julien Harneis called it \"a deadly and a massive epidemic\" still growing in other areas. Deaths passed 4,100 by 8 Oct.",
+    "hashtags": [
+      "#Ebola",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/ebola-outbreak/?utm_source=x&utm_medium=contested&utm_campaign=2026-10-09",
+    "image": null,
+    "memegenUrl": null,
+    "publishAt": "2026-10-09T13:00:00Z",
+    "estimatedCost": 0.01,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.8,
+      "verdict": "REVIEW",
+      "comment": "Both sides attributed with dates; contested type never auto-approves. Quote is partially truncated in the tracker data, so a human should confirm wording.",
+      "factChecks": [
+        {
+          "claim": "DRC Health Minister said on 15 Sept daily deaths declined from roughly 50 to roughly 30",
+          "status": "verified",
+          "source": "ebola-outbreak unresolved disputes: DRC Ministry of Public Health"
+        },
+        {
+          "claim": "Julien Harneis, same day: 'it remains a deadly and a massive epidemic' with growth in other areas",
+          "status": "verified",
+          "source": "ebola-outbreak unresolved disputes: UN Special Ebola Coordinator / WHO"
+        },
+        {
+          "claim": "Deaths passed 4,100 by 8 Oct",
+          "status": "verified",
+          "source": "event ebola-deaths-4100-kenya-bundibugyo-oct2026; KPI Deaths 4,100+"
+        }
+      ]
+    },
+    "id": "bce07f76-6fe2-422c-ba0a-10527c14b996",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
+  },
+  {
+    "type": "contested",
+    "voice": "analyst",
+    "tracker": "sinaloa-fragmentation",
+    "lang": "en",
+    "text": "How many families has the Sinaloa cartel war displaced? Universidad Autónoma de Sinaloa: at least 9,000 (early 2025). The Sinaloa state government acknowledges 1,763 in official shelters. A five-fold gap, and the two counts may not measure the same thing.",
+    "hashtags": [
+      "#Sinaloa",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/sinaloa-fragmentation/?utm_source=x&utm_medium=contested&utm_campaign=2026-10-09",
+    "image": null,
+    "memegenUrl": null,
+    "publishAt": "2026-10-09T18:00:00Z",
+    "estimatedCost": 0.01,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.75,
+      "verdict": "REVIEW",
+      "comment": "Both sources are attributed, but the state figure has no as-of date in the tracker data. Human should confirm the date before publishing.",
+      "factChecks": [
+        {
+          "claim": "UAS documented at least 9,000 families displaced by early 2025",
+          "status": "verified",
+          "source": "sinaloa-fragmentation unresolved disputes"
+        },
+        {
+          "claim": "State government acknowledges only 1,763 families in official shelters",
+          "status": "warning",
+          "source": "sinaloa-fragmentation unresolved disputes; no as-of date recorded"
+        },
+        {
+          "claim": "Five-fold gap (9,000 / 1,763 ≈ 5.1)",
+          "status": "verified",
+          "source": "computed from the two figures"
+        }
+      ]
+    },
+    "id": "128f4af7-df20-4772-9cb2-f47a177a02d3",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
+  }
+]
