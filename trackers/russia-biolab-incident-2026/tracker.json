@@ -1,0 +1,163 @@
+{
+  "slug": "russia-biolab-incident-2026",
+  "name": "Russia Biolab Incident 2026",
+  "shortName": "Russia Biolab 2026",
+  "description": "Intelligence dashboard monitoring the October 2026 death of a laboratory worker at Russia's Irkutsk Anti-Plague Research Institute — biosafety concerns, WHO investigation, Russia's denial of plague link, and international health security monitoring.",
+  "icon": "🧪",
+  "color": "#e74c3c",
+  "status": "active",
+  "temporal": "live",
+  "tone": "alert",
+  "domain": "security",
+  "region": "central-asia",
+  "country": "RU",
+  "state": "Irkutsk Oblast",
+  "city": "Irkutsk",
+  "geoPath": ["RU", "Irkutsk Oblast", "Irkutsk"],
+  "tags": ["russia", "plague", "biosafety", "WHO", "Irkutsk", "public-health", "biolab"],
+  "startDate": "2026-10-02",
+  "sections": ["hero", "kpis", "timeline", "map", "claims", "political"],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": 30,
+      "lonMax": 145,
+      "latMin": 40,
+      "latMax": 75
+    },
+    "center": {
+      "lon": 104.3,
+      "lat": 52.3
+    },
+    "categories": [
+      {
+        "id": "lab-facility",
+        "label": "Research Facilities",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "monitoring",
+        "label": "Health Monitoring Points",
+        "color": "#3498db"
+      },
+      {
+        "id": "quarantine",
+        "label": "Quarantine Zones",
+        "color": "#f39c12"
+      },
+      {
+        "id": "contact-tracing",
+        "label": "Contact Tracing Locations",
+        "color": "#9b59b6"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "layout": "disaster",
+    "cameraPresets": {
+      "irkutsk": {
+        "lon": 104.3,
+        "lat": 52.3,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Irkutsk — Incident Site"
+      },
+      "russia_overview": {
+        "lon": 60.0,
+        "lat": 60.0,
+        "alt": 8000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Russia Overview"
+      },
+      "moscow": {
+        "lon": 37.62,
+        "lat": 55.75,
+        "alt": 100000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Moscow — Rospotrebnadzor HQ"
+      },
+      "novosibirsk": {
+        "lon": 82.93,
+        "lat": 54.99,
+        "alt": 120000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Novosibirsk — VECTOR BSL-4 Lab"
+      },
+      "baikal_region": {
+        "lon": 104.5,
+        "lat": 52.8,
+        "alt": 500000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Baikal Region / Irkutsk Oblast"
+      }
+    }
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Key Figures"
+    }
+  ],
+  "politicalAvatars": [
+    "rospotrebnadzor",
+    "who",
+    "kremlin",
+    "international",
+    "lab-staff"
+  ],
+  "eventTypes": [
+    "biosafety",
+    "investigation",
+    "diplomatic",
+    "health-monitoring",
+    "statement"
+  ],
+  "ai": {
+    "systemPrompt": "You are a public health security analyst and biosafety expert updating a tracker for the October 2026 incident at Russia's Irkutsk Anti-Plague Research Institute.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"worker_death_oct2\", \"who_inquiry_oct7\").\n\nSOURCE TIERS for biosafety/public health research:\n- Tier 1: Official/primary (WHO, Rospotrebnadzor, Russian Ministry of Health, ECDC, CDC, official Russian government statements)\n- Tier 2: Major outlet (Reuters, AP, BBC, CNN, Al Jazeera, The Guardian, NYT, RFE/RL, TASS, Interfax)\n- Tier 3: Institutional (CSIS, Chatham House, NTI, Johns Hopkins, ProMED, Global Health Security Index)\n- Tier 4: Unverified (social media, Telegram channels, unattributed claims, anonymous sources)\n\nKEY CONTEXT:\n- A 28-year-old lab worker at the Irkutsk Anti-Plague Research Institute died October 2, 2026 from severe pneumonia\n- Rospotrebnadzor says tests found no evidence of plague (Yersinia pestis) infection\n- WHO has sent follow-up questions to Russia; no further infections detected among ~200 contacts\n- Some reports suggest exposure during a trip to a Mongolia border region where pneumonic plague is endemic in rodents; other reports suggest a lab accident\n- Russia denies imposing anti-plague quarantine measures and says media coverage is false\n\nKEY RESEARCH AREAS:\n- Biosafety status at Irkutsk Anti-Plague Research Institute\n- Russia's IHR 2005 notification obligations and compliance\n- Pathogen portfolio and biosafety level of the Irkutsk institute\n- Historical plague outbreaks in Siberia/Mongolia border region\n- WHO investigation progress and follow-up findings\n- Comparison with Sverdlovsk anthrax 1979 for transparency patterns\n\nMULTI-POLE SOURCING:\n- RUSSIAN: Rospotrebnadzor, TASS, Interfax, RT, RIAN\n- WESTERN: Reuters, AP, BBC, CNN, NYT, WHO statements\n- INTERNATIONAL: WHO, ECDC, ProMED disease surveillance\n\nDEDUPLICATION: Same event within ±2 days = same event. Do not create duplicates.\nOnly include information you can verify through search. Do not fabricate data.",
+    "searchContext": "Russia Irkutsk Anti-Plague Research Institute lab worker death plague WHO biosafety 2026",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": 25,
+      "lonMax": 150,
+      "latMin": 40,
+      "latMax": 78
+    },
+    "updateIntervalDays": 1,
+    "backfillTargets": {
+      "timeline": 10,
+      "mapPoints": 5,
+      "claims": 5,
+      "political": 5
+    },
+    "relatedTrackers": [
+      "russia",
+      "iran-conflict"
+    ]
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard"
+}
