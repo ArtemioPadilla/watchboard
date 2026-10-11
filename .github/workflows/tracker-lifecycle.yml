@@ -141,18 +141,48 @@ jobs:
 
                 const title = '[Scout] Proposed tracker: ' + c.slug;
 
-                // Check for existing open issue
+                // Dedupe on the EVENT, not the slug.
+                //
+                // This used to search by title, which embeds the slug — so it
+                // only caught a re-proposal that happened to pick the same
+                // slug. The model picks a new one each time, and the same
+                // Nepal glacier collapse of 2026-08-26 was proposed three
+                // times over four weeks as nepal-china-flash-floods,
+                // nepal-tibet-floods-2026 and nepal-tibet-glacier-floods.
+                // Maldives and Tunisia duplicated the same way.
+                //
+                // startDate is the stable identifier: an event starts once,
+                // whatever it ends up being called.
                 try {
-                  const existing = execFileSync(
+                  const openIssues = JSON.parse(execFileSync(
                     'gh',
-                    ['issue','list','--search',title,'--state','open','--json','number','--jq','length'],
+                    ['issue','list','--label','scout','--state','open','--limit','200',
+                     '--json','number,title,body'],
                     { encoding: 'utf8' }
-                  ).trim();
-                  if (parseInt(existing) > 0) {
-                    console.log('Skipping ' + c.slug + ': open issue already exists');
+                  ));
+                  const dateOf = (b) => (b.match(/\| Start Date \| ([0-9-]+) \|/) || [])[1];
+                  const countryOf = (b) => (b.match(/\| Country \| ([^|]+) \|/) || [])[1]?.trim();
+                  const dup = openIssues.find((i) => {
+                    if (i.title === title) return true;
+                    const d = dateOf(i.body || '');
+                    if (!d || d !== c.startDate) return false;
+                    // Same start date alone is weak across unrelated regions,
+                    // so require the country to match when both declare one.
+                    const ic = countryOf(i.body || '');
+                    if (ic && c.country && ic !== 'unknown' && c.country !== 'unknown') {
+                      return ic === c.country;
+                    }
+                    return true;
+                  });
+                  if (dup) {
+                    console.log('Skipping ' + c.slug + ': #' + dup.number + ' already covers this event');
                     continue;
                   }
-                } catch {}
+                } catch (e) {
+                  // A failed lookup must not block proposing: losing a
+                  // candidate is worse than a duplicate we can close.
+                  console.warn('Dedupe lookup failed, proposing anyway:', e.message);
+                }
 
                 const labels = ['scout', 'auto-triage', 'domain:' + c.domain];
                 if (c.confidence >= 0.9) labels.push('auto-approve');
