@@ -248,6 +248,45 @@ jobs:
             });
           "
 
+      - name: Close stale scout proposals
+        # A proposal nobody acts on is one the scout re-raises later under a
+        # new slug. The dedupe above stops the duplicate; this stops the
+        # backlog growing at ~4/week forever.
+        #
+        # Never closes an auto-approve proposal: those are the scout's own
+        # >=0.9 confidence picks and deserve a human no, not a timeout.
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          CUTOFF=$(date -u -d '60 days ago' +%Y-%m-%d 2>/dev/null || date -u -v-60d +%Y-%m-%d)
+          echo "Closing scout proposals opened before $CUTOFF"
+
+          {
+            echo "Closed automatically: open for more than 60 days with no action."
+            echo ""
+            echo "This is not a verdict on the candidate. An un-actioned proposal is one"
+            echo "the scout re-raises later under a different slug — which is how a single"
+            echo "Nepal glacier collapse ended up proposed three times. Closing keeps the"
+            echo "backlog legible."
+            echo ""
+            echo "Reopen it if it still matters; nothing about the event changed."
+          } > /tmp/stale-note.md
+
+          gh issue list --label scout --state open --limit 200 \
+            --json number,title,createdAt,labels \
+            --jq '.[] | select(.createdAt < "'"$CUTOFF"'") | select([.labels[].name] | index("auto-approve") | not) | .number' \
+            > /tmp/stale-scout.txt || true
+
+          COUNT=$(grep -c . /tmp/stale-scout.txt || echo 0)
+          echo "Found ${COUNT} stale proposals"
+
+          while read -r num; do
+            [ -z "$num" ] && continue
+            echo "  closing #$num"
+            gh issue comment "$num" --body-file /tmp/stale-note.md || true
+            gh issue close "$num" --reason "not planned" || true
+          done < /tmp/stale-scout.txt
+
   # ── Prune: detect dormant trackers ──
   prune:
     if: inputs.mode != 'scout'
