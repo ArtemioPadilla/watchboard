@@ -703,6 +703,21 @@ jobs:
              .catch(e => console.error('[act] Post failed:', e));
           "
 
+      - name: Repair known schema slips
+        # The hourly hard-fails on a schema error and discards the whole run.
+        # It failed 6 of 23 runs (26%) in early October, always on the same two
+        # mechanical slips the model makes:
+        #
+        #   map-points.json  0.date : Required
+        #   map-lines.json   0.from : Expected array, received object
+        #
+        # The nightly has a fix agent with a retry for this class; the hourly
+        # had nothing, so one missing field cost an entire scan's data. These
+        # need no model. Only unambiguous fills — anything needing judgement is
+        # left for Zod, since a wrong value that validates is worse than a
+        # failed run.
+        run: npx tsx scripts/repair-tracker-data.ts "${{ matrix.entry.tracker }}"
+
       - name: Validate modified JSON
         id: validate-json
         run: |
