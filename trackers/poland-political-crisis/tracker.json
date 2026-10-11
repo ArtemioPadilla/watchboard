@@ -1,0 +1,182 @@
+{
+  "slug": "poland-political-crisis",
+  "name": "Poland Political Crisis Tracker",
+  "shortName": "Poland Crisis",
+  "description": "Intelligence dashboard tracking Poland's political security crisis — the alleged assassination plot targeting PM Donald Tusk and Defense Minister Władysław Kosiniak-Kamysz, internal security investigations, and the broader stakes for a frontline NATO state bordering Ukraine.",
+  "icon": "🇵🇱",
+  "color": "#dc143c",
+  "status": "active",
+  "tone": "alert",
+  "temporal": "live",
+  "domain": "security",
+  "region": "central-europe",
+  "tags": [
+    "poland",
+    "donald-tusk",
+    "nato",
+    "assassination-plot",
+    "political-violence",
+    "warsaw",
+    "intelligence",
+    "european-security"
+  ],
+  "country": "PL",
+  "geoPath": ["PL"],
+  "startDate": "2026-10-11",
+  "eraLabel": "Security Crisis & Investigation",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": 14.1,
+      "lonMax": 24.2,
+      "latMin": 49.0,
+      "latMax": 54.9
+    },
+    "center": {
+      "lon": 21.01,
+      "lat": 52.23
+    },
+    "categories": [
+      {
+        "id": "security",
+        "label": "Security Incidents & Arrests",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "political",
+        "label": "Political Events",
+        "color": "#3498db"
+      },
+      {
+        "id": "diplomatic",
+        "label": "NATO / EU Diplomatic",
+        "color": "#2ecc71"
+      },
+      {
+        "id": "protest",
+        "label": "Public Demonstrations",
+        "color": "#f39c12"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "overview": {
+        "lon": 19.5,
+        "lat": 52.0,
+        "alt": 1200000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Poland Overview"
+      },
+      "warsaw": {
+        "lon": 21.0122,
+        "lat": 52.2297,
+        "alt": 25000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Warsaw — Chancellery"
+      },
+      "krakow": {
+        "lon": 19.9449,
+        "lat": 50.0647,
+        "alt": 30000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Kraków"
+      },
+      "gdansk": {
+        "lon": 18.6466,
+        "lat": 54.3520,
+        "alt": 35000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Gdańsk — Baltic Access"
+      },
+      "central_europe": {
+        "lon": 16.0,
+        "lat": 50.5,
+        "alt": 2500000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Central Europe Context"
+      }
+    }
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "politicalAvatars": [
+    "tusk-coalition",
+    "pis-opposition",
+    "security-services",
+    "nato",
+    "eu",
+    "other"
+  ],
+  "eventTypes": [
+    "security",
+    "political",
+    "legal",
+    "diplomatic"
+  ],
+  "ai": {
+    "systemPrompt": "You are a European security and political analyst updating a tracker on Poland's political crisis.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"tusk_assassination_plot_day1\").\n\nCOVERAGE FOCUS:\n- The alleged assassination plot against PM Donald Tusk and Defense Minister Władysław Kosiniak-Kamysz: investigation progress, suspects arrested, evidence, suspected backers\n- Internal security and counterintelligence: ABW (Internal Security Agency) operations, suspected foreign interference (Russian, Belarusian links), hybrid warfare indicators\n- Polish government response: security measures, parliamentary debate, ruling coalition stability\n- NATO and allied reactions: solidarity statements, intelligence sharing, Article 5 implications\n- Opposition (PiS/United Right) political dynamics: contested narratives, investigations into prior government conduct\n- Poland-Ukraine border security context: implications for NATO's eastern flank\n\nSource tier classification:\n- Tier 1: Official (Polish government statements, ABW/CBA press releases, Presidential Palace, NATO/EU official statements, Sejm proceedings)\n- Tier 2: Major outlet (Reuters, AP, BBC, Politico Europe, RFE/RL, TVN24, Gazeta Wyborcza, PAP)\n- Tier 3: Institutional (PISM — Polish Institute of International Affairs, OSW Centre for Eastern Studies, European Council on Foreign Relations, IISS)\n- Tier 4: Unverified (social media, unattributed claims, tabloid press)\n\nOnly include information you can verify through search results. Do not fabricate data.\nWhen reporting on suspects or alleged plotters, note if charges have been formally filed. Do not treat claims as confirmed unless official charges exist.",
+    "searchContext": "Poland assassination plot Donald Tusk Kosiniak-Kamysz political crisis NATO security investigation ABW",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": 14.0,
+      "lonMax": 25.0,
+      "latMin": 48.5,
+      "latMax": 55.0
+    },
+    "updateIntervalDays": 1,
+    "backfillTargets": {
+      "timeline": 10,
+      "mapPoints": 5,
+      "claims": 5,
+      "political": 5
+    },
+    "updatePolicy": {
+      "escalation": [1, 1, 2, 3, 7],
+      "quietThreshold": 0
+    },
+    "relatedTrackers": [
+      "ukraine-war",
+      "georgia-crisis",
+      "european-union"
+    ]
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard"
+}
