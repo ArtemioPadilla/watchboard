@@ -703,20 +703,6 @@ jobs:
              .catch(e => console.error('[act] Post failed:', e));
           "
 
-      - name: Trigger seed job
-        if: matrix.entry.type == 'new_tracker'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TRACKER_SLUG: ${{ matrix.entry.tracker }}
-        run: |
-          SHOULD_SEED=$(cat /tmp/should-seed.txt 2>/dev/null || echo "false")
-          if [ "$SHOULD_SEED" = "true" ]; then
-            gh workflow run seed-tracker.yml \
-              -f tracker_slug="$TRACKER_SLUG" \
-              -f sections="all"
-            echo "Seed job triggered for $TRACKER_SLUG"
-          fi
-
       - name: Validate modified JSON
         id: validate-json
         run: |
@@ -1024,6 +1010,39 @@ jobs:
           git commit -m "$MSG"
           # Loop lives in a script so tests/ci/hourly-push.test.ts can race it.
           bash scripts/ci/hourly-push.sh "$TRACKER" 10
+
+      - name: Trigger seed job
+        # MUST run after "Commit and push". seed-tracker.yml checks out main and
+        # fails with "tracker config not found" if the tracker is not there yet.
+        #
+        # This step used to sit four steps earlier, before the commit, so every
+        # auto-created tracker dispatched a seed against a main that did not yet
+        # contain it. Five consecutive failures (bangkok-floods-2026,
+        # bosnia-crisis, quebec-independence, russia-biolab-incident-2026,
+        # poland-political-crisis) before anyone looked: the tracker was created
+        # correctly, the hourly scan reported success, and only the separate
+        # seed run was red.
+        if: matrix.entry.type == 'new_tracker'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TRACKER_SLUG: ${{ matrix.entry.tracker }}
+        run: |
+          SHOULD_SEED=$(cat /tmp/should-seed.txt 2>/dev/null || echo "false")
+          if [ "$SHOULD_SEED" != "true" ]; then
+            echo "Seeding not requested for $TRACKER_SLUG"
+            exit 0
+          fi
+          # Confirm the push actually landed before dispatching, rather than
+          # assuming step order is enough.
+          if ! gh api "repos/${{ github.repository }}/contents/trackers/$TRACKER_SLUG/tracker.json?ref=${{ github.ref_name }}" \
+                 --jq .path >/dev/null 2>&1; then
+            echo "::warning::trackers/$TRACKER_SLUG/tracker.json is not on ${{ github.ref_name }} yet — skipping seed dispatch"
+            exit 0
+          fi
+          gh workflow run seed-tracker.yml \
+            -f tracker_slug="$TRACKER_SLUG" \
+            -f sections="all"
+          echo "Seed job triggered for $TRACKER_SLUG"
 
       - name: Job summary
         if: always()
