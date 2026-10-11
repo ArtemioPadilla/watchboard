@@ -78,16 +78,30 @@ const pushTrackers = loadAllTrackers()
       home and /globe/ load with zero CSP refusals and the Cesium canvas
       renders.
 
-      What this does and does not buy, so nobody reads more into it:
+      IMPORTANT: 'unsafe-inline' below is NOT what ships. `npm run postbuild`
+      runs scripts/csp-hashes.ts, which strips it from script-src in every
+      built page and substitutes the SHA-256 hash of each of that page's own
+      inline scripts. Verified on the deployed site, not inferred from this
+      file: / , /iran-conflict/ and /metrics/ serve no 'unsafe-inline' and
+      carry 9, 13 and 7 hashes respectively. It is left in the source string
+      because `astro dev` serves this file unprocessed and hashes would break
+      every HMR edit. Hashes rather than nonces because a nonce must be
+      unique per request and these pages are static files — the reasoning is
+      in csp-hashes.ts.
+
+      So, what this buys, so nobody reads more or less into it:
         blocks  external <script src> from non-allowlisted hosts
+        blocks  injected inline scripts — each one is pinned by hash
         blocks  fetch/XHR/WebSocket exfiltration (connect-src allowlist)
         blocks  form-action, base-uri, object-src vectors
-        does not stop injected inline scripts — 'unsafe-inline' is still here
         does not stop image-based exfiltration — img-src must allow https:
                 because event media comes from arbitrary publishers' og:image
 
-      The change that would actually harden this is removing 'unsafe-inline'
-      via nonces. That is separate, larger work.
+      The cost of hashing is that an inline script edited after the hashes
+      are computed is silently refused by the browser. That is why the
+      violation reporter below exists: report-uri/report-to are ignored in a
+      meta element and Pages serves no CSP header, so violations are caught
+      in-page and sent to PostHog instead (src/lib/csp-report.ts, #241).
 
       frame-ancestors is deliberately NOT in this string: it is ignored in a
       meta element and browsers log a warning about it on every page load. It
@@ -95,6 +109,34 @@ const pushTrackers = loadAllTrackers()
       X-Frame-Options (set there too) is the clickjacking control that
       actually applies today. */}
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://*.posthog.com https://static.cloudflareinsights.com 'unsafe-eval' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; media-src 'self' https:; connect-src 'self' https://*.posthog.com https://app.posthog.com https://us.i.posthog.com https://api.open-meteo.com https://archive-api.open-meteo.com https://earthquake.usgs.gov https://opensky-network.org https://celestrak.org https://*.celestrak.org https://api.github.com https://*.basemaps.cartocdn.com https://tile.openstreetmap.org https://t.me wss://stream.aisstream.io https://*.wikipedia.org https://*.wikimedia.org https://deepstatemap.live https://nominatim.openstreetmap.org https://query.wikidata.org https://api.memegen.link https://static.cloudflareinsights.com https://cloudflareinsights.com; frame-src https://www.youtube.com https://youtube.com; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'; worker-src 'self' blob:">
+  {/* CSP violation buffer. Deliberately the first script on the page and
+      deliberately inline: the violations that matter most are inline-script
+      refusals during initial parse, which a deferred module script is too
+      late to hear. It only records — all logic lives in src/lib/csp-report.ts,
+      drained by the module script further down. csp-hashes.ts hashes this
+      block like any other inline script, so it is itself pinned. */}
+  <script is:inline>
+    (function () {
+      var MAX = 20, q = [];
+      window.__cspViolations = q;
+      try {
+        document.addEventListener('securitypolicyviolation', function (e) {
+          if (q.length >= MAX) return;
+          q.push({
+            effectiveDirective: e.effectiveDirective,
+            violatedDirective: e.violatedDirective,
+            blockedURI: e.blockedURI,
+            documentURI: e.documentURI,
+            sourceFile: e.sourceFile,
+            lineNumber: e.lineNumber,
+            columnNumber: e.columnNumber,
+            sample: e.sample,
+            disposition: e.disposition,
+          });
+        });
+      } catch (_) { /* no SecurityPolicyViolationEvent: nothing to report */ }
+    })();
+  </script>
   <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
   <link rel="preload" href={`${basePath}fonts/jetbrains-mono-latin.woff2`} as="font" type="font/woff2" crossorigin>
   <link rel="preload" href={`${basePath}fonts/dm-sans-latin.woff2`} as="font" type="font/woff2" crossorigin>
@@ -174,6 +216,12 @@ const pushTrackers = loadAllTrackers()
       });
     </script>
   )}
+  {/* Drains the buffer above into PostHog. Bundled (not inline) on purpose:
+      the logic is tested in tests/csp-report.test.ts. */}
+  <script>
+    import { installCspReporter } from '../lib/csp-report';
+    installCspReporter();
+  </script>
   <slot name="head" />
 </head>
 <body>
