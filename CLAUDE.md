@@ -52,6 +52,18 @@ make help            # List all Make targets
 - Each workflow produces a `$GITHUB_STEP_SUMMARY` with data inventory tables
 - Legacy: `scripts/update-data.ts` still works with direct API keys (`ANTHROPIC_API_KEY` / `OPENAI_API_KEY`)
 
+### Credentials
+
+`docs/runbooks/secrets-and-variables.md` lists every secret and repo variable
+the workflows read, what breaks without each one, and which are configured.
+Read it before concluding a feature is broken: **a missing secret is an empty
+string, not an error**, so the step usually goes green having done nothing,
+and all eight repo variables are currently unset — which switches X posting,
+the Meta adapters and the freshness check off by default rather than failing.
+
+Infra alerts go to `TELEGRAM_ALERT_CHAT_ID` (private ops chat), **never**
+`TELEGRAM_CHANNEL_ID` (public channel with outside subscribers).
+
 ### Merging
 
 `main` has no branch protection and no required checks, and 14 bot workflows push straight to it with `GITHUB_TOKEN` — that's why branch protection is intentionally absent (it would block those pushes). The consequence: a PR's auto-merge fires the instant it's enabled, checks or no checks, because nothing gates the merge button. Enable auto-merge only once checks have already passed, and otherwise merge PRs by hand only after `gh pr checks <n> --watch --fail-fast` comes back green.
