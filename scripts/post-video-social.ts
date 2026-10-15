@@ -27,6 +27,12 @@ import { join, basename } from 'path';
 import { execSync } from 'child_process';
 import { todayDateString, PATHS } from './social-types.js';
 import { buildIgCaption, metaConfigFromEnv, publishFacebookVideo, publishInstagramReel } from './lib/meta-publish.js';
+import {
+  buildShortDescription,
+  buildShortTitle,
+  publishYouTubeShort,
+  youtubeConfigFromEnv,
+} from './lib/youtube-publish.js';
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -507,14 +513,41 @@ function createFacebookAdapter(): SocialPlatform {
   };
 }
 
-// ── YouTube Shorts stub ──────────────────────────────────────────────────────
+// ── YouTube Shorts adapter (scripts/lib/youtube-publish.ts, #234) ────────────
 
 function createYouTubeAdapter(): SocialPlatform {
+  const cfg = youtubeConfigFromEnv();
+  if (!cfg) {
+    console.log(
+      '[youtube] disabled: YOUTUBE_CLIENT_ID / YOUTUBE_CLIENT_SECRET / YOUTUBE_REFRESH_TOKEN not all set',
+    );
+  }
   return {
     name: 'youtube',
-    enabled: false,
-    async postVideo(): Promise<{ url: string } | null> {
-      return null;
+    enabled: Boolean(cfg),
+    async postVideo(videoPath: string, meta: VideoMeta): Promise<{ url: string } | null> {
+      if (!cfg) return null;
+      // The title shows the lead tracker's headline, matching what is on
+      // screen — the same rule the Telegram caption follows.
+      const lead = meta.trackers[0];
+      const result = await publishYouTubeShort(
+        cfg,
+        {
+          videoPath,
+          durationSeconds: meta.duration,
+          meta: {
+            title: buildShortTitle(lead?.headline || `Watchboard daily brief ${meta.date}`),
+            description: buildShortDescription(buildCaptionEn(meta), videoHashtags()),
+            tags: videoHashtags().map((h) => h.replace(/^#/, '')),
+          },
+        },
+        {
+          fetch: fetch as never,
+          readFile: async (path: string) => new Uint8Array(readFileSync(path)),
+          log: (l) => console.log(l),
+        },
+      );
+      return { url: result.url };
     },
   };
 }
