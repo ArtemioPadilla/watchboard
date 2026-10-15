@@ -89,8 +89,12 @@ const pushTrackers = loadAllTrackers()
       unique per request and these pages are static files — the reasoning is
       in csp-hashes.ts.
 
+      NOTE: never write a literal script tag in this comment. Astro tokenises
+      it even inside {/* */} and extracts the following text as a script body —
+      the dev server then fails its dependency scan with `Expected ";" but
+      found "non"` from the words "non-allowlisted hosts", which breaks e2e.
       So, what this buys, so nobody reads more or less into it:
-        blocks  external <script src> from non-allowlisted hosts
+        blocks  external `script src=` from non-allowlisted hosts
         blocks  injected inline scripts — each one is pinned by hash
         blocks  fetch/XHR/WebSocket exfiltration (connect-src allowlist)
         blocks  form-action, base-uri, object-src vectors
