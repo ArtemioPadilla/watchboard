@@ -19,7 +19,10 @@ permissions:
 jobs:
   playwright:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    # Raised from 25 only on this diagnostic branch: under astro 7 the suite
+    # blew the cap before Playwright printed per-test failure detail, so we knew
+    # WHICH island surfaces broke but not why. Not for merge.
+    timeout-minutes: 50
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
