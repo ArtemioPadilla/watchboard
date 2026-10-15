@@ -1,0 +1,69 @@
+{
+  "slug": "nepal-china-flash-floods",
+  "name": "Nepal–Tibet Border Flash Floods Tracker",
+  "shortName": "Nepal–Tibet Floods",
+  "description": "Intelligence dashboard tracking the glacial-lake-outburst flash floods along the Nepal–Tibet (China) border since August 2026: casualties, displacement, damage to the Friendship Bridge and Araniko Highway corridor, cross-border response, and the Himalayan climate-attribution debate.",
+  "icon": "🌊",
+  "color": "#2e86c1",
+  "status": "active",
+  "temporal": "live",
+  "tone": "alert",
+  "domain": "disaster",
+  "region": "south-asia",
+  "tags": ["glof", "flash-flood", "himalaya", "nepal", "tibet", "glacial-lake", "climate", "humanitarian"],
+  "country": "NP",
+  "geoSecondary": ["CN"],
+  "startDate": "2026-08-26",
+  "eraLabel": "Flood Response",
+  "sections": ["hero", "kpis", "timeline", "map", "casualties", "economic", "claims", "political"],
+  "map": {
+    "enabled": true,
+    "bounds": { "lonMin": 83.5, "lonMax": 88.5, "latMin": 26.5, "latMax": 29.5 },
+    "center": { "lon": 85.8, "lat": 28.1 },
+    "categories": [
+      { "id": "glof-source", "label": "Glacial Lake / Outburst Source", "color": "#3498db" },
+      { "id": "impact-zone", "label": "Flood Impact Zones", "color": "#e74c3c" },
+      { "id": "infrastructure", "label": "Damaged Infrastructure", "color": "#f39c12" },
+      { "id": "relief", "label": "Relief & Aid Operations", "color": "#27ae60" },
+      { "id": "border-crossing", "label": "Border Crossings", "color": "#9b59b6" }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "layout": "disaster",
+    "cameraPresets": {
+      "overview": { "lon": 85.8, "lat": 28.1, "alt": 600000, "pitch": -90, "heading": 0, "label": "Nepal–Tibet Border Overview" },
+      "kodari": { "lon": 85.96, "lat": 27.95, "alt": 25000, "pitch": -90, "heading": 0, "label": "Kodari / Friendship Bridge" },
+      "bhote_koshi": { "lon": 85.9, "lat": 27.88, "alt": 60000, "pitch": -90, "heading": 0, "label": "Bhote Koshi Valley" },
+      "rasuwagadhi": { "lon": 85.38, "lat": 28.16, "alt": 30000, "pitch": -90, "heading": 0, "label": "Rasuwagadhi–Kerung Crossing" },
+      "langtang": { "lon": 85.52, "lat": 28.21, "alt": 50000, "pitch": -90, "heading": 0, "label": "Langtang Valley" },
+      "kathmandu": { "lon": 85.32, "lat": 27.71, "alt": 70000, "pitch": -90, "heading": 0, "label": "Kathmandu" }
+    },
+    "clocks": [
+      { "label": "NPT", "offsetHours": 5.75 },
+      { "label": "CST", "offsetHours": 8 },
+      { "label": "UTC", "offsetHours": 0 }
+    ]
+  },
+  "navSections": [
+    { "id": "sec-timeline", "label": "Timeline" },
+    { "id": "sec-map", "label": "Map" },
+    { "id": "sec-casualties", "label": "Casualties" },
+    { "id": "sec-economic", "label": "Economic" },
+    { "id": "sec-contested", "label": "Contested" },
+    { "id": "sec-political", "label": "Political" }
+  ],
+  "politicalAvatars": ["np-gov", "cn-gov", "un", "ngo", "scientists", "other"],
+  "eventTypes": ["glof", "rescue", "infrastructure", "political", "humanitarian"],
+  "ai": {
+    "systemPrompt": "You are a disaster and humanitarian analyst updating a tracker for the glacial-lake-outburst flash floods along the Nepal–Tibet (China) border.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose.\nEvery item must have an \"id\" field (lowercase_snake_case).\n\nSource tier classification:\n- Tier 1: Official (Government of Nepal, NDRRMA, Nepal Police/Army, China Ministry of Emergency Management, Xinhua official statements, UN OCHA, ICIMOD, WMO)\n- Tier 2: Major outlet (Reuters, AP, AFP, BBC, Al Jazeera, Kathmandu Post, The Himalayan Times, South China Morning Post, CGTN)\n- Tier 3: Institutional (ICIMOD, IFRC, Nepal Red Cross, WFP, Oxfam, Carbon Brief, Chinese Academy of Sciences, glaciology researchers)\n- Tier 4: Unverified (social media, unattributed local reports)\n\nTrack death, missing, injured and displaced counts separately and note when sources disagree. Treat climate-attribution claims as contested unless a peer-reviewed study supports them.\nOnly include information you can verify through search results. Do not fabricate data.",
+    "searchContext": "Nepal Tibet border glacial lake outburst flood Friendship Bridge Araniko Highway Kodari",
+    "enabledSections": ["kpis", "timeline", "map", "casualties", "economic", "claims", "political"],
+    "coordValidation": { "lonMin": 83, "lonMax": 89, "latMin": 26, "latMax": 30 },
+    "updateIntervalDays": 1,
+    "updatePolicy": { "escalation": [1, 1, 1, 3, 7, 14, 30], "quietThreshold": 0 },
+    "backfillTargets": { "timeline": 30, "mapPoints": 20, "claims": 12, "political": 12, "kpis": 8 }
+  },
+  "githubRepo": "ArtemioPadilla/intel-dashboard",
+  "geoPath": ["NP"]
+}

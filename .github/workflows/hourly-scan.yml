@@ -130,7 +130,13 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          claude_args: "--max-turns 10 --dangerously-skip-permissions --model claude-sonnet-4-6"
+          # Model comes from the repo variable CLAUDE_MODEL so all three agent
+          # steps here move together and can be rolled back without a commit.
+          # This was the only workflow pinning a model at all, and it pinned
+          # claude-sonnet-4-6 while the other seven tracked the action default
+          # (claude-sonnet-5-5, verified in the nightly run of 2026-10-14) — a
+          # generation behind, in the workflow with the worst failure history.
+          claude_args: "--max-turns 10 --dangerously-skip-permissions --model ${{ vars.CLAUDE_MODEL || 'claude-sonnet-5-5' }}"
           show_full_output: true
           prompt: |
             You are a news triage AI for Watchboard. You have TWO files to read, then write ONE output file. Be efficient — do all reads in your first turn, then write the output.
@@ -475,6 +481,12 @@ jobs:
       - name: Update tracker data
         id: update
         if: matrix.entry.type == 'update'
+        # Failure here must NOT abort the job. On error_max_turns the agent has
+        # usually already written valid event data, and aborting threw away
+        # both the data and the spend (yemen-conflict, 2026-10-13: 20 turns,
+        # $0.66, nothing committed). "Assess update outcome" below decides
+        # whether there is work worth keeping; validation still gates it.
+        continue-on-error: true
         uses: anthropics/claude-code-action@v1
         with:
           allowed_bots: "github-actions[bot]"
@@ -485,7 +497,7 @@ jobs:
           # filled from a hardcoded section list instead — claiming kpis and
           # map-points were refreshed whether or not they were touched.
           claude_args: >-
-            --max-turns 20 --dangerously-skip-permissions --model claude-sonnet-4-6
+            --max-turns 20 --dangerously-skip-permissions --model ${{ vars.CLAUDE_MODEL || 'claude-sonnet-5-5' }}
             --json-schema '{"type":"object","properties":{"eventIds":{"type":"array","items":{"type":"string"}},"sections":{"type":"array","items":{"type":"string","enum":["events","map-points","map-lines","kpis","meta","casualties","econ","claims","political","strike-targets","retaliation","assets","timeline"]}}},"required":["eventIds","sections"]}'
           prompt: |
             You are updating the Watchboard tracker "${{ matrix.entry.tracker }}" with a breaking news event.
@@ -535,6 +547,43 @@ jobs:
             `sections` (only the sections you actually modified — do NOT list a
             section you did not write to). Your reply is validated against a
             JSON schema.
+
+      - name: Assess update outcome
+        id: update_outcome
+        if: matrix.entry.type == 'update'
+        env:
+          TRACKER_SLUG: ${{ matrix.entry.tracker }}
+          UPDATE_RESULT: ${{ steps.update.outcome }}
+        run: |
+          DATA_DIR="trackers/$TRACKER_SLUG/data"
+          CHANGED=$(git status --porcelain -- "$DATA_DIR" | wc -l | tr -d ' ')
+
+          # The sections the agent demonstrably wrote, read off the filenames
+          # it touched. More trustworthy than the hardcoded fallback in
+          # "Update update-log", which marks kpis/map-points as refreshed
+          # whether or not anything was written to them.
+          SECTIONS=$(git status --porcelain -- "$DATA_DIR" \
+            | awk '{print $NF}' \
+            | sed "s|^$DATA_DIR/||" \
+            | sed 's|^events/.*|events|' \
+            | sed 's|\.json$||' \
+            | sort -u \
+            | grep -xE 'events|map-points|map-lines|kpis|meta|casualties|econ|claims|political|strike-targets|retaliation|assets|timeline' \
+            | paste -sd, - || true)
+
+          echo "changed=$CHANGED" >> "$GITHUB_OUTPUT"
+          echo "sections=$SECTIONS" >> "$GITHUB_OUTPUT"
+          echo "Agent step: $UPDATE_RESULT | files changed: $CHANGED | sections: ${SECTIONS:-none}"
+
+          if [ "$UPDATE_RESULT" = "success" ]; then
+            exit 0
+          fi
+          if [ "$CHANGED" -gt 0 ]; then
+            echo "::warning::Agent step $UPDATE_RESULT but wrote $CHANGED file(s) in $DATA_DIR — keeping the work; repair + Zod validation still gate the commit"
+            exit 0
+          fi
+          echo "::error::Agent step $UPDATE_RESULT and wrote nothing in $DATA_DIR — nothing to salvage"
+          exit 1
 
       - name: Generate tweet
         if: matrix.entry.type == 'update'
@@ -631,7 +680,7 @@ jobs:
           # Aligned with init-tracker/seed-tracker, which build a tracker from
           # scratch the same way. The observed runs take ~5 min, so 80 turns
           # still sits well inside this job's 15-minute timeout.
-          claude_args: "--max-turns 80 --dangerously-skip-permissions --model claude-sonnet-4-6"
+          claude_args: "--max-turns 80 --dangerously-skip-permissions --model ${{ vars.CLAUDE_MODEL || 'claude-sonnet-5-5' }}"
           prompt: |
             You are creating a new Watchboard tracker based on a breaking news event.
 
@@ -703,19 +752,20 @@ jobs:
              .catch(e => console.error('[act] Post failed:', e));
           "
 
-      - name: Trigger seed job
-        if: matrix.entry.type == 'new_tracker'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TRACKER_SLUG: ${{ matrix.entry.tracker }}
-        run: |
-          SHOULD_SEED=$(cat /tmp/should-seed.txt 2>/dev/null || echo "false")
-          if [ "$SHOULD_SEED" = "true" ]; then
-            gh workflow run seed-tracker.yml \
-              -f tracker_slug="$TRACKER_SLUG" \
-              -f sections="all"
-            echo "Seed job triggered for $TRACKER_SLUG"
-          fi
+      - name: Repair known schema slips
+        # The hourly hard-fails on a schema error and discards the whole run.
+        # It failed 6 of 23 runs (26%) in early October, always on the same two
+        # mechanical slips the model makes:
+        #
+        #   map-points.json  0.date : Required
+        #   map-lines.json   0.from : Expected array, received object
+        #
+        # The nightly has a fix agent with a retry for this class; the hourly
+        # had nothing, so one missing field cost an entire scan's data. These
+        # need no model. Only unambiguous fills — anything needing judgement is
+        # left for Zod, since a wrong value that validates is worse than a
+        # failed run.
+        run: npx tsx scripts/repair-tracker-data.ts "${{ matrix.entry.tracker }}"
 
       - name: Validate modified JSON
         id: validate-json
@@ -936,8 +986,17 @@ jobs:
               if (Array.isArray(so.sections)) sections = so.sections.filter(Boolean);
             } catch {}
             if (!sections.length) {
+              // What the agent actually touched on disk, set by the
+              // Assess-update-outcome step. A run that hit error_max_turns has
+              // no structured output but may well have written real data.
+              // NOTE: no double quotes in this block — it lives inside a
+              // double-quoted node -e string and would terminate it.
+              sections = (process.env.AGENT_SECTIONS || '').split(',').filter(Boolean);
+              if (sections.length) console.log('No structured output — using sections derived from changed files');
+            }
+            if (!sections.length) {
               sections = (process.env.FALLBACK_SECTIONS || '').split(',').filter(Boolean);
-              console.log('No sections in structured output — using fallback list');
+              console.log('No sections in structured output or on disk — using fallback list');
             }
             console.log('Marking sections updated: ' + sections.join(', '));
             for (const s of sections) log.sections[s] = {lastRun: log.lastRun, status: 'updated'};
@@ -945,6 +1004,7 @@ jobs:
           "
         env:
           STRUCTURED_OUTPUT: ${{ steps.update.outputs.structured_output }}
+          AGENT_SECTIONS: ${{ steps.update_outcome.outputs.sections }}
           FALLBACK_SECTIONS: ${{ matrix.entry.type == 'update' && 'events,map-points,kpis,meta' || 'events,map-points,meta' }}
 
       - name: Collect metrics
@@ -1024,6 +1084,39 @@ jobs:
           git commit -m "$MSG"
           # Loop lives in a script so tests/ci/hourly-push.test.ts can race it.
           bash scripts/ci/hourly-push.sh "$TRACKER" 10
+
+      - name: Trigger seed job
+        # MUST run after "Commit and push". seed-tracker.yml checks out main and
+        # fails with "tracker config not found" if the tracker is not there yet.
+        #
+        # This step used to sit four steps earlier, before the commit, so every
+        # auto-created tracker dispatched a seed against a main that did not yet
+        # contain it. Five consecutive failures (bangkok-floods-2026,
+        # bosnia-crisis, quebec-independence, russia-biolab-incident-2026,
+        # poland-political-crisis) before anyone looked: the tracker was created
+        # correctly, the hourly scan reported success, and only the separate
+        # seed run was red.
+        if: matrix.entry.type == 'new_tracker'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TRACKER_SLUG: ${{ matrix.entry.tracker }}
+        run: |
+          SHOULD_SEED=$(cat /tmp/should-seed.txt 2>/dev/null || echo "false")
+          if [ "$SHOULD_SEED" != "true" ]; then
+            echo "Seeding not requested for $TRACKER_SLUG"
+            exit 0
+          fi
+          # Confirm the push actually landed before dispatching, rather than
+          # assuming step order is enough.
+          if ! gh api "repos/${{ github.repository }}/contents/trackers/$TRACKER_SLUG/tracker.json?ref=${{ github.ref_name }}" \
+                 --jq .path >/dev/null 2>&1; then
+            echo "::warning::trackers/$TRACKER_SLUG/tracker.json is not on ${{ github.ref_name }} yet — skipping seed dispatch"
+            exit 0
+          fi
+          gh workflow run seed-tracker.yml \
+            -f tracker_slug="$TRACKER_SLUG" \
+            -f sections="all"
+          echo "Seed job triggered for $TRACKER_SLUG"
 
       - name: Job summary
         if: always()

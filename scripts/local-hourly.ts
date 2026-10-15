@@ -49,7 +49,12 @@ import {
 // --- Constants ---
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const BEDROCK_MODEL = 'us.anthropic.claude-sonnet-4-20250514-v1:0';
+// Bedrock uses its own inference-profile ids, not the public model names, so
+// this cannot read CLAUDE_MODEL. Overridable via BEDROCK_MODEL; the default is
+// left as-is on purpose — an id that does not exist in the account fails only
+// at call time, so changing it needs a check against the caller's Bedrock
+// access, not a guess from here.
+const BEDROCK_MODEL = process.env.BEDROCK_MODEL || 'us.anthropic.claude-sonnet-4-20250514-v1:0';
 const BEDROCK_REGION = process.env.AWS_REGION || 'us-east-1';
 const MAX_TRIAGE_TOKENS = 2048;
 const MAX_UPDATE_TOKENS = 4096;

@@ -74,10 +74,12 @@ The table is generated from the source by `scripts/list-env-vars.ts`
 |---|---|---|
 | `AI_PROVIDER` | CI scripts | `scripts/backfill-osint.ts`, `scripts/backfill.ts`, `scripts/update-data.ts` |
 | `ANTHROPIC_API_KEY` | CI scripts | `scripts/backfill.ts`, `scripts/generate-hook.ts`, `scripts/generate-social-queue.ts`, `scripts/hourly-triage.ts`, `scripts/update-data.ts` |
-| `ANTHROPIC_MODEL` | CI scripts | `scripts/backfill-osint.ts`, `scripts/backfill.ts`, `scripts/update-data.ts` |
+| `ANTHROPIC_MODEL` | CI scripts | `scripts/lib/model.ts` |
 | `AWS_REGION` | CI scripts | `scripts/local-hourly.ts` |
+| `BEDROCK_MODEL` | CI scripts | `scripts/local-hourly.ts` |
 | `BLUESKY_HANDLE` | CI scripts | `scripts/bluesky-post.ts`, `scripts/post-video-social.ts` |
 | `BLUESKY_PASSWORD` | CI scripts | `scripts/bluesky-post.ts`, `scripts/post-video-social.ts` |
+| `CLAUDE_MODEL` | CI scripts | `scripts/lib/model.ts` |
 | `ELEVENLABS_API_KEY` | CI scripts | `scripts/narrate-elevenlabs.ts` |
 | `ELEVENLABS_MODEL_ID` | CI scripts | `scripts/narrate-elevenlabs.ts` |
 | `ELEVENLABS_VOICE_EN` | CI scripts | `scripts/narrate-elevenlabs.ts` |
@@ -86,9 +88,9 @@ The table is generated from the source by `scripts/list-env-vars.ts`
 | `FRESHNESS_CADENCE_FACTOR` | CI scripts | `scripts/check-data-freshness.ts` |
 | `FRESHNESS_GLOBAL_STALE_DAYS` | CI scripts | `scripts/check-data-freshness.ts` |
 | `FRESHNESS_STALE_RATIO` | CI scripts | `scripts/check-data-freshness.ts` |
-| `GITHUB_OUTPUT` | CI scripts | `scripts/check-data-freshness.ts` |
+| `GITHUB_OUTPUT` | CI scripts | `scripts/check-data-freshness.ts`, `scripts/self-review-pick.ts` |
 | `GITHUB_REPOSITORY` | CI scripts | `scripts/ci/host-release-asset.ts` |
-| `GITHUB_STEP_SUMMARY` | CI scripts | `scripts/check-media-fingerprints.ts` |
+| `GITHUB_STEP_SUMMARY` | CI scripts | `scripts/check-media-fingerprints.ts`, `scripts/self-review-file.ts` |
 | `GITHUB_TOKEN` | CI scripts | `scripts/ci/host-release-asset.ts` |
 | `LINKEDIN_ACCESS_TOKEN` | CI scripts | `scripts/post-social.ts` |
 | `LINKEDIN_ORG_ID` | CI scripts | `scripts/post-social.ts` |
@@ -120,6 +122,10 @@ The table is generated from the source by `scripts/list-env-vars.ts`
 | `X_API_SECRET` | CI scripts | `scripts/hourly-post.ts`, `scripts/post-social-queue.ts`, `scripts/post-social.ts`, `scripts/x-check.ts` |
 | `X_TEST_TEXT` | CI scripts | `scripts/x-check.ts` |
 | `YOUTUBE_API_KEY` | CI scripts | `scripts/backfill-youtube.ts` |
+| `YOUTUBE_CLIENT_ID` | CI scripts | `scripts/lib/youtube-publish.ts` |
+| `YOUTUBE_CLIENT_SECRET` | CI scripts | `scripts/lib/youtube-publish.ts` |
+| `YOUTUBE_PRIVACY_STATUS` | CI scripts | `scripts/lib/youtube-publish.ts` |
+| `YOUTUBE_REFRESH_TOKEN` | CI scripts | `scripts/lib/youtube-publish.ts` |
 <!-- env-vars:end -->
 
 ## Reverse proxies

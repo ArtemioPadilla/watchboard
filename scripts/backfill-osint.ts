@@ -19,12 +19,13 @@ import { readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
 import { z } from 'zod';
 import { MapLineSchema } from '../src/lib/schemas.js';
+import { resolveClaudeModel } from './lib/model';
 
 type Provider = 'anthropic' | 'openai';
 type MapLine = z.infer<typeof MapLineSchema>;
 
 const PROVIDER: Provider = (process.env.AI_PROVIDER as Provider) || 'anthropic';
-const ANTHROPIC_MODEL = process.env.ANTHROPIC_MODEL || 'claude-sonnet-4-6';
+const ANTHROPIC_MODEL = resolveClaudeModel();
 const OPENAI_MODEL = process.env.OPENAI_MODEL || 'gpt-4o';
 const DATA_DIR = join(process.cwd(), 'src', 'data');
 

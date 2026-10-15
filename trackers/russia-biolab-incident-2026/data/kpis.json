@@ -1,0 +1,29 @@
+[
+  {
+    "id": "contacts_monitored",
+    "label": "Contacts Monitored",
+    "value": "~200",
+    "color": "amber",
+    "source": "Rospotrebnadzor / WHO",
+    "contested": false,
+    "deltaNote": "~60% reportedly released by Oct 8"
+  },
+  {
+    "id": "confirmed_plague_cases",
+    "label": "Confirmed Plague Cases",
+    "value": "0",
+    "color": "green",
+    "source": "WHO / Rospotrebnadzor",
+    "contested": true,
+    "contestNote": "Cause of death unestablished; Russia did not name plague in contact testing statement"
+  },
+  {
+    "id": "contact_positives",
+    "label": "Contact Test Positives",
+    "value": "4",
+    "color": "blue",
+    "source": "Rospotrebnadzor",
+    "contested": false,
+    "contestNote": "2 Covid-19, 2 rhinovirus; no other pathogens"
+  }
+]

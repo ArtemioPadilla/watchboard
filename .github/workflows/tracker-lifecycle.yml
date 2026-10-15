@@ -141,18 +141,48 @@ jobs:
 
                 const title = '[Scout] Proposed tracker: ' + c.slug;
 
-                // Check for existing open issue
+                // Dedupe on the EVENT, not the slug.
+                //
+                // This used to search by title, which embeds the slug — so it
+                // only caught a re-proposal that happened to pick the same
+                // slug. The model picks a new one each time, and the same
+                // Nepal glacier collapse of 2026-08-26 was proposed three
+                // times over four weeks as nepal-china-flash-floods,
+                // nepal-tibet-floods-2026 and nepal-tibet-glacier-floods.
+                // Maldives and Tunisia duplicated the same way.
+                //
+                // startDate is the stable identifier: an event starts once,
+                // whatever it ends up being called.
                 try {
-                  const existing = execFileSync(
+                  const openIssues = JSON.parse(execFileSync(
                     'gh',
-                    ['issue','list','--search',title,'--state','open','--json','number','--jq','length'],
+                    ['issue','list','--label','scout','--state','open','--limit','200',
+                     '--json','number,title,body'],
                     { encoding: 'utf8' }
-                  ).trim();
-                  if (parseInt(existing) > 0) {
-                    console.log('Skipping ' + c.slug + ': open issue already exists');
+                  ));
+                  const dateOf = (b) => (b.match(/\| Start Date \| ([0-9-]+) \|/) || [])[1];
+                  const countryOf = (b) => (b.match(/\| Country \| ([^|]+) \|/) || [])[1]?.trim();
+                  const dup = openIssues.find((i) => {
+                    if (i.title === title) return true;
+                    const d = dateOf(i.body || '');
+                    if (!d || d !== c.startDate) return false;
+                    // Same start date alone is weak across unrelated regions,
+                    // so require the country to match when both declare one.
+                    const ic = countryOf(i.body || '');
+                    if (ic && c.country && ic !== 'unknown' && c.country !== 'unknown') {
+                      return ic === c.country;
+                    }
+                    return true;
+                  });
+                  if (dup) {
+                    console.log('Skipping ' + c.slug + ': #' + dup.number + ' already covers this event');
                     continue;
                   }
-                } catch {}
+                } catch (e) {
+                  // A failed lookup must not block proposing: losing a
+                  // candidate is worse than a duplicate we can close.
+                  console.warn('Dedupe lookup failed, proposing anyway:', e.message);
+                }
 
                 const labels = ['scout', 'auto-triage', 'domain:' + c.domain];
                 if (c.confidence >= 0.9) labels.push('auto-approve');
@@ -217,6 +247,45 @@ jobs:
               }
             });
           "
+
+      - name: Close stale scout proposals
+        # A proposal nobody acts on is one the scout re-raises later under a
+        # new slug. The dedupe above stops the duplicate; this stops the
+        # backlog growing at ~4/week forever.
+        #
+        # Never closes an auto-approve proposal: those are the scout's own
+        # >=0.9 confidence picks and deserve a human no, not a timeout.
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          CUTOFF=$(date -u -d '60 days ago' +%Y-%m-%d 2>/dev/null || date -u -v-60d +%Y-%m-%d)
+          echo "Closing scout proposals opened before $CUTOFF"
+
+          {
+            echo "Closed automatically: open for more than 60 days with no action."
+            echo ""
+            echo "This is not a verdict on the candidate. An un-actioned proposal is one"
+            echo "the scout re-raises later under a different slug — which is how a single"
+            echo "Nepal glacier collapse ended up proposed three times. Closing keeps the"
+            echo "backlog legible."
+            echo ""
+            echo "Reopen it if it still matters; nothing about the event changed."
+          } > /tmp/stale-note.md
+
+          gh issue list --label scout --state open --limit 200 \
+            --json number,title,createdAt,labels \
+            --jq '.[] | select(.createdAt < "'"$CUTOFF"'") | select([.labels[].name] | index("auto-approve") | not) | .number' \
+            > /tmp/stale-scout.txt || true
+
+          COUNT=$(grep -c . /tmp/stale-scout.txt || echo 0)
+          echo "Found ${COUNT} stale proposals"
+
+          while read -r num; do
+            [ -z "$num" ] && continue
+            echo "  closing #$num"
+            gh issue comment "$num" --body-file /tmp/stale-note.md || true
+            gh issue close "$num" --reason "not planned" || true
+          done < /tmp/stale-scout.txt
 
   # ── Prune: detect dormant trackers ──
   prune:

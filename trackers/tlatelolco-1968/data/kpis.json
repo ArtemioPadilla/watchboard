@@ -35,14 +35,18 @@
   {
     "id": "days-since-massacre",
     "label": "Days Since Massacre",
-    "value": "21,161",
+    "value": "21,191",
     "color": "amber",
     "source": "Calculated from 1968-10-02",
     "contested": false,
     "trend": "up",
     "delta": "+365/yr",
-    "deltaDetail": { "value": 30, "direction": "up", "period": "30d" },
-    "lastUpdated": "2026-09-09"
+    "deltaDetail": {
+      "value": 30,
+      "direction": "up",
+      "period": "since 2026-09-09"
+    },
+    "lastUpdated": "2026-10-09"
   },
   {
     "id": "prosecutions",

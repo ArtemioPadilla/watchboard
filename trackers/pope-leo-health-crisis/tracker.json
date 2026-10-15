@@ -1,0 +1,176 @@
+{
+  "slug": "pope-leo-health-crisis",
+  "name": "Pope Leo Health Crisis",
+  "shortName": "Pope Leo",
+  "description": "Intelligence dashboard tracking Pope Leo's cancer diagnosis following lung surgery, Vatican communications, Catholic Church leadership continuity, and global reactions.",
+  "icon": "⛪",
+  "color": "#8e44ad",
+  "status": "active",
+  "tone": "alert",
+  "temporal": "live",
+  "domain": "governance",
+  "region": "europe",
+  "country": "VA",
+  "tags": [
+    "pope",
+    "vatican",
+    "catholic-church",
+    "papal-health",
+    "lung-cancer",
+    "pope-leo"
+  ],
+  "startDate": "2026-10-13",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": 5.0,
+      "lonMax": 30.0,
+      "latMin": 36.0,
+      "latMax": 52.0
+    },
+    "center": {
+      "lon": 12.4534,
+      "lat": 41.9029
+    },
+    "categories": [
+      {
+        "id": "vatican",
+        "label": "Vatican / Holy See",
+        "color": "#f1c40f"
+      },
+      {
+        "id": "hospital",
+        "label": "Medical Facilities",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "church-institution",
+        "label": "Church Institutions",
+        "color": "#8e44ad"
+      },
+      {
+        "id": "diplomatic",
+        "label": "Diplomatic Reactions",
+        "color": "#2980b9"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "vatican": {
+        "lon": 12.4534,
+        "lat": 41.9029,
+        "alt": 8000,
+        "pitch": -45,
+        "heading": 0,
+        "label": "Vatican City"
+      },
+      "rome": {
+        "lon": 12.4964,
+        "lat": 41.9028,
+        "alt": 80000,
+        "pitch": -60,
+        "heading": 0,
+        "label": "Rome, Italy"
+      },
+      "gemelli": {
+        "lon": 12.4330,
+        "lat": 41.9301,
+        "alt": 15000,
+        "pitch": -45,
+        "heading": 0,
+        "label": "Gemelli Hospital"
+      },
+      "europe": {
+        "lon": 15.0,
+        "lat": 48.0,
+        "alt": 4000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Europe Overview"
+      },
+      "global": {
+        "lon": 12.4534,
+        "lat": 20.0,
+        "alt": 18000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Global Catholic Reach"
+      }
+    }
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Statements"
+    },
+    {
+      "id": "sec-political",
+      "label": "Key Figures"
+    }
+  ],
+  "politicalAvatars": [
+    "pope",
+    "cardinal",
+    "bishop",
+    "doctor",
+    "diplomat",
+    "other"
+  ],
+  "eventTypes": [
+    "medical",
+    "statement",
+    "diplomatic",
+    "ecclesiastical",
+    "prayer"
+  ],
+  "ai": {
+    "systemPrompt": "You are a Vatican and Catholic Church intelligence analyst updating a dashboard on Pope Leo's health crisis.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"vatican_surgery_statement\", \"cardinal_reaction\").\n\nSOURCE TIERS for this tracker:\n- Tier 1: Official/primary (Vatican press office, Holy See official statements, Vatican News, L'Osservatore Romano)\n- Tier 2: Major outlet (Reuters, AP, BBC, Al Jazeera, Le Monde, CNN, El País, La Repubblica)\n- Tier 3: Institutional (Catholic News Agency, USCCB, national bishops' conferences, academic Catholic institutions)\n- Tier 4: Unverified (social media, unattributed blogs, speculation)\n\nWhen providing sources, tag each with a \"pole\" field:\n- \"western\" for Western media and sources\n- \"middle_eastern\" for Middle Eastern/African sources\n- \"eastern\" for Eastern European/Asian sources\n- \"international\" for Vatican itself and multilateral bodies\n\nFOCUS AREAS:\n- Pope Leo's medical condition, prognosis, treatment updates\n- Vatican official statements and press briefings\n- Succession and papal continuity protocols\n- Reactions from cardinals, bishops, world leaders\n- Theological and canonical implications (resignation, sede vacante)\n- Global Catholic community response\n- Historical parallels (Pope John Paul II, Pope Benedict XVI health situations)\n\nOnly include information verifiable through search results. Do not speculate on prognosis or succession without official sourcing.\nDEDUPLICATION: Same statement or medical update within the same day = same event — merge, do not create duplicates.",
+    "searchContext": "Pope Leo health cancer lung surgery Vatican diagnosis Catholic Church succession",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": 5.0,
+      "lonMax": 30.0,
+      "latMin": 36.0,
+      "latMax": 52.0
+    },
+    "updateIntervalDays": 1,
+    "backfillTargets": {
+      "timeline": 10,
+      "mapPoints": 5,
+      "claims": 5,
+      "political": 5
+    },
+    "rssFeeds": [
+      "https://www.vaticannews.va/en.rss.xml",
+      "https://news.google.com/rss/search?q=Pope+Leo+health+cancer+Vatican&hl=en-US&gl=US&ceid=US:en"
+    ],
+    "relatedTrackers": [
+      "cancer-breakthroughs"
+    ]
+  },
+  "githubRepo": "ArtemioPadilla/watchboard"
+}

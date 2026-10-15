@@ -1,0 +1,184 @@
+{
+  "slug": "pakistan-kp-emergency-2026",
+  "name": "Pakistan KP Province Emergency Rule",
+  "shortName": "KP Emergency",
+  "description": "Intelligence dashboard tracking Pakistan's Khyber Pakhtunkhwa political crisis: emergency rule threats, PTI-federal standoff, Imran Khan's imprisonment, and provincial unrest.",
+  "icon": "🇵🇰",
+  "color": "#01411c",
+  "status": "active",
+  "tone": "alert",
+  "temporal": "live",
+  "domain": "governance",
+  "region": "south-asia",
+  "tags": [
+    "pakistan",
+    "khyber-pakhtunkhwa",
+    "kp",
+    "pti",
+    "imran-khan",
+    "emergency-rule",
+    "peshawar",
+    "south-asia"
+  ],
+  "country": "PK",
+  "state": "Khyber Pakhtunkhwa",
+  "startDate": "2026-10-12",
+  "eraLabel": "2026 KP Crisis",
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": 69.5,
+      "lonMax": 74.5,
+      "latMin": 31.0,
+      "latMax": 37.0
+    },
+    "center": {
+      "lon": 71.559,
+      "lat": 34.015
+    },
+    "categories": [
+      {
+        "id": "protest",
+        "label": "Protests & Marches",
+        "color": "#e74c3c"
+      },
+      {
+        "id": "security",
+        "label": "Security Operations",
+        "color": "#3498db"
+      },
+      {
+        "id": "political",
+        "label": "Political Event",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "crackdown",
+        "label": "Crackdown / Arrest",
+        "color": "#e67e22"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "overview": {
+        "lon": 71.559,
+        "lat": 34.015,
+        "alt": 500000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "KP Province Overview"
+      },
+      "peshawar": {
+        "lon": 71.559,
+        "lat": 34.015,
+        "alt": 40000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Peshawar (KP Capital)"
+      },
+      "islamabad": {
+        "lon": 73.052,
+        "lat": 33.729,
+        "alt": 60000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Islamabad (Federal Capital)"
+      },
+      "swat_valley": {
+        "lon": 72.36,
+        "lat": 35.22,
+        "alt": 80000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Swat Valley"
+      },
+      "pakistan_wide": {
+        "lon": 69.345,
+        "lat": 30.375,
+        "alt": 2000000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Pakistan Wide View"
+      }
+    }
+  },
+  "navSections": [
+    {
+      "id": "sec-timeline",
+      "label": "Timeline"
+    },
+    {
+      "id": "sec-map",
+      "label": "Map"
+    },
+    {
+      "id": "sec-contested",
+      "label": "Contested"
+    },
+    {
+      "id": "sec-political",
+      "label": "Political"
+    }
+  ],
+  "politicalAvatars": [
+    "pk-federal",
+    "pti",
+    "pml-n",
+    "ppp",
+    "kp-provincial",
+    "judiciary",
+    "military",
+    "intl"
+  ],
+  "eventTypes": [
+    "protest",
+    "arrest",
+    "government",
+    "security",
+    "legal",
+    "negotiation"
+  ],
+  "ai": {
+    "systemPrompt": "You are a South Asia governance and political analyst updating a crisis tracking dashboard for Pakistan's Khyber Pakhtunkhwa province.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"kp_emergency_imposed\", \"pti_march_oct4\").\n\nSource tier classification:\n- Tier 1: Official/primary (Pakistan government statements, KP provincial government, Supreme Court of Pakistan, Election Commission of Pakistan)\n- Tier 2: Major outlet (Reuters, AP, BBC, Dawn, The News International, ARY News, Geo News, AFP)\n- Tier 3: Institutional (Crisis Group, Human Rights Watch, Amnesty International, PILDAT, HRCP)\n- Tier 4: Unverified (social media, unattributed claims, X/Twitter)\n\nOnly include information you can verify through search results. Do not fabricate data.\nTrack: emergency rule or governor's rule imposition and legal challenges, PTI protests and long marches, federal-provincial standoffs, Imran Khan's legal cases and prison status, security crackdowns on PTI workers, political negotiations, and any civilian casualties or arrests.",
+    "searchContext": "Pakistan Khyber Pakhtunkhwa KP emergency rule governor's rule PTI Imran Khan provincial crisis 2026",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "mapPoints",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": 69.5,
+      "lonMax": 74.5,
+      "latMin": 31.0,
+      "latMax": 37.0
+    },
+    "updateIntervalDays": 1,
+    "backfillTargets": {
+      "timeline": 10,
+      "mapPoints": 5,
+      "claims": 5,
+      "political": 5
+    },
+    "relatedTrackers": [
+      "pakistan",
+      "india-pakistan-conflict"
+    ]
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard",
+  "geoPath": [
+    "PK"
+  ]
+}

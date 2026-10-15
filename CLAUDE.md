@@ -52,6 +52,18 @@ make help            # List all Make targets
 - Each workflow produces a `$GITHUB_STEP_SUMMARY` with data inventory tables
 - Legacy: `scripts/update-data.ts` still works with direct API keys (`ANTHROPIC_API_KEY` / `OPENAI_API_KEY`)
 
+### Credentials
+
+`docs/runbooks/secrets-and-variables.md` lists every secret and repo variable
+the workflows read, what breaks without each one, and which are configured.
+Read it before concluding a feature is broken: **a missing secret is an empty
+string, not an error**, so the step usually goes green having done nothing,
+and all eight repo variables are currently unset — which switches X posting,
+the Meta adapters and the freshness check off by default rather than failing.
+
+Infra alerts go to `TELEGRAM_ALERT_CHAT_ID` (private ops chat), **never**
+`TELEGRAM_CHANNEL_ID` (public channel with outside subscribers).
+
 ### Merging
 
 `main` has no branch protection and no required checks, and 14 bot workflows push straight to it with `GITHUB_TOKEN` — that's why branch protection is intentionally absent (it would block those pushes). The consequence: a PR's auto-merge fires the instant it's enabled, checks or no checks, because nothing gates the merge button. Enable auto-merge only once checks have already passed, and otherwise merge PRs by hand only after `gh pr checks <n> --watch --fail-fast` comes back green.
@@ -238,6 +250,7 @@ AI-curated social media posting system. Replaces the old `generate-social-drafts
 - `islands/shared/SourceStatusChip.tsx` — per-layer status chip and the collapsible "degraded sources" summary mounted in `CesiumHud`, `CesiumControls` and `MapLayerToggles` (BL-020).
 - `live-source.ts` — shared stale-on-error cache behind every live layer (`fetchLiveSource`, `useLiveSource`). The TTL belongs to the cache entry, not to the caller: two surfaces sharing a key must pass the same `ttlMs` (dev warns otherwise), so hooks import the layer's constant (`FLIGHTS_TTL_MS` from `flights-source.ts`) instead of re-declaring it. Consecutive 429s back off 30/60/120 s on their own counter; the 200-entry cap is a hard invariant. An empty payload counts as a failed refresh by default; layers where "nothing here" is real data (flights over an empty bbox) pass `isEmpty: () => false`. Flights poll at `pollIntervalForBbox()` (30 s × OpenSky credit tier, so a theatre-wide view polls every 2 min and a day of viewing stays inside the 400-credit anonymous quota).
 - `live-layers.ts` — `LIVE_LAYERS` registry (Zod `LiveLayerSpecSchema`): every external globe/map layer with kind (`feed` | `snapshot`), URL, TTL, CORS mode, license and tracker `scope`. `live-layers.test.ts` fails CI if a feed host is missing from `connect-src` in `BaseLayout.astro` or `public/_headers` (parser in `scripts/lib/csp-hosts.ts`). Rationale: `docs/adr/0002-live-layer-registry.md`.
+- `csp-report.ts` — CSP violation reporting. `report-uri`/`report-to` are ignored in a `<meta>` element and Pages serves no CSP header, so violations are caught in-page and sent to PostHog as `csp_violation` (normalised, deduped, ≤ 10 per page load, query strings stripped, browser-extension noise dropped). The listener itself is a minimal inline buffer at the top of `BaseLayout.astro` — parse-time inline-script refusals happen before any module script runs, and PostHog initialises inside `requestIdleCallback`, so events are buffered until a sink exists. This is what makes a hash mismatch visible: once `csp-hashes.ts` pins each inline script, an inline script edited after the hashes are computed is silently refused by the browser and nothing in CI notices (#241).
 - `feed-buckets.ts` — the sidebar feed order, shared by `FeedList` (what renders) and `flatSlugs` (what arrow keys walk). OPS + Relevance: followed → the first `INTEREST_BAND_MAX` (6) declared-interest matches *in relevance order* under a "Your interests" label → recent (≤ 48 h, `OLDER_THRESHOLD_MS`) → older (dimmed, also inside the band). Relevance is not freshness (activity and breaking outweigh recency), so a stale active match can hold a band slot while a fresh quiet match stays in `recent`; that is by design and pinned by a unit test. No interests, or a non-empty search, = the pre-v2 layout exactly (tested against a literal copy). Activity is flat, DOMAIN groups by domain; neither has a band. The one-time sidebar nudge (mobile visitors, and desktop visitors who finished the tour, while no interests are set) is `shouldShowInterestsNudge` in `onboarding.ts` (feature key `'interests'`, never a `COACH_HINTS` entry); with the sidebar collapsed it shows as a dot on the rail's expand button, and its Pick button switches to OPS + Relevance.
 - `tracker-registry.ts` — discovers and loads tracker configs
 - `data.ts` — `loadTrackerData(slug)` parameterized data loader

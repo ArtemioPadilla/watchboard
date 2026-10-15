@@ -1,5 +1,56 @@
 [
   {
+    "date": "2026-10-12",
+    "title": "Sahel Insurgency Update — Oct 12, 2026",
+    "summary": "No new verified incidents were found for Oct 5-12 across Mali, Burkina Faso and Niger after searches by region and actor. The Sept 27 Niono convoy ambush and the Sept 20 Sévaré airport attack claim remain the latest recorded developments. No data sections were changed beyond the update timestamp.",
+    "sectionsUpdated": [],
+    "provenance": {
+      "method": "llm",
+      "model": "claude",
+      "generatedAt": "2026-10-12T22:06:36.000Z",
+      "pipeline": "update-data"
+    }
+  },
+  {
+    "date": "2026-10-05",
+    "title": "Sahel Insurgency Update — Oct 05, 2026",
+    "summary": "No new verified incidents were found for Sept 29-Oct 5 across Mali, Burkina Faso and Niger after multiple searches. The Sept 27 Niono convoy ambush and the Sept 20 Sévaré airport attack claim remain the latest recorded developments. No data sections were changed beyond the update timestamp.",
+    "sectionsUpdated": [],
+    "provenance": {
+      "method": "llm",
+      "model": "claude",
+      "generatedAt": "2026-10-05T21:38:53.516Z",
+      "pipeline": "update-data"
+    }
+  },
+  {
+    "date": "2026-10-04",
+    "title": "Sahel Insurgency Update — Oct 04, 2026",
+    "summary": "No new verified incidents were found for Sept 29-Oct 4 across Mali, Burkina Faso and Niger. The Sept 27 Niono convoy ambush and the Sept 20 Sévaré airport attack claim remain the latest recorded developments. No data sections were changed beyond the update timestamp.",
+    "sectionsUpdated": [],
+    "provenance": {
+      "method": "llm",
+      "model": "claude",
+      "generatedAt": "2026-10-04T18:09:38.487Z",
+      "pipeline": "update-data"
+    }
+  },
+  {
+    "date": "2026-10-03",
+    "title": "Sahel Insurgency Update — Oct 03, 2026",
+    "summary": "A JNIM ambush on an Africa Corps–FAMa convoy near Niono (Ségou region) around Sept 27-28 reportedly killed at least seven soldiers, including three or four Russians. Reports differ on date and toll and rely on Tier 3 outlets. No other new verified incidents were found for Sept 29-Oct 3.",
+    "sectionsUpdated": [
+      "events",
+      "mapPoints"
+    ],
+    "provenance": {
+      "method": "llm",
+      "model": "claude",
+      "generatedAt": "2026-10-03T17:56:59.205Z",
+      "pipeline": "update-data"
+    }
+  },
+  {
     "date": "2026-10-01",
     "title": "Sahel Insurgency Tracker Update — Oct 01, 2026",
     "summary": "Burkina Faso's foreign minister told the UN General Assembly on Sept 28, on behalf of the AES, that unnamed states arm and finance Sahel jihadists, and said the three states have notified their ICC withdrawal. No evidence was offered. No other new verified incidents were found for Sept 24-Oct 1 in this run.",
@@ -24,6 +75,20 @@
     "provenance": {
       "method": "heuristic",
       "generatedAt": "2026-10-01T19:48:55.739Z",
+      "pipeline": "ensure-digests"
+    }
+  },
+  {
+    "date": "2026-09-27",
+    "title": "Sahel Insurgency Tracker Update — Sun Sep 27, 2026",
+    "summary": "Around September 27-28, 2026, JNIM militants ambushed a convoy near Niono in Mali's Ségou region.",
+    "sectionsUpdated": [
+      "events"
+    ],
+    "source": "freshness",
+    "provenance": {
+      "method": "heuristic",
+      "generatedAt": "2026-10-03T18:23:17.312Z",
       "pipeline": "ensure-digests"
     }
   },
@@ -441,66 +506,6 @@
     "date": "2026-06-04",
     "title": "Sahel Insurgency Tracker Update — Thu Jun 4, 2026",
     "summary": "FAMa/Africa Corps Strike FLA Logistics Nodes in Northern Mali (June 4, 2026). ISS Africa: JNIM's Blockade Tactics Are Strangling West Africa's Trade Corridors — $26.5M Monthly Loss for Dakar Port (June 4, 2026).",
-    "sectionsUpdated": [
-      "events"
-    ]
-  },
-  {
-    "date": "2026-06-03",
-    "title": "Sahel Insurgency Tracker Update — Wed Jun 3, 2026",
-    "summary": "Mali Junta Bans Motorcycles 125cc+ Nationwide — Direct Strike at JNIM Logistics (June 3, 2026). ECOWAS Mediator Kouyaté Calls for AES Cooperation — 'Geography Inextricably Links' Blocs (June 3, 2026). UN/OCHA: 15.4M Face Crisis Food Insecurity in June–August Lean Season — Funding at Decade Low (June 3, 2026).",
-    "sectionsUpdated": [
-      "events"
-    ]
-  },
-  {
-    "date": "2026-06-02",
-    "title": "Sahel Insurgency Update — Tue Jun 02, 2026",
-    "summary": "Bamako siege enters Day 35 as independent analysis (The Africa Report) notes the blockade 'easing' with supply flows partially resuming in the post-Eid window — though structural JNIM road-junction control persists with no truce obligation. Russian state-aligned media (Pravda Mali, June 1) claims FAMa and Africa Corps recaptured the Labbezanga border fort from ISSP and neutralized 60+ militants in concurrent airstrikes — claims from a single Russian-aligned source not yet independently confirmed. Russia's MFA acknowledged 'new militant attacks in Mali cannot be ruled out.' The US Embassy Enhanced Security Alert has expired without renewal. Burkina Faso's Imam Kindo crisis continues with the Islamic scholar's whereabouts undisclosed following his May 26 arrest and the junta's Grand Mosque closure.",
-    "sectionsUpdated": [
-      "events",
-      "kpis",
-      "mapPoints",
-      "mapLines",
-      "assets",
-      "meta"
-    ],
-    "source": "daily"
-  },
-  {
-    "date": "2026-06-01",
-    "title": "Sahel Insurgency Update — Mon Jun 01, 2026",
-    "summary": "Bamako siege enters Day 34 as the post-Eid window holds with no new major JNIM escalation confirmed on June 1. The International Rescue Committee's one-month assessment documents 5.1 million Malians needing humanitarian assistance, 1.5 million at crisis-level hunger, and over 1 million children facing severe acute malnutrition — as WFP demands $453M for the next six months to sustain Sahel operations. The US Embassy Enhanced Security Alert expired May 31 without renewal. President Goïta announced a military theater command restructure on May 29–30, appointing three new theater commanders (Col.-Maj. Karim Traoré, Col.-Maj. Didier Dembélé, and Col. Issa Bagayoko) and confirming General Makan Alassane Diarra as AES Unified Force head — a response to the command failures exposed by the April–May crisis. Burkina Faso remains at acute security risk in the aftermath of five confirmed JNIM atrocities in May 2026 (~300+ killed) and the May 29–30 ICRC convoy attack.",
-    "sectionsUpdated": [
-      "events",
-      "kpis",
-      "casualties",
-      "econ",
-      "mapPoints",
-      "political",
-      "meta"
-    ],
-    "source": "daily"
-  },
-  {
-    "date": "2026-05-31",
-    "title": "Sahel Insurgency Update — Sun May 31, 2026",
-    "summary": "Burkina Faso's jihadist crisis intensified over May 29–31 with three separate attacks: JNIM killed at least 15 civilians in a Titao-Sollé trading convoy ambush (May 29, Loroum Province); militants ambushed an ICRC-affiliated aid convoy near Barsalogho killing 13 including ICRC humanitarian workers in a grave IHL breach (May 29–30); and gunmen massacred approximately 30 civilians at the Kompienbiga livestock market during Eid al-Adha (May 31). The Traoré junta simultaneously closed Ouagadougou's Grand Mosque and detained ~100 protesters following the arrest of respected Islamic scholar Imam Mohamed Kindo. Mali's Bamako siege enters Day 33 with the post-Eid window (May 28–June 5) assessed as highest-risk for renewed blockade escalation; structural JNIM blockade capability persists with no truce obligation after the March 2026 fuel deal expired at Eid.",
-    "sectionsUpdated": [
-      "events",
-      "kpis",
-      "casualties",
-      "econ",
-      "mapPoints",
-      "mapLines",
-      "meta"
-    ],
-    "source": "daily"
-  },
-  {
-    "date": "2026-05-30",
-    "title": "Sahel Insurgency Tracker Update — Sat May 30, 2026",
-    "summary": "Armed militants attacked an aid convoy near Barsalogho in Sanmatenga Province, north-central Burkina Faso on approximately May 29–30, 2026.",
     "sectionsUpdated": [
       "events"
     ]
