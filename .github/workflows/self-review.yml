@@ -1,0 +1,126 @@
+name: Self Review
+
+# Weekly repo self-analysis. One dimension per run, chosen by rotation from
+# self-review/dimensions.json — six agent runs in one cron would be a lot of
+# spend and would land six batches of issues at once, which is how a helpful
+# bot becomes noise.
+#
+# The part that matters is the retire step: every run re-checks findings
+# filed earlier and closes the ones whose premise no longer holds. Without
+# it this becomes #237 and #238 at scale — issues asserting things that were
+# true when written and quietly stopped being true, which cost real work to
+# discover.
+
+on:
+  schedule:
+    - cron: '0 9 * * 2'   # Tuesdays 09:00 UTC, clear of the Sunday scout
+  workflow_dispatch:
+    inputs:
+      dimension:
+        description: 'Force a specific dimension id (default: whatever is due)'
+        required: false
+      dry_run:
+        description: 'Analyse and print, file nothing'
+        required: false
+        default: 'false'
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: self-review
+  cancel-in-progress: false
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+
+      # ── Retire first, so a stale finding cannot be counted as "already
+      # filed" and block a fresh report of the same area.
+      - name: Retire findings whose file is gone
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx tsx scripts/self-review-retire.ts
+
+      - name: Pick the dimension that is due
+        id: pick
+        run: npx tsx scripts/self-review-pick.ts
+
+      - name: Analyse
+        if: steps.pick.outputs.due == 'true'
+        id: analyse
+        continue-on-error: true
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          claude_args: >-
+            --max-turns ${{ steps.pick.outputs.max_turns }} --dangerously-skip-permissions
+            --model ${{ vars.CLAUDE_MODEL || 'claude-sonnet-5-5' }}
+            --json-schema '{"type":"object","properties":{"findings":{"type":"array","items":{"type":"object","properties":{"title":{"type":"string"},"file":{"type":"string"},"line":{"type":"integer"},"detail":{"type":"string"}},"required":["title","file","detail"]}}},"required":["findings"]}'
+          prompt: |
+            You are reviewing the Watchboard repository along ONE dimension.
+
+            DIMENSION: ${{ steps.pick.outputs.title }}
+
+            ${{ steps.pick.outputs.prompt }}
+
+            RULES
+            - Report at most ${{ steps.pick.outputs.max_findings }} findings. Fewer is fine. Zero is a
+              valid and useful answer — do not pad to reach the cap.
+            - Every finding MUST cite a real repo-relative `file` that exists.
+              A finding with no checkable location is discarded by the
+              post-processing, so it is wasted work.
+            - VERIFY before reporting. Read the code. Do not report something
+              because it looks like a problem in the abstract. Two issues in
+              this repo, #237 and #238, asserted things that had stopped being
+              true, and acting on them would have burned about sixteen agent
+              runs to add nothing.
+            - `detail` must say what breaks and how someone would see it,
+              concretely. Not "this could be improved".
+            - Do not propose stylistic rewrites, renames for taste, or new
+              features. This is about defects and drift.
+
+            Return the findings as structured output.
+
+      - name: File findings
+        if: steps.pick.outputs.due == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # The agent payload goes via a file, not an env var: it is JSON that
+          # can run to kilobytes, and env vars read by scripts end up in the
+          # self-hosting env table where internal plumbing does not belong.
+          STRUCTURED_OUTPUT: ${{ steps.analyse.outputs.structured_output }}
+        run: |
+          printf '%s' "$STRUCTURED_OUTPUT" > /tmp/self-review-findings.json
+          npx tsx scripts/self-review-file.ts \
+            --dimension "${{ steps.pick.outputs.id }}" \
+            --max "${{ steps.pick.outputs.max_findings }}" \
+            --agent-result "${{ steps.analyse.outcome }}" \
+            --findings-file /tmp/self-review-findings.json \
+            ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }}
+
+      - name: Record the run
+        if: steps.pick.outputs.due == 'true' && github.event.inputs.dry_run != 'true'
+        run: |
+          npx tsx scripts/self-review-stamp.ts
+          if git diff --quiet -- self-review/state.json; then
+            echo "::warning::state.json unchanged — the next run would repeat this dimension"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          # reports/ too: self-review-file.ts writes one every run, and
+          # committing only state.json would throw them away while the step
+          # still went green.
+          git add self-review/state.json self-review/reports
+          git commit -m "chore(self-review): ran ${{ steps.pick.outputs.id }} $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          git push

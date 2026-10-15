@@ -1,0 +1,64 @@
+{
+  "$comment": "Registry of self-review dimensions. Add one by appending an object; nothing else needs changing. scripts/self-review.ts picks whichever are due and the workflow runs them one at a time. Every dimension here was chosen because it caught something real in this repo, not because it sounded good.",
+  "defaults": {
+    "intervalDays": 14,
+    "maxFindings": 3,
+    "maxTurns": 30
+  },
+  "dimensions": [
+    {
+      "id": "silent-failure",
+      "title": "Steps that report success while their work goes nowhere",
+      "enabled": true,
+      "intervalDays": 7,
+      "maxFindings": 4,
+      "why": "docs/silent-failure-patterns.md records this as the repo's dominant defect class, found eleven times in one session. Most recently: a seed dispatched four steps before the push that created the tracker (#319), and an agent step whose failure discarded 20 turns of completed work (#323).",
+      "prompt": "Find places where a step, script or job can report success while the work it was supposed to do did not land. Read docs/silent-failure-patterns.md first for the shapes this repo keeps producing. Look especially for: a `git add` whose pathspec cannot match (bracketed directories), a commit step with nothing staged, a workflow step ordered before the thing it depends on, an exit code checked instead of the artefact, a guard that is always true or always false, a fetch whose failure is swallowed, and a write whose target path is wrong. For each finding give the exact file:line, and state concretely how the step passes while the work is lost."
+    },
+    {
+      "id": "doc-drift",
+      "title": "Documentation that the code contradicts",
+      "enabled": true,
+      "intervalDays": 14,
+      "maxFindings": 4,
+      "why": "Two found in one day: CLAUDE.md calls `npm run build` 'Type-check + build' when it runs no type-check at all, and BaseLayout.astro's CSP comment claimed 'unsafe-inline' was still live months after the postbuild step removed it — which is probably why #241 was filed for work already shipped.",
+      "prompt": "Find statements in CLAUDE.md, README.md and docs/**/*.md that the code contradicts. Check claims about what commands do, which files exist, what a workflow runs, what a default is, and what is or is not enabled. Verify each claim against the actual source before reporting it. Quote the doc line and the code that disagrees. Do not report wording you merely dislike — only statements that are false."
+    },
+    {
+      "id": "dead-config",
+      "title": "Configured but never read",
+      "enabled": true,
+      "intervalDays": 21,
+      "maxFindings": 4,
+      "why": "CLOUDFLARE_API_TOKEN is set as a repo secret and read by zero workflows; its only mention is a plan document for a workflow that was never created. A credential nothing uses is attack surface with no upside.",
+      "prompt": "Find configuration that exists but nothing reads, and configuration that is read but never set. Cover: repo secrets and variables versus `secrets.*` / `vars.*` in .github/workflows, env vars in docs/self-hosting.md versus `process.env.*` reads, feature flags, exported functions with no importer, and files under public/ or src/data/ that nothing loads. For secrets specifically, say plainly whether the right fix is to wire it up or revoke it."
+    },
+    {
+      "id": "ungated-regressions",
+      "title": "Checks that exist but nothing runs",
+      "enabled": true,
+      "intervalDays": 21,
+      "maxFindings": 3,
+      "why": "225 tests existed that no workflow had ever executed. Today: no workflow runs `tsc` or `astro check`, so type regressions are entirely ungated — which is how an astro 7 bump could have added fifteen type errors with every check still green.",
+      "prompt": "Find quality gates that exist in the repo but do not run in CI, and CI steps whose failure cannot fail the build. Compare the scripts in package.json against what .github/workflows actually invokes. Flag `continue-on-error` and `|| true` on steps whose failure would matter, test files matched by no runner config, and linters configured but never called. For each, state what class of regression currently ships unnoticed."
+    },
+    {
+      "id": "source-integrity",
+      "title": "Data that undermines the tier promise",
+      "enabled": true,
+      "intervalDays": 14,
+      "maxFindings": 4,
+      "why": "The source-tier scale is the product's core promise and Zod cannot defend it: `tier: 1` is schema-valid whatever the source actually is. scripts/check-source-tiers.ts catches bare citations, but not fabricated URLs, unreachable links or a confident claim resting on one unverifiable source.",
+      "prompt": "Audit tracker data for things that weaken the source-tier promise but pass Zod. Look for: a strong tier on a weak or aggregated source, events whose only source is a homepage rather than an article, duplicated events under different ids, dates inconsistent with the partition file they sit in, and confident single-source claims on contested facts. Sample across several trackers rather than exhausting one. Report the tracker, the file and the entry id."
+    },
+    {
+      "id": "stale-findings",
+      "title": "Open issues whose premise is no longer true",
+      "enabled": true,
+      "intervalDays": 30,
+      "maxFindings": 6,
+      "why": "#238 asserted the germany tracker had 'zero coverage' of an event it had carried since July, and #237 listed six trackers as 'verified uncovered' that all exist with 35-98 events each. Acting on either without checking would have burned roughly sixteen full seed runs to add almost nothing.",
+      "prompt": "Take the open issues in this repo and check whether their factual premises still hold. For each issue that asserts something concrete about the repo — a file is missing, a tracker lacks coverage, a feature is unimplemented, a bug reproduces — verify it against the current code and data. Report only issues whose premise is now FALSE, with the evidence that disproves it. Do not report issues that are merely old, or ones that are opinions or decisions rather than factual claims."
+    }
+  ]
+}
