@@ -1,0 +1,90 @@
+{
+  "slug": "lebanon-war-2026",
+  "name": "Lebanon War 2026: Israel–Hezbollah",
+  "shortName": "Lebanon War 2026",
+  "description": "Intelligence dashboard tracking the full-scale Israel–Hezbollah war in Lebanon since March 2026, triggered by the US-Israel war on Iran: Israeli strikes and ground operations, Hezbollah fire, casualties, displacement and diplomacy.",
+  "icon": "🇱🇧",
+  "color": "#c0392b",
+  "status": "active",
+  "tone": "alert",
+  "temporal": "live",
+  "domain": "conflict",
+  "region": "middle-east",
+  "country": "LB",
+  "geoPath": ["LB"],
+  "geoSecondary": ["IL"],
+  "tags": ["lebanon", "hezbollah", "israel", "idf", "south-lebanon", "beirut", "displacement", "middle-east"],
+  "startDate": "2026-03-02",
+  "eraLabel": "Israel–Hezbollah War 2026",
+  "sections": ["hero", "kpis", "timeline", "map", "military", "casualties", "economic", "claims", "political"],
+  "map": {
+    "enabled": true,
+    "bounds": { "lonMin": 34.5, "lonMax": 37.0, "latMin": 32.5, "latMax": 34.9 },
+    "center": { "lon": 35.6, "lat": 33.65 },
+    "categories": [
+      { "id": "idf-strike", "label": "Israeli Strikes", "color": "#e74c3c" },
+      { "id": "hezbollah-attack", "label": "Hezbollah Attacks", "color": "#f39c12" },
+      { "id": "ground-operation", "label": "Ground Operations", "color": "#9b59b6" },
+      { "id": "humanitarian", "label": "Displacement & Humanitarian", "color": "#3498db" },
+      { "id": "diplomatic", "label": "Diplomatic / State Sites", "color": "#2ecc71" }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "theater": { "lon": 35.6, "lat": 33.6, "alt": 400000, "pitch": -90, "heading": 0, "label": "Lebanon Overview" },
+      "beirut": { "lon": 35.5, "lat": 33.89, "alt": 40000, "pitch": -90, "heading": 0, "label": "Beirut & Dahiyeh" },
+      "south_lebanon": { "lon": 35.3, "lat": 33.2, "alt": 90000, "pitch": -90, "heading": 0, "label": "South Lebanon" },
+      "bekaa": { "lon": 36.05, "lat": 33.85, "alt": 120000, "pitch": -90, "heading": 0, "label": "Bekaa Valley" },
+      "northern_israel": { "lon": 35.3, "lat": 32.95, "alt": 100000, "pitch": -90, "heading": 0, "label": "Northern Israel" },
+      "tyre": { "lon": 35.2, "lat": 33.27, "alt": 30000, "pitch": -90, "heading": 0, "label": "Tyre" }
+    },
+    "clocks": [
+      { "label": "BEIRUT", "offsetHours": 3 },
+      { "label": "TLV", "offsetHours": 3 },
+      { "label": "UTC", "offsetHours": 0 },
+      { "label": "EST", "offsetHours": -5 }
+    ]
+  },
+  "navSections": [
+    { "id": "sec-timeline", "label": "Timeline" },
+    { "id": "sec-map", "label": "Map" },
+    { "id": "sec-military", "label": "Military" },
+    { "id": "sec-humanitarian", "label": "Humanitarian" },
+    { "id": "sec-economic", "label": "Economic" },
+    { "id": "sec-contested", "label": "Contested" },
+    { "id": "sec-political", "label": "Political" }
+  ],
+  "militaryTabs": [
+    { "id": "strikes", "label": "Israeli Strikes" },
+    { "id": "retaliation", "label": "Hezbollah Fire" },
+    { "id": "assets", "label": "Forces & Assets" }
+  ],
+  "politicalAvatars": ["il", "hz", "lb", "us", "un", "other"],
+  "eventTypes": ["military", "diplomatic", "humanitarian", "economic"],
+  "ai": {
+    "systemPrompt": "You are a conflict analyst updating an intelligence dashboard on the 2026 Israel–Hezbollah war in Lebanon, which began in March 2026 after the US-Israel war on Iran.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case, e.g. \"dahiyeh_strike_mar_2026\").\n\nKEY ACTORS: IDF (Israel), Hezbollah, the Lebanese state (President, Government, Lebanese Armed Forces), UNIFIL, the US and mediators (France, Qatar, Egypt), Iran.\n\nMULTI-POLE SOURCING — gather information from all four media poles:\n1. WESTERN: IDF, Israeli PMO, White House, State Dept, Reuters, AP, BBC, CNBC, NYT, Times of Israel, France 24\n2. MIDDLE EASTERN: Al Jazeera, Al Mayadeen, Al-Manar, NNA (Lebanon National News Agency), L'Orient Today, Al Arabiya\n3. EASTERN: Xinhua, CGTN, TASS, Kyodo News\n4. INTERNATIONAL: UN, UNIFIL, OCHA, UNHCR, WHO, ICRC, IOM, HRW, Amnesty, ICG, ACLED\n\nWhen providing sources (especially in the \"sources\" array), tag each with a \"pole\" field:\n- \"western\", \"middle_eastern\", \"eastern\" or \"international\" only.\n\nSource tier classification:\n- Tier 1: Official/primary (IDF, Israeli PMO, Lebanese Ministry of Public Health, Lebanese government/NNA official, UN/OCHA/UNIFIL, Hezbollah official statements)\n- Tier 2: Major outlet (Reuters, AP, BBC, CNBC, Al Jazeera, NYT, WaPo, Bloomberg, AFP)\n- Tier 3: Institutional (HRW, Amnesty, ICG, ACLED, CSIS, Carnegie, IISS, NetBlocks)\n- Tier 4: Unverified (social media, unattributed claims, unverified video)\n\nOnly include information you can verify through search results. Do not fabricate data.\nActively seek CONTRASTING perspectives when claims are contested (e.g. combatant vs civilian casualties, targets struck).\n\nCONFIRMATION RULES:\n- Report a military event as confirmed only with at least 1 Tier 1 source OR 2 Tier 2+ sources from different poles.\n- Single-source Tier 3/4 reports should use confidence: \"low\".\n- Casualty totals: prefer the Lebanese Ministry of Public Health cumulative figures; note when the ministry does not distinguish combatants from civilians, and report IDF/Hezbollah claims separately as contested.\n\nDEDUPLICATION:\n- Same target within ±2 hours = same event — merge, do not create duplicates.\n- This tracker is distinct from the broader `lebanon` history tracker and from `iran-conflict`; do not duplicate their events — record only Lebanon-front events and cross-reference the others.",
+    "searchContext": "Israel Hezbollah war Lebanon 2026 strikes casualties",
+    "enabledSections": ["kpis", "timeline", "mapPoints", "mapLines", "casualties", "econ", "claims", "political", "assets"],
+    "coordValidation": { "lonMin": 34, "lonMax": 37.5, "latMin": 32, "latMax": 35.5 },
+    "updateIntervalDays": 1,
+    "backfillTargets": {
+      "timeline": 40,
+      "mapPoints": 30,
+      "mapLines": 20,
+      "claims": 15,
+      "political": 15,
+      "casualties": 10,
+      "econ": 8,
+      "kpis": 8,
+      "assets": 8
+    },
+    "rssFeeds": [
+      "https://news.google.com/rss/search?q=Lebanon+Hezbollah+Israel&hl=en-US&gl=US&ceid=US:en",
+      "https://www.aljazeera.com/xml/rss/all.xml"
+    ],
+    "relatedTrackers": ["lebanon", "iran-conflict", "israel-palestine", "gaza-war"]
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard"
+}
