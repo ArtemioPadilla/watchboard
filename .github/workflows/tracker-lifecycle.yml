@@ -51,6 +51,14 @@ jobs:
           ")
           echo "coverage=$COVERAGE" >> $GITHUB_OUTPUT
 
+      - name: Build recent-coverage table
+        # What each tracker has actually written this year. The config-only
+        # view above (slug, name, domain, static searchContext) cannot show
+        # that `brazil` has 49 of its 64 2026 events on the election, so
+        # three already-covered subjects were proposed and filed as #312,
+        # #315 and #316 before anyone checked.
+        run: npx tsx scripts/build-scout-coverage.ts
+
       - name: Scout for new tracker candidates
         id: scout
         uses: anthropics/claude-code-action@v1
@@ -74,6 +82,25 @@ jobs:
 
             EXISTING TRACKER COVERAGE (do NOT propose topics already covered):
             ${{ steps.coverage.outputs.coverage }}
+
+            The list above is configuration — it says what each tracker is
+            FOR, not what it has been covering. Before proposing anything,
+            READ `scout-coverage.txt` in the repo root: recent event titles
+            per tracker for the current year, which is the only evidence of
+            what is actually being written.
+
+            Check every candidate against it. A subject already appearing in
+            another tracker's recent events is NOT a candidate, even when no
+            tracker carries its name — the scout deduplicates by slug, so a
+            differently-named tracker covering the same story slips straight
+            through. That is how brazil-election-2026 was proposed while
+            `brazil` was already carrying the polls and the runoff, and the
+            same happened for ethiopia-eritrea-rupture and
+            cuba-energy-blockade-2026.
+
+            Only restrict yourself to CURRENT-YEAR entries when judging this.
+            Many trackers are country histories spanning decades, and a
+            keyword match will happily find "election" in a 1998 entry.
 
             WATCHBOARD DOMAINS: conflict, security, governance, disaster, human-rights, science, space, economy, culture, history
 
