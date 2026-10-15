@@ -1,0 +1,190 @@
+{
+  "slug": "horn-of-africa-drought",
+  "name": "Horn of Africa Drought Tracker",
+  "shortName": "Horn Drought",
+  "description": "Intelligence dashboard tracking the multi-season drought emergency across Ethiopia, Somalia, Kenya, Djibouti and Eritrea after four consecutive failed wet seasons, with 24.5–25.9 million people needing food assistance, IPC phase classifications, famine-risk declarations, humanitarian appeals and climate-attribution evidence.",
+  "icon": "🏜️",
+  "color": "#d35400",
+  "status": "active",
+  "tone": "alert",
+  "temporal": "live",
+  "domain": "disaster",
+  "region": "africa",
+  "country": "ET",
+  "geoSecondary": ["SO", "KE", "DJ", "ER"],
+  "startDate": "2026-01-01",
+  "eraLabel": "Four Failed Seasons",
+  "tags": [
+    "drought",
+    "famine",
+    "IPC",
+    "food insecurity",
+    "Horn of Africa",
+    "displacement",
+    "climate attribution",
+    "humanitarian funding"
+  ],
+  "sections": [
+    "hero",
+    "kpis",
+    "timeline",
+    "map",
+    "casualties",
+    "economic",
+    "claims",
+    "political"
+  ],
+  "map": {
+    "enabled": true,
+    "bounds": {
+      "lonMin": 32,
+      "lonMax": 52,
+      "latMin": -5,
+      "latMax": 18.5
+    },
+    "center": {
+      "lon": 42,
+      "lat": 6
+    },
+    "categories": [
+      {
+        "id": "famine-risk",
+        "label": "IPC 4-5 / Famine Risk",
+        "color": "#c0392b"
+      },
+      {
+        "id": "crop-failure",
+        "label": "Rainfall & Crop Failure",
+        "color": "#e67e22"
+      },
+      {
+        "id": "displacement",
+        "label": "Displacement Sites",
+        "color": "#9b59b6"
+      },
+      {
+        "id": "livestock-loss",
+        "label": "Livestock Losses",
+        "color": "#f1c40f"
+      },
+      {
+        "id": "aid-distribution",
+        "label": "Aid Response & Hubs",
+        "color": "#3498db"
+      }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "layout": "disaster",
+    "cameraPresets": {
+      "overview": {
+        "lon": 42,
+        "lat": 6,
+        "alt": 3200000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Horn of Africa Overview"
+      },
+      "baidoa": {
+        "lon": 43.65,
+        "lat": 3.12,
+        "alt": 150000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Baidoa (Somalia)"
+      },
+      "dollo_ado": {
+        "lon": 42.08,
+        "lat": 4.17,
+        "alt": 150000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Dollo Ado (Ethiopia)"
+      },
+      "dadaab": {
+        "lon": 40.31,
+        "lat": 0.05,
+        "alt": 120000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Dadaab (Kenya)"
+      },
+      "borena": {
+        "lon": 38.3,
+        "lat": 4.5,
+        "alt": 400000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Borena Zone (Ethiopia)"
+      },
+      "mogadishu": {
+        "lon": 45.34,
+        "lat": 2.05,
+        "alt": 100000,
+        "pitch": -90,
+        "heading": 0,
+        "label": "Mogadishu"
+      }
+    }
+  },
+  "navSections": [
+    { "id": "sec-kpis", "label": "Key Figures" },
+    { "id": "sec-timeline", "label": "Timeline" },
+    { "id": "sec-map", "label": "Map" },
+    { "id": "sec-casualties", "label": "Human Toll" },
+    { "id": "sec-economic", "label": "Funding & Economy" },
+    { "id": "sec-contested", "label": "Contested" },
+    { "id": "sec-political", "label": "Actors" }
+  ],
+  "politicalAvatars": [
+    "national-gov",
+    "un-agencies",
+    "donors",
+    "ngos",
+    "regional-bodies",
+    "affected-communities"
+  ],
+  "eventTypes": [
+    "climate",
+    "humanitarian",
+    "funding",
+    "displacement",
+    "policy"
+  ],
+  "ai": {
+    "systemPrompt": "You are a humanitarian and climate analyst updating a tracker for the Horn of Africa multi-season drought emergency (Ethiopia, Somalia, Kenya, Djibouti, Eritrea).\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose.\nEvery item must have an \"id\" field (lowercase_snake_case).\n\nFocus areas: rainfall and crop failure by season, IPC phase classifications and famine-risk declarations, displacement and livestock losses, humanitarian appeals and funding gaps, and climate-attribution evidence on the failed rains.\n\nSource tier classification:\n- Tier 1: Official/primary (FEWS NET, IPC / FSNAU, OCHA, WFP, FAO, UNICEF, UNHCR, IOM, national governments and disaster agencies, WMO, IGAD ICPAC)\n- Tier 2: Major outlet (Reuters, AP, BBC, Al Jazeera, The Guardian, Africa News, The East African)\n- Tier 3: Institutional (World Weather Attribution, ODI, Oxfam, Save the Children, IRC, Crisis Group, Famine Early Warning analysts, academic studies)\n- Tier 4: Unverified (social media, unattributed claims)\n\nUse the exact wording of IPC phases and cite the assessment date. Distinguish people \"in need of assistance\" from people in IPC Phase 3+ and note when figures differ across agencies (the current range is 24.5–25.9 million). Only include information you can verify through search results. Do not fabricate data.",
+    "searchContext": "Horn of Africa drought Ethiopia Somalia Kenya IPC famine food insecurity 2026",
+    "enabledSections": [
+      "kpis",
+      "timeline",
+      "map",
+      "casualties",
+      "economic",
+      "claims",
+      "political"
+    ],
+    "coordValidation": {
+      "lonMin": 30,
+      "lonMax": 54,
+      "latMin": -6,
+      "latMax": 19
+    },
+    "updateIntervalDays": 3,
+    "backfillTargets": {
+      "timeline": 30,
+      "mapPoints": 20,
+      "claims": 12,
+      "political": 12,
+      "kpis": 8
+    },
+    "relatedTrackers": [
+      "somalia-conflict",
+      "ethiopia-conflict",
+      "sudan-conflict",
+      "super-el-nino-2026",
+      "kenya-genz-protests"
+    ]
+  },
+  "githubRepo": "ArtemioPadilla/intel-dashboard"
+}
