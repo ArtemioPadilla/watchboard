@@ -22,6 +22,7 @@ import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { deriveHookHeadline } from '../video/src/data/hook-headline.js';
+import { resolveClaudeModel } from './lib/model';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const BREAKING = join(ROOT, 'video', 'src', 'data', 'breaking.json');
@@ -160,7 +161,7 @@ async function main(): Promise<void> {
         'anthropic-version': '2023-06-01',
       },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-6',
+        model: resolveClaudeModel(),
         max_tokens: 1024,
         messages: [{ role: 'user', content: prompt }],
       }),

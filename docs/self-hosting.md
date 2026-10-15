@@ -74,10 +74,12 @@ The table is generated from the source by `scripts/list-env-vars.ts`
 |---|---|---|
 | `AI_PROVIDER` | CI scripts | `scripts/backfill-osint.ts`, `scripts/backfill.ts`, `scripts/update-data.ts` |
 | `ANTHROPIC_API_KEY` | CI scripts | `scripts/backfill.ts`, `scripts/generate-hook.ts`, `scripts/generate-social-queue.ts`, `scripts/hourly-triage.ts`, `scripts/update-data.ts` |
-| `ANTHROPIC_MODEL` | CI scripts | `scripts/backfill-osint.ts`, `scripts/backfill.ts`, `scripts/update-data.ts` |
+| `ANTHROPIC_MODEL` | CI scripts | `scripts/lib/model.ts` |
 | `AWS_REGION` | CI scripts | `scripts/local-hourly.ts` |
+| `BEDROCK_MODEL` | CI scripts | `scripts/local-hourly.ts` |
 | `BLUESKY_HANDLE` | CI scripts | `scripts/bluesky-post.ts`, `scripts/post-video-social.ts` |
 | `BLUESKY_PASSWORD` | CI scripts | `scripts/bluesky-post.ts`, `scripts/post-video-social.ts` |
+| `CLAUDE_MODEL` | CI scripts | `scripts/lib/model.ts` |
 | `ELEVENLABS_API_KEY` | CI scripts | `scripts/narrate-elevenlabs.ts` |
 | `ELEVENLABS_MODEL_ID` | CI scripts | `scripts/narrate-elevenlabs.ts` |
 | `ELEVENLABS_VOICE_EN` | CI scripts | `scripts/narrate-elevenlabs.ts` |

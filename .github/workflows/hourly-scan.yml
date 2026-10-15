@@ -130,7 +130,13 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          claude_args: "--max-turns 10 --dangerously-skip-permissions --model claude-sonnet-4-6"
+          # Model comes from the repo variable CLAUDE_MODEL so all three agent
+          # steps here move together and can be rolled back without a commit.
+          # This was the only workflow pinning a model at all, and it pinned
+          # claude-sonnet-4-6 while the other seven tracked the action default
+          # (claude-sonnet-5-5, verified in the nightly run of 2026-10-14) — a
+          # generation behind, in the workflow with the worst failure history.
+          claude_args: "--max-turns 10 --dangerously-skip-permissions --model ${{ vars.CLAUDE_MODEL || 'claude-sonnet-5-5' }}"
           show_full_output: true
           prompt: |
             You are a news triage AI for Watchboard. You have TWO files to read, then write ONE output file. Be efficient — do all reads in your first turn, then write the output.
@@ -491,7 +497,7 @@ jobs:
           # filled from a hardcoded section list instead — claiming kpis and
           # map-points were refreshed whether or not they were touched.
           claude_args: >-
-            --max-turns 20 --dangerously-skip-permissions --model claude-sonnet-4-6
+            --max-turns 20 --dangerously-skip-permissions --model ${{ vars.CLAUDE_MODEL || 'claude-sonnet-5-5' }}
             --json-schema '{"type":"object","properties":{"eventIds":{"type":"array","items":{"type":"string"}},"sections":{"type":"array","items":{"type":"string","enum":["events","map-points","map-lines","kpis","meta","casualties","econ","claims","political","strike-targets","retaliation","assets","timeline"]}}},"required":["eventIds","sections"]}'
           prompt: |
             You are updating the Watchboard tracker "${{ matrix.entry.tracker }}" with a breaking news event.
@@ -674,7 +680,7 @@ jobs:
           # Aligned with init-tracker/seed-tracker, which build a tracker from
           # scratch the same way. The observed runs take ~5 min, so 80 turns
           # still sits well inside this job's 15-minute timeout.
-          claude_args: "--max-turns 80 --dangerously-skip-permissions --model claude-sonnet-4-6"
+          claude_args: "--max-turns 80 --dangerously-skip-permissions --model ${{ vars.CLAUDE_MODEL || 'claude-sonnet-5-5' }}"
           prompt: |
             You are creating a new Watchboard tracker based on a breaking news event.
 

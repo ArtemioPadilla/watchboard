@@ -18,13 +18,14 @@ import {
   PATHS,
 } from './hourly-types.js';
 import { appendTriageEntries } from '../src/lib/triage-log.js';
+import { resolveClaudeModel } from './lib/model';
 
 // --- Constants ---
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const DEFAULT_CANDIDATES_PATH = '/tmp/hourly-candidates.json';
 const DEFAULT_ACTION_PLAN_PATH = '/tmp/hourly-action-plan.json';
-const MODEL = 'claude-sonnet-4-6-20250514';
+const MODEL = resolveClaudeModel();
 const MAX_TOKENS = 2048;
 const TIMEOUT_MS = 60_000;
 
