@@ -10,6 +10,10 @@ on:
         description: 'Comma-separated sections to backfill, or "all"'
         required: false
         default: 'all'
+      focus:
+        description: 'Optional: specific events to add, one per line. Narrows the research instead of re-seeding the whole timeline.'
+        required: false
+        default: ''
 
 permissions:
   contents: write
@@ -59,6 +63,10 @@ jobs:
             This is NOT a nightly "latest news" update. You are populating a tracker with DEEP HISTORICAL DATA spanning its entire timeline. Research thoroughly and extensively.
 
             SECTIONS TO BACKFILL: ${{ github.event.inputs.sections }}
+
+            ${{ github.event.inputs.focus && 'FOCUS — these specific items are the point of this run:' || '' }}
+            ${{ github.event.inputs.focus }}
+            ${{ github.event.inputs.focus && 'Add each one as a dated event with real sources, then stop. Do NOT re-seed the rest of the timeline: it already has data, and a second broad pass duplicates events and burns turns. If you cannot verify an item against a Tier 1-2 source, leave it out and say so in the summary rather than writing a weaker source at a strong tier.' || '' }}
 
             ═══════════════════════════════════════════════════════════
             STEP 1 — READ SCHEMAS AND CONFIG
@@ -379,6 +387,9 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Date**: $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> $GITHUB_STEP_SUMMARY
           echo "**Sections requested**: ${{ github.event.inputs.sections }}" >> $GITHUB_STEP_SUMMARY
+          if [ -n "${{ github.event.inputs.focus }}" ]; then
+            echo "**Focused run** — targeted items only, timeline not re-seeded" >> $GITHUB_STEP_SUMMARY
+          fi
           echo "**Changes detected**: ${{ steps.changes.outputs.changed || 'false' }}" >> $GITHUB_STEP_SUMMARY
           echo "**JSON valid**: ${{ steps.json_check.outputs.valid || 'skipped' }}" >> $GITHUB_STEP_SUMMARY
           echo "**Schema valid**: ${{ steps.validate_schemas.outputs.valid || 'skipped' }}" >> $GITHUB_STEP_SUMMARY
