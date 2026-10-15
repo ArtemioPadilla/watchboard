@@ -11,18 +11,37 @@
  * nothing still explains itself instead of looking like it did nothing.
  */
 import { execFileSync } from 'node:child_process';
-import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import {
   filterFindings, fingerprint, fingerprintMarker,
   type Finding, type OpenIssue,
 } from './lib/self-review.js';
 
-const DIM = process.env.DIMENSION ?? '';
-const DRY = process.env.DRY_RUN === 'true';
-const MAX = Number(process.env.MAX_FINDINGS ?? '3');
+/**
+ * Inputs come as CLI arguments, not env vars, deliberately.
+ * scripts/list-env-vars.ts discovers every `process.env.X` and embeds it in
+ * docs/self-hosting.md — a table for people running their own copy. Reading
+ * DIMENSION / FINDINGS / MAX_FINDINGS from the environment put five rows of
+ * internal workflow plumbing into that guide, which is drift of exactly the
+ * kind the `doc-drift` dimension here is meant to catch.
+ */
+function arg(name: string, fallback = ''): string {
+  const i = process.argv.indexOf(`--${name}`);
+  return i !== -1 && process.argv[i + 1] ? process.argv[i + 1] : fallback;
+}
+
+const DIM = arg('dimension');
+const DRY = process.argv.includes('--dry-run');
+const MAX = Number(arg('max', '3'));
+const AGENT_RESULT = arg('agent-result');
+const FINDINGS_FILE = arg('findings-file');
 
 function parseFindings(): Finding[] {
-  const raw = (process.env.FINDINGS ?? '').trim();
+  // A file, not an argv value: the agent's structured output is JSON that can
+  // run to kilobytes and contains quotes and newlines.
+  const raw = FINDINGS_FILE && existsSync(FINDINGS_FILE)
+    ? readFileSync(FINDINGS_FILE, 'utf8').trim()
+    : '';
   if (!raw) return [];
   let parsed: unknown;
   try {
@@ -68,8 +87,8 @@ function ensureLabels(names: string[]): void {
 }
 
 function main(): void {
-  if (process.env.AGENT_RESULT && process.env.AGENT_RESULT !== 'success') {
-    console.log(`::warning::analysis step reported ${process.env.AGENT_RESULT} — filing only what it returned`);
+  if (AGENT_RESULT && AGENT_RESULT !== 'success') {
+    console.log(`::warning::analysis step reported ${AGENT_RESULT} — filing only what it returned`);
   }
   const findings = parseFindings();
   console.log(`[file] dimension=${DIM} findings returned=${findings.length}`);

@@ -88,9 +88,9 @@ The table is generated from the source by `scripts/list-env-vars.ts`
 | `FRESHNESS_CADENCE_FACTOR` | CI scripts | `scripts/check-data-freshness.ts` |
 | `FRESHNESS_GLOBAL_STALE_DAYS` | CI scripts | `scripts/check-data-freshness.ts` |
 | `FRESHNESS_STALE_RATIO` | CI scripts | `scripts/check-data-freshness.ts` |
-| `GITHUB_OUTPUT` | CI scripts | `scripts/check-data-freshness.ts` |
+| `GITHUB_OUTPUT` | CI scripts | `scripts/check-data-freshness.ts`, `scripts/self-review-pick.ts` |
 | `GITHUB_REPOSITORY` | CI scripts | `scripts/ci/host-release-asset.ts` |
-| `GITHUB_STEP_SUMMARY` | CI scripts | `scripts/check-media-fingerprints.ts` |
+| `GITHUB_STEP_SUMMARY` | CI scripts | `scripts/check-media-fingerprints.ts`, `scripts/self-review-file.ts` |
 | `GITHUB_TOKEN` | CI scripts | `scripts/ci/host-release-asset.ts` |
 | `LINKEDIN_ACCESS_TOKEN` | CI scripts | `scripts/post-social.ts` |
 | `LINKEDIN_ORG_ID` | CI scripts | `scripts/post-social.ts` |

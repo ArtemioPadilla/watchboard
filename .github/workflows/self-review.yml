@@ -95,12 +95,18 @@ jobs:
         if: steps.pick.outputs.due == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DIMENSION: ${{ steps.pick.outputs.id }}
-          FINDINGS: ${{ steps.analyse.outputs.structured_output }}
-          MAX_FINDINGS: ${{ steps.pick.outputs.max_findings }}
-          DRY_RUN: ${{ github.event.inputs.dry_run }}
-          AGENT_RESULT: ${{ steps.analyse.outcome }}
-        run: npx tsx scripts/self-review-file.ts
+          # The agent payload goes via a file, not an env var: it is JSON that
+          # can run to kilobytes, and env vars read by scripts end up in the
+          # self-hosting env table where internal plumbing does not belong.
+          STRUCTURED_OUTPUT: ${{ steps.analyse.outputs.structured_output }}
+        run: |
+          printf '%s' "$STRUCTURED_OUTPUT" > /tmp/self-review-findings.json
+          npx tsx scripts/self-review-file.ts \
+            --dimension "${{ steps.pick.outputs.id }}" \
+            --max "${{ steps.pick.outputs.max_findings }}" \
+            --agent-result "${{ steps.analyse.outcome }}" \
+            --findings-file /tmp/self-review-findings.json \
+            ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }}
 
       - name: Record the run
         if: steps.pick.outputs.due == 'true' && github.event.inputs.dry_run != 'true'
