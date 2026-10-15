@@ -12,6 +12,7 @@
  */
 import fs from 'fs';
 import path from 'path';
+import { resolveClaudeModel } from './lib/model';
 import {
   loadConfig, loadBudget, loadHistory, saveQueue,
   todayDateString, twitterWeightedLength, estimateCost,
@@ -409,7 +410,7 @@ async function main(): Promise<void> {
       'anthropic-version': '2023-06-01',
     },
     body: JSON.stringify({
-      model: 'claude-sonnet-4-6',
+      model: resolveClaudeModel(),
       max_tokens: 8192,
       messages: [{ role: 'user', content: prompt }],
     }),

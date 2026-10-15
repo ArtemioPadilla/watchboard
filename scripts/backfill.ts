@@ -21,13 +21,14 @@ import {
   describeFields,
   mergeById,
 } from './lib/ai-utils.js';
+import { resolveClaudeModel } from './lib/model';
 
 // ─── Configuration ───
 
 type Provider = 'anthropic' | 'openai';
 
 const PROVIDER: Provider = (process.env.AI_PROVIDER as Provider) || 'anthropic';
-const ANTHROPIC_MODEL = process.env.ANTHROPIC_MODEL || 'claude-sonnet-4-6';
+const ANTHROPIC_MODEL = resolveClaudeModel();
 const OPENAI_MODEL = process.env.OPENAI_MODEL || 'gpt-4o';
 
 // Default kept for CLI/workflow compatibility — backfill.yml dispatches
