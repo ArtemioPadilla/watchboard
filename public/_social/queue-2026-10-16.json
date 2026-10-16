@@ -1,0 +1,141 @@
+[
+  {
+    "type": "breaking",
+    "voice": "analyst",
+    "tracker": "yemen-conflict",
+    "lang": "en",
+    "text": "Houthi missiles struck the presidential palace in Aden, killing five, per Watchboard's Yemen tracker entry for Oct 16. It follows a day of Saudi-Houthi escalation: Riyadh called the attacks on civilian facilities war crimes, and WFP warned the humanitarian crisis will worsen.",
+    "hashtags": [
+      "#Yemen",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/yemen-conflict/events/2026-10-16-houthi-missiles-strike-aden-palace-oct16-2026?utm_source=x&utm_medium=breaking&utm_campaign=2026-10-16",
+    "image": "https://watchboard.dev/og/yemen-conflict/2026-10-16-houthi-missiles-strike-aden-palace-oct16-2026.png",
+    "memegenUrl": null,
+    "publishAt": "2026-10-16T08:00:00Z",
+    "estimatedCost": 0.02,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.78,
+      "verdict": "REVIEW",
+      "comment": "Significant development, but the casualty figure comes from a single event entry and source tier is not shown in the prompt data; a human should confirm sourcing before posting.",
+      "factChecks": [
+        {
+          "claim": "Houthi missiles struck the presidential palace in Aden, killing five",
+          "status": "verified",
+          "source": "Event houthi-missiles-strike-aden-palace-oct16-2026 (2026-10-16)"
+        },
+        {
+          "claim": "Saudi Arabia called Houthi attacks on civilian facilities war crimes",
+          "status": "verified",
+          "source": "Event saudi-calls-houthi-attacks-war-crimes-oct16-2026 (2026-10-16)"
+        },
+        {
+          "claim": "WFP warned the humanitarian crisis will worsen",
+          "status": "verified",
+          "source": "Event wfp-warns-yemen-humanitarian-crisis-worsen-oct16-2026 (2026-10-16)"
+        }
+      ]
+    },
+    "id": "e333a166-c862-45ef-94e1-31ba48cbcab7",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
+  },
+  {
+    "type": "contested",
+    "voice": "analyst",
+    "tracker": "nepal-china-flash-floods",
+    "lang": "en",
+    "text": "How many people are missing after the Nepal floods? Nepal Police: 4,718 on 30 Sep, 5,132 as of 14 Oct. Other compilations: 5,285 to 6,145, with about 1,000 names added by bookkeeping. Confirmed dead per Nepal Police: 1,456. The search phase has ended; the gap has not closed.",
+    "hashtags": [
+      "#Nepal",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/nepal-china-flash-floods/?utm_source=x&utm_medium=contested&utm_campaign=2026-10-16",
+    "image": null,
+    "memegenUrl": null,
+    "publishAt": "2026-10-16T13:00:00Z",
+    "estimatedCost": 0.01,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.8,
+      "verdict": "REVIEW",
+      "comment": "Both sides attributed with dates; contested type never auto-approves. The 'about 1,000 names added by bookkeeping' detail is from the tracker's dispute summary and should be eyeballed.",
+      "factChecks": [
+        {
+          "claim": "Nepal Police: 4,718 missing on 30 Sep",
+          "status": "verified",
+          "source": "Nepal-china-flash-floods unresolved dispute: How many people are missing?"
+        },
+        {
+          "claim": "Nepal Police: 5,132 missing as of 14 Oct",
+          "status": "verified",
+          "source": "Tracker digest and KPI Missing (Nepal): 5,132"
+        },
+        {
+          "claim": "Other compilations: 5,285 to 6,145 missing",
+          "status": "verified",
+          "source": "Unresolved dispute: How many people are missing?"
+        },
+        {
+          "claim": "About 1,000 names added by bookkeeping",
+          "status": "warning",
+          "source": "Dispute summary says '~1,000 names added by bookkeeping'; context is brief"
+        },
+        {
+          "claim": "Confirmed dead 1,456 per Nepal Police",
+          "status": "verified",
+          "source": "Tracker digest, KPI Dead (Nepal)"
+        }
+      ]
+    },
+    "id": "0b53c013-0c65-44d9-b0b7-3c9b60bb74b1",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
+  },
+  {
+    "type": "contested",
+    "voice": "analyst",
+    "tracker": "russian-fuel-crisis",
+    "lang": "en",
+    "text": "How much Russian refining capacity is actually down? Ukraine's General Staff: 42.74% (July 2026). IEA: losses \"more than 20%\" at peak. Reuters: national oil processing fell only 3-6%, as undamaged refineries partly offset the losses. Three measures, one campaign.",
+    "hashtags": [
+      "#Russia",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/russian-fuel-crisis/?utm_source=x&utm_medium=contested&utm_campaign=2026-10-16",
+    "image": null,
+    "memegenUrl": null,
+    "publishAt": "2026-10-16T18:00:00Z",
+    "estimatedCost": 0.01,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.82,
+      "verdict": "REVIEW",
+      "comment": "Figures and attributions match the tracker's disputed-figure entry; the measures differ in what they count (capacity vs throughput), which the tweet hints at without adjudicating. Contested type requires human review.",
+      "factChecks": [
+        {
+          "claim": "Ukraine's General Staff put disabled capacity at 42.74% in July 2026",
+          "status": "verified",
+          "source": "Unresolved dispute: How much Russian refining capacity has been disabled?"
+        },
+        {
+          "claim": "IEA said losses were more than 20% at peak",
+          "status": "verified",
+          "source": "Same dispute entry"
+        },
+        {
+          "claim": "Reuters reported national oil processing fell only 3-6%",
+          "status": "verified",
+          "source": "Same dispute entry"
+        }
+      ]
+    },
+    "id": "69d05dfc-e12a-4579-8a8d-7fa5ba013835",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
+  }
+]
