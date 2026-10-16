@@ -186,7 +186,12 @@ jobs:
           echo "url=$URL" >> "$GITHUB_OUTPUT"
           echo "Hosted at $URL"
 
+      # Exits 2 when an enabled platform did not get the video (record still
+      # saved). continue-on-error keeps the record commit and Telegram going;
+      # the final gate turns the job red. On 2026-09-29 Bluesky dropped the
+      # post after the upload and this step stayed green with 0/1 posted.
       - name: Post to social media
+        id: social_post
         continue-on-error: true
         env:
           BLUESKY_HANDLE: ${{ secrets.BLUESKY_HANDLE }}
@@ -195,17 +200,28 @@ jobs:
           META_IG_USER_ID: ${{ vars.META_IG_USER_ID }}
           META_FB_PAGE_ID: ${{ vars.META_FB_PAGE_ID }}
           META_VIDEO_URL: ${{ steps.host_video.outputs.url }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
+          # ops-alert.sh: PRIVATE ops chat only (refuses if equal to the channel).
+          TELEGRAM_ALERT_CHAT_ID: ${{ secrets.TELEGRAM_ALERT_CHAT_ID }}
         run: |
           DATE=$(date -u +%Y-%m-%d)
           VIDEO="video/output/watchboard-${DATE}.mp4"
           NARRATED="video/output/watchboard-${DATE}-narrated-en.mp4"
           # Prefer narrated version if available, fall back to base video
           if [ -f "$NARRATED" ]; then
-            npx tsx scripts/post-video-social.ts "$NARRATED"
+            FILE="$NARRATED"
           elif [ -f "$VIDEO" ]; then
-            npx tsx scripts/post-video-social.ts "$VIDEO"
+            FILE="$VIDEO"
           else
             echo "No video file found — skipping social post"
+            exit 0
+          fi
+          rc=0
+          npx tsx scripts/post-video-social.ts "$FILE" || rc=$?
+          if [ "$rc" -ne 0 ]; then
+            bash scripts/ci/ops-alert.sh "⚠️ Daily video was not posted to every social platform (exit ${rc}) — see 'Post to social media'."
+            exit "$rc"
           fi
 
       # Before "Commit social post record": telegram-video-post.ts writes
@@ -396,6 +412,10 @@ jobs:
             echo "::error::Narration failed — see 'Generate narration with ElevenLabs' above. The video posted without voice."
             failed=1
           fi
+          if [ "${{ steps.social_post.outcome }}" = "failure" ]; then
+            echo "::error::The video did not reach every enabled social platform — see 'Post to social media' above. Platforms in the post record are skipped on a re-run."
+            failed=1
+          fi
           if [ "${{ steps.telegram.outcome }}" = "failure" ]; then
             failed=1
             if [ "${{ steps.telegram.outputs.rc }}" = "1" ] && [ "${{ steps.commit_social.outcome }}" = "success" ] && [ "${{ steps.commit_video_state.outcome }}" = "success" ]; then
@@ -570,7 +590,10 @@ jobs:
           echo "url=$URL" >> "$GITHUB_OUTPUT"
           echo "Hosted at $URL"
 
+      # Same contract as the breaking job's "Post to social media": exit 2 =
+      # an enabled platform did not get the video; the final gate goes red.
       - name: Post to social media (progress)
+        id: social_post_progress
         continue-on-error: true
         env:
           BLUESKY_HANDLE: ${{ secrets.BLUESKY_HANDLE }}
@@ -580,16 +603,27 @@ jobs:
           META_IG_USER_ID: ${{ vars.META_IG_USER_ID }}
           META_FB_PAGE_ID: ${{ vars.META_FB_PAGE_ID }}
           META_VIDEO_URL: ${{ steps.host_video_progress.outputs.url }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
+          # ops-alert.sh: PRIVATE ops chat only (refuses if equal to the channel).
+          TELEGRAM_ALERT_CHAT_ID: ${{ secrets.TELEGRAM_ALERT_CHAT_ID }}
         run: |
           DATE=$(date -u +%Y-%m-%d)
           VIDEO="video/output/watchboard-${DATE}-progress.mp4"
           NARRATED="video/output/watchboard-${DATE}-progress-narrated-en.mp4"
           if [ -f "$NARRATED" ]; then
-            VIDEO_TYPE=progress npx tsx scripts/post-video-social.ts "$NARRATED"
+            FILE="$NARRATED"
           elif [ -f "$VIDEO" ]; then
-            VIDEO_TYPE=progress npx tsx scripts/post-video-social.ts "$VIDEO"
+            FILE="$VIDEO"
           else
             echo "No progress video file found — skipping social post"
+            exit 0
+          fi
+          rc=0
+          VIDEO_TYPE=progress npx tsx scripts/post-video-social.ts "$FILE" || rc=$?
+          if [ "$rc" -ne 0 ]; then
+            bash scripts/ci/ops-alert.sh "⚠️ Progress video was not posted to every social platform (exit ${rc}) — see 'Post to social media (progress)'."
+            exit "$rc"
           fi
 
       # Before "Commit social post record": telegram-video-post.ts writes
@@ -698,6 +732,10 @@ jobs:
           fi
           if [ "${{ steps.narrate_progress.outcome }}" = "failure" ]; then
             echo "::error::Progress narration failed — see 'Generate narration with ElevenLabs (progress tone)' above. The video posted without voice."
+            failed=1
+          fi
+          if [ "${{ steps.social_post_progress.outcome }}" = "failure" ]; then
+            echo "::error::The progress video did not reach every enabled social platform — see 'Post to social media (progress)' above. Platforms in the post record are skipped on a re-run."
             failed=1
           fi
           if [ "${{ steps.telegram.outcome }}" = "failure" ]; then
