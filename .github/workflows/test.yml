@@ -34,3 +34,16 @@ jobs:
       - run: npm test
       - name: Env-var table in docs/self-hosting.md matches the code
         run: npx tsx scripts/list-env-vars.ts --check docs/self-hosting.md
+
+      # `npm run build` is generate-api + copy-cesium + astro build: it never
+      # type-checked, and `npm run check` (astro check) dies with "JavaScript
+      # heap out of memory" on 18k pages. So nothing in CI had ever looked at
+      # the types, while CLAUDE.md claimed "Type-check + build".
+      #
+      # 57 errors exist today, mostly in the legacy scripts/update-data.ts and
+      # a lib variance in worker/web-push.ts. Gating on zero would mean never
+      # shipping a gate; starting red would mean the check gets ignored. So it
+      # is a ratchet: types-baseline.json records what exists and this fails on
+      # anything new. Signatures drop line numbers, so moved code is not new.
+      - name: No new type errors (ratchet against types-baseline.json)
+        run: npm run check-types

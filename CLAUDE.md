@@ -12,7 +12,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ```bash
 npm run dev          # Start dev server
-npm run build        # Type-check + build static site to dist/ (postbuild runs pagefind indexing)
+npm run build        # Build static site to dist/ — does NOT type-check (postbuild runs pagefind indexing)
+npm run check-types  # tsc --noEmit, failing only on errors absent from types-baseline.json
 npm run preview      # Preview built site
 npm run update-data  # Run AI data update for all trackers (requires ANTHROPIC_API_KEY or OPENAI_API_KEY)
 TRACKER_SLUG=iran-conflict npm run update-data  # Update a single tracker
@@ -30,6 +31,26 @@ make video-render    # Render the daily breaking brief MP4 → video/output/
 make video-render-progress  # Render the daily progress brief MP4
 make help            # List all Make targets
 ```
+
+### Type checking
+
+`npm run build` is `generate-api && copy-cesium && astro build`. **It does not
+type-check** — the line above said it did for a long time, and no workflow ran
+`tsc` or `astro check`, so a type error could reach `main` through a green
+build. `npm run check` (`astro check`) is not usable here either: it dies with
+`FATAL ERROR: ... JavaScript heap out of memory` on a project of this size.
+
+`npm run check-types` runs `tsc --noEmit` and compares the result against
+`types-baseline.json` — 57 errors exist today, most in the legacy
+`scripts/update-data.ts` and a `Uint8Array<ArrayBufferLike>` vs `BufferSource`
+lib variance in `worker/web-push.ts`. It fails on anything **not** in that file
+and runs in the Tests workflow, so the count can shrink and never grow.
+Signatures are `file|TScode|message` with the line and column dropped: an error
+that moves from line 42 to 87 is the same error, and a baseline that churns on
+every edit is one nobody keeps current.
+
+Fixed one? `npm run check-types -- --update` rewrites the baseline; the run
+tells you how many entries no longer occur.
 
 ## Self-hosting
 
