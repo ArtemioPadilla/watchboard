@@ -21,6 +21,8 @@ import { renderMedia, selectComposition } from '@remotion/renderer';
 import type { BreakingData } from './src/data/types.js';
 import { SAMPLE_DATA } from './src/data/types.js';
 import { calculateDuration } from './src/Video.js';
+import { calculateHookDuration } from './src/HookVideo.js';
+import { selectCut } from './src/select-cut.js';
 import type { VideoMode } from './src/data/fetch-breaking.js';
 
 const ROOT_DIR = resolve(import.meta.dirname ?? '.');
@@ -278,7 +280,32 @@ async function main(): Promise<void> {
   }
 
   const trackerCount = Math.min(data.trackers.length, 3);
-  const durationInFrames = calculateDuration(trackerCount);
+  /**
+   * Which cut publishes — #243.
+   *
+   * `WatchboardDaily-Hook` has rendered alongside the daily brief since #228
+   * so both could be compared before anything changed what goes out
+   * unattended every night. Measured on the same data: both carry 15.0s of
+   * news; the daily spends 8.0s on a logo intro and an outro, the hook 3.0s
+   * on an on-screen CTA, and the hook has a real headline on screen at ~1s
+   * against ~4s.
+   *
+   * The choice between them is a judgement about audience, so it lives in a
+   * repository variable rather than in this file: `VIDEO_CUT=hook` switches
+   * it, anything else (including unset) keeps today's behaviour. Same shape
+   * as X_POSTING_ENABLED — the owner decides, the code does not.
+   *
+   * Breaking mode only. The progress brief is a different composition with a
+   * day theme and no hook variant.
+   */
+  // Read the variable by name rather than handing over all of process.env:
+  // scripts/list-env-vars.ts finds variables by matching `process.env.NAME`,
+  // so passing the whole object would keep VIDEO_CUT out of the generated
+  // table — invisible to the one document that is supposed to list it.
+  const { cut, compositionId } = selectCut(mode, { VIDEO_CUT: process.env.VIDEO_CUT });
+  const useHookCut = cut === 'hook';
+  const durationInFrames = useHookCut ? calculateHookDuration(trackerCount) : calculateDuration(trackerCount);
+  if (useHookCut) console.log('  Cut: hook-first (VIDEO_CUT=hook)');
 
   console.log(`\n  Date: ${data.date}`);
   console.log(`  Trackers: ${trackerCount}`);
@@ -294,7 +321,7 @@ async function main(): Promise<void> {
   console.log('[3/4] Selecting composition...');
   const composition = await selectComposition({
     serveUrl: bundled,
-    id: 'WatchboardDaily',
+    id: compositionId,
     inputProps: { data, geoFeatures, earthTexture, theme },
   });
 

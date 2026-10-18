@@ -733,9 +733,12 @@ export const ROADMAP_ITEMS: RoadmapItem[] = [
     id: 'rm-hook-vs-brief',
     title: 'Decide whether the hook-first cut replaces the daily brief',
     description:
-      'Both compositions render in Studio: 23s logo → three trackers → outro, against 18s headline hook → lead → two secondary → on-screen CTA. Part of the original argument was that opening on branding wastes the only moment that decides whether anyone watches, and the narration change already fixed that in the audio. What remains is a visual and structural comparison.',
+      'Both cuts render from the same data and were measured side by side: 23.06s against 18.05s, with identical 15.0s of news in each — the daily spends 8.0s on a logo intro and an outro, the hook 3.0s on an on-screen CTA, and the hook has a real headline on screen at ~1s against ~4s. Part of the original argument was that opening on branding wastes the only moment that decides whether anyone watches, and the narration change already fixed that half in the audio. What is left is a judgement about audience, so the switch is now a repository variable: VIDEO_CUT=hook publishes the hook cut, unset keeps the daily brief. Flipping it is the whole adoption cost, and flipping it back is the whole reversal cost.',
     status: 'planned', area: 'growth', priority: 'P2', effort: 'S', milestone: 'next',
-    prs: [228, 229], date: '2026-10-18', dependsOn: ['rm-video-narration'],
+    prs: [228, 229, 353], date: '2026-10-18', dependsOn: ['rm-video-narration'],
+    outcome:
+      'The decision is a variable now, not a code change. Both files are rendered in video/output/ for a look.',
+
   },
   {
     id: 'rm-spanish-narration',

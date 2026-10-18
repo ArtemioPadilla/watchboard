@@ -100,6 +100,7 @@ The table is generated from the source by `scripts/list-env-vars.ts`
 | `META_IG_USER_ID` | CI scripts | `scripts/check-video-destinations.ts`, `scripts/lib/meta-publish.ts` |
 | `META_PAGE_ACCESS_TOKEN` | CI scripts | `scripts/check-video-destinations.ts`, `scripts/lib/meta-publish.ts` |
 | `META_VIDEO_URL` | CI scripts | `scripts/lib/meta-publish.ts` |
+| `NAME` | video render | `video/render.ts` |
 | `OG_EVENT_LIMIT` | site build | `src/pages/og/[tracker]/[eventSlug].png.ts` |
 | `OPENAI_API_KEY` | CI scripts | `scripts/backfill.ts`, `scripts/update-data.ts` |
 | `OPENAI_MODEL` | CI scripts | `scripts/backfill-osint.ts`, `scripts/backfill.ts`, `scripts/update-data.ts` |
@@ -115,6 +116,7 @@ The table is generated from the source by `scripts/list-env-vars.ts`
 | `TELEGRAM_CHANNEL_ID` | CI scripts | `scripts/notify-social-proposals.ts`, `scripts/repost-daily-telegram.ts`, `scripts/telegram-channel.ts` |
 | `TRACKER_SLUG` | CI scripts | `scripts/update-data.ts` |
 | `UPDATE_SECTIONS` | CI scripts | `scripts/update-data.ts` |
+| `VIDEO_CUT` | video render | `video/render.ts` |
 | `VIDEO_MODE` | video render | `video/render.ts`, `video/src/data/fetch-breaking.ts` |
 | `VIDEO_TYPE` | CI scripts | `scripts/post-video-social.ts` |
 | `X_ACCESS_TOKEN` | CI scripts | `scripts/hourly-post.ts`, `scripts/post-social-queue.ts`, `scripts/post-social.ts`, `scripts/x-check.ts` |
