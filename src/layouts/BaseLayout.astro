@@ -90,9 +90,19 @@ const pushTrackers = loadAllTrackers()
       in csp-hashes.ts.
 
       NOTE: never write a literal script tag in this comment. Astro tokenises
-      it even inside {/* */} and extracts the following text as a script body —
-      the dev server then fails its dependency scan with `Expected ";" but
-      found "non"` from the words "non-allowlisted hosts", which breaks e2e.
+      it even inside a JSX expression comment, and extracts the following text
+      as a script body — the dev server then fails its dependency scan with
+      `Expected ";" but found "non"` from the words "non-allowlisted hosts",
+      which breaks e2e (#331).
+
+      And never write a comment terminator in here either, which is what that
+      line used to do by quoting the comment syntax literally. JSX comments do
+      not nest: the inner terminator ends the comment, the remaining prose is
+      parsed as markup, and the real terminator 20 lines down is then an
+      unexpected token. Astro 5's compiler tolerates it; Astro 7's does not,
+      and since every page uses this layout, every page returns 500 — measured
+      against astro 7.3.8, which is the whole of what #300's "the dev server is
+      not usable for this suite" turned out to be.
       So, what this buys, so nobody reads more or less into it:
         blocks  external `script src=` from non-allowlisted hosts
         blocks  injected inline scripts — each one is pinned by hash
