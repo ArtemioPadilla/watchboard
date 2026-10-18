@@ -47,6 +47,12 @@ jobs:
         run: cd video && npx remotion browser ensure
 
       - name: Render video
+        # VIDEO_CUT selects which composition publishes (#243). Unset keeps the
+        # daily brief, which is what has gone out every night; `hook` switches
+        # to the hook-first cut. A repository variable rather than a code
+        # change, so the decision is one flip and is reversible in one more.
+        env:
+          VIDEO_CUT: ${{ vars.VIDEO_CUT }}
         run: cd video && npx tsx render.ts
 
       # Snapshot the caption RIGHT after the render — before any git pull/rebase

@@ -95,6 +95,7 @@ they are simply switched off.
 | `ELEVENLABS_VOICE_EN` / `ELEVENLABS_VOICE_ES` | ElevenLabs default voices | a voice id, only if you dislike the defaults | daily-video |
 | `ENABLE_FRESHNESS_CHECK` | freshness check off | `true` to turn it on | hourly-scan |
 | `YOUTUBE_PRIVACY_STATUS` | `private` | `public`, once you have watched a few land as private | daily-video (after #325) |
+| `VIDEO_CUT` | the daily brief — 23s, logo intro, three trackers, outro | `hook` to publish the hook-first cut instead: 18s, opens on a real headline at ~1s, on-screen CTA. Both carry 15.0s of news; the difference is 8.0s of bookend against 3.0s (#243). Breaking brief only — the progress brief has no hook variant | daily-video |
 
 ---
 
