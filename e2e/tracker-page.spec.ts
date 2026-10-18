@@ -45,10 +45,14 @@ test.describe('Tracker Page', () => {
 
     // Verify the href values are correct
     const aboutHref = await aboutLink.getAttribute('href');
-    expect(aboutHref).toBe('/watchboard/iran-conflict/about/');
+    // Base-agnostic on purpose: these were pinned to '/watchboard/...' from the
+    // days of a GitHub Pages subpath, and astro.config.mjs has had `base: '/'`
+    // for long enough that this spec was parked as "not known to pass" rather
+    // than fixed. Matching the tail survives the next base change too.
+    expect(aboutHref).toMatch(/\/iran-conflict\/about\/$/);
 
     const globeHref = await globeLink.getAttribute('href');
-    expect(globeHref).toBe('/watchboard/iran-conflict/globe/');
+    expect(globeHref).toMatch(/\/iran-conflict\/globe\/$/);
   });
 
   test('/es/iran-conflict/ loads Spanish version', async ({ page }) => {

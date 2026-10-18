@@ -710,11 +710,11 @@ export const ROADMAP_ITEMS: RoadmapItem[] = [
     id: 'rm-type-debt',
     title: 'Ratchet the type baseline down',
     description:
-      'First pass done in #342, and it found real defects rather than type noise: `sidebar.sortBy` was defined twice in every locale so four translations were dead text, and two Cloudflare Workers type names resolved to nothing. Remaining clusters: scripts/update-data.ts 14 (see the legacy-updater decision), worker/web-push.ts 6 (one Uint8Array/BufferSource root cause in crypto code, worth its own careful pass), scripts/backfill.ts 5, mcp/server.ts 5.',
+      'Two passes done, and both found real defects rather than type noise. #342: `sidebar.sortBy` was defined twice in every locale so four translations were dead text, and two Cloudflare Workers type names resolved to nothing. #346: `scripts/backfill.ts` called `.omit()` on a refined schema, which is not a function at runtime, so the line-backfill path threw as soon as a payload carried lines. What is left is 14 in scripts/update-data.ts (the legacy-updater decision), 6 in worker/web-push.ts (one Uint8Array/BufferSource root cause in crypto code, worth its own careful pass), 4 satori ReactNode casts that are a library typing quirk with no defect behind them, and singles across six files.',
     status: 'planned', area: 'infrastructure', priority: 'P2', effort: 'M', milestone: 'next',
-    prs: [342], date: '2026-10-18', dependsOn: ['rm-type-ratchet'],
+    prs: [342, 346], date: '2026-10-18', dependsOn: ['rm-type-ratchet'],
     outcome:
-      '56 → 49 baselined errors. Target for the next pass: under 40 without touching the legacy updater.',
+      '56 → 39 baselined errors, under the stated target. The next real decision is the legacy updater, not more casts.',
   },
   {
     id: 'rm-legacy-updater',
@@ -766,6 +766,28 @@ export const ROADMAP_ITEMS: RoadmapItem[] = [
     date: '2026-10-18',
     outcome:
       'Found while verifying a src/ change had no build gate on its own PR. Measured cost: the deploy workflow\'s build takes 17-32 min on CI, so this is a real bill per PR and the path filter is the whole design — the counter-argument is that deploy.yml already fails loudly within minutes and the site keeps serving the last good deploy',
+  },
+
+  {
+    id: 'rm-subpackage-typecheck',
+    title: 'Nothing type-checks video/ or mcp/',
+    description:
+      'Both are separate npm packages with their own package.json, tsconfig.json and build script, and their dependencies are installed by neither the root `npm ci` nor anything in CI — Remotion by `make video-prep`, the MCP SDK by nobody. The root type check excludes them for that reason: from there their imports are unresolvable and every error under them is an artefact of the missing types rather than a defect. The consequence is that a real type error in either would reach main unseen. A job that installs each and runs its own `tsc` is the fix; the cost is two more npm installs per PR, so it belongs behind a path filter.',
+    status: 'planned', area: 'infrastructure', priority: 'P2', effort: 'S', milestone: 'next',
+    prs: [346], date: '2026-10-18', dependsOn: ['rm-type-ratchet'],
+    outcome:
+      'Named rather than hidden by the exclusion that created it',
+  },
+
+  {
+    id: 'rm-command-center-spec',
+    title: 'Rewrite the parked command-center e2e spec',
+    description:
+      'e2e/command-center.spec.ts has been excluded from CI as "not yet known to pass" since before the E1 work. Measured on 2026-10-18: 7 of its 8 tests fail against the current markup, so it needs rewriting rather than a line fix. Its sibling, tracker-page.spec.ts, was parked for the same vague reason and turned out to need exactly two assertions unpinned from a base path the site stopped using — it now runs in CI. This one is the real work the label was hiding.',
+    status: 'planned', area: 'reliability', priority: 'P2', effort: 'S', milestone: 'next',
+    prs: [346], date: '2026-10-18',
+    outcome:
+      'The homepage command center is covered by other specs; what is missing is this spec\'s own ground',
   },
 
   // ─── Later: captured, no commitment ─────────────────────────────────

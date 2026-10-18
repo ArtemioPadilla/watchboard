@@ -1,61 +1,7 @@
 {
   "note": "Pre-existing `tsc --noEmit` errors, recorded so CI can fail on new ones. This list may shrink, never grow: fix an error and run `npm run check-types -- --update`.",
-  "total": 49,
+  "total": 39,
   "entries": [
-    {
-      "file": "mcp/server.ts",
-      "code": "TS2307",
-      "message": "Cannot find module '@modelcontextprotocol/sdk/server/mcp.js' or its corresponding type declarations.",
-      "count": 1
-    },
-    {
-      "file": "mcp/server.ts",
-      "code": "TS2307",
-      "message": "Cannot find module '@modelcontextprotocol/sdk/server/stdio.js' or its corresponding type declarations.",
-      "count": 1
-    },
-    {
-      "file": "mcp/server.ts",
-      "code": "TS7006",
-      "message": "Parameter 'uri' implicitly has an 'any' type.",
-      "count": 1
-    },
-    {
-      "file": "mcp/server.ts",
-      "code": "TS7006",
-      "message": "Parameter 'variables' implicitly has an 'any' type.",
-      "count": 1
-    },
-    {
-      "file": "mcp/server.ts",
-      "code": "TS7031",
-      "message": "Binding element 'sort' implicitly has an 'any' type.",
-      "count": 1
-    },
-    {
-      "file": "scripts/backfill.ts",
-      "code": "TS18046",
-      "message": "'l' is of type 'unknown'.",
-      "count": 2
-    },
-    {
-      "file": "scripts/backfill.ts",
-      "code": "TS2339",
-      "message": "Property 'omit' does not exist on type 'ZodEffects<ZodObject<{…}, \"strip\", ZodTypeAny, {…}, {…}>, {…}, {…}>'.",
-      "count": 1
-    },
-    {
-      "file": "scripts/backfill.ts",
-      "code": "TS2345",
-      "message": "Argument of type 'unknown[]' is not assignable to parameter of type '{…}[]'.",
-      "count": 1
-    },
-    {
-      "file": "scripts/backfill.ts",
-      "code": "TS2345",
-      "message": "Argument of type 'ZodEffects<ZodObject<{…}, \"strip\", ZodTypeAny, {…}, {…}>, {…}, {…}>' is not assignable to parameter of type 'ZodObject<ZodRawShape, UnknownKeysParam, ZodTypeAny, {…}, {…}>'.",
-      "count": 1
-    },
     {
       "file": "scripts/generate-header-image.ts",
       "code": "TS2345",

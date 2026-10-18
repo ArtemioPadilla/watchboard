@@ -155,7 +155,17 @@ export const MapPointSchema = z.object({
   lastUpdated: z.string().optional(),
 });
 
-export const MapLineSchema = z.object({
+/**
+ * The line's fields, before the cross-field rule below.
+ *
+ * `.superRefine()` returns a ZodEffects, which has no `.omit()`, `.extend()`
+ * or `.shape` — so anything that needs to introspect or relax the fields has
+ * to start from here. `scripts/backfill.ts` did not: it called
+ * `MapLineSchema.omit({ lastUpdated: true })`, which is not a function at
+ * runtime, so the line-backfill path threw as soon as a payload contained
+ * lines. The type checker had been saying so all along; nothing was running it.
+ */
+export const MapLineFieldsSchema = z.object({
   id: z.string(),
   from: TheaterCoordSchema,
   to: TheaterCoordSchema,
@@ -173,7 +183,9 @@ export const MapLineSchema = z.object({
   platform: z.string().optional(),
   status: StrikeStatusSchema.optional(),
   lastUpdated: z.string().optional(),
-}).superRefine((line, ctx) => {
+});
+
+export const MapLineSchema = MapLineFieldsSchema.superRefine((line, ctx) => {
   // strike/retaliation lines require weaponType + time for build compatibility
   if (line.cat === 'strike' || line.cat === 'retaliation') {
     if (!line.weaponType) {

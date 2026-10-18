@@ -54,9 +54,9 @@ chronology lives on each item's own `date`:
 
 _Generated from `src/data/roadmap-items.ts` by `scripts/sync-roadmap-doc.ts`. Do not edit between the markers._
 
-Last reviewed: **2026-10-18** · 75 items
+Last reviewed: **2026-10-18** · 77 items
 
-✅ 50 shipped · 📋 16 planned · 💡 6 idea · 🚧 3 in progress
+✅ 50 shipped · 📋 18 planned · 💡 6 idea · 🚧 3 in progress
 
 ## Now — Being built, or waiting on one named decision or credential
 
@@ -73,7 +73,7 @@ Last reviewed: **2026-10-18** · 75 items
 
 ## Next — The queue
 
-13 items. committed, not started
+15 items. committed, not started
 
 | | Title | Area | Priority | Effort | PRs |
 | --- | --- | --- | --- | --- | --- |
@@ -83,19 +83,23 @@ Last reviewed: **2026-10-18** · 75 items
 | 📋 | **Per-section "last updated" indicators** | UX | P0 | S | — |
 | 📋 | **Accessibility audit (WCAG 2.1 AA)** | Accessibility | P1 | L | — |
 | 📋 | **Decide the astro 5 → 7 migration** | Infrastructure | P2 | L | — |
-| 📋 | **Ratchet the type baseline down** | Infrastructure | P2 | M | #342 |
+| 📋 | **Ratchet the type baseline down** | Infrastructure | P2 | M | #342, #346 |
 | 📋 | **Repair or delete the legacy data updater** | Infrastructure | P2 | S | — |
 | 📋 | **Decide whether the hook-first cut replaces the daily brief** | Growth | P2 | S | #228, #229 |
 | 📋 | **Spanish narration reads English headlines** | Growth | P2 | S | — |
 | 📋 | **Investigate the alerts-panel e2e flake** | Reliability | P2 | S | — |
 | 📋 | **Wire or revoke CLOUDFLARE_API_TOKEN** | Infrastructure | P2 | XS | — |
 | 📋 | **Gate the production build on pull requests** | Reliability | P1 | S | — |
+| 📋 | **Nothing type-checks video/ or mcp/** | Infrastructure | P2 | S | #346 |
+| 📋 | **Rewrite the parked command-center e2e spec** | Reliability | P2 | S | #346 |
 
 - **Migrate from GitHub Pages to Cloudflare Pages** — Target: -1 to -2 seconds TTFB
 - **Cut homepage HTML payload** — Estimate: HTML 157 KB → ~40 KB, -500-800 ms LCP
 - **Decide the astro 5 → 7 migration** — Cheapest next step: run the dev server locally against astro 7 and time one page load, rather than paying for another 50-minute CI run
-- **Ratchet the type baseline down** — 56 → 49 baselined errors. Target for the next pass: under 40 without touching the legacy updater.
+- **Ratchet the type baseline down** — 56 → 39 baselined errors, under the stated target. The next real decision is the legacy updater, not more casts.
 - **Gate the production build on pull requests** — Found while verifying a src/ change had no build gate on its own PR. Measured cost: the deploy workflow's build takes 17-32 min on CI, so this is a real bill per PR and the path filter is the whole design — the counter-argument is that deploy.yml already fails loudly within minutes and the site keeps serving the last good deploy
+- **Nothing type-checks video/ or mcp/** — Named rather than hidden by the exclusion that created it
+- **Rewrite the parked command-center e2e spec** — The homepage command center is covered by other specs; what is missing is this spec's own ground
 
 ## Later — Captured so it is not forgotten
 
