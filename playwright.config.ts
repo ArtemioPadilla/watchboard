@@ -28,13 +28,16 @@ export default defineConfig({
       ...(process.env.PW_CHROMIUM_PATH ? { executablePath: process.env.PW_CHROMIUM_PATH } : {}),
     },
   },
-  webServer: {
-    command: 'npm run dev',
-    // The DeepState layer is behind a build-time flag until permission is
-    // recorded; the e2e exercises it against a routed fixture.
-    env: { PUBLIC_ENABLE_DEEPSTATE: 'true' },
-    port: 4321,
-    reuseExistingServer: true,
-    timeout: 120_000,
-  },
+  // Not `webServer`: astro 7 daemonises `astro dev`, so the foreground process
+  // exits as soon as the server is up and Playwright reads that as the server
+  // dying ("Process from config.webServer exited early"). globalSetup starts
+  // it and waits for it to answer; globalTeardown stops it, but only if it was
+  // the one that started it — an already-listening server is reused and left
+  // alone, which is what `reuseExistingServer: true` did here before.
+  //
+  // The DeepState layer is behind a build-time flag until permission is
+  // recorded; the e2e exercises it against a routed fixture, so the flag is
+  // set for the server globalSetup starts.
+  globalSetup: './e2e/global-setup.ts',
+  globalTeardown: './e2e/global-teardown.ts',
 });
