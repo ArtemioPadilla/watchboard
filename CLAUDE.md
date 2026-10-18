@@ -263,7 +263,8 @@ AI-curated social media posting system. Replaces the old `generate-social-drafts
 
 **Workflows:**
 - `update-data.yml` finalize phase: `generate-social-queue.ts --dry-run` writes `prompt-latest.txt`, a `claude-code-action` step (`--allowedTools "Read,Write,Edit"` — without it Write was denied and no daily queue existed from April to September) writes `raw-queue.json`, and the post-process step assigns statuses (the four data-derived types and judge-less entries never auto-approve) and **merges** into `queue-YYYY-MM-DD.json` by id. A missing or invalid raw file alerts the private ops chat. `scripts/reslot-social-queue.ts` then moves past-due `publishAt` values to the future, spaced 3 h from the moment the queue is written (the nightly starts hours after its cron), and hands entries landing after midnight to the next day's queue file — the posters read only today's
-- `post-social-queue.yml` runs 4x/day: `bluesky-post.ts`, then `post-social-queue.ts` (X) behind the `X_POSTING_ENABLED` gate
+- `post-social-queue.yml` runs 4x/day: `bluesky-post.ts`, then `post-social-queue.ts` (X) behind the `X_POSTING_ENABLED` gate (set `true` on 18 Oct 2026)
+- `scripts/notify-social-proposals.ts` announces every entry waiting on a human (`pending_review`, `held`) in the **private ops chat** — type, tracker, judge score and verdict, judge comment, fact-check summary, slot, tracker link, `/social/` link. Runs after the nightly writes the queue and at each posting slot; `public/_social/notified-proposals.json` stops it repeating itself, and a failed send is not recorded so the next run retries. Without it `X_POSTING_ENABLED=true` publishes nothing, because the X poster only sends what a human approved and nothing said there was anything to approve
 - `weekly-digest.yml` appends a thread entry to the same day's queue file (merge, not overwrite — Sundays share the file with the nightly)
 
 ### Utilities (`src/lib/`)

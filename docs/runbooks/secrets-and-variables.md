@@ -81,12 +81,13 @@ pipeline is broken.
 
 ## Variables
 
-**None of the eight are set today**, so every one falls back to its default.
-That is why some features look broken when they are simply switched off.
+**One of the eight is set** (`X_POSTING_ENABLED=true`, 18 Oct 2026). The other
+seven fall back to their defaults, which is why some features look broken when
+they are simply switched off.
 
 | variable | default when unset | set it to | workflow |
 | --- | --- | --- | --- |
-| `X_POSTING_ENABLED` | **X posting off** — this is why the social queue looks stuck (#235) | `true` to resume posting to X; leave unset for Bluesky-only | post-social-queue |
+| `X_POSTING_ENABLED` | X posting off | **set to `true`.** On its own it publishes nothing: the poster still sends only entries a human approved in `/social/`. See "Approving what X posts" below | post-social-queue |
 | `X_ALLOW_AUTO_APPROVED` | **only human-approved entries post** | **leave unset.** Setting `true` lets the AI publish without you approving in `/social/`. The account was suspended once for "inauthentic behavior" | post-social-queue |
 | `CLAUDE_MODEL` | `claude-sonnet-5-5` | nothing, normally. Set it to roll the hourly scan back to an older model without a commit | hourly-scan |
 | `META_IG_USER_ID` | Instagram adapter disabled | your Instagram professional account id | daily-video |
@@ -97,9 +98,33 @@ That is why some features look broken when they are simply switched off.
 
 ---
 
+## Approving what X posts
+
+`X_POSTING_ENABLED=true` opens the path; it does not publish anything.
+`post-social-queue.ts` sends only entries whose status is `approved` — what a
+human approved in `/social/` — because `X_ALLOW_AUTO_APPROVED` is unset and
+should stay that way. Across the 49 queue files written before 18 Oct 2026
+there was **not one** approved entry, so the measured output to X was zero a
+day while 1–5 proposals a day waited in the queue.
+
+Nothing used to tell you they were there. Now
+`scripts/notify-social-proposals.ts` announces each new one in the **private
+ops chat** (`TELEGRAM_ALERT_CHAT_ID`, never the public channel) with its type,
+tracker, judge score and verdict, the judge's comment, a fact-check summary,
+its slot, a link to the tracker and a link to `/social/`. It runs after the
+nightly writes the queue and again at each of the four posting slots, and
+records what it announced in `public/_social/notified-proposals.json` so it
+never repeats itself. A failed send is deliberately **not** recorded, so the
+next run tries again.
+
+So the working loop is: alert arrives → open `/social/` → approve or reject →
+the next slot (08:00 / 13:00 / 18:00 / 22:00 UTC) posts what you approved.
+
+---
+
 ## What to configure, in priority order
 
-1. **`X_POSTING_ENABLED=true`** (variable) — one value, unblocks #235. Keep
+1. ~~**`X_POSTING_ENABLED=true`**~~ — done, 18 Oct 2026. Keep
    `X_ALLOW_AUTO_APPROVED` unset so nothing publishes without your approval.
 2. **`META_PAGE_ACCESS_TOKEN`** (secret) + **`META_IG_USER_ID`**,
    **`META_FB_PAGE_ID`** (variables) — all three or Instagram and Facebook

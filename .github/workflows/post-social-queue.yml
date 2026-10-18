@@ -59,6 +59,21 @@ jobs:
           X_ALLOW_AUTO_APPROVED: ${{ vars.X_ALLOW_AUTO_APPROVED }}
         run: npx tsx scripts/post-social-queue.ts
 
+      # After both posters, before the commit that stages public/_social/.
+      # Anything still waiting on a human gets announced once: entries the
+      # nightly's own notify step could not send (Telegram down), and ones
+      # added later in the day, such as the weekly thread. Already-announced
+      # ids are in notified-proposals.json, so this does not repeat itself.
+      - name: Tell the private ops chat what is waiting for approval
+        if: always()
+        continue-on-error: true
+        env:
+          # Private ops chat only; the channel id feeds the script's equality guard.
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_ALERT_CHAT_ID: ${{ secrets.TELEGRAM_ALERT_CHAT_ID }}
+          TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
+        run: npx tsx scripts/notify-social-proposals.ts
+
       - name: Commit and push
         # always(): a poster that published and then failed has already saved
         # the queue after each post; that record must land or the next run

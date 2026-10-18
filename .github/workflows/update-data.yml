@@ -1400,6 +1400,26 @@ jobs:
             echo "::warning::Claude returned an empty social queue for ${TODAY}"
           fi
 
+      # Before "Commit and push metrics", which stages public/_social/: the
+      # notifier records what it announced in notified-proposals.json, and that
+      # record has to land or tomorrow's run says it all again.
+      #
+      # X posting is on, but the poster sends only entries a human approved in
+      # /social/ — and across 49 queue files there had never been one, because
+      # nothing ever said there was something to approve. Measured: 0 posts a
+      # day to X while 1-5 proposals a day sat in the queue.
+      - name: Tell the private ops chat what is waiting for approval
+        if: always()
+        continue-on-error: true
+        env:
+          # Private ops chat only. The channel id is passed so the script can
+          # refuse when the two are the same: these are internal drafts and
+          # judge comments, and the channel has outside subscribers.
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_ALERT_CHAT_ID: ${{ secrets.TELEGRAM_ALERT_CHAT_ID }}
+          TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
+        run: npx tsx scripts/notify-social-proposals.ts
+
       - name: Commit and push metrics
         if: always() && steps.metrics.outcome == 'success'
         env:
