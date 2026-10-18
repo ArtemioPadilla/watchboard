@@ -129,6 +129,14 @@ the next slot (08:00 / 13:00 / 18:00 / 22:00 UTC) posts what you approved.
 2. **`META_PAGE_ACCESS_TOKEN`** (secret) + **`META_IG_USER_ID`**,
    **`META_FB_PAGE_ID`** (variables) — all three or Instagram and Facebook
    stay off. Partial configuration is detected and reported, not guessed at.
+
+   After setting them, run the **Video Destinations Check** workflow
+   (manual dispatch, read-only). It reports which destinations are
+   configured and, for the configured ones, whether the credentials
+   actually work — a token introspection for Meta, a refresh-token
+   exchange plus one channel read for YouTube. Nothing is published.
+   Without it, the first signal that a token is wrong is a nightly that
+   went green having posted nothing.
 3. **`YOUTUBE_CLIENT_ID`**, **`YOUTUBE_CLIENT_SECRET`**,
    **`YOUTUBE_REFRESH_TOKEN`** (secrets) — the last manual destination.
    An API key is **not** enough: uploading writes to a channel, so it needs
