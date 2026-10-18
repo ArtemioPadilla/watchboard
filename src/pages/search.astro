@@ -38,11 +38,17 @@ const fallbackTrackers = loadAllTrackers()
         In the meantime, filter trackers by name or tag below.
       </p>
       <input id="search-fallback-input" class="search-fallback-input" type="search" placeholder="Filter trackers…" autocomplete="off" aria-label="Filter trackers by name or tag" />
-      <ul id="search-fallback-list" class="search-fallback-list"></ul>
+      <!-- The tracker list rides in an attribute, not in the inline script below.
+           Astro 5.18 has a known XSS in `define:vars` (incomplete `</script>`
+           sanitisation), and these strings are tracker names and tags written
+           by the init-tracker agent — the only data-derived values this site
+           puts into a script body. Attribute escaping is not script context, so
+           a `</script>` in a tracker name is inert text either way. -->
+      <ul id="search-fallback-list" class="search-fallback-list" data-trackers={JSON.stringify(fallbackTrackers)}></ul>
     </div>
   </main>
 
-  <script is:inline define:vars={{ pagefindBase, fallbackTrackers }}>
+  <script is:inline define:vars={{ pagefindBase }}>
     var basePath = pagefindBase.replace('pagefind/', '');
 
     // ── Fallback: simple client-side filter over tracker names/tags ──
@@ -52,6 +58,17 @@ const fallbackTrackers = loadAllTrackers()
       var list = document.getElementById('search-fallback-list');
       if (!box || !input || !list || !box.hidden) return; // missing nodes or already shown
       box.hidden = false;
+
+      // Read the list from the attribute (see the comment on the <ul>). A
+      // parse failure degrades to an empty filter rather than throwing and
+      // leaving the box visible with no input handler attached.
+      var fallbackTrackers = [];
+      try {
+        fallbackTrackers = JSON.parse(list.getAttribute('data-trackers') || '[]');
+      } catch (e) {
+        fallbackTrackers = [];
+      }
+      if (!Array.isArray(fallbackTrackers)) fallbackTrackers = [];
 
       function render(query) {
         var q = (query || '').trim().toLowerCase();
