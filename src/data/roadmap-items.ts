@@ -692,8 +692,9 @@ export const ROADMAP_ITEMS: RoadmapItem[] = [
     description:
       'Instagram Reels and the Facebook Page adapters are written and tested with injectable fetch, and the public MP4 URL they need is already produced as a rolling release asset. YouTube Shorts is written too. All three are dormant until their credentials exist: META_PAGE_ACCESS_TOKEN plus two page ids, and three YouTube OAuth secrets (an API key cannot upload).',
     status: 'in-progress', area: 'growth', priority: 'P1', effort: 'M', milestone: 'now',
-    prs: [306, 325], date: '2026-10-18',
-    outcome: 'Blocked on credentials only — no code remains to write',
+    prs: [306, 325, 349], date: '2026-10-18',
+    outcome:
+      'Blocked on credentials only — no code remains to write. The Video Destinations Check workflow verifies them read-only the moment they are set, so a wrong token is caught by a click rather than by a silent nightly.',
   },
 
   // ─── Next: committed, not started ───────────────────────────────────

@@ -90,15 +90,15 @@ The table is generated from the source by `scripts/list-env-vars.ts`
 | `FRESHNESS_STALE_RATIO` | CI scripts | `scripts/check-data-freshness.ts` |
 | `GITHUB_OUTPUT` | CI scripts | `scripts/check-data-freshness.ts`, `scripts/self-review-pick.ts` |
 | `GITHUB_REPOSITORY` | CI scripts | `scripts/ci/host-release-asset.ts`, `scripts/notify-social-proposals.ts` |
-| `GITHUB_STEP_SUMMARY` | CI scripts | `scripts/check-media-fingerprints.ts`, `scripts/self-review-file.ts` |
+| `GITHUB_STEP_SUMMARY` | CI scripts | `scripts/check-media-fingerprints.ts`, `scripts/check-video-destinations.ts`, `scripts/self-review-file.ts` |
 | `GITHUB_TOKEN` | CI scripts | `scripts/ci/host-release-asset.ts` |
 | `LINKEDIN_ACCESS_TOKEN` | CI scripts | `scripts/post-social.ts` |
 | `LINKEDIN_ORG_ID` | CI scripts | `scripts/post-social.ts` |
 | `MAX_BACKFILL_GAPS` | CI scripts | `scripts/backfill-gaps.ts` |
-| `META_FB_PAGE_ID` | CI scripts | `scripts/lib/meta-publish.ts` |
+| `META_FB_PAGE_ID` | CI scripts | `scripts/check-video-destinations.ts`, `scripts/lib/meta-publish.ts` |
 | `META_GRAPH_API_VERSION` | CI scripts | `scripts/lib/meta-publish.ts` |
-| `META_IG_USER_ID` | CI scripts | `scripts/lib/meta-publish.ts` |
-| `META_PAGE_ACCESS_TOKEN` | CI scripts | `scripts/lib/meta-publish.ts` |
+| `META_IG_USER_ID` | CI scripts | `scripts/check-video-destinations.ts`, `scripts/lib/meta-publish.ts` |
+| `META_PAGE_ACCESS_TOKEN` | CI scripts | `scripts/check-video-destinations.ts`, `scripts/lib/meta-publish.ts` |
 | `META_VIDEO_URL` | CI scripts | `scripts/lib/meta-publish.ts` |
 | `OPENAI_API_KEY` | CI scripts | `scripts/backfill.ts`, `scripts/update-data.ts` |
 | `OPENAI_MODEL` | CI scripts | `scripts/backfill-osint.ts`, `scripts/backfill.ts`, `scripts/update-data.ts` |
@@ -123,10 +123,10 @@ The table is generated from the source by `scripts/list-env-vars.ts`
 | `X_API_SECRET` | CI scripts | `scripts/hourly-post.ts`, `scripts/post-social-queue.ts`, `scripts/post-social.ts`, `scripts/x-check.ts` |
 | `X_TEST_TEXT` | CI scripts | `scripts/x-check.ts` |
 | `YOUTUBE_API_KEY` | CI scripts | `scripts/backfill-youtube.ts` |
-| `YOUTUBE_CLIENT_ID` | CI scripts | `scripts/lib/youtube-publish.ts` |
-| `YOUTUBE_CLIENT_SECRET` | CI scripts | `scripts/lib/youtube-publish.ts` |
+| `YOUTUBE_CLIENT_ID` | CI scripts | `scripts/check-video-destinations.ts`, `scripts/lib/youtube-publish.ts` |
+| `YOUTUBE_CLIENT_SECRET` | CI scripts | `scripts/check-video-destinations.ts`, `scripts/lib/youtube-publish.ts` |
 | `YOUTUBE_PRIVACY_STATUS` | CI scripts | `scripts/lib/youtube-publish.ts` |
-| `YOUTUBE_REFRESH_TOKEN` | CI scripts | `scripts/lib/youtube-publish.ts` |
+| `YOUTUBE_REFRESH_TOKEN` | CI scripts | `scripts/check-video-destinations.ts`, `scripts/lib/youtube-publish.ts` |
 <!-- env-vars:end -->
 
 ## Reverse proxies

@@ -1,0 +1,44 @@
+name: Video Destinations Check
+
+# Answers "will the daily video actually publish there?" without spending a
+# night finding out.
+#
+# Instagram Reels, the Facebook Page and YouTube Shorts are written, tested and
+# dormant: each adapter no-ops until its credentials exist. A missing secret is
+# an empty string in this repo, so the nightly goes green having published
+# nothing — indistinguishable from success. This reports what is configured
+# and, for anything that is, whether the credentials actually work.
+#
+# Read-only, the same contract as x-api-check.yml's `verify` mode: a token
+# introspection for Meta, a refresh-token exchange plus one channel read for
+# YouTube. Nothing is published, so it is safe to run whenever.
+#
+# Manual dispatch only. Run it right after adding a secret.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+
+      - name: Check each video destination
+        env:
+          META_PAGE_ACCESS_TOKEN: ${{ secrets.META_PAGE_ACCESS_TOKEN }}
+          META_IG_USER_ID: ${{ vars.META_IG_USER_ID }}
+          META_FB_PAGE_ID: ${{ vars.META_FB_PAGE_ID }}
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+        run: npx tsx scripts/check-video-destinations.ts

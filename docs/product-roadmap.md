@@ -66,10 +66,10 @@ Last reviewed: **2026-10-18** · 77 items
 | --- | --- | --- | --- | --- | --- |
 | 🚧 | **Per-tracker email / Telegram subscriptions** | Growth | P3 | M | — |
 | 🚧 | **Restart X posting behind human approval** | Growth | P1 | S | #226, #306, #338 |
-| 🚧 | **Automate the remaining video destinations** | Growth | P1 | M | #306, #325 |
+| 🚧 | **Automate the remaining video destinations** | Growth | P1 | M | #306, #325, #349 |
 
 - **Per-tracker email / Telegram subscriptions** — Telegram channel notifications and a newsletter page are live; the web-push worker exists but is not wired to a delivery schedule
-- **Automate the remaining video destinations** — Blocked on credentials only — no code remains to write
+- **Automate the remaining video destinations** — Blocked on credentials only — no code remains to write. The Video Destinations Check workflow verifies them read-only the moment they are set, so a wrong token is caught by a click rather than by a silent nightly.
 
 ## Next — The queue
 
