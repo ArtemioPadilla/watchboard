@@ -1381,6 +1381,14 @@ jobs:
             fs.writeFileSync('/tmp/social-new-count', String(queue.length));
           "
 
+          # The nightly starts hours after its 14:00 cron, so the model's 08:00/
+          # 13:00/18:00 slots have often passed and everything posted at once.
+          # Spread past-due entries from now on; ones landing after midnight go
+          # to tomorrow's queue file, the only one tomorrow's poster runs read.
+          if ! npx tsx scripts/reslot-social-queue.ts "public/_social/queue-${TODAY}.json"; then
+            echo "::warning::reslot-social-queue failed — the queue keeps the model's original publish times"
+          fi
+
           # Clean up raw file
           rm -f "$RAW"
 

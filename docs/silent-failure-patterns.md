@@ -112,6 +112,21 @@ whether a workflow ran.
   affects every workflow with a `main-commits`-style shared group — the fix
   isn't in the group, it's remembering that "queued, not cancelled-in-place"
   is still a silent gap.
+- **Cron times here are wishes, not schedules.** Since late August 2026
+  GitHub starts this repo's scheduled runs four to seven hours late and drops
+  most of them: the 15-minute light scan runs about five times a day, the
+  14:00 nightly starts between 17:40 and 20:30, and the `:30` crons are just
+  as late as the `:00` ones, so moving minutes does not help. Anything that
+  assumes "the nightly ran at 14:00" is wrong by hours; the social queue's
+  publish times are now set from the moment it is written
+  (`scripts/reslot-social-queue.ts`). Count runs per day, not whether a run
+  is green.
+- **"0/1 platforms posted" on a green step.** The daily video uploaded to
+  Bluesky on 2026-09-29, then the post call died with `fetch failed`. No
+  retry, `posted: {}` in the record, job green. `post-video-social.ts` now
+  retries with an rkey chosen up front (checking whether the earlier attempt
+  landed before posting again) and exits 2 when an enabled platform is
+  missing; the workflow alerts the private ops chat and the final gate goes red.
 
 ## Fixing one layer can move the failure rather than remove it
 
