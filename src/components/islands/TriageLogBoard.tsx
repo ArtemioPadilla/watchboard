@@ -3,12 +3,22 @@ import type { TriageLog, TriageLogEntry } from '../../../scripts/hourly-types';
 import FreshnessBadge from './FreshnessBadge';
 import { severityFromScore, SEVERITY_COLORS } from '../../lib/alert-severity';
 import { safeHref } from '../../lib/alerts-file';
+import IslandErrorBoundary from './shared/IslandErrorBoundary';
+import { IslandErrorFallback } from './shared/IslandErrorFallback';
 
 type Decision = TriageLogEntry['decision'];
 
 interface Props { logUrl: string }
 
-export default function TriageLogBoard({ logUrl }: Props) {
+export default function TriageLogBoard(props: Props) {
+  return (
+    <IslandErrorBoundary fallback={<IslandErrorFallback feature="the breaking-news audit log" />}>
+      <TriageLogBoardInner {...props} />
+    </IslandErrorBoundary>
+  );
+}
+
+function TriageLogBoardInner({ logUrl }: Props) {
   const [log, setLog] = useState<TriageLog | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [decisionFilter, setDecisionFilter] = useState<Decision | 'all'>('all');

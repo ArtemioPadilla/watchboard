@@ -12,6 +12,8 @@ import { useLocale } from '../../../i18n/useLocale';
 import type { MapPoint, MapLine, KpiItem, CasualtyRow, EconItem, Claim, PolItem, TimelineEra, StrikeItem, Asset, Meta } from '../../../lib/schemas';
 import type { FlatEvent } from '../../../lib/timeline-utils';
 import type { MapCategory } from '../../../lib/map-utils';
+import IslandErrorBoundary from '../shared/IslandErrorBoundary';
+import { IslandErrorFallback } from '../shared/IslandErrorFallback';
 
 const TAB_ORDER: MobileTab[] = ['map', 'feed', 'data', 'intel'];
 const SWIPE_THRESHOLD = 80;
@@ -56,6 +58,14 @@ interface Props {
 }
 
 export default function MobileTabShell(props: Props) {
+  return (
+    <IslandErrorBoundary fallback={<IslandErrorFallback feature="the mobile tab bar" />}>
+      <MobileTabShellInner {...props} />
+    </IslandErrorBoundary>
+  );
+}
+
+function MobileTabShellInner(props: Props) {
   const locale = useLocale();
   const [activeTab, setActiveTab] = useState<MobileTab>('feed');
   const [mapMode, setMapMode] = useState<'2d' | '3d'>(props.initialMapMode ?? '2d');

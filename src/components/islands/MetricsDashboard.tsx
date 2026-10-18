@@ -1,6 +1,8 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { t, getPreferredLocale } from '../../i18n/translations';
 import { useLocale } from '../../i18n/useLocale';
+import IslandErrorBoundary from './shared/IslandErrorBoundary';
+import { IslandErrorFallback } from './shared/IslandErrorFallback';
 
 /* ── Types ── */
 
@@ -1368,6 +1370,14 @@ function HealthStrip({ health }: { health: HealthStatus }) {
 }
 
 export default function MetricsDashboard() {
+  return (
+    <IslandErrorBoundary fallback={<IslandErrorFallback feature="the ingestion metrics dashboard" />}>
+      <MetricsDashboardInner />
+    </IslandErrorBoundary>
+  );
+}
+
+function MetricsDashboardInner() {
   const [health, setHealth] = useState<HealthStatus | null>(null);
   const locale = useLocale();
   const [index, setIndex] = useState<MetricsIndexEntry[]>([]);

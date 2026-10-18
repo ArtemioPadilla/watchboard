@@ -3,6 +3,8 @@ import { trackEvent } from '../../lib/analytics';
 import type { StrikeItem, Asset } from '../../lib/schemas';
 import { tierClass, tierLabelShort } from '../../lib/tier-utils';
 import { MIL_TABS } from '../../lib/constants';
+import IslandErrorBoundary from './shared/IslandErrorBoundary';
+import { IslandErrorFallback } from './shared/IslandErrorFallback';
 
 function strikeIcon(icon: string): string {
   return icon === 'target' ? '\u25CE' : icon === 'retaliation' ? '\u26A1' : icon === 'asset' ? '\u25C6' : '\u2726';
@@ -69,7 +71,15 @@ interface Props {
   tabs?: { id: string; label: string }[];
 }
 
-export default function MilitaryTabs({ strikeTargets, retaliationData, assetsData, tabs }: Props) {
+export default function MilitaryTabs(props: Props) {
+  return (
+    <IslandErrorBoundary fallback={<IslandErrorFallback feature="the military detail tabs" />}>
+      <MilitaryTabsInner {...props} />
+    </IslandErrorBoundary>
+  );
+}
+
+function MilitaryTabsInner({ strikeTargets, retaliationData, assetsData, tabs }: Props) {
   const milTabs = tabs ?? MIL_TABS;
   const [activeTab, setActiveTab] = useState('strikes');
 
