@@ -23,7 +23,6 @@ import satori from 'satori';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { Worker } from 'node:worker_threads';
-// @ts-expect-error — sharp CJS default export
 import sharp from 'sharp';
 import { loadAllTrackers } from '../../lib/tracker-registry';
 import { loadTrackerData } from '../../lib/data';

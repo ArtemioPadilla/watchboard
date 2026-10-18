@@ -15,6 +15,16 @@
  *   POST /newsletter/send        → trigger newsletter send (authenticated)
  */
 
+// Type-only imports, not a `/// <reference types="@cloudflare/workers-types" />`.
+// The package is already a dependency, but the root tsconfig sets
+// `types: ["node"]`, so these two names were simply unresolved and nothing
+// noticed until the type check started running in CI. Referencing the package
+// globally does fix them — and injects the Workers lib everywhere, which
+// immediately produced three new errors in pwa-refresh.ts and radio-station.ts
+// where Workers' Response and HTMLAudioElement shapes disagree with lib.dom.
+// Importing the types keeps them scoped to this file.
+import type { KVNamespace, ScheduledEvent } from '@cloudflare/workers-types';
+
 export interface Env {
   PUSH_SUBSCRIPTIONS: KVNamespace;
   VAPID_PUBLIC_KEY: string;

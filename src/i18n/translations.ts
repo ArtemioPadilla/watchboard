@@ -515,7 +515,7 @@ const en = {
   'metrics.daysAgo': 'days ago',
 
   // Sidebar
-  'sidebar.sortBy': 'Sort',
+  'sidebar.sortBy': 'Sort by',
   'sidebar.sortRelevance': 'Relevance',
   'sidebar.sortActivity': 'Activity',
   'sidebar.activity': 'Activity',
@@ -536,7 +536,6 @@ const en = {
   'sidebar.cmp': 'CMP',
   'sidebar.changeLanguage': 'Change language',
   'sidebar.searchTrackers': 'Search trackers',
-  'sidebar.sortBy': 'Sort by',
   'sidebar.sortTrackersBy': 'Sort trackers by',
   'sidebar.all': 'ALL',
   'sidebar.showAll': 'Show all',
@@ -1224,7 +1223,7 @@ const es: TranslationKeys = {
   'metrics.dayAgo': 'día',
   'metrics.daysAgo': 'días',
 
-  'sidebar.sortBy': 'Orden',
+  'sidebar.sortBy': 'Ordenar por',
   'sidebar.sortRelevance': 'Relevancia',
   'sidebar.sortActivity': 'Actividad',
   'sidebar.activity': 'Actividad',
@@ -1245,7 +1244,6 @@ const es: TranslationKeys = {
   'sidebar.cmp': 'CMP',
   'sidebar.changeLanguage': 'Cambiar idioma',
   'sidebar.searchTrackers': 'Buscar rastreadores',
-  'sidebar.sortBy': 'Ordenar por',
   'sidebar.sortTrackersBy': 'Ordenar rastreadores por',
   'sidebar.all': 'TODOS',
   'sidebar.showAll': 'Mostrar todos',
@@ -1926,7 +1924,7 @@ const fr: TranslationKeys = {
   'metrics.dayAgo': 'jour',
   'metrics.daysAgo': 'jours',
 
-  'sidebar.sortBy': 'Tri',
+  'sidebar.sortBy': 'Trier par',
   'sidebar.sortRelevance': 'Pertinence',
   'sidebar.sortActivity': 'Activité',
   'sidebar.activity': 'Activité',
@@ -1947,7 +1945,6 @@ const fr: TranslationKeys = {
   'sidebar.cmp': 'CMP',
   'sidebar.changeLanguage': 'Changer de langue',
   'sidebar.searchTrackers': 'Rechercher des dossiers',
-  'sidebar.sortBy': 'Trier par',
   'sidebar.sortTrackersBy': 'Trier les dossiers par',
   'sidebar.all': 'TOUS',
   'sidebar.showAll': 'Afficher tous',
@@ -2628,7 +2625,7 @@ const pt: TranslationKeys = {
   'metrics.dayAgo': 'dia',
   'metrics.daysAgo': 'dias',
 
-  'sidebar.sortBy': 'Ordem',
+  'sidebar.sortBy': 'Ordenar por',
   'sidebar.sortRelevance': 'Relevância',
   'sidebar.sortActivity': 'Atividade',
   'sidebar.activity': 'Atividade',
@@ -2649,7 +2646,6 @@ const pt: TranslationKeys = {
   'sidebar.cmp': 'CMP',
   'sidebar.changeLanguage': 'Mudar idioma',
   'sidebar.searchTrackers': 'Buscar rastreadores',
-  'sidebar.sortBy': 'Ordenar por',
   'sidebar.sortTrackersBy': 'Ordenar rastreadores por',
   'sidebar.all': 'TODOS',
   'sidebar.showAll': 'Mostrar todos',

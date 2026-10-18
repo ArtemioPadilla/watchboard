@@ -21,10 +21,16 @@ export default defineConfig({
   // No `image:` block on purpose. Nothing here uses Astro's image service:
   // no `astro:assets` import, no <Image>/<Picture>/getImage call, no content
   // collection with an `image()` schema and no markdown. The eleven-host
-  // `remotePatterns` allowlist that used to sit here optimised nothing, and it
-  // made the sharp/libvips advisories read as reachable when they are not —
-  // sharp is vendored by Astro and never invoked. Event media is rendered as
-  // plain <img> from the URLs in each event's `media` array.
+  // `remotePatterns` allowlist that used to sit here therefore optimised
+  // nothing. Event media is rendered as plain <img> from the URLs in each
+  // event's `media` array.
+  //
+  // Correction to what #340 said when it removed the block: sharp is NOT
+  // uninvoked. src/pages/og/[tracker].png.ts imports it directly to compose
+  // the OG images. What it never receives is a fetched image — its only input
+  // is public/textures/earth-dark-blend-4k.webp, checked into this repo — so
+  // the libvips and libheif advisories, which are about decoding untrusted
+  // input, stay unreachable for that reason rather than for the one given.
   vite: {
     define: {
       CESIUM_BASE_URL: JSON.stringify('/cesium/'),

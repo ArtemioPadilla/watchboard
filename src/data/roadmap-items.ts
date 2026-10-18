@@ -689,7 +689,7 @@ export const ROADMAP_ITEMS: RoadmapItem[] = [
     id: 'rm-astro-7',
     title: 'Decide the astro 5 → 7 migration',
     description:
-      'The audit reads alarming and almost nothing is reachable: the server-island advisory needs SSR (this is static output with no deferred islands), and the sharp/libvips advisories need Astro\'s image service, which this project never invokes. The one reachable path — tracker names reaching an inline script through define:vars — was closed separately. What remains is cost: the e2e suite never finished in 50 minutes against astro 7 even with the Vite fix, and nested zod 4 adds about fifteen type errors that the new gate would now reject.',
+      'The audit reads alarming and almost nothing is reachable: the server-island advisory needs SSR (this is static output with no deferred islands), and the sharp/libvips advisories are about decoding untrusted input, and the only image sharp receives here is a texture checked into the repo (it is imported directly by the OG endpoint, not through Astro\'s image service, which this project never invokes). The one reachable path — tracker names reaching an inline script through define:vars — was closed separately. What remains is cost: the e2e suite never finished in 50 minutes against astro 7 even with the Vite fix, and nested zod 4 adds about fifteen type errors that the new gate would now reject.',
     status: 'planned', area: 'infrastructure', priority: 'P2', effort: 'L', milestone: 'next',
     date: '2026-10-18', dependsOn: ['rm-type-ratchet'],
     outcome: 'Cheapest next step: run the dev server locally against astro 7 and time one page load, rather than paying for another 50-minute CI run',
