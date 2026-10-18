@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { TOUR_DONE, waitForCommandCenter } from './helpers/hydration';
+import { TOUR_DONE, waitForCommandCenter, disableBroadcast } from './helpers/hydration';
 
 const NOMINATIM = { display_name: 'Baghdad, Iraq', address: { city: 'Baghdad', country: 'Iraq', country_code: 'iq' } };
 const WIKIDATA = { results: { bindings: [{ countryLabel: { value: 'Iraq' }, capitalLabel: { value: 'Baghdad' }, population: { value: '43533592' }, headOfStateLabel: { value: 'Test Head' }, article: { value: 'https://en.wikipedia.org/wiki/Iraq' } }] } };
@@ -52,6 +52,10 @@ test.describe('Place dossier (E4)', () => {
     await waitForCommandCenter(page);
     const globe = page.getByTestId('globe-canvas-wrap').locator('canvas').first();
     await expect(globe).toBeVisible({ timeout: 120_000 });
+    // Settle the camera before clicking a fixed point on it. Broadcast mode
+    // fly-tos and auto-rotation mean the sphere may not be under the canvas
+    // centre by the time the right-click lands.
+    await disableBroadcast(page);
     await page.getByTestId('alerts-toggle').click();
     await expect(page.getByTestId('alerts-panel')).toBeVisible();
     const box = (await globe.boundingBox())!;
