@@ -89,7 +89,7 @@ The table is generated from the source by `scripts/list-env-vars.ts`
 | `FRESHNESS_GLOBAL_STALE_DAYS` | CI scripts | `scripts/check-data-freshness.ts` |
 | `FRESHNESS_STALE_RATIO` | CI scripts | `scripts/check-data-freshness.ts` |
 | `GITHUB_OUTPUT` | CI scripts | `scripts/check-data-freshness.ts`, `scripts/self-review-pick.ts` |
-| `GITHUB_REPOSITORY` | CI scripts | `scripts/ci/host-release-asset.ts` |
+| `GITHUB_REPOSITORY` | CI scripts | `scripts/ci/host-release-asset.ts`, `scripts/notify-social-proposals.ts` |
 | `GITHUB_STEP_SUMMARY` | CI scripts | `scripts/check-media-fingerprints.ts`, `scripts/self-review-file.ts` |
 | `GITHUB_TOKEN` | CI scripts | `scripts/ci/host-release-asset.ts` |
 | `LINKEDIN_ACCESS_TOKEN` | CI scripts | `scripts/post-social.ts` |
@@ -109,8 +109,9 @@ The table is generated from the source by `scripts/list-env-vars.ts`
 | `SITE` | site build | `src/layouts/BaseLayout.astro`, `src/pages/[tracker]/events/[...slug].astro`, `src/pages/[tracker]/index.astro`, `src/pages/briefing/[date].astro`, `src/pages/briefing/index.astro` |
 | `SKIP_FETCH` | video render | `video/render.ts` |
 | `STAMP_TODAY` | CI scripts | `scripts/stamp-provenance.ts` |
-| `TELEGRAM_BOT_TOKEN` | CI scripts | `scripts/repost-daily-telegram.ts`, `scripts/telegram-channel.ts` |
-| `TELEGRAM_CHANNEL_ID` | CI scripts | `scripts/repost-daily-telegram.ts`, `scripts/telegram-channel.ts` |
+| `TELEGRAM_ALERT_CHAT_ID` | CI scripts | `scripts/notify-social-proposals.ts` |
+| `TELEGRAM_BOT_TOKEN` | CI scripts | `scripts/notify-social-proposals.ts`, `scripts/repost-daily-telegram.ts`, `scripts/telegram-channel.ts` |
+| `TELEGRAM_CHANNEL_ID` | CI scripts | `scripts/notify-social-proposals.ts`, `scripts/repost-daily-telegram.ts`, `scripts/telegram-channel.ts` |
 | `TRACKER_SLUG` | CI scripts | `scripts/update-data.ts` |
 | `UPDATE_SECTIONS` | CI scripts | `scripts/update-data.ts` |
 | `VIDEO_MODE` | video render | `video/render.ts`, `video/src/data/fetch-breaking.ts` |
