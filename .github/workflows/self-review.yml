@@ -27,6 +27,13 @@ on:
 permissions:
   contents: write
   issues: write
+  # claude-code-action exchanges an OIDC token for the OAuth credential, so
+  # without this the Analyse step dies in 15 s with "Unable to get
+  # ACTIONS_ID_TOKEN_REQUEST_URL" — and, because it is continue-on-error, the
+  # job still went green having filed nothing. Eight other workflows already
+  # declare it; this one shipped without it. tests/ci/workflow-publish-guards
+  # now fails if any claude-code-action workflow omits it.
+  id-token: write
 
 concurrency:
   group: self-review
@@ -124,3 +131,15 @@ jobs:
           git add self-review/state.json self-review/reports
           git commit -m "chore(self-review): ran ${{ steps.pick.outputs.id }} $(date -u +%Y-%m-%dT%H:%M:%SZ)"
           git push
+
+      # ── The filing step treats an empty payload as "zero findings", which is
+      # a legitimate result for a dimension — so a permanently broken agent
+      # step is indistinguishable from a clean repo unless the run goes red.
+      # Everything above has already run (findings filed, state stamped); this
+      # only turns the verdict red, the way daily-video.yml gates narration.
+      - name: Gate on the analysis outcome
+        if: steps.pick.outputs.due == 'true' && steps.analyse.outcome == 'failure'
+        run: |
+          echo "::error::The analysis step failed, so this run filed nothing on its own merits."
+          echo "Zero findings from a failed agent step is not evidence of a clean repo."
+          exit 1

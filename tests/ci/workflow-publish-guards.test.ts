@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 
 const wf = (name: string) => readFileSync(`.github/workflows/${name}`, 'utf8');
@@ -211,4 +211,27 @@ describe('update-data.yml finalize pushes', () => {
     expect(commit).toBeGreaterThan(gate);
     expect(all[commit]).toContain("steps.build_check.outputs.build_ok == 'true'");
   });
+});
+
+// A claude-code-action step needs `id-token: write` to exchange the OIDC token
+// for the OAuth credential. Without it the step dies in ~15 s with "Unable to
+// get ACTIONS_ID_TOKEN_REQUEST_URL" — and every one of these steps runs under
+// continue-on-error, so the job goes green having done nothing. That is how
+// self-review.yml shipped: eight workflows declared the permission, the ninth
+// did not, and nothing noticed because the run was a success.
+describe('claude-code-action workflows declare id-token: write', () => {
+  const dir = '.github/workflows';
+  const agentWorkflows = readdirSync(dir)
+    .filter(f => f.endsWith('.yml'))
+    .filter(f => readFileSync(`${dir}/${f}`, 'utf8').includes('anthropics/claude-code-action'));
+
+  it('finds the agent workflows at all (a rename must not empty this suite)', () => {
+    expect(agentWorkflows.length).toBeGreaterThanOrEqual(8);
+  });
+
+  for (const file of agentWorkflows) {
+    it(`${file} declares id-token: write`, () => {
+      expect(readFileSync(`${dir}/${file}`, 'utf8')).toMatch(/^\s+id-token: write$/m);
+    });
+  }
 });
