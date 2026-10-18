@@ -8,10 +8,11 @@ export default async function globalSetup(): Promise<void> {
     console.log('[e2e] reusing the dev server already listening on 4321');
   } else {
     console.log('[e2e] starting the dev server');
-    startDaemon();
+    const pid = startDaemon();
     await waitUntilListening();
-    // Only a server we started is ours to stop.
-    writeFileSync(STARTED_FLAG, String(Date.now()));
+    // Only a server we started is ours to stop, and teardown needs the pid for
+    // the case where astro stayed in the foreground rather than daemonising.
+    writeFileSync(STARTED_FLAG, String(pid ?? ''));
   }
 
   // Warm either way: a reused server may still be cold.

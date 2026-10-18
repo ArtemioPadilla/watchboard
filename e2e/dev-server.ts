@@ -16,7 +16,7 @@
  * compiling anything, and the first page render is then awaited once,
  * patiently, before any spec runs.
  */
-import { spawnSync } from 'node:child_process';
+import { spawn, spawnSync } from 'node:child_process';
 
 export const PORT = 4321;
 export const BASE_URL = `http://localhost:${PORT}/`;
@@ -54,15 +54,54 @@ export async function warmUp(timeoutMs = 180_000): Promise<void> {
   console.log(`[e2e] first render: HTTP ${res.status} in ${((Date.now() - started) / 1000).toFixed(1)}s`);
 }
 
-export function startDaemon(): void {
-  // Returns promptly under astro 7: this is the supervisor call, not the server.
-  const r = spawnSync('npm', ['run', 'dev'], {
-    stdio: 'inherit',
+/**
+ * Start the server without blocking on it, whichever way astro behaves.
+ *
+ * Astro 7 daemonises `astro dev` on some machines and stays in the foreground
+ * on others — it daemonised on mine and ran in the foreground on the CI
+ * runner. Neither is safe to wait on:
+ *
+ *   - foreground: the call never returns, because the server is the process;
+ *   - daemonised with `stdio: 'inherit'`: the call STILL never returns,
+ *     because the daemon inherits the parent's stdio and spawnSync waits for
+ *     those streams to close, not for the supervisor to exit. That is what
+ *     cancelled the third CI run at its 25-minute cap with `ready in 313 ms`
+ *     as the last line and no output of ours after it.
+ *
+ * So: detached, stdio piped into our own log rather than inherited, unref'd,
+ * and readiness decided by polling the port. Correct under both behaviours.
+ */
+export function startDaemon(): number | undefined {
+  const child = spawn('npm', ['run', 'dev'], {
+    detached: true,
+    stdio: ['ignore', 'pipe', 'pipe'],
     env: { ...process.env, PUBLIC_ENABLE_DEEPSTATE: 'true' },
   });
-  if (r.status !== 0) throw new Error(`\`npm run dev\` exited ${r.status}`);
+  child.stdout?.on('data', (c) => process.stdout.write(`[dev] ${c}`));
+  child.stderr?.on('data', (c) => process.stderr.write(`[dev] ${c}`));
+  child.on('error', (err) => console.error(`[e2e] dev server failed to spawn: ${err.message}`));
+  child.unref();
+  return child.pid;
 }
 
-export function stopDaemon(): void {
-  spawnSync('npx', ['astro', 'dev', 'stop'], { stdio: 'inherit' });
+/**
+ * Stop whichever shape of server we started.
+ *
+ * `astro dev stop` only knows about a daemonised one. When astro stayed in the
+ * foreground, the server is our own detached child, so its process group is
+ * killed too. Both are attempted and neither is fatal: a teardown that throws
+ * would fail a suite that already passed.
+ */
+export function stopDaemon(pid?: number): void {
+  spawnSync('npx', ['astro', 'dev', 'stop'], { stdio: 'pipe' });
+  if (pid === undefined) return;
+  try {
+    process.kill(-pid, 'SIGTERM'); // negative: the detached group, not just npm
+  } catch {
+    try {
+      process.kill(pid, 'SIGTERM');
+    } catch {
+      // already gone
+    }
+  }
 }
