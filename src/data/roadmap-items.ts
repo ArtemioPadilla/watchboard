@@ -772,7 +772,6 @@ export const ROADMAP_ITEMS: RoadmapItem[] = [
     date: '2026-10-18',
     outcome:
       'Full build ~31 min, sampled build 4m13s, same 18,316 pages. The job also asserts the artefact rather than the exit code: page count, a non-empty homepage, and that csp-hashes.ts actually removed unsafe-inline.',
-      'Found while verifying a src/ change had no build gate on its own PR. Measured cost: the deploy workflow\'s build takes 17-32 min on CI, so this is a real bill per PR and the path filter is the whole design — the counter-argument is that deploy.yml already fails loudly within minutes and the site keeps serving the last good deploy',
   },
 
   {
