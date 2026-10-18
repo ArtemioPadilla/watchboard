@@ -446,10 +446,10 @@ export const ROADMAP_ITEMS: RoadmapItem[] = [
     description:
       '5-10 smoke tests covering page load, timeline expansion, map render, globe load. Catches regressions that unit tests miss.',
     status: 'shipped', area: 'reliability', priority: 'P3', effort: 'M', milestone: 'done',
-    prs: [214, 334],
+    prs: [214, 334, 340, 341, 343],
     date: '2026-04-26',
     outcome:
-      'Playwright suite running on every PR; the flake it did have was fixed with a measured control rather than a retry',
+      'Playwright on every PR, with /search and /roadmap covered after both turned out to have none. Flakes get fixed by finding the race — a hydration wait, a disabled camera — not by raising a timeout.',
   },
   {
     id: 'rm-event-partition-scaling',
@@ -666,6 +666,17 @@ export const ROADMAP_ITEMS: RoadmapItem[] = [
     outcome: 'Live at /api/, /skill/, /feeds/, /feeds.json, /feeds.opml and /embed/{tracker}/',
   },
 
+  {
+    id: 'rm-inline-script-data',
+    title: 'Keep data-derived strings out of inline scripts',
+    description:
+      'Astro 5.18 has an XSS in `define:vars` from incomplete `</script>` sanitisation. Four of the five uses here pass only build-time values; the fifth put every tracker name and tag — written by the init-tracker agent from an operator-supplied topic — into an inline script body on /search. The list now rides in a data attribute, where escaping is not script context, and an e2e test asserts no tracker name appears inside a script element. The dead eleven-host image allowlist went at the same time.',
+    status: 'shipped', area: 'reliability', priority: 'P1', effort: 'S', milestone: 'done',
+    prs: [340], date: '2026-10-18',
+    outcome:
+      'Control: the new test fails against the unfixed page, naming the leaked tracker titles',
+  },
+
   // ─── Now: in flight, or waiting on one decision or credential ────────
   {
     id: 'rm-x-restart',
@@ -699,10 +710,11 @@ export const ROADMAP_ITEMS: RoadmapItem[] = [
     id: 'rm-type-debt',
     title: 'Ratchet the type baseline down',
     description:
-      'Of the 56 baselined errors, 6 are one BufferSource cast in the push worker, 4 are translation keys, 4 are a geo-layer hook and 6 more are single errors in six files. Cheapest first, each PR lowering the baseline.',
+      'First pass done in #342, and it found real defects rather than type noise: `sidebar.sortBy` was defined twice in every locale so four translations were dead text, and two Cloudflare Workers type names resolved to nothing. Remaining clusters: scripts/update-data.ts 14 (see the legacy-updater decision), worker/web-push.ts 6 (one Uint8Array/BufferSource root cause in crypto code, worth its own careful pass), scripts/backfill.ts 5, mcp/server.ts 5.',
     status: 'planned', area: 'infrastructure', priority: 'P2', effort: 'M', milestone: 'next',
-    date: '2026-10-18', dependsOn: ['rm-type-ratchet'],
-    outcome: 'Target: 56 → about 36 without touching the legacy updater',
+    prs: [342], date: '2026-10-18', dependsOn: ['rm-type-ratchet'],
+    outcome:
+      '56 → 49 baselined errors. Target for the next pass: under 40 without touching the legacy updater.',
   },
   {
     id: 'rm-legacy-updater',
