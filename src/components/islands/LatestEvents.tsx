@@ -3,6 +3,8 @@ import type { FlatEvent } from '../../lib/timeline-utils';
 import { tierClass, tierLabelShort } from '../../lib/tier-utils';
 import { t, type Locale } from '../../i18n/translations';
 import { useLocale } from '../../i18n/useLocale';
+import IslandErrorBoundary from './shared/IslandErrorBoundary';
+import { IslandErrorFallback } from './shared/IslandErrorFallback';
 
 interface Props {
   events: FlatEvent[];
@@ -54,7 +56,15 @@ function formatDate(iso: string, locale: Locale = 'en'): string {
   return `${m} ${parseInt(day, 10)}, ${year}`;
 }
 
-export default function LatestEvents({ events, maxVisible = DEFAULT_MAX_VISIBLE }: Props) {
+export default function LatestEvents(props: Props) {
+  return (
+    <IslandErrorBoundary fallback={<IslandErrorFallback feature="the latest events list" />}>
+      <LatestEventsInner {...props} />
+    </IslandErrorBoundary>
+  );
+}
+
+function LatestEventsInner({ events, maxVisible = DEFAULT_MAX_VISIBLE }: Props) {
   const locale = useLocale();
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [showAll, setShowAll] = useState(false);

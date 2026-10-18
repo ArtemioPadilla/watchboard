@@ -9,6 +9,7 @@ import { useLiveSource } from '../../../lib/use-live-source';
 import { collectDegraded, type DegradedItem, type HealthStatus } from '../../../lib/degraded-sources';
 import { t, type TranslationKey } from '../../../i18n/translations';
 import { useLocale } from '../../../i18n/useLocale';
+import IslandErrorBoundary from './IslandErrorBoundary';
 
 const POLL_MS = 15_000;
 const HEALTH_TTL_MS = 10 * 60_000;
@@ -34,7 +35,18 @@ export interface DegradedSourcesProps {
   healthOverride?: HealthStatus | null;
 }
 
-export default function DegradedSources({ trackerSlug, healthOverride }: DegradedSourcesProps) {
+// A null fallback on purpose: this strip renders nothing when every source
+// is healthy, so an error card here would announce a problem the reader
+// cannot act on, in the one component whose job is reporting problems.
+export default function DegradedSources(props: DegradedSourcesProps) {
+  return (
+    <IslandErrorBoundary fallback={null}>
+      <DegradedSourcesInner {...props} />
+    </IslandErrorBoundary>
+  );
+}
+
+function DegradedSourcesInner({ trackerSlug, healthOverride }: DegradedSourcesProps) {
   const locale = useLocale();
   const [tick, setTick] = useState(() => Date.now());
   const healthSpec = useMemo(() => ({

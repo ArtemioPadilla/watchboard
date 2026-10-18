@@ -6,6 +6,8 @@ import type { JSX } from 'react';
 import { t } from '../../i18n/translations';
 import type { Locale, TranslationKey } from '../../i18n/translations';
 import { useLocale } from '../../i18n/useLocale';
+import IslandErrorBoundary from './shared/IslandErrorBoundary';
+import { IslandErrorFallback } from './shared/IslandErrorFallback';
 
 /* ── Types (mirror scripts/social-types.ts for client) ── */
 
@@ -311,7 +313,15 @@ function MiniBar({ data, color = '#58a6ff', width = 120, height = 32 }: { data: 
 
 /* ── Component ── */
 
-export default function SocialCommandCenter({ basePath, githubRepo }: Props) {
+export default function SocialCommandCenter(props: Props) {
+  return (
+    <IslandErrorBoundary fallback={<IslandErrorFallback feature="the social command center" />}>
+      <SocialCommandCenterInner {...props} />
+    </IslandErrorBoundary>
+  );
+}
+
+function SocialCommandCenterInner({ basePath, githubRepo }: Props) {
   const locale = useLocale();
   const [queue, setQueue] = useState<QueueEntry[]>([]);
   const [budget, setBudget] = useState<BudgetData | null>(null);

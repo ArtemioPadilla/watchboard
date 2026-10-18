@@ -244,11 +244,12 @@ export const ROADMAP_ITEMS: RoadmapItem[] = [
     id: 'rm-error-boundaries',
     title: 'React error boundaries on all islands',
     description:
-      'A WebGL or Cesium failure still renders a white panel on most islands. Measured on 2026-10-18: 7 of the 20 island files have an error boundary, so this was never the "all islands" the title claimed.',
-    status: 'planned', area: 'reliability', priority: 'P1', effort: 'S', milestone: 'next',
+      'Every island mounted directly from a page or layout is wrapped in IslandErrorBoundary, so a runtime failure shows a named fallback instead of blanking its region. The two left out are deliberate: FreshnessBadge is a 20-pixel pill where a card-sized error notice would be worse than the pill disappearing, and IntelMapLoader only mounts IntelMap, which is wrapped already. DegradedSources takes a null fallback — it renders nothing when every source is healthy, so an error card there would announce a problem the reader cannot act on, in the one component whose job is reporting problems.',
+    status: 'shipped', area: 'reliability', priority: 'P1', effort: 'S', milestone: 'done',
+    prs: [344],
     date: '2026-04-26',
     outcome:
-      'Today: 7 of 20 island files. The remaining 13 are the work.',
+      '7 of 20 island files carried a boundary before this; 16 do now, covering every page-level mount. The title used to say "all islands", which was never the right criterion.',
 
   },
   {

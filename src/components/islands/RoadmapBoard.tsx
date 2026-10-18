@@ -10,6 +10,8 @@ import {
   type RoadmapArea,
   type RoadmapStatus,
 } from '../../data/roadmap-items';
+import IslandErrorBoundary from './shared/IslandErrorBoundary';
+import { IslandErrorFallback } from './shared/IslandErrorFallback';
 
 type View = 'kanban' | 'timeline';
 
@@ -17,6 +19,14 @@ const STATUS_ORDER: RoadmapStatus[] = ['shipped', 'in-progress', 'planned', 'ide
 // Order comes from the data file so the board and the generated markdown agree.
 
 export default function RoadmapBoard() {
+  return (
+    <IslandErrorBoundary fallback={<IslandErrorFallback feature="the roadmap board" />}>
+      <RoadmapBoardInner />
+    </IslandErrorBoundary>
+  );
+}
+
+function RoadmapBoardInner() {
   const [view, setView] = useState<View>('kanban');
   const [areaFilter, setAreaFilter] = useState<RoadmapArea | 'all'>('all');
   const [expandedId, setExpandedId] = useState<string | null>(null);

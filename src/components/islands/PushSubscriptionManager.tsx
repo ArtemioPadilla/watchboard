@@ -7,6 +7,8 @@ import {
   getCurrentSubscription,
   getLocalPrefs,
 } from '../../lib/push-client';
+import IslandErrorBoundary from './shared/IslandErrorBoundary';
+import { IslandErrorFallback } from './shared/IslandErrorFallback';
 
 // Domain categories for grouping trackers in the picker
 const DOMAIN_LABELS: Record<string, string> = {
@@ -33,7 +35,15 @@ interface Props {
 
 type SubscriptionState = 'loading' | 'unsupported' | 'denied' | 'unsubscribed' | 'subscribed';
 
-export default function PushSubscriptionManager({ trackers }: Props) {
+export default function PushSubscriptionManager(props: Props) {
+  return (
+    <IslandErrorBoundary fallback={<IslandErrorFallback feature="push notification settings" />}>
+      <PushSubscriptionManagerInner {...props} />
+    </IslandErrorBoundary>
+  );
+}
+
+function PushSubscriptionManagerInner({ trackers }: Props) {
   const [state, setState] = useState<SubscriptionState>('loading');
   const [selectedTrackers, setSelectedTrackers] = useState<Set<string>>(new Set());
   const [categories, setCategories] = useState<Set<string>>(new Set(['breaking', 'daily']));
