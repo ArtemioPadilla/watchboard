@@ -20,8 +20,26 @@ describe('list-env-vars', () => {
     expect(md).not.toContain('NODE_ENV');
   });
 
+  /**
+   * Optional build *tuning*, as opposed to configuration the build requires.
+   * Each one here must be unset-by-default and leave a complete site when it
+   * is: the point of the rule is that someone cloning this repo can run
+   * `npm run build` without a list of variables to discover first.
+   */
+  const OPTIONAL_BUILD_TUNING = new Set([
+    // Caps per-event OG images per tracker. Unset builds all 15,583 of them,
+    // which is what the deploy and the nightly do; the PR build gate sets 2 to
+    // exercise the endpoint without paying 25 minutes for the repetition.
+    'OG_EVENT_LIMIT',
+  ]);
+
   it('the real repo exposes no required variable to the site build beyond analytics and SITE', () => {
     const siteVars = scanEnvVars().filter(u => u.files.some(f => f.startsWith('src/'))).map(u => u.name);
-    for (const v of siteVars) expect(v === 'SITE' || v.startsWith('PUBLIC_'), `unexpected build-time env var ${v}`).toBe(true);
+    for (const v of siteVars) {
+      expect(
+        v === 'SITE' || v.startsWith('PUBLIC_') || OPTIONAL_BUILD_TUNING.has(v),
+        `unexpected build-time env var ${v} — if it is optional tuning, add it to OPTIONAL_BUILD_TUNING with the reason`,
+      ).toBe(true);
+    }
   });
 });
