@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { waitForRoadmapBoard } from './helpers/hydration';
 import { ROADMAP_ITEMS, MILESTONES, MILESTONE_ORDER } from '../src/data/roadmap-items';
 
 /**
@@ -20,7 +21,15 @@ test.describe('roadmap page', () => {
 
   test('the timeline view groups every item under its horizon', async ({ page }) => {
     await page.goto('/roadmap/');
-    await page.getByRole('tab', { name: /timeline/i }).click();
+    // The tabs are server-rendered, so clicking before hydration is a silent
+    // no-op — this test was flaky on CI for exactly that reason.
+    await waitForRoadmapBoard(page);
+
+    const timelineTab = page.getByRole('tab', { name: /timeline/i });
+    await timelineTab.click();
+    // Assert the click landed. Without this, a swallowed click shows up as a
+    // confusing count mismatch somewhere below instead of saying what happened.
+    await expect(timelineTab).toHaveAttribute('aria-selected', 'true');
 
     for (const m of MILESTONE_ORDER) {
       const expected = ROADMAP_ITEMS.filter((i) => i.milestone === m).length;

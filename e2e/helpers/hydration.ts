@@ -12,6 +12,20 @@ export async function waitForCommandCenter(page: Page, timeout = 90_000): Promis
   await expect(page.locator('astro-island:not([ssr]) .cc-search-input').first()).toBeVisible({ timeout });
 }
 
+/**
+ * The /roadmap board is a `client:load` island, so its view-mode tabs exist in
+ * the server-rendered HTML before React attaches any handler — a click in that
+ * window is swallowed and the view never changes. That is what made
+ * `roadmap.spec.ts` flaky on its very first two CI runs while passing six times
+ * in a row locally: the loaded runner loses the race, my machine does not.
+ *
+ * Same signal as waitForCommandCenter: Astro drops the `ssr` attribute from
+ * `<astro-island>` once the component has hydrated.
+ */
+export async function waitForRoadmapBoard(page: Page, timeout = 90_000): Promise<void> {
+  await expect(page.locator('astro-island:not([ssr]) .rm-view-toggle').first()).toBeVisible({ timeout });
+}
+
 // The first-visit tour is a modal that intercepts every click; mark it done
 // before the page scripts run (same keys as src/lib/onboarding.ts).
 export const TOUR_DONE = () => {

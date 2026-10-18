@@ -97,7 +97,7 @@ Last reviewed: **2026-10-18** · 74 items
 - **React error boundaries on all islands** — Today: 7 of 20 island files. The remaining 13 are the work.
 - **Decide the astro 5 → 7 migration** — Cheapest next step: run the dev server locally against astro 7 and time one page load, rather than paying for another 50-minute CI run
 - **Ratchet the type baseline down** — Target: 56 → about 36 without touching the legacy updater
-- **Gate the production build on pull requests** — Found while verifying a src/ change had no build gate on its own PR
+- **Gate the production build on pull requests** — Found while verifying a src/ change had no build gate on its own PR. Measured cost: the deploy workflow's build takes 17-32 min on CI, so this is a real bill per PR and the path filter is the whole design — the counter-argument is that deploy.yml already fails loudly within minutes and the site keeps serving the last good deploy
 
 ## Later — Captured so it is not forgotten
 
