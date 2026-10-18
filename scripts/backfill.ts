@@ -12,7 +12,7 @@ import OpenAI from 'openai';
 import { readFileSync, existsSync, mkdirSync } from 'fs';
 import { join } from 'path';
 import { z } from 'zod';
-import { TimelineEventSchema, MapPointSchema, MapLineSchema } from '../src/lib/schemas.js';
+import { TimelineEventSchema, MapPointSchema, MapLineSchema, MapLineFieldsSchema } from '../src/lib/schemas.js';
 import {
   atomicWriteFile,
   extractJSON,
@@ -188,7 +188,9 @@ async function backfillDate(date: string, existingPointIds: Set<string>, existin
   const humanDate = formatDateHuman(date);
   const eventFields = describeFields(TimelineEventSchema);
   const pointFields = describeFields(MapPointSchema);
-  const lineFields = describeFields(MapLineSchema);
+  // MapLineFieldsSchema, not MapLineSchema: the latter is a ZodEffects and has
+  // no shape to describe (see src/lib/schemas.ts).
+  const lineFields = describeFields(MapLineFieldsSchema);
 
   const needEvents = !hasEvents;
   const needPoints = !hasPoints;
@@ -274,7 +276,9 @@ Return ONLY the JSON object with the requested arrays. No explanation or markdow
     // Process lines
     if (needLines && Array.isArray(raw.lines)) {
       const normalized = normalizeItems(raw.lines);
-      const LineLoose = MapLineSchema.omit({ lastUpdated: true }).extend({ lastUpdated: z.string().optional() });
+      // `.omit()` does not exist on the refined schema — this threw at runtime
+      // every time a payload carried lines.
+      const LineLoose = MapLineFieldsSchema.omit({ lastUpdated: true }).extend({ lastUpdated: z.string().optional() });
       const validLines = validateItemwise(normalized, LineLoose, `${date}/lines`)
         .filter(l => !existingLineIds.has(l.id)); // avoid ID conflicts
       if (validLines.length > 0) {

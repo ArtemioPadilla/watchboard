@@ -12,8 +12,9 @@ const WORKFLOW = join(ROOT, '.github/workflows/e2e.yml');
 
 /** Specs deliberately not run in CI, with the reason. Keep this short. */
 const EXCLUDED: Record<string, string> = {
-  'command-center.spec.ts': 'pre-E1 spec, not yet known to pass in CI (e2e.yml header)',
-  'tracker-page.spec.ts': 'pre-E1 spec, not yet known to pass in CI (e2e.yml header)',
+  // Measured 2026-10-18: 7 of its 8 tests fail locally. It predates the command
+  // center's current markup and needs rewriting, not a line fix.
+  'command-center.spec.ts': 'pre-E1 spec, 7 of 8 tests fail against current markup — needs rewriting',
 };
 
 /**

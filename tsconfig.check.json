@@ -10,6 +10,17 @@
   // A baseline is only a ratchet if the same input gives the same answer
   // everywhere, so the checked project has to be one that CI actually installs.
   // `video/` is type-checked by `video/tsconfig.json` where its deps exist.
+  //
+  // `mcp/` is the same shape and is excluded for the same reason: its own
+  // package.json, package-lock.json, tsconfig.json and `npm run build`, with
+  // `@modelcontextprotocol/sdk` installed neither at the root nor in
+  // mcp/node_modules. From here its SDK imports are unresolvable, and the
+  // three "implicitly any" errors under them were only downstream of that —
+  // artefacts of the missing types, not defects in the file.
+  //
+  // Both are therefore checked by nothing in CI: no workflow runs their
+  // builds. That is a real gap, recorded as `rm-subpackage-typecheck` on the
+  // roadmap rather than hidden by this exclusion.
   "extends": "./tsconfig.json",
-  "exclude": ["functions", "video", "dist", "node_modules"]
+  "exclude": ["functions", "video", "mcp", "dist", "node_modules"]
 }
