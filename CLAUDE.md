@@ -41,18 +41,25 @@ build. `npm run check` (`astro check`) is not usable here either: it dies with
 `FATAL ERROR: ... JavaScript heap out of memory` on a project of this size.
 
 `npm run check-types` runs `tsc --noEmit` and compares the result against
-`types-baseline.json` — 56 errors exist today, most in the legacy
-`scripts/update-data.ts` and a `Uint8Array<ArrayBufferLike>` vs `BufferSource`
-lib variance in `worker/web-push.ts`. It fails on anything **not** in that file
-and runs in the Tests workflow, so the count can shrink and never grow.
+`types-baseline.json` — **25 errors today**, down from 56 when the gate
+shipped. The largest remaining group is a `Uint8Array<ArrayBufferLike>` vs
+`BufferSource` lib variance in `worker/web-push.ts` (6); `scripts/update-data.ts`
+held 14 of the original 56 and now holds none — they were one broken line and
+thirteen errors downstream of it (#347). It fails on anything **not** in that
+file and runs in the Tests workflow, so the count can shrink and never grow.
 Signatures are `file|TScode|message` with the line and column dropped: an error
 that moves from line 42 to 87 is the same error, and a baseline that churns on
 every edit is one nobody keeps current.
 
-It checks `tsconfig.check.json`, which is the root config minus `video/` — a
-separate package whose Remotion deps `make video-prep` installs and the root
-`npm ci` does not. Including it made the same commit report 56 errors locally
-and 64 in CI, and a baseline only ratchets if the answer is the same everywhere.
+It checks `tsconfig.check.json`, which is the root config minus `video/` and
+`mcp/` — separate packages whose deps the root `npm ci` does not install
+(Remotion via `make video-prep`, the MCP SDK by nobody). Neither is
+type-checked by anything in CI as a result, which is a real gap rather than a
+solved problem; it is tracked on the roadmap as `rm-subpackage-typecheck`.
+
+They are excluded because including them made the same commit report 56 errors
+locally and 64 in CI — every extra one an unresolvable import rather than a
+defect — and a baseline only ratchets if the answer is the same everywhere.
 For the same reason the script runs `astro sync` first: the ambient types behind
 `src/env.d.ts` (the global `JSX` namespace among them) live in the gitignored
 `.astro/types.d.ts`, so without it a fresh clone or a CI runner gets "Cannot find
