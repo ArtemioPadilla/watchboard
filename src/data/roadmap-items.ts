@@ -766,11 +766,12 @@ export const ROADMAP_ITEMS: RoadmapItem[] = [
     id: 'rm-pr-build-gate',
     title: 'Gate the production build on pull requests',
     description:
-      'No check on a pull request builds the site. The Playwright suite runs against `npm run dev`, vitest does not build, and the type ratchet type-checks without emitting — so the first real build of a change happens in the deploy workflow after it is already on main, where a failure stops the site updating rather than stopping the merge. A build job behind a path filter (src/, astro.config.mjs, package.json) is the cheap version; the full build is slow enough that running it on every PR is a real cost worth naming.',
-    status: 'planned', area: 'reliability', priority: 'P1', effort: 'S', milestone: 'next',
+      'No check on a pull request built the site: Playwright runs against the dev server, vitest does not build, and the type check does not emit — so the first real build of a change happened in the deploy workflow, after the merge. The reason it never existed was cost, and that turned out to be one endpoint: 15,583 per-event OG images at ~95 ms each are roughly 25 of a full build\'s 31 minutes. Capping them at two per tracker builds every page, layout and endpoint in 4m13s measured locally — cheaper than the Playwright job already running on every PR.',
+    status: 'shipped', area: 'reliability', priority: 'P1', effort: 'S', milestone: 'done',
+    prs: [352],
     date: '2026-10-18',
     outcome:
-      'Found while verifying a src/ change had no build gate on its own PR. Measured cost: the deploy workflow\'s build takes 17-32 min on CI, so this is a real bill per PR and the path filter is the whole design — the counter-argument is that deploy.yml already fails loudly within minutes and the site keeps serving the last good deploy',
+      'Full build ~31 min, sampled build 4m13s, same 18,316 pages. The job also asserts the artefact rather than the exit code: page count, a non-empty homepage, and that csp-hashes.ts actually removed unsafe-inline.',
   },
 
   {
