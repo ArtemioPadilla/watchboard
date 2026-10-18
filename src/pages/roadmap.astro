@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import RoadmapBoard from '../components/islands/RoadmapBoard.tsx';
-import { ROADMAP_ITEMS, MILESTONES, counts } from '../data/roadmap-items';
+import { ROADMAP_ITEMS, MILESTONES, MILESTONE_ORDER, ROADMAP_LAST_REVIEWED, counts } from '../data/roadmap-items';
 
 const base = import.meta.env.BASE_URL;
 const basePath = base.endsWith('/') ? base : `${base}/`;
@@ -45,25 +45,20 @@ const lastShipped = shipped[shipped.length - 1] ?? new Date().toISOString().slic
       <RoadmapBoard client:load />
 
       <section class="roadmap-milestones-overview">
-        <h2>Milestones</h2>
+        <h2>Horizons</h2>
         <div class="ms-grid">
-          <article class="ms-card ms-card-shipped">
-            <header><span class="ms-tag">Shipped</span><h3>{MILESTONES.M1.label}</h3></header>
-            <p>{MILESTONES.M1.theme}</p>
-          </article>
-          <article class="ms-card ms-card-next">
-            <header><span class="ms-tag">Up next</span><h3>{MILESTONES.M2.label}</h3></header>
-            <p>{MILESTONES.M2.theme}</p>
-          </article>
-          <article class="ms-card ms-card-planning">
-            <header><span class="ms-tag">Planning</span><h3>{MILESTONES.M3.label}</h3></header>
-            <p>{MILESTONES.M3.theme}</p>
-          </article>
-          <article class="ms-card ms-card-horizon">
-            <header><span class="ms-tag">Horizon</span><h3>{MILESTONES.M4.label}</h3></header>
-            <p>{MILESTONES.M4.theme}</p>
-          </article>
+          {MILESTONE_ORDER.map((m) => (
+            <article class:list={['ms-card', `ms-card-${m}`]}>
+              <header><span class="ms-tag">{MILESTONES[m].window}</span><h3>{MILESTONES[m].label}</h3></header>
+              <p>{MILESTONES[m].theme}</p>
+            </article>
+          ))}
         </div>
+        <p class="ms-note">
+          Reconciled against the repository on {ROADMAP_LAST_REVIEWED}. Horizons replaced
+          dated milestones after the dated ones went stale: in October 2026 this page was
+          still advertising a May milestone as upcoming, with shipped work inside it.
+        </p>
       </section>
 
       <section class="roadmap-how">
@@ -80,8 +75,10 @@ const lastShipped = shipped[shipped.length - 1] ?? new Date().toISOString().slic
             <strong>Effort</strong> XS &lt;1h · S &lt;1d · M 1–3d · L 1w · XL multi-week. Best-guess ranges.
           </li>
           <li>
-            <strong>Milestones</strong> M1–M4 are 4–6 week windows. Items can re-slot if measurement (Web Vitals,
-            user reports) changes priority. We move things to M2 cheerfully, not in shame.
+            <strong>Horizons</strong> are <em>now</em> (in flight, or waiting on one named decision or
+            credential), <em>next</em> (committed, not started) and <em>later</em> (captured, no
+            commitment). They are not dates: the previous milestones were months, and months on a
+            roadmap go stale whether or not the work does.
           </li>
           <li>
             <strong>Content vs platform.</strong> This page covers <em>platform</em> items (perf, growth, infra,
@@ -206,6 +203,12 @@ const lastShipped = shipped[shipped.length - 1] ?? new Date().toISOString().slic
     font-family: 'JetBrains Mono', monospace;
   }
 
+  .ms-note {
+    margin: 0.75rem 0 0;
+    font-size: 0.82rem;
+    color: var(--text-muted, #8b949e);
+    max-width: 62ch;
+  }
   .roadmap-milestones-overview {
     margin-top: 3rem;
   }
@@ -252,10 +255,11 @@ const lastShipped = shipped[shipped.length - 1] ?? new Date().toISOString().slic
     padding: 2px 6px;
     border-radius: 3px;
   }
-  .ms-card-shipped  .ms-tag { background: rgba(46,204,113,0.15);  color: var(--accent-green, #2ecc71); }
-  .ms-card-next     .ms-tag { background: rgba(243,156,18,0.15);  color: var(--accent-amber, #f39c12); }
-  .ms-card-planning .ms-tag { background: rgba(88,166,255,0.15);  color: var(--accent-blue,  #58a6ff); }
-  .ms-card-horizon  .ms-tag { background: rgba(163,113,247,0.15); color: var(--accent-purple,#a371f7); }
+  /* One class per horizon id, so the card colours follow MILESTONE_ORDER. */
+  .ms-card-done  .ms-tag { background: rgba(46,204,113,0.15);  color: var(--accent-green, #2ecc71); }
+  .ms-card-now   .ms-tag { background: rgba(243,156,18,0.15);  color: var(--accent-amber, #f39c12); }
+  .ms-card-next  .ms-tag { background: rgba(88,166,255,0.15);  color: var(--accent-blue,  #58a6ff); }
+  .ms-card-later .ms-tag { background: rgba(163,113,247,0.15); color: var(--accent-purple,#a371f7); }
 
   .roadmap-how {
     margin-top: 3rem;

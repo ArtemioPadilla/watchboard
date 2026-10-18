@@ -4,17 +4,17 @@ import {
   AREA_META,
   STATUS_META,
   MILESTONES,
+  MILESTONE_ORDER,
   counts as countsFn,
   type RoadmapItem,
   type RoadmapArea,
   type RoadmapStatus,
-  type RoadmapMilestone,
 } from '../../data/roadmap-items';
 
 type View = 'kanban' | 'timeline';
 
 const STATUS_ORDER: RoadmapStatus[] = ['shipped', 'in-progress', 'planned', 'idea'];
-const MILESTONE_ORDER: RoadmapMilestone[] = ['M1', 'M2', 'M3', 'M4', 'future'];
+// Order comes from the data file so the board and the generated markdown agree.
 
 export default function RoadmapBoard() {
   const [view, setView] = useState<View>('kanban');
