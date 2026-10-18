@@ -288,6 +288,25 @@ function buildCardMarkup(config: TrackerConfig, event: FlatEvent): SatoriNode {
 }
 
 // ── Static paths ──
+/**
+ * Per-event OG images are the build: 15,583 of them against 134 tracker cards
+ * and 18,293 HTML pages, at roughly 95 ms each — about 25 of the ~31 minutes a
+ * full build takes. That is why no pull request has ever built this site.
+ *
+ * `OG_EVENT_LIMIT` caps how many each tracker contributes, so a build gate can
+ * exercise this endpoint — its getStaticPaths, its render, its fonts, its
+ * sharp calls — without paying for every event. Unset means every event, which
+ * is what the deploy and the nightly use. A sampled build proves the code
+ * compiles and renders; it does not prove that event number 9,000 has usable
+ * data, and the nightly's full build still does.
+ */
+const OG_EVENT_LIMIT = (() => {
+  const raw = process.env.OG_EVENT_LIMIT;
+  if (!raw) return Infinity;
+  const n = Number(raw);
+  return Number.isFinite(n) && n >= 0 ? n : Infinity;
+})();
+
 export const getStaticPaths: GetStaticPaths = () => {
   const trackers = loadAllTrackers();
   const paths: { params: { tracker: string; eventSlug: string }; props: { config: TrackerConfig; event: FlatEvent } }[] = [];
@@ -300,7 +319,7 @@ export const getStaticPaths: GetStaticPaths = () => {
       continue;
     }
     const flatEvents = flattenTimelineEvents(data.timeline);
-    for (const ev of flatEvents) {
+    for (const ev of flatEvents.slice(0, OG_EVENT_LIMIT)) {
       paths.push({
         params: { tracker: t.slug, eventSlug: eventToSlug(ev.resolvedDate, ev.id) },
         props: { config: t, event: ev },

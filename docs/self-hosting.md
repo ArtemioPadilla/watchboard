@@ -100,6 +100,7 @@ The table is generated from the source by `scripts/list-env-vars.ts`
 | `META_IG_USER_ID` | CI scripts | `scripts/check-video-destinations.ts`, `scripts/lib/meta-publish.ts` |
 | `META_PAGE_ACCESS_TOKEN` | CI scripts | `scripts/check-video-destinations.ts`, `scripts/lib/meta-publish.ts` |
 | `META_VIDEO_URL` | CI scripts | `scripts/lib/meta-publish.ts` |
+| `OG_EVENT_LIMIT` | site build | `src/pages/og/[tracker]/[eventSlug].png.ts` |
 | `OPENAI_API_KEY` | CI scripts | `scripts/backfill.ts`, `scripts/update-data.ts` |
 | `OPENAI_MODEL` | CI scripts | `scripts/backfill-osint.ts`, `scripts/backfill.ts`, `scripts/update-data.ts` |
 | `PUBLIC_POSTHOG_HOST` | site build | `src/layouts/BaseLayout.astro` |

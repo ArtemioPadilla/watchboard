@@ -1,0 +1,90 @@
+name: Build Check
+
+# No pull request has ever built this site. Playwright runs against
+# `npm run dev`, vitest does not build, and the type check does not emit — so
+# the first real build of a change happened in the deploy workflow, after the
+# merge, where a failure stops the site updating instead of stopping the merge.
+#
+# The reason it never existed is cost: a full build is 17-32 minutes on CI, and
+# almost all of that is the 15,583 per-event OG images at ~95 ms each. This job
+# caps those at two per tracker with OG_EVENT_LIMIT, which still exercises the
+# endpoint — its getStaticPaths, its render, its fonts, its sharp calls — while
+# cutting the bulk of the time.
+#
+# What it proves: every page, layout and endpoint compiles and renders, the
+# postbuild steps run, and the CSP hashes are produced. What it does not prove:
+# that event number 9,000 has usable data. The nightly's full build still gates
+# that before any data is committed, and the deploy builds everything.
+#
+# `trackers/**` is deliberately not a trigger: the bots push data straight to
+# main rather than through pull requests, and the nightly already builds the
+# data it writes.
+
+on:
+  pull_request:
+    paths:
+      - 'src/**'
+      - 'astro.config.mjs'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'scripts/csp-hashes.ts'
+      - 'scripts/generate-api.ts'
+  workflow_dispatch:
+
+concurrency:
+  group: build-check-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+
+      - name: Build with a sampled OG endpoint
+        env:
+          OG_EVENT_LIMIT: '2'
+        run: npm run build
+
+      # Verify the artefact, not the exit code — the house rule. A build can
+      # exit 0 having produced a fraction of the site if getStaticPaths quietly
+      # returns nothing.
+      - name: Check the build produced a site
+        run: |
+          PAGES=$(find dist -name 'index.html' | wc -l | tr -d ' ')
+          OG=$(find dist/og -name '*.png' 2>/dev/null | wc -l | tr -d ' ')
+          echo "pages=$PAGES og=$OG"
+          echo "- Build check: ${PAGES} pages, ${OG} OG images (OG_EVENT_LIMIT=2)" >> "$GITHUB_STEP_SUMMARY"
+          if [ "$PAGES" -lt 1000 ]; then
+            echo "::error::only ${PAGES} pages were built — the build exited 0 but produced almost nothing"
+            exit 1
+          fi
+          if [ ! -s dist/index.html ]; then
+            echo "::error::dist/index.html is missing or empty"
+            exit 1
+          fi
+
+      # The postbuild step that replaces 'unsafe-inline' with per-page hashes is
+      # exactly the kind of thing that fails silently: the site still renders,
+      # the policy just stops being enforced.
+      - name: Check the CSP hashes were applied
+        run: |
+          if grep -q "script-src[^;]*'unsafe-inline'" dist/index.html; then
+            echo "::error::script-src still carries 'unsafe-inline' — csp-hashes.ts did not run"
+            exit 1
+          fi
+          HASHES=$(grep -o 'sha256-' dist/index.html | wc -l | tr -d ' ')
+          echo "- CSP: ${HASHES} inline-script hashes on the homepage" >> "$GITHUB_STEP_SUMMARY"
+          if [ "$HASHES" -lt 1 ]; then
+            echo "::error::no script hashes on the homepage"
+            exit 1
+          fi
