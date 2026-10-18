@@ -53,6 +53,10 @@ It checks `tsconfig.check.json`, which is the root config minus `video/` — a
 separate package whose Remotion deps `make video-prep` installs and the root
 `npm ci` does not. Including it made the same commit report 56 errors locally
 and 64 in CI, and a baseline only ratchets if the answer is the same everywhere.
+For the same reason the script runs `astro sync` first: the ambient types behind
+`src/env.d.ts` (the global `JSX` namespace among them) live in the gitignored
+`.astro/types.d.ts`, so without it a fresh clone or a CI runner gets "Cannot find
+namespace 'JSX'" in files that are fine. `--no-sync` skips it for a quick re-run.
 
 Fixed one? `npm run check-types -- --update` rewrites the baseline; the run
 tells you how many entries no longer occur.

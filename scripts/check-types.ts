@@ -21,6 +21,23 @@ import {
 const BASELINE_PATH = 'types-baseline.json';
 const update = process.argv.includes('--update');
 
+// `src/env.d.ts` references astro/client, and the ambient types that come with
+// it (the global JSX namespace among them) live in `.astro/types.d.ts` — which
+// is generated, gitignored, and therefore present on a machine that has run a
+// build and absent on a fresh clone or a CI runner. Without it tsc reports
+// "Cannot find namespace 'JSX'" in files that are perfectly fine, and the
+// inferred types in some messages change shape, so the same commit produced a
+// different error set locally and in CI. `astro sync` is the supported way to
+// generate it; ~4 s. `--no-sync` skips it for a quick local re-run.
+if (!process.argv.includes('--no-sync')) {
+  const sync = spawnSync('npx', ['astro', 'sync'], { encoding: 'utf8' });
+  if (sync.status !== 0) {
+    console.error('[check-types] `astro sync` failed — .astro/types.d.ts would be missing and the result would not be comparable:');
+    console.error(`${sync.stdout ?? ''}${sync.stderr ?? ''}`.trim().slice(0, 2000));
+    process.exit(1);
+  }
+}
+
 // tsconfig.check.json, not the root config: it excludes video/, a separate
 // package whose deps the root `npm ci` does not install. See that file.
 const tsc = spawnSync('npx', ['tsc', '-p', 'tsconfig.check.json', '--noEmit'], { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });

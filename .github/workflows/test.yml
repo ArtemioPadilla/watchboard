@@ -45,5 +45,10 @@ jobs:
       # shipping a gate; starting red would mean the check gets ignored. So it
       # is a ratchet: types-baseline.json records what exists and this fails on
       # anything new. Signatures drop line numbers, so moved code is not new.
+      #
+      # The script runs `astro sync` first. The ambient types behind src/env.d.ts
+      # live in the gitignored .astro/types.d.ts, so a runner without it reports
+      # "Cannot find namespace 'JSX'" in files that are fine — which is how the
+      # first two CI runs of this gate disagreed with a baseline built locally.
       - name: No new type errors (ratchet against types-baseline.json)
         run: npm run check-types
