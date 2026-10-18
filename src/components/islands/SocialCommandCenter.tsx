@@ -1,4 +1,8 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
+// React 19's types removed the global `JSX` namespace; `JSX.Element` below
+// resolved only on machines where some other dependency happened to declare
+// it, which is why the type gate saw this error in CI and not locally.
+import type { JSX } from 'react';
 import { t } from '../../i18n/translations';
 import type { Locale, TranslationKey } from '../../i18n/translations';
 import { useLocale } from '../../i18n/useLocale';

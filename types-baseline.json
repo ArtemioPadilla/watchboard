@@ -41,31 +41,31 @@
     {
       "file": "scripts/backfill.ts",
       "code": "TS2339",
-      "message": "Property 'omit' does not exist on type 'ZodEffects<ZodObject<{ id: ZodString; from: ZodTuple<[ZodNumber, ZodNumber], null>; to: ZodTuple<[ZodNumber, ZodNumber], null>; ... 13 more ...; lastUpdated: ZodOptional<...>; }, \"strip\", ZodTypeAny, { ...; }, { ...; }>, { ...; }, { ...; }>'.",
+      "message": "Property 'omit' does not exist on type 'ZodEffects<ZodObject<{…}, \"strip\", ZodTypeAny, {…}, {…}>, {…}, {…}>'.",
       "count": 1
     },
     {
       "file": "scripts/backfill.ts",
       "code": "TS2345",
-      "message": "Argument of type 'unknown[]' is not assignable to parameter of type '{ id: string; }[]'.",
+      "message": "Argument of type 'unknown[]' is not assignable to parameter of type '{…}[]'.",
       "count": 1
     },
     {
       "file": "scripts/backfill.ts",
       "code": "TS2345",
-      "message": "Argument of type 'ZodEffects<ZodObject<{ id: ZodString; from: ZodTuple<[ZodNumber, ZodNumber], null>; to: ZodTuple<[ZodNumber, ZodNumber], null>; ... 13 more ...; lastUpdated: ZodOptional<...>; }, \"strip\", ZodTypeAny, { ...; }, { ...; }>, { ...; }, { ...; }>' is not assignable to parameter of type 'ZodObject<ZodRawShape, UnknownKeysParam, ZodTypeAny, { [x: string]: any; }, { [x: string]: any; }>'.",
+      "message": "Argument of type 'ZodEffects<ZodObject<{…}, \"strip\", ZodTypeAny, {…}, {…}>, {…}, {…}>' is not assignable to parameter of type 'ZodObject<ZodRawShape, UnknownKeysParam, ZodTypeAny, {…}, {…}>'.",
       "count": 1
     },
     {
       "file": "scripts/generate-header-image.ts",
       "code": "TS2345",
-      "message": "Argument of type '{ type: string; props: { style: { width: number; height: number; display: string; flexDirection: string; alignItems: string; justifyContent: string; backgroundColor: string; fontFamily: string; color: string; position: string; overflow: string; }; children: ({ ...; } | ... 5 more ... | { ...; })[]; }; }' is not assignable to parameter of type 'ReactNode'.",
+      "message": "Argument of type '{…}' is not assignable to parameter of type 'ReactNode'.",
       "count": 1
     },
     {
       "file": "scripts/generate-profile-image.ts",
       "code": "TS2345",
-      "message": "Argument of type '{ type: string; props: { style: { width: number; height: number; display: string; flexDirection: string; alignItems: string; justifyContent: string; backgroundColor: string; position: string; overflow: string; }; children: ({ ...; } | ... 5 more ... | { ...; })[]; }; }' is not assignable to parameter of type 'ReactNode'.",
+      "message": "Argument of type '{…}' is not assignable to parameter of type 'ReactNode'.",
       "count": 1
     },
     {
@@ -83,13 +83,13 @@
     {
       "file": "scripts/generate-social-preview.ts",
       "code": "TS2345",
-      "message": "Argument of type '{ type: string; props: { style: { width: number; height: number; display: string; flexDirection: string; alignItems: string; justifyContent: string; backgroundColor: string; fontFamily: string; color: string; position: string; }; children: ({ ...; } | ... 3 more ... | { ...; })[]; }; }' is not assignable to parameter of type 'ReactNode'.",
+      "message": "Argument of type '{…}' is not assignable to parameter of type 'ReactNode'.",
       "count": 1
     },
     {
       "file": "scripts/generate-stat-card.ts",
       "code": "TS2345",
-      "message": "Argument of type '{ type: string; props: { style: { width: number; height: number; display: string; flexDirection: string; alignItems: string; justifyContent: string; background: string; fontFamily: string; color: string; position: string; gap: number; }; children: ({ ...; } | ... 4 more ... | { ...; })[]; }; }' is not assignable to parameter of type 'ReactNode'.",
+      "message": "Argument of type '{…}' is not assignable to parameter of type 'ReactNode'.",
       "count": 1
     },
     {
@@ -107,25 +107,25 @@
     {
       "file": "scripts/update-data.ts",
       "code": "TS2339",
-      "message": "Property 'omit' does not exist on type 'ZodEffects<ZodObject<{ id: ZodString; from: ZodTuple<[ZodNumber, ZodNumber], null>; to: ZodTuple<[ZodNumber, ZodNumber], null>; ... 13 more ...; lastUpdated: ZodOptional<...>; }, \"strip\", ZodTypeAny, { ...; }, { ...; }>, { ...; }, { ...; }>'.",
+      "message": "Property 'omit' does not exist on type 'ZodEffects<ZodObject<{…}, \"strip\", ZodTypeAny, {…}, {…}>, {…}, {…}>'.",
       "count": 1
     },
     {
       "file": "scripts/update-data.ts",
       "code": "TS2345",
-      "message": "Argument of type 'unknown' is not assignable to parameter of type '{ from: [number, number]; to: [number, number]; }'.",
+      "message": "Argument of type 'unknown' is not assignable to parameter of type '{…}'.",
       "count": 1
     },
     {
       "file": "src/components/islands/CesiumGlobe/CesiumGlobe.tsx",
       "code": "TS2322",
-      "message": "Type '{ vehicle: string; crew: { name: string; role: string; }[]; launchTime: string; splashdownTime: string; phases: { label: string; id: string; start: string; end: string; }[]; waypoints: { x: number; y: number; ... 4 more ...; vz: number; }[]; } | null | undefined' is not assignable to type '{ vehicle: string; phases: { label: string; startTime: string; endTime: string; }[]; launchTime: string; } | null | undefined'.",
+      "message": "Type '{…} | null | undefined' is not assignable to type '{…} | null | undefined'.",
       "count": 2
     },
     {
       "file": "src/components/islands/CesiumGlobe/useGeoLayers.ts",
       "code": "TS2322",
-      "message": "Type '{ text: string | null; font: string; fillColor: Color; outlineColor: Color; outlineWidth: number; style: LabelStyle.FILL_AND_OUTLINE; verticalOrigin: VerticalOrigin.BOTTOM; pixelOffset: Cartesian2; distanceDisplayCondition: DistanceDisplayCondition; }' is not assignable to type 'LabelGraphics | ConstructorOptions | undefined'.",
+      "message": "Type '{…}' is not assignable to type 'LabelGraphics | ConstructorOptions | undefined'.",
       "count": 1
     },
     {
@@ -149,7 +149,7 @@
     {
       "file": "src/lib/aggregate-data.test.ts",
       "code": "TS2339",
-      "message": "Property 'indicator' does not exist on type '{ label: string; value: string; id: string; color: string; source: string; direction: \"down\" | \"up\"; change: string; sparkData: number[]; lastUpdated?: string | undefined; }'.",
+      "message": "Property 'indicator' does not exist on type '{…}'.",
       "count": 1
     },
     {

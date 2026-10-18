@@ -28,9 +28,34 @@ export interface TypeError {
   message: string;
 }
 
+/**
+ * Collapse inline object types in a message to `{…}`.
+ *
+ * tsc prints the members of an anonymous type in the order it happened to
+ * encounter them, and that order is not stable across machines: the same error
+ * in src/lib/aggregate-data.test.ts came out as `source: string; direction:
+ * ...; change: string` locally and `source: string; change: string; direction:
+ * ...` in CI, so the baseline failed to match its own entry. The part that
+ * identifies the error — the file, the code, the property name — survives the
+ * collapse; the part that shuffles does not.
+ */
+export function normalizeMessage(message: string): string {
+  // Collapse to a brace-free sentinel first: replacing with `{…}` directly
+  // would reintroduce the braces and stop the next pass from reaching the
+  // enclosing type.
+  const SENTINEL = '\u0000';
+  let out = message;
+  for (let i = 0; i < 16; i++) {
+    const next = out.replace(/\{[^{}]*\}/g, SENTINEL);
+    if (next === out) break;
+    out = next;
+  }
+  return out.replace(new RegExp(`${SENTINEL}+`, 'g'), '{…}');
+}
+
 /** `file|TSxxxx|message` — no line or column, so moved code is not a new error. */
 export function signatureOf(e: Pick<TypeError, 'file' | 'code' | 'message'>): string {
-  return `${e.file}|${e.code}|${e.message}`;
+  return `${e.file}|${e.code}|${normalizeMessage(e.message)}`;
 }
 
 const ERROR_LINE = /^(?<file>[^(]+)\((?<line>\d+),(?<col>\d+)\): error (?<code>TS\d+): (?<message>.*)$/;
@@ -84,7 +109,7 @@ export function buildBaseline(errors: readonly TypeError[]): Baseline {
     const sig = signatureOf(e);
     const existing = counts.get(sig);
     if (existing) existing.count += 1;
-    else counts.set(sig, { file: e.file, code: e.code, message: e.message, count: 1 });
+    else counts.set(sig, { file: e.file, code: e.code, message: normalizeMessage(e.message), count: 1 });
   }
   const entries = [...counts.values()].sort(
     (a, b) => a.file.localeCompare(b.file) || a.code.localeCompare(b.code) || a.message.localeCompare(b.message),

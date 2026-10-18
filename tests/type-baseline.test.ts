@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import {
   buildBaseline,
   compareToBaseline,
+  normalizeMessage,
   parseTscOutput,
   signatureOf,
   type Baseline,
@@ -119,5 +120,42 @@ describe('the committed baseline', () => {
     // row nobody can ever clear.
     const { existsSync } = await import('node:fs');
     for (const e of b.entries) expect(existsSync(e.file), `${e.file} is in the baseline but does not exist`).toBe(true);
+  });
+});
+
+// tsc prints the members of an anonymous type in whatever order it met them,
+// and that order is not stable across machines: this exact error came out of
+// CI with `change` and `direction` swapped relative to the local run, so the
+// baseline failed to match its own entry and the gate reported one error
+// "fixed" and one "new" for the same line of code.
+describe('normalizeMessage', () => {
+  const LOCAL =
+    "Property 'indicator' does not exist on type '{ label: string; source: string; direction: \"down\" | \"up\"; change: string; }'.";
+  const CI =
+    "Property 'indicator' does not exist on type '{ label: string; source: string; change: string; direction: \"down\" | \"up\"; }'.";
+
+  it('makes the same error match whatever order tsc printed its members in', () => {
+    expect(normalizeMessage(LOCAL)).toBe(normalizeMessage(CI));
+    const at = (message: string) => ({ file: 'a.ts', code: 'TS2339', message });
+    expect(signatureOf(at(LOCAL))).toBe(signatureOf(at(CI)));
+  });
+
+  it('keeps what identifies the error', () => {
+    expect(normalizeMessage(LOCAL)).toContain("Property 'indicator' does not exist");
+    expect(normalizeMessage(LOCAL)).toContain('{…}');
+  });
+
+  it('collapses nested object types too', () => {
+    expect(normalizeMessage("type '{ a: { b: string; }; }'")).toBe("type '{…}'");
+  });
+
+  it('leaves a message with no object type alone', () => {
+    const m = "Cannot find module './types.js' or its corresponding type declarations.";
+    expect(normalizeMessage(m)).toBe(m);
+  });
+
+  it('is what the baseline stores, so the file reads as what is compared', () => {
+    const b = buildBaseline([{ file: 'a.ts', line: 1, col: 1, code: 'TS2339', message: LOCAL }]);
+    expect(b.entries[0].message).toBe(normalizeMessage(LOCAL));
   });
 });
