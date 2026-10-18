@@ -6,7 +6,7 @@
  * with "JavaScript heap out of memory" on a project this size — so nothing in
  * CI has ever looked at the types. CLAUDE.md said "Type-check + build" anyway.
  *
- * There are 57 pre-existing errors, most of them in `scripts/update-data.ts`
+ * There are 56 pre-existing errors, most of them in `scripts/update-data.ts`
  * (the legacy updater) and `worker/web-push.ts` (a `Uint8Array<ArrayBufferLike>`
  * vs `BufferSource` lib variance). Fixing all 57 before gating anything would
  * mean the gate never ships; starting the check red means it gets switched off,

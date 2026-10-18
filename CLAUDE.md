@@ -41,13 +41,18 @@ build. `npm run check` (`astro check`) is not usable here either: it dies with
 `FATAL ERROR: ... JavaScript heap out of memory` on a project of this size.
 
 `npm run check-types` runs `tsc --noEmit` and compares the result against
-`types-baseline.json` — 57 errors exist today, most in the legacy
+`types-baseline.json` — 56 errors exist today, most in the legacy
 `scripts/update-data.ts` and a `Uint8Array<ArrayBufferLike>` vs `BufferSource`
 lib variance in `worker/web-push.ts`. It fails on anything **not** in that file
 and runs in the Tests workflow, so the count can shrink and never grow.
 Signatures are `file|TScode|message` with the line and column dropped: an error
 that moves from line 42 to 87 is the same error, and a baseline that churns on
 every edit is one nobody keeps current.
+
+It checks `tsconfig.check.json`, which is the root config minus `video/` — a
+separate package whose Remotion deps `make video-prep` installs and the root
+`npm ci` does not. Including it made the same commit report 56 errors locally
+and 64 in CI, and a baseline only ratchets if the answer is the same everywhere.
 
 Fixed one? `npm run check-types -- --update` rewrites the baseline; the run
 tells you how many entries no longer occur.

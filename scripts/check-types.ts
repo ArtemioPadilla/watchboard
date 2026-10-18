@@ -21,7 +21,9 @@ import {
 const BASELINE_PATH = 'types-baseline.json';
 const update = process.argv.includes('--update');
 
-const tsc = spawnSync('npx', ['tsc', '--noEmit'], { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
+// tsconfig.check.json, not the root config: it excludes video/, a separate
+// package whose deps the root `npm ci` does not install. See that file.
+const tsc = spawnSync('npx', ['tsc', '-p', 'tsconfig.check.json', '--noEmit'], { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
 const output = `${tsc.stdout ?? ''}${tsc.stderr ?? ''}`;
 const errors = parseTscOutput(output);
 

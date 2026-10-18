@@ -40,7 +40,7 @@ jobs:
       # heap out of memory" on 18k pages. So nothing in CI had ever looked at
       # the types, while CLAUDE.md claimed "Type-check + build".
       #
-      # 57 errors exist today, mostly in the legacy scripts/update-data.ts and
+      # 56 errors exist today, mostly in the legacy scripts/update-data.ts and
       # a lib variance in worker/web-push.ts. Gating on zero would mean never
       # shipping a gate; starting red would mean the check gets ignored. So it
       # is a ratchet: types-baseline.json records what exists and this fails on

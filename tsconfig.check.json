@@ -1,0 +1,15 @@
+{
+  // The project `npm run check-types` checks. It is the root config minus
+  // `video/`, which is a separate npm package with its own tsconfig and its
+  // own node_modules — installed by `make video-prep`, never by the root
+  // `npm ci`. The root config has no `include`, so it pulls `video/` in; on a
+  // machine with Remotion installed that type-checks, and in CI every import
+  // of `remotion` is "Cannot find module". The first CI run of this gate said
+  // 64 errors against a 57-error baseline for exactly that reason.
+  //
+  // A baseline is only a ratchet if the same input gives the same answer
+  // everywhere, so the checked project has to be one that CI actually installs.
+  // `video/` is type-checked by `video/tsconfig.json` where its deps exist.
+  "extends": "./tsconfig.json",
+  "exclude": ["functions", "video", "dist", "node_modules"]
+}
