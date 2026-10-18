@@ -304,15 +304,42 @@ jobs:
             --jq '.[] | select(.createdAt < "'"$CUTOFF"'") | select([.labels[].name] | index("auto-approve") | not) | .number' \
             > /tmp/stale-scout.txt || true
 
-          COUNT=$(grep -c . /tmp/stale-scout.txt || echo 0)
+          # `$(grep -c . f || echo 0)` captures BOTH outputs when the file is
+          # empty — grep prints its own 0, exits 1, and the fallback appends a
+          # second one, so COUNT becomes "0\n0" and every message using it
+          # reads "Found 0 0 stale proposals". Assign on failure instead.
+          COUNT=$(grep -c . /tmp/stale-scout.txt) || COUNT=0
           echo "Found ${COUNT} stale proposals"
 
+          # `|| true` per issue so one failure does not abandon the rest, but
+          # the failures are counted and the step ends red. Without the count
+          # a permanent failure — a token without issues:write, a repo with
+          # issues disabled — would print "closing #N" for every proposal,
+          # close none of them, and stay green week after week. That is the
+          # defect class this repo keeps producing, and it would hide in the
+          # one step whose whole job is to keep the backlog honest.
+          FAILED=0
+          CLOSED=0
           while read -r num; do
             [ -z "$num" ] && continue
             echo "  closing #$num"
-            gh issue comment "$num" --body-file /tmp/stale-note.md || true
-            gh issue close "$num" --reason "not planned" || true
+            # The comment is the explanation, not the action: if only it fails
+            # the issue still closes, and the note is recoverable by hand.
+            gh issue comment "$num" --body-file /tmp/stale-note.md \
+              || echo "::warning::could not comment on #${num} before closing it"
+            if gh issue close "$num" --reason "not planned"; then
+              CLOSED=$((CLOSED + 1))
+            else
+              echo "::error::failed to close #${num}"
+              FAILED=$((FAILED + 1))
+            fi
           done < /tmp/stale-scout.txt
+
+          echo "Closed ${CLOSED} of ${COUNT} stale proposals" >> "$GITHUB_STEP_SUMMARY"
+          if [ "$FAILED" -gt 0 ]; then
+            echo "::error::${FAILED} stale proposal(s) selected for closure are still open"
+            exit 1
+          fi
 
   # ── Prune: detect dormant trackers ──
   prune:

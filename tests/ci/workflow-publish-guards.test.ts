@@ -235,3 +235,39 @@ describe('claude-code-action workflows declare id-token: write', () => {
     });
   }
 });
+
+// The 60-day scout closure is the only thing keeping the proposal backlog
+// bounded, and it had `|| true` on the close itself: a token without
+// issues:write would print "closing #N" for every proposal, close none, and
+// leave the job green week after week. Nobody would notice until the backlog
+// had grown back.
+describe('scout stale-proposal closure fails when it cannot close', () => {
+  const step = () => {
+    const src = wf('tracker-lifecycle.yml');
+    const start = src.indexOf('- name: Close stale scout proposals');
+    expect(start).toBeGreaterThan(0);
+    const end = src.indexOf('\n  prune:', start);
+    return src.slice(start, end === -1 ? undefined : end);
+  };
+
+  it('never swallows the outcome of `gh issue close`', () => {
+    expect(step()).not.toMatch(/gh issue close[^\n]*\|\|\s*true/);
+  });
+
+  it('counts failures and ends the step red', () => {
+    const s = step();
+    expect(s).toMatch(/FAILED=\$\(\(FAILED \+ 1\)\)/);
+    expect(s).toMatch(/if \[ "\$FAILED" -gt 0 \]/);
+    expect(s).toMatch(/exit 1/);
+  });
+
+  it('still tolerates a failed comment, which is explanation and not action', () => {
+    expect(step()).toMatch(/gh issue comment[\s\S]{0,120}::warning::/);
+  });
+
+  it('does not count an empty selection as "0 0"', () => {
+    // `COUNT=$(grep -c . f || echo 0)` captures grep's own 0 and the fallback.
+    expect(step()).not.toMatch(/COUNT=\$\(grep -c \. [^\n]*\|\| echo 0\)/);
+    expect(step()).toMatch(/COUNT=\$\(grep -c \. [^\n]*\) \|\| COUNT=0/);
+  });
+});
