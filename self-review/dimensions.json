@@ -21,7 +21,7 @@
       "enabled": true,
       "intervalDays": 14,
       "maxFindings": 4,
-      "why": "Two found in one day: CLAUDE.md calls `npm run build` 'Type-check + build' when it runs no type-check at all, and BaseLayout.astro's CSP comment claimed 'unsafe-inline' was still live months after the postbuild step removed it — which is probably why #241 was filed for work already shipped.",
+      "why": "Two found in one day: CLAUDE.md called `npm run build` 'Type-check + build' when it ran no type check at all (corrected in #337, which also added the gate), and BaseLayout.astro's CSP comment claimed 'unsafe-inline' was still live months after the postbuild step removed it — which is probably why #241 was filed for work already shipped. Both were statements a reader would have believed.",
       "prompt": "Find statements in CLAUDE.md, README.md and docs/**/*.md that the code contradicts. Check claims about what commands do, which files exist, what a workflow runs, what a default is, and what is or is not enabled. Verify each claim against the actual source before reporting it. Quote the doc line and the code that disagrees. Do not report wording you merely dislike — only statements that are false."
     },
     {
@@ -59,6 +59,15 @@
       "maxFindings": 6,
       "why": "#238 asserted the germany tracker had 'zero coverage' of an event it had carried since July, and #237 listed six trackers as 'verified uncovered' that all exist with 35-98 events each. Acting on either without checking would have burned roughly sixteen full seed runs to add almost nothing.",
       "prompt": "Take the open issues in this repo and check whether their factual premises still hold. For each issue that asserts something concrete about the repo — a file is missing, a tracker lacks coverage, a feature is unimplemented, a bug reproduces — verify it against the current code and data. Report only issues whose premise is now FALSE, with the evidence that disproves it. Do not report issues that are merely old, or ones that are opinions or decisions rather than factual claims."
+    },
+    {
+      "id": "roadmap-drift",
+      "title": "A roadmap that no longer describes the project",
+      "enabled": true,
+      "intervalDays": 30,
+      "maxFindings": 4,
+      "why": "On 2026-10-18 the canonical roadmap still stopped at PR #135 while 204 PRs had merged, and 21 of its 39 items were wrong — cross-tracker search, the briefing pages, shareable deep links, Zod-in-CI, failure alerting, the CSP and the country trackers were all listed as planned months after shipping, while the public page advertised 'M2 — May 2026 · next' in October. The generated mirror and the new tests catch structure; only reading the repo catches an item whose status is simply false.",
+      "prompt": "Compare src/data/roadmap-items.ts against this repository. For every item with status 'planned' or 'idea', check whether the thing already exists — a page under src/pages, a script, a workflow, a library module, a documented command — and report it if it does, citing the file that proves it. For every 'shipped' item, check that the artefact it claims still exists. Then look for substantial shipped work with no roadmap entry at all, using merged PR titles since ROADMAP_LAST_REVIEWED. Be exact about partial work: an item that shipped for three islands out of twenty is not shipped, and the finding should say which part. Do not report wording or priorities you merely disagree with."
     }
   ]
 }
