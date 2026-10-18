@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "lastPruned": "2026-10-18T06:15:24.119Z",
+  "lastPruned": "2026-10-18T11:13:34.257Z",
   "entries": [
     {
       "timestamp": "2026-10-05T01:05:33.446Z",
@@ -83653,6 +83653,692 @@
       "decision": "discard",
       "reason": "matched colombia on a single token — no substance (score 0.32)",
       "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T11:13:34.197Z",
+      "candidate": {
+        "title": "Pope Leo XIV thanks wellwishers in first event after cancer surgery",
+        "url": "https://www.bbc.co.uk/news/videos/cq70px6pjkg5o?at_medium=RSS&at_campaign=rss",
+        "source": "bbc",
+        "timestamp": "2026-10-18T11:13:31.797Z",
+        "matchedTracker": "pope-leo-health-crisis",
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "update",
+      "reason": "light-scan posted directly + queued for heavy scan (score 0.95)",
+      "confidence": 0.95,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T11:13:34.198Z",
+      "candidate": {
+        "title": "Parisians wake up to protest damage and looted shops",
+        "url": "https://www.bbc.co.uk/news/videos/cmn5vey19q3go?at_medium=RSS&at_campaign=rss",
+        "source": "bbc",
+        "timestamp": "2026-10-18T11:13:31.797Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched cdmx on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T11:13:34.200Z",
+      "candidate": {
+        "title": "French police arrest 855 people in Paris as protests, violence erupt across country - CBS News",
+        "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTFBUbWhjSTZWLW05R2VDdVN6cFV2QTg4VE5rUVV4a2xyVDFla2p0QndEYUhaMDQ0OG81dUp3VHdZX0oyNlItR1VDYmZUYTdaRjZDYklXd0VMRlVucE9zYWMwVm4tcmtRYjhwbGJDNXA0RlNDeVBUZnpjT1FTcEdtWkE?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-18T11:13:31.869Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 48.85,
+          "lon": 2.35,
+          "place": "Paris",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched kenya-genz-protests on a single token — no substance (score 0.34)",
+      "confidence": 0.34041666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T11:13:34.202Z",
+      "candidate": {
+        "title": "Major fire breaks out in Alberta after deadly incident at Canadian military base - AP News",
+        "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxPRWZIOVJaUGpyUnFDcG1BTVZmOTRtZ2pvLTBjLVBDMU9fb3huN2x3Q1ZGbTBENURyc0JIdXRJQThHajNORTVlVjVnZjJrUV94VDlGaXJrZWRqQVBlWlBBRmJzVkhUem1NRzl5a05uTzJQWEdVLTNEckFlNFFBb1dmeTQwUmU0YkhFd1laTmI2ZUdtTGlLS1VZM3dPTi14ZVNxX2oxY0dzbw?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-18T11:13:31.869Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched crispr-gene-therapy on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T11:13:34.203Z",
+      "candidate": {
+        "title": "Trump faces bipartisan backlash over Russia sanctions waiver, causing top Republicans to break ranks - Fox Business",
+        "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxOSGJSRWFMRkZCVWlmd0cyeFJxOF9KSi04Ym5DR2FyazRyd0dFdzNuTFR6dGllVEpId2VXUVhkRkhqR3NuSHNsRWVRNXpTbHV4eUxzM19ueWxqeC1RY1N1WEtLVU4wUmF1UF9nQ0NVODBVT0JZcGt6U2Z3VlJMaHZ0Ynd4MzFKN3NfVkNxRWpQX3ZoR3JhVEdEakdGUHpDeWE3R2NuVHRpVGpEVjdtZ1QyUzUtUDQ0b0R1VFg5QjYtTkNEWVVSYXd6M3lnVndrQdIB0wFBVV95cUxNV3dxYndIVVVqendpTGs0V09hNlVRenA0QTV2X2FlSFdDSVhMbEtXQUFkLXZxYnRGTHJoTDlhN08ta1FrLVJ2VTZqZGVZUU9ZUFpQTm1IR1BpMUx6ckNlYnFqbUQwYVUtNGhXWEpzRHk4QWlzRnM1eGVBTVNXNnBNMGdtOFphQ2FfcVhwZUlselNVcEQ0WDRCTFB3MUVQbThDcHpKVllrdHloWWpvNEtRNG5oLTdKTGdSaFJhMTRkT253UUpsV2JCdmRKZG4tV1ZnX0Y4?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-18T11:13:31.869Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 61.5,
+          "lon": 105.3,
+          "place": "Russia",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched fox-presidency on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T11:13:34.205Z",
+      "candidate": {
+        "title": "2 dead, 11 injured after woman in truck drives through soccer game in Wichita, Kansas: Police - ABC News - Breaking News, Latest News and Videos",
+        "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxNY2Z5REF0TUxUeWU1SEZOR2JlMXhoLWU4aVVJVUhXVjdtT0ZETlVmakl4dnI4S3dFVFRJN2dOWnVkZS0wMS1nal9XUWdWemxERGlNVTRaOUxxbm5IWmlYTExVNHZzY05CTTdrWk5FRm45Y1JuLW1Md25EeVJDcHhZZ3d5Q19qNXRCZUZXU1pRejnSAZYBQVVfeXFMT1JmclNIVDJlck9PQUFXT3pEMnZnX0lXOUNzM0N1alJWUnZ2WHRraGlXVkwyNXVqdGt5U1BTUDRaMUxqWjNWY3B6QVpvSGRHMk5fcjNIcXRwcnlVcGUwQ2JXcnRnNVM3bnpYaXVrS08zZC1LeDg2Sk4wZi1qV0ZTcUo4aXlNX09Sa3BSbmdrSklrRmxzd0pR?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-18T11:13:31.869Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 39.01,
+          "lon": -98.48,
+          "place": "Kansas",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched world-cup-2026 on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T11:13:34.206Z",
+      "candidate": {
+        "title": "‘No Kings’ protesters spurn organizers' rules: ‘This is as partisan as you can get’ - Fox News",
+        "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxPTXVweUpYd2FCS05EanpxQm9vaWViM1pNbTZwS0JKaU5JWDFjblN6X0RNNU56VWZuUk1IcVRGMTljTWVvcWpvTFM5R3NTdlRXVERkam9ZNGd0aWd1VTNjX2d3bjhqcldEWEtsRVdzUWFvNzJ1TUFVUmR4R2YzNFZEQ19TS1lMSnctOHlHcmFUNnR3Ym5KaFBiNUVuSTlPTWgxNVR30gGoAUFVX3lxTFB3M2FyRTF5b1gxRVZET3IzYXBLeWZxQ2x0RUUyY19YRXJMMTU0RHVqdjNKcTNJaXVMU0dSdXdjRjluNzk1N1hVang5QkViVTBEd2c0YWtmdXlmVmhNM3NrZlR6V0FtZ2pJRlBRSm1WNWxUVHFtVEZSRlNXcDRrODJoSWpqVHYtcmtLdEFDSkVMTXJ3SE40amRDZHkwRHZhbUJuTzF0NE5iag?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-18T11:13:31.869Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched fox-presidency on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T11:13:34.207Z",
+      "candidate": {
+        "title": "DNA from chewed gum links elusive Washington state murder suspect to two cold case killings - CBS News",
+        "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxOUnJ6VFhRdWRwd3JDcGREWnFUOTdrSHFSSGE5dlpjTDdIM1RUQkp4eG16U2hKd2REU3hDbnJoT0pVbXJVUjZMd0puTFhBVjJabFZTcS13eHZrbGlJdXk0NWo4MEZwSVpoWkl5RHV1c25pMEVSeTZ4SEI4ZjlGZVN1Q1Y5T0psa0wwdFlwcjFiSzY2SndJQjVqWjRSQUJxTDFOSHp3Q2RtZFRKQ3NFSVRGYkI2ZEYxVk1VT3ZCMFBn?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-18T11:13:31.869Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 47.4,
+          "lon": -120.5,
+          "place": "Washington State",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched ayotzinapa on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T11:13:34.208Z",
+      "candidate": {
+        "title": "UK police rule out probe into Palestine Action post by PM adviser’s wife - Al Jazeera",
+        "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQQ1phN1pfRTVRRW9LRndtajV6X2RwOTBmQ2JWeGg4SHU3MUVuOEQ3a1FEU1U3aTNxejBQU2wwMFBjU3VjSkRLc1JwTlRLajRPdHZURjBKajl5WG9LemxJVzlocmZnakRoRWJuSXNVVHNjOWNKc1RlS3pLSWE4dmtZUnhmSm9CTkFzUFYyYkxlc2lvZjA3VXBHQjA3cVVCc2JQSWZzbVk5eHIwWm1EdjlXWEt5SdIBuAFBVV95cUxQeEs2R1diMjJYcVNfUlFaMGIzd2lFZkd6QjJJX1dqeHVvbDVUeG1VTXZGR2RXU25QRGFab1FaWXQxLUVSNFBYRjJvdU52b2ZQVU91cG45ZmwycnpLSGk2ZHJvZ0FmYWxJNEJ5NU9kbjRxenR3Ukk3RlJwNG1LbzcxcUdDbklZMV9mVWNCUzl1ZDVqLUYyTE1OLVZ3TVY3RTRaX05TM3J6aWxJSFNBSzktYkNsT3Y0OUlR?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-18T11:13:31.869Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 31.9,
+          "lon": 35.2,
+          "place": "Palestine",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched hungary-transition on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T11:13:34.210Z",
+      "candidate": {
+        "title": "Three men get 158 years each for murdering American and Australian surfers, dumping bodies in Mexican well - Fox News",
+        "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPdUVacFBUYmtWRkxOZk1VYkNJel9fbzhTR2pqY1JWUFo1cGdVcXI1T2FkLWh0bnMyWUw3YThDaF8zWl9wVEtjQ0ptM0JrWmkxcFQyMEJvV3AyU3V4c0FWN1BnRmgtSi1LRktEaEVjRV9fdWhjVVBEWnlHZFdJVVllTTB4ZDFFOG9vd0xENDhxUWJzRXNYTnRpNWxLb2xsMnJSUDlrYUlpTU9PanNGSno2TTJWcnJuZ9IBuwFBVV95cUxPOEY0TlhQZU51ZDVqdHk0ZldiTF9PRUpqV2xyY2R5dEU5S2w4NjJDNDJxd3pPLWdqY19iQm1FLTFWdFZYWDR0c0RBY09aYlJTZHI2ZnczM0t3dUIya1VZSHgwV1BLV05YQzQtaTRKUFVlZHJlempMZ0ZCY25XemdJTjBhRmdkd3pSX1Z3cmljbUhwbDNqbzN0b3NvT1pyRnExcGoxS1lXOWt2a1hZQ3k0WmJEYmxTSDVET2F3?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-18T11:13:31.869Z",
+        "matchedTracker": "mexico-us-conflict",
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.63)",
+      "confidence": 0.6333333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T11:13:34.212Z",
+      "candidate": {
+        "title": "Consumer apprehension grows as US retailers adopt AI-assisted pricing tools - AP News",
+        "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxOMUsyWkZsV3NKY3ZWODVla3BLWXFrRVA1aUdqd3BYOTlQTnAyT1hwcy1TamhzSndQYjc3UVZmNWFwQ0ZhU2JSTHp2OUhUVFQxYVU1VEVaWVM4VXVsZ3JPVjZfM3Nuc3M4X0RWR1o2aG91NEtfWnZFdTFRS0RxMmYwUEd1b3lUc2RMbF9vUUpYWTlHaVRRSTRUdkgxeFNyYVk?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-18T11:13:31.869Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T11:13:34.213Z",
+      "candidate": {
+        "title": "KFC Just Announced a Major Menu Change After Nearly 40 Years - Allrecipes",
+        "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE4yd0FyZWEtWWg4VTVDbWUwd2dZbExPUkZYR3U0eUxDVmFLb0FSWmo1UjZyR19PUThDV3hJeGFBUU5jWmkwSFZ1eDJYMURqNlpTRV84ci1DdFRxZVhJcTlIbmhKY05ZUWFOYWFvcnln?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-18T11:13:31.869Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched argentina on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T11:13:34.214Z",
+      "candidate": {
+        "title": "The Iran war has cost the average U.S. household the equivalent of almost $2,000, top economist says - Fortune",
+        "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNX3FaOUhvc3NETDNHNTJ1TS1STUVOT09LeGFtdFh0eG5IUG05blVqTHJnMjdVTk1tV3puRUYtcTZqLS1GQzBIX3psdnZSOG9aOVIxMGpNdGZsbnRYbVMxdjdEcFhxaWpMM0VweVlUSWJCRGx2TXZhd3JBcGZ0RjZuQ2NLNDhCUGZHWHBRVU9RTFg5Sm01Zzd3TzVxSjJCTTdEcE1xeXBaVUljY2RleHBv?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-18T11:13:31.869Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 31.32,
+          "lon": 48.67,
+          "place": "Iran",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched iran-conflict on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T11:13:34.216Z",
+      "candidate": {
+        "title": "China AI supply-chain IPOs hold firm despite valuation pullback, Citi says - Reuters",
+        "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxNcnFDdU1MSGd4Ylh4aktUWnlOM2V2RklNLXAxVm5QNThadUkzS2k1cWhoNnJpQkF3Nzk2U1c5ZlJlbUhGVFVpZTIxZEJYak8yVmtjVVhBdGs5NnVjVlowQnhRaWw1enZTVjBIVS1Wd2wwMkQtV2lYelR3MTFfVVlRRTBfMlBOUTlDYlI4UXdBZEFfcUFQcVNNNHVzOTR4bnUyanUtRE9nVkdnbTk4VHJvRWVxM2xjcXhjVUI4WVh2Y3Q2Q0Fw?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-18T11:13:31.869Z",
+        "matchedTracker": "hormuz-food-security-crisis",
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 35.9,
+          "lon": 104.2,
+          "place": "China",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.63)",
+      "confidence": 0.6333333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T11:13:34.217Z",
+      "candidate": {
+        "title": "Intel Nova Lake Reportedly Ditches The Expected Core Ultra 400 Name For Laptop H And U Chips, As All Five Families Adopt Core Ultra 4000 - Wccftech",
+        "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxNTHpmS3JRbEEzNTZzeFk1RXNWZTY0emtVd1NyLXRObkJhVzJoS2ZieW1JWVdpc3hqWXpudWdMVlFsLU9PUDBlTjZ6Rm50Mk5aTWtKOXBabHFnOWRwNkdNaGo4YTZmczVpWjB2LTV3OTduaHB6ZWpibGYxWFZtcXB1UHE4d9IBiAFBVV95cUxNU184Sjg0U3docDY2bE4yTjNCakx3RUtUai1NVjRwVjdNZWl2eGMtYmtpdEhVRmpzOUNtdTVCejZ5X1U2ck1OQmtfczZ2Q25hTVNyU1ppSkNyLUg5N3R2bl9GNkx2R1QxdnRLMnhNRl83T2VlVlAzcVV0WHdSd0Z4NjNKYXFNbWla?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-18T11:13:31.869Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched brazil on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T11:13:34.217Z",
+      "candidate": {
+        "title": "Mix your favourite duardin with Khazalite Holds Armies of Renown - Warhammer Community",
+        "url": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxOVmNrVXQ2Tm9pT3prSldsaVhlV1k0MDhPaHU0NUYwalFaT3EzVlpQV1MxbFdlaXZhUXRqUFVLUDNtUm5PV0RhQk5QbXZSbjBsWjFtclR2NGRDRXNqR201UnRlRTZDOUdQSnNTemYxQUh5cS1samFtcFFuMnlaaW9JbnpKbElPZzJZYWRIcTRKRjN6WHlJWjBIdE9XOXN5cnRhSXdxemR2QTg4bGxfazIxQTJUX2JMVjUyNGExTDBtU0xXWWM?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-18T11:13:31.869Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T11:13:34.218Z",
+      "candidate": {
+        "title": "Jenna Dewan’s new ‘Dancing With the Stars’ partner revealed in wake of Val Chmerkovskiy suspension - Page Six",
+        "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxOTDZBcmR1YWwwMnJZWlFBZU1BeGhNMExfcjI5QzBxallDaGtKUE93MFJPTzB0NS1xWVU5QS15UFQ0dXFBYTNsdUFlTDE0T01JU1dWczM3MlUwSGJtd0NQdUdzeGdhY01DWVQzR29GblQ0cTNTb3ZhWmM5Z3RTWGpUcjBTYzZRMWN5VE83QjN4ZUxkMHdJbXlxUXU1RjBoUkFRNWJNaA?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-18T11:13:31.869Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched mexico on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T11:13:34.218Z",
+      "candidate": {
+        "title": "The Best Dressed Stars From the 2026 Academy Museum Gala - Vogue",
+        "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxPRDZoNmtES0hMcUxhRU5OUTZMRC15amhzRVRiMFlTamlYS0hub1lNRk0yWFNqRVJ1WENlVTNaLWJBZ3V0eGhpMXV4QnpnRFRScEkwX19CRWQ3bXY0TlRKRWxhNzlEWlNXeUhOdUhtVlpwd0NBOVdBVVlOOV84ZmY0Wk9saFNaMXA2?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-18T11:13:31.869Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T11:13:34.219Z",
+      "candidate": {
+        "title": "Detención de César Jáuregui, por operativo con la CIA: Fiscalía de Chihuahua; \"buen resultado, no justifica violar la ley\" - La Jornada",
+        "url": "https://news.google.com/rss/articles/CBMi6wFBVV95cUxNX2tXR284YTA3UFRLd1JhREoyOUlzR0I5RnBQZTBlYWtaeS1DSnlTNVRLWnlUVFVpNDBNUUpLYVZ5Mng1MFJKUjVOWDRIYUpQVjVtOFFyQ1JQSUtoUzJCYkZRWFpRSlpKZkpfQm00V3BCZEE0VkFvT2F0eFNYUS1vdVFNa2xzcGhxaTRGSWFTZXFEckFJWXNVZ1k0TXpIaFZqYjhXaFNrMWltYk1vSDJ6ZFZzS3pqRjZCbGtvRTlrWTAwTEdaR0VmRFMwazBoU19LZzk5akhhSFROMHhHdXhFV2xfeElla3czMzRR?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-10-18T11:13:31.897Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 28.632,
+          "lon": -106.0691,
+          "place": "Chihuahua",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched chile-allende-pinochet on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T11:13:34.220Z",
+      "candidate": {
+        "title": "\"No hay lugar para la violencia\": edificios en llamas, saqueos y más de 1.200 detenidos en multitudinarias protestas en Francia - BBC",
+        "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE53S3ZJVm1XMUJENk8zX2h1eDFsMGUxbVZzeWZPQXVqUzdsQWZZWWZPbF9TcmpFTE9OQWFxLTdzd01zV2pBbWRKT0dsWUhhWlhxQkdTZXpMREEyb0pp?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-10-18T11:13:31.897Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 46.2,
+          "lon": 2.2,
+          "place": "France",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T11:13:34.221Z",
+      "candidate": {
+        "title": "Lloverá sobre mojado: Sheinbaum alerta por ‘Trudy’ y frente frío 2; estos son los 9 estados con lluvias - El Financiero",
+        "url": "https://news.google.com/rss/articles/CBMi5wFBVV95cUxPYnN5ZUNZMTJybUhsdDVJMzd6ckZtMDVKS0ZFMFpGaDVwbk1GZS16bWhXX09XdE9Da3dFUkYyT3VTNExNc2c0Tm83aWQxaGw5VjBaZktpaS1TNEZURWRQNWtkZUdIaHVIeG5SZlhIWVlNSWtTWFUyQVF4eGxhcXNLcHhFaDBPYzJRYWY0Q1NuY1RHXzlRRXZrSnVMdF9xSmZKSFdFdlJFTkV4Qm9ETEtmVUhZdXlPb2tlSzZRbTFzSUxCV0MtRGpEbHJjQk5DNnRzVWotUzY0VGNYd3NJeWY5SDZhNnNjSUk?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-10-18T11:13:31.897Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched sheinbaum-presidency on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T11:13:34.221Z",
+      "candidate": {
+        "title": "Trudy y frente frío 2 golpean con lluvias a México: estos serán los estados más afectados este sábado - El Economista",
+        "url": "https://news.google.com/rss/articles/CBMizwFBVV95cUxOcU15alBRVWM0S0tkY3ZPb1k4dHJLUFRMTE5RN21Lb3FMODVfTlNNRTkwSUluclpNT29uSWdRelRUUzNWTGJpV3B4d3VhbjZUcjZlalQ2aFFRWjNtQnA0NHFmbS1QNmtsT3lUYWZEZFQwRzBCOVktU0dERGZPNFBjeWpmdDhOTmdJQWJpcnJJaHduc1ZYM2xRbVZLeUU4RjE0UzI3cFJ5S1VDN245WkhBNEdHQTJZdGlXbE04N0U4T2xaNGpJdzA2Z05UbWdjVlXSAdQBQVVfeXFMT0stSWVwQkdoSzVYX1dBOGZQUmZjMmttWlhyQmJjN2lOR2JmMS1JYktrUkJjMENHU1JxbFJTbEdBUjlkQUdKZlhCbUN6WWhoR1hfVkhtNXhEdmRNb21MejNKNXRCUFE1TWJ6ZzR2UDU3d29BX0FpMVFSdWVPNXBGYS1sdThBQk9uMExaRy01NDNJeXRLVDVQMm9vNnhyVXY5RW91NExaNElPTVkzRU1MRzVuS1hFSTMzWWpaQkR5ZnVIRDFhR0dMVUtZUURwQ1JCeDBiRUk?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-10-18T11:13:31.897Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 23.6,
+          "lon": -102.6,
+          "place": "Mexico",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched cdmx on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T11:13:34.222Z",
+      "candidate": {
+        "title": "Detienen a director de Reglamentos de Taxco por secuestro del padre del alcalde - UnoTV",
+        "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxNMUg2Nm9yWWF6UVBibEdpZ2FLMmF4bk5TbHI1VXRHVTRoYzRWazhicVZhZjVPUkdwd2xJUWx1Szl2VWpCT2Q2VGQwQktJMW9Zb25wNHNrV1ZjQWhQbmR1RDMySWp2WmRyLTdHeF9tS3RhaU1pNUczNUlxRVJraFFGaE1qQjJfQkFRQWlqdVkzekdBX1poZjlGbzJfTkg4emRwbW9GVzRiaGtDUmhXZEs3d2pHY3pJRXpVM2JF?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-10-18T11:13:31.897Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 18.56,
+          "lon": -99.6,
+          "place": "Taxco",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T11:13:34.223Z",
+      "candidate": {
+        "title": "Alistan segunda manifestación por agua limpia en Guadalajara: ruta y más detalles - El Informador",
+        "url": "https://news.google.com/rss/articles/CBMi-AFBVV95cUxPMkhYaElPQmY4THpwUjhZMjVLZ0hvUE9YSVNfc1l5czdSLXBiNDcxQ0FUQ3JPbnJINDFkWWpRWnB5T2JpblhHQkdLZXRrekpHRDR0ZTFuaVhVWmNla0xZWjlOakxJakRjc0ZhZ0tULUZKYW1xVXpVWng3SmY2WUlDS2JyTEhBMG1xWkRLWE5CUC1hck16Y1ltRC14NmszSW9pNnZPYWlTeF8wSEh6MTdITFVzc1V6NGwxWTVIaHF4akg0Wkd4Yjl6cWs2cHJxTzR4RzYwSjM3cVF0ZWZRVVNBQ1J6QkR4RWxJYmZFN1ZxdDAzVWRqUkFJTA?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-10-18T11:13:31.897Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 20.6597,
+          "lon": -103.3496,
+          "place": "Guadalajara",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T11:13:34.224Z",
+      "candidate": {
+        "title": "El multicampeón potosino RG2 sale a competir en casa en el Nacional Charro - El Sol de México",
+        "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxNejBmcU5FYWoyUG9VZjkwQWVfTTNCMlEyVGVCT3Q0NUFEd0l0dFFQeGp2em9kZGZURXNxWTExajhJdDN0alkyZmZRaUFmUTd5VjFseWpYa0I1dnNraTZ3MmdwbFlIRmJSRmpudHk5TGRXUFdqM1prQ2RKdVp4NGVHRnFYbHF0OW9zaVUzR2RleEtjMjZXOEZ2WXVsU1BodEMtODFFb0U3Q0V4TUpBLVVnUGlVVjNtN1otVjFQM3R5d0d6WG1t?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-10-18T11:13:31.897Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 23.6,
+          "lon": -102.6,
+          "place": "Mexico",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched cdmx on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T11:13:34.225Z",
+      "candidate": {
+        "title": "La líder opositora de Venezuela califica de corrupto al nuevo socio petrolero de Trump - The New York Times",
+        "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxORFFfZUtnakdwMDd4eWx3TGxOLXhTNmRGVDg5clVMdzZ6M1hxRkY0UEVldFRoNGdRZnVMNE9jd1ZGUWU4WldmLTdIMTMxWWpMckY3ZGU3ZmVOdi1fNXp4YlRiRkZ2a3V2QUpqOEw5bDlqWm0tWXlUekNSWnlWYmRnLXQweFM5R3BnNFY4WEk5aFN1TUlFbGxqY1gtNjZsWWNkamc?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-10-18T11:13:31.897Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 6.4,
+          "lon": -66.6,
+          "place": "Venezuela",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched mexico on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T11:13:34.225Z",
+      "candidate": {
+        "title": "Trump despide a su vocera Katie Zacharia; \"fue un honor trabajar para él\", dice ella - El Universal",
+        "url": "https://news.google.com/rss/articles/CBMi5wFBVV95cUxOLU51ckVmUDNtdldzcnFhdWphN0VUa0JxSElmYmR0RTVRUlpHVlR4a0t4X3h6MEN4WXM3SEIzN1VLZHNCeUpNZkI5bFhTVjVRN1hZYnVQQTFSLThvZVcyVkYwaUVxdTNRQWZFcFZTbXQ1X3NzNGFQRTVDYzNYMTRyR25oeDVVV1NBQ2staGtVSXVVakdCeEc3SXFIb3QxQUtmaVVjX0RzWHMwQVN3X2hFY0dvVWNKOWo3dl9TVVFEX3pTQ1hTVGRTTUVrVmVGNUhDaGM2OHR4M0FvZWpFMEZYMUs0N3dXOGfSAfsBQVVfeXFMTlNQbVpQMVo4bFlpRFA1TUdLcE9VTFVzalJSS3dyMGItYmlOSkFsa242M2RBNGozWXNjeU11WS1adzlJSHhZaEZqQ1c5UnNraERidl8wMUhYS3NSZDdYbllzTW1uQmN1cUYtMjRwdTk4c1I1Q2p2UTIycnpFdW5neUxwRVVOTjRGQXFWSnhSSkV4VFVLS1Zkb0twcUF2aVF6SUhEUEh5MGk1SkZJOTdsS2lOem90Z1NKZGJQaGpoOUg2TXpRZmZaSDhTcGVDejBkeVpLQ3RSMXJja0R4RzFoM0kxbTMwRXlwWGJhek5wNUJwWnBMbHRtVTJQeVk?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-10-18T11:13:31.897Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.02)",
+      "confidence": 0.02375,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T11:13:34.226Z",
+      "candidate": {
+        "title": "EU condemns attacks by violent settlers, including on diplomats, spokesperson says reut.rs/4z742e8",
+        "url": "https://bsky.app/profile/reuters.com/post/3my5hbcnm3n2e",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-10-18T11:00:34Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched september-11 on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T11:13:34.227Z",
+      "candidate": {
+        "title": "Iran urges US to accept proposal to reopen Strait of Hormuz reut.rs/4hTw7Qh",
+        "url": "https://bsky.app/profile/reuters.com/post/3my5ftujipy2e",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-10-18T10:35:10Z",
+        "matchedTracker": "hormuz-food-security-crisis",
+        "feedOrigin": "bluesky",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 26.35,
+          "lon": 56.4,
+          "place": "Strait of Hormuz",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.63)",
+      "confidence": 0.6333333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T11:13:34.228Z",
+      "candidate": {
+        "title": "Pope Leo greets crowds at Vatican in first event since cancer surgery reut.rs/4BbMeA7",
+        "url": "https://bsky.app/profile/reuters.com/post/3my5fbxpt3b2a",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-10-18T10:25:09Z",
+        "matchedTracker": "pope-leo-health-crisis",
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "update",
+      "reason": "light-scan posted directly + queued for heavy scan (score 0.95)",
+      "confidence": 0.95,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T11:13:34.232Z",
+      "candidate": {
+        "title": "Tommy Carr converted a third down on a 12-yard touchdown run with 2:58 left to play, giving Michigan a two-score lead it needed in a 21-18 win over Penn State.",
+        "url": "https://bsky.app/profile/apnews.com/post/3my5fl7unhe25",
+        "source": "bsky:apnews.com",
+        "timestamp": "2026-10-18T10:30:20Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 42.75,
+          "lon": -84.55,
+          "place": "Michigan",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched battery-revolution on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T11:13:34.233Z",
+      "candidate": {
+        "title": "The college football rankings are in for a shakeup after a historic weekend for the Associated Press Top 25.",
+        "url": "https://bsky.app/profile/apnews.com/post/3my5etplbrg2h",
+        "source": "bsky:apnews.com",
+        "timestamp": "2026-10-18T10:17:11Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T11:13:34.234Z",
+      "candidate": {
+        "title": "Ukrainian drone attack on Russia’s St Petersburg kills 1, hits energy sites https://aje.news/p4n7hi",
+        "url": "https://bsky.app/profile/aljazeera.com/post/3my5haglsq72r",
+        "source": "bsky:aljazeera.com",
+        "timestamp": "2026-10-18T11:00:05.384Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 61.5,
+          "lon": 105.3,
+          "place": "Russia",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched moldova-transnistria on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T11:13:34.234Z",
+      "candidate": {
+        "title": "Egypt to provide ‘all necessary and possible support to Saudi Arabia’ https://aje.news/6u3h7l",
+        "url": "https://bsky.app/profile/aljazeera.com/post/3my5fkrjjlu2s",
+        "source": "bsky:aljazeera.com",
+        "timestamp": "2026-10-18T10:30:04.784Z",
+        "matchedTracker": "mecca-defense-pact",
+        "feedOrigin": "bluesky",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 23.9,
+          "lon": 45.1,
+          "place": "Saudi Arabia",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.63)",
+      "confidence": 0.6333333333333333,
       "model": null,
       "scanType": "light"
     }
