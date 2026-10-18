@@ -25,11 +25,18 @@ test.describe('roadmap page', () => {
     // no-op — this test was flaky on CI for exactly that reason.
     await waitForRoadmapBoard(page);
 
+    // Retry the whole interaction rather than trusting a hydration marker:
+    // `astro-island:not([ssr])` says the island mounted, which is not the same
+    // as React having attached the handler, and the gap between them differs
+    // between Astro versions. On astro 7 this click landed inside that gap and
+    // the tab stayed on Kanban — the failure snapshot showed it still selected.
+    // Clicking until the tab reports selected is true for any framework
+    // version and any machine speed.
     const timelineTab = page.getByRole('tab', { name: /timeline/i });
-    await timelineTab.click();
-    // Assert the click landed. Without this, a swallowed click shows up as a
-    // confusing count mismatch somewhere below instead of saying what happened.
-    await expect(timelineTab).toHaveAttribute('aria-selected', 'true');
+    await expect(async () => {
+      await timelineTab.click();
+      await expect(timelineTab).toHaveAttribute('aria-selected', 'true', { timeout: 2000 });
+    }).toPass({ timeout: 30_000 });
 
     for (const m of MILESTONE_ORDER) {
       const expected = ROADMAP_ITEMS.filter((i) => i.milestone === m).length;
