@@ -751,7 +751,8 @@ export const ROADMAP_ITEMS: RoadmapItem[] = [
       'No check on a pull request builds the site. The Playwright suite runs against `npm run dev`, vitest does not build, and the type ratchet type-checks without emitting — so the first real build of a change happens in the deploy workflow after it is already on main, where a failure stops the site updating rather than stopping the merge. A build job behind a path filter (src/, astro.config.mjs, package.json) is the cheap version; the full build is slow enough that running it on every PR is a real cost worth naming.',
     status: 'planned', area: 'reliability', priority: 'P1', effort: 'S', milestone: 'next',
     date: '2026-10-18',
-    outcome: 'Found while verifying a src/ change had no build gate on its own PR',
+    outcome:
+      'Found while verifying a src/ change had no build gate on its own PR. Measured cost: the deploy workflow\'s build takes 17-32 min on CI, so this is a real bill per PR and the path filter is the whole design — the counter-argument is that deploy.yml already fails loudly within minutes and the site keeps serving the last good deploy',
   },
 
   // ─── Later: captured, no commitment ─────────────────────────────────
