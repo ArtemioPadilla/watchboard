@@ -14,6 +14,7 @@ import {
   DEFAULT_VOICES,
   MIN_BYTES,
   type FetchLike,
+  SPEECH_BUDGET,
 } from './narrate-elevenlabs';
 
 const trackers = [
@@ -23,44 +24,108 @@ const trackers = [
 ];
 
 describe('composeNarration', () => {
-  it('breaking/en: lead headline first, then the other names, then a counted total', () => {
+  const brandAt = (t: string) => t.toLowerCase().indexOf('watchboard');
+
+  it('leads with the news and gives every tracker its own headline', () => {
     const t = composeNarration({ mode: 'breaking', lang: 'en', trackers, totalTrackers: 125 });
-    expect(t.startsWith("Saudi Coalition Airstrikes Hit Four Provinces.")).toBe(true); // clause after ";" dropped
-    expect(t).toContain('Also tracking today: Moldova-Transnistria and United States.');
-    expect(t).toContain('These and 122 more at watchboard dot dev.');
-    expect(t).toMatch(/<break time="0\.7s" \/>/);
-    expect(t).not.toContain('<speak>'); // no SSML: ElevenLabs takes plain text
-    expect(t).not.toContain('<prosody');
+    expect(t.startsWith('Saudi Coalition Airstrikes Hit Four Provinces.')).toBe(true); // clause after ";" dropped
+    // The old script named the other two trackers instead of saying what
+    // happened to them. Each one now gets its actual headline.
+    expect(t).toContain('First Gerbera Drone Crashes Near Cernița.');
+    expect(t).toContain('FBI Confirms Cybersecurity Incident.');
+    expect(t).not.toContain('Also tracking today');
   });
 
-  it('breaking/es mirrors the structure in Spanish', () => {
-    const t = composeNarration({ mode: 'breaking', lang: 'es', trackers, totalTrackers: 125 });
-    expect(t).toContain('También seguimos hoy: Moldova-Transnistria y United States.');
-    expect(t).toContain('Estas y 122 más en watchboard punto dev.');
+  it('says the brand once, and only after the news', () => {
+    const t = composeNarration({ mode: 'breaking', lang: 'en', trackers, totalTrackers: 125 });
+    expect(t.match(/watchboard/gi)).toHaveLength(1);
+    // Every headline is spoken before the call to action.
+    for (const h of ['Saudi Coalition', 'Gerbera Drone', 'FBI Confirms']) {
+      expect(t.indexOf(h)).toBeLessThan(brandAt(t));
+    }
+    expect(t.trimEnd().endsWith('at watchboard dot dev.')).toBe(true);
   });
 
-  it('progress mode lists names only and never says "more"', () => {
+  it('progress mode briefs the news too, instead of listing names', () => {
     const t = composeNarration({ mode: 'progress', lang: 'en', trackers, totalTrackers: 125 });
-    expect(t).toContain('Good news from Watchboard today.');
-    expect(t).toContain('Yemen Conflict, Moldova-Transnistria and United States.');
+    // It used to open "Good news from Watchboard today" and then read out
+    // tracker names, so a listener heard the pitch and never heard the brief.
+    expect(t).not.toContain('Good news from Watchboard today');
+    expect(t).not.toContain('Yemen Conflict, Moldova-Transnistria and United States');
+    expect(t).toContain('Saudi Coalition Airstrikes Hit Four Provinces.');
+    expect(t.indexOf('Saudi Coalition')).toBeLessThan(brandAt(t));
+  });
+
+  it('closes in Spanish, with the count', () => {
+    const t = composeNarration({ mode: 'breaking', lang: 'es', trackers, totalTrackers: 125 });
+    expect(t).toContain('Estas y 122 más, con cronologías y fuentes, en watchboard punto dev.');
+    expect(t.match(/watchboard/gi)).toHaveLength(1);
+  });
+
+  it('drops the count rather than saying "and 0 more"', () => {
+    const t = composeNarration({ mode: 'breaking', lang: 'en', trackers, totalTrackers: 3 });
     expect(t).not.toMatch(/\d+ more/);
+    expect(t).toContain('Full timelines and sources at watchboard dot dev.');
   });
 
-  it('never goes negative on the count and survives an empty selection', () => {
-    expect(composeNarration({ mode: 'breaking', lang: 'en', trackers, totalTrackers: 2 })).toContain('These and 0 more');
-    expect(composeNarration({ mode: 'breaking', lang: 'en', trackers: [], totalTrackers: 10 })).toContain('Watchboard today.');
+  it('says plainly that there is nothing, rather than running an advert', () => {
+    const t = composeNarration({ mode: 'breaking', lang: 'en', trackers: [], totalTrackers: 10 });
+    expect(t).toContain('No major developments across the trackers today.');
+    // The old empty case was the product pitch and nothing else.
+    expect(t).not.toContain('Free, open source intelligence dashboards');
   });
 
-  it('a single tracker has no "also tracking" line', () => {
+  it('a single tracker still gets its headline and one closing line', () => {
     const t = composeNarration({ mode: 'breaking', lang: 'en', trackers: trackers.slice(0, 1), totalTrackers: 5 });
-    expect(t).not.toContain('Also tracking');
-    expect(t).toContain('These and 4 more');
+    expect(t).toContain('Saudi Coalition Airstrikes Hit Four Provinces.');
+    expect(t).toContain('and 4 more');
+    expect(t.match(/watchboard/gi)).toHaveLength(1);
+  });
+
+  it('stays inside the speech budget by dropping items, never mid-sentence', () => {
+    // A clipped headline is a half-told fact; one fewer item is honest.
+    const long = Array.from({ length: 12 }, (_, i) => ({
+      slug: `t${i}`, name: `T${i}`, headline: `${'Headline number ' + i} ${'x'.repeat(70)}`,
+    }));
+    const t = composeNarration({ mode: 'breaking', lang: 'en', trackers: long, totalTrackers: 99 });
+    expect(t.length).toBeLessThanOrEqual(SPEECH_BUDGET + 120); // + the break markup
+    expect(t).toContain('Headline number 0');
+    expect(t.trimEnd().endsWith('at watchboard dot dev.')).toBe(true);
+    expect(t).not.toMatch(/x{70}\.?\s*<break[^>]*>\s*$/); // nothing truncated at the tail
+  });
+
+  it('skips a tracker with no headline rather than speaking its bare name', () => {
+    const t = composeNarration({
+      mode: 'breaking', lang: 'en',
+      trackers: [{ slug: 'a', name: 'A', headline: '' }, trackers[0]],
+      totalTrackers: 9,
+    });
+    expect(t).not.toContain('. .');
+    expect(t).not.toContain('A.');
+    expect(t.startsWith('Saudi Coalition')).toBe(true);
+  });
+
+  it('names the trackers only when not one has a headline, rather than claiming nothing happened', () => {
+    const t = composeNarration({
+      mode: 'breaking', lang: 'en',
+      trackers: [{ slug: 'a', name: 'Alpha', headline: '' }, { slug: 'b', name: 'Beta' }],
+      totalTrackers: 9,
+    });
+    expect(t).toContain('Tracking today: Alpha and Beta.');
+    expect(t).not.toContain('No major developments'); // would be false — there are trackers
   });
 
   it('is deterministic', () => {
     const a = composeNarration({ mode: 'breaking', lang: 'en', trackers, totalTrackers: 125 });
     const b = composeNarration({ mode: 'breaking', lang: 'en', trackers, totalTrackers: 125 });
     expect(a).toBe(b);
+  });
+
+  it('emits no SSML — ElevenLabs takes plain text with break tags', () => {
+    const t = composeNarration({ mode: 'breaking', lang: 'en', trackers, totalTrackers: 125 });
+    expect(t).not.toContain('<speak>');
+    expect(t).not.toContain('<prosody');
+    expect(t).toMatch(/<break time="0\.\ds" \/>/);
   });
 });
 

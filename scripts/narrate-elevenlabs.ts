@@ -95,32 +95,84 @@ function joinNames(trackers: BreakingTracker[], lang: NarrationLang): string {
  * YAML so it can be unit-tested and so shell quoting cannot mangle a headline
  * with an apostrophe (which is exactly what broke the old `node -e` inline).
  */
+/**
+ * Roughly how many characters of speech fit the video. ElevenLabs reads at
+ * about 13-15 characters a second at this pace, and the brief is ~30s, so
+ * ~420 leaves room for the pauses and the closing line. A script that
+ * overruns gets mixed under a video that has already ended.
+ */
+export const SPEECH_BUDGET = 420;
+
+/** The closing call to action. Spoken once, last, after the news. */
+function closing(lang: NarrationLang, more: number): string {
+  if (lang === 'es') {
+    return more > 0
+      ? `Estas y ${more} más, con cronologías y fuentes, en watchboard punto dev.`
+      : `Cronologías y fuentes en watchboard punto dev.`;
+  }
+  return more > 0
+    ? `These and ${more} more, with full timelines and sources, at watchboard dot dev.`
+    : `Full timelines and sources at watchboard dot dev.`;
+}
+
+/**
+ * The spoken script. Pure: same input, same text. Kept out of the workflow
+ * YAML so it can be unit-tested and so shell quoting cannot mangle a headline
+ * with an apostrophe (which is exactly what broke the old `node -e` inline).
+ *
+ * News first, brand last. The earlier version opened `progress` with "Good
+ * news from Watchboard today", then read out tracker NAMES rather than what
+ * had happened, and spent its last two sentences on the product — so a
+ * listener heard the pitch and never heard the brief. `breaking` spoke one
+ * real headline and named the other two trackers.
+ *
+ * Every selected tracker now gets its own headline, and the call to action is
+ * one sentence at the end. The headlines are also what the slides show, so
+ * the voice and the screen say the same thing.
+ *
+ * KPI values are deliberately NOT spoken. The data carries them, but the
+ * labels are display strings ("TOTAL ARTEMIS INVESTMENT" = 100 with the unit
+ * in a separate suffix field), and a number read without its unit is worse
+ * than no number.
+ */
 export function composeNarration(input: NarrationInput): string {
-  const { mode, lang, trackers } = input;
+  const { lang, trackers } = input;
   const more = Math.max(0, input.totalTrackers - trackers.length);
+
   if (trackers.length === 0) {
+    // Nothing to brief. Say that plainly rather than running an advert.
     return lang === 'es'
-      ? `Watchboard hoy. Paneles de inteligencia gratuitos y de código abierto en watchboard punto dev.`
-      : `Watchboard today. Free, open source intelligence dashboards at watchboard dot dev.`;
+      ? `Hoy no hay novedades importantes en los paneles. ${pause(0.5)}${closing(lang, 0)}`
+      : `No major developments across the trackers today. ${pause(0.5)}${closing(lang, 0)}`;
   }
 
-  if (mode === 'progress') {
+  const tail = closing(lang, more);
+  const lines: string[] = [];
+  let spent = tail.length;
+
+  for (const t of trackers) {
+    // Headline only — no fallback to the tracker name. A bare name spoken in
+    // a brief ("Yemen Conflict.") is the thing this change exists to remove.
+    const headline = (t.headline || '').split(';')[0].trim();
+    if (!headline) continue;
+    const line = /[.!?]$/.test(headline) ? headline : `${headline}.`;
+    // Drop a trailing item rather than truncate one mid-sentence: a clipped
+    // headline is a half-told fact, which is worse than one fewer item.
+    if (spent + line.length > SPEECH_BUDGET && lines.length > 0) break;
+    lines.push(line);
+    spent += line.length;
+  }
+
+  // No tracker carried a headline. Saying "no developments" would be false
+  // when there are trackers to brief, so name them — worse copy, still true.
+  if (lines.length === 0) {
     const names = joinNames(trackers, lang);
     return lang === 'es'
-      ? `Buenas noticias en Watchboard hoy. ${pause(0.5)}${names}. ${pause(0.5)}Sigue los avances en ciencia, espacio y cultura en watchboard punto dev. Paneles de inteligencia gratuitos y de código abierto.`
-      : `Good news from Watchboard today. ${pause(0.5)}${names}. ${pause(0.5)}Track breakthroughs across science, space, and culture at watchboard dot dev. Free, open source intelligence dashboards.`;
+      ? `Hoy seguimos: ${names}. ${pause(0.6)}${tail}`
+      : `Tracking today: ${names}. ${pause(0.6)}${tail}`;
   }
 
-  const lead = cleanHeadline(trackers[0]);
-  const others = joinNames(trackers.slice(1), lang);
-  const alsoLine = others
-    ? lang === 'es'
-      ? `También seguimos hoy: ${others}. ${pause(0.5)}`
-      : `Also tracking today: ${others}. ${pause(0.5)}`
-    : '';
-  return lang === 'es'
-    ? `${lead}. ${pause(0.7)}${alsoLine}Estas y ${more} más en watchboard punto dev. ${pause(0.3)}Paneles de inteligencia gratuitos y de código abierto, actualizados a diario.`
-    : `${lead}. ${pause(0.7)}${alsoLine}These and ${more} more at watchboard dot dev. ${pause(0.3)}Free, open source intelligence dashboards, updated daily.`;
+  return `${lines.join(` ${pause(0.6)}`)} ${pause(0.7)}${tail}`;
 }
 
 /** Which snapshot the render left for this mode. Falls back to breaking.json, as the workflow always has. */
