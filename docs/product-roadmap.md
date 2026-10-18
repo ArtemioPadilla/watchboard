@@ -56,7 +56,7 @@ _Generated from `src/data/roadmap-items.ts` by `scripts/sync-roadmap-doc.ts`. Do
 
 Last reviewed: **2026-10-18** · 77 items
 
-✅ 50 shipped · 📋 18 planned · 💡 6 idea · 🚧 3 in progress
+✅ 51 shipped · 📋 17 planned · 💡 6 idea · 🚧 3 in progress
 
 ## Now — Being built, or waiting on one named decision or credential
 
@@ -73,7 +73,7 @@ Last reviewed: **2026-10-18** · 77 items
 
 ## Next — The queue
 
-15 items. committed, not started
+14 items. committed, not started
 
 | | Title | Area | Priority | Effort | PRs |
 | --- | --- | --- | --- | --- | --- |
@@ -83,8 +83,7 @@ Last reviewed: **2026-10-18** · 77 items
 | 📋 | **Per-section "last updated" indicators** | UX | P0 | S | — |
 | 📋 | **Accessibility audit (WCAG 2.1 AA)** | Accessibility | P1 | L | — |
 | 📋 | **Decide the astro 5 → 7 migration** | Infrastructure | P2 | L | — |
-| 📋 | **Ratchet the type baseline down** | Infrastructure | P2 | M | #342, #346 |
-| 📋 | **Repair or delete the legacy data updater** | Infrastructure | P2 | S | — |
+| 📋 | **Ratchet the type baseline down** | Infrastructure | P2 | M | #342, #346, #347 |
 | 📋 | **Decide whether the hook-first cut replaces the daily brief** | Growth | P2 | S | #228, #229 |
 | 📋 | **Spanish narration reads English headlines** | Growth | P2 | S | — |
 | 📋 | **Investigate the alerts-panel e2e flake** | Reliability | P2 | S | — |
@@ -96,7 +95,7 @@ Last reviewed: **2026-10-18** · 77 items
 - **Migrate from GitHub Pages to Cloudflare Pages** — Target: -1 to -2 seconds TTFB
 - **Cut homepage HTML payload** — Estimate: HTML 157 KB → ~40 KB, -500-800 ms LCP
 - **Decide the astro 5 → 7 migration** — Cheapest next step: run the dev server locally against astro 7 and time one page load, rather than paying for another 50-minute CI run
-- **Ratchet the type baseline down** — 56 → 39 baselined errors, under the stated target. The next real decision is the legacy updater, not more casts.
+- **Ratchet the type baseline down** — 56 → 25 baselined errors. What is left is 6 in web-push crypto (one Uint8Array/BufferSource root cause), 4 in a geo-layer hook, 4 satori ReactNode casts that are a library typing quirk with nothing behind them, and singles across nine files. No remaining cluster hides a defect that this pass could find by reading it.
 - **Gate the production build on pull requests** — Found while verifying a src/ change had no build gate on its own PR. Measured cost: the deploy workflow's build takes 17-32 min on CI, so this is a real bill per PR and the path filter is the whole design — the counter-argument is that deploy.yml already fails loudly within minutes and the site keeps serving the last good deploy
 - **Nothing type-checks video/ or mcp/** — Named rather than hidden by the exclusion that created it
 - **Rewrite the parked command-center e2e spec** — The homepage command center is covered by other specs; what is missing is this spec's own ground
@@ -123,7 +122,7 @@ Last reviewed: **2026-10-18** · 77 items
 
 ## Shipped — What the site does today
 
-50 items. live in production
+51 items. live in production
 
 | | Title | Area | Priority | Effort | PRs |
 | --- | --- | --- | --- | --- | --- |
@@ -177,6 +176,7 @@ Last reviewed: **2026-10-18** · 77 items
 | ✅ | **Community vote on the tracker backlog** | Growth | P2 | M | — |
 | ✅ | **Machine-readable surfaces for agents** | Growth | P2 | L | — |
 | ✅ | **Keep data-derived strings out of inline scripts** | Reliability | P1 | S | #340 |
+| ✅ | **Repair or delete the legacy data updater** | Infrastructure | P2 | S | #347 |
 
 - **Multi-step onboarding tour** — New visitors learn the navigation surfaces and source-tier system without leaving the homepage
 - **Defer Cesium parse past LCP** — vendor-globe long-task: 5018 ms → 178 ms (verified post-deploy)
@@ -208,6 +208,7 @@ Last reviewed: **2026-10-18** · 77 items
 - **Community vote on the tracker backlog** — Live at /vote/ — src/pages/vote.astro, .github/workflows/tally-tracker-votes.yml
 - **Machine-readable surfaces for agents** — Live at /api/, /skill/, /feeds/, /feeds.json, /feeds.opml and /embed/{tracker}/
 - **Keep data-derived strings out of inline scripts** — Control: the new test fails against the unfixed page, naming the leaked tracker titles
+- **Repair or delete the legacy data updater** — The repair cost one line. The delete decision stays open and no longer blocks anything.
 
 <!-- roadmap:end -->
 

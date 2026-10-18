@@ -712,17 +712,21 @@ export const ROADMAP_ITEMS: RoadmapItem[] = [
     description:
       'Two passes done, and both found real defects rather than type noise. #342: `sidebar.sortBy` was defined twice in every locale so four translations were dead text, and two Cloudflare Workers type names resolved to nothing. #346: `scripts/backfill.ts` called `.omit()` on a refined schema, which is not a function at runtime, so the line-backfill path threw as soon as a payload carried lines. What is left is 14 in scripts/update-data.ts (the legacy-updater decision), 6 in worker/web-push.ts (one Uint8Array/BufferSource root cause in crypto code, worth its own careful pass), 4 satori ReactNode casts that are a library typing quirk with no defect behind them, and singles across six files.',
     status: 'planned', area: 'infrastructure', priority: 'P2', effort: 'M', milestone: 'next',
-    prs: [342, 346], date: '2026-10-18', dependsOn: ['rm-type-ratchet'],
+    prs: [342, 346, 347], date: '2026-10-18', dependsOn: ['rm-type-ratchet'],
     outcome:
-      '56 → 39 baselined errors, under the stated target. The next real decision is the legacy updater, not more casts.',
+      '56 → 25 baselined errors. What is left is 6 in web-push crypto (one Uint8Array/BufferSource root cause), 4 in a geo-layer hook, 4 satori ReactNode casts that are a library typing quirk with nothing behind them, and singles across nine files. No remaining cluster hides a defect that this pass could find by reading it.',
   },
   {
     id: 'rm-legacy-updater',
     title: 'Repair or delete the legacy data updater',
     description:
-      'scripts/update-data.ts holds 14 of the 56 baselined type errors and is the pre-workflow updater that runs on direct API keys. No workflow uses it. Either it is a supported path and gets typed, or it is dead weight and goes.',
-    status: 'planned', area: 'infrastructure', priority: 'P2', effort: 'S', milestone: 'next',
+      'Answered without needing the decision. The 14 baselined errors in scripts/update-data.ts were not 14 pieces of rot: they were one line — an `.omit()` call on the refined line schema, which is not a function there — plus thirteen errors downstream of it. The same line, copied, had already broken scripts/backfill.ts. Both are fixed, both now type-check, and a test refuses the misuse anywhere in src/, scripts/ or worker/. Whether the legacy updater should still exist is now a question about product surface rather than about cost: nothing in CI runs it, but `npm run update-data` is documented and it is the only path that works from a plain API key.',
+    status: 'shipped', area: 'infrastructure', priority: 'P2', effort: 'S', milestone: 'done',
+    prs: [347],
     date: '2026-10-18',
+    outcome:
+      'The repair cost one line. The delete decision stays open and no longer blocks anything.',
+
   },
   {
     id: 'rm-hook-vs-brief',
