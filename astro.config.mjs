@@ -18,22 +18,13 @@ export default defineConfig({
       prefixDefaultLocale: false,
     },
   },
-  image: {
-    // Enable Astro built-in image optimization
-    remotePatterns: [
-      { protocol: 'https', hostname: '**.aljazeera.com' },
-      { protocol: 'https', hostname: 'dims.apnews.com' },
-      { protocol: 'https', hostname: 'd3i6fh83elv35t.cloudfront.net' },
-      { protocol: 'https', hostname: 'i.iranintl.com' },
-      { protocol: 'https', hostname: 'global.unitednations.entermediadb.net' },
-      { protocol: 'https', hostname: 'npr.brightspotcdn.com' },
-      { protocol: 'https', hostname: '**.hrw.org' },
-      { protocol: 'https', hostname: 'media.cnn.com' },
-      { protocol: 'https', hostname: 'images.jpost.com' },
-      { protocol: 'https', hostname: 'assets.kyivindependent.com' },
-      { protocol: 'https', hostname: 'upload.wikimedia.org' },
-    ],
-  },
+  // No `image:` block on purpose. Nothing here uses Astro's image service:
+  // no `astro:assets` import, no <Image>/<Picture>/getImage call, no content
+  // collection with an `image()` schema and no markdown. The eleven-host
+  // `remotePatterns` allowlist that used to sit here optimised nothing, and it
+  // made the sharp/libvips advisories read as reachable when they are not —
+  // sharp is vendored by Astro and never invoked. Event media is rendered as
+  // plain <img> from the URLs in each event's `media` array.
   vite: {
     define: {
       CESIUM_BASE_URL: JSON.stringify('/cesium/'),
