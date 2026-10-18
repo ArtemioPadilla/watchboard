@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "lastPruned": "2026-10-18T19:41:02.225Z",
+  "lastPruned": "2026-10-18T21:53:12.343Z",
   "entries": [
     {
       "timestamp": "2026-10-05T01:05:33.446Z",
@@ -87015,6 +87015,777 @@
       "decision": "update",
       "reason": "light-scan posted directly + queued for heavy scan (score 0.85)",
       "confidence": 0.85,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T21:53:12.278Z",
+      "candidate": {
+        "title": "Inside Chicago's battle against the synthetic drugs flooding the US",
+        "url": "https://www.bbc.co.uk/news/videos/c84g166kz003o?at_medium=RSS&at_campaign=rss",
+        "source": "bbc",
+        "timestamp": "2026-10-18T21:53:10.313Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 41.8781,
+          "lon": -87.6298,
+          "place": "Chicago",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched calderon-presidency on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T21:53:12.280Z",
+      "candidate": {
+        "title": "Cindy Crawford 'beyond heartbroken' after death of son Presley at 27",
+        "url": "https://www.bbc.co.uk/news/articles/cwzrd6123jyyo?at_medium=RSS&at_campaign=rss",
+        "source": "bbc",
+        "timestamp": "2026-10-18T21:53:10.313Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched russia-biolab-incident-2026 on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T21:53:12.282Z",
+      "candidate": {
+        "title": "What we learned from heated US midterm Senate debates",
+        "url": "https://www.bbc.co.uk/news/articles/cqly03y3zg7lo?at_medium=RSS&at_campaign=rss",
+        "source": "bbc",
+        "timestamp": "2026-10-18T21:53:10.313Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T21:53:12.284Z",
+      "candidate": {
+        "title": "Huge Riots and Anti-Government Protests in France: What to Know - The New York Times",
+        "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE5GYnoxd1dncFRldUlCNW5vMDEydGR3U1VpY1RtQVNQdGJGTlItUVpoR1U2dUwyNVNoQU1uQzBDNU5LWUl2UTc2REswb3QzQjVpcFlEVGZhOWxJd3J0RTlIbU4xeUN2RmtIU1IyLWxaaGctZw?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-18T21:53:10.463Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 46.2,
+          "lon": 2.2,
+          "place": "France",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched europe-climate-crisis-2026 on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T21:53:12.287Z",
+      "candidate": {
+        "title": "Trump announces plans to renovate D.C. golf course amid legal battle - NBC News",
+        "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxQaFlxdVVXXzQxOW4tTzByYW9Vdkh4Sm45UkRCdDVHaTRodkJyNHRzb2w5TVY0UVd4bDl2eGpIOWdKcUZZM2lzMjZVLXBhb3pEd1dsYWpWMmxRRi1iMFpFbVhaQkN0cVBqN1BXVFJ1bjM1dVI4a3FiVEZ4TC1Nd2xqRmRRdWJaNFFQRUYybkZGanViMjBiZV8yelIzYjFmUWFWMW1Mc0ZKMVlxaVVMT05tVHNvN3BRQmMtV1FLZjJWM0U?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-18T21:53:10.463Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.02)",
+      "confidence": 0.02375,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T21:53:12.288Z",
+      "candidate": {
+        "title": "Driver released from custody, no charges filed after deadly incident at Stryker Sports Complex - KWCH",
+        "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxQN0FiVml5X2ZEREgzMlZ5MVY3YUczWEJ0aWtTdUpxRDM0SjQ2VHZ1VVVJRW9VcklzV25qNlNpd0Y1RjYtUHJXb3lMTFQ1SHg2M2pYUUlyb0hVVzVGeWo5clRKTGpGWHNoblluVEJ4RFVaTDFTbzRRRUtwVnA2V2hTaWstNUpCem5YZ3BmSlJ6dlRkZ3hRWjJCRFJqaW1xZGVzbFRDeFREOXhJNmxLT0RxYVhMTEVCRE9RblE?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-18T21:53:10.463Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched russia-biolab-incident-2026 on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T21:53:12.289Z",
+      "candidate": {
+        "title": "Wright calls Trump's diesel deal a peace incentive. Rubio says Russia would sell anyway. - Axios",
+        "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxNal9zN3ZsaVg1TkVYRF9Xd1dMMmE1Slk0ZWE1ZG0ycTkzX2FzbXA4R0dBTGNYcWk5UnA2dERqcmc2RllaY1J4VXozbEdkWHZTUk02WkxQRmxMUUJVQXY3U3JuMG1OcEtmc2x1R3oxVmRoMnBialA4UXlfSXpSVkh1RHVWNHJ6R3c?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-18T21:53:10.463Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 61.5,
+          "lon": 105.3,
+          "place": "Russia",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched colombia on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T21:53:12.290Z",
+      "candidate": {
+        "title": "2026 Midterm Elections: Trump Rallies Republicans - Fox News",
+        "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxObm9FYWtTdVB6dUxkVDlaY0c1NFd2X21QaDNVRVZ2UUp3X0NkQTh5YTZPYW1qR19obGEzdWFENjNnWno4WVFlRjdxbW9nSG1pMFBRQlRBOUJ2QS13TnhLM0VEdXZZcEgzcGZMSzRIb2pSNWVibVhuOHRoNjRrWTNSeFhVV3ZGMEVfdVN2R2xqNFprbkFYTkd6UWE1NA?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-18T21:53:10.463Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched cdmx on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T21:53:12.291Z",
+      "candidate": {
+        "title": "Egypt's Sissi says he'll defend Saudi Arabia, if asked - DW",
+        "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNdHhFTFNfMEZnbkRjRnNVeTA5ejBuQUVnVno5dHptLXZJSC1CMGRNTnpVSWdhU3dlVzB1czNrWExUMDBuVUxTZ21FMFFkVWdKeDdJNm5OSU5DSERkeXo0N2Jqa3BZN2ZBQ0QxRjNmdkpaeTktb3JxMk1jN2xlNTZlaEVfUVJzMzlrbWlDStIBjAFBVV95cUxNVm1DMmVQWFpkaVBFQTk4T1lzNks4YVFBZUR3TmtWNEk0X3NKWWMxNHA5QUU4N1cyakdJMHkwLVdlR3l1V2Q1NmNhckNLNUY4VGMzU1RYeHhDUUhrRDJEUWV4aUpRMVplQUFJUnFtSFpIRkhXb1l4ZC1EVlN2aTBKbGs0TmZCRHpLczRtYw?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-18T21:53:10.463Z",
+        "matchedTracker": "mecca-defense-pact",
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 23.9,
+          "lon": 45.1,
+          "place": "Saudi Arabia",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.63)",
+      "confidence": 0.6333333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T21:53:12.292Z",
+      "candidate": {
+        "title": "Meloni condemns ‘gangs of thugs’ after protests turned violent across Italy - Fox News",
+        "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxOaS1OOHp1dzV4bzBJN3BHMk9yX0tkNV9VSEFhQjFNMC1JbXltcmVCZTlaWHNhYm5pZ05jV3hCc2lFWlpJLTNhcUIteXBLQlFlRFRtTHJGZFVLcU1iSDBwaGpTdVY3X1d5WGZNeTJaSWFZdGs5SjJQSHZiZjhmb04yUlpaSmFqaUNNMVZQSkJtekd0dXlJZElIb2daVm9fUmRwQlHSAacBQVVfeXFMT092Ym5oY2V3bjNBOEVROTRObF9KWWl3dmNDZnhJRTNRdVFoTEZrWXQ2M1FndEZlWnotWDVZUnBPMmdtdy04YVNmTGwyZzcxeEpYM1c0aHlieFROSzVFYTZWandIUGp4MzZUcFlPREk2ZGNQZnZJdEo3d2t4YUZwb2JnNXEwZ1RoMElKMVlBU0RNN1RJejJ6M2lRT0VfaXVzVzJSelp4Qms?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-18T21:53:10.463Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 41.9028,
+          "lon": 12.4964,
+          "place": "Italy",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched ceuta-schengen-crisis on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T21:53:12.293Z",
+      "candidate": {
+        "title": "China looks like it's dumping Treasury debt but may actually be stashing it in Canada and Belgium - Fortune",
+        "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNUnIzWW8ybUdMemtmOXl3bkhsWlRWcmNXeWhjWVV6cXZtSzl6MjZyNTZYNjZ2aHhfblR5bkY2N1FrOVplSzhEdHVYbHZuMVl4SnhvcWVZNVFkbTJDd3dBV0lMMHBhMTMxRWJhX09ZV3dfVEsySk0taWJYeF82WHFNcV9XZ1EwXzZ4aUNZdUpabmlkX09jUGdJSEg1Y3RCRG44MGJnYnBBOC13ZVZlTDlUVjlaUQ?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-18T21:53:10.463Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 35.9,
+          "lon": 104.2,
+          "place": "China",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "low score (0.02)",
+      "confidence": 0.02375,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T21:53:12.294Z",
+      "candidate": {
+        "title": "Disney agrees to hire the majority of Character.AI’s workforce - TechCrunch",
+        "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxQbFVlYnNFYUpDbjZZWnM4aE1uTWdsWVVZa1BpX1VGano5MkhpOTlVSDF2ZkJrY29CRmNGdzlRRGMwcFJpa3VyVmFrOGZTYkRac3BncmFQb1AtSkdyMktwMzZobmFYNGd6bm5IbDEzbG9HN2RUN0RLenRQTkNLemlUeXJOVnNBN3kxWUJJNzN3dEVFVWFaN2xFRHp2NzE?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-18T21:53:10.463Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T21:53:12.295Z",
+      "candidate": {
+        "title": "Tesla Roadster flies, flips and hits 60 mph in a flash - Fox News",
+        "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE9oTGx0Tkx0di0tM0pYOUJycTVRNklxb2NOWWlOTGpqY0E2aHNDUll3S3FYSDZnNkc2MTJCUk5RMTlwOGtnU1NBMGo1azNOYnlGVXh2OWxxRWZzQjFoV2gtRDIxc2IweUg3WVdHUXdza1JKTEJiTENhMnB1aUFJUdIBgwFBVV95cUxQSEJKZFN2RnlXQUZCRDA3R2xWQ0M4RXVlVjE1QkJKVmNIdEtEbnB1WktnVDVQZUhsX3liTmZDbC1kcDRQdFpDSldTUjJZTzBuWFczNkpLeFJZSWtMUHFuclhYV1pvT2R1N1pld2hGRm16TVpGUGNEbzQtRG8weUpGRDBsVQ?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-18T21:53:10.463Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched nepal-china-flash-floods on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T21:53:12.295Z",
+      "candidate": {
+        "title": "Apple Store plans reveal when the OLED iPad mini will likely go on sale - PhoneArena",
+        "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxNWUp6X1dXSGg1RFJucU9xODdkUTJwVnRicEtDTlI0T055ZFA0TGZyckh4a29QZk5ZaDlEamNqcG5vWTFhWW00RmRCZTJXcm9yUkNPZEtlTUJkQlFTRkY2V0cyMkxnXzl6WXNWeExNMmdrLUlGRUVrN0VqVGlwU1JaWHVxS28zS24xOXBQNFhnTks4aXhJQmpTTHhIbV9qN0JHS0M2RHEwOXdLM2ppQVpwaHhB?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-18T21:53:10.463Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T21:53:12.296Z",
+      "candidate": {
+        "title": "Val Chmerkovskiy suspended from 'Dancing With the Stars' over Will Smith Oscars slap reference - Fox News",
+        "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxNRnpPVWkxd0o4S1ZUMEhwRHJZT2JlZV9kQUs5UzlXYTNrUVJQSkdnQWxpRmRzb1ptX3VJckx1U0JuMEhQNFAxc0tDREs5eGZQZjY1OFo2YTNRckc1UGhBUHMxWUdCOVlCaFN5bDktT1pNN2lHMFJxbVhHNnRLaUtnS2FFOVZwOWJIbXQ1djF2ejZ5dnF6dkVHRGJ3OXVqODdwVG5QVC16N2g1NkFSbzJVcNIBtgFBVV95cUxNMFRaZ1V1bjcyXzNCdDlUUmMtdmFwamlCdUg3OGNpTmJ0Mk9wZkdieFVnMVNKOVRUbkZVTHJMWGJBZlhuOExtRkN5MDlIV1ExYUp0N1JEUWdza29MMzlPOTBzZ21ZLXNqWmFjaGpBdmlpVC1vSXFpT1V2elpOeEIyTDFUUndQZEl0Q1pyb2kwRW5IY19XUzVtZ0ZSY0x2OGdjTmFLQnRHTjdyRmwxVmdraDA2ZUJhZw?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-18T21:53:10.463Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched fox-presidency on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T21:53:12.297Z",
+      "candidate": {
+        "title": "Inicia con altercado la segunda megamarcha por agua limpia en Guadalajara - La Jornada",
+        "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxOOXllM1lreVMxM19JU0F4UG1LcjBnMGtHbWk2cFhlRDNxVVFPX3ZEN1Brd0ZuZ1p0R3dIRFAydVNUM0xWWWRtTDRmek5KNGRZWXd3NUhsTnZSOGdOQU15ZTRwWWh2OXRNZW56enFBOVJvSlJEUUZSb1pfUlc5enNCUU5yNFNwcUpqRGh1TkJCejZHei1XUTEwMjZWWmVJenpmSlYzWDBfLXNEOWlpUUJwU3N2VQ?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-10-18T21:53:10.827Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 20.6597,
+          "lon": -103.3496,
+          "place": "Guadalajara",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T21:53:12.298Z",
+      "candidate": {
+        "title": "Asesinan a aspirante de Morena a Alcaldía de Cuajinicuilapa - Reforma",
+        "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxOc3p4aGxUQmhYWkN5dnB1cUxXaTFLVHBnV3U3T0w2ZlVjbTkxanlxRG5Fdm1xVkd6OTdjNFlleGdhNmpZdndzZEh1RVd2N1Q0UDZNbmJhcDdIeGg2aFR2bHFuQXNoaWxCN3JMNEMweWlRRzhCbkJsY21KTGdJNmJNNU5aX3ZMdG5fVnJwcmtoVkhkek95UFV3VQ?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-10-18T21:53:10.827Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.02)",
+      "confidence": 0.02375,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T21:53:12.299Z",
+      "candidate": {
+        "title": "(VIDEO) Fallece sacerdote en plena misa en Ecuador: Le cae encima una enorme cruz con un Jesucristo - El Financiero",
+        "url": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxNeGdSX1ZhekM4ekdlcWd6QXc4YTF4dWVERVU5WFBFTHNlU29tenctRzltWFFPcWZCdVJyTlJvZmdodUxob013R1p1aDMxQXB0Z21SRzloY24xU2dHMWVjMkZKelFsZmIzLUtIREdxMzdIc2ZLQ0tYZ1BldWV6TmRiendVWE9IanBEVVM0OU1NYmQyRHdvdDdheFQ0M1lOYVV5Z0xYdDV5UzlSdEJKYUFXSGJVYXgtbXdsdGRBZGU2c1ZtdVlXOHduanJCMmxxeTc5dDdaUTVXZFhGRnFDRVZr?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-10-18T21:53:10.827Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": -0.1807,
+          "lon": -78.4678,
+          "place": "Ecuador",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched ecuador-narco-conflict on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T21:53:12.301Z",
+      "candidate": {
+        "title": "Corrupción, una causa de las fallas en salud, admite la Presidenta - La Jornada",
+        "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE9kSXAzc2JOeml0S2tCdU1sR1NZbWJKeWJkUlpFNmxBM0k4eE5CTVRRc1FVbVo1VHA2V2M4Y2tPZ2h5ako5a0RtcWoyNjMyeGdYUGpwRkN4UFgxOGJNbFN3TlctV1NEZw?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-10-18T21:53:10.827Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched tlatelolco-1968 on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T21:53:12.302Z",
+      "candidate": {
+        "title": "Recuperan presas 30% de su nivel en 15 días - El Norte",
+        "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxOdlJfc2dEd3B2SlVzQUs4aEdlc2g3NDB2SDVkOXphTzJENVlydlI2RGp3TjlrWG1jQVZRMlAyRWQxSXFiZW56eXRHRnpMSWdBTVVXVlpCcnM4RkNPVnVFbXpnWU85c0l1QXZvWW1mLVB1ZDRkRU1wSFQ3NTFrSFhWVDNB?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-10-18T21:53:10.827Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T21:53:12.304Z",
+      "candidate": {
+        "title": "Zelenski: sería \"un error histórico\" que Estados Unidos apoye a Rusia - DW.com",
+        "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxNYlBmdm9OQ0YtclIyTXdqS1JDSTBlc1F1TkYwM1dCVEdxYU94WVBfUndJcF9UdTZTS0RQdjBkQjdTdHNTUHhXZFRyY1ZPa0F0S0JQaWlFVWxhRWJobElPRTQtT3hISVhFU1lGd0psX1MzaGdOcTdFOVdKUFNLdmRhUy1wb3Q1NmIxNDdIdzNZVFhfSjI0ejN3eDZaZC1RU0xEaDBiU0RMVE9qT3hOWkHSAa4BQVVfeXFMTnFmNTlySkx2TFExa3NybjNLTVVYdGtWb25EVmdoY0lEVkJCX3IyX1NwMXdFckJENkEwb2N6M1c0NllOWXZ3d1cwaXlBem54ZkVwMU9YNXcxdTJYT0F3cDNXa2RLNGJDOEMzWjdpVWRydXViMFM5WkE5N0trMnE1UmJ6cEcyc0ZFUjFwTG9fNW5qQWlldW9OSWgyaXR4M095eHZLV05JeDZ4UzEtbE9n?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-10-18T21:53:10.827Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 39.8,
+          "lon": -98.6,
+          "place": "United States",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T21:53:12.305Z",
+      "candidate": {
+        "title": "¡Cuidado con tu app bancaria! Esto sabemos del fraude con el que pueden robar tu dinero - El Financiero",
+        "url": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxPQkpoQ1g1c1BPUWQ1TWg4ZUt0d2RUSTQtdWVNM0RuTFFyQ2s0VG01MXpuN3F5ZUdxQUlZalFaX1I2bGJDTXNsZkJ3WEwwdXVBZm01OVEtYWFQN2VrV3pMajRKbWZieGlMMUp1SmUtQnJ3RzdPanNpUlB2dWlFTzY3dkpuNGlZQ2ZyWm0yQm84S3dRNTZtSGdhd0tLU1dLX2p0Vks0UVNJR3RwQXh2dXhOcnlZUDBQUzIwZ09hYS1Xc2Vxa0J0b3JEN1lfMFdjNXF0b0tuaXB1bzFtUQ?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-10-18T21:53:10.827Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T21:53:12.306Z",
+      "candidate": {
+        "title": "¿Una camioneta que flota? Así es la BYD Yangwang U8 - Puente Libre",
+        "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxPd1dpQV82OGdEdnF5N2VjYUc1MUFVb3Fvb2xKTG0wY3pEUGdobjlCaWZUenFEWHI4dDdCRjh5bVpSVVV0UC1HNEhPcjZIVHBvX3hHeERGWEVsaTZCS1N2ZXk2ZUVlR2RzREFyOW9nSFY0OURHTER2UTJtTjk4YU5aRTFLX29ZSEFKY0E?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-10-18T21:53:10.827Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T21:53:12.308Z",
+      "candidate": {
+        "title": "Super Mario Bros Wonder ya tiene port nativo para PC, Mac y Android, pero requiere compilación propia – Guía de Instalación - PC Master Race Latinoamérica",
+        "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE1kOTVBTVoxMXFHemZLU0M4Y1ZPVjlTZ3RHR21XNFA1RFV2b2JrOU5sNktvWTBCczJmZXdfa3RBalVNdmpQaWpTc0t6d2VVZmY5TWVqbjVsYVpPYXptZEp0NE9tWlp6dnBsX243bU90WS1xa1NaMU9BNGY2Q29TNjA?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-10-18T21:53:10.827Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched fusion-energy on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T21:53:12.309Z",
+      "candidate": {
+        "title": "Cindy Crawford habla por primera vez tras la muerte de su hijo Presley: \"Estoy más que destrozada\" - BBC",
+        "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFAzd3FMQVZuZV9Ka3lQQnBkYnd5OFJkSUp1dVptSUMtaUZFUjlBc0VLS29uMVdJZlY0RW8xOXFac1VHUUZLV2ViNHVGdkxKOW14bEVXaEpkeHo1ZlZq0gFiQVVfeXFMTUdnTzlFSDIyRzN0Q0tzT1RENFUyNThJbzRGcG9rYlhhdEZxYUtQc0owVDNkT0laMWJwYi1mUy1YVU5SUTRjOXVuWmdoVDFUcUl3V0phZTFRVzVpUTQ1ZWV1M3c?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-10-18T21:53:10.827Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T21:53:12.310Z",
+      "candidate": {
+        "title": "La protesta de Paul McCartney por su altura en una película: “No me hagas más bajo que John” - Infobae",
+        "url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxOR0JyUFBvSm94bnhtN3ZsX25SRHV5bFl0SEdEUDdxVTFQUU1pUTBqRlpmMzRMam9ZT1A0bVpaY0RqeTFXaEpJZ2NXdzFmR0hfTjFPYkJjNVZiaE5fQ3IxeUNsc3BwT1QxYjBDTklqNzEtSGV5VWcwZGpqR2lub0RkQlNNQ1FFSE1CWjJDOXkzbC1LNFNhZHFnOWxZOVNtMDNvRDA0T2NvaUpfN2pBLUN1UnlzSlg0cEdMZExDXzk3X1VINEJicU04Rmp2NG1jeHhyd0FBTTBlN1HSAfMBQVVfeXFMTW10UWRyOW1MVXRmUUdZbHZsdjk1STQyRUVaUmZVWlUwTmtPZzRQbG8wSlJNd1lRcDZJZUZEUmNINXRVSUNseDVHbXc4VlBKWXBRbWo4Z3R0RXl4ZzVVOTZKc0ZrR0xlWThyYUYwcEoxaG5NbXZpTHRaU242dWpWQTlNVjFvejdXTTgwdVExRW5JSjljaVhtLU1PTVRmWmozdVppVTdBUkwtWjM1NHd0LXRxbVFYT1VOSERvYTdaVlRIXzlfMnJPdnlwQ0hBMFFDMUp5NUp5b2dWNVFYdVNoWXp1cVZZbEtENU12WmdBbTIyVW5v?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-10-18T21:53:10.827Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T21:53:12.310Z",
+      "candidate": {
+        "title": "Man United show fight but familiar flaws remain in Leeds draw reut.rs/4i6vBx0",
+        "url": "https://bsky.app/profile/reuters.com/post/3my6jdee4d32z",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-10-18T21:10:11Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.02)",
+      "confidence": 0.02375,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T21:53:12.311Z",
+      "candidate": {
+        "title": "Eagles lose edge Nolan Smith to concussion reut.rs/4yoYhaD",
+        "url": "https://bsky.app/profile/reuters.com/post/3my6j2hechp2k",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-10-18T21:05:12Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T21:53:12.311Z",
+      "candidate": {
+        "title": "Woman dies after being swept away by river as torrential rains batter Spain reut.rs/4dMzC8E",
+        "url": "https://bsky.app/profile/reuters.com/post/3my6is6xii42x",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-10-18T21:00:34Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 40.5,
+          "lon": -3.7,
+          "place": "Spain",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched ceuta-schengen-crisis on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T21:53:12.312Z",
+      "candidate": {
+        "title": "Kenya confirms eighth Ebola case as regional outbreak spreads reut.rs/4zFFXuP",
+        "url": "https://bsky.app/profile/reuters.com/post/3my6gsufm2p2m",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-10-18T20:25:10Z",
+        "matchedTracker": "ebola-outbreak",
+        "feedOrigin": "bluesky",
+        "sourceTier": 2,
+        "geo": {
+          "lat": -2.3,
+          "lon": 40.9,
+          "place": "Kenya",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.63)",
+      "confidence": 0.6333333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T21:53:12.312Z",
+      "candidate": {
+        "title": "39 people are hospitalized and at least 19 in critical condition after a fire at a military base, Alberta Premier says.",
+        "url": "https://bsky.app/profile/apnews.com/post/3my6lfufvjv2l",
+        "source": "bsky:apnews.com",
+        "timestamp": "2026-10-18T21:47:22Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched crispr-gene-therapy on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T21:53:12.313Z",
+      "candidate": {
+        "title": "A Roman Catholic priest officiating an evening mass in southwestern Ecuador died after being struck by a cross while the ceremony was being broadcast live.",
+        "url": "https://bsky.app/profile/apnews.com/post/3my6is55xn52k",
+        "source": "bsky:apnews.com",
+        "timestamp": "2026-10-18T21:00:32Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2,
+        "geo": {
+          "lat": -0.1807,
+          "lon": -78.4678,
+          "place": "Ecuador",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched ecuador-narco-conflict on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T21:53:12.314Z",
+      "candidate": {
+        "title": "German authorities are investigating a large hole cut into a fence at Leipzig airport.",
+        "url": "https://bsky.app/profile/apnews.com/post/3my6fgvzo7525",
+        "source": "bsky:apnews.com",
+        "timestamp": "2026-10-18T20:00:35Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 51.34,
+          "lon": 12.37,
+          "place": "Leipzig",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T21:53:12.314Z",
+      "candidate": {
+        "title": "‘Anger and shame’: Macron denounces France’s nationwide rioting, looting https://aje.news/gb9gln",
+        "url": "https://bsky.app/profile/aljazeera.com/post/3my6h3o5prk2t",
+        "source": "bsky:aljazeera.com",
+        "timestamp": "2026-10-18T20:30:05.358Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 46.2,
+          "lon": 2.2,
+          "place": "France",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched europe-climate-crisis-2026 on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T21:53:12.316Z",
+      "candidate": {
+        "title": "BREAKING - Dozens arrested in Paris as day of protests begins across France  Protesters across France called for street demonstrations against rising living costs, joining high school students  grievances over education conditions",
+        "url": "https://t.me/insiderpaper/45325",
+        "source": "tg:insiderpaper",
+        "timestamp": "2026-10-18T21:53:11.329Z",
+        "matchedTracker": "india-youth-uprising",
+        "feedOrigin": "telegram",
+        "sourceTier": 3,
+        "geo": {
+          "lat": 46.2,
+          "lon": 2.2,
+          "place": "France",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.59)",
+      "confidence": 0.5879166666666666,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T21:53:12.317Z",
+      "candidate": {
+        "title": "NOW - Town hall in Limoges, France, set on fire by rioters.  The town hall in Limoges was constructed from 1876 to 1883 and officially inaugurated on 14 July 1883.  UPDATE - The town hall s historic bell tower has collapsed. The building is on the verge of burning down.   @disclo",
+        "url": "https://t.me/disclosetv/21922",
+        "source": "tg:disclosetv",
+        "timestamp": "2026-10-18T21:53:11.629Z",
+        "matchedTracker": null,
+        "feedOrigin": "telegram",
+        "sourceTier": 3,
+        "geo": {
+          "lat": 46.2,
+          "lon": 2.2,
+          "place": "France",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched europe-climate-crisis-2026 on a single token — no substance (score 0.28)",
+      "confidence": 0.2833333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T21:53:12.318Z",
+      "candidate": {
+        "title": "JUST IN - Trump says  France is burning  and demands that the country close its borders and take control.   @disclosetv",
+        "url": "https://t.me/disclosetv/21925",
+        "source": "tg:disclosetv",
+        "timestamp": "2026-10-18T21:53:11.629Z",
+        "matchedTracker": null,
+        "feedOrigin": "telegram",
+        "sourceTier": 3,
+        "geo": {
+          "lat": 46.2,
+          "lon": 2.2,
+          "place": "France",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched europe-climate-crisis-2026 on a single token — no substance (score 0.28)",
+      "confidence": 0.2833333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T21:53:12.319Z",
+      "candidate": {
+        "title": "NEW - Trump gives his  complete and total endorsement  to Israeli Prime Minister Netanyahu for re-election.  Read here:  https://www.disclose.tv/id/nr7bcie25f/    @disclosetv",
+        "url": "https://t.me/disclosetv/21926",
+        "source": "tg:disclosetv",
+        "timestamp": "2026-10-18T21:53:11.629Z",
+        "matchedTracker": null,
+        "feedOrigin": "telegram",
+        "sourceTier": 3
+      },
+      "decision": "discard",
+      "reason": "matched colombia on a single token — no substance (score 0.28)",
+      "confidence": 0.2833333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-18T21:53:12.320Z",
+      "candidate": {
+        "title": "NOW - Macron addresses the nation, calling for order and says that the youth of France are  expressing great anguish and concern about the future... we need to pay heed to what they are saying and we must not minimise the hardships that they are facing.   MORE - Macron says he wi",
+        "url": "https://t.me/disclosetv/21927",
+        "source": "tg:disclosetv",
+        "timestamp": "2026-10-18T21:53:11.629Z",
+        "matchedTracker": null,
+        "feedOrigin": "telegram",
+        "sourceTier": 3,
+        "geo": {
+          "lat": 46.2,
+          "lon": 2.2,
+          "place": "France",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched drc-conflict on a single token — no substance (score 0.28)",
+      "confidence": 0.2833333333333333,
       "model": null,
       "scanType": "light"
     }
