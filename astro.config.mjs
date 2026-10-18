@@ -35,20 +35,6 @@ export default defineConfig({
     define: {
       CESIUM_BASE_URL: JSON.stringify('/cesium/'),
     },
-    optimizeDeps: {
-      // Cesium is 4.3 MB of ESM that the dev-time dependency scanner has
-      // choked on before — #331 was a different cause with the same symptom,
-      // a scan that never finishes and a dev server nobody can use. Under
-      // astro 7 the scanner is Rolldown rather than esbuild, and on CI it ran
-      // past a 25-minute cap on `[optimizer] scanning dependencies...` with
-      // the server otherwise healthy (`ready in 560 ms`).
-      //
-      // Excluding it keeps it out of the pre-bundle: the globe loads it lazily
-      // through deferImport anyway, so it is never on the first-paint path,
-      // and the production build takes a different route entirely
-      // (rollupOptions.manualChunks below).
-      exclude: ['cesium'],
-    },
     server: {
       allowedHosts: ['.trycloudflare.com'],
     },
