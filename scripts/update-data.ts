@@ -8,6 +8,7 @@ import {
   TimelineEventSchema,
   MapPointSchema,
   MapLineSchema,
+  MapLineFieldsSchema,
   StrikeItemSchema,
   AssetSchema,
   CasualtyRowSchema,
@@ -568,7 +569,13 @@ Return [] if nothing new.`,
     );
 
     const parsed = normalizeItems(JSON.parse(extractJSON(text)));
-    const LineSchema = MapLineSchema.omit({ lastUpdated: true }).extend({ lastUpdated: z.string().optional() });
+    // MapLineFieldsSchema, not MapLineSchema: the refined schema is a
+    // ZodEffects and `.omit()` is not a function on it, so this line threw
+    // every time the map-lines section ran. Identical bug, identical fix, in
+    // scripts/backfill.ts (#346) — the two scripts were written from each
+    // other. The 13 "'l' is of type 'unknown'" errors below were all
+    // downstream of this one.
+    const LineSchema = MapLineFieldsSchema.omit({ lastUpdated: true }).extend({ lastUpdated: z.string().optional() });
     const validItems = validateItemwise(parsed, LineSchema, 'map-lines');
 
     // Enforce time + weaponType on strike/retaliation lines
