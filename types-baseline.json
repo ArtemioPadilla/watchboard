@@ -1,6 +1,6 @@
 {
   "note": "Pre-existing `tsc --noEmit` errors, recorded so CI can fail on new ones. This list may shrink, never grow: fix an error and run `npm run check-types -- --update`.",
-  "total": 56,
+  "total": 49,
   "entries": [
     {
       "file": "mcp/server.ts",
@@ -141,12 +141,6 @@
       "count": 1
     },
     {
-      "file": "src/i18n/translations.ts",
-      "code": "TS1117",
-      "message": "An object literal cannot have multiple properties with the same name.",
-      "count": 4
-    },
-    {
       "file": "src/lib/aggregate-data.test.ts",
       "code": "TS2339",
       "message": "Property 'indicator' does not exist on type '{…}'.",
@@ -168,24 +162,6 @@
       "file": "src/pages/og/[tracker].png.ts",
       "code": "TS2345",
       "message": "Argument of type 'Buffer<ArrayBufferLike>' is not assignable to parameter of type 'BodyInit | null | undefined'.",
-      "count": 1
-    },
-    {
-      "file": "src/pages/og/[tracker].png.ts",
-      "code": "TS2578",
-      "message": "Unused '@ts-expect-error' directive.",
-      "count": 1
-    },
-    {
-      "file": "worker/index.ts",
-      "code": "TS2304",
-      "message": "Cannot find name 'KVNamespace'.",
-      "count": 1
-    },
-    {
-      "file": "worker/index.ts",
-      "code": "TS2304",
-      "message": "Cannot find name 'ScheduledEvent'.",
       "count": 1
     },
     {
