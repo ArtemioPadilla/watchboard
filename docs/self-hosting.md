@@ -119,6 +119,7 @@ The table is generated from the source by `scripts/list-env-vars.ts`
 | `VIDEO_CUT` | CI scripts, video render | `scripts/narrate-elevenlabs.ts`, `video/render.ts` |
 | `VIDEO_MODE` | video render | `video/render.ts`, `video/src/data/fetch-breaking.ts` |
 | `VIDEO_TYPE` | CI scripts | `scripts/post-video-social.ts` |
+| `WATCHBOARD_VIDEO_STATE_DIR` | video render | `video/src/data/fetch-breaking.ts` |
 | `X_ACCESS_TOKEN` | CI scripts | `scripts/hourly-post.ts`, `scripts/post-social-queue.ts`, `scripts/post-social.ts`, `scripts/x-check.ts` |
 | `X_ACCESS_TOKEN_SECRET` | CI scripts | `scripts/hourly-post.ts`, `scripts/post-social-queue.ts`, `scripts/post-social.ts`, `scripts/x-check.ts` |
 | `X_ALLOW_AUTO_APPROVED` | CI scripts | `scripts/post-social-queue.ts` |
