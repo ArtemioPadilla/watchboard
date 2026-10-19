@@ -12,9 +12,6 @@ const WORKFLOW = join(ROOT, '.github/workflows/e2e.yml');
 
 /** Specs deliberately not run in CI, with the reason. Keep this short. */
 const EXCLUDED: Record<string, string> = {
-  // Branch-local probe for the astro 7 investigation; prints browser console
-  // and failed requests and always fails on purpose. Goes with the branch.
-  '_hydration-probe.spec.ts': 'astro 7 branch probe, deliberately failing — not a test',
   // Measured 2026-10-18: 7 of its 8 tests fail locally. It predates the command
   // center's current markup and needs rewriting, not a line fix.
   'command-center.spec.ts': 'pre-E1 spec, 7 of 8 tests fail against current markup — needs rewriting',
