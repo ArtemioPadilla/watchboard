@@ -23,7 +23,8 @@
  */
 import { BskyAgent, RichText } from '@atproto/api';
 import { readFileSync, writeFileSync, existsSync, mkdirSync, statSync } from 'fs';
-import { join, basename } from 'path';
+import { join, basename, resolve } from 'path';
+import { fileURLToPath } from 'url';
 import { execSync } from 'child_process';
 import { todayDateString, PATHS } from './social-types.js';
 import { buildIgCaption, metaConfigFromEnv, publishFacebookVideo, publishInstagramReel } from './lib/meta-publish.js';
@@ -720,7 +721,14 @@ async function main(): Promise<void> {
   }
 }
 
-main().catch(err => {
-  console.error('[video-social] Fatal error:', err);
-  process.exit(1);
-});
+// Only when run as a script. Importing this module used to run the whole
+// posting pipeline — which is why it had no tests: the first one that imported
+// it published a video and then exited the test runner with
+// `process.exit unexpectedly called with "1"`.
+const invokedDirectly = process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+if (invokedDirectly) {
+  main().catch(err => {
+    console.error('[video-social] Fatal error:', err);
+    process.exit(1);
+  });
+}

@@ -1,4 +1,23 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+
+/**
+ * Point the tracker-history state at a throwaway directory BEFORE the module
+ * under test is imported — it resolves its state path at import time, and
+ * `vi.hoisted` is the callback that runs ahead of the imports below.
+ *
+ * Without this the suite wrote, and `rmSync`'d, the repo's own
+ * `video/state/tracker-history.json`: the committed file that keeps the daily
+ * video from showing the same trackers two days running. Running the tests
+ * deleted it, and nothing said so.
+ *
+ * No `fs` here on purpose — imports are not available yet, and
+ * `saveUsedTrackers` creates the directory itself.
+ */
+vi.hoisted(() => {
+  const tmp = process.env.TMPDIR ?? '/tmp';
+  process.env.WATCHBOARD_VIDEO_STATE_DIR =
+    `${tmp.replace(/\/$/, '')}/wb-video-state-${process.pid}-${Date.now()}`;
+});
 import {
   isTranslationCurrent,
   trackerHistoryPath,
@@ -244,12 +263,10 @@ describe('scoreCandidate with diversity', () => {
 });
 
 describe('loadHistory and saveUsedTrackers', () => {
-  // This used to resolve the repo's own video/state/tracker-history.json and
-  // rm it in both hooks, so running `npm test` in this package deleted the
-  // committed history — the file that stops the same trackers appearing two
-  // days running. `vitest.setup.ts` points WATCHBOARD_VIDEO_STATE_DIR at a
-  // temp directory before the module is imported; this reads back the path the
-  // module resolved, so the two can never drift apart again.
+  // Read the path back from the module rather than re-deriving it, so the
+  // test and the code can never point at different files again — which is how
+  // these hooks came to rm the repo's committed history. The override is set
+  // in the `vi.hoisted` block at the top of this file.
   const STATE_PATH = trackerHistoryPath();
 
   it('is not pointed at the repo state file while testing', () => {
