@@ -176,8 +176,98 @@ the next slot (08:00 / 13:00 / 18:00 / 22:00 UTC) posts what you approved.
 
    Optional: the `YOUTUBE_PRIVACY_STATUS` variable defaults to `private`.
    Leave it there until you have watched a few land, then set `public`.
-4. **Decide on `CLOUDFLARE_API_TOKEN`** — wire it or revoke it.
+4. **Decide on `CLOUDFLARE_API_TOKEN`** — wire it or revoke it. Set since
+   April, read by no workflow. See the first open decision below: the migration
+   it was obtained for no longer has the payoff it was filed for, so revoking
+   is now the likelier answer.
 5. `LINKEDIN_*` and `NEWSLETTER_SECRET` only if you want those channels.
+
+---
+
+## Open decisions
+
+Four things are waiting, and none of them is a missing credential — they are
+calls only the owner can make. Each is written here with what is already
+measured, so the decision is the only work left.
+
+### 1. The Cloudflare Pages migration: probably drop it
+
+Filed as a P0 on "GH Pages TTFB is 1.8-2.5s" and "automatic Brotli". Measured
+on 19 Oct 2026 from a Mexico City POP (`cache-cyw`):
+
+| page | TTFB | bytes | x-cache |
+|---|---|---|---|
+| `/` | 0.030s | 168,003 | HIT |
+| `/bolivia-crisis/` | 0.033s | 12,415 | HIT |
+| `/metrics/` | 0.030s | 12,806 | HIT |
+
+A cold MISS is served in 95-120 ms (Fastly `x-timer` VE), and GitHub Pages
+already gzips — 739 KB of homepage HTML goes out as 168 KB. Brotli over gzip is
+worth perhaps another fifteen per cent of bytes, not seconds.
+
+One location, one moment, warm edge. **Decide:** re-measure from Europe and a
+cold POP if the doubt matters, or close the item and revoke
+`CLOUDFLARE_API_TOKEN`. The roadmap entry (`rm-cloudflare-pages`) carries the
+same numbers.
+
+### 2. The translation quota: three locales have been frozen since 14 April
+
+`es`, `fr` and `pt` each have all 57 translated trackers stale — median 189
+days behind the English, worst 212. `scripts/check-translation-freshness.ts`
+prints this, and the nightly now runs it into its step summary.
+
+The cause is not a bug. `translate-data.yml` has its schedule commented out and
+its last run died with `Claude Code returned an error result: You've hit your
+limit · resets Apr 17` — the Claude Max quota the nightly data pipeline also
+draws on. It now alerts the private ops chat when it fails, so the next one is
+heard.
+
+**Decide** where the quota comes from. Re-enabling the daily cron as it was
+will hit the same wall:
+
+- weekly instead of daily (`cron: '0 22 * * 0'`), or
+- `tracker_slug` runs over the ten trackers that matter rather than `all`, or
+- an `ANTHROPIC_API_KEY` that is not the nightly's subscription.
+
+The daily video's Spanish track speaks English today **by design** — it uses a
+tracker's Spanish headline only while that translation is current, so it never
+reads six-month-old news as today's. Each tracker starts speaking Spanish on
+its own as its translation catches up. No code change is needed for that.
+
+### 3. The Android app: one permanent identifier, one delivery strategy
+
+`docs/superpowers/plans/2026-08-19-tauri-android-play-store.md` is written,
+reviewed and unimplemented on purpose. Its Task 1 blocks every other task, and
+it is two decisions:
+
+- **The app identifier** (`dev.watchboard.app` proposed). It is baked into
+  `tauri.conf.json` and the Play Store `packageName` and **cannot change after
+  the first Play Console upload** without creating a new listing.
+- **How the app gets the site.** This one is now answered by measurement:
+  `dist/` is 2.3 GB — and that is with per-event OG images capped at 25, so a
+  full build is larger. The three non-default locale trees are 231 MB each,
+  `og/` 216 MB, `pagefind/` 128 MB. Play caps a base module's compressed
+  download at 200 MB. Bundling is not a close call and not reachable by
+  trimming: English-only without `og/` and `pagefind` is still around a
+  gigabyte. **The shell has to remote-load watchboard.dev.**
+
+Everything after Task 1 also needs a Play Console account, a signing keystore
+and a Google Play service-account JSON — none of which exist yet, and all of
+which are the owner's to create.
+
+One finding from the plan's review was already real and is fixed: the
+service-worker guard compared against a hard-coded `watchboard.dev`, so every
+self-hosted instance and every `localhost` unregistered its own worker on each
+load. The other, widening the push API's CORS allowlist to a Tauri origin, is
+deliberately left until a Tauri client exists.
+
+### 4. Meta and YouTube credentials
+
+Items 2 and 3 above, under "What to configure, in priority order". Both need
+accounts only the owner has. Everything scriptable is already scripted:
+`scripts/youtube-oauth.ts` mints the refresh token locally, and
+`video-destinations-check.yml` verifies any configured destination read-only,
+publishing nothing.
 
 ---
 
