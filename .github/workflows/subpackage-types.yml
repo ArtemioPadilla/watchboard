@@ -6,9 +6,12 @@
 # defect. The consequence was that a real type error in either reached main
 # unseen: nothing in CI had ever compiled them.
 #
+# The same job runs video's own 35 tests, which no workflow ran either: the
+# root vitest `include` is src/, tests/ and scripts/ only. mcp has no tests.
+#
 # Path-filtered because it is two more npm installs. src/lib is in the filter
 # because video/src/data/fetch-breaking.ts imports from it.
-name: Subpackage types
+name: Subpackage types and tests
 
 on:
   pull_request:
@@ -41,8 +44,13 @@ jobs:
           # --legacy-peer-deps; `npm ci` has to agree with it.
           - pkg: video
             install: npm ci --legacy-peer-deps
+            # 35 tests that no workflow ran: the root vitest `include` covers
+            # src/, tests/ and scripts/ only, and nothing else compiles or runs
+            # this package. The deps are installed here already.
+            test: npm test
           - pkg: mcp
             install: npm ci
+            test: ''
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -56,3 +64,7 @@ jobs:
       - name: Type-check ${{ matrix.pkg }}
         working-directory: ${{ matrix.pkg }}
         run: npm run typecheck
+      - name: Test ${{ matrix.pkg }}
+        if: matrix.test != ''
+        working-directory: ${{ matrix.pkg }}
+        run: ${{ matrix.test }}

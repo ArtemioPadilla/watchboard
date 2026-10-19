@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import {
   isTranslationCurrent,
+  trackerHistoryPath,
   cooldownPenalty,
   noveltyBonus,
   pruneHistory,
@@ -14,7 +15,7 @@ import {
 } from './fetch-breaking.js';
 import type { VideoMode } from './fetch-breaking.js';
 import { existsSync, readFileSync, writeFileSync, mkdirSync, rmSync } from 'node:fs';
-import { resolve, join } from 'node:path';
+import { join } from 'node:path';
 
 // Helper to create a date string N days ago
 function daysAgoStr(n: number): string {
@@ -243,20 +244,27 @@ describe('scoreCandidate with diversity', () => {
 });
 
 describe('loadHistory and saveUsedTrackers', () => {
-  const STATE_DIR = resolve(import.meta.dirname ?? '.', '../../state');
-  const STATE_PATH = join(STATE_DIR, 'tracker-history.json');
+  // This used to resolve the repo's own video/state/tracker-history.json and
+  // rm it in both hooks, so running `npm test` in this package deleted the
+  // committed history — the file that stops the same trackers appearing two
+  // days running. `vitest.setup.ts` points WATCHBOARD_VIDEO_STATE_DIR at a
+  // temp directory before the module is imported; this reads back the path the
+  // module resolved, so the two can never drift apart again.
+  const STATE_PATH = trackerHistoryPath();
+
+  it('is not pointed at the repo state file while testing', () => {
+    // The guard for the whole arrangement: if vitest.setup.ts stops running,
+    // or the env override is removed, these hooks start rm-ing the committed
+    // history again and this is what says so.
+    expect(STATE_PATH).not.toMatch(/video[/\\]state[/\\]/);
+  });
 
   beforeEach(() => {
-    // Ensure clean state
-    if (existsSync(STATE_PATH)) {
-      rmSync(STATE_PATH);
-    }
+    if (existsSync(STATE_PATH)) rmSync(STATE_PATH);
   });
 
   afterEach(() => {
-    if (existsSync(STATE_PATH)) {
-      rmSync(STATE_PATH);
-    }
+    if (existsSync(STATE_PATH)) rmSync(STATE_PATH);
   });
 
   it('loadHistory returns default when no file exists', () => {

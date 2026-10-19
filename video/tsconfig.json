@@ -15,6 +15,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src/**/*", "render.ts"],
+  "include": ["src/**/*", "render.ts", "vitest.config.ts", "vitest.setup.ts"],
   "exclude": ["node_modules", "dist", "output"]
 }
