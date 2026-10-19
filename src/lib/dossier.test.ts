@@ -52,7 +52,10 @@ describe('reverseGeocode', () => {
     const deps = { fetchImpl: f.impl, geocodeCache: store, now: () => t, limiter: noWait };
     const a = await reverseGeocode(33.31, 44.37, deps);
     const b = await reverseGeocode(33.34, 44.36, deps); // same 0.1° cell
-    expect(a.countryCode).toBe('IQ');
+    // reverseGeocode is nullable; say so before reading through it, or a
+    // provider returning nothing reads as a confusing property-of-null throw.
+    expect(a).not.toBeNull();
+    expect(a!.countryCode).toBe('IQ');
     expect(b).toEqual(a);
     expect(f.calls).toHaveLength(1);
     expect(f.calls[0]).toContain('zoom=10');

@@ -167,7 +167,10 @@ export async function postBreaking(
         date: timestamp.slice(0, 10),
         tracker,
         type: 'breaking',
-        voice: 'journalist',
+        // The account has had one register since the April 2026 suspension
+        // (`Voice = 'analyst'`); this still recorded the retired one, so every
+        // row the hourly poster wrote described a voice it had not used.
+        voice: 'analyst',
         lang: 'en',
         text: tweetText,
         cost: COST_PER_TWEET,
@@ -240,7 +243,10 @@ export async function postNewTracker(
         date: timestamp.slice(0, 10),
         tracker: slug,
         type: 'breaking',
-        voice: 'journalist',
+        // The account has had one register since the April 2026 suspension
+        // (`Voice = 'analyst'`); this still recorded the retired one, so every
+        // row the hourly poster wrote described a voice it had not used.
+        voice: 'analyst',
         lang: 'en',
         text: tweetText,
         cost: COST_PER_TWEET,

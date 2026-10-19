@@ -1,12 +1,12 @@
 import { useRef, useEffect, type MutableRefObject } from 'react';
 import type { TelemetryState } from './mission-helpers';
+import type { MissionPhase } from '../../../lib/schemas';
 
-interface MissionPhase {
-  label: string;
-  startTime: string;
-  endTime: string;
-}
-
+// `MissionPhase` used to be declared again here, as
+// `{ label, startTime, endTime }`, while the schema every caller builds from
+// says `{ id, label, start, end }` — so the prop never type-checked (two of
+// the type baseline's entries) even though nothing broke at runtime: this
+// component reads only `label`. The canonical type is the one in schemas.ts.
 interface Props {
   telemetryRef: MutableRefObject<TelemetryState>;
   vehicle: string;

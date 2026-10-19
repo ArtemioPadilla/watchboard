@@ -8,6 +8,7 @@ import satori from 'satori';
 import { Resvg } from '@resvg/resvg-js';
 import * as fs from 'fs';
 import * as path from 'path';
+import { satoriTree } from './lib/satori-node';
 
 const SIZE = 400;
 
@@ -16,7 +17,7 @@ async function main() {
   const fontData = fs.readFileSync(fontPath);
 
   const svg = await satori(
-    {
+    satoriTree({
       type: 'div',
       props: {
         style: {
@@ -209,7 +210,7 @@ async function main() {
           },
         ],
       },
-    },
+    }),
     {
       width: SIZE,
       height: SIZE,

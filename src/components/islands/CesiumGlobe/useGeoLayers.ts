@@ -148,7 +148,12 @@ export function useStaticGeoLayer(viewer: CesiumViewer | null, id: string | null
   useEffect(() => {
     if (!viewer || viewer.isDestroyed()) return;
     const clear = () => { entitiesRef.current.forEach(e => { try { viewer.entities.remove(e); } catch { /* ok */ } }); entitiesRef.current = []; };
-    if (!enabled || !data) { clear(); setCount(0); return; }
+    // `id` is null when no layer is selected, and the source spec above is null
+    // with it, so `data` cannot arrive without one. Saying so here is what lets
+    // the entity `name` below be a string: it was `string | null`, and Cesium's
+    // `name` / `label.text` take `string | undefined` — four of the type
+    // baseline's entries, all from this one unnarrowed parameter.
+    if (!enabled || !data || !id) { clear(); setCount(0); return; }
     clear();
     const color = Color.fromCssColorString(meta?.color ?? '#ffffff');
     // Radio layers (filterByCountry: true) are scoped to the tracker's own

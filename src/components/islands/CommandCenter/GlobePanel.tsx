@@ -444,7 +444,11 @@ const GlobePanel = forwardRef<GlobePanelHandle, Props>(function GlobePanel({
       darkImg.crossOrigin = 'anonymous';
       darkImg.src = EARTH_DARK_URL;
 
-      const globe = Globe()(containerRef.current)
+      // `new Globe(el)` is the only form globe.gl 2.45 declares
+      // (`new(element, configOptions?): GlobeInstance`). The legacy Kapsule
+      // call `Globe()(el)` still works at runtime, which is why this went
+      // unnoticed as the last entry in the type baseline.
+      const globe = new Globe(containerRef.current)
         .globeImageUrl(EARTH_LIGHTS_URL)
         .bumpImageUrl(BUMP_URL)
         .backgroundColor('rgba(0,0,0,0)')

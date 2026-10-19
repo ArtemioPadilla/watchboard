@@ -56,7 +56,7 @@ _Generated from `src/data/roadmap-items.ts` by `scripts/sync-roadmap-doc.ts`. Do
 
 Last reviewed: **2026-10-19** · 78 items
 
-✅ 54 shipped · 📋 15 planned · 💡 6 idea · 🚧 3 in progress
+✅ 55 shipped · 📋 14 planned · 💡 6 idea · 🚧 3 in progress
 
 ## Now — Being built, or waiting on one named decision or credential
 
@@ -73,7 +73,7 @@ Last reviewed: **2026-10-19** · 78 items
 
 ## Next — The queue
 
-12 items. committed, not started
+11 items. committed, not started
 
 | | Title | Area | Priority | Effort | PRs |
 | --- | --- | --- | --- | --- | --- |
@@ -82,7 +82,6 @@ Last reviewed: **2026-10-19** · 78 items
 | 📋 | **Globe discoverability CTA** | UX | P1 | XS | — |
 | 📋 | **Per-section "last updated" indicators** | UX | P0 | S | — |
 | 📋 | **Accessibility audit (WCAG 2.1 AA)** | Accessibility | P1 | L | — |
-| 📋 | **Ratchet the type baseline down** | Infrastructure | P2 | M | #342, #346, #347 |
 | 📋 | **Decide whether the hook-first cut replaces the daily brief** | Growth | P2 | S | #228, #229, #353 |
 | 📋 | **Spanish narration reads English headlines** | Growth | P2 | S | — |
 | 📋 | **Investigate the alerts-panel e2e flake** | Reliability | P2 | S | — |
@@ -92,7 +91,6 @@ Last reviewed: **2026-10-19** · 78 items
 
 - **Migrate from GitHub Pages to Cloudflare Pages** — Target: -1 to -2 seconds TTFB
 - **Cut homepage HTML payload** — Estimate: HTML 157 KB → ~40 KB, -500-800 ms LCP
-- **Ratchet the type baseline down** — 56 → 25 baselined errors. What is left is 6 in web-push crypto (one Uint8Array/BufferSource root cause), 4 in a geo-layer hook, 4 satori ReactNode casts that are a library typing quirk with nothing behind them, and singles across nine files. No remaining cluster hides a defect that this pass could find by reading it.
 - **Decide whether the hook-first cut replaces the daily brief** — The decision is a variable now, not a code change. Both files are rendered in video/output/ for a look.
 - **Nothing type-checks video/ or mcp/** — Named rather than hidden by the exclusion that created it
 - **Rewrite the parked command-center e2e spec** — The homepage command center is covered by other specs; what is missing is this spec's own ground
@@ -119,7 +117,7 @@ Last reviewed: **2026-10-19** · 78 items
 
 ## Shipped — What the site does today
 
-54 items. live in production
+55 items. live in production
 
 | | Title | Area | Priority | Effort | PRs |
 | --- | --- | --- | --- | --- | --- |
@@ -175,6 +173,7 @@ Last reviewed: **2026-10-19** · 78 items
 | ✅ | **Keep data-derived strings out of inline scripts** | Reliability | P1 | S | #340 |
 | ✅ | **The daily brief's voice: silent on Telegram, and out of step with the picture** | Growth | P1 | S | #359 |
 | ✅ | **Migrate astro 5 → 7** | Infrastructure | P2 | L | #348, #354 |
+| ✅ | **Ratchet the type baseline down** | Infrastructure | P2 | M | #342, #346, #347, #360 |
 | ✅ | **Repair or delete the legacy data updater** | Infrastructure | P2 | S | #347 |
 | ✅ | **Gate the production build on pull requests** | Reliability | P1 | S | #352 |
 
@@ -210,6 +209,7 @@ Last reviewed: **2026-10-19** · 78 items
 - **Keep data-derived strings out of inline scripts** — Control: the new test fails against the unfixed page, naming the leaked tracker titles
 - **The daily brief's voice: silent on Telegram, and out of step with the picture** — Measured, not assumed, with the production filter over the real render. Overrun: a 29.6 s stand-in leaves its last 1.5 s at exactly the halved music floor (-34.1 dB against -28.2 dB of music alone) — none of the narration survives; the 20.7 s version sits 8 dB above it. Alignment: with the delay applied, the intro window stays at the music floor (-38 dB), the first slide carries the voice (-27.2 dB), the closing line lands inside the video (-26.4 dB) and the last second is clean (-43.5 dB). The cost is one headline at 23 s — three plus the call to action need about 20.5 s and the window after the intro is 20.06 s. The merge step now ffprobes its own output for an audio stream, because an amix that produced none still exits 0.
 - **Migrate astro 5 → 7** — Merged on astro 7.0 with the full suite green, playwright included: 20+ specs that had reported "element(s) not found" were islands that never hydrated, not markup that had moved
+- **Ratchet the type baseline down** — 0 baselined errors, from 56. `types-baseline.json` is now an empty list, so the gate fails on the first error anyone adds rather than on the twenty-sixth. The homepage globe was rechecked in a real browser after the globe.gl change — canvas, texture, pins and atmosphere — because that one was a runtime call shape, not an annotation.
 - **Repair or delete the legacy data updater** — The repair cost one line. The delete decision stays open and no longer blocks anything.
 - **Gate the production build on pull requests** — Full build ~31 min, sampled build 4m13s, same 18,316 pages. The job also asserts the artefact rather than the exit code: page count, a non-empty homepage, and that csp-hashes.ts actually removed unsafe-inline.
 

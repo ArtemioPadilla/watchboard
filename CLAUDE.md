@@ -41,12 +41,11 @@ build. `npm run check` (`astro check`) is not usable here either: it dies with
 `FATAL ERROR: ... JavaScript heap out of memory` on a project of this size.
 
 `npm run check-types` runs `tsc --noEmit` and compares the result against
-`types-baseline.json` — **25 errors today**, down from 56 when the gate
-shipped. The largest remaining group is a `Uint8Array<ArrayBufferLike>` vs
-`BufferSource` lib variance in `worker/web-push.ts` (6); `scripts/update-data.ts`
-held 14 of the original 56 and now holds none — they were one broken line and
-thirteen errors downstream of it (#347). It fails on anything **not** in that
-file and runs in the Tests workflow, so the count can shrink and never grow.
+`types-baseline.json` — **empty since 2026-10-19**, down from 56 when the gate
+shipped. The gate now fails on the first error anyone adds rather than on the
+twenty-sixth, so keep it that way: fix the error instead of baselining it.
+`npm run check-types -- --update` still exists for a genuinely pre-existing
+error that a dependency bump introduces, and it runs in the Tests workflow.
 Signatures are `file|TScode|message` with the line and column dropped: an error
 that moves from line 42 to 87 is the same error, and a baseline that churns on
 every edit is one nobody keeps current.

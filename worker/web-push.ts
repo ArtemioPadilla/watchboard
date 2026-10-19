@@ -3,6 +3,19 @@
  * Implements RFC 8291 (Message Encryption) + RFC 8292 (VAPID).
  */
 
+/**
+ * Bytes backed by an `ArrayBuffer`, specifically — not `ArrayBufferLike`.
+ *
+ * TypeScript 5.7 made `Uint8Array` generic over its buffer, and the DOM's
+ * `BufferSource` is `ArrayBufferView<ArrayBuffer> | ArrayBuffer`. A plain
+ * `Uint8Array` therefore widens to `Uint8Array<ArrayBufferLike>`, which could
+ * in principle be backed by a `SharedArrayBuffer`, and every Web Crypto call
+ * in this file rejected it — six of the repo's type-baseline errors, all one
+ * root cause. Nothing here is ever shared memory: each array comes from
+ * `new Uint8Array(n)` or from an `ArrayBuffer` a crypto call returned.
+ */
+type Bytes = Uint8Array<ArrayBuffer>;
+
 interface PushSubscription {
   endpoint: string;
   keys: {
@@ -189,7 +202,7 @@ async function encryptPayload(
   return result.buffer;
 }
 
-function buildInfo(type: string, subscriberPub: Uint8Array, localPub: Uint8Array): Uint8Array {
+function buildInfo(type: string, subscriberPub: Bytes, localPub: Bytes): Bytes {
   const typeBytes = new TextEncoder().encode(type);
   const result = new Uint8Array(typeBytes.length + subscriberPub.length + localPub.length);
   result.set(typeBytes);
@@ -201,11 +214,11 @@ function buildInfo(type: string, subscriberPub: Uint8Array, localPub: Uint8Array
 // ─── Crypto Helpers ───
 
 async function hkdfSha256(
-  salt: Uint8Array,
-  ikm: Uint8Array,
-  info: Uint8Array,
+  salt: Bytes,
+  ikm: Bytes,
+  info: Bytes,
   length: number
-): Promise<Uint8Array> {
+): Promise<Bytes> {
   const key = await crypto.subtle.importKey('raw', ikm, 'HKDF', false, ['deriveBits']);
   const bits = await crypto.subtle.deriveBits(
     { name: 'HKDF', hash: 'SHA-256', salt, info },
@@ -215,7 +228,7 @@ async function hkdfSha256(
   return new Uint8Array(bits);
 }
 
-function derToRaw(der: Uint8Array): Uint8Array {
+function derToRaw(der: Bytes): Bytes {
   // ECDSA signatures from WebCrypto may be in raw r||s format already (64 bytes)
   if (der.length === 64) return der;
 
@@ -244,13 +257,13 @@ function base64urlEncode(str: string): string {
   return arrayToBase64url(bytes);
 }
 
-function arrayToBase64url(arr: Uint8Array): string {
+function arrayToBase64url(arr: Bytes): string {
   let binary = '';
   for (const byte of arr) binary += String.fromCharCode(byte);
   return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
 }
 
-function base64urlDecode(str: string): Uint8Array {
+function base64urlDecode(str: string): Bytes {
   const base64 = str.replace(/-/g, '+').replace(/_/g, '/');
   const padding = '='.repeat((4 - (base64.length % 4)) % 4);
   const binary = atob(base64 + padding);

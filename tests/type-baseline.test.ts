@@ -114,8 +114,12 @@ describe('the committed baseline', () => {
   it('is well formed and its total matches its entries', async () => {
     const { readFileSync } = await import('node:fs');
     const b = JSON.parse(readFileSync('types-baseline.json', 'utf8')) as Baseline;
-    expect(b.entries.length).toBeGreaterThan(0);
+    // An empty baseline used to be a broken one, and this asserted
+    // `length > 0` to catch a file truncated by accident. The ratchet reached
+    // zero on 2026-10-19, so empty is now the finished state — what still has
+    // to hold is that the two ways of counting agree.
     expect(b.entries.reduce((n, e) => n + e.count, 0)).toBe(b.total);
+    expect(b.total).toBeGreaterThanOrEqual(0);
     // Every entry must be addressable: a baseline row whose file is gone is a
     // row nobody can ever clear.
     const { existsSync } = await import('node:fs');

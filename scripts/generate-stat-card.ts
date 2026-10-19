@@ -11,6 +11,7 @@ import satori from 'satori';
 import { Resvg } from '@resvg/resvg-js';
 import * as fs from 'fs';
 import * as path from 'path';
+import { satoriTree } from './lib/satori-node';
 
 const WIDTH = 1200;
 const HEIGHT = 628;
@@ -47,7 +48,7 @@ async function main(): Promise<void> {
   const trackerUpper = opts.tracker.replace(/-/g, ' ').toUpperCase();
 
   const svg = await satori(
-    {
+    satoriTree({
       type: 'div',
       props: {
         style: {
@@ -67,7 +68,7 @@ async function main(): Promise<void> {
           { type: 'div', props: { style: { position: 'absolute', bottom: 0, left: 0, right: 0, height: 4, background: 'linear-gradient(90deg, #f85149, #d29922)' } } },
         ],
       },
-    },
+    }),
     {
       width: WIDTH, height: HEIGHT,
       fonts: [
