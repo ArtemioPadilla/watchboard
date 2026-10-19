@@ -23,6 +23,8 @@ import {
   DEFAULT_LEAD_IN,
   HOOK_LEAD_IN,
   leadInForCut,
+  headlineFor,
+  untranslatedCount,
 } from './narrate-elevenlabs';
 
 const trackers = [
@@ -134,6 +136,45 @@ describe('composeNarration', () => {
     expect(t).not.toContain('<speak>');
     expect(t).not.toContain('<prosody');
     expect(t).toMatch(/<break time="0\.\ds" \/>/);
+  });
+});
+
+describe('speaking the language it is in', () => {
+  const mixed = [
+    { slug: 'a', name: 'A', headline: 'Strikes hit four provinces', headlineEs: 'Ataques golpean cuatro provincias' },
+    { slug: 'b', name: 'B', headline: 'Drone crashes near the border' },
+  ];
+
+  it('prefers the tracker\'s own Spanish headline for the Spanish track', () => {
+    expect(headlineFor(mixed[0], 'es')).toBe('Ataques golpean cuatro provincias');
+    expect(headlineFor(mixed[0], 'en')).toBe('Strikes hit four provinces');
+  });
+
+  it('falls back to English rather than dropping the item', () => {
+    expect(headlineFor(mixed[1], 'es')).toBe('Drone crashes near the border');
+  });
+
+  it('treats a blank Spanish headline as absent', () => {
+    expect(headlineFor({ slug: 'c', name: 'C', headline: 'English', headlineEs: '   ' }, 'es')).toBe('English');
+  });
+
+  it('still cuts at the semicolon, in either language', () => {
+    const t = { slug: 'd', name: 'D', headline: 'Lead; secondary clause', headlineEs: 'Principal; cláusula secundaria' };
+    expect(headlineFor(t, 'es')).toBe('Principal');
+    expect(headlineFor(t, 'en')).toBe('Lead');
+  });
+
+  it('counts how many lines fall back, so the run can say so', () => {
+    expect(untranslatedCount(mixed, 'es')).toBe(1);
+    expect(untranslatedCount(mixed, 'en')).toBe(0);
+    // A tracker with no headline at all is not spoken, so it is not a fallback.
+    expect(untranslatedCount([{ slug: 'e', name: 'E', headline: '' }], 'es')).toBe(0);
+  });
+
+  it('composes the Spanish brief from the Spanish headlines', () => {
+    const t = composeNarration({ mode: 'breaking', lang: 'es', trackers: mixed, totalTrackers: 125, videoSeconds: 23.06 });
+    expect(t).toContain('Ataques golpean cuatro provincias');
+    expect(t).not.toContain('Strikes hit four provinces');
   });
 });
 

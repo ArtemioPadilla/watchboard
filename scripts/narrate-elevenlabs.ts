@@ -58,6 +58,8 @@ export interface BreakingTracker {
   slug: string;
   name: string;
   headline?: string;
+  /** The tracker's own Spanish headline, when it has one (`data-es/meta.json`). */
+  headlineEs?: string;
 }
 
 export interface BreakingData {
@@ -122,10 +124,25 @@ export function leadInForCut(mode: NarrationMode, videoCut?: string): number {
   return mode === 'breaking' && asked === 'hook' ? HOOK_LEAD_IN : DEFAULT_LEAD_IN;
 }
 
-function cleanHeadline(t: BreakingTracker): string {
-  // The lead gets its real headline; a semicolon usually introduces a
-  // secondary clause that reads badly aloud.
-  return (t.headline || t.name || '').split(';')[0].trim();
+/**
+ * The headline to speak, in the language being spoken.
+ *
+ * The Spanish track used to read the English headlines with a Spanish closing
+ * line — the one register the listener could not place. 57 of the 133 trackers
+ * carry their own `heroHeadline` in `data-es/meta.json`, which the homepage
+ * has read since the /es/ cards landed and the video never did. The rest fall
+ * back to English, and `composeNarration`'s caller is told how many did rather
+ * than the fallback passing in silence.
+ */
+export function headlineFor(t: BreakingTracker, lang: NarrationLang): string {
+  const raw = lang === 'es' ? (t.headlineEs?.trim() || t.headline) : t.headline;
+  return (raw || '').split(';')[0].trim();
+}
+
+/** Trackers whose line will be spoken in English although the track is Spanish. */
+export function untranslatedCount(trackers: BreakingTracker[], lang: NarrationLang): number {
+  if (lang !== 'es') return 0;
+  return trackers.filter(t => (t.headline || '').trim() && !(t.headlineEs || '').trim()).length;
 }
 
 function joinNames(trackers: BreakingTracker[], lang: NarrationLang): string {
@@ -268,7 +285,7 @@ export function composeNarration(input: NarrationInput): string {
   for (const t of trackers) {
     // Headline only — no fallback to the tracker name. A bare name spoken in
     // a brief ("Yemen Conflict.") is the thing this change exists to remove.
-    const headline = (t.headline || '').split(';')[0].trim();
+    const headline = headlineFor(t, lang);
     if (!headline) continue;
     const line = /[.!?]$/.test(headline) ? headline : `${headline}.`;
     const cost = line.length + (lines.length > 0 ? asChars(BETWEEN_PAUSE) : 0);
@@ -427,6 +444,13 @@ async function main(): Promise<void> {
     leadIn,
   });
   const delay = narrationDelaySeconds(text, args.videoSeconds, leadIn);
+  const untranslated = untranslatedCount(data.trackers, args.lang);
+  if (untranslated > 0) {
+    console.warn(
+      `[narrate] ${untranslated} of ${data.trackers.length} trackers have no Spanish headline ` +
+        `(data-es/meta.json) — those lines are spoken in English`,
+    );
+  }
   console.log(
     `[narrate] ${args.mode}/${args.lang}: ${text.length} chars, ` +
       `${playSeconds(text).toFixed(1)}s of speech starting at ${delay.toFixed(2)}s` +
