@@ -73,11 +73,10 @@ Last reviewed: **2026-10-19** · 78 items
 
 ## Next — The queue
 
-10 items. committed, not started
+9 items. committed, not started
 
 | | Title | Area | Priority | Effort | PRs |
 | --- | --- | --- | --- | --- | --- |
-| 📋 | **Migrate from GitHub Pages to Cloudflare Pages** | Infrastructure | P0 | S | — |
 | 📋 | **Cut homepage HTML payload** | Performance | P1 | M | — |
 | 📋 | **Globe discoverability CTA** | UX | P1 | XS | — |
 | 📋 | **Per-section "last updated" indicators** | UX | P0 | S | — |
@@ -88,17 +87,17 @@ Last reviewed: **2026-10-19** · 78 items
 | 📋 | **Wire or revoke CLOUDFLARE_API_TOKEN** | Infrastructure | P2 | XS | — |
 | 📋 | **Nothing type-checks video/ or mcp/** | Infrastructure | P2 | S | #346 |
 
-- **Migrate from GitHub Pages to Cloudflare Pages** — Target: -1 to -2 seconds TTFB
 - **Cut homepage HTML payload** — Estimate: HTML 157 KB → ~40 KB, -500-800 ms LCP
 - **Decide whether the hook-first cut replaces the daily brief** — The decision is a variable now, not a code change. Both files are rendered in video/output/ for a look.
 - **Nothing type-checks video/ or mcp/** — Named rather than hidden by the exclusion that created it
 
 ## Later — Captured so it is not forgotten
 
-9 items. no commitment
+10 items. no commitment
 
 | | Title | Area | Priority | Effort | PRs |
 | --- | --- | --- | --- | --- | --- |
+| 📋 | **Migrate from GitHub Pages to Cloudflare Pages** | Infrastructure | P2 | S | — |
 | 📋 | **Tree-shake Cesium bundle** | Performance | P2 | L | — |
 | 📋 | **Data export (CSV / JSON)** | Growth | P2 | S | — |
 | 📋 | **Bundle analysis + Lighthouse CI budget** | Infrastructure | P2 | S | — |
@@ -109,6 +108,7 @@ Last reviewed: **2026-10-19** · 78 items
 | 💡 | **Event partition scaling** | Infrastructure | P3 | M | — |
 | 💡 | **Publish the May triage archive, or leave it in git** | Growth | P3 | XS | — |
 
+- **Migrate from GitHub Pages to Cloudflare Pages** — Not done, and no longer a P0 on the evidence filed with it: the -1 to -2 s it targets is not there to win. Re-measure from the regions that matter before spending the DNS change.
 - **Tree-shake Cesium bundle** — Not to be confused with the deferral that shipped in April: that moved the cost, this removes it.
 - **Data export (CSV / JSON)** — The API shipped; the buttons did not.
 - **Publish the May triage archive, or leave it in git** — Recoverable with: git show f654050be:public/_hourly/triage-log.json

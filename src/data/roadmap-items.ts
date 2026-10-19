@@ -207,10 +207,11 @@ export const ROADMAP_ITEMS: RoadmapItem[] = [
     id: 'rm-cloudflare-pages',
     title: 'Migrate from GitHub Pages to Cloudflare Pages',
     description:
-      'GH Pages TTFB is 1.8-2.5s; Cloudflare Pages typically 200-400ms + automatic Brotli compression + better LATAM/EU edge presence. No code changes, only DNS swap. Highest ROI/hour of the remaining perf levers.',
-    status: 'planned', area: 'infrastructure', priority: 'P0', effort: 'S', milestone: 'next',
-    date: '2026-04-26', dependsOn: ['rm-web-vitals'],
-    outcome: 'Target: -1 to -2 seconds TTFB',
+      'Filed on the premise that GitHub Pages TTFB is 1.8-2.5 s and that Cloudflare would bring Brotli. Measured against the live site on 2026-10-19 from a Mexico City POP (cache-cyw), both halves of that premise failed: warm TTFB is 30-40 ms across five pages, a cold MISS is served in 95-120 ms (Fastly x-timer VE), and GitHub Pages already gzips — the homepage goes out at 168 KB against 739 KB raw. Brotli over gzip is worth perhaps another fifteen per cent of bytes, not seconds. Whatever produced 1.8-2.5 s is not what the site does now. One location and one moment, so it does not settle the question for a reader in Europe or on a cold edge, but it is enough that the P0 should be re-decided on a current measurement rather than executed on this one. The homepage HTML being 739 KB raw is the larger number in that table and belongs to a different item.',
+    status: 'planned', area: 'infrastructure', priority: 'P2', effort: 'S', milestone: 'later',
+    date: '2026-10-19', dependsOn: ['rm-web-vitals'],
+    outcome:
+      'Not done, and no longer a P0 on the evidence filed with it: the -1 to -2 s it targets is not there to win. Re-measure from the regions that matter before spending the DNS change.',
   },
   {
     id: 'rm-cut-html-payload',
