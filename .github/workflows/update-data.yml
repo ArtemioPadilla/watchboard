@@ -708,6 +708,25 @@ jobs:
             echo "error_count=0" >> $GITHUB_OUTPUT
           fi
 
+      - name: Check translation freshness
+        # `translate-data.yml` has had its schedule commented out since April
+        # 2026, and its last run died on the Claude Max rate limit. Nothing
+        # said so, so three locales stopped moving for six months while every
+        # page kept rendering. This is the thing that says so.
+        #
+        # Non-blocking: a stale translation is not a reason to fail a data run,
+        # it is a reason to know.
+        continue-on-error: true
+        run: |
+          npx tsx scripts/check-translation-freshness.ts | tee /tmp/i18n.txt
+          {
+            echo "### Translation freshness"
+            echo ""
+            echo '```'
+            cat /tmp/i18n.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
       - name: Check source tiers
         # Zod cannot catch this: `tier` is a valid number whatever the source
         # says. But the tier scale is the product's core promise, so a
