@@ -681,11 +681,11 @@ export const ROADMAP_ITEMS: RoadmapItem[] = [
     id: 'rm-narration-sync',
     title: 'The daily brief\'s voice: silent on Telegram, and out of step with the picture',
     description:
-      'Two faults in one feature. The public Telegram channel was sent the base render every night while Bluesky and Meta got the narrated cut — an asymmetry between two otherwise identical workflow jobs, with a comment claiming it was deliberate. And the script was written to a fixed 420-character budget "because the brief is ~30s" when the render is 23.06 s, so the voice ran about 6.5 s long: it drifted behind the slides it was describing and `amix duration=first` truncated the closing brand line that #333 had just moved to the end. The budget is now derived from the duration the workflow ffprobes off the rendered MP4 (14 chars/second measured on two production runs, 0.9 headroom), so `VIDEO_CUT=hook` at 18.05 s is covered without another constant.',
+      'Three faults in one feature. The public Telegram channel was sent the base render every night while Bluesky and Meta got the narrated cut — an asymmetry between two otherwise identical workflow jobs, with a comment claiming it was deliberate. The script was written to a fixed 420-character budget "because the brief is ~30s" when the render is 23.06 s, so the voice ran about 6.5 s long: it drifted behind the slides it was describing and `amix duration=first` truncated the closing brand line that #333 had just moved to the end. And the mix started the voice at frame 0, about 3 s ahead of every slide, although Video.tsx had wrapped its own narration in `<Sequence from={INTRO_FRAMES}>` all along — that path only runs when a narration file exists at render time, which in CI it never does. The budget is now derived from the duration the workflow ffprobes off the rendered MP4, over the window after the intro, and the voice is delayed into place; `VIDEO_CUT=hook` at 18.05 s is covered without another constant.',
     status: 'shipped', area: 'growth', priority: 'P1', effort: 'S', milestone: 'done',
     prs: [359], date: '2026-10-19',
     outcome:
-      'Measured, not assumed: mixing a 29.6 s stand-in into the real render leaves its last 1.5 s at exactly the halved music floor (-34.1 dB against -28.2 dB of music alone) — nothing of the narration survives; the 20.7 s version sits 8 dB above it. The merge step now ffprobes its own output for an audio stream, because an amix that produced none still exits 0.',
+      'Measured, not assumed, with the production filter over the real render. Overrun: a 29.6 s stand-in leaves its last 1.5 s at exactly the halved music floor (-34.1 dB against -28.2 dB of music alone) — none of the narration survives; the 20.7 s version sits 8 dB above it. Alignment: with the delay applied, the intro window stays at the music floor (-38 dB), the first slide carries the voice (-27.2 dB), the closing line lands inside the video (-26.4 dB) and the last second is clean (-43.5 dB). The cost is one headline at 23 s — three plus the call to action need about 20.5 s and the window after the intro is 20.06 s. The merge step now ffprobes its own output for an audio stream, because an amix that produced none still exits 0.',
   },
 
   // ─── Now: in flight, or waiting on one decision or credential ────────
@@ -756,7 +756,7 @@ export const ROADMAP_ITEMS: RoadmapItem[] = [
     id: 'rm-spanish-narration',
     title: 'Spanish narration reads English headlines',
     description:
-      'The Spanish track speaks the English headlines with a Spanish closing line. It always did for the lead headline; it is three times as audible now that three are spoken. breaking.json carries no localised headline, so fixing it means translating about six headlines a day at render time.',
+      'The Spanish track speaks the English headlines with a Spanish closing line. It always did for the lead headline; it is three times as audible now that three are spoken. breaking.json carries no localised headline, so fixing it means translating about six headlines a day at render time. Worth settling at the same time: nothing publishes the Spanish cut. The breaking job mixes narration-es.mp3 into a -narrated-es.mp4 that no destination reads, and the progress job does not mix it at all — so every night pays ElevenLabs for Spanish characters that reach no listener.',
     status: 'planned', area: 'growth', priority: 'P2', effort: 'S', milestone: 'next',
     date: '2026-10-18', dependsOn: ['rm-video-narration'],
   },

@@ -296,9 +296,24 @@ describe('daily-video narration reaches every destination, and fits the picture'
     it(`${job} job writes the script to the measured render, not a remembered duration`, () => {
       const narrate = stepWith(jobsOf()[job], 'narrate-elevenlabs.ts --mode');
       expect(narrate).toMatch(/ffprobe .*format=duration/s);
-      // Both languages, or one track fits and the other overruns.
       expect((narrate.match(/--video-seconds/g) ?? []).length).toBeGreaterThanOrEqual(1);
-      expect((narrate.match(/\$FIT/g) ?? []).length).toBe(2);
+      // Both languages, or one track fits the picture and the other overruns.
+      const invocations = narrate.split('\n').filter((l) => l.includes('narrate-elevenlabs.ts --mode'));
+      expect(invocations).toHaveLength(2);
+      for (const line of invocations) expect(line).toContain('$FIT');
+    });
+
+    it(`${job} job starts the voice where the script says, not at frame 0`, () => {
+      const narrate = stepWith(jobsOf()[job], 'narrate-elevenlabs.ts --mode');
+      expect(narrate).toMatch(/--lead-in/);
+      // The hook cut opens on a headline after 60 frames, the brief after 90.
+      expect(narrate).toMatch(/VIDEO_CUT.*hook/s);
+      const merge = stepWith(jobsOf()[job], 'amix=inputs=2');
+      expect(merge).toMatch(/\.delay-ms/);
+      expect(merge).toMatch(/adelay=delays=\$\{DELAY\}ms:all=1/);
+      // A missing or junk sidecar must mean "no delay", never an ffmpeg error.
+      expect(merge).toMatch(/\|\|\s*echo 0/);
+      expect(merge).toMatch(/\*\[!0-9\]\*\) DELAY=0/);
     });
 
     it(`${job} job verifies the mix produced audio, and the gate reads its outcome`, () => {

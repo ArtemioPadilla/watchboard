@@ -18,6 +18,9 @@ import {
   CHARS_PER_SECOND,
   SPEECH_HEADROOM,
   budgetForSeconds,
+  playSeconds,
+  narrationDelaySeconds,
+  DEFAULT_LEAD_IN,
 } from './narrate-elevenlabs';
 
 const trackers = [
@@ -133,9 +136,13 @@ describe('composeNarration', () => {
 });
 
 describe('fitting the script to the picture', () => {
-  /** Spoken length of a composed script: the break markup is not read aloud. */
-  const spokenSeconds = (t: string) =>
-    t.replace(/<break[^>]*>/g, '').length / CHARS_PER_SECOND;
+  const spokenSeconds = playSeconds;
+
+  it('counts the break pauses, not just the words', () => {
+    const t = composeNarration({ mode: 'breaking', lang: 'en', trackers, totalTrackers: 125, videoSeconds: 23.06 });
+    const words = t.replace(/<break[^>]*>/g, '').length / CHARS_PER_SECOND;
+    expect(spokenSeconds(t)).toBeGreaterThan(words + 1);
+  });
 
   it('scales the budget with the measured duration', () => {
     expect(budgetForSeconds(23)).toBe(Math.floor(23 * CHARS_PER_SECOND * SPEECH_HEADROOM));
@@ -185,9 +192,53 @@ describe('fitting the script to the picture', () => {
     for (const lang of ['en', 'es'] as const) {
       for (const seconds of [18.05, 23.06, 30, 45]) {
         const t = composeNarration({ mode: 'breaking', lang, trackers, totalTrackers: 125, videoSeconds: seconds });
-        expect(spokenSeconds(t)).toBeLessThanOrEqual(seconds);
+        // Starting on the first slide and still ending before the last frame.
+        const delay = narrationDelaySeconds(t, seconds);
+        expect(delay + spokenSeconds(t)).toBeLessThanOrEqual(seconds);
       }
     }
+  });
+
+  it('keeps the voice out of the intro, and ends before the last frame', () => {
+    // Video.tsx already renders its own narration inside
+    // `<Sequence from={INTRO_FRAMES}>`; the ffmpeg path, which is the one CI
+    // actually takes, started the voice at frame 0 and so ran ~3 s ahead of
+    // every slide it was describing.
+    const t = composeNarration({ mode: 'breaking', lang: 'en', trackers, totalTrackers: 125, videoSeconds: 23.06 });
+    expect(narrationDelaySeconds(t, 23.06)).toBe(DEFAULT_LEAD_IN);
+    expect(DEFAULT_LEAD_IN + spokenSeconds(t)).toBeLessThanOrEqual(23.06);
+  });
+
+  it('takes the lead-in out of the budget, so the delay cannot push the ending past the video', () => {
+    const wordy = Array.from({ length: 4 }, (_, i) => ({
+      slug: `t${i}`, name: `T${i}`, headline: `Item ${i} ${'w'.repeat(85)}`,
+    }));
+    const args = { mode: 'breaking' as const, lang: 'en' as const, trackers: wordy, totalTrackers: 125, videoSeconds: 23.06 };
+    const withLead = composeNarration(args);
+    const without = composeNarration({ ...args, leadIn: 0 });
+    expect(spokenSeconds(withLead)).toBeLessThan(spokenSeconds(without));
+    expect(spokenSeconds(withLead)).toBeLessThanOrEqual(23.06 - DEFAULT_LEAD_IN);
+  });
+
+  it('gives back as much of the lead-in as the script can afford, never more', () => {
+    const t = composeNarration({ mode: 'breaking', lang: 'en', trackers, totalTrackers: 125, videoSeconds: 23.06 });
+    // A long script in a short video: start early rather than be cut off.
+    expect(narrationDelaySeconds(t, spokenSeconds(t) + 1)).toBeCloseTo(1, 5);
+    expect(narrationDelaySeconds(t, spokenSeconds(t))).toBe(0);
+    // Never past the lead-in, however much room there is.
+    expect(narrationDelaySeconds(t, 600)).toBe(DEFAULT_LEAD_IN);
+    // The hook cut opens sooner.
+    expect(narrationDelaySeconds(t, 600, 2)).toBe(2);
+    // No duration measured means no delay: the budget is then a guess, and a
+    // delayed guess is what loses the closing line.
+    expect(narrationDelaySeconds(t, undefined)).toBe(0);
+    expect(narrationDelaySeconds(t, Number.NaN)).toBe(0);
+  });
+
+  it('playSeconds counts the words and the silence', () => {
+    expect(playSeconds('<break time="2s" />')).toBeCloseTo(2, 5);
+    expect(playSeconds('x'.repeat(CHARS_PER_SECOND))).toBeCloseTo(1, 5);
+    expect(playSeconds(`${'x'.repeat(CHARS_PER_SECOND)}<break time="0.5s" />`)).toBeCloseTo(1.5, 5);
   });
 
   it('keeps the closing line even when one headline alone overruns the video', () => {
@@ -275,6 +326,14 @@ describe('parseArgs / paths', () => {
       expect(parseArgs(['--print', '--video-seconds', bad]).videoSeconds).toBeUndefined();
     }
     expect(parseArgs(['--print']).videoSeconds).toBeUndefined();
+  });
+
+  it('takes the lead-in, and ignores one it cannot use', () => {
+    expect(parseArgs(['--print', '--lead-in', '2']).leadIn).toBe(2);
+    expect(parseArgs(['--print', '--lead-in', '0']).leadIn).toBe(0);
+    for (const bad of ['', 'x', '-1']) {
+      expect(parseArgs(['--print', '--lead-in', bad]).leadIn).toBeUndefined();
+    }
   });
 
   it('prefers the per-mode snapshot and falls back to breaking.json', () => {

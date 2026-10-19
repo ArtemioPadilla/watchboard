@@ -76,10 +76,35 @@ export interface NarrationInput {
    * rather than to a remembered duration. Omitted falls back to SPEECH_BUDGET.
    */
   videoSeconds?: number;
+  /** Seconds of intro the voice stays out of. Defaults to DEFAULT_LEAD_IN. */
+  leadIn?: number;
 }
 
 /** `<break time="0.7s" />` is the pause syntax eleven_multilingual_v2 honours in plain text. */
 const pause = (seconds: number): string => `<break time="${seconds}s" />`;
+
+/**
+ * The two pauses in the script, as constants because the budget has to pay for
+ * them. A `<break>` is silence the voice actually spends: three items and a
+ * closing line cost 1.9 s of it, which the character count alone cannot see.
+ */
+export const BETWEEN_PAUSE = 0.6;
+export const BEFORE_TAIL_PAUSE = 0.7;
+
+/**
+ * Seconds of picture before the first tracker slide, which the voice should
+ * not talk over.
+ *
+ * This is not a new convention: `video/src/Video.tsx` already renders its
+ * optional narration inside `<Sequence from={INTRO_FRAMES}>` — 90 frames at
+ * 30 fps. That path only runs when a narration file exists at render time,
+ * which in CI it never does (the render comes first), so the ffmpeg mix took
+ * over and started the voice at frame 0. The two paths now agree.
+ *
+ * The hook cut opens on a headline after 60 frames instead (`HookVideo.tsx`),
+ * so the workflow passes `--lead-in 2` when `VIDEO_CUT=hook`.
+ */
+export const DEFAULT_LEAD_IN = 3;
 
 function cleanHeadline(t: BreakingTracker): string {
   // The lead gets its real headline; a semicolon usually introduces a
@@ -136,6 +161,36 @@ export function budgetForSeconds(seconds: number): number {
   return Math.max(60, Math.floor(seconds * CHARS_PER_SECOND * SPEECH_HEADROOM));
 }
 
+/**
+ * How long a composed script takes to play: the words at CHARS_PER_SECOND plus
+ * the silence its `<break>` tags ask for. Three items and a closing line spend
+ * 1.9 s on pauses — a tenth of the brief, and invisible to a character count.
+ */
+export function playSeconds(text: string): number {
+  const pauses = [...text.matchAll(/<break time="([\d.]+)s"\s*\/>/g)]
+    .reduce((sum, m) => sum + Number(m[1]), 0);
+  return text.replace(/<break[^>]*>/g, '').length / CHARS_PER_SECOND + pauses;
+}
+
+/**
+ * Where to start the voice in the mix, so the first headline lands on the
+ * first slide instead of over the intro.
+ *
+ * The lead-in, unless the script is too long to afford it — then as much of it
+ * as fits. A voice that starts late and gets cut off by `amix duration=first`
+ * would be worse than one that starts early, so the slack decides.
+ */
+export function narrationDelaySeconds(
+  text: string,
+  videoSeconds?: number,
+  leadIn = DEFAULT_LEAD_IN,
+): number {
+  if (!Number.isFinite(leadIn) || leadIn <= 0) return 0;
+  if (videoSeconds === undefined || !Number.isFinite(videoSeconds) || videoSeconds <= 0) return 0;
+  const slack = videoSeconds - playSeconds(text);
+  return Math.max(0, Math.min(leadIn, slack));
+}
+
 /** The closing call to action. Spoken once, last, after the news. */
 function closing(lang: NarrationLang, more: number): string {
   if (lang === 'es') {
@@ -171,8 +226,12 @@ function closing(lang: NarrationLang, more: number): string {
 export function composeNarration(input: NarrationInput): string {
   const { lang, trackers } = input;
   const more = Math.max(0, input.totalTrackers - trackers.length);
+  // The window the voice actually has: the video minus the intro it stays out
+  // of. Budgeting the whole 23 s and then delaying by 3 s would put the
+  // closing line past the last frame, where amix drops it.
+  const leadIn = input.leadIn ?? DEFAULT_LEAD_IN;
   const budget = input.videoSeconds !== undefined
-    ? budgetForSeconds(input.videoSeconds)
+    ? budgetForSeconds(Math.max(0, input.videoSeconds - leadIn))
     : SPEECH_BUDGET;
 
   if (trackers.length === 0) {
@@ -184,7 +243,11 @@ export function composeNarration(input: NarrationInput): string {
 
   const tail = closing(lang, more);
   const lines: string[] = [];
-  let spent = tail.length;
+  // Silence is part of the length. The closing pause is always paid; each item
+  // after the first adds one more. Counted in characters so the whole budget
+  // stays one unit.
+  const asChars = (seconds: number) => seconds * CHARS_PER_SECOND;
+  let spent = tail.length + asChars(BEFORE_TAIL_PAUSE);
 
   for (const t of trackers) {
     // Headline only — no fallback to the tracker name. A bare name spoken in
@@ -192,11 +255,12 @@ export function composeNarration(input: NarrationInput): string {
     const headline = (t.headline || '').split(';')[0].trim();
     if (!headline) continue;
     const line = /[.!?]$/.test(headline) ? headline : `${headline}.`;
+    const cost = line.length + (lines.length > 0 ? asChars(BETWEEN_PAUSE) : 0);
     // Drop a trailing item rather than truncate one mid-sentence: a clipped
     // headline is a half-told fact, which is worse than one fewer item.
-    if (spent + line.length > budget && lines.length > 0) break;
+    if (spent + cost > budget && lines.length > 0) break;
     lines.push(line);
-    spent += line.length;
+    spent += cost;
   }
 
   // No tracker carried a headline. Saying "no developments" would be false
@@ -204,11 +268,11 @@ export function composeNarration(input: NarrationInput): string {
   if (lines.length === 0) {
     const names = joinNames(trackers, lang);
     return lang === 'es'
-      ? `Hoy seguimos: ${names}. ${pause(0.6)}${tail}`
-      : `Tracking today: ${names}. ${pause(0.6)}${tail}`;
+      ? `Hoy seguimos: ${names}. ${pause(BETWEEN_PAUSE)}${tail}`
+      : `Tracking today: ${names}. ${pause(BETWEEN_PAUSE)}${tail}`;
   }
 
-  return `${lines.join(` ${pause(0.6)}`)} ${pause(0.7)}${tail}`;
+  return `${lines.join(` ${pause(BETWEEN_PAUSE)}`)} ${pause(BEFORE_TAIL_PAUSE)}${tail}`;
 }
 
 /** Which snapshot the render left for this mode. Falls back to breaking.json, as the workflow always has. */
@@ -297,7 +361,7 @@ export async function synthesize(req: TtsRequest, fetchImpl: FetchLike = fetch a
   return bytes;
 }
 
-interface Args { mode: NarrationMode; lang: NarrationLang; out?: string; print: boolean; videoSeconds?: number }
+interface Args { mode: NarrationMode; lang: NarrationLang; out?: string; print: boolean; videoSeconds?: number; leadIn?: number }
 
 export function parseArgs(argv: string[]): Args {
   const get = (flag: string): string | undefined => {
@@ -320,7 +384,17 @@ export function parseArgs(argv: string[]): Args {
   if (rawSeconds !== undefined && videoSeconds === undefined) {
     console.warn(`[narrate] ignoring --video-seconds ${rawSeconds}: not a positive number`);
   }
-  return { mode, lang, out, print, videoSeconds };
+  // Seconds of intro before the first slide — 2 for the hook cut, 3 for the
+  // daily brief. Same leniency: a bad value takes the default.
+  const rawLead = get('--lead-in');
+  // `Number('')` is 0, and a 0 lead-in is exactly the misalignment this flag
+  // exists to remove — so an empty value is rejected, not read as zero.
+  const parsedLead = rawLead === undefined || rawLead.trim() === '' ? undefined : Number(rawLead);
+  const leadIn = parsedLead !== undefined && Number.isFinite(parsedLead) && parsedLead >= 0 ? parsedLead : undefined;
+  if (rawLead !== undefined && leadIn === undefined) {
+    console.warn(`[narrate] ignoring --lead-in ${rawLead}: not a non-negative number`);
+  }
+  return { mode, lang, out, print, videoSeconds, leadIn };
 }
 
 async function main(): Promise<void> {
@@ -332,8 +406,14 @@ async function main(): Promise<void> {
     trackers: data.trackers,
     totalTrackers: countActiveTrackers(),
     videoSeconds: args.videoSeconds,
+    leadIn: args.leadIn,
   });
-  console.log(`[narrate] ${args.mode}/${args.lang}: ${text.length} chars`);
+  const delay = narrationDelaySeconds(text, args.videoSeconds, args.leadIn ?? DEFAULT_LEAD_IN);
+  console.log(
+    `[narrate] ${args.mode}/${args.lang}: ${text.length} chars, ` +
+      `${playSeconds(text).toFixed(1)}s of speech starting at ${delay.toFixed(2)}s` +
+      (args.videoSeconds ? ` of ${args.videoSeconds.toFixed(2)}s of video` : ' (duration unknown)'),
+  );
   if (args.print) {
     console.log(text);
     return;
@@ -354,7 +434,12 @@ async function main(): Promise<void> {
   const tmp = `${out}.part`;
   writeFileSync(tmp, bytes);
   renameSync(tmp, out);
-  console.log(`[narrate] wrote ${out} (${(bytes.length / 1024).toFixed(0)} KB, voice ${voiceId})`);
+  // Where the mix should start the voice, for the ffmpeg step to read. A
+  // sidecar rather than a stdout value because the two run in different shell
+  // steps, and rather than recomputing it there because that would be the same
+  // arithmetic written twice in two languages.
+  writeFileSync(`${out}.delay-ms`, `${Math.round(delay * 1000)}\n`);
+  console.log(`[narrate] wrote ${out} (${(bytes.length / 1024).toFixed(0)} KB, voice ${voiceId}), delay ${Math.round(delay * 1000)}ms`);
 }
 
 const invokedDirectly = process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url);

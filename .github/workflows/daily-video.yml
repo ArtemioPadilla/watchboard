@@ -128,6 +128,7 @@ jobs:
           ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
           ELEVENLABS_VOICE_EN: ${{ vars.ELEVENLABS_VOICE_EN }}
           ELEVENLABS_VOICE_ES: ${{ vars.ELEVENLABS_VOICE_ES }}
+          VIDEO_CUT: ${{ vars.VIDEO_CUT }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_ALERT_CHAT_ID: ${{ secrets.TELEGRAM_ALERT_CHAT_ID }}
           TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
@@ -143,8 +144,14 @@ jobs:
             "video/output/watchboard-${DATE}.mp4" 2>/dev/null || echo "")
           FIT=""
           [ -n "$SECS" ] && FIT="--video-seconds $SECS"
-          echo "[narrate] video is ${SECS:-unknown} s"
-          # shellcheck disable=SC2086 # FIT is a flag pair or empty, by design
+          # Seconds of picture before the first tracker slide: the voice starts
+          # there instead of over the intro, which is where Video.tsx has always
+          # put its own narration sequence. The hook cut opens after 60 frames.
+          LEAD=3
+          [ "${VIDEO_CUT:-}" = "hook" ] && LEAD=2
+          FIT="$FIT --lead-in $LEAD"
+          echo "[narrate] video is ${SECS:-unknown} s, lead-in ${LEAD}s"
+          # shellcheck disable=SC2086 # FIT is flag pairs, deliberately split
           npx tsx scripts/narrate-elevenlabs.ts --mode breaking --lang en $FIT --out video/output/narration-en.mp3
           rc_en=$?
           # shellcheck disable=SC2086
@@ -173,8 +180,15 @@ jobs:
             NARR="video/output/narration-${lang}.mp3"
             [ -f "$NARR" ] && [ -f "$VIDEO" ] || continue
             OUT="video/output/watchboard-${DATE}-narrated-${lang}.mp4"
+            # Start the voice on the first slide, not over the intro. The
+            # offset is computed where the script is written (it depends on how
+            # long the script turned out) and left beside the mp3, so the
+            # arithmetic is not repeated here in shell.
+            DELAY=$(cat "${NARR}.delay-ms" 2>/dev/null || echo 0)
+            case "$DELAY" in ''|*[!0-9]*) DELAY=0 ;; esac
+            echo "[merge] ${lang}: voice starts at ${DELAY}ms"
             if ffmpeg -i "$VIDEO" -i "$NARR" \
-              -filter_complex '[0:a]volume=0.4[music];[1:a]volume=0.9[narr];[music][narr]amix=inputs=2:duration=first[out]' \
+              -filter_complex "[0:a]volume=0.4[music];[1:a]adelay=delays=${DELAY}ms:all=1,volume=0.9[narr];[music][narr]amix=inputs=2:duration=first[out]" \
               -map 0:v -map '[out]' -c:v copy \
               "$OUT" -y; then
               # Verify the artefact, not the exit code: a mix that produced no
@@ -571,6 +585,7 @@ jobs:
           ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
           ELEVENLABS_VOICE_EN: ${{ vars.ELEVENLABS_VOICE_EN }}
           ELEVENLABS_VOICE_ES: ${{ vars.ELEVENLABS_VOICE_ES }}
+          VIDEO_CUT: ${{ vars.VIDEO_CUT }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_ALERT_CHAT_ID: ${{ secrets.TELEGRAM_ALERT_CHAT_ID }}
           TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
@@ -581,7 +596,10 @@ jobs:
             "video/output/watchboard-${DATE}-progress.mp4" 2>/dev/null || echo "")
           FIT=""
           [ -n "$SECS" ] && FIT="--video-seconds $SECS"
-          echo "[narrate] progress video is ${SECS:-unknown} s"
+          LEAD=3
+          [ "${VIDEO_CUT:-}" = "hook" ] && LEAD=2
+          FIT="$FIT --lead-in $LEAD"
+          echo "[narrate] progress video is ${SECS:-unknown} s, lead-in ${LEAD}s"
           # shellcheck disable=SC2086
           npx tsx scripts/narrate-elevenlabs.ts --mode progress --lang en $FIT --out video/output/narration-progress-en.mp3
           rc_en=$?
@@ -609,8 +627,13 @@ jobs:
           OUT="video/output/watchboard-${DATE}-progress-narrated-en.mp4"
           [ -f "$NARR" ] && [ -f "$VIDEO" ] || exit 0
 
+          # Start the voice on the first slide, not over the intro. Computed
+          # where the script is written and left beside the mp3.
+          DELAY=$(cat "${NARR}.delay-ms" 2>/dev/null || echo 0)
+          case "$DELAY" in ''|*[!0-9]*) DELAY=0 ;; esac
+          echo "[merge] voice starts at ${DELAY}ms"
           if ffmpeg -i "$VIDEO" -i "$NARR" \
-            -filter_complex '[0:a]volume=0.4[music];[1:a]volume=0.9[narr];[music][narr]amix=inputs=2:duration=first[out]' \
+            -filter_complex "[0:a]volume=0.4[music];[1:a]adelay=delays=${DELAY}ms:all=1,volume=0.9[narr];[music][narr]amix=inputs=2:duration=first[out]" \
             -map 0:v -map '[out]' -c:v copy \
             "$OUT" -y; then
             if ! ffprobe -v error -select_streams a:0 -show_entries stream=codec_name -of csv=p=0 "$OUT" | grep -q .; then
