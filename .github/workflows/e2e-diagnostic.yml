@@ -1,0 +1,62 @@
+name: E2E Diagnostic
+
+# Run one e2e spec, on any ref, and get the error text.
+#
+# Built while debugging the astro 7 branch, where five full-suite runs were
+# cancelled before Playwright reached its summary — which is where the `list`
+# reporter prints the actual error. Twenty specs failing at ~1.5 minutes each
+# cannot finish inside any sane cap, so those runs produced durations and no
+# reasons, and three of them were spent guessing wrong from a truncated log.
+#
+# One spec, no retries, finishes in minutes, prints what it saw and uploads
+# the trace — which a cancelled job never does. Useful for any flaky or
+# failing spec, not just that branch.
+#
+# Deliberately NOT part of e2e.yml: tests/e2e-workflow-coverage.test.ts asserts
+# that every spec is run by that workflow, and narrowing it to debug would have
+# meant weakening the gate that stops a spec silently never running.
+#
+# `workflow_dispatch` only resolves workflows on the default branch, so this
+# lives on main and is dispatched with `--ref <branch>`. It does nothing until
+# someone asks it to.
+
+on:
+  workflow_dispatch:
+    inputs:
+      spec:
+        description: 'Spec to run, e.g. e2e/activity-sort.spec.ts'
+        required: true
+        default: 'e2e/activity-sort.spec.ts'
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+
+      - name: Generate the static API (read by the activity spec)
+        run: npm run generate-api
+
+      - name: Run one spec, no retries, full reporter
+        env:
+          PUBLIC_ENABLE_DEEPSTATE: 'true'
+        run: npx playwright test "${{ inputs.spec }}" --retries=0 --reporter=list
+
+      - name: Upload the trace
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: diagnostic-trace
+          path: test-results/
+          retention-days: 3
+          if-no-files-found: ignore
