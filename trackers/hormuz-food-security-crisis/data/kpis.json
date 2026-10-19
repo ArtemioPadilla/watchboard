@@ -2,14 +2,13 @@
   {
     "id": "brent_crude",
     "label": "Brent Crude",
-    "value": "$104.32/bbl Sep 25 close (-2.1%), as diplomatic hopes from Iran's seven-day Hormuz plan eased prices before WSJ reported Sep 26 that Trump privately rejected the proposal",
+    "value": "$109.86/bbl Oct 16 settle, first close near $110 since May; ~$108 on Oct 19 (-1.7%) as Iran urges US to accept its Hormuz reopening proposal",
     "color": "red",
-    "source": "TradingEconomics / Bloomberg / Ynetnews / The Times of Israel (Sep 25-26, 2026)",
+    "source": "Reuters / Oil price reporting (Oct 16-19, 2026)",
     "contested": false,
-    "delta": "Eased 2.1% ($2.28) to $104.32 at Friday Sep 25 close from Thursday's $106.60 settle, as markets priced in some chance Iran's seven-day Hormuz roadmap could advance; the Wall Street Journal reported Sep 26 that Trump had privately rejected the plan and expects to resume bombing Iran after the November midterms, clouding the de-escalation case heading into the new week",
-    "deltaDetail": { "value": -2.28, "direction": "down", "period": "24h" },
-    "trend": "down",
-    "lastUpdated": "2026-09-26T12:00:00Z"
+    "delta": "Record weekly vessel-attack count (10+ in week to Oct 16) pushed Brent to $109.86; easing ~1.7% on Oct 19",
+    "trend": "up",
+    "lastUpdated": "2026-10-19T19:46:48.000Z"
   },
   {
     "id": "saudi_pipeline_status",
@@ -42,7 +41,11 @@
     "source": "The National / Euronews (Sep 10-11, 2026)",
     "contested": false,
     "delta": "New second chokepoint risk: Houthi capture of Yemen's Mokha port and advance toward the strait cut Red Sea vessel crossings from 30 (Wed) to 12 (Thu), narrowing the Suez/Red Sea bypass route shippers have used to avoid the closed Strait of Hormuz",
-    "deltaDetail": { "value": -18, "direction": "down", "period": "24h" },
+    "deltaDetail": {
+      "value": -18,
+      "direction": "down",
+      "period": "24h"
+    },
     "trend": "down",
     "lastUpdated": "2026-09-11T18:02:37Z"
   },
@@ -65,7 +68,11 @@
     "source": "FAO (Aug 2026, released Sep 4 -- highest since late 2022)",
     "contested": false,
     "delta": "Up 1.9% from July's revised level and 2.5% y/y; broad-based across all five commodity groups -- sugar +11.9% m/m, cereals +2.2% m/m (highest since May 2024), dairy +2.3% m/m",
-    "deltaDetail": { "value": 2.2, "direction": "up", "period": "30d" },
+    "deltaDetail": {
+      "value": 2.2,
+      "direction": "up",
+      "period": "30d"
+    },
     "trend": "up",
     "lastUpdated": "2026-09-04T00:00:00Z"
   },
@@ -78,7 +85,11 @@
     "contested": true,
     "contestNote": "CENTCOM reports cumulative 1B+ barrels under passage-protection; independent tracking puts daily transits at 10-17 large vessels/day vs. the pre-war ~125/day baseline, implying volumes may reflect lighter individual cargoes or improved scheduling rather than a full transit count recovery",
     "delta": "Exports recovered to ~80% of prewar levels by Sep 29, up from ~72% reported Sep 28; Iran's blockade capability assessed as weakening under sustained US Navy passage-protection operations",
-    "deltaDetail": { "value": 80, "direction": "up", "period": "vs prewar" },
+    "deltaDetail": {
+      "value": 80,
+      "direction": "up",
+      "period": "vs prewar"
+    },
     "deltaNote": "Iran's seven-day roadmap tied any reopening to the US lifting its naval blockade; US officials describe Iran as 'exhausted' by the ongoing interdiction campaign",
     "trend": "up",
     "lastUpdated": "2026-09-29T02:55:24Z"

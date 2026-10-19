@@ -1,5 +1,20 @@
 [
   {
+    "date": "2026-10-19",
+    "title": "Russian Fuel Crisis Tracker Update — Oct 19, 2026",
+    "summary": "Backfilled Oct 10: Russia's government partially lifted its diesel export ban, clearing 500,000 tons for export a day after the Trump-Putin deal. Novak said domestic supply is unaffected, while analysts doubt refinery and tanker capacity to deliver. No other sections had verifiable new data.",
+    "sectionsUpdated": [
+      "events",
+      "meta"
+    ],
+    "provenance": {
+      "method": "llm",
+      "model": "claude",
+      "generatedAt": "2026-10-19T19:50:20.000Z",
+      "pipeline": "update-data"
+    }
+  },
+  {
     "date": "2026-10-17",
     "title": "Breaking: Trump defends Russia diesel deal as lawmakers from both parties complain",
     "summary": "Trump defends Russia diesel deal as lawmakers from both parties complain",
@@ -57,6 +72,20 @@
     "provenance": {
       "method": "heuristic",
       "generatedAt": "2026-10-15T18:37:15.104Z",
+      "pipeline": "ensure-digests"
+    }
+  },
+  {
+    "date": "2026-10-10",
+    "title": "Russian Fuel Crisis Tracker Update — Sat Oct 10, 2026",
+    "summary": "Russia's government partially lifted its diesel export ban (in force since July 2026) a day after the Trump-Putin deal, allowing 500,000 tons to be sold abroad with immediate effect.",
+    "sectionsUpdated": [
+      "events"
+    ],
+    "source": "freshness",
+    "provenance": {
+      "method": "heuristic",
+      "generatedAt": "2026-10-19T20:08:15.086Z",
       "pipeline": "ensure-digests"
     }
   },
