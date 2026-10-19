@@ -285,6 +285,8 @@ const pushTrackers = loadAllTrackers()
   </script>
 
   <script>
+    import { ownServiceWorkerScope, isForeignServiceWorker } from '../lib/sw-scope';
+
     const observer = new IntersectionObserver(
       entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
       { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
@@ -292,11 +294,16 @@ const pushTrackers = loadAllTrackers()
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
     if ('serviceWorker' in navigator) {
-      // Unregister any foreign service worker (e.g. from main site)
-      // that may be caching routes incorrectly
+      // Unregister any foreign service worker — one left at a scope this
+      // deployment no longer serves from, which would answer out of an old
+      // cache. Compared against our own scope rather than a hard-coded
+      // hostname: the old check unregistered this page's own worker anywhere
+      // but watchboard.dev, which includes every self-hosted instance and
+      // localhost. See src/lib/sw-scope.ts.
+      const ownScope = ownServiceWorkerScope(import.meta.env.BASE_URL, location.origin);
       navigator.serviceWorker.getRegistrations().then(regs => {
         for (const reg of regs) {
-          if (reg.scope && !reg.scope.includes('watchboard.dev')) reg.unregister();
+          if (isForeignServiceWorker(reg.scope, ownScope)) reg.unregister();
         }
       });
       // Register Watchboard service worker (scoped to the configured base path)
