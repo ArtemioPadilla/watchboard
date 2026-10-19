@@ -142,6 +142,40 @@ the next slot (08:00 / 13:00 / 18:00 / 22:00 UTC) posts what you approved.
    **`YOUTUBE_REFRESH_TOKEN`** (secrets) — the last manual destination.
    An API key is **not** enough: uploading writes to a channel, so it needs
    an OAuth refresh token.
+
+   **How to get them.** In the [Google Cloud console](https://console.cloud.google.com/):
+
+   1. Create (or pick) a project, then **APIs & Services → Library → YouTube
+      Data API v3 → Enable**.
+   2. **OAuth consent screen**: External, fill the app name and your email.
+      Add yourself under **Test users** — while the app is in Testing it
+      issues refresh tokens only to listed testers, and a token minted here
+      otherwise expires in seven days.
+   3. **Credentials → Create credentials → OAuth client ID → Web application**,
+      with `http://localhost:8787/callback` as an authorised redirect URI.
+      That gives you the client id and secret.
+   4. Mint the refresh token — this repo runs the fiddly part for you:
+
+      ```bash
+      npx tsx scripts/youtube-oauth.ts --client-id <id> --client-secret <secret>
+      ```
+
+      It serves the redirect URI, prints a consent URL to open **signed in as
+      the account that owns the channel**, catches the code, exchanges it and
+      prints the refresh token once. Nothing is written to disk and nothing
+      goes anywhere but Google.
+
+   5. Set all three and verify without publishing anything:
+
+      ```bash
+      gh secret set YOUTUBE_CLIENT_ID
+      gh secret set YOUTUBE_CLIENT_SECRET
+      gh secret set YOUTUBE_REFRESH_TOKEN
+      gh workflow run video-destinations-check.yml
+      ```
+
+   Optional: the `YOUTUBE_PRIVACY_STATUS` variable defaults to `private`.
+   Leave it there until you have watched a few land, then set `public`.
 4. **Decide on `CLOUDFLARE_API_TOKEN`** — wire it or revoke it.
 5. `LINKEDIN_*` and `NEWSLETTER_SECRET` only if you want those channels.
 

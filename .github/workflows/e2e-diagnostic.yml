@@ -1,19 +1,24 @@
 name: E2E Diagnostic
 
-# Branch-local, dispatch-only, one spec at a time.
+# Run one e2e spec, on any ref, and get the error text.
 #
-# Five runs of the full suite against astro 7 were cancelled before
-# Playwright reached its summary — which is where the `list` reporter prints
-# the actual error. Twenty specs failing at ~1.5 minutes each cannot finish
-# inside any sane cap, so those runs produced durations and no reasons, and I
-# spent three of them guessing wrong.
+# Built while debugging the astro 7 branch, where five full-suite runs were
+# cancelled before Playwright reached its summary — which is where the `list`
+# reporter prints the actual error. Twenty specs failing at ~1.5 minutes each
+# cannot finish inside any sane cap, so those runs produced durations and no
+# reasons, and three of them were spent guessing wrong from a truncated log.
 #
-# One spec, no retries, finishes in minutes and says what it saw. This exists
-# to answer that question and should be deleted with the branch.
+# One spec, no retries, finishes in minutes, prints what it saw and uploads
+# the trace — which a cancelled job never does. Useful for any flaky or
+# failing spec, not just that branch.
 #
 # Deliberately NOT part of e2e.yml: tests/e2e-workflow-coverage.test.ts asserts
 # that every spec is run by that workflow, and narrowing it to debug would have
 # meant weakening the gate that stops a spec silently never running.
+#
+# `workflow_dispatch` only resolves workflows on the default branch, so this
+# lives on main and is dispatched with `--ref <branch>`. It does nothing until
+# someone asks it to.
 
 on:
   workflow_dispatch:
