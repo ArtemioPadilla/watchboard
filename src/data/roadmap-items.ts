@@ -815,6 +815,17 @@ export const ROADMAP_ITEMS: RoadmapItem[] = [
       'All 7 tests pass and the spec runs in CI, so the EXCLUDED map in tests/e2e-workflow-coverage.test.ts is empty — which is the state worth keeping, since a spec parked there is a spec nobody runs.',
   },
 
+  {
+    id: 'rm-tauri-android',
+    title: 'Android app: the plan is written, the decision is not',
+    description:
+      'docs/superpowers/plans/2026-08-19-tauri-android-play-store.md wraps the existing PWA in a Tauri v2 shell and ships a signed AAB to the Play internal track on every version tag, ported from a working pipeline in a sibling repo. It is unimplemented on purpose: its own Task 1 is a decision nobody else can take, because the Android identifier is permanent after the first Play Console upload and the content-delivery strategy depends on a number the plan could only estimate. That number is now measured — dist/ is 2.3 GB, and that is with per-event OG images capped at 25, so a full build is larger. The three non-default locale trees are 231 MB each, og/ 216 MB, pagefind 128 MB, briefing 114 MB, api 90 MB. Play caps a base module compressed download at 200 MB, so bundling dist/ is not a close call and not fixable by trimming: English-only without og/ and pagefind is still around a gigabyte. Task 1 therefore answers itself — the shell must remote-load watchboard.dev — which in turn makes the plan two cross-origin items live rather than hypothetical.',
+    status: 'idea', area: 'growth', priority: 'P3', effort: 'XL', milestone: 'later',
+    prs: [363, 366], date: '2026-10-19',
+    outcome:
+      'One of the two cross-origin bugs its adversarial review found was real today, not only under Tauri, and is fixed in #366: the service-worker guard compared against a hard-coded watchboard.dev, so every self-hosted instance and every localhost unregistered its own worker on each load. The other, the push API CORS allowlist, is deliberately left alone — widening a security control for a client that does not exist yet is not a fix.',
+  },
+
   // ─── Later: captured, no commitment ─────────────────────────────────
   {
     id: 'rm-triage-archive-may',

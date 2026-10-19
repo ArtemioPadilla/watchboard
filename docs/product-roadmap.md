@@ -54,9 +54,9 @@ chronology lives on each item's own `date`:
 
 _Generated from `src/data/roadmap-items.ts` by `scripts/sync-roadmap-doc.ts`. Do not edit between the markers._
 
-Last reviewed: **2026-10-19** · 78 items
+Last reviewed: **2026-10-19** · 79 items
 
-✅ 56 shipped · 📋 12 planned · 💡 6 idea · 🚧 4 in progress
+✅ 56 shipped · 📋 12 planned · 💡 7 idea · 🚧 4 in progress
 
 ## Now — Being built, or waiting on one named decision or credential
 
@@ -94,7 +94,7 @@ Last reviewed: **2026-10-19** · 78 items
 
 ## Later — Captured so it is not forgotten
 
-10 items. no commitment
+11 items. no commitment
 
 | | Title | Area | Priority | Effort | PRs |
 | --- | --- | --- | --- | --- | --- |
@@ -107,11 +107,13 @@ Last reviewed: **2026-10-19** · 78 items
 | 💡 | **Migration corridors globe layer** | Content | P3 | M | — |
 | 💡 | **Print-friendly view** | UX | P3 | S | — |
 | 💡 | **Event partition scaling** | Infrastructure | P3 | M | — |
+| 💡 | **Android app: the plan is written, the decision is not** | Growth | P3 | XL | #363, #366 |
 | 💡 | **Publish the May triage archive, or leave it in git** | Growth | P3 | XS | — |
 
 - **Migrate from GitHub Pages to Cloudflare Pages** — Not done, and no longer a P0 on the evidence filed with it: the -1 to -2 s it targets is not there to win. Re-measure from the regions that matter before spending the DNS change.
 - **Tree-shake Cesium bundle** — Not to be confused with the deferral that shipped in April: that moved the cost, this removes it.
 - **Data export (CSV / JSON)** — The API shipped; the buttons did not.
+- **Android app: the plan is written, the decision is not** — One of the two cross-origin bugs its adversarial review found was real today, not only under Tauri, and is fixed in #366: the service-worker guard compared against a hard-coded watchboard.dev, so every self-hosted instance and every localhost unregistered its own worker on each load. The other, the push API CORS allowlist, is deliberately left alone — widening a security control for a client that does not exist yet is not a fix.
 - **Publish the May triage archive, or leave it in git** — Recoverable with: git show f654050be:public/_hourly/triage-log.json
 
 ## Shipped — What the site does today
