@@ -1,0 +1,58 @@
+# video/ and mcp/ are separate npm packages with their own package.json,
+# tsconfig and lockfile, and the root `npm ci` installs neither — Remotion
+# comes from `make video-prep`, the MCP SDK from nobody. `tsconfig.check.json`
+# therefore excludes them, because from the root every import under them is
+# unresolvable and every error an artefact of the missing types rather than a
+# defect. The consequence was that a real type error in either reached main
+# unseen: nothing in CI had ever compiled them.
+#
+# Path-filtered because it is two more npm installs. src/lib is in the filter
+# because video/src/data/fetch-breaking.ts imports from it.
+name: Subpackage types
+
+on:
+  pull_request:
+    paths:
+      - 'video/**'
+      - 'mcp/**'
+      - 'src/lib/**'
+      - '.github/workflows/subpackage-types.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'video/**'
+      - 'mcp/**'
+      - 'src/lib/**'
+      - '.github/workflows/subpackage-types.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  typecheck:
+    name: ${{ matrix.pkg }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Remotion's peer ranges are why the Makefile installs this one with
+          # --legacy-peer-deps; `npm ci` has to agree with it.
+          - pkg: video
+            install: npm ci --legacy-peer-deps
+          - pkg: mcp
+            install: npm ci
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: ${{ matrix.pkg }}/package-lock.json
+      - name: Install ${{ matrix.pkg }} dependencies
+        working-directory: ${{ matrix.pkg }}
+        run: ${{ matrix.install }}
+      - name: Type-check ${{ matrix.pkg }}
+        working-directory: ${{ matrix.pkg }}
+        run: npm run typecheck
