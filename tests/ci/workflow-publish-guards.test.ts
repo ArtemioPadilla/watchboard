@@ -347,3 +347,47 @@ describe('workflows that can stop without anyone noticing', () => {
     expect(step).toContain('TELEGRAM_CHANNEL_ID');
   });
 });
+
+// Every scheduled cron must name a locale. The failure this guards against is
+// not a crash: an unmapped cron that defaulted to `es` would translate Spanish
+// again and leave fr or pt frozen, with every page still rendering.
+describe('translate-data.yml schedule', () => {
+  const src = () => wf('translate-data.yml');
+
+  it('runs weekly, not daily, and not off the nightly', () => {
+    const crons = [...src().matchAll(/- cron: '([^']+)'/g)].map((m) => m[1]);
+    expect(crons.length).toBeGreaterThan(0);
+    for (const c of crons) {
+      const [, , , , dow] = c.split(' ');
+      expect(dow, `${c} runs every day — that is what exhausted the quota`).not.toBe('*');
+    }
+    // The nightly owns 14:00; the hourly scan owns 00:00/06:00/12:00/18:00.
+    for (const c of crons) expect(c.split(' ')[1]).toBe('22');
+    expect(src()).not.toMatch(/workflow_run:/);
+  });
+
+  it('maps every cron it declares to a locale', () => {
+    const crons = [...src().matchAll(/- cron: '([^']+)'/g)].map((m) => m[1]);
+    const resolve = src().split(/\n\s+- name: /).find((s) => s.startsWith('Resolve target trackers'))!;
+    for (const c of crons) {
+      expect(resolve, `cron '${c}' has no locale branch`).toContain(`'${c}') LOCALE=`);
+    }
+    // And an unmapped one is an error, not a silent Spanish run.
+    expect(resolve).toMatch(/::error::cron .* has no locale mapping/);
+  });
+
+  it('covers every locale that has translated data in the repo', () => {
+    const { readdirSync, existsSync } = require('node:fs') as typeof import('node:fs');
+    const locales = new Set<string>();
+    for (const slug of readdirSync('trackers')) {
+      if (!existsSync(`trackers/${slug}`)) continue;
+      for (const e of readdirSync(`trackers/${slug}`, { withFileTypes: true })) {
+        if (e.isDirectory() && e.name.startsWith('data-')) locales.add(e.name.slice(5));
+      }
+    }
+    const resolve = src().split(/\n\s+- name: /).find((s) => s.startsWith('Resolve target trackers'))!;
+    for (const loc of locales) {
+      expect(resolve, `${loc} has translated data but no cron keeps it current`).toContain(`LOCALE=${loc}`);
+    }
+  });
+});
