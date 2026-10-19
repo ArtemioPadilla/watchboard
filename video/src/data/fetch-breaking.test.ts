@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import {
+  isTranslationCurrent,
   cooldownPenalty,
   noveltyBonus,
   pruneHistory,
@@ -346,5 +347,26 @@ describe('activity bonus (plan E7)', () => {
   it('leaves positive mode untouched', () => {
     const c = makeCandidate({ tone: 'progress' });
     expect(scoreCandidate({ ...c, activity: 100 }, 'positive')).toBe(scoreCandidate(c, 'positive'));
+  });
+});
+
+describe('isTranslationCurrent', () => {
+  const EN = '2026-10-19T03:00:00Z';
+
+  it('accepts a translation written after, or within a day of, the English', () => {
+    expect(isTranslationCurrent(EN, '2026-10-19T05:00:00Z')).toBe(true);
+    expect(isTranslationCurrent(EN, '2026-10-18T22:00:00Z')).toBe(true);
+  });
+
+  it('rejects one that is further behind than the daily pass could explain', () => {
+    expect(isTranslationCurrent(EN, '2026-10-17T03:00:00Z')).toBe(false);
+    // The real case on 2026-10-19: every data-es/meta.json in the repo.
+    expect(isTranslationCurrent(EN, '2026-04-12T09:00:23.000Z')).toBe(false);
+  });
+
+  it('treats unknown freshness as not fresh', () => {
+    expect(isTranslationCurrent(EN, undefined)).toBe(false);
+    expect(isTranslationCurrent(undefined, EN)).toBe(false);
+    expect(isTranslationCurrent(EN, 'not a date')).toBe(false);
   });
 });

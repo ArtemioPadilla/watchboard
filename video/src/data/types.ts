@@ -10,6 +10,12 @@ export interface BreakingTracker {
   name: string;
   icon: string;
   headline: string;
+  /**
+   * The tracker's own Spanish headline, from `data-es/meta.json`, for the
+   * Spanish narration track. 57 of 133 trackers have one; the rest fall back
+   * to `headline` and the narration script says how many did.
+   */
+  headlineEs?: string;
   kpiLabel: string;
   kpiValue: number;
   kpiPrefix: string;

@@ -56,24 +56,26 @@ _Generated from `src/data/roadmap-items.ts` by `scripts/sync-roadmap-doc.ts`. Do
 
 Last reviewed: **2026-10-19** · 78 items
 
-✅ 56 shipped · 📋 13 planned · 💡 6 idea · 🚧 3 in progress
+✅ 56 shipped · 📋 12 planned · 💡 6 idea · 🚧 4 in progress
 
 ## Now — Being built, or waiting on one named decision or credential
 
-3 items. in flight
+4 items. in flight
 
 | | Title | Area | Priority | Effort | PRs |
 | --- | --- | --- | --- | --- | --- |
 | 🚧 | **Per-tracker email / Telegram subscriptions** | Growth | P3 | M | — |
 | 🚧 | **Restart X posting behind human approval** | Growth | P1 | S | #226, #306, #338 |
 | 🚧 | **Automate the remaining video destinations** | Growth | P1 | M | #306, #325, #350, #356 |
+| 🚧 | **Spanish narration reads English headlines** | Growth | P1 | S | #364 |
 
 - **Per-tracker email / Telegram subscriptions** — Telegram channel notifications and a newsletter page are live; the web-push worker exists but is not wired to a delivery schedule
 - **Automate the remaining video destinations** — No code remains. The runbook carries the console walkthrough for both, including the Test-users step that otherwise expires a YouTube token after seven days.
+- **Spanish narration reads English headlines** — The plumbing is done and gated; what is left is not in the video at all. Give translate-data.yml a budget it can live inside and the Spanish brief starts speaking Spanish on its own, with no further change — the gate opens per tracker as each translation catches up.
 
 ## Next — The queue
 
-9 items. committed, not started
+8 items. committed, not started
 
 | | Title | Area | Priority | Effort | PRs |
 | --- | --- | --- | --- | --- | --- |
@@ -82,7 +84,6 @@ Last reviewed: **2026-10-19** · 78 items
 | 📋 | **Per-section "last updated" indicators** | UX | P0 | S | — |
 | 📋 | **Accessibility audit (WCAG 2.1 AA)** | Accessibility | P1 | L | — |
 | 📋 | **Decide whether the hook-first cut replaces the daily brief** | Growth | P2 | S | #228, #229, #353 |
-| 📋 | **Spanish narration reads English headlines** | Growth | P2 | S | — |
 | 📋 | **Investigate the alerts-panel e2e flake** | Reliability | P2 | S | — |
 | 📋 | **Wire or revoke CLOUDFLARE_API_TOKEN** | Infrastructure | P2 | XS | — |
 | 📋 | **Nothing type-checks video/ or mcp/** | Infrastructure | P2 | S | #346 |

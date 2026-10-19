@@ -518,6 +518,26 @@ interface LoadedTrackerData {
   activity?: number;
 }
 
+/**
+ * Is a translation current enough to speak as today's news?
+ *
+ * One day of tolerance: the translation pass runs after the English update, so
+ * being a few hours behind is normal and being a week behind is not. A missing
+ * timestamp on either side counts as not current — unknown freshness is not
+ * freshness.
+ */
+export function isTranslationCurrent(
+  enLastUpdated: string | undefined,
+  esLastUpdated: string | undefined,
+  toleranceMs = 24 * 60 * 60 * 1000,
+): boolean {
+  if (!enLastUpdated || !esLastUpdated) return false;
+  const en = Date.parse(enLastUpdated);
+  const es = Date.parse(esLastUpdated);
+  if (Number.isNaN(en) || Number.isNaN(es)) return false;
+  return es >= en - toleranceMs;
+}
+
 function loadTrackerBreaking(slug: string): LoadedTrackerData | null {
   const trackerDir = join(TRACKERS_DIR, slug);
   const configPath = join(trackerDir, 'tracker.json');
@@ -534,6 +554,33 @@ function loadTrackerBreaking(slug: string): LoadedTrackerData | null {
     if (config.status !== 'active') return null;
 
     const headline = meta.heroHeadline ?? `${config.shortName ?? config.name} — latest updates`;
+
+    // The Spanish hero headline, where the tracker has a CURRENT one.
+    //
+    // The homepage has read `data-es/meta.json` since the /es/ cards landed;
+    // the video never did, so the Spanish narration track spoke English
+    // headlines with a Spanish closing line. Reading the file is the easy half.
+    // The hard half is that on 2026-10-19 not one of the 57 Spanish metas was
+    // current: median 189 days behind the English, minimum 60, maximum 212.
+    // ukraine-war's said "Colapsa el alto al fuego de Pascua" while the English
+    // one was about US sanctions waivers. A daily brief that reads a six-month
+    // old headline as today's news is worse than one that reads today's news in
+    // the wrong language, so the translation is used only while it is current
+    // and the narration script reports every line that falls back.
+    let headlineEs: string | undefined;
+    const esMetaPath = join(trackerDir, 'data-es', 'meta.json');
+    if (existsSync(esMetaPath)) {
+      try {
+        const esMeta: MetaData = JSON.parse(readFileSync(esMetaPath, 'utf-8'));
+        const candidate = esMeta.heroHeadline?.trim();
+        if (candidate && isTranslationCurrent(meta.lastUpdated, esMeta.lastUpdated)) {
+          headlineEs = candidate;
+        }
+      } catch {
+        // Unparseable es meta is not worth failing the render over; the
+        // narration falls back to the English headline and reports it.
+      }
+    }
 
     let kpiLabel = 'DAY';
     let kpiValue = meta.dayCount ?? 0;
@@ -566,6 +613,7 @@ function loadTrackerBreaking(slug: string): LoadedTrackerData | null {
       name: config.shortName ?? config.name,
       icon: config.icon,
       headline,
+      ...(headlineEs ? { headlineEs } : {}),
       kpiLabel,
       kpiValue,
       kpiPrefix,
