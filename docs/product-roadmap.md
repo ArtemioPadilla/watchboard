@@ -56,26 +56,24 @@ _Generated from `src/data/roadmap-items.ts` by `scripts/sync-roadmap-doc.ts`. Do
 
 Last reviewed: **2026-10-19** · 79 items
 
-✅ 56 shipped · 📋 13 planned · 💡 6 idea · 🚧 4 in progress
+✅ 57 shipped · 📋 13 planned · 💡 6 idea · 🚧 3 in progress
 
 ## Now — Being built, or waiting on one named decision or credential
 
-4 items. in flight
+3 items. in flight
 
 | | Title | Area | Priority | Effort | PRs |
 | --- | --- | --- | --- | --- | --- |
-| 🚧 | **Per-tracker email / Telegram subscriptions** | Growth | P3 | M | — |
 | 🚧 | **Restart X posting behind human approval** | Growth | P1 | S | #226, #306, #338 |
 | 🚧 | **Automate the remaining video destinations** | Growth | P1 | M | #306, #325, #350, #356 |
-| 🚧 | **Spanish narration reads English headlines** | Growth | P1 | S | #364 |
+| 🚧 | **Spanish narration reads English headlines** | Growth | P1 | S | #364, #367, #368, #370 |
 
-- **Per-tracker email / Telegram subscriptions** — Telegram channel notifications and a newsletter page are live; the web-push worker exists but is not wired to a delivery schedule
 - **Automate the remaining video destinations** — No code remains. The runbook carries the console walkthrough for both, including the Test-users step that otherwise expires a YouTube token after seven days.
 - **Spanish narration reads English headlines** — The plumbing is done and gated; what is left is not in the video at all. Give translate-data.yml a budget it can live inside and the Spanish brief starts speaking Spanish on its own, with no further change — the gate opens per tracker as each translation catches up.
 
 ## Next — The queue
 
-8 items. committed, not started
+7 items. committed, not started
 
 | | Title | Area | Priority | Effort | PRs |
 | --- | --- | --- | --- | --- | --- |
@@ -86,15 +84,13 @@ Last reviewed: **2026-10-19** · 79 items
 | 📋 | **Decide whether the hook-first cut replaces the daily brief** | Growth | P2 | S | #228, #229, #353 |
 | 📋 | **Investigate the alerts-panel e2e flake** | Reliability | P2 | S | — |
 | 📋 | **Wire or revoke CLOUDFLARE_API_TOKEN** | Infrastructure | P2 | XS | — |
-| 📋 | **Nothing type-checks video/ or mcp/** | Infrastructure | P2 | S | #346 |
 
 - **Cut homepage HTML payload** — Re-measured starting point: 735,734 B raw / 168,003 B gzipped, 90 per cent of it in two island props attributes.
 - **Decide whether the hook-first cut replaces the daily brief** — The decision is a variable now, not a code change. Both files are rendered in video/output/ for a look.
-- **Nothing type-checks video/ or mcp/** — Named rather than hidden by the exclusion that created it
 
 ## Later — Captured so it is not forgotten
 
-11 items. no commitment
+12 items. no commitment
 
 | | Title | Area | Priority | Effort | PRs |
 | --- | --- | --- | --- | --- | --- |
@@ -105,6 +101,7 @@ Last reviewed: **2026-10-19** · 79 items
 | 💡 | **/compare page — side-by-side trackers** | UX | P3 | M | — |
 | 💡 | **"On This Day" historical view** | Content | P3 | M | — |
 | 💡 | **Migration corridors globe layer** | Content | P3 | M | — |
+| 📋 | **Per-tracker email / Telegram subscriptions** | Growth | P3 | S | — |
 | 💡 | **Print-friendly view** | UX | P3 | S | — |
 | 💡 | **Event partition scaling** | Infrastructure | P3 | M | — |
 | 📋 | **Android app: the plan is written, the decision is not** | Growth | P3 | M | #363, #366 |
@@ -113,12 +110,13 @@ Last reviewed: **2026-10-19** · 79 items
 - **Migrate from GitHub Pages to Cloudflare Pages** — Not done, and not a performance P0: the measured prize is about 100 ms of median TTFB, Europe-weighted, against 1-2 s claimed. If it happens it should be for Workers, edge control or unifying the push API — with these numbers in view. The 735 KB homepage is the bigger lever and belongs to rm-cut-html-payload.
 - **Tree-shake Cesium bundle** — Not to be confused with the deferral that shipped in April: that moved the cost, this removes it.
 - **Data export (CSV / JSON)** — The API shipped; the buttons did not.
+- **Per-tracker email / Telegram subscriptions** — Web push per tracker: shipped, and had been for months with the roadmap still asking for it. Per-tracker email and Telegram: not started. Effort M to S, because the hard part — per-user preferences and a delivery schedule — already exists and only needs two more transports.
 - **Android app: the plan is written, the decision is not** — One of the two cross-origin bugs its adversarial review found was real today, not only under Tauri, and is fixed in #366: the service-worker guard compared against a hard-coded watchboard.dev, so every self-hosted instance and every localhost unregistered its own worker on each load. The other, the push API CORS allowlist, is deliberately left alone — widening a security control for a client that does not exist yet is not a fix.
 - **Publish the May triage archive, or leave it in git** — Recoverable with: git show f654050be:public/_hourly/triage-log.json
 
 ## Shipped — What the site does today
 
-56 items. live in production
+57 items. live in production
 
 | | Title | Area | Priority | Effort | PRs |
 | --- | --- | --- | --- | --- | --- |
@@ -153,7 +151,7 @@ Last reviewed: **2026-10-19** · 79 items
 | ✅ | **Approval alerts for the social queue** | Growth | P1 | S | #338 |
 | ✅ | **Breaking-news scan hardening** | Reliability | P0 | L | #154, #155, #211, #213, #215, #296, #319, #321, #323 |
 | ✅ | **Credential canary, freshness alarm and alert routing** | Reliability | P0 | M | #168, #170, #174, #175, #187, #219, #289, #310 |
-| ✅ | **Self-hosting: Docker image, GHCR publish, generated nginx headers** | Infrastructure | P2 | L | #270, #279, #280 |
+| ✅ | **Self-hosting: Docker image, GHCR publish, generated nginx headers** | Infrastructure | P2 | L | #270, #279, #280, #366 |
 | ✅ | **One cache in front of every live feed, with visible status** | Reliability | P1 | L | #268, #271, #272 |
 | ✅ | **Place dossier on right-click** | UX | P1 | XL | #273 |
 | ✅ | **Provenance-stamped geo layers** | Content | P1 | L | #274 |
@@ -166,17 +164,18 @@ Last reviewed: **2026-10-19** · 79 items
 | ✅ | **Tracker scout and lifecycle** | Infrastructure | P2 | L | #165, #176, #202, #225, #320, #332, #339 |
 | ✅ | **Weekly self-review with a retirement path** | Infrastructure | P2 | M | #330, #335 |
 | ✅ | **Type-check gate as a ratchet** | Infrastructure | P1 | M | #337 |
-| ✅ | **Secrets and variables runbook** | Infrastructure | P1 | S | #327 |
+| ✅ | **Secrets and variables runbook** | Infrastructure | P1 | S | #327, #369 |
 | ✅ | **One place decides the model** | Infrastructure | P2 | S | #324 |
 | ✅ | **Ingestion metrics dashboard** | Reliability | P1 | M | — |
 | ✅ | **Community vote on the tracker backlog** | Growth | P2 | M | — |
 | ✅ | **Machine-readable surfaces for agents** | Growth | P2 | L | — |
 | ✅ | **Keep data-derived strings out of inline scripts** | Reliability | P1 | S | #340 |
 | ✅ | **The daily brief's voice: silent on Telegram, and out of step with the picture** | Growth | P1 | S | #359 |
-| ✅ | **Migrate astro 5 → 7** | Infrastructure | P2 | L | #348, #354 |
-| ✅ | **Ratchet the type baseline down** | Infrastructure | P2 | M | #342, #346, #347, #360 |
+| ✅ | **Migrate astro 5 → 7** | Infrastructure | P2 | L | #348, #354, #355, #358 |
+| ✅ | **Ratchet the type baseline down** | Infrastructure | P2 | M | #342, #346, #347, #355, #360 |
 | ✅ | **Repair or delete the legacy data updater** | Infrastructure | P2 | S | #347 |
 | ✅ | **Gate the production build on pull requests** | Reliability | P1 | S | #352 |
+| ✅ | **Nothing compiled or ran video/ or mcp/** | Infrastructure | P2 | S | #346, #361, #365 |
 | ✅ | **Rewrite the parked command-center e2e spec** | Reliability | P2 | S | #346, #362 |
 
 - **Multi-step onboarding tour** — New visitors learn the navigation surfaces and source-tier system without leaving the homepage
@@ -202,9 +201,11 @@ Last reviewed: **2026-10-19** · 79 items
 - **Spoken narration in two languages, news first** — Verified in production: 331 characters EN / 324 ES, three headlines, one brand mention at the end
 - **Approval alerts for the social queue** — Measured before it existed: 0 posts a day reached X while 1-5 proposals a day waited unseen in the queue
 - **Breaking-news scan hardening** — Hourly Breaking News Scan failure rate 26% → 0 over three days
+- **Self-hosting: Docker image, GHCR publish, generated nginx headers** — A self-hosted instance had no PWA until #366. The page unregistered foreign service workers with `!reg.scope.includes('watchboard.dev')` — the production hostname, hard-coded, in a project that ships an image for other people to run. On any other host every registration looked foreign, so the page unregistered its own worker on each load and lost offline support and push. Measured in a browser: the registered worker was `http://localhost:4321/` and the old predicate would have removed exactly that one.
 - **One cache in front of every live feed, with visible status** — A hook that swallows a failure is now a bug with a name: docs/silent-failure-patterns.md
 - **Tracker scout and lifecycle** — Backlog arrival ~2/week against a 60-66 day lifetime, so it settles near 15-20 open instead of growing
 - **Type-check gate as a ratchet** — Caught a real latent error on its first three runs: JSX.Element resolving only on machines where another dependency declared it
+- **Secrets and variables runbook** — It now also carries an Open decisions section: the four things waiting on the owner rather than on code — the Cloudflare call, the translation quota, the Android identifier, and the Meta and YouTube credentials — each with the measurement already taken, so the decision is the only work left. They had been scattered across PR bodies, roadmap entries and commit messages, which is the same as nowhere.
 - **Ingestion metrics dashboard** — Live at /metrics/ — src/components/islands/MetricsDashboard.tsx, public/_metrics/
 - **Community vote on the tracker backlog** — Live at /vote/ — src/pages/vote.astro, .github/workflows/tally-tracker-votes.yml
 - **Machine-readable surfaces for agents** — Live at /api/, /skill/, /feeds/, /feeds.json, /feeds.opml and /embed/{tracker}/
@@ -214,6 +215,7 @@ Last reviewed: **2026-10-19** · 79 items
 - **Ratchet the type baseline down** — 0 baselined errors, from 56. `types-baseline.json` is now an empty list, so the gate fails on the first error anyone adds rather than on the twenty-sixth. The homepage globe was rechecked in a real browser after the globe.gl change — canvas, texture, pins and atmosphere — because that one was a runtime call shape, not an annotation.
 - **Repair or delete the legacy data updater** — The repair cost one line. The delete decision stays open and no longer blocks anything.
 - **Gate the production build on pull requests** — Full build ~31 min, sampled build 4m13s, same 18,316 pages. The job also asserts the artefact rather than the exit code: page count, a non-empty homepage, and that csp-hashes.ts actually removed unsafe-inline.
+- **Nothing compiled or ran video/ or mcp/** — Both packages compile in CI, and video/ runs its own tests there. Getting the job green took three attempts and a git worktree with no root node_modules to reproduce what CI saw: the error named `../src/lib/activity-index.ts`, but the file that was missing is `astro/tsconfigs/strict`, which the ROOT tsconfig extends and only the root install provides.
 - **Rewrite the parked command-center e2e spec** — All 7 tests pass and the spec runs in CI, so the EXCLUDED map in tests/e2e-workflow-coverage.test.ts is empty — which is the state worth keeping, since a spec parked there is a spec nobody runs.
 
 <!-- roadmap:end -->

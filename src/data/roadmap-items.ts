@@ -418,11 +418,12 @@ export const ROADMAP_ITEMS: RoadmapItem[] = [
     id: 'rm-tracker-subscriptions',
     title: 'Per-tracker email / Telegram subscriptions',
     description:
-      'Subscribe to a specific tracker and receive a digest when it updates. Bsky / Telegram dispatch already exist as backend; needs subscriber UI + per-user routing.',
-    status: 'in-progress', area: 'growth', priority: 'P3', effort: 'M', milestone: 'now',
-    date: '2026-04-26',
+      'Subscribe to a specific tracker and hear about it when it moves. Checked on 2026-10-19 and the entry was describing work that had already happened: the web-push half is live. `PushSubscriptionManager` is mounted in BaseLayout, so it is on every page, and it groups the trackers by domain for picking; `worker/handlers/preferences.ts` stores the per-user routing; and the worker is not unwired from a schedule as this entry claimed — `wrangler.toml` carries `crons = ["*/15 * * * *"]` and `worker/index.ts` exports a `scheduled()` handler that calls `handleCron`. It answers at push.watchboard.dev today. ' +
+      'What is genuinely missing is the other two channels: the newsletter sends one Sunday digest of every active tracker rather than the ones a reader picked, and Telegram is a single public channel with no per-user routing at all.',
+    status: 'planned', area: 'growth', priority: 'P3', effort: 'S', milestone: 'later',
+    date: '2026-10-19',
     outcome:
-      'Telegram channel notifications and a newsletter page are live; the web-push worker exists but is not wired to a delivery schedule',
+      'Web push per tracker: shipped, and had been for months with the roadmap still asking for it. Per-tracker email and Telegram: not started. Effort M to S, because the hard part — per-user preferences and a delivery schedule — already exists and only needs two more transports.',
   },
   {
     id: 'rm-embed-widgets',
@@ -522,7 +523,9 @@ export const ROADMAP_ITEMS: RoadmapItem[] = [
     description:
       'Multi-stage Dockerfile (node build → nginx serving dist/ as a non-root user), docker-compose with CasaOS metadata, headers-to-nginx.ts so public/_headers is declared once, a smoke test that verifies routes and CORS/CSP headers on the running container, and a generated environment-variable table that CI checks against the code.',
     status: 'shipped', area: 'infrastructure', priority: 'P2', effort: 'L', milestone: 'done',
-    prs: [270, 279, 280], date: '2026-10-18',
+    prs: [270, 279, 280, 366], date: '2026-10-19',
+    outcome:
+      'A self-hosted instance had no PWA until #366. The page unregistered foreign service workers with `!reg.scope.includes(\'watchboard.dev\')` — the production hostname, hard-coded, in a project that ships an image for other people to run. On any other host every registration looked foreign, so the page unregistered its own worker on each load and lost offline support and push. Measured in a browser: the registered worker was `http://localhost:4321/` and the old predicate would have removed exactly that one.',
   },
   {
     id: 'rm-live-source-cache',
@@ -629,7 +632,9 @@ export const ROADMAP_ITEMS: RoadmapItem[] = [
     description:
       'Every secret and repository variable the workflows read, what breaks without each one, which are configured, and the rule that a missing secret is an empty string rather than an error — so a step goes green having done nothing. Written after discovering all eight repository variables were unset, which is why several features looked broken.',
     status: 'shipped', area: 'infrastructure', priority: 'P1', effort: 'S', milestone: 'done',
-    prs: [327], date: '2026-10-18',
+    prs: [327, 369], date: '2026-10-19',
+    outcome:
+      'It now also carries an Open decisions section: the four things waiting on the owner rather than on code — the Cloudflare call, the translation quota, the Android identifier, and the Meta and YouTube credentials — each with the measurement already taken, so the decision is the only work left. They had been scattered across PR bodies, roadmap entries and commit messages, which is the same as nowhere.',
   },
   {
     id: 'rm-model-single-source',
@@ -716,7 +721,7 @@ export const ROADMAP_ITEMS: RoadmapItem[] = [
     description:
       'Investigated to the end and the premise did not survive it. The wall was four separate things, three of them in this repo own harness: a comment terminator inside a JSX comment that 500d every page (fixed on main, #348); astro 7 daemonising `astro dev` on some machines and not others; a readiness poll that aborted at 2 s and so cancelled the 28 s cold compile it was waiting for; and one real config gap — `react-dom/client` is CommonJS and astro 7 Rolldown optimiser does not pre-bundle it when the only reference is an island dynamic import, so `createRoot` was missing and every island threw on hydrate. The site served perfect SSR HTML and no JavaScript ever took over. One line of `optimizeDeps.include` fixes it. Two earlier claims recorded here were wrong and are withdrawn: the e2e suite was never slow (it was failing), and nested zod 4 adds no type errors at all.',
     status: 'shipped', area: 'infrastructure', priority: 'P2', effort: 'L', milestone: 'done',
-    prs: [348, 354],
+    prs: [348, 354, 355, 358],
     date: '2026-10-19', dependsOn: ['rm-type-ratchet'],
     outcome: 'Merged on astro 7.0 with the full suite green, playwright included: 20+ specs that had reported "element(s) not found" were islands that never hydrated, not markup that had moved',
   },
@@ -726,7 +731,7 @@ export const ROADMAP_ITEMS: RoadmapItem[] = [
     description:
       'Four passes, 56 errors to zero, and every pass found real defects rather than type noise. #342: `sidebar.sortBy` was defined twice in every locale so four translations were dead text. #346: `scripts/backfill.ts` called `.omit()` on a refined schema, which is not a function at runtime, so the line-backfill path threw as soon as a payload carried lines. The last pass found three more: the hourly poster recorded `voice: journalist` on every row it wrote, a register the account retired after the April 2026 suspension; `MissionPhase` was declared a second time in two components as `{ label, startTime, endTime }` while the schema every caller builds from says `{ id, label, start, end }`; and an aggregation test asserted on `econ[0].indicator`, a property no econ.json in the repo has, from fixtures cast with `as any`. The rest were honest typing gaps: one `Uint8Array`/`BufferSource` root cause behind six web-push errors, an unnarrowed `id` behind four in a geo-layer hook, Node Buffers handed to `new Response`, satori trees that are not `ReactNode`, and globe.gl called as a factory when 2.45 declares only a constructor.',
     status: 'shipped', area: 'infrastructure', priority: 'P2', effort: 'M', milestone: 'done',
-    prs: [342, 346, 347, 360], date: '2026-10-19', dependsOn: ['rm-type-ratchet'],
+    prs: [342, 346, 347, 355, 360], date: '2026-10-19', dependsOn: ['rm-type-ratchet'],
     outcome:
       '0 baselined errors, from 56. `types-baseline.json` is now an empty list, so the gate fails on the first error anyone adds rather than on the twenty-sixth. The homepage globe was rechecked in a real browser after the globe.gl change — canvas, texture, pins and atmosphere — because that one was a runtime call shape, not an annotation.',
   },
@@ -759,7 +764,7 @@ export const ROADMAP_ITEMS: RoadmapItem[] = [
     description:
       'The Spanish track spoke the English headlines with a Spanish closing line. The source it needed turned out to exist — 57 trackers carry their own heroHeadline in data-es/meta.json, which the homepage has read since the /es/ cards landed and the video never did — so the video pipeline now carries headlineEs and the narration speaks it. What it cannot do is speak it today: measured 2026-10-19, not one of those 57 translations is current. Median 189 days behind the English meta, minimum 60, maximum 212; ukraine-war said "Colapsa el alto al fuego de Pascua" while the English headline was about US sanctions waivers. A brief that reads a six-month-old headline as today news is worse than one that reads today news in the wrong language, so the translation is gated on freshness (within a day of the English) and every line that falls back is named in the run log. Today that is every line. The root cause was not the video: translate-data.yml had its schedule commented out ("translations done locally via OpenClaw Bedrock") and its last three runs were 12-14 April 2026. It is scheduled again as of 19 Oct 2026 — weekly instead of daily, one locale per day (Sunday es, Tuesday fr, Thursday pt) at 22:00 UTC, which is eight hours after the nightly and inside the gap between the 18:00 and 00:00 hourly scans. One run costs the quota of a single locale rather than three, and a day that fails costs that locale a week rather than taking the other two with it. The last one failed with "Claude Code returned an error result: You have hit your limit · resets Apr 17, 2pm (UTC)" — the Max subscription quota the nightly data pipeline also draws on, which the YAML comment says in its own words ("Was consuming Claude Max rate limit"). So re-enabling the cron is not the fix by itself; the fix is a quota that fits, which is a weekly pass, or the top ten trackers rather than all 57, or a key that is not the one the nightly uses. The Spanish site has been frozen since, not just the narration — and not only the Spanish: `scripts/check-translation-freshness.ts`, which the nightly now runs non-blocking into its step summary, reports es, fr and pt each with all 57 trackers stale, median 189 days, worst 212. That report is the part that was missing in April: a locale that stops moving is invisible, because every page still renders. Still unsettled separately: nothing publishes the Spanish cut at all — the breaking job mixes narration-es.mp3 into a -narrated-es.mp4 no destination reads, and the progress job does not mix it.',
     status: 'in-progress', area: 'growth', priority: 'P1', effort: 'S', milestone: 'now',
-    prs: [364],
+    prs: [364, 367, 368, 370],
     date: '2026-10-19', dependsOn: ['rm-video-narration'],
     outcome:
       'The plumbing is done and gated; what is left is not in the video at all. Give translate-data.yml a budget it can live inside and the Spanish brief starts speaking Spanish on its own, with no further change — the gate opens per tracker as each translation catches up.',
@@ -795,13 +800,13 @@ export const ROADMAP_ITEMS: RoadmapItem[] = [
 
   {
     id: 'rm-subpackage-typecheck',
-    title: 'Nothing type-checks video/ or mcp/',
+    title: 'Nothing compiled or ran video/ or mcp/',
     description:
-      'Both are separate npm packages with their own package.json, tsconfig.json and build script, and their dependencies are installed by neither the root `npm ci` nor anything in CI — Remotion by `make video-prep`, the MCP SDK by nobody. The root type check excludes them for that reason: from there their imports are unresolvable and every error under them is an artefact of the missing types rather than a defect. The consequence is that a real type error in either would reach main unseen. A job that installs each and runs its own `tsc` is the fix; the cost is two more npm installs per PR, so it belongs behind a path filter.',
-    status: 'planned', area: 'infrastructure', priority: 'P2', effort: 'S', milestone: 'next',
-    prs: [346], date: '2026-10-18', dependsOn: ['rm-type-ratchet'],
+      'Both are separate npm packages with their own package.json, tsconfig.json and build script, and their dependencies are installed by neither the root `npm ci` nor anything in CI — Remotion by `make video-prep`, the MCP SDK by nobody. The root type check excludes them for that reason: from there their imports are unresolvable and every error under them is an artefact of the missing types rather than a defect. The consequence is that a real type error in either would reach main unseen. A path-filtered matrix job installs each and runs its own `tsc`. Running it for the first time found nothing in mcp/, which compiles clean and always would have, and two things in video/: `src/components/Globe3D.tsx`, 317 lines imported by nothing and the only file pulling in three, @react-three/fiber and @remotion/three (deleted, with the dependencies); and a `rootDir` that only ever produced an error, because fetch-breaking.ts imports the parent repo activity-index from outside it. The same job now runs the 35 tests in video/ that no workflow had run either — the root vitest include is src, tests and scripts only. Those tests were deleting `video/state/tracker-history.json`, the committed file that stops the daily video repeating trackers two days running: they resolved the real path and rmSync-ed it in both hooks, so running them destroyed it silently.',
+    status: 'shipped', area: 'infrastructure', priority: 'P2', effort: 'S', milestone: 'done',
+    prs: [346, 361, 365], date: '2026-10-19', dependsOn: ['rm-type-ratchet'],
     outcome:
-      'Named rather than hidden by the exclusion that created it',
+      'Both packages compile in CI, and video/ runs its own tests there. Getting the job green took three attempts and a git worktree with no root node_modules to reproduce what CI saw: the error named `../src/lib/activity-index.ts`, but the file that was missing is `astro/tsconfigs/strict`, which the ROOT tsconfig extends and only the root install provides.',
   },
 
   {
