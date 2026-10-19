@@ -1,10 +1,23 @@
 name: Translate Tracker Data
 
 on:
-  # schedule: # Disabled — translations done locally via OpenClaw Bedrock
-    # - cron: '0 22 * * *'  # Was consuming Claude Max rate limit  # 22:00 UTC — 8 hours after nightly, avoids rate limit clash
-  # Previously triggered by workflow_run on Nightly Data Update,
-  # but that ran immediately after nightly and hit Claude Code rate limits.
+  # Weekly, one locale per day.
+  #
+  # This was daily and `workflow_run`-triggered off the nightly, which put it
+  # straight into the same Claude Max window; the 14 April 2026 run died with
+  # "You've hit your limit · resets Apr 17" and the schedule was commented out.
+  # Nothing replaced it, so es, fr and pt went six months without an update —
+  # median 189 days behind the English by the time anyone measured.
+  #
+  # 22:00 UTC is 8 hours after the nightly (14:00) and sits in the gap between
+  # the 18:00 and 00:00 hourly scans; no other Claude-consuming workflow runs
+  # near it. Splitting the three locales across three days means one run is one
+  # locale's worth of quota rather than three, and a day that fails loses that
+  # locale for a week instead of taking the other two down with it.
+  schedule:
+    - cron: '0 22 * * 0'  # Sunday   — es
+    - cron: '0 22 * * 2'  # Tuesday  — fr
+    - cron: '0 22 * * 4'  # Thursday — pt
   workflow_dispatch:
     inputs:
       tracker_slug:
@@ -48,7 +61,25 @@ jobs:
         id: resolve
         run: |
           SLUG="${{ github.event.inputs.tracker_slug || 'all' }}"
-          LOCALE="${{ github.event.inputs.locale || 'es' }}"
+          LOCALE="${{ github.event.inputs.locale || '' }}"
+
+          # On a schedule there are no inputs, so the cron that fired decides
+          # the locale. Defaulting to `es` here instead would have translated
+          # Spanish three times a week and left fr and pt frozen — silently,
+          # because every page still renders.
+          if [ -z "$LOCALE" ]; then
+            case "${{ github.event.schedule }}" in
+              '0 22 * * 0') LOCALE=es ;;
+              '0 22 * * 2') LOCALE=fr ;;
+              '0 22 * * 4') LOCALE=pt ;;
+              '') LOCALE=es ;;  # dispatch with the input left blank
+              *)
+                echo "::error::cron '${{ github.event.schedule }}' has no locale mapping — add it beside the schedule block"
+                exit 1
+                ;;
+            esac
+          fi
+          echo "Locale for this run: $LOCALE (event: ${{ github.event_name }})"
 
           if [ "$SLUG" != "all" ]; then
             # Manual trigger for a specific tracker
