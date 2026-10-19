@@ -1,6 +1,6 @@
 import { useMemo, useState, useEffect } from 'react';
 import type { FlatEvent } from '../../lib/timeline-utils';
-import type { MapLine } from '../../lib/schemas';
+import type { MapLine, MissionTrajectory } from '../../lib/schemas';
 import { t } from '../../i18n/translations';
 import { useLocale } from '../../i18n/useLocale';
 import MissionTimelineHeader from './CesiumGlobe/MissionTimelineHeader';
@@ -51,7 +51,9 @@ interface BaseProps {
   zoomLevel?: TimelineZoomLevel;
   onZoomChange?: (level: TimelineZoomLevel) => void;
   legendItems?: { label: string; color: string }[];
-  missionTrajectory?: { vehicle: string; phases: { label: string; startTime: string; endTime: string }[]; launchTime: string } | null;
+  // Was an inline shape with `{ label, startTime, endTime }` phases — the same
+  // wrong duplicate MissionTimelineHeader carried. The schema is the contract.
+  missionTrajectory?: MissionTrajectory | null;
   telemetryRef?: React.MutableRefObject<any>;
   showMissionHeader?: boolean;
 }

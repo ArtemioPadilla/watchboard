@@ -723,11 +723,11 @@ export const ROADMAP_ITEMS: RoadmapItem[] = [
     id: 'rm-type-debt',
     title: 'Ratchet the type baseline down',
     description:
-      'Two passes done, and both found real defects rather than type noise. #342: `sidebar.sortBy` was defined twice in every locale so four translations were dead text, and two Cloudflare Workers type names resolved to nothing. #346: `scripts/backfill.ts` called `.omit()` on a refined schema, which is not a function at runtime, so the line-backfill path threw as soon as a payload carried lines. What is left is 14 in scripts/update-data.ts (the legacy-updater decision), 6 in worker/web-push.ts (one Uint8Array/BufferSource root cause in crypto code, worth its own careful pass), 4 satori ReactNode casts that are a library typing quirk with no defect behind them, and singles across six files.',
-    status: 'planned', area: 'infrastructure', priority: 'P2', effort: 'M', milestone: 'next',
-    prs: [342, 346, 347], date: '2026-10-18', dependsOn: ['rm-type-ratchet'],
+      'Four passes, 56 errors to zero, and every pass found real defects rather than type noise. #342: `sidebar.sortBy` was defined twice in every locale so four translations were dead text. #346: `scripts/backfill.ts` called `.omit()` on a refined schema, which is not a function at runtime, so the line-backfill path threw as soon as a payload carried lines. The last pass found three more: the hourly poster recorded `voice: journalist` on every row it wrote, a register the account retired after the April 2026 suspension; `MissionPhase` was declared a second time in two components as `{ label, startTime, endTime }` while the schema every caller builds from says `{ id, label, start, end }`; and an aggregation test asserted on `econ[0].indicator`, a property no econ.json in the repo has, from fixtures cast with `as any`. The rest were honest typing gaps: one `Uint8Array`/`BufferSource` root cause behind six web-push errors, an unnarrowed `id` behind four in a geo-layer hook, Node Buffers handed to `new Response`, satori trees that are not `ReactNode`, and globe.gl called as a factory when 2.45 declares only a constructor.',
+    status: 'shipped', area: 'infrastructure', priority: 'P2', effort: 'M', milestone: 'done',
+    prs: [342, 346, 347, 360], date: '2026-10-19', dependsOn: ['rm-type-ratchet'],
     outcome:
-      '56 → 25 baselined errors. What is left is 6 in web-push crypto (one Uint8Array/BufferSource root cause), 4 in a geo-layer hook, 4 satori ReactNode casts that are a library typing quirk with nothing behind them, and singles across nine files. No remaining cluster hides a defect that this pass could find by reading it.',
+      '0 baselined errors, from 56. `types-baseline.json` is now an empty list, so the gate fails on the first error anyone adds rather than on the twenty-sixth. The homepage globe was rechecked in a real browser after the globe.gl change — canvas, texture, pins and atmosphere — because that one was a runtime call shape, not an annotation.',
   },
   {
     id: 'rm-legacy-updater',

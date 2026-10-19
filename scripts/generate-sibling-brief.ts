@@ -12,6 +12,22 @@ import path from 'path';
 const trackersDir = 'trackers';
 const outputPath = '/tmp/sibling-brief.json';
 
+/**
+ * What this script reads out of a tracker.json. `JSON.parse` hands back `any`,
+ * which silently made `searchContext` any, the keyword list `Set<unknown>` and
+ * the filter parameter an implicit any — two of the type baseline's entries.
+ * Naming the fields it touches is both the fix and the documentation.
+ */
+interface RawTrackerConfig {
+  status?: string;
+  name?: string;
+  topic?: string;
+  ai?: {
+    searchContext?: string;
+    relatedTrackers?: string[];
+  };
+}
+
 interface TrackerInfo {
   slug: string;
   name: string;
@@ -29,7 +45,7 @@ for (const slug of fs.readdirSync(trackersDir)) {
   if (!fs.existsSync(configPath)) continue;
 
   try {
-    const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+    const config = JSON.parse(fs.readFileSync(configPath, 'utf8')) as RawTrackerConfig;
     if (config.status === 'draft') continue;
 
     const searchContext = config.ai?.searchContext || '';

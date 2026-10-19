@@ -126,7 +126,10 @@ export const GET: APIRoute = async () => {
 
   const png = new Resvg(svg, { fitTo: { mode: 'width', value: WIDTH } }).render().asPng();
 
-  return new Response(png, {
+  // `asPng()` hands back a Node Buffer, whose type is `Buffer<ArrayBufferLike>`
+  // and so not a web `BodyInit` (it could in principle be shared memory). The
+  // copy is one PNG's worth and happens at build time.
+  return new Response(new Uint8Array(png), {
     headers: {
       'Content-Type': 'image/png',
       'Cache-Control': 'public, max-age=3600',

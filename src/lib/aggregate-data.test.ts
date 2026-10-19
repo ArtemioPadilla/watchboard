@@ -142,19 +142,29 @@ describe('aggregateTrackerData', () => {
   });
 
   it('preserves parent econ, claims, political as-is', () => {
+    // These fixtures used to be `as any` objects with invented fields —
+    // `{ indicator, date, tier }` for econ, `{ claim, actor }` for claims —
+    // and the assertion read `econ[0].indicator`, a property no econ.json in
+    // the repo has (they carry `label`). It passed, because JavaScript keeps
+    // whatever you put on an object, while testing a shape production never
+    // produces. The real schemas are EconItemSchema / ClaimSchema / PolItemSchema.
     const parent = makeTrackerData({
-      econ: [{ indicator: 'GDP', value: '1T', direction: 'up', date: '2026-01-01', source: 'WB', tier: 1 } as any],
-      claims: [{ claim: 'Test claim', actor: 'Gov', date: '2026-01-01', source: 'Official', tier: 1 } as any],
-      political: [{ avatar: 'pres', name: 'President', role: 'Head of State', quote: 'Hello' } as any],
+      econ: [{ id: 'gdp', label: 'GDP', value: '1T', change: '+1%', direction: 'up', sparkData: [1, 2], color: 'green', source: 'WB' }],
+      claims: [{
+        id: 'c1', question: 'Did it happen?',
+        sideA: { label: 'Gov', text: 'Yes' }, sideB: { label: 'Opposition', text: 'No' },
+        resolution: 'Unresolved',
+      }],
+      political: [{ id: 'p1', name: 'President', role: 'Head of State', avatar: 'pres', initial: 'P', quote: 'Hello' }],
     });
     const children = [
       makeTrackerData({
-        econ: [{ indicator: 'Inflation', value: '5%', direction: 'up', date: '2026-01-01', source: 'IMF', tier: 2 } as any],
+        econ: [{ id: 'cpi', label: 'Inflation', value: '5%', change: '+0.2%', direction: 'up', sparkData: [3, 4], color: 'amber', source: 'IMF' }],
       }),
     ];
     const result = aggregateTrackerData(parent, children);
     expect(result.econ).toHaveLength(1);
-    expect(result.econ[0].indicator).toBe('GDP');
+    expect(result.econ[0].label).toBe('GDP');
     expect(result.claims).toHaveLength(1);
     expect(result.political).toHaveLength(1);
   });

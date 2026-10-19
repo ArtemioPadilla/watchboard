@@ -39,6 +39,17 @@ export type TweetType =
  * not from the register.
  */
 export type Voice = 'analyst';
+
+/**
+ * What the archive contains, which is not the same question.
+ *
+ * `history.json` holds 93 posts: 57 `journalist`, 33 `analyst`, 2 `edgy`, one
+ * with no voice at all. Those registers existed before the April 2026
+ * suspension cut the account to one, and the rows are a record of what was
+ * published — narrowing their type to `Voice` would not unpublish them, it
+ * would only make every reader of the archive lie about it.
+ */
+export type ArchivedVoice = Voice | 'journalist' | 'edgy';
 export type Verdict = 'PUBLISH' | 'REVIEW' | 'HOLD' | 'KILL';
 export type FactCheckStatus = 'verified' | 'warning' | 'unverifiable' | 'failed';
 export type QueueStatus = 'auto_approved' | 'pending_review' | 'held' | 'approved' | 'rejected' | 'posted' | 'expired';
@@ -89,7 +100,8 @@ export interface HistoryEntry {
   date: string;
   tracker: string;
   type: TweetType;
-  voice: Voice;
+  /** Historical rows carry retired registers — see ArchivedVoice. */
+  voice: ArchivedVoice;
   lang: string;
   text: string;
   cost: number;

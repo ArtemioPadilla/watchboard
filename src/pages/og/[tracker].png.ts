@@ -754,7 +754,9 @@ export const GET: APIRoute = async ({ props }) => {
     pngBuffer = await renderFallbackPng(config);
   }
 
-  return new Response(pngBuffer, {
+  // A Node Buffer's type is `Buffer<ArrayBufferLike>`, which is not a web
+  // `BodyInit`. One PNG's copy, at build time.
+  return new Response(new Uint8Array(pngBuffer), {
     headers: {
       'Content-Type': 'image/png',
       'Cache-Control': 'public, max-age=86400',
