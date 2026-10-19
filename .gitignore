@@ -57,6 +57,8 @@ video/src/data/hook-prompt.txt
 # retention), not git.
 video/output/*.mp4
 video/output/*.mp3
+# Narration offset written beside each mp3 for the ffmpeg mix to read.
+video/output/*.delay-ms
 
 # Per-mode breaking-data snapshots written by render.ts so the repost script
 # can read the right tracker set per mode without contention. Regenerable.
