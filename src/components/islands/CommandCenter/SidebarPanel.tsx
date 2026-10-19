@@ -651,6 +651,9 @@ export default function SidebarPanel({
                 onClick={onToggleLocale}
                 style={S.langBtn}
                 title={t('sidebar.changeLanguage', locale)}
+                // The title is localised, so it changes under any test that
+                // clicks this. The test id is the stable handle.
+                data-testid="language-toggle"
               >
                 {SUPPORTED_LOCALES.map((loc, i) => (
                   <span key={loc}>

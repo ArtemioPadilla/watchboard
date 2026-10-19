@@ -804,11 +804,11 @@ export const ROADMAP_ITEMS: RoadmapItem[] = [
     id: 'rm-command-center-spec',
     title: 'Rewrite the parked command-center e2e spec',
     description:
-      'e2e/command-center.spec.ts has been excluded from CI as "not yet known to pass" since before the E1 work. Measured on 2026-10-18: 7 of its 8 tests fail against the current markup, so it needs rewriting rather than a line fix. Its sibling, tracker-page.spec.ts, was parked for the same vague reason and turned out to need exactly two assertions unpinned from a base path the site stopped using — it now runs in CI. This one is the real work the label was hiding.',
-    status: 'planned', area: 'reliability', priority: 'P2', effort: 'S', milestone: 'next',
-    prs: [346], date: '2026-10-18',
+      'e2e/command-center.spec.ts had been excluded from CI as "not yet known to pass" since before the E1 work, with 7 of its 8 tests failing against the current markup. The rewrite it was waiting for turned out to be one rename — the sidebar rows became `.cc-feed-row` when the feed buckets landed, so every test that began by clicking a row found nothing — plus two assertions pinned to things the site no longer does: the `/watchboard/` base path, and a language toggle located by a localised `title` that changes the moment the test clicks it. Writing it also turned up a dead `LanguageToggle.tsx` that nothing imported, duplicating a button rendered inline in SidebarPanel.',
+    status: 'shipped', area: 'reliability', priority: 'P2', effort: 'S', milestone: 'done',
+    prs: [346, 362], date: '2026-10-19',
     outcome:
-      'The homepage command center is covered by other specs; what is missing is this spec\'s own ground',
+      'All 7 tests pass and the spec runs in CI, so the EXCLUDED map in tests/e2e-workflow-coverage.test.ts is empty — which is the state worth keeping, since a spec parked there is a spec nobody runs.',
   },
 
   // ─── Later: captured, no commitment ─────────────────────────────────

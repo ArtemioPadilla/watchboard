@@ -11,11 +11,12 @@ const E2E_DIR = join(ROOT, 'e2e');
 const WORKFLOW = join(ROOT, '.github/workflows/e2e.yml');
 
 /** Specs deliberately not run in CI, with the reason. Keep this short. */
-const EXCLUDED: Record<string, string> = {
-  // Measured 2026-10-18: 7 of its 8 tests fail locally. It predates the command
-  // center's current markup and needs rewriting, not a line fix.
-  'command-center.spec.ts': 'pre-E1 spec, 7 of 8 tests fail against current markup — needs rewriting',
-};
+// Empty, and worth keeping that way: a spec parked here is a spec nobody runs.
+// command-center.spec.ts sat in it from before the E1 work until 2026-10-19,
+// when the rewrite it was waiting for turned out to be a rename
+// (`.cc-tracker-row` → `.cc-feed-row`) plus two assertions pinned to things
+// the site no longer does.
+const EXCLUDED: Record<string, string> = {};
 
 /**
  * Spec files named on a non-comment line that invokes `npx playwright test`.
