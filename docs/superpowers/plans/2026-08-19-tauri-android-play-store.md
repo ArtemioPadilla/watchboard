@@ -1,5 +1,17 @@
 # Tauri Android / Play Store Pipeline Implementation Plan
 
+> **REEMPLAZADO por [ADR-0003](../../adr/0003-android-por-twa-no-por-tauri.md)
+> (19 oct 2026).** No implementar tal cual. Su Task 1 preguntaba cómo recibe la
+> app el contenido del sitio; la medición respondió —`dist/` son 2,3 GB contra
+> el límite de 200 MB de Play— y una shell que solo carga el sitio en remoto es
+> la forma que Google retira como *webview spam*. La vía sancionada para un PWA
+> es Trusted Web Activity, y este sitio ya cumple sus criterios sin cambios.
+>
+> Este documento se conserva porque su revisión adversarial produjo la
+> medición y dos hallazgos cross-origin reales, uno de los cuales resultó ser
+> un fallo de hoy y está arreglado (#366).
+
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Wrap the existing Watchboard static site (already a full PWA — manifest, service worker, push notifications) in a Tauri v2 native shell, and stand up a GitHub Actions pipeline that builds, signs, and auto-uploads a signed AAB to the Google Play internal testing track on every version tag.

@@ -56,7 +56,7 @@ _Generated from `src/data/roadmap-items.ts` by `scripts/sync-roadmap-doc.ts`. Do
 
 Last reviewed: **2026-10-19** · 79 items
 
-✅ 56 shipped · 📋 12 planned · 💡 7 idea · 🚧 4 in progress
+✅ 56 shipped · 📋 13 planned · 💡 6 idea · 🚧 4 in progress
 
 ## Now — Being built, or waiting on one named decision or credential
 
@@ -107,7 +107,7 @@ Last reviewed: **2026-10-19** · 79 items
 | 💡 | **Migration corridors globe layer** | Content | P3 | M | — |
 | 💡 | **Print-friendly view** | UX | P3 | S | — |
 | 💡 | **Event partition scaling** | Infrastructure | P3 | M | — |
-| 💡 | **Android app: the plan is written, the decision is not** | Growth | P3 | XL | #363, #366 |
+| 📋 | **Android app: the plan is written, the decision is not** | Growth | P3 | M | #363, #366 |
 | 💡 | **Publish the May triage archive, or leave it in git** | Growth | P3 | XS | — |
 
 - **Migrate from GitHub Pages to Cloudflare Pages** — Not done, and no longer a P0 on the evidence filed with it: the -1 to -2 s it targets is not there to win. Re-measure from the regions that matter before spending the DNS change.
