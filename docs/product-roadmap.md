@@ -56,7 +56,7 @@ _Generated from `src/data/roadmap-items.ts` by `scripts/sync-roadmap-doc.ts`. Do
 
 Last reviewed: **2026-10-19** · 78 items
 
-✅ 55 shipped · 📋 14 planned · 💡 6 idea · 🚧 3 in progress
+✅ 56 shipped · 📋 13 planned · 💡 6 idea · 🚧 3 in progress
 
 ## Now — Being built, or waiting on one named decision or credential
 
@@ -73,7 +73,7 @@ Last reviewed: **2026-10-19** · 78 items
 
 ## Next — The queue
 
-11 items. committed, not started
+10 items. committed, not started
 
 | | Title | Area | Priority | Effort | PRs |
 | --- | --- | --- | --- | --- | --- |
@@ -87,13 +87,11 @@ Last reviewed: **2026-10-19** · 78 items
 | 📋 | **Investigate the alerts-panel e2e flake** | Reliability | P2 | S | — |
 | 📋 | **Wire or revoke CLOUDFLARE_API_TOKEN** | Infrastructure | P2 | XS | — |
 | 📋 | **Nothing type-checks video/ or mcp/** | Infrastructure | P2 | S | #346 |
-| 📋 | **Rewrite the parked command-center e2e spec** | Reliability | P2 | S | #346 |
 
 - **Migrate from GitHub Pages to Cloudflare Pages** — Target: -1 to -2 seconds TTFB
 - **Cut homepage HTML payload** — Estimate: HTML 157 KB → ~40 KB, -500-800 ms LCP
 - **Decide whether the hook-first cut replaces the daily brief** — The decision is a variable now, not a code change. Both files are rendered in video/output/ for a look.
 - **Nothing type-checks video/ or mcp/** — Named rather than hidden by the exclusion that created it
-- **Rewrite the parked command-center e2e spec** — The homepage command center is covered by other specs; what is missing is this spec's own ground
 
 ## Later — Captured so it is not forgotten
 
@@ -117,7 +115,7 @@ Last reviewed: **2026-10-19** · 78 items
 
 ## Shipped — What the site does today
 
-55 items. live in production
+56 items. live in production
 
 | | Title | Area | Priority | Effort | PRs |
 | --- | --- | --- | --- | --- | --- |
@@ -176,6 +174,7 @@ Last reviewed: **2026-10-19** · 78 items
 | ✅ | **Ratchet the type baseline down** | Infrastructure | P2 | M | #342, #346, #347, #360 |
 | ✅ | **Repair or delete the legacy data updater** | Infrastructure | P2 | S | #347 |
 | ✅ | **Gate the production build on pull requests** | Reliability | P1 | S | #352 |
+| ✅ | **Rewrite the parked command-center e2e spec** | Reliability | P2 | S | #346, #362 |
 
 - **Multi-step onboarding tour** — New visitors learn the navigation surfaces and source-tier system without leaving the homepage
 - **Defer Cesium parse past LCP** — vendor-globe long-task: 5018 ms → 178 ms (verified post-deploy)
@@ -212,6 +211,7 @@ Last reviewed: **2026-10-19** · 78 items
 - **Ratchet the type baseline down** — 0 baselined errors, from 56. `types-baseline.json` is now an empty list, so the gate fails on the first error anyone adds rather than on the twenty-sixth. The homepage globe was rechecked in a real browser after the globe.gl change — canvas, texture, pins and atmosphere — because that one was a runtime call shape, not an annotation.
 - **Repair or delete the legacy data updater** — The repair cost one line. The delete decision stays open and no longer blocks anything.
 - **Gate the production build on pull requests** — Full build ~31 min, sampled build 4m13s, same 18,316 pages. The job also asserts the artefact rather than the exit code: page count, a non-empty homepage, and that csp-hashes.ts actually removed unsafe-inline.
+- **Rewrite the parked command-center e2e spec** — All 7 tests pass and the spec runs in CI, so the EXCLUDED map in tests/e2e-workflow-coverage.test.ts is empty — which is the state worth keeping, since a spec parked there is a spec nobody runs.
 
 <!-- roadmap:end -->
 
