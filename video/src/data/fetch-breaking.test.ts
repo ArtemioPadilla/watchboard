@@ -1,6 +1,26 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+
+/**
+ * Point the tracker-history state at a throwaway directory BEFORE the module
+ * under test is imported — it resolves its state path at import time, and
+ * `vi.hoisted` is the callback that runs ahead of the imports below.
+ *
+ * Without this the suite wrote, and `rmSync`'d, the repo's own
+ * `video/state/tracker-history.json`: the committed file that keeps the daily
+ * video from showing the same trackers two days running. Running the tests
+ * deleted it, and nothing said so.
+ *
+ * No `fs` here on purpose — imports are not available yet, and
+ * `saveUsedTrackers` creates the directory itself.
+ */
+vi.hoisted(() => {
+  const tmp = process.env.TMPDIR ?? '/tmp';
+  process.env.WATCHBOARD_VIDEO_STATE_DIR =
+    `${tmp.replace(/\/$/, '')}/wb-video-state-${process.pid}-${Date.now()}`;
+});
 import {
   isTranslationCurrent,
+  trackerHistoryPath,
   cooldownPenalty,
   noveltyBonus,
   pruneHistory,
@@ -14,7 +34,7 @@ import {
 } from './fetch-breaking.js';
 import type { VideoMode } from './fetch-breaking.js';
 import { existsSync, readFileSync, writeFileSync, mkdirSync, rmSync } from 'node:fs';
-import { resolve, join } from 'node:path';
+import { join } from 'node:path';
 
 // Helper to create a date string N days ago
 function daysAgoStr(n: number): string {
@@ -243,20 +263,25 @@ describe('scoreCandidate with diversity', () => {
 });
 
 describe('loadHistory and saveUsedTrackers', () => {
-  const STATE_DIR = resolve(import.meta.dirname ?? '.', '../../state');
-  const STATE_PATH = join(STATE_DIR, 'tracker-history.json');
+  // Read the path back from the module rather than re-deriving it, so the
+  // test and the code can never point at different files again — which is how
+  // these hooks came to rm the repo's committed history. The override is set
+  // in the `vi.hoisted` block at the top of this file.
+  const STATE_PATH = trackerHistoryPath();
+
+  it('is not pointed at the repo state file while testing', () => {
+    // The guard for the whole arrangement: if vitest.setup.ts stops running,
+    // or the env override is removed, these hooks start rm-ing the committed
+    // history again and this is what says so.
+    expect(STATE_PATH).not.toMatch(/video[/\\]state[/\\]/);
+  });
 
   beforeEach(() => {
-    // Ensure clean state
-    if (existsSync(STATE_PATH)) {
-      rmSync(STATE_PATH);
-    }
+    if (existsSync(STATE_PATH)) rmSync(STATE_PATH);
   });
 
   afterEach(() => {
-    if (existsSync(STATE_PATH)) {
-      rmSync(STATE_PATH);
-    }
+    if (existsSync(STATE_PATH)) rmSync(STATE_PATH);
   });
 
   it('loadHistory returns default when no file exists', () => {

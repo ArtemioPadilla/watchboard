@@ -23,8 +23,21 @@ const OUTPUT_PATH = resolve(import.meta.dirname ?? '.', './breaking.json');
 const SOCIAL_DIR = resolve(import.meta.dirname ?? '.', '../../../public/_social');
 
 // ── Tracker diversity state ──────────────────────────────────────────
-const STATE_DIR = resolve(import.meta.dirname ?? '.', '../../state');
+/**
+ * Where the "which trackers were used lately" history lives.
+ *
+ * `WATCHBOARD_VIDEO_STATE_DIR` overrides it so a test can point at a temp
+ * directory. The unit tests used to rm the real file in beforeEach AND
+ * afterEach, so `npm test` in this package deleted the repo's committed
+ * tracker history — silently, and the next render lost its memory of what had
+ * already been shown.
+ */
+const STATE_DIR = process.env.WATCHBOARD_VIDEO_STATE_DIR
+  ?? resolve(import.meta.dirname ?? '.', '../../state');
 const STATE_PATH = join(STATE_DIR, 'tracker-history.json');
+
+/** The resolved path, so tests assert against the same file the code writes. */
+export const trackerHistoryPath = (): string => STATE_PATH;
 
 export interface TrackerHistory {
   version: number;
