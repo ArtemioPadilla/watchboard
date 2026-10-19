@@ -19,12 +19,7 @@ permissions:
 jobs:
   playwright:
     runs-on: ubuntu-latest
-    # 45 on this branch, not 25: with astro 7 the specs fail rather than hang,
-    # and a failing spec burns its timeout plus retries. Three of the five runs
-    # here were cancelled at the cap before Playwright could print why anything
-    # failed or upload a trace — which is how I spent two of them guessing. The
-    # cap goes back to 25 when the suite is green again.
-    timeout-minutes: 45
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
