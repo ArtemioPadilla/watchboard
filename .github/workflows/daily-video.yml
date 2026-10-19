@@ -144,13 +144,10 @@ jobs:
             "video/output/watchboard-${DATE}.mp4" 2>/dev/null || echo "")
           FIT=""
           [ -n "$SECS" ] && FIT="--video-seconds $SECS"
-          # Seconds of picture before the first tracker slide: the voice starts
-          # there instead of over the intro, which is where Video.tsx has always
-          # put its own narration sequence. The hook cut opens after 60 frames.
-          LEAD=3
-          [ "${VIDEO_CUT:-}" = "hook" ] && LEAD=2
-          FIT="$FIT --lead-in $LEAD"
-          echo "[narrate] video is ${SECS:-unknown} s, lead-in ${LEAD}s"
+          # The voice starts on the first slide rather than over the intro;
+          # how much intro there is depends on the cut, which the script works
+          # out from VIDEO_CUT above (leadInForCut, mirroring selectCut).
+          echo "[narrate] video is ${SECS:-unknown} s, cut ${VIDEO_CUT:-daily}"
           # shellcheck disable=SC2086 # FIT is flag pairs, deliberately split
           npx tsx scripts/narrate-elevenlabs.ts --mode breaking --lang en $FIT --out video/output/narration-en.mp3
           rc_en=$?
@@ -596,10 +593,10 @@ jobs:
             "video/output/watchboard-${DATE}-progress.mp4" 2>/dev/null || echo "")
           FIT=""
           [ -n "$SECS" ] && FIT="--video-seconds $SECS"
-          LEAD=3
-          [ "${VIDEO_CUT:-}" = "hook" ] && LEAD=2
-          FIT="$FIT --lead-in $LEAD"
-          echo "[narrate] progress video is ${SECS:-unknown} s, lead-in ${LEAD}s"
+          # The progress brief always renders Video.tsx, so its lead-in is the
+          # 90-frame intro whatever VIDEO_CUT says — selectCut() ignores the
+          # hook for this mode, and so does leadInForCut().
+          echo "[narrate] progress video is ${SECS:-unknown} s"
           # shellcheck disable=SC2086
           npx tsx scripts/narrate-elevenlabs.ts --mode progress --lang en $FIT --out video/output/narration-progress-en.mp3
           rc_en=$?

@@ -305,9 +305,11 @@ describe('daily-video narration reaches every destination, and fits the picture'
 
     it(`${job} job starts the voice where the script says, not at frame 0`, () => {
       const narrate = stepWith(jobsOf()[job], 'narrate-elevenlabs.ts --mode');
-      expect(narrate).toMatch(/--lead-in/);
-      // The hook cut opens on a headline after 60 frames, the brief after 90.
-      expect(narrate).toMatch(/VIDEO_CUT.*hook/s);
+      // The lead-in is the script's to decide (leadInForCut mirrors
+      // selectCut): the hook cut never applies to the progress brief, and a
+      // `[ "$VIDEO_CUT" = hook ]` line copied into both jobs got that wrong.
+      expect(narrate).toContain('VIDEO_CUT:');
+      expect(narrate).not.toMatch(/LEAD=\d/);
       const merge = stepWith(jobsOf()[job], 'amix=inputs=2');
       expect(merge).toMatch(/\.delay-ms/);
       expect(merge).toMatch(/adelay=delays=\$\{DELAY\}ms:all=1/);

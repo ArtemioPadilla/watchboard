@@ -101,10 +101,26 @@ export const BEFORE_TAIL_PAUSE = 0.7;
  * which in CI it never does (the render comes first), so the ffmpeg mix took
  * over and started the voice at frame 0. The two paths now agree.
  *
- * The hook cut opens on a headline after 60 frames instead (`HookVideo.tsx`),
- * so the workflow passes `--lead-in 2` when `VIDEO_CUT=hook`.
+ * The hook cut opens on a headline after 60 frames instead (`HookVideo.tsx`).
  */
 export const DEFAULT_LEAD_IN = 3;
+
+/** `HOOK_FRAMES` in `video/src/HookVideo.tsx`: 60 frames at 30 fps. */
+export const HOOK_LEAD_IN = 2;
+
+/**
+ * Which lead-in this run's picture has.
+ *
+ * Mirrors `selectCut()` in `video/src/select-cut.ts`, whose rule is
+ * `mode !== 'positive' && asked === 'hook'`: the hook cut never applies to the
+ * progress brief, which renders `Video.tsx` and keeps its 90-frame intro. Done
+ * here rather than in the workflow because two `[ "$VIDEO_CUT" = hook ]` lines
+ * in YAML is exactly how the progress job would quietly get the wrong one.
+ */
+export function leadInForCut(mode: NarrationMode, videoCut?: string): number {
+  const asked = videoCut?.trim().toLowerCase();
+  return mode === 'breaking' && asked === 'hook' ? HOOK_LEAD_IN : DEFAULT_LEAD_IN;
+}
 
 function cleanHeadline(t: BreakingTracker): string {
   // The lead gets its real headline; a semicolon usually introduces a
@@ -400,15 +416,17 @@ export function parseArgs(argv: string[]): Args {
 async function main(): Promise<void> {
   const args = parseArgs(process.argv.slice(2));
   const data = loadBreakingData(dataPathForMode(args.mode));
+  // An explicit --lead-in wins; otherwise the cut decides.
+  const leadIn = args.leadIn ?? leadInForCut(args.mode, process.env.VIDEO_CUT);
   const text = composeNarration({
     mode: args.mode,
     lang: args.lang,
     trackers: data.trackers,
     totalTrackers: countActiveTrackers(),
     videoSeconds: args.videoSeconds,
-    leadIn: args.leadIn,
+    leadIn,
   });
-  const delay = narrationDelaySeconds(text, args.videoSeconds, args.leadIn ?? DEFAULT_LEAD_IN);
+  const delay = narrationDelaySeconds(text, args.videoSeconds, leadIn);
   console.log(
     `[narrate] ${args.mode}/${args.lang}: ${text.length} chars, ` +
       `${playSeconds(text).toFixed(1)}s of speech starting at ${delay.toFixed(2)}s` +

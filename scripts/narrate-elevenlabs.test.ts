@@ -21,6 +21,8 @@ import {
   playSeconds,
   narrationDelaySeconds,
   DEFAULT_LEAD_IN,
+  HOOK_LEAD_IN,
+  leadInForCut,
 } from './narrate-elevenlabs';
 
 const trackers = [
@@ -233,6 +235,18 @@ describe('fitting the script to the picture', () => {
     // delayed guess is what loses the closing line.
     expect(narrationDelaySeconds(t, undefined)).toBe(0);
     expect(narrationDelaySeconds(t, Number.NaN)).toBe(0);
+  });
+
+  it('gives the hook cut its shorter lead-in, and never gives it to the progress brief', () => {
+    // selectCut() is `mode !== 'positive' && asked === 'hook'`: the progress
+    // brief always renders Video.tsx and keeps its 90-frame intro. Two shell
+    // lines saying this in the workflow is how it would have gone wrong.
+    expect(leadInForCut('breaking', 'hook')).toBe(HOOK_LEAD_IN);
+    expect(leadInForCut('breaking', ' Hook ')).toBe(HOOK_LEAD_IN);
+    expect(leadInForCut('progress', 'hook')).toBe(DEFAULT_LEAD_IN);
+    expect(leadInForCut('breaking', undefined)).toBe(DEFAULT_LEAD_IN);
+    expect(leadInForCut('breaking', '')).toBe(DEFAULT_LEAD_IN);
+    expect(leadInForCut('breaking', 'daily')).toBe(DEFAULT_LEAD_IN);
   });
 
   it('playSeconds counts the words and the silence', () => {
