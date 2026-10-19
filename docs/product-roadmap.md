@@ -88,7 +88,7 @@ Last reviewed: **2026-10-19** · 79 items
 | 📋 | **Wire or revoke CLOUDFLARE_API_TOKEN** | Infrastructure | P2 | XS | — |
 | 📋 | **Nothing type-checks video/ or mcp/** | Infrastructure | P2 | S | #346 |
 
-- **Cut homepage HTML payload** — Estimate: HTML 157 KB → ~40 KB, -500-800 ms LCP
+- **Cut homepage HTML payload** — Re-measured starting point: 735,734 B raw / 168,003 B gzipped, 90 per cent of it in two island props attributes.
 - **Decide whether the hook-first cut replaces the daily brief** — The decision is a variable now, not a code change. Both files are rendered in video/output/ for a look.
 - **Nothing type-checks video/ or mcp/** — Named rather than hidden by the exclusion that created it
 
@@ -110,7 +110,7 @@ Last reviewed: **2026-10-19** · 79 items
 | 📋 | **Android app: the plan is written, the decision is not** | Growth | P3 | M | #363, #366 |
 | 💡 | **Publish the May triage archive, or leave it in git** | Growth | P3 | XS | — |
 
-- **Migrate from GitHub Pages to Cloudflare Pages** — Not done, and no longer a P0 on the evidence filed with it: the -1 to -2 s it targets is not there to win. Re-measure from the regions that matter before spending the DNS change.
+- **Migrate from GitHub Pages to Cloudflare Pages** — Not done, and not a performance P0: the measured prize is about 100 ms of median TTFB, Europe-weighted, against 1-2 s claimed. If it happens it should be for Workers, edge control or unifying the push API — with these numbers in view. The 735 KB homepage is the bigger lever and belongs to rm-cut-html-payload.
 - **Tree-shake Cesium bundle** — Not to be confused with the deferral that shipped in April: that moved the cost, this removes it.
 - **Data export (CSV / JSON)** — The API shipped; the buttons did not.
 - **Android app: the plan is written, the decision is not** — One of the two cross-origin bugs its adversarial review found was real today, not only under Tauri, and is fixed in #366: the service-worker guard compared against a hard-coded watchboard.dev, so every self-hosted instance and every localhost unregistered its own worker on each load. The other, the push API CORS allowlist, is deliberately left alone — widening a security control for a client that does not exist yet is not a fix.
