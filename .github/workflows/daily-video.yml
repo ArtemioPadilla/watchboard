@@ -128,14 +128,31 @@ jobs:
           ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
           ELEVENLABS_VOICE_EN: ${{ vars.ELEVENLABS_VOICE_EN }}
           ELEVENLABS_VOICE_ES: ${{ vars.ELEVENLABS_VOICE_ES }}
+          VIDEO_CUT: ${{ vars.VIDEO_CUT }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_ALERT_CHAT_ID: ${{ secrets.TELEGRAM_ALERT_CHAT_ID }}
           TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
         run: |
           set +e
-          npx tsx scripts/narrate-elevenlabs.ts --mode breaking --lang en --out video/output/narration-en.mp3
+          # Write the script to fit the picture: the render ran two steps ago,
+          # so the real duration is available rather than remembered. It used
+          # to be assumed at ~30 s against a 23 s brief, so the voice ran ~6.5 s
+          # long every night — drifting behind the slides and losing its closing
+          # line to `amix duration=first`.
+          DATE=$(date -u +%Y-%m-%d)
+          SECS=$(ffprobe -v error -show_entries format=duration -of csv=p=0 \
+            "video/output/watchboard-${DATE}.mp4" 2>/dev/null || echo "")
+          FIT=""
+          [ -n "$SECS" ] && FIT="--video-seconds $SECS"
+          # The voice starts on the first slide rather than over the intro;
+          # how much intro there is depends on the cut, which the script works
+          # out from VIDEO_CUT above (leadInForCut, mirroring selectCut).
+          echo "[narrate] video is ${SECS:-unknown} s, cut ${VIDEO_CUT:-daily}"
+          # shellcheck disable=SC2086 # FIT is flag pairs, deliberately split
+          npx tsx scripts/narrate-elevenlabs.ts --mode breaking --lang en $FIT --out video/output/narration-en.mp3
           rc_en=$?
-          npx tsx scripts/narrate-elevenlabs.ts --mode breaking --lang es --out video/output/narration-es.mp3
+          # shellcheck disable=SC2086
+          npx tsx scripts/narrate-elevenlabs.ts --mode breaking --lang es $FIT --out video/output/narration-es.mp3
           rc_es=$?
           set -e
           if [ "$rc_en" -eq 3 ] && [ "$rc_es" -eq 3 ]; then
@@ -149,23 +166,40 @@ jobs:
           ls -la video/output/narration-*.mp3
 
       - name: Merge narration into video
+        id: merge
+        continue-on-error: true
         run: |
           DATE=$(date -u +%Y-%m-%d)
           VIDEO="video/output/watchboard-${DATE}.mp4"
-          
-          if [ -f video/output/narration-en.mp3 ] && [ -f "$VIDEO" ]; then
-            ffmpeg -i "$VIDEO" -i video/output/narration-en.mp3 \
-              -filter_complex '[0:a]volume=0.4[music];[1:a]volume=0.9[narr];[music][narr]amix=inputs=2:duration=first[out]' \
-              -map 0:v -map '[out]' -c:v copy \
-              "video/output/watchboard-${DATE}-narrated-en.mp4" -y || echo "Merge failed"
-          fi
+          rc=0
 
-          if [ -f video/output/narration-es.mp3 ] && [ -f "$VIDEO" ]; then
-            ffmpeg -i "$VIDEO" -i video/output/narration-es.mp3 \
-              -filter_complex '[0:a]volume=0.4[music];[1:a]volume=0.9[narr];[music][narr]amix=inputs=2:duration=first[out]' \
+          for lang in en es; do
+            NARR="video/output/narration-${lang}.mp3"
+            [ -f "$NARR" ] && [ -f "$VIDEO" ] || continue
+            OUT="video/output/watchboard-${DATE}-narrated-${lang}.mp4"
+            # Start the voice on the first slide, not over the intro. The
+            # offset is computed where the script is written (it depends on how
+            # long the script turned out) and left beside the mp3, so the
+            # arithmetic is not repeated here in shell.
+            DELAY=$(cat "${NARR}.delay-ms" 2>/dev/null || echo 0)
+            case "$DELAY" in ''|*[!0-9]*) DELAY=0 ;; esac
+            echo "[merge] ${lang}: voice starts at ${DELAY}ms"
+            if ffmpeg -i "$VIDEO" -i "$NARR" \
+              -filter_complex "[0:a]volume=0.4[music];[1:a]adelay=delays=${DELAY}ms:all=1,volume=0.9[narr];[music][narr]amix=inputs=2:duration=first[out]" \
               -map 0:v -map '[out]' -c:v copy \
-              "video/output/watchboard-${DATE}-narrated-es.mp4" -y || echo "Merge failed"
-          fi
+              "$OUT" -y; then
+              # Verify the artefact, not the exit code: a mix that produced no
+              # audio stream would still have exited 0.
+              if ! ffprobe -v error -select_streams a:0 -show_entries stream=codec_name -of csv=p=0 "$OUT" | grep -q .; then
+                echo "::error::${OUT} has no audio stream after the mix"
+                rc=1
+              fi
+            else
+              echo "::error::ffmpeg failed merging ${lang} narration — the brief would ship silent"
+              rc=1
+            fi
+          done
+          exit $rc
 
       # Meta (Instagram Reels / Facebook Page) cannot take a file upload: it
       # fetches the MP4 from a public URL. Workflow artifacts are not public, so
@@ -253,8 +287,13 @@ jobs:
             exit 0
           fi
           DATE=$(date -u +%Y-%m-%d)
-          # Base video (not the narrated cut), as before.
+          # The narrated cut when there is one, matching what goes to Bluesky
+          # and what the progress job already sends. Until this was fixed, the
+          # public Telegram channel got the silent cut every night while every
+          # other destination got the voiced one.
           VIDEO="video/output/watchboard-${DATE}.mp4"
+          NARRATED="video/output/watchboard-${DATE}-narrated-en.mp4"
+          [ -f "$NARRATED" ] && VIDEO="$NARRATED"
           # Caption snapshot taken right after the render, before any git
           # pull/rebase could revert the data file: it matches the video.
           # Exit 1 = rejected (nothing public); 2 = may be public. The gate at
@@ -418,6 +457,10 @@ jobs:
             echo "::error::Narration failed — see 'Generate narration with ElevenLabs' above. The video posted without voice."
             failed=1
           fi
+          if [ "${{ steps.merge.outcome }}" = "failure" ]; then
+            echo "::error::The narration was generated but not merged — see 'Merge narration into video' above. The brief shipped silent."
+            failed=1
+          fi
           if [ "${{ steps.social_post.outcome }}" = "failure" ]; then
             echo "::error::The video did not reach every enabled social platform — see 'Post to social media' above. Platforms in the post record are skipped on a re-run."
             failed=1
@@ -539,14 +582,26 @@ jobs:
           ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
           ELEVENLABS_VOICE_EN: ${{ vars.ELEVENLABS_VOICE_EN }}
           ELEVENLABS_VOICE_ES: ${{ vars.ELEVENLABS_VOICE_ES }}
+          VIDEO_CUT: ${{ vars.VIDEO_CUT }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_ALERT_CHAT_ID: ${{ secrets.TELEGRAM_ALERT_CHAT_ID }}
           TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
         run: |
           set +e
-          npx tsx scripts/narrate-elevenlabs.ts --mode progress --lang en --out video/output/narration-progress-en.mp3
+          DATE=$(date -u +%Y-%m-%d)
+          SECS=$(ffprobe -v error -show_entries format=duration -of csv=p=0 \
+            "video/output/watchboard-${DATE}-progress.mp4" 2>/dev/null || echo "")
+          FIT=""
+          [ -n "$SECS" ] && FIT="--video-seconds $SECS"
+          # The progress brief always renders Video.tsx, so its lead-in is the
+          # 90-frame intro whatever VIDEO_CUT says — selectCut() ignores the
+          # hook for this mode, and so does leadInForCut().
+          echo "[narrate] progress video is ${SECS:-unknown} s"
+          # shellcheck disable=SC2086
+          npx tsx scripts/narrate-elevenlabs.ts --mode progress --lang en $FIT --out video/output/narration-progress-en.mp3
           rc_en=$?
-          npx tsx scripts/narrate-elevenlabs.ts --mode progress --lang es --out video/output/narration-progress-es.mp3
+          # shellcheck disable=SC2086
+          npx tsx scripts/narrate-elevenlabs.ts --mode progress --lang es $FIT --out video/output/narration-progress-es.mp3
           rc_es=$?
           set -e
           if [ "$rc_en" -eq 3 ] && [ "$rc_es" -eq 3 ]; then
@@ -560,15 +615,31 @@ jobs:
           ls -la video/output/narration-progress-*.mp3
 
       - name: Merge narration into progress video
+        id: merge_progress
+        continue-on-error: true
         run: |
           DATE=$(date -u +%Y-%m-%d)
           VIDEO="video/output/watchboard-${DATE}-progress.mp4"
+          NARR="video/output/narration-progress-en.mp3"
+          OUT="video/output/watchboard-${DATE}-progress-narrated-en.mp4"
+          [ -f "$NARR" ] && [ -f "$VIDEO" ] || exit 0
 
-          if [ -f video/output/narration-progress-en.mp3 ] && [ -f "$VIDEO" ]; then
-            ffmpeg -i "$VIDEO" -i video/output/narration-progress-en.mp3 \
-              -filter_complex '[0:a]volume=0.4[music];[1:a]volume=0.9[narr];[music][narr]amix=inputs=2:duration=first[out]' \
-              -map 0:v -map '[out]' -c:v copy \
-              "video/output/watchboard-${DATE}-progress-narrated-en.mp4" -y || echo "Merge failed"
+          # Start the voice on the first slide, not over the intro. Computed
+          # where the script is written and left beside the mp3.
+          DELAY=$(cat "${NARR}.delay-ms" 2>/dev/null || echo 0)
+          case "$DELAY" in ''|*[!0-9]*) DELAY=0 ;; esac
+          echo "[merge] voice starts at ${DELAY}ms"
+          if ffmpeg -i "$VIDEO" -i "$NARR" \
+            -filter_complex "[0:a]volume=0.4[music];[1:a]adelay=delays=${DELAY}ms:all=1,volume=0.9[narr];[music][narr]amix=inputs=2:duration=first[out]" \
+            -map 0:v -map '[out]' -c:v copy \
+            "$OUT" -y; then
+            if ! ffprobe -v error -select_streams a:0 -show_entries stream=codec_name -of csv=p=0 "$OUT" | grep -q .; then
+              echo "::error::${OUT} has no audio stream after the mix"
+              exit 1
+            fi
+          else
+            echo "::error::ffmpeg failed merging the progress narration — the brief would ship silent"
+            exit 1
           fi
 
       # Meta (Instagram Reels / Facebook Page) cannot take a file upload: it
@@ -738,6 +809,10 @@ jobs:
           fi
           if [ "${{ steps.narrate_progress.outcome }}" = "failure" ]; then
             echo "::error::Progress narration failed — see 'Generate narration with ElevenLabs (progress tone)' above. The video posted without voice."
+            failed=1
+          fi
+          if [ "${{ steps.merge_progress.outcome }}" = "failure" ]; then
+            echo "::error::The progress narration was generated but not merged — see 'Merge narration into progress video' above. The brief shipped silent."
             failed=1
           fi
           if [ "${{ steps.social_post_progress.outcome }}" = "failure" ]; then

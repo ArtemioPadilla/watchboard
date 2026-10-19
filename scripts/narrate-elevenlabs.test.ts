@@ -15,6 +15,14 @@ import {
   MIN_BYTES,
   type FetchLike,
   SPEECH_BUDGET,
+  CHARS_PER_SECOND,
+  SPEECH_HEADROOM,
+  budgetForSeconds,
+  playSeconds,
+  narrationDelaySeconds,
+  DEFAULT_LEAD_IN,
+  HOOK_LEAD_IN,
+  leadInForCut,
 } from './narrate-elevenlabs';
 
 const trackers = [
@@ -129,6 +137,135 @@ describe('composeNarration', () => {
   });
 });
 
+describe('fitting the script to the picture', () => {
+  const spokenSeconds = playSeconds;
+
+  it('counts the break pauses, not just the words', () => {
+    const t = composeNarration({ mode: 'breaking', lang: 'en', trackers, totalTrackers: 125, videoSeconds: 23.06 });
+    const words = t.replace(/<break[^>]*>/g, '').length / CHARS_PER_SECOND;
+    expect(spokenSeconds(t)).toBeGreaterThan(words + 1);
+  });
+
+  it('scales the budget with the measured duration', () => {
+    expect(budgetForSeconds(23)).toBe(Math.floor(23 * CHARS_PER_SECOND * SPEECH_HEADROOM));
+    expect(budgetForSeconds(60)).toBeGreaterThan(budgetForSeconds(23));
+  });
+
+  it('falls back to SPEECH_BUDGET for a duration it cannot use', () => {
+    for (const bad of [0, -5, Number.NaN, Number.POSITIVE_INFINITY]) {
+      expect(budgetForSeconds(bad)).toBe(SPEECH_BUDGET);
+    }
+  });
+
+  it('never goes under a floor that would leave the brief wordless', () => {
+    expect(budgetForSeconds(0.5)).toBe(60);
+  });
+
+  it('writes a script that fits the 23 s brief instead of overrunning it', () => {
+    // The bug this covers: the budget was a fixed 420 characters "because the
+    // brief is ~30s" while the render is 23.06 s, so the voice ran ~6.5 s long,
+    // drifted behind the slides, and lost its closing line to `amix
+    // duration=first`.
+    const t = composeNarration({
+      mode: 'breaking', lang: 'en', trackers, totalTrackers: 125, videoSeconds: 23.06,
+    });
+    expect(spokenSeconds(t)).toBeLessThanOrEqual(23.06);
+    expect(t.trimEnd().endsWith('at watchboard dot dev.')).toBe(true);
+  });
+
+  it('spends a longer video on more of the news', () => {
+    // Production headlines run near 100 characters each; the three fixtures
+    // above are short enough to fit any budget, which is why this uses its own.
+    const wordy = [
+      { slug: 'a', name: 'A', headline: `Lead item ${'a'.repeat(90)}` },
+      { slug: 'b', name: 'B', headline: `Second item ${'b'.repeat(90)}` },
+      { slug: 'c', name: 'C', headline: `Third item ${'c'.repeat(90)}` },
+    ];
+    const short = composeNarration({ mode: 'breaking', lang: 'en', trackers: wordy, totalTrackers: 125, videoSeconds: 23.06 });
+    const long = composeNarration({ mode: 'breaking', lang: 'en', trackers: wordy, totalTrackers: 125, videoSeconds: 60 });
+    expect(long.length).toBeGreaterThan(short.length);
+    expect(long).toContain('Third item');
+    expect(short).not.toContain('Third item');
+    expect(spokenSeconds(short)).toBeLessThanOrEqual(23.06);
+    expect(spokenSeconds(long)).toBeLessThanOrEqual(60);
+  });
+
+  it('fits whatever duration it is handed, in both languages', () => {
+    for (const lang of ['en', 'es'] as const) {
+      for (const seconds of [18.05, 23.06, 30, 45]) {
+        const t = composeNarration({ mode: 'breaking', lang, trackers, totalTrackers: 125, videoSeconds: seconds });
+        // Starting on the first slide and still ending before the last frame.
+        const delay = narrationDelaySeconds(t, seconds);
+        expect(delay + spokenSeconds(t)).toBeLessThanOrEqual(seconds);
+      }
+    }
+  });
+
+  it('keeps the voice out of the intro, and ends before the last frame', () => {
+    // Video.tsx already renders its own narration inside
+    // `<Sequence from={INTRO_FRAMES}>`; the ffmpeg path, which is the one CI
+    // actually takes, started the voice at frame 0 and so ran ~3 s ahead of
+    // every slide it was describing.
+    const t = composeNarration({ mode: 'breaking', lang: 'en', trackers, totalTrackers: 125, videoSeconds: 23.06 });
+    expect(narrationDelaySeconds(t, 23.06)).toBe(DEFAULT_LEAD_IN);
+    expect(DEFAULT_LEAD_IN + spokenSeconds(t)).toBeLessThanOrEqual(23.06);
+  });
+
+  it('takes the lead-in out of the budget, so the delay cannot push the ending past the video', () => {
+    const wordy = Array.from({ length: 4 }, (_, i) => ({
+      slug: `t${i}`, name: `T${i}`, headline: `Item ${i} ${'w'.repeat(85)}`,
+    }));
+    const args = { mode: 'breaking' as const, lang: 'en' as const, trackers: wordy, totalTrackers: 125, videoSeconds: 23.06 };
+    const withLead = composeNarration(args);
+    const without = composeNarration({ ...args, leadIn: 0 });
+    expect(spokenSeconds(withLead)).toBeLessThan(spokenSeconds(without));
+    expect(spokenSeconds(withLead)).toBeLessThanOrEqual(23.06 - DEFAULT_LEAD_IN);
+  });
+
+  it('gives back as much of the lead-in as the script can afford, never more', () => {
+    const t = composeNarration({ mode: 'breaking', lang: 'en', trackers, totalTrackers: 125, videoSeconds: 23.06 });
+    // A long script in a short video: start early rather than be cut off.
+    expect(narrationDelaySeconds(t, spokenSeconds(t) + 1)).toBeCloseTo(1, 5);
+    expect(narrationDelaySeconds(t, spokenSeconds(t))).toBe(0);
+    // Never past the lead-in, however much room there is.
+    expect(narrationDelaySeconds(t, 600)).toBe(DEFAULT_LEAD_IN);
+    // The hook cut opens sooner.
+    expect(narrationDelaySeconds(t, 600, 2)).toBe(2);
+    // No duration measured means no delay: the budget is then a guess, and a
+    // delayed guess is what loses the closing line.
+    expect(narrationDelaySeconds(t, undefined)).toBe(0);
+    expect(narrationDelaySeconds(t, Number.NaN)).toBe(0);
+  });
+
+  it('gives the hook cut its shorter lead-in, and never gives it to the progress brief', () => {
+    // selectCut() is `mode !== 'positive' && asked === 'hook'`: the progress
+    // brief always renders Video.tsx and keeps its 90-frame intro. Two shell
+    // lines saying this in the workflow is how it would have gone wrong.
+    expect(leadInForCut('breaking', 'hook')).toBe(HOOK_LEAD_IN);
+    expect(leadInForCut('breaking', ' Hook ')).toBe(HOOK_LEAD_IN);
+    expect(leadInForCut('progress', 'hook')).toBe(DEFAULT_LEAD_IN);
+    expect(leadInForCut('breaking', undefined)).toBe(DEFAULT_LEAD_IN);
+    expect(leadInForCut('breaking', '')).toBe(DEFAULT_LEAD_IN);
+    expect(leadInForCut('breaking', 'daily')).toBe(DEFAULT_LEAD_IN);
+  });
+
+  it('playSeconds counts the words and the silence', () => {
+    expect(playSeconds('<break time="2s" />')).toBeCloseTo(2, 5);
+    expect(playSeconds('x'.repeat(CHARS_PER_SECOND))).toBeCloseTo(1, 5);
+    expect(playSeconds(`${'x'.repeat(CHARS_PER_SECOND)}<break time="0.5s" />`)).toBeCloseTo(1.5, 5);
+  });
+
+  it('keeps the closing line even when one headline alone overruns the video', () => {
+    // The first item is never dropped (a brief with no news is not a brief),
+    // but the brand line must still survive: it is the whole call to action.
+    const t = composeNarration({
+      mode: 'breaking', lang: 'en', videoSeconds: 23.06, totalTrackers: 125,
+      trackers: [{ slug: 'a', name: 'A', headline: 'Headline '.repeat(60).trim() }],
+    });
+    expect(t.trimEnd().endsWith('at watchboard dot dev.')).toBe(true);
+  });
+});
+
 describe('buildRequest', () => {
   it('targets the voice endpoint with the key header and multilingual model', () => {
     const r = buildRequest({ text: 'hola', voiceId: DEFAULT_VOICES.es, apiKey: 'k' });
@@ -193,6 +330,24 @@ describe('parseArgs / paths', () => {
     expect(() => parseArgs(['--mode', 'happy', '--out', 'x'])).toThrow(/--mode/);
     expect(() => parseArgs(['--lang', 'fr', '--out', 'x'])).toThrow(/--lang/);
     expect(() => parseArgs([])).toThrow(/--out/);
+  });
+
+  it('takes the measured video duration, and ignores one it cannot use', () => {
+    expect(parseArgs(['--print', '--video-seconds', '23.06'])).toMatchObject({ videoSeconds: 23.06 });
+    // ffprobe prints nothing for a missing file, so the flag arrives empty on a
+    // bad night. Narrate with the fallback budget rather than exiting.
+    for (const bad of ['', 'N/A', '0', '-3']) {
+      expect(parseArgs(['--print', '--video-seconds', bad]).videoSeconds).toBeUndefined();
+    }
+    expect(parseArgs(['--print']).videoSeconds).toBeUndefined();
+  });
+
+  it('takes the lead-in, and ignores one it cannot use', () => {
+    expect(parseArgs(['--print', '--lead-in', '2']).leadIn).toBe(2);
+    expect(parseArgs(['--print', '--lead-in', '0']).leadIn).toBe(0);
+    for (const bad of ['', 'x', '-1']) {
+      expect(parseArgs(['--print', '--lead-in', bad]).leadIn).toBeUndefined();
+    }
   });
 
   it('prefers the per-mode snapshot and falls back to breaking.json', () => {
