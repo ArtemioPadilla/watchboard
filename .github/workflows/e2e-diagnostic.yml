@@ -1,0 +1,57 @@
+name: E2E Diagnostic
+
+# Branch-local, dispatch-only, one spec at a time.
+#
+# Five runs of the full suite against astro 7 were cancelled before
+# Playwright reached its summary — which is where the `list` reporter prints
+# the actual error. Twenty specs failing at ~1.5 minutes each cannot finish
+# inside any sane cap, so those runs produced durations and no reasons, and I
+# spent three of them guessing wrong.
+#
+# One spec, no retries, finishes in minutes and says what it saw. This exists
+# to answer that question and should be deleted with the branch.
+#
+# Deliberately NOT part of e2e.yml: tests/e2e-workflow-coverage.test.ts asserts
+# that every spec is run by that workflow, and narrowing it to debug would have
+# meant weakening the gate that stops a spec silently never running.
+
+on:
+  workflow_dispatch:
+    inputs:
+      spec:
+        description: 'Spec to run, e.g. e2e/activity-sort.spec.ts'
+        required: true
+        default: 'e2e/activity-sort.spec.ts'
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+
+      - name: Generate the static API (read by the activity spec)
+        run: npm run generate-api
+
+      - name: Run one spec, no retries, full reporter
+        env:
+          PUBLIC_ENABLE_DEEPSTATE: 'true'
+        run: npx playwright test "${{ inputs.spec }}" --retries=0 --reporter=list
+
+      - name: Upload the trace
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: diagnostic-trace
+          path: test-results/
+          retention-days: 3
+          if-no-files-found: ignore
