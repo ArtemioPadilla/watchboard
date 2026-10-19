@@ -329,3 +329,21 @@ describe('daily-video narration reaches every destination, and fits the picture'
     });
   }
 });
+
+// A scheduled workflow that fails in private fails for as long as nobody
+// looks. translate-data.yml did: its 14 April 2026 run died on the Claude Max
+// rate limit and three locales went six months without an update.
+describe('workflows that can stop without anyone noticing', () => {
+  it('translate-data.yml alerts the ops chat when it fails', () => {
+    const src = wf('translate-data.yml');
+    // The invocation, not the prose: the comment above the step names the
+    // script too, and that comment belongs to the previous step's chunk.
+    const step = src.split(/\n\s+- name: /).find((s) => s.includes('bash scripts/ci/ops-alert.sh'));
+    expect(step, 'translate-data.yml has no failure alert').toBeTruthy();
+    expect(step).toMatch(/if: failure\(\)/);
+    // The private ops chat, never the public channel — ops-alert.sh refuses
+    // when the two ids are equal, and it needs both to make that comparison.
+    expect(step).toContain('TELEGRAM_ALERT_CHAT_ID');
+    expect(step).toContain('TELEGRAM_CHANNEL_ID');
+  });
+});

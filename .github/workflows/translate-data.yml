@@ -342,3 +342,22 @@ jobs:
               echo "| $SLUG | $META | $KPIS | $HASH |" >> $GITHUB_STEP_SUMMARY
             fi
           done
+
+      # Nothing told anyone when this stopped. The 14 April 2026 run died with
+      # `Claude Code returned an error result: You've hit your limit · resets
+      # Apr 17` and that was the last word on it: three locales went six months
+      # without an update while every page kept rendering, because a workflow
+      # that fails on a schedule nobody watches fails in private.
+      #
+      # `ops-alert.sh` sends one line to the PRIVATE ops chat and refuses to
+      # touch the public channel. Missing credentials are a warning there, so
+      # this step cannot be what turns the job red.
+      - name: Alert the ops chat if the translation failed
+        if: failure()
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_ALERT_CHAT_ID: ${{ secrets.TELEGRAM_ALERT_CHAT_ID }}
+          TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
+        run: |
+          bash scripts/ci/ops-alert.sh \
+            "⚠️ Translation run failed (${{ github.event.inputs.locale || 'es' }}, ${{ github.event.inputs.tracker_slug || 'all' }}). The locale stops moving silently — every page still renders. Check the run, and scripts/check-translation-freshness.ts for how far behind it now is."
