@@ -54,7 +54,7 @@ chronology lives on each item's own `date`:
 
 _Generated from `src/data/roadmap-items.ts` by `scripts/sync-roadmap-doc.ts`. Do not edit between the markers._
 
-Last reviewed: **2026-10-18** · 77 items
+Last reviewed: **2026-10-19** · 77 items
 
 ✅ 52 shipped · 📋 16 planned · 💡 6 idea · 🚧 3 in progress
 
@@ -66,10 +66,10 @@ Last reviewed: **2026-10-18** · 77 items
 | --- | --- | --- | --- | --- | --- |
 | 🚧 | **Per-tracker email / Telegram subscriptions** | Growth | P3 | M | — |
 | 🚧 | **Restart X posting behind human approval** | Growth | P1 | S | #226, #306, #338 |
-| 🚧 | **Automate the remaining video destinations** | Growth | P1 | M | #306, #325, #350 |
+| 🚧 | **Automate the remaining video destinations** | Growth | P1 | M | #306, #325, #350, #356 |
 
 - **Per-tracker email / Telegram subscriptions** — Telegram channel notifications and a newsletter page are live; the web-push worker exists but is not wired to a delivery schedule
-- **Automate the remaining video destinations** — Blocked on credentials only — no code remains to write. The Video Destinations Check workflow verifies them read-only the moment they are set, so a wrong token is caught by a click rather than by a silent nightly.
+- **Automate the remaining video destinations** — No code remains. The runbook carries the console walkthrough for both, including the Test-users step that otherwise expires a YouTube token after seven days.
 
 ## Next — The queue
 
@@ -82,7 +82,7 @@ Last reviewed: **2026-10-18** · 77 items
 | 📋 | **Globe discoverability CTA** | UX | P1 | XS | — |
 | 📋 | **Per-section "last updated" indicators** | UX | P0 | S | — |
 | 📋 | **Accessibility audit (WCAG 2.1 AA)** | Accessibility | P1 | L | — |
-| 📋 | **Decide the astro 5 → 7 migration** | Infrastructure | P2 | L | — |
+| 📋 | **Decide the astro 5 → 7 migration** | Infrastructure | P2 | L | #348, #354 |
 | 📋 | **Ratchet the type baseline down** | Infrastructure | P2 | M | #342, #346, #347 |
 | 📋 | **Decide whether the hook-first cut replaces the daily brief** | Growth | P2 | S | #228, #229, #353 |
 | 📋 | **Spanish narration reads English headlines** | Growth | P2 | S | — |
@@ -149,7 +149,7 @@ Last reviewed: **2026-10-18** · 77 items
 | ✅ | **Country trackers — India / China / Russia / Iran / Turkey / Saudi** | Content | P0 | XL | — |
 | ✅ | **Per-tracker RSS / Atom feed redesign** | Growth | P2 | S | #188, #189 |
 | ✅ | **Embeddable mini-trackers** | Growth | P3 | L | — |
-| ✅ | **E2E smoke tests (Playwright)** | Reliability | P3 | M | #214, #334, #340, #341, #343 |
+| ✅ | **E2E smoke tests (Playwright)** | Reliability | P3 | M | #214, #334, #340, #341, #343, #357 |
 | ✅ | **Daily intelligence brief video** | Growth | P1 | XL | #194, #227, #228, #229, #232, #301 |
 | ✅ | **Spoken narration in two languages, news first** | Growth | P2 | M | #301, #333 |
 | ✅ | **Social Command Center** | Growth | P1 | XL | #166, #233, #306, #307 |
@@ -196,7 +196,7 @@ Last reviewed: **2026-10-18** · 77 items
 - **Country trackers — India / China / Russia / Iran / Turkey / Saudi** — 125 active trackers including India, China, Russia, Iran, Turkey and Saudi Arabia; new ones take ~25 minutes via the init-tracker workflow
 - **Per-tracker RSS / Atom feed redesign** — Global, breaking, light-scan and per-tracker feeds, with an HTML index, a JSON list and an OPML bundle all discovered automatically from each endpoint's feedMeta export
 - **Embeddable mini-trackers** — Live at /embed/{tracker}/
-- **E2E smoke tests (Playwright)** — Playwright on every PR, with /search and /roadmap covered after both turned out to have none. Flakes get fixed by finding the race — a hydration wait, a disabled camera — not by raising a timeout.
+- **E2E smoke tests (Playwright)** — A coverage test asserts every spec is run by the workflow, so a spec cannot exist without running — the defect that started this, 225 tests nothing executed.
 - **Daily intelligence brief video** — Publishes unattended every night; the archive at /videos/ records items, KPIs, source tiers and run id per day
 - **Spoken narration in two languages, news first** — Verified in production: 331 characters EN / 324 ES, three headlines, one brand mention at the end
 - **Approval alerts for the social queue** — Measured before it existed: 0 posts a day reached X while 1-5 proposals a day waited unseen in the queue

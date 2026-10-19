@@ -65,7 +65,7 @@ export const MILESTONE_ORDER: RoadmapMilestone[] = ['now', 'next', 'later', 'don
  * files an issue. It is deliberately not a hard CI failure — blocking an
  * unrelated PR over a stale document is how checks get switched off.
  */
-export const ROADMAP_LAST_REVIEWED = '2026-10-18';
+export const ROADMAP_LAST_REVIEWED = '2026-10-19';
 
 export const AREA_META: Record<RoadmapArea, { label: string; color: string; emoji: string }> = {
   performance:    { label: 'Performance',    color: 'var(--accent-blue,   #58a6ff)', emoji: '⚡' },
@@ -444,12 +444,12 @@ export const ROADMAP_ITEMS: RoadmapItem[] = [
     id: 'rm-e2e-tests',
     title: 'E2E smoke tests (Playwright)',
     description:
-      '5-10 smoke tests covering page load, timeline expansion, map render, globe load. Catches regressions that unit tests miss.',
+      'Playwright on every pull request, covering the shareable-view surfaces, the globe and map, the dossier, alerts, interests, the mobile layout, /search and /roadmap. Flakes get fixed by finding the race — a hydration wait, a disabled camera, a retried interaction — never by raising a timeout. A dispatch-only single-spec workflow (#357) exists for the case a broad failure stops Playwright reaching the summary where it prints the errors, which is how six cancelled runs on the astro 7 branch produced durations and no reasons.',
     status: 'shipped', area: 'reliability', priority: 'P3', effort: 'M', milestone: 'done',
-    prs: [214, 334, 340, 341, 343],
+    prs: [214, 334, 340, 341, 343, 357],
     date: '2026-04-26',
     outcome:
-      'Playwright on every PR, with /search and /roadmap covered after both turned out to have none. Flakes get fixed by finding the race — a hydration wait, a disabled camera — not by raising a timeout.',
+      'A coverage test asserts every spec is run by the workflow, so a spec cannot exist without running — the defect that started this, 225 tests nothing executed.',
   },
   {
     id: 'rm-event-partition-scaling',
@@ -690,11 +690,11 @@ export const ROADMAP_ITEMS: RoadmapItem[] = [
     id: 'rm-video-publishing',
     title: 'Automate the remaining video destinations',
     description:
-      'Instagram Reels and the Facebook Page adapters are written and tested with injectable fetch, and the public MP4 URL they need is already produced as a rolling release asset. YouTube Shorts is written too. All three are dormant until their credentials exist: META_PAGE_ACCESS_TOKEN plus two page ids, and three YouTube OAuth secrets (an API key cannot upload).',
+      'Instagram Reels, the Facebook Page and YouTube Shorts are written, tested and dormant: each adapter no-ops until its credentials exist, and the public MP4 URL Meta needs is already produced as a rolling release asset. The remaining work is credential creation, which needs the owner accounts — so what could be automated has been: #350 verifies any configured destination read-only, and #356 mints the YouTube refresh token locally, which is the step people get wrong because Google returns an access token and no refresh token, silently, when the consent request omits prompt=consent.',
     status: 'in-progress', area: 'growth', priority: 'P1', effort: 'M', milestone: 'now',
-    prs: [306, 325, 350], date: '2026-10-18',
+    prs: [306, 325, 350, 356], date: '2026-10-18',
     outcome:
-      'Blocked on credentials only — no code remains to write. The Video Destinations Check workflow verifies them read-only the moment they are set, so a wrong token is caught by a click rather than by a silent nightly.',
+      'No code remains. The runbook carries the console walkthrough for both, including the Test-users step that otherwise expires a YouTube token after seven days.',
   },
 
   // ─── Next: committed, not started ───────────────────────────────────
@@ -702,8 +702,9 @@ export const ROADMAP_ITEMS: RoadmapItem[] = [
     id: 'rm-astro-7',
     title: 'Decide the astro 5 → 7 migration',
     description:
-      'The audit reads alarming and almost nothing is reachable: the server-island advisory needs SSR (this is static output with no deferred islands), and the sharp/libvips advisories are about decoding untrusted input, and the only image sharp receives here is a texture checked into the repo (it is imported directly by the OG endpoint, not through Astro\'s image service, which this project never invokes). The one reachable path — tracker names reaching an inline script through define:vars — was closed separately. What remains is cost: the e2e suite never finished in 50 minutes against astro 7 even with the Vite fix, and nested zod 4 adds about fifteen type errors that the new gate would now reject.',
+      'Investigated to the end and the premise did not survive it. The wall was four separate things, three of them in this repo own harness: a comment terminator inside a JSX comment that 500d every page (fixed on main, #348); astro 7 daemonising `astro dev` on some machines and not others; a readiness poll that aborted at 2 s and so cancelled the 28 s cold compile it was waiting for; and one real config gap — `react-dom/client` is CommonJS and astro 7 Rolldown optimiser does not pre-bundle it when the only reference is an island dynamic import, so `createRoot` was missing and every island threw on hydrate. The site served perfect SSR HTML and no JavaScript ever took over. One line of `optimizeDeps.include` fixes it. Two earlier claims recorded here were wrong and are withdrawn: the e2e suite was never slow (it was failing), and nested zod 4 adds no type errors at all.',
     status: 'planned', area: 'infrastructure', priority: 'P2', effort: 'L', milestone: 'next',
+    prs: [348, 354],
     date: '2026-10-18', dependsOn: ['rm-type-ratchet'],
     outcome: 'Cheapest next step: run the dev server locally against astro 7 and time one page load, rather than paying for another 50-minute CI run',
   },
