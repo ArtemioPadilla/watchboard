@@ -126,8 +126,8 @@ The table is generated from the source by `scripts/list-env-vars.ts`
 | `X_API_SECRET` | CI scripts | `scripts/hourly-post.ts`, `scripts/post-social-queue.ts`, `scripts/post-social.ts`, `scripts/x-check.ts` |
 | `X_TEST_TEXT` | CI scripts | `scripts/x-check.ts` |
 | `YOUTUBE_API_KEY` | CI scripts | `scripts/backfill-youtube.ts` |
-| `YOUTUBE_CLIENT_ID` | CI scripts | `scripts/check-video-destinations.ts`, `scripts/lib/youtube-publish.ts` |
-| `YOUTUBE_CLIENT_SECRET` | CI scripts | `scripts/check-video-destinations.ts`, `scripts/lib/youtube-publish.ts` |
+| `YOUTUBE_CLIENT_ID` | CI scripts | `scripts/check-video-destinations.ts`, `scripts/lib/youtube-publish.ts`, `scripts/youtube-oauth.ts` |
+| `YOUTUBE_CLIENT_SECRET` | CI scripts | `scripts/check-video-destinations.ts`, `scripts/lib/youtube-publish.ts`, `scripts/youtube-oauth.ts` |
 | `YOUTUBE_PRIVACY_STATUS` | CI scripts | `scripts/lib/youtube-publish.ts` |
 | `YOUTUBE_REFRESH_TOKEN` | CI scripts | `scripts/check-video-destinations.ts`, `scripts/lib/youtube-publish.ts` |
 <!-- env-vars:end -->
