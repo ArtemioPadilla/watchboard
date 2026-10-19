@@ -35,6 +35,23 @@ export default defineConfig({
     define: {
       CESIUM_BASE_URL: JSON.stringify('/cesium/'),
     },
+    optimizeDeps: {
+      // react-dom/client is CommonJS. Vite normally pre-bundles it so that
+      // `createRoot` exists as a named export; astro 7's Rolldown-based
+      // optimizer does not pick it up from an island's dynamic import, and the
+      // browser then says, for every island:
+      //
+      //   SyntaxError: The requested module '/node_modules/react-dom/client.js'
+      //     does not provide an export named 'createRoot'
+      //
+      // Nothing hydrates, no effect runs, no stylesheet applies, and every
+      // Playwright hydration wait fails with "element(s) not found" — which is
+      // what twenty-odd specs on this branch were actually reporting.
+      //
+      // Naming them explicitly is the documented Vite remedy for a CJS
+      // dependency reached only through a dynamic import.
+      include: ['react', 'react-dom', 'react-dom/client', 'react/jsx-runtime'],
+    },
     server: {
       allowedHosts: ['.trycloudflare.com'],
     },
