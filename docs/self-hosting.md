@@ -116,7 +116,7 @@ The table is generated from the source by `scripts/list-env-vars.ts`
 | `TELEGRAM_CHANNEL_ID` | CI scripts | `scripts/notify-social-proposals.ts`, `scripts/repost-daily-telegram.ts`, `scripts/telegram-channel.ts` |
 | `TRACKER_SLUG` | CI scripts | `scripts/update-data.ts` |
 | `UPDATE_SECTIONS` | CI scripts | `scripts/update-data.ts` |
-| `VIDEO_CUT` | video render | `video/render.ts` |
+| `VIDEO_CUT` | CI scripts, video render | `scripts/narrate-elevenlabs.ts`, `video/render.ts` |
 | `VIDEO_MODE` | video render | `video/render.ts`, `video/src/data/fetch-breaking.ts` |
 | `VIDEO_TYPE` | CI scripts | `scripts/post-video-social.ts` |
 | `X_ACCESS_TOKEN` | CI scripts | `scripts/hourly-post.ts`, `scripts/post-social-queue.ts`, `scripts/post-social.ts`, `scripts/x-check.ts` |
