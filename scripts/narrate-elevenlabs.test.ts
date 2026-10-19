@@ -15,6 +15,9 @@ import {
   MIN_BYTES,
   type FetchLike,
   SPEECH_BUDGET,
+  CHARS_PER_SECOND,
+  SPEECH_HEADROOM,
+  budgetForSeconds,
 } from './narrate-elevenlabs';
 
 const trackers = [
@@ -129,6 +132,75 @@ describe('composeNarration', () => {
   });
 });
 
+describe('fitting the script to the picture', () => {
+  /** Spoken length of a composed script: the break markup is not read aloud. */
+  const spokenSeconds = (t: string) =>
+    t.replace(/<break[^>]*>/g, '').length / CHARS_PER_SECOND;
+
+  it('scales the budget with the measured duration', () => {
+    expect(budgetForSeconds(23)).toBe(Math.floor(23 * CHARS_PER_SECOND * SPEECH_HEADROOM));
+    expect(budgetForSeconds(60)).toBeGreaterThan(budgetForSeconds(23));
+  });
+
+  it('falls back to SPEECH_BUDGET for a duration it cannot use', () => {
+    for (const bad of [0, -5, Number.NaN, Number.POSITIVE_INFINITY]) {
+      expect(budgetForSeconds(bad)).toBe(SPEECH_BUDGET);
+    }
+  });
+
+  it('never goes under a floor that would leave the brief wordless', () => {
+    expect(budgetForSeconds(0.5)).toBe(60);
+  });
+
+  it('writes a script that fits the 23 s brief instead of overrunning it', () => {
+    // The bug this covers: the budget was a fixed 420 characters "because the
+    // brief is ~30s" while the render is 23.06 s, so the voice ran ~6.5 s long,
+    // drifted behind the slides, and lost its closing line to `amix
+    // duration=first`.
+    const t = composeNarration({
+      mode: 'breaking', lang: 'en', trackers, totalTrackers: 125, videoSeconds: 23.06,
+    });
+    expect(spokenSeconds(t)).toBeLessThanOrEqual(23.06);
+    expect(t.trimEnd().endsWith('at watchboard dot dev.')).toBe(true);
+  });
+
+  it('spends a longer video on more of the news', () => {
+    // Production headlines run near 100 characters each; the three fixtures
+    // above are short enough to fit any budget, which is why this uses its own.
+    const wordy = [
+      { slug: 'a', name: 'A', headline: `Lead item ${'a'.repeat(90)}` },
+      { slug: 'b', name: 'B', headline: `Second item ${'b'.repeat(90)}` },
+      { slug: 'c', name: 'C', headline: `Third item ${'c'.repeat(90)}` },
+    ];
+    const short = composeNarration({ mode: 'breaking', lang: 'en', trackers: wordy, totalTrackers: 125, videoSeconds: 23.06 });
+    const long = composeNarration({ mode: 'breaking', lang: 'en', trackers: wordy, totalTrackers: 125, videoSeconds: 60 });
+    expect(long.length).toBeGreaterThan(short.length);
+    expect(long).toContain('Third item');
+    expect(short).not.toContain('Third item');
+    expect(spokenSeconds(short)).toBeLessThanOrEqual(23.06);
+    expect(spokenSeconds(long)).toBeLessThanOrEqual(60);
+  });
+
+  it('fits whatever duration it is handed, in both languages', () => {
+    for (const lang of ['en', 'es'] as const) {
+      for (const seconds of [18.05, 23.06, 30, 45]) {
+        const t = composeNarration({ mode: 'breaking', lang, trackers, totalTrackers: 125, videoSeconds: seconds });
+        expect(spokenSeconds(t)).toBeLessThanOrEqual(seconds);
+      }
+    }
+  });
+
+  it('keeps the closing line even when one headline alone overruns the video', () => {
+    // The first item is never dropped (a brief with no news is not a brief),
+    // but the brand line must still survive: it is the whole call to action.
+    const t = composeNarration({
+      mode: 'breaking', lang: 'en', videoSeconds: 23.06, totalTrackers: 125,
+      trackers: [{ slug: 'a', name: 'A', headline: 'Headline '.repeat(60).trim() }],
+    });
+    expect(t.trimEnd().endsWith('at watchboard dot dev.')).toBe(true);
+  });
+});
+
 describe('buildRequest', () => {
   it('targets the voice endpoint with the key header and multilingual model', () => {
     const r = buildRequest({ text: 'hola', voiceId: DEFAULT_VOICES.es, apiKey: 'k' });
@@ -193,6 +265,16 @@ describe('parseArgs / paths', () => {
     expect(() => parseArgs(['--mode', 'happy', '--out', 'x'])).toThrow(/--mode/);
     expect(() => parseArgs(['--lang', 'fr', '--out', 'x'])).toThrow(/--lang/);
     expect(() => parseArgs([])).toThrow(/--out/);
+  });
+
+  it('takes the measured video duration, and ignores one it cannot use', () => {
+    expect(parseArgs(['--print', '--video-seconds', '23.06'])).toMatchObject({ videoSeconds: 23.06 });
+    // ffprobe prints nothing for a missing file, so the flag arrives empty on a
+    // bad night. Narrate with the fallback budget rather than exiting.
+    for (const bad of ['', 'N/A', '0', '-3']) {
+      expect(parseArgs(['--print', '--video-seconds', bad]).videoSeconds).toBeUndefined();
+    }
+    expect(parseArgs(['--print']).videoSeconds).toBeUndefined();
   });
 
   it('prefers the per-mode snapshot and falls back to breaking.json', () => {

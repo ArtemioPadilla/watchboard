@@ -271,3 +271,44 @@ describe('scout stale-proposal closure fails when it cannot close', () => {
     expect(step()).toMatch(/COUNT=\$\(grep -c \. [^\n]*\) \|\| COUNT=0/);
   });
 });
+
+// The daily brief's voice. Two defects lived here: the public Telegram channel
+// was sent the silent cut while Bluesky and Meta got the voiced one, and the
+// narration was written to a remembered ~30 s against a 23.06 s render, so the
+// voice lagged the slides and `amix duration=first` cut its closing line.
+describe('daily-video narration reaches every destination, and fits the picture', () => {
+  const jobsOf = () => {
+    const src = wf('daily-video.yml');
+    const progressAt = src.indexOf('\n  video-progress:\n');
+    expect(progressAt).toBeGreaterThan(0);
+    return { video: src.slice(0, progressAt), progress: src.slice(progressAt) };
+  };
+  const stepWith = (job: string, needle: string) =>
+    job.split(/\n\s+- name: /).find((s) => s.includes(needle))!;
+
+  for (const job of ['video', 'progress'] as const) {
+    it(`${job} job sends Telegram the narrated cut when there is one`, () => {
+      const tg = stepWith(jobsOf()[job], 'scripts/telegram-video-post.ts');
+      expect(tg).toMatch(/NARRATED=/);
+      expect(tg).toMatch(/\[ -f "\$NARRATED" \]/);
+    });
+
+    it(`${job} job writes the script to the measured render, not a remembered duration`, () => {
+      const narrate = stepWith(jobsOf()[job], 'narrate-elevenlabs.ts --mode');
+      expect(narrate).toMatch(/ffprobe .*format=duration/s);
+      // Both languages, or one track fits and the other overruns.
+      expect((narrate.match(/--video-seconds/g) ?? []).length).toBeGreaterThanOrEqual(1);
+      expect((narrate.match(/\$FIT/g) ?? []).length).toBe(2);
+    });
+
+    it(`${job} job verifies the mix produced audio, and the gate reads its outcome`, () => {
+      const j = jobsOf()[job];
+      const merge = stepWith(j, 'amix=inputs=2');
+      expect(merge).toMatch(/ffprobe .*select_streams a:0/s);
+      expect(merge).toMatch(/::error::/);
+      const id = job === 'video' ? 'merge' : 'merge_progress';
+      expect(merge).toContain(`id: ${id}`);
+      expect(j).toContain(`steps.${id}.outcome`);
+    });
+  }
+});

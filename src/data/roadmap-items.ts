@@ -677,6 +677,17 @@ export const ROADMAP_ITEMS: RoadmapItem[] = [
       'Control: the new test fails against the unfixed page, naming the leaked tracker titles',
   },
 
+  {
+    id: 'rm-narration-sync',
+    title: 'The daily brief\'s voice: silent on Telegram, and out of step with the picture',
+    description:
+      'Two faults in one feature. The public Telegram channel was sent the base render every night while Bluesky and Meta got the narrated cut — an asymmetry between two otherwise identical workflow jobs, with a comment claiming it was deliberate. And the script was written to a fixed 420-character budget "because the brief is ~30s" when the render is 23.06 s, so the voice ran about 6.5 s long: it drifted behind the slides it was describing and `amix duration=first` truncated the closing brand line that #333 had just moved to the end. The budget is now derived from the duration the workflow ffprobes off the rendered MP4 (14 chars/second measured on two production runs, 0.9 headroom), so `VIDEO_CUT=hook` at 18.05 s is covered without another constant.',
+    status: 'shipped', area: 'growth', priority: 'P1', effort: 'S', milestone: 'done',
+    prs: [359], date: '2026-10-19',
+    outcome:
+      'Measured, not assumed: mixing a 29.6 s stand-in into the real render leaves its last 1.5 s at exactly the halved music floor (-34.1 dB against -28.2 dB of music alone) — nothing of the narration survives; the 20.7 s version sits 8 dB above it. The merge step now ffprobes its own output for an audio stream, because an amix that produced none still exits 0.',
+  },
+
   // ─── Now: in flight, or waiting on one decision or credential ────────
   {
     id: 'rm-x-restart',
@@ -700,13 +711,13 @@ export const ROADMAP_ITEMS: RoadmapItem[] = [
   // ─── Next: committed, not started ───────────────────────────────────
   {
     id: 'rm-astro-7',
-    title: 'Decide the astro 5 → 7 migration',
+    title: 'Migrate astro 5 → 7',
     description:
       'Investigated to the end and the premise did not survive it. The wall was four separate things, three of them in this repo own harness: a comment terminator inside a JSX comment that 500d every page (fixed on main, #348); astro 7 daemonising `astro dev` on some machines and not others; a readiness poll that aborted at 2 s and so cancelled the 28 s cold compile it was waiting for; and one real config gap — `react-dom/client` is CommonJS and astro 7 Rolldown optimiser does not pre-bundle it when the only reference is an island dynamic import, so `createRoot` was missing and every island threw on hydrate. The site served perfect SSR HTML and no JavaScript ever took over. One line of `optimizeDeps.include` fixes it. Two earlier claims recorded here were wrong and are withdrawn: the e2e suite was never slow (it was failing), and nested zod 4 adds no type errors at all.',
-    status: 'planned', area: 'infrastructure', priority: 'P2', effort: 'L', milestone: 'next',
+    status: 'shipped', area: 'infrastructure', priority: 'P2', effort: 'L', milestone: 'done',
     prs: [348, 354],
-    date: '2026-10-18', dependsOn: ['rm-type-ratchet'],
-    outcome: 'Cheapest next step: run the dev server locally against astro 7 and time one page load, rather than paying for another 50-minute CI run',
+    date: '2026-10-19', dependsOn: ['rm-type-ratchet'],
+    outcome: 'Merged on astro 7.0 with the full suite green, playwright included: 20+ specs that had reported "element(s) not found" were islands that never hydrated, not markup that had moved',
   },
   {
     id: 'rm-type-debt',

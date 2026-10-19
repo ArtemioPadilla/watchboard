@@ -71,6 +71,11 @@ export interface NarrationInput {
   trackers: BreakingTracker[];
   /** Active trackers in the repo; spoken as "these and N more". */
   totalTrackers: number;
+  /**
+   * Length of the rendered video, so the script is written to fit the picture
+   * rather than to a remembered duration. Omitted falls back to SPEECH_BUDGET.
+   */
+  videoSeconds?: number;
 }
 
 /** `<break time="0.7s" />` is the pause syntax eleven_multilingual_v2 honours in plain text. */
@@ -96,12 +101,40 @@ function joinNames(trackers: BreakingTracker[], lang: NarrationLang): string {
  * with an apostrophe (which is exactly what broke the old `node -e` inline).
  */
 /**
- * Roughly how many characters of speech fit the video. ElevenLabs reads at
- * about 13-15 characters a second at this pace, and the brief is ~30s, so
- * ~420 leaves room for the pauses and the closing line. A script that
- * overruns gets mixed under a video that has already ended.
+ * Measured on two production runs: 425 characters became 29.6 s and 418
+ * became 30.3 s, so ElevenLabs reads this copy at about 14 characters a
+ * second including the `<break>` pauses.
  */
-export const SPEECH_BUDGET = 420;
+export const CHARS_PER_SECOND = 14;
+
+/**
+ * Leave the last tenth of the video unspoken. The closing line should land
+ * before the outro does, not over it, and a voice that finishes exactly on
+ * the last frame sounds clipped even when it is not.
+ */
+export const SPEECH_HEADROOM = 0.9;
+
+/**
+ * Fallback only, for a caller that does not know the video length.
+ *
+ * This used to be the whole story, at 420 characters "because the brief is
+ * ~30s". The brief is 23.06 s. Narration therefore ran about 6.5 s longer
+ * than the picture every night: the voice drifted behind the slides it was
+ * describing, and `amix duration=first` cut the closing line off entirely —
+ * the brand mention that #333 had deliberately moved to the end. The comment
+ * above this constant even predicted it: "a script that overruns gets mixed
+ * under a video that has already ended."
+ *
+ * Callers should pass the real duration instead; daily-video.yml ffprobes the
+ * rendered MP4, which exists by the time narration runs.
+ */
+export const SPEECH_BUDGET = Math.floor(23 * CHARS_PER_SECOND * SPEECH_HEADROOM);
+
+/** Characters of speech that fit in `seconds` of video. */
+export function budgetForSeconds(seconds: number): number {
+  if (!Number.isFinite(seconds) || seconds <= 0) return SPEECH_BUDGET;
+  return Math.max(60, Math.floor(seconds * CHARS_PER_SECOND * SPEECH_HEADROOM));
+}
 
 /** The closing call to action. Spoken once, last, after the news. */
 function closing(lang: NarrationLang, more: number): string {
@@ -138,6 +171,9 @@ function closing(lang: NarrationLang, more: number): string {
 export function composeNarration(input: NarrationInput): string {
   const { lang, trackers } = input;
   const more = Math.max(0, input.totalTrackers - trackers.length);
+  const budget = input.videoSeconds !== undefined
+    ? budgetForSeconds(input.videoSeconds)
+    : SPEECH_BUDGET;
 
   if (trackers.length === 0) {
     // Nothing to brief. Say that plainly rather than running an advert.
@@ -158,7 +194,7 @@ export function composeNarration(input: NarrationInput): string {
     const line = /[.!?]$/.test(headline) ? headline : `${headline}.`;
     // Drop a trailing item rather than truncate one mid-sentence: a clipped
     // headline is a half-told fact, which is worse than one fewer item.
-    if (spent + line.length > SPEECH_BUDGET && lines.length > 0) break;
+    if (spent + line.length > budget && lines.length > 0) break;
     lines.push(line);
     spent += line.length;
   }
@@ -261,7 +297,7 @@ export async function synthesize(req: TtsRequest, fetchImpl: FetchLike = fetch a
   return bytes;
 }
 
-interface Args { mode: NarrationMode; lang: NarrationLang; out?: string; print: boolean }
+interface Args { mode: NarrationMode; lang: NarrationLang; out?: string; print: boolean; videoSeconds?: number }
 
 export function parseArgs(argv: string[]): Args {
   const get = (flag: string): string | undefined => {
@@ -275,13 +311,28 @@ export function parseArgs(argv: string[]): Args {
   const print = argv.includes('--print');
   const out = get('--out');
   if (!print && !out) throw new Error('--out <file.mp3> is required unless --print');
-  return { mode, lang, out, print };
+  // The rendered MP4's duration, so the script is written to fit the picture.
+  // A bad value is ignored rather than fatal: shipping a slightly long script
+  // beats failing the night's narration over a malformed number.
+  const rawSeconds = get('--video-seconds');
+  const parsed = rawSeconds === undefined ? undefined : Number(rawSeconds);
+  const videoSeconds = parsed !== undefined && Number.isFinite(parsed) && parsed > 0 ? parsed : undefined;
+  if (rawSeconds !== undefined && videoSeconds === undefined) {
+    console.warn(`[narrate] ignoring --video-seconds ${rawSeconds}: not a positive number`);
+  }
+  return { mode, lang, out, print, videoSeconds };
 }
 
 async function main(): Promise<void> {
   const args = parseArgs(process.argv.slice(2));
   const data = loadBreakingData(dataPathForMode(args.mode));
-  const text = composeNarration({ mode: args.mode, lang: args.lang, trackers: data.trackers, totalTrackers: countActiveTrackers() });
+  const text = composeNarration({
+    mode: args.mode,
+    lang: args.lang,
+    trackers: data.trackers,
+    totalTrackers: countActiveTrackers(),
+    videoSeconds: args.videoSeconds,
+  });
   console.log(`[narrate] ${args.mode}/${args.lang}: ${text.length} chars`);
   if (args.print) {
     console.log(text);
