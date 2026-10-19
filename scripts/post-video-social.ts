@@ -172,6 +172,12 @@ function savePostRecord(record: VideoPostRecord): void {
   writeFileSync(postRecordPath(record.date), JSON.stringify(record, null, 2), 'utf8');
 }
 
+/** The narrated cut's filename, idempotently: a narrated name stays itself. */
+export function narratedName(videoFile: string): string {
+  if (/-narrated-[a-z]{2}\.mp4$/.test(videoFile)) return videoFile;
+  return videoFile.replace(/\.mp4$/, '-narrated-en.mp4');
+}
+
 function buildInitialRecord(meta: VideoMeta, platforms: SocialPlatform[]): VideoPostRecord {
   const platformMap: Record<string, 'auto' | 'manual' | 'stub'> = {
     tiktok: 'manual',
@@ -187,7 +193,12 @@ function buildInitialRecord(meta: VideoMeta, platforms: SocialPlatform[]): Video
   }
 
   const videoFile = basename(meta.videoPath);
-  const narrationFile = videoFile.replace(/\.mp4$/, '-narrated-en.mp4');
+  // The workflow hands this script the narrated cut when there is one, so
+  // appending the suffix again produced names like
+  // `watchboard-2026-10-19-narrated-en-narrated-en.mp4` — a file that has
+  // never existed, written into every post record since the narrated cut
+  // became the default. Nothing reads the field yet, which is why it lasted.
+  const narrationFile = narratedName(videoFile);
 
   return {
     date: meta.date,
