@@ -12,7 +12,7 @@
     "link": "https://watchboard.dev/lebanon-war-2026/?utm_source=x&utm_medium=contested&utm_campaign=2026-10-21",
     "image": null,
     "memegenUrl": null,
-    "publishAt": "2026-10-22T01:01:00Z",
+    "publishAt": "2026-10-22T18:55:00Z",
     "estimatedCost": 0.01,
     "threadTweets": null,
     "judge": {
@@ -38,6 +38,102 @@
       ]
     },
     "id": "53705977-5616-488e-a87f-af059e092038",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
+  },
+  {
+    "type": "breaking",
+    "voice": "analyst",
+    "tracker": "ebola-outbreak",
+    "lang": "en",
+    "text": "Ebola outbreak reaches its widest geographic spread on record, per NYT. Nigeria announced its first case Oct 21; Kenya confirmed its eighth case Oct 19; Liberia tightened screening Oct 22. DRC remains the epicentre.",
+    "hashtags": [
+      "#Ebola",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/ebola-outbreak/events/2026-10-22-ebola-widest-geographic-expansion-oct-22?utm_source=x&utm_medium=breaking&utm_campaign=2026-10-22",
+    "image": "https://watchboard.dev/og/ebola-outbreak/2026-10-22-ebola-widest-geographic-expansion-oct-22.png",
+    "memegenUrl": null,
+    "publishAt": "2026-10-22T21:55:00Z",
+    "estimatedCost": 0.02,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.88,
+      "verdict": "PUBLISH",
+      "comment": "Attributed, dated claims matching tracker events; the geographic-spread claim is attributed to NYT.",
+      "factChecks": [
+        {
+          "claim": "Widest geographic expansion ever, spanning Nigeria, Congo and Kenya (NYT)",
+          "status": "verified",
+          "source": "ebola-outbreak event ebola-widest-geographic-expansion-oct-22"
+        },
+        {
+          "claim": "Nigeria first case announced Oct 21",
+          "status": "verified",
+          "source": "ebola-outbreak event nigeria-first-ebola-case-oct-21"
+        },
+        {
+          "claim": "Kenya eighth case Oct 19",
+          "status": "verified",
+          "source": "ebola-outbreak event kenya-eighth-ebola-case-oct-19"
+        },
+        {
+          "claim": "Liberia tightened screening Oct 22",
+          "status": "verified",
+          "source": "ebola-outbreak event liberia-tightens-ebola-screening-oct-22"
+        },
+        {
+          "claim": "DRC remains the epicentre",
+          "status": "verified",
+          "source": "ebola-outbreak KPIs (9,277 confirmed in DRC)"
+        }
+      ]
+    },
+    "id": "b6222f8b-3000-4b2b-9ebe-833fdb603ff4",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "auto_approved"
+  },
+  {
+    "type": "contested",
+    "voice": "analyst",
+    "tracker": "lebanon-war-2026",
+    "lang": "en",
+    "text": "Lebanon's health ministry counts 4,386 dead since 2 Mar, with no civilian/combatant split. Israel estimates 1,700–2,500 of them were Hezbollah fighters; Hezbollah sources cite 1,000+. The split is unresolved.",
+    "hashtags": [
+      "#Lebanon",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/lebanon-war-2026/?utm_source=x&utm_medium=contested&utm_campaign=2026-10-22",
+    "image": null,
+    "memegenUrl": null,
+    "publishAt": "2026-10-22T22:00:00Z",
+    "estimatedCost": 0.01,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.72,
+      "verdict": "REVIEW",
+      "comment": "Both sides attributed. Tracker's own note says Israel's range comes from IDF/independent estimates and the Hezbollah figure is not an official total, so wording needs a human check; the as-of date of the toll is not stated.",
+      "factChecks": [
+        {
+          "claim": "Lebanese MoH total 4,386 cumulative since 2 Mar, no civilian/combatant split",
+          "status": "verified",
+          "source": "lebanon-war-2026 disputed figures"
+        },
+        {
+          "claim": "Israel/IDF estimate 1,700–2,500 Hezbollah killed",
+          "status": "verified",
+          "source": "lebanon-war-2026 disputed figures"
+        },
+        {
+          "claim": "Hezbollah sources cite 1,000+",
+          "status": "verified",
+          "source": "lebanon-war-2026 disputed figures"
+        }
+      ]
+    },
+    "id": "76ed73b0-cbf0-4e2e-9778-f160bd64e964",
     "tweetId": null,
     "postedAt": null,
     "status": "pending_review"
