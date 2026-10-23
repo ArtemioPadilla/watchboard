@@ -48,5 +48,134 @@
         "at": "2026-10-23T13:00:59.573Z"
       }
     }
+  },
+  {
+    "type": "breaking",
+    "voice": "analyst",
+    "tracker": "ebola-outbreak",
+    "lang": "en",
+    "text": "Ebola outbreak now spans Nigeria, DRC and Kenya, its widest geographic spread, WHO warns. Kenya reported a ninth confirmed Bundibugyo case on Oct 20; Nigeria confirmed an imported case in Abuja, with 44 contacts traced.",
+    "hashtags": [
+      "#Ebola",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/ebola-outbreak/events/2026-10-22-ebola-widest-geographic-expansion-oct-22?utm_source=x&utm_medium=breaking&utm_campaign=2026-10-23",
+    "image": "https://watchboard.dev/og/ebola-outbreak/2026-10-22-ebola-widest-geographic-expansion-oct-22.png",
+    "memegenUrl": null,
+    "publishAt": "2026-10-23T18:47:00Z",
+    "estimatedCost": 0.02,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.88,
+      "verdict": "PUBLISH",
+      "comment": "Data-first update drawn directly from logged events; attributed to WHO and dated.",
+      "factChecks": [
+        {
+          "claim": "Outbreak spans Nigeria, DRC and Kenya",
+          "status": "verified",
+          "source": "Event ebola-widest-geographic-expansion-oct-22; digest"
+        },
+        {
+          "claim": "Kenya ninth confirmed case Oct 20",
+          "status": "verified",
+          "source": "Event kenya-ninth-ebola-case-oct-20"
+        },
+        {
+          "claim": "Nigeria confirmed imported case in Abuja, 44 contacts traced",
+          "status": "verified",
+          "source": "Tracker digest"
+        },
+        {
+          "claim": "WHO warns outbreak more complex",
+          "status": "verified",
+          "source": "Tracker digest"
+        }
+      ]
+    },
+    "id": "7788ffb9-eab5-4163-bea3-75612d6ed4b1",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "auto_approved"
+  },
+  {
+    "type": "breaking",
+    "voice": "analyst",
+    "tracker": "yemen-conflict",
+    "lang": "en",
+    "text": "UAE condemned a Houthi attack on Saudi Arabia's Dammam airport on Oct 23. Alerts were issued in Riyadh and Najran; the coalition says Houthi missiles were intercepted. Aramco told staff in Dhahran to evacuate on Oct 22.",
+    "hashtags": [
+      "#Yemen",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/yemen-conflict/events/2026-10-23-uae-condemns-houthi-attack-dammam-airport-oct23-2026?utm_source=x&utm_medium=breaking&utm_campaign=2026-10-23",
+    "image": "https://watchboard.dev/og/yemen-conflict/2026-10-23-uae-condemns-houthi-attack-dammam-airport-oct23-2026.png",
+    "memegenUrl": null,
+    "publishAt": "2026-10-23T21:47:00Z",
+    "estimatedCost": 0.02,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.85,
+      "verdict": "PUBLISH",
+      "comment": "Attributed claims from logged events; interception is stated as the coalition's claim.",
+      "factChecks": [
+        {
+          "claim": "UAE condemned Houthi attack on Dammam airport",
+          "status": "verified",
+          "source": "Event uae-condemns-houthi-attack-dammam-airport-oct23-2026"
+        },
+        {
+          "claim": "Alerts in Riyadh and Najran; coalition says missiles intercepted",
+          "status": "verified",
+          "source": "Event riyadh-najran-alerts-houthi-missiles-intercepted-oct23-2026"
+        },
+        {
+          "claim": "Aramco told staff in Dhahran to evacuate Oct 22",
+          "status": "verified",
+          "source": "Event aramco-staff-evacuate-dhahran-oct22-2026"
+        }
+      ]
+    },
+    "id": "6663c1cb-19e4-4234-ad65-5b9d4e6e7b71",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "auto_approved"
+  },
+  {
+    "type": "contested",
+    "voice": "analyst",
+    "tracker": "ebola-outbreak",
+    "lang": "en",
+    "text": "Has DRC's Ebola outbreak peaked? On Sep 15 the DRC health minister said daily deaths fell from ~50 to ~30. The same day UN coordinator Julien Harneis called it \"a massive epidemic\" still growing in other areas.",
+    "hashtags": [
+      "#Ebola",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/ebola-outbreak/?utm_source=x&utm_medium=contested&utm_campaign=2026-10-23",
+    "image": null,
+    "memegenUrl": null,
+    "publishAt": "2026-10-23T22:00:00Z",
+    "estimatedCost": 0.01,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.7,
+      "verdict": "REVIEW",
+      "comment": "Both sides attributed and dated, but the claims are five weeks old and the quote is truncated in the source data; needs a human check.",
+      "factChecks": [
+        {
+          "claim": "DRC minister Kamba said Sep 15 daily deaths fell from ~50 to ~30",
+          "status": "verified",
+          "source": "Unresolved dispute: growth peaked"
+        },
+        {
+          "claim": "Julien Harneis said same day 'a massive epidemic' with growth in other areas",
+          "status": "warning",
+          "source": "Unresolved dispute text is truncated; quote fragment only"
+        }
+      ]
+    },
+    "id": "6c03bf20-0789-41aa-a02b-c72a919c3867",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
   }
 ]
