@@ -2,14 +2,19 @@
   {
     "id": "nino34-anomaly",
     "label": "Niño 3.4 SST Anomaly",
-    "value": "+2.6°C (wk of Aug 20–26)",
+    "value": "+3.3°C (wk centered Oct 14)",
     "color": "red",
-    "source": "NOAA CPC weekly ENSO SST index",
+    "source": "IRI/Columbia weekly ENSO SST (Oct 19, 2026)",
     "contested": false,
-    "delta": "+0.8°C vs wk of Aug 10–16",
-    "deltaNote": "Now firmly in 'very strong' territory — a level reached previously only by the 1982-83, 1997-98, and 2015-16 events. IRI/Columbia's own weekly product independently put the anomaly at +2.7°C for the week centered Aug 12, 2026.",
+    "delta": "+0.7°C vs wk of Aug 20–26",
+    "deltaNote": "IRI reports weekly Niño 3.4 anomalies above +3.0°C for a fifth consecutive week. Index choice matters: relative-index series (e.g. CPC) read lower for the same week.",
     "trend": "up",
-    "lastUpdated": "2026-09-02T20:15:00.000Z"
+    "lastUpdated": "2026-10-23T18:21:36.495Z",
+    "deltaDetail": {
+      "value": 0.7,
+      "direction": "up",
+      "period": "since Aug 26"
+    }
   },
   {
     "id": "very-strong-el-nino-probability",
