@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "lastPruned": "2026-10-24T16:58:10.071Z",
+  "lastPruned": "2026-10-24T19:17:17.840Z",
   "entries": [
     {
       "timestamp": "2026-10-12T03:48:04.214Z",
@@ -85846,6 +85846,718 @@
       "decision": "discard",
       "reason": "matched sheinbaum-presidency on a single token — no substance (score 0.30)",
       "confidence": 0.3045833333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-24T19:17:17.777Z",
+      "candidate": {
+        "title": "Palestinian families displaced as Israeli forces demolish Hebron homes, local officials say",
+        "url": "https://www.bbc.co.uk/news/articles/cqd09k1k7532o?at_medium=RSS&at_campaign=rss",
+        "source": "bbc",
+        "timestamp": "2026-10-24T19:17:15.622Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-24T19:17:17.779Z",
+      "candidate": {
+        "title": "Ukraine’s Starlink satellite speeds restored after a week of front-line disruption - AP News",
+        "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxNOGd5SnEtSm9xemFDa0s3MnhQUjFKOHZmcUxxcHVJU01FWk5aWWEzQWJKaG1DUGlqMFVIWVJrWXA0NUx6NTVQblRkb2lUNXJSWWdrd3A5VlNuc1BqbWM1TEdCZ0pJaHUwdWFpa1g3MVFkODMzWEZuS21WaGpqSldLTEZqT2xReDFQY1I3NEV6ZEZWTl9Pb2gzbG13?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-24T19:17:15.667Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 48.4,
+          "lon": 31.2,
+          "place": "Ukraine",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched digital-inclusion on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-24T19:17:17.781Z",
+      "candidate": {
+        "title": "Interactive graphic: Explore how the battle for the House could play out - NBC News",
+        "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxObU9kLUhuNkd5ZmNGb1AyR1BETkNzelc3SURhdl9aQUJ2SHRobnRsM1FSQlZrQ3JRd25ORVVZcTZHWTJWZnpkN0hCNGRBRlVvSWUtMEM0dWNlaTV1a3RXbjYtR1BqVTh6LWxnS2tCOV9Mc2pEUk1Pelkta24xdFBlS1VBX2d2TXotSlpJem1lclk2bzc0bXZwX3p1T0hrUFJrcjlLbjZ3?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-24T19:17:15.667Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-24T19:17:17.783Z",
+      "candidate": {
+        "title": "Kim Jong-un Makes First Visit to China in Over a Year - The New York Times",
+        "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxPZUZGSkpxeVFRa05sT2xjSExjY0JQSUFjeGxhLWMyMWYyeUxYa014Mk1tZlc5LUtST2lBSDBmWHVoYVE3cmVFVUFPSUpZOTNUb3p5Z0xKdzlHdXpDR1JRMGNTbnNhQzBuVEFCZlRMaFZ4a1pBSkF4TWVqczBsLWJ6QW5sZk5aZ1k?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-24T19:17:15.667Z",
+        "matchedTracker": "north-korea",
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 35.9,
+          "lon": 104.2,
+          "place": "China",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.63)",
+      "confidence": 0.6333333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-24T19:17:17.784Z",
+      "candidate": {
+        "title": "California must respond to DOJ's emergency request over ballots mailed to alleged noncitizens, court rules - Fox News",
+        "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxQdWRnYzF5cTRGdGpmR0NxcEdESzNSSldUX2NrTnJ6bllENzd6OEZEb25MYi1yV2dqMWJCaHdjOTFNcmtEbEppQWdpdE55SmNkbVB5OGVWZ2JFRjVTT3JvYUtzdHRjTFo4a0Q3NDRUeFJOQVhtOEtKWkZGSldCRVQ4eVJ4NVhnS01uUFdpZmxOaU8xY281RjFxTk8xTU5KdWdqQmF6cGpzVUJtaE14QjJYTmItTDVrTl9uLVhUeDRjSm5QWTZ1VWJrcWlib9IB0AFBVV95cUxOdkJ3Zzk3ZUsyTUxrUEdPa1lNUmRTc2x3ckExdVRXcmVXNmROSjFSdk04aS1EUWJPczhwR2FSRmFiWmI2aFo0NnphNHF0cGlGZEpsWWxEMkZHYmRZTVItVkRZT0pEZjZmQS1DYkc0NndHSllQNlJCQ1pEMXZESEVuNzgtNmZBSTZsMFhGOVpTX0Y0OVpmX3Njb3VCMWk5QWYybXptVy1ibWE2eTh1Z1RQQ1NseFZyRHJsRUZBTVE5ajcxdGd3ZmlKM09CVVVmdTFq?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-24T19:17:15.667Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched bolivia-crisis-2026 on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-24T19:17:17.786Z",
+      "candidate": {
+        "title": "Palestinian families displaced as Israeli forces demolish Hebron homes, local officials say - BBC",
+        "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE5LMEdmMlZaSzhHcFgtaEdjZlNkQ29JdlE3VEVRaGxyd3J2ZktQeHF0NC1RRTlnaVJKTHNBdlZwNmRVM2JSZ3ljbzY5cmdDWVRBbXJZZXRZYzEweWs?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-24T19:17:15.667Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-24T19:17:17.787Z",
+      "candidate": {
+        "title": "Rubio calls on Cubans seeking change to partner with CIA - Euronews.com",
+        "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxOMktLT0IzeXlzdGF3LUNLQlBBekRmT1VNYmpTUVlHVEhILVZDWnY3ckY4dlNMSmRRTE5WMzQ4WDZkUnkxRHR5cm92djRUWlVlV3MzQVZJWTktOXlEaVg0anpSX0dmN0Fma296YWlRRjhGQlJTREJ6S2N6Ul9Qd3NYZ0dsRVZQdTA0TVNvbW9sTGpiWnM2Zy00ZGI1eE5iYzRadlRSNVdWU1dDWXdHM2Ew?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-24T19:17:15.667Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched chile-allende-pinochet on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-24T19:17:17.788Z",
+      "candidate": {
+        "title": "Six Flags adding seat belts to Goliath rollercoaster following death - BBC",
+        "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFBFNG5aZG1fZlh0UUlwQ0lONnd1cnhQQ2xfVG5ZTlBFdEhMWWlqbkc0SzdQc2NrQ2tJMFRTM0d5MHMxVER1cl94czBPcHFFUkhLWkpYOVpZVThGQjA?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-24T19:17:15.667Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched russia-biolab-incident-2026 on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-24T19:17:17.790Z",
+      "candidate": {
+        "title": "Mark Zuckerberg’s deal to stay in California cheered by wealth tax campaign - Financial Times",
+        "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxQcmxRTm9laFJ0Ymw0bVFicDljenBRdXA2OWhneUVvMXFCVmlpZXlpbHlxeWlBU3JVQkRySEczYThHVkhLMkRFOWVWTlNhUUJscTRMQ2RDLVB1cDBMMjAtU0F3MzF5YVpVRk5JRG9xRkNza2JLak81WVhNdUc3X01JaGVpOFE?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-24T19:17:15.667Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-24T19:17:17.791Z",
+      "candidate": {
+        "title": "These clever apps show off the iPhone Duo’s potential - TechCrunch",
+        "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxQdlJLNjV4UU9KbEtGc0FQWGRwbU1VU3pwdWEwLXJZNklpZkE4dm9vSGUyOFdIbmpjVjFGdWdBUmZjdm5XaFZzWXo4aVZjMWQ1YVFCdTFTZzF4QkZkVXVSQXAxRTNZaEI1NTdqdEYzcktHRDFMZDBGR0daRUFuclBwZzdaQzlvWXRTeU1rWVRYR1M?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-24T19:17:15.667Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-24T19:17:17.793Z",
+      "candidate": {
+        "title": "Updated Google privacy policy says your Gmail might be used for advertising - Ars Technica",
+        "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxNRnNjMDdtTUVobzdWa1U3VVllSTFMZGZEeEQxSjJ1X1lBMUlDcWhpTk9OdHZIak5mU0VNaG1Na2FBX0sxSW1FNmhHbFV0NjJuMUxsenpaREhJNjFvWlZaZDhKZVdGMWRlOUVnM3hGU2dTREN3c3pHYTllUkJuc0gzOFRNbnR5aHVob1RpVGV6eUdEb1VKdUdaVk5kc1I1VkxTY1VydldoZ2ZkUmFCM3kwa3JqY2o4cWM?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-24T19:17:15.667Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.02)",
+      "confidence": 0.02375,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-24T19:17:17.794Z",
+      "candidate": {
+        "title": "Box Office: ‘Clayface’ Lands at No. 1 with $10.4 Million Debut, ‘You Can See Everything’ Adds $6.14 Million on Friday - Variety",
+        "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxOeTFCVGR6YjBfbW5oLVZieWctanZiWUpUeDZxVWdwM2hBcUljTUdTZG9ibzAzT1NnSEdPMmotX291SC1Kc0lXS2RKY3pBcVNabGFCN05JWjBvMGoyclROb0RoMXJTR2MxOWwycVdqOWUxR1dNS09iOGZHeVlEX3dXektrR3kzZVNJNjA5dVZFUm5QQVk3SlM3RG5pM1RrUm9tcTJlXzZmcjZaaXk2dkY4SA?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-24T19:17:15.667Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-24T19:17:17.794Z",
+      "candidate": {
+        "title": "Laika has spent 20 years building up to Wildwood - The Verge",
+        "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxNNE9hSVp6MWNxTW54b2lmNml6YUVWNTUzSWIzamN3U3RpUjFfd21xZWN6UGZLYUNsQ0RwQnNHd2Z2YnVYWjBzZk1RazBjMmVWR19pQnhwVloxZEY4RHJOa183T0x5aGtzQjFrZUxDOGlXQ3k0TEFhUEhDSWYteHRlbWtMZUFRVXN1QVRJ?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-24T19:17:15.667Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched argentina on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-24T19:17:17.795Z",
+      "candidate": {
+        "title": "Taddei, acorralada por el escándalo de corrupción en el INE - EL PAÍS",
+        "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxNSElXenJCWWVaUEFFYkwxczF2cVdsWXhadF83dkJGYXlhNEYyNkplWGI2bWNfLWMtbWZrckpkY19rcnAwTFo1WEJHSG84Qmg5U2x6dnhTcHA4bHNJQkVYWkN1UEFRcUZIUXItZmpZMUpRTFF0TVczTGcwMFVQWmRlaHJtYzNnVmN4SlVBWDdNUXRhNnNwWG9aS0VraFFncVJ2Umc?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-10-24T19:17:15.690Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-24T19:17:17.796Z",
+      "candidate": {
+        "title": "El ‘Hitch’ moderno y el negocio del amor: Así trabaja un coach de citas que ayuda a encontrar pareja - El Financiero",
+        "url": "https://news.google.com/rss/articles/CBMi4gFBVV95cUxQU1hpOG9tNTd5TmViZkpnYVo3eTVXbFFvMEVuQXJMWDZheVY4eXc4VHhwRnVRb3BGZk1jSEc4MGdUdWRuRVdMRmhZS1AzbVp2VmtHcjRlb29iV0NqV1JOWGt6c2MtdnVOa0ZiZ2JPblFOM21KVno5T1pUbW9hd3gxUV9mbTlQN0JYdnFPTDRWUnpkQVFXY2k5YTRGM3BFbUxRNkNsMmxwVmNXUVZMc2Q3R256amg2U2lUYUVmc01pd1FoOUZ5ZTE0VmNkN3VkeTFzTmFFMmo2QVVFR2VBYzhpc0ZR?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-10-24T19:17:15.690Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-24T19:17:17.796Z",
+      "candidate": {
+        "title": "Revela Sheinbaum momento de tensión en encuentro con Campos - La Jornada",
+        "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE1tRzRoZHRXelRZUnZaelBybmc5dXJKMVFBRnA0UFBpbWQzeUJvRWZaMGltbWc0OVBoaG9MN3Z0Mk5kUVVyVTNUd1VUWkRSbnFQSGIxQV9HNEpaWW1ZX0x4d0o0MlBWdw?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-10-24T19:17:15.690Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched sheinbaum-presidency on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-24T19:17:17.797Z",
+      "candidate": {
+        "title": "Anuncia Canacar un paro indefinido - Reforma",
+        "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE8tdWJFYmFrWGl4T21ZWldMTjVtRU9nOW5SdUY2a1VmYk5hMlF4UmdGQ3ZKekdscV9jUzdmamlSVVhfWTNOTVF0b1M5NHQxalc0UDhlRndFOVR2YnFBMnhfMk1RemIyUWpBMHZ0ai1aZUVfc1BYek1R?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-10-24T19:17:15.690Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-24T19:17:17.797Z",
+      "candidate": {
+        "title": "Detienen a Andrés 'N'; habría asesinado a su pareja y arrojado a sus hijas a una barranca para simular un acci - Milenio",
+        "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxNLWd0bTctakt2UGRrVENrMk1sSkJXWDBWMEM2aF85RGdPU1BaT1B0OGZvdG05Q2MtUmsyZHdaSEwtbUVhY2NhVmNNcUs1blJ5eEVXTG1aUV94dWtmcVl1T2JVNThBeWhsY0EyMFRkdDV5clpqekRtcWtka0lHV1lnZ1JlVU1Dak9YdzJXM2I3SdIBjwFBVV95cUxQYXMyQ2J0R2xVRGRWYzRLNnZ6MlMzeUxOTmtlblhFbVpJVUF0ZXlUbXVQU2htaEQwQ3lWOVRsOUFvcWM3dmxTbUZQV2t6YURUb1BZZ1dnbTFuTk5zS09rbTlvb3JpR0JVM2ZGSDRTRDNNZURFTTNjVHVMRWgzSEJlMmVpQ05Qa21FNFo5cTNUdw?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-10-24T19:17:15.690Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-24T19:17:17.798Z",
+      "candidate": {
+        "title": "La Generación Z lidera las protestas en Europa. Estas son las razones de su indignación - CNN en Español",
+        "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNTVA4MnFNS28zY0ZYWjhsTVJtcUpiX1JwMXYxUUE4cjFKYlpNOGtZdTE4RHgtbzdueEJZSGZzSEFLbHl3QU5PelJNSnM2dUhnTUFTQ2hFeVZQR1lBUG5KOXdzYUFNNGZ1bDBhYjBQWk81T2pRUERpeVBQWXp4eC1ycGlZNF9BUTg4?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-10-24T19:17:15.690Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched tlatelolco-1968 on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-24T19:17:17.799Z",
+      "candidate": {
+        "title": "Desde informantes hasta acusaciones de sabotaje: los rusos que dicen ayudar a Ucrania dentro de Rusia - BBC",
+        "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE92UkRHV2pvQTVvcHJIcm50Snh5a2h6YldlalZmU3BiWjFELWlrbi1vTWhRekJDQzAxN29SMUF1am9wX0pyMEUzSFd0UXp0QnNocDcwamN6NVYzRy1j0gFiQVVfeXFMTXk2T1k2Um1sS0FqakNPU0xYRDZGMGRoMDYtTnh3U0loUExnZHJycVliTXFjQzlES3pvZTBPVXowZVpfdzVCMkZtTHc2QmFMTGdoRnpSS1hncHllWEtDTG1CREE?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-10-24T19:17:15.690Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 48.4,
+          "lon": 31.2,
+          "place": "Ukraine",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched ecuador-narco-conflict on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-24T19:17:17.799Z",
+      "candidate": {
+        "title": "Acumula peso mexicano la mayor depreciación - Reforma",
+        "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxNaXJuSnlmc1ZwbGFIaDhJZmR4UG5DQWhhN1JYQTEwSWwwOHJUNlFxUkdLeHNhXzZUTTBmM0E4WDlOa1p2b2tNYWtyeXBvN0V0cV9feEl6U2Y0MF9wb0N5SVN1UVJ2TmxnaEl2WDJRcXJ0YUROa1AxM1MwT25YM2N2cGdzUQ?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-10-24T19:17:15.690Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched argentina on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-24T19:17:17.800Z",
+      "candidate": {
+        "title": "BBVA y Banco de Bienestar se unen para lanzar beneficios para millones de pensionados en México - Xataka México",
+        "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxNM256M3hpd1hWSHhIMFVzSTVweFV5MjZ2eTdiVTRDVi1YeFpKT3UyVDY2WVF2eldlVFJKbVpXMGg1NE5YQXdWNG1IVTBINkREazdNTGFZREpnUmIxY21yWWxRbXE1QXV0TmpxNXRNNmtFd0F5amtrRGY2ZTNZbzU4cFdlUjY3TDRROE4tUjdmN0FGRXp5eHk0bGpjR0thbzh5eVlzVEtJVVR5QkpUVGw1WTNESG5lcmNQUFBTV0gzaElrZ9IBxwFBVV95cUxQby0xTDB5V0lhX1F4UGxtaWpfamhhc29CTmtPWkdSbUJoMEFna2tWaElRMm54SEJfNFItZzQ1SFBzVDRYVkpZMkJwZmx0UGxLa1lOSHNMN2s4bjdCUXBwN2ZJMEZmVFlUTXpkNEhYZTlwT0tfaFBiQUNkc290V084aXI4X0stUTFIS1UyX0pZUFk3OUtGaGlDenVUcDZFNjhWaGhKWk90WmdFWVJzYm1fSXJLdlFReGI1cWI2Vzh5d0xsSjY3OWpB?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-10-24T19:17:15.690Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 23.6,
+          "lon": -102.6,
+          "place": "Mexico",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched cdmx on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-24T19:17:17.800Z",
+      "candidate": {
+        "title": "Le han quitado el acabado mate al iPhone Duo. Ya sabemos qué escondía debajo - Applesfera",
+        "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxOWVE2UmNBUU5YT3lsN2VaMG1XU0dVMmdFRXdWd1pLTWR6OXZ4Ymk5RkdTRmVGVEhzOGxHdFBmRWU5Sy1xNVVfMWxORDN6NEpmQ0o1UDl3TEZ6azRWbTEwMjJaOWxNSmw5WE9nWUNuUnV4NnkyNlZwS1VfSFl5cFdwUW1IdjhjN01hVEotcHQ4aVJxRHRXRDZOOS1jd2Ital8xTUZOUXV3?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-10-24T19:17:15.690Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-24T19:17:17.801Z",
+      "candidate": {
+        "title": "Estrena el Galaxy Z Flip8 de 512 GB con un 41% de descuento; el plegable más delgado del mundo - El Universal",
+        "url": "https://news.google.com/rss/articles/CBMiiAJBVV95cUxNS1FON3ZuTFNiZUh6NUZ4MkdBSWFhdE14UTJ3MWpwVGw3MXNsV1k3ZEJSSzZJTEFjdW1oa1hsRzR0THhxNXZmLWtTUnIwVjBZWFNwMnVsWDhfV0Z5a1k1Xzk1Y1RhMm5mcUx0SEIyWUpDR2NQV1RMdVVMRVpzTy13bS1rZVFqcVM1SnIyQWxXWlVJeFNjMzNKSzFxaFg0Slc3NzU2Qnhfc01jemp3NHJLQ1VxdzhJZ21vZENuRWM0aGtxcXFnRHI2dFl2TFM3VmVMOEZTVENNOV84cTdaOFdwUV95eW1aazU5dVEtRVA2Z1R3YlBNclBXSUFTeGJ6NG9JSFY1MUlscHI?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-10-24T19:17:15.690Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-24T19:17:17.802Z",
+      "candidate": {
+        "title": "MARU LA TRAIDORA-Fisgón - La Jornada",
+        "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxNZHVDdVhiSkoxSFR4RjVCMUtEelZIX2tJdHNVd3I0Q2FuSjAwemxJVDkzUXM2WVk0RENDYWZwQXNiOGNLNTFaUXgwSmdZX3REcVEzWkpod0RCMVRvMTE2UGl5cjFNdVk0bmJFSWMtNzFBU2pfbUlnQ19zZnRrME5Icmtfbw?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-10-24T19:17:15.690Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-24T19:17:17.803Z",
+      "candidate": {
+        "title": "Gunmen kill at least 40 people in northeastern Nigeria, Amnesty International says reut.rs/4smZo9r",
+        "url": "https://bsky.app/profile/reuters.com/post/3mynfg5xvhp2h",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-10-24T19:10:06Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 9.1,
+          "lon": 8.7,
+          "place": "Nigeria",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched nigeria on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-24T19:17:17.805Z",
+      "candidate": {
+        "title": "Protests sweep Italian cities amid heavy security presence, some violence reported reut.rs/4ibuM68",
+        "url": "https://bsky.app/profile/reuters.com/post/3mynd73iuqs2d",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-10-24T18:30:21Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.02)",
+      "confidence": 0.02375,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-24T19:17:17.806Z",
+      "candidate": {
+        "title": "Albanian police fire tear gas as anti-government student protests turn violent reut.rs/4yCm4nu",
+        "url": "https://bsky.app/profile/reuters.com/post/3myn7kems2o2a",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-10-24T17:25:04Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched india-youth-uprising on a single token — no substance (score 0.34)",
+      "confidence": 0.34041666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-24T19:17:17.808Z",
+      "candidate": {
+        "title": "Colorado and Washington's ballot measures on banning transgender athletes could open the door to similar efforts in other Democratic states.",
+        "url": "https://bsky.app/profile/apnews.com/post/3myneuoo4c524",
+        "source": "bsky:apnews.com",
+        "timestamp": "2026-10-24T19:00:19Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 39.7392,
+          "lon": -104.9903,
+          "place": "Colorado",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched hungary-transition on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-24T19:17:17.810Z",
+      "candidate": {
+        "title": "An amateur mixed martial arts fighter was the man killed in Friday's shooting rampage near Paris, his club said, identifying the victim of what French President Emmanuel Macron called a racist terror attack.",
+        "url": "https://bsky.app/profile/apnews.com/post/3mynbjfevsi2v",
+        "source": "bsky:apnews.com",
+        "timestamp": "2026-10-24T18:00:19Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 48.85,
+          "lon": 2.35,
+          "place": "Paris",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched sheinbaum-presidency on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-24T19:17:17.810Z",
+      "candidate": {
+        "title": "Alexandria Ocasio-Cortez has a national following. The midterms will test whether she can turn that into political power.",
+        "url": "https://bsky.app/profile/apnews.com/post/3myn75scuml23",
+        "source": "bsky:apnews.com",
+        "timestamp": "2026-10-24T17:18:03Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 31.2,
+          "lon": 29.92,
+          "place": "Alexandria",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched europe-climate-crisis-2026 on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-24T19:17:17.811Z",
+      "candidate": {
+        "title": "Nathan MacKinnon had a goal and three assists, Nazem Kadri scored his first goal of the season and the Colorado Avalanche beat the Tampa Bay Lightning 6-3 on Friday night.",
+        "url": "https://bsky.app/profile/apnews.com/post/3myn664cd6v2i",
+        "source": "bsky:apnews.com",
+        "timestamp": "2026-10-24T17:00:19Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 39.7392,
+          "lon": -104.9903,
+          "place": "Colorado",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched sheinbaum-presidency on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-24T19:17:17.812Z",
+      "candidate": {
+        "title": "Thousands gather at new Albanian antigovernment rally https://aje.news/1yx0db",
+        "url": "https://bsky.app/profile/aljazeera.com/post/3myneublld626",
+        "source": "bsky:aljazeera.com",
+        "timestamp": "2026-10-24T19:00:05.990Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched mexico on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-24T19:17:17.812Z",
+      "candidate": {
+        "title": "Demonstrators want pensions to remain indexed to inflation and the gender pension gap to be eliminated.",
+        "url": "https://bsky.app/profile/aljazeera.com/post/3mynd6mu2vm2e",
+        "source": "bsky:aljazeera.com",
+        "timestamp": "2026-10-24T18:30:05.698Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched argentina on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-24T19:17:17.813Z",
+      "candidate": {
+        "title": "Palestinians in Hebron are 'living in fear' with the city closed, while Israeli forces arrest dozens across the West Bank https://aje.news/2ppied",
+        "url": "https://bsky.app/profile/aljazeera.com/post/3mynbixvbxa2e",
+        "source": "bsky:aljazeera.com",
+        "timestamp": "2026-10-24T18:00:05.405Z",
+        "matchedTracker": "israel-palestine",
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.63)",
+      "confidence": 0.6333333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-24T19:17:17.814Z",
+      "candidate": {
+        "title": "Trump says he may move White House press corps to new location https://aje.news/64ol3m",
+        "url": "https://bsky.app/profile/aljazeera.com/post/3myn7tcswne26",
+        "source": "bsky:aljazeera.com",
+        "timestamp": "2026-10-24T17:30:05.018Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 38.897,
+          "lon": -77.037,
+          "place": "White House",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched mexico on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-24T19:17:17.815Z",
+      "candidate": {
+        "title": "The race between Brazil's president and the right-wing senator has tightened in recent days.",
+        "url": "https://bsky.app/profile/aljazeera.com/post/3myn65o72ee25",
+        "source": "bsky:aljazeera.com",
+        "timestamp": "2026-10-24T17:00:04.906Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2,
+        "geo": {
+          "lat": -14.2,
+          "lon": -51.9,
+          "place": "Brazil",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched brazil on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-24T19:17:17.815Z",
+      "candidate": {
+        "title": "JUST IN - 57% of Americans think AI is bad for society, but half say it s good for them personally — new poll   @disclosetv",
+        "url": "https://t.me/disclosetv/21947",
+        "source": "tg:disclosetv",
+        "timestamp": "2026-10-24T19:17:16.529Z",
+        "matchedTracker": null,
+        "feedOrigin": "telegram",
+        "sourceTier": 3
+      },
+      "decision": "discard",
+      "reason": "matched ai-for-good on a single token — no substance (score 0.28)",
+      "confidence": 0.2833333333333333,
       "model": null,
       "scanType": "light"
     }
