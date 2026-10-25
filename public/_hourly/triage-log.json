@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "lastPruned": "2026-10-25T01:41:39.388Z",
+  "lastPruned": "2026-10-25T06:53:06.788Z",
   "entries": [
     {
       "timestamp": "2026-10-12T03:48:04.214Z",
@@ -88163,6 +88163,1627 @@
       },
       "decision": "discard",
       "reason": "matched iran-conflict on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.275Z",
+      "candidate": {
+        "title": "Israel to close West Bank crossings on election day as crackdown escalates",
+        "url": "https://www.bbc.co.uk/news/articles/c6y93ylpl5p2o?at_medium=RSS&at_campaign=rss",
+        "source": "bbc",
+        "timestamp": "2026-10-25T06:53:02.761Z",
+        "matchedTracker": "israel-palestine",
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 31,
+          "lon": 34.9,
+          "place": "Israel",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.66)",
+      "confidence": 0.6570833333333332,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.849Z",
+      "candidate": {
+        "title": "Voters in Brazil to choose between Lula and Bolsonaro's son",
+        "url": "https://www.bbc.co.uk/news/articles/cxp8g21j4648o?at_medium=RSS&at_campaign=rss",
+        "source": "bbc",
+        "timestamp": "2026-10-25T06:53:02.761Z",
+        "matchedTracker": "brazil",
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": -14.2,
+          "lon": -51.9,
+          "place": "Brazil",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "update",
+      "reason": "light-scan posted directly + queued for heavy scan (score 0.95)",
+      "confidence": 0.95,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.851Z",
+      "candidate": {
+        "title": "Gunmen kill at least 10 villagers and loot shops in northeast Nigeria",
+        "url": "https://www.bbc.co.uk/news/articles/cq1kdlm1ze7do?at_medium=RSS&at_campaign=rss",
+        "source": "bbc",
+        "timestamp": "2026-10-25T06:53:02.761Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 9.1,
+          "lon": 8.7,
+          "place": "Nigeria",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched nigeria on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.852Z",
+      "candidate": {
+        "title": "Obama attacks Trump as he campaigns for Democrats ahead of midterm elections",
+        "url": "https://www.bbc.co.uk/news/articles/cmj6jwe1j1gjo?at_medium=RSS&at_campaign=rss",
+        "source": "bbc",
+        "timestamp": "2026-10-25T06:53:02.761Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched cdmx on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.854Z",
+      "candidate": {
+        "title": "A New Level of Threat and Fear Risks Pushing the U.S. and Iran Back to Full War - The New York Times",
+        "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxOenJjWWFLN0xjSXdjOHdmUFJ5ekx1M0FLLWR0dGxDc1p6X2xJbDAzM2Zia0lIZFhwdTBJOExfNnVseXd4M1RzUjRDV2MySDBTTTFuQTFKYmVrd2JEWTdOUG9BM3kzU24waU9zQlJMV0d3cFR1VXJrdVZzd1FITEV4Y3lMbHVOM1hZWlFnQlZKd3FvVDA?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-25T06:53:02.834Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 32.4,
+          "lon": 53.7,
+          "place": "Iran",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched china on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.856Z",
+      "candidate": {
+        "title": "Ramaswamy ad puts Acton’s estranged mother in spotlight as records reveal family’s troubled past - NBC News",
+        "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxOaUFkSTJKc3QzZDc2RVlRRlpZNTZkcUxqYjh6UGZpYWgzTW5uRkF3dy1sWERMNlA3Wll2VGFqeVBfTGRtMzJoclV3X19xenZoX0MzR1A3Q19kN3RqSlM1bXlTcmxDZE5iM3d6UERiWjZNczE2V0hfMFQxOFJ2ZnRmeXRPOVk3aV9Xd1d3UzdOZWxGM0lTUGRGZDViQ0JRSHdXaV9wdDVQZHJ3Wm0wc3NJUVFWSjNveTkxbHc?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-25T06:53:02.834Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched bad-bunny on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.858Z",
+      "candidate": {
+        "title": "Almost 1,000 arrested as clashes follow another day of mass protests across France - BBC",
+        "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFBkdVB3VzZ5U3JiUXVrMFFYQ1d3VzNpd2F0R2NKcUIxdUxiWHVyd19FOUhJbi1HMFNrOUIzbTI2NTRsdjZWX0V1RXlvZUxGYTdUVTlOYlZfOTUyTTA?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-25T06:53:02.834Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 46.2,
+          "lon": 2.2,
+          "place": "France",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched europe-climate-crisis-2026 on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.860Z",
+      "candidate": {
+        "title": "Trump in Georgia, Michigan this weekend ahead of 2026 midterm elections - Fox News",
+        "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxPQ00wenlReXBCS29LaEZjOG9ibkJPOTlfRVlidFZGMTkwNzNIUDg3dXN1aUYtNk5QX0VLSUFpaXMyWmJ4TDR3T25FWlVodUdlMjlsZF9zcDVtMDFwYkE3QlJQRmRVMjlaM2FaWU5oaGJUX0gtWmZtRjJmQWpSc0FKTFJaU0h0ZnpvcWpXS1BLS1pZblZRNEd6OUFqaw?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-25T06:53:02.834Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 42.3,
+          "lon": 43.4,
+          "place": "Georgia",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched cdmx on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.861Z",
+      "candidate": {
+        "title": "11 people shot near Florida university stadium in Tallahassee - CNN",
+        "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE9ncjRfWHlVVlZRMTVsN3MzenBBX3ZUZmVBdWxKQVJidVhpM0t4MWxSUlRLMjZhRGdVM3RoanktM2JUaU9yZzh3QW95WFdWd0FTQzFfSzFybzJPNnNfMHY3R1M4T1ZScFkyWHJsc1lzVjZFdHpOS2lYcy1aQWY0Wk0?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-25T06:53:02.834Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 27.77,
+          "lon": -81.69,
+          "place": "Florida",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.866Z",
+      "candidate": {
+        "title": "California leader calls attack on alleged noncitizen voting ‘weaponizing the law’ - The Guardian",
+        "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxNSDVYTzZTdEFTcUxhY0thYmxKcUIxUW9KekZaMEU0YnNPSHZkN01vMjlGazVfZXVKYUlOSXV2bWVPTjdDMEZmTVhyZGtYN1BvQ0kwVzhlaVdJZEhyNG85a01lQWtIT1lzLS1uaDFhVVY2MThfdlo5d1B6U3hwVlJVVXA5VGhQS1FJNlR4X19KaU1EWmUtbEJxcW13MmRoZw?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-25T06:53:02.834Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched hungary-transition on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.867Z",
+      "candidate": {
+        "title": "Musk says he was behind Starlink speed restriction after service in Ukraine is restored - The Seattle Times",
+        "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxQUkVsalZwb1d3eTlaOXl4UUxWdXlxTXpoVnIybGNFOGVzSklnUFpWUVNuZC0yOTVSc2RpaFFHQnYtTXhwLTRLMjBuRjRjeHZKXzZXR3pNbUFyRHE3bHViWFVmOVRIaUtCVk81UWZFZHVhdk50bXVNRXgtd0RReWhxZXYzd3A3b01ERVM0dGtRaWczNGFMZnplYnd2enJaQWlWdkU2eV9nMWVMT3FHQzEwMWZtVTNubU1TZGNaTmg1VjZfZEd3NkZ4QUY5VQ?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-25T06:53:02.834Z",
+        "matchedTracker": "spacex-history",
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 48.4,
+          "lon": 31.2,
+          "place": "Ukraine",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.63)",
+      "confidence": 0.6333333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.868Z",
+      "candidate": {
+        "title": "Former President Barack Obama tells Detroit 'change is in the air' - The Detroit News",
+        "url": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxQVXJWcW1yN092MTRUNVhubjhQdS1FcWR0M29iZGt1aEdtd0Zqa1lsOXRCSmZSbVBvN1R6S2Q5WWFtNTJ5Ukt0Y2JHZXBObDBjbWF6RUVKcWRjZzFQS1NyQ0NFMHJ1UW5KNUVCMmFCZFl6ck5WNFZXYUMzaFEyYldSNFRHY09QQlEwVTVtNENORlRJclUzTnFHSWRLa1F5UWZQXy14S1hrWVU0YWVtUWltY1V0N1RoZnNkenN5Snh3UG4yVTIzZ05ocC1zRkhCSlNkTks0dGVzcVhidnc?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-25T06:53:02.834Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched canada-wildfires-2026 on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.869Z",
+      "candidate": {
+        "title": "Trump and Rubio escalate rhetoric on possible Cuba action - USA Today",
+        "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxQMzJicTkzZUlJNkt3eDlMcXBKaW16RWxaOHVEOTRUR3l2YlZ6czk1X0czRlN3WEI4S2hjYnVxNnZiLU1talFmTi1UbEkxV0FmUTZlNVBrT1ZzMmVvMFl1REI3RlhLeXoxa2ZwTXRpM0dzTVdjdFRoWU1OdElpbk1IUHdmckVsYlB0VjluVUVTT0VjZXRoZEFhZFdOek5IMDBBb0JCYnRyM3VWZw?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-25T06:53:02.834Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 21.5,
+          "lon": -77.8,
+          "place": "Cuba",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched united-states on a single token — no substance (score 0.34)",
+      "confidence": 0.34041666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.870Z",
+      "candidate": {
+        "title": "Meghan broke contact with father in letter citing abuse claims - BBC",
+        "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFBYRGl0eDV0VGw4OVo3amlna1I5SmZQYlJsUUhwNXVYbVRaeUJEeXVJU3N3QnhJaVFtS2lnU1RobzQ0dzNtNkw5TkVia2NvYldlbGxZWldWQlYxUHM?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-25T06:53:02.834Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.870Z",
+      "candidate": {
+        "title": "Brazil election: Voters to choose between Lula and Bolsonaro's son - BBC",
+        "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1vdWVCV3Z4X1pDOFpXTU1JQ2FISUxELTkyaXRkMjhSbGdJLVNYSEtQZEdENkliN2h1b1RZLWFwNTFUZ1BrMGVnQlBQbG05SVI0bmhMZk8tYVF6YlU?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-25T06:53:02.834Z",
+        "matchedTracker": "brazil",
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": -14.2,
+          "lon": -51.9,
+          "place": "Brazil",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "update",
+      "reason": "light-scan posted directly + queued for heavy scan (score 0.95)",
+      "confidence": 0.95,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.871Z",
+      "candidate": {
+        "title": "Trump Announces Audi’s First-Ever U.S. Factory in Georgia as Tariffs Bite - WSJ",
+        "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPWGt1SlVnaVJySEY0YnFSWkdhTjNSeWtxRGxTXzk3MWUtRjVIT0FFVmd5WUhjOENRUTlOMGxpOF9mY2Q4Y1c0V3FaSzJQRGxyVmEzc0J3RElpSHhzRzRTTjhyOWQySWZuWHFsUTEzdTBJcE5QRjFMdFFYXzJlUzlnQ3FDdE1TZXlxQlFFU2xfRkhEdDNhM2pobGZIU3NDOWp0MGFabFBYeWIyd3pubE1KbWZ0ems5dw?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-25T06:53:02.834Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 42.3,
+          "lon": 43.4,
+          "place": "Georgia",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched sheinbaum-presidency on a single token — no substance (score 0.34)",
+      "confidence": 0.34041666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.872Z",
+      "candidate": {
+        "title": "Here's the 'core economic flaw' in the AI bull case as stock and bond trades unravel, according to a top economist - Fortune",
+        "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPdy1qR2xLV0pnTElaT0xKS1k3Mk1SWFpfbmtpWlZJTWhxcHV4OTZrTHdpcDRFSXFEejR6NGhBWkNTRTk5YWRrNlE2UEVnaFNHVVBJSTNnNlF6U2t0RVdFQ1hlSXc5MXpJNjVHR3JITTQ3ZUhaWW4zcHpuaHAwRzdvZ1BfR2RhTGFOcjc2SWV5OHpxN2FEa1lFU2RhWmtpaXlIbE1rU2ZDUUljV09YLXlVOHlna0lpZw?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-25T06:53:02.834Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched ayotzinapa on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.873Z",
+      "candidate": {
+        "title": "'Arguably Better Than Face ID': the iPhone Duo Touch ID Tip to Try - MacRumors",
+        "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxPc0puX1NRVG50eGxudnI2VW50VmxWbUtFTVo5U0cyTUJnNXUwRTBwRlFUMU9obVBHUkMwTEhlUGllQjNWVkM0aldyNVVwZjhrbldRRWkyd1ZaUDNSMm5FSm9ZNGJBRGF5X09jeDZMU0dGa1M0enJndVlSLTFqT3ZIclVTMnJKV2F0?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-25T06:53:02.834Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.873Z",
+      "candidate": {
+        "title": "Apple exploring fix for Safari’s cramped layout on the iPhone Duo’s outer display - 9to5Mac",
+        "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxOWFY2WG9JcHpQYnJfVFA4Ukk3VDNCSXpkNmxpY05qLXVxVm5IV1NSTVFRUlFSUzdnS3VXTDhYeGM4M1lBSFpZNG1Jdy1oT0h2eWtZNEpOdlF1VVdqZTVNM1ZsWVo3UDFrTllMVWh1MmZDektlYVFiY3JTb0V5LWVSaERia1pTYmVjLXZYbHEyc0ZhNU81a1NJenY4ZVFiSUlKSWtSS2lWUkhnNy13N3Y1Zg?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-25T06:53:02.834Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.874Z",
+      "candidate": {
+        "title": "Apple’s $2,000 foldable iPhone launches amid strong demand - Honolulu Star-Advertiser",
+        "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQUXMtNm1FcFFEU1A4T0w4eTJ1VG5Pc1hzQkxlbmpsdDZsRmRObU5XX3djbS1fSHc0aWN0bUQ2Vnp1WU1NVTh1QlJqSzhmZ2U0MVFYSDBwbVd1ZW53aDg2WTAwUzZwM0ZFREFVTm10NVJlSGIySFZSZWVaWlgxMEtEMjZhZzQ5VmJrSnZuNWxQQWR6MF80Z0FHNDlnaEY4cWRZSjRTRjNxYnN6VEZnSm14YVJR?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-25T06:53:02.834Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.874Z",
+      "candidate": {
+        "title": "Tom Brady dating supermodel Candice Swanepoel: report - Page Six",
+        "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxQTzZCQ3l5M2w1WGxZbFc4bnJYWXZhN2VoUXdlMGN5Y0tiSTczbGVRNmo4RWtuS1dWX0tXOVI4NS1KaXJLNHMxR3oxbldVVzFSOGhZeklVR0tyM1BMWEVEZGoteUs5VFcxQlF5ZWRGYVNXWDVOUHA0bTl2LUVZNjVIREV1dUY1bXliQ3czYWtibkZRM2RXdnNEV1psRklCc1FY?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-25T06:53:02.834Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched venezuela-earthquake-2026 on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.875Z",
+      "candidate": {
+        "title": "Kim Kardashian's Boldest Red Carpet Gown Yet Will Make You Purr - Yahoo",
+        "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxNazRPeDBMNS1EUkU1YzlaLU4xRXQyNTVYLTRVYnZ4VkloRTgyVlVDVnBIZlc5amFqYWNQV1lEQjgyei1SY0J1OGpDMDIzX21rUVBVMTRXLTlhUmNyN1p5LVoxbGNRM3RNMzU1bENkdkgxTXgxaWRCdTdTLUFYaHVuZXg2Mm9wSmd1YW5MMm1pRzZfUGlMbkxUbHZkYUVGUkNhcFhvZ1Nfbw?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-25T06:53:02.834Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched north-korea on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.875Z",
+      "candidate": {
+        "title": "Lowden, Turner or a Dark Horse: One James Bond Casting Test Has Nothing to Do With Acting - The Hollywood Reporter",
+        "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxPV29XdVVsbXlyMDlkdjRMeDRaYzEyM3F2NGVlbW13dmVxbF96ay1MR241NUVITFFzNXlLMlo4UDNHZDlBTGtmT0VUQjlob204UGROYlVQakxaNWdQdFpVNnZTTkVIeHVjd0NWalpRRExjM0ZSMWpqQzRBXzJlelEteFBsZEJJUG9SUjE2VDJlak41MXBhd2dGVVRHRlh3RVZ4NS1OckFPWlc?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-10-25T06:53:02.834Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched global-recession-risk on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.876Z",
+      "candidate": {
+        "title": "Legisladores de Morena piden renuncia de Taddei; plantean juicio político - La Jornada",
+        "url": "https://news.google.com/rss/articles/CBMi6AFBVV95cUxNcTg2Zk8wZGNzRks4QlZEUmU4eGNjSGtpQTA0elUzMnB0aV9mLXNxWU5xSHZwa0dfM1VqVzRKb3Nxa2RXclo4SUZsN1dyRk5aUnB2VmI1dGtiX1FvVnlTTWZlR3JBenI5MGxyZnN1V2E3STN4LWlDOVhSVW9rTnN4dzJCU3F1T0NWM05RTXYyYnJkSllRTzVCZ2RQZmx6X0JxTXNXdzBEck5WZEU0dHAtdDdwdk9PbVQ2dEUyelR4UF9rUUt6UUlyZnpJMm9TeGN1c3FYdzlVR1FWbWsyU2ZreWVKTXFFS24t?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-10-25T06:53:03.154Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.02)",
+      "confidence": 0.02375,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.876Z",
+      "candidate": {
+        "title": "Linchan a feminicida de abuela y nieta en Chiapas - Reforma",
+        "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxQZ2pWRGNhS2F3Q2VzdHJScXYySnUwQWw1X0NCb2tvNUZ6eEM1QjJfbC1HMEtHWE50QUE5eThOQlNwM3RUbUhDYklxeW1nWDRXbzBsckJMdFlrdGVLMXM2UW85NC03dVNjZkF0d3lrRGFyVnhSMWN5QXQ4cnBmM25TZC1ORWZTQURUeFhB?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-10-25T06:53:03.154Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 17.2573,
+          "lon": -91.7586,
+          "place": "Chiapas",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.877Z",
+      "candidate": {
+        "title": "Casi 1.000 personas son detenidas en nuevas protestas en Francia - DW.com",
+        "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxOdC11dmtJdDBpTG4tajBkcDM3aldnZWlsdG1UZHc5WXVNc2VSY25KdUM5RUFCbmJ6M1htQ1JZYV9DZVowZ05oVDBjcjJIUTZFYml2bXVsUll1ZVJQbl9xVlhfYzNHWktJcnotOHE4Z3l6M1NPS2czaC1jdWNsWUsxeUVJSURzMVNSbi10T1lseFFqNGhRNVZteFYtUnfSAZwBQVVfeXFMTkR1eXZzUXRQcmMxVHktbzBWMkpYNjVsa2hCT1ZaV05RVFhuVkcybTdQd2hIQ2NHSTlPY0tSQTlrclZ1a0JGLThHTE1UaEVSUzNlamJ6S3IyT0RmTFhIbEhhR2Q4cHpxTUdDOFBGUm5MdDExcUwwQ0hEVGdYa295NEN0SHhSY2xTcW5jamNFMHM0azA0SmRuUVc4eGNr?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-10-25T06:53:03.154Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 46.2,
+          "lon": 2.2,
+          "place": "France",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.877Z",
+      "candidate": {
+        "title": "Completa México entrega de agua a EU - Reforma",
+        "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE1RbkFzZEVSaTlzZVV6YVJ6eFp5WVFtREhEdHJMUzlMT3p5RXFWa0xZbWVEZVJfRTlOWm0zczl3LUp0Mlo2V3R1YV9RWmowb2hUWVZPV3pHcS1HeTBXN3lNS3FISnZjbndJVWp2bjN0MGdHX3NTcTVuZThn?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-10-25T06:53:03.154Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 23.6,
+          "lon": -102.6,
+          "place": "Mexico",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched cdmx on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.878Z",
+      "candidate": {
+        "title": "Segob reitera llamado al diálogo con transportistas previo a protestas del lunes - La Jornada",
+        "url": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxOMWJqMjJfeXJkV1pOLWpvZDNIY0YwbS1YZktYcVZxczF5Unp1Qzk1OUNLNVczb2FMMEUyYU9KeElERVNuTmRzUk5XNFQtaU1BVGdJTHh0ZnR2dmcwVm5OTWhSbExBbTZrRnFxaTB6M3lRUTM2WnREaEhSOEpZZTkzMzRfMm5XbFVUeUh0NjZ2NEZNN2RQOU1VVjBnUzV3eVZYQzNrWko3eFZIUnU5RG84bDVrcEdBcXFrSi05RGhpLUc3ZExRODRjVWVzN2tBdzAt?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-10-25T06:53:03.154Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.878Z",
+      "candidate": {
+        "title": "Identifican al activista Mario Puga como víctima de atropellamiento en la Morelos - La Jornada",
+        "url": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxPTFJJclN0ZXZUbTlHWG5FUE5rcHk5UG5ZVnFyWVhWdWRJeTFqdmZMTWxMcDZjMURXbHltLXo3ZE8xN3BaTS1vSjRFRDZFNjVvSUhmU0dURDNhektwX01UWWxFRXZvSmE1TmhFeWFDdXJrMDQzOEN0aDJQS25IVWhnMEhBbk5Vc2MySlJxdTVPajE1WjZOSlk1NjlUbkg2ckoxOWp0OHJrSkRlYm01NGFHMXBiQmVuRmU1NlVKZ1pKZEI1TTZfMGZQUTc2UUgteHot?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-10-25T06:53:03.154Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.879Z",
+      "candidate": {
+        "title": "Se desploma el temor por inseguridad en La Laguna - El Siglo de Torreón",
+        "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxPZG1hS0l1S083TXRmU2h0X2NTajhxcGc5T2VRbTVDX2h1WVdNMVdnT19HVzBrVlFiQlRwZVhTYndPLTg0dWVFTUlsOEtjOXJtcTh6LW5OSUpfbmFxNnZsSnFCR2hXY1dtbV90ZjRQTDlhUXBLOWxjenNYdXZmaXJyMFpJU3NpX0dSTlJVeXg1WU8xdklMLWQtRlRMcWpYdw?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-10-25T06:53:03.154Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.880Z",
+      "candidate": {
+        "title": "Elecciones en Brasil, en vivo | Lula encabeza el último gran acto de campaña y ataca a Bolsonaro: “Es un mentiroso y no está capacitado” - EL PAÍS",
+        "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxQcHp5Wm02bFZUWjlHSVltOElJY0VZUkctQVNVZTZtcjNRWGFvOHlna1l5ZE9lZTctY0JodjFfWEZ2UDRObHJpVUFobnJsWkp4R0FBT25KY09YTDJnX2U3bXQwRVVOaHBDdm9Gb0VvZG0yVXNvN2JaVFA5V2lwN2RzQldxRWVLeEx2M1VMUU1fSTVLeHkzY3ZLOGlMQVY3SDNncW9WODNISGpQcldvRmtTbGhEb2VGSTlQR0JZdXRUUUl4Zw?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-10-25T06:53:03.154Z",
+        "matchedTracker": "brazil",
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": -14.2,
+          "lon": -51.9,
+          "place": "Brazil",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.63)",
+      "confidence": 0.6333333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.882Z",
+      "candidate": {
+        "title": "\"Es nuestra última oportunidad de frenarlo\": Obama ataca a Trump mientras hace campaña para los demócratas - BBC",
+        "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFAyVDNQd25FTFliMm82Tm1CdHJxWFRZTXA2UDBvMUNFb01OZGwtOFRJdkdBb2hkVmJQaWxRa3pOclRYLWdmV3pMTzRoU2dZNk1Uc1ExbE8tS21nOTFz0gFiQVVfeXFMTUV6dzJXaDl0cDhHdGhiOEo4WVNmRzczTzJQVFZXTVFWUW0wN1pnR1BGeUwzbVJ1V1BuWUlHWnhRWWZ6ZG1EazdSUFg2Z2hXelZJbDFtZVRBbEExelhQeDdJdGc?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-10-25T06:53:03.154Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched ecuador-narco-conflict on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.882Z",
+      "candidate": {
+        "title": "Terremoto de magnitud 7 sacude islas al sur de Tokio; descartan alerta de tsunami - Milenio",
+        "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxQRHAyN2QyY2FEY1BrUUl5b0w4eDYwRFdpeFlCd1RYZE1QSVRaRzZ5bEFwcnRLemlCbGllR19JeThuUF9wakdzZl9NYm1OU19teUMwRlVOYVZoMGlwWHFQcVhWLWJicExhd0ozY3Z4MGpFeDVwUm1aclNXV0syb0Zyd9IBgAFBVV95cUxQd1dZMjRZU2NSMnFpaF80YXA0SXV2cGJNNU9MLUVqOHVvSkVnY2dDWXBpVUsyU0VGRWVIdXFHM0RwemJkdDdKZ3pwT1VHUlNFeDJNY1RYMnhVYWNJMXZldG5xYWw4OEtqejZCRHV1ZjB6NEppRmVabFdra1V2M21lMg?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-10-25T06:53:03.154Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched philippines-disasters-2026 on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.883Z",
+      "candidate": {
+        "title": "Banco del Bienestar transferencias: ¿A qué bancos se pueden hacer depósitos desde la aplicación? - Revista Merca2.0",
+        "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxQd1BFN2hjQ1JHY19oZmp5V0p4cVoyVXJKT3BBY2hMQ2ZwaXNsNzJKdTBVLVQ0TkxVQTJ3YU9rRmt5VHhYUDRtWDVsM1Y5SmVUeGEzZkNna2VUYUdxc2hibk1YQ2RWa3RZSmNKWWprZWNCaUFhZnpZRzhwbXBlZDF3bEU2RlFWdU5aZ0w0czVNU1BkNlprYkFrbEFURTRRN2RLTHBXelk4Z0h6bG1MTk0xTF92bk5GTmZHOGc?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-10-25T06:53:03.154Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.883Z",
+      "candidate": {
+        "title": "Call of Duty: Modern Warfare 4 recibe una actualización de 39 GB en Nintendo Switch 2 - Nintenderos",
+        "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxNYS1STHROUm1TUk1KM2I0dXZaTTd0TEVsd191VlR5elY4a3NRZ2pDbmR6WXhFLUMydlE5Y2h5VWVqZkQ1bFk5V1BpTFJrX1gwR29uVXZxRWhlU1BJYTd6bzBVVUU1aF9fZEJQX2dwU3VFZ2NObjl1UjFGSFJLQXphMzlESmtHNGdEMWtIWTVLMnBUX1JNUTNTenlOdEpzLXc5eDkyVDdtT3VmVzFxNnNVclZVeG1LbS1JR2ZYNVF4TVZHa0lRLWRtazZ3MA?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-10-25T06:53:03.154Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched syria on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.884Z",
+      "candidate": {
+        "title": "\"Es necesario buscar ayuda\": Cranston sobre la muerte de RJ Mitte - BBC",
+        "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE04SXZPZ1V5d05BcGFjRGZOX0lMeDB3anYtakZVdWVIVHlPUFFGTmlvQ1BFRm9WYmFWUmU0aVBTa2x6ekVHTFduN3BNTmZkTTVMVlRWcERtNXJORzNZ0gFiQVVfeXFMTWFpaHZOdGNWQi1tQUZ5ZW5zNTVvMG1aanNEbTVKZXlCZFpla2dFZTdTUTlPZ0dFc2hfR0lvcHlMRzlDM1ZUSnoyaU1QTF80NGU4ZzRFV2dSalM0N3p3TGY3dHc?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-10-25T06:53:03.154Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.885Z",
+      "candidate": {
+        "title": "Hija de 'El Flaco Ibáñez', actor de 'Vecinos', da actualización sobre la salud de su padre - Univision",
+        "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxNM1ltSTNLWEtYUVRMZlJ5N2lNbGhYSk0yX2hmUjk0RWE2Z3l1T1VWSU1JYmoxU01rRWRKQzdCZU5WdXpCUVEwZGhPRTNZVkNpVDNYTTAwMHQ4b1BLVjNOT0VVdTFDZDY4R1JYWEhOWnIxUTB5Qy1QYmJvcmZseGdUNjV6R0FDbUMtVy1EdzlpTG5UYng3QVI0?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-10-25T06:53:03.154Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.885Z",
+      "candidate": {
+        "title": "¿Miz, Caminero y otros jugadores en 'Avengers: Doomsday'? Échale un vistazo al adelanto - MLB.com",
+        "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxNZDdkOGRYY2tTTk1aeXZjbjVHeXJxUHlTRGU4QVl5VmJ4UGEwTFRSd005RWt6MzNUNUp4ZkV3b1EzU1piMlFKdXg4MFcyZ0JKM002ZW5Tek8wXy1fckxXdGQ2eHZQbHZCTkl2Z3Y4cjhZeXdpeVRoTmdQc3hRY1lUUTFwYVF3cm1ibnJEX3V5YXp3UjBTeTkzNTFEQlVfd3FwcEd1VktFYXNVencxc1VBUkxpV1JscGpSWmJN?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-10-25T06:53:03.154Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.886Z",
+      "candidate": {
+        "title": "JUST IN: United Airlines Flight 169 hits bakery truck while landing at Newark Airport in New Jersey",
+        "url": "https://bsky.app/profile/bnonews.com/post/3mky4ih67ls2b",
+        "source": "bsky:bnonews.com",
+        "timestamp": "2026-05-03T21:36:53.651Z",
+        "matchedTracker": "mh17-shootdown",
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.63)",
+      "confidence": 0.6333333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.886Z",
+      "candidate": {
+        "title": "BREAKING: Arrest warrant issued for former FBI Director James Comey",
+        "url": "https://bsky.app/profile/bnonews.com/post/3mklgm43hu22b",
+        "source": "bsky:bnonews.com",
+        "timestamp": "2026-04-28T20:33:17.065Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.887Z",
+      "candidate": {
+        "title": "NEW: U.S. State Department says it’s releasing a limited-edition passport featuring Donald Trump",
+        "url": "https://bsky.app/profile/bnonews.com/post/3mkl6xagc3c2u",
+        "source": "bsky:bnonews.com",
+        "timestamp": "2026-04-28T18:16:20.768Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched battery-revolution on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.888Z",
+      "candidate": {
+        "title": "BREAKING: Person who won more than $400,000 by betting on Maduro's removal has been identified as a U.S. soldier who participated in the operation.\n\nThe soldier has now been arrested, according to ABC News.",
+        "url": "https://bsky.app/profile/bnonews.com/post/3mk6zdawvis27",
+        "source": "bsky:bnonews.com",
+        "timestamp": "2026-04-23T22:03:44.663Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched chile-allende-pinochet on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.889Z",
+      "candidate": {
+        "title": "BREAKING: Voters in Virginia approve congressional redistricting amendment, a win for Democrats  - projection",
+        "url": "https://bsky.app/profile/bnonews.com/post/3mk2bkei5qk2i",
+        "source": "bsky:bnonews.com",
+        "timestamp": "2026-04-22T00:47:34.499Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched uap-disclosure on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.889Z",
+      "candidate": {
+        "title": "BREAKING: 8 children killed in domestic shooting in Shreveport, Louisiana, police say. Suspect killed by police",
+        "url": "https://bsky.app/profile/bnonews.com/post/3mjudg7daok2j",
+        "source": "bsky:bnonews.com",
+        "timestamp": "2026-04-19T16:05:03.930Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched kenya-genz-protests on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.890Z",
+      "candidate": {
+        "title": "BREAKING: Trump fires U.S. Attorney General Pam Bondi",
+        "url": "https://bsky.app/profile/bnonews.com/post/3mijrnlma522c",
+        "source": "bsky:bnonews.com",
+        "timestamp": "2026-04-02T17:55:15.324Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.02)",
+      "confidence": 0.02375,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.891Z",
+      "candidate": {
+        "title": "BREAKING: U.S. official confirms FBI Director Kash Patel's personal email account was hacked, after group linked to Iran releases personal photos",
+        "url": "https://bsky.app/profile/bnonews.com/post/3mi2dljwuzk2g",
+        "source": "bsky:bnonews.com",
+        "timestamp": "2026-03-27T14:33:37.995Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 31.32,
+          "lon": 48.67,
+          "place": "Iran",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched iran-conflict on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.891Z",
+      "candidate": {
+        "title": "Trump weighs sending another 10,000 ground troops to the Middle East, in addition to more than 6,000 other troops already heading there - WSJ",
+        "url": "https://bsky.app/profile/bnonews.com/post/3mhyuizhybk2w",
+        "source": "bsky:bnonews.com",
+        "timestamp": "2026-03-27T00:31:07.766Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.02)",
+      "confidence": 0.02375,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.892Z",
+      "candidate": {
+        "title": "NEW: Trump's signature will appear on all future U.S. dollar bills, a first for a sitting president, Treasury says",
+        "url": "https://bsky.app/profile/bnonews.com/post/3mhymdzp5jk2z",
+        "source": "bsky:bnonews.com",
+        "timestamp": "2026-03-26T22:05:10.281Z",
+        "matchedTracker": "sheinbaum-presidency",
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.66)",
+      "confidence": 0.6570833333333332,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.893Z",
+      "candidate": {
+        "title": "Borr Drilling rig sinks offshore Gabon, five personnel missing reut.rs/4zJUp5g",
+        "url": "https://bsky.app/profile/reuters.com/post/3myolozti3s2a",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-10-25T06:35:05Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched brazil on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.893Z",
+      "candidate": {
+        "title": "At least 12 injured in a shooting in Tallahassee, Florida reut.rs/47DJTAC",
+        "url": "https://bsky.app/profile/reuters.com/post/3myoftbnq3t24",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-10-25T04:50:05Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 27.77,
+          "lon": -81.69,
+          "place": "Florida",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.894Z",
+      "candidate": {
+        "title": "Portuguese police clear Lisbon housing protest camp, make arrests reut.rs/4zN6Ugd",
+        "url": "https://bsky.app/profile/reuters.com/post/3myobw5vjdl2o",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-10-25T03:40:07Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 38.72,
+          "lon": -9.14,
+          "place": "Lisbon",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched cdmx on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.894Z",
+      "candidate": {
+        "title": "Earthquake of magnitude 6.16 strikes Vanuatu islands, GFZ says reut.rs/4yMkq2V",
+        "url": "https://bsky.app/profile/reuters.com/post/3myo7pax33l2o",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-10-25T03:00:28Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched lebanon-war-2026 on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.895Z",
+      "candidate": {
+        "title": "Serbians are voting in a parliamentary election that is seen as a showdown between the Balkan country's populist leader Aleksandar Vucic and a movement of university students who led protests against him for almost two years.",
+        "url": "https://bsky.app/profile/apnews.com/post/3myojwrgjfd2m",
+        "source": "bsky:apnews.com",
+        "timestamp": "2026-10-25T06:03:38Z",
+        "matchedTracker": "quebec-independence",
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.63)",
+      "confidence": 0.6333333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.896Z",
+      "candidate": {
+        "title": "Bulgarians are heading to the polls to elect their next president in a campaign centered on growing economic hardship and drone attacks on Black Sea shipping.",
+        "url": "https://bsky.app/profile/apnews.com/post/3myojuuw6nj2i",
+        "source": "bsky:apnews.com",
+        "timestamp": "2026-10-25T06:02:34Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 44.7,
+          "lon": 31.5,
+          "place": "Black Sea",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched sheinbaum-presidency on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.897Z",
+      "candidate": {
+        "title": "No. 2 BYU lost in overtime to UCF, becoming the latest unbeaten team to fall in college football. ",
+        "url": "https://bsky.app/profile/apnews.com/post/3myojqnop5j2y",
+        "source": "bsky:apnews.com",
+        "timestamp": "2026-10-25T06:00:12Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.898Z",
+      "candidate": {
+        "title": "The Archdiocese of New York and attorneys for about 1,300 parishioners who say they were sexually abused by clergy have agreed to an $800 million settlement of their legal claims.",
+        "url": "https://bsky.app/profile/apnews.com/post/3myoepjs6i22g",
+        "source": "bsky:apnews.com",
+        "timestamp": "2026-10-25T04:30:06Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 40.84,
+          "lon": -73.94,
+          "place": "New York",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched covid-pandemic on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.898Z",
+      "candidate": {
+        "title": "Arch Manning threw a touchdown pass and had his first two rushing scores of the season, and No. 19 Texas held on for a wild 34-27 victory over seventh-ranked Mississippi.",
+        "url": "https://bsky.app/profile/apnews.com/post/3myodvhcvgs23",
+        "source": "bsky:apnews.com",
+        "timestamp": "2026-10-25T04:15:31Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 31.4,
+          "lon": -99.9,
+          "place": "Texas",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched sheinbaum-presidency on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.899Z",
+      "candidate": {
+        "title": "The Milwaukee Brewers stunned the Tampa Bay Rays 5-4 for a 2-0 World Series lead by overcoming a four-run deficit for the second time in the postseason.",
+        "url": "https://bsky.app/profile/apnews.com/post/3myodcq2wqc2g",
+        "source": "bsky:apnews.com",
+        "timestamp": "2026-10-25T04:05:03Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched cuba-crises on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.900Z",
+      "candidate": {
+        "title": "An apparent explosion has caused a fire at a Quaker Oats plant in Iowa that the company touts as the largest milling facility in the world.",
+        "url": "https://bsky.app/profile/apnews.com/post/3myo7otyh7p23",
+        "source": "bsky:apnews.com",
+        "timestamp": "2026-10-25T03:00:14Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 41.8,
+          "lon": -93.3,
+          "place": "Iowa",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "low score (0.02)",
+      "confidence": 0.02375,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.901Z",
+      "candidate": {
+        "title": "People across northeastern Nigeria continue searching for loved ones who went missing during years of violence.",
+        "url": "https://bsky.app/profile/aljazeera.com/post/3myolfz4mg72t",
+        "source": "bsky:aljazeera.com",
+        "timestamp": "2026-10-25T06:30:03.190Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 9.1,
+          "lon": 8.7,
+          "place": "Nigeria",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched argentina on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.901Z",
+      "candidate": {
+        "title": "Bots, deepfakes and surveillance: Israel’s election goes to war online https://aje.news/8wgjx9",
+        "url": "https://bsky.app/profile/aljazeera.com/post/3myojqgmpwu24",
+        "source": "bsky:aljazeera.com",
+        "timestamp": "2026-10-25T06:00:05.425Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 31,
+          "lon": 34.9,
+          "place": "Israel",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched ethiopia-conflict on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.902Z",
+      "candidate": {
+        "title": "Polls show populist leader Aleksandar Vucic in a tight race against the anticorruption and anti-authoritarian movement.",
+        "url": "https://bsky.app/profile/aljazeera.com/post/3myogf4jhje2e",
+        "source": "bsky:aljazeera.com",
+        "timestamp": "2026-10-25T05:00:04.261Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched fusion-energy on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.903Z",
+      "candidate": {
+        "title": "The settlement is the second-largest after an $880m ​deal reached by the Archdiocese of Los ​Angeles in 2024 https://aje.news/qhs372",
+        "url": "https://bsky.app/profile/aljazeera.com/post/3myoczudyic2m",
+        "source": "bsky:aljazeera.com",
+        "timestamp": "2026-10-25T04:00:05.627Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 34.05,
+          "lon": -118.24,
+          "place": "Angeles",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched ecuador-narco-conflict on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.903Z",
+      "candidate": {
+        "title": "Bulgarians vote for president in shadow of Russia’s war in Ukraine https://aje.news/ws1ppf",
+        "url": "https://bsky.app/profile/aljazeera.com/post/3myo7oll7cq24",
+        "source": "bsky:aljazeera.com",
+        "timestamp": "2026-10-25T03:00:05.744Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 48.4,
+          "lon": 31.2,
+          "place": "Ukraine",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched sheinbaum-presidency on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.905Z",
+      "candidate": {
+        "title": "Hostomel Airport, north of Kyiv, 4 years ago today. \n\nA pair of Ukrainian Air Force Su-24M tactical bombers drop 500 kg parachute-retarded bombs onto Russian VDV airborne infantry assaulting the airfield.",
+        "url": "https://bsky.app/profile/osinttechnical.bsky.social/post/3mfn76ayvvk2o",
+        "source": "bsky:osinttechnical.bsky.social",
+        "timestamp": "2026-02-24T22:19:37.604Z",
+        "matchedTracker": "nato-airspace-incursions",
+        "feedOrigin": "bluesky",
+        "sourceTier": 3,
+        "geo": {
+          "lat": 50.57,
+          "lon": 30.3,
+          "place": "Hostomel Airport",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.57)",
+      "confidence": 0.5666666666666667,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.905Z",
+      "candidate": {
+        "title": "Newly emerged footage of a Ukrainian MANPADS crew shooting down a Russian Ka-52 attack helicopter over Hostomel, March 2022.",
+        "url": "https://bsky.app/profile/osinttechnical.bsky.social/post/3mfkdrlqvd22c",
+        "source": "bsky:osinttechnical.bsky.social",
+        "timestamp": "2026-02-23T19:04:02.165Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 3
+      },
+      "decision": "discard",
+      "reason": "matched covid-pandemic on a single token — no substance (score 0.28)",
+      "confidence": 0.2833333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:05.906Z",
+      "candidate": {
+        "title": "Footage of a Ukrainian Patriot SAM system shooting down a Russian 3M22 Zircon hypersonic cruise missile near Kyiv last night.\n\nThis appears to be the first ever footage of a combat shootdown involving a HACM.",
+        "url": "https://bsky.app/profile/osinttechnical.bsky.social/post/3meyt7fyuuc2n",
+        "source": "bsky:osinttechnical.bsky.social",
+        "timestamp": "2026-02-16T19:52:16.733Z",
+        "matchedTracker": "mh17-shootdown",
+        "feedOrigin": "bluesky",
+        "sourceTier": 3,
+        "geo": {
+          "lat": 50.45,
+          "lon": 30.52,
+          "place": "Kyiv",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.57)",
+      "confidence": 0.5666666666666667,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:06.467Z",
+      "candidate": {
+        "title": "Footage of a Ukrainian Air Force F-16AM Fighting Falcon shooting down a Russian Shahed attack drone with an AIM-9L Sidewinder.",
+        "url": "https://bsky.app/profile/osinttechnical.bsky.social/post/3mexs3z5s2s2e",
+        "source": "bsky:osinttechnical.bsky.social",
+        "timestamp": "2026-02-16T09:59:49.120Z",
+        "matchedTracker": "nato-airspace-incursions",
+        "feedOrigin": "bluesky",
+        "sourceTier": 3
+      },
+      "decision": "update",
+      "reason": "light-scan posted directly + queued for heavy scan (score 0.85)",
+      "confidence": 0.85,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:06.468Z",
+      "candidate": {
+        "title": "Ukrainian firefighters, sporting flak jackets to guard from a double-tap strike, tackle a major blaze in the city of Dnipro after a Russian airstrike overnight.",
+        "url": "https://bsky.app/profile/osinttechnical.bsky.social/post/3mdwq6pha322c",
+        "source": "bsky:osinttechnical.bsky.social",
+        "timestamp": "2026-02-03T06:27:40.756Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 3,
+        "geo": {
+          "lat": 48.46,
+          "lon": 35.04,
+          "place": "Dnipro",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched bolivia-crisis-2026 on a single token — no substance (score 0.28)",
+      "confidence": 0.2833333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:06.468Z",
+      "candidate": {
+        "title": "@truth.bsky.social",
+        "url": "https://bsky.app/profile/osinttechnical.bsky.social/post/3mdvx2dacms2t",
+        "source": "bsky:osinttechnical.bsky.social",
+        "timestamp": "2026-02-02T22:57:50.183Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 3
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:06.469Z",
+      "candidate": {
+        "title": "Looking for a freelance auto reporter for a Hunterbrook Media project (paid). DM me your portfolio if interested.",
+        "url": "https://bsky.app/profile/osinttechnical.bsky.social/post/3mdvwufm6ws2t",
+        "source": "bsky:osinttechnical.bsky.social",
+        "timestamp": "2026-02-02T22:54:31.340Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 3
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:06.470Z",
+      "candidate": {
+        "title": "Ukraine has designated Iran's Islamic Revolutionary Guard Corps (IRGC) as a terror organization.",
+        "url": "https://bsky.app/profile/osinttechnical.bsky.social/post/3mdvp7zmkxs25",
+        "source": "bsky:osinttechnical.bsky.social",
+        "timestamp": "2026-02-02T20:37:51.492Z",
+        "matchedTracker": "iran-conflict",
+        "feedOrigin": "bluesky",
+        "sourceTier": 3,
+        "geo": {
+          "lat": 31.32,
+          "lon": 48.67,
+          "place": "Iran",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.57)",
+      "confidence": 0.5666666666666667,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:06.759Z",
+      "candidate": {
+        "title": "Russian state TV anchor Solovyov called for Russia to conduct orbital nuclear strikes on SpaceX satellites, after Musk shut down Russian Starlink terminals.\n\nSolovyov seemed unbothered by the potential collateral damage to Russian satellites: \"We'll switch to carrier pigeons!\"",
+        "url": "https://bsky.app/profile/osinttechnical.bsky.social/post/3mduaw6luts25",
+        "source": "bsky:osinttechnical.bsky.social",
+        "timestamp": "2026-02-02T06:49:09.044Z",
+        "matchedTracker": "spacex-history",
+        "feedOrigin": "bluesky",
+        "sourceTier": 3,
+        "geo": {
+          "lat": 61.5,
+          "lon": 105.3,
+          "place": "Russia",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "update",
+      "reason": "light-scan posted directly + queued for heavy scan (score 0.85)",
+      "confidence": 0.85,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:06.759Z",
+      "candidate": {
+        "title": "JUST IN: Donald Trump says he will address the nation at 9 PM ET on December 17",
+        "url": "https://t.me/BNONews/4054",
+        "source": "tg:BNONews",
+        "timestamp": "2026-10-25T06:53:03.041Z",
+        "matchedTracker": null,
+        "feedOrigin": "telegram",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched poland-political-crisis on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:06.760Z",
+      "candidate": {
+        "title": "BREAKING: Suspect in Brown University shooting found dead from self-inflicted gunshot wound at New Hampshire storage facility - Fox",
+        "url": "https://t.me/BNONews/4055",
+        "source": "tg:BNONews",
+        "timestamp": "2026-10-25T06:53:03.041Z",
+        "matchedTracker": null,
+        "feedOrigin": "telegram",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 43.1939,
+          "lon": -71.5724,
+          "place": "New Hampshire",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched battery-revolution on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:06.761Z",
+      "candidate": {
+        "title": "UPDATE: Suspect in Brown University shooting ID d as Claudio Neves-Valente, 48, a Miami resident originally from Portugal. He was found dead tonight",
+        "url": "https://t.me/BNONews/4056",
+        "source": "tg:BNONews",
+        "timestamp": "2026-10-25T06:53:03.041Z",
+        "matchedTracker": null,
+        "feedOrigin": "telegram",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 25.73,
+          "lon": -80.29,
+          "place": "Miami",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched europe-climate-crisis-2026 on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:06.762Z",
+      "candidate": {
+        "title": "BREAKING: Trump suspends Diversity Visa program, also known as the green card lottery, which was used by the Brown University gunman",
+        "url": "https://t.me/BNONews/4057",
+        "source": "tg:BNONews",
+        "timestamp": "2026-10-25T06:53:03.041Z",
+        "matchedTracker": null,
+        "feedOrigin": "telegram",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched reforestation on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:06.763Z",
+      "candidate": {
+        "title": "BREAKING: British singer Chris Rea, whose hits include  Driving Home For Christmas,  has died at 74 - BBC",
+        "url": "https://t.me/BNONews/4058",
+        "source": "tg:BNONews",
+        "timestamp": "2026-10-25T06:53:03.041Z",
+        "matchedTracker": null,
+        "feedOrigin": "telegram",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched canada-wildfires-2026 on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:06.763Z",
+      "candidate": {
+        "title": "BREAKING: Trump has ordered airstrikes on sites in Venezuela, including military facilities, U.S. officials confirm - CBS",
+        "url": "https://t.me/BNONews/4059",
+        "source": "tg:BNONews",
+        "timestamp": "2026-10-25T06:53:03.041Z",
+        "matchedTracker": null,
+        "feedOrigin": "telegram",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 6.4,
+          "lon": -66.6,
+          "place": "Venezuela",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched venezuela-earthquake-2026 on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:06.764Z",
+      "candidate": {
+        "title": "BREAKING: Venezuelan President Nicolás Maduro declares state of emergency, calls on people to mobilize to defeat  imperialist aggression",
+        "url": "https://t.me/BNONews/4060",
+        "source": "tg:BNONews",
+        "timestamp": "2026-10-25T06:53:03.041Z",
+        "matchedTracker": "bolivia-crisis-2026",
+        "feedOrigin": "telegram",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.63)",
+      "confidence": 0.6333333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:06.765Z",
+      "candidate": {
+        "title": "FLASH: TRUMP SAYS U.S. HAS CAPTURED VENEZUELAN PRESIDENT NICOLAS MADURO AND HIS WIFE",
+        "url": "https://t.me/BNONews/4061",
+        "source": "tg:BNONews",
+        "timestamp": "2026-10-25T06:53:03.041Z",
+        "matchedTracker": null,
+        "feedOrigin": "telegram",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched sheinbaum-presidency on a single token — no substance (score 0.34)",
+      "confidence": 0.34041666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:06.765Z",
+      "candidate": {
+        "title": "BREAKING: Trump releases photo of Maduro in U.S. custody",
+        "url": "https://t.me/BNONews/4062",
+        "source": "tg:BNONews",
+        "timestamp": "2026-10-25T06:53:03.041Z",
+        "matchedTracker": null,
+        "feedOrigin": "telegram",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched venezuela on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-10-25T06:53:06.766Z",
+      "candidate": {
+        "title": "BREAKING: Minnesota Governor Tim Walz announces he won t run for re-election - AP",
+        "url": "https://t.me/BNONews/4063",
+        "source": "tg:BNONews",
+        "timestamp": "2026-10-25T06:53:03.041Z",
+        "matchedTracker": null,
+        "feedOrigin": "telegram",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 47.5,
+          "lon": -91.7,
+          "place": "Minnesota",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched ethiopia-conflict on a single token — no substance (score 0.32)",
       "confidence": 0.31666666666666665,
       "model": null,
       "scanType": "light"
