@@ -1,8 +1,28 @@
 {
   "version": 1,
-  "generated": "2026-10-25T21:58:12.158Z",
+  "generated": "2026-10-25T23:54:26.721Z",
   "windowHours": 72,
   "entries": [
+    {
+      "id": "20261025235426-news-google-com-rss-articles-CBMiuwFBVV95cUxPWl82WHg4VTJVUTh",
+      "timestamp": "2026-10-25T23:54:26.564Z",
+      "tracker": "spacex-history",
+      "title": "Elon Musk says SpaceX was behind restrictions to Ukraine’s Starlink access - The Washington Post",
+      "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxPWl82WHg4VTJVUThiR0d5ejZaZ0lRaXhBTWZma3dMUXVkQkY5SGstT3BWNnBGY0RCdjVMX2Q4OVFlWFZoLWJZQW9pa3JXdnFZREEzTjdKeTEzLWJtU3U5Z1NuT1llelFqLTFLMkZxYmF2V2VYbFUtLVB2RktGX25nU2lpaHhLNjRTeUZ1Q0lDeDZGUUtBQV9CTndkU1VrS3JSb0xJbTdRZUJ0Smx5R0o1YjF4cDh2NkI2UlJv?oc=5",
+      "source": "google-news-en",
+      "sourceTier": 2,
+      "score": 0.95,
+      "severity": "critical",
+      "decision": "update",
+      "feedOrigin": "rss",
+      "scanType": "light",
+      "geo": {
+        "lat": 48.4,
+        "lon": 31.2,
+        "place": "Ukraine",
+        "method": "gazetteer"
+      }
+    },
     {
       "id": "20261025215812-bsky-app-profile-aljazeera-com-post-3myq2e4itqa24",
       "timestamp": "2026-10-25T21:58:12.072Z",
@@ -430,26 +450,6 @@
       "decision": "update",
       "feedOrigin": "rss",
       "scanType": "light"
-    },
-    {
-      "id": "20261022223842-t-me-insiderpaper-45454",
-      "timestamp": "2026-10-22T22:38:42.986Z",
-      "tracker": "hormuz-food-security-crisis",
-      "title": "BREAKING: Trump accuses Iran of trying to drive up oil prices ahead of the U.S. midterm elections, saying Tehran is fabricating attacks and mine threats in the Strait of Hormuz.   @insiderpaper",
-      "url": "https://t.me/insiderpaper/45454",
-      "source": "tg:insiderpaper",
-      "sourceTier": 3,
-      "score": 0.85,
-      "severity": "high",
-      "decision": "update",
-      "feedOrigin": "telegram",
-      "scanType": "light",
-      "geo": {
-        "lat": 26.35,
-        "lon": 56.4,
-        "place": "Strait of Hormuz",
-        "method": "gazetteer"
-      }
     }
   ]
 }
