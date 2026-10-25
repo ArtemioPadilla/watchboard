@@ -1,0 +1,136 @@
+[
+  {
+    "type": "breaking",
+    "voice": "analyst",
+    "tracker": "brazil",
+    "lang": "en",
+    "text": "Brazil's presidential runoff is today. Lula and Flávio Bolsonaro are on the ballot after Saturday's Globo debate; coverage describes a tight race. Result and sourcing will be logged as official counts arrive.",
+    "hashtags": [
+      "#Brazil",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/brazil/events/2026-10-25-brazil-runoff-voting-day-oct25-2026?utm_source=x&utm_medium=breaking&utm_campaign=2026-10-25",
+    "image": "https://watchboard.dev/og/brazil/2026-10-25-brazil-runoff-voting-day-oct25-2026.png",
+    "memegenUrl": null,
+    "publishAt": "2026-10-25T18:06:00Z",
+    "estimatedCost": 0.02,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.85,
+      "verdict": "PUBLISH",
+      "comment": "Timely, restrained election-day item with no unsourced figures. Candidate names and the debate come from tracker events.",
+      "factChecks": [
+        {
+          "claim": "Runoff voting day is Oct 25",
+          "status": "verified",
+          "source": "brazil event brazil-runoff-voting-day-oct25-2026"
+        },
+        {
+          "claim": "Lula and Flávio Bolsonaro faced off in Globo debate Oct 24",
+          "status": "verified",
+          "source": "brazil event globo-runoff-debate-lula-flavio-oct24-2026"
+        },
+        {
+          "claim": "Coverage describes a tight race",
+          "status": "verified",
+          "source": "brazil digest / event title"
+        }
+      ]
+    },
+    "id": "66ccb4f7-11ee-485b-850e-a41d3c920bda",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "auto_approved"
+  },
+  {
+    "type": "breaking",
+    "voice": "analyst",
+    "tracker": "yemen-conflict",
+    "lang": "en",
+    "text": "Saudi Arabia reopened Riyadh airport on Oct 25 after weeks of Houthi attacks. The same day, Saudi Arabia said it intercepted 10 Houthi ballistic missiles, and missile debris injured two people in the kingdom.",
+    "hashtags": [
+      "#Yemen",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/yemen-conflict/events/2026-10-25-riyadh-airport-reopens-oct25-2026?utm_source=x&utm_medium=breaking&utm_campaign=2026-10-25",
+    "image": "https://watchboard.dev/og/yemen-conflict/2026-10-25-riyadh-airport-reopens-oct25-2026.png",
+    "memegenUrl": null,
+    "publishAt": "2026-10-25T22:00:00Z",
+    "estimatedCost": 0.02,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.84,
+      "verdict": "PUBLISH",
+      "comment": "All claims map directly to three Oct 25 tracker events; the interception count is attributed to Saudi Arabia.",
+      "factChecks": [
+        {
+          "claim": "Riyadh airport reopened Oct 25 after weeks of Houthi attacks",
+          "status": "verified",
+          "source": "yemen-conflict event riyadh-airport-reopens-oct25-2026"
+        },
+        {
+          "claim": "Saudi Arabia says it intercepted 10 Houthi ballistic missiles",
+          "status": "verified",
+          "source": "yemen-conflict event coalition-intercepts-10-houthi-missiles-riyadh-oct25-2026"
+        },
+        {
+          "claim": "Missile debris injured two people in Saudi Arabia",
+          "status": "verified",
+          "source": "yemen-conflict event houthi-missile-debris-injures-two-saudi-oct25-2026"
+        }
+      ]
+    },
+    "id": "66e0f8f6-8948-42bf-b5a0-b1a7dc64b38c",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
+  },
+  {
+    "type": "digest",
+    "voice": "analyst",
+    "tracker": "hormuz-food-security-crisis",
+    "lang": "en",
+    "text": "Brent settled near $116.7/bbl on Oct 23, up from $109.86 on Oct 16. It spiked more than 9% intraday after Iran claimed seven tankers were hit in Hormuz; Trump rejected those claims. Reports indicate the strait is effectively closed to commercial shipping.",
+    "hashtags": [
+      "#Hormuz",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/hormuz-food-security-crisis/?utm_source=x&utm_medium=digest&utm_campaign=2026-10-25",
+    "image": null,
+    "memegenUrl": null,
+    "publishAt": "2026-10-25T22:00:00Z",
+    "estimatedCost": 0.01,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.8,
+      "verdict": "REVIEW",
+      "comment": "Figures match the tracker KPI and digest, but the closure characterisation is disputed in the tracker (US claims control, Iran and shipping data differ), so a human should confirm framing.",
+      "factChecks": [
+        {
+          "claim": "Brent ~$116.7 at Oct 23 settle, up from $109.86 Oct 16",
+          "status": "verified",
+          "source": "hormuz-food-security-crisis KPI Brent Crude"
+        },
+        {
+          "claim": "Intraday spike of more than 9% on Iran's claim seven tankers hit",
+          "status": "verified",
+          "source": "hormuz-food-security-crisis digest"
+        },
+        {
+          "claim": "Trump rejected Iranian tanker-strike claims",
+          "status": "verified",
+          "source": "event trump-rejects-iran-tanker-claims-brent-113-oct22"
+        },
+        {
+          "claim": "Reports indicate strait effectively closed to commercial shipping",
+          "status": "warning",
+          "source": "digest; disputed in unresolved disputes"
+        }
+      ]
+    },
+    "id": "ba9be8ce-f6b4-47ce-9d71-496e8daf173c",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
+  }
+]
