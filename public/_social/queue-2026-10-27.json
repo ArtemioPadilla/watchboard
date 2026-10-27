@@ -57,7 +57,7 @@
     "link": "https://watchboard.dev/israel-palestine/events/2026-10-26-un-rights-chief-warns-ethnic-cleansing-hebron-oct-26-2026?utm_source=x&utm_medium=breaking&utm_campaign=2026-10-26",
     "image": "https://watchboard.dev/og/israel-palestine/2026-10-26-un-rights-chief-warns-ethnic-cleansing-hebron-oct-26-2026.png",
     "memegenUrl": null,
-    "publishAt": "2026-10-27T05:17:00Z",
+    "publishAt": "2026-10-27T19:46:00Z",
     "estimatedCost": 0.02,
     "threadTweets": null,
     "judge": {
@@ -83,6 +83,92 @@
       ]
     },
     "id": "0d1acc79-b981-4733-a4f9-88236f057686",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
+  },
+  {
+    "type": "breaking",
+    "voice": "analyst",
+    "tracker": "ukraine-war",
+    "lang": "en",
+    "text": "A US-brokered localized ceasefire has taken effect in occupied Oleshky (Kherson region), and Russia has halted strikes on Kherson. Separately, Russia said on Oct 26 it is open to \"mini ceasefires\" but no let-up in the war overall.",
+    "hashtags": [
+      "#Ukraine",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/ukraine-war/events/2026-10-27-oleshky-localized-ceasefire-20261027?utm_source=x&utm_medium=breaking&utm_campaign=2026-10-27",
+    "image": "https://watchboard.dev/og/ukraine-war/2026-10-27-oleshky-localized-ceasefire-20261027.png",
+    "memegenUrl": null,
+    "publishAt": "2026-10-27T22:46:00Z",
+    "estimatedCost": 0.02,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.86,
+      "verdict": "PUBLISH",
+      "comment": "Sober, attributed to tracker events dated Oct 26-27; scope of the ceasefire is stated as localized.",
+      "factChecks": [
+        {
+          "claim": "US-brokered localized ceasefire took effect in Oleshky",
+          "status": "verified",
+          "source": "ukraine-war event oleshky-localized-ceasefire-20261027"
+        },
+        {
+          "claim": "Russia halted strikes on Kherson",
+          "status": "verified",
+          "source": "ukraine-war event oleshky-localized-ceasefire-20261027"
+        },
+        {
+          "claim": "Russia open to mini ceasefires but no let-up in war (Oct 26)",
+          "status": "verified",
+          "source": "ukraine-war event russia-open-mini-ceasefires-20261026"
+        }
+      ]
+    },
+    "id": "939bed0a-c2d7-40be-b02d-3a6c900569a2",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "auto_approved"
+  },
+  {
+    "type": "digest",
+    "voice": "analyst",
+    "tracker": "yemen-conflict",
+    "lang": "en",
+    "text": "Oct 27: the Saudi-led coalition says air defences destroyed four Houthi drones and intercepted three missiles. Saudi Arabia reports damage in Riyadh from interception debris, while the Houthis claim further attacks. Riyadh airport reopened Oct 25 after weeks of attacks.",
+    "hashtags": [
+      "#Yemen",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/yemen-conflict/?utm_source=x&utm_medium=digest&utm_campaign=2026-10-27",
+    "image": null,
+    "memegenUrl": null,
+    "publishAt": "2026-10-27T22:00:00Z",
+    "estimatedCost": 0.01,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.83,
+      "verdict": "PUBLISH",
+      "comment": "Claims attributed to the coalition, Saudi Arabia and the Houthis respectively; none adjudicated.",
+      "factChecks": [
+        {
+          "claim": "Coalition says four Houthi drones destroyed and three missiles intercepted",
+          "status": "verified",
+          "source": "yemen-conflict event coalition-intercepts-houthi-drones-missiles-oct27-2026"
+        },
+        {
+          "claim": "Saudi Arabia reports Riyadh damage from interception debris",
+          "status": "verified",
+          "source": "yemen-conflict event riyadh-interception-debris-damage-oct27-2026"
+        },
+        {
+          "claim": "Riyadh airport reopened Oct 25",
+          "status": "verified",
+          "source": "yemen-conflict event riyadh-airport-reopens-oct25-2026"
+        }
+      ]
+    },
+    "id": "776754ff-96d8-4741-b2fc-90e830956412",
     "tweetId": null,
     "postedAt": null,
     "status": "pending_review"
