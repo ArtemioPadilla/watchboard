@@ -12,7 +12,7 @@
     "link": "https://watchboard.dev/ebola-outbreak/events/2026-10-27-congo-ebola-tops-10000-cases-oct-27?utm_source=x&utm_medium=breaking&utm_campaign=2026-10-27",
     "image": "https://watchboard.dev/og/ebola-outbreak/2026-10-27-congo-ebola-tops-10000-cases-oct-27.png",
     "memegenUrl": null,
-    "publishAt": "2026-10-28T01:46:00Z",
+    "publishAt": "2026-10-28T20:01:00Z",
     "estimatedCost": 0.02,
     "threadTweets": null,
     "judge": {
@@ -165,7 +165,7 @@
     "link": "https://watchboard.dev/sudan-conflict/?utm_source=x&utm_medium=digest&utm_campaign=2026-10-27",
     "image": null,
     "memegenUrl": null,
-    "publishAt": "2026-10-28T10:46:00Z",
+    "publishAt": "2026-10-28T23:01:00Z",
     "estimatedCost": 0.01,
     "threadTweets": null,
     "judge": {
@@ -201,6 +201,54 @@
       ]
     },
     "id": "4b260ddf-0b37-426b-8852-24995d942aba",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
+  },
+  {
+    "type": "contested",
+    "voice": "analyst",
+    "tracker": "yemen-conflict",
+    "lang": "en",
+    "text": "How many Yemeni government troops died in the Aug 6 Marib/Hadramout offensive? The government confirmed at least 30 killed, 50 wounded. An unnamed military source told AFP the toll may have reached 58. The Houthis claimed 45.",
+    "hashtags": [
+      "#Yemen",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/yemen-conflict/?utm_source=x&utm_medium=contested&utm_campaign=2026-10-28",
+    "image": null,
+    "memegenUrl": null,
+    "publishAt": "2026-10-28T22:00:00Z",
+    "estimatedCost": 0.01,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.8,
+      "verdict": "REVIEW",
+      "comment": "Three attributed figures with no adjudication; the figures are from August so a human should confirm it is still worth publishing.",
+      "factChecks": [
+        {
+          "claim": "Government confirmed at least 30 killed and 50 wounded",
+          "status": "verified",
+          "source": "yemen-conflict unresolved disputes and disputed figures"
+        },
+        {
+          "claim": "Unnamed military source told AFP toll may have reached 58",
+          "status": "verified",
+          "source": "yemen-conflict unresolved disputes"
+        },
+        {
+          "claim": "Houthis claimed 45 killed",
+          "status": "verified",
+          "source": "yemen-conflict unresolved disputes"
+        },
+        {
+          "claim": "Offensive date Aug 6, 2026",
+          "status": "verified",
+          "source": "yemen-conflict KPI and dispute text"
+        }
+      ]
+    },
+    "id": "882cf466-062b-4695-b1c2-cf7aafb1f7a4",
     "tweetId": null,
     "postedAt": null,
     "status": "pending_review"

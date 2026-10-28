@@ -1,0 +1,136 @@
+[
+  {
+    "type": "breaking",
+    "voice": "analyst",
+    "tracker": "iran-conflict",
+    "lang": "en",
+    "text": "The Pentagon told Congress the US cost of the Iran war has risen to $47.1 billion (reported Oct 28). Day 210 of the conflict. Qatari mediators separately presented Tehran with a deal to end the war, per an official.",
+    "hashtags": [
+      "#Iran",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/iran-conflict/events/2026-10-28-pentagon-iran-war-cost-47-1-billion-2026-10-28?utm_source=x&utm_medium=breaking&utm_campaign=2026-10-28",
+    "image": "https://watchboard.dev/og/iran-conflict/2026-10-28-pentagon-iran-war-cost-47-1-billion-2026-10-28.png",
+    "memegenUrl": null,
+    "publishAt": "2026-10-29T02:01:00Z",
+    "estimatedCost": 0.02,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.88,
+      "verdict": "PUBLISH",
+      "comment": "Significant, sourced development with figures taken directly from the tracker event titles and KPIs.",
+      "factChecks": [
+        {
+          "claim": "Pentagon told Congress US cost of Iran war has risen to $47.1 billion",
+          "status": "verified",
+          "source": "iran-conflict event pentagon-iran-war-cost-47-1-billion-2026-10-28"
+        },
+        {
+          "claim": "Day 210 of the conflict",
+          "status": "verified",
+          "source": "iran-conflict KPI Days of Conflict: 210"
+        },
+        {
+          "claim": "Qatari mediators presented Iran with a deal to end the war, per an official",
+          "status": "verified",
+          "source": "iran-conflict event qatari-mediators-present-iran-deal-2026-10-28"
+        }
+      ]
+    },
+    "id": "9186075e-f35e-435a-94ff-1ee4b6a40abe",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "auto_approved"
+  },
+  {
+    "type": "breaking",
+    "voice": "analyst",
+    "tracker": "sudan-conflict",
+    "lang": "en",
+    "text": "A Sudanese rights group reports more than 100 people killed in a Sudanese army drone strike on a market (Oct 28). The toll comes from a single rights-group source and is not independently confirmed.",
+    "hashtags": [
+      "#Sudan",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/sudan-conflict/events/2026-10-28-sudan-army-drone-market-100-killed-2026-10-28?utm_source=x&utm_medium=breaking&utm_campaign=2026-10-28",
+    "image": "https://watchboard.dev/og/sudan-conflict/2026-10-28-sudan-army-drone-market-100-killed-2026-10-28.png",
+    "memegenUrl": null,
+    "publishAt": "2026-10-29T05:01:00Z",
+    "estimatedCost": 0.02,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.84,
+      "verdict": "PUBLISH",
+      "comment": "Attributed to a rights group and explicitly flagged as unconfirmed; no extrapolation.",
+      "factChecks": [
+        {
+          "claim": "100+ reported killed in army drone strike on a market",
+          "status": "verified",
+          "source": "sudan-conflict event sudan-army-drone-market-100-killed-2026-10-28"
+        },
+        {
+          "claim": "Source is a Sudanese rights group",
+          "status": "verified",
+          "source": "sudan-conflict digest and event title"
+        },
+        {
+          "claim": "Not independently confirmed",
+          "status": "warning",
+          "source": "Tracker shows a single reported source; no second source in the data provided"
+        }
+      ]
+    },
+    "id": "f2d24c80-e067-48ee-a85f-9aebb34498c1",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
+  },
+  {
+    "type": "contested",
+    "voice": "analyst",
+    "tracker": "lebanon-war-2026",
+    "lang": "en",
+    "text": "How many Hezbollah fighters have died? Hezbollah sources say 1,000+. IDF and independent estimates say 1,700-2,500. Hezbollah publishes no totals. Lebanon's health ministry counts 4,386 dead since 2 Mar, with no civilian/combatant split.",
+    "hashtags": [
+      "#Lebanon",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/lebanon-war-2026/?utm_source=x&utm_medium=contested&utm_campaign=2026-10-28",
+    "image": null,
+    "memegenUrl": null,
+    "publishAt": "2026-10-29T08:01:00Z",
+    "estimatedCost": 0.01,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.82,
+      "verdict": "REVIEW",
+      "comment": "Both sides attributed with no adjudication; as-of date for the ministry count is the tracker's latest update, so a human should confirm.",
+      "factChecks": [
+        {
+          "claim": "Hezbollah sources: 1,000+ fighters killed",
+          "status": "verified",
+          "source": "lebanon-war-2026 disputed figures: Hezbollah fighters"
+        },
+        {
+          "claim": "IDF / independent estimates: 1,700-2,500",
+          "status": "verified",
+          "source": "lebanon-war-2026 disputed figures and unresolved disputes"
+        },
+        {
+          "claim": "Hezbollah publishes no totals",
+          "status": "verified",
+          "source": "lebanon-war-2026 disputed figures"
+        },
+        {
+          "claim": "Lebanese Ministry of Public Health: 4,386 killed since 2 Mar, no civilian/combatant split",
+          "status": "verified",
+          "source": "lebanon-war-2026 KPI and disputed figures"
+        }
+      ]
+    },
+    "id": "bea341ba-a203-4ba5-acdf-46ab14429769",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
+  }
+]
