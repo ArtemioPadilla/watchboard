@@ -1,8 +1,28 @@
 {
   "version": 1,
-  "generated": "2026-10-29T01:07:05.535Z",
+  "generated": "2026-10-29T07:01:45.982Z",
   "windowHours": 72,
   "entries": [
+    {
+      "id": "20261029070145-bsky-app-profile-apnews-com-post-3myyfvqy6kg27",
+      "timestamp": "2026-10-29T07:01:45.866Z",
+      "tracker": "north-korea",
+      "title": "South Korea says North Korea has launched an unidentified projectile off the North’s east coast. The launch comes five days after North Korean leader Kim Jong Un visited China via a newly inaugurated bridge connecting the two countries.",
+      "url": "https://bsky.app/profile/apnews.com/post/3myyfvqy6kg27",
+      "source": "bsky:apnews.com",
+      "sourceTier": 2,
+      "score": 0.95,
+      "severity": "critical",
+      "decision": "update",
+      "feedOrigin": "bluesky",
+      "scanType": "light",
+      "geo": {
+        "lat": 40.3,
+        "lon": 127.5,
+        "place": "North Korea",
+        "method": "gazetteer"
+      }
+    },
     {
       "id": "20261028100120-news-google-com-rss-articles-CBMiwwFBVV95cUxOOFllU2w5eldVSUx",
       "timestamp": "2026-10-28T10:01:20.474Z",
@@ -346,20 +366,6 @@
         "place": "Brazil",
         "method": "gazetteer"
       }
-    },
-    {
-      "id": "20261026024341-news-google-com-rss-articles-CBMimwFBVV95cUxQVTJ4MWVBeEtEdjR",
-      "timestamp": "2026-10-26T02:43:41.136Z",
-      "tracker": "spacex-history",
-      "title": "SpaceX closes $40 billion debt deal for AI chips, Elon Musk says - CNBC",
-      "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxQVTJ4MWVBeEtEdjR1T3U3TDJvZnFSd1UtTVJ5RFljSG90MUs3OW0xRUFTZ2p3T3FjRGZINFUzY1Qwa2MyZWZ3cmlYbkQwd09xTzF1cEdZSFkzTHdpNGhaNno5bW13RXdmaldaSlpBYTN4djJnTUF0YXRsX0ZaX0FQYXlfQnBWSzU4bWJweC1CcjNPNGVKNV9MMHhqTdIBoAFBVV95cUxNOExaVU8tRkNSSVpLS19wVmxBMzl3a2tvYVJfQy1PTzBoTUlGc21yQ2pHNWpnSWxxN1IzN0RiSHZROFBqNFlTR2dfeS11T1BWMUxKMktpMHVlbFRmTjVGdmxqbFBBeUJHelM0eU8tSWQyRDhEVGc3cmdnbGxlSDVDbE1hc3BqNUlNUktNUUR5SGNNT3poc1k4QUxOczJNNm5j?oc=5",
-      "source": "google-news-en",
-      "sourceTier": 2,
-      "score": 0.95,
-      "severity": "critical",
-      "decision": "update",
-      "feedOrigin": "rss",
-      "scanType": "light"
     }
   ]
 }
