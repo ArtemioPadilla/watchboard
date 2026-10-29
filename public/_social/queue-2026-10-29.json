@@ -62,7 +62,7 @@
     "link": "https://watchboard.dev/sudan-conflict/events/2026-10-28-sudan-army-drone-market-100-killed-2026-10-28?utm_source=x&utm_medium=breaking&utm_campaign=2026-10-28",
     "image": "https://watchboard.dev/og/sudan-conflict/2026-10-28-sudan-army-drone-market-100-killed-2026-10-28.png",
     "memegenUrl": null,
-    "publishAt": "2026-10-29T05:01:00Z",
+    "publishAt": "2026-10-29T19:52:00Z",
     "estimatedCost": 0.02,
     "threadTweets": null,
     "judge": {
@@ -105,7 +105,7 @@
     "link": "https://watchboard.dev/lebanon-war-2026/?utm_source=x&utm_medium=contested&utm_campaign=2026-10-28",
     "image": null,
     "memegenUrl": null,
-    "publishAt": "2026-10-29T08:01:00Z",
+    "publishAt": "2026-10-29T22:52:00Z",
     "estimatedCost": 0.01,
     "threadTweets": null,
     "judge": {
@@ -136,6 +136,49 @@
       ]
     },
     "id": "bea341ba-a203-4ba5-acdf-46ab14429769",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
+  },
+  {
+    "type": "contested",
+    "voice": "analyst",
+    "tracker": "sudan-conflict",
+    "lang": "en",
+    "text": "Sudan's war death toll has no agreed figure. UN OCHA/WHO (Dec 2024) documented 27,000+ violent deaths, widely called a severe undercount. A US envoy's high estimate is 400,000. Watchboard carries 150,000+ as a working estimate.",
+    "hashtags": [
+      "#Sudan",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/sudan-conflict/?utm_source=x&utm_medium=contested&utm_campaign=2026-10-29",
+    "image": null,
+    "memegenUrl": null,
+    "publishAt": "2026-10-29T22:00:00Z",
+    "estimatedCost": 0.01,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.8,
+      "verdict": "REVIEW",
+      "comment": "Both ends of the range are attributed with as-of dates from the tracker's disputed-figures section; the US envoy estimate lacks an exact date, so a human should confirm.",
+      "factChecks": [
+        {
+          "claim": "UN-documented violent deaths 27,000+ (UN OCHA / WHO Dec 2024)",
+          "status": "verified",
+          "source": "sudan-conflict disputed figures"
+        },
+        {
+          "claim": "US envoy high estimate 400,000",
+          "status": "warning",
+          "source": "sudan-conflict disputed figures; no exact as-of date"
+        },
+        {
+          "claim": "Tracker estimate 150,000+",
+          "status": "verified",
+          "source": "sudan-conflict KPI"
+        }
+      ]
+    },
+    "id": "7a07e0f7-f605-4bb9-9ce1-863a9b4db525",
     "tweetId": null,
     "postedAt": null,
     "status": "pending_review"
