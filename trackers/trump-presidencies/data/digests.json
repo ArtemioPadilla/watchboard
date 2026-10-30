@@ -1,5 +1,20 @@
 [
   {
+    "date": "2026-10-30",
+    "title": "Trump Presidencies Tracker Update — Oct 30, 2026",
+    "summary": "Enriched the Oct 28 report on revised 50% tariffs on Canadian goods with trade-press detail: plywood, certain industrial machinery and select packaging and paper are reportedly dropped from coverage effective Oct. 30. No verifiable new events were found for Oct 29–30, so no new event files were created. Commerce Section 232 probes into robotics, machinery and medical devices remain open with no confirmed outcome.",
+    "sectionsUpdated": [
+      "events",
+      "meta"
+    ],
+    "provenance": {
+      "method": "llm",
+      "model": "claude",
+      "generatedAt": "2026-10-30T19:12:42.840Z",
+      "pipeline": "update-data"
+    }
+  },
+  {
     "date": "2026-10-28",
     "title": "Breaking: Trump revises 50% tariffs on Canadian building materials",
     "summary": "Trump revises 50% tariffs on Canadian building materials",
@@ -747,22 +762,6 @@
       "method": "heuristic",
       "generatedAt": "2026-09-13T18:47:55.445Z",
       "pipeline": "ensure-digests"
-    }
-  },
-  {
-    "date": "2026-09-12",
-    "title": "Breaking: Canadians describe how they are adjusting economically and politically to the su",
-    "summary": "Canadians describe how they are adjusting economically and politically to the sustained impact of Trump's trade war, including supply chain shifts and consumer price pressures.",
-    "sectionsUpdated": [
-      "events",
-      "meta"
-    ],
-    "source": "breaking",
-    "provenance": {
-      "method": "llm",
-      "model": "claude",
-      "generatedAt": "2026-09-12T02:17:57.302Z",
-      "pipeline": "hourly-scan"
     }
   }
 ]
