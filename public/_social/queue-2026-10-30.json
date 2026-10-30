@@ -57,7 +57,7 @@
     "link": "https://watchboard.dev/drc-conflict/events/2026-10-29-us-sanctions-rwanda-m23-2026-10-29?utm_source=x&utm_medium=breaking&utm_campaign=2026-10-29",
     "image": "https://watchboard.dev/og/drc-conflict/2026-10-29-us-sanctions-rwanda-m23-2026-10-29.png",
     "memegenUrl": null,
-    "publishAt": "2026-10-30T07:52:00Z",
+    "publishAt": "2026-10-30T19:51:00Z",
     "estimatedCost": 0.02,
     "threadTweets": null,
     "judge": {
@@ -141,5 +141,96 @@
         "at": "2026-10-30T14:45:11.326Z"
       }
     }
+  },
+  {
+    "type": "breaking",
+    "voice": "analyst",
+    "tracker": "iran-conflict",
+    "lang": "en",
+    "text": "Pentagon tally now puts US military deaths in the Iran war at 23, two more than previously counted. A separate airman's death is under investigation. Day 210 of the conflict.",
+    "hashtags": [
+      "#Iran",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/iran-conflict/events/2026-10-30-us-military-death-toll-iran-war-23-2026-10-30?utm_source=x&utm_medium=breaking&utm_campaign=2026-10-30",
+    "image": "https://watchboard.dev/og/iran-conflict/2026-10-30-us-military-death-toll-iran-war-23-2026-10-30.png",
+    "memegenUrl": null,
+    "publishAt": "2026-10-30T22:51:00Z",
+    "estimatedCost": 0.02,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.88,
+      "verdict": "PUBLISH",
+      "comment": "Figures match tracker KPI and Oct 30 event. The airman case is stated as under investigation, not counted.",
+      "factChecks": [
+        {
+          "claim": "US military deaths in Iran war at 23 (Pentagon tally)",
+          "status": "verified",
+          "source": "iran-conflict KPI 'US Killed: 23 (Pentagon tally, per Oct 30 reports)'"
+        },
+        {
+          "claim": "Two more than previously counted",
+          "status": "verified",
+          "source": "iran-conflict digest 2026-10-30"
+        },
+        {
+          "claim": "Airman's death under investigation",
+          "status": "verified",
+          "source": "iran-conflict digest 2026-10-30"
+        },
+        {
+          "claim": "Day 210 of the conflict",
+          "status": "verified",
+          "source": "iran-conflict KPI 'Days of Conflict: 210'"
+        }
+      ]
+    },
+    "id": "af3f2704-58c5-4b85-9787-61d39f788990",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "auto_approved"
+  },
+  {
+    "type": "breaking",
+    "voice": "analyst",
+    "tracker": "yemen-conflict",
+    "lang": "en",
+    "text": "Oil crossed $115 a barrel on Oct 30 as Houthi attacks on Saudi Arabia stoked supply fears. The Saudi-led coalition reported intercepting Houthi drones near Riyadh and one targeting Mecca the same day.",
+    "hashtags": [
+      "#Yemen",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/yemen-conflict/events/2026-10-30-oil-prices-115-houthi-saudi-attacks-oct30-2026?utm_source=x&utm_medium=breaking&utm_campaign=2026-10-30",
+    "image": "https://watchboard.dev/og/yemen-conflict/2026-10-30-oil-prices-115-houthi-saudi-attacks-oct30-2026.png",
+    "memegenUrl": null,
+    "publishAt": "2026-10-30T22:00:00Z",
+    "estimatedCost": 0.02,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.84,
+      "verdict": "PUBLISH",
+      "comment": "All three claims match Oct 30 events in the tracker. Interceptions are coalition claims and are attributed as reported by the coalition.",
+      "factChecks": [
+        {
+          "claim": "Oil prices crossed $115 a barrel on Oct 30",
+          "status": "verified",
+          "source": "yemen-conflict event oil-prices-115-houthi-saudi-attacks-oct30-2026"
+        },
+        {
+          "claim": "Coalition intercepted Houthi drone near Riyadh",
+          "status": "verified",
+          "source": "yemen-conflict event coalition-intercepts-houthi-drone-riyadh-oct30-2026"
+        },
+        {
+          "claim": "Saudi Arabia reported intercepting a Houthi drone targeting Mecca",
+          "status": "verified",
+          "source": "yemen-conflict event saudi-intercepts-houthi-drone-mecca-oct30-2026"
+        }
+      ]
+    },
+    "id": "58d2f9bb-43f9-4365-b972-70ba457c8616",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
   }
 ]
