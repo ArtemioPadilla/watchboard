@@ -1,0 +1,103 @@
+[
+  {
+    "type": "breaking",
+    "voice": "analyst",
+    "tracker": "ebola-outbreak",
+    "lang": "en",
+    "text": "DR Congo Ebola outbreak reported above 10,000 cases, with CDC cited on spread to Kenya and Nigeria. Al Jazeera separately reports the DRC death toll has passed 5,000. Our CDC-sourced confirmed DRC counts: 9,277 cases, 4,478 deaths.",
+    "hashtags": [
+      "#Ebola",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/ebola-outbreak/events/2026-10-31-ebola-tops-10000-cases-kenya-nigeria-oct-31?utm_source=x&utm_medium=breaking&utm_campaign=2026-10-31",
+    "image": "https://watchboard.dev/og/ebola-outbreak/2026-10-31-ebola-tops-10000-cases-kenya-nigeria-oct-31.png",
+    "memegenUrl": null,
+    "publishAt": "2026-11-01T00:48:00Z",
+    "estimatedCost": 0.02,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.84,
+      "verdict": "REVIEW",
+      "comment": "Headline figures are reported by media and differ from the tracker's CDC-confirmed counts; the tweet states both with attribution. Human check advised on the Kenya/Nigeria spread claim.",
+      "factChecks": [
+        {
+          "claim": "Outbreak reported above 10,000 cases",
+          "status": "verified",
+          "source": "Event ebola-tops-10000-cases-kenya-nigeria-oct-31 (2026-10-31)"
+        },
+        {
+          "claim": "CDC cited spread to Kenya and Nigeria",
+          "status": "warning",
+          "source": "Event title; single-event attribution, not confirmed in KPIs"
+        },
+        {
+          "claim": "Al Jazeera reports DRC death toll passed 5,000",
+          "status": "verified",
+          "source": "Event ebola-drc-death-toll-passes-5000-oct-31"
+        },
+        {
+          "claim": "9,277 confirmed cases in DRC (CDC)",
+          "status": "verified",
+          "source": "KPI Confirmed Cases"
+        },
+        {
+          "claim": "4,478 deaths confirmed in DRC (CDC)",
+          "status": "verified",
+          "source": "KPI Deaths (2026 Outbreak)"
+        }
+      ]
+    },
+    "id": "67d4863b-f962-4fc2-988e-7cc996655624",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
+  },
+  {
+    "type": "breaking",
+    "voice": "analyst",
+    "tracker": "france",
+    "lang": "en",
+    "text": "France's interior ministry counted 320,000 demonstrators across the country on Oct 31, with tensions in several cities during dispersals. Interior Minister Nuñez had planned 70,000 police and gendarmes and banned city-centre gatherings.",
+    "hashtags": [
+      "#France",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/france/events/2026-10-31-oct31-mobilisations-320000-demonstrators-2026-10-31?utm_source=x&utm_medium=breaking&utm_campaign=2026-10-31",
+    "image": "https://watchboard.dev/og/france/2026-10-31-oct31-mobilisations-320000-demonstrators-2026-10-31.png",
+    "memegenUrl": null,
+    "publishAt": "2026-11-01T03:48:00Z",
+    "estimatedCost": 0.02,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.8,
+      "verdict": "REVIEW",
+      "comment": "Figure is an official interior-ministry count, attributed as such; organiser counts are not in the data. Event title names Nuñez but not explicitly as interior minister, so role needs a quick check.",
+      "factChecks": [
+        {
+          "claim": "Interior ministry counted 320,000 demonstrators on Oct 31",
+          "status": "verified",
+          "source": "Event oct31-mobilisations-320000-demonstrators-2026-10-31"
+        },
+        {
+          "claim": "Tensions in several cities during dispersals",
+          "status": "verified",
+          "source": "Event oct31-mobilisations-320000-demonstrators-2026-10-31"
+        },
+        {
+          "claim": "70,000 police and gendarmes planned, city-centre gatherings banned",
+          "status": "verified",
+          "source": "Event nunez-oct31-mobilisations-70000-police-2026-10-29"
+        },
+        {
+          "claim": "Nuñez is interior minister",
+          "status": "warning",
+          "source": "Inferred from event context; role not stated in the data"
+        }
+      ]
+    },
+    "id": "5e667b36-f993-49da-817d-bf9d846f2fa3",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
+  }
+]

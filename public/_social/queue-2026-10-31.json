@@ -12,7 +12,7 @@
     "link": "https://watchboard.dev/ukraine-war/events/2026-10-30-ukraine-strikes-russian-refinery-ends-pause-20261030?utm_source=x&utm_medium=breaking&utm_campaign=2026-10-30",
     "image": "https://watchboard.dev/og/ukraine-war/2026-10-30-ukraine-strikes-russian-refinery-ends-pause-20261030.png",
     "memegenUrl": null,
-    "publishAt": "2026-10-31T01:51:00Z",
+    "publishAt": "2026-10-31T18:48:00Z",
     "estimatedCost": 0.02,
     "threadTweets": null,
     "judge": {
@@ -55,7 +55,7 @@
     "link": "https://watchboard.dev/russian-fuel-crisis/?utm_source=x&utm_medium=contested&utm_campaign=2026-10-30",
     "image": null,
     "memegenUrl": null,
-    "publishAt": "2026-10-31T04:51:00Z",
+    "publishAt": "2026-10-31T21:48:00Z",
     "estimatedCost": 0.01,
     "threadTweets": null,
     "judge": {
@@ -89,5 +89,101 @@
     "tweetId": null,
     "postedAt": null,
     "status": "pending_review"
+  },
+  {
+    "type": "breaking",
+    "voice": "analyst",
+    "tracker": "ukraine-war",
+    "lang": "en",
+    "text": "The US has cleared a $2.1bn Patriot air-defence deal for Ukraine, per reporting logged Oct 31. Zelenskyy is pressing for faster delivery. Same day, Russian strikes cut power to hundreds of thousands of households in the Dnipro and Kyiv regions.",
+    "hashtags": [
+      "#Ukraine",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/ukraine-war/events/2026-10-31-us-clears-patriot-deal-ukraine-20261031?utm_source=x&utm_medium=breaking&utm_campaign=2026-10-31",
+    "image": "https://watchboard.dev/og/ukraine-war/2026-10-31-us-clears-patriot-deal-ukraine-20261031.png",
+    "memegenUrl": null,
+    "publishAt": "2026-10-31T22:00:00Z",
+    "estimatedCost": 0.02,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.86,
+      "verdict": "PUBLISH",
+      "comment": "All claims map directly to Oct 31 events in the tracker. No casualty or contested figures used.",
+      "factChecks": [
+        {
+          "claim": "US cleared $2.1bn Patriot deal for Ukraine",
+          "status": "verified",
+          "source": "Event us-clears-patriot-deal-ukraine-20261031"
+        },
+        {
+          "claim": "Zelenskyy seeks faster delivery",
+          "status": "verified",
+          "source": "Event us-clears-patriot-deal-ukraine-20261031"
+        },
+        {
+          "claim": "Hundreds of thousands of households lost power in Dnipro and Kyiv regions after Russian strikes",
+          "status": "verified",
+          "source": "Event dnipro-kyiv-power-outages-russian-strikes-20261031"
+        }
+      ]
+    },
+    "id": "e455d961-9547-470e-963f-0d0515b3f2c2",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "auto_approved"
+  },
+  {
+    "type": "data_viz",
+    "voice": "analyst",
+    "tracker": "us-measles-resurgence",
+    "lang": "en",
+    "text": "US measles, CDC weekly counts for 2026: 4,080 (Oct 9), 4,410 (Oct 16), 4,588 (Oct 23). The latest week added 178 cases (+4.0%). 2026 is now about double the 2025 full-year total of 2,289. PAHO's elimination decision is expected in November.",
+    "hashtags": [
+      "#Measles",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/us-measles-resurgence/?utm_source=x&utm_medium=data_viz&utm_campaign=2026-10-31",
+    "image": null,
+    "memegenUrl": null,
+    "publishAt": "2026-10-31T22:00:00Z",
+    "estimatedCost": 0.01,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.9,
+      "verdict": "PUBLISH",
+      "comment": "Every figure is CDC-sourced with an as-of date and consistent across events and KPIs. The week-over-week slowdown (+330 to +178) is left for the reader.",
+      "factChecks": [
+        {
+          "claim": "4,080 cases (Oct 9)",
+          "status": "verified",
+          "source": "Event cdc-weekly-update-oct09-4080"
+        },
+        {
+          "claim": "4,410 cases (Oct 16)",
+          "status": "verified",
+          "source": "Event cdc-weekly-update-oct16-4410"
+        },
+        {
+          "claim": "4,588 cases (Oct 23), up 178 (4.0%)",
+          "status": "verified",
+          "source": "Digest and event cdc-weekly-update-oct23-4588"
+        },
+        {
+          "claim": "2025 full-year total 2,289; 2026 about double",
+          "status": "verified",
+          "source": "KPI 2025 full-year confirmed cases; digest"
+        },
+        {
+          "claim": "PAHO elimination decision expected in November",
+          "status": "verified",
+          "source": "Digest"
+        }
+      ]
+    },
+    "id": "b6dc2615-5fd9-4166-8e71-a21b0df5d0f9",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "auto_approved"
   }
 ]
