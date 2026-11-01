@@ -12,7 +12,7 @@
     "link": "https://watchboard.dev/ebola-outbreak/events/2026-10-31-ebola-tops-10000-cases-kenya-nigeria-oct-31?utm_source=x&utm_medium=breaking&utm_campaign=2026-10-31",
     "image": "https://watchboard.dev/og/ebola-outbreak/2026-10-31-ebola-tops-10000-cases-kenya-nigeria-oct-31.png",
     "memegenUrl": null,
-    "publishAt": "2026-11-01T00:48:00Z",
+    "publishAt": "2026-11-01T19:19:00Z",
     "estimatedCost": 0.02,
     "threadTweets": null,
     "judge": {
@@ -65,7 +65,7 @@
     "link": "https://watchboard.dev/france/events/2026-10-31-oct31-mobilisations-320000-demonstrators-2026-10-31?utm_source=x&utm_medium=breaking&utm_campaign=2026-10-31",
     "image": "https://watchboard.dev/og/france/2026-10-31-oct31-mobilisations-320000-demonstrators-2026-10-31.png",
     "memegenUrl": null,
-    "publishAt": "2026-11-01T03:48:00Z",
+    "publishAt": "2026-11-01T22:19:00Z",
     "estimatedCost": 0.02,
     "threadTweets": null,
     "judge": {
@@ -96,6 +96,54 @@
       ]
     },
     "id": "5e667b36-f993-49da-817d-bf9d846f2fa3",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
+  },
+  {
+    "type": "digest",
+    "voice": "analyst",
+    "tracker": "ebola-outbreak",
+    "lang": "en",
+    "text": "Ebola, CDC data as of Oct 28: 10,305 confirmed cases and 4,996 deaths, the second-largest outbreak on record. Al Jazeera reported on Oct 31 that DRC deaths have passed 5,000.",
+    "hashtags": [
+      "#Ebola",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/ebola-outbreak/?utm_source=x&utm_medium=digest&utm_campaign=2026-11-01",
+    "image": null,
+    "memegenUrl": null,
+    "publishAt": "2026-11-01T22:00:00Z",
+    "estimatedCost": 0.01,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.84,
+      "verdict": "PUBLISH",
+      "comment": "Figures and dates come straight from tracker events; CDC and Al Jazeera attributed separately.",
+      "factChecks": [
+        {
+          "claim": "10,305 confirmed cases as of Oct 28 (CDC)",
+          "status": "verified",
+          "source": "ebola-outbreak event ebola-cdc-10305-cases-oct-28"
+        },
+        {
+          "claim": "4,996 deaths as of Oct 28 (CDC)",
+          "status": "verified",
+          "source": "ebola-outbreak event ebola-cdc-10305-cases-oct-28"
+        },
+        {
+          "claim": "Second-largest outbreak on record",
+          "status": "verified",
+          "source": "ebola-outbreak digest"
+        },
+        {
+          "claim": "Al Jazeera: DRC deaths passed 5,000 (Oct 31)",
+          "status": "verified",
+          "source": "ebola-outbreak event ebola-drc-death-toll-passes-5000-oct-31"
+        }
+      ]
+    },
+    "id": "925701ac-39e4-4b2f-be71-94dbab4624c7",
     "tweetId": null,
     "postedAt": null,
     "status": "pending_review"
