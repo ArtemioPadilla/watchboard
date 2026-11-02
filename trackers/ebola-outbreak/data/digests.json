@@ -1,5 +1,20 @@
 [
   {
+    "date": "2026-11-02",
+    "title": "Ebola Outbreak Tracker Update — Nov 02, 2026",
+    "summary": "Reports on 2 November put DRC deaths above 5,000, with government data of 10,274 confirmed cases and 4,992 deaths as of 28 October. Pulse Nigeria reports spread to Nigeria, not yet confirmed by an official statement. Only the events section changed; KPI figures were left as-is because sources conflict.",
+    "sectionsUpdated": [
+      "events",
+      "meta"
+    ],
+    "provenance": {
+      "method": "llm",
+      "model": "claude",
+      "generatedAt": "2026-11-02T22:41:45.000Z",
+      "pipeline": "update-data"
+    }
+  },
+  {
     "date": "2026-11-01",
     "title": "Ebola Outbreak Tracker Update — Nov 01, 2026",
     "summary": "CDC data as of 28 October lists 10,305 confirmed cases and 4,996 confirmed deaths, the second-largest Ebola outbreak on record. AP reports DRC deaths have passed 5,000. WHO lists five affected countries and a new health zone, Alimbongo. A gap-day event for 28 October was added; KPI and other sections were not changed.",
@@ -727,20 +742,6 @@
     "provenance": {
       "method": "heuristic",
       "generatedAt": "2026-09-13T18:47:55.349Z",
-      "pipeline": "ensure-digests"
-    }
-  },
-  {
-    "date": "2026-09-11",
-    "title": "Ebola Outbreak Tracker Update — Fri Sep 11, 2026",
-    "summary": "Ebola Reaches DRC's Seventh Province as Patient Dies in Gwaka, Sud-Ubangi After 2,000km Journey Through Rwanda and Uganda.",
-    "sectionsUpdated": [
-      "events"
-    ],
-    "source": "freshness",
-    "provenance": {
-      "method": "heuristic",
-      "generatedAt": "2026-09-11T19:06:35.522Z",
       "pipeline": "ensure-digests"
     }
   }
