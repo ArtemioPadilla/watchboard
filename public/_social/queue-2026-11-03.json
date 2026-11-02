@@ -1,0 +1,217 @@
+[
+  {
+    "type": "contested",
+    "voice": "analyst",
+    "tracker": "lebanon-war-2026",
+    "lang": "en",
+    "text": "Lebanon's health ministry counts 4,386 dead since 2 Mar, with no civilian/combatant split. Israel and independent estimates put Hezbollah fighters killed at ~1,700–2,500; Hezbollah publishes no totals.",
+    "hashtags": [
+      "#Lebanon",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/lebanon-war-2026/?utm_source=x&utm_medium=contested&utm_campaign=2026-11-01",
+    "image": null,
+    "memegenUrl": null,
+    "publishAt": "2026-11-03T05:17:00Z",
+    "estimatedCost": 0.01,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.75,
+      "verdict": "REVIEW",
+      "comment": "Both sides attributed without adjudication, but the ministry tally has no explicit as-of date in the data; a human should add one.",
+      "factChecks": [
+        {
+          "claim": "4,386 killed in Lebanon per Lebanese Ministry of Public Health, cumulative since 2 Mar",
+          "status": "verified",
+          "source": "lebanon-war-2026 disputed figures / KPIs"
+        },
+        {
+          "claim": "No civilian/combatant split",
+          "status": "verified",
+          "source": "lebanon-war-2026 disputed figures"
+        },
+        {
+          "claim": "Hezbollah fighters killed ~1,700–2,500 (IDF / independent estimates)",
+          "status": "verified",
+          "source": "lebanon-war-2026 disputed figures"
+        },
+        {
+          "claim": "Hezbollah publishes no totals",
+          "status": "verified",
+          "source": "lebanon-war-2026 disputed figures"
+        },
+        {
+          "claim": "As-of date of ministry figure",
+          "status": "warning",
+          "source": "Not stated in tracker data"
+        }
+      ]
+    },
+    "id": "d14c4593-b50f-4575-8bf2-459df0c1ba2e",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
+  },
+  {
+    "type": "breaking",
+    "voice": "analyst",
+    "tracker": "hormuz-food-security-crisis",
+    "lang": "en",
+    "text": "Iran says it would reopen the Strait of Hormuz within two days as part of a deal with the US, per NYT. Context: UKMTO reported on Oct 31 that Hormuz shipping traffic remains 70% below pre-war levels.",
+    "hashtags": [
+      "#Hormuz",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/hormuz-food-security-crisis/events/2026-11-02-iran-says-would-reopen-hormuz-within-two-days-us-deal-nov2?utm_source=x&utm_medium=breaking&utm_campaign=2026-11-02",
+    "image": "https://watchboard.dev/og/hormuz-food-security-crisis/2026-11-02-iran-says-would-reopen-hormuz-within-two-days-us-deal-nov2.png",
+    "memegenUrl": null,
+    "publishAt": "2026-11-03T02:17:00Z",
+    "estimatedCost": 0.02,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.86,
+      "verdict": "PUBLISH",
+      "comment": "Attributed claim from a Tier 2 outlet, paired with a sourced traffic figure for context. It is an Iranian statement, not a confirmed reopening, and the wording says so.",
+      "factChecks": [
+        {
+          "claim": "Iran says it would reopen Hormuz within two days under a deal with the US (NYT)",
+          "status": "verified",
+          "source": "hormuz-food-security-crisis event iran-says-would-reopen-hormuz-within-two-days-us-deal-nov2"
+        },
+        {
+          "claim": "UKMTO Oct 31: Hormuz traffic 70% below pre-war levels",
+          "status": "verified",
+          "source": "hormuz-food-security-crisis event ukmto-hormuz-traffic-70-below-prewar-oct31"
+        }
+      ]
+    },
+    "id": "ccea09df-997d-48ed-b6d5-cae3233b4315",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "auto_approved"
+  },
+  {
+    "type": "breaking",
+    "voice": "analyst",
+    "tracker": "ebola-outbreak",
+    "lang": "en",
+    "text": "Al Jazeera reports DR Congo Ebola deaths have passed 5,000. Government data as of Oct 28: 10,274 confirmed cases, 4,992 deaths. Pulse Nigeria reports spread to Nigeria; there is no official statement yet.",
+    "hashtags": [
+      "#Ebola",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/ebola-outbreak/events/2026-11-02-ebola-drc-5000-deaths-nigeria-spread-nov-2?utm_source=x&utm_medium=breaking&utm_campaign=2026-11-02",
+    "image": "https://watchboard.dev/og/ebola-outbreak/2026-11-02-ebola-drc-5000-deaths-nigeria-spread-nov-2.png",
+    "memegenUrl": null,
+    "publishAt": "2026-11-03T08:17:00Z",
+    "estimatedCost": 0.02,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.74,
+      "verdict": "REVIEW",
+      "comment": "Figures are consistent with the digest, but sources conflict (the tracker KPI still shows 4,478 deaths from CDC) and the Nigeria spread is a single-outlet, unconfirmed report. A human should check the framing.",
+      "factChecks": [
+        {
+          "claim": "DRC deaths above 5,000 per Al Jazeera",
+          "status": "verified",
+          "source": "ebola-outbreak event ebola-drc-death-toll-passes-5000-oct-31"
+        },
+        {
+          "claim": "Government data as of Oct 28: 10,274 confirmed cases and 4,992 deaths",
+          "status": "verified",
+          "source": "ebola-outbreak digest 2026-11-02"
+        },
+        {
+          "claim": "Pulse Nigeria reports spread to Nigeria, not officially confirmed",
+          "status": "warning",
+          "source": "ebola-outbreak digest 2026-11-02 (single-source report)"
+        }
+      ]
+    },
+    "id": "6c297331-bb41-495c-b773-7116c78fcae5",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
+  },
+  {
+    "type": "breaking",
+    "voice": "analyst",
+    "tracker": "israel-palestine",
+    "lang": "en",
+    "text": "Israel's military has withdrawn from the West Bank city of Hebron after a 10-day operation, per Washington Post. Al Jazeera reported on Oct 30 that the siege had displaced thousands of residents.",
+    "hashtags": [
+      "#WestBank",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/israel-palestine/events/2026-11-02-israel-withdraws-hebron-after-10-day-operation-nov-2-2026?utm_source=x&utm_medium=breaking&utm_campaign=2026-11-02",
+    "image": "https://watchboard.dev/og/israel-palestine/2026-11-02-israel-withdraws-hebron-after-10-day-operation-nov-2-2026.png",
+    "memegenUrl": null,
+    "publishAt": "2026-11-03T11:17:00Z",
+    "estimatedCost": 0.02,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.84,
+      "verdict": "PUBLISH",
+      "comment": "Both claims are attributed to named outlets and match the tracker events. No casualty or displacement figure is invented.",
+      "factChecks": [
+        {
+          "claim": "Israeli military withdrew from Hebron after a 10-day operation (Washington Post)",
+          "status": "verified",
+          "source": "israel-palestine event israel-withdraws-hebron-after-10-day-operation-nov-2-2026"
+        },
+        {
+          "claim": "Al Jazeera Oct 30: siege displaced thousands",
+          "status": "verified",
+          "source": "israel-palestine event hebron-siege-displaces-thousands-oct-30-2026"
+        }
+      ]
+    },
+    "id": "b688a168-4b19-49ff-92ff-c2a903a12c1b",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
+  },
+  {
+    "type": "contested",
+    "voice": "analyst",
+    "tracker": "yemen-conflict",
+    "lang": "en",
+    "text": "Yemeni government troops killed in the Aug 6 Marib/Hadramout offensive: the government confirmed at least 30. A military source told AFP the toll may have reached 58. The Houthis claim 45. One operation, three tallies.",
+    "hashtags": [
+      "#Yemen",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/yemen-conflict/?utm_source=x&utm_medium=contested&utm_campaign=2026-11-02",
+    "image": null,
+    "memegenUrl": null,
+    "publishAt": "2026-11-03T14:17:00Z",
+    "estimatedCost": 0.01,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.8,
+      "verdict": "REVIEW",
+      "comment": "Presents all three attributed figures without adjudicating, with the as-of date of Aug 6. Contested posts are never auto-approved.",
+      "factChecks": [
+        {
+          "claim": "Government confirmed at least 30 soldiers killed (Aug 6)",
+          "status": "verified",
+          "source": "yemen-conflict disputes / frozen figures"
+        },
+        {
+          "claim": "Military source told AFP toll may have reached 58",
+          "status": "verified",
+          "source": "yemen-conflict disputes / frozen figures"
+        },
+        {
+          "claim": "Houthis claimed 45 killed",
+          "status": "verified",
+          "source": "yemen-conflict disputes / frozen figures"
+        }
+      ]
+    },
+    "id": "b90be28d-c7cd-45d6-ad63-5ee0c55d8fc2",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
+  }
+]
