@@ -12,7 +12,7 @@
     "link": "https://watchboard.dev/lebanon-war-2026/?utm_source=x&utm_medium=contested&utm_campaign=2026-11-01",
     "image": null,
     "memegenUrl": null,
-    "publishAt": "2026-11-03T05:17:00Z",
+    "publishAt": "2026-11-03T20:57:00Z",
     "estimatedCost": 0.01,
     "threadTweets": null,
     "judge": {
@@ -100,125 +100,87 @@
   {
     "type": "breaking",
     "voice": "analyst",
-    "tracker": "ebola-outbreak",
+    "tracker": "ukraine-war",
     "lang": "en",
-    "text": "Al Jazeera reports DR Congo Ebola deaths have passed 5,000. Government data as of Oct 28: 10,274 confirmed cases, 4,992 deaths. Pulse Nigeria reports spread to Nigeria; there is no official statement yet.",
+    "text": "A Russian strike on a humanitarian aid hub in Komyshuvakha, Ukraine, killed at least 31 people, The Guardian reports (Nov 3). The toll is a minimum figure and may rise as the site is cleared.",
     "hashtags": [
-      "#Ebola",
+      "#Ukraine",
       "#Watchboard"
     ],
-    "link": "https://watchboard.dev/ebola-outbreak/events/2026-11-02-ebola-drc-5000-deaths-nigeria-spread-nov-2?utm_source=x&utm_medium=breaking&utm_campaign=2026-11-02",
-    "image": "https://watchboard.dev/og/ebola-outbreak/2026-11-02-ebola-drc-5000-deaths-nigeria-spread-nov-2.png",
+    "link": "https://watchboard.dev/ukraine-war/events/2026-11-03-komyshuvakha-aid-hub-strike-20261103?utm_source=x&utm_medium=breaking&utm_campaign=2026-11-03",
+    "image": "https://watchboard.dev/og/ukraine-war/2026-11-03-komyshuvakha-aid-hub-strike-20261103.png",
     "memegenUrl": null,
-    "publishAt": "2026-11-03T08:17:00Z",
+    "publishAt": "2026-11-03T23:57:00Z",
     "estimatedCost": 0.02,
     "threadTweets": null,
     "judge": {
-      "score": 0.74,
-      "verdict": "REVIEW",
-      "comment": "Figures are consistent with the digest, but sources conflict (the tracker KPI still shows 4,478 deaths from CDC) and the Nigeria spread is a single-outlet, unconfirmed report. A human should check the framing.",
-      "factChecks": [
-        {
-          "claim": "DRC deaths above 5,000 per Al Jazeera",
-          "status": "verified",
-          "source": "ebola-outbreak event ebola-drc-death-toll-passes-5000-oct-31"
-        },
-        {
-          "claim": "Government data as of Oct 28: 10,274 confirmed cases and 4,992 deaths",
-          "status": "verified",
-          "source": "ebola-outbreak digest 2026-11-02"
-        },
-        {
-          "claim": "Pulse Nigeria reports spread to Nigeria, not officially confirmed",
-          "status": "warning",
-          "source": "ebola-outbreak digest 2026-11-02 (single-source report)"
-        }
-      ]
-    },
-    "id": "6c297331-bb41-495c-b773-7116c78fcae5",
-    "tweetId": null,
-    "postedAt": null,
-    "status": "pending_review"
-  },
-  {
-    "type": "breaking",
-    "voice": "analyst",
-    "tracker": "israel-palestine",
-    "lang": "en",
-    "text": "Israel's military has withdrawn from the West Bank city of Hebron after a 10-day operation, per Washington Post. Al Jazeera reported on Oct 30 that the siege had displaced thousands of residents.",
-    "hashtags": [
-      "#WestBank",
-      "#Watchboard"
-    ],
-    "link": "https://watchboard.dev/israel-palestine/events/2026-11-02-israel-withdraws-hebron-after-10-day-operation-nov-2-2026?utm_source=x&utm_medium=breaking&utm_campaign=2026-11-02",
-    "image": "https://watchboard.dev/og/israel-palestine/2026-11-02-israel-withdraws-hebron-after-10-day-operation-nov-2-2026.png",
-    "memegenUrl": null,
-    "publishAt": "2026-11-03T11:17:00Z",
-    "estimatedCost": 0.02,
-    "threadTweets": null,
-    "judge": {
-      "score": 0.84,
+      "score": 0.88,
       "verdict": "PUBLISH",
-      "comment": "Both claims are attributed to named outlets and match the tracker events. No casualty or displacement figure is invented.",
+      "comment": "Significant, sourced development. The 'may rise' line is a caveat on the minimum figure, not a claim of fact.",
       "factChecks": [
         {
-          "claim": "Israeli military withdrew from Hebron after a 10-day operation (Washington Post)",
+          "claim": "Russian strike on humanitarian aid hub in Komyshuvakha",
           "status": "verified",
-          "source": "israel-palestine event israel-withdraws-hebron-after-10-day-operation-nov-2-2026"
+          "source": "ukraine-war event komyshuvakha-aid-hub-strike-20261103"
         },
         {
-          "claim": "Al Jazeera Oct 30: siege displaced thousands",
+          "claim": "At least 31 killed, per The Guardian",
           "status": "verified",
-          "source": "israel-palestine event hebron-siege-displaces-thousands-oct-30-2026"
+          "source": "ukraine-war digest 2026-11-03"
         }
       ]
     },
-    "id": "b688a168-4b19-49ff-92ff-c2a903a12c1b",
+    "id": "c53431c0-8633-4b62-a804-1aae1b45c102",
     "tweetId": null,
     "postedAt": null,
-    "status": "pending_review"
+    "status": "auto_approved"
   },
   {
-    "type": "contested",
+    "type": "digest",
     "voice": "analyst",
-    "tracker": "yemen-conflict",
+    "tracker": "iran-conflict",
     "lang": "en",
-    "text": "Yemeni government troops killed in the Aug 6 Marib/Hadramout offensive: the government confirmed at least 30. A military source told AFP the toll may have reached 58. The Houthis claim 45. One operation, three tallies.",
+    "text": "Day 210 of the Iran conflict. Vance sees 'progress' in US-Iran talks; Tehran says the 'ball is in the US court' and that talks could resume 'within a short period' if its demands are met. Rubio: Trump wants to end the war 'peacefully'. Both sides are reported to be preparing for strikes.",
     "hashtags": [
-      "#Yemen",
+      "#Iran",
       "#Watchboard"
     ],
-    "link": "https://watchboard.dev/yemen-conflict/?utm_source=x&utm_medium=contested&utm_campaign=2026-11-02",
+    "link": "https://watchboard.dev/iran-conflict/?utm_source=x&utm_medium=digest&utm_campaign=2026-11-03",
     "image": null,
     "memegenUrl": null,
-    "publishAt": "2026-11-03T14:17:00Z",
+    "publishAt": "2026-11-03T22:00:00Z",
     "estimatedCost": 0.01,
     "threadTweets": null,
     "judge": {
-      "score": 0.8,
-      "verdict": "REVIEW",
-      "comment": "Presents all three attributed figures without adjudicating, with the as-of date of Aug 6. Contested posts are never auto-approved.",
+      "score": 0.85,
+      "verdict": "PUBLISH",
+      "comment": "Statements are attributed to named officials and match the tracker's Nov 2-3 events. No unsourced figures.",
       "factChecks": [
         {
-          "claim": "Government confirmed at least 30 soldiers killed (Aug 6)",
+          "claim": "Day 210 of conflict",
           "status": "verified",
-          "source": "yemen-conflict disputes / frozen figures"
+          "source": "iran-conflict KPIs"
         },
         {
-          "claim": "Military source told AFP toll may have reached 58",
+          "claim": "Vance sees 'progress'; Tehran says 'ball is in US court'",
           "status": "verified",
-          "source": "yemen-conflict disputes / frozen figures"
+          "source": "iran-conflict event vance-sees-progress-us-iran-talks-2026-11-03"
         },
         {
-          "claim": "Houthis claimed 45 killed",
+          "claim": "Iran says talks could resume 'within a short period' if demands met",
           "status": "verified",
-          "source": "yemen-conflict disputes / frozen figures"
+          "source": "iran-conflict event iran-says-us-talks-could-resume-short-period-2026-11-02"
+        },
+        {
+          "claim": "Rubio: Trump wants to end war 'peacefully' as both sides prepare for strikes",
+          "status": "verified",
+          "source": "iran-conflict event rubio-trump-wants-peaceful-end-iran-war-2026-11-02"
         }
       ]
     },
-    "id": "b90be28d-c7cd-45d6-ad63-5ee0c55d8fc2",
+    "id": "313e63e0-eca7-4e1d-9698-f7e7ef2b2b4a",
     "tweetId": null,
     "postedAt": null,
-    "status": "pending_review"
+    "status": "auto_approved"
   }
 ]
