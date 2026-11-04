@@ -1,5 +1,19 @@
 [
   {
+    "date": "2026-11-04",
+    "title": "Ebola Outbreak Tracker Update — Nov 04, 2026",
+    "summary": "Searches for 3–4 November found no new verifiable reporting beyond the 2 November figures already recorded (10,274 confirmed cases and 4,992 deaths as of 28 October per government data; CDC 10,305 cases and 4,996 deaths). No event, KPI or map changes were made because no new 2+ source confirmed developments were found. The unconfirmed Nigeria spread report remains unverified against an official statement.",
+    "sectionsUpdated": [
+      "meta"
+    ],
+    "provenance": {
+      "method": "llm",
+      "model": "claude",
+      "generatedAt": "2026-11-04T20:43:59.184Z",
+      "pipeline": "update-data"
+    }
+  },
+  {
     "date": "2026-11-02",
     "title": "Ebola Outbreak Tracker Update — Nov 02, 2026",
     "summary": "Reports on 2 November put DRC deaths above 5,000, with government data of 10,274 confirmed cases and 4,992 deaths as of 28 October. Pulse Nigeria reports spread to Nigeria, not yet confirmed by an official statement. Only the events section changed; KPI figures were left as-is because sources conflict.",
@@ -728,20 +742,6 @@
     "provenance": {
       "method": "heuristic",
       "generatedAt": "2026-09-14T20:33:45.321Z",
-      "pipeline": "ensure-digests"
-    }
-  },
-  {
-    "date": "2026-09-12",
-    "title": "Ebola Outbreak Tracker Update — Sat Sep 12, 2026",
-    "summary": "DRC's Deadliest Ebola Epidemic Ever Passes 7,000 Cases as Outbreak Reaches Schools in Ituri.",
-    "sectionsUpdated": [
-      "events"
-    ],
-    "source": "freshness",
-    "provenance": {
-      "method": "heuristic",
-      "generatedAt": "2026-09-13T18:47:55.349Z",
       "pipeline": "ensure-digests"
     }
   }
