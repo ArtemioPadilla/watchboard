@@ -1,0 +1,83 @@
+[
+  {
+    "type": "breaking",
+    "voice": "analyst",
+    "tracker": "cancer-breakthroughs",
+    "lang": "en",
+    "text": "FDA granted accelerated approval on Nov 5 to subcutaneous amivantamab (Rybrevant Faspro) for recurrent or metastatic head and neck squamous cell carcinoma. On Oct 26 it approved talazoparib plus enzalutamide for HRR-mutated metastatic prostate cancer.",
+    "hashtags": [
+      "#FDA",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/cancer-breakthroughs/events/2026-11-05-fda-amivantamab-hyaluronidase-hnscc-accelerated-2026-11-05?utm_source=x&utm_medium=breaking&utm_campaign=2026-11-06",
+    "image": "https://watchboard.dev/og/cancer-breakthroughs/2026-11-05-fda-amivantamab-hyaluronidase-hnscc-accelerated-2026-11-05.png",
+    "memegenUrl": null,
+    "publishAt": "2026-11-07T02:58:00Z",
+    "estimatedCost": 0.02,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.88,
+      "verdict": "PUBLISH",
+      "comment": "Two FDA approvals verified on the FDA notification page per the tracker digest; neutral, factual wording.",
+      "factChecks": [
+        {
+          "claim": "FDA accelerated approval of subcutaneous amivantamab (Rybrevant Faspro) on Nov 5 for recurrent or metastatic HNSCC",
+          "status": "verified",
+          "source": "cancer-breakthroughs event fda-amivantamab-hyaluronidase-hnscc-accelerated-2026-11-05"
+        },
+        {
+          "claim": "Oct 26 approval of talazoparib plus enzalutamide for HRR-mutated metastatic prostate cancer",
+          "status": "verified",
+          "source": "cancer-breakthroughs event fda-talazoparib-enzalutamide-hrr-prostate-2026-10-26"
+        }
+      ]
+    },
+    "id": "910bc7ca-7407-434a-88e9-b648d27ce481",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "auto_approved"
+  },
+  {
+    "type": "contested",
+    "voice": "analyst",
+    "tracker": "russian-fuel-crisis",
+    "lang": "en",
+    "text": "Russian refining damage, two readings. Ukraine's General Staff: 42.74% of capacity disabled (July 2026). IEA: losses \"more than 20%\" at peak; Reuters: national oil processing fell only 3–6%.",
+    "hashtags": [
+      "#Russia",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/russian-fuel-crisis/?utm_source=x&utm_medium=contested&utm_campaign=2026-11-06",
+    "image": null,
+    "memegenUrl": null,
+    "publishAt": "2026-11-07T05:58:00Z",
+    "estimatedCost": 0.01,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.72,
+      "verdict": "REVIEW",
+      "comment": "Presents both sides with attribution, no adjudication. The IEA and Reuters figures have no as-of date in the tracker data, so a human should confirm dates before posting.",
+      "factChecks": [
+        {
+          "claim": "Ukraine's General Staff put disabled capacity at 42.74% in July 2026",
+          "status": "verified",
+          "source": "russian-fuel-crisis unresolved dispute"
+        },
+        {
+          "claim": "IEA said losses were more than 20% at peak",
+          "status": "warning",
+          "source": "russian-fuel-crisis unresolved dispute; as-of date not given"
+        },
+        {
+          "claim": "Reuters reported national oil processing fell only 3–6%",
+          "status": "warning",
+          "source": "russian-fuel-crisis unresolved dispute; as-of date not given"
+        }
+      ]
+    },
+    "id": "29217b9d-f438-493f-9053-db9937f129c9",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
+  }
+]
