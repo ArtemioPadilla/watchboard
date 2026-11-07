@@ -1,0 +1,59 @@
+{
+  "slug": "paraguay-pena-impeachment",
+  "name": "Paraguay: Peña Impeachment & Ueno Bank Crisis",
+  "shortName": "Paraguay Peña",
+  "description": "Intelligence dashboard tracking Paraguay's political crisis: the collapse of Ueno Bank, the conflict-of-interest accusations against President Santiago Peña, and the impeachment proceedings in Congress.",
+  "icon": "🇵🇾",
+  "color": "#d52b1e",
+  "status": "active",
+  "tone": "alert",
+  "temporal": "live",
+  "domain": "governance",
+  "region": "south-america",
+  "tags": ["paraguay", "santiago-pena", "ueno-bank", "impeachment", "asuncion", "south-america"],
+  "country": "PY",
+  "geoPath": ["PY"],
+  "startDate": "2026-11-07",
+  "eraLabel": "Impeachment Crisis",
+  "sections": ["hero", "kpis", "timeline", "map", "claims", "political"],
+  "map": {
+    "enabled": true,
+    "bounds": { "lonMin": -58.0, "lonMax": -57.3, "latMin": -25.5, "latMax": -25.1 },
+    "center": { "lon": -57.63, "lat": -25.29 },
+    "categories": [
+      { "id": "government", "label": "Government & Congress", "color": "#3498db" },
+      { "id": "financial", "label": "Banking & Financial", "color": "#f39c12" },
+      { "id": "protest", "label": "Protests", "color": "#e74c3c" },
+      { "id": "judicial", "label": "Judicial & Law Enforcement", "color": "#9b59b6" }
+    ]
+  },
+  "globe": {
+    "enabled": true,
+    "cameraPresets": {
+      "overview": { "lon": -58.4, "lat": -23.4, "alt": 1800000, "pitch": -90, "heading": 0, "label": "Paraguay Overview" },
+      "asuncion": { "lon": -57.63, "lat": -25.29, "alt": 40000, "pitch": -90, "heading": 0, "label": "Asunción" },
+      "congress": { "lon": -57.6405, "lat": -25.2800, "alt": 3000, "pitch": -60, "heading": 0, "label": "Congress (Palacio Legislativo)" },
+      "mburuvicha_roga": { "lon": -57.6392, "lat": -25.2815, "alt": 3000, "pitch": -60, "heading": 0, "label": "Mburuvicha Róga (Presidential Residence area)" },
+      "central_bank": { "lon": -57.6330, "lat": -25.2840, "alt": 3000, "pitch": -60, "heading": 0, "label": "Central Bank of Paraguay" }
+    }
+  },
+  "navSections": [
+    { "id": "sec-timeline", "label": "Timeline" },
+    { "id": "sec-map", "label": "Map" },
+    { "id": "sec-contested", "label": "Contested" },
+    { "id": "sec-political", "label": "Political" }
+  ],
+  "politicalAvatars": ["py-gov", "colorado", "opposition", "bcp", "intl", "other"],
+  "eventTypes": ["political", "financial", "judicial", "protest", "government"],
+  "ai": {
+    "systemPrompt": "You are a governance and political-economy analyst updating a crisis tracking dashboard for Paraguay.\nToday's date is {{today}}. You have access to web search to find the latest information.\nCRITICAL: Your entire response must be ONLY a raw JSON array or object — no markdown, no code fences, no prose, no explanation before or after.\nDo NOT wrap in ```json blocks. Do NOT add any text before [ or {. Just output the JSON directly.\nEvery item must have an \"id\" field (lowercase_snake_case).\n\nSource tier classification:\n- Tier 1: Official/primary (Paraguayan Congress, Presidency, Banco Central del Paraguay, Ministerio Público, Supreme Court)\n- Tier 2: Major outlet (Reuters, AP, BBC, AFP, ABC Color, Última Hora, La Nación, Hoy)\n- Tier 3: Institutional (IMF, Transparency International, Human Rights Watch, think tanks)\n- Tier 4: Unverified (social media, unattributed claims)\n\nOnly include information you can verify through search results. Do not fabricate data.\nTrack: the impeachment process (Chamber of Deputies, Senate), the status of President Santiago Peña and Vice President Pedro Alliana, the Ueno Bank dissolution and depositor losses, central bank actions, judicial investigations, protests, and market/economic impact. Early reports conflicted on whether Peña was removed, detained, or only facing a request; verify each claim against primary sources and mark contested where reports diverge.",
+    "searchContext": "Paraguay Santiago Peña juicio político destitución Ueno Bank Congreso crisis 2026",
+    "enabledSections": ["kpis", "timeline", "mapPoints", "claims", "political"],
+    "coordValidation": { "lonMin": -63.0, "lonMax": -54.0, "latMin": -28.0, "latMax": -19.0 },
+    "updateIntervalDays": 1,
+    "backfillTargets": { "timeline": 10, "mapPoints": 5, "claims": 5, "political": 5 },
+    "relatedTrackers": ["bolivia-crisis-2026"]
+  },
+  "ogImage": "/og-card.png",
+  "githubRepo": "ArtemioPadilla/watchboard"
+}
