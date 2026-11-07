@@ -1,0 +1,141 @@
+[
+  {
+    "type": "breaking",
+    "voice": "analyst",
+    "tracker": "hormuz-food-security-crisis",
+    "lang": "en",
+    "text": "Brent crude closed back above $100/bbl on Nov 6 after new tanker incidents near Hormuz, yet it is still down about 12% on the week from ~$118. Iran's IRGC claims of burning tankers and a mine strike are unconfirmed.",
+    "hashtags": [
+      "#Hormuz",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/hormuz-food-security-crisis/events/2026-11-06-brent-back-above-100-tanker-incidents-2026-11-06?utm_source=x&utm_medium=breaking&utm_campaign=2026-11-07",
+    "image": "https://watchboard.dev/og/hormuz-food-security-crisis/2026-11-06-brent-back-above-100-tanker-incidents-2026-11-06.png",
+    "memegenUrl": null,
+    "publishAt": "2026-11-08T00:56:00Z",
+    "estimatedCost": 0.02,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.8,
+      "verdict": "REVIEW",
+      "comment": "Figures match the tracker. The tracker data says Brent was ~$100 on Nov 6 (intraday), not a confirmed close, so the wording should be checked.",
+      "factChecks": [
+        {
+          "claim": "Brent back above $100/bbl on Nov 6",
+          "status": "verified",
+          "source": "hormuz-food-security-crisis KPI: Brent Crude (intraday $100.04-$100.75)"
+        },
+        {
+          "claim": "Down ~12% on the week from ~$118",
+          "status": "verified",
+          "source": "hormuz-food-security-crisis KPI and digest"
+        },
+        {
+          "claim": "IRGC claims unconfirmed",
+          "status": "verified",
+          "source": "hormuz-food-security-crisis digest"
+        },
+        {
+          "claim": "closed back above $100",
+          "status": "warning",
+          "source": "Tracker records intraday prices only; 'closed' is not supported"
+        }
+      ]
+    },
+    "id": "b0f25302-9c73-4469-9e1f-742658db06dd",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
+  },
+  {
+    "type": "contested",
+    "voice": "analyst",
+    "tracker": "us-measles-resurgence",
+    "lang": "en",
+    "text": "US measles deaths in 2026: the CDC tally shows 4. State health departments count 8. Pennsylvania alone reports 6 measles-associated deaths. Cases stand at 5,182 per the CDC's Nov 6 update, up 330 in a week.",
+    "hashtags": [
+      "#Measles",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/us-measles-resurgence/?utm_source=x&utm_medium=contested&utm_campaign=2026-11-07",
+    "image": null,
+    "memegenUrl": null,
+    "publishAt": "2026-11-08T06:56:00Z",
+    "estimatedCost": 0.01,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.84,
+      "verdict": "REVIEW",
+      "comment": "Both counts are attributed and come from the tracker KPIs. Contested tweets are never auto-approved.",
+      "factChecks": [
+        {
+          "claim": "CDC counts 4 deaths in 2026",
+          "status": "verified",
+          "source": "us-measles-resurgence KPI: Confirmed measles deaths"
+        },
+        {
+          "claim": "States count 8 deaths in 2026",
+          "status": "verified",
+          "source": "us-measles-resurgence KPI and digest"
+        },
+        {
+          "claim": "Pennsylvania reports 6 measles-associated deaths",
+          "status": "verified",
+          "source": "us-measles-resurgence KPI / event pa-sixth-measles-death-nov4"
+        },
+        {
+          "claim": "5,182 cases, up 330 in a week (CDC Nov 6)",
+          "status": "verified",
+          "source": "us-measles-resurgence digest and event cdc-weekly-update-nov6-5182"
+        }
+      ]
+    },
+    "id": "fe5583bb-9631-4850-914a-a7697a2a2e8e",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
+  },
+  {
+    "type": "breaking",
+    "voice": "analyst",
+    "tracker": "paraguay-pena-impeachment",
+    "lang": "es",
+    "text": "El Congreso de Paraguay destituyó al presidente Santiago Peña en un juicio político ligado a la crisis del Banco Ueno. La votación de destitución en el Senado fue 44–0. Unos 3 millones de clientes de Ueno siguen sin acceso a sus cuentas.",
+    "hashtags": [
+      "#Paraguay",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/paraguay-pena-impeachment/events/2026-11-07-py-pena-impeached-ueno-nov07?utm_source=x&utm_medium=breaking&utm_campaign=2026-11-07",
+    "image": "https://watchboard.dev/og/paraguay-pena-impeachment/2026-11-07-py-pena-impeached-ueno-nov07.png",
+    "memegenUrl": null,
+    "publishAt": "2026-11-08T03:56:00Z",
+    "estimatedCost": 0.02,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.86,
+      "verdict": "PUBLISH",
+      "comment": "Spanish version of the English breaking tweet, with the same verified figures.",
+      "factChecks": [
+        {
+          "claim": "Congress removed President Peña",
+          "status": "verified",
+          "source": "paraguay-pena-impeachment event py-pena-impeached-ueno-nov07"
+        },
+        {
+          "claim": "Senate vote 44–0",
+          "status": "verified",
+          "source": "paraguay-pena-impeachment KPI: Senate removal vote"
+        },
+        {
+          "claim": "~3M Ueno clients locked out",
+          "status": "verified",
+          "source": "paraguay-pena-impeachment KPI: Ueno clients locked out"
+        }
+      ]
+    },
+    "id": "f5d31b55-f634-4904-8378-b38027091ccc",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "auto_approved"
+  }
+]

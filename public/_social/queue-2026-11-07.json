@@ -57,7 +57,7 @@
     "link": "https://watchboard.dev/russian-fuel-crisis/?utm_source=x&utm_medium=contested&utm_campaign=2026-11-06",
     "image": null,
     "memegenUrl": null,
-    "publishAt": "2026-11-07T05:58:00Z",
+    "publishAt": "2026-11-07T18:56:00Z",
     "estimatedCost": 0.01,
     "threadTweets": null,
     "judge": {
@@ -83,6 +83,92 @@
       ]
     },
     "id": "29217b9d-f438-493f-9053-db9937f129c9",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
+  },
+  {
+    "type": "breaking",
+    "voice": "analyst",
+    "tracker": "paraguay-pena-impeachment",
+    "lang": "en",
+    "text": "Paraguay's Congress has removed President Santiago Peña in an impeachment tied to the Ueno Bank crisis. The Senate removal vote was 44–0. About 3M Ueno clients remain locked out of their accounts.",
+    "hashtags": [
+      "#Paraguay",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/paraguay-pena-impeachment/events/2026-11-07-py-pena-impeached-ueno-nov07?utm_source=x&utm_medium=breaking&utm_campaign=2026-11-07",
+    "image": "https://watchboard.dev/og/paraguay-pena-impeachment/2026-11-07-py-pena-impeached-ueno-nov07.png",
+    "memegenUrl": null,
+    "publishAt": "2026-11-07T21:56:00Z",
+    "estimatedCost": 0.02,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.88,
+      "verdict": "PUBLISH",
+      "comment": "Significant governance event, figures taken directly from tracker KPIs and event data.",
+      "factChecks": [
+        {
+          "claim": "Congress removed President Peña in impeachment after Ueno Bank crisis",
+          "status": "verified",
+          "source": "paraguay-pena-impeachment event py-pena-impeached-ueno-nov07 (2026-11-07)"
+        },
+        {
+          "claim": "Senate removal vote 44–0",
+          "status": "verified",
+          "source": "paraguay-pena-impeachment KPI: Senate removal vote"
+        },
+        {
+          "claim": "~3M Ueno clients locked out",
+          "status": "verified",
+          "source": "paraguay-pena-impeachment KPI: Ueno clients locked out"
+        }
+      ]
+    },
+    "id": "ce363cc3-6641-455d-8e40-cdea4aeb4ec5",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "auto_approved"
+  },
+  {
+    "type": "contested",
+    "voice": "analyst",
+    "tracker": "lebanon-war-2026",
+    "lang": "en",
+    "text": "How many Hezbollah fighters have been killed in Lebanon? Israel/IDF estimates put it at 1,700–2,500. Hezbollah sources say 1,000+. The Lebanese health ministry counts 4,386 dead since 2 Mar and gives no combatant split.",
+    "hashtags": [
+      "#Lebanon",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/lebanon-war-2026/?utm_source=x&utm_medium=contested&utm_campaign=2026-11-07",
+    "image": null,
+    "memegenUrl": null,
+    "publishAt": "2026-11-07T22:00:00Z",
+    "estimatedCost": 0.01,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.83,
+      "verdict": "REVIEW",
+      "comment": "Both sides attributed and not adjudicated. The tracker notes Hezbollah publishes no totals, so its figure comes from 'sources'.",
+      "factChecks": [
+        {
+          "claim": "Israel/IDF estimates 1,700–2,500 Hezbollah killed",
+          "status": "verified",
+          "source": "lebanon-war-2026 disputed figures: Hezbollah fighters"
+        },
+        {
+          "claim": "Hezbollah sources say 1,000+",
+          "status": "verified",
+          "source": "lebanon-war-2026 disputed figures: Hezbollah fighters"
+        },
+        {
+          "claim": "Lebanese ministry total 4,386 since 2 Mar, no combatant split",
+          "status": "verified",
+          "source": "lebanon-war-2026 KPI and disputed figures"
+        }
+      ]
+    },
+    "id": "621fd636-584d-46a5-94b7-e74d2a725924",
     "tweetId": null,
     "postedAt": null,
     "status": "pending_review"
