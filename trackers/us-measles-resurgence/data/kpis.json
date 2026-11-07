@@ -2,20 +2,20 @@
   {
     "id": "kpi-2026-national-cases",
     "label": "2026 confirmed measles cases (US)",
-    "value": "4,588",
+    "value": "5,182",
     "color": "red",
-    "source": "CDC national measles dashboard via Contagion Live, Oct 23, 2026 update (data through Oct 22)",
+    "source": "CDC national measles dashboard via Contagion Live and CIDRAP, Nov 6, 2026 update (data through Nov 5)",
     "contested": true,
     "contestNote": "CDC publishes only lab-confirmed cases as of a weekly cutoff; state dashboards and independent trackers often run higher.",
-    "delta": "+178",
-    "deltaNote": "vs 4,410 in the prior update; 4.0% weekly rise",
+    "delta": "+330",
+    "deltaNote": "vs 4,852 in the prior update; 6.8% weekly rise",
     "deltaDetail": {
-      "value": 178,
+      "value": 330,
       "direction": "up",
       "period": "7d"
     },
     "trend": "up",
-    "lastUpdated": "2026-10-31T18:26:59.717Z"
+    "lastUpdated": "2026-11-07T18:36:52.000Z"
   },
   {
     "id": "kpi-2025-national-cases",
@@ -32,38 +32,38 @@
     "label": "Jurisdictions with 2026 cases",
     "value": "47",
     "color": "amber",
-    "source": "CDC measles case count dashboard, Oct 23, 2026 update",
+    "source": "CDC measles case count dashboard, Nov 6, 2026 update",
     "contested": false,
     "trend": "stable",
-    "lastUpdated": "2026-10-31T18:26:59.717Z"
+    "lastUpdated": "2026-11-07T18:36:52.000Z"
   },
   {
     "id": "kpi-outbreak-associated-share",
     "label": "Cases outbreak-associated (2026)",
     "value": "96%",
     "color": "red",
-    "source": "CDC via Contagion Live, Oct 23, 2026 (data through Oct 22) (4,404 of 4,588)",
+    "source": "CDC via Contagion Live, Nov 6, 2026 (data through Nov 5) (4,993 of 5,182)",
     "contested": false,
     "trend": "stable",
-    "lastUpdated": "2026-10-31T18:26:59.717Z"
+    "lastUpdated": "2026-11-07T18:36:52.000Z"
   },
   {
     "id": "kpi-deaths-total",
     "label": "Confirmed measles deaths",
-    "value": "PA: 5 measles-associated / 4 (coroner) / 3 (CDC federal tally)",
+    "value": "CDC: 4 (2026) \u00b7 States: 8 (2026) \u00b7 PA: 6 measles-associated",
     "color": "red",
     "source": "CDC / Texas DSHS / New Mexico DOH / Pennsylvania DOH / Lancaster County Coroner \u2014 2 children (TX) + 1 adult (NM) in 2025, all unvaccinated; Pennsylvania reports 5 measles-associated deaths as of Oct 1, 2026",
     "contested": true,
     "contestNote": "Pennsylvania uses a broad 'measles-associated' classification (positive test regardless of immediate cause). Lancaster County Coroner ruled Sept 9 only 1 of the first 2 PA deaths was directly caused by measles. CDC's federal tally excludes the PA infants per HHS Secretary Kennedy's direction.",
-    "delta": "+1 PA death",
-    "deltaNote": "Pennsylvania reported its 5th measles-associated death as of Oct 1, 2026, a new mortality milestone in the outbreak",
+    "delta": "+3 deaths in one week",
+    "deltaNote": "Pennsylvania (6th), New York and Wisconsin deaths reported Nov 3-4; CDC has confirmed 4 vs 8 counted by states",
     "deltaDetail": {
-      "value": 1,
+      "value": 3,
       "direction": "up",
-      "period": "recent"
+      "period": "7d"
     },
     "trend": "up",
-    "lastUpdated": "2026-10-01T01:59:36Z"
+    "lastUpdated": "2026-11-07T18:36:52.000Z"
   },
   {
     "id": "kpi-mmr-kindergarten-coverage",
@@ -92,13 +92,13 @@
   {
     "id": "kpi-hospitalization-rate-2026",
     "label": "2026 hospitalization rate",
-    "value": "10%",
+    "value": "11%",
     "color": "blue",
-    "source": "CDC via Contagion Live, Oct 16, 2026 (data through Oct 15) (451 of 4,410)",
+    "source": "CIDRAP, Nov 6, 2026 (CDC data)",
     "contested": false,
     "delta": "+2pp",
     "deltaNote": "vs 8% in September; 37 more hospitalizations than the prior week",
     "trend": "up",
-    "lastUpdated": "2026-10-24T17:18:52.883Z"
+    "lastUpdated": "2026-11-07T18:36:52.000Z"
   }
 ]
