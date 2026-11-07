@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "lastPruned": "2026-11-07T06:45:44.070Z",
+  "lastPruned": "2026-11-07T13:41:55.974Z",
   "entries": [
     {
       "timestamp": "2026-10-26T02:43:40.495Z",
@@ -72125,6 +72125,714 @@
       "decision": "update",
       "reason": "light-scan posted directly + queued for heavy scan (score 0.95)",
       "confidence": 0.95,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-07T13:41:54.312Z",
+      "candidate": {
+        "title": "With Stephen Miller pick, Trump readies for a battle",
+        "url": "https://www.bbc.co.uk/news/articles/crp3gg2z171go?at_medium=RSS&at_campaign=rss",
+        "source": "bbc",
+        "timestamp": "2026-11-07T13:41:51.693Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.02)",
+      "confidence": 0.02375,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-07T13:41:54.314Z",
+      "candidate": {
+        "title": "Ukraine's power network suffers further damage after fresh Russian strikes",
+        "url": "https://www.bbc.co.uk/news/articles/cm4g1nq8158po?at_medium=RSS&at_campaign=rss",
+        "source": "bbc",
+        "timestamp": "2026-11-07T13:41:51.693Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 48.4,
+          "lon": 31.2,
+          "place": "Ukraine",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched russia on a single token — no substance (score 0.34)",
+      "confidence": 0.34041666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-07T13:41:54.316Z",
+      "candidate": {
+        "title": "Pope in 'pretty good health' as he starts Latin America tour",
+        "url": "https://www.bbc.co.uk/news/articles/c60e0001ve9wo?at_medium=RSS&at_campaign=rss",
+        "source": "bbc",
+        "timestamp": "2026-11-07T13:41:51.693Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched pope-leo-health-crisis on a single token — no substance (score 0.34)",
+      "confidence": 0.34041666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-07T13:41:54.317Z",
+      "candidate": {
+        "title": "Was an Italian chef really fired over refusal to put pineapple on pizza?",
+        "url": "https://www.bbc.co.uk/news/videos/cmvg9yy8wpweo?at_medium=RSS&at_campaign=rss",
+        "source": "bbc",
+        "timestamp": "2026-11-07T13:41:51.693Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-07T13:41:54.318Z",
+      "candidate": {
+        "title": "Spate of bomb threats poses serious challenge to airline industry",
+        "url": "https://www.bbc.co.uk/news/articles/cv8ezz9yn6pyo?at_medium=RSS&at_campaign=rss",
+        "source": "bbc",
+        "timestamp": "2026-11-07T13:41:51.693Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched world-war-2 on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-07T13:41:54.320Z",
+      "candidate": {
+        "title": "‘Very strange, very sad’: Paraguay bank collapse fells a presidency and leaves millions broke - The Guardian",
+        "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxNTGlSX0xrVkR2ZW95c0pKZWphcUlZWERuVHFVVEIzUC1kS3FsT282ekRfaldET051WTQ0NmZPbnZjeUprd2p5bXFoSHNjT3NyQjhhYlRGOElFR0dDVWVWVnBTQUtfdjBmQmg4TzN4ekhsaEp0emRhWTR2QzJuNWNmenJjQzZpX2dDdzE5X0NtVDM?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-11-07T13:41:51.757Z",
+        "matchedTracker": "paraguay-pena-impeachment",
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": -25.2637,
+          "lon": -57.6359,
+          "place": "Paraguay",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.63)",
+      "confidence": 0.6333333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-07T13:41:54.321Z",
+      "candidate": {
+        "title": "Multiple top officials exit DOJ after Dems’ midterm wave - Politico",
+        "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQcDJteFBxTFh6d1FOVFctUlczTEE5dFdLTGhEZHlXaXd3aDZLUVdlRkRKd054T3RUZExoUFhZdnNMZVpRWUFndEtSS3FJRF9mNmxQRzBIOThadEtXd3Vza1VZbGktWkhtZXRqWnJWNGJqTUJyY18xaWpIWmFWYVJQSUQ4a2pUOGZkbjdBM2Fn?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-11-07T13:41:51.757Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-07T13:41:54.322Z",
+      "candidate": {
+        "title": "Blanche Ousts National Security Head After Media Leaks Clash (1) - Bloomberg Law News",
+        "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxNVjlzdDBHTnVHOTZBZE9za3hjT3dscVhkc1A1SVp0SDRORlZFR1g4S2dsY1Z6LXVPMVFjbDUwZ1U1S002OUJPRlhVN2ZrUW5RSTg3RGItTlNIRVc1SXJYNUd0Q3F2dFl5aHJjQXVWSlBiSnl2ZXV5Ym5wNFVncWlWQ19QV25MLUV0bGtWZlE5ZU40QnVWRXJWSFAtenFiTERMc0tmSmU3dw?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-11-07T13:41:51.757Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched hungary-transition on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-07T13:41:54.994Z",
+      "candidate": {
+        "title": "After cancer surgery, Pope Leo embarks on Latin America trip - NPR",
+        "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE5IdE14VTFIclJJSk50OWlhX08ySEt2c1BfYjhvOVlvNlJnSHJPLXBKa2RsTHpoVy14NWRXS1FRd2xFRmhoM2M4MFhSOGdFMEtKc3hXQnQ0OHd4M2VDY3ZrX3VRVDVQQVFpd3N0M010Ymp2ZVpCSHMycDlhVEI?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-11-07T13:41:51.757Z",
+        "matchedTracker": "pope-leo-health-crisis",
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "update",
+      "reason": "light-scan posted directly + queued for heavy scan (score 0.95)",
+      "confidence": 0.95,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-07T13:41:54.995Z",
+      "candidate": {
+        "title": "Houston mayor curtails police cooperation with ICE, saying 'elections matter' - Reuters",
+        "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxQaFdFOGx1X2lGTl8yX1h5NmxRbmJ0VElULWdnVHNZQmlVYTFtRjRqR3NyUzJuLVlkRjJZMU9iMm9sRmU0VW9xSFdwd21meTRDWXc5bHJFYjZaYWZkX05BNWR3WmJlaElTLU5oS0duNTduZU02b0dtdm9tUWZleXBFY0c0OHNncTlvQWFJdDNDWmdxaE9HZUtKNnJoV3ctTVlhRlNUSVhWdlJ2X01uQ21TVjBQNE5iaWtzWnVrZExPMFVzMW5kSnc?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-11-07T13:41:51.757Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched cdmx on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-07T13:41:54.995Z",
+      "candidate": {
+        "title": "He took her flying when she was 12. Now the father is mourning the copilot killed in the Florida Learjet crash - CNN",
+        "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxPTDZTcFlWYjRHbmdpU2lwcmJtMXF6MDJwM3RuazZwY1FEUE5nQ2FHN3lPNWktXzdONG9Ud29qa0tuRnlYaXpxbDdVZ2paMGlDZUhyV0FUaFRMU1l5ekJscTFSWm5NVXo3NklXTlhqbVB6SjBROHA1dDVkVXAzaFNpR1h3cmZQQ3BtbWc?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-11-07T13:41:51.757Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 27.77,
+          "lon": -81.69,
+          "place": "Florida",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-07T13:41:54.996Z",
+      "candidate": {
+        "title": "Gina Hinojosa vows to fire TEA chief, reshaping Texas schools - USA Today",
+        "url": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxORktsY1F5dnhFdEc5Q3hMWDIxYTFkSWgxU3VoVHR2T1MwUldISktBSFJfMlZrRkZPZWMydVFPVnotYXRMTG92NFRITjFoMC1Lc1dqVjRUdDlIMDlOMDkya0x0RXZSOWtXWXNxbnhzdExBdUR4bU9Fc191bDJVT1JHWF9ucWpBS3RrZ3JwU3AwM0k0ZWVoTm5tRkZtOXJEX1p3RU81MzRuclBEZXVhbFh6NDRCaGtlNUh1MUF5V1ZJS0FORjNhdG10UFBlLXlzZHFl?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-11-07T13:41:51.757Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 31.4,
+          "lon": -99.9,
+          "place": "Texas",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched world-cup-2026 on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-07T13:41:54.997Z",
+      "candidate": {
+        "title": "Conservative bloc takes a slim lead in New Zealand election that’s still too close to call - AP News",
+        "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxQYVZ6SS13ZlhVYVFPcXFkeXljMDY3M1dXTWNfZHVGb3Y4NXU4ZWw3SU5HSXRlMkRJNVUzcWVxRXhOZUVmeTNHblM3Wnd3MzYyNExaMWNKTXgxWWowb0VmTVFwT05CajhMV0d5ZGE5ZGtSV3ZZdXlidUc4dFpveG9XQnBldFQ2c2syWHY5MXZWaUd5Q0VHRmlmM3ZiYmVtTjlUUkJXR3hLckRpcjhCUFE?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-11-07T13:41:51.757Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched brics on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-07T13:41:54.997Z",
+      "candidate": {
+        "title": "Victims in rape cases must not feel like they are on trial, Burnham says - BBC",
+        "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE00RHI0dk9QYkRFSUFodWhpODUxbk5tc2tMRk8wM1A1NDVmaXpXTzl6TXR0alQxVEVnVkNZYS04enZKUVpFdEdtZkp5UnpPX09aYXczbE9yZnJNNlk?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-11-07T13:41:51.757Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched mh17-shootdown on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-07T13:41:54.998Z",
+      "candidate": {
+        "title": "Inside the Operation That Helped Ukraine Reverse Some Russian War Gains - The New York Times",
+        "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxNdlU5ZjdTamhLa1pJSHRwQlk2RDJ6TzJmOW1QN1VFR08xcDg2eDllcmlSbFhUZzZIcjVUdXpicWN3RjJmaUpZaUtwNFlmZ3RiQlpFbXUtZEM0eWx6N2xGS3R0Zzd0UV9KWGhKS3RTVHlrNGtsWkdhSmZLd09UWGFWMjZXbHB4RWt4WUtRazRPTEphRk0?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-11-07T13:41:51.757Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 48.4,
+          "lon": 31.2,
+          "place": "Ukraine",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched chile-allende-pinochet on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-07T13:41:55.630Z",
+      "candidate": {
+        "title": "Elon Musk opens the door for a big SpaceX acquisition - MarketWatch",
+        "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxPTE9Sc3VRajM0c3ktNUViLWFNVndCQWNNRldQRTNma3I1WDF2emFvcjRJNlNNTldwVFRua3pVa0F0YjM4MFZGeFhDN3o4aG5mdW1rbVRZTGotaWtRNTN2TE1QWWxXeExrY2pJcVFjRFZHeU40MENlRmcxZ1ZORzNBQWtMRGZKUDk4MklQdDJ4TkJOdWg2eHFyWW1jV0w?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-11-07T13:41:51.757Z",
+        "matchedTracker": "spacex-history",
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "update",
+      "reason": "light-scan posted directly + queued for heavy scan (score 0.95)",
+      "confidence": 0.95,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-07T13:41:55.631Z",
+      "candidate": {
+        "title": "The Pokémon TCG: Mega Evolution—Delta Reign Expansion Is Available Now - Pokemon.com",
+        "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxQOTBaUW5STWYzd1dzMzkySDFpRXRtT0wyVEdoNndOamxnejhwcGM2Tnpxc3VxMEdSQkwzLTB4aWlrNXk3ajRvNWdhVktXRHFaa0h1S195VzdIdV9xUlpLSlpIQ2Nsb0FlUmJNM1c4R09nWWFsLXVPWEFRU21KN2F4ejZ1NVVtbFpIamZudXEyVW9qb013V3Q1YVJJTkVuakRnWVlR?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-11-07T13:41:51.757Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched brics on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-07T13:41:55.633Z",
+      "candidate": {
+        "title": "YouTube is giving its Android navigation bar a Liquid Glass-y makeover - Android Authority",
+        "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxPTnJnbDBRS0tyaDhBYmlnbFdrc1pIekFQcWpLcnRmNzcwZ21HMXdCeTVvTkxacFFzRG9Lc0dIMnJSUnZMLTVPNUZZNkNtYnhBTDdBcXdKQmhtMXp6MVZaUllOUmptNFYwbTJkRWdrZjRiUDFITTNiaEdfalA1RGg4MEVrR25OQlo5M3dvLTVYaTk2TGZDTWRidjFn?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-11-07T13:41:51.757Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-07T13:41:55.634Z",
+      "candidate": {
+        "title": "Horoscope for Saturday, November 07, 2026 - Chicago Sun-Times",
+        "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxOamJfLUxTSkF2N2l5eHVOZUlhOXNXWGhQZzVlV2Z1bUE2cTFzckpnaWYyMHV3U3ozNVhuNXBCc1EwbDVGTm5JMkEtVTZnRnQ1Z1dzdkowUkttS2lwNy12X2toREx6Rmp3SUVqNVNfY1l5cDA4TjVCMlhWdEppdXJsbTJFam50dnc0ZW02WTIwVjJsZGRqajZ5NA?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-11-07T13:41:51.757Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 41.8781,
+          "lon": -87.6298,
+          "place": "Chicago",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-07T13:41:55.635Z",
+      "candidate": {
+        "title": "Robert Pattinson and Nicholas Hoult, Who Previously Vied for the Role of The Batman, Now Up for James Bond 26 - IGN",
+        "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxQd2k5eUx6YkRJeEhNWEVmOTFielpLY0tWbDRoZ0Z3RWdwbm9QaHAtZlhvX3pNQldRMWpBYWt6aTlqcTltbVFCSUphcjNfalVtUUtWRzAxRmtCM1drc1pzWHFaLXJhcEo4c1F3NUtEczk0NFNPWnBDY013NWpZMmJEZlMwQmlFUzhiUFpnYg?oc=5",
+        "source": "google-news-en",
+        "timestamp": "2026-11-07T13:41:51.757Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched covid-pandemic on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-07T13:41:55.935Z",
+      "candidate": {
+        "title": "Detienen a Santiago Peña tras su destitución; Alliana asume como presidente en Paraguay - La Jornada",
+        "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxPUm1FVTA5U2VKWGhqWktzbURJSkRzVV9WNmtBVkZ1UW55Z0thbzl0R3VrSU1ISjFXd3NsbER0Y3hwdkpnMGw0VjJmaUFlaTlBTDg5eXJVRWhPN050UjhudVQ1cmdXRV8zcmZ2QXhFbjRHNjhhMnlNUHlDemRMSGRmYzFoc00zQWI1YXNFMDZ4cWlLaFk0cGY2NGRPcVRiRDBMekEwcnREU0hZZHdJWElBazlOZGZ4SFpIQUtj?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-11-07T13:41:51.783Z",
+        "matchedTracker": "paraguay-pena-impeachment",
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": -25.2637,
+          "lon": -57.6359,
+          "place": "Paraguay",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "update",
+      "reason": "light-scan posted directly + queued for heavy scan (score 0.95)",
+      "confidence": 0.95,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-07T13:41:55.936Z",
+      "candidate": {
+        "title": "Trump nombra a Stephen Miller, el \"arquitecto\" de su dura política migratoria, como nuevo jefe de gabinete de la Casa Blanca - BBC",
+        "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFByOHVDenIwUnNhMEVabmRJa25mWXk2RHM1VWF4LWRyZXkxRzdVbjlDcTNLWk9teGNnN2V5MzY1Zk1qNDU5bFZpS2RTT2ZOdUJnODhpaWc4ZjY0Yks20gFiQVVfeXFMTUMwbjNsWGZ6TlYtaFVhM09NS1E1SXRKc3Q2cFd5NWdXX1ZRejRwQVhmZWdSdmFlXy1ZbXdpd3J4c1N4QjhoZzNfa0Q1U1BvR01jWnhQTFpMYWZlRFV2NGJEMkE?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-11-07T13:41:51.783Z",
+        "matchedTracker": "pena-nieto-presidency",
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 19.4269,
+          "lon": -99.2081,
+          "place": "Casa Blanca",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.63)",
+      "confidence": 0.6333333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-07T13:41:55.937Z",
+      "candidate": {
+        "title": "La mayoría demócrata en la Cámara de Representantes se encamina a convertirse en histórica - CNN en Español",
+        "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxNVlZTai00bU9xUzRpU09yR2NBZ3UxUENvbjNfS0NIU3dLZk9fMzRKVGp4bVBpUmNfQXFfZEVFa3Y3WTVfQkVKeHhjcFZTVFJsUkR5M0xWNGJ3c0k0c3JoYllPSUNBOWNkTWxyOHdWakFjR2I1SzY3TmstRGdVdU1JUThsZWc1YzNQUzRRcHpiNjNrbGN5NHBMWjBrOVlhdw?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-11-07T13:41:51.783Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-07T13:41:55.938Z",
+      "candidate": {
+        "title": "EU aprueba venta de 1.075 mdd en helicópteros Blackhawk a México: ¿Qué otro armamento compró? - El Financiero",
+        "url": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxOTU1rYjd5RWQ1Y0t5NklVMFF2R1IzNUk0RFVOdFp0NlZiS0lsOWFxdWwxb0ZYeVd5REtnM1pXcUlNUFlvNmNIV1ZWejBNVUZQQjZWV09oNm85MFNZdWxYZE4xTHNpclJTR2E5QmJzbnFUNmNlWGVTVWhPT2Y0NW96YjZTanlPaGR4RkpiVDJEeC1LbnpuSk5vYUxPbWlWeU1XMXUxb1ZWYXdlTXpURmVDU3p6aWJwU2U2ZDh3RWlrdFRvU1dQamF1QW1YZjNBUnp4VlB6ckpaajB1dw?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-11-07T13:41:51.783Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 23.6,
+          "lon": -102.6,
+          "place": "Mexico",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched cdmx on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-07T13:41:55.940Z",
+      "candidate": {
+        "title": "Ley de Economía Digital: 7 movimientos financieros que puedes hacer desde hoy - El Economista",
+        "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxQdHFDZlNpTEh5dmRZZkExYnNLQmF1a0NCNktESXNhcTVBc3Y3My14Vmd0cFVKYVpjUEtzS0NXMngyRG5JTFN5UnZfYzVrX1FfcnRDX2FIWUpMN3lUSUxrVnljcE9GbkdDWld1eEJfUjFlVWlwNUhqS1pPMzFxckhVZlNOYW90WTVJNVhfTWlLbU5fMHJScXMxMktsbEtrYXBSNEctTUo1ZUVkNFFBVE9ZRV82dkZNNzFGVUhWNzN3QmxkVGlkVWRkcNIBzgFBVV95cUxPY3hUTFVqa0tPNTJqQkFfT2pfU0tlUXZaUy0zZEJmV0FVbDMzOF9DbFRiZ2RsbXVoMjBCenhyeUp1NElhQk1WSE5JZWo0aDhwRGxuTGxKWjVNY21CU3hlQ2ZPWjhVc0xtWW5FejBaRFZzR0ptdTdJOEg5QmRJelg0Z0daR01PTmtwQ0JCRjQ1Q081VlFLZDNzbGQ0cUJyZmZrLWJKemlkMHd2Nkd0VjFtNmotTDRoaW1LXzFOT201SUFwS3NiSEdMQXRnVFdVZw?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-11-07T13:41:51.783Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched digital-inclusion on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-07T13:41:55.941Z",
+      "candidate": {
+        "title": "Detenido el guardia nacional señalado por el feminicidio de Cristian Ziboney en Sinaloa - EL PAÍS",
+        "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxQMnBrVmtJSDZPdVB6TXc5MFdyLVNhVnZHZUdCUklEMG9JeHdqNVRZQ2NCcklsenM0QTRmTmN4ZTRCeklvRHRSOHpVQ1BVeUpiVHlmVW51T1d6SXNnQ1ljdVdjZFFPQVNwQmRXU243SnVOQnBsVnpzVVlGckQwQ0pwVWYxUUJIeGtWZHhEYUNhZjNOZV9aWWRJdEtHR3hZS2NFSE8xcWN6TWQya09FZ0ZZRUpGdU1vNnY1eTRaTUh4WXZ0R1RhaS1yOA?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-11-07T13:41:51.783Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 24.81,
+          "lon": -107.39,
+          "place": "Sinaloa",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched culiacanazo on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-07T13:41:55.942Z",
+      "candidate": {
+        "title": "Estados Unidos: el turno del ofendido - La Jornada",
+        "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE5OU2xSMFctbkV1S1BDY3F3bGM0UWxNYl8wWWctQ1hSdnFjVmFucldVQUlBWlRCeGY0bVdwRzIyYkFpdjB5Y2piM24xZDlIVkZtRk05Q1I0Y3lQVHFtQndrd0xmbVpyUQ?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-11-07T13:41:51.783Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 39.8,
+          "lon": -98.6,
+          "place": "United States",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-07T13:41:55.943Z",
+      "candidate": {
+        "title": "Varios vuelos en Europa afectados en una nueva jornada de amenazas de bomba - DW.com",
+        "url": "https://news.google.com/rss/articles/CBMi9wFBVV95cUxOY1kxZklpbFZqNEUtRVkxc01DYlV3cW5iTlNmQ1hYQUpjRU9FZ1ZLSGxPYzk3LTJZUDlUdXdLcndHQkF3eHRsUkMxa0p0X21sV3c4enRMUzFZS05zUnBPendNMl9sRFZuZmdlM0pyTnBtN1BOa3JZSVJUVWt1OGpCT2NKUU92R1pJSG4wZTZlb3ZQZFhvcVFMNWJqbzJTZG1ud3I4YUE1OXlDeU13TlZGdW9hY3pZdDlyNDI5Sk9md245d3R2MEhSZVFhQUN1aElKNzVrYmtSby1OM0lFMkhRTml1M05sb0hwZzhIOEZST0J3MEdBNmRv0gH3AUFVX3lxTE5jZmlfVmdGbHVjUmxYQ3dyRnJkcDJVZzdhanRqZFVjcW1xdFBHcmM5clk4NGV0T0k1MkJ4TDVSREZRMzZYZmdXZG8yemt3emlvQXUySjRxdDB5a2xYWVFZRWp5MElQLUF0akRKNzc5d1lVV2l6dnBlM2dYNXlkMnJ1R3JTWEVROVhFSC1PSGpXcEdGNkx2b1FKNWsyeWl2YVJGU2ItNm9GSE1rWkZTMGdXUi1KZDVIWlctUkdybEtwUW1GT0VKR2xvWVMzMy1zUzJOdFo5YWxxOERqM2NzWFFLaXg3Qk50d1I0bFFnb05kR0VLS1lQYlE?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-11-07T13:41:51.783Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-07T13:41:55.945Z",
+      "candidate": {
+        "title": "¿Qué desencadenó la venta masiva de acciones por US$ 2,5 billones en Wall Street? - CNN en Español",
+        "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxPV0c4QnRWSVBVV25QQXZqOHRZd2FfMTFHUGg4clNPSEV0cFFTVTJyR1ZVcmhlczAzOVRKd2xIZ2pLNUJwdUJXTktYYmdadlFSeXdkYTNLU0lZd0FlMk5CZ2dLRnlKMGdvbi1pOGoxNmpDaTkwMGJwdjZZNWEySW1XTUJSdm1LT2VJM01qZjFn?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-11-07T13:41:51.783Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched reforestation on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-07T13:41:55.947Z",
+      "candidate": {
+        "title": "El telescopio Swift cae en Sumatra sin causar daños tras casi 22 años en el espacio - El Sol de México",
+        "url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxPQlVfTkkwdXdRVW1iWThtMnFMN0hJRTBOWkNFb0ptZWt5dlFoRGNlc0Nidk05WGpIcUE5R1F5RHNRY1ZDdmZjN1oxYmR4NUk3LXpsZE9IcGo2Y09vajR4RmxLa0JPblVGWjg5bzNCTUpMeVdTQ2wtLTltNjAtdHp1Q0pHcEhIdmd3S0VzSW84cDlVTkF0UXpXOEdVZ2pCcU50NDN2RUozOW1TUDRMZllvbWhMSjBmdEg1ckswRFkycEFtSGhjdE5WSkpnVldYTlJYdG9VWUlSdmw?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-11-07T13:41:51.783Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 23.6,
+          "lon": -102.6,
+          "place": "Mexico",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched cdmx on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-07T13:41:55.947Z",
+      "candidate": {
+        "title": "Elevan estrellas temperatura de los Heat Latin Music Awards - Reforma",
+        "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxOWDBwcHQwbXJybmNsZk1GbHJLYldlMmV0Q1FOT2gzeDBmb18ycXBYV2JKdnhPNWNWUjAxQmlYOFNjQ3ZvLV9GdGliTDE4amJBUWV3M2lBZE94MmotOE9iZF9GdW1QUWVCa1E1a1RkLWtnUTBmRzNBZkgxTDJVcmR0LWFXMG9ESzdzb2k1WU10VEdYMGlOSHpqRg?oc=5",
+        "source": "google-news-mx",
+        "timestamp": "2026-11-07T13:41:51.783Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched bad-bunny on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-07T13:41:55.947Z",
+      "candidate": {
+        "title": "Rabat like a local reut.rs/3WqSCnq",
+        "url": "https://bsky.app/profile/reuters.com/post/3mzpvuqgglm2b",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-11-07T12:35:06Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 34.0209,
+          "lon": -6.8498,
+          "place": "Rabat",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-07T13:41:55.948Z",
+      "candidate": {
+        "title": "Diwali is the most important festival of the year in India, particularly for Hindus, and widely marked by prayers, family gatherings and the lighting of fireworks.",
+        "url": "https://bsky.app/profile/apnews.com/post/3mzpxbo4ce42j",
+        "source": "bsky:apnews.com",
+        "timestamp": "2026-11-07T13:00:13Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 20.6,
+          "lon": 79,
+          "place": "India",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched india-youth-uprising on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-07T13:41:55.949Z",
+      "candidate": {
+        "title": "Zero Russian diesel has reached the US as tankers divert and buyers fear legal action.",
+        "url": "https://bsky.app/profile/aljazeera.com/post/3mzpyx2ja2b2r",
+        "source": "bsky:aljazeera.com",
+        "timestamp": "2026-11-07T13:30:05.108Z",
+        "matchedTracker": "russian-fuel-crisis",
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.63)",
+      "confidence": 0.6333333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-07T13:41:55.949Z",
+      "candidate": {
+        "title": "US strikes have continued on Iran after more ships in the Strait of Hormuz were attacked.",
+        "url": "https://bsky.app/profile/aljazeera.com/post/3mzpxbi46de2r",
+        "source": "bsky:aljazeera.com",
+        "timestamp": "2026-11-07T13:00:07.147Z",
+        "matchedTracker": "hormuz-food-security-crisis",
+        "feedOrigin": "bluesky",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 26.35,
+          "lon": 56.4,
+          "place": "Strait of Hormuz",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.63)",
+      "confidence": 0.6333333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-07T13:41:55.950Z",
+      "candidate": {
+        "title": "Dozens killed as humanitarian crisis mounts in Yemen: What next for war? https://aje.news/0ndnpu",
+        "url": "https://bsky.app/profile/aljazeera.com/post/3mzpvlt3b2c2b",
+        "source": "bsky:aljazeera.com",
+        "timestamp": "2026-11-07T12:30:07.028Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 15.6,
+          "lon": 48.5,
+          "place": "Yemen",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched saudi-arabia on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
       "model": null,
       "scanType": "light"
     }
