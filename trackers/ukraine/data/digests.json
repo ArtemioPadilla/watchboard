@@ -1,5 +1,19 @@
 [
   {
+    "date": "2026-11-08",
+    "title": "Ukraine Update — Nov 8, 2026",
+    "summary": "Added the Nov 3-4 attack of 310 drones (272 downed or jammed, 19 locations hit; three DTEK thermal plants stopped generating), following the Nov 2-3 energy strike. Overnight Nov 7-8 the Air Force reported 164 drones and three guided missiles, with 137 drones downed or jammed; figures are preliminary and single-outlet, so no event was filed yet.",
+    "sectionsUpdated": [
+      "events"
+    ],
+    "provenance": {
+      "method": "llm",
+      "model": "claude",
+      "generatedAt": "2026-11-08T18:53:09.000Z",
+      "pipeline": "update-data"
+    }
+  },
+  {
     "date": "2026-11-06",
     "title": "Ukraine Update — Nov 6, 2026",
     "summary": "Russia struck energy facilities in nine oblasts overnight Nov 2-3 with a reported 365 missiles and drones (Air Force: 309 downed or jammed). A further 128-drone and two-Kh-35 attack followed Nov 4-5, with 105 drones downed. Zelensky proposed an Istanbul summit with Trump and Putin on Nov 1, while Abu Dhabi technical talks are expected around Nov 10-11 but not confirmed. Figures come from single-outlet Air Force relays.",
@@ -27,6 +41,20 @@
     "provenance": {
       "method": "heuristic",
       "generatedAt": "2026-11-06T20:50:53.851Z",
+      "pipeline": "ensure-digests"
+    }
+  },
+  {
+    "date": "2026-11-04",
+    "title": "Ukraine History Tracker Update — Wed Nov 4, 2026",
+    "summary": "Overnight Nov 3-4 Russia attacked with 310 drones; the Air Force says 272 were downed or jammed, with hits recorded at 19 locations.",
+    "sectionsUpdated": [
+      "events"
+    ],
+    "source": "freshness",
+    "provenance": {
+      "method": "heuristic",
+      "generatedAt": "2026-11-08T19:05:56.359Z",
       "pipeline": "ensure-digests"
     }
   },
@@ -738,39 +766,6 @@
       "method": "llm",
       "model": "claude",
       "generatedAt": "2026-09-13T18:29:33.000Z",
-      "pipeline": "update-data"
-    }
-  },
-  {
-    "date": "2026-09-12",
-    "title": "Ukraine History Tracker Update — Sat Sep 12, 2026",
-    "summary": "Russia launched a mass overnight missile-and-drone attack across Ukraine on September 11-12, killing at least 11 people and injuring 96. As part of the September 12 overnight barrage, Russian forces struck two major Ukrainian metallurgical plants, killing 2 people and injuring 6. Ukraine Claims First-Ever Naval Drone-vs-Drone Battle in Black Sea. ISW: Ukraine Has Wiped Out Nearly All of Russia's 2026 Territorial Gains.",
-    "sectionsUpdated": [
-      "events"
-    ],
-    "source": "freshness",
-    "provenance": {
-      "method": "heuristic",
-      "generatedAt": "2026-09-13T18:47:55.448Z",
-      "pipeline": "ensure-digests"
-    }
-  },
-  {
-    "date": "2026-09-11",
-    "title": "Ukraine History Tracker Update — Fri Sep 11, 2026",
-    "summary": "A Russian drone-and-guided-bomb strike on a Pavlohrad shopping center killed 4 and injured over 60 on September 10. Overnight, Ukraine's General Staff confirmed strikes on Russia's Makhachkala Caspian port and three warships near Novorossiysk, followed by a September 11 drone strike on the Saratov oil refinery and an Ozon warehouse. Donetsk Oblast prosecutors reported that Russian troops executed two captured Ukrainian National Guard soldiers near Dobropillia. Russian military losses reached ~1,503,880 per the Ukrainian General Staff.",
-    "sectionsUpdated": [
-      "events",
-      "mapPoints",
-      "mapLines",
-      "kpis",
-      "casualties"
-    ],
-    "source": "daily",
-    "provenance": {
-      "method": "llm",
-      "model": "claude",
-      "generatedAt": "2026-09-11T18:45:51.000Z",
       "pipeline": "update-data"
     }
   }
