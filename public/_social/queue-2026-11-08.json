@@ -12,7 +12,7 @@
     "link": "https://watchboard.dev/hormuz-food-security-crisis/events/2026-11-06-brent-back-above-100-tanker-incidents-2026-11-06?utm_source=x&utm_medium=breaking&utm_campaign=2026-11-07",
     "image": "https://watchboard.dev/og/hormuz-food-security-crisis/2026-11-06-brent-back-above-100-tanker-incidents-2026-11-06.png",
     "memegenUrl": null,
-    "publishAt": "2026-11-08T00:56:00Z",
+    "publishAt": "2026-11-08T19:13:00Z",
     "estimatedCost": 0.02,
     "threadTweets": null,
     "judge": {
@@ -60,7 +60,7 @@
     "link": "https://watchboard.dev/us-measles-resurgence/?utm_source=x&utm_medium=contested&utm_campaign=2026-11-07",
     "image": null,
     "memegenUrl": null,
-    "publishAt": "2026-11-08T06:56:00Z",
+    "publishAt": "2026-11-08T22:13:00Z",
     "estimatedCost": 0.01,
     "threadTweets": null,
     "judge": {
@@ -144,5 +144,91 @@
         "at": "2026-11-08T14:42:19.706Z"
       }
     }
+  },
+  {
+    "type": "contested",
+    "voice": "analyst",
+    "tracker": "lebanon-war-2026",
+    "lang": "en",
+    "text": "How many of Lebanon's dead were fighters? Lebanon's health ministry counts 4,386 killed since 2 Mar, with no combatant split. Israel puts Hezbollah losses at ~1,700-2,500; Hezbollah sources say 1,000+. Hezbollah publishes no totals.",
+    "hashtags": [
+      "#Lebanon",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/lebanon-war-2026/?utm_source=x&utm_medium=contested&utm_campaign=2026-11-08",
+    "image": null,
+    "memegenUrl": null,
+    "publishAt": "2026-11-08T22:00:00Z",
+    "estimatedCost": 0.01,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.72,
+      "verdict": "REVIEW",
+      "comment": "Both sides attributed and not adjudicated. The tracker attributes the 1,700-2,500 range to IDF/independent estimates; a human should confirm that wording.",
+      "factChecks": [
+        {
+          "claim": "Lebanon total killed: 4,386 (Lebanese Ministry of Public Health), cumulative since 2 Mar, no civilian/combatant split",
+          "status": "verified",
+          "source": "lebanon-war-2026 KPIs and disputed figures"
+        },
+        {
+          "claim": "Israel: ~1,700-2,500 Hezbollah killed",
+          "status": "warning",
+          "source": "Disputes list attributes to Israel; figures list says IDF / independent estimates"
+        },
+        {
+          "claim": "Hezbollah sources: 1,000+; Hezbollah publishes no totals",
+          "status": "verified",
+          "source": "lebanon-war-2026 disputed figures"
+        }
+      ]
+    },
+    "id": "812aa844-0f8b-47d0-a3d5-0bdea5ecd54d",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
+  },
+  {
+    "type": "digest",
+    "voice": "analyst",
+    "tracker": "gaza-war",
+    "lang": "en",
+    "text": "Gaza, Nov 8: five Palestinians wounded, four in a drone strike west of Jabalia. Gaza's Health Ministry reports 1,610 killed and 5,819 wounded since the October 2025 ceasefire. Rain flooded displaced families' tents on Nov 7.",
+    "hashtags": [
+      "#Gaza",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/gaza-war/?utm_source=x&utm_medium=digest&utm_campaign=2026-11-08",
+    "image": null,
+    "memegenUrl": null,
+    "publishAt": "2026-11-08T22:00:00Z",
+    "estimatedCost": 0.01,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.84,
+      "verdict": "PUBLISH",
+      "comment": "Figures are attributed to the Gaza Health Ministry and match the tracker digest.",
+      "factChecks": [
+        {
+          "claim": "Five Palestinians wounded on Nov 8, four in a drone strike west of Jabalia",
+          "status": "verified",
+          "source": "gaza-war digest 2026-11-08"
+        },
+        {
+          "claim": "1,610 killed and 5,819 wounded since October 2025 ceasefire (Gaza Health Ministry)",
+          "status": "verified",
+          "source": "gaza-war digest 2026-11-08"
+        },
+        {
+          "claim": "Rains flooded tents of displaced families on Nov 7",
+          "status": "verified",
+          "source": "event gaza-rains-flood-tents-nov-7-2026"
+        }
+      ]
+    },
+    "id": "89528c31-9e19-402a-925a-e24167f4a04e",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
   }
 ]

@@ -1,0 +1,88 @@
+[
+  {
+    "type": "breaking",
+    "voice": "analyst",
+    "tracker": "hormuz-food-security-crisis",
+    "lang": "en",
+    "text": "Iran's IRGC says three tankers are ablaze in the Strait of Hormuz and accuses them of using unauthorized shipping routes. Separate reports cite explosions on Qeshm Island and at Jask. Brent was ~$100/bbl on Nov 6, down ~12% on the week.",
+    "hashtags": [
+      "#Hormuz",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/hormuz-food-security-crisis/events/2026-11-08-irgc-three-tankers-ablaze-hormuz-nov-8?utm_source=x&utm_medium=breaking&utm_campaign=2026-11-08",
+    "image": "https://watchboard.dev/og/hormuz-food-security-crisis/2026-11-08-irgc-three-tankers-ablaze-hormuz-nov-8.png",
+    "memegenUrl": null,
+    "publishAt": "2026-11-09T01:13:00Z",
+    "estimatedCost": 0.02,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.85,
+      "verdict": "PUBLISH",
+      "comment": "Attributes the claim to the IRGC and reports the explosions as reports. Market figure is dated Nov 6.",
+      "factChecks": [
+        {
+          "claim": "IRGC says three tankers ablaze in Hormuz, accuses them of using unauthorized routes",
+          "status": "verified",
+          "source": "hormuz-food-security-crisis event irgc-three-tankers-ablaze-hormuz-nov-8 (2026-11-08)"
+        },
+        {
+          "claim": "Explosions reported on Qeshm Island and at Jask",
+          "status": "verified",
+          "source": "event qeshm-jask-explosions-tankers-fire-nov-8 (2026-11-08)"
+        },
+        {
+          "claim": "Brent ~$100/bbl on Nov 6, down ~12% on the week",
+          "status": "verified",
+          "source": "hormuz-food-security-crisis KPI: Brent Crude"
+        }
+      ]
+    },
+    "id": "ceecce36-bbe9-47e0-aa97-c17d43542790",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "auto_approved"
+  },
+  {
+    "type": "contested",
+    "voice": "analyst",
+    "tracker": "yemen-conflict",
+    "lang": "en",
+    "text": "Saudi strikes in Sanaa province, Nov 7-8: early reports put the dead at 11-15 (Houthi media: 11; other reports: at least 15 in Bani Hashih). On Nov 8 the Houthis said 33 were killed. No independent count has reconciled the figures.",
+    "hashtags": [
+      "#Yemen",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/yemen-conflict/?utm_source=x&utm_medium=contested&utm_campaign=2026-11-08",
+    "image": null,
+    "memegenUrl": null,
+    "publishAt": "2026-11-09T04:13:00Z",
+    "estimatedCost": 0.01,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.7,
+      "verdict": "REVIEW",
+      "comment": "Contested type never auto-approves. Sources for the lower tolls are summarised from event titles; a human should confirm attribution and the 'no independent count' wording.",
+      "factChecks": [
+        {
+          "claim": "Saudi strikes on Bani Hashih reportedly kill at least 15; Houthi media cites 11 dead in Sanaa province (Nov 7)",
+          "status": "verified",
+          "source": "event saudi-strikes-bani-hashih-nov7-2026"
+        },
+        {
+          "claim": "Houthis say 33 killed in Sanaa, up from earlier tolls of 11-15 (Nov 8)",
+          "status": "verified",
+          "source": "event houthis-claim-33-killed-sanaa-nov8-2026"
+        },
+        {
+          "claim": "No independent count has reconciled the figures",
+          "status": "unverifiable",
+          "source": "Absence claim; not stated in tracker data"
+        }
+      ]
+    },
+    "id": "353cc310-0988-428a-911f-2f21d9d16ad2",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
+  }
+]
