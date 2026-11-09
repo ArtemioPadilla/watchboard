@@ -1,0 +1,184 @@
+[
+  {
+    "type": "breaking",
+    "voice": "analyst",
+    "tracker": "ebola-outbreak",
+    "lang": "en",
+    "text": "ECDC, 9 Nov: the DRC has 10,920 confirmed Ebola cases and 5,323 related deaths as of 8 Nov, up from 10,668 and 5,198 on 4 Nov. Eight provinces are affected and community transmission is ongoing.",
+    "hashtags": [
+      "#Ebola",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/ebola-outbreak/events/2026-11-09-ebola-ecdc-10920-cases-nov-9?utm_source=x&utm_medium=breaking&utm_campaign=2026-11-09",
+    "image": "https://watchboard.dev/og/ebola-outbreak/2026-11-09-ebola-ecdc-10920-cases-nov-9.png",
+    "memegenUrl": null,
+    "publishAt": "2026-11-10T02:59:00Z",
+    "estimatedCost": 0.02,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.93,
+      "verdict": "PUBLISH",
+      "comment": "Figures and dates come straight from the ECDC update logged in the tracker; both sets of numbers carry an as-of date and a source.",
+      "factChecks": [
+        {
+          "claim": "10,920 confirmed cases in DRC as of 8 Nov",
+          "status": "verified",
+          "source": "ebola-outbreak digest / event ebola-ecdc-10920-cases-nov-9 (ECDC)"
+        },
+        {
+          "claim": "5,323 related deaths as of 8 Nov",
+          "status": "verified",
+          "source": "ebola-outbreak digest (ECDC)"
+        },
+        {
+          "claim": "Previous figures 10,668 cases and 5,198 deaths on 4 Nov",
+          "status": "verified",
+          "source": "ebola-outbreak digest (ECDC)"
+        },
+        {
+          "claim": "Eight provinces affected, community transmission ongoing",
+          "status": "verified",
+          "source": "ebola-outbreak digest (ECDC)"
+        }
+      ]
+    },
+    "id": "899a1ebd-9b99-410a-a6cd-7d3759890703",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "auto_approved"
+  },
+  {
+    "type": "breaking",
+    "voice": "analyst",
+    "tracker": "ice-history",
+    "lang": "en",
+    "text": "Trump said his immigration crackdown was 'too tough' after the midterm defeat, per reporting logged 9 Nov. The tracker has ICE's detention population at 65,765, with 70.8% of detainees holding no criminal conviction.",
+    "hashtags": [
+      "#ICE",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/ice-history/events/2026-11-09-trump-says-crackdown-too-tough-after-midterms-nov-2026?utm_source=x&utm_medium=breaking&utm_campaign=2026-11-09",
+    "image": "https://watchboard.dev/og/ice-history/2026-11-09-trump-says-crackdown-too-tough-after-midterms-nov-2026.png",
+    "memegenUrl": null,
+    "publishAt": "2026-11-10T05:59:00Z",
+    "estimatedCost": 0.02,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.78,
+      "verdict": "REVIEW",
+      "comment": "The statement is in the tracker, but the tweet quotes it without the full wording or outlet. A human should check the quote and the as-of dates of the KPIs.",
+      "factChecks": [
+        {
+          "claim": "Trump said the crackdown was 'too tough' after a midterm defeat",
+          "status": "verified",
+          "source": "ice-history event trump-says-crackdown-too-tough-after-midterms-nov-2026"
+        },
+        {
+          "claim": "Detention population 65,765",
+          "status": "verified",
+          "source": "ice-history KPIs"
+        },
+        {
+          "claim": "70.8% of detainees with no criminal conviction",
+          "status": "verified",
+          "source": "ice-history KPIs"
+        }
+      ]
+    },
+    "id": "d2b99c9d-cbeb-4e3f-ba44-6ce7713e5f12",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
+  },
+  {
+    "type": "contested",
+    "voice": "analyst",
+    "tracker": "yemen-conflict",
+    "lang": "en",
+    "text": "Saudi strikes in Sanaa province, 7-8 Nov: Houthi media first cited 11 dead and other reports at least 15. On 8 Nov the Houthis said 33 killed. Three tolls for the same strikes, none independently confirmed in the tracker.",
+    "hashtags": [
+      "#Yemen",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/yemen-conflict/?utm_source=x&utm_medium=contested&utm_campaign=2026-11-09",
+    "image": null,
+    "memegenUrl": null,
+    "publishAt": "2026-11-10T08:59:00Z",
+    "estimatedCost": 0.01,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.72,
+      "verdict": "REVIEW",
+      "comment": "The tolls match the event titles, but the 'same strikes' framing links the 7 Nov and 8 Nov events and needs a human check. Contested type never auto-approves.",
+      "factChecks": [
+        {
+          "claim": "Houthi media cited 11 dead in Sanaa province (7 Nov)",
+          "status": "verified",
+          "source": "yemen-conflict event saudi-strikes-bani-hashih-nov7-2026"
+        },
+        {
+          "claim": "Reports of at least 15 killed (7 Nov)",
+          "status": "verified",
+          "source": "yemen-conflict event saudi-strikes-bani-hashih-nov7-2026"
+        },
+        {
+          "claim": "Houthis say 33 killed (8 Nov), up from earlier tolls of 11-15",
+          "status": "verified",
+          "source": "yemen-conflict event houthis-claim-33-killed-sanaa-nov8-2026"
+        },
+        {
+          "claim": "Tolls are the same strikes",
+          "status": "warning",
+          "source": "event titles suggest this but do not state it outright"
+        }
+      ]
+    },
+    "id": "37d10e3d-d814-4d18-a065-bed5f49bb88b",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
+  },
+  {
+    "type": "breaking",
+    "voice": "analyst",
+    "tracker": "ebola-outbreak",
+    "lang": "es",
+    "text": "ECDC, 9 nov: la RDC suma 10.920 casos confirmados de ébola y 5.323 muertes relacionadas al 8 nov, frente a 10.668 y 5.198 el 4 nov. Hay ocho provincias afectadas y la transmisión comunitaria continúa.",
+    "hashtags": [
+      "#Ebola",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/ebola-outbreak/events/2026-11-09-ebola-ecdc-10920-cases-nov-9?utm_source=x&utm_medium=breaking&utm_campaign=2026-11-09",
+    "image": "https://watchboard.dev/og/ebola-outbreak/2026-11-09-ebola-ecdc-10920-cases-nov-9.png",
+    "memegenUrl": null,
+    "publishAt": "2026-11-10T11:59:00Z",
+    "estimatedCost": 0.02,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.9,
+      "verdict": "PUBLISH",
+      "comment": "Spanish version of the English ECDC tweet with the same figures and dates.",
+      "factChecks": [
+        {
+          "claim": "10,920 confirmed cases and 5,323 related deaths as of 8 Nov",
+          "status": "verified",
+          "source": "ebola-outbreak digest (ECDC)"
+        },
+        {
+          "claim": "Previous figures 10,668 and 5,198 on 4 Nov",
+          "status": "verified",
+          "source": "ebola-outbreak digest (ECDC)"
+        },
+        {
+          "claim": "Eight provinces affected, community transmission ongoing",
+          "status": "verified",
+          "source": "ebola-outbreak digest (ECDC)"
+        }
+      ]
+    },
+    "id": "28c83e7b-eaa1-408e-ba9a-6165fe349649",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "auto_approved"
+  }
+]
