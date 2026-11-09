@@ -1,5 +1,33 @@
 [
   {
+    "date": "2026-11-09",
+    "title": "Libya Conflict Tracker Update — Nov 09, 2026",
+    "summary": "Backfilled two events missed since the last run. On Oct 7 the eastern-based House of Representatives removed Speaker Aguila Saleh after 12 years. On Oct 18 a mortar shell exploded during training at a security camp in Zawiya, killing at least eight; the cause is unconfirmed. Map, KPI and other sections were left unchanged because no new confirmed data was found.",
+    "sectionsUpdated": [
+      "events"
+    ],
+    "provenance": {
+      "method": "llm",
+      "model": "claude",
+      "generatedAt": "2026-11-09T23:25:03.000Z",
+      "pipeline": "update-data"
+    }
+  },
+  {
+    "date": "2026-10-18",
+    "title": "Libya Conflict Tracker Update — Sun Oct 18, 2026",
+    "summary": "On the evening of October 18, 2026, an 82mm mortar shell exploded during a training exercise at a security camp in the Al-Harsha area of Zawiya, about 60 km west of Tripoli.",
+    "sectionsUpdated": [
+      "events"
+    ],
+    "source": "freshness",
+    "provenance": {
+      "method": "heuristic",
+      "generatedAt": "2026-11-09T23:53:09.600Z",
+      "pipeline": "ensure-digests"
+    }
+  },
+  {
     "date": "2026-10-10",
     "title": "Libya Conflict Tracker Update — Oct 10, 2026",
     "summary": "No new verified assassinations or oil-infrastructure attacks were found for Oct 3–10. The only dated item found was UN envoy Hanna Tetteh meeting the Tunisian foreign minister on Oct 5, with Tunisia offering to host consultations on Libya. Event and map data were left unchanged because no new items could be confirmed with 2+ sources and verified media.",
@@ -9,6 +37,20 @@
       "model": "claude",
       "generatedAt": "2026-10-10T18:24:56.749Z",
       "pipeline": "update-data"
+    }
+  },
+  {
+    "date": "2026-10-07",
+    "title": "Libya Conflict Tracker Update — Wed Oct 7, 2026",
+    "summary": "Libya's eastern-based House of Representatives voted on October 7, 2026 to remove Speaker Aguila Saleh Issa, who had held the post since 2014, amid growing discontent among lawmakers.",
+    "sectionsUpdated": [
+      "events"
+    ],
+    "source": "freshness",
+    "provenance": {
+      "method": "heuristic",
+      "generatedAt": "2026-11-09T23:53:09.600Z",
+      "pipeline": "ensure-digests"
     }
   },
   {

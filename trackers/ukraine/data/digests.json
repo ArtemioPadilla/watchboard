@@ -1,5 +1,19 @@
 [
   {
+    "date": "2026-11-09",
+    "title": "Ukraine Update — Nov 9, 2026",
+    "summary": "Added event files for the overnight attacks of Nov 5-6 (227 drones, 196 downed), Nov 6-7 (four missiles and 149 drones, with the Northern Bridge in Kyiv damaged) and Nov 7-8 (164 drones and three missiles, 137 drones downed). Figures are preliminary Air Force relays via Ukrainska Pravda and Ukrinform. Other sections were not changed.",
+    "sectionsUpdated": [
+      "events"
+    ],
+    "provenance": {
+      "method": "llm",
+      "model": "claude",
+      "generatedAt": "2026-11-09T23:31:27.000Z",
+      "pipeline": "update-data"
+    }
+  },
+  {
     "date": "2026-11-08",
     "title": "Ukraine Update — Nov 8, 2026",
     "summary": "Added the Nov 3-4 attack of 310 drones (272 downed or jammed, 19 locations hit; three DTEK thermal plants stopped generating), following the Nov 2-3 energy strike. Overnight Nov 7-8 the Air Force reported 164 drones and three guided missiles, with 137 drones downed or jammed; figures are preliminary and single-outlet, so no event was filed yet.",
@@ -11,6 +25,20 @@
       "model": "claude",
       "generatedAt": "2026-11-08T18:53:09.000Z",
       "pipeline": "update-data"
+    }
+  },
+  {
+    "date": "2026-11-07",
+    "title": "Ukraine History Tracker Update — Sat Nov 7, 2026",
+    "summary": "Overnight Nov 6-7 air defence downed or suppressed four missiles and 149 drones; the Kyiv region was the main target.",
+    "sectionsUpdated": [
+      "events"
+    ],
+    "source": "freshness",
+    "provenance": {
+      "method": "heuristic",
+      "generatedAt": "2026-11-09T23:53:09.664Z",
+      "pipeline": "ensure-digests"
     }
   },
   {
@@ -725,48 +753,6 @@
       "method": "heuristic",
       "generatedAt": "2026-09-16T19:31:51.465Z",
       "pipeline": "ensure-digests"
-    }
-  },
-  {
-    "date": "2026-09-14",
-    "title": "Ukraine History Tracker Update — Mon Sep 14, 2026",
-    "summary": "President Trump claimed on September 14 that Ukraine and Russia agreed to mutually halt strikes on energy infrastructure, but Zelensky said Ukraine's compliance is conditional on a genuine Russian commitment and a senior Ukrainian energy official said Kyiv received no formal notification of a deal; the Kremlin's Peskov called it a one-sided ask targeting Ukraine's energy 'Achilles' heel.' Separately, a Russian guided aerial bomb struck Izium in Kharkiv Oblast, injuring three people including a 2-month-old infant and destroying four homes. NATO Secretary-General Rutte and Polish PM Tusk pledged increased support for Ukraine following the September 13 drone strike on a Kyiv-Warsaw train near the Polish border, which Rutte called a sign of Putin's 'desperation.' Russian military losses reached ~1,508,600 per the Ukrainian General Staff, up ~1,700 in the latest 24 hours.",
-    "sectionsUpdated": [
-      "events",
-      "mapPoints",
-      "mapLines",
-      "kpis",
-      "casualties",
-      "claims",
-      "political",
-      "meta"
-    ],
-    "source": "daily",
-    "provenance": {
-      "method": "llm",
-      "model": "claude",
-      "generatedAt": "2026-09-14T20:11:38.000Z",
-      "pipeline": "update-data"
-    }
-  },
-  {
-    "date": "2026-09-13",
-    "title": "Ukraine History Tracker Update — Sun Sep 13, 2026",
-    "summary": "A Russian drone struck a Kyiv-Warsaw passenger train and a gas station roughly 2km from the Polish border near Yahodyn on September 13, prompting a sharp diplomatic protest from Foreign Minister Sybiha, though no injuries resulted. Hours earlier, Ukrainian drones struck the TANECO oil refinery in Nizhnekamsk, Tatarstan, 1,200km from the border. On September 12, a mass Russian overnight barrage of 129 drones and 14+ missiles killed 11 and injured 96 nationwide, hitting Odesa hardest and damaging the Zaporizhstal steel plant. Ukraine's Navy separately claimed the first-ever naval drone-vs-drone battle in the Black Sea, and ISW assessed that Ukraine has erased nearly all of Russia's 2026 territorial gains. Russian military losses reached ~1,506,900 per the Ukrainian General Staff.",
-    "sectionsUpdated": [
-      "events",
-      "mapPoints",
-      "mapLines",
-      "kpis",
-      "casualties",
-      "political"
-    ],
-    "source": "daily",
-    "provenance": {
-      "method": "llm",
-      "model": "claude",
-      "generatedAt": "2026-09-13T18:29:33.000Z",
-      "pipeline": "update-data"
     }
   }
 ]

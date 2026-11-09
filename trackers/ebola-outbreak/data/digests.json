@@ -1,5 +1,21 @@
 [
   {
+    "date": "2026-11-09",
+    "title": "Ebola Outbreak Tracker Update — Nov 09, 2026",
+    "summary": "ECDC's 9 November update puts the DRC at 10,920 confirmed cases and 5,323 related deaths as of 8 November, up from 10,668 and 5,198 on 4 November. Eight provinces are affected and community transmission is ongoing. ECDC confirms the Nigeria case (reported 20 October, evacuated to Switzerland) and Kenya's imported case. KPIs, meta and a new event were updated.",
+    "sectionsUpdated": [
+      "kpis",
+      "events",
+      "meta"
+    ],
+    "provenance": {
+      "method": "llm",
+      "model": "claude",
+      "generatedAt": "2026-11-09T23:22:09.000Z",
+      "pipeline": "update-data"
+    }
+  },
+  {
     "date": "2026-11-08",
     "title": "Ebola Outbreak Tracker Update — Nov 08, 2026",
     "summary": "Searches for 6–8 November found no new verifiable reporting beyond the 2 November figures already recorded (10,274 confirmed cases and 4,992 deaths as of 28 October per government data). No event, KPI or map changes were made because no development with 2+ confirming sources was found. The Nigeria spread report remains unverified against an official statement.",
@@ -728,20 +744,6 @@
     "provenance": {
       "method": "heuristic",
       "generatedAt": "2026-09-18T19:03:56.830Z",
-      "pipeline": "ensure-digests"
-    }
-  },
-  {
-    "date": "2026-09-15",
-    "title": "Ebola Outbreak Tracker Update — Tue Sep 15, 2026",
-    "summary": "UN and WHO Say It's 'Too Early' to Call an Ebola Peak in DRC as Toll Hits 7,258 Cases, 3,510 Deaths.",
-    "sectionsUpdated": [
-      "events"
-    ],
-    "source": "freshness",
-    "provenance": {
-      "method": "heuristic",
-      "generatedAt": "2026-09-16T19:31:51.365Z",
       "pipeline": "ensure-digests"
     }
   }
