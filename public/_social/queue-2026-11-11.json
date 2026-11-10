@@ -1,0 +1,189 @@
+[
+  {
+    "type": "contested",
+    "voice": "analyst",
+    "tracker": "yemen-conflict",
+    "lang": "en",
+    "text": "Saudi strikes in Sanaa province, 7-8 Nov: Houthi media first cited 11 dead and other reports at least 15. On 8 Nov the Houthis said 33 killed. Three tolls for the same strikes, none independently confirmed in the tracker.",
+    "hashtags": [
+      "#Yemen",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/yemen-conflict/?utm_source=x&utm_medium=contested&utm_campaign=2026-11-09",
+    "image": null,
+    "memegenUrl": null,
+    "publishAt": "2026-11-11T03:14:00Z",
+    "estimatedCost": 0.01,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.72,
+      "verdict": "REVIEW",
+      "comment": "The tolls match the event titles, but the 'same strikes' framing links the 7 Nov and 8 Nov events and needs a human check. Contested type never auto-approves.",
+      "factChecks": [
+        {
+          "claim": "Houthi media cited 11 dead in Sanaa province (7 Nov)",
+          "status": "verified",
+          "source": "yemen-conflict event saudi-strikes-bani-hashih-nov7-2026"
+        },
+        {
+          "claim": "Reports of at least 15 killed (7 Nov)",
+          "status": "verified",
+          "source": "yemen-conflict event saudi-strikes-bani-hashih-nov7-2026"
+        },
+        {
+          "claim": "Houthis say 33 killed (8 Nov), up from earlier tolls of 11-15",
+          "status": "verified",
+          "source": "yemen-conflict event houthis-claim-33-killed-sanaa-nov8-2026"
+        },
+        {
+          "claim": "Tolls are the same strikes",
+          "status": "warning",
+          "source": "event titles suggest this but do not state it outright"
+        }
+      ]
+    },
+    "id": "37d10e3d-d814-4d18-a065-bed5f49bb88b",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
+  },
+  {
+    "type": "breaking",
+    "voice": "analyst",
+    "tracker": "ukraine-war",
+    "lang": "en",
+    "text": "US-mediated peace talks between Russia and Ukraine opened in Abu Dhabi today; the first session lasted nearly four hours. Europe is set to join the talks despite Kremlin objections (reported Nov 8).",
+    "hashtags": [
+      "#Ukraine",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/ukraine-war/events/2026-11-10-abu-dhabi-trilateral-peace-talks-open-20261110?utm_source=x&utm_medium=breaking&utm_campaign=2026-11-10",
+    "image": "https://watchboard.dev/og/ukraine-war/2026-11-10-abu-dhabi-trilateral-peace-talks-open-20261110.png",
+    "memegenUrl": null,
+    "publishAt": "2026-11-11T00:14:00Z",
+    "estimatedCost": 0.02,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.85,
+      "verdict": "PUBLISH",
+      "comment": "Factual summary of tracker digest and events; no figures beyond those in the data.",
+      "factChecks": [
+        {
+          "claim": "Talks opened in Abu Dhabi, US-mediated, Russia and Ukraine",
+          "status": "verified",
+          "source": "ukraine-war digest / event 2026-11-10"
+        },
+        {
+          "claim": "First session lasted nearly four hours",
+          "status": "verified",
+          "source": "ukraine-war digest"
+        },
+        {
+          "claim": "Europe to join despite Kremlin objections (Nov 8)",
+          "status": "verified",
+          "source": "russia tracker event 2026-11-08"
+        }
+      ]
+    },
+    "id": "7cb00d10-0d39-4dc0-ac3f-7d0adcba1b7f",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "auto_approved"
+  },
+  {
+    "type": "breaking",
+    "voice": "analyst",
+    "tracker": "gaza-war",
+    "lang": "en",
+    "text": "Gaza's Health Ministry reports 1,613 killed and 5,833 wounded since the October 2025 ceasefire, 20 of them in the past week. Cumulative toll since Oct 2023: 74,643 (Gaza MoH, as of Nov 10).",
+    "hashtags": [
+      "#Gaza",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/gaza-war/events/2026-11-10-ceasefire-toll-1613-nov-10-2026?utm_source=x&utm_medium=breaking&utm_campaign=2026-11-10",
+    "image": "https://watchboard.dev/og/gaza-war/2026-11-10-ceasefire-toll-1613-nov-10-2026.png",
+    "memegenUrl": null,
+    "publishAt": "2026-11-11T06:14:00Z",
+    "estimatedCost": 0.02,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.86,
+      "verdict": "PUBLISH",
+      "comment": "Figures attributed to the Gaza Health Ministry with an as-of date, matching the tracker digest.",
+      "factChecks": [
+        {
+          "claim": "1,613 killed since ceasefire",
+          "status": "verified",
+          "source": "gaza-war digest / event ceasefire-toll-1613"
+        },
+        {
+          "claim": "5,833 wounded since ceasefire",
+          "status": "verified",
+          "source": "gaza-war digest"
+        },
+        {
+          "claim": "20 in past week",
+          "status": "verified",
+          "source": "gaza-war digest / event title"
+        },
+        {
+          "claim": "Cumulative toll 74,643",
+          "status": "verified",
+          "source": "gaza-war digest"
+        }
+      ]
+    },
+    "id": "f237ca03-2011-4981-a90a-f71deb75f8ac",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "auto_approved"
+  },
+  {
+    "type": "digest",
+    "voice": "analyst",
+    "tracker": "paraguay-pena-impeachment",
+    "lang": "en",
+    "text": "Paraguay: Congress removed President Peña over the Ueno Bank crisis (Senate vote 44–0). A judge ordered pretrial detention on Nov 8. About 3M Ueno clients remain locked out.",
+    "hashtags": [
+      "#Paraguay",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/paraguay-pena-impeachment/?utm_source=x&utm_medium=digest&utm_campaign=2026-11-10",
+    "image": null,
+    "memegenUrl": null,
+    "publishAt": "2026-11-11T09:14:00Z",
+    "estimatedCost": 0.01,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.82,
+      "verdict": "PUBLISH",
+      "comment": "Consistent with tracker events and KPIs; no unverified claims included.",
+      "factChecks": [
+        {
+          "claim": "Congress removed Peña after Ueno Bank crisis",
+          "status": "verified",
+          "source": "event py-pena-impeached-ueno-nov07"
+        },
+        {
+          "claim": "Senate removal vote 44–0",
+          "status": "verified",
+          "source": "paraguay-pena-impeachment KPIs"
+        },
+        {
+          "claim": "Judge ordered pretrial detention Nov 8",
+          "status": "verified",
+          "source": "event py-pena-pretrial-detention-ueno-nov08"
+        },
+        {
+          "claim": "~3M Ueno clients locked out",
+          "status": "verified",
+          "source": "paraguay-pena-impeachment KPIs"
+        }
+      ]
+    },
+    "id": "882ad8b8-2162-4c3f-9424-5e3498a54808",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
+  }
+]

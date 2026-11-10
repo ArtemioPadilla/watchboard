@@ -67,7 +67,7 @@
     "link": "https://watchboard.dev/ice-history/events/2026-11-09-trump-says-crackdown-too-tough-after-midterms-nov-2026?utm_source=x&utm_medium=breaking&utm_campaign=2026-11-09",
     "image": "https://watchboard.dev/og/ice-history/2026-11-09-trump-says-crackdown-too-tough-after-midterms-nov-2026.png",
     "memegenUrl": null,
-    "publishAt": "2026-11-10T05:59:00Z",
+    "publishAt": "2026-11-10T21:14:00Z",
     "estimatedCost": 0.02,
     "threadTweets": null,
     "judge": {
@@ -93,54 +93,6 @@
       ]
     },
     "id": "d2b99c9d-cbeb-4e3f-ba44-6ce7713e5f12",
-    "tweetId": null,
-    "postedAt": null,
-    "status": "pending_review"
-  },
-  {
-    "type": "contested",
-    "voice": "analyst",
-    "tracker": "yemen-conflict",
-    "lang": "en",
-    "text": "Saudi strikes in Sanaa province, 7-8 Nov: Houthi media first cited 11 dead and other reports at least 15. On 8 Nov the Houthis said 33 killed. Three tolls for the same strikes, none independently confirmed in the tracker.",
-    "hashtags": [
-      "#Yemen",
-      "#Watchboard"
-    ],
-    "link": "https://watchboard.dev/yemen-conflict/?utm_source=x&utm_medium=contested&utm_campaign=2026-11-09",
-    "image": null,
-    "memegenUrl": null,
-    "publishAt": "2026-11-10T08:59:00Z",
-    "estimatedCost": 0.01,
-    "threadTweets": null,
-    "judge": {
-      "score": 0.72,
-      "verdict": "REVIEW",
-      "comment": "The tolls match the event titles, but the 'same strikes' framing links the 7 Nov and 8 Nov events and needs a human check. Contested type never auto-approves.",
-      "factChecks": [
-        {
-          "claim": "Houthi media cited 11 dead in Sanaa province (7 Nov)",
-          "status": "verified",
-          "source": "yemen-conflict event saudi-strikes-bani-hashih-nov7-2026"
-        },
-        {
-          "claim": "Reports of at least 15 killed (7 Nov)",
-          "status": "verified",
-          "source": "yemen-conflict event saudi-strikes-bani-hashih-nov7-2026"
-        },
-        {
-          "claim": "Houthis say 33 killed (8 Nov), up from earlier tolls of 11-15",
-          "status": "verified",
-          "source": "yemen-conflict event houthis-claim-33-killed-sanaa-nov8-2026"
-        },
-        {
-          "claim": "Tolls are the same strikes",
-          "status": "warning",
-          "source": "event titles suggest this but do not state it outright"
-        }
-      ]
-    },
-    "id": "37d10e3d-d814-4d18-a065-bed5f49bb88b",
     "tweetId": null,
     "postedAt": null,
     "status": "pending_review"
@@ -194,5 +146,48 @@
         "at": "2026-11-10T16:00:18.972Z"
       }
     }
+  },
+  {
+    "type": "contested",
+    "voice": "analyst",
+    "tracker": "yemen-conflict",
+    "lang": "en",
+    "text": "Yemen's Aug 6 Marib/Hadramout offensive: the government confirmed 30 soldiers killed. An unnamed military source told AFP the toll may be 58. The Houthis claimed 45 killed. Three counts, one operation.",
+    "hashtags": [
+      "#Yemen",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/yemen-conflict/?utm_source=x&utm_medium=contested&utm_campaign=2026-11-10",
+    "image": null,
+    "memegenUrl": null,
+    "publishAt": "2026-11-10T22:00:00Z",
+    "estimatedCost": 0.01,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.78,
+      "verdict": "REVIEW",
+      "comment": "Genuinely disputed figure with attribution on each side and an as-of date; figure is from August so a human should confirm it is still worth surfacing.",
+      "factChecks": [
+        {
+          "claim": "Government confirmed at least 30 killed (Aug 6)",
+          "status": "verified",
+          "source": "yemen-conflict disputes / disputed figures"
+        },
+        {
+          "claim": "Unnamed military source told AFP toll may be 58",
+          "status": "verified",
+          "source": "yemen-conflict disputes"
+        },
+        {
+          "claim": "Houthis claimed 45 killed",
+          "status": "verified",
+          "source": "yemen-conflict disputes"
+        }
+      ]
+    },
+    "id": "cf3fbdfc-27a7-4641-9740-9eef7f274b47",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
   }
 ]
