@@ -12,7 +12,7 @@
     "link": "https://watchboard.dev/yemen-conflict/?utm_source=x&utm_medium=contested&utm_campaign=2026-11-09",
     "image": null,
     "memegenUrl": null,
-    "publishAt": "2026-11-11T03:14:00Z",
+    "publishAt": "2026-11-11T21:41:00Z",
     "estimatedCost": 0.01,
     "threadTweets": null,
     "judge": {
@@ -155,49 +155,44 @@
   {
     "type": "digest",
     "voice": "analyst",
-    "tracker": "paraguay-pena-impeachment",
+    "tracker": "ebola-outbreak",
     "lang": "en",
-    "text": "Paraguay: Congress removed President Peña over the Ueno Bank crisis (Senate vote 44–0). A judge ordered pretrial detention on Nov 8. About 3M Ueno clients remain locked out.",
+    "text": "Ebola, DR Congo: ECDC reports 10,920 confirmed cases and 5,323 deaths as of 8 Nov. Separately, Kenya discharged its last Ebola patient on 11 Nov, a milestone toward virus-free status.",
     "hashtags": [
-      "#Paraguay",
+      "#Ebola",
       "#Watchboard"
     ],
-    "link": "https://watchboard.dev/paraguay-pena-impeachment/?utm_source=x&utm_medium=digest&utm_campaign=2026-11-10",
+    "link": "https://watchboard.dev/ebola-outbreak/?utm_source=x&utm_medium=digest&utm_campaign=2026-11-11",
     "image": null,
     "memegenUrl": null,
-    "publishAt": "2026-11-11T09:14:00Z",
+    "publishAt": "2026-11-11T22:00:00Z",
     "estimatedCost": 0.01,
     "threadTweets": null,
     "judge": {
-      "score": 0.82,
+      "score": 0.85,
       "verdict": "PUBLISH",
-      "comment": "Consistent with tracker events and KPIs; no unverified claims included.",
+      "comment": "Figures are sourced to ECDC with an as-of date; the Kenya milestone is a same-day event in the tracker.",
       "factChecks": [
         {
-          "claim": "Congress removed Peña after Ueno Bank crisis",
+          "claim": "10,920 confirmed cases in DRC (ECDC, 8 Nov)",
           "status": "verified",
-          "source": "event py-pena-impeached-ueno-nov07"
+          "source": "KPI and event ebola-ecdc-10920-cases-nov-9"
         },
         {
-          "claim": "Senate removal vote 44–0",
+          "claim": "5,323 deaths in DRC (ECDC, 8 Nov)",
           "status": "verified",
-          "source": "paraguay-pena-impeachment KPIs"
+          "source": "KPI and event ebola-ecdc-10920-cases-nov-9"
         },
         {
-          "claim": "Judge ordered pretrial detention Nov 8",
+          "claim": "Kenya discharged its last Ebola patient on 11 Nov",
           "status": "verified",
-          "source": "event py-pena-pretrial-detention-ueno-nov08"
-        },
-        {
-          "claim": "~3M Ueno clients locked out",
-          "status": "verified",
-          "source": "paraguay-pena-impeachment KPIs"
+          "source": "event kenya-discharges-last-ebola-patient-nov-11"
         }
       ]
     },
-    "id": "882ad8b8-2162-4c3f-9424-5e3498a54808",
+    "id": "822dc770-7e3d-47f1-9eab-0cbfc5c1b9ad",
     "tweetId": null,
     "postedAt": null,
-    "status": "pending_review"
+    "status": "auto_approved"
   }
 ]
