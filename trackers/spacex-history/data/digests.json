@@ -1,5 +1,20 @@
 [
   {
+    "date": "2026-11-11",
+    "title": "SpaceX History Tracker Update — Nov 11, 2026",
+    "summary": "Added one event: SpaceX's Nov 6-7 announcement that Starship Flight 15 targets launch as early as Nov 13, 2026, pending regulatory approval, with the first attempt to catch a ship with the tower. Booster 22 and Ship 42 have completed static fires (Oct 25 and Oct 27). The date is an earliest target and remains unconfirmed. No other events were found for Nov 4-11.",
+    "sectionsUpdated": [
+      "events",
+      "meta"
+    ],
+    "provenance": {
+      "method": "llm",
+      "model": "claude",
+      "generatedAt": "2026-11-11T21:16:30.000Z",
+      "pipeline": "update-data"
+    }
+  },
+  {
     "date": "2026-11-09",
     "title": "SpaceX History Tracker Update — Nov 09, 2026",
     "summary": "No new events met the two-source, confirmed-date bar for Nov 2 – Nov 9, so gap days were left empty. Starship Flight 15 (Booster 22 and Ship 42, attempting to catch both stages) is now reported with a target of Nov 13, 2026 pending regulatory approval; SpaceX launch-date reporting has shifted several times, so no event was recorded until the date is confirmed.",
@@ -21,6 +36,20 @@
       "model": "claude",
       "generatedAt": "2026-11-08T18:51:55.904Z",
       "pipeline": "update-data"
+    }
+  },
+  {
+    "date": "2026-11-06",
+    "title": "SpaceX History Tracker Update — Fri Nov 6, 2026",
+    "summary": "SpaceX targets Starship Flight 15 for as early as Nov 13, first ship tower-catch attempt.",
+    "sectionsUpdated": [
+      "events"
+    ],
+    "source": "freshness",
+    "provenance": {
+      "method": "heuristic",
+      "generatedAt": "2026-11-11T21:34:16.559Z",
+      "pipeline": "ensure-digests"
     }
   },
   {
@@ -636,22 +665,6 @@
     "date": "2026-08-29",
     "title": "SpaceX History Tracker Update — Sat Aug 29, 2026",
     "summary": "NASA's Roman Space Telescope Declared 'Go for Launch,' Falcon Heavy Rolls to Pad 39A.",
-    "sectionsUpdated": [
-      "events"
-    ]
-  },
-  {
-    "date": "2026-08-28",
-    "title": "SpaceX History Tracker Update — Fri Aug 28, 2026",
-    "summary": "Starship Booster 21 Completes Full 33-Engine Static Fire Ahead of Flight 14.",
-    "sectionsUpdated": [
-      "events"
-    ]
-  },
-  {
-    "date": "2026-08-26",
-    "title": "SpaceX History Tracker Update — Wed Aug 26, 2026",
-    "summary": "SpaceX launched the Starlink 15-22 mission at 2:35 a.m.",
     "sectionsUpdated": [
       "events"
     ]

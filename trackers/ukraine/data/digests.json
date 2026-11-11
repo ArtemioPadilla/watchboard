@@ -1,5 +1,19 @@
 [
   {
+    "date": "2026-11-11",
+    "title": "Ukraine Update — Nov 11, 2026",
+    "summary": "Added the overnight Nov 8-9 attack: 317 drones (105 jet-powered) launched, 276 downed or jammed, hits at 31 locations. Figures are preliminary Air Force relays. Reports for Nov 10-11 conflict across outlets, so no events were filed for those nights yet. Other sections were not changed.",
+    "sectionsUpdated": [
+      "events"
+    ],
+    "provenance": {
+      "method": "llm",
+      "model": "claude",
+      "generatedAt": "2026-11-11T18:30:00.000Z",
+      "pipeline": "update-data"
+    }
+  },
+  {
     "date": "2026-11-09",
     "title": "Ukraine Update — Nov 9, 2026",
     "summary": "Added event files for the overnight attacks of Nov 5-6 (227 drones, 196 downed), Nov 6-7 (four missiles and 149 drones, with the Northern Bridge in Kyiv damaged) and Nov 7-8 (164 drones and three missiles, 137 drones downed). Figures are preliminary Air Force relays via Ukrainska Pravda and Ukrinform. Other sections were not changed.",
@@ -738,20 +752,6 @@
     "provenance": {
       "method": "heuristic",
       "generatedAt": "2026-09-16T19:31:51.466Z",
-      "pipeline": "ensure-digests"
-    }
-  },
-  {
-    "date": "2026-09-15",
-    "title": "Ukraine History Tracker Update — Tue Sep 15, 2026",
-    "summary": "Ukraine's 3rd Army Corps commander Brig.",
-    "sectionsUpdated": [
-      "events"
-    ],
-    "source": "freshness",
-    "provenance": {
-      "method": "heuristic",
-      "generatedAt": "2026-09-16T19:31:51.465Z",
       "pipeline": "ensure-digests"
     }
   }
