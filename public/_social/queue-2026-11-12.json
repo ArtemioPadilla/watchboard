@@ -12,7 +12,7 @@
     "link": "https://watchboard.dev/paraguay-pena-impeachment/?utm_source=x&utm_medium=digest&utm_campaign=2026-11-10",
     "image": null,
     "memegenUrl": null,
-    "publishAt": "2026-11-12T03:41:00Z",
+    "publishAt": "2026-11-12T21:50:00Z",
     "estimatedCost": 0.01,
     "threadTweets": null,
     "judge": {
@@ -148,82 +148,49 @@
     }
   },
   {
-    "type": "breaking",
-    "voice": "analyst",
-    "tracker": "haiti-collapse",
-    "lang": "en",
-    "text": "El Salvador's president says a missile strike destroyed the headquarters of Haitian gang 400 Mawozo. The claim comes from the Salvadoran side; independent confirmation of the strike and its effects is not yet in the tracker.",
-    "hashtags": [
-      "#Haiti",
-      "#Watchboard"
-    ],
-    "link": "https://watchboard.dev/haiti-collapse/events/2026-11-11-el-salvador-claims-400-mawozo-hq-missile-strike-2026-11-11?utm_source=x&utm_medium=breaking&utm_campaign=2026-11-11",
-    "image": "https://watchboard.dev/og/haiti-collapse/2026-11-11-el-salvador-claims-400-mawozo-hq-missile-strike-2026-11-11.png",
-    "memegenUrl": null,
-    "publishAt": "2026-11-12T12:41:00Z",
-    "estimatedCost": 0.02,
-    "threadTweets": null,
-    "judge": {
-      "score": 0.78,
-      "verdict": "REVIEW",
-      "comment": "Single-party claim, correctly attributed. A human should check whether independent confirmation has appeared before posting.",
-      "factChecks": [
-        {
-          "claim": "El Salvador's president says a missile strike destroyed 400 Mawozo headquarters",
-          "status": "verified",
-          "source": "event el-salvador-claims-400-mawozo-hq-missile-strike-2026-11-11 (2026-11-11)"
-        },
-        {
-          "claim": "No independent confirmation yet",
-          "status": "warning",
-          "source": "tracker digest and event title give only the Salvadoran claim"
-        }
-      ]
-    },
-    "id": "5fc98463-da6d-48d9-bb71-37fb9c869009",
-    "tweetId": null,
-    "postedAt": null,
-    "status": "pending_review"
-  },
-  {
     "type": "contested",
     "voice": "analyst",
-    "tracker": "russian-fuel-crisis",
+    "tracker": "lebanon-war-2026",
     "lang": "en",
-    "text": "How much Russian refining capacity is offline? Ukraine's General Staff put it at 42.74% in July 2026. The IEA said losses were \"more than 20%\" at peak. Reuters reported national oil processing fell only 3–6%, as undamaged refineries offset losses.",
+    "text": "Hezbollah's losses are disputed. IDF/independent estimates: ~1,700-2,500 killed. Hezbollah sources: 1,000+. Lebanon's health ministry counts 4,386 dead since 2 Mar, with no civilian/combatant split.",
     "hashtags": [
-      "#Russia",
+      "#Lebanon",
       "#Watchboard"
     ],
-    "link": "https://watchboard.dev/russian-fuel-crisis/?utm_source=x&utm_medium=contested&utm_campaign=2026-11-11",
+    "link": "https://watchboard.dev/lebanon-war-2026/?utm_source=x&utm_medium=contested&utm_campaign=2026-11-12",
     "image": null,
     "memegenUrl": null,
-    "publishAt": "2026-11-12T09:41:00Z",
+    "publishAt": "2026-11-12T22:00:00Z",
     "estimatedCost": 0.01,
     "threadTweets": null,
     "judge": {
-      "score": 0.82,
+      "score": 0.8,
       "verdict": "REVIEW",
-      "comment": "Genuine sourced disagreement presented without adjudication. The Reuters figure has no as-of date in the tracker, so a human should confirm it.",
+      "comment": "Both sides are attributed and not averaged. Dispute entries lack exact as-of dates for the combatant estimates, so a human should confirm before posting.",
       "factChecks": [
         {
-          "claim": "Ukraine's General Staff put disabled capacity at 42.74% in July 2026",
+          "claim": "IDF/independent estimates ~1,700-2,500 Hezbollah killed",
           "status": "verified",
-          "source": "tracker dispute 'How much Russian refining capacity has actually been disabled?'"
+          "source": "lebanon-war-2026 disputed figures"
         },
         {
-          "claim": "IEA said losses were more than 20% at peak",
+          "claim": "Hezbollah sources 1,000+",
           "status": "verified",
-          "source": "tracker dispute 'How much Russian refining capacity has actually been disabled?'"
+          "source": "lebanon-war-2026 disputed figures"
         },
         {
-          "claim": "Reuters reported national oil processing fell only 3–6%",
+          "claim": "Lebanese Ministry of Public Health total 4,386 since 2 Mar, no civilian/combatant split",
+          "status": "verified",
+          "source": "lebanon-war-2026 disputed figures and KPIs"
+        },
+        {
+          "claim": "As-of dates for combatant estimates",
           "status": "warning",
-          "source": "tracker dispute; no as-of date given for the Reuters figure"
+          "source": "not stated in tracker data"
         }
       ]
     },
-    "id": "15dc44ed-6af3-4445-a2b9-9d71ec595050",
+    "id": "ae862db4-7a47-4164-87b2-a2160d0903e5",
     "tweetId": null,
     "postedAt": null,
     "status": "pending_review"
