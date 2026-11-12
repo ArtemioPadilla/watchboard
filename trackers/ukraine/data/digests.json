@@ -1,5 +1,20 @@
 [
   {
+    "date": "2026-11-12",
+    "title": "Ukraine Update — Nov 12, 2026",
+    "summary": "Added the Nov 10 resumption of US-mediated Russia-Ukraine talks in Abu Dhabi, the first since February, with Umerov and Medinsky leading delegations and security guarantees on the agenda. Territory remains the main sticking point and no outcome had been reported for the second day. No verified Air Force figures were found for the nights of Nov 10-11, so no strike events were filed. Hero headline updated.",
+    "sectionsUpdated": [
+      "events",
+      "meta"
+    ],
+    "provenance": {
+      "method": "llm",
+      "model": "claude",
+      "generatedAt": "2026-11-12T21:28:52.000Z",
+      "pipeline": "update-data"
+    }
+  },
+  {
     "date": "2026-11-11",
     "title": "Ukraine Update — Nov 11, 2026",
     "summary": "Added the overnight Nov 8-9 attack: 317 drones (105 jet-powered) launched, 276 downed or jammed, hits at 31 locations. Figures are preliminary Air Force relays. Reports for Nov 10-11 conflict across outlets, so no events were filed for those nights yet. Other sections were not changed.",
@@ -11,6 +26,20 @@
       "model": "claude",
       "generatedAt": "2026-11-11T18:30:00.000Z",
       "pipeline": "update-data"
+    }
+  },
+  {
+    "date": "2026-11-10",
+    "title": "Ukraine History Tracker Update — Tue Nov 10, 2026",
+    "summary": "Russian and Ukrainian delegations met in Abu Dhabi on Nov 10 for the first talks since February, with US envoys Steve Witkoff and Jared Kushner mediating.",
+    "sectionsUpdated": [
+      "events"
+    ],
+    "source": "freshness",
+    "provenance": {
+      "method": "heuristic",
+      "generatedAt": "2026-11-12T21:43:15.960Z",
+      "pipeline": "ensure-digests"
     }
   },
   {
@@ -725,34 +754,6 @@
       "model": "claude",
       "generatedAt": "2026-09-18T18:44:17.000Z",
       "pipeline": "update-data"
-    }
-  },
-  {
-    "date": "2026-09-17",
-    "title": "Ukraine History Tracker Update — Thu Sep 17, 2026",
-    "summary": "Russia Strikes Zaporizhstal Steel Plant for 4th Time in a Month. Russian Strike on Korosten Industrial Park Kills 2, Injures 2. Ukraine Launches 350+ Drone Attack Toward Moscow Region.",
-    "sectionsUpdated": [
-      "events"
-    ],
-    "source": "freshness",
-    "provenance": {
-      "method": "heuristic",
-      "generatedAt": "2026-09-18T19:03:56.891Z",
-      "pipeline": "ensure-digests"
-    }
-  },
-  {
-    "date": "2026-09-16",
-    "title": "Ukraine History Tracker Update — Wed Sep 16, 2026",
-    "summary": "A Russian drone struck a passenger minibus carrying civilians near Nikopol, Dnipropetrovsk Oblast, on the morning of September 16, killing 5 people and injuring at least 7 others. Zelensky: Ukraine Ready for Energy Ceasefire, but Russia Has Not Agreed.",
-    "sectionsUpdated": [
-      "events"
-    ],
-    "source": "freshness",
-    "provenance": {
-      "method": "heuristic",
-      "generatedAt": "2026-09-16T19:31:51.466Z",
-      "pipeline": "ensure-digests"
     }
   }
 ]
