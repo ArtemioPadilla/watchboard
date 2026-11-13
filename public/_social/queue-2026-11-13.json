@@ -1,43 +1,5 @@
 [
   {
-    "type": "breaking",
-    "voice": "analyst",
-    "tracker": "haiti-collapse",
-    "lang": "en",
-    "text": "El Salvador's president says a missile strike destroyed the headquarters of Haitian gang 400 Mawozo. The claim comes from the Salvadoran side; independent confirmation of the strike and its effects is not yet in the tracker.",
-    "hashtags": [
-      "#Haiti",
-      "#Watchboard"
-    ],
-    "link": "https://watchboard.dev/haiti-collapse/events/2026-11-11-el-salvador-claims-400-mawozo-hq-missile-strike-2026-11-11?utm_source=x&utm_medium=breaking&utm_campaign=2026-11-11",
-    "image": "https://watchboard.dev/og/haiti-collapse/2026-11-11-el-salvador-claims-400-mawozo-hq-missile-strike-2026-11-11.png",
-    "memegenUrl": null,
-    "publishAt": "2026-11-13T06:50:00Z",
-    "estimatedCost": 0.02,
-    "threadTweets": null,
-    "judge": {
-      "score": 0.78,
-      "verdict": "REVIEW",
-      "comment": "Single-party claim, correctly attributed. A human should check whether independent confirmation has appeared before posting.",
-      "factChecks": [
-        {
-          "claim": "El Salvador's president says a missile strike destroyed 400 Mawozo headquarters",
-          "status": "verified",
-          "source": "event el-salvador-claims-400-mawozo-hq-missile-strike-2026-11-11 (2026-11-11)"
-        },
-        {
-          "claim": "No independent confirmation yet",
-          "status": "warning",
-          "source": "tracker digest and event title give only the Salvadoran claim"
-        }
-      ]
-    },
-    "id": "5fc98463-da6d-48d9-bb71-37fb9c869009",
-    "tweetId": null,
-    "postedAt": null,
-    "status": "pending_review"
-  },
-  {
     "type": "contested",
     "voice": "analyst",
     "tracker": "russian-fuel-crisis",
@@ -50,7 +12,7 @@
     "link": "https://watchboard.dev/russian-fuel-crisis/?utm_source=x&utm_medium=contested&utm_campaign=2026-11-11",
     "image": null,
     "memegenUrl": null,
-    "publishAt": "2026-11-13T03:50:00Z",
+    "publishAt": "2026-11-13T21:20:00Z",
     "estimatedCost": 0.01,
     "threadTweets": null,
     "judge": {
@@ -138,49 +100,6 @@
   {
     "type": "breaking",
     "voice": "analyst",
-    "tracker": "gaza-war",
-    "lang": "en",
-    "text": "An Israeli strike on Nasser Hospital killed at least six on Nov 12, Gaza civil defence says. The ceasefire-period toll stood at 1,613 killed as of Nov 10, with 20 killed in the past week. Figures are from Gaza authorities.",
-    "hashtags": [
-      "#Gaza",
-      "#Watchboard"
-    ],
-    "link": "https://watchboard.dev/gaza-war/events/2026-11-12-nasser-hospital-strike-nov-12-2026?utm_source=x&utm_medium=breaking&utm_campaign=2026-11-12",
-    "image": "https://watchboard.dev/og/gaza-war/2026-11-12-nasser-hospital-strike-nov-12-2026.png",
-    "memegenUrl": null,
-    "publishAt": "2026-11-13T09:50:00Z",
-    "estimatedCost": 0.02,
-    "threadTweets": null,
-    "judge": {
-      "score": 0.84,
-      "verdict": "PUBLISH",
-      "comment": "Casualty figures are attributed to Gaza civil defence and authorities rather than stated as independently verified. Sensitive topic, so wording stays minimal.",
-      "factChecks": [
-        {
-          "claim": "Israeli strike on Nasser Hospital kills at least six, per Gaza civil defence",
-          "status": "verified",
-          "source": "gaza-war event nasser-hospital-strike-nov-12-2026"
-        },
-        {
-          "claim": "Ceasefire-period toll 1,613 killed as of Nov 10",
-          "status": "verified",
-          "source": "gaza-war event ceasefire-toll-1613-nov-10-2026"
-        },
-        {
-          "claim": "20 killed in the past week",
-          "status": "verified",
-          "source": "gaza-war event ceasefire-toll-1613-nov-10-2026"
-        }
-      ]
-    },
-    "id": "04d32991-cfa5-4157-9a6c-cd45a4b9ba04",
-    "tweetId": null,
-    "postedAt": null,
-    "status": "pending_review"
-  },
-  {
-    "type": "breaking",
-    "voice": "analyst",
     "tracker": "super-el-nino-2026",
     "lang": "en",
     "text": "A Super El Niño has been declared as forecasters warn of major shifts in winter weather. Tracker data: Niño 3.4 anomaly +3.3°C (week centered Oct 14); 98% probability of a very strong event peaking Oct-Dec 2026.",
@@ -227,5 +146,48 @@
         "at": "2026-11-13T15:51:44.081Z"
       }
     }
+  },
+  {
+    "type": "digest",
+    "voice": "analyst",
+    "tracker": "spacex-history",
+    "lang": "en",
+    "text": "SpaceX is preparing Starship Flight 15, targeted for as early as Nov 13: the first attempt to tower-catch the ship, with a booster catch also planned per the company's Q3 earnings (Oct 20). Launch outcome not yet recorded.",
+    "hashtags": [
+      "#Starship",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/spacex-history/?utm_source=x&utm_medium=digest&utm_campaign=2026-11-13",
+    "image": null,
+    "memegenUrl": null,
+    "publishAt": "2026-11-13T22:00:00Z",
+    "estimatedCost": 0.01,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.82,
+      "verdict": "PUBLISH",
+      "comment": "Sourced and dated; explicitly notes no outcome is recorded yet.",
+      "factChecks": [
+        {
+          "claim": "Flight 15 targeted for as early as Nov 13",
+          "status": "verified",
+          "source": "event flight-15-nov-13-target-announced-nov-6-2026"
+        },
+        {
+          "claim": "First ship tower-catch attempt",
+          "status": "verified",
+          "source": "event flight-15-nov-13-target-announced-nov-6-2026"
+        },
+        {
+          "claim": "Booster catch also planned per Q3 earnings Oct 20",
+          "status": "verified",
+          "source": "event flight-15-dual-catch-plan-q3-earnings-oct-20-2026"
+        }
+      ]
+    },
+    "id": "574f4a0f-d23d-42a6-b5d1-c915668152cf",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
   }
 ]
