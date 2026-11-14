@@ -12,7 +12,7 @@
     "link": "https://watchboard.dev/haiti-collapse/events/2026-11-11-el-salvador-claims-400-mawozo-hq-missile-strike-2026-11-11?utm_source=x&utm_medium=breaking&utm_campaign=2026-11-11",
     "image": "https://watchboard.dev/og/haiti-collapse/2026-11-11-el-salvador-claims-400-mawozo-hq-missile-strike-2026-11-11.png",
     "memegenUrl": null,
-    "publishAt": "2026-11-14T00:20:00Z",
+    "publishAt": "2026-11-14T19:38:00Z",
     "estimatedCost": 0.02,
     "threadTweets": null,
     "judge": {
@@ -50,7 +50,7 @@
     "link": "https://watchboard.dev/gaza-war/events/2026-11-12-nasser-hospital-strike-nov-12-2026?utm_source=x&utm_medium=breaking&utm_campaign=2026-11-12",
     "image": "https://watchboard.dev/og/gaza-war/2026-11-12-nasser-hospital-strike-nov-12-2026.png",
     "memegenUrl": null,
-    "publishAt": "2026-11-14T06:20:00Z",
+    "publishAt": "2026-11-14T22:38:00Z",
     "estimatedCost": 0.02,
     "threadTweets": null,
     "judge": {
@@ -136,49 +136,6 @@
     }
   },
   {
-    "type": "breaking",
-    "voice": "analyst",
-    "tracker": "iran-conflict",
-    "lang": "en",
-    "text": "Iran says it targeted a US radar site in Bahrain (Nov 13). This is an Iranian claim as reported in the tracker. Same day, Trump said the US no longer needs an Iran deal. Day 210 of the conflict.",
-    "hashtags": [
-      "#Iran",
-      "#Watchboard"
-    ],
-    "link": "https://watchboard.dev/iran-conflict/events/2026-11-13-iran-claims-strike-us-radar-site-bahrain-2026-11-13?utm_source=x&utm_medium=breaking&utm_campaign=2026-11-13",
-    "image": "https://watchboard.dev/og/iran-conflict/2026-11-13-iran-claims-strike-us-radar-site-bahrain-2026-11-13.png",
-    "memegenUrl": null,
-    "publishAt": "2026-11-14T09:20:00Z",
-    "estimatedCost": 0.02,
-    "threadTweets": null,
-    "judge": {
-      "score": 0.8,
-      "verdict": "PUBLISH",
-      "comment": "Claim is clearly attributed to Iran and not presented as confirmed fact.",
-      "factChecks": [
-        {
-          "claim": "Iran says it targeted a US radar site in Bahrain",
-          "status": "verified",
-          "source": "event iran-claims-strike-us-radar-site-bahrain-2026-11-13"
-        },
-        {
-          "claim": "Trump said US no longer needs an Iran deal",
-          "status": "verified",
-          "source": "event trump-says-us-no-longer-needs-iran-deal-2026-11-13"
-        },
-        {
-          "claim": "Day 210 of the conflict",
-          "status": "verified",
-          "source": "KPI Days of Conflict"
-        }
-      ]
-    },
-    "id": "50861169-1053-4925-b755-a41391635d11",
-    "tweetId": null,
-    "postedAt": null,
-    "status": "pending_review"
-  },
-  {
     "type": "digest",
     "voice": "analyst",
     "tracker": "cancer-breakthroughs",
@@ -222,5 +179,58 @@
         "at": "2026-11-14T14:42:44.724Z"
       }
     }
+  },
+  {
+    "type": "contested",
+    "voice": "analyst",
+    "tracker": "lebanon-war-2026",
+    "lang": "en",
+    "text": "How many of Lebanon's war dead were fighters? Lebanon's Health Ministry counts 4,386 killed since 2 March, with no combatant split. Israel estimates 1,700-2,500 Hezbollah killed; Hezbollah publishes no totals.",
+    "hashtags": [
+      "#Lebanon",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/lebanon-war-2026/?utm_source=x&utm_medium=contested&utm_campaign=2026-11-14",
+    "image": null,
+    "memegenUrl": null,
+    "publishAt": "2026-11-14T22:00:00Z",
+    "estimatedCost": 0.01,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.78,
+      "verdict": "REVIEW",
+      "comment": "Both sides attributed and not adjudicated, but the tracker gives no exact as-of date for the 4,386 total beyond 'cumulative since 2 Mar'.",
+      "factChecks": [
+        {
+          "claim": "4,386 killed in Lebanon (Lebanese Ministry of Public Health), cumulative since 2 Mar",
+          "status": "verified",
+          "source": "KPI + disputed figures: Lebanon total"
+        },
+        {
+          "claim": "Ministry gives no civilian/combatant split",
+          "status": "verified",
+          "source": "Disputed figures: Lebanon total"
+        },
+        {
+          "claim": "Israel estimates 1,700-2,500 Hezbollah killed",
+          "status": "verified",
+          "source": "Unresolved dispute: How many of the dead are fighters?"
+        },
+        {
+          "claim": "Hezbollah publishes no totals",
+          "status": "verified",
+          "source": "Disputed figures: Hezbollah fighters"
+        },
+        {
+          "claim": "As-of date of 4,386 figure",
+          "status": "warning",
+          "source": "Exact date not stated in provided data"
+        }
+      ]
+    },
+    "id": "723b3c1a-a1d9-45b9-84f7-1c79c183aea7",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
   }
 ]
