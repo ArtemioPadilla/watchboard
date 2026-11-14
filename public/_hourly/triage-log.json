@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "lastPruned": "2026-11-14T09:43:37.266Z",
+  "lastPruned": "2026-11-14T16:07:37.434Z",
   "entries": [
     {
       "timestamp": "2026-11-02T03:53:08.231Z",
@@ -67829,6 +67829,497 @@
       "decision": "discard",
       "reason": "matched mexico on a single token — no substance (score 0.32)",
       "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-14T16:07:37.397Z",
+      "candidate": {
+        "title": "Nigeria cautions against travel via Ethiopia's main airport due to altitude",
+        "url": "https://www.bbc.co.uk/news/articles/cmz6qjpdy2wqo?at_medium=RSS&at_campaign=rss",
+        "source": "bbc",
+        "timestamp": "2026-11-14T16:07:21.566Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 9.1,
+          "lon": 40.5,
+          "place": "Ethiopia",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched ethiopia-conflict on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-14T16:07:37.398Z",
+      "candidate": {
+        "title": "Hungarian authorities uncover $20m during probe of Orbán-era minister",
+        "url": "https://www.bbc.co.uk/news/articles/ckjwj03w4w0qo?at_medium=RSS&at_campaign=rss",
+        "source": "bbc",
+        "timestamp": "2026-11-14T16:07:21.566Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched hungary-transition on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-14T16:07:37.400Z",
+      "candidate": {
+        "title": "'We've got to run': Inside ruined Ukraine power plant under constant drone threat",
+        "url": "https://www.bbc.co.uk/news/videos/cm93rp3gxn6qo?at_medium=RSS&at_campaign=rss",
+        "source": "bbc",
+        "timestamp": "2026-11-14T16:07:21.566Z",
+        "matchedTracker": null,
+        "feedOrigin": "rss",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 48.4,
+          "lon": 31.2,
+          "place": "Ukraine",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched russia on a single token — no substance (score 0.34)",
+      "confidence": 0.34041666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-14T16:07:37.402Z",
+      "candidate": {
+        "title": "Thousands of US flights canceled, delayed as air travel system recovers from shutdown reut.rs/4iUR2S4",
+        "url": "https://bsky.app/profile/reuters.com/post/3n2buur2f3g2e",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-11-14T16:05:08Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched brics on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-14T16:07:37.403Z",
+      "candidate": {
+        "title": "Iran's navy says oil tanker on fire after hitting mine in Hormuz reut.rs/4iP0beT",
+        "url": "https://bsky.app/profile/reuters.com/post/3n2btr3foad25",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-11-14T15:45:11Z",
+        "matchedTracker": "iran-conflict",
+        "feedOrigin": "bluesky",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 26,
+          "lon": 56.5,
+          "place": "Hormuz",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.63)",
+      "confidence": 0.6333333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-14T16:07:37.405Z",
+      "candidate": {
+        "title": "PODCAST: FAA restores flights, Trump plans nuclear talks in China and SS United States' final voyage reut.rs/4f6rqk6",
+        "url": "https://bsky.app/profile/reuters.com/post/3n2bsn7zadx2g",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-11-14T15:25:08Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 39.8,
+          "lon": -98.6,
+          "place": "United States",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "low score (0.07)",
+      "confidence": 0.07125000000000001,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-14T16:07:37.405Z",
+      "candidate": {
+        "title": "Ukraine's Zelenskiy escalates criticism of SpaceX over speed caps reut.rs/4Ax2nz5",
+        "url": "https://bsky.app/profile/reuters.com/post/3n2bqonn4ri2v",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-11-14T14:50:08Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 48.4,
+          "lon": 31.2,
+          "place": "Ukraine",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched artemis-2 on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-14T16:07:37.406Z",
+      "candidate": {
+        "title": "Michael Jackson's ‘Thriller’ jacket is returning to the auction block after more than a decade and is estimated to fetch millions.\n\n#thriller #michaeljackson #memorabilia #princessdiana #auction\n",
+        "url": "https://bsky.app/profile/reuters.com/post/3n2bnwmr4go25",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-11-14T14:00:54Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-14T16:07:37.407Z",
+      "candidate": {
+        "title": "Italy fines Meta $887 million over Android users' data access reut.rs/3URFtD9",
+        "url": "https://bsky.app/profile/reuters.com/post/3n2blesbeh62i",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-11-14T13:15:09Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 41.9028,
+          "lon": 12.4964,
+          "place": "Italy",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched ceuta-schengen-crisis on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-14T16:07:37.407Z",
+      "candidate": {
+        "title": "Debora Cahn on diplomacy in an age of political upheaval reut.rs/4zmexcW",
+        "url": "https://bsky.app/profile/reuters.com/post/3n2bjp5je6t2r",
+        "source": "bsky:reuters.com",
+        "timestamp": "2026-11-14T12:45:08Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched peace-processes on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-14T16:07:37.408Z",
+      "candidate": {
+        "title": "Family Dollar will pay $63 million to settle state and federal allegations that it routinely charged customers more at the register than the prices displayed on its shelves, website and mobile app.",
+        "url": "https://bsky.app/profile/apnews.com/post/3n2bumc5ddr25",
+        "source": "bsky:apnews.com",
+        "timestamp": "2026-11-14T16:00:24Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched battery-revolution on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-14T16:07:37.409Z",
+      "candidate": {
+        "title": "Standing out in a crowded field of job applicants can be difficult.",
+        "url": "https://bsky.app/profile/apnews.com/post/3n2brau5rnt2g",
+        "source": "bsky:apnews.com",
+        "timestamp": "2026-11-14T15:00:19Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-14T16:07:37.409Z",
+      "candidate": {
+        "title": "Some flights have resumed, but getting air traffic back to normal won’t be quick, authorities warn. Here’s what to know.",
+        "url": "https://bsky.app/profile/apnews.com/post/3n2bnvfcgnn2i",
+        "source": "bsky:apnews.com",
+        "timestamp": "2026-11-14T14:00:13Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched canada-wildfires-2026 on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-14T16:07:37.410Z",
+      "candidate": {
+        "title": "A deadly building collapse in Brooklyn has raised concerns about New York City's oversight of construction sites.",
+        "url": "https://bsky.app/profile/apnews.com/post/3n2bkkekixx2y",
+        "source": "bsky:apnews.com",
+        "timestamp": "2026-11-14T13:00:22Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 40.71,
+          "lon": -74,
+          "place": "New York City",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched cdmx on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-14T16:07:37.410Z",
+      "candidate": {
+        "title": "Canada’s Stelco to recall 175 workers after government pressure https://aje.news/habmnv",
+        "url": "https://bsky.app/profile/aljazeera.com/post/3n2bulqios72k",
+        "source": "bsky:aljazeera.com",
+        "timestamp": "2026-11-14T16:00:05.821Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "discard",
+      "reason": "matched us-cyclosporiasis-outbreak on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-14T16:07:37.411Z",
+      "candidate": {
+        "title": "The probe was launched in 1977 but it continues to relay space-related data back to a team of NASA scientists daily.",
+        "url": "https://bsky.app/profile/aljazeera.com/post/3n2bsw2rgll2c",
+        "source": "bsky:aljazeera.com",
+        "timestamp": "2026-11-14T15:30:04.682Z",
+        "matchedTracker": "vera-rubin-lsst",
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.63)",
+      "confidence": 0.6333333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-14T16:07:37.411Z",
+      "candidate": {
+        "title": "Nvidia could lose 30 percent of its value following cofounder Jensen Huang’s decision to step down, analysts warns.",
+        "url": "https://bsky.app/profile/aljazeera.com/post/3n2bpkroafm2t",
+        "source": "bsky:aljazeera.com",
+        "timestamp": "2026-11-14T14:30:04.774Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 53.378,
+          "lon": -0.793,
+          "place": "STEP",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "low score (0.00)",
+      "confidence": 0,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-14T16:07:37.412Z",
+      "candidate": {
+        "title": "How does Iran view shift in US approach after JD Vance ordered away? https://aje.news/ppl89a",
+        "url": "https://bsky.app/profile/aljazeera.com/post/3n2bnv5ejco2r",
+        "source": "bsky:aljazeera.com",
+        "timestamp": "2026-11-14T14:00:05.039Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 31.32,
+          "lon": 48.67,
+          "place": "Iran",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched iran-conflict on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-14T16:07:37.412Z",
+      "candidate": {
+        "title": "Russian casualties ‘reach 450,000’: What that means for the Ukraine war https://aje.news/yzf6he",
+        "url": "https://bsky.app/profile/aljazeera.com/post/3n2bm7kvm4z2m",
+        "source": "bsky:aljazeera.com",
+        "timestamp": "2026-11-14T13:30:07.410Z",
+        "matchedTracker": null,
+        "feedOrigin": "bluesky",
+        "sourceTier": 2,
+        "geo": {
+          "lat": 48.4,
+          "lon": 31.2,
+          "place": "Ukraine",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched indonesia-flores-earthquake on a single token — no substance (score 0.32)",
+      "confidence": 0.31666666666666665,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-14T16:07:37.413Z",
+      "candidate": {
+        "title": "The SAF successes in Kordofan are seeing the battle against the RSF turn in favour of the Sudanese government.",
+        "url": "https://bsky.app/profile/aljazeera.com/post/3n2bkjtswa72n",
+        "source": "bsky:aljazeera.com",
+        "timestamp": "2026-11-14T13:00:04.802Z",
+        "matchedTracker": "sudan-conflict",
+        "feedOrigin": "bluesky",
+        "sourceTier": 2
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.63)",
+      "confidence": 0.6333333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-14T16:07:37.414Z",
+      "candidate": {
+        "title": "UK police probe allegations of sexual offences by author David Walliams  READ:  https://insiderpaper.com/uk-police-probe-allegations-of-sexual-offences-by-author-david-walliams/   Follow  @InsiderPaper  for more news",
+        "url": "https://t.me/insiderpaper/45894",
+        "source": "tg:insiderpaper",
+        "timestamp": "2026-11-14T16:07:22.363Z",
+        "matchedTracker": null,
+        "feedOrigin": "telegram",
+        "sourceTier": 3
+      },
+      "decision": "discard",
+      "reason": "matched kenya-genz-protests on a single token — no substance (score 0.28)",
+      "confidence": 0.2833333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-14T16:07:37.415Z",
+      "candidate": {
+        "title": "BREAKING -  Several countries  hold assets linked to the collapsed Ueno Bank, Paraguayan prosecutors who are tracing missing funds told a press conference Friday.  bit.ly/3X6DnA5   Follow  @InsiderPaper  for more news",
+        "url": "https://t.me/insiderpaper/45895",
+        "source": "tg:insiderpaper",
+        "timestamp": "2026-11-14T16:07:22.363Z",
+        "matchedTracker": "paraguay-pena-impeachment",
+        "feedOrigin": "telegram",
+        "sourceTier": 3
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.57)",
+      "confidence": 0.5666666666666667,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-14T16:07:37.416Z",
+      "candidate": {
+        "title": "NEW - ‘Godfather of AI’ warns humans could lose control of AI within years  READ:   https://insiderpaper.com/godfather-of-ai-warns-humans-could-lose-control-of-ai-within-years/",
+        "url": "https://t.me/insiderpaper/45897",
+        "source": "tg:insiderpaper",
+        "timestamp": "2026-11-14T16:07:22.363Z",
+        "matchedTracker": null,
+        "feedOrigin": "telegram",
+        "sourceTier": 3
+      },
+      "decision": "discard",
+      "reason": "matched argentina on a single token — no substance (score 0.28)",
+      "confidence": 0.2833333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-14T16:07:37.416Z",
+      "candidate": {
+        "title": "JUST IN - Massive explosion in a factory rocks major industrial hub Salto in Brazil",
+        "url": "https://t.me/insiderpaper/45898",
+        "source": "tg:insiderpaper",
+        "timestamp": "2026-11-14T16:07:22.363Z",
+        "matchedTracker": null,
+        "feedOrigin": "telegram",
+        "sourceTier": 3,
+        "geo": {
+          "lat": -14.2,
+          "lon": -51.9,
+          "place": "Brazil",
+          "method": "gazetteer"
+        }
+      },
+      "decision": "discard",
+      "reason": "matched brazil on a single token — no substance (score 0.28)",
+      "confidence": 0.2833333333333333,
+      "model": null,
+      "scanType": "light"
+    },
+    {
+      "timestamp": "2026-11-14T16:07:37.417Z",
+      "candidate": {
+        "title": "JUST IN - The FAA was in the process of rolling out SMART, its  875 million AI air traffic tool, across the airspace of all 22 regional control centers when the nationwide ground stop hit.  Read here:  https://www.disclose.tv/id/wbwhppcl2p/    @disclosetv",
+        "url": "https://t.me/disclosetv/22139",
+        "source": "tg:disclosetv",
+        "timestamp": "2026-11-14T16:07:22.536Z",
+        "matchedTracker": "nato-airspace-incursions",
+        "feedOrigin": "telegram",
+        "sourceTier": 3
+      },
+      "decision": "defer",
+      "reason": "deferred to next heavy scan (score 0.57)",
+      "confidence": 0.5666666666666667,
       "model": null,
       "scanType": "light"
     }
