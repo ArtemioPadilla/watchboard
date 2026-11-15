@@ -12,7 +12,7 @@
     "link": "https://watchboard.dev/iran-conflict/events/2026-11-13-iran-claims-strike-us-radar-site-bahrain-2026-11-13?utm_source=x&utm_medium=breaking&utm_campaign=2026-11-13",
     "image": "https://watchboard.dev/og/iran-conflict/2026-11-13-iran-claims-strike-us-radar-site-bahrain-2026-11-13.png",
     "memegenUrl": null,
-    "publishAt": "2026-11-15T04:38:00Z",
+    "publishAt": "2026-11-15T20:07:00Z",
     "estimatedCost": 0.02,
     "threadTweets": null,
     "judge": {
@@ -150,42 +150,95 @@
   {
     "type": "breaking",
     "voice": "analyst",
-    "tracker": "ukraine-war",
+    "tracker": "iran-conflict",
     "lang": "en",
-    "text": "Zelensky says the US floated NATO membership for Ukraine in exchange for ceding the Donbas. The claim is Zelensky's; no US confirmation is recorded in the tracker. It follows US envoys meeting Putin in the Kremlin on 12 Nov.",
+    "text": "Bahrain accuses Iran of attacking its territory to \"settle\" a score with the US. Saudi Arabia has joined the condemnation. Two days earlier, Iran said it had targeted a US radar site in Bahrain (Iranian claim, not independently verified). Day 210 of the conflict.",
     "hashtags": [
-      "#Ukraine",
+      "#Iran",
       "#Watchboard"
     ],
-    "link": "https://watchboard.dev/ukraine-war/events/2026-11-14-us-floats-nato-membership-for-donbas-concession-20261114?utm_source=x&utm_medium=breaking&utm_campaign=2026-11-14",
-    "image": "https://watchboard.dev/og/ukraine-war/2026-11-14-us-floats-nato-membership-for-donbas-concession-20261114.png",
+    "link": "https://watchboard.dev/iran-conflict/events/2026-11-15-bahrain-accuses-iran-attack-saudi-condemns-2026-11-15?utm_source=x&utm_medium=breaking&utm_campaign=2026-11-15",
+    "image": "https://watchboard.dev/og/iran-conflict/2026-11-15-bahrain-accuses-iran-attack-saudi-condemns-2026-11-15.png",
     "memegenUrl": null,
-    "publishAt": "2026-11-15T10:38:00Z",
+    "publishAt": "2026-11-15T23:07:00Z",
     "estimatedCost": 0.02,
     "threadTweets": null,
     "judge": {
-      "score": 0.8,
-      "verdict": "REVIEW",
-      "comment": "Attributed claim of a sensitive diplomatic nature; wording keeps it as Zelensky's assertion. Human check advised before publishing.",
+      "score": 0.85,
+      "verdict": "PUBLISH",
+      "comment": "Attributed, sourced to tracker events of Nov 13 and Nov 15; Iranian claim explicitly flagged as unverified.",
       "factChecks": [
         {
-          "claim": "Zelensky says US floated NATO membership for ceding Donbas",
+          "claim": "Bahrain accuses Iran of attacking its territory to 'settle' score with US",
           "status": "verified",
-          "source": "Event us-floats-nato-membership-for-donbas-concession-20261114"
+          "source": "iran-conflict event bahrain-accuses-iran-attack-saudi-condemns-2026-11-15"
         },
         {
-          "claim": "No US confirmation recorded in tracker",
-          "status": "warning",
-          "source": "Absence in provided tracker data"
+          "claim": "Saudi Arabia joins condemnation",
+          "status": "verified",
+          "source": "iran-conflict event bahrain-accuses-iran-attack-saudi-condemns-2026-11-15"
         },
         {
-          "claim": "US envoys met Putin in the Kremlin on 12 Nov",
+          "claim": "Iran said it targeted a US radar site in Bahrain (Nov 13)",
           "status": "verified",
-          "source": "Event us-envoys-meet-putin-kremlin-20261112"
+          "source": "iran-conflict event iran-claims-strike-us-radar-site-bahrain-2026-11-13"
+        },
+        {
+          "claim": "Day 210 of the conflict",
+          "status": "verified",
+          "source": "iran-conflict KPI Days of Conflict: 210"
         }
       ]
     },
-    "id": "d6fdf062-b7e9-4906-9883-b3f06c741de0",
+    "id": "94d0940a-82e7-4934-ad7e-79fe5d6fff8b",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "auto_approved"
+  },
+  {
+    "type": "digest",
+    "voice": "analyst",
+    "tracker": "ebola-outbreak",
+    "lang": "en",
+    "text": "DRC Ebola: ECDC reports 10,920 confirmed cases and 5,323 related deaths as of 8 Nov, across eight provinces. Kenya discharged its last patient on 11 Nov; Africa CDC says all nine Kenyan cases trace to a single DRC entry and warns the outbreak is far from over.",
+    "hashtags": [
+      "#Ebola",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/ebola-outbreak/?utm_source=x&utm_medium=digest&utm_campaign=2026-11-15",
+    "image": null,
+    "memegenUrl": null,
+    "publishAt": "2026-11-15T22:00:00Z",
+    "estimatedCost": 0.01,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.84,
+      "verdict": "PUBLISH",
+      "comment": "Every figure carries source and as-of date from tracker events of Nov 9, 11 and 14.",
+      "factChecks": [
+        {
+          "claim": "10,920 confirmed cases and 5,323 deaths in DRC as of 8 Nov (ECDC)",
+          "status": "verified",
+          "source": "ebola-outbreak event ebola-ecdc-10920-cases-nov-9"
+        },
+        {
+          "claim": "Eight provinces affected",
+          "status": "verified",
+          "source": "ebola-outbreak event ebola-ecdc-10920-cases-nov-9"
+        },
+        {
+          "claim": "Kenya discharged last patient Nov 11",
+          "status": "verified",
+          "source": "ebola-outbreak event kenya-discharges-last-ebola-patient-nov-11"
+        },
+        {
+          "claim": "Kenya's nine cases trace to single DRC entry; Africa CDC warns far from over",
+          "status": "verified",
+          "source": "ebola-outbreak event kenya-nine-cases-single-drc-entry-africa-cdc-nov-14"
+        }
+      ]
+    },
+    "id": "67d8170d-8fcf-4c4e-880a-b6689dc1a927",
     "tweetId": null,
     "postedAt": null,
     "status": "pending_review"

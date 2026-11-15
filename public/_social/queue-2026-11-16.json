@@ -1,0 +1,131 @@
+[
+  {
+    "type": "breaking",
+    "voice": "analyst",
+    "tracker": "ukraine-war",
+    "lang": "en",
+    "text": "Zelensky says the US floated NATO membership for Ukraine in exchange for ceding the Donbas. The claim is Zelensky's; no US confirmation is recorded in the tracker. It follows US envoys meeting Putin in the Kremlin on 12 Nov.",
+    "hashtags": [
+      "#Ukraine",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/ukraine-war/events/2026-11-14-us-floats-nato-membership-for-donbas-concession-20261114?utm_source=x&utm_medium=breaking&utm_campaign=2026-11-14",
+    "image": "https://watchboard.dev/og/ukraine-war/2026-11-14-us-floats-nato-membership-for-donbas-concession-20261114.png",
+    "memegenUrl": null,
+    "publishAt": "2026-11-16T02:07:00Z",
+    "estimatedCost": 0.02,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.8,
+      "verdict": "REVIEW",
+      "comment": "Attributed claim of a sensitive diplomatic nature; wording keeps it as Zelensky's assertion. Human check advised before publishing.",
+      "factChecks": [
+        {
+          "claim": "Zelensky says US floated NATO membership for ceding Donbas",
+          "status": "verified",
+          "source": "Event us-floats-nato-membership-for-donbas-concession-20261114"
+        },
+        {
+          "claim": "No US confirmation recorded in tracker",
+          "status": "warning",
+          "source": "Absence in provided tracker data"
+        },
+        {
+          "claim": "US envoys met Putin in the Kremlin on 12 Nov",
+          "status": "verified",
+          "source": "Event us-envoys-meet-putin-kremlin-20261112"
+        }
+      ]
+    },
+    "id": "d6fdf062-b7e9-4906-9883-b3f06c741de0",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
+  },
+  {
+    "type": "contested",
+    "voice": "analyst",
+    "tracker": "lebanon-war-2026",
+    "lang": "en",
+    "text": "How many of Lebanon's dead were fighters? Lebanon's health ministry counts 4,386 dead since 2 March, with no combatant split. Israel puts Hezbollah dead at roughly 1,700-2,500. Hezbollah publishes no totals. No figure reconciles the three.",
+    "hashtags": [
+      "#Lebanon",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/lebanon-war-2026/?utm_source=x&utm_medium=contested&utm_campaign=2026-11-15",
+    "image": null,
+    "memegenUrl": null,
+    "publishAt": "2026-11-16T05:07:00Z",
+    "estimatedCost": 0.01,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.8,
+      "verdict": "REVIEW",
+      "comment": "Both sides attributed with tracker figures; the health-ministry as-of date is not stated beyond 'cumulative since 2 March', so a human should confirm before publishing.",
+      "factChecks": [
+        {
+          "claim": "Lebanese Ministry of Public Health: 4,386 killed, cumulative since 2 March, no civilian/combatant split",
+          "status": "verified",
+          "source": "lebanon-war-2026 disputed figures / KPI"
+        },
+        {
+          "claim": "Israel: ~1,700-2,500 Hezbollah killed",
+          "status": "verified",
+          "source": "lebanon-war-2026 unresolved disputes"
+        },
+        {
+          "claim": "Hezbollah publishes no totals",
+          "status": "verified",
+          "source": "lebanon-war-2026 disputed figures"
+        }
+      ]
+    },
+    "id": "1d160f1e-3653-4b80-b311-1430daef94fc",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
+  },
+  {
+    "type": "contested",
+    "voice": "analyst",
+    "tracker": "russian-fuel-crisis",
+    "lang": "en",
+    "text": "How much Russian refining capacity is actually down? Ukraine's General Staff said 42.74% in July. The IEA said losses were \"more than 20%\" at peak. Reuters reported national oil processing fell only 3-6%, as undamaged refineries offset losses.",
+    "hashtags": [
+      "#Russia",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/russian-fuel-crisis/?utm_source=x&utm_medium=contested&utm_campaign=2026-11-15",
+    "image": null,
+    "memegenUrl": null,
+    "publishAt": "2026-11-16T08:07:00Z",
+    "estimatedCost": 0.01,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.82,
+      "verdict": "PUBLISH",
+      "comment": "Three attributed figures from the tracker's unresolved-dispute record, no adjudication.",
+      "factChecks": [
+        {
+          "claim": "Ukraine's General Staff put disabled capacity at 42.74% in July 2026",
+          "status": "verified",
+          "source": "russian-fuel-crisis unresolved disputes"
+        },
+        {
+          "claim": "IEA said losses were 'more than 20%' at peak",
+          "status": "verified",
+          "source": "russian-fuel-crisis unresolved disputes"
+        },
+        {
+          "claim": "Reuters reported national oil processing fell only 3-6%",
+          "status": "verified",
+          "source": "russian-fuel-crisis unresolved disputes"
+        }
+      ]
+    },
+    "id": "bae1e738-51c7-4b1b-8bc6-72bcf448744c",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
+  }
+]
