@@ -1,5 +1,20 @@
 [
   {
+    "date": "2026-11-16",
+    "title": "Gaza War Tracker Update — Nov 16, 2026",
+    "summary": "An Israeli drone strike in Jabaliya on Nov 14 killed two Palestinians; the IDF said it targeted two Hamas militants. Mourners held a vigil for 70 people whose remains were recovered from rubble. Gaza's Health Ministry puts the ceasefire-period toll at 1,600+. No reports found for Nov 13 or Nov 16.",
+    "sectionsUpdated": [
+      "events",
+      "meta"
+    ],
+    "provenance": {
+      "method": "llm",
+      "model": "claude",
+      "generatedAt": "2026-11-16T23:18:38.000Z",
+      "pipeline": "update-data"
+    }
+  },
+  {
     "date": "2026-11-15",
     "title": "Breaking: Australia, UK, Canada and Italy urge Israel to allow rapid, unimpeded humanitari",
     "summary": "Australia, UK, Canada and Italy urge Israel to allow rapid, unimpeded humanitarian aid access to Gaza ahead of winter",
@@ -13,6 +28,20 @@
       "model": "claude",
       "generatedAt": "2026-11-15T22:19:22.259Z",
       "pipeline": "hourly-scan"
+    }
+  },
+  {
+    "date": "2026-11-14",
+    "title": "Gaza War Tracker Update — Sat Nov 14, 2026",
+    "summary": "An Israeli drone strike in Jabaliya, northern Gaza, killed two Palestinians, according to hospital officials.",
+    "sectionsUpdated": [
+      "events"
+    ],
+    "source": "freshness",
+    "provenance": {
+      "method": "heuristic",
+      "generatedAt": "2026-11-16T23:36:10.077Z",
+      "pipeline": "ensure-digests"
     }
   },
   {
@@ -732,38 +761,6 @@
       "method": "llm",
       "model": "claude",
       "generatedAt": "2026-09-29T21:45:38.843Z",
-      "pipeline": "hourly-scan"
-    }
-  },
-  {
-    "date": "2026-09-28",
-    "title": "Breaking: BBC is reviewing 53 Gaza-based journalists over possible terrorist ties, raising",
-    "summary": "BBC is reviewing 53 Gaza-based journalists over possible terrorist ties, raising significant press freedom and journalistic accountability questions.",
-    "sectionsUpdated": [
-      "events",
-      "meta"
-    ],
-    "source": "breaking",
-    "provenance": {
-      "method": "llm",
-      "model": "claude",
-      "generatedAt": "2026-09-28T22:51:56.834Z",
-      "pipeline": "hourly-scan"
-    }
-  },
-  {
-    "date": "2026-09-27",
-    "title": "Breaking: IDF reports killing a Hamas commander in the Gaza Strip in a targeted strike.",
-    "summary": "IDF reports killing a Hamas commander in the Gaza Strip in a targeted strike.",
-    "sectionsUpdated": [
-      "events",
-      "meta"
-    ],
-    "source": "breaking",
-    "provenance": {
-      "method": "llm",
-      "model": "claude",
-      "generatedAt": "2026-09-27T20:46:39.033Z",
       "pipeline": "hourly-scan"
     }
   }

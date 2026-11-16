@@ -1,5 +1,19 @@
 [
   {
+    "date": "2026-11-16",
+    "title": "Ebola Outbreak Tracker Update — Nov 16, 2026",
+    "summary": "Searches found no new verifiable case or death figures beyond ECDC's 9 November update (10,920 confirmed cases and 5,323 related deaths in the DRC as of 8 November). No new sourced events were added for the 10–16 November gap days. Kenya's nine cases remain linked to a single DRC entry.",
+    "sectionsUpdated": [
+      "meta"
+    ],
+    "provenance": {
+      "method": "llm",
+      "model": "claude",
+      "generatedAt": "2026-11-16T23:17:24.000Z",
+      "pipeline": "update-data"
+    }
+  },
+  {
     "date": "2026-11-15",
     "title": "Ebola Outbreak Tracker Update — Nov 15, 2026",
     "summary": "Searches found no new verifiable case or death figures beyond ECDC's 9 November update (10,920 confirmed cases and 5,323 related deaths in the DRC as of 8 November). No new sourced events were added for the 8–15 November gap days. Kenya's nine cases remain linked to a single DRC entry, per the 14 November report.",
@@ -734,20 +748,6 @@
     "provenance": {
       "method": "heuristic",
       "generatedAt": "2026-09-23T19:42:58.005Z",
-      "pipeline": "ensure-digests"
-    }
-  },
-  {
-    "date": "2026-09-20",
-    "title": "Ebola Outbreak Tracker Update — Sun Sep 20, 2026",
-    "summary": "Africa CDC Welcomes US-Convened G20+ Ebola Meeting, Warns Outbreak Has Not Yet Peaked.",
-    "sectionsUpdated": [
-      "events"
-    ],
-    "source": "freshness",
-    "provenance": {
-      "method": "heuristic",
-      "generatedAt": "2026-09-25T20:13:31.412Z",
       "pipeline": "ensure-digests"
     }
   }
