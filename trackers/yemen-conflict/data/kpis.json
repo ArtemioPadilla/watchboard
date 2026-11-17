@@ -130,7 +130,11 @@
     "source": "Al Jazeera / Bloomberg / NBC News",
     "contested": false,
     "delta": "+1",
-    "deltaDetail": { "value": 1, "direction": "up", "period": "since Aug 14" },
+    "deltaDetail": {
+      "value": 1,
+      "direction": "up",
+      "period": "since Aug 14"
+    },
     "deltaNote": "Jul 27, Aug 9 and Sep 8, 2026 strikes all confirmed by Saudi authorities; the refinery was taken offline again after the Sep 8 broadside.",
     "trend": "up",
     "lastUpdated": "2026-09-08T00:00:00.000Z"
@@ -153,21 +157,30 @@
     "source": "Saudi-led Coalition Joint Forces Command / Al Jazeera",
     "contested": false,
     "delta": "+86",
-    "deltaDetail": { "value": 86, "direction": "up", "period": "Sep 8–15" },
+    "deltaDetail": {
+      "value": 86,
+      "direction": "up",
+      "period": "Sep 8–15"
+    },
     "deltaNote": "73 wounded in the Sep 8 broadside on Abha, Khamis Mushait, Jazan and Najran; 13 more wounded in the Sep 14-15 strikes on Khamis Mushait, Abha and Taif.",
     "trend": "up",
     "lastUpdated": "2026-09-15T00:00:00.000Z"
   },
   {
     "id": "yemen-displaced-since-sep1",
-    "label": "Displaced by Renewed Fighting Since Sep 1",
-    "value": "86,000+",
+    "label": "Displaced by Renewed Fighting Since August",
+    "value": "340,000+",
     "color": "amber",
-    "source": "Al Jazeera / IOM",
+    "source": "Al Jazeera / IOM (Nov 15, 2026)",
     "contested": false,
-    "deltaNote": "Includes 2,000+ who crossed into neighboring Djibouti; concentrated around Taiz and the west coast (Mocha/Dhubab) fighting.",
+    "deltaNote": "IOM figure for displacement since August; earlier 86,000+ count covered Sep 1 onward and the Taiz / west coast fighting.",
     "trend": "up",
-    "lastUpdated": "2026-09-14T00:00:00.000Z"
+    "lastUpdated": "2026-11-17T22:10:44.000Z",
+    "deltaDetail": {
+      "value": 254000,
+      "direction": "up",
+      "period": "since Sep 14"
+    }
   },
   {
     "id": "houthi-fighters-killed-marib-3days",
@@ -188,7 +201,11 @@
     "source": "Watchboard calculation",
     "contested": false,
     "delta": "+36",
-    "deltaDetail": { "value": 36, "direction": "up", "period": "since Aug 21" },
+    "deltaDetail": {
+      "value": 36,
+      "direction": "up",
+      "period": "since Aug 21"
+    },
     "trend": "up",
     "lastUpdated": "2026-09-26T00:00:00.000Z"
   }
