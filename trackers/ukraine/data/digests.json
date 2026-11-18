@@ -1,5 +1,36 @@
 [
   {
+    "date": "2026-11-18",
+    "title": "Ukraine Update — Nov 18, 2026",
+    "summary": "A Ukrainian attack on Nov 17 caused part of the Kerch Bridge to collapse, with two reported killed. On Nov 18 Russia launched 141 long-range drones, 73 of them jet-powered, and Russian attacks killed at least five people nationwide, four in Odesa where the historic centre was hit. Energy facilities in Kyiv, Mykolaiv and Rivne oblasts were damaged. No verified reporting was found for Nov 14-16.",
+    "sectionsUpdated": [
+      "events",
+      "mapPoints",
+      "mapLines",
+      "meta"
+    ],
+    "provenance": {
+      "method": "llm",
+      "model": "claude",
+      "generatedAt": "2026-11-18T21:53:33.672Z",
+      "pipeline": "update-data"
+    }
+  },
+  {
+    "date": "2026-11-17",
+    "title": "Ukraine History Tracker Update — Tue Nov 17, 2026",
+    "summary": "A Ukrainian attack overnight on Nov 17 caused extensive damage to the Kerch (Crimean) Bridge, the road-and-rail link between Russia and annexed Crimea.",
+    "sectionsUpdated": [
+      "events"
+    ],
+    "source": "freshness",
+    "provenance": {
+      "method": "heuristic",
+      "generatedAt": "2026-11-18T22:09:44.045Z",
+      "pipeline": "ensure-digests"
+    }
+  },
+  {
     "date": "2026-11-16",
     "title": "Ukraine Update — Nov 16, 2026",
     "summary": "Filed Nov 12-13 events. Witkoff and Kushner met Putin, who proposed a Kostiantynivka humanitarian mission, and a new round of talks was agreed without dates. Zelensky met the envoys near Dublin and was told the coming prisoner exchange would be the largest of the war. EU leaders met in Dublin over who speaks for Europe, and the Kremlin played down a European role. No verified reporting was found for Nov 14-16.",
@@ -718,39 +749,6 @@
     "provenance": {
       "method": "heuristic",
       "generatedAt": "2026-09-25T20:13:31.538Z",
-      "pipeline": "ensure-digests"
-    }
-  },
-  {
-    "date": "2026-09-23",
-    "title": "Ukraine History Tracker Update — Wed Sep 23, 2026",
-    "summary": "A rare daytime Russian drone barrage killed 2 and injured 43+ in Kyiv on September 23, burning the historic Shayba market, while a Russian glide bomb killed 4 in Oleksandrivka, Donetsk Oblast. The strikes came hours after Zelensky met Trump at the UN General Assembly to discuss a reciprocal energy ceasefire and Patriot interceptor licensing, after which the Kremlin said there were 'no prerequisites' for peace talks. Overnight into September 22, a Russian ballistic missile barrage killed 8 and wounded 37 nationwide, including 4 workers at the Interpipe plant in Dnipro, while Ukraine struck Russian oil refineries in Ufa and Samara. Russian military losses reached ~1,522,440 per the Ukrainian General Staff.",
-    "sectionsUpdated": [
-      "events",
-      "mapLines",
-      "mapPoints",
-      "kpis",
-      "claims",
-      "meta"
-    ],
-    "provenance": {
-      "method": "llm",
-      "model": "claude",
-      "generatedAt": "2026-09-23T19:19:39.000Z",
-      "pipeline": "update-data"
-    }
-  },
-  {
-    "date": "2026-09-22",
-    "title": "Ukraine History Tracker Update — Tue Sep 22, 2026",
-    "summary": "Russian forces launched a combined ballistic and cruise missile barrage overnight into September 22, killing at least 8 people and wounding 37 across Ukraine. Ukraine Strikes Ufa's Bashneft-UNPZ and Samara's Kuibyshev Oil Refineries in Deep Drone Raids. President Zelensky held closed-door talks with President Trump for roughly 40 minutes on the sidelines of the 81st UN General Assembly in New York on September 22.",
-    "sectionsUpdated": [
-      "events"
-    ],
-    "source": "freshness",
-    "provenance": {
-      "method": "heuristic",
-      "generatedAt": "2026-09-23T19:42:58.109Z",
       "pipeline": "ensure-digests"
     }
   }
