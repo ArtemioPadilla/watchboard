@@ -1,0 +1,114 @@
+[
+  {
+    "id": "global-ev-battery-demand",
+    "label": "Demande mondiale de batteries pour véhicules électriques (1er semestre 2026)",
+    "value": "608.5 GWh",
+    "color": "green",
+    "source": "SNE Research (via battery-tech.net), Aug 2026",
+    "contested": false,
+    "delta": "+20% YoY",
+    "deltaNote": "Les installations mondiales de batteries pour véhicules électriques ont atteint 608,5 GWh au premier semestre 2026, en hausse de 20 % sur un an. CATL arrive en tête avec 242,7 GWh (39,9 % de part de marché), consolidant son avance alors même que les fabricants chinois, pris collectivement, font face à une concurrence non chinoise croissante — la part mondiale de CATL dans le stockage stationnaire (réseau) est restée à 27,1 % au premier semestre 2026, tandis que les marchés du stockage hors Chine ont dépassé la Chine en volume installé pour la première fois.",
+    "trend": "up",
+    "lastUpdated": "2026-08-26"
+  },
+  {
+    "id": "battery-pack-price-2025",
+    "label": "Prix moyen d'un pack de batterie",
+    "value": "$108/kWh",
+    "color": "green",
+    "source": "BloombergNEF Battery Price Survey 2025 (Dec 2025)",
+    "contested": false,
+    "delta": "-8% from $118/kWh (2024)",
+    "deltaNote": "Moyenne mondiale de fin 2025 de BNEF, tous types de packs confondus ; packs spécifiques aux véhicules électriques à batterie à environ 99 $/kWh ; packs de stockage sur réseau jusqu'à 70 $/kWh. La hausse des prix des métaux au 2e semestre 2025 a atténué la baisse par rapport aux projections antérieures.",
+    "trend": "down",
+    "lastUpdated": "2026-05-14"
+  },
+  {
+    "id": "china-battery-market-share",
+    "label": "Part de marché mondiale de CATL dans les batteries de VE (S1 2026)",
+    "value": "39.9%",
+    "color": "blue",
+    "source": "SNE Research (via battery-tech.net), Aug 2026",
+    "contested": false,
+    "delta": "Broadly steady vs. 40.2% (Jan–May 2026)",
+    "deltaNote": "CATL détenait 39,9 % du marché mondial des batteries de véhicules électriques au premier semestre 2026, avec 242,7 GWh installés sur 608,5 GWh installés dans le monde (+20 % sur un an). CATL a par ailleurs indiqué avoir livré 125,0 GWh au marché du stockage sur réseau (ESS) au premier semestre 2026 (+81 % sur un an), portant sa part de l'ESS à 27,1 %, alors que les marchés ESS hors Chine ont dépassé la Chine en volume installé pour la première fois.",
+    "trend": "stable",
+    "lastUpdated": "2026-08-26"
+  },
+  {
+    "id": "lithium-carbonate-price",
+    "label": "Carbonate de lithium (cours au comptant en Chine, équiv. USD)",
+    "value": "~$19,830/tonne",
+    "color": "amber",
+    "source": "Benchmark Mineral Intelligence / Carbon Credits, Sep 24, 2026",
+    "contested": false,
+    "delta": "Down ~18% from the ~$24,086/tonne Aug 24 spike",
+    "deltaDetail": {
+      "value": -4256,
+      "direction": "down",
+      "period": "since Aug 24"
+    },
+    "deltaNote": "Après le pic d'une seule séance du 24 août à environ 24 086 $/tonne (~160 500 ¥) sous l'effet de la demande de stockage d'énergie, le carbonate de lithium a cédé l'essentiel de ses gains, reculant d'environ 18 % pour atteindre ~19 830 $/tonne au 24 sept. 2026. Ce repli traduit la disparition de la prime liée aux perturbations d'approvisionnement de la mine Jianxiawo de CATL (plus grand gisement de lithium de Chine, à l'arrêt depuis la révocation d'un permis environnemental début août), ainsi que le ralentissement de la croissance de la demande de véhicules électriques à court terme.",
+    "trend": "down",
+    "lastUpdated": "2026-09-26"
+  },
+  {
+    "id": "solid-state-energy-density-lab",
+    "label": "Meilleure densité énergétique à semi-conducteurs (stade de production)",
+    "value": "500 Wh/kg (small-batch); 381 Wh/kg (Giga-level mass production)",
+    "color": "blue",
+    "source": "Ganfeng Lithium small-batch production (May 2026); ProLogium Gen 3.5 mass production, TÜV-verified (Sep 2026)",
+    "contested": true,
+    "contestNote": "La cellule de 500 Wh/kg de Ganfeng reste la plus performante au stade de la production, mais seulement à raison de quelques dizaines à quelques centaines de cellules par jour. ProLogium a lancé en septembre 2026, à Taïwan, la production de masse à l'échelle Giga de sa batterie céramique au lithium tout solide de génération 3.5 — avec une densité inférieure de 381 Wh/kg (903 Wh/L), mais première cellule tout solide vérifiée de façon indépendante (TÜV, UL) à une véritable échelle de fabrication de masse, et non en volume pilote ou en petites séries. Li Auto a par ailleurs déclaré (22 sept. 2026) viser seulement une intégration en petites séries de batteries à électrolyte solide dans ses véhicules d'ici 2027–2028, la production de masse mature n'étant pas attendue avant 2032–2033 — ce qui souligne que c'est désormais la montée en échelle, et non la densité énergétique maximale en laboratoire, qui constitue la contrainte déterminante.",
+    "trend": "up",
+    "lastUpdated": "2026-09-26"
+  },
+  {
+    "id": "world-largest-grid-battery",
+    "label": "Plus grande batterie de réseau au monde",
+    "value": "3 GWh",
+    "color": "green",
+    "source": "Vistra Energy — Moss Landing, CA (Phase 3, 2025)",
+    "contested": false,
+    "delta": "↑ from ~2 GWh (2024)",
+    "deltaNote": "Remplace les centrales de pointe au gaz ; alimente plus de 300 000 foyers pendant 4 heures",
+    "trend": "up",
+    "lastUpdated": "2026-04-14"
+  },
+  {
+    "id": "ev-max-range-wltp",
+    "label": "Plus grande autonomie d'un véhicule électrique de série (WLTP)",
+    "value": "~750 km",
+    "color": "blue",
+    "source": "Mercedes EQS 450+ / WLTP 2024 certification",
+    "contested": true,
+    "contestNote": "L'autonomie WLTP et l'autonomie réelle diffèrent de 20 à 30 % ; l'anxiété liée à l'autonomie reste un frein majeur pour les consommateurs",
+    "trend": "up",
+    "lastUpdated": "2026-04-14"
+  },
+  {
+    "id": "sodium-ion-annual-production",
+    "label": "Production mondiale / projets en développement de sodium-ion",
+    "value": "65+ GWh ordered; Hina matches Tesla cell quality",
+    "color": "green",
+    "source": "CATL/HyperStrong + CATL/Alfen (Jul 16, 2026); Hina/Cell Reports Physical Science (Jun 21, 2026)",
+    "contested": false,
+    "delta": "CATL's first Europe sodium-ion BESS deployment now confirmed (5 GWh, Alfen, from 2027)",
+    "deltaNote": "CATL a signé le 16 juillet 2026 un accord de stockage sodium TENER de 5 GWh avec l'intégrateur néerlandais Alfen — le premier déploiement prévu de BESS sodium-ion en Europe —, qui s'ajoute à sa commande nationale HyperStrong de 60 GWh. Par ailleurs, une recherche évaluée par des pairs publiée le 21 juin a constaté que les cellules sodium-ion du fabricant chinois Hina, dotées d'un collecteur de courant en double aluminium sans languettes, égalent désormais les cellules lithium-ion de Tesla en qualité de fabrication et en performances — une validation notable de la maturité industrielle du sodium-ion, et pas seulement de son avantage de coût.",
+    "trend": "up",
+    "lastUpdated": "2026-07-16"
+  },
+  {
+    "id": "peak-ev-battery-charging-catl-qilin3",
+    "label": "Vitesse de recharge de batterie de VE la plus rapide (annoncée)",
+    "value": "10C continuous / 3,000 kW output",
+    "color": "blue",
+    "source": "CATL Qilin 3 (3rd-gen) — CATL Tech Day, Apr 21, 2026",
+    "contested": true,
+    "contestNote": "Annonce lors du Tech Day de CATL ; qualification de véhicules de série en cours avec trois constructeurs non nommés pour 2027. Nécessite des infrastructures de recharge d'environ 1 000 kW, pas encore largement déployées. Le LFP Shenxing de 3e génération atteint 10-80 % en 3 min 44 s. Les vitesses en conditions réelles seront limitées par la capacité des réseaux de recharge.",
+    "delta": "vs 4C peak (Qilin 2, 2023) — 2.5× improvement",
+    "deltaNote": "La Shenxing de 1re génération de CATL (2024) atteignait 4C ; la Qilin 3 revendique 10C en continu avec une puissance de 3 000 kW — soit environ 400 km récupérés en moins de 5 minutes. Objectif de plus de 1 000 km d'autonomie WLTP sur une plateforme de véhicule haut de gamme. Si cela se concrétise commercialement, la recharge rapide cessera d'être un frein à l'adoption des véhicules électriques.",
+    "trend": "up",
+    "lastUpdated": "2026-05-21"
+  }
+]

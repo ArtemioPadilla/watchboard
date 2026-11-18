@@ -1,0 +1,102 @@
+[
+  {
+    "id": "cascade-total-deaths",
+    "label": "Décès cumulés de la cascade (séisme + Bavi + tempêtes d'août)",
+    "value": "173+",
+    "color": "red",
+    "source": "PHIVOLCS / NDRRMC / OCD aggregate, Sept 10, 2026",
+    "contested": true,
+    "contestNote": "Agrège trois bilans distincts du NDRRMC/PHIVOLCS (106-107 pour le séisme, plus de 23 pour Bavi, 44 pour les tempêtes d'août-septembre) ; le chiffre de « 5 disparus » du bilan national de la séquence de tempêtes (réparti entre Quezon City, Manille, Batangas, Rizal et Pampanga) ne semble pas inclure les 2 personnes toujours portées disparues après l'effondrement du pont d'Agana le 29 août à Tarlac, où la PCG a suspendu les recherches le 1er sept. en raison de forts courants et d'une faible visibilité ; les décomptes des collectivités locales de Sarangani et de Lanao del Sur dépassent par endroits les totaux nationaux",
+    "delta": "+44 since Aug 9 storm tally began; toll rose from 43 to 44 between Sept 7 and Sept 10 as PAGASA said the habagat itself was beginning to weaken",
+    "deltaDetail": {
+      "value": 1,
+      "direction": "up",
+      "period": "since Sept 7"
+    },
+    "trend": "up",
+    "lastUpdated": "2026-09-10T06:00:00Z"
+  },
+  {
+    "id": "eq-magnitude",
+    "label": "Magnitude du séisme de Mindanao",
+    "value": "Mw 7.8",
+    "color": "red",
+    "source": "PHIVOLCS / USGS, June 8, 2026",
+    "contested": false,
+    "delta": "57km depth (USGS); 33km (PHIVOLCS)",
+    "trend": "stable",
+    "lastUpdated": "2026-08-20T12:00:00Z"
+  },
+  {
+    "id": "aftershock-count",
+    "label": "Répliques enregistrées depuis le 8 juin",
+    "value": "8,500+",
+    "color": "amber",
+    "source": "PHIVOLCS, as of Aug 5, 2026",
+    "contested": false,
+    "delta": "Includes two M6.5 and one M6.3 (Aug 5) events",
+    "trend": "up",
+    "lastUpdated": "2026-08-20T12:00:00Z"
+  },
+  {
+    "id": "homes-damaged-earthquake",
+    "label": "Logements endommagés/détruits (séisme)",
+    "value": "138,563",
+    "color": "amber",
+    "source": "NDRRMC / OCHA, June-July 2026",
+    "contested": true,
+    "contestNote": "Le bilan régional de l'OCHA (121 307 début juillet) reste inférieur au chiffre cumulé du NDRRMC, qui inclut les dégâts confirmés plus tard liés aux répliques persistantes (jusqu'à plus de 113 300 logements à Mindanao seul en août)",
+    "delta": "19,243 totally destroyed",
+    "trend": "up",
+    "lastUpdated": "2026-08-20T12:00:00Z"
+  },
+  {
+    "id": "people-affected-aug-storms",
+    "label": "Personnes touchées par la séquence tempête/Habagat d'août",
+    "value": "10.44 million+",
+    "color": "amber",
+    "source": "DSWD, Sept 13, 2026 (morning report)",
+    "contested": false,
+    "delta": "10,442,307 people (2,981,477 families) across 6,923 barangays in 10 regions/CAR; evacuation-center population eased to 46,424 people (13,166 families) in 570 centers, down from 60,900/654 on Sept 10, as a further 76,540 displaced people stayed with relatives/friends; ₱2.54 billion in humanitarian assistance disbursed so far, ₱3.54 billion in relief resources still available",
+    "deltaDetail": {
+      "value": 42307,
+      "direction": "up",
+      "period": "since Sept 10"
+    },
+    "trend": "up",
+    "lastUpdated": "2026-09-13T18:05:12Z"
+  },
+  {
+    "id": "eq-economic-loss",
+    "label": "Perte économique due au séisme",
+    "value": "₱71 billion",
+    "color": "red",
+    "source": "NDRRMC damage assessment, 2026",
+    "contested": false,
+    "delta": "Incl. ₱70B in marine resource/coastal uplift damage",
+    "trend": "up",
+    "lastUpdated": "2026-08-20T12:00:00Z"
+  },
+  {
+    "id": "gdp-growth-q2-2026",
+    "label": "Croissance du PIB philippin (T2 2026, sur un an)",
+    "value": "2.3%",
+    "color": "red",
+    "source": "PSA / Bloomberg, Q2 2026",
+    "contested": false,
+    "delta": "Softest expansion since Q4 2009 outside COVID; IMF cut full-year forecast to 4.1% from 5.6%",
+    "trend": "down",
+    "lastUpdated": "2026-08-20T12:00:00Z"
+  },
+  {
+    "id": "energy-emergency-status",
+    "label": "Statut d'urgence énergétique nationale",
+    "value": "Active — EO 110",
+    "color": "amber",
+    "source": "Office of the President, Executive Order 110",
+    "contested": false,
+    "delta": "In effect since March 24, 2026. Instead of a spot-market suspension, ERC ordered (Sept 10) a regional WESM price cap — computed separately per region rather than system-wide — cutting simulated August spot prices 54% in Visayas (₱18.59→₱8.47/kWh) and 56% in Mindanao (₱19.56→₱8.69/kWh); IEMOP is recalculating August bills, due to utilities by Sept 20, and PEMC opened a 60-day probe into generator bidding behavior. The Visayas grid slipped back to yellow alert (4-8pm) Sept 21 and was hit with a further 1-hour red alert (5-6pm) on Sept 22 after the 56.6MW Palinpinon-2 geothermal plant tripped, on top of continued Therma Visayas Unit 1, PEDC Unit 3 and Kepco SPC Unit 2 outages (2,487MW available vs 2,550MW peak demand). The Mindanao grid, by contrast, returned to normal operating status Sept 23 as GNPower Kauswagan and Therma South units resynchronized (2,984MW available vs 2,656MW peak demand). Fuel prices rose a third time this month effective Sept 22 (diesel +₱8.82/L, gasoline +₱4.88/L, kerosene +₱6.47/L; national average ~₱102.78/L diesel, ~₱90.35/L gasoline as of Sept 23), driven by drone-attack damage to Saudi Arabia's East-West Pipeline and the wider Middle East conflict; 3-week cumulative increase now ₱18.31/L diesel, ₱15.25/L gasoline. Separately, a tropical depression (~1,810km east of SE Luzon) is forecast to enter PAR Sept 24 as tropical storm 'Queenie', the 17th cyclone of 2026, threatening to further enhance the habagat over disaster-hit areas.",
+    "trend": "down",
+    "lastUpdated": "2026-09-23T19:02:20Z"
+  }
+]

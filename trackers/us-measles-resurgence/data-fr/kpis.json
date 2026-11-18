@@ -1,0 +1,104 @@
+[
+  {
+    "id": "kpi-2026-national-cases",
+    "label": "Cas de rougeole confirmés en 2026 (É.-U.)",
+    "value": "5,182",
+    "color": "red",
+    "source": "CDC national measles dashboard via Contagion Live and CIDRAP, Nov 6, 2026 update (data through Nov 5)",
+    "contested": true,
+    "contestNote": "Les CDC ne publient que les cas confirmés en laboratoire à une date de clôture hebdomadaire ; les tableaux de bord des États et les suivis indépendants affichent souvent des chiffres plus élevés.",
+    "delta": "+330",
+    "deltaNote": "contre 4 852 lors de la mise à jour précédente ; hausse hebdomadaire de 6,8 %",
+    "deltaDetail": {
+      "value": 330,
+      "direction": "up",
+      "period": "7d"
+    },
+    "trend": "up",
+    "lastUpdated": "2026-11-07T18:36:52.000Z"
+  },
+  {
+    "id": "kpi-2025-national-cases",
+    "label": "Cas confirmés sur l'ensemble de 2025",
+    "value": "2,289",
+    "color": "amber",
+    "source": "CDC year-end 2025 measles data",
+    "contested": false,
+    "trend": "stable",
+    "lastUpdated": "2026-08-20T04:28:03Z"
+  },
+  {
+    "id": "kpi-states-affected",
+    "label": "Juridictions avec des cas en 2026",
+    "value": "47",
+    "color": "amber",
+    "source": "CDC measles case count dashboard, Nov 6, 2026 update",
+    "contested": false,
+    "trend": "stable",
+    "lastUpdated": "2026-11-07T18:36:52.000Z"
+  },
+  {
+    "id": "kpi-outbreak-associated-share",
+    "label": "Cas associés à des foyers (2026)",
+    "value": "96%",
+    "color": "red",
+    "source": "CDC via Contagion Live, Nov 6, 2026 (data through Nov 5) (4,993 of 5,182)",
+    "contested": false,
+    "trend": "stable",
+    "lastUpdated": "2026-11-07T18:36:52.000Z"
+  },
+  {
+    "id": "kpi-deaths-total",
+    "label": "Décès confirmés dus à la rougeole",
+    "value": "CDC: 4 (2026) · States: 8 (2026) · PA: 6 measles-associated",
+    "color": "red",
+    "source": "CDC / Texas DSHS / New Mexico DOH / Pennsylvania DOH / Lancaster County Coroner — 2 children (TX) + 1 adult (NM) in 2025, all unvaccinated; Pennsylvania reports 5 measles-associated deaths as of Oct 1, 2026",
+    "contested": true,
+    "contestNote": "La Pennsylvanie utilise une classification large de « cas associé à la rougeole » (test positif quelle que soit la cause immédiate). Le coroner du comté de Lancaster a conclu le 9 sept. qu'un seul des deux premiers décès en Pennsylvanie avait été directement causé par la rougeole. Le décompte fédéral du CDC exclut les nourrissons de Pennsylvanie sur instruction du secrétaire à la Santé Kennedy.",
+    "delta": "+3 deaths in one week",
+    "deltaNote": "Décès en Pennsylvanie (6e), à New York et dans le Wisconsin signalés les 3-4 nov. ; les CDC en ont confirmé 4 contre 8 comptés par les États",
+    "deltaDetail": {
+      "value": 3,
+      "direction": "up",
+      "period": "7d"
+    },
+    "trend": "up",
+    "lastUpdated": "2026-11-07T18:36:52.000Z"
+  },
+  {
+    "id": "kpi-mmr-kindergarten-coverage",
+    "label": "Couverture nationale ROR en maternelle",
+    "value": "92.4%",
+    "color": "amber",
+    "source": "CDC SchoolVaxView, 2025-2026 school year (released Aug 17, 2026)",
+    "contested": false,
+    "delta": "-0.1pp",
+    "deltaNote": "vs 92,5 % en 2024-2025",
+    "trend": "down",
+    "lastUpdated": "2026-08-20T04:28:03Z"
+  },
+  {
+    "id": "kpi-kindergarten-exemption-rate",
+    "label": "Taux d'exemption vaccinale à la maternelle",
+    "value": "4.2%",
+    "color": "amber",
+    "source": "CDC SchoolVaxView, 2025-2026 school year",
+    "contested": false,
+    "delta": "+0.6pp",
+    "deltaNote": "contre 3,6 % l'année précédente ; record",
+    "trend": "up",
+    "lastUpdated": "2026-08-20T04:28:03Z"
+  },
+  {
+    "id": "kpi-hospitalization-rate-2026",
+    "label": "Taux d'hospitalisation en 2026",
+    "value": "11%",
+    "color": "blue",
+    "source": "CIDRAP, Nov 6, 2026 (CDC data)",
+    "contested": false,
+    "delta": "+2pp",
+    "deltaNote": "contre 8 % en septembre ; 37 hospitalisations de plus que la semaine précédente",
+    "trend": "up",
+    "lastUpdated": "2026-11-07T18:36:52.000Z"
+  }
+]

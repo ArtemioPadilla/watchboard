@@ -1,0 +1,130 @@
+[
+  {
+    "id": "internet-penetration-global",
+    "label": "Taux de pénétration mondial d'Internet",
+    "value": "75%",
+    "color": "blue",
+    "source": "ITU Global Connectivity Report 2025",
+    "contested": false,
+    "delta": "+7.6 pp",
+    "deltaNote": "hausse annuelle selon l'ITU GCR 2025 ; 6 milliards de personnes sont désormais connectées pour la première fois",
+    "trend": "up",
+    "lastUpdated": "2026-04-21T14:35:22Z"
+  },
+  {
+    "id": "people-offline-count",
+    "label": "Personnes toujours hors ligne dans le monde",
+    "value": "2.2 billion",
+    "color": "red",
+    "source": "ITU Global Connectivity Report 2025",
+    "contested": true,
+    "contestNote": "L'UIT estime 2,2 Md ; les estimations vont de 2,1 à 2,5 Md selon les définitions de l'« usage actif » ou de l'« accès occasionnel » ; les fractures entre zones rurales et urbaines et selon le revenu persistent",
+    "trend": "down",
+    "lastUpdated": "2026-04-21T14:35:22Z"
+  },
+  {
+    "id": "starlink-active-subscribers",
+    "label": "Abonnés actifs de Starlink",
+    "value": "13 million+",
+    "color": "blue",
+    "source": "SpaceX internal all-hands meeting (posted publicly on X), August 11, 2026",
+    "contested": false,
+    "delta": "+1M since June 4, 2026",
+    "deltaNote": "SpaceX a révélé plus de 13 millions d'abonnés grand public lors d'une réunion interne entre Elon Musk et les employés, publiée sur X le 11 août 2026 — contre 12 M confirmés le 4 juin 2026 ; SpaceX vise 25 M d'ici fin 2026 grâce aux satellites V3, qui multiplient par 10 la bande passante par satellite",
+    "trend": "up",
+    "lastUpdated": "2026-08-11T00:00:00Z"
+  },
+  {
+    "id": "mobile-broadband-coverage",
+    "label": "Couverture mobile 4G+ (% de la population)",
+    "value": "96%",
+    "color": "green",
+    "source": "GSMA Intelligence / Huawei — Bridging the Divide: Enhancing Digital Literacy in the AI Era, September 10, 2026",
+    "contested": false,
+    "delta": "+1 pp",
+    "deltaNote": "Le rapport de la GSMA du 10 septembre 2026 situe la couverture haut débit mobile à 96 % de la population mondiale, mais constate que 3,1 milliards de personnes dans cette zone de couverture (38 %) restent hors ligne — redéfinissant la fracture comme un écart d'alphabétisation/d'usage plutôt que de couverture",
+    "deltaDetail": {
+      "value": 1,
+      "direction": "up",
+      "period": "since Apr 2026"
+    },
+    "trend": "up",
+    "lastUpdated": "2026-09-10T00:00:00Z"
+  },
+  {
+    "id": "gender-digital-gap",
+    "label": "Écart numérique entre les sexes (internet mobile, pays à revenu faible et intermédiaire)",
+    "value": "7 pp",
+    "color": "amber",
+    "source": "GSMA Connected Women Report 2023",
+    "contested": false,
+    "delta": "-1 pp",
+    "deltaNote": "l'écart se réduit lentement ; les femmes ont 7 % de chances en moins que les hommes d'utiliser l'internet mobile dans les pays à revenu faible et intermédiaire",
+    "trend": "down",
+    "lastUpdated": "2026-04-14T00:00:00Z"
+  },
+  {
+    "id": "school-connectivity-lmic",
+    "label": "Connectivité des écoles dans les PRFI",
+    "value": "~40%",
+    "color": "red",
+    "source": "UNICEF / ITU Measuring Digital Development 2024",
+    "contested": true,
+    "contestNote": "Les définitions varient : certaines estimations tombent à 23 % lorsqu'on mesure le haut débit offrant une réelle qualité d'apprentissage",
+    "trend": "up",
+    "lastUpdated": "2026-04-14T00:00:00Z"
+  },
+  {
+    "id": "data-cost-1gb-lmic",
+    "label": "Coût de 1 Go de données (% moyen du revenu mensuel, PRFI)",
+    "value": "1.8%",
+    "color": "amber",
+    "source": "Alliance for Affordable Internet (A4AI) Affordability Report 2024",
+    "contested": false,
+    "delta": "-0.3 pp",
+    "deltaNote": "en amélioration, mais l'objectif d'accessibilité financière de 2 % de l'UIT n'est toujours pas atteint dans plus de 40 pays",
+    "trend": "down",
+    "lastUpdated": "2026-04-14T00:00:00Z"
+  },
+  {
+    "id": "starlink-country-coverage",
+    "label": "Pays disposant d'un service Starlink actif",
+    "value": "160+",
+    "color": "blue",
+    "source": "SpaceX Starlink milestone announcement / Space in Africa, August 2026",
+    "contested": false,
+    "delta": "+45 countries since early 2024",
+    "deltaNote": "La Guinée équatoriale a été mise en service le 29 août 2026 en tant que 30e marché africain actif de Starlink, dans le cadre d'un plan annoncé visant 16 autres marchés africains d'ici fin 2026 ; MTN Ouganda s'est par ailleurs associé à Starlink le 27 août 2026 pour étendre la connectivité par satellite aux entreprises clientes de zones reculées. L'entrée en Afrique du Sud reste bloquée par les règles de détention du capital BEE, malgré la clarification du cadre de licences de l'ICASA du 30 juin",
+    "trend": "up",
+    "lastUpdated": "2026-09-02T00:00:00Z"
+  },
+  {
+    "id": "amazon-kuiper-satellites-deployed",
+    "label": "Satellites Amazon Leo déployés",
+    "value": "396+",
+    "color": "blue",
+    "source": "About Amazon — Project Kuiper Satellite & Rocket Launch Progress Updates (LA-08 mission, July 2, 2026)",
+    "contested": false,
+    "delta": "+21 since Jul 2",
+    "deltaNote": "Le suivi de mission d'Amazon répertorie désormais 396 satellites en orbite après le lancement LA-08 d'Atlas V (2 juillet 2026), dernière mission Atlas V de la campagne ; Amazon passe au Vulcan Centaur d'ULA pour les lancements suivants, la première mission Amazon Leo lancée par Vulcan (LV-01, 45 satellites) étant visée pour septembre 2026 ; la FCC a levé l'échéance du 30 juillet 2026 pour la moitié de la constellation en juin 2026 ; bêta entreprise active avec Verizon, AT&T, Vodafone et Vodacom",
+    "deltaDetail": {
+      "value": 21,
+      "direction": "up",
+      "period": "since Jul 2"
+    },
+    "trend": "up",
+    "lastUpdated": "2026-09-10T00:00:00Z"
+  },
+  {
+    "id": "africa-mobile-usage-gap",
+    "label": "Écart d'utilisation d'Internet mobile en Afrique",
+    "value": "906 million",
+    "color": "red",
+    "source": "GSMA / Partnership for Digital Access in Africa (PDAA) — Advancing Digital Connectivity in Africa roadmap, September 21, 2026",
+    "contested": false,
+    "delta": "~60% of continent's population",
+    "deltaNote": "La feuille de route de la GSMA et de la PDAA du 21 septembre 2026 (lancée à l'Assemblée générale des Nations unies) chiffre à environ 906 millions le nombre d'Africains couverts par le haut débit mobile mais n'utilisant pas l'internet mobile, auxquels s'ajoutent 122 millions (8 %) toujours dépourvus de toute couverture ; elle vise à connecter 1 milliard d'Africains d'ici 2030 en faisant migrer plus de 600 M de connexions 2G/3G héritées vers la 4G/5G, en facilitant l'accès financier aux appareils et en comblant les déficits d'énergie et de compétences",
+    "trend": "stable",
+    "lastUpdated": "2026-09-21T00:00:00Z"
+  }
+]

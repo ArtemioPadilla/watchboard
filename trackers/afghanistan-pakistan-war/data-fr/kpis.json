@@ -1,64 +1,64 @@
 [
   {
     "id": "us-troops-killed",
-    "label": "US Troops Killed",
+    "label": "Soldats américains tués",
     "value": "2,461",
     "color": "red",
     "source": "DoD Casualty Report",
     "contested": false,
     "delta": "+0",
-    "deltaNote": "Post-withdrawal, no new combat deaths",
+    "deltaNote": "Après le retrait, aucun nouveau décès au combat",
     "trend": "stable",
     "lastUpdated": "2026-03-20T00:00:00Z"
   },
   {
     "id": "coalition-troops-killed",
-    "label": "Coalition Troops Killed",
+    "label": "Soldats de la coalition tués",
     "value": "3,576",
     "color": "red",
     "source": "iCasualties.org / DoD",
     "contested": false,
     "delta": "20+ years",
-    "deltaNote": "Includes US, UK, Canada, NATO partners",
+    "deltaNote": "Comprend les États-Unis, le Royaume-Uni, le Canada et les partenaires de l'OTAN",
     "trend": "stable",
     "lastUpdated": "2026-03-20T00:00:00Z"
   },
   {
     "id": "afghan-civilian-casualties",
-    "label": "Afghan Civilians Killed (2009–2024)",
+    "label": "Civils afghans tués (2009–2024)",
     "value": "~47,000",
     "color": "red",
     "source": "UNAMA",
     "contested": true,
-    "contestNote": "Pre-2009 figures not systematically tracked; total since 2001 may exceed 70,000",
+    "contestNote": "Les chiffres antérieurs à 2009 ne sont pas suivis de manière systématique ; le total depuis 2001 pourrait dépasser 70 000",
     "trend": "stable",
     "lastUpdated": "2026-03-20T00:00:00Z"
   },
   {
     "id": "afghan-security-forces-killed",
-    "label": "Afghan Security Forces Killed (2001–2021)",
+    "label": "Membres des forces de sécurité afghanes tués (2001–2021)",
     "value": "~69,000",
     "color": "red",
     "source": "Brown Univ. Costs of War Project",
     "contested": true,
-    "contestNote": "Afghan govt never released official totals; figure includes ANDSF, police",
+    "contestNote": "Le gouvernement afghan n'a jamais publié de bilans officiels ; le chiffre inclut l'ANDSF et la police",
     "trend": "stable",
     "lastUpdated": "2026-03-20T00:00:00Z"
   },
   {
     "id": "us-war-cost",
-    "label": "Total US War Expenditure",
+    "label": "Dépenses totales des États-Unis pour la guerre",
     "value": "$2.3 trillion",
     "color": "amber",
     "source": "Brown University Costs of War Project",
     "contested": true,
-    "contestNote": "Includes direct war costs, reconstruction, long-term veteran care; estimates vary from $1T to $2.3T+",
+    "contestNote": "Comprend les coûts directs de la guerre, la reconstruction et les soins à long terme aux vétérans ; les estimations varient de 1 000 milliards à plus de 2 300 milliards de dollars",
     "trend": "up",
     "lastUpdated": "2026-03-20T00:00:00Z"
   },
   {
     "id": "afghan-humanitarian-need",
-    "label": "Afghans Needing Humanitarian Aid",
+    "label": "Afghans ayant besoin d'aide humanitaire",
     "value": "23.7 million",
     "color": "amber",
     "source": "UN OCHA 2024",
@@ -69,18 +69,18 @@
   },
   {
     "id": "afghan-refugees-displaced",
-    "label": "Afghan Refugees & IDPs",
+    "label": "Réfugiés et déplacés internes afghans",
     "value": "~8.2 million",
     "color": "amber",
-    "source": "UNHCR 2024",
+    "source": "UNHCR 2024 / HRW Apr 2026 / KabulNow Apr 26",
     "contested": false,
-    "delta": "World's largest displacement crisis",
+    "delta": "147,000+ forcibly deported from Pakistan in 2026; 280,000+ from Pakistan and Iran combined in April alone; 2,200+ deported in a single day Apr 26; world's largest displacement crisis",
     "trend": "down",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "lastUpdated": "2026-04-26T14:18:44.000Z"
   },
   {
     "id": "isis-k-attacks",
-    "label": "ISIS-K Attacks (2021–2024)",
+    "label": "Attaques de l'EI-K (2021–2024)",
     "value": "1,800+",
     "color": "red",
     "source": "ACLED",
@@ -91,7 +91,7 @@
   },
   {
     "id": "ttp-attacks-pakistan",
-    "label": "TTP Attacks in Pakistan (2023)",
+    "label": "Attaques du TTP au Pakistan (2023)",
     "value": "1,524",
     "color": "red",
     "source": "Pakistan Institute for Conflict and Security Studies",
@@ -102,7 +102,7 @@
   },
   {
     "id": "us-reconstruction-spent",
-    "label": "US Reconstruction Aid Spent",
+    "label": "Aide américaine à la reconstruction dépensée",
     "value": "$145 billion",
     "color": "amber",
     "source": "SIGAR 2021",
@@ -113,7 +113,7 @@
   },
   {
     "id": "afghan-girls-out-of-school",
-    "label": "Afghan Girls Banned from School (Grades 7+)",
+    "label": "Afghanes interdites de scolarisation (à partir de la 7e année)",
     "value": "~1.1 million",
     "color": "red",
     "source": "UNESCO 2024",
@@ -124,18 +124,34 @@
   },
   {
     "id": "war-duration",
-    "label": "Days Since US Invasion",
-    "value": "8,953+",
+    "label": "Jours depuis l'invasion américaine",
+    "value": "9,117",
     "color": "blue",
     "source": "Oct 7, 2001 baseline",
     "contested": false,
-    "delta": "America's longest war",
+    "delta": "America's longest war — Day 9,117 as of September 23, 2026; Op Ghazab Day 211. Sep 21: Pakistan resumes cross-border airstrikes on Nurgal (Kunar) and Barmal (Paktika), ending a ~3-month pause — Pakistan claims 28 killed, Afghan officials say 3 civilians killed in a Nurgal home. Sep 21-23: ISPR reports 19 militants killed in Balochistan IBOs across Shaban/Quetta West and Kech (Turbat); Subedar Muhammad Jamil killed in action. Sep 18-19: the Kohat Police Lines mosque bombing death toll rises to 31 (16 police, 7 civilians, 8 attackers) after a 22-hour clearance operation kills all 8 Ittihad-ul-Mujahideen Pakistan attackers. Sep 19-20: Taliban spokesman Zabihullah Mujahid warns Pakistan of a 'crushing response' to any strike on Afghan soil; Pakistan's Ministry of Information calls the remarks 'reprehensible' and demands verifiable action against terrorist sanctuaries.",
+    "deltaDetail": {
+      "value": 3,
+      "direction": "up",
+      "period": "3d"
+    },
     "trend": "up",
-    "lastUpdated": "2026-04-12T12:00:00.000Z"
+    "lastUpdated": "2026-09-23T18:00:00.000Z"
+  },
+  {
+    "id": "ttp-drone-attacks-kp-2026",
+    "label": "Attaques de drones du TTP déjouées dans le Khyber Pakhtunkhwa (2026)",
+    "value": "246",
+    "color": "red",
+    "source": "KP Police / Pakistan Today / Dawn May 4, 2026",
+    "contested": false,
+    "delta": "215 in Bannu alone; avg ~1/day — TTP tactical shift to aerial warfare",
+    "trend": "up",
+    "lastUpdated": "2026-05-04T14:35:00.000Z"
   },
   {
     "id": "af-pak-displaced-2026",
-    "label": "Afghans Displaced by 2026 Border War",
+    "label": "Afghans déplacés par la guerre frontalière de 2026",
     "value": "189,000+",
     "color": "amber",
     "source": "Afghan Economy Ministry / UNHCR April 2026",
@@ -146,37 +162,70 @@
   },
   {
     "id": "omid-airstrike-killed",
-    "label": "Killed in Omid Center Airstrike (Mar 16, 2026)",
+    "label": "Tués dans la frappe aérienne contre le centre Omid (16 mars 2026)",
     "value": "411",
     "color": "red",
     "source": "Afghan IEA / Al Jazeera",
     "contested": true,
-    "contestNote": "Pakistan claims site harbored TTP militants; UN confirmed 143+, Afghan govt revised to 411",
+    "contestNote": "Le Pakistan affirme que le site abritait des militants du TTP ; l'ONU a confirmé plus de 143 morts, le gouvernement afghan a révisé le bilan à 411",
     "delta": "Mostly drug rehab patients",
     "trend": "up",
     "lastUpdated": "2026-03-29T00:00:00Z"
   },
   {
     "id": "urumqi-next-round",
-    "label": "Urumqi Round 2 — Scheduled",
-    "value": "End of April",
-    "color": "blue",
-    "source": "China MFA / Shamshad News Apr 9 2026",
+    "label": "Op Ghazab, jour 211 — jour 9 117 ; le Pakistan reprend ses frappes aériennes transfrontalières, les IBO au Baloutchistan font 19 morts",
+    "value": "Active Escalation — No Ceasefire",
+    "color": "red",
+    "source": "ISPR / Dawn / Geo News / Daily Pakistan / US News / Amu TV / IANS — September 23, 2026",
     "contested": false,
-    "delta": "Non-escalation pledge in force since Apr 9",
+    "delta": "Sep 21: Pakistan resumes cross-border airstrikes into Nurgal (Kunar) and Barmal (Paktika) for the first time since the June 28-29 Chamkani-Gyan-Marawara package, ending a ~3-month pause — Pakistan claims 28 'terrorists and suicide bombers' killed incl. a suicide-bomber training center; Afghan officials say 3 civilians (same family, incl. 1 woman) killed and 4 wounded in a Nurgal residential home, no casualties in Barmal. Taliban spokesman Zabihullah Mujahid condemns the strikes as 'aggression' and vows an 'appropriate response'; none carried out as of Sep 23. Sep 21-23: ISPR reports 19 militants (Fitna al-Khawarij/Fitna al-Hindustan) killed in Balochistan IBOs — 13 in a Shaban, Quetta clearance operation, 6 in Quetta West/Kech (Turbat) raids; Subedar Muhammad Jamil, 39, killed in action, the operations' lone security force fatality. Sep 18-19: the Kohat Police Lines mosque bombing death toll finalized at 31 (16 police, 7 civilians, 8 attackers); Ittihad-ul-Mujahideen Pakistan (Hafiz Gul Bahadur-linked TTP faction) claims responsibility. No formal ceasefire, no Urumqi Round 2 meeting confirmed; conflict remains in active escalation with cross-border strikes resumed and a still-unfulfilled Taliban retaliation threat hanging over the theater.",
     "trend": "up",
-    "lastUpdated": "2026-04-12T12:00:00.000Z"
+    "lastUpdated": "2026-09-23T18:00:00.000Z"
   },
   {
     "id": "pak-op-ghazab-kills",
-    "label": "Taliban Killed (Pakistan Claim, Op Ghazab)",
+    "label": "Talibans tués (selon le Pakistan, op. Ghazab)",
     "value": "796+",
     "color": "red",
     "source": "Pakistan Information Minister Tarar, Apr 5 2026",
     "contested": true,
-    "contestNote": "Afghan Taliban dispute figures; Pakistan claims 796 killed, 1,043 wounded, 286 checkposts destroyed, 81 locations struck by airstrikes",
+    "contestNote": "Les talibans afghans contestent ces chiffres ; le Pakistan affirme avoir tué 796 combattants, en avoir blessé 1 043, détruit 286 postes de contrôle et frappé 81 sites par des frappes aériennes",
     "delta": "Since Feb 26, 2026",
     "trend": "up",
     "lastUpdated": "2026-04-06T10:00:00.000Z"
+  },
+  {
+    "id": "unama-q1-2026-civilian-casualties",
+    "label": "Civils afghans tués — 1er trimestre 2026, conflit Af-Pak (UNAMA)",
+    "value": "372",
+    "color": "red",
+    "source": "UNAMA Quarterly Report, published May 12, 2026",
+    "contested": false,
+    "delta": "Highest quarterly toll since 2011; 397 also injured. 64% from airstrikes, 34% from artillery. Single deadliest: Mar 16 Omid Center strike (269 killed). Systematic UN accountability for the conflict's civilian cost.",
+    "trend": "up",
+    "lastUpdated": "2026-05-13T15:14:18.000Z"
+  },
+  {
+    "id": "afghan-child-malnutrition-2026",
+    "label": "Enfants afghans souffrant de malnutrition aiguë (2026)",
+    "value": "3.7 million",
+    "color": "red",
+    "source": "UN News / Save the Children, Aug 30, 2026",
+    "contested": false,
+    "delta": "~1 million in severe, life-threatening condition; funding cuts have shut nearly 600 health facilities this year, over 100 of them malnutrition treatment sites; WFP nutrition programme only 22% funded",
+    "trend": "up",
+    "lastUpdated": "2026-08-30T00:00:00.000Z"
+  },
+  {
+    "id": "af-returnees-2026-undp-unhcr",
+    "label": "Rapatriés afghans pesant sur l'économie (PNUD-HCR, juil. 2026)",
+    "value": "2.7 million",
+    "color": "amber",
+    "source": "UNDP-UNHCR joint statement, July 6, 2026",
+    "contested": false,
+    "delta": "74% of Afghanistan's population (~29M) cannot meet basic needs; 570,000+ projected to need third-country resettlement in 2026",
+    "trend": "up",
+    "lastUpdated": "2026-07-16T14:05:00.000Z"
   }
 ]

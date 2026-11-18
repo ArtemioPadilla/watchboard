@@ -1,0 +1,167 @@
+[
+  {
+    "id": "deaths-confirmed",
+    "label": "Décès confirmés",
+    "value": "142",
+    "color": "red",
+    "source": "BNPB",
+    "contested": true,
+    "contestNote": "Le bilan est resté stable à 127 pendant quatre jours (3-6 sept.), est passé à 135 le 7 septembre (48 directs, 87 indirects), à 136 le 10 septembre (48 directs, 88 indirects), puis à 142 le 15 septembre (48 directs, 94 indirects) — une hausse de 6 personnes du décompte indirect en cinq jours — selon le responsable par intérim du Centre de données du BNPB, Berton SP Panjaitan. Le 17 septembre, le BNPB et le ministère de la Santé ont précisé que les 94 décès indirects concernaient surtout des personnes âgées évacuées mortes de complications de maladies chroniques préexistantes (AVC, diabète) dans des abris, plutôt que d'un traumatisme ou d'un choc — la première explication de fond fournie, bien que toujours sans documentation publiée cas par cas. Le chiffre reste également non réconcilié avec le décompte de 120 décès de l'application Inatana du BPBD NTT à la même date du 15 septembre.",
+    "trend": "up",
+    "delta": "+6 since 10 Sep (136→142, 15 Sep)",
+    "lastUpdated": "2026-09-17T00:00:00Z",
+    "deltaDetail": {
+      "value": 6,
+      "direction": "up",
+      "period": "since 10 Sep"
+    }
+  },
+  {
+    "id": "injured-total",
+    "label": "Blessés",
+    "value": "1,776",
+    "color": "amber",
+    "source": "BNPB",
+    "contested": false,
+    "trend": "up",
+    "delta": "+14 since 10 Sep (1,762→1,776, 11 Sep)",
+    "lastUpdated": "2026-09-11T00:00:00Z",
+    "deltaDetail": {
+      "value": 14,
+      "direction": "up",
+      "period": "since 10 Sep"
+    }
+  },
+  {
+    "id": "displaced-total",
+    "label": "Déplacés / hébergés",
+    "value": "46,461",
+    "color": "blue",
+    "source": "BNPB",
+    "contested": true,
+    "contestNote": "Le chiffre du BNPB lui-même a changé deux fois le 8 septembre (72 864 sur le portail le matin, révisé à 70 382 le soir par le chef par intérim du Centre de données, Berton SP Panjaitan), puis a continué de baisser — 60 572 (10 sept.), 46 461 (15 sept.) — à mesure que les ménages dont les dégâts légers/modérés ont été vérifiés rentraient chez eux. Aucun de ces chiffres n'a été formellement rapproché du décompte concurrent de 96 385 du BPBD NTT du 5 septembre.",
+    "trend": "down",
+    "delta": "-14,111 since 10 Sep (60,572→46,461, 15 Sep)",
+    "lastUpdated": "2026-09-15T00:00:00Z",
+    "deltaDetail": {
+      "value": -14111,
+      "direction": "down",
+      "period": "since 10 Sep"
+    }
+  },
+  {
+    "id": "homes-damaged",
+    "label": "Logements endommagés",
+    "value": "102,384",
+    "color": "red",
+    "source": "BNPB",
+    "contested": true,
+    "contestNote": "Le centre de données du BNPB évalue à 102 384 le total des logements endommagés identifiés, sans changement depuis le 7 septembre. L'avancement national de la vérification sur le terrain a atteint 70 % le 10 septembre, mais le rythme varie fortement selon les kabupaten : l'expert technique du BNPB Jahidin Chilo a indiqué que le district d'Ende — où la période de réponse d'urgence s'est achevée le 12 septembre — n'avait vérifié que 1 723 de ses 7 030 logements prévus en première phase (24,51 %) au cours des 10 jours précédents, jugeant le rythme du district très en retard sur le calendrier. Ce chiffre remplace le bilan provincial plus restreint de 99 568 du BPBD NTT (4 sept.) ; le BNPB décrit ces chiffres comme dynamiques.",
+    "trend": "stable",
+    "delta": "Verification progress: 50.39%→70% (7→10 Sep); Ende lagging at 24.51% of its own target (12 Sep); total unchanged at 102,384",
+    "lastUpdated": "2026-09-12T00:00:00Z"
+  },
+  {
+    "id": "aftershocks-recorded",
+    "label": "Répliques enregistrées",
+    "value": "18,295",
+    "color": "amber",
+    "source": "BMKG / BPBD NTT",
+    "contested": false,
+    "trend": "up",
+    "deltaNote": "Plage de M0,9 à M6,2 ; le total cumulé a atteint 18 295 à 00h00 WIB le 26 septembre (contre 17 680 le 23 septembre et 17 073 le 21 septembre). Le dernier événement notable, une secousse de M4,9 à 46 km au nord de Ruteng, Manggarai, le 26 septembre (02h39 WIB, profondeur de 9 km), fait partie de la même séquence de répliques selon le chef de la station géophysique de Kupang, Arief Tyastama ; aucun risque de tsunami et aucun dégât signalé. Le BMKG continue de décrire la séquence comme en décroissance, les événements de M5+ s'espaçant depuis la mi-septembre, tandis que l'activité inférieure à M3 pourrait persister pendant des mois au niveau de détection des instruments.",
+    "lastUpdated": "2026-09-26T02:39:00Z",
+    "deltaDetail": {
+      "value": 615,
+      "direction": "up",
+      "period": "since 23 Sep"
+    }
+  },
+  {
+    "id": "presidential-visit-status",
+    "label": "Statut de la visite présidentielle",
+    "value": "Completed 26 Aug",
+    "color": "green",
+    "source": "Sekretariat Presiden RI",
+    "contested": false,
+    "trend": "stable",
+    "deltaNote": "La visite, reportée deux fois, a finalement eu lieu au jour 11 (26 août) ; Prabowo a distribué 200 milliards de Rp d'aide dans un poste de commandement du kabupaten de Nagekeo.",
+    "lastUpdated": "2026-08-28T15:10:00Z"
+  },
+  {
+    "id": "personnel-deployed",
+    "label": "Personnel déployé",
+    "value": "6,973+",
+    "color": "blue",
+    "source": "TNI / Polri / Volunteers",
+    "contested": false,
+    "trend": "up",
+    "delta": "5,832 TNI + 238 Polri + 903 volunteers as of 22-23 Aug (up from 3,500+ TNI/Polri on 17 Aug)",
+    "lastUpdated": "2026-08-23T15:16:00Z"
+  },
+  {
+    "id": "state-of-emergency",
+    "label": "État d'urgence",
+    "value": "Recovery Phase (Province) — Manggarai Timur Extended 3rd Time to 26 Sep",
+    "color": "amber",
+    "source": "NTT Provincial Government / Basarnas / Manggarai Regency",
+    "contested": true,
+    "contestNote": "Le statut de réponse d'urgence à l'échelle de la province du NTT a expiré comme prévu le 12 septembre, Basarnas clôturant son opération de recherche et sauvetage à Flores et les sept regencies entrant officiellement dans la phase de réhabilitation-reconstruction (pemulihan). Mais le Bupati de la regency de Manggarai, Herybertus Geradus Laju Nabit, a signé le 14 septembre le décret no 342/2026 prolongeant de 14 jours le statut d'urgence propre à la regency, jusqu'au 28 septembre, en invoquant la poursuite des répliques et la construction inachevée de logements temporaires — la deuxième regency (après le retard de vérification signalé à Ende) dont la situation propre a divergé du calendrier déclaré par la province. La regency de Manggarai Timur a par ailleurs prolongé pour la troisième fois son propre statut d'urgence — le Regent Agas Andreas a signé la prolongation le 20 septembre, couvrant du 20 au 26 septembre — en invoquant la poursuite des répliques (dont un séisme de M5,3 le 21 septembre qui a fait s'effondrer une unité huntara en construction) et un traitement incomplet des dégâts ; les chiffres de la task force évaluent les dégâts vérifiés au logement dans la regency à 26 185 unités (2 458 sévères, 4 198 modérés, 7 769 légers).",
+    "trend": "stable",
+    "deltaNote": "À Ende, l'expert technique du BNPB Jahidin Chilo avait plus tôt jugé prématurée la transition du district le 12 septembre, la vérification des dégâts aux habitations n'atteignant que 24,51 % de l'objectif.",
+    "lastUpdated": "2026-09-23T18:46:42.000Z"
+  },
+  {
+    "id": "temporary-shelters-huntara",
+    "label": "Abris temporaires (Huntara) en construction",
+    "value": "2,418 (East Manggarai)",
+    "color": "blue",
+    "source": "BNPB / Manggarai Timur Regency",
+    "contested": false,
+    "trend": "up",
+    "deltaNote": "Le programme est passé de 2 029 à 2 418 unités dans 12 sous-districts au 23 septembre (six achevées), pour un budget allant jusqu'à 34 millions de Rp/unité (~82,212 milliards de Rp au total), 3 à 4 mois pour terminer, selon Riswandi, directeur régional II du BNPB. La construction a commencé le 17 septembre à Kampung Bugis (Kota Ndora, Borong) ; la première unité a été remise le même jour. Sept unités achevées à Desa Gurung Liwut ont été remises le 21 septembre et ont résisté sans dommage à la réplique de M5,3 de ce jour-là, selon Berton SP Panjaitan du BNPB — à distinguer d'une charpente métallique encore en construction qui s'est effondrée le même jour à Satar Kampas, que les autorités ont attribuée à une construction inachevée plutôt qu'à des matériaux de mauvaise qualité.",
+    "lastUpdated": "2026-09-23T18:46:42.000Z",
+    "deltaDetail": {
+      "value": 389,
+      "direction": "up",
+      "period": "since 17 Sep"
+    }
+  },
+  {
+    "id": "mainshock-magnitude",
+    "label": "Magnitude de la secousse principale",
+    "value": "M7.7",
+    "color": "red",
+    "source": "USGS / BMKG",
+    "contested": true,
+    "contestNote": "Le GFZ de Potsdam a mesuré Mw 7,61 à 25 km de profondeur contre M7,7 à 10 km pour l'USGS/BMKG ; le premier rapport du BMKG lui-même indiquait M7,0 avant révision à la hausse.",
+    "lastUpdated": "2026-08-20T04:15:00Z"
+  },
+  {
+    "id": "schools-damaged",
+    "label": "Écoles endommagées",
+    "value": "2,633",
+    "color": "amber",
+    "source": "BPBD NTT / Kemendikdasmen",
+    "contested": true,
+    "contestNote": "Le bilan provincial du BPBD NTT est monté à 2 633 unités d'enseignement endommagées au 4 septembre (contre 2 310 le 2 septembre), encore supérieur à l'évaluation propre du Kemendikdasmen de 1 918 unités au 31 août (665 écoles gravement endommagées, environ 141 207 élèves touchés, seulement 37 revenues aux cours en présentiel et 295 en enseignement à distance). Une ventilation complémentaire du Kemendikdasmen fait état de 6 927 salles de classe gravement endommagées, avec également 418 laboratoires, 1 928 toilettes et 370 logements d'enseignants endommagés, et 48 164 membres de communautés scolaires déplacés ; 785 écoles avaient demandé des unités de classe d'urgence (2 908 nécessaires), seules 89 tentes d'urgence étaient installées au 30 août et 1 221 écoles restaient privées d'enseignement en présentiel. Les décomptes provincial et ministériel n'ont pas encore été rapprochés.",
+    "trend": "up",
+    "lastUpdated": "2026-09-05T14:28:00Z"
+  },
+  {
+    "id": "aid-distributed-total",
+    "label": "Aide distribuée (cumul)",
+    "value": "2,178 tons",
+    "color": "green",
+    "source": "BNPB",
+    "contested": false,
+    "trend": "up",
+    "deltaNote": "En hausse par rapport à 2 165 tonnes (9 sept.) ; 1 379 tonnes via Labuan Bajo (Manggarai occidental) et 664 tonnes via Maumere (Sikka), le reste par d'autres canaux.",
+    "lastUpdated": "2026-09-10T19:13:00Z",
+    "deltaDetail": {
+      "value": 13,
+      "direction": "up",
+      "period": "24h"
+    }
+  }
+]

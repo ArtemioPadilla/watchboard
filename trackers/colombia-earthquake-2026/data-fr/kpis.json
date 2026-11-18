@@ -1,0 +1,141 @@
+[
+  {
+    "id": "confirmed-deaths",
+    "label": "Décès confirmés",
+    "value": "335",
+    "color": "red",
+    "source": "UNGRD",
+    "contested": false,
+    "contestNote": "Le bilan de l'UNGRD du 15 sept. a confirmé quatre décès supplémentaires, portant le total à 335 — premier changement depuis le 25 août, mettant fin à un plateau de trois semaines à 331.",
+    "trend": "up",
+    "delta": "+4 since Aug 25",
+    "deltaDetail": {
+      "value": 4,
+      "direction": "up",
+      "period": "since Aug 25"
+    },
+    "lastUpdated": "2026-09-15T16:04:00.000Z"
+  },
+  {
+    "id": "confirmed-injured",
+    "label": "Blessés",
+    "value": "4,516",
+    "color": "amber",
+    "source": "UNGRD",
+    "contested": false,
+    "contestNote": "Le bilan de l'UNGRD du 15 sept. a légèrement relevé le nombre de blessés à 4 516, contre 4 505 dans le bilan du 7 sept.",
+    "trend": "up",
+    "delta": "+11 since Sept 7",
+    "deltaDetail": {
+      "value": 11,
+      "direction": "up",
+      "period": "since Sept 7"
+    },
+    "lastUpdated": "2026-09-15T16:04:00.000Z"
+  },
+  {
+    "id": "missing-persons",
+    "label": "Disparus",
+    "value": "105",
+    "color": "amber",
+    "source": "UNGRD",
+    "contested": false,
+    "contestNote": "Le bilan de l'UNGRD du 15 sept. a ramené le nombre de disparus à 105 — contre 111 le 7 sept. — à mesure que le travail d'identification se poursuit.",
+    "trend": "down",
+    "delta": "-6 since Sept 7",
+    "deltaDetail": {
+      "value": -6,
+      "direction": "down",
+      "period": "since Sept 7"
+    },
+    "lastUpdated": "2026-09-15T16:04:00.000Z"
+  },
+  {
+    "id": "displaced-families",
+    "label": "Familles touchées",
+    "value": "303,934",
+    "color": "blue",
+    "source": "UNGRD",
+    "contested": true,
+    "contestNote": "Le bilan de l'UNGRD du 15 sept. recensait 486 917 personnes touchées dans 303 934 familles, dans 500 municipios et 16 départements — contre 296 738 familles au 7 sept.",
+    "delta": "+7,196 since Sept 7",
+    "deltaDetail": {
+      "value": 7196,
+      "direction": "up",
+      "period": "since Sept 7"
+    },
+    "lastUpdated": "2026-09-15T16:04:00.000Z"
+  },
+  {
+    "id": "buildings-destroyed",
+    "label": "Structures détruites",
+    "value": "36,478+",
+    "color": "red",
+    "source": "UNGRD",
+    "contested": true,
+    "contestNote": "Le bilan de l'UNGRD du 15 septembre fait état de 36 478 logements détruits (contre 36 326 le 7 septembre) et de 206 931 endommagés (contre 202 002), dans 500 municipios, avec 758 bâtiments effondrés et 6 047 autres endommagés — ainsi que 397 centres de santé et 4 316 écoles touchés.",
+    "trend": "up",
+    "deltaDetail": {
+      "value": 152,
+      "direction": "up",
+      "period": "since Sept 7"
+    },
+    "lastUpdated": "2026-09-15T16:04:00.000Z"
+  },
+  {
+    "id": "departments-affected",
+    "label": "Départements touchés",
+    "value": "16",
+    "color": "blue",
+    "source": "UNGRD",
+    "contested": true,
+    "contestNote": "Maintien à 16 départements dans le bilan de l'UNGRD du 15 sept., mais le nombre de municipios a augmenté à 500 (contre 498 le 7 sept.) ; le département ajouté au-delà des 15 initialement prévus par le décret 1261 n'a pas encore été précisé.",
+    "lastUpdated": "2026-09-15T16:04:00.000Z"
+  },
+  {
+    "id": "reconstruction-cost",
+    "label": "Estimation du coût de reconstruction",
+    "value": "COP 42.1T (~2.3% GDP)",
+    "color": "red",
+    "source": "UNDP / UNGRD",
+    "contested": true,
+    "contestNote": "Une évaluation conjointe PNUD-UNGRD publiée le 30 août chiffre les dégâts matériels directs totaux à 42,1 billions de COP (2,3 % du PIB) — 37,4 billions pour le logement et 4,8 billions pour la santé, l'éducation et les infrastructures communautaires — contre une première estimation gouvernementale de 30 billions de COP. Le 17 sept., la directrice régionale du PNUD pour l'Amérique latine et les Caraïbes, Michelle Muschett, a cité un autre chiffre initial du PNUD d'environ 14 milliards de dollars — supérieur à l'estimation propre du gouvernement de 9,5 Md$ pour l'effort de reconstruction en trois phases du « Plan Milagro ». Les estimations indépendantes vont toujours de 1 à 2 Md$ (Oxford Economics) à ~40 Md$ (USGS, 7 % du PIB).",
+    "trend": "up",
+    "lastUpdated": "2026-09-20T17:32:17.000Z"
+  },
+  {
+    "id": "aftershocks-recorded",
+    "label": "Répliques enregistrées",
+    "value": "1,500+ Istmina swarm; 900+ Chaparral swarm",
+    "color": "amber",
+    "source": "Servicio Geológico Colombiano",
+    "contested": false,
+    "contestNote": "L'essaim superficiel d'origine, lié au Chocó, près d'Istmina/Medio San Juan/Sipí/Litoral del San Juan, a dépassé 1 500 événements au 25 sept. (dont 29 de M4,0+), avec une nouvelle réplique de M4,0 près d'Istmina le 26 sept. Une seconde séquence, apparemment sans lien mais non confirmée, a débuté le 20 sept. près de Chaparral, Tolima — un système de failles différent que le SGC continue d'examiner pour tout lien de transfert de contrainte avec la rupture de Mw7,4 du 10 août — et avait enregistré 891 des 924 événements régionaux au 26 sept., approchant les 1 000 en une seule semaine, avec un M4,5 le 26 sept. et un M4,2 le 27 sept. Le SGC n'a pas publié de chiffre agrégé combiné plus récent.",
+    "trend": "up",
+    "lastUpdated": "2026-09-27T00:00:00.000Z"
+  },
+  {
+    "id": "marshall-plan-pledge",
+    "label": "Engagement de reconstruction « Plan Marshall » pour le Chocó",
+    "value": "COP 3T (~$960M)",
+    "color": "green",
+    "source": "Finance Colombia / Pulzo",
+    "contested": true,
+    "contestNote": "Engagement du secteur privé de 2 billones de COP + paquet d'infrastructures gouvernemental de 1 billion de COP, annoncés lors du sommet des entreprises de Quibdó du 7 sept. Plusieurs médias anglophones ont d'abord surestimé la part gouvernementale de 1 billion de COP en « 1 milliard de dollars US » (en réalité ~320 M$) — une erreur de traduction de « billón » corrigée par Rio Times Online le 8 sept.",
+    "trend": "up",
+    "delta": "new, Sept 7",
+    "lastUpdated": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "reconstruction-decrees-signed",
+    "label": "Décrets de reconstruction signés",
+    "value": "11",
+    "color": "blue",
+    "source": "Presidencia / Infobae",
+    "contested": false,
+    "contestNote": "Le président de la Espriella a signé 11 décrets le 9 sept. pour accélérer la reconstruction, centrés sur le décret 1379 créant le fonds fiduciaire Fondo Patria Milagro, ainsi que l'utilisation ponctuelle de la réserve de pensions Fonpet, les réparations d'infrastructures énergétiques du Fondes, un mécanisme de compensation fiscale « obras por impuestos », un accès exceptionnel aux données du DANE et une flexibilité pour la continuité scolaire.",
+    "trend": "up",
+    "delta": "new, Sept 9",
+    "lastUpdated": "2026-09-11T17:30:00.000Z"
+  }
+]

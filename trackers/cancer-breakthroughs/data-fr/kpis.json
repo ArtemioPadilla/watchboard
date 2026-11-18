@@ -1,96 +1,213 @@
 [
   {
     "id": "car-t-approvals",
-    "label": "FDA-Approved CAR-T Cell Therapies",
+    "label": "Thérapies par cellules CAR-T approuvées par la FDA",
     "value": "7",
     "color": "green",
     "source": "FDA CBER, 2024",
     "contested": false,
     "delta": "+6 since 2017",
-    "deltaNote": "From 1 approved therapy (Kymriah, Aug 2017) to 7 by end of 2024",
+    "deltaNote": "D'une seule thérapie approuvée (Kymriah, août 2017) à 7 fin 2024",
     "trend": "up",
-    "lastUpdated": "2026-04-13"
+    "lastUpdated": "2026-04-30"
   },
   {
     "id": "mrna-4157-efficacy",
-    "label": "mRNA-4157 Melanoma Recurrence Reduction",
-    "value": "44%",
+    "label": "Réduction de la récidive du mélanome par l'intismeran autogene (5 ans)",
+    "value": "49%",
     "color": "green",
-    "source": "KEYNOTE-942 Phase 2b, NEJM Evidence 2023",
+    "source": "KEYNOTE-942 5-Year Follow-up, Journal of Clinical Oncology / ASCO 2026 (June 1, 2026)",
     "contested": true,
-    "contestNote": "Phase 2b result in high-risk resected melanoma vs. pembrolizumab alone; Phase 3 confirmation pending",
-    "delta": "vs. pembrolizumab monotherapy",
+    "contestNote": "Résultat de phase 2b (n = 157) dans le mélanome réséqué à haut risque ; survie sans récidive (RFS) à 5 ans : HR 0,51 (réduction de 49 %), survie sans métastases à distance (DMFS) : HR 0,411 (réduction de 59 %), tendance de survie globale : HR 0,471 (non statistiquement significative en raison du faible nombre d'événements). MISE À JOUR (19 août 2026) : l'essai de confirmation de phase 3 INTerpath-001 (n = 1 137) a désormais atteint son critère principal (RFS) et son critère secondaire (DMFS) face à Keytruda seul, mais Merck/Moderna n'ont pas encore divulgué les hazard ratios ni les pourcentages de réduction de la phase 3 — les données détaillées sont attendues lors d'un prochain congrès médical.",
+    "delta": "vs. pembrolizumab alone; up from 44% at 18-month interim",
+    "deltaNote": "Le suivi à 5 ans renforce le signal de la phase 2b : HR de 0,51 à 5 ans contre 0,56 à 18 mois ; premier vaccin personnalisé à ARNm contre le cancer à maintenir un bénéfice durable à 5 ans. L'essai de phase 3 INTerpath-001 a confirmé le sens de l'effet le 19 août 2026 — premier essai randomisé de phase 3 à valider un vaccin anticancéreux personnalisé à néoantigènes.",
     "trend": "up",
-    "lastUpdated": "2026-04-13"
+    "lastUpdated": "2026-08-19"
   },
   {
     "id": "cancer-death-decline",
-    "label": "US Cancer Death Rate Decline Since 1991",
+    "label": "Baisse du taux de mortalité par cancer aux États-Unis depuis 1991",
     "value": "33%",
     "color": "green",
     "source": "American Cancer Society Cancer Facts & Figures 2024",
     "contested": false,
     "delta": "~3.5 million deaths averted",
-    "deltaNote": "Driven by screening, smoking cessation, and treatment advances including immunotherapy",
+    "deltaNote": "Porté par le dépistage, l'arrêt du tabac et les avancées thérapeutiques, dont l'immunothérapie",
     "trend": "down",
-    "lastUpdated": "2026-04-13"
+    "lastUpdated": "2026-04-30"
   },
   {
     "id": "active-oncology-trials",
-    "label": "Active Oncology Clinical Trials (Global)",
+    "label": "Essais cliniques d'oncologie en cours (monde)",
     "value": "~8,000",
     "color": "blue",
     "source": "ClinicalTrials.gov, 2024",
     "contested": false,
     "delta": "+40% vs. 2018",
     "trend": "up",
-    "lastUpdated": "2026-04-13"
+    "lastUpdated": "2026-04-30"
   },
   {
     "id": "keytruda-indications",
-    "label": "Pembrolizumab FDA-Approved Indications",
+    "label": "Indications approuvées par la FDA pour le pembrolizumab",
     "value": "40+",
     "color": "blue",
     "source": "FDA Drug Approvals Database, 2024",
     "contested": false,
     "delta": "Broadest indication portfolio in oncology history",
     "trend": "up",
-    "lastUpdated": "2026-04-13"
+    "lastUpdated": "2026-04-30"
   },
   {
     "id": "adc-approvals",
-    "label": "ADC Oncology Approvals Since 2019",
-    "value": "10+",
+    "label": "Approbations oncologiques d'ADC depuis 2019",
+    "value": "11+",
     "color": "green",
-    "source": "FDA CDER, 2024",
+    "source": "FDA CDER, May 2026",
     "contested": false,
-    "delta": "Antibody-drug conjugate era now mainstream",
-    "deltaNote": "Includes T-DXd, sacituzumab govitecan, mirvetuximab soravtansine, loncastuximab tesirine, and others",
+    "delta": "Enhertu (T-DXd) expanded to early-stage HER2+ breast cancer May 2026 — first ADC in curative-intent setting",
+    "deltaNote": "Comprend le T-DXd (métastatique et désormais précoce), le sacituzumab govitécan, le mirvétuximab soravtansine, la loncastuximab tésirine et d'autres. L'approbation du T-DXd au stade précoce est un jalon de la plateforme — les ADC couvrent désormais des indications curatives comme palliatives",
     "trend": "up",
-    "lastUpdated": "2026-04-13"
+    "lastUpdated": "2026-05-22"
   },
   {
     "id": "car-t-average-cost",
-    "label": "Average CAR-T Therapy Cost (US)",
+    "label": "Coût moyen d'une thérapie CAR-T (États-Unis)",
     "value": "$400K–$500K",
     "color": "amber",
     "source": "ICER Value Assessment Reports, 2022–2023",
     "contested": true,
-    "contestNote": "Manufacturers argue durable remissions justify one-time cost; payers and equity advocates dispute value for money",
+    "contestNote": "Les fabricants soutiennent que les rémissions durables justifient un coût unique ; les payeurs et les défenseurs de l'équité contestent le rapport qualité-prix",
     "delta": "Major global access barrier",
     "trend": "stable",
-    "lastUpdated": "2026-04-13"
+    "lastUpdated": "2026-04-30"
   },
   {
     "id": "melanoma-stage4-survival",
-    "label": "Metastatic Melanoma 5-Year Survival Rate",
+    "label": "Taux de survie à 5 ans du mélanome métastatique",
     "value": "~50%",
     "color": "green",
     "source": "ASCO Annual Meeting data 2023; SEER Database, NCI",
     "contested": true,
-    "contestNote": "Was ~18% pre-immunotherapy era; ~50% with PD-1/CTLA-4 therapy, but varies by biomarker status and line of therapy",
+    "contestNote": "Environ 18 % avant l'ère de l'immunothérapie ; ~50 % avec un traitement anti-PD-1/CTLA-4, mais variable selon le statut des biomarqueurs et la ligne de traitement",
     "delta": "+32 pp vs. pre-immunotherapy baseline",
     "trend": "up",
-    "lastUpdated": "2026-04-13"
+    "lastUpdated": "2026-04-30"
+  },
+  {
+    "id": "q1-2026-fda-oncology-approvals",
+    "label": "Approbations de la FDA en oncologie au T1 2026",
+    "value": "9",
+    "color": "green",
+    "source": "AACR Blog — FDA Approvals in Oncology January–March 2026; April 2026",
+    "contested": false,
+    "delta": "Includes relacorilant+nab-paclitaxel (ovarian), nivolumab+chemo (Hodgkin lymphoma), Optune Pax (pancreatic)",
+    "deltaNote": "Neuf approbations entre janvier et mars 2026, reflet du rythme soutenu de l'activité réglementaire en oncologie",
+    "trend": "up",
+    "lastUpdated": "2026-04-30"
+  },
+  {
+    "id": "protac-first-fda-approval",
+    "label": "Dégradeur de protéines PROTAC — première approbation de la FDA (toute maladie)",
+    "value": "1 (First Ever)",
+    "color": "green",
+    "source": "BioPharma Dive — Arvinas/Pfizer Veppanu approval, May 1, 2026",
+    "contested": false,
+    "delta": "Veppanu (vepdegestrant) — ESR1-mutant HR+/HER2- breast cancer",
+    "deltaNote": "Premier médicament PROTAC (PROteolysis TArgeting Chimera) au monde à recevoir une autorisation réglementaire, toutes maladies confondues ; détruit entièrement la protéine du récepteur des œstrogènes au lieu de la bloquer, ce qui pourrait permettre de surmonter la résistance endocrinienne",
+    "trend": "up",
+    "lastUpdated": "2026-05-07"
+  },
+  {
+    "id": "fda-oncology-approvals-2026-ytd",
+    "label": "Approbations oncologiques de la FDA en 2026 (depuis le début de l'année)",
+    "value": "29+",
+    "color": "green",
+    "source": "FDA CDER/CBER Drug Approval Databases — cumulative through September 14, 2026",
+    "contested": false,
+    "delta": "Sep additions: sevabertinib (Hyrnuo) expanded to first-line HER2-mutant NSCLC (Sep 9, 75% ORR), Pixclara (floretyrosine F 18) first-ever FET-PET glioma imaging agent (Sep 14)",
+    "deltaNote": "L'ASCO 2026 (29 mai–2 juin) a produit 5 résultats en séance plénière : daraxonrasib/RASolute 302 (cancer du pancréas, HR de SG 0,40), selpercatinib adjuvant/LIBRETTO-432 (CPNPC RET+, HR de SSE 0,172), apalutamide périopératoire/PROTEUS (prostate à haut risque), abémaciclib/SARC041 (liposarcome), ainsi que les données à 5 ans de l'intismeran autogene dans le mélanome (HR 0,51) ; le rythme s'est poursuivi tout l'été avec des approbations dans les cancers du rein, de la prostate, du sarcome, de la transplantation, du sein, du mélanome, du myélome, gastro-œsophagien, du pancréas et du sang, ainsi qu'un diagnostic inédit dans sa catégorie (Pixclara) en septembre",
+    "deltaDetail": {
+      "value": 1,
+      "direction": "up",
+      "period": "since Sep 4"
+    },
+    "trend": "up",
+    "lastUpdated": "2026-09-14"
+  },
+  {
+    "id": "galleri-mced-fda-review-status",
+    "label": "Test de détection précoce multicancer Galleri — examen par le comité consultatif de la FDA",
+    "value": "Panel voted 7-2 in favor (Sep 23)",
+    "color": "amber",
+    "source": "FDA Molecular and Clinical Genetics Panel meeting, Sept 23, 2026",
+    "contested": true,
+    "contestNote": "Les documents de synthèse de la FDA ont montré que les essais NHS-Galleri (plus de 140 000 participants) et PATHFINDER 2 (plus de 35 000 participants) n'ont pas atteint leur critère principal de réduction de la mortalité globale et n'ont pas réduit les diagnostics combinés de cancers de stade III/IV, bien que GRAIL souligne que les diagnostics de stade IV seuls ont diminué sur la période d'étude de 3 ans. Le comité a voté 7 contre 2 (une abstention) que les bénéfices l'emportent sur les risques, a été unanime sur la sécurité et partagé 6 contre 4 sur l'efficacité ; le vote n'est pas contraignant et aucune décision finale de la FDA n'avait été annoncée à la date de cette mise à jour.",
+    "delta": "First-ever favorable FDA advisory vote on a blood-based multi-cancer early detection test",
+    "deltaNote": "L'approbation serait un préalable au remboursement par Medicare du test à 949 $, déjà vendu comme test développé en laboratoire. La décision finale de la FDA sur la PMA est attendue dans les prochains mois.",
+    "trend": "up",
+    "lastUpdated": "2026-09-26"
+  },
+  {
+    "id": "zenbexus-celmod-mrd-response",
+    "label": "Taux de RC MRD-négative sous Zenbexus (iberdomide) vs contrôle",
+    "value": "41% vs. 21%",
+    "color": "green",
+    "source": "EXCALIBER-RRMM Phase 3 Trial, FDA Approval Aug 13, 2026",
+    "contested": true,
+    "contestNote": "Première approbation de la FDA en oncologie accordée directement sur un critère de substitution de type MRD plutôt que sur la survie sans progression ; les résultats de survie sans progression restent en attente, comme condition de l'approbation accélérée.",
+    "delta": "First-in-class CELMoD (cereblon E3 ligase modulator) therapy",
+    "deltaNote": "p<0,0001 ; suivi médian de 16 mois. Taux élevés de neutropénie (90,2 %) et d'infection (78,9 %) ; soumis à une REMS en raison du risque de toxicité embryo-fœtale.",
+    "trend": "up",
+    "lastUpdated": "2026-08-13"
+  },
+  {
+    "id": "daraxonrasib-pancreatic-os-hr",
+    "label": "Hazard ratio de survie globale du daraxonrasib vs chimiothérapie en 2e ligne du cancer du pancréas",
+    "value": "HR 0.40",
+    "color": "green",
+    "source": "RASolute 302 Phase 3, NEJM / ASCO 2026 Plenary Session (June 1, 2026); FDA approval Aug 26, 2026",
+    "contested": false,
+    "delta": "13.2 months vs. 6.7 months median OS — first drug to nearly double survival in 2nd-line pancreatic cancer",
+    "deltaNote": "Plus grand bénéfice en survie globale jamais démontré dans un essai de phase 3 pour l'adénocarcinome canalaire du pancréas. Les mutations RAS (principalement KRAS G12D, G12V) sont à l'origine d'environ 90 % des PDAC ; le daraxonrasib est un inhibiteur oral pan-RAS(ON). MISE À JOUR (26 août 2026) : la FDA a approuvé le daraxonrasib sous le nom RASONQUE, premier médicament ciblant RAS(ON) à arriver sur le marché américain pour un cancer, quel qu'il soit.",
+    "trend": "up",
+    "lastUpdated": "2026-08-26"
+  },
+  {
+    "id": "compass-ai-immunotherapy-accuracy-gain",
+    "label": "Gain de précision du modèle d'IA COMPASS par rapport aux précédents prédicteurs de réponse à l'immunothérapie",
+    "value": "+8.5%",
+    "color": "blue",
+    "source": "Harvard Medical School — Nature Medicine, July 3, 2026",
+    "contested": false,
+    "delta": "Also +15.7% AUPRC vs. 22 existing methods",
+    "deltaNote": "Modèle de fondation pan-cancer entraîné sur 10 184 tumeurs réparties sur 33 types de cancer, affiné sur 16 cohortes cliniques (1 133 patients traités par inhibiteurs de points de contrôle, 7 cancers, 6 schémas d'inhibiteurs) ; il se généralise à des cancers et médicaments absents de l'affinage",
+    "trend": "up",
+    "lastUpdated": "2026-07-03"
+  },
+  {
+    "id": "gedatolisib-first-pan-pi3k-mtor-approval",
+    "label": "Inhibiteur pan-PI3K/mTOR — première approbation de la FDA (toutes maladies)",
+    "value": "1 (First Ever)",
+    "color": "green",
+    "source": "FDA — Celcuity Revtorpyk (gedatolisib) approval, July 14, 2026",
+    "contested": false,
+    "delta": "VIKTORIA-1 triplet PFS 9.3 vs. 2.0 months (fulvestrant alone)",
+    "deltaNote": "Seul inhibiteur approuvé de toutes les isoformes de classe I de la PI3K (alpha, bêta, delta, gamma) ainsi que de mTORC1 et mTORC2 ; approuvé avec le fulvestrant +/- palbociclib dans le cancer du sein avancé HR+/HER2- avec PIK3CA de type sauvage",
+    "trend": "up",
+    "lastUpdated": "2026-07-14"
+  },
+  {
+    "id": "etcamah-ctdna-guided-approval",
+    "label": "Thérapie anticancéreuse approuvée pour un changement de traitement précoce guidé par l'ADNct (une première)",
+    "value": "1 (First Ever)",
+    "color": "green",
+    "source": "FDA — AstraZeneca Etcamah (camizestrant) accelerated approval, Sept 4, 2026",
+    "contested": true,
+    "contestNote": "Le comité consultatif sur les médicaments oncologiques de la FDA a voté 6 contre 3 contre l'approbation, estimant que SERENA-6 n'avait pas démontré qu'un changement de traitement lors d'une progression moléculaire détectée par ADNct est supérieur à un changement lors d'une progression radiologique. La FDA a néanmoins accordé une approbation accélérée, invoquant les bénéfices en qualité de vie rapportés par les patients dans le bras à changement précoce.",
+    "delta": "SERENA-6: 16.0 vs. 9.2 months median PFS (56% reduction in risk of progression or death)",
+    "deltaNote": "Première approbation par la FDA d'une thérapie anticancéreuse guidée par la détection, dans l'ADN tumoral circulant (ADNct) du sang, d'une mutation de résistance avant que l'imagerie ne montre une progression ; Guardant360 CDx approuvé comme diagnostic compagnon. Pourrait ouvrir un nouveau paradigme thérapeutique guidé par la biopsie liquide pour les tumeurs solides si les données de confirmation se vérifient.",
+    "trend": "up",
+    "lastUpdated": "2026-09-04"
   }
 ]

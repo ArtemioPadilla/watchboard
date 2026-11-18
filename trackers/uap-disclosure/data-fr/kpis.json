@@ -1,7 +1,7 @@
 [
   {
     "id": "years_of_secrecy",
-    "label": "Years Since Roswell",
+    "label": "Années depuis Roswell",
     "value": "79",
     "color": "red",
     "source": "US Air Force / National Archives",
@@ -12,73 +12,115 @@
   },
   {
     "id": "congressional_hearings",
-    "label": "Congressional Hearings",
-    "value": "7",
+    "label": "Auditions au Congrès",
+    "value": "8",
     "color": "blue",
-    "source": "Congress.gov / C-SPAN",
+    "source": "Congress.gov / C-SPAN / House Oversight",
     "contested": false,
-    "delta": "+2",
-    "deltaNote": "FY2026 cycle added 2 hearings (House Oversight Sep 2025, Senate Armed Services Nov 2024)",
+    "delta": "+1",
+    "deltaNote": "9 sept. 2026 : le Task Force on the Declassification of Federal Secrets a tenu l'audition « Restoring Public Trust Through UAP Transparency and Whistleblower Protection » — sa première audition consacrée aux UAP.",
+    "deltaDetail": {
+      "value": 1,
+      "direction": "up",
+      "period": "since Apr 5"
+    },
     "trend": "up",
-    "lastUpdated": "2026-04-05T00:00:00.000Z"
+    "lastUpdated": "2026-09-09T00:00:00.000Z"
   },
   {
     "id": "aaro_cases",
-    "label": "AARO Cases Received",
-    "value": "2,000+",
+    "label": "Dossiers reçus par l'AARO",
+    "value": "2,300+",
     "color": "amber",
-    "source": "AARO / DefenseScoop",
+    "source": "AARO / The Black Vault",
     "contested": true,
-    "contestNote": "AARO reports 2,000+ cases received since establishment. Critics note the vast majority remain unresolved, and AARO's 2025 annual report is overdue. Whistleblowers allege AARO has not been given access to the most classified programs.",
-    "delta": "+600+",
+    "contestNote": "Le rapport annuel de l'AARO pour l'exercice 2025 (publié le 21 juillet 2026, avec des mois de retard) recensait 319 nouveaux cas et en a résolu 114 — 205 restent non résolus. Des lanceurs d'alerte affirment que l'AARO n'a pas eu accès aux programmes les plus classifiés.",
+    "delta": "+319",
+    "deltaNote": "Rapport de l'exercice 2025 (juin 2024–mai 2025) : 319 nouveaux signalements reçus, dont le seul cas maritime de l'exercice — un essaim d'environ 100 objets signalé par la Navy au large des côtes de Virginie.",
     "trend": "up",
-    "lastUpdated": "2026-02-25T00:00:00.000Z"
+    "lastUpdated": "2026-07-21T00:00:00.000Z"
   },
   {
     "id": "whistleblowers",
-    "label": "Public Whistleblowers",
-    "value": "4+",
+    "label": "Lanceurs d'alerte publics",
+    "value": "7+",
     "color": "amber",
     "source": "Congressional testimony / NewsNation",
     "contested": true,
-    "contestNote": "Grusch, Graves, Fravor, and Herrera testified publicly. Grusch claims 40+ additional witnesses provided classified testimony to the ICIG. AARO Historical Report Vol. 1 found 'no evidence' supporting retrieval program claims.",
-    "trend": "stable",
-    "lastUpdated": "2026-04-05T00:00:00.000Z"
+    "contestNote": "Grusch, Graves, Fravor et Herrera ont témoigné publiquement jusqu'à la mi-2026. 9 sept. 2026 : les vétérans de l'Air Force Jeffrey Nuccetelli et Dylan Borland et le chef de la Navy en service actif Alexandro Wiggins ont ajouté des témoignages sous serment devant le groupe de travail de la Chambre sur la déclassification des secrets fédéraux — Wiggins étant le premier témoin de la Navy en service actif à témoigner publiquement. Grusch affirme par ailleurs que plus de 40 témoins supplémentaires ont fourni des témoignages classifiés à l'ICIG. Le rapport historique de l'AARO, vol. 1, n'a trouvé « aucune preuve » étayant les allégations de programme de récupération ; Borland a déclaré au Congrès que la position publique de l'AARO est « une déformation de la vérité ».",
+    "delta": "+3",
+    "deltaNote": "L'audition du 9 sept. 2026 a ajouté 3 nouveaux témoins publics sous serment (Nuccetelli, Borland, Wiggins).",
+    "deltaDetail": {
+      "value": 3,
+      "direction": "up",
+      "period": "since Jul 31"
+    },
+    "trend": "up",
+    "lastUpdated": "2026-09-09T00:00:00.000Z"
   },
   {
     "id": "disclosure_laws",
-    "label": "UAP Laws Enacted",
+    "label": "Lois sur les UAP adoptées",
     "value": "5",
     "color": "green",
     "source": "Congress.gov",
     "contested": false,
     "delta": "+1",
-    "deltaNote": "FY2026 NDAA added 3 new UAP provisions (signed Dec 2025)",
+    "deltaNote": "Le NDAA de l'exercice 2026 a ajouté 3 nouvelles dispositions sur les UAP (promulgué en déc. 2025)",
     "trend": "up",
     "lastUpdated": "2025-12-20T00:00:00.000Z"
   },
   {
     "id": "presidential_directives",
-    "label": "Presidential Directives",
+    "label": "Directives présidentielles",
     "value": "1",
     "color": "green",
     "source": "White House / Time",
     "contested": false,
     "delta": "+1",
-    "deltaNote": "Trump ordered Pentagon to release UAP/alien files (Feb 19, 2026) — first ever presidential UAP disclosure directive",
+    "deltaNote": "Trump a ordonné au Pentagone de publier les dossiers sur les UAP/extraterrestres (19 févr. 2026) — première directive présidentielle de divulgation sur les UAP. Mise en œuvre le 31 juillet 2026 par une directive de l'ODNI levant les accords de confidentialité et serments de secret pour les témoins s'exprimant via les canaux AARO/PURSUE.",
     "trend": "up",
-    "lastUpdated": "2026-02-19T00:00:00.000Z"
+    "lastUpdated": "2026-07-31T00:00:00.000Z"
   },
   {
     "id": "eo_deadline_days",
-    "label": "Days to EO Deadline",
-    "value": "43",
-    "color": "red",
-    "source": "Executive Order / White House",
+    "label": "État d'avancement des jalons du décret présidentiel",
+    "value": "Reached",
+    "color": "green",
+    "source": "Executive Order / Department of War",
     "contested": false,
-    "delta": "-1",
-    "deltaNote": "Trump EO (Feb 19, 2026) gave Pentagon 90 days to release UAP/alien files. Deadline: May 20, 2026.",
-    "trend": "down",
-    "lastUpdated": "2026-04-07T00:00:00.000Z"
+    "delta": "✓ May 20",
+    "deltaNote": "Étape des 90 jours du décret du 20 mai atteinte. La tranche 2 de PURSUE (64 fichiers : 51 vidéos, 6 PDF, 7 fichiers audio) a été publiée le 22 mai — deux jours après l'échéance. Prochaine échéance : le délai de 300 jours pour la divulgation complète ou la justification, fin nov./déc. 2026.",
+    "trend": "up",
+    "lastUpdated": "2026-05-27T00:00:00.000Z"
+  },
+  {
+    "id": "pursue_files_released",
+    "label": "Dossiers PURSUE publiés",
+    "value": "450",
+    "color": "green",
+    "source": "Department of War / war.gov/UFO",
+    "contested": false,
+    "delta": "+71",
+    "deltaNote": "Tranche 6 (18 sept. 2026, 71 fichiers : 67 du DoD + 4 des forces de l'ordre du Colorado) : 37 documents de référence de renseignement de défense AAWSAP sur la recherche en propulsion à distorsion/trous de ver, un film déclassifié de 1952 de Tremonton (Utah), un entretien audio de 1952 avec le capitaine Edward Ruppelt, des vidéos des forces de l'ordre du Colorado d'oct. 2023 et des images infrarouges de 2022-2025 du Moyen-Orient, de la mer Jaune et de la mer de Chine orientale. Total : 450 fichiers répartis en six tranches.",
+    "deltaDetail": {
+      "value": 71,
+      "direction": "up",
+      "period": "since Aug 7"
+    },
+    "trend": "up",
+    "lastUpdated": "2026-09-18T18:40:20.000Z"
+  },
+  {
+    "id": "science_advisory_council",
+    "label": "Conseil consultatif scientifique sur les PAN",
+    "value": "12 members",
+    "color": "blue",
+    "source": "Disclosure Foundation / DefenseScoop",
+    "contested": false,
+    "delta": "NEW",
+    "deltaNote": "Formé le 14 juin 2026 et présidé par l'astrophysicien de Harvard Avi Loeb, mandaté par la Maison-Blanche, l'AARO, l'ODNI et le FBI pour fournir des orientations scientifiques aux enquêtes sur les UAP, dans les domaines de la physique, de la science des données, de l'océanographie et de la biologie.",
+    "trend": "up",
+    "lastUpdated": "2026-07-16T14:15:00.000Z"
   }
 ]

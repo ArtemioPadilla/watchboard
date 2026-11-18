@@ -1,0 +1,167 @@
+[
+  {
+    "id": "total-war-dead",
+    "label": "Décès estimés dus à la guerre (2011–2024)",
+    "value": "500,000+",
+    "color": "red",
+    "source": "UN / SOHR / SNHR",
+    "contested": true,
+    "contestNote": "L'Observatoire syrien des droits de l'homme (OSDH) a documenté environ 580 000 morts ; le Réseau syrien pour les droits de l'homme a dénombré environ 232 000 civils tués à lui seul ; des sources russes et du régime Assad ont minimisé les chiffres ; le total réel pourrait dépasser 600 000 en comptant les disparus.",
+    "delta": "+1,500 in 2024 (pre-Dec)",
+    "trend": "down",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "displaced-persons",
+    "label": "Total des personnes déplacées",
+    "value": "13.4 million",
+    "color": "amber",
+    "source": "UNHCR / UN OCHA May 2026",
+    "contested": false,
+    "delta": "-400,000 net since Dec 2024 (1.63M+ returned, new displacements continue)",
+    "deltaNote": "1 630 874 retours de réfugiés confirmés par le HCR au 30 avril 2026, plus 1,8 million de retours de déplacés internes ; le HCR prévoit jusqu'à 1 M de retours de réfugiés supplémentaires en 2026",
+    "trend": "down",
+    "lastUpdated": "2026-07-16"
+  },
+  {
+    "id": "refugees-registered",
+    "label": "Réfugiés enregistrés à l'étranger",
+    "value": "5.5 million",
+    "color": "amber",
+    "source": "UNHCR — Syria Regional Refugee Response 2025",
+    "contested": false,
+    "delta": "+50,000 since Dec 2024",
+    "deltaNote": "Chiffre net — certains reviennent, d'autres fuient encore les zones de conflit",
+    "trend": "stable",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "days-since-regime-collapse",
+    "label": "Jours depuis la chute du régime Assad",
+    "value": "657",
+    "color": "blue",
+    "source": "December 8, 2024 (regime collapse) to September 26, 2026",
+    "contested": false,
+    "delta": "+31 since Aug 26, 2026",
+    "deltaDetail": {
+      "value": 31,
+      "direction": "up",
+      "period": "31d"
+    },
+    "lastUpdated": "2026-09-26"
+  },
+  {
+    "id": "hts-territory-control",
+    "label": "Contrôle territorial du gouvernement de transition",
+    "value": "~65%",
+    "color": "green",
+    "source": "ACLED / ISW Syria Control Map April 2025",
+    "contested": true,
+    "contestNote": "Le HTS/gouvernement de transition contrôle Damas, Alep, Homs, Hama, Idlib, Lattaquié, Deraa et une grande partie du sud de la Syrie. Les estimations varient en raison des zones contestées et des zones tribales.",
+    "trend": "up",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "sdf-territory-control",
+    "label": "Contrôle territorial des FDS (AANES)",
+    "value": "~20%",
+    "color": "blue",
+    "source": "ACLED / ISW Syria Control Map April 2025",
+    "contested": true,
+    "contestNote": "Les FDS/AANES contrôlent le nord-est de la Syrie (Jazira, bassin de l'Euphrate dont Raqqa, nord-est de Deir ez-Zor, Qamishli). La Turquie et le gouvernement de transition contestent la légitimité de l'autogouvernance des FDS.",
+    "trend": "stable",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "reconstruction-cost",
+    "label": "Coût de reconstruction estimé",
+    "value": "$250–400 billion",
+    "color": "amber",
+    "source": "World Bank / UNDP Syria Needs Assessment 2024",
+    "contested": true,
+    "contestNote": "L'estimation de la Banque mondiale de 2017 était de 226 Md$ ; les destructions ultérieures ont fait grimper les estimations. Certains analystes citent plus de 400 Md$ ; le chiffre réel dépend fortement de l'environnement sécuritaire et du retour de la population. Une estimation sectorielle de juillet 2026 (Al Arabia Law) cite plutôt 216 Md$ — près de 10 fois le PIB actuel de la Syrie — ce qui illustre à quel point les estimations du coût de la reconstruction divergent encore 19 mois après le début de la transition.",
+    "trend": "up",
+    "lastUpdated": "2026-07-16"
+  },
+  {
+    "id": "gdp-collapse",
+    "label": "PIB par rapport au niveau d'avant-guerre",
+    "value": "~25% of 2010 GDP",
+    "color": "red",
+    "source": "World Bank / IMF Syria Economic Monitor 2024",
+    "contested": true,
+    "contestNote": "Les données économiques complètes sur la Syrie ne sont pas fiables. La dévaluation de la livre syrienne, l'économie de marché noir et les sanctions rendent les comparaisons difficiles. Certains analystes situent le PIB actuel à seulement 15 % des niveaux d'avant-guerre.",
+    "trend": "down",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "isis-attacks-2026-ytd",
+    "label": "Attaques de l'EI contre les forces syriennes (2026, depuis le début de l'année)",
+    "value": "52 (H1 2026)",
+    "color": "amber",
+    "source": "The National / conflict monitors, June 2026",
+    "contested": false,
+    "delta": "+225% vs. 16 attacks in all of 2025",
+    "deltaNote": "Forte escalade suivie alors que les forces américaines sont passées d'environ 2 000 à environ 700 hommes dans le nord-est de la Syrie ; comprend l'attentat-suicide du 15 juin contre le QG de la police de Raqqa et une frappe de drone américaine du 19 juin qui a tué le chef de l'EI Ali Husayn al-Ulaywi à Idlib",
+    "trend": "up",
+    "lastUpdated": "2026-07-16"
+  },
+  {
+    "id": "us-terrorism-designation-status",
+    "label": "Désignation américaine d'État soutenant le terrorisme",
+    "value": "Rescinded (Aug 24, 2026)",
+    "color": "green",
+    "source": "US Dept. of State, Aug 24, 2026",
+    "contested": false,
+    "delta": "Formally rescinded after the 45-day congressional review concluded; HTS also delisted as a Specially Designated Global Terrorist the same day",
+    "deltaNote": "Cette désignation a été imposée à la Syrie en 1979 sous Hafez al-Assad ; seuls Cuba, l'Iran et la Corée du Nord figurent encore sur la liste. Son retrait devrait faciliter le financement de la reconstruction et l'accès bancaire.",
+    "trend": "down",
+    "lastUpdated": "2026-08-26"
+  },
+  {
+    "id": "fuel-price-protest-scale",
+    "label": "Manifestations contre le prix des carburants (sept. 2026)",
+    "value": "Widest unrest since Assad's fall",
+    "color": "amber",
+    "source": "Al Jazeera / Haaretz, Sep 14-18, 2026",
+    "contested": false,
+    "delta": "Diesel +40%, petrol +25-28% (Sep 13); government rolled back to subsidized tiers (Sep 18) after protests spread to Aleppo, Idlib, Hama, Daraa, Damascus, Deir ez-Zor and Hasakah",
+    "trend": "up",
+    "lastUpdated": "2026-09-18"
+  },
+  {
+    "id": "israeli-strikes-incursions-since-assad-fall",
+    "label": "Frappes, incursions et détentions israéliennes en Syrie (depuis déc. 2024)",
+    "value": "500 strikes / 1,200+ incursions / 300 detentions",
+    "color": "red",
+    "source": "President Ahmad al-Sharaa, UN General Assembly address, Sep 23, 2026",
+    "contested": true,
+    "contestNote": "Les chiffres sont le décompte propre de Damas, présenté par al-Charaa à l'ONU ; Israël n'a pas publié de décompte correspondant et défend les opérations comme des mesures de sécurité nécessaires contre ce qu'il qualifie de menaces djihadistes persistantes.",
+    "trend": "up",
+    "lastUpdated": "2026-09-23"
+  },
+  {
+    "id": "military-depot-explosions-2026",
+    "label": "Explosions inexpliquées de dépôts de munitions (depuis déc. 2024)",
+    "value": "16+ (4 in September 2026 alone)",
+    "color": "amber",
+    "source": "Reuters tally via Al Jazeera, Sep 21, 2026",
+    "contested": true,
+    "contestNote": "Les autorités syriennes attribuent certaines explosions à un mauvais stockage, à des incendies ou à des munitions détériorées ; des analystes affirment que le sabotage — y compris une possible implication israélienne — « ne peut être totalement exclu », faute de preuve publique dans un sens ou dans l'autre.",
+    "delta": "+2 in the week of Sep 15-21 (Ayyash, Deir ez-Zor, Sep 19: 11 killed; Al-Eis, Aleppo, Sep 21: 4 injured)",
+    "trend": "up",
+    "lastUpdated": "2026-09-21"
+  },
+  {
+    "id": "sdf-integration-status",
+    "label": "Intégration des FDS dans l'État syrien",
+    "value": "Complete — SDF dissolved (Aug 25, 2026)",
+    "color": "green",
+    "source": "SDF Commander Mazloum Abdi / Al Jazeera, Aug 25, 2026",
+    "contested": false,
+    "delta": "SDF announced its dissolution as an independent military force on Aug 25, 2026, four days after Kurdish civil/administrative institutions completed integration into state ministries (Aug 21)",
+    "deltaNote": "Achève l'intégration progressive convenue entre Damas et les FDS en janvier 2026 ; l'accord prévoit la reconnaissance des droits culturels, civils et éducatifs kurdes, bien que ces droits ne figurent pas encore dans le projet de constitution",
+    "trend": "up",
+    "lastUpdated": "2026-08-26"
+  }
+]

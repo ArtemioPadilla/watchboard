@@ -1,0 +1,161 @@
+[
+  {
+    "id": "kpi-transnistria-russian-citizens",
+    "label": "Résidents de Transnistrie éligibles au décret de passeportisation",
+    "value": "~220,000",
+    "color": "red",
+    "source": "Sergei Shoigu statement (Apr 2026); Putin decree, May 15, 2026",
+    "contested": true,
+    "contestNote": "Le chiffre est l'estimation de Moscou elle-même ; la vérification indépendante de la population éligible n'est pas publique. Moins de 40 % détenaient auparavant la citoyenneté russe.",
+    "trend": "up",
+    "lastUpdated": "2026-08-20T00:00:00.000Z"
+  },
+  {
+    "id": "kpi-drone-incidents-9days",
+    "label": "Violations de l'espace aérien moldave (depuis le 9 août 2026)",
+    "value": "23",
+    "color": "red",
+    "source": "Moldovan Army Air Operations Service / Moldova1 / Ukrinform / Anadolu Agency / Moldpres",
+    "contested": false,
+    "trend": "up",
+    "delta": "+4 since Sep 24 — a second Geran-4 loitering munition was recovered near Cotiujeni, Briceni district, and a drone reportedly exploded near a cannery in Camenca, Transnistria, rounding out the four incursions reported that morning; a brief two-minute crossing near Novokotovsk, Transnistria followed on Sep 26, along with drone fragments found near Volintiri, Ștefan Vodă district the same evening",
+    "deltaDetail": {
+      "value": 4,
+      "direction": "up",
+      "period": "since Sep 24"
+    },
+    "lastUpdated": "2026-09-27T14:00:00.000Z"
+  },
+  {
+    "id": "kpi-border-crossings-struck",
+    "label": "Points de passage frontaliers Ukraine-Moldavie frappés (3 semaines)",
+    "value": "4",
+    "color": "red",
+    "source": "Ukraine State Border Guard Service / Al Jazeera / Kyiv Independent",
+    "contested": false,
+    "trend": "up",
+    "delta": "Reni (Aug 20), Tabachi-Mirne (Aug 21), Vynohradivka (Aug 25), Starokozache (Sep 9) — first with fatalities: 2 killed, 3 injured",
+    "deltaDetail": {
+      "value": 1,
+      "direction": "up",
+      "period": "since Aug 25"
+    },
+    "lastUpdated": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "kpi-romania-drones-downed-2026",
+    "label": "Drones abattus au-dessus de la Roumanie (total 2026)",
+    "value": "4",
+    "color": "amber",
+    "source": "Romanian Ministry of National Defence",
+    "contested": false,
+    "trend": "up",
+    "lastUpdated": "2026-08-20T00:00:00.000Z"
+  },
+  {
+    "id": "kpi-ogrf-troop-strength",
+    "label": "Effectifs de l'OGRF en Transnistrie",
+    "value": "~1,500",
+    "color": "amber",
+    "source": "Operational Group of Russian Forces order of battle estimates",
+    "contested": true,
+    "contestNote": "Le noyau compte 70 à 100 officiers russes ; le reste est constitué de personnel transnistrien recruté localement — composition contestée entre les versions moldave et russe.",
+    "trend": "stable",
+    "lastUpdated": "2026-08-20T00:00:00.000Z"
+  },
+  {
+    "id": "kpi-cobasna-depot-tonnage",
+    "label": "Stock du dépôt de munitions de Cobasna",
+    "value": "~19,000-22,000 tonnes",
+    "color": "amber",
+    "source": "Balkan Insight / regional security analysts",
+    "contested": true,
+    "contestNote": "Aucune inspection indépendante récente ; les estimations varient selon les sources.",
+    "trend": "stable",
+    "lastUpdated": "2026-08-20T00:00:00.000Z"
+  },
+  {
+    "id": "kpi-eu-clusters-opened",
+    "label": "Groupes de négociation d'adhésion à l'UE ouverts",
+    "value": "2 of 6",
+    "color": "green",
+    "source": "Council of the European Union",
+    "contested": false,
+    "trend": "stable",
+    "delta": "Sep 9: Hungary did not extend its Ukraine veto to Moldova's cluster 3, opening a possible procedural path to decouple the two tracks; no formal cluster-opening ceremony confirmed yet, and Ukraine's parallel cluster remains blocked",
+    "lastUpdated": "2026-09-10T00:00:00.000Z"
+  },
+  {
+    "id": "kpi-pas-election-margin",
+    "label": "Majorité parlementaire du PAS (élections de sept. 2025)",
+    "value": "50.2% / 55 seats",
+    "color": "green",
+    "source": "OSW Centre for Eastern Studies",
+    "contested": true,
+    "contestNote": "Résultat certifié par la CEC moldave ; le chef du Bloc patriotique, Igor Dodon, conteste sa légitimité sans le soutien d'observateurs internationaux.",
+    "trend": "stable",
+    "lastUpdated": "2026-08-20T00:00:00.000Z"
+  },
+  {
+    "id": "kpi-electricity-cuciurgan-share",
+    "label": "Électricité moldave provenant de Cuciurgan (MGRES)",
+    "value": "~70%",
+    "color": "amber",
+    "source": "Ministry of Energy of Moldova",
+    "contested": false,
+    "trend": "down",
+    "deltaNote": "En baisse avec la mise en service de la nouvelle interconnexion avec la Roumanie",
+    "lastUpdated": "2026-08-20T00:00:00.000Z"
+  },
+  {
+    "id": "kpi-duma-polling-stations-disputed",
+    "label": "Bureaux de vote des élections à la Douma russe ouverts en Transnistrie (contre ceux autorisés par la Moldavie)",
+    "value": "17 opened / 1 authorised",
+    "color": "red",
+    "source": "Vadim Krasnoselsky via Ukrinform / Moldovan Ministry of Foreign Affairs",
+    "contested": true,
+    "contestNote": "La Moldavie n'a autorisé que le bureau de vote de l'ambassade de Russie à Chisinau ; la Russie et les autorités transnistriennes ont ouvert 17 bureaux supplémentaires (15 adresses divulguées) dans 8 villes sans le consentement de Chisinau pour les élections à la Douma d'État du 18 au 20 sept.",
+    "trend": "up",
+    "delta": "Voting closed Sep 20 after more than 21,000 people voted by midday; Romania's Foreign Ministry formally condemned the vote on Sep 19 as a violation of Moldovan sovereignty, while Russian MFA spokeswoman Maria Zakharova told Chisinau to stop actions 'against democracy, international law and common sense'. Final official turnout not yet published.",
+    "lastUpdated": "2026-09-20T00:00:00.000Z"
+  },
+  {
+    "id": "kpi-citizenship-applications-filed",
+    "label": "Demandes de citoyenneté russe déposées (total sur 3 mois)",
+    "value": "60,000+",
+    "color": "red",
+    "source": "Vadim Krasnoselsky via Izvestia, reported by Meduza, Aug 10, 2026",
+    "contested": true,
+    "contestNote": "Chiffre déclaré par les dirigeants transnistriens eux-mêmes ; aucune donnée consulaire russe indépendante n'a été publiée.",
+    "trend": "up",
+    "lastUpdated": "2026-08-21T15:01:34.000Z"
+  },
+  {
+    "id": "kpi-drone-incursions-2026-official-tally",
+    "label": "Incursions de drones russes dans l'espace aérien moldave (décompte officiel 2026)",
+    "value": "39",
+    "color": "red",
+    "source": "President Maia Sandu, after National Security Council meeting, Sep 21-22, 2026",
+    "contested": false,
+    "trend": "up",
+    "delta": "vs. 17 incursions in all of 2025 — more than double in under 9 months",
+    "deltaDetail": {
+      "value": 22,
+      "direction": "up",
+      "period": "vs. full year 2025"
+    },
+    "deltaNote": "Un décompte plus restreint, propre aux drones (STRATCOM/Sandu) ; le bilan plus large du ministère de la Défense du 24 sept., couvrant tous les types de violations de l'espace aérien (voir kpi-defense-ministry-2026-airspace-tally), n'est pas directement comparable",
+    "lastUpdated": "2026-09-26T14:00:00.000Z"
+  },
+  {
+    "id": "kpi-defense-ministry-2026-airspace-tally",
+    "label": "Violations non autorisées de l'espace aérien, tous types (décompte 2026 du ministère de la Défense)",
+    "value": "44",
+    "color": "red",
+    "source": "Moldovan Ministry of National Defence, Sep 24, 2026",
+    "contested": false,
+    "trend": "up",
+    "delta": "81 total violations recorded since 2022 across drones, missiles and other aircraft; more than 10 instances have forced Moldova to close airspace to protect civil aviation",
+    "lastUpdated": "2026-09-27T14:00:00.000Z"
+  }
+]

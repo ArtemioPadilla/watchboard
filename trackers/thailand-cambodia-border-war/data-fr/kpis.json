@@ -1,0 +1,116 @@
+[
+  {
+    "id": "kpi-total-killed",
+    "label": "Total estimé de tués",
+    "value": "140+",
+    "color": "red",
+    "source": "Aggregated independent media/WHO estimates",
+    "contested": true,
+    "contestNote": "Les bilans des gouvernements thaïlandais et cambodgien diffèrent ; les estimations indépendantes combinent les phases de juillet (plus de 43) et de décembre (plus de 101).",
+    "trend": "stable",
+    "lastUpdated": "2026-08-20T12:00:00.000Z"
+  },
+  {
+    "id": "kpi-peak-displaced",
+    "label": "Pic de déplacement (déc. 2025)",
+    "value": "644,589",
+    "color": "amber",
+    "source": "Cambodia National Committee for Disaster Management (NCDM)",
+    "contested": true,
+    "contestNote": "Le pic officiel du NCDM (25-27 déc. 2025) est supérieur aux estimations agrégées antérieures de Reuters/AP de plus de 500 000 ; environ 85 % du total au pic étaient rentrés chez eux au moment du rapport de situation de World Vision de juillet 2026.",
+    "delta": "20,923 still unable to return as of Jul 8, 2026",
+    "deltaNote": "Baisse progressive depuis le cessez-le-feu du 27 déc. 2025",
+    "trend": "down",
+    "lastUpdated": "2026-09-19T00:00:00.000Z"
+  },
+  {
+    "id": "kpi-still-displaced",
+    "label": "Toujours dans l'impossibilité de rentrer (juil. 2026)",
+    "value": "20,923",
+    "color": "amber",
+    "source": "World Vision International Situation Report #25",
+    "contested": false,
+    "deltaDetail": {
+      "value": -388077,
+      "direction": "down",
+      "period": "since Jan 1, 2026"
+    },
+    "trend": "down",
+    "lastUpdated": "2026-09-19T00:00:00.000Z"
+  },
+  {
+    "id": "kpi-ceasefire-day-count",
+    "label": "Jours depuis le cessez-le-feu du 27 déc.",
+    "value": "268",
+    "color": "blue",
+    "source": "Watchboard calculation",
+    "contested": false,
+    "deltaDetail": {
+      "value": 2,
+      "direction": "up",
+      "period": "2d"
+    },
+    "trend": "stable",
+    "lastUpdated": "2026-09-21T00:00:00.000Z"
+  },
+  {
+    "id": "kpi-displaced-children",
+    "label": "Enfants cambodgiens déplacés dans l'impossibilité de rentrer",
+    "value": "6,066",
+    "color": "amber",
+    "source": "Cambodia Ministry of Information",
+    "contested": false,
+    "contestNote": "Sous-ensemble des quelque 20 000 civils que, selon le Cambodge, on empêche toujours de regagner les villages occupés ; la Thaïlande conteste la qualification d'occupation.",
+    "trend": "stable",
+    "lastUpdated": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "kpi-fence-length-planned",
+    "label": "Longueur de clôture prévue/construite",
+    "value": "1.3km built / 17km+ planned",
+    "color": "blue",
+    "source": "Bangkok Post / Bloomberg",
+    "contested": false,
+    "trend": "up",
+    "lastUpdated": "2026-08-20T12:00:00.000Z"
+  },
+  {
+    "id": "kpi-bilateral-trade",
+    "label": "Valeur des échanges bilatéraux en 2024",
+    "value": "366.7B baht (~$10B)",
+    "color": "amber",
+    "source": "ITD Thailand",
+    "contested": false,
+    "delta": "Land trade down from $1.9B to $0.9B, Q2 to Q4 2025",
+    "deltaNote": "Fermetures de la frontière lors des escalades",
+    "trend": "down",
+    "lastUpdated": "2026-08-20T12:00:00.000Z"
+  },
+  {
+    "id": "kpi-us-tariff-rate",
+    "label": "Taux de droits de douane américain",
+    "value": "19%",
+    "color": "green",
+    "source": "US Trade Representative",
+    "contested": false,
+    "delta": "Down from 36% threatened",
+    "deltaNote": "Réduit après le maintien du cessez-le-feu du 28 juil. 2025",
+    "trend": "down",
+    "lastUpdated": "2026-08-20T12:00:00.000Z"
+  },
+  {
+    "id": "kpi-conflict-day-count",
+    "label": "Jours depuis l'accrochage du 28 mai 2025",
+    "value": "481",
+    "color": "red",
+    "source": "Watchboard calculation",
+    "contested": false,
+    "deltaDetail": {
+      "value": 2,
+      "direction": "up",
+      "period": "2d"
+    },
+    "trend": "stable",
+    "lastUpdated": "2026-09-21T00:00:00.000Z"
+  }
+]

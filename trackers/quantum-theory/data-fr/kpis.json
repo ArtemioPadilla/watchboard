@@ -1,7 +1,7 @@
 [
   {
     "id": "years-of-quantum-theory",
-    "label": "Years of Quantum Theory",
+    "label": "Années de théorie quantique",
     "value": "125 years",
     "color": "blue",
     "source": "APS — Dec 14, 1900 (Planck's quantum hypothesis)",
@@ -12,7 +12,7 @@
   },
   {
     "id": "nobel-prizes-quantum",
-    "label": "Nobel Prizes for Quantum Work",
+    "label": "Prix Nobel pour des travaux quantiques",
     "value": "~30+",
     "color": "green",
     "source": "Nobel Prize Archive, NobelPrize.org",
@@ -23,60 +23,73 @@
   },
   {
     "id": "largest-quantum-processor",
-    "label": "Largest Quantum Processor",
+    "label": "Plus grand processeur quantique (nombre de qubits)",
     "value": "1,121 qubits",
     "color": "amber",
-    "source": "IBM — IBM Condor, December 2023",
+    "source": "IBM — IBM Condor (2023); Google Willow 105q below-threshold error correction (2024)",
     "contested": false,
-    "delta": "IBM Condor (2023)",
-    "deltaNote": "Up from 433 qubits in 2022",
+    "delta": "IBM Condor holds raw qubit record; Quantinuum Helios leads in gate fidelity (99.921%)",
+    "deltaNote": "IBM Nighthawk (120q) et Fujitsu/RIKEN (256q) ajoutés en 2025. IBM a livré la disponibilité générale de Nighthawk r2 (120q, débit de circuits multiplié par 25) le 3 sept. 2026, et IonQ a dévoilé sa plateforme à ions piégés de 256 qubits Superion 256 le 8 sept. 2026 — aucune ne dépasse le nombre brut de qubits de Condor.",
     "trend": "up",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "lastUpdated": "2026-09-09T00:00:00Z"
+  },
+  {
+    "id": "best-gate-fidelity",
+    "label": "Meilleure fidélité de porte à 2 qubits",
+    "value": "99.99%",
+    "color": "green",
+    "source": "IonQ — Electronic Qubit Control (EQC), October 2025",
+    "contested": false,
+    "delta": "IonQ sets 'four nines' record (Oct 2025)",
+    "deltaNote": "Surpasse Oxford Ionics 99,97 % (2024) ; Quantinuum Helios 99,921 % (nov. 2025)",
+    "trend": "up",
+    "lastUpdated": "2026-04-19T12:14:00Z"
   },
   {
     "id": "quantum-supremacy-claim",
-    "label": "Quantum Supremacy Claimed",
+    "label": "Suprématie quantique revendiquée",
     "value": "Oct 23, 2019",
     "color": "blue",
     "source": "Google AI / Nature — Sycamore 53-qubit processor",
     "contested": true,
-    "contestNote": "IBM disputed claim, arguing classical simulation was possible with enough disk space",
+    "contestNote": "IBM a contesté l'affirmation, soutenant qu'une simulation classique était possible avec suffisamment d'espace disque",
     "lastUpdated": "2026-03-20T00:00:00Z"
   },
   {
     "id": "countries-quantum-programs",
-    "label": "Nations with Quantum Programs",
+    "label": "Nations dotées de programmes quantiques",
     "value": "30+",
     "color": "green",
     "source": "McKinsey Quantum Technology Monitor 2024",
     "contested": false,
     "trend": "up",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "lastUpdated": "2026-04-19T12:14:00Z"
   },
   {
     "id": "quantum-computing-market",
-    "label": "Global Quantum Market (2024)",
-    "value": "~$1.5B",
+    "label": "Marché quantique mondial (2025)",
+    "value": "~$1.8B",
     "color": "green",
-    "source": "McKinsey & Company — Quantum Technology Monitor 2024",
+    "source": "Network World — Top Quantum Breakthroughs 2025; CAGR ~32.7%, projected $5.3B by 2029",
     "contested": false,
     "trend": "up",
-    "delta": "+35% YoY",
-    "lastUpdated": "2026-03-20T00:00:00Z"
+    "delta": "+20% YoY (2024→2025)",
+    "deltaNote": "Devrait atteindre 5,3 Md$ d'ici 2029 avec un TCAC de 32,7 %. IonQ a publié un chiffre d'affaires record de 80,1 M$ au 2e trimestre 2026 (+287 % sur un an) et finalisé son acquisition de SkyWater pour 1,8 Md$ (5 août 2026) ; Quantinuum, HRL/IBM et Northwestern ont tous franchi des jalons en tolérance aux pannes et en réseaux en juillet 2026. L'élan commercial s'est encore accéléré en août-septembre 2026 : Quantinuum s'est associé à Oracle pour apporter Helios à OCI (12 août), Cornell a facilité la fabrication de qubits supraconducteurs (18 août), IBM a livré Nighthawk r2 (3 sept.), et PsiQuantum (100 M$ du CHIPS Act) et IonQ (lancement de Superion 256) ont tous deux franchi des jalons majeurs le 8 sept.",
+    "lastUpdated": "2026-09-09T00:00:00Z"
   },
   {
     "id": "quantum-interpretations",
-    "label": "Named Quantum Interpretations",
+    "label": "Interprétations quantiques nommées",
     "value": "15+",
     "color": "amber",
     "source": "Stanford Encyclopedia of Philosophy — Quantum Mechanics entry",
     "contested": true,
-    "contestNote": "Debate over which interpretation, if any, is correct remains unresolved",
+    "contestNote": "Le débat sur l'interprétation correcte, s'il y en a une, reste non tranché",
     "lastUpdated": "2026-03-20T00:00:00Z"
   },
   {
     "id": "bell-inequality-violations",
-    "label": "Bell Inequality: Violated",
+    "label": "Inégalité de Bell : violée",
     "value": "Confirmed",
     "color": "red",
     "source": "Hensen et al. Nature 2015; Aspect et al. 1982; Giustina et al. 2015",
@@ -84,5 +97,17 @@
     "delta": "Loophole-free since 2015",
     "trend": "stable",
     "lastUpdated": "2026-03-20T00:00:00Z"
+  },
+  {
+    "id": "qday-estimate",
+    "label": "Estimation du Q-Day (menace sur le chiffrement)",
+    "value": "2029–2035",
+    "color": "red",
+    "source": "Google Security — Q-Day update March 2026; Caltech/Berkeley/Oratomic study April 2026",
+    "contested": true,
+    "contestNote": "Google a ramené son estimation à 2029 ; la plupart des cryptographes situent le risque entre 2030 et 2040. Le NIST a finalisé en 2024 les normes de cryptographie post-quantique pour répondre à la transition.",
+    "delta": "Google revised from 2032 → 2029 (Mar 2026)",
+    "trend": "up",
+    "lastUpdated": "2026-04-19T12:14:00Z"
   }
 ]

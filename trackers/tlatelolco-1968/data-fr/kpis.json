@@ -1,89 +1,94 @@
 [
   {
     "id": "confirmed-dead",
-    "label": "Confirmed Dead (Official)",
+    "label": "Morts confirmés (officiel)",
     "value": "30",
     "color": "red",
     "source": "DFS / Interior Ministry 1968",
     "contested": true,
-    "contestNote": "Official figure of 30 is widely rejected. Estimates from journalists, survivors, and researchers range from 200 to 400 dead. The 1993 National Security Archive documents cite at least 200–300 killed.",
+    "contestNote": "Le chiffre officiel de 30 est largement rejeté. Les estimations de journalistes, de survivants et de chercheurs vont de 200 à 400 morts. Les documents de 1993 de la National Security Archive font état d'au moins 200 à 300 morts.",
     "trend": "stable",
     "lastUpdated": "2026-03-19"
   },
   {
     "id": "estimated-dead",
-    "label": "Estimated Dead (Researchers)",
+    "label": "Morts estimés (chercheurs)",
     "value": "200–400",
     "color": "red",
     "source": "Elena Poniatowska / NSA Declassified Docs",
     "contested": true,
-    "contestNote": "Journalist Elena Poniatowska's landmark 1971 book \"La Noche de Tlatelolco\" and declassified NSA cables from 1968 suggest death tolls far exceeding official figures. Some witnesses report bodies removed by army trucks overnight.",
+    "contestNote": "Le livre de référence de la journaliste Elena Poniatowska de 1971, « La Noche de Tlatelolco », et des câbles de la NSA déclassifiés de 1968 suggèrent des bilans bien supérieurs aux chiffres officiels. Certains témoins rapportent que des corps ont été évacués par des camions de l'armée pendant la nuit.",
     "trend": "stable",
     "lastUpdated": "2026-03-19"
   },
   {
     "id": "detained",
-    "label": "Detained After Massacre",
+    "label": "Détenus après le massacre",
     "value": "~2,000",
     "color": "amber",
     "source": "CNDH / Amnesty International",
     "contested": true,
-    "contestNote": "Estimates of those detained range from 1,500 to 2,500. Many were held at Campo Militar No. 1 (Military Camp 1) without charge. Exact numbers remain unknown.",
+    "contestNote": "Les estimations du nombre de personnes détenues vont de 1 500 à 2 500. Beaucoup ont été détenues au Campo Militar no 1 (Camp militaire 1) sans inculpation. Les chiffres exacts restent inconnus.",
     "trend": "stable",
     "lastUpdated": "2026-03-19"
   },
   {
     "id": "days-since-massacre",
-    "label": "Days Since Massacre",
-    "value": "20,987",
+    "label": "Jours depuis le massacre",
+    "value": "21,222",
     "color": "amber",
     "source": "Calculated from 1968-10-02",
     "contested": false,
     "trend": "up",
     "delta": "+365/yr",
-    "lastUpdated": "2026-03-19"
+    "deltaDetail": {
+      "value": 31,
+      "direction": "up",
+      "period": "since 2026-10-09"
+    },
+    "lastUpdated": "2026-11-09"
   },
   {
     "id": "prosecutions",
-    "label": "Successful Prosecutions",
+    "label": "Poursuites ayant abouti",
     "value": "0",
     "color": "red",
     "source": "FEMOSPP / CNDH",
     "contested": false,
-    "contestNote": "Despite the 2006 FEMOSPP report naming Díaz Ordaz, Echeverría, and senior military officers as responsible for genocide and crimes against humanity, all charges were ultimately dropped or dismissed. No perpetrator has served prison time.",
+    "contestNote": "Malgré le rapport 2006 de la FEMOSPP nommant Díaz Ordaz, Echeverría et de hauts responsables militaires comme responsables de génocide et de crimes contre l'humanité, toutes les accusations ont finalement été abandonnées ou rejetées. Aucun auteur n'a purgé de peine de prison.",
     "trend": "stable",
     "lastUpdated": "2026-03-19"
   },
   {
     "id": "declassified-docs",
-    "label": "Declassified US Documents",
+    "label": "Documents américains déclassifiés",
     "value": "~500+",
     "color": "blue",
     "source": "NSA / CIA / State Dept via National Security Archive",
     "contested": false,
-    "contestNote": "Hundreds of US government documents released since 1997 through Freedom of Information Act requests by the National Security Archive reveal CIA and NSA surveillance of Mexican student movement and knowledge of the massacre.",
+    "contestNote": "Des centaines de documents du gouvernement américain publiés depuis 1997 à la suite de demandes fondées sur le Freedom of Information Act par le National Security Archive révèlent la surveillance du mouvement étudiant mexicain par la CIA et la NSA et leur connaissance du massacre.",
     "trend": "stable",
     "lastUpdated": "2026-03-19"
   },
   {
     "id": "student-strike-duration",
-    "label": "Student Strike Duration (1968)",
+    "label": "Durée de la grève étudiante (1968)",
     "value": "79 days",
     "color": "blue",
     "source": "CNH historical record / UNAM Archives",
     "contested": false,
-    "contestNote": "The CNH (Consejo Nacional de Huelga) strike ran from approximately July 22 to October 2, 1968 — ended by the massacre. It involved UNAM, IPN, and dozens of other Mexican institutions.",
+    "contestNote": "La grève du CNH (Consejo Nacional de Huelga) a duré approximativement du 22 juillet au 2 octobre 1968 — interrompue par le massacre. Elle a impliqué l'UNAM, l'IPN et des dizaines d'autres établissements mexicains.",
     "trend": "stable",
     "lastUpdated": "2026-03-19"
   },
   {
     "id": "olympics-days-away",
-    "label": "Days to Olympics at Time of Massacre",
+    "label": "Jours avant les Jeux olympiques au moment du massacre",
     "value": "10",
     "color": "amber",
     "source": "IOC / Historical record",
     "contested": false,
-    "contestNote": "The 1968 Mexico City Summer Olympics opened October 12, 1968 — just 10 days after the massacre. The government's desire to project stability before the world stage is considered a key factor in the decision to use lethal force.",
+    "contestNote": "Les Jeux olympiques d'été de 1968 à Mexico se sont ouverts le 12 octobre 1968 — soit seulement 10 jours après le massacre. La volonté du gouvernement de projeter une image de stabilité devant la scène mondiale est considérée comme un facteur clé dans la décision de recourir à la force létale.",
     "trend": "stable",
     "lastUpdated": "2026-03-19"
   }

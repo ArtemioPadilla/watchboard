@@ -1,0 +1,110 @@
+[
+  {
+    "id": "diaspora-total",
+    "label": "Vénézuéliens déplacés",
+    "value": "7.9M",
+    "color": "red",
+    "source": "UNHCR / R4V (2024)",
+    "contested": false,
+    "delta": "+400K vs 2023",
+    "trend": "up",
+    "lastUpdated": "2026-04-24T00:00:00Z"
+  },
+  {
+    "id": "oil-production",
+    "label": "Production quotidienne de pétrole",
+    "value": "~900K–1.2M bpd",
+    "color": "amber",
+    "source": "EIA / Chevron / PDVSA (May 2026)",
+    "contested": true,
+    "contestNote": "Chevron a annoncé le 2 septembre un nouvel accord avec le Venezuela portant sur des conditions actualisées de coentreprise ainsi que sur des concessions supplémentaires dans la ceinture de l'Orénoque ; le plan prévoit plus de 7 Md$ d'investissements sur cinq ans, visant un doublement de la production de la coentreprise de Chevron à ~600 000 b/j tout en maintenant les coûts sous 20 $/baril, en plus d'une production déjà en hausse de 15 % depuis le début de 2026 ; Eni a également étendu ses projets pétroliers vénézuéliens la même semaine ; les négociations d'ExxonMobil/ConocoPhillips et l'accord gazier offshore de BP (avril 2026) continuent d'élargir l'accès au secteur après Maduro",
+    "delta": "−67% vs 1998 peak (3.3M bpd); +29% vs 2020 low",
+    "trend": "up",
+    "lastUpdated": "2026-09-02T00:00:00.000Z"
+  },
+  {
+    "id": "inflation-peak",
+    "label": "Pic d'hyperinflation",
+    "value": "1,698,488%",
+    "color": "red",
+    "source": "IMF (2018)",
+    "contested": true,
+    "contestNote": "La BCV a retenu les données pendant des années ; des économistes de l'opposition ont estimé des chiffres encore plus élevés",
+    "deltaNote": "Pire inflation de l'histoire du Venezuela (2018)",
+    "lastUpdated": "2026-04-24T00:00:00Z"
+  },
+  {
+    "id": "poverty-rate",
+    "label": "Taux d'extrême pauvreté",
+    "value": "~65%",
+    "color": "red",
+    "source": "ENCOVI / Universidad Católica Andrés Bello (2023)",
+    "contested": true,
+    "contestNote": "Le gouvernement conteste ces chiffres ; des enquêtes indépendantes montrent systématiquement 50 à 80 %",
+    "trend": "down",
+    "deltaNote": "En amélioration par rapport à ~80 % (2021) grâce à une dollarisation partielle",
+    "lastUpdated": "2026-04-24T00:00:00Z"
+  },
+  {
+    "id": "political-prisoners",
+    "label": "Prisonniers politiques",
+    "value": "344 (Foro Penal, Sep 14 2026)",
+    "color": "amber",
+    "source": "Foro Penal / El Diario (September 2026)",
+    "contested": true,
+    "contestNote": "Foro Penal comptait 344 prisonniers politiques au 14 septembre (330 hommes, 14 femmes ; 200 civils, 144 militaires ; 153 condamnés, 191 sans condamnation ; 32 ressortissants étrangers) — contre 391 fin août, avec 7 libérations et 23 nouveaux ajouts à la liste sur la période. Cette libération porte le total des libérations depuis la détention de Maduro le 3 janvier à environ 1 046 et plus selon les décomptes gouvernementaux/de l'opposition. Le secrétaire d'État américain Rubio a qualifié les libérations de prisonniers d'« étape cruciale » vers la réconciliation ; des figures de l'opposition continuent d'exiger que tous les prisonniers restants soient libérés « sans exception, sans délai ».",
+    "trend": "down",
+    "delta": "−47 vs Aug 26 (391); 344 still detained per Foro Penal",
+    "deltaDetail": {
+      "value": -47,
+      "direction": "down",
+      "period": "since Aug 26"
+    },
+    "lastUpdated": "2026-09-18T00:00:00.000Z"
+  },
+  {
+    "id": "gdp-decline",
+    "label": "Recul du PIB (2013–2021)",
+    "value": "−80%",
+    "color": "red",
+    "source": "IMF / World Bank (2022)",
+    "contested": false,
+    "deltaNote": "Plus forte contraction économique en temps de paix de l'histoire moderne ; le T1 2026 montre un rebond d'environ 23 % en glissement annuel",
+    "lastUpdated": "2026-05-04T00:00:00Z"
+  },
+  {
+    "id": "remittances",
+    "label": "Envois de fonds annuels",
+    "value": "~$4.6B",
+    "color": "blue",
+    "source": "World Bank (2023)",
+    "contested": false,
+    "trend": "up",
+    "delta": "+15% vs 2022",
+    "deltaNote": "Première source de revenus des ménages pour de nombreuses familles",
+    "lastUpdated": "2026-04-24T00:00:00Z"
+  },
+  {
+    "id": "minimum-wage",
+    "label": "Salaire minimum mensuel",
+    "value": "$5.50",
+    "color": "amber",
+    "source": "BCV / Datanálisis (2024)",
+    "contested": false,
+    "deltaNote": "Salaire nominal en bolivars ; la plupart des travailleurs dépendent des envois de fonds en dollars",
+    "trend": "up",
+    "lastUpdated": "2026-04-24T00:00:00Z"
+  },
+  {
+    "id": "earthquake-death-toll",
+    "label": "Bilan du séisme (secousses du 24 juin)",
+    "value": "6,509",
+    "color": "red",
+    "source": "Jorge Rodríguez / Government figures (Aug 25, 2026)",
+    "contested": true,
+    "contestNote": "La modélisation PAGER de l'USGS projetait initialement un bilan potentiel supérieur à 10 000 ; une estimation de l'ONU évaluait à ~50 000 le nombre de personnes toujours disparues fin juillet ; seulement 28,61 % des débris avaient été dégagés au 25 août, selon Rodríguez ; les chiffres du gouvernement sont autodéclarés, sans vérification indépendante. Seuls 335 des 4 000 logements de remplacement promis avaient été livrés à la mi-août, et une crue soudaine du 22 août — sans lien avec les séismes mais frappant la même région en reconstruction — a tué une personne de plus et fait six disparus.",
+    "delta": "+71 since Aug 17 (6,438)",
+    "trend": "up",
+    "lastUpdated": "2026-08-26T16:11:48.000Z"
+  }
+]

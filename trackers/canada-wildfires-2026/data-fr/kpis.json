@@ -1,0 +1,203 @@
+[
+  {
+    "id": "hectares-burned-national",
+    "label": "Hectares brûlés à l'échelle nationale",
+    "value": "~4.48M ha",
+    "color": "red",
+    "source": "CIFFC, as of Sep 5",
+    "contested": true,
+    "contestNote": "Le CIFFC et les agences provinciales mettent à jour leurs bilans de façon indépendante et fréquente ; les chiffres peuvent être en retard, diverger ou être révisés à la baisse après une nouvelle cartographie. Environ 1,6 % au-dessus de la moyenne sur 10 ans (4,41 M ha), mais bien en dessous de la moyenne sur 5 ans (7,1 M+ ha) et du rythme de 2025 (7,7 M ha à la mi-août).",
+    "delta": "~Flat vs Aug 31 estimate (4,492,283 ha) — apparent dip reflects remapping revisions, not fire reduction",
+    "trend": "stable",
+    "lastUpdated": "2026-09-11T00:00:00Z"
+  },
+  {
+    "id": "total-fires-national",
+    "label": "Total des feux de forêt cette saison",
+    "value": "5,289",
+    "color": "amber",
+    "source": "CIFFC, as of Sep 5",
+    "contested": false,
+    "delta": "+41 vs Aug 31",
+    "deltaDetail": {
+      "value": 41,
+      "direction": "up",
+      "period": "since Aug 31"
+    },
+    "trend": "up",
+    "lastUpdated": "2026-09-11T00:00:00Z"
+  },
+  {
+    "id": "active-fires-current",
+    "label": "Niveau national de préparation",
+    "value": "Level 2 — no priority fires",
+    "color": "green",
+    "source": "CIFFC National Situation Report, Sep 16",
+    "contested": false,
+    "delta": "Down from Level 3 (531 active fires) on Sep 5 — the season's final weekly national situation report",
+    "deltaDetail": {
+      "value": -1,
+      "direction": "down",
+      "period": "since Sep 5"
+    },
+    "deltaNote": "Le rapport du CIFFC du 16 septembre indique que le nombre d'incendies et la superficie brûlée à l'échelle nationale sont proches ou inférieurs à la moyenne sur dix ans, les ressources des agences étant adaptées à une demande faible à modérée. C'est le dernier rapport hebdomadaire de 2026 ; un bilan complet de la saison suivra plus tard à l'automne et les rapports hebdomadaires reprendront au printemps 2027.",
+    "trend": "down",
+    "lastUpdated": "2026-09-18T17:40:10Z"
+  },
+  {
+    "id": "total-evacuated",
+    "label": "Personnes évacuées (total de la saison)",
+    "value": "~23,000 total (~11,000 still under evacuation order as of Aug 18)",
+    "color": "amber",
+    "source": "Public Safety Canada — Aug 18 federal update; Indigenous Services Canada, as of Sep 14",
+    "contested": false,
+    "delta": "First Nations evacuees down to 178 individuals (17 communities impacted) as of Sep 14, from 4,294 across 25 communities on Aug 18",
+    "deltaDetail": {
+      "value": -4116,
+      "direction": "down",
+      "period": "since Aug 18"
+    },
+    "deltaNote": "8 600 Autochtones touchés à l'échelle nationale au 18 août ; au 14 sept., seules 17 communautés des Premières Nations restaient touchées (16 en C.-B., 1 en Sask., 1 en Ont.), dont 5 sous évacuation active et 178 personnes déplacées",
+    "trend": "down",
+    "lastUpdated": "2026-09-14T00:00:00Z"
+  },
+  {
+    "id": "total-deaths",
+    "label": "Décès confirmés",
+    "value": "5",
+    "color": "red",
+    "source": "CBC News, CBS News, government statements",
+    "contested": false,
+    "deltaNote": "1 pompier (N.-É.), 3 membres d'équipage/pompiers (écrasement d'un avion aux T.N.-O.), 1 civil (C.-B.)",
+    "lastUpdated": "2026-08-20T04:20:00Z"
+  },
+  {
+    "id": "largest-fire-thunder-bay-36",
+    "label": "Plus grand incendie isolé (Thunder Bay 36)",
+    "value": "301,240 ha",
+    "color": "red",
+    "source": "Ontario Aviation, Forest Fire and Emergency Services, as of Sep 5",
+    "contested": false,
+    "delta": "Unchanged vs Sep 3 estimate — activity across the complex remains low as of Sep 5",
+    "deltaNote": "Toujours pas maîtrisé ; plus grand feu de forêt jamais enregistré en Ontario. Fait partie du complexe de Rinker Lake avec Dryden 34 (45 800 ha) et Dryden 35 (30 158 ha) — le complexe combiné couvre désormais 377 240 ha ; le NOTAM reste en vigueur",
+    "trend": "stable",
+    "lastUpdated": "2026-09-06T16:54:33Z"
+  },
+  {
+    "id": "milwaukee-record-aqi",
+    "label": "Indice AQI record aux États-Unis (Milwaukee)",
+    "value": "644",
+    "color": "blue",
+    "source": "Wisconsin DNR / Medical Daily",
+    "contested": false,
+    "deltaNote": "Plus du double du précédent record absolu de Milwaukee, 300 (1987)",
+    "lastUpdated": "2026-08-20T04:20:00Z"
+  },
+  {
+    "id": "us-population-under-air-quality-alerts",
+    "label": "Population américaine sous alertes de qualité de l'air (pic)",
+    "value": "120 million+",
+    "color": "blue",
+    "source": "US National Weather Service / EPA AirNow",
+    "contested": false,
+    "deltaNote": "Plus de 16 États américains sous alerte, du 14 au 20 juillet",
+    "lastUpdated": "2026-08-20T04:20:00Z"
+  },
+  {
+    "id": "bald-range-fire-size",
+    "label": "Superficie du feu Bald Range (Summerland, C.-B.)",
+    "value": "25,000+ ha",
+    "color": "amber",
+    "source": "BC Wildfire Service / CBC News, as of Sep 4",
+    "contested": false,
+    "delta": "Growth has stalled since Aug 28 estimate",
+    "deltaNote": "Classé « maîtrisé » au 31 août — son niveau de statut le plus avancé depuis le déclenchement du 7 août ; l'ordre de restriction de zone a été levé le 4 septembre. Le district régional a approuvé des allocations de logement en VR sur 5 ans et réduit de moitié les frais de permis de reconstruction pour environ 150 structures détruites.",
+    "trend": "stable",
+    "lastUpdated": "2026-09-06T16:54:33Z"
+  },
+  {
+    "id": "pear-lake-fire-size",
+    "label": "Superficie de l'incendie de Pear Lake (Cariboo, C.-B.)",
+    "value": "165,909 ha",
+    "color": "red",
+    "source": "BC Wildfire Service, as of Sep 23",
+    "contested": false,
+    "delta": "-223 ha vs Sep 3 estimate — minor remapping, not fire reduction; now classified 'under control'",
+    "deltaNote": "Désormais classé « maîtrisé » par le BC Wildfire Service. Reste le plus grand incendie actif de la C.-B.",
+    "trend": "stable",
+    "lastUpdated": "2026-09-23T18:00:00Z",
+    "deltaDetail": {
+      "value": -223,
+      "direction": "down",
+      "period": "since Sep 3"
+    }
+  },
+  {
+    "id": "nwt-wildfire-total",
+    "label": "Total des feux de forêt dans les Territoires du Nord-Ouest (saison)",
+    "value": "1,694,210 ha across 289 fires",
+    "color": "green",
+    "source": "NWT Environment and Climate Change, as of Sep 25",
+    "contested": false,
+    "deltaNote": "Seuls 7 incendies restent actifs (5 hors de contrôle, 2 maîtrisés) et 282 sont désormais déclarés éteints, contre 79 actifs (71 hors de contrôle) le 21 sept., la météo automnale mettant effectivement fin à la phase active de la saison dans les Territoires du Nord-Ouest.",
+    "trend": "down",
+    "lastUpdated": "2026-09-25T17:30:00Z",
+    "delta": "+1,299 ha vs Sep 21 estimate (minor remapping); active fire count fell from 79 to 7",
+    "deltaDetail": {
+      "value": -72,
+      "direction": "down",
+      "period": "since Sep 21"
+    }
+  },
+  {
+    "id": "bc-active-fires-outofcontrol-share",
+    "label": "Feux actifs en C.-B. / part hors de contrôle",
+    "value": "100 active / 2 out of control",
+    "color": "green",
+    "source": "BC Wildfire Service (via FireRisk.ai live feed), as of Sep 25",
+    "contested": false,
+    "deltaNote": "16 sont maintenus sous surveillance, 82 sont maîtrisés. La saison des incendies en Colombie-Britannique continue de s'achever ; l'incendie de Mount Jack, près de Sooke, est désormais l'un des deux seuls incendies encore classés hors de contrôle dans l'ensemble de la province.",
+    "trend": "down",
+    "lastUpdated": "2026-09-25T17:30:00Z",
+    "delta": "Down from 105 active / 5 out of control on Sep 23",
+    "deltaDetail": {
+      "value": -5,
+      "direction": "down",
+      "period": "since Sep 23"
+    }
+  },
+  {
+    "id": "mount-jack-fire-size",
+    "label": "Superficie du feu de Mount Jack (Sooke, C.-B.)",
+    "value": "337.23 ha — under control",
+    "color": "green",
+    "source": "BC Wildfire Service / Black Press Media, as of Sep 29",
+    "contested": false,
+    "delta": "Reclassified 'under control' Sep 29; remeasured 276.19 → 337.23 ha",
+    "deltaDetail": {
+      "value": 61.04,
+      "direction": "up",
+      "period": "since Sep 26"
+    },
+    "deltaNote": "Le comportement du feu est redescendu au rang 1 (combustion lente) après la pluie ; environ 60 intervenants mobilisés. Les fermetures du parc régional Kapoor et du sentier Galloping Goose ont été levées le 29 sept. Feu d'origine humaine, découvert le 20 sept. ; le plus important de l'île de Vancouver cette saison.",
+    "trend": "stable",
+    "lastUpdated": "2026-09-27T00:00:00Z"
+  },
+  {
+    "id": "ainslie-creek-fire-size",
+    "label": "Superficie du feu d'Ainslie Creek (Merritt/Fraser Canyon, C.-B.)",
+    "value": "69,705 ha",
+    "color": "amber",
+    "source": "BC Wildfire Service (via FireRisk.ai live feed), as of Sep 25",
+    "contested": false,
+    "delta": "+1,983 ha vs Sep 3 estimate (67,722 ha) — still classified 'being held'",
+    "deltaDetail": {
+      "value": 1983,
+      "direction": "up",
+      "period": "since Sep 3"
+    },
+    "deltaNote": "Stable depuis fin août ; retiré de la liste des « incendies à surveiller » de la C.-B. le 3 sept. Aucune perte de structures signalée.",
+    "trend": "stable",
+    "lastUpdated": "2026-09-25T17:30:00Z"
+  }
+]

@@ -1,27 +1,27 @@
 [
   {
     "id": "total-killed",
-    "label": "Total Killed",
+    "label": "Total des morts",
     "value": "2,977",
     "color": "red",
     "source": "9/11 Commission Report; NYC Medical Examiner",
     "contested": false,
-    "contestNote": "Does not include 19 hijackers. NYC ME records 2,753 at WTC; DoD records 184 at Pentagon; 40 on Flight 93.",
+    "contestNote": "Ne comprend pas les 19 pirates de l'air. Le médecin légiste de New York recense 2 753 victimes au WTC ; le DoD en recense 184 au Pentagone ; 40 sur le vol 93.",
     "lastUpdated": "2026-03-17T00:00:00.000Z"
   },
   {
     "id": "first-responders-killed",
-    "label": "First Responders Killed",
+    "label": "Premiers intervenants tués",
     "value": "411",
     "color": "red",
     "source": "FDNY; NYPD; Port Authority Police",
     "contested": false,
-    "contestNote": "Includes 343 FDNY firefighters/paramedics, 37 Port Authority Police, 23 NYPD, 8 EMTs/others — largest single-incident loss of first responders in U.S. history.",
+    "contestNote": "Comprend 343 pompiers/ambulanciers du FDNY, 37 policiers de la Port Authority, 23 du NYPD, 8 secouristes/autres — la plus grande perte de premiers intervenants lors d'un seul événement de l'histoire des États-Unis.",
     "lastUpdated": "2026-03-17T00:00:00.000Z"
   },
   {
     "id": "nations-represented",
-    "label": "Nations Whose Citizens Were Killed",
+    "label": "Nations dont des ressortissants ont été tués",
     "value": "90+",
     "color": "amber",
     "source": "9/11 Memorial — Victims Database",
@@ -30,56 +30,77 @@
   },
   {
     "id": "vcf-paid",
-    "label": "Victim Compensation Fund Total Paid",
-    "value": "$10.2B+",
+    "label": "Total versé par le Fonds d'indemnisation des victimes",
+    "value": "$18.56B+",
     "color": "blue",
-    "source": "September 11th Victim Compensation Fund Annual Report 2025",
+    "source": "September 11th Victim Compensation Fund — August 2026 Monthly Statistics",
     "contested": false,
-    "contestNote": "Over 52,000 claims approved for first responders, survivors, and family members under the Zadroga Act.",
+    "contestNote": "Plus de 112 000 demandes déposées et plus de 77 000 approuvées pour les premiers intervenants, les survivants et les membres de leurs familles en vertu de la loi Zadroga.",
     "trend": "up",
-    "deltaNote": "Fund reauthorized permanently through 2092 in July 2019",
-    "lastUpdated": "2026-03-17T00:00:00.000Z"
+    "deltaDetail": {
+      "value": 8.36,
+      "direction": "up",
+      "period": "since Mar 2026"
+    },
+    "deltaNote": "Fonds reconduit de façon permanente jusqu'en 2092 en juillet 2019",
+    "lastUpdated": "2026-09-09T18:56:42.000Z"
   },
   {
     "id": "war-on-terror-cost",
-    "label": "Estimated Cost of U.S. War on Terror",
+    "label": "Coût estimé de la guerre contre le terrorisme menée par les États-Unis",
     "value": "$8 Trillion+",
     "color": "amber",
     "source": "Watson Institute, Brown University — Costs of War Project 2021",
     "contested": true,
-    "contestNote": "Watson Institute estimates include direct military spending, care for veterans, homeland security, and interest on war debt. DOD estimates are lower, focusing only on direct military appropriations.",
+    "contestNote": "Les estimations du Watson Institute incluent les dépenses militaires directes, les soins aux anciens combattants, la sécurité intérieure et les intérêts de la dette de guerre. Les estimations du DOD sont inférieures, ne portant que sur les crédits militaires directs.",
     "trend": "up",
     "lastUpdated": "2026-03-17T00:00:00.000Z"
   },
   {
     "id": "wtc-health-program-enrolled",
-    "label": "WTC Health Program Enrollment",
-    "value": "100,000+",
+    "label": "Inscriptions au programme de santé du WTC",
+    "value": "145,000+",
     "color": "amber",
-    "source": "NIOSH WTC Health Program Annual Report 2024",
+    "source": "NIOSH WTC Health Program; Northwell Health (Sept. 2026)",
     "contested": false,
-    "contestNote": "Includes first responders, recovery workers, and Lower Manhattan residents/workers/students exposed to toxic dust. Over 4,000 9/11-related cancers certified.",
+    "contestNote": "Inclut les premiers intervenants, les travailleurs de la récupération et les résidents/travailleurs/étudiants du Lower Manhattan exposés à la poussière toxique. Plus de 57 000 cancers liés au 11 septembre sont désormais certifiés — contre 53 000 en juillet — et plus de 9 000 décès dus à des maladies — dépassant les 2 977 morts du 11 septembre lui-même. Les diagnostics de cancer au seul Northwell ont augmenté de 75 % de 2023 à 2025 (177 à 235 cas), le cancer du poumon ayant doublé en cinq ans. Une étude de mortalité de juin 2026 portant sur 28 430 intervenants a révélé que les membres du programme présentaient un risque de décès toutes causes confondues inférieur de 13 % à celui des non-membres.",
     "trend": "up",
-    "lastUpdated": "2026-03-17T00:00:00.000Z"
+    "deltaDetail": {
+      "value": 5000,
+      "direction": "up",
+      "period": "since Jul 2026"
+    },
+    "lastUpdated": "2026-09-09T18:56:42.000Z"
+  },
+  {
+    "id": "never-forget-fund-raised",
+    "label": "Fonds collectés par le « Never Forget Fund » du Mémorial du 11 septembre",
+    "value": "$25M of $75M",
+    "color": "blue",
+    "source": "National September 11 Memorial & Museum (June 2026)",
+    "contested": false,
+    "contestNote": "Lancé en juin 2026 pour sensibiliser les quelque 100 millions d'Américains trop jeunes pour se souvenir du 11-Septembre, en vue du 25e anniversaire. Michael Bloomberg s'est engagé à doubler les 25 prochains millions collectés.",
+    "trend": "up",
+    "lastUpdated": "2026-07-16T00:00:00.000Z"
   },
   {
     "id": "afghanistan-us-military-deaths",
-    "label": "U.S. Service Members Killed in Afghanistan",
+    "label": "Militaires américains tués en Afghanistan",
     "value": "2,461",
     "color": "red",
     "source": "Department of Defense Personnel and Readiness",
     "contested": false,
-    "contestNote": "Total U.S. military deaths in Operation Enduring Freedom and Resolute Support missions, 2001–2021.",
+    "contestNote": "Total des militaires américains morts dans les missions Operation Enduring Freedom et Resolute Support, 2001-2021.",
     "lastUpdated": "2026-03-17T00:00:00.000Z"
   },
   {
     "id": "insurance-claims-paid",
-    "label": "9/11 Insurance Claims Paid",
+    "label": "Indemnisations d'assurance versées pour le 11 septembre",
     "value": "$32.5B",
     "color": "blue",
     "source": "Insurance Information Institute",
     "contested": false,
-    "contestNote": "Largest insured loss in U.S. history at the time. Includes property damage, workers' compensation, life insurance, and aviation liability.",
+    "contestNote": "Plus grosse perte assurée de l'histoire des États-Unis à l'époque. Comprend les dommages matériels, les accidents du travail, l'assurance-vie et la responsabilité aérienne.",
     "lastUpdated": "2026-03-17T00:00:00.000Z"
   }
 ]

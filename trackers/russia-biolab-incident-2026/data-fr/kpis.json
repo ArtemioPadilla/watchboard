@@ -1,0 +1,29 @@
+[
+  {
+    "id": "contacts_monitored",
+    "label": "Contacts surveillés",
+    "value": "~200",
+    "color": "amber",
+    "source": "Rospotrebnadzor / WHO",
+    "contested": false,
+    "deltaNote": "~60 % auraient été libérés au 8 oct."
+  },
+  {
+    "id": "confirmed_plague_cases",
+    "label": "Cas de peste confirmés",
+    "value": "0",
+    "color": "green",
+    "source": "WHO / Rospotrebnadzor",
+    "contested": true,
+    "contestNote": "Cause du décès non établie ; la Russie n'a pas nommé la peste dans sa déclaration sur les tests de contact"
+  },
+  {
+    "id": "contact_positives",
+    "label": "Contacts testés positifs",
+    "value": "4",
+    "color": "blue",
+    "source": "Rospotrebnadzor",
+    "contested": false,
+    "contestNote": "2 Covid-19, 2 rhinovirus ; aucun autre pathogène"
+  }
+]

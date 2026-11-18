@@ -1,0 +1,103 @@
+[
+  {
+    "id": "days-since-founding",
+    "label": "Jours depuis la fondation (927 apr. J.-C.)",
+    "value": "401,630",
+    "color": "blue",
+    "source": "UK Parliament / The National Archives",
+    "contested": false,
+    "delta": "~1,099 years",
+    "deltaNote": "De l'unification de l'Angleterre par Athelstan en 927 apr. J.-C. au 18 août 2026",
+    "trend": "up",
+    "lastUpdated": "2026-08-18"
+  },
+  {
+    "id": "uk-population",
+    "label": "Population du Royaume-Uni",
+    "value": "67.6 million",
+    "color": "blue",
+    "source": "Office for National Statistics (ONS), 2024",
+    "contested": false,
+    "delta": "+0.7%",
+    "deltaNote": "Croissance démographique annuelle 2023–2024",
+    "trend": "up",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "nhs-waiting-list",
+    "label": "Liste d'attente du NHS England",
+    "value": "7.11 million",
+    "color": "amber",
+    "source": "NHS England, May 2026",
+    "contested": false,
+    "contestNote": "Objectif de 18 semaines atteint pour la première fois depuis 2020 ; plus forte réduction mensuelle en 17 ans ; 450 000 personnes de moins attendent plus de 18 semaines par rapport au mois précédent",
+    "delta": "-510k",
+    "deltaNote": "En baisse par rapport au pic de 7,62 millions (juin 2024) ; la norme constitutionnelle de 18 semaines est atteinte pour la première fois depuis la pandémie de COVID-19",
+    "trend": "down",
+    "lastUpdated": "2026-05-19"
+  },
+  {
+    "id": "uk-inflation-cpi",
+    "label": "Inflation IPC du Royaume-Uni",
+    "value": "3.1%",
+    "color": "amber",
+    "source": "Office for National Statistics (ONS), August 2026",
+    "contested": false,
+    "delta": "-8.0pp",
+    "deltaNote": "En baisse par rapport au pic de 11,1 % (oct. 2022), mais en hausse par rapport à 2,9 % en juillet 2026 sous l'effet de la hausse des prix des carburants routiers (essence +9,1 p/litre, diesel +14,2 p/litre) ; 23e mois consécutif au-dessus de la cible de 2 % de la Banque d'Angleterre",
+    "deltaDetail": {
+      "value": 0.2,
+      "direction": "up",
+      "period": "1mo"
+    },
+    "trend": "up",
+    "lastUpdated": "2026-09-16"
+  },
+  {
+    "id": "scotland-independence-polling",
+    "label": "Soutien à l'indépendance de l'Écosse (moyenne des sondages)",
+    "value": "~48%",
+    "color": "amber",
+    "source": "What Scotland Thinks / YouGov / Savanta, 2025",
+    "contested": true,
+    "contestNote": "Les sondages varient de 45 à 52 % selon la formulation de la question ; second référendum bloqué par le gouvernement britannique",
+    "trend": "stable",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "uk-gdp",
+    "label": "PIB du Royaume-Uni (nominal)",
+    "value": "$3.1 trillion",
+    "color": "green",
+    "source": "Office for National Statistics (ONS) / IMF, 2024",
+    "contested": false,
+    "delta": "+1.1%",
+    "deltaNote": "Croissance du PIB britannique en 2024 ; reprise après la récession technique de 2023",
+    "trend": "up",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "uk-unemployment-rate",
+    "label": "Taux de chômage au Royaume-Uni",
+    "value": "4.9%",
+    "color": "amber",
+    "source": "Office for National Statistics (ONS), April 2026",
+    "contested": false,
+    "delta": "+1.4pp",
+    "deltaNote": "En hausse par rapport aux creux historiques de 3,5 % en 2022 ; chômage des jeunes à 15,8 % ; 721 000 offres d'emploi",
+    "trend": "up",
+    "lastUpdated": "2026-05-09"
+  },
+  {
+    "id": "national-debt-pct-gdp",
+    "label": "Dette nationale (% du PIB)",
+    "value": "~100%",
+    "color": "red",
+    "source": "Office for National Statistics (ONS) / HM Treasury, 2025",
+    "contested": false,
+    "delta": "+60pp",
+    "deltaNote": "Doublé par rapport à environ 40 % avant la crise financière de 2008 ; plus haut depuis les années 1960",
+    "trend": "up",
+    "lastUpdated": "2026-04-25"
+  }
+]

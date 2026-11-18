@@ -1,0 +1,157 @@
+[
+  {
+    "id": "brent_crude",
+    "label": "Brent",
+    "value": "~$100/bbl on Nov 6 (intraday $100.04-$100.75), down ~12% on the week from ~$118; fell 8.7% to $94.62 on Nov 4",
+    "color": "red",
+    "source": "Invezz / House of Saud (Nov 6, 2026)",
+    "contested": false,
+    "delta": "Back above $100 on Nov 6 after tanker incidents; ~12% below a week earlier",
+    "trend": "down",
+    "lastUpdated": "2026-11-07T18:36:08.000Z",
+    "deltaDetail": {
+      "value": -18,
+      "direction": "down",
+      "period": "7d"
+    }
+  },
+  {
+    "id": "saudi_pipeline_status",
+    "label": "Oléoduc saoudien Est-Ouest",
+    "value": "Restarted Sep 22 at a reduced rate after roughly two weeks shut; Aramco targeting a return toward ~4M bpd (4% of global supply), full commercial resumption still estimated to take weeks",
+    "color": "amber",
+    "source": "The National / OilPrice.com / Bloomberg (Sep 22, 2026)",
+    "contested": true,
+    "contestNote": "Le secrétaire américain à l'Énergie Chris Wright avait affirmé que la panne se « mesurerait en jours » ; des responsables britanniques et certaines sources du secteur ont avancé des estimations de réparation de cinq à six semaines -- la reprise du 22 septembre, environ 11 à 12 jours après l'arrêt des 10 et 11 septembre, s'est rapprochée de la version de Wright, bien qu'une source sécuritaire avertisse qu'un retour complet à la normale pourrait encore prendre des semaines",
+    "delta": "Restarted pumping Tuesday Sep 22 after seven supertankers (14M bbl combined) loaded via Hormuz over the preceding weekend as a stopgap; one cargo was scheduled to load at Yanbu for China as flows resumed",
+    "trend": "down",
+    "lastUpdated": "2026-09-22T18:00:00Z"
+  },
+  {
+    "id": "saudi_crude_export_decline",
+    "label": "Chargements de brut saoudien vs avant la crise",
+    "value": "-70% (2.1-2.3M bpd, down from 7.5M bpd Jan-Feb)",
+    "color": "red",
+    "source": "Kpler (Sep 17, 2026)",
+    "contested": false,
+    "delta": "Replacement flow moving via Sohar ship-to-ship transfers and the Strait of Hormuz itself (2M+ bpd), a smaller volume via Suez/Sumed, and limited use of the much longer Cape of Good Hope route",
+    "trend": "down",
+    "lastUpdated": "2026-09-17T20:00:00Z"
+  },
+  {
+    "id": "bab_el_mandeb_transits",
+    "label": "Transits quotidiens à Bab el-Mandeb",
+    "value": "12/day (down from 30)",
+    "color": "red",
+    "source": "The National / Euronews (Sep 10-11, 2026)",
+    "contested": false,
+    "delta": "New second chokepoint risk: Houthi capture of Yemen's Mokha port and advance toward the strait cut Red Sea vessel crossings from 30 (Wed) to 12 (Thu), narrowing the Suez/Red Sea bypass route shippers have used to avoid the closed Strait of Hormuz",
+    "deltaDetail": {
+      "value": -18,
+      "direction": "down",
+      "period": "24h"
+    },
+    "trend": "down",
+    "lastUpdated": "2026-09-11T18:02:37Z"
+  },
+  {
+    "id": "us_diesel_price",
+    "label": "Prix du diesel aux États-Unis",
+    "value": "$6.00+/gal (first time)",
+    "color": "red",
+    "source": "Rigzone / Washington Times (Sep 10-11, 2026)",
+    "contested": false,
+    "delta": "Crossed $6/gallon for the first time as the Sep 9-10 shipping-attack wave and the new Red Sea front pushed Brent toward its $108 crisis peak",
+    "trend": "up",
+    "lastUpdated": "2026-09-11T18:02:37Z"
+  },
+  {
+    "id": "fao_food_price_index",
+    "label": "Indice FAO des prix des produits alimentaires",
+    "value": "133.3",
+    "color": "red",
+    "source": "FAO (Aug 2026, released Sep 4 -- highest since late 2022)",
+    "contested": false,
+    "delta": "Up 1.9% from July's revised level and 2.5% y/y; broad-based across all five commodity groups -- sugar +11.9% m/m, cereals +2.2% m/m (highest since May 2024), dairy +2.3% m/m",
+    "deltaDetail": {
+      "value": 2.2,
+      "direction": "up",
+      "period": "30d"
+    },
+    "trend": "up",
+    "lastUpdated": "2026-09-04T00:00:00Z"
+  },
+  {
+    "id": "hormuz_daily_transits",
+    "label": "Reprise des exportations pétrolières par Ormuz",
+    "value": "~80% of prewar export volumes restored (Sep 29); up from 72% (Sep 28); Iran blockade capability assessed as weakening",
+    "color": "amber",
+    "source": "Reuters (Sep 29, 2026)",
+    "contested": true,
+    "contestNote": "Le CENTCOM fait état d'un cumul de plus d'1 milliard de barils placés sous protection de passage ; un suivi indépendant situe les transits quotidiens à 10-17 grands navires par jour contre ~125 par jour avant la guerre, ce qui laisse penser que les volumes peuvent refléter des cargaisons individuelles plus légères ou une meilleure planification plutôt qu'un rétablissement complet du nombre de transits",
+    "delta": "Exports recovered to ~80% of prewar levels by Sep 29, up from ~72% reported Sep 28; Iran's blockade capability assessed as weakening under sustained US Navy passage-protection operations",
+    "deltaDetail": {
+      "value": 80,
+      "direction": "up",
+      "period": "vs prewar"
+    },
+    "deltaNote": "La feuille de route de sept jours de l'Iran conditionnait toute réouverture à la levée par les États-Unis de leur blocus naval ; des responsables américains décrivent l'Iran comme « épuisé » par la campagne d'interdiction en cours",
+    "trend": "up",
+    "lastUpdated": "2026-09-29T02:55:24Z"
+  },
+  {
+    "id": "war_risk_insurance",
+    "label": "Assurance contre les risques de guerre (valeur de la coque)",
+    "value": "7.5-10% (a $100M tanker now faces $3-10M in war-risk premiums)",
+    "color": "amber",
+    "source": "Lloyd's List / Discovery Alert / Aju Press (Sep 15, 2026)",
+    "contested": false,
+    "delta": "vs 0.125-0.25% pre-crisis; container surcharges now running $1,800-3,800 per box plus an extra $1,000/container for Hormuz transits",
+    "trend": "up",
+    "lastUpdated": "2026-09-15T00:00:00Z"
+  },
+  {
+    "id": "global_growth_forecast",
+    "label": "Prévision de croissance mondiale pour 2026",
+    "value": "2.5%",
+    "color": "amber",
+    "source": "World Bank (Aug 2026)",
+    "contested": true,
+    "contestNote": "La Banque mondiale avertit que la croissance pourrait tomber à 1,3 % dans un scénario de choc énergétique défavorable ; le scénario de référence du FMI est plus optimiste, à 3,1 %",
+    "delta": "-0.1pt vs January",
+    "trend": "down",
+    "lastUpdated": "2026-08-20T04:00:00Z"
+  },
+  {
+    "id": "acute_hunger_risk",
+    "label": "Personnes menacées de faim aiguë (liée aux conflits)",
+    "value": "45 million",
+    "color": "red",
+    "source": "World Food Programme (Jul 2026)",
+    "contested": true,
+    "contestNote": "Chiffre propre aux retombées du conflit au Moyen-Orient ; le nombre plus large de personnes en crise alimentaire du PAM pour 2026 (318 millions) est distinct et résulte de multiples conflits",
+    "trend": "up",
+    "lastUpdated": "2026-08-20T04:00:00Z"
+  },
+  {
+    "id": "opec_spare_capacity_locked",
+    "label": "Capacité excédentaire de l'OPEP inaccessible",
+    "value": "~10 mb/d",
+    "color": "amber",
+    "source": "IEA / CNBC (May 2026)",
+    "contested": false,
+    "deltaNote": "Concentré en Arabie saoudite et aux Émirats arabes unis, tous deux dépendants d'Ormuz",
+    "lastUpdated": "2026-08-20T04:00:00Z"
+  },
+  {
+    "id": "eu_fossil_import_bill",
+    "label": "Surcoût des importations de combustibles fossiles de l'UE",
+    "value": "€22bn+",
+    "color": "amber",
+    "source": "European Commission / Fortune (Apr 2026)",
+    "contested": false,
+    "deltaNote": "Sur une période de six semaines de la crise",
+    "trend": "up",
+    "lastUpdated": "2026-08-20T04:00:00Z"
+  }
+]

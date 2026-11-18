@@ -1,17 +1,17 @@
 [
   {
     "id": "total-killed-2019",
-    "label": "Killed — Oct 2019 Culiacanazo",
+    "label": "Morts — Culiacanazo d'oct. 2019",
     "value": "8–15",
     "color": "red",
     "source": "SSPC Official / Local authorities",
     "contested": true,
-    "contestNote": "Government reported 8; local officials and witnesses counted up to 15 including 3 civilians in Tres Ríos",
+    "contestNote": "Le gouvernement a fait état de 8 morts ; des responsables locaux et des témoins en ont compté jusqu'à 15, dont 3 civils à Tres Ríos",
     "lastUpdated": "2026-03-17T00:00:00.000Z"
   },
   {
     "id": "total-killed-2023",
-    "label": "Killed — Jan 2023 Operation Ovidio",
+    "label": "Tués — opération Ovidio de janvier 2023",
     "value": "30",
     "color": "red",
     "source": "SEDENA official count",
@@ -21,17 +21,17 @@
   },
   {
     "id": "cartel-gunmen-2019",
-    "label": "Cartel Gunmen Mobilized (2019)",
+    "label": "Hommes armés du cartel mobilisés (2019)",
     "value": "700–800",
     "color": "amber",
     "source": "Justice in Mexico / InSight Crime",
     "contested": true,
-    "contestNote": "Estimates range from 700–800 gunmen in ~78 vehicles; government did not release exact figures",
+    "contestNote": "Les estimations vont de 700 à 800 hommes armés dans environ 78 véhicules ; le gouvernement n'a pas publié de chiffres exacts",
     "lastUpdated": "2026-03-17T00:00:00.000Z"
   },
   {
     "id": "army-deployed-2023",
-    "label": "Soldiers Deployed (Jan 2023)",
+    "label": "Soldats déployés (janv. 2023)",
     "value": "3,586",
     "color": "blue",
     "source": "SEDENA official statement",
@@ -40,7 +40,7 @@
   },
   {
     "id": "prison-escapees-2019",
-    "label": "Prison Escapees — Aguaruto (2019)",
+    "label": "Évadés de prison — Aguaruto (2019)",
     "value": "49",
     "color": "amber",
     "source": "AP / La Jornada",
@@ -50,7 +50,7 @@
   },
   {
     "id": "years-ovidio-free",
-    "label": "Years Ovidio Remained Free After 2019",
+    "label": "Années pendant lesquelles Ovidio est resté libre après 2019",
     "value": "3.2 yrs",
     "color": "amber",
     "source": "Timeline (Oct 2019 – Jan 2023)",
@@ -60,28 +60,53 @@
   },
   {
     "id": "us-origin-weapons-2023",
-    "label": "Seized Weapons from U.S. Origin (2023)",
+    "label": "Armes saisies d'origine américaine (2023)",
     "value": "63%",
     "color": "amber",
     "source": "Foreign Affairs Secretary Marcelo Ebrard",
     "contested": true,
-    "contestNote": "Mexican government attributed majority of seized weapons to U.S. gun shops; NRA and U.S. groups disputed methodology",
+    "contestNote": "Le gouvernement mexicain a attribué la majorité des armes saisies à des armureries américaines ; la NRA et des groupes américains ont contesté la méthodologie",
     "lastUpdated": "2026-03-17T00:00:00.000Z"
   },
   {
     "id": "sinaloa-civil-war-killed",
-    "label": "Killed in Sinaloa Civil War (Sep 2024–Aug 2025)",
-    "value": "~1,972",
+    "label": "Tués dans la guerre civile du Sinaloa (sept. 2024–aujourd'hui)",
+    "value": "~3,724+",
     "color": "red",
-    "source": "ACLED / Latin Times",
+    "source": "Grupo Animal / Proceso / Infobae",
     "contested": true,
-    "contestNote": "Official Sinaloa state figures lower; ACLED methodology counts all conflict-related homicides",
+    "contestNote": "Le bilan sur deux ans (jusqu'à l'anniversaire du 9 sept. 2026 du déclenchement de la guerre) dépasse 3 724 homicides, dont une série meurtrière de 41 morts entre le 31 août et le 5 sept. 2026 (l'une des pires semaines du conflit) contre un décompte fédéral inférieur de 30 pour les mêmes jours. Près de 4 000 personnes restent disparues, et plus de 94 % des affaires d'homicide ne sont pas résolues. Les chiffres officiels de l'État sont plus bas.",
     "trend": "up",
-    "lastUpdated": "2026-03-17T00:00:00.000Z"
+    "deltaDetail": {
+      "value": 124,
+      "direction": "up",
+      "period": "since Jul 25, 2026"
+    },
+    "lastUpdated": "2026-09-09T18:02:59.000Z"
+  },
+  {
+    "id": "chapitos-legal-status",
+    "label": "Statut judiciaire des Chapitos/fondateurs (sept. 2026)",
+    "value": "El Mayo + Ovidio + Joaquín resolved or sentenced",
+    "color": "blue",
+    "source": "U.S. DOJ / Infobae / El Financiero",
+    "contested": false,
+    "delta": "El Mayo sentenced to life + $15B forfeiture (Jul 20, 2026); Ovidio's sentencing remains set for Oct 28, 2026; Joaquín's sentencing-prep hearing postponed again (Aug 21) to Mar 1, 2027; Iván & Alfredo still fugitive as of the Sep 9, 2026 two-year war anniversary, reportedly negotiating surrender since ~2025 with no confirmed deal",
+    "lastUpdated": "2026-09-09T18:02:59.000Z"
+  },
+  {
+    "id": "el-mayo-forfeiture",
+    "label": "El Mayo Zambada — peine et confiscation",
+    "value": "Life + $15B",
+    "color": "red",
+    "source": "U.S. DOJ / Judge Brian Cogan, EDNY",
+    "contested": false,
+    "delta": "Sentenced Jul 20, 2026 in Brooklyn; DOJ says the $15B is an estimate of trafficking profits, not identified/recovered assets; Sheinbaum said Aug 4, 2026 that Mexico will request any funds actually seized be returned 'for the benefit of the people'",
+    "lastUpdated": "2026-09-09T18:02:59.000Z"
   },
   {
     "id": "narcobloqueos-2019",
-    "label": "Roadblocks in Culiacán (Oct 2019)",
+    "label": "Barrages routiers à Culiacán (oct. 2019)",
     "value": "19+",
     "color": "amber",
     "source": "Justice in Mexico / Reuters",
@@ -91,12 +116,12 @@
   },
   {
     "id": "ovidio-forfeiture",
-    "label": "Ovidio Forfeiture (U.S. Plea Deal)",
+    "label": "Confiscation des biens d'Ovidio (accord de plaider-coupable aux États-Unis)",
     "value": "$80M",
     "color": "green",
     "source": "U.S. Department of Justice",
     "contested": false,
-    "delta": "Guilty plea July 2025; sentencing July 10, 2026",
-    "lastUpdated": "2026-03-17T00:00:00.000Z"
+    "delta": "Guilty plea Jul 2025; sentencing hearing postponed a 7th time to Oct 28, 2026",
+    "lastUpdated": "2026-08-10T00:00:00.000Z"
   }
 ]

@@ -1,0 +1,172 @@
+[
+  {
+    "id": "kpi-outbreak-status",
+    "label": "Statut de l'épidémie multi-États liée à Taylor Farms",
+    "value": "Declared Over",
+    "color": "green",
+    "source": "CDC / FDA",
+    "contested": false,
+    "delta": "changed",
+    "deltaNote": "Les CDC et la FDA ont déclaré l'épidémie terminée le 11 sept. 2026 avec 12 883 cas, 570 hospitalisations, 2 décès, 21 États ; l'enquête de la FDA sur la cause profonde de la contamination reste ouverte",
+    "trend": "stable",
+    "lastUpdated": "2026-09-11T00:00:00Z"
+  },
+  {
+    "id": "kpi-confirmed-cases-national",
+    "label": "Cas confirmés en laboratoire (saison, depuis le 1er mai)",
+    "value": "19,883",
+    "color": "red",
+    "source": "CDC",
+    "contested": false,
+    "delta": "+288",
+    "deltaDetail": {
+      "value": 288,
+      "direction": "up",
+      "period": "7d"
+    },
+    "deltaNote": "depuis le 8 sept. (19 595) ; les CDC indiquent que cette actualisation du 15 sept. est leur dernière mise à jour hebdomadaire prévue, les nouvelles infections diminuant",
+    "trend": "up",
+    "lastUpdated": "2026-09-15T00:00:00Z"
+  },
+  {
+    "id": "kpi-unattributed-cases",
+    "label": "Cas confirmés sans source identifiée (sur toute la saison)",
+    "value": "7,000",
+    "color": "amber",
+    "source": "CDC / Marler Blog",
+    "contested": false,
+    "delta": "-1,137",
+    "deltaDetail": {
+      "value": -1137,
+      "direction": "down",
+      "period": "7d"
+    },
+    "deltaNote": "en baisse par rapport aux 8 137 de la semaine précédente, 1 137 cas ayant été reclassés à l'issue d'entretiens avec les patients ; seuls 312 font l'objet d'un dossier d'enquête ouvert à la FDA",
+    "trend": "down",
+    "lastUpdated": "2026-09-15T00:00:00Z"
+  },
+  {
+    "id": "kpi-total-reported-combined",
+    "label": "Total des cas signalés (confirmés + probables + en attente)",
+    "value": "35,099",
+    "color": "red",
+    "source": "CDC",
+    "contested": true,
+    "contestNote": "Combine les chiffres nationaux du CDC du 8 sept. : 19 595 cas confirmés en laboratoire, 9 355 cas supplémentaires confirmés en laboratoire en attente de classification national/international (en forte hausse par rapport à 3 491 le 1er sept.) et 6 149 autres cas non confirmés en laboratoire ou en attente d'entretien ; distinct du décompte plus restreint de l'épidémie multiétatique de 11 458. Le CDC a restructuré ses catégories de données sur les cas entre les mises à jour du 1er et du 8 sept., de sorte que ce total n'est pas directement comparable au chiffre précédent de 31 950 — une grande partie du décalage apparent reflète des cas passant entre les catégories « classification en attente » et « entretien en attente », et non un véritable changement du rythme de croissance. Le décompte indépendant à l'échelle des cinquante États de l'avocat spécialisé en sécurité alimentaire Bill Marler s'établissait à environ 33 525 au 4 sept., alors même que le CDC a indiqué le 4 sept. réduire la fréquence de ses mises à jour et que seuls 13 des 41 États ayant jamais publié des données sur les cas maintiennent encore une page publique.",
+    "delta": "n/a",
+    "deltaNote": "Le CDC a modifié sa ventilation par catégorie de cas entre le 1er et le 8 sept. ; non comparable terme à terme avec le chiffre précédent de 31 950",
+    "trend": "up",
+    "lastUpdated": "2026-09-08T00:00:00Z"
+  },
+  {
+    "id": "kpi-states-still-publishing",
+    "label": "États publiant encore des données publiques sur les cas",
+    "value": "13 of 41",
+    "color": "amber",
+    "source": "Marler Blog",
+    "contested": false,
+    "delta": "down",
+    "deltaNote": "Seuls 13 des 41 États ayant publié à un moment de la saison un décompte de cas de Cyclospora maintiennent encore un tableau de bord public actif, au 4 sept.",
+    "trend": "down",
+    "lastUpdated": "2026-09-04T00:00:00Z"
+  },
+  {
+    "id": "kpi-multistate-outbreak-cases",
+    "label": "Cas de l'épidémie multi-États (laitue de Taylor Farms) — épidémie close",
+    "value": "12,883",
+    "color": "amber",
+    "source": "CDC",
+    "contested": true,
+    "contestNote": "Le tableau de bord de l'État du Michigan a par ailleurs fait état de 14 277 cas cumulés au 20 août selon une méthode de comptage plus large. Le CDC et la FDA ont déclaré cette flambée multi-États précise terminée le 11 sept. 2026, bien que le total de surveillance sur l'ensemble de la saison (autre indicateur) se poursuive.",
+    "delta": "+1,425",
+    "deltaDetail": {
+      "value": 1425,
+      "direction": "up",
+      "period": "since Aug 27"
+    },
+    "deltaNote": "depuis le 27 août (11 458) ; épidémie déclarée terminée le 11 sept. dans 21 États, décompte final de 12 883",
+    "trend": "stable",
+    "lastUpdated": "2026-09-11T00:00:00Z"
+  },
+  {
+    "id": "kpi-hospitalizations",
+    "label": "Hospitalisations (épidémie multi-États) — épidémie close",
+    "value": "570",
+    "color": "amber",
+    "source": "CDC",
+    "contested": false,
+    "delta": "+75",
+    "deltaDetail": {
+      "value": 75,
+      "direction": "up",
+      "period": "since Aug 27"
+    },
+    "deltaNote": "depuis le 27 août (495) ; chiffre final, l'épidémie ayant été déclarée terminée le 11 sept.",
+    "trend": "stable",
+    "lastUpdated": "2026-09-11T00:00:00Z"
+  },
+  {
+    "id": "kpi-deaths",
+    "label": "Décès",
+    "value": "2",
+    "color": "red",
+    "source": "Michigan Department of Health and Human Services",
+    "contested": false,
+    "delta": "0",
+    "deltaNote": "inchangé depuis le premier signalement du 3 août",
+    "trend": "stable",
+    "lastUpdated": "2026-08-13T00:00:00Z"
+  },
+  {
+    "id": "kpi-states-affected-outbreak",
+    "label": "États touchés par l'épidémie multi-États — final",
+    "value": "21",
+    "color": "amber",
+    "source": "CDC",
+    "contested": false,
+    "delta": "+1",
+    "deltaDetail": {
+      "value": 1,
+      "direction": "up",
+      "period": "since Aug 27"
+    },
+    "deltaNote": "en hausse par rapport à 20 États depuis le 27 août ; décompte final à la déclaration de fin d'épidémie le 11 sept.",
+    "trend": "stable",
+    "lastUpdated": "2026-09-11T00:00:00Z"
+  },
+  {
+    "id": "kpi-states-surveillance-wide",
+    "label": "États ayant signalé au moins un cas (sur toute la saison)",
+    "value": "49",
+    "color": "blue",
+    "source": "CDC",
+    "contested": false,
+    "delta": "+1",
+    "deltaNote": "contre 48 États au 25 août ; désormais 49 États plus DC",
+    "trend": "up",
+    "lastUpdated": "2026-09-01T00:00:00Z"
+  },
+  {
+    "id": "kpi-recall-distribution-states",
+    "label": "États ayant reçu de la laitue rappelée",
+    "value": "40",
+    "color": "blue",
+    "source": "FDA",
+    "contested": false,
+    "delta": "+9",
+    "deltaNote": "La FDA a discrètement élargi sa liste de distribution le 13 août pour y ajouter CA, DC, DE, ND, PR, RI, SD, VT et WA ; signalé par des organismes de surveillance le 23 août",
+    "lastUpdated": "2026-08-23T00:00:00Z"
+  },
+  {
+    "id": "kpi-fda-active-investigations",
+    "label": "Enquêtes actives de la FDA sur Cyclospora (tableau des épidémies)",
+    "value": "7",
+    "color": "amber",
+    "source": "FDA / Food Safety News",
+    "contested": false,
+    "delta": "+1",
+    "deltaNote": "contre 6 enquêtes signalées le 30 juill. ; le nombre total de cas pour les sept atteint 11 739 au 3 sept., dont 11 458 pour l'épidémie liée à la laitue de Taylor Farms",
+    "trend": "up",
+    "lastUpdated": "2026-09-03T00:00:00Z"
+  }
+]

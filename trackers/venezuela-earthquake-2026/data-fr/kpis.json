@@ -1,0 +1,85 @@
+[
+  {
+    "id": "kpi-deaths",
+    "label": "Décès confirmés",
+    "value": "6,509",
+    "color": "red",
+    "source": "OCHA Situation Report #34 (27 Aug 2026), figures as of 24 Aug",
+    "contested": true,
+    "contestNote": "Le bilan a augmenté régulièrement au fil des rapports de situation successifs ; à considérer comme un chiffre à un instant donné, et non comme un décompte définitif.",
+    "trend": "up",
+    "lastUpdated": "2026-08-30T18:30:20.000Z"
+  },
+  {
+    "id": "kpi-injured-frozen",
+    "label": "Blessés officiels (chiffre figé)",
+    "value": "16,740",
+    "color": "amber",
+    "source": "OCHA Situation Reports (frozen since 5 Jul SitRep)",
+    "contested": true,
+    "contestNote": "Inchangé depuis le 5 juillet alors même que le nombre de morts continuait d'augmenter ; distinct du décompte cumulé, plus important et en hausse, des prises en charge hospitalières.",
+    "trend": "stable",
+    "lastUpdated": "2026-08-20T00:00:00.000Z"
+  },
+  {
+    "id": "kpi-hospital-care",
+    "label": "Soins hospitaliers/médicaux cumulés",
+    "value": "226,696",
+    "color": "blue",
+    "source": "Government press briefing, Jorge Rodríguez (24 Aug 2026), via Diario Libre",
+    "contested": false,
+    "trend": "up",
+    "lastUpdated": "2026-08-30T18:30:20.000Z"
+  },
+  {
+    "id": "kpi-people-reached",
+    "label": "Personnes ayant reçu une aide humanitaire",
+    "value": "364,000+",
+    "color": "blue",
+    "source": "OCHA Situation Report #34 (26 Aug 2026)",
+    "contested": false,
+    "trend": "up",
+    "lastUpdated": "2026-08-30T18:30:20.000Z"
+  },
+  {
+    "id": "kpi-homes-evaluated",
+    "label": "Logements évalués (à haut risque)",
+    "value": "60,785 / 11,001",
+    "color": "amber",
+    "source": "OCHA Situation Report #34 (24 Aug 2026)",
+    "contested": false,
+    "deltaNote": "11 001 des 60 785 logements évalués sont classés à haut risque",
+    "lastUpdated": "2026-08-30T18:30:20.000Z"
+  },
+  {
+    "id": "kpi-econ-damage",
+    "label": "Dommages économiques directs (UNDRR)",
+    "value": "$37B",
+    "color": "red",
+    "source": "UN Office for Disaster Risk Reduction",
+    "contested": true,
+    "contestNote": "L'estimation plus restreinte du PNUD sur le logement et l'économie situe plutôt les dégâts à 6,7 Md$ (~6 % du PIB) ; une évaluation distincte de la Banque mondiale (23 juil. 2026) chiffre les dommages physiques directs à 19,6 Md$, le coût total de reconstruction (y compris le déblaiement et une reconstruction résiliente) approchant 50 Md$.",
+    "lastUpdated": "2026-08-30T18:30:20.000Z"
+  },
+  {
+    "id": "kpi-funding",
+    "label": "Plan de réponse humanitaire financé",
+    "value": "39%",
+    "color": "amber",
+    "source": "UN OCHA (Tom Fletcher briefing, 8 Jul 2026)",
+    "contested": false,
+    "deltaNote": "931 M$ nécessaires pour 2026 ; un déficit de financement d'environ 566–627 M$ subsistait selon les rapports du milieu de l'été.",
+    "lastUpdated": "2026-08-20T00:00:00.000Z"
+  },
+  {
+    "id": "kpi-homes-repaired",
+    "label": "Logements en réparation (plan Venezuela se relève)",
+    "value": "13,890 under repair",
+    "color": "green",
+    "source": "Plan Venezuela Renace program reporting (mid-Aug 2026)",
+    "contested": false,
+    "deltaNote": "Le programme national de réparation/réhabilitation (Plan Venezuela Renace) fait état de 13 890 logements en cours de réparation ou de réhabilitation dans tout le pays ; par ailleurs, au bout de deux mois (24 août), le gouvernement a indiqué que 335 logements avaient été entièrement livrés et 1 001 récupérés, au bénéfice de 3 503 personnes, plus de 4 000 autres étant promis d'ici la fin de l'année.",
+    "trend": "up",
+    "lastUpdated": "2026-08-30T18:30:20.000Z"
+  }
+]

@@ -1,0 +1,104 @@
+[
+  {
+    "id": "ukraine-territory-held",
+    "label": "Territoire ukrainien occupé",
+    "value": "~20%",
+    "color": "red",
+    "source": "ISW / UN OCHA",
+    "contested": true,
+    "contestNote": "La Russie revendique l'annexion de 4 oblasts qu'elle ne contrôle pas entièrement ; l'Ukraine conteste l'ensemble des revendications territoriales russes",
+    "delta": "~115,862 km²",
+    "deltaNote": "Superficie approximative sous occupation russe début 2025",
+    "trend": "up",
+    "lastUpdated": "2026-04-25T00:00:00.000Z"
+  },
+  {
+    "id": "russian-military-casualties",
+    "label": "Pertes militaires russes (tués + blessés)",
+    "value": "~790,000+",
+    "color": "red",
+    "source": "US SACEUR (Gen. Cavoli estimate, April 2025)",
+    "contested": true,
+    "contestNote": "La Russie ne publie pas de chiffres officiels de pertes. Le ministère ukrainien de la Défense avance des chiffres plus élevés ; des sources russes indépendantes suggèrent des chiffres plus bas.",
+    "delta": "+50,000 since Jan 2025",
+    "deltaNote": "Rythme approximatif d'environ 1 000 pertes par jour (tués + blessés) en 2025",
+    "trend": "up",
+    "lastUpdated": "2026-04-25T00:00:00.000Z"
+  },
+  {
+    "id": "nuclear-warheads-total",
+    "label": "Ogives nucléaires (total)",
+    "value": "~5,460",
+    "color": "amber",
+    "source": "Federation of American Scientists / SIPRI 2025",
+    "contested": false,
+    "delta": "~1,718 deployed",
+    "deltaNote": "Plus grand arsenal nucléaire du monde ; programme de modernisation en cours",
+    "trend": "stable",
+    "lastUpdated": "2026-04-25T00:00:00.000Z"
+  },
+  {
+    "id": "russia-gdp-2025",
+    "label": "PIB de la Russie (nominal)",
+    "value": "$2.54T",
+    "color": "amber",
+    "source": "IMF World Economic Outlook 2025",
+    "contested": false,
+    "delta": "+4.3% in 2024",
+    "deltaNote": "Croissance de l'économie de guerre tirée par les dépenses de défense ; croissance réelle projetée à 3,6 % pour 2025",
+    "trend": "up",
+    "lastUpdated": "2026-04-25T00:00:00.000Z"
+  },
+  {
+    "id": "inflation-rate",
+    "label": "Taux d'inflation en Russie",
+    "value": "~6.3%",
+    "color": "amber",
+    "source": "Bank of Russia (Sep 7, 2026)",
+    "contested": false,
+    "delta": "Up from 5.9% in Jul 2026",
+    "deltaDetail": {
+      "value": 0.4,
+      "direction": "up",
+      "period": "since Jul 20, 2026"
+    },
+    "deltaNote": "L'inflation annuelle a atteint 6,3 % au 7 septembre 2026, dans la fourchette de prévision de 6,0 à 7,0 % de la Banque de Russie pour l'ensemble de 2026. La banque centrale a maintenu son taux directeur à 14,00 % le 11 septembre 2026 — sa première pause après 8 baisses consécutives — invoquant la hausse des pressions sous-jacentes sur les prix liée à des contraintes temporaires de capacités de production.",
+    "trend": "up",
+    "lastUpdated": "2026-09-14T00:00:00.000Z"
+  },
+  {
+    "id": "sanctions-count",
+    "label": "Sanctions imposées à la Russie",
+    "value": "22,000+",
+    "color": "amber",
+    "source": "EU Council / Castellum.AI / White House (Sep 18, 2026)",
+    "contested": false,
+    "delta": "Trump signs Graham Act into law (Sep 18, 2026); EU pledges new sanctions on Duma election organizers (Sep 21, 2026)",
+    "deltaNote": "La « Lindsey O. Graham Sanctioning Russia and Iran Act of 2026 » a été adoptée par la Chambre 262-159 le 16 sept. et promulguée par le président Trump le 18 sept. 2026, donnant à l'administration de vastes nouveaux pouvoirs pour sanctionner les secteurs énergétique et financier russes et imposer des droits de douane allant jusqu'à 100 % aux pays (dont la Chine et l'Inde) qui continuent d'acheter de gros volumes de pétrole/gaz russe. Par ailleurs, l'UE a promis de nouvelles sanctions contre les organisateurs des élections à la Douma russe du 18 au 20 sept., y compris les candidats qui se sont présentés dans les territoires ukrainiens occupés.",
+    "trend": "up",
+    "lastUpdated": "2026-09-21T00:00:00.000Z"
+  },
+  {
+    "id": "years-of-russian-statehood",
+    "label": "Années depuis la fondation de la Rus' de Kiev",
+    "value": "1,164",
+    "color": "blue",
+    "source": "Primary Chronicle (traditional dating, 862 AD)",
+    "contested": true,
+    "contestNote": "L'Ukraine, la Biélorussie et la Russie revendiquent toutes une filiation avec la Rus' de Kiev ; les historiens débattent de la continuité avec la Russie moderne",
+    "trend": "up",
+    "lastUpdated": "2026-04-25T00:00:00.000Z"
+  },
+  {
+    "id": "defense-spending-gdp",
+    "label": "Dépenses de défense (% du PIB)",
+    "value": "~7.5%",
+    "color": "red",
+    "source": "Russian Finance Ministry / SIPRI 2025",
+    "contested": false,
+    "delta": "Military spending $190B in 2025",
+    "deltaNote": "Le budget de défense de la Russie pour 2025 a atteint ~190 Md$ (7,5 % du PIB), le plus haut depuis l'ère soviétique. Malgré ces dépenses massives, le PIB s'est contracté de 0,3 % au T1 2026.",
+    "trend": "up",
+    "lastUpdated": "2026-05-09T12:00:00.000Z"
+  }
+]

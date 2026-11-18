@@ -1,0 +1,212 @@
+[
+  {
+    "id": "regions-affected",
+    "label": "Régions touchées par des pénuries de carburant",
+    "value": "78 of 83",
+    "color": "red",
+    "source": "Novaya Gazeta / Wikipedia tracker, Jul 2026",
+    "contested": true,
+    "contestNote": "Les estimations varient selon la source et la date : Novaïa Gazeta comptait 78 régions sur 83 plus les territoires occupés au 2 juil. 2026 ; certains rapports incluant le territoire sous contrôle russe (régions occupées comprises) avancent 88 sur 89.",
+    "trend": "up",
+    "lastUpdated": "2026-08-20T00:00:00Z"
+  },
+  {
+    "id": "population-affected",
+    "label": "Personnes touchées par la pénurie",
+    "value": "50 million (35% of population)",
+    "color": "red",
+    "source": "Financial Times, Jul 9 2026",
+    "contested": false,
+    "trend": "up",
+    "lastUpdated": "2026-08-20T00:00:00Z"
+  },
+  {
+    "id": "refining-capacity-offline",
+    "label": "Capacité de raffinage hors service",
+    "value": "20–43%",
+    "color": "amber",
+    "source": "IEA / Ukraine General Staff / Finnish President Stubb, Jul 2026",
+    "contested": true,
+    "contestNote": "L'AIE indique « plus de 20 % » ; l'état-major ukrainien avance 42,74 % ; le président finlandais Alexander Stubb estime 40 %. Reuters a par ailleurs constaté que le raffinage national global n'a baissé que de 3 à 6 %, les raffineries épargnées compensant en partie.",
+    "trend": "up",
+    "lastUpdated": "2026-08-20T00:00:00Z"
+  },
+  {
+    "id": "gasoline-retail-price",
+    "label": "Prix de détail de l'AI-95",
+    "value": "80.79 RUB/L (official) vs 155.96 RUB/L official avg / 200–350 RUB/L black market in Crimea",
+    "color": "amber",
+    "source": "Rosstat, Sep 25 2026 (week of Sep 15-21) / Meduza, Aug 27 2026",
+    "contested": true,
+    "contestNote": "Les moyennes nationales officielles de Rosstat restent bien inférieures aux prix des stations indépendantes et du marché noir ; l'écart est le plus extrême en Crimée occupée, où l'AI-95 s'est établi en moyenne à 155,96 RUB/L, même dans les stations déclarant officiellement, les prix du marché noir non officiels étant signalés bien plus élevés encore.",
+    "delta": "+0.19 RUB/L",
+    "deltaDetail": {
+      "value": 0.19,
+      "direction": "up",
+      "period": "7d"
+    },
+    "deltaNote": "Le suivi hebdomadaire de Rosstat a montré l'AI-95 à l'échelle nationale passant de 80,78 à 80,79 RUB/L du 15 au 21 sept. — un net ralentissement à +0,05 % pour la croissance globale du panier, contre +0,36 % la semaine précédente",
+    "trend": "up",
+    "lastUpdated": "2026-09-21T00:00:00Z"
+  },
+  {
+    "id": "crude-throughput",
+    "label": "Taux de traitement du brut",
+    "value": "3.6M bbl/day (Jul 2026, lowest since May 2002)",
+    "color": "red",
+    "source": "Bloomberg via The Moscow Times, Aug 3 2026",
+    "contested": false,
+    "delta": "-0.5M bbl/day",
+    "deltaDetail": {
+      "value": -0.5,
+      "direction": "down",
+      "period": "since Jun 2026"
+    },
+    "deltaNote": "En baisse par rapport à 4,1 M de barils/jour en juin ; environ un tiers sous la norme saisonnière 2020-2025 de 5,3 à 5,6 M de barils/jour, après que 18 raffineries ont été visées par 30 attaques en juillet seulement",
+    "trend": "down",
+    "lastUpdated": "2026-09-27T00:00:00Z"
+  },
+  {
+    "id": "states-of-emergency",
+    "label": "Régions en état d'urgence",
+    "value": "5+ (Crimea, Sevastopol, Penza, Irkutsk, Zabaykalsky)",
+    "color": "red",
+    "source": "Regional decrees, Jun–Jul 2026",
+    "contested": false,
+    "trend": "up",
+    "lastUpdated": "2026-08-20T00:00:00Z"
+  },
+  {
+    "id": "belarus-gasoline-imports",
+    "label": "Importations d'essence en provenance de Biélorussie",
+    "value": "~141,000 tonnes/month",
+    "color": "blue",
+    "source": "Meduza / Belarusian export data, Jun 2026",
+    "contested": false,
+    "delta": "~20x YoY",
+    "trend": "up",
+    "lastUpdated": "2026-08-20T00:00:00Z"
+  },
+  {
+    "id": "inflation-forecast-2026",
+    "label": "Prévision d'inflation fin 2026",
+    "value": "6.2%",
+    "color": "amber",
+    "source": "Analyst consensus / Bank of Russia commentary, Jul 2026",
+    "contested": false,
+    "delta": "+4.2pp",
+    "deltaNote": "L'inflation mensuelle de juin a atteint 10,6 % en rythme annualisé, contre 2 % en mai",
+    "trend": "up",
+    "lastUpdated": "2026-08-20T00:00:00Z"
+  },
+  {
+    "id": "petrol-station-availability",
+    "label": "Disponibilité de l'essence dans les stations-service à l'échelle nationale",
+    "value": "28% of stations",
+    "color": "red",
+    "source": "Gdebenz monitoring app via Euronews, Aug 20 2026",
+    "contested": false,
+    "delta": "-13pp",
+    "deltaNote": "En baisse par rapport à 41 % une semaine plus tôt ; l'AI-92 n'est disponible que dans 1 station moscovite sur 10 selon Yandex Fuel",
+    "trend": "down",
+    "lastUpdated": "2026-08-21T00:00:00Z"
+  },
+  {
+    "id": "regions-under-rationing",
+    "label": "Régions avec rationnement actif des ventes de carburant",
+    "value": "63 of 85 (+19 localized)",
+    "color": "red",
+    "source": "TASS / RBC-Ukraine, Aug 23 2026",
+    "contested": false,
+    "delta": "+4",
+    "deltaNote": "En hausse par rapport à 59 régions au 20 août ; Poutine a reconnu « certains désagréments » le même jour",
+    "trend": "up",
+    "lastUpdated": "2026-08-23T00:00:00Z"
+  },
+  {
+    "id": "moscow-station-availability",
+    "label": "Disponibilité de l'essence dans les stations de la région de Moscou",
+    "value": "~20-23% of stations",
+    "color": "red",
+    "source": "Meduza (GdeBenz app data), Aug 18-19 2026",
+    "contested": false,
+    "delta": "-63pp",
+    "deltaNote": "La région de Moscou est passée de 62 % (6 août) à 23 % (19 août) ; la ville de Moscou de 53 % à environ 20 % sur la même période",
+    "trend": "down",
+    "lastUpdated": "2026-08-23T00:00:00Z"
+  },
+  {
+    "id": "gasoline-output-vs-demand",
+    "label": "Production d'essence par rapport à la demande intérieure",
+    "value": "~70% (80,000 vs 115,000 t/day)",
+    "color": "red",
+    "source": "Reuters, Aug 29 2026",
+    "contested": false,
+    "delta": "-35,000 t/day gap",
+    "deltaNote": "En baisse par rapport à environ 80 % (moyenne de 90 000 t/jour) plus tôt en août, après de nouvelles frappes de drones sur les raffineries de Perm, Nijni Novgorod et Iaroslavl ; une nouvelle frappe le 30 août a touché Kirichi (KINEF), deuxième plus grande raffinerie de Russie, alors qu'elle s'apprêtait à reprendre sa production après des réparations antérieures",
+    "trend": "down",
+    "lastUpdated": "2026-08-30T00:00:00Z"
+  },
+  {
+    "id": "diesel-refineries-curtailed",
+    "label": "Six principales raffineries de diesel à l'arrêt ou à production réduite",
+    "value": "3 of 6 largest (50%)",
+    "color": "red",
+    "source": "Reuters via Meduza / Kyiv Post, Sep 15 2026",
+    "contested": false,
+    "trend": "up",
+    "lastUpdated": "2026-09-15T00:00:00Z"
+  },
+  {
+    "id": "ai92-ai95-station-unavailability",
+    "label": "Stations en rupture d'AI-92 / AI-95",
+    "value": "45% / 53% of stations",
+    "color": "red",
+    "source": "Novaya Gazeta Europe via UA.News, Sep 17 2026",
+    "contested": false,
+    "delta": "+12pp / +15pp",
+    "deltaNote": "En hausse par rapport à 33 % (AI-92) / 38 % (AI-95) indisponibles fin août ; les stations avec restrictions de vente sont désormais 11-12 %, des files d'attente sont signalées dans 20-27 % des stations, avec la pire situation à Saint-Pétersbourg/oblast de Léningrad",
+    "trend": "up",
+    "lastUpdated": "2026-09-17T00:00:00Z"
+  },
+  {
+    "id": "moscow-kapotnya-refinery-hit",
+    "label": "Capacité de raffinage touchée dans la région de Moscou",
+    "value": "Kapotnya refinery fully halted, off SPIMEX (40% of Moscow's fuel, 70% of regional petrol/aviation gas)",
+    "color": "red",
+    "source": "Kyiv Post / Ukrainska Pravda / Militarnyi, Sep 20-21 2026",
+    "contested": false,
+    "trend": "up",
+    "lastUpdated": "2026-09-23T00:00:00Z"
+  },
+  {
+    "id": "samara-ufa-refineries-struck",
+    "label": "Raffineries supplémentaires frappées (22 sept.)",
+    "value": "Kuibyshev (Samara) + Bashneft-UNPZ (Ufa)",
+    "color": "red",
+    "source": "The Moscow Times / Militarnyi / Kyiv Independent, Sep 22 2026",
+    "contested": false,
+    "trend": "up",
+    "lastUpdated": "2026-09-23T00:00:00Z"
+  },
+  {
+    "id": "perm-novoshakhtinsk-refineries-struck-again",
+    "label": "Raffineries de nouveau frappées (25 sept.)",
+    "value": "Perm (Lukoil-PNOS, 6th strike since April) + Novoshakhtinsk (2nd in a month) both re-hit overnight",
+    "color": "red",
+    "source": "Militarnyi / The Moscow Times / Kyiv Post, Sep 25 2026",
+    "contested": false,
+    "trend": "up",
+    "lastUpdated": "2026-09-25T19:09:52Z"
+  },
+  {
+    "id": "ilsky-refinery-struck",
+    "label": "Raffinerie d'Ilsky frappée (26 sept.) — 3 morts",
+    "value": "Krasnodar refinery halted, 17th strike since war began",
+    "color": "red",
+    "source": "Bloomberg / Kyiv Independent / Militarnyi, Sep 26 2026",
+    "contested": false,
+    "trend": "up",
+    "lastUpdated": "2026-09-27T00:00:00Z"
+  }
+]

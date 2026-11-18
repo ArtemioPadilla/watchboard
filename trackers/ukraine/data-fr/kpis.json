@@ -1,0 +1,105 @@
+[
+  {
+    "id": "days-since-invasion",
+    "label": "Jours depuis l'invasion à grande échelle",
+    "value": "1,716",
+    "color": "red",
+    "source": "Feb 24, 2022 invasion date",
+    "contested": false,
+    "delta": "+376 since last year",
+    "deltaDetail": {
+      "value": 40,
+      "direction": "up",
+      "period": "since 2026-09-27"
+    },
+    "trend": "up",
+    "lastUpdated": "2026-11-06"
+  },
+  {
+    "id": "ukrainian-territory-occupied",
+    "label": "Territoire ukrainien sous occupation russe",
+    "value": "~18%",
+    "color": "red",
+    "source": "Institute for the Study of War / Ukrainian General Staff",
+    "contested": true,
+    "contestNote": "La Russie revendique plus de 20 %, y compris des oblasts annexés qu'elle ne contrôle pas entièrement ; l'Ukraine conteste toutes les annexions comme illégales",
+    "delta": "-2% from peak occupation (March 2022)",
+    "trend": "stable",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "russian-military-casualties",
+    "label": "Pertes militaires russes estimées (tués + blessés)",
+    "value": "~1,527,280",
+    "color": "amber",
+    "source": "Ukrainian General Staff (as of Sep 26, 2026)",
+    "contested": true,
+    "contestNote": "Le ministère russe de la Défense ne publie pas de chiffres ; des estimations russes indépendantes évoquent 100 000 à 200 000 tués au combat ; les chiffres britanniques et ukrainiens sont plus élevés. État-major ukrainien : ~1 527 280 au 26 sept. 2026 (~+1 710 en 24 h). Zelensky (11 août) : la Russie a subi environ 225 500 pertes rien qu'en 2026 (131 000 tués, 93 000 blessés) pour seulement ~221 000 recrues — les pertes dépassent désormais le recrutement, ce qui nourrit les analyses annonçant une prochaine vague de mobilisation. Kyiv Independent : juillet 2026 a été le mois le plus meurtrier de l'année pour la Russie (plus de 42 000). Une recherche indépendante de Mediazona/Meduza a confirmé plus de 352 000 hommes russes âgés de 18 à 59 ans tués d'après les registres publics — considéré comme une sous-estimation importante. MIVD néerlandais (avril 2026) : ~1,2 million de pertes russes permanentes, dont plus de 500 000 morts.",
+    "delta": "~+1,710 in latest 24h (Sep 26, 2026 per Ukraine General Staff)",
+    "deltaDetail": {
+      "value": 1710,
+      "direction": "up",
+      "period": "24h"
+    },
+    "trend": "up",
+    "lastUpdated": "2026-09-26"
+  },
+  {
+    "id": "ukrainian-civilian-deaths",
+    "label": "Décès confirmés de civils ukrainiens (ONU)",
+    "value": "16,874",
+    "color": "red",
+    "source": "UN Human Rights Monitoring Mission Ukraine (as of Aug 14, 2026)",
+    "contested": true,
+    "contestNote": "Le chiffre de l'ONU de 16 874 tués (dont 820 enfants) et 51 273 blessés (dont 3 126 enfants) depuis le 24 févr. 2022 représente des victimes confirmées et documentées ; le bilan réel est estimé nettement plus élevé par des analystes indépendants. Juillet 2026 a été le mois le plus meurtrier pour les civils ukrainiens depuis les premières semaines de l'invasion — 437 tués, 2 610 blessés, en hausse de 70 % sur un an.",
+    "delta": "+4,874 since April 2026 estimate",
+    "trend": "up",
+    "lastUpdated": "2026-08-14"
+  },
+  {
+    "id": "ukrainians-displaced",
+    "label": "Ukrainiens déplacés par la guerre",
+    "value": "~10 million",
+    "color": "amber",
+    "source": "UNHCR / IOM",
+    "contested": false,
+    "deltaNote": "Plus de 6 M de réfugiés à l'étranger ; plus de 4 M de déplacés internes",
+    "trend": "down",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "western-aid-total",
+    "label": "Total de l'aide militaire occidentale à l'Ukraine",
+    "value": "$250B+",
+    "color": "blue",
+    "source": "Kiel Institute for World Economy – Ukraine Support Tracker",
+    "contested": true,
+    "contestNote": "Comprend l'aide militaire, financière et humanitaire ; contribution américaine ~110 Md$ (2022-2025) ; UE combinée ~100 Md$ et plus",
+    "delta": "+$50B since 2024",
+    "trend": "up",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "ukraine-gdp-recovery",
+    "label": "Variation du PIB ukrainien en 2023",
+    "value": "+4.8%",
+    "color": "green",
+    "source": "World Bank / IMF",
+    "contested": false,
+    "deltaNote": "Rebond après l'effondrement de −29 % en 2022 ; la guerre en cours limite une croissance soutenue",
+    "trend": "up",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "reconstruction-cost",
+    "label": "Coût estimé de la reconstruction de l'Ukraine",
+    "value": "$524B",
+    "color": "amber",
+    "source": "World Bank – Ukraine Rapid Damage Assessment 2024",
+    "contested": true,
+    "contestNote": "Les estimations du gouvernement ukrainien dépassent 750 Md$ en incluant les futurs coûts de sécurité ; augmente à chaque année de guerre",
+    "delta": "+$100B from 2023 estimate",
+    "trend": "up",
+    "lastUpdated": "2026-04-25"
+  }
+]

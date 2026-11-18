@@ -1,0 +1,111 @@
+[
+  {
+    "id": "population-2024",
+    "label": "Population",
+    "value": "216.4 million",
+    "color": "blue",
+    "source": "IBGE (2024 estimate)",
+    "contested": false,
+    "delta": "+0.7%/yr",
+    "deltaNote": "Taux de croissance annuel en baisse ; urbanisation à 87 %",
+    "trend": "up",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "gdp-2024",
+    "label": "PIB (nominal)",
+    "value": "$2.18 trillion",
+    "color": "green",
+    "source": "Banco Central do Brasil / World Bank (2024)",
+    "contested": false,
+    "delta": "+3.4%",
+    "deltaNote": "Croissance du PIB réel en 2024 — la plus forte d'Amérique latine",
+    "trend": "up",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "gini-2024",
+    "label": "Coefficient de Gini",
+    "value": "50.3",
+    "color": "amber",
+    "source": "IBGE — PNAD Contínua (2024)",
+    "contested": true,
+    "contestNote": "En amélioration par rapport à 53,4 (2021), mais le Brésil reste l'une des grandes économies les plus inégalitaires du monde",
+    "delta": "-1.2 pts",
+    "deltaNote": "En baisse depuis le pic de l'ère Bolsonaro ; les politiques sociales de Lula en sont créditées",
+    "trend": "down",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "unemployment-2026",
+    "label": "Taux de chômage",
+    "value": "5.3%",
+    "color": "green",
+    "source": "IBGE — PNAD Contínua (quarter ended July 2026)",
+    "contested": false,
+    "delta": "-0.1 pts",
+    "deltaNote": "En baisse par rapport à 5,4 % ; nouveau plus bas trimestriel historique pour la PNAD Contínua",
+    "deltaDetail": {
+      "value": -0.1,
+      "direction": "down",
+      "period": "since Jun 2026"
+    },
+    "trend": "down",
+    "lastUpdated": "2026-08-27"
+  },
+  {
+    "id": "inflation-ipca-2024",
+    "label": "Inflation (IPCA)",
+    "value": "4.47%",
+    "color": "amber",
+    "source": "IBGE — IPCA-15 preview (12-month, September 2026)",
+    "contested": false,
+    "delta": "-0.05 pts",
+    "deltaNote": "L'aperçu de l'IPCA-15 se refroidit encore à 4,47 % sur 12 mois (contre 4,52 % en juillet) ; toujours au-dessus du plafond de la cible de la BC. La lecture mensuelle a bondi de 0,70 % à cause d'un ajustement des tarifs d'électricité",
+    "deltaDetail": {
+      "value": -0.05,
+      "direction": "down",
+      "period": "since Jul 2026"
+    },
+    "trend": "down",
+    "lastUpdated": "2026-09-25"
+  },
+  {
+    "id": "amazon-deforestation-2024",
+    "label": "Alertes de déforestation en Amazonie (plus bas en 13 ans)",
+    "value": "2,874 km²",
+    "color": "green",
+    "source": "INPE — Sistema DETER (Aug 2025–Jul 2026 monitoring year)",
+    "contested": false,
+    "delta": "-36%",
+    "deltaNote": "Total d'alertes de déforestation le plus bas depuis le début de DETER en 2015 ; le plus bas toutes périodes confondues depuis 2012/13",
+    "trend": "down",
+    "lastUpdated": "2026-08-10"
+  },
+  {
+    "id": "jan8-convictions",
+    "label": "Émeutiers du 8 janvier condamnés",
+    "value": "310+",
+    "color": "red",
+    "source": "STF — Ações Penais 8 de Janeiro (2024)",
+    "contested": true,
+    "contestNote": "Les alliés de Bolsonaro jugent les peines excessives ; les organisations de défense des droits humains estiment que la procédure a été équitable",
+    "delta": "+310",
+    "deltaNote": "Sur plus de 1 430 personnes arrêtées ; peines moyennes de 15 à 17 ans",
+    "trend": "up",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "bolsa-familia-beneficiaries",
+    "label": "Bénéficiaires de Bolsa Família",
+    "value": "21.1 million families",
+    "color": "blue",
+    "source": "Ministério do Desenvolvimento e Assistência Social (2024)",
+    "contested": true,
+    "contestNote": "Les détracteurs estiment que le programme élargi crée de la dépendance ; ses partisans citent des preuves de réduction de la pauvreté",
+    "delta": "+65%",
+    "deltaNote": "En hausse par rapport à 12,9 M de familles (2022) après l'élargissement de la couverture par Lula",
+    "trend": "up",
+    "lastUpdated": "2026-04-25"
+  }
+]

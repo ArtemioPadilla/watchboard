@@ -1,77 +1,92 @@
 [
   {
     "id": "missing_students",
-    "label": "Students Still Missing",
+    "label": "Étudiants toujours disparus",
     "value": "43",
     "color": "red",
     "source": "GIEI / IACHR",
     "contested": false,
-    "lastUpdated": "2026-04-09T14:46:12.000Z"
+    "lastUpdated": "2026-05-10T14:12:00.000Z"
   },
   {
     "id": "years_elapsed",
-    "label": "Years Since Disappearance",
-    "value": "11+",
+    "label": "Années depuis la disparition",
+    "value": "12",
     "color": "amber",
     "source": "Timeline",
     "contested": false,
-    "lastUpdated": "2026-04-09T14:46:12.000Z"
+    "lastUpdated": "2026-10-16T17:56:21.000Z"
   },
   {
     "id": "remains_identified",
-    "label": "Remains Identified via DNA",
+    "label": "Restes identifiés par ADN",
     "value": "3",
     "color": "red",
     "source": "Argentine Forensic Anthropology Team (EAAF)",
     "contested": true,
-    "contestNote": "Independent identification by EAAF; government initially claimed all 43 incinerated at Cocula dump — debunked. First identification involved fragment allegedly planted by investigator Tomás Zerón.",
-    "lastUpdated": "2026-04-09T14:46:12.000Z"
+    "contestNote": "Identification indépendante par l'EAAF ; le gouvernement affirmait initialement que les 43 avaient été incinérés à la décharge de Cocula — thèse réfutée. La première identification reposait sur un fragment que l'enquêteur Tomás Zerón aurait placé.",
+    "lastUpdated": "2026-05-10T14:12:00.000Z"
   },
   {
     "id": "arrests_made",
-    "label": "Suspects Arrested (Total)",
-    "value": "152+",
+    "label": "Suspects arrêtés (total)",
+    "value": "157+",
     "color": "blue",
     "source": "Mexican Attorney General (FGR) / La Jornada",
     "contested": true,
-    "contestNote": "Includes 10+ new arrests in Nov 2025 from phone-record analysis. Many earlier confessions obtained under torture; multiple cases dismissed by courts. Includes local police, cartel members, Mayor Abarca, former AG Murillo Karam, and General Rodríguez Pérez.",
-    "lastUpdated": "2026-04-09T14:46:12.000Z"
+    "contestNote": "Comprend plus de 10 arrestations en nov. 2025 issues de l'analyse de relevés téléphoniques, 4 autres en juin 2026 liées à la piste contestée de l'incinération dans une maison funéraire d'Iguala, ainsi que l'arrestation, le 6 août 2026, de l'ancien gouverneur du Guerrero Ángel Aguirre Rivero — le responsable civil le plus haut placé inculpé dans l'affaire à ce jour. De nombreux aveux antérieurs ont été obtenus sous la torture ; plusieurs dossiers ont été classés par les tribunaux. Comprend des policiers locaux, des membres du cartel, le maire Abarca, l'ancien procureur général Murillo Karam et le général Rodríguez Pérez.",
+    "lastUpdated": "2026-08-16T14:33:04.000Z"
   },
   {
     "id": "investigations",
-    "label": "Major Investigations",
+    "label": "Principales enquêtes",
     "value": "4",
     "color": "amber",
     "source": "GIEI, PGR, FGR, Truth Commission",
     "contested": false,
-    "lastUpdated": "2026-04-09T14:46:12.000Z"
+    "lastUpdated": "2026-05-10T14:12:00.000Z"
   },
   {
     "id": "giei_reports",
-    "label": "GIEI Reports Published",
+    "label": "Rapports du GIEI publiés",
     "value": "6",
     "color": "green",
     "source": "IACHR / GIEI",
     "contested": false,
-    "lastUpdated": "2026-04-09T14:46:12.000Z"
+    "lastUpdated": "2026-05-10T14:12:00.000Z"
   },
   {
     "id": "killed_night_of",
-    "label": "Killed Night of Attack",
+    "label": "Tués la nuit de l'attaque",
     "value": "6",
     "color": "red",
     "source": "GIEI First Report / CNDH",
     "contested": false,
-    "lastUpdated": "2026-04-09T14:46:12.000Z"
+    "lastUpdated": "2026-05-10T14:12:00.000Z"
   },
   {
     "id": "military_charged",
-    "label": "Military Officers Charged",
+    "label": "Officiers militaires inculpés",
     "value": "20+",
     "color": "amber",
-    "source": "FGR Mexico / GIEI",
+    "source": "FGR Mexico / GIEI / CNDH",
     "contested": true,
-    "contestNote": "Multiple military defendants; several charges dismissed by federal courts. General Rodríguez Pérez arrested Sep 2022 but legal proceedings ongoing.",
-    "lastUpdated": "2026-04-09T14:46:12.000Z"
+    "contestNote": "La recommandation de la CNDH du 9 juil. 2026 (208VG/2026) a confirmé que 20 militaires font l'objet de poursuites pénales individuelles, mais a conclu à l'absence de responsabilité institutionnelle ou de commandement de l'armée — une conclusion que Encinas a contestée quelques jours plus tard avec des documents de la SEDENA sur un étudiant présumé infiltré. Plusieurs chefs d'accusation avaient déjà été écartés par des tribunaux fédéraux.",
+    "lastUpdated": "2026-07-16T00:00:00.000Z"
+  },
+  {
+    "id": "parents_deceased",
+    "label": "Parents des 43 décédés en attendant des réponses",
+    "value": "7+",
+    "color": "red",
+    "source": "El Sol de Chilpancingo / Infobae",
+    "contested": true,
+    "contestNote": "Francisco Rodríguez Morales, père de l'étudiant disparu Everardo Rodríguez Bello, est mort le 21 août 2026 sans connaître le sort de son fils ; les articles de presse divergent, le comptant tantôt comme le septième, tantôt comme le huitième parent des 43 à mourir depuis 2014.",
+    "deltaDetail": {
+      "value": 1,
+      "direction": "up",
+      "period": "since Aug 2026"
+    },
+    "lastUpdated": "2026-09-15T00:00:00.000Z"
   }
 ]

@@ -1,0 +1,106 @@
+[
+  {
+    "id": "kpi-population",
+    "label": "Population (est. 2024)",
+    "value": "223 million",
+    "color": "blue",
+    "source": "World Bank / NBS 2024",
+    "contested": false,
+    "delta": "+3.2%/yr",
+    "deltaNote": "Pays le plus peuplé d'Afrique ; 7e au monde",
+    "trend": "up",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "kpi-gdp",
+    "label": "PIB nominal (est. 2026)",
+    "value": "$395 billion",
+    "color": "green",
+    "source": "NBS Q1 2026 GDP / IMF World Economic Outlook Apr 2026",
+    "contested": false,
+    "delta": "+3.89% real growth (Q1 2026 actual); +4.1% full-year forecast",
+    "deltaNote": "Le NBS a publié le 25 mai le PIB du T1 2026, montrant une croissance réelle de 3,89 % sur un an (110,79 billions de N nominaux) ; le secteur non pétrolier a généré 96 % du PIB ; la prévision du FMI pour l'ensemble de 2026 reste de 4,1 %",
+    "trend": "up",
+    "lastUpdated": "2026-05-25"
+  },
+  {
+    "id": "kpi-inflation",
+    "label": "Taux d'inflation (sept. 2026)",
+    "value": "14.63%",
+    "color": "amber",
+    "source": "NBS Nigeria",
+    "contested": false,
+    "delta": "-0.76pp vs August (15.39%); -6.35pp vs Sep 2025 (20.98%)",
+    "deltaNote": "Le NBS a rapporté pour sept. 2026 une inflation globale de 14,63 % ; inflation alimentaire de 19,59 % sur un an (-1,55 % sur un mois) ; inflation sous-jacente de 12,95 %",
+    "trend": "down",
+    "lastUpdated": "2026-10-15",
+    "deltaDetail": {
+      "value": -0.76,
+      "direction": "down",
+      "period": "since Aug 2026"
+    }
+  },
+  {
+    "id": "kpi-oil-production",
+    "label": "Production de pétrole brut (juin 2026)",
+    "value": "1.56 mbpd crude / 1.735 mbpd incl. condensate",
+    "color": "green",
+    "source": "NNPC / OPEC Monthly Report June 2026",
+    "contested": true,
+    "contestNote": "Les chiffres de l'OPEP sont contestés ; les ONG avancent des estimations plus basses en raison de pertes dues au vol de pétrole supérieures à 150 000 b/j",
+    "delta": "74-month high; 104% of 1.5 mbpd OPEC quota; +11% vs 2024 avg",
+    "deltaNote": "4e mois consécutif de hausse de la production ; le meilleur jour a atteint 1,89 mbj ; porté par l'amélioration de la sécurité des oléoducs du delta du Niger",
+    "trend": "up",
+    "lastUpdated": "2026-07-13"
+  },
+  {
+    "id": "kpi-poverty-rate",
+    "label": "Nombre de personnes pauvres (2023)",
+    "value": "40.1%",
+    "color": "red",
+    "source": "World Bank Poverty & Equity Brief 2023",
+    "contested": true,
+    "contestNote": "Les révisions méthodologiques du NBS sont contestées ; l'indice de pauvreté multidimensionnelle indique plus de 65 %",
+    "delta": "+4pp since 2019",
+    "deltaNote": "Impact du COVID-19 et de la suppression des subventions ; ~87 millions de personnes en situation d'extrême pauvreté",
+    "trend": "up",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "kpi-conflict-fatalities",
+    "label": "Morts liées aux conflits (est. 2025)",
+    "value": "10,600+",
+    "color": "red",
+    "source": "ACLED Nigeria / US AFRICOM / Council on Foreign Relations Nigeria Security Tracker",
+    "contested": true,
+    "contestNote": "Les chiffres du gouvernement sont nettement plus bas ; l'ACLED recoupe plusieurs sources indépendantes ; des frappes conjointes États-Unis–Nigeria ont tué plus de 240 combattants de l'ISWAP en mai-juin 2026 ; l'épidémie de choléra à Borno ajoute un bilan humanitaire distinct (non compté dans le chiffre du conflit)",
+    "delta": "-13% vs 2023 peak (12,200)",
+    "deltaNote": "Violences combinées de l'ISWAP/JAS, du banditisme, des conflits agriculteurs-éleveurs et des séparatistes ; un affrontement Peuls-Kamuku le 1er juillet à Tegina, dans l'État du Niger, a fait 48 morts ; le général de division à la retraite Rabe Batsari est mort en captivité chez les bandits le 13 juin ; l'ISWAP a poursuivi ses attaques de sondage en juillet malgré les frappes conjointes soutenues de mai",
+    "trend": "down",
+    "lastUpdated": "2026-07-11"
+  },
+  {
+    "id": "kpi-nollywood",
+    "label": "Films de Nollywood par an",
+    "value": "2,500+",
+    "color": "green",
+    "source": "NOFiA / UNESCO Cultural Statistics 2022",
+    "contested": false,
+    "delta": "+60% vs 2010",
+    "deltaNote": "Troisième industrie cinématographique mondiale en volume ; environ 1 Md$ de chiffre d'affaires annuel",
+    "trend": "up",
+    "lastUpdated": "2026-04-25"
+  },
+  {
+    "id": "kpi-naira-exchange",
+    "label": "Taux naira/USD (juil. 2026)",
+    "value": "₦1,380/$1",
+    "color": "amber",
+    "source": "Trading Economics / CBN",
+    "contested": false,
+    "delta": "-66% vs Jan 2023 (₦460/$); +9.8% over trailing 12 months; -1.52% over trailing month",
+    "deltaNote": "Le naira s'est modestement affaibli fin juin et début juillet jusqu'à 1 380,20 ₦ (15 juillet) après une progression plus forte début juin autour de 1 362-1 367 ₦ ; toujours en hausse de près de 10 % sur un an, les réserves et la crédibilité des réformes tenant bon",
+    "trend": "up",
+    "lastUpdated": "2026-07-16"
+  }
+]

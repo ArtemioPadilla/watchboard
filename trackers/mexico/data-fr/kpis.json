@@ -1,76 +1,106 @@
 [
   {
     "id": "mexico-homicide-decline",
-    "label": "Homicide Rate Decline (2024–2025)",
-    "value": "−44%",
+    "label": "Baisse du taux d'homicides (janv.–mai 2026 par rapport à 2025)",
+    "value": "−29.8%",
     "color": "green",
-    "source": "SESNSP / Mexico News Daily — Feb 2026",
+    "source": "SESNSP — 2026",
     "contested": true,
-    "contestNote": "Lowest homicide rate since 2016. Analysts caution official counts may undercount killings classified as accidents or disappearances. Post-Mencho CJNG fragmentation expected to reverse gains in 2026.",
-    "delta": "50.9 homicides/day in Jan 2026",
-    "deltaNote": "−34% vs. January 2025. Over half of all homicides in 7 states; Guanajuato most violent.",
+    "contestNote": "Le SESNSP a recensé 7 617 victimes d'homicide de janvier à mai 2026 contre 10 844 sur la même période de 2025. L'année 2025 s'est close sur 23 609 homicides volontaires (17,7/100 000), soit une baisse de 21,5 % par rapport à 2024. Les analystes préviennent que les chiffres officiels pourraient sous-estimer les meurtres classés comme accidents ou disparitions. La fragmentation du CJNG après Mencho est un risque baissier pour la poursuite de la tendance.",
+    "delta": "7,617 victims, Jan–May 2026",
+    "deltaNote": "En baisse par rapport à 10 844 en janv.–mai 2025. La violence reste concentrée dans une poignée d'États au milieu des luttes de succession au sein du CJNG.",
     "trend": "down",
-    "lastUpdated": "2026-04-06T14:00:00.000Z"
+    "lastUpdated": "2026-08-10T00:00:00.000Z"
   },
   {
     "id": "mexico-missing-persons",
-    "label": "Registered Missing Persons",
+    "label": "Personnes disparues enregistrées",
     "value": "132,828",
     "color": "red",
     "source": "RNPDNO / OHCHR — April 2026",
     "contested": true,
-    "contestNote": "Government registry figure; real total likely higher due to underreporting and reclassification. UN Committee found 'well-founded indications' of crimes against humanity.",
+    "contestNote": "Chiffre du registre gouvernemental ; le total réel est probablement plus élevé en raison de la sous-déclaration et des reclassements. Le Comité de l'ONU a constaté des « indications fondées » de crimes contre l'humanité. Un examen du registre par le gouvernement en mars 2026 a relevé que 40 308 dossiers (31 %) montraient une activité dans d'autres bases de données publiques (déclarations fiscales, actes de naissance), ce qui suggère que ces personnes pourraient être en vie et localisables, tandis qu'environ 46 000 dossiers (36 %) manquent des informations d'identification de base nécessaires pour les rechercher — soulignant à quel point le chiffre brut est peu fiable dans un sens comme dans l'autre.",
     "delta": "+4,500 clandestine graves found",
-    "deltaNote": "4,500+ clandestine graves with 6,200+ bodies and 4,600+ sets of remains discovered since 2006.",
+    "deltaNote": "Plus de 4 500 fosses clandestines contenant plus de 6 200 corps et plus de 4 600 ensembles de restes découverts depuis 2006.",
     "trend": "up",
-    "lastUpdated": "2026-04-06T14:00:00.000Z"
+    "lastUpdated": "2026-08-10T00:00:00.000Z"
   },
   {
     "id": "cjng-succession-days",
-    "label": "Days Since El Mencho Killed (CJNG Crisis)",
-    "value": "48",
+    "label": "Jours depuis la mort d'El Mencho (crise du CJNG)",
+    "value": "212",
     "color": "amber",
     "source": "SEDENA / InSight Crime — Feb 22, 2026",
     "contested": false,
     "delta": "Feb 22, 2026 — Tapalpa, Jalisco",
-    "deltaNote": "CJNG succession crisis: O3 confirmed as leader (El País, Apr 6). CJNG co-founder El 85 guilty plea Apr 7. El Mayo sentencing POSTPONED to May 18 (2nd delay, from Apr 13). El Jardinero ($5M bounty) at large.",
+    "deltaDetail": {
+      "value": 14,
+      "direction": "up",
+      "period": "since Sep 8"
+    },
+    "deltaNote": "La crise de succession du CJNG reste non résolue sept mois plus tard. Le cabinet fédéral de sécurité continue de signaler périodiquement des saisies d'armes, des démantèlements de laboratoires et des arrestations de fugitifs liés aux retombées à Jalisco, Michoacán, Colima, Nayarit et Sinaloa, où Sheinbaum a annoncé le 20 sept. que les secrétaires du cabinet fédéral se relaieraient chaque semaine à Culiacán pour traiter les retombées en matière de sécurité, d'agriculture et de tourisme, tout en promettant que le déploiement de l'armée, de la marine et de la Garde nationale durerait aussi longtemps que nécessaire. Le deuxième rapport de gouvernement de Sheinbaum du 1er septembre a revendiqué une baisse de 51 % des homicides volontaires à l'échelle nationale depuis son arrivée au pouvoir (oct. 2024), bien que des analystes indépendants et des reportages locaux dans les États à fort conflit se demandent si les chiffres officiels rendent pleinement compte d'une violence désormais davantage liée aux disparitions et aux extorsions qu'aux homicides de masse.",
     "trend": "up",
-    "lastUpdated": "2026-04-11T14:30:00.000Z"
+    "lastUpdated": "2026-09-22T00:00:00.000Z"
   },
   {
     "id": "mexico-world-cup-security",
-    "label": "World Cup Security Personnel Deployed",
+    "label": "Personnel de sécurité déployé pour la Coupe du monde",
     "value": "100,000",
     "color": "blue",
-    "source": "France 24 / SSPC — March 30, 2026",
+    "source": "SEDENA / SSPC / France 24 — 2026",
     "contested": false,
-    "delta": "Plan Kukulkan — Jun 11–Jul 19, 2026 (61 days out)",
-    "deltaNote": "20,000 military + 55,000 police + 2,500 vehicles + 24 aircraft across Guadalajara, Mexico City, Monterrey.",
-    "trend": "up",
-    "lastUpdated": "2026-04-11T14:30:00.000Z"
+    "delta": "Plan Kukulkan — Jun 11–Jul 19, 2026 (concluded)",
+    "deltaNote": "20 000 militaires + 55 000 policiers + 2 500 véhicules + 24 aéronefs à Guadalajara, Mexico et Monterrey pour la Coupe du monde coorganisée par le Mexique, qui s'est achevée avec la finale des 19-20 juillet. Le parcours du Mexique s'est arrêté en huitièmes de finale (5 juillet, défaite contre l'Angleterre). Des détecteurs de métaux sont restés en place sur les principaux sites archéologiques après l'attaque de Teotihuacan.",
+    "trend": "stable",
+    "lastUpdated": "2026-08-10T00:00:00.000Z"
   },
   {
     "id": "mexico-us-trade-surplus",
-    "label": "Mexico Trade Surplus with US (2025)",
+    "label": "Excédent commercial du Mexique avec les États-Unis (2025)",
     "value": "Record",
     "color": "amber",
-    "source": "Brookings / Reuters — 2026",
+    "source": "Brookings / Reuters / USTR — 2026",
     "contested": false,
     "delta": "+20% vs. 2024",
-    "deltaNote": "Record US-Mexico trade surplus in 2025 fueling USMCA renegotiation pressure. 25% tariff applies to non-USMCA-qualifying goods. USMCA joint review July 1.",
+    "deltaNote": "L'excédent commercial record États-Unis–Mexique en 2025 continue d'alimenter les frictions autour de la renégociation de l'ACEUM. En août 2026 : droit de 25 % sur les biens et automobiles non conformes à l'ACEUM, 50 % sur l'acier/l'aluminium/le cuivre, plus un nouveau droit de 10 % au titre de la Section 301 (en vigueur le 24 juil.) sur les biens non conformes à l'ACEUM en raison de lacunes dans l'application des règles sur le travail forcé. On estime que 84 à 89 % des échanges Mexique–États-Unis entrent toujours en franchise de droits grâce à la préférence ACEUM. Après un quatrième cycle d'examen conjoint de l'ACEUM à Washington début septembre, qui a peu avancé sur les règles d'origine automobiles (Washington veut 50 % de contenu spécifiquement américain) et sur les droits de la Section 232 sur les métaux, Sheinbaum et Trump ont eu le 17 sept. un appel téléphonique qu'elle a qualifié de « très bon », affirmant que certains accords avaient été trouvés en vue d'un accord bilatéral d'allègement tarifaire sur l'acier, l'aluminium et l'automobile ; un nouveau cycle de pourparlers formels est prévu les 28-29 sept. L'examen demeure au-delà de son échéance initiale du 1er juillet 2026 et risque de se prolonger jusqu'en 2027.",
     "trend": "up",
-    "lastUpdated": "2026-04-06T14:00:00.000Z"
+    "lastUpdated": "2026-09-22T00:00:00.000Z"
   },
   {
     "id": "mexico-violence-cost",
-    "label": "Annual Cost of Violence to Economy",
+    "label": "Coût annuel de la violence pour l'économie",
     "value": "$245B USD",
     "color": "red",
     "source": "Vision of Humanity Mexico Peace Index — 2024",
     "contested": true,
-    "contestNote": "Estimate equals ~18% of Mexican GDP; rose for first time since 2019 despite national homicide decline.",
+    "contestNote": "L'estimation équivaut à environ 18 % du PIB mexicain ; en hausse pour la première fois depuis 2019 malgré la baisse nationale des homicides.",
     "delta": "4.5 trillion pesos",
     "trend": "up",
     "lastUpdated": "2026-04-06T14:00:00.000Z"
+  },
+  {
+    "id": "mexico-population-2024",
+    "label": "Population (2024)",
+    "value": "130.2 million",
+    "color": "blue",
+    "source": "INEGI / CONAPO — 2024 projections",
+    "contested": false,
+    "delta": "#10 in world by population",
+    "deltaNote": "Le Mexique est passé de 25 M (1950) à 130 M (2024) — une multiplication par cinq en 74 ans. Population urbaine : 81 % ; âge médian : 29 ans. Diaspora mexicaine aux États-Unis : 36 millions de Mexicano-Américains, 11 M de résidents américains nés au Mexique.",
+    "trend": "up",
+    "lastUpdated": "2026-04-24T12:00:00.000Z"
+  },
+  {
+    "id": "mexico-impunity-rate",
+    "label": "Taux d'impunité criminelle",
+    "value": "97%",
+    "color": "red",
+    "source": "CIDAC / Impunity Studies Index — Mexico (2023)",
+    "contested": true,
+    "contestNote": "97 % des crimes au Mexique ne donnent lieu à aucune condamnation. Seuls 3 % des crimes débouchent sur une peine. Le Mexique se classe 60e sur 69 pays à l'Indice mondial d'impunité. L'impunité est le facteur structurel du crime organisé.",
+    "delta": "Only 1 in 33 crimes result in a conviction",
+    "deltaNote": "Le SESNSP fait état d'environ 30 000 homicides par an ; moins de 1 500 condamnations annuelles pour homicide — soit un taux d'impunité de 95 % pour le crime le plus grave.",
+    "trend": "up",
+    "lastUpdated": "2026-04-24T12:00:00.000Z"
   }
 ]

@@ -1,97 +1,112 @@
 [
   {
     "id": "civilian-deaths-aapp",
-    "label": "People Killed by Junta (AAPP)",
-    "value": "7,941+",
+    "label": "Personnes tuées par la junte (AAPP)",
+    "value": "8,414+",
     "color": "red",
-    "source": "AAPP (Mar 23, 2026)",
+    "source": "AAPP (Sep 21, 2026)",
     "contested": true,
-    "contestNote": "AAPP documents confirmed deaths; actual toll far higher — ACLED estimates 96,000+ total conflict deaths including combatants",
-    "delta": "+1,455 since Apr 2025",
-    "deltaNote": "Killing rate accelerating in 2025–2026 as air attacks surge",
+    "contestNote": "L'AAPP documente les décès confirmés ; le bilan réel est bien plus élevé — l'ACLED a confirmé que le bilan total du conflit (tous acteurs, toutes causes) a dépassé 100 000 morts en juillet 2026. Le rapport du HCDH de l'ONU du 26 août 2026 a séparément documenté 8 075 décès civils confirmés (jusqu'à 15 731 estimés) depuis 2021 selon sa propre méthodologie.",
+    "delta": "+79 since Sep 7, 2026",
+    "deltaNote": "Le rythme des tueries s'accélère en 2025–2026 avec la multiplication des attaques aériennes",
     "trend": "up",
-    "lastUpdated": "2026-03-29"
+    "lastUpdated": "2026-09-21",
+    "deltaDetail": {
+      "value": 79,
+      "direction": "up",
+      "period": "since Sep 7, 2026"
+    }
   },
   {
     "id": "idps-total",
-    "label": "Internally Displaced Persons",
-    "value": "3.6 million",
+    "label": "Personnes déplacées internes",
+    "value": "~5.2 million",
     "color": "amber",
-    "source": "UN OCHA (Nov 2025)",
+    "source": "UN OCHA / WFP (June 2026)",
     "contested": false,
-    "delta": "+72% in one year",
-    "deltaNote": "Massive surge driven by conflict and earthquake",
+    "delta": "Up from 3.6M in Nov 2025",
+    "deltaNote": "Déplacements en accélération du fait de l'offensive multi-fronts du SAC de mai-juin 2026 à Rakhine, Chin, Tanintharyi, Sagaing, Kachin ; 16,2 M de personnes ont besoin d'aide humanitaire",
     "trend": "up",
-    "lastUpdated": "2026-03-20"
+    "lastUpdated": "2026-06-02"
   },
   {
     "id": "political-prisoners",
-    "label": "Political Prisoners",
-    "value": "22,668",
+    "label": "Prisonniers politiques",
+    "value": "22,709",
     "color": "red",
-    "source": "AAPP (Dec 2025)",
+    "source": "AAPP (Sep 21, 2026)",
     "contested": false,
-    "contestNote": "29,507 total arrested since coup; 2,000+ died in detention",
-    "delta": "29,507 total arrested",
-    "deltaNote": "Includes deaths in custody from torture and denied healthcare",
+    "contestNote": "31 954 personnes arrêtées au total depuis le coup d'État (14 839 confirmées toujours détenues, 7 870 en attente de vérification) ; plus de 2 000 morts en détention",
+    "delta": "31,954 total arrested",
+    "deltaNote": "Comprend les décès en détention dus à la torture et au refus de soins",
     "trend": "up",
-    "lastUpdated": "2026-03-20"
+    "lastUpdated": "2026-09-21",
+    "deltaDetail": {
+      "value": 46,
+      "direction": "up",
+      "period": "since Sep 7, 2026"
+    }
   },
   {
     "id": "junta-territory",
-    "label": "SAC Territory Control",
+    "label": "Contrôle territorial du SAC",
     "value": "~20%",
     "color": "green",
     "source": "SAC-M / NUG Defense Ministry (2025)",
     "contested": true,
-    "contestNote": "SAC claims broader control; NUG estimates junta controls fewer than 100 of 350+ townships as of Aug 2024",
+    "contestNote": "Le SAC revendique un contrôle plus large ; le NUG estime que la junte contrôle moins de 100 des plus de 350 cantons en août 2024",
     "delta": "Down from ~70% in 2021",
     "trend": "down",
     "lastUpdated": "2026-03-20"
   },
   {
     "id": "days-since-coup",
-    "label": "Days Since Coup",
-    "value": "1,896",
+    "label": "Jours depuis le coup d'État",
+    "value": "2,060",
     "color": "amber",
     "source": "Calculated from Feb 1, 2021",
     "contested": false,
-    "lastUpdated": "2026-04-12"
+    "lastUpdated": "2026-09-23",
+    "deltaDetail": {
+      "value": 3,
+      "direction": "up",
+      "period": "since Sep 20, 2026"
+    }
   },
   {
     "id": "airstrikes-documented",
-    "label": "Air Attacks Since Coup (ACLED)",
-    "value": "5,912+",
+    "label": "Attaques aériennes depuis le coup d'État (ACLED)",
+    "value": "9,400+",
     "color": "red",
-    "source": "ACLED (Mar 13, 2026 cumulative)",
+    "source": "ACLED (June 2026 cumulative)",
     "contested": true,
-    "contestNote": "ACLED cumulative since Feb 2021; also 931 drone attacks recorded; air deaths up 52% in 2025",
-    "delta": "+2,602 in 2025 alone",
+    "contestNote": "Données ACLED cumulées depuis février 2021 ; plus de 3 800 civils tués par des frappes aériennes ; plus de 3 300 attaques rien qu'en 2025-2026 ; la junte mène jusqu'à 50 frappes aériennes par jour sur Bhamo seul",
+    "delta": "+3,488 since Mar 2026 update",
     "trend": "up",
-    "lastUpdated": "2026-03-29"
+    "lastUpdated": "2026-06-02"
   },
   {
     "id": "townships-resistance",
-    "label": "Townships Under Resistance Control",
+    "label": "Cantons sous contrôle de la résistance",
     "value": "250+",
     "color": "blue",
     "source": "NUG Ministry of Defense / Crisis Group (2024)",
     "contested": true,
-    "contestNote": "Contested and dynamic; junta disputes these figures",
+    "contestNote": "Chiffres contestés et mouvants ; la junte les conteste",
     "delta": "Out of ~330 total townships",
     "trend": "up",
     "lastUpdated": "2026-03-20"
   },
   {
     "id": "humanitarian-funding",
-    "label": "2025 Humanitarian Plan Funded",
-    "value": "7.8%",
+    "label": "Plan humanitaire 2025 financé",
+    "value": "26%",
     "color": "amber",
-    "source": "UN OCHA (2025)",
+    "source": "UN OCHA Myanmar Humanitarian Needs and Response Plan 2026",
     "contested": false,
-    "contestNote": "Severe underfunding leaves millions without aid",
-    "delta": "1 of worst-funded crises globally",
+    "contestNote": "L'appel de 890 M$ de 2025 n'a été financé qu'à 26 % ; le plan 2026 vise 4,9 M sur plus de 16 M de personnes dans le besoin, pour 521 M$, avec une cohorte ultra-prioritaire de 2,6 M — seulement ~1,6 M atteints fin mars 2026",
+    "delta": "One of the world's worst-funded humanitarian crises",
     "trend": "down",
-    "lastUpdated": "2026-03-20"
+    "lastUpdated": "2026-07-13"
   }
 ]
