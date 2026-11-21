@@ -1,5 +1,35 @@
 [
   {
+    "date": "2026-11-21",
+    "title": "US Measles Resurgence Tracker Update — Nov 21, 2026",
+    "summary": "PAHO formally withdrew US measles elimination status on Nov 17 after its commission found endemic transmission re-established. CDC's Nov 13 update counts 5,412 confirmed 2026 cases (+230, 4.4%), 96% outbreak-associated. CDC lists 6 deaths in 2026 while state agencies report 10. CDC says it is committed to regaining status.",
+    "sectionsUpdated": [
+      "events",
+      "kpis",
+      "meta"
+    ],
+    "provenance": {
+      "method": "llm",
+      "model": "claude",
+      "generatedAt": "2026-11-21T20:30:56.000Z",
+      "pipeline": "update-data"
+    }
+  },
+  {
+    "date": "2026-11-17",
+    "title": "US Measles Resurgence Tracker Update — Tue Nov 17, 2026",
+    "summary": "PAHO formally withdraws US measles elimination status.",
+    "sectionsUpdated": [
+      "events"
+    ],
+    "source": "freshness",
+    "provenance": {
+      "method": "heuristic",
+      "generatedAt": "2026-11-21T20:52:53.338Z",
+      "pipeline": "ensure-digests"
+    }
+  },
+  {
     "date": "2026-11-14",
     "title": "Breaking: US loses measles-free status after continued spread of the disease",
     "summary": "US loses measles-free status after continued spread of the disease",
@@ -13,6 +43,20 @@
       "model": "claude",
       "generatedAt": "2026-11-14T04:07:32.270Z",
       "pipeline": "hourly-scan"
+    }
+  },
+  {
+    "date": "2026-11-13",
+    "title": "US Measles Resurgence Tracker Update — Fri Nov 13, 2026",
+    "summary": "CDC's Nov 13 update (data through Nov 12) counts 5,412 confirmed cases, up 230 (4.4%) from 5,182.",
+    "sectionsUpdated": [
+      "events"
+    ],
+    "source": "freshness",
+    "provenance": {
+      "method": "heuristic",
+      "generatedAt": "2026-11-21T20:52:53.338Z",
+      "pipeline": "ensure-digests"
     }
   },
   {
