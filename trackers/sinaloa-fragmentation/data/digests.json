@@ -1,5 +1,21 @@
 [
   {
+    "date": "2026-11-22",
+    "title": "Sinaloa Cartel Fragmentation Tracker Update — Nov 22, 2026",
+    "summary": "Added a previously missing Nov 11 event: Mexican authorities arrested 15 alleged Sinaloa Cartel members, including 'Beto Leyva' in Baja California and 14 armed suspects in Chiapas. Searches found no dated, doubly sourced events for Nov 15–22.",
+    "sectionsUpdated": [
+      "events",
+      "meta"
+    ],
+    "source": "daily",
+    "provenance": {
+      "method": "llm",
+      "model": "claude",
+      "generatedAt": "2026-11-22T20:42:31.000Z",
+      "pipeline": "update-data"
+    }
+  },
+  {
     "date": "2026-11-21",
     "title": "Sinaloa Cartel Fragmentation Tracker Update — Nov 21, 2026",
     "summary": "No new events were added for Nov 14–21. Searches surfaced only undated weekend violence tallies and items from earlier in November, none that could be tied to a specific day in the window with two independent sources. Existing data is unchanged.",
@@ -27,6 +43,20 @@
       "model": "claude",
       "generatedAt": "2026-11-17T22:09:26.000Z",
       "pipeline": "update-data"
+    }
+  },
+  {
+    "date": "2026-11-11",
+    "title": "Sinaloa Cartel Fragmentation Tracker Update — Wed Nov 11, 2026",
+    "summary": "Mexico Arrests 15 Alleged Sinaloa Cartel Members in Baja California and Chiapas.",
+    "sectionsUpdated": [
+      "events"
+    ],
+    "source": "freshness",
+    "provenance": {
+      "method": "heuristic",
+      "generatedAt": "2026-11-22T20:57:10.718Z",
+      "pipeline": "ensure-digests"
     }
   },
   {
@@ -712,25 +742,5 @@
       "generatedAt": "2026-09-09T19:38:09.675Z",
       "pipeline": "ensure-digests"
     }
-  },
-  {
-    "date": "2026-09-03",
-    "title": "Sinaloa Cartel Fragmentation Tracker Update — Thu Sep 3, 2026",
-    "summary": "Day 772: Two Men Shot Dead Inside Car Wash in Los Ángeles Sector, Culiacán. A man identified as Óscar 'N', 42, was killed in the early morning hours of Thursday, September 3, 2026, along the Benito Juárez bypass ('La Costerita') south of Culiacán, near a cement company.",
-    "sectionsUpdated": [
-      "events"
-    ]
-  },
-  {
-    "date": "2026-09-02",
-    "title": "Sinaloa Cartel Fragmentation Tracker Update — Wed Sep 2, 2026",
-    "summary": "Day 770-771: Gunmen on a motorcycle shot Mazatlán Civil Protection Coordinator Óscar Osuna Tirado and a companion in the city's Montuosa sector on September 2, wounding both despite over 6,000 troops stationed in the port under Operación Sable. The attack followed the September 1 discovery of two women shot along the Mazatlán–Tepic highway near Escuinapa's 'El Tobogán' area — one, Verónica, died at the scene, and the other, Glenda, 28, survived a gunshot wound to the face, with a narco-message left near the body. Timeline, map points and KPIs updated to reflect these developments.",
-    "sectionsUpdated": [
-      "events",
-      "timeline",
-      "mapPoints",
-      "kpis",
-      "meta"
-    ]
   }
 ]
