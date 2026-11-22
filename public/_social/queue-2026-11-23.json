@@ -1,0 +1,356 @@
+[
+  {
+    "type": "digest",
+    "voice": "analyst",
+    "tracker": "ebola-outbreak",
+    "lang": "es",
+    "text": "Ébola en la RDC: ~11,200 casos confirmados y ~5,500 muertes al 15 de nov (datos del gobierno vía Al Jazeera/Reuters). Africa CDC dice que el brote no está bajo control: más del 80% de los casos nuevos no estaban en listas de contactos.",
+    "hashtags": [
+      "#Ébola",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/ebola-outbreak/?utm_source=x&utm_medium=digest&utm_campaign=2026-11-18",
+    "image": null,
+    "memegenUrl": null,
+    "publishAt": "2026-11-23T01:03:00Z",
+    "estimatedCost": 0.01,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.83,
+      "verdict": "PUBLISH",
+      "comment": "Spanish version of the verified English digest; figures unchanged.",
+      "factChecks": [
+        {
+          "claim": "~11,200 casos confirmados al 15 de nov",
+          "status": "verified",
+          "source": "ebola-outbreak KPI / digest"
+        },
+        {
+          "claim": "~5,500 muertes",
+          "status": "verified",
+          "source": "ebola-outbreak KPI / digest"
+        },
+        {
+          "claim": "Africa CDC: más del 80% de casos nuevos fuera de listas de contactos",
+          "status": "verified",
+          "source": "ebola-outbreak digest"
+        }
+      ]
+    },
+    "id": "fc1290fc-7bfc-4fa9-a8da-6e9e0e499360",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
+  },
+  {
+    "type": "contested",
+    "voice": "analyst",
+    "tracker": "russian-fuel-crisis",
+    "lang": "en",
+    "text": "How much Russian refining is out? Ukraine's General Staff: 42.74% of capacity disabled (July 2026). IEA: losses \"more than 20%\" at peak. Reuters: national oil processing fell only 3–6%, as undamaged refineries offset losses.",
+    "hashtags": [
+      "#Russia",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/russian-fuel-crisis/?utm_source=x&utm_medium=contested&utm_campaign=2026-11-19",
+    "image": null,
+    "memegenUrl": null,
+    "publishAt": "2026-11-23T03:03:00Z",
+    "estimatedCost": 0.01,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.72,
+      "verdict": "REVIEW",
+      "comment": "Both positions are stated with attribution and no adjudication, but the IEA and Reuters figures carry no as-of date in the tracker data, so a human should confirm them before posting.",
+      "factChecks": [
+        {
+          "claim": "Ukraine's General Staff put disabled capacity at 42.74% in July 2026",
+          "status": "verified",
+          "source": "russian-fuel-crisis disputes"
+        },
+        {
+          "claim": "IEA said losses were 'more than 20%' at peak",
+          "status": "warning",
+          "source": "russian-fuel-crisis disputes (no as-of date)"
+        },
+        {
+          "claim": "Reuters reported national oil processing fell only 3-6%",
+          "status": "warning",
+          "source": "russian-fuel-crisis disputes (no as-of date)"
+        },
+        {
+          "claim": "Undamaged refineries partially offset losses",
+          "status": "verified",
+          "source": "russian-fuel-crisis disputes"
+        }
+      ]
+    },
+    "id": "778826ed-c323-4114-9923-2bda465e9084",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
+  },
+  {
+    "type": "breaking",
+    "voice": "analyst",
+    "tracker": "yemen-conflict",
+    "lang": "en",
+    "text": "Saudi Arabia confirms a Houthi attack damaged Riyadh's tallest building. The Houthis claim they struck the HQ of a wealth fund. Separately, they have told airlines to avoid Saudi airspace, warning of coming attacks. Claims are not independently verified.",
+    "hashtags": [
+      "#Yemen",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/yemen-conflict/events/2026-11-20-houthi-attack-damages-riyadh-tallest-building-2026-11-19?utm_source=x&utm_medium=breaking&utm_campaign=2026-11-20",
+    "image": "https://watchboard.dev/og/yemen-conflict/2026-11-20-houthi-attack-damages-riyadh-tallest-building-2026-11-19.png",
+    "memegenUrl": null,
+    "publishAt": "2026-11-23T09:03:00Z",
+    "estimatedCost": 0.02,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.84,
+      "verdict": "PUBLISH",
+      "comment": "Both sides' statements are attributed and match the tracker events. Escalation context is limited to what the data records.",
+      "factChecks": [
+        {
+          "claim": "Saudi Arabia confirmed Houthi attack damaged Riyadh's tallest building",
+          "status": "verified",
+          "source": "yemen-conflict event houthi-attack-damages-riyadh-tallest-building-2026-11-19"
+        },
+        {
+          "claim": "Houthis claim strike on wealth fund HQ",
+          "status": "verified",
+          "source": "yemen-conflict event title"
+        },
+        {
+          "claim": "Houthis told airlines to avoid Saudi airspace",
+          "status": "verified",
+          "source": "yemen-conflict event houthis-warn-airlines-avoid-saudi-airspace-2026-11-20"
+        }
+      ]
+    },
+    "id": "153e6291-a537-49ec-8034-86b261600f31",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
+  },
+  {
+    "type": "contested",
+    "voice": "analyst",
+    "tracker": "lebanon-war-2026",
+    "lang": "en",
+    "text": "How many of Lebanon's dead are fighters? Israel puts Hezbollah losses at roughly 1,700-2,500. Lebanon's health ministry counts 4,386 dead since 2 March with no civilian/combatant split. Hezbollah publishes no totals. Nobody's figures reconcile.",
+    "hashtags": [
+      "#Lebanon",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/lebanon-war-2026/?utm_source=x&utm_medium=contested&utm_campaign=2026-11-20",
+    "image": null,
+    "memegenUrl": null,
+    "publishAt": "2026-11-23T05:03:00Z",
+    "estimatedCost": 0.01,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.8,
+      "verdict": "REVIEW",
+      "comment": "Contested-type tweets need human review. Both positions are attributed; the Israeli range comes from the tracker's disputed-figures entry (IDF / independent estimates).",
+      "factChecks": [
+        {
+          "claim": "Israel: ~1,700-2,500 Hezbollah killed",
+          "status": "verified",
+          "source": "lebanon-war-2026 disputes"
+        },
+        {
+          "claim": "Lebanese MoH: 4,386 killed cumulative since 2 Mar, no civilian/combatant split",
+          "status": "verified",
+          "source": "lebanon-war-2026 disputed figures / KPI"
+        },
+        {
+          "claim": "Hezbollah publishes no totals",
+          "status": "verified",
+          "source": "lebanon-war-2026 disputed figures"
+        }
+      ]
+    },
+    "id": "783379b4-6218-4a01-b005-f9b3172369b5",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
+  },
+  {
+    "type": "contested",
+    "voice": "analyst",
+    "tracker": "lebanon-war-2026",
+    "lang": "en",
+    "text": "Lebanon's health ministry counts 4,386 dead since 2 March, with no civilian/combatant split. Israel puts Hezbollah dead at 1,700-2,500. Hezbollah sources say 1,000+ and publish no totals.",
+    "hashtags": [
+      "#Lebanon",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/lebanon-war-2026/?utm_source=x&utm_medium=contested&utm_campaign=2026-11-21",
+    "image": null,
+    "memegenUrl": null,
+    "publishAt": "2026-11-23T07:03:00Z",
+    "estimatedCost": 0.01,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.82,
+      "verdict": "REVIEW",
+      "comment": "Figures and attributions match the tracker's disputed-figures block; the as-of date for the ministry total is not stated, so a human should check it.",
+      "factChecks": [
+        {
+          "claim": "Lebanese MoH total 4,386 since 2 March, no split",
+          "status": "verified",
+          "source": "Disputed figures, lebanon-war-2026"
+        },
+        {
+          "claim": "Israel/IDF estimates 1,700-2,500 Hezbollah killed",
+          "status": "verified",
+          "source": "Disputed figures, lebanon-war-2026"
+        },
+        {
+          "claim": "Hezbollah sources 1,000+, no totals published",
+          "status": "verified",
+          "source": "Disputed figures, lebanon-war-2026"
+        }
+      ]
+    },
+    "id": "6b5fd06e-d3cb-4c8c-8297-387a7acbd8fe",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
+  },
+  {
+    "type": "breaking",
+    "voice": "analyst",
+    "tracker": "yemen-conflict",
+    "lang": "en",
+    "text": "The Saudi-led coalition says it intercepted three Houthi missiles headed for Riyadh on Nov 21. A day earlier Saudi Arabia confirmed a Houthi attack damaged Riyadh's tallest building, and the Houthis told airlines to avoid Saudi airspace.",
+    "hashtags": [
+      "#Yemen",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/yemen-conflict/events/2026-11-21-coalition-intercepts-three-houthi-missiles-riyadh-2026-11-21?utm_source=x&utm_medium=breaking&utm_campaign=2026-11-21",
+    "image": "https://watchboard.dev/og/yemen-conflict/2026-11-21-coalition-intercepts-three-houthi-missiles-riyadh-2026-11-21.png",
+    "memegenUrl": null,
+    "publishAt": "2026-11-23T13:03:00Z",
+    "estimatedCost": 0.02,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.84,
+      "verdict": "PUBLISH",
+      "comment": "Claims are attributed to the coalition and Saudi Arabia, and each matches a tracker event.",
+      "factChecks": [
+        {
+          "claim": "Coalition says it intercepted three Houthi missiles headed for Riyadh",
+          "status": "verified",
+          "source": "Event coalition-intercepts-three-houthi-missiles-riyadh-2026-11-21"
+        },
+        {
+          "claim": "Saudi Arabia confirmed Houthi attack damaged Riyadh's tallest building",
+          "status": "verified",
+          "source": "Event houthi-attack-damages-riyadh-tallest-building-2026-11-19 (dated 2026-11-20)"
+        },
+        {
+          "claim": "Houthis told airlines to avoid Saudi airspace",
+          "status": "verified",
+          "source": "Event houthis-warn-airlines-avoid-saudi-airspace-2026-11-20"
+        }
+      ]
+    },
+    "id": "3203020d-6c9d-4b21-bfa7-517923d1c2ae",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
+  },
+  {
+    "type": "contested",
+    "voice": "analyst",
+    "tracker": "russian-fuel-crisis",
+    "lang": "en",
+    "text": "How much Russian refining capacity is disabled? Ukraine's General Staff said 42.74% (July 2026). The IEA said losses were \"more than 20%\" at peak. Reuters found national processing fell only 3-6%, as undamaged plants offset losses.",
+    "hashtags": [
+      "#Russia",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/russian-fuel-crisis/?utm_source=x&utm_medium=contested&utm_campaign=2026-11-22",
+    "image": null,
+    "memegenUrl": null,
+    "publishAt": "2026-11-23T15:03:00Z",
+    "estimatedCost": 0.01,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.78,
+      "verdict": "REVIEW",
+      "comment": "Both sides attributed and not adjudicated; the IEA and Reuters as-of dates are only given as 'at peak' in the tracker, so a human should confirm the framing.",
+      "factChecks": [
+        {
+          "claim": "Ukraine's General Staff put disabled capacity at 42.74% in July 2026",
+          "status": "verified",
+          "source": "russian-fuel-crisis disputes"
+        },
+        {
+          "claim": "IEA said losses were more than 20% at peak",
+          "status": "verified",
+          "source": "russian-fuel-crisis disputes"
+        },
+        {
+          "claim": "Reuters reported national oil processing fell only 3-6%",
+          "status": "verified",
+          "source": "russian-fuel-crisis disputes"
+        },
+        {
+          "claim": "Undamaged refineries partially offset losses",
+          "status": "verified",
+          "source": "russian-fuel-crisis disputes"
+        }
+      ]
+    },
+    "id": "47649a44-88b1-4d28-b91a-df0b2fc18bf3",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
+  },
+  {
+    "type": "contested",
+    "voice": "analyst",
+    "tracker": "sinaloa-fragmentation",
+    "lang": "en",
+    "text": "How many families has the Sinaloa cartel war displaced? The Autonomous University of Sinaloa documented at least 9,000 families (early 2025). The state government acknowledges 1,763 families in official shelters.",
+    "hashtags": [
+      "#Sinaloa",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/sinaloa-fragmentation/?utm_source=x&utm_medium=contested&utm_campaign=2026-11-22",
+    "image": null,
+    "memegenUrl": null,
+    "publishAt": "2026-11-23T11:03:00Z",
+    "estimatedCost": 0.01,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.75,
+      "verdict": "REVIEW",
+      "comment": "Both figures are sourced and attributed, but the state figure carries no as-of date in the tracker data. Note the two counts measure different things (all displaced vs shelter occupancy).",
+      "factChecks": [
+        {
+          "claim": "UAS documented at least 9,000 families displaced by early 2025",
+          "status": "verified",
+          "source": "sinaloa-fragmentation disputes"
+        },
+        {
+          "claim": "State government acknowledges 1,763 families in official shelters",
+          "status": "verified",
+          "source": "sinaloa-fragmentation disputes"
+        },
+        {
+          "claim": "As-of date for the state figure",
+          "status": "unverifiable",
+          "source": "not given in tracker data"
+        }
+      ]
+    },
+    "id": "97d365dc-86b2-4930-9198-649fff5812d8",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
+  }
+]
