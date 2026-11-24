@@ -55,87 +55,44 @@
     }
   },
   {
-    "type": "digest",
+    "type": "breaking",
     "voice": "analyst",
-    "tracker": "ebola-outbreak",
-    "lang": "es",
-    "text": "ECDC, datos al 16 nov: 11.504 casos confirmados de ébola y 5.630 muertes en la RDC. Ituri suma 7.858 casos en 28 de 36 zonas sanitarias. Africa CDC (15 nov): el brote sigue sin control tras seis meses.",
+    "tracker": "yemen-conflict",
+    "lang": "en",
+    "text": "Saudi Arabia says a Houthi attack on a tower in Riyadh's financial hub injured 11 people, including 2 Indian nationals. The claim comes from Saudi authorities; no independent confirmation is logged yet. Reported 24 Nov.",
     "hashtags": [
-      "#Ebola",
+      "#Yemen",
       "#Watchboard"
     ],
-    "link": "https://watchboard.dev/ebola-outbreak/?utm_source=x&utm_medium=digest&utm_campaign=2026-11-24",
-    "image": null,
+    "link": "https://watchboard.dev/yemen-conflict/events/2026-11-24-houthi-attack-riyadh-tower-injures-11-2026-11-24?utm_source=x&utm_medium=breaking&utm_campaign=2026-11-24",
+    "image": "https://watchboard.dev/og/yemen-conflict/2026-11-24-houthi-attack-riyadh-tower-injures-11-2026-11-24.png",
     "memegenUrl": null,
-    "publishAt": "2026-11-24T18:00:00Z",
-    "estimatedCost": 0.01,
+    "publishAt": "2026-11-24T23:56:00Z",
+    "estimatedCost": 0.02,
     "threadTweets": null,
     "judge": {
       "score": 0.84,
       "verdict": "PUBLISH",
-      "comment": "Spanish version of the verified ECDC digest tweet; figures identical.",
+      "comment": "Attributed to Saudi Arabia and framed as an unconfirmed claim. Figures match the tracker digest.",
       "factChecks": [
         {
-          "claim": "11.504 casos confirmados (ECDC, datos al 16 nov)",
+          "claim": "Houthi attack on a tower in Riyadh's financial hub injured 11 people",
           "status": "verified",
-          "source": "ebola-outbreak digest"
+          "source": "yemen-conflict digest and event 2026-11-24"
         },
         {
-          "claim": "5.630 muertes",
+          "claim": "Including 2 Indian nationals",
           "status": "verified",
-          "source": "ebola-outbreak KPIs"
+          "source": "yemen-conflict digest"
         },
         {
-          "claim": "Ituri 7.858 casos en 28 de 36 zonas sanitarias",
-          "status": "verified",
-          "source": "ebola-outbreak digest"
-        }
-      ]
-    },
-    "id": "64a48709-e561-4593-9e90-b8d97257d44c",
-    "tweetId": null,
-    "postedAt": null,
-    "status": "pending_review"
-  },
-  {
-    "type": "contested",
-    "voice": "analyst",
-    "tracker": "russian-fuel-crisis",
-    "lang": "en",
-    "text": "How much Russian refining is disabled? Ukraine's General Staff: 42.74% (July 2026). IEA: 'more than 20%' at peak. Reuters: national oil processing fell only 3–6%. Three measures, same strikes.",
-    "hashtags": [
-      "#Russia",
-      "#Watchboard"
-    ],
-    "link": "https://watchboard.dev/russian-fuel-crisis/?utm_source=x&utm_medium=contested&utm_campaign=2026-11-24",
-    "image": null,
-    "memegenUrl": null,
-    "publishAt": "2026-11-24T22:00:00Z",
-    "estimatedCost": 0.01,
-    "threadTweets": null,
-    "judge": {
-      "score": 0.78,
-      "verdict": "REVIEW",
-      "comment": "Both sides attributed and not adjudicated. Reuters and IEA as-of dates are not specified in the tracker data, so a human should confirm the dates before publishing.",
-      "factChecks": [
-        {
-          "claim": "Ukraine's General Staff put disabled capacity at 42.74% in July 2026",
-          "status": "verified",
-          "source": "russian-fuel-crisis unresolved disputes"
-        },
-        {
-          "claim": "IEA said losses were 'more than 20%' at peak",
-          "status": "verified",
-          "source": "russian-fuel-crisis unresolved disputes"
-        },
-        {
-          "claim": "Reuters reported national oil processing fell only 3–6%",
+          "claim": "No independent confirmation logged yet",
           "status": "warning",
-          "source": "russian-fuel-crisis unresolved disputes; as-of date not given"
+          "source": "Digest cites Saudi statement only; absence of confirmation cannot be fully verified"
         }
       ]
     },
-    "id": "c21de3a7-6930-45c5-bd6c-4050d05d72d7",
+    "id": "e891353f-5720-403c-aa78-f362bea99df7",
     "tweetId": null,
     "postedAt": null,
     "status": "pending_review"
