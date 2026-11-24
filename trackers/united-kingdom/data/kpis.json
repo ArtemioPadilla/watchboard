@@ -19,7 +19,7 @@
     "source": "Office for National Statistics (ONS), 2024",
     "contested": false,
     "delta": "+0.7%",
-    "deltaNote": "Year-on-year population growth 2023–2024",
+    "deltaNote": "Year-on-year population growth 2023\u20132024",
     "trend": "up",
     "lastUpdated": "2026-04-25"
   },
@@ -39,15 +39,19 @@
   {
     "id": "uk-inflation-cpi",
     "label": "UK CPI Inflation",
-    "value": "3.1%",
+    "value": "3.6%",
     "color": "amber",
-    "source": "Office for National Statistics (ONS), August 2026",
+    "source": "Office for National Statistics (ONS), October 2026",
     "contested": false,
-    "delta": "-8.0pp",
-    "deltaNote": "Down from 11.1% peak (Oct 2022), but up from 2.9% in July 2026 on rising motor fuel prices (petrol +9.1p/litre, diesel +14.2p/litre); 23rd consecutive month above the Bank of England's 2% target",
-    "deltaDetail": { "value": 0.2, "direction": "up", "period": "1mo" },
+    "delta": "-7.5pp",
+    "deltaNote": "Down from 11.1% peak (Oct 2022); up from 3.5% in September 2026, a one-year high driven mainly by fuel prices",
+    "deltaDetail": {
+      "value": 0.1,
+      "direction": "up",
+      "period": "1mo"
+    },
     "trend": "up",
-    "lastUpdated": "2026-09-16"
+    "lastUpdated": "2026-11-18"
   },
   {
     "id": "scotland-independence-polling",
@@ -56,7 +60,7 @@
     "color": "amber",
     "source": "What Scotland Thinks / YouGov / Savanta, 2025",
     "contested": true,
-    "contestNote": "Polling varies 45–52% depending on question wording; second referendum blocked by UK government",
+    "contestNote": "Polling varies 45\u201352% depending on question wording; second referendum blocked by UK government",
     "trend": "stable",
     "lastUpdated": "2026-04-25"
   },
