@@ -1,5 +1,21 @@
 [
   {
+    "date": "2026-11-24",
+    "title": "Ebola Outbreak Tracker Update — Nov 24, 2026",
+    "summary": "ECDC's 17 November update puts the DRC toll at 11,504 confirmed cases and 5,630 deaths (data through 16 November), up from the 15 November government figures. Ituri remains the epicentre with 7,858 cases across 28 of 36 health zones. Africa CDC says the outbreak is still not under control. KPIs, hero text and a new event were updated.",
+    "sectionsUpdated": [
+      "kpis",
+      "events",
+      "meta"
+    ],
+    "provenance": {
+      "method": "llm",
+      "model": "claude",
+      "generatedAt": "2026-11-24T01:35:40.000Z",
+      "pipeline": "update-data"
+    }
+  },
+  {
     "date": "2026-11-22",
     "title": "Ebola Outbreak Tracker Update — Nov 22, 2026",
     "summary": "Searches found no new verifiable case or death figures beyond the 15 November government/Africa CDC data (over 11,200 cases, 5,500 deaths in the DRC). The only item since then is an unverified headline about Uganda commissioning a fourth treatment centre in DR Congo, already logged on 21 November. No new event files, KPI or map changes were made. The outbreak remains flagged as breaking.",
@@ -57,6 +73,20 @@
       "model": "claude",
       "generatedAt": "2026-11-18T21:48:07.000Z",
       "pipeline": "update-data"
+    }
+  },
+  {
+    "date": "2026-11-17",
+    "title": "Ebola Outbreak Tracker Update — Tue Nov 17, 2026",
+    "summary": "ECDC's 17 November update (data through 16 November) reports 11,504 confirmed Bundibugyo cases and 5,630 deaths in the DRC with ongoing community transmission.",
+    "sectionsUpdated": [
+      "events"
+    ],
+    "source": "freshness",
+    "provenance": {
+      "method": "heuristic",
+      "generatedAt": "2026-11-24T02:01:42.740Z",
+      "pipeline": "ensure-digests"
     }
   },
   {
@@ -723,35 +753,6 @@
     "provenance": {
       "method": "heuristic",
       "generatedAt": "2026-10-01T19:48:55.674Z",
-      "pipeline": "ensure-digests"
-    }
-  },
-  {
-    "date": "2026-09-28",
-    "title": "Ebola Outbreak Tracker Update — Sep 28, 2026",
-    "summary": "DRC Ebola cases surpassed 8,000: 8,067 confirmed and 3,901 deaths (CFR 48.4%) per the latest DRC public health institute report. Ituri remains the epicenter with 6,032 cases; Butembo in North Kivu is a hotspot, and vaccine supplies have run out in Tshopo. WHO warns the outbreak could surpass the West Africa epidemic.",
-    "sectionsUpdated": [
-      "events",
-      "kpis"
-    ],
-    "provenance": {
-      "method": "llm",
-      "model": "claude",
-      "generatedAt": "2026-09-28T20:30:00.000Z",
-      "pipeline": "update-data"
-    }
-  },
-  {
-    "date": "2026-09-25",
-    "title": "Ebola Outbreak Tracker Update — Fri Sep 25, 2026",
-    "summary": "ECDC: DRC Ebola Toll Rises to 7,890 Cases, 3,799 Deaths as Contact Tracing Rebounds to 83.4%.",
-    "sectionsUpdated": [
-      "events"
-    ],
-    "source": "freshness",
-    "provenance": {
-      "method": "heuristic",
-      "generatedAt": "2026-09-25T20:13:31.412Z",
       "pipeline": "ensure-digests"
     }
   }
