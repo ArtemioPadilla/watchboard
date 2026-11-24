@@ -1,0 +1,136 @@
+[
+  {
+    "type": "digest",
+    "voice": "analyst",
+    "tracker": "ebola-outbreak",
+    "lang": "en",
+    "text": "ECDC, data through 16 Nov: 11,504 confirmed Ebola cases and 5,630 deaths in the DRC. Ituri has 7,858 cases across 28 of 36 health zones. Africa CDC (15 Nov): the outbreak is still not under control six months on.",
+    "hashtags": [
+      "#Ebola",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/ebola-outbreak/?utm_source=x&utm_medium=digest&utm_campaign=2026-11-24",
+    "image": null,
+    "memegenUrl": null,
+    "publishAt": "2026-11-24T13:00:00Z",
+    "estimatedCost": 0.01,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.86,
+      "verdict": "PUBLISH",
+      "comment": "Figures match the ECDC update recorded in the tracker, with attribution and as-of date. Note the tracker's own lab-confirmed KPI (8,088) uses a different basis than ECDC's count.",
+      "factChecks": [
+        {
+          "claim": "11,504 confirmed cases (ECDC, data through 16 Nov)",
+          "status": "verified",
+          "source": "ebola-outbreak digest / event ecdc-11504-cases-nov-17"
+        },
+        {
+          "claim": "5,630 deaths in DRC",
+          "status": "verified",
+          "source": "ebola-outbreak KPIs (ECDC)"
+        },
+        {
+          "claim": "Ituri 7,858 cases across 28 of 36 health zones",
+          "status": "verified",
+          "source": "ebola-outbreak digest"
+        },
+        {
+          "claim": "Africa CDC says outbreak still not under control",
+          "status": "verified",
+          "source": "event africa-cdc-outbreak-not-under-control-nov-15"
+        }
+      ]
+    },
+    "id": "5a667b18-1cc2-439d-ba41-dd0e0ae1c1ba",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "auto_approved"
+  },
+  {
+    "type": "digest",
+    "voice": "analyst",
+    "tracker": "ebola-outbreak",
+    "lang": "es",
+    "text": "ECDC, datos al 16 nov: 11.504 casos confirmados de ébola y 5.630 muertes en la RDC. Ituri suma 7.858 casos en 28 de 36 zonas sanitarias. Africa CDC (15 nov): el brote sigue sin control tras seis meses.",
+    "hashtags": [
+      "#Ebola",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/ebola-outbreak/?utm_source=x&utm_medium=digest&utm_campaign=2026-11-24",
+    "image": null,
+    "memegenUrl": null,
+    "publishAt": "2026-11-24T18:00:00Z",
+    "estimatedCost": 0.01,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.84,
+      "verdict": "PUBLISH",
+      "comment": "Spanish version of the verified ECDC digest tweet; figures identical.",
+      "factChecks": [
+        {
+          "claim": "11.504 casos confirmados (ECDC, datos al 16 nov)",
+          "status": "verified",
+          "source": "ebola-outbreak digest"
+        },
+        {
+          "claim": "5.630 muertes",
+          "status": "verified",
+          "source": "ebola-outbreak KPIs"
+        },
+        {
+          "claim": "Ituri 7.858 casos en 28 de 36 zonas sanitarias",
+          "status": "verified",
+          "source": "ebola-outbreak digest"
+        }
+      ]
+    },
+    "id": "64a48709-e561-4593-9e90-b8d97257d44c",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
+  },
+  {
+    "type": "contested",
+    "voice": "analyst",
+    "tracker": "russian-fuel-crisis",
+    "lang": "en",
+    "text": "How much Russian refining is disabled? Ukraine's General Staff: 42.74% (July 2026). IEA: 'more than 20%' at peak. Reuters: national oil processing fell only 3–6%. Three measures, same strikes.",
+    "hashtags": [
+      "#Russia",
+      "#Watchboard"
+    ],
+    "link": "https://watchboard.dev/russian-fuel-crisis/?utm_source=x&utm_medium=contested&utm_campaign=2026-11-24",
+    "image": null,
+    "memegenUrl": null,
+    "publishAt": "2026-11-24T22:00:00Z",
+    "estimatedCost": 0.01,
+    "threadTweets": null,
+    "judge": {
+      "score": 0.78,
+      "verdict": "REVIEW",
+      "comment": "Both sides attributed and not adjudicated. Reuters and IEA as-of dates are not specified in the tracker data, so a human should confirm the dates before publishing.",
+      "factChecks": [
+        {
+          "claim": "Ukraine's General Staff put disabled capacity at 42.74% in July 2026",
+          "status": "verified",
+          "source": "russian-fuel-crisis unresolved disputes"
+        },
+        {
+          "claim": "IEA said losses were 'more than 20%' at peak",
+          "status": "verified",
+          "source": "russian-fuel-crisis unresolved disputes"
+        },
+        {
+          "claim": "Reuters reported national oil processing fell only 3–6%",
+          "status": "warning",
+          "source": "russian-fuel-crisis unresolved disputes; as-of date not given"
+        }
+      ]
+    },
+    "id": "c21de3a7-6930-45c5-bd6c-4050d05d72d7",
+    "tweetId": null,
+    "postedAt": null,
+    "status": "pending_review"
+  }
+]
