@@ -1,5 +1,19 @@
 [
   {
+    "date": "2026-11-25",
+    "title": "BTS Tracker Update — Nov 25, 2026",
+    "summary": "No new verified events this run. Searches for post-show reports on the Nov 21 and Nov 22 Kaohsiung shows again found only pre-show coverage and schedule listings, so no event was added. The tour next moves to Bangkok. Only the meta timestamp was refreshed.",
+    "sectionsUpdated": [
+      "meta"
+    ],
+    "provenance": {
+      "method": "llm",
+      "model": "claude",
+      "generatedAt": "2026-11-25T23:00:56.000Z",
+      "pipeline": "update-data"
+    }
+  },
+  {
     "date": "2026-11-24",
     "title": "BTS Tracker Update — Nov 24, 2026",
     "summary": "No new verified events this run. Searches for the Nov 21 and Nov 22 Kaohsiung shows returned no post-show reports from two independent sources, so no event was added. The tour moves to Bangkok next; dates differ between listings and are not recorded. Only the meta timestamp was refreshed.",
@@ -700,23 +714,6 @@
       "method": "heuristic",
       "generatedAt": "2026-09-27T19:31:14.658Z",
       "pipeline": "ensure-digests"
-    }
-  },
-  {
-    "date": "2026-09-21",
-    "title": "BTS Tracker Update — Mon Sep 21, 2026",
-    "summary": "Six BTS members returned to Incheon International Airport on Sept 20 following the iHeartRadio Music Festival in Las Vegas, sharing Chuseok holiday wishes with fans; Jungkook, who had stayed behind for an individual US schedule, followed a day later on Sept 21, reuniting the full group in Seoul ahead of the Sept 24-26 Chuseok holiday. Events, KPIs, political, and meta updated.",
-    "sectionsUpdated": [
-      "events",
-      "kpis",
-      "political",
-      "meta"
-    ],
-    "provenance": {
-      "method": "llm",
-      "model": "claude",
-      "generatedAt": "2026-09-21T18:30:00.000Z",
-      "pipeline": "update-data"
     }
   }
 ]

@@ -1,5 +1,17 @@
 [
   {
+    "date": "2026-11-25",
+    "title": "Russian Fuel Crisis Tracker Update — Nov 25, 2026",
+    "summary": "Review of Nov 18-25 found no new events meeting the two-source confirmation threshold. Searches again returned only secondary reports (Charter97, Armyinform, Ukrainska Pravda) of continued refinery strikes and regional sales caps already covered through Nov 8; no Tier 1-2 articles dated in the window were retrievable. No data sections were changed.",
+    "sectionsUpdated": [],
+    "provenance": {
+      "method": "llm",
+      "model": "claude",
+      "generatedAt": "2026-11-25T23:04:08.509Z",
+      "pipeline": "update-data"
+    }
+  },
+  {
     "date": "2026-11-24",
     "title": "Russian Fuel Crisis Tracker Update — Nov 24, 2026",
     "summary": "Review of Nov 17-24 again surfaced only secondary reports (Ukrainska Pravda, Armyinform, Charter97) of continued refinery strikes and sales caps; Reuters, AP and BBC were not accessible. No new event met the two-source confirmation threshold, so no data sections were changed.",
@@ -693,20 +705,6 @@
     "provenance": {
       "method": "heuristic",
       "generatedAt": "2026-09-09T19:38:09.669Z",
-      "pipeline": "ensure-digests"
-    }
-  },
-  {
-    "date": "2026-09-08",
-    "title": "Russian Fuel Crisis Tracker Update — Tue Sep 8, 2026",
-    "summary": "Drones strike Saratov oil refinery and Ozon warehouse overnight.",
-    "sectionsUpdated": [
-      "events"
-    ],
-    "source": "freshness",
-    "provenance": {
-      "method": "heuristic",
-      "generatedAt": "2026-09-13T18:47:55.415Z",
       "pipeline": "ensure-digests"
     }
   }
