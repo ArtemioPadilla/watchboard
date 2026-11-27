@@ -1,5 +1,19 @@
 [
   {
+    "date": "2026-11-27",
+    "title": "Yemen Conflict Tracker Update — Nov 27, 2026",
+    "summary": "Coalition strikes on Hodeidah port (Nov 25) followed Houthi threats against Saudi Red Sea ports. Airstrikes hit Sanaa and Hodeidah on Nov 27, including a naval college building. Casualty claims come from the warring parties and are unverified.",
+    "sectionsUpdated": [
+      "events"
+    ],
+    "provenance": {
+      "method": "llm",
+      "model": "claude",
+      "generatedAt": "2026-11-27T22:41:11.000Z",
+      "pipeline": "update-data"
+    }
+  },
+  {
     "date": "2026-11-26",
     "title": "Breaking: Saudi-led coalition says Houthi attack targeted an oil refinery in southwestern ",
     "summary": "Saudi-led coalition says Houthi attack targeted an oil refinery in southwestern Saudi Arabia",
@@ -13,6 +27,20 @@
       "model": "claude",
       "generatedAt": "2026-11-26T16:03:44.748Z",
       "pipeline": "hourly-scan"
+    }
+  },
+  {
+    "date": "2026-11-25",
+    "title": "Yemen Conflict Tracker Update — Wed Nov 25, 2026",
+    "summary": "The coalition struck Hodeidah port after an evacuation order for civilians; the Houthis responded by threatening Saudi Red Sea ports including Jeddah.",
+    "sectionsUpdated": [
+      "events"
+    ],
+    "source": "freshness",
+    "provenance": {
+      "method": "heuristic",
+      "generatedAt": "2026-11-27T23:03:06.764Z",
+      "pipeline": "ensure-digests"
     }
   },
   {
@@ -761,165 +789,6 @@
       "method": "llm",
       "model": "claude",
       "generatedAt": "2026-10-07T22:34:42.236Z",
-      "pipeline": "hourly-scan"
-    }
-  },
-  {
-    "date": "2026-10-06",
-    "title": "Breaking: Saudi Arabia reaffirms diplomatic and military support for the internationally r",
-    "summary": "Saudi Arabia reaffirms diplomatic and military support for the internationally recognized Yemeni government, framing the Houthi movement as an illegitimate coup requiring international pressure.",
-    "sectionsUpdated": [
-      "events",
-      "meta"
-    ],
-    "source": "breaking",
-    "provenance": {
-      "method": "llm",
-      "model": "claude",
-      "generatedAt": "2026-10-06T22:06:33.485Z",
-      "pipeline": "hourly-scan"
-    }
-  },
-  {
-    "date": "2026-10-05",
-    "title": "Yemen Conflict Tracker Update — Oct 05, 2026",
-    "summary": "Yemen's government announced a countrywide offensive to retake Houthi-held territory and claims to have recaptured Mocha and Dhubab near Bab al-Mandeb. It also claims 1,747 Houthi fighters neutralised, which is unverified. The Saudi-led coalition reported 97 attacks around Taiz. Houthi forces reportedly hold about 150 km of Red Sea coast and have cut the Taiz-Aden supply route.",
-    "sectionsUpdated": [
-      "events",
-      "meta"
-    ],
-    "provenance": {
-      "method": "llm",
-      "model": "claude",
-      "generatedAt": "2026-10-05T21:42:22.000Z",
-      "pipeline": "update-data"
-    }
-  },
-  {
-    "date": "2026-10-04",
-    "title": "Breaking: Yemen's presidency announces a major military drive to retake all Houthi-held te",
-    "summary": "Yemen's presidency announces a major military drive to retake all Houthi-held territory; simultaneously Houthis are reported advancing on Taiz, signaling escalating ground combat.",
-    "sectionsUpdated": [
-      "events",
-      "meta"
-    ],
-    "source": "breaking",
-    "provenance": {
-      "method": "llm",
-      "model": "claude",
-      "generatedAt": "2026-10-04T16:14:08.814Z",
-      "pipeline": "hourly-scan"
-    }
-  },
-  {
-    "date": "2026-10-03",
-    "title": "Breaking: Fire broke out at an Aramco oil facility south of the Saudi capital Riyadh as Sa",
-    "summary": "Fire broke out at an Aramco oil facility south of the Saudi capital Riyadh as Saudi-Houthi fighting escalated, with flames and smoke visible at the site; Houthis also reported Saudi airstrikes on Sana",
-    "sectionsUpdated": [
-      "events",
-      "meta"
-    ],
-    "source": "breaking",
-    "provenance": {
-      "method": "llm",
-      "model": "claude",
-      "generatedAt": "2026-10-03T15:31:46.165Z",
-      "pipeline": "hourly-scan"
-    }
-  },
-  {
-    "date": "2026-10-02",
-    "title": "Breaking: Houthis claim Saudi Arabia carried out 94 airstrikes on Yemeni territory, as the",
-    "summary": "Houthis claim Saudi Arabia carried out 94 airstrikes on Yemeni territory, as the Saudi air campaign against Houthi positions intensifies.",
-    "sectionsUpdated": [
-      "events",
-      "meta"
-    ],
-    "source": "breaking",
-    "provenance": {
-      "method": "llm",
-      "model": "claude",
-      "generatedAt": "2026-10-02T21:40:14.711Z",
-      "pipeline": "hourly-scan"
-    }
-  },
-  {
-    "date": "2026-10-01",
-    "title": "Breaking: Debris from an intercepted Houthi missile damaged buildings and vehicles in Saud",
-    "summary": "Debris from an intercepted Houthi missile damaged buildings and vehicles in Saudi Arabia, confirmed by Saudi Civil Defense.",
-    "sectionsUpdated": [
-      "events",
-      "meta"
-    ],
-    "source": "breaking",
-    "provenance": {
-      "method": "llm",
-      "model": "claude",
-      "generatedAt": "2026-10-01T22:13:32.679Z",
-      "pipeline": "hourly-scan"
-    }
-  },
-  {
-    "date": "2026-09-30",
-    "title": "Breaking: EU aviation agency warns airlines to avoid Saudi airspace due to ongoing Houthi ",
-    "summary": "EU aviation agency warns airlines to avoid Saudi airspace due to ongoing Houthi attack threat, escalating aviation risk in the region",
-    "sectionsUpdated": [
-      "events",
-      "meta"
-    ],
-    "source": "breaking",
-    "provenance": {
-      "method": "llm",
-      "model": "claude",
-      "generatedAt": "2026-09-30T21:46:40.982Z",
-      "pipeline": "hourly-scan"
-    }
-  },
-  {
-    "date": "2026-09-29",
-    "title": "Breaking: Saudi Arabia has been urged by analysts and Western officials to reconcile with ",
-    "summary": "Saudi Arabia has been urged by analysts and Western officials to reconcile with the UAE as a precondition for driving back Houthi and separatist forces, underscoring continuing coalition fractures.",
-    "sectionsUpdated": [
-      "events",
-      "meta"
-    ],
-    "source": "breaking",
-    "provenance": {
-      "method": "llm",
-      "model": "claude",
-      "generatedAt": "2026-09-29T17:22:19.951Z",
-      "pipeline": "hourly-scan"
-    }
-  },
-  {
-    "date": "2026-09-27",
-    "title": "Breaking: Houthis report Saudi coalition airstrikes hit Taiz province, claiming dozens of ",
-    "summary": "Houthis report Saudi coalition airstrikes hit Taiz province, claiming dozens of casualties — a specific escalation beyond the multi-province strikes already logged.",
-    "sectionsUpdated": [
-      "events",
-      "meta"
-    ],
-    "source": "breaking",
-    "provenance": {
-      "method": "llm",
-      "model": "claude",
-      "generatedAt": "2026-09-27T20:48:26.619Z",
-      "pipeline": "hourly-scan"
-    }
-  },
-  {
-    "date": "2026-09-26",
-    "title": "Breaking: Houthis report Saudi coalition strikes hit four Yemeni provinces, marking a sign",
-    "summary": "Houthis report Saudi coalition strikes hit four Yemeni provinces, marking a significant escalation in Saudi counter-strikes inside Yemen.",
-    "sectionsUpdated": [
-      "events",
-      "meta"
-    ],
-    "source": "breaking",
-    "provenance": {
-      "method": "llm",
-      "model": "claude",
-      "generatedAt": "2026-09-26T20:27:20.396Z",
       "pipeline": "hourly-scan"
     }
   }
